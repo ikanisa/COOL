@@ -1,0 +1,142 @@
+{
+  "classification": "Integrated local governed retention and sender controls; complete209/runtime/hosted/device acceptance remains open",
+  "files": [
+    {
+      "path": "lib/admin/core/admin_sender_picker.dart",
+      "sha256": "2c4f59f3fac0401d92b6715aafa2708469022416a4b986722be1df57020b0c7d",
+      "bytes": 4749,
+      "new": true
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_sdk.dart",
+      "sha256": "d12f904a57ac2932b0548091ce36ed75d7b7b17d16f9da4ce1fd476898d14737",
+      "bytes": 2498,
+      "new": true
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_checkpoint_stub.dart",
+      "sha256": "0ffd7dc70672a80757a1627aa297e613bd6d4beacff2de2ff3697bfb60ea9b64",
+      "bytes": 94,
+      "new": true
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_models.dart",
+      "sha256": "96755c33385cfbf5654dbf8e10e4c1014b66515450d8a38202d04ac837bf887e",
+      "bytes": 11260,
+      "new": true
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_host.dart",
+      "sha256": "69ef6085db2e7d7ab73832b6a643638ca7a2d2abfaec1ad48b699991299dead3",
+      "bytes": 3057,
+      "new": true
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_controller.dart",
+      "sha256": "ec59595cbff44c37c0a697432146e2d9f631cd6312d0a8c0945c7a229bd956c1",
+      "bytes": 5040,
+      "new": true
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_checkpoint.dart",
+      "sha256": "6435ef4476d2fd57ed1b6fc2f376265cc284bad6414e14d29e4ee4294e406aaf",
+      "bytes": 491,
+      "new": true
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_checkpoint_web.dart",
+      "sha256": "fa30ce391f7124fab960284614fba6d79cb5826db2aa7c51911b252da36988f5",
+      "bytes": 4602,
+      "new": true
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_view.dart",
+      "sha256": "68deed4f8404d37e9ad1ebef506a1d98ac7e135b14f24bb7cf220d2055109135",
+      "bytes": 9434,
+      "new": true
+    },
+    {
+      "path": "supabase/migrations/20261002090000_governed_receipt_retention_controls.sql",
+      "sha256": "f45ddd4e4f1ced3c9b030b2a13e39f1df9f46c09eda8d1e1c52a6e7c3b324f6d",
+      "bytes": 15870,
+      "new": true
+    },
+    {
+      "path": "test/admin_sender_retention_browser_test.dart",
+      "sha256": "aab0c29429edc014f8df730d3fe1302f4ecf8663c0580f8ec0ea1777280bedbb",
+      "bytes": 4065,
+      "new": true
+    },
+    {
+      "path": "test/admin_sender_retention_controller_test.dart",
+      "sha256": "a06d4ece652fdd2d6a47127cc5434c1b129333b91eae71875ea3bdc071b6f0e8",
+      "bytes": 7958,
+      "new": true
+    },
+    {
+      "path": "test/admin_sender_retention_models_test.dart",
+      "sha256": "058f651158c88251d69e76469db6dd6bf834c2a61002af6a38c03bea366d57c0",
+      "bytes": 4483,
+      "new": true
+    },
+    {
+      "path": "test/admin_sender_retention_view_test.dart",
+      "sha256": "6ceff828a043e4b15a4bfe4e048c6e55aada2eba39a1664fb85e85b2311dc708",
+      "bytes": 11637,
+      "new": true
+    },
+    {
+      "path": "test/support/retention_api_fixture.dart",
+      "sha256": "6ac442be2d40e0266e7f34880eba6c0aeaad4ccf32872d052327333f54212305",
+      "bytes": 2210,
+      "new": true
+    },
+    {
+      "path": "test/support/retention_fixture.dart",
+      "sha256": "70753d50acbbfe6cce3184c6bc165217b4d6eea8dfcad8aea8b32729bb607c36",
+      "bytes": 17294,
+      "new": true
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "sha256": "ca7d9e8652ec4a69fae11fac3f7540647f128bfda4ff2db1f3ff099f3fb7e28a",
+      "bytes": 38513,
+      "new": false
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_page.dart",
+      "sha256": "6ee824e1065b0fc8da0a528e36b2c6de0ddce622c555406ca8482ecf58eccff9",
+      "bytes": 38314,
+      "new": false
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operations_card.dart",
+      "sha256": "89b30e331188bbf7cbecb01db67519ecf2a068874c67af3986c82e98fdb5d605",
+      "bytes": 22581,
+      "new": false
+    },
+    {
+      "path": "scripts/qa/revolut_design_authority.py",
+      "sha256": "02bd1be1d72475a37696e768644b897e47ca5e80dbc9369306364baa8c8e3067",
+      "bytes": 10011,
+      "new": false
+    },
+    {
+      "path": "scripts/tests/revolut_design_authority_test.py",
+      "sha256": "047dd39d764bfad0edc26b40df046ac0fa26c82b3ec7c45c8543e15e28be614f",
+      "bytes": 8238,
+      "new": false
+    },
+    {
+      "path": "test/admin_sender_retention_mount_test.dart",
+      "sha256": "2459558b0ed275b75d2a80c635e68338b03b23769ff7bafd20f3f08eef697f83",
+      "bytes": 21905,
+      "new": true
+    }
+  ],
+  "root_actual_terminal": "85f0e4 exit0",
+  "prepromotion_verification": "093402 exit0:419 payload plus8327 referenced artifacts",
+  "promotion_terminal": "ffacb1 exit0:19 files and3 originals preserved",
+  "current_terminal": "71 VM+18-file analysis from attempt6, separately current6 view cases+16 authority regressions+full make gate from acceptance-tail7, no summed fresh aggregate",
+  "migration_readback": "1d5b0c exit0:208 unchanged,one900 addition"
+}

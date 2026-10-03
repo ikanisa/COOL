@@ -1,0 +1,144 @@
+{
+  "actual_affected_tests_pass": 3,
+  "artifact_count": 21,
+  "artifacts": [
+    {
+      "bytes": 4035,
+      "mode": 420,
+      "path": "README.md",
+      "sha256": "29e8ac790678c9da57136cbc3954f3a441825911249c756587b4c0c6d35acfa2"
+    },
+    {
+      "bytes": 76714,
+      "mode": 420,
+      "path": "actual-management.trace.json",
+      "sha256": "77f317de6aa41135ecf16a003b7054c889184e85bf47f492014ede38fb2d07ee"
+    },
+    {
+      "bytes": 1151,
+      "mode": 420,
+      "path": "affected-management-and-boundaries.json",
+      "sha256": "74612782de9069cb6f056a70b416709ee3b599208234dd2c6c163d4d1c657ffb"
+    },
+    {
+      "bytes": 539,
+      "mode": 420,
+      "path": "affected-management-and-boundaries.stderr",
+      "sha256": "0faf7553487151134661a0d4d7ae49c9f1b7032c48e7d5875490dfae38995ca6"
+    },
+    {
+      "bytes": 0,
+      "mode": 420,
+      "path": "affected-management-and-boundaries.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 131304,
+      "mode": 420,
+      "path": "completed-results.json",
+      "sha256": "f68051f12dfbe496d98af63db24bb466ddb92ca8a70d39c01622094f7df34d67"
+    },
+    {
+      "bytes": 1961,
+      "mode": 420,
+      "path": "execution-inputs.json",
+      "sha256": "1357a61387dd8348b97fab6b3a9bf1a7ee80c7811df7b9bc63570e946a927920"
+    },
+    {
+      "bytes": 502,
+      "mode": 420,
+      "path": "extra-begin.trace.json",
+      "sha256": "28b62b3b2baa0fe7ce6856e8c4065ce27bee2a940bf05bda2b3c50e8ef8cc332"
+    },
+    {
+      "bytes": 502,
+      "mode": 420,
+      "path": "extra-commit.trace.json",
+      "sha256": "cf91f2652aec494a8872abdeef6dad0086b2cdf8067bd5371c31bce73c2bd4c0"
+    },
+    {
+      "bytes": 128191,
+      "mode": 420,
+      "path": "inputs-before.json",
+      "sha256": "683edd0e863522d10c83764f7cbfc8fe406db59083a6b89aa56fcbebd8a61fee"
+    },
+    {
+      "bytes": 1450,
+      "mode": 420,
+      "path": "invariant-inheritance.json",
+      "sha256": "d17d5e7c51e2b543efd47f251d4c4d9405489b658e01bd48bb2a82c992762d4c"
+    },
+    {
+      "bytes": 6023,
+      "mode": 420,
+      "path": "management-consumer.py",
+      "sha256": "0777091984c4ec09dd329f460306fd842e8c3d95b38857b142be91cfb6c2bae5"
+    },
+    {
+      "bytes": 860,
+      "mode": 420,
+      "path": "node-local-version.json",
+      "sha256": "903c8e1cb758b42a2995676b620c6095d54cbe3bd46e781c8235b67924acad94"
+    },
+    {
+      "bytes": 0,
+      "mode": 420,
+      "path": "node-local-version.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 9,
+      "mode": 420,
+      "path": "node-local-version.stdout",
+      "sha256": "b7677d3ec37ee1897ba07dc2cfe8292fe421c9ac93396cca5bbece486d1a2a41"
+    },
+    {
+      "bytes": 430,
+      "mode": 420,
+      "path": "observed-proof-summary.json",
+      "sha256": "5b1deefa7c724f8170f3154aefea89d2a1912e5fca2ea4aee8ed838abe58c330"
+    },
+    {
+      "bytes": 62447,
+      "mode": 420,
+      "path": "ordinary216-after.json",
+      "sha256": "e8f7e0b7368cd76d58ba9243fc4174a68258d5e610f3d27fe4fa532fcb76734b"
+    },
+    {
+      "bytes": 62447,
+      "mode": 420,
+      "path": "ordinary216-before.json",
+      "sha256": "e8f7e0b7368cd76d58ba9243fc4174a68258d5e610f3d27fe4fa532fcb76734b"
+    },
+    {
+      "bytes": 945,
+      "mode": 420,
+      "path": "original-management-method.py.txt",
+      "sha256": "9dab4e8ecb69ccde95ca627450f73bda9295267da1e5927e2f59d5a762d6aa23"
+    },
+    {
+      "bytes": 291,
+      "mode": 420,
+      "path": "prior-packet-readback.json",
+      "sha256": "a113f6d196a32cb626138fcbf6ac34700afc5fcb60c3f449924645a2caff28c6"
+    },
+    {
+      "bytes": 8618,
+      "mode": 420,
+      "path": "run-proof.py",
+      "sha256": "49ade296e7c210d270880b20e1e5cb578c9f9ce726042cf216cb491e11ba611e"
+    }
+  ],
+  "at_utc": "2026-10-02T07:25:26.649020+00:00",
+  "current209_readback_matched": true,
+  "current_full45_or27_run_claimed": false,
+  "exact_version_query_precedes_each_of_two_writes": true,
+  "extra_begin_commit_refuse_before_write": true,
+  "kind": "maintained_comment_normalization_affected_consumer_proof",
+  "old115_leaf_packet_unchanged": true,
+  "original_failed_probe_reclassified": false,
+  "real_provider_database_approval_or_release_acceptance": false,
+  "schema_version": 1,
+  "source_hold_released": true,
+  "worker_maintained_mutations": false
+}

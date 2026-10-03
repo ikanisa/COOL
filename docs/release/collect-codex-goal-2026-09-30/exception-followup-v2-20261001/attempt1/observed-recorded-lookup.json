@@ -1,0 +1,23 @@
+{
+  "status": "recorded",
+  "receipt": {
+    "action": "assign",
+    "request_id": "df509a83-12c1-4b54-8eaa-94471fe152fa",
+    "recorded_at": "2026-10-01T14:48:46.995890Z",
+    "send_action": false,
+    "exception_id": "2cc2dcab-0d23-4841-93b3-7b956c63d6dd",
+    "escalation_id": null,
+    "source_resolved": false,
+    "source_revision": 1,
+    "contract_version": 2,
+    "financial_action": false,
+    "workflow_revision": 1,
+    "request_fingerprint": "b0dcb84dc0c78da0b82959e3afc9f6c99c1d699cd5c8951891ad1e83a7db2d7c"
+  },
+  "checked_at": "2026-10-01T14:48:47.271651Z",
+  "expires_at": "2026-10-01T14:50:16.932654Z",
+  "request_id": "df509a83-12c1-4b54-8eaa-94471fe152fa",
+  "contract_version": 2,
+  "sample_valid_until": "2026-10-01T14:49:47.271651Z",
+  "request_fingerprint": "b0dcb84dc0c78da0b82959e3afc9f6c99c1d699cd5c8951891ad1e83a7db2d7c"
+}

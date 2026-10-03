@@ -1,0 +1,21 @@
+{
+  "exit_code": 0,
+  "stdout": "[collect-edge-inventory] 13 active endpoints and auth configuration agree; source wiring checked\n",
+  "stderr": "",
+  "timed_out": false,
+  "argv": [
+    "/usr/bin/ruby",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/edge_function_inventory.rb",
+    "auth-check"
+  ],
+  "started_at_utc": "2026-10-02T07:51:33.248922+00:00",
+  "actual_seconds": 0.089,
+  "deadline_seconds": 15,
+  "clean_environment": {
+    "PATH": "/bin:/usr/bin",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "scope": "Maintained local static entrypoint/JWT/auth wiring check only; no endpoint or database invocation"
+}

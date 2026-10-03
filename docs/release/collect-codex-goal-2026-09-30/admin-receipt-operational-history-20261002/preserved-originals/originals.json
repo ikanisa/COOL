@@ -1,0 +1,52 @@
+[
+  {
+    "path": "contracts/collect-operator-entity-audit-v1.schema.json",
+    "sha256": "2dbe5e8c852cd2ce6e53a3ae156d32a02eb172bfb0c2eb76dcd36d3f561eac60",
+    "mode": 420
+  },
+  {
+    "path": "lib/admin/admin_router.dart",
+    "sha256": "db4f38578e0cb5be232611fdde658471c47fbb63a8e17201fcdd831268201360",
+    "mode": 420
+  },
+  {
+    "path": "lib/admin/core/admin_automatic_gateway_view.dart",
+    "sha256": "014da12e63f1ac8f7b217a95ebd0183457bbd1128d21c8ef2c688cc928998e8f",
+    "mode": 420
+  },
+  {
+    "path": "lib/admin/core/admin_automations_page.dart",
+    "sha256": "51ac0505761d185c5d0fdcd9e1b5d962e2d31c3cb86915838f69c53124f920f0",
+    "mode": 420
+  },
+  {
+    "path": "lib/admin/core/admin_entity_audit.dart",
+    "sha256": "a40bdd2a0234bf2a40762e4d9d1bbb4c6cde0c6da2ad3ad11cbabf90d4e13335",
+    "mode": 420
+  },
+  {
+    "path": "lib/admin/core/admin_entity_audit_page.dart",
+    "sha256": "139ae77495dd395669d6b317b28c7b252f7c3f6b41bc4f29ba0aeb3666293c3a",
+    "mode": 420
+  },
+  {
+    "path": "lib/admin/core/admin_receipt_repository.dart",
+    "sha256": "256d3021ce41bfc14cfc7805ece6cbb3d61a8e8dce3d6e28ea0c51a82f31baf7",
+    "mode": 420
+  },
+  {
+    "path": "lib/admin/core/admin_repository_base.dart",
+    "sha256": "a2511a9cf81015e3a2059bf5fbc74d5c672f2c57374a46399fdba75f6b18a75b",
+    "mode": 420
+  },
+  {
+    "path": "lib/admin/core/admin_runtime.dart",
+    "sha256": "5ea68eac5c5f9f42b922e3dea704844e3c010835de08b67ccbef64c402a0eb29",
+    "mode": 420
+  },
+  {
+    "path": "test/admin_entity_audit_links_test.dart",
+    "sha256": "ad7d416e3cea3fd96e268c87aac31a64feb187a4c6e248821679f9da7165e2ee",
+    "mode": 420
+  }
+]

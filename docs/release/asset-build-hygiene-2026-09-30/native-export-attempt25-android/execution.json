@@ -1,0 +1,20 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "unsigned-android-build",
+      "command": [
+        "./gradlew",
+        ":app:assembleProductionRelease",
+        "-PcollectUnsignedLocalQa=true",
+        "--offline",
+        "--no-daemon"
+      ],
+      "exit_code": 1,
+      "elapsed_seconds": 0.56,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "23531437063d4675e9d6b7036fbf4e19978f0e25a90279babf75c40d496d637f"
+    }
+  ],
+  "scope": "Actual immutable source export unsigned local Android production-flavour build; no provider, signing, device or store acceptance"
+}

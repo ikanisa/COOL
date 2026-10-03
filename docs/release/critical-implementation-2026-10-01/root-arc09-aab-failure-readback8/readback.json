@@ -1,0 +1,30 @@
+{
+  "ARC09_closed": false,
+  "SDK_APP_protected_failure_readbacks_retained": true,
+  "actual_result": "FAIL_included_Flutter_build_has_no_app_in_probe",
+  "canonical_graphs_or_AAB_or_artifact_reader_executed": false,
+  "captured_at_utc": "2026-10-02T14:10:45.141832+00:00",
+  "command": {
+    "exit_code": 1,
+    "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/arc09-production-aab-observation8/production-default-proguard-readback.json",
+    "seconds": 14.092,
+    "sha256": "ff8d02d38e3b92bc206a414daacf93de77dbc19f46c3be0fb7254cbbf578ba47"
+  },
+  "fresh_owned_absence": [
+    {
+      "fresh_PGID_ESRCH": true,
+      "fresh_PID_ESRCH": true,
+      "pgid": 11559,
+      "pid": 11559
+    },
+    {
+      "fresh_PGID_ESRCH": true,
+      "fresh_PID_ESRCH": true,
+      "pgid": 11579,
+      "pid": 11579
+    }
+  ],
+  "packet_files_sha256": "281d1eade6d8728623a0108bc88bc68962e8b3345a75c6b157eb046fd3aa6cd6",
+  "production_release_approval": false,
+  "source_failure_guard_exit_code": 0
+}

@@ -1,0 +1,42 @@
+--- docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/lifecycle-recovery2/run_selected_aab.py
++++ docs/release/critical-implementation-2026-10-01/arc09-aab-driver-preparation1/argv-unavailable-recovery3/run_selected_aab.py
+@@ -370,6 +370,8 @@
+             row = table[self.root]
+             if self.root in self.baseline or row['ppid'] != os.getpid():
+                 self.refuse_transition('new wrapper ancestry cannot be established', None, row)
++            if row['command'] == '(' + Path(self.context.config['JDK_java_executable']).name + ')':
++                self.refuse_transition('unavailable argv cannot establish wrapper ownership', None, row)
+             self.family[self.root] = dict(row, ancestry=[self.root])
+         # The wrapper legitimately execs Java at the same PID/start/group. Keep the actual exec history.
+         for pid, owned in self.family.items():
+@@ -386,6 +388,22 @@
+             if current is not None and pid == self.root and not all(
+                     owned[k] == current[k] for k in ('pid', 'start', 'pgid')):
+                 self.refuse_transition('live wrapper identity changed PID/start/PGID', owned, current)
++            if (current is not None and pid == self.root and current['command'] ==
++                    '(' + Path(self.context.config['JDK_java_executable']).name + ')'):
++                # macOS ps may have only ucomm; this is an observation, not a new exec/owner.
++                try:
++                    established = self.exact_wrapper_java(owned['command'])
++                except BaseException as error:
++                    self.refuse_transition(str(error), owned, current)
++                if not established:
++                    self.refuse_transition('unavailable argv lacks an established pinned Java wrapper', owned, current)
++                owned.setdefault('observed_argv_unavailable_history', []).append(
++                    {'before_command': owned['command'], 'actual_current': dict(current),
++                     'argv_unavailable_is_absence': False, 'new_ownership_authorized': False,
++                     'signal_authorized_by_unavailable_argv': False,
++                     'utc': datetime.datetime.now(datetime.timezone.utc).isoformat()})
++                owned['last_observed_state'] = current.get('state', '')
++                continue  # Preserve the proven command; unavailable argv cannot adopt descendants.
+             if (current is not None and owned['pgid'] != current['pgid']
+                     and 'org.gradle.launcher.daemon.bootstrap.GradleDaemon ' in current['command']):
+                 try:
+@@ -496,6 +514,7 @@
+                   'refused_transitions': getattr(self, 'refused_transitions', []),
+                   'last_actual_owned_rows': getattr(self, 'last_owned_rows', {}),
+                   'terminal_Z_is_not_absence_or_signal_authority': True,
++                  'unavailable_argv_is_not_absence_ownership_or_signal_authority': True,
+                   'separate_daemon_required_stop': required_stop,
+                   'owned_daemons_absent': joined and self.error is None and not self.unproven and not late
+                   and len(results) == len(self.daemons) and all(x['PID_absent'] and x['PGID_absent'] for x in results),

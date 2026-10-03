@@ -217,18 +217,21 @@ failures << "custom-sw.js response must be no-cache." unless sw_headers.fetch("c
 failures << "manifest.json response must be no-cache." unless manifest_headers.fetch("cache-control", "").downcase.include?("no-cache")
 
 bundle_cache = bundle_headers.fetch("cache-control", "").downcase
-unless bundle_cache.include?("max-age=31536000") && bundle_cache.include?("immutable")
-  failures << "main.dart.js response must be immutable long-cache."
+unless bundle_cache.include?("no-cache") && !bundle_cache.include?("immutable")
+  failures << "mutable main.dart.js response must require revalidation."
 end
 
+asset_base = bootstrap_body[/var adminAssetBase = '(_build\/[0-9a-f]{64}\/)'\s*;/, 1]
+failures << "bootstrap must bind a content-versioned asset base." unless asset_base
+
 failures << "index body must identify Collect Admin." unless index_body.include?("Collect Admin")
-failures << "index body must use the official Collect PNG favicon." unless index_body.include?('<link rel="icon" href="icons/collect-web-512.png" type="image/png">')
+failures << "index body must use the versioned official Collect PNG favicon." unless asset_base && index_body.include?("<link rel=\"icon\" href=\"#{asset_base}icons/collect-web-512.png\" type=\"image/png\">")
 failures << "official Collect PNG icon hash differs from the approved platform derivative." unless Digest::SHA256.hexdigest(official_icon_body) == "cae23ce3562e8aac2e248e7b22f7feed194f4fcfd2b57725ec1026f064bb0ad9"
 failures << "index body must load flutter_bootstrap.js." unless index_body.include?("flutter_bootstrap.js")
 failures << "index body must not register the service worker inline under strict CSP." if index_body.include?("navigator.serviceWorker.register")
 bootstrap_registers_admin_worker =
   bootstrap_body.include?("var adminServiceWorkerVersion = 'collect-admin-") &&
-  bootstrap_body.include?("navigator.serviceWorker.register('custom-sw.js?v=' + adminServiceWorkerVersion)")
+  bootstrap_body.include?("navigator.serviceWorker.register('custom-sw.js', { updateViaCache: 'none' })")
 failures << "flutter_bootstrap.js must register custom-sw.js." unless bootstrap_registers_admin_worker
 failures << "flutter_bootstrap.js must not contain an unreplaced Admin PWA service-worker placeholder." if bootstrap_body.include?("__COLLECT_ADMIN_SW_VERSION__")
 bootstrap_invocation = bootstrap_body.split("_flutter.buildConfig", 2).last || bootstrap_body
@@ -250,7 +253,7 @@ else
   end
   icons = Array(manifest["icons"])
   expected_icon = {
-    "src" => "icons/collect-web-512.png",
+    "src" => "#{asset_base}icons/collect-web-512.png",
     "sizes" => "512x512",
     "type" => "image/png",
     "purpose" => "any maskable"
@@ -264,21 +267,53 @@ service_worker_required = {
   "credential-free static precache" => "credentials: 'omit'",
   "redirect-rejecting static precache" => "redirect: 'error'",
   "same-URL static response check" => "new URL(response.url).href !== expected.href",
-  "install skip waiting" => "self.skipWaiting()",
-  "activate clients claim" => "self.clients.claim()",
+  "precache content binding" => "CACHE_HASHES",
+  "precache SHA-256 check" => "crypto.subtle.digest('SHA-256'",
+  "failed install waits for writes" => "Promise.allSettled",
   "fetch handler" => "self.addEventListener('fetch'",
   "navigation fallback" => "request.mode === 'navigate'",
   "Admin PWA shell" => "const SHELL_URL = new URL('./', self.location.href).href",
   "static cache boundary" => "ASSET_URLS.has(url.href)",
   "Admin PWA bootstrap" => "./flutter_bootstrap.js",
-  "Admin PWA bundle" => "./main.dart.js",
+  "Admin PWA bundle" => "#{asset_base}main.dart.js",
   "Admin PWA manifest" => "./manifest.json"
 }
 service_worker_required.each do |label, marker|
   failures << "custom-sw.js must include #{label}." unless sw_body.include?(marker)
 end
 failures << "custom-sw.js must not unregister itself." if sw_body.match?(/registration\.unregister|unregister\(\)/)
+failures << "custom-sw.js must retain natural update waiting." if sw_body.match?(/\bskipWaiting\s*\(/)
+failures << "custom-sw.js must not claim an open operator page." if sw_body.match?(/\bclients\.claim\s*\(/)
 failures << "robots.txt must disallow crawler indexing." unless robots_body.include?("User-agent: *") && robots_body.include?("Disallow: /")
+
+if asset_base
+  %w[entrypointBaseUrl assetBase].each do |setting|
+    failures << "bootstrap must use versioned #{setting}." unless bootstrap_body.include?("#{setting}: adminAssetBase")
+  end
+  failures << "bootstrap must use versioned CanvasKit." unless bootstrap_body.include?("canvasKitBaseUrl: adminAssetBase + 'canvaskit/'")
+  begin
+    hashes = JSON.parse(sw_body[/const CACHE_HASHES = (\{.*?\});/m, 1].to_s)
+    sample_paths = ["#{asset_base}main.dart.js", "#{asset_base}icons/collect-web-512.png"]
+    asset = hashes.keys.find { |path| path.start_with?("./#{asset_base}assets/") && !path.include?("..") && !path.include?("\\") && !path.include?("?") }
+    failures << "precache must include a versioned Flutter asset." unless asset
+    sample_paths << asset.delete_prefix("./") if asset
+    sample_paths.each_with_index do |path, position|
+      expected = hashes["./#{path}"]
+      unless expected.is_a?(String) && expected.match?(/\A[0-9a-f]{64}\z/)
+        failures << "versioned runtime resource must have a SHA-256 binding: #{path}."
+        next
+      end
+      item = fetch(join_uri(base, "/#{path}"))
+      requests["versioned_runtime_#{position}"] = item
+      failures << "versioned runtime resource must return HTTP200: #{path}." unless item["code"] == 200
+      failures << "served runtime bytes differ from the worker binding: #{path}." unless Digest::SHA256.hexdigest(item["body"]) == expected
+      caching = item.fetch("headers").fetch("cache-control", "").downcase
+      failures << "versioned runtime resource must be immutable long-cache: #{path}." unless caching.include?("max-age=31536000") && caching.include?("immutable")
+    end
+  rescue JSON::ParserError, TypeError, NoMethodError => error
+    failures << "served worker must contain a parseable static content binding: #{error.message}."
+  end
+end
 
 status = failures.empty? ? "pass" : "fail"
 result = {
@@ -305,6 +340,7 @@ result = {
       "url" => item["url"],
       "code" => item["code"],
       "error" => item["error"],
+      "body_sha256" => Digest::SHA256.hexdigest(item["body"]),
       "headers" => item["headers"].select { |name, _value| allowed_headers.include?(name) }
     }
   end,

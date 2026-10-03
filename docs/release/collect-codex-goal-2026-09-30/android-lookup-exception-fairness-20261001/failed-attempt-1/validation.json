@@ -1,0 +1,214 @@
+{
+  "status": "fail",
+  "commands": [
+    {
+      "name": "affected-product-compile",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-Xms64m",
+        "-Xmx1g",
+        "-XX:ActiveProcessorCount=2",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/00-kotlin-compiler-embeddable-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/02-kotlin-script-runtime-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/03-kotlin-reflect-1.6.10.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/05-kotlinx-coroutines-core-jvm-1.8.1.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "org.jetbrains.kotlin.cli.jvm.K2JVMCompiler",
+        "-no-stdlib",
+        "-no-reflect",
+        "-jvm-target",
+        "17",
+        "-module-name",
+        "gateway_lookup_delta",
+        "-Xfriend-paths=/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes",
+        "-classpath",
+        "/Users/jeanbosco/.cache/collect-android-late-conflict-retention-20261001/attempt-3/classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "-d",
+        "/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/classes",
+        "/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt",
+        "/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/source/android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 77638,
+      "process_group": 77638,
+      "exit_code": 0,
+      "wall_seconds": 6.259995500000059,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "1e36d5484594f11fb37980841d7f51b354caef796c2e5abb3df5c0b4501b60f8",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "affected-test-compile",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-Xms64m",
+        "-Xmx1g",
+        "-XX:ActiveProcessorCount=2",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/00-kotlin-compiler-embeddable-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/02-kotlin-script-runtime-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/03-kotlin-reflect-1.6.10.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/05-kotlinx-coroutines-core-jvm-1.8.1.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "org.jetbrains.kotlin.cli.jvm.K2JVMCompiler",
+        "-no-stdlib",
+        "-no-reflect",
+        "-jvm-target",
+        "17",
+        "-module-name",
+        "gateway_lookup_tests",
+        "-Xfriend-paths=/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/classes,/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/test-classes",
+        "-classpath",
+        "/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/classes:/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/test-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "-d",
+        "/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/test-classes",
+        "/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/source/android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLookupFairnessTest.kt"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 77812,
+      "process_group": 77812,
+      "exit_code": 0,
+      "wall_seconds": 5.289599041999736,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    },
+    {
+      "name": "tests-GatewayLookupFairnessTest",
+      "argv": [
+        "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+        "-ea",
+        "-Xmx512m",
+        "-cp",
+        "/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/classes:/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/test-classes:/Users/jeanbosco/.cache/collect-android-lookup-exception-fairness-20261001/attempt-1/runner-classes:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/01-kotlin-stdlib-2.3.20.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/04-annotations-13.0.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/06-junit-4.13.2.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/07-hamcrest-core-1.3.jar:/Users/jeanbosco/.cache/collect-android-native-proof-20261001/stage/binaries/08-json-20250517.jar",
+        "CurrentCasesKt",
+        "app.cool.mobile.gateway.GatewayLookupFairnessTest"
+      ],
+      "status": "terminal",
+      "timeout_seconds": 900,
+      "pid": 78100,
+      "process_group": 78100,
+      "exit_code": 1,
+      "wall_seconds": 30.181461666999894,
+      "stdout_sha256": "f2df00efd179cc8b761b6f53d194b70782406ee4e4b1a2e08abf3c04042c7f7e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_child_reaped": true
+    }
+  ],
+  "suite_counts": {},
+  "case_results": [
+    {
+      "method": "app.cool.mobile.gateway.GatewayLookupFairnessTest.laterReceiptFailureRemainsUnknownUntilExactReadRecoveryAndNeverReplays",
+      "status": "pass",
+      "command": "tests-GatewayLookupFairnessTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLookupFairnessTest.credentialTrustIdentityMalformedAndBindingFailuresStayClosedBeforeLaterMutations",
+      "status": "pass",
+      "command": "tests-GatewayLookupFairnessTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLookupFairnessTest.transientReadStatusesDoNotBecomeMutationRetries",
+      "status": "pass",
+      "command": "tests-GatewayLookupFairnessTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLookupFairnessTest.lookupDeadlineDefersReadAndAllowsLaterEvidenceWithStopStillLatched",
+      "status": "pass",
+      "command": "tests-GatewayLookupFairnessTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLookupFairnessTest.throwingOriginalReadsStillVisitThreePagesAcrossRestartWithoutReplayingUnknown",
+      "status": "pass",
+      "command": "tests-GatewayLookupFairnessTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLookupFairnessTest.unavailableArchiveLookupKeepsPendingArchiveOriginalAndAllowsLateEvidence",
+      "status": "pass",
+      "command": "tests-GatewayLookupFairnessTest"
+    },
+    {
+      "method": "app.cool.mobile.gateway.GatewayLookupFairnessTest.stopCorruptionOrEnrollmentRevocationDuringFailedReadNeverPermitsLaterMutation",
+      "status": "fail",
+      "command": "tests-GatewayLookupFairnessTest"
+    }
+  ],
+  "junit_tests_passed": 0,
+  "source_sha256": {
+    "docs/release/collect-codex-goal-2026-09-30/android-gateway/run_native_checks.py": "71aba7bac91c2bdb8643739b6e9a134a9519bb6914400877fd399e9823bef8d6",
+    "android/app/build.gradle.kts": "266d289dd88f97fd0e06ed4f98abdf8c178560c0131ef8ce041d5a38a26d4e13",
+    "android/app/src/internal_gateway/AndroidManifest.xml": "559d518bb0f61792717172c4d90d805f60d4c5d65bde821829ed89ebb8e5fc63",
+    "android/app/src/main/AndroidManifest.xml": "f5574116fa67ffaf1090c9d333181cbeb927c453d22d9d9a08cd2deb59a3967e",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinatorTest.kt": "92fb1e3d8759cce0e23f4e2bc7fec9187b7aba7080c9d169416fb6cffc3b0b9c",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewaySafetyTest.kt": "9675ca1050694af35e246a9902e7feb4ed3d02089eafa634b2e620decd53b093",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWireTest.kt": "bfd1d7edd5729e87709449200719b503429fb3e0245b5ea1b548752bbe958fe6",
+    "android/app/src/testInternal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchiveTest.kt": "d3643879b5f24b7dc6b5dbe24610cae9832cabc9cb7e1ac566158f939020982d",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveBackendIntegrationTest.kt": "61551a4ceba0a7911260175c0810412e7f6da8cb943011450d909bbf957cdb8a",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayRetentionMigrationTest.kt": "26ff7700ac3d7ef451f0126ff4841e2e893a7562db91da16a582faaea43abdc2",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayArchiveStorageTest.kt": "73c648f4af466d7d78b03a7bb7a3ff08f5315b210d67427e0ccd74ad8119073a",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateRetentionTest.kt": "8c2b7c76422547e507c432c015e7b65599a7f6f2a319b38f9c2bec9e0736c4b2",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLateBackendTest.kt": "29a1c5adf51da63f94909f49b196a8e8b2b476555520668a3b7d401d00a8a830",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveBackendTest.kt": "0c264f9f8dace9b126b0529b60f69c84c41281906bc5258a1965d4c80c5d2947",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayDispatchBackendIntegrationTest.kt": "3fabcaf022f8b98f0e2e1f290daef1788054def2fa1d3071d6e446fbfde2010e",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayLookupFairnessTest.kt": "58a99e97b0db7750ae94e657cb5405872f898fb09885f48a188ed8095f2b9e8f",
+    "android/app/src/testInternal_gateway_archiveJvm/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveTest.kt": "8afd14874cbd2434a64a949d39991ded01dd96c8a6a1f0627ae737c2eea42ba6",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsCallbackReceiver.kt": "ba0017bda1dc8798e4f65f19e46fca5fc9dc2408bec8f46d7af4481b4cbed74c",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayInstalledEnrollment.kt": "d41513d4b9e4ad86fea20845356f845ea47d2475bce3fcd078040211ddfe02f4",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySignedBackend.kt": "e130b07747dcf13ca18e96ce7be7cab99ab451608aa9fdf25d41c0e529cce6f8",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchiveWire.kt": "62addb08265838b74ebb892239c3c318105c0b47f31a7ecfc3d1622b9543c116",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayCrypto.kt": "2ce07de84e58d46f7b62600a77808714cc635d89ae0ae6f6f3a774b2e692e28e",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournal.kt": "59c6a55ff807929aedcdc612e2d45b663cced98f46fa3f005b765d8da235d348",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatchWire.kt": "84a51578060450b2b56827b9e60a4b71500ae7048f36b1ee68530685d5d98441",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayWire.kt": "1ebc7c2afb51a85594bc1b45313deaacf8d623cd978152efd93b154f1f38f7d3",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayJournalArchive.kt": "e6d91ee121752d90365749bb3f3053246035e55b40107fb2a16346e329c5125c",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidRuntime.kt": "494212d092c5818341aaf7179be0254eddfb8b2a64bf8c413289fad8b744a672",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDispatch.kt": "ef842daaf3df6b1f3405b1c1e8a47f2218a783f7f2e535c4c6cbad2b3853a86d",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundService.kt": "0b8b324a16fce099c981dca0581db0302550fe8ed213dcfdfb1d4e209dfd8c70",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayTransport.kt": "7f85fa1b2abb949d1b0f8ec5f0b1b8f4399e555640c4019d53d8c170281aba96",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayEncryptedStore.kt": "dbbb70a558547be2c3e592cdc88418bd38366c58a10fb299766690f3fe73ea6a",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewaySmsInvoker.kt": "d76ef61ea9ada10db79213c438874dc4a79e13a4ac2925abeb1a5d4e1cd77d0a",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBackgroundCoordinator.kt": "423b13f902bb0eb249eb0db625e4437b81341efa64b6317a402ed385b384b157",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayActivity.kt": "5695b696404841657b0aca30cad01ccd842fe11a422f6d1fa95668f3c15f605c",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAttemptArchive.kt": "a391a192fcd45cf427a2e4d967897b553775392d026e71b8168a47a844d0b78f",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayBridge.kt": "0bbfb40739318cedd0d5f098497f2eac96445ad4d0ed0d0c394b0e6f3bc926cb",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayAndroidObservations.kt": "841b453e59ae43a259c7f854ba2f81a1537b6c3248ecde22268a9f7b0add8d79",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayDeviceIdentity.kt": "be111e3329308801faaab25d54217a7e05adc5beb4eca7adb3493e13dfb9b6d0",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRadioObservation.kt": "ec3567c8ca9b4706ef2ded5f3f272781128ee9cf7d78da35d9bb8a32687cc70a",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayLateRetention.kt": "52acb6a2245fe33b8a8ec77c6c89d3ba31b36f44fd6efb80e0b1124f5858104b",
+    "android/app/src/internal_gateway/kotlin/app/cool/mobile/gateway/GatewayRetentionIndex.kt": "107af0093bee91e1f358fc7a5ca27718c1ba2a2b055152fb5998a79d5164cc8c",
+    "scripts/tests/android_gateway_attempt_archive_jvm.py": "a3e90aa0060f4dd63ba7b0827bec9b3b0a23935e4b799eda4cef50ffa011d27c"
+  },
+  "source_changes": {
+    "copied": [],
+    "staging": [],
+    "base_packet": []
+  },
+  "shim_sha256": {
+    "Resources.kt": "ea04cd8fc3a7c40e451f85d00c374aa05eb3f78ea7a5d49757e89d95c6308050",
+    "Context.kt": "7e11b87664e8c0911a9df9cc1e6d995ed90e381437ba0b4e8ff4ca813c68602b",
+    "AtomicFile.kt": "7866768bf9fe610b43eb10a85b1b8d7179b1ba3ac5a868d62f4a9aba2f6617e0",
+    "Keystore.kt": "c956a041da5ee8531022f11f25c742b2e2c1f7c11be0ddc670405c9c370c3224",
+    "Os.kt": "1811e420e417679ac647e1f029bd842abf1b444e4aa2e5326ffd36604bcea34e"
+  },
+  "binary_sha256": {
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/2.3.20/2fac4210c52c27b244305d60b0906e831f49be/kotlin-compiler-embeddable-2.3.20.jar": "976f989d0b5f5d80e8e8a8ad4b73da0bfc27fdd965b9fa38362b2be79ecc1337",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.3.20/ed866de74ad3d49086a27bbd75952cd186479436/kotlin-stdlib-2.3.20.jar": "0ae12504a5040ebaf37703908483420d1a5624dd1d93f357665f8c77c848a01e",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/2.3.20/4831ca1fea87f25bf39891ff56327b23b18c9bfa/kotlin-script-runtime-2.3.20.jar": "6fcdb7da6e65cf8cc43e5aabab94bdcc48825e7933686f8a1bf694eb88f8e00e",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.6.10/1cbe9c92c12a94eea200d23c2bbaedaf3daf5132/kotlin-reflect-1.6.10.jar": "3277ac102ae17aad10a55abec75ff5696c8d109790396434b496e75087854203",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar": "ace2a10dc8e2d5fd34925ecac03e4988b2c0f851650c94b8cef49ba1bd111478",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.8.1/bb0e192bd7c2b6b8217440d36e9758e377e450/kotlinx-coroutines-core-jvm-1.8.1.jar": "f3d4f5de1c391bbcc20f3b3435ccbac013521e76b6902d7d59635ec15c1f797e",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/junit/junit/4.13.2/8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12/junit-4.13.2.jar": "8e495b634469d64fb8acfa3495a065cbacc8a0fff55ce1e31007be4c16dc57d3",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar": "66fdef91e9739348df7a096aa384a5685f4e875584cce89386a7a47251c4d8e9",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/org.json/json/20250517/d67181bbd819ccceb929b580a4e2fcb0c8b17cd8/json-20250517.jar": "3ea61b2a06e31edf1c91134fe9106b0ebb16628be169f3db75bc7a2b06b45796",
+    "/Users/jeanbosco/Library/Android/sdk/platforms/android-36/android.jar": "d9eb9da824d9e247a352f570f01e1169e725b2954bca9e283a71786c59b59f9a",
+    "/Volumes/PRO-G40/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/java": "2ac3dc4814f66521692d2099674c523afd486e3378bf285c57d96040c6472dd4",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/io.flutter/flutter_embedding_debug/1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030/959bcd2039e34cb567dd642ac1a4e8f3a392811c/flutter_embedding_debug-1.0.0-a10d8ac38de835021c8d2f920dbf50a920ccc030.jar": "58ab3f23b06d937a7922b9a66ffaa3da53111e5cc229f9e323d4265bf066e551",
+    "/Users/jeanbosco/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common-jvm/2.9.4/ab739bccdb3541983385af169565c7c035d897e7/lifecycle-common-jvm-2.9.4.jar": "37d89b2101f074ac6c260917dabb185607645ee200aa3018c7c5bde70edcf184",
+    "/Volumes/PRO-G40/Development/Flutter/flutter/bin/internal/engine.version": "244f6cdbfc0fbba9c7a913c5cfcba4ffd92dfae5f57d3aee527461775cec2066"
+  },
+  "jdk_runtime_closure_sha256": "ee6414957589ec10a2e75c4cfd9fa7f7b17a0167aa820088562c0d6d0a38cb7a",
+  "jdk_runtime_entries": 550,
+  "native_source_count": 24,
+  "java": "/Users/jeanbosco/.cache/collect-android-native-proof-20261001/jdk/jdk-21.0.12.1+1/Contents/Home/bin/java",
+  "reused_baseline_association_sha256": "c0657a6a95746bcd24df67aba5e09db454d05bd4fdf1a3efa71b8e792506a404",
+  "limitations": [
+    "Fresh focused caller proof only; preceding storage/heavy cohorts are unchanged and not counted as fresh current results.",
+    "Only two production classes and one new test class recompiled; unchanged product/test/runner artifacts hash-bound to accepted baseline.",
+    "No canonical mutation or physical-device/provider/Gradle/signing/store/live proof."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-post-acceptance-review-20261001-current1/scripts/tests/current_ordinary_installer_rehearsal.py",
+    "--output",
+    "/Users/jeanbosco/Library/Caches/collect-native-hygiene-20260930/collect-post-acceptance-review-20261001-current1/docs/release/post-delta-ordinary187"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-10-01T15:39:29.776533+00:00",
+  "pid": 9772,
+  "started_at": "2026-10-01T15:37:47.149299+00:00",
+  "status": "pass",
+  "validation": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/rapid-completion-2026-10-01/post-acceptance-delta-current1/sql-ordinary187/validation.json",
+  "wrapper_pid": 9770
+}

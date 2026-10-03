@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/roster-deno-2.5.6-20260929/deno",
+    "info",
+    "--json",
+    "--no-config",
+    "--cached-only",
+    "--frozen",
+    "--lock=supabase/functions/deno.lock",
+    "supabase/functions/_shared/openai_roster_test.ts"
+  ],
+  "exit_code": 1,
+  "seconds": 0.012
+}

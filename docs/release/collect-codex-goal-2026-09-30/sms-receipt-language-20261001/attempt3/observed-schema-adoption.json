@@ -1,0 +1,20 @@
+{
+  "id": "fd77ad5b-edb5-4553-a11b-3d63eee41190",
+  "family": "sms_receipt_policies",
+  "actor_id": null,
+  "redacted": false,
+  "revision": 2,
+  "authority": "database_owner",
+  "operation": "update",
+  "new_sha256": "ce9cff4eb19988f625d8800174a9717063251419cfd55632c8675f3bfa82eda8",
+  "old_sha256": "df0474c59f6f6d2066f7d48b1aa849bcdf14451b9f412e815640eda552fd768f",
+  "session_id": null,
+  "recorded_at": "2026-10-01T18:35:08.263233+00:00",
+  "reason_sha256": "e47e73b16489042195566b1c153de80c83b650e9ca64556dd1e1302b4ba9627b",
+  "changed_fields": [
+    "receipt_language"
+  ],
+  "identity_sha256": "12bdd9d9dc1bce6a81139ef058fd7ce6b108202f29ac56afb060ed5b9c57df76",
+  "previous_revision": 1,
+  "reason_characters": 65
+}

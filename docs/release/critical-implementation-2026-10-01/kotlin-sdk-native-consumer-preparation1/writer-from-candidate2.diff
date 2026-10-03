@@ -1,0 +1,94 @@
+--- docs/release/critical-implementation-2026-10-01/kotlin-sdk-candidate2-preparation-batch1/authenticated_candidate2_expansion.py
++++ docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-consumer-preparation1/authenticated_native_consumer_expansion.py
+@@ -22,7 +22,7 @@
+ FOUNDATION = HERE.parent / "kotlin-sdk-foundation-batch1"
+ ROOT_REVIEW = HERE.parent / "root-sdk-foundation-review-batch1/exact-checkout-delta-review.json"
+ ARCHIVE = Path("/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/public-artifacts/flutter_macos_arm64_3.44.4-stable.zip")
+-DESTINATION = Path("/Volumes/PRO-G40/Development/Codex-Candidates/COOL-ARC09/flutter-3.44.4-collect-kotlin-2.4.20-candidate2")
++DESTINATION = Path("/Users/jeanbosco/Library/Caches/COOL-ARC09/native-consumer1/flutter")
+ INSTALLED = Path("/Volumes/PRO-G40/Development/Flutter/flutter")
+ ARCHIVE_SHA = "eac833fe956c670d1f27946f25de8bc4fe4fb86146d5ef8d53e79a971a3ba042"
+ FOUNDATION_MANIFEST_SHA = "35afe09b9fcc8fc97b2f8ede9e65dfd8cbc05ae5d07e1097cc2096baa021aa4e"
+@@ -33,10 +33,18 @@
+ 
+ 
+ def sha_file(path):
++    path = Path(path)
++    if path.resolve() != path: raise ValueError("hash input has a link ancestor/leaf")
++    before = path.lstat()
++    if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1: raise ValueError("hash input not exclusive regular")
++    identity = lambda row: (row.st_dev, row.st_ino, row.st_size, row.st_mtime_ns, row.st_ctime_ns, row.st_mode, row.st_nlink)
+     digest = hashlib.sha256()
+-    with Path(path).open("rb") as stream:
+-        for chunk in iter(lambda: stream.read(8 * 1024**2), b""):
+-            digest.update(chunk)
++    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
++    with os.fdopen(fd, "rb") as stream:
++        if identity(os.fstat(stream.fileno())) != identity(before): raise ValueError("hash open identity race")
++        for chunk in iter(lambda: stream.read(8 * 1024**2), b""): digest.update(chunk)
++        if identity(os.fstat(stream.fileno())) != identity(before): raise ValueError("hash FD mutation")
++    if identity(path.lstat()) != identity(before): raise ValueError("hash named leaf replacement")
+     return digest.hexdigest()
+ 
+ 
+@@ -329,15 +337,22 @@
+             if not stat.S_ISREG(observation.st_mode) or observation.st_nlink != 1:
+                 raise ValueError("physical special/shared writable inode")
+             digest = hashlib.sha256(); crc = 0; count = 0
+-            with path.open("rb") as stream:
++            fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
++            identity = lambda row: (row.st_dev, row.st_ino, row.st_size, row.st_mtime_ns, row.st_ctime_ns, row.st_mode, row.st_nlink)
++            source_body = bytearray() if name in nodes else None
++            with os.fdopen(fd, "rb") as stream:
++                if identity(os.fstat(stream.fileno())) != identity(observation): raise ValueError("physical reader open race")
+                 for chunk in iter(lambda: stream.read(1024**2), b""):
+                     count += len(chunk); digest.update(chunk); crc = zlib.crc32(chunk, crc)
++                    if source_body is not None: source_body.extend(chunk)
+                     if count > expected["bytes"]: raise ValueError("physical readback byte bound")
++                if identity(os.fstat(stream.fileno())) != identity(observation): raise ValueError("physical reader FD mutation")
++            if identity(path.lstat()) != identity(observation): raise ValueError("physical reader named leaf replacement")
+             if (observation.st_size, count, digest.hexdigest(), crc) != (
+                     expected["bytes"], expected["bytes"], expected["sha256"], expected["CRC"]):
+                 raise ValueError("full independent regular byte readback drift")
+             if name in nodes:
+-                source_identity(name, path.read_bytes(), observation.st_mode, nodes, checkout, helper); source_seen.add(name)
++                source_identity(name, bytes(source_body), observation.st_mode, nodes, checkout, helper); source_seen.add(name)
+             installed = INSTALLED / path.relative_to(destination)
+             if installed.exists() and installed.is_file():
+                 other = installed.stat()
+@@ -375,7 +390,7 @@
+             raise ValueError("independent destination has a link ancestor")
+         if DESTINATION.is_relative_to(INSTALLED) or INSTALLED.is_relative_to(DESTINATION):
+             raise ValueError("shared installed SDK/root overlap")
+-        if shutil.disk_usage(DESTINATION.parent).free < admission["expanded_bytes"] + 2 * 1024**3:
++        if shutil.disk_usage(DESTINATION.parent).free < 20350276001:
+             raise ValueError("insufficient current physical headroom")
+         start = time.monotonic(); last_progress = start
+         DESTINATION.mkdir(mode=0o700)
+@@ -427,19 +442,20 @@
+         for name in reversed(directories):
+             path = local(name); os.chmod(path, admission["members"][name]["safe_materialized_mode"]); fsync_directory(path)
+         fsync_directory(DESTINATION.parent)
++        metadata_path = HERE / "publisher_metadata.py"
++        if sha_file(metadata_path) != "c21a475eae55b78997dbd944e6c97de1bd8e1df92f4f8696ede8ece198140b25": raise ValueError("exact four-timestamp writer drift")
++        spec = importlib.util.spec_from_file_location("exact_publisher_metadata", metadata_path)
++        metadata = importlib.util.module_from_spec(spec); spec.loader.exec_module(metadata)
++        restored_metadata = metadata.restore_after_separate_authorization(DESTINATION, ARCHIVE)
+         readback = verify_physical_readback(admission)
+         if sha_file(ARCHIVE) != ARCHIVE_SHA: raise ValueError("archive drift after physical expansion/readback")
+         return {"admission_sha256": expected_admission_sha, "archive_sha256": ARCHIVE_SHA,
+                 "destination": str(DESTINATION), "elapsed_seconds": round(time.monotonic() - start, 3),
+                 "actual_deadline_seconds": 600, "full_independent_readback": readback,
++                "exact_four_publisher_timestamp_restoration": restored_metadata,
+                 "source_patch_applied": False, "SDK_executed": False, "candidate_promoted": False,
+                 "production_release_approval": False}
+ 
+ 
+ if __name__ == "__main__":
+-    # Read-only admission only. No writer invocation or extraction command exists.
+-    result = admit_readonly(lambda value: print(json.dumps(value), flush=True))
+-    (HERE / "exact-archive-admission.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+-    print(json.dumps({"status": result["status"], "members": len(result["members"]),
+-                      "expanded_bytes_verified_in_RAM": result["expanded_bytes"],
+-                      "source_entries": result["source_entries"], "seconds": result["elapsed_seconds"]}))
++    raise SystemExit("Separate root/controller authorization required; standalone expansion refused.")

@@ -1,0 +1,2 @@
+set search_path=public,extensions,auth;set timezone='UTC';
+begin;alter table collect_supervisor.identities disable trigger retained_supervisor_identity;update collect_supervisor.identities set expires_at=clock_timestamp()+interval '70 seconds'where id='07eb4d13-d1c1-49b2-bb44-a3da7b9551fb';alter table collect_supervisor.identities enable trigger retained_supervisor_identity;commit;

@@ -1,0 +1,1246 @@
+00:00 +0: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart
+00:00 +0: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: pinned real repository reads exact operational RPC with captured session token
+00:00 +1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: actual route registry exposes joined operational run detail
+00:00 +2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: read authority does not require management or audit permission
+00:00 +3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: actual ordinary producer closed run renders partial history at width 1440.0
+00:01 +4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: actual ordinary producer closed run renders partial history at width 390.0
+00:01 +5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: refused begin request is visible with no invented run link
+00:01 +6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: role denial produces no backend history read
+00:01 +7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: expired sample hides identifiers and navigation
+00:01 +8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: pending departed session cannot publish retained history
+00:02 +9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: read-only actual SDK sends closed RPC parameters to pinned repository
+00:02 +10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: actual operational detail navigation survives route reload
+00:02 +11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: actual old configuration remains unavailable in run view
+00:02 +12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: unavailable deployed reader produces a bounded failure state
+00:03 +13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: operational run audit links require independent audit read false
+00:03 +14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: operational run audit links require independent audit read true
+00:03 +15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: actual events source references use supported route identity
+00:04 +16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: actual backlog_results source references use supported route identity
+00:04 +17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: actual automatic attempt joins operational run with current session false
+00:04 +18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: actual automatic attempt joins operational run with current session true
+00:04 +19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: actual registered router supports operational deep link and reload without manage permission
+00:06 +20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: captured source link refuses expiry before the next timer rebuild
+00:06 +21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_operational_history_test.dart: captured automatic run link refuses sample expiry before timer rebuild
+00:06 +22: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_history_labels_capture_test.dart
+00:07 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_history_labels_capture_test.dart: (setUpAll)
+00:07 +22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_history_labels_capture_test.dart: actual history labels and headings render at 1440-light
+00:10 +23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_history_labels_capture_test.dart: actual history labels and headings render at 1440-dark
+00:10 +24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_history_labels_capture_test.dart: actual history labels and headings render at 390-light
+00:11 +25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_history_labels_capture_test.dart: actual history labels and headings render at 390-dark
+00:11 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_receipt_history_labels_capture_test.dart: (tearDownAll)
+00:11 +26: loading /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart
+00:12 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: (setUpAll)
+00:12 +26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: dark and light local audit captures of four canonical record links
+00:12 +27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: loaded history navigation hides after current permission loss
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:400:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  loaded history navigation hides after current permission loss
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: loaded history navigation hides after current permission loss [E]
+  Test failed. See exception logs above.
+  The test description was: loaded history navigation hides after current permission loss
+  
+00:12 +27 -1: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: loaded history navigation hides after current role loss
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:400:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  loaded history navigation hides after current role loss
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: loaded history navigation hides after current role loss [E]
+  Test failed. See exception logs above.
+  The test description was: loaded history navigation hides after current role loss
+  
+00:12 +27 -2: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: loaded history navigation hides after current session loss
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:400:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  loaded history navigation hides after current session loss
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: loaded history navigation hides after current session loss [E]
+  Test failed. See exception logs above.
+  The test description was: loaded history navigation hides after current session loss
+  
+00:12 +27 -3: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: shadow_run link requires independent audit.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  shadow_run link requires independent audit.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: shadow_run link requires independent audit.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: shadow_run link requires independent audit.read before any history read
+  
+00:12 +27 -4: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: shadow_run link requires independent system_health.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  shadow_run link requires independent system_health.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: shadow_run link requires independent system_health.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: shadow_run link requires independent system_health.read before any history read
+  
+00:12 +27 -5: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: shadow_run link requires independent notifications.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  shadow_run link requires independent notifications.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: shadow_run link requires independent notifications.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: shadow_run link requires independent notifications.read before any history read
+  
+00:12 +27 -6: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: shadow_run loaded link hides on current identity loading and error
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:464:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  shadow_run loaded link hides on current identity loading and error
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: shadow_run loaded link hides on current identity loading and error [E]
+  Test failed. See exception logs above.
+  The test description was: shadow_run loaded link hides on current identity loading and error
+  
+00:12 +27 -7: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: gateway_device link requires independent audit.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  gateway_device link requires independent audit.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: gateway_device link requires independent audit.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: gateway_device link requires independent audit.read before any history read
+  
+00:12 +27 -8: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: gateway_device link requires independent system_health.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  gateway_device link requires independent system_health.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: gateway_device link requires independent system_health.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: gateway_device link requires independent system_health.read before any history read
+  
+00:12 +27 -9: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: gateway_device link requires independent notifications.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  gateway_device link requires independent notifications.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: gateway_device link requires independent notifications.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: gateway_device link requires independent notifications.read before any history read
+  
+00:12 +27 -10: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: gateway_device loaded link hides on current identity loading and error
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:464:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  gateway_device loaded link hides on current identity loading and error
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: gateway_device loaded link hides on current identity loading and error [E]
+  Test failed. See exception logs above.
+  The test description was: gateway_device loaded link hides on current identity loading and error
+  
+00:12 +27 -11: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: supervisor_identity link requires independent audit.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  supervisor_identity link requires independent audit.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: supervisor_identity link requires independent audit.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: supervisor_identity link requires independent audit.read before any history read
+  
+00:12 +27 -12: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: supervisor_identity link requires independent system_health.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  supervisor_identity link requires independent system_health.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: supervisor_identity link requires independent system_health.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: supervisor_identity link requires independent system_health.read before any history read
+  
+00:12 +27 -13: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: supervisor_identity link requires independent notifications.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  supervisor_identity link requires independent notifications.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: supervisor_identity link requires independent notifications.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: supervisor_identity link requires independent notifications.read before any history read
+  
+00:12 +27 -14: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: supervisor_identity loaded link hides on current identity loading and error
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:464:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  supervisor_identity loaded link hides on current identity loading and error
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: supervisor_identity loaded link hides on current identity loading and error [E]
+  Test failed. See exception logs above.
+  The test description was: supervisor_identity loaded link hides on current identity loading and error
+  
+00:12 +27 -15: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: exception link requires independent audit.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  exception link requires independent audit.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: exception link requires independent audit.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: exception link requires independent audit.read before any history read
+  
+00:12 +27 -16: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: exception link requires independent system_health.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  exception link requires independent system_health.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: exception link requires independent system_health.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: exception link requires independent system_health.read before any history read
+  
+00:12 +27 -17: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: exception link requires independent notifications.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  exception link requires independent notifications.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: exception link requires independent notifications.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: exception link requires independent notifications.read before any history read
+  
+00:12 +27 -18: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: exception link requires independent payments.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  exception link requires independent payments.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: exception link requires independent payments.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: exception link requires independent payments.read before any history read
+  
+00:12 +27 -19: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: exception loaded link hides on current identity loading and error
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:464:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  exception loaded link hides on current identity loading and error
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: exception loaded link hides on current identity loading and error [E]
+  Test failed. See exception logs above.
+  The test description was: exception loaded link hides on current identity loading and error
+  
+00:12 +27 -20: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt link requires independent audit.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt link requires independent audit.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt link requires independent audit.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt link requires independent audit.read before any history read
+  
+00:12 +27 -21: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt link requires independent system_health.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt link requires independent system_health.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt link requires independent system_health.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt link requires independent system_health.read before any history read
+  
+00:12 +27 -22: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt link requires independent notifications.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt link requires independent notifications.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt link requires independent notifications.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt link requires independent notifications.read before any history read
+  
+00:12 +27 -23: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt link requires independent payments.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt link requires independent payments.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt link requires independent payments.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt link requires independent payments.read before any history read
+  
+00:12 +27 -24: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt loaded link hides on current identity loading and error
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:464:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt loaded link hides on current identity loading and error
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt loaded link hides on current identity loading and error [E]
+  Test failed. See exception logs above.
+  The test description was: receipt loaded link hides on current identity loading and error
+  
+00:12 +27 -25: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operations_policy link requires independent audit.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt_operations_policy link requires independent audit.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operations_policy link requires independent audit.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt_operations_policy link requires independent audit.read before any history read
+  
+00:12 +27 -26: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operations_policy link requires independent system_health.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt_operations_policy link requires independent system_health.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operations_policy link requires independent system_health.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt_operations_policy link requires independent system_health.read before any history read
+  
+00:12 +27 -27: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operations_policy link requires independent notifications.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt_operations_policy link requires independent notifications.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operations_policy link requires independent notifications.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt_operations_policy link requires independent notifications.read before any history read
+  
+00:12 +27 -28: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operations_policy link requires independent payments.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt_operations_policy link requires independent payments.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operations_policy link requires independent payments.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt_operations_policy link requires independent payments.read before any history read
+  
+00:12 +27 -29: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operations_policy loaded link hides on current identity loading and error
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:464:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt_operations_policy loaded link hides on current identity loading and error
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operations_policy loaded link hides on current identity loading and error [E]
+  Test failed. See exception logs above.
+  The test description was: receipt_operations_policy loaded link hides on current identity loading and error
+  
+00:12 +27 -30: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operation_run link requires independent audit.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt_operation_run link requires independent audit.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operation_run link requires independent audit.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt_operation_run link requires independent audit.read before any history read
+  
+00:12 +27 -31: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operation_run link requires independent system_health.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt_operation_run link requires independent system_health.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:12 +27 -32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operation_run link requires independent system_health.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt_operation_run link requires independent system_health.read before any history read
+  
+00:12 +27 -32: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operation_run link requires independent notifications.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt_operation_run link requires independent notifications.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +27 -33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operation_run link requires independent notifications.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt_operation_run link requires independent notifications.read before any history read
+  
+00:13 +27 -33: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operation_run link requires independent payments.read before any history read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:440:24)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt_operation_run link requires independent payments.read before any history read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +27 -34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operation_run link requires independent payments.read before any history read [E]
+  Test failed. See exception logs above.
+  The test description was: receipt_operation_run link requires independent payments.read before any history read
+  
+00:13 +27 -34: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operation_run loaded link hides on current identity loading and error
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:464:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  receipt_operation_run loaded link hides on current identity loading and error
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +27 -35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: receipt_operation_run loaded link hides on current identity loading and error [E]
+  Test failed. See exception logs above.
+  The test description was: receipt_operation_run loaded link hides on current identity loading and error
+  
+00:13 +27 -35: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: history link fails closed for role without a read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:489:20)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  history link fails closed for role without a read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +27 -36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: history link fails closed for role without a read [E]
+  Test failed. See exception logs above.
+  The test description was: history link fails closed for role without a read
+  
+00:13 +27 -36: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: history link fails closed for actor without a read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:489:20)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  history link fails closed for actor without a read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +27 -37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: history link fails closed for actor without a read [E]
+  Test failed. See exception logs above.
+  The test description was: history link fails closed for actor without a read
+  
+00:13 +27 -37: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: history link fails closed for absent without a read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:489:20)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  history link fails closed for absent without a read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +27 -38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: history link fails closed for absent without a read [E]
+  Test failed. See exception logs above.
+  The test description was: history link fails closed for absent without a read
+  
+00:13 +27 -38: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: history link fails closed for invalid without a read
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:489:20)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  history link fails closed for invalid without a read
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +27 -39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: history link fails closed for invalid without a read [E]
+  Test failed. See exception logs above.
+  The test description was: history link fails closed for invalid without a read
+  
+00:13 +27 -39: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual gateway record opens its canonical entity history and returns without mutation
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:524:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  actual gateway record opens its canonical entity history and returns without mutation
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +27 -40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual gateway record opens its canonical entity history and returns without mutation [E]
+  Test failed. See exception logs above.
+  The test description was: actual gateway record opens its canonical entity history and returns without mutation
+  
+00:13 +27 -40: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual exception record opens its canonical entity history and returns without mutation
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:524:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  actual exception record opens its canonical entity history and returns without mutation
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +27 -41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual exception record opens its canonical entity history and returns without mutation [E]
+  Test failed. See exception logs above.
+  The test description was: actual exception record opens its canonical entity history and returns without mutation
+  
+00:13 +27 -41: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual receipt record opens its canonical entity history and returns without mutation
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:524:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  actual receipt record opens its canonical entity history and returns without mutation
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +27 -42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual receipt record opens its canonical entity history and returns without mutation [E]
+  Test failed. See exception logs above.
+  The test description was: actual receipt record opens its canonical entity history and returns without mutation
+  
+00:13 +27 -42: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual investigation record opens its canonical entity history and returns without mutation
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following PathNotFoundException was thrown running a test:
+Cannot open file, path = 'contracts/collect-admin-gateway-v1.fixture.json' (OS Error: No such file
+or directory, errno = 2)
+
+When the exception was thrown, this was the stack:
+#0      _File.throwIfError (dart:io/file_impl.dart:779:7)
+#1      _File.openSync (dart:io/file_impl.dart:572:5)
+#2      _File.readAsBytesSync (dart:io/file_impl.dart:660:18)
+#3      _File.readAsStringSync (dart:io/file_impl.dart:715:18)
+#4      gatewayListFixture (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_gateway_models_test.dart:12:13)
+#5      new _Repository (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:104:30)
+#6      main.<anonymous closure> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart:524:22)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1952:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  actual investigation record opens its canonical entity history and returns without mutation
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:13 +27 -43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual investigation record opens its canonical entity history and returns without mutation [E]
+  Test failed. See exception logs above.
+  The test description was: actual investigation record opens its canonical entity history and returns without mutation
+  
+00:13 +27 -43: /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: (tearDownAll)
+00:13 +27 -43: Some tests failed.
+
+Failing tests:
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual exception record opens its canonical entity history and returns without mutation
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual gateway record opens its canonical entity history and returns without mutation
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual investigation record opens its canonical entity history and returns without mutation
+  /Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/admin-operational-history-integration-20261002/validation-app/test/admin_entity_audit_links_test.dart: actual receipt record opens its canonical entity history and returns without mutation
+  ... and 39 more

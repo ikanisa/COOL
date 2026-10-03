@@ -1,0 +1,11 @@
+{
+  "at_utc": "2026-10-02T09:34:36.368816+00:00",
+  "path": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/scripts/tests/test_pg_archive_admission.py",
+  "before_sha256": "5bcd720875e7a4ab5d08578fd4470e73d09656cce1138aa002f53fc5c7a839c6",
+  "after_sha256": "7b11524aac6d743a29a473e5e72bed0d8be283c1f41bda656af996341a193f78",
+  "all39_test_method_asts_unchanged": true,
+  "fixture_timeout_seconds_unchanged": 1,
+  "production_adapter_changed": false,
+  "hypothesis": "Version-only subprocess startup unnecessarily loads hashlib/subprocess; lazy imports keep those imports in actual operation and detached-descendant branches. Previous original1s failures retained; no universal latency claim.",
+  "validation_pending": true
+}

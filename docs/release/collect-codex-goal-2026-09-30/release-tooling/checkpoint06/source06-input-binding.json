@@ -1,0 +1,680 @@
+{
+  "status": "pass",
+  "candidate_manifest_sha256": "3dde2f704488a7a18d7d9f916f2451d76a8662bb79619b788d792706d11ba42f",
+  "captured_tool_bytes_match_reviewed": true,
+  "critical_inputs_match_pre_export": true,
+  "toolchain_match_pre_export": true,
+  "critical_pin_inputs": {
+    ".dvmrc": {
+      "bytes": 6,
+      "mode": 448,
+      "sha256": "71a5033569c12d418eed534bfec7ace7e0394e6e0dc349a6f0201c49d6dbf04e"
+    },
+    ".fvmrc": {
+      "bytes": 26,
+      "mode": 448,
+      "sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756"
+    },
+    "Gemfile": {
+      "bytes": 92,
+      "mode": 448,
+      "sha256": "3f9baf66774f08c7dc206e8346f418faa3134e1b358e1f924c528bba9319a627"
+    },
+    "Gemfile.lock": {
+      "bytes": 6638,
+      "mode": 448,
+      "sha256": "a412b53e86608ecbaffef057896e6e7bbf379460a93dec57376494e2028405ed"
+    },
+    "android/app/build.gradle.kts": {
+      "bytes": 16213,
+      "mode": 448,
+      "sha256": "87ed20e8277dc8edae2a2d1d3ba85d9db6046a55fc0186b0b2613a726deb7da9"
+    },
+    "android/app/gradle.lockfile": {
+      "bytes": 15543,
+      "mode": 420,
+      "sha256": "e75fcc377acd2127fdf6bc8f151cf29288083fc786bfc673c7b2d75606b55957"
+    },
+    "android/build.gradle.kts": {
+      "bytes": 886,
+      "mode": 448,
+      "sha256": "5e72e3bcf3d4bd9bb1b383d1b2e6f450ea1752fd36f196e812f7dea1773f1d01"
+    },
+    "android/gradle/wrapper/gradle-wrapper.jar": {
+      "bytes": 45457,
+      "mode": 420,
+      "sha256": "76805e32c009c0cf0dd5d206bddc9fb22ea42e84db904b764f3047de095493f3"
+    },
+    "android/gradle/wrapper/gradle-wrapper.properties": {
+      "bytes": 340,
+      "mode": 420,
+      "sha256": "c43f11136f49b14c256da1e2f5f65e67ad38884f3d77516cc76c685e1c89faf1"
+    },
+    "android/settings.gradle.kts": {
+      "bytes": 840,
+      "mode": 448,
+      "sha256": "838ccff354f21d1767a7770d9543134726c24d3d1c0b1f09268cf5f01fb3690e"
+    },
+    "ios/Podfile": {
+      "bytes": 2210,
+      "mode": 448,
+      "sha256": "59305a73dfde47d853f6f785d3878fd1038c5cec8527e0fb47303e797da8b5cb"
+    },
+    "ios/Podfile.lock": {
+      "bytes": 267,
+      "mode": 448,
+      "sha256": "8e05cdad2da562dfbcfd98e01883d974d2aee135bae5448c8af8527d07cc1d5e"
+    },
+    "ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved": {
+      "bytes": 3685,
+      "mode": 448,
+      "sha256": "319a8371fd8a1a05c0698b5c653d605ae831ca614e781feebe2c6f40822d1213"
+    },
+    "ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved": {
+      "bytes": 3685,
+      "mode": 448,
+      "sha256": "319a8371fd8a1a05c0698b5c653d605ae831ca614e781feebe2c6f40822d1213"
+    },
+    "pubspec.lock": {
+      "bytes": 39236,
+      "mode": 448,
+      "sha256": "92ff68829c997e7b671c9e4fbbffd9b5d1009478034defb14120034178bd889b"
+    },
+    "pubspec.yaml": {
+      "bytes": 2425,
+      "mode": 448,
+      "sha256": "34acf2f94c91f9dcb12c511ce0ceedfd635bf69457ce2bd5bd92981f12fb8fc8"
+    },
+    "supabase/functions/deno.lock": {
+      "bytes": 7115,
+      "mode": 420,
+      "sha256": "ee5b7afd946eb6526c6958bde2494e9654e54972483056dcfad50ce267af7382"
+    },
+    "tools/collect-notification-mcp/package.json": {
+      "bytes": 522,
+      "mode": 448,
+      "sha256": "b4497210bd810e3eed8f43b7d31a78f2777903ca3ac8de8786e9decbf9b34a9d"
+    },
+    "tools/collect-notification-mcp/pnpm-lock.yaml": {
+      "bytes": 8909,
+      "mode": 448,
+      "sha256": "8ac7c577a4c7c731e9d7fc45418f8b78a4275ef587227bfc43c0d28837bf7ef3"
+    },
+    "tools/public-photography/package-lock.json": {
+      "bytes": 20193,
+      "mode": 448,
+      "sha256": "b9a364dd4c6983196641657d8adfe411bcae1ed872d3b543e4967117b3d5b38a"
+    },
+    "tools/roster-decoder/requirements.lock": {
+      "bytes": 660,
+      "mode": 420,
+      "sha256": "a5fc3b5c83aef83c5e822211c798d4575d90a8adb8de01e43801c614bd992f3a"
+    }
+  },
+  "migration_version_count": 175,
+  "feature_source": {
+    "contracts/collect-admin-exception-action-v1.fixture.json": {
+      "bytes": 356,
+      "mode": 420,
+      "sha256": "1658d45cc572e9b45ea8a54749dce473b326518205ea9028a4c65b40137e66d0"
+    },
+    "contracts/collect-admin-exception-action-v2.fixture.json": {
+      "bytes": 632,
+      "mode": 420,
+      "sha256": "786de92ceac03558c066ec44f9eb3be6a2ef977d7e461c233858d4579965bfe5"
+    },
+    "contracts/collect-admin-exception-v2.fixture.json": {
+      "bytes": 3702,
+      "mode": 420,
+      "sha256": "904a77454a88e29cc42aad9fd18bffede0beb304e457971a9ce6c653e30aa78b"
+    },
+    "contracts/collect-admin-exception-v2.schema.json": {
+      "bytes": 7774,
+      "mode": 420,
+      "sha256": "41b28ba0b393f945cab31d4b1214a1e5006682a5e7045905b3e6e26c46f381bd"
+    },
+    "contracts/collect-admin-gateway-owner-request-v1.fixture.json": {
+      "bytes": 831,
+      "mode": 420,
+      "sha256": "37e4fea9a7b86011702a7278e1eb9e0661932cdb31898fee6293fe6aae781ba9"
+    },
+    "contracts/collect-admin-gateway-v1.fixture.json": {
+      "bytes": 1723,
+      "mode": 420,
+      "sha256": "e63217f04ab19c404815685686501c115f1896d315e02cc9ee8a6a3a99868d5e"
+    },
+    "contracts/collect-admin-gateway-v1.schema.json": {
+      "bytes": 11766,
+      "mode": 420,
+      "sha256": "5bb6ed4deecd24cd280aaf6d778a2b3e1b8179c54f981f0453a64f526586fdf3"
+    },
+    "contracts/collect-operator-entity-audit-v1.CONTRACT.md": {
+      "bytes": 3005,
+      "mode": 420,
+      "sha256": "0bf86913b2536703295ee200840f732334eb042a9c3a81e75f0551c0f9c7c9ba"
+    },
+    "contracts/collect-operator-entity-audit-v1.schema.json": {
+      "bytes": 5600,
+      "mode": 420,
+      "sha256": "2dbe5e8c852cd2ce6e53a3ae156d32a02eb172bfb0c2eb76dcd36d3f561eac60"
+    },
+    "contracts/collect-safe-receipt-action-v1.CONTRACT.md": {
+      "bytes": 7248,
+      "mode": 420,
+      "sha256": "79b5ecb72fdc160ace91efce52107ddd1f354e05c426248e1d0a5f2d30630aa1"
+    },
+    "contracts/collect-safe-receipt-action-v1.fixture.json": {
+      "bytes": 527,
+      "mode": 420,
+      "sha256": "646a9787cdde36ff79cf6d15cca7c380a6222ed7fbb2df2fcd212549219770eb"
+    },
+    "contracts/collect-safe-receipt-action-v1.inspection.fixture.json": {
+      "bytes": 422,
+      "mode": 420,
+      "sha256": "8aa92eed8d3fc9f9232139e0d2099cca6a074a51093b851e94e33bac7f5f0166"
+    },
+    "contracts/collect-safe-receipt-action-v1.lookup.fixture.json": {
+      "bytes": 822,
+      "mode": 420,
+      "sha256": "c4046b0031d213df5cbac874469ba4d06f1494def0b3b5d32742533c755f0304"
+    },
+    "contracts/collect-safe-receipt-action-v1.schema.json": {
+      "bytes": 6968,
+      "mode": 420,
+      "sha256": "ac3e5b3d3cc82788f90d6ac8de0897a227dbf936d4862a360b2116af44217088"
+    },
+    "contracts/collect-safe-receipt-audit-attribution-v1.CONTRACT.md": {
+      "bytes": 2601,
+      "mode": 420,
+      "sha256": "95522b76a9b41c352af7f2b98bfb12a837a560642fac1f3b1263a94f3c373884"
+    },
+    "contracts/collect-unattended-operating-policy-v1.CONTRACT.md": {
+      "bytes": 7045,
+      "mode": 420,
+      "sha256": "671fa8ff0b36ce621e3f8aec84cc387fd49c0228e95aacff438d3bcc4815f4d6"
+    },
+    "contracts/collect-unattended-operating-policy-v1.fixture.json": {
+      "bytes": 2099,
+      "mode": 420,
+      "sha256": "47fce725c5ef8ff9020d2622b000a9bca843611e7eb0048d0c4b46270261b42e"
+    },
+    "contracts/collect-unattended-operating-policy-v1.lookup.fixture.json": {
+      "bytes": 1063,
+      "mode": 420,
+      "sha256": "2495869c246c0b6f24850554c2e01e88ae21046ca2c14d03daf90fafe5eda498"
+    },
+    "contracts/collect-unattended-operating-policy-v1.receipt.fixture.json": {
+      "bytes": 763,
+      "mode": 420,
+      "sha256": "fbccebbe83a3a0cb5a40cc4d9f513c2a04165c1101103a7902f3a0af91d3afe6"
+    },
+    "contracts/collect-unattended-operating-policy-v1.schema.json": {
+      "bytes": 14232,
+      "mode": 420,
+      "sha256": "242a6702cf284625882d6f962b4e216b2296e0c5c37d58b2f0452b24809e1881"
+    },
+    "lib/admin/admin_app.dart": {
+      "bytes": 868,
+      "mode": 448,
+      "sha256": "d29642acc43f052490e10316a237dc9b5fdc7977549f90fbb26afb9abaecc5d9"
+    },
+    "lib/admin/admin_router.dart": {
+      "bytes": 10617,
+      "mode": 448,
+      "sha256": "5d48166793577a53f8252d64749de297b89daa387b2e72cd973b8432c0212276"
+    },
+    "lib/admin/admin_shell.dart": {
+      "bytes": 44244,
+      "mode": 448,
+      "sha256": "c7a2e9ecd99699deee04323e94d80dd31b49053a8af0096176d3229a1adf008f"
+    },
+    "lib/admin/core/admin_action_contracts.dart": {
+      "bytes": 7442,
+      "mode": 420,
+      "sha256": "9246116b145f44e51d33fe50f6e59d7d2b2068fe77ffb92a71c972bf37963253"
+    },
+    "lib/admin/core/admin_auth_guard.dart": {
+      "bytes": 6190,
+      "mode": 448,
+      "sha256": "a0dfeb6edf8d31519effbd3052802d089d876e382eb1b555b1ae93bd34d18c2c"
+    },
+    "lib/admin/core/admin_automations_page.dart": {
+      "bytes": 16381,
+      "mode": 420,
+      "sha256": "a8ea000ab0c6a64bcd7cacf94012c7864ead5f5a95e80488f8eca18a1213f05b"
+    },
+    "lib/admin/core/admin_detail_formatters.dart": {
+      "bytes": 4684,
+      "mode": 448,
+      "sha256": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75"
+    },
+    "lib/admin/core/admin_detail_runtime.dart": {
+      "bytes": 38218,
+      "mode": 448,
+      "sha256": "7cab69da13c9b30414e2a35154362c3099007ac27642e210156fd3af1a70109a"
+    },
+    "lib/admin/core/admin_detail_specs.dart": {
+      "bytes": 12015,
+      "mode": 448,
+      "sha256": "9a273de6278c2d6664635c6efa555966031e65ef3c67b0df33cb331cc3bd01ea"
+    },
+    "lib/admin/core/admin_display_formatters.dart": {
+      "bytes": 1997,
+      "mode": 448,
+      "sha256": "c40e686a250d77cf60039c82445995fab0977be9254fb2c518bd5afd3128d829"
+    },
+    "lib/admin/core/admin_email_otp.dart": {
+      "bytes": 1316,
+      "mode": 420,
+      "sha256": "a5f8553623d8ce817e02e3a814d3312b75c99ac02f3f91be9ffd10681923bbc7"
+    },
+    "lib/admin/core/admin_entity_audit.dart": {
+      "bytes": 10999,
+      "mode": 420,
+      "sha256": "a40bdd2a0234bf2a40762e4d9d1bbb4c6cde0c6da2ad3ad11cbabf90d4e13335"
+    },
+    "lib/admin/core/admin_entity_audit_link.dart": {
+      "bytes": 1057,
+      "mode": 420,
+      "sha256": "ad110b34d0a4039951676b034c433f9f8e2bf5797d93db8ba871ebd0361afdef"
+    },
+    "lib/admin/core/admin_entity_audit_page.dart": {
+      "bytes": 13681,
+      "mode": 420,
+      "sha256": "9a02184e586f8af0d2f0a5d8689ba0b10516c39ac2403bd08d685a6007e6a912"
+    },
+    "lib/admin/core/admin_entity_audit_runtime.dart": {
+      "bytes": 1697,
+      "mode": 420,
+      "sha256": "54e28ad9120b01525d54c59613215f530b4f4d2d4bf506aa74dd6b27ce19771b"
+    },
+    "lib/admin/core/admin_error_boundary.dart": {
+      "bytes": 3125,
+      "mode": 448,
+      "sha256": "2b7afda8b4588096eee8640ca39fe8afd30b107972d472c93fe7b6ed3bd92b4f"
+    },
+    "lib/admin/core/admin_evidence_mode.dart": {
+      "bytes": 22003,
+      "mode": 448,
+      "sha256": "89ac88df7e28cc3db8cbe5d735f5d904c8941300ead5420f054aa68e80f5d426"
+    },
+    "lib/admin/core/admin_exception_checkpoint.dart": {
+      "bytes": 1975,
+      "mode": 420,
+      "sha256": "22077d39016e4e9d60cfbcf1e8db58dc64d5327ea03ac3a816a32960a3a0527e"
+    },
+    "lib/admin/core/admin_exception_checkpoint_stub.dart": {
+      "bytes": 116,
+      "mode": 420,
+      "sha256": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a"
+    },
+    "lib/admin/core/admin_exception_checkpoint_web.dart": {
+      "bytes": 986,
+      "mode": 420,
+      "sha256": "06f287d5cac0b04eee8e35ec8211d7cb819e81741189b439284019fef794c2df"
+    },
+    "lib/admin/core/admin_exception_models.dart": {
+      "bytes": 14940,
+      "mode": 420,
+      "sha256": "72d72c24a7ea6536faa3629098bc8c78a1073405fca1fe6a22b86d77da4b37c1"
+    },
+    "lib/admin/core/admin_exception_page.dart": {
+      "bytes": 29542,
+      "mode": 420,
+      "sha256": "02ca2b7533cc09f60c90a9a1ab34de069cf2a7c2c4ec2734114cd92bf66a8668"
+    },
+    "lib/admin/core/admin_exception_runtime.dart": {
+      "bytes": 4007,
+      "mode": 420,
+      "sha256": "741f73a2d1cf41ae761529fbb2e76324f89ab74f34bd6f2f5d66e680d0e80ed2"
+    },
+    "lib/admin/core/admin_gateway_checkpoint.dart": {
+      "bytes": 3915,
+      "mode": 420,
+      "sha256": "2986b2841563c34f1d36a004c0854ea652f4ec9fcfa7d51c4d01831b6abb911f"
+    },
+    "lib/admin/core/admin_gateway_checkpoint_stub.dart": {
+      "bytes": 110,
+      "mode": 420,
+      "sha256": "7a8af283597aa75d972bb1b75e2d18aa70de1ce7903ca6158b45770c377abf06"
+    },
+    "lib/admin/core/admin_gateway_checkpoint_web.dart": {
+      "bytes": 971,
+      "mode": 420,
+      "sha256": "682a876661e3d81ba47f171aeb1faed9a3388786d64f0bcaa404608991a87da3"
+    },
+    "lib/admin/core/admin_gateway_contracts.dart": {
+      "bytes": 8356,
+      "mode": 420,
+      "sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310"
+    },
+    "lib/admin/core/admin_gateway_dialogs.dart": {
+      "bytes": 4489,
+      "mode": 420,
+      "sha256": "2f487c7d0aa4d31dffb89b1134c72a89e41c6921c14cb4ac18f398103b4c122e"
+    },
+    "lib/admin/core/admin_gateway_models.dart": {
+      "bytes": 13628,
+      "mode": 420,
+      "sha256": "be3b8165444e3d8dd3ae8b31ab8c480392874875cd0631f3b11d6c90c18feb3f"
+    },
+    "lib/admin/core/admin_gateway_page.dart": {
+      "bytes": 35416,
+      "mode": 420,
+      "sha256": "fec178c3e180f350ca18d14fc3cae900cf868b354020c452c566865c7d8fa078"
+    },
+    "lib/admin/core/admin_gateway_runtime.dart": {
+      "bytes": 3400,
+      "mode": 420,
+      "sha256": "0e2f72fbbe9d356b1f87210c5ecb79fd7fe5cde9f337e94ce9f02574f68575d2"
+    },
+    "lib/admin/core/admin_group_runtime.dart": {
+      "bytes": 13183,
+      "mode": 448,
+      "sha256": "ceb15e47bdc71e13898684beedc61f489d63530afc88e5e9a7911a01e0b97cdd"
+    },
+    "lib/admin/core/admin_investigation.dart": {
+      "bytes": 17959,
+      "mode": 420,
+      "sha256": "8d4a8735715b11e78f1eb67dce37cf0871b0b11119764efb0fbfc77059a91398"
+    },
+    "lib/admin/core/admin_investigation_view.dart": {
+      "bytes": 22641,
+      "mode": 420,
+      "sha256": "aa86fda7d8cfe67b7f87ffaadc85d4c6de8e2e0cfb776ffd34ccef203d0ba8c4"
+    },
+    "lib/admin/core/admin_list_paging.dart": {
+      "bytes": 3686,
+      "mode": 420,
+      "sha256": "2353d92b5a0c1c8f58f65452b0db6012b72e5ef859157e5c4a14c2d6840a3833"
+    },
+    "lib/admin/core/admin_list_runtime.dart": {
+      "bytes": 31043,
+      "mode": 448,
+      "sha256": "1d4be604b5c5c19d88ce780bd6cd781b1ddd24ce8ecb869cafe2950d1ddaddd8"
+    },
+    "lib/admin/core/admin_list_specs.dart": {
+      "bytes": 22187,
+      "mode": 448,
+      "sha256": "25a4d4d39edd92967e7e1d8a486e11d632a60b4dc3a0aa817d822382f007d183"
+    },
+    "lib/admin/core/admin_login_runtime.dart": {
+      "bytes": 23457,
+      "mode": 448,
+      "sha256": "2e414bd9670806913697592f2ed3095eff822fd177c7e3068fb2bfaefec283cd"
+    },
+    "lib/admin/core/admin_models.dart": {
+      "bytes": 10471,
+      "mode": 448,
+      "sha256": "52a1a8152c1bb41f190848bb316e64f0c87a7c9d764f82976735bb472e5a396a"
+    },
+    "lib/admin/core/admin_operating_policy_card.dart": {
+      "bytes": 6981,
+      "mode": 420,
+      "sha256": "9c7d966aa6b799eb3aef63b3a65bc43658451fe8cfdca2d4f89fc9bdb1b3939e"
+    },
+    "lib/admin/core/admin_operating_policy_models.dart": {
+      "bytes": 7317,
+      "mode": 420,
+      "sha256": "beaa07a3919d46555bad58222d5fc45a4f011c5ec7c53892137aed9fab189ae1"
+    },
+    "lib/admin/core/admin_operating_policy_runtime.dart": {
+      "bytes": 1599,
+      "mode": 420,
+      "sha256": "2e00b7b82dd0a2d5dccd3b44242513c80dc9ba7438461e76fe9877c864ce6b10"
+    },
+    "lib/admin/core/admin_operation_components.dart": {
+      "bytes": 21731,
+      "mode": 448,
+      "sha256": "5d1a75c47bf42e79817e36976e49b479d77e96fd282132d4785f5b3e9506b97c"
+    },
+    "lib/admin/core/admin_operation_tables.dart": {
+      "bytes": 27052,
+      "mode": 448,
+      "sha256": "803723b9a4b402892b3b29c017033b72c203b93e6e31b860bd68a3e9450bcf78"
+    },
+    "lib/admin/core/admin_operational_health.dart": {
+      "bytes": 16347,
+      "mode": 420,
+      "sha256": "ef3a7bad17bcfeac9bdfdbbb951275c752bd8554addbbd383b3acfc0a3b3d292"
+    },
+    "lib/admin/core/admin_operator_approval.dart": {
+      "bytes": 4827,
+      "mode": 420,
+      "sha256": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f"
+    },
+    "lib/admin/core/admin_overview_components.dart": {
+      "bytes": 28760,
+      "mode": 448,
+      "sha256": "1549015ea2fe9eeee96f89debdaa47fffb5e9e4585e3becd4bfafb67d392f2fa"
+    },
+    "lib/admin/core/admin_overview_runtime.dart": {
+      "bytes": 34759,
+      "mode": 448,
+      "sha256": "9d5be4dd7a55ae110c653c3622f7069252f1ea5687ddb5136607c345dc11cf40"
+    },
+    "lib/admin/core/admin_payee_runtime.dart": {
+      "bytes": 13134,
+      "mode": 448,
+      "sha256": "3245fe431929323fd93820a672ef25ac8a559dae302bdcd568ecb2e05065bf8f"
+    },
+    "lib/admin/core/admin_platform_access.dart": {
+      "bytes": 17093,
+      "mode": 448,
+      "sha256": "5d2cf9f9783a96486c13578fc90c41aa04d35bd3f0fce8ac766e2b24a5cbca4c"
+    },
+    "lib/admin/core/admin_read_contracts.dart": {
+      "bytes": 14844,
+      "mode": 420,
+      "sha256": "0a4c5cf49f1e46e015fbc644d49d69f083cc9c36759c8007dc1132bd850cd102"
+    },
+    "lib/admin/core/admin_receipt_cancel_card.dart": {
+      "bytes": 24268,
+      "mode": 420,
+      "sha256": "8bd3a86be20c076ff5e250cff7429f9cbc669a7763d67998919f93010b7d685f"
+    },
+    "lib/admin/core/admin_receipt_cancel_checkpoint.dart": {
+      "bytes": 1718,
+      "mode": 420,
+      "sha256": "b9e891c79ce0b6e85d561f281a7e4e2cd8ca676678bf399bf2b6fd19d963f867"
+    },
+    "lib/admin/core/admin_receipt_cancel_checkpoint_stub.dart": {
+      "bytes": 129,
+      "mode": 420,
+      "sha256": "c7a6650ce57eda195bf977491e3e225abef189f2a6ac62971d5c950e3be630f5"
+    },
+    "lib/admin/core/admin_receipt_cancel_checkpoint_web.dart": {
+      "bytes": 1007,
+      "mode": 420,
+      "sha256": "7dc12e7167f6fdd5104086066af7ab2c1b2e7cdcd3c47c2a1d64414a07dbbcbd"
+    },
+    "lib/admin/core/admin_receipt_cancel_models.dart": {
+      "bytes": 10561,
+      "mode": 420,
+      "sha256": "3c26bf683ca02df85669ef9d8e066d8b611890c8a11929bf796c59bb359a49b7"
+    },
+    "lib/admin/core/admin_receipt_cancel_runtime.dart": {
+      "bytes": 3131,
+      "mode": 420,
+      "sha256": "1ad9cae034a27d626a50fa3d7c020a10471c65e49d4c0766e0cbec2e7db42956"
+    },
+    "lib/admin/core/admin_receipt_overview.dart": {
+      "bytes": 4951,
+      "mode": 420,
+      "sha256": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7"
+    },
+    "lib/admin/core/admin_reconciliation_models.dart": {
+      "bytes": 1919,
+      "mode": 420,
+      "sha256": "fd96f9fd0ee45b261626cc8d2a02749ec05a29e27d6ea84e6c11e2daa6d27da6"
+    },
+    "lib/admin/core/admin_reconciliation_runtime.dart": {
+      "bytes": 38720,
+      "mode": 420,
+      "sha256": "68a66bb08aae0b3375a7d3f904cfff0a3207d23faa891ed699e72b9a8fd9d667"
+    },
+    "lib/admin/core/admin_reconciliation_step_up.dart": {
+      "bytes": 10303,
+      "mode": 420,
+      "sha256": "d6d85e46bfc92e5561314287a8e4950b269c1b9f78a6886f9db4a19c7f29fc02"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "bytes": 5157,
+      "mode": 448,
+      "sha256": "007486ebd7c86a59987e5a8e822486d081172a0abd0090a82d79ed5926fe2568"
+    },
+    "lib/admin/core/admin_review_credentials.dart": {
+      "bytes": 168,
+      "mode": 448,
+      "sha256": "921c5f7680abe32c9699e41ba5100cddb7676ac899d841332741044e12eb2362"
+    },
+    "lib/admin/core/admin_roster_checkpoint.dart": {
+      "bytes": 3781,
+      "mode": 420,
+      "sha256": "90dd65f9bae025122a63e5f4ed3c6a9ad054e2f1919f75a39d9813137b9b5dfb"
+    },
+    "lib/admin/core/admin_roster_checkpoint_stub.dart": {
+      "bytes": 98,
+      "mode": 420,
+      "sha256": "e44cb39d90438fd2f4b76a24775592e000386258365457e8325f62af4f9b67db"
+    },
+    "lib/admin/core/admin_roster_checkpoint_web.dart": {
+      "bytes": 683,
+      "mode": 420,
+      "sha256": "5dd3f1c15622ad1460f08426d0aba4f069ddbca2f6effa84380f35f1de40ce59"
+    },
+    "lib/admin/core/admin_roster_dialog.dart": {
+      "bytes": 27073,
+      "mode": 420,
+      "sha256": "4c298bb9829441af3f3c11b6f031730d8e9c36e5bfc62c7b37d15bcf926519a8"
+    },
+    "lib/admin/core/admin_roster_import.dart": {
+      "bytes": 56694,
+      "mode": 420,
+      "sha256": "5bce19962a5861fdca2e9d92350aad97cda77ca2111d75a37ef6537a2b48bc9f"
+    },
+    "lib/admin/core/admin_roster_models.dart": {
+      "bytes": 34778,
+      "mode": 420,
+      "sha256": "f594e11dcf13b35dd01efb36f756947146b3f34bfada450b49a416111c1129f9"
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "bytes": 37494,
+      "mode": 448,
+      "sha256": "669a3c6618a1b7b7d772e71b3224890a30b8202fb08045b2c00449f6041a8bb4"
+    },
+    "lib/admin/core/admin_shadow_runs.dart": {
+      "bytes": 27159,
+      "mode": 420,
+      "sha256": "ee724051a98bf4c5c9744ddfbc3a4912b7f8c96128366f0c8d164a12c36059af"
+    },
+    "lib/admin/core/admin_sms_queue_health.dart": {
+      "bytes": 2639,
+      "mode": 420,
+      "sha256": "0a4d3577bf7417900cb4620f0de3cca673903b6e9c74d286ce488d4f3c9e8578"
+    },
+    "lib/admin/core/admin_transaction_lifecycle.dart": {
+      "bytes": 3481,
+      "mode": 420,
+      "sha256": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d"
+    },
+    "lib/admin/core/roster_file_parser.dart": {
+      "bytes": 3081,
+      "mode": 448,
+      "sha256": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b"
+    },
+    "lib/admin/core/roster_xlsx_preflight.dart": {
+      "bytes": 26641,
+      "mode": 420,
+      "sha256": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757"
+    },
+    "lib/admin/shared/components/admin_confirm_dialog.dart": {
+      "bytes": 3140,
+      "mode": 448,
+      "sha256": "1a966b281e36d87e8f60a114a84ed9fe0be2182a57f6f9d46737461969ec1814"
+    },
+    "lib/admin/shared/components/admin_data_table.dart": {
+      "bytes": 19359,
+      "mode": 448,
+      "sha256": "c576ff90753838fc0cc5800efa7943354180d4a69eae43988cf9322c72cabf87"
+    },
+    "lib/admin/shared/components/admin_empty_state.dart": {
+      "bytes": 2131,
+      "mode": 448,
+      "sha256": "2a0c822d5b03a0ea09262fe6fed27a9d98222ab755cbbaf369f062c11098b265"
+    },
+    "lib/admin/shared/components/admin_filter_bar.dart": {
+      "bytes": 7945,
+      "mode": 448,
+      "sha256": "ecb6b2b5612195c28ea78365ef9364985b43f4d4e55445828c949283fb0da425"
+    },
+    "lib/admin/shared/components/admin_loading_state.dart": {
+      "bytes": 600,
+      "mode": 448,
+      "sha256": "d52fc34efd47558b80d23827b0496d298ece3ec44f357e75533e35b8f75f7f7f"
+    },
+    "lib/admin/shared/components/admin_page.dart": {
+      "bytes": 4596,
+      "mode": 448,
+      "sha256": "3aebd485c3890b1d13d11fd8738d975ae944a757f756a09301bde97112a66534"
+    },
+    "lib/admin/shared/components/admin_sensitive_data_gate.dart": {
+      "bytes": 4105,
+      "mode": 448,
+      "sha256": "1bbc980526a752a86c0b815868434bfc5e94d75008401621db07072c416f9183"
+    },
+    "lib/admin/shared/components/admin_status_chip.dart": {
+      "bytes": 6482,
+      "mode": 448,
+      "sha256": "ac955a6f8262abffededaba22596003e1301e65d8b90fd889283c7ee1ebd690a"
+    },
+    "lib/main_admin.dart": {
+      "bytes": 769,
+      "mode": 448,
+      "sha256": "650a96a66919de5e568f336e0848e1a98874714a6cd81b3e9c0c09d49b54f381"
+    },
+    "supabase/migrations/20261001000100_operational_exception_inbox.sql": {
+      "bytes": 24054,
+      "mode": 420,
+      "sha256": "ab2c1ebc737a5a3abc4c2c8b55fc70b540fb4acd58eff70cb5c08f3acd4ab633"
+    },
+    "supabase/migrations/20261001000200_admin_gateway_reads.sql": {
+      "bytes": 9012,
+      "mode": 420,
+      "sha256": "4b610d45393881f9318de4266aff7088bf769dacf8769a60817af256fc76ee9f"
+    },
+    "supabase/migrations/20261001000300_admin_exception_reads.sql": {
+      "bytes": 7090,
+      "mode": 420,
+      "sha256": "054dedcd6d003c4783b6432f64f5c29ad2bbec471bd543c1c5405e340b48a79b"
+    },
+    "supabase/migrations/20261001000400_receipt_supervisor_identity.sql": {
+      "bytes": 21394,
+      "mode": 420,
+      "sha256": "687ce6f7f01a5263efa0251857b873eb03fd781080242dc27cc52c56c938f219"
+    },
+    "supabase/migrations/20261001000519_safe_unstarted_receipt_cancel.sql": {
+      "bytes": 15793,
+      "mode": 420,
+      "sha256": "4c217bc5c1ec52f70ad05d81b80514c5e8c13bbdb78059c1bf16df21fa46f0eb"
+    },
+    "supabase/migrations/20261001001457_joined_operator_audit.sql": {
+      "bytes": 10935,
+      "mode": 420,
+      "sha256": "ecac800249ed1f51d08d86964d847995c63c620244e01ccd37ce426e6e75b4c1"
+    },
+    "supabase/migrations/20261001003338_unattended_operating_policy.sql": {
+      "bytes": 14079,
+      "mode": 420,
+      "sha256": "a585b8625b48523866e86e4176461d8b58d00485a33386df04b3da039a934669"
+    },
+    "supabase/migrations/20261001004651_receipt_cancel_audit_actor.sql": {
+      "bytes": 3408,
+      "mode": 420,
+      "sha256": "1fcf1b1715ef5e77a3b7bb903daa2243d20d04de5d7c8ede5208c3d2fb745ccc"
+    }
+  },
+  "all_approvals_false": true,
+  "source_current_tree_accepted": false,
+  "scope": "Captured metadata/path/hash binding; no feature or migration acceptance."
+}

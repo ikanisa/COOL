@@ -1,0 +1,57 @@
+{
+  "all_pass": false,
+  "at_utc": "2026-10-02T06:40:54.750637+00:00",
+  "initial_parallel_failures_preserved": true,
+  "results": {
+    "admission-failed-case-recheck": {
+      "actual_seconds": 1.005,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "scripts/tests/test_postgres_admission.py",
+        "PostgresAdmissionTest.test_management_target_and_exact_single_integer_row_required"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "deadline_seconds": 120,
+      "exit_code": 0,
+      "finished_utc": "2026-10-02T06:40:51.722490+00:00",
+      "headroom_failure": false,
+      "owned_process_group_absent": true,
+      "pid": 89276,
+      "residual_process_group_required_stop": false,
+      "spawned": true,
+      "started_utc": "2026-10-02T06:40:50.717794+00:00",
+      "stderr_sha256": "1a5d5ce8a08d5b03ff4262c2daa4cd9fa6eaf4704984da2601ba8825f52e338c",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timed_out": false
+    },
+    "secret-failed-cases-recheck": {
+      "actual_seconds": 3.014,
+      "argv": [
+        "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+        "-I",
+        "-B",
+        "scripts/tests/supabase_secret_transport_test.py",
+        "SupabaseSecretTransportTest.test_direct_database_url_is_only_in_owner_only_service_file",
+        "SupabaseSecretTransportTest.test_failure_paths_remove_secret_files"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+      "deadline_seconds": 120,
+      "exit_code": 1,
+      "finished_utc": "2026-10-02T06:40:54.745609+00:00",
+      "headroom_failure": false,
+      "owned_process_group_absent": true,
+      "pid": 89278,
+      "residual_process_group_required_stop": false,
+      "spawned": true,
+      "started_utc": "2026-10-02T06:40:51.731635+00:00",
+      "stderr_sha256": "276a22f706b42202f4b4f2c297e2a500f5443576efbc87403a8f1cc35f9e83b7",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timed_out": false
+    }
+  },
+  "serial_failed_cases_only": true,
+  "source12_unchanged": true,
+  "synthetic_version_timeout_1_second_unchanged": true
+}

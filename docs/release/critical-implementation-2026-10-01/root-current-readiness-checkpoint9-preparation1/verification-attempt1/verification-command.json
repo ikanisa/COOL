@@ -1,0 +1,22 @@
+{
+  "kind": "actual_private_exact_proposal_readonly_verification",
+  "argv": [
+    "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "-I",
+    "-B",
+    "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/root-current-readiness-checkpoint9-preparation1/integrate_checkpoint9.py",
+    "--controller-sha256",
+    "257e02738ce86efc9e5d93adbf49455131c40873609195e92d4fa17b3ed3d6e5",
+    "--admission-sha256",
+    "81ab05146e1d7058e78ec3fb340af5b0b0ef110b8aaf57400ff6d222f8897b1b",
+    "--verify-only"
+  ],
+  "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL",
+  "bound_seconds": 60,
+  "actual_seconds": 0.041504916007397696,
+  "exit_code": 0,
+  "stdout_sha256": "d31142268d1608359b4afe4b259bab213116ddd9226f5340203cccfd464ed021",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "canonical_writes": false,
+  "tests_builds_cache_network_provider_calls": false
+}

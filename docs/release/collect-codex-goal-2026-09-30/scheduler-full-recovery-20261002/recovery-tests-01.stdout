@@ -1,0 +1,367 @@
+✖ real operating CLI round-trip preserves mixed hot/cold requests, original configuration and history while every restored store stays inactive (17330.016333ms)
+✖ actual CLI recovery dispatch invokes zero owner, signer, HTTP, transport or daemon authority (987.312125ms)
+✖ interrupted stores_inactive import keeps all stores inactive and refuses a completion claim (939.012333ms)
+✖ interrupted record_imported import keeps all stores inactive and refuses a completion claim (931.177ms)
+✖ source publication drift refuses an export seal and keeps the failed proof (934.709583ms)
+✖ source transient-record drift refuses an export seal and keeps the failed proof (991.889792ms)
+✖ source helper drift refuses an export seal and keeps the failed proof (782.016417ms)
+✖ source dependency-link drift refuses an export seal and keeps the failed proof (815.551208ms)
+✖ source compaction drift refuses an export seal and keeps the failed proof (768.476375ms)
+✖ missing-page cannot receive a complete restore (673.281375ms)
+✖ reordered-page cannot receive a complete restore (578.119125ms)
+✖ duplicate-entry cannot receive a complete restore (909.519417ms)
+✖ conflicting-hot-cold cannot receive a complete restore (1066.092667ms)
+✖ extra-page cannot receive a complete restore (1079.585041ms)
+✖ missing-seal cannot receive a complete restore (1132.451167ms)
+✖ exact duplicate hot/cold bytes retain both source tiers while divergent bytes refuse export (860.086125ms)
+✖ canonical malformed and orphan evidence is preserved and reported without repairing original claims (1601.336041ms)
+✖ configuration bytes stay inert and historical UID metadata cannot become a live Deployment (1099.606333ms)
+✖ invalid names, credential fields, target overlap, occupied targets and symlinks refuse local recovery (957.644833ms)
+✔ recovery parser and page bounds remain explicit and reject authority flags (0.561833ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 1
+ℹ fail 19
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 34581.301542
+
+✖ failing tests:
+
+test at src/unattended_recovery.test.ts:97:1
+✖ real operating CLI round-trip preserves mixed hot/cold requests, original configuration and history while every restored store stays inactive (17330.016333ms)
+  AssertionError [ERR_ASSERTION]: {"status":"SCHEDULER_RECOVERY_EXPORT_REFUSED","contract_version":1,"scope":"rw_receipt_operations","sender_actions":0,"credentials_printed":false,"automatic_replay":false,"cadence_verified":false,"carrier_delivery_verified":false,"complete":false}
+  
+  
+  2 !== 0
+  
+      at cli (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:94:10)
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:101:20)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:114:1
+✖ actual CLI recovery dispatch invokes zero owner, signer, HTTP, transport or daemon authority (987.312125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:117:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:129:70
+✖ interrupted stores_inactive import keeps all stores inactive and refuses a completion claim (939.012333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:130:38)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:129:70
+✖ interrupted record_imported import keeps all stores inactive and refuses a completion claim (931.177ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:130:38)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:137:110
+✖ source publication drift refuses an export seal and keeps the failed proof (934.709583ms)
+  Error: ENOENT: no such file or directory, open '/private/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-full-recovery-AOZLsH/bundle/FAILED.json'
+      at async open (node:internal/fs/promises:697:25)
+      at async Module.readFile (node:internal/fs/promises:1348:14)
+      at async TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:148:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/private/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-full-recovery-AOZLsH/bundle/FAILED.json'
+  }
+
+test at src/unattended_recovery.test.ts:137:110
+✖ source transient-record drift refuses an export seal and keeps the failed proof (991.889792ms)
+  Error: ENOENT: no such file or directory, open '/private/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-full-recovery-1Oowdd/bundle/FAILED.json'
+      at async open (node:internal/fs/promises:697:25)
+      at async Module.readFile (node:internal/fs/promises:1348:14)
+      at async TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:148:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/private/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-full-recovery-1Oowdd/bundle/FAILED.json'
+  }
+
+test at src/unattended_recovery.test.ts:137:110
+✖ source helper drift refuses an export seal and keeps the failed proof (782.016417ms)
+  Error: ENOENT: no such file or directory, open '/private/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-full-recovery-ZEBRP9/bundle/FAILED.json'
+      at async open (node:internal/fs/promises:697:25)
+      at async Module.readFile (node:internal/fs/promises:1348:14)
+      at async TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:148:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/private/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-full-recovery-ZEBRP9/bundle/FAILED.json'
+  }
+
+test at src/unattended_recovery.test.ts:137:110
+✖ source dependency-link drift refuses an export seal and keeps the failed proof (815.551208ms)
+  Error: ENOENT: no such file or directory, open '/private/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-full-recovery-oUABF1/bundle/FAILED.json'
+      at async open (node:internal/fs/promises:697:25)
+      at async Module.readFile (node:internal/fs/promises:1348:14)
+      at async TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:148:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/private/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-full-recovery-oUABF1/bundle/FAILED.json'
+  }
+
+test at src/unattended_recovery.test.ts:137:110
+✖ source compaction drift refuses an export seal and keeps the failed proof (768.476375ms)
+  Error: ENOENT: no such file or directory, open '/private/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-full-recovery-XnTCy9/bundle/FAILED.json'
+      at async open (node:internal/fs/promises:697:25)
+      at async Module.readFile (node:internal/fs/promises:1348:14)
+      at async TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:148:27)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/private/var/folders/yx/gzgvttgj2ljd6n_vs2qzdjq80000gn/T/collect-full-recovery-XnTCy9/bundle/FAILED.json'
+  }
+
+test at src/unattended_recovery.test.ts:151:140
+✖ missing-page cannot receive a complete restore (673.281375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:152:38)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:151:140
+✖ reordered-page cannot receive a complete restore (578.119125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:152:38)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:151:140
+✖ duplicate-entry cannot receive a complete restore (909.519417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:152:38)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:151:140
+✖ conflicting-hot-cold cannot receive a complete restore (1066.092667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:152:38)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:151:140
+✖ extra-page cannot receive a complete restore (1079.585041ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:152:38)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:151:140
+✖ missing-seal cannot receive a complete restore (1132.451167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:152:38)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:164:1
+✖ exact duplicate hot/cold bytes retain both source tiers while divergent bytes refuse export (860.086125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:166:47)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:172:1
+✖ canonical malformed and orphan evidence is preserved and reported without repairing original claims (1601.336041ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:175:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at src/unattended_recovery.test.ts:181:1
+✖ configuration bytes stay inert and historical UID metadata cannot become a live Deployment (1099.606333ms)
+  Error: SCHEDULER_RECOVERY_CONFIGURATION_UNVERIFIED
+      at capturedSchedulerConfiguration (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_deployment.ts:136:18)
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:184:20)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at src/unattended_recovery.test.ts:189:1
+✖ invalid names, credential fields, target overlap, occupied targets and symlinks refuse local recovery (957.644833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'SCHEDULER_RECOVERY_EXPORT_REFUSED'
+  - 'SCHEDULER_RECOVERY_EXPORTED'
+                              ^
+  
+      at TestContext.<anonymous> (file:///Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/scheduler-full-recovery-20261002/workspace/tools/collect-notification-mcp/src/unattended_recovery.test.ts:194:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'SCHEDULER_RECOVERY_EXPORT_REFUSED',
+    expected: 'SCHEDULER_RECOVERY_EXPORTED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

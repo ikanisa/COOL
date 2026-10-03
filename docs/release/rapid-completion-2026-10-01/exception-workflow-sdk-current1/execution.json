@@ -1,0 +1,65 @@
+{
+  "commands": [
+    {
+      "label": "pub",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "pub",
+        "get",
+        "--offline",
+        "--enforce-lockfile"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/exception-workflow-sdk-current1",
+      "exit_code": 0,
+      "seconds": 15.933,
+      "stdout_sha256": "df36ba3f394f70ab1d9d44b0af31ed83e767734e12dd63b9daeba06fecb3024f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "format",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/dart",
+        "format",
+        "--output=none",
+        "--set-exit-if-changed",
+        "test/admin_exception_workflow_sdk_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/exception-workflow-sdk-current1",
+      "exit_code": 0,
+      "seconds": 0.836,
+      "stdout_sha256": "c3bcc35222b18b2e9aab96a1ebd0350c9c73fade030cdbddf7b75d7a11c7c95f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "analysis",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "analyze",
+        "--no-pub",
+        "--fatal-infos",
+        "test/admin_exception_workflow_sdk_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/exception-workflow-sdk-current1",
+      "exit_code": 1,
+      "seconds": 90.745,
+      "stdout_sha256": "974ee47654872ca85e6c4840f5cbd46526fe84e86cfbb869cc5479df619dca76",
+      "stderr_sha256": "071f4992a21b82721ef9f1b2c870ac3ffdd6da474471a410e12397941da4b24d"
+    },
+    {
+      "label": "cases39",
+      "args": [
+        "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/flutter-sdk-isolated-admin-browser-current1/bin/flutter",
+        "test",
+        "--no-pub",
+        "--reporter=json",
+        "--concurrency=1",
+        "test/admin_exception_workflow_sdk_test.dart"
+      ],
+      "cwd": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/exception-workflow-sdk-current1",
+      "exit_code": 0,
+      "seconds": 156.556,
+      "stdout_sha256": "5c06fabbcb38220469cfc94e5fec3b010a8fb262c8a0a1b4cc467914873d6d7c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "archive_sha256": "f6f42ea035953b2439664c1afb46630460edbb917093843a3a0618bfa45619f6",
+  "archive_url": "https://pub.dev/api/archives/gotrue-2.27.1.tar.gz",
+  "delta": {
+    "added": {
+      "COLLECT_FORK.md": {
+        "fork_sha256": "bab0d899d903ab6752219c6f804515fbdf5df0ad29569066d1027d231af569d3",
+        "rationale": "Retain local fork provenance, bounded changes and explicit behavior/provider/license evidence limitations; this document grants no release approval."
+      },
+      "UPSTREAM-SHA256.json": {
+        "fork_sha256": "f2cb0a87abf32302e744d6d2b0b99b3fd3c05ceb7095e96ecd1e9060c1c7bf64",
+        "rationale": "Retain exact per-file hashes of the original cached upstream package; this verifier independently requires equality with every file in the authenticated official archive."
+      },
+      "lib/src/collect_browser_invalidation.dart": {
+        "fork_sha256": "f6b2a0205efecb7a098c49214c7f4fa8c4f44e1e917e82e3008cfcd387e26dd8",
+        "rationale": "Add a bounded versioned 30-second project-bound departed actor/session invalidation protocol with exact key/type/UUID checks. JWT decoding derives non-authorizing owner references only; matching cannot authenticate, refresh or grant authority."
+      },
+      "test/synthetic_jwt.dart": {
+        "fork_sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb",
+        "rationale": "Construct claim/expiry fixtures with a plainly invalid synthetic signature instead of copied signed credentials. This helper belongs to retained upstream test fixtures, not runtime authentication."
+      }
+    },
+    "changed": {
+      "analysis_options.yaml": {
+        "fork_sha256": "b2162ecbaf6dffb85075e46e8dd89bfe359a1f5e7803ee5a7ca41ae07cd3af7a",
+        "rationale": "Use the app-locked flutter_lints; exclude the retained upstream example/test cohorts whose separate dev toolchain is absent from the app lock. Runtime remains analyzed; this verification does not claim those upstream tests executed.",
+        "upstream_sha256": "5cc51a9f1dbe3f7bb2f2b5e003dbdfe6a366851f9b823817cb74571372e50a4d"
+      },
+      "lib/src/broadcast_web.dart": {
+        "fork_sha256": "7617797cfc7f2de0c0d878ae64f2f0ebfa5895412ffda94f59f0a5b6571c9e8c",
+        "rationale": "Bound untrusted browser channel payload shape, nesting and size; discard malformed inputs without logging credential payloads. Remove full-message logging while retaining event logging.",
+        "upstream_sha256": "7546f4d263f5e80da7c5472a1cdb12d091d9d8c5d416b6e3dfb96b67c28d4c52"
+      },
+      "lib/src/gotrue_client.dart": {
+        "fork_sha256": "227e8b35ee23e43958a31ddd116def63400e64fe9f76df9b65c4ba3c716dc150",
+        "rationale": "Browser-only channel traffic may invalidate the exact departed project/actor/session and never adopt credentials or authenticate another tab. Capture the departed session before asynchronous logout cleanup to protect replacement sessions; preserve native branches, existing Auth events and broadcast markers. Remove browser credential/session logging. One ReplaySubject layout-only formatting change is also included.",
+        "upstream_sha256": "ddf36b5f8edc8ac83fbbd7d7a1d6afa7a4ff5523baa5bd8540c0345769c9159d"
+      },
+      "pubspec.yaml": {
+        "fork_sha256": "62688b5989095ae46f458510e524b886e90125124fa74e0f316445bcd26a3bbd",
+        "rationale": "Remove only the workspace-resolution declaration to permit the local override; preserve package name/version and dependency versions.",
+        "upstream_sha256": "10b90f07bf870eb1a6b2ec1c4cc25c6bb8f56055b3453944857748329ab6c5f8"
+      },
+      "test/client_test.dart": {
+        "fork_sha256": "d858675c849d9e8fa668090573b66c0cc2698fbed8d50d078d044069fd5f7469",
+        "rationale": "Replace copied signed session/token strings in parser and recovery fixtures with explicit synthetic opaque values or existing local session fixture generation. Preserve assertions and other upstream test bodies; remaining diff is Dart formatting. These retained upstream integration tests are not claimed as executed.",
+        "upstream_sha256": "4bdb86ee4499ba6332ba690ddfd9eb7990fdb0c2869c97af7f4563533319f6ee"
+      },
+      "test/get_claims_test.dart": {
+        "fork_sha256": "0592d44387b3c9d1339d36b966c59e65c85c8fb5336e5efff5d46d227a4c9c43",
+        "rationale": "Replace copied signed/example JWT strings with synthetic structurally parseable, cryptographically invalid signatures; preserve the expiry/claim assertions and integration tests. Remaining diff is Dart formatting; no signed-session fixture is introduced.",
+        "upstream_sha256": "4172db82411fb90360f50af4a6e19abe0302d61530cf777043f0626ef58da6cb"
+      }
+    },
+    "omitted": {}
+  },
+  "fork_path": "third_party/gotrue",
+  "license": {
+    "path": "LICENSE",
+    "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936",
+    "upstream_text_unchanged": true
+  },
+  "metadata_url": "https://pub.dev/api/packages/gotrue/versions/2.27.1",
+  "package": "gotrue",
+  "review_scope": "Exact-byte origin and engineering-purpose review of the existing retained fork; not behavior/device/provider/advisory/distribution-rights/release approval.",
+  "schema_version": 1,
+  "upstream_manifest_sha256": "f2cb0a87abf32302e744d6d2b0b99b3fd3c05ceb7095e96ecd1e9060c1c7bf64",
+  "version": "2.27.1"
+}

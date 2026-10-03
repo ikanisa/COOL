@@ -1,0 +1,56 @@
+{
+  "at_utc": "2026-10-02T06:14:29.225464+00:00",
+  "changed_checkpoint_inputs": [],
+  "controller_sha256": "c70c143ee04ecf106c5cd590bd19a193cffd951cf201c7f17a24bc34330408e0",
+  "historical_source_fence_capture3": {
+    "collector_process": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/kotlin-sdk-native-snapshot-preparation2/current-source-fence-process3.json",
+    "dated_and_not_an_export_admission": true,
+    "fresh_fence_required_only_after_root_review": true,
+    "sha256": "eec0d440af64cad3fde0fe1a08ebd11adddaba574e31b80e58dd387b6a5c60fc"
+  },
+  "incomplete": {
+    "Gradle_native_executed": false,
+    "app_pub_executed": false,
+    "candidate_promoted": false,
+    "full_ARC09_acceptance": false,
+    "production_ready": false,
+    "real_app_export_executed": false,
+    "root_export_admission_issued": false,
+    "root_proposal_review_completed": false
+  },
+  "scope": "private proposal and exact source-bound local guard tests; no maintained writes",
+  "suites": {
+    "original": {
+      "actual_seconds": 5.884224,
+      "actual_tests_run": 31,
+      "after_sha256": "f26b7d92273efc8a2d55109081169f7bb3f1d6febbf9221455611d4eb8d5a937",
+      "before_sha256": "6b1be1c8b6c37954292f7e919a59383f3f9c9e05912674775aca049e27e92219",
+      "deadline_seconds": 300,
+      "errors": 0,
+      "expected_tests": 31,
+      "failures": 0,
+      "owned_process_group_absent": true,
+      "process_actual_seconds": 7.012,
+      "process_receipt_sha256": "c56082ada6186bea59d783594fc8b3db57625bfda1caca26b98103821af31874",
+      "skips": 0,
+      "source_and_tool_rows": 42,
+      "source_inputs_unchanged": true
+    },
+    "snapshot": {
+      "actual_seconds": 15.304928,
+      "actual_tests_run": 34,
+      "after_sha256": "5224e4e82fb7064c899f56ef47b8823a4607f01c6372ff3b3444d9c0f161a51c",
+      "before_sha256": "31e4213d28a0c33223127c948bd94d05500cc127601aa0270fdaa88e1155c21d",
+      "deadline_seconds": 300,
+      "errors": 0,
+      "expected_tests": 34,
+      "failures": 0,
+      "owned_process_group_absent": true,
+      "process_actual_seconds": 16.06,
+      "process_receipt_sha256": "0b9d4742c39807b64d9ed43ce1f5852a3e6a7485c37259999cc3d1b59e18a514",
+      "skips": 0,
+      "source_and_tool_rows": 42,
+      "source_inputs_unchanged": true
+    }
+  }
+}

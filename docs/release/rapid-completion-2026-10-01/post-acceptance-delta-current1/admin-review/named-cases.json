@@ -1,0 +1,1951 @@
+{
+  "cases": [
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "dark and light local audit captures of four canonical record links",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "loaded history navigation hides after current permission loss",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "loaded history navigation hides after current role loss",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "loaded history navigation hides after current session loss",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "shadow_run link requires independent audit.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "shadow_run link requires independent system_health.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "shadow_run link requires independent notifications.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "shadow_run loaded link hides on current identity loading and error",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "gateway_device link requires independent audit.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "gateway_device link requires independent system_health.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "gateway_device link requires independent notifications.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "gateway_device loaded link hides on current identity loading and error",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "supervisor_identity link requires independent audit.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "supervisor_identity link requires independent system_health.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "supervisor_identity link requires independent notifications.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "supervisor_identity loaded link hides on current identity loading and error",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "exception link requires independent audit.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "exception link requires independent system_health.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "exception link requires independent notifications.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "exception link requires independent payments.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "exception loaded link hides on current identity loading and error",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "receipt link requires independent audit.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "receipt link requires independent system_health.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "receipt link requires independent notifications.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "receipt link requires independent payments.read before any history read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "receipt loaded link hides on current identity loading and error",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "history link fails closed for role without a read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "history link fails closed for actor without a read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "history link fails closed for absent without a read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "history link fails closed for invalid without a read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "actual gateway record opens its canonical entity history and returns without mutation",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "actual exception record opens its canonical entity history and returns without mutation",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "actual receipt record opens its canonical entity history and returns without mutation",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_links_test.dart",
+      "name": "actual investigation record opens its canonical entity history and returns without mutation",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "pending evidence shows loading without rows or inferred empty history",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "actual shadow action IDs render as historical evidence with no inferred totals",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "actual expiry action IDs render as historical evidence with no inferred totals",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "actual gateway action IDs render as historical evidence with no inferred totals",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "actual supervisor action IDs render as historical evidence with no inferred totals",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "actual exception action IDs render as historical evidence with no inferred totals",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "actual receipt action IDs render as historical evidence with no inferred totals",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "shadow missing actor is explicit and never replaced with a name or system actor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "receipt page denies missing audit.read before RPC",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "receipt page denies missing system_health.read before RPC",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "receipt page denies missing notifications.read before RPC",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "receipt page denies missing payments.read before RPC",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "member role or mismatched session actor cannot read action evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "invalid route payment fails closed before data fetch",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "invalid route shadow_run fails closed before data fetch",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "server 42501 is safe and cannot produce an empty successful history",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "server 55P03 is safe and cannot produce an empty successful history",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "server 40001 is safe and cannot produce an empty successful history",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "server 42883 is safe and cannot produce an empty successful history",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "server XX000 is safe and cannot produce an empty successful history",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "malformed success cannot render rows or raw private diagnostics",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "available empty and unavailable records explain separate evidence limits",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "keyset navigation uses original entity and paired cursor; refresh resets it",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "exact TTL expiry hides historical rows and paging without an automatic read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "identity refresh loading and permission loss hide retained data immediately",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "new same-person session drops prior cursor and suppresses old pending data",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "action evidence reflows at width1440.0 text1.0 with accessible event heading",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "action evidence reflows at width760.0 text1.0 with accessible event heading",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "action evidence reflows at width320.0 text2.0 with accessible event heading",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "actual registered audit route preserves general audit list and loads one fixed entity read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "manual shadow run links push its canonical action history and preserve return route",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_entity_audit_page_test.dart",
+      "name": "dark and light local audit captures use only synthetic retained evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "oversized code units recovery sanitizes bounded metadata and blocks all actions across reload",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "oversized UTF8 bytes recovery sanitizes bounded metadata and blocks all actions across reload",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "private malformed v3 becomes sanitized quarantine and only matching v2 recorded proof clears it",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "fresh expired absence cannot clear rejected v3 metadata quarantine",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "missing v3 fingerprint sanitizes then remains blocked across reload with no lookup",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "nonhex v3 fingerprint sanitizes then remains blocked across reload with no lookup",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "uppercase v3 fingerprint sanitizes then remains blocked across reload with no lookup",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "tampered version 2 with fingerprint metadata never downgrades to legacy lookup",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "tampered version 99 with fingerprint metadata never downgrades to legacy lookup",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "tampered version 3 with fingerprint metadata never downgrades to legacy lookup",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "root fingerprint version2 cannot acquire a legacy original lookup",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "removed metadata fingerprint version2 cannot acquire a legacy original lookup",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "strict legacy v2 self-assignment recovery keeps only its original v1 lookup route",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "reviewed different operator and Kigali deadline produce exact v3 durable action",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "invalid calendar past or beyond30day deadline 2026-02-30 17:15 does not submit",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "invalid calendar past or beyond30day deadline 2026-10-01 01:00 does not submit",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "invalid calendar past or beyond30day deadline 2026-11-02 17:15 does not submit",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "cancel picker leaves no action or recovery bookmark",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "empty operator observation cannot choose or leak source text",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "error operator observation cannot choose or leak source text",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "private operator observation cannot choose or leak source text",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "operator observation expires until a manual refresh",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "actual paired directory pagination clears a prior selection",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "fresh workflow revision conflict preserves reviewed operator and due for reopening",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "missing platform_owner prevents the v2 picker query and action",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "missing payments.read prevents the v2 picker query and action",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "missing notifications.read prevents the v2 picker query and action",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "missing system_health.read prevents the v2 picker query and action",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "missing notifications.manage prevents the v2 picker query and action",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "permission loss closes opening dialog and prevents held directory disclosure",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "opening session A-B-A closes modal and suppresses late directory result",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "changed current actor authority after picker prevents assignment",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "session loss during identity await suppresses later action or outcome",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "session loss during workflow await suppresses later action or outcome",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "session loss during action await suppresses later action or outcome",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "lost reply retains exact original and manual recorded lookup never resends",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "reload recovers metadata only and clears fresh absent original only after expiry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "wrong fingerprint on lookup retains unknown original without resend",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "quota checkpoint failure prevents dispatch and leaks no error",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "read checkpoint failure prevents dispatch and leaks no error",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "readback checkpoint failure prevents dispatch and leaks no error",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "a pending original inserted during review is never overwritten",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "expired directory during actor preflight retains review without send",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_assignment_test.dart",
+      "name": "320px twice-sized text preserves named keyboard controls without overflow",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "actual SDK directory uses exact RPC Bearer and paired keyset from SQL",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "actual SDK v2 mutation submits nine reviewed arguments once",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "actual SDK original lookup sends UUID fingerprint expiry without action reconstruction",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "directory HTTP403 makes one attempt with no automatic retry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "directory HTTP503 makes one attempt with no automatic retry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "directory malformed or private successful payload fails closed without retry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "directory signed-out caller dispatches no HTTP request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "directory times out at15seconds with one original HTTP request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "action HTTP403 makes one attempt with no automatic retry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "action HTTP503 makes one attempt with no automatic retry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "action malformed or private successful payload fails closed without retry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "action signed-out caller dispatches no HTTP request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "action times out at15seconds with one original HTTP request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "lookup HTTP403 makes one attempt with no automatic retry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "lookup HTTP503 makes one attempt with no automatic retry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "lookup malformed or private successful payload fails closed without retry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "lookup signed-out caller dispatches no HTTP request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "lookup times out at15seconds with one original HTTP request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "actual SDK binds both mutation ACK and lookup to original fingerprint and expiry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "out-of-domain full intent fails before actual SDK dispatch",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "replacement suppresses late SDK original action response",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "logout suppresses late SDK original action response",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_sdk_test.dart",
+      "name": "sticky opening scope suppresses A-B-A session despite restored identity",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "malformed v3 private metadata quarantines only exact v2 original binding",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "missing or bad v3 fingerprint null remains opaque-only quarantine after reload",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "missing or bad v3 fingerprint PRIVATE_BAD_HASH remains opaque-only quarantine after reload",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "missing or bad v3 fingerprint AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA remains opaque-only quarantine after reload",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "foreign owner exception invalid original and excessive bytes never produce quarantine lookup",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "quarantine closed canonical parse rejects private cross-owner cross-original fields",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "actual SQL assignment ACK matches independently canonical Dart fingerprint",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "actual SQL recorded-lookup retains immutable original ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "actual SQL after-commit-lookup retains immutable original ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "actual SQL in-progress-lookup proves only its original scoped observation",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "actual SQL foreign-lookup proves only its original scoped observation",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "actual SQL expired-unrecorded-lookup proves only its original scoped observation",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "actual SQL directory pages retain paired keyset and minimal labels",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "v2 expected workflow revision stops before terminal recorded revision",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "full v2 intent rejects finite timestamp domains outside years1 through9999",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "assign fingerprint matches independent ten-line golden bytes",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "assign bookmark restores original-only metadata without action inputs",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "assign v2 original ACK delegates immutable workflow invariants",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "assign lookup binds historical ACK without inferring current state",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "escalate fingerprint matches independent ten-line golden bytes",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "escalate bookmark restores original-only metadata without action inputs",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "escalate v2 original ACK delegates immutable workflow invariants",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "escalate lookup binds historical ACK without inferring current state",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "resolve fingerprint matches independent ten-line golden bytes",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "resolve bookmark restores original-only metadata without action inputs",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "resolve v2 original ACK delegates immutable workflow invariants",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "resolve lookup binds historical ACK without inferring current state",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "assignment to another operator changes fingerprint without persisting identity",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "every original request component binds its fingerprint",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "fingerprints normalize input instants to exact UTC microseconds",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "invalid or partial live assignment cannot create a valid bookmark",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "bookmarks reject another owner purpose actor or exception",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "canonical bookmark JSON rejects duplicates private fields and legacy intents",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "reference refuses malformed revisions fields actions fingerprints and times",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "ACK rejects cross-original revision action escalation and financial claims",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "original ACK can be verified by a different authorized operator reference",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "not_recorded lookup retains the complete original binding with no receipt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "in_progress lookup retains the complete original binding with no receipt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "lookup rejects cross-original fingerprint expiry private data and future ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "fresh absence after original expiry alone allows clearing without replay",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "directory has bounded private labels immutable rows and fresh eligibility",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "directory query keeps paired original cursor exact parameters and stable equality",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "descending timestamp and UUID ties form monotonic unique directory pages",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "directory rejects oversized pages private fields labels cursor drift and ordering",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_followup_v2_models_test.dart",
+      "name": "empty directory is explicit and never fabricates an eligible operator",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "actual observed SQL joined history complete decodes exact immutable rows and paired cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "actual observed SQL joined history retained decodes exact immutable rows and paired cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "actual observed SQL joined history unknown decodes exact immutable rows and paired cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "actual observed SQL joined history unavailable decodes exact immutable rows and paired cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "actual observed SQL joined history unscoped decodes exact immutable rows and paired cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "actual observed SQL joined history first decodes exact immutable rows and paired cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "actual observed SQL joined history last decodes exact immutable rows and paired cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "actual observed SQL joined history final decodes exact immutable rows and paired cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "exception.acknowledge retains exact finite evidence without current action authority",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "exception.escalate retains exact finite evidence without current action authority",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "exception.workflow.assign retains exact finite evidence without current action authority",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "exception.workflow.escalate retains exact finite evidence without current action authority",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "exception.workflow.resolve retains exact finite evidence without current action authority",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "exception.escalation.queued retains exact finite evidence without current action authority",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "exception.escalation.delivered retains exact finite evidence without current action authority",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "exception.escalation.opened retains exact finite evidence without current action authority",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "exception.escalation.obsolete retains exact finite evidence without current action authority",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "exception.escalation.recipient_unavailable retains exact finite evidence without current action authority",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "joined source IDs may repeat across sources while stable event IDs stay distinct",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "wrong namespace cross-source record or invented stable event identity is refused",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "unknown retained attribution and actual service transitions never invent a human actor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "historical assignment deadline remains dated even when read long after it",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "cross-phase actor request escalation assignment and reason claims fail closed",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "query exception scope paired exactUTC6 and limits stay isolated from oldv1 kinds",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "paired audit pages preserve exact time ties immutable rows and last cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "malformed private impossible complete financial or send claims cannot become history",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "unsupported and empty windows remain distinct incomplete evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "event closed fields finite UUID UTC revisions and time order reject private rows",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_models_test.dart",
+      "name": "history read expires at exactboundary without renewing original evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_get_exception_entity_audit_v2 pinned SDK exactRPC currentBearer oneattempt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_get_exception_entity_audit_v2 HTTP403 never retries or fabricates empty evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_get_exception_entity_audit_v2 HTTP500 never retries or fabricates empty evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_get_exception_entity_audit_v2 HTTP503 never retries or fabricates empty evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_get_exception_entity_audit_v2 private or wrongcontract successful body is rejected once",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_get_exception_entity_audit_v2 sticky SDK session departure back=false suppresses oldresponse",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_get_exception_entity_audit_v2 sticky SDK session departure back=true suppresses oldresponse",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_get_exception_entity_audit_v2 signedout caller dispatches zero RPCs",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_get_exception_entity_audit_v2 bounded15s timeout keeps one original attempt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_list_exception_escalation_inbox_v2 pinned SDK exactRPC currentBearer oneattempt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_list_exception_escalation_inbox_v2 HTTP403 never retries or fabricates empty evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_list_exception_escalation_inbox_v2 HTTP500 never retries or fabricates empty evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_list_exception_escalation_inbox_v2 HTTP503 never retries or fabricates empty evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_list_exception_escalation_inbox_v2 private or wrongcontract successful body is rejected once",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_list_exception_escalation_inbox_v2 sticky SDK session departure back=false suppresses oldresponse",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_list_exception_escalation_inbox_v2 sticky SDK session departure back=true suppresses oldresponse",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_list_exception_escalation_inbox_v2 signedout caller dispatches zero RPCs",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_list_exception_escalation_inbox_v2 bounded15s timeout keeps one original attempt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_read_exception_escalation_v2 pinned SDK exactRPC currentBearer oneattempt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_read_exception_escalation_v2 HTTP403 never retries or fabricates empty evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_read_exception_escalation_v2 HTTP500 never retries or fabricates empty evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_read_exception_escalation_v2 HTTP503 never retries or fabricates empty evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_read_exception_escalation_v2 private or wrongcontract successful body is rejected once",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_read_exception_escalation_v2 sticky SDK session departure back=false suppresses oldresponse",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_read_exception_escalation_v2 sticky SDK session departure back=true suppresses oldresponse",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_read_exception_escalation_v2 signedout caller dispatches zero RPCs",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "admin_read_exception_escalation_v2 bounded15s timeout keeps one original attempt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "audit and inbox paired cursors are exact independent windows",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "wrong exception recipient or original escalation identity is refused",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_history_v2_sdk_test.dart",
+      "name": "invalid query kind IDs limit or cursor fails before SDK dispatch",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK reads strict workflow with current session header",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK binds expiring action to exact source and workflow revisions",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "denial and uncertain server response each perform one mutation attempt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "false send and mismatched receipt claims reject without retry",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "session replacement suppresses a pending old action response",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "request lookup is a single read and never replays original action",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 pins exact POST body and captured recipient Bearer",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 denied makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 503 makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 response-loss makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 rejects late SDK response switchBack=false",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 rejects late SDK response switchBack=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 same-session refresh keeps the original request Bearer",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_list_exception_escalation_inbox_v1 signed-out caller makes no SDK request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 pins exact POST body and captured recipient Bearer",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 denied makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 503 makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 response-loss makes one SDK request without fallback",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 rejects late SDK response switchBack=false",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 rejects late SDK response switchBack=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 same-session refresh keeps the original request Bearer",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints admin_read_exception_escalation_v1 signed-out caller makes no SDK request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints read acknowledgement refuses malformed delivery ID before SDK dispatch",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints escalation provider denies missing payments.read before actual SDK read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints escalation provider denies missing notifications.read before actual SDK read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints escalation provider denies missing system_health.read before actual SDK read",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints escalation provider discards held actual SDK projection after permission-loss",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints escalation provider discards held actual SDK projection after identity-loading",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints escalation provider rejects contradictory SDK projection and private extras",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints recipient production inbox opens only after matching actual SDK read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK wrong-delivery read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK resolved-source read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK private-extra read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK before-delivery read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK wrong-version read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints recipient production inbox rejects actual SDK missing-ACK read ACK",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints recipient production inbox loses actual SDK response without opening or automatic replay",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints recipient production inbox suppresses departed actual SDK read ACK switchBack=false",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_sdk_test.dart",
+      "name": "actual SDK escalation endpoints recipient production inbox suppresses departed actual SDK read ACK switchBack=true",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "actual SQL workflow and inbox projections parse without dropping evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "actual unassigned and resolved unassigned SQL evidence parse",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "rejects floating contract",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "rejects floating revision",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "rejects unknown field",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "rejects wrong exception",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "rejects active resolved",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "rejects false delivery",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "rejects wrong freshness",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "rejects duplicate escalation",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "a fresh negative lookup before expiry never clears an unknown request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "checkpoint privacy stores self without persisting operator identity",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "checkpoint privacy rejects actor-bearing legacy and forged forms",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "checkpoint privacy never rebinds assignment to another fresh actor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "checkpoint privacy retains null assignee for resolution",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "checkpoint privacy rejects a null-assignee assignment marker",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "negative lookup after expiry closes only while the observation is fresh",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "persisted reviewed assignment precedes submission and clears after bound receipt",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "unknown response survives widget recreation and reconciles original request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "checkpoint recovery conceals pending references during capability or identity departure and rereads after fresh authority",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "checkpoint recovery fails closed for legacy actor-bearing storage",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "recovery sanitization never converts a forged actor draft into an intent",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "recovery sanitization survives reload and only an exact recorded receipt releases the block",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "recovery sanitization never clears an expired reference on a negative lookup",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "recovery sanitization scrubs malformed private data to a durable block without a request",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "recovery sanitization removes rejected private bytes when replacement storage fails",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "recovery sanitization suppresses a recorded lookup after session departure",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "storage failure prevents submission and further actions",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "session replacement during identity recheck prevents old submission",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "expired observation disables follow-up mutations",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "compact follow-up reflows and keeps named controls",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "recipient inbox reads lazily and presents delivered evidence",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "recipient read acknowledgement opens a guarded dialog and session departure closes it",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "recipient inbox rejects an acknowledgement for another delivery",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_workflow_test.dart",
+      "name": "session departure during inbox read prevents opening old delivery",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "name": "actual observed SQL current inbox first decodes recipient and paired delivery cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "name": "actual observed SQL current inbox last decodes recipient and paired delivery cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "name": "actual observed SQL current inbox foreign decodes recipient and paired delivery cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "name": "actual observed SQL current inbox final decodes recipient and paired delivery cursor",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "name": "strict current recipient pages beyond20 preserve delivery identity and ties",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "name": "recipient channel scope and exact echoed limit cannot cross current operator",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "name": "inbox row immutable delivery and current source state remain independently truthful",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "name": "duplicate reversed overlimit mismatched or shortpage cursors are refused",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "name": "query finite bounds invalid identity and calendar fail before dispatch parameters",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "name": "strict60s read expiry does not grant previous rows a fresh actor session",
+      "result": "success",
+      "skipped": false
+    },
+    {
+      "source": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "name": "new current-authority opening receipt binds original delivered escalation only",
+      "result": "success",
+      "skipped": false
+    }
+  ],
+  "counts": {
+    "test/admin_entity_audit_links_test.dart": 34,
+    "test/admin_entity_audit_page_test.dart": 32,
+    "test/admin_exception_assignment_test.dart": 44,
+    "test/admin_exception_followup_sdk_test.dart": 23,
+    "test/admin_exception_followup_v2_models_test.dart": 45,
+    "test/admin_exception_history_v2_models_test.dart": 29,
+    "test/admin_exception_history_v2_sdk_test.dart": 30,
+    "test/admin_exception_workflow_sdk_test.dart": 39,
+    "test/admin_exception_workflow_test.dart": 35,
+    "test/admin_exception_escalation_inbox_v2_models_test.dart": 11
+  },
+  "executed": 322,
+  "reused_unchanged": 311,
+  "corrected_inbox_executed": 11
+}

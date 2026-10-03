@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "kind": "private_postgres_admission_command_inputs",
+  "python": {
+    "invoked_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "resolved_path": "/Volumes/PRO-G40/Development/Python/codex-agents-venv/bin/python3",
+    "sha256": "ac60cfe0268614638d0ffa35f3b0284fc7b3a11482723793455e17eeb278509e",
+    "version": "3.12.14"
+  },
+  "candidate": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate2",
+  "candidate_source_freeze_sha256": "ed02cd77fbdef516f95367178b436dbdffad83b02b1e76af31ea5d3b3a966463",
+  "source_baseline_sha256": "08b8ad94f94c309eec72f250aed100f4868c2d8de73433e6c8cc7dce5a3eeaa8",
+  "scripts": [
+    {
+      "path": "scripts/tests/supabase_delivery_contract_test.py",
+      "sha256": "3ffe17e32513a665a2ed96735c3a3fb7169299435601d0c19cfe13fe8aa6b9f5",
+      "timeout_seconds": 900,
+      "runtime": "synthetic executable fixtures; no PostgreSQL/Supabase/Docker/provider invocation"
+    },
+    {
+      "path": "scripts/tests/supabase_secret_transport_test.py",
+      "sha256": "da345c197a8c46cd7702222028d4c63092be4b737927c7924c62b0c730291dde",
+      "timeout_seconds": 120,
+      "runtime": "synthetic executable fixtures; no PostgreSQL/Supabase/Docker/provider invocation"
+    },
+    {
+      "path": "scripts/tests/test_postgres_admission.py",
+      "sha256": "7e2bbfa5ba7309d63fe7735b49104f76ddd7fe14e56e1fc5b0d1039155534b13",
+      "timeout_seconds": 120,
+      "runtime": "synthetic executable fixtures; no PostgreSQL/Supabase/Docker/provider invocation"
+    }
+  ],
+  "environment": "PATH starts with the pinned Python venv for synthetic executable shebangs; PYTHONDONTWRITEBYTECODE=1; no environment values or real credentials are retained",
+  "remote_server_observation": "none; all returned versions are local synthetic fixture values",
+  "real_approval_created": false,
+  "package_downloads": false,
+  "final_candidate": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/docs/release/critical-implementation-2026-10-01/postgres-admission-preparation1/candidate3",
+  "final_candidate_source_freeze_sha256": "bd101ab4772e1c6024f8da1aec1d90b5606d0a8df106d16741cc0a7ea83e50f0",
+  "actual_evidence_composition": "candidate2 complete45-case actual result:44pass/1newassertionfailure, immutable; final successor changes exactly one new assertion and separate Makefile hook, with affected case and consumer pass; no single whole45 final green claim",
+  "final_eight_files_patch_sha256": "1d7d324ed209ab34f0d028a6093e57969db8d7175b9da5569d95f814d046fcfc",
+  "qa_wiring_patch_sha256": "38c834dbaf6908f32a1fce7213143d142fec29e7ee7393468674a9b9c852eb56"
+}

@@ -1,0 +1,12 @@
+{
+  "status": "prior_defect_reproduced",
+  "exit_code": 1,
+  "test_count": 2,
+  "failures": 2,
+  "errors": 0,
+  "stdout_sha256": "c1d4a230362c5044f07c90338b16cf91b13298f72d360adbae8f5552d4b9d1d8",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "regression_source_sha256": "e3dd03b058e0ab6ac206b00298713eb0cc352f9e28654b42658f33681153f95f",
+  "helper_sha256": "82d0f8b3d3ee7d2cc23d1982f0080782b02e7d0a5499c6df706daec142077f8c",
+  "scope": "Actual unrelated Admin/Gateway and native callback file additions wrongly invalidate the old broad browser fingerprint"
+}

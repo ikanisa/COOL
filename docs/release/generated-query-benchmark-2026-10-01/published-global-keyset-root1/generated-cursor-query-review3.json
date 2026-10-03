@@ -1,0 +1,10 @@
+{
+  "first_page_sql_hashes_retained_exact": true,
+  "cursor_queries_contain_fixture_specific_revision": "Public IDs change the real revision digest, so independent clones cannot have literal cursor SQL hashes equal",
+  "each_current_response_independently_verified": true,
+  "exact_same_dataset_four_arm_comparison_preserved": true,
+  "benefit_thresholds_unchanged": true,
+  "previous_failures_preserved": true,
+  "reviewed_peer_metadata_delta": "Receipt decisions add supported_collection_scope active_ikimina; no function/body/ACL/schema change",
+  "peer_migration_current_sha256": "87c23eb0e1ed6635bc56b2788e9c40a65f42df3f3b8a2e90fb925c505d30044d"
+}

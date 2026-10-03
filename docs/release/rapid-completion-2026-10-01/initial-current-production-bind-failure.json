@@ -1,0 +1,18 @@
+{
+  "resolution": "Keep the captured build; report current acceptance unverified; do not repeat the build.",
+  "runtime_drift": {
+    "lib/admin/core/admin_exception_page.dart": {
+      "captured_sha256": "02ca2b7533cc09f60c90a9a1ab34de069cf2a7c2c4ec2734114cd92bf66a8668",
+      "current_sha256": "b2f39e073bb32e72b9e07e81cdb76ac57a9a207a24e97f0e9bb9ec252dd0f9e8"
+    },
+    "lib/admin/core/admin_repository_base.dart": {
+      "captured_sha256": "007486ebd7c86a59987e5a8e822486d081172a0abd0090a82d79ed5926fe2568",
+      "current_sha256": "6155e2dbaa5981b55bdff2a5b59880edf91f8dda692d67bdedb60113f301d09b"
+    },
+    "lib/admin/core/admin_runtime.dart": {
+      "captured_sha256": "669a3c6618a1b7b7d772e71b3224890a30b8202fb08045b2c00449f6041a8bb4",
+      "current_sha256": "4dd73105ba6a415b7bc3341f54d6e47781153e8823d8fefde4307b7fde366d2d"
+    }
+  },
+  "status": "failed_current_source_binding"
+}
