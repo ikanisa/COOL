@@ -153,6 +153,28 @@ class _JournalPostingTables extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AdminDataTable(
+          tableLabel: 'Journal posting totals',
+          rows: [
+            AdminTableRowData(
+              id: '${facts['id']}',
+              title: '',
+              subtitle: '',
+              status: '',
+              amount: '',
+              extra: facts,
+            ),
+          ],
+          columns: [
+            for (final key in [
+              'entry_count',
+              'debit_total_rwf',
+              'credit_total_rwf',
+            ])
+              _operatingColumn(key),
+          ],
+        ),
+        const SizedBox(height: 16),
+        AdminDataTable(
           tableLabel: 'Journal posting context',
           rows: [
             AdminTableRowData(
@@ -166,19 +188,16 @@ class _JournalPostingTables extends StatelessWidget {
           ],
           columns: [
             for (final key in [
-              'id',
-              'group_id',
               'description',
               'status',
               'version',
+              'id',
+              'group_id',
               'created_by_admin_id',
               'edited_by_admin_id',
               'current_actor_id',
               'allocation_id',
               'transaction_id',
-              'entry_count',
-              'debit_total_rwf',
-              'credit_total_rwf',
             ])
               _operatingColumn(key),
           ],
@@ -202,10 +221,10 @@ class _JournalPostingTables extends StatelessWidget {
               'line_number',
               'account_code',
               'account_name',
-              'account_id',
-              'description',
               'debit_rwf',
               'credit_rwf',
+              'account_id',
+              'description',
             ])
               _operatingColumn(key),
           ],

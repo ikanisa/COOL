@@ -80,7 +80,7 @@ class CloudflareOperatingDetail {
   final Map<String, List<Map<String, dynamic>>> related;
   final Map<String, CloudflareRelatedPage> relatedPages;
   String get id => resource['id'] as String;
-  int get version => resource['version'] as int;
+  int? get version => resource['version'] as int?;
 }
 
 class CloudflareRelatedPage {
@@ -310,12 +310,19 @@ extension CloudflareOperatingRepository on CloudflareAdminRepository {
       _invalidCore();
     }
     final resource = Map<String, dynamic>.from(result['resource'] as Map);
+    final operatorOnly =
+        type == 'users' &&
+        resource['collect_user_id'] == null &&
+        _coreId(resource['operator_admin_id']) &&
+        resource['operator_admin_id'] == resource['id'];
     if ((resource['id'] != id &&
             !(type == 'users' && resource['operator_admin_id'] == id)) ||
-        !_coreInteger(resource['version']) ||
-        resource['version'] == 0) {
+        (operatorOnly
+            ? resource['version'] != null || result['can_manage'] != false
+            : !_coreInteger(resource['version']) || resource['version'] == 0)) {
       _invalidCore();
     }
+    if (operatorOnly) _validateCorePerson(resource);
     _validateOperatingNumbers(resource);
     if (type == 'transactions') {
       validateCloudflareTransactionFacts(resource, operating: true);

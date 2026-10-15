@@ -15,7 +15,12 @@ import 'package:http/testing.dart';
 
 import 'cloudflare_core_fixtures.dart';
 import 'cloudflare_operating_repository_test.dart'
-    show operatingRepository, operatingResponse, operatingReceipt, otherId;
+    show
+        operatingRepository,
+        operatingResponse,
+        operatingReceipt,
+        operatorOnlyDetail,
+        otherId;
 
 Future<ProviderContainer> pumpOperating(
   WidgetTester tester,
@@ -164,6 +169,38 @@ void retainJournalPost(ProviderContainer container) => container
     );
 
 void main() {
+  testWidgets(
+    'operator-only user detail renders tables without financial edit actions',
+    (tester) async {
+      final repo = await operatingRepository((request) async {
+        expect(request.method, 'GET');
+        return operatingResponse(operatorOnlyDetail());
+      });
+      await pumpOperating(
+        tester,
+        repo,
+        const CloudflareOperatingDetailPage(
+          type: 'users',
+          id: coreId,
+          backPath: '/admin/users',
+        ),
+      );
+      expect(
+        find.text('Team access record · Managed in Admins and staff'),
+        findsOneWidget,
+      );
+      expect(find.byType(AdminDataTable), findsWidgets);
+      expect(
+        find.text(
+          'The service response could not be verified. Refresh the record before continuing.',
+        ),
+        findsNothing,
+      );
+      expect(find.text('Edit person'), findsNothing);
+      expect(find.text('Version null'), findsNothing);
+      await clean(tester, repo);
+    },
+  );
   for (final type in ['groups', 'users']) {
     for (final wrongTarget in [false, true]) {
       testWidgets(

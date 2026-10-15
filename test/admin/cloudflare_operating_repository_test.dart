@@ -49,6 +49,32 @@ http.Response operatingResponse(Object value, {int status = 200}) =>
       status,
       headers: const {'content-type': 'application/json; charset=utf-8'},
     );
+
+Map<String, dynamic> operatorOnlyDetail() => {
+  'resource_type': 'users',
+  'resource': {
+    ...coreRow(CloudflareCoreArea.users),
+    'created_at': 1792056432,
+    'updated_at': 1792056432,
+    'version': null,
+    'collect_user_id': null,
+    'operator_admin_id': coreId,
+    'operator_public_id': '000123',
+    'operator_role': 'staff',
+    'operator_status': 'active',
+    'member_type': null,
+    'user_types': ['Staff'],
+    'phone_e164': null,
+    'whatsapp_number': null,
+  },
+  'current_actor_id': coreId,
+  'can_manage': false,
+  'related': {'memberships': <Map<String, dynamic>>[]},
+  'related_pages': {
+    'memberships': {'total': 0, 'limit': 50, 'offset': 0, 'next_offset': null},
+  },
+  'related_truncated': false,
+};
 Future<CloudflareAdminRepository> operatingRepository(
   Future<http.Response> Function(http.Request) respond, {
   bool staff = false,
@@ -85,6 +111,51 @@ Future<CloudflareAdminRepository> operatingRepository(
 }
 
 void main() {
+  test(
+    'operator-only people open read-only without inventing a version',
+    () async {
+      final repo = await operatingRepository((request) async {
+        expect(request.method, 'GET');
+        return operatingResponse(operatorOnlyDetail());
+      });
+      final detail = await repo.operatingDetail('users', coreId);
+      expect(detail.version, isNull);
+      expect(detail.canManage, isFalse);
+      expect(detail.resource['user_types'], ['Staff']);
+    },
+  );
+  for (final defect in [
+    'write_access',
+    'fake_version',
+    'wrong_identity',
+    'unversioned_collect_person',
+  ]) {
+    test('operator-only detail rejects $defect', () async {
+      final body = operatorOnlyDetail();
+      final person = body['resource'] as Map<String, dynamic>;
+      switch (defect) {
+        case 'write_access':
+          body['can_manage'] = true;
+        case 'fake_version':
+          person['version'] = 1;
+        case 'wrong_identity':
+          person['operator_admin_id'] = otherId;
+        case 'unversioned_collect_person':
+          person.addAll({
+            'collect_user_id': coreId,
+            'member_type': 'app',
+            'user_types': ['Staff', 'App'],
+          });
+      }
+      final repo = await operatingRepository(
+        (_) async => operatingResponse(body),
+      );
+      await expectLater(
+        repo.operatingDetail('users', coreId),
+        throwsFormatException,
+      );
+    });
+  }
   for (final operation in CloudflareOperation.values.where(
     (value) => value != CloudflareOperation.allocateTransaction,
   )) {

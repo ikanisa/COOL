@@ -199,6 +199,8 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
                 : _recordTitle(detail),
             subtitle: detail == null || loading
                 ? null
+                : detail.version == null
+                ? 'Team access record · Managed in Admins and staff'
                 : 'Version ${detail.version}',
             leading: IconButton(
               tooltip: 'Back to records',
