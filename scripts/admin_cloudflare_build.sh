@@ -25,8 +25,8 @@ from pathlib import Path
 root = Path('build/admin-cloudflare')
 bootstrap = root / 'flutter_bootstrap.js'
 bootstrap.write_text(bootstrap.read_text().replace('__COLLECT_ADMIN_ASSET_BASE__', './'))
-# The candidate does not register an offline service worker. Account API
-# responses must never enter an offline cache.
+# Only the sealed public shell may work offline. Account API responses must
+# never enter its cache or become available without current online authority.
 index = root / 'index.html'
 index.write_text(index.read_text().replace('<title>Collect</title>', '<title>Collect Admin</title>'))
 (root / 'robots.txt').write_text('User-agent: *\nDisallow: /\n')
@@ -50,6 +50,7 @@ headers = Path('web/_headers').read_text().replace(' https://*.supabase.co wss:/
 headers = headers.replace('Referrer-Policy: strict-origin-when-cross-origin', 'Referrer-Policy: no-referrer')
 # Retired workers remain mutable update endpoints for old installed tabs.
 headers += '\n/flutter_service_worker.js\n  Cache-Control: no-cache\n'
+headers += '\n/admin-shell-sw.js\n  Cache-Control: no-cache\n'
 for directive, policy in {
     'script-src': "'self' 'wasm-unsafe-eval'",
     'font-src': "'self' data:",
@@ -60,7 +61,7 @@ for directive, policy in {
         raise SystemExit(f'Expected one Admin {directive} directive')
 (root / '_headers').write_text(headers)
 # Retire prior Admin/Flutter workers at both historical update URLs. The
-# candidate bootstrap never registers a cache worker or caches account data.
+# candidate uses a separate public-shell worker, never an account-data cache.
 retirement = Path('scripts/templates/admin_cloudflare_retirement_worker.js').read_bytes()
 for worker_name in ('custom-sw.js', 'flutter_service_worker.js'):
     (root / worker_name).write_bytes(retirement)
@@ -73,6 +74,7 @@ version.update(backend='cloudflare', operational_migration_complete=False,
                operating_actions_available=True,
                authentication='email', notifications='email',
                offline_account_data_available=False,
+               offline_shell_available=True,
                source_release_status='candidate_requires_hosted_acceptance')
 source = json.loads(Path('build/admin-cloudflare-source.json').read_text())
 version.update({key: source[key] for key in ('source_commit', 'source_dirty', 'source_manifest_sha256')})
@@ -81,6 +83,7 @@ version_path.write_text(json.dumps(version, indent=2) + '\n')
 assert (root / 'main.dart.js').stat().st_size > 0
 print('Cloudflare workspace built: build/admin-cloudflare (operating actions and email services).')
 PY
+python3 scripts/admin_cloudflare_shell.py generate build/admin-cloudflare
 python3 scripts/admin_cloudflare_source.py verify "$SOURCE_MANIFEST"
 ADMIN_PWA_BUILD_DIR="$ROOT_DIR/build/admin-cloudflare" bash scripts/admin_pwa_hosting_gate.sh
 python3 scripts/admin_cloudflare_artifact.py record build/admin-cloudflare \

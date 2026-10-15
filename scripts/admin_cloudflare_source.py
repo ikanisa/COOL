@@ -21,6 +21,7 @@ SOURCE_FILES = (
     'scripts/admin_cloudflare_assets.py', 'scripts/admin_pwa_hosting_gate.sh',
     'scripts/admin_cloudflare_artifact.py', 'scripts/admin_cloudflare_preflight.py',
     'scripts/templates/admin_cloudflare_retirement_worker.js',
+    'scripts/admin_cloudflare_shell.py', 'scripts/templates/admin_cloudflare_shell_worker.js',
     '.github/workflows/ci.yml',
 )
 IGNORED_DIRS = {'.git', '.dart_tool', '.fvm', 'build', 'node_modules', '__pycache__', '.pytest_cache'}

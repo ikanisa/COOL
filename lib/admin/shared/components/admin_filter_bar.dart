@@ -44,55 +44,66 @@ class AdminFilterBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     Widget searchField() => SizedBox(
-      child: MergeSemantics(
-        child: Semantics(
-          label: searchLabel,
-          hint: 'Searches all matching records. Press Enter or Apply search.',
-          child: ValueListenableBuilder<TextEditingValue>(
-            valueListenable: searchController,
-            builder: (context, value, _) => TextField(
-              key: const Key('admin-queue-search-input'),
-              controller: searchController,
-              textInputAction: TextInputAction.search,
-              onSubmitted: (_) => onRefresh(),
-              decoration: InputDecoration(
-                hintText: searchHint,
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (value.text.isNotEmpty)
-                      IconButton(
+      // Keep suffix actions as separate named buttons in the accessibility tree.
+      child: Semantics(
+        label: searchLabel,
+        hint: 'Searches all matching records. Press Enter or Apply search.',
+        child: ValueListenableBuilder<TextEditingValue>(
+          valueListenable: searchController,
+          builder: (context, value, _) => TextField(
+            key: const Key('admin-queue-search-input'),
+            controller: searchController,
+            textInputAction: TextInputAction.search,
+            onSubmitted: (_) => onRefresh(),
+            decoration: InputDecoration(
+              hintText: searchHint,
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (value.text.isNotEmpty)
+                    Tooltip(
+                      message: 'Clear search',
+                      excludeFromSemantics: true,
+                      child: IconButton(
                         key: const Key('admin-queue-clear-search'),
-                        tooltip: 'Clear search',
                         onPressed: () {
                           searchController.clear();
                           onRefresh();
                         },
-                        icon: const Icon(Icons.close_rounded),
+                        icon: const Icon(
+                          Icons.close_rounded,
+                          semanticLabel: 'Clear search',
+                        ),
                       ),
-                    IconButton(
-                      key: const Key('admin-queue-apply-search'),
-                      tooltip: 'Apply search',
-                      onPressed: onRefresh,
-                      icon: const Icon(Icons.arrow_forward_rounded),
                     ),
-                  ],
-                ),
-                filled: true,
-                fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
-                border: OutlineInputBorder(
-                  borderRadius: CollectRadius.pillBorder,
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: CollectRadius.pillBorder,
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: CollectRadius.pillBorder,
-                  borderSide: BorderSide(color: colors.focusRing, width: 2),
-                ),
+                  Tooltip(
+                    message: 'Apply search',
+                    excludeFromSemantics: true,
+                    child: IconButton(
+                      key: const Key('admin-queue-apply-search'),
+                      onPressed: onRefresh,
+                      icon: const Icon(
+                        Icons.arrow_forward_rounded,
+                        semanticLabel: 'Apply search',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              filled: true,
+              fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
+              border: OutlineInputBorder(
+                borderRadius: CollectRadius.pillBorder,
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: CollectRadius.pillBorder,
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: CollectRadius.pillBorder,
+                borderSide: BorderSide(color: colors.focusRing, width: 2),
               ),
             ),
           ),

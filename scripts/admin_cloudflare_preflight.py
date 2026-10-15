@@ -229,6 +229,7 @@ def _static_policy(build_root, version, root, frozen_paths):
     for route, value in (('/', 'no-store'), ('/index.html', 'no-store'),
                          ('/flutter_bootstrap.js', 'no-cache'), ('/main.dart.js', 'no-cache'),
                          ('/custom-sw.js', 'no-cache'), ('/flutter_service_worker.js', 'no-cache'),
+                         ('/admin-shell-sw.js', 'no-cache'),
                          ('/version.json', 'no-cache')):
         if headers.get(route, {}).get('cache-control') != value:
             raise ValueError('Mutable entrypoint cache fence missing.')
@@ -253,7 +254,7 @@ def _static_policy(build_root, version, root, frozen_paths):
             not re.search(r"var adminAssetBase\s*=\s*(['\"])\./\1\s*;", custom) or
             not re.search(r"var adminServiceWorkerVersion\s*=\s*(['\"])__COLLECT_ADMIN_SW_VERSION__\1\s*;", custom) or
             "adminServiceWorkerVersion.indexOf('__') !== 0" not in custom or
-            len(re.findall(r'\.register\s*\(', custom)) != 1 or
+            len(re.findall(r'\.register\s*\(', custom)) != 2 or
             # The compiler loader declares this optional parameter even when
             # unused. Only the frozen app suffix can enable it at invocation.
             re.search(r'serviceWorkerSettings\s*:', custom) or
@@ -279,6 +280,13 @@ def _static_policy(build_root, version, root, frozen_paths):
     for name in ('custom-sw.js', 'flutter_service_worker.js'):
         if _physical(build_root / name).read_bytes() != retirement_bytes:
             raise ValueError('Old offline workers must emit the exact frozen retirement worker.')
+    # A separate credentialless public shell may work offline. Its exact
+    # generated allowlist/template must match, and private data stays disabled.
+    from admin_cloudflare_shell import verify_shell
+    for name in ('scripts/admin_cloudflare_shell.py', 'scripts/templates/admin_cloudflare_shell_worker.js'):
+        if name not in frozen_paths:
+            raise ValueError('Public shell generation and template must be frozen.')
+    verify_shell(build_root, root / 'scripts/templates/admin_cloudflare_shell_worker.js')
 
 
 def _identity_policy(value):

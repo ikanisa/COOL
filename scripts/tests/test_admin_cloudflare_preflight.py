@@ -19,6 +19,7 @@ sys.path.insert(0, str(SCRIPTS))
 import admin_cloudflare_source as source
 import admin_cloudflare_artifact as artifact
 import admin_cloudflare_preflight as preflight
+import admin_cloudflare_shell as shell
 
 
 HEADERS = """/*
@@ -36,6 +37,8 @@ HEADERS = """/*
 /custom-sw.js
   Cache-Control: no-cache
 /flutter_service_worker.js
+  Cache-Control: no-cache
+/admin-shell-sw.js
   Cache-Control: no-cache
 /main.dart.js
   Cache-Control: no-cache
@@ -66,6 +69,8 @@ class PreflightTest(unittest.TestCase):
                    (SCRIPTS.parent / 'deploy/admin-api/src/observability.mjs').read_text())
         self.write('scripts/templates/admin_cloudflare_retirement_worker.js',
                    (SCRIPTS / 'templates/admin_cloudflare_retirement_worker.js').read_text())
+        self.write('scripts/templates/admin_cloudflare_shell_worker.js',
+                   (SCRIPTS / 'templates/admin_cloudflare_shell_worker.js').read_text())
         self.write('deploy/admin-api/migrations/' + preflight.MINIMUM_MIGRATION, 'CREATE TABLE fixture(id TEXT);\n')
         self.config = {
             'name': 'collect-admin-cloudflare', 'account_id': preflight.ACCOUNT_ID,
@@ -89,10 +94,11 @@ class PreflightTest(unittest.TestCase):
         template = (SCRIPTS.parent / 'web/flutter_bootstrap.js').read_text()
         bootstrap = template.replace('{{flutter_js}}', '// synthetic loader fixture')
         bootstrap = bootstrap.replace('{{flutter_build_config}}',
-                                      '_flutter.buildConfig = {"useLocalCanvasKit":true,"builds":[{"mainJsPath":"main.dart.js"}]};')
+                                      '_flutter.buildConfig = {"useLocalCanvasKit":true,"builds":[{"renderer":"canvaskit","mainJsPath":"main.dart.js"}]};')
         self.output('flutter_bootstrap.js', bootstrap.replace('__COLLECT_ADMIN_ASSET_BASE__', './'))
         self.output('_headers', HEADERS)
         self.output('robots.txt', 'User-agent: *\nDisallow: /\n')
+        self.output('manifest.json', '{"name":"Collect Admin","start_url":"/#/admin","display":"standalone"}')
         local_font = {'asset': 'assets/typefaces/Inter-Variable.ttf'}
         self.output('assets/FontManifest.json', json.dumps([
             {'family': 'Inter', 'fonts': [local_font]},
@@ -101,11 +107,15 @@ class PreflightTest(unittest.TestCase):
         self.output('assets/assets/typefaces/Inter-Variable.ttf', 'synthetic local font fixture')
         self.output('assets/AssetManifest.bin', 'fixture')
         self.output('assets/AssetManifest.bin.json', '{}')
+        for name in shell.ENGINE_FILES | {
+                'assets/assets/brand/collect_runtime/app_icons/app-icon-rule.png'}:
+            self.output(name, 'synthetic public runtime resource')
         retirement = (SCRIPTS / 'templates/admin_cloudflare_retirement_worker.js').read_text()
         self.output('custom-sw.js', retirement)
         self.output('flutter_service_worker.js', retirement)
         self.version = {'backend': 'cloudflare', 'source_release_status': artifact.CANDIDATE_STATUS,
                         'operational_migration_complete': False, 'offline_account_data_available': False,
+                        'offline_shell_available': True,
                         'minimum_core_schema_migration': preflight.MINIMUM_MIGRATION}
         self.seal()
 
@@ -118,7 +128,7 @@ class PreflightTest(unittest.TestCase):
     def output(self, name, content):
         return self.write('build/admin-cloudflare/' + name, content)
 
-    def seal(self):
+    def seal(self, regenerate_shell=True):
         self.config_path.write_text(json.dumps(self.config))
         value = source.inputs(self.root, dependency_roots=[])
         value.update(source_commit='a' * 40, source_dirty=True)
@@ -126,6 +136,8 @@ class PreflightTest(unittest.TestCase):
         self.version.update({key: value[key] for key in ('source_commit', 'source_dirty', 'source_manifest_sha256')})
         self.version['main_dart_js_sha256'] = hashlib.sha256((self.build / 'main.dart.js').read_bytes()).hexdigest()
         self.output('version.json', json.dumps(self.version))
+        if regenerate_shell:
+            shell.generate_shell(self.build, self.root / 'scripts/templates/admin_cloudflare_shell_worker.js')
         artifact.record_artifact(self.build, self.source_manifest, self.artifact_manifest)
 
     def report(self, **kwargs):
@@ -318,7 +330,7 @@ class PreflightTest(unittest.TestCase):
                        {'family': 'Roboto', 'fonts': [{'asset': 'https://external.example/font.ttf'}]}]):
             with self.subTest(fonts=fonts):
                 self.output('assets/FontManifest.json', json.dumps(fonts))
-                self.seal()
+                self.seal(regenerate_shell=False)
                 self.failed(self.report(), 'same_origin_no_offline_accounts')
 
     def test_inert_compiler_worker_parameter_is_not_an_enabled_app_worker(self):
@@ -341,8 +353,38 @@ class PreflightTest(unittest.TestCase):
                 self.failed(self.report(), 'same_origin_no_offline_accounts')
                 self.output(name, (SCRIPTS / 'templates/admin_cloudflare_retirement_worker.js').read_text())
 
+    def test_public_shell_cannot_enable_private_data_or_change_its_generated_worker(self):
+        self.version['offline_account_data_available'] = True
+        self.seal(regenerate_shell=False)
+        self.failed(self.report(), 'same_origin_no_offline_accounts')
+        self.version['offline_account_data_available'] = False
+        self.seal()
+        self.output(shell.WORKER, 'self.skipWaiting();')
+        artifact.record_artifact(self.build, self.source_manifest, self.artifact_manifest)
+        self.failed(self.report(), 'same_origin_no_offline_accounts')
+
+    def test_public_shell_rejects_even_consistently_rendered_private_allowlist(self):
+        manifest = json.loads((self.build / shell.MANIFEST).read_text())
+        manifest['assets'].append({'url': './api/admin/auth/session', 'sha256': 'a' * 64})
+        self.output(shell.MANIFEST, json.dumps(manifest))
+        template = (self.root / 'scripts/templates/admin_cloudflare_shell_worker.js').read_bytes()
+        self.output(shell.WORKER, shell.render(template, manifest).decode())
+        artifact.record_artifact(self.build, self.source_manifest, self.artifact_manifest)
+        self.failed(self.report(), 'same_origin_no_offline_accounts')
+
+    def test_public_shell_requires_its_availability_flag_and_fixed_registration(self):
+        self.version['offline_shell_available'] = False
+        self.seal(regenerate_shell=False)
+        self.failed(self.report(), 'same_origin_no_offline_accounts')
+        self.version['offline_shell_available'] = True
+        self.seal()
+        bootstrap = (self.build / 'flutter_bootstrap.js').read_text()
+        self.output('flutter_bootstrap.js', bootstrap.replace("register('admin-shell-sw.js'", "register('private-sw.js'"))
+        self.seal(regenerate_shell=False)
+        self.failed(self.report(), 'same_origin_no_offline_accounts')
+
     def test_both_retirement_update_urls_require_mutable_cache_fences(self):
-        for route in ('/custom-sw.js', '/flutter_service_worker.js'):
+        for route in ('/custom-sw.js', '/flutter_service_worker.js', '/admin-shell-sw.js'):
             with self.subTest(route=route):
                 self.output('_headers', HEADERS.replace(
                     route + '\n  Cache-Control: no-cache\n',
@@ -358,6 +400,7 @@ class PreflightTest(unittest.TestCase):
         source.write_json(self.source_manifest, value)
         self.version.update({key: value[key] for key in ('source_commit', 'source_dirty', 'source_manifest_sha256')})
         self.output('version.json', json.dumps(self.version))
+        shell.generate_shell(self.build, self.root / 'scripts/templates/admin_cloudflare_shell_worker.js')
         artifact.record_artifact(self.build, self.source_manifest, self.artifact_manifest)
         self.assertEqual('pass', self.report()['local_status'])
         self.config_path.write_text('{"vars":{},"vars":{"password":"SECRET"}}')

@@ -702,8 +702,8 @@ jobs:
       - name: Verify canonical Admin source, artifact and release boundaries
         working-directory: ${{ github.workspace }}
         run: |
-          python3 -m unittest scripts.tests.test_admin_cloudflare_source scripts.tests.test_admin_cloudflare_artifact scripts.tests.test_admin_cloudflare_assets scripts.tests.test_admin_cloudflare_preflight -v
-          node --test scripts/tests/admin_cloudflare_retirement_worker_test.mjs
+          python3 -m unittest scripts.tests.test_admin_cloudflare_source scripts.tests.test_admin_cloudflare_artifact scripts.tests.test_admin_cloudflare_assets scripts.tests.test_admin_cloudflare_preflight scripts.tests.test_admin_cloudflare_shell -v
+          node --test scripts/tests/admin_cloudflare_retirement_worker_test.mjs scripts/tests/admin_cloudflare_shell_worker_test.mjs
       - name: Verify accounts, permissions, operations and email with local workerd and D1
         # Email bindings are in-memory fixtures. No provider credentials or
         # hosted database are supplied to this job.

@@ -111,6 +111,18 @@ list. The account stays invited. Resending generates a new single-use link.
 
 ## Install and verify
 
+The canonical Admin build installs as a separate Collect Admin workspace. Its
+offline worker caches only an explicit, hash-verified set of public build assets,
+fetched without credentials. Account APIs, receipt evidence, financial actions
+and unknown routes remain network-only; an available shell does not grant
+offline access to account records or imply that a mutation completed.
+
+Updates wait for existing app windows to close. A missing public asset may be
+repaired online only when its bytes match that running build. Failed or
+mismatching repairs remain unavailable without clearing cookies or the original
+request checkpoints in session storage. The historical worker URLs retire old
+caches; they do not install an account-data cache.
+
 From this directory:
 
 ```sh
