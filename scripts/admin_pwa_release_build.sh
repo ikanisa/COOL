@@ -6,25 +6,13 @@ cd "$ROOT_DIR"
 
 FLUTTER="${FLUTTER:-/Users/jeanbosco/Developer/flutter/bin/flutter}"
 
-# shellcheck source=scripts/load_dotenv_strict.sh
-. "$ROOT_DIR/scripts/load_dotenv_strict.sh"
-
-if [[ "${COLLECT_SKIP_DOTENV:-0}" != "1" && -f .env ]]; then
-  collect_load_dotenv_strict "$ROOT_DIR/.env"
-fi
-
-SUPABASE_PUBLIC_URL="${SUPABASE_PRODUCTION_URL:-${SUPABASE_URL:-}}"
-SUPABASE_PUBLIC_ANON_KEY="${SUPABASE_PRODUCTION_ANON_KEY:-${SUPABASE_ANON_KEY:-}}"
-APP_PUBLIC_URL="${APP_PUBLIC_URL:-https://collect.ikanisa.com}"
-ADMIN_APP_URL="${ADMIN_APP_URL:-https://admin.collect.ikanisa.com}"
-export SUPABASE_PUBLIC_URL SUPABASE_PUBLIC_ANON_KEY APP_PUBLIC_URL ADMIN_APP_URL
-
+# Admin API credentials are HttpOnly same-origin Cloudflare cookies.
+# Public builds do not consume Supabase keys or local dotenv secrets.
+APP_PUBLIC_URL="${APP_PUBLIC_URL:-https://app-preview.collect.ikanisa.com}"
+ADMIN_APP_URL="${ADMIN_APP_URL:-https://admin-preview.collect.ikanisa.com}"
+export APP_PUBLIC_URL ADMIN_APP_URL
 if [[ -n "${FLUTTER_ADMIN_WEB_BUILD_ARGS:-}" ]]; then
-  echo "FLUTTER_ADMIN_WEB_BUILD_ARGS is not accepted for production Admin PWA builds." >&2
-  exit 1
-fi
-if [[ -z "$SUPABASE_PUBLIC_URL" || -z "$SUPABASE_PUBLIC_ANON_KEY" ]]; then
-  echo "Missing public Supabase build config: SUPABASE_PRODUCTION_URL/SUPABASE_URL and SUPABASE_PRODUCTION_ANON_KEY/SUPABASE_ANON_KEY are required." >&2
+  echo "FLUTTER_ADMIN_WEB_BUILD_ARGS is not accepted for Admin PWA builds." >&2
   exit 1
 fi
 DART_DEFINES_FILE="$(mktemp)"
@@ -33,11 +21,10 @@ DART_DEFINES_FILE="$DART_DEFINES_FILE" ruby -r json <<'RUBY'
 File.write(
   ENV.fetch("DART_DEFINES_FILE"),
   JSON.generate({
-    "SUPABASE_URL" => ENV.fetch("SUPABASE_PUBLIC_URL"),
-    "SUPABASE_ANON_KEY" => ENV.fetch("SUPABASE_PUBLIC_ANON_KEY"),
     "APP_PUBLIC_URL" => ENV.fetch("APP_PUBLIC_URL"),
     "ADMIN_APP_URL" => ENV.fetch("ADMIN_APP_URL"),
-    "APP_ENVIRONMENT" => "production",
+    "APP_ENVIRONMENT" => "cloudflare-preview",
+    "COLLECT_BACKEND_REVISION" => "cloudflare-admin-20261005",
     "ENABLE_ADMIN_PANEL" => "true",
     "COLLECT_PUBLIC_LANDING_HOME" => "false"
   })
@@ -51,13 +38,18 @@ BUILD_ARGS=(
   "--dart-define-from-file=$DART_DEFINES_FILE"
 )
 
-"$FLUTTER" build web -t lib/main_admin.dart "${BUILD_ARGS[@]}"
+"$FLUTTER" build web -t lib/main_admin_cloudflare.dart "${BUILD_ARGS[@]}"
+python3 scripts/admin_cloudflare_assets.py build/web --local-engine-fallback
 
 if [[ ! -s build/web/main.dart.js ]]; then
   echo "Admin PWA build did not produce a nonempty main.dart.js bundle." >&2
   exit 1
 fi
-cp web/_headers build/web/_headers
+python3 - <<'PY_HEADERS'
+from pathlib import Path
+headers=Path('web/_headers').read_text().replace(' https://*.supabase.co wss://*.supabase.co','').replace('Referrer-Policy: strict-origin-when-cross-origin','Referrer-Policy: no-referrer')
+Path('build/web/_headers').write_text(headers)
+PY_HEADERS
 cp web/robots.txt build/web/robots.txt
 
 ruby -r digest -r json -r open3 <<'RUBY'
@@ -66,6 +58,12 @@ source_commit, source_commit_status = Open3.capture2("git", "rev-parse", "HEAD")
 source_changes, source_status = Open3.capture2("git", "status", "--porcelain")
 version_path = "build/web/version.json"
 version = JSON.parse(File.read(version_path))
+version.update({
+  "backend" => "cloudflare", "authentication" => "email", "notifications" => "email",
+  "data_strategy" => "fresh_cloudflare", "legacy_data_import_required" => false,
+  "minimum_core_schema_migration" => "0012_gateway_receiver_ingress.sql",
+  "operating_actions_available" => true, "operational_migration_complete" => false
+})
 version["source_commit"] = source_commit_status.success? ? source_commit.strip : nil
 version["source_dirty"] = !source_status.success? || !source_changes.empty?
 File.write(version_path, JSON.pretty_generate(version) + "\n")

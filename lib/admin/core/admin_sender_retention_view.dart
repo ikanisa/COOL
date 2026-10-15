@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../shared/components/admin_data_listing.dart';
 import 'admin_sender_retention_controller.dart';
 
 class AdminSenderRetentionView extends StatefulWidget {
@@ -71,21 +72,13 @@ class _ViewState extends State<AdminSenderRetentionView> {
     super.dispose();
   }
 
-  Widget _value(String label, String value) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 6),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: Theme.of(context).textTheme.labelMedium),
-        SelectableText(value),
-      ],
-    ),
-  );
+  Widget _value(String label, String value) =>
+      AdminDataFieldRow(label: label, value: value);
   @override
   Widget build(BuildContext context) {
     final c = widget.controller, s = c.snapshot;
     final fresh = s?.fresh(c.now()) ?? false;
-    return Card(
+    return AdminDataSection(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(

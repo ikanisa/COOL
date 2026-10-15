@@ -6,12 +6,32 @@ import 'admin_shell.dart';
 import 'core/admin_auth_guard.dart';
 import 'core/admin_automations_page.dart';
 import 'core/admin_repository_base.dart';
+import 'core/admin_privacy_review_host.dart';
 import '../features/landing/collect_landing_page.dart';
 import 'shared/components/admin_empty_state.dart';
 import 'shared/components/admin_page.dart';
 
 const publicLandingHome = bool.fromEnvironment('COLLECT_PUBLIC_LANDING_HOME');
 const _adminDomain = 'admin.collect.ikanisa.com';
+
+/// Preserve the requested Admin route before the startup recovery app paints.
+final adminStartupLocationProvider = Provider<String?>((ref) => null);
+
+String? adminStartupLocation(Uri browserUri) {
+  final fragment = Uri.tryParse(browserUri.fragment);
+  final requested = fragment != null && fragment.path.isNotEmpty
+      ? fragment
+      : Uri(
+          path: browserUri.path,
+          query: browserUri.hasQuery ? browserUri.query : null,
+        );
+  if (requested.hasScheme ||
+      requested.hasAuthority ||
+      requested.path != '/admin' && !requested.path.startsWith('/admin/')) {
+    return null;
+  }
+  return requested.toString();
+}
 
 const adminRoutePaths = <String>[
   '/admin/login',
@@ -33,6 +53,7 @@ const adminRoutePaths = <String>[
   '/admin/notifications',
   '/admin/notifications/:id',
   '/admin/audit-logs',
+  '/admin/privacy-requests',
   '/admin/audit-logs/entity/:kind/:id',
   '/admin/settings',
   '/admin/feature-flags',
@@ -41,6 +62,10 @@ const adminRoutePaths = <String>[
   '/admin/automations/runs/:id',
   '/admin/sms-gateway',
   '/admin/exceptions',
+  '/admin/staff',
+  '/admin/staff/:id',
+  '/admin/sms-metadata',
+  '/admin/sms-metadata/:id',
   '/admin/admin-users',
   '/admin/admin-users/:id',
 ];
@@ -48,17 +73,20 @@ const adminRoutePaths = <String>[
 final adminRouterProvider = Provider<GoRouter>((ref) {
   final guard = ref.watch(adminAuthGuardProvider);
   final showPublicHome = _shouldShowPublicLandingHome();
+  final adminLandingPath = guard.isAuthorized ? '/admin' : '/admin/login';
   return GoRouter(
-    initialLocation: showPublicHome ? _publicInitialLocation() : '/admin',
+    initialLocation:
+        ref.read(adminStartupLocationProvider) ??
+        (showPublicHome ? _publicInitialLocation() : '/admin'),
     redirect: (context, state) {
       final path = state.uri.path;
-      if (path == '/') return showPublicHome ? null : '/admin';
+      if (path == '/') return showPublicHome ? null : adminLandingPath;
       if (showPublicHome && path.length > 1 && path.endsWith('/')) {
         final normalized = path.substring(0, path.length - 1);
         if (publicWebsitePaths.contains(normalized)) return normalized;
       }
       if (!showPublicHome && publicWebsitePaths.contains(path)) {
-        return '/admin';
+        return adminLandingPath;
       }
       if (path == '/admin/login') return null;
       if (path.startsWith('/admin') && !guard.isAuthorized) {
@@ -107,7 +135,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
           _listRoute(
             '/admin/users',
             title: 'Users',
-            rpcName: 'admin_list_non_member_users',
+            rpcName: 'admin_list_users',
             detailPathPrefix: '/admin/users',
           ),
           _detailRoute(
@@ -159,6 +187,10 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
             rpcName: 'admin_list_audit_logs',
           ),
           GoRoute(
+            path: '/admin/privacy-requests',
+            builder: (context, state) => const AdminPrivacyReviewPageHost(),
+          ),
+          GoRoute(
             path: '/admin/audit-logs/entity/:kind/:id',
             builder: (context, state) => AdminEntityAuditPage(
               entityKind: state.pathParameters['kind']!,
@@ -181,6 +213,31 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
               title: 'System health',
               rpcName: 'admin_system_health',
               id: 'system',
+            ),
+          ),
+          _listRoute(
+            '/admin/staff',
+            title: 'Staff',
+            rpcName: 'admin_list_staff_users',
+            detailPathPrefix: '/admin/staff',
+          ),
+          GoRoute(
+            path: '/admin/staff/:id',
+            builder: (_, state) =>
+                AdminStaffDetailPage(id: state.pathParameters['id']!),
+          ),
+          _listRoute(
+            '/admin/sms-metadata',
+            title: 'SMS receipts',
+            rpcName: 'admin_list_sms_metadata',
+            detailPathPrefix: '/admin/sms-metadata',
+          ),
+          GoRoute(
+            path: '/admin/sms-metadata/:id',
+            builder: (_, state) => AdminSmsDetailPage(
+              id: state.pathParameters['id']!,
+              backPath: '/admin/sms-metadata',
+              backLabel: 'SMS receipts',
             ),
           ),
           _listRoute(
@@ -224,14 +281,16 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
 List<RouteBase> get _financialAdminRoutes => [
   GoRoute(
     path: '/admin/payees',
-    builder: (context, state) => const AdminCollectOperationsPage(
+    builder: (context, state) => AdminCollectOperationsPage(
       operation: CollectAdminOperation.payees,
+      initialStatus: state.uri.queryParameters['status'],
     ),
   ),
   GoRoute(
     path: '/admin/transactions',
-    builder: (context, state) => const AdminCollectOperationsPage(
+    builder: (context, state) => AdminCollectOperationsPage(
       operation: CollectAdminOperation.transactions,
+      initialStatus: state.uri.queryParameters['status'],
     ),
   ),
   GoRoute(
@@ -247,8 +306,9 @@ List<RouteBase> get _financialAdminRoutes => [
   ),
   GoRoute(
     path: '/admin/ledgers',
-    builder: (context, state) => const AdminCollectOperationsPage(
+    builder: (context, state) => AdminCollectOperationsPage(
       operation: CollectAdminOperation.ledgers,
+      initialStatus: state.uri.queryParameters['status'],
     ),
   ),
 ];

@@ -12,6 +12,9 @@ class AdminFilterBar extends StatelessWidget {
     required this.onStatusChanged,
     required this.onSortChanged,
     required this.onRefresh,
+    this.searchLabel = 'Search admin queue',
+    this.searchHint = 'Search',
+    this.searchExamples = const [],
     this.statusOptions = const [
       AdminFilterOption(value: '', label: 'All'),
       AdminFilterOption(value: 'pending', label: 'Pending'),
@@ -33,6 +36,9 @@ class AdminFilterBar extends StatelessWidget {
   final ValueChanged<String> onStatusChanged;
   final ValueChanged<String> onSortChanged;
   final VoidCallback onRefresh;
+  final String searchLabel;
+  final String searchHint;
+  final List<AdminSearchExample> searchExamples;
 
   @override
   Widget build(BuildContext context) {
@@ -40,29 +46,53 @@ class AdminFilterBar extends StatelessWidget {
     Widget searchField() => SizedBox(
       child: MergeSemantics(
         child: Semantics(
-          label: 'Search admin queue',
-          hint:
-              'Filters the current admin queue by record, reference, or operator context.',
-          child: TextField(
-            controller: searchController,
-            textInputAction: TextInputAction.search,
-            onSubmitted: (_) => onRefresh(),
-            decoration: InputDecoration(
-              hintText: 'Search',
-              prefixIcon: const Icon(Icons.search),
-              filled: true,
-              fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
-              border: OutlineInputBorder(
-                borderRadius: CollectRadius.pillBorder,
-                borderSide: BorderSide.none,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: CollectRadius.pillBorder,
-                borderSide: BorderSide.none,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: CollectRadius.pillBorder,
-                borderSide: BorderSide(color: colors.focusRing, width: 2),
+          label: searchLabel,
+          hint: 'Searches all matching records. Press Enter or Apply search.',
+          child: ValueListenableBuilder<TextEditingValue>(
+            valueListenable: searchController,
+            builder: (context, value, _) => TextField(
+              key: const Key('admin-queue-search-input'),
+              controller: searchController,
+              textInputAction: TextInputAction.search,
+              onSubmitted: (_) => onRefresh(),
+              decoration: InputDecoration(
+                hintText: searchHint,
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (value.text.isNotEmpty)
+                      IconButton(
+                        key: const Key('admin-queue-clear-search'),
+                        tooltip: 'Clear search',
+                        onPressed: () {
+                          searchController.clear();
+                          onRefresh();
+                        },
+                        icon: const Icon(Icons.close_rounded),
+                      ),
+                    IconButton(
+                      key: const Key('admin-queue-apply-search'),
+                      tooltip: 'Apply search',
+                      onPressed: onRefresh,
+                      icon: const Icon(Icons.arrow_forward_rounded),
+                    ),
+                  ],
+                ),
+                filled: true,
+                fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
+                border: OutlineInputBorder(
+                  borderRadius: CollectRadius.pillBorder,
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: CollectRadius.pillBorder,
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: CollectRadius.pillBorder,
+                  borderSide: BorderSide(color: colors.focusRing, width: 2),
+                ),
               ),
             ),
           ),
@@ -138,7 +168,10 @@ class AdminFilterBar extends StatelessWidget {
                 ? constraints.maxWidth
                 : MediaQuery.sizeOf(context).width;
             const spacing = 4.0;
-            const controlsWidth = 3 * kMinInteractiveDimension + 3 * spacing;
+            final controlCount = searchExamples.isEmpty ? 3 : 4;
+            final controlsWidth =
+                controlCount * kMinInteractiveDimension +
+                controlCount * spacing;
             final searchWidth = width < 480 || enlargedText
                 ? width
                 : width - controlsWidth;
@@ -154,6 +187,24 @@ class AdminFilterBar extends StatelessWidget {
                 ),
                 statusFilter,
                 sortFilter,
+                if (searchExamples.isNotEmpty)
+                  PopupMenuButton<AdminSearchExample>(
+                    key: const Key('admin-smart-search-examples'),
+                    tooltip: 'Smart search examples',
+                    onSelected: (example) {
+                      searchController.text = example.query;
+                      onRefresh();
+                    },
+                    itemBuilder: (context) => [
+                      for (final example in searchExamples)
+                        PopupMenuItem(
+                          value: example,
+                          child: Text(example.label),
+                        ),
+                    ],
+                    icon: const Icon(Icons.manage_search_rounded),
+                    constraints: const BoxConstraints(minWidth: 220),
+                  ),
                 refreshButton,
               ],
             );
@@ -234,4 +285,11 @@ class AdminFilterOption {
 
   final String value;
   final String label;
+}
+
+class AdminSearchExample {
+  const AdminSearchExample({required this.label, required this.query});
+
+  final String label;
+  final String query;
 }

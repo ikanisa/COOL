@@ -15,10 +15,17 @@ String successorHash(Object? value) {
   return value;
 }
 
-void _contract(Map<String, dynamic> row, {bool retained = false}) {
+void _contract(
+  Map<String, dynamic> row, {
+  bool retained = false,
+  bool retiredRetry = false,
+}) {
   if (row['contract_version'] is! int ||
-      row['contract_version'] != 1 ||
-      row['scope'] != 'rw_receipt_successors' ||
+      row['contract_version'] != (retiredRetry ? 2 : 1) ||
+      row['scope'] !=
+          (retiredRetry
+              ? 'rw_receipt_successor_retries'
+              : 'rw_receipt_successors') ||
       row['financial_action'] != false ||
       row['send_action'] != false ||
       row['carrier_proof'] != false ||
@@ -233,12 +240,19 @@ class AdminReceiptSuccessorInspection {
   bool get canApprove => row['can_approve'] == true;
   String get reason => row['reason_code'] as String;
   String? get previewHash => row['preview_sha256'] as String?;
+  bool get isRetiredRetry => row['contract_version'] == 2;
+  String? get predecessorJobId => row['predecessor_job_id'] as String?;
+  String? get predecessorProofHash =>
+      row['predecessor_proof_sha256'] as String?;
+  int? get retiredJobs => row['retired_jobs'] as int?;
   bool fresh(DateTime now) => successorFresh(checkedAt, validUntil, now);
   factory AdminReceiptSuccessorInspection.parse(
     Object? raw,
     String outbox,
-    String source,
-  ) {
+    String source, {
+    String? predecessorJobId,
+  }) {
+    final retiredRetry = predecessorJobId != null;
     final r = successorObject(raw, {
       'contract_version',
       'scope',
@@ -254,9 +268,14 @@ class AdminReceiptSuccessorInspection {
       'preview_sha256',
       'configuration_enabled',
       'primary_receipt_retained',
+      if (retiredRetry) ...{
+        'predecessor_job_id',
+        'predecessor_proof_sha256',
+        'retired_jobs',
+      },
       ..._limits,
     });
-    _contract(r, retained: true);
+    _contract(r, retained: true, retiredRetry: retiredRetry);
     final checked = cancelInstant(r['checked_at']),
         until = cancelInstant(r['sample_valid_until']);
     if (r['outbox_id'] != cancelUuid(outbox) ||
@@ -278,6 +297,14 @@ class AdminReceiptSuccessorInspection {
           'revision_exhausted',
           'retry_eligible',
           'approval_pending',
+          if (retiredRetry) ...{
+            'predecessor_unavailable',
+            'predecessor_not_latest',
+            'lineage_limit',
+            'predecessor_transport_refused',
+            'predecessor_revocation_required',
+            'predecessor_proof_invalid',
+          },
         }.contains(r['reason_code']) ||
         r['can_approve'] != (r['reason_code'] == 'retry_eligible') ||
         r['status'] !=
@@ -291,6 +318,23 @@ class AdminReceiptSuccessorInspection {
     if ((!shown && r['preview'] != null) ||
         (r['can_approve'] != true && r['preview_sha256'] != null)) {
       successorInvalid();
+    }
+    if (retiredRetry) {
+      if (r['predecessor_job_id'] != cancelUuid(predecessorJobId)) {
+        successorInvalid();
+      }
+      if (shown) {
+        successorHash(r['predecessor_proof_sha256']);
+        r['retired_jobs'] = exactJsonInteger(
+          r['retired_jobs'],
+          field: 'retired receipt attempts',
+          minimum: 1,
+          maximum: 25,
+        );
+      } else if (r['predecessor_proof_sha256'] != null ||
+          r['retired_jobs'] != null) {
+        successorInvalid();
+      }
     }
     if (r['can_approve'] == true) successorHash(r['preview_sha256']);
     return AdminReceiptSuccessorInspection._(
@@ -319,9 +363,17 @@ class AdminReceiptSuccessorBinding {
       successorInvalid();
     }
     cancelUuid(this.expected['outbox_id']);
+    if (isRetiredRetry) {
+      if (action != 'approve_successor') successorInvalid();
+      cancelUuid(this.expected['predecessor_job_id']);
+      successorHash(this.expected['predecessor_proof_sha256']);
+    } else if (this.expected.containsKey('predecessor_proof_sha256')) {
+      successorInvalid();
+    }
   }
   final String requestId, action;
   final Map<String, Object?> expected;
+  bool get isRetiredRetry => expected.containsKey('predecessor_job_id');
   Map<String, Object?> encode() => {
     'request_id': requestId,
     'action': action,
@@ -343,6 +395,10 @@ class AdminReceiptSuccessorBinding {
         'expected_root_revision',
         'expected_lineage_revision',
         'preview_sha256',
+        if ((r['expected'] as Map).containsKey('predecessor_job_id')) ...{
+          'predecessor_job_id',
+          'predecessor_proof_sha256',
+        },
       },
       'revoke_successor' => {
         'outbox_id',
@@ -410,12 +466,16 @@ class AdminReceiptSuccessorReceipt {
         'preview_sha256',
         'reason_code',
         'expires_at',
+        if (binding.isRetiredRetry) ...{
+          'predecessor_job_id',
+          'predecessor_proof_sha256',
+        },
       },
       'revoke_successor' => {'approval_id'},
       _ => successorInvalid(),
     };
     final r = successorObject(raw, {...common, ...extra});
-    _contract(r, retained: true);
+    _contract(r, retained: true, retiredRetry: binding.isRetiredRetry);
     if (r['request_id'] != binding.requestId ||
         r['action'] != binding.action ||
         binding.expected.entries.any((e) => r[e.key] != e.value)) {
@@ -458,25 +518,34 @@ class AdminReceiptSuccessorLookup {
     Object? raw,
     AdminReceiptSuccessorBinding binding,
   ) {
+    final retiredRetry = binding.isRetiredRetry;
+    final resultKey = retiredRetry ? 'result' : 'receipt';
     final r = successorObject(raw, {
       'contract_version',
       'scope',
       'request_id',
       'status',
-      'receipt',
+      resultKey,
+      if (retiredRetry) ...{'primary_receipt_retained', ..._limits},
     });
+    if (retiredRetry) {
+      _contract(r, retained: true, retiredRetry: true);
+    }
     if (r['contract_version'] is! int ||
-        r['contract_version'] != 1 ||
-        r['scope'] != 'rw_receipt_successors' ||
+        r['contract_version'] != (retiredRetry ? 2 : 1) ||
+        r['scope'] !=
+            (retiredRetry
+                ? 'rw_receipt_successor_retries'
+                : 'rw_receipt_successors') ||
         r['request_id'] != binding.requestId ||
         !{'recorded', 'in_progress', 'not_recorded'}.contains(r['status'])) {
       successorInvalid();
     }
-    if (r['status'] != 'recorded' && r['receipt'] != null) successorInvalid();
+    if (r['status'] != 'recorded' && r[resultKey] != null) successorInvalid();
     return AdminReceiptSuccessorLookup._(
       r['status'] as String,
       r['status'] == 'recorded'
-          ? AdminReceiptSuccessorReceipt.parse(r['receipt'], binding)
+          ? AdminReceiptSuccessorReceipt.parse(r[resultKey], binding)
           : null,
     );
   }

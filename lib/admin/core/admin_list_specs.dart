@@ -62,6 +62,14 @@ class _AdminListSpec {
     String rpcName, {
     AdminRuntimeConfig? runtimeConfig,
   }) {
+    // Reconciliation is the transaction view with a fixed server-side
+    // allocation scope, so its visible filters and sort options stay identical.
+    if (rpcName == 'admin_list_collect_reconciliations') {
+      return _AdminListSpec.forRpc(
+        'admin_list_collect_transactions',
+        runtimeConfig: runtimeConfig,
+      );
+    }
     final configured = runtimeConfig?.queueSpecs.where(
       (spec) => spec.rpcName == rpcName,
     );
@@ -71,7 +79,7 @@ class _AdminListSpec {
     return switch (rpcName) {
       'admin_list_collect_payees' => const _AdminListSpec(
         title: 'Payees',
-        subtitle: 'Collect payees and their payment routes.',
+        subtitle: 'Official receivers for public groups.',
         statusOptions: [
           AdminFilterOption(value: '', label: 'All'),
           AdminFilterOption(value: 'active', label: 'Active'),
@@ -88,17 +96,6 @@ class _AdminListSpec {
           AdminFilterOption(value: 'unallocated', label: 'Unallocated'),
           AdminFilterOption(value: 'needs_review', label: 'Review'),
           AdminFilterOption(value: 'parse_failed', label: 'Parse failed'),
-        ],
-        sortOptions: _defaultSorts,
-      ),
-      'admin_list_collect_reconciliations' => const _AdminListSpec(
-        title: 'Reconciliations',
-        subtitle: 'Unresolved payment and allocation exceptions.',
-        statusOptions: [
-          AdminFilterOption(value: '', label: 'All'),
-          AdminFilterOption(value: 'unallocated', label: 'Unallocated'),
-          AdminFilterOption(value: 'ambiguous', label: 'Ambiguous'),
-          AdminFilterOption(value: 'needs_review', label: 'Review'),
         ],
         sortOptions: _defaultSorts,
       ),
@@ -137,7 +134,7 @@ class _AdminListSpec {
           _AdminQueueSignal(Icons.note_alt_outlined, 'Record support decision'),
         ],
       ),
-      'admin_list_members' || 'admin_list_users' => const _AdminListSpec(
+      'admin_list_members' => const _AdminListSpec(
         title: 'Members',
         subtitle:
             'App and feature-phone members with an active group membership.',
@@ -162,6 +159,27 @@ class _AdminListSpec {
             Icons.support_agent_outlined,
             'Escalate support path',
           ),
+        ],
+      ),
+      'admin_list_users' => const _AdminListSpec(
+        title: 'Users',
+        subtitle: 'All Admin, Staff, App and Direct users.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'admin', label: 'Admin'),
+          AdminFilterOption(value: 'staff', label: 'Staff'),
+          AdminFilterOption(value: 'app', label: 'App'),
+          AdminFilterOption(value: 'direct', label: 'Direct'),
+        ],
+        sortOptions: _defaultSorts,
+        prioritySignals: [
+          _AdminQueueSignal(Icons.person_outline, 'App account'),
+          _AdminQueueSignal(Icons.phone_android_outlined, 'WhatsApp masked'),
+        ],
+        workflowSteps: [
+          _AdminQueueSignal(Icons.open_in_new_outlined, 'Open user detail'),
+          _AdminQueueSignal(Icons.privacy_tip_outlined, 'Keep data minimized'),
+          _AdminQueueSignal(Icons.support_agent_outlined, 'Support onboarding'),
         ],
       ),
       'admin_list_non_member_users' => const _AdminListSpec(
@@ -450,6 +468,16 @@ class _AdminListSpec {
           ),
           _AdminQueueSignal(Icons.undo_outlined, 'Keep rollback path'),
         ],
+      ),
+      'admin_list_staff_users' => const _AdminListSpec(
+        title: 'Staff',
+        subtitle: 'Review Staff access and permitted tasks.',
+        statusOptions: [
+          AdminFilterOption(value: '', label: 'All'),
+          AdminFilterOption(value: 'active', label: 'Active'),
+          AdminFilterOption(value: 'inactive', label: 'Inactive'),
+        ],
+        sortOptions: _defaultSorts,
       ),
       'admin_list_admin_users' => const _AdminListSpec(
         title: 'Admin users',

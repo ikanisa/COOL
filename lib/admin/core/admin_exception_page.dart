@@ -645,9 +645,11 @@ class _ExceptionRowView extends ConsumerWidget {
   final bool busy;
   final ValueChanged<AdminExceptionAction>? onReview;
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Card(
+  Widget build(BuildContext context, WidgetRef ref) => Material(
+    type: MaterialType.transparency,
     child: Padding(
-      padding: const EdgeInsets.all(16),
+      key: ValueKey('exception-record-${row.id}'),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -677,9 +679,18 @@ class _ExceptionRowView extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 10),
-          Text('${row.source.label} · revision ${row.revision}'),
-          Text(_exceptionAge(row.firstObservedAt, now)),
-          Text('Last source change ${_exceptionTime(row.lastChangedAt)}'),
+          _AdminSourceFactsListing(
+            label: 'Exception record fields',
+            facts: [
+              ('Source', Text(row.source.label)),
+              ('Revision', Text('${row.revision}')),
+              (
+                'Observation age',
+                Text(_exceptionAge(row.firstObservedAt, now)),
+              ),
+              ('Last source change', Text(_exceptionTime(row.lastChangedAt))),
+            ],
+          ),
           if (row.escalationRequested)
             const Text('Escalation delivery has not been verified.'),
           const SizedBox(height: 8),
@@ -744,31 +755,64 @@ class _ExceptionRowView extends ConsumerWidget {
             tilePadding: EdgeInsets.zero,
             title: const Text('Observation evidence'),
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Exception ID'),
-                    SelectableText(row.id),
-                    const Text('Source ID'),
-                    SelectableText(row.sourceId),
-                    Text('Reason code: ${row.reasonCode}'),
-                    Text(
-                      'First observed ${_exceptionTime(row.firstObservedAt)}',
-                    ),
-                    const Text('Redacted source predicate fingerprint'),
+              _AdminSourceFactsListing(
+                label: 'Observation evidence fields',
+                facts: [
+                  ('Exception ID', SelectableText(row.id)),
+                  ('Source ID', SelectableText(row.sourceId)),
+                  ('Reason code', Text(row.reasonCode)),
+                  ('First observed', Text(_exceptionTime(row.firstObservedAt))),
+                  (
+                    'Redacted source predicate fingerprint',
                     SelectableText(row.sourceSha256),
-                    const Text(
-                      'This fingerprint is not a receipt-body or destination hash.',
-                    ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
+              const Text(
+                'This fingerprint is not a receipt-body or destination hash.',
               ),
             ],
           ),
+          const Divider(height: 24),
         ],
       ),
+    ),
+  );
+}
+
+/// Plain field listing for retained source observations and their evidence.
+class _AdminSourceFactsListing extends StatelessWidget {
+  const _AdminSourceFactsListing({required this.label, required this.facts});
+  final String label;
+  final List<(String, Widget)> facts;
+  @override
+  Widget build(BuildContext context) => Semantics(
+    container: true,
+    label: label,
+    child: Table(
+      columnWidths: const {0: FlexColumnWidth(2), 1: FlexColumnWidth(3)},
+      defaultVerticalAlignment: TableCellVerticalAlignment.top,
+      border: TableBorder(
+        horizontalInside: BorderSide(color: context.collectColors.border),
+      ),
+      children: [
+        for (final fact in facts)
+          TableRow(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 12, 10),
+                child: Text(
+                  fact.$1,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: fact.$2,
+              ),
+            ],
+          ),
+      ],
     ),
   );
 }

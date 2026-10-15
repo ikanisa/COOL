@@ -50,6 +50,29 @@ void validateAdminActionReceipt(
       request,
       response,
     ),
+    'admin_set_staff_access_v1' =>
+      keys('ok user_id role active') &&
+          ok &&
+          bound('user_id', 'p_user_id') &&
+          response['role'] == 'staff' &&
+          request['p_active'] is bool &&
+          response['active'] == request['p_active'] &&
+          reason(),
+    'admin_create_staff_group_v1' =>
+      keys(
+            'ok collection_id visibility receiver_ready share_code_ready replay',
+          ) &&
+          ok &&
+          id(response['collection_id']) &&
+          response['visibility'] == 'private' &&
+          response['receiver_ready'] == false &&
+          response['share_code_ready'] == false &&
+          response['replay'] is bool &&
+          id(request['p_request_id']) &&
+          request['p_title'] is String &&
+          (request['p_title'] as String).trim().length >= 2 &&
+          (request['p_title'] as String).trim().length <= 160 &&
+          reason(),
     'admin_retry_notification' =>
       keys('ok status delivery_count') &&
           ok &&
@@ -74,7 +97,12 @@ void validateAdminActionReceipt(
           response['status'] ==
               (request['p_active'] == true ? 'active' : 'inactive') &&
           (request['p_active'] == true
-              ? {'private', 'public_approved'}.contains(response['visibility'])
+              ? {
+                  'private',
+                  'public_approved',
+                  'public_requested',
+                  'public_rejected',
+                }.contains(response['visibility'])
               : response['visibility'] == 'archived'),
     'admin_update_platform_public_group_metadata' =>
       keys('ok collection_id public_status receiver_id visibility status') &&

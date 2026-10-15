@@ -2,6 +2,7 @@ import 'admin_auth_guard.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_receipt_cancel_models.dart';
 import 'admin_receipt_successor_models.dart';
+import 'admin_receipt_successor_execution_sdk.dart';
 
 typedef AdminReceiptSuccessorRpc =
     Future<Object?> Function(String, Map<String, dynamic>);
@@ -57,10 +58,21 @@ abstract interface class AdminReceiptSuccessorApi {
   );
 }
 
+/// A repeated retry first verifies the selected approval's stopped execution.
+/// The preceding job identifier is obtained from the validated backend route.
+abstract interface class AdminReceiptSuccessorRetryApi {
+  Future<AdminReceiptSuccessorInspection> inspectRetry(
+    String outbox,
+    String source,
+    String predecessorApproval,
+  );
+}
+
 /// Production wiring must call AdminRepository.rpcMap(automaticRetry:false),
 /// capture its current auth scope, and invalidate this instance on role/session
 /// change. Every await rechecks that captured scope, including error responses.
-class AdminReceiptSuccessorSdk implements AdminReceiptSuccessorApi {
+class AdminReceiptSuccessorSdk
+    implements AdminReceiptSuccessorApi, AdminReceiptSuccessorRetryApi {
   const AdminReceiptSuccessorSdk({
     required this.rpc,
     required this.isCurrent,
@@ -142,6 +154,48 @@ class AdminReceiptSuccessorSdk implements AdminReceiptSuccessorApi {
   }
 
   @override
+  Future<AdminReceiptSuccessorInspection> inspectRetry(
+    String outbox,
+    String source,
+    String predecessorApproval,
+  ) async {
+    _current();
+    final session = currentSession();
+    cancelUuid(outbox);
+    cancelUuid(source);
+    cancelUuid(predecessorApproval);
+    final execution = await AdminReceiptSuccessorExecutionSdk(
+      rpc: _call,
+      isCurrent: () => isCurrent() && currentSession() == session,
+      now: now,
+      executionVersion: 5,
+    ).inspect(predecessorApproval, outbox);
+    if (!execution.available || execution.state != 'unarmed_revoked') {
+      throw const AdminReceiptSuccessorRejected('RETIRED_PREDECESSOR_REQUIRED');
+    }
+    final route = execution.execution!['route'] as Map<String, dynamic>;
+    final predecessor = cancelUuid(route['dispatch_job_id']);
+    final raw = await _call('admin_inspect_receipt_successor_retry_v2', {
+      'p_outbox_id': outbox,
+      'p_predecessor_job_id': predecessor,
+      'p_source_snapshot_id': source,
+    });
+    if (currentSession() != session) throw const AdminSessionChanged();
+    final value = AdminReceiptSuccessorInspection.parse(
+      raw,
+      outbox,
+      source,
+      predecessorJobId: predecessor,
+    );
+    if (!value.fresh(now()) ||
+        !execution.fresh(now()) ||
+        value.checkedAt.isBefore(execution.checkedAt)) {
+      successorInvalid();
+    }
+    return value;
+  }
+
+  @override
   Future<AdminReceiptSuccessorHistory> history(
     String outbox, {
     int? after,
@@ -219,6 +273,10 @@ class AdminReceiptSuccessorSdk implements AdminReceiptSuccessorApi {
       'expected_root_revision': p.rootRevision,
       'expected_lineage_revision': p.lineageRevision,
       'preview_sha256': inspection.previewHash,
+      if (inspection.isRetiredRetry) ...{
+        'predecessor_job_id': inspection.predecessorJobId,
+        'predecessor_proof_sha256': inspection.predecessorProofHash,
+      },
     };
     return AdminReceiptSuccessorIntent._(
       AdminReceiptSuccessorBinding(
@@ -227,17 +285,24 @@ class AdminReceiptSuccessorSdk implements AdminReceiptSuccessorApi {
         expected: expected,
       ),
       session,
-      'admin_approve_receipt_successor_v1',
+      inspection.isRetiredRetry
+          ? 'admin_approve_receipt_successor_retry_v2'
+          : 'admin_approve_receipt_successor_v1',
       Map.unmodifiable({
         'p_request_id': request,
         'p_outbox_id': p.outboxId,
-        'p_action': 'retry_uninvoked',
+        if (!inspection.isRetiredRetry) 'p_action': 'retry_uninvoked',
+        if (inspection.isRetiredRetry) ...{
+          'p_predecessor_job_id': inspection.predecessorJobId,
+          'p_predecessor_proof_sha256': inspection.predecessorProofHash,
+        },
         'p_source_snapshot_id': p.sourceId,
         'p_expected_root_revision': p.rootRevision,
         'p_expected_lineage_revision': p.lineageRevision,
         'p_preview_sha256': inspection.previewHash,
         'p_sample_valid_until': inspection.row['sample_valid_until'],
-        'p_reason_code': 'definitely_not_invoked',
+        if (!inspection.isRetiredRetry)
+          'p_reason_code': 'definitely_not_invoked',
         'p_reason': reason,
       }),
       inspection.validUntil,
@@ -300,9 +365,12 @@ class AdminReceiptSuccessorSdk implements AdminReceiptSuccessorApi {
   Future<AdminReceiptSuccessorLookup> lookup(
     AdminReceiptSuccessorBinding original,
   ) async {
-    final raw = await _call('admin_get_receipt_successor_request_v1', {
-      'p_request_id': original.requestId,
-    });
+    final raw = await _call(
+      original.isRetiredRetry
+          ? 'admin_get_receipt_successor_retry_request_v2'
+          : 'admin_get_receipt_successor_request_v1',
+      {'p_request_id': original.requestId},
+    );
     return AdminReceiptSuccessorLookup.parse(raw, original);
   }
 }

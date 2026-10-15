@@ -20,9 +20,10 @@ const _limits = {
   'carrier_proof',
   'delivery_proven',
 };
-void _contract(Map<String, dynamic> r, String scope) {
+void _contract(Map<String, dynamic> r, String scope, int version) {
+  if (version != 4 && version != 5) executionInvalid();
   if (r['contract_version'] is! int ||
-      r['contract_version'] != 4 ||
+      r['contract_version'] != version ||
       r['scope'] != scope ||
       _limits.any((key) => r[key] != false)) {
     executionInvalid();
@@ -89,8 +90,9 @@ class AdminReceiptSuccessorExecutionSnapshot {
   factory AdminReceiptSuccessorExecutionSnapshot.parse(
     Object? raw,
     String approval,
-    String root,
-  ) {
+    String root, {
+    int executionVersion = 4,
+  }) {
     cancelUuid(approval);
     cancelUuid(root);
     final r = _object(raw, {
@@ -106,7 +108,7 @@ class AdminReceiptSuccessorExecutionSnapshot {
       ..._limits,
       'retained_primary',
     });
-    _contract(r, 'rw_receipt_successor_execution');
+    _contract(r, 'rw_receipt_successor_execution', executionVersion);
     _sample(r);
     if (r['approval_id'] != approval || r['retained_primary'] != true) {
       executionInvalid();
@@ -374,7 +376,11 @@ class AdminReceiptSuccessorObservationPage {
       'next_after_revision',
       ..._limits,
     });
-    _contract(r, 'rw_receipt_successor_observations');
+    _contract(
+      r,
+      'rw_receipt_successor_observations',
+      snapshot.row['contract_version'] as int,
+    );
     _sample(r);
     if (r['approval_id'] != snapshot.approvalId ||
         r['cutoff_revision'] != snapshot.cutoff ||

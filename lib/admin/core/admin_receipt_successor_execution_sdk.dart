@@ -39,10 +39,12 @@ class AdminReceiptSuccessorExecutionSdk
     required this.rpc,
     required this.isCurrent,
     required this.now,
+    this.executionVersion = 4,
   });
   final Future<Object?> Function(String, Map<String, dynamic>) rpc;
   final bool Function() isCurrent;
   final DateTime Function() now;
+  final int executionVersion;
   void _current() {
     if (!isCurrent()) throw const AdminSessionChanged();
   }
@@ -76,14 +78,16 @@ class AdminReceiptSuccessorExecutionSdk
     String approval,
     String root,
   ) async {
+    if (executionVersion != 4 && executionVersion != 5) executionInvalid();
     cancelUuid(approval);
     cancelUuid(root);
     final value = AdminReceiptSuccessorExecutionSnapshot.parse(
-      await _read('admin_get_receipt_successor_execution_v4', {
+      await _read('admin_get_receipt_successor_execution_v$executionVersion', {
         'p_approval_id': approval,
       }),
       approval,
       root,
+      executionVersion: executionVersion,
     );
     if (!value.fresh(now())) executionInvalid();
     return value;
@@ -95,19 +99,24 @@ class AdminReceiptSuccessorExecutionSdk
     int? after,
     int limit = 20,
   }) async {
-    if (!snapshot.available ||
+    if (executionVersion != 4 && executionVersion != 5 ||
+        snapshot.row['contract_version'] != executionVersion ||
+        !snapshot.available ||
         limit < 1 ||
         limit > 50 ||
         after != null && cancelRevision(after) > snapshot.cutoff!) {
       executionInvalid();
     }
     final value = AdminReceiptSuccessorObservationPage.parse(
-      await _read('admin_list_receipt_successor_observations_v4', {
-        'p_approval_id': snapshot.approvalId,
-        'p_cutoff_revision': snapshot.cutoff,
-        'p_after_revision': after,
-        'p_limit': limit,
-      }),
+      await _read(
+        'admin_list_receipt_successor_observations_v$executionVersion',
+        {
+          'p_approval_id': snapshot.approvalId,
+          'p_cutoff_revision': snapshot.cutoff,
+          'p_after_revision': after,
+          'p_limit': limit,
+        },
+      ),
       snapshot,
       after,
       limit,

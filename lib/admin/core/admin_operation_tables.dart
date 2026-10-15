@@ -56,16 +56,7 @@ class _AdminTransactionWorkspace extends StatelessWidget {
           container: true,
           explicitChildNodes: true,
           label: 'Admin records table, ${rows.length} rows',
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              // Readable status text needs room beside the remaining columns
-              // and the row action; use cards before the action moves offscreen.
-              if (constraints.maxWidth < 1760) {
-                return _AdminTransactionCards(rows: rows, onOpen: onOpen);
-              }
-              return _AdminTransactionTable(rows: rows, onOpen: onOpen);
-            },
-          ),
+          child: _AdminTransactionTable(rows: rows, onOpen: onOpen),
         ),
       ],
     );
@@ -121,14 +112,7 @@ class _AdminGroupsWorkspace extends StatelessWidget {
           container: true,
           explicitChildNodes: true,
           label: 'Admin records table, ${rows.length} rows',
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.maxWidth < 1280) {
-                return _AdminGroupCards(rows: rows, onOpen: onOpen);
-              }
-              return _AdminGroupTable(rows: rows, onOpen: onOpen);
-            },
-          ),
+          child: _AdminGroupTable(rows: rows, onOpen: onOpen),
         ),
       ],
     );
@@ -149,7 +133,16 @@ class _AdminMembersWorkspace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rwanda = rows.where((row) => _country(row) == 'RW').length;
-    final admins = rows.where((row) => row.status == 'admin').length;
+    final admins = rows
+        .where(
+          (row) => row.extra['user_type'] == 'Admin' || row.status == 'admin',
+        )
+        .length;
+    final staff = rows.where((row) => row.extra['user_type'] == 'Staff').length;
+    final apps = rows.where((row) => row.extra['user_type'] == 'App').length;
+    final direct = rows
+        .where((row) => row.extra['user_type'] == 'Direct')
+        .length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -163,11 +156,23 @@ class _AdminMembersWorkspace extends StatelessWidget {
               value: '${rows.length}',
               label: 'This page',
             ),
-            _AdminOperationsSummaryItem(
-              icon: Icons.phone_android_outlined,
-              value: '$rwanda',
-              label: 'Rwanda',
-            ),
+            if (scopeLabel != 'Members') ...[
+              _AdminOperationsSummaryItem(
+                icon: Icons.supervisor_account_outlined,
+                value: '$staff',
+                label: 'Staff',
+              ),
+              _AdminOperationsSummaryItem(
+                icon: Icons.phone_android_outlined,
+                value: '$apps',
+                label: 'App',
+              ),
+              _AdminOperationsSummaryItem(
+                icon: Icons.person_outline,
+                value: '$direct',
+                label: 'Direct',
+              ),
+            ],
             if (admins > 0)
               _AdminOperationsSummaryItem(
                 icon: Icons.admin_panel_settings_outlined,
@@ -181,21 +186,10 @@ class _AdminMembersWorkspace extends StatelessWidget {
           container: true,
           explicitChildNodes: true,
           label: 'Admin records table, ${rows.length} rows',
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.maxWidth < 1020) {
-                return _AdminMemberCards(
-                  rows: rows,
-                  onOpen: onOpen,
-                  scopeLabel: scopeLabel,
-                );
-              }
-              return _AdminMemberTable(
-                rows: rows,
-                onOpen: onOpen,
-                scopeLabel: scopeLabel,
-              );
-            },
+          child: _AdminMemberTable(
+            rows: rows,
+            onOpen: onOpen,
+            scopeLabel: scopeLabel,
           ),
         ),
       ],
@@ -205,138 +199,124 @@ class _AdminMembersWorkspace extends StatelessWidget {
 
 class _AdminTransactionTable extends StatelessWidget {
   const _AdminTransactionTable({required this.rows, required this.onOpen});
-
   final List<AdminTableRowData> rows;
   final ValueChanged<AdminTableRowData>? onOpen;
 
   @override
-  Widget build(BuildContext context) {
-    return _AdminPremiumTable(
-      minimumWidth: 1700,
-      columns: const [
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.tag_outlined,
-            label: 'Reference',
-          ),
+  Widget build(BuildContext context) => _AdminPremiumTable(
+    minimumWidth: 1850,
+    columns: const [
+      DataColumn(
+        label: _AdminColumnLabel(icon: Icons.tag_outlined, label: 'ID'),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.person_outline,
+          label: 'Payer name',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.swap_horiz_outlined,
-            label: 'Rail',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.phone_outlined,
+          label: 'Payer last 3',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.phone_android_outlined,
-            label: 'Receipt sender',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.phone_android_outlined,
+          label: 'Payee MoMo',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.account_tree_outlined,
-            label: 'Destination',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.receipt_long_outlined,
+          label: 'MoMo transaction',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.fact_check_outlined,
-            label: 'Verification',
-          ),
+      ),
+      DataColumn(
+        numeric: true,
+        label: _AdminColumnLabel(
+          icon: Icons.payments_outlined,
+          label: 'Amount',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.account_tree_outlined,
-            label: 'Allocation',
-          ),
+      ),
+      DataColumn(
+        numeric: true,
+        label: _AdminColumnLabel(
+          icon: Icons.account_balance_wallet_outlined,
+          label: 'Wallet balance',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.balance_outlined,
-            label: 'Ledger',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.cell_tower_outlined,
+          label: 'Network',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.sms_outlined,
-            label: 'Notification',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.swap_horiz_outlined,
+          label: 'Direction',
         ),
-        DataColumn(
-          numeric: true,
-          label: _AdminColumnLabel(
-            icon: Icons.payments_outlined,
-            label: 'Amount',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.schedule_outlined,
+          label: 'MoMo time',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.schedule_outlined,
-            label: 'Received',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.account_tree_outlined,
+          label: 'Status',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.open_in_new_outlined,
-            label: 'Open',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.open_in_new_outlined,
+          label: 'Open',
         ),
-      ],
-      rows: [
-        for (final row in rows)
-          DataRow(
-            cells: [
-              DataCell(
-                _AdminPrimaryCell(
-                  title: _transactionReference(row),
-                  subtitle: '',
-                ),
+      ),
+    ],
+    rows: [
+      for (final row in rows)
+        DataRow(
+          onSelectChanged: onOpen == null ? null : (_) => onOpen!(row),
+          cells: [
+            DataCell(_AdminFullTableValue(_transactionReference(row))),
+            DataCell(_AdminFullTableValue(_extraText(row, 'payer_name'))),
+            DataCell(_AdminFullTableValue(_extraText(row, 'payer_last_three'))),
+            DataCell(
+              _AdminFullTableValue(
+                _extraText(row, 'payee_momo_number_or_code'),
               ),
-              DataCell(_AdminRailLabel(rail: _rail(row))),
-              DataCell(
-                _rail(row) == 'rw_momo'
-                    ? _AdminSingleValue(_momoSender(row), maxWidth: 130)
-                    : const SizedBox.shrink(),
+            ),
+            DataCell(
+              _AdminFullTableValue(_extraText(row, 'momo_transaction_id')),
+            ),
+            DataCell(
+              _AdminFullTableValue(
+                _transactionDisplayAmount(row),
+                alignEnd: true,
               ),
-              DataCell(
-                _AdminPrimaryCell(
-                  title: _extraText(
-                    row,
-                    'group_name',
-                    fallback: _extraText(
-                      row,
-                      'allocated_to',
-                      fallback: 'Unallocated',
-                    ),
-                  ),
-                  subtitle: _extraText(
-                    row,
-                    'payee_label',
-                    fallback: _transactionSource(row),
-                  ),
-                  maxWidth: 190,
-                ),
+            ),
+            DataCell(
+              _AdminFullTableValue(
+                _transactionWalletBalance(row),
+                alignEnd: true,
               ),
-              for (final stage in const [
-                'verification',
-                'allocation',
-                'ledger',
-                'notification',
-              ])
-                DataCell(_AdminTransactionStateCell(row: row, stage: stage)),
-              DataCell(
-                _AdminSingleValue(
-                  _transactionDisplayAmount(row),
-                  alignEnd: true,
-                ),
-              ),
-              DataCell(_AdminDateTimeValue(row.createdAt)),
-              DataCell(_AdminOpenButton(row: row, onOpen: onOpen)),
-            ],
-          ),
-      ],
-    );
-  }
+            ),
+            DataCell(_AdminFullTableValue(_extraText(row, 'momo_network'))),
+            DataCell(_AdminFullTableValue(_extraText(row, 'momo_direction'))),
+            DataCell(_AdminDateTimeValue(_extraDate(row, 'momo_occurred_at'))),
+            DataCell(
+              AdminStatusChip(label: _transactionAllocationDisplay(row)),
+            ),
+            DataCell(_AdminOpenButton(row: row, onOpen: onOpen)),
+          ],
+        ),
+    ],
+  );
 }
 
 class _AdminGroupTable extends StatelessWidget {
@@ -346,115 +326,87 @@ class _AdminGroupTable extends StatelessWidget {
   final ValueChanged<AdminTableRowData>? onOpen;
 
   @override
-  Widget build(BuildContext context) {
-    return _AdminPremiumTable(
-      minimumWidth: 1160,
-      columns: const [
-        DataColumn(
-          label: _AdminColumnLabel(icon: Icons.folder_outlined, label: 'Group'),
+  Widget build(BuildContext context) => _AdminPremiumTable(
+    minimumWidth: 1160,
+    columns: const [
+      DataColumn(
+        label: _AdminColumnLabel(icon: Icons.folder_outlined, label: 'Group'),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.visibility_outlined,
+          label: 'Visibility',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.visibility_outlined,
-            label: 'Access',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.groups_2_outlined,
+          label: 'Purpose',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(icon: Icons.badge_outlined, label: 'Owner'),
+      ),
+      DataColumn(
+        numeric: true,
+        label: _AdminColumnLabel(icon: Icons.groups_outlined, label: 'Members'),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.location_on_outlined,
+          label: 'Payee',
         ),
-        DataColumn(
-          numeric: true,
-          label: _AdminColumnLabel(
-            icon: Icons.groups_outlined,
-            label: 'Members',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.toggle_on_outlined,
+          label: 'Status',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.dialpad_outlined,
-            label: 'Route',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.calendar_today_outlined,
+          label: 'Created',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.location_on_outlined,
-            label: 'Payee',
-          ),
+      ),
+      DataColumn(
+        label: _AdminColumnLabel(
+          icon: Icons.open_in_new_outlined,
+          label: 'Open',
         ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.toggle_on_outlined,
-            label: 'State',
-          ),
-        ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.calendar_today_outlined,
-            label: 'Created',
-          ),
-        ),
-        DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.open_in_new_outlined,
-            label: 'Manage',
-          ),
-        ),
-      ],
-      rows: [
-        for (final row in rows)
-          DataRow(
-            cells: [
-              DataCell(
-                _AdminPrimaryCell(
-                  title: row.title,
-                  subtitle: _groupPurpose(row),
-                  subtitleIcon: _groupPurposeIcon(row),
-                  maxWidth: 210,
-                ),
+      ),
+    ],
+    rows: [
+      for (final row in rows)
+        DataRow(
+          cells: [
+            DataCell(_AdminFullTableValue(row.title)),
+            DataCell(_AdminAccessLabel(row: row)),
+            DataCell(
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(_groupPurposeIcon(row), size: 18),
+                  const SizedBox(width: 7),
+                  _AdminFullTableValue(_groupPurpose(row)),
+                ],
               ),
-              DataCell(_AdminAccessLabel(row: row)),
-              DataCell(
-                _isPublicGroup(row)
-                    ? _AdminSingleValue(
-                        _extraText(
-                          row,
-                          'creator_label',
-                          fallback: 'Collect platform',
-                        ),
-                        maxWidth: 120,
-                      )
-                    : const SizedBox.shrink(),
+            ),
+            DataCell(
+              _AdminFullTableValue(
+                '${_groupMemberCount(row) ?? '—'}',
+                alignEnd: true,
               ),
-              DataCell(
-                _AdminSingleValue(
-                  '${_groupMemberCount(row) ?? '—'}',
-                  alignEnd: true,
-                ),
+            ),
+            DataCell(_AdminFullTableValue(_extraText(row, 'receiver_label'))),
+            DataCell(
+              AdminStatusChip(
+                label: _isArchivedGroup(row) ? 'archived' : 'active',
               ),
-              DataCell(_AdminGroupRouteLabel(row: row)),
-              DataCell(
-                _AdminPrimaryCell(
-                  title: _extraText(
-                    row,
-                    'receiver_label',
-                    fallback: 'Route missing',
-                  ),
-                  subtitle: _maskedReceiver(row),
-                  maxWidth: 150,
-                ),
-              ),
-              DataCell(
-                AdminStatusChip(
-                  label: _isArchivedGroup(row) ? 'archived' : 'active',
-                ),
-              ),
-              DataCell(_AdminDateTimeValue(row.createdAt, dateOnly: true)),
-              DataCell(_AdminOpenButton(row: row, onOpen: onOpen)),
-            ],
-          ),
-      ],
-    );
-  }
+            ),
+            DataCell(_AdminDateTimeValue(row.createdAt, dateOnly: true)),
+            DataCell(_AdminOpenButton(row: row, onOpen: onOpen)),
+          ],
+        ),
+    ],
+  );
 }
 
 class _AdminMemberTable extends StatelessWidget {
@@ -471,39 +423,47 @@ class _AdminMemberTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final showGroups = scopeLabel == 'Members';
-    final showAdminState = rows.any((row) => row.status == 'admin');
-    final accountLabel = showGroups ? 'member' : 'user';
     return _AdminPremiumTable(
-      minimumWidth: 900,
+      minimumWidth: showGroups ? 900 : 1350,
       columns: [
-        DataColumn(
-          label: showGroups
-              ? const _AdminColumnLabel(
-                  icon: Icons.badge_outlined,
-                  label: 'Member',
-                )
-              : const _AdminColumnLabel.brand(
-                  brandIcon: FontAwesomeIcons.whatsapp,
-                  label: 'WhatsApp',
-                ),
+        const DataColumn(
+          numeric: true,
+          label: _AdminColumnLabel(
+            icon: Icons.badge_outlined,
+            label: 'Collect ID',
+          ),
         ),
-        if (showGroups)
+        if (!showGroups)
+          const DataColumn(
+            label: _AdminColumnLabel(icon: Icons.badge_outlined, label: 'Type'),
+          ),
+        if (!showGroups)
+          const DataColumn(
+            label: _AdminColumnLabel(icon: Icons.person_outline, label: 'Name'),
+          ),
+        if (!showGroups)
           const DataColumn(
             label: _AdminColumnLabel(
-              icon: Icons.phone_android_outlined,
-              label: 'Account / contact',
+              icon: Icons.email_outlined,
+              label: 'Email',
             ),
           ),
         const DataColumn(
-          label: _AdminColumnLabel(
-            icon: Icons.public_outlined,
-            label: 'Country',
+          label: _AdminColumnLabel.brand(
+            brandIcon: FontAwesomeIcons.whatsapp,
+            label: 'WhatsApp',
           ),
         ),
         const DataColumn(
           label: _AdminColumnLabel(
-            icon: Icons.account_balance_wallet_outlined,
-            label: 'Payment profile',
+            icon: Icons.phone_android_outlined,
+            label: 'MoMo number',
+          ),
+        ),
+        const DataColumn(
+          label: _AdminColumnLabel(
+            icon: Icons.dialpad_outlined,
+            label: 'MoMo code',
           ),
         ),
         if (showGroups)
@@ -514,17 +474,10 @@ class _AdminMemberTable extends StatelessWidget {
               label: 'Groups',
             ),
           ),
-        if (showAdminState)
-          const DataColumn(
-            label: _AdminColumnLabel(
-              icon: Icons.verified_user_outlined,
-              label: 'Admin access',
-            ),
-          ),
-        const DataColumn(
+        DataColumn(
           label: _AdminColumnLabel(
             icon: Icons.update_outlined,
-            label: 'Updated',
+            label: showGroups ? 'Updated' : 'Created',
           ),
         ),
         const DataColumn(
@@ -538,48 +491,28 @@ class _AdminMemberTable extends StatelessWidget {
         for (final row in rows)
           DataRow(
             cells: [
-              DataCell(
-                showGroups
-                    ? _AdminPrimaryCell(
-                        title: row.title,
-                        subtitle: _extraText(row, 'display_name', fallback: ''),
-                        maxWidth: 200,
-                      )
-                    : _AdminSingleValue(
-                        _extraText(
-                          row,
-                          'whatsapp_masked',
-                          fallback: row.subtitle,
-                        ),
-                        maxWidth: 130,
-                      ),
-              ),
+              DataCell(_AdminFullTableValue(_extraText(row, 'public_id'))),
+              if (!showGroups)
+                DataCell(_AdminFullTableValue(_extraText(row, 'user_type'))),
+              if (!showGroups)
+                DataCell(_AdminFullTableValue(_extraText(row, 'display_name'))),
+              if (!showGroups)
+                DataCell(_AdminFullTableValue(_extraText(row, 'email'))),
+              DataCell(_AdminFullTableValue(_extraText(row, 'whatsapp_phone'))),
+              DataCell(_AdminFullTableValue(_extraText(row, 'momo_number'))),
+              DataCell(_AdminFullTableValue(_extraText(row, 'momo_pay_code'))),
               if (showGroups)
                 DataCell(
-                  _AdminPrimaryCell(
-                    title: _memberAccountLabel(row),
-                    subtitle: _memberContactLabel(row),
-                    maxWidth: 200,
-                  ),
-                ),
-              DataCell(_AdminCountryLabel(countryCode: _country(row))),
-              DataCell(_AdminMemberPaymentLabel(row: row)),
-              if (showGroups)
-                DataCell(
-                  _AdminSingleValue(
+                  _AdminFullTableValue(
                     '${_extraInt(row, 'active_groups') ?? '—'}',
                     alignEnd: true,
                   ),
                 ),
-              if (showAdminState)
-                DataCell(
-                  row.status == 'admin'
-                      ? const AdminStatusChip(label: 'admin')
-                      : const SizedBox.shrink(),
-                ),
               DataCell(
                 _AdminDateTimeValue(
-                  _extraDate(row, 'updated_at') ?? row.createdAt,
+                  showGroups
+                      ? _extraDate(row, 'updated_at') ?? row.createdAt
+                      : row.createdAt,
                   dateOnly: true,
                 ),
               ),
@@ -589,7 +522,7 @@ class _AdminMemberTable extends StatelessWidget {
                   onOpen: onOpen,
                   label: showGroups
                       ? 'Open member record ${row.title}'
-                      : 'Open $accountLabel account',
+                      : 'Open user account',
                 ),
               ),
             ],
@@ -599,263 +532,17 @@ class _AdminMemberTable extends StatelessWidget {
   }
 }
 
-class _AdminTransactionCards extends StatelessWidget {
-  const _AdminTransactionCards({required this.rows, required this.onOpen});
+/// Horizontal tables size cells to their stored values, including enlarged text.
+class _AdminFullTableValue extends StatelessWidget {
+  const _AdminFullTableValue(this.value, {this.alignEnd = false});
 
-  final List<AdminTableRowData> rows;
-  final ValueChanged<AdminTableRowData>? onOpen;
-
-  @override
-  Widget build(BuildContext context) {
-    return _AdminOperationsCardList(
-      children: [
-        for (final row in rows)
-          _AdminOperationsCard(
-            leading: _AdminRailIcon(rail: _rail(row)),
-            title: _transactionReference(row),
-            subtitle: '',
-            status: '',
-            onOpen: onOpen == null ? null : () => onOpen!(row),
-            openLabel: 'Open transaction ${_transactionReference(row)}',
-            fields: [
-              if (_rail(row) == 'rw_momo')
-                _AdminOperationsFieldData(
-                  Icons.phone_android_outlined,
-                  'Receipt sender',
-                  _momoSender(row),
-                ),
-              _AdminOperationsFieldData(
-                Icons.account_tree_outlined,
-                'Destination',
-                _extraText(
-                  row,
-                  'group_name',
-                  fallback: _extraText(
-                    row,
-                    'allocated_to',
-                    fallback: 'Unallocated',
-                  ),
-                ),
-              ),
-              _AdminOperationsFieldData(
-                Icons.fact_check_outlined,
-                'Verification',
-                _transactionLifecycleLabel(row, 'verification'),
-              ),
-              _AdminOperationsFieldData(
-                Icons.account_tree_outlined,
-                'Allocation',
-                _transactionLifecycleLabel(row, 'allocation'),
-              ),
-              _AdminOperationsFieldData(
-                Icons.balance_outlined,
-                'Ledger',
-                _transactionLifecycleLabel(row, 'ledger'),
-              ),
-              _AdminOperationsFieldData(
-                Icons.sms_outlined,
-                'Notification',
-                _transactionLifecycleLabel(row, 'notification'),
-              ),
-              _AdminOperationsFieldData(
-                Icons.payments_outlined,
-                'Amount',
-                _transactionDisplayAmount(row),
-              ),
-              _AdminOperationsFieldData(
-                Icons.schedule_outlined,
-                'Received',
-                _adminDateTime(row.createdAt),
-              ),
-            ],
-          ),
-      ],
-    );
-  }
-}
-
-String? _transactionLifecycleState(AdminTableRowData row, String stage) {
-  final observation = AdminTransactionLifecycle.parse(row.extra['lifecycle']);
-  return switch (stage) {
-    'verification' => observation?.verification,
-    'allocation' => observation?.allocation,
-    'ledger' => observation?.ledger,
-    'notification' => observation?.notification,
-    _ => null,
-  };
-}
-
-String _transactionLifecycleLabel(AdminTableRowData row, String stage) =>
-    AdminTransactionLifecycle.label(_transactionLifecycleState(row, stage));
-
-class _AdminTransactionStateCell extends StatelessWidget {
-  const _AdminTransactionStateCell({required this.row, required this.stage});
-  final AdminTableRowData row;
-  final String stage;
+  final String value;
+  final bool alignEnd;
 
   @override
-  Widget build(BuildContext context) {
-    final state = _transactionLifecycleState(row, stage);
-    final tone = switch (state) {
-      'posted' || 'allocated' => CollectStatusTone.success,
-      'rejection_recorded' ||
-      'evidence_conflict' ||
-      'parse_failed' ||
-      'failed_no_send' ||
-      'evidence_missing' => CollectStatusTone.danger,
-      'pending' ||
-      'pending_parse' ||
-      'unallocated' ||
-      'ambiguous' ||
-      'needs_review' ||
-      'not_posted' ||
-      'uncertain' => CollectStatusTone.warning,
-      _ => CollectStatusTone.info,
-    };
-    final label = AdminTransactionLifecycle.label(state);
-    return Semantics(
-      label: '$stage: $label',
-      child: ExcludeSemantics(
-        child: AdminStatusChip(
-          label: label,
-          tone: tone,
-          icon: switch (tone) {
-            CollectStatusTone.success => Icons.check_circle_outline,
-            CollectStatusTone.danger => Icons.error_outline,
-            CollectStatusTone.warning => Icons.schedule_outlined,
-            _ => Icons.info_outline,
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class _AdminGroupCards extends StatelessWidget {
-  const _AdminGroupCards({required this.rows, required this.onOpen});
-
-  final List<AdminTableRowData> rows;
-  final ValueChanged<AdminTableRowData>? onOpen;
-
-  @override
-  Widget build(BuildContext context) {
-    return _AdminOperationsCardList(
-      children: [
-        for (final row in rows)
-          _AdminOperationsCard(
-            leading: Icon(
-              _isPublicGroup(row) ? Icons.public_outlined : Icons.lock_outline,
-            ),
-            title: row.title,
-            subtitle: _groupPurpose(row),
-            subtitleIcon: _groupPurposeIcon(row),
-            status: _isArchivedGroup(row) ? 'archived' : 'active',
-            onOpen: onOpen == null ? null : () => onOpen!(row),
-            openLabel: 'Open ${row.title}',
-            fields: [
-              _AdminOperationsFieldData(
-                Icons.groups_outlined,
-                'Members',
-                '${_groupMemberCount(row) ?? '—'}',
-              ),
-              _AdminOperationsFieldData(
-                Icons.dialpad_outlined,
-                'Route',
-                _hasGroupPaymentRoute(row) ? 'MoMo USSD' : 'Route missing',
-              ),
-              _AdminOperationsFieldData(
-                Icons.location_on_outlined,
-                'Payee',
-                _extraText(row, 'receiver_label', fallback: 'Not configured'),
-              ),
-            ],
-          ),
-      ],
-    );
-  }
-}
-
-class _AdminMemberCards extends StatelessWidget {
-  const _AdminMemberCards({
-    required this.rows,
-    required this.onOpen,
-    required this.scopeLabel,
-  });
-
-  final List<AdminTableRowData> rows;
-  final ValueChanged<AdminTableRowData>? onOpen;
-  final String scopeLabel;
-
-  @override
-  Widget build(BuildContext context) {
-    final showGroups = scopeLabel == 'Members';
-    final accountLabel = showGroups ? 'member' : 'user';
-    return _AdminOperationsCardList(
-      children: [
-        for (final row in rows)
-          _AdminOperationsCard(
-            leading: showGroups
-                ? const Icon(Icons.badge_outlined, size: 18)
-                : const FaIcon(FontAwesomeIcons.whatsapp, size: 18),
-            title: showGroups
-                ? row.title
-                : _extraText(row, 'whatsapp_masked', fallback: row.subtitle),
-            subtitle: showGroups
-                ? _extraText(row, 'display_name', fallback: '')
-                : '',
-            status: row.status == 'admin' ? row.status : '',
-            onOpen: onOpen == null ? null : () => onOpen!(row),
-            openLabel: showGroups
-                ? 'Open member record ${row.title}'
-                : 'Open $accountLabel account',
-            fields: [
-              if (showGroups) ...[
-                _AdminOperationsFieldData(
-                  Icons.person_outline,
-                  'Account',
-                  _memberAccountLabel(row),
-                ),
-                _AdminOperationsFieldData(
-                  Icons.phone_outlined,
-                  'Contact',
-                  _memberContactLabel(row),
-                ),
-              ],
-              _AdminOperationsFieldData(
-                Icons.public_outlined,
-                'Country',
-                _country(row),
-              ),
-              _AdminOperationsFieldData(
-                Icons.account_balance_wallet_outlined,
-                'Payment',
-                _memberPaymentLabel(row),
-              ),
-              if (scopeLabel == 'Members')
-                _AdminOperationsFieldData(
-                  Icons.groups_outlined,
-                  'Groups',
-                  '${_extraInt(row, 'active_groups') ?? '—'}',
-                ),
-            ],
-          ),
-      ],
-    );
-  }
-}
-
-String _memberAccountLabel(AdminTableRowData row) =>
-    switch (_extraText(row, 'account_state', fallback: '')) {
-      'feature_phone' => 'Feature phone',
-      'app' => 'App account',
-      'app_claimed' => 'Claimed app account',
-      _ => 'Account not recorded',
-    };
-
-String _memberContactLabel(AdminTableRowData row) {
-  final momo = _extraText(row, 'momo_masked', fallback: '');
-  if (momo.isNotEmpty) return 'MoMo $momo';
-  // Absence of a MoMo identity must not imply a WhatsApp account exists.
-  final whatsapp = _extraText(row, 'whatsapp_masked', fallback: '');
-  return whatsapp.isEmpty ? 'Contact not recorded' : 'WhatsApp $whatsapp';
+  Widget build(BuildContext context) => Text(
+    value.isEmpty ? '—' : value,
+    softWrap: false,
+    textAlign: alignEnd ? TextAlign.end : TextAlign.start,
+  );
 }

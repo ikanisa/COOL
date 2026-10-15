@@ -1,9 +1,9 @@
+import '../shared/components/admin_data_listing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../shared/widgets/collect_components.dart';
 import '../../core/data/exact_json_values.dart';
 import '../shared/components/admin_status_chip.dart';
 import 'admin_auth_guard.dart';
@@ -658,12 +658,7 @@ class _RunView extends StatelessWidget {
       AdminShadowObservation.attention => 'Observation needs review',
       null => 'No sample recorded',
     };
-    final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border.all(color: colors.border),
-        borderRadius: CollectRadius.cardBorder,
-      ),
+    return AdminDataSection(
       child: ExpansionTile(
         initiallyExpanded: expanded,
         shape: const Border(),

@@ -53,6 +53,17 @@ class AdminCollectTransactionDetailPage extends ConsumerWidget {
                 id: id,
                 data: data,
               ),
+              const SizedBox(height: 16),
+              _AdminTransactionDetailSupplement(
+                transactionId: id,
+                details: AdminTransactionDetails.parse(data),
+                key: ValueKey((
+                  'transaction-details',
+                  id,
+                  ref.watch(adminAuthSessionScopeProvider),
+                  identityRevision,
+                )),
+              ),
               if (id.startsWith('momo:')) ...[
                 const SizedBox(height: 16),
                 AdminInvestigationView(
@@ -256,6 +267,237 @@ class AdminDetailPage extends ConsumerWidget {
   }
 }
 
+final _adminUserGroupsProvider = FutureProvider.autoDispose
+    .family<
+      ({AdminUserGroupsPage page, int offset}),
+      ({String userId, int offset})
+    >((ref, key) async {
+      ref.watch(adminAuthSessionScopeProvider);
+      ref.watch(adminRealtimeTickProvider);
+      final repository = ref.watch(adminRepositoryProvider);
+      var current = true;
+      ref.onDispose(() => current = false);
+      final identity = await ref.watch(adminIdentityProvider.future);
+      if (!current) throw const AdminSessionChanged();
+      if (identity?.permissions.contains('users.read') != true) {
+        throw const _AdminPrivateReadDenied();
+      }
+      var offset = key.offset;
+      var page = await repository.userGroups(key.userId, offset: offset);
+      if (!current) throw const AdminSessionChanged();
+      // A removal can empty the last page. Recover once using the authoritative
+      // count, so a stale page does not hide the user's remaining groups.
+      if (offset > 0 && page.rows.isEmpty) {
+        offset = page.total == 0 ? 0 : ((page.total - 1) ~/ 25) * 25;
+        page = await repository.userGroups(key.userId, offset: offset);
+        if (!current) throw const AdminSessionChanged();
+      }
+      return (page: page, offset: offset);
+    });
+
+class _AdminUserGroupsPanel extends ConsumerStatefulWidget {
+  const _AdminUserGroupsPanel({required this.userId});
+  final String userId;
+
+  @override
+  ConsumerState<_AdminUserGroupsPanel> createState() =>
+      _AdminUserGroupsPanelState();
+}
+
+class _AdminUserGroupsPanelState extends ConsumerState<_AdminUserGroupsPanel> {
+  int _offset = 0;
+  AdminSessionScope? _session;
+
+  @override
+  void didUpdateWidget(covariant _AdminUserGroupsPanel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.userId != widget.userId) _offset = 0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final session = ref.watch(adminAuthSessionScopeProvider);
+    if (_session != session) {
+      _session = session;
+      _offset = 0;
+    }
+    final key = (userId: widget.userId, offset: _offset);
+    final result = ref.watch(_adminUserGroupsProvider(key));
+    final identity = _adminResolvedIdentity(ref.watch(adminIdentityProvider));
+    if (result.isLoading) {
+      return const AdminLoadingState(
+        title: 'Loading user groups',
+        message: 'Fetching roles and recorded contributions.',
+      );
+    }
+    if (result.hasError) {
+      return AdminSafeErrorPanel(
+        error: result.error!,
+        onRetry: () => ref.invalidate(_adminUserGroupsProvider(key)),
+      );
+    }
+    if (identity == null) {
+      return const AdminSafeErrorPanel(error: _AdminPrivateReadDenied());
+    }
+    final value = result.requireValue;
+    final page = value.page;
+    final offset = value.offset;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Groups (${page.total})',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 12),
+        if (page.total == 0)
+          const AdminEmptyState(title: 'No group relationships recorded')
+        else ...[
+          _AdminPremiumTable(
+            minimumWidth: 1300,
+            columns: const [
+              DataColumn(
+                label: _AdminColumnLabel(
+                  icon: Icons.folder_outlined,
+                  label: 'Group',
+                ),
+              ),
+              DataColumn(
+                label: _AdminColumnLabel(
+                  icon: Icons.visibility_outlined,
+                  label: 'Visibility',
+                ),
+              ),
+              DataColumn(
+                label: _AdminColumnLabel(
+                  icon: Icons.toggle_on_outlined,
+                  label: 'Status',
+                ),
+              ),
+              DataColumn(
+                label: _AdminColumnLabel(
+                  icon: Icons.person_outline,
+                  label: 'Roles',
+                ),
+              ),
+              DataColumn(
+                label: _AdminColumnLabel(
+                  icon: Icons.group_outlined,
+                  label: 'Membership states',
+                ),
+              ),
+              DataColumn(
+                numeric: true,
+                label: _AdminColumnLabel(
+                  icon: Icons.payments_outlined,
+                  label: 'Contributed',
+                ),
+              ),
+              DataColumn(
+                label: _AdminColumnLabel(
+                  icon: Icons.open_in_new_outlined,
+                  label: 'Open',
+                ),
+              ),
+            ],
+            rows: [
+              for (final group in page.rows)
+                DataRow(
+                  cells: [
+                    DataCell(Text(group.title, softWrap: false)),
+                    DataCell(
+                      Text(
+                        _adminUserGroupWords(group.visibility),
+                        softWrap: false,
+                      ),
+                    ),
+                    DataCell(
+                      AdminStatusChip(
+                        label: group.active ? 'active' : 'inactive',
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        group.roles.map(_adminUserGroupWords).join(', '),
+                        softWrap: false,
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        group.membershipStatuses.isEmpty
+                            ? 'No membership record'
+                            : group.membershipStatuses
+                                  .map(_adminUserGroupWords)
+                                  .join(', '),
+                        softWrap: false,
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        group.contributionStatus == 'available'
+                            ? adminFormatRwfAmount(
+                                'RWF ${group.contributedAmountRwf!}',
+                              )
+                            : 'Unavailable',
+                        softWrap: false,
+                      ),
+                    ),
+                    DataCell(
+                      IconButton.filledTonal(
+                        tooltip: 'Open ${group.title}',
+                        onPressed:
+                            _adminHasPermission(identity, 'collections.read')
+                            ? () => context.go(
+                                '/admin/groups/${group.collectionId}',
+                              )
+                            : null,
+                        icon: const Icon(Icons.arrow_outward, size: 18),
+                      ),
+                    ),
+                  ],
+                ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 12,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Text(
+                '${offset + 1}–${offset + page.rows.length} of ${page.total} groups',
+              ),
+              IconButton.outlined(
+                key: const ValueKey('user-groups-previous'),
+                tooltip: 'Previous user groups',
+                onPressed: offset == 0
+                    ? null
+                    : () => setState(
+                        () => _offset = (offset - 25).clamp(0, offset),
+                      ),
+                icon: const Icon(Icons.chevron_left),
+              ),
+              IconButton.outlined(
+                key: const ValueKey('user-groups-next'),
+                tooltip: 'Next user groups',
+                onPressed: offset + page.rows.length >= page.total
+                    ? null
+                    : () => setState(() => _offset = offset + 25),
+                icon: const Icon(Icons.chevron_right),
+              ),
+            ],
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+String _adminUserGroupWords(String value) => value
+    .split('_')
+    .map((word) => '${word.substring(0, 1).toUpperCase()}${word.substring(1)}')
+    .join(' ');
+
 class _AdminRecordDetailPanel extends ConsumerWidget {
   const _AdminRecordDetailPanel({
     required this.title,
@@ -272,9 +514,19 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final spec = _AdminDetailSpec.forRpc(rpcName, title);
-    final fields = _adminDetailFields(spec, data)
+    final detailData = rpcName == 'admin_get_member_record'
+        ? {
+            ...data,
+            'contributed_amount_rwf': data['contribution_status'] == 'available'
+                ? adminFormatRwfAmount('RWF ${data['contributed_amount_rwf']}')
+                : 'Unavailable',
+          }
+        : data;
+    final fields = _adminDetailFields(spec, detailData)
         .where((field) {
-          if (rpcName == 'admin_get_user' && field.label == 'WhatsApp') {
+          if (rpcName == 'admin_get_member_record' &&
+              field.label == 'WhatsApp' &&
+              data['member_type'] != 'App') {
             return false;
           }
           if (rpcName == 'admin_get_user' &&
@@ -296,7 +548,9 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
           return true;
         })
         .toList(growable: false);
-    final heading = _adminDetailHeading(rpcName, title, spec.heading, data);
+    final heading = rpcName == 'admin_get_user'
+        ? 'User'
+        : _adminDetailHeading(rpcName, title, spec.heading, data);
     final identity = _adminResolvedIdentity(ref.watch(adminIdentityProvider));
     final colors = context.collectColors;
     return Semantics(
@@ -304,152 +558,160 @@ class _AdminRecordDetailPanel extends ConsumerWidget {
       explicitChildNodes: true,
       label: '$heading detail panel',
       hint: spec.subtitle,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.surfaceReadable.withValues(alpha: 0.96),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: colors.borderAccent),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            spacing: 12,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Wrap(
-                spacing: 12,
-                runSpacing: 8,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Text(
-                    heading,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: colors.textPrimary,
-                      fontWeight: CollectTypography.weightBold,
-                    ),
-                  ),
-                  if (_detailValue(data, const ['status']).isNotEmpty)
-                    AdminStatusChip(
-                      label: _detailValue(data, const ['status']),
-                    ),
-                ],
+              Text(
+                heading,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: CollectTypography.weightBold,
+                ),
               ),
-              if (spec.subtitle.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                Text(
-                  spec.subtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
-                ),
-              ],
-              const SizedBox(height: 16),
-              Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                children: [
-                  for (final field in fields)
-                    _AdminDetailFieldCard(
-                      label: field.label,
-                      value: field.value,
-                    ),
-                ],
-              ),
-              if (rpcName == 'admin_get_notification' &&
-                  _adminHasPermission(identity, 'notifications.manage') &&
-                  _detailInt(data['retryable_count']) > 0) ...[
-                const SizedBox(height: 18),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Semantics(
-                    button: true,
-                    label: 'Retry failed notification deliveries',
-                    hint:
-                        'Opens a reason dialog before returning failed deliveries to the queue.',
-                    child: IconButton.filled(
-                      tooltip: 'Retry failed delivery',
-                      onPressed: () => _retryNotification(context, ref),
-                      icon: const Icon(Icons.replay_outlined),
-                    ),
-                  ),
-                ),
-              ],
-              if ((rpcName == 'admin_get_admin_user' ||
-                      rpcName == 'admin_get_user') &&
-                  _adminHasPermission(identity, 'admin_users.read')) ...[
-                const SizedBox(height: 18),
-                AdminPlatformAccessPanel(userId: id),
-              ],
-              if (spec.noteEntityType != null &&
-                  _adminCanRecordNote(identity, spec.noteEntityType!)) ...[
-                const SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Semantics(
-                    container: true,
-                    button: true,
-                    label: 'Record ${spec.heading} operator note',
-                    hint:
-                        'Opens a note dialog and persists the operator note to the audit-backed admin notes table.',
-                    onTap: () =>
-                        _recordOperatorNote(context, ref, spec.noteEntityType!),
-                    child: ExcludeSemantics(
-                      child: IconButton.outlined(
-                        tooltip: 'Record note',
-                        onPressed: () => _recordOperatorNote(
-                          context,
-                          ref,
-                          spec.noteEntityType!,
-                        ),
-                        icon: const Icon(Icons.note_add_outlined),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-              if (rpcName == 'admin_get_collection' &&
-                  _adminHasPermission(identity, 'collections.moderate')) ...[
-                const SizedBox(height: 12),
-                _AdminCollectionStatusActions(
-                  collectionId: id,
-                  // Lifecycle decisions use the typed raw enum. The display
-                  // formatter humanizes public_requested and other statuses.
-                  currentStatus:
-                      '${data['public_status'] ?? data['visibility'] ?? data['status'] ?? ''}'
-                          .trim(),
-                ),
-              ],
-              if (rpcName == 'admin_get_collection' &&
-                  _adminHasPermission(identity, 'collections.moderate') &&
-                  _adminHasPermission(identity, 'users.read') &&
-                  data['creation_origin'] == 'admin_assisted' &&
-                  data['visibility'] == 'private' &&
-                  data['public_status'] == 'private' &&
-                  data['archived_at'] == null &&
-                  data['currency'] == 'RWF' &&
-                  data['diaspora_enabled'] == false) ...[
-                const SizedBox(height: 12),
-                OutlinedButton.icon(
-                  onPressed: () => createAdminAssistedGroup(
-                    context,
-                    ref,
-                    collectionId: id,
-                    onDone: () {},
-                  ),
-                  icon: const Icon(Icons.group_add_outlined),
-                  label: const Text('Add reviewed members'),
-                ),
-              ],
-              if (rpcName == 'admin_get_collection' &&
-                  _adminHasPermission(identity, 'collections.moderate') &&
-                  data['is_platform_sponsored'] == true) ...[
-                const SizedBox(height: 12),
-                _AdminPlatformPublicGroupEditor(collectionId: id, data: data),
-              ],
             ],
           ),
-        ),
+          if (spec.subtitle.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Text(
+              spec.subtitle,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
+            ),
+          ],
+          const SizedBox(height: 16),
+          AdminRecordFactsTable(
+            key: const ValueKey('record-detail-facts'),
+            semanticLabel: '$heading facts',
+            fields: [
+              for (final field in fields) (field.label, field.value),
+              if (_detailValue(data, const ['status']).isNotEmpty &&
+                  fields.every((field) => field.label != 'Status'))
+                (
+                  'Status',
+                  _humanizeDetailValue(_detailValue(data, const ['status'])),
+                ),
+            ],
+          ),
+          if (rpcName == 'admin_get_notification' &&
+              _adminHasPermission(identity, 'notifications.manage') &&
+              _detailInt(data['retryable_count']) > 0) ...[
+            const SizedBox(height: 18),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Semantics(
+                button: true,
+                label: 'Retry failed notification deliveries',
+                hint:
+                    'Opens a reason dialog before returning failed deliveries to the queue.',
+                child: IconButton.filled(
+                  tooltip: 'Retry failed delivery',
+                  onPressed: () => _retryNotification(context, ref),
+                  icon: const Icon(Icons.replay_outlined),
+                ),
+              ),
+            ),
+          ],
+          if (rpcName == 'admin_get_user') ...[
+            const SizedBox(height: 18),
+            _AdminUserGroupsPanel(userId: id),
+          ],
+          if (rpcName == 'admin_get_user' &&
+              _adminHasPermission(identity, 'admin_users.manage') &&
+              (data['user_type'] == 'Staff' ||
+                  data['user_type'] == 'Admin' &&
+                      data['status'] == 'registered')) ...[
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: () => context.go('/admin/staff/$id'),
+              icon: const Icon(Icons.supervisor_account_outlined),
+              label: const Text('Review Staff access'),
+            ),
+          ],
+          if (rpcName == 'admin_get_admin_user' &&
+              _adminHasPermission(identity, 'admin_users.read')) ...[
+            const SizedBox(height: 18),
+            AdminPlatformAccessPanel(userId: id),
+          ],
+          if (spec.noteEntityType != null &&
+              _adminCanRecordNote(identity, spec.noteEntityType!)) ...[
+            const SizedBox(height: 12),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Semantics(
+                container: true,
+                button: true,
+                label: 'Record ${spec.heading} operator note',
+                hint:
+                    'Opens a note dialog and persists the operator note to the audit-backed admin notes table.',
+                onTap: () =>
+                    _recordOperatorNote(context, ref, spec.noteEntityType!),
+                child: ExcludeSemantics(
+                  child: IconButton.outlined(
+                    tooltip: 'Record note',
+                    onPressed: () =>
+                        _recordOperatorNote(context, ref, spec.noteEntityType!),
+                    icon: const Icon(Icons.note_add_outlined),
+                  ),
+                ),
+              ),
+            ),
+          ],
+          if (rpcName == 'admin_get_collection' &&
+              data['admin_operator_draft'] == true) ...[
+            const SizedBox(height: 12),
+            AdminOperatorDraftOwnerPanel(
+              collectionId: id,
+              markedDraft: true,
+              key: ValueKey(('operator-draft-owner', id)),
+            ),
+          ],
+          if (rpcName == 'admin_get_collection' &&
+              _adminHasPermission(identity, 'collections.moderate')) ...[
+            const SizedBox(height: 12),
+            _AdminCollectionStatusActions(
+              collectionId: id,
+              operatorDraft: data['admin_operator_draft'] != false,
+              // Lifecycle decisions use the typed raw enum. The display
+              // formatter humanizes public_requested and other statuses.
+              currentStatus:
+                  '${data['public_status'] ?? data['visibility'] ?? data['status'] ?? ''}'
+                      .trim(),
+            ),
+          ],
+          if (rpcName == 'admin_get_collection' &&
+              _adminHasPermission(identity, 'collections.moderate') &&
+              _adminHasPermission(identity, 'users.read') &&
+              data['creation_origin'] == 'admin_assisted' &&
+              data['admin_operator_draft'] == false &&
+              data['visibility'] == 'private' &&
+              data['public_status'] == 'private' &&
+              data['archived_at'] == null &&
+              data['currency'] == 'RWF') ...[
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: () => createAdminAssistedGroup(
+                context,
+                ref,
+                collectionId: id,
+                onDone: () {},
+              ),
+              icon: const Icon(Icons.group_add_outlined),
+              label: const Text('Add reviewed members'),
+            ),
+          ],
+          if (rpcName == 'admin_get_collection' &&
+              _adminHasPermission(identity, 'collections.moderate') &&
+              data['is_platform_sponsored'] == true) ...[
+            const SizedBox(height: 12),
+            _AdminPlatformPublicGroupEditor(collectionId: id, data: data),
+          ],
+        ],
       ),
     );
   }
@@ -560,528 +822,58 @@ String _adminActionErrorMessage(Object error) {
   return 'The admin action failed. Refresh and try again.';
 }
 
-class _AdminCollectionStatusActions extends ConsumerWidget {
-  const _AdminCollectionStatusActions({
-    required this.collectionId,
-    required this.currentStatus,
+/// Read-only record facts remain a two-column listing at every viewport.
+class AdminRecordFactsTable extends StatelessWidget {
+  const AdminRecordFactsTable({
+    required this.fields,
+    this.semanticLabel = 'Record facts',
+    super.key,
   });
 
-  final String collectionId;
-  final String currentStatus;
+  final List<(String, String)> fields;
+  final String semanticLabel;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Semantics(
-      container: true,
-      explicitChildNodes: true,
-      label: 'Group lifecycle actions',
-      hint: 'Activates or deactivates the group with an audited reason.',
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [
-          if (currentStatus == 'public_requested') ...[
-            _AdminCollectionStatusButton(
-              collectionId: collectionId,
-              status: 'public_approved',
-              label: 'Approve public',
-              icon: Icons.public_rounded,
-            ),
-            _AdminCollectionStatusButton(
-              collectionId: collectionId,
-              status: 'public_rejected',
-              label: 'Reject public',
-              icon: Icons.block_outlined,
-            ),
-          ],
-          if (currentStatus == 'archived' || currentStatus == 'inactive')
-            _AdminCollectionStatusButton(
-              collectionId: collectionId,
-              status: 'active',
-              label: 'Activate',
-              icon: Icons.play_circle_outline,
-            )
-          else
-            _AdminCollectionStatusButton(
-              collectionId: collectionId,
-              status: 'inactive',
-              label: 'Deactivate',
-              icon: Icons.pause_circle_outline,
-              destructive: true,
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AdminCollectionStatusButton extends ConsumerWidget {
-  const _AdminCollectionStatusButton({
-    required this.collectionId,
-    required this.status,
-    required this.label,
-    required this.icon,
-    this.destructive = false,
-  });
-
-  final String collectionId;
-  final String status;
-  final String label;
-  final IconData icon;
-  final bool destructive;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.collectColors;
-    final button = IconButton.outlined(
-      tooltip: label,
-      onPressed: () => _updateStatus(context, ref),
-      icon: Icon(icon),
-      style: destructive
-          ? IconButton.styleFrom(foregroundColor: colors.danger)
-          : null,
-    );
-    return Semantics(
-      button: true,
-      label: '$label group support status',
-      hint: 'Opens a reason dialog before updating the group status.',
-      child: button,
-    );
-  }
-
-  Future<void> _updateStatus(BuildContext context, WidgetRef ref) async {
-    final scope = _AdminActionScope(ref);
-    final reason = await showAdminReasonDialog(
-      context,
-      dialogWrapper: (_, child) =>
-          _AdminSessionDialog(scope: scope, child: child),
-      title: '$label group',
-      actionLabel: label,
-    );
-    if (reason == null || !context.mounted || !scope.isCurrent) return;
-    final lifecycleAction = status == 'active' || status == 'inactive';
-    try {
-      await scope.repository.action(
-        lifecycleAction
-            ? 'admin_set_group_active'
-            : 'admin_update_collection_support_status',
-        lifecycleAction
-            ? {
-                'p_collection_id': collectionId,
-                'p_active': status == 'active',
-                'p_reason': reason,
-              }
-            : {
-                'p_collection_id': collectionId,
-                'p_status': status,
-                'p_reason': reason,
-              },
-      );
-      if (!context.mounted || !scope.isCurrent) return;
-      ref.read(adminRealtimeTickProvider.notifier).state += 1;
-      if (!context.mounted || !scope.isCurrent) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Group updated: $label')));
-    } catch (error) {
-      if (!context.mounted || !scope.isCurrent) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
-    }
-  }
-}
-
-class _AdminPlatformPublicGroupEditor extends ConsumerStatefulWidget {
-  const _AdminPlatformPublicGroupEditor({
-    required this.collectionId,
-    required this.data,
-  });
-
-  final String collectionId;
-  final Map<String, dynamic> data;
-
-  @override
-  ConsumerState<_AdminPlatformPublicGroupEditor> createState() =>
-      _AdminPlatformPublicGroupEditorState();
-}
-
-class _AdminPlatformPublicGroupEditorState
-    extends ConsumerState<_AdminPlatformPublicGroupEditor> {
-  final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _title;
-  late final TextEditingController _description;
-  late final TextEditingController _categorySubtype;
-  late final TextEditingController _purposeLabel;
-  late final TextEditingController _receiverLabel;
-  late String _collectionType;
-  bool _working = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _title = TextEditingController(text: '${widget.data['title'] ?? ''}');
-    _description = TextEditingController(
-      text: '${widget.data['description'] ?? ''}',
-    );
-    _categorySubtype = TextEditingController(
-      text: '${widget.data['category_subtype'] ?? ''}',
-    );
-    _purposeLabel = TextEditingController(
-      text: '${widget.data['purpose_label'] ?? ''}',
-    );
-    _receiverLabel = TextEditingController(
-      text: '${widget.data['receiver_display_label'] ?? ''}',
-    );
-    final type = '${widget.data['collection_type'] ?? 'other'}';
-    _collectionType =
-        const {'ikimina', 'sport', 'church', 'wedding', 'other'}.contains(type)
-        ? type
-        : 'other';
-  }
-
-  @override
-  void dispose() {
-    _title.dispose();
-    _description.dispose();
-    _categorySubtype.dispose();
-    _purposeLabel.dispose();
-    _receiverLabel.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Semantics(
-      container: true,
-      explicitChildNodes: true,
-      label: 'Edit database-managed public group',
-      hint:
-          'Updates public group catalogue metadata. The payee MoMo route remains locked.',
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.surfaceMuted.withValues(alpha: 0.84),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: colors.borderAccent),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Edit group',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: colors.textPrimary,
-                    fontWeight: CollectTypography.weightBold,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  children: [
-                    _publicGroupTextField(
-                      controller: _title,
-                      label: 'Group name',
-                      validator: (value) => (value ?? '').trim().length < 3
-                          ? 'Enter at least 3 characters'
-                          : null,
-                    ),
-                    _publicGroupTextField(
-                      controller: _description,
-                      label: 'Description',
-                      maxLines: 2,
-                    ),
-                    _publicGroupDropdown(
-                      label: 'Collection type',
-                      value: _collectionType,
-                      items: const {
-                        'ikimina': 'Group savings',
-                        'sport': 'Sport',
-                        'church': 'Church',
-                        'wedding': 'Wedding',
-                        'other': 'Other',
-                      },
-                      onChanged: (value) {
-                        if (value != null) {
-                          setState(() => _collectionType = value);
-                        }
-                      },
-                    ),
-                    _publicGroupTextField(
-                      controller: _purposeLabel,
-                      label: 'Purpose label',
-                    ),
-                    _publicGroupTextField(
-                      controller: _receiverLabel,
-                      label: 'Receiver name',
-                      validator: (value) => (value ?? '').trim().isEmpty
-                          ? 'Receiver name is required'
-                          : null,
-                    ),
-                    _AdminImmutablePayeeRoute(data: widget.data),
-                  ],
-                ),
-                const SizedBox(height: 14),
-                IconButton.filled(
-                  tooltip: 'Save group changes',
-                  onPressed: _working ? null : _save,
-                  icon: _working
-                      ? const SizedBox.square(
-                          dimension: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.save_outlined),
-                ),
-              ],
-            ),
+  Widget build(BuildContext context) => Semantics(
+    container: true,
+    explicitChildNodes: true,
+    label: semanticLabel,
+    child: _AdminPremiumTable(
+      minimumWidth: 720,
+      columns: const [
+        DataColumn(
+          label: _AdminColumnLabel(
+            icon: Icons.list_alt_outlined,
+            label: 'Field',
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _publicGroupTextField({
-    required TextEditingController controller,
-    required String label,
-    int maxLines = 1,
-    TextInputType? keyboardType,
-    String? Function(String?)? validator,
-  }) {
-    return SizedBox(
-      width: 300,
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(labelText: label),
-        maxLines: maxLines,
-        keyboardType: keyboardType,
-        validator: validator,
-      ),
-    );
-  }
-
-  Widget _publicGroupDropdown({
-    required String label,
-    required String value,
-    required Map<String, String> items,
-    required ValueChanged<String?> onChanged,
-  }) {
-    return SizedBox(
-      width: 300,
-      child: DropdownButtonFormField<String>(
-        initialValue: value,
-        decoration: InputDecoration(labelText: label),
-        items: [
-          for (final item in items.entries)
-            DropdownMenuItem(value: item.key, child: Text(item.value)),
-        ],
-        onChanged: onChanged,
-      ),
-    );
-  }
-
-  Future<void> _save() async {
-    final scope = _AdminActionScope(ref);
-    if (!(_formKey.currentState?.validate() ?? false)) return;
-    final reason = await showAdminReasonDialog(
-      context,
-      dialogWrapper: (_, child) =>
-          _AdminSessionDialog(scope: scope, child: child),
-      title: 'Update public group',
-      actionLabel: 'Save changes',
-    );
-    if (reason == null || !mounted || !scope.isCurrent) return;
-    setState(() => _working = true);
-    try {
-      await scope.repository
-          .action('admin_update_platform_public_group_metadata', {
-            'p_collection_id': widget.collectionId,
-            'p_title': _title.text.trim(),
-            'p_description': _description.text.trim(),
-            'p_collection_type': _collectionType,
-            'p_category_subtype': _categorySubtype.text.trim(),
-            'p_purpose_label': _purposeLabel.text.trim(),
-            'p_receiver_label': _receiverLabel.text.trim(),
-            'p_reason': reason,
-          });
-      if (!context.mounted || !scope.isCurrent) return;
-      ref.read(adminRealtimeTickProvider.notifier).state += 1;
-      if (!mounted || !scope.isCurrent) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Public group updated in Supabase')),
-      );
-    } catch (error) {
-      if (!mounted || !scope.isCurrent) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));
-    } finally {
-      if (mounted) setState(() => _working = false);
-    }
-  }
-}
-
-class _AdminImmutablePayeeRoute extends StatelessWidget {
-  const _AdminImmutablePayeeRoute({required this.data});
-
-  final Map<String, dynamic> data;
-
-  @override
-  Widget build(BuildContext context) {
-    final code = '${data['receiver_momo_code'] ?? 'Not configured'}';
-    final network = '${data['receiver_network'] ?? 'Not configured'}';
-    return Semantics(
-      container: true,
-      readOnly: true,
-      label: 'Immutable payee route. MoMo code $code. Network $network.',
-      child: SizedBox(
-        width: 300,
-        child: InputDecorator(
-          decoration: const InputDecoration(
-            labelText: 'MoMo route (locked)',
-            helperText: 'The MoMo number or code can never be edited.',
+        DataColumn(
+          label: _AdminColumnLabel(
+            icon: Icons.description_outlined,
+            label: 'Value',
           ),
-          child: Text('$network · $code'),
         ),
-      ),
-    );
-  }
-}
-
-class _AdminDetailFieldCard extends StatelessWidget {
-  const _AdminDetailFieldCard({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Semantics(
-      label: label,
-      value: value,
-      readOnly: true,
-      child: ExcludeSemantics(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minWidth: 220, maxWidth: 340),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: colors.surfaceMuted.withValues(alpha: 0.78),
-              borderRadius: BorderRadius.circular(CollectRadius.md),
-              border: Border.all(color: colors.borderAccent),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(14),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Tooltip(
-                    message: label,
-                    excludeFromSemantics: true,
-                    child: _adminDetailFieldGlyph(
-                      label,
-                      color: colors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: SelectableText(
-                      value,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: colors.textPrimary,
-                        fontWeight: CollectTypography.weightBold,
-                      ),
-                    ),
-                  ),
-                ],
+      ],
+      rows: [
+        for (final (label, value) in fields)
+          DataRow(
+            cells: [
+              DataCell(
+                Tooltip(message: label, child: Text(label, softWrap: false)),
               ),
-            ),
+              DataCell(
+                Semantics(
+                  readOnly: true,
+                  child: SelectionArea(
+                    child: Text(value.isEmpty ? '—' : value, softWrap: false),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-Widget _adminDetailFieldGlyph(String label, {required Color color}) {
-  if (label.toLowerCase().contains('whatsapp')) {
-    return FaIcon(FontAwesomeIcons.whatsapp, size: 19, color: color);
-  }
-  return Icon(_adminDetailFieldIcon(label), size: 19, color: color);
-}
-
-IconData _adminDetailFieldIcon(String label) {
-  final normalized = label.toLowerCase();
-  if (normalized.contains('phone') || normalized.contains('sender')) {
-    return Icons.phone_outlined;
-  }
-  if (normalized.contains('database')) return Icons.storage_outlined;
-  if (normalized.contains('authentication')) {
-    return Icons.verified_user_outlined;
-  }
-  if (normalized.contains('failed')) return Icons.error_outline_rounded;
-  if (normalized.contains('processing')) return Icons.sync_rounded;
-  if (normalized.contains('queued')) return Icons.schedule_send_outlined;
-  if (normalized.contains('notification')) {
-    return Icons.notifications_outlined;
-  }
-  if (normalized.contains('reconciliation') ||
-      normalized.contains('exception')) {
-    return Icons.balance_outlined;
-  }
-  if (normalized.contains('allocation')) return Icons.call_split_outlined;
-  if (normalized.contains('amount') ||
-      normalized.contains('currency') ||
-      normalized.contains('raised')) {
-    return Icons.payments_outlined;
-  }
-  if (normalized.contains('status') || normalized.contains('active')) {
-    return Icons.verified_outlined;
-  }
-  if (normalized.contains('country') || normalized.contains('visibility')) {
-    return Icons.public_outlined;
-  }
-  if (normalized.contains('payment')) {
-    return Icons.account_balance_wallet_outlined;
-  }
-  if (normalized.contains('purpose')) return Icons.category_outlined;
-  if (normalized.contains('created') ||
-      normalized.contains('received') ||
-      normalized.contains('checked') ||
-      normalized.contains('updated') ||
-      normalized.contains('expires')) {
-    return Icons.schedule_outlined;
-  }
-  if (normalized.contains('group') || normalized.contains('collection')) {
-    return Icons.groups_outlined;
-  }
-  if (normalized.contains('user') ||
-      normalized.contains('member') ||
-      normalized.contains('contributor') ||
-      normalized.contains('owner')) {
-    return Icons.person_outline;
-  }
-  if (normalized.contains('payee') || normalized.contains('receiver')) {
-    return Icons.location_on_outlined;
-  }
-  if (normalized.contains('provider') ||
-      normalized.contains('network') ||
-      normalized.contains('route') ||
-      normalized.contains('source')) {
-    return Icons.swap_horiz_outlined;
-  }
-  if (normalized.contains('role')) return Icons.admin_panel_settings_outlined;
-  if (normalized.contains('error')) return Icons.error_outline;
-  if (normalized.contains('id') ||
-      normalized.contains('reference') ||
-      normalized.contains('code')) {
-    return Icons.tag_outlined;
-  }
-  return Icons.info_outline;
+      ],
+    ),
+  );
 }
 
 bool _adminHasPermission(AdminIdentity? identity, String permission) {
@@ -1089,6 +881,12 @@ bool _adminHasPermission(AdminIdentity? identity, String permission) {
 }
 
 bool _adminCanRecordNote(AdminIdentity? identity, String entityType) {
+  if (identity == null ||
+      !identity.roles.any(
+        (role) => role == 'admin' || role == 'platform_owner',
+      )) {
+    return false;
+  }
   return switch (entityType) {
     'collection' => _adminHasPermission(identity, 'collections.read'),
     'profile' => _adminHasPermission(identity, 'users.read'),

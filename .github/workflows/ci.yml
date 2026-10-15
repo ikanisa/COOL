@@ -278,79 +278,61 @@ jobs:
 
       - run: flutter pub get --enforce-lockfile
 
-      - name: Compile Admin web source without production config
-        run: |
-          echo '### Admin source compilation only; production PWA checks run in admin-pwa-candidate on main.' >> "$GITHUB_STEP_SUMMARY"
-          flutter build web -t lib/main_admin.dart --release --no-pub --dart-define=COLLECT_PUBLIC_LANDING_HOME=false
+      - name: Build canonical Cloudflare Admin candidate
+        env:
+          FLUTTER: flutter
+        run: bash scripts/admin_cloudflare_build.sh
 
-      - name: Install reviewed Admin security headers
-        run: python3 scripts/hardening/admin_headers.py build/web --apply
+      - name: Retain exact Admin candidate and working-input identity
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: admin-cloudflare-candidate
+          path: |
+            build/admin-cloudflare/
+            build/admin-cloudflare-source.json
+            build/admin-cloudflare-artifact.json
+            build/admin-cloudflare-preflight.json
+          retention-days: 14
+          if-no-files-found: error
 
-  # A production-configured candidate can only be built from the main ref.
-  # The compile-only job above is not a release artifact or PWA gate.
-  admin-pwa-candidate:
-    name: Admin PWA Candidate Build
+  # Reuse the canonical build. CI acceptance is distinct from hosted cutover.
+  admin-cloudflare-candidate:
+    name: Cloudflare Admin Candidate Identity
     if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    needs: [repo-hygiene, analyze]
+    timeout-minutes: 5
+    needs: [repo-hygiene, admin-web-build, cloudflare-backend]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-
-      - name: Read pinned Flutter version
-        id: flutter-version
-        run: |
-          python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
-
-          with open('.fvmrc', encoding='utf-8') as handle:
-              config = json.load(handle)
-          print(f"version={config['flutter']}")
-          PY
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          channel: stable
-          flutter-version: ${{ steps.flutter-version.outputs.version }}
-          cache: true
-
-      - run: flutter pub get --enforce-lockfile
-
-      - name: Build and verify Admin PWA candidate
-        env:
-          FLUTTER: flutter
-          COLLECT_SKIP_DOTENV: '1'
-          SUPABASE_PRODUCTION_URL: ${{ secrets.SUPABASE_PRODUCTION_URL }}
-          SUPABASE_PRODUCTION_ANON_KEY: ${{ secrets.SUPABASE_PRODUCTION_ANON_KEY }}
-          APP_PUBLIC_URL: https://collect.ikanisa.com
-          ADMIN_APP_URL: https://admin.collect.ikanisa.com
-        run: bash scripts/admin_pwa_release_build.sh
-
-      - name: Bind candidate to clean source commit
+          name: admin-cloudflare-candidate
+          path: build
+      - name: Verify actual candidate matches the clean workflow commit
         run: |
-          python3 - <<'PY'
+          python3 scripts/admin_cloudflare_artifact.py verify build/admin-cloudflare build/admin-cloudflare-source.json build/admin-cloudflare-artifact.json
+          python3 scripts/admin_cloudflare_preflight.py --build-root build/admin-cloudflare --source-manifest build/admin-cloudflare-source.json --artifact-manifest build/admin-cloudflare-artifact.json --config deploy/admin.cloudflare.wrangler.jsonc --target-origin https://admin-preview.collect.ikanisa.com --output build/admin-cloudflare-preflight.json
+          python3 - <<'PY_IDENTITY'
+          import hashlib
           import json
           import os
-
-          with open('build/web/version.json', encoding='utf-8') as handle:
-              version = json.load(handle)
-          if version.get('source_commit') != os.environ['GITHUB_SHA'] or version.get('source_dirty') is not False:
-              raise SystemExit('Admin PWA candidate does not match the clean workflow commit')
-          PY
-          find build/web -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum > build/admin-web.sha256
-
-      - name: Retain Admin PWA candidate
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: admin-pwa-candidate
-          path: |
-            build/web/
-            build/admin-web.sha256
-          retention-days: 14
-          if-no-files-found: error
+          from pathlib import Path
+          root = Path('build/admin-cloudflare')
+          version = json.loads((root / 'version.json').read_text())
+          source = json.loads(Path('build/admin-cloudflare-source.json').read_text())
+          for record in (version, source):
+              if record.get('source_commit') != os.environ['GITHUB_SHA'] or record.get('source_dirty') is not False:
+                  raise SystemExit('Admin candidate does not match the clean workflow commit')
+          if version.get('source_manifest_sha256') != source['source_manifest_sha256']:
+              raise SystemExit('Admin source identity differs from candidate metadata')
+          if version.get('main_dart_js_sha256') != hashlib.sha256((root / 'main.dart.js').read_bytes()).hexdigest():
+              raise SystemExit('Admin asset bytes differ from candidate metadata')
+          if version.get('backend') != 'cloudflare' or version.get('minimum_core_schema_migration') != '0012_gateway_receiver_ingress.sql':
+              raise SystemExit('Admin candidate targets an outdated runtime/schema')
+          PY_IDENTITY
+          echo 'Canonical Admin build and backend CI pass; hosted role/provider/recovery/device and production acceptance remain separate.' >> "$GITHUB_STEP_SUMMARY"
 
   # ── 3. Fixture journey smoke (native device UAT runs separately) ────
   integration-test:
@@ -488,7 +470,7 @@ jobs:
   ordinary-sql:
     name: Ordinary installer SQL (synthetic clean and populated)
     runs-on: ubuntu-24.04-arm
-    timeout-minutes: 15
+    timeout-minutes: 20
     permissions:
       contents: read
     steps:
@@ -504,6 +486,9 @@ jobs:
       - name: Verify SQL recipe refusal and cleanup boundaries
         run: python3 -B -m unittest discover -s scripts/tests -p sql_ci_runner_test.py
 
+      - name: Verify full recovery comparison and refusal boundaries
+        run: python3 -B -m unittest discover -s scripts/tests -p current_recovery_roundtrip_test.py -v
+
       - name: Acquire named PostgreSQL image and refuse config drift
         timeout-minutes: 3
         run: |
@@ -514,7 +499,7 @@ jobs:
           docker pull --platform=linux/arm64 "$image"
           test "$(docker image inspect "$image" --format '{{.Id}}')" = "$expected"
 
-      - name: Run canonical current ordinary SQL acceptance
+      - name: Run canonical current ordinary SQL and recovery acceptance
         run: |
           set -euo pipefail
           docker_path="$(python3 -c 'import os,shutil;print(os.path.realpath(shutil.which("docker")))')"
@@ -523,7 +508,7 @@ jobs:
           python3 -B scripts/qa/run_sql_ci.py \
             --docker "$docker_path" --docker-sha256 "$docker_pin" \
             --docker-host unix:///var/run/docker.sock \
-            --fixture-lock-sha256 "$fixture_pin" --output .cache/sql-ci
+            --fixture-lock-sha256 "$fixture_pin" --recovery-roundtrip --output .cache/sql-ci
 
       - name: Preserve completed and failed ordinary SQL evidence
         if: always()
@@ -693,3 +678,33 @@ jobs:
           done
 
           echo "✅ All split APKs are within the 50 MB per-device budget"
+
+  cloudflare-backend:
+    name: Cloudflare account and operating services
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: deploy/admin-api
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: deploy/admin-api/package-lock.json
+      - name: Install locked backend test dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Check Worker syntax
+        run: npm run check
+      - name: Verify canonical Admin source, artifact and release boundaries
+        working-directory: ${{ github.workspace }}
+        run: |
+          python3 -m unittest scripts.tests.test_admin_cloudflare_source scripts.tests.test_admin_cloudflare_artifact scripts.tests.test_admin_cloudflare_assets scripts.tests.test_admin_cloudflare_preflight -v
+          node --test scripts/tests/admin_cloudflare_retirement_worker_test.mjs
+      - name: Verify accounts, permissions, operations and email with local workerd and D1
+        # Email bindings are in-memory fixtures. No provider credentials or
+        # hosted database are supplied to this job.
+        run: npm test

@@ -1,0 +1,19 @@
+{
+  "name": "collect-admin-cloudflare",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test --test-concurrency=1 test/*.test.mjs",
+    "dev": "wrangler dev --config wrangler.local.jsonc",
+    "bootstrap": "node scripts/bootstrap-owner.mjs",
+    "check": "node --check src/observability.mjs && node --check src/receiver-ingress.mjs && node --check src/admin-sms.mjs && node --check src/reconciliation.mjs && node --check src/core.mjs && node --check src/email-dispatch.mjs && node --check src/emails.mjs && node --check src/gateway.mjs && node --check src/member-email.mjs && node --check src/member-worker.mjs && node --check src/member.mjs && node --check src/operations.mjs && node --check src/security.mjs && node --check src/worker.mjs"
+  },
+  "dependencies": {
+    "@noble/hashes": "2.4.0"
+  },
+  "devDependencies": {
+    "wrangler": "4.147.0",
+    "miniflare": "5.20261001.0-alpha",
+    "esbuild": "0.28.1"
+  }
+}
