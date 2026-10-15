@@ -361,7 +361,10 @@ void main() {
             return response(
               jsonEncode(
                 coreOverview(
-                  amounts: {'total_collected_rwf': '9223372036854775807'},
+                  amounts: {
+                    'total_collected_rwf': '9223372036854775807',
+                    'total_unallocated_rwf': '25000',
+                  },
                 ),
               ),
               200,
@@ -395,6 +398,27 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(find.text('9,223,372,036,854,775,807'), findsOneWidget);
+      final summary = tester.widget<DataTable>(
+        find.ancestor(
+          of: find.byKey(
+            const ValueKey('cloudflare-core-count-Total unallocated'),
+          ),
+          matching: find.byType(DataTable),
+        ),
+      );
+      DataRow summaryRow(String metric) => summary.rows.singleWhere(
+        (row) => (row.cells[1].child as Text).data == metric,
+      );
+      final unallocated = summaryRow('Total unallocated');
+      expect((unallocated.cells[2].child as Text).data, '25,000');
+      expect(
+        (unallocated.cells[3].child as Text).data,
+        'Remaining amounts from non-rejected recorded payments',
+      );
+      expect(
+        (summaryRow('Total collected').cells[3].child as Text).data,
+        'Confirmed recorded payments',
+      );
       expect(find.text('SMS receipts'), findsOneWidget);
       expect(find.text('Member receipt submissions'), findsNothing);
       final card = find.byKey(

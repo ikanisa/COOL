@@ -731,6 +731,8 @@ class CloudflareCoreOverviewPanel extends ConsumerWidget {
                   label: 'Data basis',
                   value: (row) => row.title.contains('contribution')
                       ? 'Confirmed allocations with posted journals'
+                      : row.title == 'Total unallocated'
+                      ? 'Remaining amounts from non-rejected recorded payments'
                       : row.title.startsWith('Total')
                       ? 'Confirmed recorded payments'
                       : 'Current workspace records',

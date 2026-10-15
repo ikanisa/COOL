@@ -179,7 +179,7 @@ receive no CORS allowlist. Tokens are never returned by API responses.
 | `POST /auth/forgot-password` | `{email}` | Uniform 202 acknowledging request; no delivery or account-existence claim |
 | `POST /auth/complete-password` | `{token,password,invite:boolean}` | `{ok:true}`; requires sign-in afterward |
 | `POST /auth/change-password` | `{currentPassword,newPassword}` | `{ok:true}`; all sessions invalidated |
-| `GET /team` | Owner cookie | `{members,currentEmail,canManage:true}` |
+| `GET /team` | Active Owner/Admin cookie; Staff denied | `{members,currentEmail,canManage,permissionsByRole}`; only the protected Owner can manage |
 | `POST /team/invite` | `{email,role:"admin"\|"staff"}` | 201 `{ok:true,emailStatus:"accepted"}` |
 | `POST /team/:id/resend` | `{}` | `{ok:true,emailStatus:"accepted"}`; pending invites only |
 | `POST /team/:id/revoke` | `{}` | `{ok:true}`; owner cannot be revoked |
@@ -188,12 +188,41 @@ receive no CORS allowlist. Tokens are never returned by API responses.
 
 Core list filters are `search` (up to 200 printable characters), `status` (native
 statuses for that view), `limit` (1–100), `offset` (0–2147483647), `sort`
-(`created_at_desc` or `created_at_asc`) and `country` (`RW` only). Unknown or
-duplicate filters are rejected. Search is literal rather than a SQL wildcard;
-Users/Members search only public Collect ID and display name, never hidden
-contact values. Contact/payment routes are masked in list output. Members are
-distinct app users with an active membership, separate from the admins/staff
-account roster.
+(`FIELD_asc` or `FIELD_desc`) and `country` (`RW` only). Unknown or duplicate
+filters and unsupported sort fields are rejected. `created_at` and `status` are
+available in every core view, with these additional allowlisted fields:
+
+| View | Additional sort fields |
+| --- | --- |
+| Groups | `title`, `slug`, `collection_type`, `visibility`, `active_members` |
+| Users / Members | `public_id`, `display_name`, `email`, `member_type`, `whatsapp_number`, `momo_number`, `momo_pay_code`, `active_groups`, `total_contributed_rwf`, `posted_contributed_rwf` |
+| Payees | `label`, `group_title`, `momo_number_or_code` |
+| Transactions | `public_reference`, `allocation_status`, `amount_rwf`, `allocated_amount_rwf`, `remaining_rwf`, `payer_name`, `payer_last3`, `payee_momo_number_or_code`, `group_title`, `payee_label`, `observed_at` |
+| Ledgers | `description`, `group_title`, `debit_rwf`, `credit_rwf`, `entry_count`, `posted_at` |
+
+Ordering applies on the server before pagination, with creation time and record
+ID tie breakers. Creation-time ordering prioritizes relevant people-search
+matches; an explicitly selected non-creation field governs its own ordering.
+
+Search uses bound literal terms, quoted phrases and deterministic concepts,
+rather than SQL wildcards or an embedding service. Users/Members search the
+authorized public IDs, recorded names, emails, WhatsApp/MoMo numbers, MoMo codes
+and group context; phone formatting is normalized and leading code zeros are
+preserved. Supported people intents include `direct members`, `users without
+groups`, `type:staff`, `role:member` and `group:NAME`. Operational views support
+their applicable concepts, such as `private groups`, `active payees`,
+`unallocated transactions` and `posted journals`, plus `status:VALUE` and
+applicable `name:`, `group:`, `momo:` or `reference:` fields. Unsupported typed
+fields/statuses are rejected rather than silently widening a query.
+
+Users is the unified Admin, Staff, App and Direct directory; explicit operator
+links prevent duplicate people and email matching does not create identity
+links. Members is the distinct App/Direct subset with an active membership,
+including people who also have linked operator accounts. Authorized list output
+includes full recorded contact/payment fields alongside masked convenience
+fields; missing facts remain null, and Direct people have no app-auth WhatsApp
+field. The dedicated team roster retains account-access roles and protected
+Owner-only management.
 
 Core GET lists remain read-only; operating actions are exposed through the separate `/operations` routes. Count and page share a D1 transaction, including a fresh
 session/version/expiry check. Money is exact integer RWF with bounded aggregates;
@@ -230,8 +259,9 @@ the password completion JSON body over HTTPS.
 - D1 atomic batches and conditional updates enforce one winner for concurrent
   token acceptance. User authorization and challenge generations fence old
   sessions/links, revoked users and replaced invitations.
-- Fixed sender and database constraints protect owner identity. Only the owner
-  can view/manage team access. A pending account has no session or permissions.
+- Fixed sender and database constraints protect owner identity. Owner/Admin can
+  review team access; only the protected Owner can manage it. A pending account
+  has no session or permissions.
 - Durable per-IP and per-email counters constrain login, reset and invite
   abuse. Counters hash identifiers rather than storing raw IP addresses.
 - Reset acknowledgments are deliberately enumeration resistant. Provider
