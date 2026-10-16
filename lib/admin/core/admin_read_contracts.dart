@@ -1,4 +1,6 @@
 import 'admin_models.dart';
+import 'admin_transaction_details.dart';
+import 'admin_member_identity_contract.dart';
 import '../../core/data/exact_json_values.dart';
 
 // These are wire contracts of the installed Admin read RPCs. DTO presentation
@@ -73,9 +75,19 @@ List<AdminMetric> parseAdminOverview(Map<String, dynamic> row) {
       (() {
         final item = _object(raw);
         _keys(item, {'label', 'value', 'status'});
+        final amount = const {
+          'Total collected',
+          'Verified posted total',
+        }.contains(item['label']);
+        final validValue = amount
+            ? item['value'] is String &&
+                  RegExp(
+                    r'^(0|[1-9][0-9]*)(\.[0-9]{1,2})?$',
+                  ).hasMatch(item['value'] as String)
+            : _integer(item['value']);
         if (!_text(item['label'], max: 256) ||
             !labels.add(item['label'] as String) ||
-            !_integer(item['value']) ||
+            !validValue ||
             !const {'active', 'needs_review'}.contains(item['status'])) {
           _invalid();
         }
@@ -266,14 +278,19 @@ bool _field(Object? value, _Field type) => switch (type) {
 
 const _detailContracts = <String, Map<String, _Field>>{
   'admin_get_user': {
+    'email': _Field.optionalText,
+    'display_name': _Field.optionalText,
+    'user_type': _Field.text,
     'id': _Field.uuid,
-    'phone_masked': _Field.optionalText,
-    'country_code': _Field.text,
-    'payment_profile': _Field.text,
-    'momo_masked': _Field.optionalText,
+    'public_id': _Field.optionalText,
+    'whatsapp_phone': _Field.optionalText,
+    'momo_number': _Field.optionalText,
+    'momo_pay_code': _Field.optionalText,
+    'momo_provider': _Field.optionalText,
     'active_groups': _Field.count,
+    'groups_total': _Field.count,
     'status': _Field.text,
-    'created_at': _Field.date,
+    'created_at': _Field.optionalDate,
     'updated_at': _Field.date,
   },
   'admin_get_member_record': {
@@ -281,8 +298,12 @@ const _detailContracts = <String, Map<String, _Field>>{
     'collect_id': _Field.text,
     'member_name': _Field.optionalText,
     'momo_registered_name': _Field.optionalText,
-    'momo_masked': _Field.optionalText,
-    'whatsapp_masked': _Field.optionalText,
+    'momo_number': _Field.optionalText,
+    'whatsapp_phone': _Field.optionalText,
+    'momo_pay_code': _Field.optionalText,
+    'member_type': _Field.text,
+    'contributed_amount_rwf': _Field.optionalText,
+    'contribution_status': _Field.text,
     'account_state': _Field.text,
     'origin': _Field.text,
     'lifecycle': _Field.text,
@@ -290,6 +311,7 @@ const _detailContracts = <String, Map<String, _Field>>{
     'created_at': _Field.date,
   },
   'admin_get_collection': {
+    'admin_operator_draft': _Field.boolean,
     'id': _Field.uuid,
     'slug': _Field.optionalText,
     'title': _Field.text,
@@ -309,7 +331,6 @@ const _detailContracts = <String, Map<String, _Field>>{
     'creation_origin': _Field.text,
     'archived_at': _Field.optionalDate,
     'currency': _Field.text,
-    'diaspora_enabled': _Field.boolean,
     'active_receivers': _Field.count,
     'active_members': _Field.count,
     'pending_payment_intents': _Field.count,
@@ -358,6 +379,15 @@ const _detailContracts = <String, Map<String, _Field>>{
     'latest_attempt_state': _Field.optionalText,
     'delivery_claim': _Field.text,
   },
+  'admin_get_staff_user_v1': {
+    'id': _Field.uuid,
+    'display_name': _Field.optionalText,
+    'email': _Field.optionalText,
+    'public_id': _Field.optionalText,
+    'staff_access': _Field.boolean,
+    'operator_approved': _Field.boolean,
+    'created_at': _Field.date,
+  },
   'admin_get_admin_user': {
     'id': _Field.uuid,
     'user_id': _Field.uuid,
@@ -380,8 +410,8 @@ void validateAdminDetailRequest(String rpcName, String id) {
   if (id.isEmpty || id.length > 160) _invalid();
   if (_detailContracts.containsKey(rpcName) && !_uuidValue(id)) _invalid();
   if (rpcName == 'admin_get_collect_transaction') {
-    final match = RegExp(r'^(momo|diaspora):([0-9a-f-]{36})$').firstMatch(id);
-    if (match == null || !_uuidValue(match[2])) _invalid();
+    final match = RegExp(r'^momo:([0-9a-f-]{36})$').firstMatch(id);
+    if (match == null || !_uuidValue(match[1])) _invalid();
   }
 }
 
@@ -397,9 +427,8 @@ Map<String, dynamic> validateAdminDetail(
   if (row['id'] != id) _invalid();
   var contract = _detailContracts[rpcName];
   if (rpcName == 'admin_get_collect_transaction') {
-    final match = RegExp(r'^(momo|diaspora):([0-9a-f-]{36})$').firstMatch(id);
-    if (match == null || !_uuidValue(match[2])) _invalid();
-    final momo = match[1] == 'momo';
+    final match = RegExp(r'^momo:([0-9a-f-]{36})$').firstMatch(id);
+    if (match == null || !_uuidValue(match[1])) _invalid();
     contract = {
       'id': _Field.text,
       'transaction_id': _Field.text,
@@ -414,29 +443,54 @@ Map<String, dynamic> validateAdminDetail(
       'allocation_status': _Field.text,
       'received_at': _Field.date,
       'created_at': _Field.date,
-      if (momo) ...{
-        'raw_sms_id': _Field.uuid,
-        'sender_name': _Field.optionalText,
-        'network': _Field.text,
-      } else ...{
-        'raw_bank_event_id': _Field.optionalUuid,
-        'source': _Field.text,
-        'payer_name': _Field.optionalText,
-        'provider': _Field.text,
-      },
+      'raw_sms_id': _Field.uuid,
+      'sender_name': _Field.optionalText,
+      'network': _Field.text,
     };
-    if (row['rail'] != (momo ? 'rw_momo' : 'diaspora_account') ||
-        (momo && row['raw_sms_id'] != match[2])) {
+    final supplement = AdminTransactionDetails.parse(row);
+    if (supplement.member != null) {
+      validateAdminDetail(
+        'admin_get_member_record',
+        supplement.member!['id'] as String,
+        supplement.member!,
+      );
+    }
+    if (row['rail'] != 'rw_momo' || row['raw_sms_id'] != match[1]) {
       _invalid();
     }
   }
   if (contract != null) {
-    _keys(row, contract.keys.toSet());
+    final baseRow = rpcName == 'admin_get_collect_transaction'
+        ? (Map<String, dynamic>.from(row)..removeWhere(
+            (key, _) => const {
+              'collect_transaction_id',
+              'identity_status',
+              'sms_details',
+              'payer_insights',
+            }.contains(key),
+          ))
+        : row;
+    _keys(baseRow, contract.keys.toSet());
     for (final field in contract.entries) {
       if (!_field(row[field.key], field.value)) _invalid();
     }
   }
   if (rpcName == 'admin_get_admin_user' && row['user_id'] != id) _invalid();
+  if (rpcName == 'admin_get_staff_user_v1' &&
+      (row['public_id'] != null &&
+              !RegExp(r'^[0-9]{6}$').hasMatch(row['public_id'] as String) ||
+          row['staff_access'] == true && row['operator_approved'] != true)) {
+    _invalid();
+  }
+  if (rpcName == 'admin_get_user' &&
+      ((row['public_id'] != null &&
+              !RegExp(r'^[0-9]{6}$').hasMatch(row['public_id'] as String)) ||
+          !{'admin', 'active', 'registered'}.contains(row['status']) ||
+          !{'Admin', 'Staff', 'App'}.contains(row['user_type']) ||
+          (row['groups_total'] as int) < (row['active_groups'] as int))) {
+    _invalid();
+  }
+  if (rpcName == 'admin_get_member_record') validateAdminMemberIdentity(row);
   if (rpcName == 'admin_get_hybrid_sms_receipt') {
     final digest = row['body_sha256'];
     if (row['channel'] != 'Assisted SMS operator' ||

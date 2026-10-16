@@ -30,6 +30,8 @@ const _evidenceAdmin = AdminIdentity(
     'users.read',
     'payments.read',
     'payments.allocate',
+    'payments.propose',
+    'collections.create',
     'payment_events.read',
     'ledger.read',
     'receivers.read',
@@ -51,6 +53,38 @@ const _evidenceAdmin = AdminIdentity(
 
 class AdminEvidenceRepository extends AdminRepositoryBase {
   const AdminEvidenceRepository();
+
+  @override
+  Future<AdminUserGroupsPage> userGroups(
+    String userId, {
+    int limit = 25,
+    int offset = 0,
+  }) async {
+    final rows = [
+      for (var index = 1; index <= 2; index++)
+        {
+          'collection_id':
+              '99160000-0000-4000-8000-${index.toString().padLeft(12, '0')}',
+          'title': index == 1 ? 'Buri Munsi' : 'Family savings',
+          'visibility': index == 1 ? 'public_approved' : 'private',
+          'active': true,
+          'roles': index == 1 ? ['member'] : ['owner', 'admin', 'member'],
+          'membership_statuses': ['active'],
+          'contributed_amount_rwf': index == 1 ? '2500' : '10000',
+          'contribution_status': 'available',
+        },
+    ];
+    return AdminUserGroupsPage.parse(
+      {
+        'user_id': userId,
+        'rows': rows.skip(offset).take(limit).toList(),
+        'total': rows.length,
+      },
+      userId: userId,
+      limit: limit,
+      offset: offset,
+    );
+  }
 
   @override
   Future<Map<String, dynamic>> prepareRosterImport(
@@ -146,24 +180,7 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
   Future<Map<String, dynamic>> detail(String rpcName, String id) async {
     const createdAt = '2026-08-20T06:30:00Z';
     return switch (rpcName) {
-      'admin_get_collect_transaction' => {
-        'id': id,
-        'transaction_id': '681601',
-        'payment_route': 'Rwanda MoMo',
-        'raw_sms_id': '00000000-0000-0000-0000-000000006816',
-        'sms_sender': 'MTN MoMo',
-        'sender_masked': '078•••4321',
-        'parse_status': 'parsed',
-        'sender_name': 'Evidence payer',
-        'network': 'MTN MoMo',
-        'reference': 'COL-RW-6816',
-        'amount': 'RWF 25,000',
-        'payee': 'St Michael group MoMo receiver ••6816',
-        'group_name': 'St Michael building fund',
-        'allocation_status': 'allocated',
-        'status': 'allocated',
-        'received_at': createdAt,
-      },
+      'admin_get_collect_transaction' => _evidenceTransactionDetail(id),
       'admin_get_payment_intent' => {
         'id': id,
         'collection_id': 'collection-1',
@@ -217,6 +234,7 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
         'raw_body': 'Hidden; audited permission required',
       },
       'admin_get_collection' => {
+        'admin_operator_draft': false,
         'id': id,
         'name': id == 'collection-1'
             ? 'Buri Munsi'
@@ -257,24 +275,41 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
         'created_at': createdAt,
       },
       'admin_get_user' => {
+        'display_name': 'Evidence app user',
+        'email': null,
+        'user_type': 'App',
         'id': id,
-        'collect_id': 'CM6816',
-        'display_name': 'Evidence member',
-        'phone_masked': '+250***4321',
-        'country_code': 'RW',
-        'momo_masked': '078•••••11',
-        'payment_profile': '078•••••11',
+        'public_id': '960201',
+        'whatsapp_phone': '+250788004321',
+        'momo_number': '+250788004311',
+        'momo_pay_code': '41258',
+        'momo_provider': 'mtn_momo',
         'active_groups': id == 'user-1' ? 0 : 2,
+        'groups_total': id == 'user-1' ? 0 : 2,
         'status': 'active',
+        'created_at': createdAt,
+        'updated_at': createdAt,
+      },
+      'admin_get_staff_user_v1' => {
+        'id': id,
+        'display_name': 'Evidence Staff user',
+        'email': 'staff@collect.example',
+        'public_id': '960203',
+        'staff_access': true,
+        'operator_approved': true,
         'created_at': createdAt,
       },
       'admin_get_member_record' => {
         'id': id,
         'collect_id': '960200',
-        'member_name': 'Evidence feature-phone member',
-        'momo_registered_name': 'EVIDENCE FEATURE PHONE MEMBER',
-        'momo_masked': '+250•••200',
-        'whatsapp_masked': null,
+        'member_name': 'Evidence direct member',
+        'momo_registered_name': 'EVIDENCE DIRECT MEMBER',
+        'momo_number': '+250788005200',
+        'whatsapp_phone': null,
+        'momo_pay_code': '41258',
+        'member_type': 'Direct',
+        'contributed_amount_rwf': '125000',
+        'contribution_status': 'available',
         'account_state': 'feature_phone',
         'origin': 'admin_assisted',
         'lifecycle': 'active',
@@ -358,6 +393,9 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
           extra: {
             'sender_masked': _maskedPayer(index),
             'reference': 'COLLECT-AB${1200 + index}-${6800 + index}',
+            'collect_transaction_id':
+                '321258${index.toString().padLeft(9, '0')}',
+            'identity_status': 'ready',
             'age': _rowAge(index),
             'allocated_to': 'St Michael building fund',
             'operator': index.isEven ? 'Checker B.' : 'Maker A.',
@@ -405,6 +443,16 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
 
   @override
   Future<List<AdminMetric>> overviewMetrics() async => const [
+    AdminMetric(label: 'Total users', value: '12', status: 'active'),
+    AdminMetric(label: 'Total groups', value: '6', status: 'active'),
+    AdminMetric(label: 'Total members', value: '10', status: 'active'),
+    AdminMetric(label: 'Total collected', value: '15300', status: 'active'),
+    AdminMetric(
+      label: 'Verified posted total',
+      value: '14300',
+      status: 'active',
+    ),
+    AdminMetric(label: 'Total transactions', value: '7', status: 'active'),
     AdminMetric(
       label: 'Open reconciliations',
       value: '3',
@@ -413,10 +461,11 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
     AdminMetric(
       label: 'Unallocated transactions',
       value: '2',
-      status: 'pending',
+      status: 'needs_review',
     ),
     AdminMetric(label: 'Balanced ledgers', value: '10', status: 'active'),
     AdminMetric(label: 'Active payees', value: '2', status: 'active'),
+    AdminMetric(label: 'SMS receipts', value: '8', status: 'active'),
   ];
 
   @override
@@ -478,6 +527,7 @@ int _rowCount(String rpcName) => switch (rpcName) {
   'admin_list_collect_reconciliations' => 4,
   'admin_list_collect_ledgers' => 10,
   'admin_list_members' => 21,
+  'admin_list_users' => 12,
   'admin_list_non_member_users' => 4,
   'admin_list_collections' => 30,
   'admin_list_payment_intents' => 12,
@@ -494,18 +544,22 @@ int _rowCount(String rpcName) => switch (rpcName) {
   'admin_list_settings' => 3,
   'admin_list_feature_flags' => 3,
   'admin_list_admin_users' => 2,
+  'admin_list_staff_users' => 2,
   _ => 0,
 };
 
 String _rowId(String rpcName, int index) => switch (rpcName) {
   'admin_list_collect_payees' => 'momo:payee-$index',
   'admin_list_platform_payee_candidates' => 'collection-$index',
-  'admin_list_collect_transactions' => 'momo:transaction-$index',
-  'admin_list_collect_reconciliations' => 'momo:exception-$index',
+  'admin_list_collect_transactions' || 'admin_list_collect_reconciliations' =>
+    'momo:99220000-0000-4000-8000-${index.toString().padLeft(12, '0')}',
   'admin_list_collect_ledgers' => 'ledger-$index',
-  'admin_list_users' ||
-  'admin_list_members' ||
-  'admin_list_non_member_users' => 'user-$index',
+  'admin_list_users' =>
+    '99160000-0000-4000-8000-${index.toString().padLeft(12, '0')}',
+  'admin_list_members' || 'admin_list_non_member_users' =>
+    '99210000-0000-4000-8000-${index.toString().padLeft(12, '0')}',
+  'admin_list_staff_users' =>
+    '99240000-0000-4000-8000-${index.toString().padLeft(12, '0')}',
   'admin_list_collections' => 'collection-$index',
   'admin_list_admin_users' =>
     '99740000-0000-4000-8000-${index.toString().padLeft(12, '0')}',
@@ -520,7 +574,7 @@ String _rowTitle(String rpcName, int index) => switch (rpcName) {
   'admin_list_collect_reconciliations' =>
     'Unallocated MoMo receipt ${681600 + index}',
   'admin_list_collect_ledgers' => 'Ledger entry ${681600 + index}',
-  'admin_list_users' ||
+  'admin_list_users' => 'Collect ID ${938490 + index}',
   'admin_list_members' ||
   'admin_list_non_member_users' => 'Collect ID ${38490 + index}',
   'admin_list_collections' => switch (index) {
@@ -586,8 +640,23 @@ String _rowAmount(String rpcName, int index) => switch (rpcName) {
 };
 
 Map<String, dynamic> _rowExtra(String rpcName, int index) {
-  if (rpcName == 'admin_list_collect_transactions') {
+  if (rpcName == 'admin_list_collect_payees') {
     return {
+      'collection_title': index == 1 ? 'Buri Munsi' : 'Gikundiro',
+      'momo_code': index == 1 ? '41258' : '008000',
+    };
+  }
+  if (rpcName == 'admin_list_collect_transactions' ||
+      rpcName == 'admin_list_collect_reconciliations') {
+    return {
+      'payer_name': 'EVIDENCE PAYER',
+      'payer_last_three': '321',
+      'payee_momo_number_or_code': '41258',
+      'momo_transaction_id': 'SYNTHETIC-${681600 + index}',
+      'momo_occurred_at': '2026-08-20T06:25:00Z',
+      'wallet_balance_rwf': '250000',
+      'momo_network': 'mtn_momo',
+      'momo_direction': 'incoming',
       'source_label': 'MTN MoMo receipt SMS',
       'group_name': 'Buri Munsi',
       'payee_label': 'IKANISA LTD',
@@ -609,19 +678,39 @@ Map<String, dynamic> _rowExtra(String rpcName, int index) {
     };
   }
   if (rpcName == 'admin_list_members' ||
-      rpcName == 'admin_list_non_member_users') {
+      rpcName == 'admin_list_users' ||
+      rpcName == 'admin_list_non_member_users' ||
+      rpcName == 'admin_list_staff_users') {
     final member = rpcName == 'admin_list_members';
+    final direct = member
+        ? index.isOdd
+        : rpcName == 'admin_list_users' && index % 4 == 0;
     return {
-      'public_id': '${38490 + index}',
+      'public_id': '${938490 + index}',
+      'record_type': direct ? 'direct' : 'auth',
+      'user_type': member
+          ? (direct ? 'Direct' : 'App')
+          : rpcName == 'admin_list_staff_users'
+          ? 'Staff'
+          : ['Admin', 'Staff', 'App', 'Direct'][(index - 1) % 4],
+      'email':
+          !member &&
+              !direct &&
+              (rpcName == 'admin_list_staff_users' || index % 4 <= 2)
+          ? 'operator$index@collect.example'
+          : null,
       'display_name': member ? 'Member $index' : 'User $index',
-      'whatsapp_masked': member && index.isOdd
-          ? null
-          : '+250 78•••${4300 + index}',
-      'account_state': member && index.isOdd ? 'feature_phone' : 'app',
+      'whatsapp_masked': direct ? null : '+250 78•••${4300 + index}',
+      'account_state': direct ? 'feature_phone' : 'app',
       'country_code': 'RW',
       'currency_code': 'RWF',
       'momo_provider': 'mtn_momo',
       'momo_masked': '078•••••${(10 + index) % 100}',
+      'whatsapp_phone': direct
+          ? null
+          : '+25078800${(4300 + index).toString().padLeft(4, '0')}',
+      'momo_number': '+25078800${(5300 + index).toString().padLeft(4, '0')}',
+      'momo_pay_code': index.isEven ? '41258' : null,
       'active_groups': member ? 1 + (index % 4) : 0,
       'is_platform_admin': index == 10,
     };
@@ -651,3 +740,63 @@ String _rowAge(int index) {
 
 DateTime _rowCreatedAt(int index) =>
     DateTime.utc(2026, 8, 20, 22 - (index % 8), index.isEven ? 0 : 30);
+
+Map<String, dynamic> _evidenceTransactionDetail(String id) {
+  final raw = id.startsWith('momo:') ? id.substring(5) : id;
+  return {
+    'id': id,
+    'transaction_id': 'SYNTHETIC-681601',
+    'payment_route': 'Rwanda MoMo',
+    'rail': 'rw_momo',
+    'raw_sms_id': raw,
+    'sms_sender': 'MTN MoMo',
+    'parse_status': 'parsed',
+    'sender_name': 'EVIDENCE PAYER',
+    'network': 'mtn_momo',
+    'reference': 'SYNTHETIC-681601',
+    'amount': '25000',
+    'payee': '41258',
+    'group_name': 'Buri Munsi',
+    'allocation_status': 'allocated',
+    'received_at': '2026-08-20T06:30:00Z',
+    'created_at': '2026-08-20T06:30:00Z',
+    'collect_transaction_id': '321258000000001',
+    'identity_status': 'ready',
+    'sms_details': {
+      'raw_sms_id': raw,
+      'event_id': '99220000-0000-4000-8000-000000000101',
+      'payment_id': null,
+      'provider_transaction_id': 'SYNTHETIC-681601',
+      'provider_occurred_at': '2026-08-20T06:25:00Z',
+      'payer_name': 'EVIDENCE PAYER',
+      'payer_last_three': '321',
+      'payee_momo_number_or_code': '41258',
+      'amount_rwf': '25000',
+      'wallet_balance_rwf': '250000',
+      'currency': 'RWF',
+      'network': 'mtn_momo',
+      'direction': 'incoming',
+      'allocation_status': 'allocated',
+      'parse_status': 'parsed',
+      'parser_model': 'deterministic',
+      'parser_schema_version': '1',
+      'confidence': 1.0,
+      'received_at_device': '2026-08-20T06:26:00Z',
+      'ingested_at': '2026-08-20T06:30:00Z',
+      'raw_created_at': '2026-08-20T06:30:00Z',
+      'parsed_at': '2026-08-20T06:31:00Z',
+      'body_sha256': 'a' * 64,
+      'client_envelope_id': null,
+      'native_action_capability_id': null,
+      'attestation_request_sha256': null,
+      'device_attested_at': null,
+    },
+    'payer_insights': {
+      'status': 'identity_unresolved',
+      'match_basis': null,
+      'member': null,
+      'groups': null,
+      'transaction_counts': null,
+    },
+  };
+}

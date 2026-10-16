@@ -1,3 +1,4 @@
+import '../shared/components/admin_data_listing.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -256,9 +257,7 @@ class _AdminAutomationsPageState
                               'Refresh for current queue counts. Previous measurements are hidden.',
                             )
                           else ...[
-                            Wrap(
-                              spacing: 24,
-                              runSpacing: 16,
+                            Column(
                               children: [
                                 for (final entry
                                     in AdminSmsQueueHealth.countLabels.entries)
@@ -324,9 +323,7 @@ class _AdminAutomationsPageState
                         'Refresh for current scheduler measurements. Previous values are hidden.',
                       )
                     else ...[
-                      Wrap(
-                        spacing: 24,
-                        runSpacing: 16,
+                      Column(
                         children: [
                           _OperationMetric(
                             label: 'Notifications due',
@@ -400,12 +397,7 @@ class _OperationsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.surfaceReadable,
-        borderRadius: CollectRadius.cardBorder,
-        border: Border.all(color: colors.border),
-      ),
+    return AdminDataSection(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -439,17 +431,8 @@ class _OperationMetric extends StatelessWidget {
   const _OperationMetric({required this.label, required this.value});
   final String label, value;
   @override
-  Widget build(BuildContext context) => SizedBox(
-    width: 210,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: Theme.of(context).textTheme.bodySmall),
-        const SizedBox(height: 4),
-        Text(value, style: Theme.of(context).textTheme.titleLarge),
-      ],
-    ),
-  );
+  Widget build(BuildContext context) =>
+      AdminDataFieldRow(label: label, value: value);
 }
 
 class _SampleLoading extends StatelessWidget {

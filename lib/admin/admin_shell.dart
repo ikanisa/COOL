@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../app/env/app_env.dart';
 import '../app/theme/collect_colors.dart';
 import '../app/theme/collect_radius.dart';
 import '../app/theme/collect_runtime_assets.dart';
@@ -33,7 +32,9 @@ class _AdminShellState extends ConsumerState<AdminShell> {
 
   @override
   Widget build(BuildContext context) {
-    final env = ref.watch(appEnvProvider);
+    // Keep one session-scoped subscription alive while access/configuration
+    // are revalidated. Their loading states must not trigger a rejoin loop.
+    ref.watch(adminRealtimeSubscriptionProvider);
     final identity = ref.watch(adminIdentityProvider);
     return Scaffold(
       backgroundColor: context.collectUniversalTokens.adminWorkspace,
@@ -54,7 +55,6 @@ class _AdminShellState extends ConsumerState<AdminShell> {
           ),
           data: (value) {
             if (value == null) return const AdminDeniedPage();
-            ref.watch(adminRealtimeSubscriptionProvider);
             final configuration = ref.watch(adminRuntimeConfigProvider);
             final ready = !configuration.isLoading && !configuration.hasError;
             final runtimeConfig = ready ? configuration.valueOrNull : null;
@@ -83,7 +83,9 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                   ? widget.child
                   : AdminDeniedPage(
                       requiredPermission:
-                          widget.location == '/admin/sms-gateway'
+                          widget.location == '/admin/privacy-requests'
+                          ? 'platform_owner, users.read and audit.read'
+                          : widget.location == '/admin/sms-gateway'
                           ? 'notifications.read and system_health.read'
                           : widget.location == '/admin/exceptions'
                           ? 'payments.read, notifications.read and system_health.read'
@@ -116,7 +118,6 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                             child: Column(
                               children: [
                                 _AdminTopbar(
-                                  envName: env.environmentName,
                                   identity: value,
                                   location: widget.location,
                                   destinations: destinations,
@@ -554,13 +555,11 @@ class _NavItem extends StatelessWidget {
 
 class _AdminTopbar extends ConsumerWidget {
   const _AdminTopbar({
-    required this.envName,
     required this.identity,
     required this.location,
     required this.destinations,
   });
 
-  final String envName;
   final AdminIdentity identity;
   final String location;
   final List<_AdminNavDestination> destinations;
@@ -569,12 +568,17 @@ class _AdminTopbar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.collectColors;
     final current = _destinationForLocation(location, destinations);
+    final accessLabel = identity.roles.contains('staff') ? 'Staff' : 'Admin';
     final lastRefresh = ref.watch(adminLastSuccessfulRefreshProvider);
+    final liveStatus = ref.watch(adminLiveUpdateStatusProvider);
+    final refreshLabel = lastRefresh == null
+        ? 'Not refreshed'
+        : 'Last refreshed: ${adminKigaliTime(lastRefresh)} · Africa/Kigali';
+    final liveLabel = '${liveStatus.label} · $refreshLabel';
     return Semantics(
       container: true,
       explicitChildNodes: true,
-      label:
-          'Signed in as ${identity.displayName}. Access: Admin. Environment: $envName.',
+      label: 'Signed in as ${identity.displayName}. Access: $accessLabel.',
       child: Material(
         color: context.collectUniversalTokens.adminRail,
         child: SafeArea(
@@ -616,45 +620,66 @@ class _AdminTopbar extends ConsumerWidget {
                           ),
                           const SizedBox(width: 5),
                           Flexible(
-                            child: Text(
-                              _workspaceTitle(current),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    color: colors.onImagePrimary,
-                                    fontWeight: CollectTypography.weightBold,
-                                  ),
+                            child: Semantics(
+                              header: true,
+                              excludeSemantics: true,
+                              label: current == null
+                                  ? 'Admin workspace'
+                                  : '${current.label} admin section',
+                              child: Text(
+                                _workspaceTitle(current),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(
+                                      color: colors.onImagePrimary,
+                                      fontWeight: CollectTypography.weightBold,
+                                    ),
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      if (!compact) ...[
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.refresh_rounded,
-                              size: 15,
-                              color: colors.onImagePrimary.withValues(
-                                alpha: 0.54,
+                      const SizedBox(height: 4),
+                      Semantics(
+                        key: const Key('admin-live-update-status'),
+                        container: true,
+                        excludeSemantics: true,
+                        label: liveLabel,
+                        child: Tooltip(
+                          message: liveLabel,
+                          child: Row(
+                            children: [
+                              Icon(
+                                liveStatus == AdminLiveUpdateStatus.live
+                                    ? Icons.sensors_rounded
+                                    : liveStatus ==
+                                          AdminLiveUpdateStatus.unavailable
+                                    ? Icons.cloud_off_outlined
+                                    : Icons.sync_rounded,
+                                size: 15,
+                                color: colors.onImagePrimary.withValues(
+                                  alpha: 0.54,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              lastRefresh == null
-                                  ? 'Not refreshed'
-                                  : 'Last refreshed: ${adminKigaliTime(lastRefresh)} · Africa/Kigali',
-                              style: Theme.of(context).textTheme.labelMedium
-                                  ?.copyWith(
-                                    color: colors.onImagePrimary.withValues(
-                                      alpha: 0.62,
-                                    ),
-                                  ),
-                            ),
-                          ],
+                              const SizedBox(width: 6),
+                              Flexible(
+                                child: Text(
+                                  liveLabel,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.labelMedium
+                                      ?.copyWith(
+                                        color: colors.onImagePrimary.withValues(
+                                          alpha: 0.62,
+                                        ),
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
+                      ),
                     ],
                   ),
                 ),
@@ -711,8 +736,6 @@ class _AdminTopbar extends ConsumerWidget {
                   ),
                 ],
                 const SizedBox(width: 14),
-                _EnvironmentBadge(envName: envName),
-                const SizedBox(width: 8),
                 const _AdminCountryBadge(),
                 const SizedBox(width: 12),
                 Semantics(
@@ -722,7 +745,20 @@ class _AdminTopbar extends ConsumerWidget {
                     tooltip: 'Operator menu',
                     onSelected: (value) async {
                       if (value != 'sign-out') return;
-                      await ref.read(adminRepositoryProvider).signOut();
+                      try {
+                        await ref.read(adminRepositoryProvider).signOut();
+                      } catch (_) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Sign-out was not confirmed. Please try again.',
+                              ),
+                            ),
+                          );
+                        }
+                        return;
+                      }
                       if (!context.mounted) return;
                       ref.invalidate(adminAuthStateProvider);
                       ref.invalidate(adminAuthGuardProvider);
@@ -739,9 +775,12 @@ class _AdminTopbar extends ConsumerWidget {
                         ),
                       ),
                     ],
-                    child: SizedBox(
-                      height: 48,
-                      width: showIdentity ? null : 48,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: 48,
+                        minWidth: 48,
+                        maxWidth: showIdentity ? double.infinity : 48,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -782,7 +821,7 @@ class _AdminTopbar extends ConsumerWidget {
                                         ),
                                   ),
                                   Text(
-                                    'Admin',
+                                    accessLabel,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context)
@@ -861,39 +900,6 @@ class _AdminCountryBadge extends StatelessWidget {
       ),
     ),
   );
-}
-
-class _EnvironmentBadge extends StatelessWidget {
-  const _EnvironmentBadge({required this.envName});
-
-  final String envName;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.onImagePrimary.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color: colors.onImagePrimary.withValues(alpha: 0.14),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
-        child: Text(
-          envName.toUpperCase(),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: colors.onImagePrimary,
-            fontWeight: CollectTypography.weightBold,
-            letterSpacing: CollectTypography.trackingMeta,
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 class AdminPageError extends StatelessWidget {

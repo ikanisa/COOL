@@ -4,6 +4,8 @@
 *.pyc
 *.swp
 .DS_Store
+# macOS AppleDouble filesystem metadata; preserve recovered sidecars on disk.
+._*
 .atom/
 .build/
 .buildlog/
@@ -85,6 +87,7 @@ analyze_out.txt
 update_profile.dart
 package-lock.json
 !tools/public-photography/package-lock.json
+!deploy/admin-api/package-lock.json
 node_modules/
 .firebase/
 .agent/

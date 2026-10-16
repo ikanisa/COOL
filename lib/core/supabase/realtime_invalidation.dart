@@ -29,20 +29,25 @@ class RealtimeInvalidationSubscription {
     required String topic,
     required Set<String> areas,
     required FutureOr<void> Function() onInvalidate,
+    void Function(RealtimeSubscribeStatus status, Object? error)? onStatus,
+    FutureOr<void> Function(Set<String> areas)? onInvalidateAreas,
     String? ownerUserId,
     Duration debounce = const Duration(milliseconds: 350),
   }) : _client = client,
        _topic = topic,
        _ownerUserId = ownerUserId,
+       _onStatus = onStatus,
        _coordinator = RealtimeInvalidationCoordinator(
          areas: areas,
          onInvalidate: onInvalidate,
+         onInvalidateAreas: onInvalidateAreas,
          debounce: debounce,
        );
 
   final SupabaseClient _client;
   final String _topic;
   final String? _ownerUserId;
+  final void Function(RealtimeSubscribeStatus status, Object? error)? _onStatus;
   final RealtimeInvalidationCoordinator _coordinator;
 
   RealtimeChannel? _channel;
@@ -62,7 +67,8 @@ class RealtimeInvalidationSubscription {
     }
     try {
       _subscribe();
-    } catch (_) {
+    } catch (error) {
+      _notifyStatus(RealtimeSubscribeStatus.channelError, error);
       _scheduleRetry();
     }
   }
@@ -112,6 +118,7 @@ class RealtimeInvalidationSubscription {
 
   void _handleStatus(RealtimeSubscribeStatus status, Object? error) {
     if (_disposed || !_ownerCurrent) return;
+    _notifyStatus(status, error);
     _coordinator.connectionStatus(status);
     if (status == RealtimeSubscribeStatus.subscribed) {
       _retryTimer?.cancel();
@@ -125,6 +132,16 @@ class RealtimeInvalidationSubscription {
     _stableTimer?.cancel();
     _stableTimer = null;
     if (!_restarting) _scheduleRetry();
+  }
+
+  void _notifyStatus(RealtimeSubscribeStatus status, Object? error) {
+    if (_disposed || !_ownerCurrent) return;
+    try {
+      _onStatus?.call(status, error);
+    } catch (_) {
+      // A presentation observer cannot interrupt recovery or authoritative
+      // invalidation. Provider/session disposal remains its own boundary.
+    }
   }
 
   void _scheduleRetry() {
@@ -156,7 +173,8 @@ class RealtimeInvalidationSubscription {
     if (_disposed || !_ownerCurrent) return;
     try {
       _subscribe();
-    } catch (_) {
+    } catch (error) {
+      _notifyStatus(RealtimeSubscribeStatus.channelError, error);
       _scheduleRetry();
     }
   }
@@ -173,15 +191,19 @@ class RealtimeInvalidationCoordinator {
   RealtimeInvalidationCoordinator({
     required Set<String> areas,
     required FutureOr<void> Function() onInvalidate,
+    FutureOr<void> Function(Set<String> areas)? onInvalidateAreas,
     Duration debounce = const Duration(milliseconds: 350),
   }) : _areas = areas,
        _onInvalidate = onInvalidate,
+       _onInvalidateAreas = onInvalidateAreas,
        _debounce = debounce;
 
   final Set<String> _areas;
   final FutureOr<void> Function() _onInvalidate;
+  final FutureOr<void> Function(Set<String> areas)? _onInvalidateAreas;
   final Duration _debounce;
   final Set<String> _seenIds = <String>{};
+  final Set<String> _pendingAreas = <String>{};
   Timer? _timer;
   bool _connected = false;
   bool _invalidateInFlight = false;
@@ -197,6 +219,7 @@ class RealtimeInvalidationCoordinator {
       _connected = true;
       // A change between the last RPC read and the new Realtime join is not
       // replayed by the channel. Reconcile once after every successful join.
+      _pendingAreas.addAll(_areas);
       _scheduleInvalidation();
     } else {
       _connected = false;
@@ -210,6 +233,7 @@ class RealtimeInvalidationCoordinator {
       if (!_seenIds.add(id)) return;
       if (_seenIds.length > 256) _seenIds.remove(_seenIds.first);
     }
+    _pendingAreas.add(row['area'] as String);
     _scheduleInvalidation();
   }
 
@@ -245,6 +269,14 @@ class RealtimeInvalidationCoordinator {
   }
 
   Future<void> _refreshOnce() async {
+    final areas = Set<String>.unmodifiable(_pendingAreas);
+    _pendingAreas.clear();
+    try {
+      await _onInvalidateAreas?.call(areas);
+    } catch (_) {
+      // A presentation/access observer cannot suppress the authoritative read.
+    }
+    if (_disposed) return;
     try {
       await Future<void>.sync(_onInvalidate);
     } catch (_) {
@@ -259,5 +291,6 @@ class RealtimeInvalidationCoordinator {
     _timer?.cancel();
     _timer = null;
     _seenIds.clear();
+    _pendingAreas.clear();
   }
 }

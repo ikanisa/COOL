@@ -31,6 +31,7 @@ final adminReceiptSuccessorExecutionApiProvider =
       ref.listen(adminIdentityProvider, (_, _) => current = false);
       ref.listen(adminAuthSessionScopeProvider, (_, _) => current = false);
       return AdminReceiptSuccessorExecutionSdk(
+        executionVersion: 5,
         rpc: (name, params) =>
             repository.rpcMap(name, params: params, automaticRetry: false),
         isCurrent: () =>

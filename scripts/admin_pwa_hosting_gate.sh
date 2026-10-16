@@ -27,6 +27,13 @@ failures = []
 
 headers = File.file?(headers_path) ? File.read(headers_path) : ""
 robots = File.file?(robots_path) ? File.read(robots_path) : ""
+version_path = File.join(build_dir, "version.json")
+begin
+  cloudflare = File.file?(version_path) && JSON.parse(File.read(version_path))["backend"] == "cloudflare"
+rescue JSON::ParserError
+  cloudflare = false
+  failures << "version.json must contain valid JSON"
+end
 
 failures << "missing build/web/_headers" unless File.file?(headers_path)
 failures << "missing build/web/robots.txt" unless File.file?(robots_path)
@@ -34,7 +41,7 @@ failures << "missing build/web/robots.txt" unless File.file?(robots_path)
 required_global_headers = {
   "X-Frame-Options" => "DENY",
   "X-Content-Type-Options" => "nosniff",
-  "Referrer-Policy" => "strict-origin-when-cross-origin",
+  "Referrer-Policy" => cloudflare ? "no-referrer" : "strict-origin-when-cross-origin",
   "Permissions-Policy" => "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)",
   "X-Robots-Tag" => "noindex, nofollow"
 }
@@ -47,7 +54,7 @@ csp_required = [
   "default-src 'self'",
   "script-src 'self' 'wasm-unsafe-eval'",
   "style-src 'self' 'unsafe-inline'",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+  cloudflare ? "connect-src 'self'" : "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
   "worker-src 'self'",
   "object-src 'none'",
   "frame-ancestors 'none'",
@@ -55,6 +62,10 @@ csp_required = [
 ]
 csp_required.each do |directive|
   failures << "_headers Content-Security-Policy must include #{directive}" unless headers.include?(directive)
+end
+
+if cloudflare && headers.match?(/https:\/\/\*\.supabase\.co|wss:\/\/\*\.supabase\.co/)
+  failures << "Cloudflare Admin must not permit the retired Supabase runtime"
 end
 
 cache_rules = {

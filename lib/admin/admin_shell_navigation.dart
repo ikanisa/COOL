@@ -68,6 +68,12 @@ const _adminNavDestinations = <_AdminNavDestination>[
     'audit.read',
   ),
   _AdminNavDestination(
+    'Privacy requests',
+    Icons.privacy_tip_outlined,
+    '/admin/privacy-requests',
+    'users.read',
+  ),
+  _AdminNavDestination(
     'Settings',
     Icons.tune_outlined,
     '/admin/settings',
@@ -102,6 +108,18 @@ const _adminNavDestinations = <_AdminNavDestination>[
     Icons.warning_amber_outlined,
     '/admin/exceptions',
     'payments.read',
+  ),
+  _AdminNavDestination(
+    'Staff',
+    Icons.supervisor_account_outlined,
+    '/admin/staff',
+    'admin_users.read',
+  ),
+  _AdminNavDestination(
+    'SMS metadata',
+    Icons.sms_outlined,
+    '/admin/sms-metadata',
+    'sms.metadata.read',
   ),
   _AdminNavDestination(
     'Admin users',
@@ -172,6 +190,12 @@ bool adminCanOpenPath(
   String path, {
   AdminRuntimeConfig? runtimeConfig,
 }) {
+  if ((path == '/admin/privacy-requests' ||
+          path.startsWith('/admin/privacy-requests/')) &&
+      (!identity.roles.contains('platform_owner') ||
+          !{'users.read', 'audit.read'}.every(identity.permissions.contains))) {
+    return false;
+  }
   if ((path == '/admin/sms-gateway' ||
           path.startsWith('/admin/sms-gateway/')) &&
       !adminIdentityAllows(identity, 'system_health.read')) {
@@ -185,7 +209,14 @@ bool adminCanOpenPath(
       }.every(identity.permissions.contains)) {
     return false;
   }
-  final baseline = adminRequiredPermissionForPath(path);
+  final configured = runtimeConfig?.navigationItems.where(
+    (item) => _isSelected(item.path, path),
+  );
+  final useConfigured =
+      runtimeConfig?.useConfiguredNavigationPermissions == true &&
+      configured != null &&
+      configured.isNotEmpty;
+  final baseline = useConfigured ? null : adminRequiredPermissionForPath(path);
   if (baseline != null && !adminIdentityAllows(identity, baseline)) {
     return false;
   }
@@ -232,6 +263,7 @@ _AdminNavSection _sectionForPath(String path) {
       path.startsWith('/admin/reconciliations') ||
       path.startsWith('/admin/ledgers') ||
       path.startsWith('/admin/sms-receipts') ||
+      path.startsWith('/admin/sms-metadata') ||
       path.startsWith('/admin/exceptions')) {
     return _AdminNavSection.operations;
   }
@@ -312,6 +344,7 @@ IconData _adminIconForKey(String iconKey) {
     'notifications' => Icons.notifications_outlined,
     'automations' || 'manage_search' => Icons.manage_search_outlined,
     'audit' || 'policy' => Icons.policy_outlined,
+    'privacy' || 'privacy_tip' => Icons.privacy_tip_outlined,
     'settings' || 'tune' => Icons.tune_outlined,
     'feature_flags' || 'flag' => Icons.flag_outlined,
     'system_health' || 'monitor_heart' => Icons.monitor_heart_outlined,

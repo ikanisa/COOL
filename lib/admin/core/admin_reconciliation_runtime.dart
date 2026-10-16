@@ -132,7 +132,6 @@ class AdminReconciliationPage extends ConsumerStatefulWidget {
 
 class _AdminReconciliationPageState
     extends ConsumerState<AdminReconciliationPage> {
-  Future<AdminLoadedPage>? _queue;
   Future<AdminLoadedPage>? _reviews;
   AdminTableRowData? _payment;
   String? _scope;
@@ -141,11 +140,12 @@ class _AdminReconciliationPageState
   bool _busy = false;
   bool _history = false;
   bool _hadReadAccess = false;
-  int _page = 0;
   int _reviewPage = 0;
   int _generation = 0;
-  int _queueRequest = 0;
   int _reviewRequest = 0;
+  int _appliedReviewTick = 0;
+  bool _reviewLoadInFlight = false;
+  bool _reviewLiveRefreshScheduled = false;
   Timer? _expiryTimer;
   static const _pageSize = 25;
 
@@ -184,56 +184,75 @@ class _AdminReconciliationPageState
         scope.startsWith('${identity.userId}/') &&
         identity.permissions.contains('payments.read') &&
         (!write ||
-            (identity.roles.contains('platform_owner') &&
-                identity.permissions.contains('payments.allocate')));
+            (identity.permissions.contains('payments.allocate') ||
+                identity.permissions.contains('payments.propose')));
   }
 
-  Future<AdminLoadedPage> _loadQueue() async {
-    final scope = _scope;
-    final request = ++_queueRequest;
-    final repository = ref.read(adminRepositoryProvider);
-    final loaded = await loadAdminListPage(
-      fetch: (limit, offset) => repository.list(
-        'admin_list_collect_reconciliations',
-        limit: limit,
-        offset: offset,
-        countryCode: 'RW',
-      ),
-      page: _page,
-      pageSize: _pageSize,
-      isCurrent: () => request == _queueRequest && _sameScope(scope),
-    );
-    _page = loaded.page;
-    return loaded;
+  String? get _paymentId {
+    final payment = _payment;
+    if (payment == null) return null;
+    final id = payment.extra['payment_id'];
+    if (id is String && _reconciliationUuid.hasMatch(id)) return id;
+    // Retain the existing direct-payment caller contract. Canonical transaction
+    // references are momo:<raw-sms-id> and must never become payment UUIDs.
+    return _reconciliationUuid.hasMatch(payment.id) ? payment.id : null;
   }
 
   Future<AdminLoadedPage> _loadReviews() async {
     final scope = _scope;
-    final paymentId = _payment?.id;
+    final paymentId = _paymentId;
     final request = ++_reviewRequest;
+    _reviewLoadInFlight = true;
+    _appliedReviewTick = ref.read(adminRealtimeTickProvider);
     final repository = ref.read(adminRepositoryProvider);
-    final loaded = await loadAdminListPage(
-      fetch: (limit, offset) => repository.paymentReconciliationReviews(
-        paymentId,
-        limit: limit,
-        offset: offset,
-      ),
-      page: _reviewPage,
-      pageSize: _pageSize,
-      isCurrent: () =>
-          request == _reviewRequest &&
-          _sameScope(scope) &&
-          paymentId == _payment?.id,
-    );
-    _reviewPage = loaded.page;
-    return loaded;
+    try {
+      final loaded = await loadAdminListPage(
+        fetch: (limit, offset) => repository.paymentReconciliationReviews(
+          paymentId,
+          limit: limit,
+          offset: offset,
+        ),
+        page: _reviewPage,
+        pageSize: _pageSize,
+        isCurrent: () =>
+            request == _reviewRequest &&
+            _sameScope(scope) &&
+            identical(ref.read(adminRepositoryProvider), repository) &&
+            paymentId == _paymentId,
+      );
+      _reviewPage = loaded.page;
+      ref.read(adminLastSuccessfulRefreshProvider.notifier).state = ref.read(
+        adminClockProvider,
+      )();
+      return loaded;
+    } finally {
+      if (mounted && request == _reviewRequest) {
+        _reviewLoadInFlight = false;
+        if (ref.read(adminRealtimeTickProvider) != _appliedReviewTick) {
+          _scheduleReviewLiveRefresh();
+        }
+      }
+    }
+  }
+
+  void _scheduleReviewLiveRefresh() {
+    if (_reviewLiveRefreshScheduled || !mounted) return;
+    _reviewLiveRefreshScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _reviewLiveRefreshScheduled = false;
+      if (!mounted || _busy || _reviewLoadInFlight || !_sameScope(_scope)) {
+        return;
+      }
+      if (_paymentId == null && !_history) return;
+      if (ref.read(adminRealtimeTickProvider) == _appliedReviewTick) return;
+      _refresh();
+    });
   }
 
   void _refresh() {
     if (!mounted) return;
     setState(() {
-      _queue = _loadQueue();
-      if (_payment != null || _history) _reviews = _loadReviews();
+      if (_paymentId != null || _history) _reviews = _loadReviews();
     });
   }
 
@@ -247,9 +266,17 @@ class _AdminReconciliationPageState
 
   Future<void> _perform(
     String scope,
-    Future<String> Function() operation,
-  ) async {
-    if (_busy || !_sameScope(scope, write: true)) return;
+    Future<String> Function() operation, {
+    String permission = 'payments.allocate',
+  }) async {
+    if (_busy ||
+        !_sameScope(scope, write: true) ||
+        !_adminHasPermission(
+          _reconciliationIdentity(ref.read(adminIdentityProvider)),
+          permission,
+        )) {
+      return;
+    }
     final generation = ++_generation;
     setState(() {
       _busy = true;
@@ -265,6 +292,12 @@ class _AdminReconciliationPageState
       if (verified != true ||
           !_sameScope(scope, write: true) ||
           generation != _generation) {
+        return;
+      }
+      if (!_adminHasPermission(
+        _reconciliationIdentity(ref.read(adminIdentityProvider)),
+        permission,
+      )) {
         return;
       }
       final message = await operation();
@@ -283,22 +316,32 @@ class _AdminReconciliationPageState
   }
 
   Future<void> _propose() async {
-    final payment = _payment;
+    final paymentId = _paymentId;
     final scope = _scope;
-    if (payment == null || scope == null || !_sameScope(scope, write: true)) {
+    if (paymentId == null || scope == null || !_sameScope(scope, write: true)) {
       return;
     }
     final evidence = await _dialog<Map<String, dynamic>>(
       scope,
-      _ReconciliationEvidenceDialog(paymentId: payment.id),
+      _ReconciliationEvidenceDialog(paymentId: paymentId),
       write: true,
     );
     if (evidence == null || !_sameScope(scope, write: true)) return;
     final repository = ref.read(adminRepositoryProvider);
-    await _perform(scope, () async {
-      await repository.proposePaymentReconciliation(evidence);
-      return 'Evidence recorded. An independent reviewer must approve it.';
-    });
+    await _perform(
+      scope,
+      () async {
+        await repository.proposePaymentReconciliation(evidence);
+        return 'Evidence recorded. An independent reviewer must approve it.';
+      },
+      permission:
+          _adminHasPermission(
+            _reconciliationIdentity(ref.read(adminIdentityProvider)),
+            'payments.propose',
+          )
+          ? 'payments.propose'
+          : 'payments.allocate',
+    );
   }
 
   Future<void> _approve(Map<String, dynamic> review) async {
@@ -369,39 +412,60 @@ class _AdminReconciliationPageState
     final identity = _reconciliationIdentity(ref.watch(adminIdentityProvider));
     final currentScope = ref.watch(adminReconciliationSessionKeyProvider);
     final currentOwner = ref.watch(adminAuthUserIdProvider);
+    final realtimeTick = ref.watch(adminRealtimeTickProvider);
     if (currentScope != _scope) {
       _scope = currentScope;
       _generation++;
-      _queueRequest++;
       _reviewRequest++;
-      _queue = null;
       _reviews = null;
       _payment = null;
-      _page = 0;
       _reviewPage = 0;
       _notice = null;
       _error = null;
       _busy = false;
+      _reviewLoadInFlight = false;
       _history = false;
     }
     final canRead =
         identity?.userId == currentOwner && _sameScope(currentScope);
     if (_hadReadAccess && !canRead) {
       _generation++;
-      _queueRequest++;
       _reviewRequest++;
-      _queue = null;
       _reviews = null;
       _payment = null;
       _notice = null;
       _error = null;
       _busy = false;
+      _reviewLoadInFlight = false;
       _history = false;
-      _page = 0;
       _reviewPage = 0;
     }
     _hadReadAccess = canRead;
     final canWrite = canRead && _sameScope(currentScope, write: true);
+    if (canRead &&
+        !_busy &&
+        (_paymentId != null || _history) &&
+        realtimeTick != _appliedReviewTick) {
+      _scheduleReviewLiveRefresh();
+    }
+    if (canRead && _payment == null && !_history) {
+      return AdminRpcListPage(
+        key: ValueKey(currentScope),
+        title: 'Reconciliations',
+        rpcName: 'admin_list_collect_reconciliations',
+        subtitleOverride: 'Received payments awaiting allocation.',
+        minimal: true,
+        header: _navigation(),
+        onOpen: (row) => setState(() {
+          _payment = row;
+          _history = false;
+          _reviewPage = 0;
+          _reviews = _paymentId == null ? null : _loadReviews();
+          _error = null;
+          _notice = null;
+        }),
+      );
+    }
     return AdminPage(
       title: 'Reconciliations',
       subtitle: 'Review independent evidence before posting to the ledger.',
@@ -419,34 +483,7 @@ class _AdminReconciliationPageState
           : Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Wrap(
-                  spacing: 12,
-                  runSpacing: 8,
-                  children: [
-                    TextButton(
-                      onPressed: _busy
-                          ? null
-                          : () => setState(() {
-                              _history = false;
-                              _payment = null;
-                              _reviews = null;
-                              _reviewRequest++;
-                            }),
-                      child: const Text('Payment queue'),
-                    ),
-                    TextButton(
-                      onPressed: _busy
-                          ? null
-                          : () => setState(() {
-                              _history = true;
-                              _payment = null;
-                              _reviewPage = 0;
-                              _reviews = _loadReviews();
-                            }),
-                      child: const Text('All evidence reviews'),
-                    ),
-                  ],
-                ),
+                _navigation(),
                 if (_notice != null)
                   Padding(
                     padding: const EdgeInsets.all(12),
@@ -458,81 +495,118 @@ class _AdminReconciliationPageState
                     onRetry: _busy ? null : _refresh,
                   ),
                 if (_busy) const LinearProgressIndicator(),
-                if (_payment == null && !_history)
-                  _queueView()
-                else ...[
-                  if (_payment != null)
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _payment!.title,
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Text(_payment!.amount),
-                            const SizedBox(height: 12),
-                            const Text(
-                              'Use independently obtained provider or statement evidence. A receipt alone does not establish finality.',
-                            ),
-                            const SizedBox(height: 12),
-                            FilledButton(
-                              onPressed: _busy || !canWrite ? null : _propose,
-                              child: const Text('Propose reconciliation'),
-                            ),
-                          ],
+                if (_payment != null)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AdminRecordFactsTable(
+                        key: const ValueKey(
+                          'reconciliation-selected-payment-facts',
                         ),
+                        semanticLabel: 'Selected payment facts',
+                        fields: [
+                          (
+                            'Collect transaction ID',
+                            _transactionReference(_payment!).isEmpty
+                                ? 'Unavailable'
+                                : _transactionReference(_payment!),
+                          ),
+                          (
+                            'Amount',
+                            _transactionDisplayAmount(_payment!).isEmpty
+                                ? 'Unavailable'
+                                : _transactionDisplayAmount(_payment!),
+                          ),
+                          if (_paymentId != null)
+                            ('Payment record', _paymentId!),
+                        ],
                       ),
-                    ),
-                  _reviewView(identity, canWrite),
-                ],
+                      const SizedBox(height: 12),
+                      Text(
+                        _paymentId == null
+                            ? 'Allocate to an existing member before recording independent evidence.'
+                            : 'Use independently obtained provider or statement evidence. A receipt alone does not establish finality.',
+                      ),
+                      const SizedBox(height: 12),
+                      if (_paymentId == null &&
+                          _payment!.extra['event_id'] is String &&
+                          _reconciliationUuid.hasMatch(
+                            _payment!.extra['event_id'] as String,
+                          ))
+                        FilledButton(
+                          onPressed:
+                              _busy ||
+                                  !(_adminHasPermission(
+                                        identity,
+                                        'payments.allocate',
+                                      ) ||
+                                      _adminHasPermission(
+                                        identity,
+                                        'payments.propose',
+                                      ))
+                              ? null
+                              : () => allocateAdminExistingMember(
+                                  context,
+                                  ref,
+                                  _payment!,
+                                  () {
+                                    if (!mounted || !_sameScope(currentScope)) {
+                                      return;
+                                    }
+                                    setState(() {
+                                      _payment = null;
+                                      _reviews = null;
+                                      _reviewRequest++;
+                                    });
+                                  },
+                                ),
+                          child: const Text('Allocate to member'),
+                        ),
+                      if (_paymentId != null)
+                        FilledButton(
+                          onPressed: _busy || !canWrite ? null : _propose,
+                          child: const Text('Propose reconciliation'),
+                        ),
+                    ],
+                  ),
+                if (_paymentId != null || _history)
+                  _reviewView(
+                    identity,
+                    canWrite &&
+                        _adminHasPermission(identity, 'payments.allocate'),
+                  ),
               ],
             ),
     );
   }
 
-  Widget _queueView() => FutureBuilder<AdminLoadedPage>(
-    future: _queue ??= _loadQueue(),
-    builder: (context, snapshot) {
-      if (snapshot.connectionState != ConnectionState.done) {
-        return const AdminLoadingState();
-      }
-      if (snapshot.hasError) {
-        return AdminSafeErrorPanel(error: snapshot.error!, onRetry: _refresh);
-      }
-      final page = snapshot.data!;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (page.result.rows.isEmpty)
-            const AdminEmptyState(title: 'No payments awaiting review'),
-          for (final row in page.result.rows)
-            Card(
-              child: ListTile(
-                title: Text(row.title),
-                subtitle: Text('${row.amount} · Awaiting independent review'),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: _busy
-                    ? null
-                    : () => setState(() {
-                        _payment = row;
-                        _history = false;
-                        _reviewPage = 0;
-                        _reviews = _loadReviews();
-                        _error = null;
-                        _notice = null;
-                      }),
-              ),
-            ),
-          _paging(page, 'payments', (next) {
-            _page = next;
-            _refresh();
-          }),
-        ],
-      );
-    },
+  Widget _navigation() => Wrap(
+    spacing: 12,
+    runSpacing: 8,
+    children: [
+      TextButton(
+        onPressed: _busy
+            ? null
+            : () => setState(() {
+                _history = false;
+                _payment = null;
+                _reviews = null;
+                _reviewRequest++;
+              }),
+        child: const Text('Payment queue'),
+      ),
+      TextButton(
+        onPressed: _busy
+            ? null
+            : () => setState(() {
+                _history = true;
+                _payment = null;
+                _reviewPage = 0;
+                _reviews = _loadReviews();
+              }),
+        child: const Text('All evidence reviews'),
+      ),
+    ],
   );
 
   Widget _paging(
@@ -619,66 +693,70 @@ class _AdminReconciliationPageState
     }
     final ownProposal = review['proposed_by'] == identity?.userId;
     final ownApproval = review['approved_by'] == identity?.userId;
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 20),
+        AdminRecordFactsTable(
+          semanticLabel: 'Reconciliation review facts',
+          fields: [
+            ('Source reference', '${review['source_reference']}'),
+            (
+              'Review status',
+              switch (status) {
+                'legacy_review_required' => 'New independent review required',
+                _ => status.replaceAll('_', ' '),
+              },
+            ),
+            (
+              'Evidence time',
+              adminKigaliDateTime(
+                _reconciliationTimestamp(review['occurred_at']),
+              ),
+            ),
+            if (_history) ('Payment record', '${review['payment_id']}'),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 12,
+          runSpacing: 8,
           children: [
-            Text(
-              '${review['source_reference']}',
-              style: Theme.of(context).textTheme.titleMedium,
+            TextButton(
+              onPressed: _busy ? null : () => _showLineage(review),
+              child: const Text('Evidence and audit'),
             ),
-            Text(switch (status) {
-              'legacy_review_required' => 'New independent review required',
-              _ => status.replaceAll('_', ' '),
-            }),
-            Text(
-              'Evidence time: ${adminKigaliDateTime(_reconciliationTimestamp(review['occurred_at']))}',
-            ),
-            if (_history) Text('Payment: ${review['payment_id']}'),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 12,
-              runSpacing: 8,
-              children: [
-                TextButton(
-                  onPressed: _busy ? null : () => _showLineage(review),
-                  child: const Text('Evidence and audit'),
-                ),
-                if (status == 'proposed')
-                  FilledButton(
-                    onPressed: !canWrite || _busy || ownProposal
-                        ? null
-                        : () => _approve(review),
-                    child: const Text('Approve evidence'),
-                  ),
-                if (status == 'approved')
-                  FilledButton(
-                    onPressed: !canWrite || _busy || !ownApproval
-                        ? null
-                        : () => _finalize(review),
-                    child: const Text('Finalize reconciliation'),
-                  ),
-              ],
-            ),
-            if (status == 'proposed' && ownProposal)
-              const Text(
-                'A different approved operator must review this evidence.',
+            if (status == 'proposed')
+              FilledButton(
+                onPressed: !canWrite || _busy || ownProposal
+                    ? null
+                    : () => _approve(review),
+                child: const Text('Approve evidence'),
               ),
             if (status == 'approved')
-              Text(
-                ownApproval
-                    ? 'Approval is valid for 15 minutes. Finalize using this sign-in.'
-                    : 'The independent reviewer must finalize using the sign-in that approved this evidence.',
-              ),
-            if (status == 'expired' || status == 'legacy_review_required')
-              const Text(
-                'Record a new proposal from the payment queue and obtain independent approval.',
+              FilledButton(
+                onPressed: !canWrite || _busy || !ownApproval
+                    ? null
+                    : () => _finalize(review),
+                child: const Text('Finalize reconciliation'),
               ),
           ],
         ),
-      ),
+        if (status == 'proposed' && ownProposal)
+          const Text(
+            'A different approved operator must review this evidence.',
+          ),
+        if (status == 'approved')
+          Text(
+            ownApproval
+                ? 'Approval is valid for 15 minutes. Finalize using this sign-in.'
+                : 'The independent reviewer must finalize using the sign-in that approved this evidence.',
+          ),
+        if (status == 'expired' || status == 'legacy_review_required')
+          const Text(
+            'Record a new proposal from the payment queue and obtain independent approval.',
+          ),
+      ],
     );
   }
 }
@@ -712,8 +790,8 @@ class _ReconciliationScopeGate extends ConsumerWidget {
                 ) ==
                 scope) &&
         (!write ||
-            (identity?.roles.contains('platform_owner') == true &&
-                identity?.permissions.contains('payments.allocate') == true));
+            (identity?.permissions.contains('payments.allocate') == true ||
+                identity?.permissions.contains('payments.propose') == true));
     if (!allowed) {
       final route = ModalRoute.of(context);
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -752,412 +830,4 @@ class _ReconciliationErrorPanel extends StatelessWidget {
       ),
     ),
   );
-}
-
-class _ReconciliationStepUpDialog extends ConsumerStatefulWidget {
-  const _ReconciliationStepUpDialog();
-  @override
-  ConsumerState<_ReconciliationStepUpDialog> createState() =>
-      _ReconciliationStepUpDialogState();
-}
-
-class _ReconciliationStepUpDialogState
-    extends ConsumerState<_ReconciliationStepUpDialog> {
-  final _code = TextEditingController();
-  bool _busy = false;
-  String? _error;
-  @override
-  void dispose() {
-    _code.dispose();
-    super.dispose();
-  }
-
-  Future<void> _verify() async {
-    if (_busy) return;
-    final code = _code.text;
-    final route = ModalRoute.of(context);
-    _code.clear();
-    setState(() {
-      _busy = true;
-      _error = null;
-    });
-    try {
-      await ref.read(adminReconciliationStepUpProvider)(code);
-      if (mounted && route?.isCurrent == true) {
-        Navigator.of(context).pop(true);
-      }
-    } catch (error) {
-      if (mounted) setState(() => _error = _reconciliationError(error));
-    } finally {
-      if (mounted) setState(() => _busy = false);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) => PopScope(
-    canPop: !_busy,
-    child: AlertDialog(
-      scrollable: true,
-      title: const Text('Verify your authenticator'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Enter a current code from your existing verified authenticator to continue this reconciliation action.',
-          ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: _code,
-            enabled: !_busy,
-            autofocus: true,
-            maxLength: 6,
-            keyboardType: TextInputType.number,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: const InputDecoration(labelText: 'Authenticator code'),
-            onSubmitted: (_) => _verify(),
-          ),
-          if (_error != null)
-            Semantics(
-              liveRegion: true,
-              child: Text(
-                _error!,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                ),
-              ),
-            ),
-          if (_busy) const LinearProgressIndicator(),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: _busy ? null : () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        FilledButton(
-          onPressed: _busy ? null : _verify,
-          child: const Text('Verify and continue'),
-        ),
-      ],
-    ),
-  );
-}
-
-class _ReconciliationReasonDialog extends StatefulWidget {
-  const _ReconciliationReasonDialog();
-  @override
-  State<_ReconciliationReasonDialog> createState() =>
-      _ReconciliationReasonDialogState();
-}
-
-class _ReconciliationReasonDialogState
-    extends State<_ReconciliationReasonDialog> {
-  final _reason = TextEditingController();
-  final _form = GlobalKey<FormState>();
-  @override
-  void dispose() {
-    _reason.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => AlertDialog(
-    scrollable: true,
-    title: const Text('Approve independent evidence'),
-    content: Form(
-      key: _form,
-      child: TextFormField(
-        controller: _reason,
-        autofocus: true,
-        minLines: 2,
-        maxLines: 4,
-        maxLength: 500,
-        decoration: const InputDecoration(
-          labelText: 'Approval reason',
-          helperText: 'Recorded in the immutable audit trail.',
-        ),
-        validator: (value) => (value?.trim().length ?? 0) < 10
-            ? 'Use a reason of 10 to 500 characters.'
-            : null,
-      ),
-    ),
-    actions: [
-      TextButton(
-        onPressed: () => Navigator.pop(context),
-        child: const Text('Cancel'),
-      ),
-      FilledButton(
-        onPressed: () {
-          if (_form.currentState!.validate()) {
-            Navigator.pop(context, _reason.text.trim());
-          }
-        },
-        child: const Text('Approve evidence'),
-      ),
-    ],
-  );
-}
-
-class _ReconciliationLineageDialog extends StatefulWidget {
-  const _ReconciliationLineageDialog({required this.details});
-  final Map<String, dynamic> details;
-  @override
-  State<_ReconciliationLineageDialog> createState() =>
-      _ReconciliationLineageDialogState();
-}
-
-class _ReconciliationLineageDialogState
-    extends State<_ReconciliationLineageDialog> {
-  final _pages = <String, int>{};
-  static const _pageSize = 10;
-  @override
-  Widget build(BuildContext context) => AlertDialog(
-    scrollable: true,
-    title: const Text('Evidence and audit trail'),
-    content: SizedBox(
-      width: 640,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (final field in const {
-            'id': 'Review',
-            'payment_id': 'Payment',
-            'source_reference': 'Independent source',
-            'evidence_sha256': 'Evidence SHA-256',
-            'occurred_at': 'Evidence time',
-            'proposed_by': 'Proposed by',
-            'proposed_at': 'Proposed at',
-            'proposal_reason': 'Proposal reason',
-            'approved_by': 'Approved by',
-            'approved_at': 'Approved at',
-            'approval_reason': 'Approval reason',
-            'consumed_at': 'Finalized at',
-            'payment_status': 'Current payment status',
-            'collection_id': 'Group',
-            'amount_rwf': 'Amount (RWF)',
-            'currency': 'Currency',
-            'transaction_id': 'Provider transaction',
-            'provider_network': 'Provider network',
-            'parsed_event_id': 'Parsed event',
-            'raw_sms_id': 'SMS record',
-            'payment_intent_id': 'Payment intent',
-            'receiver_user_id': 'Receiver',
-            'member_record_id': 'Member record',
-          }.entries)
-            if (widget.details[field.key] != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: SelectableText(
-                  '${field.value}: ${widget.details[field.key]}',
-                ),
-              ),
-          for (final section in const {
-            'receiver_routes': 'Receiver routes',
-            'journals': 'Ledger journals',
-            'audit': 'Audit events',
-          }.entries)
-            _section(section.key, section.value),
-        ],
-      ),
-    ),
-    actions: [
-      TextButton(
-        onPressed: () => Navigator.pop(context),
-        child: const Text('Close'),
-      ),
-    ],
-  );
-  Widget _section(String key, String title) {
-    final rows = (widget.details[key] as List).cast<Map<Object?, Object?>>();
-    final page = _pages[key] ?? 0;
-    final start = page * _pageSize;
-    final end = math.min(start + _pageSize, rows.length);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Semantics(
-          header: true,
-          child: Text(title, style: Theme.of(context).textTheme.titleMedium),
-        ),
-        if (rows.isEmpty) const Text('No records'),
-        for (final row in rows.skip(start).take(_pageSize))
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: SelectableText(_lineageRow(key, row)),
-          ),
-        if (rows.isNotEmpty) Text('${start + 1}–$end of ${rows.length} $title'),
-        if (rows.length > _pageSize)
-          Wrap(
-            spacing: 8,
-            children: [
-              TextButton(
-                onPressed: page == 0
-                    ? null
-                    : () => setState(() => _pages[key] = page - 1),
-                child: Text('Previous $title'),
-              ),
-              TextButton(
-                onPressed: end >= rows.length
-                    ? null
-                    : () => setState(() => _pages[key] = page + 1),
-                child: Text('Next $title'),
-              ),
-            ],
-          ),
-        const Divider(),
-      ],
-    );
-  }
-
-  String _lineageRow(String key, Map<Object?, Object?> row) {
-    final keys = switch (key) {
-      'receiver_routes' => ['id', 'network', 'is_active'],
-      'journals' => ['id', 'entry_type', 'amount_rwf'],
-      _ => ['id', 'action', 'actor_user_id', 'created_at'],
-    };
-    final lines = [
-      for (final field in keys)
-        if (row[field] != null) '${field.replaceAll('_', ' ')}: ${row[field]}',
-    ];
-    if (key == 'audit' && row['metadata'] is Map) {
-      final metadata = row['metadata'] as Map;
-      for (final field in [
-        'review_id',
-        'evidence_sha256',
-        'source_reference',
-        'occurred_at',
-        'reason',
-        'payment_fingerprint',
-        'request_id',
-      ]) {
-        if (metadata[field] != null) {
-          lines.add('${field.replaceAll('_', ' ')}: ${metadata[field]}');
-        }
-      }
-    }
-    return lines.join('\n');
-  }
-}
-
-class _ReconciliationEvidenceDialog extends StatefulWidget {
-  const _ReconciliationEvidenceDialog({required this.paymentId});
-  final String paymentId;
-  @override
-  State<_ReconciliationEvidenceDialog> createState() =>
-      _ReconciliationEvidenceDialogState();
-}
-
-class _ReconciliationEvidenceDialogState
-    extends State<_ReconciliationEvidenceDialog> {
-  final _form = GlobalKey<FormState>();
-  final _hash = TextEditingController();
-  final _reference = TextEditingController();
-  final _time = TextEditingController();
-  final _reason = TextEditingController();
-  @override
-  void dispose() {
-    for (final controller in [_hash, _reference, _time, _reason]) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => AlertDialog(
-    scrollable: true,
-    title: const Text('Propose independent evidence'),
-    content: Form(
-      key: _form,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextFormField(
-            controller: _hash,
-            maxLength: 64,
-            decoration: const InputDecoration(
-              labelText: 'Evidence SHA-256',
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-            ),
-            validator: (value) =>
-                RegExp(r'^[a-fA-F0-9]{64}$').hasMatch(value?.trim() ?? '')
-                ? null
-                : 'Enter the verified 64-character evidence hash.',
-          ),
-          TextFormField(
-            controller: _reference,
-            maxLength: 128,
-            decoration: const InputDecoration(
-              labelText: 'Source reference',
-              helperText: 'Provider or statement',
-              helperMaxLines: 2,
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-            ),
-            validator: (value) => (value?.trim().length ?? 0) >= 3
-                ? null
-                : 'Enter the independent source reference.',
-          ),
-          TextFormField(
-            controller: _time,
-            decoration: const InputDecoration(
-              labelText: 'Evidence time in UTC',
-              helperText: 'Example: 2026-09-29T10:00:00Z',
-              helperMaxLines: 2,
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-            ),
-            validator: (value) =>
-                _reconciliationUtc(value?.trim() ?? '') == null
-                ? 'Use a valid UTC timestamp ending in Z.'
-                : null,
-          ),
-          TextFormField(
-            controller: _reason,
-            minLines: 2,
-            maxLines: 4,
-            maxLength: 500,
-            decoration: const InputDecoration(
-              labelText: 'Review reason',
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-            ),
-            validator: (value) => (value?.trim().length ?? 0) >= 10
-                ? null
-                : 'Explain the evidence in at least 10 characters.',
-          ),
-        ],
-      ),
-    ),
-    actions: [
-      TextButton(
-        onPressed: () => Navigator.pop(context),
-        child: const Text('Cancel'),
-      ),
-      FilledButton(
-        onPressed: () {
-          if (!_form.currentState!.validate()) return;
-          Navigator.pop(context, <String, dynamic>{
-            'p_payment_id': widget.paymentId,
-            'p_evidence_sha256': _hash.text.trim().toLowerCase(),
-            'p_source_reference': _reference.text.trim(),
-            'p_occurred_at': _reconciliationUtc(
-              _time.text.trim(),
-            )!.toIso8601String(),
-            'p_reason': _reason.text.trim(),
-          });
-        },
-        child: const Text('Record evidence'),
-      ),
-    ],
-  );
-}
-
-DateTime? _reconciliationUtc(String raw) {
-  if (!RegExp(
-    r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?Z$',
-  ).hasMatch(raw)) {
-    return null;
-  }
-  return _reconciliationTimestamp(raw);
 }

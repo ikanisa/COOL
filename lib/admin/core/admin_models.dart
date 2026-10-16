@@ -191,8 +191,12 @@ class AdminRuntimeConfig {
   const AdminRuntimeConfig({
     required this.navigationItems,
     required this.queueSpecs,
+    this.useConfiguredNavigationPermissions = false,
   });
 
+  /// Cloudflare uses different grant names from the legacy backend. This flag
+  /// is set by its local adapter, never by a remotely loaded JSON policy.
+  final bool useConfiguredNavigationPermissions;
   final List<AdminNavigationItemConfig> navigationItems;
   final List<AdminQueueSpecConfig> queueSpecs;
 
