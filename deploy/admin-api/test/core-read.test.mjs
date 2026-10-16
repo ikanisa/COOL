@@ -337,3 +337,42 @@ test('smart tables sort the whole query and interpret bounded concepts without w
   for(const query of ['sort=amount_rwf_desc','sort=constructor_asc','sort=title_desc%3BDROP%20TABLE%20admin_users','search=private_field:secret'])assert.equal((await get('groups?'+query)).status,400);
   assert.deepEqual(await first('SELECT count(*) AS n FROM collect_operation_requests'),before);
 });
+
+test('directory contribution totals retain exact person, verification and posting boundaries across whole-query sorting', async () => {
+  const f=fixture,extra=uuid(),other=uuid(),unassigned=uuid(),draft=uuid();
+  await run("UPDATE collect_memberships SET status='active',joined_at=?,version=version+1 WHERE group_id=? AND user_id=?",timestamp,f.group,f.user2);
+  for(const [id,member,amount] of [[extra,f.user,400],[other,f.user2,100],[unassigned,null,100]]) {
+    await run('INSERT INTO collect_payment_allocations(id,transaction_id,group_id,member_user_id,amount_rwf,operation_request_id,created_by_admin_id,created_at) VALUES(?,?,?,?,?,?,?,?)',id,f.tx,f.group,member,amount,await operation('payment.allocate'),owner.id,timestamp);
+  }
+  await run('INSERT INTO collect_journals(id,group_id,transaction_id,allocation_id,operation_request_id,description,created_by_admin_id,created_at) VALUES(?,?,?,?,?,?,?,?)',draft,f.group,f.tx,extra,await operation('journal.create'),'Directory contribution fixture draft',owner.id,timestamp);
+  for(const [account,line,debit,credit] of [[f.debit,1,400,0],[f.credit,2,0,400]]) {
+    await run('INSERT INTO collect_journal_entries(id,journal_id,group_id,account_id,line_number,debit_rwf,credit_rwf) VALUES(?,?,?,?,?,?,?)',uuid(),draft,f.group,account,line,debit,credit);
+  }
+  // A formerly confirmed allocation remains evidence after rejection; it must
+  // contribute to neither person total. No posted journal prevents that review.
+  const rejected=uuid(),evidence=uuid(),excluded=uuid();
+  await run("INSERT INTO collect_transactions(id,group_id,payee_id,network,provider_reference,amount_rwf,recorded_by_admin_id,observed_at,created_at) VALUES(?,?,?,'mtn_momo',?,50,?,?,?)",rejected,f.group,f.payee,'DIRECTORY-EXCLUDED-'+rejected,owner.id,timestamp,timestamp);
+  await run("INSERT INTO collect_transaction_evidence(id,transaction_id,kind,reference,artifact_sha256,recorded_by_admin_id,operation_request_id,recorded_at) VALUES(?,?,'receiver_statement','Directory independent source fixture',?,?,?,?)",evidence,rejected,'c'.repeat(64),owner.id,await operation('payment.evidence'),timestamp);
+  for(const [version,outcome,time] of [[2,'confirmation_recorded',timestamp],[3,'rejection_recorded',timestamp+1]]) {
+    await run('INSERT INTO collect_transaction_reviews(id,transaction_id,evidence_id,outcome,transaction_version,reviewed_by_admin_id,operation_request_id,reason,reviewed_at) VALUES(?,?,?,?,?,?,?,\'Independent directory fixture review\',?)',uuid(),rejected,evidence,outcome,version,admin.id,await operation('payment.review'),time);
+    await run('UPDATE collect_transactions SET verification_status=?,verified_by_admin_id=?,verified_at=?,version=? WHERE id=?',outcome,admin.id,time,version,rejected);
+    if(version===2) await run('INSERT INTO collect_payment_allocations(id,transaction_id,group_id,member_user_id,amount_rwf,operation_request_id,created_by_admin_id,created_at) VALUES(?,?,?,?,50,?,?,?)',excluded,rejected,f.group,f.user,await operation('payment.allocate'),owner.id,timestamp);
+  }
+  const before=await first('SELECT count(*) AS n FROM collect_operation_requests');
+  for(const area of ['users','members']) {
+    const result=await get(`${area}?sort=total_contributed_rwf_desc&limit=1`);
+    assert.equal(result.status,200,JSON.stringify(result.body));assert.equal(result.body.rows[0].id,f.user);
+    assert.equal(result.body.rows[0].total_contributed_rwf,1000);assert.equal(result.body.rows[0].posted_contributed_rwf,600);
+    const next=await get(`${area}?sort=total_contributed_rwf_desc&limit=1&offset=1`);
+    assert.equal(next.body.rows[0].id,f.user2);assert.equal(next.body.rows[0].total_contributed_rwf,100);assert.equal(next.body.rows[0].posted_contributed_rwf,0);
+    const posted=await get(`${area}?search=group:Alpha&sort=posted_contributed_rwf_desc&limit=100`);
+    assert.equal(posted.status,200);assert.equal(posted.body.rows[0].id,f.user);
+    assert.equal(posted.body.rows.filter(row=>row.id===f.user).length,1);
+    assert.ok(posted.body.rows.filter(row=>row.id!==f.user).every(row=>row.posted_contributed_rwf===0));
+  }
+  const empty=(await get('users?search=type:admin')).body.rows;
+  assert.ok(empty.length>0);assert.ok(empty.every(row=>row.total_contributed_rwf===0&&row.posted_contributed_rwf===0));
+  const overview=(await get('overview')).body;
+  assert.equal(overview.amounts.total_allocated_rwf,'1200');assert.equal(overview.amounts.total_posted_contributions_rwf,'600');
+  assert.deepEqual(await first('SELECT count(*) AS n FROM collect_operation_requests'),before,'Directory reads remain nonmutating');
+});
