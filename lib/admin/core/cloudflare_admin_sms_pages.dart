@@ -10,6 +10,7 @@ import 'admin_account_api.dart';
 import 'admin_display_formatters.dart';
 import 'admin_models.dart';
 import 'admin_pending_attempt_store.dart';
+import 'cloudflare_admin_data_refresh.dart';
 import 'cloudflare_admin_session.dart';
 import 'cloudflare_admin_sms_api.dart';
 
@@ -24,8 +25,9 @@ typedef _ListQuery = ({
 });
 typedef _DetailQuery = ({String kind, String id, int offset});
 final _receiptsProvider = FutureProvider.autoDispose
-    .family<SmsReceiptPage<SmsReceiptSource>, _ListQuery>(
-      (ref, query) => ref
+    .family<SmsReceiptPage<SmsReceiptSource>, _ListQuery>((ref, query) {
+      ref.watch(cloudflareAdminDataRevisionProvider);
+      return ref
           .watch(cloudflareAdminSmsApiProvider)
           .receipts(
             search: query.search,
@@ -35,8 +37,8 @@ final _receiptsProvider = FutureProvider.autoDispose
             duplicates: query.duplicates,
             offset: query.offset,
             limit: query.limit,
-          ),
-    );
+          );
+    });
 final _detailProvider = FutureProvider.autoDispose
     .family<SmsReceiptDetail, _DetailQuery>(
       (ref, query) => ref
@@ -565,6 +567,7 @@ class _ReceiptDetailState
           'Extraction recorded. The server receipt confirms saved facts; payment and settlement are not asserted.';
     });
     ref.invalidate(_detailProvider(_query));
+    refreshCloudflareAdminData(ref);
   }
 
   Future<void> _submit([SmsReceiptSource? source]) async {

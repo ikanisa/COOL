@@ -193,6 +193,7 @@ class _DetailState extends ConsumerState<CloudflareReconciliationDetailPage> {
     });
     ref.invalidate(_detailProvider(_detailQuery));
     ref.invalidate(_membersProvider(_memberQuery));
+    refreshCloudflareAdminData(ref);
   }
 
   void _forgetAttempt() {

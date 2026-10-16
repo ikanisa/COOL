@@ -13,6 +13,7 @@ import 'admin_display_formatters.dart';
 import 'admin_list_paging.dart';
 import 'admin_repository_base.dart';
 import 'cloudflare_admin_repository.dart';
+import 'cloudflare_admin_data_refresh.dart';
 import 'cloudflare_admin_session.dart';
 
 typedef _CoreQuery = ({
@@ -59,6 +60,7 @@ String cloudflareCoreReturnLocation(CloudflareCoreArea area, String? location) {
 
 final _coreListProvider = FutureProvider.autoDispose
     .family<AdminLoadedPage, _CoreQuery>((ref, query) async {
+      ref.watch(cloudflareAdminDataRevisionProvider);
       final authority = ref.watch(
         cloudflareAdminSessionProvider.select(
           (session) => session.asData?.value?.authorityKey,
@@ -87,6 +89,7 @@ final _coreListProvider = FutureProvider.autoDispose
 final _coreOverviewProvider = FutureProvider.autoDispose<List<AdminMetric>>((
   ref,
 ) async {
+  ref.watch(cloudflareAdminDataRevisionProvider);
   ref.watch(
     cloudflareAdminSessionProvider.select(
       (session) => session.asData?.value?.authorityKey,

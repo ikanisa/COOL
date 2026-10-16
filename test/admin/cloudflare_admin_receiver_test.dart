@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:collect_app/admin/core/admin_pending_attempt_store.dart';
 import 'package:collect_app/admin/core/admin_runtime.dart';
+import 'package:collect_app/admin/core/cloudflare_admin_data_refresh.dart';
 import 'package:collect_app/admin/core/cloudflare_admin_receiver_api.dart';
 import 'package:collect_app/admin/core/cloudflare_admin_receiver_pages.dart';
 import 'package:collect_app/admin/core/cloudflare_admin_repository.dart';
@@ -10,6 +11,7 @@ import 'package:collect_app/admin/shared/components/admin_data_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:crypto/crypto.dart';
@@ -101,8 +103,9 @@ Future<ProviderContainer> mount(
   WidgetTester tester,
   Fixture f,
   Widget child,
-  MemoryAdminPendingAttemptStorage storage,
-) async {
+  MemoryAdminPendingAttemptStorage storage, {
+  GoRouter? router,
+}) async {
   await tester.runAsync(f.session.refresh);
   final c = ProviderContainer(
     overrides: [
@@ -116,13 +119,15 @@ Future<ProviderContainer> mount(
   await tester.pumpWidget(
     UncontrolledProviderScope(
       container: c,
-      child: MaterialApp(
-        home: Scaffold(
-          body: child is CloudflareReceiverGrantForm
-              ? SingleChildScrollView(child: child)
-              : child,
-        ),
-      ),
+      child: router != null
+          ? MaterialApp.router(routerConfig: router)
+          : MaterialApp(
+              home: Scaffold(
+                body: child is CloudflareReceiverGrantForm
+                    ? SingleChildScrollView(child: child)
+                    : child,
+              ),
+            ),
     ),
   );
   await tester.pumpAndSettle();
@@ -130,6 +135,140 @@ Future<ProviderContainer> mount(
 }
 
 void main() {
+  for (final lostReply in [false, true]) {
+    testWidgets(
+      'return from ${lostReply ? 'recovered' : 'acknowledged'} revocation reads the current capture grant without another write',
+      (tester) async {
+        tester.view.physicalSize = const Size(1440, 1200);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+        var revoked = false, writes = 0, listReads = 0, detailReads = 0;
+        var requestReads = 0;
+        String? originalKey;
+        final storage = MemoryAdminPendingAttemptStorage();
+        final f = Fixture(
+          handler: (request) async {
+            final path = request.url.path;
+            if (path == '/api/admin/gateway/receiver-grants') {
+              listReads++;
+              return response({
+                'rows': [grant(revoked: revoked)],
+                'total': 1,
+                'limit': 25,
+                'offset': 0,
+              });
+            }
+            if (path == '/api/admin/gateway/receiver-grants/$grantId' &&
+                request.method == 'GET') {
+              detailReads++;
+              return response({
+                'resource_type': 'receiver_capture_grants',
+                'resource': grant(revoked: revoked),
+                'current_actor_id': actor,
+                'can_manage': true,
+                'related': {'captures': <Object>[]},
+                'related_total': 0,
+                'related_limit': 25,
+                'related_offset': 0,
+              });
+            }
+            if (path == '/api/admin/gateway/receiver-grants/$grantId/revoke') {
+              expect(request.method, 'POST');
+              writes++;
+              originalKey = request.headers['Idempotency-Key'];
+              expect(jsonDecode(request.body), {
+                'expected_version': 1,
+                'reason': 'Checked recorded capture identity',
+              });
+              revoked = true;
+              if (lostReply) throw http.ClientException('saved response lost');
+              return response(receipt());
+            }
+            expect(path, '/api/admin/gateway/receiver-requests/$originalKey');
+            expect(request.method, 'GET');
+            requestReads++;
+            return response({'found': true, 'receipt': receipt()});
+          },
+        );
+        final router = GoRouter(
+          initialLocation: '/admin/gateway/receiver-grants',
+          routes: [
+            GoRoute(
+              path: '/admin/gateway/receiver-grants',
+              builder: (_, _) =>
+                  const Scaffold(body: CloudflareReceiverGrantListPage()),
+            ),
+            GoRoute(
+              path: '/admin/gateway/receiver-grants/:id',
+              builder: (_, state) => Scaffold(
+                body: CloudflareReceiverGrantDetailPage(
+                  id: state.pathParameters['id']!,
+                ),
+              ),
+            ),
+          ],
+        );
+        final c = await mount(
+          tester,
+          f,
+          const CloudflareReceiverGrantListPage(),
+          storage,
+          router: router,
+        );
+        AdminDataTable table(String label) => tester.widget<AdminDataTable>(
+          find.byWidgetPredicate(
+            (widget) => widget is AdminDataTable && widget.tableLabel == label,
+          ),
+        );
+        final list = table('Receiver capture grants');
+        expect(list.rows.single.extra['status'], 'active');
+        expect(listReads, 1);
+        expect(c.read(cloudflareAdminDataRevisionProvider), 0);
+        list.onOpen!(list.rows.single);
+        await tester.pumpAndSettle();
+        expect(detailReads, 1);
+        await tester.enterText(
+          find.byType(TextField),
+          'Checked recorded capture identity',
+        );
+        await tester.tap(find.text('Review revocation'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Confirm capture change'));
+        await tester.pumpAndSettle();
+        expect(writes, 1);
+        if (lostReply) {
+          expect(find.text('Check original receipt'), findsOneWidget);
+          expect(c.read(cloudflareAdminDataRevisionProvider), 0);
+          expect(detailReads, 1);
+          expect(storage.values, isNotEmpty);
+          await tester.tap(find.text('Check original receipt'));
+          await tester.pumpAndSettle();
+        }
+        expect(c.read(cloudflareAdminDataRevisionProvider), 1);
+        expect(
+          table('Capture grant facts').rows.single.extra['status'],
+          'revoked',
+        );
+        expect(detailReads, 2);
+        expect(storage.values, isEmpty);
+        // Pop the pushed route, as browser Back does, retaining the list state.
+        router.pop();
+        await tester.pumpAndSettle();
+        expect(listReads, 2);
+        expect(
+          table('Receiver capture grants').rows.single.extra['status'],
+          'revoked',
+        );
+        expect(writes, 1);
+        expect(requestReads, lostReply ? 1 : 0);
+        expect(tester.takeException(), isNull);
+        await tester.pumpWidget(const SizedBox.shrink());
+        router.dispose();
+        c.dispose();
+      },
+    );
+  }
   for (final variant in [
     'unchanged',
     'changed version',
@@ -467,6 +606,7 @@ void main() {
       expect(writes, 1);
       expect(find.text('Check original receipt'), findsOneWidget);
       expect(storage.values, isNotEmpty);
+      expect(c.read(cloudflareAdminDataRevisionProvider), 0);
       await tester.pumpWidget(const SizedBox.shrink());
       c.dispose();
       final f2 = Fixture(
@@ -498,9 +638,11 @@ void main() {
       );
       expect(writes, 1);
       expect(find.text('Review revocation'), findsNothing);
+      expect(c2.read(cloudflareAdminDataRevisionProvider), 0);
       await tester.tap(find.text('Check original receipt'));
       await tester.pumpAndSettle();
       expect(writes, 1);
+      expect(c2.read(cloudflareAdminDataRevisionProvider), 0);
       await tester.tap(find.text('Review identical retry'));
       await tester.pumpAndSettle();
       expect(writes, 1);
@@ -508,6 +650,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(writes, 2);
       expect(storage.values, isEmpty);
+      expect(c2.read(cloudflareAdminDataRevisionProvider), 1);
       expect(find.textContaining('Capture change saved.'), findsOneWidget);
       await tester.pumpWidget(const SizedBox.shrink());
       c2.dispose();

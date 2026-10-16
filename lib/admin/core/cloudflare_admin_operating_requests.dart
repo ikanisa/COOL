@@ -1,10 +1,10 @@
 part of 'cloudflare_admin_operating_pages.dart';
 
-class CloudflareReceiptView extends StatelessWidget {
+class CloudflareReceiptView extends ConsumerWidget {
   const CloudflareReceiptView({required this.receipt, super.key});
   final CloudflareOperationReceipt receipt;
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context, WidgetRef ref) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       const Icon(Icons.check_circle_outline),
@@ -86,6 +86,8 @@ class CloudflareReceiptView extends StatelessWidget {
         const SizedBox(height: 18),
         FilledButton(
           onPressed: () {
+            // Historical receipts can outlive the currently retained detail.
+            refreshCloudflareAdminData(ref);
             final router = GoRouter.of(context);
             if (Navigator.of(context).canPop()) Navigator.of(context).pop();
             router.go(_receiptLocation(receipt)!);
@@ -316,6 +318,10 @@ class _RequestPageState extends ConsumerState<CloudflareOperatingRequestPage> {
   void initState() {
     super.initState();
     _recent = _repository(ref).operatingRequests();
+    ref.listenManual(
+      cloudflareAdminDataRevisionProvider,
+      (_, _) => _loadRecent(),
+    );
   }
 
   void _loadRecent() => setState(() {
@@ -329,6 +335,20 @@ class _RequestPageState extends ConsumerState<CloudflareOperatingRequestPage> {
 
   Future<void> _check() async {
     if (_busy) return;
+    final authority = ref
+        .read(cloudflareAdminSessionProvider)
+        .asData
+        ?.value
+        ?.authorityKey;
+    bool current() =>
+        mounted &&
+        authority != null &&
+        authority ==
+            ref
+                .read(cloudflareAdminSessionProvider)
+                .asData
+                ?.value
+                ?.authorityKey;
     setState(() {
       _busy = true;
       _message = null;
@@ -336,7 +356,7 @@ class _RequestPageState extends ConsumerState<CloudflareOperatingRequestPage> {
     });
     try {
       final result = await _repository(ref).operatingRequest(_key.text.trim());
-      if (!mounted) return;
+      if (!current()) return;
       setState(() {
         if (result['status'] == 'succeeded') {
           _receipt = CloudflareRequestReceipt.parse(
@@ -353,10 +373,11 @@ class _RequestPageState extends ConsumerState<CloudflareOperatingRequestPage> {
           };
         }
       });
+      if (_receipt != null) refreshCloudflareAdminData(ref);
     } catch (error) {
-      if (mounted) setState(() => _message = _safeOperatingError(error));
+      if (current()) setState(() => _message = _safeOperatingError(error));
     } finally {
-      if (mounted) setState(() => _busy = false);
+      if (current()) setState(() => _busy = false);
     }
   }
 

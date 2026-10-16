@@ -15,12 +15,14 @@ class CloudflareOperatingDetailPage extends ConsumerStatefulWidget {
 
 class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
   late Future<CloudflareOperatingDetail> _future;
+  int _readEpoch = 0;
   bool _paging = false;
   String? _pageError;
   @override
   void initState() {
     super.initState();
     _load();
+    ref.listenManual(cloudflareAdminDataRevisionProvider, (_, _) => _refresh());
   }
 
   @override
@@ -30,6 +32,9 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
   }
 
   void _load() {
+    _readEpoch++;
+    _paging = false;
+    _pageError = null;
     _future = _repository(ref).operatingDetail(widget.type, widget.id);
   }
 
@@ -40,6 +45,7 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
     int offset,
   ) async {
     if (_paging) return;
+    final epoch = _readEpoch;
     setState(() {
       _paging = true;
       _pageError = null;
@@ -53,7 +59,7 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
         limit: page.limit,
         offset: offset,
       );
-      if (!mounted) return;
+      if (!mounted || epoch != _readEpoch) return;
       // A changed resource needs fresh complete detail before any financial action.
       if (fetched.version != current.version) {
         setState(_load);
@@ -70,9 +76,11 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
       );
       setState(() => _future = Future.value(merged));
     } catch (failure) {
-      if (mounted) setState(() => _pageError = _safeOperatingError(failure));
+      if (mounted && epoch == _readEpoch) {
+        setState(() => _pageError = _safeOperatingError(failure));
+      }
     } finally {
-      if (mounted) setState(() => _paging = false);
+      if (mounted && epoch == _readEpoch) setState(() => _paging = false);
     }
   }
 
@@ -131,7 +139,6 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
           ? '/admin/ledgers'
           : '/admin/${detail.type}';
       await context.push('$base/${detail.id}/edit');
-      if (mounted) _refresh();
       return;
     }
     await showDialog<void>(
@@ -172,9 +179,6 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
                       initial: initial,
                       fixed: fixed,
                       targetId: targetId,
-                      onSaved: () {
-                        if (mounted) _refresh();
-                      },
                     ),
                   ),
                 ),
@@ -187,79 +191,81 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      FutureBuilder<CloudflareOperatingDetail>(
-        future: _future,
-        builder: (context, snapshot) {
-          final detail = snapshot.data;
-          final loading = snapshot.connectionState != ConnectionState.done;
-          return AdminPage(
-            title: detail == null || loading
-                ? 'Record details'
-                : _recordTitle(detail),
-            subtitle: detail == null || loading
-                ? null
-                : detail.version == null
-                ? 'Team access record · Managed in Admins and staff'
-                : 'Version ${detail.version}',
-            leading: IconButton(
-              tooltip: 'Back to records',
-              onPressed: () => context.go(widget.backPath),
-              icon: const Icon(Icons.arrow_back),
-            ),
-            trailing: IconButton(
-              tooltip: 'Refresh record',
-              onPressed: loading ? null : _refresh,
-              icon: const Icon(Icons.refresh),
-            ),
-            child: loading
-                ? const AdminLoadingState(title: 'Loading record')
-                : snapshot.hasError
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _OperatingMessage(
-                        _safeOperatingError(snapshot.error!),
-                        error: true,
-                      ),
-                      FilledButton.tonal(
-                        onPressed: _refresh,
-                        child: const Text('Refresh record'),
-                      ),
-                    ],
-                  )
-                : detail == null
-                ? const AdminEmptyState(
-                    title: 'Record unavailable',
-                    message: 'Return to the list and refresh.',
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _RecordFacts(
-                        detail.resource,
-                        _fieldsForResource(detail.type),
-                      ),
-                      const SizedBox(height: 20),
-                      _OperatingPendingRequests(
-                        key: ValueKey('${detail.type}:${detail.id}'),
-                        type: detail.type,
-                        id: detail.id,
-                      ),
-                      _actions(detail),
-                      const SizedBox(height: 24),
-                      for (final entry in detail.related.entries) ...[
-                        _relatedSection(detail, entry.key, entry.value),
-                        _relatedPager(detail, entry.key),
-                        const SizedBox(height: 24),
-                      ],
-                      if (_pageError != null)
-                        _OperatingMessage(_pageError!, error: true),
-                    ],
+  Widget build(
+    BuildContext context,
+  ) => FutureBuilder<CloudflareOperatingDetail>(
+    future: _future,
+    builder: (context, snapshot) {
+      final detail = snapshot.data;
+      final loading = snapshot.connectionState != ConnectionState.done;
+      return AdminPage(
+        title: detail == null || loading
+            ? 'Record details'
+            : _recordTitle(detail),
+        subtitle: detail == null || loading
+            ? null
+            : detail.version == null
+            ? 'Team access record · Managed in Admins and staff'
+            : 'Version ${detail.version}',
+        leading: IconButton(
+          tooltip: 'Back to records',
+          onPressed: () => context.go(widget.backPath),
+          icon: const Icon(Icons.arrow_back),
+        ),
+        trailing: IconButton(
+          tooltip: 'Refresh record',
+          onPressed: loading ? null : _refresh,
+          icon: const Icon(Icons.refresh),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (loading)
+              const AdminLoadingState(title: 'Loading record')
+            else if (snapshot.hasError)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _OperatingMessage(
+                    _safeOperatingError(snapshot.error!),
+                    error: true,
                   ),
-          );
-        },
+                  FilledButton.tonal(
+                    onPressed: _refresh,
+                    child: const Text('Refresh record'),
+                  ),
+                ],
+              )
+            else if (detail == null)
+              const AdminEmptyState(
+                title: 'Record unavailable',
+                message: 'Return to the list and refresh.',
+              )
+            else
+              _RecordFacts(detail.resource, _fieldsForResource(detail.type)),
+            const SizedBox(height: 20),
+            // Keep original-key recovery evidence mounted during fresh reads.
+            _OperatingPendingRequests(
+              key: ValueKey('${widget.type}:${widget.id}'),
+              type: widget.type,
+              id: widget.id,
+            ),
+            if (!loading && !snapshot.hasError && detail != null) ...[
+              _actions(detail),
+              const SizedBox(height: 24),
+              for (final entry in detail.related.entries) ...[
+                _relatedSection(detail, entry.key, entry.value),
+                _relatedPager(detail, entry.key),
+                const SizedBox(height: 24),
+              ],
+              if (_pageError != null)
+                _OperatingMessage(_pageError!, error: true),
+            ],
+          ],
+        ),
       );
+    },
+  );
 
   Widget _actions(CloudflareOperatingDetail detail) {
     if (!detail.canManage) {
@@ -678,6 +684,7 @@ class _OperatingPendingRequestsState
           _statuses[key] = 'Saved';
           _checking = _message = null;
         });
+        refreshCloudflareAdminData(ref);
       } else {
         setState(() {
           _statuses[key] = switch (result['status']) {

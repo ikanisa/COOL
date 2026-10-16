@@ -43,22 +43,50 @@ class AdminFilterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    Widget searchField() => SizedBox(
-      // Keep suffix actions as separate named buttons in the accessibility tree.
-      child: Semantics(
-        label: searchLabel,
-        hint: 'Searches all matching records. Press Enter or Apply search.',
-        child: ValueListenableBuilder<TextEditingValue>(
-          valueListenable: searchController,
-          builder: (context, value, _) => TextField(
-            key: const Key('admin-queue-search-input'),
-            controller: searchController,
-            textInputAction: TextInputAction.search,
-            onSubmitted: (_) => onRefresh(),
-            decoration: InputDecoration(
-              hintText: searchHint,
-              prefixIcon: const Icon(Icons.search),
-              suffixIcon: Row(
+    Widget searchField() => ValueListenableBuilder<TextEditingValue>(
+      valueListenable: searchController,
+      builder: (context, value, _) => Stack(
+        children: [
+          Semantics(
+            label: searchLabel,
+            hint: 'Searches all matching records. Press Enter or Apply search.',
+            child: TextField(
+              key: const Key('admin-queue-search-input'),
+              controller: searchController,
+              textInputAction: TextInputAction.search,
+              onSubmitted: (_) => onRefresh(),
+              decoration: InputDecoration(
+                hintText: searchHint,
+                prefixIcon: const Icon(Icons.search),
+                // Independent actions avoid InputDecorator's offscreen suffix
+                // semantics clipping while retaining the full-width field/focus ring.
+                contentPadding: EdgeInsetsDirectional.fromSTEB(
+                  16,
+                  16,
+                  (value.text.isEmpty ? 1 : 2) * kMinInteractiveDimension + 16,
+                  16,
+                ),
+                filled: true,
+                fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
+                border: OutlineInputBorder(
+                  borderRadius: CollectRadius.pillBorder,
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: CollectRadius.pillBorder,
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: CollectRadius.pillBorder,
+                  borderSide: BorderSide(color: colors.focusRing, width: 2),
+                ),
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (value.text.isNotEmpty)
@@ -67,6 +95,10 @@ class AdminFilterBar extends StatelessWidget {
                       excludeFromSemantics: true,
                       child: IconButton(
                         key: const Key('admin-queue-clear-search'),
+                        constraints: const BoxConstraints.tightFor(
+                          width: kMinInteractiveDimension,
+                          height: kMinInteractiveDimension,
+                        ),
                         onPressed: () {
                           searchController.clear();
                           onRefresh();
@@ -82,6 +114,10 @@ class AdminFilterBar extends StatelessWidget {
                     excludeFromSemantics: true,
                     child: IconButton(
                       key: const Key('admin-queue-apply-search'),
+                      constraints: const BoxConstraints.tightFor(
+                        width: kMinInteractiveDimension,
+                        height: kMinInteractiveDimension,
+                      ),
                       onPressed: onRefresh,
                       icon: const Icon(
                         Icons.arrow_forward_rounded,
@@ -91,23 +127,9 @@ class AdminFilterBar extends StatelessWidget {
                   ),
                 ],
               ),
-              filled: true,
-              fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
-              border: OutlineInputBorder(
-                borderRadius: CollectRadius.pillBorder,
-                borderSide: BorderSide.none,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: CollectRadius.pillBorder,
-                borderSide: BorderSide.none,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: CollectRadius.pillBorder,
-                borderSide: BorderSide(color: colors.focusRing, width: 2),
-              ),
             ),
           ),
-        ),
+        ],
       ),
     );
 

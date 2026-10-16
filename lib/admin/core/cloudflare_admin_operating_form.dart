@@ -664,6 +664,7 @@ class _OperatingFormState extends ConsumerState<CloudflareOperatingForm> {
         _receipt = receipt;
         _unknownKey = null;
       });
+      refreshCloudflareAdminData(ref);
       widget.onSaved?.call();
     } catch (error) {
       if (!_current) return;
@@ -713,6 +714,7 @@ class _OperatingFormState extends ConsumerState<CloudflareOperatingForm> {
           _unknownKey = null;
           _error = null;
         });
+        refreshCloudflareAdminData(ref);
         widget.onSaved?.call();
       } else {
         setState(() {

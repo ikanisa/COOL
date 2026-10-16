@@ -10,6 +10,7 @@ import 'admin_account_api.dart';
 import 'admin_display_formatters.dart';
 import 'admin_pending_attempt_store.dart';
 import 'admin_repository_base.dart';
+import 'cloudflare_admin_data_refresh.dart';
 import 'cloudflare_admin_gateway_pages.dart';
 import 'cloudflare_admin_receiver_api.dart';
 import 'cloudflare_admin_repository.dart';
@@ -130,8 +131,12 @@ class _GrantListState extends ConsumerState<CloudflareReceiverGrantListPage> {
                   tableLabel: 'Receiver capture grants',
                   rows: [for (final grant in data.rows) _row(grant.values)],
                   columns: _grantColumns,
-                  onOpen: (row) =>
-                      context.push('/admin/gateway/receiver-grants/${row.id}'),
+                  onOpen: (row) async {
+                    await context.push(
+                      '/admin/gateway/receiver-grants/${row.id}',
+                    );
+                    if (mounted) setState(_load);
+                  },
                 ),
                 _Paging(
                   offset: _offset,
@@ -533,6 +538,7 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
         _unknown = false;
         _message = 'Capture change saved. Request ${receipt.requestId}';
       });
+      refreshCloudflareAdminData(ref);
       widget.onSaved();
     } catch (error) {
       if (!_current) return;
@@ -611,6 +617,7 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
           _key = null;
           _message = 'Capture change saved. Request ${receipt.requestId}';
         });
+        refreshCloudflareAdminData(ref);
         widget.onSaved();
       }
     } catch (error) {

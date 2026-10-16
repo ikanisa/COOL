@@ -481,7 +481,15 @@ void main() {
           ),
           findsOneWidget,
         );
-        expect(requests, hasLength(2));
+        // A matched receipt refreshes recent history using reads only.
+        expect(
+          requests.map((request) => '${request.method} ${request.url.path}'),
+          [
+            'GET /api/admin/operations/requests',
+            'GET /api/admin/operations/requests/$requestKey',
+            'GET /api/admin/operations/requests',
+          ],
+        );
         expect(
           tester
               .widget<TextField>(
@@ -646,7 +654,15 @@ void main() {
           find.text('Transaction reconciliation $reconTransactionId'),
           findsOneWidget,
         );
-        expect(requests, hasLength(2));
+        // A matched receipt refreshes recent history using reads only.
+        expect(
+          requests.map((request) => '${request.method} ${request.url.path}'),
+          [
+            'GET /api/admin/operations/requests',
+            'GET /api/admin/operations/requests/$requestKey',
+            'GET /api/admin/operations/requests',
+          ],
+        );
         expect(requests.every((request) => request.method == 'GET'), isTrue);
         expect(tester.takeException(), isNull);
         await _clean(tester, repository);

@@ -9,6 +9,7 @@ import 'admin_account_api.dart';
 import 'admin_pending_attempt_store.dart';
 import 'admin_display_formatters.dart';
 import 'admin_models.dart';
+import 'cloudflare_admin_data_refresh.dart';
 import 'cloudflare_admin_reconciliation_api.dart';
 import 'cloudflare_admin_session.dart';
 
@@ -23,16 +24,20 @@ typedef _QueueQuery = ({
 typedef _DetailQuery = ({String id, String? relation, int offset});
 typedef _MemberQuery = ({String id, String search, int offset});
 final _queueProvider = FutureProvider.autoDispose
-    .family<ReconciliationPage<ReconciliationTransaction>, _QueueQuery>(
-      (ref, query) => ref
+    .family<ReconciliationPage<ReconciliationTransaction>, _QueueQuery>((
+      ref,
+      query,
+    ) {
+      ref.watch(cloudflareAdminDataRevisionProvider);
+      return ref
           .watch(cloudflareReconciliationApiProvider)
           .queue(
             search: query.search,
             verification: query.verification,
             allocation: query.allocation,
             offset: query.offset,
-          ),
-    );
+          );
+    });
 final _detailProvider = FutureProvider.autoDispose
     .family<ReconciliationDetail, _DetailQuery>(
       (ref, query) => ref

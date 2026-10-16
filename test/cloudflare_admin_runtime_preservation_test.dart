@@ -207,42 +207,66 @@ void main() {
   testWidgets('real shell poll preserves applied search and second page', (
     tester,
   ) async {
-    final workspace = _Workspace();
-    final container = await workspace.pump(
-      tester,
-      initialLocation: '/admin/users',
-    );
-    final search = find.byKey(const Key('admin-queue-search-input'));
-    await tester.enterText(search, '9400');
-    await tester.testTextInput.receiveAction(TextInputAction.search);
-    await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(
-      find.text('Next'),
-      500,
-      scrollable: find
-          .descendant(
-            of: find.byKey(const Key('admin-page-scroll-view')),
-            matching: find.byType(Scrollable),
-          )
-          .first,
-    );
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Next'));
-    await tester.pumpAndSettle();
-    expect(find.text('26–30 of 30'), findsOneWidget);
-    await tester.pump(const Duration(seconds: 61));
-    await tester.pumpAndSettle();
-    expect(workspace.sessionReads, 2);
-    expect(tester.widget<TextField>(search).controller!.text, '9400');
-    expect(find.text('26–30 of 30'), findsOneWidget);
-    expect(workspace.offsets.last, 25);
-    expect(workspace.searches.last, '9400');
-    expect(Uri.parse(_location(container)).path, '/admin/users');
-    expect(Uri.parse(_location(container)).queryParameters, {
-      'search': '9400',
-      'page': '2',
-    });
-    await workspace.close(tester);
+    final semantics = tester.ensureSemantics();
+    try {
+      final workspace = _Workspace();
+      final container = await workspace.pump(
+        tester,
+        initialLocation: '/admin/users',
+      );
+      final search = find.byKey(const Key('admin-queue-search-input'));
+      await tester.enterText(search, '9400');
+      await tester.testTextInput.receiveAction(TextInputAction.search);
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.text('Next'),
+        500,
+        scrollable: find
+            .descendant(
+              of: find.byKey(const Key('admin-page-scroll-view')),
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Next'));
+      await tester.pumpAndSettle();
+      expect(find.text('26–30 of 30'), findsOneWidget);
+      await tester.pump(const Duration(seconds: 61));
+      await tester.pumpAndSettle();
+      expect(workspace.sessionReads, 2);
+      expect(tester.widget<TextField>(search).controller!.text, '9400');
+      expect(find.text('26–30 of 30'), findsOneWidget);
+      expect(workspace.offsets.last, 25);
+      expect(workspace.searches.last, '9400');
+      expect(Uri.parse(_location(container)).path, '/admin/users');
+      expect(Uri.parse(_location(container)).queryParameters, {
+        'search': '9400',
+        'page': '2',
+      });
+      await tester.ensureVisible(search);
+      await tester.pumpAndSettle();
+      for (final label in ['Clear search', 'Apply search']) {
+        final action = find.semantics.byLabel(label);
+        expect(action, findsOne);
+        final node = action.evaluate().single;
+        expect(node.rect.height, greaterThan(0));
+        expect(node.rect.width, greaterThan(0));
+        expect(
+          node,
+          isSemantics(
+            label: label,
+            isButton: true,
+            isEnabled: true,
+            hasTapAction: true,
+          ),
+        );
+      }
+      expect(tester.takeException(), isNull);
+      await workspace.close(tester);
+    } finally {
+      semantics.dispose();
+    }
   });
 
   testWidgets(

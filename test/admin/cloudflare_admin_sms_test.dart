@@ -672,4 +672,152 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+  for (final lostResponse in [false, true]) {
+    testWidgets(
+      'nested SMS queue refreshes after ${lostResponse ? 'GET recovery' : 'confirmed extraction'} without replay',
+      (tester) async {
+        var saved = false, queueReads = 0;
+        final queueQueries = <Map<String, String>>[];
+        final fixture = _Fixture();
+        fixture.handler = (request) async {
+          if (request.method == 'POST') {
+            saved = true;
+            if (lostResponse) throw http.ClientException('Lost response');
+            return _Fixture._response(_receipt());
+          }
+          if (request.url.path.contains('/requests/')) {
+            final original = fixture.requests.singleWhere(
+              (r) => r.method == 'POST',
+            );
+            expect(
+              request.url.path.split('/').last,
+              original.headers['Idempotency-Key'],
+            );
+            return _Fixture._response({
+              'status': 'succeeded',
+              'request_id': _requestId,
+              'receipt': _receipt(),
+            });
+          }
+          if (request.url.path == '/api/admin/sms/receipts') {
+            queueReads++;
+            queueQueries.add(request.url.queryParameters);
+            return _Fixture._response(
+              _page(saved ? [] : [_source(extracted: false)]),
+            );
+          }
+          return _Fixture._response({
+            ..._detail(),
+            'resource': _source(extracted: saved),
+          });
+        };
+        final mounted = await _mountNestedQueue(tester, fixture);
+        expect(queueReads, 1);
+        final listing = tester.widget<AdminDataTable>(
+          find.byWidgetPredicate(
+            (widget) =>
+                widget is AdminDataTable && widget.tableLabel == 'SMS receipts',
+          ),
+        );
+        listing.onOpen!(listing.rows.single);
+        await tester.pumpAndSettle();
+        final reason = find.byKey(const Key('sms-extraction-reason'));
+        await tester.ensureVisible(reason);
+        await tester.enterText(reason, 'Review this preserved source digest.');
+        await tester.pump();
+        await _tap(
+          tester,
+          find.text(
+            'I reviewed the source digest and reason for this extraction.',
+          ),
+        );
+        await _tap(tester, find.text('Confirm extraction'));
+        expect(fixture.requests.where((r) => r.method == 'POST'), hasLength(1));
+        if (lostResponse) {
+          expect(
+            queueReads,
+            1,
+            reason: 'An uncertain result must not refresh as acknowledged',
+          );
+          await _tap(tester, find.text('Check original request'));
+        }
+        expect(queueReads, 2);
+        expect(find.text('Saved extraction receipt'), findsOneWidget);
+        expect(fixture.requests.where((r) => r.method == 'POST'), hasLength(1));
+        await _tap(tester, find.byTooltip('Back to SMS receipts'));
+        expect(
+          mounted.router.routeInformationProvider.value.uri.queryParameters,
+          {'search': 'QA', 'extraction': 'not_extracted'},
+        );
+        final refreshed = tester.widget<AdminDataTable>(
+          find.byWidgetPredicate(
+            (widget) =>
+                widget is AdminDataTable && widget.tableLabel == 'SMS receipts',
+          ),
+        );
+        expect(refreshed.rows, isEmpty);
+        expect(
+          find.text('No SMS receipts match these filters.'),
+          findsOneWidget,
+        );
+        expect(queueQueries, hasLength(2));
+        expect(queueQueries.last, queueQueries.first);
+        expect(fixture.requests.where((r) => r.method == 'POST'), hasLength(1));
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
+}
+
+Future<({GoRouter router, ProviderContainer container})> _mountNestedQueue(
+  WidgetTester tester,
+  _Fixture fixture,
+) async {
+  tester.view.physicalSize = const Size(1800, 1400);
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+  await tester.runAsync(fixture.session.refresh);
+  final container = ProviderContainer(
+    overrides: [
+      cloudflareAdminSessionProvider.overrideWith((_) => fixture.session),
+    ],
+  );
+  final router = GoRouter(
+    initialLocation: '/admin/sms-receipts?search=QA&extraction=not_extracted',
+    routes: [
+      GoRoute(
+        path: '/admin/sms-receipts',
+        builder: (_, _) => const CloudflareAdminSmsReceiptsPage(),
+        routes: [
+          GoRoute(
+            path: ':kind/:id',
+            builder: (_, state) => CloudflareAdminSmsReceiptDetailPage(
+              sourceKind: state.pathParameters['kind']!,
+              id: state.pathParameters['id']!,
+              returnTo: state.uri.queryParameters['returnTo'],
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
+  addTearDown(() async {
+    fixture.session.clear();
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pumpAndSettle();
+    router.dispose();
+    container.dispose();
+  });
+  await tester.pumpWidget(
+    UncontrolledProviderScope(
+      container: container,
+      child: MaterialApp.router(
+        routerConfig: router,
+        builder: (_, child) => Scaffold(body: child),
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
+  return (router: router, container: container);
 }
