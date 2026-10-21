@@ -10,7 +10,7 @@
     "preflight": "node --experimental-strip-types src/preflight.ts"
   },
   "dependencies": {
-    "@modelcontextprotocol/server": "2.0.0",
+    "@modelcontextprotocol/server": "2.3.0",
     "zod": "4.5.4"
   },
   "devDependencies": {
