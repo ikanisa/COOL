@@ -220,3 +220,50 @@ jobs:
       - name: Always stop only this job's owned native cluster
         if: always()
         run: sh scripts/supabase/testing/ci-native-postgres.sh stop
+
+  stopped-admission-lifecycle-native:
+    name: Stopped admission lifecycle and existing orphan installation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # The owner-profile fixture owns its own cluster; it cannot change the
+    # restricted postgres role used by the standard/runtime qualification jobs.
+    container:
+      image: postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317
+    env:
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_NATIVE_PROFILE: stopped-admission
+      COLLECT_TEST_PG_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test
+      COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_STOPPED_ADMISSION_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+    steps:
+      - name: Install job-container prerequisites without upgrading pinned tools
+        run: |
+          set -eu
+          test "$(id -u)" -eq 0
+          export DEBIAN_FRONTEND=noninteractive
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils
+          command -v gosu >/dev/null
+          command -v initdb >/dev/null
+          command -v pg_ctl >/dev/null
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without dependency lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify local-only target and typed acceptance refusal
+        run: node --test scripts/supabase/testing/qualify-stopped-admission-native.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs
+      - name: Start this job's fresh owned native60/3/0 cluster
+        run: sh scripts/supabase/testing/ci-native-postgres.sh start
+      - name: Require real stopped lifecycle and existing orphan installation contracts
+        run: timeout --signal=TERM --kill-after=5s 180s node scripts/supabase/testing/qualify-stopped-admission-native.mjs
+      - name: Always stop only this job's owned native cluster
+        if: always()
+        run: sh scripts/supabase/testing/ci-native-postgres.sh stop

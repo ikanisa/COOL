@@ -5,7 +5,7 @@ import {mkdtemp,mkdir,chmod,rm,realpath} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {tmpdir} from 'node:os';
 import {snapshot as oldSnapshot,migrations as oldMigrations} from './fixtures.mjs';
-import {canonical,sha,validateSnapshot,CONTROL_PROBES} from './codec.mjs';
+import {canonical,sha,validateSnapshot,columnType,validateCell,outputExpression,CONTROL_PROBES} from './codec.mjs';
 import {compilePlanningRequest,decodeManagementResult,preparePlanCandidate,compileCaptureRequest,assembleManagementSnapshot,sealManagementResponse,WIRE_MAX,PAYLOAD_MAX} from './capture.mjs';
 import {encryptSnapshot,decryptSnapshot,readEncryptedBundle} from './bundle.mjs';
 const ID='00000000-0000-4000-8000-000000000001';
@@ -15,6 +15,33 @@ const response=(kind,payload,status=201)=>({status,body:Buffer.from(JSON.stringi
 function metadata(){const s=oldSnapshot(),postgres={...s.postgres,database:'postgres',backend_pid:'123',row_security:'off',application_name:'collect.archive.'+ID.replaceAll('-','')};delete postgres.rolled_back;return {format:'collect.mgmt.metadata.v1',postgres,relations:s.tables.map((t,i)=>({schema:t.schema,name:t.name,kind:t.kind,oid:String(10000+i),columns_record:canonical(t.columns)})),migrations:s.migrations.map(({sha256,...m})=>m),catalog_record:canonical(s.catalog),sequences_record:'[]'};}
 const options={expectedMigrationCount:8,runtimeSourceSha256:'a'.repeat(64),sourceMigrations};
 function cohort(){const meta=metadata(),plan=preparePlanCandidate(meta,options),compiled=compileCaptureRequest(plan,{requestId:ID}),s=oldSnapshot(),payload={format:'collect.mgmt.data.v1',postgres:meta.postgres,tables:s.tables.map((t,i)=>({schema:t.schema,name:t.name,kind:t.kind,oid:meta.relations[i].oid,columns_record:meta.relations[i].columns_record,measure:{index:i,rows:String(t.rows.length),bytes:String(t.rows.flatMap(r=>r.cells).reduce((n,v)=>n+(v===null?0:Buffer.byteLength(v)),0)),max_cell:String(Math.max(...t.rows.flatMap(r=>r.cells).filter(v=>v!==null).map(v=>Buffer.byteLength(v))))},cells:t.rows.map(r=>r.cells)})),migrations:meta.migrations,catalog_record:meta.catalog_record,sequences:[]};return {meta,plan,compiled,payload};}
+function oidColumn(){return {...clone(oldSnapshot().tables[0].columns[0]),name:'original_role_oid',position:'1',type_oid:'26',type_name:'oid',output_name:'oidout',not_null:true};}
+
+test('native OID admits only exact pg_catalog oid/oidout and preserves unsigned32 canonical text',()=>{
+ const c=oidColumn();assert.deepEqual(columnType(c),{oid:26,sql:'pg_catalog.oid',output:'pg_catalog.oidout'});
+ assert.equal(outputExpression(c),'pg_catalog.textin(pg_catalog.oidout(t."original_role_oid"))');
+ for(const value of ['0','1','29216','2147483648','4294967295'])assert.equal(validateCell(value,c),value);
+ assert.equal(validateCell(null,{...c,not_null:false}),null);assert.throws(()=>validateCell(null,c),{code:'NULL_NOT_ALLOWED'});
+ for(const change of [{type_schema:'public'},{type_name:'xid'},{type_kind:'d'},{base_oid:'26'},{element_oid:'26'},{output_schema:'public'},{output_name:'int4out'}])assert.throws(()=>columnType({...c,...change}),{code:'TYPE_UNSUPPORTED'});
+ assert.throws(()=>columnType({...c,typmod:'0'}),{code:'TYPEMOD_UNSUPPORTED'});
+});
+test('OID refuses signed, noncanonical, numeric and unsigned32 overflow values',()=>{
+ const c=oidColumn();
+ for(const value of ['','-1','-0','+1','00','01',' 1','1 ','1\n','1.0','1e3','0xffffffff','NaN','Infinity','１２'])assert.throws(()=>validateCell(value,c),{code:'OID_TEXT_INVALID'});
+ for(const value of ['4294967296','18446744073709551615'])assert.throws(()=>validateCell(value,c),{code:'OID_RANGE_INVALID'});
+ for(const value of [0,29216,4294967295,1n,{},[]])assert.throws(()=>validateCell(value,c),{code:'CELL_INVALID'});
+});
+test('new private OID column survives metadata planning, compiled native output, capture and encrypted codec roundtrip',()=>{
+ // Synthetic compiler fixture, not a native PostgreSQL or hosted restore claim.
+ const meta=metadata(),c=oidColumn(),cells=[['0'],['29216'],['4294967295']];
+ meta.relations.push({schema:'private',name:'collect_fence_stopped_admissions',kind:'r',oid:'10001',columns_record:canonical([c])});
+ const plan=preparePlanCandidate(meta,options),compiled=compileCaptureRequest(plan,{requestId:ID}),payload=cohort().payload;
+ assert.match(compiled.body.query,/pg_catalog\.textin\(pg_catalog\.oidout\(t\."original_role_oid"\)\)/);
+ payload.tables.push({...meta.relations[1],measure:{index:1,rows:'3',bytes:'16',max_cell:'10'},cells});
+ const snapshot=assembleManagementSnapshot(response('capture',payload),plan,compiled);validateSnapshot(snapshot);
+ assert.deepEqual(snapshot.tables[1].rows.map(r=>r.cells[0]).sort(),cells.map(r=>r[0]).sort());
+ const key=randomBytes(32);try{const back=decryptSnapshot(encryptSnapshot(snapshot,key),key).snapshot;assert.deepEqual(back.tables[1],snapshot.tables[1]);assert.equal(back.tables[1].columns[0].type_oid,'26');}finally{key.fill(0);}
+});
 
 test('planning request is fixed exact-project read_only batch with explicit RR, settings and trailing rollback',()=>{const r=compilePlanningRequest({expectedMigrationCount:8,requestId:ID});assert.equal(r.url,'https://api.supabase.com/v1/projects/rrlduytparvsjfmegalh/database/query');assert.equal(r.body.read_only,true);assert.equal(r.query_sha256,sha(r.body.query));assert.match(r.body.query,/^BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;/);assert.match(r.body.query,/SET LOCAL row_security=off/);assert.match(r.body.query,/SET LOCAL transaction_timeout='300s'/);assert.ok(r.body.query.endsWith('\nROLLBACK;'));assert.equal('headers' in r,false);assert.doesNotMatch(r.body.query,/query_to_xml|XMLTABLE|CREATE\s|INSERT\s|UPDATE\s|DELETE\s|DO\s/);});
 test('planning response is one last SELECT row with text payload, no numeric native-cell parse',()=>{const r=compilePlanningRequest({expectedMigrationCount:8,requestId:ID}),m=metadata();assert.deepEqual(decodeManagementResult(response('metadata',m),r),m);});

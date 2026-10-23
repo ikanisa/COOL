@@ -131,6 +131,12 @@
       "purpose": "Immutable owner-reviewed old/new source and epoch lineage, exact prior control snapshot and proof digests; blocked shared operational copy, no lost-work resolution or provider settlement"
     },
     {
+      "name": "private:collect_fence_stopped_admissions",
+      "relation": "private.collect_fence_stopped_admissions",
+      "scope": "shared_fence",
+      "purpose": "Immutable owner proof of stopped local work, original admission snapshot and unquantified unknown obligation; blocked shared operational copy, no recovered counters, provider settlement or subject-empty assertion"
+    },
+    {
       "name": "managed:auth",
       "relation": "auth",
       "scope": "managed",
@@ -199,6 +205,7 @@
     "private:collect_fence_operations",
     "private:collect_fence_scheduler_lifecycle",
     "private:member_realtime_control",
-    "private:collect_fence_source_upgrades"
+    "private:collect_fence_source_upgrades",
+    "private:collect_fence_stopped_admissions"
   ]
 }

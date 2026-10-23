@@ -1,4 +1,4 @@
-import {loadReviewedPlatformFixture,EXACT_CURRENT11,EXACT_CURRENT13,MIGRATION_ELEVEN_ROLE,ROOT_SQL11_SHA256} from '../testing/curated-platform-fixture.mjs';
+import {loadReviewedPlatformFixture,EXACT_CURRENT11,EXACT_CURRENT14,MIGRATION_ELEVEN_ROLE,ROOT_SQL11_SHA256} from '../testing/curated-platform-fixture.mjs';
 import postgres from 'npm:postgres@3.4.7';
 import {dirname,join,resolve} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
@@ -28,7 +28,8 @@ const PINS:Record<string,string>={
 const MIGRATIONS=EXACT_CURRENT11;
 const PHYSICAL_PINS:Record<string,string>={
  'supabase/migrations/20261023072038_collect_admin_initial_email_proof_ack.sql':'2c31440ae10176e7e9e5f0befefce8e1ca44e06149d3cc4471119920b3abf6df',
- 'supabase/migrations/20261023102707_collect_retire_admin_mfa_enrollment.sql':'e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834'
+ 'supabase/migrations/20261023102707_collect_retire_admin_mfa_enrollment.sql':'e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834',
+ 'supabase/migrations/20261023174000_collect_stopped_admission_lifecycle.sql':'db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25'
 };
 const ENV='COLLECT_FENCE_RUNTIME_TEST_DATABASE_URL';
 const USER='11111111-1111-4111-8111-111111111111',REQUEST='22222222-2222-4222-8222-222222222222',SESSION='33333333-3333-4333-8333-333333333333';
@@ -70,7 +71,7 @@ try{
  const caller=await Deno.realPath(fileURLToPath(import.meta.url)),root=await Deno.realPath(resolve(dirname(caller),'../../..'));
  need(caller===join(root,'scripts/supabase/emergency-fence/native-runtime.ts'),'FIXED_PHYSICAL_SOURCE_REQUIRED');
  const entries=[];for await(const entry of Deno.readDir(join(root,'supabase/migrations')))if(/^\d{14}_.*\.sql$/.test(entry.name))entries.push(entry.name);
- need(MIGRATIONS.length===11&&EXACT_CURRENT13.length===13&&JSON.stringify(entries.sort())===JSON.stringify(EXACT_CURRENT13),'EXACT_PHYSICAL13_SQL11_PREFIX_REQUIRED');
+ need(MIGRATIONS.length===11&&EXACT_CURRENT14.length===14&&JSON.stringify(entries.sort())===JSON.stringify(EXACT_CURRENT14),'EXACT_PHYSICAL14_SQL11_PREFIX_REQUIRED');
  const reviewedPlatform=await loadReviewedPlatformFixture(root);
  async function parity(){await reviewedPlatform.parity();for(const [role,pin]of Object.entries({...PINS,...PHYSICAL_PINS})){const path=join(root,role);need(await Deno.realPath(path)===path&&await sha(await Deno.readFile(path))===pin,'QUALIFIED_SOURCE_CHANGED');}}
  await parity();const closureSha256=await sha(JSON.stringify({original17:PINS,sql10:reviewedPlatform.binding,sql11:{role:MIGRATION_ELEVEN_ROLE,sha256:ROOT_SQL11_SHA256}}));

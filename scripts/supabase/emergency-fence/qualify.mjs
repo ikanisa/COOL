@@ -1,4 +1,4 @@
-import {loadReviewedPlatformFixture,EXACT_CURRENT11} from '../testing/curated-platform-fixture.mjs';
+import {loadReviewedPlatformFixture,EXACT_CURRENT11,EXACT_CURRENT14} from '../testing/curated-platform-fixture.mjs';
 import {readFile,readdir,realpath,mkdtemp,chmod,open} from 'node:fs/promises';
 import {resolve,dirname,join,isAbsolute} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -160,9 +160,9 @@ try{
  const raw=process.env.COLLECT_FENCE_ADMIN_DATABASE_URL;delete process.env.COLLECT_FENCE_ADMIN_DATABASE_URL;const target=adminTarget(raw);
  const caller=await realpath(fileURLToPath(import.meta.url));sourceRoot=await realpath(resolve(dirname(caller),'../../..'));
  need(caller===join(sourceRoot,'scripts/supabase/emergency-fence/qualify.mjs'),'FIXED_PACKAGE_SOURCE_ROOT_REQUIRED');
- const found=(await readdir(join(sourceRoot,'supabase/migrations'))).filter(name=>/^\d{14}_.*\.sql$/.test(name)).sort();need(JSON.stringify(MIGRATIONS)===JSON.stringify(EXACT_CURRENT11)&&JSON.stringify(found)===JSON.stringify(MIGRATIONS),'EXACT_CURRENT11_MIGRATIONS_REQUIRED');
- const roles=[CALLER,FIXTURE,PACKAGE,LOCK,'scripts/supabase/testing/curated-platform-fixture.mjs','scripts/supabase/testing/member-realtime-fixture-plan.json','scripts/supabase/testing/member-realtime-interface.sql','scripts/supabase/testing/member-realtime-metadata.sql',...MIGRATIONS.map(name=>'supabase/migrations/'+name),...new Set(Object.values(RUNNERS))];const inputs=[];for(const role of roles)inputs.push(await sourceFile(role));
- // Validate all11 exact body pins, including Root's filled SQL11 pin, before
+ const found=(await readdir(join(sourceRoot,'supabase/migrations'))).filter(name=>/^\d{14}_.*\.sql$/.test(name)).sort();need(JSON.stringify(MIGRATIONS)===JSON.stringify(EXACT_CURRENT11)&&JSON.stringify(found)===JSON.stringify(EXACT_CURRENT14),'EXACT_CURRENT14_MIGRATIONS_REQUIRED');
+ const roles=[CALLER,FIXTURE,PACKAGE,LOCK,'scripts/supabase/testing/curated-platform-fixture.mjs','scripts/supabase/testing/member-realtime-fixture-plan.json','scripts/supabase/testing/member-realtime-interface.sql','scripts/supabase/testing/member-realtime-metadata.sql',...EXACT_CURRENT14.map(name=>'supabase/migrations/'+name),...new Set(Object.values(RUNNERS))];const inputs=[];for(const role of roles)inputs.push(await sourceFile(role));
+ // Admit all14 exact body pins while applying the unchanged SQL11 prefix, before
  // loading a driver or creating any fixture database.
  const preflightFixture=await loadReviewedPlatformFixture(sourceRoot);await preflightFixture.parity();
  const pg=await pgClientFactory(),hex=randomBytes(12).toString('hex');

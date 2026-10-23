@@ -128,7 +128,7 @@ rm -f -- "$cluster_root/initdb-password"
 # standard job's existing server profile unchanged; accept only closed modes.
 case "${COLLECT_NATIVE_PROFILE-standard}" in
     standard) server_limits= ;;
-    control-concurrency) server_limits='-c max_connections=60 -c superuser_reserved_connections=3 -c reserved_connections=0' ;;
+    control-concurrency|stopped-admission) server_limits='-c max_connections=60 -c superuser_reserved_connections=3 -c reserved_connections=0' ;;
     *) fail UNKNOWN_CI_NATIVE_PROFILE ;;
 esac
 # There is no Docker service, host-port forwarding, wildcard bind or address

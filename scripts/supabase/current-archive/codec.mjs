@@ -24,7 +24,7 @@ function int(x){need(typeof x==='string'&&/^-?(?:0|[1-9][0-9]*)$/.test(x),'INTEG
 // trailing spaces and JSON lexical text, unlike generic conversion through JS.
 const TYPES=new Map([
  [16,['bool','boolout']],[17,['bytea','byteaout']],[20,['int8','int8out']],
- [21,['int2','int2out']],[23,['int4','int4out']],[25,['text','textout']],
+ [21,['int2','int2out']],[23,['int4','int4out']],[25,['text','textout']],[26,['oid','oidout']],
  [700,['float4','float4out']],[701,['float8','float8out']],
  [1042,['bpchar','bpcharout']],[1043,['varchar','varcharout']],
  [1082,['date','date_out']],[1083,['time','time_out']],
@@ -53,6 +53,9 @@ export function validateCell(value,c,limit=HARD_CAPS.cellBytes){
  need(typeof value==='string'&&value.isWellFormed()&&!value.includes('\0')&&Buffer.byteLength(value)<=limit,'CELL_INVALID');
  const oid=columnType(c).oid;
  if([20,21,23].includes(oid)){need(/^-?(?:0|[1-9][0-9]*)$/.test(value),'INTEGER_TEXT_INVALID');const n=BigInt(value),range=oid===20?[-9223372036854775808n,9223372036854775807n]:oid===21?[-32768n,32767n]:[-2147483648n,2147483647n];need(n>=range[0]&&n<=range[1],'INTEGER_RANGE_INVALID');}
+ // OIDs are exact unsigned32 native identity values. Retain oidout's canonical
+ // decimal text; never accept signed PostgreSQL input aliases or coerce to JS.
+ if(oid===26){need(/^(?:0|[1-9][0-9]*)$/.test(value),'OID_TEXT_INVALID');need(value.length<=10&&BigInt(value)<=4294967295n,'OID_RANGE_INVALID');}
  if(oid===16)need(value==='t'||value==='f','BOOLEAN_TEXT_INVALID');
  if(oid===17)need(/^\\x(?:[a-f0-9]{2})*$/.test(value),'BYTEA_TEXT_INVALID');
  if(oid===2950)need(/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/.test(value),'UUID_TEXT_INVALID');

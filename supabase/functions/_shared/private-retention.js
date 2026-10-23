@@ -63,16 +63,22 @@ const privateSchemaSql=`SELECT c.relname::text AS name,c.relkind::text AS kind,
   (SELECT string_agg(pg_get_constraintdef(x.oid),';' ORDER BY x.conname) FROM pg_constraint x WHERE x.conrelid=c.oid) AS constraints,
   (SELECT string_agg(pg_get_triggerdef(t.oid),';' ORDER BY t.tgname) FROM pg_trigger t WHERE t.tgrelid=c.oid AND NOT t.tgisinternal) AS triggers
   FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='private' AND c.relkind IN('r','p','v') ORDER BY c.relname`;
+const stoppedClass='private:collect_fence_stopped_admissions';
 export async function privateRetentionCatalogIdentity(env){
  const observed=await all(env,privateSchemaSql);
  const expected=catalog.classes.filter(x=>x.relation.startsWith('private.')).map(x=>x.relation.slice(8)).sort();
- if(stableJson(observed.map(x=>x.name))!==stableJson(expected))fail('privacy_retention_unknown_private_class');
+ const names=stableJson(observed.map(x=>x.name)),current=names===stableJson(expected);
+ // SQL11 remains an explicitly qualified historical application prefix. Only
+ // the exact SQL14 addition may be absent there; every other relation remains
+ // mandatory. Both profiles retain a blocked, unmapped stopped-work class.
+ const legacy=names===stableJson(expected.filter(name=>name!==stoppedClass.slice(8)));
+ if(!current&&!legacy)fail('privacy_retention_unknown_private_class');
  const managed=await all(env,'SELECT private.retention_managed_inventory(?) AS inventory',[null]);
  const schema=managed[0]?.inventory?.schema;
  if(!schema||managed[0].inventory.contract_version!==1)fail('privacy_retention_managed_inventory_unavailable');
  const memberRealtimeIdentity=await memberRealtimeRetentionIdentity(env);
  const definition=(await all(env,"SELECT encode(sha256(convert_to(pg_get_functiondef('private.retention_managed_inventory(text)'::regprocedure),'UTF8')),'hex') AS sha256"))[0].sha256;
- return {contract_version:1,catalog_sha256:await digest(stableJson(catalog)),schema_sha256:await digest(stableJson({private:observed,managed:schema,managed_helper:definition,member_realtime:memberRealtimeIdentity})),private_schema:observed,managed_schema:schema,managed_helper_sha256:definition,member_realtime_identity:memberRealtimeIdentity,classes:privateRetentionClasses};
+ return {contract_version:1,schema_profile:current?'stopped_admission14':'admin_email11',catalog_sha256:await digest(stableJson(catalog)),schema_sha256:await digest(stableJson({private:observed,managed:schema,managed_helper:definition,member_realtime:memberRealtimeIdentity})),private_schema:observed,managed_schema:schema,managed_helper_sha256:definition,member_realtime_identity:memberRealtimeIdentity,classes:privateRetentionClasses};
 }
 export async function inventoryPrivateRetention(env,subject){
  if(typeof subject!=='string'||!subject.length||subject.length>200)fail('privacy_retention_subject_invalid');
