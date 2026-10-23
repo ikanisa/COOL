@@ -609,7 +609,11 @@ class _AdminTopbar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.collectColors;
     final current = _destinationForLocation(location, destinations);
-    final accessLabel = identity.roles.contains('staff') ? 'Staff' : 'Admin';
+    final accessLabel = identity.roles.contains('platform_owner')
+        ? 'Owner'
+        : identity.roles.contains('staff')
+        ? 'Staff'
+        : 'Admin';
     final lastRefresh = ref.watch(adminLastSuccessfulRefreshProvider);
     final liveStatus = ref.watch(adminLiveUpdateStatusProvider);
     final refreshLabel = lastRefresh == null

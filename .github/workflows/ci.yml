@@ -837,6 +837,7 @@ jobs:
       COLLECT_ADMIN_PASSWORD_POLICY_STALE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_email_test
       COLLECT_MFA_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_mfa_test
       COLLECT_GROUPS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_groups_test
+      COLLECT_FINANCIAL_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_be02_green_3f624f3e7a6d_test
       COLLECT_AUTH_SOURCE_ROOT: ${{ github.workspace }}/supabase/functions/_shared
       COLLECT_CI_SYNTHETIC: 'true'
       COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
@@ -882,7 +883,7 @@ jobs:
           import {createRequire} from 'node:module';
           const {Client}=createRequire(import.meta.url)(process.env.COLLECT_PG_MODULE);
           const db=new Client({connectionString:process.env.COLLECT_TEST_PG_URL});
-          try { await db.connect(); await db.query('CREATE DATABASE collect_rls_helper_acl_test'); await db.query('CREATE DATABASE collect_public_configuration_test'); await db.query('CREATE DATABASE collect_privacy_email_test'); await db.query('CREATE DATABASE collect_admin_invitation_test'); await db.query('CREATE DATABASE collect_invitation_notice_test'); await db.query('CREATE DATABASE collect_receipt_facts_test'); await db.query('CREATE DATABASE collect_sms_content_test'); await db.query('CREATE DATABASE collect_mfa_test'); await db.query('CREATE DATABASE collect_groups_test'); await db.query('CREATE DATABASE collect_private_retention_test'); await db.query('CREATE DATABASE collect_import_test'); await db.query('CREATE DATABASE collect_edge_test'); await db.query('CREATE DATABASE collect_google_test'); await db.query('CREATE DATABASE collect_admin_history_test'); await db.query('CREATE DATABASE collect_admin_email_test'); }
+          try { await db.connect(); await db.query('CREATE DATABASE collect_rls_helper_acl_test'); await db.query('CREATE DATABASE collect_public_configuration_test'); await db.query('CREATE DATABASE collect_privacy_email_test'); await db.query('CREATE DATABASE collect_admin_invitation_test'); await db.query('CREATE DATABASE collect_invitation_notice_test'); await db.query('CREATE DATABASE collect_receipt_facts_test'); await db.query('CREATE DATABASE collect_sms_content_test'); await db.query('CREATE DATABASE collect_mfa_test'); await db.query('CREATE DATABASE collect_groups_test'); await db.query('CREATE DATABASE collect_private_retention_test'); await db.query('CREATE DATABASE collect_import_test'); await db.query('CREATE DATABASE collect_edge_test'); await db.query('CREATE DATABASE collect_be02_green_3f624f3e7a6d_test'); await db.query('CREATE DATABASE collect_google_test'); await db.query('CREATE DATABASE collect_admin_history_test'); await db.query('CREATE DATABASE collect_admin_email_test'); }
           finally { await db.end(); }
           NODE
       - name: Replay curated migrations and SQL failure cases
