@@ -124,11 +124,18 @@ timeout --signal=TERM --kill-after=5s 90s gosu postgres initdb \
     --pwfile="$cluster_root/initdb-password" --no-instructions \
     > "$cluster_root/initdb.log" 2>&1
 rm -f -- "$cluster_root/initdb-password"
+# A dedicated control-concurrency job owns a separate fresh cluster. Keep the
+# standard job's existing server profile unchanged; accept only closed modes.
+case "${COLLECT_NATIVE_PROFILE-standard}" in
+    standard) server_limits= ;;
+    control-concurrency) server_limits='-c max_connections=60 -c superuser_reserved_connections=3 -c reserved_connections=0' ;;
+    *) fail UNKNOWN_CI_NATIVE_PROFILE ;;
+esac
 # There is no Docker service, host-port forwarding, wildcard bind or address
 # override. All job steps and this native listener share one container.
 timeout --signal=TERM --kill-after=5s 40s gosu postgres pg_ctl \
     -D "$cluster_root/data" -l "$cluster_root/postgres.log" -w -t 30 \
-    -o "-h 127.0.0.1 -p 55439 -k $cluster_root/socket -c unix_socket_permissions=0700" start
+    -o "-h 127.0.0.1 -p 55439 -k $cluster_root/socket -c unix_socket_permissions=0700 $server_limits" start
 
 # A fixed native TCP proof observes exactly the same address/port as the
 # existing maintained callers. Password values never enter argv or logs.

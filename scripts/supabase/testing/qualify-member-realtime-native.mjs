@@ -12,6 +12,8 @@ const SQL11_ROLE='supabase/migrations/20261023002500_collect_admin_recent_email_
 const ROOT_SQL11_SHA256='02c93209f546880032cf38382c61e78a3de0b0073dd2cb88699319afc6f0f185';
 const SQL12_ROLE='supabase/migrations/20261023072038_collect_admin_initial_email_proof_ack.sql';
 const ROOT_SQL12_SHA256='2c31440ae10176e7e9e5f0befefce8e1ca44e06149d3cc4471119920b3abf6df';
+const SQL13_ROLE='supabase/migrations/20261023102707_collect_retire_admin_mfa_enrollment.sql';
+const ROOT_SQL13_SHA256='e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834';
 const HELPER='scripts/supabase/testing/curated-platform-fixture.mjs';
 const RUNTIME='scripts/supabase/emergency-fence/native-runtime.ts';
 const REALTIME='scripts/supabase/testing/member-realtime-native.mjs';
@@ -28,19 +30,19 @@ export function projectRealtimeFailure(kind,bytes){
 const SOURCE='a'.repeat(64);
 const BASELINE='dfc7a4fafb696f73d207251c9f35cb892528eecd1929552fa575996874adc3e3';
 const EXPECTED=Object.freeze({
- "scripts/supabase/testing/curated-platform-fixture.mjs": "4968f8bde5f3fbe1da28d9b84c0618f9499bee546075e354b8763ae2177169ce",
+ "scripts/supabase/testing/curated-platform-fixture.mjs": "41d150ae1b12a57dfba790ed60aca479ad8aa501177ea8426cf8a2803525b820",
  "scripts/supabase/testing/member-realtime-fixture-plan.json": "6156561ea1b893b56afcf54d64934ca042dbb3251426ea3d27e532272bf65d6f",
  "scripts/supabase/testing/member-realtime-interface.sql": "074e380664493eea86a56d3f3042460bbb33352bc4f46483fd19d559446b0e1b",
  "scripts/supabase/testing/member-realtime-metadata.sql": "ed97cdf0838100502344d2d54563992df6170c6a64e95843c037aaec4cd703e3",
  "scripts/supabase/testing/member-realtime-native.mjs": "ffdf6b47a062474485d39b4dd06c88ee2be962e6b1b1c51fa932a2d7e87f7809",
- "scripts/supabase/emergency-fence/native-runtime.ts": "a9ebf26603ca2610ab399735f548fd24d7d296a4348018c69724d4ad3ac3771a",
+ "scripts/supabase/emergency-fence/native-runtime.ts": "ee6da010a410c04dab474310c89178a2e3851a85365c5396b177325a584238bd",
  "supabase/tests/sql/00_local_auth_fixture.sql": "b935e17f44219f018cf1a864505d1895d71903885ca6c61c039d7ab6596117ea",
  "supabase/functions/deno.json": "2c3962bd2c4fac761d154c43b0b48a55622142e02a2be70237361c02032f43e4",
  "supabase/functions/deno.lock": "070d1f79d59faebba520e3d14c1b10f4d73a84584eafa8c34f767c013c628b9b",
  "scripts/supabase/package.json": "9e8be4e3558c58379bdde1710125fbdc66b374d4c4638958119d03fc6f7a1b8f",
  "scripts/supabase/package-lock.json": "aeb77c97700bd9a3c67c8ac339a841513d09a33507b30b163a5cf1ce22643599",
  "supabase/functions/_shared/application-fence.js": "7abbf94ff699f6942619b6a0409a5623a6fa7322b41cdabe72e32d99689184de",
- "supabase/functions/_shared/postgres.js": "ac92b5bc010596f324d06cf3474119626133d2c3adb3e1627261c0deaa1c1e9d",
+ "supabase/functions/_shared/postgres.js": "bcb995361298517ec297601c260fe3c885616e267eef632731bdd075e66cd0d9",
  "supabase/functions/_shared/workspace-smtp-email.js": "05833369873f15ef71805a351f9868787d97e74a6df7a5a21a303b8feef24eef",
  "supabase/functions/_shared/domain/email_delivery.js": "55e7f5cdfac654b50f02d120737ee82563da2d154294ebf95252b7e8cd534e36",
  "supabase/functions/_shared/domain/core.js": "18ce95c133a4895d13475338089fb00c9ba4c9283ee72c7d4d6f88ae8ea8723e",
@@ -55,7 +57,8 @@ const EXPECTED=Object.freeze({
  "supabase/migrations/20261022195747_collect_application_mutation_fence.sql": "714abf2d24ce3d42a36525d18627362b02ff38c30810e988d365b5796d840497",
  "supabase/migrations/20261022200028_collect_private_member_realtime.sql": "ebfd0389e6ba3aa5fe1595f854b25c69b9b31a0500f202b8e0643209ab0ef6e4",
  [SQL11_ROLE]:ROOT_SQL11_SHA256,
- [SQL12_ROLE]:ROOT_SQL12_SHA256
+ [SQL12_ROLE]:ROOT_SQL12_SHA256,
+ [SQL13_ROLE]:ROOT_SQL13_SHA256
 });
 export const REVIEWED_INPUT_ROLES=Object.freeze(Object.keys(EXPECTED));
 const MIGRATIONS=REVIEWED_INPUT_ROLES.filter(role=>role.startsWith('supabase/migrations/')).map(role=>role.slice('supabase/migrations/'.length)).sort();
@@ -163,7 +166,7 @@ async function main(){
  async function parity(inputs){
   healthy();
   const names=(await readdir(join(root,'supabase/migrations'))).filter(name=>/^\d{14}_.*\.sql$/.test(name)).sort();
-  need(MIGRATIONS.length===12&&JSON.stringify(names)===JSON.stringify(MIGRATIONS),'EXACT_CURRENT12_MIGRATIONS_REQUIRED');
+  need(MIGRATIONS.length===13&&JSON.stringify(names)===JSON.stringify(MIGRATIONS),'EXACT_CURRENT13_MIGRATIONS_REQUIRED');
   for(const input of inputs){const current=await sourceFile(input.role);need(current.sha256===input.sha256&&current.bytes===input.bytes,'QUALIFIED_SOURCE_CHANGED');}
  }
  async function endClient(client,inputs){
