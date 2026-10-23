@@ -17,7 +17,7 @@ import javax.crypto.SecretKey
 
 /** Independent of signing/enrollment initialization. Each queued/UI callback
  * captures its own operation, trusted hash, cancellation and result identity. */
-internal class GatewayRecoveryOperator(private val activity:GatewayActivity,messenger:BinaryMessenger) {
+internal class GatewayRecoveryOperator(private val activity:GatewayActivity,messenger:BinaryMessenger,private val pauseForPreparation:(() -> String)?=null) {
     private class Operation(val ticket:GatewayRecoveryAdmission.Ticket,val result:MethodChannel.Result) { var picker:Int?=null }
     private val channel=MethodChannel(messenger,"collect/gateway.recovery.v1")
     private val worker=Executors.newSingleThreadExecutor()
@@ -30,7 +30,7 @@ internal class GatewayRecoveryOperator(private val activity:GatewayActivity,mess
     private fun reply(operation:String,state:String,phase:String,count:Long=0,sha:String?=null,files:Long?=null,key:Boolean?=null,reason:String?=null):Map<String,Any?> =
         mapOf("contract_version" to 1,"operation" to operation,"state" to state,"phase" to phase,"completed_files" to count,
             "manifest_sha256" to sha,"files" to files,"key_validated" to key,"inactive" to (operation=="restore"),
-            "requires_re_enrollment" to (operation=="restore"),"reason_code" to reason)
+            "requires_re_enrollment" to (operation in setOf("restore","prepareReEnrollment")),"reason_code" to reason)
     init { channel.setMethodCallHandler { call,result ->
         if(closed.get() || BuildConfig.FLAVOR!="internal_gateway" || android.os.Build.VERSION.SDK_INT<26) { result.error("gateway_recovery_unavailable","Recovery unavailable",null);return@setMethodCallHandler }
         when(call.method) {
@@ -39,6 +39,17 @@ internal class GatewayRecoveryOperator(private val activity:GatewayActivity,mess
                 if(call.arguments!=null) { invalid(result);return@setMethodCallHandler }
                 current?.let { op -> if(admission.cancel(op.ticket))finish(op,"cancelled","gateway_recovery_cancelled") }
                 result.success(status)
+            }
+            "prepareReEnrollment" -> {
+                val refs=try { GatewayRealmPreparation.references(call.arguments) } catch(e:GatewayStateException) { result.error(e.reasonCode,"Preparation arguments invalid",null);return@setMethodCallHandler }
+                val pause=pauseForPreparation ?: run { result.error("gateway_preparation_unavailable","Preparation unavailable",null);return@setMethodCallHandler }
+                val ticket=try { admission.admit("prepareReEnrollment",null) } catch(e:GatewayStateException) { result.error(e.reasonCode,"Recovery already in progress",null);return@setMethodCallHandler }
+                val op=Operation(ticket,result);current=op;update(op,"pausing")
+                worker.execute { try {
+                    requireWork(op);val certificate=pause();requireWork(op);requirePause();update(op,"snapshot")
+                    val value=GatewayRealmPreparation(activity.noBackupFilesDir,store).prepare(refs,certificate,{check(op)},::requirePause)
+                    requireWork(op);complete(op,value)
+                } catch(e:GatewayStateException) { terminal(op,e) } catch(_:Exception) { terminal(op,GatewayStateException("gateway_preparation_unknown")) } }
             }
             "export","restore" -> {
                 val args=call.arguments as? Map<*,*>

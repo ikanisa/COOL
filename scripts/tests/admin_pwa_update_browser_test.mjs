@@ -5,25 +5,64 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { createServer } from 'node:http';
 import { spawn, spawnSync } from 'node:child_process';
-import { cp, mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
-import { dirname, extname, join, relative, resolve, sep } from 'node:path';
+import { cp, lstat, mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises';
+import { createReadStream, existsSync } from 'node:fs';
+import { dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { observeWaitingAdminUpdate, reopenAfterAllAdminTabsLeave } from '../qa/admin_pwa_update_policy.mjs';
+import { validateAdminPwaFixtureMetadata } from '../qa/admin_pwa_fixture_metadata.mjs';
 
 const root = resolve('.');
 const output = resolve(process.argv[2] || '');
 if (!process.argv[2] || !output.startsWith(join(root, '.cache') + sep) || existsSync(output)) throw Error('A new task-owned cache output is required');
-await mkdir(output, { recursive: true });
 const sha = (bytes) => createHash('sha256').update(bytes).digest('hex');
+// Root supplies reviewed bundled runtime paths and digests; there are no host defaults.
+async function pinnedFile(path, expected, label) {
+  if (!path || !isAbsolute(path) || !/^[a-f0-9]{64}$/.test(expected || '')) {
+    throw Error(`Set ${label} to an absolute regular file and its reviewed SHA-256 pin`);
+  }
+  const before = await lstat(path);
+  if (!before.isFile() || before.isSymbolicLink()) throw Error(`${label} must identify a regular file`);
+  const hash = createHash('sha256');
+  for await (const bytes of createReadStream(path)) hash.update(bytes);
+  const actual = hash.digest('hex'), after = await lstat(path);
+  if (actual !== expected || before.ino !== after.ino || before.size !== after.size ||
+      before.mtimeMs !== after.mtimeMs || before.ctimeMs !== after.ctimeMs) {
+    throw Error(`${label} changed or does not match its reviewed SHA-256 pin`);
+  }
+  return { path, sha256: actual, bytes: after.size };
+}
+async function runtimePins() {
+  if (!process.env.ADMIN_PWA_NODE_VERSION || process.version !== process.env.ADMIN_PWA_NODE_VERSION) {
+    throw Error('Set ADMIN_PWA_NODE_VERSION to the reviewed running Node version');
+  }
+  return {
+    node: await pinnedFile(process.execPath, process.env.ADMIN_PWA_NODE_SHA256, 'ADMIN_PWA_NODE_SHA256'),
+    playwright: await pinnedFile(process.env.PLAYWRIGHT_CORE_PATH, process.env.PLAYWRIGHT_CORE_SHA256, 'PLAYWRIGHT_CORE_PATH and PLAYWRIGHT_CORE_SHA256'),
+    chrome: await pinnedFile(process.env.ADMIN_PWA_CHROME, process.env.ADMIN_PWA_CHROME_SHA256, 'ADMIN_PWA_CHROME and ADMIN_PWA_CHROME_SHA256'),
+    node_version: process.version,
+    pin_scope: 'running Node binary, Playwright module entry and Chrome executable; transitive runtime custody belongs to the managed runner',
+  };
+}
+const runtime = await runtimePins();
+const metadataInput = await pinnedFile(process.env.ADMIN_PWA_PUBLIC_METADATA_PATH,
+  process.env.ADMIN_PWA_PUBLIC_METADATA_SHA256, 'ADMIN_PWA_PUBLIC_METADATA_PATH and ADMIN_PWA_PUBLIC_METADATA_SHA256');
+if (metadataInput.bytes > 65536) throw Error('Public synthetic fixture metadata must be at most 64 KiB');
+const publicMetadata = validateAdminPwaFixtureMetadata(JSON.parse(await readFile(metadataInput.path, 'utf8')));
+await mkdir(output, { recursive: true });
 const inputPaths = ['scripts/tests/admin_pwa_update_browser_test.mjs', 'scripts/qa/admin_pwa_update_policy.mjs',
+  'scripts/qa/admin_pwa_fixture_metadata.mjs',
   'scripts/templates/admin_pwa_service_worker.js', 'scripts/admin_pwa_release_build.sh', 'scripts/admin_pwa_manifest_gate.sh',
   'scripts/admin_pwa_hosting_gate.sh', 'scripts/admin_pwa_live_gate.sh', 'web/flutter_bootstrap.js', 'web/_headers',
-  'web/index.html', 'web/robots.txt', 'web/icons/collect-web-512.png', 'lib/app/theme/collect_colors.dart'];
+  'web/index.html', 'web/robots.txt', 'web/icons/collect-web-512.png',
+  'web/.well-known/assetlinks.json', 'web/.well-known/apple-app-site-association',
+  'lib/app/theme/collect_colors.dart'];
 const snapshot = async () => Object.fromEntries(await Promise.all(inputPaths.map(async (path) => [path, sha(await readFile(path))])));
 const report = { started_at: new Date().toISOString(), status: 'running', final_acceptance: false,
   scope: 'real_chromium_loopback_tiny_static_fixtures_current_production_postprocessor',
   source_before: await snapshot(), checks: [], requests: [], commands: [], errors: [], hosted: false,
-  actual_admin_workflow: false, provider_calls: 0 };
+  actual_admin_workflow: false, provider_calls: 0, runtime_pins: runtime, public_metadata_input: metadataInput,
+  synthetic_fixture: { compiled_app: false, real_authentication: false, schema_attestation: false, hosted_acceptance: false } };
 function check(id, condition, observed) {
   report.checks.push({ id, pass: Boolean(condition), observed });
   console.log(id + ': ' + (condition ? 'PASS' : 'FAIL'));
@@ -42,7 +81,12 @@ async function inventory(directory) {
 const builder = await readFile('scripts/admin_pwa_release_build.sh', 'utf8');
 const marker = "ruby -r digest -r json -r open3 <<'RUBY'\n";
 assert.equal(builder.split(marker).length, 2);
-await writeFile(join(output, 'postprocessor.rb'), builder.split(marker)[1].split('\nRUBY\n')[0]);
+const ruby = builder.split(marker)[1].split('\nRUBY\n')[0];
+assert.ok(ruby.includes('ENV.fetch("COLLECT_ADMIN_BUILD_METADATA")'), 'Current explicit public metadata handoff is required');
+await writeFile(join(output, 'postprocessor.rb'), ruby);
+report.postprocessor = { builder_sha256: sha(builder), extracted_sha256: sha(ruby),
+  written_sha256: sha(await readFile(join(output, 'postprocessor.rb'))), production_ruby_modified: false };
+assert.equal(report.postprocessor.extracted_sha256, report.postprocessor.written_sha256);
 const sourceBootstrap = await readFile('web/flutter_bootstrap.js', 'utf8');
 async function stage(name, existingArtifact) {
   const stageRoot = join(output, name), directory = join(stageRoot, 'build/web');
@@ -55,10 +99,15 @@ async function stage(name, existingArtifact) {
       .replace('<body>', '<body><input id="pending" aria-label="Pending fixture work"><span id="version"></span>');
     await writeFile(join(directory, 'index.html'), index);
     await writeFile(join(directory, 'manifest.json'), '{}');
-    await writeFile(join(directory, 'version.json'), '{}');
+    await writeFile(join(directory, 'version.json'), JSON.stringify({ ...publicMetadata,
+      qa_fixture: { kind: 'tiny_static_lifecycle', synthetic: true, compiled_app: false, schema_attestation: false, hosted_acceptance: false } }) + '\n');
     await writeFile(join(directory, 'assets/lazy.txt'), 'lazy-' + name);
     await writeFile(join(directory, 'main.dart.js'), `window.fixtureVersion=${JSON.stringify(name)};document.querySelector('#version').textContent=window.fixtureVersion;window.fixtureReady=true;`);
     await cp('web/icons/collect-web-512.png', join(directory, 'icons/collect-web-512.png'));
+    await mkdir(join(directory, '.well-known'), { recursive: true });
+    for (const name of ['assetlinks.json', 'apple-app-site-association']) {
+      await cp(join('web/.well-known', name), join(directory, '.well-known', name));
+    }
   }
   let flutterPrefix;
   if (existingArtifact) {
@@ -72,23 +121,63 @@ async function stage(name, existingArtifact) {
     flutterPrefix = `window._flutter={loader:{load:function(options){window.fixtureConfig=options.config;var script=document.createElement('script');script.src=options.config.entrypointBaseUrl+'main.dart.js';document.head.appendChild(script);}}};`;
   }
   await writeFile(join(directory, 'flutter_bootstrap.js'), sourceBootstrap.replace('{{flutter_js}}\n{{flutter_build_config}}', flutterPrefix));
-  await cp('web/_headers', join(directory, '_headers'));
+  let headerPolicy;
+  if (existingArtifact) {
+    headerPolicy = { source: 'retained_artifact_headers',
+      source_sha256: sha(await readFile(join(directory, '_headers'))),
+      adaptation: 'production Ruby HTML normalization only' };
+  } else {
+    const sourceHeaders = await readFile('web/_headers', 'utf8');
+    let fixtureHeaders = sourceHeaders.replaceAll('Referrer-Policy: strict-origin-when-cross-origin', 'Referrer-Policy: no-referrer');
+    const connections = [...fixtureHeaders.matchAll(/connect-src\s+[^;]+;/g)];
+    assert.equal(connections.length, 1, 'Expected one Admin connection policy, matching production preparation');
+    fixtureHeaders = fixtureHeaders.replace(/connect-src\s+[^;]+;/g, "connect-src 'self';");
+    const frames = [...fixtureHeaders.matchAll(/frame-src\s+([^;]+);/g)];
+    assert.equal(frames.length, 1, 'Expected one Admin frame policy, matching production preparation');
+    fixtureHeaders = fixtureHeaders.replace(/frame-src\s+([^;]+);/g, (_, sources) => {
+      const values = sources.trim().split(/\s+/);
+      if (!values.includes("'self'")) values.unshift("'self'");
+      return 'frame-src ' + values.join(' ') + ';';
+    });
+    await writeFile(join(directory, '_headers'), fixtureHeaders);
+    headerPolicy = { source: 'web/_headers', source_sha256: sha(sourceHeaders), derived_sha256: sha(fixtureHeaders),
+      connect_src_matches: connections.length, frame_src_matches: frames.length,
+      adaptation: 'production preparation: no-referrer, self-only connect-src and self added to reviewed frame-src', synthetic_fixture: true };
+  }
   await cp('web/robots.txt', join(directory, 'robots.txt'));
   for (const path of ['lib/app/theme/collect_colors.dart', 'scripts/templates/admin_pwa_service_worker.js']) {
     await mkdir(dirname(join(stageRoot, path)), { recursive: true }); await cp(path, join(stageRoot, path));
   }
-  const result = spawnSync('ruby', ['-r', 'digest', '-r', 'json', '-r', 'open3', join(output, 'postprocessor.rb')], { cwd: stageRoot, encoding: 'utf8' });
+  const originalVersion = JSON.parse(await readFile(join(directory, 'version.json'), 'utf8'));
+  if (!originalVersion || Array.isArray(originalVersion) || !['cloudflare', 'supabase'].includes(originalVersion.backend)) {
+    throw Error(`${name}: version.json must identify its actual supported backend; legacy artifact bytes cannot be relabelled`);
+  }
+  const metadataPath = join(stageRoot, 'public-build-metadata.json');
+  await writeFile(metadataPath, JSON.stringify(originalVersion, null, 2) + '\n', { mode: 0o600 });
+  const childEnv = { ...process.env, COLLECT_ADMIN_BUILD_METADATA: metadataPath, COLLECT_BACKEND: originalVersion.backend };
+  delete childEnv.COLLECT_SOURCE_MANIFEST_SHA256;
+  delete childEnv.COLLECT_PLATFORM_API_SOURCE_ID;
+  const result = spawnSync('ruby', ['-r', 'digest', '-r', 'json', '-r', 'open3', join(output, 'postprocessor.rb')],
+    { cwd: stageRoot, env: childEnv, encoding: 'utf8', timeout: 30000 });
   await writeFile(join(output, name + '.postprocess.log'), result.stdout + result.stderr);
   assert.equal(result.status, 0, name + ' production postprocessing');
+  const derivedVersion = JSON.parse(await readFile(join(directory, 'version.json'), 'utf8'));
+  const changedVersionFields = [...new Set([...Object.keys(originalVersion), ...Object.keys(derivedVersion)])]
+    .filter((key) => JSON.stringify(originalVersion[key]) !== JSON.stringify(derivedVersion[key]));
+  assert.ok(changedVersionFields.every((key) => ['source_commit', 'source_dirty'].includes(key)),
+    `${name}: postprocessing changed artifact authority/runtime metadata`);
+  const metadata = { path: metadataPath, sha256: sha(await readFile(metadataPath)), original_version: originalVersion,
+    derived_version: derivedVersion, derived_qa_fields: changedVersionFields,
+    same_production_artifact_claimed: false, authority_runtime_fields_preserved: true };
   for (const gate of ['admin_pwa_manifest_gate.sh', 'admin_pwa_hosting_gate.sh']) {
-    const validated = spawnSync('bash', [join(root, 'scripts', gate)], { env: { ...process.env, ADMIN_PWA_BUILD_DIR: directory }, encoding: 'utf8' });
+    const validated = spawnSync('bash', [join(root, 'scripts', gate)], { env: { ...childEnv, ADMIN_PWA_BUILD_DIR: directory }, encoding: 'utf8' });
     report.commands.push({ command: gate, stage: name, exit: validated.status });
     await writeFile(join(output, name + '.' + gate + '.log'), validated.stdout + validated.stderr);
     assert.equal(validated.status, 0, name + ' ' + gate);
   }
   const bootstrap = await readFile(join(directory, 'flutter_bootstrap.js'), 'utf8');
   const worker = await readFile(join(directory, 'custom-sw.js'), 'utf8');
-  return { directory, name, assetBase: bootstrap.match(/var adminAssetBase = '([^']+)'/)[1],
+  return { directory, name, metadata, header_policy: headerPolicy, assetBase: bootstrap.match(/var adminAssetBase = '([^']+)'/)[1],
     cache: worker.match(/const CACHE_NAME = "([^"]+)"/)[1], files: await inventory(directory) };
 }
 const a = await stage('a'), b = await stage('b'), bad = await stage('bad');
@@ -119,7 +208,7 @@ try {
       if (url.pathname === '/') path = join(active.directory, 'index.html');
       try { if (!(await stat(path)).isFile()) throw Error('missing'); } catch { response.writeHead(404); response.end('Not found'); return; }
       let bytes = await readFile(path);
-      if (corrupt && url.pathname.endsWith('/assets/lazy.txt')) bytes = Buffer.from('mixed-deployment-bytes');
+      if (corrupt && url.pathname === '/' + active.assetBase + 'main.dart.js') bytes = Buffer.from('mixed-deployment-bytes');
       const headers = policy(await readFile(join(active.directory, '_headers'), 'utf8'), url.pathname);
       if (unsafeHeaders && url.pathname === '/main.dart.js') headers['Cache-Control'] = 'public, max-age=31536000, immutable';
       response.writeHead(200, { 'Content-Type': mime[extname(path)] || 'application/octet-stream', ...headers }); response.end(bytes);
@@ -128,7 +217,7 @@ try {
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const origin = `http://127.0.0.1:${server.address().port}`; report.origin = origin;
   const liveGate = async (name, expectedStatus) => {
-    const command = spawn('bash', [join(root, 'scripts/admin_pwa_live_gate.sh'), '--json'], { env: { ...process.env, ADMIN_PWA_LIVE_URL: origin, ADMIN_PWA_LIVE_FIXTURE: '1' } });
+    const command = spawn('bash', [join(root, 'scripts/admin_pwa_live_gate.sh'), '--json'], { env: { ...process.env, COLLECT_BACKEND: active.metadata.original_version.backend, ADMIN_PWA_LIVE_URL: origin, ADMIN_PWA_LIVE_FIXTURE: '1' } });
     const out = [], err = []; command.stdout.on('data', (bytes) => out.push(bytes)); command.stderr.on('data', (bytes) => err.push(bytes));
     const exit = await new Promise((resolve) => command.once('exit', resolve));
     const result = JSON.parse(Buffer.concat(out)); await writeFile(join(output, name + '.live-gate.json'), JSON.stringify(result, null, 2) + '\n');
@@ -141,9 +230,10 @@ try {
   check('loopback-byte-rejection-identifies-content-binding', mixedGate.failures.some((failure) => failure.includes('served runtime bytes differ')));
   unsafeHeaders = true; const headerGate = await liveGate('loopback-live-contract-rejects-immutable-stable-bundle', 'fail'); unsafeHeaders = false;
   check('loopback-header-rejection-identifies-mutable-bundle', headerGate.failures.some((failure) => failure.includes('mutable main.dart.js')));
-  const loaded = await import(process.env.PLAYWRIGHT_CORE_PATH || '/Users/jeanbosco/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.js');
+  await runtimePins();
+  const loaded = await import(pathToFileURL(runtime.playwright.path).href);
   const { chromium } = loaded.default || loaded;
-  const executablePath = process.env.ADMIN_PWA_CHROME || '/Volumes/PRO-G40/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+  const executablePath = runtime.chrome.path;
   browser = await chromium.launch({ executablePath, headless: true, args: ['--disable-background-networking', '--disable-component-update', '--disable-sync'] });
   report.browser = { version: browser.version(), executable: executablePath, executable_sha256: sha(await readFile(executablePath)) };
   const warm = await browser.newContext({ serviceWorkers: 'block' }); contexts.push(warm);
@@ -229,6 +319,11 @@ finally {
   if (!report.source_stable) report.status = 'fail'; report.completed_at = new Date().toISOString();
   for (const context of contexts) await context.close().catch(() => {});
   await browser?.close(); await new Promise((resolve) => server ? server.close(resolve) : resolve());
+  try {
+    await runtimePins();
+    await pinnedFile(metadataInput.path, metadataInput.sha256, 'Public fixture metadata');
+    report.runtime_and_public_metadata_unchanged = true;
+  } catch (error) { report.status = 'fail'; report.errors.push(error.message); }
   await writeFile(join(output, 'report.json'), JSON.stringify(report, null, 2) + '\n');
 }
 process.exitCode = report.status === 'pass' ? 0 : 1;

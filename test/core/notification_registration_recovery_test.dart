@@ -15,7 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import '../support/test_capture_paths.dart';
 
@@ -107,7 +107,11 @@ void main() {
 
   for (final error in [
     StateError('Sign in again to register notifications on this device.'),
-    const PostgrestException(
+    const CollectApiException(
+      message: 'Verify your sign-in before continuing.',
+      code: 'notification_registration_session_stale',
+    ),
+    const CollectApiException(
       message: 'notification_registration_session_stale',
       code: '42501',
     ),
@@ -325,7 +329,7 @@ void main() {
     'stale session has a working sign-in action and large text stays usable',
     (tester) async {
       final h = await _Harness.create();
-      h.repo.action = (_) async => throw const PostgrestException(
+      h.repo.action = (_) async => throw const CollectApiException(
         message: 'notification_registration_session_stale',
         code: '42501',
       );

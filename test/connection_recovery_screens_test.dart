@@ -100,7 +100,7 @@ void main() {
       await _pumpRecovery(tester, screen);
       expect(find.byType(MinimalStatePanel), findsOneWidget);
       expect(
-        find.text('Refresh to load groups and confirmed activity.'),
+        find.text('Refresh to load groups and recorded activity.'),
         findsOneWidget,
       );
       expect(

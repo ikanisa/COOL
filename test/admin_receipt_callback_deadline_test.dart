@@ -9,7 +9,7 @@ import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'callback_deadline_mount_support.dart' as mount;
 
 Map<String, dynamic> raw(String name) => mount.sqlFixture(name);
@@ -193,7 +193,7 @@ void main() {
       await controller.more();
       expect(controller.rows, hasLength(1));
       expect(controller.page, isNotNull);
-      failure = const PostgrestException(
+      failure = const CollectApiException(
         message: 'synthetic authority denial',
         code: '42501',
       );
@@ -231,7 +231,7 @@ void main() {
     },
   );
   testWidgets(
-    'one explicit approval outside first history page reaches actual repository/Auth v4 caller without eager fanout',
+    'one explicit approval outside first history page reaches actual repository/Auth v5 caller without eager fanout',
     (tester) async {
       final h = mount.DeadlineMountedHarness();
       await tester.runAsync(h.start);
@@ -268,6 +268,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            collectBackendClientProvider.overrideWithValue(null),
             adminCallbackDeadlineApiProvider.overrideWithValue(api),
             adminClockProvider.overrideWithValue(
               () => p.checkedAt.add(const Duration(seconds: 1)),

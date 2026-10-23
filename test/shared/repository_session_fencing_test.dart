@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const _a = '10000000-0000-0000-0000-000000000001';
 const _b = '10000000-0000-0000-0000-000000000002';
@@ -53,7 +53,7 @@ void main() {
           _newToken,
         ]);
         expect(unregister.map(_bearer), [_jwt(_a, _s1), _jwt(nextUser, _s2)]);
-        expect(h.logoutRequests.single.url.queryParameters['scope'], 'local');
+        expect(h.logoutRequests.single.url.path, '/v1/auth/logout');
       },
     );
   }
@@ -123,7 +123,7 @@ void main() {
       );
       final registration = h.register(_newToken);
       await pending.entered.future;
-      await h.client.auth.setInitialSession(_session(_a, _s1, revision: 2));
+      await h.client.auth.recoverSession(_session(_a, _s1, revision: 2));
       pending.release.complete(_json('"30000000-0000-0000-0000-000000000001"'));
       await registration;
       expect(h.repo.state.currentProfile?.id, _a);
@@ -177,7 +177,7 @@ void main() {
       final h = await _Harness.create(
         (r) => _rpc(r, 'register_notification_device')
             ? _json(
-                '{"message":"notification_registration_session_stale","code":"42501"}',
+                '{"message":"Verify your sign-in before continuing.","code":"notification_registration_session_stale"}',
                 status: 403,
               )
             : _ok(r),
@@ -205,6 +205,37 @@ void main() {
     },
   );
 
+  test(
+    'rejected replacement clears an earlier connected-device acknowledgement',
+    () async {
+      var refused = false;
+      final h = await _Harness.create(
+        (r) => _rpc(r, 'register_notification_device') && refused
+            ? _json(
+                '{"message":"Verify your sign-in before continuing.","code":"notification_registration_session_stale"}',
+                status: 409,
+              )
+            : _ok(r),
+      );
+      await h.register(_oldToken);
+      expect(
+        h.repo.isNotificationDeviceRegistered(
+          provider: 'fcm',
+          token: _oldToken,
+        ),
+        isTrue,
+      );
+      refused = true;
+      await expectLater(h.register(_oldToken), throwsStateError);
+      expect(
+        h.repo.isNotificationDeviceRegistered(
+          provider: 'fcm',
+          token: _oldToken,
+        ),
+        isFalse,
+      );
+    },
+  );
   test(
     'late stale-session rejection does not change newer account error state',
     () async {
@@ -376,7 +407,7 @@ void main() {
           expect(h.sms.calls.length, nativeCalls);
           expect(h.logoutRequests, hasLength(1));
           expect(_bearer(h.logoutRequests.single), _jwt(_a, _s1));
-          expect(h.logoutRequests.single.url.queryParameters['scope'], 'local');
+          expect(h.logoutRequests.single.url.path, '/v1/auth/logout');
           if (path == 'unregister_notification_device') {
             expect(
               h.requests.where((r) => _rpc(r, 'record_sms_access_consent')),
@@ -390,7 +421,7 @@ void main() {
 
   for (final nextUser in [_b, _a]) {
     test(
-      'late GoTrue logout HTTP response cannot clear ${nextUser == _a ? 'same-user new session' : 'B'}',
+      'late Collect logout HTTP response cannot clear ${nextUser == _a ? 'same-user new session' : 'B'}',
       () async {
         final pending = _HttpBarrier();
         final h = await _Harness.create(
@@ -401,28 +432,30 @@ void main() {
         expect(h.client.auth.currentSession, isNull);
         await h.login(nextUser, _s2);
         final clears = h.cache.clears;
-        pending.release.complete(http.Response('', 204));
+        pending.release.complete(_json('{"ok":true}'));
         await logout;
         await h.expectCurrent(nextUser, _s2);
         expect(h.cache.clears, clears);
         expect(_bearer(h.logoutRequests.single), _jwt(_a, _s1));
-        expect(h.logoutRequests.single.url.queryParameters['scope'], 'local');
+        expect(h.logoutRequests.single.url.path, '/v1/auth/logout');
       },
     );
   }
 
   test(
-    'GoTrue PKCE storage await cannot make repository clear a newer login',
+    'Protected session storage await cannot make repository clear a newer login',
     () async {
-      final storage = _PkceStorageBarrier();
+      final storage = _ProtectedStorageBarrier();
       final h = await _Harness.create(_ok, storage: storage);
       final logout = h.repo.signOut();
       await storage.entered.future;
       expect(h.client.auth.currentSession, isNull);
-      await h.login(_b, _s2);
+      final replacement = h.login(_b, _s2);
+      await Future<void>.delayed(Duration.zero);
       final clears = h.cache.clears;
       storage.release.complete();
       await logout;
+      await replacement;
       await h.expectCurrent(_b, _s2);
       expect(h.cache.clears, clears);
       expect(_bearer(h.logoutRequests.single), _jwt(_a, _s1));
@@ -469,7 +502,7 @@ void main() {
       expect(h.client.auth.currentSession, isNull);
       expect(h.repo.state.currentProfile, isNull);
       expect(h.sms.enabled, isFalse);
-      expect(h.logoutRequests.single.url.queryParameters['scope'], 'local');
+      expect(h.logoutRequests.single.url.path, '/v1/auth/logout');
     },
   );
 
@@ -528,7 +561,7 @@ void main() {
       final h = await _Harness.create(_ok);
       h.sms.delayedSuspendOwner = _b;
       h.sms.suspendReply = Completer<bool>();
-      await h.client.auth.setInitialSession(_session(_b, _s2));
+      await h.client.auth.recoverSession(_session(_b, _s2));
       await h.sms.suspendStarted.future;
       await h.login(_a, _s3);
       final clears = h.cache.clears;
@@ -559,7 +592,7 @@ typedef _Responder = FutureOr<http.Response> Function(http.Request);
 
 class _Harness {
   _Harness(this.client, this.repo, this.sms, this.cache, this.requests);
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   final _Repository repo;
   final _Sms sms;
   final _Cache cache;
@@ -570,16 +603,12 @@ class _Harness {
 
   static Future<_Harness> create(
     _Responder respond, {
-    GotrueAsyncStorage? storage,
+    CollectAuthSessionStorage? storage,
   }) async {
     final requests = <http.Request>[];
-    final client = SupabaseClient(
+    final client = CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'synthetic-anon-key',
-      authOptions: AuthClientOptions(
-        autoRefreshToken: false,
-        pkceAsyncStorage: storage,
-      ),
+      sessionStorage: storage,
       httpClient: MockClient((r) async {
         requests.add(r);
         final response = await respond(r);
@@ -591,7 +620,7 @@ class _Harness {
         );
       }),
     );
-    await client.auth.setInitialSession(_session(_a, _s1));
+    await client.auth.recoverSession(_session(_a, _s1));
     final sms = _Sms(), cache = _Cache();
     final repo = _Repository(client, sms, cache);
     final h = _Harness(client, repo, sms, cache, requests);
@@ -612,7 +641,7 @@ class _Harness {
   Future<void> login(String user, String session) async {
     final loaded = Completer<void>();
     repo.nextLoad = loaded;
-    await client.auth.setInitialSession(_session(user, session));
+    await client.auth.recoverSession(_session(user, session));
     await loaded.future.timeout(const Duration(seconds: 3));
     sms.owner = user;
     sms.enabled = true;
@@ -637,11 +666,11 @@ class _Repository extends CollectRepository {
           paymentIntents: const [],
           contributions: const [],
         ),
-        supabase: client,
+        backend: client,
         smsAccessChannel: sms,
         offlineCache: cache,
       );
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   final _Cache cache;
   Completer<void>? nextLoad;
   @override
@@ -718,14 +747,14 @@ class _Sms extends SmsAccessChannel {
   );
 }
 
-class _PkceStorageBarrier extends GotrueAsyncStorage {
+class _ProtectedStorageBarrier implements CollectAuthSessionStorage {
   final entered = Completer<void>(), release = Completer<void>();
   @override
-  Future<String?> getItem({required String key}) async => null;
+  Future<String?> read() async => null;
   @override
-  Future<void> setItem({required String key, required String value}) async {}
+  Future<void> write(String value) async {}
   @override
-  Future<void> removeItem({required String key}) {
+  Future<void> clear() {
     if (!entered.isCompleted) entered.complete();
     return release.future;
   }
@@ -740,14 +769,14 @@ class _HttpBarrier {
   }
 }
 
-bool _rpc(http.Request r, String name) => r.url.path == '/rest/v1/rpc/$name';
+bool _rpc(http.Request r, String name) => r.url.path == '/v1/rpc/$name';
 Map<String, dynamic> _body(http.Request r) =>
     jsonDecode(r.body) as Map<String, dynamic>;
 String _bearer(http.Request r) => r.headers['authorization']!.substring(7);
 http.Response _json(String body, {int status = 200}) =>
     http.Response(body, status, headers: {'content-type': 'application/json'});
 http.Response _ok(http.Request r) => r.url.path.endsWith('/logout')
-    ? http.Response('', 204)
+    ? _json('{"ok":true}')
     : _json(
         _rpc(r, 'register_notification_device')
             ? '"30000000-0000-0000-0000-000000000001"'

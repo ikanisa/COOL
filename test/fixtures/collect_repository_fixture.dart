@@ -7,7 +7,7 @@ import 'package:collect_app/shared/repositories/collect_repository.dart';
 /// Never import this file from lib or use these records as a backend fallback.
 class FixtureCollectRepository extends CollectRepository {
   FixtureCollectRepository({
-    super.supabase,
+    super.backend,
     super.smsAccessChannel,
     bool seeded = true,
     DateTime? fixtureNow,

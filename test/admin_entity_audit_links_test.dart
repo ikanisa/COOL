@@ -15,7 +15,7 @@ import 'package:collect_app/admin/core/admin_receipt_cancel_models.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:collect_app/app/theme/collect_runtime_assets.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -238,7 +238,7 @@ Future<(ProviderContainer, GoRouter)> _mount(
   ).encode();
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(null),
+      collectBackendClientProvider.overrideWithValue(null),
       _identity.overrideWith((_) async => actor),
       adminIdentityProvider.overrideWith((ref) => ref.watch(_identity)),
       adminRepositoryProvider.overrideWithValue(repository),

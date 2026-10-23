@@ -7,13 +7,12 @@ import 'package:collect_app/admin/core/admin_gateway_contracts.dart';
 import 'package:collect_app/admin/core/admin_gateway_checkpoint.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'admin_gateway_contracts_test.dart' as keys;
@@ -39,10 +38,9 @@ final _repository = StateProvider<AdminRepositoryBase>(
   (_) => throw StateError('fixture'),
 );
 
-/// Actual GoTrue/Postgrest and production page/dialogs, with synthetic HTTP.
-/// This does not exercise server audit persistence or physical device actions.
+// Exercises the current Cloudflare client and repository with controlled HTTP replies.
 class _Harness {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late ProviderContainer container;
   late AdminGatewayOwnerAction action;
@@ -55,10 +53,8 @@ class _Harness {
   http.Request? write;
   String? capturedToken;
   Future<void> start() async {
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient(
         (request) =>
             (() async {
@@ -135,7 +131,7 @@ class _Harness {
         adminGatewayCheckpointStoreProvider.overrideWithValue(
           MemoryAdminGatewayCheckpointStore(),
         ),
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         _repository.overrideWith((_) => repository),
         adminRepositoryProvider.overrideWith((ref) => ref.watch(_repository)),
         adminIdentityProvider.overrideWith((ref) => ref.watch(_authority)),
@@ -219,9 +215,7 @@ class _Harness {
             : 'Revoke identity',
       ),
     );
-    // The locked Postgrest decoder uses a real isolate on VM. Give its
-    // completion an actual event loop turn while retaining normal UI pumps.
-    // Waiting only on WidgetTest fake time cannot complete that SDK stage.
+    // Allow asynchronous Cloudflare client replies to complete outside widget fake time.
     for (var i = 0; i < 20; i++) {
       await tester.runAsync(
         () => Future<void>.delayed(const Duration(milliseconds: 10)),

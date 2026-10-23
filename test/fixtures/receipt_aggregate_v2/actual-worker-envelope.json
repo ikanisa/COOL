@@ -1,0 +1,44 @@
+{
+  "status": "recorded",
+  "receipt": {
+    "scan": {
+      "seeded": 0,
+      "status": "processed",
+      "cleared": 0,
+      "pending": 0,
+      "refused": 0,
+      "activated": 0,
+      "processed": 0,
+      "unchanged": 0,
+      "checked_at": "2026-10-03T07:51:53.591483Z",
+      "expires_at": "2026-10-03T07:53:23.461225Z",
+      "request_id": "1a90bdff-ad45-4385-ac1d-7a7b78a5e277",
+      "scan_epoch": 5,
+      "scan_phase": "receipt_backlog",
+      "send_action": false,
+      "contract_version": 1,
+      "financial_action": false,
+      "observations_added": 0,
+      "source_scan_complete": false
+    },
+    "status": "completed",
+    "escalation": {
+      "channel": "admin_inbox",
+      "obsolete": 0,
+      "delivered": 0,
+      "external_send": false,
+      "contract_version": 1,
+      "recipient_unavailable": 0
+    },
+    "expires_at": "2026-10-03T07:53:23.461225Z",
+    "request_id": "1a90bdff-ad45-4385-ac1d-7a7b78a5e277",
+    "recorded_at": "2026-10-03T07:51:53.627511Z",
+    "send_action": false,
+    "external_send": false,
+    "contract_version": 1,
+    "financial_action": false,
+    "configuration_revision": 2
+  },
+  "request_id": "1a90bdff-ad45-4385-ac1d-7a7b78a5e277",
+  "contract_version": 1
+}

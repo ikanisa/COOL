@@ -3,7 +3,7 @@ import 'package:collect_app/admin/admin_router.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -72,7 +72,7 @@ Future<ProviderContainer> _open(
   final identity = await repository.currentIdentity();
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(null),
+      collectBackendClientProvider.overrideWithValue(null),
       adminAuthGuardProvider.overrideWithValue(
         const AdminAuthGuard(isAuthorized: true),
       ),
@@ -99,7 +99,11 @@ Future<void> _searchAndOpen(WidgetTester tester) async {
   await tester.enterText(_searchField, 'Buri Munsi');
   await tester.tap(find.byTooltip('Refresh'));
   await tester.pumpAndSettle();
-  await tester.tap(find.byTooltip('Open Buri Munsi'));
+  final open = find.byTooltip('Open Buri Munsi');
+  await tester.ensureVisible(open);
+  await tester.pumpAndSettle();
+  expect(open.hitTestable(), findsOneWidget);
+  await tester.tap(open.hitTestable());
   await tester.pumpAndSettle();
   expect(find.byTooltip('Back to Groups'), findsOneWidget);
 }

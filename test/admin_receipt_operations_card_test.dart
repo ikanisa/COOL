@@ -7,14 +7,13 @@ import 'package:collect_app/admin/core/admin_receipt_operations_checkpoint.dart'
 import 'package:collect_app/admin/core/admin_receipt_operations_models.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_action_session_test.dart' as auth;
 import 'admin_receipt_operations_checkpoint_test.dart';
 import 'support/admin_receipt_operations_fixture.dart';
@@ -31,7 +30,7 @@ const operationsOwner = AdminIdentity(
 );
 
 class _Probe {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
   final store = MemoryOperationsStore();
   final authority = StateProvider<Future<AdminIdentity?>>(
@@ -46,10 +45,8 @@ class _Probe {
   Object? error;
   final listeners = <ProviderSubscription<Object?>>[];
   Future<void> start() async {
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final token = (jsonDecode(request.body)['token'] as String).split(
@@ -63,7 +60,7 @@ class _Probe {
     await auth.session(client, 'operations-session-a');
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminIdentityProvider.overrideWith((ref) => ref.watch(authority)),
         adminClockProvider.overrideWith((ref) {
           final time = ref.watch(clock);

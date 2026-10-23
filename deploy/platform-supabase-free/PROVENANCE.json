@@ -1,0 +1,31 @@
+{
+  "format": "collect.supabase.free-host.source-provenance.v1",
+  "date": "2026-10-20",
+  "target": "Netlify Free static plus Edge Fetch transport; undeployed",
+  "copied_transport": {
+    "source": "deploy/platform-admin/src/supabase-transport.js",
+    "sha256": "d1c2d51a155432ba30efcdf032082e5a83c299f4c0aafa29fb9f741c6b2e58cd",
+    "source_modified": false,
+    "destination": "deploy/platform-supabase-free/transport.mjs"
+  },
+  "copied_test_basis": {
+    "source": "deploy/platform-admin/test/supabase-transport.test.mjs",
+    "sha256": "65e58436e17da3b58ae6e69aae590188d6179f6834dbd8424cc9461b16a106b7",
+    "source_modified": false,
+    "destination": "test/supabase-free-transport.test.mjs",
+    "adaptations": "New module imports, approved public frontend, explicit mutation Origin fixtures, extended actual Edge entrypoint/renderer/signature/payload/recovery cases"
+  },
+  "deliberate_transport_changes": [
+    "Provider-neutral module and comments; no legacy host bindings or fallback",
+    "Exact four server-native Google errors admitted with existing handoff guards",
+    "Missing Origin on Admin GET/HEAD synthesized from configured frontend only after trusted-host and Fetch-site checks; mutations require explicit frontend Origin",
+    "Nominated Google provider Origin accepted only for exact callback GET document navigation",
+    "Netlify-specific cache override removed and no-store emitted explicitly",
+    "Google callback GET classified effectful for post-dispatch unknown outcomes",
+    "All Admin non-OPTIONS requests, including GET and HEAD, are effectful because session lookup may refresh or revoke custody; post-dispatch failures preserve unknown outcome without retry",
+    "Dedicated local challenge parent uses only its own loopback connect-src; normal static and API CSP unchanged; no backend origin expansion"
+  ],
+  "authority": "All domain, account, identity, role, MFA, database, object, AI and job state remains in Supabase",
+  "hosted_qualification": false,
+  "deployment_performed": false
+}

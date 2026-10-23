@@ -6,7 +6,7 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const actorA = '99920000-0000-4000-8000-000000000001';
 const actorB = '99920000-0000-4000-8000-000000000002';
@@ -52,13 +52,13 @@ Map<String, dynamic> lineage() => {
 };
 
 Future<void> installSession(
-  SupabaseClient client, {
+  CollectCloudflareClient client, {
   String actor = actorA,
   String session = 'session-a',
 }) => client.auth.recoverSession(
   jsonEncode({
     'access_token':
-        'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': actor, 'session_id': session, 'aal': 'aal2', 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
+        'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': actor, 'session_id': session, 'aal': 'aal2', 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
     'refresh_token': 'synthetic-refresh',
     'token_type': 'bearer',
     'user': {
@@ -72,7 +72,7 @@ Future<void> installSession(
 );
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late Future<http.Response> Function(http.Request) respond;
   late List<http.Request> requests;
@@ -84,10 +84,8 @@ void main() {
   setUp(() async {
     requests = [];
     respond = (_) async => json(finalization());
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) {
         requests.add(request);
         return respond(request).then(
@@ -164,7 +162,7 @@ void main() {
       );
       expect(result.paymentStatus, status);
       expect(result.replayed, replay);
-      expect(requests.single.url.path, '/functions/v1/reconciliation-finalize');
+      expect(requests.single.url.path, '/v1/functions/reconciliation-finalize');
       expect(jsonDecode(requests.single.body), {'review_id': reviewId});
       if (status == 'reversed') {
         expect(result.message, contains('later reversed'));
@@ -216,7 +214,7 @@ void main() {
         json({'error': 'reconciliation_approver_required'}, 403);
     await expectLater(
       repository.finalizePaymentReconciliation(reviewId, paymentId: paymentId),
-      throwsA(isA<FunctionException>()),
+      throwsA(isA<CollectFunctionException>()),
     );
     expect(requests, hasLength(1));
   });

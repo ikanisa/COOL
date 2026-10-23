@@ -10,13 +10,12 @@ import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_reconciliation_step_up.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_reconciliation_repository_test.dart' as fixtures;
 
@@ -36,6 +35,20 @@ AdminIdentity _identity({
 );
 final _actor = StateProvider<AdminIdentity>((ref) => _identity());
 final _session = StateProvider<String>((ref) => 'session-a');
+
+// Presentation-only authority fixture. No service credential or OTP admission.
+class _Sessions extends AdminSessionController {
+  _Sessions(String userId, String sessionId) : super(null) {
+    replace(userId, sessionId);
+  }
+  int _fixtureGeneration = 0;
+  void replace(String userId, String sessionId) {
+    final key = (userId: userId, sessionId: sessionId);
+    if (state?.key != key) {
+      state = (key: key, generation: ++_fixtureGeneration);
+    }
+  }
+}
 
 class _Repository extends AdminEvidenceRepository {
   int queueCount = 1;
@@ -90,6 +103,10 @@ class _Repository extends AdminEvidenceRepository {
             subtitle: 'Awaiting evidence',
             status: 'review',
             amount: 'RWF 2,500',
+            extra: {
+              'country_code': 'RW',
+              'momo_transaction_id': 'Payment ${i + 1}',
+            },
           ),
       ],
       total: queueCount,
@@ -158,7 +175,19 @@ Future<ProviderContainer> _open(
   addTearDown(tester.view.resetDevicePixelRatio);
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(null),
+      collectBackendClientProvider.overrideWithValue(null),
+      adminAuthSessionScopeProvider.overrideWith((ref) {
+        final sessions = _Sessions(ref.read(_actor).userId, ref.read(_session));
+        ref.listen(
+          _actor,
+          (_, actor) => sessions.replace(actor.userId, ref.read(_session)),
+        );
+        ref.listen(
+          _session,
+          (_, session) => sessions.replace(ref.read(_actor).userId, session),
+        );
+        return sessions;
+      }),
       _actor.overrideWith((_) => identity ?? _identity()),
       adminAuthUserIdProvider.overrideWith((ref) => ref.watch(_actor).userId),
       adminAuthGuardProvider.overrideWithValue(
@@ -440,7 +469,7 @@ void main() {
           approver: fixtures.actorA,
         ),
       ]
-      ..failure = const PostgrestException(
+      ..failure = const CollectApiException(
         message: 'reconciliation_actor_unavailable',
         code: '42501',
       );
@@ -458,15 +487,21 @@ void main() {
     tester,
   ) async {
     final repo = _Repository()..queueCount = 26;
-    await _open(tester, repo);
-    await _tap(tester, 'Next payments');
+    final container = await _open(tester, repo);
+    await tester.ensureVisible(find.byTooltip('Next page'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Next page'));
+    await tester.pumpAndSettle();
     expect(find.text('Payment 26'), findsOneWidget);
     repo.queueCount = 1;
-    await tester.tap(find.byTooltip('Refresh reconciliations'));
+    final readsBeforeRecovery = repo.offsets.length;
+    container.read(adminRealtimeTickProvider.notifier).state += 1;
     await tester.pumpAndSettle();
     expect(find.text('Payment 1'), findsOneWidget);
-    expect(repo.offsets.sublist(repo.offsets.length - 2), [25, 0]);
-    expect(find.text('1–1 of 1 payments · Page 1'), findsOneWidget);
+    expect(repo.offsets.skip(readsBeforeRecovery), [25, 0]);
+    expect(find.text('Payment 26'), findsNothing);
+    expect(find.byTooltip('Next page'), findsNothing);
+    expect(find.byTooltip('Previous page'), findsNothing);
     await _close(tester);
   });
   testWidgets('all history and per-payment reviews reach every server page', (
@@ -655,9 +690,7 @@ void main() {
         tester
             .widget<IconButton>(
               find.byWidgetPredicate(
-                (widget) =>
-                    widget is IconButton &&
-                    widget.tooltip == 'Refresh reconciliations',
+                (widget) => widget is IconButton && widget.tooltip == 'Refresh',
               ),
             )
             .onPressed,

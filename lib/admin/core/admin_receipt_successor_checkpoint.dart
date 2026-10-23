@@ -6,9 +6,7 @@ import 'admin_receipt_successor_checkpoint_stub.dart'
     as platform;
 
 String successorOwnerDigest(String userId) => sha256
-    .convert(
-      utf8.encode('collect-receipt-successor-v1:lhbowpbcpwoiparwnwgt:$userId'),
-    )
+    .convert(utf8.encode('collect-receipt-successor-v2:$userId'))
     .toString();
 
 class AdminReceiptSuccessorCheckpoint {

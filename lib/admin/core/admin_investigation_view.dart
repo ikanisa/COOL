@@ -1,12 +1,12 @@
+import '../shared/components/admin_data_listing.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../core/cloudflare/collect_cloudflare_client.dart';
 
 import '../../app/theme/collect_colors.dart';
-import '../../app/theme/collect_radius.dart';
 import '../shared/components/admin_status_chip.dart';
 import 'admin_auth_guard.dart';
 import 'admin_display_formatters.dart';
@@ -15,6 +15,11 @@ import 'admin_entity_audit.dart';
 import 'admin_runtime.dart';
 import 'admin_automatic_gateway_view.dart';
 import 'admin_receipt_successor_host.dart';
+import 'admin_receipt_notice_content_host.dart';
+import 'admin_receipt_notice_dispatch_host.dart';
+import 'admin_receipt_notice_investigation.dart';
+import 'admin_full_payment_compensation_investigation.dart';
+import 'admin_full_payment_compensation_host.dart';
 import 'admin_receipt_callback_deadline_models.dart';
 import 'admin_transaction_lifecycle.dart';
 
@@ -44,10 +49,10 @@ final adminInvestigationProvider = FutureProvider.autoDispose
       Map<String, dynamic> raw;
       try {
         raw = await repository.investigation(kind: target.kind, id: target.id);
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminInvestigationDenied();
-        if (error.code == 'PGRST202' || error.code == '42883') {
+        if (error.code == 'operation_unavailable' || error.code == '501') {
           throw UnsupportedError(
             'Joined investigation service is unavailable.',
           );
@@ -66,9 +71,10 @@ final adminInvestigationProvider = FutureProvider.autoDispose
       return snapshot;
     });
 
-/// Separate from the existing privileged raw-message reveal. Refresh reads
-/// evidence. A separate governed cancellation card can stop only unstarted
-/// receipt transport; the investigation evidence itself remains read-only.
+/// Joined evidence and separately governed actions. Refresh reads evidence.
+/// Receipt cancellation can stop only unstarted transport; full ledger
+/// compensation requires its own current-owner review and human confirmation.
+/// Both preserve original records and reconcile the original request outcome.
 class AdminInvestigationView extends ConsumerStatefulWidget {
   const AdminInvestigationView({
     required this.kind,
@@ -127,6 +133,12 @@ class _AdminInvestigationViewState
         measured?.isFresh(ref.watch(adminClockProvider)()) == true
         ? measured?.receipt
         : null;
+    final compensationSource = measured == null
+        ? null
+        : fullPaymentCompensationInvestigationSource(
+            measured,
+            now: ref.watch(adminClockProvider)(),
+          );
     String? selectedApproval;
     var selectedApprovalInvalid = false;
     if (widget.kind == 'receipt' && GoRouter.maybeOf(context) != null) {
@@ -141,7 +153,7 @@ class _AdminInvestigationViewState
     return _InvestigationPanel(
       title: 'Payment and receipt investigation',
       children: [
-        const Text('Read-only evidence · Times in Africa/Kigali'),
+        const Text('Linked evidence · Times in Africa/Kigali'),
         const SizedBox(height: 12),
         read.when(
           skipLoadingOnRefresh: false,
@@ -175,6 +187,48 @@ class _AdminInvestigationViewState
                   permissions: identity.valueOrNull!.permissions.toSet(),
                 ),
         ),
+        if (compensationSource != null) ...[
+          const SizedBox(height: 20),
+          AdminFullPaymentCompensationHost(
+            key: ValueKey((
+              'full-payment-compensation',
+              _reviewRevision,
+              widget.kind,
+              widget.id,
+              compensationSource.paymentId,
+              compensationSource.originalJournalEntryId,
+              compensationSource.originalSnapshotId,
+              compensationSource.collectionId,
+              compensationSource.memberRecordId,
+            )),
+            paymentId: compensationSource.paymentId,
+            originalJournalEntryId: compensationSource.originalJournalEntryId,
+            originalSnapshotId: compensationSource.originalSnapshotId,
+            collectionId: compensationSource.collectionId,
+            memberRecordId: compensationSource.memberRecordId,
+            onRecorded: () {
+              if (!mounted ||
+                  widget.kind != target.kind ||
+                  widget.id != target.id) {
+                return;
+              }
+              setState(() => _reviewRevision++);
+              ref.invalidate(adminInvestigationProvider(target));
+              if (reviewReceipt != null) {
+                ref.invalidate(
+                  adminReceiptCancelInspectionProvider(reviewReceipt.id),
+                );
+                ref.invalidate(
+                  adminAutomaticReceiptProvider((
+                    receiptId: reviewReceipt.id,
+                    limit: 20,
+                    before: null,
+                  )),
+                );
+              }
+            },
+          ),
+        ],
         if (widget.kind == 'receipt' ||
             (read.asData?.value.isFresh(ref.watch(adminClockProvider)()) ==
                     true &&
@@ -234,6 +288,61 @@ class _AdminInvestigationViewState
                   before: null,
                 )),
               );
+              ref.invalidate(adminInvestigationProvider(target));
+            },
+          ),
+          const SizedBox(height: 16),
+          AdminReceiptNoticeContentHost(
+            key: ValueKey((
+              'receipt-notice-content',
+              widget.kind,
+              widget.id,
+              reviewReceipt.id,
+              reviewReceipt.snapshotId,
+            )),
+            outboxId: reviewReceipt.id,
+            sourceSnapshotId: reviewReceipt.snapshotId,
+            collectionId: reviewReceipt.collectionId,
+            reversalSnapshotId: receiptNoticeReversalSnapshotId(
+              measured!,
+              outboxId: reviewReceipt.id,
+              now: ref.watch(adminClockProvider)(),
+            ),
+            onRecorded: () {
+              if (!mounted ||
+                  widget.kind != target.kind ||
+                  widget.id != target.id) {
+                return;
+              }
+              setState(() => _reviewRevision++);
+              ref.invalidate(adminInvestigationProvider(target));
+            },
+          ),
+          const SizedBox(height: 16),
+          AdminReceiptNoticeDispatchSourceHost(
+            key: ValueKey((
+              'receipt-notice-dispatch',
+              _reviewRevision,
+              widget.kind,
+              widget.id,
+              reviewReceipt.id,
+              reviewReceipt.snapshotId,
+            )),
+            outboxId: reviewReceipt.id,
+            sourceSnapshotId: reviewReceipt.snapshotId,
+            collectionId: reviewReceipt.collectionId,
+            reversalSnapshotId: receiptNoticeReversalSnapshotId(
+              measured,
+              outboxId: reviewReceipt.id,
+              now: ref.watch(adminClockProvider)(),
+            ),
+            onRecorded: () {
+              if (!mounted ||
+                  widget.kind != target.kind ||
+                  widget.id != target.id) {
+                return;
+              }
+              setState(() => _reviewRevision++);
               ref.invalidate(adminInvestigationProvider(target));
             },
           ),
@@ -629,20 +738,17 @@ class _InvestigationPanel extends StatelessWidget {
     container: true,
     explicitChildNodes: true,
     label: 'Linked payment and receipt investigation',
-    child: Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.collectColors.surfaceReadable,
-        borderRadius: CollectRadius.panelBorder,
-        border: Border.all(color: context.collectColors.borderSoft),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _InvestigationHeading(title),
-          const SizedBox(height: 10),
-          ...children,
-        ],
+    child: AdminDataSection(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _InvestigationHeading(title),
+            const SizedBox(height: 10),
+            ...children,
+          ],
+        ),
       ),
     ),
   );

@@ -43,11 +43,8 @@ void _digest(String value) {
   if (!RegExp(r'^[a-f0-9]{64}$').hasMatch(value)) cancelInvalid();
 }
 
-String adminReceiptCancelOwnerDigest(String userId) => sha256
-    .convert(
-      utf8.encode('collect-receipt-cancel-v1:lhbowpbcpwoiparwnwgt:$userId'),
-    )
-    .toString();
+String adminReceiptCancelOwnerDigest(String userId) =>
+    sha256.convert(utf8.encode('collect-receipt-cancel-v2:$userId')).toString();
 
 abstract class AdminReceiptCancelCheckpointStore {
   String? read(String ownerDigest);

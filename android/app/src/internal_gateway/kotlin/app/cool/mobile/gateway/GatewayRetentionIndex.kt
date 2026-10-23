@@ -13,7 +13,7 @@ internal class GatewayRetentionIndex(
     private val save: (String, JSONObject) -> Unit,
     private val hasRetentionFiles: () -> Boolean,
 ) {
-    private val kinds = setOf("request", "receipt", "attempt", "callback", "callback-body", "protocol", "terminal", "observed-attempt", "late-evidence", "late-work", "late-body", "late-receipt")
+    private val kinds = setOf("request", "receipt", "attempt", "callback", "callback-body", "protocol", "terminal", "observed-attempt", "late-evidence", "late-work", "late-body", "late-receipt", "invoke-prepare", "invoke-terminal")
     private fun control(): JSONObject {
         val marker = load("retention-marker")
         val value = load("retention-control")

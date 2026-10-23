@@ -16,6 +16,7 @@ class PublicAppMedia
   PUBLISHED_METADATA_INPUT = 'assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256'
   BROWSER_DIAGNOSTIC_INPUTS = %w[scripts/qa/collect_diagnostic_observer.mjs
                                 scripts/qa/public_browser_app_media.mjs].freeze
+  CUA_CAPTURE_INPUTS = %w[scripts/qa/public_cua_capture_contract.json scripts/qa/serve_public_preview.py scripts/admin_cloudflare_assets.py].freeze
   def initialize(root)
     @root = root
     @directory = File.join(root, 'web/public/app-screens')
@@ -157,6 +158,7 @@ class PublicAppMedia
     files += %w[.fvmrc .metadata pubspec.yaml pubspec.lock analysis_options.yaml
                 scripts/public_app_media.rb scripts/qa/asset_manifest_integrity.rb].map { |name| File.join(base, name) }
     files += BROWSER_DIAGNOSTIC_INPUTS.map { |name| File.join(base, name) }
+    files += CUA_CAPTURE_INPUTS.map { |name| File.join(base, name) } if File.file?(File.join(base, CUA_CAPTURE_INPUTS.first))
     raise 'Browser web entrypoint is absent' unless File.file?(File.join(base, 'web/index.html'))
     files.uniq.sort_by { |path| path.split(File::SEPARATOR) }.to_h do |path|
       relative = path.delete_prefix(File.expand_path(base) + '/')
@@ -318,14 +320,31 @@ class PublicAppMedia
   end
 
   def verify_browser_diagnostic_sources!(report)
-    diagnostic_sources = BROWSER_DIAGNOSTIC_INPUTS.to_h do |relative|
+    cua = report['capture_engine'] == 'cua_repl'
+    inputs = cua ? CUA_CAPTURE_INPUTS : BROWSER_DIAGNOSTIC_INPUTS
+    diagnostic_sources = inputs.to_h do |relative|
       path = AssetManifestIntegrity.regular_path!(@root, relative)
       [relative, Digest::SHA256.file(path).hexdigest]
     end
     raise 'Browser diagnostic observer binding is incomplete or changed' unless
       report['diagnostic_observer_sources_before'] == diagnostic_sources &&
       report['diagnostic_observer_sources_after'] == diagnostic_sources &&
-      report['capture_recorder_sha256'] == diagnostic_sources['scripts/qa/public_browser_app_media.mjs']
+      report['capture_recorder_sha256'] == diagnostic_sources[cua ? CUA_CAPTURE_INPUTS.first : 'scripts/qa/public_browser_app_media.mjs']
+    if cua
+      raise 'Cua browser observations are incomplete' unless report['legacy_browser_recorder_executed'] == false &&
+        report['csp_remote_blocking_verified'] == true && report['capture_observations'].is_a?(Array) &&
+        report['capture_observations'].map { |r| r['id'] }.sort == report.fetch('captures').map { |r| r['id'] }.sort
+      report['capture_observations'].each do |observation|
+        capture = report.fetch('captures').find { |r| r['id'] == observation['id'] }
+        ax = observation['ax_path']
+        raise 'Cua browser observations differ from the captured route' unless
+          observation['sha256'] == capture['sha256'] && observation['app_route'] == capture['app_route'] &&
+          observation['url_route_verified'] == true && observation['console_errors'] == [] && observation['original_png_unedited'] == true &&
+          ax.is_a?(String) && ax.start_with?('.cache/') && observation['ax_sha256'].is_a?(String) && observation['ax_sha256'].match?(/\A[a-f0-9]{64}\z/)
+        bytes = AssetManifestIntegrity.read_regular(@root, ax, max_bytes: 2 * 1024 * 1024) { |io| io.read }
+        raise 'Cua browser observations changed after capture' unless Digest::SHA256.hexdigest(bytes) == observation['ax_sha256'] && bytes.include?(capture['app_route'])
+      end
+    end
   end
 
   def verify_browser_provenance!(manifest, provenance)
@@ -356,12 +375,14 @@ class PublicAppMedia
       report.fetch('served_resources')['main.dart.js'] == build['main.dart.js']
     if report.key?('isolated_source_export')
       bindings = report['generated_bindings_before']
-      expected_local = {
-        'collect_app' => report['source_root'],
-        'file_saver' => "#{report['source_root']}/third_party/file_saver",
-        'gotrue' => "#{report['source_root']}/third_party/gotrue",
-        'firebase_messaging' => "#{report['source_root']}/third_party/firebase_messaging"
-      }
+      pubspec = YAML.safe_load(File.read(File.join(@root, 'pubspec.yaml')))
+      expected_local = {pubspec.fetch('name', 'collect_app') => report['source_root']}
+      %w[dependencies dev_dependencies dependency_overrides].each do |section|
+        pubspec.fetch(section, {}).each do |name, dependency|
+          next unless dependency.is_a?(Hash) && dependency.key?('path')
+          expected_local[name] = "#{report['source_root']}/#{AssetManifestIntegrity.validate_relative!(dependency.fetch('path'))}"
+        end
+      end
       raise 'Browser compilation source binding is incomplete' unless
         [true, false].include?(report['isolated_source_export']) &&
         report['source_root'].is_a?(String) && report['source_root'].start_with?('/') &&

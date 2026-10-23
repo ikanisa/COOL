@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Legacy launchers render the existing transparent Collect silhouette. -->
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@drawable/collect_launcher_icon"
+    android:gravity="fill"
+    android:filter="true"
+    android:antialias="true" />

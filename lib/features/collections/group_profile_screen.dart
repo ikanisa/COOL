@@ -172,17 +172,17 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
             ),
           ],
         ),
-        _GroupProfileEditSection(
-          children: [
-            const SectionHeader(title: 'Paying to'),
-            if (collection.receiverMomoNumber != null)
+        if (collection.receiverMomoNumber != null)
+          _GroupProfileEditSection(
+            children: [
+              const SectionHeader(title: 'Paying to'),
               CollectListTile(
                 leading: CollectIcons.momo,
                 title: collection.receiverDisplayLabel,
                 subtitle: collection.receiverMomoNumber,
               ),
-          ],
-        ),
+            ],
+          ),
         _GroupProfileEditSection(
           children: [
             _ProfileColorPalette(
@@ -266,7 +266,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
     });
     try {
       final imageUrl = _removeExistingImage
-          ? null
+          ? ''
           : _imageValue ?? collection.imageUrl;
       await ref
           .read(collectRepositoryProvider.notifier)

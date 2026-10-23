@@ -11,13 +11,12 @@ import 'package:collect_app/admin/core/admin_exception_models.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_runtime_assets.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_exception_models_test.dart' as source;
 
 const _identity = AdminIdentity(
@@ -211,7 +210,7 @@ Future<ProviderContainer> _mount(
   addTearDown(tester.view.resetDevicePixelRatio);
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(null),
+      collectBackendClientProvider.overrideWithValue(null),
       adminIdentityProvider.overrideWith(
         (ref) async => currentIdentity == null ? identity : currentIdentity(),
       ),
@@ -332,7 +331,7 @@ void main() {
             ..readGate = Completer<Map<String, dynamic>>();
       final container = ProviderContainer(
         overrides: [
-          supabaseClientProvider.overrideWithValue(null),
+          collectBackendClientProvider.overrideWithValue(null),
           adminRepositoryProvider.overrideWithValue(repo),
           adminIdentityProvider.overrideWith((ref) async => _identity),
         ],
@@ -466,7 +465,7 @@ void main() {
     await _finish(tester);
   });
   for (final error in [
-    const PostgrestException(message: 'PRIVATE_CANARY', code: '42501'),
+    const CollectApiException(message: 'PRIVATE_CANARY', code: '42501'),
     UnsupportedError('PRIVATE_CANARY'),
     const FormatException('PRIVATE_CANARY'),
   ]) {
@@ -477,7 +476,7 @@ void main() {
       await _mount(tester, repo, store);
       expect(
         find.text(
-          error is PostgrestException
+          error is CollectApiException
               ? 'Exception access denied'
               : error is UnsupportedError
               ? 'Exception service unavailable'
@@ -577,7 +576,7 @@ void main() {
     (tester) async {
       final store = _Store(),
           repo = _Repository(store)
-            ..writeError = const PostgrestException(
+            ..writeError = const CollectApiException(
               message: 'PRIVATE_CANARY',
               code: '55000',
             );
@@ -753,7 +752,7 @@ void main() {
         _seed(store);
         final repo = _Repository(store)..lookupStatus = 'in_progress';
         if (status == 'authority_busy') {
-          repo.lookupError = const PostgrestException(
+          repo.lookupError = const CollectApiException(
             message: 'PRIVATE_CANARY',
             code: '55P03',
           );
@@ -869,7 +868,7 @@ void main() {
               format: ui.ImageByteFormat.png,
             );
             await File(
-              'docs/release/collect-codex-goal-2026-09-30/admin-exceptions/exceptions-${dark ? 'dark' : 'light'}-synthetic.png',
+              '.cache/test-captures/admin-exceptions/exceptions-${dark ? 'dark' : 'light'}-synthetic.png',
             ).writeAsBytes(bytes!.buffer.asUint8List());
             rendered.dispose();
           });

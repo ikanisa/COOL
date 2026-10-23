@@ -3,6 +3,8 @@ import java.io.File
 import java.security.KeyStore
 import java.security.MessageDigest
 import java.util.Locale
+import java.util.Base64
+import java.net.URI
 import java.nio.file.Files
 import org.gradle.api.artifacts.dsl.LockMode
 import org.gradle.api.artifacts.ProjectDependency
@@ -13,6 +15,7 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import groovy.json.JsonSlurper
 
@@ -39,13 +42,8 @@ abstract class CollectVariantPluginRegistrant : DefaultTask() {
     fun generate() {
         val originalDirectory = originalJavaDirectory.get().asFile
         val original = originalDirectory.resolve("io/flutter/plugins/GeneratedPluginRegistrant.java")
-        val files = originalDirectory.walkTopDown().filter { it.isFile }.toList()
-        check(files == listOf(original) && !Files.isSymbolicLink(original.toPath())) {
-            "Collect registrant adapter requires main/java to contain only the regular tool-generated registrant"
-        }
-        check(originalDirectory.walkTopDown().none { Files.isSymbolicLink(it.toPath()) }) {
-            "Collect registrant adapter refuses aliased main/java input"
-        }
+        // The shared Java adapter validates the complete input tree, including
+        // verified AppleDouble metadata and all alias/additional-source guards.
         val output = outputDirectory.get().asFile.resolve("io/flutter/plugins/GeneratedPluginRegistrant.java")
         val javaExecutable = File(System.getProperty("java.home"), "bin/java")
         val process = ProcessBuilder(
@@ -67,8 +65,41 @@ val collectUnsignedLocalQa = collectUnsignedLocalQaRaw == "true"
 
 // Public installation target only. A matching host is neither enrollment nor
 // send authority; the default keeps the internal gateway offline.
+val collectPublicDefines = linkedMapOf<String, String>()
+providers.gradleProperty("dart-defines").orNull.orEmpty().split(',').filter { it.isNotEmpty() }.forEach { encoded ->
+    val decoded = String(Base64.getDecoder().decode(encoded), Charsets.UTF_8)
+    val separator = decoded.indexOf('=')
+    require(separator > 0) { "Invalid Collect compile configuration" }
+    val key = decoded.substring(0, separator)
+    require(collectPublicDefines.put(key, decoded.substring(separator + 1)) == null) { "Duplicate Collect compile configuration" }
+}
+val collectBackend = collectPublicDefines["COLLECT_BACKEND"] ?: "supabase"
+require(collectBackend in setOf("cloudflare", "supabase")) { "Unsupported Collect backend" }
+fun collectOrigin(value: String): URI {
+    val uri = URI(value)
+    require(uri.scheme == "https" && !uri.host.isNullOrEmpty() && uri.rawUserInfo == null &&
+        uri.rawQuery == null && uri.rawFragment == null && uri.port in setOf(-1, 443) &&
+        uri.path in setOf("", "/")) { "Collect native backend requires an HTTPS origin" }
+    return uri
+}
+val collectSupabaseProject = if (collectBackend == "supabase") collectOrigin(collectPublicDefines["SUPABASE_URL"].orEmpty()) else null
+val collectSupabaseApi = if (collectBackend == "supabase") collectOrigin(
+    collectPublicDefines["SUPABASE_API_URL"].orEmpty().ifEmpty { collectPublicDefines["SUPABASE_URL"].orEmpty() }
+) else null
+val collectApprovedApiHost = collectSupabaseApi?.host?.lowercase(Locale.US) ?: "api.collect.ikanisa.com"
+val collectApiPathPrefix = if (collectBackend == "supabase") "/functions/v1/collect-api" else ""
+val collectPublishableKey = if (collectBackend == "supabase") collectPublicDefines["SUPABASE_PUBLISHABLE_KEY"].orEmpty() else ""
+require(collectBackend != "supabase" || collectPublishableKey.matches(Regex("sb_publishable_[A-Za-z0-9_-]{10,300}"))) {
+    "Supabase native transport requires a publishable key"
+}
+val collectProjectOrigin = collectSupabaseProject?.let { "https://${it.host.lowercase(Locale.US)}" }
+val collectSessionOwner = if (collectProjectOrigin == null) "00000000-0000-4000-8000-000000000001" else {
+    val digest = MessageDigest.getInstance("SHA-256").digest("collect-auth-session:v1:supabase:$collectProjectOrigin".toByteArray(Charsets.UTF_8))
+        .joinToString("") { "%02x".format(it) }
+    "${digest.substring(0, 8)}-${digest.substring(8, 12)}-4${digest.substring(13, 16)}-8${digest.substring(17, 20)}-${digest.substring(20, 32)}"
+}
 val collectGatewayHost = providers.gradleProperty("collectGatewayHost").orNull.orEmpty()
-require(collectGatewayHost.isEmpty() || collectGatewayHost == "lhbowpbcpwoiparwnwgt.supabase.co") {
+require(collectGatewayHost.isEmpty() || collectGatewayHost == collectApprovedApiHost) {
     "collectGatewayHost must match the governed Collect backend host"
 }
 
@@ -178,6 +209,12 @@ android {
     }
 
     defaultConfig {
+        buildConfigField("String", "COLLECT_API_HOST", "\"$collectApprovedApiHost\"")
+        buildConfigField("String", "COLLECT_API_PATH_PREFIX", "\"$collectApiPathPrefix\"")
+        buildConfigField("String", "COLLECT_PUBLISHABLE_KEY", "\"$collectPublishableKey\"")
+        buildConfigField("String", "COLLECT_AUTH_SESSION_OWNER", "\"$collectSessionOwner\"")
+        buildConfigField("String", "COLLECT_AUTH_ISSUER", "\"${collectProjectOrigin?.plus("/auth/v1") ?: "collect-platform-api"}\"")
+        buildConfigField("String", "COLLECT_AUTH_AUDIENCE", "\"${if (collectBackend == "supabase") "authenticated" else "collect"}\"")
         applicationId = "app.cool.mobile"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
@@ -254,8 +291,8 @@ flutter {
 }
 
 // Flutter's pinned loader adds native plugins to build-type Api configurations,
-// regardless of flavor. Keep local/FCM notifications on every member/receiver
-// flavor, while the internal sender remains free of both notification plugins.
+// regardless of flavor. Member flavors retain local/FCM notifications. The
+// standalone native receiver and sender do not register notification plugins.
 val collectPluginMetadataFile = rootProject.file("../.flutter-plugins-dependencies")
 check(collectPluginMetadataFile.isFile && !Files.isSymbolicLink(collectPluginMetadataFile.toPath())) {
     "Collect native flavor adapter requires regular Flutter plugin metadata; run flutter pub get first"
@@ -280,11 +317,15 @@ collectNotificationPluginDependencies.forEach { (pluginName, expectedDependencie
 }
 val collectNotificationProjects = collectNotificationPluginDependencies.keys.map { project(":$it") }
 val collectNotificationProjectPaths = collectNotificationPluginDependencies.keys.map { ":$it" }.toSet()
-val collectNonGatewayFlavors = android.productFlavors.filter { it.name != "internal_gateway" }
-check(android.productFlavors.any { it.name == "internal_gateway" } && collectNonGatewayFlavors.isNotEmpty()) {
-    "Collect native notification adapter requires the declared Gateway and member flavors"
+val collectStandaloneNativeFlavors = setOf("internal_gateway", "internal_receiver")
+val collectMemberFlavors = android.productFlavors.filter { it.name !in collectStandaloneNativeFlavors }
+check(
+    android.productFlavors.map { it.name }.containsAll(collectStandaloneNativeFlavors) &&
+        collectMemberFlavors.isNotEmpty(),
+) {
+    "Collect native notification adapter requires the declared native and member flavors"
 }
-collectNonGatewayFlavors.forEach { flavor ->
+collectMemberFlavors.forEach { flavor ->
     collectNotificationProjects.forEach { dependency ->
         dependencies.add("${flavor.name}Api", dependency)
     }
@@ -324,13 +365,18 @@ configurations.configureEach {
 }
 
 // Java classes do not support flavor overlays. Replace only the shared Java
-// source directory (which must contain exactly this generated file) with one
+// source directory (one registrant plus verified macOS metadata) with one
 // task-generated directory per variant, leaving Flutter's original untouched.
 val collectOriginalJavaDirectory = file("src/main/java")
-val collectOriginalRegistrant = collectOriginalJavaDirectory.resolve("io/flutter/plugins/GeneratedPluginRegistrant.java")
-check(
-    collectOriginalJavaDirectory.walkTopDown().filter { it.isFile }.toList() == listOf(collectOriginalRegistrant),
-) { "Collect native flavor adapter refuses additional main/java source" }
+val collectRegistrantAdapterSource = rootProject.file("gradle/CollectPluginRegistrant.java")
+val collectRegistrantInputCheck = ProcessBuilder(
+    File(System.getProperty("java.home"), "bin/java").absolutePath,
+    "--source", "17", collectRegistrantAdapterSource.absolutePath,
+    "--check-directory", collectOriginalJavaDirectory.absolutePath,
+).inheritIO().start()
+check(collectRegistrantInputCheck.waitFor() == 0) {
+    "Collect native flavor adapter refused an unknown main/java input"
+}
 android.sourceSets.named("main") {
     val declared = java.directories
     check(declared.any { file(it).canonicalFile == collectOriginalJavaDirectory.canonicalFile }) {
@@ -339,12 +385,28 @@ android.sourceSets.named("main") {
     java.setSrcDirs(declared.filter { file(it).canonicalFile != collectOriginalJavaDirectory.canonicalFile })
 }
 androidComponents.onVariants { variant ->
+    // Flutter's combined-variant JNI directory is consumed by AGP's merger,
+    // but is absent from AGP 9.0.1's incremental sourceFolderInputs collection.
+    // A normal file input makes changed generated libraries trigger the full
+    // JNI merge, while retaining Flutter's existing compile/copy dependencies.
+    val flutterJniLibraries = layout.buildDirectory.dir(
+        "intermediates/flutter/${variant.name}/jniLibs",
+    )
+    val mergeJniTaskName = "merge${variant.name.replaceFirstChar { it.uppercase() }}JniLibFolders"
+    tasks.matching { it.name == mergeJniTaskName }.configureEach {
+        inputs.files(flutterJniLibraries.map { it.asFileTree })
+            .withPropertyName("collectFlutterJniLibraries")
+            .withPathSensitivity(PathSensitivity.RELATIVE)
+    }
+
     val generateRegistrant = tasks.register<CollectVariantPluginRegistrant>(
         "generateCollect${variant.name.replaceFirstChar { it.uppercase() }}PluginRegistrant",
     ) {
         originalJavaDirectory.set(collectOriginalJavaDirectory)
-        adapterSource.set(rootProject.file("gradle/CollectPluginRegistrant.java"))
-        omitNotifications.set(variant.productFlavors.any { it.first == "channel" && it.second == "internal_gateway" })
+        adapterSource.set(collectRegistrantAdapterSource)
+        omitNotifications.set(variant.productFlavors.any {
+            it.first == "channel" && it.second in collectStandaloneNativeFlavors
+        })
         outputDirectory.set(layout.buildDirectory.dir("generated/collectPluginRegistrants/${variant.name}"))
     }
     variant.sources.java?.addGeneratedSourceDirectory(generateRegistrant) { it.outputDirectory }
@@ -368,6 +430,16 @@ gradle.taskGraph.whenReady {
     val productionReleaseTaskRequested = allTasks.any { task ->
         task.name.contains("ProductionRelease", ignoreCase = true)
     } && (!sourceAnalysisOnly || includesFinalArtifact)
+    // The dedicated receiver is distributed directly. Its release APK must use
+    // the reviewed certificate too; AGP otherwise permits an unsigned release.
+    val receiverReleaseArtifactRequested = allTasks.any { task ->
+        task.project == project && task.name in setOf(
+            "assembleInternal_receiverRelease", "bundleInternal_receiverRelease",
+            "packageInternal_receiverRelease", "packageInternal_receiverReleaseBundle",
+            "signInternal_receiverReleaseBundle", "validateSigningInternal_receiverRelease",
+            "installInternal_receiverRelease",
+        )
+    }
     val playInstalledOverwriteTaskRequested = allTasks.any { task ->
         signProductionDebugWithPlayKey && task.name.contains("ProductionDebug", ignoreCase = true)
     } && (!sourceAnalysisOnly || includesFinalArtifact)
@@ -378,14 +450,14 @@ gradle.taskGraph.whenReady {
             )
         }.forEach { it.enabled = false }
     }
-    if (!collectUnsignedLocalQa && (productionReleaseTaskRequested || playInstalledOverwriteTaskRequested)) {
+    if (!collectUnsignedLocalQa && (productionReleaseTaskRequested || receiverReleaseArtifactRequested || playInstalledOverwriteTaskRequested)) {
         if (!hasReleaseSigning) {
             throw GradleException(
                 "Production Android signing requires android/key.properties or COOL_ANDROID_* environment variables " +
                     "pointing at the Google Play upload key."
             )
         }
-        if (productionReleaseTaskRequested && !releaseSigningMatchesExpectedUpload) {
+        if ((productionReleaseTaskRequested || receiverReleaseArtifactRequested) && !releaseSigningMatchesExpectedUpload) {
             throw GradleException(
                 "Configured Android upload signing certificate SHA-256 $releaseSigningSha256 does not match " +
                     "the expected upload certificate SHA-256 $expectedUploadSigningSha256. " +
@@ -428,7 +500,8 @@ if (collectUnsignedLocalQa) {
     // below keeps marker generation ordered before asset merging.
     android.sourceSets.getByName("production").assets.srcDir(markerDir.get().asFile)
     android.sourceSets.getByName("internal_gateway").assets.srcDir(markerDir.get().asFile)
-    val markerPreBuildNames = listOf("Production", "Internal_gateway").flatMap { flavor ->
+    android.sourceSets.getByName("internal_receiver").assets.srcDir(markerDir.get().asFile)
+    val markerPreBuildNames = listOf("Production", "Internal_gateway", "Internal_receiver").flatMap { flavor ->
         android.buildTypes.map { type ->
             "pre${flavor}${type.name.replaceFirstChar { it.uppercase() }}Build"
         }
@@ -445,7 +518,7 @@ dependencies {
     implementation("com.google.android.play:integrity:1.6.0")
     testImplementation("junit:junit:4.13.2")
     // Gateway JVM contracts need real JSON; Android's mockable API throws.
-    add("testInternal_gatewayImplementation", "org.json:json:20250517")
+    testImplementation("org.json:json:20250517")
 }
 
 // Firebase is configured only for the store/staging application IDs. Keep

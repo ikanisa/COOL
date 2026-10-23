@@ -1,0 +1,102 @@
+{
+  "result": {
+    "expires_at": "2026-10-03T07:53:23.461225Z",
+    "projection": {
+      "busy": 0,
+      "complete": true,
+      "processed": 0,
+      "unavailable": 0
+    },
+    "request_id": "1a90bdff-ad45-4385-ac1d-7a7b78a5e277",
+    "measurement": {
+      "mode": "Live-limited",
+      "scope": "configured_receipt_operations_both_protocols",
+      "status": "admitted",
+      "backlog": {
+        "due_deferrals": 0,
+        "unhandled_events": 15,
+        "source_busy_deferrals": 0,
+        "oldest_unhandled_age_seconds": 36
+      },
+      "budgets": {
+        "scope": "global_utc_day",
+        "actions_cap": 100,
+        "utc_day_start": "2026-10-03T00:00:00.000000Z",
+        "actions_reserved": 4,
+        "sms_segments_cap": 100,
+        "sms_segments_reserved": 4
+      },
+      "unknown": {
+        "uncertain_attempts": 2,
+        "callback_conflict_attempts": 2,
+        "started_without_all_sent_callbacks": 3,
+        "observed_sent_without_all_delivery_callbacks": 0
+      },
+      "handling": {
+        "latency_max_ms": null,
+        "latency_p50_ms": null,
+        "latency_p95_ms": null,
+        "events_created_24h": 15,
+        "events_handled_24h": 0
+      },
+      "callbacks": {
+        "expected_segments": 3,
+        "armed_attempts_24h": 3,
+        "conflicting_attempts": 2,
+        "covered_sent_segments": 0,
+        "covered_delivery_segments": 2,
+        "complete_delivery_callback_attempts": 0
+      },
+      "checked_at": "2026-10-03T07:51:53.597966Z",
+      "window_end": "2026-10-03T07:51:53.597966Z",
+      "reason_code": null,
+      "send_action": false,
+      "probe_counts": {
+        "created": 15,
+        "pending": 15,
+        "collections": 1,
+        "current_heads": 6,
+        "global_handled": 0,
+        "recent_primary": 1,
+        "publisher_heads": 6,
+        "recent_successor": 2,
+        "unresolved_primary": 1,
+        "global_reservations": 4,
+        "unresolved_successor": 2
+      },
+      "window_start": "2026-10-02T07:51:53.597966Z",
+      "carrier_proof": false,
+      "emergency_stop": false,
+      "window_seconds": 86400,
+      "delivery_proven": false,
+      "policy_revision": 2,
+      "contract_version": 2,
+      "financial_action": false,
+      "protocol_families": [
+        "primary_v2",
+        "receipt_successor_v1"
+      ],
+      "sample_valid_until": "2026-10-03T07:52:53.597966Z",
+      "evidence_limit_codes": [
+        "durable_handling_not_delivery",
+        "framework_callbacks_not_carrier_proof",
+        "callback_coverage_not_delivery_success",
+        "budget_caps_not_measured_capacity",
+        "costs_unmeasured",
+        "configured_scope_only"
+      ]
+    },
+    "recorded_at": "2026-10-03T07:51:53.626231Z",
+    "send_action": false,
+    "policy_revision": 2,
+    "contract_version": 2,
+    "financial_action": false,
+    "telemetry_revision": 2,
+    "configuration_revision": 2
+  },
+  "status": "available",
+  "request_id": "1a90bdff-ad45-4385-ac1d-7a7b78a5e277",
+  "send_action": false,
+  "contract_version": 2,
+  "financial_action": false
+}

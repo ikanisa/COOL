@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const _a = '99790000-0000-4000-8000-000000000001';
 const _b = '99790000-0000-4000-8000-000000000002';
@@ -20,7 +20,8 @@ const _groupB = '99790000-0000-4000-8000-000000000012';
 String _token(String user, String sid, [int revision = 0]) {
   String part(Object body) =>
       base64Url.encode(utf8.encode(jsonEncode(body))).replaceAll('=', '');
-  return '${part({'alg': 'none'})}.${part({'sub': user, 'session_id': sid, 'role': 'authenticated', 'revision': revision})}.synthetic';
+  final issued = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
+  return '${part({'alg': 'none'})}.${part({'sub': user, 'session_id': sid, 'role': 'authenticated', 'surface': 'member', 'iat': issued, 'exp': issued + 3600, 'revision': revision})}.synthetic';
 }
 
 Map<String, dynamic> _claims(String token) => Map<String, dynamic>.from(
@@ -36,48 +37,90 @@ class _Sms extends SmsAccessChannel {
   Future<bool> suspendUnlessOwner(String? ownerUserId) async => true;
 }
 
-class _Join {
-  _Join(this.socket, this.ref, this.topic, this.payload);
-  final WebSocket socket;
-  final Object? ref;
-  final String topic;
-  final Map<String, dynamic> payload;
-
-  void event(String id, {String area = 'members'}) {
-    socket.add(
-      jsonEncode([
-        ref,
-        null,
-        topic,
-        'postgres_changes',
-        {
-          'ids': [1],
-          'data': {
-            'schema': 'public',
-            'table': 'app_realtime_events',
-            'type': 'INSERT',
-            'commit_timestamp': '2026-09-30T10:00:00Z',
-            'columns': [
-              {'name': 'id', 'type': 'text'},
-              {'name': 'area', 'type': 'text'},
-            ],
-            'record': {'id': id, 'area': area},
-            'old_record': <String, dynamic>{},
-          },
-        },
-      ]),
+class _SyncScope {
+  _SyncScope(this.epoch, this.request);
+  final int epoch;
+  final http.Request request;
+  final requests = <http.Request>[];
+  final queued = <Map<String, dynamic>>[];
+  Completer<http.Response>? pending;
+  http.Request? pendingRequest;
+  bool failNext = false;
+  bool recovering = false;
+  int cursor = 0;
+  String get topic => 'http-sync-$epoch';
+  Map<String, dynamic> get payload => {
+    'access_token': request.headers['Authorization']!.substring(7),
+  };
+  http.Response reply(http.Request request, {bool failed = false}) {
+    final events = List<Map<String, dynamic>>.of(queued);
+    if (!failed) {
+      queued.clear();
+      cursor += events.length;
+    }
+    return http.Response(
+      jsonEncode(
+        failed
+            ? {'code': 'synthetic_outage'}
+            : {'events': events, 'cursor': '$cursor'},
+      ),
+      failed ? 503 : 200,
+      request: request,
+      headers: {'content-type': 'application/json'},
     );
   }
 
-  void bindingFailure() => socket.add(
-    jsonEncode([
-      ref,
-      null,
-      topic,
-      'system',
-      {'status': 'error', 'message': 'Synthetic binding interruption'},
-    ]),
-  );
+  Future<http.Response> accept(http.Request next) async {
+    requests.add(next);
+    expect(next.method, 'GET');
+    expect(next.url.queryParameters['limit'], '100');
+    expect(next.url.queryParameters['areas']!.split(','), contains('members'));
+    if (requests.length == 1 || recovering) {
+      recovering = false;
+      return reply(next);
+    }
+    if (failNext) {
+      failNext = false;
+      recovering = true;
+      return reply(next, failed: true);
+    }
+    if (queued.isNotEmpty) return reply(next);
+    expect(
+      pending,
+      isNull,
+      reason: 'The current HTTP adapter must not overlap polls',
+    );
+    pending = Completer<http.Response>();
+    pendingRequest = next;
+    return pending!.future;
+  }
+
+  void flush() {
+    if (pending == null) return;
+    final response = reply(pendingRequest!, failed: failNext);
+    if (failNext) {
+      failNext = false;
+      recovering = true;
+    }
+    final completion = pending!;
+    pending = null;
+    pendingRequest = null;
+    completion.complete(response);
+  }
+
+  void event(String id, {String area = 'members'}) {
+    queued.add({'id': id, 'area': area});
+    flush();
+  }
+
+  void bindingFailure() {
+    failNext = true;
+    flush();
+  }
+
+  void finish() {
+    flush();
+  }
 }
 
 class _Pending {
@@ -85,23 +128,21 @@ class _Pending {
   final release = Completer<void>();
 }
 
-// HTTP reads use the actual locked PostgREST/Auth SDK with explicit response
-// request metadata; Phoenix frames traverse a genuine loopback WebSocket.
-// Claims and financial records are synthetic mechanics, not signed JWT/RLS or
-// provider evidence. Production repository, cache and subscription are real.
+// The production Cloudflare HTTP client, repository, cache and polling adapter
+// execute unchanged. Held HTTP responses model account changes and transport
+// interruptions. All claims and records are synthetic; this grants no hosted,
+// provider, signed-token or installed-device acceptance.
 class _Probe {
-  late HttpServer server;
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late CollectRepository repo;
   final cache = const CollectOfflineCache(
-    preferencesKey: 'synthetic.member.ws.scope',
+    preferencesKey: 'synthetic.member.http.scope',
   );
-  final joins = <_Join>[];
-  final sockets = <WebSocket>[];
-  final frames = <List<dynamic>>[];
+  final joins = <_SyncScope>[];
+  int epoch = 0;
+  String? sessionOwner;
   final requests = <http.Request>[];
   final retainedReads = <_Pending>[];
-  bool closing = false;
   bool disposed = false;
   bool revoked = false;
   bool offline = false;
@@ -112,51 +153,8 @@ class _Probe {
       .length;
 
   Future<void> start() async {
-    server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
-    server.listen((request) async {
-      if (!WebSocketTransformer.isUpgradeRequest(request)) {
-        request.response.statusCode = 404;
-        await request.response.close();
-        return;
-      }
-      final socket = await WebSocketTransformer.upgrade(request);
-      sockets.add(socket);
-      socket.listen((raw) {
-        final frame = jsonDecode(raw as String) as List<dynamic>;
-        frames.add(frame);
-        final event = frame[3];
-        final payload = Map<String, dynamic>.from(frame[4] as Map);
-        Map<String, dynamic> response = {};
-        if (event == 'phx_join') {
-          joins.add(_Join(socket, frame[0], frame[2] as String, payload));
-          final filters =
-              (payload['config'] as Map)['postgres_changes'] as List;
-          response = {
-            'postgres_changes': [
-              for (final filter in filters)
-                {...Map<String, dynamic>.from(filter as Map), 'id': 1},
-            ],
-          };
-        }
-        if (!closing &&
-            socket.readyState == WebSocket.open &&
-            ['phx_join', 'phx_leave', 'heartbeat'].contains(event)) {
-          socket.add(
-            jsonEncode([
-              frame[0],
-              frame[1],
-              frame[2],
-              'phx_reply',
-              {'status': 'ok', 'response': response},
-            ]),
-          );
-        }
-      });
-    });
-    client = SupabaseClient(
-      'http://127.0.0.1:${server.port}',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
+    client = CollectCloudflareClient(
+      'https://api.collect.test',
       httpClient: MockClient((request) async {
         requests.add(request);
         if (request.url.path.endsWith('/logout')) {
@@ -164,6 +162,21 @@ class _Probe {
         }
         if (offline) {
           throw const SocketException('Synthetic offline transport');
+        }
+        if (request.url.path == '/v1/sync') {
+          var current = joins.reversed
+              .where((scope) => scope.epoch == epoch)
+              .firstOrNull;
+          // A fresh subscription restarts its HTTP cursor after revocation.
+          // Never replay a departed response queue into that new subscription.
+          if (current != null &&
+              current.cursor > 0 &&
+              request.url.queryParameters['cursor'] == '0') {
+            current = null;
+          }
+          final scope = current ?? _SyncScope(epoch, request);
+          if (current == null) joins.add(scope);
+          return scope.accept(request);
         }
         final claims = _claims(request.headers['Authorization']!.substring(7));
         final user = claims['sub'] as String;
@@ -204,10 +217,16 @@ class _Probe {
             'pending_count': 0,
           },
           'list_current_member_history_page' => {
+            'contract_version': 2,
+            'contribution_basis': 'reconciled_evidence_entries',
             'items': [],
             'total_count': 0,
-            'totals': {},
-            'own_totals': {},
+            'totals': {'RWF': 0},
+            'own_totals': {'RWF': 0},
+            'credit_totals': {'RWF': 0},
+            'debit_totals': {'RWF': 0},
+            'own_credit_totals': {'RWF': 0},
+            'own_debit_totals': {'RWF': 0},
             'own_collection_ids': [],
             'revision': '0123456789abcdef0123456789abcdef',
             'next_cursor': null,
@@ -221,7 +240,7 @@ class _Probe {
             'exists': false,
             'preferences': NotificationPreferences.defaults.toJson(),
           },
-          'notification_events' => [],
+          'notification-events' => [],
           _ => throw StateError(
             'Unexpected fixture dispatch: ${request.url.path}',
           ),
@@ -239,7 +258,7 @@ class _Probe {
     );
     await login(_a, 'session-a');
     repo = CollectRepository(
-      supabase: client,
+      backend: client,
       smsAccessChannel: const _Sms(),
       offlineCache: cache,
     );
@@ -257,25 +276,31 @@ class _Probe {
         headers: {'content-type': 'application/json'},
       );
 
-  Future<void> login(String user, String sid, {int revision = 0}) =>
-      client.auth.setInitialSession(
-        jsonEncode({
-          'access_token': _token(user, sid, revision),
-          'refresh_token': 'synthetic-$sid',
-          'token_type': 'bearer',
-          'expires_in': 3600,
-          'user': {
-            'id': user,
-            'aud': 'authenticated',
-            'app_metadata': {},
-            'user_metadata': {},
-            'created_at': '2026-01-01T00:00:00Z',
-          },
-        }),
-      );
+  Future<void> login(String user, String sid, {int revision = 0}) async {
+    final owner = '$user:$sid';
+    if (sessionOwner != owner) {
+      epoch++;
+      sessionOwner = owner;
+    }
+    await client.auth.recoverSession(
+      jsonEncode({
+        'access_token': _token(user, sid, revision),
+        'refresh_token': 'synthetic-$sid',
+        'token_type': 'bearer',
+        'expires_in': 3600,
+        'user': {
+          'id': user,
+          'aud': 'authenticated',
+          'app_metadata': {},
+          'user_metadata': {},
+          'created_at': '2026-01-01T00:00:00Z',
+        },
+      }),
+    );
+  }
 
   Future<void> until(bool Function() predicate) async {
-    final deadline = DateTime.now().add(const Duration(seconds: 8));
+    final deadline = DateTime.now().add(const Duration(seconds: 15));
     while (!predicate() && DateTime.now().isBefore(deadline)) {
       await Future<void>.delayed(const Duration(milliseconds: 10));
     }
@@ -299,12 +324,10 @@ class _Probe {
       repo.dispose();
     }
     await Future<void>.delayed(const Duration(milliseconds: 40));
-    closing = true;
-    await client.dispose();
-    for (final socket in sockets) {
-      await socket.close();
+    for (final scope in joins) {
+      scope.finish();
     }
-    await server.close(force: true);
+    await client.dispose();
   }
 }
 
@@ -319,7 +342,7 @@ void main() {
   tearDown(() async => probe.close());
 
   test(
-    'actual member SDK current join and duplicate/irrelevant frames yield one refresh',
+    'Cloudflare member HTTP sync successful poll and duplicate/irrelevant events yield one refresh',
     () async {
       expect(
         probe.joins.single.payload['access_token'],
@@ -333,7 +356,9 @@ void main() {
       await probe.until(() => probe.reads == 3 && !probe.repo.state.isLoading);
       await probe.quiet();
       expect(probe.reads, 3);
+      final polls = probe.joins.single.requests.length;
       probe.joins.single.event('duplicate');
+      await probe.until(() => probe.joins.single.requests.length > polls);
       await probe.quiet();
       expect(probe.reads, 3);
       expect(probe.repo.state.collections.single.id, _groupA);
@@ -341,7 +366,7 @@ void main() {
   );
 
   test(
-    'actual member SDK failed binding rejoins and reconciles missed membership reduction',
+    'Cloudflare member HTTP sync failed poll retries and reconciles missed membership reduction',
     () async {
       final old = probe.joins.single;
       probe.member = false;
@@ -349,7 +374,7 @@ void main() {
       old.event('missed-offline');
       await probe.until(
         () =>
-            probe.joins.length == 2 &&
+            probe.joins.single.requests.length >= 3 &&
             probe.reads >= 3 &&
             !probe.repo.state.isLoading,
       );
@@ -357,10 +382,8 @@ void main() {
       expect(probe.reads, 3);
       expect(probe.repo.state.collections, isEmpty);
       expect((await probe.cache.read())?.collections, isEmpty);
-      expect(
-        probe.frames.where((frame) => frame[3] == 'phx_leave'),
-        hasLength(1),
-      );
+      expect(probe.joins, hasLength(1));
+      expect(probe.joins.single.requests, hasLength(3));
       probe.member = true;
       probe.joins.last.event('current-after-rejoin');
       await probe.until(() => probe.reads == 4 && !probe.repo.state.isLoading);
@@ -374,9 +397,10 @@ void main() {
     'account switch',
   ]) {
     test(
-      'actual member SDK $mode cancels pending and late departed frames',
+      'Cloudflare member HTTP sync $mode cancels queued and late departed HTTP responses',
       () async {
         final old = probe.joins.single;
+        await probe.until(() => old.pending != null);
         old.event('departed-pending');
         final user = mode == 'account switch' ? _b : _a;
         await probe.login(user, 'session-b');
@@ -397,7 +421,7 @@ void main() {
           probe.reads,
           reads,
           reason:
-              'A departed socket frame cannot refresh a replacement authority scope',
+              'A departed HTTP response cannot refresh a replacement authority scope',
         );
         expect(
           probe.joins.map((join) => join.topic).toSet(),
@@ -421,8 +445,51 @@ void main() {
     );
   }
 
+  for (final mode in [
+    'replacement session',
+    'same-user A-B-A',
+    'account switch',
+  ]) {
+    test(
+      'Cloudflare member HTTP sync held response after $mode cannot restore old rows',
+      () async {
+        final old = probe.joins.single;
+        await probe.until(() => old.pending != null);
+        final user = mode == 'account switch' ? _b : _a;
+        await probe.login(user, 'session-b');
+        if (mode == 'same-user A-B-A') await probe.login(_a, 'session-a');
+        await probe.until(
+          () =>
+              probe.joins.length >= 2 &&
+              !probe.repo.state.isLoading &&
+              probe.repo.state.currentProfile?.id == user,
+        );
+        await probe.quiet();
+        final reads = probe.reads;
+        expect(
+          old.pending,
+          isNotNull,
+          reason: 'The old HTTP response is still retained',
+        );
+        old.event('retained-departed-response');
+        await probe.quiet();
+        expect(probe.reads, reads);
+        expect(probe.repo.state.currentProfile?.id, user);
+        expect((await probe.cache.read())?.currentProfile?.id, user);
+        expect(
+          (await probe.cache.read())?.collections.single.id,
+          user == _a ? _groupA : _groupB,
+        );
+        probe.joins.last.event('current-http-positive-control');
+        await probe.until(
+          () => probe.reads == reads + 1 && !probe.repo.state.isLoading,
+        );
+      },
+    );
+  }
+
   test(
-    'actual member SDK same-session token refresh preserves live channel and current writes',
+    'Cloudflare member HTTP sync same-session token refresh preserves polling scope and current writes',
     () async {
       final old = probe.joins.single;
       await probe.login(_a, 'session-a', revision: 1);
@@ -440,7 +507,7 @@ void main() {
   );
 
   test(
-    'actual member SDK old in-flight refresh cannot republish old account/cache',
+    'Cloudflare member HTTP sync old in-flight refresh cannot republish old account/cache',
     () async {
       final old = probe.joins.single;
       final pending = _Pending();
@@ -455,7 +522,7 @@ void main() {
             !probe.repo.state.isLoading &&
             probe.repo.state.currentProfile?.id == _b,
       );
-      // The replacement channel's legitimate join reconciliation is distinct
+      // The replacement polling scope's legitimate connection reconciliation is distinct
       // from the retained old request. Settle that current read before its
       // final dispatch count becomes the old-request negative control.
       await probe.quiet();
@@ -481,7 +548,7 @@ void main() {
   );
 
   test(
-    'actual member SDK retained rows stay stale when failed refresh has no readable cache',
+    'Cloudflare member HTTP sync retained rows stay stale when failed refresh has no readable cache',
     () async {
       final lastSync = probe.repo.state.lastSuccessfulSyncAt;
       final priorRows = probe.repo.state.collections;
@@ -515,7 +582,7 @@ void main() {
   );
 
   test(
-    'actual member SDK revoked read clears private cache and departed frames cannot restore it offline',
+    'Cloudflare member HTTP sync revoked read clears private cache and departed responses cannot restore it offline',
     () async {
       final old = probe.joins.single;
       probe.revoked = true;
@@ -552,14 +619,13 @@ void main() {
   );
 
   test(
-    'actual member SDK logout cancels pending work and leaves no private cache',
+    'Cloudflare member HTTP sync logout cancels pending work and leaves no private cache',
     () async {
       final old = probe.joins.single;
+      await probe.until(() => old.pending != null);
       old.event('logout-pending');
-      await probe.client.auth.signOut(scope: SignOutScope.local);
-      await probe.until(
-        () => probe.frames.any((frame) => frame[3] == 'phx_leave'),
-      );
+      await probe.client.auth.signOut(scope: CollectSignOutScope.local);
+      await probe.until(() => probe.repo.state.currentProfile == null);
       await probe.quiet();
       final requests = probe.requests.length;
       old.event('logout-late');
@@ -573,15 +639,15 @@ void main() {
   );
 
   test(
-    'actual member SDK repository disposal cancels pending channel callbacks',
+    'Cloudflare member HTTP sync repository disposal cancels pending poll callbacks',
     () async {
+      await probe.until(() => probe.joins.single.pending != null);
       probe.joins.single.event('dispose-pending');
       probe.repo.dispose();
       probe.disposed = true;
-      await probe.until(
-        () => probe.frames.any((frame) => frame[3] == 'phx_leave'),
-      );
-      await probe.quiet();
+      final requests = probe.requests.length;
+      await Future<void>.delayed(const Duration(milliseconds: 5500));
+      expect(probe.requests.length, requests);
       expect(probe.reads, 2);
     },
   );

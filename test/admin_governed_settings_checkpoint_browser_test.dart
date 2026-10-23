@@ -10,13 +10,16 @@ import 'package:flutter_test/flutter_test.dart';
 
 @JS('window.localStorage')
 external _Storage get _storage;
+
 extension type _Storage(JSObject _) implements JSObject {
   external String? getItem(String key);
   external void setItem(String key, String value);
   external void removeItem(String key);
 }
+
 @JS('navigator.locks')
 external _Locks get _locks;
+
 extension type _Locks(JSObject _) implements JSObject {
   external JSPromise<JSAny?> request(
     String name,
@@ -24,9 +27,11 @@ extension type _Locks(JSObject _) implements JSObject {
     JSFunction callback,
   );
 }
+
 extension type _Options._(JSObject _) implements JSObject {
   external factory _Options({String mode});
 }
+
 const rawControl =
     r''' {"ok":true,"scope":"runtime_controls","value":{"key":"qa_runtime_current","label":"Synthetic reason","locale":"en","enabled":true,"metadata":{},"description":null,"request_type":"account_deletion","display_order":100},"exists":true,"family":"account_request_reason_options","identity":{"key":"qa_runtime_current","locale":"en","request_type":"account_deletion"},"redacted":false,"revision":1,"can_manage":true,"checked_at":"2026-10-01T17:17:35.150588Z","content_sha256":"3d07cba95d3c4bc9812bb84143586cc98d362ee08c6e7360b566d21a25b9a213","contract_version":2,"sample_valid_until":"2026-10-01T17:18:35.150588Z"} ''';
 const actor = '99850000-0000-4000-8000-000000001111';
@@ -38,7 +43,7 @@ String request(int n) =>
     '99850000-0000-4000-8000-${n.toString().padLeft(12, '0')}';
 final owner = adminSettingsOwnerDigest(actor);
 String key(AdminSettingsBookmark b) =>
-    'collect.admin.settings.recovery.v2.$owner.${b.requestId}';
+    'collect.admin.settings.recovery.v3.$owner.${b.requestId}';
 AdminSettingsBookmark original(int n) {
   final f = AdminSettingsFamily.parse('account_request_reason_options'),
       v = jsonDecode(rawControl) as Map;
@@ -174,7 +179,7 @@ void main() {
           release = Completer<void>();
       final held = _locks
           .request(
-            'collect.admin.settings.recovery.v2.$owner.exclusive',
+            'collect.admin.settings.recovery.v3.$owner.exclusive',
             _Options(mode: 'exclusive'),
             ((JSAny? lock) {
               entered.complete();

@@ -4,10 +4,9 @@ import 'dart:io';
 
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
-import 'package:collect_app/core/supabase/browser_auth_memory.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/io_client.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_action_session_test.dart' as auth;
 
@@ -28,11 +27,11 @@ class _Reply {
 
 class _NativeHttp extends HttpOverrides {}
 
-/// Real localhost sockets and the locked Auth/PostgREST clients. Every address,
+/// Real localhost sockets and the Collect HTTP client. Every address,
 /// token and identity below is synthetic; no configured service is contacted.
 class _Loopback {
   late HttpServer server;
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late StreamSubscription<HttpRequest> subscription;
   late AdminRepository repository;
   late IOClient http;
@@ -50,13 +49,9 @@ class _Loopback {
     // Explicit native sockets bypass the widget binding's HTTP400 stub without
     // changing global overrides or contacting an external endpoint.
     loop.http = IOClient(_NativeHttp().createHttpClient(null));
-    loop.client = SupabaseClient(
+    loop.client = CollectCloudflareClient(
       'http://127.0.0.1:${loop.server.port}',
-      'synthetic-publishable',
-      authOptions: AuthClientOptions(
-        autoRefreshToken: false,
-        pkceAsyncStorage: CollectMemoryPkceStorage(),
-      ),
+      surface: 'admin',
       httpClient: loop.http,
     );
     loop.repository = AdminRepository(loop.client);
@@ -117,6 +112,9 @@ class _Loopback {
   }
 
   Future<_Reply> _default(_ObservedRequest request) async {
+    if (request.path.endsWith('/otp')) {
+      return const _Reply({'challenge_id': 'synthetic-email-challenge'});
+    }
     if (request.path.endsWith('/verify')) {
       return _Reply(receipt);
     }
@@ -129,13 +127,14 @@ class _Loopback {
   Future<void> replace(String id, {int newNonce = 0}) async {
     sessionId = id;
     nonce = newNonce;
-    await client.auth.verifyOTP(
-      email: _email,
-      token: '654321',
-      type: OtpType.email,
-    );
+    await client.auth.recoverSession(jsonEncode(receipt));
     // Drain actual Auth stream delivery before resolving a departed request.
     await Future<void>.delayed(Duration.zero);
+  }
+
+  Future<void> requestChallenge() async {
+    await repository.sendEmailOtp(email: _email);
+    requests.clear();
   }
 
   Future<void> close() async {
@@ -149,7 +148,7 @@ class _Loopback {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  group('locked SDK email loopback', () {
+  group('Collect email loopback', () {
     late _Loopback loop;
     setUp(() async => loop = await _Loopback.open());
     tearDown(() => loop.close());
@@ -157,10 +156,11 @@ void main() {
     test('request is one normalized POST without account creation', () async {
       await loop.repository.sendEmailOtp(email: ' OPERATOR@Collect.Example ');
       final request = loop.requests.single;
-      expect(request.path, '/auth/v1/otp');
+      expect(request.path, '/v1/auth/otp');
       expect(request.method, 'POST');
       expect(request.body['email'], _email);
-      expect(request.body['create_user'], false);
+      expect(request.body['surface'], 'admin');
+      expect(request.body.containsKey('create_user'), isFalse);
       expect(request.body.containsKey('phone'), isFalse);
       expect(request.body.containsKey('redirect_to'), isFalse);
     });
@@ -168,6 +168,7 @@ void main() {
     test(
       'verification pins new session Bearer for exact current identity',
       () async {
+        await loop.requestChallenge();
         final identity = await loop.repository.verifyEmailOtp(
           email: ' OPERATOR@Collect.Example ',
           otp: ' 123456 ',
@@ -175,12 +176,13 @@ void main() {
         expect(identity?.userId, auth.actor);
         expect(loop.requests, hasLength(2));
         final verify = loop.requests.first;
-        expect(verify.path, '/auth/v1/verify');
+        expect(verify.path, '/v1/auth/verify');
         expect(verify.body['email'], _email);
-        expect(verify.body['token'], '123456');
-        expect(verify.body['type'], 'email');
+        expect(verify.body['code'], '123456');
+        expect(verify.body['challenge_id'], 'synthetic-email-challenge');
+        expect(verify.body['surface'], 'admin');
         final current = loop.requests.last;
-        expect(current.path, '/rest/v1/rpc/admin_current_user');
+        expect(current.path, '/v1/rpc/admin_current_user');
         expect(current.method, 'POST');
         expect(
           current.bearer,
@@ -197,7 +199,7 @@ void main() {
         }, status: status);
         await expectLater(
           loop.repository.sendEmailOtp(email: _email),
-          throwsA(isA<AuthException>()),
+          throwsA(isA<CollectAuthException>()),
         );
         expect(loop.requests, hasLength(1));
         expect(loop.client.auth.currentSession, isNull);
@@ -205,26 +207,28 @@ void main() {
       test(
         'verification HTTP$status cannot read an identity or reissue',
         () async {
+          await loop.requestChallenge();
           loop.override = (_) async => _Reply({
             'msg': 'Synthetic unavailable',
             'code': 'synthetic_denial',
           }, status: status);
           await expectLater(
             loop.repository.verifyEmailOtp(email: _email, otp: '123456'),
-            throwsA(isA<AuthException>()),
+            throwsA(isA<CollectAuthException>()),
           );
           expect(loop.requests, hasLength(1));
-          expect(loop.requests.single.path, '/auth/v1/verify');
+          expect(loop.requests.single.path, '/v1/auth/verify');
           expect(loop.client.auth.currentSession, isNull);
         },
       );
     }
 
     test('verification without a session never reads Admin identity', () async {
+      await loop.requestChallenge();
       loop.override = (_) async => const _Reply({});
       await expectLater(
         loop.repository.verifyEmailOtp(email: _email, otp: '123456'),
-        throwsA(isA<AuthException>()),
+        throwsA(isA<CollectAuthException>()),
       );
       expect(loop.requests, hasLength(1));
       expect(loop.client.auth.currentSession, isNull);
@@ -234,14 +238,15 @@ void main() {
       test(
         '$operation partial response loss stays uncertain until an explicit caller',
         () async {
+          if (operation == 'verification') await loop.requestChallenge();
           final path = operation == 'request'
-              ? '/auth/v1/otp'
-              : '/auth/v1/verify';
+              ? '/v1/auth/otp'
+              : '/v1/auth/verify';
           loop.truncatePaths.add(path);
           Future<Object?> dispatch() => operation == 'request'
               ? loop.repository.sendEmailOtp(email: _email)
               : loop.repository.verifyEmailOtp(email: _email, otp: '123456');
-          await expectLater(dispatch(), throwsA(isA<AuthException>()));
+          await expectLater(dispatch(), throwsA(isA<CollectAuthException>()));
           expect(loop.requests, hasLength(1));
           expect(loop.requests.single.path, path);
           expect(loop.client.auth.currentSession, isNull);
@@ -259,6 +264,7 @@ void main() {
     test(
       'confirmed email without enrolled identity returns no approval',
       () async {
+        await loop.requestChallenge();
         loop.override = (request) async => request.path.endsWith('/verify')
             ? _Reply(loop.receipt)
             : const _Reply(null);
@@ -279,6 +285,7 @@ void main() {
       test(
         '$scenario while identity is pending respects exact session scope',
         () async {
+          await loop.requestChallenge();
           final entered = Completer<void>();
           final pending = Completer<_Reply>();
           loop.override = (request) async {

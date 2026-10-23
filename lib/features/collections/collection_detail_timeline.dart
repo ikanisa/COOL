@@ -45,7 +45,8 @@ class _TimelineRow extends StatelessWidget {
       contribution.amountMinor,
       currency: contribution.currency,
     );
-    final semanticLabel = 'Contribution $supporter, $amount, $createdAt';
+    final semanticLabel =
+        '${ContributionRecordCopy.recordLabel} contribution $supporter, $amount, $createdAt';
     return Semantics(
       container: true,
       excludeSemantics: true,
@@ -93,10 +94,10 @@ class _TimelineRow extends StatelessWidget {
                         ),
                         CollectSpacing.gap4,
                         Text(
-                          createdAt,
+                          '${ContributionRecordCopy.recordLabel} · $createdAt',
                           style: Theme.of(context).textTheme.bodySmall,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          overflow: TextOverflow.clip,
                         ),
                       ],
                     ),
@@ -122,7 +123,7 @@ class _TimelineRow extends StatelessWidget {
                   if (contribution.transactionId != null) ...[
                     CollectSpacing.gap8,
                     Icon(
-                      CollectIcons.check,
+                      CollectIcons.ledger,
                       size: 18,
                       color: colors.textSecondary,
                     ),

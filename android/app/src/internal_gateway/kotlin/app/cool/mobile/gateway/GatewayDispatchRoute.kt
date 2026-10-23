@@ -5,6 +5,9 @@ import org.json.JSONObject
 /** Versioned evidence identity. Existing primary receipt bytes retain their meaning. */
 internal sealed interface GatewayDispatchRoute {
     data object PrimaryV2 : GatewayDispatchRoute
+    data class ReceiptNoticeV1(
+        val primaryReceiptId: String, val noticeJobId: String, val approvalId: String, val noticeFamily: String,
+    ) : GatewayDispatchRoute
     data class ReceiptSuccessorV1(
         val primaryReceiptId: String,
         val dispatchJobId: String,
@@ -16,6 +19,7 @@ internal fun validateDispatchRoute(route: GatewayDispatchRoute, jobId: String) {
     if (!validUuid(jobId)) throw GatewayStateException("gateway_route_invalid")
     when (route) {
         is GatewayDispatchRoute.PrimaryV2 -> Unit
+        is GatewayDispatchRoute.ReceiptNoticeV1 -> validateNoticeRoute(route, jobId)
         is GatewayDispatchRoute.ReceiptSuccessorV1 -> if (route.dispatchJobId != jobId || !validUuid(route.primaryReceiptId) || !validUuid(route.approvalId) ||
             route.primaryReceiptId == route.dispatchJobId) throw GatewayStateException("gateway_route_invalid")
     }

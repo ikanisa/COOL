@@ -1,0 +1,17 @@
+{
+  "name": "@collect/supabase-migration-tooling",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {"node": "24.19.0"},
+  "scripts": {
+    "test:data": "node --test data_stage.test.mjs data_promote.test.mjs",
+    "test:schema": "node test_schema.mjs",
+    "test:gate": "cd ../.. && python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config",
+    "inventory": "node inventory.mjs ../..",
+    "test:current-archive": "node --test --test-concurrency=1 current-archive/*.test.mjs",
+    "archive:current": "node current-archive/operator.mjs"
+  },
+  "dependencies": {"pg": "8.16.3"},
+  "devDependencies": {"deno": "2.9.6", "supabase": "2.121.0"}
+}

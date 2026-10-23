@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:js_interop';
+import 'admin_recovery_namespace.dart';
 import 'admin_governed_settings_checkpoint.dart';
 import 'admin_governed_settings_models.dart';
 
 @JS('window.localStorage')
 external _Storage get _storage;
+
 extension type _Storage(JSObject _) implements JSObject {
   external int get length;
   external String? key(int index);
@@ -15,6 +17,7 @@ extension type _Storage(JSObject _) implements JSObject {
 
 @JS('navigator.locks')
 external _Locks? get _locks;
+
 extension type _Locks(JSObject _) implements JSObject {
   external JSPromise<JSAny?> request(
     String name,
@@ -35,8 +38,17 @@ extension type _LockOptions._(JSObject _) implements JSObject {
 }
 
 class _SettingsStore implements AdminSettingsCheckpointStore {
+  void _verifyNamespace() {
+    verifyAdminRecoveryNamespace(
+      retiredPrefix: 'collect.admin.settings.recovery.v2.',
+      storageLength: () => _storage.length,
+      keyAt: (index) => _storage.key(index),
+    );
+  }
+
   static const _lockBound = Duration(seconds: 5);
   Future<T> _exclusive<T>(String owner, T Function() work) async {
+    _verifyNamespace();
     final manager = _locks;
     if (manager == null) governedSettingsInvalid('recovery lock');
     final abort = _AbortController(), elapsed = Stopwatch()..start();
@@ -62,6 +74,7 @@ class _SettingsStore implements AdminSettingsCheckpointStore {
                 if (closed || elapsed.elapsed >= _lockBound || lock == null) {
                   governedSettingsInvalid('recovery lock');
                 }
+                _verifyNamespace();
                 result = work();
               } catch (error, stack) {
                 failure = error;
@@ -87,12 +100,16 @@ class _SettingsStore implements AdminSettingsCheckpointStore {
     }
   }
 
-  String _prefix(String owner) =>
-      'collect.admin.settings.recovery.v2.${settingsDigest(owner)}.';
+  String _prefix(String owner) {
+    final digest = settingsDigest(owner);
+    return 'collect.admin.settings.recovery.v3.$digest.';
+  }
+
   String _key(AdminSettingsBookmark original) =>
       '${_prefix(original.ownerDigest)}${original.requestId}';
   @override
   List<String> read(String ownerDigest) {
+    _verifyNamespace();
     final prefix = _prefix(ownerDigest), rows = <String>[];
     final length = _storage.length;
     if (length > 10000) governedSettingsInvalid('storage index');

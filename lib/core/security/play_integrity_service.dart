@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../cloudflare/collect_cloudflare_client.dart';
 
 import '../data/exact_json_values.dart';
 
@@ -115,7 +115,7 @@ class PlayIntegrityService {
   }
 
   Future<PlayIntegrityVerdict?> verifyWithServer({
-    required SupabaseClient supabase,
+    required CollectCloudflareClient backend,
     required String requestHash,
     required String integrityToken,
     required String subjectId,
@@ -124,7 +124,7 @@ class PlayIntegrityService {
     required Map<String, Object?> groupRequest,
     String? accessToken,
   }) async {
-    final response = await supabase.functions.invoke(
+    final response = await backend.functions.invoke(
       'verify-play-integrity',
       headers: accessToken == null
           ? null
@@ -148,7 +148,7 @@ class PlayIntegrityService {
   }
 
   Future<PlayIntegrityVerdict?> verifySmsWithServer({
-    required SupabaseClient supabase,
+    required CollectCloudflareClient backend,
     required String requestHash,
     required String integrityToken,
     required String subjectId,
@@ -159,7 +159,7 @@ class PlayIntegrityService {
     required String rawBody,
     required String? receivedAtDevice,
   }) async {
-    final response = await supabase.functions.invoke(
+    final response = await backend.functions.invoke(
       'verify-play-integrity',
       body: {
         'action': 'sms.ingest',

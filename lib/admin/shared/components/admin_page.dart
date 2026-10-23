@@ -26,76 +26,95 @@ class AdminPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final tokens = context.collectUniversalTokens;
-    return ListView(
-      key: const Key('admin-page-scroll-view'),
-      controller: scrollController,
-      padding: const EdgeInsets.fromLTRB(20, 18, 20, 40),
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(2, 0, 2, 2),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              // Operator actions retain their labels at phone widths and large
-              // text sizes. This is the compact Business-pattern adaptation.
-              final stackActions =
-                  trailing != null &&
-                  (constraints.maxWidth < 600 ||
-                      MediaQuery.textScalerOf(context).scale(1) > 1.3);
-              final heading = Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (leading != null) ...[
-                    SizedBox.square(
-                      dimension: tokens.touchTarget,
-                      child: leading,
-                    ),
-                    const SizedBox(width: 8),
-                  ],
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
+    return LayoutBuilder(
+      builder: (context, constraints) => ListView(
+        key: const Key('admin-page-scroll-view'),
+        controller: scrollController,
+        shrinkWrap: !constraints.hasBoundedHeight,
+        primary: constraints.hasBoundedHeight ? null : false,
+        physics: constraints.hasBoundedHeight
+            ? null
+            : const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(
+          constraints.maxWidth < 720 ? 16 : 24,
+          constraints.maxWidth < 720 ? 16 : 20,
+          constraints.maxWidth < 720 ? 16 : 24,
+          32,
+        ),
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(2, 0, 2, 2),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // Operator actions retain their labels at phone widths and large
+                // text sizes. This is the compact Business-pattern adaptation.
+                final stackActions =
+                    trailing != null &&
+                    trailing is! IconButton &&
+                    (constraints.maxWidth < 600 ||
+                        MediaQuery.textScalerOf(context).scale(16) > 21);
+                final heading = Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (leading != null) ...[
+                      SizedBox.square(
+                        dimension: tokens.touchTarget,
+                        child: leading,
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                    Expanded(
+                      child: Semantics(
+                        container: true,
+                        header: true,
+                        child: Text(
                           title,
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
+                                fontSize: constraints.maxWidth < 600 ? 24 : 28,
                                 color: colors.textPrimary,
                                 fontWeight: CollectTypography.weightSemibold,
                                 height: CollectTypography.leadingDisplay,
                               ),
                         ),
-                        if (subtitle?.trim().isNotEmpty == true) ...[
-                          const SizedBox(height: 5),
-                          Text(
-                            subtitle!,
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: colors.textSecondary,
-                                  height: CollectTypography.leadingSupporting,
-                                ),
-                          ),
-                        ],
-                      ],
+                      ),
                     ),
-                  ),
-                  if (trailing != null && !stackActions) ...[
-                    const SizedBox(width: 12),
-                    trailing!,
+                    if (trailing != null && !stackActions) ...[
+                      const SizedBox(width: 12),
+                      trailing!,
+                    ],
                   ],
-                ],
-              );
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  heading,
-                  if (stackActions) ...[const SizedBox(height: 12), trailing!],
-                ],
-              );
-            },
+                );
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    heading,
+                    if (subtitle?.trim().isNotEmpty == true) ...[
+                      const SizedBox(height: 6),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 820),
+                        child: Text(
+                          subtitle!,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: colors.textSecondary,
+                                height: CollectTypography.leadingSupporting,
+                              ),
+                        ),
+                      ),
+                    ],
+                    if (stackActions) ...[
+                      const SizedBox(height: 12),
+                      trailing!,
+                    ],
+                  ],
+                );
+              },
+            ),
           ),
-        ),
-        if (child != null) ...[const SizedBox(height: 18), child!],
-      ],
+          if (child != null) ...[const SizedBox(height: 20), child!],
+        ],
+      ),
     );
   }
 }

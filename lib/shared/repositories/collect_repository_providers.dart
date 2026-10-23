@@ -2,22 +2,22 @@ part of 'collect_repository.dart';
 
 final collectRepositoryProvider =
     StateNotifierProvider<CollectRepository, CollectState>((ref) {
-      final supabase = ref.watch(supabaseClientProvider);
+      final backend = ref.watch(collectBackendClientProvider);
       final repository = CollectRepository(
-        supabase: supabase,
+        backend: backend,
         onSignOutStarted: () =>
             ref.read(privacySessionAuthorityProvider)?.invalidate(),
       );
-      if (supabase != null) unawaited(repository.loadInitial());
+      if (backend != null) unawaited(repository.loadInitial());
       return repository;
     });
 
 final collectPublicRuntimeConfigProvider = FutureProvider<CollectRuntimeConfig>(
   (ref) async {
-    final supabase = ref.watch(supabaseClientProvider);
-    if (supabase == null) return CollectRuntimeConfig.defaults;
+    final backend = ref.watch(collectBackendClientProvider);
+    if (backend == null) return CollectRuntimeConfig.defaults;
     try {
-      final payload = await supabase.rpc<dynamic>('get_public_runtime_config');
+      final payload = await backend.rpc<dynamic>('get_public_runtime_config');
       if (payload is Map) {
         return CollectRuntimeConfig.fromJson(
           Map<String, dynamic>.from(payload),
@@ -38,10 +38,10 @@ final collectRuntimeConfigProvider = Provider<CollectRuntimeConfig>((ref) {
 final collectPolicyDocumentProvider =
     FutureProvider.family<CollectPolicyDocument, String>((ref, kind) async {
       final fallback = CollectPolicyDocument.defaults(kind);
-      final supabase = ref.watch(supabaseClientProvider);
-      if (supabase == null) return fallback;
+      final backend = ref.watch(collectBackendClientProvider);
+      if (backend == null) return fallback;
       try {
-        final payload = await supabase.rpc<dynamic>(
+        final payload = await backend.rpc<dynamic>(
           'get_active_policy_document',
           params: {'p_kind': fallback.kind, 'p_locale': fallback.locale},
         );
@@ -59,10 +59,10 @@ final collectPolicyDocumentProvider =
 
 final collectAccountDeletionReasonsProvider =
     FutureProvider<List<AccountRequestReasonOption>>((ref) async {
-      final supabase = ref.watch(supabaseClientProvider);
-      if (supabase == null) return collectDefaultAccountDeletionReasons;
+      final backend = ref.watch(collectBackendClientProvider);
+      if (backend == null) return collectDefaultAccountDeletionReasons;
       try {
-        final payload = await supabase.rpc<dynamic>(
+        final payload = await backend.rpc<dynamic>(
           'list_account_request_reasons',
           params: {'p_request_type': 'account_deletion', 'p_locale': 'en'},
         );
@@ -94,10 +94,10 @@ final collectCollectionTypeCatalogProvider =
           CollectProfileCountryRules.isSupportedCountry(profileCountry)
           ? CollectProfileCountryRules.normalizeCountryCode(profileCountry)
           : fallback.countryCode;
-      final supabase = ref.watch(supabaseClientProvider);
-      if (supabase == null) return fallback;
+      final backend = ref.watch(collectBackendClientProvider);
+      if (backend == null) return fallback;
       try {
-        final payload = await supabase.rpc<dynamic>(
+        final payload = await backend.rpc<dynamic>(
           'get_collection_type_catalog',
           params: {'p_country_code': countryCode, 'p_locale': 'en'},
         );
@@ -153,7 +153,7 @@ final homeCollectionsProvider = Provider<List<CollectCollection>>((ref) {
 
 final featuredCollectionsProvider = Provider<List<CollectCollection>>((ref) {
   final collections = ref.watch(activeCollectionsProvider);
-  // Public approval is owned by Supabase. Joining or owning a featured group
+  // Public approval is owned by the backend. Joining or owning a featured group
   // must not remove it from Home's public selection.
   return List<CollectCollection>.unmodifiable(
     collections.where((collection) => collection.isPublic),

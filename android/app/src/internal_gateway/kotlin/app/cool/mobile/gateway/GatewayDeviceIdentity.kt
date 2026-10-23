@@ -10,16 +10,21 @@ import java.security.Signature
 import java.security.spec.ECGenParameterSpec
 
 internal class GatewayDeviceIdentity {
-    private val alias = "collect.gateway.device.signing.v1"
+    private val alias = GatewayKeyCreationCustody.SIGNING_ALIAS
     private fun store(): KeyStore = KeyStore.getInstance("AndroidKeyStore").also { it.load(null) }
-    fun ensureKey() {
-        if (store().containsAlias(alias)) return
+    fun ensureKey(custody: GatewayKeyCreationCustody) = synchronized(GatewayJournal.PROCESS_LOCK) {
+        custody.validateExisting()
+        val keys = store()
+        if (keys.containsAlias(alias)) { publicKeyBytes(); return@synchronized }
+        custody.enterSigning(keys.containsAlias(GatewayKeyCreationCustody.STORAGE_ALIAS))
         KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_EC, "AndroidKeyStore").apply {
             initialize(KeyGenParameterSpec.Builder(alias, KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY)
                 .setAlgorithmParameterSpec(ECGenParameterSpec("secp256r1")).setDigests(KeyProperties.DIGEST_SHA256)
                 .setUserAuthenticationRequired(false).build())
             generateKeyPair()
         }
+        publicKeyBytes() // lookup/readback only; an entered marker survives any failure
+        Unit
     }
     fun publicKeyBytes(): ByteArray = store().getCertificate(alias)?.publicKey?.encoded
         ?: throw GatewayStateException("gateway_identity_unavailable")

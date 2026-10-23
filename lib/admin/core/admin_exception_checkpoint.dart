@@ -46,9 +46,7 @@ void _digest(String value) {
 }
 
 String adminExceptionOwnerDigest(String userId) => sha256
-    .convert(
-      utf8.encode('collect-exception-review-v1:lhbowpbcpwoiparwnwgt:$userId'),
-    )
+    .convert(utf8.encode('collect-exception-review-v2:$userId'))
     .toString();
 
 abstract class AdminExceptionCheckpointStore {

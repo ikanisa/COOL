@@ -1,0 +1,43 @@
+{
+  "scope": "rw_receipt_notice_content",
+  "candidate": {
+    "enabled": true,
+    "template": {
+      "family": "duplicate_copy",
+      "language": "fr",
+      "body_frame": "Copie du recu Collect %s enregistre le %s. Montant enregistre: %s RWF. Votre epargne enregistree a cette date: %s RWF. Ref: %s. Copie du recu historique.",
+      "consent_rule": "current_receipt_consent_required_no_override",
+      "template_key": "collect.notice.duplicate_copy",
+      "recipient_rule": "same_original_member",
+      "disclosure_rule": "original_recorded_receipt_facts_only",
+      "template_sha256": "6432045b7b3f2384e9612323ba41dfdd8fa84017172b2cf42f39e62f140157ab",
+      "semantic_version": 1
+    },
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "notice_family": "duplicate_copy",
+    "approval_basis": "actual_current_owner_policy_action",
+    "current_policy": {
+      "enabled": true,
+      "actor_id": "99780000-0000-4000-8000-000000000001",
+      "audit_id": "8840e09b-d44c-4701-9ffd-96d101eca2cf",
+      "language": "en",
+      "request_id": "b32679e1-da8f-42df-a3a5-a412a105b8f0",
+      "approved_at": "2026-10-03T06:52:22.013437Z",
+      "approval_basis": "actual_current_owner_policy_action",
+      "policy_revision": 2,
+      "template_sha256": "95efb8f0eac1909c8d4554ec7f86d8ea31805f5573933337b90ae10c0ceedccf",
+      "semantic_version": 1
+    },
+    "recipient_rule": "same_original_member",
+    "send_authority": false,
+    "consent_override": false,
+    "financial_mutation": false,
+    "current_policy_status": "approved_active",
+    "expected_policy_revision": 2,
+    "notice_transport_available": false
+  },
+  "checked_at": "2026-10-03T06:52:23.070465Z",
+  "candidate_sha256": "e8659bc1952a98c1c0c868cf5b2a62a562a278932dd1f2ba9b784bd9db47f746",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-03T06:53:23.081712Z"
+}

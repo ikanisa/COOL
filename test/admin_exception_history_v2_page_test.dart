@@ -4,11 +4,10 @@ import 'package:collect_app/admin/core/admin_entity_audit.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_exception_history_v2_models_test.dart' as evidence;
 
 const _owner = AdminIdentity(
@@ -88,7 +87,7 @@ class _Harness {
     await tester.binding.setSurfaceSize(Size(width, 1100));
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(null),
+        collectBackendClientProvider.overrideWithValue(null),
         adminRepositoryProvider.overrideWithValue(repo),
         adminIdentityProvider.overrideWith((ref) => ref.watch(_authority)),
         adminAuthSessionScopeProvider.overrideWith((_) => sessions),
@@ -236,12 +235,18 @@ void main() {
       }, identity: actor);
     });
   }
-  for (final code in ['42501', '55P03', '42883', 'XX000']) {
+  for (final code in [
+    '42501',
+    '55P03',
+    'operation_unavailable',
+    '501',
+    'XX000',
+  ]) {
     testWidgets(
       'v2 $code read failure is redacted and never becomes empty history',
       (tester) async {
         final h = _Harness();
-        h.repo.error = PostgrestException(
+        h.repo.error = CollectApiException(
           message: 'PRIVATE_CANARY',
           code: code,
         );
@@ -258,7 +263,7 @@ void main() {
                   ? 'Action history access denied'
                   : code == '55P03'
                   ? 'Action history authority unavailable'
-                  : code == '42883'
+                  : {'operation_unavailable', '501'}.contains(code)
                   ? 'Action history service unavailable'
                   : 'Action history read failed',
             ),
@@ -381,21 +386,73 @@ void main() {
   testWidgets(
     '320px2x provenance and dated assignment labels have no overflow',
     (tester) async {
+      final assignment = _Harness();
+      assignment.repo.raw['rows'] = (assignment.repo.raw['rows'] as List)
+          .where((row) => (row as Map)['action'] == 'exception.workflow.assign')
+          .toList();
       await _with(
         tester,
         (h) async {
           final semantics = tester.ensureSemantics();
           try {
+            expect(h.repo.queries, hasLength(1));
+            expect(tester.takeException(), isNull);
+            final pageScroll = find
+                .descendant(
+                  of: find.byKey(const Key('admin-page-scroll-view')),
+                  matching: find.byType(Scrollable),
+                )
+                .first;
+            // At 320px with enlarged text, the lazy page header can fill the
+            // viewport. Reach the evidence before asserting its contents.
+            await tester.scrollUntilVisible(
+              find.text('Recorded workflow revision: 1'),
+              300,
+              scrollable: pageScroll,
+              maxScrolls: 30,
+            );
+            await tester.pumpAndSettle();
             expect(find.text('Recorded workflow revision: 1'), findsWidgets);
             expect(find.textContaining('Recorded deadline'), findsOneWidget);
             expect(find.text('Assigned operator ID'), findsOneWidget);
+            final revision = tester.getRect(
+              find.text('Recorded workflow revision: 1').first,
+            );
+            expect(revision.left, greaterThanOrEqualTo(0));
+            expect(revision.right, lessThanOrEqualTo(320));
+            expect(
+              tester
+                  .getSemantics(
+                    find.text('Recorded workflow revision: 1').first,
+                  )
+                  .getSemanticsData()
+                  .label,
+              contains('Recorded workflow revision: 1'),
+            );
             expect(tester.takeException(), isNull);
+            await tester.scrollUntilVisible(
+              find.text('Refresh evidence'),
+              -300,
+              scrollable: pageScroll,
+              maxScrolls: 30,
+            );
             await _tap(tester, 'Refresh evidence');
+            expect(h.repo.queries, hasLength(2));
+            await tester.scrollUntilVisible(
+              find.textContaining('Recorded deadline'),
+              300,
+              scrollable: pageScroll,
+              maxScrolls: 30,
+            );
+            await tester.pumpAndSettle();
+            expect(find.text('Recorded workflow revision: 1'), findsWidgets);
+            expect(find.text('Assigned operator ID'), findsOneWidget);
             expect(tester.takeException(), isNull);
           } finally {
             semantics.dispose();
           }
         },
+        fixture: assignment,
         pageSize: 20,
         width: 320,
         scale: 2,

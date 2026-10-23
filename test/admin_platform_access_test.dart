@@ -5,6 +5,8 @@ import 'dart:ui' as ui;
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart'
+    show collectBackendClientProvider;
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -107,6 +109,7 @@ Future<void> mount(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
+        collectBackendClientProvider.overrideWithValue(null),
         adminAuthUserIdProvider.overrideWithValue(operatorId),
         adminRepositoryProvider.overrideWithValue(repository),
       ],

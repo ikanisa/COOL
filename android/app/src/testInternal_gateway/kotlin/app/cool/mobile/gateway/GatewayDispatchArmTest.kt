@@ -21,7 +21,7 @@ class GatewayDispatchArmTest {
         sha256(destination), body, sha256(body), at.plusSeconds(30), 2)
     private fun ready() = GatewayObservations(true, true, true, true, true, true, true, 1, true)
 
-    private class Memory(private val events: MutableList<String>) : GatewayJournalStorage {
+    private class Memory(private val events: MutableList<String>) : GatewayJournalStorage, GatewayInvocationStorage by GatewayInvocationSyntheticStore() {
         var state = GatewayJournalState(emergencyPaused = false)
         var commits = 0
         var durableCommitCompleted = false

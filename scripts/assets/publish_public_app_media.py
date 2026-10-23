@@ -288,14 +288,30 @@ def validate_browser_reused_compilation(report: dict) -> None:
             raise ValueError("Reused browser compiler command log changed")
 
 
+CUA_CAPTURE_INPUTS = {"scripts/qa/public_cua_capture_contract.json", "scripts/qa/serve_public_preview.py", "scripts/admin_cloudflare_assets.py"}
+
 def validate_browser_diagnostic_binding(report: dict) -> None:
     """Require the observer that prevented handled errors evading capture QA."""
-    expected = {relative: sha(local(ROOT / relative))
-                for relative in sorted(BROWSER_DIAGNOSTIC_INPUTS)}
+    cua = report.get("capture_engine") == "cua_repl"
+    inputs = CUA_CAPTURE_INPUTS if cua else BROWSER_DIAGNOSTIC_INPUTS
+    expected = {relative: sha(local(ROOT / relative)) for relative in sorted(inputs)}
+    if cua and (report.get("legacy_browser_recorder_executed") is not False or report.get("csp_remote_blocking_verified") is not True or
+                sorted(r.get("id", "") for r in report.get("capture_observations", [])) != sorted(r["id"] for r in report["captures"])):
+        raise ValueError("Cua browser observations are incomplete")
+    if cua:
+        for observation in report["capture_observations"]:
+            capture = next(r for r in report["captures"] if r["id"] == observation["id"])
+            if (observation.get("sha256") != capture["sha256"] or observation.get("app_route") != capture["app_route"] or
+                    observation.get("url_route_verified") is not True or observation.get("console_errors") != [] or
+                    observation.get("original_png_unedited") is not True or not str(observation.get("ax_path", "")).startswith(".cache/")):
+                raise ValueError("Cua browser observations differ from the captured route")
+            path = local(ROOT / observation["ax_path"])
+            if path.stat().st_size > 2 * 1024 * 1024 or sha(path) != observation.get("ax_sha256") or capture["app_route"] not in path.read_text():
+                raise ValueError("Cua browser observations changed after capture")
     if (report.get("diagnostic_observer_sources_before") != expected or
             report.get("diagnostic_observer_sources_after") != expected):
         raise ValueError("Browser diagnostic observer binding is incomplete or changed")
-    if report.get("capture_recorder_sha256") != expected["scripts/qa/public_browser_app_media.mjs"]:
+    if report.get("capture_recorder_sha256") != expected["scripts/qa/public_cua_capture_contract.json" if cua else "scripts/qa/public_browser_app_media.mjs"]:
         raise ValueError("Browser capture recorder changed")
 
 
@@ -343,9 +359,14 @@ def validate_browser_source_binding(report: dict, runtime: str) -> None:
                 not path.is_file() or path.is_symlink() or
                 not path.resolve().is_relative_to(source) or sha(path) != expected):
             raise ValueError("Browser compilation binding differs from actual export")
-    expected_roots = {"collect_app": source, "file_saver": source / "third_party/file_saver",
-                      "gotrue": source / "third_party/gotrue",
-                      "firebase_messaging": source / "third_party/firebase_messaging"}
+    parsed = subprocess.run(["ruby", "-rjson", "-ryaml", "-e", "puts JSON.generate(YAML.safe_load(File.read(ARGV[0])))", str(ROOT / "pubspec.yaml")], capture_output=True, text=True, check=True, timeout=15)
+    pubspec = json.loads(parsed.stdout)
+    expected_roots = {pubspec.get("name", "collect_app"): source}
+    for section in ("dependencies", "dev_dependencies", "dependency_overrides"):
+        for name, dependency in pubspec.get(section, {}).items():
+            if isinstance(dependency, dict) and "path" in dependency:
+                relative_input(dependency["path"])
+                expected_roots[name] = source / dependency["path"]
     config_path = source / ".dart_tool/package_config.json"
     config = json.loads(config_path.read_text())
     packages = config.get("packages")
@@ -379,7 +400,7 @@ def validate_browser_source_binding(report: dict, runtime: str) -> None:
             report.get("resolved_local_bindings_before") != expected_strings or
             report.get("resolved_local_bindings_after") != expected_strings):
         raise ValueError("Browser local package/plugin bindings changed or are incomplete")
-    recorder = ROOT / "scripts/qa/public_browser_app_media.mjs"
+    recorder = ROOT / ("scripts/qa/public_cua_capture_contract.json" if report.get("capture_engine") == "cua_repl" else "scripts/qa/public_browser_app_media.mjs")
     if report.get("capture_recorder_sha256") != sha(recorder):
         raise ValueError("Browser capture recorder changed")
     validate_browser_diagnostic_binding(report)

@@ -60,16 +60,16 @@ class DartFormatTest < Minitest::Test
   end
 
   def test_upstream_bytes_are_preserved_and_modified_fork_files_are_checked
-    original = 'third_party/gotrue/lib/upstream.dart'
-    modified = 'third_party/gotrue/lib/modified.dart'
+    original = 'third_party/synthetic_fork/lib/upstream.dart'
+    modified = 'third_party/synthetic_fork/lib/modified.dart'
     [original, modified].each do |path|
       FileUtils.mkdir_p(File.dirname(File.join(@root, path)))
       File.write(File.join(@root, path), 'original upstream source')
     end
     upstream = [original, modified].to_h do |path|
-      [path.delete_prefix('third_party/gotrue/'), Digest::SHA256.file(File.join(@root, path)).hexdigest]
+      [path.delete_prefix('third_party/synthetic_fork/'), Digest::SHA256.file(File.join(@root, path)).hexdigest]
     end
-    File.write(File.join(@root, 'third_party/gotrue/UPSTREAM-SHA256.json'), JSON.generate(upstream))
+    File.write(File.join(@root, 'third_party/synthetic_fork/UPSTREAM-SHA256.json'), JSON.generate(upstream))
     File.write(File.join(@root, modified), 'Collect fork change')
     _stdout, _stderr, status = run_format('--write')
     assert status.success?

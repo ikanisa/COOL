@@ -56,6 +56,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         onTap: () => context.go('/settings/legal/terms'),
       ),
       _SettingsTile(
+        leading: CollectIcons.info,
+        title: 'Open-source licenses',
+        onTap: () => context.go('/settings/legal/licenses'),
+      ),
+      _SettingsTile(
         leading: CollectIcons.support,
         title: 'Help',
         onTap: () => context.go('/settings/help'),

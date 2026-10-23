@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../app/theme/collect_colors.dart';
 import '../../../app/theme/collect_radius.dart';
-import '../../../app/theme/collect_runtime_tokens.dart';
 
-class AdminFilterBar extends StatelessWidget {
+class AdminFilterBar extends StatefulWidget {
   const AdminFilterBar({
     required this.searchController,
     required this.status,
@@ -12,6 +11,9 @@ class AdminFilterBar extends StatelessWidget {
     required this.onStatusChanged,
     required this.onSortChanged,
     required this.onRefresh,
+    this.searchLabel = 'Search admin queue',
+    this.searchHint = 'Search',
+    this.searchExamples = const [],
     this.statusOptions = const [
       AdminFilterOption(value: '', label: 'All'),
       AdminFilterOption(value: 'pending', label: 'Pending'),
@@ -33,40 +35,120 @@ class AdminFilterBar extends StatelessWidget {
   final ValueChanged<String> onStatusChanged;
   final ValueChanged<String> onSortChanged;
   final VoidCallback onRefresh;
+  final String searchLabel;
+  final String searchHint;
+  final List<AdminSearchExample> searchExamples;
+
+  @override
+  State<AdminFilterBar> createState() => _AdminFilterBarState();
+}
+
+class _AdminFilterBarState extends State<AdminFilterBar> {
+  final FocusNode _searchFocusNode = FocusNode(
+    debugLabel: 'Admin queue search',
+  );
+
+  @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    Widget searchField() => SizedBox(
-      child: MergeSemantics(
-        child: Semantics(
-          label: 'Search admin queue',
-          hint:
-              'Filters the current admin queue by record, reference, or operator context.',
-          child: TextField(
-            controller: searchController,
-            textInputAction: TextInputAction.search,
-            onSubmitted: (_) => onRefresh(),
-            decoration: InputDecoration(
-              hintText: 'Search',
-              prefixIcon: const Icon(Icons.search),
-              filled: true,
-              fillColor: colors.surfaceRaised.withValues(alpha: 0.62),
-              border: OutlineInputBorder(
-                borderRadius: CollectRadius.pillBorder,
-                borderSide: BorderSide.none,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: CollectRadius.pillBorder,
-                borderSide: BorderSide.none,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: CollectRadius.pillBorder,
-                borderSide: BorderSide(color: colors.focusRing, width: 2),
+    Widget searchField() => ValueListenableBuilder<TextEditingValue>(
+      valueListenable: widget.searchController,
+      builder: (context, value, _) => Stack(
+        children: [
+          Semantics(
+            label: widget.searchLabel,
+            hint: 'Searches all matching records. Press Enter or Apply search.',
+            child: TextField(
+              key: const Key('admin-queue-search-input'),
+              controller: widget.searchController,
+              focusNode: _searchFocusNode,
+              textInputAction: TextInputAction.search,
+              onSubmitted: (_) => widget.onRefresh(),
+              decoration: InputDecoration(
+                hintText: widget.searchHint,
+                prefixIcon: const Icon(Icons.search, size: 28),
+                // Independent actions avoid InputDecorator's offscreen suffix
+                // semantics clipping while retaining the full-width field/focus ring.
+                contentPadding: EdgeInsetsDirectional.fromSTEB(
+                  16,
+                  12,
+                  (value.text.isEmpty ? 1 : 2) * kMinInteractiveDimension + 16,
+                  12,
+                ),
+                filled: true,
+                fillColor: colors.surfaceRaised.withValues(alpha: 0.48),
+                border: OutlineInputBorder(
+                  borderRadius: CollectRadius.pillBorder,
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: CollectRadius.pillBorder,
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: CollectRadius.pillBorder,
+                  borderSide: BorderSide(color: colors.focusRing, width: 2),
+                ),
               ),
             ),
           ),
-        ),
+          Positioned.fill(
+            child: Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (value.text.isNotEmpty)
+                    Tooltip(
+                      message: 'Clear search',
+                      excludeFromSemantics: true,
+                      child: IconButton(
+                        key: const Key('admin-queue-clear-search'),
+                        constraints: const BoxConstraints.tightFor(
+                          width: kMinInteractiveDimension,
+                          height: kMinInteractiveDimension,
+                        ),
+                        onPressed: () {
+                          widget.searchController.clear();
+                          // Reconnect text input with the cleared controller value.
+                          _searchFocusNode.requestFocus();
+                          widget.onRefresh();
+                        },
+                        icon: const Icon(
+                          Icons.close_rounded,
+                          size: 28,
+                          semanticLabel: 'Clear search',
+                        ),
+                      ),
+                    ),
+                  Tooltip(
+                    message: 'Apply search',
+                    excludeFromSemantics: true,
+                    child: IconButton(
+                      key: const Key('admin-queue-apply-search'),
+                      constraints: const BoxConstraints.tightFor(
+                        width: kMinInteractiveDimension,
+                        height: kMinInteractiveDimension,
+                      ),
+                      onPressed: widget.onRefresh,
+                      icon: const Icon(
+                        Icons.arrow_forward_rounded,
+                        size: 28,
+                        semanticLabel: 'Apply search',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
 
@@ -77,19 +159,19 @@ class AdminFilterBar extends StatelessWidget {
       return '';
     }
 
-    final statusLabel = selectedLabel(statusOptions, status);
-    final sortLabel = selectedLabel(sortOptions, sortBy);
+    final statusLabel = selectedLabel(widget.statusOptions, widget.status);
+    final sortLabel = selectedLabel(widget.sortOptions, widget.sortBy);
     final statusFilter = _AdminFilterMenu(
       key: const Key('admin-status-filter-select'),
       tooltip: 'Filter: ${statusLabel.isEmpty ? 'All' : statusLabel}',
       semanticLabel:
           'Status filter, ${statusLabel.isEmpty ? 'All' : statusLabel} selected',
-      icon: status.isEmpty
+      icon: widget.status.isEmpty
           ? Icons.filter_alt_outlined
           : Icons.filter_alt_rounded,
-      selectedValue: status,
-      options: statusOptions,
-      onSelected: onStatusChanged,
+      selectedValue: widget.status,
+      options: widget.statusOptions,
+      onSelected: widget.onStatusChanged,
     );
     final sortFilter = _AdminFilterMenu(
       key: const Key('admin-sort-filter-select'),
@@ -97,69 +179,71 @@ class AdminFilterBar extends StatelessWidget {
       semanticLabel:
           'Sort order, ${sortLabel.isEmpty ? 'Newest' : sortLabel} selected',
       icon: Icons.sort_rounded,
-      selectedValue: sortBy,
-      options: sortOptions,
-      onSelected: onSortChanged,
+      selectedValue: widget.sortBy,
+      options: widget.sortOptions,
+      onSelected: widget.onSortChanged,
     );
 
-    final refreshButton = IconButton.filled(
+    final refreshButton = IconButton(
       key: const Key('admin-queue-refresh'),
       constraints: const BoxConstraints.tightFor(
         width: kMinInteractiveDimension,
         height: kMinInteractiveDimension,
       ),
       tooltip: 'Refresh',
-      style: IconButton.styleFrom(
-        backgroundColor: colors.textPrimary,
-        foregroundColor: colors.surfaceReadable,
-      ),
-      onPressed: onRefresh,
-      icon: const Icon(Icons.refresh),
+      onPressed: widget.onRefresh,
+      icon: const Icon(Icons.refresh, size: 28),
     );
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.surfaceReadable.withValues(alpha: 0.92),
-        borderRadius: CollectRadius.cardBorder,
-        border: Border.all(color: colors.border),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            // Measure at the actual input font size, not scale(1), so nonlinear
-            // text scaling also gets a full-width search field when needed.
-            final fontSize =
-                Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16.0;
-            final enlargedText =
-                MediaQuery.textScalerOf(context).scale(fontSize) >
-                fontSize * 1.3;
-            final width = constraints.maxWidth.isFinite
-                ? constraints.maxWidth
-                : MediaQuery.sizeOf(context).width;
-            const spacing = 4.0;
-            const controlsWidth = 3 * kMinInteractiveDimension + 3 * spacing;
-            final searchWidth = width < 480 || enlargedText
-                ? width
-                : width - controlsWidth;
-            return Wrap(
-              spacing: spacing,
-              runSpacing: 8,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                SizedBox(
-                  key: const Key('admin-queue-search-slot'),
-                  width: searchWidth,
-                  child: searchField(),
-                ),
-                statusFilter,
-                sortFilter,
-                refreshButton,
-              ],
-            );
-          },
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Measure at the actual input font size, not scale(1), so nonlinear
+        // text scaling also gets a full-width search field when needed.
+        final fontSize =
+            Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16.0;
+        final enlargedText =
+            MediaQuery.textScalerOf(context).scale(fontSize) > fontSize * 1.3;
+        final width = constraints.maxWidth.isFinite
+            ? constraints.maxWidth
+            : MediaQuery.sizeOf(context).width;
+        const spacing = 4.0;
+        final controlCount = widget.searchExamples.isEmpty ? 3 : 4;
+        final controlsWidth =
+            controlCount * kMinInteractiveDimension + controlCount * spacing;
+        final searchWidth = width < 480 || enlargedText
+            ? width
+            : width - controlsWidth;
+        return Wrap(
+          spacing: spacing,
+          runSpacing: 8,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            SizedBox(
+              key: const Key('admin-queue-search-slot'),
+              width: searchWidth,
+              child: searchField(),
+            ),
+            statusFilter,
+            sortFilter,
+            if (widget.searchExamples.isNotEmpty)
+              PopupMenuButton<AdminSearchExample>(
+                key: const Key('admin-smart-search-examples'),
+                tooltip: 'Smart search examples',
+                onSelected: (example) {
+                  widget.searchController.text = example.query;
+                  widget.onRefresh();
+                },
+                itemBuilder: (context) => [
+                  for (final example in widget.searchExamples)
+                    PopupMenuItem(value: example, child: Text(example.label)),
+                ],
+                icon: const Icon(Icons.manage_search_rounded, size: 28),
+                constraints: const BoxConstraints(minWidth: 220),
+              ),
+            refreshButton,
+          ],
+        );
+      },
     );
   }
 }
@@ -211,18 +295,9 @@ class _AdminFilterMenu extends StatelessWidget {
               ),
             ),
         ],
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.surfaceRaised.withValues(alpha: 0.72),
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: CollectRuntimeTokens.controlBorder(colors),
-            ),
-          ),
-          child: SizedBox.square(
-            dimension: kMinInteractiveDimension,
-            child: Icon(icon, size: 20, color: colors.textPrimary),
-          ),
+        child: SizedBox.square(
+          dimension: kMinInteractiveDimension,
+          child: Icon(icon, size: 28, color: colors.textPrimary),
         ),
       ),
     );
@@ -234,4 +309,11 @@ class AdminFilterOption {
 
   final String value;
   final String label;
+}
+
+class AdminSearchExample {
+  const AdminSearchExample({required this.label, required this.query});
+
+  final String label;
+  final String query;
 }

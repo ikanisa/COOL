@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_sender_retention_sdk.dart';
 import 'package:collect_app/admin/core/admin_sender_retention_models.dart';
@@ -130,9 +130,13 @@ void main() {
   );
   for (final e in [
     const AdminSessionChanged(),
-    const AuthException('expired'),
-    const PostgrestException(message: 'denied', code: '42501'),
-    const PostgrestException(message: 'expired', code: 'PGRST301'),
+    const CollectAuthException('expired'),
+    const CollectApiException(message: 'denied', code: '42501'),
+    const CollectApiException(message: 'expired', code: 'invalid_token'),
+    const CollectApiException(
+      message: 'recent email sign-in required',
+      code: 'recent_email_sign_in_required',
+    ),
   ]) {
     test(
       'authoritative read denial clears protected state ${e.runtimeType} $e',
@@ -156,7 +160,7 @@ void main() {
           c = control(api, store);
       await c.refresh();
       await apply(c);
-      api.lookupError = const PostgrestException(
+      api.lookupError = const CollectApiException(
         message: 'denied',
         code: '42501',
       );

@@ -4,12 +4,11 @@ import 'dart:convert';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_exception_models.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'admin_exception_models_test.dart' as fixture;
@@ -18,15 +17,13 @@ final _request =
     fixture.exceptionFixture('recorded-lookup')['request_id'] as String;
 
 class _Probe {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   final requests = <http.Request>[];
   late Future<http.Response> Function(http.Request) respond;
   Future<void> start() async {
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final parts = (jsonDecode(request.body)['token'] as String).split(
@@ -90,7 +87,7 @@ void main() {
         await probe.call(operation);
         expect(probe.requests, hasLength(1));
         expect(probe.requests.single.method, 'POST');
-        expect(probe.requests.single.url.path, '/rest/v1/rpc/$operation');
+        expect(probe.requests.single.url.path, '/v1/rpc/$operation');
         expect(jsonDecode(probe.requests.single.body), probe.body(operation));
         expect(probe.requests.single.headers['Authorization'], 'Bearer $token');
       },
@@ -129,12 +126,12 @@ void main() {
               failure == 'lost response'
                   ? isA<TimeoutException>()
                   : failure == 'denied' || failure == '503'
-                  ? isA<PostgrestException>()
+                  ? isA<CollectApiException>()
                   : isA<FormatException>(),
             ),
           );
           expect(probe.requests, hasLength(1));
-          expect(probe.requests.single.url.path, '/rest/v1/rpc/$operation');
+          expect(probe.requests.single.url.path, '/v1/rpc/$operation');
         },
       );
     }
@@ -210,7 +207,7 @@ void main() {
         () async {
           final container = ProviderContainer(
             overrides: [
-              supabaseClientProvider.overrideWithValue(probe.client),
+              collectBackendClientProvider.overrideWithValue(probe.client),
               adminRepositoryProvider.overrideWithValue(probe.repository),
               adminIdentityProvider.overrideWith(
                 (ref) async => AdminIdentity(
@@ -245,7 +242,7 @@ void main() {
         probe.respond = (_) async => auth.response(probe.receipt(operation));
         final container = ProviderContainer(
           overrides: [
-            supabaseClientProvider.overrideWithValue(probe.client),
+            collectBackendClientProvider.overrideWithValue(probe.client),
             adminRepositoryProvider.overrideWithValue(probe.repository),
             adminIdentityProvider.overrideWith((ref) => identityReady.future),
           ],
@@ -275,20 +272,20 @@ void main() {
               ? isA<AdminExceptionLookup>()
               : isA<AdminExceptionSnapshot>(),
         );
-        expect(probe.requests.single.url.path, '/rest/v1/rpc/$operation');
+        expect(probe.requests.single.url.path, '/v1/rpc/$operation');
       },
     );
-    for (final code in ['42501', 'PGRST202']) {
+    for (final code in ['42501', 'operation_unavailable']) {
       test(
         '$operation production provider redacts $code service failure',
         () async {
           probe.respond = (_) async => auth.response({
             'code': code,
             'message': 'PRIVATE_CANARY',
-          }, code == '42501' ? 403 : 404);
+          }, code == '42501' ? 403 : 501);
           final container = ProviderContainer(
             overrides: [
-              supabaseClientProvider.overrideWithValue(probe.client),
+              collectBackendClientProvider.overrideWithValue(probe.client),
               adminRepositoryProvider.overrideWithValue(probe.repository),
               adminIdentityProvider.overrideWith(
                 (ref) async => const AdminIdentity(
@@ -349,7 +346,7 @@ void main() {
           };
           final container = ProviderContainer(
             overrides: [
-              supabaseClientProvider.overrideWithValue(probe.client),
+              collectBackendClientProvider.overrideWithValue(probe.client),
               adminRepositoryProvider.overrideWithValue(probe.repository),
               adminIdentityProvider.overrideWith((ref) => ref.watch(authority)),
             ],

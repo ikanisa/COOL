@@ -10,9 +10,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'member_data_authority_test.dart' as authority;
+import '../support/synthetic_jwt.dart';
 
 const actor = '10000000-0000-0000-0000-000000000001';
 const group = '30000000-0000-0000-0000-000000000001';
@@ -31,12 +32,19 @@ Map<String, dynamic> event() => {
   'created_at': '2000-01-01T00:00:00+00',
 };
 Map<String, dynamic> zeroHistory() => {
+  'contract_version': 2,
+  'contribution_basis': 'reconciled_evidence_entries',
   'items': [],
   'total_count': 0,
-  'totals': {},
-  'own_totals': {},
+  'totals': {'RWF': 0},
+  'own_totals': {'RWF': 0},
+  'credit_totals': {'RWF': 0},
+  'debit_totals': {'RWF': 0},
+  'own_credit_totals': {'RWF': 0},
+  'own_debit_totals': {'RWF': 0},
   'own_collection_ids': [],
   'revision': '0123456789abcdef0123456789abcdef',
+  'next_cursor': null,
 };
 Object? response(http.Request r, String scenario) {
   final name = r.url.path.split('/').last;
@@ -82,7 +90,7 @@ Object? response(http.Request r, String scenario) {
       'exists': false,
       'preferences': NotificationPreferences.defaults.toJson(),
     },
-    'notification_events' =>
+    'notification-events' =>
       scenario == 'duplicate event'
           ? [event(), event()]
           : [
@@ -102,9 +110,9 @@ class _ImmediateSms extends SmsAccessChannel {
 }
 
 class _InitialReadRepository extends CollectRepository {
-  _InitialReadRepository(SupabaseClient client)
+  _InitialReadRepository(CollectCloudflareClient client)
     : super(
-        supabase: client,
+        backend: client,
         smsAccessChannel: const _ImmediateSms(),
         offlineCache: const CollectOfflineCache(
           preferencesKey: 'synthetic.initial-read-scope',
@@ -137,11 +145,19 @@ void main() {
       'production SDK read rejects $scenario before publishing finance/notifications',
       () async {
         final requests = <http.Request>[];
-        final client = SupabaseClient(
+        final syncRequests = <http.Request>[];
+        final client = CollectCloudflareClient(
           'http://127.0.0.1:1',
-          'synthetic-anon',
-          authOptions: const AuthClientOptions(autoRefreshToken: false),
           httpClient: MockClient((r) async {
+            if (r.url.path == '/v1/sync') {
+              syncRequests.add(r);
+              return http.Response(
+                jsonEncode({'events': [], 'cursor': '0'}),
+                200,
+                headers: {'content-type': 'application/json'},
+                request: r,
+              );
+            }
             requests.add(r);
             return http.Response(
               jsonEncode(response(r, scenario)),
@@ -152,9 +168,9 @@ void main() {
           }),
         );
         addTearDown(client.dispose);
-        await client.auth.setInitialSession(
+        await client.auth.recoverSession(
           jsonEncode({
-            'access_token': 'synthetic-access',
+            'access_token': syntheticMemberAccessToken(actor),
             'refresh_token': 'synthetic-refresh',
             'token_type': 'bearer',
             'expires_in': 3600,
@@ -168,24 +184,25 @@ void main() {
           }),
         );
         final repo = CollectRepository(
-          supabase: client,
+          backend: client,
           offlineCache: const CollectOfflineCache(
             preferencesKey: 'synthetic.read-integrity',
           ),
         );
         addTearDown(repo.dispose);
         await repo.loadInitial();
+        expect(syncRequests, isEmpty);
         expect(repo.state.lastError, isNotNull);
         expect(repo.state.historyPage, isNull);
         expect(repo.state.notificationEvents, isEmpty);
         expect(repo.state.collectionSummaries, isEmpty);
         expect(repo.state.pendingIntentCount, isNull);
         if (scenario.endsWith('event')) {
-          expect(requests.last.url.path, '/rest/v1/notification_events');
-          expect(requests.last.url.queryParameters['user_id'], 'eq.$actor');
+          expect(requests.last.url.path, '/v1/query/notification-events');
+          expect(requests.last.url.queryParameters['user_id'], actor);
           expect(
             requests.last.headers['Authorization'],
-            'Bearer synthetic-access',
+            'Bearer ${client.auth.currentSession!.accessToken}',
           );
         }
       },
@@ -203,11 +220,19 @@ void main() {
         final entered = Completer<void>();
         final release = Completer<void>();
         final requests = <http.Request>[];
-        final client = SupabaseClient(
+        final syncRequests = <http.Request>[];
+        final client = CollectCloudflareClient(
           'http://127.0.0.1:1',
-          'synthetic-anon',
-          authOptions: const AuthClientOptions(autoRefreshToken: false),
           httpClient: MockClient((request) async {
+            if (request.url.path == '/v1/sync') {
+              syncRequests.add(request);
+              return http.Response(
+                jsonEncode({'events': [], 'cursor': '0'}),
+                200,
+                headers: {'content-type': 'application/json'},
+                request: request,
+              );
+            }
             requests.add(request);
             if (request.url.path.split('/').last == blocked) {
               entered.complete();
@@ -222,17 +247,18 @@ void main() {
           }),
         );
         addTearDown(client.dispose);
-        await client.auth.setInitialSession(
+        await client.auth.recoverSession(
           authority.session(actor, authority.firstSession),
         );
         final repo = _InitialReadRepository(client);
         addTearDown(repo.dispose);
+        final originalBearer = client.auth.currentSession!.accessToken;
         final loading = repo.executeInitial();
         await entered.future;
         Future<void> replace(String user, String sid) async {
           final reloaded = Completer<void>();
           repo.nextReload = reloaded;
-          await client.auth.setInitialSession(authority.session(user, sid));
+          await client.auth.recoverSession(authority.session(user, sid));
           await reloaded.future.timeout(const Duration(seconds: 3));
         }
 
@@ -244,9 +270,10 @@ void main() {
         }
         release.complete();
         await loading;
+        expect(syncRequests, isEmpty);
         expect(requests.last.url.path.split('/').last, blocked);
         expect(requests.map((r) => r.headers['Authorization']).toSet(), {
-          'Bearer ${authority.jwt(actor, authority.firstSession)}',
+          'Bearer $originalBearer',
         });
         expect(repo.state.historyPage, isNull);
         expect(repo.state.paymentIntents, isEmpty);
@@ -261,11 +288,19 @@ void main() {
       final entered = Completer<void>();
       final release = Completer<void>();
       final requests = <http.Request>[];
-      final client = SupabaseClient(
+      final syncRequests = <http.Request>[];
+      final client = CollectCloudflareClient(
         'http://127.0.0.1:1',
-        'synthetic-anon',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((request) async {
+          if (request.url.path == '/v1/sync') {
+            syncRequests.add(request);
+            return http.Response(
+              jsonEncode({'events': [], 'cursor': '0'}),
+              200,
+              headers: {'content-type': 'application/json'},
+              request: request,
+            );
+          }
           requests.add(request);
           if (request.url.path.endsWith('get_current_member_profile')) {
             entered.complete();
@@ -280,11 +315,12 @@ void main() {
         }),
       );
       addTearDown(client.dispose);
-      await client.auth.setInitialSession(
+      await client.auth.recoverSession(
         authority.session(actor, authority.firstSession),
       );
       final repo = _InitialReadRepository(client);
       addTearDown(repo.dispose);
+      final originalBearer = client.auth.currentSession!.accessToken;
       final loading = repo.executeInitial();
       await entered.future;
       final refreshed =
@@ -292,12 +328,23 @@ void main() {
               as Map<String, dynamic>;
       refreshed['access_token'] =
           '${authority.jwt(actor, authority.firstSession)}-refreshed';
-      await client.auth.setInitialSession(jsonEncode(refreshed));
+      await client.auth.recoverSession(jsonEncode(refreshed));
       release.complete();
       await loading;
+      expect(
+        repo.state.lastError,
+        isNull,
+        reason: requests.map((r) => r.url.path).join(', '),
+      );
+      await Future<void>.delayed(Duration.zero);
+      expect(syncRequests, hasLength(1));
+      expect(
+        syncRequests.single.headers['Authorization'],
+        'Bearer ${client.auth.currentSession!.accessToken}',
+      );
       expect(requests, hasLength(7));
       expect(requests.map((r) => r.headers['Authorization']).toSet(), {
-        'Bearer ${authority.jwt(actor, authority.firstSession)}',
+        'Bearer $originalBearer',
       });
       expect(repo.state.currentProfile?.id, actor);
       expect(repo.state.historyPage?.totalCount, 0);

@@ -15,7 +15,7 @@ class GatewayBackgroundCoordinatorTest {
     private val receipt = "ac120000-0000-4000-8000-000000000003"
     private val attempt = "ac120000-0000-4000-8000-000000000004"
     private val ready = GatewayObservations(true, true, true, true, true, true, true, 1, true)
-    private class Memory : GatewayJournalStorage {
+    private class Memory : GatewayJournalStorage, GatewayInvocationStorage by GatewayInvocationSyntheticStore() {
         var value = GatewayJournalState()
         var fail = false
         override fun read() = if (fail) throw GatewayStateException("gateway_storage_unavailable") else value

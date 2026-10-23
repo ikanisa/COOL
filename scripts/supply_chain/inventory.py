@@ -96,7 +96,6 @@ def dart_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
     for section in ("dependencies", "dev_dependencies", "dependency_overrides"):
         declared.update(manifest.get(section, {}))
     licensed_paths = {"file_saver": ("third_party/file_saver", "BSD-3-Clause"),
-                      "gotrue": ("third_party/gotrue", "MIT"),
                       "firebase_messaging": ("third_party/firebase_messaging", "BSD-3-Clause")}
     forks = {}
     packages = []
@@ -297,162 +296,28 @@ def ios_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
     }
 
 
-def edge_lock_packages(sources: dict[str, str], direct_imports: set[str]) -> tuple[list[dict], dict]:
-    """Validate declared Deno v5 integrity/closure; execution is a separate gate."""
-    lock_path = "supabase/functions/deno.lock"
-    lock = read_json(lock_path, sources)
-    if lock.get("version") != "5" or set(lock) - {"version", "specifiers", "npm", "redirects", "remote"}:
-        raise ValueError("Unreviewed Deno lock format")
-    remote, npm, redirects, specifiers = (lock.get(k, {}) for k in ("remote", "npm", "redirects", "specifiers"))
-    if not all(isinstance(v, dict) for v in (remote, npm, redirects, specifiers)) or not remote:
-        raise ValueError("Missing Deno lock dependency maps")
-
-    def remote_url(uri):
-        if not isinstance(uri, str):
-            raise ValueError("Invalid Deno remote URL")
-        parsed = urlsplit(uri)
-        if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password or parsed.fragment:
-            raise ValueError("Invalid Deno remote URL")
-
-    rows, npm_names, npm_edges = [], {}, []
-    for uri, integrity in sorted(remote.items()):
-        remote_url(uri)
-        if not isinstance(integrity, str) or not re.fullmatch(r"[0-9a-f]{64}", integrity):
-            raise ValueError("Invalid Deno remote SHA256")
-        match = re.search(r"@([0-9][^/?]*)", uri)
-        rows.append(row("deno-remote", uri, match.group(1) if match else None,
-                        "resolved remote lock module", lock_path, integrity=integrity, origin=uri))
-    for coordinate, entry in sorted(npm.items()):
-        if not isinstance(coordinate, str) or "@" not in coordinate or not isinstance(entry, dict):
-            raise ValueError("Invalid Deno npm lock coordinate")
-        name, version = coordinate.rsplit("@", 1)
-        if not name or not re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:[-+][A-Za-z0-9.-]+)?", version):
-            raise ValueError("Deno npm version must be exact")
-        integrity = entry.get("integrity")
-        if not isinstance(integrity, str) or not integrity.startswith("sha512-"):
-            raise ValueError("Missing Deno npm SHA512")
-        try:
-            raw = base64.b64decode(integrity[7:], validate=True)
-        except ValueError as error:
-            raise ValueError("Invalid Deno npm SHA512") from error
-        if len(raw) != 64:
-            raise ValueError("Invalid Deno npm SHA512 length")
-        npm_names.setdefault(name, []).append(coordinate)
-        rows.append(row("deno-npm", name, version, "resolved npm lock package",
-                        lock_path, integrity=integrity, origin="npm:" + coordinate))
-    for coordinate, entry in sorted(npm.items()):
-        dependencies = entry.get("dependencies", [])
-        if not isinstance(dependencies, list) or not all(isinstance(x, str) for x in dependencies):
-            raise ValueError("Invalid Deno npm dependency edges")
-        for dep in dependencies:
-            candidates = [dep] if dep in npm else npm_names.get(dep, [])
-            if len(candidates) != 1:
-                raise ValueError("Missing or ambiguous Deno npm dependency")
-            npm_edges.append({"from": coordinate, "to": candidates[0]})
-    for alias, target in sorted(redirects.items()):
-        remote_url(alias)
-        remote_url(target)
-        seen, resolved = {alias}, target
-        while resolved in redirects:
-            if resolved in seen:
-                raise ValueError("Cyclic Deno remote redirect")
-            seen.add(resolved)
-            resolved = redirects[resolved]
-        if resolved not in remote:
-            raise ValueError("Deno redirect target is not locked")
-    for specifier, version in specifiers.items():
-        if not isinstance(specifier, str) or not specifier.startswith("npm:") or not isinstance(version, str):
-            raise ValueError("Unreviewed Deno dependency specifier")
-        name = specifier[4:].rsplit("@", 1)[0]
-        if name + "@" + version not in npm:
-            raise ValueError("Deno npm specifier target is not locked")
-    for uri in sorted(direct_imports):
-        if uri.startswith("https://"):
-            resolved = uri
-            while resolved in redirects:
-                resolved = redirects[resolved]
-            if resolved not in remote:
-                raise ValueError("Direct remote import is missing from Deno lock: " + uri)
-        elif uri.startswith("npm:"):
-            resolved = specifiers.get(uri)
-            name = uri[4:].rsplit("@", 1)[0]
-            if resolved is None or name + "@" + resolved not in npm:
-                raise ValueError("Direct npm import is missing from Deno lock: " + uri)
-        else:
-            raise ValueError("Unreviewed external import ecosystem: " + uri)
-    return rows, {"path": lock_path, "version": lock["version"],
-                  "remote_modules": len(remote), "npm_packages": len(npm),
-                  "redirects": dict(sorted(redirects.items())),
-                  "npm_dependency_edges": npm_edges,
-                  "direct_imports_missing_from_lock": [],
-                  "integrity_scope": "Declared lock hashes; actual cached compiler integrity enforcement is verified separately"}
-
-
-def edge_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
-    packages = []
-    files = sorted((ROOT / "supabase/functions").rglob("*.ts"))
-    for file in files:
-        name = rel(file)
-        body = source(name, sources).read_text(encoding="utf-8")
-        imports = re.findall(
-            r'(?:\bfrom\s*|\bimport\s*\(|\bimport\s*)[\'"]((?:https://|npm:|jsr:)[^\'"]+)[\'"]',
-            body,
-        )
-        for uri in imports:
-            match = re.search(r'@([0-9][^/?]*)', uri)
-            is_test = file.name.endswith("_test.ts")
-            packages.append(row("deno-import", uri, match.group(1) if match else None,
-                                "direct test import" if is_test else "direct runtime import",
-                                name, origin=uri))
-    direct_count = len(packages)
-    direct_imports = {p["name"] for p in packages}
-    locked, lock_check = edge_lock_packages(sources, direct_imports)
-    packages.extend(locked)
-    return packages, {
-        "typescript_source_count": len(files),
-        "external_import_occurrences": direct_count,
-        "unique_external_imports": len(direct_imports),
-        "deno_lock_present": True,
-        "resolved_dependency_lock": lock_check,
-        "transitive_resolution_status": "Remote/npm modules hash-locked; remote dependency edges and installed contents are separate compiler evidence",
-    }
-
-
 def node_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
-    packages = []
-    npm_manifest = read_json("tools/public-photography/package.json", sources)
-    npm = read_json("tools/public-photography/package-lock.json", sources)
-    npm_direct = set(npm_manifest.get("dependencies", {})) | set(npm_manifest.get("devDependencies", {}))
-    for path, entry in sorted(npm["packages"].items()):
-        if not path:
-            continue
-        name = path.rsplit("node_modules/", 1)[-1]
-        assertion = entry.get("license")
-        packages.append(row(
-            "npm", name, entry.get("version"),
-            "direct" if name in npm_direct else "transitive or optional",
-            "tools/public-photography/package-lock.json",
-            integrity=entry.get("integrity"), license_assertion=assertion,
-            license_evidence="lock_metadata_only" if assertion else "unknown",
-            origin=entry.get("resolved"), qualifier="optional" if entry.get("optional") else None,
-        ))
-    pnpm_manifest = read_json("tools/collect-notification-mcp/package.json", sources)
-    pnpm = read_yaml("tools/collect-notification-mcp/pnpm-lock.yaml", sources)
-    pnpm_direct = set(pnpm_manifest.get("dependencies", {})) | set(pnpm_manifest.get("devDependencies", {}))
-    for key, entry in sorted(pnpm.get("packages", {}).items()):
-        name, version = key.rsplit("@", 1)
-        packages.append(row(
-            "pnpm", name, version, "direct" if name in pnpm_direct else "transitive or optional",
-            "tools/collect-notification-mcp/pnpm-lock.yaml",
-            integrity=(entry.get("resolution") or {}).get("integrity"),
-            qualifier="platform-specific" if entry.get("cpu") or entry.get("os") else None,
-        ))
-    return packages, {
-        "npm_lockfile_version": npm.get("lockfileVersion"),
-        "pnpm_lockfile_version": pnpm.get("lockfileVersion"),
-        "npm_direct_not_in_lock": sorted(npm_direct - {p["name"] for p in packages if p["ecosystem"] == "npm"}),
-        "pnpm_direct_not_in_lock": sorted(pnpm_direct - {p["name"] for p in packages if p["ecosystem"] == "pnpm"}),
-    }
+    packages, projects = [], {}
+    for directory in ("tools/public-photography", "deploy/admin-api", "deploy/platform-api"):
+        manifest = read_json(directory + "/package.json", sources)
+        lock_path = directory + "/package-lock.json"
+        lock = read_json(lock_path, sources)
+        direct = set(manifest.get("dependencies", {})) | set(manifest.get("devDependencies", {}))
+        observed = set()
+        for path, entry in sorted(lock["packages"].items()):
+            if not path:
+                continue
+            name = path.rsplit("node_modules/", 1)[-1]
+            observed.add(name)
+            assertion = entry.get("license")
+            packages.append(row("npm", name, entry.get("version"),
+                "direct" if name in direct else "transitive or optional", lock_path,
+                integrity=entry.get("integrity"), license_assertion=assertion,
+                license_evidence="lock_metadata_only" if assertion else "unknown",
+                origin=entry.get("resolved"), qualifier="optional" if entry.get("optional") else None))
+        projects[directory] = {"lockfile_version": lock.get("lockfileVersion"),
+                               "direct_not_in_lock": sorted(direct - observed)}
+    return packages, projects
 
 
 def ruby_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
@@ -600,7 +465,7 @@ def build() -> dict:
     checks = {}
     for label, collector in (
         ("dart", dart_packages), ("gradle", gradle_packages),
-        ("ios", ios_packages), ("edge", edge_packages),
+        ("ios", ios_packages),
         ("node", node_packages), ("ruby", ruby_packages), ("decoder", decoder_packages),
     ):
         rows, check = collector(sources)
@@ -617,16 +482,14 @@ def build() -> dict:
         "coverage": {
             "included": [
                 "pubspec.lock and declared local Dart forks, regular-source tree hashes, license texts and provenance", "Gradle declarations and wrapper versions",
-                "Podfile.lock", "two Swift Package.resolved files", "Supabase Edge TypeScript external imports",
-                "npm and pnpm tool locks", "Gemfile.lock", "pubspec declared asset paths and fonts",
+                "Podfile.lock", "two Swift Package.resolved files",
+                "Cloudflare service and public-photography npm locks", "Gemfile.lock", "pubspec declared asset paths and fonts",
                 "Rwanda group runtime derivative hash checks",
                 "Linux aarch64/Python3.12 roster decoder wheel hashes and OCI base digest declarations",
                 "Reviewed app production compile/runtime Gradle dependency lock entries when present",
-                "Deno v5 remote/npm lock modules, integrity hashes, redirects and declared npm dependency edges",
             ],
             "excluded": [
                 "Android observed dependency graph edges and AAR/JAR bytes (separate native inventory packet)",
-                "Deno remote dependency edges and installed package/cache contents (separate frozen compiler evidence)",
                 "installed SDK/cache contents", "native artifact contents and signed AAB/IPA SBOM",
                 "registry advisory/current maintenance queries", "full asset reachability and legal license approval",
                 "decoder image platform attestation and installed wheel contents",

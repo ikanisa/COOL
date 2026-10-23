@@ -29,12 +29,17 @@ const collectDefaultPrivacyPolicySections = [
   CollectPolicySection(
     title: 'Data we collect',
     body:
-        'Collect stores your numeric Collect ID, Rwanda profile, WhatsApp sign-in phone, and MoMo provider and number, group memberships, contribution requests, ledger records, and permission status. The member app does not request or display personal names. Names contained in consented MoMo receipts remain in access-controlled Admin reconciliation records.',
+        'Collect stores your numeric Collect ID, Rwanda profile, the phone number or email used to sign in, and MoMo provider and number, group memberships, contribution requests, ledger records, and permission status. The member app does not request or display personal names. Names contained in consented MoMo receipts remain in access-controlled Admin reconciliation records.',
+  ),
+  CollectPolicySection(
+    title: 'Signing in',
+    body:
+        'You can sign in with an email code or, where enabled, Google. If you choose Google, Collect receives and stores your Google account identifier and verified email to create or link your member account and authenticate you. Google sign-in requests OpenID identity, email and basic profile access. Collect keeps verification, session and security records; a sign-in code expiring does not delete those records.',
   ),
   CollectPolicySection(
     title: 'How we use data',
     body:
-        'We use this data to create and join groups, verify MoMo contributions, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain reconciliation audit records.',
+        'We use this data to create and join groups, review contribution evidence, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain reconciliation audit records.',
   ),
   CollectPolicySection(
     title: 'What stays private',
@@ -44,12 +49,12 @@ const collectDefaultPrivacyPolicySections = [
   CollectPolicySection(
     title: 'Sharing',
     body:
-        'We share only what is needed with service providers that operate authentication, hosting, storage, messaging, support, analytics, or contribution verification. We do not sell personal data.',
+        'Supabase provides Collect authentication, database and private evidence storage. Cloudflare provides web hosting, API forwarding and security challenges. Records and recovery copies from the earlier Cloudflare backend may remain in retained systems or archives; changing providers does not erase them. Google provides identity verification when you choose Google where enabled. Other enabled service providers receive only what is needed for authentication, messaging, support, analytics or contribution verification. We do not sell personal data.',
   ),
   CollectPolicySection(
     title: 'Choices and retention',
     body:
-        'You can request account deletion, leave groups where supported, and contact support for correction requests. Ledger and reconciliation records may be retained where needed for audit, security, dispute, and legal reasons.',
+        'Open Settings > Security > Delete data to verify your identity and submit an account deletion request for review. Submitting a request does not delete your account or records. A confirmed receipt records your request for review; check or refresh request status in the app. Check request status or contact support for the outcome and any records that need to be retained. You can leave groups where supported and contact info@ikanisa.com for help or correction requests.',
   ),
 ];
 
@@ -57,17 +62,17 @@ const collectDefaultTermsSections = [
   CollectPolicySection(
     title: 'Using Collect',
     body:
-        'Collect helps groups organize contributions, open Rwanda MoMo USSD, share group QR codes, and maintain a verified contribution ledger. You must use accurate group, receiver, beneficiary, and transfer information.',
+        'Collect helps groups organize contributions, open Rwanda MoMo USSD, share group QR codes, and maintain a contribution ledger. A recorded contribution or receipt alone does not verify provider settlement. You must use accurate group, receiver, beneficiary, and transfer information.',
   ),
   CollectPolicySection(
     title: 'Contribution rails',
     body:
-        'Members approve MoMo payments in USSD. Collect never asks for a MoMo PIN, card details or payment provider OTPs. Your WhatsApp sign-in code is only for signing in to Collect.',
+        'Members approve MoMo payments in USSD. Collect never asks for a MoMo PIN, card details or payment provider OTPs. Your Collect sign-in code is only for signing in to Collect.',
   ),
   CollectPolicySection(
     title: 'Group ownership',
     body:
-        'Every member-created group is private and can be created only in the Android app. Group owners manage profile details and membership. Public groups are platform-sponsored and approved by Collect.',
+        'Every member-created group is private. Creating group metadata does not enable payments or SMS access. Group owners manage profile details and membership. Public groups are platform-sponsored and approved by Collect.',
   ),
   CollectPolicySection(
     title: 'Disputes and corrections',
@@ -633,7 +638,7 @@ class CollectCollection {
     this.receiverMomoNumber,
     this.receiverDisplayLabel = 'Primary MoMo receiver',
     this.receiverNetwork = 'unknown',
-    String? primaryPaymentRail,
+    this._primaryPaymentRail,
     this.settlementCurrency = 'RWF',
     this.imageUrl,
     this.accentColorHex,
@@ -646,12 +651,7 @@ class CollectCollection {
     this.suggestedAmountRwf,
     this.moderationStatus = 'not_requested',
     required this.createdAt,
-  }) : primaryPaymentRail =
-           primaryPaymentRail ??
-           (receiverMomoNumber != null && receiverNetwork != 'unknown'
-               ? 'rwanda_momo'
-               : 'unavailable'),
-       visibilityStatus =
+  }) : visibilityStatus =
            visibilityStatus ?? (isPublic ? 'public_approved' : 'private');
 
   final String id;
@@ -665,7 +665,7 @@ class CollectCollection {
   final String? receiverMomoNumber;
   final String receiverDisplayLabel;
   final String receiverNetwork;
-  final String primaryPaymentRail;
+  final String? _primaryPaymentRail;
   final String settlementCurrency;
   final String? imageUrl;
   final String? accentColorHex;
@@ -681,10 +681,14 @@ class CollectCollection {
 
   bool get isArchived => moderationStatus.trim().toLowerCase() == 'archived';
 
-  bool get supportsRwandaMomo =>
-      primaryPaymentRail == 'rwanda_momo' ||
-      receiverNetwork == 'mtn_momo' ||
-      receiverNetwork == 'airtel_money';
+  String get primaryPaymentRail =>
+      _primaryPaymentRail ??
+      (receiverMomoNumber?.trim().isNotEmpty == true &&
+              const {'mtn_momo', 'airtel_money'}.contains(receiverNetwork)
+          ? 'rwanda_momo'
+          : 'unavailable');
+
+  bool get supportsRwandaMomo => primaryPaymentRail == 'rwanda_momo';
 
   String contributionRailFor(CollectProfile? profile) =>
       supportsRwandaMomo && (profile == null || profile.isRwanda)
@@ -710,7 +714,8 @@ class CollectCollection {
         'unknown';
     final primaryPaymentRail =
         (json['payment_rail'] as String?) ??
-        ((receiverNetwork == 'mtn_momo' || receiverNetwork == 'airtel_money')
+        ((receiverMomoNumber?.trim().isNotEmpty == true &&
+                const {'mtn_momo', 'airtel_money'}.contains(receiverNetwork))
             ? 'rwanda_momo'
             : 'unavailable');
     return CollectCollection(

@@ -41,10 +41,10 @@ void main() {
     () async {
       final client = AbortObservingClient();
       addTearDown(client.close);
-      final transport = SupabasePrivacyRequestTransport(
+      final transport = CollectPrivacyRequestTransport(
         httpClient: client,
-        supabaseUrl: 'https://synthetic.invalid',
-        publishableKey: 'SYNTHETIC_PUBLIC_KEY',
+        apiUrl: 'https://synthetic.invalid',
+
         timeout: const Duration(milliseconds: 10),
       );
       final frame = PrivacySessionSnapshot.parse(privacySession(), 0)!;
@@ -67,10 +67,9 @@ void main() {
     () async {
       final client = ChunkedOversizeClient();
       addTearDown(client.close);
-      final transport = SupabasePrivacyRequestTransport(
+      final transport = CollectPrivacyRequestTransport(
         httpClient: client,
-        supabaseUrl: 'https://synthetic.invalid',
-        publishableKey: 'SYNTHETIC_PUBLIC_KEY',
+        apiUrl: 'https://synthetic.invalid',
       );
       await expectLater(
         transport.submit(

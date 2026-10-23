@@ -295,14 +295,14 @@ class PubForkOriginTest(unittest.TestCase):
             origin.regular_bytes(fifo, 100)
 
     def test_combined_receipt_rejects_earlier_package_source_and_cache_drift(self):
-        other = self.root / "third_party/gotrue"; other.mkdir(parents=True)
+        other = self.root / "third_party/synthetic_fork"; other.mkdir(parents=True)
         (other / "file").write_text("unchanged other package")
-        other_cache = self.cache / "gotrue"; other_cache.mkdir()
+        other_cache = self.cache / "synthetic_fork"; other_cache.mkdir()
         (other_cache / "metadata.json").write_bytes(b"{}")
-        (other_cache / "gotrue-2.27.1.tar.gz").write_bytes(b"synthetic second archive")
+        (other_cache / "synthetic_fork-2.27.1.tar.gz").write_bytes(b"synthetic second archive")
         first_result = {"package": self.name, "metadata_sha256": origin.digest(encoded(self.metadata)),
                         "archive_sha256": origin.digest(self.archive), "retained_files_sha256": origin.hashes(self.fork)}
-        other_result = {"package": "gotrue", "metadata_sha256": origin.digest(b"{}"),
+        other_result = {"package": "synthetic_fork", "metadata_sha256": origin.digest(b"{}"),
                         "archive_sha256": origin.digest(b"synthetic second archive"),
                         "retained_files_sha256": origin.hashes({"file": b"unchanged other package"})}
         for mutate_cache in (False, True):
@@ -313,7 +313,7 @@ class PubForkOriginTest(unittest.TestCase):
                 source.write_bytes(b"mutated during second package verification")
                 return other_result
             args = ["verify_pub_forks.py", "verify", "--root", str(self.root), "--cache-dir", str(self.cache)]
-            with patch.object(sys, "argv", args), patch.object(origin, "load_reviewed", return_value=(self.manifest, b"reviewed")), patch.object(origin, "verify", side_effect=phased_verify):
+            with patch.object(sys, "argv", args), patch.object(origin, "PACKAGES", {self.name: origin.PACKAGES[self.name], "synthetic_fork": "2.27.1"}), patch.object(origin, "load_reviewed", return_value=(self.manifest, b"reviewed")), patch.object(origin, "verify", side_effect=phased_verify):
                 with self.subTest(cache=mutate_cache), self.assertRaisesRegex(ValueError, "before combined receipt"):
                     origin.main()
             source.write_bytes(original)

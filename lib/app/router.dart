@@ -4,7 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../core/supabase/supabase_module.dart';
+import '../core/cloudflare/cloudflare_module.dart';
 import '../core/widgets/collect_shell.dart';
 import '../features/activity/activity_screen.dart';
 import '../features/auth/auth_screen.dart';
@@ -29,6 +29,7 @@ import '../features/settings/settings_subscreens.dart';
 import '../features/status/production_state_screens.dart';
 import '../shared/repositories/collect_repository.dart';
 import '../shared/widgets/collect_components.dart';
+import '../shared/widgets/collect_licenses_page.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final refresh = _CollectRouterRefresh();
@@ -55,7 +56,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       if (state.uri.path == '/settings/account/delete') {
         if (privacyRouteInvalidated) return '/auth';
         final liveOwner = ref
-            .read(supabaseClientProvider)
+            .read(collectBackendClientProvider)
             ?.auth
             .currentUser
             ?.id;
@@ -155,6 +156,7 @@ const collectRoutePaths = <String>[
   '/settings/help',
   '/settings/legal/terms',
   '/settings/legal/privacy',
+  '/settings/legal/licenses',
 ];
 
 GoRouter createAppRouter({
@@ -192,8 +194,15 @@ GoRouter createAppRouter({
         ),
       ),
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) =>
-            CollectShell(navigationShell: navigationShell),
+        // The shell owns GlobalKeys for branch navigators. It must leave the
+        // tree immediately on an account boundary: a retained exit animation
+        // can otherwise overlap a fresh shell during rapid Auth redirects.
+        // Individual member pages keep their existing route transitions.
+        pageBuilder: (context, state, navigationShell) =>
+            NoTransitionPage<void>(
+              key: state.pageKey,
+              child: CollectShell(navigationShell: navigationShell),
+            ),
         branches: [
           StatefulShellBranch(
             initialLocation: '/home',
@@ -341,6 +350,8 @@ GoRouter createAppRouter({
                           state,
                           LedgerScreen(
                             collectionId: state.pathParameters['collectionId']!,
+                            initialPaymentId:
+                                state.uri.queryParameters['payment_id'],
                           ),
                           transition: _CollectRouteTransition.detail,
                         ),
@@ -485,6 +496,15 @@ GoRouter createAppRouter({
                       transition: _CollectRouteTransition.detail,
                     ),
                   ),
+                  GoRoute(
+                    path: 'legal/licenses',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const CollectLicensesPage(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -625,6 +645,18 @@ Page<void> _collectPage(
   Widget child, {
   _CollectRouteTransition transition = _CollectRouteTransition.detail,
 }) {
+  // Auth and loading pages cross account boundaries. A transitional page can
+  // retain a departed stateful shell while a fast login creates it again,
+  // duplicating its branch GlobalKeys (go_router issue flutter/flutter#148768).
+  // Remove these boundary pages immediately; member detail transitions remain.
+  if (transition == _CollectRouteTransition.fade) {
+    return NoTransitionPage<void>(
+      key: state.pageKey,
+      name: state.name,
+      arguments: state.extra,
+      child: child,
+    );
+  }
   final duration = CollectMotion.duration(context, switch (transition) {
     _CollectRouteTransition.utility => CollectMotion.fast,
     _CollectRouteTransition.confirmation => CollectMotion.slow,

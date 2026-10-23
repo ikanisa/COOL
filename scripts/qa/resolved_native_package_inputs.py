@@ -21,7 +21,7 @@ PRIVATE_SUFFIXES = {".jks", ".keystore", ".p12", ".pfx", ".p8", ".mobileprovisio
 SDK_PACKAGES = {"flutter", "flutter_test", "flutter_localizations", "integration_test",
                 "sky_engine", "flutter_web_plugins", "flutter_driver", "fuchsia_remote_debug_protocol"}
 LOCAL_PACKAGES = {"collect_app": "", "file_saver": "third_party/file_saver",
-                  "gotrue": "third_party/gotrue", "firebase_messaging": "third_party/firebase_messaging"}
+                  "firebase_messaging": "third_party/firebase_messaging"}
 MAX_FILES = 100_000
 MAX_BYTES = 4 * 1024 ** 3
 

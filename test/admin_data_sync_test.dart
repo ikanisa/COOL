@@ -1,6 +1,7 @@
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -73,6 +74,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          // Standalone repository fixtures mirror the cookie Admin entrypoint:
+          // no bearer client is initialized or used by these read-only cases.
+          collectBackendClientProvider.overrideWithValue(null),
           adminRepositoryProvider.overrideWithValue(repository),
           adminCountryScopeProvider.overrideWith(
             (ref) => AdminCountryScope.rwanda,
@@ -254,6 +258,12 @@ void main() {
       _MissingHealthRepository(),
       const AdminOverviewContent(),
     );
+    await tester.scrollUntilVisible(
+      find.text('Queue health'),
+      500,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
     expect(find.text('Not available'), findsNWidgets(2));
     expect(find.text('< 4h'), findsNothing);
     expect(find.text('Oldest visible item'), findsOneWidget);

@@ -1,8 +1,9 @@
 import '../test/fixtures/collect_repository_fixture.dart';
+import '../test/fixtures/auth_otp_gateway_fixture.dart';
 
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
-import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
+import 'package:collect_app/core/cloudflare/auth_otp_gateway.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ void main() {
         await tester.pump(const Duration(milliseconds: 100));
       }
 
+      await selectWhatsAppSignIn(tester);
       await tester.enterText(find.byType(TextField).first, phone);
       FocusManager.instance.primaryFocus?.unfocus();
       await tester.pumpAndSettle();
@@ -70,6 +72,9 @@ class _DeviceTestAuthOtpGateway implements AuthOtpGateway {
   const _DeviceTestAuthOtpGateway({required this.acceptedOtp});
 
   final String acceptedOtp;
+
+  @override
+  bool get whatsAppSignInAvailable => true;
 
   @override
   Future<void> sendWhatsAppOtp({

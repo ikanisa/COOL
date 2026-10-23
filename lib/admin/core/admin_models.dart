@@ -32,11 +32,13 @@ class AdminMetric {
     required this.label,
     required this.value,
     required this.status,
+    this.sourceModel,
   });
 
   final String label;
   final String value;
   final String status;
+  final String? sourceModel;
 
   factory AdminMetric.fromJson(Map<String, dynamic> json) {
     return AdminMetric(
@@ -90,10 +92,11 @@ class AdminTableRowData {
 }
 
 class AdminListResult {
-  const AdminListResult({required this.rows, this.total});
+  const AdminListResult({required this.rows, this.total, this.sourceModel});
 
   final List<AdminTableRowData> rows;
   final int? total;
+  final String? sourceModel;
 
   factory AdminListResult.fromJson(Map<String, dynamic> json) {
     final rows = json['rows'];
@@ -163,6 +166,7 @@ class AdminListResult {
     return AdminListResult(
       rows: List<AdminTableRowData>.unmodifiable(rows),
       total: count,
+      sourceModel: sourceModel,
     );
   }
 }
@@ -191,8 +195,12 @@ class AdminRuntimeConfig {
   const AdminRuntimeConfig({
     required this.navigationItems,
     required this.queueSpecs,
+    this.useConfiguredNavigationPermissions = false,
   });
 
+  /// Cloudflare uses different grant names from the legacy backend. This flag
+  /// is set by its local adapter, never by a remotely loaded JSON policy.
+  final bool useConfiguredNavigationPermissions;
   final List<AdminNavigationItemConfig> navigationItems;
   final List<AdminQueueSpecConfig> queueSpecs;
 

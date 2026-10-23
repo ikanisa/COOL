@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:collect_app/admin/core/admin_exception_checkpoint.dart';
 import 'package:collect_app/admin/core/admin_exception_followup_v2_models.dart';
@@ -7,8 +6,7 @@ import 'package:collect_app/admin/core/admin_exception_workflow_models.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-// Declared contract doubles. Exact accepted190000 SQL observations are also
-// tested below; these synthetic rows are not additional SQL observations.
+// Declared parser and recovery contract doubles.
 const _request = '99490000-0000-4000-8000-000000000010';
 const _exception = '99490000-0000-4000-8000-000000000020';
 const _assignee = '99490000-0000-4000-8000-000000000030';
@@ -106,40 +104,6 @@ Map<String, dynamic> _directory() => {
   },
 };
 const _query = AdminExceptionFollowupDirectoryQuery(limit: 2);
-
-Map<String, dynamic> _sql(String name) => Map<String, dynamic>.from(
-  jsonDecode(
-        File(
-          'scripts/tests/fixtures/exception_followup_v2/observed-$name.json',
-        ).readAsStringSync(),
-      )
-      as Map,
-);
-AdminExceptionWorkflowIntent _sqlIntent() {
-  final binding = _sql('assignment-binding');
-  return AdminExceptionWorkflowIntent.parse({
-    'p_request_id': binding['request_id'],
-    'p_exception_id': binding['exception_id'],
-    'p_expected_source_revision': binding['source_revision'],
-    'p_expected_workflow_revision': binding['workflow_revision'],
-    'p_action': binding['action'],
-    'p_assignee_id': binding['assignee_id'],
-    'p_due_at': binding['due_at'],
-    'p_reason_code': binding['reason_code'],
-    'p_expires_at': binding['expires_at'],
-  });
-}
-
-AdminExceptionFollowupReference _sqlLookupReference(Map<String, dynamic> raw) =>
-    AdminExceptionFollowupReference.parse({
-      'p_request_id': raw['request_id'],
-      'p_exception_id': _sqlIntent().exceptionId,
-      'p_expected_source_revision': 1,
-      'p_expected_workflow_revision': 0,
-      'p_action': 'assign',
-      'p_expires_at': raw['expires_at'],
-      'request_fingerprint': raw['request_fingerprint'],
-    });
 
 void main() {
   test(
@@ -369,104 +333,6 @@ void main() {
           throwsFormatException,
         );
       }
-    },
-  );
-  test(
-    'actual SQL assignment ACK matches independently canonical Dart fingerprint',
-    () {
-      final intent = _sqlIntent(),
-          reference = AdminExceptionFollowupReference.fromIntent(intent);
-      final receipt = AdminExceptionFollowupReceipt.parse(
-        _sql('assignment-receipt'),
-        reference,
-      );
-      expect(
-        receipt.requestFingerprint,
-        '7db63c63d34cda696adccd50a6474dfcca69b678e4f347b80963312324123000',
-      );
-      expect(receipt.revision, 1);
-      expect(
-        receipt.recordedAt,
-        DateTime.parse(_sql('assignment-receipt')['recorded_at'] as String),
-      );
-    },
-  );
-  for (final name in ['recorded-lookup', 'after-commit-lookup']) {
-    test('actual SQL $name retains immutable original ACK', () {
-      final raw = _sql(name);
-      final ack = raw['receipt'] as Map;
-      // The after-commit observation is a distinct original action with
-      // expected workflow predecessor2, not the earlier assignment UUID.
-      final original = name == 'recorded-lookup'
-          ? AdminExceptionFollowupReference.fromIntent(_sqlIntent())
-          : AdminExceptionFollowupReference.parse({
-              'p_request_id': raw['request_id'],
-              'p_exception_id': ack['exception_id'],
-              'p_expected_source_revision': ack['source_revision'],
-              'p_expected_workflow_revision': 2,
-              'p_action': ack['action'],
-              'p_expires_at': raw['expires_at'],
-              'request_fingerprint': raw['request_fingerprint'],
-            });
-      final lookup = AdminExceptionFollowupLookup.parse(raw, original);
-      expect(lookup.status, 'recorded');
-      expect(
-        lookup.receipt!.recordedAt,
-        DateTime.parse(ack['recorded_at'] as String),
-      );
-      expect(lookup.receipt!.requestId, raw['request_id']);
-      expect(lookup.receipt!.requestFingerprint, ack['request_fingerprint']);
-      expect(lookup.receipt!.revision, ack['workflow_revision']);
-      expect(lookup.provesExpiredAbsence(lookup.checkedAt), isFalse);
-      if (name == 'after-commit-lookup') {
-        expect(
-          () => AdminExceptionFollowupLookup.parse(
-            raw,
-            AdminExceptionFollowupReference.fromIntent(_sqlIntent()),
-          ),
-          throwsFormatException,
-          reason:
-              'The earlier original must remain a strict cross-request refusal.',
-        );
-      }
-    });
-  }
-  for (final name in [
-    'in-progress-lookup',
-    'foreign-lookup',
-    'expired-unrecorded-lookup',
-  ]) {
-    test('actual SQL $name proves only its original scoped observation', () {
-      final raw = _sql(name), reference = _sqlLookupReference(raw);
-      final lookup = AdminExceptionFollowupLookup.parse(raw, reference);
-      expect(lookup.receipt, isNull);
-      expect(
-        lookup.provesExpiredAbsence(lookup.checkedAt),
-        name == 'expired-unrecorded-lookup',
-      );
-      expect(lookup.provesExpiredAbsence(lookup.validUntil), isFalse);
-    });
-  }
-  test(
-    'actual SQL directory pages retain paired keyset and minimal labels',
-    () {
-      final first = AdminExceptionFollowupDirectory.parse(
-        _sql('directory-first'),
-        query: const AdminExceptionFollowupDirectoryQuery(),
-      );
-      final last = AdminExceptionFollowupDirectory.parse(
-        _sql('directory-last'),
-        query: AdminExceptionFollowupDirectoryQuery(before: first.nextCursor),
-      );
-      expect(first.rows, hasLength(25));
-      expect(last.rows, hasLength(6));
-      expect(last.nextCursor, isNull);
-      expect({
-        ...first.rows.map((row) => row.operatorId),
-        ...last.rows.map((row) => row.operatorId),
-      }, hasLength(31));
-      expect(first.rows.first.displayLabel, 'Collect ID 695494');
-      expect(last.rows.last.displayLabel, 'Collect ID 741070');
     },
   );
   test(

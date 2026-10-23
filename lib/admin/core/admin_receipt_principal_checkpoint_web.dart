@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:js_interop';
+import 'admin_recovery_namespace.dart';
 
 import 'admin_receipt_operations_models.dart';
 import 'admin_receipt_principal_checkpoint.dart';
 
 @JS('window.localStorage')
 external _Storage get _storage;
+
 extension type _Storage(JSObject _) implements JSObject {
   external int get length;
   external String? key(int index);
@@ -16,6 +18,7 @@ extension type _Storage(JSObject _) implements JSObject {
 
 @JS('navigator.locks')
 external _Locks? get _locks;
+
 extension type _Locks(JSObject _) implements JSObject {
   external JSPromise<JSAny?> request(
     String name,
@@ -36,16 +39,25 @@ extension type _LockOptions._(JSObject _) implements JSObject {
 }
 
 class _BrowserPrincipalStore implements AdminReceiptPrincipalCheckpointStore {
+  void _verifyNamespace() {
+    verifyAdminRecoveryNamespace(
+      retiredPrefix: 'collect.admin.receipt-principal.recovery.v3.',
+      storageLength: () => _storage.length,
+      keyAt: (index) => _storage.key(index),
+    );
+  }
+
   static const _lockBound = Duration(seconds: 5);
   String _prefix(String owner) {
     if (!RegExp(r'^[a-f0-9]{64}$').hasMatch(owner)) operationsInvalid();
-    return 'collect.admin.receipt-principal.recovery.v3.$owner.';
+    return 'collect.admin.receipt-principal.recovery.v4.$owner.';
   }
 
   String _key(String owner, String request) =>
       '${_prefix(owner)}${operationsUuid(request)}';
 
   Future<T> _exclusive<T>(String owner, T Function() work) async {
+    _verifyNamespace();
     final manager = _locks;
     if (manager == null) operationsInvalid();
     final abort = _AbortController(), elapsed = Stopwatch()..start();
@@ -68,6 +80,7 @@ class _BrowserPrincipalStore implements AdminReceiptPrincipalCheckpointStore {
               if (closed || elapsed.elapsed >= _lockBound || lock == null) {
                 operationsInvalid();
               }
+              _verifyNamespace();
               result = work();
               ran = true;
               return null;

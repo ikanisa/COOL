@@ -14,6 +14,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+Future<void> _revealContributionAction(
+  WidgetTester tester,
+  Finder action,
+) async {
+  await tester.scrollUntilVisible(
+    action,
+    80,
+    scrollable: find.byType(Scrollable).first,
+  );
+  await tester.pumpAndSettle();
+}
+
 void main() {
   testWidgets('auth action announces and shows OTP submission progress', (
     tester,
@@ -311,13 +323,15 @@ void main() {
       expect(find.text('Church'), findsNothing);
       expect(find.text('2'), findsOneWidget);
       expect(
-        find.bySemanticsLabel('QA private group, RWF 35,000, 2 contributors'),
+        find.bySemanticsLabel(
+          'QA private group, Recorded contributions, RWF 35,000, 2 contributors',
+        ),
         findsOneWidget,
       );
       expect(find.text('RWF 35,000'), findsOneWidget);
       expect(
         find.bySemanticsLabel(
-          'Kigali Lions away kit, RWF 12,000, 4 contributors',
+          'Kigali Lions away kit, Recorded contributions, RWF 12,000, 4 contributors',
         ),
         findsOneWidget,
       );
@@ -425,16 +439,28 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    await _revealContributionAction(
+      tester,
+      find.widgetWithText(FilledButton, 'Continue to MoMo'),
+    );
     expect(find.text('Target account'), findsNothing);
     expect(find.text('Continue to MoMo'), findsOneWidget);
     await tester.enterText(find.byType(TextField).first, '6000');
     await tester.pump();
 
+    await _revealContributionAction(
+      tester,
+      find.widgetWithText(FilledButton, 'Continue to MoMo'),
+    );
     await tester.tap(find.widgetWithText(FilledButton, 'Continue to MoMo'));
     await tester.pumpAndSettle();
 
     expect(find.text('Review contribution'), findsOneWidget);
-    expect(find.text('RWF 6,000'), findsOneWidget);
+    final reviewedAmount = tester.widget<Text>(
+      find.byKey(const ValueKey('contribution_review_full_value')),
+    );
+    expect(reviewedAmount.semanticsLabel, 'RWF 6,000');
+    expect(reviewedAmount.data?.replaceAll('\u200b', ''), 'RWF 6,000');
     expect(find.text('Open MoMo USSD'), findsOneWidget);
     expect(find.text('Edit amount'), findsWidgets);
   });
@@ -463,6 +489,10 @@ void main() {
     expect(
       tester.widget<TextField>(find.byType(TextField).first).controller?.text,
       '0',
+    );
+    await _revealContributionAction(
+      tester,
+      find.widgetWithText(FilledButton, 'Continue to MoMo'),
     );
     final reviewButton = tester.widget<FilledButton>(
       find.widgetWithText(FilledButton, 'Continue to MoMo'),

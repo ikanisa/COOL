@@ -1,12 +1,20 @@
 part of 'admin_runtime.dart';
 
-class _AdminGroupWorkspaceActions extends ConsumerWidget {
+class _AdminGroupWorkspaceActions extends ConsumerStatefulWidget {
   const _AdminGroupWorkspaceActions({required this.onDone});
 
   final VoidCallback onDone;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_AdminGroupWorkspaceActions> createState() =>
+      _AdminGroupWorkspaceActionsState();
+}
+
+class _AdminGroupWorkspaceActionsState
+    extends ConsumerState<_AdminGroupWorkspaceActions> {
+  bool _busy = false;
+  @override
+  Widget build(BuildContext context) {
     final identity = _adminResolvedIdentity(ref.watch(adminIdentityProvider));
     final canCreatePublic =
         _adminHasPermission(identity, 'collections.moderate') &&
@@ -14,45 +22,69 @@ class _AdminGroupWorkspaceActions extends ConsumerWidget {
     final canCreateAssisted =
         _adminHasPermission(identity, 'collections.moderate') &&
         _adminHasPermission(identity, 'users.read');
-    if (!canCreatePublic && !canCreateAssisted) {
+    final canCreatePrivate = _adminHasPermission(
+      identity,
+      'collections.create',
+    );
+    if (!canCreatePublic && !canCreateAssisted && !canCreatePrivate) {
       return const SizedBox.shrink();
     }
     return Semantics(
       button: true,
       label: 'Create group',
-      hint:
-          'Create a public Collect-sponsored group or a private assisted group with reviewed members.',
+      hint: canCreatePublic
+          ? 'Create a public or private group.'
+          : 'Create a private group.',
       child: PopupMenuButton<String>(
         tooltip: 'Create group',
+        enabled: !_busy,
         icon: const Icon(Icons.create_new_folder_outlined),
-        onSelected: (value) {
-          if (value == 'assisted') {
-            createAdminAssistedGroup(context, ref, onDone: onDone);
+        onSelected: (value) async {
+          if (value == 'private') {
+            setState(() => _busy = true);
+            try {
+              await createAdminStaffGroup(context, ref, onDone: widget.onDone);
+            } finally {
+              if (mounted) setState(() => _busy = false);
+            }
+          } else if (value == 'assisted') {
+            createAdminAssistedGroup(context, ref, onDone: widget.onDone);
           } else if (value == 'public') {
-            createAdminPublicGroup(context, ref, onDone: onDone);
+            createAdminPublicGroup(context, ref, onDone: widget.onDone);
           }
         },
         itemBuilder: (_) => [
-          PopupMenuItem(
-            value: 'assisted',
-            enabled: canCreateAssisted,
-            child: const ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.group_add_outlined),
-              title: Text('Create assisted group'),
-              subtitle: Text('Private group with reviewed MoMo members'),
+          if (canCreatePrivate)
+            const PopupMenuItem(
+              value: 'private',
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(Icons.lock_outline),
+                title: Text('Create private group'),
+              ),
             ),
-          ),
-          PopupMenuItem(
-            value: 'public',
-            enabled: canCreatePublic,
-            child: const ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.campaign_outlined),
-              title: Text('Create public group'),
-              subtitle: Text('Collect-sponsored group with a locked payee'),
+          if (canCreateAssisted)
+            PopupMenuItem(
+              value: 'assisted',
+              enabled: canCreateAssisted,
+              child: const ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(Icons.group_add_outlined),
+                title: Text('Create assisted group'),
+                subtitle: Text('Private group with reviewed MoMo members'),
+              ),
             ),
-          ),
+          if (canCreatePublic)
+            PopupMenuItem(
+              value: 'public',
+              enabled: canCreatePublic,
+              child: const ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(Icons.campaign_outlined),
+                title: Text('Create public group'),
+                subtitle: Text('Collect-sponsored group with a locked payee'),
+              ),
+            ),
         ],
       ),
     );

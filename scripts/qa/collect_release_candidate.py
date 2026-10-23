@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Export and verify unapproved Collect source; discover local MCP without reads.
+"""Export and verify unapproved Collect source.
 
 Only export writes source copies. No command commits, deploys, signs in, requests
-an OTP, invokes an MCP tool, or attests that a candidate is reviewed/frozen.
+an OTP, or attests that a candidate is reviewed/frozen.
 """
 from __future__ import annotations
 
@@ -26,13 +26,13 @@ ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ".collect-release-candidate.json"
 SOURCE_ROOTS = (
     ".github", "lib", "assets", "licenses", "android", "ios", "web", "content",
-    "third_party", "supabase", "deploy", "tools", "scripts", "test",
-    "integration_test", "test_driver", "tool", "contracts", "fastlane",
+    "third_party", "deploy", "tools", "scripts", "test",
+    "integration_test", "test_driver", "tool", "contracts", "fastlane", "supabase",
 )
 ROOT_FILES = {
     "AGENTS.md", "README.md", "Makefile", "pubspec.yaml", "pubspec.lock",
-    "analysis_options.yaml", ".metadata", ".fvmrc", ".dvmrc", ".gitignore",
-    ".gitleaks.toml", ".env.example", "Gemfile", "Gemfile.lock", ".supabase-cli-version",
+    "analysis_options.yaml", ".metadata", ".fvmrc", ".gitignore",
+    ".gitleaks.toml", ".env.example", "Gemfile", "Gemfile.lock",
 }
 PRIVATE_NAMES = {
     "key.properties", "local.properties", "google-services.json", "GoogleService-Info.plist",
@@ -51,23 +51,20 @@ BLOCKED_SUFFIXES = {
 }
 LOCKS = (
     "pubspec.lock", "Gemfile.lock", "android/app/gradle.lockfile", "ios/Podfile.lock",
-    "supabase/functions/deno.lock", "tools/collect-notification-mcp/pnpm-lock.yaml",
+    "deploy/platform-api/package-lock.json",
 )
 REQUIRED = frozenset(LOCKS) | {
-    ".fvmrc", ".dvmrc", "pubspec.yaml", "lib/main.dart", "lib/main_admin.dart",
+    ".fvmrc", "pubspec.yaml", "lib/main.dart", "lib/main_admin.dart",
+    "deploy/platform-api/src/index.js", "deploy/platform-api/wrangler.jsonc",
     "android/app/build.gradle.kts", "android/gradle/wrapper/gradle-wrapper.properties",
     "android/gradle/wrapper/gradle-wrapper.jar", "ios/Podfile",
-    "ios/Runner.xcodeproj/project.pbxproj", "tools/collect-notification-mcp/package.json",
-    "tools/collect-notification-mcp/src/server.ts",
+    "ios/Runner.xcodeproj/project.pbxproj",
+    "supabase/config.toml", "supabase/functions/deno.json", "supabase/functions/deno.lock",
+    "supabase/functions/collect-api/index.ts", "supabase/functions/_shared/serve.js",
+    "supabase/functions/_shared/postgres.js", "supabase/functions/_shared/domain/index.js",
+    "supabase/functions/_shared/domain/operations.js", "supabase/functions/_shared/domain/notifications.js",
+    "supabase/migrations/20261020134444_collect_curated_platform_baseline.sql",
 }
-# Preserve already-established minute-granularity history. New migrations must
-# use full timestamps; rewriting historical versions would break provenance.
-LEGACY_MIGRATION_VERSIONS = frozenset({f"20260523{number:04d}" for number in range(1, 18)}
-                                    | {"202605250001", "202605270001"})
-READ_TOOLS = frozenset({
-    "collect_notification_health", "collect_list_pending_receipts", "get_collect_health",
-    "get_notification_status", "list_notification_failures",
-})
 PUBLIC_CONFIG_PREREQUISITES = (
     "android/app/google-services.json", "ios/Runner/GoogleService-Info.plist",
 )
@@ -125,8 +122,7 @@ def policy() -> dict:
                                      "GoogleService-Info variant files", "build_stale_*",
                                      "third_party/*/test/** upstream QA/auth fixtures; runtime and provenance retained"],
             "symlinks": "refused for source and candidate paths, including ancestor symlinks",
-            "migration_versions": {"new": "unique valid YYYYMMDDHHMMSS",
-                                   "preserved_legacy_minute_versions": sorted(LEGACY_MIGRATION_VERSIONS)},
+            "migration_versions": {"new": "unique positive 14-digit Supabase timestamp filename version in supabase/migrations"},
             "credential_screening": "recognized private-key/token patterns only; no security or privacy attestation"}
 
 
@@ -178,16 +174,81 @@ TOKEN_PATTERNS = (
     rb"\bAKIA[A-Z0-9]{16}\b",
     rb"\bsk_(?:live|test)_[A-Za-z0-9]{20,}\b",
     rb"\bsk-proj-[A-Za-z0-9_-]{30,}\b",
-    rb"\bsb_secret_[A-Za-z0-9_-]{20,}\b",
+    rb"(?i)\b(?:[a-z][a-z0-9_-]{0,31}[_-])?(?:secret|token|key)[_-][a-z0-9_-]{20,}\b",
 )
 JWT_PATTERN = re.compile(rb"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{16,}\b")
 
 
+# Finite reviewed generic-pattern false positives. These exact source-line
+# hashes cover public identifiers/enums and controlled local-test/sentinel
+# literals. They are not a test-directory, synthetic-prefix or value allowlist.
+# Any line/path change requires review again. Provider/private-key/JWT/JSON
+# credential screening never consults this narrow generic-only context map.
+GENERIC_PUBLIC_SOURCE_LINES = {
+    'scripts/supabase/current-archive/bundle.mjs': frozenset(('319c34a67f96775c5fcfd8bdd0b0d0798a34ae0d447b11b9eda3cf163612e06c', 'a927d44911a34e7c6150d7de97018f6cfccdd3c8a46bce0c8c318e25e7c99af4')),
+    'scripts/supabase/current-archive/operator.mjs': frozenset(('729d146227251983ef7c5e6e3ca6fd6cee64029af78e243e903479f1c4e0a59b',)),
+    'analysis_options.yaml': frozenset(('856267bb9cf05544b1bcb7d4d635d83ac98958944f91beed38364eb4c57f65d8',)),
+    'scripts/cloudflare/platform_backup.mjs': frozenset(('a1f14510f3749b00a91675a3b70f4a3b7c40571294012ce38f2af72b33222b5d', '9a1e5335ffeeb9b237d40ba61e5428353709302f17e837c056da3fcb29b4ed64',)),
+    'scripts/cloudflare/recovery_quarantine.mjs': frozenset(('cf3a20cafbefa427e3d42d11827593fb70907c381a1abb320486a48e15fae28b', '6c91bd6f58aa2dddfd5fe93b42c2124db9851adb360411e1df34c089c4ab6f7e',)),
+    'scripts/google_play_production_upload.sh': frozenset(('11b90dfa9d26f3a2dbdaecb851bc9b35b5a5f14eedcbf587b914f0ba2e9b4821', 'f334a4c917a986e56bbf2466102fde704bcd049fbc6b8eebdeab1e1b1d81effb', '45c2f74fbd50c5be11a5410cd1c7c36904fe6b5af7587f2676db58f54a999ab0')),
+    'scripts/tests/asset_hygiene_integration_test.rb': frozenset(('27b2228008849b62e74ff9308730c9031f0552dedbe0377af4bca0cff3c15ce8',)),
+    'scripts/tests/recovery_quarantine_test.mjs': frozenset(('6b8f601643230bc408b6a1235d24509d11a83318a53438548cc5e101e9f54dce', 'f0b8bfd32fc3cd0e86cef7cce32b4ef3f8da8018fb16d7603bca7fa43993bc65')),
+    'scripts/tests/test_collect_release_candidate.py': frozenset(('b22103bcb6205d0e5afbda5722db14d82dc1e18c2a437d20e74f89abb3fe7309',)),
+    'tools/roster-decoder/test_dependency_security.py': frozenset(('a8be53a19391ee14c5b8b8c087e7b50e47add3048e8c3ad851bcd309c5b81356', 'fb0decb938601040642d4d7a764ef65fcc56e4dcac7ea3561f893edd09a0651f')),
+    'scripts/supabase/jobs_config.mjs': frozenset(('af03da7f6de3aafb23e7fe876bb5d4eaaa40b1363c488828c118f990de94653b',)),
+    'scripts/supabase/jobs_test.mjs': frozenset(('f8d9eae32a8476ceae2e6aab8e60d75594120f1790dd1544f293c7570859d31e',)),
+    'supabase/jobs/bootstrap.sql': frozenset(('34767fdf18de63e4c1fe888efa504fae83ee5d17668569ef4000258bb59ff435', 'c345c388eceb858060dd02595ba77cbb49e36e6a0eb83ddb229b55c7ad689314')),
+    'supabase/jobs/readiness.example.json': frozenset(('9dc52c463d96162b2ce8dfe256cf0df5b13e4c78e239356074d41b9f8433e6d3',)),
+}
+GENERIC_CONTROLLED_TEST_LINES = {
+    'scripts/supabase/current-archive/custody.test.mjs': frozenset(('4b33e736bdd3a71e90adb04ae6a5d7d011ed0c9b52105e2f297a71610b43f3ed',)),
+    'scripts/supabase/current-archive/operator.test.mjs': frozenset(('4774b2b622d6ad339ea76149a0b7c26f188922a346acfefc76733eeb2fb3d85a',)),
+    'scripts/supabase/current-archive/root-curated.fixture.mjs': frozenset(('6db1fab4cd4788e610f75a3d853749f6a70bd40b71b7c40368cbaf19f68bf0fe',)),
+    'scripts/supabase/current-archive/transport.test.mjs': frozenset(('99203b25e976f24e3fd48ebbae35a4f9a0f9c53050efe0a8d5177385366ab5a1',)),
+    'scripts/tests/cloudflare_native_build_config_test.py': frozenset(('f4c920494f2c5c9d5062c8732e386eb557592d7b9a311d6aee8d7163d6b9ae52',)),
+    'supabase/functions/_shared/tests/momo-provider-adapter.test.ts': frozenset(('142f3d03b7e36c290764d790e237af5b28b45e9ebd96bb8d1bb8d3d5cc7200e2',)),
+    'deploy/platform-api/test/admin_support/fixture.mjs': frozenset(('b8f680a12042e47cc9f8398a51d95508a2b1d3daeafdeb28328ca8b1962e27be',)),
+    'deploy/platform-api/test/auth_identity_keys.test.mjs': frozenset(('498236e1813058d295db3c2ce6039aa1d80016a3513fea8dc3e09e4ded168cbd',)),
+    'deploy/platform-api/test/notification_registration.test.mjs': frozenset(('993cec7e3828a5021f6ea6687f328f7fc8af13fd88e6ead234f72f0edcc79a4b', 'b3219bae68cafbc32c8154f9895467449dec8c7e791b97ac47b70554a664b0ca')),
+    'deploy/platform-api/test/receipt_security.test.mjs': frozenset(('c4279a99ac17285bbc6b58ff8d44eec1052922efeede4e50540ac1d73baa3302', '5bb5bdd90ff4c4aca553dea9f9ac51452ad86f3939e9b5dc47067df1fde22ea9',)),
+    'deploy/platform-api/test/security.test.mjs': frozenset(('899216460b79bffe835660108d3fc3818ab4efdde5a8fcceabecb357f4bbeeb3',)),
+    'deploy/platform-api/test/support/auth_fixture.mjs': frozenset(('9cdb871bd9e0e914971725f8f3d6da6b1642a675548137e97449a3379969127a', 'b45094f0a90749d740361f1aebfba43c411c2cf2f90ff75f97dd065439d5e6e0')),
+    'deploy/platform-api/test/support/retention_fixture.mjs': frozenset(('ec5cb9e27e403649cc45686afc20e595aed9cf9096a1c5a317d1b60173272464',)),
+    'scripts/tests/atomic_d1_restore_test.mjs': frozenset(('a2d6636439a4479f653a7469b9fd697d8f3ed31eed40a97ffbb7da043e44e626',)),
+    'scripts/tests/recovery_quarantine_test.mjs': frozenset(('a2d6636439a4479f653a7469b9fd697d8f3ed31eed40a97ffbb7da043e44e626', 'f446331f6e399801bffea3df0c25f1aa29149a1d5aeb85b6c696971fda067e4c')),
+    'test/features/privacy/privacy_request_screen_test.dart': frozenset(('1292980b41b16c96101735aabbf85ef74339dcf14791d6058d5f9ccd53843fcd',)),
+    'deploy/platform-api/test/admin_member_support/fixture.mjs': frozenset(('b8f680a12042e47cc9f8398a51d95508a2b1d3daeafdeb28328ca8b1962e27be',)),
+    'deploy/platform-api/test/admin_sms_support/fixture.mjs': frozenset(('b8f680a12042e47cc9f8398a51d95508a2b1d3daeafdeb28328ca8b1962e27be',)),
+    'deploy/platform-api/test/support/notification_operator_fixture.mjs': frozenset(('b8f680a12042e47cc9f8398a51d95508a2b1d3daeafdeb28328ca8b1962e27be',)),
+    'deploy/platform-api/test/support/notification_operator_integration_fixture.mjs': frozenset(('b8f680a12042e47cc9f8398a51d95508a2b1d3daeafdeb28328ca8b1962e27be',)),
+    'deploy/platform-api/test/support/recovery12_fixture.mjs': frozenset(('9c24b0cb55086932a6b4b026c2d3d461535726d6d9a376fdf28a17e5c2a071ff',)),
+    'scripts/supabase/jobs_test.mjs': frozenset(('2a80c6dd0136f09280d7485ce7f16430157e65371e0fc7c6e4752a0c0d912d96', 'c29ed4b2c25f339fc4461ef052cb03fe4d179ff3d16fddb9bd0508fc293f2c2a', 'f2a52815df0cfec16be68969f0f42fee177be8d8afed5ee76962b235e53941dc')),
+    'scripts/tests/fixtures/recovery_profile11.mjs': frozenset(('fc033c5db79f98c4e7095c5a653c4a3b3cd5dde4ca0a701b63de9df433f33fc0',)),
+    'scripts/tests/recovery_auth17_qualification_test.mjs': frozenset(('e42c05fcbbf4bd5d53e0bdf168cdc9d210c052ce5c13ce0838ca6bd7b0bb4e08', 'e6fecaf00b20b4aaa4f753eddd0294bc494112f3753edf873ebeb49e971f9550')),
+    'supabase/functions/_shared/tests/admin-invitation-notice-pg.test.ts': frozenset(('f8be6b29f4244e83829217a4e00453333819f33b76b6676d837dcacd6cf45fba',)),
+    'supabase/functions/_shared/tests/admin-invitation-pg.test.ts': frozenset(('3e028be2bff3a4b32af887e5a71cd93814ae80a8f42599c7a84bd379b58d8482',)),
+    'supabase/functions/_shared/tests/admin-invitation.test.mjs': frozenset(('3e5a140e690508c639512c4e10705f3e170b8fea0b25cf5427ab410400d077f1',)),
+    'supabase/functions/_shared/tests/auth-http-logout.test.mjs': frozenset(('7c5782544b7173731e6edbed8d91959540e392a7f298dc3dd246448b1bdcc2b7',)),
+    'supabase/functions/_shared/tests/native-storage-semantics.test.mjs': frozenset(('4e15abd270a859b19fbfbfbc7e62ddd1cfa707b3b3cfc417501cf3ea8714092c',)),
+    'supabase/functions/_shared/tests/private-retention.test.ts': frozenset(('1cd9abc4d868b7632e4a8cbf4dbfe376df92cddfe29f236a1382eee6932b3289',)),
+    'supabase/functions/_shared/tests/runtime.test.ts': frozenset(('038976233490c2f7fd76d34df7712b6793e2cda7dfabcd2516ce1398e0833d94',)),
+}
+
+
+def reviewed_generic_line(data: bytes, name: str, match: re.Match[bytes]) -> bool:
+    start = data.rfind(b"\n", 0, match.start()) + 1
+    end = data.find(b"\n", match.end())
+    if end == -1:
+        end = len(data)
+    line_hash = sha(data[start:end])
+    return (line_hash in GENERIC_PUBLIC_SOURCE_LINES.get(name, ()) or
+            line_hash in GENERIC_CONTROLLED_TEST_LINES.get(name, ()))
+
+
 def screen_credentials(data: bytes, name: str) -> None:
-    for pattern in TOKEN_PATTERNS:
+    for index, pattern in enumerate(TOKEN_PATTERNS):
         for match in re.finditer(pattern, data):
-            # Exact synthetic source fixture prefix, never a general 'test' bypass.
-            if match.group().startswith(b"sb_secret_synthetic_"):
+            if index == 6 and reviewed_generic_line(data, name, match):
                 continue
             raise ReleaseError("CANDIDATE_CREDENTIAL_PATTERN", [name])
     for match in JWT_PATTERN.finditer(data):
@@ -198,10 +259,7 @@ def screen_credentials(data: bytes, name: str) -> None:
             claims = json.loads(base64.urlsafe_b64decode(token[1] + b"=" * (-len(token[1]) % 4)))
         except (ValueError, UnicodeError):
             raise ReleaseError("CANDIDATE_CREDENTIAL_PATTERN", [name])
-        # A public Supabase anon project identifier is not a current-user or
-        # privileged secret; credential-bearing JWT roles are excluded.
-        if not isinstance(claims, dict) or claims.get("role") != "anon":
-            raise ReleaseError("CANDIDATE_CREDENTIAL_PATTERN", [name])
+        raise ReleaseError("CANDIDATE_CREDENTIAL_PATTERN", [name])
     if PurePosixPath(name).suffix == ".json" and data.lstrip().startswith((b"{", b"[")):
         try:
             value = json.loads(data)
@@ -259,22 +317,13 @@ def migration_versions(names) -> dict:
     versions, invalid, duplicates = {}, [], []
     for name in sorted(names):
         path = PurePosixPath(name)
-        if len(path.parts) != 3 or path.parts[:2] != ("supabase", "migrations") or path.suffix != ".sql":
+        if path.parts[:2] != ("supabase", "migrations") or path.suffix != ".sql":
             continue
-        match = re.fullmatch(r"([0-9]{12}|[0-9]{14})_[A-Za-z0-9][A-Za-z0-9_.-]*\.sql", path.name)
-        if not match:
+        match = re.fullmatch(r"([0-9]{14})_[A-Za-z0-9][A-Za-z0-9_.-]*\.sql", path.name)
+        if len(path.parts) != 3 or not match or int(match[1]) == 0:
             invalid.append(name)
             continue
         version = match[1]
-        if len(version) == 12 and version not in LEGACY_MIGRATION_VERSIONS:
-            invalid.append(name)
-            continue
-        try:
-            datetime(int(version[:4]), int(version[4:6]), int(version[6:8]),
-                     int(version[8:10]), int(version[10:12]), int(version[12:14]) if len(version) == 14 else 0)
-        except ValueError:
-            invalid.append(name)
-            continue
         if version in versions:
             duplicates.extend([versions[version], name])
         else:
@@ -303,14 +352,11 @@ def collect_toolchain(root: Path, flutter_sdk: Path | None = None) -> dict:
         version = subprocess.check_output([node, "--version"], stderr=subprocess.DEVNULL, timeout=5, text=True).strip()
         if not re.fullmatch(r"v\d+\.\d+\.\d+", version):
             raise ValueError()
-        package = json.loads((root / "tools/collect-notification-mcp/package.json").read_text())
         return {"flutter": {"pin": pin, "installed_version": metadata["frameworkVersion"],
                             "framework_revision": metadata["frameworkRevision"], "dart_version": metadata["dartSdkVersion"],
                             "sdk_path": str(sdk), "launcher_sha256": sha(flutter.read_bytes())},
                 "node": {"version": version, "path": str(Path(node).resolve())},
                 "python": {"version": sys.version.split()[0], "path": str(Path(sys.executable).resolve())},
-                "deno": {"declared_pin": (root / ".dvmrc").read_text().strip(), "installed_path": shutil.which("deno")},
-                "mcp_declared_packages": {**package.get("dependencies", {}), **package.get("devDependencies", {})},
                 "lock_sha256": {name: sha((root / name).read_bytes()) for name in LOCKS},
                 "gradle_wrapper_properties_sha256": sha((root / "android/gradle/wrapper/gradle-wrapper.properties").read_bytes()),
                 "scope": "Installed runtime metadata and exact source locks; no resolve/build/install/signature/advisory attestation"}
@@ -333,10 +379,10 @@ def source_changes(expected: dict, observed: dict) -> list[dict]:
 
 
 
-PIN_INPUTS = frozenset(LOCKS) | {".fvmrc", ".dvmrc", "pubspec.yaml", "Gemfile", "android/app/build.gradle.kts",
+PIN_INPUTS = frozenset(LOCKS) | {".fvmrc", "pubspec.yaml", "Gemfile", "android/app/build.gradle.kts",
     "android/build.gradle.kts", "android/settings.gradle.kts", "android/gradle/wrapper/gradle-wrapper.properties",
-    "android/gradle/wrapper/gradle-wrapper.jar", "ios/Podfile", "tools/collect-notification-mcp/package.json",
-    "supabase/functions/deno.json", "supabase/functions/deno.jsonc"}
+    "android/gradle/wrapper/gradle-wrapper.jar", "ios/Podfile",
+    "deploy/platform-api/package.json"}
 
 
 def pin_input_name(name):
@@ -525,143 +571,6 @@ def verify_candidate(candidate: Path, source: Path | None = None, expected_manif
             "approvals": dict(NO_APPROVAL), "scope": "Exact bytes/modes/readback only; self-recorded hashes do not attest source trust"}
 
 
-def safe_host_profile(config: Path, root: Path) -> dict:
-    try:
-        import tomllib
-        profile = tomllib.loads(config.read_text())["mcp_servers"]["collect-notifications"]
-        enabled = profile["enabled_tools"]
-        if not isinstance(enabled, list) or len(enabled) != 5 or any(not isinstance(name, str) for name in enabled) or set(enabled) != READ_TOOLS or profile.get("enabled") is False:
-            raise ReleaseError("MCP_FIVE_READ_ALLOWLIST_REQUIRED")
-        bridge = (root / "tools/collect-notification-mcp").resolve()
-        command = Path(profile["command"])
-        args = profile["args"]
-        if not command.is_absolute() or not command.is_file() or command.resolve().name != "node" or Path(profile["cwd"]).resolve() != bridge or not isinstance(args, list) or len(args) != 2 or args[0] != "--experimental-strip-types" or Path(args[1]).resolve() != bridge / "src/server.ts":
-            raise ReleaseError("MCP_FIXED_BRIDGE_REQUIRED")
-        package = json.loads((bridge / "package.json").read_text())
-        installed = {}
-        for name in ["@modelcontextprotocol/server", "zod"]:
-            version = json.loads((bridge / "node_modules" / name / "package.json").read_text())["version"]
-            if package["dependencies"][name] != version:
-                raise ReleaseError("MCP_INSTALLED_DEPENDENCY_MISMATCH")
-            installed[name] = version
-        return {"command": str(command), "args": args, "cwd": str(bridge), "enabled_tools": enabled,
-                "installed_packages": installed, "server_source_sha256": sha((bridge / "src/server.ts").read_bytes()),
-                "startup_timeout_sec": profile.get("startup_timeout_sec"), "tool_timeout_sec": profile.get("tool_timeout_sec")}
-    except ReleaseError:
-        raise
-    except (OSError, KeyError, TypeError, ValueError) as error:
-        raise ReleaseError("MCP_LOCAL_PREREQUISITE_MISSING") from error
-
-
-def discover_mcp(profile: dict, timeout_seconds: float = 15) -> dict:
-    if not 0 < timeout_seconds <= 15:
-        raise ReleaseError("MCP_DEADLINE_INVALID")
-    deadline = time.monotonic() + timeout_seconds
-    child = subprocess.Popen([profile["command"], *profile["args"]], cwd=profile["cwd"],
-                             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
-                             env={"PATH": os.environ.get("PATH", ""), "NO_COLOR": "1"})
-    selector = selectors.DefaultSelector()
-    selector.register(child.stdout, selectors.EVENT_READ)
-    buffer = b""
-    counter = 0
-    def request(method: str, params: dict) -> dict:
-        nonlocal buffer, counter
-        counter += 1
-        child.stdin.write(canonical({"jsonrpc": "2.0", "id": counter, "method": method, "params": params}))
-        child.stdin.flush()
-        while True:
-            while b"\n" in buffer:
-                line, buffer = buffer.split(b"\n", 1)
-                try:
-                    value = json.loads(line)
-                    if not isinstance(value, dict) or value.get("jsonrpc") != "2.0":
-                        raise ValueError()
-                    if "id" not in value and isinstance(value.get("method"), str):
-                        continue
-                    if value.get("id") != counter or "error" in value or not isinstance(value.get("result"), dict):
-                        raise ValueError()
-                    return value["result"]
-                except (ValueError, TypeError) as error:
-                    raise ReleaseError("MCP_PROTOCOL_INVALID") from error
-            remaining = deadline - time.monotonic()
-            if remaining <= 0 or not selector.select(remaining):
-                raise ReleaseError("MCP_DISCOVERY_DEADLINE")
-            data = os.read(child.stdout.fileno(), 64 * 1024)
-            if not data:
-                raise ReleaseError("MCP_LOCAL_PROCESS_CLOSED")
-            buffer += data
-            if len(buffer) > 256 * 1024:
-                raise ReleaseError("MCP_RESPONSE_TOO_LARGE")
-    try:
-        initialized = request("initialize", {"protocolVersion": "2025-11-25", "capabilities": {},
-            "clientInfo": {"name": "collect-offline-release-preflight", "version": "1"}})
-        if initialized.get("protocolVersion") != "2025-11-25" or initialized.get("serverInfo", {}).get("name") != "collect-notification-operator" or not isinstance(initialized.get("capabilities", {}).get("tools"), dict):
-            raise ReleaseError("MCP_INITIALIZE_INVALID")
-        child.stdin.write(canonical({"jsonrpc": "2.0", "method": "notifications/initialized"}))
-        child.stdin.flush()
-        discovered = request("tools/list", {}).get("tools")
-        if not isinstance(discovered, list) or len(discovered) > 100:
-            raise ReleaseError("MCP_CATALOG_INVALID")
-        names, reads = [], {}
-        for item in discovered:
-            if not isinstance(item, dict) or not isinstance(item.get("name"), str) or item["name"] in names:
-                raise ReleaseError("MCP_CATALOG_INVALID")
-            names.append(item["name"])
-            if item["name"] in READ_TOOLS:
-                schema = item.get("inputSchema")
-                if not isinstance(schema, dict) or schema.get("type") != "object" or item.get("annotations", {}).get("readOnlyHint") is not True:
-                    raise ReleaseError("MCP_READ_SCHEMA_INVALID")
-                reads[item["name"]] = {"input_schema": schema, "read_only_hint": True}
-        if set(reads) != READ_TOOLS:
-            raise ReleaseError("MCP_READ_TOOL_MISSING")
-        return {"status": "pass", "protocol_version": initialized["protocolVersion"],
-                "server_name": initialized["serverInfo"]["name"], "registered_tool_count": len(names),
-                "host_enabled_tools": sorted(profile["enabled_tools"]), "enabled_read_schemas": reads,
-                "read_schema_sha256": sha(canonical(reads)), "installed_packages": profile["installed_packages"],
-                "server_source_sha256": profile["server_source_sha256"],
-                "node_version": subprocess.check_output([profile["command"], "--version"], stderr=subprocess.DEVNULL, timeout=5, text=True).strip(),
-                "host_startup_timeout_sec": profile.get("startup_timeout_sec"), "host_tool_timeout_sec": profile.get("tool_timeout_sec"),
-                "mcp_tool_calls": 0, "credential_environment_forwarded": False, "config_environment_reported": False,
-                "backend_reads": 0, "otp_requests": 0, "production_connection_verified": False,
-                "scope": "Offline installation/profile/runtime initialize and tools/list; host reload and live authentication remain unverified"}
-    except (OSError, BrokenPipeError, subprocess.SubprocessError) as error:
-        raise ReleaseError("MCP_LOCAL_PROCESS_FAILURE") from error
-    finally:
-        selector.close()
-        child.stdin.close()
-        try:
-            child.wait(timeout=0.5)
-        except subprocess.TimeoutExpired:
-            child.terminate()
-            try:
-                child.wait(timeout=1)
-            except subprocess.TimeoutExpired:
-                child.kill()
-                child.wait(timeout=1)
-        child.stdout.close()
-
-
-def offline_mcp(root: Path, config: Path, candidate_path: Path | None = None,
-                expected_manifest_sha256: str | None = None) -> dict:
-    root = root.resolve()
-    readback = None
-    if candidate_path is not None:
-        readback = verify_candidate(candidate_path, root, expected_manifest_sha256)
-        if readback["status"] != "pass":
-            raise ReleaseError("MCP_CANDIDATE_SOURCE_STALE", [item["path"] for item in readback["changes"]])
-    elif expected_manifest_sha256 is not None:
-        raise ReleaseError("CANDIDATE_PREREQUISITE_MISSING")
-    report = discover_mcp(safe_host_profile(config, root))
-    if candidate_path is not None:
-        manifest = json.loads((candidate_path / MANIFEST).read_text())
-        packages = manifest["toolchain"]["mcp_declared_packages"]
-        if report["server_source_sha256"] != manifest["source_files"]["tools/collect-notification-mcp/src/server.ts"]["sha256"] or any(packages.get(key) != version for key, version in report["installed_packages"].items()):
-            raise ReleaseError("MCP_CANDIDATE_METADATA_CHANGED")
-        report["candidate_manifest_sha256"] = readback["manifest_sha256"]
-    report["candidate_source_bound"] = candidate_path is not None
-    return report
-
-
 class SafeParser(argparse.ArgumentParser):
     def error(self, message):
         self.exit(2, '{"status":"blocked","reason_code":"RELEASE_ARGUMENTS_INVALID"}\n')
@@ -679,11 +588,7 @@ def main() -> int:
     verify.add_argument("--candidate", required=True, type=Path)
     verify.add_argument("--compare-source", action="store_true")
     verify.add_argument("--expected-manifest-sha256")
-    mcp = modes.add_parser("mcp-offline")
-    mcp.add_argument("--config", type=Path, default=Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))) / "config.toml")
-    mcp.add_argument("--candidate", type=Path)
-    mcp.add_argument("--expected-manifest-sha256")
-    for mode in [export, verify, mcp]:
+    for mode in [export, verify]:
         mode.add_argument("--report", type=Path)
     args = parser.parse_args()
     try:
@@ -691,8 +596,6 @@ def main() -> int:
             report = export_candidate(args.root, args.destination, args.flutter_sdk, args.retain_source_drift)
         elif args.mode == "verify":
             report = verify_candidate(args.candidate, args.root if args.compare_source else None, args.expected_manifest_sha256)
-        else:
-            report = offline_mcp(args.root, args.config, args.candidate, args.expected_manifest_sha256)
     except ReleaseError as error:
         report = {"status": "blocked", "reason_code": error.code, "affected_source_paths": error.paths,
                   "production_mutations": 0, "credential_values_reported": False}

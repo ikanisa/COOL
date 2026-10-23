@@ -1,0 +1,8 @@
+{
+  "format": "collect.sql-maintenance.fixture-source-pins.v1",
+  "files": {
+    "supabase/schema-src/baseline.sql": "0d943d17ddd92e809856831427cfc81b1264301dabdb867e1c90322d46b5a6f0",
+    "supabase/schema-src/authority.sql": "140bf238c6ebe9a8c4537bb1a03b28a70147d309a6742ea4b527d8ebcf155764",
+    "supabase/functions/_shared/auth-cleanup.js": "f3b1c13ea9b4df3b6491b47b19fc0e9eee7aacabc5679ea9f37d61dc92f7efcd"
+  }
+}

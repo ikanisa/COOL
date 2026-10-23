@@ -10,7 +10,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
+import '../support/synthetic_jwt.dart';
 
 const _own = <String, Object?>{
   'public_id': '038491',
@@ -55,13 +56,11 @@ class _ChangingRosterRepository extends FixtureCollectRepository {
       state = state.copyWith(lastSuccessfulSyncAt: DateTime.utc(2026, 9, 2));
 }
 
-Future<SupabaseClient> _client(Object? payload) async {
-  final client = SupabaseClient(
+Future<CollectCloudflareClient> _client(Object? payload) async {
+  final client = CollectCloudflareClient(
     'http://127.0.0.1:1',
-    'local-test-key',
-    authOptions: const AuthClientOptions(autoRefreshToken: false),
     httpClient: MockClient((request) async {
-      expect(request.url.path, '/rest/v1/rpc/list_current_member_group_roster');
+      expect(request.url.path, '/v1/rpc/list_current_member_group_roster');
       expect(jsonDecode(request.body), {'p_collection_id': 'qa-private-group'});
       return http.Response(
         jsonEncode(payload),
@@ -71,9 +70,11 @@ Future<SupabaseClient> _client(Object? payload) async {
       );
     }),
   );
-  await client.auth.setInitialSession(
+  await client.auth.recoverSession(
     jsonEncode({
-      'access_token': 'local-test-access',
+      'access_token': syntheticMemberAccessToken(
+        '10000000-0000-0000-0000-000000000001',
+      ),
       'refresh_token': 'local-test-refresh',
       'token_type': 'bearer',
       'expires_in': 3600,
@@ -166,7 +167,7 @@ void main() {
       'roster RPC rejects malformed, duplicate or misattributed response $i',
       () async {
         final client = await _client(invalidResponses[i]);
-        final repo = FixtureCollectRepository(supabase: client);
+        final repo = FixtureCollectRepository(backend: client);
         addTearDown(client.dispose);
         addTearDown(repo.dispose);
         await expectLater(
@@ -178,7 +179,7 @@ void main() {
   }
   test('member repository uses the authorized roster contract', () async {
     final client = await _client([_own]);
-    final repo = FixtureCollectRepository(supabase: client);
+    final repo = FixtureCollectRepository(backend: client);
     addTearDown(client.dispose);
     addTearDown(repo.dispose);
     final members = await repo.membersForCollection('qa-private-group');
@@ -188,12 +189,8 @@ void main() {
   test(
     'missing authentication never falls back to a synthetic live roster',
     () async {
-      final client = SupabaseClient(
-        'http://127.0.0.1:1',
-        'local-test-key',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
-      );
-      final repo = FixtureCollectRepository(supabase: client);
+      final client = CollectCloudflareClient('http://127.0.0.1:1');
+      final repo = FixtureCollectRepository(backend: client);
       addTearDown(client.dispose);
       addTearDown(repo.dispose);
       await expectLater(

@@ -11,14 +11,13 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/admin/core/admin_receipt_operational_history_models.dart';
 import 'package:collect_app/admin/core/admin_receipt_operational_history_sdk.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_action_session_test.dart' as auth;
 import 'admin_automatic_gateway_models_test.dart' as automatic;
 
@@ -133,10 +132,8 @@ void main() {
     'pinned real repository reads exact operational RPC with captured session token',
     () async {
       final requests = <http.Request>[];
-      final client = SupabaseClient(
+      final client = CollectCloudflareClient(
         'https://synthetic.invalid',
-        'synthetic-public',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((r) async {
           if (r.url.path.endsWith('/verify')) {
             final token = (jsonDecode(r.body)['token'] as String).split('|');
@@ -167,8 +164,8 @@ void main() {
         ),
       );
       expect(requests.map((r) => r.url.path), [
-        '/rest/v1/rpc/admin_get_receipt_operation_run_v1',
-        '/rest/v1/rpc/admin_list_receipt_operation_evidence_v1',
+        '/v1/rpc/admin_get_receipt_operation_run_v1',
+        '/v1/rpc/admin_list_receipt_operation_evidence_v1',
       ]);
       expect(jsonDecode(requests.first.body), {'p_run_id': rid});
       expect(jsonDecode(requests.last.body), {
@@ -565,7 +562,7 @@ void main() {
       final raw = fixture('run-closed'), repo = Repository();
       final c = ProviderContainer(
         overrides: [
-          supabaseClientProvider.overrideWithValue(null),
+          collectBackendClientProvider.overrideWithValue(null),
           adminRepositoryProvider.overrideWithValue(repo),
           adminIdentityProvider.overrideWith((_) async => owner),
           adminAuthSessionScopeProvider.overrideWith((_) => Sessions()),

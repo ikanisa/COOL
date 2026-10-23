@@ -1,11 +1,14 @@
 import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/auth_otp_gateway_fixture.dart';
 
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:collect_app/core/cloudflare/auth_otp_gateway.dart';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
@@ -296,7 +299,12 @@ Future<void> _open(WidgetTester tester, _Route route, _Variant variant) async {
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
+        collectBackendClientProvider.overrideWithValue(null),
         appRouterProvider.overrideWithValue(router),
+        if (route.name == 'auth')
+          authOtpGatewayProvider.overrideWithValue(
+            FixtureAuthOtpGateway(enabled: true),
+          ),
         collectRepositoryProvider.overrideWith((ref) => repository),
         collectThemeModeProvider.overrideWith(
           (ref) => CollectThemeModeController(
@@ -309,6 +317,9 @@ Future<void> _open(WidgetTester tester, _Route route, _Variant variant) async {
     ),
   );
   await tester.pumpAndSettle();
+  if (route.name == 'auth') {
+    await selectWhatsAppSignIn(tester);
+  }
 }
 
 Future<void> _capture(WidgetTester tester, String name) async {

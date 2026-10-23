@@ -3,7 +3,7 @@ part of 'collect_repository.dart';
 /// Group/payment setup and receipt processing share the repository's state and
 /// authenticated dependencies. Instance methods retain normal override behavior.
 mixin _CollectContributionActions on StateNotifier<CollectState> {
-  SupabaseClient? get _supabase;
+  CollectCloudflareClient? get _backend;
   _CollectLiveReader get _liveReader;
   SmsAccessChannel get _smsAccessChannel;
   bool get _allowLocalWrites;
@@ -20,13 +20,108 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
   Future<void> loadInitial({bool syncPendingSms = false});
   Future<PaymentIntentModel> refreshPaymentIntent(String id);
   CollectProfile _requireReadyProfile();
+  CollectProfile _requireProfile();
   CollectCollection _requireActiveCollection(String collectionId);
   CollectProfile _requireCollectionOwner(
     CollectCollection collection, {
     required String action,
   });
 
+  /// Create group identity and owner membership. This does not grant a payment
+  /// route or SMS permission. Retry the same uncertain draft with its requestId.
   Future<CollectCollection> createCollection({
+    required String title,
+    required String description,
+    CollectionType collectionType = CollectionType.ikimina,
+    String? categorySubtype,
+    String? purposeLabel,
+    String? accentColorHex,
+    String? imageUrl,
+    bool isPublic = false,
+    required String requestId,
+  }) async {
+    final profile = _requireProfile();
+    if (isPublic) {
+      throw const FormatException('Member-created groups are private.');
+    }
+    final backend = _backend;
+    if (backend != null && backend.auth.currentUser != null) {
+      final user = backend.auth.currentUser!;
+      final session = _captureSession();
+      void current() => _requireCurrentMemberSession(session, user.id);
+      current();
+      final collectionId = await backend
+          .rpc<String>(
+            'create_private_group_metadata_v1',
+            params: {
+              'p_request_id': requestId,
+              // Wire label only; metadata creation has no device attestation gate.
+              'build_channel': 'android_group_metadata',
+              'group_name': title.trim(),
+              'group_description': description.trim(),
+              'group_collection_type': collectionType.storageValue,
+              'group_category_subtype': categorySubtype?.trim(),
+              'group_purpose_label': purposeLabel?.trim(),
+              'group_image_url': imageUrl,
+              'group_accent_color_hex': accentColorHex,
+              'group_is_public': false,
+            },
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}')
+          .retry(enabled: false);
+      current();
+      final collection = await _liveReader.fetchCollection(
+        collectionId,
+        accessToken: session.accessToken,
+      );
+      current();
+      if (collection.creatorUserId != user.id ||
+          !collection.isCurrentUserMember ||
+          collection.isPublic ||
+          collection.isPlatformSponsored ||
+          collection.primaryPaymentRail != 'unavailable' ||
+          collection.receiverMomoNumber != null) {
+        throw const FormatException('Created group metadata is invalid.');
+      }
+      await loadInitial();
+      current();
+      if (!state.collections.any((item) => item.id == collectionId)) {
+        state = state.copyWith(collections: [collection, ...state.collections]);
+      }
+      return collection;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before creating a group.');
+    }
+    final collection = CollectCollection(
+      id: requestId,
+      slug: '${_slug(title)}-$requestId',
+      creatorUserId: profile.id,
+      title: title.trim(),
+      description: description.trim(),
+      collectionType: collectionType,
+      categorySubtype: categorySubtype,
+      purposeLabel: purposeLabel,
+      accentColorHex: accentColorHex,
+      imageUrl: imageUrl,
+      receiverMomoNumber: null,
+      receiverDisplayLabel: '',
+      receiverNetwork: 'unknown',
+      primaryPaymentRail: 'unavailable',
+      isCurrentUserMember: true,
+      isPublic: false,
+      visibilityStatus: 'private',
+      createdAt: DateTime.now(),
+    );
+    if (!state.collections.any((item) => item.id == requestId)) {
+      state = state.copyWith(collections: [...state.collections, collection]);
+    }
+    return state.collections.singleWhere((item) => item.id == requestId);
+  }
+
+  /// Compatibility path for a receiver-bound, attested creation command. Its
+  /// financial/device admission body remains unchanged in this proposal.
+  Future<CollectCollection> createCollectionWithVerifiedReceiver({
     required String title,
     required String description,
     CollectionType collectionType = CollectionType.ikimina,
@@ -54,10 +149,10 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
         ? 'Airtel Money receiver'
         : 'MTN MoMo receiver';
     final receiverHash = HashUtils.phoneHash(normalizedReceiver);
-    final supabase = _supabase;
+    final backend = _backend;
 
-    if (supabase != null && supabase.auth.currentUser != null) {
-      final user = supabase.auth.currentUser!;
+    if (backend != null && backend.auth.currentUser != null) {
+      final user = backend.auth.currentUser!;
       final session = _captureSession();
       void current() => _requireCurrentMemberSession(session, user.id);
       current();
@@ -74,7 +169,7 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
           'Enable MoMo receipt SMS access before creating a group.',
         );
       }
-      await supabase
+      await backend
           .rpc<void>(
             'record_sms_access_consent',
             params: {
@@ -88,7 +183,7 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
           .retry(enabled: false);
       current();
       final nonce = _uuid.v4();
-      final groupRequest = <String, Object?>{
+      final groupRequest = Map<String, Object?>.unmodifiable({
         'group_name': title.trim(),
         'group_description': description.trim(),
         'receiver_momo_number': normalizedReceiver,
@@ -102,7 +197,7 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
             ? null
             : purposeLabel?.trim(),
         'group_is_public': false,
-      };
+      });
       const integrity = PlayIntegrityService();
       final requestHash = integrity.buildGroupCreationRequestHash(
         subjectId: user.id,
@@ -122,7 +217,7 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
         );
       }
       final verdict = await integrity.verifyWithServer(
-        supabase: supabase,
+        backend: backend,
         requestHash: requestHash,
         integrityToken: token,
         subjectId: user.id,
@@ -135,15 +230,17 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
       if (verdict?.hasUsableNativeCapability != true) {
         throw StateError('Android device verification did not pass.');
       }
-      final collectionId = await supabase
+      final collectionId = await backend
           .rpc<String>(
             'create_private_group_with_owner_media_attested',
-            params: {
-              ...groupRequest..remove('group_is_public'),
+            params: Map<String, dynamic>.unmodifiable({
+              for (final entry in groupRequest.entries)
+                if (entry.key != 'group_is_public') entry.key: entry.value,
+              'p_request_id': nonce,
               'native_capability': verdict!.nativeCapability,
               'group_image_url': imageUrl,
               'group_accent_color_hex': accentColorHex,
-            },
+            }),
           )
           .setHeader('Authorization', 'Bearer ${session.accessToken}')
           .retry(enabled: false);
@@ -167,7 +264,7 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
       }
       return hydratedCollection;
     }
-    if (!_allowLocalWrites && supabase != null) {
+    if (!_allowLocalWrites && backend != null) {
       throw StateError('Unable to create group on this device right now.');
     }
 
@@ -221,14 +318,14 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     final cadence = recurringCadence.trim().isEmpty
         ? 'monthly'
         : recurringCadence.trim();
-    final supabase = _supabase;
+    final backend = _backend;
 
-    if (supabase != null && supabase.auth.currentUser != null) {
+    if (backend != null && backend.auth.currentUser != null) {
       final session = _captureSession();
       final ownerId = state.currentProfile!.id;
       void current() => _requireCurrentMemberSession(session, ownerId);
       current();
-      await supabase
+      await backend
           .rpc<void>(
             'update_rwanda_momo_group_profile',
             params: {
@@ -279,7 +376,7 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
           ? null
           : purposeLabel?.trim(),
       imageUrl: imageUrl,
-      clearImageUrl: imageUrl == null,
+      clearImageUrl: imageUrl == '',
       accentColorHex: accentColorHex,
       isPublic: collection.isPublic,
       isPlatformSponsored: collection.isPlatformSponsored,
@@ -319,12 +416,12 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
         collection.creatorUserId != profile.id) {
       throw StateError('Join this group before contributing.');
     }
-    final supabase = _supabase;
+    final backend = _backend;
     final now = DateTime.now();
     for (final intent in state.paymentIntents) {
       // Live callers must recheck server-owned profile readiness even when
       // an older intent is cached (for example after another device edits it).
-      if (supabase == null &&
+      if (backend == null &&
           intent.collectionId == collection.id &&
           intent.expectedAmountRwf == draft.amountRwf &&
           intent.rail == contributionRail &&
@@ -333,13 +430,13 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
         return intent;
       }
     }
-    if (supabase != null && supabase.auth.currentUser != null) {
+    if (backend != null && backend.auth.currentUser != null) {
       final session = _captureSession();
       if (session.identity?.userId != profile.id ||
           session.accessToken == null) {
         throw StateError('Refresh your signed-in profile before contributing.');
       }
-      final response = await supabase
+      final response = await backend
           .rpc<dynamic>(
             'create_contribution_intent',
             params: {
@@ -443,12 +540,11 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     if (refreshAfterIngest) await loadInitial();
   }
 
-  void _requireSmsOwner(String owner, SupabaseClient client) {
+  void _requireSmsOwner(String owner, CollectCloudflareClient client) {
     if (!mounted ||
-        !identical(client, _supabase) ||
+        !identical(client, _backend) ||
         client.auth.currentUser?.id != owner ||
-        state.currentProfile?.id != owner ||
-        state.currentProfile?.isRwanda != true) {
+        state.currentProfile?.id != owner) {
       throw StateError('Account changed. Receipt remains queued.');
     }
   }
@@ -459,80 +555,26 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     required String clientEnvelopeId,
     required String rawSender,
     required String? receivedAtDevice,
+    String completeness = 'complete',
   }) async {
-    final client = _supabase;
+    final client = _backend;
     if (client == null) throw StateError('Connect before sending a receipt.');
     _requireSmsOwner(expectedOwner, client);
     if (body.trim().isEmpty) throw const FormatException('Receipt is empty.');
-    final profile = state.currentProfile!;
-    final momoNumber = profile.momoNumber;
-    void checkOwner() {
-      _requireSmsOwner(expectedOwner, client);
-      if (state.currentProfile?.momoNumber != momoNumber) {
-        throw StateError('Receiving account changed. Receipt remains queued.');
-      }
-    }
-
+    void checkOwner() => _requireSmsOwner(expectedOwner, client);
     final status = await _smsAccessChannel.status();
     checkOwner();
     if (!status.enabled || !status.granted) {
-      throw StateError('Receipt access unavailable. Receipt remains queued.');
-    }
-    final sender = rawSender.trim();
-    final receiverHash = HashUtils.phoneHash(momoNumber);
-    await client.rpc<void>(
-      'record_sms_access_consent',
-      params: {
-        'enabled': true,
-        'momo_number_hash': receiverHash,
-        'build_channel': 'android_sms_ingest_attested',
-        'device_label': 'flutter_android_play_integrity',
-      },
-    );
-    checkOwner();
-    final nonce = _uuid.v4();
-    const integrity = PlayIntegrityService();
-    final requestHash = integrity.buildSmsIngestionRequestHash(
-      subjectId: expectedOwner,
-      nonce: nonce,
-      receiverMomoNumberHash: receiverHash,
-      clientEnvelopeId: clientEnvelopeId,
-      rawSender: sender,
-      rawBody: body,
-      receivedAtDevice: receivedAtDevice,
-    );
-    final token = await integrity.requestStandardToken(
-      requestHash: requestHash,
-    );
-    checkOwner();
-    if (token == null || token.isEmpty) {
-      throw StateError('Receipt verification is unavailable.');
-    }
-    final verdict = await integrity.verifySmsWithServer(
-      supabase: client,
-      requestHash: requestHash,
-      integrityToken: token,
-      subjectId: expectedOwner,
-      nonce: nonce,
-      receiverMomoNumberHash: receiverHash,
-      clientEnvelopeId: clientEnvelopeId,
-      rawSender: sender,
-      rawBody: body,
-      receivedAtDevice: receivedAtDevice,
-    );
-    checkOwner();
-    if (verdict?.hasUsableNativeCapability != true) {
-      throw StateError('Receipt verification did not pass.');
+      throw StateError('SMS access is off. The message remains queued.');
     }
     final response = await client.functions.invoke(
-      'ingest-payment-sms',
+      'ingest-client-sms',
       body: {
-        'native_capability': verdict!.nativeCapability,
         'client_envelope_id': clientEnvelopeId,
-        'raw_sender': sender,
+        'raw_sender': rawSender,
         'raw_body': body,
-        'receiver_momo_number': momoNumber,
         'received_at_device': receivedAtDevice,
+        'completeness': completeness,
       },
     );
     checkOwner();
@@ -549,32 +591,25 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
 
   Future<bool> setSmsAccess(bool enabled, {String? expectedOwnerUserId}) async {
     final profile = state.currentProfile;
-    final supabase = _supabase;
+    final backend = _backend;
     final owner = profile?.id;
     void requireCurrentOwner() {
       if (owner == null ||
-          (supabase != null && supabase.auth.currentUser?.id != owner) ||
+          (backend != null && backend.auth.currentUser?.id != owner) ||
           state.currentProfile?.id != owner ||
           (expectedOwnerUserId != null && expectedOwnerUserId != owner)) {
         throw StateError('SMS access account changed. Try again.');
       }
     }
 
-    if (enabled && (profile == null || !profile.isRwanda)) {
-      throw StateError(
-        'MoMo receipt SMS access is available only for Rwanda profiles.',
-      );
-    }
     requireCurrentOwner();
     final granted = await _smsAccessChannel.setEnabled(
       enabled,
       ownerUserId: owner,
     );
-    if ((supabase != null && supabase.auth.currentUser?.id != owner) ||
+    if ((backend != null && backend.auth.currentUser?.id != owner) ||
         state.currentProfile?.id != owner) {
-      await _smsAccessChannel.suspendUnlessOwner(
-        supabase?.auth.currentUser?.id,
-      );
+      await _smsAccessChannel.suspendUnlessOwner(backend?.auth.currentUser?.id);
       throw StateError('SMS access account changed. Try again.');
     }
     if (!enabled && !granted) {
@@ -587,30 +622,25 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     }
     final consentEnabled = enabled && granted;
     try {
-      if (supabase != null &&
-          supabase.auth.currentUser != null &&
+      if (backend != null &&
+          backend.auth.currentUser != null &&
           profile != null) {
         requireCurrentOwner();
-        await supabase.rpc<void>(
+        await backend.rpc<void>(
           'record_sms_access_consent',
           params: {
             'enabled': consentEnabled,
-            'momo_number_hash': profile.momoNumber.trim().isEmpty
-                ? null
-                : HashUtils.phoneHash(profile.momoNumber),
             'build_channel': 'android_sms_access',
             'device_label': 'flutter_app',
           },
         );
         requireCurrentOwner();
       } else if (enabled) {
-        throw StateError('An authenticated Rwanda session is required.');
+        throw StateError('Sign in before allowing SMS access.');
       }
     } catch (_) {
       if (enabled) {
-        await _smsAccessChannel.suspendUnlessOwner(
-          supabase?.auth.currentUser?.id,
-        );
+        await _smsAccessChannel.setEnabled(false, ownerUserId: owner);
       }
       state = state.copyWith(
         smsAccessEnabled: false,
@@ -622,6 +652,25 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
       smsAccessEnabled: consentEnabled,
       smsAccessDenied: enabled && !granted,
     );
+    if (consentEnabled) {
+      // Native capture can wake before the server records consent. Only after
+      // that ACK may this foreground drain recover an earlier authorization wait.
+      unawaited(
+        Future<void>(() async {
+          if (!mounted ||
+              !state.smsAccessEnabled ||
+              state.currentProfile?.id != owner ||
+              backend?.auth.currentUser?.id != owner) {
+            return;
+          }
+          try {
+            await syncPendingSmsAccess();
+          } catch (_) {
+            // The drain preserves originals and publishes its needs-attention state.
+          }
+        }),
+      );
+    }
     return consentEnabled;
   }
 
@@ -629,11 +678,13 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     final nativeStatus = await _smsAccessChannel.status();
     if (nativeStatus.supported &&
         nativeStatus.declared &&
+        nativeStatus.consentEnabled &&
         !nativeStatus.enabled &&
         !nativeStatus.queueUnavailable &&
         !nativeStatus.queueOverflowed &&
+        !nativeStatus.queueNeedsReview &&
         state.currentProfile != null &&
-        _supabase?.auth.currentUser != null) {
+        _backend?.auth.currentUser != null) {
       await setSmsAccess(false);
       return _smsAccessChannel.status();
     }
@@ -646,7 +697,8 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
       smsSyncNeedsAttention:
           state.smsSyncNeedsAttention ||
           nativeStatus.queueUnavailable ||
-          nativeStatus.queueOverflowed,
+          nativeStatus.queueOverflowed ||
+          nativeStatus.queueNeedsReview,
     );
     return nativeStatus;
   }
@@ -664,6 +716,30 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     });
   }
 
+  Future<int> retryRejectedSmsAccess({String? expectedOwnerUserId}) async {
+    final owner = state.currentProfile?.id;
+    final client = _backend;
+    if (owner == null ||
+        client == null ||
+        expectedOwnerUserId != null && expectedOwnerUserId != owner) {
+      throw StateError('Sign in to retry your SMS uploads.');
+    }
+    _requireSmsOwner(owner, client);
+    final status = await _smsAccessChannel.status();
+    _requireSmsOwner(owner, client);
+    if (!status.enabled || !status.granted) {
+      throw StateError('Allow SMS access before retrying uploads.');
+    }
+    final retried = await _smsAccessChannel.retryRejectedSms(
+      ownerUserId: owner,
+    );
+    _requireSmsOwner(owner, client);
+    if (!retried) throw StateError('SMS uploads remain queued for review.');
+    final uploaded = await syncPendingSmsAccess();
+    _requireSmsOwner(owner, client);
+    return uploaded;
+  }
+
   Future<int> _runPendingSmsAccessSync() async {
     final owner = state.currentProfile?.id;
     try {
@@ -671,11 +747,12 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
       final nativeStatus = await _smsAccessChannel.status();
       if (mounted &&
           state.currentProfile?.id == owner &&
-          _supabase?.auth.currentUser?.id == owner) {
+          _backend?.auth.currentUser?.id == owner) {
         state = state.copyWith(
           smsSyncNeedsAttention:
               nativeStatus.queueUnavailable ||
               nativeStatus.queueOverflowed ||
+              nativeStatus.queueNeedsReview ||
               (state.smsSyncNeedsAttention &&
                   (!nativeStatus.enabled || !nativeStatus.granted)),
         );
@@ -684,7 +761,7 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     } catch (_) {
       if (mounted &&
           state.currentProfile?.id == owner &&
-          _supabase?.auth.currentUser?.id == owner) {
+          _backend?.auth.currentUser?.id == owner) {
         state = state.copyWith(smsSyncNeedsAttention: true);
       }
       rethrow;
@@ -702,7 +779,7 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
 
   Future<int> _syncPendingSmsAccessPass() async {
     final profile = state.currentProfile;
-    final client = _supabase;
+    final client = _backend;
     if (profile == null || client == null) return 0;
     final owner = profile.id;
     _requireSmsOwner(owner, client);
@@ -718,15 +795,31 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
         // No disableAndClear call: an account mismatch is not consent to destroy evidence.
         throw StateError('Queued receipt ownership needs review.');
       }
-      final receipt = await _acceptSmsReceipt(
-        item.rawBody,
-        expectedOwner: owner,
-        clientEnvelopeId: item.id,
-        rawSender: item.rawSender,
-        receivedAtDevice: item.receivedAtDevice.trim().isEmpty
-            ? null
-            : item.receivedAtDevice,
-      );
+      if (item.needsReview) continue;
+      late final DurableSmsReceipt receipt;
+      try {
+        receipt = await _acceptSmsReceipt(
+          item.rawBody,
+          expectedOwner: owner,
+          clientEnvelopeId: item.id,
+          rawSender: item.rawSender,
+          receivedAtDevice: item.receivedAtDevice.trim().isEmpty
+              ? null
+              : item.receivedAtDevice,
+          completeness: item.completeness,
+        );
+      } on CollectFunctionException catch (error) {
+        _requireSmsOwner(owner, client);
+        if (!const {400, 409, 413, 422}.contains(error.status)) rethrow;
+        final parked = await _smsAccessChannel.parkPendingSms(
+          ownerUserId: owner,
+          id: item.id,
+        );
+        _requireSmsOwner(owner, client);
+        if (!parked) throw StateError('SMS could not be retained for review.');
+        state = state.copyWith(smsSyncNeedsAttention: true);
+        continue;
+      }
       _requireSmsOwner(owner, client);
       final acknowledged = await _smsAccessChannel.acknowledgeDurableReceipt(
         receipt,

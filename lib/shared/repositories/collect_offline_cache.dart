@@ -516,10 +516,23 @@ Map<String, dynamic> _paymentIntentToJson(PaymentIntentModel intent) {
     'status': intent.status,
     'created_at': intent.createdAt.toUtc().toIso8601String(),
     'expires_at': intent.expiresAt.toUtc().toIso8601String(),
+    'confirmation_status': intent.confirmationStatus,
+    'payment_id': intent.paymentId,
+    'contribution_entry_id': intent.contributionEntryId,
+    'credited_amount_rwf': intent.creditedAmountRwf,
+    'posted_at': intent.postedAt?.toUtc().toIso8601String(),
+    'provider_transaction_at': intent.providerTransactionAt
+        ?.toUtc()
+        .toIso8601String(),
+    'provider_transaction_reference': intent.providerTransactionReference,
+    'balance_after_contribution_rwf': intent.balanceAfterContributionRwf,
+    'group_balance_after_contribution_rwf':
+        intent.groupBalanceAfterContributionRwf,
   };
 }
 
 Map<String, dynamic> _contributionToJson(Contribution contribution) {
+  if (contribution.isHistoryEvent) return contribution.toHistoryEventJson();
   return {
     'id': contribution.id,
     'collection_id': contribution.collectionId,

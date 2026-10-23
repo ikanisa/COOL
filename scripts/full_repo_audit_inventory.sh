@@ -123,7 +123,7 @@ end
 
 all_scope_files = files_under(
   "lib",
-  "supabase",
+  "deploy",
   "android",
   "ios",
   "web",
@@ -139,8 +139,8 @@ script_files = files_under("scripts")
 doc_files = files_under("docs")
 native_files = files_under("android", "ios", "web")
 
-supabase_functions = Dir.glob("supabase/functions/*").select { |path| File.directory?(path) }.sort.map { |path| relative(path) }
-supabase_migrations = Dir.glob("supabase/migrations/*.sql").sort.map { |path| relative(path) }
+platform_sources = files_under("deploy/platform-api/src", "deploy/platform-admin/src")
+platform_migrations = Dir.glob("deploy/platform-api/migrations/*.sql").sort.map { |path| relative(path) }
 
 inventory = {
   "generated_at" => Time.now.utc.iso8601,
@@ -158,16 +158,16 @@ inventory = {
     "scripts" => script_files.count,
     "docs" => doc_files.count,
     "native_platform_files" => native_files.count,
-    "supabase_functions" => supabase_functions.count,
-    "supabase_migrations" => supabase_migrations.count
+    "platform_sources" => platform_sources.count,
+    "platform_migrations" => platform_migrations.count
   },
   "mobile_route_contract" => route_constant_rows("lib/app/router.dart", "collectRoutePaths"),
   "mobile_route_entries" => route_rows("lib/app/router.dart"),
   "admin_route_contract" => route_constant_rows("lib/admin/admin_router.dart", "adminRoutePaths"),
   "admin_route_entries" => route_rows("lib/admin/admin_router.dart"),
-  "supabase" => {
-    "functions" => supabase_functions,
-    "migrations" => supabase_migrations
+  "cloudflare" => {
+    "functions" => platform_sources,
+    "migrations" => platform_migrations
   },
   "files" => {
     "lib_dart" => file_rows(dart_files),
@@ -225,13 +225,13 @@ inventory.fetch("admin_route_entries").each do |row|
   puts "- `#{row.fetch("path")}` at `#{row.fetch("file")}:#{row.fetch("line")}`"
 end
 puts
-puts "## Supabase Functions"
+puts "## Cloudflare Services"
 puts
-inventory.dig("supabase", "functions").each { |path| puts "- `#{path}`" }
+inventory.dig("cloudflare", "functions").each { |path| puts "- `#{path}`" }
 puts
-puts "## Supabase Migrations"
+puts "## D1 Migrations"
 puts
-inventory.dig("supabase", "migrations").each { |path| puts "- `#{path}`" }
+inventory.dig("cloudflare", "migrations").each { |path| puts "- `#{path}`" }
 puts
 puts "## Risk Marker Summary"
 puts

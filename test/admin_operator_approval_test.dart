@@ -7,6 +7,8 @@ import 'package:collect_app/admin/core/admin_action_contracts.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_operator_approval.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart'
+    show collectBackendClientProvider;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'admin_platform_access_test.dart' as legacy;
@@ -312,11 +314,14 @@ void main() {
   ) async {
     for (final (error, message) in [
       (
-        const PostgrestException(message: 'PRIVATE_CANARY', code: '42501'),
+        const CollectApiException(message: 'PRIVATE_CANARY', code: '42501'),
         'Platform access is denied for this Admin session.',
       ),
       (
-        const PostgrestException(message: 'PRIVATE_CANARY', code: 'PGRST202'),
+        const CollectApiException(
+          message: 'PRIVATE_CANARY',
+          code: 'operation_unavailable',
+        ),
         'Operator approval service is unavailable.',
       ),
       (
@@ -336,7 +341,7 @@ void main() {
     'write denial preserves approval and gives safe verification guidance',
     (tester) async {
       final repo = _EmailAccess()
-        ..writeError = const PostgrestException(
+        ..writeError = const CollectApiException(
           message: 'PRIVATE_CANARY',
           code: '42501',
         );
@@ -412,6 +417,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            collectBackendClientProvider.overrideWithValue(null),
             adminAuthUserIdProvider.overrideWithValue(legacy.operatorId),
             adminRepositoryProvider.overrideWithValue(repo),
           ],
@@ -466,7 +472,7 @@ void main() {
           final image = await boundary.toImage();
           final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
           await File(
-            'docs/release/collect-codex-goal-2026-09-30/email-operator/email-approval-${brightness.name}-synthetic.png',
+            '.cache/test-captures/email-operator/email-approval-${brightness.name}-synthetic.png',
           ).writeAsBytes(bytes!.buffer.asUint8List());
           image.dispose();
         });
@@ -474,16 +480,14 @@ void main() {
     });
   }
   group('pinned SDK operator approval', () {
-    late SupabaseClient client;
+    late CollectCloudflareClient client;
     late AdminRepository repository;
     late Future<Object?> Function(http.Request) respond;
     final requests = <http.Request>[];
     setUp(() async {
       requests.clear();
-      client = SupabaseClient(
+      client = CollectCloudflareClient(
         'https://synthetic.invalid',
-        'synthetic-public',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((request) async {
           if (request.url.path.endsWith('/verify')) {
             final token = (jsonDecode(request.body) as Map)['token'] as String;
@@ -520,7 +524,7 @@ void main() {
       expect(data['identity_masked'], 'o***@***');
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_get_operator_approval_v1',
+        '/v1/rpc/admin_get_operator_approval_v1',
       );
       expect(jsonDecode(requests.single.body), {'p_user_id': auth.target});
     });

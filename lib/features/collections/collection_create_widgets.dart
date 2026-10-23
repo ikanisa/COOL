@@ -5,7 +5,6 @@ class _CreateGroupReview extends StatelessWidget {
     required this.title,
     required this.description,
     required this.collectionTypeOption,
-    required this.receiver,
     required this.accentColor,
     required this.hasPhoto,
     required this.isPublicRequested,
@@ -15,7 +14,6 @@ class _CreateGroupReview extends StatelessWidget {
   final String title;
   final String description;
   final CollectionTypeCatalogItem collectionTypeOption;
-  final String receiver;
   final Color accentColor;
   final bool hasPhoto;
   final bool isPublicRequested;
@@ -40,10 +38,6 @@ class _CreateGroupReview extends StatelessWidget {
             leading: CollectIcons.collections,
             title: title.isEmpty ? 'Group name missing' : title,
             subtitle: description,
-          ),
-          CollectListTile(
-            leading: CollectIcons.momo,
-            title: receiver.isEmpty ? 'Receiver missing' : receiver,
           ),
           CollectListTile(
             leading: CollectIcons.photo,

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
+import '../../shared/models/contribution_record_copy.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/collect_data_load_failure.dart';
@@ -12,9 +13,14 @@ import '../../shared/widgets/collect_history_footer.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
 class LedgerScreen extends ConsumerStatefulWidget {
-  const LedgerScreen({required this.collectionId, super.key});
+  const LedgerScreen({
+    required this.collectionId,
+    this.initialPaymentId,
+    super.key,
+  });
 
   final String collectionId;
+  final String? initialPaymentId;
 
   @override
   ConsumerState<LedgerScreen> createState() => _LedgerScreenState();
@@ -26,6 +32,34 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
   String _query = '';
   _LedgerSort _sort = _LedgerSort.newest;
   bool _searching = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _applyPaymentContext();
+  }
+
+  void _applyPaymentContext() {
+    final paymentId = widget.initialPaymentId;
+    if (paymentId != null && paymentId.isNotEmpty) {
+      _query = paymentId;
+      _search.text = paymentId;
+      _searching = true;
+    } else {
+      _query = '';
+      _search.clear();
+      _searching = false;
+    }
+  }
+
+  @override
+  void didUpdateWidget(LedgerScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.collectionId != widget.collectionId ||
+        oldWidget.initialPaymentId != widget.initialPaymentId) {
+      _applyPaymentContext();
+    }
+  }
 
   @override
   void dispose() {
@@ -101,6 +135,10 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                       meta: formatCollectDateTime(contribution.createdAt),
                       transactionId: contribution.transactionId,
                       leading: CollectIcons.ledger,
+                      subtitle: ContributionRecordCopy.labelFor(contribution),
+                      tone: contribution.isCompensation
+                          ? CollectStatusTone.warning
+                          : CollectStatusTone.info,
                     );
                   },
                 ),
@@ -125,7 +163,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
             ? const [
                 CollectScreenLoadingState(
                   title: 'Loading ledger',
-                  message: 'Refreshing confirmed contributions.',
+                  message: ContributionRecordCopy.loadingMessage,
                   icon: CollectIcons.ledger,
                   skeletonCount: 3,
                 ),
@@ -148,14 +186,21 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
             : [
                 _LedgerTitleRow(
                   groupLabel: collection?.title ?? 'Group',
-                  totals: summary?.totalsByCurrency,
+                  totals: feed.page?.isSignedHistory == true
+                      ? feed.page?.totals
+                      : summary?.totalsByCurrency,
                   count: feed.page?.totalCount ?? 0,
+                  signedHistory: feed.page?.isSignedHistory ?? false,
                 ),
                 InfoSecurityBanner(
-                  title: 'Your confirmed balance',
-                  message: summary == null
+                  title: feed.page?.isSignedHistory == true
+                      ? ContributionRecordCopy.ownNetTotalTitle
+                      : ContributionRecordCopy.ownTotalTitle,
+                  message: feed.page?.isSignedHistory == true
+                      ? '${formatCurrencyTotals(feed.page!.ownTotals)}\n${ContributionRecordCopy.explanation}'
+                      : summary == null
                       ? 'Not available'
-                      : 'You have ${formatCurrencyTotals(summary.ownBalancesByCurrency)} in confirmed contributions.',
+                      : '${formatCurrencyTotals(summary.ownBalancesByCurrency)}\n${ContributionRecordCopy.explanation}',
                   tone: CollectStatusTone.info,
                 ),
                 if (!hasAnyLedgerActivity)
@@ -163,7 +208,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
                     icon: CollectIcons.ledger,
                     title: 'No ledger activity',
                     message: collection?.supportsRwandaMomo == true
-                        ? 'Confirmed MoMo contributions appear here.'
+                        ? ContributionRecordCopy.emptyMomoMessage
                         : 'This group does not have an active MoMo contribution route.',
                     action: collection?.supportsRwandaMomo == true
                         ? CollectButton(
@@ -258,11 +303,13 @@ class _LedgerTitleRow extends StatelessWidget {
     required this.groupLabel,
     required this.totals,
     required this.count,
+    this.signedHistory = false,
   });
 
   final String groupLabel;
   final Map<String, int>? totals;
   final int count;
+  final bool signedHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -302,7 +349,7 @@ class _LedgerTitleRow extends StatelessWidget {
       label:
           '$groupLabel ledger, '
           '${totals == null ? 'Group total unavailable' : formatCurrencyTotals(totals!)}, '
-          '$count confirmed entries',
+          '${ContributionRecordCopy.countLabel(count, signedHistory: signedHistory)}',
       child: ExcludeSemantics(
         child: stackAmount
             ? Column(

@@ -4,7 +4,7 @@ import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +33,7 @@ void main() {
             status,
           ),
         );
-        final repository = CollectRepository(supabase: client);
+        final repository = CollectRepository(backend: client);
         addTearDown(client.dispose);
         addTearDown(repository.dispose);
 
@@ -62,10 +62,10 @@ void main() {
         },
       ];
       final client = _client((request) {
-        expect(request.url.path, '/rest/v1/public_collections_view');
+        expect(request.url.path, '/v1/query/public-collections');
         return http.Response(jsonEncode(rows), 200);
       });
-      final repository = CollectRepository(supabase: client);
+      final repository = CollectRepository(backend: client);
       addTearDown(client.dispose);
       addTearDown(repository.dispose);
 
@@ -90,11 +90,9 @@ void main() {
   );
 }
 
-SupabaseClient _client(http.Response Function(http.Request) handler) =>
-    SupabaseClient(
+CollectCloudflareClient _client(http.Response Function(http.Request) handler) =>
+    CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'local-test-key',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         final response = handler(request);
         return http.Response(

@@ -1,0 +1,637 @@
+{
+  "scope": "isolated actual workerd/D1/R2 fixtures, no provider settlement or deployment claim",
+  "bundle_sha256": "3de3fca4f8acf960f003b68ab55b7655f372da77df95ab2f5ec5ae1fd906aed9",
+  "overview": {
+    "contract_version": 2,
+    "model": "canonical_evidence_ledger",
+    "country_code": "RW",
+    "measured_at": "2026-10-15T09:23:52.375Z",
+    "counts": {
+      "users": 3,
+      "app_users": 1,
+      "direct_users": 0,
+      "admin_users": 2,
+      "staff_users": 0,
+      "groups": 1,
+      "active_members": 1,
+      "payees": 1,
+      "active_payees": 1,
+      "transactions": 1,
+      "unallocated_transactions": 0,
+      "ledger_entries": 1,
+      "reversed_entries": 0,
+      "payment_evidence": 1
+    },
+    "amounts": {
+      "total_recorded_rwf": "1000",
+      "total_reconciled_rwf": "1000",
+      "total_unallocated_rwf": "0",
+      "total_net_contributions_rwf": "1000"
+    },
+    "contribution_basis": "reconciled_evidence_entries",
+    "collected_basis": "retained_received_evidence",
+    "reconciliations_available": true,
+    "metrics": [
+      {
+        "key": "users",
+        "label": "Users",
+        "value": "3",
+        "status": "measured"
+      },
+      {
+        "key": "app_users",
+        "label": "App users",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "direct_users",
+        "label": "Direct users",
+        "value": "0",
+        "status": "measured"
+      },
+      {
+        "key": "admin_users",
+        "label": "Admin users",
+        "value": "2",
+        "status": "measured"
+      },
+      {
+        "key": "staff_users",
+        "label": "Staff users",
+        "value": "0",
+        "status": "measured"
+      },
+      {
+        "key": "groups",
+        "label": "Groups",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "active_members",
+        "label": "Active members",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "payees",
+        "label": "Payees",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "active_payees",
+        "label": "Active payees",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "transactions",
+        "label": "Transactions",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "unallocated_transactions",
+        "label": "Unallocated transactions",
+        "value": "0",
+        "status": "measured"
+      },
+      {
+        "key": "ledger_entries",
+        "label": "Ledger entries",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "reversed_entries",
+        "label": "Reversal entries",
+        "value": "0",
+        "status": "measured"
+      },
+      {
+        "key": "payment_evidence",
+        "label": "Retained payment evidence",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "total_recorded_rwf",
+        "label": "Recorded evidence amount",
+        "value": "1000",
+        "status": "measured"
+      },
+      {
+        "key": "total_reconciled_rwf",
+        "label": "Reconciled evidence amount",
+        "value": "1000",
+        "status": "measured"
+      },
+      {
+        "key": "total_unallocated_rwf",
+        "label": "Unallocated evidence amount",
+        "value": "0",
+        "status": "measured"
+      },
+      {
+        "key": "total_net_contributions_rwf",
+        "label": "Net recorded contributions",
+        "value": "1000",
+        "status": "measured"
+      }
+    ]
+  },
+  "groups": {
+    "contract_version": 2,
+    "model": "canonical_evidence_ledger",
+    "rows": [
+      {
+        "id": "08b04cb7-8ba3-42a5-84c6-2d8b7360cd48",
+        "title": "Controlled collection",
+        "subtitle": "ikimina · private",
+        "amount": "1 members",
+        "status": "active",
+        "created_at": "2026-10-15T09:23:52.320Z",
+        "country_code": "RW",
+        "currency_code": "RWF",
+        "slug": "controlled-f4ca6bfd",
+        "collection_type": "ikimina",
+        "purpose_label": null,
+        "visibility": "private",
+        "is_platform_sponsored": false,
+        "active_members": 1,
+        "version": 1,
+        "updated_at": "2026-10-15T09:23:52.320Z"
+      }
+    ],
+    "total": 1
+  },
+  "users": {
+    "contract_version": 2,
+    "model": "canonical_evidence_ledger",
+    "rows": [
+      {
+        "id": "999a3c09-fa98-4fbc-a29d-ec627241c683",
+        "title": "000002",
+        "subtitle": "Recorded Member",
+        "amount": "1 groups",
+        "status": "active",
+        "created_at": "2026-10-15T09:23:52.312Z",
+        "country_code": "RW",
+        "currency_code": "RWF",
+        "public_id": "000002",
+        "display_name": "Recorded Member",
+        "display_name_recorded": true,
+        "person_id": "999a3c09-fa98-4fbc-a29d-ec627241c683",
+        "collect_user_id": "999a3c09-fa98-4fbc-a29d-ec627241c683",
+        "operator_admin_id": null,
+        "operator_public_id": null,
+        "operator_role": null,
+        "operator_status": null,
+        "user_types": [
+          "App"
+        ],
+        "member_type": "app",
+        "phone_e164": "+250788123456",
+        "email": null,
+        "whatsapp_number": "+250788123456",
+        "momo_provider": "mtn_momo",
+        "momo_number": "0788123456",
+        "momo_pay_code": null,
+        "total_contributed_rwf": 1000,
+        "posted_contributed_rwf": null,
+        "contribution_basis": "reconciled_evidence_entries",
+        "name_verification": "recorded_not_provider_verified",
+        "phone_masked": "••••3456",
+        "email_masked": null,
+        "active_groups": 1,
+        "account_status": "active",
+        "version": 1,
+        "updated_at": "2026-10-15T09:23:52.312Z"
+      },
+      {
+        "id": "015ae56d-719f-4c70-ac79-cdb6ba3cd7ac",
+        "title": "000001",
+        "subtitle": "admin operator",
+        "amount": "0 groups",
+        "status": "active",
+        "created_at": "2026-10-15T09:23:50.827Z",
+        "country_code": "RW",
+        "currency_code": "RWF",
+        "public_id": "000001",
+        "display_name": "admin operator",
+        "display_name_recorded": true,
+        "person_id": "015ae56d-719f-4c70-ac79-cdb6ba3cd7ac",
+        "collect_user_id": "015ae56d-719f-4c70-ac79-cdb6ba3cd7ac",
+        "operator_admin_id": "58ee24b9-9a23-4e9c-975d-b6968360f148",
+        "operator_public_id": "000001",
+        "operator_role": "admin",
+        "operator_status": "active",
+        "user_types": [
+          "Admin"
+        ],
+        "member_type": "operator",
+        "phone_e164": null,
+        "email": null,
+        "whatsapp_number": null,
+        "momo_provider": null,
+        "momo_number": null,
+        "momo_pay_code": null,
+        "total_contributed_rwf": 0,
+        "posted_contributed_rwf": null,
+        "contribution_basis": "reconciled_evidence_entries",
+        "name_verification": "recorded_not_provider_verified",
+        "phone_masked": null,
+        "email_masked": null,
+        "active_groups": 0,
+        "account_status": "active",
+        "version": 1,
+        "updated_at": "2026-10-15T09:23:50.827Z"
+      },
+      {
+        "id": "00d79972-0714-4f8b-b6da-331d7a4fa244",
+        "title": "000000",
+        "subtitle": "owner operator",
+        "amount": "0 groups",
+        "status": "active",
+        "created_at": "2026-10-15T09:23:49.339Z",
+        "country_code": "RW",
+        "currency_code": "RWF",
+        "public_id": "000000",
+        "display_name": "owner operator",
+        "display_name_recorded": true,
+        "person_id": "00d79972-0714-4f8b-b6da-331d7a4fa244",
+        "collect_user_id": "00d79972-0714-4f8b-b6da-331d7a4fa244",
+        "operator_admin_id": "ccdc6df2-250a-486c-8951-ac02d4746c93",
+        "operator_public_id": "000000",
+        "operator_role": "owner",
+        "operator_status": "active",
+        "user_types": [
+          "Admin"
+        ],
+        "member_type": "operator",
+        "phone_e164": null,
+        "email": null,
+        "whatsapp_number": null,
+        "momo_provider": null,
+        "momo_number": null,
+        "momo_pay_code": null,
+        "total_contributed_rwf": 0,
+        "posted_contributed_rwf": null,
+        "contribution_basis": "reconciled_evidence_entries",
+        "name_verification": "recorded_not_provider_verified",
+        "phone_masked": null,
+        "email_masked": null,
+        "active_groups": 0,
+        "account_status": "active",
+        "version": 1,
+        "updated_at": "2026-10-15T09:23:49.339Z"
+      }
+    ],
+    "total": 3
+  },
+  "members": {
+    "contract_version": 2,
+    "model": "canonical_evidence_ledger",
+    "rows": [
+      {
+        "id": "999a3c09-fa98-4fbc-a29d-ec627241c683",
+        "title": "000002",
+        "subtitle": "Recorded Member",
+        "amount": "1 groups",
+        "status": "active",
+        "created_at": "2026-10-15T09:23:52.312Z",
+        "country_code": "RW",
+        "currency_code": "RWF",
+        "public_id": "000002",
+        "display_name": "Recorded Member",
+        "display_name_recorded": true,
+        "person_id": "999a3c09-fa98-4fbc-a29d-ec627241c683",
+        "collect_user_id": "999a3c09-fa98-4fbc-a29d-ec627241c683",
+        "operator_admin_id": null,
+        "operator_public_id": null,
+        "operator_role": null,
+        "operator_status": null,
+        "user_types": [
+          "App"
+        ],
+        "member_type": "app",
+        "phone_e164": "+250788123456",
+        "email": null,
+        "whatsapp_number": "+250788123456",
+        "momo_provider": "mtn_momo",
+        "momo_number": "0788123456",
+        "momo_pay_code": null,
+        "total_contributed_rwf": 1000,
+        "posted_contributed_rwf": null,
+        "contribution_basis": "reconciled_evidence_entries",
+        "name_verification": "recorded_not_provider_verified",
+        "phone_masked": "••••3456",
+        "email_masked": null,
+        "active_groups": 1,
+        "account_status": "active",
+        "version": 1,
+        "updated_at": "2026-10-15T09:23:52.312Z"
+      }
+    ],
+    "total": 1
+  },
+  "payees": {
+    "contract_version": 2,
+    "model": "canonical_evidence_ledger",
+    "rows": [
+      {
+        "id": "08b04cb7-8ba3-42a5-84c6-2d8b7360cd48",
+        "title": "Recorded receiver",
+        "subtitle": "Controlled collection",
+        "amount": "250788123456",
+        "status": "active",
+        "created_at": "2026-10-15T09:23:52.320Z",
+        "country_code": "RW",
+        "currency_code": "RWF",
+        "group_id": "08b04cb7-8ba3-42a5-84c6-2d8b7360cd48",
+        "group_name": "Controlled collection",
+        "network": "mtn_momo",
+        "momo_masked": "••••3456",
+        "momo_number_or_code": "250788123456",
+        "momo_number": "250788123456",
+        "momo_pay_code": null,
+        "receiver_basis": "operator_recorded",
+        "version": 1
+      }
+    ],
+    "total": 1
+  },
+  "transactions": {
+    "contract_version": 2,
+    "model": "canonical_evidence_ledger",
+    "rows": [
+      {
+        "id": "66bedf27-447a-4c26-90ad-96afcaa69a13",
+        "title": "fixture-e29e32cd-26a2-4d79-afa3-236368c14f35",
+        "subtitle": "Controlled collection · Recorded receiver",
+        "amount": "1000",
+        "status": "reconciled",
+        "created_at": "2026-10-15T09:23:52.331Z",
+        "country_code": "RW",
+        "currency_code": "RWF",
+        "group_id": "08b04cb7-8ba3-42a5-84c6-2d8b7360cd48",
+        "group_name": "Controlled collection",
+        "payee_id": "08b04cb7-8ba3-42a5-84c6-2d8b7360cd48",
+        "payee_label": "Recorded receiver",
+        "network": "mtn_momo",
+        "rail": "rwanda_momo",
+        "provider_reference": "fixture-e29e32cd-26a2-4d79-afa3-236368c14f35",
+        "public_reference": null,
+        "reference_source": "retained_evidence",
+        "amount_rwf": 1000,
+        "allocated_amount_rwf": 1000,
+        "allocation_status": "allocated",
+        "observed_at": "2026-10-15T09:23:52.323Z",
+        "evidence_id": "f84e1a33-9148-4831-a168-3e62c9ca6ad3",
+        "evidence_level": "operator_recorded",
+        "version": 2,
+        "member_user_id": "999a3c09-fa98-4fbc-a29d-ec627241c683",
+        "source_fact_id": null,
+        "source_kind": null,
+        "parser_version": null,
+        "source_link_basis": "not_recorded",
+        "source_review_id": null,
+        "source_extraction_status": null,
+        "source_body_sha256": null,
+        "source_payload_sha256": null,
+        "source_parsed_at": null,
+        "payer_name": null,
+        "payer_phone": null,
+        "payer_masked_phone": null,
+        "payer_last3": null,
+        "payer_last3_known": false,
+        "payee_momo_number": "250788123456",
+        "payee_momo_code": null,
+        "payee_momo_number_or_code": "250788123456",
+        "momo_transaction_reference": null,
+        "momo_timestamp_local": null,
+        "momo_timezone_offset": null,
+        "timezone_known": false,
+        "source_amount_rwf": null,
+        "wallet_balance_rwf": null,
+        "source_network": null,
+        "direction": null,
+        "is_payment": null,
+        "payer_source_match_status": "not_recorded",
+        "payer_insights_status": "available",
+        "public_reference_source_fact_id": null,
+        "public_reference_random_source": null,
+        "payee_last3_known": false,
+        "provider_confirmation": false,
+        "settlement_status": "not_asserted",
+        "contribution_basis": "reconciled_evidence_entries"
+      }
+    ],
+    "total": 1
+  },
+  "ledgers": {
+    "contract_version": 2,
+    "model": "canonical_evidence_ledger",
+    "rows": [
+      {
+        "id": "2aea875f-7fb1-4b61-a957-03ccbd6c2dfc",
+        "title": "Recorded contribution",
+        "subtitle": "Controlled collection",
+        "amount": "1000",
+        "status": "contribution",
+        "created_at": "2026-10-15T09:23:52.352Z",
+        "country_code": "RW",
+        "currency_code": "RWF",
+        "kind": "contribution",
+        "signed_amount_rwf": 1000,
+        "amount_rwf": 1000,
+        "payment_id": "66bedf27-447a-4c26-90ad-96afcaa69a13",
+        "transaction_id": "66bedf27-447a-4c26-90ad-96afcaa69a13",
+        "evidence_id": "f84e1a33-9148-4831-a168-3e62c9ca6ad3",
+        "member_user_id": "999a3c09-fa98-4fbc-a29d-ec627241c683",
+        "group_id": "08b04cb7-8ba3-42a5-84c6-2d8b7360cd48",
+        "group_name": "Controlled collection",
+        "reverses_entry_id": null,
+        "posted_at": "2026-10-15T09:23:52.352Z",
+        "contribution_basis": "reconciled_evidence_entries",
+        "provider_confirmation": false,
+        "settlement_status": "not_asserted"
+      }
+    ],
+    "total": 1
+  },
+  "reversal_ledger": {
+    "contract_version": 2,
+    "model": "canonical_evidence_ledger",
+    "rows": [
+      {
+        "id": "29aeffd6-9291-4586-b244-8e52e5ec556c",
+        "title": "Contribution reversal",
+        "subtitle": "Controlled collection",
+        "amount": "-1000",
+        "status": "reversal",
+        "created_at": "2026-10-15T09:23:52.401Z",
+        "country_code": "RW",
+        "currency_code": "RWF",
+        "kind": "reversal",
+        "signed_amount_rwf": -1000,
+        "amount_rwf": 1000,
+        "payment_id": "66bedf27-447a-4c26-90ad-96afcaa69a13",
+        "transaction_id": "66bedf27-447a-4c26-90ad-96afcaa69a13",
+        "evidence_id": "f84e1a33-9148-4831-a168-3e62c9ca6ad3",
+        "member_user_id": "999a3c09-fa98-4fbc-a29d-ec627241c683",
+        "group_id": "08b04cb7-8ba3-42a5-84c6-2d8b7360cd48",
+        "group_name": "Controlled collection",
+        "reverses_entry_id": "2aea875f-7fb1-4b61-a957-03ccbd6c2dfc",
+        "posted_at": "2026-10-15T09:23:52.401Z",
+        "contribution_basis": "reconciled_evidence_entries",
+        "provider_confirmation": false,
+        "settlement_status": "not_asserted"
+      }
+    ],
+    "total": 1
+  },
+  "after_reversal": {
+    "contract_version": 2,
+    "model": "canonical_evidence_ledger",
+    "country_code": "RW",
+    "measured_at": "2026-10-15T09:23:52.411Z",
+    "counts": {
+      "users": 3,
+      "app_users": 1,
+      "direct_users": 0,
+      "admin_users": 2,
+      "staff_users": 0,
+      "groups": 1,
+      "active_members": 1,
+      "payees": 1,
+      "active_payees": 1,
+      "transactions": 1,
+      "unallocated_transactions": 0,
+      "ledger_entries": 2,
+      "reversed_entries": 1,
+      "payment_evidence": 1
+    },
+    "amounts": {
+      "total_recorded_rwf": "1000",
+      "total_reconciled_rwf": "0",
+      "total_unallocated_rwf": "0",
+      "total_net_contributions_rwf": "0"
+    },
+    "contribution_basis": "reconciled_evidence_entries",
+    "collected_basis": "retained_received_evidence",
+    "reconciliations_available": true,
+    "metrics": [
+      {
+        "key": "users",
+        "label": "Users",
+        "value": "3",
+        "status": "measured"
+      },
+      {
+        "key": "app_users",
+        "label": "App users",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "direct_users",
+        "label": "Direct users",
+        "value": "0",
+        "status": "measured"
+      },
+      {
+        "key": "admin_users",
+        "label": "Admin users",
+        "value": "2",
+        "status": "measured"
+      },
+      {
+        "key": "staff_users",
+        "label": "Staff users",
+        "value": "0",
+        "status": "measured"
+      },
+      {
+        "key": "groups",
+        "label": "Groups",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "active_members",
+        "label": "Active members",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "payees",
+        "label": "Payees",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "active_payees",
+        "label": "Active payees",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "transactions",
+        "label": "Transactions",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "unallocated_transactions",
+        "label": "Unallocated transactions",
+        "value": "0",
+        "status": "measured"
+      },
+      {
+        "key": "ledger_entries",
+        "label": "Ledger entries",
+        "value": "2",
+        "status": "measured"
+      },
+      {
+        "key": "reversed_entries",
+        "label": "Reversal entries",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "payment_evidence",
+        "label": "Retained payment evidence",
+        "value": "1",
+        "status": "measured"
+      },
+      {
+        "key": "total_recorded_rwf",
+        "label": "Recorded evidence amount",
+        "value": "1000",
+        "status": "measured"
+      },
+      {
+        "key": "total_reconciled_rwf",
+        "label": "Reconciled evidence amount",
+        "value": "0",
+        "status": "measured"
+      },
+      {
+        "key": "total_unallocated_rwf",
+        "label": "Unallocated evidence amount",
+        "value": "0",
+        "status": "measured"
+      },
+      {
+        "key": "total_net_contributions_rwf",
+        "label": "Net recorded contributions",
+        "value": "0",
+        "status": "measured"
+      }
+    ]
+  }
+}

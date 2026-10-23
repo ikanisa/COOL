@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_group_cards.dart';
 import 'package:flutter/material.dart';
@@ -133,6 +134,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          collectBackendClientProvider.overrideWithValue(null),
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
             (ref) => _HomeDesignRepository(scenario),

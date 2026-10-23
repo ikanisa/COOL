@@ -1,154 +1,136 @@
+import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
+import 'package:collect_app/core/cloudflare/realtime_invalidation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
 
-// Real locked SDK and production provider, with an isolated loopback Phoenix
-// 2.0 WebSocket. No hosted service, database or provider is contacted.
-class _Join {
-  _Join(this.socket, this.joinRef, this.topic, this.payload);
-  final WebSocket socket;
-  final Object? joinRef;
-  final String topic;
-  final Map<String, dynamic> payload;
-  int events = 0;
-
-  void event(String id, {String area = 'members'}) {
-    events++;
-    socket.add(
-      jsonEncode([
-        joinRef,
-        null,
-        topic,
-        'postgres_changes',
-        {
-          'ids': [1],
-          'data': {
-            'schema': 'public',
-            'table': 'app_realtime_events',
-            'type': 'INSERT',
-            'commit_timestamp': '2026-09-30T10:00:00Z',
-            'columns': [
-              {'name': 'id', 'type': 'text'},
-              {'name': 'area', 'type': 'text'},
-            ],
-            'record': {'id': id, 'area': area},
-            'old_record': <String, dynamic>{},
-          },
-        },
-      ]),
+// The actual Cloudflare HTTP poller and Admin provider execute unchanged.
+// Only response timing and synthetic session claims are controlled. No Phoenix
+// socket, hosted admission or provider-delivery evidence is implied.
+class _SyncScope {
+  _SyncScope(this.epoch, this.request);
+  final int epoch;
+  final http.Request request;
+  final requests = <http.Request>[];
+  final queued = <Map<String, dynamic>>[];
+  Completer<http.Response>? pending;
+  http.Request? pendingRequest;
+  bool failNext = false;
+  bool recovering = false;
+  int cursor = 0;
+  String get topic => 'http-sync-$epoch';
+  Map<String, dynamic> get payload => {
+    'access_token': request.headers['Authorization']!.substring(7),
+  };
+  http.Response reply(http.Request request, {bool failed = false}) {
+    final events = List<Map<String, dynamic>>.of(queued);
+    if (!failed) {
+      queued.clear();
+      cursor += events.length;
+    }
+    return http.Response(
+      jsonEncode(
+        failed
+            ? {'code': 'synthetic_outage'}
+            : {'events': events, 'cursor': '$cursor'},
+      ),
+      failed ? 503 : 200,
+      request: request,
+      headers: {'content-type': 'application/json'},
     );
   }
 
-  void replicationFailure() => socket.add(
-    jsonEncode([
-      joinRef,
-      null,
-      topic,
-      'system',
-      {'status': 'error', 'message': 'Synthetic binding unavailable'},
-    ]),
-  );
+  Future<http.Response> accept(http.Request next) async {
+    requests.add(next);
+    expect(next.method, 'GET');
+    expect(next.url.queryParameters['limit'], '100');
+    expect(
+      next.url.queryParameters['areas']!.split(','),
+      containsAll(collectAdminRealtimeAreas),
+    );
+    if (requests.length == 1 || recovering) {
+      recovering = false;
+      return reply(next);
+    }
+    if (failNext) {
+      failNext = false;
+      recovering = true;
+      return reply(next, failed: true);
+    }
+    if (queued.isNotEmpty) return reply(next);
+    expect(
+      pending,
+      isNull,
+      reason: 'The current HTTP adapter must not overlap polls',
+    );
+    pending = Completer<http.Response>();
+    pendingRequest = next;
+    return pending!.future;
+  }
+
+  void flush() {
+    if (pending == null) return;
+    final response = reply(pendingRequest!, failed: failNext);
+    if (failNext) {
+      failNext = false;
+      recovering = true;
+    }
+    final completion = pending!;
+    pending = null;
+    pendingRequest = null;
+    completion.complete(response);
+  }
+
+  void event(String id, {String area = 'members'}) {
+    queued.add({'id': id, 'area': area});
+    flush();
+  }
+
+  void bindingFailure() {
+    failNext = true;
+    flush();
+  }
+
+  void finish() {
+    flush();
+  }
 }
 
 class _Probe {
-  late HttpServer server;
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
-  final joins = <_Join>[];
-  final sockets = <WebSocket>[];
-  final frames = <List<dynamic>>[];
-  int identityReads = 0;
+  final joins = <_SyncScope>[];
+  final requests = <http.Request>[];
   final identityActors = <String>[];
+  int epoch = 0, identityReads = 0;
   bool disposed = false;
-  bool closing = false;
-
   Future<void> start() async {
-    server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
-    server.listen((request) async {
-      if (!WebSocketTransformer.isUpgradeRequest(request)) {
-        request.response.statusCode = HttpStatus.notFound;
-        await request.response.close();
-        return;
-      }
-      final socket = await WebSocketTransformer.upgrade(request);
-      sockets.add(socket);
-      socket.listen((raw) {
-        final frame = jsonDecode(raw as String) as List<dynamic>;
-        frames.add(frame);
-        final event = frame[3];
-        final payload = Map<String, dynamic>.from(frame[4] as Map);
-        Map<String, dynamic> response = {};
-        if (event == 'phx_join') {
-          joins.add(_Join(socket, frame[0], frame[2] as String, payload));
-          final filters =
-              (payload['config'] as Map)['postgres_changes'] as List;
-          response = {
-            'postgres_changes': [
-              for (final filter in filters)
-                {...Map<String, dynamic>.from(filter as Map), 'id': 1},
-            ],
-          };
-        }
-        if (!closing &&
-            socket.readyState == WebSocket.open &&
-            (event == 'phx_join' ||
-                event == 'phx_leave' ||
-                event == 'heartbeat')) {
-          socket.add(
-            jsonEncode([
-              frame[0],
-              frame[1],
-              frame[2],
-              'phx_reply',
-              {'status': 'ok', 'response': response},
-            ]),
-          );
-        }
-      });
-    });
-    client = SupabaseClient(
-      'http://127.0.0.1:${server.port}',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
+    client = CollectCloudflareClient(
+      'https://api.collect.test',
       httpClient: MockClient((request) async {
-        if (request.url.path.endsWith('/verify')) {
-          final values = (jsonDecode(request.body)['token'] as String).split(
-            '|',
-          );
-          final receipt = auth.authReceipt(values[0], values[1]);
-          if (values[0] == 'realtime-other-account') {
-            final parts = (receipt['access_token'] as String).split('.');
-            final claims =
-                jsonDecode(
-                      utf8.decode(
-                        base64Url.decode(base64Url.normalize(parts[1])),
-                      ),
-                    )
-                    as Map<String, dynamic>;
-            claims['sub'] = auth.target;
-            receipt['access_token'] =
-                '${parts[0]}.${base64Url.encode(utf8.encode(jsonEncode(claims))).replaceAll('=', '')}.${parts[2]}';
-            (receipt['user'] as Map)['id'] = auth.target;
-          }
-          return auth.response(receipt);
-        }
+        requests.add(request);
         if (request.url.path.endsWith('/logout')) return auth.response({});
-        throw StateError('Unexpected HTTP: ${request.url.path}');
+        expect(request.url.path, '/v1/sync');
+        var scope = joins.where((s) => s.epoch == epoch).firstOrNull;
+        if (scope == null) {
+          scope = _SyncScope(epoch, request);
+          joins.add(scope);
+        }
+        return scope.accept(request);
       }),
     );
-    await auth.session(client, 'realtime-owner-a');
+    await login('admin-http-a');
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminIdentityProvider.overrideWith((ref) async {
           final actor = ref.watch(adminAuthUserIdProvider);
           if (actor == null) return null;
@@ -156,7 +138,7 @@ class _Probe {
           identityActors.add(actor);
           return AdminIdentity(
             userId: actor,
-            displayName: 'Synthetic realtime operator',
+            displayName: 'Synthetic HTTP operator',
             roles: ['admin'],
             permissions: ['users.read'],
           );
@@ -166,41 +148,51 @@ class _Probe {
     container.listen(adminIdentityProvider, (_, _) {});
     await container.read(adminIdentityProvider.future);
     container.listen(adminRealtimeSubscriptionProvider, (_, _) {});
-    await until(() => joins.isNotEmpty && ticks == 1 && identityReads >= 2);
+    await until(() => joins.isNotEmpty && ticks == 1 && identityReads == 2);
+  }
+
+  Future<void> login(String id, {bool otherAccount = false}) async {
+    epoch++;
+    final receipt = auth.authReceipt(id, '$epoch');
+    if (otherAccount) {
+      final parts = (receipt['access_token'] as String).split('.');
+      final claims = Map<String, dynamic>.from(
+        jsonDecode(utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))))
+            as Map,
+      );
+      claims['sub'] = auth.target;
+      receipt['access_token'] =
+          '${parts[0]}.${base64Url.encode(utf8.encode(jsonEncode(claims))).replaceAll('=', '')}.${parts[2]}';
+      (receipt['user'] as Map)['id'] = auth.target;
+    }
+    await client.auth.recoverSession(jsonEncode(receipt));
   }
 
   int get ticks => container.read(adminRealtimeTickProvider);
-
-  Future<void> until(bool Function() predicate) async {
-    final deadline = DateTime.now().add(const Duration(seconds: 6));
-    while (!predicate() && DateTime.now().isBefore(deadline)) {
+  Future<void> until(bool Function() condition, {int seconds = 7}) async {
+    final end = DateTime.now().add(Duration(seconds: seconds));
+    while (!condition() && DateTime.now().isBefore(end)) {
       await Future<void>.delayed(const Duration(milliseconds: 10));
     }
     expect(
-      predicate(),
+      condition(),
       isTrue,
       reason:
-          'joins=${joins.length}, frames=${frames.map((f) => f[3]).toList()}',
+          'poll scopes=${joins.length}, ticks=$ticks, identity reads=$identityReads',
     );
   }
 
   Future<void> quiet() =>
       Future<void>.delayed(const Duration(milliseconds: 450));
-
   Future<void> dispose() async {
     if (!disposed) {
       disposed = true;
       container.dispose();
     }
-    // Let the production leave handshake finish before closing this fixture's
-    // socket. A queued leave must not receive an ACK after client.disconnect.
-    await Future<void>.delayed(const Duration(milliseconds: 30));
-    closing = true;
-    await client.dispose();
-    for (final socket in sockets) {
-      await socket.close();
+    for (final scope in joins) {
+      scope.finish();
     }
-    await server.close(force: true);
+    await client.dispose();
   }
 }
 
@@ -213,152 +205,129 @@ void main() {
   tearDown(() => probe.dispose());
 
   test(
-    'actual SDK Admin channel joins with current token and reconciles once',
+    'Admin HTTP sync sends the current bearer, bounds areas and deduplicates invalidations',
     () async {
+      final scope = probe.joins.single;
+      expect(scope.request.method, 'GET');
       expect(
-        probe.joins.single.topic,
-        startsWith('realtime:collect:admin:invalidation:'),
+        scope.request.headers['Authorization'],
+        'Bearer ${probe.client.auth.currentSession!.accessToken}',
       );
-      expect(
-        probe.joins.single.payload['access_token'],
-        probe.client.auth.currentSession!.accessToken,
-      );
-      expect(
-        (probe.joins.single.payload['config'] as Map)['postgres_changes'],
-        [
-          {
-            'event': 'INSERT',
-            'schema': 'public',
-            'table': 'app_realtime_events',
-          },
-        ],
-      );
-      expect(probe.identityReads, 2);
-      await probe.quiet();
-      expect(probe.ticks, 1);
-      probe.joins.single.event('same-event');
-      probe.joins.single.event('same-event');
-      probe.joins.single.event('irrelevant-event', area: 'not-an-admin-area');
-      await probe.until(() => probe.ticks == 2);
+      expect(scope.request.url.queryParameters['cursor'], '0');
+      await probe.until(() => scope.pending != null);
+      scope.queued.addAll([
+        {'id': 'role-event', 'area': 'admin_roles'},
+        {'id': 'role-event', 'area': 'admin_roles'},
+        {'id': 'irrelevant', 'area': 'not-an-admin-area'},
+      ]);
+      scope.flush();
+      await probe.until(() => probe.ticks == 2 && probe.identityReads == 3);
       await probe.quiet();
       expect(probe.ticks, 2);
-      expect(probe.identityReads, 3);
+      expect(probe.requests.every((r) => r.url.path == '/v1/sync'), isTrue);
     },
   );
-
   test(
-    'actual SDK Admin binding error rejoins and reconciles missed events',
+    'Admin HTTP outage retains its cursor and performs one scoped recovery refresh',
     () async {
-      final previous = probe.joins.single;
-      previous.replicationFailure();
-      await Future<void>.delayed(const Duration(milliseconds: 30));
-      previous.event('missed-before-rejoin');
-      await probe.until(() => probe.joins.length == 2 && probe.ticks == 2);
-      expect(
-        probe.frames.where((frame) => frame[3] == 'phx_leave'),
-        hasLength(1),
+      final scope = probe.joins.single;
+      await probe.until(() => scope.pending != null);
+      final before = scope.cursor;
+      scope.bindingFailure();
+      await probe.until(
+        () =>
+            probe.container.read(adminLiveUpdateStatusProvider) ==
+            AdminLiveUpdateStatus.reconnecting,
       );
-      await probe.quiet();
-      expect(
-        probe.ticks,
-        2,
-        reason: 'rejoin replaces missed-event delivery with one scoped refresh',
+      expect(scope.cursor, before);
+      expect(probe.ticks, 1);
+      await probe.until(
+        () =>
+            probe.ticks == 2 &&
+            probe.container.read(adminLiveUpdateStatusProvider) ==
+                AdminLiveUpdateStatus.live,
       );
-      previous.event('stale-channel-event');
-      await probe.until(() => probe.ticks == 3);
-      // A binding rejoin stays inside the same live Auth/provider scope.
-      // Its invalidation asks for a fresh scoped read and contains no records.
-      previous.event('stale-channel-event');
+      expect(probe.joins, hasLength(1));
       await probe.quiet();
-      expect(probe.ticks, 3);
-      probe.joins.last.event('current-channel-event');
-      await probe.until(() => probe.ticks == 4);
+      expect(probe.ticks, 2);
     },
   );
-
   for (final switchBack in [false, true]) {
     test(
-      'actual SDK Admin pending old channel is suppressed after session change A-B-A=$switchBack',
+      'held old Admin HTTP response is discarded after session change A-B-A=$switchBack',
       () async {
         final old = probe.joins.single;
-        old.event('old-scope-event');
-        await auth.session(probe.client, 'realtime-owner-b');
-        if (switchBack) await auth.session(probe.client, 'realtime-owner-a');
-        await probe.until(() => probe.joins.length >= 2 && probe.ticks == 2);
+        await probe.until(() => old.pending != null);
+        final before = probe.ticks;
+        await probe.login('admin-http-b');
+        if (switchBack) {
+          await probe.login('admin-http-a');
+        }
+        await probe.until(
+          () => probe.joins.length >= 2 && probe.ticks == before + 1,
+        );
+        old.event('departed-private-event', area: 'admin_roles');
         await probe.quiet();
+        expect(probe.ticks, before + 1);
         expect(
-          probe.ticks,
-          2,
-          reason:
-              'only the new channel join may reconcile; the old debounce is cancelled',
+          probe.joins.last.request.headers['Authorization'],
+          'Bearer ${probe.client.auth.currentSession!.accessToken}',
         );
-        old.event('late-old-scope-event');
-        await probe.quiet();
-        expect(probe.ticks, 2);
-        expect(
-          probe.joins.last.payload['access_token'],
-          probe.client.auth.currentSession!.accessToken,
-        );
-        expect(
-          probe.joins.map((join) => join.topic).toSet(),
-          hasLength(probe.joins.length),
-        );
-        probe.joins.last.event('new-scope-event');
-        await probe.until(() => probe.ticks == 3);
+        probe.joins.last.event('current-event');
+        await probe.until(() => probe.ticks == before + 2);
       },
     );
   }
-
   test(
-    'actual SDK Admin logout leaves its channel and cancels pending work',
+    'Admin logout ignores a held response and never schedules a successor poll',
     () async {
       final old = probe.joins.single;
-      old.event('pending-before-logout');
-      await probe.client.auth.signOut(scope: SignOutScope.local);
-      await probe.until(
-        () => probe.frames.any((frame) => frame[3] == 'phx_leave'),
-      );
+      await probe.until(() => old.pending != null);
+      await probe.client.auth.signOut(scope: CollectSignOutScope.local);
       expect(probe.container.read(adminAuthSessionScopeProvider), isNull);
-      old.event('late-after-logout');
+      old.event('departed-after-logout', area: 'admin_roles');
       await probe.quiet();
       expect(probe.ticks, 1);
+      final calls = probe.requests.length;
+      await Future<void>.delayed(const Duration(milliseconds: 5200));
+      expect(probe.requests.length, calls);
       expect(probe.joins, hasLength(1));
     },
   );
-
   test(
-    'actual SDK Admin account switch separates departed frames and refreshes the current actor',
+    'Admin account switch suppresses departed data and reads only the new actor',
     () async {
       final old = probe.joins.single;
-      old.event('old-account-pending');
-      await auth.session(probe.client, 'realtime-other-account');
+      await probe.until(() => old.pending != null);
+      await probe.login('admin-http-other-account', otherAccount: true);
       await probe.until(() => probe.joins.length == 2 && probe.ticks == 2);
       expect(
         probe.container.read(adminAuthSessionScopeProvider)!.key.userId,
         auth.target,
       );
       expect(probe.identityActors.last, auth.target);
-      old.event('old-account-late');
+      old.event('departed-account', area: 'admin_roles');
       await probe.quiet();
       expect(probe.ticks, 2);
-      probe.joins.last.event('current-account-event');
+      probe.joins.last.event('current-account', area: 'admin_roles');
       await probe.until(() => probe.ticks == 3);
       expect(probe.identityActors.last, auth.target);
     },
   );
-
   test(
-    'actual SDK Admin provider disposal leaves and cancels its debounce',
+    'Admin provider disposal suppresses its pending invalidation and stops polling',
     () async {
-      probe.joins.single.event('pending-before-dispose');
+      final old = probe.joins.single;
+      await probe.until(() => old.pending != null);
+      final reads = probe.identityReads;
       probe.container.dispose();
       probe.disposed = true;
-      await probe.until(
-        () => probe.frames.any((frame) => frame[3] == 'phx_leave'),
-      );
+      old.event('departed-after-dispose', area: 'admin_roles');
       await probe.quiet();
-      expect(probe.identityReads, 2);
-      expect(probe.joins, hasLength(1));
+      expect(probe.identityReads, reads);
+      final calls = probe.requests.length;
+      await Future<void>.delayed(const Duration(milliseconds: 5200));
+      expect(probe.requests.length, calls);
     },
   );
 }

@@ -31,8 +31,7 @@ Future<void> main() async {
       overrides: [
         appEnvProvider.overrideWithValue(
           const AppEnv(
-            supabaseUrl: '',
-            supabaseAnonKey: '',
+            apiUrl: '',
             publicUrl: defaultCollectPublicUrl,
             adminAppUrl: defaultCollectAdminUrl,
             enableSmsReader: false,

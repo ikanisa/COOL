@@ -8,7 +8,7 @@ import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/app/theme/collect_colors.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -17,24 +17,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
-
-class _PkceStorage extends GotrueAsyncStorage {
-  final values = <String, String>{};
-  @override
-  Future<String?> getItem({required String key}) async => values[key];
-  @override
-  Future<void> setItem({required String key, required String value}) async {
-    values[key] = value;
-  }
-
-  @override
-  Future<void> removeItem({required String key}) async {
-    values.remove(key);
-  }
-}
 
 class _Repository extends AdminEvidenceRepository {
   _Repository({this.sendError, this.verifyError, this.identity, this.delayed});
@@ -126,7 +110,7 @@ Future<void> _pump(
     ProviderScope(
       overrides: [
         adminRepositoryProvider.overrideWithValue(repository),
-        supabaseClientProvider.overrideWithValue(null),
+        collectBackendClientProvider.overrideWithValue(null),
       ],
       child: app,
     ),
@@ -259,8 +243,9 @@ void main() {
     tester,
   ) async {
     final repository = _Repository(
-      sendError: const AuthException(
+      sendError: const CollectAuthException(
         'Signups not allowed for otp: PRIVATE_CANARY',
+        code: 'signup_disabled',
       ),
     );
     await _pump(tester, repository);
@@ -291,7 +276,10 @@ void main() {
     tester,
   ) async {
     final repository = _Repository(
-      verifyError: const AuthException('Invalid token PRIVATE_CANARY'),
+      verifyError: const CollectAuthException(
+        'Invalid token PRIVATE_CANARY',
+        code: 'otp_expired',
+      ),
     );
     await _pump(tester, repository, router: true);
     await _request(tester);
@@ -425,15 +413,15 @@ void main() {
           final image = await boundary.toImage(pixelRatio: 1);
           final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
           await File(
-            'docs/release/collect-codex-goal-2026-09-30/email-operator/email-login-${brightness.name}-synthetic.png',
+            '.cache/test-captures/email-operator/email-login-${brightness.name}-synthetic.png',
           ).writeAsBytes(bytes!.buffer.asUint8List());
           image.dispose();
         });
       }
     });
   }
-  group('pinned SDK email transport', () {
-    late SupabaseClient client;
+  group('Collect email transport', () {
+    late CollectCloudflareClient client;
     late AdminRepository repository;
     final requests = <http.Request>[];
     late Future<http.Response> Function(http.Request) respond;
@@ -455,15 +443,11 @@ void main() {
             'permissions': ['overview.read'],
           });
         }
-        return auth.response({});
+        return auth.response({'challenge_id': 'synthetic-email-challenge'});
       };
-      client = SupabaseClient(
+      client = CollectCloudflareClient(
         'https://synthetic.invalid',
-        'synthetic-publishable',
-        authOptions: AuthClientOptions(
-          autoRefreshToken: false,
-          pkceAsyncStorage: _PkceStorage(),
-        ),
+        surface: 'admin',
         httpClient: MockClient((request) async {
           requests.add(request);
           final response = await respond(request);
@@ -479,29 +463,39 @@ void main() {
     });
     tearDown(() => client.dispose());
     test(
-      'email request is normalized create_user=false and has no phone or redirect',
+      'email request is normalized for Admin and has no phone or redirect',
       () async {
         await repository.sendEmailOtp(email: ' INFO@IKANISA.COM ');
         final request = requests.single;
         final body = jsonDecode(request.body) as Map;
-        expect(request.url.path, '/auth/v1/otp');
+        expect(request.url.path, '/v1/auth/otp');
         expect(body['email'], 'info@ikanisa.com');
-        expect(body['create_user'], false);
+        expect(body['surface'], 'admin');
+        expect(body.containsKey('create_user'), isFalse);
         expect(body.containsKey('phone'), isFalse);
         expect(request.url.queryParameters.containsKey('redirect_to'), isFalse);
       },
     );
-    test('verification uses email type then current locked identity', () async {
-      final identity = await repository.verifyEmailOtp(
-        email: 'INFO@IKANISA.COM',
-        otp: ' 123456 ',
-      );
-      expect(identity?.userId, auth.actor);
-      expect(jsonDecode(requests.first.body)['type'], 'email');
-      expect(jsonDecode(requests.first.body)['email'], 'info@ikanisa.com');
-      expect(jsonDecode(requests.first.body)['token'], '123456');
-      expect(requests.last.url.path, '/rest/v1/rpc/admin_current_user');
-    });
+    test(
+      'verification uses an issued challenge then current identity',
+      () async {
+        await repository.sendEmailOtp(email: 'info@ikanisa.com');
+        requests.clear();
+        final identity = await repository.verifyEmailOtp(
+          email: 'INFO@IKANISA.COM',
+          otp: ' 123456 ',
+        );
+        expect(identity?.userId, auth.actor);
+        expect(
+          jsonDecode(requests.first.body)['challenge_id'],
+          'synthetic-email-challenge',
+        );
+        expect(jsonDecode(requests.first.body)['surface'], 'admin');
+        expect(jsonDecode(requests.first.body)['email'], 'info@ikanisa.com');
+        expect(jsonDecode(requests.first.body)['code'], '123456');
+        expect(requests.last.url.path, '/v1/rpc/admin_current_user');
+      },
+    );
     test('invalid email or token never reaches HTTP', () async {
       await expectLater(
         repository.sendEmailOtp(email: 'phone'),
@@ -522,7 +516,7 @@ void main() {
         }, 400);
         await expectLater(
           repository.sendEmailOtp(email: 'info@ikanisa.com'),
-          throwsA(isA<AuthException>()),
+          throwsA(isA<CollectAuthException>()),
         );
         expect(requests, hasLength(1));
       },

@@ -1,5 +1,5 @@
-// Synthetic HTTP/Auth adapter over exact sealed SQL12 fixtures. This tests the
-// current pinned SDK/repository and real provider/cards, not hosted PostgREST.
+import 'support/recorded_auth_fixture.dart';
+// Exercises the current Cloudflare client and repository with controlled HTTP replies.
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -7,14 +7,13 @@ import 'dart:io';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 const fixtureRoot = 'test/fixtures/receipt-worker-cold';
 const syntheticActor = '99430000-0000-4000-8000-000000000001';
@@ -47,7 +46,7 @@ http.Response response(Object? body, [int status = 200]) => http.Response(
 
 Map<String, dynamic> syntheticAuth(String id) => {
   'access_token':
-      'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': syntheticActor, 'session_id': id, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
+      'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': syntheticActor, 'session_id': id, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
   'refresh_token': 'synthetic-refresh',
   'token_type': 'bearer',
   'user': {
@@ -64,7 +63,7 @@ class Harness {
   Harness(this.name);
   final String name;
   final requests = <http.Request>[];
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
   String tier = 'post';
   String? failedKind;
@@ -72,10 +71,8 @@ class Harness {
   Completer<void>? release;
 
   Future<void> start() async {
-    client = SupabaseClient(
+    client = recordedFixtureClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         http.Response reply(Object? body, [int status = 200]) {
           final raw = response(body, status);
@@ -87,12 +84,12 @@ class Harness {
           );
         }
 
-        if (request.url.path == '/auth/v1/verify') {
+        if (request.url.path == '/v1/auth/verify') {
           return reply(
             syntheticAuth(jsonDecode(request.body)['token'] as String),
           );
         }
-        if (request.url.path == '/auth/v1/logout') return reply({});
+        if (request.url.path == '/v1/auth/logout') return reply({});
         requests.add(request);
         final rpc = request.url.path.split('/').last;
         if (rpc == 'admin_current_user') {
@@ -135,17 +132,18 @@ class Harness {
         return reply(evidence(kind, observedTier));
       }),
     );
-    await client.auth.verifyOTP(
+    await installRecordedAuthFixture(
+      client,
       email: 'operator@example.invalid',
       token: 'cold-consumer-a',
-      type: OtpType.email,
+      type: CollectOtpType.email,
     );
     final clock = DateTime.parse(
       evidence('health', 'post')['checked_at'] as String,
     );
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminRealtimeSubscriptionProvider.overrideWith((ref) {}),
         adminClockProvider.overrideWithValue(() => clock),
       ],
@@ -180,7 +178,7 @@ class Harness {
       expect(request.url.host, 'synthetic.invalid');
       expect(
         request.url.path,
-        '/rest/v1/rpc/${kind == 'health' ? healthRpc : detailRpc}',
+        '/v1/rpc/${kind == 'health' ? healthRpc : detailRpc}',
       );
       expect(request.url.queryParameters, isEmpty);
       expect(
@@ -363,7 +361,7 @@ void main() {
         const JsonEncoder.withIndent('  ').convert({
           'synthetic_http': true,
           'scope':
-              'Actual canonical repository/provider/cards with pinned synthetic authenticated SDK; no hosted PostgREST/Auth assertion',
+              'Actual canonical repository/provider/cards with pinned synthetic authenticated SDK; no hosted provider-delivery assertion',
           'observations': observations,
         }),
       );
@@ -397,7 +395,7 @@ void main() {
         await expectLater(
           h.read(kind),
           throwsA(
-            isA<PostgrestException>()
+            isA<CollectApiException>()
                 .having((e) => e.code, 'actual SQL code', '55000')
                 .having(
                   (e) => e.message,

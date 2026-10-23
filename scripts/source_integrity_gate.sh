@@ -65,7 +65,7 @@ unless visual_check.fetch("status") == "pass"
 end
 
 canonical_logo = "assets/brand/collect_runtime/app_icons/app-icon-rule.png"
-android_logo = "android/app/src/main/res/drawable/collect_launcher_icon.png"
+android_logo = "android/app/src/main/res/drawable-nodpi/collect_launcher_icon.png"
 expected_logo_sha256 =
   "c6942d8bac7e860df1993e977277a47121340666b3f44a4f7cff63e079614209"
 canonical_logo_sha256 = public_asset_hash(root_dir, canonical_logo)

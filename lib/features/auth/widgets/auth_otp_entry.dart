@@ -5,6 +5,7 @@ class AuthOtpEntry extends StatelessWidget {
     required this.controller,
     required this.onChanged,
     this.enabled = true,
+    this.autofocus = true,
     super.key,
   });
 
@@ -13,6 +14,7 @@ class AuthOtpEntry extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback onChanged;
   final bool enabled;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class AuthOtpEntry extends StatelessWidget {
             controller: controller,
             enabled: enabled,
             keyboardType: TextInputType.number,
-            autofocus: true,
+            autofocus: autofocus,
             autofillHints: const [AutofillHints.oneTimeCode],
             enableSuggestions: false,
             autocorrect: false,

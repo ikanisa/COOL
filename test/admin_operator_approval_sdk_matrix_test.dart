@@ -1,3 +1,4 @@
+import 'support/recorded_auth_fixture.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -5,13 +6,12 @@ import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_operator_approval.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as sdk;
 
@@ -152,22 +152,21 @@ void main() {
   );
 
   group('operator approval actual SDK', () {
-    late SupabaseClient client;
+    late CollectCloudflareClient client;
     late AdminRepository repository;
     late Future<http.Response> Function(http.Request) respond;
     final requests = <http.Request>[];
-    Future<void> session(String id) => client.auth.verifyOTP(
+    Future<void> session(String id) => installRecordedAuthFixture(
+      client,
       email: 'operator@collect.example',
       token: id,
-      type: OtpType.email,
+      type: CollectOtpType.email,
     );
     setUp(() async {
       requests.clear();
       respond = (_) async => sdk.response({});
-      client = SupabaseClient(
+      client = recordedFixtureClient(
         'https://synthetic.invalid',
-        'synthetic-publishable',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((request) async {
           if (request.url.path.endsWith('/verify')) {
             return sdk.response(
@@ -207,7 +206,7 @@ void main() {
       Future<void> Function(ProviderContainer) run,
     ) async {
       final container = ProviderContainer(
-        overrides: [supabaseClientProvider.overrideWithValue(client)],
+        overrides: [collectBackendClientProvider.overrideWithValue(client)],
       );
       try {
         await tester.pumpWidget(
@@ -508,7 +507,7 @@ void main() {
           expect(await repository.action(rpc, params), ack);
           expect(requests, hasLength(1));
           expect(requests.single.method, 'POST');
-          expect(requests.single.url.path, '/rest/v1/rpc/$rpc');
+          expect(requests.single.url.path, '/v1/rpc/$rpc');
           expect(requests.single.headers['Authorization'], 'Bearer $bearer');
           expect(jsonDecode(requests.single.body), params);
         },
@@ -553,7 +552,7 @@ void main() {
             throwsA(
               failure == 'network'
                   ? isA<http.ClientException>()
-                  : isA<PostgrestException>(),
+                  : isA<CollectApiException>(),
             ),
           );
           expect(requests, hasLength(1));

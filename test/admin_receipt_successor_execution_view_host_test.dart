@@ -73,18 +73,19 @@ class RepositoryFixture extends AdminRepository {
   }) async {
     expect(automaticRetry, isFalse);
     calls.add(name);
-    if (name == 'admin_get_receipt_successor_execution_v4') {
-      return decoded(knownSentRaw);
+    if (name == 'admin_get_receipt_successor_execution_v5') {
+      return {...decoded(knownSentRaw), 'contract_version': 5};
     }
-    return Map<String, dynamic>.from(
-      api
+    return {
+      ...api
           .fixturePage(
             api.currentSnapshot,
             params!['p_after_revision'] as int?,
             params['p_limit'] as int,
           )
           .row,
-    );
+      'contract_version': 5,
+    };
   }
 }
 
@@ -240,8 +241,8 @@ void main() {
       expect(
         repository.calls,
         containsAll([
-          'admin_get_receipt_successor_execution_v4',
-          'admin_list_receipt_successor_observations_v4',
+          'admin_get_receipt_successor_execution_v5',
+          'admin_list_receipt_successor_observations_v5',
         ]),
       );
       final count = repository.calls.length;

@@ -1,6 +1,8 @@
 import 'collect_models.dart';
 import '../../core/data/exact_json_values.dart';
 
+part 'member_history_signed.dart';
+
 /// A page and aggregates for the entire matching history, never just its rows.
 class MemberHistoryPage {
   const MemberHistoryPage({
@@ -11,6 +13,11 @@ class MemberHistoryPage {
     required this.ownCollectionIds,
     required this.revision,
     this.nextCursor,
+    this.contractVersion = 1,
+    this.creditTotals = const {},
+    this.debitTotals = const {},
+    this.ownCreditTotals = const {},
+    this.ownDebitTotals = const {},
   });
 
   // Transport precision shared by native and web, not a payment/product limit.
@@ -24,11 +31,24 @@ class MemberHistoryPage {
   final Set<String> ownCollectionIds;
   final String revision;
   final Map<String, dynamic>? nextCursor;
+  final int contractVersion;
+  final Map<String, int> creditTotals;
+  final Map<String, int> debitTotals;
+  final Map<String, int> ownCreditTotals;
+  final Map<String, int> ownDebitTotals;
+  bool get isSignedHistory => contractVersion == 2;
 
   factory MemberHistoryPage.fromJson(
     Map<String, dynamic> json,
     List<Contribution> items,
   ) {
+    final version = json['contract_version'] ?? 1;
+    if (version is! int ||
+        version != 1 && version != 2 ||
+        version == 2 &&
+            json['contribution_basis'] != 'reconciled_evidence_entries') {
+      throw const FormatException('Unsupported history contract');
+    }
     final count = json['total_count'];
     final revision = json['revision'];
     final ids = json['own_collection_ids'];
@@ -43,8 +63,25 @@ class MemberHistoryPage {
     final result = MemberHistoryPage(
       items: List.unmodifiable(items),
       totalCount: count as int,
-      totals: _amounts(json['totals']),
-      ownTotals: _amounts(json['own_totals']),
+      totals: version == 2
+          ? _signedHistoryAmounts(json['totals'])
+          : _amounts(json['totals']),
+      ownTotals: version == 2
+          ? _signedHistoryAmounts(json['own_totals'])
+          : _amounts(json['own_totals']),
+      contractVersion: version,
+      creditTotals: version == 2
+          ? _signedHistoryAmounts(json['credit_totals'], nonnegative: true)
+          : const {},
+      debitTotals: version == 2
+          ? _signedHistoryAmounts(json['debit_totals'], nonnegative: true)
+          : const {},
+      ownCreditTotals: version == 2
+          ? _signedHistoryAmounts(json['own_credit_totals'], nonnegative: true)
+          : const {},
+      ownDebitTotals: version == 2
+          ? _signedHistoryAmounts(json['own_debit_totals'], nonnegative: true)
+          : const {},
       ownCollectionIds: Set.unmodifiable(ids.cast<String>()),
       revision: revision,
       nextCursor: _cursor(json['next_cursor'], revision),
@@ -91,6 +128,14 @@ class MemberHistoryPage {
   }
 
   void _validate() {
+    if (isSignedHistory) {
+      _validateSignedHistory(this);
+      return;
+    }
+    if (contractVersion != 1 ||
+        items.any((row) => row.historyContractVersion != 1)) {
+      throw const FormatException('Mixed history contracts');
+    }
     final seen = <String>{};
     if (!_exactNonnegativeInteger(totalCount) ||
         totalCount < items.length ||
@@ -219,6 +264,14 @@ class MemberHistoryPage {
   }
 
   Map<String, dynamic> get metadata => {
+    if (isSignedHistory) ...{
+      'contract_version': 2,
+      'contribution_basis': 'reconciled_evidence_entries',
+      'credit_totals': creditTotals,
+      'debit_totals': debitTotals,
+      'own_credit_totals': ownCreditTotals,
+      'own_debit_totals': ownDebitTotals,
+    },
     'total_count': totalCount,
     'totals': totals,
     'own_totals': ownTotals,
@@ -238,7 +291,12 @@ class MemberHistoryPage {
     _validate();
     next._validate();
     final seen = items.map((row) => row.id).toSet();
-    if (nextCursor == null ||
+    if (contractVersion != next.contractVersion ||
+        !_sameAmounts(creditTotals, next.creditTotals) ||
+        !_sameAmounts(debitTotals, next.debitTotals) ||
+        !_sameAmounts(ownCreditTotals, next.ownCreditTotals) ||
+        !_sameAmounts(ownDebitTotals, next.ownDebitTotals) ||
+        nextCursor == null ||
         revision != next.revision ||
         totalCount != next.totalCount ||
         !_sameAmounts(totals, next.totals) ||
@@ -261,6 +319,11 @@ class MemberHistoryPage {
     }
     final result = MemberHistoryPage(
       items: List.unmodifiable([...items, ...next.items]),
+      contractVersion: contractVersion,
+      creditTotals: Map.unmodifiable(creditTotals),
+      debitTotals: Map.unmodifiable(debitTotals),
+      ownCreditTotals: Map.unmodifiable(ownCreditTotals),
+      ownDebitTotals: Map.unmodifiable(ownDebitTotals),
       totalCount: totalCount,
       totals: Map.unmodifiable(totals),
       ownTotals: Map.unmodifiable(ownTotals),

@@ -2,32 +2,30 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../core/supabase/supabase_module.dart';
+import '../../core/cloudflare/cloudflare_module.dart';
 
 typedef AdminSessionKey = ({String userId, String sessionId});
 typedef AdminSessionScope = ({AdminSessionKey key, int generation});
 
-/// GoTrue 2.27.1 removes the departed session before awaiting PKCE storage,
-/// then emits signedOut using its *current* session. A newer local login can
-/// therefore appear on that late event. Only this exact, locally initiated
-/// event with a live matching token can preserve an already-owned scope.
-/// Broadcast logout and genuine null-session logout always deny access.
-bool adminDelayedLocalSignOut(SupabaseClient client, AuthState event) {
-  if (event.event != AuthChangeEvent.signedOut ||
-      event.fromBroadcast ||
-      event.signOutReason != SignOutReason.userInitiated) {
-    return false;
-  }
+/// Collect clears its local session before a synchronous sign-out event.
+/// A paused listener can receive that old event after another login; only the
+/// current live getter and token fence distinguish that departed notification.
+/// This client receives no browser broadcasts or external Auth event payloads.
+bool adminDelayedLocalSignOut(
+  CollectCloudflareClient client,
+  CollectAuthState event,
+) {
+  if (event.event != CollectAuthEvent.signedOut) return false;
   final current = client.auth.currentSession;
   final key = adminSessionKey(current);
   return key != null &&
-      adminSessionKey(event.session) == key &&
-      current!.accessToken == event.session?.accessToken;
+      (event.session == null ||
+          adminSessionKey(event.session) != key ||
+          current!.accessToken != event.session?.accessToken);
 }
 
-AdminSessionKey? adminSessionKey(Session? session) {
+AdminSessionKey? adminSessionKey(CollectAuthSession? session) {
   if (session == null) return null;
   try {
     final claims = jsonDecode(
@@ -56,15 +54,15 @@ AdminSessionKey? adminSessionKey(Session? session) {
 /// refresh preserves state, while a switch away and back advances generation.
 final adminAuthSessionScopeProvider =
     StateNotifierProvider<AdminSessionController, AdminSessionScope?>((ref) {
-      return AdminSessionController(ref.watch(supabaseClientProvider));
+      return AdminSessionController(ref.watch(collectBackendClientProvider));
     });
 
 class AdminSessionController extends StateNotifier<AdminSessionScope?> {
-  AdminSessionController(SupabaseClient? client) : super(null) {
+  AdminSessionController(CollectCloudflareClient? client) : super(null) {
     _update(client?.auth.currentSession);
     _subscription = client?.auth.onAuthStateChange.listen(
       (event) {
-        if (event.event == AuthChangeEvent.signedOut) {
+        if (event.event == CollectAuthEvent.signedOut) {
           final current = client.auth.currentSession;
           if (adminDelayedLocalSignOut(client, event) &&
               state != null &&
@@ -81,11 +79,11 @@ class AdminSessionController extends StateNotifier<AdminSessionScope?> {
       onDone: () => _update(null),
     );
   }
-  StreamSubscription<AuthState>? _subscription;
+  StreamSubscription<CollectAuthState>? _subscription;
   Timer? _expiry;
   int _generation = 0;
 
-  void _update(Session? session) {
+  void _update(CollectAuthSession? session) {
     final key = adminSessionKey(session);
     if (state?.key != key) {
       _generation++;
@@ -127,7 +125,7 @@ class AdminRequestSession {
     token = client.auth.currentSession!.accessToken;
     _subscription = client.auth.onAuthStateChange.listen(
       (event) {
-        if ((event.event == AuthChangeEvent.signedOut &&
+        if ((event.event == CollectAuthEvent.signedOut &&
                 !adminDelayedLocalSignOut(client, event)) ||
             adminSessionKey(event.session) != key) {
           _invalid = true;
@@ -137,10 +135,10 @@ class AdminRequestSession {
       onDone: () => _invalid = true,
     );
   }
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   late final AdminSessionKey? key;
   late final String token;
-  late final StreamSubscription<AuthState> _subscription;
+  late final StreamSubscription<CollectAuthState> _subscription;
   bool _invalid = false;
   void checkCurrent() {
     if (_invalid || adminSessionKey(client.auth.currentSession) != key) {
@@ -151,18 +149,18 @@ class AdminRequestSession {
   Future<void> dispose() => _subscription.cancel();
 }
 
-final adminAuthStateProvider = StreamProvider<AuthState>((ref) {
-  final client = ref.watch(supabaseClientProvider);
-  if (client == null) return const Stream<AuthState>.empty();
+final adminAuthStateProvider = StreamProvider<CollectAuthState>((ref) {
+  final client = ref.watch(collectBackendClientProvider);
+  if (client == null) return const Stream<CollectAuthState>.empty();
   return client.auth.onAuthStateChange;
 });
 
 /// Session ownership is a cache key for all Admin data providers. An explicit
 /// signed-out event must win over any session still visible during teardown.
 final adminAuthUserIdProvider = Provider<String?>((ref) {
-  final client = ref.watch(supabaseClientProvider);
+  final client = ref.watch(collectBackendClientProvider);
   final streamedState = ref.watch(adminAuthStateProvider).valueOrNull;
-  if (streamedState?.event == AuthChangeEvent.signedOut &&
+  if (streamedState?.event == CollectAuthEvent.signedOut &&
       (client == null || !adminDelayedLocalSignOut(client, streamedState!))) {
     return null;
   }

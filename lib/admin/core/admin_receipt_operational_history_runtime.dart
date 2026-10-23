@@ -51,10 +51,10 @@ Future<T> _receiptHistoryRead<T>(
     final value = await read(repository.receiptOperationalHistory);
     if (!current()) throw const AdminSessionChanged();
     return value;
-  } on PostgrestException catch (e) {
+  } on CollectApiException catch (e) {
     if (!current()) throw const AdminSessionChanged();
     if (e.code == '42501') throw const AdminReceiptHistoryDenied();
-    if ({'42883', 'PGRST202'}.contains(e.code)) {
+    if ({'operation_unavailable', '501'}.contains(e.code)) {
       throw UnsupportedError('Receipt operational history is unavailable.');
     }
     rethrow;

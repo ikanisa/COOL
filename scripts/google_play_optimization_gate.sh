@@ -3,15 +3,30 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUTPUT_FORMAT="text"
-if [[ "${1:-}" == "--json" ]]; then
-  OUTPUT_FORMAT="json"
-fi
+PHASE="rollout"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --json) OUTPUT_FORMAT="json"; shift ;;
+    --phase)
+      [[ $# -gt 1 ]] || { printf 'Missing --phase value.\n' >&2; exit 2; }
+      PHASE="$2"; shift 2 ;;
+    --help|-h)
+      printf 'Usage: %s [--json] [--phase prepare|upload|review|rollout]\n' "$0"
+      exit 0 ;;
+    *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
+  esac
+done
+case "$PHASE" in
+  prepare|upload|review|rollout) ;;
+  *) printf 'Invalid release phase: %s\n' "$PHASE" >&2; exit 2 ;;
+esac
 
 cd "$ROOT_DIR"
 
-OUTPUT_FORMAT="$OUTPUT_FORMAT" ruby -r digest -r json -r net/http -r uri -r open3 -r time <<'RUBY'
+OUTPUT_FORMAT="$OUTPUT_FORMAT" PHASE="$PHASE" ruby -r digest -r json -r net/http -r uri -r open3 -r time <<'RUBY'
 root = Dir.pwd
 output_format = ENV.fetch("OUTPUT_FORMAT")
+phase = ENV.fetch("PHASE")
 require File.join(root, 'scripts/android_manifest_permissions')
 
 def read(path)
@@ -201,10 +216,10 @@ checks["package_identity"] =
   end
 
 checks["target_api"] =
-  if package["compile_sdk"].to_i >= 35 && package["target_sdk"].to_i >= 35
+  if package["compile_sdk"].to_i >= 36 && package["target_sdk"].to_i >= 36
     check("pass", "APK targets the current Google Play API floor.", "compile_sdk" => package["compile_sdk"], "target_sdk" => package["target_sdk"], "min_sdk" => package["min_sdk"])
   else
-    check("blocked", "APK must target API 35+ before Play submission.", "compile_sdk" => package["compile_sdk"], "target_sdk" => package["target_sdk"])
+    check("blocked", "APK must target API 36+ for Google Play submissions from 31 August 2026.", "compile_sdk" => package["compile_sdk"], "target_sdk" => package["target_sdk"])
   end
 
 checks["sms_device_compatibility"] =
@@ -237,35 +252,57 @@ checks["release_artifact_hash_binding"] =
     check("fail", "The Play packet is not hash-bound to the current signed APK and AAB.", "expected_aab_sha256" => expected_aab_sha256, "actual_aab_sha256" => actual_aab_sha256, "expected_apk_sha256" => expected_apk_sha256, "actual_apk_sha256" => actual_apk_sha256)
   end
 
-production_supabase_url = "https://lhbowpbcpwoiparwnwgt.supabase.co"
-apk_runtime_config =
-  apk["exists"] && archive_entry_includes?(
-    apk["path"],
-    "lib/arm64-v8a/libapp.so",
-    production_supabase_url,
-  )
-aab_runtime_config =
-  aab["exists"] && archive_entry_includes?(
-    aab["path"],
-    "base/lib/arm64-v8a/libapp.so",
-    production_supabase_url,
-  )
-checks["production_runtime_config"] =
-  if apk_runtime_config && aab_runtime_config
-    check(
-      "pass",
-      "Final APK and AAB contain the reviewed production runtime endpoint.",
-      "apk_runtime_config" => true,
-      "aab_runtime_config" => true,
-    )
-  else
-    check(
-      "fail",
-      "Final APK/AAB packaging reused a stale or unconfigured Flutter runtime.",
-      "apk_runtime_config" => apk_runtime_config,
-      "aab_runtime_config" => aab_runtime_config,
-    )
+# Derive the same reviewed public profile used by the store wrapper. A matching
+# legacy URL string cannot establish the current Supabase runtime identity.
+runtime_profile = nil
+runtime_profile_error = nil
+begin
+  require 'tempfile'
+  Tempfile.create(['collect-play-public-profile-', '.json']) do |file|
+    observed = run('python3', File.join(root, 'scripts/qa/native_build_config.py'),
+                   'android', '--defines-output', file.path)
+    if observed.fetch('status') == 0
+      runtime_profile = JSON.parse(File.read(file.path))
+    else
+      runtime_profile_error = 'Validated Supabase public production profile is required'
+    end
   end
+rescue StandardError
+  runtime_profile_error = 'Public production profile could not be read'
+end
+runtime_profile_sha256 = runtime_profile && Digest::SHA256.hexdigest(JSON.generate(runtime_profile.sort.to_h))
+native_manifest_path = File.join(root, '.cache/android_play_store_build', "#{pubspec[/^version:\s*(\S+)/, 1]}.json")
+native_manifest = begin
+  File.file?(native_manifest_path) && !File.symlink?(native_manifest_path) ? JSON.parse(File.read(native_manifest_path)) : {}
+rescue JSON::ParserError
+  {}
+end
+runtime_identity_bound = runtime_profile && native_manifest['status'] == 'pass' &&
+  native_manifest['application_id'] == 'app.cool.mobile' && native_manifest['backend'] == 'supabase' &&
+  native_manifest['artifact_version'] == pubspec[/^version:\s*(\S+)/, 1] &&
+  native_manifest['public_runtime_config_sha256'] == runtime_profile_sha256 &&
+  native_manifest['supabase_project_url'] == runtime_profile['SUPABASE_URL'] &&
+  native_manifest['production_api_url'] == runtime_profile['SUPABASE_API_URL'] &&
+  native_manifest.dig('artifacts', 'apk', 'sha256') == actual_apk_sha256 &&
+  native_manifest.dig('artifacts', 'aab', 'sha256') == actual_aab_sha256
+required_runtime_keys = %w[SUPABASE_URL SUPABASE_API_URL SUPABASE_PUBLISHABLE_KEY]
+apk_runtime_config = !!(runtime_profile && apk['exists'] && !File.symlink?(apk['path']) &&
+  required_runtime_keys.all? { |key| archive_entry_includes?(apk['path'], 'lib/arm64-v8a/libapp.so', runtime_profile.fetch(key)) })
+aab_runtime_config = !!(runtime_profile && aab['exists'] && !File.symlink?(aab['path']) &&
+  required_runtime_keys.all? { |key| archive_entry_includes?(aab['path'], 'base/lib/arm64-v8a/libapp.so', runtime_profile.fetch(key)) })
+runtime_artifacts_stable = apk['exists'] && aab['exists'] &&
+  Digest::SHA256.file(apk['path']).hexdigest == actual_apk_sha256 &&
+  Digest::SHA256.file(aab['path']).hexdigest == actual_aab_sha256
+checks["production_runtime_config"] = check(
+  runtime_identity_bound && apk_runtime_config && aab_runtime_config && runtime_artifacts_stable ? 'pass' : 'fail',
+  'APK and AAB require the reviewed Supabase project, API and public key, bound to the same build profile and artifacts.',
+  'public_profile_sha256' => runtime_profile_sha256,
+  'profile_error' => runtime_profile_error,
+  'build_profile_and_artifacts_bound' => !!runtime_identity_bound,
+  'apk_runtime_config' => apk_runtime_config,
+  'aab_runtime_config' => aab_runtime_config,
+  'artifacts_stable_during_runtime_read' => !!runtime_artifacts_stable,
+)
 
 checks["sixteen_kb_alignment"] =
   if zipalign_16k.fetch("status") == 0
@@ -289,7 +326,10 @@ checks["restricted_sms_declaration"] =
   if sms_declaration_status == "approved_for_core_functionality"
     check("pass", "Google Play restricted-SMS approval is recorded for the core Rwanda MoMo receipt feature.")
   elsif sms_declaration_status == "required_pending_play_approval"
-    check("blocked", "Google Play restricted-SMS approval is still pending.", "declaration_status" => sms_declaration_status)
+    check(phase == "rollout" ? "blocked" : "pass",
+      phase == "rollout" ? "Google Play restricted-SMS approval is still pending; production rollout is blocked." :
+        "Prepared SMS declaration may accompany candidate upload/review while Google's decision is pending.",
+      "declaration_status" => sms_declaration_status, "google_approval_required_before_rollout" => true)
   else
     check("fail", "The release packet must record the restricted-SMS review state.", "declaration_status" => sms_declaration_status.empty? ? "not_recorded" : sms_declaration_status)
   end
@@ -482,7 +522,7 @@ required_integrity_sources = {
   "android_gradle" => "android/app/build.gradle.kts",
   "main_activity" => "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
   "flutter_service" => "lib/core/security/play_integrity_service.dart",
-  "supabase_function" => "supabase/functions/verify-play-integrity/index.ts"
+  "platform_integrity" => "deploy/platform-api/src/native_integrity.js"
 }
 integrity_items = required_integrity_sources.transform_values do |relative|
   path = File.join(root, relative)
@@ -496,7 +536,7 @@ integrity_items = required_integrity_sources.transform_values do |relative|
   }
 end
 integrity_present = integrity_items.select do |name, item|
-  if %w[flutter_service supabase_function].include?(name)
+  if %w[flutter_service platform_integrity].include?(name)
     item["exists"] == true
   else
     item["has_integrity_marker"] == true
@@ -519,6 +559,12 @@ checks["play_reporting_api_snapshot"] =
   else
     check("blocked", "Play Developer Reporting API snapshot evidence is missing. Run scripts/google_play_reporting_snapshot.sh --json.", "snapshot_path" => reporting_snapshot_path.sub(%r{\A#{Regexp.escape(root)}/?}, ""))
   end
+unless phase == "rollout"
+  checks["play_reporting_api_snapshot"] = check(
+    "deferred", "Production reporting acceptance is required at rollout; it cannot prove candidate upload or review readiness.",
+    "required_phase" => "rollout", "observed" => checks["play_reporting_api_snapshot"]
+  )
+end
 
 required_console_surfaces = {
   "publishing_overview" => "Verify changes in review / managed publishing.",
@@ -531,11 +577,63 @@ required_console_surfaces = {
   "app_integrity" => "Verify Play App Signing and automatic protection options.",
   "device_catalog" => "Review exclusions, device reach, app size, and form-factor compatibility."
 }
-checks["play_console_surface_audit_required"] = check(
-  "blocked",
-  "Manual/live Play Console optimization audit must be recorded after current changes are deployed because several surfaces are account-controlled.",
-  "surfaces" => required_console_surfaces
-)
+# Keep captured Console observations with the packet's existing surface records.
+# A prompt, a checklist or a declared status alone is not live account evidence.
+def console_observation_blockers(root, packet, surface, version, apk_sha, aab_sha, artifact_time)
+  observed = packet.dig("play_console_surfaces", surface, "observation")
+  return ["observation_missing"] unless observed.is_a?(Hash)
+  blockers = []
+  blockers << "status" unless observed["status"] == "pass"
+  blockers << "reviewer" unless observed["reviewer"].to_s.strip.length >= 2
+  blockers << "artifact_identity" unless observed["package_name"] == "app.cool.mobile" &&
+    observed["artifact_version"] == version &&
+    apk_sha.match?(/\A[0-9a-f]{64}\z/) && observed["apk_sha256"] == apk_sha &&
+    aab_sha.match?(/\A[0-9a-f]{64}\z/) && observed["aab_sha256"] == aab_sha
+  captured = Time.iso8601(observed["observed_at"].to_s) rescue nil
+  blockers << "observation_stale_or_predates_artifacts" unless captured &&
+    observed["observed_at"].to_s.end_with?("Z") && captured <= Time.now.utc &&
+    captured >= Time.now.utc - 86_400 && artifact_time && captured.to_i >= artifact_time.to_i
+  reference = observed["evidence_reference"].to_s
+  path = File.expand_path(reference, root)
+  safe = !reference.empty? && path.start_with?("#{root}/") && File.file?(path) &&
+    !File.symlink?(path) && File.realpath(path).start_with?("#{File.realpath(root)}/")
+  blockers << "captured_evidence_missing_or_changed" unless safe && File.size(path).positive? &&
+    observed["evidence_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+    observed["evidence_sha256"] == Digest::SHA256.file(path).hexdigest
+  blockers
+rescue ArgumentError, TypeError, Errno::ENOENT
+  ["observation_invalid"]
+end
+
+if %w[prepare upload].include?(phase)
+  checks["play_console_surface_audit_required"] = check(
+    "deferred", "Current candidate Console findings are required after upload, before review and rollout.",
+    "required_phase" => "review", "surfaces" => required_console_surfaces
+  )
+else
+  surfaces = required_console_surfaces.keys
+  surfaces -= ["android_vitals"] if phase == "review"
+  artifact_time = [apk, aab].select { |item| item["exists"] }.map { |item| File.mtime(item["path"]) }.max
+  console_blockers = surfaces.to_h do |surface|
+    [surface, console_observation_blockers(root, console_audit_packet, surface,
+      pubspec[/^version:\s*(\S+)/, 1], actual_apk_sha256, actual_aab_sha256, artifact_time)]
+  end.reject { |_surface, reasons| reasons.empty? }
+  publishing = console_audit_packet.dig("play_console_surfaces", "publishing_overview", "observation") || {}
+  unless publishing["production_countries"] == ["RW"]
+    console_blockers["production_countries"] = ["Capture the intended Rwanda-only production distribution before review or rollout."]
+  end
+  if phase == "review" && publishing["managed_publishing_enabled"] != true
+    console_blockers["managed_publishing"] = ["Enable and capture managed publishing before API review submission to prevent automatic publication."]
+  end
+  if phase == "rollout" && !%w[approved ready_to_publish published].include?(publishing["review_status"])
+    console_blockers["google_review"] = ["Capture Google's approval for this candidate before production rollout."]
+  end
+  checks["play_console_surface_audit_required"] = check(
+    console_blockers.empty? ? "pass" : "blocked",
+    "Live Console observations must identify this candidate, reviewer, recent capture and unchanged evidence.",
+    "surfaces" => surfaces, "blockers" => console_blockers
+  )
+end
 
 blocked = checks.select { |_key, value| value["status"] == "blocked" }
 failed = checks.select { |_key, value| value["status"] == "fail" }
@@ -544,6 +642,8 @@ status = failed.any? ? "fail" : blocked.any? ? "blocked" : "pass"
 result = {
   "generated_at" => Time.now.utc.iso8601,
   "status" => status,
+  "phase" => phase,
+  "production_availability_verified" => false,
   "blocker_keys" => blocked.keys,
   "failure_keys" => failed.keys,
   "application_id" => "app.cool.mobile",

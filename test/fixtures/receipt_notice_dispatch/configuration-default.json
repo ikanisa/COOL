@@ -1,0 +1,10 @@
+{
+  "scope": "rw_receipt_notice_configuration",
+  "enabled": false,
+  "checked_at": "2026-10-03T09:21:49.676794Z",
+  "updated_at": "2026-10-03T09:21:48.388004Z",
+  "send_authority": false,
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-03T09:22:49.676794Z",
+  "configuration_revision": 1
+}

@@ -18,7 +18,7 @@ class NativeSourceExportTest(unittest.TestCase):
         self.root = Path(self.temp.name) / "repo"
         self.root.mkdir()
         subprocess.run(["git", "init", "-q"], cwd=self.root, check=True)
-        for name in ["pubspec.yaml", "pubspec.lock", "lib/main.dart", "android/app/build.gradle.kts", "ios/Runner.xcodeproj/project.pbxproj"]:
+        for name in ["pubspec.yaml", "pubspec.lock", "lib/main.dart", "android/app/build.gradle.kts", "ios/Runner.xcodeproj/project.pbxproj", "scripts/qa/native_artifact_metadata.py", "scripts/qa/native_build_config.py"]:
             self.write(name)
 
     def write(self, name, text="synthetic input"):
@@ -33,15 +33,15 @@ class NativeSourceExportTest(unittest.TestCase):
         key = self.write("android/key.properties")
         subprocess.run(["git", "add", str(key)], cwd=self.root, check=True)
         for name in ["android/app/google-services.json", "ios/Runner/GoogleService-Info.plist", "android/upload.jks",
-                     "ios/Runner/AuthKey.p8", "third_party/gotrue/test/private.pem", "android/private.key"]:
+                     "ios/Runner/AuthKey.p8", "third_party/synthetic_fork/test/private.pem", "android/private.key"]:
             self.write(name)
         result = module.export(self.root, Path(self.temp.name) / "output")
-        self.assertEqual(len(result["source_sha256"]), 5)
+        self.assertEqual(len(result["source_sha256"]), 7)
         self.assertFalse(result["private_provider_signing_inputs_copied"])
 
     def test_local_auth_fork_runtime_license_and_original_provenance_are_exported_exactly(self):
-        names = ["third_party/gotrue/lib/gotrue.dart", "third_party/gotrue/LICENSE",
-                 "third_party/gotrue/pubspec.yaml", "third_party/gotrue/COLLECT_FORK.md", "third_party/gotrue/UPSTREAM-SHA256.json"]
+        names = ["third_party/synthetic_fork/lib/synthetic_fork.dart", "third_party/synthetic_fork/LICENSE",
+                 "third_party/synthetic_fork/pubspec.yaml", "third_party/synthetic_fork/COLLECT_FORK.md", "third_party/synthetic_fork/UPSTREAM-SHA256.json"]
         for name in names:
             self.write(name, "Synthetic public fork input: " + name)
         output = Path(self.temp.name) / "output"
@@ -65,6 +65,7 @@ class NativeSourceExportTest(unittest.TestCase):
 
     def test_authority_and_actual_production_build_callers_are_hash_bound(self):
         names = ["AGENTS.md", "scripts/qa/native_build_provenance.rb",
+                 "scripts/qa/native_artifact_metadata.py",
                  "scripts/android_play_store_build.sh", "scripts/android_release_signing_preflight.sh",
                  "scripts/ios_app_store_build.sh", "scripts/qa/native_source_export.py",
                  "scripts/supply_chain/gradle_runtime_inventory.init.gradle"]
@@ -77,6 +78,23 @@ class NativeSourceExportTest(unittest.TestCase):
         second = module.export(self.root, Path(self.temp.name) / "output-after")
         self.assertNotEqual(first["source_sha256"]["scripts/qa/native_build_provenance.rb"],
                             second["source_sha256"]["scripts/qa/native_build_provenance.rb"])
+
+    def test_public_configuration_helper_is_required_exported_and_hash_bound(self):
+        name = "scripts/qa/native_build_config.py"
+        first = module.export(self.root, Path(self.temp.name) / "output-before")
+        self.assertEqual(first["source_sha256"][name], module.digest(self.root/name))
+        self.assertEqual((Path(first["destination"])/name).read_bytes(), (self.root/name).read_bytes())
+        self.write(name, "Changed synthetic public configuration")
+        second = module.export(self.root, Path(self.temp.name) / "output-after")
+        self.assertNotEqual(first["source_sha256"][name],second["source_sha256"][name])
+        (self.root/name).unlink()
+        with self.assertRaisesRegex(ValueError, "Required native build input is absent"):
+            module.export(self.root, Path(self.temp.name) / "output-missing")
+
+    def test_export_requires_the_artifact_metadata_control(self):
+        (self.root / "scripts/qa/native_artifact_metadata.py").unlink()
+        with self.assertRaisesRegex(ValueError, "Required native build input is absent"):
+            module.export(self.root, Path(self.temp.name) / "output")
 
     def test_internal_source_symlink_refuses_ambiguous_source_identity(self):
         target = self.write("lib/real.dart", "Synthetic regular runtime source")

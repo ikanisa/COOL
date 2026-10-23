@@ -8,7 +8,7 @@ import 'package:collect_app/admin/core/admin_investigation.dart';
 import 'package:collect_app/admin/core/admin_investigation_view.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +16,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'support/admin_read_fixture.dart';
@@ -75,7 +74,7 @@ AdminIdentity _identity(List<String> permissions) => AdminIdentity(
 );
 
 class _Transport {
-  late final SupabaseClient client;
+  late final CollectCloudflareClient client;
   late final AdminRepository repository;
   ProviderContainer? container;
   final requests = <http.Request>[];
@@ -83,10 +82,8 @@ class _Transport {
       auth.response(_fixture());
 
   Future<void> start() async {
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final token = (jsonDecode(request.body)['token'] as String).split(
@@ -149,7 +146,7 @@ Future<ProviderContainer> _mount(
   addTearDown(tester.view.resetDevicePixelRatio);
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(transport.client),
+      collectBackendClientProvider.overrideWithValue(transport.client),
       adminRepositoryProvider.overrideWithValue(transport.repository),
       adminIdentityProvider.overrideWith(
         (_) =>
@@ -205,9 +202,7 @@ Future<ProviderContainer> _mount(
     ),
   );
   await tester.pumpAndSettle();
-  // The locked PostgREST SDK can decode JSON outside the fake widget clock.
-  // Drain bounded real asynchronous work without starting a provider that the
-  // production view has not itself read (including lazy detail consumers).
+  // Allow asynchronous Cloudflare client replies to complete outside widget fake time.
   await _drainSdk(tester);
   return container;
 }
@@ -385,10 +380,7 @@ void main() {
         expect((await read())['kind'], kind);
         final request = transport.requests.single;
         expect(request.method, 'POST');
-        expect(
-          request.url.path,
-          '/rest/v1/rpc/admin_get_collect_investigation_v1',
-        );
+        expect(request.url.path, '/v1/rpc/admin_get_collect_investigation_v1');
         expect(jsonDecode(request.body), {
           'p_kind': kind,
           'p_id': _target(kind),
@@ -398,7 +390,7 @@ void main() {
       test('denial never invokes compatibility or another read', () async {
         transport.respond = (_) async =>
             auth.response({'code': '42501', 'message': 'denied'}, 403);
-        await expectLater(read(), throwsA(isA<PostgrestException>()));
+        await expectLater(read(), throwsA(isA<CollectApiException>()));
         expect(transport.requests, hasLength(1));
       });
       test('valid envelope for a different kind is rejected', () async {
@@ -497,8 +489,8 @@ void main() {
         expect(
           transport.requests.map((request) => request.url.path),
           containsAll([
-            '/rest/v1/rpc/$detail',
-            '/rest/v1/rpc/admin_get_collect_investigation_v1',
+            '/v1/rpc/$detail',
+            '/v1/rpc/admin_get_collect_investigation_v1',
           ]),
         );
         final joined = transport.requests.singleWhere(
@@ -611,8 +603,12 @@ void main() {
         };
         await _mount(tester, transport, kind);
         await started.future;
-        await auth.session(transport.client, 'session-b');
-        await auth.session(transport.client, 'session-a', nonce: 2);
+        await tester.runAsync(
+          () => auth.session(transport.client, 'session-b'),
+        );
+        await tester.runAsync(
+          () => auth.session(transport.client, 'session-a', nonce: 2),
+        );
         await _unmount(tester, transport);
         release.complete();
         await tester.pumpAndSettle();
@@ -637,8 +633,12 @@ void main() {
           };
           await _mount(tester, transport, kind);
           await started.future;
-          await auth.session(transport.client, 'session-b');
-          await auth.session(transport.client, 'session-a', nonce: 2);
+          await tester.runAsync(
+            () => auth.session(transport.client, 'session-b'),
+          );
+          await tester.runAsync(
+            () => auth.session(transport.client, 'session-a', nonce: 2),
+          );
           await tester.pumpAndSettle();
           release.complete();
           await _drainSdk(tester);
@@ -694,9 +694,9 @@ void main() {
           transport.respond = (_) async {
             if (state == 'unavailable') {
               return auth.response({
-                'code': 'PGRST202',
-                'message': 'not installed',
-              }, 404);
+                'code': 'operation_unavailable',
+                'message': 'operation unavailable',
+              }, 501);
             }
             final raw = _fixture(kind);
             final section = kind == 'transaction' ? 'receipt' : 'payment';

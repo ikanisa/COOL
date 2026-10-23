@@ -37,11 +37,11 @@ require validation.
 
 ## Published-source comparison
 
-The [29 September comparison](../../docs/release/supply-chain-2026-09-28/file-saver-fork-comparison.json)
+The [29 September comparison](../../docs/implementation/dependency-provenance-current.md#file-saver-2026-09-28)
 retains the historical pre-correction comparison. The
-[30 September comparison](../../docs/release/import-export-protection-2026-09-30/file-saver-fork-comparison.json)
+[30 September comparison](../../docs/implementation/dependency-provenance-current.md#file-saver-2026-09-30)
 retains that day's source review. The
-[current comparison](../../docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/file-saver-fork-comparison.json)
+[current comparison](../../docs/implementation/dependency-provenance/file_saver-0.4.0-comparison.json)
 checks every file in the published pub.dev 0.4.0 archive, SHA-256
 `68c9a085d9bb4546e0a31d1e583a48d7c17a6987d538788ea064f0043b1fc02d`,
 against this fork. The explicit reviewed delta contains the Gradle build and
@@ -52,9 +52,14 @@ or an IDE project file; no package runtime or licence file was omitted. The
 upstream `LICENSE` is byte-identical. `COLLECT_FORK.md` and the reviewed
 `COLLECT_FORK_DELTA.json` are the two added governance files.
 Run `python3 scripts/supply_chain/verify_file_saver_fork.py --fetch --check`
-from the repository root to repeat the published-archive comparison.
+from the repository root to repeat the published-archive comparison. For an
+isolated authored-source export, pass `--root /absolute/source` and
+`--cache-dir /absolute/official-cache`; the same archive and exact-byte trust
+checks apply. The default comparison is retained under
+`docs/implementation/dependency-provenance/`. Historical packets are dated
+evidence; the current index records their external custody and hashes.
 
-The [native log packet](../../docs/release/import-export-protection-2026-09-30/README.md)
+The [native log packet](../../docs/implementation/dependency-provenance-current.md#native-log-packet)
 records failing prior and corrected production plugin JVM log probes, compilation
 of all three Kotlin sources against the cached Android36 and pinned Flutter
 engine APIs, and fixed-literal Swift print checks. The test replaces only the
@@ -82,7 +87,7 @@ includes Collect's Gradle 9.1.0 and AGP 9.0.1 in 2.4.20's supported ranges. Exac
 Maven Central module metadata and downloaded plugin artifacts bind SHA-256 and
 SHA-512; the Plugin Portal marker binds the exact plugin version. Primary response,
 native compile/resolution evidence and remaining limits are retained in the
-[Kotlin packet](../../docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/README.md).
+[Kotlin packet](../../docs/implementation/dependency-provenance-current.md#kotlin-packet).
 
 `COLLECT_FORK_DELTA.json` and the verifier trust anchor bind every reviewed changed,
 added and omitted byte set. A pin change requires manual review of the precise

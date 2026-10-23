@@ -18,7 +18,10 @@ module PublicCapabilityContract
     raise 'Unknown public capability route' unless ROUTES.include?(route)
     id = SERVICE_ROUTES.fetch(route, 'group_records')
     result = { 'cta-app' => registry.public_action(id), 'cta-touch' => registry.public_action('support') }
-    result['cta-group'] = registry.source_action('private_group_creation', region: 'RW', platform: 'android') if id == 'group_records'
+    if id == 'group_records'
+      group = registry.source_action('private_group_creation', region: 'RW', platform: 'android')
+      result['cta-group'] = group unless group == result['cta-app']
+    end
     result
   end
 

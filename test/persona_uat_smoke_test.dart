@@ -29,31 +29,43 @@ void main() {
     expect(source, isNot(contains('/settings/bank-transfer')));
   });
 
-  testWidgets('confirmed ledger uses RWF and excludes pending MoMo intents', (
-    tester,
-  ) async {
-    tester.view.physicalSize = const Size(390, 1200);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-    final repository = FixtureCollectRepository(
-      fixtureNow: DateTime.now().toUtc(),
-    );
-    await repository.createPaymentIntent(
-      const PaymentIntentDraft(
-        collectionId: 'qa-private-group',
-        amountRwf: 9999,
-      ),
-    );
-    await tester.pumpWidget(
-      appFor(const LedgerScreen(collectionId: 'qa-private-group'), repository),
-    );
-    await tester.pumpAndSettle();
+  testWidgets(
+    'recorded ledger totals preserve RWF and exclude pending MoMo intents',
+    (tester) async {
+      tester.view.physicalSize = const Size(390, 1200);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final repository = FixtureCollectRepository(
+        fixtureNow: DateTime.now().toUtc(),
+      );
+      await repository.createPaymentIntent(
+        const PaymentIntentDraft(
+          collectionId: 'qa-private-group',
+          amountRwf: 9999,
+        ),
+      );
+      await tester.pumpWidget(
+        appFor(
+          const LedgerScreen(collectionId: 'qa-private-group'),
+          repository,
+        ),
+      );
+      await tester.pumpAndSettle();
 
-    expect(find.text('RWF 35,000'), findsWidgets);
-    expect(find.text('RWF 9,999'), findsNothing);
-    expect(find.textContaining('MOMO-E2E'), findsWidgets);
-  });
+      expect(find.text('RWF 35,000'), findsWidgets);
+      expect(find.text('RWF 9,999'), findsNothing);
+      expect(find.textContaining('MOMO-E2E'), findsWidgets);
+      expect(find.text('Your recorded contributions'), findsOneWidget);
+      expect(
+        find.textContaining(
+          'A receipt SMS or a ledger entry alone does not verify provider settlement.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.textContaining('confirmed'), findsNothing);
+    },
+  );
 
   test('member contribution source exposes MoMo and USSD only', () {
     final source = File(

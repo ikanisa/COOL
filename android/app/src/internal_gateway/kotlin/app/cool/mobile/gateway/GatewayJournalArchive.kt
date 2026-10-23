@@ -34,7 +34,7 @@ internal data class GatewayStoredRequest(
             requireKeys(row, setOf("request_id", "action", "state", "callback_id", "request_sha256", "request_bytes_base64"))
             val id = requireUuid(row, "request_id")
             val action = strictString(row, "action")
-            if (action !in setOf("heartbeat", "callback", "dispatch_grant", "arm_dispatch", "archive_attempt") ||
+            if (action !in setOf("heartbeat", "callback", "dispatch_grant", "arm_dispatch", "archive_attempt", "archive_legacy_attempt") ||
                 strictString(row, "state") !in setOf("outcome_unknown", "recorded")) invalidArchive()
             val callback = if (row.isNull("callback_id")) null else requireUuid(row, "callback_id")
             if ((action == "callback") != (callback != null)) invalidArchive()
@@ -46,6 +46,13 @@ internal data class GatewayStoredRequest(
             val text = String(bytes, Charsets.UTF_8)
             if (bytes.size > 32 * 1024 || !bytes.contentEquals(text.toByteArray(Charsets.UTF_8)) || sha256(text) != digest) invalidArchive()
             val envelope = try { JSONObject(text) } catch (_: org.json.JSONException) { invalidArchive() }
+            if (isNoticeEnvelope(envelope)) {
+                validateNoticeEnvelope(text, envelope)
+                if (requireUuid(envelope, "request_id") != id || strictString(envelope, "action") != action ||
+                    action !in setOf("dispatch_grant", "arm_dispatch", "callback", "archive_attempt")) invalidArchive()
+                if (callback != null && requireUuid(envelope.getJSONObject("payload"), "callback_id") != callback) invalidArchive()
+                return GatewayStoredRequest(id, requireUuid(envelope, "device_id"), action, digest, callback, envelope, JSONObject(row.toString()))
+            }
             if (isSuccessorEnvelope(envelope)) {
                 validateSuccessorEnvelope(text, envelope)
                 if (requireUuid(envelope, "request_id") != id || strictString(envelope, "action") != action ||
@@ -57,16 +64,34 @@ internal data class GatewayStoredRequest(
             val version = strictInteger(envelope, "contract_version")
             if ((version == 1L && action !in setOf("heartbeat", "callback", "dispatch_grant")) ||
                 (version == 2L && action !in setOf("callback", "dispatch_grant", "arm_dispatch")) ||
-                (version == 3L && action != "archive_attempt") || version !in 1L..3L ||
+                (version == 3L && action != "archive_attempt") || (version == 4L && action != "archive_legacy_attempt") || version !in 1L..4L ||
                 requireUuid(envelope, "request_id") != id ||
                 strictString(envelope, "action") != action || envelope.get("payload") !is JSONObject) invalidArchive()
             val device = requireUuid(envelope, "device_id")
             strictTimestamp(envelope, "issued_at")
             if (version == 3L) validateGatewayArchivePayload(action, envelope.getJSONObject("payload"), id)
+            if (version == 4L) { validateGatewayStrictJson(text);validateGatewayLegacyArchivePayload(action, envelope.getJSONObject("payload"), id) }
             if (callback != null && requireUuid(envelope.getJSONObject("payload"), "callback_id") != callback) invalidArchive()
             return GatewayStoredRequest(id, device, action, digest, callback, envelope, JSONObject(row.toString()))
         }
     }
+}
+
+/** One additional encrypted row is reserved solely for strict legacy v4 custody.
+ * Ordinary grants, callbacks and sends retain the existing 64-row admission cap.
+ * Historical journals at or below that cap keep their prior accepted shape. */
+internal fun gatewayLegacyArchiveSlotAvailable(rows: JSONArray): Boolean =
+    rows.length() < GatewayEncryptedStore.MAX_REQUESTS ||
+        rows.length() == GatewayEncryptedStore.MAX_REQUESTS &&
+        (0 until rows.length()).none { GatewayStoredRequest.parse(rows.getJSONObject(it)).action in setOf("archive_attempt", "archive_legacy_attempt") }
+
+internal fun gatewayLegacyMaintenanceRequest(row: JSONObject): Boolean {
+    val request=GatewayStoredRequest.parse(row)
+    val bytes=Base64.getDecoder().decode(strictString(row,"request_bytes_base64"))
+    if(bytes.size>8*1024) return false
+    validateGatewayStrictJson(String(bytes,Charsets.UTF_8))
+    return !isSuccessorEnvelope(request.envelope) && request.action=="archive_legacy_attempt" &&
+        strictInteger(request.envelope,"contract_version")==4L
 }
 
 /** Local adapter for the existing signature-authenticated gateway HTTPS protocol.
@@ -79,7 +104,7 @@ internal class GatewayArchiveAcknowledgement private constructor(
     companion object {
         fun direct(request: GatewayStoredRequest, authenticatedReply: JSONObject): GatewayArchiveAcknowledgement {
             requireAcknowledgableEnvelope(request)
-            validateReply(authenticatedReply, request.action, request.deviceId, request.requestId, strictInteger(request.envelope, "contract_version"), isSuccessorEnvelope(request.envelope))
+            validateReply(authenticatedReply, request.action, request.deviceId, request.requestId, strictInteger(request.envelope, "contract_version"), isSuccessorEnvelope(request.envelope), isNoticeEnvelope(request.envelope))
             val result = authenticatedReply.getJSONObject("result")
             validateArchivedGatewayResult(request, request.action, request.requestId, request.envelope.getJSONObject("payload"), result)
             return GatewayArchiveAcknowledgement(request, JSONObject(result.toString()), JSONObject(authenticatedReply.toString()))
@@ -88,7 +113,7 @@ internal class GatewayArchiveAcknowledgement private constructor(
         fun reconciled(request: GatewayStoredRequest, reconcileRequestId: String, authenticatedReply: JSONObject): GatewayArchiveAcknowledgement {
             requireAcknowledgableEnvelope(request)
             if (!validUuid(reconcileRequestId) || reconcileRequestId == request.requestId) invalidArchive()
-            validateReply(authenticatedReply, "reconcile", request.deviceId, reconcileRequestId, strictInteger(request.envelope, "contract_version"), isSuccessorEnvelope(request.envelope))
+            validateReply(authenticatedReply, "reconcile", request.deviceId, reconcileRequestId, strictInteger(request.envelope, "contract_version"), isSuccessorEnvelope(request.envelope), isNoticeEnvelope(request.envelope))
             val result = authenticatedReply.getJSONObject("result")
             validateArchivedGatewayResult(request, "reconcile", reconcileRequestId,
                 JSONObject().put("target_request_id", request.requestId), result)
@@ -101,7 +126,10 @@ internal class GatewayArchiveAcknowledgement private constructor(
         }
 
         private fun validateArchivedGatewayResult(request: GatewayStoredRequest, action: String, id: String, payload: JSONObject, result: JSONObject) {
-            if (isSuccessorEnvelope(request.envelope)) {
+            if (isNoticeEnvelope(request.envelope)) {
+                if (action in setOf("dispatch_grant", "arm_dispatch") && (!result.has("ok") || strictBoolean(result, "ok"))) invalidArchive()
+                validateNoticeResult(action, id, request.deviceId, payload, result, Instant.now())
+            } else if (isSuccessorEnvelope(request.envelope)) {
                 if (action in setOf("dispatch_grant", "arm_dispatch") && (!result.has("ok") || strictBoolean(result, "ok"))) invalidArchive()
                 validateSuccessorResult(action, id, request.deviceId, payload, result, Instant.now())
                 if (action == "reconcile" && strictString(result, "outcome") == "recorded") {
@@ -120,8 +148,11 @@ internal class GatewayArchiveAcknowledgement private constructor(
             }
         }
 
-        private fun validateReply(reply: JSONObject, action: String, deviceId: String, requestId: String, version: Long, successor: Boolean) {
-            if (successor) {
+        private fun validateReply(reply: JSONObject, action: String, deviceId: String, requestId: String, version: Long, successor: Boolean, notice: Boolean = false) {
+            if (notice) {
+                requireKeys(reply, setOf("contract_version", "protocol_family", "audience", "action", "device_id", "request_id", "result"))
+                if (strictString(reply, "protocol_family") != NOTICE_FAMILY || strictString(reply, "audience") != NOTICE_AUDIENCE) invalidArchive()
+            } else if (successor) {
                 requireKeys(reply, setOf("contract_version", "protocol_family", "audience", "action", "device_id", "request_id", "result"))
                 if (strictString(reply, "protocol_family") != SUCCESSOR_FAMILY || strictString(reply, "audience") != SUCCESSOR_AUDIENCE) invalidArchive()
             } else requireKeys(reply, setOf("contract_version", "action", "device_id", "request_id", "result"))
@@ -131,6 +162,7 @@ internal class GatewayArchiveAcknowledgement private constructor(
         }
 
         private fun requireAcknowledgableEnvelope(request: GatewayStoredRequest) {
+            if (request.action == "archive_legacy_attempt") invalidArchive() // terminal ACK owns pruning, never a request-only ACK
             // Existing active journals admit 32 KiB; the authenticated server
             // admits only 8 KiB. Larger legacy evidence stays active, unresolved.
             if (Base64.getDecoder().decode(request.row.getString("request_bytes_base64")).size > 8 * 1024) invalidArchive()
@@ -384,13 +416,20 @@ private val originalAttemptKeys = setOf("device_id", "job_id", "attempt_id", "fe
 internal fun archiveAttemptJson(attempt: GatewayAttempt): JSONObject {
     validateAttempt(attempt)
     val row = primaryArchiveAttemptJson(attempt)
-    return if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) row.put("record_kind", "receipt_successor_v1").put("route", successorRouteJson(attempt.dispatchRoute)) else row
+    return when (attempt.dispatchRoute) {
+        is GatewayDispatchRoute.ReceiptNoticeV1 -> row.put("record_kind", "receipt_notice_v1").put("route", noticeRouteJson(attempt.dispatchRoute))
+        is GatewayDispatchRoute.ReceiptSuccessorV1 -> row.put("record_kind", "receipt_successor_v1").put("route", successorRouteJson(attempt.dispatchRoute))
+        is GatewayDispatchRoute.PrimaryV2 -> row
+    }
 }
 internal fun archiveAttemptFromJson(row: JSONObject): GatewayAttempt {
     if (!row.has("record_kind")) return primaryArchiveAttemptFromJson(row)
     requireKeys(row, originalAttemptKeys + setOf("record_kind", "route"))
-    if (strictString(row, "record_kind") != "receipt_successor_v1") invalidArchive()
-    val route = successorRouteFromJson(row.getJSONObject("route"))
+    val route = when (strictString(row, "record_kind")) {
+        "receipt_notice_v1" -> noticeRouteFromJson(row.getJSONObject("route"))
+        "receipt_successor_v1" -> successorRouteFromJson(row.getJSONObject("route"))
+        else -> invalidArchive()
+    }
     val original = JSONObject(row.toString()).also { it.remove("record_kind"); it.remove("route") }
     return primaryArchiveAttemptFromJson(original).copy(dispatchRoute = route).also(::validateAttempt)
 }
@@ -399,6 +438,7 @@ internal fun journalAttemptJsonV2(attempt: GatewayAttempt): JSONObject = archive
 }
 internal fun journalAttemptFromJsonV2(row: JSONObject): GatewayAttempt = when (strictString(row, "record_kind")) {
     "primary_v2" -> { requireKeys(row, originalAttemptKeys + "record_kind"); archiveAttemptFromJson(JSONObject(row.toString()).also { it.remove("record_kind") }) }
+    "receipt_notice_v1" -> archiveAttemptFromJson(row)
     "receipt_successor_v1" -> archiveAttemptFromJson(row)
     else -> invalidArchive()
 }

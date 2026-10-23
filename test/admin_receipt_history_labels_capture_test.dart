@@ -23,7 +23,15 @@ Future<void> capture(WidgetTester tester, String name) async {
     final image = await boundary.toImage(pixelRatio: 1);
     try {
       final data = await image.toByteData(format: ui.ImageByteFormat.png);
-      File('../proof/$name.png').writeAsBytesSync(data!.buffer.asUint8List());
+      const configured = String.fromEnvironment('COLLECT_HISTORY_CAPTURE_DIR');
+      final directory = Directory(
+        configured.isEmpty
+            ? '.cache/admin-receipt-history-captures'
+            : configured,
+      )..createSync(recursive: true);
+      File(
+        '${directory.path}/$name.png',
+      ).writeAsBytesSync(data!.buffer.asUint8List());
     } finally {
       image.dispose();
     }

@@ -1,5 +1,7 @@
 package app.cool.mobile.gateway
 
+import app.cool.mobile.BuildConfig
+
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.net.URL
@@ -21,7 +23,7 @@ internal class GatewayHttpsTransport(
     private val deadlineMs: Long = 15_000,
 ) {
     companion object {
-        const val HOST = "lhbowpbcpwoiparwnwgt.supabase.co"
+        val HOST = BuildConfig.COLLECT_API_HOST
         const val MAX_REQUEST_BYTES = 32 * 1024
         const val MAX_RESPONSE_BYTES = 64 * 1024
         private val executor = Executors.newSingleThreadExecutor { runnable ->
@@ -42,7 +44,8 @@ internal class GatewayHttpsTransport(
 
     fun postExact(bytes: ByteArray, readOnly: Boolean = false): ByteArray = postFixed(bytes, readOnly, false)
     fun postSuccessorExact(bytes: ByteArray, readOnly: Boolean = false): ByteArray = postFixed(bytes, readOnly, true)
-    private fun postFixed(bytes: ByteArray, readOnly: Boolean, successor: Boolean): ByteArray {
+    fun postNoticeExact(bytes: ByteArray, readOnly: Boolean = false): ByteArray = postFixed(bytes, readOnly, false, true)
+    private fun postFixed(bytes: ByteArray, readOnly: Boolean, successor: Boolean, notice: Boolean = false): ByteArray {
         if (bytes.isEmpty() || bytes.size > MAX_REQUEST_BYTES || deadlineMs !in 1..15_000) throw GatewayStateException("gateway_request_invalid")
         val abandoned = AtomicBoolean(false)
         val networkPhase = AtomicBoolean(false)
@@ -54,7 +57,8 @@ internal class GatewayHttpsTransport(
             // Credential/signing failures are outside the recoverable network
             // phase, even when their underlying exception is an IOException.
             networkPhase.set(true)
-            val connection = try { connect(URL(if (successor) "https://$HOST/functions/v1/collect-receipt-successor-gateway" else "https://$HOST/functions/v1/collect-android-gateway")) }
+            val endpoint = if (notice) "collect-receipt-notice-gateway" else if (successor) "collect-receipt-successor-gateway" else "collect-android-gateway"
+            val connection = try { connect(URL("https://$HOST${BuildConfig.COLLECT_API_PATH_PREFIX}/v1/functions/$endpoint")) }
                 catch (e: IOException) { if (readOnly && recoverableIo(e)) throw LookupUnavailable() else throw e }
             active = connection
             try {
@@ -67,6 +71,7 @@ internal class GatewayHttpsTransport(
                 connection.doOutput = true
                 connection.setFixedLengthStreamingMode(bytes.size)
                 connection.setRequestProperty("Content-Type", "application/json; charset=utf-8")
+                if (BuildConfig.COLLECT_PUBLISHABLE_KEY.isNotEmpty()) connection.setRequestProperty("apikey", BuildConfig.COLLECT_PUBLISHABLE_KEY)
                 connection.setRequestProperty("X-Collect-Gateway-Key-Id", fingerprint)
                 connection.setRequestProperty("X-Collect-Gateway-Signature", signature)
                 connection.outputStream.use {

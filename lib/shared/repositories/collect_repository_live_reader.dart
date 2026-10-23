@@ -5,19 +5,19 @@ class _CollectAccessMismatch implements Exception {
 }
 
 class _CollectLiveReader {
-  const _CollectLiveReader(this._supabase);
+  const _CollectLiveReader(this._backend);
 
-  final SupabaseClient? _supabase;
+  final CollectCloudflareClient? _backend;
 
   Future<CollectProfile?> fetchProfile(
     String userId, {
     String? accessToken,
   }) async {
-    final supabase = _supabase;
-    if (supabase == null) return null;
-    final currentUser = supabase.auth.currentUser;
+    final backend = _backend;
+    if (backend == null) return null;
+    final currentUser = backend.auth.currentUser;
     if (currentUser == null || currentUser.id != userId) return null;
-    var request = supabase.rpc<dynamic>('get_current_member_profile');
+    var request = backend.rpc<dynamic>('get_current_member_profile');
     if (accessToken != null) {
       request = request.setHeader('Authorization', 'Bearer $accessToken');
     }
@@ -37,12 +37,12 @@ class _CollectLiveReader {
     String normalizedPhone, {
     String? countryCode,
   }) async {
-    final supabase = _supabase;
-    final currentUser = supabase?.auth.currentUser;
-    if (supabase == null || currentUser == null || currentUser.id != userId) {
+    final backend = _backend;
+    final currentUser = backend?.auth.currentUser;
+    if (backend == null || currentUser == null || currentUser.id != userId) {
       throw StateError('Sign in first');
     }
-    final row = await supabase.rpc<dynamic>(
+    final row = await backend.rpc<dynamic>(
       'ensure_current_member_profile',
       params: {
         'p_whatsapp_phone': normalizedPhone,
@@ -68,7 +68,7 @@ class _CollectLiveReader {
   }
 
   Future<List<CollectCollection>> fetchPublicCollections() async {
-    final rows = await _supabase!
+    final rows = await _backend!
         .from('public_collections_view')
         .select()
         .order('created_at', ascending: false);
@@ -94,7 +94,7 @@ class _CollectLiveReader {
     String? collectionId,
     String? accessToken,
   }) async {
-    var request = _supabase!.rpc<dynamic>(
+    var request = _backend!.rpc<dynamic>(
       'list_current_user_collections',
       params: {'p_collection_id': ?collectionId},
     );
@@ -130,7 +130,7 @@ class _CollectLiveReader {
     String rpc, {
     String? accessToken,
   }) async {
-    var request = _supabase!.rpc<dynamic>(rpc);
+    var request = _backend!.rpc<dynamic>(rpc);
     if (accessToken != null) {
       request = request.setHeader('Authorization', 'Bearer $accessToken');
     }
@@ -144,7 +144,7 @@ class _CollectLiveReader {
   Future<({List<PaymentIntentModel> items, int pendingCount})>
   fetchRecentIntents({String? intentId, String? accessToken}) async {
     if (intentId != null) exactJsonIdentifier(intentId, field: 'intent.id');
-    var request = _supabase!.rpc<dynamic>(
+    var request = _backend!.rpc<dynamic>(
       'list_current_member_recent_intents',
       params: {'p_intent_id': ?intentId},
     );
@@ -184,9 +184,10 @@ class _CollectLiveReader {
         !const {'newest', 'oldest', 'highest', 'lowest'}.contains(query.sort)) {
       throw const FormatException('Invalid history query');
     }
-    var request = _supabase!.rpc<dynamic>(
+    var request = _backend!.rpc<dynamic>(
       'list_current_member_history_page',
       params: {
+        'p_contract_version': 2,
         'p_collection_id': ?query.collectionId,
         'p_query': query.search,
         'p_sort': query.sort,
@@ -199,10 +200,13 @@ class _CollectLiveReader {
     }
     final response = await request;
     final rows = _pageRows(response);
-    _validatePaymentRows(rows, intents: false);
+    if (response['contract_version'] is! int ||
+        response['contract_version'] != 2) {
+      throw const FormatException('Signed history contract is unavailable');
+    }
     final page = MemberHistoryPage.fromJson(
       Map<String, dynamic>.from(response as Map),
-      [for (final row in rows) Contribution.fromJson(row)],
+      [for (final row in rows) Contribution.historyEventFromJson(row)],
     );
     page.validateRequest(query: query, cursor: cursor);
     return page;
@@ -278,12 +282,12 @@ class _CollectLiveReader {
     CollectProfile? profile, {
     required String? accessToken,
   }) async {
-    final supabase = _supabase;
-    if (supabase == null || profile == null) return null;
+    final backend = _backend;
+    if (backend == null || profile == null) return null;
     if (accessToken == null) {
       throw StateError('Sign in and refresh notification preferences.');
     }
-    final value = await supabase
+    final value = await backend
         .rpc<dynamic>('get_notification_preferences_v2')
         .setHeader('Authorization', 'Bearer $accessToken');
     return NotificationPreferenceRead.parse(value, profile.id);
@@ -293,9 +297,9 @@ class _CollectLiveReader {
     CollectProfile? profile, {
     String? accessToken,
   }) async {
-    final supabase = _supabase;
-    if (supabase == null || profile == null) return const [];
-    var request = supabase
+    final backend = _backend;
+    if (backend == null || profile == null) return const [];
+    var request = backend
         .from('notification_events')
         .select()
         .eq('user_id', profile.id)
@@ -308,7 +312,7 @@ class _CollectLiveReader {
     final ids = <String>{};
     final events = <NotificationEvent>[];
     for (final row in rows) {
-      // Postgrest's typed select has already required String-keyed maps.
+      // The scoped read contract already requires String-keyed maps.
       final event = NotificationEvent.fromJson(Map<String, dynamic>.from(row));
       if (event.userId != profile.id || !ids.add(event.id)) {
         throw const _CollectAccessMismatch();

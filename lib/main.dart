@@ -2,7 +2,6 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app/app.dart';
 import 'app/env/app_env.dart';
@@ -13,7 +12,7 @@ import 'core/notifications/collect_notification_service.dart';
 import 'core/startup/collect_global_error_handlers.dart';
 import 'core/startup/collect_startup_controller.dart';
 import 'core/startup/collect_startup_host.dart';
-import 'core/supabase/supabase_module.dart';
+import 'core/cloudflare/cloudflare_module.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,8 +21,9 @@ Future<void> main() async {
     surface: CollectDiagnosticSurface.member,
     environmentName: env.environmentName,
   );
-  final startup = CollectStartupController<SupabaseClient?>(
-    initialize: () => createSupabaseClientFromEnvironment(environment: env),
+  final startup = CollectStartupController<CollectCloudflareClient?>(
+    initialize: () =>
+        createCollectBackendClientFromEnvironment(environment: env),
     diagnostics: diagnostics,
   );
   CollectGlobalErrorHandlers(
@@ -50,12 +50,12 @@ Future<void> main() async {
   );
 
   runApp(
-    CollectStartupHost<SupabaseClient?>(
+    CollectStartupHost<CollectCloudflareClient?>(
       controller: startup,
-      application: (supabase) => ProviderScope(
+      application: (backend) => ProviderScope(
         overrides: [
           appEnvProvider.overrideWithValue(env),
-          supabaseClientProvider.overrideWithValue(supabase),
+          collectBackendClientProvider.overrideWithValue(backend),
           collectIncomingAppLinksProvider.overrideWithValue(
             AppLinks().uriLinkStream,
           ),

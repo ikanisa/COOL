@@ -5,13 +5,12 @@ import 'package:collect_app/admin/admin_shell.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as sdk;
 import 'support/admin_read_fixture.dart';
@@ -27,17 +26,15 @@ class _GroupSourceRepository extends AdminEvidenceRepository {
 
 void main() {
   group('actual SDK support read gap probes', () {
-    late SupabaseClient client;
+    late CollectCloudflareClient client;
     late AdminRepository repository;
     late Object? body;
     late int code;
     setUp(() async {
       body = {};
       code = 200;
-      client = SupabaseClient(
+      client = CollectCloudflareClient(
         'http://127.0.0.1:1',
-        'synthetic-key',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((r) async {
           if (r.url.path.endsWith('/verify')) {
             final values = (jsonDecode(r.body)['token'] as String).split('|');
@@ -97,7 +94,7 @@ void main() {
         code = 403;
         await expectLater(
           repository.runtimeConfig(),
-          throwsA(isA<PostgrestException>()),
+          throwsA(isA<CollectApiException>()),
         );
         body = {
           'code': '42501',
@@ -105,7 +102,7 @@ void main() {
         };
         await expectLater(
           repository.queueSla('admin_list_notifications'),
-          throwsA(isA<PostgrestException>()),
+          throwsA(isA<CollectApiException>()),
         );
       },
     );
@@ -123,7 +120,7 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
     final container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(null),
+        collectBackendClientProvider.overrideWithValue(null),
         adminIdentityProvider.overrideWith(
           (_) async =>
               identity ??
@@ -239,7 +236,7 @@ void main() {
     (tester) async {
       final container = ProviderContainer(
         overrides: [
-          supabaseClientProvider.overrideWithValue(null),
+          collectBackendClientProvider.overrideWithValue(null),
           adminRepositoryProvider.overrideWithValue(
             const _GroupSourceRepository(),
           ),

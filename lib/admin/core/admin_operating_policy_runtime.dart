@@ -25,13 +25,13 @@ final adminOperatingPolicyProvider =
         final raw = await repository.operatingPolicy();
         if (!current) throw const AdminSessionChanged();
         return AdminOperatingPolicySnapshot.parse(raw);
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminOperatingPolicyDenied();
         if (error.code == '55P03' || error.code == '40001') {
           throw const AdminOperatingPolicyBusy();
         }
-        if (error.code == '42883' || error.code == 'PGRST202') {
+        if (error.code == 'operation_unavailable' || error.code == '501') {
           throw UnsupportedError('Unattended policy service unavailable.');
         }
         rethrow;

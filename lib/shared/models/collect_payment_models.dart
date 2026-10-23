@@ -30,6 +30,15 @@ class PaymentIntentModel {
     required this.status,
     required this.createdAt,
     required this.expiresAt,
+    this.confirmationStatus = 'awaiting_confirmation',
+    this.paymentId,
+    this.contributionEntryId,
+    this.creditedAmountRwf,
+    this.postedAt,
+    this.providerTransactionAt,
+    this.providerTransactionReference,
+    this.balanceAfterContributionRwf,
+    this.groupBalanceAfterContributionRwf,
   }) : expectedAmountMinor = expectedAmountMinor ?? expectedAmountRwf ?? 0;
 
   final String id;
@@ -45,6 +54,19 @@ class PaymentIntentModel {
   final String status;
   final DateTime createdAt;
   final DateTime expiresAt;
+  final String confirmationStatus;
+  final String? paymentId, contributionEntryId, providerTransactionReference;
+  final int? creditedAmountRwf;
+  final DateTime? postedAt, providerTransactionAt;
+  final int? balanceAfterContributionRwf, groupBalanceAfterContributionRwf;
+
+  bool get hasCommittedContribution =>
+      const {'credited', 'reversed'}.contains(confirmationStatus) &&
+      paymentId != null &&
+      contributionEntryId != null &&
+      creditedAmountRwf != null &&
+      creditedAmountRwf! > 0 &&
+      postedAt != null;
 
   int get expectedAmountRwf => expectedAmountMinor;
   bool get isRwandaMomo => rail == 'rwanda_momo' && currency == 'RWF';
@@ -71,6 +93,44 @@ class PaymentIntentModel {
     // Expired historical intents are valid data; inverted lifetimes are not.
     if (!expiresAt.isAfter(createdAt)) {
       throw const FormatException('Invalid payment intent lifetime');
+    }
+    final confirmationStatus =
+        json['confirmation_status'] ?? 'awaiting_confirmation';
+    if (!const {
+      'awaiting_confirmation',
+      'payment_received',
+      'credited',
+      'needs_review',
+      'reversed',
+    }.contains(confirmationStatus)) {
+      throw const FormatException('Invalid payment confirmation state');
+    }
+    String? optionalId(String key) =>
+        json[key] == null ? null : _paymentIdentifier(json[key], key);
+    final paymentId = optionalId('payment_id');
+    final contributionEntryId = optionalId('contribution_entry_id');
+    final creditedAmount = json['credited_amount_rwf'] == null
+        ? null
+        : exactJsonInteger(
+            json['credited_amount_rwf'],
+            field: 'intent.credited_amount_rwf',
+            minimum: 1,
+          );
+    final postedAt = json['posted_at'] == null
+        ? null
+        : _paymentTimestamp(json['posted_at'], 'posted_at');
+    if ((const {'credited', 'reversed'}.contains(confirmationStatus) &&
+            (paymentId == null ||
+                contributionEntryId == null ||
+                creditedAmount == null ||
+                postedAt == null)) ||
+        (confirmationStatus == 'payment_received' && paymentId == null) ||
+        (confirmationStatus == 'awaiting_confirmation' &&
+            (paymentId != null ||
+                contributionEntryId != null ||
+                creditedAmount != null ||
+                postedAt != null))) {
+      throw const FormatException('Incomplete payment confirmation evidence');
     }
     return PaymentIntentModel(
       id: _paymentIdentifier(json['id'], 'id'),
@@ -107,9 +167,41 @@ class PaymentIntentModel {
       status: _paymentIdentifier(json['status'], 'status'),
       createdAt: createdAt,
       expiresAt: expiresAt,
+      confirmationStatus: confirmationStatus as String,
+      paymentId: paymentId,
+      contributionEntryId: contributionEntryId,
+      creditedAmountRwf: creditedAmount,
+      postedAt: postedAt,
+      providerTransactionAt: json['provider_transaction_at'] == null
+          ? null
+          : _paymentTimestamp(
+              json['provider_transaction_at'],
+              'provider_transaction_at',
+            ),
+      providerTransactionReference: optionalId(
+        'provider_transaction_reference',
+      ),
+      balanceAfterContributionRwf:
+          json['balance_after_contribution_rwf'] == null
+          ? null
+          : exactJsonInteger(
+              json['balance_after_contribution_rwf'],
+              field: 'intent.balance_after_contribution_rwf',
+              minimum: 0,
+            ),
+      groupBalanceAfterContributionRwf:
+          json['group_balance_after_contribution_rwf'] == null
+          ? null
+          : exactJsonInteger(
+              json['group_balance_after_contribution_rwf'],
+              field: 'intent.group_balance_after_contribution_rwf',
+              minimum: 0,
+            ),
     );
   }
 }
+
+enum ContributionEntryKind { contribution, reversal, correction }
 
 @immutable
 class Contribution {
@@ -122,6 +214,13 @@ class Contribution {
     required this.createdAt,
     this.transactionId,
     this.isCurrentUserContribution = false,
+    this.historyContractVersion = 1,
+    this.entryKind = ContributionEntryKind.contribution,
+    this.paymentId,
+    this.groupTitle,
+    this.reversesEntryId,
+    this.evidenceId,
+    this.paymentStatus,
   });
 
   final String id;
@@ -132,10 +231,27 @@ class Contribution {
   final DateTime createdAt;
   final String? transactionId;
   final bool isCurrentUserContribution;
+  final int historyContractVersion;
+  final ContributionEntryKind entryKind;
+  final String? paymentId;
+  final String? groupTitle;
+  final String? reversesEntryId;
+  final String? evidenceId;
+  final String? paymentStatus;
+
+  bool get isHistoryEvent => historyContractVersion == 2;
+  bool get isCompensation => entryKind != ContributionEntryKind.contribution;
 
   int get amountMinor => amountRwf;
 
   factory Contribution.fromJson(Map<String, dynamic> json) {
+    final version = json['contract_version'];
+    if (version is int && version == 2) {
+      return Contribution.historyEventFromJson(json);
+    }
+    if (version != null && (version is! int || version != 1)) {
+      throw const FormatException('Unsupported contribution contract');
+    }
     if ((json['currency'] ?? 'RWF') != 'RWF' ||
         (json['rail'] ?? 'rwanda_momo') != 'rwanda_momo') {
       throw const FormatException('Only RWF MoMo contributions are supported');
@@ -169,6 +285,121 @@ class Contribution {
       isCurrentUserContribution: ownership == true,
     );
   }
+
+  /// Versioned signed ledger event. A payment can have several distinct entries.
+  factory Contribution.historyEventFromJson(Map<String, dynamic> json) {
+    const requiredFields = {
+      'entry_id',
+      'payment_id',
+      'collection_id',
+      'group_title',
+      'amount_minor',
+      'currency',
+      'rail',
+      'posted_at',
+      'supporter_label',
+      'is_current_user_contribution',
+      'entry_kind',
+      'reverses_entry_id',
+      'evidence_id',
+      'payment_status',
+      'provider_confirmation',
+      'settlement_status',
+    };
+    if (!json.keys.toSet().containsAll(requiredFields) ||
+        json.keys.any(
+          (key) => !requiredFields.contains(key) && key != 'contract_version',
+        ) ||
+        (json.containsKey('contract_version') &&
+            (json['contract_version'] is! int ||
+                json['contract_version'] != 2))) {
+      throw const FormatException(
+        'Incomplete or unsupported signed history event',
+      );
+    }
+    final kind = switch (json['entry_kind']) {
+      'contribution' => ContributionEntryKind.contribution,
+      'reversal' => ContributionEntryKind.reversal,
+      'correction' => ContributionEntryKind.correction,
+      _ => throw const FormatException('Invalid history entry kind'),
+    };
+    final amount = exactJsonInteger(
+      json['amount_minor'],
+      field: 'history.amount',
+    );
+    final reversal = json['reverses_entry_id'];
+    final label = json['supporter_label'];
+    final title = json['group_title'];
+    final status = json['payment_status'];
+    if ((json['contract_version'] != null && json['contract_version'] != 2) ||
+        json['currency'] != 'RWF' ||
+        json['rail'] != 'rwanda_momo' ||
+        json['provider_confirmation'] != false ||
+        json['settlement_status'] != 'not_asserted' ||
+        json['is_current_user_contribution'] is! bool ||
+        label is! String ||
+        !(label == 'Member' || RegExp(r'^[0-9]{6}$').hasMatch(label)) ||
+        title is! String ||
+        title.trim().isEmpty ||
+        title.length > 160 ||
+        RegExp(r'[\u0000-\u001F\u007F]').hasMatch(title) ||
+        status is! String ||
+        !const {
+          'recorded',
+          'reconciled',
+          'confirmed',
+          'corrected',
+          'reversed',
+          'ambiguous',
+        }.contains(status) ||
+        amount == 0 ||
+        (kind == ContributionEntryKind.contribution
+            ? amount < 0 || reversal != null
+            : amount > 0 || reversal == null)) {
+      throw const FormatException('Invalid signed history event');
+    }
+    final entryId = _historyUuid(json['entry_id'], 'entry_id');
+    if (reversal != null &&
+        _historyUuid(reversal, 'reverses_entry_id') == entryId) {
+      throw const FormatException('Invalid history lineage');
+    }
+    return Contribution(
+      id: entryId,
+      collectionId: _historyUuid(json['collection_id'], 'collection_id'),
+      amountRwf: amount,
+      supporterLabel: label,
+      createdAt: _paymentTimestamp(json['posted_at'], 'posted_at'),
+      isCurrentUserContribution: json['is_current_user_contribution'] as bool,
+      historyContractVersion: 2,
+      entryKind: kind,
+      paymentId: _historyUuid(json['payment_id'], 'payment_id'),
+      groupTitle: title,
+      reversesEntryId: reversal as String?,
+      evidenceId: _historyUuid(json['evidence_id'], 'evidence_id'),
+      paymentStatus: status,
+    );
+  }
+
+  /// Exact v2 cache representation; deliberately carries no provider reference.
+  Map<String, dynamic> toHistoryEventJson() => {
+    'contract_version': historyContractVersion,
+    'entry_id': id,
+    'payment_id': paymentId,
+    'collection_id': collectionId,
+    'group_title': groupTitle,
+    'amount_minor': amountMinor,
+    'currency': currency,
+    'rail': 'rwanda_momo',
+    'posted_at': createdAt.toUtc().toIso8601String(),
+    'supporter_label': supporterLabel,
+    'is_current_user_contribution': isCurrentUserContribution,
+    'entry_kind': entryKind.name,
+    'reverses_entry_id': reversesEntryId,
+    'evidence_id': evidenceId,
+    'payment_status': paymentStatus,
+    'provider_confirmation': false,
+    'settlement_status': 'not_asserted',
+  };
 }
 
 @immutable

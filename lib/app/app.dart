@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/notifications/collect_notification_service.dart';
 import '../core/security/sms_access_channel.dart';
-import '../core/supabase/supabase_module.dart';
+import '../core/cloudflare/cloudflare_module.dart';
 import '../l10n/collect_localizations.dart';
 import '../shared/providers/collect_app_state.dart';
 import '../shared/repositories/collect_repository.dart';
@@ -110,7 +110,9 @@ class _MomoReceiptSmsReceiverHostState
   @override
   void initState() {
     super.initState();
-    _enabled = ref.read(appEnvProvider).enableAndroidSmsAccess;
+    _enabled =
+        ref.read(appEnvProvider).enableAndroidSmsAccess &&
+        ref.read(momoReceiptCaptureAvailableProvider);
     if (!_enabled) return;
     WidgetsBinding.instance.addObserver(this);
     _subscription = const SmsAccessChannel().pendingSmsEvents.listen(
@@ -253,7 +255,7 @@ class _NotificationIntentHostState
   }
 
   void _scheduleNavigation(CollectNotificationIntent intent) {
-    final client = ref.read(supabaseClientProvider);
+    final client = ref.read(collectBackendClientProvider);
     final owner = client == null
         ? ref.read(collectAuthenticatedUserIdProvider)
         : client.auth.currentUser?.id;

@@ -1,7 +1,4 @@
-// Canonical Settings/card -> providers -> repository -> pinned Auth/PostgREST.
-// HTTP and Auth are synthetic. Retention read/recovery bytes are retained SQL
-// producer fixtures; generated-request replies and the second active gateway
-// are declared adaptations for caller testing, not new hosted/SQL evidence.
+// Exercises the current Cloudflare client and repository with controlled HTTP replies.
 import 'dart:async';
 import 'dart:convert';
 import 'package:collect_app/admin/admin_router.dart';
@@ -11,17 +8,17 @@ import 'package:collect_app/admin/core/admin_receipt_operations_models.dart';
 import 'package:collect_app/admin/core/admin_sender_retention_host.dart';
 import 'package:collect_app/admin/core/admin_sender_retention_view.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_receipt_operations_checkpoint_test.dart'
     show MemoryOperationsStore;
 import 'support/retention_api_fixture.dart' show Store;
 import 'support/retention_fixture.dart' as f;
+import 'support/recorded_auth_fixture.dart';
 import 'support/admin_receipt_operations_fixture.dart' as op;
 
 const readRpc = 'admin_get_receipt_retention_controls_v1';
@@ -44,7 +41,7 @@ class MountedRetentionHarness {
     'notifications.read',
     'system_health.read',
   };
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
   DateTime now = f.fixtureNow;
   bool owner = true, denyRead = false, uncertainConfigure = false;
@@ -54,7 +51,7 @@ class MountedRetentionHarness {
   final policy = op.operationsPolicyFixture();
 
   List<http.Request> calls(String name) =>
-      requests.where((r) => r.url.path == '/rest/v1/rpc/$name').toList();
+      requests.where((r) => r.url.path == '/v1/rpc/$name').toList();
 
   void senderFixture({bool twoActive = false}) {
     now = DateTime.parse(
@@ -80,10 +77,8 @@ class MountedRetentionHarness {
   }
 
   Future<void> start() async {
-    client = SupabaseClient(
+    client = recordedFixtureClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((r) async {
         http.Response reply(Object body, [int status = 200]) => http.Response(
           jsonEncode(body),
@@ -97,10 +92,10 @@ class MountedRetentionHarness {
           'details': null,
           'hint': null,
         }, 403);
-        if (r.url.path == '/auth/v1/verify') {
+        if (r.url.path == '/v1/auth/verify') {
           return reply({
             'access_token':
-                'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': f.actor, 'session_id': f.session, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
+                'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': f.actor, 'session_id': f.session, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
             'refresh_token': 'synthetic-refresh',
             'token_type': 'bearer',
             'user': {
@@ -113,7 +108,7 @@ class MountedRetentionHarness {
             },
           });
         }
-        if (r.url.path == '/auth/v1/logout') return reply({});
+        if (r.url.path == '/v1/auth/logout') return reply({});
         requests.add(r);
         final name = r.url.path.split('/').last;
         if (name == 'admin_current_user') {
@@ -178,14 +173,15 @@ class MountedRetentionHarness {
         throw StateError('Unallowlisted synthetic RPC $name');
       }),
     );
-    await client.auth.verifyOTP(
+    await installRecordedAuthFixture(
+      client,
       email: 'operator@example.invalid',
       token: 'synthetic-mount',
-      type: OtpType.email,
+      type: CollectOtpType.email,
     );
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminRealtimeSubscriptionProvider.overrideWith((ref) {}),
         adminClockProvider.overrideWithValue(() => now),
         adminRetentionStoreProvider.overrideWithValue(store),
@@ -428,7 +424,9 @@ void main() {
       await t.pumpWidget(h.app());
       await settle(t);
       expect(h.readEntered!.isCompleted, isTrue);
-      await t.runAsync(() => h.client.auth.signOut(scope: SignOutScope.local));
+      await t.runAsync(
+        () => h.client.auth.signOut(scope: CollectSignOutScope.local),
+      );
       await settle(t);
       h.readRelease!.complete();
       await settle(t);

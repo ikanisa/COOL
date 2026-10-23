@@ -6,13 +6,12 @@ import 'package:collect_app/admin/core/admin_receipt_cancel_checkpoint.dart';
 import 'package:collect_app/admin/core/admin_receipt_cancel_models.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'admin_receipt_cancel_models_test.dart' as wire;
@@ -52,7 +51,7 @@ String _stamp(DateTime value) => value
 class _Probe {
   _Probe({this.lookup = false, this.noScope = false});
   final bool lookup, noScope;
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
   final store = _Store();
   final inspection = wire.cancelFixture('preexisting-eligible-inspection');
@@ -108,10 +107,8 @@ class _Probe {
             : null;
 
   Future<void> start() async {
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final values = (jsonDecode(request.body)['token'] as String).split(
@@ -203,7 +200,7 @@ class _Probe {
     await auth.session(client, 'receipt-sdk-a');
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminIdentityProvider.overrideWith((ref) => ref.watch(authority)),
         adminClockProvider.overrideWithValue(() => now),
         adminReceiptCancelCheckpointStoreProvider.overrideWithValue(store),
@@ -351,7 +348,7 @@ void main() {
           addTearDown(keep.close);
           expect(await probe.read(), isNotNull);
           final request = probe.requests.single;
-          expect(request.url.path, '/rest/v1/rpc/${probe.readRpc}');
+          expect(request.url.path, '/v1/rpc/${probe.readRpc}');
           expect(request.method, 'POST');
           expect(
             request.headers['Authorization'],

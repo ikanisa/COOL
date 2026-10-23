@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import '../../app/env/app_env.dart';
-import '../../core/supabase/supabase_module.dart';
+import '../../core/cloudflare/cloudflare_module.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -15,6 +15,7 @@ import '../auth/widgets/auth_screen_widgets.dart';
 import 'privacy_contract.dart';
 import 'privacy_providers.dart';
 import 'privacy_request_controller.dart';
+import 'privacy_review_contract.dart';
 import 'privacy_session.dart';
 import 'privacy_transport.dart';
 
@@ -75,6 +76,7 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
   bool _statusAttempted = false;
   Timer? _resendTimer;
   int _resendRemaining = 0;
+  int _viewEpoch = 0;
 
   PrivacyRequestController get _controller => widget.controller;
 
@@ -93,6 +95,7 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
 
   @override
   void dispose() {
+    ++_viewEpoch;
     _controller.cancel();
     _resendTimer?.cancel();
     _otp.dispose();
@@ -113,11 +116,13 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
     return current != null &&
         _verifiedSessionId != null &&
         current.sessionId == _verifiedSessionId &&
-        !_controller.codeSent;
+        !_controller.codeSent &&
+        _controller.hasFreshVerification;
   }
 
   Future<void> _run(Future<void> Function() action) async {
     if (_running || !mounted) return;
+    final viewEpoch = ++_viewEpoch;
     setState(() {
       _running = true;
       _error = null;
@@ -125,8 +130,13 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
     try {
       await action();
     } on PrivacyRequestException catch (error) {
-      if (mounted) {
-        _error = _privacyPublicError(error.failure);
+      if (mounted && viewEpoch == _viewEpoch) {
+        _error =
+            _controller.usingEmailVerification &&
+                (error.failure == PrivacyFailure.outcomeUnknown ||
+                    error.failure == PrivacyFailure.verificationUnavailable)
+            ? _controller.emailVerificationMessage
+            : _privacyPublicError(error.failure);
         if (error.failure == PrivacyFailure.sessionChanged ||
             error.failure == PrivacyFailure.freshSignInRequired) {
           _verifiedSessionId = null;
@@ -134,19 +144,71 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
         }
       }
     } catch (_) {
-      if (mounted) {
+      if (mounted && viewEpoch == _viewEpoch) {
         _error =
             'The request service is unavailable. Check your connection and try again.';
       }
     } finally {
-      if (mounted) setState(() => _running = false);
+      if (mounted && viewEpoch == _viewEpoch) {
+        setState(() {
+          if (_controller.usingEmailVerification) {
+            _resendRemaining = _controller.emailResendSeconds;
+            if (_resendRemaining > 0 && _resendTimer?.isActive != true) {
+              _resendTimer = Timer.periodic(const Duration(seconds: 1), (
+                timer,
+              ) {
+                if (!mounted || !_controller.usingEmailVerification) {
+                  timer.cancel();
+                  return;
+                }
+                setState(
+                  () => _resendRemaining = _controller.emailResendSeconds,
+                );
+                if (_resendRemaining == 0) timer.cancel();
+              });
+            }
+          }
+          _running = false;
+        });
+      }
     }
+  }
+
+  void _cancelEmailVerification() {
+    final cancelEpoch = ++_viewEpoch; // Fence a pending HTTP/CAPTCHA action.
+    _otp.clear();
+    _verifiedSessionId = null;
+    final cleanup = _controller.cancelEmailVerification();
+    if (mounted) {
+      setState(() {
+        _running = false;
+        _error = _controller.emailVerificationMessage;
+      });
+    }
+    unawaited(
+      cleanup.then<void>(
+        (_) {
+          if (mounted && cancelEpoch == _viewEpoch) {
+            setState(() => _error = _controller.emailVerificationMessage);
+          }
+        },
+        onError: (Object _) {
+          if (mounted && cancelEpoch == _viewEpoch) {
+            setState(
+              () => _error =
+                  'Verification was cancelled locally. Candidate sign-out could not be confirmed.',
+            );
+          }
+        },
+      ),
+    );
   }
 
   Future<void> _checkStatus({bool initial = false}) async {
     await _run(() async {
       try {
-        await _controller.refreshStatus();
+        final receipt = await _controller.refreshStatus();
+        if (receipt != null) await _controller.refreshReviewStatus();
       } finally {
         // A read attempt cannot prove that an uncertain write failed. A later
         // retry remains an explicit choice with the exact existing UUID.
@@ -162,7 +224,9 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
     if (!mounted) return;
     _otp.clear();
     _resendTimer?.cancel();
-    _resendRemaining = 45;
+    _resendRemaining = _controller.usingEmailVerification
+        ? _controller.emailResendSeconds
+        : 45;
     _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!mounted || _resendRemaining <= 1) {
         timer.cancel();
@@ -174,7 +238,9 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
   });
 
   Future<void> _verifyCode() => _run(() async {
-    await _controller.verifyCode(_otp.text);
+    final code = _otp.text;
+    if (_controller.usingEmailVerification) _otp.clear();
+    await _controller.verifyCode(code);
     final current = _liveOwner();
     if (current == null) {
       throw const PrivacyRequestException(PrivacyFailure.sessionChanged);
@@ -207,6 +273,7 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
       } else {
         await _controller.submit(reason: _sentReason);
       }
+      await _controller.refreshReviewStatus();
     });
   }
 
@@ -215,11 +282,11 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
     // This triggers view renewal on ordinary Auth events. Immediate method and
     // receipt ownership still comes from the synchronous live-session fences.
     ref.watch(collectAuthenticatedUserIdProvider);
+    ref.watch(privacyAuthStateProvider);
     final live = _liveOwner();
     final receipt = live == null ? null : _controller.receipt;
     final busy = _running || _checkingInitialStatus;
     final unknown = live != null && _controller.outcomeUnknown;
-    final env = ref.watch(appEnvProvider);
     final reasons =
         ref.watch(collectAccountDeletionReasonsProvider).valueOrNull ??
         collectDefaultAccountDeletionReasons;
@@ -238,9 +305,8 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
         // number or an editable destination for sensitive reauthentication.
       }
     }
-    // A configured bot challenge needs an actual solver integration. Asking a
-    // member to paste its backend token cannot establish verification.
-    final verificationReady = !env.authCaptchaEnabled;
+    // The transport acquires a fresh challenge when required. A configured
+    // CAPTCHA is not itself a verification failure; solver errors fail closed.
     return ScreenScaffold(
       title: 'Delete request',
       onRefresh: busy ? null : () => _checkStatus(),
@@ -257,7 +323,11 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
             message: 'Reading the status of your account deletion request.',
           )
         else if (receipt != null)
-          _PrivacyReceiptCard(receipt: receipt)
+          _PrivacyReceiptCard(
+            receipt: receipt,
+            review: _controller.reviewStatus,
+            checking: busy,
+          )
         else ...[
           const InfoSecurityBanner(
             title: 'Request account deletion',
@@ -309,22 +379,81 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 CollectSpacing.gap12,
+                if (_controller.emailVerificationAvailable) ...[
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      ChoiceChip(
+                        label: const Text('Email'),
+                        selected: _controller.usingEmailVerification,
+                        onSelected: busy || !canEdit
+                            ? null
+                            : (_) => setState(() {
+                                _controller.selectEmailVerification(true);
+                                _otp.clear();
+                                _verifiedSessionId = null;
+                                _error = null;
+                                _resendRemaining = 0;
+                              }),
+                      ),
+                      ChoiceChip(
+                        label: const Text('WhatsApp'),
+                        selected: !_controller.usingEmailVerification,
+                        onSelected: busy || !canEdit
+                            ? null
+                            : (_) => setState(() {
+                                _controller.selectEmailVerification(false);
+                                _otp.clear();
+                                _verifiedSessionId = null;
+                                _error = null;
+                                _resendRemaining = 0;
+                              }),
+                      ),
+                    ],
+                  ),
+                  CollectSpacing.gap12,
+                ],
                 Text(
-                  maskedPhone == null
+                  _controller.usingEmailVerification
+                      ? (_controller.emailDestinationHint == null
+                            ? 'Use the confirmed email for your signed-in Collect account.'
+                            : 'Use the email code for ${_controller.emailDestinationHint}.')
+                      : maskedPhone == null
                       ? 'Your signed-in phone number is unavailable. Get help to continue.'
                       : 'Use the WhatsApp code for your signed-in number $maskedPhone.',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                if (env.authCaptchaEnabled && !_verified) ...[
-                  CollectSpacing.gap16,
-                  const InfoSecurityBanner(
-                    title: 'Verification unavailable',
-                    message:
-                        'Identity verification is unavailable in this app version. Get help to continue your request.',
-                    tone: CollectStatusTone.warning,
-                  ),
+                if (_controller.usingEmailVerification &&
+                    _controller.emailVerificationPending) ...[
+                  CollectSpacing.gap12,
+                  Text(_controller.emailVerificationMessage),
                   CollectSpacing.gap12,
                   CollectButton(
+                    key: const ValueKey('privacy_check_email_verification'),
+                    label: 'Check email verification',
+                    variant: CollectButtonVariant.secondary,
+                    onPressed: busy
+                        ? null
+                        : () => _run(_controller.checkEmailVerification),
+                    expand: true,
+                  ),
+                  CollectSpacing.gap8,
+                  CollectButton(
+                    key: const ValueKey('privacy_cancel_email_verification'),
+                    label: 'Cancel email verification',
+                    variant: CollectButtonVariant.secondary,
+                    onPressed: _cancelEmailVerification,
+                    expand: true,
+                  ),
+                ],
+                if (!_verified &&
+                    ((!_controller.usingEmailVerification &&
+                            maskedPhone == null) ||
+                        _error != null)) ...[
+                  CollectSpacing.gap12,
+                  CollectButton(
+                    key: const ValueKey('privacy_get_help'),
                     label: 'Get help',
                     variant: CollectButtonVariant.secondary,
                     onPressed: () => context.go('/settings/help'),
@@ -333,19 +462,42 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
                 ],
                 if (_controller.codeSent && !_verified) ...[
                   CollectSpacing.gap16,
-                  AuthOtpEntry(
-                    controller: _otp,
-                    enabled: !busy,
-                    onChanged: () => setState(() => _error = null),
-                  ),
+                  if (_controller.usingEmailVerification)
+                    TextField(
+                      key: const ValueKey('privacy_email_code'),
+                      controller: _otp,
+                      enabled: !busy,
+                      keyboardType: TextInputType.number,
+                      autofillHints: const [AutofillHints.oneTimeCode],
+                      obscureText: true,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(10),
+                      ],
+                      decoration: const InputDecoration(
+                        labelText: 'Email verification code',
+                      ),
+                      onChanged: (_) => setState(() => _error = null),
+                    )
+                  else
+                    AuthOtpEntry(
+                      controller: _otp,
+                      enabled: !busy,
+                      onChanged: () => setState(() => _error = null),
+                    ),
                   CollectSpacing.gap16,
                   CollectButton(
                     key: const ValueKey('privacy_verify_code'),
                     label: 'Verify code',
                     onPressed:
                         !busy &&
-                            verificationReady &&
-                            RegExp(r'^[0-9]{6}$').hasMatch(_otp.text)
+                            RegExp(
+                              _controller.usingEmailVerification
+                                  ? r'^[0-9]{6,10}$'
+                                  : r'^[0-9]{6}$',
+                            ).hasMatch(_otp.text)
                         ? _verifyCode
                         : null,
                     expand: true,
@@ -366,9 +518,10 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
                         : CollectButtonVariant.primary,
                     onPressed:
                         !busy &&
-                            verificationReady &&
-                            maskedPhone != null &&
-                            _resendRemaining == 0
+                            _resendRemaining == 0 &&
+                            (_controller.usingEmailVerification
+                                ? _controller.canSendEmailCode
+                                : maskedPhone != null)
                         ? _sendCode
                         : null,
                     expand: true,
@@ -426,25 +579,63 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
 }
 
 class _PrivacyReceiptCard extends StatelessWidget {
-  const _PrivacyReceiptCard({required this.receipt});
+  const _PrivacyReceiptCard({
+    required this.receipt,
+    required this.review,
+    required this.checking,
+  });
   final PrivacyIntakeReceipt receipt;
+  final PrivacyReviewStatus? review;
+  final bool checking;
+
+  (String, String) get _status => switch (review?.state) {
+    PrivacyReviewState.notStarted || PrivacyReviewState.awaitingReview => (
+      'Pending review',
+      'Your account has not been deleted. Your request is awaiting review.',
+    ),
+    PrivacyReviewState.claimActive => (
+      'Review in progress',
+      'When last checked, a reviewer had started reviewing your request. Your account has not been deleted.',
+    ),
+    PrivacyReviewState.claimExpired => (
+      'Waiting to resume review',
+      'Your review needs to be resumed. Your account has not been deleted.',
+    ),
+    PrivacyReviewState.blocked => (
+      'Waiting for policy approval',
+      'A policy blocker has been recorded. Deletion cannot proceed until the required data retention and deletion policy is approved. Your account has not been deleted.',
+    ),
+    null => (
+      checking ? 'Checking review status' : 'Review status unavailable',
+      'Your request is recorded. Its current review status has not been verified. Your account has not been deleted.',
+    ),
+  };
 
   @override
   Widget build(BuildContext context) => CollectCard(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CollectStatusChip(
-          label: 'Pending review',
-          tone: CollectStatusTone.info,
-          icon: CollectIcons.pending,
+        Semantics(
+          liveRegion: true,
+          child: CollectStatusChip(
+            label: _status.$1,
+            tone: review == null || review?.state == PrivacyReviewState.blocked
+                ? CollectStatusTone.warning
+                : CollectStatusTone.info,
+            icon: CollectIcons.pending,
+          ),
         ),
         CollectSpacing.gap16,
         Text('Request recorded', style: Theme.of(context).textTheme.titleLarge),
         CollectSpacing.gap8,
-        const Text(
-          'Your account has not been deleted. Your request is awaiting review.',
-        ),
+        Text(_status.$2),
+        if (review != null) ...[
+          CollectSpacing.gap12,
+          Text(
+            'Review status checked at ${DateFormat('yMMMd HH:mm:ss', 'en').format(review!.checkedAt)} UTC. Refresh to check again.',
+          ),
+        ],
         CollectSpacing.gap16,
         Text(
           'Recorded on ${DateFormat.yMMMd('en').format(receipt.acceptedAt.toLocal())}',
@@ -473,7 +664,7 @@ String _privacyPublicError(PrivacyFailure failure) => switch (failure) {
   PrivacyFailure.phoneUnavailable =>
     'Your signed-in phone number is unavailable. Get help to continue.',
   PrivacyFailure.captchaRequired =>
-    'Complete CAPTCHA verification to continue.',
+    'Security verification could not finish. Try again or get help.',
   PrivacyFailure.rateLimited =>
     'Wait before requesting another verification code.',
   PrivacyFailure.verificationUnavailable =>

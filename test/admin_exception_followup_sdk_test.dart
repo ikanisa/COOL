@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_exception_followup_v2_models.dart';
@@ -9,20 +8,15 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_action_session_test.dart' as auth;
+import 'support/admin_followup_fixture.dart';
 
-Map<String, dynamic> _sql(String name) => Map<String, dynamic>.from(
-  jsonDecode(
-        File(
-          'scripts/tests/fixtures/exception_followup_v2/observed-$name.json',
-        ).readAsStringSync(),
-      )
-      as Map,
-);
+Map<String, dynamic> _fixture(String name) => followupFixture(name);
+
 AdminExceptionWorkflowIntent _intent() {
-  final row = _sql('assignment-binding');
+  final row = _fixture('assignment-binding');
   return AdminExceptionWorkflowIntent.parse({
     'p_request_id': row['request_id'],
     'p_exception_id': row['exception_id'],
@@ -37,16 +31,16 @@ AdminExceptionWorkflowIntent _intent() {
 }
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late List<http.Request> requests;
   late Future<http.Response> Function(http.Request) respond;
   final intent = _intent();
   final original = AdminExceptionFollowupReference.fromIntent(intent);
   const query = AdminExceptionFollowupDirectoryQuery();
-  final directory = _sql('directory-first');
-  final receipt = _sql('assignment-receipt');
-  final lookup = _sql('recorded-lookup');
+  final directory = _fixture('directory-first');
+  final receipt = _fixture('assignment-receipt');
+  final lookup = _fixture('recorded-lookup');
   final operations = <String, Future<Map<String, dynamic>> Function()>{
     'directory': () => repository.exceptionFollowupOperators(query),
     'action': () => repository.exceptionFollowupAction(intent),
@@ -60,10 +54,8 @@ void main() {
   setUp(() async {
     requests = [];
     respond = (_) async => auth.response(directory);
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final parts = (jsonDecode(request.body)['token'] as String).split(
@@ -88,12 +80,12 @@ void main() {
   tearDown(() => client.dispose());
 
   test(
-    'actual SDK directory uses exact RPC Bearer and paired keyset from SQL',
+    'Cloudflare client directory uses exact RPC Bearer and paired synthetic keyset',
     () async {
       await operations['directory']!();
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_list_exception_followup_operators_v2',
+        '/v1/rpc/admin_list_exception_followup_operators_v2',
       );
       expect(jsonDecode(requests.single.body), query.parameters);
       expect(
@@ -107,7 +99,7 @@ void main() {
       final next = AdminExceptionFollowupDirectoryQuery(
         before: parsed.nextCursor,
       );
-      respond = (_) async => auth.response(_sql('directory-last'));
+      respond = (_) async => auth.response(_fixture('directory-last'));
       await repository.exceptionFollowupOperators(next);
       expect(jsonDecode(requests.last.body), next.parameters);
       expect(requests, hasLength(2));
@@ -116,10 +108,7 @@ void main() {
   test('actual SDK v2 mutation submits nine reviewed arguments once', () async {
     respond = (_) async => auth.response(receipt);
     await operations['action']!();
-    expect(
-      requests.single.url.path,
-      '/rest/v1/rpc/admin_act_exception_workflow_v2',
-    );
+    expect(requests.single.url.path, '/v1/rpc/admin_act_exception_workflow_v2');
     expect(jsonDecode(requests.single.body), intent.parameters);
     expect(
       requests.single.headers['Authorization'],
@@ -133,7 +122,7 @@ void main() {
       await operations['lookup']!();
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_get_exception_workflow_request_v2',
+        '/v1/rpc/admin_get_exception_workflow_request_v2',
       );
       expect(jsonDecode(requests.single.body), original.lookupParameters);
       expect(jsonDecode(requests.single.body), hasLength(3));
@@ -155,7 +144,7 @@ void main() {
           }, status);
           await expectLater(
             operations[name]!(),
-            throwsA(isA<PostgrestException>()),
+            throwsA(isA<CollectApiException>()),
           );
           expect(requests, hasLength(1));
         },

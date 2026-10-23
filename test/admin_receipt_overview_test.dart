@@ -11,7 +11,7 @@ import 'package:collect_app/admin/core/admin_receipt_overview.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/app/theme/collect_colors.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +19,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'support/test_capture_paths.dart';
@@ -125,7 +124,17 @@ class _Repository extends AdminEvidenceRepository {
   @override
   Future<List<AdminMetric>> overviewMetrics() {
     if (failMetrics) throw StateError('synthetic independent failure');
-    return super.overviewMetrics();
+    return super.overviewMetrics().then(
+      (metrics) => [
+        for (final metric in metrics)
+          if (metric.label != 'Balanced ledgers') metric,
+        const AdminMetric(
+          label: 'Ledger entries',
+          value: '10',
+          status: 'active',
+        ),
+      ],
+    );
   }
 
   @override
@@ -179,7 +188,7 @@ Future<void> _pump(
         adminRepositoryProvider.overrideWithValue(repository),
         adminIdentityProvider.overrideWith((_) async => identity),
         adminClockProvider.overrideWithValue(clock ?? () => _now),
-        supabaseClientProvider.overrideWithValue(null),
+        collectBackendClientProvider.overrideWithValue(null),
       ],
       child: MaterialApp(
         theme: brightness == Brightness.dark
@@ -199,6 +208,21 @@ Future<void> _pump(
         ),
       ),
     ),
+  );
+  await tester.pumpAndSettle();
+}
+
+Future<void> _reveal(WidgetTester tester, Finder target) async {
+  await tester.scrollUntilVisible(
+    target,
+    450,
+    scrollable: find
+        .descendant(
+          of: find.byKey(const Key('admin-overview-workspace')),
+          matching: find.byType(Scrollable),
+        )
+        .first,
+    maxScrolls: 30,
   );
   await tester.pumpAndSettle();
 }
@@ -307,6 +331,12 @@ void main() {
       expect(find.text('Definite no-send failures'), findsOneWidget);
       expect(find.text('Unknown send outcome'), findsOneWidget);
       expect(find.text('Send started, unresolved'), findsOneWidget);
+      await _reveal(
+        tester,
+        find.textContaining(
+          'sender/device/network diagnostics are not connected',
+        ),
+      );
       expect(
         find.textContaining(
           'sender/device/network diagnostics are not connected',
@@ -323,7 +353,13 @@ void main() {
     (tester) async {
       final semantics = tester.ensureSemantics();
       await _pump(tester, _Repository());
-      await tester.ensureVisible(find.text('Record').first);
+      await _reveal(
+        tester,
+        find.descendant(
+          of: find.bySemanticsLabel(RegExp(r'^Needs attention queue,')),
+          matching: find.text('Record'),
+        ),
+      );
       await tester.pumpAndSettle();
       for (final label in [
         'Record',
@@ -344,7 +380,7 @@ void main() {
     tester,
   ) async {
     await _pump(tester, _Repository(), brightness: Brightness.light);
-    final heading = tester.widget<Text>(find.text('Balanced ledgers'));
+    final heading = tester.widget<Text>(find.text('Ledger entries'));
     final value = tester.widget<Text>(find.text('10'));
     expect(heading.style!.color, CollectColors.light.textSecondary);
     expect(value.style!.color, CollectColors.light.textPrimary);
@@ -356,7 +392,10 @@ void main() {
       await _pump(
         tester,
         _Repository(
-          failure: const PostgrestException(message: 'redacted', code: '42501'),
+          failure: const CollectApiException(
+            message: 'redacted',
+            code: '42501',
+          ),
         ),
       );
       expect(
@@ -404,6 +443,7 @@ void main() {
         ),
       );
       expect(find.text('RWF 1,234,500'), findsOneWidget);
+      await _reveal(tester, find.textContaining('Gate closed'));
       expect(find.textContaining('Gate closed'), findsOneWidget);
       expect(find.text('Unavailable'), findsNWidgets(2));
       expect(find.textContaining('Observed queue checks:'), findsNothing);
@@ -459,11 +499,16 @@ void main() {
     (tester) async {
       final repository = _Repository();
       await _pump(tester, repository);
+      await _reveal(
+        tester,
+        find.widgetWithText(OutlinedButton, 'Refresh payments and receipts'),
+      );
       await tester.tap(
         find.widgetWithText(OutlinedButton, 'Refresh payments and receipts'),
       );
       await tester.pumpAndSettle();
-      await tester.ensureVisible(
+      await _reveal(
+        tester,
         find.widgetWithText(OutlinedButton, 'Refresh operational status'),
       );
       await tester.tap(
@@ -506,7 +551,7 @@ void main() {
         adminRepositoryProvider.overrideWithValue(repository),
         adminIdentityProvider.overrideWith((_) async => _identity),
         adminClockProvider.overrideWithValue(() => _now),
-        supabaseClientProvider.overrideWithValue(null),
+        collectBackendClientProvider.overrideWithValue(null),
       ],
     );
     addTearDown(container.dispose);
@@ -522,6 +567,7 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+    await _reveal(tester, find.text('Investigate unknown outcomes'));
     await tester.tap(find.text('Investigate unknown outcomes'));
     await tester.pumpAndSettle();
     expect(
@@ -589,17 +635,15 @@ void main() {
     });
   }
   group('SDK request and session fence', () {
-    late SupabaseClient client;
+    late CollectCloudflareClient client;
     late AdminRepository repository;
     final requests = <http.Request>[];
     late Future<http.Response> Function(http.Request) respond;
     setUp(() async {
       requests.clear();
       respond = (_) async => auth.response(_fixture());
-      client = SupabaseClient(
+      client = CollectCloudflareClient(
         'https://synthetic.invalid',
-        'synthetic-publishable',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((request) async {
           if (request.url.path.endsWith('/verify')) {
             final token = (jsonDecode(request.body)['token'] as String).split(
@@ -627,10 +671,7 @@ void main() {
       () async {
         final data = await repository.receiptOverview(countryCode: 'RW');
         expect(data['scope'], 'rwanda_momo');
-        expect(
-          requests.single.url.path,
-          '/rest/v1/rpc/admin_receipt_overview_v1',
-        );
+        expect(requests.single.url.path, '/v1/rpc/admin_receipt_overview_v1');
         expect(jsonDecode(requests.single.body), {'p_country': 'RW'});
         expect(
           requests.single.headers['Authorization'],

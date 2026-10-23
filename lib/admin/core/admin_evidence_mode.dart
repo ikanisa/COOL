@@ -145,6 +145,10 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
   @override
   Future<Map<String, dynamic>> detail(String rpcName, String id) async {
     const createdAt = '2026-08-20T06:30:00Z';
+    final person =
+        rpcName == 'admin_get_user' || rpcName == 'admin_get_member_record'
+        ? _evidencePersonForId(id)
+        : const <String, dynamic>{};
     return switch (rpcName) {
       'admin_get_collect_transaction' => {
         'id': id,
@@ -258,28 +262,47 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
       },
       'admin_get_user' => {
         'id': id,
-        'collect_id': 'CM6816',
-        'display_name': 'Evidence member',
-        'phone_masked': '+250***4321',
+        'collect_id': person['public_id'],
+        'public_id': person['public_id'],
+        'display_name': person['display_name'],
+        'user_type': person['user_type'],
+        'email': person['email'],
+        'phone': person['phone_e164'],
+        'phone_masked': person['phone_masked'],
+        'whatsapp_phone': person['whatsapp_phone'],
         'country_code': 'RW',
-        'momo_masked': '078•••••11',
-        'payment_profile': '078•••••11',
-        'active_groups': id == 'user-1' ? 0 : 2,
+        'momo_number': person['momo_number'],
+        'momo_pay_code': person['momo_pay_code'],
+        'momo_provider': person['momo_provider'],
+        'momo_masked': person['momo_masked'],
+        'payment_profile': person['momo_number'],
+        'active_groups': person['active_groups'],
+        'groups_total': person['active_groups'],
         'status': 'active',
-        'created_at': createdAt,
+        'created_at': person['created_at'],
+        'updated_at': person['created_at'],
       },
       'admin_get_member_record' => {
         'id': id,
-        'collect_id': '960200',
-        'member_name': 'Evidence feature-phone member',
-        'momo_registered_name': 'EVIDENCE FEATURE PHONE MEMBER',
-        'momo_masked': '+250•••200',
-        'whatsapp_masked': null,
-        'account_state': 'feature_phone',
-        'origin': 'admin_assisted',
+        'collect_id': person['public_id'],
+        'member_name': person['display_name'],
+        'momo_registered_name': (person['display_name'] as String)
+            .toUpperCase(),
+        'momo_number': person['phone_e164'],
+        'whatsapp_phone': person['whatsapp_phone'],
+        'momo_pay_code': person['momo_pay_code'],
+        'member_type': person['member_type'],
+        'contributed_amount_rwf': null,
+        'contribution_status': 'unavailable',
+        'momo_masked': person['momo_masked'],
+        'whatsapp_masked': person['whatsapp_masked'],
+        'account_state': person['account_state'],
+        'origin': person['account_state'] == 'feature_phone'
+            ? 'admin_assisted'
+            : 'app_registered',
         'lifecycle': 'active',
-        'active_groups': 1,
-        'created_at': createdAt,
+        'active_groups': person['active_groups'],
+        'created_at': person['created_at'],
       },
       'admin_get_admin_user' => {
         'id': id,
@@ -354,7 +377,7 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
           subtitle: _rowSubtitle(rpcName, index),
           status: _rowStatus(rpcName, index),
           amount: _rowAmount(rpcName, index),
-          createdAt: _rowCreatedAt(index),
+          createdAt: _rowCreatedAt(_evidencePersonIndex(rpcName, index)),
           extra: {
             'sender_masked': _maskedPayer(index),
             'reference': 'COLLECT-AB${1200 + index}-${6800 + index}',
@@ -382,10 +405,27 @@ class AdminEvidenceRepository extends AdminRepositoryBase {
               normalizedSearch.isEmpty ||
               row.title.toLowerCase().contains(normalizedSearch) ||
               row.subtitle.toLowerCase().contains(normalizedSearch) ||
-              row.id.toLowerCase().contains(normalizedSearch);
+              row.id.toLowerCase().contains(normalizedSearch) ||
+              (_isEvidencePeopleList(rpcName) &&
+                  const [
+                    'public_id',
+                    'display_name',
+                    'user_type',
+                    'email',
+                    'whatsapp_phone',
+                    'momo_number',
+                    'momo_pay_code',
+                  ].any(
+                    (key) => '${row.extra[key] ?? ''}'.toLowerCase().contains(
+                      normalizedSearch,
+                    ),
+                  ));
           final matchesStatus =
               normalizedStatus.isEmpty ||
-              row.status.toLowerCase() == normalizedStatus;
+              row.status.toLowerCase() == normalizedStatus ||
+              (rpcName == 'admin_list_users' &&
+                  '${row.extra['user_type']}'.toLowerCase() ==
+                      normalizedStatus);
           final rowCountry = '${row.extra['country_code'] ?? ''}'
               .trim()
               .toUpperCase();
@@ -471,12 +511,83 @@ void _requireReviewEmail(String email) {
   }
 }
 
+// One synthetic people cohort backs Users, Members and the retained
+// non-member alias. These are local review facts, never live account evidence.
+bool _isEvidencePeopleList(String rpcName) => const {
+  'admin_list_users',
+  'admin_list_members',
+  'admin_list_non_member_users',
+}.contains(rpcName);
+
+int _evidencePersonIndex(String rpcName, int index) => switch (rpcName) {
+  // Put all four types on the first Users page while retaining member IDs.
+  'admin_list_users' => index <= 4 ? 21 + index : index - 4,
+  'admin_list_non_member_users' => 21 + index,
+  _ => index,
+};
+
+Map<String, dynamic> _evidencePersonForId(String id) {
+  final match = RegExp(r'^user-([0-9]+)$').firstMatch(id);
+  final index = int.tryParse(match?.group(1) ?? '') ?? 1;
+  return _evidencePerson(index >= 1 && index <= 25 ? index : 1);
+}
+
+Map<String, dynamic> _evidencePerson(int index) {
+  final type = switch (index) {
+    22 => 'Admin',
+    23 => 'Staff',
+    24 => 'App',
+    25 => 'Direct',
+    _ => index.isOdd ? 'Direct' : 'App',
+  };
+  final isOperator = type == 'Admin' || type == 'Staff';
+  final number = '0788000${index.toString().padLeft(3, '0')}';
+  final phone = '+250${number.substring(1)}';
+  final whatsapp = type == 'App' ? phone : null;
+  final masked = '+250•••${phone.substring(phone.length - 4)}';
+  return {
+    'public_id': (38490 + index).toString().padLeft(6, '0'),
+    'display_name': 'Synthetic $type $index',
+    'user_type': type,
+    'user_types': <String>[type],
+    'member_type': isOperator ? null : type,
+    'record_type': type == 'Direct' ? 'direct' : 'user',
+    'email': type == 'Direct'
+        ? null
+        : 'synthetic.${type.toLowerCase()}.$index@collect.example',
+    'phone_e164': phone,
+    'phone_masked': masked,
+    'whatsapp_phone': whatsapp,
+    'whatsapp_number': whatsapp,
+    'whatsapp_masked': whatsapp == null ? null : masked,
+    'momo_number': number,
+    'momo_pay_code': index % 3 == 0
+        ? null
+        : (8000 + index).toString().padLeft(6, '0'),
+    'momo_provider': 'mtn_momo',
+    'momo_masked': '078•••••${number.substring(number.length - 2)}',
+    'account_state': isOperator
+        ? 'operator'
+        : type == 'Direct'
+        ? 'feature_phone'
+        : 'app',
+    'country_code': 'RW',
+    'currency_code': 'RWF',
+    'active_groups': index <= 21 ? 1 + (index % 4) : 0,
+    'total_contributed_rwf': null,
+    'posted_contributed_rwf': null,
+    'is_platform_admin': type == 'Admin',
+    'created_at': _rowCreatedAt(index).toIso8601String(),
+  };
+}
+
 int _rowCount(String rpcName) => switch (rpcName) {
   'admin_list_collect_payees' => 2,
   'admin_list_platform_payee_candidates' => 1,
   'admin_list_collect_transactions' => 12,
   'admin_list_collect_reconciliations' => 4,
   'admin_list_collect_ledgers' => 10,
+  'admin_list_users' => 25,
   'admin_list_members' => 21,
   'admin_list_non_member_users' => 4,
   'admin_list_collections' => 30,
@@ -503,9 +614,8 @@ String _rowId(String rpcName, int index) => switch (rpcName) {
   'admin_list_collect_transactions' => 'momo:transaction-$index',
   'admin_list_collect_reconciliations' => 'momo:exception-$index',
   'admin_list_collect_ledgers' => 'ledger-$index',
-  'admin_list_users' ||
-  'admin_list_members' ||
-  'admin_list_non_member_users' => 'user-$index',
+  'admin_list_users' || 'admin_list_members' || 'admin_list_non_member_users' =>
+    'user-${_evidencePersonIndex(rpcName, index)}',
   'admin_list_collections' => 'collection-$index',
   'admin_list_admin_users' =>
     '99740000-0000-4000-8000-${index.toString().padLeft(12, '0')}',
@@ -520,9 +630,8 @@ String _rowTitle(String rpcName, int index) => switch (rpcName) {
   'admin_list_collect_reconciliations' =>
     'Unallocated MoMo receipt ${681600 + index}',
   'admin_list_collect_ledgers' => 'Ledger entry ${681600 + index}',
-  'admin_list_users' ||
-  'admin_list_members' ||
-  'admin_list_non_member_users' => 'Collect ID ${38490 + index}',
+  'admin_list_users' || 'admin_list_members' || 'admin_list_non_member_users' =>
+    'Collect ID ${_evidencePerson(_evidencePersonIndex(rpcName, index))['public_id']}',
   'admin_list_collections' => switch (index) {
     1 => 'Buri Munsi',
     2 => 'Gikundiro',
@@ -550,8 +659,8 @@ String _rowSubtitle(String rpcName, int index) => switch (rpcName) {
   'admin_list_collect_ledgers' => 'RWF balanced posting',
   'admin_list_collect_payees' =>
     index == 1 ? 'Buri Munsi · code 41258' : 'Gikundiro · code 008000',
-  'admin_list_members' => 'Rwanda · MoMo',
-  'admin_list_non_member_users' => 'Rwanda · no active group',
+  'admin_list_users' || 'admin_list_members' || 'admin_list_non_member_users' =>
+    '${_evidencePerson(_evidencePersonIndex(rpcName, index))['display_name']} · Rwanda',
   'admin_list_collections' => 'Rwanda MoMo group',
   'admin_list_hybrid_sms_receipts' => 'MoMo receipt · 078•••4321',
   _ => 'Rwanda operations',
@@ -608,23 +717,8 @@ Map<String, dynamic> _rowExtra(String rpcName, int index) {
       'receiver_network': 'mtn_momo',
     };
   }
-  if (rpcName == 'admin_list_members' ||
-      rpcName == 'admin_list_non_member_users') {
-    final member = rpcName == 'admin_list_members';
-    return {
-      'public_id': '${38490 + index}',
-      'display_name': member ? 'Member $index' : 'User $index',
-      'whatsapp_masked': member && index.isOdd
-          ? null
-          : '+250 78•••${4300 + index}',
-      'account_state': member && index.isOdd ? 'feature_phone' : 'app',
-      'country_code': 'RW',
-      'currency_code': 'RWF',
-      'momo_provider': 'mtn_momo',
-      'momo_masked': '078•••••${(10 + index) % 100}',
-      'active_groups': member ? 1 + (index % 4) : 0,
-      'is_platform_admin': index == 10,
-    };
+  if (_isEvidencePeopleList(rpcName)) {
+    return _evidencePerson(_evidencePersonIndex(rpcName, index));
   }
   if (rpcName == 'admin_list_admin_users') {
     return {

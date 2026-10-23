@@ -5,7 +5,7 @@ import 'package:collect_app/admin/core/admin_roster_import.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_action_session_test.dart' as auth;
 
@@ -30,39 +30,18 @@ const _reads = <String, Map<String, dynamic>>{
 // Gateway transport does not decode these responses. The production draft and
 // typed decoder tests separately prove their exact target/proof/ACK contract.
 void main() {
-  late SupabaseClient client;
-  late SupabaseAdminRosterGateway gateway;
+  late CollectCloudflareClient client;
+  late CollectAdminRosterGateway gateway;
   late List<http.Request> requests;
   late Future<http.Response> Function(http.Request) respond;
-  var expireNextAuth = false;
   setUp(() async {
-    expireNextAuth = false;
     requests = [];
     respond = (_) async => auth.response({'synthetic_read': true});
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
-        if (request.url.path.endsWith('/verify')) {
-          final values = (jsonDecode(request.body)['token'] as String).split(
-            '|',
-          );
-          final receipt = auth.authReceipt(values[0], values[1]);
-          if (expireNextAuth) {
-            final parts = (receipt['access_token'] as String).split('.');
-            final claims =
-                jsonDecode(
-                      utf8.decode(
-                        base64Url.decode(base64Url.normalize(parts[1])),
-                      ),
-                    )
-                    as Map<String, dynamic>;
-            claims['exp'] = DateTime.now().millisecondsSinceEpoch ~/ 1000 - 1;
-            receipt['access_token'] =
-                '${parts[0]}.${base64Url.encode(utf8.encode(jsonEncode(claims))).replaceAll('=', '')}.${parts[2]}';
-          }
-          return auth.response(receipt);
+        if (request.url.path.endsWith('/refresh')) {
+          return auth.response({'error': 'Synthetic refresh outage'}, 503);
         }
         if (request.url.path.endsWith('/logout')) return auth.response({});
         requests.add(request);
@@ -76,7 +55,7 @@ void main() {
       }),
     );
     await auth.session(client, _sessionA);
-    gateway = SupabaseAdminRosterGateway(client);
+    gateway = CollectAdminRosterGateway(client);
   });
   tearDown(() async {
     gateway.dispose();
@@ -97,7 +76,7 @@ void main() {
         final token = client.auth.currentSession!.accessToken;
         expect(await call(name, params), {'synthetic_read': true});
         expect(requests, hasLength(1));
-        expect(requests.single.url.path, '/rest/v1/rpc/$name');
+        expect(requests.single.url.path, '/v1/rpc/$name');
         expect(requests.single.method, 'POST');
         expect(jsonDecode(requests.single.body), params);
         expect(requests.single.headers['Authorization'], 'Bearer $token');
@@ -172,7 +151,7 @@ void main() {
     }
 
     test('$name actual SDK logout denies before another HTTP read', () async {
-      await client.auth.signOut(scope: SignOutScope.local);
+      await client.auth.signOut(scope: CollectSignOutScope.local);
       await expectLater(call(name, params), throwsA(isA<StateError>()));
       expect(requests, isEmpty);
     });
@@ -186,8 +165,26 @@ void main() {
     test(
       '$name actual SDK expired token denies before another HTTP read',
       () async {
-        expireNextAuth = true;
-        await auth.session(client, _sessionA, nonce: 9);
+        // Admit a live recorded session, then let it actually expire. The
+        // production client correctly rejects already-expired installation.
+        final expiry = DateTime.now().millisecondsSinceEpoch ~/ 1000 + 2;
+        final receipt = auth.authReceipt(_sessionA, '9');
+        final parts = (receipt['access_token'] as String).split('.');
+        final claims = Map<String, dynamic>.from(
+          jsonDecode(
+                utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
+              )
+              as Map,
+        );
+        claims['exp'] = expiry;
+        receipt['access_token'] =
+            '${parts[0]}.${base64Url.encode(utf8.encode(jsonEncode(claims))).replaceAll('=', '')}.${parts[2]}';
+        receipt['expires_at'] = expiry;
+        await client.auth.recoverSession(jsonEncode(receipt));
+        final wait = expiry * 1000 - DateTime.now().millisecondsSinceEpoch + 50;
+        await Future<void>.delayed(
+          Duration(milliseconds: wait.clamp(50, 2050)),
+        );
         await expectLater(call(name, params), throwsA(isA<StateError>()));
         expect(requests, isEmpty);
       },

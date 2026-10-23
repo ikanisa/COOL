@@ -7,13 +7,13 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'admin_automatic_gateway_models_test.dart' as fixture;
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late List<http.Request> requests;
   late Future<http.Response> Function(http.Request) respond;
@@ -22,10 +22,8 @@ void main() {
     respond = (_) async => auth.response(
       fixture.automaticFixture('late-contradictory-observation'),
     );
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final parts = (jsonDecode(request.body)['token'] as String).split(
@@ -54,7 +52,7 @@ void main() {
       await repository.automaticReceiptEvidence(data['receipt_id'] as String);
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_get_gateway_receipt_investigation_v3',
+        '/v1/rpc/admin_get_gateway_receipt_investigation_v3',
       );
       expect(jsonDecode(requests.single.body), {
         'p_receipt_id': data['receipt_id'],
@@ -81,7 +79,7 @@ void main() {
       expect(result['next_cursor'], isNotNull);
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_list_gateway_device_attempts_v3',
+        '/v1/rpc/admin_list_gateway_device_attempts_v3',
       );
     },
   );

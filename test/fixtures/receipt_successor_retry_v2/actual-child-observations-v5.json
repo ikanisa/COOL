@@ -1,0 +1,33 @@
+{
+  "items": [
+    {
+      "tp_status": null,
+      "attempt_id": "331a6661-079f-4b3a-affe-19a966f2c6f6",
+      "request_id": "d31ecba8-a237-40af-a48a-8a5b6ed68624",
+      "callback_id": "7618e147-fe01-425b-afb9-8d00bd389f60",
+      "occurred_at": "2026-10-03T05:19:39.791433Z",
+      "recorded_at": "2026-10-03T05:19:39.836766Z",
+      "result_code": -1,
+      "callback_kind": "sent",
+      "lineage_after": 12,
+      "segment_index": 0,
+      "lineage_before": 11,
+      "observed_state": "observed_sent"
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_receipt_successor_observations",
+  "status": "available",
+  "checked_at": "2026-10-03T05:19:39.961262Z",
+  "approval_id": "21946df5-e571-420f-8717-ce174ebfb72d",
+  "send_action": false,
+  "carrier_proof": false,
+  "after_revision": null,
+  "cutoff_revision": 12,
+  "delivery_proven": false,
+  "contract_version": 5,
+  "financial_action": false,
+  "primary_receipt_id": "5b9730d8-4bcb-4ba1-8154-85891d511050",
+  "sample_valid_until": "2026-10-03T05:20:39.961262Z",
+  "next_after_revision": null
+}

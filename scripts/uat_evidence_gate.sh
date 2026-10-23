@@ -30,7 +30,7 @@ text_extensions = %w[
   .json .md .txt .log .csv .tsv .yaml .yml .html
 ]
 forbidden_patterns = {
-  "supabase_service_role" => /service[_-]?role/i,
+  "service_role_secret" => /service[_-]?role/i,
   "openai_api_key" => /sk-[A-Za-z0-9_\-]{20,}/,
   "generic_secret_assignment" => /\b(?:secret|token|api[_-]?key|password)\b\s*[:=]\s*["']?[A-Za-z0-9_\-]{12,}/i,
   "rwanda_phone_number" => /\+250\d{9}\b/,

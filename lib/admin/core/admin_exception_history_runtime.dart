@@ -24,13 +24,13 @@ final adminExceptionHistoryProvider = FutureProvider.autoDispose
             .timeout(const Duration(seconds: 15));
         if (!current) throw const AdminSessionChanged();
         return AdminExceptionHistorySnapshot.parse(data, query: query);
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminEntityAuditDenied();
         if (error.code == '55P03' || error.code == '40001') {
           throw const AdminEntityAuditAuthorityBusy();
         }
-        if (error.code == '42883' || error.code == 'PGRST202') {
+        if (error.code == 'operation_unavailable' || error.code == '501') {
           throw UnsupportedError('Joined exception history is unavailable.');
         }
         rethrow;

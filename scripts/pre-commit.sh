@@ -26,7 +26,7 @@ ROOT_DIR="$(git rev-parse --show-toplevel)"
 echo -e "${YELLOW}🔒 Pre-commit gate 1/2: Secret file guard${NC}"
 
 BLOCKED_PATTERNS='\.jks$|\.keystore$|\.bak$|\.old$|\.orig$|sa-key.*\.json$|\.env$|\.env\.json$|key\.properties$'
-ALLOW_LIST='\.gitignore$|\.env\.example$|supabase/functions/\.env\.example$'
+ALLOW_LIST='\.gitignore$|\.env\.example$'
 
 STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/admin_error_boundary.dart';
+import 'admin_data_listing.dart';
 
 class AdminSensitiveDataGate extends StatefulWidget {
   const AdminSensitiveDataGate({
@@ -30,7 +31,7 @@ class _AdminSensitiveDataGateState extends State<AdminSensitiveDataGate> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return AdminDataSection(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -100,7 +101,12 @@ class _AdminSensitiveDataGateState extends State<AdminSensitiveDataGate> {
               Semantics(
                 liveRegion: true,
                 label: 'Sensitive data revealed. ${_revealed!}',
-                child: ExcludeSemantics(child: SelectableText(_revealed!)),
+                child: ExcludeSemantics(
+                  child: AdminDataFieldRow(
+                    label: widget.label,
+                    value: _revealed!,
+                  ),
+                ),
               ),
             ],
           ],

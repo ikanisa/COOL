@@ -120,7 +120,7 @@ class _ReceiptCancelCardState extends ConsumerState<AdminReceiptCancelCard> {
     final lookup = _lookupId == null
         ? null
         : ref.watch(adminReceiptCancelLookupProvider(_lookupId!));
-    return Card(
+    return AdminDataSection(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -168,13 +168,25 @@ class _ReceiptCancelCardState extends ConsumerState<AdminReceiptCancelCard> {
                         ),
                         const SizedBox(height: 8),
                         Text(data.eligibility!.label),
-                        Text(
-                          'Recorded state: ${data.state} · revision ${data.revision}',
+                        AdminDataFieldRow(
+                          label: 'Recorded state',
+                          value: '${data.state}',
                         ),
-                        Text('Reason code: ${data.eligibility!.wire}'),
-                        Text('Checked ${_cancelTime(data.checkedAt)}'),
-                        Text(
-                          'Inspection expires ${_cancelTime(data.validUntil)}',
+                        AdminDataFieldRow(
+                          label: 'Revision',
+                          value: '${data.revision}',
+                        ),
+                        AdminDataFieldRow(
+                          label: 'Reason code',
+                          value: data.eligibility!.wire,
+                        ),
+                        AdminDataFieldRow(
+                          label: 'Checked',
+                          value: _cancelTime(data.checkedAt),
+                        ),
+                        AdminDataFieldRow(
+                          label: 'Inspection expires',
+                          value: _cancelTime(data.validUntil),
                         ),
                         const Text(
                           'Rwanda receipt scope · Inspection freshness does not attest carrier behavior outside the recorded workflow.',
@@ -242,10 +254,21 @@ class _ReceiptCancelCardState extends ConsumerState<AdminReceiptCancelCard> {
                 'The original outcome remains protected. A not-recorded result at any age cannot prove that a delayed request will never execute. No replacement request or replay is available.',
               ),
               const SizedBox(height: 8),
-              SelectableText('Request ID: ${_checkpoint!.intent.requestId}'),
-              SelectableText('Receipt ID: ${_checkpoint!.intent.outboxId}'),
-              Text(
-                'Reviewed revision ${_checkpoint!.intent.revision} · ${_checkpoint!.intent.reason.label}',
+              AdminDataFieldRow(
+                label: 'Request ID',
+                value: _checkpoint!.intent.requestId,
+              ),
+              AdminDataFieldRow(
+                label: 'Receipt ID',
+                value: _checkpoint!.intent.outboxId,
+              ),
+              AdminDataFieldRow(
+                label: 'Reviewed revision',
+                value: '${_checkpoint!.intent.revision}',
+              ),
+              AdminDataFieldRow(
+                label: 'Cancellation reason',
+                value: _checkpoint!.intent.reason.label,
               ),
               if (_checkpoint!.intent.outboxId != widget.outboxId)
                 Align(
@@ -627,17 +650,28 @@ class _CancelReceiptView extends StatelessWidget {
         tone: CollectStatusTone.info,
       ),
       const SizedBox(height: 8),
-      SelectableText('Request ID: ${receipt.requestId}'),
-      SelectableText('Receipt ID: ${receipt.outboxId}'),
+      AdminDataFieldRow(label: 'Request ID', value: receipt.requestId),
+      AdminDataFieldRow(label: 'Receipt ID', value: receipt.outboxId),
       AdminEntityAuditLink(
         kind: AdminAuditEntityKind.receipt,
         id: receipt.outboxId,
       ),
-      Text(
-        'Revision ${receipt.expectedRevision} → ${receipt.revision} · queued → suppressed',
+      AdminDataFieldRow(
+        label: 'Revision',
+        value: '${receipt.expectedRevision} → ${receipt.revision}',
       ),
-      Text(receipt.reason.label),
-      Text('Recorded ${_cancelTime(receipt.recordedAt)}'),
+      const AdminDataFieldRow(
+        label: 'State transition',
+        value: 'queued → suppressed',
+      ),
+      AdminDataFieldRow(
+        label: 'Cancellation reason',
+        value: receipt.reason.label,
+      ),
+      AdminDataFieldRow(
+        label: 'Recorded',
+        value: _cancelTime(receipt.recordedAt),
+      ),
       const Text(
         'Primary receipt retained · No financial or send action · Carrier delivery unverified',
       ),

@@ -3,7 +3,7 @@ import 'package:collect_app/admin/core/admin_models.dart';
 import 'package:collect_app/admin/core/admin_runtime.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -130,7 +130,7 @@ void main() {
           addTearDown(tester.view.resetDevicePixelRatio);
           final container = ProviderContainer(
             overrides: [
-              supabaseClientProvider.overrideWithValue(null),
+              collectBackendClientProvider.overrideWithValue(null),
               adminAuthGuardProvider.overrideWithValue(
                 const AdminAuthGuard(isAuthorized: true),
               ),
@@ -168,7 +168,13 @@ void main() {
           expect(find.text('MoMo number'), findsNothing);
           if (legacy) {
             expect(find.text('Unavailable'), findsWidgets);
-            expect(find.text('Allocated'), findsNothing);
+            expect(
+              find.descendant(
+                of: find.byType(DataTable),
+                matching: find.text('Allocated'),
+              ),
+              findsNothing,
+            );
             expect(find.text('Posted'), findsNothing);
           } else {
             expect(find.text('Awaiting verification'), findsWidgets);

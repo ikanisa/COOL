@@ -1,7 +1,7 @@
 import '../fixtures/collect_repository_fixture.dart';
 
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/features/collections/group_link_screen.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
@@ -22,11 +22,9 @@ class _RecordingRepository extends FixtureCollectRepository {
         profileOverride: const CollectProfile(
           id: _firstUser,
           publicId: '038491',
-          whatsappPhone: '+250788123456',
-          countryCode: 'RW',
-          currencyCode: 'RWF',
-          momoProvider: 'mtn_momo',
-          momoNumber: '0788123456',
+          whatsappPhone: '',
+          countryCode: 'DE',
+          currencyCode: 'EUR',
         ),
       );
 
@@ -111,20 +109,21 @@ void main() {
     return (router: router, repository: repository, store: store);
   }
 
-  testWidgets('opening a group link waits for an explicit Join tap', (
-    tester,
-  ) async {
-    final harness = await pumpInvitation(tester);
-    expect(find.text('Review this group invitation'), findsOneWidget);
-    expect(harness.repository.joinCalls, 0);
-    expect((await harness.store.read())?.ownerUserId, _firstUser);
+  testWidgets(
+    'non-Rwanda walletless invitation waits for an explicit Join tap',
+    (tester) async {
+      final harness = await pumpInvitation(tester);
+      expect(find.text('Review this group invitation'), findsOneWidget);
+      expect(harness.repository.joinCalls, 0);
+      expect((await harness.store.read())?.ownerUserId, _firstUser);
 
-    await tester.tap(find.text('Join group'));
-    await tester.pumpAndSettle();
-    expect(harness.repository.joinCalls, 1);
-    expect(find.text('Opened group'), findsOneWidget);
-    expect(await harness.store.read(), isNull);
-  });
+      await tester.tap(find.text('Join group'));
+      await tester.pumpAndSettle();
+      expect(harness.repository.joinCalls, 1);
+      expect(find.text('Opened group'), findsOneWidget);
+      expect(await harness.store.read(), isNull);
+    },
+  );
 
   testWidgets('an account switch prevents the stored invitation from joining', (
     tester,

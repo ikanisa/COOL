@@ -11,6 +11,9 @@ import android.os.Bundle
 import android.provider.Settings
 import app.cool.mobile.receiver_sms.SmsQueueEventBus
 import app.cool.mobile.receiver_sms.SmsQueueStore
+import app.cool.mobile.receiver_sms.commitReceiptState
+import androidx.core.content.edit
+import androidx.core.net.toUri
 import app.cool.mobile.receiver_sms.SmsQueueWorker
 import com.google.android.play.core.integrity.IntegrityManagerFactory
 import com.google.android.play.core.integrity.StandardIntegrityManager
@@ -22,6 +25,13 @@ import io.flutter.plugin.common.MethodChannel
 import org.json.JSONObject
 
 class MainActivity : FlutterActivity() {
+    private var turnstileHost: CollectTurnstileHost? = null
+
+    override fun onDestroy() {
+        turnstileHost?.dispose()
+        turnstileHost = null
+        super.onDestroy()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -54,8 +64,19 @@ class MainActivity : FlutterActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        app.cool.mobile.receiver_sms.MemberSmsJobs.ensure(applicationContext)
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        turnstileHost?.dispose()
+        val challengeHost = CollectTurnstileHost(this)
+        turnstileHost = challengeHost
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "collect/turnstile")
+            .setMethodCallHandler { call, result -> challengeHost.handle(call, result) }
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "collect/secure_snapshot")
             .setMethodCallHandler { call, result ->
@@ -69,6 +90,59 @@ class MainActivity : FlutterActivity() {
                             call.argument<String>("value") ?: throw IllegalArgumentException("Snapshot required"))
                     }
                     "clear" -> runSmsQueueTask(result) { storage.clear() }
+                    else -> result.notImplemented()
+                }
+            }
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "collect/secure_auth_session")
+            .setMethodCallHandler { call, result ->
+                val storage = ProtectedSnapshotStore(applicationContext, purpose = "auth")
+                when (call.method) {
+                    "read" -> runSmsQueueTask(result) {
+                        storage.read(call.argument<String>("owner_id").orEmpty())
+                    }
+                    "write" -> runSmsQueueTask(result) {
+                        storage.write(call.argument<String>("owner_id").orEmpty(),
+                            call.argument<String>("value") ?: throw IllegalArgumentException("Session required")).also {
+                            if (it) app.cool.mobile.receiver_sms.MemberSmsJobs.ensure(applicationContext)
+                        }
+                    }
+                    "clear" -> runSmsQueueTask(result) { storage.clear() }
+                    else -> result.notImplemented()
+                }
+            }
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "collect/payment_help_pending")
+            .setMethodCallHandler { call, result ->
+                val storage = ProtectedSnapshotStore(applicationContext, purpose = "payment_help")
+                when (call.method) {
+                    "read" -> runPaymentHelpPendingTask(result) {
+                        storage.read(call.argument<String>("owner_id").orEmpty())
+                    }
+                    "write" -> runPaymentHelpPendingTask(result) {
+                        storage.write(call.argument<String>("owner_id").orEmpty(),
+                            call.argument<String>("value") ?: throw IllegalArgumentException("Pending request required"))
+                    }
+                    "clear" -> runPaymentHelpPendingTask(result) {
+                        val owner = call.argument<String>("owner_id")
+                        require(!call.hasArgument("owner_id") || owner != null) { "Owner required" }
+                        storage.clear(owner)
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+
+        val receiptSmsPending = app.cool.mobile.security.ReceiptSmsPendingStore(applicationContext)
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "collect/receipt_sms_pending")
+            .setMethodCallHandler { call, result ->
+                val owner = call.argument<String>("owner_id").orEmpty()
+                val group = call.argument<String>("collection_id").orEmpty()
+                when (call.method) {
+                    "read" -> runReceiptSmsPendingTask(result) { receiptSmsPending.read(owner, group) }
+                    "claim" -> runReceiptSmsPendingTask(result) { receiptSmsPending.claim(owner, group, call.argument<Any>("request")) }
+                    "claimWithdrawalFence" -> runReceiptSmsPendingTask(result) { receiptSmsPending.claim(owner, group, call.argument<Any>("request"), true) }
+                    "complete" -> runReceiptSmsPendingTask(result) { receiptSmsPending.complete(owner, group, call.argument<Any>("request"), call.argument<Any>("decision_revision")) }
+                    "supersede" -> runReceiptSmsPendingTask(result) { receiptSmsPending.supersede(owner, group, call.argument<Any>("known_requests"), call.argument<Any>("decision_revision")) }
                     else -> result.notImplemented()
                 }
             }
@@ -93,6 +167,16 @@ class MainActivity : FlutterActivity() {
         )
         SmsQueueEventBus.removeListener(smsQueueListener)
         SmsQueueEventBus.addListener(smsQueueListener)
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "collect/momo_gateway")
+            .setMethodCallHandler { call, result ->
+                if (call.method != "openMomoGateway") result.notImplemented()
+                else if (BuildConfig.FLAVOR != "internal_receiver") result.success(false)
+                else {
+                    startActivity(Intent(this, app.cool.mobile.receiver_sms.MomoGatewayActivity::class.java))
+                    result.success(true)
+                }
+            }
 
         MethodChannel(
             flutterEngine.dartExecutor.binaryMessenger,
@@ -142,6 +226,7 @@ class MainActivity : FlutterActivity() {
                         )
                     } else if (hasSmsPermissions()) {
                         if (SmsQueueStore(applicationContext).enableForOwner(ownerUserId)) {
+                            app.cool.mobile.receiver_sms.MemberSmsJobs.ensure(applicationContext)
                             result.success(true)
                         } else {
                             result.error(
@@ -213,6 +298,23 @@ class MainActivity : FlutterActivity() {
                         supportsSmsAccess() &&
                         hasSmsPermissions()
                 )
+                "parkPendingSms", "retryRejectedSms" -> {
+                    val owner = call.argument<String>("owner_user_id").orEmpty()
+                    runSmsQueueTask(result, stillAuthorized = {
+                        SmsQueueStore(applicationContext).activeCaptureOwner() == owner && hasSmsPermissions()
+                    }) {
+                        check(owner.isNotEmpty() && SmsQueueStore(applicationContext).activeCaptureOwner() == owner && hasSmsPermissions())
+                        val queue = SmsQueueStore(applicationContext)
+                        val changed = if (call.method == "parkPendingSms")
+                            queue.parkRejected(owner, call.argument<String>("id").orEmpty(), 400)
+                        else queue.retryRejected(owner)
+                        if (changed) {
+                            SmsQueueEventBus.notifyQueueChanged()
+                            if (call.method == "retryRejectedSms") app.cool.mobile.receiver_sms.MemberSmsJobs.ensure(applicationContext)
+                        }
+                        changed
+                    }
+                }
                 "readPendingSms" -> {
                     val requestedOwner = call.argument<String>("owner_user_id")?.trim().orEmpty()
                     if (
@@ -239,15 +341,7 @@ class MainActivity : FlutterActivity() {
                         val values = mutableListOf<Map<String, String>>()
                         for (index in 0 until array.length()) {
                             val item = array.optJSONObject(index) ?: JSONObject()
-                            values.add(
-                                mapOf(
-                                    "id" to item.optString("id", ""),
-                                    "owner_user_id" to item.optString("owner_user_id", ""),
-                                    "raw_sender" to item.optString("raw_sender", "android_sms"),
-                                    "raw_body" to item.optString("raw_body", ""),
-                                    "received_at_device" to item.optString("received_at_device", "")
-                                )
-                            )
+                            values.add(app.cool.mobile.receiver_sms.MemberSmsUploadPolicy.flutterEnvelope(item))
                         }
                         values
                     }
@@ -316,6 +410,46 @@ class MainActivity : FlutterActivity() {
         SmsQueueEventBus.removeListener(smsQueueListener)
         smsQueueEventSink = null
         super.cleanUpFlutterEngine(flutterEngine)
+    }
+
+    private fun runPaymentHelpPendingTask(result: MethodChannel.Result, task: () -> Any?) {
+        fun unavailable() = result.error(
+            "payment_help_storage_unavailable",
+            "Secure payment help recovery is unavailable; retained requests were not discarded.",
+            null,
+        )
+        try {
+            SmsQueueWorker.execute {
+                try {
+                    val value = task()
+                    runOnUiThread { result.success(value) }
+                } catch (_: Exception) {
+                    runOnUiThread { unavailable() }
+                }
+            }
+        } catch (_: RuntimeException) {
+            unavailable()
+        }
+    }
+
+    private fun runReceiptSmsPendingTask(result: MethodChannel.Result, task: () -> Any?) {
+        fun unavailable() = result.error(
+            "receipt_sms_recovery_unavailable",
+            "Secure receipt SMS recovery is unavailable; retained requests were not discarded.",
+            null,
+        )
+        try {
+            SmsQueueWorker.execute {
+                try {
+                    val value = task()
+                    runOnUiThread { result.success(value) }
+                } catch (_: Exception) {
+                    runOnUiThread { unavailable() }
+                }
+            }
+        } catch (_: RuntimeException) {
+            unavailable()
+        }
     }
 
     private fun runSmsQueueTask(
@@ -392,8 +526,9 @@ class MainActivity : FlutterActivity() {
         if (pendingSmsAccessResult == null || pendingSmsOwnerUserId == null) {
             // A revoked or signed-out request must never activate capture when
             // Android delivers its permission callback later.
-            getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE).edit()
-                .putBoolean(SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY, true).commit()
+            getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE).edit(commit = true) {
+                putBoolean(SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY, true)
+            }
             return
         }
 
@@ -434,7 +569,7 @@ class MainActivity : FlutterActivity() {
             return
         }
         try {
-            val uri = Uri.parse("tel:${Uri.encode(code)}")
+            val uri = "tel:${Uri.encode(code)}".toUri()
             startActivity(Intent(Intent.ACTION_CALL, uri))
             result.success(true)
         } catch (_: Exception) {
@@ -512,6 +647,8 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun supportsSmsAccess(): Boolean {
+        if (BuildConfig.FLAVOR != "internal_receiver" &&
+            !app.cool.mobile.receiver_sms.MomoGatewayPolicy.memberCaptureSupported(BuildConfig.FLAVOR)) return false
         val messagingFeature = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             PackageManager.FEATURE_TELEPHONY_MESSAGING
         } else {
@@ -565,6 +702,7 @@ class MainActivity : FlutterActivity() {
             "should_show_rationale" to SMS_PERMISSIONS.any(::shouldShowRequestPermissionRationale),
             "permanently_denied" to isSmsPermissionPermanentlyDenied(),
             "queue_unavailable" to prefs.getBoolean(SmsQueueStore.SMS_QUEUE_UNAVAILABLE_KEY, false),
+            "queue_needs_review" to SmsQueueStore(applicationContext).hasRejectedSources(),
             "queue_overflowed" to prefs.getBoolean(
                 SmsQueueStore.SMS_QUEUE_OVERFLOW_KEY,
                 false,
@@ -576,7 +714,7 @@ class MainActivity : FlutterActivity() {
         val prefs = getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE)
         val previous = prefs.getInt(SMS_PERMISSION_REQUEST_SEQUENCE_KEY, 0)
         val next = (previous % SMS_PERMISSION_REQUEST_CODE_SPAN) + 1
-        return if (prefs.edit().putInt(SMS_PERMISSION_REQUEST_SEQUENCE_KEY, next).commit()) {
+        return if (prefs.commitReceiptState { putInt(SMS_PERMISSION_REQUEST_SEQUENCE_KEY, next) }) {
             SMS_PERMISSION_REQUEST_CODE_BASE + next
         } else {
             null

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
+import '../../shared/models/contribution_record_copy.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/collect_data_load_failure.dart';
@@ -38,7 +39,7 @@ class _CollectionDetailScreenState
         children: [
           CollectScreenLoadingState(
             title: 'Loading group',
-            message: 'Refreshing group profile, balance, and activity.',
+            message: 'Refreshing group profile, recorded totals, and activity.',
             icon: CollectIcons.collections,
             skeletonCount: 3,
           ),
@@ -77,7 +78,10 @@ class _CollectionDetailScreenState
     final canManage =
         isAdmin && !collection.isPlatformSponsored && !collection.isPublic;
     final isMember = isAdmin || collection.isCurrentUserMember;
-    final canContribute = collection.isPublic || isMember;
+    final hasPaymentRoute = collection.supportsRwandaMomo;
+    final paymentEligible =
+        collection.contributionRailFor(profile) == 'rwanda_momo';
+    final canContribute = paymentEligible && (collection.isPublic || isMember);
     final contributionActionLabel = isMember
         ? 'Contribute'
         : 'Contribute & Join';
@@ -89,6 +93,7 @@ class _CollectionDetailScreenState
       compact: true,
       topChrome: const CollectPlainPageHeader(title: 'Group'),
       hero: CollectScreenHero(
+        eyebrow: ContributionRecordCopy.heroTotalLabel,
         title: collection.title,
         metric: totalLabel,
         subtitleWidget: CollectPeopleCount(
@@ -102,29 +107,29 @@ class _CollectionDetailScreenState
         icon: collectionTypeIcon(collection.collectionType),
         semanticLabel:
             '${collection.title}, '
-            '${summary == null ? 'Group total unavailable' : '$totalLabel raised'}, '
+            '${summary == null ? 'Group total unavailable' : '${ContributionRecordCopy.totalTitle}, $totalLabel'}, '
             '${summary?.supporterCountSemantics ?? 'Contributor count unavailable'}',
         quickActions: [
-          if (canContribute) ...[
+          if (canContribute)
             CollectHeroQuickAction(
               icon: CollectIcons.donate,
               label: contributionActionLabel,
               onTap: () =>
                   context.go('/groups/${widget.collectionId}/contribute'),
             ),
-            if (isMember)
-              CollectHeroQuickAction(
-                icon: CollectIcons.people,
-                label: 'Members',
-                onTap: () =>
-                    context.go('/groups/${widget.collectionId}/members'),
-              ),
+          if (isMember)
+            CollectHeroQuickAction(
+              icon: CollectIcons.people,
+              label: 'Members',
+              onTap: () => context.go('/groups/${widget.collectionId}/members'),
+            ),
+          if (isMember || collection.isPublic)
             CollectHeroQuickAction(
               icon: CollectIcons.share,
               label: 'Share',
               onTap: () => context.go('/groups/${widget.collectionId}/share'),
-            ),
-          ] else
+            )
+          else
             CollectHeroQuickAction(
               icon: CollectIcons.people,
               label: 'Join',
@@ -140,7 +145,15 @@ class _CollectionDetailScreenState
       ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
-      bottomAction: canManage
+      bottomAction: !paymentEligible && isMember
+          ? const CollectButton(
+              key: ValueKey('group-payment-unavailable'),
+              label: 'Payments unavailable',
+              icon: CollectIcons.donate,
+              onPressed: null,
+              expand: true,
+            )
+          : canManage
           ? null
           : CollectButton(
               label: canContribute ? contributionActionLabel : 'Join group',
@@ -152,16 +165,41 @@ class _CollectionDetailScreenState
               expand: true,
             ),
       children: [
-        if (isMember) ...[
-          InfoSecurityBanner(
-            title: 'Your confirmed balance',
-            message: summary == null
-                ? 'Not available'
-                : formatCurrencyTotals(summary.ownBalancesByCurrency),
+        if (!hasPaymentRoute) ...[
+          const InfoSecurityBanner(
+            title: 'Payments unavailable',
+            message:
+                'This group has no in-app payment destination. You can still invite members and view activity.',
             tone: CollectStatusTone.info,
           ),
           CollectSpacing.gap16,
-        ] else if (!collection.isPublic) ...[
+        ] else if (!paymentEligible) ...[
+          const InfoSecurityBanner(
+            title: 'Payments unavailable',
+            message:
+                'In-app payments to this group are not supported for your profile. You can still invite members and view activity.',
+            tone: CollectStatusTone.info,
+          ),
+          CollectSpacing.gap16,
+        ],
+        if (isMember) ...[
+          InfoSecurityBanner(
+            title: ContributionRecordCopy.ownTotalTitle,
+            message: summary == null
+                ? 'Not available'
+                : '${formatCurrencyTotals(summary.ownBalancesByCurrency)}\n${ContributionRecordCopy.explanation}',
+            tone: CollectStatusTone.info,
+          ),
+          CollectSpacing.gap16,
+        ] else ...[
+          const InfoSecurityBanner(
+            title: ContributionRecordCopy.totalTitle,
+            message: ContributionRecordCopy.explanation,
+            tone: CollectStatusTone.info,
+          ),
+          CollectSpacing.gap16,
+        ],
+        if (!isMember && !collection.isPublic) ...[
           const InfoSecurityBanner(
             title: 'Private group',
             message: 'Use a valid group invitation to join this private group.',
@@ -182,8 +220,7 @@ class _CollectionDetailScreenState
           const EmptyIllustrationState(
             icon: CollectIcons.activity,
             title: 'No contributions yet',
-            message:
-                'Confirmed contributions appear only after independent provider verification.',
+            message: ContributionRecordCopy.emptyMomoMessage,
           )
         else
           _ContributionTimeline(contributions: visibleContributions),
@@ -193,7 +230,7 @@ class _CollectionDetailScreenState
 
   Future<void> _joinPrivateGroup(CollectCollection collection) async {
     try {
-      await requireMemberProfileReady(context, ref);
+      requireMemberGroupProfileReady(ref);
       if (!mounted) return;
       await ref
           .read(collectRepositoryProvider.notifier)

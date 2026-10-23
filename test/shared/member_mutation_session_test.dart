@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'member_data_authority_test.dart' as authority;
 
@@ -84,7 +84,7 @@ class _Repository extends authority.Repository {
 
 class _Harness {
   _Harness(this.client, this.repo, this.requests);
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   final _Repository repo;
   final List<http.Request> requests;
   static Future<_Harness> create({
@@ -96,10 +96,8 @@ class _Harness {
     String? capabilityExpiry,
   }) async {
     final requests = <http.Request>[];
-    final client = SupabaseClient(
+    final client = CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'synthetic-key',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         requests.add(request);
         final name = request.url.path.split('/').last;
@@ -136,7 +134,7 @@ class _Harness {
         );
       }),
     );
-    await client.auth.setInitialSession(
+    await client.auth.recoverSession(
       authority.session(authority.actor, authority.firstSession),
     );
     final repository = _Repository(client);
@@ -151,12 +149,12 @@ class _Harness {
   Future<void> login(String user, String sid) async {
     final loaded = Completer<void>();
     repo.nextLoad = loaded;
-    await client.auth.setInitialSession(authority.session(user, sid));
+    await client.auth.recoverSession(authority.session(user, sid));
     await loaded.future.timeout(const Duration(seconds: 3));
   }
 
   Future<dynamic> invoke(String operation) async => switch (operation) {
-    'create' => repo.createCollection(
+    'create' => repo.createCollectionWithVerifiedReceiver(
       title: 'Synthetic group',
       description: '',
     ),

@@ -2,15 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:collect_app/admin/core/admin_reconciliation_step_up.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-Session _session({
-  String user = 'operator-a',
+CollectAuthSession _session({
+  String user = '99740000-0000-4000-8000-000000000001',
   String sessionId = 'session-a',
   String aal = 'aal1',
   int? expiry,
@@ -22,17 +21,18 @@ Session _session({
             'sub': user,
             'session_id': sessionId,
             'aal': aal,
+            'role': 'authenticated',
             'exp':
                 expiry ?? DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600,
           }),
         ),
       )
       .replaceAll('=', '');
-  return Session(
+  return CollectAuthSession(
     accessToken: 'e30.$payload.synthetic',
     refreshToken: 'synthetic-refresh',
     tokenType: 'bearer',
-    user: User(
+    user: CollectAuthUser(
       id: user,
       appMetadata: {},
       userMetadata: {},
@@ -50,7 +50,7 @@ Matcher _code(String code) => isA<AdminReconciliationStepUpException>().having(
 
 class _Transport implements AdminReconciliationMfaTransport {
   List<String> factors = ['factor-a'];
-  Session verified = _session(aal: 'aal2');
+  CollectAuthSession verified = _session(aal: 'aal2');
   final calls = <String>[];
   Future<void> Function(String)? barrier;
   Object? failure;
@@ -62,21 +62,21 @@ class _Transport implements AdminReconciliationMfaTransport {
   }
 
   @override
-  Future<List<String>> verifiedTotpFactors(Session session) async {
+  Future<List<String>> verifiedTotpFactors(CollectAuthSession session) async {
     await _stage('list');
     return factors;
   }
 
   @override
-  Future<String> challenge(Session session, String factorId) async {
+  Future<String> challenge(CollectAuthSession session, String factorId) async {
     expect(factorId, 'factor-a');
     await _stage('challenge');
     return 'challenge-a';
   }
 
   @override
-  Future<Session> verify(
-    Session session,
+  Future<CollectAuthSession> verify(
+    CollectAuthSession session,
     String factorId,
     String challengeId,
     String code,
@@ -90,7 +90,7 @@ class _Transport implements AdminReconciliationMfaTransport {
 }
 
 void main() {
-  late Session? active;
+  late CollectAuthSession? active;
   late _Transport transport;
   late AdminReconciliationStepUp controller;
   late int adoptions;
@@ -136,7 +136,9 @@ void main() {
         'fences ${switchSessionOnly ? 'same user new session' : 'new user'} after $stage',
         () async {
           final replacement = _session(
-            user: switchSessionOnly ? 'operator-a' : 'operator-b',
+            user: switchSessionOnly
+                ? '99740000-0000-4000-8000-000000000001'
+                : '99740000-0000-4000-8000-000000000002',
             sessionId: 'session-b',
           );
           transport.barrier = (current) async {
@@ -237,7 +239,9 @@ void main() {
     test('rejects verified response with wrong $invalid', () async {
       transport.verified = _session(
         aal: invalid == 'aal1' ? 'aal1' : 'aal2',
-        user: invalid == 'user' ? 'operator-b' : 'operator-a',
+        user: invalid == 'user'
+            ? '99740000-0000-4000-8000-000000000002'
+            : '99740000-0000-4000-8000-000000000001',
         sessionId: invalid == 'session' ? 'session-b' : 'session-a',
         expiry: invalid == 'expiry' ? 0 : null,
       );
@@ -266,19 +270,19 @@ void main() {
   });
 
   test(
-    'Supabase transport uses Auth contracts, filters factors and never refreshes',
+    'Collect transport uses Auth contracts, filters factors and never refreshes',
     () async {
       final requests = <http.Request>[];
-      final authTransport = SupabaseReconciliationMfaTransport(
-        supabaseUrl: 'https://synthetic.invalid/',
-        publishableKey: 'synthetic-publishable',
+      final authTransport = CollectReconciliationMfaTransport(
+        apiUrl: 'https://synthetic.invalid/',
+
         httpClient: MockClient((request) async {
           requests.add(request);
           expect(
             request.headers['authorization'],
             'Bearer ${active!.accessToken}',
           );
-          expect(request.headers['apikey'], 'synthetic-publishable');
+          expect(request.headers.containsKey('apikey'), isFalse);
           if (request.url.path.endsWith('/user')) {
             return http.Response(
               jsonEncode({
@@ -302,10 +306,11 @@ void main() {
             );
           }
           if (request.url.path.endsWith('/challenge')) {
-            expect(jsonDecode(request.body), <String, dynamic>{});
-            return http.Response('{"id":"challenge-a"}', 200);
+            expect(jsonDecode(request.body), {'factor_id': 'factor-a'});
+            return http.Response('{"challenge_id":"challenge-a"}', 200);
           }
           expect(jsonDecode(request.body), {
+            'factor_id': 'factor-a',
             'challenge_id': 'challenge-a',
             'code': '123456',
           });
@@ -322,9 +327,9 @@ void main() {
       );
       expect(verified.user.id, active!.user.id);
       expect(requests.map((r) => '${r.method} ${r.url.path}'), [
-        'GET /auth/v1/user',
-        'POST /auth/v1/factors/factor-a/challenge',
-        'POST /auth/v1/factors/factor-a/verify',
+        'GET /v1/auth/user',
+        'POST /v1/auth/mfa/challenge',
+        'POST /v1/auth/mfa/verify',
       ]);
     },
   );
@@ -340,9 +345,9 @@ void main() {
     (403, '{"message":"SECRET"}', 'step_up_unavailable'),
   ]) {
     test('Auth failure $status maps to safe $expected', () async {
-      final authTransport = SupabaseReconciliationMfaTransport(
-        supabaseUrl: 'https://synthetic.invalid',
-        publishableKey: 'synthetic-publishable',
+      final authTransport = CollectReconciliationMfaTransport(
+        apiUrl: 'https://synthetic.invalid',
+
         httpClient: MockClient((_) async => http.Response(body, status)),
       );
       await expectLater(
@@ -353,23 +358,19 @@ void main() {
   }
 
   test(
-    'provider adopts and emits MFA event through the pinned main SDK',
+    'provider adopts and emits MFA event through the owned main client',
     () async {
-      final client = SupabaseClient(
-        'https://synthetic.invalid',
-        'synthetic-publishable',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
-      );
+      final client = CollectCloudflareClient('https://synthetic.invalid');
       addTearDown(client.dispose);
       await client.auth.recoverSession(jsonEncode(active!.toJson()));
-      final events = <AuthChangeEvent>[];
+      final events = <CollectAuthEvent>[];
       final subscription = client.auth.onAuthStateChange.listen(
         (event) => events.add(event.event),
       );
       addTearDown(subscription.cancel);
       final container = ProviderContainer(
         overrides: [
-          supabaseClientProvider.overrideWithValue(client),
+          collectBackendClientProvider.overrideWithValue(client),
           adminReconciliationMfaTransportProvider.overrideWithValue(transport),
         ],
       );
@@ -380,7 +381,7 @@ void main() {
         client.auth.currentSession!.accessToken,
         transport.verified.accessToken,
       );
-      expect(events, contains(AuthChangeEvent.mfaChallengeVerified));
+      expect(events, contains(CollectAuthEvent.mfaChallengeVerified));
     },
   );
 }

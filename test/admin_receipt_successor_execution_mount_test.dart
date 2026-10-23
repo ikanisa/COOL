@@ -1,6 +1,7 @@
 // Actual canonical parent -> host/providers -> repository -> pinned Auth/HTTP
 // adapters over retained producer execution bytes. HTTP/Auth are synthetic.
-// Legacy approval/root IDs and page size are explicitly adapted to join the
+// The v4 producer envelope is explicitly adapted to v5; its evidence shape is
+// unchanged. Legacy approval/root IDs and page size are explicitly adapted to join the
 // independent producer fixtures; this is caller proof, not a new SQL lifecycle.
 import 'dart:async';
 import 'dart:convert';
@@ -10,27 +11,27 @@ import 'package:collect_app/admin/core/admin_receipt_successor_controller.dart';
 import 'package:collect_app/admin/core/admin_receipt_successor_sdk.dart';
 import 'package:collect_app/admin/core/admin_receipt_successor_view.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'support/successor_fixture.dart';
+import 'support/recorded_auth_fixture.dart';
 import 'support/execution_fixture.dart';
 import 'support/execution_api_fixture.dart';
 
 const actor = '99440000-0000-4000-8000-000000000001';
-const summaryRpc = 'admin_get_receipt_successor_execution_v4';
-const pageRpc = 'admin_list_receipt_successor_observations_v4';
+const summaryRpc = 'admin_get_receipt_successor_execution_v5';
+const pageRpc = 'admin_list_receipt_successor_observations_v5';
 
 class MountedHarness {
   final execution = ExecutionFixture();
   final legacy = SuccessorFixture();
   final requests = <http.Request>[];
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
   late AdminReceiptSuccessorController controller;
   bool denyParentPage = false, timeoutParentPage = false;
@@ -69,10 +70,8 @@ class MountedHarness {
     );
     legacy.outboxOverride = execution.root;
     legacy.now = execution.now;
-    client = SupabaseClient(
+    client = recordedFixtureClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         http.Response reply(Object body, [int status = 200]) => http.Response(
           jsonEncode(body),
@@ -80,10 +79,10 @@ class MountedHarness {
           headers: {'content-type': 'application/json'},
           request: request,
         );
-        if (request.url.path == '/auth/v1/verify') {
+        if (request.url.path == '/v1/auth/verify') {
           return reply({
             'access_token':
-                'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': actor, 'session_id': 'mounted-session', 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
+                'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': actor, 'session_id': 'mounted-session', 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
             'refresh_token': 'synthetic-refresh',
             'token_type': 'bearer',
             'user': {
@@ -96,7 +95,7 @@ class MountedHarness {
             },
           });
         }
-        if (request.url.path == '/auth/v1/logout') return reply({});
+        if (request.url.path == '/v1/auth/logout') return reply({});
         requests.add(request);
         final rpc = request.url.path.split('/').last;
         if (rpc == 'admin_current_user') {
@@ -115,32 +114,34 @@ class MountedHarness {
         if (rpc == summaryRpc) {
           summaryEntered?.complete();
           await summaryRelease?.future;
-          return reply(decoded(knownSentRaw));
+          return reply({...decoded(knownSentRaw), 'contract_version': 5});
         }
         if (rpc == pageRpc) {
           final params = jsonDecode(request.body) as Map<String, dynamic>;
-          return reply(
-            ExecutionApiFixture()
+          return reply({
+            ...ExecutionApiFixture()
                 .fixturePage(
                   execution.original,
                   params['p_after_revision'] as int?,
                   params['p_limit'] as int,
                 )
                 .row,
-          );
+            'contract_version': 5,
+          });
         }
         throw StateError('Unallowlisted synthetic RPC $rpc');
       }),
     );
-    await client.auth.verifyOTP(
+    await installRecordedAuthFixture(
+      client,
       email: 'operator@example.invalid',
       token: 'synthetic-mount',
-      type: OtpType.email,
+      type: CollectOtpType.email,
     );
     legacy.session = adminSessionKey(client.auth.currentSession);
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminRealtimeSubscriptionProvider.overrideWith((ref) {}),
         adminClockProvider.overrideWithValue(() => execution.now),
       ],
@@ -152,7 +153,7 @@ class MountedHarness {
           if (name == 'admin_list_receipt_successors_v1') {
             final more = params['p_after'] != null;
             if (more && denyParentPage) {
-              throw const PostgrestException(
+              throw const CollectApiException(
                 message: 'Synthetic denial',
                 code: '42501',
               );
@@ -198,7 +199,7 @@ class MountedHarness {
         ),
       );
   List<http.Request> calls(String rpc) =>
-      requests.where((r) => r.url.path == '/rest/v1/rpc/$rpc').toList();
+      requests.where((r) => r.url.path == '/v1/rpc/$rpc').toList();
   Future<void> close() async {
     controller.dispose();
     container.dispose();
@@ -207,9 +208,7 @@ class MountedHarness {
 }
 
 Future<void> settle(WidgetTester tester) async {
-  // The pinned PostgREST adapter decodes JSON asynchronously outside the fake
-  // widget clock. Alternate finite real-zone yielding with fake-zone pumps,
-  // as the retained cold-consumer caller does; never bypass that adapter.
+  // Allow asynchronous Cloudflare client replies to complete outside widget fake time.
   for (var step = 0; step < 50; step++) {
     await tester.pump();
     await tester.runAsync(

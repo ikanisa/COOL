@@ -6,11 +6,17 @@ import 'admin_runtime.dart';
 import 'admin_entity_audit.dart';
 import 'admin_receipt_callback_deadline_models.dart';
 import 'admin_receipt_callback_deadline_runtime.dart';
+import 'admin_receipt_aggregate_v3_card.dart';
 
 /// Collect operator adaptation of the selected Revolut grouped detail pattern.
 /// Every navigation target comes from one validated immutable source binding.
 class AdminReceiptCallbackDeadlineCard extends ConsumerWidget {
-  const AdminReceiptCallbackDeadlineCard({this.onFollowUp, super.key});
+  const AdminReceiptCallbackDeadlineCard({
+    this.onFollowUp,
+    this.aggregateOnly = false,
+    super.key,
+  });
+  final bool aggregateOnly;
   final Future<void> Function(String)? onFollowUp;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,6 +32,7 @@ class AdminReceiptCallbackDeadlineCard extends ConsumerWidget {
       api: api,
       now: ref.watch(adminClockProvider),
       onFollowUp: onFollowUp,
+      aggregateOnly: aggregateOnly,
     );
   }
 }
@@ -35,8 +42,10 @@ class _DeadlineView extends StatefulWidget {
     required this.api,
     required this.now,
     this.onFollowUp,
+    required this.aggregateOnly,
     super.key,
   });
+  final bool aggregateOnly;
   final CallbackDeadlineApi api;
   final DateTime Function() now;
   final Future<void> Function(String)? onFollowUp;
@@ -76,6 +85,32 @@ class _DeadlineViewState extends State<_DeadlineView> {
     final page = controller.page, fresh = page?.fresh(widget.now()) == true;
     final detail = controller.detail,
         detailFresh = detail?.fresh(widget.now()) == true;
+    if (widget.aggregateOnly) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (controller.busy)
+            Semantics(
+              liveRegion: true,
+              child: const Text('Loading worker measurement evidence…'),
+            )
+          else if (controller.error != null)
+            const Text(
+              'Worker measurement evidence could not be refreshed. Check current access.',
+            )
+          else
+            AdminReceiptAggregateV3Card(source: page, compact: true),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: OutlinedButton.icon(
+              onPressed: controller.busy ? null : _refresh,
+              icon: const Icon(Icons.refresh),
+              label: const Text('Refresh worker measurements'),
+            ),
+          ),
+        ],
+      );
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
@@ -151,8 +186,9 @@ class _DeadlineViewState extends State<_DeadlineView> {
                   : 'Latest worker evidence is retained separately from deferral completion.',
             ),
             const Text(
-              'Automatic aggregate measurement is unavailable. Retained cases provide separate source observations.',
+              'The retained legacy aggregate was not admitted. Its status remains separate from the measurement for both send protocols.',
             ),
+            AdminReceiptAggregateV3Card(source: page),
             if (!fresh)
               const Text(
                 'This read has expired. Refresh before opening evidence or actions.',

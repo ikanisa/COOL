@@ -19,3 +19,10 @@ Future<void> requireMemberProfileReady(
     throw const FormatException('Complete your profile before continuing.');
   }
 }
+
+/// Group identity/membership does not require a wallet or payment profile.
+/// The repository/server still recheck active own session and invitation scope.
+void requireMemberGroupProfileReady(WidgetRef ref) {
+  final profile = ref.read(collectRepositoryProvider).currentProfile;
+  if (profile == null) throw StateError('Sign in before joining a group.');
+}

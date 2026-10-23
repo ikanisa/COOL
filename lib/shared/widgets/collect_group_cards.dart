@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/utils/money_format.dart';
 import '../models/collect_models.dart';
+import '../models/contribution_record_copy.dart';
 import '../models/collect_group_cover.dart';
 import 'collect_group_image.dart';
 import 'collect_components.dart';
@@ -156,7 +157,7 @@ class _GroupListRow extends StatelessWidget {
         'Contributor count unavailable';
     final amountSemantics = currentSummary == null
         ? 'Group total unavailable'
-        : formattedAmount;
+        : '${ContributionRecordCopy.totalTitle}, $formattedAmount';
     final row = Padding(
       padding: const EdgeInsets.fromLTRB(
         CollectSpacing.x3,

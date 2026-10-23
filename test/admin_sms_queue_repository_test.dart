@@ -6,7 +6,7 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 // Reuse the suite's real pinned SDK login fixtures; its main is not invoked.
 import 'admin_action_session_test.dart' as auth;
@@ -28,17 +28,15 @@ Map<String, dynamic> _receipt() => {
 };
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late Future<http.Response> Function(http.Request) respond;
   late List<http.Request> requests;
   setUp(() async {
     requests = [];
     respond = (_) async => auth.response(_receipt());
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final token = (jsonDecode(request.body)['token'] as String).split(
@@ -63,7 +61,7 @@ void main() {
       expect(data['enabled'], isFalse);
       expect(
         requests.single.url.path,
-        '/functions/v1/collect-notification-operator',
+        '/v1/functions/collect-notification-operator',
       );
       expect(jsonDecode(requests.single.body), {'action': 'health'});
       expect(

@@ -120,17 +120,12 @@ void main() {
             findsOneWidget,
           );
           expect(find.bySemanticsLabel('Status: Uncertain'), findsOneWidget);
-          if (viewport.$1 > 700) {
-            expect(find.text('Record'), findsOneWidget);
-            expect(find.text('Status'), findsOneWidget);
-          } else {
-            expect(
-              find.byKey(const Key('admin-compact-record-list')),
-              findsOneWidget,
-            );
-          }
+          expect(find.byType(DataTable), findsOneWidget);
+          expect(find.text('Record'), findsOneWidget);
+          expect(find.text('Status'), findsOneWidget);
           final open = find.byTooltip('Open Synthetic receipt');
           await tester.ensureVisible(open);
+          await tester.pumpAndSettle();
           await tester.tap(open);
           expect(opened, row.id);
           expect(tester.takeException(), isNull);

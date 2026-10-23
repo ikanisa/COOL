@@ -9,6 +9,7 @@ import 'package:collect_app/admin/core/admin_receipt_callback_deadline_view.dart
 import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,14 @@ import 'callback_deadline_mount_support.dart';
 const listRpc = 'admin_list_receipt_callback_deadlines_v1';
 
 Future<DeadlineMountedHarness> start(WidgetTester tester) async {
+  await tester.runAsync(() async {
+    await (FontLoader(
+      'Inter',
+    )..addFont(rootBundle.load('assets/typefaces/Inter-Variable.ttf'))).load();
+    await (FontLoader(
+      'MaterialIcons',
+    )..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'))).load();
+  });
   final h = DeadlineMountedHarness();
   await tester.runAsync(h.start);
   h.execution.now = DateTime.parse(
@@ -50,6 +59,7 @@ Widget app(DeadlineMountedHarness h, {bool parent = false, double scale = 1}) =>
 Future<void> capture(WidgetTester tester, String name) async {
   final dir = Platform.environment['COLLECT_CALLBACK_CAPTURE_DIR'];
   if (dir == null) return;
+  await tester.pump(const Duration(milliseconds: 300));
   final boundary = tester.renderObject<RenderRepaintBoundary>(
     find.byKey(const ValueKey('deadline-capture')),
   );

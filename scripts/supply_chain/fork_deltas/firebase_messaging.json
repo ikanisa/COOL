@@ -4,8 +4,8 @@
   "delta": {
     "added": {
       "COLLECT_FORK.md": {
-        "fork_sha256": "6e2f51ddd71e1c7f56b2c4a7196342fb68653137897b32bb1c955088ab2ea4c8",
-        "rationale": "Retain local fork provenance, bounded changes and explicit behavior/provider/license evidence limitations; this document grants no release approval."
+        "fork_sha256": "a93e5159c489ee1aeb3a92f45cf88c60139739466212c91aa8ca59672d8808da",
+        "rationale": "Retain bounded fork limitations; replace the removed upstream-evidence path with current official comparison and dated external custody index. No runtime, licence or upstream-manifest change."
       },
       "UPSTREAM-SHA256.json": {
         "fork_sha256": "63d0c40315c29b4224148ec9d3725d21b38133e5e32158a43bb95337a41f7e40",

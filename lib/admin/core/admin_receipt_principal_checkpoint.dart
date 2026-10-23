@@ -11,7 +11,7 @@ import 'admin_receipt_principal_checkpoint_stub.dart'
 String adminReceiptPrincipalOwnerDigest(String userId) => sha256
     .convert(
       utf8.encode(
-        'collect.receipt-principal-owner.v3:lhbowpbcpwoiparwnwgt:${operationsUuid(userId)}',
+        'collect.receipt-principal-owner.v4:${operationsUuid(userId)}',
       ),
     )
     .toString();

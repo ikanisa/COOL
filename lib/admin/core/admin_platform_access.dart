@@ -74,11 +74,11 @@ class _AdminPlatformAccessPanelState
           final message = switch (error) {
             AdminSessionChanged() =>
               'Your Admin session changed. Reopen this page to view access.',
-            PostgrestException(code: '42501') || AuthException() =>
+            CollectApiException(code: '42501') || CollectAuthException() =>
               'Platform access is denied for this Admin session.',
             UnsupportedError() ||
-            PostgrestException(
-              code: 'PGRST202' || '42883',
+            CollectApiException(
+              code: 'operation_unavailable' || '501',
             ) => 'Operator approval service is unavailable.',
             _ => 'Platform access could not be loaded.',
           };
@@ -336,7 +336,7 @@ class _AdminPlatformAccessPanelState
     } catch (error) {
       if (mounted && widget.userId == target && scope.isCurrent) {
         setState(() {
-          _error = error is PostgrestException && error.code == '42501'
+          _error = error is CollectApiException && error.code == '42501'
               ? 'Change denied. Confirm the target’s verified email and your current approval and permission.'
               : 'Change not confirmed. Refresh access before trying again.';
           _snapshot = _load();

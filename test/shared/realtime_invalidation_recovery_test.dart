@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:collect_app/core/supabase/realtime_invalidation.dart';
+import 'package:collect_app/core/cloudflare/realtime_invalidation.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -9,7 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
+import '../support/synthetic_jwt.dart';
 
 const _userId = '10000000-0000-0000-0000-000000000001';
 const _secondUserId = '10000000-0000-0000-0000-000000000002';
@@ -53,20 +54,20 @@ void main() {
 
   test('join and rejoin reconcile missed events once per connection', () async {
     var reads = 0;
-    final coordinator = RealtimeInvalidationCoordinator(
+    final coordinator = CollectSyncInvalidationCoordinator(
       areas: const {'members'},
       debounce: const Duration(milliseconds: 1),
       onInvalidate: () => reads++,
     );
     addTearDown(coordinator.dispose);
-    coordinator.connectionStatus(RealtimeSubscribeStatus.subscribed);
-    coordinator.connectionStatus(RealtimeSubscribeStatus.subscribed);
+    coordinator.connectionStatus(CollectSyncStatus.connected);
+    coordinator.connectionStatus(CollectSyncStatus.connected);
     await Future<void>.delayed(const Duration(milliseconds: 10));
     expect(reads, 1);
 
-    coordinator.connectionStatus(RealtimeSubscribeStatus.channelError);
+    coordinator.connectionStatus(CollectSyncStatus.disconnected);
     coordinator.event({'area': 'members', 'id': 'missed-while-offline'});
-    coordinator.connectionStatus(RealtimeSubscribeStatus.subscribed);
+    coordinator.connectionStatus(CollectSyncStatus.connected);
     await Future<void>.delayed(const Duration(milliseconds: 10));
     expect(reads, 2);
   });
@@ -75,13 +76,13 @@ void main() {
     'duplicate IDs and irrelevant areas cannot multiply refreshes',
     () async {
       var reads = 0;
-      final coordinator = RealtimeInvalidationCoordinator(
+      final coordinator = CollectSyncInvalidationCoordinator(
         areas: const {'members'},
         debounce: const Duration(milliseconds: 1),
         onInvalidate: () => reads++,
       );
       addTearDown(coordinator.dispose);
-      coordinator.connectionStatus(RealtimeSubscribeStatus.subscribed);
+      coordinator.connectionStatus(CollectSyncStatus.connected);
       await Future<void>.delayed(const Duration(milliseconds: 10));
       coordinator.event({'area': 'members', 'id': 'event-1'});
       coordinator.event({'area': 'members', 'id': 'event-1'});
@@ -99,7 +100,7 @@ void main() {
     var reads = 0;
     var concurrent = 0;
     var peakConcurrent = 0;
-    final coordinator = RealtimeInvalidationCoordinator(
+    final coordinator = CollectSyncInvalidationCoordinator(
       areas: const {'members'},
       debounce: const Duration(milliseconds: 1),
       onInvalidate: () async {
@@ -111,7 +112,7 @@ void main() {
       },
     );
     addTearDown(coordinator.dispose);
-    coordinator.connectionStatus(RealtimeSubscribeStatus.subscribed);
+    coordinator.connectionStatus(CollectSyncStatus.connected);
     await Future<void>.delayed(const Duration(milliseconds: 10));
     expect(reads, 1);
     for (var i = 0; i < 50; i++) {
@@ -128,7 +129,7 @@ void main() {
     final firstRead = Completer<void>();
     final secondRead = Completer<void>();
     var reads = 0;
-    final coordinator = RealtimeInvalidationCoordinator(
+    final coordinator = CollectSyncInvalidationCoordinator(
       areas: const {'members'},
       debounce: const Duration(milliseconds: 80),
       onInvalidate: () async {
@@ -139,7 +140,7 @@ void main() {
     );
     addTearDown(coordinator.dispose);
 
-    coordinator.connectionStatus(RealtimeSubscribeStatus.subscribed);
+    coordinator.connectionStatus(CollectSyncStatus.connected);
     await Future<void>.delayed(const Duration(milliseconds: 110));
     expect(reads, 1);
     coordinator.event({'area': 'members', 'id': 'during-first'});
@@ -187,7 +188,7 @@ void main() {
         paymentIntents: const [],
         contributions: const [],
       ),
-      supabase: client,
+      backend: client,
       offlineCache: cache,
     );
     addTearDown(repository.dispose);
@@ -223,7 +224,7 @@ void main() {
         paymentIntents: const [],
         contributions: const [],
       ),
-      supabase: client,
+      backend: client,
       offlineCache: cache,
     );
     addTearDown(repository.dispose);
@@ -250,10 +251,16 @@ void main() {
       }
       if (path.endsWith('list_current_member_history_page')) {
         return _json({
+          'contract_version': 2,
+          'contribution_basis': 'reconciled_evidence_entries',
           'items': [],
           'total_count': 0,
-          'totals': {},
-          'own_totals': {},
+          'totals': {'RWF': 0},
+          'own_totals': {'RWF': 0},
+          'credit_totals': {'RWF': 0},
+          'debit_totals': {'RWF': 0},
+          'own_credit_totals': {'RWF': 0},
+          'own_debit_totals': {'RWF': 0},
           'own_collection_ids': [],
           'revision': '00000000000000000000000000000000',
           'next_cursor': null,
@@ -272,14 +279,14 @@ void main() {
           'preferences': NotificationPreferences.defaults.toJson(),
         });
       }
-      if (path.endsWith('notification_events')) {
+      if (path.endsWith('notification-events')) {
         return _json([]);
       }
       fail('Unexpected request: $path');
     });
     addTearDown(client.dispose);
     await _signIn(client);
-    final repository = CollectRepository(supabase: client, offlineCache: cache);
+    final repository = CollectRepository(backend: client, offlineCache: cache);
     addTearDown(repository.dispose);
     await repository.loadInitial();
     expect(
@@ -299,7 +306,7 @@ void main() {
 
   test('account switch drops the first owner before reloading', () async {
     const cache = CollectOfflineCache();
-    late final SupabaseClient client;
+    late final CollectCloudflareClient client;
     client = _client((request) {
       final path = request.url.path;
       final userId = client.auth.currentUser!.id;
@@ -314,10 +321,16 @@ void main() {
       }
       if (path.endsWith('list_current_member_history_page')) {
         return _json({
+          'contract_version': 2,
+          'contribution_basis': 'reconciled_evidence_entries',
           'items': [],
           'total_count': 0,
-          'totals': {},
-          'own_totals': {},
+          'totals': {'RWF': 0},
+          'own_totals': {'RWF': 0},
+          'credit_totals': {'RWF': 0},
+          'debit_totals': {'RWF': 0},
+          'own_credit_totals': {'RWF': 0},
+          'own_debit_totals': {'RWF': 0},
           'own_collection_ids': [],
           'revision': '00000000000000000000000000000000',
           'next_cursor': null,
@@ -334,14 +347,14 @@ void main() {
         });
       }
       if (path.endsWith('list_current_member_collection_balances') ||
-          path.endsWith('notification_events')) {
+          path.endsWith('notification-events')) {
         return _json([]);
       }
       fail('Unexpected request: $path');
     });
     addTearDown(client.dispose);
     await _signIn(client);
-    final repository = CollectRepository(supabase: client, offlineCache: cache);
+    final repository = CollectRepository(backend: client, offlineCache: cache);
     addTearDown(repository.dispose);
     await repository.loadInitial();
     expect(repository.state.collections.single.id, _groupId);
@@ -358,11 +371,9 @@ void main() {
   });
 }
 
-SupabaseClient _client(http.Response Function(http.Request) handler) =>
-    SupabaseClient(
+CollectCloudflareClient _client(http.Response Function(http.Request) handler) =>
+    CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'local-test-key',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         final response = handler(request);
         return http.Response(
@@ -377,19 +388,21 @@ SupabaseClient _client(http.Response Function(http.Request) handler) =>
 http.Response _json(Object? value, {int status = 200}) =>
     http.Response(jsonEncode(value), status);
 
-Future<void> _signIn(SupabaseClient client, {String userId = _userId}) =>
-    client.auth.setInitialSession(
-      jsonEncode({
-        'access_token': 'synthetic-access',
-        'refresh_token': 'synthetic-refresh',
-        'token_type': 'bearer',
-        'expires_in': 3600,
-        'user': {
-          'id': userId,
-          'aud': 'authenticated',
-          'app_metadata': {},
-          'user_metadata': {},
-          'created_at': '2026-09-01T00:00:00Z',
-        },
-      }),
-    );
+Future<void> _signIn(
+  CollectCloudflareClient client, {
+  String userId = _userId,
+}) => client.auth.recoverSession(
+  jsonEncode({
+    'access_token': syntheticMemberAccessToken(userId),
+    'refresh_token': 'synthetic-refresh',
+    'token_type': 'bearer',
+    'expires_in': 3600,
+    'user': {
+      'id': userId,
+      'aud': 'authenticated',
+      'app_metadata': {},
+      'user_metadata': {},
+      'created_at': '2026-09-01T00:00:00Z',
+    },
+  }),
+);

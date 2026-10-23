@@ -1,9 +1,13 @@
 import 'dart:js_interop';
+import 'admin_recovery_namespace.dart';
 import 'admin_exception_checkpoint.dart';
 
 @JS('window.sessionStorage')
 external _Storage get _storage;
+
 extension type _Storage(JSObject _) implements JSObject {
+  external int get length;
+  external String? key(int index);
   external String? getItem(String key);
   external void setItem(String key, String value);
   external void removeItem(String key);
@@ -14,7 +18,12 @@ class _BrowserStore implements AdminExceptionCheckpointStore {
     if (!RegExp(r'^[a-f0-9]{64}$').hasMatch(digest)) {
       throw const FormatException('Invalid recovery binding.');
     }
-    return 'collect.admin.exceptions.recovery.v1.$digest';
+    verifyAdminRecoveryNamespace(
+      retiredPrefix: 'collect.admin.exceptions.recovery.v1.',
+      storageLength: () => _storage.length,
+      keyAt: (index) => _storage.key(index),
+    );
+    return 'collect.admin.exceptions.recovery.v2.$digest';
   }
 
   @override

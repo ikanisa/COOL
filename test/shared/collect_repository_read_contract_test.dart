@@ -5,7 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
+import '../support/synthetic_jwt.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -19,10 +20,8 @@ void main() {
       'member catalogue uses scoped RPC and fails closed on $payload',
       () async {
         final paths = <String>[];
-        final client = SupabaseClient(
+        final client = CollectCloudflareClient(
           'http://127.0.0.1:1',
-          'local-test-key',
-          authOptions: const AuthClientOptions(autoRefreshToken: false),
           httpClient: MockClient((request) async {
             paths.add(request.url.path);
             if (request.url.path.endsWith('/get_current_member_profile')) {
@@ -39,10 +38,7 @@ void main() {
                 headers: {'content-type': 'application/json'},
               );
             }
-            expect(
-              request.url.path,
-              '/rest/v1/rpc/list_current_user_collections',
-            );
+            expect(request.url.path, '/v1/rpc/list_current_user_collections');
             expect(jsonDecode(request.body), isEmpty);
             return http.Response(
               jsonEncode(payload),
@@ -53,9 +49,11 @@ void main() {
           }),
         );
         addTearDown(client.dispose);
-        await client.auth.setInitialSession(
+        await client.auth.recoverSession(
           jsonEncode({
-            'access_token': 'local-test-access',
+            'access_token': syntheticMemberAccessToken(
+              '10000000-0000-0000-0000-000000000001',
+            ),
             'refresh_token': 'local-test-refresh',
             'token_type': 'bearer',
             'expires_in': 3600,
@@ -68,12 +66,12 @@ void main() {
             },
           }),
         );
-        final repository = CollectRepository(supabase: client);
+        final repository = CollectRepository(backend: client);
         addTearDown(repository.dispose);
         await repository.loadInitial();
         expect(paths, [
-          '/rest/v1/rpc/get_current_member_profile',
-          '/rest/v1/rpc/list_current_user_collections',
+          '/v1/rpc/get_current_member_profile',
+          '/v1/rpc/list_current_user_collections',
         ], reason: repository.state.lastError);
         expect(repository.state.hasInitialLoadFailure, isTrue);
         expect(

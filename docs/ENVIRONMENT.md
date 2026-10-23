@@ -1,82 +1,47 @@
 # Environment
 
-## SDK
+Collect uses the independent Cloudflare Workers, D1 and private R2 backend.
 
-Use the project Flutter/Dart SDK:
+## SDK and execution
 
-- Flutter: `/Users/jeanbosco/Developer/flutter/bin/flutter`
-- Dart: `/Users/jeanbosco/Developer/flutter/bin/dart`
-- Pinned target: Flutter `3.44.4`, Dart `3.12.2`
+The selected mobile toolchain is Flutter `3.44.4` with its bundled Dart `3.12.2`; `.fvmrc` pins Flutter. Use a qualified installation of those versions; generated `android/local.properties` and Apple build settings must point to that installation. The native checks record the actual SDK, dependency and artifact hashes. A configured path alone does not establish a working Apple toolchain.
 
-Local generated files such as `android/local.properties` point `flutter.sdk` to
-that SDK. CI resolves the same version from `.fvmrc`.
+## Public Flutter configuration
 
-## Flutter runtime values
+`.env.example` contains public client settings only:
 
-- `SUPABASE_URL`
-- `SUPABASE_ANON_KEY`
-- `APP_PUBLIC_URL`
-- `APP_ENVIRONMENT`
-- `APNS_ENVIRONMENT`
-- `ENABLE_ADMIN_PANEL`
-- `ENABLE_ADMIN_DEV_TOOLS`
-- `ENABLE_SMS_READER`
-- `ENABLE_ANDROID_SMS_ACCESS`
-- `PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER` (non-secret Google Cloud project number
-  linked to Collect under Play Integrity API settings)
+- `COLLECT_API_URL=https://api.collect.ikanisa.com`
+- `APP_PUBLIC_URL=https://collect.ikanisa.com`
+- `ADMIN_APP_URL=https://platform-admin.collect.ikanisa.com`
+- `APP_ENVIRONMENT`, `ENABLE_ADMIN_PANEL`, `ENABLE_ADMIN_DEV_TOOLS`
+- `ENABLE_SMS_READER`, `ENABLE_ANDROID_SMS_ACCESS`
+- `AUTH_CAPTCHA_ENABLED`, `AUTH_CAPTCHA_PROVIDER=turnstile`
+- `AUTH_CAPTCHA_SITE_KEY` is public. The fresh challenge page obtains its configured site key from the backend.
+- `PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER` is the public Google Cloud project number linked to Collect in Play Console. Do not assume it equals a Firebase project number.
+- `APNS_ENVIRONMENT` selects the client notification environment; it does not configure or authorize push delivery.
 
-Android production builds set both SMS switches to `true`, but receipt access
-remains off until an authenticated Rwanda member explicitly consents. The app never requests `READ_SMS`. The
-production Android build fails closed unless the linked Play Integrity project
-number is present; do not substitute the Firebase project number unless Play
-Console confirms that it is the linked project.
+No service credential or encryption key belongs in Flutter defines, web assets or a committed environment file. The separate blank App Store Connect identifiers/path in the example are local automation inputs; the actual signing material remains outside the checkout.
 
-## Supabase function secrets
+## Cloudflare service configuration
 
-Core:
+`deploy/platform-api/wrangler.jsonc` names `collect-platform-api`, D1 `collect-platform` and private R2 `collect-platform-private`. Its reviewed public variables bind origins, issuer/audience, environment and build identity. The current Admin is `collect-platform-admin` at `https://platform-admin.collect.ikanisa.com`; its service binding preserves the original Admin origin and HttpOnly cookie. It does not initialize a member bearer client.
 
-- `SUPABASE_URL`
-- `SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `INTERNAL_FUNCTION_SECRET`
-- `WHATSAPP_CLOUD_API_TOKEN`
-- `WHATSAPP_PHONE_NUMBER_ID`
-- `WHATSAPP_AUTH_TEMPLATE_NAME`
-- `SEND_SMS_HOOK_SECRET`
+The server-only core secrets are `AUTH_JWT_SECRET`, `AUTH_TOKEN_HASH_SECRET` and `DATA_ENCRYPTION_KEY`. `DATA_KEY_ID` identifies the encryption key without publishing it. Create and rotate actual values through the approved secret/key custody process; never paste them into reports or browser recovery storage.
 
-Android device verification:
+Real member authentication additionally needs `TURNSTILE_SECRET`, the public `TURNSTILE_SITE_KEY`, the expected `TURNSTILE_HOSTNAME`/action and an authenticated OTP relay through `OTP_DELIVERY_URL` and `OTP_DELIVERY_TOKEN`. The selected delivery provider/business account is still required. An unconfigured relay or CAPTCHA refuses sign-in; test acknowledgements are not delivery evidence. Owner authenticator enrollment must be completed by the owner.
 
-- `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` for server-side Play Integrity decoding
-  before a user can create an Android-only private group
+Native server admission uses `PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON`, `PLAY_INTEGRITY_POLICY_JSON` and its exact `PLAY_INTEGRITY_POLICY_SHA256`, as enforced by `src/native_integrity.js`. The approved policy, actual Google project, quotas, budget and outage/alert handling must be established before enabling native privileges.
 
-Push delivery:
+AI roster extraction additionally requires the approved `ROSTER_AI_APPROVAL_JSON`/`ROSTER_AI_APPROVAL_SHA256`, the selected OpenAI project/organization/model, API secret and the `ROSTER_DECODER` binding with its approved build identity. No processor, region, retention, spending or accuracy approval is supplied by a local fixture.
 
-- `FCM_SERVICE_ACCOUNT_JSON` containing the dedicated Firebase service-account
-  JSON for Android FCM HTTP v1
-- `APNS_KEY_ID`
-- `APNS_TEAM_ID`
-- `APNS_BUNDLE_ID` (`app.cool.mobile` in production)
-- `APNS_PRIVATE_KEY_BASE64`
+`FCM_SERVICE_ACCOUNT_JSON` and `APNS_PRIVATE_KEY_BASE64` are server-only provider inputs from the retained notification design. The fresh backend records preferences/devices/events; automatic push delivery and its actual provider configuration remain incomplete. Adding those names to a client file would neither enable delivery nor satisfy its acceptance.
 
-Optional WhatsApp aliases and tuning values remain supported by
-`auth-send-whatsapp-otp`; see the function source. Do not place service-role,
-HMAC, WhatsApp, FCM, or APNs secrets in Flutter dart-defines or committed files.
+See [the current platform API](../deploy/platform-api/README.md) and [authenticated recovery](../scripts/cloudflare/README.md) for the maintained runtime and recovery paths.
 
-## Build flavors
+## Native build channels
 
-- `dev`: development with the same Android-native bridges; runtime use still
-  requires an authenticated Rwanda profile and explicit consent.
-- `internal_receiver`: retained for controlled compatibility testing.
-- `production`: Android member build with `RECEIVE_SMS` and `CALL_PHONE` for
-  Rwanda MoMo only; it has no `READ_SMS`, `SEND_SMS`, or Call Log permission.
+The current unsigned local QA build uses Cloudflare endpoints, true CAPTCHA and both SMS switches disabled. It is not a store artifact or proof of real integrity/provider admission.
 
-No flavor embeds payment-provider credentials. Rwanda members approve a
-pre-filled MTN MoMo request or the Airtel merchant menu in USSD and enter their
-PIN only there.
+Android production builds set both SMS switches to `true` only through the guarded production wrapper, which requires the linked Play project. Receipt access still requires an authenticated eligible Rwanda member, explicit consent, valid server policy and actual Play admission. The public production permission contract has no `READ_SMS`, `SEND_SMS`, or Call Log permission; `RECEIVE_SMS` and `CALL_PHONE` remain subject to the actual declaration/device/release checks. The internal receiver channel is distinct from the public member build.
 
-## Local Supabase
-
-The repository uses non-default ports in `supabase/config.toml`. Local database,
-API, and Auth are sufficient for migrations, RLS, SQL lint, and Rwanda MoMo readiness UAT.
-Operator scripts resolve `SUPABASE_BIN` first, then a local CLI. Linked-database
-scripts similarly resolve `PSQL_BIN` before their documented fallback.
+MoMo instructions open a pre-filled MTN request or Airtel merchant menu through USSD. Users enter a PIN only in the provider interface. Recorded evidence, reconciliation or an internal ledger entry does not establish provider settlement. Apple signing, provisioning and store publication require the separately verified Apple toolchain and approved signing path.

@@ -2,7 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/features/privacy/privacy_contract.dart';
 import 'package:collect_app/features/privacy/privacy_providers.dart';
 import 'package:collect_app/features/privacy/privacy_request_controller.dart';
@@ -15,7 +15,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'privacy_test_support.dart';
 
@@ -64,7 +63,7 @@ void main() {
           expect(h.authority.capture().subjectId, privacyOtherSubject);
         } else {
           // A refresh event carrying the invalidated SID is not a new login.
-          h.client.auth.notifyAllSubscribers(AuthChangeEvent.tokenRefreshed);
+          h.client.auth.notifyAllSubscribers(CollectAuthEvent.tokenRefreshed);
           await h.container.pump();
           expect(() => h.authority.capture(), throwsA(_sessionChanged));
         }
@@ -88,7 +87,16 @@ void main() {
         await logout;
         expect(h.logoutRequests, hasLength(1));
         final sent = h.logoutRequests.single;
-        expect(sent.url.queryParameters['scope'], 'local');
+        expect(sent.url.path, '/v1/auth/logout');
+        expect(sent.method, 'POST');
+        expect(
+          jsonDecode(sent.body),
+          switchOwner
+              ? <String, dynamic>{}
+              : <String, dynamic>{
+                  'refresh_token': privacySession().refreshToken,
+                },
+        );
         expect(sent.headers['Authorization'], 'Bearer ${h.originalToken}');
         expect(
           h.client.auth.currentUser?.id,
@@ -134,13 +142,13 @@ void main() {
       await deniedLogout;
       expect(h.logoutRequests, isEmpty);
       expect(h.client.auth.currentSession?.accessToken, h.originalToken);
-      h.client.auth.notifyAllSubscribers(AuthChangeEvent.tokenRefreshed);
+      h.client.auth.notifyAllSubscribers(CollectAuthEvent.tokenRefreshed);
       await h.container.pump();
       expect(() => h.authority.capture(), throwsA(_sessionChanged));
       await h.client.auth.recoverSession(
         jsonEncode(privacySession(sid: privacyNewSid).toJson()),
       );
-      h.client.auth.notifyAllSubscribers(AuthChangeEvent.signedIn);
+      h.client.auth.notifyAllSubscribers(CollectAuthEvent.signedIn);
       await h.container.pump();
       expect(h.authority.capture().sessionId, privacyNewSid);
       expect(h.controller.receipt, isNull);
@@ -161,7 +169,7 @@ final _cancelled = isA<PrivacyRequestException>().having(
 
 class _Harness {
   _Harness(this.client, this.container, this.originalToken);
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   final ProviderContainer container;
   final String originalToken;
   final disableStarted = Completer<void>();
@@ -173,7 +181,7 @@ class _Harness {
 
   PrivacyRequestController get controller =>
       container.read(privacyRequestControllerProvider)!;
-  GoTruePrivacySessionAuthority get authority =>
+  CollectPrivacySessionAuthority get authority =>
       container.read(privacySessionAuthorityProvider)!;
   CollectRepository get repository =>
       container.read(collectRepositoryProvider.notifier);
@@ -183,14 +191,12 @@ class _Harness {
   }) async {
     late _Harness h;
     final initial = privacySession();
-    final client = SupabaseClient(
+    final client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'SYNTHETIC_PUBLIC_KEY',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/logout')) {
           h.logoutRequests.add(request);
-          return http.Response('', 204);
+          return http.Response('{"ok":true}', 200);
         }
         // Initial financial reads are deliberately unavailable. They exercise
         // the production provider without creating fixture financial data or
@@ -202,11 +208,14 @@ class _Harness {
       }),
     );
     await client.auth.recoverSession(jsonEncode(initial.toJson()));
-    final transport = SupabasePrivacyRequestTransport(
+    final transport = CollectPrivacyRequestTransport(
       httpClient: MockClient((request) async {
         h.privacyRequests.add(request);
         if (request.url.path.endsWith('/otp')) {
-          return http.Response('{}', 200);
+          return http.Response(
+            '{"challenge_id":"synthetic-privacy-challenge"}',
+            200,
+          );
         }
         if (request.url.path.endsWith('/verify')) {
           h.verifyStarted.complete();
@@ -222,12 +231,11 @@ class _Harness {
         }
         throw StateError('Unexpected synthetic privacy request');
       }),
-      supabaseUrl: 'https://synthetic.invalid',
-      publishableKey: 'SYNTHETIC_PUBLIC_KEY',
+      apiUrl: 'https://synthetic.invalid',
     );
     final container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         privacyRequestTransportProvider.overrideWithValue(transport),
       ],
     );

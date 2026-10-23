@@ -1,1 +1,1 @@
-Rwanda MoMo group-contribution records, member activity and account/privacy controls. Android-only group creation, USSD handoff and receipt-SMS intake are unavailable on iOS. No bank-transfer journey is included.
+Rwanda MoMo group-contribution records, member activity and account/privacy controls. Signed-in members can create private groups. The Android USSD handoff and receipt-SMS intake are unavailable on iOS. No bank-transfer journey is included.

@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const _a = '99720000-0000-4000-8000-000000000001';
 const _b = '99720000-0000-4000-8000-000000000002';
@@ -112,7 +112,7 @@ void main() {
       await h.repo.refreshNotificationPreferences();
       await expectLater(
         h.repo.updateNotificationPreferences(_edit),
-        throwsA(isA<PostgrestException>()),
+        throwsA(isA<CollectApiException>()),
       );
       h.repo.discardPendingNotificationPreferences();
       expect(h.repo.pendingNotificationPreferences, isNull);
@@ -316,7 +316,7 @@ void main() {
       await h.repo.refreshNotificationPreferences();
       await expectLater(
         h.repo.updateNotificationPreferences(_edit),
-        throwsA(isA<PostgrestException>()),
+        throwsA(isA<CollectApiException>()),
       );
       await expectLater(
         h.repo.updateNotificationPreferences(_edit),
@@ -452,7 +452,7 @@ void main() {
           : _fallback(r);
       await expectLater(
         h.repo.updateNotificationPreferences(_edit),
-        throwsA(isA<PostgrestException>()),
+        throwsA(isA<CollectApiException>()),
       );
       h.respond = (r) => _rpc(r, 'get_notification_preferences_v2')
           ? _json({..._read(revision: 5), 'preferences': _newer.toJson()})
@@ -561,7 +561,7 @@ typedef _Respond = FutureOr<http.Response> Function(http.Request);
 
 class _Harness {
   _Harness(this.client, this.repo, this.requests, this.respond);
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   final _Repository repo;
   final List<http.Request> requests;
   _Respond respond;
@@ -570,10 +570,8 @@ class _Harness {
   static Future<_Harness> create({_Respond? respond}) async {
     late _Harness harness;
     final requests = <http.Request>[];
-    final client = SupabaseClient(
+    final client = CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'synthetic-anon-key',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((r) async {
         http.Response result;
         if (r.url.path.endsWith('/verify')) {
@@ -591,11 +589,7 @@ class _Harness {
         );
       }),
     );
-    await client.auth.verifyOTP(
-      phone: '+250788972001',
-      token: '$_a|$_s1|0',
-      type: OtpType.sms,
-    );
+    await client.auth.recoverSession(jsonEncode(_auth(_a, _s1, '0')));
     final repo = _Repository(client);
     harness = _Harness(client, repo, requests, respond ?? _fallback);
     addTearDown(() async {
@@ -606,10 +600,8 @@ class _Harness {
   }
 
   Future<void> login(String user, String session, {int nonce = 0}) async {
-    await client.auth.verifyOTP(
-      phone: '+250788972001',
-      token: '$user|$session|$nonce',
-      type: OtpType.sms,
+    await client.auth.recoverSession(
+      jsonEncode(_auth(user, session, '$nonce')),
     );
     // Allow the real Auth stream and repository reload generation to settle.
     for (var i = 0; i < 5; i++) {
@@ -621,7 +613,7 @@ class _Harness {
 
 Map<String, dynamic> _auth(String user, String session, String nonce) => {
   'access_token':
-      'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': user, 'session_id': session, 'nonce': nonce, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
+      'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': user, 'session_id': session, 'nonce': nonce, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
   'refresh_token': 'synthetic-refresh',
   'token_type': 'bearer',
   'user': {
@@ -649,11 +641,11 @@ class _Repository extends CollectRepository {
           paymentIntents: const [],
           contributions: const [],
         ),
-        supabase: client,
+        backend: client,
         smsAccessChannel: _Sms(),
         offlineCache: _Cache(),
       );
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
     state = state.copyWith(
@@ -704,10 +696,16 @@ http.Response _fallback(http.Request r) {
   }
   if (_rpc(r, 'list_current_member_history_page')) {
     return _json({
+      'contract_version': 2,
+      'contribution_basis': 'reconciled_evidence_entries',
       'items': [],
       'total_count': 0,
-      'totals': {},
-      'own_totals': {},
+      'totals': {'RWF': 0},
+      'own_totals': {'RWF': 0},
+      'credit_totals': {'RWF': 0},
+      'debit_totals': {'RWF': 0},
+      'own_credit_totals': {'RWF': 0},
+      'own_debit_totals': {'RWF': 0},
       'own_collection_ids': [],
       'revision': '00000000000000000000000000000000',
       'next_cursor': null,

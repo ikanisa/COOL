@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Actual retained-fork/cache mutations must fail before arbitrary delta blessing."""
 import importlib.util
+import json
+import os
+import subprocess
+import sys
 from pathlib import Path
 import shutil
 import tempfile
@@ -93,6 +97,92 @@ class FileSaverForkProvenanceTest(unittest.TestCase):
         with patch.object(fork, 'formatted_source_equal', side_effect=change_after_format):
             with self.assertRaisesRegex(SystemExit,'input drift during comparison'):
                 fork.build()
+
+
+    def export_root(self):
+        root = self.root / 'selected-source'
+        shutil.copytree(self.source, root / 'third_party/file_saver')
+        return root
+
+    def cli(self, root, *args):
+        return subprocess.run([sys.executable, '-B', str(ROOT / 'scripts/supply_chain/verify_file_saver_fork.py'),
+                               '--root', str(root), '--cache-dir', str(self.cache), *map(str,args)],
+                              cwd=self.root, capture_output=True, text=True, timeout=30)
+
+    def test_portable_cli_uses_selected_root_and_current_default_report(self):
+        root = self.export_root()
+        before = fork.tree_files(root / 'third_party/file_saver')
+        result = self.cli(root)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        report = root / 'docs/implementation/dependency-provenance/file_saver-0.4.0-comparison.json'
+        self.assertEqual(json.loads(report.read_text()), fork.build())
+        self.assertEqual(self.cli(root, '--check').returncode, 0)
+        self.assertEqual(fork.tree_files(root / 'third_party/file_saver'), before)
+
+    def test_portable_cli_default_cache_is_relative_to_selected_root(self):
+        root = self.export_root()
+        shutil.copytree(self.cache, root / '.cache/file-saver-upstream-0.4.0')
+        result = subprocess.run([sys.executable, '-B', str(ROOT / 'scripts/supply_chain/verify_file_saver_fork.py'),
+                                 '--root', str(root)], cwd=self.root, capture_output=True, text=True, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_portable_cli_output_does_not_overwrite_source_or_support(self):
+        root = self.export_root()
+        support = root / 'scripts/supply_chain/helper.py'
+        support.parent.mkdir(parents=True); support.write_bytes(b'protected support source\n')
+        for path in [root / 'third_party/file_saver/LICENSE', support]:
+            original = path.read_bytes()
+            result = self.cli(root, '--output', path)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('verification inputs', result.stderr)
+            self.assertEqual(path.read_bytes(), original)
+
+    def test_portable_cli_hardlink_output_cannot_modify_licence(self):
+        root = self.export_root(); licence=root / 'third_party/file_saver/LICENSE'
+        output=self.root/'alias.json';os.link(licence,output);original=licence.read_bytes()
+        result=self.cli(root,'--output',output)
+        self.assertNotEqual(result.returncode,0)
+        self.assertIn('unaliased regular file',result.stderr)
+        self.assertEqual(licence.read_bytes(),original)
+
+    def test_portable_cli_symlink_root_cache_and_output_are_rejected(self):
+        root=self.export_root();alias=self.root/'alias';alias.symlink_to(root,target_is_directory=True)
+        self.assertNotEqual(self.cli(alias).returncode,0)
+        alias.unlink();alias.symlink_to(self.cache,target_is_directory=True)
+        result=self.cli(root,'--cache-dir',alias)
+        self.assertNotEqual(result.returncode,0);self.assertIn('Symlink',result.stderr)
+        alias.unlink();alias.symlink_to(root/'third_party/file_saver/LICENSE')
+        self.assertNotEqual(self.cli(root,'--output',alias).returncode,0)
+
+    def test_cache_inside_fork_is_rejected_before_fetch(self):
+        root=self.export_root()
+        with patch.object(fork,'fetch') as fetch,patch.object(sys,'argv',['verify','--root',str(root),'--cache-dir',str(root/'third_party/file_saver/cache'),'--fetch']):
+            with self.assertRaisesRegex(SystemExit,'Cache may not modify'):
+                fork.main()
+            fetch.assert_not_called()
+
+    def test_fetch_cache_hardlink_is_rejected_before_any_download(self):
+        root=self.export_root();cache=self.root/'new-cache';cache.mkdir()
+        licence=root/'third_party/file_saver/LICENSE';os.link(licence,cache/'metadata.json');original=licence.read_bytes()
+        with patch.object(fork.origin,'public_download') as download,patch.object(sys,'argv',['verify','--root',str(root),'--cache-dir',str(cache),'--fetch']):
+            with self.assertRaisesRegex(ValueError,'unaliased regular file'):
+                fork.main()
+            download.assert_not_called()
+        self.assertEqual(licence.read_bytes(),original)
+
+    def test_metadata_container_is_still_unreviewed_fork_input(self):
+        (self.source/'._LICENSE').write_bytes(b'AppleDouble-looking unreviewed bytes')
+        with self.assertRaisesRegex(SystemExit,'delta differs'):
+            fork.build()
+
+    def test_portable_check_refuses_stale_report_without_rewriting_it(self):
+        root=self.export_root();self.assertEqual(self.cli(root).returncode,0)
+        report=root/'docs/implementation/dependency-provenance/file_saver-0.4.0-comparison.json'
+        original=report.read_bytes()+b' '
+        report.write_bytes(original)
+        result=self.cli(root,'--check')
+        self.assertNotEqual(result.returncode,0);self.assertIn('report is stale',result.stderr)
+        self.assertEqual(report.read_bytes(),original)
 
 
 if __name__ == '__main__':unittest.main(verbosity=2)

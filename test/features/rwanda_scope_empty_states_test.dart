@@ -56,13 +56,13 @@ Future<void> _pump(
 }
 
 void main() {
-  testWidgets('empty member Activity describes confirmed MoMo records', (
+  testWidgets('empty member Activity describes recorded MoMo contributions', (
     tester,
   ) async {
     await _pump(tester, const ActivityScreen());
 
     expect(
-      find.text('Confirmed MoMo contributions appear here.'),
+      find.text('Recorded MoMo contributions appear here.'),
       findsOneWidget,
     );
     expect(find.textContaining('Bank contributions'), findsNothing);
@@ -93,7 +93,7 @@ void main() {
     );
 
     expect(
-      find.text('Confirmed MoMo contributions appear here.'),
+      find.text('Recorded MoMo contributions appear here.'),
       findsOneWidget,
     );
     expect(find.text('Contribute now'), findsOneWidget);

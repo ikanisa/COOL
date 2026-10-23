@@ -16,22 +16,19 @@ BUILD_NAME="${COLLECT_IOS_BUILD_NAME:-$DEFAULT_BUILD_NAME}"
 BUILD_NUMBER="${COLLECT_IOS_BUILD_NUMBER:-$DEFAULT_BUILD_NUMBER}"
 BUILD_STARTED_EPOCH="$(date +%s)"
 NATIVE_SOURCE_BEFORE="$(ruby scripts/qa/native_build_provenance.rb begin ios)"
-readonly EXPECTED_PRODUCTION_SUPABASE_URL="https://lhbowpbcpwoiparwnwgt.supabase.co"
-SUPABASE_URL_VALUE="${SUPABASE_PRODUCTION_URL:-}"
-SUPABASE_ANON_KEY_VALUE="${SUPABASE_PRODUCTION_ANON_KEY:-}"
+readonly EXPECTED_PRODUCTION_PUBLIC_URL="https://collect.ikanisa.com"
+readonly EXPECTED_PRODUCTION_ADMIN_URL="https://platform-admin.collect.ikanisa.com"
+APP_PUBLIC_URL="${APP_PUBLIC_URL:-$EXPECTED_PRODUCTION_PUBLIC_URL}"
+ADMIN_APP_URL="${ADMIN_APP_URL:-$EXPECTED_PRODUCTION_ADMIN_URL}"
+export APP_PUBLIC_URL ADMIN_APP_URL
 
 if [[ $# -ne 0 ]]; then
   printf 'This production wrapper accepts no extra Flutter arguments. Update the reviewed script for any build-contract change.\n' >&2
   exit 2
 fi
 
-if [[ -z "$SUPABASE_URL_VALUE" || -z "$SUPABASE_ANON_KEY_VALUE" ]]; then
-  printf 'SUPABASE_PRODUCTION_URL and SUPABASE_PRODUCTION_ANON_KEY are required.\n' >&2
-  exit 2
-fi
-
-if [[ "$SUPABASE_URL_VALUE" != "$EXPECTED_PRODUCTION_SUPABASE_URL" ]]; then
-  printf 'SUPABASE_PRODUCTION_URL does not match the reviewed Collect production project.\n' >&2
+if [[ "$APP_PUBLIC_URL" != "$EXPECTED_PRODUCTION_PUBLIC_URL" || "$ADMIN_APP_URL" != "$EXPECTED_PRODUCTION_ADMIN_URL" ]]; then
+  printf 'Public and Admin URLs must match the reviewed HTTPS production targets.\n' >&2
   exit 2
 fi
 
@@ -42,22 +39,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-SUPABASE_URL_VALUE="$SUPABASE_URL_VALUE" \
-SUPABASE_ANON_KEY_VALUE="$SUPABASE_ANON_KEY_VALUE" \
-DEFINES_FILE="$DEFINES_FILE" \
-ruby -r json <<'RUBY'
-File.write(
-  ENV.fetch("DEFINES_FILE"),
-  JSON.generate(
-    "SUPABASE_URL" => ENV.fetch("SUPABASE_URL_VALUE"),
-    "SUPABASE_ANON_KEY" => ENV.fetch("SUPABASE_ANON_KEY_VALUE"),
-    "APP_PUBLIC_URL" => ENV.fetch("APP_PUBLIC_URL", "https://collect.ikanisa.com"),
-    "APP_ENVIRONMENT" => "production",
-    "APNS_ENVIRONMENT" => "production",
-    "COLLECT_MOBILE_EVIDENCE_MODE" => "false"
-  )
-)
-RUBY
+python3 scripts/qa/native_build_config.py ios --defines-output "$DEFINES_FILE"
 
 "$FLUTTER_BIN" build ipa \
   --release \
@@ -69,12 +51,14 @@ RUBY
 
 if ! unzip -p "$ROOT_DIR/build/ios/ipa/Collect.ipa" \
   'Payload/Collect.app/Frameworks/App.framework/App' | \
-  EXPECTED_SUPABASE_URL="$EXPECTED_PRODUCTION_SUPABASE_URL" ruby -e '
-    expected = ENV.fetch("EXPECTED_SUPABASE_URL").b
-    exit(STDIN.read.b.include?(expected) ? 0 : 1)
+  DEFINES_FILE="$DEFINES_FILE" ruby -r json -e '
+    values = JSON.parse(File.read(ENV.fetch("DEFINES_FILE")))
+    binary = STDIN.read.b
+    required = %w[SUPABASE_URL SUPABASE_API_URL SUPABASE_PUBLISHABLE_KEY]
+    exit(required.all? { |key| binary.include?(values.fetch(key).b) } ? 0 : 1)
   '
 then
-  printf 'Packaged iOS release is missing the reviewed Supabase runtime URL.\n' >&2
+  printf 'Packaged iOS release is missing the reviewed Supabase runtime configuration.\n' >&2
   exit 1
 fi
 

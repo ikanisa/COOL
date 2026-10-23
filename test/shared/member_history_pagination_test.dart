@@ -8,9 +8,11 @@ import 'dart:ui' as ui;
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_runtime_assets.dart';
-import 'package:collect_app/core/supabase/realtime_invalidation.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
+import 'package:collect_app/core/cloudflare/realtime_invalidation.dart';
 import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../support/synthetic_jwt.dart';
 
 const _revision = '11111111111111111111111111111111';
 
@@ -289,8 +291,12 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            collectBackendClientProvider.overrideWithValue(null),
             appRouterProvider.overrideWithValue(router),
             collectRepositoryProvider.overrideWith((ref) => repo),
+            // This journey verifies server history, independently of an
+            // Android SMS bridge that is absent from the widget-test host.
+            momoReceiptCaptureAvailableProvider.overrideWithValue(false),
           ],
           child: RepaintBoundary(key: captureKey, child: const CollectApp()),
         ),
@@ -355,11 +361,17 @@ void main() {
       final response = Completer<http.Response>();
       final profileRequestStarted = Completer<void>();
       var profileRequested = false;
-      final client = SupabaseClient(
+      final client = CollectCloudflareClient(
         'http://127.0.0.1:1',
-        'test-key',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((request) async {
+          if (request.url.path == '/v1/auth/logout') {
+            return http.Response(
+              '{}',
+              200,
+              request: request,
+              headers: {'content-type': 'application/json'},
+            );
+          }
           if (request.url.path.endsWith('get_current_member_profile')) {
             profileRequested = true;
             profileRequestStarted.complete();
@@ -373,9 +385,11 @@ void main() {
         }),
       );
       addTearDown(client.dispose);
-      await client.auth.setInitialSession(
+      await client.auth.recoverSession(
         jsonEncode({
-          'access_token': 'synthetic-access',
+          'access_token': syntheticMemberAccessToken(
+            '10000000-0000-0000-0000-000000000001',
+          ),
           'refresh_token': 'synthetic-refresh',
           'token_type': 'bearer',
           'expires_in': 3600,
@@ -389,7 +403,7 @@ void main() {
         }),
       );
       final repo = CollectRepository(
-        supabase: client,
+        backend: client,
         smsAccessChannel: const _AvailableSmsAccessChannel(),
       );
       addTearDown(repo.dispose);

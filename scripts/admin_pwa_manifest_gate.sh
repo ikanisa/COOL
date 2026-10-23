@@ -115,6 +115,10 @@ if asset_base
     hashes = JSON.parse(service_worker[/const CACHE_HASHES = (\{.*?\});/m, 1].to_s)
     failures << "cache URL and hash inventories must match" unless urls.sort == hashes.keys.sort
     urls.each do |url|
+      if url.split('/').any? { |part| part.start_with?('._') || part == '.DS_Store' }
+        failures << "filesystem metadata must not enter the runtime cache manifest"
+        next
+      end
       unless url == "./" || (url.start_with?("./") && !url.include?("..") && !url.include?("\\") && !url.include?("?"))
         failures << "cache manifest has an invalid static path"
         next
@@ -136,7 +140,7 @@ Dir.glob(File.join(build_dir, "**", "*"), File::FNM_DOTMATCH).each do |path|
   next if File.size(path) > 20 * 1024 * 1024
 
   text = File.binread(path)
-  if text.match?(/service_role|SUPABASE_SERVICE_ROLE|OPENAI_API_KEY|WHATSAPP_TOKEN|provider-live-secret/i)
+  if text.match?(/service_role|OPENAI_API_KEY|WHATSAPP_TOKEN|provider-live-secret/i)
     sensitive_matches << path.sub(%r{\A#{Regexp.escape(build_dir)}/?}, "")
   end
 end

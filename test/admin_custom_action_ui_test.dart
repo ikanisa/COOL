@@ -3,13 +3,12 @@ import 'dart:convert';
 
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as sdk;
 import 'support/admin_read_fixture.dart';
@@ -24,6 +23,7 @@ const _identity = AdminIdentity(
   permissions: [
     'collections.read',
     'collections.moderate',
+    'public_requests.review',
     'payees.read',
     'payees.manage',
     'users.read',
@@ -81,7 +81,7 @@ String _success(_Action action) => switch (action) {
   _Action.activateGroup => 'Group updated: Activate',
   _Action.approveGroup => 'Group updated: Approve public',
   _Action.rejectGroup => 'Group updated: Reject public',
-  _Action.metadata => 'Public group updated in Supabase',
+  _Action.metadata => 'Public group updated',
   _Action.note || _Action.profileNote => 'Operator note recorded',
   _Action.featureFlag => '',
 };
@@ -265,12 +265,10 @@ void main() {
         var done = 0;
         var flagEnabled = false;
         var flagReads = 0;
-        late final SupabaseClient client;
+        late final CollectCloudflareClient client;
         await tester.runAsync(() async {
-          client = SupabaseClient(
+          client = CollectCloudflareClient(
             'https://synthetic.invalid',
-            'synthetic-publishable',
-            authOptions: const AuthClientOptions(autoRefreshToken: false),
             httpClient: MockClient((request) async {
               http.Response response;
               final endpoint = request.url.path.split('/').last;
@@ -367,7 +365,7 @@ void main() {
         });
         final container = ProviderContainer(
           overrides: [
-            supabaseClientProvider.overrideWithValue(client),
+            collectBackendClientProvider.overrideWithValue(client),
             adminIdentityProvider.overrideWith((ref) {
               final current = ref.watch(identity);
               return identityReply ?? Future.value(current);
@@ -415,6 +413,14 @@ void main() {
         }
 
         Future<void> tap(Finder finder) async {
+          expect(
+            finder,
+            findsOneWidget,
+            reason: tester
+                .widgetList<Text>(find.byType(Text))
+                .map((text) => text.data ?? text.textSpan?.toPlainText())
+                .join(' | '),
+          );
           await tester.ensureVisible(finder);
           await tester.tap(finder);
           await network();
@@ -624,7 +630,18 @@ void main() {
             writes.single.headers['Authorization'],
             'Bearer ${client.auth.currentSession!.accessToken}',
           );
-          expect(jsonDecode(writes.single.body), {
+          final actualBody = Map<String, dynamic>.from(
+            jsonDecode(writes.single.body) as Map,
+          );
+          if (action == _Action.note || action == _Action.profileNote) {
+            expect(
+              actualBody.remove('p_request_id'),
+              matches(
+                r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
+              ),
+            );
+          }
+          expect(actualBody, {
             ..._parameters(action),
             if (boundaryReason != null) 'p_reason': boundaryReason.trim(),
           });

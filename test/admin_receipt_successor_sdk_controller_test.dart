@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_receipt_successor_sdk.dart';
 import 'package:collect_app/admin/core/admin_receipt_successor_controller.dart';
@@ -183,7 +183,7 @@ void main() {
       final api = AdminReceiptSuccessorSdk(
         rpc: (name, params) {
           if (name == 'admin_approve_receipt_successor_v1') {
-            throw const PostgrestException(
+            throw const CollectApiException(
               message: 'Synthetic source changed',
               code: '55000',
             );

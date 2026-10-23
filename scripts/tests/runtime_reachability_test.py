@@ -63,14 +63,14 @@ class ReachabilityTest(unittest.TestCase):
         self.assertEqual('missing_local_source', report['missing_local_directives'][0]['reason'])
 
     def test_existing_vendor_auth_fixture_is_evidence_reachable(self):
-        self.write('third_party/gotrue/test/synthetic_jwt.dart', 'String jwt() => "synthetic";')
-        self.write('test/auth_fixture_test.dart', "import '../third_party/gotrue/test/synthetic_jwt.dart';")
+        self.write('third_party/synthetic_fork/test/synthetic_jwt.dart', 'String jwt() => "synthetic";')
+        self.write('test/auth_fixture_test.dart', "import '../third_party/synthetic_fork/test/synthetic_jwt.dart';")
         report = module.collect(self.root)
         self.assertEqual([], report['missing_local_directives'])
-        self.assertIn('third_party/gotrue/test/synthetic_jwt.dart', report['source_sha256'])
+        self.assertIn('third_party/synthetic_fork/test/synthetic_jwt.dart', report['source_sha256'])
 
     def test_absent_vendor_auth_fixture_still_fails_closed(self):
-        self.write('test/auth_fixture_test.dart', "import '../third_party/gotrue/test/missing.dart';")
+        self.write('test/auth_fixture_test.dart', "import '../third_party/synthetic_fork/test/missing.dart';")
         report = module.collect(self.root)
         self.assertEqual('fail', report['status'])
         self.assertEqual('missing_local_source', report['missing_local_directives'][0]['reason'])

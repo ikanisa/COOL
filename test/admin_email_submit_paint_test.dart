@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -85,7 +85,7 @@ void main() {
         ProviderScope(
           overrides: [
             adminRepositoryProvider.overrideWithValue(repository),
-            supabaseClientProvider.overrideWithValue(null),
+            collectBackendClientProvider.overrideWithValue(null),
           ],
           child: ValueListenableBuilder<ThemeMode>(
             valueListenable: mode,
@@ -171,7 +171,7 @@ void main() {
             ProviderScope(
               overrides: [
                 adminRepositoryProvider.overrideWithValue(repository),
-                supabaseClientProvider.overrideWithValue(null),
+                collectBackendClientProvider.overrideWithValue(null),
               ],
               child: MaterialApp(
                 theme: brightness == Brightness.light
@@ -228,7 +228,7 @@ void main() {
                 format: ui.ImageByteFormat.png,
               );
               final file = File(
-                'docs/release/collect-codex-goal-2026-09-30/email-operator/email-submit-${verify ? 'verify' : 'send'}-${brightness.name}-synthetic.png',
+                '.cache/test-captures/email-operator/email-submit-${verify ? 'verify' : 'send'}-${brightness.name}-synthetic.png',
               );
               await file.parent.create(recursive: true);
               await file.writeAsBytes(png!.buffer.asUint8List());

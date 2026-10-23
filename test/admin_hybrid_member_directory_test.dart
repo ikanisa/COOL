@@ -1,5 +1,7 @@
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart'
+    show collectBackendClientProvider;
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +30,9 @@ class _DirectoryRepository extends AdminEvidenceRepository {
         status: 'active',
         amount: '1 groups',
         extra: {
+          'public_id': '900001',
+          'member_type': 'Direct',
+          'momo_number': '+250788001001',
           'display_name': 'Synthetic offline member',
           'account_state': 'feature_phone',
           'momo_masked': '+***1001',
@@ -44,6 +49,9 @@ class _DirectoryRepository extends AdminEvidenceRepository {
         status: 'admin',
         amount: '2 groups',
         extra: {
+          'public_id': '900002',
+          'member_type': 'App',
+          'whatsapp_phone': '+250788001002',
           'display_name': 'Synthetic app member',
           'account_state': 'app',
           'whatsapp_masked': '+***1002',
@@ -58,6 +66,8 @@ class _DirectoryRepository extends AdminEvidenceRepository {
         status: 'active',
         amount: '1 groups',
         extra: {
+          'public_id': '900003',
+          'member_type': 'App',
           'account_state': 'app_claimed',
           'country_code': 'RW',
           'active_groups': 1,
@@ -85,6 +95,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            collectBackendClientProvider.overrideWithValue(null),
             adminRepositoryProvider.overrideWithValue(_DirectoryRepository()),
           ],
           child: MaterialApp(
@@ -106,14 +117,16 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(find.text('Collect ID 900001'), findsOneWidget);
+      expect(find.text('900001'), findsOneWidget);
+      expect(find.text('900002'), findsOneWidget);
+      expect(find.text('900003'), findsOneWidget);
       expect(find.text('Synthetic offline member'), findsOneWidget);
       expect(find.text('Feature phone'), findsOneWidget);
-      expect(find.text('MoMo +***1001'), findsOneWidget);
+      expect(find.text('+250788001001'), findsOneWidget);
       expect(find.text('App account'), findsOneWidget);
-      expect(find.text('WhatsApp +***1002'), findsOneWidget);
+      expect(find.text('+250788001002'), findsOneWidget);
       expect(find.text('Claimed app account'), findsOneWidget);
-      expect(find.text('Contact not recorded'), findsOneWidget);
+      expect(find.text('—'), findsWidgets);
       expect(find.text('Open member account'), findsNothing);
       expect(
         find.byTooltip('Open member record Collect ID 900001'),

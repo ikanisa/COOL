@@ -29,8 +29,6 @@ class CandidateTest(unittest.TestCase):
         for name in candidate.REQUIRED:
             self.write(name, "synthetic source")
         self.write(".fvmrc", json.dumps({"flutter": "3.44.4"}))
-        self.write(".dvmrc", "2.5.6\n")
-        self.write("tools/collect-notification-mcp/package.json", json.dumps({"dependencies": {"@modelcontextprotocol/server": "2.0.0", "zod": "4.5.4"}}))
         self.sdk = self.base / "flutter"
         (self.sdk / "bin/cache").mkdir(parents=True)
         (self.sdk / "bin/flutter").write_text("synthetic launcher")
@@ -61,19 +59,13 @@ class CandidateTest(unittest.TestCase):
         self.assertTrue(all(value is False for value in result["approvals"].values()))
         self.assertEqual(candidate.verify_candidate(self.destination, self.root, result["manifest_sha256"])["changes"], [])
 
-    def test_supabase_cli_pin_is_retained_and_changes_stale_the_export(self):
-        self.write(".supabase-cli-version", "2.114.0\n")
-        self.export()
-        self.assertEqual((self.destination / ".supabase-cli-version").read_text(), "2.114.0\n")
-        self.write(".supabase-cli-version", "2.113.0\n")
-        self.assertIn({"path":".supabase-cli-version","reason":"source_changed"}, candidate.verify_candidate(self.destination,self.root)["changes"])
 
     def test_private_indexed_files_ignored_inputs_caches_artifacts_and_qa_dumps_are_excluded(self):
         self.write(".gitignore", "lib/ignored.dart\n")
         self.write("lib/ignored.dart", "ignored private input")
         paths = [".env.json", "android/key.properties", "android/app/google-services.json", "ios/Runner/GoogleService-Info.plist",
                  "android/upload.jks", "ios/AuthKey.p8", "tools/x/node_modules/data.js", "lib/build/generated.dart",
-                 "supabase/.temp/database-url", "docs/release/raw-customer.json", "output/raw.json", "test/payload.xlsx",
+                 "deploy/.temp/database-url", "docs/release/raw-customer.json", "output/raw.json", "test/payload.xlsx",
                  "test/failures/customer.png", "ios/report.dSYM/Contents/data"]
         for name in paths:
             self.write(name, "DO_NOT_COPY_PRIVATE")
@@ -85,37 +77,39 @@ class CandidateTest(unittest.TestCase):
         self.assertIn("private_configuration", self.manifest()["excluded_file_counts"])
 
     def test_private_material_in_an_innocent_source_file_blocks_before_export(self):
-        for value in ["-----BEGIN PRIVATE KEY-----\n" + "A" * 32, "ghp_" + "a" * 40, "sb_secret_" + "x" * 30]:
+        for value in ["-----BEGIN PRIVATE KEY-----\n" + "A" * 32, "ghp_" + "a" * 40,
+                      "service_secret_" + "x" * 30, "unfamiliar-service-token-" + "b" * 30,
+                      "TOKEN_" + "c" * 30, "service_secret_synthetic_" + "d" * 30]:
             self.write("lib/public.dart", value)
             with self.assertRaisesRegex(candidate.ReleaseError, "CANDIDATE_CREDENTIAL_PATTERN"):
                 self.export()
             self.assertFalse(self.destination.exists())
 
     def test_upstream_auth_fixture_tests_are_excluded_but_runtime_provenance_and_app_tests_remain(self):
-        self.write("third_party/gotrue/test/client_test.dart", "sb_secret_" + "x" * 30)
-        retained = ["third_party/gotrue/lib/gotrue.dart", "third_party/gotrue/pubspec.yaml",
-                    "third_party/gotrue/LICENSE", "third_party/gotrue/COLLECT_FORK.md",
-                    "third_party/gotrue/UPSTREAM-SHA", "test/collect_auth_test.dart"]
+        self.write("third_party/synthetic_fork/test/client_test.dart", "service_secret_" + "x" * 30)
+        retained = ["third_party/synthetic_fork/lib/synthetic_fork.dart", "third_party/synthetic_fork/pubspec.yaml",
+                    "third_party/synthetic_fork/LICENSE", "third_party/synthetic_fork/COLLECT_FORK.md",
+                    "third_party/synthetic_fork/UPSTREAM-SHA", "test/collect_auth_test.dart"]
         for name in retained:
             self.write(name)
         self.export()
-        self.assertFalse((self.destination / "third_party/gotrue/test/client_test.dart").exists())
+        self.assertFalse((self.destination / "third_party/synthetic_fork/test/client_test.dart").exists())
         self.assertEqual(self.manifest()["excluded_file_counts"]["upstream_qa_fixture_source"], 1)
-        recorded = self.manifest()["excluded_upstream_qa_source"]["third_party/gotrue/test/client_test.dart"]
-        self.assertEqual(recorded["sha256"], candidate.sha((self.root / "third_party/gotrue/test/client_test.dart").read_bytes()))
+        recorded = self.manifest()["excluded_upstream_qa_source"]["third_party/synthetic_fork/test/client_test.dart"]
+        self.assertEqual(recorded["sha256"], candidate.sha((self.root / "third_party/synthetic_fork/test/client_test.dart").read_bytes()))
         self.assertEqual(recorded["reason"], "upstream_qa_fixture_source")
-        self.assertNotIn("sb_secret_", json.dumps(self.manifest()))
+        self.assertNotIn("service_secret_", json.dumps(self.manifest()))
         for name in retained:
             self.assertEqual((self.destination / name).read_bytes(), (self.root / name).read_bytes())
-        self.write("third_party/gotrue/test/client_test.dart", "updated upstream regression fixture")
-        self.assertIn({"path": "third_party/gotrue/test/client_test.dart", "reason": "excluded_source_changed"},
+        self.write("third_party/synthetic_fork/test/client_test.dart", "updated upstream regression fixture")
+        self.assertIn({"path": "third_party/synthetic_fork/test/client_test.dart", "reason": "excluded_source_changed"},
                       candidate.verify_candidate(self.destination, self.root)["changes"])
 
     def test_a_private_key_detection_rule_is_source_code_without_private_key_material(self):
         self.write("scripts/check.py", 'forbidden_header = "-----BEGIN PRIVATE KEY-----"\n')
         self.assertEqual(self.export()["status"], "pass")
 
-    def test_authenticated_jwt_and_opaque_refresh_token_are_excluded_public_anon_is_distinct(self):
+    def test_jwt_and_opaque_refresh_tokens_are_excluded(self):
         def token(role):
             header = base64.urlsafe_b64encode(b'{"alg":"HS256"}').decode().rstrip("=")
             body = base64.urlsafe_b64encode(json.dumps({"role": role, "exp": 1234567890}).encode()).decode().rstrip("=")
@@ -127,7 +121,8 @@ class CandidateTest(unittest.TestCase):
         with self.assertRaisesRegex(candidate.ReleaseError, "CANDIDATE_CREDENTIAL_PATTERN"):
             self.export()
         self.write("contracts/input.json", json.dumps({"public_anon": token("anon")}))
-        self.assertEqual(self.export()["status"], "pass")
+        with self.assertRaisesRegex(candidate.ReleaseError, "CANDIDATE_CREDENTIAL_PATTERN"):
+            self.export()
 
     def test_selected_file_tampering_and_extra_candidate_payloads_are_reported_per_file(self):
         self.export()
@@ -197,7 +192,7 @@ class CandidateTest(unittest.TestCase):
         self.assertFalse(self.destination.exists())
 
     def test_duplicate_current_migration_versions_block_before_copy(self):
-        paths = ["supabase/migrations/20260930230000_first.sql", "supabase/migrations/20260930230000_other.sql"]
+        paths = ["supabase/migrations/20261020134445_first.sql", "supabase/migrations/20261020134445_other.sql"]
         for name in paths:
             self.write(name, "select 1;")
         with self.assertRaises(candidate.ReleaseError) as blocked:
@@ -207,9 +202,11 @@ class CandidateTest(unittest.TestCase):
         self.assertFalse(self.destination.exists())
         self.assertEqual(list(self.base.glob(".collect-export-*")), [])
 
-    def test_migration_calendar_time_and_filename_validity_are_prerequisites(self):
-        for version in ["20260931000000", "20260930240000", "20260930126000", "20260930000060", "20260930"]:
-            name = "supabase/migrations/" + version + "_invalid.sql"
+    def test_migration_sequence_and_filename_validity_are_prerequisites(self):
+        names = ["supabase/migrations/" + version + "_invalid.sql" for version in
+                 ["00000000000000", "12", "10000", "abcd", "20260930", "2026102013444", "202610201344444"]]
+        names += ["supabase/migrations/20261020134445_.sql", "supabase/migrations/nested/20261020134445_invalid.sql"]
+        for name in names:
             path = self.write(name, "select 1;")
             with self.assertRaises(candidate.ReleaseError) as blocked:
                 self.export()
@@ -219,27 +216,34 @@ class CandidateTest(unittest.TestCase):
             path.unlink()
 
     def test_deleted_indexed_migration_does_not_collide_with_current_replacement(self):
-        old = self.write("supabase/migrations/20260930230000_old.sql", "select 1;")
+        old = self.write("supabase/migrations/20261020134445_old.sql", "select 1;")
         subprocess.run(["git", "add", old.relative_to(self.root).as_posix()], cwd=self.root, check=True)
         old.unlink()
-        current = "supabase/migrations/20260930230000_new.sql"
+        current = "supabase/migrations/20261020134445_new.sql"
         self.write(current, "select 1;")
         self.export()
-        self.assertEqual(self.manifest()["migration_versions"], {"20260930230000": current})
+        self.assertEqual(self.manifest()["migration_versions"], {
+            "20261020134444": "supabase/migrations/20261020134444_collect_curated_platform_baseline.sql",
+            "20261020134445": current,
+        })
         self.assertIn(old.relative_to(self.root).as_posix(), self.manifest()["absent_indexed_source_paths"])
 
-    def test_only_the_explicit_preserved_legacy_minute_versions_are_accepted(self):
-        preserved = "supabase/migrations/202605230017_legacy.sql"
-        self.write(preserved, "select 1;")
-        self.export()
-        self.assertEqual(self.manifest()["migration_versions"], {"202605230017": preserved})
-        self.assertEqual(len(self.manifest()["policy"]["migration_versions"]["preserved_legacy_minute_versions"]), 19)
-        added = "supabase/migrations/202609302300_new_minute_version.sql"
-        self.write(added, "select 1;")
-        with self.assertRaises(candidate.ReleaseError) as blocked:
-            candidate.source_snapshot(self.root)
-        self.assertEqual(blocked.exception.code, "CANDIDATE_MIGRATION_VERSION_INVALID")
-        self.assertEqual(blocked.exception.paths, [added])
+    def test_legacy_duplicate_and_invalid_names_are_retained_without_gating_supabase(self):
+        legacy = ["deploy/platform-api/migrations/0001_first.sql", "deploy/platform-api/migrations/0001_other.sql",
+                  "deploy/platform-api/migrations/not-a-sequence.sql"]
+        for name in legacy:
+            self.write(name, "select 1;")
+        result = self.export()
+        self.assertEqual(result["status"], "pass")
+        manifest = self.manifest()
+        self.assertEqual(manifest["migration_versions"], {
+            "20261020134444": "supabase/migrations/20261020134444_collect_curated_platform_baseline.sql",
+        })
+        for name in legacy:
+            self.assertIn(name, manifest["source_files"])
+            self.assertEqual((self.destination / name).read_bytes(), (self.root / name).read_bytes())
+        self.assertEqual(candidate.verify_candidate(self.destination, self.root, result["manifest_sha256"])["status"], "pass")
+
 
     def test_pinned_installed_flutter_and_required_runtime_are_checked(self):
         metadata = self.sdk / "bin/cache/flutter.version.json"
@@ -278,7 +282,7 @@ class CandidateTest(unittest.TestCase):
         self.assertFalse(self.destination.exists())
         self.assertEqual(list(self.base.glob(".collect-export-*")), [])
 
-    def test_manifest_binds_all_six_locks_and_installed_runtime_without_copying_toolchains(self):
+    def test_manifest_binds_all_required_locks_and_installed_runtime_without_copying_toolchains(self):
         self.export()
         manifest = self.manifest()
         self.assertEqual(set(manifest["toolchain"]["lock_sha256"]), set(candidate.LOCKS))
@@ -286,7 +290,7 @@ class CandidateTest(unittest.TestCase):
         self.assertFalse((self.destination / "flutter").exists())
 
     def test_cli_unknown_arguments_are_sanitized_without_starting_tools(self):
-        result = subprocess.run([sys.executable, str(SOURCE), "mcp-offline", "--access-token", "SECRET_ARGUMENT"],
+        result = subprocess.run([sys.executable, str(SOURCE), "export", "--access-token", "SECRET_ARGUMENT"],
                                 capture_output=True, text=True, check=False)
         self.assertEqual(result.returncode, 2)
         self.assertNotIn("SECRET_ARGUMENT", result.stdout + result.stderr)
@@ -406,131 +410,133 @@ class CandidateTest(unittest.TestCase):
         self.assertFalse(output["source_current_tree_accepted"])
 
 
-class McpOfflineTest(unittest.TestCase):
-    def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
-        self.addCleanup(self.temp.cleanup)
-        self.base = Path(self.temp.name).resolve()
-        self.root = self.base / "repo"
-        self.bridge = self.root / "tools/collect-notification-mcp"
-        self.bridge.mkdir(parents=True)
-        self.node = Path(shutil.which("node")).resolve()
-        package = {"dependencies": {"@modelcontextprotocol/server": "2.0.0", "zod": "4.5.4"}}
-        (self.bridge / "package.json").write_text(json.dumps(package))
-        for name, version in package["dependencies"].items():
-            path = self.bridge / "node_modules" / name / "package.json"
-            path.parent.mkdir(parents=True)
-            path.write_text(json.dumps({"version": version}))
-        (self.bridge / "src").mkdir()
-        self.record = self.base / "methods.jsonl"
-        self.write_server()
-        self.config = self.base / "config.toml"
-        self.write_config()
+class CredentialScreenTest(unittest.TestCase):
+    def blocked(self, data, name="lib/public.dart"):
+        with self.assertRaisesRegex(candidate.ReleaseError, "CANDIDATE_CREDENTIAL_PATTERN"):
+            candidate.screen_credentials(data, name)
 
-    def write_config(self, tools=None, args=None, cwd=None):
-        self.config.write_text('[mcp_servers.collect-notifications]\ncommand = ' + json.dumps(str(self.node)) +
-            '\nargs = ' + json.dumps(args if args is not None else ["--experimental-strip-types", str(self.bridge / "src/server.ts")]) +
-            '\ncwd = ' + json.dumps(str(cwd or self.bridge)) + '\nenabled_tools = ' + json.dumps(tools if tools is not None else sorted(candidate.READ_TOOLS)) +
-            '\nstartup_timeout_sec = 15\ntool_timeout_sec = 45\n[mcp_servers.collect-notifications.env]\nCOLLECT_OPERATOR_ACCESS_TOKEN = "SECRET_PROFILE_VALUE"\n')
+    def lint_line(self):
+        return b"    use_" + b"key_" + b"in_widget_constructors: true"
 
-    def write_server(self, behavior="normal"):
-        source = '''import {createInterface} from "node:readline";
-import {appendFileSync} from "node:fs";
-const methods = RECORD;
-const behavior = BEHAVIOR;
-const names = NAMES;
-createInterface({input:process.stdin}).on("line",line=>{
- const message=JSON.parse(line);
- appendFileSync(methods,JSON.stringify({method:message.method,credentials_seen:Boolean(process.env.COLLECT_OPERATOR_ACCESS_TOKEN)})+"\\n");
- if(!Object.hasOwn(message,"id"))return;
- if(behavior==="hang")return;
- if(behavior==="malformed"){process.stdout.write("SECRET_NON_PROTOCOL\\n");return;}
- if(behavior==="oversized"){process.stdout.write("x".repeat(300000));return;}
- const result=message.method==="initialize"?{protocolVersion:"2025-11-25",serverInfo:{name:"collect-notification-operator"},capabilities:{tools:{}}}:
- {tools:names.map(name=>({name,annotations:{readOnlyHint:true},inputSchema:{type:"object",properties:{},additionalProperties:false}}))};
- process.stdout.write(JSON.stringify({jsonrpc:"2.0",id:message.id,result})+"\\n");
-});'''
-        (self.bridge / "src/server.ts").write_text(source.replace("RECORD", json.dumps(str(self.record))).replace("BEHAVIOR", json.dumps(behavior)).replace("NAMES", json.dumps(sorted(candidate.READ_TOOLS))))
+    def test_reviewed_lint_is_limited_to_its_exact_line_and_path(self):
+        data = self.lint_line()
+        candidate.screen_credentials(data + b"\n", "analysis_options.yaml")
+        candidate.screen_credentials(b"# harmless line before\n" + data + b"\n", "analysis_options.yaml")
+        self.blocked(data, "lib/public.dart")
+        self.blocked(data + b" # changed context", "analysis_options.yaml")
+        self.blocked(data.replace(b"true", b"false"), "analysis_options.yaml")
+        self.blocked(data.replace(b"    ", b"  ", 1), "analysis_options.yaml")
+        self.blocked(data.replace(b"constructors", b"constructorz"), "analysis_options.yaml")
 
-    def profile(self):
-        return candidate.safe_host_profile(self.config, self.root)
+    def test_reviewed_paths_do_not_exempt_adjacent_or_same_line_candidates(self):
+        suspicious = b"service_" + b"secret_" + b"x" * 30
+        self.blocked(self.lint_line() + b"\n" + suspicious, "analysis_options.yaml")
+        self.blocked(self.lint_line() + b" # " + suspicious, "analysis_options.yaml")
+        for name in ["deploy/platform-api/test/support/auth_fixture.mjs", "scripts/tests/atomic_d1_restore_test.mjs", "test/features/privacy/privacy_request_screen_test.dart"]:
+            self.blocked(suspicious, name)
 
-    def test_host_profile_outputs_only_safe_metadata_and_enforces_exact_five_reads(self):
-        profile = self.profile()
-        self.assertEqual(set(profile["enabled_tools"]), candidate.READ_TOOLS)
-        self.assertNotIn("SECRET_PROFILE_VALUE", json.dumps(profile))
-        self.assertNotIn("env", profile)
+    def test_reviewed_play_service_account_helpers_keep_exact_public_context_only(self):
+        name = "scripts/google_play_production_upload.sh"
+        lines = [b"def token_from_" + b"service_account(path, data = nil)",
+                 b"  token, source = token_from_" + b'service_account(nil, ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"])']
+        suspicious = b"service_" + b"secret_" + b"x" * 30
+        for line in lines:
+            with self.subTest(line_sha256=candidate.sha(line)):
+                candidate.screen_credentials(line + b"\n", name)
+                self.blocked(line, "scripts/other_publisher.sh")
+                self.blocked(line + b" # changed context", name)
+                self.blocked(line + b"\n" + suspicious, name)
+                self.blocked(line + b" # " + suspicious, name)
+                self.blocked(line + b"\n" + b"ghp_" + b"z" * 40, name)
 
-    def test_missing_duplicate_or_extra_write_tools_block_before_startup(self):
-        for tools in [sorted(candidate.READ_TOOLS)[:-1], sorted(candidate.READ_TOOLS) + ["begin_supervisor_run"],
-                      sorted(candidate.READ_TOOLS)[:-1] + [sorted(candidate.READ_TOOLS)[0]]]:
-            self.write_config(tools=tools)
-            with self.assertRaisesRegex(candidate.ReleaseError, "MCP_FIVE_READ_ALLOWLIST_REQUIRED"):
-                self.profile()
-        self.assertFalse(self.record.exists())
+    def test_generic_values_keep_no_directory_comment_or_label_bypass(self):
+        values = [b"service_" + b"secret_" + b"x" * 30,
+                  b"unfamiliar-service-" + b"token-" + b"b" * 30,
+                  b"TOKEN_" + b"c" * 30,
+                  b"service_" + b"secret_synthetic_" + b"d" * 30]
+        for value in values:
+            for name in ["lib/public.dart", "test/fixture.dart", "scripts/tests/test_collect_release_candidate.py"]:
+                for content in [value, b"// synthetic example " + value, b'const fixture = "' + value + b'";']:
+                    self.blocked(content, name)
 
-    def test_missing_dependency_and_version_drift_block_before_protocol(self):
-        path = self.bridge / "node_modules/zod/package.json"
-        path.write_text(json.dumps({"version": "0.0.0"}))
-        with self.assertRaisesRegex(candidate.ReleaseError, "MCP_INSTALLED_DEPENDENCY_MISMATCH"):
-            self.profile()
-        path.unlink()
-        with self.assertRaisesRegex(candidate.ReleaseError, "MCP_LOCAL_PREREQUISITE_MISSING"):
-            self.profile()
+    def test_every_finitely_reviewed_path_still_refuses_unreviewed_credentials(self):
+        suspicious = b"service_" + b"secret_" + b"x" * 30
+        names = set(candidate.GENERIC_PUBLIC_SOURCE_LINES) | set(candidate.GENERIC_CONTROLLED_TEST_LINES)
+        for name in names:
+            with self.subTest(path=name):
+                self.blocked(suspicious, name)
+                self.blocked(b"// synthetic fixture " + suspicious, name)
+                self.blocked(b'const fixture = "' + suspicious + b'";', name)
 
-    def test_command_argument_or_checkout_overrides_are_refused(self):
-        for args, cwd in [(["--eval", "SECRET"], None), (None, self.base)]:
-            self.write_config(args=args, cwd=cwd)
-            with self.assertRaisesRegex(candidate.ReleaseError, "MCP_FIXED_BRIDGE_REQUIRED"):
-                self.profile()
-        self.assertFalse(self.record.exists())
+    def test_current_operator_and_fixture_contexts_keep_exact_paths_and_bytes(self):
+        # Optional root is for this private staged test only. The production
+        # scanner has no environment override or fixture-directory exemption.
+        root = Path(os.environ.get("COLLECT_TEST_CONTEXT_SOURCE_ROOT", SOURCE.parents[2]))
+        names = ['scripts/supabase/current-archive/bundle.mjs', 'scripts/supabase/current-archive/operator.mjs', 'scripts/supabase/current-archive/custody.test.mjs', 'scripts/supabase/current-archive/operator.test.mjs', 'scripts/supabase/current-archive/root-curated.fixture.mjs', 'scripts/supabase/current-archive/transport.test.mjs', 'scripts/supabase/jobs_test.mjs', 'scripts/tests/cloudflare_native_build_config_test.py', 'supabase/functions/_shared/tests/momo-provider-adapter.test.ts']
+        suspicious = b"service_" + b"secret_" + b"x" * 30
+        for name in names:
+            data = (root / name).read_bytes()
+            candidate.screen_credentials(data, name)
+            observed = set()
+            for match in candidate.re.finditer(candidate.TOKEN_PATTERNS[6], data):
+                self.assertTrue(candidate.reviewed_generic_line(data, name, match))
+                start = data.rfind(b"\n", 0, match.start()) + 1
+                end = data.find(b"\n", match.end())
+                line = data[start:len(data) if end == -1 else end]
+                line_sha256 = candidate.sha(line)
+                if line_sha256 in observed:
+                    continue
+                observed.add(line_sha256)
+                with self.subTest(path=name, line_sha256=line_sha256):
+                    self.blocked(line, "scripts/unreviewed_context.mjs")
+                    self.blocked(line + b" // changed context", name)
+                    self.blocked(line + b"\n" + suspicious, name)
+                    self.blocked(line + b" // " + suspicious, name)
+                    self.blocked(line + b"\n" + b"ghp_" + b"z" * 40, name)
+            self.assertTrue(observed, name)
 
-    def test_actual_stdio_discovers_tools_without_forwarding_credentials_or_invoking_a_tool(self):
-        with patch.dict(os.environ, {"COLLECT_OPERATOR_ACCESS_TOKEN": "SECRET_PARENT_VALUE"}):
-            report = candidate.discover_mcp(self.profile())
-        self.assertEqual(report["status"], "pass")
-        self.assertEqual(report["mcp_tool_calls"], 0)
-        self.assertEqual(report["backend_reads"], 0)
-        self.assertEqual(set(report["enabled_read_schemas"]), candidate.READ_TOOLS)
-        records = [json.loads(line) for line in self.record.read_text().splitlines()]
-        self.assertEqual([row["method"] for row in records], ["initialize", "notifications/initialized", "tools/list"])
-        self.assertTrue(all(row["credentials_seen"] is False for row in records))
-        self.assertNotIn("SECRET", json.dumps(report))
+    def test_even_an_exact_context_entry_cannot_allow_specific_or_json_credentials(self):
+        name = "supabase/functions/_shared/tests/runtime.test.ts"
+        header = base64.urlsafe_b64encode(b'{"alg":"HS256"}').rstrip(b"=")
+        body = base64.urlsafe_b64encode(b'{"role":"service_role","exp":1234567890}').rstrip(b"=")
+        values = [b"-----BEGIN PRIVATE KEY-----\n" + b"A" * 32,
+                  b"ghp_" + b"b" * 40, b"github_pat_" + b"c" * 50,
+                  b"AKIA" + b"D" * 16, b"sk_live_" + b"e" * 30,
+                  b"sk-proj-" + b"f" * 40, header + b"." + body + b"." + b"z" * 32,
+                  json.dumps({"nested": [{"secret_key": "opaque_private_value"}]}).encode()]
+        for value in values:
+            with self.subTest(case_sha256=candidate.sha(value)):
+                target = "supabase/jobs/readiness.example.json" if value.startswith(b"{") else name
+                with patch.dict(candidate.GENERIC_CONTROLLED_TEST_LINES,
+                                {target: frozenset((candidate.sha(value),))}):
+                    self.blocked(value, target)
 
-    def test_malformed_oversized_and_stalled_stdio_fail_safely(self):
-        for behavior, code in [("malformed", "MCP_PROTOCOL_INVALID"), ("oversized", "MCP_RESPONSE_TOO_LARGE"), ("hang", "MCP_DISCOVERY_DEADLINE")]:
-            self.write_server(behavior)
-            with self.assertRaisesRegex(candidate.ReleaseError, code):
-                candidate.discover_mcp(self.profile(), timeout_seconds=0.7 if behavior == "hang" else 5.0)
+    def test_specific_patterns_never_use_context_relief(self):
+        values = [b"-----BEGIN PRIVATE KEY-----\n" + b"A" * 32,
+                  b"-----BEGIN RSA PRIVATE KEY-----\n" + b"A" * 32,
+                  b"-----BEGIN EC PRIVATE KEY-----\n" + b"A" * 32,
+                  b"-----BEGIN OPENSSH PRIVATE KEY-----\n" + b"A" * 32,
+                  b"ghp_" + b"a" * 40, b"github_pat_" + b"b" * 50,
+                  b"AKIA" + b"C" * 16, b"sk_live_" + b"d" * 30,
+                  b"sk_test_" + b"e" * 30, b"sk-proj-" + b"f" * 40]
+        for value in values:
+            for name in ["analysis_options.yaml", "deploy/platform-api/test/support/auth_fixture.mjs"]:
+                self.blocked(self.lint_line() + b"\n" + value, name)
 
-    def test_malformed_config_never_echoes_config_values(self):
-        self.config.write_text('SECRET_CONFIGURATION_VALUE = [')
-        with self.assertRaises(candidate.ReleaseError) as blocked:
-            self.profile()
-        self.assertEqual(str(blocked.exception), "MCP_LOCAL_PREREQUISITE_MISSING")
+    def test_json_scan_remains_strict_even_under_reviewed_paths(self):
+        fields = ["access_token", "refresh_token", "client_secret", "private_key", "secret_key", "service_role_key"]
+        for field in fields:
+            data = json.dumps({"nested": [{field: "opaque_private_value"}]}).encode()
+            self.blocked(data, "contracts/public.json")
+        self.blocked(json.dumps({"refresh_token": "opaque_private_value"}).encode(), "analysis_options.yaml.json")
 
-    def test_candidate_metadata_binding_accepts_exact_source_and_refuses_drift_before_another_start(self):
-        subprocess.run(["git", "init", "-q"], cwd=self.root, check=True)
-        for name in candidate.REQUIRED:
-            path = self.root / name
-            if not path.exists():
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text("synthetic input")
-        (self.root / ".fvmrc").write_text(json.dumps({"flutter": "3.44.4"}))
-        sdk = self.base / "flutter"
-        (sdk / "bin/cache").mkdir(parents=True)
-        (sdk / "bin/flutter").write_text("synthetic launcher")
-        (sdk / "bin/cache/flutter.version.json").write_text(json.dumps({"frameworkVersion": "3.44.4", "frameworkRevision": "synthetic", "dartSdkVersion": "3.12.2"}))
-        export = self.base / "candidate"
-        receipt = candidate.export_candidate(self.root, export, sdk)
-        report = candidate.offline_mcp(self.root, self.config, export, receipt["manifest_sha256"])
-        self.assertEqual(report["candidate_source_bound"], True)
-        self.assertEqual(report["candidate_manifest_sha256"], receipt["manifest_sha256"])
-        prior = self.record.read_bytes()
-        (self.root / "lib/main.dart").write_text("changed after export")
-        with self.assertRaisesRegex(candidate.ReleaseError, "MCP_CANDIDATE_SOURCE_STALE"):
-            candidate.offline_mcp(self.root, self.config, export, receipt["manifest_sha256"])
-        self.assertEqual(self.record.read_bytes(), prior)
+    def test_bearer_claims_remain_denied_in_public_and_fixture_contexts(self):
+        header = base64.urlsafe_b64encode(b'{"alg":"HS256"}').rstrip(b"=")
+        for role in ["authenticated", "anon", "service_role"]:
+            body = base64.urlsafe_b64encode(json.dumps({"role": role, "exp": 1234567890}).encode()).rstrip(b"=")
+            value = header + b"." + body + b"." + b"z" * 32
+            self.blocked(value, "lib/public.dart")
+            self.blocked(value, "deploy/platform-api/test/support/auth_fixture.mjs")
 
 
 if __name__ == "__main__":

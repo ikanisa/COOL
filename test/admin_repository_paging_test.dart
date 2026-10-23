@@ -1,6 +1,6 @@
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 class _RpcRepository extends AdminRepository {
   _RpcRepository(this.respond) : super(null);
@@ -60,10 +60,14 @@ void main() {
   );
 
   for (final scoped in [false, true]) {
-    for (final code in ['PGRST202', '42501', 'P0001']) {
+    for (final code in [
+      'operation_unavailable',
+      '42501',
+      'invalid_parameter',
+    ]) {
       test('error $code never triggers a fallback; scoped=$scoped', () async {
-        final failure = PostgrestException(
-          message: 'Synthetic p_limit function failure',
+        final failure = CollectApiException(
+          message: 'Synthetic rejected page request',
           code: code,
         );
         final repository = _RpcRepository(() async => throw failure);

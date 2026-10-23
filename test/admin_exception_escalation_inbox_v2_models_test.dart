@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:collect_app/admin/core/admin_exception_escalation_inbox_v2_models.dart';
 import 'package:collect_app/admin/core/admin_exception_workflow_models.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,7 +23,7 @@ Map<String, dynamic> inboxRow(int index) => {
   'delivered_at': '2026-10-01T19:00:00.000000Z',
   'read_at': null,
 };
-// Declared contract double; actual new SQL observations are added separately.
+// Declared parser contract double.
 Map<String, dynamic> inboxFixture({
   String recipientId = inboxRecipientId,
   int count = 35,
@@ -65,141 +64,6 @@ Map<String, dynamic> inboxWindow(
 }
 
 void main() {
-  const fixtureRoot = 'scripts/tests/fixtures/exception_inbox_audit_v2';
-  Map<String, dynamic> observed(String name) =>
-      jsonDecode(File('$fixtureRoot/observed-$name.json').readAsStringSync())
-          as Map<String, dynamic>;
-  for (final name in [
-    'inbox-first',
-    'inbox-last',
-    'inbox-foreign',
-    'inbox-final',
-  ]) {
-    test(
-      'actual accepted isolated SQL $name obeys current recipient and immutable delivery contract',
-      () {
-        final raw = observed(name);
-        final firstRaw = observed('inbox-first');
-        final first = AdminExceptionEscalationInboxSnapshot.parse(
-          firstRaw,
-          query: AdminExceptionEscalationInboxQuery(
-            limit: firstRaw['limit'] as int,
-          ),
-          recipientId: firstRaw['recipient_id'] as String,
-        );
-        final query = AdminExceptionEscalationInboxQuery(
-          limit: raw['limit'] as int,
-          before: name == 'inbox-last' ? first.nextCursor : null,
-        );
-        final value = AdminExceptionEscalationInboxSnapshot.parse(
-          raw,
-          query: query,
-          recipientId: raw['recipient_id'] as String,
-        );
-        expect(value.rows, hasLength((raw['rows'] as List).length));
-        expect(value.recipientId, raw['recipient_id']);
-        expect(value.isFresh(value.checkedAt), isTrue);
-        expect(value.isFresh(value.validUntil), isFalse);
-        expect(
-          () => AdminExceptionEscalationInboxSnapshot.parse(
-            raw,
-            query: query,
-            recipientId: inboxRecipientId,
-          ),
-          throwsFormatException,
-        );
-      },
-    );
-  }
-  test(
-    'actual SQL delivery pages beyond20 preserve all26 original IDs while second recipient is isolated',
-    () {
-      final raw = observed('inbox-first');
-      final first = AdminExceptionEscalationInboxSnapshot.parse(
-        raw,
-        query: AdminExceptionEscalationInboxQuery(limit: raw['limit'] as int),
-        recipientId: raw['recipient_id'] as String,
-      );
-      final lastRaw = observed('inbox-last');
-      final last = AdminExceptionEscalationInboxSnapshot.parse(
-        lastRaw,
-        query: AdminExceptionEscalationInboxQuery(
-          limit: lastRaw['limit'] as int,
-          before: first.nextCursor,
-        ),
-        recipientId: first.recipientId,
-      );
-      final foreignRaw = observed('inbox-foreign');
-      final foreign = AdminExceptionEscalationInboxSnapshot.parse(
-        foreignRaw,
-        query: AdminExceptionEscalationInboxQuery(
-          limit: foreignRaw['limit'] as int,
-        ),
-        recipientId: foreignRaw['recipient_id'] as String,
-      );
-      expect(first.rows, hasLength(20));
-      expect(last.rows, hasLength(6));
-      expect(last.nextCursor, isNull);
-      final originalIds = {
-        ...first.rows.map((r) => r.id),
-        ...last.rows.map((r) => r.id),
-      };
-      expect(originalIds, hasLength(26));
-      expect(foreign.rows, hasLength(2));
-      expect(foreign.rows.every((r) => !originalIds.contains(r.id)), isTrue);
-    },
-  );
-  test(
-    'actual SQL original opening receipt remains immutable and separately bound from source handling',
-    () {
-      final raw = observed('opened-ack');
-      final value = AdminExceptionEscalationReadReceipt.parse(
-        raw,
-        escalationId: raw['escalation_id'] as String,
-      );
-      expect(value.readAt, DateTime.parse(raw['read_at'] as String));
-      expect(raw['source_resolved'], isFalse);
-      expect(
-        () => AdminExceptionEscalationReadReceipt.parse(
-          raw,
-          escalationId: inboxExceptionId,
-        ),
-        throwsFormatException,
-      );
-    },
-  );
-  test(
-    'actual affected37 final recipient read preserves two deliveries and current-only scope',
-    () {
-      final raw =
-          jsonDecode(
-                File(
-                  '$fixtureRoot/bounded-observed-inbox-final.json',
-                ).readAsStringSync(),
-              )
-              as Map<String, dynamic>;
-      final query = AdminExceptionEscalationInboxQuery(
-        limit: raw['limit'] as int,
-      );
-      final value = AdminExceptionEscalationInboxSnapshot.parse(
-        raw,
-        query: query,
-        recipientId: raw['recipient_id'] as String,
-      );
-      expect(value.rows, hasLength(2));
-      expect(value.nextCursor, isNull);
-      expect(value.recipientId, '99790000-0000-4000-8000-000000000001');
-      expect(value.isFresh(value.validUntil), isFalse);
-      expect(
-        () => AdminExceptionEscalationInboxSnapshot.parse(
-          raw,
-          query: query,
-          recipientId: inboxRecipientId,
-        ),
-        throwsFormatException,
-      );
-    },
-  );
   const query = AdminExceptionEscalationInboxQuery();
   test(
     'strict current recipient pages beyond20 preserve delivery identity and ties',

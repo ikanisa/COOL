@@ -249,18 +249,14 @@ final realtimeSyncStatusProvider = Provider<RealtimeSyncStatus>((ref) {
 });
 
 final momoReceiptCaptureAvailableProvider = Provider<bool>((ref) {
-  return !kIsWeb &&
-      defaultTargetPlatform == TargetPlatform.android &&
-      ref.watch(
-        collectRepositoryProvider.select(
-          (state) => state.currentProfile?.isRwanda == true,
-        ),
-      );
+  // SMS capture is an optional Android device capability. Collection does not
+  // depend on a country, payment profile, recipient registry or paired role.
+  return !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
 });
 
 final smsPermissionStatusProvider = Provider<SmsPermissionStatus>((ref) {
   // A cached consent flag from another device cannot grant this device a
-  // capability its OS (or current country/payment rail) does not support.
+  // capability its OS does not support.
   if (!ref.watch(momoReceiptCaptureAvailableProvider)) {
     return SmsPermissionStatus.unavailable;
   }

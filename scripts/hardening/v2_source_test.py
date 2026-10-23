@@ -44,8 +44,4 @@ class V2Integration(unittest.TestCase):
    self.assertIn('CollectionSummary? summary;',source('lib/shared/widgets/'+name))
  def test_summary_provider_no_derived_totals(self):
   t=source('lib/shared/repositories/collect_repository_providers.dart').split('final collectionSummariesProvider',1)[1].split('final activeCollectionsProvider',1)[0];self.assertNotIn('summaryFor(',t)
- def test_economic_review_binding(self):
-  t=source('deploy/hardening/reconciliation_approval_v2.sql');self.assertIn('payment_fingerprint text not null',t);self.assertIn('reconciliation_fingerprint(payment_row) is distinct from r.payment_fingerprint',t);self.assertIn('reconciliation_fingerprint(p) is distinct from r.payment_fingerprint',t)
- def test_reconciliation_cannot_be_self_approved(self):
-  t=source('deploy/hardening/reconciliation_approval_v2.sql');self.assertIn('r.proposed_by=auth.uid()',t);self.assertIn("auth.jwt()->>'aal'",t)
 if __name__=='__main__':unittest.main(verbosity=2)

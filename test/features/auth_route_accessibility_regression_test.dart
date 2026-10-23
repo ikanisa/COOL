@@ -1,10 +1,13 @@
 import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/auth_otp_gateway_fixture.dart';
 
 import 'dart:ui' show SemanticsFlag;
 
+import 'package:collect_app/core/cloudflare/auth_otp_gateway.dart';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/features/auth/widgets/auth_screen_widgets.dart';
 import 'package:collect_app/features/auth/auth_screen.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -36,6 +39,12 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
+        overrides: [
+          collectBackendClientProvider.overrideWithValue(null),
+          authOtpGatewayProvider.overrideWithValue(
+            FixtureAuthOtpGateway(enabled: true),
+          ),
+        ],
         child: MaterialApp(
           theme: AppTheme.dark(),
           home: const MediaQuery(
@@ -47,6 +56,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    await selectWhatsAppSignIn(tester);
     final label = tester.widget<Text>(find.text('Send WhatsApp code'));
     expect(label.maxLines, greaterThanOrEqualTo(2));
     expect(label.softWrap, isTrue);
@@ -56,6 +66,111 @@ void main() {
     );
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets(
+    'Pixel safe-area dock is fully above keyboard at 200 percent text',
+    (tester) async {
+      // Actual Pixel capture: 1080x2340, 440dpi (DPR2.75), status/cutout136px,
+      // navigation66px and keyboard top1364px. Full-minus-IME is496dp, but
+      // the SafeArea form has only446.55dp, below the legacy480dp floor.
+      const density = 2.75;
+      const screen = Size(1080, 2340);
+      const keyboardTop = 1364 / density;
+      tester.view.physicalSize = screen;
+      tester.view.devicePixelRatio = density;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final gateway = FixtureAuthOtpGateway(enabled: false);
+      final metrics = ValueNotifier<MediaQueryData>(
+        const MediaQueryData(
+          size: Size(1080 / density, 2340 / density),
+          devicePixelRatio: density,
+          padding: EdgeInsets.only(top: 136 / density, bottom: 66 / density),
+          viewPadding: EdgeInsets.only(
+            top: 136 / density,
+            bottom: 66 / density,
+          ),
+          textScaler: TextScaler.linear(1),
+        ),
+      );
+      addTearDown(metrics.dispose);
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            collectBackendClientProvider.overrideWithValue(null),
+            authOtpGatewayProvider.overrideWithValue(gateway),
+          ],
+          child: MaterialApp(
+            theme: AppTheme.dark(),
+            builder: (context, child) => ValueListenableBuilder<MediaQueryData>(
+              valueListenable: metrics,
+              builder: (context, data, _) =>
+                  MediaQuery(data: data, child: child!),
+            ),
+            home: const AuthScreen(),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final authState = tester.state(find.byType(AuthScreen));
+      final email = find.byKey(const ValueKey('auth_email_input'));
+      final submit = find.byKey(const ValueKey('auth_submit_button'));
+      final action = find.descendant(
+        of: submit,
+        matching: find.byType(TextButton),
+      );
+      expect(email, findsOneWidget);
+      expect(tester.widget<TextButton>(action).onPressed, isNull);
+      // Match the physical journey: focus/type while the normal-size field is
+      // built, then open the keyboard and enlarge the same mounted route.
+      await tester.tap(email);
+      await tester.enterText(email, 'ba');
+      await tester.pumpAndSettle();
+      expect(tester.widget<TextButton>(action).onPressed, isNull);
+      await tester.enterText(email, 'qa@example.invalid');
+      await tester.pumpAndSettle();
+      expect(tester.widget<TextButton>(action).onPressed, isNotNull);
+      final editor = tester.widget<EditableText>(
+        find.descendant(of: email, matching: find.byType(EditableText)),
+      );
+      expect(editor.focusNode.hasFocus, isTrue);
+
+      metrics.value = metrics.value.copyWith(
+        padding: const EdgeInsets.only(top: 136 / density),
+        viewInsets: const EdgeInsets.only(bottom: 976 / density),
+      );
+      await tester.pumpAndSettle();
+      metrics.value = metrics.value.copyWith(
+        textScaler: const TextScaler.linear(2),
+      );
+      await tester.pumpAndSettle();
+      expect(tester.state(find.byType(AuthScreen)), same(authState));
+      expect(editor.controller.text, 'qa@example.invalid');
+      expect(editor.focusNode.hasFocus, isTrue);
+      expect(tester.widget<TextButton>(action).onPressed, isNotNull);
+
+      // Do not manually ensureVisible/scroll the dock: that masks the captured
+      // trigger defect. The whole control, rather than only its center/label,
+      // must fit above the IME after the route's ordinary reveal behavior.
+      final actionRect = tester.getRect(submit);
+      expect(actionRect.top, greaterThanOrEqualTo(136 / density));
+      expect(
+        actionRect.bottom,
+        lessThanOrEqualTo(keyboardTop),
+        reason: 'The complete primary-action pill must remain above the IME',
+      );
+      expect(actionRect.left, greaterThanOrEqualTo(0));
+      expect(actionRect.right, lessThanOrEqualTo(screen.width / density));
+      expect(actionRect.height, greaterThanOrEqualTo(76));
+      expect(MediaQuery.textScalerOf(tester.element(submit)).scale(16), 32);
+      expect(editor.controller.text, 'qa@example.invalid');
+      expect(gateway.sends, 0);
+      expect(gateway.verifications, 0);
+      expect(tester.takeException(), isNull);
+      // Intentionally no primary-action tap, OTP, CAPTCHA or provider request.
+    },
+  );
 
   testWidgets('phone input exposes its own actionable semantics label', (
     tester,
@@ -139,6 +254,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          collectBackendClientProvider.overrideWithValue(null),
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith(
             (ref) => FixtureCollectRepository(seeded: false),
@@ -174,6 +290,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          collectBackendClientProvider.overrideWithValue(null),
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith((ref) => repository),
         ],

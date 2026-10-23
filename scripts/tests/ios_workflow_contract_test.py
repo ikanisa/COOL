@@ -78,6 +78,28 @@ class WorkflowTest(unittest.TestCase):
                     if "flutter pub get" in line:
                         self.assertIn("--enforce-lockfile", line)
 
+    def test_unsigned_and_signed_builds_share_required_public_supabase_profile(self):
+        public = self.workflow["env"]
+        self.assertEqual(public["COLLECT_BACKEND"], "supabase")
+        self.assertEqual(public["SUPABASE_URL"], "https://rrlduytparvsjfmegalh.supabase.co")
+        self.assertEqual(public["SUPABASE_API_URL"], "https://platform-admin.collect.ikanisa.com")
+        self.assertIn("vars.COLLECT_SUPABASE_PUBLISHABLE_KEY", public["SUPABASE_PUBLISHABLE_KEY"])
+        self.assertIn("vars.COLLECT_AUTH_CAPTCHA_SITE_KEY", public["AUTH_CAPTCHA_SITE_KEY"])
+        self.assertEqual(public["AUTH_CAPTCHA_ENABLED"], "true")
+        self.assertNotIn("secrets.", str(public))
+        for job in (self.verify, self.delivery):
+            for step in job["steps"]:
+                self.assertNotIn("COLLECT_API_URL", step.get("env", {}))
+        unsigned = next(step["run"] for step in self.verify["steps"]
+                        if "flutter build ios" in step.get("run", ""))
+        self.assertLess(unsigned.index("native_build_config.py"), unsigned.index("flutter pub get"))
+        self.assertIn('--dart-define-from-file "$PUBLIC_DEFINES"', unsigned)
+        self.assertIn("--no-codesign", unsigned)
+        fastfile = (ROOT / "fastlane/Fastfile").read_text()
+        self.assertIn("review_defines = collect_native_public_defines", fastfile)
+        self.assertIn("scripts/qa/native_build_config.py", fastfile)
+        self.assertNotIn("Cloudflare production API", fastfile)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

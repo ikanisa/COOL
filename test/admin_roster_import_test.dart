@@ -1,3 +1,4 @@
+import 'support/recorded_auth_fixture.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -9,13 +10,16 @@ import 'package:excel/excel.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'support/admin_roster_fixture.dart';
 
-Future<void> installRosterSession(SupabaseClient client, String nonce) async {
+Future<void> installRosterSession(
+  CollectCloudflareClient client,
+  String nonce,
+) async {
   final token =
-      'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': rosterActorA, 'session_id': rosterSessionA, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.$nonce';
+      'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': rosterActorA, 'session_id': rosterSessionA, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.$nonce';
   await client.auth.recoverSession(
     jsonEncode({
       'access_token': token,
@@ -286,10 +290,8 @@ void main() {
     'real gateway status read pins refreshed same-session token and maps SQL denial safely',
     () async {
       final requests = <http.Request>[];
-      final client = SupabaseClient(
+      final client = recordedFixtureClient(
         'https://synthetic.invalid',
-        'synthetic-key',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((request) async {
           requests.add(request);
           return http.Response(
@@ -301,7 +303,7 @@ void main() {
         }),
       );
       await installRosterSession(client, 'initial');
-      final gateway = SupabaseAdminRosterGateway(client);
+      final gateway = CollectAdminRosterGateway(client);
       await installRosterSession(client, 'refreshed');
       final token = client.auth.currentSession!.accessToken;
       await expectLater(
@@ -314,7 +316,7 @@ void main() {
           ),
         ),
       );
-      expect(requests.single.url.path, '/rest/v1/rpc/admin_get_roster_import');
+      expect(requests.single.url.path, '/v1/rpc/admin_get_roster_import');
       expect(jsonDecode(requests.single.body), {'p_import_id': rosterImportId});
       expect(requests.single.headers['Authorization'], 'Bearer $token');
       gateway.dispose();
@@ -326,14 +328,12 @@ void main() {
     () async {
       final waiting = Completer<http.Response>();
       var nextSession = rosterSessionB;
-      final client = SupabaseClient(
+      final client = recordedFixtureClient(
         'https://synthetic.invalid',
-        'synthetic-key',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((request) async {
           if (request.url.path.endsWith('/verify')) {
             final jwt =
-                'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': rosterActorA, 'session_id': nextSession, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.verified';
+                'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': rosterActorA, 'session_id': nextSession, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.verified';
             return http.Response(
               jsonEncode({
                 'access_token': jwt,
@@ -362,17 +362,19 @@ void main() {
         }),
       );
       await installRosterSession(client, 'initial');
-      final gateway = SupabaseAdminRosterGateway(client);
+      final gateway = CollectAdminRosterGateway(client);
       final pending = gateway.read(rosterImportId);
       await Future<void>.delayed(Duration.zero);
-      await client.auth.verifyOTP(
-        type: OtpType.sms,
+      await installRecordedAuthFixture(
+        client,
+        type: CollectOtpType.sms,
         phone: '+250788100000',
         token: '123456',
       );
       nextSession = rosterSessionA;
-      await client.auth.verifyOTP(
-        type: OtpType.sms,
+      await installRecordedAuthFixture(
+        client,
+        type: CollectOtpType.sms,
         phone: '+250788100000',
         token: '123456',
       );
@@ -391,10 +393,8 @@ void main() {
     () async {
       final waiting = Completer<http.Response>();
       final requests = <http.Request>[];
-      final client = SupabaseClient(
+      final client = recordedFixtureClient(
         'https://synthetic.invalid',
-        'synthetic-key',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((request) {
           requests.add(request);
           return waiting.future.then(
@@ -408,7 +408,7 @@ void main() {
         }),
       );
       await installRosterSession(client, 'initial');
-      final gateway = SupabaseAdminRosterGateway(client);
+      final gateway = CollectAdminRosterGateway(client);
       await installRosterSession(client, 'before-upload');
       final dispatchToken = client.auth.currentSession!.accessToken;
       final upload = AdminRosterUpload.pasted('Roster');
@@ -425,7 +425,7 @@ void main() {
       expect(await pending, isA<Map<String, dynamic>>());
       expect(gateway.isCurrent, true);
       expect(requests.single.headers['Authorization'], 'Bearer $dispatchToken');
-      expect(requests.single.url.path, '/functions/v1/prepare-roster-import');
+      expect(requests.single.url.path, '/v1/functions/prepare-roster-import');
       gateway.dispose();
       await client.dispose();
     },
@@ -850,10 +850,8 @@ void main() {
     () async {
       final requests = <http.Request>[];
       final waiting = Completer<http.Response>();
-      final client = SupabaseClient(
+      final client = recordedFixtureClient(
         'https://synthetic.invalid',
-        'synthetic-key',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((request) {
           requests.add(request);
           return waiting.future.then(
@@ -868,7 +866,7 @@ void main() {
       );
       Future<String> install(String session, String nonce) async {
         final token =
-            'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': rosterActorA, 'session_id': session, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.$nonce';
+            'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': rosterActorA, 'session_id': session, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.$nonce';
         await client.auth.recoverSession(
           jsonEncode({
             'access_token': token,
@@ -887,7 +885,7 @@ void main() {
       }
 
       await install(rosterSessionA, 'first');
-      final gateway = SupabaseAdminRosterGateway(client);
+      final gateway = CollectAdminRosterGateway(client);
       final refreshed = await install(rosterSessionA, 'refreshed');
       final request = gateway.review({'p_import_id': rosterImportId});
       await Future<void>.delayed(Duration.zero);

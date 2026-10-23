@@ -23,18 +23,45 @@ output_format = ENV.fetch("OUTPUT_FORMAT")
 
 headers_path = File.join(build_dir, "_headers")
 robots_path = File.join(build_dir, "robots.txt")
+redirects_path = File.join(build_dir, "_redirects")
 failures = []
 
 headers = File.file?(headers_path) ? File.read(headers_path) : ""
 robots = File.file?(robots_path) ? File.read(robots_path) : ""
+version_path = File.join(build_dir, "version.json")
+begin
+  version = File.file?(version_path) ? JSON.parse(File.read(version_path)) : {}
+rescue JSON::ParserError
+  version = {}
+  failures << "version.json must contain valid JSON"
+end
+expected_backend = ENV.fetch("COLLECT_BACKEND", "supabase")
+unless ["cloudflare", "supabase"].include?(expected_backend) && version["backend"] == expected_backend
+  failures << "version.json must declare the explicitly selected Collect backend"
+end
+if expected_backend == "supabase"
+  unless version["supabase_project_ref"] == "rrlduytparvsjfmegalh" &&
+      version["authentication"] == "supabase_auth_cookie_with_email_verification" &&
+      version["admin_transport"] == "same_origin_static_proxy" &&
+      version["supabase_schema_sha256"].to_s.match?(/\A[a-f0-9]{64}\z/) &&
+      version["legacy_data_import_required"] == true &&
+      version["supabase_qualification_complete"] == false
+    failures << "Supabase build requires project, migration, identity and qualification metadata"
+  end
+end
 
 failures << "missing build/web/_headers" unless File.file?(headers_path)
 failures << "missing build/web/robots.txt" unless File.file?(robots_path)
 
+redirects = File.file?(redirects_path) ? File.readlines(redirects_path).map(&:strip).reject { |line| line.empty? || line.start_with?("#") } : []
+unless redirects == ["/favicon.ico /icons/collect-web-512.png 302"]
+  failures << "Admin favicon must temporarily redirect to the approved same-origin Collect PNG"
+end
+
 required_global_headers = {
   "X-Frame-Options" => "DENY",
   "X-Content-Type-Options" => "nosniff",
-  "Referrer-Policy" => "strict-origin-when-cross-origin",
+  "Referrer-Policy" => "no-referrer",
   "Permissions-Policy" => "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)",
   "X-Robots-Tag" => "noindex, nofollow"
 }
@@ -47,7 +74,7 @@ csp_required = [
   "default-src 'self'",
   "script-src 'self' 'wasm-unsafe-eval'",
   "style-src 'self' 'unsafe-inline'",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+  "connect-src 'self'",
   "worker-src 'self'",
   "object-src 'none'",
   "frame-ancestors 'none'",
@@ -57,9 +84,24 @@ csp_required.each do |directive|
   failures << "_headers Content-Security-Policy must include #{directive}" unless headers.include?(directive)
 end
 
+connect_policy = headers[/connect-src ([^;]+);/, 1]
+if connect_policy.to_s.split != ["'self'"]
+  failures << "Admin connections must remain same-origin"
+end
+
+csp_policies = headers.scan(/^\s+Content-Security-Policy:\s*([^\n]+)$/i).flatten
+frame_policies = csp_policies.flat_map do |policy|
+  policy.split(';').map { |directive| directive.strip.split }
+    .select { |words| words.first == 'frame-src' }.map { |words| words.drop(1) }
+end
+unless csp_policies.length == 1 &&
+    frame_policies == [["'self'", "https://api.collect.ikanisa.com"]]
+  failures << "Admin frames must allow self and only the reviewed API origin"
+end
+
 cache_rules = {
-  "/" => "Cache-Control: no-store",
-  "/index.html" => "Cache-Control: no-store",
+  "/" => "Cache-Control: no-store, no-transform",
+  "/index.html" => "Cache-Control: no-store, no-transform",
   "/flutter_bootstrap.js" => "Cache-Control: no-cache",
   "/custom-sw.js" => "Cache-Control: no-cache",
   "/manifest.json" => "Cache-Control: no-cache",
@@ -100,6 +142,11 @@ result = {
   "status" => status,
   "build_dir" => build_dir,
   "files" => {
+    "_redirects" => {
+      "path" => redirects_path,
+      "exists" => File.file?(redirects_path),
+      "bytes" => File.file?(redirects_path) ? File.size(redirects_path) : nil
+    },
     "_headers" => {
       "path" => headers_path,
       "exists" => File.file?(headers_path),

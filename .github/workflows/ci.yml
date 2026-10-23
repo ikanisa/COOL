@@ -6,10 +6,32 @@ on:
       - '**'
   pull_request:
   workflow_dispatch:
+    inputs:
+      android_signed_candidate:
+        description: Build a reviewed signed production AAB candidate without publishing
+        type: boolean
+        required: true
+        default: false
+      android_expected_commit:
+        description: Reviewed full main commit, equal to this dispatch SHA
+        type: string
+        required: false
+      android_source_sha256:
+        description: Reviewed canonical source manifest SHA-256
+        type: string
+        required: false
+      android_approval_record:
+        description: External scoped candidate approval JSON, exact UTF-8 bytes
+        type: string
+        required: false
+      android_approval_sha256:
+        description: SHA-256 of exact approval record bytes
+        type: string
+        required: false
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.head.sha || github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.sha || github.ref }}-${{ github.event_name == 'workflow_dispatch' && inputs.android_signed_candidate && 'android-signed-candidate' || 'checks' }}
+  cancel-in-progress: ${{ !(github.event_name == 'workflow_dispatch' && inputs.android_signed_candidate) }}
 
 permissions:
   contents: read
@@ -44,10 +66,11 @@ jobs:
       - name: Release secret scan
         run: make release-secret-scan
 
-      - name: Verify declared CI credential and MCP boundaries
+      - name: Verify declared CI credential and platform boundaries
         run: |
           python3 scripts/qa/collect_ci_policy.py
           python3 scripts/tests/test_collect_ci_policy.py
+          python3 scripts/tests/test_admin_platform_candidate.py
 
       - name: Source integrity
         run: make source-integrity
@@ -78,7 +101,7 @@ jobs:
             'ios/**' \
             'lib/**' \
             'scripts/**' \
-            'supabase/**' \
+            'deploy/**' \
             'test/**' \
             'integration_test/**' \
             'tool/**' || true)
@@ -88,9 +111,6 @@ jobs:
             exit 1
           fi
           echo "✅ No raw patch markers found in committed source"
-
-      - name: Supabase migration validation
-        run: bash scripts/migrations/validate_supabase_migrations.sh
 
       - name: Deprecated theme API budget
         run: |
@@ -132,7 +152,7 @@ jobs:
             elif [ "$lines" -gt "$WARN" ]; then
               echo "::warning::$file ($lines lines) exceeds soft limit ($WARN)"
             fi
-          done < <(find supabase/functions -name '*.ts' -type f 2>/dev/null)
+          done < <(find deploy/platform-api/src deploy/platform-admin/src -name '*.js' -type f 2>/dev/null)
 
           exit $EXIT_CODE
 
@@ -170,7 +190,7 @@ jobs:
         run: |
           python3 scripts/supply_chain/verify_file_saver_fork.py --fetch --check
           python3 -m unittest scripts.tests.file_saver_fork_provenance_test
-      - name: Verify retained Firebase Messaging and GoTrue fork provenance
+      - name: Verify retained Firebase Messaging fork provenance
         run: |
           python3 scripts/tests/pub_fork_origin_test.py
           python3 scripts/supply_chain/verify_pub_forks.py fetch --cache-dir "$RUNNER_TEMP/collect-pub-forks"
@@ -246,7 +266,7 @@ jobs:
           ruby scripts/qa/lcov_coverage.rb coverage/lcov.info 40
           python3 scripts/qa/coverage_gate.py coverage/lcov.info --threshold 40
 
-  # ── 2b. Admin web source compilation (all branches) ────────────────
+  # ── 2b. Shipping platform Admin web compilation (all branches) ────────────────
   admin-web-build:
     name: Admin Web Build
     runs-on: ubuntu-latest
@@ -278,22 +298,123 @@ jobs:
 
       - run: flutter pub get --enforce-lockfile
 
-      - name: Compile Admin web source without production config
+      - name: Set up pinned Node for shipping PWA verification
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+
+      - name: Build and verify the explicitly selected platform Admin PWA
+        env:
+          FLUTTER: flutter
+          ADMIN_APP_URL: https://platform-admin.collect.ikanisa.com
+          COLLECT_BACKEND: supabase
+          SUPABASE_URL: https://rrlduytparvsjfmegalh.supabase.co
+          SUPABASE_API_URL: https://platform-admin.collect.ikanisa.com
+          SUPABASE_ADMIN_API_URL: https://platform-admin.collect.ikanisa.com
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.COLLECT_SUPABASE_PUBLISHABLE_KEY }}
+          AUTH_CAPTCHA_ENABLED: ${{ vars.COLLECT_AUTH_CAPTCHA_ENABLED || 'false' }}
+          AUTH_CAPTCHA_PROVIDER: ${{ vars.COLLECT_AUTH_CAPTCHA_PROVIDER || '' }}
+          AUTH_CAPTCHA_SITE_KEY: ${{ vars.COLLECT_AUTH_CAPTCHA_SITE_KEY || '' }}
+          GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
         run: |
-          echo '### Admin source compilation only; production PWA checks run in admin-pwa-candidate on main.' >> "$GITHUB_STEP_SUMMARY"
-          flutter build web -t lib/main_admin.dart --release --no-pub --dart-define=COLLECT_PUBLIC_LANDING_HOME=false
+          bash scripts/admin_pwa_release_build.sh
+          bash scripts/admin_pwa_manifest_gate.sh
+          bash scripts/admin_pwa_hosting_gate.sh --json > build/admin-platform-pwa-hosting.json
+          node scripts/tests/admin_pwa_worker_cache_test.mjs
+          ruby scripts/tests/admin_pwa_bundle_gate_test.rb
 
-      - name: Install reviewed Admin security headers
-        run: python3 scripts/hardening/admin_headers.py build/web --apply
+      - name: Bind shipping PWA artifact to the clean workflow commit
+        env:
+          COLLECT_BACKEND: supabase
+        run: |
+          python3 -B - <<'PY_PLATFORM_IDENTITY'
+          import hashlib
+          import importlib.util
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import subprocess
+          spec = importlib.util.spec_from_file_location('shipping_platform_identity', 'scripts/admin_platform_candidate.py')
+          platform_identity = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(platform_identity)
+          root = Path('build/web')
+          version = json.loads((root / 'version.json').read_text())
+          commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          dirty = subprocess.check_output(['git', 'status', '--porcelain'], text=True)
+          if commit != os.environ['GITHUB_SHA'] or dirty or version.get('source_commit') != commit or version.get('source_dirty') is not False:
+              raise SystemExit('Shipping PWA does not identify the clean workflow commit')
+          backend = os.environ.get('COLLECT_BACKEND', 'supabase')
+          if (backend not in ('cloudflare', 'supabase') or version.get('backend') != backend or
+              version.get('financial_model') != 'canonical_evidence_ledger' or type(version.get('financial_contract_version')) is not int or version.get('financial_contract_version') != 2):
+              raise SystemExit('Shipping PWA does not use the canonical account transport')
+          if backend == 'cloudflare':
+              if version.get('authentication') != 'email_otp_cookie_with_totp' or version.get('minimum_core_schema_migration') != '0017_admin_email_otp.sql':
+                  raise SystemExit('Shipping PWA does not use the current account transport')
+          else:
+              migration = Path('supabase/migrations/20261020134444_collect_curated_platform_baseline.sql')
+              migration_paths = platform_identity.migration_paths(Path.cwd())
+              chain = [{'name':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()} for path in migration_paths]
+              if (not chain or any(path.is_symlink() or not path.read_bytes().strip() for path in migration_paths) or version.get('supabase_migrations') != chain or version.get('supabase_migration_chain_sha256') != hashlib.sha256(json.dumps(chain,sort_keys=True,separators=(',',':')).encode()).hexdigest()):
+                  raise SystemExit('Supabase candidate does not bind the complete migration chain')
+              if (not migration.is_file() or not migration.read_bytes().strip() or
+                  version.get('authentication') != 'supabase_auth_cookie_with_email_verification' or
+                  version.get('minimum_core_schema_migration') != migration.name or
+                  version.get('supabase_project_ref') != 'rrlduytparvsjfmegalh' or
+                  version.get('supabase_schema_sha256') != hashlib.sha256(migration.read_bytes()).hexdigest() or
+                  version.get('admin_transport') != 'same_origin_static_proxy' or
+                  version.get('legacy_data_import_required') is not True or version.get('supabase_qualification_complete') is not False):
+                  raise SystemExit('Supabase candidate lacks exact project, migration and qualification identity')
+          digest = lambda data: hashlib.sha256(data).hexdigest()
+          canonical = lambda value: json.dumps(value, sort_keys=True, separators=(',', ':')).encode()
+          files = {}
+          for path in sorted(root.rglob('*')):
+              if any(part.startswith('._') or part == '.DS_Store' for part in path.relative_to(root).parts):
+                  continue
+              if path.is_symlink():
+                  raise SystemExit('Shipping PWA artifact contains a symbolic path')
+              if path.is_file():
+                  data = path.read_bytes()
+                  files[path.relative_to(root).as_posix()] = {'sha256': digest(data), 'bytes': len(data)}
+          for required in ['main.dart.js', 'index.html', 'flutter_bootstrap.js', 'custom-sw.js', 'manifest.json', '_headers', 'version.json', '.well-known/assetlinks.json', '.well-known/apple-app-site-association']:
+              if not files.get(required, {}).get('bytes'):
+                  raise SystemExit('Shipping PWA is missing a required artifact role: ' + required)
+          worker = (root / 'custom-sw.js').read_text()
+          constants = {}
+          for name in ['CACHE_NAME', 'CACHE_URLS', 'CACHE_HASHES']:
+              match = re.search(r'^const ' + name + r' = (.*?);$', worker, re.M | re.S)
+              if not match:
+                  raise SystemExit('Shipping PWA worker is missing ' + name)
+              constants[name] = json.loads(match.group(1))
+          inputs = platform_identity.source_inputs(Path.cwd(), backend)
+          receipt = {'source_commit': commit, 'source_dirty': False, 'source_binding': 'Exact clean workflow commit, including tracked lib/web/assets and declared local dependencies', 'build_root': str(root), 'files': files, 'artifact_manifest_sha256': digest(canonical(files)), 'main_dart_js_sha256': files['main.dart.js']['sha256'], 'worker_sha256': files['custom-sw.js']['sha256'], 'worker_cache_name': constants['CACHE_NAME'], 'cache_urls_sha256': digest(canonical(constants['CACHE_URLS'])), 'cache_hashes_sha256': digest(canonical(constants['CACHE_HASHES'])), 'input_sha256': {name: digest(Path(name).read_bytes()) for name in inputs}, 'hosted_deployment_verified': False}
+          receipt['backend'] = backend
+          receipt['hosting'] = platform_identity.hosting_profile(backend)
+          Path('build/admin-platform-pwa-artifact.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          PY_PLATFORM_IDENTITY
 
-  # A production-configured candidate can only be built from the main ref.
-  # The compile-only job above is not a release artifact or PWA gate.
-  admin-pwa-candidate:
-    name: Admin PWA Candidate Build
-    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+      - name: Retain shipping platform PWA and exact artifact identity
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: admin-platform-pwa-candidate
+          path: |
+            build/web/
+            !build/web/**/._*
+            !build/web/**/._*/**
+            !build/web/**/.DS_Store
+            build/admin-platform-pwa-artifact.json
+            build/admin-platform-pwa-hosting.json
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: error
+
+  # ── 2b. Retained legacy preview compatibility compilation ────────────────
+  admin-legacy-preview-build:
+    if: ${{ false }} # Retained legacy history; no automatic backend execution.
+    name: Legacy Admin Preview Compatibility Build
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    needs: [repo-hygiene, analyze]
+    timeout-minutes: 15
+    needs: [analyze]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -305,8 +426,9 @@ jobs:
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import json
 
-          with open('.fvmrc', encoding='utf-8') as handle:
+          with open(".fvmrc", "r", encoding="utf-8") as handle:
               config = json.load(handle)
+
           print(f"version={config['flutter']}")
           PY
 
@@ -319,38 +441,85 @@ jobs:
 
       - run: flutter pub get --enforce-lockfile
 
-      - name: Build and verify Admin PWA candidate
+      - name: Build retained legacy preview compatibility artifact
         env:
           FLUTTER: flutter
-          COLLECT_SKIP_DOTENV: '1'
-          SUPABASE_PRODUCTION_URL: ${{ secrets.SUPABASE_PRODUCTION_URL }}
-          SUPABASE_PRODUCTION_ANON_KEY: ${{ secrets.SUPABASE_PRODUCTION_ANON_KEY }}
-          APP_PUBLIC_URL: https://collect.ikanisa.com
-          ADMIN_APP_URL: https://admin.collect.ikanisa.com
-        run: bash scripts/admin_pwa_release_build.sh
+        run: bash scripts/admin_cloudflare_build.sh
 
-      - name: Bind candidate to clean source commit
-        run: |
-          python3 - <<'PY'
-          import json
-          import os
-
-          with open('build/web/version.json', encoding='utf-8') as handle:
-              version = json.load(handle)
-          if version.get('source_commit') != os.environ['GITHUB_SHA'] or version.get('source_dirty') is not False:
-              raise SystemExit('Admin PWA candidate does not match the clean workflow commit')
-          PY
-          find build/web -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum > build/admin-web.sha256
-
-      - name: Retain Admin PWA candidate
+      - name: Retain legacy preview artifact and working-input identity
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: admin-pwa-candidate
+          name: admin-cloudflare-candidate
           path: |
-            build/web/
-            build/admin-web.sha256
+            build/admin-cloudflare/
+            build/admin-cloudflare-source.json
+            build/admin-cloudflare-artifact.json
+            build/admin-cloudflare-preflight.json
           retention-days: 14
           if-no-files-found: error
+
+  # Retain the earlier preview contract as compatibility evidence only.
+  # It does not establish current platform or production acceptance.
+  admin-cloudflare-candidate:
+    name: Legacy Admin Preview Compatibility Identity
+    if: ${{ false }} # Retained legacy history; no automatic preview execution.
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [repo-hygiene, admin-legacy-preview-build, cloudflare-backend]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: admin-cloudflare-candidate
+          path: build
+      - name: Verify actual candidate matches the clean workflow commit
+        run: |
+          python3 scripts/admin_cloudflare_artifact.py verify build/admin-cloudflare build/admin-cloudflare-source.json build/admin-cloudflare-artifact.json
+          python3 scripts/admin_cloudflare_preflight.py --build-root build/admin-cloudflare --source-manifest build/admin-cloudflare-source.json --artifact-manifest build/admin-cloudflare-artifact.json --config deploy/admin.cloudflare.wrangler.jsonc --target-origin https://admin-preview.collect.ikanisa.com --output build/admin-cloudflare-preflight.json
+          python3 - <<'PY_IDENTITY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          root = Path('build/admin-cloudflare')
+          version = json.loads((root / 'version.json').read_text())
+          source = json.loads(Path('build/admin-cloudflare-source.json').read_text())
+          for record in (version, source):
+              if record.get('source_commit') != os.environ['GITHUB_SHA'] or record.get('source_dirty') is not False:
+                  raise SystemExit('Admin candidate does not match the clean workflow commit')
+          if version.get('source_manifest_sha256') != source['source_manifest_sha256']:
+              raise SystemExit('Admin source identity differs from candidate metadata')
+          if version.get('main_dart_js_sha256') != hashlib.sha256((root / 'main.dart.js').read_bytes()).hexdigest():
+              raise SystemExit('Admin asset bytes differ from candidate metadata')
+          if version.get('backend') != 'cloudflare' or version.get('minimum_core_schema_migration') != '0012_gateway_receiver_ingress.sql':
+              raise SystemExit('Admin candidate targets an outdated runtime/schema')
+          PY_IDENTITY
+          echo 'Legacy preview compatibility build and backend CI pass; current platform shipping acceptance is evaluated separately.' >> "$GITHUB_STEP_SUMMARY"
+
+  # Current shipping identity requires independent Supabase qualification and
+  # current host/operator consumers. No CI job deploys this artifact.
+  admin-platform-candidate:
+    name: Platform Admin Candidate Identity
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [repo-hygiene, admin-web-build, supabase-platform, supabase-admin-consumers]
+    env:
+      COLLECT_BACKEND: supabase
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: admin-platform-pwa-candidate
+          path: build
+      - name: Verify shipping platform artifact and clean commit identity
+        run: |
+          python3 scripts/admin_platform_candidate.py --build-root build/web --receipt build/admin-platform-pwa-artifact.json --commit "$GITHUB_SHA" --backend "$COLLECT_BACKEND"
+          echo 'Platform Admin PWA identity and canonical backend CI pass; hosted roles, provider behavior, recovery, devices and production release remain separate.' >> "$GITHUB_STEP_SUMMARY"
 
   # ── 3. Fixture journey smoke (native device UAT runs separately) ────
   integration-test:
@@ -420,120 +589,6 @@ jobs:
       - name: Build and validate public deep-link assets
         run: bash scripts/public_website_ci_gate.sh static
 
-  # ── 5. Pinned Edge types, units, HTTP and actual Linux decoder ─────
-  deno-check:
-    name: Deno (edge functions and Linux decoder)
-    # requirements.lock contains Linux ARM64 wheels; exercise their actual ABI.
-    runs-on: ubuntu-24.04-arm
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-
-      - name: Set up pinned Deno
-        uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2
-        with:
-          deno-version-file: .dvmrc
-          cache: true
-
-      - name: Set up decoder fixture Python
-        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
-        with:
-          python-version: '3.12.14'
-
-      - name: Acquire exact publisher-authenticated Linux decoder wheels
-        run: |
-          set -euo pipefail
-          wheel_inputs="$GITHUB_WORKSPACE/.cache/edge-ci-publisher"
-          lock_pin="$(sha256sum tools/roster-decoder/requirements.lock | cut -d ' ' -f 1)"
-          python3 -B scripts/qa/roster_wheelhouse.py --acquire \
-            --lock-file tools/roster-decoder/requirements.lock --lock-sha256 "$lock_pin" \
-            --destination "$wheel_inputs"
-
-      - name: Install hash-locked offline decoder fixture dependencies
-        run: |
-          set -euo pipefail
-          wheel_inputs="$GITHUB_WORKSPACE/.cache/edge-ci-publisher"
-          python -m venv .cache/edge-ci-python
-          .cache/edge-ci-python/bin/python -m pip install --disable-pip-version-check \
-            --no-index --find-links="$wheel_inputs/wheels" --only-binary=:all: \
-            --require-hashes -r tools/roster-decoder/requirements.lock
-
-      - name: Run canonical frozen Edge and Linux acceptance
-        run: |
-          set -euo pipefail
-          wheel_inputs="$GITHUB_WORKSPACE/.cache/edge-ci-publisher"
-          publisher_pin="$(sha256sum "$wheel_inputs/publisher-inputs.json" | cut -d ' ' -f 1)"
-          python3 -B scripts/qa/run_edge_ci.py --deno "$(command -v deno)" \
-            --decoder-python .cache/edge-ci-python/bin/python \
-            --wheel-source "$wheel_inputs/wheels" \
-            --publisher-receipt "$wheel_inputs/publisher-inputs.json" \
-            --publisher-sha256 "$publisher_pin" \
-            --metadata-directory "$wheel_inputs/primary" \
-            --cache-dependencies --output .cache/edge-ci
-
-      - name: Preserve completed and failed Edge evidence
-        if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: edge-ci-evidence
-          path: |
-            .cache/edge-ci
-            .cache/edge-ci-publisher
-            .cache/edge-ci-publisher-supervision
-          include-hidden-files: true
-          retention-days: 14
-
-  ordinary-sql:
-    name: Ordinary installer SQL (synthetic clean and populated)
-    runs-on: ubuntu-24.04-arm
-    timeout-minutes: 15
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-
-      - name: Set up pinned SQL recipe Python
-        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
-        with:
-          python-version: '3.12.14'
-
-      - name: Verify SQL recipe refusal and cleanup boundaries
-        run: python3 -B -m unittest discover -s scripts/tests -p sql_ci_runner_test.py
-
-      - name: Acquire named PostgreSQL image and refuse config drift
-        timeout-minutes: 3
-        run: |
-          set -euo pipefail
-          # Acquisition uses this version tag; execution admits only exact bytes.
-          image="public.ecr.aws/supabase/postgres:17.6.1.095"
-          expected="sha256:35ebf7c6d3b77a430146b0a91974ed1fc14432b5741db4a3e41cd5f899b17f1a"
-          docker pull --platform=linux/arm64 "$image"
-          test "$(docker image inspect "$image" --format '{{.Id}}')" = "$expected"
-
-      - name: Run canonical current ordinary SQL acceptance
-        run: |
-          set -euo pipefail
-          docker_path="$(python3 -c 'import os,shutil;print(os.path.realpath(shutil.which("docker")))')"
-          docker_pin="$(sha256sum "$docker_path" | cut -d ' ' -f 1)"
-          fixture_pin="$(sha256sum scripts/tests/fixtures/ordinary_installer_v1/manifest.json | cut -d ' ' -f 1)"
-          python3 -B scripts/qa/run_sql_ci.py \
-            --docker "$docker_path" --docker-sha256 "$docker_pin" \
-            --docker-host unix:///var/run/docker.sock \
-            --fixture-lock-sha256 "$fixture_pin" --output .cache/sql-ci
-
-      - name: Preserve completed and failed ordinary SQL evidence
-        if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: ordinary-sql-evidence
-          path: .cache/sql-ci
-          include-hidden-files: true
-          retention-days: 14
-
   ruby-delivery-tools:
     name: Frozen Ruby delivery dependencies
     runs-on: ubuntu-latest
@@ -556,26 +611,6 @@ jobs:
           bundle exec ruby scripts/tests/ruby_dependency_security_test.rb
           bundle exec fastlane lanes
 
-  notification-operator:
-    name: Notification operator checks
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: tools/collect-notification-mcp
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: '24.19.0'
-      - name: Install pinned package manager
-        run: npm install --global pnpm@10.33.2 --ignore-scripts
-      - run: pnpm install --frozen-lockfile --ignore-scripts
-      - run: pnpm check
-      - run: pnpm test
-
   cover-catalog:
     name: Generated cover catalog tests
     runs-on: ubuntu-latest
@@ -588,46 +623,6 @@ jobs:
         with:
           node-version: '24.19.0'
       - run: make cover-catalog-test
-
-  # ── 6. M-Money SMS contract lane (fast ~2min) ──────────────────────
-  momo-sms-contracts:
-    name: M-Money SMS Contracts
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-
-      - name: Read pinned Flutter version
-        id: flutter-version
-        run: |
-          python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
-
-          with open(".fvmrc", "r", encoding="utf-8") as handle:
-              config = json.load(handle)
-
-          print(f"version={config['flutter']}")
-          PY
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
-        with:
-          channel: stable
-          flutter-version: ${{ steps.flutter-version.outputs.version }}
-          cache: true
-
-      - name: Set up Deno
-        uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2
-        with:
-          deno-version-file: .dvmrc
-          cache: true
-
-      - run: flutter pub get --enforce-lockfile
-
-      - name: Run M-Money SMS contract checks
-        run: bash scripts/qa/check_momo_sms_contracts.sh
 
   # ── 7. APK size gate (slow ~5min, depends on analyze) ──────────────
   apk-size:
@@ -669,7 +664,22 @@ jobs:
       - run: flutter pub get --enforce-lockfile
 
       - name: Build release APK size proxy (dev flavor)
-        run: flutter build apk --release --split-per-abi --no-pub --flavor dev --dart-define=FLAVOR=dev
+        env:
+          COLLECT_BACKEND: supabase
+          SUPABASE_URL: https://rrlduytparvsjfmegalh.supabase.co
+          SUPABASE_API_URL: https://platform-admin.collect.ikanisa.com
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.COLLECT_SUPABASE_PUBLISHABLE_KEY }}
+          AUTH_CAPTCHA_ENABLED: 'true'
+          AUTH_CAPTCHA_PROVIDER: turnstile
+          AUTH_CAPTCHA_SITE_KEY: ${{ vars.COLLECT_AUTH_CAPTCHA_SITE_KEY }}
+          GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
+        run: |
+          set -euo pipefail
+          umask 077
+          PUBLIC_CONFIG="$(mktemp "$RUNNER_TEMP/collect-apk-size-defines.XXXXXX.json")"
+          trap 'rm -f "$PUBLIC_CONFIG"' EXIT
+          python3 scripts/qa/native_build_config.py android --defines-output "$PUBLIC_CONFIG"
+          flutter build apk --release --split-per-abi --no-pub --flavor dev --dart-define=FLAVOR=dev --dart-define-from-file="$PUBLIC_CONFIG"
 
       - name: Check per-device APK size budget
         run: |
@@ -693,3 +703,346 @@ jobs:
           done
 
           echo "✅ All split APKs are within the 50 MB per-device budget"
+
+  cloudflare-backend:
+    if: ${{ false }} # Retained legacy history; no automatic backend execution.
+    name: Cloudflare account and operating services
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: deploy/admin-api
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: deploy/admin-api/package-lock.json
+      - name: Install locked backend test dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Check Worker syntax
+        run: npm run check
+      - name: Verify accounts, permissions, operations and email with local workerd and D1
+        # Email bindings are in-memory fixtures. No provider credentials or
+        # hosted database are supplied to this job.
+        run: npm test
+
+  cloudflare-platform:
+    if: ${{ false }} # Retained legacy history; no automatic backend execution.
+    name: Cloudflare canonical app backend
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: deploy/platform-api
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: deploy/platform-api/package-lock.json
+      - name: Install locked current backend dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify Auth17 and historical recovery with isolated D1
+        run: node ../../scripts/qa/recovery17_ci.mjs
+      - name: Verify platform health probe policy
+        run: node --test ../../scripts/tests/platform_health_probe_test.mjs
+      - name: Verify atomic public configuration preparation and guards
+        run: node --test ../../scripts/tests/public_configuration_apply_test.mjs ../../scripts/tests/policy_configuration_update_test.mjs
+      - name: Verify source-bound legal-only draft policy preparation
+        run: |
+          ruby ../../scripts/tests/public_configuration_payload_test.rb
+          ruby ../../scripts/tests/policy_configuration_payload_test.rb
+      - name: Verify isolated atomic D1 restore preparation and recovery
+        run: node --test ../../scripts/tests/atomic_d1_restore_test.mjs
+      - name: Verify current12 SMS and decision-head recovery regression
+        run: node --test ../../scripts/tests/recovery12_test.mjs
+      - name: Verify current13 SMS metadata-grant recovery regression
+        run: node --test ../../scripts/tests/recovery13_test.mjs
+      - name: Verify candidate15 MoMo authority and processing recovery quarantine
+        run: node --test ../../scripts/tests/recovery15_test.mjs
+      - name: Verify inert MoMo release candidate capture and tamper guards
+        run: node --test ../../scripts/tests/momo_release_candidate_test.mjs
+      - name: Verify portable deployment toolchain guards
+        run: node --test ../../scripts/tests/approved_toolchain_test.mjs ../../scripts/tests/approved_toolchain_snapshot_test.mjs
+      - name: Verify explicit Auth17 source operation inventory
+        run: node scripts/operation_inventory.mjs --check-auth17
+      - name: Verify actual Worker, D1, R2, authorization and recovery boundaries
+        # Outbound provider fixtures are controlled; no live credentials are supplied.
+        run: npm test
+
+  supabase-admin-consumers:
+    name: Supabase Admin host and operator contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Install locked current Admin hosting test tooling
+        working-directory: deploy/platform-admin
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify privileged human challenge parent and origin boundary
+        working-directory: ${{ github.workspace }}
+        run: node --test deploy/platform-admin/test/human-parent.test.mjs deploy/platform-admin/test/human-parent-bundle.test.mjs
+      - name: Verify notification operator authorization and transport boundaries
+        working-directory: tools/notification-operator
+        run: node --test --test-concurrency=1 test/operator.test.mjs test/mcp.test.mjs test/transport.test.mjs test/auth.test.mjs
+
+      - name: Verify read-only Admin MCP syntax and protocol
+        working-directory: tools/collect-admin-mcp
+        run: |
+          npm run check
+          npm test
+      - name: Verify canonical Admin source, artifact and release boundaries
+        working-directory: ${{ github.workspace }}
+        run: |
+          python3 -m unittest scripts.tests.test_admin_cloudflare_source scripts.tests.test_admin_cloudflare_artifact scripts.tests.test_admin_cloudflare_assets scripts.tests.test_admin_cloudflare_preflight -v
+          node --test scripts/tests/admin_cloudflare_retirement_worker_test.mjs
+
+  supabase-platform:
+    name: Isolated PostgreSQL and Edge contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    # Native PG and every run step share one network namespace. Preserve the
+    # exact literal-loopback address/port guards in all maintained fixtures.
+    container:
+      image: postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317
+    env:
+      COLLECT_TEST_PG_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test
+      COLLECT_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_edge_test
+      COLLECT_RLS_HELPER_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_rls_helper_acl_test
+      COLLECT_PUBLIC_CONFIG_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_public_configuration_test
+      COLLECT_PRIVACY_EMAIL_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_privacy_email_test
+      COLLECT_SQL_MAINTENANCE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_sql_maintenance_test
+      COLLECT_INVITATION_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_invitation_test
+      COLLECT_INVITATION_NOTICE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_invitation_notice_test
+      COLLECT_GOOGLE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_google_test
+      COLLECT_PRIVATE_RETENTION_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_private_retention_test
+      COLLECT_JOBS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_jobs_test
+      COLLECT_RECEIPT_FACTS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_receipt_facts_test
+      COLLECT_SMS_CONTENT_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_sms_content_test
+      COLLECT_ADMIN_PASSWORD_POLICY_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_email_test
+      COLLECT_ADMIN_PASSWORD_POLICY_STALE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_email_test
+      COLLECT_MFA_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_mfa_test
+      COLLECT_GROUPS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_groups_test
+      COLLECT_AUTH_SOURCE_ROOT: ${{ github.workspace }}/supabase/functions/_shared
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_IMPORT_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_import_test
+      COLLECT_ADMIN_HISTORY_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_history_test
+      COLLECT_PG_MODULE: ${{ github.workspace }}/scripts/supabase/node_modules/pg
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+    steps:
+      - name: Install and check job-container prerequisites without upgrading pinned tools
+        run: |
+          set -eu
+          test "$(id -u)" -eq 0
+          command -v apt-get >/dev/null
+          command -v timeout >/dev/null
+          export DEBIAN_FRONTEND=noninteractive
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils
+          git --version
+          python3 --version
+          command -v gosu >/dev/null
+          command -v initdb >/dev/null
+          command -v pg_ctl >/dev/null
+          command -v psql >/dev/null
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without dependency lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Start the owned native PostgreSQL fixture on literal loopback
+        run: sh scripts/supabase/testing/ci-native-postgres.sh start
+      - name: Check deterministic schema source
+        run: python3 supabase/schema-src/generate_baseline.py --check
+      - name: Create a separate disposable Edge handler fixture database
+        run: |
+          node --input-type=module <<'NODE'
+          import {createRequire} from 'node:module';
+          const {Client}=createRequire(import.meta.url)(process.env.COLLECT_PG_MODULE);
+          const db=new Client({connectionString:process.env.COLLECT_TEST_PG_URL});
+          try { await db.connect(); await db.query('CREATE DATABASE collect_rls_helper_acl_test'); await db.query('CREATE DATABASE collect_public_configuration_test'); await db.query('CREATE DATABASE collect_privacy_email_test'); await db.query('CREATE DATABASE collect_admin_invitation_test'); await db.query('CREATE DATABASE collect_invitation_notice_test'); await db.query('CREATE DATABASE collect_receipt_facts_test'); await db.query('CREATE DATABASE collect_sms_content_test'); await db.query('CREATE DATABASE collect_mfa_test'); await db.query('CREATE DATABASE collect_groups_test'); await db.query('CREATE DATABASE collect_private_retention_test'); await db.query('CREATE DATABASE collect_import_test'); await db.query('CREATE DATABASE collect_edge_test'); await db.query('CREATE DATABASE collect_google_test'); await db.query('CREATE DATABASE collect_admin_history_test'); await db.query('CREATE DATABASE collect_admin_email_test'); }
+          finally { await db.end(); }
+          NODE
+      - name: Replay curated migrations and SQL failure cases
+        run: node scripts/supabase/test_schema.mjs
+      - name: Initialize the separate Google handoff fixture
+        run: COLLECT_TEST_PG_URL="$COLLECT_GOOGLE_TEST_DATABASE_URL" node scripts/supabase/test_schema.mjs
+      - name: Verify selected current SQL archive, exact review pins and transport refusal
+        run: npm run test:current-archive --prefix scripts/supabase
+      - name: Verify native preparer refuses unsafe targets and overclaims
+        run: node --test scripts/supabase/testing/qualify-member-realtime-native.test.mjs
+      - name: Verify genuine mutation fence, capacity and release on new local fixtures
+        run: node scripts/supabase/emergency-fence/qualify.mjs
+      - name: Verify private exact data staging and unknown commits
+        run: node --test scripts/supabase/data_stage.test.mjs scripts/supabase/data_promote.test.mjs
+      - name: Verify automatic RLS helper permission hygiene
+        run: node --test scripts/supabase/rls_helper_permissions.test.mjs
+      - name: Verify atomic public configuration and uncertain commits
+        run: node --test scripts/supabase/public_configuration.test.mjs
+      - name: Verify cutover and public build configuration guards
+        run: python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config
+      - name: Verify inactive scheduling and ambiguous dispatch with explicit native-interface doubles
+        run: node --test scripts/supabase/jobs_test.mjs
+      - name: Verify direct SQL maintenance and owner isolation with explicit Cron fixture
+        run: node --test scripts/supabase/sql-maintenance/maintenance-test.mjs
+      - name: Check Edge entrypoints
+        working-directory: supabase/functions
+        run: '"$COLLECT_DENO" task check'
+      - name: Test Edge contracts against the isolated local database
+        working-directory: supabase/functions
+        run: '"$COLLECT_DENO" task test'
+      - name: Verify actual held-work lifetime and the private Realtime SQL subset
+        run: node scripts/supabase/testing/qualify-member-realtime-native.mjs
+      - name: Verify actual static host transport contracts
+        run: node --test test/supabase-free-transport.test.mjs
+      - name: Verify Cloudflare web hosting to Supabase transport contracts
+        run: node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs
+      - name: Verify legacy source admission fence before final capture
+        run: node --experimental-vm-modules --test deploy/platform-api/test/source_freeze_entrypoint.vm.mjs
+      - name: Verify managed privacy portal and signed decoder protocol
+        run: node --test deploy/platform-api/test/supabase_privacy_portal.test.mjs deploy/platform-api/test/privacy_email_portal.test.mjs deploy/platform-api/test/supabase_roster_decoder_protocol.test.mjs supabase/functions/_shared/tests/native-storage-semantics.test.mjs
+      - name: Verify notification operator email proof and preserved manual authority
+        run: node --test tools/notification-operator/test/*.test.mjs
+      - name: Verify the isolated human challenge parent contract
+        run: node --test test/local-challenge-parent.test.mjs
+      - name: Stop the owned PostgreSQL fixture and preserve its data and logs
+        if: always()
+        run: |
+          set -eu
+          if [ -f scripts/supabase/testing/ci-native-postgres.sh ]; then
+            sh scripts/supabase/testing/ci-native-postgres.sh stop
+          elif [ -e "$RUNNER_TEMP/collect-supabase-ci-postgres.state" ]; then
+            echo CI_POSTGRES_CLEANUP_SCRIPT_MISSING >&2
+            exit 1
+          fi
+
+  android-signing-policy:
+    name: Existing protected Android signing environment
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.android_signed_candidate && github.ref == 'refs/heads/main' }}
+    # Do not name an environment here: GitHub must not auto-create an absent
+    # signing environment before the read-only policy check has passed.
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+    env:
+      COLLECT_ANDROID_EXPECTED_COMMIT: ${{ inputs.android_expected_commit }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.android_expected_commit }}
+          persist-credentials: false
+      - name: Read existing signing environment policy without signing inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -B scripts/qa/android_signed_candidate.py policy
+
+  android-signed-candidate:
+    name: Reviewed signed Android candidate without publication
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.android_signed_candidate && github.ref == 'refs/heads/main' }}
+    needs: [analyze, android-signing-policy]
+    environment: collect-android-signing
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      actions: read
+    env:
+      COLLECT_ANDROID_EXPECTED_COMMIT: ${{ inputs.android_expected_commit }}
+      COLLECT_ANDROID_SOURCE_SHA256: ${{ inputs.android_source_sha256 }}
+      COLLECT_ANDROID_APPROVAL_SHA256: ${{ inputs.android_approval_sha256 }}
+      REVIEWED_ANDROID_APPROVAL_RECORD: ${{ inputs.android_approval_record }}
+      COLLECT_ANDROID_APPROVED_UPLOAD_CERT_SHA256: ${{ vars.COLLECT_ANDROID_APPROVED_UPLOAD_CERT_SHA256 }}
+      PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER: ${{ vars.COLLECT_PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER }}
+      COLLECT_ANDROID_GOOGLE_SERVICES_JSON: ${{ vars.COLLECT_ANDROID_GOOGLE_SERVICES_JSON }}
+      COLLECT_BACKEND: supabase
+      SUPABASE_URL: https://rrlduytparvsjfmegalh.supabase.co
+      SUPABASE_API_URL: https://platform-admin.collect.ikanisa.com
+      SUPABASE_PUBLISHABLE_KEY: ${{ vars.COLLECT_SUPABASE_PUBLISHABLE_KEY }}
+      AUTH_CAPTCHA_ENABLED: 'true'
+      AUTH_CAPTCHA_PROVIDER: turnstile
+      AUTH_CAPTCHA_SITE_KEY: ${{ vars.COLLECT_AUTH_CAPTCHA_SITE_KEY }}
+      GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
+      APP_PUBLIC_URL: https://collect.ikanisa.com
+      ADMIN_APP_URL: https://platform-admin.collect.ikanisa.com
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.android_expected_commit }}
+          persist-credentials: false
+      - name: Require reviewed main dispatch
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/main
+          test "$GITHUB_SHA" = "$COLLECT_ANDROID_EXPECTED_COMMIT"
+          test "$GITHUB_REPOSITORY" = ikanisa/COOL
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: python3 -c 'import json; print("version=" + json.load(open(".fvmrc"))["flutter"])' >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+      - name: Resolve pinned native dependencies without signing inputs
+        run: flutter pub get --enforce-lockfile
+      - name: Offline Android candidate boundary checks
+        run: python3 -B scripts/tests/android_signed_candidate_test.py
+      - name: Verify scoped approval, public profile, policy and exact source before signing inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -B scripts/qa/android_signed_candidate.py prepare
+      - name: Build and inspect signed production candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+        run: python3 -B scripts/qa/android_signed_candidate.py build
+      - name: Remove only owned transient signing and provider files
+        if: ${{ always() }}
+        run: python3 -B scripts/qa/android_signed_candidate.py cleanup
+      - name: Retain exact signed candidate and public provenance
+        if: ${{ success() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: collect-android-signed-candidate
+          path: |
+            ${{ runner.temp }}/android-delivery/Collect.aab
+            ${{ runner.temp }}/android-delivery/Collect.apk
+            ${{ runner.temp }}/android-delivery/inspection.json
+            ${{ runner.temp }}/android-delivery/source-manifest.json
+            ${{ runner.temp }}/android-delivery/public-profile.json
+            ${{ runner.temp }}/android-delivery/build-manifest.json
+            ${{ runner.temp }}/android-delivery/native-build.json
+            ${{ runner.temp }}/android-delivery/environment-policy.json
+          if-no-files-found: error
+          retention-days: 14

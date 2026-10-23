@@ -5,13 +5,12 @@ import 'package:collect_app/admin/core/admin_entity_audit.dart';
 import 'package:collect_app/admin/core/admin_exception_history_v2_models.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'admin_exception_history_v2_models_test.dart' as joined;
@@ -32,7 +31,7 @@ const _identity = AdminIdentity(
 class _Probe {
   _Probe(this.name);
   final String name;
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
   late Map<String, dynamic> raw;
   late AdminEntityAuditQuery query;
@@ -47,10 +46,8 @@ class _Probe {
   Future<void> start() async {
     raw = auditObserved(name);
     query = auditQuery(raw);
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final parts = (jsonDecode(request.body)['token'] as String).split(
@@ -94,7 +91,7 @@ class _Probe {
     await auth.session(client, 'entity-authority-a');
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminIdentityProvider.overrideWith((ref) => ref.watch(authority)),
         adminClockProvider.overrideWithValue(
           () => DateTime.parse(
@@ -188,7 +185,7 @@ void main() {
           expect(request.method, 'POST');
           expect(
             request.url.path,
-            '/rest/v1/rpc/admin_get_operator_entity_audit_v1',
+            '/v1/rpc/admin_get_operator_entity_audit_v1',
           );
           expect(
             request.headers['Authorization'],
@@ -437,13 +434,16 @@ void main() {
                       ),
                     )
                   : waiting.future;
-              await probe.container.pump();
               if (departure == 'session replacement') {
                 await auth.session(probe.client, 'entity-authority-b');
               }
               if (departure == 'identity error') {
+                final rejected = expectLater(
+                  waiting.future,
+                  throwsA(isA<StateError>()),
+                );
                 waiting.completeError(StateError('PRIVATE_CANARY'));
-                await probe.container.pump();
+                await rejected;
               }
             });
             await tester.pump();

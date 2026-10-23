@@ -15,7 +15,7 @@ internal class GatewayAndroidRuntime(context: Context, val token: GatewayCycleTo
     val observations = GatewayAndroidObservations(this.context)
     val backend = GatewaySignedBackend(this.context, store, identity)
     init { backend.restoreReconciliationOffset(reconciliationOffset) }
-    private val sms = AndroidGatewaySmsInvoker(this.context)
+    private val sms = AndroidGatewaySmsInvoker(this.context, GatewayInvocationCustody(store))
     private val engine = GatewayDispatchEngine(journal, backend, GatewayGuardedSmsInvoker(sms, token::active), {
         val value = observations.read()
         if (token.active()) value else value.copy(networkValidated = false)

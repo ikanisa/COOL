@@ -1,8 +1,8 @@
 /* September 2026 UK marketing cohort. Product copy and routes belong to Collect.
-   Supplied Aeonik Pro faces: 400 body and observed 500 heading/control roles.
+   Licensed Inter fallback: supplied Aeonik trial files are excluded from distribution.
    Asset provenance: assets/marketing/SOURCE.json. */
 :root {
-  --type-marketing-family: "Aeonik Pro", "Inter", sans-serif;
+  --type-marketing-family: "Inter", sans-serif;
   --type-product-family: "Inter", sans-serif;
   --type-web-hero: 84px;
   --type-web-heading: 56px;

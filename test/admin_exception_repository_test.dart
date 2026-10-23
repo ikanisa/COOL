@@ -6,22 +6,20 @@ import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 import 'admin_action_session_test.dart' as auth;
 import 'admin_exception_models_test.dart' as fixture;
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late List<http.Request> requests;
   late Future<http.Response> Function(http.Request) respond;
   setUp(() async {
     requests = [];
     respond = (_) async => auth.response(fixture.exceptionFixture());
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final parts = (jsonDecode(request.body)['token'] as String).split(
@@ -59,7 +57,7 @@ void main() {
       );
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_list_operational_exceptions_v2',
+        '/v1/rpc/admin_list_operational_exceptions_v2',
       );
       expect(jsonDecode(requests.single.body), {
         'p_active': true,
@@ -112,7 +110,7 @@ void main() {
       expect(receipt.matches(intent), isTrue);
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_act_operational_exception_v1',
+        '/v1/rpc/admin_act_operational_exception_v1',
       );
       expect(jsonDecode(requests.single.body), intent.parameters);
     },
@@ -147,7 +145,7 @@ void main() {
           repository.exceptionAction(
             fixture.receiptIntent(fixture.exceptionFixture('action-receipt')),
           ),
-          throwsA(isA<PostgrestException>()),
+          throwsA(isA<CollectApiException>()),
         );
       }
       expect(requests, hasLength(2));
@@ -165,7 +163,7 @@ void main() {
           fixture.exceptionFixture('action-receipt')['request_id'] as String,
         ),
         throwsA(
-          isA<PostgrestException>().having(
+          isA<CollectApiException>().having(
             (error) => error.code,
             'code',
             '55P03',
@@ -184,7 +182,7 @@ void main() {
       await repository.exceptionActionLookup(id);
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_get_operational_exception_action_v2',
+        '/v1/rpc/admin_get_operational_exception_action_v2',
       );
       expect(jsonDecode(requests.single.body), {'p_request_id': id});
       raw['request_id'] = '00000000-0000-0000-0000-000000000000';

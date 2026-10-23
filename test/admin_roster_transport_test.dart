@@ -1,10 +1,11 @@
+import 'support/recorded_auth_fixture.dart';
 import 'dart:convert';
 
 import 'package:collect_app/admin/core/admin_roster_import.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'support/admin_read_fixture.dart';
 
@@ -19,7 +20,7 @@ const _writes = {
 
 Map<String, Object?> _auth() => {
   'access_token':
-      'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': adminReadActor, 'session_id': '99890000-0000-4000-8000-000000000012', 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
+      'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': adminReadActor, 'session_id': '99890000-0000-4000-8000-000000000012', 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
   'refresh_token': 'synthetic-refresh',
   'token_type': 'bearer',
   'expires_in': 3600,
@@ -39,10 +40,9 @@ void main() {
         'actual SDK $name $failure sends one POST per explicit caller',
         () async {
           final posts = <http.Request>[];
-          final client = SupabaseClient(
+          final client = recordedFixtureClient(
             'http://127.0.0.1:9989',
-            'sb_publishable_synthetic_only',
-            authOptions: const AuthClientOptions(autoRefreshToken: false),
+            recordedAuthPath: '/auth/v1/verify',
             httpClient: MockClient((request) async {
               if (request.url.path.startsWith('/auth/v1/')) {
                 return http.Response(
@@ -65,12 +65,13 @@ void main() {
               );
             }),
           );
-          await client.auth.verifyOTP(
+          await installRecordedAuthFixture(
+            client,
             phone: '+250788989001',
             token: 'B',
-            type: OtpType.sms,
+            type: CollectOtpType.sms,
           );
-          final gateway = SupabaseAdminRosterGateway(client);
+          final gateway = CollectAdminRosterGateway(client);
           addTearDown(() async {
             gateway.dispose();
             await client.dispose();
@@ -89,7 +90,7 @@ void main() {
           );
           expect(posts, hasLength(1));
           expect(posts.single.method, 'POST');
-          expect(posts.single.url.path, '/rest/v1/rpc/$name');
+          expect(posts.single.url.path, '/v1/rpc/$name');
           expect(posts.single.headers.containsKey('X-Retry-Count'), isFalse);
           expect(jsonDecode(posts.single.body), payload);
           // Only another explicit caller dispatches again, retaining its request.

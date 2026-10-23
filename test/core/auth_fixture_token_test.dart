@@ -1,77 +1,87 @@
 import 'dart:convert';
-
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gotrue/gotrue.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-
 import '../support/synthetic_jwt.dart';
 
+const _actor = '12345678-1234-4234-8234-123456789012';
+const _sid = '12345678-1234-4234-8234-123456789013';
+Map<String, dynamic> _rawSession(
+  int expiry, {
+  String? role = 'authenticated',
+}) => {
+  'access_token': syntheticJwt(
+    {'alg': 'HS256', 'typ': 'JWT'},
+    {'sub': _actor, 'session_id': _sid, 'exp': expiry, 'role': ?role},
+  ),
+  'refresh_token': 'synthetic-only',
+  'token_type': 'bearer',
+  'user': {
+    'id': _actor,
+    'app_metadata': {},
+    'user_metadata': {},
+    'aud': 'authenticated',
+  },
+};
 void main() {
-  test('unsigned fixture preserves expiry and is rejected as expired', () {
-    final token = syntheticJwt(
-      {'alg': 'HS256', 'typ': 'JWT'},
-      {'sub': '1234567890', 'exp': 1516239022},
-    );
-    final decoded = decodeJwt(token);
-    expect(decoded.header.alg, 'HS256');
-    expect(decoded.payload.sub, '1234567890');
-    expect(decoded.payload.exp, 1516239022);
+  test('local JWT fence preserves expiry without asserting authentication', () {
+    final session = CollectAuthSession.fromJson(_rawSession(1516239022))!;
+    expect(session.claims['exp'], 1516239022);
+    expect(session.isExpired, isTrue);
+    expect(session.toString(), 'CollectAuthSession');
+  });
+  test('local shape cannot admit missing role or another subject', () {
     expect(
-      () => validateExp(decoded.payload.exp),
-      throwsA(isA<AuthException>()),
+      CollectAuthSession.fromJson(_rawSession(4000000000, role: null)),
+      isNull,
     );
-  });
-
-  test('unsigned fixture preserves SDK parser claims without a session', () {
-    final token = syntheticJwt(
-      {'alg': 'HS256', 'typ': 'JWT', 'kid': 'test-kid'},
-      {
-        'sub': '1234567890',
-        'name': 'John Doe',
-        'iat': 1516239022,
-        'exp': 9999999999,
+    expect(
+      CollectAuthSession.fromJson(
+        _rawSession(4000000000, role: 'service_role'),
+      ),
+      isNull,
+    );
+    final wrong = {
+      ..._rawSession(4000000000),
+      'user': {
+        'id': '12345678-1234-4234-8234-123456789099',
+        'app_metadata': {},
+        'user_metadata': {},
       },
-    );
-    final decoded = decodeJwt(token);
-    expect(decoded.header.kid, 'test-kid');
-    expect(decoded.payload.claims['name'], 'John Doe');
-    expect(decoded.payload.iat, 1516239022);
-    expect(decoded.payload.exp, 9999999999);
-    expect(() => validateExp(decoded.payload.exp), returnsNormally);
+    };
+    expect(CollectAuthSession.fromJson(wrong), isNull);
   });
-
   test(
-    'asymmetric fixture requests JWKS and never authenticates dummy bytes',
+    'server rejection cannot authenticate unsigned fixture claims',
     () async {
-      var jwksRequests = 0;
-      final client = GoTrueClient(
-        url: 'https://claims-fixture.example.invalid/auth/v1',
+      var verifyRequests = 0;
+      final client = CollectCloudflareClient(
+        'https://claims-fixture.example.invalid',
         httpClient: MockClient((request) async {
-          expect(request.url.path, '/auth/v1/.well-known/jwks.json');
-          jwksRequests += 1;
-          return http.Response(
-            jsonEncode({'keys': []}),
-            200,
-            headers: {'content-type': 'application/json'},
-          );
+          if (request.url.path == '/v1/auth/otp') {
+            return http.Response(
+              jsonEncode({'challenge_id': 'fixture-challenge'}),
+              200,
+            );
+          }
+          expect(request.url.path, '/v1/auth/verify');
+          verifyRequests++;
+          return http.Response(jsonEncode({'code': 'otp_invalid'}), 401);
         }),
       );
       addTearDown(client.dispose);
-      final token = syntheticJwt(
-        {'alg': 'RS256', 'typ': 'JWT', 'kid': 'test-key-id'},
-        {
-          'sub': '1234567890',
-          'aud': 'authenticated',
-          'exp': 9999999999,
-          'iat': 1516239022,
-          'email': 'parser@example.invalid',
-          'role': 'authenticated',
-        },
+      await client.auth.signInWithOtp(phone: '+250788123456');
+      await expectLater(
+        client.auth.verifyOTP(
+          phone: '+250788123456',
+          token: '123456',
+          type: CollectOtpType.sms,
+        ),
+        throwsA(isA<CollectAuthException>()),
       );
-      await expectLater(client.getClaims(token), throwsA(isA<AuthException>()));
-      expect(jwksRequests, 1);
-      expect(client.currentSession, isNull);
+      expect(verifyRequests, 1);
+      expect(client.auth.currentSession, isNull);
     },
   );
 }

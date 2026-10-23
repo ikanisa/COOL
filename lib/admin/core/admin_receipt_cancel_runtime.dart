@@ -39,7 +39,7 @@ final adminReceiptCancelInspectionProvider = FutureProvider.autoDispose
         final raw = await repository.inspectUnstartedReceipt(id);
         if (!current) throw const AdminSessionChanged();
         return AdminReceiptCancelInspection.parse(raw, outboxId: id);
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         _receiptCancelReadError(error);
         rethrow;
@@ -62,16 +62,16 @@ final adminReceiptCancelLookupProvider = FutureProvider.autoDispose
         final raw = await repository.unstartedReceiptAction(id);
         if (!current) throw const AdminSessionChanged();
         return AdminReceiptCancelLookup.parse(raw, requestId: id);
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         _receiptCancelReadError(error);
         rethrow;
       }
     });
-void _receiptCancelReadError(PostgrestException error) {
+void _receiptCancelReadError(CollectApiException error) {
   if (error.code == '42501') throw const AdminReceiptCancelDenied();
   if (error.code == '55P03') throw const AdminReceiptCancelBusy();
-  if ({'42883', 'PGRST202'}.contains(error.code)) {
+  if ({'operation_unavailable', '501'}.contains(error.code)) {
     throw UnsupportedError('Safe receipt cancellation service unavailable.');
   }
 }

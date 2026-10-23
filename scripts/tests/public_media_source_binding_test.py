@@ -37,7 +37,10 @@ class BrowserSourceBindingTest(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("Synthetic declared source: " + relative)
         roots = {"collect_app": self.export, **{name: self.export / "third_party" / name for name in
-                 ["file_saver", "gotrue", "firebase_messaging"]}}
+                 ["file_saver", "synthetic_fork", "firebase_messaging"]}}
+        (self.root / "pubspec.yaml").write_text(json.dumps({"name": "collect_app",
+            "dependency_overrides": {name: {"path": "third_party/" + name}
+                for name in roots if name != "collect_app"}}))
         for path in roots.values():
             path.mkdir(parents=True, exist_ok=True)
         (self.export / ".dart_tool").mkdir()
@@ -171,12 +174,12 @@ class GraphScopedBrowserSourceBindingTest(unittest.TestCase):
             for relative in ("scripts/public_app_media.rb", "scripts/qa/asset_manifest_integrity.rb"):
                 (directory / relative).write_bytes((source_root / relative).read_bytes())
             files = {
-                "pubspec.yaml": "name: collect_app\ndependency_overrides:\n  file_saver:\n    path: third_party/file_saver\n  gotrue:\n    path: third_party/gotrue\n  firebase_messaging:\n    path: third_party/firebase_messaging\n",
+                "pubspec.yaml": "name: collect_app\ndependency_overrides:\n  file_saver:\n    path: third_party/file_saver\n  synthetic_fork:\n    path: third_party/synthetic_fork\n  firebase_messaging:\n    path: third_party/firebase_messaging\n",
                 "pubspec.lock": "bound package versions", ".fvmrc": '{"flutter":"3.44.4"}', ".metadata": "project metadata",
                 "analysis_options.yaml": "fixture options", "web/index.html": "web scaffold",
                 "tool/public_app_media_capture.dart": "import 'package:collect_app/main.dart';\n",
             }
-            for package in ("file_saver", "gotrue", "firebase_messaging"):
+            for package in ("file_saver", "synthetic_fork", "firebase_messaging"):
                 files.update({f"third_party/{package}/{relative}": "bound local package source" for relative in
                               ("lib/runtime.dart", "pubspec.yaml", "LICENSE", "COLLECT_FORK.md")})
             for relative, value in files.items():

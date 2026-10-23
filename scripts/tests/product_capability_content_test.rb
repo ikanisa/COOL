@@ -51,9 +51,22 @@ class ProductCapabilityContentTest < Minitest::Test
   end
 
   def test_ios_web_and_basic_phone_cannot_advertise_android_actions
-    %w[private_group_creation momo_ussd receipt_sms].product(%w[ios web basic_phone]).each do |id, platform|
+    %w[momo_ussd receipt_sms].product(%w[ios web basic_phone]).each do |id, platform|
       assert_raises(RuntimeError) { @registry.source_action(id, region: 'RW', platform: platform) }
       assert_equal 'mailto:info@ikanisa.com', @registry.public_action(id, platform: platform)['href']
+    end
+  end
+
+  def test_metadata_creation_source_is_available_across_app_platforms_without_approval
+    %w[android ios web].each do |platform|
+      assert_equal 'supported', @registry.state('private_group_creation', region: 'RW', platform: platform)
+      assert_equal false, @registry.capability('private_group_creation')['owner_approved']
+      assert_raises(RuntimeError) do
+        @registry.source_action('private_group_creation', region: 'RW', platform: platform, require_approved: true)
+      end
+    end
+    assert_raises(RuntimeError) do
+      @registry.source_action('private_group_creation', region: 'RW', platform: 'basic_phone')
     end
   end
 
@@ -198,9 +211,33 @@ class ProductCapabilityContentTest < Minitest::Test
     assert_equal 18, routes.count { |row| %w[page alias share_landing].include?(row[:kind]) }
     assert_equal %w[/ /group-savings/ /insurance/ /craas/ /community-groups/ /our-partners/ /trust/ /privacy/ /terms/ /account-deletion/ /data-deletion/].sort,
       RENDERER.const_get(:PAGES).map { |row| row[:path] }.sort
-    before = JSON.parse(File.read(File.join(ROOT, 'docs/release/critical-implementation-2026-10-01/product-capability-batch1/before-source-sha256.json')))
-    before.select { |path, _| path.start_with?('content/legal/') }.each do |path, digest|
-      assert_equal digest, Digest::SHA256.file(File.join(ROOT, path)).hexdigest, path
+    # Exercise the real writer against current source. Historical content hashes
+    # cannot prove that generation preserves today's authored legal material.
+    legal_sources = %w[
+      content/legal/collect_legal_pages_bundle.yaml content/legal/collect_terms_of_use.yaml
+      content/legal/collect_delete_account.yaml content/legal/collect_privacy_policy.yaml
+    ]
+    outputs = CollectCapabilityContentGenerator.outputs(@registry)
+    assert_empty outputs.keys & legal_sources
+    sources = (@data.fetch('source_inputs').keys + legal_sources + [
+      CollectProductCapabilities::SOURCE, 'scripts/product_capabilities.rb',
+      'scripts/generate_product_capability_content.rb', 'scripts/public_static_site_build.rb'
+    ]).uniq
+    Dir.mktmpdir('collect-capability-preservation-') do |root|
+      (sources + outputs.keys).uniq.each do |path|
+        destination = File.join(root, path)
+        FileUtils.mkdir_p(File.dirname(destination))
+        FileUtils.cp(File.join(ROOT, path), destination)
+      end
+      before = sources.to_h { |path| [path, Digest::SHA256.file(File.join(root, path)).hexdigest] }
+      File.write(File.join(root, CollectCapabilityContentGenerator::DART_CAPABILITIES), 'stale generated consumer')
+      stdout, stderr, result = Open3.capture3(
+        'ruby', File.join(root, 'scripts/generate_product_capability_content.rb'), chdir: root
+      )
+      assert result.success?, "Actual isolated capability generation failed: #{stdout}#{stderr}"
+      outputs.each { |path, bytes| assert_equal bytes.b, File.binread(File.join(root, path)), path }
+      after = sources.to_h { |path| [path, Digest::SHA256.file(File.join(root, path)).hexdigest] }
+      assert_equal before, after, 'Generation changed authored legal, capability or route source'
     end
   end
 end

@@ -110,14 +110,14 @@ test('Observer and actual recorder bytes both enter source provenance', async ()
 });
 
 const callers=['qa/public_browser_app_media.mjs','admin_pwa_browser_qa.mjs','admin_pwa_runtime_smoke.mjs',
-  'qa/current_browser_lifecycle.mjs','qa/local_browser_lifecycle.mjs','qa/admin_design_flow_browser_qa.mjs','qa/admin_pwa_lifecycle_qa.mjs'];
+  'qa/admin_design_flow_browser_qa.mjs','qa/admin_pwa_lifecycle_qa.mjs'];
 for(const caller of callers)test('Maintained caller keeps runtime failure checks and observer provenance: '+caller,async()=>{
   const source=await readFile(new URL('../'+caller,import.meta.url),'utf8');
   assert.match(source,/from ['"].*collect_diagnostic_observer\.mjs['"]/);
   if(caller==='admin_pwa_runtime_smoke.mjs'){
     assert.match(source,/Runtime\.exceptionThrown/);assert.match(source,/runtime\.ok && errors\.length === 0/);
   }else assert.match(source,/\.on\('pageerror'/);
-  if(['qa/current_browser_lifecycle.mjs','qa/local_browser_lifecycle.mjs','qa/admin_pwa_lifecycle_qa.mjs'].includes(caller)){
+  if(['qa/admin_pwa_lifecycle_qa.mjs'].includes(caller)){
     assert(source.includes("'scripts/qa/collect_diagnostic_observer.mjs'"));
     assert.match(source,/context\.on\('page',\s*observe(?:Page)?\)/);
   }else{

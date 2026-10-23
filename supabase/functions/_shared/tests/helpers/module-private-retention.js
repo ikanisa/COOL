@@ -1,0 +1,11 @@
+import * as actual from '../../private-retention.js';
+import {wrapFixtureModule} from './fenced-module.js';
+const wrapped=wrapFixtureModule('private-retention.js',actual);
+export const assertPrivateRetentionPolicy=wrapped.assertPrivateRetentionPolicy;
+export const assertPrivateRetentionSource=wrapped.assertPrivateRetentionSource;
+export const inventoryPrivateRetention=wrapped.inventoryPrivateRetention;
+export const privateCopyRetainable=wrapped.privateCopyRetainable;
+export const privateErasureObjects=wrapped.privateErasureObjects;
+export const privateRetentionAfterAccess=wrapped.privateRetentionAfterAccess;
+export const privateRetentionCatalogIdentity=wrapped.privateRetentionCatalogIdentity;
+export const privateRetentionGuards=wrapped.privateRetentionGuards;

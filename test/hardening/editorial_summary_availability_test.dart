@@ -54,7 +54,7 @@ void main() {
       find.byWidgetPredicate(
         (w) =>
             w is Semantics &&
-            w.properties.label == 'Total collected not available',
+            w.properties.label == 'Recorded contribution total unavailable',
       ),
       findsOneWidget,
     );

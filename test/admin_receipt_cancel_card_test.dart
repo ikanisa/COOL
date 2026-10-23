@@ -10,13 +10,12 @@ import 'package:collect_app/admin/core/admin_receipt_cancel_models.dart';
 import 'package:collect_app/admin/core/admin_receipt_cancel_checkpoint.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:collect_app/app/theme/collect_runtime_assets.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_receipt_cancel_models_test.dart' as wire;
 
 const _actor = AdminIdentity(
@@ -171,7 +170,7 @@ Future<ProviderContainer> _mount(
   addTearDown(tester.view.resetDevicePixelRatio);
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(null),
+      collectBackendClientProvider.overrideWithValue(null),
       adminIdentityProvider.overrideWith((ref) async => identity),
       adminRepositoryProvider.overrideWithValue(repo),
       adminClockProvider.overrideWithValue(clock ?? () => _now),
@@ -429,7 +428,7 @@ void main() {
         expect(repo.lookupIds, isEmpty);
         expect(repo.intents, hasLength(1));
         if (status == 'busy') {
-          repo.lookupError = const PostgrestException(
+          repo.lookupError = const CollectApiException(
             message: 'PRIVATE_CANARY',
             code: '55P03',
           );
@@ -522,7 +521,7 @@ void main() {
     (tester) async {
       final store = _Store(),
           repo = _Repository(store)
-            ..writeError = const PostgrestException(
+            ..writeError = const CollectApiException(
               message: 'receipt_action_source_changed',
               code: '55000',
             );
@@ -626,13 +625,13 @@ void main() {
       await _finish(tester);
     });
   }
-  for (final code in ['42501', 'PGRST202']) {
+  for (final code in ['42501', 'operation_unavailable']) {
     testWidgets('server $code remains distinct and reveals no private error', (
       tester,
     ) async {
       final store = _Store(),
           repo = _Repository(store)
-            ..inspectError = PostgrestException(
+            ..inspectError = CollectApiException(
               message: 'PRIVATE_CANARY',
               code: code,
             );
@@ -773,7 +772,7 @@ void main() {
               format: ui.ImageByteFormat.png,
             );
             await File(
-              'docs/release/collect-codex-goal-2026-09-30/admin-receipt-cancellation/receipt-cancellation-${dark ? 'dark' : 'light'}-synthetic.png',
+              '.cache/test-captures/admin-receipt-cancellation/receipt-cancellation-${dark ? 'dark' : 'light'}-synthetic.png',
             ).writeAsBytes(bytes!.buffer.asUint8List());
             rendered.dispose();
           });

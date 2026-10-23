@@ -1,32 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:collect_app/admin/core/admin_entity_audit.dart';
-import 'package:crypto/crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/admin_entity_audit_fixture.dart';
 
 void main() {
-  test('six copied observations retain exact original isolated SQL hashes', () {
-    final provenance =
-        jsonDecode(
-              File(
-                'test/fixtures/admin_entity_audit/provenance.json',
-              ).readAsStringSync(),
-            )
-            as Map;
-    expect(provenance['signed_authentication_or_hosted_sources'], false);
-    final files = provenance['files'] as Map;
-    expect(files, hasLength(6));
-    for (final entry in files.entries) {
-      final body = File(
-        'test/fixtures/admin_entity_audit/${entry.key}',
-      ).readAsBytesSync();
-      expect(sha256.convert(body).toString(), (entry.value as Map)['sha256']);
-      expect(body.length, (entry.value as Map)['bytes']);
-    }
-  });
   for (final name in [
     'shadow',
     'expiry',
@@ -35,32 +12,28 @@ void main() {
     'exception',
     'receipt',
   ]) {
-    test(
-      'strict DTO accepts actual $name SQL action evidence without renewal',
-      () {
-        final raw = auditObserved(name),
-            query = auditQuery(auditObserved(name));
-        final snapshot = AdminEntityAuditSnapshot.parse(raw, query: query);
-        expect(snapshot.query.kind.wire, raw['entity_kind']);
-        expect(
-          snapshot.checkedAt.toIso8601String(),
-          DateTime.parse(raw['checked_at'] as String).toIso8601String(),
-        );
-        expect(
-          snapshot.rows.map((row) => row.requestId),
-          (raw['rows'] as List).map((row) => (row as Map)['request_id']),
-        );
-        expect(
-          snapshot.rows.map((row) => row.actorId),
-          (raw['rows'] as List).map((row) => (row as Map)['actor_id']),
-        );
-        expect(snapshot.nextCursor, isNull);
-        expect(
-          snapshot.validUntil.difference(snapshot.checkedAt),
-          const Duration(seconds: 60),
-        );
-      },
-    );
+    test('strict DTO accepts synthetic $name action data without renewal', () {
+      final raw = auditObserved(name), query = auditQuery(auditObserved(name));
+      final snapshot = AdminEntityAuditSnapshot.parse(raw, query: query);
+      expect(snapshot.query.kind.wire, raw['entity_kind']);
+      expect(
+        snapshot.checkedAt.toIso8601String(),
+        DateTime.parse(raw['checked_at'] as String).toIso8601String(),
+      );
+      expect(
+        snapshot.rows.map((row) => row.requestId),
+        (raw['rows'] as List).map((row) => (row as Map)['request_id']),
+      );
+      expect(
+        snapshot.rows.map((row) => row.actorId),
+        (raw['rows'] as List).map((row) => (row as Map)['actor_id']),
+      );
+      expect(snapshot.nextCursor, isNull);
+      expect(
+        snapshot.validUntil.difference(snapshot.checkedAt),
+        const Duration(seconds: 60),
+      );
+    });
   }
   test(
     'current read expires at its exact boundary while old action time stays historical',

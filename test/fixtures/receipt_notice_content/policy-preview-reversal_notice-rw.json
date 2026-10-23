@@ -1,0 +1,32 @@
+{
+  "scope": "rw_receipt_notice_content",
+  "candidate": {
+    "enabled": true,
+    "template": {
+      "family": "reversal_notice",
+      "language": "rw",
+      "body_frame": "Ihindurwa ryibyanditswe muri Collect ku nyemezabwishyu %s yanditswe %s. Amafaranga yakuwemo mu byanditswe: %s RWF ku %s. Ubwizigame bwawe bwanditswe nyuma: %s RWF. Ubwizigame bwanditswe mbere: %s RWF. Ref: %s. Ibi ni ibyanditswe muri Collect gusa.",
+      "consent_rule": "current_receipt_consent_required_no_override",
+      "template_key": "collect.notice.reversal_notice",
+      "recipient_rule": "same_original_member",
+      "disclosure_rule": "collect_ledger_compensation_facts_only",
+      "template_sha256": "51baebc42b64760be2fde47bf189035dc67f568f36a9fdd4483b81371b6fa855",
+      "semantic_version": 1
+    },
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "notice_family": "reversal_notice",
+    "approval_basis": "actual_current_owner_policy_action",
+    "current_policy": null,
+    "recipient_rule": "same_original_member",
+    "send_authority": false,
+    "consent_override": false,
+    "financial_mutation": false,
+    "current_policy_status": "unapproved",
+    "expected_policy_revision": 0,
+    "notice_transport_available": false
+  },
+  "checked_at": "2026-10-03T06:52:24.250092Z",
+  "candidate_sha256": "38456ff2ce73663beb6b3678bae6167ef706f7edf78f359cfa023e57c2d883ae",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-03T06:53:24.253881Z"
+}

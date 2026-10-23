@@ -12,7 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import '../fixtures/collect_repository_fixture.dart';
 import '../shared/member_data_authority_test.dart' as authority;
@@ -32,7 +32,7 @@ class _EmptyCache extends CollectOfflineCache {
 class _FlowRepository extends FixtureCollectRepository {
   _FlowRepository(this.client)
     : super(
-        supabase: client,
+        backend: client,
         smsAccessChannel: const _InstantSms(),
         offlineCache: const _EmptyCache(),
         profileOverride: const CollectProfile(
@@ -47,7 +47,7 @@ class _FlowRepository extends FixtureCollectRepository {
       ) {
     seed = state;
   }
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   late CollectState seed;
   Completer<void>? nextLoad;
   int creates = 0;
@@ -81,7 +81,7 @@ PaymentIntentModel _intent() => PaymentIntentModel(
 );
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late _FlowRepository repository;
   var launches = 0;
   setUpAll(() async {
@@ -95,13 +95,11 @@ void main() {
   setUp(() async {
     launches = 0;
     SharedPreferences.setMockInitialValues({});
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'synthetic-key',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((_) async => authority.jsonResponse({})),
     );
-    await client.auth.setInitialSession(
+    await client.auth.recoverSession(
       authority.session(authority.actor, authority.firstSession),
     );
     repository = _FlowRepository(client);
@@ -138,7 +136,14 @@ void main() {
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField), '5000');
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('Continue to MoMo'),
+      160,
+      scrollable: find.byType(Scrollable).first,
+    );
     await tester.tap(find.text('Continue to MoMo'));
+    await tester.pumpAndSettle();
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -500));
     await tester.pumpAndSettle();
   }
 
@@ -147,7 +152,7 @@ void main() {
     repository.nextLoad = loaded;
     final previousGeneration = repository.sessionGeneration;
     await tester.runAsync(() async {
-      await client.auth.setInitialSession(
+      await client.auth.recoverSession(
         authority.session(authority.actor, authority.nextSession),
       );
     });

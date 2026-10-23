@@ -8,7 +8,7 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_action_session_test.dart' as sdk;
 import 'support/admin_read_fixture.dart';
@@ -25,6 +25,29 @@ class _ReadCase {
   final Map<String, dynamic> params;
   final Object receipt;
   final Future<Object?> Function(AdminRepository) read;
+}
+
+Future<void> refuseExpiredSession(CollectCloudflareClient client) async {
+  await client.auth.clearLocalSession();
+  final receipt = sdk.authReceipt('expired-declared-session', '0');
+  final token = (receipt['access_token'] as String).split('.');
+  final claims =
+      jsonDecode(utf8.decode(base64Url.decode(base64Url.normalize(token[1]))))
+          as Map<String, dynamic>;
+  claims['exp'] = DateTime.now().millisecondsSinceEpoch ~/ 1000 - 1;
+  receipt['access_token'] =
+      '${token[0]}.${base64Url.encode(utf8.encode(jsonEncode(claims))).replaceAll('=', '')}.${token[2]}';
+  await expectLater(
+    () => client.auth.recoverSession(jsonEncode(receipt)),
+    throwsA(
+      isA<CollectAuthException>().having(
+        (error) => error.code,
+        'code',
+        'invalid_session',
+      ),
+    ),
+  );
+  expect(client.auth.currentSession, isNull);
 }
 
 void main() {
@@ -201,7 +224,7 @@ void main() {
       {'p_limit': 20, 'p_before_started_at': null, 'p_before_run_id': null},
       jsonDecode(
             File(
-              'contracts/collect-shadow-supervisor-v1.fixture.json',
+              'test/fixtures/declared_admin/collect-shadow-supervisor-v1.fixture.json',
             ).readAsStringSync(),
           )
           as Map<String, dynamic>,
@@ -228,37 +251,15 @@ void main() {
       (r) => r.paymentReconciliationDetail(sdk.actor, paymentId: sdk.target),
     ),
   ];
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late List<http.Request> requests;
   late Future<http.Response> Function(http.Request) respond;
   setUp(() async {
     requests = [];
     respond = (_) async => sdk.response({});
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'synthetic-key',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
-        if (request.url.path.endsWith('/verify')) {
-          final token = (jsonDecode(request.body)['token'] as String).split(
-            '|',
-          );
-          final receipt = sdk.authReceipt(token[0], token[1]);
-          if (token[0] == 'expired-declared-read') {
-            final parts = (receipt['access_token'] as String).split('.');
-            final claims =
-                jsonDecode(
-                      utf8.decode(
-                        base64Url.decode(base64Url.normalize(parts[1])),
-                      ),
-                    )
-                    as Map<String, dynamic>;
-            claims['exp'] = DateTime.now().millisecondsSinceEpoch ~/ 1000 - 1;
-            receipt['access_token'] =
-                '${parts[0]}.${base64Url.encode(utf8.encode(jsonEncode(claims))).replaceAll('=', '')}.${parts[2]}';
-          }
-          return sdk.response(receipt);
-        }
         requests.add(request);
         final response = await respond(request);
         return http.Response.bytes(
@@ -274,16 +275,20 @@ void main() {
   tearDown(() => client.dispose());
   for (final value in cases) {
     test('${value.name} expired JWT dispatches no request', () async {
-      await sdk.session(client, 'expired-declared-read');
-      await expectLater(
-        value.read(AdminRepository(client)),
-        throwsA(
-          anyOf(
-            isA<AdminSessionChanged>(),
-            isA<AdminReconciliationStepUpException>(),
+      await refuseExpiredSession(client);
+      if (value.name == 'admin_current_user') {
+        expect(await value.read(AdminRepository(client)), isNull);
+      } else {
+        await expectLater(
+          value.read(AdminRepository(client)),
+          throwsA(
+            anyOf(
+              isA<AdminSessionChanged>(),
+              isA<AdminReconciliationStepUpException>(),
+            ),
           ),
-        ),
-      );
+        );
+      }
       expect(requests, isEmpty);
     });
     test(
@@ -295,10 +300,7 @@ void main() {
         expect(requests, hasLength(1));
         expect(requests.single.url.path.split('/').last, value.endpoint);
         expect(requests.single.headers['Authorization'], 'Bearer $token');
-        expect(
-          jsonDecode(requests.single.body),
-          value.params.isEmpty ? isNull : value.params,
-        );
+        expect(jsonDecode(requests.single.body), value.params);
       },
     );
     test(
@@ -310,7 +312,9 @@ void main() {
         }, 403);
         await expectLater(
           value.read(AdminRepository(client)),
-          throwsA(anyOf(isA<PostgrestException>(), isA<FunctionException>())),
+          throwsA(
+            anyOf(isA<CollectApiException>(), isA<CollectFunctionException>()),
+          ),
         );
         expect(requests, hasLength(1));
       },

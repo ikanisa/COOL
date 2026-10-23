@@ -5,6 +5,7 @@ require "json"
 require "fileutils"
 require "tempfile"
 require "digest"
+require "open3"
 
 COLLECT_IOS_APP_IDENTIFIER = "app.cool.mobile"
 COLLECT_IOS_APPLE_ID = "6783960331"
@@ -13,7 +14,6 @@ COLLECT_PACKAGE_VERSION = File.read(File.expand_path("../pubspec.yaml", __dir__)
 UI.user_error!("pubspec.yaml version is missing") if COLLECT_PACKAGE_VERSION.to_s.empty?
 COLLECT_IOS_VERSION, COLLECT_IOS_BUILD_NUMBER = COLLECT_PACKAGE_VERSION.split("+", 2)
 UI.user_error!("pubspec.yaml version must include a build number") if COLLECT_IOS_BUILD_NUMBER.to_s.empty?
-COLLECT_PRODUCTION_SUPABASE_URL = "https://lhbowpbcpwoiparwnwgt.supabase.co"
 
 def collect_required_env(name)
   value = ENV[name].to_s.strip
@@ -29,18 +29,23 @@ def collect_review_otp
   collect_required_env("COLLECT_REVIEW_OTP")
 end
 
-def collect_production_supabase_url
-  value = ENV["SUPABASE_PRODUCTION_URL"].to_s.strip
-  UI.user_error!("SUPABASE_PRODUCTION_URL is required") if value.empty?
-  UI.user_error!("SUPABASE_PRODUCTION_URL does not match the reviewed Collect production project") unless value == COLLECT_PRODUCTION_SUPABASE_URL
-  value
+# The reviewed public profile is shared with both native store wrappers and the
+# approval hash guard. App Review account credentials never enter this file.
+def collect_native_public_defines
+  root = File.expand_path("..", __dir__)
+  file = Tempfile.new(["collect-app-review-defines", ".json"])
+  _output, _error, result = Open3.capture3(
+    "python3", File.join(root, "scripts/qa/native_build_config.py"), "ios",
+    "--defines-output", file.path,
+  )
+  UI.user_error!("Invalid public Supabase native build configuration") unless result.success?
+  file.close
+  file
+rescue StandardError
+  file&.close!
+  raise
 end
 
-def collect_production_supabase_anon_key
-  value = ENV["SUPABASE_PRODUCTION_ANON_KEY"].to_s.strip
-  UI.user_error!("SUPABASE_PRODUCTION_ANON_KEY is required") if value.empty?
-  value
-end
 
 def collect_app_store_connect_api_key
   key_id = ENV["ASC_KEY_ID"].to_s.strip
@@ -85,24 +90,25 @@ end
 platform :android do
   desc "Validate Google Play metadata and AAB paths without submitting to Play"
   lane :play_validate_local do
-    sh("./scripts/google_play_console_audit_packet.sh --json")
+    sh("./scripts/google_play_console_audit_packet.sh --phase prepare --json")
     sh("./scripts/google_play_metadata_export.sh --json")
-    sh("./scripts/google_play_optimization_gate.sh --json || test $? -eq 99")
-    sh("./scripts/google_play_production_upload.sh --json")
+    sh("./scripts/google_play_optimization_gate.sh --phase prepare --json || test $? -eq 99")
+    sh("./scripts/google_play_production_upload.sh --phase prepare --json")
   end
 
-  desc "Upload Collect production AAB and metadata to Google Play after credentials are available"
-  lane :play_production_submit do
+  desc "Run an explicit gated Play upload, review or rollout phase; default to draft upload"
+  lane :play_production_submit do |options|
     UI.user_error!("GOOGLE_PLAY_SERVICE_ACCOUNT_JSON is required") if ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"].to_s.empty?
-    aab_path = File.expand_path("../build/app/outputs/bundle/productionRelease/app-production-release.aab", __dir__)
-    UI.user_error!("Canonical production AAB is required") unless File.file?(aab_path) && !File.symlink?(aab_path)
-    before_sha256 = Digest::SHA256.file(aab_path).hexdigest
-    sh("./scripts/release_go_preflight.sh")
-    sh("./scripts/google_play_console_audit_packet.sh --json")
+    phase = options.fetch(:phase, "upload").to_s
+    UI.user_error!("phase must be upload, review or rollout") unless %w[upload review rollout].include?(phase)
+    full_rollout = options[:full_rollout].to_s == "true"
+    UI.user_error!("full_rollout is only valid with phase:rollout") if full_rollout && phase != "rollout"
     sh("./scripts/google_play_metadata_export.sh --json")
-    sh("./scripts/google_play_optimization_gate.sh --json")
-    UI.user_error!("Production AAB changed after readiness checks") unless Digest::SHA256.file(aab_path).hexdigest == before_sha256
-    supply
+    command = "./scripts/google_play_production_upload.sh --submit --phase #{phase.shellescape} --json"
+    command += " --full-rollout" if full_rollout
+    # One submission implementation owns preflight, artifact binding and phase
+    # controls. Listing export is preparation; verify the real Console listing.
+    sh(command)
   end
 end
 
@@ -218,19 +224,7 @@ platform :ios do
   desc "Build the production IPA without embedding App Review credentials"
   lane :build_review_ipa do
     collect_ios_delivery_guard("signed_candidate")
-    supabase_url = collect_production_supabase_url
-    supabase_anon_key = collect_production_supabase_anon_key
-    public_url = ENV.fetch("APP_PUBLIC_URL", "https://collect.ikanisa.com").to_s.strip
-    UI.user_error!("APP_PUBLIC_URL must use HTTPS") unless public_url.start_with?("https://")
-    review_defines = Tempfile.new(["collect-app-review-defines", ".json"])
-    review_defines.write(JSON.generate({
-      "SUPABASE_URL" => supabase_url,
-      "SUPABASE_ANON_KEY" => supabase_anon_key,
-      "APP_PUBLIC_URL" => public_url,
-      "APP_ENVIRONMENT" => "production",
-      "APNS_ENVIRONMENT" => "production"
-    }))
-    review_defines.close
+    review_defines = collect_native_public_defines
 
     begin
       collect_unbundled_sh("cd .. && flutter pub get --enforce-lockfile")

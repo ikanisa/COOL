@@ -1,0 +1,13 @@
+# Run/manual-package from deploy/platform-supabase-free. The sole build owner
+# produces this directory first; there is no Flutter or backend build here.
+[build]
+  publish = "../../build/web"
+  edge_functions = "netlify/edge-functions"
+
+# API namespaces are terminated by the declared Edge function before this rule.
+# Existing physical assets keep their normal static precedence.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false

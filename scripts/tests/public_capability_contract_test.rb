@@ -22,6 +22,14 @@ class PublicCapabilityContractTest < Minitest::Test
     @renderer.cta_links_html(route, page, surface: :hero) + @renderer.cta_links_html(route, page, surface: :start)
   end
 
+  def mutate(source, pattern, replacement)
+    matches = pattern.is_a?(Regexp) ? pattern.match?(source) : source.include?(pattern)
+    assert matches, 'Negative mutation must target the current fixture'
+    changed = source.sub(pattern, replacement)
+    refute_equal source, changed, 'Negative mutation must change the current fixture'
+    changed
+  end
+
   def test_actual_source_actions_for_all_fifteen_routes
     PublicCapabilityContract::ROUTES.each do |route|
       assert_empty PublicCapabilityContract.action_failures(@registry, route, ctas(route)), route
@@ -29,24 +37,54 @@ class PublicCapabilityContractTest < Minitest::Test
     assert_equal false, @registry.data.dig('approval', 'publication_approved')
   end
 
+  def test_identical_group_and_app_actions_share_one_link_per_cluster
+    expected = PublicCapabilityContract.actions(@registry, '/')
+    refute expected.key?('cta-group')
+    [:hero, :start].each do |surface|
+      page = RENDERER.const_get(:PAGES).find { |row| row[:path] == '/' }
+      links = PublicCapabilityContract.anchors(@renderer.cta_links_html('/', page, surface: surface))
+      assert_equal 1, links.count { |link| link['href'] == expected.fetch('cta-app').fetch('href') }
+      assert_equal 1, links.count { |link| link['classes'].include?('cta-touch') }
+    end
+  end
+
+  def test_distinct_group_action_remains_required_and_strictly_matched
+    original = @registry
+    distinct = Object.new
+    distinct.define_singleton_method(:public_action) { |id| original.public_action(id) }
+    distinct.define_singleton_method(:source_action) do |id, **options|
+      original.source_action(id, **options).merge('label' => 'Create a private group')
+    end
+    actions = PublicCapabilityContract.actions(distinct, '/')
+    assert actions.key?('cta-group')
+    html = actions.map { |role, value| %(<a class="#{role}" href="#{CGI.escapeHTML(value.fetch('href'))}">#{CGI.escapeHTML(value.fetch('label'))}</a>) }.join * 2
+    assert_empty PublicCapabilityContract.action_failures(distinct, '/', html)
+    missing = html.gsub(/<a[^>]+cta-group[^>]*>.*?<\/a>/, '')
+    refute_empty PublicCapabilityContract.action_failures(distinct, '/', missing)
+    wrong = html.sub('Create a private group', 'Create a public group')
+    refute_empty PublicCapabilityContract.action_failures(distinct, '/', wrong)
+  end
+
   def test_wrong_destination_and_lookalike_store_are_rejected
     %w[https://unverified.example/enroll https://play.google.com.evil.example/app mailto:other@example.com].each do |target|
-      html = ctas('/').sub('https://play.google.com/store/apps/details?id=app.cool.mobile', target)
+      html = mutate(ctas('/'), CGI.escapeHTML(@registry.public_action('group_records').fetch('href')), target)
       refute_empty PublicCapabilityContract.action_failures(@registry, '/', html), target
     end
   end
 
   def test_wrong_platform_label_and_missing_action_are_rejected
-    refute_empty PublicCapabilityContract.action_failures(@registry, '/', ctas('/').sub('Create a group on Android', 'Create a group on iOS'))
-    refute_empty PublicCapabilityContract.action_failures(@registry, '/', ctas('/').sub('class="', 'aria-label="Get a loan now" class="'))
-    refute_empty PublicCapabilityContract.action_failures(@registry, '/', ctas('/').sub(/<a[^>]+cta-touch[^>]*>.*?<\/a>/, ''))
+    refute_empty PublicCapabilityContract.action_failures(@registry, '/', mutate(ctas('/'), CGI.escapeHTML(@registry.public_action('group_records').fetch('label')), 'Use USSD on iOS'))
+    refute_empty PublicCapabilityContract.action_failures(@registry, '/', mutate(ctas('/'), 'class="', 'aria-label="Get a loan now" class="'))
+    refute_empty PublicCapabilityContract.action_failures(@registry, '/', mutate(ctas('/'), /<a[^>]+cta-touch[^>]*>.*?<\/a>/, ''))
   end
 
   def test_future_service_cannot_switch_contact_to_enrollment_or_add_group_creation
     PublicCapabilityContract::SERVICE_ROUTES.each_key do |route|
-      html = ctas(route).sub('mailto:info@ikanisa.com', 'https://play.google.com/store/apps/details?id=app.cool.mobile')
+      html = mutate(ctas(route), 'mailto:info@ikanisa.com', 'https://play.google.com/store/apps/details?id=app.cool.mobile')
       refute_empty PublicCapabilityContract.action_failures(@registry, route, html), route
-      html = ctas(route) + '<a class="cta-group" href="https://play.google.com/store/apps/details?id=app.cool.mobile">Create a group on Android</a>'
+      original = ctas(route)
+      html = original + '<a class="cta-group" href="https://play.google.com/store/apps/details?id=app.cool.mobile">Create a group on Android</a>'
+      refute_equal original, html, 'Unavailable service mutation must add its forbidden action'
       refute_empty PublicCapabilityContract.action_failures(@registry, route, html), route
     end
   end
@@ -74,9 +112,9 @@ class PublicCapabilityContractTest < Minitest::Test
   end
 
   def test_mutated_negation_and_consent_qualification_are_rejected
-    claims = [@registry.copy('regulatory_footer').sub('not a bank or wallet', 'a bank and wallet'),
+    claims = [mutate(@registry.copy('regulatory_footer'), 'not a bank or wallet', 'a bank and wallet'),
               'Collect’s existing role is group record keeping, with deposit custody.',
-              @registry.copy('creation').sub('eligible Android', 'eligible iOS'),
+              mutate(@registry.copy('platform_limits'), 'The Collect app’s USSD handoff and receipt-SMS access require Android.', 'iOS supports Collect USSD.'),
               'Consent is optional for SMS access.']
     claims.each { |claim| refute_empty PublicCapabilityContract.claim_failures(@registry, claim), claim }
   end

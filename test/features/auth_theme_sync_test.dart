@@ -1,3 +1,7 @@
+import '../fixtures/auth_otp_gateway_fixture.dart';
+
+import 'package:collect_app/core/cloudflare/auth_otp_gateway.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/features/auth/auth_screen.dart';
 import 'package:collect_app/features/auth/widgets/auth_screen_widgets.dart';
@@ -48,10 +52,17 @@ void main() {
         final theme = light ? AppTheme.light() : AppTheme.dark();
         await tester.pumpWidget(
           ProviderScope(
+            overrides: [
+              collectBackendClientProvider.overrideWithValue(null),
+              authOtpGatewayProvider.overrideWithValue(
+                FixtureAuthOtpGateway(enabled: true),
+              ),
+            ],
             child: MaterialApp(theme: theme, home: const AuthScreen()),
           ),
         );
         await tester.pumpAndSettle();
+        await selectWhatsAppSignIn(tester);
         final context = tester.element(find.byType(AuthScreen));
         final colors = context.collectColors;
         final phone = tester.widget<TextField>(

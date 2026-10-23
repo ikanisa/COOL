@@ -10,7 +10,9 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/admin/core/admin_governed_settings_models.dart';
 import 'package:collect_app/admin/core/admin_governed_settings_sdk.dart';
 import 'package:collect_app/admin/core/admin_receipt_operational_history_sdk.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/admin/core/admin_privacy_review_host.dart';
+import 'package:collect_app/admin/core/admin_privacy_review_sdk.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,15 +21,18 @@ import 'support/admin_gateway_fixture.dart';
 import 'support/admin_exception_fixture.dart';
 import 'support/admin_entity_audit_state_fixture.dart';
 import 'support/settings_fixture.dart' as settings;
+import 'support/privacy_review_fixtures.dart';
 import 'package:collect_app/admin/core/admin_entity_audit.dart';
 import 'package:collect_app/admin/core/admin_exception_models.dart';
 
 const _runRoute = '/admin/automations/runs/:id';
 const _runId = 'e805bb70-90fe-4aa7-9a49-3883bbf3607c';
+const _privacyRoute = '/admin/privacy-requests';
 
 bool _ownerReadRoute(String route) =>
     route == adminAuditStateRoute ||
     route == '/admin/settings' ||
+    route == _privacyRoute ||
     route == _runRoute;
 
 String _accessPath(String route) => adminAuditStatePath(
@@ -36,11 +41,11 @@ String _accessPath(String route) => adminAuditStatePath(
 );
 
 class _RouteOwnerSessions extends AdminSessionController {
-  _RouteOwnerSessions(String userId) : super(null) {
-    state = (
-      key: (userId: userId, sessionId: 'synthetic-declared-owner-route'),
-      generation: 1,
-    );
+  _RouteOwnerSessions(
+    String userId, {
+    String sessionId = 'synthetic-declared-owner-route',
+  }) : super(null) {
+    state = (key: (userId: userId, sessionId: sessionId), generation: 1);
   }
 }
 
@@ -254,7 +259,7 @@ Future<ProviderContainer> _open(
   addTearDown(tester.view.resetDevicePixelRatio);
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(null),
+      collectBackendClientProvider.overrideWithValue(null),
       adminAuthGuardProvider.overrideWithValue(
         AdminAuthGuard(isAuthorized: signedIn),
       ),
@@ -266,6 +271,59 @@ Future<ProviderContainer> _open(
         return userId == null ? null : '$userId/synthetic-route-session';
       }),
       adminRepositoryProvider.overrideWithValue(repository),
+      if (path == _privacyRoute)
+        adminPrivacyReviewStoreProvider.overrideWithValue(
+          PrivacyJournalFixture().store,
+        ),
+      if (path == _privacyRoute)
+        adminPrivacyReviewAccessProvider.overrideWith((ref) {
+          // Exercises the current Cloudflare client and repository with controlled HTTP replies.
+          final scope = ref.watch(adminAuthSessionScopeProvider);
+          final state = ref.watch(adminIdentityProvider);
+          final identity = state.isLoading || state.hasError
+              ? null
+              : state.asData?.value;
+          if (scope == null ||
+              identity == null ||
+              identity.userId != scope.key.userId ||
+              !adminPrivacyReviewIdentityAllows(identity)) {
+            return null;
+          }
+          var current = true;
+          ref.onDispose(() => current = false);
+          ref.listen(adminAuthSessionScopeProvider, (_, _) => current = false);
+          ref.listen(adminIdentityProvider, (_, _) => current = false);
+          bool valid() =>
+              current && ref.read(adminAuthSessionScopeProvider) == scope;
+          return AdminPrivacyReviewAccess(
+            actorId: scope.key.userId,
+            sessionId: scope.key.sessionId,
+            isCurrent: valid,
+            api: AdminPrivacyReviewSdk(
+              actorId: scope.key.userId,
+              sessionId: scope.key.sessionId,
+              isCurrent: valid,
+              now: DateTime.now,
+              rpc: (name, parameters) async {
+                repository.dataRequests.add(name);
+                if (repository._fails(name)) {
+                  throw StateError('Network timeout');
+                }
+                if (name != 'admin_list_account_deletion_reviews_v1') {
+                  throw StateError('Unexpected privacy route read');
+                }
+                return privacyPageRaw(
+                  checked: DateTime.now().toUtc(),
+                  limit: parameters['p_limit'] as int,
+                );
+              },
+            ),
+          );
+        }),
+      if (signedIn && path == _privacyRoute)
+        adminAuthSessionScopeProvider.overrideWith(
+          (_) => _RouteOwnerSessions(sessionUserId, sessionId: privacySession),
+        ),
       if (signedIn && path.startsWith('/admin/audit-logs/entity/'))
         adminAuthSessionScopeProvider.overrideWith(
           (_) => AdminAuditStateSessions(sessionUserId),
@@ -373,7 +431,10 @@ void main() {
       final audit = route == adminAuditStateRoute;
       final settingsRoute = route == '/admin/settings';
       final run = route == _runRoute;
-      final failureMessage = settingsRoute
+      final privacy = route == _privacyRoute;
+      final failureMessage = privacy
+          ? 'Current privacy review evidence could not be verified. Refresh to try again.'
+          : settingsRoute
           ? 'Settings could not be verified. Refresh or sign in again.'
           : run
           ? 'Operational run could not be authorized, loaded or validated.'
@@ -386,7 +447,9 @@ void main() {
           : gateway
           ? 'Gateway read failed'
           : 'The admin service could not be reached.';
-      final retry = settingsRoute
+      final retry = privacy
+          ? find.widgetWithText(OutlinedButton, 'Refresh reviews')
+          : settingsRoute
           ? find.widgetWithText(TextButton, 'Refresh settings')
           : run
           ? find.widgetWithText(OutlinedButton, 'Refresh run evidence')
@@ -456,6 +519,47 @@ void main() {
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
     });
+  }
+
+  for (final denied in [
+    (['operator'], ['users.read', 'audit.read']),
+    (['platform_owner'], ['users.read']),
+    (['platform_owner'], ['audit.read']),
+  ]) {
+    testWidgets(
+      'privacy direct route denies ${denied.$1}/${denied.$2} before reading',
+      (tester) async {
+        final repository = _AccessRepository(
+          identity: () async => AdminIdentity(
+            userId: '00000000-0000-0000-0000-00000000e001',
+            displayName: 'Synthetic privacy operator',
+            roles: denied.$1,
+            permissions: denied.$2,
+          ),
+        );
+        final container = await _open(tester, repository, _privacyRoute);
+        await tester.pumpAndSettle();
+        expect(find.text('Admin access required'), findsOneWidget);
+        expect(
+          find.text(
+            'Permission required: platform_owner, users.read and audit.read',
+          ),
+          findsOneWidget,
+        );
+        expect(repository.dataRequests, isEmpty);
+        expect(
+          container
+              .read(adminRouterProvider)
+              .routeInformationProvider
+              .value
+              .uri
+              .path,
+          _privacyRoute,
+        );
+        expect(tester.takeException(), isNull);
+        await tester.pumpWidget(const SizedBox.shrink());
+      },
+    );
   }
 
   for (final route in ['/admin/settings', _runRoute]) {

@@ -1,7 +1,7 @@
 part of 'collect_repository.dart';
 
 mixin _CollectGroupActions on StateNotifier<CollectState> {
-  SupabaseClient? get _supabase;
+  CollectCloudflareClient? get _backend;
   _CollectLiveReader get _liveReader;
   bool get _allowLocalWrites;
   int get _loadGeneration;
@@ -14,7 +14,7 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
     _CollectSessionFence session,
     String userId,
   );
-  CollectProfile _requireReadyProfile();
+  CollectProfile _requireProfile();
   CollectCollection _requireActiveCollection(String collectionId);
   CollectProfile _requireCollectionOwner(
     CollectCollection collection, {
@@ -33,25 +33,25 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
     if (normalizedSlug.isEmpty) {
       throw const FormatException('Group link is invalid');
     }
-    _requireReadyProfile();
-    final supabase = _supabase;
+    _requireProfile();
+    final backend = _backend;
 
-    final ownerId = supabase?.auth.currentUser?.id;
-    if (supabase != null && ownerId != null) {
+    final ownerId = backend?.auth.currentUser?.id;
+    if (backend != null && ownerId != null) {
       final session = _captureSession();
       final generation = _loadGeneration;
       void requireOriginalSession() {
         _requireCurrentMemberSession(session, ownerId);
         if (!mounted ||
             generation != _loadGeneration ||
-            supabase.auth.currentUser?.id != ownerId ||
+            backend.auth.currentUser?.id != ownerId ||
             state.currentProfile?.id != ownerId) {
           throw StateError('Account changed during group join.');
         }
       }
 
       requireOriginalSession();
-      final response = await supabase
+      final response = await backend
           .rpc<dynamic>(
             'join_group_by_share_code',
             params: {'p_group_code': normalizedSlug},
@@ -94,9 +94,9 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
     );
     final session = _captureSession();
     try {
-      final supabase = _supabase;
-      if (supabase != null) {
-        final code = await supabase
+      final backend = _backend;
+      if (backend != null) {
+        final code = await backend
             .rpc<dynamic>(
               'get_group_share_code',
               params: {'p_collection_id': collectionId},
@@ -129,13 +129,13 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
     );
     final session = _captureSession();
     try {
-      final supabase = _supabase;
-      if (supabase != null) {
+      final backend = _backend;
+      if (backend != null) {
         final pending = _pendingInvitationRequests(_groupRepository);
         final key =
             '${session.identity!.userId}:$collectionId:${session.identity!.sessionId}:${session.generation}';
         final requestId = pending.putIfAbsent(key, _uuid.v4);
-        final result = await supabase
+        final result = await backend
             .rpc<dynamic>(
               'rotate_group_share_code_v2',
               params: {
@@ -179,11 +179,11 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
   Future<List<CollectMember>> membersForCollection(String collectionId) async {
     final collection = maybeCollectionById(collectionId);
     if (collection == null) return const [];
-    final supabase = _supabase;
-    if (supabase != null && supabase.auth.currentUser != null) {
+    final backend = _backend;
+    if (backend != null && backend.auth.currentUser != null) {
       final session = _captureSession();
       final publicId = state.currentProfile?.publicId;
-      final rows = await supabase
+      final rows = await backend
           .rpc<dynamic>(
             'list_current_member_group_roster',
             params: {'p_collection_id': collectionId},
@@ -211,7 +211,7 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
       }
       return List<CollectMember>.unmodifiable(members);
     }
-    if (!_allowLocalWrites || supabase != null) {
+    if (!_allowLocalWrites || backend != null) {
       throw StateError('Sign in to view members.');
     }
     final fixtureRoster = _fixtureRosterOverrides[collectionId];
@@ -262,9 +262,9 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
         'Enter another member’s Collect ID. You already own this group.',
       );
     }
-    final supabase = _supabase;
-    if (supabase != null) {
-      final userId = supabase.auth.currentUser?.id;
+    final backend = _backend;
+    if (backend != null) {
+      final userId = backend.auth.currentUser?.id;
       if (userId == null || userId != profile.id) {
         throw StateError('Sign in before adding a group admin.');
       }
@@ -272,7 +272,7 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
       _requireCurrentMemberSession(session, userId);
       dynamic result;
       try {
-        result = await supabase
+        result = await backend
             .rpc<dynamic>(
               'add_group_admin',
               params: {
@@ -282,7 +282,7 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
             )
             .setHeader('Authorization', 'Bearer ${session.accessToken}')
             .retry(enabled: false);
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (error.code == '22023') {
           throw const FormatException('Choose another active group member.');
         }
@@ -342,11 +342,11 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
     if (collection.isPlatformSponsored || collection.isPublic) {
       throw StateError('Manage this group in Admin.');
     }
-    final supabase = _supabase;
-    if (supabase != null && supabase.auth.currentUser != null) {
+    final backend = _backend;
+    if (backend != null && backend.auth.currentUser != null) {
       final session = _captureSession();
       _requireCurrentMemberSession(session, profile.id);
-      await supabase
+      await backend
           .rpc<void>('archive_group', params: {'collection': collectionId})
           .setHeader('Authorization', 'Bearer ${session.accessToken}')
           .retry(enabled: false);
@@ -390,11 +390,11 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
         'Enter another member’s Collect ID. You already own this group.',
       );
     }
-    final supabase = _supabase;
-    if (supabase != null && supabase.auth.currentUser != null) {
+    final backend = _backend;
+    if (backend != null && backend.auth.currentUser != null) {
       final session = _captureSession();
       _requireCurrentMemberSession(session, profile.id);
-      await supabase
+      await backend
           .rpc<void>(
             'transfer_group_ownership',
             params: {
@@ -444,10 +444,10 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
 
   Future<OwnerGroupHealth> ownerHealthFor(String collectionId) async {
     collectionById(collectionId);
-    final supabase = _supabase;
-    if (supabase != null && supabase.auth.currentUser != null) {
+    final backend = _backend;
+    if (backend != null && backend.auth.currentUser != null) {
       final session = _captureSession();
-      final row = await supabase
+      final row = await backend
           .rpc<dynamic>(
             'get_owner_group_health',
             params: {'collection': collectionId},

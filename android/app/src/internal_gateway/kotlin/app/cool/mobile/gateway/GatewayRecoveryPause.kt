@@ -19,7 +19,18 @@ internal object GatewayRecoveryPause {
         if(File(directory,GatewayRecovery.INACTIVE).exists())throw GatewayStateException("gateway_recovery_inactive")
         val marker=value("journal-marker");requireKeys(marker,setOf("contract_version","established"))
         val journal=value("journal");requireKeys(journal,setOf("contract_version","emergency_paused","attempts"))
-        if(strictInteger(marker,"contract_version")!=1L || !strictBoolean(marker,"established") || strictInteger(journal,"contract_version")!=1L ||
-            !strictBoolean(journal,"emergency_paused") || journal.getJSONArray("attempts").length()>GatewayJournal.MAX_ATTEMPTS)throw GatewayStateException("gateway_recovery_pause_required")
+        val version=strictInteger(journal,"contract_version");val rows=journal.getJSONArray("attempts")
+        if(strictInteger(marker,"contract_version")!=1L || !strictBoolean(marker,"established") || version !in 1L..2L ||
+            !strictBoolean(journal,"emergency_paused") || rows.length()>GatewayJournal.MAX_ATTEMPTS)throw GatewayStateException("gateway_recovery_pause_required")
+        // Admit only the existing closed hot-journal readers. Historical v1
+        // cannot gain a tagged successor/notice record; v2 requires its exact
+        // record kind. This is a read-only pause observation, never authority.
+        val ids=HashSet<String>()
+        try { for(index in 0 until rows.length()) {
+            val row=rows.getJSONObject(index)
+            if(version==1L && row.has("record_kind"))throw GatewayStateException("gateway_recovery_pause_required")
+            val attempt=if(version==2L)journalAttemptFromJsonV2(row) else archiveAttemptFromJson(row)
+            if(!ids.add(attempt.attemptId))throw GatewayStateException("gateway_recovery_pause_required")
+        } } catch(_:Exception) { throw GatewayStateException("gateway_recovery_pause_required") }
     }
 }

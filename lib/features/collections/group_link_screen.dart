@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../shared/providers/collect_app_state.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/repositories/pending_shared_group_intent_store.dart';
-import '../../core/supabase/supabase_module.dart';
+import '../../core/cloudflare/cloudflare_module.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
@@ -117,7 +117,7 @@ class _GroupLinkScreenState extends ConsumerState<GroupLinkScreen> {
         throw StateError('Invitation changed. Open the latest link again.');
       }
       if (!mounted) return;
-      await requireMemberProfileReady(context, ref);
+      requireMemberGroupProfileReady(ref);
       if (!mounted) return;
       if (ref.read(collectAuthenticatedUserIdProvider) != ownerId ||
           ref.read(collectRepositoryProvider).currentProfile?.id != ownerId) {

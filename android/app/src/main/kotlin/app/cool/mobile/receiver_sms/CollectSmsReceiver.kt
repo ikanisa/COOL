@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
 import android.util.Log
+import app.cool.mobile.BuildConfig
 import org.json.JSONObject
 import java.nio.ByteBuffer
 import java.security.MessageDigest
@@ -13,51 +14,75 @@ import java.util.UUID
 
 class CollectSmsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION) return
-
-        val prefs = context.getSharedPreferences(
-            SmsQueueStore.SMS_ACCESS_PREFS,
-            Context.MODE_PRIVATE,
-        )
-        if (!prefs.getBoolean(SmsQueueStore.SMS_ACCESS_ENABLED_KEY, false)) return
-
-        val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
-        if (messages.isEmpty() || messages.size > MAX_SMS_SEGMENTS) return
-        val sender = messages.firstOrNull()?.originatingAddress.orEmpty().trim()
-        val body = messages.joinToString(separator = "") { it.messageBody.orEmpty() }
-        val ownerUserId = prefs.getString(
-            SmsQueueStore.SMS_ACCESS_OWNER_USER_ID_KEY,
-            null,
-        ).orEmpty().trim()
-        if (ownerUserId.isEmpty() || body.isEmpty() || body.toByteArray(Charsets.UTF_8).size > MAX_SMS_BODY_BYTES ||
-            !isLikelyMomoReceipt(sender, body)
-        ) return
-
-        val receivedAtMillis = messages.minOfOrNull { it.timestampMillis }
-            ?.takeIf { it > 0L }
-            ?: System.currentTimeMillis()
-        val envelope = JSONObject()
-            .put("id", envelopeIdFor(ownerUserId, sender, body, receivedAtMillis))
-            .put("owner_user_id", ownerUserId)
-            .put("raw_sender", sender)
-            .put("raw_body", body)
-            .put("received_at_device", Instant.ofEpochMilli(receivedAtMillis).toString())
+        if (intent.action != Telephony.Sms.Intents.SMS_RECEIVED_ACTION ||
+            (BuildConfig.FLAVOR != "internal_receiver" && !MomoGatewayPolicy.memberCaptureSupported(BuildConfig.FLAVOR))) return
         val pendingResult = goAsync()
         try {
             SmsQueueWorker.executeCapture {
                 try {
-                    val result = SmsQueueStore(context.applicationContext).appendIfCapacity(
+                    val queue = SmsQueueStore(context.applicationContext)
+                    val gateway = if (BuildConfig.FLAVOR == "internal_receiver")
+                        MomoGatewayStore(context.applicationContext) else null
+                    if (gateway != null && !gateway.active()) return@executeCapture
+                    val binding = gateway?.read()?.getJSONObject("binding")
+                    if (gateway != null && binding == null) return@executeCapture
+                    val owner = binding?.getString("owner_user_id") ?: queue.activeCaptureOwner()
+                        ?: return@executeCapture
+                    val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
+                    if (messages.isEmpty()) return@executeCapture
+                    val sender = messages.first().originatingAddress.orEmpty()
+                    if (!MomoGatewayPolicy.providerSource(sender)) return@executeCapture
+                    val serviceCentre = messages.minOfOrNull { it.timestampMillis }?.takeIf { it > 0 }
+                    val capturedAt = Instant.now().toString()
+                    val subscription = listOf("subscription", "subscription_id", "android.telephony.extra.SUBSCRIPTION_INDEX")
+                        .firstNotNullOfOrNull { key -> if (intent.hasExtra(key)) intent.getIntExtra(key, -1).takeIf { it >= 0 } else null }
+                    val pdus = intent.extras?.get("pdus") as? Array<*>
+                    val parts = pdus?.map { (it as? ByteArray)?.let { pdu -> MomoMultipartPolicy.part(pdu, intent.getStringExtra("format")) } }.orEmpty()
+                    val complete = MomoGatewayPolicy.completeParts(messages.map { it.originatingAddress.orEmpty() },
+                        messages.map { it.timestampMillis }, messages.map { it.messageBody }) &&
+                        parts.size == messages.size && MomoMultipartPolicy.complete(parts)
+                    val body = if (complete) messages.indices.sortedBy { parts[it]!!.sequence }
+                        .joinToString("") { messages[it].messageBody.orEmpty() }
+                        else messages.joinToString("") { it.messageBody.orEmpty() }
+                    if (body.isEmpty()) return@executeCapture
+                    if (gateway == null && !MomoGatewayPolicy.memberSource(sender, body)) return@executeCapture
+                    val envelope = JSONObject()
+                        .put("id", if (gateway != null && binding != null)
+                            MomoGatewayPolicy.captureId(gateway.installationId(), binding.getString("id"), sender, body,
+                                serviceCentre ?: 0L, subscription)
+                            else envelopeIdFor(owner, sender, body, serviceCentre ?: 0L))
+                        .put("owner_user_id", owner)
+                        .put("raw_sender", sender).put("raw_body", body)
+                        .put("received_at_device", serviceCentre?.let { Instant.ofEpochMilli(it).toString() } ?: "")
+                        .put("captured_at", capturedAt)
+                        .put("completeness", if (complete) "complete" else "incomplete")
+                    if (gateway != null && binding != null) {
+                        val resolved = MomoGatewayPolicy.sourceResolved(binding.optionalInt("subscription_id"), subscription,
+                            MomoGatewayRecovery(context).multipleSims())
+                        envelope.put("gateway_binding_id", binding.getString("id"))
+                            .put("gateway_binding_version", binding.getInt("version"))
+                            .put("service_centre_at", serviceCentre?.let { Instant.ofEpochMilli(it).toString() } ?: JSONObject.NULL)
+                            .put("inbox_received_at", JSONObject.NULL).put("source_mode", "live")
+                            .put("subscription_id", subscription ?: JSONObject.NULL)
+                            .put("complete", complete).put("source_unresolved", !resolved)
+                    }
+                    val result = queue.appendIfCapacity(
                         envelope,
-                        MAX_PENDING_SMS,
+                        MomoGatewayPolicy.MAX_PENDING,
                     )
                     when (result) {
                         SmsQueueStore.AppendResult.STORED -> {
                             // Never log sender, message body, phone number, amount,
                             // transaction ID, or the device-local envelope ID.
                             Log.i(TAG, "Consented MoMo receipt queued for secure ingestion")
+                            gateway?.update { it.put("last_sms_at", capturedAt) }
+                            if (gateway != null) MomoGatewayJobs.signal(context.applicationContext)
+                            else MemberSmsJobs.ensure(context.applicationContext)
                             SmsQueueEventBus.notifyQueueChanged()
                         }
                         SmsQueueStore.AppendResult.DUPLICATE -> {
+                            if (gateway != null) MomoGatewayJobs.signal(context.applicationContext)
+                            else MemberSmsJobs.ensure(context.applicationContext)
                             // A duplicate broadcast may be the signal that wakes a
                             // foreground Flutter engine after an earlier event race.
                             SmsQueueEventBus.notifyQueueChanged()
@@ -94,7 +119,7 @@ class CollectSmsReceiver : BroadcastReceiver() {
         receivedAtMillis: Long,
     ): String {
         val digest = MessageDigest.getInstance("SHA-256").digest(
-            listOf(ownerUserId.trim(), sender.trim(), receivedAtMillis.toString(), body)
+            listOf(ownerUserId.trim(), sender, receivedAtMillis.toString(), body)
                 .joinToString("\u0000")
                 .toByteArray(Charsets.UTF_8),
         ).copyOf(16)
@@ -121,9 +146,6 @@ class CollectSmsReceiver : BroadcastReceiver() {
 
     companion object {
         private const val TAG = "CollectSmsReceiver"
-        private const val MAX_PENDING_SMS = 100
-        private const val MAX_SMS_SEGMENTS = 10
-        private const val MAX_SMS_BODY_BYTES = 4_096
         private val MOMO_SENDER_HINT = Regex(
             "(?:momo|m[- ]?money|mobile[- ]?money|mtn|airtel)",
             RegexOption.IGNORE_CASE,

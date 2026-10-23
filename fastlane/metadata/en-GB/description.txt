@@ -1,9 +1,9 @@
 Collect helps Rwanda savings groups organize member records and review whole-RWF MoMo contribution activity.
 
-On iOS, members can inspect group activity and use account and privacy controls. Private-group creation, the app’s MTN MoMo or Airtel Money USSD handoff, and consented receipt-SMS intake require an eligible Android build; these actions are not available in the iOS app.
+On iOS, signed-in members can create private groups, invite members, inspect group activity and use account and privacy controls. Group setup does not require MoMo registration or SMS access. The app’s MTN MoMo or Airtel Money USSD handoff and consented receipt-SMS intake require eligible Android devices and are unavailable in the iOS app.
 
 A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.
 
-Collect never asks for a MoMo PIN or payment provider OTP. Your WhatsApp sign-in code is used only to sign in to Collect. Collect is a technology and record-keeping service, not a bank or wallet, and does not hold customer funds or provide loans or insurance.
+Collect never asks for a MoMo PIN or payment provider OTP. Your Collect sign-in code is only for signing in to Collect. Collect is a technology and record-keeping service, not a bank or wallet, and does not hold customer funds or provide loans or insurance.
 
 For support, email info@ikanisa.com. In the app, request eligible data deletion through Settings → Security → Delete data. Collect is operated by IKANISA for Rwanda group-contribution workflows.

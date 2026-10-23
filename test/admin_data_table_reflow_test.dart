@@ -64,10 +64,20 @@ void main() {
             rows: [_row(_longTitle, amount: _longValue)],
             onOpen: (_) => opens++,
           );
-          expect(
-            find.byKey(const Key('admin-compact-record-list')),
-            findsOneWidget,
+          // The owner-selected layout retains one field per column at every
+          // width. Full text remains in the horizontally scrollable table.
+          expect(find.byType(DataTable), findsOneWidget);
+          final horizontal = tester.state<ScrollableState>(
+            find.descendant(
+              of: find.byType(AdminDataTable),
+              matching: find.byWidgetPredicate(
+                (widget) =>
+                    widget is Scrollable &&
+                    widget.axisDirection == AxisDirection.right,
+              ),
+            ),
           );
+          expect(horizontal.position.maxScrollExtent, greaterThan(0));
           for (final value in [
             _longTitle,
             _longValue,
@@ -83,6 +93,8 @@ void main() {
           await _capture(tester, '${theme.key}-${width.toInt()}-3.2x-top');
           final open = find.byTooltip('Open $_longTitle');
           await tester.ensureVisible(open);
+          await tester.pumpAndSettle();
+          expect(horizontal.position.pixels, greaterThan(0));
           await tester.tap(open);
           expect(opens, 1);
           await tester.ensureVisible(

@@ -3,6 +3,7 @@ import 'dart:ui' show SemanticsAction;
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/core/utils/money_format.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/models/contribution_record_copy.dart';
 import 'package:collect_app/shared/widgets/collect_group_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -140,7 +141,7 @@ void main() {
         expect(find.text(summary.supporterCountLabel), findsOneWidget);
         expect(
           find.bySemanticsLabel(
-            '${group.title}, ${_amount(summary)}, ${summary.supporterCountSemantics}',
+            '${group.title}, ${ContributionRecordCopy.totalTitle}, ${_amount(summary)}, ${summary.supporterCountSemantics}',
           ),
           findsOneWidget,
         );

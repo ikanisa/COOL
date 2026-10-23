@@ -2,6 +2,7 @@ import '../fixtures/collect_repository_fixture.dart';
 
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,6 +24,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          collectBackendClientProvider.overrideWithValue(null),
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith((ref) => repository),
         ],

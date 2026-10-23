@@ -1,0 +1,161 @@
+name: Supabase migration qualification
+
+on:
+  pull_request:
+    paths:
+      - 'supabase/**'
+      - 'scripts/supabase/**'
+      - 'tools/collect-admin-mcp/**'
+      - 'tools/notification-operator/**'
+      - 'deploy/platform-api/**'
+      - 'deploy/platform-supabase-free/**'
+      - 'deploy/platform-admin/**'
+      - 'test/supabase-free-transport.test.mjs'
+      - 'test/local-challenge-parent.test.mjs'
+      - '.github/workflows/supabase.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/**'
+      - 'scripts/supabase/**'
+      - 'tools/collect-admin-mcp/**'
+      - 'tools/notification-operator/**'
+      - 'deploy/platform-api/**'
+      - 'deploy/platform-supabase-free/**'
+      - 'deploy/platform-admin/**'
+      - 'test/supabase-free-transport.test.mjs'
+      - 'test/local-challenge-parent.test.mjs'
+      - '.github/workflows/supabase.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  local-qualification:
+    name: Isolated PostgreSQL and Edge contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    # Native PG and every run step share one network namespace. Preserve the
+    # exact literal-loopback address/port guards in all maintained fixtures.
+    container:
+      image: postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317
+    env:
+      COLLECT_TEST_PG_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test
+      COLLECT_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_edge_test
+      COLLECT_FINANCIAL_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_be02_green_3f624f3e7a6d_test
+      COLLECT_RLS_HELPER_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_rls_helper_acl_test
+      COLLECT_PUBLIC_CONFIG_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_public_configuration_test
+      COLLECT_PRIVACY_EMAIL_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_privacy_email_test
+      COLLECT_SQL_MAINTENANCE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_sql_maintenance_test
+      COLLECT_INVITATION_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_invitation_test
+      COLLECT_INVITATION_NOTICE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_invitation_notice_test
+      COLLECT_GOOGLE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_google_test
+      COLLECT_PRIVATE_RETENTION_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_private_retention_test
+      COLLECT_JOBS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_jobs_test
+      COLLECT_RECEIPT_FACTS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_receipt_facts_test
+      COLLECT_SMS_CONTENT_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_sms_content_test
+      COLLECT_ADMIN_PASSWORD_POLICY_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_email_test
+      COLLECT_ADMIN_PASSWORD_POLICY_STALE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_email_test
+      COLLECT_MFA_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_mfa_test
+      COLLECT_GROUPS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_groups_test
+      COLLECT_AUTH_SOURCE_ROOT: ${{ github.workspace }}/supabase/functions/_shared
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_IMPORT_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_import_test
+      COLLECT_ADMIN_HISTORY_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_history_test
+      COLLECT_PG_MODULE: ${{ github.workspace }}/scripts/supabase/node_modules/pg
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+    steps:
+      - name: Install and check job-container prerequisites without upgrading pinned tools
+        run: |
+          set -eu
+          test "$(id -u)" -eq 0
+          command -v apt-get >/dev/null
+          command -v timeout >/dev/null
+          export DEBIAN_FRONTEND=noninteractive
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils
+          git --version
+          python3 --version
+          command -v gosu >/dev/null
+          command -v initdb >/dev/null
+          command -v pg_ctl >/dev/null
+          command -v psql >/dev/null
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without dependency lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Start the owned native PostgreSQL fixture on literal loopback
+        run: sh scripts/supabase/testing/ci-native-postgres.sh start
+      - name: Check deterministic schema source
+        run: python3 supabase/schema-src/generate_baseline.py --check
+      - name: Create a separate disposable Edge handler fixture database
+        run: |
+          node --input-type=module <<'NODE'
+          import {createRequire} from 'node:module';
+          const {Client}=createRequire(import.meta.url)(process.env.COLLECT_PG_MODULE);
+          const db=new Client({connectionString:process.env.COLLECT_TEST_PG_URL});
+          try { await db.connect(); await db.query('CREATE DATABASE collect_rls_helper_acl_test'); await db.query('CREATE DATABASE collect_public_configuration_test'); await db.query('CREATE DATABASE collect_privacy_email_test'); await db.query('CREATE DATABASE collect_admin_invitation_test'); await db.query('CREATE DATABASE collect_invitation_notice_test'); await db.query('CREATE DATABASE collect_receipt_facts_test'); await db.query('CREATE DATABASE collect_sms_content_test'); await db.query('CREATE DATABASE collect_mfa_test'); await db.query('CREATE DATABASE collect_groups_test'); await db.query('CREATE DATABASE collect_private_retention_test'); await db.query('CREATE DATABASE collect_import_test'); await db.query('CREATE DATABASE collect_edge_test'); await db.query('CREATE DATABASE collect_be02_green_3f624f3e7a6d_test'); await db.query('CREATE DATABASE collect_google_test'); await db.query('CREATE DATABASE collect_admin_history_test'); await db.query('CREATE DATABASE collect_admin_email_test'); }
+          finally { await db.end(); }
+          NODE
+      - name: Replay curated migrations and SQL failure cases
+        run: node scripts/supabase/test_schema.mjs
+      - name: Initialize the separate Google handoff fixture
+        run: COLLECT_TEST_PG_URL="$COLLECT_GOOGLE_TEST_DATABASE_URL" node scripts/supabase/test_schema.mjs
+      - name: Verify selected current SQL archive, exact review pins and transport refusal
+        run: npm run test:current-archive --prefix scripts/supabase
+      - name: Verify native preparer refuses unsafe targets and overclaims
+        run: node --test scripts/supabase/testing/qualify-member-realtime-native.test.mjs
+      - name: Verify genuine mutation fence, capacity and release on new local fixtures
+        run: node scripts/supabase/emergency-fence/qualify.mjs
+      - name: Verify private exact data staging and unknown commits
+        run: node --test scripts/supabase/data_stage.test.mjs scripts/supabase/data_promote.test.mjs
+      - name: Verify automatic RLS helper permission hygiene
+        run: node --test scripts/supabase/rls_helper_permissions.test.mjs
+      - name: Verify atomic public configuration and uncertain commits
+        run: node --test scripts/supabase/public_configuration.test.mjs
+      - name: Verify cutover and public build configuration guards
+        run: python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config
+      - name: Verify inactive scheduling and ambiguous dispatch with explicit native-interface doubles
+        run: node --test scripts/supabase/jobs_test.mjs
+      - name: Verify direct SQL maintenance and owner isolation with explicit Cron fixture
+        run: node --test scripts/supabase/sql-maintenance/maintenance-test.mjs
+      - name: Check Edge entrypoints
+        working-directory: supabase/functions
+        run: '"$COLLECT_DENO" task check'
+      - name: Test Edge contracts against the isolated local database
+        working-directory: supabase/functions
+        run: '"$COLLECT_DENO" task test'
+      - name: Verify actual held-work lifetime and the private Realtime SQL subset
+        run: node scripts/supabase/testing/qualify-member-realtime-native.mjs
+      - name: Verify actual static host transport contracts
+        run: node --test test/supabase-free-transport.test.mjs
+      - name: Verify Cloudflare web hosting to Supabase transport contracts
+        run: node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs
+      - name: Verify legacy source admission fence before final capture
+        run: node --experimental-vm-modules --test deploy/platform-api/test/source_freeze_entrypoint.vm.mjs
+      - name: Verify managed privacy portal and signed decoder protocol
+        run: node --test deploy/platform-api/test/supabase_privacy_portal.test.mjs deploy/platform-api/test/privacy_email_portal.test.mjs deploy/platform-api/test/supabase_roster_decoder_protocol.test.mjs supabase/functions/_shared/tests/native-storage-semantics.test.mjs
+      - name: Verify notification operator email proof and preserved manual authority
+        run: node --test tools/notification-operator/test/*.test.mjs
+      - name: Verify the isolated human challenge parent contract
+        run: node --test test/local-challenge-parent.test.mjs
+      - name: Stop the owned PostgreSQL fixture and preserve its data and logs
+        if: always()
+        run: |
+          set -eu
+          if [ -f scripts/supabase/testing/ci-native-postgres.sh ]; then
+            sh scripts/supabase/testing/ci-native-postgres.sh stop
+          elif [ -e "$RUNNER_TEMP/collect-supabase-ci-postgres.state" ]; then
+            echo CI_POSTGRES_CLEANUP_SCRIPT_MISSING >&2
+            exit 1
+          fi

@@ -1,5 +1,354 @@
 part of 'admin_runtime.dart';
 
+// The wire labels identify authoritative system measurements. Each destination
+// uses its own live read permission; displaying a total does not grant access.
+const _overviewDestinations =
+    <
+      ({
+        String label,
+        String path,
+        String permission,
+        String description,
+        IconData icon,
+      })
+    >[
+      (
+        label: 'Total users',
+        path: '/admin/users',
+        permission: 'users.read',
+        description: 'All system users',
+        icon: Icons.person_outline,
+      ),
+      (
+        label: 'Total groups',
+        path: '/admin/groups',
+        permission: 'collections.read',
+        description: 'All system groups',
+        icon: Icons.groups_outlined,
+      ),
+      (
+        label: 'Total members',
+        path: '/admin/members',
+        permission: 'users.read',
+        description: 'Group member records',
+        icon: Icons.badge_outlined,
+      ),
+      (
+        label: 'Recorded evidence amount',
+        path: '/admin/transactions',
+        permission: 'payments.read',
+        description: 'Retained received payment evidence',
+        icon: Icons.payments_outlined,
+      ),
+      (
+        label: 'Reconciled evidence amount',
+        path: '/admin/transactions',
+        permission: 'payments.read',
+        description: 'Recorded reconciled evidence',
+        icon: Icons.account_balance_wallet_outlined,
+      ),
+      (
+        label: 'Total transactions',
+        path: '/admin/transactions',
+        permission: 'payments.read',
+        description: 'Received transactions',
+        icon: Icons.receipt_long_outlined,
+      ),
+      (
+        label: 'Open reconciliations',
+        path: '/admin/reconciliations',
+        permission: 'payments.read',
+        description: 'View the reconciliation queue',
+        icon: Icons.pending_actions_outlined,
+      ),
+      (
+        label: 'Unallocated transactions',
+        path: '/admin/reconciliations',
+        permission: 'payments.read',
+        description: 'Transactions awaiting allocation',
+        icon: Icons.account_tree_outlined,
+      ),
+      (
+        label: 'Ledger entries',
+        path: '/admin/ledgers',
+        permission: 'ledger.read',
+        description: 'Contributions, reversals and corrections',
+        icon: Icons.account_balance_outlined,
+      ),
+      (
+        label: 'Active payees',
+        path: '/admin/payees?status=active',
+        permission: 'receivers.read',
+        description: 'View active payees',
+        icon: Icons.person_pin_outlined,
+      ),
+      (
+        label: 'SMS receipts',
+        path: '/admin/sms-metadata',
+        permission: 'sms.metadata.read',
+        description: 'Received Rwanda SMS metadata',
+        icon: Icons.sms_outlined,
+      ),
+    ];
+
+/// Full system totals, suitable for the overview and its responsive route tests.
+class AdminOverviewTotals extends ConsumerWidget {
+  const AdminOverviewTotals({required this.metrics, super.key});
+  final List<AdminMetric> metrics;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final identity = ref.watch(adminIdentityProvider).valueOrNull;
+    final colors = context.collectColors;
+    return Column(
+      key: const Key('admin-overview-system-totals'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Semantics(
+          header: true,
+          child: Text(
+            'System overview',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: CollectTypography.weightBold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final columns = constraints.maxWidth < 600
+                ? 1
+                : constraints.maxWidth < 1020
+                ? 2
+                : 3;
+            final width = (constraints.maxWidth - (columns - 1) * 12) / columns;
+            return Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                for (final destination in _overviewDestinations)
+                  SizedBox(
+                    width: width,
+                    child: Builder(
+                      builder: (context) {
+                        final matching = metrics
+                            .where(
+                              (metric) => metric.label == destination.label,
+                            )
+                            .toList();
+                        final metric = matching.length == 1
+                            ? matching.single
+                            : AdminMetric(
+                                label: destination.label,
+                                value: 'Unavailable',
+                                status: 'unknown',
+                              );
+                        final allowed =
+                            identity?.permissions.contains('overview.read') ==
+                                true &&
+                            identity?.permissions.contains(
+                                  destination.permission,
+                                ) ==
+                                true;
+                        void open() {
+                          final current = ref
+                              .read(adminIdentityProvider)
+                              .valueOrNull;
+                          if (current?.userId == identity?.userId &&
+                              current?.permissions.contains('overview.read') ==
+                                  true &&
+                              current?.permissions.contains(
+                                    destination.permission,
+                                  ) ==
+                                  true) {
+                            context.go(destination.path);
+                          }
+                        }
+
+                        return _OverviewMetricCard(
+                          metric: metric,
+                          description: destination.description,
+                          icon: destination.icon,
+                          onOpen: allowed ? open : null,
+                        );
+                      },
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Totals cover the full system, independently of the records shown below.',
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
+        ),
+      ],
+    );
+  }
+}
+
+String _overviewMetricDisplay(AdminMetric metric) {
+  if (metric.status == 'unknown' ||
+      metric.status == 'unavailable' ||
+      metric.status == 'denied' ||
+      metric.value.trim().isEmpty) {
+    return 'Unavailable';
+  }
+  final value = metric.value.trim();
+  // Group exact decimal digits as strings. No double or abbreviated value can
+  // round confirmed money, even when its total exceeds JavaScript's safe int.
+  if (!RegExp(r'^-?[0-9]+$').hasMatch(value)) return value;
+  return adminFormatRwfAmount('RWF $value').replaceFirst('RWF ', '');
+}
+
+class _OverviewMetricCard extends StatefulWidget {
+  const _OverviewMetricCard({
+    required this.metric,
+    required this.description,
+    required this.icon,
+    required this.onOpen,
+  });
+  final AdminMetric metric;
+  final String description;
+  final IconData icon;
+  final VoidCallback? onOpen;
+
+  @override
+  State<_OverviewMetricCard> createState() => _OverviewMetricCardState();
+}
+
+class _OverviewMetricCardState extends State<_OverviewMetricCard> {
+  late final FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode()..addListener(_updateFocusSemantics);
+  }
+
+  void _updateFocusSemantics() => setState(() {});
+
+  @override
+  void dispose() {
+    _focusNode
+      ..removeListener(_updateFocusSemantics)
+      ..dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final metric = widget.metric;
+    final description = widget.description;
+    final icon = widget.icon;
+    final onOpen = widget.onOpen;
+    final colors = context.collectColors;
+    final value = _overviewMetricDisplay(metric);
+    final iconColor = colors.statusForeground(_metricTone(metric.status));
+    final unavailable = value == 'Unavailable';
+    return Semantics(
+      key: ValueKey('admin-overview-total-${metric.label}'),
+      container: true,
+      button: onOpen != null,
+      enabled: onOpen != null,
+      focusable: onOpen != null,
+      focused: onOpen == null ? null : _focusNode.hasFocus,
+      label:
+          '${metric.label}, $value. $description.'
+          '${onOpen == null ? ' Read access required to open.' : ' Open ${metric.label.toLowerCase()}.'}',
+      onTap: onOpen,
+      child: ExcludeSemantics(
+        child: Material(
+          color: colors.surfaceReadable,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(CollectRadius.card),
+            side: BorderSide(color: colors.borderSoft),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            excludeFromSemantics: true,
+            focusNode: _focusNode,
+            onTap: onOpen,
+            borderRadius: BorderRadius.circular(CollectRadius.card),
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    children: [
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: iconColor.withValues(alpha: 0.11),
+                          shape: BoxShape.circle,
+                        ),
+                        child: SizedBox.square(
+                          dimension: 40,
+                          child: Icon(icon, color: iconColor, size: 20),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          metric.label,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
+                                color: colors.textSecondary,
+                                fontWeight: CollectTypography.weightMedium,
+                              ),
+                        ),
+                      ),
+                      if (onOpen != null) ...[
+                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.arrow_forward_rounded,
+                          size: 18,
+                          color: colors.textSecondary,
+                        ),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    value,
+                    softWrap: true,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: unavailable
+                          ? colors.textSecondary
+                          : colors.textPrimary,
+                      fontWeight: CollectTypography.weightBold,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    description,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: colors.textSecondary,
+                    ),
+                  ),
+                  if (onOpen == null) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      'Read access required to open',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: colors.textMuted),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _PanelHeading extends StatelessWidget {
   const _PanelHeading({
     required this.title,
@@ -241,17 +590,6 @@ CollectStatusTone _metricTone(String status) {
   return CollectStatusTone.info;
 }
 
-IconData _metricIcon(String label) {
-  final normalized = label.toLowerCase();
-  if (normalized.contains('exception')) return Icons.report_problem_outlined;
-  if (normalized.contains('approval')) return Icons.fact_check_outlined;
-  if (normalized.contains('unreconciled')) {
-    return Icons.pending_actions_outlined;
-  }
-  if (normalized.contains('evidence')) return Icons.verified_outlined;
-  return Icons.account_balance_outlined;
-}
-
 String _metricValue(
   List<AdminMetric> metrics,
   String label, {
@@ -395,8 +733,8 @@ class _OverviewReadFailure extends StatelessWidget {
   Widget build(BuildContext context) {
     final denied =
         error is _OverviewPermissionDenied ||
-        error is PostgrestException &&
-            (error as PostgrestException).code == '42501';
+        error is CollectApiException &&
+            (error as CollectApiException).code == '42501';
     return DecoratedBox(
       decoration: _overviewPanelDecoration(context.collectColors),
       child: Padding(
@@ -685,7 +1023,7 @@ class _OverviewServicePanel extends StatelessWidget {
     if (measurement.hasError) {
       final error = measurement.error;
       if (error is _OverviewPermissionDenied ||
-          error is PostgrestException && error.code == '42501') {
+          error is CollectApiException && error.code == '42501') {
         return 'Access denied';
       }
       return 'Unavailable';

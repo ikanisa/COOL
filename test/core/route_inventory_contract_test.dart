@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:collect_app/admin/admin_router.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
+import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
+import 'package:collect_app/features/status/account_legal_screens.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../fixtures/collect_repository_fixture.dart';
 
@@ -147,10 +151,8 @@ void main() {
               expect(target.path.startsWith('/'), isTrue);
             }
             if (entry.key == '/groups/create') {
-              expect(
-                routeRedirect,
-                platform == TargetPlatform.iOS ? '/groups' : isNull,
-              );
+              // Metadata creation does not grant Android SMS/payment capability.
+              expect(routeRedirect, isNull);
             }
             if (entry.key == '/settings/bank-transfer') {
               expect(
@@ -211,4 +213,61 @@ void main() {
       expect(adminRoutePaths.toSet().length, adminRoutePaths.length);
     },
   );
+
+  testWidgets('native privacy route explains review when policy is unavailable', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({});
+    var policyRequested = false;
+    final router = createAppRouter(initialLocation: '/settings/legal/privacy');
+    addTearDown(router.dispose);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          appRouterProvider.overrideWithValue(router),
+          collectBackendClientProvider.overrideWithValue(null),
+          collectRepositoryProvider.overrideWith(
+            (ref) => FixtureCollectRepository(),
+          ),
+          collectPolicyDocumentProvider('privacy').overrideWith((ref) async {
+            policyRequested = true;
+            throw StateError('UNAVAILABLE_POLICY_PROVIDER_DO_NOT_RENDER');
+          }),
+        ],
+        child: const CollectApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(
+      router.routeInformationProvider.value.uri.path,
+      '/settings/legal/privacy',
+    );
+    expect(policyRequested, isTrue);
+    expect(find.byType(LegalScreen), findsOneWidget);
+    final choices = find.textContaining('Settings > Security > Delete data');
+    expect(choices, findsOneWidget);
+    await tester.ensureVisible(choices);
+    await tester.pumpAndSettle();
+    expect(choices.hitTestable(), findsOneWidget);
+    expect(
+      find.textContaining('Submitting a request does not delete your account'),
+      findsOneWidget,
+    );
+    expect(
+      find.textContaining('receipt records your request for review'),
+      findsOneWidget,
+    );
+    expect(
+      find.textContaining(
+        'Check request status or contact support for the outcome and any records that need to be retained',
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.textContaining('UNAVAILABLE_POLICY_PROVIDER_DO_NOT_RENDER'),
+      findsNothing,
+    );
+    expect(find.textContaining('signs out after'), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
 }

@@ -10,13 +10,12 @@ import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:collect_app/app/theme/collect_runtime_assets.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'support/admin_entity_audit_fixture.dart';
 import 'admin_exception_history_v2_models_test.dart' as joined;
@@ -123,7 +122,7 @@ class _Repository extends AdminEvidenceRepository {
     final history =
         jsonDecode(
               File(
-                'contracts/collect-shadow-supervisor-v1.fixture.json',
+                'test/fixtures/declared_admin/collect-shadow-supervisor-v1.fixture.json',
               ).readAsStringSync(),
             )
             as Map<String, dynamic>;
@@ -170,7 +169,7 @@ Future<ProviderContainer> _mount(
   addTearDown(tester.view.resetDevicePixelRatio);
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(null),
+      collectBackendClientProvider.overrideWithValue(null),
       _identityFuture.overrideWith((_) async => identity),
       adminIdentityProvider.overrideWith((ref) => ref.watch(_identityFuture)),
       adminRepositoryProvider.overrideWithValue(repository),
@@ -379,7 +378,7 @@ void main() {
       'server $code is safe and cannot produce an empty successful history',
       (tester) async {
         final repository = _Repository()
-          ..error = PostgrestException(
+          ..error = CollectApiException(
             message: 'PRIVATE_CANARY +250788000000',
             code: code,
           );

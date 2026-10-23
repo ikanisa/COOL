@@ -10,6 +10,7 @@ require "yaml"
 require_relative "public_app_media"
 require_relative "public_photography"
 require_relative "product_capabilities"
+require_relative "qa/bounded_git_metadata"
 
 ROOT = File.expand_path("..", __dir__)
 PRODUCT_CAPABILITIES = CollectProductCapabilities.new(ROOT)
@@ -24,13 +25,13 @@ WHATSAPP_NUMBER = "250795588248"
 DISPLAY_PHONE = "+250 795 588 248"
 USSD_CODE = "*182**8*1*41258*2000#"
 SUPPORT_EMAIL = "info@ikanisa.com"
+ACCOUNT_DELETION_PORTAL_URL = "https://api.collect.ikanisa.com/privacy/account-deletion"
+PUBLIC_WEB_ANALYTICS_PRIVACY_URL = "https://developers.cloudflare.com/speed/observatory/rum-beacon/#privacy-information"
 REGISTERED_ENTITY = "IKANISA Ltd."
 REGULATORY_FOOTER_NOTE = PRODUCT_CAPABILITIES.copy("regulatory_footer")
 ICON_ASSET = "assets/brand/collect_runtime/app_icons/app-icon-rule.png"
 TYPEFACE_ASSETS = %w[
   assets/typefaces/Inter-Variable.ttf
-  assets/typefaces/AeonikPro-Regular.ttf
-  assets/typefaces/AeonikPro-Medium.ttf
 ].freeze
 TYPEFACE_LICENSE = "assets/typefaces/OFL-Inter.txt"
 MEDIA_GROUP = "group"
@@ -380,7 +381,9 @@ def cta_links_html(_current_path, page, surface:)
   items = [%(<a class="#{app_class}" href="#{esc(action.fetch('href'))}">#{esc(action.fetch('label'))}</a>)]
   if %w[group_records private_group_creation].include?(capability_id)
     group = PRODUCT_CAPABILITIES.source_action("private_group_creation", region: "RW", platform: "android")
-    items << %(<a class="#{secondary_class} cta-group" href="#{esc(group.fetch('href'))}">#{esc(group.fetch('label'))}</a>)
+    unless group == action
+      items << %(<a class="#{secondary_class} cta-group" href="#{esc(group.fetch('href'))}">#{esc(group.fetch('label'))}</a>)
+    end
   end
   support = PRODUCT_CAPABILITIES.public_action("support")
   items << %(<a class="#{secondary_class} cta-touch" href="#{esc(support.fetch('href'))}">#{esc(support.fetch('label'))}</a>)
@@ -718,6 +721,14 @@ def legal_named_value_html(key, value)
     %(<p>#{esc(value)}</p>)
   when "details"
     legal_details_html(value)
+  when "delete_without_app"
+    heading = value["heading"] || value["title"]
+    body = legal_hash_html(value)
+    original = %(<h3>#{esc(heading)}</h3>)
+    raise "Expected one outside-app deletion heading" unless heading && body.scan(original).length == 1
+
+    linked = %(<h3><a class="legal-inline-link" href="#{ACCOUNT_DELETION_PORTAL_URL}">#{esc(heading)}</a></h3>)
+    %(<div>#{body.sub(original, linked)}</div>)
   when "contact"
     heading = value["heading"] || value["title"]
     %(<div>#{heading ? %(<h3>#{esc(heading)}</h3>) : ""}#{legal_details_html(value)}</div>)
@@ -823,7 +834,15 @@ def legal_form_fields_html(fields)
   %(<div class="legal-card-grid">#{cards}</div>)
 end
 
-def legal_section_html(section)
+# Public-hosting disclosure belongs to this website renderer, not the shared app policy.
+def public_web_analytics_disclosure_html
+  <<~HTML
+    <p>Collect's public website uses Cloudflare Web Analytics to measure page usage and performance. It sends page and referring-page addresses, a temporary page-load identifier, browser information and performance measurements to Cloudflare.</p>
+    <p>Cloudflare states that the analytics script does not read or write cookies or browser storage. This is separate from the authentication and security technologies listed above. <a class="legal-inline-link" href="#{PUBLIC_WEB_ANALYTICS_PRIVACY_URL}">Read Cloudflare's RUM privacy information</a>.</p>
+  HTML
+end
+
+def legal_section_html(section, public_privacy: false)
   return "" unless section.is_a?(Hash)
 
   heading = section["heading"] || section["title"] || legal_label(section["id"])
@@ -839,10 +858,11 @@ def legal_section_html(section)
     seen_contact_values[contact_value] = true
     duplicate
   end
+  web_analytics = public_privacy && anchor == "cookies" ? public_web_analytics_disclosure_html : ""
   <<~HTML
     <article class="legal-section" id="#{esc(anchor)}">
       <h2>#{esc(heading)}</h2>
-      #{body.map { |key, value| legal_named_value_html(key, value) }.join}
+      #{body.map { |key, value| legal_named_value_html(key, value) }.join}#{web_analytics}
     </article>
   HTML
 end
@@ -889,7 +909,7 @@ def legal_page_html(page)
         <div class="legal-main">
           #{no_sidebar && !meta.empty? ? %(<p class="legal-meta">#{esc(meta.join(" · "))}</p>) : ""}
           #{top_keys.empty? ? "" : %(<div class="legal-priority">#{top_keys.map { |key, value| legal_named_value_html(key, value) }.join}</div>)}
-          #{Array(content["sections"]).map { |section| legal_section_html(section) }.join}
+          #{Array(content["sections"]).map { |section| legal_section_html(section, public_privacy: page[:legal_key] == :privacy) }.join}
         </div>
       </div>
     </section>
@@ -1857,24 +1877,94 @@ def headers
   HEADERS
 end
 
+def public_build_destination_mode(destination, source_root:, allowed_roots:, explicit_path:)
+  internal = allowed_roots.any? do |allowed_root|
+    destination.start_with?("#{allowed_root}#{File::SEPARATOR}")
+  end
+  if !internal && (destination == source_root || destination.start_with?(source_root + File::SEPARATOR))
+    raise ArgumentError, "Repository PUBLIC_BUILD_DIR must be inside build or .cache"
+  end
+  unless internal || (explicit_path && explicit_path.start_with?(File::SEPARATOR) &&
+                      explicit_path == destination && explicit_path == File.expand_path(explicit_path))
+    raise ArgumentError, "External PUBLIC_BUILD_DIR must be an explicit absolute path"
+  end
+
+  # Never traverse a symlink while replacing a build or claiming a new output.
+  cursor = File::SEPARATOR
+  destination.split(File::SEPARATOR).reject(&:empty?).each do |part|
+    cursor = File.join(cursor, part)
+    raise ArgumentError, "PUBLIC_BUILD_DIR contains a symlink" if File.symlink?(cursor)
+    if File.exist?(cursor) && !File.directory?(cursor)
+      raise ArgumentError, "PUBLIC_BUILD_DIR contains a non-directory"
+    end
+  end
+  return :replace_internal if internal
+
+  # An external release directory must be new. Never recursively remove an
+  # arbitrary destination supplied through the environment.
+  if File.exist?(destination)
+    raise ArgumentError, "External PUBLIC_BUILD_DIR already exists; choose a new release directory"
+  end
+  unless File.directory?(File.dirname(destination))
+    raise ArgumentError, "External PUBLIC_BUILD_DIR requires an existing parent directory"
+  end
+  :create_external
+end
+
+def prepare_public_build_directory(destination, mode)
+  if mode == :replace_internal
+    FileUtils.rm_rf(destination)
+    FileUtils.mkdir_p(destination)
+  elsif mode == :create_external
+    # mkdir fails if another process claimed this path after validation.
+    Dir.mkdir(destination)
+  else
+    raise ArgumentError, "Unknown public build destination mode"
+  end
+end
+
+def copy_public_well_known(source_root, build_root)
+  source_directory = File.join(source_root, "web", ".well-known")
+  return unless Dir.exist?(source_directory)
+
+  target_directory = File.join(build_root, ".well-known")
+  FileUtils.mkdir_p(target_directory)
+  Dir.children(source_directory).sort.each do |entry|
+    next if entry.start_with?("._") || entry == ".DS_Store"
+
+    source = File.join(source_directory, entry)
+    next unless File.file?(source)
+
+    FileUtils.cp(source, File.join(target_directory, entry))
+  end
+end
+
 allowed_build_roots = [File.join(ROOT, "build"), File.join(ROOT, ".cache")]
-unless allowed_build_roots.any? do |allowed_root|
-         BUILD_DIR.start_with?("#{allowed_root}#{File::SEPARATOR}")
-       end
-  abort("PUBLIC_BUILD_DIR must be a child of #{allowed_build_roots.join(' or ')}")
+begin
+  destination_mode = public_build_destination_mode(
+    BUILD_DIR, source_root: ROOT, allowed_roots: allowed_build_roots, explicit_path: ENV["PUBLIC_BUILD_DIR"]
+  )
+rescue ArgumentError => error
+  abort(error.message)
 end
 # Validate screenshot freshness before replacing a previously usable build.
 public_app_media = PublicAppMedia.new(ROOT)
 public_app_screens = public_app_media.screens
 photography = PublicPhotography.new(ROOT)
 photography.photos
-FileUtils.rm_rf(BUILD_DIR)
-FileUtils.mkdir_p(BUILD_DIR)
-build_lastmod = Time.now.utc.strftime("%Y-%m-%d")
-
 unless INDEXNOW_KEY.empty? || INDEXNOW_KEY.match?(INDEXNOW_KEY_PATTERN)
   abort("PUBLIC_INDEXNOW_KEY must be 8-128 characters using A-Z, a-z, 0-9, or dashes only")
 end
+begin
+  # Recheck the path after input validation, before any output is replaced.
+  public_build_destination_mode(
+    BUILD_DIR, source_root: ROOT, allowed_roots: allowed_build_roots, explicit_path: ENV["PUBLIC_BUILD_DIR"]
+  )
+  prepare_public_build_directory(BUILD_DIR, destination_mode)
+rescue ArgumentError, SystemCallError => error
+  abort(error.message)
+end
+build_lastmod = Time.now.utc.strftime("%Y-%m-%d")
 
 core_stylesheet, section_stylesheet = split_stylesheets(stylesheet)
 write_file(File.join(BUILD_DIR, "styles.css"), core_stylesheet)
@@ -1884,7 +1974,7 @@ write_file(File.join(BUILD_DIR, "site.js"), site_js)
 write_file(File.join(BUILD_DIR, "_headers"), headers)
 write_file(
   File.join(BUILD_DIR, "_redirects"),
-  "/c/* /group-link/?slug=:splat 302\n/invite/* /app/?publicId=:splat 302\n"
+  "/c/* /group-link/?slug=:splat 302\n/invite/* /app/?publicId=:splat 302\n/privacy-request/ /account-deletion/ 302\n/cookies/ /privacy/#cookies 302\n/subprocessors/ /privacy/#sharing 302\n"
 )
 write_file(File.join(BUILD_DIR, "robots.txt"), "User-agent: *\nAllow: /\nSitemap: #{PUBLIC_URL}/sitemap.xml\n")
 write_file(File.join(BUILD_DIR, "#{INDEXNOW_KEY}.txt"), "#{INDEXNOW_KEY}\n") unless INDEXNOW_KEY.empty?
@@ -1914,17 +2004,7 @@ end
 FileUtils.mkdir_p(File.join(BUILD_DIR, "icons"))
 FileUtils.cp(File.join(ROOT, ICON_ASSET), File.join(BUILD_DIR, "icons", "collect.png"))
 
-well_known_source = File.join(ROOT, "web", ".well-known")
-if Dir.exist?(well_known_source)
-  well_known_target = File.join(BUILD_DIR, ".well-known")
-  FileUtils.mkdir_p(well_known_target)
-  Dir.children(well_known_source).each do |entry|
-    source = File.join(well_known_source, entry)
-    next unless File.file?(source)
-
-    FileUtils.cp(source, File.join(well_known_target, entry))
-  end
-end
+copy_public_well_known(ROOT, BUILD_DIR)
 
 manifest = {
   "name" => "Collect by IKANISA",
@@ -1970,15 +2050,16 @@ write_file(
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n#{sitemap_urls}\n</urlset>\n"
 )
 
-source_commit, source_commit_status = Open3.capture2("git", "-C", ROOT, "rev-parse", "HEAD")
-source_changes, source_status = Open3.capture2("git", "-C", ROOT, "status", "--porcelain")
+source_metadata = BoundedGitMetadata.observe(ROOT)
 write_file(
   File.join(BUILD_DIR, "version.json"),
   JSON.pretty_generate(
     "name" => "collect-public-static",
     "generated_at" => Time.now.utc.iso8601,
-    "source_commit" => source_commit_status.success? ? source_commit.strip : nil,
-    "source_dirty" => !source_status.success? || !source_changes.empty?,
+    "source_commit" => source_metadata.fetch("source_commit"),
+    "source_dirty" => source_metadata.fetch("source_dirty"),
+    "source_git_status" => source_metadata.fetch("source_git_status"),
+    "source_git_status_error" => source_metadata.fetch("source_git_status_error"),
     "routes" => all_paths.uniq.sort,
     "share_routes" => ["/c/:slug", "/app", "/invite/:publicId"],
     "indexnow_key_file" => INDEXNOW_KEY.empty? ? nil : "#{INDEXNOW_KEY}.txt"

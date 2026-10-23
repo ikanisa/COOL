@@ -1,12 +1,12 @@
 {
-  "schema_version": 1,
   "design_authority": "revolut-design",
+  "provider": "revolut-design@jean-bosco-skills",
   "scope": [
     "member_app",
     "admin",
     "public_website"
   ],
-  "authority_sha256": "0941cf390b2e77d605ee4877f960440688166534341ae2a3239a990d40127c50",
+  "authority_sha256": "e57cec94ab98fe431c21afb6caf071eafcf1dcbea9f0b2a4362ab428c9b86119",
   "surface_references": {
     "member_app": [
       "references/mobile-patterns.md",
@@ -24,6 +24,5 @@
       "references/state-theme-desktop-followup.md"
     ]
   },
-  "role": "Product adapter and provenance only; visual rules live in the selected skill.",
-  "fidelity_status": "unverified"
+  "meaning": "Metadata binding to the sole owner-selected maintained skill. Repository implementation and captures are product evidence; visual acceptance remains unverified."
 }

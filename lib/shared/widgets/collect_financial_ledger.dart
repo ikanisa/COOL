@@ -85,8 +85,8 @@ class ActivityFeedItem extends StatelessWidget {
     final amountText = Text(
       formatMoneyMinor(amount, currency: currency),
       style: CollectTypography.amountCompact(amountColor),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
+      softWrap: true,
+      textDirection: TextDirection.ltr,
     );
     return Material(
       color: colors.transparent,
@@ -116,8 +116,7 @@ class ActivityFeedItem extends StatelessWidget {
                         color: colors.textSecondary,
                         fontWeight: CollectTypography.weightRegular,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
                     ),
                     if (transactionId != null) ...[
                       CollectSpacing.gap4,
@@ -139,9 +138,7 @@ class ActivityFeedItem extends StatelessWidget {
               ),
               if (!stackAmount) ...[
                 CollectSpacing.gapW12,
-                Flexible(
-                  child: FittedBox(fit: BoxFit.scaleDown, child: amountText),
-                ),
+                Flexible(child: amountText),
               ],
             ],
           ),

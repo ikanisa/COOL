@@ -3,4 +3,6 @@
     <color name="collect_notification_accent">#3656FD</color>
     <color name="collect_paper">#FFFFFF</color>
     <color name="collect_launch_background">#000000</color>
+    <!-- Preserve the existing launcher artwork background. -->
+    <color name="collect_launcher_background">#FAF8F5</color>
 </resources>

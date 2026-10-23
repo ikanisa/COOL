@@ -125,14 +125,13 @@ async function files(directory, excluded = new Set()) {
 async function broaderSourceSnapshot(base = sourceRoot) {
   const paths = [];
   for (const name of ['lib', 'assets', 'android/app/src', 'ios/Runner']) paths.push(...await files(join(base, name)));
-  for (const name of ['third_party/file_saver', 'third_party/gotrue', 'third_party/firebase_messaging']) {
+  for (const name of ['third_party/file_saver', 'third_party/firebase_messaging']) {
     paths.push(...await files(join(base, name), new Set(['build', '__pycache__'])));
   }
   paths.push(...['.fvmrc', 'pubspec.yaml', 'pubspec.lock', 'web/index.html', 'web/manifest.json',
     'tool/public_app_media_capture.dart', 'test/fixtures/collect_repository_fixture.dart',
     'analysis_options.yaml',
     'third_party/file_saver/pubspec.yaml', 'third_party/file_saver/LICENSE', 'third_party/file_saver/COLLECT_FORK.md',
-    'third_party/gotrue/pubspec.yaml', 'third_party/gotrue/LICENSE', 'third_party/gotrue/COLLECT_FORK.md', 'third_party/gotrue/UPSTREAM-SHA256.json',
     'third_party/firebase_messaging/pubspec.yaml', 'third_party/firebase_messaging/LICENSE', 'third_party/firebase_messaging/COLLECT_FORK.md', 'third_party/firebase_messaging/UPSTREAM-SHA256.json',
     'scripts/public_app_media.rb', 'scripts/qa/asset_manifest_integrity.rb'].map(p => join(base, p)));
   return Object.fromEntries(await Promise.all([...new Set(paths)].sort().map(async p => [relative(base, p), hash(await readFile(p))])));
@@ -156,7 +155,7 @@ async function validateBindingTargets() {
   const configPath = join(sourceRoot, '.dart_tool/package_config.json');
   const config = JSON.parse(await readFile(configPath, 'utf8'));
   const expected = {collect_app: sourceRoot, file_saver: join(sourceRoot, 'third_party/file_saver'),
-    gotrue: join(sourceRoot, 'third_party/gotrue'), firebase_messaging: join(sourceRoot, 'third_party/firebase_messaging')};
+    firebase_messaging: join(sourceRoot, 'third_party/firebase_messaging')};
   if (!Array.isArray(config.packages)) throw Error('Resolved package bindings are malformed');
   const observed = {};
   for (const [name, target] of Object.entries(expected)) {

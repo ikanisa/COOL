@@ -16,7 +16,8 @@ gradle.projectsEvaluated {
             def actualRelocations = app.extensions.extraProperties.get('collectNotificationRelocations')
             assert actualRelocations == expectedRelocations : 'Flutter native notification relocation set differs from actual build types'
             def scopes = [:]
-            ['internal_gatewayReleaseCompileClasspath', 'internal_gatewayReleaseRuntimeClasspath'].each { name ->
+            ['internal_gatewayReleaseCompileClasspath', 'internal_gatewayReleaseRuntimeClasspath',
+                'internal_receiverDebugCompileClasspath', 'internal_receiverDebugRuntimeClasspath'].each { name ->
                 def configuration = app.configurations.getByName(name)
                 def projects = configuration.incoming.resolutionResult.allComponents.collect { component ->
                     def id = component.id
@@ -27,15 +28,17 @@ gradle.projectsEvaluated {
                 scopes[name] = projects
             }
             def retained = [:]
-            ['dev', 'internal_receiver', 'production'].each { flavor ->
+            ['dev', 'production'].each { flavor ->
                 def matches = app.configurations.getByName(flavor + 'Api').dependencies.findAll {
                     it instanceof ProjectDependency && notificationPaths.contains(it.path)
                 }
-                assert matches.collect { it.path }.sort() == notificationPaths.sort() : 'Member/receiver notification dependencies were not preserved'
+                assert matches.collect { it.path }.sort() == notificationPaths.sort() : 'Member notification dependencies were not preserved'
                 retained[flavor + 'Api'] = matches.collect { it.path }.sort()
             }
-            assert app.configurations.getByName('internal_gatewayApi').dependencies.every {
-                !(it instanceof ProjectDependency) || !notificationPaths.contains(it.path)
+            ['internal_gateway', 'internal_receiver'].each { flavor ->
+                assert app.configurations.getByName(flavor + 'Api').dependencies.every {
+                    !(it instanceof ProjectDependency) || !notificationPaths.contains(it.path)
+                } : 'Notification dependency retained by standalone native flavor ' + flavor
             }
             println('COLLECT_GATEWAY_NOTIFICATION_DEPENDENCIES_BEGIN')
             println(JsonOutput.toJson([gateway: scopes, retained_non_gateway_flavors: retained,

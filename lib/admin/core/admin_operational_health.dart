@@ -1,3 +1,4 @@
+import '../shared/components/admin_data_listing.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -352,7 +353,7 @@ class _AdminOperationalHealthPanelState
     try {
       health = AdminOperationalHealth.parse(widget.data);
     } catch (_) {
-      return CollectCard(
+      return AdminDataSection(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -373,7 +374,7 @@ class _AdminOperationalHealthPanelState
             'unknown' => 'Measurements unavailable',
             _ => 'No threshold exceeded',
           };
-    return CollectCard(
+    return AdminDataSection(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -1,0 +1,62 @@
+{
+  "scope": "rw_receipt_notice_content",
+  "candidate": {
+    "can_approve": false,
+    "can_prepare": false,
+    "reason_code": "approved_resend_resolution_unavailable",
+    "notice_family": "approved_resend",
+    "send_authority": false,
+    "source_evidence": {
+      "can_approve": false,
+      "reason_code": "approved_resend_resolution_unavailable",
+      "send_action": false,
+      "source_facts": {
+        "language": "rw",
+        "payment_id": "5009709d-efb2-4156-b982-ec02c7c8b38c",
+        "collection_id": "99780000-0000-4000-8000-000000030001",
+        "root_outbox_id": "dd726d62-e1e8-4c45-ba6e-0dbd263e7125",
+        "member_record_id": "99780000-0000-4000-8000-000000040001",
+        "original_reference": "NOTICE-OTHER",
+        "financial_assertion": "collect_posted_ledger",
+        "original_amount_rwf": 100,
+        "original_recorded_at": "2026-10-03T06:52:15.699708Z",
+        "original_snapshot_id": "3b49d7e4-212a-415c-8744-7ae092c36bd6",
+        "original_content_sha256": "b072b89f9686d8e5b0ce55ee17ad43c808947d531b56defbd2b9420afcc9d2d2",
+        "original_journal_sha256": "47aa10f08bb4f1828f68f3ed6e732c2c4306a7fcf821fe5d0085d54983e10c34",
+        "bank_settlement_inferred": false,
+        "current_consent_revision": 1,
+        "current_contact_revision": 1,
+        "original_snapshot_sha256": "548406dd9a5852cd26c04e477b4998b05ad84d24f226cd7e9512ef1e4a559825",
+        "original_journal_entry_id": "a7947782-c71a-44b3-b019-c8928410fb08",
+        "current_receipt_policy_revision": 1,
+        "original_member_balance_recorded_rwf": 1050
+      },
+      "carrier_proof": false,
+      "notice_family": "approved_resend",
+      "root_revision": 4,
+      "emergency_stop": false,
+      "quota_reserved": false,
+      "send_authority": false,
+      "delivery_proven": false,
+      "notice_revision": 0,
+      "operations_mode": "Live-limited",
+      "financial_action": false,
+      "source_snapshot_id": "3b49d7e4-212a-415c-8744-7ae092c36bd6",
+      "notice_policy_status": "unavailable",
+      "transport_observation": {
+        "attempt_id": "2f7ed0d2-26aa-42c0-a270-29b5092a450e",
+        "reason_code": "complete_gateway_observations",
+        "transport_sha256": "dde3e8d0c05aa023910f2eba9f47a2ec5816a693d32a38d228dcf0f85cc79ba6"
+      },
+      "notice_transport_status": "unavailable",
+      "primary_receipt_retained": true,
+      "financial_source_verified": true,
+      "operations_policy_revision": 2
+    }
+  },
+  "outbox_id": "dd726d62-e1e8-4c45-ba6e-0dbd263e7125",
+  "checked_at": "2026-10-03T06:52:21.117942Z",
+  "candidate_sha256": "4b70371b894e0ba0c3581b3ce90c6eea33c1b264d95aa0176b7ec20bc36563fd",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-03T06:53:21.129267Z"
+}

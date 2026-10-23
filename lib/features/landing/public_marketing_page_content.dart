@@ -1,5 +1,5 @@
 // Generated from content/product/collect_capabilities.json.
-// Registry SHA-256: 71d9288963e5cd13a78c6abd50f9c962081a5c841da3d5688849c8a36cadbefa
+// Registry SHA-256: 3e3831fd74a2c31495b18d3e155fc23febd3a98da0928df9563f893ddd97c89e
 // Source observations only; no publication or provider approval.
 part of 'public_content.dart';
 
@@ -14,7 +14,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Create the group and invite members',
         body:
-            'Private-group creation is available only on eligible Android builds, after SMS consent and device verification. iOS and web do not create private groups.',
+            'Any signed-in Collect user can create a private group and invite members without registering a MoMo number, provider or recipient. Group setup does not request SMS access or authorize payments.',
         bullets: [
           'Members use six-digit Collect IDs',
           'Rwanda groups show their approved MoMo receiver',
@@ -24,9 +24,9 @@ const _publicMarketingPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Approve with MoMo USSD',
         body:
-            'Eligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt. The Collect app’s USSD handoff and receipt-SMS access require Android. iOS and web support group records and account controls; they do not provide this handoff or SMS intake.',
+            'Eligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt. The Collect app’s USSD handoff and receipt-SMS access require Android. iOS and web support private-group setup, invitations, group records and account controls; they do not provide this handoff or SMS intake.',
         bullets: [
-          'Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your WhatsApp sign-in code is only for signing in to Collect.',
+          'Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your Collect sign-in code is only for signing in to Collect.',
           'Members do not upload receipts or report transaction IDs',
           'Payment approval stays in the provider’s USSD prompt',
         ],
@@ -82,10 +82,10 @@ const _publicMarketingPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Evidence ingestion is controlled',
         body:
-            'Eligible Android receiver devices request consent for newly arriving MoMo receipt SMS. Receipt intake requires authentication and duplicate protection.',
+            'Signed-in Android users may choose to submit newly arriving MoMo SMS. Intake requires their current consent, SMS permission, authentication and duplicate protection; it does not require wallet registration or device pairing.',
         bullets: [
           'Consent and permission state are recorded',
-          'Only likely MoMo receipt messages are submitted',
+          'Only likely MoMo messages are submitted; financial posting is separate',
           'iOS and web do not read receipt SMS',
         ],
       ),

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
@@ -9,26 +8,25 @@ import 'package:collect_app/admin/core/admin_exception_followup_v2_models.dart';
 import 'package:collect_app/admin/core/admin_exception_workflow_models.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'admin_exception_workflow_test.dart' as evidence;
+import 'support/admin_followup_fixture.dart';
 
-Map<String, dynamic> _sql(String name) => Map<String, dynamic>.from(
-  jsonDecode(
-        File(
-          'scripts/tests/fixtures/exception_followup_v2/observed-$name.json',
-        ).readAsStringSync(),
-      )
-      as Map,
+Map<String, dynamic> _fixture(String name) => followupFixture(
+  name,
+  exceptionId: _raw['exception_id'] as String,
+  actorId: _raw['assignee_id'] as String,
 );
-final _raw = evidence.observed('workflow');
+
+final _raw = evidence.workflowFixture('workflow');
 final _id = _raw['exception_id'] as String;
-final _at = DateTime.parse(_sql('recorded-lookup')['checked_at'] as String);
-final _directoryRaw = _sql('directory-first');
+final _at = DateTime.parse(_fixture('recorded-lookup')['checked_at'] as String);
+final _directoryRaw = _fixture('directory-first');
 final _other = (_directoryRaw['rows'] as List)[1] as Map;
 final _otherId = _other['operator_id'] as String;
 final _otherLabel = _other['display_label'] as String;
@@ -138,10 +136,9 @@ class _Repository extends AdminEvidenceRepository {
   }
 
   Map<String, dynamic> directory(AdminExceptionFollowupDirectoryQuery query) {
-    // Presentation double derived from actual SQL rows. It does not claim a
-    // second SQL query or fresh eligibility for the repinned widget clock.
+    // Declared protocol double with a controlled widget clock.
     final raw = evidence.copy(
-      _sql(query.before == null ? 'directory-first' : 'directory-last'),
+      _fixture(query.before == null ? 'directory-first' : 'directory-last'),
     );
     raw['limit'] = query.limit;
     raw['checked_at'] = evidence.wire(now);
@@ -273,7 +270,7 @@ class _Harness {
     await tester.binding.setSurfaceSize(Size(width, 1100));
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(null),
+        collectBackendClientProvider.overrideWithValue(null),
         adminIdentityProvider.overrideWith(
           (ref) async => ref.watch(_authority),
         ),
@@ -302,13 +299,11 @@ class _Harness {
             ).copyWith(textScaler: TextScaler.linear(scale)),
             child: child!,
           ),
-          home: const Scaffold(
+          home: Scaffold(
             body: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.all(16),
-                child: AdminExceptionWorkflowCard(
-                  exceptionId: 'f2e99d51-728f-4615-9cc9-782a8a225a5f',
-                ),
+                padding: const EdgeInsets.all(16),
+                child: AdminExceptionWorkflowCard(exceptionId: _id),
               ),
             ),
           ),

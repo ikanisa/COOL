@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:collect_app/admin/core/admin_receipt_successor_execution_controller.dart';
 import 'package:collect_app/admin/core/admin_receipt_successor_execution_sdk.dart';
@@ -78,7 +78,7 @@ void main() {
       await server.controller.refresh();
       expect(server.controller.observations, hasLength(20));
       expect(server.controller.next, isNotNull);
-      server.denial = const PostgrestException(
+      server.denial = const CollectApiException(
         message: 'runtime_control_permission_required',
         code: '42501',
       );
@@ -96,14 +96,20 @@ void main() {
       expect(server.requests, 5);
     },
   );
-  for (final code in ['28000', 'PGRST301', 'PGRST302', 'PGRST303']) {
+  for (final code in [
+    'authentication_required',
+    'invalid_token',
+    'access_revoked',
+    'session_changed',
+    'recent_email_sign_in_required',
+  ]) {
     test(
       'authoritative auth denial $code clears the current cutoff and private page',
       () async {
         final server = ReadServer();
         addTearDown(server.controller.dispose);
         await server.controller.refresh();
-        server.denial = PostgrestException(
+        server.denial = CollectApiException(
           message: 'session denied',
           code: code,
         );
@@ -119,7 +125,7 @@ void main() {
       final server = ReadServer();
       addTearDown(server.controller.dispose);
       await server.controller.refresh();
-      server.denial = const AuthException('Session expired');
+      server.denial = const CollectAuthException('Session expired');
       await server.controller.more();
       cleared(server);
       expect(server.requests, 3);
@@ -151,7 +157,7 @@ void main() {
       final server = ReadServer();
       addTearDown(server.controller.dispose);
       await server.controller.refresh();
-      server.denial = const PostgrestException(
+      server.denial = const CollectApiException(
         message: 'runtime_control_session_required',
         code: '42501',
       );
@@ -192,7 +198,7 @@ void main() {
       final future = server.controller.more();
       server.current = false;
       pending.completeError(
-        const PostgrestException(message: 'session expired', code: '42501'),
+        const CollectApiException(message: 'session expired', code: '42501'),
       );
       await future;
       cleared(server);
@@ -212,7 +218,7 @@ void main() {
       await server.controller.refresh();
       final current = server.controller.snapshot;
       pending.completeError(
-        const PostgrestException(message: 'old denial', code: '42501'),
+        const CollectApiException(message: 'old denial', code: '42501'),
       );
       await future;
       expect(identical(server.controller.snapshot, current), isTrue);
@@ -231,7 +237,7 @@ void main() {
     final future = server.controller.more();
     server.controller.dispose();
     pending.completeError(
-      const PostgrestException(message: 'old denial', code: '42501'),
+      const CollectApiException(message: 'old denial', code: '42501'),
     );
     await future;
     expect(notifications, 1);
@@ -259,7 +265,7 @@ void main() {
       final root = server.fixture.currentSnapshot.primaryReceiptId!;
       expect(find.text(root), findsOneWidget);
       expect(find.text('Load more callback evidence'), findsOneWidget);
-      server.denial = const PostgrestException(
+      server.denial = const CollectApiException(
         message: 'permission denied',
         code: '42501',
       );

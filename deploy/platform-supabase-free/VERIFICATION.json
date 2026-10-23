@@ -1,0 +1,69 @@
+{
+  "format": "collect.supabase.free-host.local-verification.v1",
+  "recorded_at_utc": "2026-10-20T14:50:50.730327+00:00",
+  "runtime": {
+    "node": "24.19.0",
+    "path": "/Volumes/PRO-G40/Development/Node/bin/node"
+  },
+  "command": "node --test test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs",
+  "result": {
+    "exit_code": 0,
+    "tests": 39,
+    "passed": 39,
+    "failed": 0,
+    "skipped": 0
+  },
+  "local_toml_check": "Python tomllib syntax, publish path resolves existing build/web location, edge source directory and SPA redirect fields verified; no artifact acceptance asserted",
+  "owned_inputs": {
+    "deploy/platform-supabase-free/PROVENANCE.json": "745bfb157ff38e7c0f52fae3dc36824552d69f0cff6f1eb95f33b3d96bd1b23a",
+    "deploy/platform-supabase-free/README.md": "da74bae12d0a25e954578ea0fc1b5c755f01208164530183690df84b4a610b6a",
+    "deploy/platform-supabase-free/netlify/edge-functions/collect-transport.js": "627954bc05bac5776d98123705c3e7d54f4a1fb8aba70ba62109d9c364274036",
+    "deploy/platform-supabase-free/netlify.toml": "b785d55ecb9af999358185ffef2c8680feb5c8b8dd80d2e46faea214c3b245ab",
+    "deploy/platform-supabase-free/package.json": "cee0bec27093ac0dec6020cc75c74997b640ba34e7ea7a7d41343f8ec2054d5e",
+    "deploy/platform-supabase-free/public-config.mjs": "832156e78c102fd8cd4e45279ed5e548a63b74b1c0b55fff80c980215c5ad362",
+    "deploy/platform-supabase-free/transport.mjs": "7a70375b791f2c38cf726fe50ad08766fca751e5f9bc04eaa1d0dddcb154292c",
+    "test/supabase-free-transport.test.mjs": "b839f20691af7ab952b01255dae1fe406bdb589b80ba81406ecfc399d64d2846",
+    "deploy/platform-supabase-free/local-challenge.mjs": "f47c1d7a15d38a2befa3cafd8b6c00bb2787cf238e7c0e17a3121e316a9295d4"
+  },
+  "actual_google_renderer_import_closure": {
+    "supabase/functions/_shared/auth-http.js": "fd0a452facc60d6771bc591461dd0fde9bd2bcd28947e178d2acbc5ae3b598ef",
+    "supabase/functions/_shared/domain/auth.js": "99e9864ff78e8187bc41cdd1d94d85319aca22ff3046f950614d98dcaf166fc2",
+    "supabase/functions/_shared/domain/core.js": "18ce95c133a4895d13475338089fb00c9ba4c9283ee72c7d4d6f88ae8ea8723e",
+    "supabase/functions/_shared/domain/encryption.js": "ee5935065cd86b486b268a5da7026bcfaf123068e866f0ff56347f8582326e1c",
+    "supabase/functions/_shared/domain/google_auth.js": "8ba39b2423e4085e849527a572328abfdd79808a537b36f1085a6a4412f70fee"
+  },
+  "runtime_qualification": false,
+  "netlify_sdk_or_bundle_run": false,
+  "network_calls_in_tests": false,
+  "database_calls_in_tests": false,
+  "existing_deployment_source_sha256": "d1c2d51a155432ba30efcdf032082e5a83c299f4c0aafa29fb9f741c6b2e58cd",
+  "existing_deployment_test_sha256": "65e58436e17da3b58ae6e69aae590188d6179f6834dbd8424cc9461b16a106b7",
+  "deployment_performed": false,
+  "production_cutover": false,
+  "remaining_gates": [
+    "Independent review of new dedicated challenge parent integration and38-test frozen receipt; prior37-test source cleared",
+    "producer/CI integration and qualified Flutter artifact",
+    "Netlify module bundling/emulation and actual ingress behavior",
+    "hosted50msCPU and payload/concurrency budgets",
+    "cookies/CSRF/revocation/unknown-effect recovery",
+    "real Google/provider callback and physical native handoff",
+    "real native/backend HMAC and pending-journal continuity",
+    "public custom DNS/TLS and account visibility",
+    "strict zero-Cloudflare dependencies including CAPTCHA and static artifact",
+    "shared300credit and SupabaseFree capacity/availability decision"
+  ],
+  "excluded_filesystem_metadata": [
+    "._*",
+    ".DS_Store"
+  ],
+  "local_test_log": {
+    "path": "/Users/jeanbosco/Library/Caches/collect-supabase-implementation-20261020/netlify-parent-metadata-final.log",
+    "sha256": "a3fcb83281653dfbbc6ad3789c86f826617261a92f45443b9ede36cc165d8ab3"
+  },
+  "additional_parent_controller_tests": {
+    "tests": 13,
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0
+  }
+}
