@@ -56,12 +56,44 @@ export class SupabaseObjectBucket {
  async delete(key,options={}){return this.checked(async()=>{if(typeof options.guards!=='function')throw new ApiError(403,'delete_authority_required','Current retention authority is required.');const intent=await this.journal.getPutByKey(key);if(!intent)throw unavailable('storage_delete_identity');const guards=async(c,i,retain=false)=>{const statements=await options.guards(i),run=async list=>{for(const statement of list){const q=compileSql(statement.sql,statement.values);await c.query(q.text,q.values);}};if(retain){await run(statements.slice(0,-2));return()=>run(statements.slice(-2));}await run(statements);};const journal=new PostgresStorageJournal(this.pool,{namespace:this.namespace,deleteGuards:(c,i)=>guards(c,i,true)}),protocol=new ProtectedStorageProtocol({transport:this.transport,journal});return protocol.delete(key,{operationId:options.operationId??await sha256('collect.storage.retention.v1\n'+key),scope:intent.scope,expectedSha256:intent.sha256,requireAbsent:options.reconcileOnly===true,authorize:async()=>{const c=await this.pool.connect();try{await c.query('BEGIN');await guards(c,intent);await c.query('COMMIT');return true;}catch(error){await c.query('ROLLBACK').catch(()=>{});throw error;}finally{c.release();}}});});}
  async list({prefix='',cursor='',limit=1000}={}){return this.checked(async()=>{const inventory=await this.protocol.inventory();if(!inventory.complete)throw unavailable('storage_inventory');const all=inventory.objects.filter(o=>o.key.startsWith(prefix)&&o.key>cursor).sort((a,b)=>a.key.localeCompare(b.key)),items=all.slice(0,Math.min(limit,1000)),byKey=new Map(inventory.metadata.map(m=>[m.key,m]));return{objects:items.map(o=>({key:o.key,size:o.size,customMetadata:byKey.get(o.key)?.customMetadata??{},httpMetadata:byKey.get(o.key)?.httpMetadata??{},classification:o.classification})),truncated:all.length>items.length,cursor:all.length>items.length?items.at(-1)?.key:undefined,pending:inventory.puts.filter(i=>i.state==='pending'),anomalies:inventory.anomalies};});}
 }
+// Leave room for JSON escaping of the existing 65536-character content bound
+// and provider metadata, without buffering an unbounded response envelope.
+const MOMO_RESPONSE_BYTES=512*1024;
+function boundedMomoResponse(env,response){
+ const work=applicationWork(env);
+ return work.local(async()=>{
+  let reader,complete=false;
+  try{
+   const declared=response.headers.get('content-length');
+   if(declared!==null&&(!/^\d+$/.test(declared)||Number(declared)>MOMO_RESPONSE_BYTES))throw unavailable('ai_response');
+   const chunks=[];let size=0;
+   if(response.body){
+    reader=response.body.getReader();
+    while(true){const{done,value}=await reader.read();if(done){complete=true;break;}
+     if(!(value instanceof Uint8Array)||value.byteLength>MOMO_RESPONSE_BYTES-size)throw unavailable('ai_response');
+     size+=value.byteLength;if(value.byteLength)chunks.push(value);
+    }
+   }
+   const bytes=new Uint8Array(size);let offset=0;for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.byteLength;}
+   return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes));
+  }catch(error){noteUnknownEffect(env,'ai');throw error;}
+  finally{
+   // Caller refusal does not acknowledge the original cancellation. Keep its
+   // promise owned by the same admission, even when cancellation later fails.
+   if(!complete&&response.body){
+    try{const raw=reader?reader.cancel():response.body.cancel();work.waitUntil(Promise.resolve(raw).catch(()=>noteUnknownEffect(env,'ai')));}
+    catch{noteUnknownEffect(env,'ai');}
+   }
+   reader?.releaseLock();
+  }
+ });
+}
 export function providerAdapters(env){
  const adapters={};
  if(env.OPENAI_API_KEY&&env.MOMO_AI_MODEL)adapters.AI={async run(_legacy,options){
   if(env.MOMO_AI_ENABLED!=='true')throw unavailable('ai');
   const reply=await guardedFetch(env,'ai','https://api.openai.com/v1/chat/completions',{method:'POST',redirect:'error',signal:AbortSignal.timeout(45000),headers:{'Content-Type':'application/json',Authorization:'Bearer '+env.OPENAI_API_KEY},body:JSON.stringify({model:env.MOMO_AI_MODEL,messages:options.messages,temperature:0,max_completion_tokens:options.max_tokens,store:false,response_format:{type:'json_schema',json_schema:{name:'collect_momo_extraction',strict:true,schema:options.response_format.json_schema}}})});
-  if(!reply.ok)throw unavailable('ai');const result=await reply.json(),content=result.choices?.[0]?.message?.content;if(typeof content!=='string'||content.length>65536)throw unavailable('ai_response');return {response:content};
+  if(!reply.ok)throw unavailable('ai');const result=await boundedMomoResponse(env,reply),content=result.choices?.[0]?.message?.content;if(typeof content!=='string'||content.length>65536)throw unavailable('ai_response');return {response:content};
  }};
  // Select only the signed supervisor protocol; a missing/invalid configuration
  // remains unavailable and never falls back to a Bearer or injected binding.

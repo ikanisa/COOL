@@ -185,6 +185,7 @@ JWT_PATTERN = re.compile(rb"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z
 # Any line/path change requires review again. Provider/private-key/JWT/JSON
 # credential screening never consults this narrow generic-only context map.
 GENERIC_PUBLIC_SOURCE_LINES = {
+    'scripts/supabase/managed-auth-archive/REFERENCE.json': frozenset(('50e1fbcc6b1c97dab6d541fb2e342bdcb64b48efa5fc66a3757713d654b233d4',)),
     'scripts/supabase/current-archive/bundle.mjs': frozenset(('319c34a67f96775c5fcfd8bdd0b0d0798a34ae0d447b11b9eda3cf163612e06c', 'a927d44911a34e7c6150d7de97018f6cfccdd3c8a46bce0c8c318e25e7c99af4')),
     'scripts/supabase/current-archive/operator.mjs': frozenset(('729d146227251983ef7c5e6e3ca6fd6cee64029af78e243e903479f1c4e0a59b',)),
     'analysis_options.yaml': frozenset(('856267bb9cf05544b1bcb7d4d635d83ac98958944f91beed38364eb4c57f65d8',)),

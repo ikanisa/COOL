@@ -126,6 +126,97 @@ fencedTest({name:'actual Supabase MoMo model adapter: controlled HTTP, fail-clos
     assert.deepEqual(await f.run(),{response:boundary});assert.equal(f.calls(),1);
    });
   });
+  await t.step('the full existing content boundary remains accepted when every character needs six JSON bytes',async()=>{
+   const boundary='\u0001'.repeat(65536);
+   await fixture({},()=>Response.json({choices:[{message:{content:boundary}}]}),async f=>{
+    assert.deepEqual(await f.run(),{response:boundary});assert.equal(f.calls(),1);
+   });
+  });
+  await t.step('the exact 512 KiB raw envelope boundary is accepted before the unchanged content validation',async()=>{
+   const document=JSON.stringify({choices:[{message:{content}}],padding:''});
+   const body=document+' '.repeat(524288-new TextEncoder().encode(document).byteLength);
+   await fixture({},()=>new Response(body,{headers:{'Content-Length':'524288'}}),async f=>{
+    assert.deepEqual(await f.run(),{response:content});assert.equal(f.calls(),1);
+    assert.equal((await f.work.finish()).uncertainDispatches,0);
+   });
+  });
+  for(const [label,body,errorType] of [
+   ['truncated JSON',new TextEncoder().encode('{"choices":[{"message":{"content":"unfinished'),SyntaxError],
+   ['empty JSON',new Uint8Array(),SyntaxError],
+   ['invalid UTF-8 inside otherwise valid JSON',new Uint8Array([
+    ...new TextEncoder().encode('{"choices":[{"message":{"content":"'),0x80,
+    ...new TextEncoder().encode('"}}]}')]),TypeError],
+   ['truncated UTF-8 code point',new Uint8Array([0xf0,0x9f,0x92]),TypeError],
+  ] as const)await t.step(label+' is rejected with the original parse/body obligation retained',async()=>{
+   await fixture({},()=>new Response(body),async f=>{
+    await assert.rejects(f.run,(error:unknown)=>error instanceof errorType);assert.equal(f.calls(),1);
+    const result=await f.work.finish();assert.equal(result.uncertainDispatches,1);assert.equal(result.reason,'completed_with_unknown_obligation');
+   });
+  });
+  await t.step('a response without a body remains invalid JSON rather than a successful empty extraction',async()=>{
+   await fixture({},()=>new Response(null),async f=>{
+    await assert.rejects(f.run,(error:unknown)=>error instanceof SyntaxError);assert.equal(f.calls(),1);
+    assert.equal((await f.work.finish()).uncertainDispatches,1);
+   });
+  });
+  await t.step('valid UTF-8 split across one-byte and empty chunks is decoded only after the bounded body completes',async()=>{
+   const expected='é € 😀',bytes=new TextEncoder().encode(JSON.stringify({choices:[{message:{content:expected}}]}));let at=0,empty=true;
+   await fixture({},()=>new Response(new ReadableStream<Uint8Array>({pull(controller){
+    if(at===bytes.length)controller.close();else if(empty){empty=false;controller.enqueue(new Uint8Array());}else{empty=true;controller.enqueue(bytes.slice(at,++at));}
+   }},{highWaterMark:0})),async f=>{
+    assert.deepEqual(await f.run(),{response:expected});assert.equal(f.calls(),1);assert.equal((await f.work.finish()).uncertainDispatches,0);
+   });
+  });
+  for(const declared of ['524289','-1','1.5','NaN','1e3','999999999999999999999999'])
+   await t.step('invalid or oversized declared length '+declared+' refuses without reading the body',async()=>{
+    let pulls=0,cancels=0;
+    await fixture({},()=>new Response(new ReadableStream<Uint8Array>({pull(){pulls++;},cancel(){cancels++;}},{highWaterMark:0}),
+     {headers:{'Content-Length':declared}}),async f=>{
+     await assert.rejects(f.run,apiError('ai_response_unavailable'));assert.equal(pulls,0);assert.equal(cancels,1);assert.equal(f.calls(),1);
+     assert.equal((await f.work.finish()).uncertainDispatches,1);
+    });
+   });
+  for(const declared of [undefined,'1'])await t.step('received bytes enforce the limit with '+(declared?'a false small length':'no length header'),async()=>{
+   let pulls=0,cancels=0;
+   await fixture({},()=>new Response(new ReadableStream<Uint8Array>({pull(controller){
+    pulls++;controller.enqueue(new Uint8Array(pulls===1?524280:9));
+   },cancel(){cancels++;}},{highWaterMark:0}),{headers:declared?{'Content-Length':declared}:{}}),async f=>{
+    // An oversized, also malformed document must hit the byte refusal before JSON.parse.
+    await assert.rejects(f.run,apiError('ai_response_unavailable'));assert.equal(pulls,2);assert.equal(cancels,1);assert.equal(f.calls(),1);
+    const result=await f.work.finish();assert.equal(result.uncertainDispatches,1);assert.equal(result.reason,'completed_with_unknown_obligation');
+   });
+  });
+  await t.step('oversized provider metadata is refused even when its model content is small and valid',async()=>{
+   const body=JSON.stringify({choices:[{message:{content}}],padding:'x'.repeat(524288)});
+   await fixture({},()=>new Response(body),async f=>{
+    await assert.rejects(f.run,apiError('ai_response_unavailable'));assert.equal(f.calls(),1);
+    assert.equal((await f.work.finish()).uncertainDispatches,1);
+   });
+  });
+  await t.step('a non-byte stream chunk is refused and cancelled without a transparent retry',async()=>{
+   let cancels=0;
+   await fixture({},()=>new Response(new ReadableStream({pull(controller){controller.enqueue('not bytes');},cancel(){cancels++;}},{highWaterMark:0})),async f=>{
+    await assert.rejects(f.run,apiError('ai_response_unavailable'));assert.equal(cancels,1);assert.equal(f.calls(),1);
+    assert.equal((await f.work.finish()).uncertainDispatches,1);
+   });
+  });
+  for(const declared of [false,true])for(const failCancel of [false,true])
+   await t.step((declared?'declared':'streamed')+' oversize retains deferred cancellation '+(failCancel?'failure':'completion')+' after caller refusal',async()=>{
+    const started=deferred<void>(),cancellation=deferred<void>();
+    const response=new Response(new ReadableStream<Uint8Array>({pull(controller){controller.enqueue(new Uint8Array(524289));},
+     cancel(){started.resolve(undefined);return cancellation.promise;}},{highWaterMark:0}),{headers:declared?{'Content-Length':'524289'}:{}});
+    await fixture({},()=>response,async f=>{
+     const observed=f.run();let closing:ReturnType<typeof f.work.finish>|undefined;
+     try{
+      await within(assert.rejects(()=>observed,apiError('ai_response_unavailable')),'bounded caller refusal');
+      await within(started.promise,'original cancellation start');closing=f.work.finish();await tick();
+      assert.equal([...f.state.rows.values()][0].state,'active');assert.equal(f.events.includes('close'),false);assert.equal(f.events.includes('release'),false);
+      if(failCancel)cancellation.reject(Error('Synthetic cancellation acknowledgement failure'));else cancellation.resolve(undefined);
+      const result=await within(closing,'original cancellation settlement');assert.equal(result.state,'settled');assert.equal(result.uncertainDispatches,1);
+      assert.equal(result.reason,'completed_with_unknown_obligation');assert.equal(f.calls(),1);
+     }finally{cancellation.resolve(undefined);await observed.catch(()=>{});if(closing)await closing;}
+    });
+   });
   await t.step('network rejection is retained as unknown settled work and never automatically retried',async()=>{
    const failure=Error('Synthetic network acknowledgement absent');
    await fixture({},()=>Promise.reject(failure),async f=>{

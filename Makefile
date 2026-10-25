@@ -242,6 +242,9 @@ source-integrity-json:
 
 qa-tooling-test:
 	@python3 scripts/tests/release_evidence_test.py
+	@python3 scripts/hardening/release_gate_test.py
+	@python3 scripts/hardening/admin_headers_test.py
+	@python3 scripts/hardening/v2_source_test.py
 	@python3 scripts/tests/test_collect_release_candidate.py
 	@python3 scripts/tests/test_collect_ci_policy.py
 	@python3 scripts/tests/cloudflare_native_build_config_test.py

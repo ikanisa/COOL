@@ -113,6 +113,11 @@ jobs:
         run: COLLECT_TEST_PG_URL="$COLLECT_GOOGLE_TEST_DATABASE_URL" node scripts/supabase/test_schema.mjs
       - name: Verify selected current SQL archive, exact review pins and transport refusal
         run: npm run test:current-archive --prefix scripts/supabase
+      - name: Verify portable managed Auth data archive boundaries
+        run: |
+          TMPDIR="$(mktemp -d "$RUNNER_TEMP/collect-managed-auth.XXXXXX")"
+          export TMPDIR
+          node --test --test-concurrency=1 scripts/supabase/managed-auth-archive/auth.test.mjs
       - name: Verify native preparer refuses unsafe targets and overclaims
         run: node --test scripts/supabase/testing/qualify-member-realtime-native.test.mjs
       - name: Verify genuine mutation fence, capacity and release on new local fixtures

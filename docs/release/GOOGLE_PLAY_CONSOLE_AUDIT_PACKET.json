@@ -259,8 +259,64 @@
             "customer support",
             "fraud prevention and security"
           ]
+        },
+        {
+          "category": "App info and performance",
+          "data_types": [
+            "Diagnostics"
+          ],
+          "examples": [
+            "ML Kit device and app details, latency, configuration, feature events and errors",
+            "Automatic-zoom scan-session diagnostics, zoom changes and candidate barcode bounding-box coordinates"
+          ],
+          "purpose": [
+            "diagnostics and usage analytics"
+          ],
+          "status": "SDK_disclosure_draft_verify_final_versions_and_complete_current_Console_form"
+        },
+        {
+          "category": "Device or other IDs",
+          "examples": [
+            "ML Kit per-installation identifiers",
+            "ML Kit automatic-zoom per-scan session identifiers"
+          ],
+          "purpose": [
+            "diagnostics and usage analytics"
+          ],
+          "status": "SDK_disclosure_draft_verify_final_versions_and_complete_current_Console_form"
+        },
+        {
+          "category": "Messages",
+          "data_types": [
+            "SMS or MMS"
+          ],
+          "examples": [
+            "Consented provider MoMo SMS sender, message body and receipt timestamps when capture is enabled and permission is granted"
+          ],
+          "purpose": [
+            "app functionality",
+            "fraud prevention and security"
+          ],
+          "source_scope": "The production member receiver filters provider financial messages, queues raw sender/body under the active capture owner, and uploads them to ingest-client-sms. This is not a declaration of general inbox access, a successful physical-device test, a financial posting or a granted RECEIVE_SMS exception.",
+          "status": "source_disclosure_draft_verify_final_candidate_and_complete_current_Console_form"
         }
       ],
+      "mlkit_sdk_disclosure_review": {
+        "reviewed_at": "2026-10-24",
+        "state": "source_draft_only_not_a_current_Console_declaration_or_device_network_observation",
+        "observed_runtime_graph_sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056",
+        "barcode_components": [
+          "com.google.mlkit:barcode-scanning:17.3.0",
+          "com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.1"
+        ],
+        "application_configuration": "lib/features/collections/group_qr_scanner_screen.dart enables autoZoom for available native QR scanning; graph membership alone does not prove both SDK paths execute.",
+        "scan_content_boundary": "ML Kit processes camera input on device. Do not classify decoded code values or images as uploaded by ML Kit solely because its diagnostic telemetry can be sent to Google; assess Collect evidence/support uploads separately.",
+        "remaining": "Verify final shipped SDK versions and applicable configurations, current collection/sharing and required/optional answers for the whole app, and submit/read back the actual Data safety form. The SDK disclosure page describes its latest SDK versions; this draft is conservative documentation, not measured final-artifact behavior or approval.",
+        "sources": [
+          "https://developers.google.com/ml-kit/android-data-disclosure",
+          "https://developer.android.com/privacy-and-security/declare-data-use"
+        ]
+      },
       "sharing": {
         "status": "confirm_in_console",
         "expected_answer": "Only share data with service providers or partners required to operate Rwanda group savings, MoMo reconciliation, support, credit-readiness where actually enabled, fraud prevention, legal, audit, or customer-requested workflows."

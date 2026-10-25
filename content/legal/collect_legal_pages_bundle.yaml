@@ -170,6 +170,15 @@ pages:
           enabled. Other enabled communications or support providers receive only the information
           required for that service. Contact info@ikanisa.com for the applicable provider and processing
           details.
+      - heading: Android camera code scanning
+        body: Where available, Collect's Android camera code scanning uses Google ML Kit. ML Kit processes
+          scanning input on your device and does not send input images or decoded code values to Google. The
+          SDK may connect to Google for updates or compatibility checks and may send device and app information,
+          per-install identifiers, and performance, configuration, event and error diagnostics to Google.
+          With automatic zoom, these diagnostics may also include a per-scan identifier, zoom changes and
+          candidate code bounding-box coordinates.
+        closing: Read the Google ML Kit terms at https://developers.google.com/ml-kit/terms and Android SDK
+          data disclosure at https://developers.google.com/ml-kit/android-data-disclosure.
       - heading: Public authorities and legal claims
         body: Information may be disclosed where a specific legal obligation or lawful request requires
           it, or where needed to establish, exercise or defend a legal claim.

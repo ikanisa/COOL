@@ -52,6 +52,11 @@ const collectDefaultPrivacyPolicySections = [
         'Supabase provides Collect authentication, database and private evidence storage. Cloudflare provides web hosting, API forwarding and security challenges. Records and recovery copies from the earlier Cloudflare backend may remain in retained systems or archives; changing providers does not erase them. Google provides identity verification when you choose Google where enabled. Other enabled service providers receive only what is needed for authentication, messaging, support, analytics or contribution verification. We do not sell personal data.',
   ),
   CollectPolicySection(
+    title: 'Android camera code scanning',
+    body:
+        'Where available, Collect Android camera code scanning uses Google ML Kit. ML Kit processes scanning input on your device and does not send input images or decoded code values to Google. The SDK may connect to Google for updates or compatibility checks and may send device and app information, per-install identifiers, and performance, configuration, event and error diagnostics to Google. With automatic zoom, these diagnostics may also include a per-scan identifier, zoom changes and candidate code bounding-box coordinates. Read the Google ML Kit terms at https://developers.google.com/ml-kit/terms and Android SDK data disclosure at https://developers.google.com/ml-kit/android-data-disclosure.',
+  ),
+  CollectPolicySection(
     title: 'Choices and retention',
     body:
         'Open Settings > Security > Delete data to verify your identity and submit an account deletion request for review. Submitting a request does not delete your account or records. A confirmed receipt records your request for review; check or refresh request status in the app. Check request status or contact support for the outcome and any records that need to be retained. You can leave groups where supported and contact info@ikanisa.com for help or correction requests.',

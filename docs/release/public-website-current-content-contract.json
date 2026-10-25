@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "local_engineering_reviewed",
-  "scope": "Current Collect public product-copy evidence and source binding. Historical corpus and comparisons are provenance only, not an appearance authority or legal/publication approval.",
+  "scope": "Historical current12 rendered-content and reviewed-source record. The later privacy YAML 4b71fc6b112718b1ed276370d4090c212ac20a756d197c78d6d290936e07c16a and legal bundle 234ff483dfb57bdb617f9a3a23a374604a954b01522d04a20f06e53dad58817e require new source generation, actual rendering and comparison. Current publication remains pending. Retained source/route hashes and comparison receipts describe the earlier render only; they are not fresh acceptance, an appearance authority or legal/publication approval.",
   "sole_design_authority": "revolut-design@jean-bosco-skills",
   "historical_baseline_sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
   "historical_comparison_sha256": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e",
@@ -10,7 +10,7 @@
   "publication_approved": false,
   "current_comparison_file": "docs/release/public-content-provenance/current12-public-web-analytics-disclosure-comparison-20261023.json",
   "current_comparison_sha256": "a584d25cbab8426ffa6eec20f24d2dc9fe44926fae39224776dff9c7adb074fd",
-  "previous_contract_sha256": "b67a55e66060f7482d90c574b1a8af31652141f4a5ff014fcc389324620b8a3c",
+  "previous_contract_sha256": "86a606cdf8c6faec5b7d80473788f5c3f6ec276c73f370448b7b13e8926cab07",
   "previous_current_comparison_sha256": "aa9b1a05a85a7b594b4d1de51a8c5528bfdec54a21cb3109e8656fea3a15f543",
   "reviewed_source_changes": [
     {
@@ -64,8 +64,8 @@
     "/terms/": "92b30c27a0013e76a2c5fb01fcc76d19919a69717ef0def0d457241831f50510",
     "/trust/": "8a82c83e1773cdc52ab9353c25e8f8c6d0aaa71ef7aab67bd0624cc95c4e0dfe"
   },
-  "current_generation_verified": true,
-  "approval_scope": "Local engineering source and actual rendered content reviewed and adopted by Root. Historical hashes and legal/publication approval limits remain preserved.",
+  "current_generation_verified": false,
+  "approval_scope": "The retained local engineering review applies only to the historical source and rendered hashes recorded here. The changed privacy YAML and legal bundle are not covered by that render. New-source generation/render/comparison and any publication remain pending. Existing legal_release_approved and publication_approved remain false. The source-bound consumer must continue to refuse the changed inputs until actual successor evidence exists.",
   "previous_current_comparison_file": "docs/release/public-content-provenance/current11-exact-action-coalescing-comparison-20261023.json",
   "reviewed_at": "2026-10-23T11:33:21.424751+00:00"
 }

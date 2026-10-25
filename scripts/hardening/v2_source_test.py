@@ -31,7 +31,10 @@ class V2Integration(unittest.TestCase):
  def test_ios_no_unprotected_fallback(self):
   t=source('ios/Runner/AppDelegate.swift');self.assertIn('AES.GCM.seal',t);self.assertIn('AES.GCM.open',t);self.assertNotIn('UserDefaults',t)
  def test_missing_date_not_now(self):
-  t=source('lib/shared/repositories/collect_offline_cache.dart').split('DateTime _dateTime',1)[1].split('_profileToJson',1)[0];self.assertNotIn('DateTime.now',t)
+  t=source('lib/shared/repositories/collect_offline_cache.dart')
+  self.assertRegex(t,r"savedAt:\s*exactJsonTimestamp\(json\['saved_at'\],\s*field:\s*'snapshot.saved_at'\)")
+  self.assertNotIn('DateTime.now',t)
+  self.assertNotIn('DateTime.now',source('lib/core/data/exact_json_values.dart'))
  def test_home_does_not_sum_recent_history(self):
   t=source('lib/features/home/home_screen.dart');self.assertIn('state.historyPage?.ownTotals',t);self.assertNotIn('raisedTotalsByCurrencyProvider',t)
  def test_home_unavailable_not_zero(self):
