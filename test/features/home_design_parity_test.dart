@@ -421,8 +421,20 @@ void main() {
 
   testWidgets('Joined card still opens its group', (tester) async {
     await pumpHome(tester, 'joined');
-    await tester.tap(find.text('Gikundiro').first);
+    final group = find.text('Gikundiro').first;
+    await tester.ensureVisible(group);
     await tester.pumpAndSettle();
+    expect(group.hitTestable(), findsOneWidget);
+    await tester.tap(group);
+    await tester.pumpAndSettle();
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(CollectApp)),
+      listen: false,
+    );
+    expect(
+      container.read(appRouterProvider).routeInformationProvider.value.uri.path,
+      '/groups/col-public-sport-fixture',
+    );
     expect(find.text('Contribute & Join'), findsNothing);
     expect(find.text('Contribute'), findsWidgets);
     expect(tester.takeException(), isNull);

@@ -103,6 +103,16 @@ class _Fixture {
             'csrfToken': 'c' * 64,
           });
         }
+        if (request.url.path == '$_prefix/auth/email-verification') {
+          expect(request.url.query, isEmpty);
+          expect(request.body, isEmpty);
+          return _response({
+            'contractVersion': 1,
+            'sessionId': 'synthetic-sms-bounds-session',
+            'emailVerifiedAt': null,
+          });
+        }
+        // Session metadata is checked above; this log counts reveal effects.
         requests.add(request);
         expect(
           request.url.path,

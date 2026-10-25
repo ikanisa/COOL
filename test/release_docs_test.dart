@@ -48,8 +48,18 @@ void main() {
     expect(environment, isNot(contains('STRIPE_SECRET_KEY')));
     expect(
       environment,
-      contains('COLLECT_API_URL=https://api.collect.ikanisa.com'),
+      contains('COLLECT_API_URL=https://platform-admin.collect.ikanisa.com'),
     );
+    expect(example, contains('COLLECT_BACKEND=supabase'));
+    expect(
+      example,
+      contains('SUPABASE_URL=https://rrlduytparvsjfmegalh.supabase.co'),
+    );
+    expect(
+      example,
+      contains('COLLECT_API_URL=https://platform-admin.collect.ikanisa.com'),
+    );
+    expect(example, contains('SUPABASE_PUBLISHABLE_KEY=\n'));
   });
 
   test('Android production build requires the linked Play project number', () {

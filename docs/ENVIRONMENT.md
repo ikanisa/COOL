@@ -29,7 +29,8 @@ backend, legal, notice or recovery-source changes.
 ## Public client configuration
 
 The selected toolchain is Flutter `3.44.4` with its bundled Dart `3.12.2`;
-`.fvmrc` pins Flutter. Generated machine settings must use the qualified SDK.
+`.fvmrc` pins Flutter. Local and CI commands must use the qualified installation
+of that SDK and its bundled Dart. Generated machine settings must use that SDK.
 The guarded native production configuration nominates:
 
 | Setting | Intended value or source |
@@ -49,11 +50,27 @@ reviewed Supabase API origin. Nominating these production origins does not prove
 their current proxy routing, Auth destinations or production cutover. Keep the
 distinct QA profile and its origin explicit.
 
+For the intended production profile, the compatibility value is
+`COLLECT_API_URL=https://platform-admin.collect.ikanisa.com`. The public
+`.env.example` names the same Supabase project and origins; its empty public key
+and Play project fields still require verified configuration before a build.
+
 Client files contain public configuration only. Database credentials, service
 credentials, signing material and encryption keys remain outside source exports,
 Flutter defines and web assets. Public Firebase configuration and the actual
 Play Integrity project binding must be verified for the nominated Android
 package; a Firebase project number alone does not prove the Play binding.
+
+Server-only credential names include `FCM_SERVICE_ACCOUNT_JSON`,
+`PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON`, `AUTH_JWT_SECRET`,
+`AUTH_TOKEN_HASH_SECRET` and `DATA_ENCRYPTION_KEY` where their corresponding
+services or retained legacy backend use them. Keep their values in the relevant
+server secret store, never in `.env.example`, Flutter defines or web assets.
+The retained iOS name `APNS_PRIVATE_KEY_BASE64` has the same server-only boundary;
+iOS/APNs distribution is outside this Android release. These names do not
+activate a provider or establish key custody or production approval. The public
+`PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER` is separate from its private service
+credential and must identify the project actually linked to this Android app.
 
 ## Authentication and controlled activation
 
@@ -71,8 +88,11 @@ completed member, provider or production acceptance.
 Android receipt access requires the eligible authenticated member, explicit
 consent and the actual permission/provider admission controls. The guarded
 production wrapper sets the Android SMS switches; a source setting or unsigned
-AAB does not establish permission approval or real MTN/Airtel behavior. The
-public permission contract has no `READ_SMS`, `SEND_SMS` or Call Log permission.
+AAB does not establish permission approval or real MTN/Airtel behavior.
+Android production builds set both SMS switches to `true` through the guarded
+configuration. This does not grant consent or Google Play permission approval;
+the public example keeps SMS access disabled until that controlled build path.
+The public permission contract has no `READ_SMS`, `SEND_SMS` or Call Log permission.
 `RECEIVE_SMS` and `CALL_PHONE` still require the applicable declaration, device
 and release checks. Collect never receives a member's MoMo PIN or provider OTP.
 

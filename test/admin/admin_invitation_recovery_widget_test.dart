@@ -232,6 +232,8 @@ void main() {
       expect(invite.onPressed, isNull);
       final check = find.widgetWithText(TextButton, 'Check original request');
       await tester.ensureVisible(check);
+      await tester.pumpAndSettle();
+      expect(check.hitTestable(), findsOneWidget);
       await tester.tap(check);
       await tester.pumpAndSettle();
       expect(api.gets, 1);
