@@ -22,7 +22,7 @@
     "lib/features/settings/settings_screen.dart": "1c7c448cfd7dd66998beaa94740f95de8a89617c0ae0c3efa62c81a060aa2c6b",
     "lib/features/settings/settings_subscreens.dart": "aaa746eb2efd7723fff26e893752d1815db0e76b8c31071fe7a9ed4f7472ac8e",
     "lib/features/status/account_legal_screens.dart": "8a782d567bcaf27544b18665cb63879b564a315f7dd98bd36e97f0226d061bbe",
-    "lib/shared/models/collect_models.dart": "0805658e71fbeb787878028c964b32997162e3a57662f8b2ea21de6e549541cd",
+    "lib/shared/models/collect_models.dart": "94b98537d09db8c2a2b77905d27473b74d049dce67ec988f71c8a3bc9501e54a",
     "lib/shared/models/collect_profile_country_rules.dart": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
     "lib/app/router.dart": "551dc8be704d46273b2872a5d8bbaf31b41e07667fb2e2895e9f75dd194b6f6e",
     "lib/features/privacy/privacy_contract.dart": "550b891eb357659c87cde85ea90a3f83f4db01752844c540ae5e814e478db15d",
