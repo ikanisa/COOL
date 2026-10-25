@@ -1,0 +1,628 @@
+{
+  "format": "collect.managed-storage.repository-portability-delta.v1",
+  "state": "SOURCE_PREPARED_ROOT_VERIFICATION_PENDING",
+  "write_boundary": "scripts/supabase/managed-storage-archive/",
+  "files": [
+    {
+      "path": "storage.mjs",
+      "qualified_input": {
+        "artifact": "managed-storage-encrypted-metadata-preparation1/storage.mjs",
+        "bytes": 33692,
+        "sha256": "7b7d0d85ac9f1f87ad106c008c2358ecbd0a5a926af5961c389c674bff4cc9bc"
+      },
+      "repository_output": {
+        "bytes": 33371,
+        "sha256": "a8cabb6523bea1436e6feb45724d5016128484df795d35568a83afc35d23a881"
+      },
+      "changes": [
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/codec.mjs",
+          "to": "../current-archive/codec.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/bundle.mjs",
+          "to": "../current-archive/bundle.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/restore.mjs",
+          "to": "../current-archive/restore.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "../managed-storage-counts-preparation1/counts.mjs",
+          "to": "./counts.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "checkout_guard_import",
+          "from": "import {randomBytes,randomUUID,createCipheriv,createDecipheriv} from 'node:crypto';",
+          "to": "import {randomBytes,randomUUID,createCipheriv,createDecipheriv} from 'node:crypto';\nimport {fileURLToPath} from 'node:url';",
+          "occurrences": 1
+        },
+        {
+          "kind": "whole_checkout_guard",
+          "from": "async function fresh(path){const frozen='/Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2';need(typeof path==='string'&&isAbsolute(path)&&resolve(path)===path&&separated(path,frozen),'STORAGE_METADATA_OUTPUT_PATH_INVALID');await privateDirectory(dirname(path));await mkdir(path,{mode:0o700});await privateDirectory(path);}",
+          "to": "function outputPath(path){const checkout=resolve(dirname(fileURLToPath(import.meta.url)),'../../..');need(typeof path==='string'&&isAbsolute(path)&&resolve(path)===path&&separated(path,checkout),'STORAGE_METADATA_OUTPUT_PATH_INVALID');}\nasync function fresh(path){outputPath(path);await privateDirectory(dirname(path));await mkdir(path,{mode:0o700});await privateDirectory(path);}",
+          "occurrences": 1
+        },
+        {
+          "kind": "all_output_preflight",
+          "from": "export async function writeStorageMetadataBundle(snapshot,{archiveDirectory,keyDirectory}={}){\n validateStorageMetadataSnapshot(snapshot);",
+          "to": "export async function writeStorageMetadataBundle(snapshot,{archiveDirectory,keyDirectory}={}){\n for(const path of [archiveDirectory,keyDirectory])outputPath(path);\n validateStorageMetadataSnapshot(snapshot);",
+          "occurrences": 1
+        },
+        {
+          "kind": "all_output_preflight",
+          "from": "countProof(counts,r,false);need(separated(archiveDirectory,keyDirectory)",
+          "to": "countProof(counts,r,false);for(const path of [archiveDirectory,keyDirectory])outputPath(path);need(separated(archiveDirectory,keyDirectory)",
+          "occurrences": 1
+        }
+      ],
+      "inverse_normalization_matches_qualified_input": true,
+      "resolved_relative_import_pins": [
+        {
+          "specifier": "./REFERENCE.json",
+          "repository_path": "scripts/supabase/managed-storage-archive/REFERENCE.json",
+          "bytes": 36435,
+          "sha256": "4d666caad561bd1894a5075df623f01404b4ca0478887599fa0cbef890db35bc"
+        },
+        {
+          "specifier": "./counts.mjs",
+          "repository_path": "scripts/supabase/managed-storage-archive/counts.mjs",
+          "bytes": 23492,
+          "sha256": "36b4d235d2bdfdf23abc0d593b76d42b0c8e97370487e9e2194966a34f5c638c"
+        },
+        {
+          "specifier": "../current-archive/codec.mjs",
+          "repository_path": "scripts/supabase/current-archive/codec.mjs",
+          "bytes": 11791,
+          "sha256": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192"
+        },
+        {
+          "specifier": "../current-archive/bundle.mjs",
+          "repository_path": "scripts/supabase/current-archive/bundle.mjs",
+          "bytes": 6811,
+          "sha256": "55c258aef1bba952eb5a9d09df7687f2dc178e6de2e183d97b7153b64f77078c"
+        },
+        {
+          "specifier": "../current-archive/restore.mjs",
+          "repository_path": "scripts/supabase/current-archive/restore.mjs",
+          "bytes": 6081,
+          "sha256": "b380b5542bae8fe2d79cd23e2e89c9f7e17521b953ecdbf5744682f1ad8d049c"
+        }
+      ]
+    },
+    {
+      "path": "counts.mjs",
+      "qualified_input": {
+        "artifact": "managed-storage-counts-preparation1/counts.mjs",
+        "bytes": 23639,
+        "sha256": "d6dbb086e17ce4c5129b1821d0cfdba4040399b56830230db9cd52d90b2f74a5"
+      },
+      "repository_output": {
+        "bytes": 23492,
+        "sha256": "36b4d235d2bdfdf23abc0d593b76d42b0c8e97370487e9e2194966a34f5c638c"
+      },
+      "changes": [
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/codec.mjs",
+          "to": "../current-archive/codec.mjs",
+          "occurrences": 1
+        }
+      ],
+      "inverse_normalization_matches_qualified_input": true,
+      "resolved_relative_import_pins": [
+        {
+          "specifier": "../current-archive/codec.mjs",
+          "repository_path": "scripts/supabase/current-archive/codec.mjs",
+          "bytes": 11791,
+          "sha256": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192"
+        }
+      ]
+    },
+    {
+      "path": "REFERENCE.json",
+      "qualified_input": {
+        "artifact": "managed-storage-encrypted-metadata-preparation1/REFERENCE.json",
+        "bytes": 36435,
+        "sha256": "4d666caad561bd1894a5075df623f01404b4ca0478887599fa0cbef890db35bc"
+      },
+      "repository_output": {
+        "bytes": 36435,
+        "sha256": "4d666caad561bd1894a5075df623f01404b4ca0478887599fa0cbef890db35bc"
+      },
+      "changes": [],
+      "inverse_normalization_matches_qualified_input": true,
+      "resolved_relative_import_pins": []
+    },
+    {
+      "path": "native-definition.mjs",
+      "qualified_input": {
+        "artifact": "managed-storage-native-qualification-preparation3/native-definition.mjs",
+        "bytes": 13758,
+        "sha256": "ac298f024703e29902bdd4c48fde295168ad4976d19a3e146f3394458519403d"
+      },
+      "repository_output": {
+        "bytes": 13317,
+        "sha256": "540ee9a02645043c2632677d3061ed8f148e43fb3650995bbd87f1a58fb75434"
+      },
+      "changes": [
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/codec.mjs",
+          "to": "../current-archive/codec.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/restore.mjs",
+          "to": "../current-archive/restore.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "../managed-storage-encrypted-metadata-preparation1/storage.mjs",
+          "to": "./storage.mjs",
+          "occurrences": 2
+        },
+        {
+          "kind": "relative_import",
+          "from": "../managed-storage-encrypted-metadata-preparation1/REFERENCE.json",
+          "to": "./REFERENCE.json",
+          "occurrences": 1
+        }
+      ],
+      "inverse_normalization_matches_qualified_input": true,
+      "resolved_relative_import_pins": [
+        {
+          "specifier": "./REFERENCE.json",
+          "repository_path": "scripts/supabase/managed-storage-archive/REFERENCE.json",
+          "bytes": 36435,
+          "sha256": "4d666caad561bd1894a5075df623f01404b4ca0478887599fa0cbef890db35bc"
+        },
+        {
+          "specifier": "./storage.mjs",
+          "repository_path": "scripts/supabase/managed-storage-archive/storage.mjs",
+          "bytes": 33371,
+          "sha256": "a8cabb6523bea1436e6feb45724d5016128484df795d35568a83afc35d23a881"
+        },
+        {
+          "specifier": "./storage.mjs",
+          "repository_path": "scripts/supabase/managed-storage-archive/storage.mjs",
+          "bytes": 33371,
+          "sha256": "a8cabb6523bea1436e6feb45724d5016128484df795d35568a83afc35d23a881"
+        },
+        {
+          "specifier": "../current-archive/codec.mjs",
+          "repository_path": "scripts/supabase/current-archive/codec.mjs",
+          "bytes": 11791,
+          "sha256": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192"
+        },
+        {
+          "specifier": "../current-archive/restore.mjs",
+          "repository_path": "scripts/supabase/current-archive/restore.mjs",
+          "bytes": 6081,
+          "sha256": "b380b5542bae8fe2d79cd23e2e89c9f7e17521b953ecdbf5744682f1ad8d049c"
+        }
+      ]
+    },
+    {
+      "path": "storage.test.mjs",
+      "qualified_input": {
+        "artifact": "managed-storage-encrypted-metadata-preparation1/storage.test.mjs",
+        "bytes": 12157,
+        "sha256": "acb3978ab96d3470431eacea118e722d453e53f29869b8468752838c8b808428"
+      },
+      "repository_output": {
+        "bytes": 13642,
+        "sha256": "30f5f865637a772a47e05c74d77822bcc2c8df90d7b0c274d871b567ea50cf53"
+      },
+      "changes": [
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/codec.mjs",
+          "to": "../current-archive/codec.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/bundle.mjs",
+          "to": "../current-archive/bundle.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/transport.mjs",
+          "to": "../current-archive/transport.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "../managed-auth-encrypted-recovery-adapter1/auth.mjs",
+          "to": "../managed-auth-archive/auth.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "new_test_imports",
+          "from": "import {join} from 'node:path';",
+          "to": "import {join,resolve,dirname} from 'node:path';\nimport {fileURLToPath} from 'node:url';",
+          "occurrences": 1
+        },
+        {
+          "kind": "new_test_imports",
+          "from": "decryptStorageMetadataSnapshot,captureStorageMetadata,restoreStorageMetadataInert",
+          "to": "decryptStorageMetadataSnapshot,captureStorageMetadata,writeStorageMetadataBundle,restoreStorageMetadataInert",
+          "occurrences": 1
+        },
+        {
+          "kind": "appended_refusal_definitions",
+          "original_definitions_preserved_byte_exact_after_import_inverse": true,
+          "added_text_sha256": "83b804142423f8ac00572dee32799aced15205c856cb4d2bd56be3defc21dfcc",
+          "added_tests": 2,
+          "added_text_bytes": 1863,
+          "append_anchor": "\n// Portability guards:"
+        }
+      ],
+      "inverse_normalization_matches_qualified_input": true,
+      "resolved_relative_import_pins": [
+        {
+          "specifier": "./REFERENCE.json",
+          "repository_path": "scripts/supabase/managed-storage-archive/REFERENCE.json",
+          "bytes": 36435,
+          "sha256": "4d666caad561bd1894a5075df623f01404b4ca0478887599fa0cbef890db35bc"
+        },
+        {
+          "specifier": "./storage.mjs",
+          "repository_path": "scripts/supabase/managed-storage-archive/storage.mjs",
+          "bytes": 33371,
+          "sha256": "a8cabb6523bea1436e6feb45724d5016128484df795d35568a83afc35d23a881"
+        },
+        {
+          "specifier": "./native-definition.mjs",
+          "repository_path": "scripts/supabase/managed-storage-archive/native-definition.mjs",
+          "bytes": 13317,
+          "sha256": "540ee9a02645043c2632677d3061ed8f148e43fb3650995bbd87f1a58fb75434"
+        },
+        {
+          "specifier": "../current-archive/codec.mjs",
+          "repository_path": "scripts/supabase/current-archive/codec.mjs",
+          "bytes": 11791,
+          "sha256": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192"
+        },
+        {
+          "specifier": "../current-archive/bundle.mjs",
+          "repository_path": "scripts/supabase/current-archive/bundle.mjs",
+          "bytes": 6811,
+          "sha256": "55c258aef1bba952eb5a9d09df7687f2dc178e6de2e183d97b7153b64f77078c"
+        },
+        {
+          "specifier": "../current-archive/transport.mjs",
+          "repository_path": "scripts/supabase/current-archive/transport.mjs",
+          "bytes": 3958,
+          "sha256": "e829844e3b029f793ff144ad967e31b021697a4ba49e4da88eb3a46e559386bb"
+        },
+        {
+          "specifier": "../managed-auth-archive/auth.mjs",
+          "repository_path": "scripts/supabase/managed-auth-archive/auth.mjs",
+          "bytes": 32441,
+          "sha256": "f58d65e2eb9f0c1695c75276732de8a86a3e8ef67cba5a53b3166fe6e15b0996"
+        }
+      ]
+    },
+    {
+      "path": "objects.mjs",
+      "qualified_input": {
+        "artifact": "managed-storage-object-bytes-preparation1/objects.mjs",
+        "bytes": 19758,
+        "sha256": "c65cc730ed978823adef9971f931e5c9baf60ea15a60d23b34ac09012057f325"
+      },
+      "repository_output": {
+        "bytes": 19493,
+        "sha256": "d71d858bca80bc058fd1b4038c030cec582475ac4be2df75554d378e3937b816"
+      },
+      "changes": [
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/codec.mjs",
+          "to": "../current-archive/codec.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/bundle.mjs",
+          "to": "../current-archive/bundle.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/supabase/functions/_shared/storage/supabase-transport.js",
+          "to": "../../../supabase/functions/_shared/storage/supabase-transport.js",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/supabase/functions/_shared/storage/protocol.js",
+          "to": "../../../supabase/functions/_shared/storage/protocol.js",
+          "occurrences": 1
+        },
+        {
+          "kind": "relative_import",
+          "from": "../managed-storage-encrypted-metadata-preparation1/storage.mjs",
+          "to": "./storage.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "checkout_guard_import",
+          "from": "import {randomBytes,randomUUID,createCipheriv,createDecipheriv} from 'node:crypto';",
+          "to": "import {randomBytes,randomUUID,createCipheriv,createDecipheriv} from 'node:crypto';\nimport {fileURLToPath} from 'node:url';",
+          "occurrences": 1
+        },
+        {
+          "kind": "whole_checkout_guard",
+          "from": "async function fresh(path){need(typeof path==='string'&&resolve(path)===path,'OBJECT_PRIVATE_PATH');await privateDirectory(dirname(path));await mkdir(path,{mode:0o700});await privateDirectory(path);}",
+          "to": "function outputPath(path){const checkout=resolve(dirname(fileURLToPath(import.meta.url)),'../../..');need(typeof path==='string'&&isAbsolute(path)&&resolve(path)===path&&separated(path,checkout),'OBJECT_OUTPUT_PATH_INVALID');}\nasync function fresh(path){outputPath(path);await privateDirectory(dirname(path));await mkdir(path,{mode:0o700});await privateDirectory(path);}",
+          "occurrences": 1
+        },
+        {
+          "kind": "materialization_output_preflight",
+          "from": "export async function restoreObjectsOffline({archivePath,keyPath,expectedArchiveSha256,restoreDirectory}={}){\n need(",
+          "to": "export async function restoreObjectsOffline({archivePath,keyPath,expectedArchiveSha256,restoreDirectory}={}){\n outputPath(restoreDirectory);need(",
+          "occurrences": 1
+        },
+        {
+          "kind": "all_output_preflight",
+          "from": "need([archiveDirectory,keyDirectory,restoreDirectory].every(",
+          "to": "for(const path of [archiveDirectory,keyDirectory,restoreDirectory])outputPath(path);\n need([archiveDirectory,keyDirectory,restoreDirectory].every(",
+          "occurrences": 1
+        }
+      ],
+      "inverse_normalization_matches_qualified_input": true,
+      "resolved_relative_import_pins": [
+        {
+          "specifier": "../current-archive/codec.mjs",
+          "repository_path": "scripts/supabase/current-archive/codec.mjs",
+          "bytes": 11791,
+          "sha256": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192"
+        },
+        {
+          "specifier": "../current-archive/bundle.mjs",
+          "repository_path": "scripts/supabase/current-archive/bundle.mjs",
+          "bytes": 6811,
+          "sha256": "55c258aef1bba952eb5a9d09df7687f2dc178e6de2e183d97b7153b64f77078c"
+        },
+        {
+          "specifier": "../../../supabase/functions/_shared/storage/supabase-transport.js",
+          "repository_path": "supabase/functions/_shared/storage/supabase-transport.js",
+          "bytes": 10721,
+          "sha256": "91d412d20c3977e982000a6845067aedf281090625a186ce82dbeb8320099984"
+        },
+        {
+          "specifier": "../../../supabase/functions/_shared/storage/protocol.js",
+          "repository_path": "supabase/functions/_shared/storage/protocol.js",
+          "bytes": 16145,
+          "sha256": "6117a178abc7d1e9486532fa25a3344fe83913dfc0f4399f438683a22ab5a6ce"
+        },
+        {
+          "specifier": "./storage.mjs",
+          "repository_path": "scripts/supabase/managed-storage-archive/storage.mjs",
+          "bytes": 33371,
+          "sha256": "a8cabb6523bea1436e6feb45724d5016128484df795d35568a83afc35d23a881"
+        }
+      ]
+    },
+    {
+      "path": "objects.test.mjs",
+      "qualified_input": {
+        "artifact": "managed-storage-object-bytes-preparation1/objects.test.mjs",
+        "bytes": 7737,
+        "sha256": "0af14486d9f35b74b50be598eb212ad006fadff1110b2e7fd65cc0e028c33b0c"
+      },
+      "repository_output": {
+        "bytes": 10550,
+        "sha256": "ddd505f2013ef7365755423b55111846331b08dd45b2145cb0fa4689c3a8f5ec"
+      },
+      "changes": [
+        {
+          "kind": "relative_import",
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/codec.mjs",
+          "to": "../current-archive/codec.mjs",
+          "occurrences": 1
+        },
+        {
+          "kind": "new_test_imports",
+          "from": "import {join} from 'node:path';",
+          "to": "import {join,resolve,dirname} from 'node:path';\nimport {fileURLToPath} from 'node:url';",
+          "occurrences": 1
+        },
+        {
+          "kind": "new_test_imports",
+          "from": "decryptObjects,restoreObjectsOffline,FORMAT",
+          "to": "decryptObjects,restoreObjectsOffline,captureObjectBytes,FORMAT",
+          "occurrences": 1
+        },
+        {
+          "kind": "new_test_imports",
+          "from": "import {sha} from '../current-archive/codec.mjs';",
+          "to": "import {sha,canonical} from '../current-archive/codec.mjs';\nimport REAL from './REFERENCE.json' with {type:'json'};\nimport {syntheticSnapshot,syntheticValue} from './native-definition.mjs';\nimport {sealStorageMetadataTable} from './storage.mjs';",
+          "occurrences": 1
+        },
+        {
+          "kind": "appended_refusal_definitions",
+          "original_definitions_preserved_byte_exact_after_import_inverse": true,
+          "added_text_sha256": "277a6676307e670e35ec20869269dea4b4f69ded34802911b20bf654c9745035",
+          "added_tests": 2,
+          "added_text_bytes": 2689,
+          "append_anchor": "\n// Use a fully valid synthetic metadata snapshot"
+        }
+      ],
+      "inverse_normalization_matches_qualified_input": true,
+      "resolved_relative_import_pins": [
+        {
+          "specifier": "./objects.mjs",
+          "repository_path": "scripts/supabase/managed-storage-archive/objects.mjs",
+          "bytes": 19493,
+          "sha256": "d71d858bca80bc058fd1b4038c030cec582475ac4be2df75554d378e3937b816"
+        },
+        {
+          "specifier": "../current-archive/codec.mjs",
+          "repository_path": "scripts/supabase/current-archive/codec.mjs",
+          "bytes": 11791,
+          "sha256": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192"
+        },
+        {
+          "specifier": "./REFERENCE.json",
+          "repository_path": "scripts/supabase/managed-storage-archive/REFERENCE.json",
+          "bytes": 36435,
+          "sha256": "4d666caad561bd1894a5075df623f01404b4ca0478887599fa0cbef890db35bc"
+        },
+        {
+          "specifier": "./native-definition.mjs",
+          "repository_path": "scripts/supabase/managed-storage-archive/native-definition.mjs",
+          "bytes": 13317,
+          "sha256": "540ee9a02645043c2632677d3061ed8f148e43fb3650995bbd87f1a58fb75434"
+        },
+        {
+          "specifier": "./storage.mjs",
+          "repository_path": "scripts/supabase/managed-storage-archive/storage.mjs",
+          "bytes": 33371,
+          "sha256": "a8cabb6523bea1436e6feb45724d5016128484df795d35568a83afc35d23a881"
+        }
+      ]
+    }
+  ],
+  "shared_helper_parity": [
+    {
+      "repository_path": "scripts/supabase/current-archive/codec.mjs",
+      "bytes": 11791,
+      "sha256": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192",
+      "byte_equal_to_qualified_frozen_helper": true
+    },
+    {
+      "repository_path": "scripts/supabase/current-archive/bundle.mjs",
+      "bytes": 6811,
+      "sha256": "55c258aef1bba952eb5a9d09df7687f2dc178e6de2e183d97b7153b64f77078c",
+      "byte_equal_to_qualified_frozen_helper": true
+    },
+    {
+      "repository_path": "scripts/supabase/current-archive/restore.mjs",
+      "bytes": 6081,
+      "sha256": "b380b5542bae8fe2d79cd23e2e89c9f7e17521b953ecdbf5744682f1ad8d049c",
+      "byte_equal_to_qualified_frozen_helper": true
+    },
+    {
+      "repository_path": "scripts/supabase/current-archive/sql.mjs",
+      "bytes": 8159,
+      "sha256": "d3995d52215b81b1284f84e1c04768c09262703f3daeb5005d5d50b5c1f4948c",
+      "byte_equal_to_qualified_frozen_helper": true
+    },
+    {
+      "repository_path": "scripts/supabase/current-archive/transport.mjs",
+      "bytes": 3958,
+      "sha256": "e829844e3b029f793ff144ad967e31b021697a4ba49e4da88eb3a46e559386bb",
+      "byte_equal_to_qualified_frozen_helper": true
+    },
+    {
+      "repository_path": "supabase/functions/_shared/storage/supabase-transport.js",
+      "bytes": 10721,
+      "sha256": "91d412d20c3977e982000a6845067aedf281090625a186ce82dbeb8320099984",
+      "byte_equal_to_qualified_frozen_helper": true
+    },
+    {
+      "repository_path": "supabase/functions/_shared/storage/protocol.js",
+      "bytes": 16145,
+      "sha256": "6117a178abc7d1e9486532fa25a3344fe83913dfc0f4399f438683a22ab5a6ce",
+      "byte_equal_to_qualified_frozen_helper": true
+    }
+  ],
+  "test_only_auth_dependency": {
+    "repository_path": "scripts/supabase/managed-auth-archive/auth.mjs",
+    "bytes": 32441,
+    "sha256": "f58d65e2eb9f0c1695c75276732de8a86a3e8ef67cba5a53b3166fe6e15b0996",
+    "purpose": "cross-format refusal only; private Auth reader has only relative imports in portable test"
+  },
+  "authorized_semantic_delta": {
+    "storage.mjs": [
+      "derive whole checkout from import.meta.url rather than historical frozen absolute path",
+      "preflight archive and key outputs before direct writer directory access and capture creation/transport"
+    ],
+    "objects.mjs": [
+      "derive whole checkout from import.meta.url for fresh archive/key/offline outputs",
+      "preflight all capture outputs before any creation/transport",
+      "preflight offline materialization output before opening archive or key"
+    ],
+    "tests": [
+      "preserve original12 metadata definitions and append2 writer refusals",
+      "preserve original10 object definitions and append2 capture/offline refusals"
+    ],
+    "native_definition": "fixed ac298f semantic base; explicit C collation retained, all8 cases unchanged after import inverse"
+  },
+  "unchanged": [
+    "REFERENCE bytes and canonical schema reference hash",
+    "metadata/count SQL and fixed tenant",
+    "all wire/archive formats and AES-GCM/AAD",
+    "cell/row/byte/time/dispatch caps",
+    "metadata/native inert readback and explicit false operational authority",
+    "object body hash/ETag/length reconciliation and GET/HEAD-only gate",
+    "original12 metadata and10 object test definitions",
+    "all8 fixed-collation native case definitions",
+    "all existing canonical helpers and all private sealed sources/evidence"
+  ],
+  "predecessor_actual_evidence": {
+    "scope": "Original private implementations only; these are evidence references, not portable-copy acceptance",
+    "metadata_capture_root": {
+      "bytes": 4038,
+      "sha256": "b68cd86a7add7dc668539a67326257d4cc48156d953f6be7d06d389468303fae"
+    },
+    "metadata_inert_root": {
+      "bytes": 3985,
+      "sha256": "fde7128192ba567ccbedb985f6e7b34e65dbd54758e5fc3ca9955504b88a104e"
+    },
+    "object_actual_root": {
+      "bytes": 11635,
+      "sha256": "ac18f79fa1a7ab14afd19faa5f0cd46bbf037c715a93911d8fc1caddd403ccaa"
+    },
+    "object_actual_root_pin_source": "Root reported independently reviewed receipt; author did not reopen private library receipt/key/payload",
+    "metadata_tables": 8,
+    "metadata_rows": 80,
+    "metadata_enum": 1,
+    "objects": 5,
+    "object_bytes": 618,
+    "operational_storage_restored": false,
+    "independent_key_custody": false,
+    "full_recovery_acceptance": false
+  },
+  "documentation": {
+    "path": "README.md",
+    "bytes": 6124,
+    "sha256": "e0f84bb58ca4394f5c3e2bfc07351cbe0ca77538afb06cdbd1b52a065d4d3a64"
+  },
+  "verification": {
+    "author_static_hash_import_resolution_and_inverse_delta_checks_only": true,
+    "author_imported_or_executed_JS_sources_or_tests": false,
+    "author_runtime_SQL_provider_credential_key_or_actual_data_access": false,
+    "portable_runtime_acceptance": false,
+    "metadata_definitions": 14,
+    "object_definitions": 12,
+    "native_definitions": 8
+  },
+  "root_next_action": {
+    "command": [
+      "node",
+      "--test",
+      "--test-reporter=tap",
+      "scripts/supabase/managed-storage-archive/storage.test.mjs",
+      "scripts/supabase/managed-storage-archive/objects.test.mjs"
+    ],
+    "expected_tests": 26,
+    "under_existing_Root_runtime_G2_network_denial_and_external_private_TMPDIR": true,
+    "independent_source_review_and_native_inverse_normalization_required": true,
+    "no_replay_of_actual_capture_or_private_keys_for_this_portability_qualification": true
+  }
+}
