@@ -12,6 +12,13 @@ on:
       - 'deploy/platform-admin/**'
       - 'test/supabase-free-transport.test.mjs'
       - 'test/local-challenge-parent.test.mjs'
+      - 'lib/shared/models/**'
+      - 'lib/core/data/exact_json_values.dart'
+      - 'lib/shared/repositories/collect_repository_live_reader.dart'
+      - 'test/current14_member_history_sql_receipts_test.dart'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+      - '.fvmrc'
       - '.github/workflows/supabase.yml'
   push:
     branches: [main]
@@ -25,6 +32,13 @@ on:
       - 'deploy/platform-admin/**'
       - 'test/supabase-free-transport.test.mjs'
       - 'test/local-challenge-parent.test.mjs'
+      - 'lib/shared/models/**'
+      - 'lib/core/data/exact_json_values.dart'
+      - 'lib/shared/repositories/collect_repository_live_reader.dart'
+      - 'test/current14_member_history_sql_receipts_test.dart'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+      - '.fvmrc'
       - '.github/workflows/supabase.yml'
   workflow_dispatch:
 
@@ -232,7 +246,7 @@ jobs:
         run: sh scripts/supabase/testing/ci-native-postgres.sh stop
 
   stopped-admission-lifecycle-native:
-    name: Stopped admission lifecycle and existing orphan installation
+    name: Stopped admission, orphan installation and current14 member history
     runs-on: ubuntu-latest
     timeout-minutes: 10
     # The owner-profile fixture owns its own cluster; it cannot change the
@@ -246,6 +260,9 @@ jobs:
       COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
       COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
       COLLECT_STOPPED_ADMISSION_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_PG_MODULE: ${{ github.workspace }}/scripts/supabase/node_modules/pg
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+      COLLECT_MEMBER_HISTORY_OUTPUT_DIR: ${{ runner.temp }}/collect-current14-member-history
     steps:
       - name: Install job-container prerequisites without upgrading pinned tools
         run: |
@@ -269,11 +286,106 @@ jobs:
         working-directory: scripts/supabase
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify local-only target and typed acceptance refusal
-        run: node --test scripts/supabase/testing/qualify-stopped-admission-native.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs
+        run: node --test scripts/supabase/testing/qualify-stopped-admission-native.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/current14-member-history.test.mjs
+      - name: Admit the exact locked history dependency graph before database work
+        run: '"$COLLECT_DENO" check --frozen --node-modules-dir=none --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock scripts/supabase/testing/current14-member-history.mjs'
       - name: Start this job's fresh owned native60/3/0 cluster
         run: sh scripts/supabase/testing/ci-native-postgres.sh start
-      - name: Require real stopped lifecycle and existing orphan installation contracts
-        run: timeout --signal=TERM --kill-after=5s 180s node scripts/supabase/testing/qualify-stopped-admission-native.mjs
+      - name: Require real lifecycle, orphan installation and current14 history contracts
+        run: timeout --signal=TERM --kill-after=5s 180s node scripts/supabase/testing/qualify-stopped-admission-native.mjs --with-member-history
       - name: Always stop only this job's owned native cluster
         if: always()
         run: sh scripts/supabase/testing/ci-native-postgres.sh stop
+      - name: Preserve only the synthetic source-bound history receipts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: current14-member-history-${{ github.sha }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/collect-current14-member-history/RESULT.json
+            ${{ runner.temp }}/collect-current14-member-history/INPUTS.json
+            ${{ runner.temp }}/collect-current14-member-history/ACTUAL-HISTORY-PACKET.json
+            ${{ runner.temp }}/collect-current14-member-history/ACTUAL-SQL-STATEMENTS.json
+            ${{ runner.temp }}/collect-current14-member-history/NATIVE-RESULT.json
+            ${{ runner.temp }}/collect-current14-member-history/CASES.json
+            ${{ runner.temp }}/collect-current14-member-history/SCHEMA-IDENTITY.json
+            ${{ runner.temp }}/collect-current14-member-history/CHILD-METADATA.json
+            ${{ runner.temp }}/collect-current14-member-history/DEFINES.json
+
+  current14-member-history-dart:
+    name: Actual current14 SQL receipts through the Dart financial decoder
+    needs: stopped-admission-lifecycle-native
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Read the pinned Flutter version
+        id: flutter
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          from pathlib import Path
+          version = json.loads(Path('.fvmrc').read_text())['flutter']
+          assert re.fullmatch(r'\d+\.\d+\.\d+', version)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('version=' + version + '\n')
+          PY
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          flutter-version: ${{ steps.flutter.outputs.version }}
+          channel: stable
+          cache: true
+      - run: flutter pub get --enforce-lockfile
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: current14-member-history-${{ github.sha }}
+          path: ${{ runner.temp }}/collect-current14-member-history
+      - name: Verify source and receipt bytes before rebasing three local paths
+        env:
+          COLLECT_MEMBER_HISTORY_OUTPUT_DIR: ${{ runner.temp }}/collect-current14-member-history
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, re
+          from pathlib import Path
+          root = Path.cwd().resolve()
+          folder = Path(os.environ['COLLECT_MEMBER_HISTORY_OUTPUT_DIR'])
+          assert folder.is_dir() and not folder.is_symlink() and folder.resolve() == folder
+          expected = {'RESULT.json', 'INPUTS.json', 'ACTUAL-HISTORY-PACKET.json', 'ACTUAL-SQL-STATEMENTS.json', 'NATIVE-RESULT.json', 'CASES.json', 'SCHEMA-IDENTITY.json', 'CHILD-METADATA.json', 'DEFINES.json'}
+          assert {path.name for path in folder.iterdir()} == expected
+          for name in expected:
+              path = folder / name
+              assert path.is_file() and not path.is_symlink() and path.resolve() == path
+          read = lambda name: json.loads((folder / name).read_bytes())
+          digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+          result, inputs, packet, defines = (read(name) for name in ['RESULT.json', 'INPUTS.json', 'ACTUAL-HISTORY-PACKET.json', 'DEFINES.json'])
+          commit = os.environ['GITHUB_SHA']
+          assert re.fullmatch(r'[a-f0-9]{40}', commit)
+          assert result['status'] == 'PASS' and result['source_commit'] == inputs['source_commit'] == packet['source_commit'] == defines['CURRENT14_HISTORY_SOURCE_COMMIT'] == commit
+          assert result['provider_calls'] == 0 and result['hosted_acceptance'] is False and result['legacy_gates_closed'] is False
+          for key, name in [('packet', 'ACTUAL-HISTORY-PACKET.json'), ('inputs', 'INPUTS.json'), ('SQL', 'ACTUAL-SQL-STATEMENTS.json'), ('defines', 'DEFINES.json'), ('native_result', 'NATIVE-RESULT.json')]:
+              assert result[key]['sha256'] == digest(folder / name)
+          assert packet['source_inputs_sha256'] == digest(folder / 'INPUTS.json')
+          roles = set()
+          for pin in inputs['files']:
+              role = pin['role']
+              assert role not in roles and isinstance(role, str) and not Path(role).is_absolute() and '..' not in Path(role).parts
+              roles.add(role)
+              path = root / role
+              assert path.resolve() == path and path.is_file() and not path.is_symlink()
+              assert path.stat().st_size == pin['bytes'] and digest(path) == pin['sha256']
+          assert {'test/current14_member_history_sql_receipts_test.dart', 'lib/shared/models/member_history_page.dart', 'lib/shared/models/member_history_signed.dart', 'lib/shared/models/collect_models.dart', 'lib/shared/models/collect_payment_models.dart', 'lib/shared/models/collect_payment_json.dart', 'lib/shared/models/collect_model_json_helpers.dart', 'lib/shared/models/collect_summary_json.dart', 'lib/shared/models/collect_profile_country_rules.dart', 'lib/shared/repositories/collect_repository_live_reader.dart'}.issubset(roles)
+          paths = {'CURRENT14_HISTORY_PACKET': 'ACTUAL-HISTORY-PACKET.json', 'CURRENT14_HISTORY_INPUTS': 'INPUTS.json', 'CURRENT14_HISTORY_SQL': 'ACTUAL-SQL-STATEMENTS.json'}
+          assert set(defines) == set(paths) | {key + '_SHA256' for key in paths} | {'CURRENT14_HISTORY_SOURCE_COMMIT'}
+          for key, name in paths.items():
+              assert defines[key] == name and defines[key + '_SHA256'] == digest(folder / name)
+              defines[key] = str(folder / name)
+          output = folder.parent / 'collect-current14-rebased-defines.json'
+          with output.open('x') as handle:
+              json.dump(defines, handle)
+              handle.write('\n')
+          PY
+      - name: Decode the actual SQL history windows, exact totals and refusals
+        run: flutter test --no-pub --tags=integration --dart-define-from-file="$RUNNER_TEMP/collect-current14-rebased-defines.json" test/current14_member_history_sql_receipts_test.dart

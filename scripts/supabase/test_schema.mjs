@@ -2,10 +2,18 @@ import {loadReviewedPlatformFixture} from './testing/curated-platform-fixture.mj
 // PRIVATE PROPOSED scripts/supabase/test_schema.mjs. Not executed by author.
 import {readdir,readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {captureCurrent14MemberHistory} from './testing/current14-member-history.mjs';
 import {createRequire} from 'node:module';
 import {randomUUID} from 'node:crypto';
 import {validateTarget} from './data_stage.mjs';
 
+export function selectSchemaCase(argv){
+ if(argv.length===0)return 'schema';
+ if(argv.length===1&&argv[0]==='--case=current14-member-history')return 'current14-member-history';
+ throw new Error('Only the default schema suite or --case=current14-member-history is supported');
+}
+export async function runDefaultSchema(){
 const url=process.env.COLLECT_TEST_PG_URL;
 const target=validateTarget(url,'local',{localTest:true});
 if(!/^\/collect_[a-z0-9_]+_test$/.test(target.pathname))throw new Error('Use a dedicated collect_*_test fixture database');
@@ -72,3 +80,10 @@ try{
  const counts=await db.query("select (select count(*) from pg_tables where schemaname='app') as app_tables,(select count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='app' and not t.tgisinternal) as app_triggers");
  console.log(JSON.stringify({database:'isolated_local_fixture',migration_count:migrations.length,sql_suites:tests.length,...counts.rows[0],synthetic_fence_source:fixtureSource,genuine_durable_admission:true,hosted_acceptance:false}));
 }finally{await db.end();await lease.end();}
+
+}
+if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
+ const selected=selectSchemaCase(process.argv.slice(2));
+ if(selected==='schema')await runDefaultSchema();
+ else console.log(JSON.stringify(await captureCurrent14MemberHistory()));
+}
