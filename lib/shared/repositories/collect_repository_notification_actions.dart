@@ -1,7 +1,7 @@
 part of 'collect_repository.dart';
 
 mixin _CollectNotificationActions on StateNotifier<CollectState> {
-  SupabaseClient? get _supabase;
+  CollectCloudflareClient? get _backend;
   _CollectLiveReader get _liveReader;
   bool get _allowLocalWrites;
   _CollectAuthIdentity? get _signingOutIdentity;
@@ -26,7 +26,7 @@ mixin _CollectNotificationActions on StateNotifier<CollectState> {
   NotificationPreferences? get pendingNotificationPreferences =>
       _notificationPreferencesIntent;
   bool get notificationPreferencesNeedsRefresh =>
-      !(_supabase == null && _allowLocalWrites) &&
+      !(_backend == null && _allowLocalWrites) &&
       (_notificationPreferencesNeedsRefresh ||
           _notificationPreferencesRevision == null);
 
@@ -100,8 +100,8 @@ mixin _CollectNotificationActions on StateNotifier<CollectState> {
     NotificationPreferences preferences,
   ) async {
     final profile = _requireProfile();
-    final supabase = _supabase;
-    if (supabase == null) {
+    final backend = _backend;
+    if (backend == null) {
       if (!_allowLocalWrites) {
         throw StateError('Connect before saving notification preferences.');
       }
@@ -133,7 +133,7 @@ mixin _CollectNotificationActions on StateNotifier<CollectState> {
         _signingOutIdentity != session.identity &&
         operation == _notificationPreferencesGeneration;
     try {
-      final response = await supabase
+      final response = await backend
           .rpc<dynamic>(
             'set_notification_preferences_v2',
             params: {
@@ -182,12 +182,12 @@ mixin _CollectNotificationActions on StateNotifier<CollectState> {
 
   Future<void> markNotificationRead(String eventId) async {
     final cleanEventId = exactJsonIdentifier(eventId, field: 'notification.id');
-    final supabase = _supabase;
+    final backend = _backend;
     final profile = _requireProfile();
     final session = _captureSession();
-    if (supabase != null && supabase.auth.currentUser != null) {
+    if (backend != null && backend.auth.currentUser != null) {
       _requireCurrentMemberSession(session, profile.id);
-      await supabase
+      await backend
           .rpc<void>(
             'mark_notification_event_read',
             params: {'p_event_id': cleanEventId},
@@ -218,7 +218,7 @@ mixin _CollectNotificationActions on StateNotifier<CollectState> {
     return mounted &&
         registration != null &&
         registration.identity ==
-            _sessionIdentity(_supabase?.auth.currentSession) &&
+            _sessionIdentity(_backend?.auth.currentSession) &&
         registration.identity != _signingOutIdentity &&
         registration.provider == provider &&
         registration.token == token;
@@ -231,9 +231,9 @@ mixin _CollectNotificationActions on StateNotifier<CollectState> {
     required String environment,
   }) async {
     final profile = _requireProfile();
-    final supabase = _supabase;
+    final backend = _backend;
     final session = _captureSession();
-    if (supabase == null ||
+    if (backend == null ||
         session.identity == null ||
         session.accessToken == null) {
       return;
@@ -246,7 +246,7 @@ mixin _CollectNotificationActions on StateNotifier<CollectState> {
     }
     final operation = ++_notificationRegistrationGeneration;
     try {
-      final acknowledgedDevice = await supabase
+      final acknowledgedDevice = await backend
           .rpc<dynamic>(
             'register_notification_device',
             params: {
@@ -265,28 +265,36 @@ mixin _CollectNotificationActions on StateNotifier<CollectState> {
           ).hasMatch(acknowledgedDevice.trim().toLowerCase())) {
         throw StateError('Notifications could not connect. Try again.');
       }
-    } on PostgrestException catch (error) {
+    } on CollectApiException catch (error) {
       if (!_isCurrentSession(session) ||
           operation != _notificationRegistrationGeneration) {
         return;
       }
-      if (error.message == 'notification_registration_session_stale') {
+      _registeredNotification = null;
+      if (error.code == 'notification_registration_session_stale' ||
+          error.message == 'notification_registration_session_stale') {
         const message =
             'Sign in again to register notifications on this device.';
         state = state.copyWith(lastError: message);
         throw StateError(message);
       }
       rethrow;
+    } catch (_) {
+      if (_isCurrentSession(session) &&
+          operation == _notificationRegistrationGeneration) {
+        _registeredNotification = null;
+      }
+      rethrow;
     }
     if (!_isCurrentSession(session) ||
         operation != _notificationRegistrationGeneration ||
         _signingOutIdentity == session.identity) {
-      if (_sessionIdentity(supabase.auth.currentSession) != session.identity) {
+      if (_sessionIdentity(backend.auth.currentSession) != session.identity) {
         try {
           // An already-sent registration cannot be cancelled. Cleanup remains
-          // bound to the old server session; migration 141 cannot disable a
-          // row already reassigned to the newer session.
-          await supabase
+          // bound to the old server session and cannot disable a row already
+          // acknowledged for a newer session.
+          await backend
               .rpc<void>(
                 'unregister_notification_device',
                 params: {'p_provider': provider, 'p_token': token},

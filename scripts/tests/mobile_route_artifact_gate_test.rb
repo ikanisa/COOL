@@ -10,8 +10,9 @@ class MobileRouteArtifactGateTest < Minitest::Test
   ROOT = File.expand_path('../..', __dir__)
 
   def setup
-    FileUtils.mkdir_p(File.join(ROOT, '.cache'))
-    @dir = Dir.mktmpdir('mobile-route-artifact-test-', File.join(ROOT, '.cache'))
+    @bundle = Dir.mktmpdir('mobile-route-artifact-test-')
+    @dir = File.join(@bundle, 'mobile_route_render_smoke')
+    FileUtils.mkdir_p(@dir)
     @captures = 10.times.map do |index|
       path = "route-#{index}.png"
       image = File.join(@dir, path)
@@ -25,7 +26,7 @@ class MobileRouteArtifactGateTest < Minitest::Test
   end
 
   def teardown
-    FileUtils.remove_entry(@dir)
+    FileUtils.remove_entry(@bundle)
   end
 
   def write_summary
@@ -34,9 +35,9 @@ class MobileRouteArtifactGateTest < Minitest::Test
     ))
   end
 
-  def run_gate
+  def run_gate(bundle: @bundle)
     stdout, stderr, status = Open3.capture3(
-      { 'MOBILE_ROUTE_RENDER_EVIDENCE_DIR' => @dir },
+      { 'MOBILE_ROUTE_RENDER_EVIDENCE_DIR' => @dir, 'QA_UAT_BUNDLE_DIR' => bundle.to_s },
       File.join(ROOT, 'scripts/mobile_route_artifact_gate.sh'), '--json'
     )
     [JSON.parse(stdout), stderr, status.exitstatus]
@@ -47,6 +48,12 @@ class MobileRouteArtifactGateTest < Minitest::Test
     assert_equal 0, code
     assert_equal 'pass', result['status']
     assert_equal false, result['release_approval']
+  end
+
+  def test_external_capture_requires_selected_qa_bundle
+    result, _stderr, code = run_gate(bundle: '')
+    assert_equal 1, code
+    assert_equal 'fail', result['status']
   end
 
   def test_missing_screenshot_fails

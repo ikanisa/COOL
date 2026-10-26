@@ -3,13 +3,12 @@ import 'dart:convert';
 
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as sdk;
 import 'support/admin_read_fixture.dart';
@@ -23,7 +22,7 @@ const _authorized = AdminIdentity(
 );
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
   late Future<http.Response> Function() reveal;
   late Future<http.Response> Function() approval;
@@ -50,10 +49,8 @@ void main() {
       'admin_access': false,
       'access_status': 'revoked',
     });
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-key',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         http.Response response;
         if (request.url.path.endsWith('/verify')) {
@@ -89,7 +86,7 @@ void main() {
     await sdk.session(client, 'sensitive-session-a');
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminIdentityProvider.overrideWith((ref) {
           final current = ref.watch(identity);
           return identityReply ?? Future.value(current);
@@ -108,8 +105,7 @@ void main() {
   }
 
   Future<void> network(WidgetTester tester) async {
-    // PostgREST completes decoding in its real JSON worker. A fake-clock
-    // pumpAndSettle cannot advance that worker while a progress bar animates.
+    // Allow asynchronous Cloudflare client replies to complete outside widget fake time.
     for (var attempt = 0; attempt < 40; attempt++) {
       await tester.runAsync(
         () => Future<void>.delayed(const Duration(milliseconds: 30)),
@@ -233,8 +229,7 @@ void main() {
       roles: ['group_admin'],
       permissions: ['payments.read', 'sms.raw.reveal'],
     );
-    // The real PostgREST decoder must complete the refreshed authorized detail
-    // before checking the replacement reveal control and its reset purpose.
+    // Allow asynchronous Cloudflare client replies to complete outside widget fake time.
     await tester.runAsync(
       () => container
           .read(

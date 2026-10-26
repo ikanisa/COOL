@@ -163,10 +163,12 @@ internal fun validateSuccessorEnvelope(text: String, row: JSONObject) {
     validateSuccessorPayload(strictString(row, "action"), requireUuid(row, "request_id"), row.getJSONObject("payload"))
 }
 internal fun requestMatchesRoute(request: GatewayStoredRequest, route: GatewayDispatchRoute): Boolean = when (route) {
-    is GatewayDispatchRoute.PrimaryV2 -> !isSuccessorEnvelope(request.envelope)
+    is GatewayDispatchRoute.ReceiptNoticeV1 -> isNoticeEnvelope(request.envelope) && request.envelope.getJSONObject("payload").has("route") && noticeRouteFromJson(request.envelope.getJSONObject("payload").getJSONObject("route")) == route
+    is GatewayDispatchRoute.PrimaryV2 -> !isSuccessorEnvelope(request.envelope) && !isNoticeEnvelope(request.envelope)
     is GatewayDispatchRoute.ReceiptSuccessorV1 -> isSuccessorEnvelope(request.envelope) && request.envelope.getJSONObject("payload").has("route") && successorRouteFromJson(request.envelope.getJSONObject("payload").getJSONObject("route")) == route
 }
 internal fun validateRouteArchiveAck(request: GatewayStoredRequest, ack: JSONObject) {
-    if (isSuccessorEnvelope(request.envelope)) validateSuccessorArchiveAck(ack, request.requestId, request.deviceId, request.envelope.getJSONObject("payload"))
+    if (isNoticeEnvelope(request.envelope)) validateNoticeArchiveAck(ack, request.requestId, request.deviceId, request.envelope.getJSONObject("payload"))
+    else if (isSuccessorEnvelope(request.envelope)) validateSuccessorArchiveAck(ack, request.requestId, request.deviceId, request.envelope.getJSONObject("payload"))
     else validateGatewayArchiveAck(ack, request.requestId, request.deviceId, request.envelope.getJSONObject("payload"))
 }

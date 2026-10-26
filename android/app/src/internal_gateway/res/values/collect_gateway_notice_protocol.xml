@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A reviewed signed artifact may admit this protocol. Backend current
+         policy, consent, mode, quotas and fresh arm still govern every send. -->
+    <bool name="collect_gateway_receipt_notice_protocol_admitted">false</bool>
+</resources>

@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:js_interop';
+import 'admin_recovery_namespace.dart';
 import 'admin_receipt_operations_checkpoint.dart';
 import 'admin_receipt_operations_models.dart';
 
 @JS('window.localStorage')
 external _Storage get _storage;
+
 extension type _Storage(JSObject _) implements JSObject {
   external int get length;
   external String? key(int index);
@@ -13,15 +15,24 @@ extension type _Storage(JSObject _) implements JSObject {
 }
 
 class _BrowserStore implements AdminReceiptOperationsCheckpointStore {
+  void _verifyNamespace() {
+    verifyAdminRecoveryNamespace(
+      retiredPrefix: 'collect.admin.receipt-operations.recovery.v2.',
+      storageLength: () => _storage.length,
+      keyAt: (index) => _storage.key(index),
+    );
+  }
+
   String _prefix(String owner) {
     if (!RegExp(r'^[a-f0-9]{64}$').hasMatch(owner)) operationsInvalid();
-    return 'collect.admin.receipt-operations.recovery.v2.$owner.';
+    return 'collect.admin.receipt-operations.recovery.v3.$owner.';
   }
 
   String _key(String owner, String requestId) =>
       '${_prefix(owner)}${operationsUuid(requestId)}';
   @override
   List<String> read(String ownerDigest) {
+    _verifyNamespace();
     final prefix = _prefix(ownerDigest), result = <String>[];
     final keys = <String>[];
     final length = _storage.length;
@@ -70,6 +81,7 @@ class _BrowserStore implements AdminReceiptOperationsCheckpointStore {
 
   @override
   void write(String ownerDigest, String requestId, String encoded) {
+    _verifyNamespace();
     final checkpoint = AdminReceiptOperationsCheckpoint.parse(
       encoded,
       ownerDigest,
@@ -83,6 +95,7 @@ class _BrowserStore implements AdminReceiptOperationsCheckpointStore {
 
   @override
   void resolve(AdminReceiptOperationsCheckpoint checkpoint, String status) {
+    _verifyNamespace();
     if (!{'recorded', 'not_recorded_after_deadline'}.contains(status)) {
       operationsInvalid();
     }

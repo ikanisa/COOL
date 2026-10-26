@@ -4,7 +4,7 @@ import 'package:collect_app/admin/core/admin_error_boundary.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const _privateMarker = 'synthetic-private-provider-secret-970011';
 const _phone = '+250788970011';
@@ -12,8 +12,8 @@ const _receipt = 'Transaction970011 payer $_phone amount42000';
 
 void main() {
   final corpus = <String, Object>{
-    'SDK Auth': const AuthException('$_privateMarker phone=$_phone JWT'),
-    'SDK database': const PostgrestException(
+    'SDK Auth': const CollectAuthException('$_privateMarker phone=$_phone JWT'),
+    'SDK database': const CollectApiException(
       message: 'permission denied $_privateMarker',
       code: '42501',
       details: 'SELECT raw_sms FROM private_table WHERE phone=$_phone',
@@ -22,7 +22,7 @@ void main() {
     'SQL format': const FormatException(
       'INSERT INTO private_table VALUES ($_privateMarker, $_phone)',
     ),
-    'nested provider JSON': const FunctionException(
+    'nested provider JSON': const CollectFunctionException(
       status: 502,
       details: {
         'authorization': 'Bearer $_privateMarker',
@@ -36,7 +36,9 @@ void main() {
     ),
     'unknown body': StateError('$_privateMarker $_phone $_receipt'),
     'raw receipt': _receipt,
-    'session SDK': const AuthException('Session unavailable $_privateMarker'),
+    'session SDK': const CollectAuthException(
+      'Session unavailable $_privateMarker',
+    ),
     'network SDK': StateError('Socket failure $_privateMarker $_phone'),
   };
   const safeMessages = {

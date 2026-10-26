@@ -10,6 +10,7 @@ import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_runtime_assets.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/main_public.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:crypto/crypto.dart';
@@ -82,23 +83,42 @@ void main() {
 
   for (final surface in memberSurfaces.entries) {
     testWidgets(
-      'member ${surface.key} compares historical visual baseline',
+      'member ${surface.key} compares the current implementation regression baseline',
       (tester) async {
         await _setViewport(tester, const Size(390, 844));
         final goldenKey = ValueKey<String>('golden-member-${surface.key}');
         final router = createAppRouter(initialLocation: surface.value);
+        final messenger =
+            TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+        const smsEvents = EventChannel('collect/sms_access/events');
+        // The Android golden host exposes an empty native invalidation stream.
+        messenger.setMockStreamHandler(
+          smsEvents,
+          MockStreamHandler.inline(
+            onListen: (arguments, _) {
+              expect(arguments, isNull);
+            },
+            onCancel: (arguments) {
+              expect(arguments, isNull);
+            },
+          ),
+        );
         addTearDown(() async {
           await tester.pumpWidget(const SizedBox.shrink());
+          await tester.pump();
           router.dispose();
+          messenger.setMockStreamHandler(smsEvents, null);
         });
 
         await tester.pumpWidget(
           ProviderScope(
             overrides: [
+              collectBackendClientProvider.overrideWithValue(null),
               appRouterProvider.overrideWithValue(router),
               collectRepositoryProvider.overrideWith(
                 (ref) => FixtureCollectRepository(
-                  fixtureNow: DateTime.utc(2026, 7, 24, 21),
+                  // Pin baseline wall-clock labels across runner timezones.
+                  fixtureNow: DateTime(2026, 7, 24, 23),
                 ),
               ),
               collectThemeModeProvider.overrideWith(
@@ -134,7 +154,7 @@ void main() {
         expect(tester.takeException(), isNull, reason: surface.value);
         await expectLater(
           find.byKey(goldenKey),
-          matchesGoldenFile('baselines/member_${surface.key}_dark.png'),
+          matchesGoldenFile('current/member_${surface.key}_dark.png'),
         );
       },
       variant: TargetPlatformVariant.only(TargetPlatform.android),
@@ -142,7 +162,7 @@ void main() {
   }
 
   testWidgets(
-    'public website compares historical desktop baseline',
+    'public website compares reviewed current desktop regression baseline',
     (tester) async {
       await _setViewport(tester, const Size(1440, 900));
       const goldenKey = ValueKey<String>('golden-public-home');
@@ -168,14 +188,14 @@ void main() {
       expect(tester.takeException(), isNull);
       await expectLater(
         find.byKey(goldenKey),
-        matchesGoldenFile('baselines/public_home_desktop.png'),
+        matchesGoldenFile('current/public_home_desktop.png'),
       );
     },
     variant: TargetPlatformVariant.only(TargetPlatform.android),
   );
 
   testWidgets(
-    'Admin PWA overview compares historical desktop baseline',
+    'legacy Admin adapter overview compares its reviewed desktop regression baseline',
     (tester) async {
       await _setViewport(tester, const Size(1440, 900));
       const goldenKey = ValueKey<String>('golden-admin-overview');
@@ -205,6 +225,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            collectBackendClientProvider.overrideWithValue(null),
             adminAuthGuardProvider.overrideWithValue(
               const AdminAuthGuard(isAuthorized: true),
             ),
@@ -213,7 +234,7 @@ void main() {
               const AdminEvidenceRepository(),
             ),
             adminClockProvider.overrideWithValue(
-              () => DateTime(2026, 8, 20, 21, 4),
+              () => DateTime.parse('2026-08-20T21:04:00+02:00'),
             ),
             collectThemeModeProvider.overrideWith(
               (ref) => CollectThemeModeController(
@@ -224,6 +245,8 @@ void main() {
           ],
           child: const RepaintBoundary(
             key: goldenKey,
+            // This retained adapter is distinct from the shipping cookie-based
+            // CloudflareAdminApp. Hosted evidence covers that entrypoint.
             child: CollectAdminApp(),
           ),
         ),
@@ -234,7 +257,7 @@ void main() {
       expect(tester.takeException(), isNull);
       await expectLater(
         find.byKey(goldenKey),
-        matchesGoldenFile('baselines/admin_overview_desktop.png'),
+        matchesGoldenFile('current/admin_overview_desktop.png'),
       );
     },
     variant: TargetPlatformVariant.only(TargetPlatform.android),

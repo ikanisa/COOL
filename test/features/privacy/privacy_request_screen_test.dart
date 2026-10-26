@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
+import 'package:collect_app/core/cloudflare/collect_turnstile.dart';
+import 'package:collect_app/core/cloudflare/collect_turnstile_contract.dart';
 import 'package:collect_app/features/privacy/privacy_providers.dart';
 import 'package:collect_app/features/privacy/privacy_request_screen.dart';
 import 'package:collect_app/features/privacy/privacy_transport.dart';
@@ -20,19 +22,41 @@ import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'privacy_test_support.dart';
 
 const _current = 'get_current_account_deletion_request_status_v1';
 const _status = 'get_account_deletion_request_status_v1';
 const _submit = 'request_account_deletion_v1';
+const _review = 'get_account_deletion_review_status_v1';
 const _rawSecret = 'SYNTHETIC_PRIVATE_TOKEN_PHONE_REASON_DO_NOT_RENDER';
 
 http.Response _json(Object? body, [int code = 200]) =>
     http.Response(jsonEncode(body), code);
 
 typedef _Reply = Future<http.Response?> Function(http.Request request);
+
+final _mountedHarnesses = <_RouteHarness>[];
+
+// Cleanup must finish inside the widget body, before Flutter checks fake-clock
+// timers. External clients are not owned by an overrideWithValue provider.
+void _privacyWidgetTest(
+  String description,
+  Future<void> Function(WidgetTester) body,
+) {
+  testWidgets(description, (tester) async {
+    try {
+      await body(tester);
+    } finally {
+      for (final harness in List<_RouteHarness>.of(
+        _mountedHarnesses,
+      ).reversed) {
+        await harness.close();
+      }
+      _mountedHarnesses.clear();
+    }
+  });
+}
 
 /// Uses the production router, subject/provider/controller, transport and SDK.
 /// Only the financial repository and all HTTP responses are synthetic fixtures.
@@ -42,16 +66,19 @@ class _RouteHarness {
   final WidgetTester tester;
   final _Reply? reply;
   final bool captcha;
+  final _challenge = CollectTurnstileChallenge();
   final requests = <http.Request>[];
-  late final SupabaseClient client;
+  late final CollectCloudflareClient client;
+  late final Zone _clientZone;
   late final ProviderContainer container;
   late final GoRouter router;
+  bool _closed = false;
 
   List<http.Request> calls(String tail) =>
       requests.where((request) => request.url.path.endsWith('/$tail')).toList();
 
   Future<void> mount({
-    Session? session,
+    CollectAuthSession? session,
     bool signedIn = true,
     bool dark = false,
     bool highContrast = false,
@@ -59,13 +86,12 @@ class _RouteHarness {
     double keyboard = 0,
   }) async {
     await tester.runAsync(() async {
-      client = SupabaseClient(
+      _clientZone = Zone.current;
+      client = CollectCloudflareClient(
         'https://synthetic.invalid',
-        'SYNTHETIC_PUBLIC_KEY',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((request) async {
           if (request.url.path.endsWith('/logout')) {
-            return http.Response('', 204);
+            return http.Response('{"ok":true}', 200);
           }
           throw StateError('Unexpected SDK HTTP in isolated route fixture');
         }),
@@ -76,16 +102,24 @@ class _RouteHarness {
         );
       }
     });
-    final transport = SupabasePrivacyRequestTransport(
+    final transport = CollectPrivacyRequestTransport(
       httpClient: MockClient((request) async {
         requests.add(request);
         final result = await reply?.call(request);
         if (result != null) return result;
-        if (request.url.path.endsWith('/otp')) return _json({});
+        if (request.url.path.endsWith('/otp')) {
+          return _json({'challenge_id': 'synthetic-privacy-challenge'});
+        }
         if (request.url.path.endsWith('/verify')) {
           return _json(privacySession(sid: privacyNewSid).toJson());
         }
         if (request.url.path.endsWith('/$_current')) return _json(null);
+        if (request.url.path.endsWith('/$_review')) {
+          final body = jsonDecode(request.body) as Map<String, dynamic>;
+          return _json(
+            privacyReviewJson(requestId: body['p_request_id'] as String),
+          );
+        }
         if (request.url.path.endsWith('/$_submit')) {
           final body = jsonDecode(request.body) as Map<String, dynamic>;
           return _json(
@@ -99,18 +133,29 @@ class _RouteHarness {
         }
         throw StateError('Unexpected privacy RPC in isolated route fixture');
       }),
-      supabaseUrl: 'https://synthetic.invalid',
-      publishableKey: 'SYNTHETIC_PUBLIC_KEY',
+      apiUrl: 'https://synthetic.invalid',
+
       captchaRequired: captcha,
+      captchaProvider: captcha ? _challenge.acquire : null,
+      cancelCaptcha: _challenge.cancel,
+      isSessionCurrent: (owner) {
+        try {
+          return container
+              .read(privacySessionAuthorityProvider)!
+              .capture()
+              .sameFence(owner);
+        } catch (_) {
+          return false;
+        }
+      },
     );
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         privacyRequestTransportProvider.overrideWithValue(transport),
         appEnvProvider.overrideWithValue(
           AppEnv(
-            supabaseUrl: 'https://synthetic.invalid',
-            supabaseAnonKey: 'SYNTHETIC_PUBLIC_KEY',
+            apiUrl: 'https://synthetic.invalid',
             publicUrl: '',
             adminAppUrl: '',
             enableSmsReader: false,
@@ -120,6 +165,7 @@ class _RouteHarness {
             authCaptchaEnabled: captcha,
             authCaptchaProvider: '',
             authCaptchaSiteKey: '',
+            backend: 'cloudflare',
           ),
         ),
         collectAccountDeletionReasonsProvider.overrideWith(
@@ -146,12 +192,8 @@ class _RouteHarness {
       ],
     );
     router = createAppRouter(initialLocation: '/settings/account/delete');
-    addTearDown(() async {
-      await tester.pumpWidget(const SizedBox.shrink());
-      router.dispose();
-      container.dispose();
-      await tester.runAsync(client.dispose);
-    });
+    _mountedHarnesses.add(this);
+    addTearDown(close);
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
@@ -182,6 +224,33 @@ class _RouteHarness {
       ),
     );
     await flush();
+  }
+
+  Future<void> close() async {
+    if (_closed) return;
+    _closed = true;
+    _challenge.cancel();
+    await tester.pumpWidget(const SizedBox.shrink());
+    router.dispose();
+    container.dispose();
+    // Flush any widget-zone work, then shut down the client in the real zone
+    // that created its storage tail and broadcast stream. Fake pumps cannot
+    // drive that original zone's asynchronous stream-close completion.
+    await tester.pump();
+    final closing = _clientZone.run(client.dispose);
+    await tester.runAsync(() async {
+      await closing.timeout(const Duration(seconds: 3));
+    });
+  }
+
+  Future<void> replaceSession(CollectAuthSession session) async {
+    // Credential persistence belongs to the client's real execution zone.
+    // Awaiting that tail directly inside a widget's fake clock stalls adoption.
+    await tester.runAsync(
+      () => _clientZone.run(
+        () => client.auth.recoverSession(jsonEncode(session.toJson())),
+      ),
+    );
   }
 
   Future<void> flush() async {
@@ -255,6 +324,11 @@ class _RouteHarness {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  const challengeChannel = MethodChannel('collect/turnstile');
+  final messenger =
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+  tearDown(() => messenger.setMockMethodCallHandler(challengeChannel, null));
   setUp(() => SharedPreferences.setMockInitialValues({}));
   setUpAll(() async {
     final font = FontLoader('Inter')
@@ -262,7 +336,7 @@ void main() {
     await font.load();
   });
 
-  testWidgets(
+  _privacyWidgetTest(
     'actual delete route recovers only server pending-review receipt',
     (tester) async {
       final harness = _RouteHarness(
@@ -291,53 +365,58 @@ void main() {
     },
   );
 
-  testWidgets('pending initial read is loading and cannot invent success', (
-    tester,
-  ) async {
-    final gate = Completer<http.Response>();
-    final harness = _RouteHarness(
-      tester,
-      reply: (r) async =>
-          r.url.path.endsWith('/$_current') ? gate.future : null,
-    );
-    await harness.mount();
-    expect(find.text('Checking your request'), findsOneWidget);
-    expect(find.text('Request recorded'), findsNothing);
-    expect(find.byKey(const ValueKey('privacy_submit_request')), findsNothing);
-    gate.complete(_json(null));
-    await harness.flush();
-    expect(find.text('Request account deletion'), findsOneWidget);
-    expect(find.text('Request recorded'), findsNothing);
-    expect(harness.calls(_submit), isEmpty);
-  });
+  _privacyWidgetTest(
+    'pending initial read is loading and cannot invent success',
+    (tester) async {
+      final gate = Completer<http.Response>();
+      final harness = _RouteHarness(
+        tester,
+        reply: (r) async =>
+            r.url.path.endsWith('/$_current') ? gate.future : null,
+      );
+      await harness.mount();
+      expect(find.text('Checking your request'), findsOneWidget);
+      expect(find.text('Request recorded'), findsNothing);
+      expect(
+        find.byKey(const ValueKey('privacy_submit_request')),
+        findsNothing,
+      );
+      gate.complete(_json(null));
+      await harness.flush();
+      expect(find.text('Request account deletion'), findsOneWidget);
+      expect(find.text('Request recorded'), findsNothing);
+      expect(harness.calls(_submit), isEmpty);
+    },
+  );
 
-  testWidgets('status failure exposes fixed safe error and no local receipt', (
-    tester,
-  ) async {
-    final harness = _RouteHarness(
-      tester,
-      reply: (r) async => r.url.path.endsWith('/$_current')
-          ? _json({'message': _rawSecret}, 503)
-          : null,
-    );
-    await harness.mount();
-    await harness.reveal(
-      find.text(
-        'Your request status is unavailable. Check your connection and try again.',
-      ),
-    );
-    expect(
-      find.text(
-        'Your request status is unavailable. Check your connection and try again.',
-      ),
-      findsOneWidget,
-    );
-    expect(harness.renderedText, isNot(contains(_rawSecret)));
-    expect(find.text('Request recorded'), findsNothing);
-    expect(harness.calls(_submit), isEmpty);
-  });
+  _privacyWidgetTest(
+    'status failure exposes fixed safe error and no local receipt',
+    (tester) async {
+      final harness = _RouteHarness(
+        tester,
+        reply: (r) async => r.url.path.endsWith('/$_current')
+            ? _json({'message': _rawSecret}, 503)
+            : null,
+      );
+      await harness.mount();
+      await harness.reveal(
+        find.text(
+          'Your request status is unavailable. Check your connection and try again.',
+        ),
+      );
+      expect(
+        find.text(
+          'Your request status is unavailable. Check your connection and try again.',
+        ),
+        findsOneWidget,
+      );
+      expect(harness.renderedText, isNot(contains(_rawSecret)));
+      expect(find.text('Request recorded'), findsNothing);
+      expect(harness.calls(_submit), isEmpty);
+    },
+  );
 
-  testWidgets('signed-out route cannot issue a status or mutation', (
+  _privacyWidgetTest('signed-out route cannot issue a status or mutation', (
     tester,
   ) async {
     final harness = _RouteHarness(tester);
@@ -347,7 +426,7 @@ void main() {
     expect(find.text('Request recorded'), findsNothing);
   });
 
-  testWidgets(
+  _privacyWidgetTest(
     'OTP is bound to Auth phone, masked and obscured; no profile fallback',
     (tester) async {
       final harness = _RouteHarness(tester);
@@ -358,8 +437,9 @@ void main() {
       await harness.sendCode();
       final body = jsonDecode(harness.calls('otp').single.body) as Map;
       expect(body['phone'], '+250788000001');
-      expect(body['create_user'], false);
-      expect(body['channel'], 'whatsapp');
+      expect(body['surface'], 'member');
+      expect(body.containsKey('create_user'), isFalse);
+      expect(body.containsKey('channel'), isFalse);
       final field = tester.widget<TextField>(
         find.byKey(const ValueKey('auth_otp_digit_0')),
       );
@@ -377,21 +457,28 @@ void main() {
     },
   );
 
-  testWidgets('unavailable Auth phone does not use profile or MoMo phone', (
-    tester,
-  ) async {
-    final harness = _RouteHarness(tester);
-    await harness.mount(session: privacySession(phone: ''));
-    await harness.sendCode();
-    expect(harness.calls('otp'), isEmpty);
-    expect(
-      harness.renderedText,
-      contains('signed-in phone number is unavailable'),
-    );
-    expect(find.byKey(const ValueKey('auth_otp_digit_0')), findsNothing);
-  });
+  _privacyWidgetTest(
+    'unavailable Auth phone does not use profile or MoMo phone',
+    (tester) async {
+      final harness = _RouteHarness(tester);
+      await harness.mount(session: privacySession(phone: ''));
+      await harness.sendCode();
+      expect(harness.calls('otp'), isEmpty);
+      expect(
+        harness.renderedText,
+        contains('signed-in phone number is unavailable'),
+      );
+      expect(find.byKey(const ValueKey('auth_otp_digit_0')), findsNothing);
+      expect(harness.calls(_submit), isEmpty);
+      await harness.press(find.byKey(const ValueKey('privacy_get_help')));
+      expect(
+        harness.router.routeInformationProvider.value.uri.path,
+        '/settings/help',
+      );
+    },
+  );
 
-  testWidgets('confirmation cancellation and dismissal never submit', (
+  _privacyWidgetTest('confirmation cancellation and dismissal never submit', (
     tester,
   ) async {
     final harness = _RouteHarness(tester);
@@ -408,7 +495,7 @@ void main() {
     expect(find.text('Code verified'), findsOneWidget);
   });
 
-  testWidgets(
+  _privacyWidgetTest(
     'explicit confirmation records receipt only after server response',
     (tester) async {
       final gate = Completer<http.Response>();
@@ -441,29 +528,30 @@ void main() {
     },
   );
 
-  testWidgets('malformed success remains unconfirmed instead of fake erasure', (
-    tester,
-  ) async {
-    final harness = _RouteHarness(
-      tester,
-      reply: (r) async => r.url.path.endsWith('/$_submit')
-          ? _json({
-              'success': true,
-              'erasure_completed': true,
-              'message': _rawSecret,
-            })
-          : null,
-    );
-    await harness.mount();
-    await harness.verify();
-    await harness.confirm();
-    expect(find.text('Request result unconfirmed'), findsOneWidget);
-    expect(find.text('Request recorded'), findsNothing);
-    expect(harness.renderedText, isNot(contains(_rawSecret)));
-    expect(harness.calls(_submit), hasLength(1));
-  });
+  _privacyWidgetTest(
+    'malformed success remains unconfirmed instead of fake erasure',
+    (tester) async {
+      final harness = _RouteHarness(
+        tester,
+        reply: (r) async => r.url.path.endsWith('/$_submit')
+            ? _json({
+                'success': true,
+                'erasure_completed': true,
+                'message': _rawSecret,
+              })
+            : null,
+      );
+      await harness.mount();
+      await harness.verify();
+      await harness.confirm();
+      expect(find.text('Request result unconfirmed'), findsOneWidget);
+      expect(find.text('Request recorded'), findsNothing);
+      expect(harness.renderedText, isNot(contains(_rawSecret)));
+      expect(harness.calls(_submit), hasLength(1));
+    },
+  );
 
-  testWidgets(
+  _privacyWidgetTest(
     'ambiguous result requires status read then explicit SAME UUID retry',
     (tester) async {
       var submissions = 0;
@@ -498,7 +586,7 @@ void main() {
     },
   );
 
-  testWidgets(
+  _privacyWidgetTest(
     'ambiguous status recovery returns canonical receipt without replay',
     (tester) async {
       final harness = _RouteHarness(
@@ -531,7 +619,7 @@ void main() {
       'The code could not be verified. Check it or try again later.',
     ),
   ]) {
-    testWidgets(
+    _privacyWidgetTest(
       'verification $status uses fixed copy without raw credentials',
       (tester) async {
         final harness = _RouteHarness(
@@ -551,50 +639,134 @@ void main() {
     );
   }
 
-  testWidgets(
-    'configured CAPTCHA exposes assistance without editable backend token',
+  _privacyWidgetTest(
+    'configured CAPTCHA uses a fresh native challenge for send and verify',
     (tester) async {
+      final attempts = <String>[];
+      messenger.setMockMethodCallHandler(challengeChannel, (call) async {
+        if (call.method == 'cancel') return null;
+        expect(call.method, 'acquire');
+        final attempt = (call.arguments as Map)['attempt_id'] as String;
+        attempts.add(attempt);
+        return jsonEncode({
+          'type': collectChallengeEnvelope,
+          'attempt_id': attempt,
+          'token': 'SYNTHETIC_PRIVACY_CHALLENGE_${attempts.length}',
+        });
+      });
       final harness = _RouteHarness(tester, captcha: true);
       await harness.mount();
-      expect(find.text('Verification unavailable'), findsOneWidget);
-      expect(
-        find.text(
-          'Identity verification is unavailable in this app version. Get help to continue your request.',
-        ),
-        findsOneWidget,
-      );
+      expect(find.text('Verification unavailable'), findsNothing);
       expect(find.byType(TextField), findsNothing);
       await harness.sendCode();
-      expect(harness.calls('otp'), isEmpty);
-      await harness.press(find.byKey(const ValueKey('privacy_submit_request')));
-      expect(harness.calls(_submit), isEmpty);
-      await harness.press(find.text('Get help'));
+      expect(attempts, hasLength(1));
       expect(
-        harness.router.routeInformationProvider.value.uri.path,
-        '/settings/help',
+        jsonDecode(harness.calls('otp').single.body)['captcha_token'],
+        'SYNTHETIC_PRIVACY_CHALLENGE_1',
       );
+      await harness.enterCode();
+      await harness.press(find.byKey(const ValueKey('privacy_verify_code')));
+      expect(attempts, hasLength(2));
+      expect(attempts.toSet(), hasLength(2));
+      expect(
+        jsonDecode(harness.calls('verify').single.body)['captcha_token'],
+        'SYNTHETIC_PRIVACY_CHALLENGE_2',
+      );
+      expect(find.text('Code verified'), findsOneWidget);
+      expect(
+        harness.renderedText,
+        isNot(contains('SYNTHETIC_PRIVACY_CHALLENGE')),
+      );
+      expect(harness.calls(_submit), isEmpty);
+      await harness.confirm();
+      expect(harness.calls(_submit), hasLength(1));
     },
   );
 
-  testWidgets('configured CAPTCHA still recovers an existing server receipt', (
-    tester,
-  ) async {
-    final harness = _RouteHarness(
-      tester,
-      captcha: true,
-      reply: (r) async => r.url.path.endsWith('/$_current')
-          ? _json(privacyReceiptJson(requestId: privacyCanonical))
-          : null,
+  for (final failure in ['captcha_cancelled', 'captcha_unavailable']) {
+    _privacyWidgetTest(
+      'challenge $failure exposes recovery without sending an OTP',
+      (tester) async {
+        messenger.setMockMethodCallHandler(challengeChannel, (call) async {
+          if (call.method == 'cancel') return null;
+          throw PlatformException(code: failure);
+        });
+        final harness = _RouteHarness(tester, captcha: true);
+        await harness.mount();
+        await harness.sendCode();
+        expect(harness.calls('otp'), isEmpty);
+        expect(harness.calls(_submit), isEmpty);
+        expect(
+          find.text(
+            'Security verification could not finish. Try again or get help.',
+          ),
+          findsOneWidget,
+        );
+        expect(find.byType(TextField), findsNothing);
+        await harness.press(find.byKey(const ValueKey('privacy_get_help')));
+        expect(
+          harness.router.routeInformationProvider.value.uri.path,
+          '/settings/help',
+        );
+      },
     );
-    await harness.mount();
-    expect(find.text(privacyCanonical), findsOneWidget);
-    expect(find.text('Pending review'), findsOneWidget);
-    expect(find.byType(TextField), findsNothing);
-    expect(harness.calls('otp'), isEmpty);
-    expect(harness.calls(_submit), isEmpty);
-  });
+  }
 
-  testWidgets(
+  _privacyWidgetTest(
+    'leaving privacy cancels the owned challenge and cannot send late OTP',
+    (tester) async {
+      final candidate = Completer<String>();
+      String? attempt;
+      final cancelled = <String>[];
+      messenger.setMockMethodCallHandler(challengeChannel, (call) async {
+        final id = (call.arguments as Map)['attempt_id'] as String;
+        if (call.method == 'cancel') {
+          cancelled.add(id);
+          return null;
+        }
+        attempt = id;
+        return candidate.future;
+      });
+      final harness = _RouteHarness(tester, captcha: true);
+      await harness.mount();
+      await harness.sendCode();
+      expect(attempt, isNotNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      candidate.complete(
+        jsonEncode({
+          'type': collectChallengeEnvelope,
+          'attempt_id': attempt,
+          'token': 'SYNTHETIC_LATE_CANDIDATE',
+        }),
+      );
+      await harness.flush();
+      expect(cancelled, contains(attempt));
+      expect(harness.calls('otp'), isEmpty);
+      expect(harness.calls(_submit), isEmpty);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  _privacyWidgetTest(
+    'configured CAPTCHA still recovers an existing server receipt',
+    (tester) async {
+      final harness = _RouteHarness(
+        tester,
+        captcha: true,
+        reply: (r) async => r.url.path.endsWith('/$_current')
+            ? _json(privacyReceiptJson(requestId: privacyCanonical))
+            : null,
+      );
+      await harness.mount();
+      expect(find.text(privacyCanonical), findsOneWidget);
+      expect(find.text('Pending review'), findsOneWidget);
+      expect(find.byType(TextField), findsNothing);
+      expect(harness.calls('otp'), isEmpty);
+      expect(harness.calls(_submit), isEmpty);
+    },
+  );
+
+  _privacyWidgetTest(
     'late verify after account switch cannot adopt or expose old draft',
     (tester) async {
       final gate = Completer<http.Response>();
@@ -607,13 +779,8 @@ void main() {
       await harness.sendCode();
       await harness.enterCode();
       await harness.press(find.byKey(const ValueKey('privacy_verify_code')));
-      await harness.client.auth.recoverSession(
-        jsonEncode(
-          privacySession(
-            subject: privacyOtherSubject,
-            phone: '+250788000002',
-          ).toJson(),
-        ),
+      await harness.replaceSession(
+        privacySession(subject: privacyOtherSubject, phone: '+250788000002'),
       );
       await harness.flush();
       gate.complete(_json(privacySession(sid: privacyNewSid).toJson()));
@@ -634,7 +801,7 @@ void main() {
     },
   );
 
-  testWidgets(
+  _privacyWidgetTest(
     'disposing route during verification refuses late session adoption',
     (tester) async {
       final gate = Completer<http.Response>();
@@ -655,24 +822,29 @@ void main() {
     },
   );
 
-  testWidgets(
+  _privacyWidgetTest(
     'accepted receipt disappears on account switch before new recovery',
     (tester) async {
-      var reads = 0;
       final gate = Completer<http.Response>();
       final harness = _RouteHarness(
         tester,
         reply: (r) async {
           if (!r.url.path.endsWith('/$_current')) return null;
-          return ++reads == 1
+          final token = r.headers['Authorization']!.substring(7);
+          final subject = jsonDecode(
+            utf8.decode(
+              base64Url.decode(base64Url.normalize(token.split('.')[1])),
+            ),
+          )['sub'];
+          return subject == privacySubject
               ? _json(privacyReceiptJson(requestId: privacyCanonical))
               : gate.future;
         },
       );
       await harness.mount();
       expect(find.text(privacyCanonical), findsOneWidget);
-      await harness.client.auth.recoverSession(
-        jsonEncode(privacySession(subject: privacyOtherSubject).toJson()),
+      await harness.replaceSession(
+        privacySession(subject: privacyOtherSubject),
       );
       await harness.flush();
       expect(find.text(privacyCanonical), findsNothing);
@@ -684,15 +856,15 @@ void main() {
     },
   );
 
-  testWidgets(
+  _privacyWidgetTest(
     'switch while confirmation is open cannot submit for either owner',
     (tester) async {
       final harness = _RouteHarness(tester);
       await harness.mount();
       await harness.verify();
       await harness.press(find.byKey(const ValueKey('privacy_submit_request')));
-      await harness.client.auth.recoverSession(
-        jsonEncode(privacySession(subject: privacyOtherSubject).toJson()),
+      await harness.replaceSession(
+        privacySession(subject: privacyOtherSubject),
       );
       await harness.flush();
       await harness.press(find.text('Submit request').last);
@@ -702,7 +874,7 @@ void main() {
     },
   );
 
-  testWidgets(
+  _privacyWidgetTest(
     'server fresh-session refusal requires another OTP before submission',
     (tester) async {
       final harness = _RouteHarness(
@@ -728,9 +900,171 @@ void main() {
     },
   );
 
+  for (final state in const {
+    'awaiting_review': 'Pending review',
+    'claim_active': 'Review in progress',
+    'claim_expired': 'Waiting to resume review',
+    'blocked': 'Waiting for policy approval',
+  }.entries) {
+    _privacyWidgetTest(
+      'production route presents observed ${state.key} without erasure claims',
+      (tester) async {
+        final harness = _RouteHarness(
+          tester,
+          reply: (r) async {
+            if (r.url.path.endsWith('/$_current')) {
+              return _json(privacyReceiptJson(requestId: privacyCanonical));
+            }
+            if (r.url.path.endsWith('/$_review')) {
+              return _json(privacyReviewJson(state: state.key));
+            }
+            return null;
+          },
+        );
+        await harness.mount();
+        expect(find.text('Request recorded'), findsOneWidget);
+        expect(find.text(state.value), findsOneWidget);
+        expect(
+          find.textContaining('Your account has not been deleted.'),
+          findsOneWidget,
+        );
+        expect(
+          find.byKey(const ValueKey('privacy_submit_request')),
+          findsNothing,
+        );
+        expect(harness.calls(_submit), isEmpty);
+        expect(harness.calls(_review), hasLength(1));
+        expect(jsonDecode(harness.calls(_review).single.body), {
+          'p_request_id': privacyCanonical,
+        });
+      },
+    );
+  }
+
+  for (final failure in ['denied', 'contradiction', 'foreign request']) {
+    _privacyWidgetTest(
+      'confirmed intake stays visible when review is $failure',
+      (tester) async {
+        final harness = _RouteHarness(
+          tester,
+          reply: (r) async {
+            if (r.url.path.endsWith('/$_current')) {
+              return _json(privacyReceiptJson(requestId: privacyCanonical));
+            }
+            if (r.url.path.endsWith('/$_review')) {
+              return switch (failure) {
+                'denied' => _json({'message': _rawSecret}, 403),
+                'contradiction' => _json(
+                  privacyReviewJson()..['erasure_completed'] = true,
+                ),
+                _ => _json(privacyReviewJson(requestId: privacySubmission)),
+              };
+            }
+            return null;
+          },
+        );
+        await harness.mount();
+        expect(find.text('Request recorded'), findsOneWidget);
+        expect(find.text('Review status unavailable'), findsOneWidget);
+        expect(find.text('Pending review'), findsNothing);
+        expect(find.textContaining(_rawSecret), findsNothing);
+        expect(harness.calls(_submit), isEmpty);
+        expect(
+          find.byKey(const ValueKey('privacy_submit_request')),
+          findsNothing,
+        );
+      },
+    );
+  }
+
+  _privacyWidgetTest(
+    'refresh reads actual new review state without resubmitting intake',
+    (tester) async {
+      var state = 'claim_active';
+      final harness = _RouteHarness(
+        tester,
+        reply: (r) async {
+          if (r.url.path.endsWith('/$_current')) {
+            return _json(privacyReceiptJson(requestId: privacyCanonical));
+          }
+          if (r.url.path.endsWith('/$_review')) {
+            return _json(privacyReviewJson(state: state));
+          }
+          return null;
+        },
+      );
+      await harness.mount();
+      expect(find.text('Review in progress'), findsOneWidget);
+      state = 'blocked';
+      await harness.press(find.text('Refresh request status'));
+      expect(find.text('Waiting for policy approval'), findsOneWidget);
+      expect(find.text('Review in progress'), findsNothing);
+      expect(harness.calls(_current), hasLength(2));
+      expect(harness.calls(_review), hasLength(2));
+      expect(harness.calls(_submit), isEmpty);
+    },
+  );
+
+  _privacyWidgetTest(
+    'same-user replacement Auth event hides the old review observation',
+    (tester) async {
+      final harness = _RouteHarness(
+        tester,
+        reply: (r) async {
+          if (r.url.path.endsWith('/$_current')) {
+            return _json(privacyReceiptJson(requestId: privacyCanonical));
+          }
+          if (r.url.path.endsWith('/$_review')) {
+            return _json(privacyReviewJson(state: 'claim_active'));
+          }
+          return null;
+        },
+      );
+      await harness.mount();
+      expect(find.text('Review in progress'), findsOneWidget);
+      final authority = harness.container.read(
+        privacySessionAuthorityProvider,
+      )!;
+      // The shipping renewal path installs the same-user session and emits
+      // signedIn. Silent SDK recoverSession alone emits no renewal event.
+      authority.adopt(authority.capture(), privacySession(sid: privacyNewSid));
+      await harness.flush();
+      expect(find.text('Review in progress'), findsNothing);
+      expect(find.text('Review status unavailable'), findsOneWidget);
+      expect(find.text('Request recorded'), findsOneWidget);
+    },
+  );
+
+  _privacyWidgetTest(
+    'blocked review remains readable at 320px and 3x text with keyboard',
+    (tester) async {
+      tester.view.physicalSize = const Size(320, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final harness = _RouteHarness(
+        tester,
+        reply: (r) async {
+          if (r.url.path.endsWith('/$_current')) {
+            return _json(privacyReceiptJson(requestId: privacyCanonical));
+          }
+          if (r.url.path.endsWith('/$_review')) {
+            return _json(privacyReviewJson(state: 'blocked'));
+          }
+          return null;
+        },
+      );
+      await harness.mount(scale: 3, keyboard: 260);
+      await harness.reveal(find.text('Waiting for policy approval'));
+      await harness.press(find.text('Refresh request status'));
+      expect(harness.calls(_review), hasLength(2));
+      expect(tester.takeException(), isNull);
+    },
+  );
+
   for (final dark in [false, true]) {
     for (final highContrast in [false, true]) {
-      testWidgets(
+      _privacyWidgetTest(
         '320px 3x keyboard route and confirmation reachable dark=$dark contrast=$highContrast',
         (tester) async {
           tester.view.physicalSize = const Size(320, 844);
@@ -769,7 +1103,7 @@ void main() {
   }
 }
 
-String? clientSid(SupabaseClient client) {
+String? clientSid(CollectCloudflareClient client) {
   final token = client.auth.currentSession?.accessToken;
   if (token == null) return null;
   return (jsonDecode(

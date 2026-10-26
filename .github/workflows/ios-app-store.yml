@@ -50,10 +50,25 @@ env:
   COLLECT_IOS_EXPECTED_COMMIT: ${{ inputs.expected_commit }}
   COLLECT_IOS_SOURCE_SHA256: ${{ inputs.source_sha256 }}
   COLLECT_IOS_APPROVAL_SHA256: ${{ inputs.approval_sha256 }}
+  # Public settings only; missing required values fail before native compilation.
+  COLLECT_BACKEND: supabase
+  SUPABASE_URL: https://rrlduytparvsjfmegalh.supabase.co
+  SUPABASE_API_URL: https://platform-admin.collect.ikanisa.com
+  SUPABASE_ADMIN_API_URL: https://platform-admin.collect.ikanisa.com
+  SUPABASE_PUBLISHABLE_KEY: ${{ vars.COLLECT_SUPABASE_PUBLISHABLE_KEY }}
+  AUTH_CAPTCHA_ENABLED: 'true'
+  AUTH_CAPTCHA_PROVIDER: turnstile
+  AUTH_CAPTCHA_SITE_KEY: ${{ vars.COLLECT_AUTH_CAPTCHA_SITE_KEY }}
+  GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
+  APP_PUBLIC_URL: https://collect.ikanisa.com
+  ADMIN_APP_URL: https://platform-admin.collect.ikanisa.com
 
 jobs:
   verify-source:
     name: Verify source without Apple credentials
+    # Credential-free qualification uses only this main-branch environment.
+    # Apple effects remain separately approved in the scoped environments below.
+    environment: collect-ios-candidate
     runs-on: macos-latest
     timeout-minutes: 60
     steps:
@@ -100,10 +115,14 @@ jobs:
         working-directory: ${{ env.COLLECT_IOS_WORKDIR }}
         run: |
           set -euo pipefail
+          PUBLIC_DEFINES="$RUNNER_TEMP/collect-ios-public-defines.json"
+          trap 'rm -f "$PUBLIC_DEFINES"' EXIT
+          umask 077
+          python3 scripts/qa/native_build_config.py ios --defines-output "$PUBLIC_DEFINES"
           flutter pub get --enforce-lockfile
           flutter analyze --no-pub
           flutter test --no-pub test/features/mobile_completion_test.dart test/shared/collect_repository_test.dart test/security_hygiene_test.dart
-          flutter build ios --no-codesign --release --flavor production --no-pub
+          flutter build ios --no-codesign --release --flavor production --no-pub --dart-define-from-file "$PUBLIC_DEFINES"
       - name: Verify source after credential-free checks
         if: ${{ inputs.operation == 'signed_candidate' }}
         run: python3 scripts/qa/ios_delivery_guard.py check --operation signed_candidate
@@ -179,17 +198,10 @@ jobs:
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
           APPLE_PROVISIONING_PROFILE_BASE64: ${{ secrets.APPLE_PROVISIONING_PROFILE_BASE64 }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-          SUPABASE_PRODUCTION_URL: ${{ secrets.SUPABASE_PRODUCTION_URL }}
-          SUPABASE_PRODUCTION_ANON_KEY: ${{ secrets.SUPABASE_PRODUCTION_ANON_KEY }}
-          APP_PUBLIC_URL: https://collect.ikanisa.com
         run: python3 scripts/qa/ios_delivery_guard.py import-signing
       - name: Build and inspect signed candidate without distribution
         if: ${{ inputs.operation == 'signed_candidate' }}
         working-directory: ${{ env.COLLECT_IOS_WORKDIR }}
-        env:
-          SUPABASE_PRODUCTION_URL: ${{ secrets.SUPABASE_PRODUCTION_URL }}
-          SUPABASE_PRODUCTION_ANON_KEY: ${{ secrets.SUPABASE_PRODUCTION_ANON_KEY }}
-          APP_PUBLIC_URL: https://collect.ikanisa.com
         run: |
           set -euo pipefail
           bundle exec fastlane ios build_review_ipa
@@ -202,7 +214,12 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: collect-ios-signed-candidate
-          path: ${{ runner.temp }}/ios-delivery/
+          # Export only the IPA and its three reviewed provenance records.
+          path: |
+            ${{ runner.temp }}/ios-delivery/Collect.ipa
+            ${{ runner.temp }}/ios-delivery/inspection.json
+            ${{ runner.temp }}/ios-delivery/source-manifest.json
+            ${{ runner.temp }}/ios-delivery/environment-policy.json
           if-no-files-found: error
           retention-days: 14
       - name: Retrieve exact approved signed candidate

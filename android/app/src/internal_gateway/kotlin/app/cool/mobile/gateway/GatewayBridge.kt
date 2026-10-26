@@ -5,7 +5,6 @@ import app.cool.mobile.BuildConfig
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodChannel
 import org.json.JSONObject
-import java.util.UUID
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -23,7 +22,7 @@ internal class GatewayBridge(private val activity: GatewayActivity, messenger: B
     private var reason = "gateway_not_enrolled"
     private var pendingPermission: MethodChannel.Result? = null
     private val engine by lazy { GatewayDispatchEngine(journal, backend,
-        GatewayGuardedSmsInvoker(AndroidGatewaySmsInvoker(activity.applicationContext)) { !closed.get() }, {
+        GatewayGuardedSmsInvoker(AndroidGatewaySmsInvoker(activity.applicationContext, GatewayInvocationCustody(store))) { !closed.get() }, {
             val value = observations.read()
             if (closed.get()) value.copy(networkValidated = false) else value
         }) }
@@ -68,7 +67,6 @@ internal class GatewayBridge(private val activity: GatewayActivity, messenger: B
                     when (call.method) {
                         "initialize" -> {
                             store.requireActiveInstallation()
-                            identity.ensureKey()
                             metadata()
                             journal.read()
                             initialized = true
@@ -126,6 +124,19 @@ internal class GatewayBridge(private val activity: GatewayActivity, messenger: B
         }
     }
 
+    /** Synchronous pause invalidates every previously admitted local allow and
+     * drains the final invocation lock. Failure retains pause where possible;
+     * this neither revokes backend authority nor forbids a later manual allow. */
+    internal fun pauseForPreparation(): String = synchronized(GatewayJournal.PROCESS_LOCK) {
+        if (closed.get()) throw GatewayStateException("gateway_cycle_stopped")
+        GatewayRealmPreparation.requireExistingSource(activity.noBackupFilesDir)
+        localIntents.pause(journal)
+        store.requireActiveInstallation()
+        val certificate = gatewaySigningCertificateSha256(activity)
+        GatewayInstalledEnrollment.verify(store.readIdentityMetadata(), store.readEnrollment(), identity.keyId(), identity.publicKeyBase64(), certificate)
+        certificate
+    }
+
     fun close() {
         closed.set(true)
         localIntents.invalidate()
@@ -141,22 +152,7 @@ internal class GatewayBridge(private val activity: GatewayActivity, messenger: B
         try { result.success(snapshot()) } catch (_: Exception) { safeError(result, "gateway_operation_unavailable") }
     }
 
-    private fun metadata(): JSONObject {
-        val existing = store.readIdentityMetadata()
-        val keyId = identity.keyId()
-        val certificate = gatewaySigningCertificateSha256(activity)
-        if (existing != null) {
-            requireKeys(existing, setOf("contract_version", "installation_id", "key_sha256", "signing_certificate_sha256", "public_key_spki_base64"))
-            if (existing.get("contract_version") != 1) throw GatewayStateException("gateway_identity_changed")
-            requireUuid(existing, "installation_id")
-            if (strictString(existing, "key_sha256") != keyId || strictString(existing, "signing_certificate_sha256") != certificate ||
-                strictString(existing, "public_key_spki_base64") != identity.publicKeyBase64()) throw GatewayStateException("gateway_identity_changed")
-            return existing
-        }
-        return JSONObject().put("contract_version", 1).put("installation_id", UUID.randomUUID().toString())
-            .put("key_sha256", keyId).put("signing_certificate_sha256", certificate)
-            .put("public_key_spki_base64", identity.publicKeyBase64()).also(store::saveIdentityMetadata)
-    }
+    private fun metadata(): JSONObject = store.initializeIdentity(identity, gatewaySigningCertificateSha256(activity))
 
     private fun verifyInstalledEnrollment() {
         if (closed.get()) throw GatewayStateException("gateway_cycle_stopped")
@@ -165,6 +161,7 @@ internal class GatewayBridge(private val activity: GatewayActivity, messenger: B
     }
 
     private fun provision(value: Map<*, *>) {
+        backend.requireTransportRebindSafe()
         val keys = setOf("contract_version", "device_id", "installation_id", "key_sha256", "signing_certificate_sha256")
         if (value.keys != keys || value["contract_version"] != 1) throw GatewayStateException("gateway_enrollment_invalid")
         val device = value["device_id"] as? String ?: throw GatewayStateException("gateway_enrollment_invalid")
@@ -176,6 +173,7 @@ internal class GatewayBridge(private val activity: GatewayActivity, messenger: B
         val existing = store.readEnrollment()
         if (existing != null && strictString(existing, "device_id") != device) throw GatewayStateException("gateway_enrollment_conflict")
         store.saveEnrollment(JSONObject(value))
+        backend.bindProvisionedTransport()
         reason = "gateway_enrollment_pending"
         if (backend.configured()) GatewayBackgroundScheduler.ensure(activity.applicationContext)
     }

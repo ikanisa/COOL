@@ -5,10 +5,10 @@ import { createHash } from 'node:crypto';
 import { observeWaitingAdminUpdate, reopenAfterAllAdminTabsLeave } from './admin_pwa_update_policy.mjs';
 import { createServer } from 'node:http';
 import { spawnSync } from 'node:child_process';
-import { mkdir, readFile, writeFile, copyFile, link, stat } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
-import { dirname, extname, join, relative, resolve, sep } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { lstat, mkdir, readFile, writeFile, copyFile, stat } from 'node:fs/promises';
+import { createReadStream, existsSync } from 'node:fs';
+import { dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import {observeCollectDiagnostics} from './collect_diagnostic_observer.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -24,14 +24,43 @@ for (const path of [buildReportPath, evidence]) {
   if (!path.startsWith(join(root, '.cache') + sep)) throw Error('Task-owned cached paths required');
 }
 if (existsSync(evidence)) throw Error('Evidence directory must be new');
-await mkdir(evidence, { recursive: true });
 const sha = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const hashFile = async (path) => sha(await readFile(path));
+// Root supplies reviewed bundled runtime paths and digests; there are no host defaults.
+async function pinnedFile(path, expected, label) {
+  if (!path || !isAbsolute(path) || !/^[a-f0-9]{64}$/.test(expected || '')) {
+    throw Error(`Set ${label} to an absolute regular file and its reviewed SHA-256 pin`);
+  }
+  const before = await lstat(path);
+  if (!before.isFile() || before.isSymbolicLink()) throw Error(`${label} must identify a regular file`);
+  const hash = createHash('sha256');
+  for await (const bytes of createReadStream(path)) hash.update(bytes);
+  const actual = hash.digest('hex'), after = await lstat(path);
+  if (actual !== expected || before.ino !== after.ino || before.size !== after.size ||
+      before.mtimeMs !== after.mtimeMs || before.ctimeMs !== after.ctimeMs) {
+    throw Error(`${label} changed or does not match its reviewed SHA-256 pin`);
+  }
+  return { path, sha256: actual, bytes: after.size };
+}
+async function runtimePins() {
+  if (!process.env.ADMIN_PWA_NODE_VERSION || process.version !== process.env.ADMIN_PWA_NODE_VERSION) {
+    throw Error('Set ADMIN_PWA_NODE_VERSION to the reviewed running Node version');
+  }
+  return {
+    node: await pinnedFile(process.execPath, process.env.ADMIN_PWA_NODE_SHA256, 'ADMIN_PWA_NODE_SHA256'),
+    playwright: await pinnedFile(process.env.PLAYWRIGHT_CORE_PATH, process.env.PLAYWRIGHT_CORE_SHA256, 'PLAYWRIGHT_CORE_PATH and PLAYWRIGHT_CORE_SHA256'),
+    chrome: await pinnedFile(process.env.ADMIN_PWA_CHROME, process.env.ADMIN_PWA_CHROME_SHA256, 'ADMIN_PWA_CHROME and ADMIN_PWA_CHROME_SHA256'),
+    node_version: process.version,
+    pin_scope: 'running Node binary, Playwright module entry and Chrome executable; transitive runtime custody belongs to the managed runner',
+  };
+}
+const runtime = await runtimePins();
+await mkdir(evidence, { recursive: true });
 const report = {
   startedAt: new Date().toISOString(), status: 'running', finalAcceptance: false,
   environment: 'isolated_chromium_synthetic_admin_build_real_service_worker',
   installedMode: 'not_exercised', realAuthentication: 'not_exercised',
-  checks: [], sourceInputs: {}, requests: [], errors: [],
+  checks: [], sourceInputs: {}, requests: [], errors: [], runtimePins: runtime,
 };
 let browser, server, pwaSession, installedManifestId;
 const contexts = [];
@@ -112,16 +141,28 @@ try {
   const marker = "ruby -r digest -r json -r open3 <<'RUBY'\n";
   if (script.split(marker).length !== 2) throw Error('Build postprocessor declaration is ambiguous');
   const ruby = script.split(marker)[1].split('\nRUBY\n')[0];
+  if (!ruby.includes('ENV.fetch("COLLECT_ADMIN_BUILD_METADATA")')) throw Error('Current explicit public metadata handoff is required');
   await writeFile(join(evidence, 'postprocessor.rb'), ruby);
+  report.postprocessor = { builderSha256: sha(script), extractedSha256: sha(ruby),
+    writtenSha256: await hashFile(join(evidence, 'postprocessor.rb')), productionRubyModified: false };
+  if (report.postprocessor.extractedSha256 !== report.postprocessor.writtenSha256) throw Error('Extracted production Ruby changed');
   async function stage(name, shellVersion) {
     const stageRoot = join(evidence, name);
     const web = join(stageRoot, 'build/web');
-    const mutable = new Set(['index.html', 'manifest.json', 'flutter_bootstrap.js', 'version.json', 'custom-sw.js']);
+    // Ruby rewrites _headers and can overwrite an existing _build namespace.
+    // Every staged file therefore needs an inode independent of the retained artifact.
     for (const entry of buildReport.build_files) {
+      const retained = join(built, entry.path);
+      const original = await lstat(retained);
+      if (!original.isFile() || original.isSymbolicLink()) throw Error(`Retained artifact must be a regular file: ${entry.path}`);
       const target = join(web, entry.path);
       await mkdir(dirname(target), { recursive: true });
-      if (mutable.has(entry.path)) await copyFile(join(built, entry.path), target);
-      else await link(join(built, entry.path), target); // Immutable artifact bytes only.
+      await copyFile(retained, target);
+      const staged = await lstat(target);
+      if (!staged.isFile() || staged.isSymbolicLink() || staged.nlink !== 1 ||
+          (original.dev === staged.dev && original.ino === staged.ino)) {
+        throw Error(`Staged artifact aliases retained input: ${entry.path}`);
+      }
     }
     for (const path of ['lib/app/theme/collect_colors.dart', 'scripts/templates/admin_pwa_service_worker.js']) {
       if (!existsSync(join(root, path))) continue;
@@ -130,12 +171,30 @@ try {
     }
     const index = await readFile(join(web, 'index.html'), 'utf8');
     await writeFile(join(web, 'index.html'), index.replace('</head>', `<meta name="qa-shell-version" content="${shellVersion}"></head>`));
+    const originalVersion = JSON.parse(await readFile(join(web, 'version.json'), 'utf8'));
+    if (!originalVersion || Array.isArray(originalVersion) || typeof originalVersion !== 'object') {
+      throw Error(`${name}: original version.json must contain public artifact metadata`);
+    }
+    const metadataPath = join(stageRoot, 'public-build-metadata.json');
+    await writeFile(metadataPath, JSON.stringify(originalVersion, null, 2) + '\n', { mode: 0o600 });
+    const childEnv = { ...process.env, COLLECT_ADMIN_BUILD_METADATA: metadataPath };
+    delete childEnv.COLLECT_SOURCE_MANIFEST_SHA256;
+    delete childEnv.COLLECT_PLATFORM_API_SOURCE_ID;
     const rendered = spawnSync('ruby', ['-r', 'digest', '-r', 'json', '-r', 'open3', join(evidence, 'postprocessor.rb')],
-      { cwd: stageRoot, encoding: 'utf8', timeout: 30000 });
+      { cwd: stageRoot, env: childEnv, encoding: 'utf8', timeout: 30000 });
     await writeFile(join(evidence, name + '.postprocess.log'), (rendered.stdout || '') + (rendered.stderr || ''));
     if (rendered.status !== 0) throw Error(`Postprocessor failed: ${name}`);
+    const derivedVersion = JSON.parse(await readFile(join(web, 'version.json'), 'utf8'));
+    const changedVersionFields = [...new Set([...Object.keys(originalVersion), ...Object.keys(derivedVersion)])]
+      .filter((key) => JSON.stringify(originalVersion[key]) !== JSON.stringify(derivedVersion[key]));
+    if (changedVersionFields.some((key) => !['source_commit', 'source_dirty'].includes(key))) {
+      throw Error(`${name}: postprocessing changed artifact authority/runtime metadata`);
+    }
+    const metadata = { path: metadataPath, sha256: await hashFile(metadataPath), originalVersion, derivedVersion,
+      derivedQaFields: changedVersionFields, sameProductionArtifactClaimed: false, authorityRuntimeFieldsPreserved: true };
     const worker = await readFile(join(web, 'custom-sw.js'), 'utf8');
-    return { web, cache: worker.match(/const CACHE_NAME = "([^"]+)";/)?.[1],
+    return { web, metadata, stagingCopyPolicy: 'independent_regular_files_including_headers_and_existing_build_namespaces',
+      cache: worker.match(/const CACHE_NAME = "([^"]+)";/)?.[1],
       workerSha256: sha(worker), indexSha256: await hashFile(join(web, 'index.html')) };
   }
   const a = await stage('version-a', 'a');
@@ -177,12 +236,11 @@ try {
   await new Promise((yes, no) => { server.once('error', no); server.listen(0, '127.0.0.1', yes); });
   const origin = `http://127.0.0.1:${server.address().port}`;
   report.origin = origin;
-  const playwrightPath = process.env.PLAYWRIGHT_CORE_PATH;
-  if (!playwrightPath) throw Error('Set PLAYWRIGHT_CORE_PATH to the installed runtime module');
-  const loaded = await import(playwrightPath);
+  await runtimePins();
+  const loaded = await import(pathToFileURL(runtime.playwright.path).href);
   const { chromium } = loaded.default || loaded;
   const launchOptions = { headless: !installed,
-    executablePath: process.env.ADMIN_PWA_CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    executablePath: runtime.chrome.path,
     args: ['--disable-background-networking', '--disable-component-update', '--disable-sync'] };
   const profile = join(evidence, 'isolated-chrome-profile');
   let context;
@@ -434,6 +492,8 @@ try {
     server.closeAllConnections();
     await new Promise((resolve) => server.close(resolve));
   }
+  try { await runtimePins(); report.runtimePinsUnchanged = true; }
+  catch (error) { report.status = 'fail'; report.errors.push(error.message); }
   report.listenersClosed = !server?.listening;
   if (report.errors.length) report.status = 'fail';
   report.finishedAt = new Date().toISOString();

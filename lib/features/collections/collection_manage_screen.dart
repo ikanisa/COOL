@@ -368,7 +368,7 @@ class _CollectionManageScreenState
                     ),
                     CollectSpacing.gap12,
                     Text(
-                      'The group leaves Home, Groups, Contribute, sharing, and invitations. Existing confirmed ledger records stay available.',
+                      'The group leaves Home, Groups, Contribute, sharing, and invitations. Existing recorded contributions stay available.',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     if (error != null) ...[

@@ -1,6 +1,9 @@
 package app.cool.mobile.gateway
 
 import android.content.Context
+import app.cool.mobile.BuildConfig
+import android.util.AtomicFile
+import java.io.File
 import android.util.Base64
 import org.json.JSONArray
 import org.json.JSONObject
@@ -17,13 +20,56 @@ internal class GatewaySignedBackend(
     // and the fixed-host transport. No runtime endpoint/key/response setting.
     private val fingerprint: () -> String = identity::keyId,
     private val transport: GatewayHttpsTransport = GatewayHttpsTransport(identity::keyId, identity::signExact),
+    // Prospective protocol is disabled by default; only offline tests opt in.
+    private val noticeProtocolAdmitted: () -> Boolean = { GatewayNoticeArtifactAdmission.admitted(context) },
 ) : GatewayBackend {
     companion object {
-        const val HOST = GatewayHttpsTransport.HOST
+        val HOST = GatewayHttpsTransport.HOST
+    }
+
+    private val transportBinding get() = "https://$HOST${BuildConfig.COLLECT_API_PATH_PREFIX}"
+    private val transportFile get() = AtomicFile(File(context.noBackupFilesDir, "collect_gateway_transport_binding_v1"))
+    private fun transportBound(): Boolean {
+        val existing = try {
+            val file = transportFile
+            if (!file.baseFile.exists() && !File(file.baseFile.path + ".bak").exists()) null else {
+                file.openRead().use { stream ->
+                    val bytes = ByteArray(513)
+                    var count = 0
+                    while (count < bytes.size) {
+                        val next = stream.read(bytes, count, bytes.size - count)
+                        if (next < 0) break
+                        count += next
+                    }
+                    if (count > 512) return false
+                    String(bytes, 0, count, Charsets.UTF_8)
+                }
+            }
+        } catch (_: Exception) { return false }
+        return existing == transportBinding || (existing == null && BuildConfig.COLLECT_API_PATH_PREFIX.isEmpty())
+    }
+
+    /** Explicit local provisioning may bind a new backend only after the old
+     * installation has no active request/attempt obligations. Never discard or
+     * reroute the original journal merely because a build changed providers. */
+    fun requireTransportRebindSafe() {
+        if (transportBound()) return
+        if (store.readRequests().getJSONArray("requests").length() != 0 || GatewayJournal(store).read().attempts.isNotEmpty()) {
+            throw GatewayStateException("gateway_backend_reconciliation_required")
+        }
+    }
+
+    fun bindProvisionedTransport() {
+        requireTransportRebindSafe()
+        val file = transportFile
+        val stream = file.startWrite()
+        try { stream.write(transportBinding.toByteArray(Charsets.UTF_8)); file.finishWrite(stream) }
+        catch (_: Exception) { file.failWrite(stream); throw GatewayStateException("gateway_storage_unavailable") }
     }
 
     private fun deviceId(): String {
         store.requireActiveInstallation()
+        if (!transportBound()) throw GatewayStateException("gateway_backend_reconciliation_required")
         val record = store.readEnrollment() ?: throw GatewayStateException("gateway_not_enrolled")
         val id = strictString(record, "device_id")
         if (!validUuid(id) || strictString(record, "key_sha256") != fingerprint()) throw GatewayStateException("gateway_enrollment_invalid")
@@ -33,7 +79,7 @@ internal class GatewaySignedBackend(
     fun configured(): Boolean {
         store.requireActiveInstallation()
         val resource = context.resources.getIdentifier("collect_gateway_backend_host", "string", context.packageName)
-        return resource != 0 && context.getString(resource) == HOST && store.readEnrollment() != null
+        return resource != 0 && context.getString(resource) == HOST && transportBound() && store.readEnrollment() != null
     }
 
     override fun heartbeat(observations: GatewayObservations): GatewayAuthority {
@@ -59,6 +105,7 @@ internal class GatewaySignedBackend(
     override fun supportsPolicyDispatch(): Boolean = true
 
     private val leases = LinkedHashMap<String, GatewayDispatchLease>()
+    private val noticeLeases = LinkedHashMap<String, GatewayNoticeLease>()
     private var reconciliationOffset = 0
     // Scheduling metadata only. This position never grants authority, deletes
     // unknown evidence or changes any original request identity.
@@ -68,6 +115,7 @@ internal class GatewaySignedBackend(
     override fun dispatchGrant(observations: GatewayObservations): GatewayDispatchGrant? {
         synchronized(GatewayJournal.PROCESS_LOCK) {
             val rows = store.readRequests().getJSONArray("requests")
+            if ((0 until rows.length()).any { val r = GatewayStoredRequest.parse(rows.getJSONObject(it)); isNoticeEnvelope(r.envelope) && r.action in setOf("dispatch_grant", "arm_dispatch") && strictString(r.row, "state") == "outcome_unknown" }) throw GatewayStateException("gateway_notice_request_pending")
             if ((0 until rows.length()).any { val r = GatewayStoredRequest.parse(rows.getJSONObject(it)); isSuccessorEnvelope(r.envelope) && r.action in setOf("dispatch_grant", "arm_dispatch") && strictString(r.row, "state") == "outcome_unknown" }) throw GatewayStateException("gateway_successor_request_pending")
         }
         val receipt = mutationV2("dispatch_grant", JSONObject())
@@ -75,21 +123,38 @@ internal class GatewaySignedBackend(
         val lease = if (primary != null) primary else {
             if (strictString(receipt.getJSONObject("result"), "code") != "NO_ELIGIBLE_RECEIPT") return null
             val successor = mutationSuccessor("dispatch_grant", JSONObject())
-            parseSuccessorGrant(requireUuid(successor, "request_id"), deviceId(), successor.getJSONObject("result"), Instant.now()) ?: return null
+            val selected = parseSuccessorGrant(requireUuid(successor, "request_id"), deviceId(), successor.getJSONObject("result"), Instant.now())
+            if (selected == null) {
+                if (!noticeProtocolAdmitted() || strictString(successor.getJSONObject("result"), "code") !in setOf("SUCCESSORS_DISABLED", "NO_SUCCESSOR_INTENT")) return null
+                val receiptNotice = mutationNotice("dispatch_grant", JSONObject())
+                val notice = parseNoticeGrant(requireUuid(receiptNotice, "request_id"), deviceId(), receiptNotice.getJSONObject("result"), Instant.now()) ?: return null
+                if (!observations.ready() || observations.subscriptionId == null || notice.simRevisionSha256 != sha256("android-subscription-selection:${observations.subscriptionId}")) throw GatewayStateException("gateway_grant_sim_mismatch")
+                synchronized(GatewayJournal.PROCESS_LOCK) {
+                    if (leases.size + noticeLeases.size >= GatewayEncryptedStore.MAX_REQUESTS) throw GatewayStateException("gateway_grant_memory_limit")
+                    noticeLeases[notice.grant.attemptId] = notice
+                }
+                return notice.grant
+            }
+            selected
         }
         if (!observations.ready() || observations.subscriptionId == null ||
             lease.simRevisionSha256 != sha256("android-subscription-selection:${observations.subscriptionId}")) {
             throw GatewayStateException("gateway_grant_sim_mismatch")
         }
         synchronized(GatewayJournal.PROCESS_LOCK) {
-            if (leases.size >= GatewayEncryptedStore.MAX_REQUESTS) throw GatewayStateException("gateway_grant_memory_limit")
+            if (leases.size + noticeLeases.size >= GatewayEncryptedStore.MAX_REQUESTS) throw GatewayStateException("gateway_grant_memory_limit")
             leases[lease.grant.attemptId] = lease
         }
         return lease.grant
     }
 
     override fun armDispatch(grant: GatewayDispatchGrant, reservation: GatewayAttempt): GatewayDispatchArmAck? {
-        val lease = synchronized(GatewayJournal.PROCESS_LOCK) { leases.remove(grant.attemptId) }
+        if (grant.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1 && !noticeProtocolAdmitted()) throw GatewayStateException("gateway_notice_not_admitted")
+        val lease = synchronized(GatewayJournal.PROCESS_LOCK) {
+            if (grant.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1) noticeLeases.remove(grant.attemptId)?.let {
+                GatewayDispatchLease(it.grant, it.requestId, it.runId, it.operationsPolicyRevision, it.simRevisionSha256, it.issuedAt)
+            } else leases.remove(grant.attemptId)
+        }
             ?: throw GatewayStateException("gateway_grant_unavailable")
         if (lease.grant != grant || reservation.deviceId != grant.deviceId || reservation.attemptId != grant.attemptId ||
             reservation.jobId != grant.jobId || reservation.dispatchRoute != grant.dispatchRoute || reservation.fence != grant.fence ||
@@ -102,6 +167,11 @@ internal class GatewaySignedBackend(
         val payload = JSONObject().put("attempt_id", grant.attemptId).put("fence_version", grant.fence)
             .put("body_sha256", grant.bodySha256).put("destination_sha256", grant.destinationSha256)
             .put("reservation_sha256", gatewayReservationDigest(reservation)).put("callbacks", plan)
+        if (grant.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1) {
+            payload.put("route", noticeRouteJson(grant.dispatchRoute))
+            val reply = mutationNotice("arm_dispatch", payload, grantExpiry = grant.expiresAt)
+            return parseNoticeArm(requireUuid(reply, "request_id"), deviceId(), payload, reply.getJSONObject("result"), grant.expiresAt, Instant.now())
+        }
         if (grant.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) {
             payload.put("route", successorRouteJson(grant.dispatchRoute))
             val reply = mutationSuccessor("arm_dispatch", payload, grantExpiry = grant.expiresAt)
@@ -137,6 +207,45 @@ internal class GatewaySignedBackend(
             store.saveRequests(JSONObject().put("contract_version", 1).put("requests", rows))
         }
         val reply = transmitSuccessor(action, id, payload, bytes, grantExpiry)
+        synchronized(GatewayJournal.PROCESS_LOCK) {
+            val rows = store.readRequests().getJSONArray("requests")
+            if (action == "callback" && store.retainedLateCallbackPayload(payload)) {
+                val original = (0 until rows.length()).map { GatewayStoredRequest.parse(rows.getJSONObject(it)) }.single { it.requestId == id }
+                GatewayJournalArchive(store).acknowledge(GatewayArchiveAcknowledgement.direct(original, reply))
+            } else {
+                for (index in 0 until rows.length()) if (rows.getJSONObject(index).getString("request_id") == id) rows.getJSONObject(index).put("state", "recorded")
+                store.saveRequests(JSONObject().put("contract_version", 1).put("requests", rows))
+            }
+        }
+        return reply
+    }
+
+    private fun noticeEnvelope(action: String, payload: JSONObject, id: String): ByteArray {
+        validateNoticePayload(action, id, payload)
+        return JSONObject().put("contract_version", 1).put("protocol_family", NOTICE_FAMILY).put("audience", NOTICE_AUDIENCE)
+            .put("action", action).put("device_id", deviceId()).put("request_id", id).put("issued_at", gatewayWireTime(Instant.now())).put("payload", payload).toString().toByteArray(Charsets.UTF_8)
+    }
+
+    private fun transmitNotice(action: String, id: String, payload: JSONObject, bytes: ByteArray = noticeEnvelope(action, payload, id), expiry: Instant? = null): JSONObject {
+        if (!configured() || bytes.size > 8 * 1024) throw GatewayStateException("gateway_not_configured")
+        val body = transport.postNoticeExact(bytes, readOnly = action in setOf("reconcile", "attempt_status"))
+        try { return parseNoticeReply(action, id, deviceId(), payload, body, Instant.now(), expiry) }
+        catch (_: Exception) { throw GatewayStateException("gateway_http_outcome_unknown") }
+    }
+
+    private fun mutationNotice(action: String, payload: JSONObject, callbackId: String? = null, grantExpiry: Instant? = null): JSONObject {
+        if (!configured()) throw GatewayStateException("gateway_not_configured")
+        if (action !in setOf("dispatch_grant", "arm_dispatch", "callback")) throw GatewayStateException("gateway_request_invalid")
+        if (action in setOf("dispatch_grant", "arm_dispatch") && !noticeProtocolAdmitted()) throw GatewayStateException("gateway_notice_not_admitted")
+        val id = UUID.randomUUID().toString(); val bytes = noticeEnvelope(action, payload, id)
+        synchronized(GatewayJournal.PROCESS_LOCK) {
+            val rows = store.readRequests().getJSONArray("requests")
+            if (rows.length() >= GatewayEncryptedStore.MAX_REQUESTS) throw GatewayStateException("gateway_request_journal_limit")
+            rows.put(JSONObject().put("request_id", id).put("action", action).put("state", "outcome_unknown").put("callback_id", callbackId ?: JSONObject.NULL)
+                .put("request_sha256", sha256(String(bytes, Charsets.UTF_8))).put("request_bytes_base64", Base64.encodeToString(bytes, Base64.NO_WRAP)))
+            store.saveRequests(JSONObject().put("contract_version", 1).put("requests", rows))
+        }
+        val reply = transmitNotice(action, id, payload, bytes, grantExpiry)
         synchronized(GatewayJournal.PROCESS_LOCK) {
             val rows = store.readRequests().getJSONArray("requests")
             if (action == "callback" && store.retainedLateCallbackPayload(payload)) {
@@ -211,15 +320,33 @@ internal class GatewaySignedBackend(
             val row = requests.getJSONObject(index)
             val stored = GatewayStoredRequest.parse(row)
             val successor = isSuccessorEnvelope(stored.envelope)
-            val v2 = !successor && strictInteger(stored.envelope, "contract_version") == 2L
-            val archive = !successor && strictInteger(stored.envelope, "contract_version") == 3L
-            val lateWithoutReceipt = (v2 || successor) && stored.action == "callback" && store.retainedLateCallbackPayload(stored.envelope.getJSONObject("payload")) && store.readRequestReceipt(stored.requestId) == null
-            if (strictString(row, "state") != "outcome_unknown" && !((v2 || successor) && stored.action != "callback") && !lateWithoutReceipt) continue
+            val notice = isNoticeEnvelope(stored.envelope)
+            val v2 = !successor && !notice && strictInteger(stored.envelope, "contract_version") == 2L
+            val archive = !successor && !notice && strictInteger(stored.envelope, "contract_version") == 3L
+            val legacyArchive = !successor && !notice && strictInteger(stored.envelope,"contract_version")==4L
+            val lateWithoutReceipt = (v2 || successor || notice) && stored.action == "callback" && store.retainedLateCallbackPayload(stored.envelope.getJSONObject("payload")) && store.readRequestReceipt(stored.requestId) == null
+            if (strictString(row, "state") != "outcome_unknown" && !((v2 || successor || notice) && stored.action != "callback") && !lateWithoutReceipt) continue
             checked++
             reconciliationOffset = (index + 1) % length
             val target = requireUuid(row, "request_id")
             val readId = UUID.randomUUID().toString()
             val readPayload = JSONObject().put("target_request_id", target)
+            if (notice) {
+                val receipt = try { transmitNotice("reconcile", readId, readPayload) }
+                    catch (e: GatewayStateException) { if (e.reasonCode == "gateway_lookup_transport_unavailable") continue else throw e }
+                val result = receipt.getJSONObject("result")
+                if (strictString(result, "outcome") == "recorded") {
+                    if (strictString(result, "recorded_action") != stored.action) throw GatewayStateException("gateway_response_invalid")
+                    val originalPayload = stored.envelope.getJSONObject("payload"); val recorded = result.getJSONObject("recorded_result")
+                    validateNoticeResult(stored.action, target, deviceId(), originalPayload, recorded, Instant.now())
+                    if (stored.action == "archive_attempt") {
+                        if (strictBoolean(recorded, "ok")) GatewayAttemptArchive(store).acknowledge(stored, recorded) else markArchiveRefused(target)
+                    } else if (stored.action != "callback" || store.retainedLateCallbackPayload(originalPayload)) {
+                        GatewayJournalArchive(store).acknowledge(GatewayArchiveAcknowledgement.reconciled(stored, readId, receipt))
+                    } else markArchiveRefused(target)
+                }
+                continue // no original mutation replay; unknown keeps its exact identity
+            }
             if (successor) {
                 val receipt = try { transmitSuccessor("reconcile", readId, readPayload) }
                     catch (e: GatewayStateException) { if (e.reasonCode == "gateway_lookup_transport_unavailable") continue else throw e }
@@ -238,13 +365,13 @@ internal class GatewaySignedBackend(
                 }
                 continue // unknown original identity remains a barrier; no mutation replay
             }
-            if (archive) {
-                val receipt = try { transmitArchive("archive_lookup", readId, readPayload) }
+            if (archive || legacyArchive) {
+                val receipt = try { if(legacyArchive) transmitLegacyArchive("legacy_archive_lookup",readId,readPayload) else transmitArchive("archive_lookup", readId, readPayload) }
                     catch (e: GatewayStateException) { if (e.reasonCode == "gateway_lookup_transport_unavailable") continue else throw e }
                 val result = receipt.getJSONObject("result")
                 if (strictString(result, "outcome") == "recorded") {
                     val ack = result.getJSONObject("recorded_result")
-                    validateGatewayArchiveAck(ack, target, deviceId(), stored.envelope.getJSONObject("payload"))
+                    if(legacyArchive) validateGatewayLegacyArchiveAck(ack,target,deviceId(),stored.envelope.getJSONObject("payload")) else validateGatewayArchiveAck(ack, target, deviceId(), stored.envelope.getJSONObject("payload"))
                     if (strictBoolean(ack, "ok")) GatewayAttemptArchive(store).acknowledge(stored, ack)
                     else markArchiveRefused(target)
                 }
@@ -305,13 +432,15 @@ internal class GatewaySignedBackend(
                     .put("callback_kind", if (kind == CallbackKind.SENT) "sent" else "delivery")
                     .put("result_code", code).put("tp_status", JSONObject.NULL).put("occurred_at", gatewayWireTime(Instant.parse(occurred)))
                 val successor = attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1
+                val notice = attempt.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1
+                if (notice) payload.put("route", noticeRouteJson(attempt.dispatchRoute))
                 if (successor) payload.put("route", successorRouteJson(attempt.dispatchRoute))
                 val v2 = attemptUsesV2(attempt.attemptId)
-                if (hasCallbackRequest(callbackId, payload, v2 || successor)) continue
+                if (hasCallbackRequest(callbackId, payload, v2 || successor || notice)) continue
                 if (uploaded++ >= 2) return
                 checkEvidenceUpload(attempt)
-                val result = if (successor) mutationSuccessor("callback", payload, callbackId).getJSONObject("result") else if (v2) mutationV2("callback", payload, callbackId).getJSONObject("result") else mutation("callback", payload, callbackId)
-                if (!v2 && !successor) requireKeys(result, setOf("callback_id", "recorded_at", "replay", "carrier_proof"))
+                val result = if (notice) mutationNotice("callback", payload, callbackId).getJSONObject("result") else if (successor) mutationSuccessor("callback", payload, callbackId).getJSONObject("result") else if (v2) mutationV2("callback", payload, callbackId).getJSONObject("result") else mutation("callback", payload, callbackId)
+                if (!v2 && !successor && !notice) requireKeys(result, setOf("callback_id", "recorded_at", "replay", "carrier_proof"))
                 if (requireUuid(result, "callback_id") != callbackId || strictBoolean(result, "carrier_proof")) throw GatewayStateException("gateway_response_invalid")
                 strictBoolean(result, "replay")
                 strictTimestamp(result, "recorded_at")
@@ -323,11 +452,14 @@ internal class GatewaySignedBackend(
         if (latePage.migrationPending) return // migration is not delivery or reconciliation evidence
         for (entry in latePage.entries) {
             val attempt = entry.attempt;val callback = entry.callback
+            // v1 cannot accept contradictory duplicate callback bodies. Keep
+            // legacy cold conflict and stop evidence; never misroute it to v2.
+            if(store.readColdAttempt(attempt.attemptId)?.optInt("contract_version")==6) continue
             val p = gatewayLatePayload(attempt, callback)
             if (hasCallbackRequest(callback.callbackId, p, true)) continue
             if (uploaded++ >= 2) return
             checkEvidenceUpload(attempt)
-            if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) mutationSuccessor("callback", p, callback.callbackId) else mutationV2("callback", p, callback.callbackId)
+            if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1) mutationNotice("callback", p, callback.callbackId) else if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) mutationSuccessor("callback", p, callback.callbackId) else mutationV2("callback", p, callback.callbackId)
         }
         archiveOneKnownAttempt()
     }
@@ -339,9 +471,19 @@ internal class GatewaySignedBackend(
         catch (_: Exception) { throw GatewayStateException("gateway_http_outcome_unknown") }
     }
 
+    private fun transmitLegacyArchive(action: String, id: String, payload: JSONObject, original: ByteArray? = null): JSONObject {
+        validateGatewayLegacyArchivePayload(action,payload,id)
+        val bytes=original ?: envelope(action,payload,id,4)
+        if(!configured() || bytes.size>8*1024) throw GatewayStateException("gateway_not_configured")
+        val body=transport.postExact(bytes,readOnly=action=="legacy_archive_lookup")
+        try { return parseGatewayLegacyArchiveReply(action,id,deviceId(),payload,body) }
+        catch(_:Exception) { throw GatewayStateException("gateway_http_outcome_unknown") }
+    }
+
     private fun archiveOneKnownAttempt() {
-        val candidates = store.read().attempts.filter { it.outcome() == AttemptOutcome.DELIVERY_CALLBACK_OBSERVED && (it.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1 || attemptUsesV2(it.attemptId)) }
+        val candidates = store.read().attempts.filter { it.outcome() == AttemptOutcome.DELIVERY_CALLBACK_OBSERVED }.take(GatewayJournal.MAX_ATTEMPTS)
         for (attempt in candidates) {
+            val legacy=attempt.dispatchRoute is GatewayDispatchRoute.PrimaryV2 && !attemptUsesV2(attempt.attemptId)
             checkEvidenceUpload(attempt)
             // Bind current hot source, callback originals and the persisted
             // archive request under one lock. A callback cannot change the
@@ -349,19 +491,20 @@ internal class GatewaySignedBackend(
             val prepared = synchronized(GatewayJournal.PROCESS_LOCK) {
                 if (store.read().attempts.singleOrNull { it.attemptId == attempt.attemptId } != attempt) return@synchronized null
                 val latest = store.readRequests().getJSONArray("requests")
-                if ((0 until latest.length()).any { val r = GatewayStoredRequest.parse(latest.getJSONObject(it));r.action == "archive_attempt" && requireUuid(r.envelope.getJSONObject("payload"), "attempt_id") == attempt.attemptId }) return@synchronized null
-                val payload = try { GatewayAttemptArchive(store).payload(attempt) } catch (e: GatewayStateException) {
+                if ((0 until latest.length()).any { val r = GatewayStoredRequest.parse(latest.getJSONObject(it));r.action in setOf("archive_attempt","archive_legacy_attempt") && requireUuid(r.envelope.getJSONObject("payload"), "attempt_id") == attempt.attemptId }) return@synchronized null
+                val payload = try { GatewayAttemptArchive(store).payload(attempt,legacy) } catch (e: GatewayStateException) {
                     if (e.reasonCode == "gateway_archive_acknowledgement_pending") return@synchronized null else throw e
                 }
-                val id = UUID.randomUUID().toString();val bytes = if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) successorEnvelope("archive_attempt", payload, id) else envelope("archive_attempt", payload, id, 3)
-                if (latest.length() >= GatewayEncryptedStore.MAX_REQUESTS) throw GatewayStateException("gateway_request_journal_limit")
-                latest.put(JSONObject().put("request_id", id).put("action", "archive_attempt").put("state", "outcome_unknown").put("callback_id", JSONObject.NULL)
+                val action=if(legacy) "archive_legacy_attempt" else "archive_attempt"
+                val id = UUID.randomUUID().toString();val bytes = if(legacy) envelope(action,payload,id,4) else if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1) noticeEnvelope("archive_attempt", payload, id) else if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) successorEnvelope("archive_attempt", payload, id) else envelope("archive_attempt", payload, id, 3)
+                if (if(legacy) !gatewayLegacyArchiveSlotAvailable(latest) else latest.length() >= GatewayEncryptedStore.MAX_REQUESTS) throw GatewayStateException("gateway_request_journal_limit")
+                latest.put(JSONObject().put("request_id", id).put("action", action).put("state", "outcome_unknown").put("callback_id", JSONObject.NULL)
                     .put("request_sha256", sha256(String(bytes, Charsets.UTF_8))).put("request_bytes_base64", Base64.encodeToString(bytes, Base64.NO_WRAP)))
                 store.saveRequests(JSONObject().put("contract_version", 1).put("requests", latest))
                 Triple(id, payload, bytes)
             } ?: continue
             val (id, payload, bytes) = prepared
-            val reply = if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) transmitSuccessor("archive_attempt", id, payload, bytes) else transmitArchive("archive_attempt", id, payload, bytes)
+            val reply = if(legacy) transmitLegacyArchive("archive_legacy_attempt",id,payload,bytes) else if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1) transmitNotice("archive_attempt", id, payload, bytes) else if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) transmitSuccessor("archive_attempt", id, payload, bytes) else transmitArchive("archive_attempt", id, payload, bytes)
             if (strictBoolean(reply.getJSONObject("result"), "ok")) {
                 synchronized(GatewayJournal.PROCESS_LOCK) {
                     val latest = store.readRequests().getJSONArray("requests")

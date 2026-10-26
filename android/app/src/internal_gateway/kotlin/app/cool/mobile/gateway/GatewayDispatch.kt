@@ -111,6 +111,7 @@ internal class GatewayDispatchEngine(
                 grant.destinationSha256, grant.expiresAt.toString(), started.toString(), GatewayCrypto.nonce(),
                 List(parts.size) { SegmentEvidence() }, dispatchRoute = grant.dispatchRoute)
             journal.reserveInvocation(record)
+            journal.prepareInvocation(record)
             Triple(record, parts, subscription)
         }
         val (record, parts, subscription) = reservation
@@ -124,7 +125,7 @@ internal class GatewayDispatchEngine(
                 val arm = backend.armDispatch(grant, record) ?: throw GatewayStateException("gateway_arm_not_acknowledged")
             synchronized(GatewayJournal.PROCESS_LOCK) {
                 val at = clock()
-                if ((record.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1 && arm.dispatchRoute != record.dispatchRoute) ||
+                if (((record.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1 || record.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1) && arm.dispatchRoute != record.dispatchRoute) ||
                     arm.attemptId != record.attemptId || arm.fence != record.fence ||
                     arm.reservationSha256 != gatewayReservationDigest(record) || arm.armedAt > at.plusSeconds(5) ||
                     arm.expiresAt <= at || arm.expiresAt > grant.expiresAt || arm.expiresAt > arm.armedAt.plusSeconds(30)) {
@@ -137,7 +138,9 @@ internal class GatewayDispatchEngine(
                 val invokeAt = clock()
                 if (arm.expiresAt <= invokeAt) throw GatewayStateException("gateway_arm_not_acknowledged")
                 grant.validate(invokeAt, grantAuthority)
-                // Exactly one app-level invocation after fsync AND current server arm ACK.
+                // The permanent application-entry record is read back before
+                // crossing the sender seam. A crash afterwards stays unknown.
+                journal.enterInvocation(record, invokeAt)
                 invoker.invoke(grant, record, parts, subscription)
             }
         } catch (_: Exception) {
@@ -174,5 +177,9 @@ private fun primaryReservationDigest(record: GatewayAttempt): String = sha256(li
 internal fun gatewayReservationDigest(record: GatewayAttempt): String {
     validateDispatchRoute(record.dispatchRoute, record.jobId)
     val original = primaryReservationDigest(record)
-    return if (record.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) successorReservationDigest(record, original) else original
+    return when (record.dispatchRoute) {
+        is GatewayDispatchRoute.ReceiptNoticeV1 -> noticeReservationDigest(record, original)
+        is GatewayDispatchRoute.ReceiptSuccessorV1 -> successorReservationDigest(record, original)
+        is GatewayDispatchRoute.PrimaryV2 -> original
+    }
 }

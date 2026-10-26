@@ -145,7 +145,7 @@ void main() {
 
   test('member group creation stays private and uses MoMo receiver', () async {
     final repository = FixtureCollectRepository();
-    final group = await repository.createCollection(
+    final group = await repository.createCollectionWithVerifiedReceiver(
       title: 'RWF savings circle',
       description: 'Private Rwanda MoMo group',
       receiverMomoNumber: '0788123456',

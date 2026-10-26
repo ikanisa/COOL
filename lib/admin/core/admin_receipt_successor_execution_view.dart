@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../shared/components/admin_data_listing.dart';
 import 'admin_receipt_successor_execution_controller.dart';
 
 String _state(Object? value) => switch (value) {
@@ -59,15 +60,9 @@ class _ExecutionViewState extends State<AdminReceiptSuccessorExecutionView> {
     super.dispose();
   }
 
-  Widget _evidence(String label, Object? value) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: Theme.of(context).textTheme.labelMedium),
-        SelectableText(value?.toString() ?? 'Unavailable'),
-      ],
-    ),
+  Widget _evidence(String label, Object? value) => AdminDataFieldRow(
+    label: label,
+    value: value?.toString() ?? 'Unavailable',
   );
   @override
   Widget build(BuildContext context) {
@@ -76,7 +71,7 @@ class _ExecutionViewState extends State<AdminReceiptSuccessorExecutionView> {
     final attempt = execution?['attempt'] as Map?,
         archive = execution?['archive'] as Map?;
     final events = execution?['execution_events'] as List? ?? const [];
-    return Card(
+    return AdminDataSection(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(

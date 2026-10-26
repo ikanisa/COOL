@@ -1,4 +1,5 @@
 import '../fixtures/collect_repository_fixture.dart';
+import 'package:collect_app/shared/models/collect_models.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -6,7 +7,17 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
+
+const _profile = CollectProfile(
+  id: '99430000-0000-4000-8000-000000000003',
+  publicId: '038491',
+  whatsappPhone: '+250788123456',
+  countryCode: 'RW',
+  currencyCode: 'RWF',
+  momoProvider: 'mtn_momo',
+  momoNumber: '0788123456',
+);
 
 const _receipt = {
   'collection_id': 'qa-private-group',
@@ -15,13 +26,11 @@ const _receipt = {
   'status': 'active',
 };
 
-Future<SupabaseClient> _client(
+Future<CollectCloudflareClient> _client(
   Future<http.Response> Function(http.Request) handler,
 ) async {
-  final client = SupabaseClient(
+  final client = CollectCloudflareClient(
     'http://127.0.0.1:1',
-    'local-test-key',
-    authOptions: const AuthClientOptions(autoRefreshToken: false),
     httpClient: MockClient((request) async {
       final response = await handler(request);
       return http.Response(
@@ -33,14 +42,15 @@ Future<SupabaseClient> _client(
     }),
   );
   addTearDown(client.dispose);
-  await client.auth.setInitialSession(
+  await client.auth.recoverSession(
     jsonEncode({
-      'access_token': 'local-test-access',
+      'access_token':
+          'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': '99430000-0000-4000-8000-000000000003', 'session_id': 'controlled-group-admin-session', 'role': 'authenticated', 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
       'refresh_token': 'local-test-refresh',
       'token_type': 'bearer',
       'expires_in': 3600,
       'user': {
-        'id': 'local-user',
+        'id': '99430000-0000-4000-8000-000000000003',
         'aud': 'authenticated',
         'app_metadata': <String, Object>{},
         'user_metadata': <String, Object>{},
@@ -69,10 +79,7 @@ void main() {
           grants++;
           return http.Response(jsonEncode(_receipt), 200);
         }
-        expect(
-          request.url.path,
-          '/rest/v1/rpc/list_current_member_group_roster',
-        );
+        expect(request.url.path, '/v1/rpc/list_current_member_group_roster');
         rosterReads++;
         return http.Response(
           jsonEncode([
@@ -88,7 +95,10 @@ void main() {
           200,
         );
       });
-      final repo = FixtureCollectRepository(supabase: client);
+      final repo = FixtureCollectRepository(
+        backend: client,
+        profileOverride: _profile,
+      );
       addTearDown(repo.dispose);
       final before = repo.state;
       expect(
@@ -130,7 +140,10 @@ void main() {
         final client = await _client(
           (_) async => http.Response(jsonEncode(badReceipts[index]), 200),
         );
-        final repo = FixtureCollectRepository(supabase: client);
+        final repo = FixtureCollectRepository(
+          backend: client,
+          profileOverride: _profile,
+        );
         addTearDown(repo.dispose);
         final before = repo.state;
         await expectLater(
@@ -145,7 +158,7 @@ void main() {
     );
   }
 
-  for (final code in ['22023', '42501', 'PGRST202']) {
+  for (final code in ['invalid_parameter', '42501', 'operation_unavailable']) {
     test('live API $code failure is not group admin success', () async {
       final client = await _client(
         (_) async => http.Response(
@@ -155,10 +168,17 @@ void main() {
             'details': null,
             'hint': null,
           }),
-          code == '42501' ? 403 : 400,
+          code == '42501'
+              ? 403
+              : code == 'operation_unavailable'
+              ? 501
+              : 400,
         ),
       );
-      final repo = FixtureCollectRepository(supabase: client);
+      final repo = FixtureCollectRepository(
+        backend: client,
+        profileOverride: _profile,
+      );
       addTearDown(repo.dispose);
       final before = repo.state;
       await expectLater(
@@ -170,7 +190,7 @@ void main() {
             ? throwsFormatException
             : code == '42501'
             ? throwsStateError
-            : throwsA(isA<PostgrestException>()),
+            : throwsA(isA<CollectApiException>()),
       );
       expect(repo.state, same(before));
     });
@@ -188,7 +208,10 @@ void main() {
         started.complete();
         return response.future;
       });
-      final repo = FixtureCollectRepository(supabase: client);
+      final repo = FixtureCollectRepository(
+        backend: client,
+        profileOverride: _profile,
+      );
       addTearDown(repo.dispose);
       final before = repo.state;
       final pending = repo.inviteCollectionAdmin(
@@ -197,7 +220,7 @@ void main() {
       );
       final assertion = expectLater(pending, throwsStateError);
       await started.future;
-      await client.auth.signOut(scope: SignOutScope.local);
+      await client.auth.signOut(scope: CollectSignOutScope.local);
       response.complete(http.Response(jsonEncode(_receipt), 200));
       await assertion;
       expect(repo.state, isNot(same(before)));

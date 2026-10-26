@@ -11,13 +11,12 @@ import 'package:collect_app/admin/core/admin_investigation.dart';
 import 'package:collect_app/admin/core/admin_investigation_view.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 const _sms = '11111111-1111-4111-8111-111111111111';
 const _receipt = '44444444-4444-4444-8444-444444444444';
@@ -98,7 +97,7 @@ Future<void> _pump(
         adminRepositoryProvider.overrideWithValue(repository),
         adminIdentityProvider.overrideWith((_) async => identity),
         adminClockProvider.overrideWithValue(clock ?? () => _now),
-        supabaseClientProvider.overrideWithValue(null),
+        collectBackendClientProvider.overrideWithValue(null),
       ],
       child: MaterialApp(
         theme: brightness == Brightness.dark
@@ -126,30 +125,6 @@ Future<void> _pump(
 }
 
 void main() {
-  for (final name in [
-    'observed-posted-transaction',
-    'observed-posted-receipt',
-    'observed-reversed-transaction',
-    'observed-bounded-history',
-  ]) {
-    test(
-      'isolated SQL observation $name satisfies current investigation DTO',
-      () {
-        final data =
-            jsonDecode(
-                  File(
-                    'docs/release/collect-codex-goal-2026-09-30/investigation-backend/$name.json',
-                  ).readAsStringSync(),
-                )
-                as Map<String, dynamic>;
-        final parsed = AdminInvestigationSnapshot.parse(data);
-        expect(parsed.scope, 'rwanda_momo');
-        expect(parsed.kind, data['kind']);
-        expect(parsed.targetId, data['target_id']);
-        expect(parsed.checkedAt.toIso8601String(), isNotEmpty);
-      },
-    );
-  }
   TestWidgetsFlutterBinding.ensureInitialized();
   WidgetController.hitTestWarningShouldBeFatal = true;
   setUpAll(() async {
@@ -287,11 +262,14 @@ void main() {
     (tester) async {
       for (final pair in <(Object, String)>[
         (
-          const PostgrestException(message: 'private-canary', code: '42501'),
+          const CollectApiException(message: 'private-canary', code: '42501'),
           'Investigation access denied',
         ),
         (
-          const PostgrestException(message: 'private-canary', code: 'PGRST202'),
+          const CollectApiException(
+            message: 'private-canary',
+            code: 'operation_unavailable',
+          ),
           'Investigation unavailable',
         ),
         (const FormatException('private-canary'), 'Investigation read failed'),
@@ -403,7 +381,7 @@ void main() {
           adminRepositoryProvider.overrideWithValue(repository),
           adminIdentityProvider.overrideWith((_) async => _identity),
           adminClockProvider.overrideWithValue(() => _now),
-          supabaseClientProvider.overrideWithValue(null),
+          collectBackendClientProvider.overrideWithValue(null),
         ],
       );
       addTearDown(container.dispose);
@@ -458,7 +436,7 @@ void main() {
           final image = await boundary.toImage(pixelRatio: 1);
           final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
           await File(
-            'docs/release/collect-codex-goal-2026-09-30/admin-investigation/investigation-${brightness.name}-synthetic.png',
+            '.cache/test-captures/admin-investigation/investigation-${brightness.name}-synthetic.png',
           ).writeAsBytes(bytes!.buffer.asUint8List());
           image.dispose();
         });

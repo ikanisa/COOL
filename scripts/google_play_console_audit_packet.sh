@@ -5,21 +5,33 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 OUTPUT_FORMAT="text"
-if [[ "${1:-}" == "--json" ]]; then
-  OUTPUT_FORMAT="json"
-elif [[ "${1:-}" != "" ]]; then
-  printf 'usage: %s [--json]\n' "$0" >&2
-  exit 2
-fi
+PHASE="rollout"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --json) OUTPUT_FORMAT="json"; shift ;;
+    --phase)
+      [[ $# -gt 1 ]] || { printf 'Missing --phase value.\n' >&2; exit 2; }
+      PHASE="$2"; shift 2 ;;
+    --help|-h)
+      printf 'Usage: %s [--json] [--phase prepare|upload|review|rollout]\n' "$0"
+      exit 0 ;;
+    *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
+  esac
+done
+case "$PHASE" in
+  prepare|upload|review|rollout) ;;
+  *) printf 'Invalid release phase: %s\n' "$PHASE" >&2; exit 2 ;;
+esac
 
 PACKET_PATH="${GOOGLE_PLAY_CONSOLE_AUDIT_PACKET:-docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json}"
 OUTPUT_PATH="${OUTPUT_PATH:-.cache/google_play_optimization/google_play_console_audit_packet.json}"
 
-ROOT_DIR="$ROOT_DIR" PACKET_PATH="$PACKET_PATH" OUTPUT_PATH="$OUTPUT_PATH" OUTPUT_FORMAT="$OUTPUT_FORMAT" ruby -r digest -r json -r net/http -r uri -r time -r fileutils <<'RUBY'
+ROOT_DIR="$ROOT_DIR" PACKET_PATH="$PACKET_PATH" OUTPUT_PATH="$OUTPUT_PATH" OUTPUT_FORMAT="$OUTPUT_FORMAT" PHASE="$PHASE" ruby -r digest -r json -r net/http -r uri -r time -r fileutils <<'RUBY'
 root = ENV.fetch("ROOT_DIR")
 packet_path = File.expand_path(ENV.fetch("PACKET_PATH"), root)
 output_path = File.expand_path(ENV.fetch("OUTPUT_PATH"), root)
 output_format = ENV.fetch("OUTPUT_FORMAT")
+phase = ENV.fetch("PHASE")
 
 def check(status, message, extra = {})
   { "status" => status, "message" => message }.merge(extra)
@@ -221,7 +233,10 @@ checks["sms_permissions_declaration"] =
   if sms_declaration_status == "approved_for_core_functionality"
     check("pass", "Google Play restricted-SMS approval is recorded.")
   elsif sms_declaration_status == "required_pending_play_approval"
-    check("blocked", "Google Play restricted-SMS approval is pending.", "declaration_status" => sms_declaration_status)
+    check(phase == "rollout" ? "blocked" : "pass",
+      phase == "rollout" ? "Google Play restricted-SMS approval is pending; production rollout is blocked." :
+        "Prepared SMS declaration may accompany candidate upload/review while Google's decision is pending.",
+      "declaration_status" => sms_declaration_status, "google_approval_required_before_rollout" => true)
   else
     check("fail", "The packet must record the restricted-SMS review state.", "declaration_status" => sms_declaration_status.empty? ? "not_recorded" : sms_declaration_status)
   end
@@ -254,6 +269,7 @@ status = failed.any? ? "fail" : blocked.any? ? "blocked" : "pass"
 result = {
   "generated_at" => Time.now.utc.iso8601,
   "status" => status,
+  "phase" => phase,
   "packet_path" => packet_path.sub(%r{\A#{Regexp.escape(root)}/?}, ""),
   "package_name" => packet["package_name"],
   "version" => "#{dig_value(packet, ["target_release", "version_name"])}+#{dig_value(packet, ["target_release", "version_code"])}",

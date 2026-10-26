@@ -7,10 +7,12 @@ import hashlib
 import json
 import os
 import re
+import stat
+import struct
 from pathlib import Path
 
 DEFAULT_SKILL = Path(
-    '/Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design'
+    '/Volumes/PRO-G40/Projects/ChatGPT/Revolut/skill/revolut-design'
 )
 SCOPES = {'member_app', 'admin', 'public_website'}
 RETIRED_FILES = {
@@ -33,6 +35,75 @@ PRUNED = {'.git', 'node_modules', '.dart_tool', '.gradle', 'build', 'Pods',
           'third_party', '__pycache__'}
 
 
+def appledouble_sidecar(path: Path, info: os.stat_result | None = None) -> bool:
+    """Recognize observed AppleDouble v2 metadata, never a prefix-only exemption.
+
+    Native file inspection identifies the retained metadata as AppleDouble.
+    Require its binary magic/version and a complete, bounded entry table in
+    addition to the ._ name. Malformed files retain normal reference checks.
+    """
+    if not path.name.startswith('._'):
+        return False
+    try:
+        info = info or path.lstat()
+        if stat.S_ISLNK(info.st_mode):
+            return False
+        size = info.st_size
+        with path.open('rb') as handle:
+            header = handle.read(26)
+            if len(header) != 26:
+                return False
+            magic, version, _, count = struct.unpack('>II16sH', header)
+            table_end = 26 + count * 12
+            if (magic, version) != (0x00051607, 0x00020000) or not count or table_end > size:
+                return False
+            table = handle.read(count * 12)
+        if len(table) != count * 12:
+            return False
+        ids = set()
+        spans = []
+        for index in range(count):
+            entry_id, offset, length = struct.unpack_from('>III', table, index * 12)
+            if not entry_id or entry_id in ids or offset < table_end or offset + length > size:
+                return False
+            ids.add(entry_id)
+            if length:
+                spans.append((offset, offset + length))
+        spans.sort()
+        return all(left[1] <= right[0] for left, right in zip(spans, spans[1:]))
+    except (OSError, struct.error):
+        return False
+
+
+def reference_entries(root: Path):
+    """Keep the existing traversal scope while retaining DirEntry stat caches.
+
+    os.walk discards these caches before the caller checks each directory and
+    file again. On recovered external filesystems those repeated lookups can
+    dominate the check. Hidden/ignored exports remain included; directory
+    aliases and exactly the existing PRUNED names remain excluded.
+    """
+    pending = [root]
+    while pending:
+        folder = pending.pop()
+        try:
+            entries = os.scandir(folder)
+        except OSError:
+            # Preserve os.walk's existing default handling of unreadable dirs.
+            continue
+        with entries:
+            for entry in entries:
+                try:
+                    is_directory = entry.is_dir()
+                except OSError:
+                    is_directory = False
+                if is_directory:
+                    if entry.name not in PRUNED and not entry.is_symlink():
+                        pending.append(Path(entry.path))
+                else:
+                    yield entry
+
+
 def inert_pubspec_fixture(path: Path, relative: str) -> bool:
     """Recognize a retained package-link refusal fixture, without following it.
 
@@ -47,7 +118,14 @@ def inert_pubspec_fixture(path: Path, relative: str) -> bool:
     target = path.parent.parent / 'external/pubspec.yaml'
     try:
         declared = Path(os.path.normpath(os.path.join(path.parent, os.readlink(path))))
-        if (declared != target or target.parent.is_symlink() or
+        physical_root = path.parents[len(Path(relative).parts) - 1].resolve(strict=True)
+        # Restored project roots can retain absolute links through a root alias.
+        # Admit only the same approved file, inside this physical repository;
+        # matching contents or an extra file-link chain confer no exemption.
+        if (not declared.resolve(strict=True).is_relative_to(physical_root) or
+                not target.resolve(strict=True).is_relative_to(physical_root) or
+                not declared.samefile(target) or declared.is_symlink() or
+                target.parent.is_symlink() or
                 target.is_symlink() or not target.is_file() or
                 target.stat().st_size > 100):
             return False
@@ -138,51 +216,89 @@ def check(root: Path, skill: Path | None = None) -> dict:
     retired = []
     competing = []
     fixture_links = []
+    metadata_sidecars = []
     files = 0
     # Include ignored local exports: deletion of a tracked report alone must
     # not leave its competing reference copy available in this checkout.
     backend_fixture_links = []
-    for folder, dirs, names in os.walk(root, followlinks=False):
-        dirs[:] = [name for name in dirs if name not in PRUNED and
-                   not (Path(folder) / name).is_symlink()]
-        for name in names:
-            path = Path(folder) / name
-            relative = path.relative_to(root).as_posix()
-            if name in RETIRED_FILES or relative in RETIRED_IMAGE_PATHS:
-                retired.append(relative)
-            if path.suffix.lower() not in {'.md', '.json', '.yaml', '.yml'}:
+    for entry in reference_entries(root):
+        name = entry.name
+        path = Path(entry.path)
+        relative = path.relative_to(root).as_posix()
+        if name in RETIRED_FILES or relative in RETIRED_IMAGE_PATHS:
+            retired.append(relative)
+        if path.suffix.lower() not in {'.md', '.json', '.yaml', '.yml'}:
+            continue
+        if relative.startswith(('scripts/tests/', 'test/', 'tools/')):
+            continue
+        is_link = entry.is_symlink()
+        if is_link:
+            if inert_pubspec_fixture(path, relative):
+                fixture_links.append(relative)
                 continue
-            if relative.startswith(('scripts/tests/', 'test/', 'tools/')):
+            elif retained_backend_fixture(path, relative, root):
+                backend_fixture_links.append(relative)
+                # Continue normal content inspection below. The source
+                # counterpart lies under test/, so inspect the alias here.
+            else:
+                competing.append(relative + ':symlinked_reference')
                 continue
-            if path.is_symlink():
-                if inert_pubspec_fixture(path, relative):
-                    fixture_links.append(relative)
-                    continue
-                elif retained_backend_fixture(path, relative, root):
-                    backend_fixture_links.append(relative)
-                    # Continue normal content inspection below. The source
-                    # counterpart lies under test/, so inspect the alias here.
-                else:
-                    competing.append(relative + ':symlinked_reference')
-                    continue
-            files += 1
+        try:
+            info = entry.stat(follow_symlinks=False)
+        except OSError:
+            failures.append('unreadable_reference:' + relative)
+            continue
+        if appledouble_sidecar(path, info):
+            metadata_sidecars.append(relative)
+            continue
+        files += 1
+        try:
+            if info.st_size > 8 * 1024 * 1024:
+                continue
+            text = path.read_text(errors='strict')
+        except (OSError, UnicodeError):
+            failures.append('unreadable_reference:' + relative)
+            continue
+        # Toolkit names, product screenshots and provenance citations are
+        # legitimate. Detect declarations of another authority, rather
+        # than rejecting every occurrence of the word "design".
+        declarations = [match.group(1) for match in re.finditer(
+            r'"design_authority"\s*:\s*"([^"]+)"', text
+        )]
+        # A saved verification result is evidence, not a competing provider.
+        # Parse physical JSON so this narrow status allowance cannot hide a
+        # different declaration elsewhere in the same file or a linked source.
+        if path.suffix.lower() == '.json' and not is_link:
             try:
-                if path.stat().st_size > 8 * 1024 * 1024:
-                    continue
-                text = path.read_text(errors='strict')
-            except (OSError, UnicodeError):
-                failures.append('unreadable_reference:' + relative)
-                continue
-            # Toolkit names, product screenshots and provenance citations are
-            # legitimate. Detect declarations of another authority, rather
-            # than rejecting every occurrence of the word "design".
-            for match in re.finditer(
-                r'"design_authority"\s*:\s*"([^"]+)"', text
-            ):
-                if match.group(1) != 'revolut-design':
-                    competing.append(relative + ':design_authority')
-            if 'adaptive-product-design' in text:
-                competing.append(relative + ':retired_design_skill')
+                document = json.loads(text)
+            except ValueError:
+                document = None
+            if isinstance(document, (dict, list)):
+                declarations = []
+
+                def collect_declarations(value, parent=()):
+                    if isinstance(value, dict):
+                        for key, child in value.items():
+                            if key == 'design_authority' and isinstance(child, str):
+                                result_status = (parent == ('verification',) and
+                                                 child in {'pass', 'passed', 'fail', 'failed', 'unverified', 'not_run'})
+                                if not result_status:
+                                    declarations.append(child)
+                            collect_declarations(child, parent + (key,))
+                    elif isinstance(value, list):
+                        for child in value:
+                            collect_declarations(child, parent + ('[]',))
+
+                collect_declarations(document)
+        for declaration in declarations:
+            generated_record = (relative.startswith('.cache/') and
+                                path.suffix.lower() == '.json' and
+                                not is_link and
+                                path.name != 'authority.json')
+            if not generated_record and declaration != 'revolut-design':
+                competing.append(relative + ':design_authority')
+        if 'adaptive-product-design' in text:
+            competing.append(relative + ':retired_design_skill')
     if retired:
         failures.append('retired_design_references_present')
     if competing:
@@ -195,6 +311,7 @@ def check(root: Path, skill: Path | None = None) -> dict:
         'reference_files_scanned': files,
         'retired_references': sorted(retired),
         'competing_declarations': sorted(set(competing)),
+        'ignored_appledouble_sidecars': sorted(metadata_sidecars),
         'inert_package_fixture_links': sorted(fixture_links),
         'retained_backend_fixture_links': sorted(backend_fixture_links),
         'failures': sorted(set(failures)),

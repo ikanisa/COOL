@@ -9,9 +9,10 @@ require 'json'
 module PublicContentContract
   BASELINE = 'docs/release/public-website-content-baseline.json'
   CURRENT = 'docs/release/public-website-current-content-contract.json'
-  REVIEW = 'docs/release/asset-build-hygiene-2026-09-30/public-historical-content-review-attempt121/content-comparison.json'
+  REVIEW = 'docs/release/public-content-provenance/historical-comparison.json'
+  HISTORICAL_TEXT = 'docs/release/public-content-provenance/historical-visible-text.json'
   SOURCES = %w[
-    scripts/public_static_site_build.rb docs/PRODUCT.md
+    scripts/public_static_site_build.rb scripts/qa/bounded_git_metadata.rb docs/PRODUCT.md
     content/legal/collect_legal_pages_bundle.yaml
     content/legal/collect_privacy_policy.yaml
     content/legal/collect_terms_of_use.yaml
@@ -90,6 +91,22 @@ module PublicContentContract
     unless Digest::SHA256.hexdigest(historical_review) == contract['historical_comparison_sha256']
       raise 'Historical comparison evidence changed'
     end
+    historical_text_bytes = read_regular(root, HISTORICAL_TEXT)
+    unless Digest::SHA256.hexdigest(historical_text_bytes) == contract.fetch('historical_visible_text_sha256')
+      raise 'Historical text corpus changed'
+    end
+    historical_text = JSON.parse(historical_text_bytes)
+    unless historical_text.is_a?(Hash) && historical_text.keys.sort == old_hashes.keys.sort
+      raise 'Historical text route catalog changed'
+    end
+    historical_text.each do |route, row|
+      expected = old_hashes.fetch(route)
+      unless row.is_a?(Hash) && row['text'].is_a?(String) &&
+          row['sha256'] == expected && row['expected'] == expected &&
+          Digest::SHA256.hexdigest(row['text']) == expected
+        raise 'Historical text differs from preserved baseline'
+      end
+    end
     review = JSON.parse(review_bytes)
     rows = review.fetch('routes')
     raise 'Incomplete historical/current comparison' unless review['status'] == 'pass' && rows.is_a?(Array) && rows.map { |row| row['route'] }.sort == hashes.keys.sort
@@ -102,6 +119,7 @@ module PublicContentContract
     { 'hashes' => hashes, 'contract_sha256' => Digest::SHA256.hexdigest(contract_bytes),
       'historical_baseline_sha256' => Digest::SHA256.hexdigest(baseline_bytes),
       'historical_comparison_sha256' => Digest::SHA256.hexdigest(historical_review),
+      'historical_visible_text_sha256' => Digest::SHA256.hexdigest(historical_text_bytes),
       'current_comparison_sha256' => review_sha256,
       'current_comparison_file' => comparison_file,
       'reviewed_source_count' => sources.length, 'legal_release_approved' => false, 'publication_approved' => false }

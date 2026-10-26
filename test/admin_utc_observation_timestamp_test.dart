@@ -33,7 +33,7 @@ Map<String, dynamic> _health() => Map<String, dynamic>.from(
 Map<String, dynamic> _shadow() =>
     jsonDecode(
           File(
-            'contracts/collect-shadow-supervisor-v1.fixture.json',
+            'test/fixtures/declared_admin/collect-shadow-supervisor-v1.fixture.json',
           ).readAsStringSync(),
         )
         as Map<String, dynamic>;

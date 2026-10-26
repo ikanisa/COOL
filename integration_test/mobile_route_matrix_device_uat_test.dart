@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
@@ -50,6 +51,7 @@ void main() {
         key: ValueKey('collect-route-harness-${spec.name}'),
         overrides: [
           ...MobileMatrixCapture.overrides,
+          collectBackendClientProvider.overrideWithValue(null),
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith((ref) => repository),
           collectThemeModeProvider.overrideWith(
@@ -510,6 +512,12 @@ const _routeSpecs = <_RouteSpec>[
     '/settings/legal/privacy',
     'utility',
     expectedText: 'Privacy Policy',
+  ),
+  _RouteSpec(
+    'legal-licenses',
+    '/settings/legal/licenses',
+    'utility',
+    expectedText: 'Licenses',
   ),
   _RouteSpec(
     'legal-terms',

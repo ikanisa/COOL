@@ -5,17 +5,38 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 output_format="text"
-if [[ "${1:-}" == "--json" ]]; then
-  output_format="json"
-elif [[ "${1:-}" != "" ]]; then
-  printf 'usage: %s [--json]\n' "$0" >&2
-  exit 2
+public_defines=""
+while [[ "$#" -gt 0 ]]; do
+  case "$1" in
+    --json) output_format="json"; shift ;;
+    --public-defines)
+      [[ "$#" -ge 2 && -n "$2" && -z "$public_defines" ]] || { printf 'A single public defines file is required.\n' >&2; exit 2; }
+      public_defines="$2"; shift 2 ;;
+    *) printf 'usage: %s [--json] [--public-defines PATH]\n' "$0" >&2; exit 2 ;;
+  esac
+done
+umask 077
+defines_dir=""
+cleanup() {
+  if [[ -n "$defines_dir" ]]; then
+    rm -f "$defines_dir/defines.json"
+    rmdir "$defines_dir" 2>/dev/null || true
+  fi
+}
+trap cleanup EXIT
+if [[ -z "$public_defines" ]]; then
+  defines_dir="$(mktemp -d "${TMPDIR:-/tmp}/collect-signing-public-defines.XXXXXX")"
+  public_defines="$defines_dir/defines.json"
+  python3 scripts/qa/native_build_config.py android --defines-output "$public_defines"
 fi
+# Validate the exact caller profile rather than rebuilding it from another env.
+python3 scripts/qa/native_build_config.py android --validate-defines "$public_defines"
+public_gradle_defines="$(ruby -r json -r base64 -e 'puts JSON.parse(File.read(ARGV.fetch(0))).sort.map { |key, value| Base64.strict_encode64("#{key}=#{value}") }.join(",")' "$public_defines")"
 
 set +e
 gradle_output="$(
   cd "$ROOT_DIR/android" &&
-    ./gradlew -q :app:printReleaseSigningCertificateStatus --console=plain 2>&1
+    ./gradlew -q "-Pdart-defines=$public_gradle_defines" :app:printReleaseSigningCertificateStatus --console=plain 2>&1
 )"
 gradle_rc=$?
 set -e

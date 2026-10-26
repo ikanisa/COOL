@@ -9,12 +9,11 @@ import 'package:collect_app/admin/core/admin_exception_escalation_inbox_v2_model
 import 'package:collect_app/admin/core/admin_exception_models.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_exception_escalation_inbox_v2_models_test.dart' as delivery;
 import 'admin_exception_history_v2_models_test.dart' as history;
@@ -119,9 +118,9 @@ class _Repo extends AdminEvidenceRepository {
   @override
   Future<Map<String, dynamic>> exceptionWorkflow(String id) async {
     workflowIds.add(id);
-    // Existing actual retained evidence is rebound only for this declared
-    // presentation clock and target; it grants no mutation authority.
-    return workflow.observed('workflow')
+    // Declared protocol data uses this presentation clock and target only;
+    // it grants no mutation authority.
+    return workflow.workflowFixture('workflow')
       ..['exception_id'] = id
       ..['checked_at'] = delivery.inboxWire(now)
       ..['sample_valid_until'] = delivery.inboxWire(
@@ -182,7 +181,7 @@ class _Harness {
     await tester.binding.setSurfaceSize(Size(width, 1000));
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(null),
+        collectBackendClientProvider.overrideWithValue(null),
         adminRepositoryProvider.overrideWithValue(repo),
         adminIdentityProvider.overrideWith((ref) => ref.watch(_authority)),
         adminAuthSessionScopeProvider.overrideWith((_) => sessions),
@@ -371,7 +370,7 @@ void main() {
       'recipient $code error cannot become empty healthy inbox or disclose private details',
       (tester) async {
         final h = _Harness();
-        h.repo.error = PostgrestException(
+        h.repo.error = CollectApiException(
           message: 'PRIVATE_CONTACT_CANARY',
           code: code,
         );

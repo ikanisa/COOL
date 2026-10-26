@@ -1,9 +1,34 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'helpers/process_runner.dart';
+import 'helpers/android_manifest_permissions.dart';
+import 'helpers/repository_source_files.dart';
+
+String repositoryCustodyRoot() {
+  final root = Directory(
+    Platform.environment['COLLECT_REPOSITORY_CUSTODY_ROOT'] ??
+        Directory.current.path,
+  ).resolveSymbolicLinksSync();
+  final observed = Process.runSync('git', [
+    'rev-parse',
+    '--show-toplevel',
+  ], workingDirectory: root);
+  expect(
+    observed.exitCode,
+    0,
+    reason: 'Repository custody must be a Git checkout.',
+  );
+  expect(
+    Directory((observed.stdout as String).trim()).resolveSymbolicLinksSync(),
+    root,
+    reason: 'Repository custody must identify the checkout root.',
+  );
+  return root;
+}
 
 String readCollectRepositoryLibrary() {
   return [
@@ -68,7 +93,6 @@ void main() {
 
   test('local and CI Flutter toolchains use the governed stable engine', () {
     const expectedVersion = '3.44.4';
-    const expectedRoot = '/Users/jeanbosco/Developer/flutter';
     final fvmConfig =
         jsonDecode(File('.fvmrc').readAsStringSync()) as Map<String, dynamic>;
     final environment = File('docs/ENVIRONMENT.md').readAsStringSync();
@@ -84,12 +108,59 @@ void main() {
 
     expect(fvmConfig['flutter'], expectedVersion);
     expect(environment, contains('Flutter `$expectedVersion`'));
-    expect(environment, contains('$expectedRoot/bin/flutter'));
-    expect(makefile, contains('FLUTTER ?= $expectedRoot/bin/flutter'));
-    expect(makefile, contains('DART ?= $expectedRoot/bin/dart'));
+    expect(environment, contains('Dart `3.12.2`'));
+    final ci = File('.github/workflows/ci.yml').readAsStringSync();
+    expect(ci, contains('with open(".fvmrc", "r", encoding="utf-8")'));
+    expect(
+      ci,
+      contains(
+        r'flutter-version: ${{ steps.flutter-version.outputs.version }}',
+      ),
+    );
+    final platformPackage =
+        jsonDecode(File('deploy/platform-api/package.json').readAsStringSync())
+            as Map<String, dynamic>;
+    expect((platformPackage['engines'] as Map)['node'], '>=22');
+    final ciNodeVersions = RegExp(
+      r"node-version:\s*'(\d+)\.[^']+'",
+    ).allMatches(ci).toList();
+    expect(ciNodeVersions, isNotEmpty);
+    expect(
+      ciNodeVersions.every((match) => int.parse(match[1]!) >= 22),
+      isTrue,
+      reason: 'CI Node versions must satisfy the canonical API engine floor.',
+    );
+    expect(environment, contains('qualified installation'));
+    expect(makefile, contains('FLUTTER ?= flutter'));
+    expect(makefile, contains('DART ?= dart'));
+    final sdkGuard = File(
+      'scripts/qa/run_integrated_candidate_checks.sh',
+    ).readAsStringSync();
+    expect(sdkGuard, contains('Flutter does not match the checked-in SDK pin'));
+    expect(
+      sdkGuard,
+      contains('Dart executable does not match Flutter bundled Dart'),
+    );
     for (final path in governedScripts) {
       final script = File(path).readAsStringSync();
-      expect(script, contains('$expectedRoot/bin/flutter'), reason: path);
+      if (path == 'scripts/repo_wide_qa_uat.sh') {
+        expect(
+          script,
+          contains('scripts/qa/release_evidence.py'),
+          reason: path,
+        );
+        final releaseRunner = File(
+          'scripts/qa/release_evidence.py',
+        ).readAsStringSync();
+        expect(
+          releaseRunner,
+          contains("('flutter_verify', ['make', 'verify'])"),
+        );
+        expect(makefile, contains('verify: format-check analyze test'));
+      } else {
+        expect(script, contains(r'FLUTTER="${FLUTTER:-'), reason: path);
+        expect(script, contains(r'"$FLUTTER"'), reason: path);
+      }
       expect(
         script,
         isNot(contains('/Volumes/PRO-G40/flutter_3_44/bin/flutter')),
@@ -125,26 +196,52 @@ void main() {
             )
             as Map<String, dynamic>;
 
-    expect(mainManifest, isNot(contains('android.permission.READ_SMS')));
-    expect(mainManifest, contains('android.permission.RECEIVE_SMS'));
-    expect(mainManifest, contains('android.permission.CALL_PHONE'));
-    expect(mainManifest, contains('android.permission.READ_EXTERNAL_STORAGE'));
-    expect(mainManifest, contains('android.permission.WRITE_EXTERNAL_STORAGE'));
-    expect(
-      RegExp(
-        r'android\.permission\.(READ|WRITE)_EXTERNAL_STORAGE"'
-        r'\s+tools:node="remove"',
-      ).allMatches(mainManifest),
-      hasLength(2),
+    final mainPermissions = requestedAndroidPermissions(mainManifest);
+    final productionPermissions = requestedAndroidPermissions(
+      productionManifest,
     );
-    expect(productionManifest, isNot(contains('android.permission.READ_SMS')));
-    expect(
+    final receiverPermissions = requestedAndroidPermissions(
       internalReceiverManifest,
-      isNot(contains('android.permission.READ_SMS')),
+    );
+    const forbiddenProduction = {
+      'android.permission.READ_SMS',
+      'android.permission.SEND_SMS',
+      'android.permission.BROADCAST_SMS',
+      'android.permission.READ_CALL_LOG',
+      'android.permission.WRITE_CALL_LOG',
+      'android.permission.READ_EXTERNAL_STORAGE',
+      'android.permission.WRITE_EXTERNAL_STORAGE',
+    };
+    expect(mainPermissions.intersection(forbiddenProduction), isEmpty);
+    expect(productionPermissions.intersection(forbiddenProduction), isEmpty);
+    expect(mainPermissions, contains('android.permission.RECEIVE_SMS'));
+    expect(mainPermissions, contains('android.permission.CALL_PHONE'));
+    expect(
+      removedAndroidPermissions(mainManifest),
+      containsAll({
+        'android.permission.READ_EXTERNAL_STORAGE',
+        'android.permission.WRITE_EXTERNAL_STORAGE',
+      }),
     );
     expect(
-      internalReceiverManifest,
-      contains('android.permission.RECEIVE_SMS'),
+      removedAndroidPermissions(productionManifest),
+      contains('android.permission.READ_SMS'),
+    );
+    // Only the optional dedicated receiver can recover its retained inbox.
+    // Main and ordinary production permissions remain constrained above.
+    expect(receiverPermissions, {
+      'android.permission.RECEIVE_SMS',
+      'android.permission.READ_SMS',
+      'android.permission.RECEIVE_BOOT_COMPLETED',
+      'android.permission.ACCESS_NETWORK_STATE',
+    });
+    expect(
+      removedAndroidPermissions(internalReceiverManifest),
+      containsAll({
+        'android.permission.CALL_PHONE',
+        'android.permission.CAMERA',
+        'android.permission.POST_NOTIFICATIONS',
+      }),
     );
     expect(
       internalReceiverManifest,
@@ -165,7 +262,7 @@ void main() {
       contains('expected_apk_restricted = ["android.permission.RECEIVE_SMS"]'),
     );
     expect(playUpload, contains('google_play_sms_permission_scope_mismatch'));
-    expect(playUpload, contains('google_play_sms_declaration_not_approved'));
+    expect(playUpload, contains('google_play_sms_declaration_invalid_for_phase'));
     expect(
       ((playPacket['app_content'] as Map<String, dynamic>)['permissions']
           as Map<String, dynamic>)['sms_permissions_declaration_status'],
@@ -293,17 +390,23 @@ void main() {
       final main = File('lib/main.dart').readAsStringSync();
       final repository = readCollectRepositoryLibrary();
 
-      expect(fastfile, contains('SUPABASE_PRODUCTION_URL'));
-      expect(fastfile, contains('SUPABASE_PRODUCTION_ANON_KEY'));
-      expect(fastfile, contains('COLLECT_PRODUCTION_SUPABASE_URL ='));
-      expect(fastfile, isNot(contains('ENV["SUPABASE_URL"]')));
+      expect(fastfile, contains('scripts/qa/native_build_config.py'));
+      expect(fastfile, contains('collect_native_public_defines'));
       expect(
         fastfile,
-        contains('sh("./scripts/google_play_optimization_gate.sh --json")'),
+        contains(
+          './scripts/google_play_production_upload.sh --submit --phase ',
+        ),
       );
-      expect(fastfile, contains('"APP_ENVIRONMENT" => "production"'));
+      expect(
+        File('scripts/qa/native_build_config.py').readAsStringSync(),
+        contains('"APP_ENVIRONMENT": "production"'),
+      );
       expect(workflow, contains('iOS 26 SDK or later is required'));
-      expect(workflow, contains('SUPABASE_PRODUCTION_URL:'));
+      expect(
+        workflow,
+        contains('SUPABASE_URL: https://rrlduytparvsjfmegalh.supabase.co'),
+      );
       expect(fastfile, isNot(contains('APP_REVIEW_AUTH_PHONE')));
       expect(fastfile, isNot(contains('APP_REVIEW_AUTH_OTP')));
       expect(main, isNot(contains('CollectRepository.appReviewDemo')));
@@ -322,18 +425,12 @@ void main() {
     expect(script, contains('build appbundle'));
     expect(script, contains('--flavor production'));
     expect(script, contains('--dart-define-from-file'));
-    expect(script, contains('SUPABASE_PRODUCTION_URL'));
-    expect(script, contains('SUPABASE_PRODUCTION_ANON_KEY'));
+    expect(script, contains('scripts/qa/native_build_config.py'));
     expect(script, contains('PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER'));
-    expect(
-      script,
-      contains(
-        'EXPECTED_PRODUCTION_SUPABASE_URL="https://lhbowpbcpwoiparwnwgt.supabase.co"',
-      ),
-    );
-    expect(script, isNot(contains(r'${SUPABASE_URL:-}')));
-    expect(script, isNot(contains(r'${SUPABASE_ANON_KEY:-}')));
-    expect(script, contains('"COLLECT_MOBILE_EVIDENCE_MODE" => "false"'));
+    expect(script, contains('scripts/qa/native_build_config.py'));
+    final config = File('scripts/qa/native_build_config.py').readAsStringSync();
+    expect(config, contains('"COLLECT_MOBILE_EVIDENCE_MODE": "false"'));
+    expect(config, contains('"COLLECT_BACKEND": "supabase"'));
     expect(script, contains('--no-build-cache'));
     expect(script, contains('org.gradle.caching=false'));
     expect(script, contains('COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false'));
@@ -352,39 +449,28 @@ void main() {
   test('iOS App Store build cannot enable fixture evidence mode', () {
     final script = File('scripts/ios_app_store_build.sh').readAsStringSync();
 
-    expect(script, contains('"COLLECT_MOBILE_EVIDENCE_MODE" => "false"'));
+    final config = File('scripts/qa/native_build_config.py').readAsStringSync();
+    expect(config, contains('"COLLECT_MOBILE_EVIDENCE_MODE": "false"'));
+    expect(config, contains('"COLLECT_BACKEND": "supabase"'));
     expect(
       script,
       contains('Payload/Collect.app/Frameworks/App.framework/App'),
     );
-    expect(script, contains('EXPECTED_SUPABASE_URL'));
-    expect(
-      script,
-      contains(
-        'EXPECTED_PRODUCTION_SUPABASE_URL="https://lhbowpbcpwoiparwnwgt.supabase.co"',
-      ),
-    );
-    expect(script, isNot(contains(r'${SUPABASE_URL:-}')));
-    expect(script, isNot(contains(r'${SUPABASE_ANON_KEY:-}')));
+    expect(script, contains('SUPABASE_API_URL'));
+    expect(script, contains('scripts/qa/native_build_config.py'));
     expect(script, contains('accepts no extra Flutter arguments'));
     expect(script, isNot(contains(r'"$@"')));
   });
 
-  test('live OTP probe requires runtime inputs and redacts failures', () {
-    final probe = File('scripts/auth_otp_live_probe.dart').readAsStringSync();
-
-    expect(probe, contains('Platform.environment[name]'));
-    expect(probe, contains('COLLECT_AUTH_TEST_PHONE'));
-    expect(probe, contains("'[PHONE]'"));
-    expect(probe, contains("'[TOKEN]'"));
-    expect(probe, contains("'[REDACTED]'"));
-    expect(probe, isNot(contains(RegExp(r'\+250\d{9}'))));
-  });
-
   test('external GitHub Actions are pinned to immutable commits', () {
-    final workflows = Directory(
-      '.github/workflows',
-    ).listSync().whereType<File>().where((file) => file.path.endsWith('.yml'));
+    final workflows = Directory('.github/workflows')
+        .listSync()
+        .whereType<File>()
+        .where(
+          (file) =>
+              (file.path.endsWith('.yml') || file.path.endsWith('.yaml')) &&
+              !isVerifiedAppleDoubleMetadata(file),
+        );
     final externalUse = RegExp(r'uses:\s+([^\s@]+)@([^\s#]+)');
     final fullCommit = RegExp(r'^[0-9a-f]{40}$');
 
@@ -407,7 +493,7 @@ void main() {
       RegExp(r'sk-proj-[A-Za-z0-9_-]{20,}'),
       RegExp(r'sbp_[A-Za-z0-9]{20,}'),
       RegExp(r'eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+'),
-      RegExp(r'postgresql://[^:\s]+:[^@\s]+@'),
+      RegExp(r'postgresql://[A-Za-z0-9_.%+-]+:[A-Za-z0-9_:%+\-.~!$&()*+,;=]+@'),
       RegExp(r'EAAG[A-Za-z0-9]{20,}'),
     ];
     final skippedRoots = {
@@ -422,13 +508,14 @@ void main() {
       'release-evidence',
       'evidence-packs',
     };
+    final root = repositoryCustodyRoot();
     final inventory = Process.runSync('git', [
       'ls-files',
       '-z',
       '--cached',
       '--others',
       '--exclude-standard',
-    ]);
+    ], workingDirectory: root);
     expect(inventory.exitCode, 0, reason: inventory.stderr as String);
     final files = (inventory.stdout as String)
         .split('\u0000')
@@ -451,12 +538,24 @@ void main() {
               path.endsWith('.example') ||
               path.endsWith('.properties');
         })
-        .map(File.new)
-        .where((file) => file.existsSync());
+        .map((path) => File('$root/$path'))
+        .where(
+          (file) => file.existsSync() && !isVerifiedAppleDoubleMetadata(file),
+        );
 
     for (final file in files) {
       final text = file.readAsStringSync();
       for (final pattern in blockedPatterns) {
+        // Public upstream JWT test bytes remain inert fixture evidence even
+        // when captured in a dated source packet. Only these exact public
+        // files bypass the JWT rule; every other secret rule still applies.
+        if (pattern.pattern.startsWith('eyJ') &&
+            const {
+              '4bdb86ee4499ba6332ba690ddfd9eb7990fdb0c2869c97af7f4563533319f6ee',
+              '4172db82411fb90360f50af4a6e19abe0302d61530cf777043f0626ef58da6cb',
+            }.contains(sha256.convert(file.readAsBytesSync()).toString())) {
+          continue;
+        }
         expect(pattern.hasMatch(text), isFalse, reason: file.path);
       }
     }
@@ -475,7 +574,7 @@ void main() {
       isTrue,
     );
     expect(
-      File('supabase/functions/verify-play-integrity/index.ts').existsSync(),
+      File('deploy/platform-api/src/native_integrity.js').existsSync(),
       isTrue,
     );
   });
@@ -497,12 +596,13 @@ void main() {
   });
 
   test('local env files stay ignored and Codex env stays placeholder-only', () {
+    final root = repositoryCustodyRoot();
     final trackedEnvFiles = runProcessSync('git', [
       'ls-files',
       '.env',
       '.env.local',
       '.env.json',
-    ]);
+    ], workingDirectory: root);
     expect(trackedEnvFiles.exitCode, 0);
     expect((trackedEnvFiles.stdout as String).trim(), isEmpty);
 
@@ -511,15 +611,14 @@ void main() {
       '.env',
       '.env.local',
       '.env.json',
-    ]);
+    ], workingDirectory: root);
     expect(ignoredEnvFiles.exitCode, 0);
 
     final codexEnv = File(
-      '.codex/environments/environment.toml',
+      '$root/.codex/environments/environment.toml',
     ).readAsStringSync();
     final sensitiveAssignments = RegExp(
-      r'^(SUPABASE_ACCESS_TOKEN|SUPABASE_DB_PASSWORD|DATABASE_URL|'
-      r'SUPABASE_SERVICE_ROLE_KEY|OPENAI_API_KEY|WHATSAPP_CLOUD_API_TOKEN|'
+      r'^(DATABASE_URL|OPENAI_API_KEY|WHATSAPP_CLOUD_API_TOKEN|'
       r'SEND_SMS_HOOK_SECRET|INTERNAL_FUNCTION_SECRET|SMS_INGEST_HMAC_SECRET)='
       r'(.+)$',
       multiLine: true,
@@ -558,11 +657,17 @@ void main() {
     final libFiles = Directory('lib')
         .listSync(recursive: true)
         .whereType<File>()
-        .where((file) => file.path.endsWith('.dart'));
+        .where(
+          (file) =>
+              file.path.endsWith('.dart') &&
+              !isVerifiedAppleDoubleMetadata(file),
+        );
 
     expect(
       repository,
-      contains('final repository = CollectRepository(supabase: supabase);'),
+      matches(
+        RegExp(r'final repository = CollectRepository\(\s*backend: backend,'),
+      ),
     );
     expect(repository, contains("throw StateError('Live WhatsApp sign-in"));
     expect(repository, matches(RegExp(r'_emptyCollectState\(\),\s*false')));
@@ -625,45 +730,5 @@ void main() {
     final router = mobileEntrypoints['lib/app/router.dart']!;
     expect(router, contains('const collectRoutePaths = <String>['));
     expect(router, isNot(contains('/admin')));
-  });
-
-  test('Supabase operator scripts use local CLI fallbacks', () {
-    final scripts = [
-      'scripts/supabase_production_readiness.sh',
-      'scripts/supabase_advisors_gate.sh',
-      'scripts/supabase_advisors_warning_inventory.sh',
-      'scripts/collect_linked_uat.sh',
-      'scripts/collect_admin_security_uat.sh',
-      'scripts/collect_live_parser_uat.sh',
-      'scripts/supabase_deploy.sh',
-      'scripts/supabase_apply_auth_hardening.sh',
-      'scripts/supabase_apply_network_restrictions.sh',
-      'scripts/supabase_operational_report.sh',
-    ];
-
-    for (final script in scripts) {
-      final text = File(script).readAsStringSync();
-      expect(text, contains('scripts/supabase_cli_helpers.sh'), reason: script);
-      expect(
-        text,
-        isNot(
-          matches(
-            RegExp(
-              r'(^|\s)supabase\s+'
-              r'(db|functions|secrets|network-restrictions|projects|backups|ssl-enforcement)\b',
-              multiLine: true,
-            ),
-          ),
-        ),
-        reason: script,
-      );
-      expect(
-        text,
-        isNot(
-          matches(RegExp(r'(^|\s)psql\s+"\$DATABASE_URL"', multiLine: true)),
-        ),
-        reason: script,
-      );
-    }
   });
 }

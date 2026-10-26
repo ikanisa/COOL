@@ -8,12 +8,12 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 import 'admin_action_session_test.dart' as auth;
 import 'support/settings_fixture.dart' as f;
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late AdminGovernedSettingsSdk sdk;
   late List<http.Request> requests;
@@ -25,10 +25,8 @@ void main() {
     current = true;
     now = f.at;
     respond = (_) async => auth.response(f.controlJson());
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((r) async {
         if (r.url.path.endsWith('/verify')) {
           final values = (jsonDecode(r.body)['token'] as String).split('|');
@@ -122,7 +120,7 @@ void main() {
         auth.response({'message': 'PRIVATE_503_CANARY'}, 503);
     await expectLater(
       sdk.update(f.intent()),
-      throwsA(isA<PostgrestException>()),
+      throwsA(isA<CollectApiException>()),
     );
     expect(requests.length, 1);
   });

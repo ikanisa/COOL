@@ -1,5 +1,5 @@
-/// The Admin operator uses an existing, approved email account. This does not
-/// change the member phone-authentication contract or create a user.
+/// The Admin operator uses an existing, owner-approved or invited email account.
+/// Public sign-in never grants workspace access to an unlisted address.
 String normalizeAdminEmail(String value) {
   final email = value.trim().toLowerCase();
   if (email.length > 254 ||

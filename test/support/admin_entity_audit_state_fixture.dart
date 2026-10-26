@@ -5,7 +5,7 @@ import 'package:collect_app/admin/core/admin_models.dart';
 import 'admin_entity_audit_fixture.dart';
 
 const adminAuditStateRoute = '/admin/audit-logs/entity/:kind/:id';
-const adminAuditStateId = 'd8d63715-d850-44e5-8b02-d1890af6b3e3';
+const adminAuditStateId = auditFixtureEntityId;
 
 String adminAuditStatePath(String route, String fallbackId) => route
     .replaceAll(':kind', 'gateway_device')
@@ -30,9 +30,8 @@ class AdminAuditStateSessions extends AdminSessionController {
   }
 }
 
-/// Date-adapted presentation fixture, distinct from the archived SQL receipt.
-/// Exact target, window shape, incomplete-history flag and relative timestamps
-/// are retained; this does not assert a current server result.
+/// Authored presentation fixture with a controlled clock and exact target.
+/// This does not assert a hosted server result.
 Map<String, dynamic> adminAuditStateFixture(
   DateTime now,
   AdminEntityAuditQuery query, {

@@ -11,6 +11,9 @@ class AuthActionDock extends StatelessWidget {
     required this.onAnotherNumber,
     required this.onResend,
     this.embedded = false,
+    this.useEmail = false,
+    this.googlePending = false,
+    this.onCancelGoogle,
     super.key,
   });
 
@@ -23,6 +26,9 @@ class AuthActionDock extends StatelessWidget {
   final VoidCallback? onAnotherNumber;
   final VoidCallback? onResend;
   final bool embedded;
+  final bool useEmail;
+  final bool googlePending;
+  final VoidCallback? onCancelGoogle;
 
   @override
   Widget build(BuildContext context) {
@@ -42,30 +48,43 @@ class AuthActionDock extends StatelessWidget {
         children: [
           Semantics(
             liveRegion: submitting,
-            label: submitting
+            label: googlePending
+                ? 'Connecting to Google'
+                : submitting
                 ? otpSent
                       ? 'Verifying code'
-                      : 'Sending WhatsApp code'
+                      : 'Sending ${useEmail ? 'email' : 'WhatsApp'} code'
                 : null,
             child: _AuthNativeActionButton(
               key: const ValueKey('auth_submit_button'),
-              label: submitting
+              label: googlePending
+                  ? 'Connecting to Google'
+                  : submitting
                   ? otpSent
                         ? 'Verifying code'
                         : 'Sending code'
                   : otpSent
                   ? 'Verify and continue'
-                  : 'Send WhatsApp code',
+                  : 'Send ${useEmail ? 'email' : 'WhatsApp'} code',
               busy: submitting,
               onPressed: canSubmit ? onSubmit : null,
             ),
           ),
+          if (googlePending) ...[
+            CollectSpacing.gap8,
+            _AuthNativeActionButton(
+              key: const ValueKey('auth_cancel_google'),
+              label: 'Cancel',
+              onPressed: onCancelGoogle,
+              isPrimary: false,
+            ),
+          ],
           if (otpSent) ...[
             CollectSpacing.gap8,
             if (usesAccessibilityText) ...[
               _AuthNativeActionButton(
                 key: const ValueKey('auth_change_button'),
-                label: 'Change number',
+                label: useEmail ? 'Change email' : 'Change number',
                 onPressed: onAnotherNumber,
                 isPrimary: false,
               ),
@@ -81,7 +100,7 @@ class AuthActionDock extends StatelessWidget {
                   Expanded(
                     child: _AuthNativeActionButton(
                       key: const ValueKey('auth_change_button'),
-                      label: 'Change number',
+                      label: useEmail ? 'Change email' : 'Change number',
                       onPressed: onAnotherNumber,
                       isPrimary: false,
                     ),

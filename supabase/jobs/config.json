@@ -1,0 +1,40 @@
+{
+  "format": "collect.jobs.scheduler.v1",
+  "project_ref": "rrlduytparvsjfmegalh",
+  "function_name": "collect-jobs",
+  "endpoint": "https://rrlduytparvsjfmegalh.supabase.co/functions/v1/collect-jobs",
+  "method": "POST",
+  "authorization": {
+    "header": "Authorization",
+    "scheme": "Bearer",
+    "vault_secret_name": "collect_job_token_v1"
+  },
+  "cron": {
+    "name": "collect-jobs-maintenance-v1",
+    "expression": "*/5 * * * *",
+    "timezone": "UTC",
+    "install_active": false
+  },
+  "request": {
+    "body_template": {
+      "dispatch_id": "original_dispatch_id"
+    },
+    "timeout_ms": 120000
+  },
+  "budgets": {
+    "max_dispatches_per_utc_month": 10000,
+    "unconfirmed_after_seconds": 180,
+    "review_wait_seconds": 300,
+    "history_days": 30,
+    "cron_history_days": 7,
+    "prune_limit": 500,
+    "response_bytes": 16384
+  },
+  "activation": {
+    "mode": "maintenance_only",
+    "momo_processing_paused": true,
+    "readiness_max_age_seconds": 3600,
+    "probe_max_age_seconds": 900
+  },
+  "qualification": "Prepared only. No extensions, Vault secret, scheduler objects or Cron job have been installed by this artifact. Existing leased outbox remains the sole work queue."
+}

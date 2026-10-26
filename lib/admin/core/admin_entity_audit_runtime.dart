@@ -29,13 +29,13 @@ final adminEntityAuditProvider = FutureProvider.autoDispose
         final raw = await repository.operatorEntityAudit(query);
         if (!current) throw const AdminSessionChanged();
         return AdminEntityAuditSnapshot.parse(raw, query: query);
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminEntityAuditDenied();
         if (error.code == '55P03' || error.code == '40001') {
           throw const AdminEntityAuditAuthorityBusy();
         }
-        if (error.code == '42883' || error.code == 'PGRST202') {
+        if (error.code == 'operation_unavailable' || error.code == '501') {
           throw UnsupportedError('Entity action history is unavailable.');
         }
         rethrow;

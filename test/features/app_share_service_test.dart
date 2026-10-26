@@ -37,8 +37,7 @@ void main() {
 }
 
 AppEnv _env({required String publicUrl}) => AppEnv(
-  supabaseUrl: '',
-  supabaseAnonKey: '',
+  apiUrl: '',
   publicUrl: publicUrl,
   adminAppUrl: '',
   enableSmsReader: false,

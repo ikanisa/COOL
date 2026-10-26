@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature
         android:name="android.hardware.camera"
@@ -14,12 +15,15 @@
     <uses-feature
         android:name="android.hardware.telephony.messaging"
         android:required="false" />
+    <!-- Removal directives cannot request storage access; lint inspects their names before merging. -->
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        tools:node="remove" />
+        tools:node="remove"
+        tools:ignore="ScopedStorage" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:node="remove" />
+        tools:node="remove"
+        tools:ignore="ScopedStorage" />
 
     <application
         android:label="@string/app_name"
@@ -28,7 +32,10 @@
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:enableOnBackInvokedCallback="true">
+        android:enableOnBackInvokedCallback="true"
+        tools:targetApi="33">
+        <service android:name=".receiver_sms.MemberSmsJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" android:exported="false" />
         <receiver
             android:name=".receiver_sms.CollectSmsReceiver"
             android:exported="true"

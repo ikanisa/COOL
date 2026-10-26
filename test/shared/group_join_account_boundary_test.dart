@@ -3,19 +3,19 @@ import 'dart:convert';
 
 import '../fixtures/collect_repository_fixture.dart';
 
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../support/synthetic_jwt.dart';
 
 const _firstUser = '11111111-1111-4111-8111-111111111111';
 const _secondUser = '22222222-2222-4222-8222-222222222222';
 
 String _session(String userId) => jsonEncode({
-  'access_token': 'synthetic-access-$userId',
+  'access_token': syntheticMemberAccessToken(userId),
   'refresh_token': 'synthetic-refresh-$userId',
   'token_type': 'bearer',
   'expires_in': 3600,
@@ -28,13 +28,12 @@ String _session(String userId) => jsonEncode({
   },
 });
 
-SupabaseClient _client(Future<http.Response> Function(http.Request) handler) =>
-    SupabaseClient(
-      'http://127.0.0.1:1',
-      'local-test-key',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
-      httpClient: MockClient(handler),
-    );
+CollectCloudflareClient _client(
+  Future<http.Response> Function(http.Request) handler,
+) => CollectCloudflareClient(
+  'http://127.0.0.1:1',
+  httpClient: MockClient(handler),
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +43,7 @@ void main() {
     () async {
       final client = _client((_) async => http.Response('{}', 200));
       final container = ProviderContainer(
-        overrides: [supabaseClientProvider.overrideWithValue(client)],
+        overrides: [collectBackendClientProvider.overrideWithValue(client)],
       );
       addTearDown(container.dispose);
       addTearDown(client.dispose);
@@ -57,11 +56,11 @@ void main() {
       addTearDown(listener.close);
       expect(container.read(collectAuthenticatedUserIdProvider), isNull);
 
-      await client.auth.setInitialSession(_session(_firstUser));
+      await client.auth.recoverSession(_session(_firstUser));
       await pumpEventQueue();
       expect(container.read(collectAuthenticatedUserIdProvider), _firstUser);
 
-      await client.auth.setInitialSession(_session(_secondUser));
+      await client.auth.recoverSession(_session(_secondUser));
       await pumpEventQueue();
       expect(container.read(collectAuthenticatedUserIdProvider), _secondUser);
       expect(observed, containsAllInOrder([null, _firstUser, _secondUser]));
@@ -87,9 +86,9 @@ void main() {
         );
       });
       addTearDown(client.dispose);
-      await client.auth.setInitialSession(_session(_firstUser));
+      await client.auth.recoverSession(_session(_firstUser));
       final repository = FixtureCollectRepository(
-        supabase: client,
+        backend: client,
         profileOverride: const CollectProfile(
           id: _firstUser,
           publicId: '038491',
@@ -104,7 +103,7 @@ void main() {
 
       final join = repository.joinGroupBySlug('qa-private-group');
       await started.future;
-      await client.auth.setInitialSession(_session(_secondUser));
+      await client.auth.recoverSession(_session(_secondUser));
       response.complete(
         http.Response(
           jsonEncode('qa-private-group'),

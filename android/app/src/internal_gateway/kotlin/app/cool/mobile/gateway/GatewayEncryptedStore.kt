@@ -18,21 +18,49 @@ internal class GatewayEncryptedStore private constructor(
     private val cryptoFactory: ((String) -> GatewayCrypto)?,
     private val recoveryDirectory: File?,
     private val recoveryAvailable: ((File) -> Long)?,
-) : GatewayColdArchiveStorage, GatewayContinuousArchiveStorage {
+) : GatewayColdArchiveStorage, GatewayContinuousArchiveStorage, GatewayInvocationStorage {
     constructor(context: Context, cryptoFactory: ((String) -> GatewayCrypto)? = null) : this(context, cryptoFactory, null, null)
-    private val directory = (recoveryDirectory ?: File(context.noBackupFilesDir, "collect_gateway_v1")).also {
-        if (!it.exists() && !it.mkdirs()) throw GatewayStateException("gateway_storage_unavailable")
+    private val directory = synchronized(GatewayJournal.PROCESS_LOCK) {
+        (recoveryDirectory ?: File(context.noBackupFilesDir, "collect_gateway_v1")).also {
+            if (!it.exists() && !it.mkdirs()) throw GatewayStateException("gateway_storage_unavailable")
+        }
     }
     private val journalFile = AtomicFile(File(directory, "journal.bin"))
-    private val alias = "collect.gateway.storage.v1"
+    private val alias = GatewayKeyCreationCustody.STORAGE_ALIAS
+    private val keyCustody by lazy { GatewayKeyCreationCustody(directory, recoveryDirectory != null) }
 
-    private fun crypto(name: String): GatewayCrypto {
-        cryptoFactory?.let { return it(name) }
-        val store = KeyStore.getInstance("AndroidKeyStore").also { it.load(null) }
-        if (!store.containsAlias(alias)) {
-            // A missing key for existing ciphertext is corruption/key loss;
-            // never regenerate a key and silently replace existing evidence.
-            if (if(recoveryDirectory!=null) GatewayRecovery.anyFile(directory) { true } else directory.listFiles()?.any { it.isFile } == true) throw GatewayStateException("gateway_storage_key_unavailable")
+    override fun requireInvocationActive() = requireActiveInstallation()
+
+    override fun invocationRealm(deviceId: String): JSONObject = synchronized(GatewayJournal.PROCESS_LOCK) {
+        val enrolled = readEnrollment() ?: throw GatewayStateException("gateway_invocation_realm_unavailable")
+        if (requireUuid(enrolled, "device_id") != deviceId) throw GatewayStateException("gateway_invocation_custody_conflict")
+        JSONObject().put("installation_id", requireUuid(enrolled, "installation_id"))
+            .put("key_sha256", strictString(enrolled, "key_sha256"))
+            .put("signing_certificate_sha256", strictString(enrolled, "signing_certificate_sha256"))
+    }
+
+    override fun readInvocationRecord(kind: String, attemptId: String): JSONObject? = synchronized(GatewayJournal.PROCESS_LOCK) {
+        if (kind !in setOf(GatewayInvocationCustody.PREPARE, GatewayInvocationCustody.TERMINAL)) invalidArchive()
+        retention.read(kind, retentionUuidKey(attemptId))
+    }
+
+    override fun invocationRecordIndexed(kind: String, attemptId: String): Boolean = synchronized(GatewayJournal.PROCESS_LOCK) {
+        if (kind !in setOf(GatewayInvocationCustody.PREPARE, GatewayInvocationCustody.TERMINAL)) invalidArchive()
+        retention.indexed(kind, retentionUuidKey(attemptId))
+    }
+
+    override fun publishInvocationRecord(kind: String, attemptId: String, value: JSONObject) = synchronized(GatewayJournal.PROCESS_LOCK) {
+        requireActiveInstallation()
+        if (kind !in setOf(GatewayInvocationCustody.PREPARE, GatewayInvocationCustody.TERMINAL)) invalidArchive()
+        retention.publish(kind, retentionUuidKey(attemptId), value)
+    }
+
+    private fun crypto(name: String): GatewayCrypto = synchronized(GatewayJournal.PROCESS_LOCK) {
+        cryptoFactory?.let { return@synchronized it(name) }
+        keyCustody.validateExisting()
+        val keys = KeyStore.getInstance("AndroidKeyStore").also { it.load(null) }
+        if (!keys.containsAlias(alias)) {
+            keyCustody.enterStorage(keys.containsAlias(GatewayKeyCreationCustody.SIGNING_ALIAS))
             KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore").apply {
                 init(KeyGenParameterSpec.Builder(alias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
@@ -40,7 +68,8 @@ internal class GatewayEncryptedStore private constructor(
                 generateKey()
             }
         }
-        return GatewayCrypto(store.getKey(alias, null) as SecretKey, "CollectGateway/$name/v1")
+        val key = keys.getKey(alias, null) as? SecretKey ?: throw GatewayStateException("gateway_storage_key_unavailable")
+        GatewayCrypto(key, "CollectGateway/$name/v1")
     }
 
     private fun load(file: AtomicFile, name: String): JSONObject? {
@@ -86,7 +115,7 @@ internal class GatewayEncryptedStore private constructor(
     private val retention by lazy { GatewayRetentionIndex(
         { name -> load(AtomicFile(File(directory, "$name.bin")), name) },
         { name, value -> save(AtomicFile(File(directory, "$name.bin")), name, value) },
-        { val retained: (String) -> Boolean = { it.startsWith("retention-index-") || it.startsWith("retention-request-") || it.startsWith("retention-receipt-") || it.startsWith("retention-attempt-") || it.startsWith("retention-callback-") || it.startsWith("retention-protocol-") || it.startsWith("retention-terminal-") || it.startsWith("retention-observed-attempt-") || it.startsWith("retention-late-") }
+        { val retained: (String) -> Boolean = { it.startsWith("retention-index-") || it.startsWith("retention-request-") || it.startsWith("retention-receipt-") || it.startsWith("retention-attempt-") || it.startsWith("retention-callback-") || it.startsWith("retention-protocol-") || it.startsWith("retention-terminal-") || it.startsWith("retention-observed-attempt-") || it.startsWith("retention-late-") || it.startsWith("retention-invoke-") }
           if(recoveryDirectory!=null) GatewayRecovery.anyFile(directory,retained) else directory.list()?.any(retained) ?: throw GatewayStateException("gateway_storage_unavailable") },
     ) }
 
@@ -121,7 +150,16 @@ internal class GatewayEncryptedStore private constructor(
         retention.publish("request", retentionUuidKey(request.requestId), original)
         // Alias records only identify original evidence. They do not retain a
         // grant/arm response or establish current dispatch authority.
-        if (request.action == "arm_dispatch" && isSuccessorEnvelope(request.envelope)) {
+        if (request.action == "arm_dispatch" && isNoticeEnvelope(request.envelope)) {
+            val payload = request.envelope.getJSONObject("payload"); val id = requireUuid(payload, "attempt_id")
+            val route = noticeRouteFromJson(payload.getJSONObject("route"))
+            if (!requestMatchesRoute(request, route)) invalidArchive()
+            val value = JSONObject().put("contract_version", 1).put("protocol_family", NOTICE_FAMILY).put("attempt_id", id)
+                .put("request_id", request.requestId).put("route", noticeRouteJson(route))
+            val prior = retention.read("protocol", retentionUuidKey(id))
+            if (prior != null && !archiveJsonEqual(prior, value)) throw GatewayStateException("gateway_retention_identity_conflict")
+            retention.publish("protocol", retentionUuidKey(id), prior ?: value)
+        } else if (request.action == "arm_dispatch" && isSuccessorEnvelope(request.envelope)) {
             val payload = request.envelope.getJSONObject("payload"); val id = requireUuid(payload, "attempt_id")
             val value = JSONObject().put("contract_version", 1).put("protocol_family", SUCCESSOR_FAMILY).put("attempt_id", id).put("request_id", request.requestId).put("route", payload.getJSONObject("route"))
             val prior = retention.read("protocol", retentionUuidKey(id))
@@ -148,6 +186,7 @@ internal class GatewayEncryptedStore private constructor(
 
     internal fun retainedAttemptUsesV2(attemptId: String): Boolean = synchronized(GatewayJournal.PROCESS_LOCK) {
         val alias = retention.read("protocol", retentionUuidKey(attemptId)) ?: return@synchronized false
+        if (isNoticeEnvelope(alias)) { retainedNoticeRoute(attemptId) ?: invalidArchive(); return@synchronized false }
         if (isSuccessorEnvelope(alias)) { retainedSuccessorRoute(attemptId) ?: invalidArchive(); return@synchronized false }
         requireKeys(alias, setOf("attempt_id", "request_id"))
         if (requireUuid(alias, "attempt_id") != attemptId) invalidArchive()
@@ -155,6 +194,19 @@ internal class GatewayEncryptedStore private constructor(
         if (request.action != "arm_dispatch" || strictInteger(request.envelope, "contract_version") != 2L ||
             requireUuid(request.envelope.getJSONObject("payload"), "attempt_id") != attemptId) invalidArchive()
         true
+    }
+
+    internal fun retainedNoticeRoute(attemptId: String): GatewayDispatchRoute.ReceiptNoticeV1? = synchronized(GatewayJournal.PROCESS_LOCK) {
+        val alias = retention.read("protocol", retentionUuidKey(attemptId)) ?: return@synchronized null
+        if (!isNoticeEnvelope(alias)) return@synchronized null
+        requireKeys(alias, setOf("contract_version", "protocol_family", "attempt_id", "request_id", "route"))
+        if (strictInteger(alias, "contract_version") != 1L || requireUuid(alias, "attempt_id") != attemptId) invalidArchive()
+        val route = noticeRouteFromJson(alias.getJSONObject("route"))
+        val request = readRetainedRequest(requireUuid(alias, "request_id")) ?: throw GatewayStateException("gateway_retention_missing")
+        validateNoticeEnvelope(String(java.util.Base64.getDecoder().decode(strictString(request.row, "request_bytes_base64")), Charsets.UTF_8), request.envelope)
+        if (request.action != "arm_dispatch" || !requestMatchesRoute(request, route) ||
+            requireUuid(request.envelope.getJSONObject("payload"), "attempt_id") != attemptId) invalidArchive()
+        route
     }
 
     internal fun retainedSuccessorRoute(attemptId: String): GatewayDispatchRoute.ReceiptSuccessorV1? = synchronized(GatewayJournal.PROCESS_LOCK) {
@@ -193,6 +245,7 @@ internal class GatewayEncryptedStore private constructor(
         if (strictInteger(value, "contract_version") != 4L) invalidArchive()
         strictTimestamp(value, "archived_at")
         val attempt = archiveAttemptFromJson(value.getJSONObject("attempt"))
+        GatewayInvocationCustody(this).validateCompaction(attempt)
         val receipts = value.getJSONArray("callback_receipts")
         if (attempt.outcome() != AttemptOutcome.DELIVERY_CALLBACK_OBSERVED || receipts.length() != attempt.segments.size * 2) invalidArchive()
         for (i in 0 until receipts.length()) validateRequestReceipt(receipts.getJSONObject(i))
@@ -418,7 +471,7 @@ internal class GatewayEncryptedStore private constructor(
             save(markerFile, "journal-marker", JSONObject().put("contract_version", 1).put("established", true))
         }
         val existingVersion = load(journalFile, "journal")?.let { strictInteger(it, "contract_version").also { version -> if (version !in 1L..2L) invalidArchive() } }
-        val version = if (existingVersion == 2L || state.attempts.any { it.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1 }) 2 else 1
+        val version = if (existingVersion == 2L || state.attempts.any { it.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1 || it.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1 }) 2 else 1
         save(journalFile, "journal", JSONObject().put("contract_version", version).put("emergency_paused", state.emergencyPaused)
             .put("attempts", JSONArray(state.attempts.map { if (version == 2) journalAttemptJsonV2(it) else archiveAttemptJson(it) })))
     }
@@ -523,14 +576,20 @@ internal class GatewayEncryptedStore private constructor(
         requireKeys(value, setOf("contract_version", "requests"))
         if (value.get("contract_version") != 1 || value.get("requests") !is JSONArray) throw GatewayStateException("gateway_request_journal_invalid")
         val rows=value.getJSONArray("requests")
-        if (rows.length() > MAX_REQUESTS) throw GatewayStateException("gateway_request_journal_limit")
+        if (rows.length() > MAX_REQUEST_ROWS) throw GatewayStateException("gateway_request_journal_limit")
+        if (rows.length() > MAX_REQUESTS) {
+            val maintenance=(0 until rows.length()).map { rows.getJSONObject(it) }
+                .filter { strictString(it,"action") in setOf("archive_attempt","archive_legacy_attempt") }
+            if(maintenance.size!=1 || !gatewayLegacyMaintenanceRequest(maintenance.single()))
+                throw GatewayStateException("gateway_request_journal_limit")
+        }
         val ids=HashSet<String>()
         for (index in 0 until rows.length()) {
             val row=rows.getJSONObject(index)
             GatewayStoredRequest.parse(row)
             requireKeys(row, setOf("request_id", "action", "state", "callback_id", "request_sha256", "request_bytes_base64"))
             val id=requireUuid(row,"request_id")
-            if (!ids.add(id) || strictString(row,"action") !in setOf("heartbeat","callback","dispatch_grant","arm_dispatch","archive_attempt") ||
+            if (!ids.add(id) || strictString(row,"action") !in setOf("heartbeat","callback","dispatch_grant","arm_dispatch","archive_attempt","archive_legacy_attempt") ||
                 strictString(row,"state") !in setOf("outcome_unknown","recorded")) throw GatewayStateException("gateway_request_journal_invalid")
             if (!row.isNull("callback_id")) requireUuid(row,"callback_id")
             if ((strictString(row,"action")=="callback") == row.isNull("callback_id")) throw GatewayStateException("gateway_request_journal_invalid")
@@ -539,9 +598,10 @@ internal class GatewayEncryptedStore private constructor(
             val bytes=android.util.Base64.decode(encoded,android.util.Base64.NO_WRAP)
             if (bytes.size > 32 * 1024 || sha256(String(bytes,Charsets.UTF_8)) != strictString(row,"request_sha256")) throw GatewayStateException("gateway_request_journal_invalid")
             val envelope=JSONObject(String(bytes,Charsets.UTF_8))
+            if (isNoticeEnvelope(envelope)) { validateNoticeEnvelope(String(bytes,Charsets.UTF_8), envelope); continue }
             if (isSuccessorEnvelope(envelope)) { validateSuccessorEnvelope(String(bytes,Charsets.UTF_8), envelope); continue }
             requireKeys(envelope,setOf("contract_version","action","device_id","request_id","issued_at","payload"))
-            if (strictInteger(envelope,"contract_version") !in 1L..3L || requireUuid(envelope,"request_id") != id || strictString(envelope,"action") != strictString(row,"action")) throw GatewayStateException("gateway_request_journal_invalid")
+            if (strictInteger(envelope,"contract_version") !in 1L..4L || requireUuid(envelope,"request_id") != id || strictString(envelope,"action") != strictString(row,"action")) throw GatewayStateException("gateway_request_journal_invalid")
             requireUuid(envelope,"device_id"); strictTimestamp(envelope,"issued_at")
             if (envelope.get("payload") !is JSONObject) throw GatewayStateException("gateway_request_journal_invalid")
         }
@@ -584,7 +644,7 @@ internal class GatewayEncryptedStore private constructor(
         (0 until rows.length()).any { rows.getJSONObject(it).getJSONObject("attempt").getString("attempt_id") == attemptId }
     }
 
-    companion object { const val MAX_REQUESTS = 64; const val MAX_COLD_SHARD = 128; const val MAX_LATE_ATTEMPTS = 256; const val MAX_LATE_CALLBACKS = 64 }
+    companion object { const val MAX_REQUESTS = 64; const val MAX_REQUEST_ROWS = MAX_REQUESTS + 1; const val MAX_COLD_SHARD = 128; const val MAX_LATE_ATTEMPTS = 256; const val MAX_LATE_CALLBACKS = 64 }
 
     private fun coldControl(): JSONObject {
         val marker = load(AtomicFile(File(directory, "cold-marker.bin")), "cold-marker")
@@ -648,6 +708,7 @@ internal class GatewayEncryptedStore private constructor(
         if (value == null && (retained != null || (0 until index.length()).any { index.getString(it) == attemptId })) throw GatewayStateException("gateway_cold_archive_missing")
         value?.also {
             validateColdAttempt(it)
+            GatewayInvocationCustody(this).validateCompaction(archiveAttemptFromJson(it.getJSONObject("attempt")))
             if (requireUuid(it.getJSONObject("attempt"), "attempt_id") != attemptId) invalidArchive()
             if (retained != null) {
                 requireKeys(retained, setOf("attempt_id", "cold_sha256"))
@@ -658,6 +719,7 @@ internal class GatewayEncryptedStore private constructor(
 
     override fun commitColdAttempt(attemptId: String, value: JSONObject) = synchronized(GatewayJournal.PROCESS_LOCK) {
         validateColdAttempt(value)
+        GatewayInvocationCustody(this).validateCompaction(archiveAttemptFromJson(value.getJSONObject("attempt")))
         if (!migrateLegacyRetention()) throw GatewayStateException("gateway_retention_migration_pending")
         if (requireUuid(value.getJSONObject("attempt"), "attempt_id") != attemptId) invalidArchive()
         val existing = readColdAttempt(attemptId)
@@ -728,17 +790,17 @@ internal class GatewayEncryptedStore private constructor(
         if (strictInteger(v, "contract_version") != 3L) invalidArchive()
         strictTimestamp(v, "retained_at")
         val r = GatewayStoredRequest.parse(v.getJSONObject("archive_request"));val p = r.envelope.getJSONObject("payload")
-        if (r.action != "archive_attempt" || requireUuid(p, "attempt_id") != attemptId) invalidArchive()
+        if (r.action !in setOf("archive_attempt","archive_legacy_attempt") || requireUuid(p, "attempt_id") != attemptId) invalidArchive()
         val ack = v.getJSONObject("acknowledgement")
-        validateRouteArchiveAck(r, ack)
+        validateTerminalArchiveAck(r, ack)
         if (!strictBoolean(ack, "ok") || strictBoolean(ack, "replay")) invalidArchive()
         v
     }
 
     override fun retainUncompactableAck(original: GatewayStoredRequest, ack: JSONObject) = synchronized(GatewayJournal.PROCESS_LOCK) {
         val p = original.envelope.getJSONObject("payload");val id = requireUuid(p, "attempt_id")
-        validateRouteArchiveAck(original, ack)
-        if (original.action != "archive_attempt" || !strictBoolean(ack, "ok") || strictBoolean(ack, "replay")) invalidArchive()
+        validateTerminalArchiveAck(original, ack)
+        if (original.action !in setOf("archive_attempt","archive_legacy_attempt") || !strictBoolean(ack, "ok") || strictBoolean(ack, "replay")) invalidArchive()
         val rows = readRequests().getJSONArray("requests")
         val source = (0 until rows.length()).map { GatewayStoredRequest.parse(rows.getJSONObject(it)) }.singleOrNull { it.requestId == original.requestId }
             ?: throw GatewayStateException("gateway_archive_request_missing")
@@ -818,7 +880,9 @@ internal class GatewayEncryptedStore private constructor(
     override fun exportColdAttempt(attemptId: String): GatewayColdArchiveExport = synchronized(GatewayJournal.PROCESS_LOCK) {
         readColdAttempt(attemptId) ?: throw GatewayStateException("gateway_attempt_missing");coldLate(attemptId)
         val parts = linkedMapOf<String, ByteArray>()
-        for (name in listOf("cold-$attemptId", "cold-late-$attemptId")) {
+        for (name in listOf("cold-$attemptId", "cold-late-$attemptId",
+            "retention-${GatewayInvocationCustody.PREPARE}-${retentionUuidKey(attemptId)}",
+            "retention-${GatewayInvocationCustody.TERMINAL}-${retentionUuidKey(attemptId)}")) {
             val file = AtomicFile(File(directory, "$name.bin"))
             if (file.baseFile.exists() || File(file.baseFile.path + ".bak").exists()) {
                 val bytes = file.openRead().use { stream ->
@@ -833,6 +897,30 @@ internal class GatewayEncryptedStore private constructor(
             }
         }
         GatewayColdArchiveExport(attemptId, parts, retention.hasKind("late-evidence"))
+    }
+
+    /** Foreground bootstrap uses the original aliases. Existing installations
+     * are lookup-only; first publication has durable provenance before writes. */
+    fun initializeIdentity(identity: GatewayDeviceIdentity, certificate: String): JSONObject = synchronized(GatewayJournal.PROCESS_LOCK) {
+        requireActiveInstallation()
+        if (!certificate.matches(Regex("[0-9a-f]{64}"))) throw GatewayStateException("gateway_identity_changed")
+        identity.ensureKey(keyCustody)
+        val existing = readIdentityMetadata()
+        val value = existing ?: JSONObject().put("contract_version", 1).put("installation_id", keyCustody.identityInstallationId())
+            .put("key_sha256", identity.keyId()).put("signing_certificate_sha256", certificate)
+            .put("public_key_spki_base64", identity.publicKeyBase64())
+        requireKeys(value, setOf("contract_version", "installation_id", "key_sha256", "signing_certificate_sha256", "public_key_spki_base64"))
+        if (strictInteger(value, "contract_version") != 1L) throw GatewayStateException("gateway_identity_changed")
+        requireUuid(value, "installation_id")
+        if (strictString(value, "key_sha256") != identity.keyId() || strictString(value, "signing_certificate_sha256") != certificate ||
+            strictString(value, "public_key_spki_base64") != identity.publicKeyBase64()) throw GatewayStateException("gateway_identity_changed")
+        if (existing == null) {
+            keyCustody.enterIdentity(value)
+            saveIdentityMetadata(value)
+            if (!archiveJsonEqual(readIdentityMetadata(), value)) throw GatewayStateException("gateway_identity_unavailable")
+        }
+        keyCustody.verifyIdentity(value)
+        value
     }
 
     fun readIdentityMetadata(): JSONObject? = synchronized(GatewayJournal.PROCESS_LOCK) {
@@ -854,7 +942,7 @@ internal class GatewayEncryptedStore private constructor(
         // One file family per step avoids cross-reader side effects while the
         // directory iterator is live. Raw sidecars remain in original.
         GatewayRecovery.eachFile(directory,cancelled) { filename ->
-            if(filename.endsWith(".bin.bak")) {
+            if(filename.endsWith(".bin.bak") && !GatewayKeyCreationCustody.recognizes(filename)) {
                 val name=filename.removeSuffix(".bin.bak")
                 load(AtomicFile(File(directory,"$name.bin")),name) ?: invalidArchive()
             }
@@ -875,6 +963,7 @@ internal class GatewayEncryptedStore private constructor(
             for(name in listOf("key_sha256","signing_certificate_sha256")) if(!strictString(metadata,name).matches(Regex("[0-9a-f]{64}"))) invalidArchive()
             val keyBytes=try { java.util.Base64.getDecoder().decode(strictString(metadata,"public_key_spki_base64")) } catch(_:Exception) { invalidArchive() }
             if(keyBytes.size !in 1..1024 || java.security.MessageDigest.getInstance("SHA-256").digest(keyBytes).joinToString("") { "%02x".format(it) }!=strictString(metadata,"key_sha256")) invalidArchive()
+            keyCustody.verifyRetainedIdentity(metadata)
             readEnrollment()?.let { enrolled -> GatewayInstalledEnrollment.verify(metadata,enrolled,metadata.getString("key_sha256"),metadata.getString("public_key_spki_base64"),metadata.getString("signing_certificate_sha256")) }
         }
         // Legacy readers do at most four rows/call. Bound total repair work by
@@ -922,8 +1011,9 @@ internal class GatewayEncryptedStore private constructor(
     }
 
     private fun validateRecoveryObject(name: String) {
+        if (GatewayKeyCreationCustody.recognizes("$name.bin")) { keyCustody.validateRetained(); return }
         val value=load(AtomicFile(File(directory,"$name.bin")),name) ?: throw GatewayStateException("gateway_retention_missing")
-        val kinds=listOf("observed-attempt","callback-body","late-evidence","late-receipt","late-work","late-body","request","receipt","attempt","callback","protocol","terminal")
+        val kinds=listOf("invoke-prepare","invoke-terminal","observed-attempt","callback-body","late-evidence","late-receipt","late-work","late-body","request","receipt","attempt","callback","protocol","terminal")
         if(name.startsWith("retention-index-")) {
             val kind=kinds.firstOrNull { name.startsWith("retention-index-$it-") } ?: invalidArchive()
             val prefix=name.removePrefix("retention-index-$kind-").let { if(it=="root") "" else it }
@@ -935,11 +1025,24 @@ internal class GatewayEncryptedStore private constructor(
             if(!archiveJsonEqual(retention.read(kind,key),value)) invalidArchive()
             fun uuid() = key.chunked(2).joinToString("").let { it.substring(0,8)+"-"+it.substring(8,12)+"-"+it.substring(12,16)+"-"+it.substring(16,20)+"-"+it.substring(20) }
             when(kind) {
+                "invoke-prepare","invoke-terminal" -> {
+                    val original = GatewayInvocationCustody(this).validateRecord(uuid())
+                    val journal = load(journalFile, "journal")
+                    val hot = journal?.getJSONArray("attempts")?.let { rows ->
+                        (0 until rows.length()).map { i ->
+                            if (strictInteger(journal, "contract_version") == 2L) journalAttemptFromJsonV2(rows.getJSONObject(i))
+                            else archiveAttemptFromJson(rows.getJSONObject(i))
+                        }.singleOrNull { it.attemptId == original.attemptId }
+                    }
+                    val cold = readColdAttempt(original.attemptId)?.let { archiveAttemptFromJson(it.getJSONObject("attempt")) }
+                    if (hot == null && cold == null || listOfNotNull(hot, cold).any { gatewayReservationDigest(it) != gatewayReservationDigest(original) })
+                        throw GatewayStateException("gateway_invocation_custody_missing")
+                }
                 "request" -> { val request=GatewayStoredRequest.parse(value);if(retentionUuidKey(request.requestId)!=key) invalidArchive() }
                 "receipt" -> readRequestReceipt(uuid()) ?: invalidArchive()
                 "attempt" -> readColdAttempt(uuid()) ?: invalidArchive()
                 "observed-attempt" -> readObservedAttempt(uuid()) ?: invalidArchive()
-                "protocol" -> if(retainedSuccessorRoute(uuid()) == null && !retainedAttemptUsesV2(uuid())) invalidArchive()
+                "protocol" -> if(retainedNoticeRoute(uuid()) == null && retainedSuccessorRoute(uuid()) == null && !retainedAttemptUsesV2(uuid())) invalidArchive()
                 "callback","callback-body" -> {
                     requireKeys(value,setOf("callback_id","payload","request_id"));val id=requireUuid(value,"callback_id");val payload=value.getJSONObject("payload")
                     if((kind=="callback" && retentionUuidKey(id)!=key) || (kind=="callback-body" && sha256(id+"\n"+retentionCanonical(payload)).take(32)!=key)) invalidArchive()
@@ -1001,6 +1104,7 @@ internal class GatewayEncryptedStore private constructor(
         cancelled: () -> Boolean = { false }, available: (File) -> Long): GatewayRecoveryResult =
         GatewayCycleGate.run { synchronized(GatewayJournal.PROCESS_LOCK) {
             GatewayRecovery.restore(archive,manifestSha256,destination,File(context.noBackupFilesDir,"collect_gateway_v1"),cancelled) { view, count ->
+                GatewayKeyCreationCustody(view, true).validateRetained()
                 val decryptor = cryptoFactory ?: run {
                     val keys=KeyStore.getInstance("AndroidKeyStore").also { it.load(null) }
                     if(!keys.containsAlias(alias)) return@restore false

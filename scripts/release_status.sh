@@ -109,13 +109,11 @@ else
   fi
 fi
 
-linked_sms_first_uat="0"
-if /bin/bash "$ROOT_DIR/scripts/collect_linked_uat.sh" >/dev/null 2>&1; then
-  linked_sms_first_uat="1"
-fi
-
-if [[ "$linked_sms_first_uat" != "1" ]]; then
-  add_blocker "linked_supabase_sms_first_migration" "Linked Supabase SMS-first payment-intent UAT is not passed."
+platform_acceptance="0"
+if python3 "$ROOT_DIR/scripts/qa/release_evidence.py" current-platform --json >/dev/null; then
+  platform_acceptance="1"
+else
+  add_blocker "current_supabase_hosted_acceptance_pending" "Current Supabase hosted authentication, authorization, financial, delivery and recovery acceptance is pending."
 fi
 
 if [[ "$release_owner_signoff_approved" != "1" ]]; then
@@ -134,7 +132,7 @@ if [[ "$output_format" == "json" ]]; then
     printf '{\n'
     printf '  "decision": %s,\n' "$(json_escape "$decision")"
     printf '  "status": %s,\n' "$(json_escape "$status")"
-    printf '  "supabase_strict": %s,\n' "$(json_escape "$status")"
+    printf '  "platform_strict": %s,\n' "$(json_escape "$status")"
     printf '  "blocker_keys": ['
     for i in "${!blocker_keys[@]}"; do
       [[ "$i" -gt 0 ]] && printf ', '
@@ -155,7 +153,7 @@ if [[ "$output_format" == "json" ]]; then
     printf '    "ios_release_scope": %s,\n' "$(json_escape "$(has_blocker ios_release_scope && printf missing || printf current)")"
     printf '    "admin_pwa_live_url": %s,\n' "$(json_escape "${admin_pwa_live_url:+present}")"
     printf '    "admin_pwa_live_gate": %s,\n' "$(json_escape "$admin_pwa_live_status")"
-    printf '    "linked_sms_first_uat": %s,\n' "$(json_escape "$linked_sms_first_uat")"
+    printf '    "platform_acceptance": %s,\n' "$(json_escape "$platform_acceptance")"
     printf '    "release_owner_signoff": %s\n' "$(json_escape "$release_owner_signoff_approved")"
     printf '  }\n'
     printf '}\n'

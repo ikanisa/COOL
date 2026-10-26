@@ -1,17 +1,26 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../core/cloudflare/collect_cloudflare_client.dart';
 import 'admin_auth_guard.dart';
 import 'admin_sender_retention_models.dart';
 
 bool retentionDenied(Object e) =>
     e is AdminSessionChanged ||
-    e is AuthException ||
-    e is PostgrestException &&
+    e is CollectAuthException ||
+    e is CollectApiException &&
         const {
           '42501',
-          '28000',
-          'PGRST301',
-          'PGRST302',
-          'PGRST303',
+          '401',
+          '403',
+          'authentication_required',
+          'invalid_token',
+          'access_revoked',
+          'unauthenticated',
+          'session_changed',
+          'fresh_auth_required',
+          'recent_email_sign_in_required',
+          'mfa_required',
+          'admin_required',
+          'permission_denied',
+          'origin_denied',
         }.contains(e.code);
 
 abstract interface class AdminRetentionApi {

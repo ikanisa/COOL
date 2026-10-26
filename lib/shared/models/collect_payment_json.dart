@@ -65,3 +65,14 @@ String _paymentOptionalText(
 /// rather than assigned a timezone that varies with the user's device.
 DateTime _paymentTimestamp(Object? value, String field) =>
     exactJsonTimestamp(value, field: field);
+
+String _historyUuid(Object? value, String field) {
+  if (value is! String ||
+      !RegExp(
+        r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
+        caseSensitive: false,
+      ).hasMatch(value)) {
+    throw FormatException('Invalid history identifier: $field');
+  }
+  return value;
+}

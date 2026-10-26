@@ -6,42 +6,45 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_action_contracts_test.dart' as contracts;
 import 'admin_action_session_test.dart' as sdk;
 
+Future<void> refuseExpiredSession(CollectCloudflareClient client) async {
+  await client.auth.clearLocalSession();
+  final receipt = sdk.authReceipt('expired-declared-session', '0');
+  final token = (receipt['access_token'] as String).split('.');
+  final claims =
+      jsonDecode(utf8.decode(base64Url.decode(base64Url.normalize(token[1]))))
+          as Map<String, dynamic>;
+  claims['exp'] = DateTime.now().millisecondsSinceEpoch ~/ 1000 - 1;
+  receipt['access_token'] =
+      '${token[0]}.${base64Url.encode(utf8.encode(jsonEncode(claims))).replaceAll('=', '')}.${token[2]}';
+  await expectLater(
+    () => client.auth.recoverSession(jsonEncode(receipt)),
+    throwsA(
+      isA<CollectAuthException>().having(
+        (error) => error.code,
+        'code',
+        'invalid_session',
+      ),
+    ),
+  );
+  expect(client.auth.currentSession, isNull);
+}
+
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late Future<http.Response> Function(http.Request) respond;
   late List<http.Request> requests;
   setUp(() async {
     requests = [];
     respond = (_) async => sdk.response({});
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'synthetic-key',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((r) async {
-        if (r.url.path.endsWith('/verify')) {
-          final values = (jsonDecode(r.body)['token'] as String).split('|');
-          final receipt = sdk.authReceipt(values[0], values[1]);
-          if (values[0] == 'expired-matrix-session') {
-            final parts = (receipt['access_token'] as String).split('.');
-            final claims =
-                jsonDecode(
-                      utf8.decode(
-                        base64Url.decode(base64Url.normalize(parts[1])),
-                      ),
-                    )
-                    as Map<String, dynamic>;
-            claims['exp'] = DateTime.now().millisecondsSinceEpoch ~/ 1000 - 1;
-            receipt['access_token'] =
-                '${parts[0]}.${base64Url.encode(utf8.encode(jsonEncode(claims))).replaceAll('=', '')}.${parts[2]}';
-          }
-          return sdk.response(receipt);
-        }
         requests.add(r);
         final reply = await respond(r);
         return http.Response.bytes(
@@ -105,7 +108,7 @@ void main() {
           throwsA(
             lostReply == 'network'
                 ? isA<http.ClientException>()
-                : isA<PostgrestException>(),
+                : isA<CollectApiException>(),
           ),
         );
         expect(requests, hasLength(1));
@@ -125,13 +128,13 @@ void main() {
         }, 403);
         await expectLater(
           repository.action(rpc, params),
-          throwsA(isA<PostgrestException>()),
+          throwsA(isA<CollectApiException>()),
         );
         expect(requests, hasLength(1));
       },
     );
     test('$rpc expired JWT is denied before HTTP dispatch', () async {
-      await sdk.session(client, 'expired-matrix-session');
+      await refuseExpiredSession(client);
       expect(adminSessionKey(client.auth.currentSession), isNull);
       repository = AdminRepository(client);
       await expectLater(

@@ -33,16 +33,13 @@ void main() {
     foreign,
   ]) {
     test(
-      'incomplete ${profile.id} cannot join, contribute or create: ${profile.momoNumber}/${profile.momoProvider}/${profile.currencyCode}',
+      'membership and financial profile stay separate for ${profile.id}: ${profile.momoNumber}/${profile.momoProvider}/${profile.currencyCode}',
       () async {
         final repo = FixtureCollectRepository(profileOverride: profile);
         addTearDown(repo.dispose);
         final priorIntents = [...repo.state.paymentIntents];
         final group = repo.state.collections.first;
-        await expectLater(
-          repo.joinGroupBySlug(group.slug),
-          throwsFormatException,
-        );
+        expect((await repo.joinGroupBySlug(group.slug)).id, group.id);
         await expectLater(
           repo.createPaymentIntent(
             PaymentIntentDraft(collectionId: group.id, amountRwf: 1000),
@@ -50,7 +47,10 @@ void main() {
           throwsFormatException,
         );
         await expectLater(
-          repo.createCollection(title: 'Fixture group', description: ''),
+          repo.createCollectionWithVerifiedReceiver(
+            title: 'Fixture group',
+            description: '',
+          ),
           throwsFormatException,
         );
         expect(repo.state.paymentIntents, priorIntents);

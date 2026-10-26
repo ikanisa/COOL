@@ -14,7 +14,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const _user = '99740000-0000-4000-8000-000000000001';
 const _other = '99740000-0000-4000-8000-000000000002';
@@ -141,7 +141,7 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(
-        find.text('Contribution confirmations: saved On, intended Off'),
+        find.text('Contribution updates: saved On, intended Off'),
         findsOneWidget,
       );
       expect(
@@ -278,7 +278,7 @@ http.Response _json(Object? body, [int status = 200]) => http.Response(
 
 class _Harness {
   _Harness(this.client, this.repo);
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   final _Repository repo;
   final saves = <Map<String, dynamic>>[];
   int reads = 0, revision = 1, conflicts = 0;
@@ -286,11 +286,9 @@ class _Harness {
   Completer<http.Response>? readBarrier;
   static Future<_Harness> create() async {
     late _Harness h;
-    late final SupabaseClient client;
-    client = SupabaseClient(
+    late final CollectCloudflareClient client;
+    client = CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'synthetic-anon',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         http.Response bind(http.Response response) => http.Response.bytes(
           response.bodyBytes,
@@ -347,21 +345,13 @@ class _Harness {
         throw StateError('Unexpected fixture path ${request.url.path}');
       }),
     );
-    await client.auth.verifyOTP(
-      phone: '+250788974001',
-      token: _user,
-      type: OtpType.sms,
-    );
+    await client.auth.recoverSession(jsonEncode(_auth(_user)));
     h = _Harness(client, _Repository(client));
     return h;
   }
 
   Future<void> login(String user) async {
-    await client.auth.verifyOTP(
-      phone: '+250788974001',
-      token: user,
-      type: OtpType.sms,
-    );
+    await client.auth.recoverSession(jsonEncode(_auth(user)));
     for (var i = 0; i < 5; i++) {
       await Future<void>.delayed(Duration.zero);
     }
@@ -370,7 +360,7 @@ class _Harness {
 
 Map<String, dynamic> _auth(String user) => {
   'access_token':
-      'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': user, 'session_id': user == _user ? '99740000-0000-4000-8000-000000000011' : '99740000-0000-4000-8000-000000000012', 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
+      'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': user, 'session_id': user == _user ? '99740000-0000-4000-8000-000000000011' : '99740000-0000-4000-8000-000000000012', 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
   'refresh_token': 'synthetic-refresh',
   'token_type': 'bearer',
   'user': {
@@ -398,11 +388,11 @@ class _Repository extends CollectRepository {
           paymentIntents: const [],
           contributions: const [],
         ),
-        supabase: client,
+        backend: client,
         smsAccessChannel: _Sms(),
         offlineCache: _Cache(),
       );
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
     final user = client.auth.currentUser?.id;

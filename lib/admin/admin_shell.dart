@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../app/env/app_env.dart';
 import '../app/theme/collect_colors.dart';
-import '../app/theme/collect_radius.dart';
 import '../app/theme/collect_runtime_assets.dart';
-import '../app/theme/collect_spacing.dart';
 import '../app/theme/collect_typography.dart';
 import '../app/theme/collect_universal_tokens.dart';
 import 'core/admin_auth_guard.dart';
@@ -33,7 +30,9 @@ class _AdminShellState extends ConsumerState<AdminShell> {
 
   @override
   Widget build(BuildContext context) {
-    final env = ref.watch(appEnvProvider);
+    // Keep one session-scoped subscription alive while access/configuration
+    // are revalidated. Their loading states must not trigger a rejoin loop.
+    ref.watch(adminRealtimeSubscriptionProvider);
     final identity = ref.watch(adminIdentityProvider);
     return Scaffold(
       backgroundColor: context.collectUniversalTokens.adminWorkspace,
@@ -54,7 +53,6 @@ class _AdminShellState extends ConsumerState<AdminShell> {
           ),
           data: (value) {
             if (value == null) return const AdminDeniedPage();
-            ref.watch(adminRealtimeSubscriptionProvider);
             final configuration = ref.watch(adminRuntimeConfigProvider);
             final ready = !configuration.isLoading && !configuration.hasError;
             final runtimeConfig = ready ? configuration.valueOrNull : null;
@@ -83,7 +81,9 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                   ? widget.child
                   : AdminDeniedPage(
                       requiredPermission:
-                          widget.location == '/admin/sms-gateway'
+                          widget.location == '/admin/privacy-requests'
+                          ? 'platform_owner, users.read and audit.read'
+                          : widget.location == '/admin/sms-gateway'
                           ? 'notifications.read and system_health.read'
                           : widget.location == '/admin/exceptions'
                           ? 'payments.read, notifications.read and system_health.read'
@@ -97,7 +97,7 @@ class _AdminShellState extends ConsumerState<AdminShell> {
             return LayoutBuilder(
               builder: (context, constraints) {
                 final compact = constraints.maxWidth < 720;
-                const forcedCompactRail = false;
+                final forcedCompactRail = constraints.maxWidth < 1000;
                 final collapsed = _railCollapsed || forcedCompactRail;
                 final content = LayoutBuilder(
                   builder: (context, workspace) => Semantics(
@@ -116,7 +116,6 @@ class _AdminShellState extends ConsumerState<AdminShell> {
                             child: Column(
                               children: [
                                 _AdminTopbar(
-                                  envName: env.environmentName,
                                   identity: value,
                                   location: widget.location,
                                   destinations: destinations,
@@ -217,6 +216,7 @@ class _AdminSidebarState extends State<_AdminSidebar> {
       Scrollable.ensureVisible(
         selectedContext,
         alignment: 0.5,
+        alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
         duration: const Duration(milliseconds: 180),
         curve: Curves.easeOutCubic,
       );
@@ -249,12 +249,12 @@ class _AdminSidebarState extends State<_AdminSidebar> {
                       for (final section in _AdminNavSection.values) ...[
                         if (!widget.collapsed)
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 16, 8, 7),
+                            padding: const EdgeInsets.fromLTRB(12, 14, 12, 6),
                             child: Text(
                               _sectionLabels[section]!,
                               style: Theme.of(context).textTheme.labelSmall
                                   ?.copyWith(
-                                    color: colors.onImagePrimary.withValues(
+                                    color: colors.textPrimary.withValues(
                                       alpha: 0.58,
                                     ),
                                     fontWeight: CollectTypography.weightMedium,
@@ -268,9 +268,7 @@ class _AdminSidebarState extends State<_AdminSidebar> {
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Divider(
                               height: 1,
-                              color: colors.onImagePrimary.withValues(
-                                alpha: 0.10,
-                              ),
+                              color: colors.textPrimary.withValues(alpha: 0.10),
                             ),
                           ),
                         for (final destination in widget.destinations)
@@ -292,34 +290,47 @@ class _AdminSidebarState extends State<_AdminSidebar> {
                   height: 1,
                   indent: 18,
                   endIndent: 18,
-                  color: colors.onImagePrimary.withValues(alpha: 0.12),
+                  color: colors.textPrimary.withValues(alpha: 0.12),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Tooltip(
-                    message: widget.collapsed
-                        ? 'Expand navigation'
-                        : 'Collapse',
-                    child: TextButton.icon(
-                      onPressed: widget.canToggle ? widget.onToggle : null,
-                      style: TextButton.styleFrom(
-                        minimumSize: const Size.fromHeight(48),
-                        foregroundColor: colors.onImagePrimary,
-                        alignment: widget.collapsed
-                            ? Alignment.center
-                            : Alignment.centerLeft,
-                      ),
-                      icon: Icon(
-                        widget.collapsed
-                            ? Icons.chevron_right_rounded
-                            : Icons.chevron_left_rounded,
-                      ),
-                      label: widget.collapsed
-                          ? const SizedBox.shrink()
-                          : const Text('Collapse'),
+                if (widget.canToggle)
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Tooltip(
+                      message: widget.collapsed
+                          ? 'Expand navigation'
+                          : 'Collapse',
+                      child: widget.collapsed
+                          ? IconButton(
+                              tooltip: 'Expand navigation',
+                              onPressed: widget.onToggle,
+                              icon: Icon(
+                                Icons.chevron_right_rounded,
+                                color: colors.textPrimary,
+                                size: 30,
+                              ),
+                            )
+                          : TextButton.icon(
+                              onPressed: widget.canToggle
+                                  ? widget.onToggle
+                                  : null,
+                              style: TextButton.styleFrom(
+                                minimumSize: const Size.fromHeight(48),
+                                foregroundColor: colors.textPrimary,
+                                alignment: widget.collapsed
+                                    ? Alignment.center
+                                    : Alignment.centerLeft,
+                              ),
+                              icon: Icon(
+                                widget.collapsed
+                                    ? Icons.chevron_right_rounded
+                                    : Icons.chevron_left_rounded,
+                              ),
+                              label: widget.collapsed
+                                  ? const SizedBox.shrink()
+                                  : const Text('Collapse'),
+                            ),
                     ),
                   ),
-                ),
               ],
             ),
           ),
@@ -337,61 +348,70 @@ class _AdminBrand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.collectColors;
-    return Padding(
-      padding: EdgeInsets.fromLTRB(collapsed ? 12 : 20, 10, 12, 12),
-      child: Row(
-        mainAxisAlignment: collapsed
-            ? MainAxisAlignment.center
-            : MainAxisAlignment.start,
-        children: [
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: colors.onImagePrimary.withValues(alpha: 0.08),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: colors.onImagePrimary.withValues(alpha: 0.14),
-              ),
-            ),
-            child: SizedBox.square(
-              dimension: 42,
-              child: Padding(
-                padding: const EdgeInsets.all(7),
-                child: Image.asset(
-                  CollectRuntimeAssets.officialLogo,
-                  excludeFromSemantics: true,
-                  fit: BoxFit.contain,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // The rail animates from 80px. Reveal the expanded brand only once its
+        // real width can accommodate that layout, rather than the target width.
+        final compact =
+            collapsed ||
+            constraints.maxWidth <
+                context.collectUniversalTokens.adminRailWidth;
+        return Padding(
+          padding: EdgeInsets.fromLTRB(compact ? 12 : 20, 10, 12, 12),
+          child: Row(
+            mainAxisAlignment: compact
+                ? MainAxisAlignment.center
+                : MainAxisAlignment.start,
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colors.textPrimary.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: SizedBox.square(
+                  dimension: 42,
+                  child: Padding(
+                    padding: const EdgeInsets.all(7),
+                    child: Image.asset(
+                      CollectRuntimeAssets.officialLogo,
+                      excludeFromSemantics: true,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              if (!compact) ...[
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Collect Admin',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: colors.textPrimary,
+                              fontWeight: CollectTypography.weightMedium,
+                            ),
+                      ),
+                      Text(
+                        'Operations',
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
+                              color: colors.textPrimary.withValues(alpha: 0.58),
+                              fontWeight: CollectTypography.weightMedium,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
           ),
-          if (!collapsed) ...[
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Collect Admin',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: colors.onImagePrimary,
-                      fontWeight: CollectTypography.weightBold,
-                    ),
-                  ),
-                  Text(
-                    'Operations',
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: colors.onImagePrimary.withValues(alpha: 0.58),
-                      fontWeight: CollectTypography.weightMedium,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -418,9 +438,10 @@ class _AdminMobileNav extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
             child: Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.admin_panel_settings_outlined,
-                  color: CollectColors.publicWhite,
+                  size: 30,
+                  color: colors.textPrimary,
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -434,17 +455,18 @@ class _AdminMobileNav extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: colors.onImagePrimary,
-                        fontWeight: CollectTypography.weightBold,
+                        color: colors.textPrimary,
+                        fontWeight: CollectTypography.weightMedium,
                       ),
                     ),
                   ),
                 ),
                 PopupMenuButton<String>(
                   tooltip: 'Open admin navigation',
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.menu_rounded,
-                    color: CollectColors.publicWhite,
+                    size: 30,
+                    color: colors.textPrimary,
                   ),
                   onSelected: context.go,
                   itemBuilder: (context) => [
@@ -460,12 +482,13 @@ class _AdminMobileNav extends StatelessWidget {
                             value: destination.path,
                             child: Semantics(
                               label: '${destination.label} admin section',
+                              selected: _isSelected(destination.path, location),
                               hint:
                                   'Opens ${destination.label} in the admin console.',
                               excludeSemantics: true,
                               child: Row(
                                 children: [
-                                  Icon(destination.icon, size: 20),
+                                  Icon(destination.icon, size: 28),
                                   const SizedBox(width: 12),
                                   Expanded(child: Text(destination.label)),
                                   if (_isSelected(destination.path, location))
@@ -502,15 +525,15 @@ class _NavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final selected = _isSelected(destination.path, location);
     final colors = context.collectColors;
-    final foreground = colors.onImagePrimary;
+    final foreground = colors.textPrimary;
     final tile = ListTile(
       selected: selected,
       selectedColor: foreground,
-      selectedTileColor: colors.onImagePrimary.withValues(alpha: 0.10),
+      selectedTileColor: colors.borderAccent.withValues(alpha: 0.12),
       tileColor: Colors.transparent,
-      iconColor: foreground.withValues(alpha: selected ? 1 : 0.78),
+      iconColor: selected ? foreground : colors.textSecondary,
       textColor: foreground,
-      leading: Icon(destination.icon, size: 20),
+      leading: Icon(destination.icon, size: 28),
       title: collapsed
           ? null
           : Semantics(
@@ -521,32 +544,51 @@ class _NavItem extends StatelessWidget {
                 destination.label,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: foreground.withValues(alpha: selected ? 1 : 0.84),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: selected ? foreground : colors.textSecondary,
                   fontWeight: selected
                       ? CollectTypography.weightSemibold
                       : CollectTypography.weightMedium,
                 ),
               ),
             ),
-      minTileHeight: CollectSpacing.iconTarget,
-      minLeadingWidth: collapsed ? 0 : null,
-      contentPadding: EdgeInsets.symmetric(horizontal: collapsed ? 16 : 12),
-      shape: RoundedRectangleBorder(borderRadius: CollectRadius.pillBorder),
+      minTileHeight: 48,
+      minLeadingWidth: collapsed ? 0 : 30,
+      horizontalTitleGap: 12,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       onTap: () => context.go(destination.path),
     );
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
+      padding: const EdgeInsets.symmetric(vertical: 1),
       child: Semantics(
-        selected: selected,
-        label: collapsed ? '${destination.label} admin section' : null,
-        hint: collapsed
-            ? 'Opens ${destination.label} in the admin console.'
-            : null,
-        button: collapsed,
-        child: collapsed
-            ? Tooltip(message: destination.label, child: tile)
-            : tile,
+        child: Tooltip(
+          message: destination.label,
+          excludeFromSemantics: true,
+          child: collapsed
+              ? SizedBox(
+                  height: 48,
+                  child: IconButton(
+                    isSelected: selected,
+                    style: IconButton.styleFrom(
+                      backgroundColor: selected
+                          ? colors.borderAccent.withValues(alpha: 0.12)
+                          : colors.transparent,
+                      foregroundColor: foreground,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () => context.go(destination.path),
+                    icon: Icon(
+                      destination.icon,
+                      size: 30,
+                      semanticLabel: '${destination.label} admin section',
+                    ),
+                  ),
+                )
+              : tile,
+        ),
       ),
     );
   }
@@ -554,13 +596,11 @@ class _NavItem extends StatelessWidget {
 
 class _AdminTopbar extends ConsumerWidget {
   const _AdminTopbar({
-    required this.envName,
     required this.identity,
     required this.location,
     required this.destinations,
   });
 
-  final String envName;
   final AdminIdentity identity;
   final String location;
   final List<_AdminNavDestination> destinations;
@@ -569,275 +609,204 @@ class _AdminTopbar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.collectColors;
     final current = _destinationForLocation(location, destinations);
+    final accessLabel = identity.roles.contains('platform_owner')
+        ? 'Owner'
+        : identity.roles.contains('staff')
+        ? 'Staff'
+        : 'Admin';
     final lastRefresh = ref.watch(adminLastSuccessfulRefreshProvider);
+    final liveStatus = ref.watch(adminLiveUpdateStatusProvider);
+    final refreshLabel = lastRefresh == null
+        ? 'Not refreshed'
+        : 'Last refreshed: ${adminKigaliTime(lastRefresh)} · Africa/Kigali';
+    final liveLabel = '${liveStatus.label} · $refreshLabel';
+    final visibleStatus = lastRefresh == null
+        ? '${liveStatus.label} · Not refreshed'
+        : '${liveStatus.label} · ${adminKigaliTime(lastRefresh)}';
     return Semantics(
       container: true,
       explicitChildNodes: true,
       label:
-          'Signed in as ${identity.displayName}. Access: Admin. Environment: $envName.',
+          'Signed in as ${identity.displayName}. Access: $accessLabel. ${_workspaceTitle(current)}.',
       child: Material(
-        color: context.collectUniversalTokens.adminRail,
+        color: context.collectUniversalTokens.adminWorkspace,
         child: SafeArea(
           bottom: false,
           child: LayoutBuilder(
             builder: (context, constraints) {
               final compact = constraints.maxWidth < 760;
               final showSearch = constraints.maxWidth >= 980;
-              final showIdentity = constraints.maxWidth >= 900;
-              final headerItems = <Widget>[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox.square(
-                            dimension: 48,
-                            child: IconButton(
-                              tooltip: 'Operations overview',
-                              onPressed: () => context.go('/admin'),
-                              icon: Icon(
-                                Icons.home_outlined,
-                                size: 19,
-                                color: colors.onImagePrimary.withValues(
-                                  alpha: 0.60,
+              return Padding(
+                padding: EdgeInsets.fromLTRB(
+                  compact ? 16 : 24,
+                  10,
+                  compact ? 16 : 24,
+                  10,
+                ),
+                child: Row(
+                  children: [
+                    if (!compact) ...[
+                      IconButton(
+                        tooltip: 'Operations overview',
+                        onPressed: () => context.go('/admin'),
+                        icon: const Icon(
+                          Icons.space_dashboard_outlined,
+                          size: 28,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                    ],
+                    Expanded(
+                      child: Semantics(
+                        key: const Key('admin-live-update-status'),
+                        container: true,
+                        excludeSemantics: true,
+                        label: liveLabel,
+                        child: Tooltip(
+                          message: liveLabel,
+                          child: Row(
+                            children: [
+                              Icon(
+                                liveStatus == AdminLiveUpdateStatus.live
+                                    ? Icons.sensors_rounded
+                                    : liveStatus ==
+                                          AdminLiveUpdateStatus.unavailable
+                                    ? Icons.cloud_off_outlined
+                                    : Icons.sync_rounded,
+                                size: 24,
+                                color: liveStatus == AdminLiveUpdateStatus.live
+                                    ? colors.successForeground
+                                    : colors.textSecondary,
+                              ),
+                              const SizedBox(width: 10),
+                              Flexible(
+                                child: Text(
+                                  visibleStatus,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.labelMedium
+                                      ?.copyWith(color: colors.textSecondary),
                                 ),
                               ),
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          Icon(
-                            Icons.chevron_right_rounded,
-                            size: 18,
-                            color: colors.onImagePrimary.withValues(
-                              alpha: 0.44,
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          Flexible(
-                            child: Text(
-                              _workspaceTitle(current),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    color: colors.onImagePrimary,
-                                    fontWeight: CollectTypography.weightBold,
-                                  ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      if (!compact) ...[
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.refresh_rounded,
-                              size: 15,
-                              color: colors.onImagePrimary.withValues(
-                                alpha: 0.54,
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              lastRefresh == null
-                                  ? 'Not refreshed'
-                                  : 'Last refreshed: ${adminKigaliTime(lastRefresh)} · Africa/Kigali',
-                              style: Theme.of(context).textTheme.labelMedium
-                                  ?.copyWith(
-                                    color: colors.onImagePrimary.withValues(
-                                      alpha: 0.62,
-                                    ),
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-                if (showSearch) ...[
-                  const SizedBox(width: 16),
-                  SizedBox(
-                    width: constraints.maxWidth >= 1100 ? 280 : 210,
-                    height: 46,
-                    child: TextField(
-                      textInputAction: TextInputAction.search,
-                      onSubmitted: (query) => _openMatchingDestination(
-                        context,
-                        destinations,
-                        query,
-                      ),
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: colors.onImagePrimary,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: 'Search or press ⌘K',
-                        hintStyle: Theme.of(context).textTheme.bodyMedium
-                            ?.copyWith(
-                              color: colors.onImagePrimary.withValues(
-                                alpha: 0.56,
-                              ),
-                            ),
-                        prefixIcon: Icon(
-                          Icons.search_rounded,
-                          color: colors.onImagePrimary.withValues(alpha: 0.62),
-                        ),
-                        filled: true,
-                        fillColor: colors.onImagePrimary.withValues(
-                          alpha: 0.04,
-                        ),
-                        contentPadding: EdgeInsets.zero,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: colors.onImagePrimary.withValues(
-                              alpha: 0.18,
-                            ),
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: colors.onImagePrimary.withValues(
-                              alpha: 0.18,
-                            ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-                const SizedBox(width: 14),
-                _EnvironmentBadge(envName: envName),
-                const SizedBox(width: 8),
-                const _AdminCountryBadge(),
-                const SizedBox(width: 12),
-                Semantics(
-                  button: true,
-                  label: 'Operator menu',
-                  child: PopupMenuButton<String>(
-                    tooltip: 'Operator menu',
-                    onSelected: (value) async {
-                      if (value != 'sign-out') return;
-                      await ref.read(adminRepositoryProvider).signOut();
-                      if (!context.mounted) return;
-                      ref.invalidate(adminAuthStateProvider);
-                      ref.invalidate(adminAuthGuardProvider);
-                      ref.invalidate(adminIdentityProvider);
-                      if (context.mounted) context.go('/admin/login');
-                    },
-                    itemBuilder: (context) => const [
-                      PopupMenuItem(
-                        value: 'sign-out',
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: Icon(Icons.logout_rounded),
-                          title: Text('Sign out'),
+                    if (showSearch) ...[
+                      const SizedBox(width: 24),
+                      SizedBox(
+                        width: 260,
+                        child: TextField(
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (query) => _openMatchingDestination(
+                            context,
+                            destinations,
+                            query,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: 'Find a section',
+                            prefixIcon: const Icon(
+                              Icons.search_rounded,
+                              size: 28,
+                            ),
+                            suffixIcon: Tooltip(
+                              message: 'Enter a section name, then press Enter',
+                              child: Icon(
+                                Icons.keyboard_return_rounded,
+                                size: 22,
+                                color: colors.textMuted,
+                              ),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 14,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(
+                                color: colors.focusRing,
+                                width: 2,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
-                    child: SizedBox(
-                      height: 48,
-                      width: showIdentity ? null : 48,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundColor: colors.onImagePrimary.withValues(
-                              alpha: 0.10,
-                            ),
-                            foregroundColor: colors.onImagePrimary,
-                            child: Text(
-                              _initials(identity.displayName),
-                              style: Theme.of(context).textTheme.labelLarge
-                                  ?.copyWith(
-                                    color: colors.onImagePrimary,
-                                    fontWeight: CollectTypography.weightBold,
+                    const SizedBox(width: 16),
+                    const _AdminCountryBadge(),
+                    const SizedBox(width: 12),
+                    Semantics(
+                      child: PopupMenuButton<String>(
+                        tooltip: 'Operator menu',
+                        onSelected: (value) async {
+                          if (value != 'sign-out') return;
+                          try {
+                            await ref.read(adminRepositoryProvider).signOut();
+                          } catch (_) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Sign-out was not confirmed. Please try again.',
                                   ),
+                                ),
+                              );
+                            }
+                            return;
+                          }
+                          if (!context.mounted) return;
+                          ref.invalidate(adminAuthStateProvider);
+                          ref.invalidate(adminAuthGuardProvider);
+                          ref.invalidate(adminIdentityProvider);
+                          if (context.mounted) context.go('/admin/login');
+                        },
+                        itemBuilder: (context) => [
+                          PopupMenuItem<String>(
+                            enabled: false,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(identity.displayName),
+                                Text(accessLabel),
+                              ],
                             ),
                           ),
-                          if (showIdentity) ...[
-                            const SizedBox(width: 9),
-                            ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: 120),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    identity.displayName,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge
-                                        ?.copyWith(
-                                          color: colors.onImagePrimary,
-                                          fontWeight:
-                                              CollectTypography.weightBold,
-                                        ),
-                                  ),
-                                  Text(
-                                    'Admin',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium
-                                        ?.copyWith(
-                                          color: colors.onImagePrimary
-                                              .withValues(alpha: 0.62),
-                                        ),
-                                  ),
-                                ],
-                              ),
+                          const PopupMenuItem(
+                            value: 'sign-out',
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: Icon(Icons.logout_rounded, size: 28),
+                              title: Text('Sign out'),
                             ),
-                            Icon(
-                              Icons.arrow_drop_down_rounded,
-                              color: colors.onImagePrimary.withValues(
-                                alpha: 0.56,
-                              ),
-                            ),
-                          ],
+                          ),
                         ],
+                        child: SizedBox.square(
+                          dimension: 48,
+                          child: Center(
+                            child: CircleAvatar(
+                              radius: 22,
+                              backgroundColor: colors.surfaceRaised,
+                              foregroundColor: colors.textPrimary,
+                              child: Text(
+                                _initials(identity.displayName),
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ];
-              return Container(
-                constraints: BoxConstraints(minHeight: compact ? 64 : 88),
-                padding: EdgeInsets.symmetric(
-                  horizontal: compact ? 14 : 20,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: colors.onImagePrimary.withValues(alpha: 0.10),
-                    ),
-                  ),
-                ),
-                child: compact
-                    ? Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: constraints.maxWidth - 28,
-                            child: (headerItems.first as Expanded).child,
-                          ),
-                          ...headerItems
-                              .skip(1)
-                              .where((item) => item is! SizedBox),
-                        ],
-                      )
-                    : Row(children: headerItems),
               );
             },
           ),
@@ -855,45 +824,14 @@ class _AdminCountryBadge extends StatelessWidget {
     label: 'Rwanda operations',
     child: Tooltip(
       message: 'Rwanda',
+      excludeFromSemantics: true,
       child: Icon(
-        Icons.cell_tower_outlined,
-        color: context.collectColors.onImagePrimary,
+        Icons.public_rounded,
+        color: context.collectColors.textPrimary,
+        size: 28,
       ),
     ),
   );
-}
-
-class _EnvironmentBadge extends StatelessWidget {
-  const _EnvironmentBadge({required this.envName});
-
-  final String envName;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.onImagePrimary.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color: colors.onImagePrimary.withValues(alpha: 0.14),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
-        child: Text(
-          envName.toUpperCase(),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: colors.onImagePrimary,
-            fontWeight: CollectTypography.weightBold,
-            letterSpacing: CollectTypography.trackingMeta,
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 class AdminPageError extends StatelessWidget {

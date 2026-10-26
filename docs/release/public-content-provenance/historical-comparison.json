@@ -1,0 +1,344 @@
+{
+  "status": "pass",
+  "routes": [
+    {
+      "route": "/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "a0b19e5bd9838068cc6b4dddcc3db7cf169e05702268b77f69a43900c827b56b",
+      "current_sha256": "8c8b394a6209cee44c48796376c4c5f7e9f266d337a33454234491f4d67f7138",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora",
+        "Diaspora Group Savings",
+        "Save together through a host-country partner bank and build collateral, access credit and capital to invest home.",
+        "Explore Diaspora",
+        "Diaspora",
+        "Diaspora group savings at host-country partner banks. Collateral pledged and Credit access.",
+        "Diaspora credit barriers",
+        "Mobility risk, thin credit histories, unstable employment and insufficient acceptable collateral restrict access to affordable host-country loans."
+      ],
+      "added_lines": [],
+      "diff_sha256": "61690758abc5fb12f7561d2187bcbd462cbad36a80481344c604f90615e8517d"
+    },
+    {
+      "route": "/account-deletion/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "ef6f3bb7302829b8660e08dba1670ef128c2af2139574ef0a0cfa90e6e6fe4fa",
+      "current_sha256": "87e8266240315ecaaf055776ce32f7402a3c95204d0e806784632552bf2aaa85",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora",
+        "Collect app \u00b7 Example data",
+        "Deleting your Collect account does not automatically close any bank account, cancel any loan, cancel any insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.",
+        "Required field.",
+        "Required field.",
+        "Required field.",
+        "Required field.",
+        "I understand that deleting my Collect account does not cancel any bank account, loan, insurance policy, group obligation or other product provided by a third party.",
+        "Required field.",
+        "To close a bank account, cancel an insurance policy or discuss a loan, contact the relevant bank, insurer or other provider. Collect cannot cancel an independently provided regulated product on the partner\u2019s behalf unless the partner has expressly enabled that workflow."
+      ],
+      "added_lines": [
+        "Collect interface preview \u00b7 Example data",
+        "Deleting your Collect account does not automatically cancel any loan or insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.",
+        "Optional field.",
+        "Optional field.",
+        "Optional field.",
+        "Optional field.",
+        "I understand that deleting my Collect account does not cancel any loan, insurance policy, group obligation or other product provided by a third party.",
+        "Optional field.",
+        "To cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider. Collect cannot cancel an independently provided regulated product on the partner\u2019s behalf unless the partner has expressly enabled that workflow."
+      ],
+      "diff_sha256": "e5fba5b2d1c67084bda9b698daf6031d5813d4da973a8fd2b833befe0afb8cc1"
+    },
+    {
+      "route": "/community-groups/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "995ac5664e120c477e6c40df6571b697a46f1f0c1552af2868a5e11f2af2153c",
+      "current_sha256": "2551f4cae37cdceb0b763313acbd136ed4318307afa1337b185063b395b48841",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora",
+        "Collect app \u00b7 Example data",
+        "05",
+        "Diaspora associations",
+        "Create partner-bank-linked group savings and eligible collateral arrangements.",
+        "Women-led groups, youth savings groups, diaspora associations"
+      ],
+      "added_lines": [
+        "Collect interface preview \u00b7 Example data",
+        "Women-led groups and youth savings groups"
+      ],
+      "diff_sha256": "4cf48c27331931e4fafd18fd285d981e80f27722529f9a758afac56457cfa5fa"
+    },
+    {
+      "route": "/craas/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "87614fa5aa2d7bbe6aedc2f81b9884cef453fe3b5f04403f5ead6899a1369f3d",
+      "current_sha256": "4418f800048d0b71a3a912bae48dc0184d67e23d77789d991877477883e4cff5",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora"
+      ],
+      "added_lines": [],
+      "diff_sha256": "07c3d9a3bffe8a15f63f0b94e8ce5c3ff33ec7f1db14fd3ab6e29b7344dc6194"
+    },
+    {
+      "route": "/credit-readiness/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "4e02a5f56ae1bdfb72d427b223f99d26b208fad33a58d9223ad891cecf22887a",
+      "current_sha256": "3dffb1110e1d5ce861548b13ca04286a77fb3dba6b414c43a97d6f5404553c40",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora"
+      ],
+      "added_lines": [],
+      "diff_sha256": "47769e7b66f43b1c9633fb73465a0226dc95b2b0972fb37af3266c519ed1796d"
+    },
+    {
+      "route": "/data-deletion/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "e6886abc6bdad6758d6e5a186f8a44b0c7fb87a26e7fc73c279f813bc65953cf",
+      "current_sha256": "b094f03b5bf5cba99411bc2c85b8d0e47f6a0dffa047824b99571abf49196b08",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora",
+        "Collect app \u00b7 Example data",
+        "Deleting your Collect account does not automatically close any bank account, cancel any loan, cancel any insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.",
+        "Close a bank account",
+        "To close a bank account, cancel an insurance policy or discuss a loan, contact the relevant bank, insurer or other provider. Collect cannot cancel an independently provided regulated product on the partner\u2019s behalf unless the partner has expressly enabled that workflow."
+      ],
+      "added_lines": [
+        "Collect interface preview \u00b7 Example data",
+        "Deleting your Collect account does not automatically cancel any loan or insurance policy, remove a repayment obligation or remove records independently held by a regulated partner.",
+        "To cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider. Collect cannot cancel an independently provided regulated product on the partner\u2019s behalf unless the partner has expressly enabled that workflow."
+      ],
+      "diff_sha256": "4b720aa99bb7e58010128696aa00a0e65417caa530b988a0cee341e4456277cf"
+    },
+    {
+      "route": "/group-savings/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "72d1d165fd951eeb40a97fc9116b30c6004e03d26d3ae81415c6e12d9e878bce",
+      "current_sha256": "beaa5fc72ac7ed72189adef0e9682fe8727b106fea9ee07dccc6ffb6401cbaa6",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora",
+        "Collect app \u00b7 Example data"
+      ],
+      "added_lines": [
+        "Collect interface preview \u00b7 Example data"
+      ],
+      "diff_sha256": "0efae2c7079655f2d86dc44578e8de9ff9b3a41f6d08366c2c292133bc6496c9"
+    },
+    {
+      "route": "/insurance/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "e2f7043c6c6c0781fc8fd1cfa43b0bfd81993430ec13dc0ba6f7bc501c8cc564",
+      "current_sha256": "e27e30776b4dfd7c7aae70a0fd930b724907f752e9334a86689bf191722ad123",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora"
+      ],
+      "added_lines": [],
+      "diff_sha256": "072efd747adef559e18a9da98028409588e40eac6911e7450101bc7a000fc1ff"
+    },
+    {
+      "route": "/our-partners/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "a2a40140ddbf62dd2e3a41c6452be583cc376e02466a3a262c39c9b1dc396ae5",
+      "current_sha256": "6b90125e44ebd45fbd0382baf0bb9e796c644cdb0748bfde3da4d6187dc0424c",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora",
+        "Support deposits, lending and diaspora banking under bank approval.",
+        "Group-backed and diaspora lending",
+        "Verified group savings can provide an additional risk-control layer for eligible lending.",
+        "Bank-held savings collateral",
+        "Credit-life or income-protection cover",
+        "Diaspora group-savings infrastructure"
+      ],
+      "added_lines": [
+        "Support local savings and lending where approved by a Rwanda provider.",
+        "Rwanda group savings records",
+        "Verified local contribution records can support eligible Rwanda provider review."
+      ],
+      "diff_sha256": "53a9ea24d2b9eafd27cb3a4b1884de94f5f686b24b1c45d8a747de018dd01c03"
+    },
+    {
+      "route": "/partners/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "f04cf90a38d0a6f49ddd64dae879bc2dde52ce4d6af411897a8bb415487877cf",
+      "current_sha256": "f684b18120a286e22295db3a41a9994e1d47ee8ffbb49d5e162f47ba529675f8",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora",
+        "Support deposits, lending and diaspora banking under bank approval.",
+        "Group-backed and diaspora lending",
+        "Verified group savings can provide an additional risk-control layer for eligible lending.",
+        "Bank-held savings collateral",
+        "Credit-life or income-protection cover",
+        "Diaspora group-savings infrastructure"
+      ],
+      "added_lines": [
+        "Support local savings and lending where approved by a Rwanda provider.",
+        "Rwanda group savings records",
+        "Verified local contribution records can support eligible Rwanda provider review."
+      ],
+      "diff_sha256": "5b66742603f410fe1e5a046e07ae584779c71c69e0d5ddf779f8669d782d290f"
+    },
+    {
+      "route": "/privacy/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "e2262fd575e34b7605185f508ec54dabdbe5e12db5307ed4fb786f4b9b167a2d",
+      "current_sha256": "b8674a2effe586c8989baaf08e872f2d9ed740dba5edc7ee194fe65e4560a802",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora",
+        "Collect app \u00b7 Example data",
+        "Prepare a SEPA bank transfer and open your banking app",
+        "Join a diaspora savings group",
+        "National ID, passport or other identification",
+        "Nationality and residency status",
+        "Bank-transfer confirmation and statement reconciliation",
+        "A controlled internal bank-evidence receiver may process only new bank-notification SMS received after an authorised operator grants access. The public production app does not request SMS access. Collect does not read inbox history, unrelated messages or SMS from before consent. Transaction evidence may also come from authenticated bank email notifications and imported bank statements.",
+        "Diaspora information",
+        "Where relevant:",
+        "Host country and residency information",
+        "Host-country banking relationship",
+        "Diaspora group membership",
+        "Contribution and collateral instructions",
+        "Loan-interest information",
+        "Proposed Rwanda investment purpose",
+        "From a partner bank, its notification service or statement records",
+        "8. International transfers",
+        "Collect may operate across Rwanda, Malta, the European Economic Area, the United Kingdom, Canada, the United States and other jurisdictions.",
+        "Where information is stored or transferred outside your country, we use appropriate legal, contractual, organisational and technical safeguards. Where required, we seek regulatory authorisation and use approved data-transfer arrangements.",
+        "Close a bank account"
+      ],
+      "added_lines": [
+        "Collect interface preview \u00b7 Example data",
+        "Rwanda National ID",
+        "MoMo and USSD confirmation and reconciliation",
+        "Collect processes Rwanda MoMo and USSD confirmation evidence to maintain accurate contribution and ledger records. The public app does not read SMS inbox history.",
+        "8. Data processing location",
+        "Collect serves Rwanda users. Service providers may process data outside Rwanda under appropriate legal, contractual, organisational and technical safeguards where applicable."
+      ],
+      "diff_sha256": "d751f4f24827c92278cddef34da7a8bc40834972affda8f38ad7fb1327a10e6c"
+    },
+    {
+      "route": "/protection/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "76d64d2361fadee80aac081af5946049195ca789d22e6274b9677fe8469e5457",
+      "current_sha256": "f916f58a0b4a71782af1e5ffed8b1a8abeef965bfe1fde0eea831394e02cb549",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora"
+      ],
+      "added_lines": [],
+      "diff_sha256": "14882a98a30f2a364b7ae68bda6db1e3dadddd707409a16f4eb3fc0490b1c1e3"
+    },
+    {
+      "route": "/security/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "1bf5211c20994191a6f14270bd462e2e117c3e8ec60cc5d8e4b2026ebe3a4498",
+      "current_sha256": "3ec536b3145d237a056056a87608803e5169b476f665a1c30e2f6cfc141b016a",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora",
+        "Collect app \u00b7 Example data"
+      ],
+      "added_lines": [
+        "Collect interface preview \u00b7 Example data"
+      ],
+      "diff_sha256": "8b8b833744c37739eceb516119d742744334f5083e5963b566c556fb69e43901"
+    },
+    {
+      "route": "/terms/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "5c780ab940cb0cc963232ebfa0b5b0144e6fcc2b58b6060b657f53495f3eff5c",
+      "current_sha256": "9a5a8dfd42f028e4baadcf4385ab69b7fdeb5578b9074196f8762c3abbdbfa7c",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora",
+        "Collect app \u00b7 Example data",
+        "Bank-account terms",
+        "Bank-transfer terms",
+        "Mobile-app access and bank-transfer handoff",
+        "Collect may prepare a bank-transfer handoff, evidence, reconcile or display contributions.",
+        "14. Diaspora services",
+        "Diaspora savings are separate from remittances.",
+        "Members save through a regulated host-country partner bank",
+        "The partner bank holds the savings",
+        "Collect maintains the group ledger and workflow",
+        "An agreed amount may be pledged under bank-approved documentation",
+        "The partner bank assesses eligible borrowers individually",
+        "Approved capital may be used for permitted investments",
+        "Product availability depends on the host country and partner bank. Collect does not guarantee a particular secured interest rate, credit amount or investment outcome.",
+        "15. Fees",
+        "Currency-conversion fees",
+        "Bank-transfer charges",
+        "A zero-fee savings statement applies only to the specific user charge described. Banks or banking applications may impose separate charges unless waived under the product terms.",
+        "16. Acceptable use",
+        "17. Suspension and restriction",
+        "18. Closing or deleting your account",
+        "A bank account",
+        "19. Intellectual property",
+        "20. Service availability",
+        "21. Statements and financial information",
+        "22. Limitation of liability",
+        "23. Privacy",
+        "24. Complaints",
+        "25. Changes to these Terms",
+        "26. Governing law",
+        "These Terms are governed by the applicable laws for your country or the relevant service, unless mandatory consumer law in your country provides otherwise. Disputes will be handled by the competent court or dispute-resolution forum, subject to any mandatory legal rights.",
+        "27. Contact"
+      ],
+      "added_lines": [
+        "Collect interface preview \u00b7 Example data",
+        "Rwanda MoMo and USSD contribution terms",
+        "MoMo payment confirmation terms",
+        "Mobile-app access and MoMo USSD handoff",
+        "Collect may prepare a MoMo USSD handoff, reconcile confirmed payments and display contributions.",
+        "14. Fees",
+        "MoMo service fees",
+        "MoMo provider charges",
+        "A zero-fee savings statement applies only to the specific user charge described. A MoMo provider may impose separate charges unless waived under the product terms.",
+        "15. Acceptable use",
+        "16. Suspension and restriction",
+        "17. Closing or deleting your account",
+        "18. Intellectual property",
+        "19. Service availability",
+        "20. Statements and financial information",
+        "21. Limitation of liability",
+        "22. Privacy",
+        "23. Complaints",
+        "24. Changes to these Terms",
+        "25. Governing law",
+        "These Terms are governed by the laws of Rwanda. Disputes will be handled by the competent Rwandan court or dispute-resolution forum, subject to mandatory legal rights.",
+        "26. Contact"
+      ],
+      "diff_sha256": "9b9c55e23891c62c9d637f14ba731456c2ea90ba5c7234973dd2683b039402e9"
+    },
+    {
+      "route": "/trust/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "81c31ac0a356dfa8bbc9bd7a157b12be935c3900bd17df409836666d1e75689b",
+      "current_sha256": "5fd2d98a8ce4380a2cd71e212993e5de088978f6f98c03e668d47f807a7795c5",
+      "current_matches_historical": false,
+      "removed_lines": [
+        "Diaspora",
+        "Collect app \u00b7 Example data"
+      ],
+      "added_lines": [
+        "Collect interface preview \u00b7 Example data"
+      ],
+      "diff_sha256": "8126852d3d7877be14079c978b02f8df431beabd33ad0479c310d900ae2510c7"
+    }
+  ],
+  "historical_html_files": 19,
+  "current_html_files": 18,
+  "baseline_sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+  "historical_visible_text_sha256": "a9fa22f809403b0bae6cd88c20aeeaf20ceedf104f52676a4400cba67ea10264",
+  "current_visible_text_sha256": "365ee5e3fee10c53e92561ecd6f73b4a0c8aafbeb21712de170ee824fa9a4038",
+  "scope": "Exact normalized visible-text comparison with historical baseline, preserving current route differences and all old bytes. No current baseline approval or product/visual acceptance."
+}

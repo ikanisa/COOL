@@ -1,17 +1,17 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/collect_group_photo_picker.dart';
 import '../../shared/widgets/screen_scaffold.dart';
-import 'group_creation_platform.dart';
-import '../profile/member_profile_gate.dart';
 
 part 'collection_create_widgets.dart';
 
@@ -25,19 +25,18 @@ class CollectionCreateScreen extends ConsumerStatefulWidget {
 
 class _CollectionCreateScreenState
     extends ConsumerState<CollectionCreateScreen> {
-  static const _lastStep = 4;
+  static const _lastStep = 3;
 
   final _title = TextEditingController();
   final _description = TextEditingController();
-  final _receiverNumber = TextEditingController();
   final _imagePicker = ImagePicker();
   Uint8List? _groupImageBytes;
   String? _groupImageValue;
   String _accentColorHex = CollectColors.groupAccentOptions.first.hex;
   CollectionType _collectionType = CollectionType.ikimina;
-  String _receiverProvider = 'mtn_momo';
+  String? _creationRequestId;
+  String? _creationDraftKey;
   bool _creating = false;
-  bool _enablingSms = false;
   int _step = 0;
   String? _error;
 
@@ -52,7 +51,6 @@ class _CollectionCreateScreenState
     _title.removeListener(_refreshPreview);
     _title.dispose();
     _description.dispose();
-    _receiverNumber.dispose();
     super.dispose();
   }
 
@@ -62,14 +60,6 @@ class _CollectionCreateScreenState
         ref.watch(collectCollectionTypeCatalogProvider).valueOrNull ??
         CollectionTypeCatalogConfig.defaults;
     final typeOption = catalog.optionFor(_collectionType);
-    final profile = ref.watch(collectRepositoryProvider).currentProfile;
-    if (profile != null && _receiverNumber.text != profile.momoNumber) {
-      _receiverNumber.text = profile.momoNumber;
-      _receiverProvider = profile.momoProvider.isEmpty
-          ? 'mtn_momo'
-          : profile.momoProvider;
-    }
-    if (!canCreateGroupsOnThisPlatform()) return const SizedBox.shrink();
     return ScreenScaffold(
       title: 'Create group',
       showHeader: false,
@@ -140,40 +130,6 @@ class _CollectionCreateScreenState
           _MobileCreatePanel(
             error: _error,
             children: [
-              CollectListTile(
-                leading: CollectIcons.momo,
-                title: _receiverProvider == 'airtel_money'
-                    ? 'Airtel Money receiver'
-                    : 'MTN MoMo receiver',
-                subtitle: _receiverNumber.text.trim(),
-                trailing: const Icon(CollectIcons.chevron),
-                onTap: () => context.push('/settings/profile'),
-              ),
-              Text(
-                'The receiver is your Rwanda MoMo profile. Tap it to change provider or number before creating this group.',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const InfoSecurityBanner(
-                title: 'Android receipt reconciliation',
-                message:
-                    'Collect asks for SMS access only to capture MoMo receipts for this private group. Raw SMS stays protected and admin review is audited.',
-                tone: CollectStatusTone.privacy,
-              ),
-              CollectButton(
-                label: _enablingSms
-                    ? 'Checking SMS access'
-                    : 'Enable MoMo receipt SMS',
-                icon: CollectIcons.sms,
-                onPressed: _enablingSms ? null : _enableSmsAccess,
-                variant: CollectButtonVariant.secondary,
-                expand: true,
-              ),
-            ],
-          ),
-        ] else if (_step == 3) ...[
-          _MobileCreatePanel(
-            error: _error,
-            children: [
               _GroupColorPalette(
                 selectedHex: _accentColorHex,
                 onChanged: (hex) => setState(() => _accentColorHex = hex),
@@ -197,8 +153,6 @@ class _CollectionCreateScreenState
             title: _title.text.trim(),
             description: _description.text.trim(),
             collectionTypeOption: typeOption,
-            receiver:
-                '${_receiverProvider == 'airtel_money' ? 'Airtel Money' : 'MTN MoMo'} · ${_receiverNumber.text.trim()}',
             accentColor: _selectedAccentColor,
             hasPhoto: _groupImageBytes != null,
             isPublicRequested: false,
@@ -208,15 +162,7 @@ class _CollectionCreateScreenState
     );
   }
 
-  bool get _canContinue => switch (_step) {
-    0 => _title.text.trim().isNotEmpty,
-    2 =>
-      (_receiverProvider == 'mtn_momo'
-              ? RegExp(r'^(?:\+?250|0)?7[89][0-9]{7}$')
-              : RegExp(r'^(?:\+?250|0)?7[23][0-9]{7}$'))
-          .hasMatch(_receiverNumber.text.replaceAll(RegExp(r'\s'), '')),
-    _ => true,
-  };
+  bool get _canContinue => _step != 0 || _title.text.trim().isNotEmpty;
 
   Color get _selectedAccentColor => CollectColors.groupAccentOptions
       .firstWhere(
@@ -239,14 +185,6 @@ class _CollectionCreateScreenState
       setState(() => _error = 'Name required.');
       return;
     }
-    if (_step == 2 && !_canContinue) {
-      setState(
-        () => _error = _receiverProvider == 'airtel_money'
-            ? 'Use an Airtel Money number such as 073XXXXXXX.'
-            : 'Use an MTN MoMo number such as 078XXXXXXX.',
-      );
-      return;
-    }
     if (_step < _lastStep) {
       setState(() {
         _step += 1;
@@ -259,8 +197,22 @@ class _CollectionCreateScreenState
 
   Future<void> _create() async {
     try {
-      await requireMemberProfileReady(context, ref);
-      if (!mounted) return;
+      final profile = ref.read(collectRepositoryProvider).currentProfile;
+      if (profile == null) throw StateError('Sign in before creating a group.');
+      final draftKey = jsonEncode([
+        profile.id,
+        _title.text.trim(),
+        _description.text.trim(),
+        _collectionType.storageValue,
+        _selectedTypeOption.defaultCategorySubtype,
+        _selectedTypeOption.defaultPurposeLabel,
+        _accentColorHex,
+        _groupImageValue,
+      ]);
+      if (_creationDraftKey != draftKey) {
+        _creationDraftKey = draftKey;
+        _creationRequestId = const Uuid().v4();
+      }
       setState(() {
         _creating = true;
         _error = null;
@@ -275,8 +227,7 @@ class _CollectionCreateScreenState
             purposeLabel: _selectedTypeOption.defaultPurposeLabel,
             accentColorHex: _accentColorHex,
             imageUrl: _groupImageValue,
-            receiverMomoNumber: _receiverNumber.text,
-            receiverProvider: _receiverProvider,
+            requestId: _creationRequestId!,
             isPublic: false,
           );
       if (mounted) context.go('/groups/${collection.id}');
@@ -286,36 +237,6 @@ class _CollectionCreateScreenState
         _creating = false;
         _error = _safeGroupCreateError(error);
       });
-    }
-  }
-
-  Future<void> _enableSmsAccess() async {
-    setState(() {
-      _enablingSms = true;
-      _error = null;
-    });
-    try {
-      final enabled = await ref
-          .read(collectRepositoryProvider.notifier)
-          .setSmsAccess(true);
-      if (!enabled) {
-        throw StateError(
-          'Android SMS permission was not granted. Enable it to reconcile MoMo receipts.',
-        );
-      }
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('MoMo receipt SMS enabled.')),
-        );
-      }
-    } catch (error) {
-      if (mounted) {
-        setState(() {
-          _error = _safeGroupCreateError(error);
-        });
-      }
-    } finally {
-      if (mounted) setState(() => _enablingSms = false);
     }
   }
 

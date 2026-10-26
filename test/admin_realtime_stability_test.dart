@@ -4,7 +4,7 @@ import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -77,7 +77,7 @@ Future<ProviderContainer> _open(
   addTearDown(tester.view.resetDevicePixelRatio);
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(null),
+      collectBackendClientProvider.overrideWithValue(null),
       adminRepositoryProvider.overrideWithValue(repository),
       adminIdentityProvider.overrideWith((ref) async => _identity),
       adminRealtimeTickProvider.overrideWith((ref) => 7),
@@ -133,6 +133,8 @@ void main() {
     expect(find.text('Original receipt'), findsOneWidget);
     expect(find.text('New receipt'), findsNothing);
     expect(find.text('New activity available'), findsOneWidget);
+    await tester.ensureVisible(find.byTooltip('Open Original receipt'));
+    await tester.pump();
     await tester.tap(find.byTooltip('Open Original receipt'));
     await tester.pumpAndSettle();
     expect(find.text('Opened Original receipt'), findsOneWidget);

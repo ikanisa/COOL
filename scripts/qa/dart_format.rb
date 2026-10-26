@@ -14,13 +14,12 @@ files = inventory.split("\0").uniq.sort.select { |path| File.file?(path) }
 # Runtime, tests, tools and modified vendored source remain in the inventory.
 files.reject! { |path| path.start_with?('docs/release/') }
 # Preserve hash-identical upstream files; Collect's fork changes are checked.
-manifest = 'third_party/gotrue/UPSTREAM-SHA256.json'
-if File.file?(manifest)
+Dir.glob('third_party/*/UPSTREAM-SHA256.json').each do |manifest|
   upstream = JSON.parse(File.read(manifest))
   files.reject! do |path|
-    next false unless path.start_with?('third_party/gotrue/')
+    next false unless path.start_with?(File.dirname(manifest) + '/')
 
-    original = upstream[path.delete_prefix('third_party/gotrue/')]
+    original = upstream[path.delete_prefix(File.dirname(manifest) + '/')]
     original && Digest::SHA256.file(path).hexdigest == original
   end
 end

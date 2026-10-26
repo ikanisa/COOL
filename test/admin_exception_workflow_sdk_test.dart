@@ -4,13 +4,12 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_exception_workflow_models.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'admin_action_session_test.dart' as auth;
 import 'admin_exception_workflow_test.dart' as evidence;
 
@@ -32,13 +31,13 @@ Future<void> _settleSdk(WidgetTester tester) async {
 
 Future<void> _withSdkInbox(
   WidgetTester tester,
-  SupabaseClient client,
+  CollectCloudflareClient client,
   DateTime checkedAt,
   Future<void> Function() exercise,
 ) async {
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(client),
+      collectBackendClientProvider.overrideWithValue(client),
       adminIdentityProvider.overrideWith(
         (ref) async => AdminIdentity(
           userId: _recipient.userId,
@@ -78,11 +77,11 @@ Future<void> _withSdkInbox(
 }
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late List<http.Request> requests;
   late Future<http.Response> Function(http.Request) respond;
-  final raw = evidence.observed('workflow');
+  final raw = evidence.workflowFixture('workflow');
   final id = raw['exception_id'] as String;
   final now = DateTime.parse(raw['checked_at'] as String);
   final intent = AdminExceptionWorkflowIntent(
@@ -109,10 +108,8 @@ void main() {
   setUp(() async {
     requests = [];
     respond = (_) async => auth.response(raw);
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final parts = (jsonDecode(request.body)['token'] as String).split(
@@ -141,7 +138,7 @@ void main() {
       await repository.exceptionWorkflow(id);
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_get_exception_workflow_v1',
+        '/v1/rpc/admin_get_exception_workflow_v1',
       );
       expect(jsonDecode(requests.single.body), {'p_exception_id': id});
       expect(
@@ -157,7 +154,7 @@ void main() {
       await repository.exceptionWorkflowAction(intent);
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_act_exception_workflow_v1',
+        '/v1/rpc/admin_act_exception_workflow_v1',
       );
       expect(jsonDecode(requests.single.body), intent.parameters);
     },
@@ -172,7 +169,7 @@ void main() {
         }, status);
         await expectLater(
           repository.exceptionWorkflowAction(intent),
-          throwsA(isA<PostgrestException>()),
+          throwsA(isA<CollectApiException>()),
         );
       }
       expect(requests.length, 2);
@@ -238,7 +235,7 @@ void main() {
       );
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_get_exception_workflow_request_v1',
+        '/v1/rpc/admin_get_exception_workflow_request_v1',
       );
       expect(jsonDecode(requests.single.body), {
         'p_request_id': intent.requestId,
@@ -247,7 +244,7 @@ void main() {
   );
 
   group('actual SDK escalation endpoints', () {
-    final inbox = evidence.observed('inbox');
+    final inbox = evidence.workflowFixture('inbox');
     final sample = AdminExceptionEscalationSnapshot.parse(inbox);
     final delivery = sample.rows.first;
     final acknowledgement = {
@@ -278,7 +275,7 @@ void main() {
           final result = await invoke(operation);
           final request = requests.single;
           expect(request.method, 'POST');
-          expect(request.url.path, '/rest/v1/rpc/$operation');
+          expect(request.url.path, '/v1/rpc/$operation');
           expect(request.headers['authorization'], 'Bearer $token');
           expect(
             jsonDecode(request.body),
@@ -317,11 +314,11 @@ void main() {
               throwsA(
                 failure == 'response-loss'
                     ? isA<http.ClientException>()
-                    : isA<PostgrestException>(),
+                    : isA<CollectApiException>(),
               ),
             );
             expect(requests, hasLength(1));
-            expect(requests.single.url.path, '/rest/v1/rpc/$operation');
+            expect(requests.single.url.path, '/v1/rpc/$operation');
           },
         );
       }
@@ -399,7 +396,7 @@ void main() {
         () async {
           final container = ProviderContainer(
             overrides: [
-              supabaseClientProvider.overrideWithValue(client),
+              collectBackendClientProvider.overrideWithValue(client),
               adminIdentityProvider.overrideWith(
                 (ref) async => AdminIdentity(
                   userId: auth.actor,
@@ -437,7 +434,7 @@ void main() {
           );
           final container = ProviderContainer(
             overrides: [
-              supabaseClientProvider.overrideWithValue(client),
+              collectBackendClientProvider.overrideWithValue(client),
               adminIdentityProvider.overrideWith((ref) => ref.watch(authority)),
             ],
           );
@@ -542,7 +539,7 @@ void main() {
           respond = (_) async => auth.response(invalid);
           final container = ProviderContainer(
             overrides: [
-              supabaseClientProvider.overrideWithValue(client),
+              collectBackendClientProvider.overrideWithValue(client),
               adminIdentityProvider.overrideWith((ref) async => _recipient),
             ],
           );

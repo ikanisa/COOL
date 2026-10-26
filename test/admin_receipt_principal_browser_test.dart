@@ -13,6 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 @JS('window.localStorage')
 external _Storage get _storage;
+
 extension type _Storage(JSObject _) implements JSObject {
   external int get length;
   external String? key(int index);
@@ -23,6 +24,7 @@ extension type _Storage(JSObject _) implements JSObject {
 
 @JS('navigator.locks')
 external _LockManager get _locks;
+
 extension type _LockManager(JSObject _) implements JSObject {
   external JSPromise<JSAny?> request(String name, JSFunction callback);
 }
@@ -31,7 +33,7 @@ String _id(int n) => '99840000-0000-4000-8000-${n.toString().padLeft(12, '0')}';
 final _owner = adminReceiptPrincipalOwnerDigest(_id(20));
 final _otherOwner = adminReceiptPrincipalOwnerDigest(_id(21));
 String _prefix(String owner) =>
-    'collect.admin.receipt-principal.recovery.v3.$owner.';
+    'collect.admin.receipt-principal.recovery.v4.$owner.';
 String _key(AdminReceiptPrincipalCheckpoint original) =>
     '${_prefix(original.ownerDigest)}${original.requestId}';
 

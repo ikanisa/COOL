@@ -8,14 +8,14 @@ import 'package:flutter_test/flutter_test.dart';
 Map<String, dynamic> gatewayListFixture() =>
     jsonDecode(
           File(
-            'contracts/collect-admin-gateway-v1.fixture.json',
+            'test/fixtures/declared_admin/collect-admin-gateway-v1.fixture.json',
           ).readAsStringSync(),
         )
         as Map<String, dynamic>;
 Map<String, dynamic> gatewayRequestFixture() =>
     jsonDecode(
           File(
-            'contracts/collect-admin-gateway-owner-request-v1.fixture.json',
+            'test/fixtures/declared_admin/collect-admin-gateway-owner-request-v1.fixture.json',
           ).readAsStringSync(),
         )
         as Map<String, dynamic>;

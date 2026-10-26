@@ -76,7 +76,19 @@ Future<void> _prepare(WidgetTester tester, CollectRepository repo) async {
   await tester.pumpAndSettle();
   await tester.enterText(find.byType(TextField).first, '6000');
   await tester.pump();
+  await tester.scrollUntilVisible(
+    find.widgetWithText(FilledButton, 'Continue to MoMo'),
+    80,
+    scrollable: find.byType(Scrollable).first,
+  );
+  await tester.pumpAndSettle();
   await tester.tap(find.widgetWithText(FilledButton, 'Continue to MoMo'));
+  await tester.pumpAndSettle();
+  await tester.scrollUntilVisible(
+    find.widgetWithText(FilledButton, 'Open MoMo USSD'),
+    80,
+    scrollable: find.byType(Scrollable).first,
+  );
   await tester.pumpAndSettle();
   expect(find.text('Open MoMo USSD'), findsOneWidget);
 }
@@ -107,7 +119,7 @@ void main() {
 
     expect(repo.createCalls, 2);
     expect(launchCalls, 1);
-    expect(find.text('Waiting for the receipt SMS'), findsOneWidget);
+    expect(find.text('MoMo request opened'), findsOneWidget);
   });
 
   testWidgets('changed receiver blocks USSD and returns to preparation', (

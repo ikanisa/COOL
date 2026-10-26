@@ -8,11 +8,7 @@ import 'admin_receipt_operations_checkpoint_stub.dart'
 String adminReceiptOperationsOwnerDigest(String userId) {
   operationsUuid(userId);
   return sha256
-      .convert(
-        utf8.encode(
-          'collect.receipt-operations.v2:lhbowpbcpwoiparwnwgt:$userId',
-        ),
-      )
+      .convert(utf8.encode('collect.receipt-operations.v3:$userId'))
       .toString();
 }
 

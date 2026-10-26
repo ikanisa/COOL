@@ -35,6 +35,19 @@ class GatewayDispatchBackendIntegrationTest {
         .put("action", request.getString("action")).put("device_id", device).put("request_id", request.getString("request_id")).put("result", result)
     private fun recorded(request: JSONObject) = JSONObject().put("ok", false).put("code", "ORIGINAL_REQUEST_RECORDED")
         .put("device_id", device).put("request_id", request.getString("request_id")).put("replay", true)
+    // These callback-budget fixtures have no trusted original v1 dispatch arm.
+    // The separate legacy closure must remain refused, preserving their source.
+    private fun legacyIncomplete(request: JSONObject): Response {
+        val payload = request.getJSONObject("payload")
+        val result = JSONObject().put("request_id", request.getString("request_id")).put("device_id", device)
+            .put("attempt_id", payload.getString("attempt_id")).put("fence_version", payload.getLong("fence_version"))
+            .put("ok", false).put("code", "CALLBACK_EVIDENCE_INCOMPLETE").put("archive_ack_id", JSONObject.NULL)
+            .put("receipt_id", JSONObject.NULL).put("body_sha256", payload.getString("body_sha256"))
+            .put("destination_sha256", payload.getString("destination_sha256")).put("segment_count", payload.getJSONArray("callback_requests").length() / 2)
+            .put("callback_requests", JSONObject.NULL).put("recorded_at", gatewayWireTime(Instant.now())).put("replay", false)
+            .put("evidence_kind", JSONObject.NULL).put("carrier_proof", false).put("delivery_proven", false).put("send_authority", false)
+        return Response(200, wrapper(request, result).toString().toByteArray())
+    }
     private fun respond(request: JSONObject): Response {
         val payload=request.getJSONObject("payload")
         val result=when(request.getString("action")) {
@@ -179,7 +192,8 @@ class GatewayDispatchBackendIntegrationTest {
         }finally{f.dispose()}
     }
     @Test fun recordedCallbacksDoNotConsumeBatchAndStarveLaterMultipartObservations() {
-        val f=Fixture { request -> Response(200,wrapper(request,JSONObject().put("callback_id",request.getJSONObject("payload").getString("callback_id"))
+        val f=Fixture { request -> if (request.getString("action") == "archive_legacy_attempt") legacyIncomplete(request)
+            else Response(200,wrapper(request,JSONObject().put("callback_id",request.getJSONObject("payload").getString("callback_id"))
             .put("recorded_at",gatewayWireTime(Instant.now())).put("replay",false).put("carrier_proof",false)).toString().toByteArray()) }
         try {
             val at=gatewayWireTime(Instant.now())
@@ -199,13 +213,17 @@ class GatewayDispatchBackendIntegrationTest {
             }
             f.storage.saveRequests(JSONObject().put("contract_version",1).put("requests",prior))
             f.backend.reconcile(f.storage.read())
-            assertEquals(2,f.requests.size)
-            assertTrue(f.requests.all{it.getJSONObject("payload").getInt("segment_index")==2})
-            assertEquals(6,f.storage.readRequests().getJSONArray("requests").length())
+            val callbackWrites = f.requests.filter { it.getString("action") == "callback" }
+            assertEquals(2, callbackWrites.size)
+            assertTrue(callbackWrites.all{it.getJSONObject("payload").getInt("segment_index")==2})
+            assertEquals(1, f.requests.count { it.getString("action") == "archive_legacy_attempt" && it.getInt("contract_version") == 4 })
+            assertEquals(7,f.storage.readRequests().getJSONArray("requests").length())
+            assertEquals(record, f.storage.read().attempts.single()); assertNull(f.storage.readColdAttempt(attempt))
         }finally{f.dispose()}
     }
     @Test fun permanentlyUnknownRequestsDoNotConsumeCallbackUploadBudget() {
         val f = Fixture { request ->
+            if (request.getString("action") == "archive_legacy_attempt") return@Fixture legacyIncomplete(request)
             val payload = request.getJSONObject("payload")
             val result = if (request.getString("action") == "reconcile") JSONObject().put("target_request_id", payload.getString("target_request_id"))
                 .put("outcome", "unknown").put("recorded_action", JSONObject.NULL).put("recorded_result", JSONObject.NULL)
@@ -231,8 +249,9 @@ class GatewayDispatchBackendIntegrationTest {
             f.backend.reconcile(f.storage.read())
             assertEquals(2, f.requests.count { it.getString("action") == "reconcile" })
             assertEquals(2, f.requests.count { it.getString("action") == "callback" })
-            assertEquals(6, f.storage.readRequests().getJSONArray("requests").length())
+            assertEquals(7, f.storage.readRequests().getJSONArray("requests").length())
             assertTrue((0 until 4).all { f.storage.readRequests().getJSONArray("requests").getJSONObject(it).getString("state") == "outcome_unknown" })
+            assertEquals(record, f.storage.read().attempts.single()); assertNull(f.storage.readColdAttempt(attempt))
             // New backend instance restores only a non-sensitive read
             // position. All original UUIDs stay unknown and no write is replayed.
             val offset = f.backend.reconciliationOffset()
@@ -241,6 +260,8 @@ class GatewayDispatchBackendIntegrationTest {
             assertEquals(4, readIds.size); assertEquals(4, readIds.toSet().size)
             assertEquals((0 until 4).map { rows.getJSONObject(it).getString("request_id") }.toSet(), readIds.toSet())
             assertEquals(2, f.requests.count { it.getString("action") == "callback" })
+            assertEquals(1, f.requests.count { it.getString("action") == "archive_legacy_attempt" })
+            assertTrue((0 until 4).all { f.storage.readRequests().getJSONArray("requests").getJSONObject(it).getString("request_id") == rows.getJSONObject(it).getString("request_id") })
         } finally { f.dispose() }
     }
 

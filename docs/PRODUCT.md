@@ -1,12 +1,12 @@
 # Collect product contract: Rwanda MoMo USSD
 
-Collect is a Rwanda-only group-contribution system. Members use RWF and MTN MoMo or Airtel Money USSD. Collect is a technology and record-keeping service; it does not operate a wallet, hold deposits, or receive a member's MoMo PIN or payment provider OTP. A WhatsApp sign-in code is used only to sign in to Collect.
+Collect lets signed-in users organize private groups. Its current in-app payment path supports Rwanda contributions in RWF through MTN MoMo or Airtel Money USSD. Collect is a technology and record-keeping service; it does not operate a wallet, hold deposits, or receive a member's MoMo PIN or payment provider OTP. A Collect sign-in code is used only to sign in to Collect.
 
 ## Member identity and groups
 
-- Sign-in uses a verified Rwanda WhatsApp number. A complete member profile has country `RW`, currency `RWF`, a six-digit Collect ID, and a valid Rwanda MoMo provider and number.
-- Members may create private groups on eligible Android builds after SMS consent and Play Integrity verification. Public groups are platform sponsored.
-- Group receiver details are MoMo details. The app shows the exact payee and whole-RWF amount before the USSD handoff.
+- Group metadata and membership use the current signed-in Collect app principal. They do not require a phone, country/currency setup, MoMo registration or receiving registry. A complete Rwanda MoMo payment profile has country `RW`, currency `RWF`, a six-digit Collect ID, and a valid Rwanda MoMo provider and number.
+- Any signed-in Collect app user may create private group metadata or accept a group invitation. Metadata creation is independent of Android SMS capture, SMS consent and device attestation. Public groups remain platform sponsored; creating or joining a group does not authorize a payment or post a contribution.
+- A group may exist without a payment destination. When a Rwanda MoMo payment route is configured, the app shows the exact payee and whole-RWF amount before the USSD handoff. Android users may separately opt in to M-Money SMS capture; permission and receipt evidence do not create a ledger effect.
 - Signed-out visitors may inspect public groups. A member must complete a Rwanda MoMo profile before creating a payment intent.
 
 ## Payment finality

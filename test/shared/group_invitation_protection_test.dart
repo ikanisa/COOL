@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const _a = '10000000-0000-4000-8000-000000000001';
 const _b = '10000000-0000-4000-8000-000000000002';
@@ -37,15 +37,15 @@ void main() {
         final request = h.requests.single;
         expect(request.headers['authorization'], 'Bearer ${_jwt(_a, _s)}');
         if (change == 'logout') {
-          await h.client.auth.signOut(scope: SignOutScope.local);
+          await h.client.auth.signOut(scope: CollectSignOutScope.local);
         } else {
-          await h.client.auth.setInitialSession(
+          await h.client.auth.recoverSession(
             _session(change == 'session' ? _a : _b, '${_s}2'),
           );
         }
         await Future<void>.delayed(Duration.zero);
         if (change == 'A-B-A') {
-          await h.client.auth.setInitialSession(_session(_a, _s));
+          await h.client.auth.recoverSession(_session(_a, _s));
           await Future<void>.delayed(Duration.zero);
         }
         release.complete(_reply(op == 'read' ? _code : _ack(request)));
@@ -85,10 +85,7 @@ void main() {
       });
       await expectLater(h.repo.rotateGroupShareCode(_g), throwsA(anything));
       expect(h.requests, hasLength(1));
-      expect(
-        h.requests.single.url.path,
-        '/rest/v1/rpc/rotate_group_share_code_v2',
-      );
+      expect(h.requests.single.url.path, '/v1/rpc/rotate_group_share_code_v2');
       expect(_body(h.requests.single).keys.toSet(), {
         'p_collection_id',
         'p_request_id',
@@ -184,7 +181,7 @@ void main() {
     final h = await _Harness.create((r) async => _reply(_ack(r)));
     expect(await h.repo.rotateGroupShareCode(_g), _code);
     final r = h.requests.single;
-    expect(r.url.path, '/rest/v1/rpc/rotate_group_share_code_v2');
+    expect(r.url.path, '/v1/rpc/rotate_group_share_code_v2');
     expect(r.headers['authorization'], 'Bearer ${_jwt(_a, _s)}');
     expect(_body(r)['p_collection_id'], _g);
     expect(
@@ -196,18 +193,26 @@ void main() {
 
 class _Harness {
   _Harness(this.client, this.repo, this.requests);
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   final _Repository repo;
   final List<http.Request> requests;
   static Future<_Harness> create(
     Future<http.Response> Function(http.Request) response,
   ) async {
     final requests = <http.Request>[];
-    final client = SupabaseClient(
+    final client = CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'synthetic-local-key',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((r) {
+        if (r.url.path == '/v1/auth/logout') {
+          return Future.value(
+            http.Response(
+              jsonEncode({'ok': true}),
+              200,
+              request: r,
+              headers: {'content-type': 'application/json'},
+            ),
+          );
+        }
         requests.add(r);
         return response(r).then(
           (reply) => http.Response.bytes(
@@ -219,7 +224,7 @@ class _Harness {
         );
       }),
     );
-    await client.auth.setInitialSession(_session(_a, _s));
+    await client.auth.recoverSession(_session(_a, _s));
     final repo = _Repository(client);
     addTearDown(() async {
       repo.dispose();
@@ -232,7 +237,7 @@ class _Harness {
 class _Repository extends CollectRepository {
   _Repository(this.client)
     : super.fixture(
-        supabase: client,
+        backend: client,
         initialState: CollectState(
           currentProfile: const CollectProfile(
             id: _a,
@@ -260,7 +265,7 @@ class _Repository extends CollectRepository {
           contributions: const [],
         ),
       );
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   void restrict(String restriction) {
     state = state.copyWith(
       isLoading: restriction == 'loading',
@@ -299,7 +304,7 @@ http.Response _reply(Object? value, {int status = 200}) => http.Response(
 String _jwt(String user, String session) {
   String encode(Object value) =>
       base64Url.encode(utf8.encode(jsonEncode(value))).replaceAll('=', '');
-  return '${encode({'alg': 'HS256'})}.${encode({'sub': user, 'session_id': session, 'exp': 4102444800})}.synthetic';
+  return '${encode({'alg': 'HS256'})}.${encode({'role': 'authenticated', 'sub': user, 'session_id': session, 'exp': 4102444800})}.synthetic';
 }
 
 String _session(String user, String session) => jsonEncode({

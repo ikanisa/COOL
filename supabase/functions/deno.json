@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "checkJs": false,
+    "lib": [
+      "deno.window",
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ]
+  },
+  "tasks": {
+    "check": "deno check --frozen collect-api/index.ts admin-api/index.ts collect-jobs/index.ts",
+    "test": "deno test --frozen --allow-env --allow-net --allow-read _shared/tests/"
+  },
+  "exclude": [
+    "**/._*"
+  ]
+}

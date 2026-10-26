@@ -6,12 +6,14 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/theme/collect_theme_controller.dart';
 import '../../shared/models/collect_models.dart';
+import '../../shared/models/contribution_record_copy.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/utils/support_contact.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 import '../status/native_permission_sheets.dart';
 import 'security_hub_header.dart';
+import 'receipt_sms_consent_section.dart';
 
 class NotificationSettingsScreen extends ConsumerStatefulWidget {
   const NotificationSettingsScreen({super.key});
@@ -99,7 +101,7 @@ class _NotificationSettingsScreenState
             children: [
               for (final item in [
                 (
-                  'Contribution confirmations',
+                  ContributionRecordCopy.channelTitle,
                   preferences.contributionConfirmations,
                   pending.contributionConfirmations,
                 ),
@@ -146,8 +148,8 @@ class _NotificationSettingsScreenState
         _SettingsOptionPanel(
           children: [
             _SettingsSwitchRow(
-              title: 'Contribution confirmations',
-              subtitle: 'Confirmed contributions and ledger updates.',
+              title: ContributionRecordCopy.channelTitle,
+              subtitle: ContributionRecordCopy.channelDescription,
               value: preferences.contributionConfirmations,
               onChanged: !canEdit
                   ? null
@@ -182,6 +184,13 @@ class _NotificationSettingsScreenState
                         _save(preferences.copyWith(securityNotices: value)),
             ),
           ],
+        ),
+        ReceiptSmsConsentSection(
+          key: ValueKey((
+            'receipt-sms',
+            state.currentProfile?.id,
+            repository.sessionGeneration,
+          )),
         ),
         CollectButton(
           label: 'Review phone permission',
@@ -359,9 +368,8 @@ class SecuritySettingsScreen extends ConsumerWidget {
             ),
             _SettingsLinkRow(
               icon: Icons.smartphone_rounded,
-              title: 'Contribution verification',
-              subtitle:
-                  'Confirmed MoMo receipts update your contribution records.',
+              title: ContributionRecordCopy.totalTitle,
+              subtitle: ContributionRecordCopy.recordHint,
               onTap: () => context.go('/activity'),
             ),
             _SettingsLinkRow(

@@ -14,6 +14,7 @@ class PaymentDecodingSourceTests(unittest.TestCase):
         cls.models = (MODELS / 'collect_models.dart').read_text()
         cls.payments = (MODELS / 'collect_payment_models.dart').read_text()
         cls.helper = (MODELS / 'collect_payment_json.dart').read_text()
+        cls.shared = (ROOT / 'lib/core/data/exact_json_values.dart').read_text()
         cls.intent = cls.payments.split('factory PaymentIntentModel.fromJson', 1)[1].split('\n}\n', 1)[0]
         cls.contribution = cls.payments.split('factory Contribution.fromJson', 1)[1].split('\n}\n', 1)[0]
         cls.scope = json.loads((ROOT / 'scripts/qa/candidate_check_scope.json').read_text())
@@ -21,6 +22,7 @@ class PaymentDecodingSourceTests(unittest.TestCase):
     def test_helper_is_in_same_library(self):
         self.assertEqual(self.models.count("part 'collect_payment_json.dart';"), 1)
         self.assertTrue(self.helper.startswith("part of 'collect_models.dart';"))
+        self.assertIn("import '../../core/data/exact_json_values.dart';", self.models)
 
     def test_both_decoders_use_amount_validator(self):
         for factory in (self.intent, self.contribution):
@@ -29,8 +31,10 @@ class PaymentDecodingSourceTests(unittest.TestCase):
             self.assertNotIn('?? 0', factory)
 
     def test_amount_helper_has_exact_finite_positive_guards(self):
-        for guard in ('!value.isFinite', 'value <= 0', 'value > _paymentMaxExactInteger', 'value.remainder(1) != 0', '9007199254740991'):
+        for guard in ('!value.isFinite', 'value <= 0', 'value > _paymentMaxExactInteger', 'value.remainder(1) != 0'):
             self.assertIn(guard, self.helper)
+        self.assertIn('const _paymentMaxExactInteger = maxExactJsonInteger;', self.helper)
+        self.assertIn('const maxExactJsonInteger = 9007199254740991;', self.shared)
 
     def test_aliases_cannot_disagree(self):
         self.assertIn('current != legacy', self.helper)
@@ -45,8 +49,9 @@ class PaymentDecodingSourceTests(unittest.TestCase):
         self.assertNotIn('DateTime.now()', self.helper)
 
     def test_calendar_and_timezone_validated(self):
+        self.assertIn('exactJsonTimestamp(value, field: field)', self.helper)
         for check in ('calendar.year != year', 'calendar.month != month', 'calendar.day != day', '!parsed.isUtc', 'offsetMinute > 59', 'match.end != value.length'):
-            self.assertIn(check, self.helper)
+            self.assertIn(check, self.shared)
 
     def test_missing_status_not_pending(self):
         self.assertIn("status: _paymentIdentifier(json['status'], 'status')", self.intent)
@@ -57,7 +62,8 @@ class PaymentDecodingSourceTests(unittest.TestCase):
 
     def test_timestamp_error_does_not_embed_payload(self):
         self.assertNotIn('$value', self.helper)
-        self.assertNotRegex(self.helper, r'FormatException\([^;]+,\s*value\s*\)')
+        self.assertNotRegex(self.helper + self.shared, r'FormatException\([^;]+,\s*value\s*\)')
+        self.assertNotIn('$value', self.shared)
 
     def test_const_constructor_compatibility_preserved(self):
         for name in ('PaymentIntentDraft', 'PaymentIntentModel', 'Contribution', 'ParsedPaymentEvent'):

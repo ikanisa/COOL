@@ -32,8 +32,9 @@ internal class GatewayLateCallbackExportPage(val nextCursor: String?, val encryp
 }
 
 internal class GatewayAttemptArchive(private val store: GatewayColdArchiveStorage) {
-    fun payload(attempt: GatewayAttempt): JSONObject = synchronized(GatewayJournal.PROCESS_LOCK) {
+    fun payload(attempt: GatewayAttempt, legacy: Boolean = false): JSONObject = synchronized(GatewayJournal.PROCESS_LOCK) {
         validateAttempt(attempt)
+        if (legacy && attempt.dispatchRoute !is GatewayDispatchRoute.PrimaryV2) invalidArchive()
         if (attempt.outcome() != AttemptOutcome.DELIVERY_CALLBACK_OBSERVED) throw GatewayStateException("gateway_archive_attempt_unresolved")
         if (store.read().attempts.singleOrNull { it.attemptId == attempt.attemptId } != attempt) throw GatewayStateException("gateway_archive_source_conflict")
         val requests = store.readRequests().getJSONArray("requests")
@@ -41,20 +42,21 @@ internal class GatewayAttemptArchive(private val store: GatewayColdArchiveStorag
         for ((index, segment) in attempt.segments.withIndex()) for (kind in CallbackKind.entries) {
             val callbackId = if (kind == CallbackKind.SENT) segment.sentCallbackId else segment.deliveryCallbackId
             val matches = (0 until requests.length()).map { GatewayStoredRequest.parse(requests.getJSONObject(it)) }
-                .filter { it.callbackId == callbackId && requestMatchesRoute(it, attempt.dispatchRoute) && (isSuccessorEnvelope(it.envelope) || strictInteger(it.envelope, "contract_version") == 2L) }
+                .filter { it.callbackId == callbackId && requestMatchesRoute(it, attempt.dispatchRoute) && (if (legacy) !isSuccessorEnvelope(it.envelope) && strictInteger(it.envelope, "contract_version") == 1L else isNoticeEnvelope(it.envelope) || isSuccessorEnvelope(it.envelope) || strictInteger(it.envelope, "contract_version") == 2L) }
             val matching = matches.singleOrNull { callbackMatches(attempt, index, kind, it) }
                 ?: throw GatewayStateException("gateway_archive_acknowledgement_pending")
             refs.put(JSONObject().put("callback_id", callbackId).put("request_id", matching.requestId).put("request_sha256", matching.digest))
         }
         JSONObject().put("attempt_id", attempt.attemptId).put("fence_version", attempt.fence).put("body_sha256", attempt.bodySha256)
             .put("destination_sha256", attempt.destinationSha256).put("callback_requests", refs)
-            .also { if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) it.put("route", successorRouteJson(attempt.dispatchRoute)) }
+            .also { if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1) it.put("route", noticeRouteJson(attempt.dispatchRoute)) else if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) it.put("route", successorRouteJson(attempt.dispatchRoute)) }
     }
 
     fun acknowledge(original: GatewayStoredRequest, ack: JSONObject) = synchronized(GatewayJournal.PROCESS_LOCK) {
-        if (original.action != "archive_attempt" || (!isSuccessorEnvelope(original.envelope) && strictInteger(original.envelope, "contract_version") != 3L)) invalidArchive()
+        val legacy=original.action=="archive_legacy_attempt" && !isSuccessorEnvelope(original.envelope) && strictInteger(original.envelope,"contract_version")==4L
+        if (!legacy && (original.action != "archive_attempt" || (!isNoticeEnvelope(original.envelope) && !isSuccessorEnvelope(original.envelope) && strictInteger(original.envelope, "contract_version") != 3L))) invalidArchive()
         val payload = original.envelope.getJSONObject("payload")
-        validateRouteArchiveAck(original, ack)
+        validateTerminalArchiveAck(original, ack)
         if (!strictBoolean(ack, "ok") || strictBoolean(ack, "replay")) throw GatewayStateException("gateway_archive_acknowledgement_pending")
         val id = requireUuid(payload, "attempt_id")
         val cold = store.readColdAttempt(id)
@@ -75,7 +77,7 @@ internal class GatewayAttemptArchive(private val store: GatewayColdArchiveStorag
         // A callback can contradict the local snapshot while the authenticated
         // ACK is in flight. Retain both facts without pruning or starving that
         // new callback behind repeated ACK lookups.
-        if (attempt.outcome() != AttemptOutcome.DELIVERY_CALLBACK_OBSERVED || !archiveJsonEqual(payload(attempt), payload)) {
+        if (attempt.outcome() != AttemptOutcome.DELIVERY_CALLBACK_OBSERVED || !archiveJsonEqual(payload(attempt,legacy), payload)) {
             store.retainUncompactableAck(original, ack);return@synchronized
         }
         val refs = payload.getJSONArray("callback_requests");val requests = store.readRequests().getJSONArray("requests")
@@ -85,7 +87,7 @@ internal class GatewayAttemptArchive(private val store: GatewayColdArchiveStorag
                 ?: throw GatewayStateException("gateway_archive_source_conflict")
             copy.put(JSONObject(source.toString()))
         }
-        val tombstone = JSONObject().put("contract_version", if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) 5 else 3).put("attempt", archiveAttemptJson(attempt))
+        val tombstone = JSONObject().put("contract_version", if (legacy) 6 else if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1) 7 else if (attempt.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) 5 else 3).put("attempt", archiveAttemptJson(attempt))
             .put("archive_request", original.row).put("acknowledgement", JSONObject(ack.toString())).put("callback_requests", copy)
             .put("archived_at", gatewayWireTime(Instant.now()))
         validateColdAttempt(tombstone)
@@ -125,16 +127,18 @@ internal fun callbackMatches(a: GatewayAttempt, index: Int, kind: CallbackKind, 
 internal fun validateColdAttempt(value: JSONObject): JSONObject {
     requireKeys(value, setOf("contract_version", "attempt", "archive_request", "acknowledgement", "callback_requests", "archived_at"))
     val version = strictInteger(value, "contract_version")
-    if (version !in setOf(3L, 5L)) invalidArchive()
+    if (version !in setOf(3L, 5L, 6L, 7L)) invalidArchive()
     strictTimestamp(value, "archived_at")
     val a = archiveAttemptFromJson(value.getJSONObject("attempt"))
     if ((version == 5L) != (a.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1)) invalidArchive()
+    if ((version == 7L) != (a.dispatchRoute is GatewayDispatchRoute.ReceiptNoticeV1)) invalidArchive()
     if (a.outcome() != AttemptOutcome.DELIVERY_CALLBACK_OBSERVED) invalidArchive()
     val request = GatewayStoredRequest.parse(value.getJSONObject("archive_request"));val p = request.envelope.getJSONObject("payload")
-    if (request.action != "archive_attempt" || !requestMatchesRoute(request, a.dispatchRoute) || request.deviceId != a.deviceId ||
-        (!isSuccessorEnvelope(request.envelope) && strictInteger(request.envelope, "contract_version") != 3L)) invalidArchive()
-    if (isSuccessorEnvelope(request.envelope)) validateSuccessorPayload(request.action, request.requestId, p) else validateGatewayArchivePayload(request.action, p, request.requestId)
-    validateRouteArchiveAck(request, value.getJSONObject("acknowledgement"))
+    val legacy=version==6L
+    if (request.action != (if(legacy) "archive_legacy_attempt" else "archive_attempt") || !requestMatchesRoute(request, a.dispatchRoute) || request.deviceId != a.deviceId ||
+        (!isNoticeEnvelope(request.envelope) && !isSuccessorEnvelope(request.envelope) && strictInteger(request.envelope, "contract_version") != (if(legacy) 4L else 3L))) invalidArchive()
+    if (isNoticeEnvelope(request.envelope)) validateNoticePayload(request.action, request.requestId, p) else if (isSuccessorEnvelope(request.envelope)) validateSuccessorPayload(request.action, request.requestId, p) else if(legacy) validateGatewayLegacyArchivePayload(request.action,p,request.requestId) else validateGatewayArchivePayload(request.action, p, request.requestId)
+    validateTerminalArchiveAck(request, value.getJSONObject("acknowledgement"))
     if (!strictBoolean(value.getJSONObject("acknowledgement"), "ok") || strictBoolean(value.getJSONObject("acknowledgement"), "replay") ||
         (a.dispatchRoute is GatewayDispatchRoute.PrimaryV2 && requireUuid(value.getJSONObject("acknowledgement"), "receipt_id") != a.jobId) || requireUuid(p, "attempt_id") != a.attemptId ||
         strictInteger(p, "fence_version") != a.fence || strictString(p, "body_sha256") != a.bodySha256 || strictString(p, "destination_sha256") != a.destinationSha256) invalidArchive()
@@ -142,7 +146,7 @@ internal fun validateColdAttempt(value: JSONObject): JSONObject {
     if (rows.length() != a.segments.size * 2 || rows.length() != refs.length()) invalidArchive()
     for (i in 0 until rows.length()) {
         val callback = GatewayStoredRequest.parse(rows.getJSONObject(i));val ref = refs.getJSONObject(i)
-        if (!requestMatchesRoute(callback, a.dispatchRoute) || (!isSuccessorEnvelope(callback.envelope) && strictInteger(callback.envelope, "contract_version") != 2L) || callback.requestId != requireUuid(ref, "request_id") || callback.callbackId != requireUuid(ref, "callback_id") || callback.digest != strictString(ref, "request_sha256") ||
+        if (!requestMatchesRoute(callback, a.dispatchRoute) || (!isNoticeEnvelope(callback.envelope) && !isSuccessorEnvelope(callback.envelope) && strictInteger(callback.envelope, "contract_version") != (if(legacy) 1L else 2L)) || callback.requestId != requireUuid(ref, "request_id") || callback.callbackId != requireUuid(ref, "callback_id") || callback.digest != strictString(ref, "request_sha256") ||
             !callbackMatches(a, i / 2, if (i % 2 == 0) CallbackKind.SENT else CallbackKind.DELIVERY, callback)) invalidArchive()
     }
     return value

@@ -467,7 +467,7 @@ class _SafetySection extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Collect records Rwanda MoMo contributions. It does not ask for MoMo PINs, payment provider OTPs or pasted transaction IDs. Your WhatsApp sign-in code is only for signing in to Collect.',
+              'Collect records Rwanda MoMo contributions. It does not ask for MoMo PINs, payment provider OTPs or pasted transaction IDs. Your Collect sign-in code is only for signing in to Collect.',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: CollectColors.publicSecondary,
                 height: CollectTypography.leadingBody,

@@ -30,43 +30,39 @@ grep -q '<key>aps-environment</key>' ios/Runner/Runner.entitlements ||
 grep -q '<string>remote-notification</string>' ios/Runner/Info.plist ||
   fail 'Remote-notification background mode is missing.'
 
-MIGRATION='supabase/migrations/20260804150000_native_push_delivery.sql'
-[[ -s "$MIGRATION" ]] || fail 'Native push delivery migration is missing.'
-FCM_MIGRATION='supabase/migrations/20260805120000_android_fcm_push_delivery.sql'
-[[ -s "$FCM_MIGRATION" ]] || fail 'Android FCM delivery migration is missing.'
-for contract in \
-  'notification_deliveries' \
-  'notification_delivery_attempts' \
-  'register_notification_device' \
-  'unregister_notification_device' \
-  'claim_notification_deliveries' \
-  'complete_notification_delivery' \
-  'enqueue_contribution_confirmation_notification' \
-  'for update of delivery skip locked' \
-  'legacy_token_not_deliverable'; do
-  grep -q "$contract" "$MIGRATION" || fail "Missing backend contract: $contract."
+backend="${COLLECT_BACKEND:-supabase}"
+[[ "$backend" == supabase ]] || fail 'Current notification readiness requires the selected Supabase backend.'
+STORE='supabase/migrations/20261020134444_collect_curated_platform_baseline.sql'
+DISPATCH='supabase/functions/_shared/domain/notifications.js'
+[[ -s supabase/functions/collect-api/index.ts &&
+   -s supabase/functions/_shared/serve.js &&
+   -s supabase/functions/_shared/postgres.js ]] ||
+  fail 'The Supabase notification entrypoint or Postgres adapter is missing.'
+grep -Fq "createHandler('collect-api')" supabase/functions/collect-api/index.ts &&
+  grep -Fq 'new PostgresDatabase(connection(env.COLLECT_DATABASE_URL))' supabase/functions/_shared/serve.js &&
+  grep -Fq "from './notifications.js'" supabase/functions/_shared/domain/index.js &&
+  grep -Fq "import {notificationRpc} from './notifications.js'" supabase/functions/_shared/domain/operations.js &&
+  grep -Fq "['rpc','notifications.js',notificationRpc,[" supabase/functions/_shared/domain/operations.js ||
+  fail 'The Supabase notification data-plane wiring is missing.'
+python3 -B - <<'PY' || fail 'The Supabase notification registration operations are not routed to their handler.'
+from pathlib import Path
+import re
+
+source = Path('supabase/functions/_shared/domain/operations.js').read_text()
+row = re.search(r"\['rpc','notifications\.js',notificationRpc,\[(.*?)\]\]", source, re.S)
+required = {'register_notification_device', 'unregister_notification_device'}
+if row is None or not required.issubset(re.findall(r"'([^']+)'", row[1])):
+    raise SystemExit('Notification registration routing is incomplete.')
+PY
+[[ -s "$STORE" && -s "$DISPATCH" ]] || fail 'Current notification store or handler is missing.'
+for contract in notification_events notification_devices notification_preferences; do
+  grep -Eq "CREATE TABLE (app\\.)?${contract}[[:space:]]*\\(" "$STORE" ||
+    fail "Current notification table is missing: $contract."
 done
-
-DISPATCH='supabase/functions/dispatch-notifications/index.ts'
-[[ -s "$DISPATCH" ]] || fail 'APNs dispatch function is missing.'
-grep -q 'requireInternalRequest(req)' "$DISPATCH" ||
-  fail 'APNs dispatcher is not internal-only.'
-grep -q 'complete_notification_delivery' "$DISPATCH" ||
-  fail 'APNs dispatcher does not persist outcomes.'
-grep -q 'APNS_PRIVATE_KEY_BASE64' "$DISPATCH" ||
-  fail 'APNs dispatcher secret contract is missing.'
-grep -q 'FCM_SERVICE_ACCOUNT_JSON' "$DISPATCH" ||
-  fail 'FCM dispatcher secret contract is missing.'
-grep -q 'sendFcmMessage' "$DISPATCH" ||
-  fail 'FCM HTTP v1 sender is not wired into the dispatcher.'
-[[ -s supabase/functions/_shared/fcm.ts ]] ||
-  fail 'FCM HTTP v1 implementation is missing.'
-grep -q "'fcm'" "$FCM_MIGRATION" ||
-  fail 'FCM provider registration contract is missing.'
-
-for script in scripts/supabase_deploy.sh scripts/supabase_production_readiness.sh; do
-  grep -q 'dispatch-notifications' "$script" ||
-    fail "dispatch-notifications is missing from $script."
+for contract in register_notification_device unregister_notification_device; do
+  grep -Fq "case '$contract':" "$DISPATCH" || fail "Current notification handler case is missing: $contract."
 done
-
-printf '[notification-readiness] source-pass transports=apns,fcm producers=1 delivery_attempts=enabled\n'
+for contract in owner_session_id token_ciphertext; do
+  grep -q "$contract" "$DISPATCH" || fail "Current notification handler contract is missing: $contract."
+done
+printf '[notification-readiness] source-pass backend=%s outbound_delivery=requires_hosted_acceptance\n' "$backend"

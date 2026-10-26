@@ -1,3 +1,4 @@
+import '../test/fixtures/auth_otp_gateway_fixture.dart';
 import '../test/fixtures/collect_repository_fixture.dart';
 
 import 'dart:async';
@@ -5,7 +6,7 @@ import 'dart:async';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
-import 'package:collect_app/core/supabase/auth_otp_gateway.dart';
+import 'package:collect_app/core/cloudflare/auth_otp_gateway.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/features/status/native_permission_sheets.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -406,6 +407,9 @@ Future<void> _prepareState(WidgetTester tester, _StateSpec spec) async {
       await _pumpFrames(tester, count: 4);
     }
     return;
+  }
+  if (spec.usesFakeAuth) {
+    await selectWhatsAppSignIn(tester);
   }
   if (spec.usesFakeAuth && spec.name != 'auth-phone-empty') {
     // On a short 320dp viewport the lazy ListView has not built the phone
@@ -1165,6 +1169,9 @@ class _HomeParityRepository extends FixtureCollectRepository {
 
 class _MaterialStateAuthOtpGateway implements AuthOtpGateway {
   const _MaterialStateAuthOtpGateway();
+
+  @override
+  bool get whatsAppSignInAvailable => true;
 
   @override
   Future<void> sendWhatsAppOtp({

@@ -92,7 +92,7 @@ class CollectProductCapabilities
       if !IMPLEMENTED.include?(row['id']) && availability.values.any? { |state| %w[supported assisted].include?(state) }
         raise 'Unapproved planned/provider-dependent service cannot become active'
       end
-      if %w[private_group_creation momo_ussd receipt_sms].include?(row['id']) &&
+      if %w[momo_ussd receipt_sms].include?(row['id']) &&
          availability.any? { |platform, state| platform != 'android' && state != 'unavailable' }
         raise 'Android-only capability cannot advertise another platform'
       end

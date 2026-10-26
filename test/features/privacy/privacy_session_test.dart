@@ -1,102 +1,77 @@
-// Tests the internal bridges of the installed pinned GoTrue implementation.
-// ignore_for_file: invalid_use_of_internal_member
 import 'dart:convert';
-
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 import 'package:collect_app/features/privacy/privacy_contract.dart';
 import 'package:collect_app/features/privacy/privacy_session.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'privacy_test_support.dart';
 
 void main() {
-  GoTrueClient client() => GoTrueClient(
-    url: 'https://synthetic.invalid/auth/v1',
-    autoRefreshToken: false,
+  CollectCloudflareClient client() => CollectCloudflareClient(
+    'https://synthetic.invalid',
     httpClient: MockClient((_) async => throw StateError('Unexpected network')),
   );
 
   test(
-    'pinned recoverSession synchronously saves valid same-user session, with no SDK event',
+    'verified recovery installs synchronously and emits one owned event',
     () async {
-      final auth = client();
-      addTearDown(auth.dispose);
-      await auth.recoverSession(jsonEncode(privacySession().toJson()));
-      final events = <AuthState>[];
-      final subscription = auth.onAuthStateChangeSync.listen(events.add);
+      final backend = client();
+      addTearDown(backend.dispose);
+      await backend.auth.recoverSession(jsonEncode(privacySession().toJson()));
+      final events = <CollectAuthState>[];
+      final subscription = backend.auth.onAuthStateChangeSync.listen(
+        events.add,
+      );
       addTearDown(subscription.cancel);
-      final future = auth.recoverSession(
+      final future = backend.auth.recoverSession(
         jsonEncode(privacySession(sid: privacyNewSid).toJson()),
       );
       expect(
-        PrivacySessionSnapshot.parse(auth.currentSession, 0)!.sessionId,
+        PrivacySessionSnapshot.parse(backend.auth.currentSession, 0)!.sessionId,
         privacyNewSid,
       );
-      expect(events, isEmpty);
+      expect(events.single.event, CollectAuthEvent.signedIn);
       await future;
     },
   );
+
   test(
-    'guarded adoption synchronously installs and publishes new ordinary member SID',
+    'guarded adoption publishes one event and advances the account fence',
     () async {
-      final auth = client();
-      addTearDown(auth.dispose);
-      await auth.recoverSession(jsonEncode(privacySession().toJson()));
-      final authority = GoTruePrivacySessionAuthority(auth);
+      final backend = client();
+      addTearDown(backend.dispose);
+      await backend.auth.recoverSession(jsonEncode(privacySession().toJson()));
+      final authority = CollectPrivacySessionAuthority(backend.auth);
       addTearDown(authority.dispose);
       final before = authority.capture();
-      final events = <AuthState>[];
-      final sub = auth.onAuthStateChangeSync.listen(events.add);
-      addTearDown(sub.cancel);
-      await Future<void>.delayed(Duration.zero);
-      events.clear();
+      final events = <CollectAuthState>[];
+      final subscription = backend.auth.onAuthStateChangeSync.listen(
+        events.add,
+      );
+      addTearDown(subscription.cancel);
       final after = authority.adopt(before, privacySession(sid: privacyNewSid));
       expect(after.sessionId, privacyNewSid);
       expect(after.generation, greaterThan(before.generation));
-      expect(events.single.event, AuthChangeEvent.signedIn);
+      expect(events.single.event, CollectAuthEvent.signedIn);
     },
   );
+
   test(
-    'actual global verifyOTP mutates before returning and can overwrite newer user',
+    'account ABA invalidates capture even when user and session IDs return',
     () async {
-      final auth = GoTrueClient(
-        url: 'https://synthetic.invalid/auth/v1',
-        autoRefreshToken: false,
-        httpClient: MockClient(
-          (_) async => http.Response(
-            jsonEncode(privacySession(sid: privacyNewSid).toJson()),
-            200,
-          ),
-        ),
-      );
-      addTearDown(auth.dispose);
-      await auth.recoverSession(
-        jsonEncode(privacySession(subject: privacyOtherSubject).toJson()),
-      );
-      final result = await auth.verifyOTP(
-        phone: '+250788000001',
-        token: '123456',
-        type: OtpType.sms,
-      );
-      expect(result.session!.user.id, privacySubject);
-      expect(auth.currentUser!.id, privacySubject);
-    },
-  );
-  test(
-    'account ABA invalidates a captured generation even when UID and SID return',
-    () async {
-      final auth = client();
-      addTearDown(auth.dispose);
-      await auth.recoverSession(jsonEncode(privacySession().toJson()));
-      final authority = GoTruePrivacySessionAuthority(auth);
+      final backend = client();
+      addTearDown(backend.dispose);
+      await backend.auth.recoverSession(jsonEncode(privacySession().toJson()));
+      final authority = CollectPrivacySessionAuthority(backend.auth);
       addTearDown(authority.dispose);
       final original = authority.capture();
-      await auth.recoverSession(
+      final switched = backend.auth.recoverSession(
         jsonEncode(privacySession(subject: privacyOtherSubject).toJson()),
       );
-      await auth.recoverSession(jsonEncode(privacySession().toJson()));
+      final returned = backend.auth.recoverSession(
+        jsonEncode(privacySession().toJson()),
+      );
+      await Future.wait([switched, returned]);
       expect(authority.capture().sameFence(original), isFalse);
       expect(
         () => authority.adopt(original, privacySession(sid: privacyNewSid)),
@@ -105,139 +80,86 @@ void main() {
       expect(authority.capture().sessionId, privacyOldSid);
     },
   );
+
   test(
-    'logout-start invalidation survives token refresh of the same SID',
+    'a foreign candidate cannot replace the currently owned account',
     () async {
-      final auth = client();
-      addTearDown(auth.dispose);
-      await auth.recoverSession(jsonEncode(privacySession().toJson()));
-      final authority = GoTruePrivacySessionAuthority(auth);
+      final backend = client();
+      addTearDown(backend.dispose);
+      await backend.auth.recoverSession(jsonEncode(privacySession().toJson()));
+      final authority = CollectPrivacySessionAuthority(backend.auth);
       addTearDown(authority.dispose);
       final original = authority.capture();
+      expect(
+        () => authority.adopt(
+          original,
+          privacySession(subject: privacyOtherSubject, sid: privacyNewSid),
+        ),
+        throwsA(isA<PrivacyRequestException>()),
+      );
+      expect(backend.auth.currentUser!.id, privacySubject);
+      expect(authority.capture().sameFence(original), isTrue);
+    },
+  );
+
+  test(
+    'logout-start remains fenced across a same-session token notification',
+    () async {
+      final backend = client();
+      addTearDown(backend.dispose);
+      await backend.auth.recoverSession(jsonEncode(privacySession().toJson()));
+      final authority = CollectPrivacySessionAuthority(backend.auth);
+      addTearDown(authority.dispose);
       authority.invalidate();
-      auth.notifyAllSubscribers(AuthChangeEvent.tokenRefreshed);
-      expect(
-        () => authority.capture(),
-        throwsA(isA<PrivacyRequestException>()),
-      );
-      expect(
-        () => authority.adopt(original, privacySession(sid: privacyNewSid)),
-        throwsA(isA<PrivacyRequestException>()),
-      );
-      await auth.recoverSession(
+      backend.auth.notifyAllSubscribers(CollectAuthEvent.tokenRefreshed);
+      expect(authority.capture, throwsA(isA<PrivacyRequestException>()));
+      await backend.auth.recoverSession(
         jsonEncode(privacySession(sid: privacyNewSid).toJson()),
       );
-      auth.notifyAllSubscribers(AuthChangeEvent.signedIn);
-      await Future<void>.delayed(Duration.zero);
       expect(authority.capture().sessionId, privacyNewSid);
     },
   );
+
   test(
-    'buffered initial replay preserves a synchronous account switch and return',
+    'expired recovery is rejected before it can replace live memory',
     () async {
-      final auth = client();
-      addTearDown(auth.dispose);
-      await auth.recoverSession(jsonEncode(privacySession().toJson()));
-      final authority = GoTruePrivacySessionAuthority(auth);
-      addTearDown(authority.dispose);
+      final backend = client();
+      addTearDown(backend.dispose);
+      await backend.auth.recoverSession(jsonEncode(privacySession().toJson()));
+      final original = backend.auth.currentSession;
+      final expired = privacySession().toJson();
+      final parts = (expired['access_token'] as String).split('.');
+      final claims = Map<String, dynamic>.from(
+        jsonDecode(utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))))
+            as Map,
+      );
+      claims['exp'] = 1516239022;
+      parts[1] = base64Url
+          .encode(utf8.encode(jsonEncode(claims)))
+          .replaceAll('=', '');
+      expired['access_token'] = parts.join('.');
+      expect(
+        () => backend.auth.recoverSession(jsonEncode(expired)),
+        throwsA(isA<CollectAuthException>()),
+      );
+      expect(backend.auth.currentSession, same(original));
+    },
+  );
+
+  test(
+    'disposed authority cannot adopt a late verification response',
+    () async {
+      final backend = client();
+      addTearDown(backend.dispose);
+      await backend.auth.recoverSession(jsonEncode(privacySession().toJson()));
+      final authority = CollectPrivacySessionAuthority(backend.auth);
       final original = authority.capture();
-      final switched = auth.recoverSession(
-        jsonEncode(privacySession(subject: privacyOtherSubject).toJson()),
-      );
-      final returned = auth.recoverSession(
-        jsonEncode(privacySession().toJson()),
-      );
-      await Future.wait([switched, returned]);
-      await Future<void>.delayed(Duration.zero);
-      expect(authority.capture().sameFence(original), isFalse);
+      await authority.dispose();
       expect(
         () => authority.adopt(original, privacySession(sid: privacyNewSid)),
         throwsA(isA<PrivacyRequestException>()),
       );
-      expect(authority.capture().sessionId, privacyOldSid);
+      expect(backend.auth.currentSession!.user.id, privacySubject);
     },
   );
-  test(
-    'same-tick buffered ABA cannot adopt before initial replay is delivered',
-    () async {
-      final auth = client();
-      addTearDown(auth.dispose);
-      await auth.recoverSession(jsonEncode(privacySession().toJson()));
-      final authority = GoTruePrivacySessionAuthority(auth);
-      addTearDown(authority.dispose);
-      final original = authority.capture();
-      final switched = auth.recoverSession(
-        jsonEncode(privacySession(subject: privacyOtherSubject).toJson()),
-      );
-      final returned = auth.recoverSession(
-        jsonEncode(privacySession().toJson()),
-      );
-      // Deliberately no await or event-loop drain after construction/capture,
-      // switch and return. This is the initial ReplaySubject observation gap.
-      expect(
-        () => authority.adopt(original, privacySession(sid: privacyNewSid)),
-        throwsA(isA<PrivacyRequestException>()),
-      );
-      expect(auth.currentSession!.accessToken, original.session.accessToken);
-      await Future.wait([switched, returned]);
-    },
-  );
-  test(
-    'primed live stream also rejects same-tick switch and return without awaiting',
-    () async {
-      final auth = client();
-      addTearDown(auth.dispose);
-      await auth.recoverSession(jsonEncode(privacySession().toJson()));
-      final authority = GoTruePrivacySessionAuthority(auth);
-      addTearDown(authority.dispose);
-      await Future<void>.delayed(Duration.zero);
-      final original = authority.capture();
-      final switched = auth.recoverSession(
-        jsonEncode(privacySession(subject: privacyOtherSubject).toJson()),
-      );
-      final returned = auth.recoverSession(
-        jsonEncode(privacySession().toJson()),
-      );
-      expect(
-        () => authority.adopt(original, privacySession(sid: privacyNewSid)),
-        throwsA(isA<PrivacyRequestException>()),
-      );
-      expect(auth.currentSession!.accessToken, original.session.accessToken);
-      await Future.wait([switched, returned]);
-    },
-  );
-  final invalid = <String, Session Function()>{
-    'wrong user': () =>
-        privacySession(subject: privacyOtherSubject, sid: privacyNewSid),
-    'same SID': () => privacySession(),
-    'expired': () => privacySession(sid: privacyNewSid, exp: 1),
-    'string exp': () =>
-        privacySession(sid: privacyNewSid, claimExpiration: '9999999999'),
-    'wrong subject claim': () =>
-        privacySession(sid: privacyNewSid, claimSubject: privacyOtherSubject),
-    'malformed SID': () =>
-        privacySession(sid: privacyNewSid, claimSid: 'invalid'),
-    'service role': () =>
-        privacySession(sid: privacyNewSid, role: 'service_role'),
-    'anonymous': () => privacySession(sid: privacyNewSid, anonymous: true),
-    'missing refresh': () => privacySession(sid: privacyNewSid, refresh: null),
-  };
-  for (final entry in invalid.entries) {
-    test(
-      'adoption refuses ${entry.key} without touching live account',
-      () async {
-        final auth = client();
-        addTearDown(auth.dispose);
-        await auth.recoverSession(jsonEncode(privacySession().toJson()));
-        final authority = GoTruePrivacySessionAuthority(auth);
-        addTearDown(authority.dispose);
-        final original = authority.capture();
-        expect(
-          () => authority.adopt(original, entry.value()),
-          throwsA(isA<PrivacyRequestException>()),
-        );
-        expect(auth.currentSession!.accessToken, original.session.accessToken);
-      },
-    );
-  }
 }

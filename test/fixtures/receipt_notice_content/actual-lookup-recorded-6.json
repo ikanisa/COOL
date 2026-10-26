@@ -1,0 +1,40 @@
+{
+  "scope": "rw_receipt_notice_content",
+  "result": {
+    "scope": "rw_receipt_notice_content",
+    "action": "policy",
+    "enabled": true,
+    "audit_id": "ee767064-d8c7-46ee-8a3f-28e4d47f68e8",
+    "language": "rw",
+    "request_id": "404ad418-298e-4df4-8b08-c6cb35a23ab4",
+    "recorded_at": "2026-10-03T06:52:24.424834Z",
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "notice_family": "reversal_notice",
+    "approval_basis": "actual_current_owner_policy_action",
+    "send_authority": false,
+    "policy_revision": 1,
+    "template_sha256": "51baebc42b64760be2fde47bf189035dc67f568f36a9fdd4483b81371b6fa855",
+    "contract_version": 1,
+    "financial_action": false,
+    "semantic_version": 1,
+    "notice_transport_available": false
+  },
+  "status": "recorded",
+  "request_id": "404ad418-298e-4df4-8b08-c6cb35a23ab4",
+  "send_authority": false,
+  "policy_template": {
+    "family": "reversal_notice",
+    "language": "rw",
+    "body_frame": "Ihindurwa ryibyanditswe muri Collect ku nyemezabwishyu %s yanditswe %s. Amafaranga yakuwemo mu byanditswe: %s RWF ku %s. Ubwizigame bwawe bwanditswe nyuma: %s RWF. Ubwizigame bwanditswe mbere: %s RWF. Ref: %s. Ibi ni ibyanditswe muri Collect gusa.",
+    "consent_rule": "current_receipt_consent_required_no_override",
+    "template_key": "collect.notice.reversal_notice",
+    "recipient_rule": "same_original_member",
+    "disclosure_rule": "collect_ledger_compensation_facts_only",
+    "template_sha256": "51baebc42b64760be2fde47bf189035dc67f568f36a9fdd4483b81371b6fa855",
+    "semantic_version": 1
+  },
+  "contract_version": 1,
+  "financial_action": false,
+  "prepared_preview": null,
+  "notice_transport_available": false
+}

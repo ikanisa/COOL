@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../profile/member_profile_gate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,14 +9,26 @@ import 'package:go_router/go_router.dart';
 import '../../core/payments/momo_ussd_launcher.dart';
 import '../../core/payments/momo_ussd_intent_guard.dart';
 import '../../core/utils/money_format.dart';
+import '../../core/utils/date_format.dart';
 import '../../l10n/collect_localizations.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
+import '../../shared/repositories/payment_help_pending_store.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/collect_form_viewport.dart' as forms;
 import '../../shared/widgets/screen_scaffold.dart';
 import '../collections/group_empty_state.dart';
 import 'contribution_amount_widgets.dart';
+
+part 'contribution_flow_widgets.dart';
+
+String _receiptTimestamp(DateTime value) {
+  final offsetMinutes = value.toLocal().timeZoneOffset.inMinutes;
+  final sign = offsetMinutes < 0 ? '-' : '+';
+  final hours = (offsetMinutes.abs() ~/ 60).toString().padLeft(2, '0');
+  final minutes = (offsetMinutes.abs() % 60).toString().padLeft(2, '0');
+  return '${formatCollectDateTime(value)} (UTC$sign$hours:$minutes)';
+}
 
 class ContributionFlowScreen extends ConsumerWidget {
   const ContributionFlowScreen({required this.collectionId, super.key});
@@ -74,7 +89,8 @@ class _RwandaMomoContributionFlow extends ConsumerStatefulWidget {
 }
 
 class _RwandaMomoContributionFlowState
-    extends ConsumerState<_RwandaMomoContributionFlow> {
+    extends ConsumerState<_RwandaMomoContributionFlow>
+    with WidgetsBindingObserver {
   final _amount = TextEditingController();
   final _amountFocus = FocusNode();
   PaymentIntentModel? _intent;
@@ -83,11 +99,30 @@ class _RwandaMomoContributionFlowState
   int? _preparedSessionGeneration;
   int _flowGeneration = 0;
   bool _working = false;
-  bool _ussdOpened = false;
+  bool _awaitingConfirmation = false;
+  bool _momoRequestOpened = false;
+  bool _manualInstructions = false;
   String? _error;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed &&
+        _intent != null &&
+        _awaitingConfirmation &&
+        !_working) {
+      unawaited(_checkPayment());
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _amount.dispose();
     _amountFocus.dispose();
     super.dispose();
@@ -114,8 +149,38 @@ class _RwandaMomoContributionFlowState
             _preparedSessionGeneration = null;
             _amount.clear();
             _working = false;
-            _ussdOpened = false;
+            _awaitingConfirmation = false;
+            _momoRequestOpened = false;
+            _manualInstructions = false;
             _error = null;
+          });
+        }
+      },
+    );
+    ref.listen<List<PaymentIntentModel>>(
+      collectRepositoryProvider.select((state) => state.paymentIntents),
+      (_, intents) {
+        final current = _intent;
+        if (current == null ||
+            !identical(repository, _preparedRepository) ||
+            repository.sessionGeneration != _preparedSessionGeneration) {
+          return;
+        }
+        final updated = intents
+            .where((item) => item.id == current.id)
+            .firstOrNull;
+        if (updated != null &&
+            (!current.hasCommittedContribution ||
+                updated.hasCommittedContribution)) {
+          setState(() {
+            _intent = updated;
+            if (updated.confirmationStatus != 'awaiting_confirmation' ||
+                !updated.isAwaitingTransfer) {
+              _momoRequestOpened = false;
+            }
+            if (updated.confirmationStatus != 'awaiting_confirmation') {
+              _awaitingConfirmation = true;
+            }
           });
         }
       },
@@ -157,7 +222,16 @@ class _RwandaMomoContributionFlowState
     }
     final receiver =
         _intent?.receiverMomoNumber ?? collection.receiverMomoNumber ?? '';
+    final recent =
+        ref
+            .watch(collectRepositoryProvider)
+            .paymentIntents
+            .where((item) => item.collectionId == widget.collectionId)
+            .toList()
+          ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    final resumable = recent.firstOrNull;
     final isAmountStep = _intent == null;
+    final isCommitted = _intent?.hasCommittedContribution == true;
     final amountError = _error == l10n.text('enterAmountAboveZero')
         ? _error
         : null;
@@ -190,6 +264,25 @@ class _RwandaMomoContributionFlowState
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     if (isAmountStep) ...[
+                      if (resumable != null) ...[
+                        _NativeMomoStatus(
+                          title: 'Your latest payment request',
+                          message:
+                              '${formatRwf(resumable.expectedAmountRwf)} · '
+                              'Check its status before making another payment.',
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: TextButton.icon(
+                            onPressed: _working
+                                ? null
+                                : () => _resume(resumable),
+                            icon: const Icon(Icons.history_rounded),
+                            label: const Text('Resume payment request'),
+                          ),
+                        ),
+                        CollectSpacing.gap20,
+                      ],
                       _NativeAmountEntry(
                         controller: _amount,
                         focusNode: _amountFocus,
@@ -200,39 +293,131 @@ class _RwandaMomoContributionFlowState
                       ),
                     ] else ...[
                       _NativeAmountReview(
-                        amountRwf: _intent!.expectedAmountRwf,
+                        amountRwf: isCommitted
+                            ? _intent!.creditedAmountRwf!
+                            : _intent!.expectedAmountRwf,
+                        title: isCommitted
+                            ? (_intent!.confirmationStatus == 'reversed'
+                                  ? 'Contribution reversed'
+                                  : 'Contribution credited')
+                            : _awaitingConfirmation
+                            ? 'Payment status'
+                            : null,
+                        description: isCommitted
+                            ? 'Recorded for this group'
+                            : _awaitingConfirmation
+                            ? 'Requested contribution'
+                            : null,
                       ),
                     ],
                     CollectSpacing.gap32,
                     Text(
-                      l10n.text('payingTo'),
+                      isCommitted ? 'PAID TO' : l10n.text('payingTo'),
                       style: CollectTypography.eyebrowLabel(
                         context.collectColors.textMuted,
                       ),
                     ),
                     CollectSpacing.gap12,
                     _NativeMomoReceiverTile(
-                      name: collection.receiverDisplayLabel,
+                      name: _intent?.receiverLabel.isNotEmpty == true
+                          ? _intent!.receiverLabel
+                          : collection.receiverDisplayLabel,
                       receiver: receiver,
                     ),
-                    if (!isAmountStep) ...[
-                      CollectSpacing.gap20,
-                      _NativeMomoTrustNote(
-                        title: l10n.text('approveInMomo'),
-                        message: l10n.text('approveOnlyInsideMomoMessage'),
+                    if (!isAmountStep && !isCommitted) ...[
+                      CollectSpacing.gap12,
+                      Wrap(
+                        spacing: CollectSpacing.x2,
+                        children: [
+                          TextButton.icon(
+                            onPressed: receiver.isEmpty
+                                ? null
+                                : () => _copy(receiver, 'MoMo number or code'),
+                            icon: const Icon(Icons.copy_rounded),
+                            label: const Text('Copy payment code'),
+                          ),
+                          TextButton.icon(
+                            onPressed: () => _copy(
+                              '${_intent!.expectedAmountRwf}',
+                              'Amount',
+                            ),
+                            icon: const Icon(Icons.copy_rounded),
+                            label: const Text('Copy amount'),
+                          ),
+                        ],
                       ),
+                      if (!_awaitingConfirmation || _manualInstructions) ...[
+                        CollectSpacing.gap20,
+                        const _NativeMomoTrustNote(
+                          title: 'Pay through MoMo',
+                          message:
+                              'Use your provider’s payment menu with this code and amount. '
+                              'Confirm the recipient name before paying. Enter your PIN only in MoMo.',
+                        ),
+                      ],
                     ],
-                    if (_ussdOpened) ...[
+                    if (_awaitingConfirmation || isCommitted) ...[
                       CollectSpacing.gap16,
                       _NativeMomoStatus(
-                        title: l10n.text('waitingForReceipt'),
-                        message: l10n.text('waitingForReceiptMessage'),
+                        title: _confirmationTitle(_intent!),
+                        message: _confirmationMessage(_intent!),
                       ),
                     ],
+                    if (_intent != null && !isCommitted)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton.icon(
+                          onPressed: _working ? null : _showPaymentHelp,
+                          icon: const Icon(CollectIcons.support),
+                          label: const Text('Payment help'),
+                        ),
+                      ),
+                    if (isCommitted) ...[
+                      if (_intent!.balanceAfterContributionRwf != null) ...[
+                        CollectSpacing.gap12,
+                        Text(
+                          'Balance after this contribution',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        Text(
+                          formatRwf(_intent!.balanceAfterContributionRwf!),
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ],
+                      if (_intent!.providerTransactionAt != null) ...[
+                        CollectSpacing.gap12,
+                        Text(
+                          'Provider transaction ${_receiptTimestamp(_intent!.providerTransactionAt!)}',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ],
+                      CollectSpacing.gap12,
+                      Text(
+                        'Credited ${_receiptTimestamp(_intent!.postedAt!)}',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      if (_intent!.providerTransactionReference != null) ...[
+                        CollectSpacing.gap8,
+                        SelectableText(
+                          'MoMo TX ID · ${_intent!.providerTransactionReference}',
+                        ),
+                      ],
+                    ],
+                    if (!isAmountStep && !_awaitingConfirmation && !isCommitted)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton.icon(
+                          onPressed: _working ? null : _checkPayment,
+                          icon: const Icon(Icons.refresh_rounded),
+                          label: const Text('Check payment'),
+                        ),
+                      ),
                     if (flowError != null) ...[
                       CollectSpacing.gap16,
                       _NativeMomoStatus(
-                        title: l10n.text('momoCouldNotContinue'),
+                        title: _awaitingConfirmation
+                            ? 'Status could not refresh'
+                            : l10n.text('momoCouldNotContinue'),
                         message: flowError,
                         isError: true,
                       ),
@@ -245,11 +430,19 @@ class _RwandaMomoContributionFlowState
                     ? (_working
                           ? l10n.text('preparingMomo')
                           : l10n.text('continueToMomo'))
+                    : isCommitted
+                    ? 'View activity'
+                    : _awaitingConfirmation
+                    ? (_working ? 'Checking payment' : 'Check payment')
                     : (_working
                           ? l10n.text('openingMomo')
                           : l10n.text('openMomoUssd')),
                 primaryIcon: isAmountStep
                     ? CollectIcons.arrowForward
+                    : isCommitted
+                    ? CollectIcons.activity
+                    : _awaitingConfirmation
+                    ? Icons.refresh_rounded
                     : CollectIcons.momo,
                 onPrimary:
                     _working ||
@@ -260,16 +453,33 @@ class _RwandaMomoContributionFlowState
                     ? null
                     : isAmountStep
                     ? _prepare
+                    : isCommitted
+                    ? () => context.go(
+                        Uri(
+                          path: '/groups/${widget.collectionId}/ledger',
+                          queryParameters: {'payment_id': _intent!.paymentId!},
+                        ).toString(),
+                      )
+                    : _awaitingConfirmation
+                    ? _checkPayment
                     : _openUssd,
-                secondaryLabel: isAmountStep ? null : l10n.text('editAmount'),
+                secondaryLabel: isAmountStep || isCommitted
+                    ? null
+                    : _awaitingConfirmation
+                    ? 'Back to group'
+                    : l10n.text('editAmount'),
                 onSecondary: _working || isAmountStep
                     ? null
+                    : _awaitingConfirmation
+                    ? () => context.go('/groups/${widget.collectionId}')
                     : () => setState(() {
                         _intent = null;
                         _preparedProfileId = null;
                         _preparedRepository = null;
                         _preparedSessionGeneration = null;
-                        _ussdOpened = false;
+                        _awaitingConfirmation = false;
+                        _momoRequestOpened = false;
+                        _manualInstructions = false;
                         _error = null;
                       }),
               ),
@@ -279,6 +489,142 @@ class _RwandaMomoContributionFlowState
       ),
     );
   }
+
+  void _resume(PaymentIntentModel intent) {
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    final profileId = ref.read(collectRepositoryProvider).currentProfile?.id;
+    if (profileId == null || _working) return;
+    setState(() {
+      _intent = intent;
+      _preparedProfileId = profileId;
+      _preparedRepository = repository;
+      _preparedSessionGeneration = repository.sessionGeneration;
+      _awaitingConfirmation = true;
+      _momoRequestOpened = false;
+      _error = null;
+    });
+    unawaited(_checkPayment());
+  }
+
+  Future<void> _copy(String value, String label) async {
+    await Clipboard.setData(ClipboardData(text: value));
+    if (!mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('$label copied')));
+  }
+
+  Future<void> _checkPayment() async {
+    final intent = _intent;
+    final repository = _preparedRepository;
+    if (_working || intent == null || repository == null) return;
+    final sessionGeneration = _preparedSessionGeneration;
+    final profileId = _preparedProfileId;
+    final operation = ++_flowGeneration;
+    bool current() =>
+        mounted &&
+        operation == _flowGeneration &&
+        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        repository.sessionGeneration == sessionGeneration &&
+        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
+    if (!current()) return;
+    setState(() {
+      _working = true;
+      _awaitingConfirmation = true;
+      _momoRequestOpened = false;
+      _error = null;
+    });
+    try {
+      final refreshed = await repository.refreshPaymentIntent(intent.id);
+      if (!current()) return;
+      if (refreshed.id != intent.id ||
+          refreshed.collectionId != intent.collectionId ||
+          refreshed.expectedAmountRwf != intent.expectedAmountRwf ||
+          (intent.hasCommittedContribution &&
+              !refreshed.hasCommittedContribution)) {
+        throw const FormatException('Payment status could not be verified');
+      }
+      setState(() => _intent = refreshed);
+      // Balances and history are fetched from their existing authoritative
+      // readers. A successful check never increments a local position.
+      if (refreshed.hasCommittedContribution) await repository.loadInitial();
+    } catch (_) {
+      if (current()) {
+        setState(
+          () => _error =
+              'Your last confirmed status is unchanged. Check your connection and try again.',
+        );
+      }
+    } finally {
+      if (current()) setState(() => _working = false);
+    }
+  }
+
+  Future<void> _showPaymentHelp() async {
+    final intent = _intent;
+    if (intent == null) return;
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    final generation = repository.sessionGeneration;
+    final profileId = ref.read(collectRepositoryProvider).currentProfile?.id;
+    bool current() =>
+        mounted &&
+        _intent?.id == intent.id &&
+        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        repository.sessionGeneration == generation &&
+        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
+    if (profileId == null || !current()) return;
+    await showModalBottomSheet<void>(
+      context: context,
+      useRootNavigator: true,
+      useSafeArea: true,
+      isScrollControlled: true,
+      backgroundColor: context.collectColors.transparent,
+      sheetAnimationStyle: CollectMotion.animationStyle(context),
+      builder: (_) => _PaymentHelpSheet(
+        intent: intent,
+        groupTitle: repository.collectionById(intent.collectionId).title,
+        repository: repository,
+        isCurrent: current,
+      ),
+    );
+  }
+
+  bool _canShowOpenedRequest(PaymentIntentModel intent) =>
+      _momoRequestOpened &&
+      intent.confirmationStatus == 'awaiting_confirmation' &&
+      intent.isAwaitingTransfer;
+
+  String _confirmationTitle(PaymentIntentModel intent) =>
+      switch (intent.confirmationStatus) {
+        'credited' when intent.hasCommittedContribution => 'Credited',
+        'reversed' when intent.hasCommittedContribution => 'Reversed',
+        'payment_received' => 'Payment record linked',
+        'needs_review' => 'Needs help',
+        _ when _canShowOpenedRequest(intent) => CollectLocalizations.of(
+          context,
+        ).text('momoRequestOpened'),
+        _ => 'Awaiting confirmation',
+      };
+
+  String _confirmationMessage(
+    PaymentIntentModel intent,
+  ) => switch (intent.confirmationStatus) {
+    'credited' when intent.hasCommittedContribution =>
+      'Your contribution is recorded in Collect. View Activity for this group’s contribution history.',
+    'reversed' when intent.hasCommittedContribution =>
+      'A reversal was recorded for this contribution. View Activity for the linked history.',
+    'payment_received' =>
+      'A payment record is linked to this request. Your balance shows committed contributions.',
+    'needs_review' =>
+      'This payment request needs review. Your committed contributions remain available in Activity.',
+    _ when DateTime.now().toUtc().isAfter(intent.expiresAt.toUtc()) =>
+      'This request expired, but a payment can still arrive. Check its status before making another transfer.',
+    _ when _canShowOpenedRequest(intent) => CollectLocalizations.of(
+      context,
+    ).text('momoRequestOpenedMessage'),
+    _ =>
+      'Waiting for confirmation. You can leave this screen and return to check your payment.',
+  };
 
   void _setAmount(int amount) {
     setState(() {
@@ -325,6 +671,7 @@ class _RwandaMomoContributionFlowState
     }
     setState(() {
       _working = true;
+      _momoRequestOpened = false;
       _error = null;
     });
     final operation = ++_flowGeneration;
@@ -377,6 +724,7 @@ class _RwandaMomoContributionFlowState
             preparedProfileId;
     setState(() {
       _working = true;
+      _momoRequestOpened = false;
       _error = null;
     });
     var preflightConfirmed = false;
@@ -404,7 +752,6 @@ class _RwandaMomoContributionFlowState
           _preparedProfileId = null;
           _preparedRepository = null;
           _preparedSessionGeneration = null;
-          _ussdOpened = false;
           _error = CollectLocalizations.of(
             context,
           ).text('paymentDetailsChanged');
@@ -421,8 +768,19 @@ class _RwandaMomoContributionFlowState
         amountRwf: rechecked.expectedAmountRwf,
         provider: rechecked.momoNetwork,
       );
-      if (!opened) throw StateError('MoMo USSD could not open.');
-      if (current()) setState(() => _ussdOpened = true);
+      if (current()) {
+        setState(() {
+          _awaitingConfirmation = true;
+          _momoRequestOpened = opened;
+          _manualInstructions = !opened;
+          if (!opened) {
+            _error =
+                'MoMo could not open on this device. '
+                'Copy the code and amount above, then use your provider’s payment menu. '
+                'This does not indicate a failed payment.';
+          }
+        });
+      }
     } catch (error) {
       if (current()) {
         setState(() {
@@ -431,7 +789,6 @@ class _RwandaMomoContributionFlowState
             _preparedProfileId = null;
             _preparedRepository = null;
             _preparedSessionGeneration = null;
-            _ussdOpened = false;
           }
           _error = preflightConfirmed
               ? _safeFlowError(error)
@@ -449,450 +806,5 @@ class _RwandaMomoContributionFlowState
     if (error is StateError) return error.message.toString();
     if (error is FormatException) return error.message.toString();
     return CollectLocalizations.of(context).text('checkConnection');
-  }
-}
-
-class _NativeContributionAppBar extends StatelessWidget {
-  const _NativeContributionAppBar({required this.title, required this.onBack});
-
-  final String title;
-  final VoidCallback onBack;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        CollectSpacing.x2,
-        CollectSpacing.x2,
-        CollectSpacing.x4,
-        CollectSpacing.x2,
-      ),
-      child: Row(
-        children: [
-          SizedBox.square(
-            dimension: CollectSpacing.target,
-            child: IconButton(
-              tooltip: 'Back',
-              onPressed: onBack,
-              icon: const Icon(CollectIcons.back),
-            ),
-          ),
-          CollectSpacing.gapW8,
-          Expanded(
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: colors.textPrimary,
-                fontWeight: CollectTypography.weightBold,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _NativeAmountEntry extends StatelessWidget {
-  const _NativeAmountEntry({
-    required this.controller,
-    required this.focusNode,
-    required this.errorText,
-    required this.onSubmitted,
-    required this.onPreset,
-    required this.onChanged,
-  });
-
-  final TextEditingController controller;
-  final FocusNode focusNode;
-  final String? errorText;
-  final VoidCallback onSubmitted;
-  final ValueChanged<int> onPreset;
-  final VoidCallback onChanged;
-
-  static const _presets = [1000, 2000, 5000, 10000];
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final l10n = CollectLocalizations.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.text('howMuch'),
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            color: colors.textPrimary,
-            fontWeight: CollectTypography.weightBold,
-          ),
-        ),
-        CollectSpacing.gap24,
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: CollectSpacing.x5,
-            vertical: CollectSpacing.x3,
-          ),
-          decoration: BoxDecoration(
-            color: colors.surfaceReadable,
-            borderRadius: CollectRadius.cardLargeBorder,
-          ),
-          child: ContributionAmountInput(
-            controller: controller,
-            focusNode: focusNode,
-            label: l10n.text('contributionAmount'),
-            errorText: errorText,
-            onChanged: onChanged,
-            onSubmitted: onSubmitted,
-          ),
-        ),
-        CollectSpacing.gap20,
-        Text(
-          l10n.text('quickAmounts'),
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            color: colors.textMuted,
-            fontWeight: CollectTypography.weightSemibold,
-          ),
-        ),
-        CollectSpacing.gap12,
-        Wrap(
-          spacing: CollectSpacing.x2,
-          runSpacing: CollectSpacing.x2,
-          children: [
-            for (final amount in _presets)
-              _NativeAmountPreset(
-                amount: amount,
-                selected:
-                    controller.text.replaceAll(',', '') == amount.toString(),
-                onTap: () => onPreset(amount),
-              ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _NativeAmountPreset extends StatelessWidget {
-  const _NativeAmountPreset({
-    required this.amount,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final int amount;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Semantics(
-      button: true,
-      selected: selected,
-      label: 'RWF $amount',
-      child: Material(
-        color: selected ? colors.textPrimary : colors.surfaceRaised,
-        borderRadius: CollectRadius.pillBorder,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: CollectRadius.pillBorder,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 44),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: CollectSpacing.x4,
-                vertical: CollectSpacing.x3,
-              ),
-              child: Text(
-                formatRwf(amount).replaceFirst('RWF ', ''),
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: selected ? colors.canvas : colors.textPrimary,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _NativeAmountReview extends StatelessWidget {
-  const _NativeAmountReview({required this.amountRwf});
-
-  final int amountRwf;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    final l10n = CollectLocalizations.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.text('reviewContribution'),
-          style:
-              (MediaQuery.textScalerOf(context).scale(1) >= 1.3
-                      ? Theme.of(context).textTheme.titleLarge
-                      : Theme.of(context).textTheme.headlineMedium)
-                  ?.copyWith(
-                    color: colors.textPrimary,
-                    fontWeight: CollectTypography.weightBold,
-                  ),
-        ),
-        CollectSpacing.gap8,
-        Text(
-          l10n.text('youWillContribute'),
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: colors.textSecondary),
-        ),
-        CollectSpacing.gap16,
-        ContributionAmountValue(amountRwf: amountRwf),
-      ],
-    );
-  }
-}
-
-class _NativeMomoReceiverTile extends StatelessWidget {
-  const _NativeMomoReceiverTile({required this.name, required this.receiver});
-
-  final String name;
-  final String receiver;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Semantics(
-      container: true,
-      label: receiver.isEmpty ? name : '$name, $receiver',
-      child: ExcludeSemantics(
-        child: Container(
-          padding: const EdgeInsets.all(CollectSpacing.x4),
-          decoration: BoxDecoration(
-            color: colors.surfaceReadable,
-            borderRadius: CollectRadius.cardLargeBorder,
-          ),
-          child: Row(
-            children: [
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: colors.statusBackground(CollectStatusTone.info),
-                  border: Border.all(
-                    color: CollectRuntimeTokens.badgeBorder(
-                      colors,
-                      colors.statusForeground(CollectStatusTone.info),
-                    ),
-                  ),
-                ),
-                child: SizedBox.square(
-                  dimension: 48,
-                  child: Icon(
-                    CollectIcons.momo,
-                    color: colors.statusForeground(CollectStatusTone.info),
-                    size: 23,
-                  ),
-                ),
-              ),
-              CollectSpacing.gapW12,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            name,
-                            style: Theme.of(context).textTheme.titleSmall
-                                ?.copyWith(
-                                  color: colors.textPrimary,
-                                  fontWeight: CollectTypography.weightBold,
-                                ),
-                          ),
-                        ),
-                        CollectSpacing.gapW4,
-                        Icon(
-                          CollectIcons.check,
-                          size: 17,
-                          color: colors.textSecondary,
-                        ),
-                      ],
-                    ),
-                    if (receiver.isNotEmpty) ...[
-                      CollectSpacing.gap4,
-                      Text(
-                        receiver,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: colors.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _NativeMomoTrustNote extends StatelessWidget {
-  const _NativeMomoTrustNote({required this.title, required this.message});
-
-  final String title;
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            color: colors.surfaceRaised,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(CollectIcons.lock, size: 18, color: colors.textPrimary),
-        ),
-        CollectSpacing.gapW12,
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: CollectTypography.weightBold,
-                ),
-              ),
-              CollectSpacing.gap4,
-              Text(
-                message,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: colors.textSecondary),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _NativeMomoStatus extends StatelessWidget {
-  const _NativeMomoStatus({
-    required this.title,
-    required this.message,
-    this.isError = false,
-  });
-
-  final String title;
-  final String message;
-  final bool isError;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return Semantics(
-      container: true,
-      liveRegion: true,
-      label: '$title. $message',
-      child: ExcludeSemantics(
-        child: Container(
-          padding: const EdgeInsets.all(CollectSpacing.x4),
-          decoration: BoxDecoration(
-            color: isError ? colors.dangerContainer : colors.infoContainer,
-            borderRadius: CollectRadius.cardBorder,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                isError ? CollectIcons.warning : CollectIcons.sms,
-                size: 20,
-                color: isError
-                    ? colors.dangerForeground
-                    : colors.infoForeground,
-              ),
-              CollectSpacing.gapW12,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: Theme.of(context).textTheme.titleSmall),
-                    CollectSpacing.gap4,
-                    Text(message, style: Theme.of(context).textTheme.bodySmall),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _NativeContributionBottomBar extends StatelessWidget {
-  const _NativeContributionBottomBar({
-    required this.primaryLabel,
-    required this.primaryIcon,
-    required this.onPrimary,
-    this.secondaryLabel,
-    this.onSecondary,
-  });
-
-  final String primaryLabel;
-  final IconData primaryIcon;
-  final VoidCallback? onPrimary;
-  final String? secondaryLabel;
-  final VoidCallback? onSecondary;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.collectColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(color: colors.canvas),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          CollectSpacing.x5,
-          CollectSpacing.x3,
-          CollectSpacing.x5,
-          CollectSpacing.x4,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CollectButton(
-              label: primaryLabel,
-              icon: primaryIcon,
-              onPressed: onPrimary,
-              expand: true,
-            ),
-            if (secondaryLabel != null) ...[
-              CollectSpacing.gap8,
-              CollectButton(
-                label: secondaryLabel!,
-                onPressed: onSecondary,
-                variant: CollectButtonVariant.subtle,
-                expand: true,
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
   }
 }

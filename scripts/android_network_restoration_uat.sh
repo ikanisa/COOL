@@ -324,7 +324,7 @@ puts JSON.pretty_generate(
     "radio_log_sha256" => ENV.fetch("ANDROID_NETWORK_UAT_RADIO_LOG_SHA256"),
     "screenshot_manifest" => ENV.fetch("ANDROID_NETWORK_UAT_SCREENSHOT_MANIFEST"),
     "screenshot_manifest_sha256" => ENV.fetch("ANDROID_NETWORK_UAT_SCREENSHOT_MANIFEST_SHA256"),
-    "secret_handling" => "Uses synthetic fixture/local-cache state and a local non-production TCP reachability probe. No production Supabase mutation, provider payment, real SMS body, OTP, credentials, or customer data is used."
+    "secret_handling" => "Uses synthetic fixture/local-cache state and a local non-production TCP reachability probe. No production backend mutation, provider payment, real SMS body, OTP, credentials, or customer data is used."
   }
 )
 RUBY

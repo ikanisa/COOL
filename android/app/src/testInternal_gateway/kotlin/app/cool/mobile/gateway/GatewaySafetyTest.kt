@@ -17,7 +17,7 @@ class GatewaySafetyTest {
     private fun record() = GatewayAttempt(device, job, attempt, 1, sha256(body), sha256(destination), now.plusSeconds(60).toString(),
         now.toString(), "a".repeat(64), List(2) { SegmentEvidence() })
 
-    private class Memory : GatewayJournalStorage {
+    private class Memory : GatewayJournalStorage, GatewayInvocationStorage by GatewayInvocationSyntheticStore() {
         var state = GatewayJournalState(emergencyPaused = false)
         var failCommit = false
         var failRead = false

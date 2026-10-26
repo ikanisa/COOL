@@ -3,7 +3,7 @@
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,7 +45,7 @@ void main() {
   runApp(
     ProviderScope(
       overrides: [
-        supabaseClientProvider.overrideWithValue(null),
+        collectBackendClientProvider.overrideWithValue(null),
         collectAuthenticatedUserIdProvider.overrideWithValue('local-user'),
         collectRepositoryProvider.overrideWith(
           (ref) => recovery == null

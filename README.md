@@ -1,50 +1,82 @@
 # Collect
 
-Collect is a Rwanda-only Flutter and Supabase group-contribution platform. Contributions use whole Rwandan francs through MTN MoMo or Airtel Money USSD. Collect never holds member funds or asks for a MoMo PIN or payment provider OTP. A WhatsApp sign-in code is used only to sign in to Collect.
+Collect is a Rwanda group-contribution system with a Flutter member app, Admin PWA and public website. The independent backend uses Cloudflare Workers, D1 and private R2. Contributions use whole RWF through MTN MoMo or Airtel Money USSD; payment authorization remains with the network provider.
 
-The member app, Admin PWA, public website, and Supabase contribution APIs share the Rwanda MoMo scope. The current product contract is [docs/PRODUCT.md](docs/PRODUCT.md).
+The fresh API is `https://api.collect.ikanisa.com`. The new Admin workspace is `https://platform-admin.collect.ikanisa.com`. Its password and authenticator sessions use same-origin HttpOnly cookies. Member clients use the `/v1` protocol and their own protected session storage.
 
-## Product surfaces
+Canonical backend source is `deploy/platform-api/`; Admin service forwarding is `deploy/platform-admin/`. Both use the single new database `collect-platform` and private bucket `collect-platform-private`. The platform starts from its reviewed Cloudflare schema and does not import legacy data.
 
-- Member Flutter app: `lib/main.dart`
-- Admin Flutter web app: `lib/main_admin.dart`
-- Member routes: `lib/app/router.dart`
-- Admin routes: `lib/admin/admin_router.dart`
-- Supabase control plane: `supabase/`
-- Read-only Rwanda MoMo linked readiness check: `scripts/rwanda_momo_readiness_uat.sql`
+Financial records distinguish retained receipts, recorded evidence, independent reconciliation and signed reversals. Recorded evidence is not a claim of provider settlement. Unsupported operations return an explicit unavailable response.
 
-Members sign in with a Rwanda WhatsApp number and complete a Rwanda MoMo profile. User-created groups are private and can be created only on Android. Public groups are platform sponsored.
+Copy the public settings from `.env.example` for client builds. Keep server credentials in Worker secrets. Real Turnstile, OTP delivery, native integrity policies, AI approval and push/email delivery require their own configuration and acceptance. Current evidence and outstanding findings are in `docs/release/critical-implementation-2026-10-01/`.
 
-## MoMo USSD contribution lifecycle
-
-1. A member signs in with WhatsApp OTP and confirms an MTN MoMo or Airtel Money number.
-2. An eligible Android member creates a private group after explicit SMS consent and Play Integrity verification.
-3. A contributor enters a whole-RWF amount. Collect creates a pending intent bound to the payer and group receiver.
-4. Collect opens the provider USSD route. The member reviews and enters the PIN only in the mobile-network prompt.
-5. The consented receiver Android app queues likely receipt SMS in encrypted local storage and uploads it from the authenticated account.
-6. Edge Functions parse the receipt deterministically. Postgres checks receiver, payer, amount, time window, and transaction ID or sends ambiguity to Admin review. The SMS is candidate evidence, not independent proof of settlement.
-7. A production-confirmed contribution needs governed independent reconciliation or an explicitly approved constrained finality policy. The current exact-match allocation and balanced journal must be validated against that policy before release; retries must remain idempotent.
-
-## Admin control plane
-
-The Admin PWA manages Rwanda Groups and Members. Its financial Operations pages cover Payees, Transactions, Reconciliations, and Ledgers. Raw receipt evidence reveal requires a dedicated permission, a reason, and an audit record.
+Use the pinned Flutter and Wrangler versions, run affected analysis/tests and the standard full native lint/build checks. Signing, installed devices, provider behavior, approved retention/erasure and full recovery remain separate release requirements.
 
 ## Validation
 
-All member app, Admin and public website design follows the owner-selected
-[`revolut-design` skill](</Volumes/PRO-G40/Application Data/Codex/Codex-Home/skills/revolut-design/SKILL.md>).
-It is the sole design authority. Shared Flutter tokens/components and public
-CSS implement its platform-specific patterns while keeping Collect's name,
-logo, terminology and workflows. Competing design references must be deleted.
-Run `make revolut-design-authority` to check reference hygiene; route/state
-comparisons and the skill's acceptance evidence are still required for a
-100% fidelity claim.
+The member app, Admin and public website use the sole owner-selected
+[`revolut-design` skill](</Volumes/PRO-G40/Projects/ChatGPT/Revolut/skill/revolut-design/SKILL.md>).
+Run `make revolut-design-authority` for reference hygiene; rendered route/state,
+interaction and accessibility evidence remain required for visual acceptance.
 
 ```sh
-flutter analyze --no-pub
-flutter test --no-pub
-./scripts/migrations/validate_supabase_migrations.sh
-COLLECT_SKIP_DOTENV=1 SUPABASE_DB_QUERY_MODE=local ./scripts/collect_linked_uat.sh
+make cloudflare-platform-test
+make source-integrity
+make verify
 ```
 
-The Android production flavor declares `RECEIVE_SMS` and `CALL_PHONE`, but not `READ_SMS`, `SEND_SMS`, or Call Log access. Google Play permission approval, physical-device MoMo UAT, and owner-reviewed visual, interaction, and accessibility evidence under the sole `revolut-design` skill remain separate release requirements.
+`make repo-wide-qa-uat` records current local checks and unresolved release gates.
+Hosted authorization, financial reconciliation, delivery, backup restoration,
+physical devices, signed artifacts and owner approval require their own evidence.
+
+Hosted acceptance is supplied through `CLOUDFLARE_PLATFORM_ACCEPTANCE_JSON`.
+`python3 scripts/qa/release_evidence.py source-identity` prints the current
+source digest. The reviewed record must bind that digest, declare an expiry,
+and include hashed evidence for authentication, authorization, financial
+reconciliation, delivery and backup restoration; owner approval remains a
+separate release gate.
+
+## Offline snapshot recovery
+
+Complete exported SQL snapshots require all referenced table schemas before their
+rows, with foreign keys enabled in one deferred-constraint transaction. The
+statement-level migration installer keeps its existing API; it is not a complete
+snapshot importer.
+
+For the snapshot-importer successor, select `--support-profile auth17-snapshot-v2`
+when running the approved toolchain guard. That profile pins both recovery tools
+and `scripts/cloudflare/sql_snapshot_import.mjs`. The default and
+`auth17-candidate-v1` profiles retain their historical hashes and do not authorize
+the successor tools. A source/profile check does not approve deployment or restore.
+
+Offline `platform_backup.mjs` actions that consume a database snapshot need a
+qualified Wrangler 4.151.0 directory. `verify-local` requires its existing
+`--wrangler /absolute/path/to/node_modules/wrangler` option. The other six actions,
+`prepare-quarantine`, `verify-readback`, `verify-quarantine-readback`, `seal-r2`,
+`restore-r2` and `verify-r2-readback`, accept that option or the
+`COLLECT_WRANGLER_MODULE` environment variable pointing to the directory.
+The parser option is rejected for `seal`. Verify the complete approved runtime
+before use; the parser loader's own two-file check does not replace it.
+Atomic preparation passes its already verified runtime parser directly.
+
+Recovery or native-MCP operator wrappers that call these offline actions must
+carry that parser location and the exact successor source/profile pins. No new
+MCP capability, credential, remote-restore command or Google/OTP authority is
+created by this change. Existing authenticated archive formats, exact migration
+profiles, approved key roles and sealed archive bytes remain unchanged. Preserve
+prior tool/source versions for historical receipts and prepare fresh atomic
+packages after a tool-input change.
+
+`node scripts/qa/recovery17_ci.mjs` runs synthetic recovery regression only and
+removes inherited private `ACTUAL13_SQL` inputs. Full provider restores, key
+custody, R2 version/lifecycle history, revocation/configuration parity and accepted
+RPO/RTO require separate evidence.
+
+The standard toolchain test command also runs the portable snapshot-profile
+contracts. On the reviewed macOS arm64/Node/runtime host, set
+`COLLECT_SNAPSHOT_PROFILE_ACCEPTANCE=1` to run the explicit profile admission,
+sealed-bundle and source-tamper controls in
+`scripts/tests/approved_toolchain_snapshot_test.mjs`, with the approved dependency
+root and runtime manifest. Optional `COLLECT_SNAPSHOT_TEST_BUNDLE` and
+`COLLECT_SNAPSHOT_TEST_CONFIG` select the exact existing local artifact pair for
+check-only validation; the test never deploys or supplies publisher approval.

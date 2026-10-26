@@ -13,11 +13,23 @@ const _publicPolicyPages = <CollectPublicPageData>[
         body:
             'Collect stores account identifiers, Rwanda MoMo profile details, group membership, contribution requests, contribution records, notification preferences and audit evidence.',
         bullets: [
-          'WhatsApp sign-in phone and six-digit Collect ID',
+          'Six-digit Collect ID and the phone number or email used to sign in',
+          'Google account identifier and verified email if you choose Google where enabled',
           'Rwanda profile and RWF currency',
           'Rwanda MoMo provider and editable local 07 number',
           'Members are identified by Collect ID; personal names from MoMo receipts stay in access-controlled Admin records',
           'Consented MoMo receipt evidence',
+        ],
+      ),
+      CollectPublicSectionData(
+        title: 'Signing in',
+        body:
+            'You can sign in with an email code or, where enabled, Google. Google sign-in requests OpenID identity, email and basic profile access to create or link your Collect member account.',
+        bullets: [
+          'Supabase provides Collect authentication, database and private evidence storage; Cloudflare provides web hosting, API forwarding and security challenges',
+          'Records and recovery copies from the earlier Cloudflare backend may remain; changing providers does not erase them',
+          'Collect stores your Google account identifier and verified email if you choose Google',
+          'Verification, session and security records remain after a sign-in code expires; expiry does not delete those records',
         ],
       ),
       CollectPublicSectionData(
@@ -33,11 +45,11 @@ const _publicPolicyPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Account deletion request',
         body:
-            'Request account deletion in Settings > Account or contact info@ikanisa.com without reinstalling the app.',
+            'Open Settings > Security > Delete data to verify your identity and submit an account deletion request for review. For help without the app, contact info@ikanisa.com.',
         bullets: [
-          'Identity and profile data are deleted or de-identified where allowed',
-          'Ledger and audit evidence may be retained when required for security or dispute handling',
-          'Support is available at +250 795 588 248',
+          'Submitting a request does not delete your account',
+          'Reviewing a request does not delete retained financial or audit records',
+          'Contact: +250 795 588 248',
         ],
       ),
       CollectPublicSectionData(
@@ -45,8 +57,8 @@ const _publicPolicyPages = <CollectPublicPageData>[
         body:
             'Contact info@ikanisa.com to request access, correction or deletion of eligible data.',
         bullets: [
-          'Requests are verified before account data is changed',
-          'Collect explains any record that cannot be deleted immediately',
+          'A request and a completed data change are separate outcomes',
+          'Check request status or contact support for the outcome and any records that need to be retained',
           'Notification permission can be revoked separately in device settings',
         ],
       ),
@@ -55,24 +67,28 @@ const _publicPolicyPages = <CollectPublicPageData>[
   CollectPublicPageData(
     path: '/account-deletion',
     navLabel: 'Account deletion',
-    title: 'Delete your Collect account.',
+    title: 'Request deletion of your Collect account.',
     intro:
-        'Use the in-app account deletion journey or contact support if you cannot sign in.',
+        'Send a request for review. Your account remains accessible while the review is pending.',
     sections: [
       CollectPublicSectionData(
         title: 'In the app',
-        body: 'Open Settings > Account > Delete account and follow the checks.',
+        body:
+            'Open Settings > Security > Delete data, verify your identity and submit the request for review.',
         bullets: [
-          'Resolve active group-owner responsibilities first',
-          'Confirm the deletion request',
-          'The app signs out after the request completes',
+          'Submitting a request does not delete your account',
+          'A confirmed receipt records your request for review',
+          'Check or refresh request status in the app',
         ],
       ),
       CollectPublicSectionData(
         title: 'Without the app',
         body:
-            'Email info@ikanisa.com or use +250 795 588 248. Support will verify ownership before processing the request.',
-        bullets: [],
+            'For help with a request, contact info@ikanisa.com or +250 795 588 248.',
+        bullets: [
+          'Contacting support does not itself confirm that a request was recorded or your account was deleted',
+          'Never send a PIN or OTP',
+        ],
       ),
     ],
   ),
@@ -81,16 +97,18 @@ const _publicPolicyPages = <CollectPublicPageData>[
     navLabel: 'Data deletion',
     title: 'Request deletion or correction of eligible data.',
     intro:
-        'Collect reviews privacy requests against account security, group responsibilities and required ledger evidence.',
+        'Account deletion requests are submitted for review. A request does not itself establish that retained records were changed.',
     sections: [
       CollectPublicSectionData(
         title: 'Submit a request',
         body:
-            'Contact info@ikanisa.com and identify the Collect account using a safe verification method requested by support.',
+            'For an account deletion request, open Settings > Security > Delete data. For help or a correction request, contact info@ikanisa.com.',
         bullets: [
           'Never send a PIN or OTP',
           'Do not email raw receipts unless support provides a protected channel',
-          'You will receive an explanation of the completed action',
+          'Submitting a request does not delete your account',
+          'A confirmed in-app account-deletion receipt records your request for review',
+          'Check or refresh your in-app account-deletion request status',
         ],
       ),
     ],
@@ -107,7 +125,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
         body:
             'Use accurate group and transfer information. Do not impersonate others, create misleading groups or submit false transfer claims.',
         bullets: [
-          'User-created groups are private and created only on Android',
+          'User-created groups are private; creating a group does not enable payments or SMS access',
           'Members approve MoMo in USSD',
           'Collect may hold incomplete or disputed evidence for review',
         ],

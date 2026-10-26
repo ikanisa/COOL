@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-// Published synthetic backend-shaped documents, normalized to the explicitly
+// Declared synthetic model-shaped documents, normalized to the explicitly
 // controlled test clock. These are DTO inputs, not live server receipts.
 Map<String, dynamic> adminGatewayListFixture(
   DateTime checkedAt, {
@@ -23,7 +23,7 @@ Map<String, dynamic> adminGatewayRequestFixture(DateTime checkedAt) =>
 
 Map<String, dynamic> _fixture(String name, DateTime checkedAt) {
   final raw =
-      jsonDecode(File('contracts/$name').readAsStringSync())
+      jsonDecode(File('test/fixtures/declared_admin/$name').readAsStringSync())
           as Map<String, dynamic>;
   final difference = checkedAt.toUtc().difference(
     DateTime.parse(raw['checked_at'] as String),

@@ -13,11 +13,15 @@ from jsonschema import Draft7Validator
 from referencing import Registry, Resource
 
 ROOT = Path(__file__).resolve().parents[2]
-SCHEMAS = ROOT / "docs/release/asset-build-hygiene-2026-09-30/schema"
+SCHEMAS = ROOT / "scripts/supply_chain/schemas/cyclonedx-1.6"
+PROVENANCE_SHA256 = "b541145f59fc45bfca95bf2668001f8aae99359bcd009100e91653f8e7ea4b9d"
 
 
 def validate(document_path: Path) -> list[str]:
-    provenance = json.loads((SCHEMAS / "provenance.json").read_text())
+    provenance_raw = (SCHEMAS / "provenance.json").read_bytes()
+    if hashlib.sha256(provenance_raw).hexdigest() != PROVENANCE_SHA256:
+        raise ValueError("Retained schema provenance drift")
+    provenance = json.loads(provenance_raw)
     files = provenance["schema_files"]
     registry = Registry()
     documents = {}

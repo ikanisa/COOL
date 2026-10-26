@@ -7,24 +7,22 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'admin_gateway_contracts_test.dart' as fixture;
 import 'admin_gateway_models_test.dart' as source;
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late List<http.Request> requests;
   late Future<http.Response> Function(http.Request) respond;
   setUp(() async {
     requests = [];
     respond = (_) async => auth.response(fixture.gatewayReceipt());
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final parts = (jsonDecode(request.body)['token'] as String).split(
@@ -64,10 +62,7 @@ void main() {
         beforeEnrolledAt: before,
         beforeDeviceId: id,
       );
-      expect(
-        requests.single.url.path,
-        '/rest/v1/rpc/admin_list_gateway_devices_v1',
-      );
+      expect(requests.single.url.path, '/v1/rpc/admin_list_gateway_devices_v1');
       expect(jsonDecode(requests.single.body), {
         'p_limit': 10,
         'p_before_enrolled_at': before.toIso8601String(),
@@ -121,7 +116,7 @@ void main() {
       await repository.gatewayOwnerRequest(id);
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_get_gateway_owner_request_v1',
+        '/v1/rpc/admin_get_gateway_owner_request_v1',
       );
       expect(jsonDecode(requests.single.body), {'p_request_id': id});
       data['request_id'] = fixture.gatewayRequest;
@@ -152,7 +147,7 @@ void main() {
       expect(receipt.stateAtAction, AdminGatewayDeviceState.pending);
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_enroll_gateway_device_v1',
+        '/v1/rpc/admin_enroll_gateway_device_v1',
       );
       expect(jsonDecode(requests.single.body), intent.parameters);
       expect(
@@ -190,7 +185,7 @@ void main() {
         }, code);
         await expectLater(
           repository.gatewayOwnerAction(enrollment()),
-          throwsA(isA<PostgrestException>()),
+          throwsA(isA<CollectApiException>()),
         );
       }
       expect(requests, hasLength(2));

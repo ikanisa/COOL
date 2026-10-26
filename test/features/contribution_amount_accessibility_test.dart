@@ -75,9 +75,7 @@ Future<void> _capture(WidgetTester tester, String name) async {
     final pixels = await boundary.toImage(pixelRatio: 1);
     final bytes = await pixels.toByteData(format: ui.ImageByteFormat.png);
     pixels.dispose();
-    final folder = Directory(
-      'docs/release/critical-implementation-2026-10-01/product-payment-captures',
-    );
+    final folder = Directory('.cache/test-captures/product-payment-captures');
     await folder.create(recursive: true);
     await File(
       '${folder.path}/$name.png',
@@ -269,7 +267,7 @@ void main() {
   );
 
   testWidgets(
-    'USSD handoff announces pending receipt without a completion claim',
+    'USSD handoff announces only the opened request and provider-check recovery',
     (tester) async {
       final semantics = tester.ensureSemantics();
       try {
@@ -284,6 +282,8 @@ void main() {
         addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
         final repository = _PaymentRepository();
         await _pumpFlow(tester, repository: repository);
+        final recordedBefore = repository.state.contributions.toList();
+        final totalsBefore = repository.state.historyPage?.ownTotals;
         await tester.enterText(find.byType(TextField), '5000');
         await tester.pumpAndSettle();
         await _capture(tester, 'normal-entry');
@@ -291,17 +291,38 @@ void main() {
         await tester.pumpAndSettle();
         await tester.tap(find.widgetWithText(FilledButton, 'Open MoMo USSD'));
         await tester.pumpAndSettle();
-        final status = find.bySemanticsLabel(
-          RegExp('^Waiting for the receipt SMS\\.'),
-        );
+        final status = find.bySemanticsLabel(RegExp('^MoMo request opened\\.'));
+        await _revealAction(tester, status);
         expect(status, findsOneWidget);
         expect(
           tester.getSemantics(status).flagsCollection.isLiveRegion,
           isTrue,
         );
-        expect(tester.getSemantics(status).label, isNot(contains('confirmed')));
+        final statusLabel = tester.getSemantics(status).label;
+        expect(
+          statusLabel,
+          contains('Opening MoMo does not confirm a transfer.'),
+        );
+        expect(statusLabel, contains('Check the result with your provider'));
+        expect(statusLabel, contains('refresh Activity'));
+        expect(
+          statusLabel,
+          contains('A receipt SMS alone does not verify settlement.'),
+        );
+        expect(statusLabel, isNot(contains('confirmed')));
+        expect(statusLabel, isNot(contains('parsed and allocated')));
         expect(launches, 1);
         expect(repository.preparations, 2);
+        expect(repository.state.contributions, orderedEquals(recordedBefore));
+        expect(repository.state.historyPage?.ownTotals, totalsBefore);
+        expect(
+          repository.state.paymentIntents.any(
+            (intent) =>
+                intent.expectedAmountMinor == 5000 &&
+                intent.status == 'pending',
+          ),
+          isTrue,
+        );
         await tester.ensureVisible(status);
         await tester.pumpAndSettle();
         await _capture(tester, 'pending-status');

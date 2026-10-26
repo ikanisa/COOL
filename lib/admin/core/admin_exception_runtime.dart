@@ -76,10 +76,10 @@ final adminExceptionInboxProvider = FutureProvider.autoDispose
           beforeChangedAt: query.beforeChangedAt,
           beforeId: query.beforeId,
         );
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminExceptionDenied();
-        if (error.code == '42883' || error.code == 'PGRST202') {
+        if (error.code == 'operation_unavailable' || error.code == '501') {
           throw UnsupportedError('Exception inbox service is unavailable.');
         }
         rethrow;
@@ -99,11 +99,11 @@ final adminExceptionLookupProvider = FutureProvider.autoDispose
         final raw = await repository.exceptionActionLookup(requestId);
         if (!current) throw const AdminSessionChanged();
         return AdminExceptionLookup.parse(raw, requestId: requestId);
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminExceptionDenied();
         if (error.code == '55P03') throw const AdminExceptionAuthorityBusy();
-        if (error.code == '42883' || error.code == 'PGRST202') {
+        if (error.code == 'operation_unavailable' || error.code == '501') {
           throw UnsupportedError('Exception request lookup is unavailable.');
         }
         rethrow;

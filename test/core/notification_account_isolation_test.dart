@@ -45,8 +45,57 @@ void main() {
       expect(data['collect_event_id'], _event);
       expect(data.containsKey('body'), isFalse);
       expect(data.containsKey('title'), isFalse);
+      expect(
+        plugin.shown.single.details?.android?.channelId,
+        'collect_contributions',
+      );
+      expect(
+        plugin.shown.single.details?.android?.channelName,
+        'Contribution updates',
+      );
+      expect(
+        plugin.shown.single.details?.android?.channelDescription,
+        'Recorded contribution and ledger updates.',
+      );
     },
   );
+
+  for (final type in [
+    'contribution_received',
+    'contribution_reconciled',
+    'contribution_reversed',
+  ]) {
+    test(
+      'legacy $type selects the same private update channel without asserting financial finality',
+      () async {
+        final plugin = _NotificationPlugin();
+        final service = CollectNotificationService(
+          plugin: plugin,
+          authenticatedUserId: () => _ownerA,
+        );
+        addTearDown(service.dispose);
+        await service.synchronizeOwner(_ownerA);
+        await service.handleForegroundPayload(
+          _payload(_ownerA)..['type'] = type,
+        );
+        expect(plugin.shown, hasLength(1));
+        expect(plugin.shown.single.title, 'Collect');
+        expect(plugin.shown.single.body, 'Open Collect to view your updates.');
+        expect(
+          plugin.shown.single.details?.android?.channelId,
+          'collect_contributions',
+        );
+        expect(
+          plugin.shown.single.details?.android?.channelName,
+          'Contribution updates',
+        );
+        expect(
+          plugin.shown.single.details?.android?.visibility,
+          NotificationVisibility.private,
+        );
+      },
+    );
+  }
 
   for (final invalid in <String, Map<String, Object?>>{
     'wrong owner': _payload(_ownerB),
@@ -216,7 +265,12 @@ void main() {
   });
 }
 
-typedef _Shown = ({String? title, String? body, String? payload});
+typedef _Shown = ({
+  String? title,
+  String? body,
+  String? payload,
+  NotificationDetails? details,
+});
 
 class _NotificationPlugin implements FlutterLocalNotificationsPlugin {
   @override
@@ -261,7 +315,12 @@ class _NotificationPlugin implements FlutterLocalNotificationsPlugin {
       await firstShowGate?.future;
     }
     operations.add('show');
-    final value = (title: title, body: body, payload: payload);
+    final value = (
+      title: title,
+      body: body,
+      payload: payload,
+      details: notificationDetails,
+    );
     shown.add(value);
     active.add(value);
   }

@@ -7,8 +7,7 @@ const defaultCollectAdminUrl = 'https://admin.collect.ikanisa.com';
 
 class AppEnv {
   const AppEnv({
-    required this.supabaseUrl,
-    required this.supabaseAnonKey,
+    required this.apiUrl,
     required this.publicUrl,
     required this.adminAppUrl,
     required this.enableSmsReader,
@@ -19,16 +18,23 @@ class AppEnv {
     required this.authCaptchaProvider,
     required this.authCaptchaSiteKey,
     this.environmentName = 'local',
+    this.backend = 'supabase',
+    this.supabaseUrl = '',
+    this.supabaseApiUrl = '',
+    this.supabaseAdminApiUrl = '',
+    this.supabasePublishableKey = '',
   });
 
   factory AppEnv.fromEnvironment() {
     return const AppEnv(
-      supabaseUrl: String.fromEnvironment('SUPABASE_URL'),
-      supabaseAnonKey: String.fromEnvironment('SUPABASE_ANON_KEY'),
+      apiUrl: String.fromEnvironment('COLLECT_API_URL'),
       publicUrl: String.fromEnvironment('APP_PUBLIC_URL'),
       adminAppUrl: String.fromEnvironment('ADMIN_APP_URL'),
       enableSmsReader: bool.fromEnvironment('ENABLE_SMS_READER'),
-      enableAndroidSmsAccess: bool.fromEnvironment('ENABLE_ANDROID_SMS_ACCESS'),
+      enableAndroidSmsAccess: bool.fromEnvironment(
+        'ENABLE_ANDROID_SMS_ACCESS',
+        defaultValue: true,
+      ),
       enableAdminPanel: bool.fromEnvironment('ENABLE_ADMIN_PANEL'),
       enableAdminDevTools: bool.fromEnvironment('ENABLE_ADMIN_DEV_TOOLS'),
       authCaptchaEnabled: bool.fromEnvironment('AUTH_CAPTCHA_ENABLED'),
@@ -38,11 +44,20 @@ class AppEnv {
         'APP_ENVIRONMENT',
         defaultValue: 'local',
       ),
+      backend: String.fromEnvironment(
+        'COLLECT_BACKEND',
+        defaultValue: 'supabase',
+      ),
+      supabaseUrl: String.fromEnvironment('SUPABASE_URL'),
+      supabaseApiUrl: String.fromEnvironment('SUPABASE_API_URL'),
+      supabaseAdminApiUrl: String.fromEnvironment('SUPABASE_ADMIN_API_URL'),
+      supabasePublishableKey: String.fromEnvironment(
+        'SUPABASE_PUBLISHABLE_KEY',
+      ),
     );
   }
 
-  final String supabaseUrl;
-  final String supabaseAnonKey;
+  final String apiUrl;
   final String publicUrl;
   final String adminAppUrl;
   final bool enableSmsReader;
@@ -53,7 +68,13 @@ class AppEnv {
   final String authCaptchaProvider;
   final String authCaptchaSiteKey;
   final String environmentName;
+  final String backend;
+  final String supabaseUrl;
+  final String supabaseApiUrl;
+  final String supabaseAdminApiUrl;
+  final String supabasePublishableKey;
 
-  bool get hasSupabaseConfig =>
-      supabaseUrl.trim().isNotEmpty && supabaseAnonKey.trim().isNotEmpty;
+  bool get usesSupabase => backend == 'supabase';
+  bool get hasBackendConfig =>
+      usesSupabase || backend != 'cloudflare' || apiUrl.trim().isNotEmpty;
 }

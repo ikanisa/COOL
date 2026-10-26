@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Existing logo bounds stay inside the adaptive icon's 66/108 safe zone. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/collect_launcher_icon"
+    android:inset="12.5%" />

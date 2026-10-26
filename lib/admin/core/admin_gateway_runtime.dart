@@ -53,10 +53,10 @@ final adminGatewayDevicesProvider = FutureProvider.autoDispose
           beforeEnrolledAt: query.beforeEnrolledAt,
           beforeDeviceId: query.beforeDeviceId,
         );
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminGatewayDenied();
-        if (error.code == '42883' || error.code == 'PGRST202') {
+        if (error.code == 'operation_unavailable' || error.code == '501') {
           throw UnsupportedError('Gateway device service is unavailable.');
         }
         rethrow;
@@ -76,10 +76,10 @@ final adminGatewayRequestProvider = FutureProvider.autoDispose
         final result = await repository.gatewayOwnerRequest(requestId);
         if (!current) throw const AdminSessionChanged();
         return AdminGatewayRequestSnapshot.parse(result, requestId: requestId);
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminGatewayDenied();
-        if (error.code == '42883' || error.code == 'PGRST202') {
+        if (error.code == 'operation_unavailable' || error.code == '501') {
           throw UnsupportedError('Gateway request lookup is unavailable.');
         }
         rethrow;

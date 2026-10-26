@@ -7,6 +7,7 @@ import '../../core/utils/date_format.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/models/collect_models.dart';
+import '../../shared/models/contribution_record_copy.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/collect_data_load_failure.dart';
 import '../../shared/widgets/collect_group_cards.dart';
@@ -54,6 +55,7 @@ class HomeScreen extends ConsumerWidget {
       hero: isInitialLoading || state.hasInitialLoadFailure
           ? null
           : CollectScreenHero(
+              eyebrow: ContributionRecordCopy.heroTotalLabel,
               centerGap: CollectComponentTokens.homeHeroLeading(context),
               quickActionsGap: CollectComponentTokens.homeHeroActionGap(
                 context,
@@ -95,7 +97,7 @@ class HomeScreen extends ConsumerWidget {
         if (isInitialLoading)
           const CollectScreenLoadingState(
             title: 'Loading home',
-            message: 'Refreshing groups, balances, and recent activity.',
+            message: 'Refreshing groups, recorded totals, and recent activity.',
             icon: CollectIcons.home,
             skeletonCount: 1,
           ),
@@ -115,7 +117,11 @@ class HomeScreen extends ConsumerWidget {
                       title: compactCollectIdLabel(contribution.supporterLabel),
                       amount: contribution.amountRwf,
                       currency: contribution.currency,
-                      meta: formatCollectDateTime(contribution.createdAt),
+                      meta:
+                          '${ContributionRecordCopy.labelFor(contribution)} · ${formatCollectDateTime(contribution.createdAt)}',
+                      tone: contribution.isCompensation
+                          ? CollectStatusTone.warning
+                          : CollectStatusTone.info,
                       onTap: () => context.go(
                         '/groups/${contribution.collectionId}/ledger',
                       ),

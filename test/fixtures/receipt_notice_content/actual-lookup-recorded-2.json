@@ -1,0 +1,40 @@
+{
+  "scope": "rw_receipt_notice_content",
+  "result": {
+    "scope": "rw_receipt_notice_content",
+    "action": "policy",
+    "enabled": true,
+    "audit_id": "8840e09b-d44c-4701-9ffd-96d101eca2cf",
+    "language": "en",
+    "request_id": "b32679e1-da8f-42df-a3a5-a412a105b8f0",
+    "recorded_at": "2026-10-03T06:52:22.013437Z",
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "notice_family": "duplicate_copy",
+    "approval_basis": "actual_current_owner_policy_action",
+    "send_authority": false,
+    "policy_revision": 2,
+    "template_sha256": "95efb8f0eac1909c8d4554ec7f86d8ea31805f5573933337b90ae10c0ceedccf",
+    "contract_version": 1,
+    "financial_action": false,
+    "semantic_version": 1,
+    "notice_transport_available": false
+  },
+  "status": "recorded",
+  "request_id": "b32679e1-da8f-42df-a3a5-a412a105b8f0",
+  "send_authority": false,
+  "policy_template": {
+    "family": "duplicate_copy",
+    "language": "en",
+    "body_frame": "Copy of Collect receipt %s recorded %s. Amount recorded: %s RWF. Your savings recorded at that time: %s RWF. Ref: %s. Historical receipt copy.",
+    "consent_rule": "current_receipt_consent_required_no_override",
+    "template_key": "collect.notice.duplicate_copy",
+    "recipient_rule": "same_original_member",
+    "disclosure_rule": "original_recorded_receipt_facts_only",
+    "template_sha256": "95efb8f0eac1909c8d4554ec7f86d8ea31805f5573933337b90ae10c0ceedccf",
+    "semantic_version": 1
+  },
+  "contract_version": 1,
+  "financial_action": false,
+  "prepared_preview": null,
+  "notice_transport_available": false
+}

@@ -7,23 +7,21 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'support/admin_entity_audit_fixture.dart';
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late List<http.Request> requests;
   late Future<http.Response> Function(http.Request) respond;
   setUp(() async {
     requests = [];
     respond = (_) async => auth.response(auditObserved());
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final token = (jsonDecode(request.body)['token'] as String).split(
@@ -65,7 +63,7 @@ void main() {
         expect(requests, hasLength(1));
         expect(
           requests.single.url.path,
-          '/rest/v1/rpc/admin_get_operator_entity_audit_v1',
+          '/v1/rpc/admin_get_operator_entity_audit_v1',
         );
         expect(jsonDecode(requests.single.body), {
           'p_entity_kind': query.kind.wire,
@@ -146,7 +144,7 @@ void main() {
         }, status);
         await expectLater(
           repository.operatorEntityAudit(auditQuery(auditObserved())),
-          throwsA(isA<PostgrestException>()),
+          throwsA(isA<CollectApiException>()),
         );
         expect(requests, hasLength(1));
       },

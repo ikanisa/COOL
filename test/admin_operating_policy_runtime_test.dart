@@ -7,7 +7,7 @@ import 'package:collect_app/admin/core/admin_operating_policy_models.dart';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +15,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'support/admin_operating_policy_fixture.dart';
@@ -28,7 +27,7 @@ const _identity = AdminIdentity(
 );
 
 class _Probe {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late ProviderContainer container;
   final raw = operatingPolicyFixture();
@@ -46,10 +45,8 @@ class _Probe {
   );
 
   Future<void> start() async {
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final token = (jsonDecode(request.body)['token'] as String).split(
@@ -62,7 +59,10 @@ class _Probe {
         if (!entered.isCompleted) entered.complete();
         if (release != null) await release!.future;
         final response = error is String
-            ? auth.response({'code': error, 'message': 'PRIVATE_CANARY'}, 403)
+            ? auth.response({
+                'code': error,
+                'message': 'PRIVATE_CANARY',
+              }, error == 'operation_unavailable' ? 501 : 403)
             : auth.response(raw);
         return http.Response.bytes(
           response.bodyBytes,
@@ -76,7 +76,7 @@ class _Probe {
     repository = AdminRepository(client);
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminIdentityProvider.overrideWith((ref) => ref.watch(authority)),
         adminClockProvider.overrideWith((ref) {
           final now = ref.watch(clock);
@@ -128,7 +128,7 @@ void main() {
       expect(request.method, 'POST');
       expect(
         request.url.path,
-        '/rest/v1/rpc/admin_get_unattended_operating_policy_v1',
+        '/v1/rpc/admin_get_unattended_operating_policy_v1',
       );
       expect(jsonDecode(request.body), isEmpty);
       expect(
@@ -164,12 +164,12 @@ void main() {
     probe.release!.complete();
     await tester.pump();
   });
-  for (final code in ['55P03', '42501', 'PGRST202']) {
+  for (final code in ['55P03', '42501', 'operation_unavailable']) {
     test('actual SDK does not automatically retry policy $code', () async {
       probe.error = code;
       await expectLater(
         probe.repository.operatingPolicy(),
-        throwsA(isA<PostgrestException>()),
+        throwsA(isA<CollectApiException>()),
       );
       expect(probe.requests, hasLength(1));
     });
@@ -468,7 +468,7 @@ void main() {
   for (final code in [
     '55P03',
     '42501',
-    'PGRST202',
+    'operation_unavailable',
     'UNEXPECTED_PRIVATE_CANARY',
   ]) {
     testWidgets(

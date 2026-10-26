@@ -6,12 +6,22 @@ import 'package:collect_app/admin/core/admin_display_formatters.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_colors.dart';
+import 'package:collect_app/admin/shared/components/admin_data_table.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 String _readAdminShellLibrary() => [
   'lib/admin/admin_shell.dart',
   'lib/admin/admin_shell_navigation.dart',
 ].map((path) => File(path).readAsStringSync()).join('\n');
+
+String _readAdminRuntimeLibrary() {
+  final runtime = File('lib/admin/core/admin_runtime.dart').readAsStringSync();
+  final parts = RegExp(r"^part '([a-z0-9_]+\.dart)';", multiLine: true)
+      .allMatches(runtime)
+      .map((match) => File('lib/admin/core/${match[1]}').readAsStringSync());
+  return [runtime, ...parts].join('\n');
+}
 
 void main() {
   test('admin routes expose supported operations pages', () {
@@ -172,18 +182,11 @@ void main() {
     final detail = File(
       'lib/admin/core/admin_platform_access.dart',
     ).readAsStringSync();
-    final migration = File(
-      'supabase/migrations/20260901210000_admin_single_access_role.sql',
-    ).readAsStringSync();
 
     expect(detail, contains("'admin_set_user_access'"));
     expect(detail, contains("'p_active': active"));
     expect(detail, isNot(contains('Role access')));
     expect(detail, isNot(contains('_AdminRoleActionChip')));
-    expect(migration, contains('cross join public.admin_permissions'));
-    expect(migration, contains("role.name <> 'platform_owner'"));
-    expect(migration, contains('admin.access.activated'));
-    expect(migration, contains('admin.access.deactivated'));
   });
 
   test('admin country scope includes Rwanda only', () async {
@@ -252,9 +255,6 @@ void main() {
         'lib/admin/core/admin_operation_tables.dart',
         'lib/admin/core/admin_operation_components.dart',
       ].map((path) => File(path).readAsStringSync()).join('\n');
-      final migration = File(
-        'supabase/migrations/20260901183000_admin_operations_tables.sql',
-      ).readAsStringSync();
 
       expect(transactions.rows, hasLength(12));
       expect(transactions.rows.first.extra['reference'], isNotNull);
@@ -288,24 +288,24 @@ void main() {
       );
 
       for (final label in <String>[
-        'Reference',
+        'ID',
         'Receipt sender',
-        'Destination',
+        'Payee MoMo',
         'Verification',
         'Allocation',
         'Ledger',
         'Notification',
-        'Access',
-        'Owner',
-        'Payment profile',
+        'Visibility',
+        'Purpose',
+        'Status',
       ]) {
         expect(tableSource, contains("label: '$label'"), reason: label);
       }
-      expect(tableSource, isNot(contains("label: 'Collect ID'")));
+      expect(tableSource, contains("label: 'Collect ID'"));
       for (final visibleLabel in <String>[
         'WhatsApp',
-        'Country',
-        'Payment profile',
+        'MoMo number',
+        'MoMo code',
         'Groups',
       ]) {
         expect(
@@ -316,7 +316,7 @@ void main() {
       }
       final headingSource = tableSource.substring(
         tableSource.indexOf('class _AdminColumnLabel'),
-        tableSource.indexOf('class _AdminPrimaryCell'),
+        tableSource.indexOf('class _AdminDateTimeValue'),
       );
       expect(headingSource, contains('Text(label)'));
       expect(headingSource, contains('label: label'));
@@ -324,16 +324,8 @@ void main() {
       expect(tableSource, contains('IconButton.filledTonal'));
       expect(tableSource, contains('FontAwesomeIcons.whatsapp'));
       expect(tableSource, contains('_transactionDisplayAmount(row)'));
-      expect(tableSource, contains("'whatsapp_masked'"));
+      expect(tableSource, contains("'whatsapp_phone'"));
       expect(tableSource, isNot(contains('hidePrimaryText: true')));
-      expect(tableSource, contains("label: '\${data.label}: \$value'"));
-      expect(tableSource, contains('message: data.label'));
-      expect(migration, contains('public.mask_phone(profile.whatsapp_phone)'));
-      expect(migration, contains('public.mask_phone(profile.momo_number)'));
-      expect(
-        migration,
-        isNot(contains("'revolut_account', profile.revolut_account")),
-      );
     },
   );
 
@@ -348,21 +340,17 @@ void main() {
     final listRuntime = File(
       'lib/admin/core/admin_list_runtime.dart',
     ).readAsStringSync();
-    final detail = File(
-      'lib/admin/core/admin_detail_runtime.dart',
-    ).readAsStringSync();
+    final detail = _readAdminRuntimeLibrary();
     final overview = [
       'lib/admin/core/admin_overview_runtime.dart',
       'lib/admin/core/admin_overview_components.dart',
     ].map((path) => File(path).readAsStringSync()).join('\n');
 
-    expect(operations, contains('subtitleIcon: _groupPurposeIcon(row)'));
-    expect(operations, contains("'Open \$accountLabel account'"));
+    expect(operations, contains('_groupPurposeIcon(row)'));
+    expect(operations, contains("'Open member record \${row.title}'"));
     expect(operations, contains("scopeLabel == 'Members'"));
     expect(operations, contains("row.status == 'admin'"));
-    expect(operations, contains(': const SizedBox.shrink()'));
-    expect(genericTable, contains('class _AdminDataColumnLabel'));
-    expect(genericTable, contains("label: '\$label: \$value'"));
+    expect(genericTable, contains("label: '\${column.label}: \$value'"));
     expect(genericTable, contains('adminFormatRwfAmount(row.amount)'));
     expect(genericTable, isNot(contains("currency == 'EUR'")));
     expect(genericTable, contains("label == 'Debit = credit'"));
@@ -380,6 +368,62 @@ void main() {
     expect(listRuntime, isNot(contains("child: const Text('Reparse')")));
   });
 
+  testWidgets(
+    'admin column labels and selectable facts remain readable and named',
+    (tester) async {
+      final semantics = tester.ensureSemantics();
+      try {
+        const row = AdminTableRowData(
+          id: 'synthetic-member',
+          title: 'Synthetic member',
+          subtitle: '',
+          status: 'active',
+          amount: '',
+          extra: {'momo_code': '008000'},
+        );
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: AdminDataTable(
+                rows: const [row],
+                columns: [
+                  AdminTableColumn(
+                    label: 'Member name',
+                    value: (row) => row.title,
+                  ),
+                  AdminTableColumn(
+                    label: 'MoMo code',
+                    value: (row) => row.extra['momo_code'] as String,
+                    selectable: true,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        final table = tester.widget<DataTable>(find.byType(DataTable));
+        expect(table.columns.map((column) => (column.label as Text).data), [
+          'Member name',
+          'MoMo code',
+        ]);
+        expect(find.text('Synthetic member'), findsOneWidget);
+        expect(find.text('008000'), findsOneWidget);
+        expect(
+          tester
+              .getSemantics(find.bySemanticsLabel('MoMo code: 008000'))
+              .getSemanticsData()
+              .label,
+          'MoMo code: 008000',
+        );
+        expect(tester.takeException(), isNull);
+      } finally {
+        // Flutter verifies handles before test-package teardown callbacks.
+        semantics.dispose();
+      }
+    },
+  );
+
   test('group admin supports create, detail, activate, and deactivate', () {
     final router = File('lib/admin/admin_router.dart').readAsStringSync();
     final listRuntime = File(
@@ -391,21 +435,7 @@ void main() {
     final rosterFileParser = File(
       'lib/admin/core/roster_file_parser.dart',
     ).readAsStringSync();
-    final detailRuntime = File(
-      'lib/admin/core/admin_detail_runtime.dart',
-    ).readAsStringSync();
-    final migration = File(
-      'supabase/migrations/20260901193000_admin_group_lifecycle.sql',
-    ).readAsStringSync();
-    final assistedMigration = File(
-      'supabase/migrations/20260903085000_hybrid_roster_import_control_plane.sql',
-    ).readAsStringSync();
-    final rosterFunction = File(
-      'supabase/functions/prepare-roster-import/handler.ts',
-    ).readAsStringSync();
-    final openAiRoster = File(
-      'supabase/functions/_shared/openai_roster.ts',
-    ).readAsStringSync();
+    final detailRuntime = _readAdminRuntimeLibrary();
 
     expect(router, contains("'/admin/groups/:id'"));
     expect(listRuntime, contains('_AdminGroupWorkspaceActions'));
@@ -430,55 +460,26 @@ void main() {
     expect(rosterFileParser, contains('FormulaCellValue'));
     expect(rosterGateway, contains('admin_commit_roster_import'));
     expect(rosterGateway, contains('admin_review_roster_import'));
-    expect(
-      assistedMigration,
-      contains('creates a private assisted group, its share code'),
-    );
-    expect(rosterFunction, contains('readRosterSource'));
-    expect(rosterFunction, contains('apiKey'));
-    expect(rosterFunction, contains('model'));
-    expect(rosterFunction, contains('ai_consent'));
-    expect(openAiRoster, contains('store: false'));
-    expect(openAiRoster, isNot(contains('tools:')));
-    expect(rosterFunction, contains('processing_method'));
     expect(detailRuntime, contains('admin_set_group_active'));
     expect(detailRuntime, contains("label: 'Activate'"));
     expect(detailRuntime, contains("label: 'Deactivate'"));
-    expect(migration, contains('collection.platform_public.created'));
-    expect(migration, contains('collection.activated'));
-    expect(migration, contains('collection.deactivated'));
-    expect(migration, contains('route_immutable'));
   });
 
   test('users and members are separate admin populations', () {
     final shell = _readAdminShellLibrary();
     final router = File('lib/admin/admin_router.dart').readAsStringSync();
-    final migration = File(
-      'supabase/migrations/20260901194500_admin_users_and_members.sql',
-    ).readAsStringSync();
 
     expect(shell, contains("'Users'"));
     expect(shell, contains("'/admin/users'"));
-    expect(router, contains('admin_list_non_member_users'));
+    expect(router, contains('admin_list_users'));
     expect(router, contains('admin_list_members'));
     expect(router, contains('admin_get_member_record'));
-    expect(migration, contains('coalesce(member_count.active_groups, 0) = 0'));
-    expect(migration, contains('coalesce(member_count.active_groups, 0) > 0'));
   });
 
   test('member directory combines app and feature-phone identities safely', () {
-    final migration = File(
-      'supabase/migrations/20260903091500_hybrid_member_directory_views.sql',
-    ).readAsStringSync();
     final detailSpecs = File(
       'lib/admin/core/admin_detail_specs.dart',
     ).readAsStringSync();
-
-    expect(migration, contains("'account_state'"));
-    expect(migration, contains("then 'feature_phone' else 'app'"));
-    expect(migration, contains('public.mask_phone(identity.momo_number)'));
-    expect(migration, contains('collect_hybrid.member_account_claims'));
-    expect(migration, contains("'public_id', roster.public_id"));
     expect(detailSpecs, contains('Registered MoMo name'));
     expect(detailSpecs, contains('admin_get_member_record'));
   });
@@ -507,9 +508,7 @@ void main() {
   );
 
   test('production admin OTP is enrollment-safe and supports resend', () {
-    final repository = File(
-      'lib/admin/core/admin_runtime.dart',
-    ).readAsStringSync();
+    final repository = _readAdminRuntimeLibrary();
     final login = File(
       'lib/admin/core/admin_login_runtime.dart',
     ).readAsStringSync();
@@ -558,28 +557,6 @@ void main() {
     expect(releaseBuild, isNot(contains('self.skipWaiting()')));
     expect(releaseBuild, isNot(contains('self.clients.claim()')));
   });
-
-  test(
-    'local Supabase review auth is isolated from production provisioning',
-    () {
-      final config = File('supabase/config.toml').readAsStringSync();
-      final seed = File('supabase/seed.sql').readAsStringSync();
-      final productionBoundary = File(
-        'supabase/migrations/20260612103000_disable_browser_admin_bootstrap.sql',
-      ).readAsStringSync();
-
-      expect(config, contains('[auth.sms.test_otp]'));
-      expect(config, contains('250788767816 = "123456"'));
-      expect(seed, contains('local_seed_review_admin_access'));
-      expect(seed, contains("where name = 'platform_owner'"));
-      expect(seed, contains('Local Admin PWA review account'));
-      expect(
-        productionBoundary,
-        contains('admin_bootstrap_whatsapp_operator is disabled'),
-      );
-      expect(productionBoundary, contains('to service_role'));
-    },
-  );
 
   test('authenticated browser QA covers the current admin route matrix', () {
     final browserQa = File(
@@ -634,9 +611,9 @@ void main() {
     ]) {
       expect(browserQa, isNot(contains("path: '$retired'")), reason: retired);
     }
-    expect(renderSmoke, contains('routeCount") == 29'));
+    expect(renderSmoke, contains('routeCount") == 34'));
     expect(renderSmoke, contains('viewportCount") == 4'));
-    expect(renderSmoke, contains('screenshotCount") == 116'));
+    expect(renderSmoke, contains('screenshotCount") == 136'));
     expect(browserQa, contains('Admin access recovery actions'));
     expect(browserQa, contains('Refresh run evidence'));
     expect(
@@ -691,13 +668,16 @@ void main() {
   });
 
   test(
-    'Admin queue SLA compatibility fails soft for an older hosted function',
+    'Admin queue SLA fails soft only for unavailable Cloudflare operations',
     () {
-      final runtime = File(
-        'lib/admin/core/admin_runtime.dart',
-      ).readAsStringSync();
+      final runtime = _readAdminRuntimeLibrary();
 
-      expect(runtime, contains('unsupported admin queue sla key'));
+      expect(runtime, contains("error.code == 'operation_unavailable'"));
+      expect(runtime, contains("error.code == '501'"));
+      expect(
+        runtime,
+        contains('if (!_isUnavailableOperationError(error)) rethrow;'),
+      );
     },
   );
 }

@@ -2,6 +2,7 @@ import '../fixtures/collect_repository_fixture.dart';
 
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
@@ -39,6 +40,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          collectBackendClientProvider.overrideWithValue(null),
           appRouterProvider.overrideWithValue(router),
           collectRepositoryProvider.overrideWith((ref) => repository),
         ],
@@ -53,6 +55,13 @@ void main() {
       [7000, 6000, 5000, 4000, 3000],
     );
     expect(repository.state.contributions.first.id, 'momo:0');
+    expect(find.text('Recorded total'), findsOneWidget);
+    expect(
+      tester
+          .widgetList<ActivityFeedItem>(find.byType(ActivityFeedItem))
+          .every((item) => item.meta.startsWith('Recorded · ')),
+      isTrue,
+    );
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();

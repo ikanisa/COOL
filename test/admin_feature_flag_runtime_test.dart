@@ -1,3 +1,4 @@
+import 'support/recorded_auth_fixture.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -6,7 +7,7 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const _actor = '99720000-0000-4000-8000-000000000021';
 const _key = 'qa_runtime_fixture';
@@ -33,32 +34,31 @@ http.Response _json(Object? value, [int status = 200]) => http.Response(
 );
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late List<http.Request> requests;
   late FutureOr<http.Response> Function(http.Request) respond;
   Future<void> login(String session, {int nonce = 0}) async {
-    await client.auth.verifyOTP(
+    await installRecordedAuthFixture(
+      client,
       phone: '+250788972021',
       token: '$session|$nonce',
-      type: OtpType.sms,
+      type: CollectOtpType.sms,
     );
   }
 
   setUp(() async {
     requests = [];
     respond = (_) => _json(_ack());
-    client = SupabaseClient(
+    client = recordedFixtureClient(
       'http://127.0.0.1:1',
-      'synthetic-anon-key',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((r) async {
         http.Response result;
         if (r.url.path.endsWith('/verify')) {
           final parts = (jsonDecode(r.body)['token'] as String).split('|');
           result = _json({
             'access_token':
-                'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': _actor, 'session_id': parts[0], 'nonce': parts[1], 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
+                'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': _actor, 'session_id': parts[0], 'nonce': parts[1], 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
             'refresh_token': 'synthetic-refresh',
             'token_type': 'bearer',
             'user': {
@@ -96,10 +96,7 @@ void main() {
           _request,
         );
         expect(result['revision'], changed ? 5 : 4);
-        expect(
-          requests.single.url.path,
-          '/rest/v1/rpc/admin_set_feature_flag_v2',
-        );
+        expect(requests.single.url.path, '/v1/rpc/admin_set_feature_flag_v2');
         expect(jsonDecode(requests.single.body), _request);
       },
     );
@@ -151,7 +148,9 @@ void main() {
         _json({'code': '40001', 'message': 'runtime_control_conflict'}, 409);
     await expectLater(
       repository.action('admin_set_feature_flag_v2', _request),
-      throwsA(isA<PostgrestException>().having((e) => e.code, 'code', '40001')),
+      throwsA(
+        isA<CollectApiException>().having((e) => e.code, 'code', '40001'),
+      ),
     );
     expect(requests, hasLength(1));
   });

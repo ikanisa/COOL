@@ -1,5 +1,7 @@
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 /** Actual adapter mutation controls, using the pinned tool-generated input. */
 public final class CollectPluginRegistrantTest {
@@ -17,6 +19,22 @@ public final class CollectPluginRegistrantTest {
         } catch (IllegalArgumentException expected) {
             checks++;
         }
+    }
+
+    private static void rejectsDirectory(Path path, String name) throws Exception {
+        try {
+            CollectPluginRegistrant.validateDirectory(path);
+            throw new AssertionError(name);
+        } catch (IllegalArgumentException expected) {
+            checks++;
+        }
+    }
+
+    private static byte[] metadata() {
+        return ByteBuffer.allocate(90).putInt(0x00051607).putInt(0x00020000)
+            .put("Mac OS X        ".getBytes(StandardCharsets.US_ASCII)).putShort((short) 2)
+            .putInt(9).putInt(50).putInt(32).putInt(2).putInt(82).putInt(8)
+            .put(new byte[32]).put("metadata".getBytes(StandardCharsets.US_ASCII)).array();
     }
 
     public static void main(String[] args) throws Exception {
@@ -59,6 +77,83 @@ public final class CollectPluginRegistrantTest {
             check(Files.readString(input).equals(original), "Actual CLI leaves tool input intact");
             CollectPluginRegistrant.main(new String[]{input.toString(), output.toString(), "false"});
             check(java.util.Arrays.equals(Files.readAllBytes(input), Files.readAllBytes(output)), "Actual other-flavor output byte-identical");
+
+            Path directory = temporary.resolve("main-java");
+            Path generated = directory.resolve("io/flutter/plugins/GeneratedPluginRegistrant.java");
+            Files.createDirectories(generated.getParent());
+            Files.write(generated, Files.readAllBytes(input));
+            Path[] sidecars = {
+                directory.resolve("._io"), directory.resolve("io/._flutter"),
+                directory.resolve("io/flutter/._plugins"), generated.resolveSibling("._GeneratedPluginRegistrant.java"),
+            };
+            for (Path path : sidecars) Files.write(path, metadata());
+            check(CollectPluginRegistrant.validateDirectory(directory).equals(generated), "Verified file and directory AppleDouble sidecars are admitted");
+            CollectPluginRegistrant.main(new String[]{"--check-directory", directory.toString()});
+            checks++;
+            CollectPluginRegistrant.main(new String[]{generated.toString(), output.toString(), "true"});
+            check(Files.readString(output).equals(gateway), "Generator validates the same metadata-bearing input directory");
+            check(Files.readString(generated).equals(original), "Metadata-aware generation preserves original source bytes");
+            for (Path path : sidecars)
+                check(java.util.Arrays.equals(Files.readAllBytes(path), metadata()), "Metadata bytes remain untouched");
+
+            Path extra = directory.resolve("Unexpected.java");
+            Files.writeString(extra, "class Unexpected {}\n");
+            rejectsDirectory(directory, "An extra Java source is still rejected");
+            byte[] before = Files.readAllBytes(output);
+            try {
+                CollectPluginRegistrant.main(new String[]{generated.toString(), output.toString(), "true"});
+                throw new AssertionError("Generator must reject extra source before writing");
+            } catch (IllegalArgumentException expected) {
+                checks++;
+            }
+            check(java.util.Arrays.equals(before, Files.readAllBytes(output)), "Rejected generation preserves previous output");
+            Files.delete(extra);
+            Path orphan = directory.resolve("._orphan.java");
+            Files.write(orphan, metadata());
+            rejectsDirectory(directory, "Structurally valid metadata without a companion is rejected");
+            Files.delete(orphan);
+            Path sidecar = sidecars[3];
+            Files.writeString(sidecar, "class HiddenSource {}\n");
+            rejectsDirectory(directory, "AppleDouble-looking name cannot hide source text");
+            for (String mutation : new String[]{"magic", "version", "header", "duplicate", "overlap", "truncated", "bounds"}) {
+                byte[] malformed = metadata();
+                ByteBuffer bytes = ByteBuffer.wrap(malformed);
+                switch (mutation) {
+                    case "magic" -> bytes.putInt(0, 0x00051600);
+                    case "version" -> bytes.putInt(4, 0x00010000);
+                    case "header" -> bytes.putInt(30, 0);
+                    case "duplicate" -> bytes.putInt(38, 9);
+                    case "overlap" -> bytes.putInt(42, 51);
+                    case "bounds" -> bytes.putInt(46, 1000);
+                    case "truncated" -> malformed = java.util.Arrays.copyOf(malformed, 40);
+                }
+                Files.write(sidecar, malformed);
+                rejectsDirectory(directory, "Malformed metadata rejected: " + mutation);
+            }
+            Files.write(sidecar, metadata());
+            Path alias = temporary.resolve("aliased-java");
+            Files.createSymbolicLink(alias, directory);
+            rejectsDirectory(alias, "Symlink main/java root rejected");
+            Files.delete(alias);
+            alias = directory.resolve("aliased-package");
+            Files.createSymbolicLink(alias, generated.getParent());
+            rejectsDirectory(directory, "Symlink package directory rejected");
+            Files.delete(alias);
+            alias = directory.resolve("aliased.java");
+            Files.createSymbolicLink(alias, generated);
+            rejectsDirectory(directory, "Additional symlink file rejected");
+            Files.delete(alias);
+            Files.delete(sidecar);
+            Files.createSymbolicLink(sidecar, sidecars[0]);
+            rejectsDirectory(directory, "Metadata symlink cannot receive exemption");
+            Files.delete(sidecar);
+            Files.write(sidecar, metadata());
+            Files.delete(generated);
+            Files.createSymbolicLink(generated, input.toAbsolutePath());
+            rejectsDirectory(directory, "Generated registrant symlink rejected");
+            Files.delete(generated);
+            Files.write(generated, Files.readAllBytes(input));
+            check(CollectPluginRegistrant.validateDirectory(directory).equals(generated), "Restored exact source remains admissible");
         } finally {
             try (var files = Files.walk(temporary)) {
                 files.sorted(java.util.Comparator.reverseOrder()).forEach(path -> {

@@ -27,10 +27,10 @@ final adminReceiptOperationsPolicyProvider =
         final raw = await repository.receiptOperationsPolicy();
         if (!current) throw const AdminSessionChanged();
         return AdminReceiptOperationsPolicy.parse(raw);
-      } on PostgrestException catch (error) {
+      } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminReceiptOperationsDenied();
-        if ({'42883', 'PGRST202'}.contains(error.code)) {
+        if ({'operation_unavailable', '501'}.contains(error.code)) {
           throw UnsupportedError(
             'Receipt operations policy service unavailable.',
           );

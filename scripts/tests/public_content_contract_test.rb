@@ -8,7 +8,8 @@ require_relative '../qa/public_content_contract'
 class PublicContentContractTest < Minitest::Test
   def setup
     @root = Dir.mktmpdir('collect-public-content-')
-    @old = Digest::SHA256.hexdigest('Historical product copy')
+    @historical_copy = 'Historical product copy'
+    @old = Digest::SHA256.hexdigest(@historical_copy)
     @html = '<main>Collect Rwanda MoMo contributions</main><script>not visible</script>'
     @current = Digest::SHA256.hexdigest(PublicContentContract.visible_text(@html))
     @baseline = { 'schema_version' => 1, 'hashes' => { '/' => @old } }
@@ -19,9 +20,12 @@ class PublicContentContractTest < Minitest::Test
     end
     @review = { 'status' => 'pass', 'routes' => [{ 'route' => '/', 'historical_matches_baseline' => true, 'historical_sha256' => @old, 'current_sha256' => @current }] }
     write(PublicContentContract::REVIEW, JSON.generate(@review))
+    @corpus = { '/' => { 'text' => @historical_copy, 'sha256' => @old, 'expected' => @old } }
+    write(PublicContentContract::HISTORICAL_TEXT, JSON.generate(@corpus))
     @contract = { 'schema_version' => 1, 'status' => 'local_engineering_reviewed', 'hashes' => { '/' => @current },
                   'historical_baseline_sha256' => Digest::SHA256.file(File.join(@root, PublicContentContract::BASELINE)).hexdigest,
                   'historical_comparison_sha256' => Digest::SHA256.file(File.join(@root, PublicContentContract::REVIEW)).hexdigest,
+                  'historical_visible_text_sha256' => Digest::SHA256.file(File.join(@root, PublicContentContract::HISTORICAL_TEXT)).hexdigest,
                   'reviewed_source_sha256' => @sources, 'legal_release_approved' => false, 'publication_approved' => false }
     save_contract
   end
@@ -174,6 +178,42 @@ class PublicContentContractTest < Minitest::Test
     @review['routes'][0]['historical_matches_baseline'] = false
     write(PublicContentContract::REVIEW, JSON.generate(@review))
     assert_failed
+  end
+
+  def test_missing_historical_corpus_fails_even_with_valid_comparison_hashes
+    File.delete(File.join(@root, PublicContentContract::HISTORICAL_TEXT))
+    assert_failed
+  end
+
+  def test_changed_historical_corpus_bytes_fail
+    write(PublicContentContract::HISTORICAL_TEXT, JSON.generate(@corpus.merge('/extra/' => @corpus['/'])))
+    assert_failed
+  end
+
+  def test_refreshing_corpus_digest_cannot_hide_changed_historical_copy
+    @corpus['/']['text'] = 'Unreviewed replacement history'
+    refresh_corpus_digest
+    assert_failed
+  end
+
+  def test_refreshing_corpus_digest_cannot_hide_a_missing_historical_route
+    @corpus.clear
+    refresh_corpus_digest
+    assert_failed
+  end
+
+  def test_historical_corpus_cannot_claim_a_different_baseline_digest
+    @corpus['/']['expected'] = Digest::SHA256.hexdigest('different baseline')
+    refresh_corpus_digest
+    assert_failed
+  end
+
+  def refresh_corpus_digest
+    write(PublicContentContract::HISTORICAL_TEXT, JSON.generate(@corpus))
+    @contract['historical_visible_text_sha256'] = Digest::SHA256.file(
+      File.join(@root, PublicContentContract::HISTORICAL_TEXT),
+    ).hexdigest
+    save_contract
   end
 
   def test_digest_refresh_cannot_bypass_explicit_delta_review

@@ -1,0 +1,43 @@
+{
+  "scope": "rw_receipt_notice_content",
+  "candidate": {
+    "enabled": true,
+    "template": {
+      "family": "reversal_notice",
+      "language": "en",
+      "body_frame": "Collect ledger compensation for receipt %s recorded %s. Compensation recorded: %s RWF at %s. Your savings recorded after this entry: %s RWF. Original recorded savings: %s RWF. Ref: %s. Collect ledger entry only.",
+      "consent_rule": "current_receipt_consent_required_no_override",
+      "template_key": "collect.notice.reversal_notice",
+      "recipient_rule": "same_original_member",
+      "disclosure_rule": "collect_ledger_compensation_facts_only",
+      "template_sha256": "6f1b50442f215986e13f16da54c4ea93c7e318d0b1a72b054252abf3490a2a39",
+      "semantic_version": 1
+    },
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "notice_family": "reversal_notice",
+    "approval_basis": "actual_current_owner_policy_action",
+    "current_policy": {
+      "enabled": true,
+      "actor_id": "99780000-0000-4000-8000-000000000001",
+      "audit_id": "ee767064-d8c7-46ee-8a3f-28e4d47f68e8",
+      "language": "rw",
+      "request_id": "404ad418-298e-4df4-8b08-c6cb35a23ab4",
+      "approved_at": "2026-10-03T06:52:24.424834Z",
+      "approval_basis": "actual_current_owner_policy_action",
+      "policy_revision": 1,
+      "template_sha256": "51baebc42b64760be2fde47bf189035dc67f568f36a9fdd4483b81371b6fa855",
+      "semantic_version": 1
+    },
+    "recipient_rule": "same_original_member",
+    "send_authority": false,
+    "consent_override": false,
+    "financial_mutation": false,
+    "current_policy_status": "approved_active",
+    "expected_policy_revision": 1,
+    "notice_transport_available": false
+  },
+  "checked_at": "2026-10-03T06:52:25.173292Z",
+  "candidate_sha256": "66e055f9f627aa90182217f99795834a287b16717d8372e363c9ecf64b7b50c3",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-03T06:53:25.177329Z"
+}

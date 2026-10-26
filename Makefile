@@ -4,10 +4,12 @@ DART ?= dart
 # Keep command-line/environment overrides available to the script entry points.
 export FLUTTER DART
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan supabase-go-live-gate supabase-go-live-gate-json supabase-platform-packet supabase-platform-packet-json supabase-post-operator-checklist supabase-post-operator-checklist-json supabase-acceptance-matrix supabase-acceptance-matrix-json supabase-schema-inventory supabase-schema-inventory-json supabase-go-live-evidence supabase-ready supabase-ready-strict supabase-deploy supabase-auth-harden supabase-pitr-enable supabase-operational-report supabase-network-restrict supabase-logical-backup supabase-admin-uat supabase-group-journey-uat supabase-linked-uat-local supabase-lifecycle-uat supabase-concurrent-join-uat supabase-edge-auth-uat supabase-advisors supabase-advisor-warnings
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan
 
 help:
 	@echo "Collect workspace commands"
+	@echo "  make cloudflare-platform-test Manually test retained legacy Worker/D1/R2 history"
+	@echo "  make cloudflare-platform-dev  Run retained legacy backend locally (manual only)"
 	@echo "  make flutter-clean     Run flutter clean"
 	@echo "  make flutter-pub-get   Run flutter pub get"
 	@echo "  make format            Format Dart sources"
@@ -48,26 +50,6 @@ help:
 	@echo "  make release-status    Summarize strict release status without printing secrets"
 	@echo "  make release-status-json Output strict release status as JSON without secrets"
 	@echo "  make release-secret-scan Run redacted release secret scan"
-	@echo "  make supabase-go-live-gate Final Supabase go-live approval gate"
-	@echo "  make supabase-platform-packet Print current SMS-first release blocker handoff"
-	@echo "  make supabase-post-operator-checklist Print current SMS-first post-remediation checklist"
-	@echo "  make supabase-acceptance-matrix Print evidence-backed Supabase acceptance matrix"
-	@echo "  make supabase-schema-inventory Print live public schema contract inventory"
-	@echo "  make supabase-go-live-evidence Build redacted Supabase go-live evidence bundle"
-	@echo "  make supabase-ready    Check linked Supabase production readiness"
-	@echo "  make supabase-deploy   Bind target, preflight, deploy reviewed changes, then verify"
-	@echo "  make supabase-advisors Run linked Supabase security/performance advisor gate"
-	@echo "  make supabase-advisor-warnings Check warning-level Supabase advisor inventory"
-	@echo "  make supabase-admin-uat Run rollback-only admin/security UAT"
-	@echo "  make supabase-group-journey-uat Run rollback-only group creation journey UAT"
-	@echo "  make supabase-linked-uat-local Run linked-flow rollback UAT against local Supabase"
-	@echo "  make supabase-lifecycle-uat Run rollback-only privacy/provider lifecycle UAT"
-	@echo "  make supabase-concurrent-join-uat Run true concurrent join exactly-once UAT"
-	@echo "  make supabase-edge-auth-uat Run local Edge Function auth contract UAT"
-	@echo "  make supabase-auth-harden Apply optional production Auth hardening"
-	@echo "  make supabase-pitr-enable Apply optional billable backup add-on after explicit confirmation"
-	@echo "  make supabase-operational-report Print read-only DB health and performance stats"
-	@echo "  make supabase-logical-backup Create local logical DB dump"
 
 flutter-clean:
 	$(FLUTTER) clean
@@ -86,10 +68,10 @@ analyze:
 
 test:
 	@set -euo pipefail; \
-	while IFS= read -r test_file; do \
+	while IFS= read -r -d '' test_file; do \
 		echo "[flutter-test] $$test_file"; \
-		$(FLUTTER) test --no-pub --concurrency=1 "$$test_file"; \
-	done < <(find test -name '*_test.dart' -print | sort)
+		"$(FLUTTER)" test --no-pub --concurrency=1 "$$test_file"; \
+	done < <(find test -type f -name '*_test.dart' ! -name '._*' -print0 | sort -z)
 
 admin-web-build:
 	@./scripts/admin_pwa_release_build.sh
@@ -259,20 +241,26 @@ source-integrity-json:
 	@./scripts/source_integrity_gate.sh --json
 
 qa-tooling-test:
-	@python3 scripts/tests/test_postgres_admission.py
-	@python3 scripts/tests/test_pg_archive_admission.py
-	@python3 scripts/tests/collect_schema_domain_map_test.py
-	@python3 scripts/tests/collect_schema_lineage_invalidation_test.py
-	@python3 scripts/tests/supabase_secret_transport_test.py
-	@python3 scripts/tests/supabase_delivery_contract_test.py
-	@ruby scripts/tests/edge_function_inventory_test.rb
+	@python3 scripts/tests/release_evidence_test.py
+	@python3 scripts/hardening/release_gate_test.py
+	@python3 scripts/hardening/admin_headers_test.py
+	@python3 scripts/hardening/v2_source_test.py
+	@python3 scripts/tests/test_collect_release_candidate.py
+	@python3 scripts/tests/test_collect_ci_policy.py
+	@python3 scripts/tests/cloudflare_native_build_config_test.py
+	@python3 scripts/tests/ios_delivery_contract_test.py
+	@python3 scripts/tests/ios_workflow_contract_test.py
 	@python3 scripts/tests/candidate_runner_test.py
 	@python3 scripts/tests/integrated_candidate_runner_test.py
 	@python3 scripts/tests/recovery_list_source_test.py
 	@python3 scripts/tests/group_summary_source_test.py
 	@python3 scripts/tests/payment_decoding_source_test.py
 	@python3 scripts/tests/payment_intent_source_test.py
+	@python3 scripts/tests/android_backup_policy_test.py
+	@python3 scripts/tests/export_public_configuration_test.py
 	@node scripts/tests/admin_pwa_worker_cache_test.mjs
+	@ruby scripts/tests/public_configuration_payload_test.rb
+	@ruby scripts/tests/policy_configuration_payload_test.rb
 	@ruby scripts/tests/admin_pwa_bundle_gate_test.rb
 	@ruby scripts/tests/asset_hygiene_integration_test.rb
 	@ruby scripts/tests/public_static_routes_test.rb
@@ -280,15 +268,11 @@ qa-tooling-test:
 	@ruby scripts/tests/public_website_ci_gate_test.rb
 	@ruby scripts/tests/public_lighthouse_evidence_test.rb
 	@ruby scripts/tests/public_photography_test.rb
-	@ruby scripts/tests/collect_edge_function_local_gate_test.rb
 	@ruby scripts/tests/lcov_coverage_test.rb
 	@ruby scripts/tests/dart_format_test.rb
 	@ruby scripts/tests/native_build_provenance_test.rb
-	@ruby scripts/tests/fullstack_database_test.rb
-	@ruby scripts/tests/fullstack_database_sql_test.rb
-	@ruby scripts/tests/fullstack_database_http_test.rb
-	@python3 scripts/tests/run_edge_http_uat_test.py
-	@ruby scripts/tests/repo_wide_qa_uat_test.rb
+	@python3 scripts/tests/native_artifact_metadata_test.py
+	@python3 scripts/tests/native_source_export_test.py
 	@ruby scripts/tests/mobile_route_artifact_gate_test.rb
 	@ruby scripts/tests/release_go_preflight_test.rb
 	@ruby scripts/tests/release_status_fail_closed_test.rb
@@ -300,11 +284,6 @@ cover-catalog-test:
 .PHONY: public-photography-check
 public-photography-check:
 	@NODE_PATH="$${NODE_PATH:-$(CURDIR)/tools/public-photography/node_modules}" node scripts/assets/build_public_photography.mjs --check
-
-.PHONY: edge-http-test
-edge-http-test:
-	@test -n "$(EDGE_HTTP_EVIDENCE)" || (echo 'Set EDGE_HTTP_EVIDENCE to a new .cache evidence directory'; exit 1)
-	@python3 scripts/qa/run_edge_http_uat.py "$(EDGE_HTTP_EVIDENCE)"
 
 .PHONY: admin-pwa-lifecycle-qa
 ADMIN_PWA_LIFECYCLE_MODE ?= browser
@@ -333,83 +312,57 @@ release-status-json:
 release-secret-scan:
 	@./scripts/release_secret_scan.sh
 
-supabase-go-live-gate:
-	@./scripts/supabase_go_live_gate.sh
 
-supabase-go-live-gate-json:
-	@./scripts/supabase_go_live_gate.sh --json
+.PHONY: cloudflare-platform-test cloudflare-platform-dev cloudflare-platform-migrate-local
+cloudflare-platform-test:
+	@cd deploy/platform-api && npm test
+	@node scripts/qa/recovery17_ci.mjs
+	@node --test scripts/tests/platform_health_probe_test.mjs
+	@node --test scripts/tests/public_configuration_apply_test.mjs scripts/tests/policy_configuration_update_test.mjs
+	@node --test scripts/tests/atomic_d1_restore_test.mjs
+	@node --test scripts/tests/recovery12_test.mjs
+	@node --test scripts/tests/recovery13_test.mjs
+	@node --test scripts/tests/recovery15_test.mjs
+	@node --test scripts/tests/momo_release_candidate_test.mjs
+	@node --test scripts/tests/approved_toolchain_test.mjs scripts/tests/approved_toolchain_snapshot_test.mjs
 
-supabase-platform-packet:
-	@./scripts/supabase_platform_go_live_packet.sh
+cloudflare-platform-dev:
+	@cd deploy/platform-api && npm run dev
 
-supabase-platform-packet-json:
-	@./scripts/supabase_platform_go_live_packet.sh --json
+cloudflare-platform-migrate-local:
+	@cd deploy/platform-api && npm run migrate:local
 
-supabase-post-operator-checklist:
-	@./scripts/supabase_post_operator_checklist.sh
+.PHONY: supabase-inventory supabase-test supabase-schema-test supabase-data-test supabase-admin-consumers-test
+supabase-inventory:
+	@node scripts/supabase/inventory.mjs .
 
-supabase-post-operator-checklist-json:
-	@./scripts/supabase_post_operator_checklist.sh --json
+supabase-schema-test:
+	@node scripts/supabase/test_schema.mjs
 
-supabase-acceptance-matrix:
-	@./scripts/supabase_acceptance_matrix.sh
+supabase-data-test:
+	@node --test scripts/supabase/data_stage.test.mjs
 
-supabase-acceptance-matrix-json:
-	@./scripts/supabase_acceptance_matrix.sh --json
+supabase-test:
+	@python3 supabase/schema-src/generate_baseline.py --check
+	@python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config
+	@node scripts/supabase/test_schema.mjs
+	@node --test scripts/supabase/data_stage.test.mjs
+	@cd supabase/functions && "$${COLLECT_DENO:-deno}" task check
+	@cd supabase/functions && "$${COLLECT_DENO:-deno}" task test
+	@$(MAKE) supabase-admin-consumers-test
 
-supabase-schema-inventory:
-	@./scripts/supabase_schema_inventory.sh
+# Current frontend-host and CLI consumers; no legacy business backend is run.
+supabase-admin-consumers-test:
+	@cd deploy/platform-admin && npm ci --ignore-scripts --no-audit --no-fund
+	@node --test deploy/platform-admin/test/*.test.mjs
+	@cd tools/collect-admin-mcp && npm run check && npm test
+	@cd tools/notification-operator && node --test --test-concurrency=1 test/operator.test.mjs test/mcp.test.mjs test/transport.test.mjs test/auth.test.mjs
 
-supabase-schema-inventory-json:
-	@./scripts/supabase_schema_inventory.sh --json
 
-supabase-go-live-evidence:
-	@./scripts/supabase_go_live_evidence_bundle.sh
-
-supabase-ready:
-	@./scripts/supabase_production_readiness.sh
-
-supabase-ready-strict:
-	@SUPABASE_READY_STRICT_PLATFORM=1 ./scripts/supabase_production_readiness.sh
-
-supabase-deploy:
-	@./scripts/supabase_deploy.sh
-
-supabase-advisors:
-	@./scripts/supabase_advisors_gate.sh
-
-supabase-advisor-warnings:
-	@./scripts/supabase_advisors_warning_inventory.sh
-
-supabase-admin-uat:
-	@./scripts/collect_admin_security_uat.sh
-
-supabase-group-journey-uat:
-	@./scripts/group_creation_journey_uat.sh
-
-supabase-linked-uat-local:
-	@COLLECT_SKIP_DOTENV=1 SUPABASE_DB_QUERY_MODE=local ./scripts/collect_linked_uat.sh
-
-supabase-lifecycle-uat:
-	@./scripts/local_backend_privacy_lifecycle_uat.sh
-
-supabase-concurrent-join-uat:
-	@./scripts/local_concurrent_join_uat.sh
-
-supabase-edge-auth-uat:
-	@./scripts/collect_edge_auth_contract_uat.sh
-
-supabase-auth-harden:
-	@./scripts/supabase_apply_auth_hardening.sh
-
-supabase-pitr-enable:
-	@./scripts/supabase_apply_pitr.sh
-
-supabase-operational-report:
-	@./scripts/supabase_operational_report.sh
-
-supabase-network-restrict:
-	@./scripts/supabase_apply_network_restrictions.sh
-
-supabase-logical-backup:
-	@./scripts/supabase_logical_backup.sh
+.PHONY: cloudflare-platform-acceptance cloudflare-platform-acceptance-json release-go-preflight
+cloudflare-platform-acceptance:
+	@./scripts/cloudflare_platform_acceptance_gate.sh
+cloudflare-platform-acceptance-json:
+	@./scripts/cloudflare_platform_acceptance_gate.sh --json
+release-go-preflight:
+	@./scripts/release_go_preflight.sh

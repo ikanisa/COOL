@@ -19,9 +19,11 @@ PACKAGE_VERSION="$(sed -n 's/^version:[[:space:]]*//p' pubspec.yaml | head -n 1)
 }
 BUILD_NAME="${COLLECT_ANDROID_BUILD_NAME:-${PACKAGE_VERSION%%+*}}"
 BUILD_NUMBER="${COLLECT_ANDROID_BUILD_NUMBER:-${PACKAGE_VERSION##*+}}"
-readonly EXPECTED_PRODUCTION_SUPABASE_URL="https://lhbowpbcpwoiparwnwgt.supabase.co"
-SUPABASE_URL_VALUE="${SUPABASE_PRODUCTION_URL:-}"
-SUPABASE_ANON_KEY_VALUE="${SUPABASE_PRODUCTION_ANON_KEY:-}"
+readonly EXPECTED_PRODUCTION_PUBLIC_URL="https://collect.ikanisa.com"
+readonly EXPECTED_PRODUCTION_ADMIN_URL="https://platform-admin.collect.ikanisa.com"
+APP_PUBLIC_URL="${APP_PUBLIC_URL:-$EXPECTED_PRODUCTION_PUBLIC_URL}"
+ADMIN_APP_URL="${ADMIN_APP_URL:-$EXPECTED_PRODUCTION_ADMIN_URL}"
+export APP_PUBLIC_URL ADMIN_APP_URL
 PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER_VALUE="${PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER:-}"
 BUILD_STARTED_EPOCH="$(date +%s)"
 NATIVE_SOURCE_BEFORE="$(ruby scripts/qa/native_build_provenance.rb begin android)"
@@ -31,13 +33,8 @@ if [[ $# -ne 0 ]]; then
   exit 2
 fi
 
-if [[ -z "$SUPABASE_URL_VALUE" || -z "$SUPABASE_ANON_KEY_VALUE" ]]; then
-  printf 'SUPABASE_PRODUCTION_URL and SUPABASE_PRODUCTION_ANON_KEY are required.\n' >&2
-  exit 2
-fi
-
-if [[ "$SUPABASE_URL_VALUE" != "$EXPECTED_PRODUCTION_SUPABASE_URL" ]]; then
-  printf 'SUPABASE_PRODUCTION_URL does not match the reviewed Collect production project.\n' >&2
+if [[ "$APP_PUBLIC_URL" != "$EXPECTED_PRODUCTION_PUBLIC_URL" || "$ADMIN_APP_URL" != "$EXPECTED_PRODUCTION_ADMIN_URL" ]]; then
+  printf 'Public and Admin URLs must match the reviewed HTTPS production targets.\n' >&2
   exit 2
 fi
 
@@ -71,23 +68,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-SUPABASE_URL_VALUE="$SUPABASE_URL_VALUE" \
-SUPABASE_ANON_KEY_VALUE="$SUPABASE_ANON_KEY_VALUE" \
-DEFINES_FILE="$DEFINES_FILE" \
-ruby -r json <<'RUBY'
-File.write(
-  ENV.fetch("DEFINES_FILE"),
-  JSON.generate(
-    "SUPABASE_URL" => ENV.fetch("SUPABASE_URL_VALUE"),
-    "SUPABASE_ANON_KEY" => ENV.fetch("SUPABASE_ANON_KEY_VALUE"),
-    "APP_PUBLIC_URL" => ENV.fetch("APP_PUBLIC_URL", "https://collect.ikanisa.com"),
-    "APP_ENVIRONMENT" => "production",
-    "ENABLE_SMS_READER" => "true",
-    "ENABLE_ANDROID_SMS_ACCESS" => "true",
-    "COLLECT_MOBILE_EVIDENCE_MODE" => "false"
-  )
-)
-RUBY
+python3 scripts/qa/native_build_config.py android --defines-output "$DEFINES_FILE"
 
 common_args=(
   --release
@@ -107,12 +88,14 @@ verify_public_runtime_config() {
   fi
 
   if ! unzip -p "$archive" "$app_binary" | \
-    EXPECTED_SUPABASE_URL="$EXPECTED_PRODUCTION_SUPABASE_URL" ruby -e '
-      expected = ENV.fetch("EXPECTED_SUPABASE_URL").b
-      exit(STDIN.read.b.include?(expected) ? 0 : 1)
+    DEFINES_FILE="$DEFINES_FILE" ruby -r json -e '
+      values = JSON.parse(File.read(ENV.fetch("DEFINES_FILE")))
+      binary = STDIN.read.b
+      required = %w[SUPABASE_URL SUPABASE_API_URL SUPABASE_PUBLISHABLE_KEY]
+      exit(required.all? { |key| binary.include?(values.fetch(key).b) } ? 0 : 1)
     '
   then
-    printf 'Packaged release is missing the reviewed Supabase runtime URL: %s\n' "$archive" >&2
+    printf 'Packaged release is missing the reviewed Supabase runtime configuration: %s\n' "$archive" >&2
     exit 1
   fi
 }
@@ -123,7 +106,10 @@ verify_public_runtime_config() {
 # assertion prevents that store-blocking failure from being published again.
 export GRADLE_OPTS="${GRADLE_OPTS:+$GRADLE_OPTS }-Dorg.gradle.caching=false"
 export COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false
-"$ROOT_DIR/android/gradlew" --no-build-cache -p "$ROOT_DIR/android" :app:clean
+# The clean task configures native transport too; pass the same public profile
+# that Flutter will forward to Gradle for compilation.
+GRADLE_PUBLIC_DEFINES="$(ruby -r json -r base64 -e 'puts JSON.parse(File.read(ARGV.fetch(0))).sort.map { |key, value| Base64.strict_encode64("#{key}=#{value}") }.join(",")' "$DEFINES_FILE")"
+"$ROOT_DIR/android/gradlew" --no-build-cache -p "$ROOT_DIR/android" "-Pdart-defines=$GRADLE_PUBLIC_DEFINES" :app:clean
 
 # When Android intermediates live on an internal APFS volume, Flutter still
 # resolves its final artifacts through the repository's conventional build/
@@ -169,7 +155,7 @@ verify_public_runtime_config \
   "$ROOT_DIR/build/app/outputs/bundle/productionRelease/app-production-release.aab" \
   'base/lib/arm64-v8a/libapp.so'
 
-"$ROOT_DIR/scripts/android_release_signing_preflight.sh"
+"$ROOT_DIR/scripts/android_release_signing_preflight.sh" --public-defines "$DEFINES_FILE"
 
 artifact_manifest="$ROOT_DIR/.cache/android_play_store_build/${BUILD_NAME}+${BUILD_NUMBER}.json"
 mkdir -p "$(dirname "$artifact_manifest")"
@@ -178,6 +164,7 @@ BUILD_NAME="$BUILD_NAME" \
 BUILD_NUMBER="$BUILD_NUMBER" \
 BUILD_STARTED_EPOCH="$BUILD_STARTED_EPOCH" \
 ARTIFACT_MANIFEST="$artifact_manifest" \
+DEFINES_FILE="$DEFINES_FILE" \
 ruby -r digest -r json -r time <<'RUBY'
 root = ENV.fetch("ROOT_DIR")
 started_at = Time.at(Integer(ENV.fetch("BUILD_STARTED_EPOCH")))
@@ -202,7 +189,10 @@ manifest = {
   "generated_at" => Time.now.utc.iso8601,
   "application_id" => "app.cool.mobile",
   "artifact_version" => "#{ENV.fetch("BUILD_NAME")}+#{ENV.fetch("BUILD_NUMBER")}",
-  "production_supabase_url" => "https://lhbowpbcpwoiparwnwgt.supabase.co",
+  "backend" => "supabase",
+  "production_api_url" => JSON.parse(File.read(ENV.fetch("DEFINES_FILE"))).fetch("SUPABASE_API_URL"),
+  "supabase_project_url" => JSON.parse(File.read(ENV.fetch("DEFINES_FILE"))).fetch("SUPABASE_URL"),
+  "public_runtime_config_sha256" => Digest::SHA256.hexdigest(JSON.generate(JSON.parse(File.read(ENV.fetch("DEFINES_FILE"))).sort.to_h)),
   "mobile_evidence_mode" => false,
   "artifacts" => artifacts
 }

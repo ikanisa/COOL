@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'privacy_test_support.dart';
 
@@ -24,10 +24,10 @@ Matcher fails(PrivacyFailure failure) => throwsA(
 
 class Harness {
   Harness._(this.auth, this.authority, this.controller, this.transport);
-  final GoTrueClient auth;
-  final GoTruePrivacySessionAuthority authority;
+  final CollectAuthClient auth;
+  final CollectPrivacySessionAuthority authority;
   final PrivacyRequestController controller;
-  final SupabasePrivacyRequestTransport transport;
+  final CollectPrivacyRequestTransport transport;
 
   static Future<Harness> create(
     Future<http.Response> Function(http.Request) callback, {
@@ -36,23 +36,22 @@ class Harness {
     String? phone,
     String Function()? newId,
   }) async {
-    final auth = GoTrueClient(
-      url: 'https://synthetic.invalid/auth/v1',
-      autoRefreshToken: false,
+    final auth = CollectCloudflareClient(
+      'https://synthetic.invalid',
       httpClient: MockClient(
         (r) async => r.url.path.endsWith('/logout')
-            ? http.Response('', 204)
+            ? http.Response('{"ok":true}', 200)
             : throw StateError('No live Auth HTTP allowed'),
       ),
-    );
+    ).auth;
     await auth.recoverSession(
       jsonEncode(privacySession(phone: phone ?? '+250788000001').toJson()),
     );
-    final authority = GoTruePrivacySessionAuthority(auth);
-    final transport = SupabasePrivacyRequestTransport(
+    final authority = CollectPrivacySessionAuthority(auth);
+    final transport = CollectPrivacyRequestTransport(
       httpClient: MockClient(callback),
-      supabaseUrl: 'https://synthetic.invalid',
-      publishableKey: 'SYNTHETIC_PUBLIC_KEY',
+      apiUrl: 'https://synthetic.invalid',
+
       captchaRequired: captcha,
       timeout: timeout,
     );
@@ -75,14 +74,16 @@ class Harness {
     await controller.verifyCode('123456');
   }
 
-  Future<void> replace(Session session) async {
+  Future<void> replace(CollectAuthSession session) async {
     await auth.recoverSession(jsonEncode(session.toJson()));
-    auth.notifyAllSubscribers(AuthChangeEvent.signedIn);
+    auth.notifyAllSubscribers(CollectAuthEvent.signedIn);
   }
 }
 
 http.Response defaultResponse(http.Request request) {
-  if (request.url.path.endsWith('/otp')) return http.Response('{}', 200);
+  if (request.url.path.endsWith('/otp')) {
+    return http.Response('{"challenge_id":"synthetic-privacy-challenge"}', 200);
+  }
   if (request.url.path.endsWith('/verify')) {
     return http.Response(
       jsonEncode(privacySession(sid: privacyNewSid).toJson()),
@@ -180,10 +181,8 @@ void main() {
       await h.controller.sendCode(captchaToken: 'SYNTHETIC_CAPTCHA');
       expect(jsonDecode(seen.single.body), {
         'phone': '+250788000001',
-        'data': {},
-        'create_user': false,
-        'gotrue_meta_security': {'captcha_token': 'SYNTHETIC_CAPTCHA'},
-        'channel': 'whatsapp',
+        'surface': 'member',
+        'captcha_token': 'SYNTHETIC_CAPTCHA',
       });
       await h.controller.verifyCode(
         '123456',
@@ -191,15 +190,15 @@ void main() {
       );
       expect(jsonDecode(seen.last.body), {
         'phone': '+250788000001',
-        'token': '123456',
-        'type': 'sms',
-        'redirect_to': null,
-        'gotrue_meta_security': {'captcha_token': 'SYNTHETIC_CAPTCHA'},
+        'code': '123456',
+        'challenge_id': 'synthetic-privacy-challenge',
+        'surface': 'member',
+        'captcha_token': 'SYNTHETIC_CAPTCHA',
       });
       for (final request in seen) {
-        expect(request.headers['apikey'], 'SYNTHETIC_PUBLIC_KEY');
+        expect(request.headers.containsKey('apikey'), isFalse);
         expect(request.headers['authorization'], startsWith('Bearer '));
-        expect(request.headers['x-supabase-api-version'], '2024-01-01');
+        expect(request.url.path, startsWith('/v1/auth/'));
         expect(request.followRedirects, isFalse);
       }
       expect(h.authority.capture().sessionId, privacyNewSid);
@@ -237,7 +236,7 @@ void main() {
             await h.replace(privacySession());
           case 'logout':
             h.authority.invalidate();
-            await h.auth.signOut(scope: SignOutScope.local);
+            await h.auth.signOut(scope: CollectSignOutScope.local);
           case 'logout-start':
             h.authority.invalidate();
           case 'cancel':
@@ -277,7 +276,9 @@ void main() {
       await started.future;
       h.controller.cancel();
       final expectation = expectLater(sending, fails(PrivacyFailure.cancelled));
-      response.complete(http.Response('{}', 200));
+      response.complete(
+        http.Response('{"challenge_id":"synthetic-privacy-challenge"}', 200),
+      );
       await expectation;
       expect(h.controller.codeSent, isFalse);
     },
@@ -293,12 +294,14 @@ void main() {
       });
       final first = h.controller.sendCode();
       await expectLater(h.controller.sendCode(), fails(PrivacyFailure.busy));
-      response.complete(http.Response('{}', 200));
+      response.complete(
+        http.Response('{"challenge_id":"synthetic-privacy-challenge"}', 200),
+      );
       await first;
       expect(calls, 1);
     },
   );
-  for (final candidate in <String, Session Function()>{
+  for (final candidate in <String, CollectAuthSession Function()>{
     'wrong subject': () =>
         privacySession(subject: privacyOtherSubject, sid: privacyNewSid),
     'different phone': () =>
@@ -472,7 +475,7 @@ void main() {
       expect(h.controller.pendingIdentity, isNull);
       expect(
         seen.single.url.path,
-        '/rest/v1/rpc/get_current_account_deletion_request_status_v1',
+        '/v1/rpc/get_current_account_deletion_request_status_v1',
       );
       expect(jsonDecode(seen.single.body), {});
       expect(protectedCalls, 0);

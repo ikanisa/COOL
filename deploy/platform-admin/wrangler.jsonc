@@ -1,0 +1,35 @@
+{
+  "name": "collect-platform-admin",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-14",
+  "account_id": "2209b915a85b1c11cee79b7806c6e73b",
+  "workers_dev": false,
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "ADMIN_ORIGIN": "https://platform-admin.collect.ikanisa.com",
+    "COLLECT_BACKEND": "cloudflare"
+  },
+  "services": [
+    {
+      "binding": "PLATFORM_API",
+      "service": "collect-platform-api"
+    }
+  ],
+  "assets": {
+    "directory": "./assets",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/api",
+      "/api/*"
+    ]
+  },
+  "routes": [
+    {
+      "pattern": "platform-admin.collect.ikanisa.com",
+      "custom_domain": true
+    }
+  ]
+}

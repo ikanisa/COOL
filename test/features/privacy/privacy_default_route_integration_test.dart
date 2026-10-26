@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/features/privacy/privacy_providers.dart';
 import 'package:collect_app/features/privacy/privacy_request_screen.dart';
 import 'package:collect_app/features/privacy/privacy_transport.dart';
@@ -21,10 +21,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'privacy_test_support.dart';
+
+class _NativeHttp extends HttpOverrides {}
+
+String _domainTail(String path) => switch (path.split('/').last) {
+  'notification-events' => 'notification_events',
+  'public-collections' => 'public_collections_view',
+  final tail => tail,
+};
 
 const _route = '/settings/account/delete';
 const _sms = MethodChannel('collect/sms_access');
@@ -41,24 +49,24 @@ const _initialReads = {
 
 // Real default repository, protected-cache adapter, provider-owned controller,
 // appRouterProvider and global redirect. Only transport replies and platform
-// method-channel replies are synthetic. Phoenix joins/replies traverse a real
-// loopback WebSocket using the locked SDK; no hosted/RLS/native claim follows.
+// method-channel replies are synthetic. Bounded invalidation polling traverses
+// real loopback HTTP with captured authorization; no hosted/device claim follows.
 class _DefaultRouteHarness {
   _DefaultRouteHarness(this.tester);
   final WidgetTester tester;
   late HttpServer server;
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
   late GoRouter router;
-  final sockets = <WebSocket>[];
+  late IOClient syncHttp;
+  late Zone _clientZone;
   final requests = <http.Request>[];
   final events = <Map<String, Object?>>[];
   final nativeEntered = Completer<void>();
   final nativeRelease = Completer<bool>();
-  int joins = 0;
+  int polls = 0;
   bool holdNextNative = false;
   bool denyProfile = false;
-  bool closing = false;
   String verifiedOwner = privacySubject;
   String? protectedValue;
   late ProviderSubscription<CollectState> repositorySubscription;
@@ -92,7 +100,10 @@ class _DefaultRouteHarness {
 
   Future<http.Response> sdkReply(http.Request request) async {
     requests.add(request);
-    final tail = request.url.path.split('/').last;
+    if (request.url.path == '/v1/sync') {
+      return syncHttp.get(request.url, headers: request.headers);
+    }
+    final tail = _domainTail(request.url.path);
     final identity = claims(request.headers['Authorization']);
     final owner = identity['sub'];
     events.add({
@@ -121,10 +132,16 @@ class _DefaultRouteHarness {
       'list_current_user_collections' => [],
       'list_current_member_recent_intents' => {'items': [], 'pending_count': 0},
       'list_current_member_history_page' => {
+        'contract_version': 2,
+        'contribution_basis': 'reconciled_evidence_entries',
         'items': [],
         'total_count': 0,
-        'totals': {},
-        'own_totals': {},
+        'totals': {'RWF': 0},
+        'own_totals': {'RWF': 0},
+        'credit_totals': {'RWF': 0},
+        'debit_totals': {'RWF': 0},
+        'own_credit_totals': {'RWF': 0},
+        'own_debit_totals': {'RWF': 0},
         'own_collection_ids': [],
         'revision': '0123456789abcdef0123456789abcdef',
         'next_cursor': null,
@@ -152,7 +169,9 @@ class _DefaultRouteHarness {
     requests.add(request);
     final tail = request.url.path.split('/').last;
     events.add({'kind': 'privacy', 'tail': tail});
-    if (tail == 'otp') return json(request, {});
+    if (tail == 'otp') {
+      return json(request, {'challenge_id': 'synthetic-privacy-challenge'});
+    }
     if (tail == 'verify') {
       return json(
         request,
@@ -219,61 +238,43 @@ class _DefaultRouteHarness {
       throw StateError('Unexpected protected-cache fixture ${call.method}');
     });
     await tester.runAsync(() async {
+      _clientZone = Zone.current;
       server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
       server.listen((request) async {
-        if (!WebSocketTransformer.isUpgradeRequest(request)) {
+        if (request.method != 'GET' || request.uri.path != '/v1/sync') {
           request.response.statusCode = 404;
           await request.response.close();
           return;
         }
-        final socket = await WebSocketTransformer.upgrade(request);
-        sockets.add(socket);
-        socket.listen((raw) {
-          final frame = jsonDecode(raw as String) as List;
-          final event = frame[3];
-          Map<String, Object?> response = {};
-          if (event == 'phx_join') {
-            joins++;
-            final filters =
-                ((frame[4] as Map)['config'] as Map)['postgres_changes']
-                    as List;
-            response = {
-              'postgres_changes': [
-                for (final filter in filters) {...filter as Map, 'id': 1},
-              ],
-            };
-            events.add({'kind': 'real_websocket_join', 'count': joins});
-          }
-          if (!closing &&
-              socket.readyState == WebSocket.open &&
-              ['phx_join', 'phx_leave', 'heartbeat'].contains(event)) {
-            socket.add(
-              jsonEncode([
-                frame[0],
-                frame[1],
-                frame[2],
-                'phx_reply',
-                {'status': 'ok', 'response': response},
-              ]),
-            );
-          }
+        final owner = claims(
+          request.headers.value(HttpHeaders.authorizationHeader),
+        );
+        expect(owner['sub'], anyOf(privacySubject, privacyOtherSubject));
+        expect(request.uri.queryParameters['limit'], '100');
+        expect(
+          request.uri.queryParameters['cursor'],
+          matches(RegExp(r'^[0-9]+$')),
+        );
+        polls++;
+        events.add({
+          'kind': 'real_http_sync',
+          'count': polls,
+          'owner': owner['sub'],
         });
+        request.response.headers.contentType = ContentType.json;
+        request.response.write(jsonEncode({'events': [], 'cursor': '0'}));
+        await request.response.close();
       });
+      syncHttp = IOClient(_NativeHttp().createHttpClient(null));
       final url = 'http://127.0.0.1:${server.port}';
-      client = SupabaseClient(
-        url,
-        'SYNTHETIC_PUBLIC_KEY',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
-        httpClient: MockClient(sdkReply),
-      );
+      client = CollectCloudflareClient(url, httpClient: MockClient(sdkReply));
       await client.auth.recoverSession(jsonEncode(privacySession().toJson()));
       container = ProviderContainer(
         overrides: [
-          supabaseClientProvider.overrideWithValue(client),
+          collectBackendClientProvider.overrideWithValue(client),
           appEnvProvider.overrideWithValue(
             AppEnv(
-              supabaseUrl: url,
-              supabaseAnonKey: 'SYNTHETIC_PUBLIC_KEY',
+              apiUrl: url,
               publicUrl: '',
               adminAppUrl: '',
               enableSmsReader: false,
@@ -283,13 +284,14 @@ class _DefaultRouteHarness {
               authCaptchaEnabled: false,
               authCaptchaProvider: '',
               authCaptchaSiteKey: '',
+              backend: 'cloudflare',
             ),
           ),
           privacyRequestTransportProvider.overrideWithValue(
-            SupabasePrivacyRequestTransport(
+            CollectPrivacyRequestTransport(
               httpClient: MockClient(privacyReply),
-              supabaseUrl: url,
-              publishableKey: 'SYNTHETIC_PUBLIC_KEY',
+              apiUrl: url,
+
               captchaRequired: false,
             ),
           ),
@@ -308,12 +310,12 @@ class _DefaultRouteHarness {
         () =>
             state.currentProfile?.id == privacySubject &&
             !state.isLoading &&
-            joins > 0 &&
+            polls > 0 &&
             protectedValue != null,
       );
       expect(state.lastError, isNull);
       expect(
-        requests.map((r) => r.url.path.split('/').last).toSet(),
+        requests.map((r) => _domainTail(r.url.path)).toSet(),
         containsAll(_initialReads),
       );
       router = container.read(appRouterProvider);
@@ -406,7 +408,7 @@ class _DefaultRouteHarness {
   }
 
   void observe(String label) => debugPrintSynchronously(
-    'PRIVACY_DEFAULT_ROUTE_PROBE ${jsonEncode({'label': label, 'route': path, 'owner': state.currentProfile?.id, 'is_loading': state.isLoading, 'deletion_form_count': find.byType(DeleteAccountRequestScreen).evaluate().length, 'code_verified_count': find.text('Code verified').evaluate().length, 'submit_calls': calls('request_account_deletion_v1').length, 'native_held': nativeEntered.isCompleted && !nativeRelease.isCompleted, 'real_websocket_joins': joins, 'events': events})}',
+    'PRIVACY_DEFAULT_ROUTE_PROBE ${jsonEncode({'label': label, 'route': path, 'owner': state.currentProfile?.id, 'is_loading': state.isLoading, 'deletion_form_count': find.byType(DeleteAccountRequestScreen).evaluate().length, 'code_verified_count': find.text('Code verified').evaluate().length, 'submit_calls': calls('request_account_deletion_v1').length, 'native_held': nativeEntered.isCompleted && !nativeRelease.isCompleted, 'real_http_sync_reads': polls, 'events': events})}',
   );
 
   Future<void> resume() async {
@@ -427,14 +429,15 @@ class _DefaultRouteHarness {
     router.dispose();
     repositorySubscription.close();
     container.dispose();
+    // Session adoption and provider disposal can enqueue work in the widget's
+    // fake clock. Flush it before waiting on the real-zone client storage tail
+    // and stream close; a real delay cannot drive that fake-zone work.
+    await tester.pump();
+    final closing = _clientZone.run(client.dispose);
     await tester.runAsync(() async {
-      await Future<void>.delayed(const Duration(milliseconds: 30));
-      closing = true;
-      await client.dispose();
-      for (final socket in sockets) {
-        await socket.close();
-      }
-      await server.close(force: true);
+      await closing.timeout(const Duration(seconds: 3));
+      syncHttp.close();
+      await server.close(force: true).timeout(const Duration(seconds: 3));
     });
     final messenger =
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
@@ -503,7 +506,36 @@ void main() {
       await h.mount();
       try {
         await h.verifyWithNativeHeld();
-        await tester.runAsync(() => h.repository.signOut());
+        var signedOut = false;
+        Object? signOutFailure;
+        final signingOut = h._clientZone
+            .run(h.repository.signOut)
+            .then(
+              (_) {
+                signedOut = true;
+              },
+              onError: (Object error) {
+                signOutFailure = error;
+                signedOut = true;
+              },
+            );
+        // Interleave real transport progress and the widget-owned storage tail.
+        // Blocking runAsync alone cannot execute callbacks queued by adoption
+        // in the fake widget clock, even after its privacy form has disappeared.
+        final deadline = Stopwatch()..start();
+        while (!signedOut && deadline.elapsed < const Duration(seconds: 3)) {
+          await tester.pump(const Duration(milliseconds: 10));
+          await tester.runAsync(
+            () => Future<void>.delayed(const Duration(milliseconds: 10)),
+          );
+        }
+        expect(
+          signedOut,
+          isTrue,
+          reason: 'Logout must finish within the owned test deadline.',
+        );
+        expect(signOutFailure, isNull);
+        await signingOut;
         await h.flush();
         h.observe('logout_native_held');
         expect(h.client.auth.currentUser, isNull);

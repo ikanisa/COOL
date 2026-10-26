@@ -10,6 +10,7 @@ import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/app/theme/collect_spacing.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
 import 'package:collect_app/app/theme/collect_universal_tokens.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/features/landing/collect_landing_page.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
@@ -113,6 +114,7 @@ void main() {
             ProviderScope(
               key: ValueKey('target-contract:$route'),
               overrides: [
+                collectBackendClientProvider.overrideWithValue(null),
                 appRouterProvider.overrideWithValue(router),
                 collectRepositoryProvider.overrideWith(
                   (ref) => FixtureCollectRepository(),
@@ -183,6 +185,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             overrides: [
+              collectBackendClientProvider.overrideWithValue(null),
               adminAuthGuardProvider.overrideWithValue(
                 const AdminAuthGuard(isAuthorized: true),
               ),

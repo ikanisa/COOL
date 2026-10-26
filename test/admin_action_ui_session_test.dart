@@ -3,19 +3,18 @@ import 'dart:convert';
 
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as fixture;
 import 'support/admin_read_fixture.dart';
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
   late Future<http.Response> Function() retry;
   late int retryCalls;
@@ -34,10 +33,8 @@ void main() {
     disposed = false;
     retry = () async =>
         fixture.response({'ok': true, 'status': 'queued', 'delivery_count': 1});
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         http.Response result;
         if (request.url.path.endsWith('/verify')) {
@@ -70,7 +67,7 @@ void main() {
     await fixture.session(client, 'session-a');
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminIdentityProvider.overrideWith((ref) {
           final identity = ref.watch(identityState);
           return ref.watch(delayedIdentity) ?? Future.value(identity);
@@ -90,8 +87,7 @@ void main() {
   }
 
   Future<void> network(WidgetTester tester) async {
-    // PostgREST decodes via its actual background JSON worker; allow that
-    // worker to finish outside the widget test's fake clock.
+    // Allow asynchronous Cloudflare client replies to complete outside widget fake time.
     await tester.runAsync(
       () => Future<void>.delayed(const Duration(milliseconds: 30)),
     );

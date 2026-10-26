@@ -9,7 +9,7 @@ import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_receipt_operational_telemetry.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +18,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
 
@@ -87,16 +86,14 @@ const _owner = AdminIdentity(
 );
 
 class _Sdk {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   final requests = <http.Request>[];
   late Future<http.Response> Function(http.Request) respond;
   Future<void> start() async {
     respond = (_) async => auth.response(_sample());
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final token = (jsonDecode(request.body)['token'] as String).split(
@@ -168,7 +165,7 @@ void main() {
       expect(request.method, 'POST');
       expect(
         request.url.path,
-        '/rest/v1/rpc/admin_get_receipt_operational_telemetry_v1',
+        '/v1/rpc/admin_get_receipt_operational_telemetry_v1',
       );
       expect(jsonDecode(request.body), {});
       expect(
@@ -199,7 +196,7 @@ void main() {
               failure == 'lost'
                   ? isA<TimeoutException>()
                   : failure == '403' || failure == '503'
-                  ? isA<PostgrestException>()
+                  ? isA<CollectApiException>()
                   : isA<FormatException>(),
             ),
           );
@@ -253,7 +250,7 @@ void main() {
       repository = _Repository();
       container = ProviderContainer(
         overrides: [
-          supabaseClientProvider.overrideWithValue(sdk.client),
+          collectBackendClientProvider.overrideWithValue(sdk.client),
           adminRepositoryProvider.overrideWithValue(repository),
           adminRealtimeSubscriptionProvider.overrideWith((ref) {}),
           adminIdentityProvider.overrideWith((ref) => ref.watch(authority)),
@@ -506,7 +503,7 @@ void main() {
         ];
         await mount(tester);
         expect(
-          find.text('Measurements unavailable. Measurement timed out.'),
+          find.text('Legacy measurements unavailable. Measurement timed out.'),
           findsOneWidget,
         );
         expect(find.text('Receipt backlog age · Superseded'), findsOneWidget);
@@ -529,10 +526,7 @@ void main() {
       (tester) async {
         repository.gate = Completer<void>();
         await mount(tester);
-        expect(
-          find.textContaining('Loading receipt operations'),
-          findsOneWidget,
-        );
+        expect(find.textContaining('Loading legacy receipt'), findsOneWidget);
         container.read(authority.notifier).state = Future.value(
           const AdminIdentity(
             userId: auth.actor,

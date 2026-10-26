@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/collect_scroll_fixture.dart';
 
 class _UnknownRepository extends FixtureCollectRepository {
   _UnknownRepository({bool own = false}) {
@@ -54,6 +56,7 @@ Future<ProviderContainer> _pump(
   final router = createAppRouter(initialLocation: route);
   final container = ProviderContainer(
     overrides: [
+      collectBackendClientProvider.overrideWithValue(null),
       appRouterProvider.overrideWithValue(router),
       collectRepositoryProvider.overrideWith((_) => repo),
       if (absentHistory)
@@ -144,6 +147,8 @@ void main() {
       absentHistory: true,
       historyGroup: 'qa-private-group',
     );
+    await revealCollectPageContent(tester, find.text('Could not load data'));
+    await tester.pumpAndSettle();
     expect(find.text('Could not load data'), findsOneWidget);
     expect(find.text('No contributions yet'), findsNothing);
     expect(tester.takeException(), isNull);

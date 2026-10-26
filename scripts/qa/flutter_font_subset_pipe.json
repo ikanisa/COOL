@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "scope": "Pinned local private Flutter tool-source correction; not an app runtime dependency or stock Flutter qualification",
+  "qualified_Flutter_version": "3.44.4",
+  "qualified_framework_revision": "ad70ec4617",
+  "target": "packages/flutter_tools/lib/src/build_system/targets/icon_tree_shaker.dart",
+  "preimage": {
+    "bytes": 15362,
+    "sha256": "57d400b7045f843350422142059f7bcc3bec4fae21561248ab3d69c99fefa3fa"
+  },
+  "postimage": {
+    "bytes": 15684,
+    "sha256": "22b391dd98401f9805601025569177f0a03b7db3a629f753c48089266335507a"
+  },
+  "patch": {
+    "path": "scripts/qa/flutter_font_subset_pipe.patch",
+    "bytes": 1328,
+    "sha256": "9b58b2928dc1831e2f0aaba912b041ec82f0d4bdd90a966dabc2dbe2625bac75"
+  },
+  "snapshot_rebuild_required": true,
+  "qualified_private_snapshot_sha256": "d858301bb2302ffcb5f999eda192d979832e363eeeec3cbd99113803ddc7fa2f",
+  "existing_icon_tree_shaker_suite_cases": 17,
+  "dedicated_new_backpressure_unit_test_added": false,
+  "qualification_receipt": "/Users/jeanbosco/Library/Caches/collect-supabase-native-qualification-20261020/ios-font-subset-pipe-fix1/run1/RESULT.json",
+  "actual_predecessor_deadlock": "/Users/jeanbosco/Library/Caches/collect-supabase-native-qualification-20261020/pd13-ios-native-refresh-prep1/run1/ROOT-DIAGNOSED-STOP.json",
+  "actual_current_archive_export": "/Users/jeanbosco/Library/Caches/collect-supabase-native-qualification-20261020/google-client-ios-refresh-prep1/run1/RESULT.json",
+  "actual_current_exported_IPA_verification": "/Users/jeanbosco/Library/Caches/collect-supabase-native-qualification-20261020/supabase-member-realtime-ios-ipa-verification-google1/RESULT.json",
+  "shared_SDK_patch_authorized_or_required": false,
+  "future_versions_require_fresh_source_review": true,
+  "upstream_semantics": "https://api.dart.dev/dart-io/Process-class.html"
+}

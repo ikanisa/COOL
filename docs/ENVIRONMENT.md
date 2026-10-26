@@ -1,82 +1,119 @@
-# Environment
+# Collect environment and production transition
 
-## SDK
+Status at the 24 October 2026 checkpoint: production cutover remains open. The
+current release work covers Collect Android, the Admin PWA and Supabase. A
+configured target, local build or QA deployment does not establish production
+acceptance.
 
-Use the project Flutter/Dart SDK:
+## Verified hosted checkpoint
 
-- Flutter: `/Users/jeanbosco/Developer/flutter/bin/flutter`
-- Dart: `/Users/jeanbosco/Developer/flutter/bin/dart`
-- Pinned target: Flutter `3.44.4`, Dart `3.12.2`
+The nominated Supabase project is `rrlduytparvsjfmegalh` at
+`https://rrlduytparvsjfmegalh.supabase.co`. The accepted bounded hosted checkpoint
+uses source
+`02271fa60bd8630182f9824b35405fdb4dcb7fa9ac682bfe2c95c55e59e3a616`,
+14 migrations and function versions `collect-api` 28, `admin-api` 29 and
+`collect-jobs` 26. These identities describe that checkpoint; later source,
+configuration and deployments require their own reconciliation.
 
-Local generated files such as `android/local.properties` point `flutter.sdk` to
-that SDK. CI resolves the same version from `.fvmrc`.
+The matching Admin QA build is hosted on Cloudflare at
+`https://admin-supabase-qa.collect.ikanisa.com`, using worker
+`collect-platform-admin-supabase-qa`. The accepted evidence covers its deployed
+version and bounded static-body pairing. The production-profile build remains a
+candidate: this QA publication does not establish a production Admin deployment,
+authenticated actor acceptance or installed PWA behavior.
 
-## Flutter runtime values
+The older complete client export and its later backend pairing have separate
+provenance. Do not describe an unchanged client export as containing subsequent
+backend, legal, notice or recovery-source changes.
 
-- `SUPABASE_URL`
-- `SUPABASE_ANON_KEY`
-- `APP_PUBLIC_URL`
-- `APP_ENVIRONMENT`
-- `APNS_ENVIRONMENT`
-- `ENABLE_ADMIN_PANEL`
-- `ENABLE_ADMIN_DEV_TOOLS`
-- `ENABLE_SMS_READER`
-- `ENABLE_ANDROID_SMS_ACCESS`
-- `PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER` (non-secret Google Cloud project number
-  linked to Collect under Play Integrity API settings)
+## Public client configuration
 
-Android production builds set both SMS switches to `true`, but receipt access
-remains off until an authenticated Rwanda member explicitly consents. The app never requests `READ_SMS`. The
-production Android build fails closed unless the linked Play Integrity project
-number is present; do not substitute the Firebase project number unless Play
-Console confirms that it is the linked project.
+The selected toolchain is Flutter `3.44.4` with its bundled Dart `3.12.2`;
+`.fvmrc` pins Flutter. Local and CI commands must use the qualified installation
+of that SDK and its bundled Dart. Generated machine settings must use that SDK.
+The guarded native production configuration nominates:
 
-## Supabase function secrets
+| Setting | Intended value or source |
+| --- | --- |
+| `COLLECT_BACKEND` | `supabase` |
+| `SUPABASE_URL` | `https://rrlduytparvsjfmegalh.supabase.co` |
+| `SUPABASE_API_URL`, `SUPABASE_ADMIN_API_URL` | `https://platform-admin.collect.ikanisa.com` |
+| `APP_PUBLIC_URL` | `https://collect.ikanisa.com` |
+| `ADMIN_APP_URL` | `https://platform-admin.collect.ikanisa.com` |
+| `SUPABASE_PUBLISHABLE_KEY` | Separately verified public client configuration |
+| `AUTH_CAPTCHA_ENABLED`, `AUTH_CAPTCHA_PROVIDER` | `true`, `turnstile` |
+| `AUTH_CAPTCHA_SITE_KEY` | Separately verified public site configuration |
+| `GOOGLE_AUTH_ENABLED` | Disabled unless separately configured and accepted |
 
-Core:
+`COLLECT_API_URL`, when supplied as a compatibility alias, must match the
+reviewed Supabase API origin. Nominating these production origins does not prove
+their current proxy routing, Auth destinations or production cutover. Keep the
+distinct QA profile and its origin explicit.
 
-- `SUPABASE_URL`
-- `SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `INTERNAL_FUNCTION_SECRET`
-- `WHATSAPP_CLOUD_API_TOKEN`
-- `WHATSAPP_PHONE_NUMBER_ID`
-- `WHATSAPP_AUTH_TEMPLATE_NAME`
-- `SEND_SMS_HOOK_SECRET`
+For the intended production profile, the compatibility value is
+`COLLECT_API_URL=https://platform-admin.collect.ikanisa.com`. The public
+`.env.example` names the same Supabase project and origins; its empty public key
+and Play project fields still require verified configuration before a build.
 
-Android device verification:
+Client files contain public configuration only. Database credentials, service
+credentials, signing material and encryption keys remain outside source exports,
+Flutter defines and web assets. Public Firebase configuration and the actual
+Play Integrity project binding must be verified for the nominated Android
+package; a Firebase project number alone does not prove the Play binding.
 
-- `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` for server-side Play Integrity decoding
-  before a user can create an Android-only private group
+Server-only credential names include `FCM_SERVICE_ACCOUNT_JSON`,
+`PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON`, `AUTH_JWT_SECRET`,
+`AUTH_TOKEN_HASH_SECRET` and `DATA_ENCRYPTION_KEY` where their corresponding
+services or retained legacy backend use them. Keep their values in the relevant
+server secret store, never in `.env.example`, Flutter defines or web assets.
+The retained iOS name `APNS_PRIVATE_KEY_BASE64` has the same server-only boundary;
+iOS/APNs distribution is outside this Android release. These names do not
+activate a provider or establish key custody or production approval. The public
+`PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER` is separate from its private service
+credential and must identify the project actually linked to this Android app.
 
-Push delivery:
+## Authentication and controlled activation
 
-- `FCM_SERVICE_ACCOUNT_JSON` containing the dedicated Firebase service-account
-  JSON for Android FCM HTTP v1
-- `APNS_KEY_ID`
-- `APNS_TEAM_ID`
-- `APNS_BUNDLE_ID` (`app.cool.mobile` in production)
-- `APNS_PRIVATE_KEY_BASE64`
+Email proof is the current Admin authentication path. Mandatory authenticator
+enrollment is retired; do not reinstate it as a sign-in or release prerequisite.
+Actual email delivery, roles, invitations, recovery and complete Owner/operator
+journeys retain their separate acceptance requirements.
 
-Optional WhatsApp aliases and tuning values remain supported by
-`auth-send-whatsapp-otp`; see the function source. Do not place service-role,
-HMAC, WhatsApp, FCM, or APNs secrets in Flutter dart-defines or committed files.
+The hosted checkpoint retains registration disabled and MoMo execution paused.
+Google authentication and Realtime remain conditional and disabled at this
+checkpoint; the tested polling path remains the current client path. CAPTCHA
+remains enabled. Configuration or a provider response must not be relabelled as
+completed member, provider or production acceptance.
 
-## Build flavors
+Android receipt access requires the eligible authenticated member, explicit
+consent and the actual permission/provider admission controls. The guarded
+production wrapper sets the Android SMS switches; a source setting or unsigned
+AAB does not establish permission approval or real MTN/Airtel behavior.
+Android production builds set both SMS switches to `true` through the guarded
+configuration. This does not grant consent or Google Play permission approval;
+the public example keeps SMS access disabled until that controlled build path.
+The public permission contract has no `READ_SMS`, `SEND_SMS` or Call Log permission.
+`RECEIVE_SMS` and `CALL_PHONE` still require the applicable declaration, device
+and release checks. Collect never receives a member's MoMo PIN or provider OTP.
 
-- `dev`: development with the same Android-native bridges; runtime use still
-  requires an authenticated Rwanda profile and explicit consent.
-- `internal_receiver`: retained for controlled compatibility testing.
-- `production`: Android member build with `RECEIVE_SMS` and `CALL_PHONE` for
-  Rwanda MoMo only; it has no `READ_SMS`, `SEND_SMS`, or Call Log permission.
+## Hosting, recovery and release boundaries
 
-No flavor embeds payment-provider credentials. Rwanda members approve a
-pre-filled MTN MoMo request or the Airtel merchant menu in USSD and enter their
-PIN only there.
+Cloudflare continues to host frontend surfaces. The legacy Cloudflare business
+backend, D1 and private R2 authority must not be described as retired until the
+qualified one-writer Supabase cutover, observation and old-client transition are
+complete. Retained legacy source and archives support recovery and compatibility;
+their presence does not nominate them as the target production architecture.
 
-## Local Supabase
+Application/database, managed Auth, Storage objects, configuration and key
+custody are separate recovery scopes. Accepted bounded captures or inert restores
+do not establish complete operational recovery, independent custody or measured
+whole-system RPO/RTO. Keep unresolved obligations and retained recovery evidence
+under their existing controls.
 
-The repository uses non-default ports in `supabase/config.toml`. Local database,
-API, and Auth are sufficient for migrations, RLS, SQL lint, and Rwanda MoMo readiness UAT.
-Operator scripts resolve `SUPABASE_BIN` first, then a local CLI. Linked-database
-scripts similarly resolve `PSQL_BIN` before their documented fallback.
+Final-version CI and genuine approvals, Android signing, installed device and
+provider journeys, Admin actor/financial/PWA acceptance, matching production
+deployment, operational recovery and Google Play production availability remain
+release gates. Neither the Supabase checkpoint nor the Cloudflare QA publication
+completes those gates. Consult the current production goal and execution trackers
+before activation or retirement; preserve historical results when qualifying a
+successor.

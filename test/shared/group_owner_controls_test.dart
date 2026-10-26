@@ -7,7 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
+import '../support/synthetic_jwt.dart';
 
 class _GroupControlRepository extends FixtureCollectRepository {
   _GroupControlRepository({bool publicGroup = false, bool platform = false})
@@ -167,24 +168,24 @@ void main() {
       'group admin request validates $target without platform approval or retired RPC',
       () async {
         final requests = <http.Request>[];
-        final client = SupabaseClient(
+        final client = CollectCloudflareClient(
           'http://127.0.0.1:1',
-          'local-test-key',
-          authOptions: const AuthClientOptions(autoRefreshToken: false),
           httpClient: MockClient((request) async {
             requests.add(request);
             return http.Response('{}', 200, request: request);
           }),
         );
         addTearDown(client.dispose);
-        await client.auth.setInitialSession(
+        await client.auth.recoverSession(
           jsonEncode({
-            'access_token': 'local-test-access',
+            'access_token': syntheticMemberAccessToken(
+              '10000000-0000-0000-0000-000000000001',
+            ),
             'refresh_token': 'local-test-refresh',
             'token_type': 'bearer',
             'expires_in': 3600,
             'user': {
-              'id': 'local-user',
+              'id': '10000000-0000-0000-0000-000000000001',
               'aud': 'authenticated',
               'app_metadata': <String, Object>{},
               'user_metadata': <String, Object>{},
@@ -192,7 +193,18 @@ void main() {
             },
           }),
         );
-        final repo = FixtureCollectRepository(supabase: client);
+        final repo = FixtureCollectRepository(
+          backend: client,
+          profileOverride: const CollectProfile(
+            id: '10000000-0000-0000-0000-000000000001',
+            publicId: '038491',
+            whatsappPhone: '+250788123456',
+            countryCode: 'RW',
+            currencyCode: 'RWF',
+            momoProvider: 'mtn_momo',
+            momoNumber: '0788123456',
+          ),
+        );
         addTearDown(repo.dispose);
         expect(repo.isLive, isTrue);
         final before = repo.state;
@@ -204,7 +216,7 @@ void main() {
           throwsFormatException,
         );
         if (target == '123456') {
-          expect(requests.single.url.path, '/rest/v1/rpc/add_group_admin');
+          expect(requests.single.url.path, '/v1/rpc/add_group_admin');
           expect(jsonDecode(requests.single.body), {
             'collection': 'qa-private-group',
             'member_public_id': '123456',
@@ -302,7 +314,7 @@ void main() {
       );
       addTearDown(repo.dispose);
       final profileBefore = repo.state.currentProfile;
-      final group = await repo.createCollection(
+      final group = await repo.createCollectionWithVerifiedReceiver(
         title: 'Member-created group',
         description: 'No platform Admin approval',
         receiverMomoNumber: '0788654321',

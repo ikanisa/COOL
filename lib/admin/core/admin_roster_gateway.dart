@@ -96,13 +96,14 @@ const _safeRosterCodes = {
 };
 AdminRosterRequestError _safeRosterError(Object error) {
   Object? code;
-  if (error is PostgrestException) code = error.message;
-  if (error is FunctionException && error.details is Map) {
+  if (error is CollectApiException) code = error.message;
+  if (error is CollectFunctionException && error.details is Map) {
     code = (error.details as Map)['error'];
   }
   if (!(code is String && _safeRosterCodes.contains(code)) &&
-      ((error is PostgrestException && error.code == '42501') ||
-          (error is FunctionException && {401, 403}.contains(error.status)))) {
+      ((error is CollectApiException && error.code == '42501') ||
+          (error is CollectFunctionException &&
+              {401, 403}.contains(error.status)))) {
     return const AdminRosterRequestError('roster_access_unavailable');
   }
   return AdminRosterRequestError(
@@ -135,8 +136,8 @@ abstract class AdminRosterGateway {
 /// Captures actor/session before file reading. Each dispatch pins the current
 /// token only after checking that original actor/session and invalidation fence.
 /// Same-session refresh is allowed; another session cannot retarget the draft.
-class SupabaseAdminRosterGateway extends AdminRosterGateway {
-  SupabaseAdminRosterGateway(this.client) {
+class CollectAdminRosterGateway extends AdminRosterGateway {
+  CollectAdminRosterGateway(this.client) {
     final session = client.auth.currentSession;
     userId = session?.user.id ?? '';
     sessionId = _sessionId(session);
@@ -155,7 +156,7 @@ class SupabaseAdminRosterGateway extends AdminRosterGateway {
       (event) {
         if (_closed || _invalid) return;
         if (_leaseExpired ||
-            (event.event == AuthChangeEvent.signedOut &&
+            (event.event == CollectAuthEvent.signedOut &&
                 !adminDelayedLocalSignOut(client, event)) ||
             !_matchesOwner(event.session)) {
           _invalidate();
@@ -175,14 +176,14 @@ class SupabaseAdminRosterGateway extends AdminRosterGateway {
   @override
   Future<Object?> recoveryRpc(String name, Map<String, dynamic> params) =>
       _rpc(name, params);
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   late final String userId, sessionId;
-  late final StreamSubscription<AuthState> _subscription;
+  late final StreamSubscription<CollectAuthState> _subscription;
   Timer? _expiry;
   int? _expiresAt;
   final _events = StreamController<void>.broadcast(sync: true);
   bool _invalid = false, _closed = false;
-  static int? _expiration(Session? session) {
+  static int? _expiration(CollectAuthSession? session) {
     try {
       final claims = jsonDecode(
         utf8.decode(
@@ -207,10 +208,10 @@ class SupabaseAdminRosterGateway extends AdminRosterGateway {
   bool get _leaseExpired =>
       _expiresAt != null &&
       DateTime.now().millisecondsSinceEpoch ~/ 1000 >= _expiresAt!;
-  bool _matchesOwner(Session? session) =>
+  bool _matchesOwner(CollectAuthSession? session) =>
       adminSessionKey(session) == (userId: userId, sessionId: sessionId) &&
       _expiration(session) != null;
-  void _scheduleExpiry(Session session) {
+  void _scheduleExpiry(CollectAuthSession session) {
     final expiry = _expiration(session);
     if (expiry == null || _leaseExpired) {
       _invalidate();
@@ -240,7 +241,7 @@ class SupabaseAdminRosterGateway extends AdminRosterGateway {
     );
   }
 
-  static String _sessionId(Session? session) {
+  static String _sessionId(CollectAuthSession? session) {
     try {
       final claims = jsonDecode(
         utf8.decode(
@@ -257,7 +258,7 @@ class SupabaseAdminRosterGateway extends AdminRosterGateway {
     }
   }
 
-  static String _tokenActor(Session? session) {
+  static String _tokenActor(CollectAuthSession? session) {
     try {
       final claims = jsonDecode(
         utf8.decode(

@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../core/cloudflare/collect_cloudflare_client.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/data/exact_json_values.dart';

@@ -82,7 +82,7 @@ class _ConnectionRecoveryScreenState
         ? 'Data refreshed'
         : 'Refresh your data';
     final message = busy
-        ? 'Checking groups and confirmed activity.'
+        ? 'Checking groups and recorded activity.'
         : failed
         ? 'Could not refresh data. Check your connection and try again.'
         : state.usingStaleCache
@@ -91,7 +91,7 @@ class _ConnectionRecoveryScreenState
         ? 'The latest data refresh completed. This does not confirm a payment.'
         : state.collections.isNotEmpty
         ? 'Loaded groups can be opened. Refresh to check for updates.'
-        : 'Refresh to load groups and confirmed activity.';
+        : 'Refresh to load groups and recorded activity.';
 
     final lastSync = state.lastSuccessfulSyncAt?.toLocal();
     final localizations = MaterialLocalizations.of(context);

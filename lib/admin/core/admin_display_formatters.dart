@@ -22,6 +22,20 @@ String adminFormatRwfAmount(String value) {
   return 'RWF $sign$grouped${match[3] == null ? '' : ' ='}';
 }
 
+/// Format an exact integer amount without repeating the local currency code.
+String adminFormatWholeAmount(Object? value) {
+  final digits = '${value ?? ''}'.trim();
+  if (!RegExp(r'^-?[0-9]+$').hasMatch(digits)) return digits;
+  final negative = digits.startsWith('-');
+  final whole = negative ? digits.substring(1) : digits;
+  final grouped = StringBuffer();
+  for (var index = 0; index < whole.length; index++) {
+    if (index > 0 && (whole.length - index) % 3 == 0) grouped.write(',');
+    grouped.write(whole[index]);
+  }
+  return '${negative ? '-' : ''}$grouped';
+}
+
 /// Collect operations use Africa/Kigali (UTC+2 throughout the year), regardless
 /// of the operator's browser or device timezone.
 DateTime? _kigali(DateTime? value) =>

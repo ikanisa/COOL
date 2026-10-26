@@ -11,6 +11,8 @@ class SmsAccessEnvelope {
     required this.rawSender,
     required this.rawBody,
     required this.receivedAtDevice,
+    this.completeness = 'complete',
+    this.needsReview = false,
   });
 
   factory SmsAccessEnvelope.fromMap(Map<dynamic, dynamic> map) {
@@ -20,6 +22,14 @@ class SmsAccessEnvelope {
       rawSender: (map['raw_sender'] as String?) ?? 'android_sms',
       rawBody: (map['raw_body'] as String?) ?? '',
       receivedAtDevice: (map['received_at_device'] as String?) ?? '',
+      completeness: (map['completeness'] as String?) ?? 'complete',
+      needsReview: switch (map['needs_review']) {
+        null || false || 'false' => false,
+        true || 'true' => true,
+        _ => throw const FormatException(
+          'Secure receipt review flag is invalid.',
+        ),
+      },
     );
   }
 
@@ -28,6 +38,8 @@ class SmsAccessEnvelope {
   final String rawSender;
   final String rawBody;
   final String receivedAtDevice;
+  final String completeness;
+  final bool needsReview;
 }
 
 class SmsAccessStatus {
@@ -43,6 +55,7 @@ class SmsAccessStatus {
     required this.permanentlyDenied,
     required this.queueOverflowed,
     this.queueUnavailable = false,
+    this.queueNeedsReview = false,
   });
 
   const SmsAccessStatus.unavailable()
@@ -56,7 +69,8 @@ class SmsAccessStatus {
       shouldShowRationale = false,
       permanentlyDenied = false,
       queueOverflowed = false,
-      queueUnavailable = false;
+      queueUnavailable = false,
+      queueNeedsReview = false;
 
   factory SmsAccessStatus.fromMap(Map<dynamic, dynamic> map) {
     bool value(String key) => map[key] == true;
@@ -72,6 +86,7 @@ class SmsAccessStatus {
       permanentlyDenied: value('permanently_denied'),
       queueOverflowed: value('queue_overflowed'),
       queueUnavailable: value('queue_unavailable'),
+      queueNeedsReview: value('queue_needs_review'),
     );
   }
 
@@ -88,6 +103,7 @@ class SmsAccessStatus {
   final bool permanentlyDenied;
   final bool queueOverflowed;
   final bool queueUnavailable;
+  final bool queueNeedsReview;
 }
 
 class SmsAccessChannel {
@@ -185,7 +201,12 @@ class SmsAccessChannel {
       final envelope = SmsAccessEnvelope.fromMap(row);
       if (envelope.id.isEmpty ||
           envelope.ownerUserId != ownerUserId ||
-          envelope.rawBody.trim().isEmpty) {
+          envelope.rawBody.trim().isEmpty ||
+          !const {
+            'complete',
+            'incomplete',
+            'inconsistent',
+          }.contains(envelope.completeness)) {
         throw const FormatException('Secure receipt queue needs review.');
       }
       envelopes.add(envelope);
@@ -200,6 +221,41 @@ class SmsAccessChannel {
             'ids': [receipt.envelopeId],
             'body_hashes': {receipt.envelopeId: receipt.bodySha256},
             'contract_version': 2,
+          }) ??
+          false;
+    } on PlatformException {
+      return false;
+    } on MissingPluginException {
+      return false;
+    }
+  }
+
+  /// Retains the exact original while excluding a permanently rejected upload
+  /// from automatic retries until its current owner explicitly retries it.
+  Future<bool> parkPendingSms({
+    required String ownerUserId,
+    required String id,
+  }) async {
+    if (ownerUserId.trim().isEmpty || id.trim().isEmpty) return false;
+    try {
+      return await _channel.invokeMethod<bool>('parkPendingSms', {
+            'owner_user_id': ownerUserId,
+            'id': id,
+          }) ??
+          false;
+    } on PlatformException {
+      return false;
+    } on MissingPluginException {
+      return false;
+    }
+  }
+
+  /// Clears review metadata only. Native storage preserves source IDs and bytes.
+  Future<bool> retryRejectedSms({required String ownerUserId}) async {
+    if (ownerUserId.trim().isEmpty) return false;
+    try {
+      return await _channel.invokeMethod<bool>('retryRejectedSms', {
+            'owner_user_id': ownerUserId,
           }) ??
           false;
     } on PlatformException {

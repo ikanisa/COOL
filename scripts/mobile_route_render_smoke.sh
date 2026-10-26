@@ -152,6 +152,7 @@ route_specs=(
   "privacy-alias|/settings/privacy|utility"
   "help|/settings/help|utility"
   "legal-privacy|/settings/legal/privacy|utility"
+  "legal-licenses|/settings/legal/licenses|utility"
   "legal-terms|/settings/legal/terms|utility"
 )
 

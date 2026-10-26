@@ -8,3 +8,16 @@ String syntheticJwt(Map<String, dynamic> header, Map<String, dynamic> claims) {
   return '${encode(header)}.${encode(claims)}.'
       '${base64Url.encode(utf8.encode('synthetic-local-invalid-signature'))}';
 }
+
+// Structurally valid, deliberately unsigned by the real service. Only use in
+// local MockClient/recoverSession fixtures. Server rejection tests remain real.
+String syntheticMemberAccessToken(String userId) => syntheticJwt(
+  {'alg': 'HS256', 'typ': 'JWT'},
+  {
+    'sub': userId,
+    'session_id': 'synthetic-member-$userId',
+    'role': 'authenticated',
+    'surface': 'member',
+    'exp': DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000 + 3600,
+  },
+);

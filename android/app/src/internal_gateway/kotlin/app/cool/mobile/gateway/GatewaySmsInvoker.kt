@@ -8,7 +8,7 @@ import android.os.Build
 import android.telephony.SmsManager
 import app.cool.mobile.BuildConfig
 
-internal class AndroidGatewaySmsInvoker(private val context: Context) : GatewaySmsInvoker {
+internal class AndroidGatewaySmsInvoker(private val context: Context, private val custody: GatewayInvocationCustody) : GatewaySmsInvoker {
     private fun manager(subscription: Int): SmsManager {
         if (BuildConfig.FLAVOR != "internal_gateway") throw GatewayStateException("gateway_flavor_required")
         return if (Build.VERSION.SDK_INT >= 31) context.getSystemService(SmsManager::class.java).createForSubscriptionId(subscription)
@@ -17,7 +17,8 @@ internal class AndroidGatewaySmsInvoker(private val context: Context) : GatewayS
 
     override fun divide(body: String, subscriptionId: Int): List<String> = manager(subscriptionId).divideMessage(body)
 
-    override fun invoke(grant: GatewayDispatchGrant, record: GatewayAttempt, parts: List<String>, subscriptionId: Int) {
+    override fun invoke(grant: GatewayDispatchGrant, record: GatewayAttempt, parts: List<String>, subscriptionId: Int) = synchronized(GatewayJournal.PROCESS_LOCK) {
+        custody.requireEntered(record)
         if (grant.attemptId != record.attemptId || grant.deviceId != record.deviceId || grant.fence != record.fence ||
             sha256(grant.body) != record.bodySha256 || sha256(grant.destinationE164) != record.destinationSha256 ||
             parts.size != record.segments.size) throw GatewayStateException("gateway_grant_invalid")

@@ -4,6 +4,8 @@
 *.pyc
 *.swp
 .DS_Store
+# macOS AppleDouble filesystem metadata; preserve recovered sidecars on disk.
+._*
 .atom/
 .build/
 .buildlog/
@@ -50,10 +52,6 @@ app.*.map.json
 .env
 .env.*
 !.env.example
-supabase/functions/.env
-supabase/functions/.env.*
-!supabase/functions/.env.example
-supabase/.temp/
 
 # Signing credentials
 android/key.properties
@@ -85,6 +83,8 @@ analyze_out.txt
 update_profile.dart
 package-lock.json
 !tools/public-photography/package-lock.json
+!deploy/admin-api/package-lock.json
+!deploy/platform-api/package-lock.json
 node_modules/
 .firebase/
 .agent/
@@ -155,8 +155,6 @@ fastlane/report.xml
 # bytes locally; their reports and source-binding records remain publishable.
 /docs/release/**/source-export/
 /docs/release/**/negative-fixtures/
-/docs/release/**/third_party/gotrue/test/client_test.dart
-/docs/release/**/third_party/gotrue/test/get_claims_test.dart
 /docs/release/**/scripts/tests/test_pg_archive_admission.py
 /docs/release/critical-implementation-2026-10-01/root-pg-archive-constructor-correction1/integration.diff
 /docs/release/critical-implementation-2026-10-01/root-pg-archive-fixture-startup-correction1/before.py

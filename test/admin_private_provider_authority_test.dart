@@ -5,12 +5,11 @@ import 'dart:io';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'support/admin_read_fixture.dart';
@@ -61,7 +60,7 @@ class _Read {
 }
 
 class _Probe {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
   late _Read read;
   late final authority = StateProvider<Future<AdminIdentity?>>(
@@ -71,10 +70,8 @@ class _Probe {
   final entered = Completer<void>();
   Completer<void>? release;
   Future<void> start() async {
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final parts = (jsonDecode(request.body)['token'] as String).split(
@@ -98,7 +95,7 @@ class _Probe {
     await auth.session(client, 'private-provider-a');
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminIdentityProvider.overrideWith((ref) => ref.watch(authority)),
       ],
     );
@@ -144,14 +141,16 @@ void main() {
           );
           expect(probe.requests, hasLength(1));
           final request = probe.requests.single;
-          expect(request.url.path, '/rest/v1/rpc/${read.rpc}');
+          expect(request.url.path, '/v1/rpc/${read.rpc}');
           expect(
             request.headers['Authorization'],
             'Bearer ${probe.client.auth.currentSession!.accessToken}',
           );
           expect(
             jsonDecode(request.body),
-            read.rpc == 'admin_runtime_config' ? isNull : {'p_id': read.id},
+            read.rpc == 'admin_runtime_config'
+                ? <String, dynamic>{}
+                : {'p_id': read.id},
           );
         },
       );

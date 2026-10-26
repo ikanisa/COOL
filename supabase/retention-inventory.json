@@ -1,0 +1,211 @@
+{
+  "contract_version": 1,
+  "catalog_id": "collect.supabase.retention.v1",
+  "automatic_erasure": false,
+  "ownership": "Exact current or retained principal links and source object ownership; an unmatched historic identifier is unresolved.",
+  "classes": [
+    {
+      "name": "private:auth_principal_links",
+      "relation": "private.auth_principal_links",
+      "scope": "principal",
+      "purpose": "Stable managed Auth to legacy principal proof"
+    },
+    {
+      "name": "private:supabase_otp_challenges",
+      "relation": "private.supabase_otp_challenges",
+      "scope": "otp",
+      "purpose": "Identity, cooldown, provider outcome and consumed challenge evidence"
+    },
+    {
+      "name": "private:bff_sessions",
+      "relation": "private.bff_sessions",
+      "scope": "bff",
+      "purpose": "Encrypted Admin session token custody and refresh leases"
+    },
+    {
+      "name": "private:admin_email_operations",
+      "relation": "private.admin_email_operations",
+      "scope": "admin_email",
+      "purpose": "Subject-linked Admin email purpose, exact original BFF binding, provider outcome and unresolved candidate cleanup evidence; blocked retained provenance"
+    },
+    {
+      "name": "private:admin_sensitive_email_proofs",
+      "relation": "private.admin_sensitive_email_proofs",
+      "scope": "admin_email",
+      "purpose": "Immutable subject-linked original email OTP event and exact Admin session proof; blocked retained provenance"
+    },
+    {
+      "name": "private:managed_mfa_proofs",
+      "relation": "private.managed_mfa_proofs",
+      "scope": "mfa",
+      "purpose": "Verified managed factor/session freshness projection"
+    },
+    {
+      "name": "private:managed_phone_verifications",
+      "relation": "private.managed_phone_verifications",
+      "scope": "principal",
+      "purpose": "Immutable original managed phone OTP event and confirmed canonical phone binding"
+    },
+    {
+      "name": "private:google_flow_context",
+      "relation": "private.google_flow_context",
+      "scope": "google",
+      "purpose": "Immutable OAuth surface and browser-origin custody"
+    },
+    {
+      "name": "private:admin_invitation_attempts",
+      "relation": "private.admin_invitation_attempts",
+      "scope": "admin_invitation",
+      "purpose": "Immutable staff preapproval, idempotency aliases and one native invitation dispatch claim/outcome; no email or token payload"
+    },
+    {
+      "name": "private:storage_namespace",
+      "relation": "private.storage_namespace",
+      "scope": "namespace",
+      "purpose": "Shared immutable provider origin and private bucket identity"
+    },
+    {
+      "name": "private:storage_payload_reservations",
+      "relation": "private.storage_payload_reservations",
+      "scope": "storage",
+      "purpose": "First random ciphertext reservation, semantic request binding and cleared-spool tombstone"
+    },
+    {
+      "name": "private:storage_put_intents",
+      "relation": "private.storage_put_intents",
+      "scope": "storage",
+      "purpose": "Durable upload identity, unresolved provider outcomes and delete fence"
+    },
+    {
+      "name": "private:storage_upload_attempts",
+      "relation": "private.storage_upload_attempts",
+      "scope": "attempt",
+      "purpose": "Individual provider upload send-start and terminal or unknown outcome"
+    },
+    {
+      "name": "private:storage_objects",
+      "relation": "private.storage_objects",
+      "scope": "storage",
+      "purpose": "Canonical committed protected-object metadata"
+    },
+    {
+      "name": "private:storage_delete_intents",
+      "relation": "private.storage_delete_intents",
+      "scope": "storage",
+      "purpose": "Retained erasure identity and independently verified dual-absence receipt"
+    },
+    {
+      "name": "private:object_metadata",
+      "relation": "private.object_metadata",
+      "scope": "metadata_view",
+      "purpose": "Read-only alias of canonical metadata; not an additional byte copy"
+    },
+    {
+      "name": "private:collect_fence_control",
+      "relation": "private.collect_fence_control",
+      "scope": "shared_fence",
+      "purpose": "Shared source/epoch/mode control binding; owner-only authoritative history; blocked shared operational copy, never a subject-empty or erasure assertion"
+    },
+    {
+      "name": "private:collect_fence_admissions",
+      "relation": "private.collect_fence_admissions",
+      "scope": "shared_fence",
+      "purpose": "Opaque unattributed runtime admission lifecycle; active/unresolved/settled and unknown-obligation facts have no approved pruning; blocked shared operational copy, never a subject-empty or erasure assertion"
+    },
+    {
+      "name": "private:collect_fence_operations",
+      "relation": "private.collect_fence_operations",
+      "scope": "shared_fence",
+      "purpose": "Immutable opaque emergency control operation receipts; blocked shared operational copy, never a subject-empty or erasure assertion"
+    },
+    {
+      "name": "private:collect_fence_scheduler_lifecycle",
+      "relation": "private.collect_fence_scheduler_lifecycle",
+      "scope": "shared_fence",
+      "purpose": "Owner-only original scheduler dispatch local-lifecycle evidence; original provider unknowns remain unchanged; blocked shared operational copy, never a subject-empty or erasure assertion"
+    },
+    {
+      "name": "private:collect_fence_source_upgrades",
+      "relation": "private.collect_fence_source_upgrades",
+      "scope": "shared_fence",
+      "purpose": "Immutable owner-reviewed old/new source and epoch lineage, exact prior control snapshot and proof digests; blocked shared operational copy, no lost-work resolution or provider settlement"
+    },
+    {
+      "name": "private:collect_fence_stopped_admissions",
+      "relation": "private.collect_fence_stopped_admissions",
+      "scope": "shared_fence",
+      "purpose": "Immutable owner proof of stopped local work, original admission snapshot and unquantified unknown obligation; blocked shared operational copy, no recovered counters, provider settlement or subject-empty assertion"
+    },
+    {
+      "name": "managed:auth",
+      "relation": "auth",
+      "scope": "managed",
+      "purpose": "Actual subject-linked managed identity, session, token, factor and flow database rows"
+    },
+    {
+      "name": "managed:storage",
+      "relation": "storage",
+      "scope": "managed",
+      "purpose": "Actual managed object and multipart database mirrors for exactly owned source keys"
+    },
+    {
+      "name": "private:member_realtime_control",
+      "relation": "private.member_realtime_control",
+      "scope": "shared_realtime",
+      "purpose": "Shared source/policy activation, global audit cursor and finite attempt/rate counters; no member/Auth/session/topic/event payload"
+    },
+    {
+      "name": "managed:realtime_messages",
+      "relation": "realtime.messages",
+      "scope": "managed_realtime",
+      "purpose": "Attributable pseudonymous member AuthUUID/sessionUUID topic plus opaque invalidationUUID and provider envelope/timestamps"
+    }
+  ],
+  "policy_actions": [
+    "retain",
+    "blocked"
+  ],
+  "unresolved_external_classes": [
+    "external:derivatives",
+    "external:exports",
+    "external:backups",
+    "external:processors",
+    "external:unmapped_identifiers"
+  ],
+  "external_copy_sources": {
+    "external:backups": [
+      "Protected collect_stage_<run UUID> full-source quarantines, including archived legacy Auth/session/challenge/capability rows and promotion receipts",
+      "Database provider backups and restore copies",
+      "Private APFS recovery checkpoints and synthetic-versus-live evidence archives"
+    ],
+    "external:exports": [
+      "Operator source captures, reconciliation manifests and evidence exports kept outside the public repository"
+    ],
+    "external:processors": [
+      "Configured AI/decoder, email, SMS and WhatsApp providers and their separately reviewed copy inventories",
+      "Realtime service memory, cached channel authorization, message transport and delivery logs; not a managed session erasure receipt"
+    ],
+    "external:derivatives": [
+      "AI extraction, decoder derivatives and protected operational or provider logs not attributed by the exact database selectors",
+      "Realtime WAL/replication/provider diagnostics and untracked pseudonymous topic derivatives"
+    ],
+    "external:unmapped_identifiers": [
+      "Historic or pre-identity OAuth/OTP/SSO/provider records without a retained principal link",
+      "Untracked provider objects or versions that cannot be attributed to an exact owned source key"
+    ]
+  },
+  "limits": {
+    "rows_per_class": 500,
+    "inventory_bytes": 1048576
+  },
+  "qualification": "Database row hashes and actual protected-object probes do not establish erasure of provider logs, backups, untracked objects, unlinked historic identifiers or processor copies. Those classes remain blocked pending their own reviewed inventory and adapter. Shared fence inventory count/rows describe subject attribution only: unmapped with zero descriptors does not mean zero global rows or settled work. The five shared operational classes are always blocked, have no subject selector or erasure adapter, and do not grant runtime table access. Member Realtime topic copies are attributable from retained member sessions after managed session loss; neither provider TTL nor a zero scoped count verifies erasure. Both new classes require blocked policy.",
+  "shared_unattributed_classes": [
+    "private:collect_fence_control",
+    "private:collect_fence_admissions",
+    "private:collect_fence_operations",
+    "private:collect_fence_scheduler_lifecycle",
+    "private:member_realtime_control",
+    "private:collect_fence_source_upgrades",
+    "private:collect_fence_stopped_admissions"
+  ]
+}

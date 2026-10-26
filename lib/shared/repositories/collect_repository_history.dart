@@ -31,7 +31,7 @@ class MemberHistoryState {
 class MemberHistoryController extends StateNotifier<MemberHistoryState> {
   MemberHistoryController(this.repository, this.query)
     : _ownerProfileId = repository.state.currentProfile?.id,
-      _ownerAuthId = repository._supabase?.auth.currentUser?.id,
+      _ownerAuthId = repository._backend?.auth.currentUser?.id,
       _ownerSession = repository._captureSession(),
       super(const MemberHistoryState()) {
     final initial = repository.state.historyPage;
@@ -66,7 +66,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
     if (!mounted) return false;
     if (!repository._isCurrentSession(_ownerSession) ||
         repository.state.currentProfile?.id != _ownerProfileId ||
-        repository._supabase?.auth.currentUser?.id != _ownerAuthId) {
+        repository._backend?.auth.currentUser?.id != _ownerAuthId) {
       ++_generation;
       _debounce?.cancel();
       _refreshing = false;
@@ -131,7 +131,8 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
       if (_canPublish(generation)) {
         final changed =
             error is FormatException ||
-            (error is PostgrestException && error.code == 'P0001');
+            (error is CollectApiException &&
+                const {'P0001', 'history_changed'}.contains(error.code));
         _refreshRequired = changed;
         state = MemberHistoryState(
           page: page,

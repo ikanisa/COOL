@@ -12,7 +12,7 @@ import 'package:collect_app/admin/core/admin_sms_queue_health.dart';
 import 'package:collect_app/app/theme/collect_colors.dart';
 import 'package:collect_app/app/theme/collect_runtime_assets.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -158,7 +158,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          supabaseClientProvider.overrideWithValue(null),
+          collectBackendClientProvider.overrideWithValue(null),
           adminIdentityProvider.overrideWith((ref) async => identity),
           adminRepositoryProvider.overrideWithValue(repository),
           adminClockProvider.overrideWithValue(clock ?? () => _now),
@@ -209,6 +209,12 @@ void main() {
       await tester.scrollUntilVisible(
         find.text('Run telemetry unavailable'),
         300,
+        scrollable: find
+            .descendant(
+              of: find.byKey(const Key('admin-page-scroll-view')),
+              matching: find.byType(Scrollable),
+            )
+            .first,
       );
       expect(find.text('Run telemetry unavailable'), findsOneWidget);
       expect(find.text('Run now'), findsNothing);
@@ -335,7 +341,7 @@ void main() {
         final railForeground = tester
             .element(selectedNavigation)
             .collectColors
-            .onImagePrimary;
+            .textPrimary;
         expect(
           tester.widget<ListTile>(selectedNavigation).selectedColor,
           railForeground,
@@ -378,7 +384,7 @@ void main() {
             final image = await boundary.toImage(pixelRatio: 1);
             final png = await image.toByteData(format: ui.ImageByteFormat.png);
             final file = File(
-              'docs/release/collect-codex-2026-09-30/automations-${dark ? 'dark' : 'light'}-synthetic.png',
+              '.cache/test-captures/automations-${dark ? 'dark' : 'light'}-synthetic.png',
             );
             await file.parent.create(recursive: true);
             await file.writeAsBytes(png!.buffer.asUint8List());
@@ -398,6 +404,12 @@ void main() {
     await tester.scrollUntilVisible(
       find.text('Run telemetry unavailable'),
       250,
+      scrollable: find
+          .descendant(
+            of: find.byKey(const Key('admin-page-scroll-view')),
+            matching: find.byType(Scrollable),
+          )
+          .first,
     );
     expect(find.text('Run telemetry unavailable'), findsOneWidget);
     expect(tester.takeException(), isNull);

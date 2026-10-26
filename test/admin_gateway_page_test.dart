@@ -12,13 +12,12 @@ import 'package:collect_app/admin/core/admin_gateway_checkpoint.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_runtime_assets.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_gateway_contracts_test.dart' as owner;
 import 'admin_gateway_models_test.dart' as source;
@@ -187,7 +186,7 @@ Future<ProviderContainer> _mount(
   addTearDown(tester.view.resetDevicePixelRatio);
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(null),
+      collectBackendClientProvider.overrideWithValue(null),
       adminIdentityProvider.overrideWith((ref) async => identity),
       adminRepositoryProvider.overrideWithValue(repository),
       adminClockProvider.overrideWithValue(clock ?? () => _now),
@@ -365,7 +364,7 @@ void main() {
     });
   }
   for (final error in [
-    const PostgrestException(message: 'PRIVATE_CANARY', code: '42501'),
+    const CollectApiException(message: 'PRIVATE_CANARY', code: '42501'),
     UnsupportedError('PRIVATE_CANARY'),
     const FormatException('PRIVATE_CANARY'),
   ]) {
@@ -374,7 +373,7 @@ void main() {
     ) async {
       final repository = _GatewayRepository()..readError = error;
       await _mount(tester, repository);
-      final title = error is PostgrestException
+      final title = error is CollectApiException
           ? 'Gateway read denied'
           : error is UnsupportedError
           ? 'Gateway service unavailable'
@@ -611,7 +610,7 @@ void main() {
           ..writeError = TimeoutException('PRIVATE_CANARY')
           ..unknown = !authorityBusy
           ..lookupError = authorityBusy
-              ? const PostgrestException(
+              ? const CollectApiException(
                   message: 'PRIVATE_CANARY',
                   code: '55P03',
                 )
@@ -859,7 +858,7 @@ void main() {
               format: ui.ImageByteFormat.png,
             );
             await File(
-              'docs/release/collect-codex-goal-2026-09-30/admin-gateway-recovery/gateway-recovery-${dark ? 'dark' : 'light'}-synthetic.png',
+              '.cache/test-captures/admin-gateway-recovery/gateway-recovery-${dark ? 'dark' : 'light'}-synthetic.png',
             ).writeAsBytes(bytes!.buffer.asUint8List());
             rendered.dispose();
           });
@@ -906,7 +905,7 @@ void main() {
     final repository = _GatewayRepository()..readGate = pending;
     final container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(null),
+        collectBackendClientProvider.overrideWithValue(null),
         adminIdentityProvider.overrideWith((ref) async => _identity),
         adminRepositoryProvider.overrideWithValue(repository),
       ],
@@ -932,7 +931,7 @@ void main() {
       final repository = _GatewayRepository()..readGate = pending;
       final container = ProviderContainer(
         overrides: [
-          supabaseClientProvider.overrideWithValue(null),
+          collectBackendClientProvider.overrideWithValue(null),
           adminAuthSessionScopeProvider.overrideWith((ref) => sessions),
           adminIdentityProvider.overrideWith((ref) async => _identity),
           adminRepositoryProvider.overrideWithValue(repository),
@@ -1188,7 +1187,7 @@ void main() {
             format: ui.ImageByteFormat.png,
           );
           await File(
-            'docs/release/collect-codex-goal-2026-09-30/admin-gateway/gateway-${dark ? 'dark' : 'light'}-synthetic.png',
+            '.cache/test-captures/admin-gateway/gateway-${dark ? 'dark' : 'light'}-synthetic.png',
           ).writeAsBytes(data!.buffer.asUint8List());
           rendered.dispose();
         });

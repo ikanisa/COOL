@@ -13,6 +13,11 @@ import 'admin_exception_escalation_inbox_v2_models.dart';
 import 'admin_receipt_operations_models.dart';
 import 'admin_receipt_principal_models.dart';
 import 'admin_governed_settings_sdk.dart';
+import 'admin_existing_member_allocation.dart';
+import 'admin_user_groups.dart';
+import 'admin_transaction_details.dart';
+
+export 'admin_user_groups.dart';
 
 export 'admin_models.dart';
 export 'admin_reconciliation_models.dart';
@@ -20,6 +25,21 @@ export 'admin_runtime.dart';
 
 abstract class AdminRepositoryBase {
   const AdminRepositoryBase();
+
+  AdminExistingMemberAllocationApi get existingMemberAllocation =>
+      throw UnsupportedError('Registered member allocation is unavailable.');
+
+  Future<AdminUserGroupsPage> userGroups(
+    String userId, {
+    int limit = 25,
+    int offset = 0,
+  }) => throw UnsupportedError('User groups are unavailable.');
+
+  Future<AdminPayerGroupsPage> transactionPayerGroups(
+    String transactionId, {
+    int limit = 10,
+    int offset = 0,
+  }) => throw UnsupportedError('Payer groups are unavailable.');
 
   AdminGovernedSettingsApi get governedSettings =>
       throw UnsupportedError('Governed Settings are unavailable.');
@@ -216,6 +236,14 @@ abstract class AdminRepositoryBase {
   Future<Map<String, dynamic>> action(
     String rpcName,
     Map<String, dynamic> params,
+  );
+
+  Future<void> assignOperatorDraftOwner({
+    required String collectionId,
+    required String ownerCollectId,
+    required String reason,
+  }) => throw UnsupportedError(
+    'Group owner assignment requires a live Admin session.',
   );
 
   AdminRosterGateway openRosterImport() =>

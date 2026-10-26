@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/security/phone_normalizer.dart';
@@ -13,13 +12,16 @@ import '../../core/security/play_integrity_service.dart';
 import '../../core/security/public_id_generator.dart';
 import '../../core/security/sms_access_channel.dart';
 import '../../core/security/durable_sms_receipt.dart';
-import '../../core/supabase/realtime_invalidation.dart';
-import '../../core/supabase/supabase_module.dart';
+import '../../core/cloudflare/realtime_invalidation.dart';
+import '../../core/cloudflare/cloudflare_module.dart';
 import '../../features/privacy/privacy_providers.dart';
 import '../models/collect_models.dart';
 import '../models/member_history_page.dart';
+import '../models/receipt_sms_consent.dart';
+import 'receipt_sms_pending_store.dart';
 import 'collect_offline_cache.dart';
 import 'runtime_control_contract.dart';
+import 'payment_help_pending_store.dart';
 
 export '../models/member_history_page.dart';
 
@@ -31,65 +33,82 @@ part 'collect_repository_history.dart';
 part 'collect_repository_contribution_actions.dart';
 part 'collect_invitation_protection.dart';
 part 'collect_repository_notification_actions.dart';
+part 'collect_repository_receipt_sms_actions.dart';
 part 'collect_repository_group_actions.dart';
+part 'collect_repository_record_reads.dart';
+part 'collect_repository_session_identity.dart';
 
 class CollectRepository extends StateNotifier<CollectState>
     with
         _CollectContributionActions,
         _CollectNotificationActions,
-        _CollectGroupActions {
+        _CollectReceiptSmsActions,
+        _CollectGroupActions,
+        _CollectRecordReads {
   CollectRepository({
-    SupabaseClient? supabase,
+    CollectCloudflareClient? backend,
+    ReceiptSmsPendingStore? receiptSmsPendingStore,
+    PaymentHelpPendingStore? paymentHelpPendingStore,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
     CollectOfflineCache? offlineCache,
     void Function()? onSignOutStarted,
   }) : this._(
-         supabase,
+         backend,
          smsAccessChannel,
          _emptyCollectState(),
          false,
          offlineCache ?? const CollectOfflineCache.protected(),
          onSignOutStarted,
+         receiptSmsPendingStore ?? const NativeReceiptSmsPendingStore(),
+         paymentHelpPendingStore ?? PaymentHelpPendingStore(),
        );
 
   /// Test harness injection only. App entrypoints use the empty live constructor.
   /// Synthetic records belong outside lib and must be supplied explicitly.
   CollectRepository.fixture({
     required CollectState initialState,
-    SupabaseClient? supabase,
+    CollectCloudflareClient? backend,
+    ReceiptSmsPendingStore? receiptSmsPendingStore,
+    PaymentHelpPendingStore? paymentHelpPendingStore,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
     Map<String, List<CollectMember>> fixtureAdditionalMembers = const {},
     CollectOfflineCache? offlineCache,
     void Function()? onSignOutStarted,
   }) : this._(
-         supabase,
+         backend,
          smsAccessChannel,
          initialState,
          true,
          offlineCache ?? const CollectOfflineCache(),
          onSignOutStarted,
+         receiptSmsPendingStore ?? const NativeReceiptSmsPendingStore(),
+         paymentHelpPendingStore ?? PaymentHelpPendingStore(),
          fixtureAdditionalMembers,
        );
 
   CollectRepository._(
-    this._supabase,
+    this._backend,
     this._smsAccessChannel,
     CollectState initialState,
     this._allowLocalWrites,
     this._offlineCache,
-    this._onSignOutStarted, [
+    this._onSignOutStarted,
+    this._receiptSmsPendingStore,
+    this._paymentHelpPendingStore, [
     Map<String, List<CollectMember>> fixtureAdditionalMembers = const {},
   ]) : _fixtureAdditionalMembers = Map.unmodifiable({
          for (final entry in fixtureAdditionalMembers.entries)
            entry.key: List<CollectMember>.unmodifiable(entry.value),
        }),
        super(initialState) {
-    _observedAuthIdentity = _sessionIdentity(_supabase?.auth.currentSession);
-    _authSubscription = _supabase?.auth.onAuthStateChange.listen((_) {
-      final identity = _sessionIdentity(_supabase.auth.currentSession);
+    _observedAuthIdentity = _sessionIdentity(_backend?.auth.currentSession);
+    _paymentHelpPendingStore.bindOwner(_observedAuthIdentity?.userId);
+    _authSubscription = _backend?.auth.onAuthStateChange.listen((_) {
+      final identity = _sessionIdentity(_backend.auth.currentSession);
       if (!mounted || identity == _observedAuthIdentity) return;
       final sameOwner =
           identity != null && identity.userId == _observedAuthIdentity?.userId;
+      if (!sameOwner) _paymentHelpPendingStore.bindOwner(identity?.userId);
       _observedAuthIdentity = identity;
       final generation = ++_authGeneration;
       ++_notificationRegistrationGeneration;
@@ -100,8 +119,10 @@ class CollectRepository extends StateNotifier<CollectState>
       _notificationPreferencesNeedsRefresh = false;
       _notificationPreferencesSaveOperation = null;
       _registeredNotification = null;
+      _resetReceiptSmsConsent();
       _signingOutIdentity = null;
       ++_loadGeneration;
+      _memberAuthorityDenied = false;
       _stopRealtimeSync();
       // Clear all financial data immediately. Same-owner session renewal is
       // already a pending reread, including the native/cache awaits below.
@@ -111,22 +132,25 @@ class CollectRepository extends StateNotifier<CollectState>
   }
 
   @override
-  final SupabaseClient? _supabase;
+  final CollectCloudflareClient? _backend;
   @override
-  late final _CollectLiveReader _liveReader = _CollectLiveReader(_supabase);
+  final ReceiptSmsPendingStore _receiptSmsPendingStore;
+  @override
+  late final _CollectLiveReader _liveReader = _CollectLiveReader(_backend);
   @override
   final SmsAccessChannel _smsAccessChannel;
   @override
   final bool _allowLocalWrites;
   final CollectOfflineCache _offlineCache;
+  final PaymentHelpPendingStore _paymentHelpPendingStore;
   final void Function()? _onSignOutStarted;
   @override
   final Map<String, List<CollectMember>> _fixtureAdditionalMembers;
   @override
   CollectRepository get _groupRepository => this;
-  StreamSubscription<AuthState>? _authSubscription;
+  StreamSubscription<CollectAuthState>? _authSubscription;
   _CollectAuthIdentity? _observedAuthIdentity;
-  RealtimeInvalidationSubscription? _realtimeSync;
+  CollectSyncInvalidationSubscription? _realtimeSync;
   String? _realtimeOwnerId;
   @override
   _CollectAuthIdentity? _signingOutIdentity;
@@ -140,7 +164,7 @@ class CollectRepository extends StateNotifier<CollectState>
   Uuid get _uuid => _sharedUuid;
   static final _publicIds = PublicIdGenerator(random: Random(491));
 
-  bool get isLive => _supabase?.auth.currentUser != null;
+  bool get isLive => _backend?.auth.currentUser != null;
 
   /// A credential-free sticky lifecycle revision for dependent client views.
   int get sessionGeneration => _authGeneration;
@@ -150,9 +174,9 @@ class CollectRepository extends StateNotifier<CollectState>
     final generation = ++_loadGeneration;
     final preferencesSession = _captureSession();
     final preferencesGeneration = _notificationPreferencesGeneration;
-    final supabase = _supabase;
-    final user = supabase?.auth.currentUser;
-    if (supabase == null) return;
+    final backend = _backend;
+    final user = backend?.auth.currentUser;
+    if (backend == null) return;
     bool readStillCurrent() =>
         _acceptLoad(generation, user?.id) &&
         _isCurrentSession(preferencesSession);
@@ -281,17 +305,22 @@ class CollectRepository extends StateNotifier<CollectState>
         usingStaleCache: false,
         lastSuccessfulSyncAt: DateTime.now().toUtc(),
       );
+      if (!readStillCurrent()) return;
       if (accessReduced || profile == null || _offlineRestoreSuspended) {
         // Remove the previous protected snapshot before any later offline read
         // can revive a group that the current scoped RPC no longer returns.
         try {
           await _offlineCache.clear();
+          if (!readStillCurrent()) return;
           _offlineRestoreSuspended = false;
         } catch (_) {
+          if (!readStillCurrent()) return;
           _offlineRestoreSuspended = true;
         }
       }
       if (!readStillCurrent()) return;
+      // Only a complete accepted current-scope read restores member authority.
+      if (profile != null) _memberAuthorityDenied = false;
       unawaited(
         _offlineCache.save(_offlineSnapshotFromState()).catchError((Object _) {
           // Optional encrypted cache failure never converts a successful server
@@ -338,19 +367,39 @@ class CollectRepository extends StateNotifier<CollectState>
   }
 
   bool _offlineRestoreSuspended = false;
+  bool _memberAuthorityDenied = false;
 
   bool _isAccessFailure(Object error) =>
       error is _CollectAccessMismatch ||
-      (error is PostgrestException &&
+      (error is CollectApiException &&
           const {
-            '28000',
             '42501',
-            'PGRST301',
             '401',
             '403',
+            'authentication_required',
+            'invalid_token',
+            'access_revoked',
+            'unauthenticated',
+            'session_changed',
+            'fresh_auth_required',
+            'mfa_required',
+            'admin_required',
+            'permission_denied',
+            'origin_denied',
           }.contains(error.code)) ||
-      (error is AuthException &&
-          const {'401', '403'}.contains(error.statusCode));
+      (error is CollectAuthException &&
+          (const {'401', '403'}.contains(error.statusCode) ||
+              const {
+                'invalid_session',
+                'session_required',
+                'session_changed',
+                'invalid_token',
+                'invalid_identity',
+                'access_revoked',
+                'authentication_required',
+                'unauthenticated',
+                'refresh_replay',
+              }.contains(error.code)));
 
   Future<void> _reloadAfterAccountChange(
     _CollectAuthIdentity? identity,
@@ -359,7 +408,7 @@ class CollectRepository extends StateNotifier<CollectState>
     bool current() =>
         mounted &&
         generation == _authGeneration &&
-        identity == _sessionIdentity(_supabase?.auth.currentSession);
+        identity == _sessionIdentity(_backend?.auth.currentSession);
     if (!current()) return;
     final userId = identity?.userId;
     final nativeOwnerSynced = await _smsAccessChannel.suspendUnlessOwner(
@@ -390,14 +439,17 @@ class CollectRepository extends StateNotifier<CollectState>
   bool _acceptLoad(int generation, String? userId) =>
       mounted &&
       generation == _loadGeneration &&
-      _supabase?.auth.currentUser?.id == userId;
+      _backend?.auth.currentUser?.id == userId;
 
   Future<MemberHistoryPage> fetchHistoryPage(
     MemberHistoryQuery query, {
     Map<String, dynamic>? cursor,
   }) async {
     if (_allowLocalWrites && !isLive) return localHistoryPage(query);
-    if (state.usingStaleCache || !isLive) {
+    if (_memberAuthorityDenied ||
+        state.currentProfile == null ||
+        state.usingStaleCache ||
+        !isLive) {
       throw StateError('Connect to load history');
     }
     final session = _captureSession();
@@ -472,9 +524,9 @@ class CollectRepository extends StateNotifier<CollectState>
   }
 
   Future<bool> restoreOfflineSnapshot({required String reason}) async {
-    if (_offlineRestoreSuspended) return false;
+    if (_memberAuthorityDenied || _offlineRestoreSuspended) return false;
     final generation = _loadGeneration;
-    final initialUserId = _supabase?.auth.currentUser?.id;
+    final initialUserId = _backend?.auth.currentUser?.id;
     CollectOfflineSnapshot? cached;
     try {
       cached = await _offlineCache.read(ownerUserId: initialUserId);
@@ -485,12 +537,12 @@ class CollectRepository extends StateNotifier<CollectState>
     }
     if (!mounted ||
         generation != _loadGeneration ||
-        initialUserId != _supabase?.auth.currentUser?.id) {
+        initialUserId != _backend?.auth.currentUser?.id) {
       return false;
     }
     if (cached == null || !cached.hasReadableData) return false;
     final expectedUserId =
-        _supabase?.auth.currentUser?.id ?? state.currentProfile?.id;
+        _backend?.auth.currentUser?.id ?? state.currentProfile?.id;
     if (expectedUserId != null && cached.currentProfile?.id != expectedUserId) {
       await _offlineCache.clear();
       return false;
@@ -540,9 +592,9 @@ class CollectRepository extends StateNotifier<CollectState>
         CollectProfileCountryRules.isSupportedCountry(requestedCountry)
         ? requestedCountry
         : CollectProfileCountryRules.inferCountryCodeFromPhone(normalized);
-    final supabase = _supabase;
-    final user = supabase?.auth.currentUser;
-    if (supabase != null && user != null) {
+    final backend = _backend;
+    final user = backend?.auth.currentUser;
+    if (backend != null && user != null) {
       final profile = await _liveReader.ensureLiveProfile(
         user.id,
         normalized,
@@ -596,7 +648,7 @@ class CollectRepository extends StateNotifier<CollectState>
 
   @override
   _CollectSessionFence _captureSession() {
-    final session = _supabase?.auth.currentSession;
+    final session = _backend?.auth.currentSession;
     return (
       identity: _sessionIdentity(session),
       accessToken: session?.accessToken,
@@ -608,7 +660,7 @@ class CollectRepository extends StateNotifier<CollectState>
   bool _isCurrentSession(_CollectSessionFence session) =>
       mounted &&
       session.generation == _authGeneration &&
-      session.identity == _sessionIdentity(_supabase?.auth.currentSession);
+      session.identity == _sessionIdentity(_backend?.auth.currentSession);
 
   @override
   void _requireCurrentMemberSession(
@@ -625,14 +677,13 @@ class CollectRepository extends StateNotifier<CollectState>
   }
 
   Future<void> _revokeCapturedSession(_CollectSessionFence session) async {
-    final supabase = _supabase;
+    final backend = _backend;
     final accessToken = session.accessToken;
-    if (supabase == null || accessToken == null) return;
+    if (backend == null || accessToken == null) return;
     try {
-      // This method only revokes the captured server session. The SDK admin
-      // method defaults to GLOBAL, so an explicit LOCAL scope is essential.
-      await supabase.auth.admin.signOut(accessToken, scope: SignOutScope.local);
-    } on AuthException catch (error) {
+      // Revoke only this captured server session; do not mutate a new account.
+      await backend.auth.revokeCapturedSession(accessToken);
+    } on CollectAuthException catch (error) {
       if (!const {'401', '403', '404'}.contains(error.statusCode)) rethrow;
     }
   }
@@ -645,11 +696,13 @@ class CollectRepository extends StateNotifier<CollectState>
     final operation = ++_signOutGeneration;
     ++_notificationRegistrationGeneration;
     _signingOutIdentity = session.identity;
+    _resetReceiptSmsConsent(notify: true);
     final registration = _registeredNotification;
     _registeredNotification = null;
     final profile = state.currentProfile;
     final owner = session.identity?.userId ?? profile?.id;
-    final supabase = _supabase;
+    _paymentHelpPendingStore.bindOwner(null);
+    final backend = _backend;
     bool current() =>
         operation == _signOutGeneration && _isCurrentSession(session);
     ++_loadGeneration;
@@ -670,10 +723,10 @@ class CollectRepository extends StateNotifier<CollectState>
           throw StateError('SMS capture could not be stopped before sign-out.');
         }
       }
-      if (supabase != null && session.accessToken != null) {
+      if (backend != null && session.accessToken != null) {
         if (registration != null && registration.identity == session.identity) {
           try {
-            await supabase
+            await backend
                 .rpc<void>(
                   'unregister_notification_device',
                   params: {
@@ -690,7 +743,7 @@ class CollectRepository extends StateNotifier<CollectState>
         if (!current()) return await _revokeCapturedSession(session);
         if (profile != null && profile.id == owner) {
           try {
-            await supabase
+            await backend
                 .rpc<void>(
                   'record_sms_access_consent',
                   params: {
@@ -713,6 +766,8 @@ class CollectRepository extends StateNotifier<CollectState>
       // CollectOfflineCache serializes this clear ahead of all later saves.
       // A newer session's reload waits for those cache operations before saving.
       try {
+        await _paymentHelpPendingStore.ensureCleanup();
+        if (!current()) return await _revokeCapturedSession(session);
         await _offlineCache.clear();
       } catch (_) {
         if (!current()) return await _revokeCapturedSession(session);
@@ -720,12 +775,12 @@ class CollectRepository extends StateNotifier<CollectState>
         throw StateError('Local account data could not be cleared. Try again.');
       }
       if (!current()) return await _revokeCapturedSession(session);
-      if (supabase != null && session.identity != null) {
-        // Pinned GoTrue 2.27.1 clears its current session synchronously before
-        // its first await and captures its token for the later LOCAL HTTP call.
+      if (backend != null && session.identity != null) {
+        // Collect clears its current session synchronously before its first
+        // await and revokes only this captured server session.
         // Check immediately before invoking; do no account cleanup afterward.
-        final logout = supabase.auth.signOut(scope: SignOutScope.local);
-        if (mounted && supabase.auth.currentSession == null) {
+        final logout = backend.auth.signOut(scope: CollectSignOutScope.local);
+        if (mounted && backend.auth.currentSession == null) {
           state = _emptyCollectState();
         }
         await logout;
@@ -770,20 +825,20 @@ class CollectRepository extends StateNotifier<CollectState>
         'The MoMo provider does not match that Rwanda mobile number.',
       );
     }
-    final supabase = _supabase;
+    final backend = _backend;
     final session = _captureSession();
     void requireCurrentOwner() {
       if (state.currentProfile?.id != current.id ||
-          (supabase != null && supabase.auth.currentUser?.id != current.id)) {
+          (backend != null && backend.auth.currentUser?.id != current.id)) {
         throw StateError('Profile account changed. Try again.');
       }
-      if (supabase != null) _requireCurrentMemberSession(session, current.id);
+      if (backend != null) _requireCurrentMemberSession(session, current.id);
     }
 
     late final CollectProfile updated;
-    if (supabase != null && supabase.auth.currentUser != null) {
+    if (backend != null && backend.auth.currentUser != null) {
       requireCurrentOwner();
-      final row = await supabase
+      final row = await backend
           .rpc<dynamic>(
             'update_current_member_profile',
             params: {
@@ -837,9 +892,9 @@ class CollectRepository extends StateNotifier<CollectState>
     required String message,
   }) async {
     _requireProfile();
-    final supabase = _supabase;
-    if (supabase != null && supabase.auth.currentUser != null) {
-      await supabase.rpc<void>(
+    final backend = _backend;
+    if (backend != null && backend.auth.currentUser != null) {
+      await backend.rpc<void>(
         'create_mobile_support_request',
         params: {
           'request_subject': subject.trim(),
@@ -849,38 +904,200 @@ class CollectRepository extends StateNotifier<CollectState>
     }
   }
 
-  Future<void> createPaymentSupportReview({
+  Future<PaymentHelpCheckpoint?> paymentHelpForIntent(String intentId) async {
+    final profile = _requireProfile();
+    final session = _captureSession();
+    void current() => _requireCurrentMemberSession(session, profile.id);
+    current();
+    final intent = intentById(intentId);
+    _paymentHelpPendingStore.bindOwner(profile.id);
+    final record = await _paymentHelpPendingStore.read(
+      ownerId: profile.id,
+      collectionId: intent.collectionId,
+      intentId: intentId,
+    );
+    current();
+    return record;
+  }
+
+  /// Save first, then send the exact first command. A replacement sign-in reads
+  /// the actor-scoped status before retrying; an absent snapshot never grants a
+  /// fresh key or body. The old session may still commit after that read.
+  Future<PaymentHelpCheckpoint> requestPaymentHelp({
+    required String intentId,
+    String? providerReference,
+    String? note,
+  }) async {
+    final profile = _requireProfile();
+    final session = _captureSession();
+    void current() => _requireCurrentMemberSession(session, profile.id);
+    current();
+    final intent = intentById(intentId);
+    _paymentHelpPendingStore.bindOwner(profile.id);
+    final candidate = PaymentHelpCheckpoint(
+      ownerId: profile.id,
+      collectionId: intent.collectionId,
+      intentId: intentId,
+      requestId: _sharedUuid.v5(
+        Namespace.url.value,
+        'collect.payment-help.v1:${profile.id}:$intentId',
+      ),
+      reference: providerReference?.trim().isNotEmpty == true
+          ? providerReference!.trim()
+          : null,
+      note: note?.trim().isNotEmpty == true ? note!.trim() : null,
+    );
+    final existing = await _paymentHelpPendingStore.read(
+      ownerId: profile.id,
+      collectionId: intent.collectionId,
+      intentId: intentId,
+    );
+    current();
+    final record = await _paymentHelpPendingStore.retain(candidate);
+    current();
+    if (record.received) return record;
+    Future<PaymentHelpCheckpoint> acknowledge() async {
+      current();
+      final result = await _paymentHelpPendingStore.acknowledge(record);
+      current();
+      return result;
+    }
+
+    if (existing != null ||
+        jsonEncode(record.command) != jsonEncode(candidate.command)) {
+      if (await paymentHelpRequestReceived(record)) return acknowledge();
+      current();
+    }
+    try {
+      await createPaymentSupportReview(
+        collectionId: record.collectionId,
+        intentId: record.intentId,
+        requestId: record.requestId,
+        providerReference: record.reference,
+        note: record.note,
+      );
+    } catch (_) {
+      current();
+      // Includes a late old-session commit racing the new-session retry. A
+      // failed/unknown status read is never interpreted as absence or receipt.
+      try {
+        if (await paymentHelpRequestReceived(record)) return acknowledge();
+      } catch (_) {
+        current();
+      }
+      rethrow;
+    }
+    return acknowledge();
+  }
+
+  Future<bool> paymentHelpRequestReceived(PaymentHelpCheckpoint record) async {
+    final profile = _requireProfile();
+    final session = _captureSession();
+    void current() => _requireCurrentMemberSession(session, profile.id);
+    current();
+    final backend = _backend;
+    if (backend == null ||
+        profile.id != record.ownerId ||
+        intentById(record.intentId).collectionId != record.collectionId) {
+      throw StateError('Connect to Collect to check this request.');
+    }
+    final result = await backend
+        .rpc<dynamic>(
+          'get_current_member_payment_review_request_v1',
+          params: {
+            'p_request_id': record.requestId,
+            'p_collection_id': record.collectionId,
+            'p_intent_id': record.intentId,
+          },
+        )
+        .setHeader('Authorization', 'Bearer ${session.accessToken}')
+        .retry(enabled: false);
+    current();
+    if (result is! Map ||
+        result['id'] != record.requestId ||
+        result['collection_id'] != record.collectionId ||
+        result['intent_id'] != record.intentId ||
+        !const {'received', 'absent'}.contains(result['status']) ||
+        exactJsonInteger(
+              result['financial_effects'],
+              field: 'Payment check financial effects',
+              minimum: 0,
+            ) !=
+            0) {
+      throw const FormatException('Payment check could not be verified.');
+    }
+    return result['status'] == 'received';
+  }
+
+  Future<String> createPaymentSupportReview({
     required String collectionId,
     required String intentId,
-    required String issueType,
-    required String note,
-  }) {
-    final collection = collectionById(collectionId);
-    PaymentIntentModel? intent;
-    try {
-      intent = intentById(intentId);
-    } catch (_) {
-      intent = null;
+    required String requestId,
+    String? providerReference,
+    String? note,
+  }) async {
+    final profile = _requireProfile();
+    final backend = _backend;
+    if (backend == null || backend.auth.currentUser == null) {
+      throw StateError('Connect to Collect to request a payment check.');
     }
-    return createSupportRequest(
-      subject: 'Contribution review: $issueType',
-      message: [
-        'Group: ${collection.title}',
-        'Transfer request: ${intent?.id ?? intentId}',
-        if (intent != null) 'Amount: ${intent.expectedAmountRwf}',
-        if (intent != null) 'Status: ${intent.status}',
-        'Note: ${note.trim()}',
-      ].join('\n'),
-    );
+    final session = _captureSession();
+    void current() => _requireCurrentMemberSession(session, profile.id);
+    current();
+    final intent = intentById(intentId);
+    if (intent.collectionId != collectionId) {
+      throw const FormatException('Payment request group is invalid.');
+    }
+    final reference = providerReference?.trim();
+    final evidence = note?.trim();
+    if (!RegExp(
+          r'^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$',
+          caseSensitive: false,
+        ).hasMatch(requestId) ||
+        (reference?.length ?? 0) > 160 ||
+        (evidence?.length ?? 0) > 2000) {
+      throw const FormatException('Payment check details are invalid.');
+    }
+    final result = await backend
+        .rpc<dynamic>(
+          'create_mobile_support_request',
+          params: {
+            'p_kind': 'payment_review',
+            'p_collection_id': collectionId,
+            'p_intent_id': intentId,
+            'p_request_id': requestId,
+            'p_provider_reference': reference?.isEmpty == true
+                ? null
+                : reference,
+            'p_note': evidence?.isEmpty == true ? null : evidence,
+          },
+        )
+        .setHeader('Authorization', 'Bearer ${session.accessToken}')
+        .retry(enabled: false);
+    current();
+    if (result is! Map ||
+        result['id'] != requestId ||
+        result['status'] != 'received' ||
+        result['collection_id'] != collectionId ||
+        result['intent_id'] != intentId ||
+        exactJsonInteger(
+              result['financial_effects'],
+              field: 'Payment check financial effects',
+              minimum: 0,
+            ) !=
+            0) {
+      throw const FormatException('Payment check could not be verified.');
+    }
+    return requestId;
   }
 
   Future<void> requestFreshGroupLink({
     required String slug,
     required String reason,
   }) async {
-    final supabase = _supabase;
+    final backend = _backend;
     if (state.currentProfile == null &&
-        (supabase == null || supabase.auth.currentUser == null)) {
+        (backend == null || backend.auth.currentUser == null)) {
       return;
     }
     return createSupportRequest(
@@ -889,103 +1106,65 @@ class CollectRepository extends StateNotifier<CollectState>
     );
   }
 
-  @override
-  CollectCollection collectionById(String id) =>
-      state.collections.firstWhere((collection) => collection.id == id);
-
-  @override
-  CollectCollection? maybeCollectionById(String id) {
-    for (final collection in state.collections) {
-      if (collection.id == id) return collection;
-    }
-    return null;
-  }
-
-  @override
-  CollectCollection collectionBySlug(String slug) =>
-      state.collections.firstWhere((collection) => collection.slug == slug);
-
-  CollectCollection? maybeCollectionBySlug(String slug) {
-    for (final collection in state.collections) {
-      if (collection.slug == slug) return collection;
-    }
-    return null;
-  }
-
-  PaymentIntentModel intentById(String id) =>
-      state.paymentIntents.singleWhere((intent) => intent.id == id);
-
-  PaymentIntentModel? maybeIntentById(String id) {
-    final matches = state.paymentIntents
-        .where((intent) => intent.id == id)
-        .toList();
-    return matches.length == 1 ? matches.single : null;
-  }
-
-  @override
-  Future<PaymentIntentModel> refreshPaymentIntent(String id) async {
-    final supabase = _supabase;
-    if (supabase == null || supabase.auth.currentUser == null) {
-      if (!_allowLocalWrites) {
-        throw StateError('Sign in before refreshing transfer status.');
-      }
-      return intentById(id);
-    }
-    final session = _captureSession();
-    final prior = maybeIntentById(id);
-    final result = await _liveReader.fetchRecentIntents(
-      intentId: id,
-      accessToken: session.accessToken,
-    );
-    if (!_isCurrentSession(session)) {
-      throw StateError('Account changed');
-    }
-    final matches = result.items.where((item) => item.id == id).toList();
-    if (matches.length != 1) {
-      throw StateError('Payment intent is unavailable');
-    }
-    final intent = matches.single;
-    if (prior != null &&
-        (intent.collectionId != prior.collectionId ||
-            intent.expectedAmountMinor != prior.expectedAmountMinor ||
-            intent.rail != prior.rail ||
-            intent.currency != prior.currency)) {
-      throw const FormatException(
-        'Intent identity does not match the existing request',
-      );
-    }
-    state = state.copyWith(
-      paymentIntents: [
-        intent,
-        ...state.paymentIntents.where((old) => old.id != id).take(49),
-      ],
-      pendingIntentCount: result.pendingCount,
-    );
-    return intent;
-  }
-
   void _ensureRealtimeSync() {
-    final supabase = _supabase;
-    final userId = supabase?.auth.currentUser?.id;
-    if (supabase == null || userId == null) return;
+    final backend = _backend;
+    final userId = backend?.auth.currentUser?.id;
+    if (backend == null || userId == null) return;
     if (_realtimeSync != null && _realtimeOwnerId == userId) return;
     _stopRealtimeSync();
     _realtimeOwnerId = userId;
     final session = _captureSession();
-    _realtimeSync = RealtimeInvalidationSubscription(
-      client: supabase,
+    _realtimeSync = CollectSyncInvalidationSubscription(
+      client: backend,
       // The locked SDK matches channel messages by topic. A departed join's
       // frame must not be routed into a replacement Auth scope's callback.
       topic: 'collect:mobile:invalidation:${const Uuid().v4()}',
       areas: collectMobileRealtimeAreas,
       ownerUserId: userId,
+      onAuthorityDenied: (bearer) =>
+          _memberSyncAuthorityDenied(session, bearer),
       onInvalidate: () async {
         if (_isCurrentSession(session) &&
-            supabase.auth.currentUser?.id == userId) {
+            backend.auth.currentUser?.id == userId) {
           await loadInitial();
         }
       },
     )..start();
+  }
+
+  Future<void> _memberSyncAuthorityDenied(
+    _CollectSessionFence captured,
+    String deniedBearer,
+  ) async {
+    if (!_isCurrentSession(captured) ||
+        _backend?.auth.currentSession?.accessToken != deniedBearer) {
+      return;
+    }
+    // Advance the existing session revision used by history/roster/providers,
+    // not merely the load counter. This fences same-account and A→B→A replies.
+    ++_authGeneration;
+    ++_loadGeneration;
+    _memberAuthorityDenied = true;
+    _offlineRestoreSuspended = true;
+    _stopRealtimeSync();
+    final current = _captureSession();
+    state = _emptyCollectState().copyWith(
+      lastError: 'Member access could not be verified. Reconnect and refresh.',
+    );
+    // clear() advances its write epoch synchronously. Enqueue it only while the
+    // captured bearer/scope is current; the store itself serializes older saves.
+    if (!_isCurrentSession(current) ||
+        _backend?.auth.currentSession?.accessToken != deniedBearer) {
+      return;
+    }
+    final clearing = _offlineCache.clear();
+    try {
+      await clearing;
+    } catch (_) {
+      /* Keep the in-memory denial latched. */
+    }
+    if (!_isCurrentSession(current)) return;
+    await loadInitial();
   }
 
   void _stopRealtimeSync() {
@@ -1001,17 +1180,6 @@ class CollectRepository extends StateNotifier<CollectState>
     _stopRealtimeSync();
     super.dispose();
   }
-
-  /// A recent history page cannot establish a complete group or own balance.
-  @override
-  CollectionSummary? summaryFor(String collectionId) =>
-      state.collectionSummaries[collectionId];
-
-  List<Contribution> contributionsFor(String collectionId) =>
-      state.contributions
-          .where((item) => item.collectionId == collectionId)
-          .toList()
-        ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
   @override
   CollectProfile _requireProfile() {
@@ -1051,34 +1219,4 @@ class CollectRepository extends StateNotifier<CollectState>
     }
     return profile;
   }
-}
-
-// JWT claims here distinguish local lifecycle operations only; server Auth/RLS
-// remains authoritative. Access-token fallback keeps malformed/legacy sessions
-// isolated; such tokens do not bypass the server's required session_id check.
-typedef _CollectAuthIdentity = ({String userId, String sessionId});
-typedef _CollectSessionFence = ({
-  _CollectAuthIdentity? identity,
-  String? accessToken,
-  int generation,
-});
-_CollectAuthIdentity? _sessionIdentity(Session? session) {
-  if (session == null) return null;
-  var identity = session.accessToken;
-  try {
-    final parts = session.accessToken.split('.');
-    if (parts.length == 3) {
-      final claims = jsonDecode(
-        utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
-      );
-      if (claims is Map &&
-          claims['session_id'] is String &&
-          (claims['session_id'] as String).isNotEmpty) {
-        identity = claims['session_id'] as String;
-      }
-    }
-  } catch (_) {
-    // Do not expose token contents in exceptions or diagnostics.
-  }
-  return (userId: session.user.id, sessionId: identity);
 }

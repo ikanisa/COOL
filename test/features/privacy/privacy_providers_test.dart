@@ -1,7 +1,7 @@
 // ignore_for_file: invalid_use_of_internal_member
 import 'dart:convert';
 
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/features/privacy/privacy_contract.dart';
 import 'package:collect_app/features/privacy/privacy_providers.dart';
 import 'package:collect_app/features/privacy/privacy_request_controller.dart';
@@ -11,7 +11,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'privacy_test_support.dart';
 
@@ -19,21 +18,24 @@ void main() {
   test(
     'actual Auth UID changes recreate provider while same-owner OTP SID keeps its controller',
     () async {
-      final client = SupabaseClient(
+      final client = CollectCloudflareClient(
         'https://synthetic.invalid',
-        'SYNTHETIC_PUBLIC_KEY',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient(
           (r) async => r.url.path.endsWith('/logout')
-              ? http.Response('', 204)
+              ? http.Response('{"ok":true}', 200)
               : throw StateError('No real Auth HTTP allowed'),
         ),
       );
       addTearDown(client.dispose);
       await client.auth.recoverSession(jsonEncode(privacySession().toJson()));
-      final transport = SupabasePrivacyRequestTransport(
+      final transport = CollectPrivacyRequestTransport(
         httpClient: MockClient((r) async {
-          if (r.url.path.endsWith('/otp')) return http.Response('{}', 200);
+          if (r.url.path.endsWith('/otp')) {
+            return http.Response(
+              '{"challenge_id":"synthetic-privacy-challenge"}',
+              200,
+            );
+          }
           if (r.url.path.endsWith('/verify')) {
             return http.Response(
               jsonEncode(privacySession(sid: privacyNewSid).toJson()),
@@ -52,12 +54,11 @@ void main() {
             200,
           );
         }),
-        supabaseUrl: 'https://synthetic.invalid',
-        publishableKey: 'SYNTHETIC_PUBLIC_KEY',
+        apiUrl: 'https://synthetic.invalid',
       );
       final container = ProviderContainer(
         overrides: [
-          supabaseClientProvider.overrideWithValue(client),
+          collectBackendClientProvider.overrideWithValue(client),
           privacyRequestTransportProvider.overrideWithValue(transport),
         ],
       );
@@ -90,7 +91,7 @@ void main() {
         throwsA(isA<PrivacyRequestException>()),
       );
       container.read(privacySessionAuthorityProvider)!.invalidate();
-      await client.auth.signOut(scope: SignOutScope.local);
+      await client.auth.signOut(scope: CollectSignOutScope.local);
       await container.pump();
       expect(container.read(privacyRequestControllerProvider), isNull);
       await expectLater(
@@ -102,25 +103,21 @@ void main() {
   test(
     'captured view subject cannot begin a request for a different live Auth owner',
     () async {
-      final auth = GoTrueClient(
-        url: 'https://synthetic.invalid/auth/v1',
-        autoRefreshToken: false,
-      );
+      final auth = CollectCloudflareClient('https://synthetic.invalid').auth;
       addTearDown(auth.dispose);
       await auth.recoverSession(jsonEncode(privacySession().toJson()));
-      final authority = GoTruePrivacySessionAuthority(auth);
+      final authority = CollectPrivacySessionAuthority(auth);
       addTearDown(authority.dispose);
       var calls = 0;
       final controller = PrivacyRequestController(
         authority: authority,
         subjectId: privacyOtherSubject,
-        transport: SupabasePrivacyRequestTransport(
+        transport: CollectPrivacyRequestTransport(
           httpClient: MockClient((_) async {
             ++calls;
             return http.Response('{}', 200);
           }),
-          supabaseUrl: 'https://synthetic.invalid',
-          publishableKey: 'SYNTHETIC_PUBLIC_KEY',
+          apiUrl: 'https://synthetic.invalid',
         ),
       );
       addTearDown(controller.dispose);

@@ -5,12 +5,12 @@ import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 import 'admin_action_session_test.dart' as auth;
 import 'admin_receipt_cancel_models_test.dart' as fixture;
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   final requests = <http.Request>[];
   late Future<http.Response> Function(http.Request) respond;
@@ -18,10 +18,8 @@ void main() {
     requests.clear();
     respond = (_) async =>
         auth.response(fixture.cancelFixture('cancelled-action'));
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final parts = (jsonDecode(request.body)['token'] as String).split(
@@ -51,7 +49,7 @@ void main() {
       await repository.cancelUnstartedReceipt(intent);
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_cancel_unstarted_receipt_v1',
+        '/v1/rpc/admin_cancel_unstarted_receipt_v1',
       );
       expect(jsonDecode(requests.single.body), intent.parameters);
       expect(
@@ -100,7 +98,7 @@ void main() {
       }, code);
       await expectLater(
         repository.cancelUnstartedReceipt(fixture.cancelIntent()),
-        throwsA(isA<PostgrestException>()),
+        throwsA(isA<CollectApiException>()),
       );
       expect(requests, hasLength(1));
     });
@@ -114,7 +112,7 @@ void main() {
       }, 409);
       await expectLater(
         repository.unstartedReceiptAction(fixture.cancelIntent().requestId),
-        throwsA(isA<PostgrestException>()),
+        throwsA(isA<CollectApiException>()),
       );
       expect(requests, hasLength(1));
     },

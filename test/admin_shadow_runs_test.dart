@@ -10,18 +10,17 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/admin/core/admin_shadow_runs.dart';
 import 'package:collect_app/admin/shared/components/admin_page.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 Map<String, dynamic> _fixture() =>
     jsonDecode(
           File(
-            'contracts/collect-shadow-supervisor-v1.fixture.json',
+            'test/fixtures/declared_admin/collect-shadow-supervisor-v1.fixture.json',
           ).readAsStringSync(),
         )
         as Map<String, dynamic>;
@@ -453,7 +452,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          supabaseClientProvider.overrideWithValue(null),
+          collectBackendClientProvider.overrideWithValue(null),
           adminIdentityProvider.overrideWith((ref) async => identity),
           adminRepositoryProvider.overrideWithValue(repository),
           adminClockProvider.overrideWithValue(() => now ?? _now),
@@ -573,11 +572,11 @@ void main() {
       );
       await mount(tester, const AdminEvidenceRepository());
       expect(find.text('Run telemetry unavailable'), findsOneWidget);
-      for (final code in ['PGRST202', '42883']) {
+      for (final code in ['operation_unavailable', '501']) {
         await mount(
           tester,
           _Repository(
-            failure: PostgrestException(
+            failure: CollectApiException(
               message: 'PRIVATE_CANARY missing function',
               code: code,
             ),
@@ -589,7 +588,7 @@ void main() {
       await mount(
         tester,
         _Repository(
-          failure: const PostgrestException(
+          failure: const CollectApiException(
             message: 'PRIVATE_CANARY session_owner',
             code: '42501',
           ),
@@ -638,6 +637,12 @@ void main() {
       await tester.scrollUntilVisible(
         find.text('Run history read failed'),
         300,
+        scrollable: find
+            .descendant(
+              of: find.byKey(const Key('admin-page-scroll-view')),
+              matching: find.byType(Scrollable),
+            )
+            .first,
       );
       expect(find.text('Run history read failed'), findsOneWidget);
       expect(find.textContaining('PRIVATE_CANARY'), findsNothing);
@@ -681,7 +686,7 @@ void main() {
       final repository = _Repository(pending: pending);
       final container = ProviderContainer(
         overrides: [
-          supabaseClientProvider.overrideWithValue(null),
+          collectBackendClientProvider.overrideWithValue(null),
           adminIdentityProvider.overrideWith((ref) async => _identity),
           adminRepositoryProvider.overrideWithValue(repository),
         ],
@@ -710,7 +715,7 @@ void main() {
       final repository = _SessionRepository();
       final container = ProviderContainer(
         overrides: [
-          supabaseClientProvider.overrideWithValue(null),
+          collectBackendClientProvider.overrideWithValue(null),
           adminAuthSessionScopeProvider.overrideWith((ref) => sessions),
           adminIdentityProvider.overrideWith((ref) async => _identity),
           adminRepositoryProvider.overrideWithValue(repository),
@@ -772,7 +777,7 @@ void main() {
               format: ui.ImageByteFormat.png,
             );
             await File(
-              'docs/release/collect-codex-shadow-2026-09-30/shadow-history-${dark ? 'dark' : 'light'}-synthetic.png',
+              '.cache/test-captures/shadow-history-${dark ? 'dark' : 'light'}-synthetic.png',
             ).writeAsBytes(bytes!.buffer.asUint8List());
             image.dispose();
           });

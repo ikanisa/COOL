@@ -8,9 +8,10 @@ page:
   hero:
     eyebrow: ACCOUNT AND DATA DELETION
     headline: Delete your Collect account.
-    supporting_copy: You may request deletion of your Collect account and associated eligible personal data.
-  important_notice: Deleting your Collect account does not automatically cancel any loan or insurance policy, remove
-    a repayment obligation or remove records independently held by a regulated partner.
+    supporting_copy: You may request deletion of your Collect account and associated eligible personal
+      data.
+  important_notice: Collect records contributions and does not hold customer funds. A deletion request
+    does not move money, reverse a provider payment or confirm that records have been erased.
   delete_in_app:
     heading: Delete in the app
     path: Settings → Security → Delete data
@@ -19,90 +20,73 @@ page:
     - Go to Settings.
     - Select Security.
     - Select Delete data.
-    - Select a reason for your request.
-    - Select Submit.
-    - Review the confirmation and select Submit.
+    - Choose a reason if you want to provide one.
+    - Select Send verification code.
+    - Enter the code sent to the phone number or confirmed email used for your Collect account and select Verify code.
+    - If verification is unavailable, select Get help.
+    - Select Submit request.
+    - Review the confirmation and select Submit request.
+    - Check or refresh request status in the app.
   delete_without_app:
     heading: Delete without the app
-    copy: Contact Collect support to request account deletion. You do not need to reinstall the app to submit a deletion request.
+    copy: Contact Collect support to request account deletion. You do not need to reinstall the app to
+      submit a deletion request.
     email: info@ikanisa.com
+    recovery:
+      heading: Email help and follow-up
+      bullets:
+      - If no email app opens, copy info@ikanisa.com into your email service.
+      - Keep a copy of your email. If sending fails, check your email service before trying again.
+      - For a follow-up, reply in the same conversation and include any request reference already supplied.
+      closing: A sent email is not an acknowledgement from Collect or confirmation of deletion.
   support_information:
     id: account-deletion-request
     heading: Request Account Deletion
-    copy: Support may ask for the following information to verify and process your request.
+    copy: Start by emailing info@ikanisa.com. Support can agree a suitable identity-verification step.
+      Do not email a MoMo PIN, password, one-time code, authenticator secret or identity-document image.
     fields:
-    - name: full_name
-      label: Full name
+    - name: collect_id
+      label: Collect ID, if known
       type: text
       required: null
     - name: registered_phone
-      label: Registered telephone number
+      label: Registered telephone number, if needed to locate the account
       type: tel
       required: null
-    - name: registered_email
-      label: Registered email address
-      type: email
-      required: null
-    - name: country
-      label: Country
-      type: select_or_text
-      required: null
     - name: reason
-      label: Reason for deletion
+      label: Reason or details you choose to provide
       type: textarea
-      required: null
-    - name: identity_verification_method
-      label: Identity-verification method
-      type: select
-      required: null
-      options:
-      - SMS verification
-      - Email verification
-      - Identity document verification
-      - Support-assisted verification
-    - name: acknowledgement
-      label: I understand that deleting my Collect account does not cancel any loan, insurance policy, group obligation
-        or other product provided by a third party.
-      type: checkbox
       required: null
   what_happens_next:
     heading: What happens next
     steps:
-    - We verify your identity.
-    - We review pending transactions and group responsibilities.
-    - We tell you if any action is required.
-    - We delete or anonymise eligible data.
-    - We retain only records required by law or necessary for security, fraud prevention, disputes and regulatory
-      compliance.
-    - We confirm when the process is complete.
-    service_target: We aim to respond within 30 days or within the period required by applicable law.
+    - Verify your identity before submitting your request.
+    - Submit your request for review.
+    - Keep your request reference. In the app, check or refresh request status; by email, reply in the same support conversation.
+    closing: Submitting a request does not delete your account or records. Your account remains accessible
+      while review is pending. Check request status or contact support for the outcome and any records
+      that need to be retained.
   before_we_can_complete_deletion:
     heading: You may need to complete these steps first
     bullets:
-    - Withdraw or transfer any available balance through the relevant partner institution
-    - Resolve pending contributions, reversals or disputes
-    - Transfer a group-administrator role
-    - Complete or cancel an active credit-readiness handoff
-    - Download any statements you wish to keep
-    - Address an active fraud, security or legal investigation
+    - Resolve pending contribution records, reversals or disputes
+    - Arrange a group-owner or administrator handover where required
+    - Keep a copy of records you need
+    - Discuss an active security investigation or legal hold with support
   data_we_may_retain:
     heading: Data we may retain
     bullets:
-    - Financial transaction and audit records
-    - KYC and AML records
-    - Accounting and tax records
-    - Fraud and security records
-    - Records needed to resolve disputes or legal claims
-    - Regulatory reports
-    - Ledger entries needed to protect the rights of other group members
-    closing: Where a ledger entry affects other members, the transaction record may remain while your profile is
-      deleted, restricted or de-identified as far as legally and technically possible. Deleted data may remain temporarily
-      in secured backups until those backups are overwritten.
+    - Contribution, reconciliation and audit records where a justified retention basis applies
+    - Account and security records needed for an active investigation
+    - Records needed to resolve a dispute or legal claim
+    - Records subject to an identified applicable retention obligation or legal hold
+    closing: A deletion request is not confirmation that ledger records, profiles or secured backups have
+      been erased. Ask support which records are retained and why.
   partner_products:
     heading: Products provided by partners
-    copy: To cancel an insurance policy or discuss a loan, contact the relevant insurer, lender or other provider.
-      Collect cannot cancel an independently provided regulated product on the partner’s behalf unless the partner
-      has expressly enabled that workflow.
+    copy: Collect does not currently offer lending, insurance or credit-readiness handoffs. A request
+      to Collect does not cancel an independent contract you hold with another provider. Contact that
+      provider directly about its own records or products.
   contact:
     heading: Need help?
     email: info@ikanisa.com

@@ -1,3 +1,6 @@
+@TestOn('browser')
+library;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:web/web.dart' as web;
 import 'package:collect_app/admin/core/admin_sender_retention_checkpoint.dart';

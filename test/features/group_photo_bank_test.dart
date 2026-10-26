@@ -163,14 +163,47 @@ void main() {
   test(
     'create, cache reload, owner edit and remove retain exact media state',
     () async {
-      final repo = FixtureCollectRepository();
+      const ownerId = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+      final repo = FixtureCollectRepository(
+        profileOverride: const CollectProfile(
+          id: ownerId,
+          publicId: '123456',
+          whatsappPhone: '',
+          countryCode: 'RW',
+          currencyCode: 'RWF',
+        ),
+      );
+      addTearDown(repo.dispose);
+      const channel = MethodChannel('collect/secure_snapshot');
+      final messenger =
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+      String? protectedSnapshot;
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        final arguments = Map<String, Object?>.from(call.arguments as Map);
+        expect(arguments['owner_id'], ownerId);
+        switch (call.method) {
+          case 'write':
+            expect(arguments.keys, unorderedEquals(['owner_id', 'value']));
+            protectedSnapshot = arguments['value'] as String;
+            return true;
+          case 'read':
+            expect(arguments.keys, ['owner_id']);
+            return protectedSnapshot;
+          default:
+            throw StateError(
+              'Unexpected protected snapshot call: ${call.method}',
+            );
+        }
+      });
+      addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
       final cover = collectGroupCovers.first;
       final created = await repo.createCollection(
         title: 'QA savings',
+        requestId: 'a1111111-1111-4111-8111-111111111111',
         description: 'Fixture',
         imageUrl: cover.reference,
       );
-      const cache = CollectOfflineCache(preferencesKey: 'collect.cover.qa');
+      const cache = CollectOfflineCache.protected();
       await cache.save(
         CollectOfflineSnapshot(
           savedAt: DateTime.now(),
@@ -180,8 +213,10 @@ void main() {
           contributions: const [],
         ),
       );
-      final restored = await cache.read();
-      expect(restored!.collections.single.imageUrl, cover.reference);
+      final restored = await cache.read(ownerUserId: ownerId);
+      expect(restored!.currentProfile?.id, ownerId);
+      expect(restored.collections.single.primaryPaymentRail, 'unavailable');
+      expect(restored.collections.single.imageUrl, cover.reference);
       expect(
         CollectGroupCover.resolve(restored.collections.single.imageUrl)?.asset,
         cover.asset,
@@ -198,10 +233,19 @@ void main() {
       expect(repo.maybeCollectionById(created.id)!.imageUrl, second.reference);
       await repo.updateCollectionProfile(
         collectionId: created.id,
-        title: created.title,
+        title: 'Updated title without image changes',
         description: created.description,
         recurringCadence: 'monthly',
         imageUrl: null,
+        isPublic: false,
+      );
+      expect(repo.maybeCollectionById(created.id)!.imageUrl, second.reference);
+      await repo.updateCollectionProfile(
+        collectionId: created.id,
+        title: created.title,
+        description: created.description,
+        recurringCadence: 'monthly',
+        imageUrl: '',
         isPublic: false,
       );
       expect(repo.maybeCollectionById(created.id)!.imageUrl, isNull);

@@ -61,7 +61,7 @@ class _AdminGovernedSettingsPageState
     liveRegion: true,
     child: Padding(padding: const EdgeInsets.all(16), child: Text(message)),
   );
-  Widget _panel(Widget child) => Card(
+  Widget _panel(Widget child) => AdminDataSection(
     child: Padding(padding: const EdgeInsets.all(18), child: child),
   );
   void _openIdentity(AdminSettingsFamily family) {
@@ -133,6 +133,10 @@ class _AdminGovernedSettingsPageState
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const AdminSenderRetentionHost(),
+          const SizedBox(height: 16),
+          const AdminReceiptNoticePolicyHost(),
+          const SizedBox(height: 16),
+          const AdminReceiptNoticeDispatchConfigurationHost(),
           const SizedBox(height: 16),
           _panel(
             DropdownButtonFormField<String>(
@@ -348,7 +352,7 @@ class _AdminSettingsDetailPane extends ConsumerWidget {
           ),
           loading: () =>
               const AdminLoadingState(title: 'Loading current setting'),
-          error: (_, _) => const Card(
+          error: (_, _) => const AdminDataSection(
             child: Padding(
               padding: EdgeInsets.all(18),
               child: Text(
@@ -365,7 +369,7 @@ class _AdminSettingsDetailPane extends ConsumerWidget {
         if (family.canAudit(identity))
           _AdminSettingsHistoryPane(query: query)
         else
-          const Card(
+          const AdminDataSection(
             child: Padding(
               padding: EdgeInsets.all(18),
               child: Text('Change history requires Audit read permission.'),
@@ -575,6 +579,7 @@ class _AdminSettingsEditorState extends ConsumerState<_AdminSettingsEditor> {
       );
       final approved = await showDialog<bool>(
         context: context,
+        animationStyle: CollectMotion.animationStyle(context),
         builder: (context) => _AdminSessionDialog(
           scope: fence,
           child: _AdminSettingsReviewDialog(intent: intent, scope: fence),
@@ -651,7 +656,7 @@ class _AdminSettingsEditorState extends ConsumerState<_AdminSettingsEditor> {
         !action.busy &&
         !action.storageBlocked &&
         action.pending.isEmpty;
-    return Card(
+    return AdminDataSection(
       child: Padding(
         padding: const EdgeInsets.all(18),
         child: Column(
@@ -974,7 +979,7 @@ class _AdminSettingsHistoryPaneState
           beforeId: _before?.eventId,
         ),
         history = ref.watch(adminSettingsHistoryProvider(q));
-    return Card(
+    return AdminDataSection(
       child: Padding(
         padding: const EdgeInsets.all(18),
         child: Column(

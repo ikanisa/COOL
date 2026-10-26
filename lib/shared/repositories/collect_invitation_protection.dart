@@ -60,12 +60,12 @@ extension CollectInvitationProtection on CollectRepository {
           current.currentProfile?.id != profile.id) {
         return false;
       }
-      final live = _supabase?.auth.currentSession;
-      if (_supabase != null &&
+      final live = _backend?.auth.currentSession;
+      if (_backend != null &&
           (live == null || live.isExpired || live.user.id != profile.id)) {
         return false;
       }
-      if (_supabase == null && !_allowLocalWrites) {
+      if (_backend == null && !_allowLocalWrites) {
         return false;
       }
       final group = maybeCollectionById(collectionId);

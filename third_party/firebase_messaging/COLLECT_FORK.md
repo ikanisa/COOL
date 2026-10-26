@@ -1,7 +1,7 @@
 # Collect Firebase Messaging 16.5.0 native compatibility fork
 
 Upstream package: firebase_messaging16.5.0. Previously locked hosted pub.dev archive SHA-256: `55cf1000dd72d229ebff3ce6a399bd35705a7675275478b31308afd90ac85751`.
-The original BSD-3-Clause LICENSE is unchanged. UPSTREAM-SHA256.json binds every original cached package file; this manifest records cached bytes and does not independently authenticate a published archive. The complete original package is preserved in `docs/release/asset-build-hygiene-2026-09-30/firebase-scene-compatibility-attempt21/source-snapshot/upstream-package/`. Examples and upstream tests stay in that source evidence; all package runtime/platform files are retained here.
+The original BSD-3-Clause LICENSE is unchanged. UPSTREAM-SHA256.json binds every original cached package file; this manifest records cached bytes and does not independently authenticate a published archive. The complete original cached package remains dated evidence in the [historical source custody](../../docs/implementation/dependency-provenance-current.md#firebase-original-package) recorded by the current index. The [current official-archive comparison](../../docs/implementation/dependency-provenance/firebase_messaging-16.5.0-comparison.json) independently checks the pinned published archive against every retained upstream-manifest entry and the exact reviewed fork delta. Examples and upstream tests stay in that source evidence; all package runtime/platform files are retained here.
 
 ## Bounded changes
 

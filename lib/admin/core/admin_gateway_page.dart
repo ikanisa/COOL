@@ -407,9 +407,11 @@ class _AdminGatewayPageState extends ConsumerState<AdminGatewayPage> {
   Widget _device(AdminGatewayDevice device, DateTime now, bool canManage) {
     final health = device.health;
     final freshHealth = health?.isFresh(now) == true;
-    return Card(
+    return Material(
+      type: MaterialType.transparency,
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        key: ValueKey('gateway-device-record-${device.identity.deviceId}'),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -421,7 +423,7 @@ class _AdminGatewayPageState extends ConsumerState<AdminGatewayPage> {
                 Semantics(
                   label: 'Gateway device ${device.identity.deviceId}',
                   child: Text(
-                    'Device ${device.identity.deviceId.substring(0, 8)}…${device.identity.deviceId.substring(30)}',
+                    'Device',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
@@ -434,7 +436,17 @@ class _AdminGatewayPageState extends ConsumerState<AdminGatewayPage> {
               ],
             ),
             const SizedBox(height: 12),
-            Text('Enrolled ${_gatewayTime(device.enrolledAt)}'),
+            _AdminSourceFactsListing(
+              label: 'Gateway device fields',
+              facts: [
+                ('Device ID', SelectableText(device.identity.deviceId)),
+                ('Enrolled', Text(_gatewayTime(device.enrolledAt))),
+                if (device.activatedAt != null)
+                  ('Activated', Text(_gatewayTime(device.activatedAt!))),
+                if (device.revokedAt != null)
+                  ('Revoked', Text(_gatewayTime(device.revokedAt!))),
+              ],
+            ),
             ExpansionTile(
               key: ValueKey('automatic-attempts-${device.identity.deviceId}'),
               title: const Text('Investigate automatic attempts'),
@@ -442,10 +454,6 @@ class _AdminGatewayPageState extends ConsumerState<AdminGatewayPage> {
                 AdminAutomaticDeviceCard(deviceId: device.identity.deviceId),
               ],
             ),
-            if (device.activatedAt != null)
-              Text('Activated ${_gatewayTime(device.activatedAt!)}'),
-            if (device.revokedAt != null)
-              Text('Revoked ${_gatewayTime(device.revokedAt!)}'),
             const SizedBox(height: 16),
             Text(
               'Handset observations',
@@ -467,36 +475,47 @@ class _AdminGatewayPageState extends ConsumerState<AdminGatewayPage> {
                 ),
               ),
               const SizedBox(height: 8),
-              Text('Handset reported ${_gatewayTime(health.reportedAt)}'),
-              Text('Backend recorded ${_gatewayTime(health.ingestedAt)}'),
-              Text('Observation expires ${_gatewayTime(health.validUntil)}'),
+              _AdminSourceFactsListing(
+                label: 'Handset report times',
+                facts: [
+                  ('Handset reported', Text(_gatewayTime(health.reportedAt))),
+                  ('Backend recorded', Text(_gatewayTime(health.ingestedAt))),
+                  (
+                    'Observation expires',
+                    Text(_gatewayTime(health.validUntil)),
+                  ),
+                ],
+              ),
               const SizedBox(height: 12),
               if (!freshHealth)
                 const Text(
                   'Previous health values are hidden. Refreshing the list does not renew an old handset report.',
                 )
               else
-                Wrap(
-                  spacing: 24,
-                  runSpacing: 16,
-                  children: [
-                    _GatewayDimension(
+                _AdminSourceFactsListing(
+                  label: 'Handset observations',
+                  facts: [
+                    (
                       'SMS permission',
-                      health.smsPermission
-                          ? 'Reported allowed'
-                          : 'Reported denied',
+                      Text(
+                        health.smsPermission
+                            ? 'Reported allowed'
+                            : 'Reported denied',
+                      ),
                     ),
-                    _GatewayDimension('Network validation', health.network),
-                    _GatewayDimension('Telephony', health.telephony),
-                    _GatewayDimension(
+                    ('Network validation', Text(health.network)),
+                    ('Telephony', Text(health.telephony)),
+                    (
                       'SIM selection',
-                      health.simSelected ? 'Selected' : 'Not selected',
+                      Text(health.simSelected ? 'Selected' : 'Not selected'),
                     ),
-                    _GatewayDimension(
+                    (
                       'Local dispatch pause',
-                      health.localPause
-                          ? 'Paused on handset'
-                          : 'Not locally paused',
+                      Text(
+                        health.localPause
+                            ? 'Paused on handset'
+                            : 'Not locally paused',
+                      ),
                     ),
                   ],
                 ),
@@ -507,8 +526,13 @@ class _AdminGatewayPageState extends ConsumerState<AdminGatewayPage> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
-            Text(
-              '${device.callbackTotal} recorded · ${device.sentCallbacks} sent callbacks · ${device.deliveryCallbacks} delivery callbacks',
+            _AdminSourceFactsListing(
+              label: 'OS callback observations',
+              facts: [
+                ('Recorded callbacks', Text('${device.callbackTotal}')),
+                ('Sent callbacks', Text('${device.sentCallbacks}')),
+                ('Delivery callbacks', Text('${device.deliveryCallbacks}')),
+              ],
             ),
             const Text(
               'Raw OS observations only. These counts do not prove physical delivery or change payment, ledger or receipt outcomes.',
@@ -521,21 +545,25 @@ class _AdminGatewayPageState extends ConsumerState<AdminGatewayPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _GatewayEvidenceField(
-                      'Device ID',
-                      device.identity.deviceId,
-                    ),
-                    _GatewayEvidenceField(
-                      'Installation ID',
-                      device.identity.installationId,
-                    ),
-                    _GatewayEvidenceField(
-                      'Public key fingerprint',
-                      device.identity.keySha256,
-                    ),
-                    _GatewayEvidenceField(
-                      'Signing certificate fingerprint',
-                      device.identity.signingCertificateSha256,
+                    _AdminSourceFactsListing(
+                      label: 'Gateway identity fields',
+                      facts: [
+                        ('Device ID', SelectableText(device.identity.deviceId)),
+                        (
+                          'Installation ID',
+                          SelectableText(device.identity.installationId),
+                        ),
+                        (
+                          'Public key fingerprint',
+                          SelectableText(device.identity.keySha256),
+                        ),
+                        (
+                          'Signing certificate fingerprint',
+                          SelectableText(
+                            device.identity.signingCertificateSha256,
+                          ),
+                        ),
+                      ],
                     ),
                     if (device.lastOwnerAction case final evidence?)
                       _GatewayReceiptView(receipt: evidence.receipt)
@@ -594,6 +622,7 @@ class _AdminGatewayPageState extends ConsumerState<AdminGatewayPage> {
                 ],
               ),
             ],
+            const Divider(height: 24),
           ],
         ),
       ),
@@ -787,7 +816,7 @@ class _AdminGatewayPageState extends ConsumerState<AdminGatewayPage> {
           !submitted ||
           error is AdminGatewayDenied ||
           error is UnsupportedError ||
-          error is PostgrestException &&
+          error is CollectApiException &&
               {'42501', '22023', '55000'}.contains(error.code);
       if (refused && _checkpoint != null) {
         try {
@@ -799,7 +828,7 @@ class _AdminGatewayPageState extends ConsumerState<AdminGatewayPage> {
       }
       setState(() {
         _message = refused
-            ? error is PostgrestException && error.code == '55000'
+            ? error is CollectApiException && error.code == '55000'
                   ? 'Device change refused. Refresh its state and obtain a recent handset report before activation.'
                   : error is UnsupportedError
                   ? 'Device changes are unavailable from this service.'
@@ -821,23 +850,6 @@ Widget _gatewayHeading(BuildContext context, String title) => Semantics(
   header: true,
   child: Text(title, style: Theme.of(context).textTheme.titleLarge),
 );
-
-class _GatewayDimension extends StatelessWidget {
-  const _GatewayDimension(this.label, this.value);
-  final String label, value;
-  @override
-  Widget build(BuildContext context) => SizedBox(
-    width: 220,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: Theme.of(context).textTheme.labelLarge),
-        const SizedBox(height: 4),
-        Text(value),
-      ],
-    ),
-  );
-}
 
 class _GatewayReceiptView extends StatelessWidget {
   const _GatewayReceiptView({required this.receipt});

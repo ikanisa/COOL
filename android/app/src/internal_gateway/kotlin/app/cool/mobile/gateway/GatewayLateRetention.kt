@@ -223,16 +223,18 @@ internal class GatewayLateRetention(
         }
     }
     fun bindReceipt(request: GatewayStoredRequest) {
-        if (request.action != "callback" || (!isSuccessorEnvelope(request.envelope) && strictInteger(request.envelope, "contract_version") != 2L)) return
+        if (request.action != "callback" || (!isNoticeEnvelope(request.envelope) && !isSuccessorEnvelope(request.envelope) && strictInteger(request.envelope, "contract_version") != 2L)) return
+        if (isNoticeEnvelope(request.envelope)) validateNoticeEnvelope(String(java.util.Base64.getDecoder().decode(strictString(request.row, "request_bytes_base64")), Charsets.UTF_8), request.envelope)
         val id = evidenceForPayload(request.envelope.getJSONObject("payload")) ?: return
         index.publish("late-receipt", retentionUuidKey(request.requestId), JSONObject().put("contract_version", 5).put("request_id", request.requestId)
             .put("request_sha256", request.digest).put("evidence_key", id))
     }
     fun receiptBound(request: GatewayStoredRequest): Boolean {
+        if (isNoticeEnvelope(request.envelope)) validateNoticeEnvelope(String(java.util.Base64.getDecoder().decode(strictString(request.row, "request_bytes_base64")), Charsets.UTF_8), request.envelope)
         val value = index.read("late-receipt", retentionUuidKey(request.requestId)) ?: return false
         requireKeys(value, setOf("contract_version", "request_id", "request_sha256", "evidence_key"))
         if (strictInteger(value, "contract_version") != 5L || requireUuid(value, "request_id") != request.requestId || strictString(value, "request_sha256") != request.digest ||
-            request.action != "callback" || (!isSuccessorEnvelope(request.envelope) && strictInteger(request.envelope, "contract_version") != 2L) || evidenceForPayload(request.envelope.getJSONObject("payload")) != strictString(value, "evidence_key")) invalidArchive()
+            request.action != "callback" || (!isNoticeEnvelope(request.envelope) && !isSuccessorEnvelope(request.envelope) && strictInteger(request.envelope, "contract_version") != 2L) || evidenceForPayload(request.envelope.getJSONObject("payload")) != strictString(value, "evidence_key")) invalidArchive()
         return index.indexed("late-receipt", retentionUuidKey(request.requestId))
     }
 }
@@ -258,4 +260,10 @@ internal fun gatewayLatePayload(a: GatewayAttempt, c: GatewayCallback): JSONObje
     .put("fence_version", a.fence).put("segment_index", c.segmentIndex).put("segment_count", a.segments.size).put("body_sha256", a.bodySha256)
     .put("destination_sha256", a.destinationSha256).put("callback_kind", if (c.kind == CallbackKind.SENT) "sent" else "delivery")
     .put("result_code", c.resultCode).put("tp_status", JSONObject.NULL).put("occurred_at", gatewayWireTime(Instant.parse(c.occurredAt)))
-    .also { if (a.dispatchRoute is GatewayDispatchRoute.ReceiptSuccessorV1) it.put("route", successorRouteJson(a.dispatchRoute)) }
+    .also {
+        when (val route = a.dispatchRoute) {
+            is GatewayDispatchRoute.PrimaryV2 -> Unit
+            is GatewayDispatchRoute.ReceiptSuccessorV1 -> it.put("route", successorRouteJson(route))
+            is GatewayDispatchRoute.ReceiptNoticeV1 -> it.put("route", noticeRouteJson(route))
+        }
+    }

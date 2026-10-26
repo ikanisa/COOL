@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
 import copy
 import importlib.util
+import hashlib
+import json
+import os
+import subprocess
+import sys
 from pathlib import Path
 import tempfile
+import struct
 import unittest
 from unittest.mock import patch
 
@@ -15,7 +21,7 @@ spec.loader.exec_module(policy)
 class CollectCiPolicyTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.workflows = {p.name: policy.read_workflow(p) for p in (ROOT / ".github/workflows").glob("*.yml")}
+        cls.workflows = {p.name: policy.read_workflow(p) for p in policy.workflow_paths(ROOT / ".github/workflows")}
 
     def setUp(self):
         self.workflows = copy.deepcopy(self.__class__.workflows)
@@ -28,6 +34,70 @@ class CollectCiPolicyTest(unittest.TestCase):
 
     def test_current_declared_boundary_is_valid(self):
         self.assertEqual(policy.validate_workflows(self.workflows), [])
+
+    def test_original_job_env_runner_temp_placement_is_rejected(self):
+        job = self.workflows['supabase.yml']['jobs']['stopped-admission-lifecycle-native']
+        step = next(step for step in job['steps'] if '--with-member-history' in step.get('run', ''))
+        name = 'COLLECT_MEMBER_HISTORY_OUTPUT_DIR'
+        value = step['env'].pop(name)
+        self.assertEqual(value, '${{ runner.temp }}/collect-current14-member-history')
+        if not step['env']:
+            step.pop('env')
+        job['env'][name] = value
+        self.assertIn({'workflow': 'supabase.yml', 'job': 'stopped-admission-lifecycle-native',
+                       'code': 'CI_JOB_ENV_CONTEXT_UNAVAILABLE'},
+                      policy.validate_workflows(self.workflows))
+
+    def test_job_env_accepts_all_early_contexts(self):
+        job = self.workflows['ci.yml']['jobs']['repo-hygiene']
+        expressions = ['github.workspace', 'needs.prepare.result', 'strategy.job-index',
+                       'matrix.flavor', 'vars.runner', 'secrets.job', 'inputs.manual']
+        job.setdefault('env', {}).update({f'CONTEXT_{i}': '${{ ' + value + ' }}'
+                                         for i, value in enumerate(expressions)})
+        self.assertNotIn('CI_JOB_ENV_CONTEXT_UNAVAILABLE', self.codes())
+
+    def test_step_env_keeps_runner_and_other_late_contexts_available(self):
+        self.checkout()['env'] = {'TEMP': '${{ runner.temp }}', 'VALUE': '${{ env.VALUE }}',
+                                  'STATUS': '${{ job.status }}',
+                                  'OUTPUT': '${{ steps.compile.outputs.path }}'}
+        self.assertNotIn('CI_JOB_ENV_CONTEXT_UNAVAILABLE', self.codes())
+
+    def test_job_env_refuses_late_roots_in_actual_member_forms(self):
+        original = copy.deepcopy(self.workflows)
+        expressions = ['runner.temp', "runner['temp']", "RuNnEr [ 'temp' ]", '(runner).temp',
+                       'env.VALUE', "job['status']", "steps['compile'].outputs['path']",
+                       'jobs.release.outputs.path']
+        for expression in expressions:
+            with self.subTest(expression=expression):
+                self.workflows = copy.deepcopy(original)
+                self.workflows['ci.yml']['jobs']['repo-hygiene'].setdefault('env', {})['PROBE'] = '${{ ' + expression + ' }}'
+                self.assertIn('CI_JOB_ENV_CONTEXT_UNAVAILABLE', self.codes())
+
+    def test_job_env_refuses_nested_and_multiple_expression_late_roots(self):
+        original = copy.deepcopy(self.workflows)
+        values = ["${{ format('{0}', runner.temp) }}", '${{ vars[runner.temp] }}',
+                  "${{ fromJSON(env.CONFIG).value }}",
+                  "${{ 'literal }}' }}-${{ steps.compile.outputs.path }}",
+                  "${{ format('literal }} {0}', job.status) }}",
+                  "${{ format(\n  '{0}',\n  runner['temp']\n) }}"]
+        for value in values:
+            with self.subTest(value=value):
+                self.workflows = copy.deepcopy(original)
+                self.workflows['ci.yml']['jobs']['repo-hygiene'].setdefault('env', {})['PROBE'] = value
+                self.assertIn('CI_JOB_ENV_CONTEXT_UNAVAILABLE', self.codes())
+
+    def test_job_env_ignores_quoted_literals_and_context_named_properties(self):
+        job = self.workflows['ci.yml']['jobs']['repo-hygiene']
+        values = ['runner.temp env.VALUE job.status steps.compile',
+                  "${{ 'runner.temp env.VALUE job.status steps.compile' }}",
+                  "${{ 'It''s runner.temp }} and env.VALUE' }}",
+                  '${{ vars.runner }}', "${{ vars['env'] }}", '${{ vars . steps }}',
+                  "${{ format('{0}', vars.job) }}",
+                  '${{ fromJSON(vars.configuration).runner }}',
+                  "${{ github.event.inputs['steps'] }}"]
+        job.setdefault('env', {}).update({f'VALUE_{i}': value for i, value in enumerate(values)})
+        job['env']['runner'] = 'literal key and value'
+        self.assertNotIn('CI_JOB_ENV_CONTEXT_UNAVAILABLE', self.codes())
 
     def test_missing_and_enabled_persisted_credentials_fail(self):
         for value in [None, True, "false", "${{ inputs.persist }}"]:
@@ -52,26 +122,297 @@ class CollectCiPolicyTest(unittest.TestCase):
             self.workflows["ci.yml"]["jobs"]["repo-hygiene"]["timeout-minutes"] = value
             self.assertIn("CI_JOB_DEADLINE_REQUIRED", self.codes())
 
-    def test_codeql_bridge_and_lock_must_cover_both_events(self):
+    def test_codeql_platform_must_cover_both_events(self):
         events = self.workflows["codeql.yml"].get("true", self.workflows["codeql.yml"].get("on"))
         for event in ["push", "pull_request"]:
-            for required in ["tools/collect-notification-mcp/**", "tools/collect-notification-mcp/pnpm-lock.yaml"]:
+            for required in ["deploy/platform-api/**/*.js", "deploy/platform-admin/**/*.js"]:
                 original = list(events[event]["paths"])
                 events[event]["paths"].remove(required)
-                self.assertIn("CI_CODEQL_BRIDGE_AND_LOCK_TRIGGER_REQUIRED", self.codes())
+                self.assertIn("CI_CODEQL_PLATFORM_TRIGGER_REQUIRED", self.codes())
                 events[event]["paths"] = original
 
-    def test_mcp_unfrozen_or_missing_checks_fail(self):
-        lane = self.workflows["ci.yml"]["jobs"]["notification-operator"]
-        lane["steps"] = [s for s in lane["steps"] if s.get("run") != "pnpm install --frozen-lockfile --ignore-scripts"]
-        self.assertIn("CI_BRIDGE_FROZEN_CHECK_AND_TEST_REQUIRED", self.codes())
+    def test_four_retained_legacy_jobs_cannot_be_reactivated(self):
+        original = copy.deepcopy(self.workflows)
+        for name in policy.LEGACY_JOBS:
+            for value in (None, True, '${{ true }}', '${{ inputs.legacy }}', "${{ github.event_name == 'workflow_dispatch' }}"):
+                with self.subTest(job=name, condition=value):
+                    self.workflows = copy.deepcopy(original)
+                    job = self.workflows['ci.yml']['jobs'][name]
+                    if value is None:
+                        job.pop('if')
+                    else:
+                        job['if'] = value
+                    self.assertIn('CI_LEGACY_AUTOMATIC_EXECUTION_FORBIDDEN', self.codes())
 
-    def test_node_and_package_manager_pins_fail_when_changed(self):
-        steps = self.workflows["ci.yml"]["jobs"]["notification-operator"]["steps"]
-        next(s for s in steps if str(s.get("uses", "")).startswith("actions/setup-node@"))["with"]["node-version"] = "24"
-        next(s for s in steps if s.get("run") == "npm install --global pnpm@10.33.2 --ignore-scripts")["run"] = "npm install --global pnpm"
-        self.assertIn("CI_BRIDGE_NODE_PIN_REQUIRED", self.codes())
-        self.assertIn("CI_BRIDGE_PACKAGE_MANAGER_PIN_REQUIRED", self.codes())
+    def test_legacy_execution_cannot_move_to_an_active_job_or_other_workflow(self):
+        original = copy.deepcopy(self.workflows)
+        for filename in ('ci.yml', 'public-website.yml'):
+            for hook in ({'run': 'npm test', 'working-directory': 'deploy/platform-api'},
+                         {'run': 'npm ci --ignore-scripts', 'working-directory': 'deploy/admin-api'},
+                         {'run': 'make cloudflare-platform-test'},
+                         {'run': 'node scripts/qa/recovery17_ci.mjs'},
+                         {'run': 'bash scripts/admin_cloudflare_build.sh'}):
+                with self.subTest(workflow=filename, hook=hook):
+                    self.workflows = copy.deepcopy(original)
+                    job = next(iter(self.workflows[filename]['jobs'].values()))
+                    job['steps'].append(hook)
+                    self.assertIn('CI_LEGACY_AUTOMATIC_EXECUTION_FORBIDDEN', self.codes())
+
+    def test_each_current_consumer_hook_cannot_be_omitted_masked_duplicated_moved_or_redirected(self):
+        original = copy.deepcopy(self.workflows)
+        for cwd, command in policy.CURRENT_CONSUMERS:
+            for mutation in ('omit', 'conditional', 'ignore', 'duplicate', 'move', 'directory', 'active-decoy'):
+                with self.subTest(command=command, mutation=mutation):
+                    self.workflows = copy.deepcopy(original)
+                    jobs = self.workflows['ci.yml']['jobs']
+                    steps = jobs['supabase-admin-consumers']['steps']
+                    hook = next(x for x in steps if x.get('run', '').strip() == command)
+                    if mutation == 'omit': steps.remove(hook)
+                    elif mutation == 'conditional': hook['if'] = '${{ false }}'
+                    elif mutation == 'ignore': hook['continue-on-error'] = True
+                    elif mutation == 'duplicate': steps.append(copy.deepcopy(hook))
+                    elif mutation == 'directory': hook['working-directory'] = 'unrelated'
+                    elif mutation == 'active-decoy': jobs['repo-hygiene']['steps'].append(copy.deepcopy(hook))
+                    else:
+                        steps.remove(hook); jobs['repo-hygiene']['steps'].append(hook)
+                    self.assertIn('CI_CURRENT_CONSUMER_HOOK_REQUIRED', self.codes())
+
+    def test_current_consumer_job_cannot_be_masked_or_depend_on_another_job(self):
+        original = copy.deepcopy(self.workflows)
+        for field, value in [('if', '${{ false }}'), ('continue-on-error', True),
+                             ('needs', ['supabase-platform']), ('defaults', {'run': {'working-directory': 'deploy/platform-api'}})]:
+            with self.subTest(field=field):
+                self.workflows = copy.deepcopy(original)
+                self.workflows['ci.yml']['jobs']['supabase-admin-consumers'][field] = value
+                self.assertIn('CI_CURRENT_CONSUMER_JOB_REQUIRED', self.codes())
+
+    def test_locked_host_install_must_precede_bundled_parent_execution(self):
+        steps = self.workflows['ci.yml']['jobs']['supabase-admin-consumers']['steps']
+        install = next(x for x in steps if x.get('run') == policy.CURRENT_CONSUMERS[0][1])
+        steps.remove(install); steps.append(install)
+        self.assertIn('CI_CURRENT_CONSUMER_INSTALL_ORDER_REQUIRED', self.codes())
+
+    def test_node_pin_fails_when_changed(self):
+        original = copy.deepcopy(self.workflows)
+        for field, value in [('version', '24'), ('if', '${{ false }}'), ('continue-on-error', True)]:
+            self.workflows = copy.deepcopy(original)
+            steps = self.workflows['ci.yml']['jobs']['supabase-admin-consumers']['steps']
+            node = next(x for x in steps if str(x.get('uses', '')).startswith('actions/setup-node@'))
+            if field == 'version': node['with']['node-version'] = value
+            else: node[field] = value
+            self.assertIn('CI_CURRENT_CONSUMER_NODE_PIN_REQUIRED', self.codes())
+
+    def test_manual_history_hooks_are_preserved_without_requiring_automatic_legacy_execution(self):
+        source = (ROOT / 'Makefile').read_text()
+        self.assertEqual(policy.validate_legacy_makefile_history(source), [])
+        for filename, code in [('recovery12_test.mjs', 'CI_PLATFORM_MAKE_RECOVERY12_REQUIRED'),
+                               ('recovery13_test.mjs', 'CI_PLATFORM_MAKE_RECOVERY13_REQUIRED'),
+                               ('recovery15_test.mjs', 'CI_PLATFORM_MAKE_RECOVERY15_REQUIRED'),
+                               ('momo_release_candidate_test.mjs', 'CI_PLATFORM_MAKE_MOMO_CANDIDATE_REQUIRED')]:
+            command = '@node --test scripts/tests/' + filename
+            with self.subTest(filename=filename):
+                changed = source.replace(command, '@true', 1)
+                self.assertIn(code, {x['code'] for x in policy.validate_legacy_makefile_history(changed)})
+
+    def test_current_make_policy_does_not_require_historical_backend_command_hooks(self):
+        source = (ROOT / 'Makefile').read_text()
+        for filename in ('recovery12_test.mjs', 'recovery13_test.mjs', 'recovery15_test.mjs', 'momo_release_candidate_test.mjs'):
+            source = source.replace('\t@node --test scripts/tests/' + filename + '\n', '', 1)
+        self.assertEqual(policy.validate_platform_makefile(source), [])
+        self.assertTrue(policy.validate_legacy_makefile_history(source))
+
+    def test_current_make_hooks_cannot_be_omitted_masked_duplicated_or_redirected(self):
+        source = (ROOT / 'Makefile').read_text()
+        for command in policy.CURRENT_MAKE_COMMANDS:
+            line = '\t@' + command + '\n'
+            self.assertEqual(source.count(line), 1)
+            for replacement in ('', line + line, line.replace('@', '-@', 1),
+                                line.rstrip() + ' || true\n', line.replace('deploy/platform-admin', 'unrelated')):
+                if replacement == line: continue
+                with self.subTest(command=command, replacement=replacement):
+                    self.assertIn('CI_CURRENT_MAKE_CONSUMERS_REQUIRED',
+                                  {x['code'] for x in policy.validate_platform_makefile(source.replace(line, replacement, 1))})
+
+    def test_supabase_make_target_must_call_current_consumers_without_legacy_dependency(self):
+        source = (ROOT / 'Makefile').read_text()
+        for replacement in ('', '\t@$(MAKE) cloudflare-platform-test\n',
+                            '\t@$(MAKE) supabase-admin-consumers-test || true\n'):
+            changed = source.replace('\t@$(MAKE) supabase-admin-consumers-test\n', replacement, 1)
+            self.assertIn('CI_CURRENT_MAKE_QUALIFICATION_REQUIRED', {x['code'] for x in policy.validate_platform_makefile(changed)})
+
+    def test_recovery13_make_hook_cannot_be_conditional_ignored_or_duplicated(self):
+        source = (ROOT / "Makefile").read_text()
+        command = "\t@node --test scripts/tests/recovery13_test.mjs\n"
+        for replacement in [
+            "\t-@node --test scripts/tests/recovery13_test.mjs\n",
+            "\t@node --test scripts/tests/recovery13_test.mjs || true\n",
+            "\t@if false; then node --test scripts/tests/recovery13_test.mjs; fi\n",
+        ]:
+            with self.subTest(replacement=replacement):
+                findings = policy.validate_legacy_makefile_history(source.replace(command, replacement, 1))
+                self.assertEqual({item["code"] for item in findings},
+                                 {"CI_PLATFORM_MAKE_RECOVERY13_REQUIRED"})
+        duplicate = source + "\ncloudflare-platform-test:\n" + command
+        self.assertIn("CI_PLATFORM_MAKE_RECOVERY13_REQUIRED",
+                      {item["code"] for item in policy.validate_legacy_makefile_history(duplicate)})
+
+
+    def test_momo_successor_make_checks_cannot_be_decoys_masked_or_duplicated(self):
+        source = (ROOT / "Makefile").read_text()
+        for filename, code in [("recovery15_test.mjs", "CI_PLATFORM_MAKE_RECOVERY15_REQUIRED"),
+                               ("momo_release_candidate_test.mjs", "CI_PLATFORM_MAKE_MOMO_CANDIDATE_REQUIRED")]:
+            command = f"\t@node --test scripts/tests/{filename}\n"
+            for replacement in ["", command.replace("@node", "-@node"),
+                                command.rstrip() + " || true\n",
+                                f"\t@if false; then node --test scripts/tests/{filename}; fi\n", command + command]:
+                with self.subTest(filename=filename, replacement=replacement):
+                    changed = source.replace(command, replacement, 1)
+                    if not replacement:
+                        changed += "\nunrelated-recovery-check:\n" + command
+                    self.assertEqual({f["code"] for f in policy.validate_legacy_makefile_history(changed)}, {code})
+
+
+    def test_apk_size_uses_validated_public_profile_and_preserves_dev_size_checks(self):
+        job = self.workflows['ci.yml']['jobs']['apk-size']
+        step = next(s for s in job['steps'] if s.get('name') == 'Build release APK size proxy (dev flavor)')
+        public = step['env']
+        self.assertEqual(public['COLLECT_BACKEND'], 'supabase')
+        self.assertEqual(public['SUPABASE_URL'], 'https://rrlduytparvsjfmegalh.supabase.co')
+        self.assertEqual(public['SUPABASE_API_URL'], 'https://platform-admin.collect.ikanisa.com')
+        self.assertIn('vars.COLLECT_SUPABASE_PUBLISHABLE_KEY', public['SUPABASE_PUBLISHABLE_KEY'])
+        self.assertIn('vars.COLLECT_AUTH_CAPTCHA_SITE_KEY', public['AUTH_CAPTCHA_SITE_KEY'])
+        self.assertEqual(public['AUTH_CAPTCHA_ENABLED'], 'true')
+        self.assertNotIn('secrets.', str(public))
+        self.assertLess(step['run'].index('native_build_config.py'), step['run'].index('flutter build apk'))
+        size_check = next(s['run'] for s in job['steps'] if s.get('name') == 'Check per-device APK size budget')
+        self.assertIn('"${#APK_PATHS[@]}" -ne 3', size_check)
+        self.assertIn('MAX_SIZE_BYTES=$((50 * 1048576))', size_check)
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root / 'scripts/qa').mkdir(parents=True)
+            (root / 'scripts/qa/native_build_config.py').write_bytes(
+                (ROOT / 'scripts/qa/native_build_config.py').read_bytes())
+            (root / 'pubspec.yaml').write_text('name: synthetic_ci_fixture\nversion: 1.2.4+23\n')
+            (root / 'bin').mkdir()
+            (root / 'tmp').mkdir()
+            compiler = root / 'bin/flutter'
+            compiler.write_text('#!' + sys.executable + '\n' +
+                'import json,sys\nfrom pathlib import Path\n'
+                'args=sys.argv[1:]\n'
+                'config=Path(next(value.split("=",1)[1] for value in args if value.startswith("--dart-define-from-file=")))\n'
+                'with Path("observations.jsonl").open("a") as output:\n'
+                ' output.write(json.dumps({"args":args,"defines":json.loads(config.read_text()),"mode":config.stat().st_mode&0o777,"temporary_path":str(config)})+"\\n")\n')
+            compiler.chmod(0o700)
+            env = {'PATH': str(root / 'bin') + ':' + str(Path(sys.executable).parent) + ':/usr/bin:/bin',
+                   'RUNNER_TEMP': str(root / 'tmp'), 'PYTHONDONTWRITEBYTECODE': '1',
+                   'COLLECT_BACKEND': 'supabase',
+                   'SUPABASE_URL': 'https://rrlduytparvsjfmegalh.supabase.co',
+                   'SUPABASE_API_URL': 'https://platform-admin.collect.ikanisa.com',
+                   'SUPABASE_PUBLISHABLE_KEY': 'sb_publishable_synthetic_public_fixture',
+                   'AUTH_CAPTCHA_ENABLED': 'true', 'AUTH_CAPTCHA_PROVIDER': 'turnstile',
+                   'AUTH_CAPTCHA_SITE_KEY': '1x00000000000000000000AA'}
+            result = subprocess.run(['bash', '-e', '-c', step['run']], cwd=root, env=env,
+                                    capture_output=True, text=True, timeout=20)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            observations = root / 'observations.jsonl'
+            [record] = [json.loads(line) for line in observations.read_text().splitlines()]
+            self.assertEqual(record['defines']['SUPABASE_PUBLISHABLE_KEY'], env['SUPABASE_PUBLISHABLE_KEY'])
+            self.assertEqual(record['defines']['COLLECT_BACKEND'], 'supabase')
+            self.assertEqual(record['mode'], 0o600)
+            self.assertFalse(Path(record['temporary_path']).exists())
+            self.assertIn('--split-per-abi', record['args'])
+            self.assertEqual(record['args'][record['args'].index('--flavor') + 1], 'dev')
+            self.assertIn('--dart-define=FLAVOR=dev', record['args'])
+            for key in ['SUPABASE_PUBLISHABLE_KEY', 'AUTH_CAPTCHA_SITE_KEY']:
+                with self.subTest(missing=key):
+                    result = subprocess.run(['bash', '-e', '-c', step['run']], cwd=root,
+                                            env=env | {key: ''}, capture_output=True, text=True, timeout=20)
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertEqual(len(observations.read_text().splitlines()), 1)
+
+    def test_shipping_identity_needs_its_actual_platform_backend(self):
+        job = self.workflows['ci.yml']['jobs']['admin-platform-candidate']
+        job['needs'] = ['repo-hygiene', 'admin-web-build', 'cloudflare-backend']
+        self.assertIn('CI_SHIPPING_PLATFORM_DEPENDENCY_REQUIRED', self.codes())
+
+    def test_shipping_requires_both_independent_current_jobs(self):
+        original = copy.deepcopy(self.workflows)
+        for omitted in ('repo-hygiene', 'admin-web-build', 'supabase-platform', 'supabase-admin-consumers'):
+            self.workflows = copy.deepcopy(original)
+            self.workflows['ci.yml']['jobs']['admin-platform-candidate']['needs'].remove(omitted)
+            self.assertIn('CI_SHIPPING_PLATFORM_DEPENDENCY_REQUIRED', self.codes())
+
+    def test_supabase_cf_web_transport_command_and_filtered_events(self):
+        command = ('node --test deploy/platform-admin/test/backend-selection.test.mjs '
+                   'deploy/platform-admin/test/supabase-transport.test.mjs')
+        for filename, job_name in [('ci.yml', 'supabase-platform'),
+                                   ('supabase.yml', 'local-qualification')]:
+            with self.subTest(workflow=filename):
+                workflow = self.workflows[filename]
+                job = workflow['jobs'][job_name]
+                matching = [step for step in job['steps'] if step.get('run') == command]
+                self.assertEqual(len(matching), 1)
+                step = matching[0]
+                for boundary in (job, step):
+                    self.assertNotIn('if', boundary)
+                    self.assertIs(boundary.get('continue-on-error', False), False)
+                default = job.get('defaults', {}).get('run', {}).get('working-directory', '.')
+                self.assertIn(step.get('working-directory', default),
+                              ('.', '${{ github.workspace }}'))
+                events = workflow.get('on', workflow.get('true', {}))
+                for event in ('push', 'pull_request'):
+                    declaration = events.get(event)
+                    if isinstance(declaration, dict) and 'paths' in declaration:
+                        self.assertIn('deploy/platform-admin/**', declaration['paths'])
+
+    def test_supabase_checks_cannot_skip_fixture_or_drift_from_declared_workflow(self):
+        original = copy.deepcopy(self.workflows)
+        for mutation in ('omit', 'skip-job', 'ignore-job', 'skip-check', 'ignore-check', 'wrong-db', 'workflow-drift'):
+            with self.subTest(mutation=mutation):
+                self.workflows = copy.deepcopy(original)
+                job = self.workflows['ci.yml']['jobs']['supabase-platform']
+                other = self.workflows['supabase.yml']['jobs']['local-qualification']
+                if mutation == 'workflow-drift':
+                    other['timeout-minutes'] = 24
+                else:
+                    for target in (job, other):
+                        if mutation == 'omit':
+                            target['steps'] = [step for step in target['steps'] if step.get('run') != '"$COLLECT_DENO" task test']
+                        elif mutation == 'skip-job':
+                            target['if'] = '${{ false }}'
+                        elif mutation == 'ignore-job':
+                            target['continue-on-error'] = True
+                        elif mutation in ('skip-check', 'ignore-check'):
+                            step = next(step for step in target['steps'] if step.get('run') == '"$COLLECT_DENO" task test')
+                            step['if' if mutation == 'skip-check' else 'continue-on-error'] = '${{ false }}' if mutation == 'skip-check' else True
+                        else:
+                            target['env']['COLLECT_TEST_DATABASE_URL'] = 'postgres://hosted.invalid/production'
+                self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+
+    def test_supabase_candidate_cannot_fall_back_to_another_backend(self):
+        original = copy.deepcopy(self.workflows)
+        for boundary in ('build', 'receipt', 'consumer'):
+            with self.subTest(boundary=boundary):
+                self.workflows = copy.deepcopy(original)
+                jobs = self.workflows['ci.yml']['jobs']
+                if boundary == 'consumer':
+                    jobs['admin-platform-candidate']['env']['COLLECT_BACKEND'] = 'cloudflare'
+                else:
+                    key = 'bash scripts/admin_pwa_release_build.sh' if boundary == 'build' else 'PY_PLATFORM_IDENTITY'
+                    step = next(s for s in jobs['admin-web-build']['steps'] if key in s.get('run', ''))
+                    step['env']['COLLECT_BACKEND'] = "${{ vars.COLLECT_BACKEND || 'cloudflare' }}"
+                self.assertIn('CI_SUPABASE_CANDIDATE_SELECTION_REQUIRED', self.codes())
+
+    def test_shipping_identity_cannot_download_the_legacy_preview_artifact(self):
+        job = self.workflows['ci.yml']['jobs']['admin-platform-candidate']
+        step = next(s for s in job['steps'] if str(s.get('uses', '')).startswith('actions/download-artifact@'))
+        step['with']['name'] = 'admin-cloudflare-candidate'
+        self.assertIn('CI_SHIPPING_PLATFORM_ARTIFACT_REQUIRED', self.codes())
+
+    def test_legacy_preview_compilation_cannot_gate_the_shipping_build(self):
+        job = self.workflows['ci.yml']['jobs']['admin-web-build']
+        job['steps'].append({'run': 'bash scripts/admin_cloudflare_build.sh'})
+        self.assertIn('CI_SHIPPING_PLATFORM_BUILD_REQUIRED', self.codes())
 
     def test_safe_parser_rejects_aliases_and_malformed_yaml_without_echo(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -90,6 +431,103 @@ class CollectCiPolicyTest(unittest.TestCase):
             link.symlink_to(ROOT / ".github/workflows/ci.yml")
             with self.assertRaisesRegex(policy.PolicyInputError, "CI_POLICY_WORKFLOW_INPUT_INVALID"):
                 policy.read_workflow(link)
+
+    def test_verified_filesystem_metadata_is_excluded_but_yaml_stays_active(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root / "current.yaml").write_text("name: current\n")
+            (root / "ci.yml").write_text("name: current\n")
+            header = struct.pack(">II16sH", 0x00051607, 0x00020000, b"\0" * 16, 1)
+            (root / "._ci.yml").write_bytes(header + struct.pack(">III", 9, 38, 4) + b"META")
+            self.assertEqual([p.name for p in policy.workflow_paths(root)], ["ci.yml", "current.yaml"])
+            (root / "._ci.yml").write_text("name: executable text\n")
+            self.assertIn("._ci.yml", [p.name for p in policy.workflow_paths(root)])
+
+    def test_malformed_and_symlinked_metadata_does_not_bypass_validation(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root / "ci.yml").write_text("name: current\n")
+            (root / "._ci.yml").write_bytes(b"broken metadata")
+            self.assertIn("._ci.yml", [p.name for p in policy.workflow_paths(root)])
+            (root / "._ci.yml").unlink()
+            (root / "._ci.yml").symlink_to(root / "ci.yml")
+            self.assertIn("._ci.yml", [p.name for p in policy.workflow_paths(root)])
+            with self.assertRaises(policy.PolicyInputError):
+                policy.read_workflow(root / "._ci.yml")
+
+
+    def test_shipping_pwa_identity_binds_real_clean_commit_and_rejects_invalid_inputs(self):
+        steps = self.workflows["ci.yml"]["jobs"]["admin-web-build"]["steps"]
+        identity = next(s for s in steps if s.get("name") == "Bind shipping PWA artifact to the clean workflow commit")
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder).resolve()
+            # Tiny local artifact files exercise the actual receipt gate. They
+            # are not Flutter, hosted, browser or release acceptance evidence.
+            inputs = [
+                'scripts/admin_pwa_release_build.sh', 'scripts/supabase/admin_build_config.py', 'scripts/admin_pwa_manifest_gate.sh',
+                'scripts/admin_pwa_hosting_gate.sh', 'scripts/admin_cloudflare_assets.py',
+                'scripts/templates/admin_pwa_service_worker.js', 'deploy/platform-admin/src/index.js', 'deploy/platform-admin/src/supabase-transport.js',
+                'deploy/admin.wrangler.jsonc', 'deploy/platform-admin/wrangler.jsonc',
+                '.github/workflows/ci.yml', '.fvmrc', 'pubspec.yaml', 'pubspec.lock',
+                'scripts/admin_platform_candidate.py',
+            ]
+            for name in inputs:
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('isolated receipt gate source fixture\n')
+            # The real producer delegates source selection to the consumer.
+            (root / 'scripts/admin_platform_candidate.py').write_bytes(
+                (ROOT / 'scripts/admin_platform_candidate.py').read_bytes())
+            (root / '.gitignore').write_text('build/\n')
+            for args in [['init', '--quiet'], ['add', '.'],
+                         ['-c', 'user.name=Receipt fixture', '-c', 'user.email=fixture@example.invalid',
+                          '-c', 'commit.gpgsign=false', 'commit', '--quiet', '-m', 'isolated receipt gate fixture']]:
+                subprocess.run(['git', '-C', str(root), *args], check=True, capture_output=True, text=True)
+            commit = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
+            build = root / 'build/web'
+            build.mkdir(parents=True)
+            for name in ['main.dart.js', 'index.html', 'flutter_bootstrap.js', 'manifest.json', '_headers', '.well-known/assetlinks.json', '.well-known/apple-app-site-association']:
+                output = build / name
+                output.parent.mkdir(parents=True,exist_ok=True)
+                output.write_text('isolated output role: ' + name)
+            (build / 'custom-sw.js').write_text(
+                'const CACHE_NAME = "collect-admin-fixture";\n'
+                'const CACHE_URLS = ["./"];\nconst CACHE_HASHES = {"./":"fixture-hash"};\n')
+            version = {'source_commit': commit, 'source_dirty': False,
+                       'backend': 'cloudflare', 'authentication': 'email_otp_cookie_with_totp',
+                       'minimum_core_schema_migration': '0017_admin_email_otp.sql',
+                       'financial_model': 'canonical_evidence_ledger', 'financial_contract_version': 2}
+            version_path = build / 'version.json'
+            def run(changes=None, sha=commit):
+                version_path.write_text(json.dumps({**version, **(changes or {})}))
+                return subprocess.run(['bash', '-e', '-c', identity['run']], cwd=root,
+                                      env={**os.environ, 'GITHUB_SHA': sha, 'COLLECT_BACKEND':'cloudflare'}, capture_output=True, text=True)
+            result = run()
+            self.assertEqual(result.returncode, 0, result.stderr)
+            receipt_path = root / 'build/admin-platform-pwa-artifact.json'
+            receipt = json.loads(receipt_path.read_text())
+            self.assertEqual(receipt['source_commit'], commit)
+            self.assertIs(receipt['source_dirty'], False)
+            self.assertIs(receipt['hosted_deployment_verified'], False)
+            self.assertEqual(receipt['main_dart_js_sha256'], hashlib.sha256((build / 'main.dart.js').read_bytes()).hexdigest())
+            self.assertEqual(receipt['worker_sha256'], hashlib.sha256((build / 'custom-sw.js').read_bytes()).hexdigest())
+            self.assertEqual(set(receipt['input_sha256']), set(inputs))
+            for changes, sha in [({'source_dirty': True}, commit), ({'source_commit': '0' * 40}, commit),
+                                 ({}, '0' * 40), ({'backend': 'unknown'}, commit),
+                                 ({'authentication': 'email'}, commit), ({'financial_model': 'legacy_core'}, commit),
+                                 ({'financial_contract_version': 1}, commit)]:
+                with self.subTest(changes=changes, sha=sha):
+                    receipt_path.unlink(missing_ok=True)
+                    self.assertNotEqual(run(changes, sha).returncode, 0)
+                    self.assertFalse(receipt_path.exists())
+            (build / 'main.dart.js').unlink()
+            receipt_path.unlink(missing_ok=True)
+            self.assertNotEqual(run().returncode, 0)
+            self.assertFalse(receipt_path.exists())
+            (build / 'main.dart.js').write_text('restored isolated output')
+            (root / 'pubspec.yaml').write_text('changed tracked fixture source\n')
+            self.assertNotEqual(run().returncode, 0)
+            self.assertFalse(receipt_path.exists())
 
     def test_local_pass_cannot_attest_hosted_security_or_mutation(self):
         report = policy.inspect(ROOT)

@@ -4,7 +4,7 @@ import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/app/theme/collect_theme_controller.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:collect_app/shared/widgets/collect_components.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/collect_scroll_fixture.dart';
 
 List<SemanticsNode> _nodes(WidgetTester tester) =>
     find.semantics.byPredicate((_) => true).evaluate().toList();
@@ -46,7 +47,7 @@ Future<GoRouter> _open(WidgetTester tester, String path, double scale) async {
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        supabaseClientProvider.overrideWithValue(null),
+        collectBackendClientProvider.overrideWithValue(null),
         collectAuthenticatedUserIdProvider.overrideWithValue('local-user'),
         appRouterProvider.overrideWithValue(router),
         collectRepositoryProvider.overrideWith(
@@ -128,9 +129,15 @@ void main() {
     }
 
     testWidgets(
-      'Group header and confirmed hero stay distinct at 320px ${scale}x',
+      'Group header and recorded total remain readable at 320px ${scale}x',
       (tester) async {
         await _open(tester, '/groups/qa-private-group', scale);
+        expect(
+          tester
+              .renderObject<RenderParagraph>(find.text('Recorded total'))
+              .didExceedMaxLines,
+          isFalse,
+        );
         _expectHeading(tester, 'Group', 1);
         expect(
           _nodes(
@@ -148,6 +155,15 @@ void main() {
             isFalse,
           );
         }
+        final recordDate = find.textContaining('Recorded · ');
+        await revealCollectPageContent(tester, recordDate);
+        await tester.pumpAndSettle();
+        expect(
+          tester
+              .renderObject<RenderParagraph>(recordDate.first)
+              .didExceedMaxLines,
+          isFalse,
+        );
         expect(tester.takeException(), isNull);
       },
     );

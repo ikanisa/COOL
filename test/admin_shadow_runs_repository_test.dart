@@ -7,30 +7,28 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_action_session_test.dart' as auth;
 
 Map<String, dynamic> _history() =>
     jsonDecode(
           File(
-            'contracts/collect-shadow-supervisor-v1.fixture.json',
+            'test/fixtures/declared_admin/collect-shadow-supervisor-v1.fixture.json',
           ).readAsStringSync(),
         )
         as Map<String, dynamic>;
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late Future<http.Response> Function(http.Request) respond;
   late List<http.Request> requests;
   setUp(() async {
     requests = [];
     respond = (_) async => auth.response(_history());
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final token = (jsonDecode(request.body)['token'] as String).split(
@@ -66,10 +64,7 @@ void main() {
         beforeRunId: id,
       );
       expect(data['scope'], 'collect_platform');
-      expect(
-        requests.single.url.path,
-        '/rest/v1/rpc/list_collect_shadow_runs_v1',
-      );
+      expect(requests.single.url.path, '/v1/rpc/list_collect_shadow_runs_v1');
       expect(jsonDecode(requests.single.body), {
         'p_limit': 10,
         'p_before_started_at': before.toIso8601String(),
@@ -109,30 +104,6 @@ void main() {
         throwsFormatException,
       );
       expect(requests, isEmpty);
-    },
-  );
-
-  test(
-    'isolated backend observation passes the real SDK history contract',
-    () async {
-      final observed =
-          jsonDecode(
-                File(
-                  'contracts/collect-shadow-supervisor-v1.observed.fixture.json',
-                ).readAsStringSync(),
-              )
-              as Map<String, dynamic>;
-      respond = (_) async => auth.response(observed);
-      final data = await repository.shadowRuns();
-      expect(data, observed);
-      expect(data['rows'], hasLength(2));
-      expect(requests, hasLength(1));
-      for (final raw in data['rows'] as List) {
-        final summary =
-            (raw as Map<String, dynamic>)['summary'] as Map<String, dynamic>;
-        expect(summary['business_mutations'], 0);
-        expect(summary['provider_sends'], 0);
-      }
     },
   );
 
@@ -189,7 +160,7 @@ void main() {
       );
       await expectLater(
         repository.shadowRuns(),
-        throwsA(isA<PostgrestException>()),
+        throwsA(isA<CollectApiException>()),
       );
       expect(requests, hasLength(1));
     },

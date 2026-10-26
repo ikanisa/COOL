@@ -1,0 +1,41 @@
+{
+  "provenance": "Invented fixture for isolated tests only; not a real provider SMS or an approved production profile.",
+  "sender": "TEST MOMO",
+  "body": "You have received RWF 5,000 from ALINE UWASE (********007). Transaction ID: 001234567890. Date: 18/10/2026 10:15:00. Fee: RWF 0. Balance: RWF 125,000.",
+  "profile": {
+    "sender_allowlist": ["TEST MOMO"],
+    "currency_aliases": ["RWF", "FRW"],
+    "incoming_prefixes": ["You have received"],
+    "transaction_id_prefixes": ["Transaction ID:"],
+    "outgoing_markers": ["You have sent"],
+    "failure_markers": ["failed"],
+    "reversal_markers": ["reversed"],
+    "date_format": "DMY_HMS",
+    "utc_offset_minutes": 120
+  },
+  "output": {
+    "schema_version": "momo-extraction.v1",
+    "event_kind": "incoming_receipt",
+    "payment_outcome": "successful",
+    "transaction_id_raw": "001234567890",
+    "original_transaction_id_raw": null,
+    "transaction_datetime_raw": "18/10/2026 10:15:00",
+    "principal_amount_raw": "5,000",
+    "currency_raw": "RWF",
+    "payer_name_raw": "ALINE UWASE",
+    "payer_identifier_raw": "********007",
+    "payment_reference_raw": null,
+    "fee_amount_raw": "0",
+    "wallet_balance_after_raw": "125,000",
+    "evidence": {
+      "incoming_success": "You have received RWF 5,000",
+      "principal": "RWF 5,000",
+      "transaction_id": "Transaction ID: 001234567890",
+      "transaction_datetime": "Date: 18/10/2026 10:15:00",
+      "payer": "ALINE UWASE (********007)",
+      "fee": "Fee: RWF 0",
+      "wallet_balance_after": "Balance: RWF 125,000"
+    },
+    "issues": []
+  }
+}

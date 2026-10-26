@@ -23,6 +23,7 @@ class AppPermissionsScreen extends ConsumerStatefulWidget {
 class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
     with WidgetsBindingObserver {
   bool _loading = true;
+  bool _requestingSms = false;
   SmsAccessStatus _momoSmsStatus = const SmsAccessStatus.unavailable();
   permissions.PermissionStatus _cameraStatus =
       permissions.PermissionStatus.denied;
@@ -47,7 +48,7 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final receiverMode = ref.watch(momoReceiptCaptureAvailableProvider);
+    final captureAvailable = ref.watch(momoReceiptCaptureAvailableProvider);
     return ScreenScaffold(
       title: 'App permissions',
       compact: true,
@@ -58,10 +59,10 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
           padding: const EdgeInsets.all(CollectSpacing.x4),
           child: Column(
             children: [
-              if (receiverMode)
+              if (captureAvailable)
                 _PermissionCard(
                   icon: CollectIcons.shield,
-                  title: 'MoMo receipt SMS',
+                  title: 'M-Money SMS',
                   status: _loading
                       ? 'Checking'
                       : _momoSmsStatus.enabled
@@ -71,14 +72,47 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
                       ? 'Turn off'
                       : _momoSmsStatus.permanentlyDenied
                       ? 'Phone settings'
-                      : 'Review and allow',
-                  onAction: _loading
+                      : 'Allow',
+                  onAction: _loading || _requestingSms
                       ? null
                       : _momoSmsStatus.enabled
                       ? _disableMomoSms
                       : _momoSmsStatus.permanentlyDenied
                       ? const SmsAccessChannel().openAppSettings
                       : _requestMomoSms,
+                ),
+              if (captureAvailable && _momoSmsStatus.queueNeedsReview)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: CollectSpacing.x2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        _momoSmsStatus.enabled
+                            ? 'Some SMS uploads need review. Originals stay on this phone.'
+                            : 'Some SMS uploads need review. Allow SMS access to retry; originals stay on this phone.',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: context.collectColors.textSecondary,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed:
+                              _loading ||
+                                  _requestingSms ||
+                                  !_momoSmsStatus.enabled
+                              ? null
+                              : _retryMomoSms,
+                          style: TextButton.styleFrom(
+                            minimumSize: const Size(48, 48),
+                            foregroundColor: context.collectColors.textPrimary,
+                          ),
+                          child: const Text('Retry uploads'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ValueListenableBuilder<CollectNotificationStatus>(
                 valueListenable: ref
@@ -139,16 +173,16 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
   Future<void> _refresh() async {
     if (mounted) setState(() => _loading = true);
     final service = ref.read(collectNotificationServiceProvider);
-    final receiverMode = ref.read(momoReceiptCaptureAvailableProvider);
+    final captureAvailable = ref.read(momoReceiptCaptureAvailableProvider);
     final results = await Future.wait<Object>([
       permissions.Permission.camera.status,
-      if (receiverMode)
+      if (captureAvailable)
         ref.read(collectRepositoryProvider.notifier).refreshSmsAccessStatus(),
     ]);
     if (!mounted) return;
     setState(() {
       _cameraStatus = results[0] as permissions.PermissionStatus;
-      _momoSmsStatus = receiverMode
+      _momoSmsStatus = captureAvailable
           ? results[1] as SmsAccessStatus
           : const SmsAccessStatus.unavailable();
       _loading = false;
@@ -172,88 +206,139 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
   }
 
   Future<void> _requestMomoSms() async {
-    if (!ref.read(momoReceiptCaptureAvailableProvider)) return;
+    if (_requestingSms || !ref.read(momoReceiptCaptureAvailableProvider)) {
+      return;
+    }
     final expectedOwner = ref
         .read(collectRepositoryProvider)
         .currentProfile
         ?.id;
     if (expectedOwner == null) return;
-    final confirmed = await showModalBottomSheet<bool>(
-      context: context,
-      useRootNavigator: true,
-      useSafeArea: true,
-      isScrollControlled: true,
-      backgroundColor: context.collectColors.transparent,
-      barrierColor: CollectColors.publicBlack.withValues(alpha: 0.64),
-      sheetAnimationStyle: CollectMotion.animationStyle(context),
-      builder: (sheetContext) => Padding(
-        padding: EdgeInsets.fromLTRB(
-          CollectSpacing.x4,
-          CollectSpacing.x2,
-          CollectSpacing.x4,
-          MediaQuery.viewInsetsOf(sheetContext).bottom + CollectSpacing.x4,
-        ),
-        child: SingleChildScrollView(
-          child: CollectBottomSheet(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const CollectPermissionEducationSheet(
-                  icon: CollectIcons.sms,
-                  title: 'Allow MoMo receipt SMS access?',
-                  message: 'Only new Rwanda MoMo receipt messages.',
-                  education:
-                      'Collect does not read inbox history or unrelated SMS. '
-                      'New likely MoMo receipts are encrypted on this device, '
-                      'bound to your signed-in account, and sent for secure '
-                      'parsing and reconciliation.',
-                  tone: CollectStatusTone.warning,
-                ),
-                CollectSpacing.gap16,
-                CollectButton(
-                  label: 'Continue',
-                  icon: CollectIcons.shield,
-                  onPressed: () => Navigator.of(sheetContext).pop(true),
-                  expand: true,
-                ),
-                CollectButton(
-                  label: 'Not now',
-                  onPressed: () => Navigator.of(sheetContext).pop(false),
-                  variant: CollectButtonVariant.secondary,
-                  expand: true,
-                ),
-              ],
+    setState(() => _requestingSms = true);
+    try {
+      final confirmed = await showModalBottomSheet<bool>(
+        context: context,
+        useRootNavigator: true,
+        useSafeArea: true,
+        isScrollControlled: true,
+        backgroundColor: context.collectColors.transparent,
+        barrierColor: CollectColors.publicBlack.withValues(alpha: 0.64),
+        sheetAnimationStyle: CollectMotion.animationStyle(context),
+        builder: (sheetContext) => Padding(
+          padding: EdgeInsets.fromLTRB(
+            CollectSpacing.x4,
+            CollectSpacing.x2,
+            CollectSpacing.x4,
+            MediaQuery.viewInsetsOf(sheetContext).bottom + CollectSpacing.x4,
+          ),
+          child: SingleChildScrollView(
+            child: CollectBottomSheet(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CollectPermissionEducationSheet(
+                    icon: CollectIcons.sms,
+                    title: 'Allow M-Money SMS uploads?',
+                    message: 'Share incoming M-Money messages with Collect.',
+                    education:
+                        'New M-Money SMS received after you allow access are '
+                        'linked to your signed-in account and uploaded for '
+                        'Admin review. Original messages are protected and '
+                        'wait on this device while offline. Uploading a message '
+                        'never credits a payment automatically. You can turn '
+                        'access off here at any time.',
+                    tone: CollectStatusTone.warning,
+                  ),
+                  CollectSpacing.gap16,
+                  CollectButton(
+                    label: 'Allow SMS access',
+                    icon: CollectIcons.shield,
+                    onPressed: () => Navigator.of(sheetContext).pop(true),
+                    expand: true,
+                  ),
+                  CollectButton(
+                    label: 'Not now',
+                    onPressed: () => Navigator.of(sheetContext).pop(false),
+                    variant: CollectButtonVariant.secondary,
+                    expand: true,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
-    if (confirmed != true ||
-        !mounted ||
-        ref.read(collectRepositoryProvider).currentProfile?.id !=
-            expectedOwner ||
-        !ref.read(momoReceiptCaptureAvailableProvider)) {
-      return;
-    }
-    try {
-      await ref
-          .read(collectRepositoryProvider.notifier)
-          .setSmsAccess(true, expectedOwnerUserId: expectedOwner);
-    } catch (_) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('MoMo receipt SMS access was not enabled.'),
-          ),
-        );
+      );
+      if (confirmed != true ||
+          !mounted ||
+          ref.read(collectRepositoryProvider).currentProfile?.id !=
+              expectedOwner ||
+          !ref.read(momoReceiptCaptureAvailableProvider)) {
+        return;
       }
+      try {
+        final enabled = await ref
+            .read(collectRepositoryProvider.notifier)
+            .setSmsAccess(true, expectedOwnerUserId: expectedOwner);
+        if (!enabled &&
+            mounted &&
+            ref.read(collectRepositoryProvider).currentProfile?.id ==
+                expectedOwner) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('M-Money SMS access was not enabled.'),
+            ),
+          );
+        }
+      } catch (_) {
+        if (mounted &&
+            ref.read(collectRepositoryProvider).currentProfile?.id ==
+                expectedOwner) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('M-Money SMS access was not enabled.'),
+            ),
+          );
+        }
+      }
+      await _refresh();
+    } finally {
+      if (mounted) setState(() => _requestingSms = false);
     }
-    await _refresh();
   }
 
   Future<void> _disableMomoSms() async {
     await ref.read(collectRepositoryProvider.notifier).setSmsAccess(false);
     await _refresh();
+  }
+
+  Future<void> _retryMomoSms() async {
+    if (_requestingSms || !ref.read(momoReceiptCaptureAvailableProvider)) {
+      return;
+    }
+    final owner = ref.read(collectRepositoryProvider).currentProfile?.id;
+    if (owner == null) return;
+    setState(() => _requestingSms = true);
+    try {
+      await ref
+          .read(collectRepositoryProvider.notifier)
+          .retryRejectedSmsAccess(expectedOwnerUserId: owner);
+    } catch (_) {
+      if (mounted &&
+          ref.read(collectRepositoryProvider).currentProfile?.id == owner) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'SMS uploads remain queued. Try again when connected.',
+            ),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        await _refresh();
+        if (mounted) setState(() => _requestingSms = false);
+      }
+    }
   }
 }
 

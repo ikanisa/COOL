@@ -163,7 +163,7 @@ def evidence_reference_in_scope?(key, value, approval_evidence_patterns)
 end
 
 sensitive_patterns = {
-  "supabase_service_role" => /service[_-]?role\b\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}/i,
+  "service_role_secret" => /service[_-]?role\b\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}/i,
   "openai_api_key" => /sk-[A-Za-z0-9_\-]{20,}/,
   "generic_secret_assignment" => /\b(?:secret|token|api[_-]?key|password)\b\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}/i,
   "rwanda_phone_number" => /\+250\d{9}\b/,

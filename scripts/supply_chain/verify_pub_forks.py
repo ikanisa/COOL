@@ -19,12 +19,11 @@ import tempfile
 import urllib.request
 
 ROOT = Path(__file__).resolve().parents[2]
-PACKAGES = {"firebase_messaging": "16.5.0", "gotrue": "2.27.1"}
+PACKAGES = {"firebase_messaging": "16.5.0"}
 # Trust roots are reviewed together with the exact-byte delta manifests. There is
 # intentionally no command that learns/accepts a new delta from the current tree.
 REVIEWED_MANIFEST_SHA256 = {
-    "firebase_messaging": "8be8ea9ed092ac70edf9ff3742a9e86bcf62e361a2f474969f7708373bd52e65",
-    "gotrue": "6a51bbd13f38593836bb197ffe1479fe501869b28e679c15b710feee2c9a4fcb",
+    "firebase_messaging": "c9eb98078e89ab37a3341f930c38e0b7f81da4ce21082fd50f2ffd93ed414c09",
 }
 MAX_METADATA = 1_000_000
 MAX_ARCHIVE = 25_000_000

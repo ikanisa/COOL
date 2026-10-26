@@ -195,7 +195,7 @@ def placeholder_approval_record?(record)
 end
 
 SENSITIVE_APPROVAL_METADATA_PATTERNS = {
-  "supabase_service_role" => /service[_-]?role\b\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}/i,
+  "service_role_secret" => /service[_-]?role\b\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}/i,
   "openai_api_key" => /sk-[A-Za-z0-9_\-]{20,}/,
   "generic_secret_assignment" => /\b(?:secret|token|api[_-]?key|password)\b\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}/i,
   "rwanda_phone_number" => /\+250\d{9}\b/,
@@ -304,7 +304,7 @@ end
 
 checks["production_internet_permission"] =
   if main_manifest.include?("android.permission.INTERNET")
-    check("pass", "Production Android manifest includes INTERNET for Supabase/network calls.")
+    check("pass", "Production Android manifest includes INTERNET for API/network calls.")
   else
     check("fail", "Production Android manifest must include INTERNET.")
   end

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import '../../app/theme/collect_motion.dart';
+import '../shared/components/admin_data_listing.dart';
 import 'admin_display_formatters.dart';
 import 'admin_receipt_successor_models.dart';
 import 'admin_receipt_successor_controller.dart';
@@ -39,7 +41,7 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
   final List<AdminReceiptSuccessorApproval> _history = [];
   int? _next;
   int _generation = 0;
-  bool _loading = false, _historyBusy = false;
+  bool _loading = false, _historyBusy = false, _retryBusy = false;
   String? _error;
   String? _seenReceipt;
   String? _selectedApprovalId;
@@ -79,6 +81,7 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
       _seenReceipt = null;
       _loading = false;
       _historyBusy = false;
+      _retryBusy = false;
       if (widget.canRead) _refresh();
     }
   }
@@ -110,6 +113,7 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
     setState(() {
       _loading = true;
       _historyBusy = false;
+      _retryBusy = false;
       _closure = null;
       _inspection = null;
       _history.clear();
@@ -178,6 +182,7 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
             _explicitReady = false;
             _next = null;
             _historyBusy = false;
+            _retryBusy = false;
           }
           _error = denied
               ? 'Current receipt review access is denied. Refresh after restoring access.'
@@ -191,13 +196,71 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
     }
   }
 
+  Future<void> _inspectRetry(AdminReceiptSuccessorApproval approval) async {
+    final originalController = widget.controller;
+    final api = originalController.api;
+    if (!widget.canRead ||
+        !widget.canManage ||
+        !originalController.canSubmit ||
+        _loading ||
+        _retryBusy ||
+        approval.status != 'revoked' ||
+        api is! AdminReceiptSuccessorRetryApi) {
+      return;
+    }
+    final generation = ++_generation;
+    setState(() {
+      _retryBusy = true;
+      _historyBusy = false;
+      _inspection = null;
+      _error = null;
+    });
+    try {
+      final inspection = await (api as AdminReceiptSuccessorRetryApi)
+          .inspectRetry(widget.outboxId, widget.sourceSnapshotId, approval.id);
+      if (!mounted ||
+          generation != _generation ||
+          originalController != widget.controller ||
+          !widget.canRead ||
+          !widget.canManage) {
+        return;
+      }
+      setState(() => _inspection = inspection);
+    } catch (failure) {
+      if (!mounted || generation != _generation) return;
+      final denied =
+          executionAccessDenied(failure) ||
+          failure is AdminReceiptSuccessorExecutionDenied ||
+          failure is AdminReceiptSuccessorRejected && failure.code == '42501';
+      setState(() {
+        _inspection = null;
+        if (denied) {
+          _closure = null;
+          _history.clear();
+          _selectedApprovalId = null;
+          _explicitReady = false;
+          _next = null;
+        }
+        _error = denied
+            ? 'Current receipt review access is denied. Refresh after restoring access.'
+            : 'A stopped predecessor could not be verified. Refresh and investigate its execution before another retry.';
+      });
+    } finally {
+      if (mounted && generation == _generation) {
+        setState(() => _retryBusy = false);
+      }
+    }
+  }
+
   Future<void> _review(
     String action, {
     AdminReceiptSuccessorApproval? approval,
   }) async {
     final originalController = widget.controller;
     final generation = _generation;
-    if (!widget.canManage || !originalController.canSubmit) return;
+    if (!widget.canManage || !originalController.canSubmit || _retryBusy) {
+      return;
+    }
     final inspection = _inspection, closure = _closure;
     final validUntil = action == 'approve_successor'
         ? inspection?.validUntil
@@ -206,11 +269,15 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
         : widget.now().toUtc().add(const Duration(seconds: 60));
     final title = switch (action) {
       'close_unarmed' => 'Close original receipt',
-      'approve_successor' => 'Approve replacement receipt',
+      'approve_successor' =>
+        inspection?.isRetiredRetry == true
+            ? 'Approve next retry'
+            : 'Approve replacement receipt',
       _ => 'Revoke approval',
     };
     final reason = await showDialog<String>(
       context: context,
+      animationStyle: CollectMotion.animationStyle(context),
       builder: (context) => _SuccessorReasonDialog(
         title: title,
         valid: () =>
@@ -276,7 +343,7 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
   @override
   Widget build(BuildContext context) {
     if (!widget.canRead) {
-      return const Card(
+      return const AdminDataSection(
         child: Padding(
           padding: EdgeInsets.all(20),
           child: Text('Current receipt review access is required.'),
@@ -287,8 +354,9 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
     final closure = _closure, inspection = _inspection;
     final closureFresh = closure?.fresh(now) == true,
         previewFresh = inspection?.fresh(now) == true;
-    final manage = widget.canManage && controller.canSubmit && !_loading;
-    return Card(
+    final manage =
+        widget.canManage && controller.canSubmit && !_loading && !_retryBusy;
+    return AdminDataSection(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -303,10 +371,10 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Close an original that has never been armed, then review its replacement. Payment records and receipt history remain retained.',
+              'Close an original that has never been armed, then review its replacement. A later retry requires proof that earlier attempts were permanently stopped before sending. Payment records and receipt history remain retained.',
             ),
             const SizedBox(height: 16),
-            if (_loading)
+            if (_loading || _retryBusy)
               Semantics(
                 label: 'Loading current receipt review',
                 child: const LinearProgressIndicator(),
@@ -323,6 +391,13 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
               if (previewFresh && inspection != null) ...[
                 const SizedBox(height: 12),
                 Text(_previewLabel(inspection.reason)),
+                if (inspection.isRetiredRetry && inspection.retiredJobs != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      '${inspection.retiredJobs} prior ${inspection.retiredJobs == 1 ? 'attempt was' : 'attempts were'} permanently stopped before sending. This review binds the retained predecessor proof.',
+                    ),
+                  ),
                 if (inspection.preview != null)
                   _SuccessorPreview(preview: inspection.preview!),
                 if (inspection.row['configuration_enabled'] == false)
@@ -346,7 +421,9 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
               runSpacing: 12,
               children: [
                 OutlinedButton.icon(
-                  onPressed: _loading || controller.busy ? null : _refresh,
+                  onPressed: _loading || _retryBusy || controller.busy
+                      ? null
+                      : _refresh,
                   icon: const Icon(Icons.refresh),
                   label: const Text('Refresh evidence'),
                 ),
@@ -364,7 +441,11 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
                     onPressed: manage
                         ? () => _review('approve_successor')
                         : null,
-                    child: const Text('Review replacement'),
+                    child: Text(
+                      inspection!.isRetiredRetry
+                          ? 'Review next retry'
+                          : 'Review replacement',
+                    ),
                   ),
               ],
             ),
@@ -456,6 +537,16 @@ class _SuccessorViewState extends State<AdminReceiptSuccessorView> {
                         ),
                       ),
                     ),
+                    if (widget.canManage &&
+                        item.status == 'revoked' &&
+                        controller.api is AdminReceiptSuccessorRetryApi)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: OutlinedButton(
+                          onPressed: manage ? () => _inspectRetry(item) : null,
+                          child: const Text('Inspect retry after stop'),
+                        ),
+                      ),
                     if (widget.canManage && item.status != 'revoked')
                       Align(
                         alignment: Alignment.centerLeft,
@@ -523,8 +614,17 @@ String _previewLabel(String reason) => switch (reason) {
   'consent_missing' => 'Current member consent is required.',
   'policy_disabled' => 'The current receipt policy is disabled.',
   'contact_missing' => 'An eligible current member contact is required.',
-  'transport_proof_changed' =>
+  'transport_proof_changed' ||
+  'predecessor_transport_refused' ||
+  'predecessor_proof_invalid' =>
     'Transport evidence changed. Investigate before another action.',
+  'predecessor_revocation_required' =>
+    'Permanently stop the earlier unarmed attempt before another retry.',
+  'predecessor_not_latest' =>
+    'A later attempt exists. Refresh history and investigate that attempt.',
+  'lineage_limit' => 'The retained retry limit prevents another attempt.',
+  'predecessor_unavailable' =>
+    'The stopped predecessor is unavailable. Refresh its execution evidence.',
   _ => 'A replacement is unavailable from the current evidence.',
 };
 
@@ -537,20 +637,25 @@ class _SuccessorPreview extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          'Recipient: ${preview.recipient} · Language: ${switch (preview.language) {
+        AdminDataFieldRow(label: 'Recipient', value: preview.recipient),
+        AdminDataFieldRow(
+          label: 'Language',
+          value: switch (preview.language) {
             'rw' => 'Kinyarwanda',
             'fr' => 'French',
             _ => 'English',
-          }}',
+          },
         ),
-        Text(
-          'Recorded member balance: ${adminFormatRwfAmount('RWF ${preview.row['member_balance_recorded_rwf']}')}',
+        AdminDataFieldRow(
+          label: 'Recorded member balance',
+          value: adminFormatRwfAmount(
+            'RWF ${preview.row['member_balance_recorded_rwf']}',
+          ),
         ),
         const SizedBox(height: 8),
-        SelectableText(
-          preview.body,
-          semanticsLabel: 'Exact receipt text. ${preview.body}',
+        Semantics(
+          label: 'Exact receipt text. ${preview.body}',
+          child: AdminDataFieldRow(label: 'Receipt text', value: preview.body),
         ),
       ],
     ),

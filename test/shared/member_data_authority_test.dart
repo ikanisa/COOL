@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const actor = '10000000-0000-0000-0000-000000000001';
 const other = '10000000-0000-0000-0000-000000000002';
@@ -36,20 +36,36 @@ Map<String, dynamic> roster() => {
   ],
 };
 Map<String, dynamic> history() => {
+  'contract_version': 2,
+  'contribution_basis': 'reconciled_evidence_entries',
   'total_count': 1,
   'totals': {'RWF': 10},
   'own_totals': {'RWF': 0},
+  'credit_totals': {'RWF': 10},
+  'debit_totals': {'RWF': 0},
+  'own_credit_totals': {'RWF': 0},
+  'own_debit_totals': {'RWF': 0},
   'own_collection_ids': [],
   'revision': '0123456789abcdef0123456789abcdef',
+  'next_cursor': null,
   'items': [
     {
-      'payment_id': 'momo:40000000-0000-0000-0000-000000000001',
+      'entry_id': '40000000-0000-4000-8000-000000000002',
+      'payment_id': '40000000-0000-4000-8000-000000000001',
       'collection_id': group,
+      'group_title': 'Controlled group',
       'rail': 'rwanda_momo',
       'currency': 'RWF',
       'amount_minor': 10,
-      'posted_at': '2000-01-01T00:00:00+00',
+      'posted_at': '2000-01-01T00:00:00.000Z',
+      'supporter_label': 'Member',
       'is_current_user_contribution': false,
+      'entry_kind': 'contribution',
+      'reverses_entry_id': null,
+      'evidence_id': '40000000-0000-4000-8000-000000000003',
+      'payment_status': 'reconciled',
+      'provider_confirmation': false,
+      'settlement_status': 'not_asserted',
     },
   ],
 };
@@ -240,16 +256,14 @@ typedef Respond = FutureOr<http.Response> Function(http.Request);
 
 class Harness {
   Harness(this.client, this.repo, this.requests);
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   final Repository repo;
   final List<http.Request> requests;
   bool containerOwnsRepo = false;
   static Future<Harness> create(Respond respond) async {
     final requests = <http.Request>[];
-    final client = SupabaseClient(
+    final client = CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'synthetic-anon',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((r) async {
         requests.add(r);
         final response = await respond(r);
@@ -261,7 +275,7 @@ class Harness {
         );
       }),
     );
-    await client.auth.setInitialSession(session(actor, firstSession));
+    await client.auth.recoverSession(session(actor, firstSession));
     final repo = Repository(client);
     final h = Harness(client, repo, requests);
     addTearDown(() async {
@@ -274,15 +288,15 @@ class Harness {
   Future<void> login(String user, String sid) async {
     final loaded = Completer<void>();
     repo.nextLoad = loaded;
-    await client.auth.setInitialSession(session(user, sid));
+    await client.auth.recoverSession(session(user, sid));
     await loaded.future.timeout(const Duration(seconds: 3));
   }
 }
 
 class Repository extends CollectRepository {
   Repository(this.client)
-    : super.fixture(initialState: stateFor(actor), supabase: client);
-  final SupabaseClient client;
+    : super.fixture(initialState: stateFor(actor), backend: client);
+  final CollectCloudflareClient client;
   Completer<void>? nextLoad;
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
@@ -318,7 +332,7 @@ CollectState stateFor(String user) => CollectState(
 String jwt(String user, String sid) {
   String p(Object o) =>
       base64Url.encode(utf8.encode(jsonEncode(o))).replaceAll('=', '');
-  return '${p({'alg': 'HS256'})}.${p({'sub': user, 'session_id': sid, 'exp': 4102444800})}.synthetic';
+  return '${p({'alg': 'HS256'})}.${p({'role': 'authenticated', 'sub': user, 'session_id': sid, 'exp': 4102444800})}.synthetic';
 }
 
 String session(String user, String sid) => jsonEncode({

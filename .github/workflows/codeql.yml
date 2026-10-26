@@ -7,17 +7,21 @@ on:
       - develop
     paths:
       - '.github/workflows/codeql.yml'
-      - 'supabase/functions/**/*.ts'
+      - 'deploy/platform-api/**/*.js'
+      - 'deploy/platform-admin/**/*.js'
       - 'supabase/functions/**/*.js'
-      - 'tools/collect-notification-mcp/**'
-      - 'tools/collect-notification-mcp/pnpm-lock.yaml'
+      - 'supabase/functions/**/*.ts'
+      - 'deploy/platform-supabase-free/**/*.js'
+      - 'deploy/platform-supabase-free/**/*.mjs'
   pull_request:
     paths:
       - '.github/workflows/codeql.yml'
-      - 'supabase/functions/**/*.ts'
+      - 'deploy/platform-api/**/*.js'
+      - 'deploy/platform-admin/**/*.js'
       - 'supabase/functions/**/*.js'
-      - 'tools/collect-notification-mcp/**'
-      - 'tools/collect-notification-mcp/pnpm-lock.yaml'
+      - 'supabase/functions/**/*.ts'
+      - 'deploy/platform-supabase-free/**/*.js'
+      - 'deploy/platform-supabase-free/**/*.mjs'
   workflow_dispatch:
 
 concurrency:
@@ -30,7 +34,7 @@ permissions:
 
 jobs:
   analyze:
-    name: Analyze Supabase functions
+    name: Analyze backend services
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

@@ -112,15 +112,15 @@ class _AdminReceiptTelemetryCardState
           if (sample!.isLoading)
             Semantics(
               liveRegion: true,
-              child: const Text('Loading receipt operations measurements…'),
+              child: const Text('Loading legacy receipt measurements…'),
             )
           else if (sample.hasError)
             const Text(
-              'Receipt operations measurements could not be verified. Refresh and check current access.',
+              'Legacy receipt measurements could not be verified. Refresh and check current access.',
             )
           else if (!fresh)
             const Text(
-              'Receipt operations measurements expired. Refresh for current evidence.',
+              'Legacy receipt measurements expired. Refresh for current evidence.',
             )
           else if (report != null) ...[
             Text(
@@ -141,6 +141,7 @@ class _AdminReceiptTelemetryCardState
               )
             else if (widget.compact)
               _ReceiptTelemetryMetrics(
+                dashboard: true,
                 values: {
                   'unhandled_events': report.backlog!['unhandled_events'],
                   'oldest_unhandled_age_seconds':
@@ -246,7 +247,9 @@ class _AdminReceiptTelemetryCardState
                 ),
             ],
           ],
-          if (!widget.compact)
+          if (widget.compact)
+            const AdminReceiptCallbackDeadlineCard(aggregateOnly: true)
+          else
             AdminReceiptCallbackDeadlineCard(
               onFollowUp: (id) async {
                 if (scope.isCurrent) {
@@ -286,7 +289,11 @@ class _AdminReceiptTelemetryCardState
     );
     return widget.embedded
         ? content
-        : Card(
+        : widget.compact
+        ? Card(
+            child: Padding(padding: const EdgeInsets.all(20), child: content),
+          )
+        : AdminDataSection(
             child: Padding(padding: const EdgeInsets.all(20), child: content),
           );
   }
@@ -310,7 +317,7 @@ String _telemetryUnavailable(Set<String> codes) {
   for (final entry in labels.entries) {
     if (codes.contains(entry.key)) reasons.add(entry.value);
   }
-  return 'Measurements unavailable. ${reasons.join(' ')}';
+  return 'Legacy measurements unavailable. ${reasons.join(' ')}';
 }
 
 class _ReceiptTelemetryGroup extends StatelessWidget {
@@ -335,11 +342,27 @@ class _ReceiptTelemetryGroup extends StatelessWidget {
 }
 
 class _ReceiptTelemetryMetrics extends StatelessWidget {
-  const _ReceiptTelemetryMetrics({required this.values});
+  const _ReceiptTelemetryMetrics({
+    required this.values,
+    this.dashboard = false,
+  });
   final Map<String, int?> values;
+  final bool dashboard;
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) {
+      if (!dashboard) {
+        return Column(
+          children: [
+            for (final metric in values.entries)
+              AdminDataFieldRow(
+                label:
+                    AdminReceiptOperationalTelemetry.metricLabels[metric.key]!,
+                value: _telemetryMetricValue(metric.key, metric.value),
+              ),
+          ],
+        );
+      }
       final columns = constraints.maxWidth >= 900
           ? 4
           : constraints.maxWidth >= 500

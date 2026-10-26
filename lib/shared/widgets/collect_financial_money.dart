@@ -161,8 +161,8 @@ class FinancialListRow extends StatelessWidget {
                     ? formatMoneyMinor(amountRwf!, currency: currency)
                     : formatCurrencyTotals(amounts!, separator: '\n'),
                 style: CollectTypography.amountCompact(colors.textPrimary),
-                maxLines: amounts?.length ?? 1,
-                overflow: TextOverflow.ellipsis,
+                softWrap: true,
+                textDirection: TextDirection.ltr,
               ),
             ],
           );
@@ -187,8 +187,7 @@ class FinancialListRow extends StatelessWidget {
                       Text(
                         subtitle!,
                         style: Theme.of(context).textTheme.bodySmall,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
                       ),
                     ],
                     CollectSpacing.gap4,
@@ -215,9 +214,7 @@ class FinancialListRow extends StatelessWidget {
               ),
               if (amount != null && !stackAmount) ...[
                 CollectSpacing.gapW12,
-                Flexible(
-                  child: FittedBox(fit: BoxFit.scaleDown, child: amount),
-                ),
+                Flexible(child: amount),
               ],
             ],
           ),

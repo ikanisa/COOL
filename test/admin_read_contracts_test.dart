@@ -1,3 +1,4 @@
+import 'support/recorded_auth_fixture.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -9,7 +10,7 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'support/admin_read_fixture.dart';
 
@@ -243,26 +244,27 @@ void main() {
     },
   );
 
-  group('actual Supabase SDK read boundaries', () {
-    late SupabaseClient client;
+  group('actual Cloudflare client read boundaries', () {
+    late CollectCloudflareClient client;
     late List<http.Request> requests;
     late FutureOr<http.Response> Function(http.Request) respond;
-    Future<void> login(String session) => client.auth
-        .verifyOTP(phone: '+250788974001', token: session, type: OtpType.sms)
-        .then((_) {});
+    Future<void> login(String session) => installRecordedAuthFixture(
+      client,
+      phone: '+250788974001',
+      token: session,
+      type: CollectOtpType.sms,
+    ).then((_) {});
     setUp(() async {
       requests = [];
       respond = (_) => _response({});
-      client = SupabaseClient(
+      client = recordedFixtureClient(
         'http://127.0.0.1:1',
-        'synthetic-key',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((r) async {
           if (r.url.path.endsWith('/verify')) {
             final sid = jsonDecode(r.body)['token'];
             return _response({
               'access_token':
-                  'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': adminReadActor, 'session_id': sid, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
+                  'e30.${base64Url.encode(utf8.encode(jsonEncode({'role': 'authenticated', 'sub': adminReadActor, 'session_id': sid, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
               'refresh_token': 'synthetic-refresh',
               'token_type': 'bearer',
               'user': {
@@ -333,7 +335,7 @@ void main() {
             'code': '42501',
             'message': 'synthetic permission denied',
           }, 403);
-          await expectLater(call(), throwsA(isA<PostgrestException>()));
+          await expectLater(call(), throwsA(isA<CollectApiException>()));
           expect(requests, hasLength(1));
         },
       );
@@ -349,9 +351,9 @@ void main() {
       'missing legacy runtime RPC remains explicit null; permission errors never do',
       () async {
         respond = (_) => _response({
-          'code': 'PGRST202',
-          'message': 'synthetic RPC absent',
-        }, 404);
+          'code': 'operation_unavailable',
+          'message': 'synthetic operation unavailable',
+        }, 501);
         expect(await AdminRepository(client).runtimeConfig(), isNull);
       },
     );

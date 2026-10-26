@@ -3,12 +3,25 @@ import 'dart:async';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class _PagedOverviewRepository extends AdminEvidenceRepository {
   final calls = <String>[];
+
+  @override
+  Future<List<AdminMetric>> overviewMetrics() async => const [
+    AdminMetric(label: 'Open reconciliations', value: '125', status: 'active'),
+    AdminMetric(
+      label: 'Unallocated transactions',
+      value: '237',
+      status: 'active',
+    ),
+    AdminMetric(label: 'Ledger entries', value: '1024', status: 'active'),
+    AdminMetric(label: 'Active payees', value: '314', status: 'active'),
+  ];
 
   @override
   Future<AdminListResult> list(
@@ -33,10 +46,10 @@ class _PagedOverviewRepository extends AdminEvidenceRepository {
     return AdminListResult(
       rows: sample.rows,
       total: switch (rpcName) {
-        'admin_list_collect_reconciliations' => 125,
-        'admin_list_collect_transactions' => 237,
-        'admin_list_collect_ledgers' => 1024,
-        'admin_list_collect_payees' => 314,
+        'admin_list_collect_reconciliations' => 9125,
+        'admin_list_collect_transactions' => 9237,
+        'admin_list_collect_ledgers' => 9024,
+        'admin_list_collect_payees' => 9314,
         _ => 0,
       },
     );
@@ -68,6 +81,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            collectBackendClientProvider.overrideWithValue(null),
             adminRepositoryProvider.overrideWithValue(repository),
             adminCountryScopeProvider.overrideWith(
               (ref) => AdminCountryScope.rwanda,
@@ -82,20 +96,19 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('125'), findsWidgets);
       expect(find.text('237'), findsOneWidget);
-      expect(find.text('1024'), findsOneWidget);
+      expect(find.text('1,024'), findsOneWidget);
       expect(find.text('314'), findsOneWidget);
       expect(
         repository.calls,
-        contains('admin_list_collect_transactions:unallocated:1:RW'),
+        contains('admin_list_collect_reconciliations:null:3:RW'),
       );
       expect(
         repository.calls,
-        contains('admin_list_collect_ledgers:balanced:1:RW'),
+        contains('admin_list_collect_ledgers:null:4:RW'),
       );
-      expect(
-        repository.calls,
-        contains('admin_list_collect_payees:active:1:RW'),
-      );
+      for (final sample in ['9,125', '9,237', '9,024', '9,314']) {
+        expect(find.text(sample), findsNothing);
+      }
       expect(tester.takeException(), isNull);
     },
   );
@@ -111,6 +124,7 @@ void main() {
     var clock = DateTime.utc(2026, 9, 30, 10);
     final container = ProviderContainer(
       overrides: [
+        collectBackendClientProvider.overrideWithValue(null),
         _testOverviewRepositoryProvider.overrideWith((_) => old),
         adminRepositoryProvider.overrideWith(
           (ref) => ref.watch(_testOverviewRepositoryProvider),

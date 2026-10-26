@@ -47,10 +47,10 @@ Future<T> _automaticGatewayRead<T>(
       throw const AdminSessionChanged();
     }
     return result;
-  } on PostgrestException catch (error) {
+  } on CollectApiException catch (error) {
     if (!current) throw const AdminSessionChanged();
     if (error.code == '42501') throw const AdminGatewayDenied();
-    if (error.code == '42883' || error.code == 'PGRST202') {
+    if (error.code == 'operation_unavailable' || error.code == '501') {
       throw UnsupportedError('Automatic gateway investigation is unavailable.');
     }
     rethrow;

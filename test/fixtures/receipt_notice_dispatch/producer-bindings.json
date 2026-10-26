@@ -1,0 +1,181 @@
+{
+  "entries": [
+    {
+      "fixture": "content-copy.json",
+      "fixture_sha256": "2c63b709876eea978ca7bd0b4ba1626ebf7d30c0446013dd47363b6f97ad2bbb",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00155.sql",
+      "producer_command_sha256": "e1d05d893882075bd91102d3b3f297099481969d1113e2a1156ab0a413da1060",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00155.stdout",
+      "producer_stdout_sha256": "ba50115553eb633bc93940a640bf281d331e2475b5ef586036d1be700b6db97a",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "prepared-copy.json",
+      "fixture_sha256": "8a34c7515463a381bb69a558d350ed8ac3cb6badd0052408102b0dc2f8d93d8e",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00156.sql",
+      "producer_command_sha256": "b4b32b3226d4f369ad4ac5f289057e2be3ebd1473efce6e4c542237a87fbceb2",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00156.stdout",
+      "producer_stdout_sha256": "fecb4b55d81564b96143c103d36b8b25f9122246981950f6b598f4d67f199cf0",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "content-compensation.json",
+      "fixture_sha256": "375a14531fc0b1033e4c03b6b3341c19f6a3bc6f6b7fc5176271cdd2b91f274c",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00159.sql",
+      "producer_command_sha256": "99530f461c69b0446ba7ee36c0c8761cccc3a78a36655dc4e2169969f9f7bb96",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00159.stdout",
+      "producer_stdout_sha256": "3b30eb39d91e5a8de241bf670a95b1c137d9ce0b4c3dba1198140fd8d3135d57",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "prepared-compensation.json",
+      "fixture_sha256": "8f67aba5b2f1e01ce6e619c32fdcdac27d1f09c9527044859b06eb6b2eada2af",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00160.sql",
+      "producer_command_sha256": "857fb5d74fa19bb4004be7b9c4655d6fa893cf561d3834aa2ce77286b2b76fae",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00160.stdout",
+      "producer_stdout_sha256": "b2dad5380a69228b98362051cf87ec77b9cdbb1c1ff03963d7a1e4bacb595dd8",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "dispatch-copy.json",
+      "fixture_sha256": "da691e85cd9725b69f5204d6b6568a0e8df638d0a8af169ab15a2cd67a95e1c6",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00196.sql",
+      "producer_command_sha256": "6506897530123c0588651f2791d563eb78de97262ab86666c7b28b6369d6f9d2",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00196.stdout",
+      "producer_stdout_sha256": "83988fd3fb77a23075e8a4b91c5f37724179903978189d1f39994e26ece417a0",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "dispatch-compensation.json",
+      "fixture_sha256": "ec9f97ac4556b47dcc66cb81eb90f11bd7198e923e6319e861bf1ef441924252",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00197.sql",
+      "producer_command_sha256": "58509d08e596c596cb4137fb5712e053a7383fd986564aac24fdb4d7eeafd0f9",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00197.stdout",
+      "producer_stdout_sha256": "258407eab319599959a5c9a450e60a0050a3bd581903e74bde11e6d90d2c8737",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "lookup-copy.json",
+      "fixture_sha256": "00daf55e36272d0b9eac4a4bd868a58fd98f58f513529890e28d76106d155237",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00206.sql",
+      "producer_command_sha256": "9173c4b248bb28a2b146ef8f207cd2faa2796fc71ea30eb81a593c01875bbac1",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00206.stdout",
+      "producer_stdout_sha256": "ee57ac26c68ebfb9c802863173fbe7f2552b7996fb2ab26a05b1d0187e88aa83",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "lookup-compensation.json",
+      "fixture_sha256": "5c16777003bdf32ff9b00bf20996f9498e5e3a1994a821e1a6292ee9063ea472",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00212.sql",
+      "producer_command_sha256": "54c807868ef3dd3af6926ab5e927057b9af3379adcf14f684c6ad5b28627d9df",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00212.stdout",
+      "producer_stdout_sha256": "19b8cad31b7281f5c99b35d32b0bc5bf4c5dfc572f5521341283ee6734577f5c",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "pending-copy.json",
+      "fixture_sha256": "46b74db40a9fb353e4770b890222562f14b4564f26f84b84abfe6720fbc371c4",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00210.sql",
+      "producer_command_sha256": "6506897530123c0588651f2791d563eb78de97262ab86666c7b28b6369d6f9d2",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00210.stdout",
+      "producer_stdout_sha256": "bcd80bed7fcc91b8f5769aefdfc8e0fe291d2f96840f8e314cf31aaea025c227",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "pending-compensation.json",
+      "fixture_sha256": "2cec34205ae74105af08f74de6697106edef7903e9bf1fbb59ad6203ed57584f",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00216.sql",
+      "producer_command_sha256": "58509d08e596c596cb4137fb5712e053a7383fd986564aac24fdb4d7eeafd0f9",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00216.stdout",
+      "producer_stdout_sha256": "7494d517c00bd68ce170d0901cb3ab5dd70c7e6ad470bf178a7a4e33a6f8d311",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "revoked-copy.json",
+      "fixture_sha256": "854c5c677ec575cee1a9142d6cfcdff70431ce0925e497770fa753f444735df4",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00218.sql",
+      "producer_command_sha256": "6a29f5b98ceb8115ebd896522b6bc00be3b31477a6b5738cb14a9bb9aa051c3f",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00218.stdout",
+      "producer_stdout_sha256": "cae202e872fac930246a0fd9ac5e43a48ae763dfbb3f098f93225841bfe3fc00",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "after-revocation-copy.json",
+      "fixture_sha256": "be36450f25bdf0f980ba0d2dd2c803b6ea775d33d470a40c5148e6125868bbf4",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00221.sql",
+      "producer_command_sha256": "6506897530123c0588651f2791d563eb78de97262ab86666c7b28b6369d6f9d2",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00221.stdout",
+      "producer_stdout_sha256": "d91b454602a91b7e392cbddcdc89f680d7c45be717dddb227d5ad6d39039a68a",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "materialized-copy.json",
+      "fixture_sha256": "5d6b30934c5d7007a0c230319599f0e1de5ea5f0e9c33e7435b843c4a37b8b94",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00402.sql",
+      "producer_command_sha256": "6506897530123c0588651f2791d563eb78de97262ab86666c7b28b6369d6f9d2",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00402.stdout",
+      "producer_stdout_sha256": "32f01604a991d5f77be4e8c33cb879254e5bbc66321087df72bb8b77c546546b",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "materialized-compensation.json",
+      "fixture_sha256": "12ccdc18959514de33ae2715bec2e4c733f2488f283e3634c90d73151c73f463",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00403.sql",
+      "producer_command_sha256": "58509d08e596c596cb4137fb5712e053a7383fd986564aac24fdb4d7eeafd0f9",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00403.stdout",
+      "producer_stdout_sha256": "8c9d8d8aff1782583e5a40d82cf723850754bd168467c9a42c5e7677535bc7fc",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "approved-copy.json",
+      "fixture_sha256": "a7a2277318f732cc39d58124a1c8e555be76713177e3a5edcef286110abcb54b",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00205.sql",
+      "producer_command_sha256": "55c15250c66ab88241491db62fc6cf43c221da2be4ba1001de254f01bf051ac4",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00205.stdout",
+      "producer_stdout_sha256": "0d784d1be3570be5688b0e29625248b275e637dfaa2850e8f115fc7df56abe82",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "approved-compensation.json",
+      "fixture_sha256": "fc0eff41066e86891855306189a16f6a428ddfa77d7fcdb6935db30a81332dca",
+      "producer_command": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00211.sql",
+      "producer_command_sha256": "a8d61a49986c665a97f9fc88e67666df1231a0fbba227e7db9de35e395d58601",
+      "producer_stdout": ".cache/receipt-notice-transport-20261003/sql-attempt10/commands/00211.stdout",
+      "producer_stdout_sha256": "57adf47606583376d53f237dc7e9ca912279cbe87cf2334825fc81a6e0c64132",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "configuration-default.json",
+      "fixture_sha256": "0c7ce5d1b182bbccfc9228ccadbc172915f24a907cafe0312fe1916fd4205ed2",
+      "producer_command": ".cache/collect-notice-config-20261003/sql-attempt2/commands/00068.sql",
+      "producer_command_sha256": "3dfdaf4b06cdeb878fa2f374993bcde223f99aee8c86796ecef2e3cac01e7a53",
+      "producer_stdout": ".cache/collect-notice-config-20261003/sql-attempt2/commands/00068.stdout",
+      "producer_stdout_sha256": "7d04c7c2c3e3da98283893779190177baf9cc7293d100f9e4fc9e079b8a27d7d",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "configuration-changed.json",
+      "fixture_sha256": "a8b384619206de0abc3a1fa79c3fcb03708f0f578067ad1c15bf744fa440cfa5",
+      "producer_command": ".cache/collect-notice-config-20261003/sql-attempt2/commands/00083.sql",
+      "producer_command_sha256": "c659cc401c6e6f26f9d3311b9fcbb67a89c924f373aa4f50891db473c9dbfffa",
+      "producer_stdout": ".cache/collect-notice-config-20261003/sql-attempt2/commands/00083.stdout",
+      "producer_stdout_sha256": "2bc9e9e6a9f5635ac299bcc909dbe230866a75957292ef788720a561e268c3a8",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    },
+    {
+      "fixture": "configuration-recorded.json",
+      "fixture_sha256": "bd647eb63b032556d0ae57d38be211da65bd03b2cbd29d5be41a5a94a88faebd",
+      "producer_command": ".cache/collect-notice-config-20261003/sql-attempt2/commands/00083.sql",
+      "producer_command_sha256": "c659cc401c6e6f26f9d3311b9fcbb67a89c924f373aa4f50891db473c9dbfffa",
+      "producer_stdout": ".cache/collect-notice-config-20261003/sql-attempt2/commands/00083.stdout",
+      "producer_stdout_sha256": "2bc9e9e6a9f5635ac299bcc909dbe230866a75957292ef788720a561e268c3a8",
+      "selection": "Unique JSON row with declared scope/action; other stdout identity/context rows excluded."
+    }
+  ],
+  "migrations": {
+    "20261003160000_receipt_notice_content.sql": "c4666ab53536e735f7173ac05362c5a65b985b168c460bd7b38fb711e5264676",
+    "20261003170000_receipt_notice_transport.sql": "e3a9ba78342b90a84e68aaee36b8715ecc2dcedc1a3c8053d4230436db74945f",
+    "20261003190000_receipt_notice_configuration_read.sql": "225e496be95bd6083fa3d38f9baa73dfe0c15d38d96b5994f492da8c9a859898"
+  },
+  "scope": "Exact selected actual local SQL producer outputs; synthetic role/session/device/financial fixtures, no hosted or physical acceptance."
+}

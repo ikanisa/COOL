@@ -3,9 +3,8 @@ import 'admin_governed_settings_checkpoint_stub.dart'
     if (dart.library.js_interop) 'admin_governed_settings_checkpoint_web.dart'
     as platform;
 
-String adminSettingsOwnerDigest(String userId) => settingsHash(
-  'collect.settings.v2:lhbowpbcpwoiparwnwgt:${settingsUuid(userId)}',
-);
+String adminSettingsOwnerDigest(String userId) =>
+    settingsHash('collect.settings.v3:${settingsUuid(userId)}');
 
 class AdminSettingsPendingOriginal implements Exception {
   const AdminSettingsPendingOriginal();

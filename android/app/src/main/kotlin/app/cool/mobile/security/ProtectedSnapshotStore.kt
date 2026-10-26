@@ -11,8 +11,23 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 
 /** Single-account cache under noBackupFilesDir. Read failure preserves bytes. */
-class ProtectedSnapshotStore(context: Context) {
-    private val directory = File(context.noBackupFilesDir, "collect_protected_snapshot")
+class ProtectedSnapshotStore internal constructor(
+    noBackupDirectory: File,
+    purpose: String,
+    private val keyProvider: ((String, Boolean) -> SecretKey)? = null,
+) {
+    constructor(context: Context, purpose: String = "snapshot") : this(context.noBackupFilesDir, purpose)
+    init { require(purpose in setOf("snapshot", "auth", "payment_help")) }
+    private val keyAlias = when (purpose) {
+        "auth" -> "collect_auth_session_v1"
+        "payment_help" -> "collect_payment_help_v1"
+        else -> "collect_snapshot_v5"
+    }
+    private val directory = File(noBackupDirectory, when (purpose) {
+        "auth" -> "collect_protected_auth_session"
+        "payment_help" -> "collect_protected_payment_help"
+        else -> "collect_protected_snapshot"
+    })
     private val cipher = SnapshotCipher(::key)
     fun read(owner: String): String? = synchronized(lock) {
         SnapshotCipher.validateOwner(owner)
@@ -50,7 +65,15 @@ class ProtectedSnapshotStore(context: Context) {
             ?.forEach { check(it.delete()) { "Old protected snapshot could not be cleared" } }
         true
     }
-    fun clear(): Boolean = synchronized(lock) {
+    fun clear(owner: String? = null): Boolean = synchronized(lock) {
+        if (owner != null) {
+            SnapshotCipher.validateOwner(owner)
+            val destination = file(owner).baseFile
+            for (candidate in listOf(destination, File(destination.path + ".bak"), File(destination.path + ".new"))) {
+                check(!candidate.exists() || candidate.delete()) { "Protected cache could not be cleared" }
+            }
+            return@synchronized true
+        }
         directory.listFiles()?.forEach { check(it.delete()) { "Protected cache could not be cleared" } }
         true
     }
@@ -60,14 +83,15 @@ class ProtectedSnapshotStore(context: Context) {
         return AtomicFile(File(directory, "$digest.enc"))
     }
     private fun key(create: Boolean): SecretKey {
+        keyProvider?.let { return it(keyAlias, create) }
         val store = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
-        (store.getKey(KEY_ALIAS, null) as? SecretKey)?.let { return it }
+        (store.getKey(keyAlias, null) as? SecretKey)?.let { return it }
         check(create) { "Protected cache key unavailable" }
         return KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore").apply {
-            init(KeyGenParameterSpec.Builder(KEY_ALIAS, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+            init(KeyGenParameterSpec.Builder(keyAlias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                 .setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                 .setRandomizedEncryptionRequired(true).build())
         }.generateKey()
     }
-    companion object { private val lock = Any(); private const val KEY_ALIAS = "collect_snapshot_v5" }
+    companion object { private val lock = Any() }
 }

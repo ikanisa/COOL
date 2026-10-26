@@ -189,9 +189,9 @@ ruby -r json -r time -e '
   browser_report = JSON.parse(File.read(browser_report_path))
   abort("Admin browser QA did not pass") unless browser_report.fetch("status") == "pass"
   abort("Admin browser QA was not a full release matrix") unless browser_report.fetch("releaseAdmissible") == true
-  abort("Admin browser QA route matrix is incomplete") unless browser_report.fetch("routeCount") == 29
+  abort("Admin browser QA route matrix is incomplete") unless browser_report.fetch("routeCount") == 34
   abort("Admin browser QA viewport matrix is incomplete") unless browser_report.fetch("viewportCount") == 4
-  abort("Admin browser QA screenshot matrix is incomplete") unless browser_report.fetch("screenshotCount") == 116
+  abort("Admin browser QA screenshot matrix is incomplete") unless browser_report.fetch("screenshotCount") == 136
   abort("Admin evidence-mode marker was not verified") unless browser_report.fetch("evidenceModeMarkerVerified") == true
   File.write(
     File.join(evidence_dir, "summary.json"),
@@ -211,7 +211,7 @@ ruby -r json -r time -e '
         "browser_qa_viewport_count" => browser_report.fetch("viewportCount"),
         "browser_qa_screenshot_count" => browser_report.fetch("screenshotCount"),
         "captures" => captures,
-        "privacy" => "Evidence-mode Admin PWA uses masked deterministic test data and fixed local review credentials only; no production Supabase session, service-role key, production OTP, PIN, or real customer phone is present."
+        "privacy" => "Evidence-mode Admin PWA uses masked deterministic test data and fixed local review credentials only; no production backend session, service-role key, production OTP, PIN, or real customer phone is present."
       }
     ) + "\n"
   )

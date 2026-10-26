@@ -8,31 +8,35 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../shared/repositories/collect_repository.dart';
-import '../supabase/supabase_module.dart';
+import '../../shared/models/contribution_record_copy.dart';
+import '../cloudflare/cloudflare_module.dart';
 
 final collectNotificationServiceProvider = Provider<CollectNotificationService>(
   (ref) {
     final service = CollectNotificationService(
       authenticatedUserId: () =>
-          ref.read(supabaseClientProvider)?.auth.currentUser?.id,
+          ref.read(collectBackendClientProvider)?.auth.currentUser?.id,
       authenticatedSessionId: () => _notificationSessionId(
-        ref.read(supabaseClientProvider)?.auth.currentSession?.accessToken,
+        ref
+            .read(collectBackendClientProvider)
+            ?.auth
+            .currentSession
+            ?.accessToken,
       ),
     );
     ref.listen<String?>(collectAuthenticatedUserIdProvider, (_, owner) {
       unawaited(service.synchronizeOwner(owner));
     }, fireImmediately: true);
     final authSubscription = ref
-        .read(supabaseClientProvider)
+        .read(collectBackendClientProvider)
         ?.auth
         .onAuthStateChange
         .listen((_) {
           unawaited(
             service.synchronizeOwner(
-              ref.read(supabaseClientProvider)?.auth.currentUser?.id,
+              ref.read(collectBackendClientProvider)?.auth.currentUser?.id,
             ),
           );
         });
@@ -130,7 +134,7 @@ class CollectNotificationService {
   static const _androidChannelId = 'collect_group_updates';
   static const _androidChannelName = 'Collect group updates';
   static const _androidChannelDescription =
-      'Contribution confirmations, transfer reminders, group updates, and security notices.';
+      ContributionRecordCopy.channelOverviewDescription;
   static const _androidContributionChannelId = 'collect_contributions';
   static const _androidReminderChannelId = 'collect_reminders';
   static const _androidSecurityChannelId = 'collect_security';
@@ -296,8 +300,8 @@ class CollectNotificationService {
   static const _androidChannels = <AndroidNotificationChannel>[
     AndroidNotificationChannel(
       _androidContributionChannelId,
-      'Contribution confirmations',
-      description: 'Confirmed contributions and ledger updates.',
+      ContributionRecordCopy.channelTitle,
+      description: ContributionRecordCopy.channelDescription,
       importance: Importance.high,
     ),
     AndroidNotificationChannel(
@@ -548,9 +552,11 @@ class CollectNotificationService {
     } catch (error) {
       if (!current()) return false;
       final needsLogin =
-          error is AuthException ||
-          (error is PostgrestException &&
-              error.message == 'notification_registration_session_stale') ||
+          error is CollectAuthException ||
+          (error is CollectApiException &&
+              (error.code == 'notification_registration_session_stale' ||
+                  error.message ==
+                      'notification_registration_session_stale')) ||
           (error is StateError &&
               error.message ==
                   'Sign in again to register notifications on this device.');

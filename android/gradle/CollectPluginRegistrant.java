@@ -1,8 +1,14 @@
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.SeekableByteChannel;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -11,6 +17,7 @@ import java.util.regex.Pattern;
 
 /** Repository adapter of the pinned Flutter registrant, without editing it. */
 public final class CollectPluginRegistrant {
+    private static final Path REGISTRANT = Path.of("io/flutter/plugins/GeneratedPluginRegistrant.java");
     private static final String HEADER = String.join("\n",
         "package io.flutter.plugins;", "", "import androidx.annotation.Keep;",
         "import androidx.annotation.NonNull;", "import io.flutter.Log;", "",
@@ -33,6 +40,73 @@ public final class CollectPluginRegistrant {
         "com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin",
         "firebase_messaging",
         "io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingPlugin");
+
+    private static boolean readFully(SeekableByteChannel channel, ByteBuffer bytes) throws IOException {
+        while (bytes.hasRemaining()) if (channel.read(bytes) < 0) return false;
+        bytes.flip();
+        return true;
+    }
+
+    // ExFAT retains macOS metadata next to both files and directories. A name
+    // prefix alone never exempts source: require the complete bounded v2 entry
+    // table and an existing, unaliased companion before ignoring its bytes.
+    static boolean appleDoubleSidecar(Path path) throws IOException {
+        String name = path.getFileName().toString();
+        if (!name.startsWith("._") || name.length() <= 2
+            || !Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS)) return false;
+        Path companion = path.resolveSibling(name.substring(2));
+        if (Files.isSymbolicLink(companion)
+            || !(Files.isRegularFile(companion, LinkOption.NOFOLLOW_LINKS)
+                || Files.isDirectory(companion, LinkOption.NOFOLLOW_LINKS))) return false;
+        long size = Files.size(path);
+        try (SeekableByteChannel channel = Files.newByteChannel(path,
+            StandardOpenOption.READ, LinkOption.NOFOLLOW_LINKS)) {
+            ByteBuffer header = ByteBuffer.allocate(26);
+            if (!readFully(channel, header) || header.getInt() != 0x00051607
+                || header.getInt() != 0x00020000) return false;
+            header.position(24);
+            int count = Short.toUnsignedInt(header.getShort());
+            long tableEnd = 26L + count * 12L;
+            if (count == 0 || tableEnd > size) return false;
+            ByteBuffer table = ByteBuffer.allocate(count * 12);
+            if (!readFully(channel, table)) return false;
+            Set<Long> ids = new HashSet<>();
+            ArrayList<long[]> spans = new ArrayList<>();
+            for (int i = 0; i < count; i++) {
+                long id = Integer.toUnsignedLong(table.getInt());
+                long offset = Integer.toUnsignedLong(table.getInt());
+                long length = Integer.toUnsignedLong(table.getInt());
+                if (id == 0 || !ids.add(id) || offset < tableEnd || offset + length > size) return false;
+                if (length > 0) spans.add(new long[]{offset, offset + length});
+            }
+            spans.sort(Comparator.comparingLong(span -> span[0]));
+            for (int i = 1; i < spans.size(); i++)
+                if (spans.get(i - 1)[1] > spans.get(i)[0]) return false;
+            return channel.size() == size && !Files.isSymbolicLink(path);
+        }
+    }
+
+    static Path validateDirectory(Path directory) throws IOException {
+        Path root = directory.toAbsolutePath().normalize();
+        Path original = root.resolve(REGISTRANT);
+        if (!Files.isDirectory(root, LinkOption.NOFOLLOW_LINKS))
+            throw new IllegalArgumentException("Missing regular main/java directory");
+        boolean found = false;
+        try (var paths = Files.walk(root)) {
+            for (Path path : paths.toList()) {
+                if (Files.isSymbolicLink(path))
+                    throw new IllegalArgumentException("Collect registrant adapter refuses aliased main/java input");
+                if (Files.isDirectory(path, LinkOption.NOFOLLOW_LINKS)) continue;
+                if (!Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS))
+                    throw new IllegalArgumentException("Collect registrant adapter refuses special main/java input");
+                if (path.equals(original)) found = true;
+                else if (!appleDoubleSidecar(path))
+                    throw new IllegalArgumentException("Collect registrant adapter refuses additional main/java source");
+            }
+        }
+        if (!found) throw new IllegalArgumentException("Missing regular tool-generated registrant");
+        return original;
+    }
 
     static String render(String source, boolean omitNotifications) {
         if (!source.startsWith(HEADER) || !source.endsWith(FOOTER)) {
@@ -71,12 +145,21 @@ public final class CollectPluginRegistrant {
     }
 
     public static void main(String[] args) throws IOException {
+        if (args.length == 2 && args[0].equals("--check-directory")) {
+            validateDirectory(Path.of(args[1]));
+            return;
+        }
         if (args.length != 3 || !(args[2].equals("true") || args[2].equals("false"))) {
             throw new IllegalArgumentException("Expected input, output and explicit omission Boolean");
         }
-        Path input = Path.of(args[0]);
+        Path input = Path.of(args[0]).toAbsolutePath().normalize();
         Path output = Path.of(args[1]);
-        if (!Files.isRegularFile(input) || Files.isSymbolicLink(input)) {
+        Path directory = input;
+        for (int i = 0; i < REGISTRANT.getNameCount(); i++) {
+            directory = directory.getParent();
+            if (directory == null) throw new IllegalArgumentException("Unknown tool-generated registrant path");
+        }
+        if (!input.equals(validateDirectory(directory))) {
             throw new IllegalArgumentException("Missing regular tool-generated registrant");
         }
         byte[] original = Files.readAllBytes(input);
@@ -86,6 +169,7 @@ public final class CollectPluginRegistrant {
         if (!java.util.Arrays.equals(original, Files.readAllBytes(input))) {
             throw new IllegalArgumentException("Registrant changed during generation");
         }
+        validateDirectory(directory);
         Files.createDirectories(output.getParent());
         Files.write(output, rendered);
     }

@@ -10,6 +10,7 @@ object ReceiptAckPolicy {
         expectedOwner: String,
         requestedHashes: Map<String, String>,
         stored: List<Envelope>,
+        acknowledged: Map<String, String> = emptyMap(),
     ): Boolean {
         if (activeOwner.isBlank() || expectedOwner != activeOwner || requestedHashes.isEmpty()) return false
         if (stored.map { it.id }.toSet().size != stored.size) return false
@@ -17,7 +18,8 @@ object ReceiptAckPolicy {
         val byId = stored.associateBy { it.id }
         return requestedHashes.all { (id, digest) ->
             val item = byId[id]
-            item != null && digest.matches(Regex("^[a-f0-9]{64}$")) && sha256(item.rawBody) == digest
+            digest.matches(Regex("^[a-f0-9]{64}$")) &&
+                if (item != null) sha256(item.rawBody) == digest else acknowledged[id] == digest
         }
     }
     fun sha256(value: String): String = MessageDigest.getInstance("SHA-256")

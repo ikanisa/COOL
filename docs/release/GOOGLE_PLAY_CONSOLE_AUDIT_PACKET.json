@@ -81,7 +81,7 @@
     "default_language": "en-US",
     "app_name": "Collect",
     "short_description": "Group savings, contribution records, and credit-readiness support.",
-    "full_description": "Collect helps Rwanda savings groups organize members, record whole-RWF contributions, and review reconciled group activity.\n\nMembers see the exact MTN MoMo or Airtel Money group receiver and amount before opening the provider USSD prompt. The member authorizes payment with the mobile network; Collect never asks for a MoMo PIN or OTP and does not hold member funds.\n\nOn eligible Android receiver devices, members may explicitly consent to Collect receiving newly arriving MoMo transaction-confirmation SMS for candidate reconciliation. Collect does not read SMS history, send SMS, or access Call Log data. SMS access can be turned off. An observed SMS is not independent settlement proof; pending and ambiguous contributions require governed reconciliation before a production confirmation claim.\n\nCollect provides in-app account support and deletion controls. The service is operated by IKANISA for Rwanda group-contribution and record-keeping workflows.",
+    "full_description": "Collect helps Rwanda groups organize members and review whole-RWF MoMo contribution records. It is a technology and record-keeping service.\n\nAny signed-in Collect user can create a private group and invite members without registering a MoMo number, provider or recipient. Group setup does not request SMS access or authorize payments.\n\nEligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt. Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your Collect sign-in code is only for signing in to Collect.\n\nSigned-in Android users can explicitly opt in to submit newly arriving MoMo SMS as candidate evidence, without wallet registration or device pairing. Collect does not read SMS history, send SMS or access Call Logs. SMS access can be turned off. A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.\n\nFor a Collect question, email info@ikanisa.com. In the app, use Settings → Security → Delete data to request eligible data deletion. Collect does not provide loans, insurance or deposit custody.",
     "category": "FINANCE",
     "tags_to_confirm_in_console": [
       "Savings",
@@ -259,8 +259,64 @@
             "customer support",
             "fraud prevention and security"
           ]
+        },
+        {
+          "category": "App info and performance",
+          "data_types": [
+            "Diagnostics"
+          ],
+          "examples": [
+            "ML Kit device and app details, latency, configuration, feature events and errors",
+            "Automatic-zoom scan-session diagnostics, zoom changes and candidate barcode bounding-box coordinates"
+          ],
+          "purpose": [
+            "diagnostics and usage analytics"
+          ],
+          "status": "SDK_disclosure_draft_verify_final_versions_and_complete_current_Console_form"
+        },
+        {
+          "category": "Device or other IDs",
+          "examples": [
+            "ML Kit per-installation identifiers",
+            "ML Kit automatic-zoom per-scan session identifiers"
+          ],
+          "purpose": [
+            "diagnostics and usage analytics"
+          ],
+          "status": "SDK_disclosure_draft_verify_final_versions_and_complete_current_Console_form"
+        },
+        {
+          "category": "Messages",
+          "data_types": [
+            "SMS or MMS"
+          ],
+          "examples": [
+            "Consented provider MoMo SMS sender, message body and receipt timestamps when capture is enabled and permission is granted"
+          ],
+          "purpose": [
+            "app functionality",
+            "fraud prevention and security"
+          ],
+          "source_scope": "The production member receiver filters provider financial messages, queues raw sender/body under the active capture owner, and uploads them to ingest-client-sms. This is not a declaration of general inbox access, a successful physical-device test, a financial posting or a granted RECEIVE_SMS exception.",
+          "status": "source_disclosure_draft_verify_final_candidate_and_complete_current_Console_form"
         }
       ],
+      "mlkit_sdk_disclosure_review": {
+        "reviewed_at": "2026-10-24",
+        "state": "source_draft_only_not_a_current_Console_declaration_or_device_network_observation",
+        "observed_runtime_graph_sha256": "20bb8fa08b757b0c29cbc7dc2f281f1616c78da4de468e6c796e928149eb2056",
+        "barcode_components": [
+          "com.google.mlkit:barcode-scanning:17.3.0",
+          "com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.1"
+        ],
+        "application_configuration": "lib/features/collections/group_qr_scanner_screen.dart enables autoZoom for available native QR scanning; graph membership alone does not prove both SDK paths execute.",
+        "scan_content_boundary": "ML Kit processes camera input on device. Do not classify decoded code values or images as uploaded by ML Kit solely because its diagnostic telemetry can be sent to Google; assess Collect evidence/support uploads separately.",
+        "remaining": "Verify final shipped SDK versions and applicable configurations, current collection/sharing and required/optional answers for the whole app, and submit/read back the actual Data safety form. The SDK disclosure page describes its latest SDK versions; this draft is conservative documentation, not measured final-artifact behavior or approval.",
+        "sources": [
+          "https://developers.google.com/ml-kit/android-data-disclosure",
+          "https://developer.android.com/privacy-and-security/declare-data-use"
+        ]
+      },
       "sharing": {
         "status": "confirm_in_console",
         "expected_answer": "Only share data with service providers or partners required to operate Rwanda group savings, MoMo reconciliation, support, credit-readiness where actually enabled, fraud prevention, legal, audit, or customer-requested workflows."

@@ -1,8 +1,8 @@
 {
   "added": {
     "COLLECT_FORK.md": {
-      "fork_sha256": "f91c9451c628f51efcd403503a7eddf8eaf7b0d01920ef3caf34decdb8a962d7",
-      "rationale": "Retain provenance and explicitly document the authenticated Kotlin 2.4.20 pin change and its source/artifact acceptance limits."
+      "fork_sha256": "682ef67af2fe24df2afc0921911c2ba3a3e568890871fd90f2ae48510ca3e61b",
+      "rationale": "Retain provenance and Kotlin 2.4.20 limits; replace removed evidence links with current portable comparison/index destinations and explicit dated external custody. No runtime or licence change."
     }
   },
   "changed": {

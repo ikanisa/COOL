@@ -12,7 +12,9 @@ class GatewayActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         bridge = GatewayBridge(this, flutterEngine.dartExecutor.binaryMessenger)
-        recovery = GatewayRecoveryOperator(this, flutterEngine.dartExecutor.binaryMessenger)
+        recovery = GatewayRecoveryOperator(this, flutterEngine.dartExecutor.binaryMessenger) {
+            bridge?.pauseForPreparation() ?: throw GatewayStateException("gateway_preparation_unavailable")
+        }
     }
     override fun onDestroy() {
         recovery?.close()

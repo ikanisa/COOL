@@ -13,9 +13,31 @@ const LEGACY_FLUTTER_CACHES = new Set([
   'flutter-app-manifest',
 ]);
 
+async function hasAdmittedBuildCache() {
+  if (!(await caches.keys()).includes(CACHE_NAME)) return false;
+  const cache = await caches.open(CACHE_NAME);
+  const keys = await cache.keys();
+  if (keys.length !== ASSET_URLS.size || keys.some((request) =>
+    request.method !== 'GET' || !ASSET_URLS.has(request.url))) return false;
+  for (const url of CACHE_URLS) {
+    const expected = new URL(url, self.location.href);
+    const response = await cache.match(expected.href);
+    if (!response || !response.ok || response.type !== 'basic' || response.redirected ||
+        new URL(response.url).href !== expected.href) return false;
+    const digest = await crypto.subtle.digest('SHA-256', await response.clone().arrayBuffer());
+    const actual = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
+    if (actual !== CACHE_HASHES[url]) return false;
+  }
+  return true;
+}
+
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
+    let preserveAdmittedCache = false;
     try {
+      // Returning to this build while another update waits can reuse the active
+      // cache. Preserve it only after verifying its complete static contents.
+      preserveAdmittedCache = await hasAdmittedBuildCache();
       const cache = await caches.open(CACHE_NAME);
       // Wait for every write before cleanup if any resource fails. Otherwise
       // an in-flight successful fetch could recreate the rejected cache.
@@ -46,7 +68,7 @@ self.addEventListener('install', (event) => {
       // installed build until all controlled tabs/windows have been closed.
       // Do not activate an update over an unfinished operator action.
     } catch (error) {
-      await caches.delete(CACHE_NAME);
+      if (!preserveAdmittedCache) await caches.delete(CACHE_NAME);
       throw error;
     }
   })());
@@ -83,6 +105,11 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+  // Service documents and responses must use the browser's normal network
+  // path. Never replace an Auth/CAPTCHA/privacy response or offline failure
+  // with the installed static Admin shell, including iframe navigations.
+  if (['/api', '/v1', '/functions', '/privacy', '/account-deletion', '/admin/auth/local-challenge'].some((path) =>
+    url.pathname === path || url.pathname.startsWith(path + '/'))) return;
   url.search = '';
   if (event.request.mode !== 'navigate' && !ASSET_URLS.has(url.href)) return;
   event.respondWith(cacheFirst(event.request));

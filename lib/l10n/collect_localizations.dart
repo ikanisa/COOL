@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../shared/models/contribution_record_copy.dart';
 
 /// English-only product copy boundary.
 ///
@@ -64,9 +65,8 @@ const Map<String, String> _english = {
   'approveOnlyInsideMomo': 'Approve only inside MoMo',
   'approveOnlyInsideMomoMessage':
       'Collect opens the USSD request with the exact receiver and amount. Review it and enter your PIN only in the mobile-network prompt.',
-  'waitingForReceipt': 'Waiting for the receipt SMS',
-  'waitingForReceiptMessage':
-      'The contribution stays pending until the consented Android receipt is parsed and allocated, or an administrator reconciles an exception.',
+  'momoRequestOpened': ContributionRecordCopy.handoffTitle,
+  'momoRequestOpenedMessage': ContributionRecordCopy.handoffMessage,
   'momoCouldNotContinue': 'MoMo could not continue',
   'checkConnection': 'Check your connection and try again.',
   'paymentDetailsChanged':

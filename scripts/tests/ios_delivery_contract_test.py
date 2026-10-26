@@ -20,6 +20,12 @@ guard = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(guard)
 
 
+PUBLIC_CONFIG = {"SUPABASE_URL": "https://rrlduytparvsjfmegalh.supabase.co",
+                 "SUPABASE_API_URL": "https://platform-admin.collect.ikanisa.com",
+                 "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_syntheticPublicKey1234",
+                 "AUTH_CAPTCHA_SITE_KEY": "1x00000000000000000000AA"}
+
+
 class DeliveryTest(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix="collect-ios-delivery-test-")
@@ -36,10 +42,8 @@ class DeliveryTest(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("synthetic source")
         (self.repo / ".fvmrc").write_text('{"flutter":"3.44.4"}')
-        (self.repo / ".dvmrc").write_text("2.5.6\n")
         (self.repo / "pubspec.yaml").write_text("name: collect\nversion: 1.0.8+65\n")
-        (self.repo / "tools/collect-notification-mcp/package.json").write_text('{"dependencies":{"zod":"4.5.4"}}')
-        for name in ("scripts/qa/ios_delivery_guard.py", "scripts/qa/collect_release_candidate.py", "fastlane/Fastfile"):
+        for name in ("scripts/qa/ios_delivery_guard.py", "scripts/qa/collect_release_candidate.py", "scripts/qa/native_build_config.py", "fastlane/Fastfile"):
             path = self.repo / name
             path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / name, path)
@@ -61,18 +65,20 @@ class DeliveryTest(unittest.TestCase):
         self.approval_path = self.base / "approval.json"
         self.ipa, self.inspection_path = self.base / "Collect.ipa", self.base / "inspection.json"
         now = datetime.now(timezone.utc)
+        with patch.dict(os.environ, PUBLIC_CONFIG, clear=True):
+            public_configuration_sha256 = guard.runtime_configuration_sha256(self.work)
         self.record = {"schema_version": 1, "kind": "collect_ios_delivery_approval", "decision": "approved",
                        "operation": "signed_candidate", "environment": "collect-ios-signing", "target": dict(guard.TARGET),
                        "source_commit": self.commit, "source_manifest_sha256": self.export["source_manifest_sha256"],
                        "version": "1.0.8", "build_number": "65", "reviewer": "SYNTHETIC fixture", "review_record": "fixture only",
                        "approved_at_utc": (now - timedelta(minutes=1)).isoformat(), "expires_at_utc": (now + timedelta(hours=1)).isoformat(),
-                       "artifact": None, "public_anon_key_sha256": guard.digest(b"synthetic-public-anon")}
-        self.env = {"COLLECT_IOS_EXPECTED_REF": "refs/heads/main", "COLLECT_IOS_EXPECTED_COMMIT": self.commit,
+                       "artifact": None, "runtime_configuration_sha256": public_configuration_sha256}
+        self.env = {**PUBLIC_CONFIG, "COLLECT_IOS_EXPECTED_REF": "refs/heads/main", "COLLECT_IOS_EXPECTED_COMMIT": self.commit,
                     "COLLECT_IOS_SOURCE_SHA256": self.export["source_manifest_sha256"], "COLLECT_IOS_OPERATION": "signed_candidate",
                     "COLLECT_IOS_CANDIDATE": str(self.candidate), "COLLECT_IOS_WORKDIR": str(self.work),
                     "COLLECT_IOS_APPROVAL_FILE": str(self.approval_path), "COLLECT_IOS_IPA": str(self.ipa),
                     "COLLECT_IOS_INSPECTION": str(self.inspection_path), "RUNNER_TEMP": str(self.base),
-                    "SUPABASE_PRODUCTION_ANON_KEY": "synthetic-public-anon", "SUPABASE_PRODUCTION_URL": guard.TARGET["supabase_url"],
+                    "COLLECT_API_URL": guard.TARGET["api_url"], "ADMIN_APP_URL": guard.TARGET["admin_url"],
                     "APPLE_CERTIFICATE_BASE64": "c3ludGhldGljLW5vdC1hLWNlcnRpZmljYXRl", "APPLE_CERTIFICATE_PASSWORD": "synthetic-password",
                     "APPLE_PROVISIONING_PROFILE_BASE64": "c3ludGhldGljLW5vdC1hLXByb2ZpbGU=", "KEYCHAIN_PASSWORD": "synthetic-keychain-password"}
         self.policy = {"name": "collect-ios-signing", "can_admins_bypass": False,
@@ -137,7 +143,7 @@ class DeliveryTest(unittest.TestCase):
 
     def make_ipa(self, info=None, extra=None):
         with zipfile.ZipFile(self.ipa, "w") as archive:
-            archive.writestr("Payload/Collect.app/Info.plist", plistlib.dumps(info or {"CFBundleIdentifier": guard.TARGET["bundle_id"], "CFBundleShortVersionString": "1.0.8", "CFBundleVersion": "65"}))
+            archive.writestr("Payload/Collect.app/Info.plist", plistlib.dumps(info or {"CFBundleIdentifier": guard.TARGET["bundle_id"], "CFBundleShortVersionString": "1.0.8", "CFBundleVersion": "65", "CollectAPNSEnvironment": "production"}))
             archive.writestr("Payload/Collect.app/embedded.mobileprovision", b"synthetic profile payload")
             archive.writestr("Payload/Collect.app/PrivacyInfo.xcprivacy", plistlib.dumps({"NSPrivacyTracking": False, "NSPrivacyAccessedAPITypes": []}))
             archive.writestr("Payload/Collect.app/Frameworks/Synthetic.framework/PrivacyInfo.xcprivacy", plistlib.dumps({"NSPrivacyTracking": False}))
@@ -179,9 +185,9 @@ class DeliveryTest(unittest.TestCase):
                  ("COLLECT_IOS_EXPECTED_COMMIT", "0" * 40, "APPROVAL_SOURCE"),
                  ("GITHUB_REPOSITORY", "attacker/COOL", "REPOSITORY"),
                  ("GITHUB_SHA", "0" * 40, "WORKFLOW_COMMIT"),
-                 ("SUPABASE_PRODUCTION_URL", "https://wrong.invalid", "RUNTIME_TARGET"),
-                 ("APP_PUBLIC_URL", "https://wrong.invalid", "RUNTIME_TARGET"),
-                 ("SUPABASE_PRODUCTION_ANON_KEY", "changed", "BUILD_CONFIGURATION")]
+                 ("COLLECT_API_URL", "https://wrong.invalid", "PUBLIC_BUILD_CONFIGURATION_WRONG"),
+                 ("APP_PUBLIC_URL", "https://wrong.invalid", "PUBLIC_BUILD_CONFIGURATION_WRONG"),
+                 ("ADMIN_APP_URL", "https://wrong.invalid", "PUBLIC_BUILD_CONFIGURATION_WRONG")]
         for key, value, code in cases:
             with self.subTest(key=key), patch.dict(os.environ, {key: value}):
                 self.assert_import_denied_without_effect(code)
@@ -224,8 +230,8 @@ class DeliveryTest(unittest.TestCase):
         self.assert_import_denied_without_effect("CANDIDATE_CHANGED")
 
     def test_missing_public_build_configuration_cannot_import(self):
-        with patch.dict(os.environ, {"SUPABASE_PRODUCTION_ANON_KEY": ""}):
-            self.assert_import_denied_without_effect("BUILD_CONFIGURATION_REQUIRED")
+        with patch.dict(os.environ, {"SUPABASE_PUBLISHABLE_KEY": ""}):
+            self.assert_import_denied_without_effect("PUBLIC_BUILD_CONFIGURATION_WRONG")
 
     def test_changed_working_source_and_added_source_fail_before_signing(self):
         path = self.work / "lib/main.dart"
@@ -286,6 +292,7 @@ class DeliveryTest(unittest.TestCase):
         self.assertEqual(self.effects[-1][0], "SYNTHETIC_UPLOAD")
         self.assertEqual(len(inspection["privacy_manifests"]), 2)
         self.assertEqual(inspection["entitlements"]["aps-environment"], "production")
+        self.assertEqual(inspection["runtime_apns_environment"], "production")
 
     def test_changed_missing_artifact_and_changed_inspection_block_before_upload(self):
         self.approve_artifact()
@@ -325,6 +332,33 @@ class DeliveryTest(unittest.TestCase):
         with patch.object(guard, "run_command", side_effect=guard.GuardError("UNSIGNED_FIXTURE")):
             with self.assertRaisesRegex(guard.GuardError, "UNSIGNED_FIXTURE"):
                 guard.inspect_ipa(self.ipa, self.record)
+
+    def test_missing_unexpanded_and_invalid_runtime_apns_markers_fail_signed_inspection(self):
+        identity = {"CFBundleIdentifier": guard.TARGET["bundle_id"], "CFBundleShortVersionString": "1.0.8", "CFBundleVersion": "65"}
+        variants = [identity, *({**identity, "CollectAPNSEnvironment": marker} for marker in
+                               ("development", "$(APS_ENVIRONMENT)", "", " production ", False, ["production"], {"environment": "production"}))]
+        for info in variants:
+            with self.subTest(info=info), patch.object(guard, "run_command", side_effect=self.fake_tool):
+                self.make_ipa(info=info)
+                with self.assertRaisesRegex(guard.GuardError, "IOS_RUNTIME_APNS_ENVIRONMENT_WRONG"):
+                    guard.inspect_ipa(self.ipa, self.record)
+        self.assertFalse(any(command[0] not in ("/usr/bin/codesign", "/usr/bin/security") for command in self.effects))
+        self.assertFalse(any(command[0] == "/usr/bin/security" for command in self.effects))
+
+    def test_changed_runtime_apns_marker_cannot_reuse_approved_inspection(self):
+        inspection = self.approve_artifact()
+        self.make_ipa(info={"CFBundleIdentifier": guard.TARGET["bundle_id"], "CFBundleShortVersionString": "1.0.8",
+                            "CFBundleVersion": "65", "CollectAPNSEnvironment": "development"})
+        # Even refreshed artifact metadata cannot substitute an old production
+        # readback for reinspection of the bytes being uploaded.
+        self.record["artifact"]["ipa_sha256"] = guard.digest(self.ipa.read_bytes())
+        self.write_approval()
+        self.effects.clear()
+        with patch.object(guard, "run_command", side_effect=self.fake_tool):
+            with self.assertRaisesRegex(guard.GuardError, "IOS_RUNTIME_APNS_ENVIRONMENT_WRONG"):
+                guard.check("testflight_internal")
+        self.assertEqual(inspection["runtime_apns_environment"], "production")
+        self.assertTrue(all(command[0] == "/usr/bin/codesign" for command in self.effects))
 
     def test_adhoc_and_development_authority_cannot_pass_signed_inspection(self):
         self.make_ipa()

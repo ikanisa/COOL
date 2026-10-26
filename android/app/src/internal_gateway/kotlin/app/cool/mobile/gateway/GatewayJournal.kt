@@ -82,6 +82,9 @@ internal data class GatewayCallback(
 internal class GatewayStateException(val reasonCode: String) : IllegalStateException(reasonCode)
 
 internal class GatewayJournal(private val storage: GatewayJournalStorage) {
+    // Ephemeral eligibility is minted only after this instance's fresh durable
+    // reservation. A restart or historical row cannot invent preparation.
+    private val freshPreparations = HashMap<String, String>()
     companion object {
         const val MAX_ATTEMPTS = 100
         const val MAX_SEGMENTS = 10
@@ -101,9 +104,46 @@ internal class GatewayJournal(private val storage: GatewayJournalStorage) {
     fun resume() = synchronized(PROCESS_LOCK) {
         (storage as? GatewayEncryptedStore)?.requireActiveInstallation()
         if (storage.unresolvedArchivedEvidence()) throw GatewayStateException("gateway_archived_conflict_pending")
+        val state = validated(storage.read())
+        if (storage is GatewayInvocationStorage && state.attempts.any {
+                custody().evidence(it).optJSONObject("terminal")?.optString("phase") == "aborted_uninvoked"
+            }) throw GatewayStateException("gateway_invocation_backend_cancellation_required")
         // Resumption only opens the local gate. Fresh server authority and
         // independent device observations are still required for every call.
         storage.commit(validated(storage.read()).copy(emergencyPaused = false))
+    }
+
+    private fun custody() = GatewayInvocationCustody(storage as? GatewayInvocationStorage
+        ?: throw GatewayStateException("gateway_invocation_custody_unavailable"))
+
+    fun prepareInvocation(record: GatewayAttempt) = synchronized(PROCESS_LOCK) {
+        if (freshPreparations.remove(record.attemptId) != gatewayReservationDigest(record))
+            throw GatewayStateException("gateway_invocation_custody_unavailable")
+        if (validated(storage.read()).attempts.singleOrNull { it.attemptId == record.attemptId } != record)
+            throw GatewayStateException("gateway_invocation_custody_conflict")
+        custody().prepare(record)
+    }
+
+    fun enterInvocation(record: GatewayAttempt, at: Instant) = synchronized(PROCESS_LOCK) {
+        if (validated(storage.read()).attempts.singleOrNull { it.attemptId == record.attemptId } != record)
+            throw GatewayStateException("gateway_invocation_custody_conflict")
+        custody().enter(record, at)
+    }
+
+    fun abortUninvoked(attemptId: String, reason: String, at: Instant = Instant.now()): org.json.JSONObject = synchronized(PROCESS_LOCK) {
+        val state = validated(storage.read())
+        val record = state.attempts.singleOrNull { it.attemptId == attemptId }
+            ?: throw GatewayStateException("gateway_attempt_missing")
+        // Persist the pause before selecting a permanent abort terminal. A
+        // failed publication leaves the device paused and the evidence held.
+        storage.commit(state.copy(emergencyPaused = true))
+        custody().abort(record, reason, at)
+    }
+
+    fun invocationEvidence(attemptId: String): org.json.JSONObject = synchronized(PROCESS_LOCK) {
+        val record = validated(storage.read()).attempts.singleOrNull { it.attemptId == attemptId }
+            ?: throw GatewayStateException("gateway_attempt_missing")
+        custody().evidence(record)
     }
 
     fun reserveInvocation(attempt: GatewayAttempt) = synchronized(PROCESS_LOCK) {
@@ -122,6 +162,7 @@ internal class GatewayJournal(private val storage: GatewayJournalStorage) {
         }
         // The caller cannot cross the sender seam until this commit succeeds.
         storage.commit(state.copy(attempts = state.attempts + attempt))
+        freshPreparations[attempt.attemptId] = gatewayReservationDigest(attempt)
     }
 
     fun markInvocationUnknown(attemptId: String) = synchronized(PROCESS_LOCK) {
@@ -161,10 +202,11 @@ internal class GatewayJournal(private val storage: GatewayJournalStorage) {
         val updated = attempt.copy(segments = nextSegments)
         val nextAttempts = state.attempts.toMutableList().also { it[index] = updated }
         val archiveConflict = updated.outcome() != AttemptOutcome.DELIVERY_CALLBACK_OBSERVED && storage.archiveCompactionPending(attempt.attemptId)
+        val invocationConflict = storage is GatewayInvocationStorage && custody().evidence(updated).getBoolean("contradictory_callback")
         if (archiveConflict) storage.stopArchiveUncertainty()
         // Paused/revoked enrollment does not discard evidence for an already
         // armed attempt. It never grants permission for another invocation.
-        storage.commit(state.copy(emergencyPaused = state.emergencyPaused || archiveConflict, attempts = nextAttempts))
+        storage.commit(state.copy(emergencyPaused = state.emergencyPaused || archiveConflict || invocationConflict, attempts = nextAttempts))
         true
     }
 

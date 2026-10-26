@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/utils/money_format.dart';
 import '../../shared/models/collect_models.dart';
+import '../../shared/models/contribution_record_copy.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/collect_data_load_failure.dart';
@@ -90,15 +91,19 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                     return ActivityFeedItem(
                       key: ValueKey(contribution.id),
                       title:
+                          contribution.groupTitle ??
                           collectionsById[contribution.collectionId]?.title ??
                           'Group contribution',
                       amount: contribution.amountRwf,
                       currency: contribution.currency,
                       meta:
+                          '${ContributionRecordCopy.labelFor(contribution)} · '
                           '${compactCollectIdLabel(contribution.supporterLabel)}'
                           ' · ${formatCollectDateTime(contribution.createdAt)}',
                       transactionId: contribution.transactionId,
-                      tone: CollectStatusTone.success,
+                      tone: contribution.isCompensation
+                          ? CollectStatusTone.warning
+                          : CollectStatusTone.info,
                       prioritizeContext: true,
                       onTap: () => context.go(
                         '/groups/${contribution.collectionId}/ledger',
@@ -132,7 +137,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
             ? const [
                 CollectScreenLoadingState(
                   title: 'Loading activity',
-                  message: 'Refreshing confirmed contribution records.',
+                  message: ContributionRecordCopy.loadingMessage,
                   icon: CollectIcons.activity,
                   skeletonCount: 3,
                 ),
@@ -157,12 +162,20 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                   total: total,
                   count: feed.page?.totalCount ?? 0,
                   groupLabel: _selectedGroupLabel(collectionsById),
+                  signedHistory: feed.page?.isSignedHistory ?? false,
+                ),
+                InfoSecurityBanner(
+                  title: feed.page?.isSignedHistory == true
+                      ? ContributionRecordCopy.netTotalTitle
+                      : ContributionRecordCopy.totalTitle,
+                  message: ContributionRecordCopy.explanation,
+                  tone: CollectStatusTone.info,
                 ),
                 if (visible.isEmpty && query.isDefault)
                   const EmptyIllustrationState(
                     icon: CollectIcons.activity,
                     title: 'No activity yet',
-                    message: 'Confirmed MoMo contributions appear here.',
+                    message: ContributionRecordCopy.emptyMomoMessage,
                   )
                 else if (visible.isEmpty)
                   EmptySearchState(
@@ -248,11 +261,13 @@ class _ActivityTitleRow extends StatelessWidget {
     required this.total,
     required this.count,
     required this.groupLabel,
+    this.signedHistory = false,
   });
 
   final String total;
   final int count;
   final String groupLabel;
+  final bool signedHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -286,7 +301,7 @@ class _ActivityTitleRow extends StatelessWidget {
               ),
             ),
             CollectSpacing.gap4,
-            Icon(CollectIcons.check, size: 14, color: muted),
+            Icon(CollectIcons.ledger, size: 14, color: muted),
           ],
         ),
       ],
@@ -297,7 +312,8 @@ class _ActivityTitleRow extends StatelessWidget {
     );
     return Semantics(
       header: true,
-      label: 'Activity, $groupLabel, $count confirmed, $total',
+      label:
+          'Activity, $groupLabel, ${ContributionRecordCopy.countLabel(count, signedHistory: signedHistory)}, $total',
       child: ExcludeSemantics(
         child: largeText
             ? Column(

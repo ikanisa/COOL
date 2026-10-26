@@ -57,8 +57,8 @@ class _GroupEditorialDetails extends StatelessWidget {
                         icon: CollectIcons.money,
                         value: totalText,
                         semanticLabel: currentSummary == null
-                            ? 'Total collected not available'
-                            : 'Total collected ${formatCurrencyTotals(currentSummary.totalsByCurrency, separator: ", ")}',
+                            ? 'Recorded contribution total unavailable'
+                            : '${ContributionRecordCopy.totalTitle}, ${formatCurrencyTotals(currentSummary.totalsByCurrency, separator: ", ")}',
                       ),
                       CollectSpacing.gap4,
                       _GroupEditorialMetric(

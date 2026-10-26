@@ -77,3 +77,41 @@ internal fun parseGatewayArchiveReply(action: String, request: String, device: S
     validateGatewayArchiveResult(action, request, device, payload, reply.getJSONObject("result"))
     return reply
 }
+
+/** Legacy v4 is a separate custody family. No v2 arm, invocation or resend. */
+internal fun validateGatewayLegacyArchivePayload(action: String, payload: JSONObject, request: String) {
+    val mapped = when(action) { "archive_legacy_attempt" -> "archive_attempt"; "legacy_archive_lookup" -> "archive_lookup"; else -> invalidArchive() }
+    validateGatewayArchivePayload(mapped,payload,request)
+}
+internal fun validateGatewayLegacyArchiveAck(result: JSONObject, request: String, device: String, payload: JSONObject? = null) {
+    val copy=JSONObject(result.toString())
+    if(strictBoolean(copy,"ok")) {
+        if(strictString(copy,"evidence_kind")!="complete_legacy_framework_callback_observations") invalidArchive()
+        copy.put("evidence_kind","complete_framework_callback_observations")
+    }
+    validateGatewayArchiveAck(copy,request,device,payload)
+}
+internal fun parseGatewayLegacyArchiveReply(action: String, request: String, device: String, payload: JSONObject, bytes: ByteArray): JSONObject {
+    if(bytes.size>32*1024) invalidArchive()
+    val text=String(bytes,Charsets.UTF_8);if(!bytes.contentEquals(text.toByteArray(Charsets.UTF_8))) invalidArchive()
+    validateGatewayStrictJson(text);val reply=JSONObject(text)
+    requireKeys(reply,setOf("contract_version","action","device_id","request_id","result"))
+    if(strictInteger(reply,"contract_version")!=4L || strictString(reply,"action")!=action || requireUuid(reply,"device_id")!=device || requireUuid(reply,"request_id")!=request) invalidArchive()
+    validateGatewayLegacyArchivePayload(action,payload,request)
+    val result=reply.getJSONObject("result")
+    if(action=="legacy_archive_lookup") {
+        requireKeys(result,setOf("target_request_id","outcome","recorded_result"))
+        if(requireUuid(result,"target_request_id")!=requireUuid(payload,"target_request_id")) invalidArchive()
+        when(strictString(result,"outcome")) {
+            "unknown" -> if(!result.isNull("recorded_result")) invalidArchive()
+            "recorded" -> validateGatewayLegacyArchiveAck(result.getJSONObject("recorded_result"),result.getString("target_request_id"),device)
+            else -> invalidArchive()
+        }
+    } else validateGatewayLegacyArchiveAck(result,request,device,payload)
+    return reply
+}
+internal fun validateTerminalArchiveAck(request: GatewayStoredRequest, ack: JSONObject) {
+    if(request.action=="archive_legacy_attempt" && !isSuccessorEnvelope(request.envelope) && strictInteger(request.envelope,"contract_version")==4L)
+        validateGatewayLegacyArchiveAck(ack,request.requestId,request.deviceId,request.envelope.getJSONObject("payload"))
+    else validateRouteArchiveAck(request,ack)
+}

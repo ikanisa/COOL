@@ -3,28 +3,26 @@ import 'dart:convert';
 
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 const actor = '99430000-0000-4000-8000-000000000001';
 const target = '99430000-0000-4000-8000-000000000002';
-Future<void> session(SupabaseClient client, String id, {int nonce = 0}) async {
-  // Drive the pinned SDK's real login path so it emits the signedIn event.
-  // recoverSession intentionally emits no event for the same user.
-  await client.auth.verifyOTP(
-    phone: '+250788943001',
-    token: '$id|$nonce',
-    type: OtpType.sms,
-  );
+Future<void> session(
+  CollectCloudflareClient client,
+  String id, {
+  int nonce = 0,
+}) async {
+  // Test-only server-response fixture installation; no real OTP/provider admission.
+  await client.auth.recoverSession(jsonEncode(authReceipt(id, '$nonce')));
 }
 
 Map<String, dynamic> authReceipt(String id, String nonce) => {
   'access_token':
-      'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': actor, 'session_id': id, 'nonce': nonce, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
+      'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': actor, 'session_id': id, 'role': 'authenticated', 'nonce': nonce, 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600}))).replaceAll('=', '')}.synthetic',
   'refresh_token': 'synthetic-refresh',
   'token_type': 'bearer',
   'user': {
@@ -41,22 +39,29 @@ http.Response response(Object? body, [int status = 200]) => http.Response(
   headers: {'content-type': 'application/json'},
 );
 
-class _ControlledAuth extends Fake implements GoTrueClient {
-  _ControlledAuth(this.currentSession, this.onAuthStateChange);
+class _FailingStorage implements CollectAuthSessionStorage {
+  bool failWrite = false;
   @override
-  final Session? currentSession;
+  Future<String?> read() async => null;
   @override
-  final Stream<AuthState> onAuthStateChange;
+  Future<void> write(String value) async {
+    if (failWrite) throw StateError('Synthetic protected storage failure');
+  }
+
+  @override
+  Future<void> clear() async {}
 }
 
-class _ControlledClient extends Fake implements SupabaseClient {
-  _ControlledClient(this.auth);
-  @override
-  final GoTrueClient auth;
-}
+CollectCloudflareClient _controlledClient({
+  CollectAuthSessionStorage? storage,
+}) => CollectCloudflareClient(
+  'https://synthetic.invalid',
+  sessionStorage: storage,
+  httpClient: MockClient((_) async => response({'error': 'unavailable'}, 503)),
+);
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late Future<http.Response> Function(http.Request) respond;
   late List<http.Request> requests;
@@ -64,10 +69,8 @@ void main() {
     requests = [];
     respond = (_) async =>
         response({'ok': true, 'status': 'queued', 'delivery_count': 1});
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final values = (jsonDecode(request.body)['token'] as String).split(
@@ -178,7 +181,7 @@ void main() {
     },
   );
   test('signed-out request is denied before HTTP dispatch', () async {
-    await client.auth.signOut(scope: SignOutScope.local);
+    await client.auth.signOut(scope: CollectSignOutScope.local);
     requests.clear();
     await expectLater(
       repository.rpcMap('admin_get_user'),
@@ -250,7 +253,7 @@ void main() {
     'provider generation recreates repository and denies previously captured repository',
     () async {
       final container = ProviderContainer(
-        overrides: [supabaseClientProvider.overrideWithValue(client)],
+        overrides: [collectBackendClientProvider.overrideWithValue(client)],
       );
       addTearDown(container.dispose);
       final first = container.read(adminRepositoryProvider);
@@ -280,7 +283,7 @@ void main() {
 
   test('refresh freshness resets on replacement login and logout', () async {
     final container = ProviderContainer(
-      overrides: [supabaseClientProvider.overrideWithValue(client)],
+      overrides: [collectBackendClientProvider.overrideWithValue(client)],
     );
     addTearDown(container.dispose);
     final timestamp = DateTime.utc(2026, 9, 30);
@@ -294,7 +297,7 @@ void main() {
     expect(container.read(adminLastSuccessfulRefreshProvider), isNull);
     container.read(adminLastSuccessfulRefreshProvider.notifier).state =
         timestamp;
-    await client.auth.signOut(scope: SignOutScope.local);
+    await client.auth.signOut(scope: CollectSignOutScope.local);
     await Future<void>.delayed(Duration.zero);
     expect(container.read(adminLastSuccessfulRefreshProvider), isNull);
   });
@@ -303,7 +306,7 @@ void main() {
     'reconciliation scope cannot revive after a coalesced A to B to A',
     () async {
       final container = ProviderContainer(
-        overrides: [supabaseClientProvider.overrideWithValue(client)],
+        overrides: [collectBackendClientProvider.overrideWithValue(client)],
       );
       addTearDown(container.dispose);
       final first = container.read(adminReconciliationSessionKeyProvider);
@@ -322,64 +325,97 @@ void main() {
     },
   );
 
-  for (final signal in ['error', 'done']) {
+  for (final signal in ['protected storage failure', 'done']) {
     test(
-      'Auth stream $signal denies cached session and in-flight request',
+      'Auth $signal denies cached session and sticky request scope',
       () async {
-        final events = StreamController<AuthState>.broadcast(sync: true);
-        final controlled = _ControlledClient(
-          _ControlledAuth(client.auth.currentSession, events.stream),
-        );
+        final storage = _FailingStorage();
+        final controlled = _controlledClient(storage: storage);
+        addTearDown(controlled.dispose);
+        await session(controlled, 'session-a');
         final controller = AdminSessionController(controlled);
         final fence = AdminRequestSession(controlled);
         final container = ProviderContainer(
-          overrides: [supabaseClientProvider.overrideWithValue(controlled)],
+          overrides: [
+            collectBackendClientProvider.overrideWithValue(controlled),
+          ],
         );
+        addTearDown(() async {
+          container.dispose();
+          controller.dispose();
+          await fence.dispose();
+        });
         expect(
           container.read(adminReconciliationSessionKeyProvider),
           isNotNull,
         );
         final before = controller.state!;
-        expect(before.key.sessionId, 'session-a');
-        if (signal == 'error') {
-          events.addError(StateError('synthetic private Auth failure'));
+        if (signal == 'done') {
+          await controlled.dispose();
         } else {
-          await events.close();
+          storage.failWrite = true;
+          await expectLater(
+            session(controlled, 'session-b'),
+            throwsA(isA<CollectAuthException>()),
+          );
+          await Future<void>.delayed(Duration.zero);
         }
-        expect(controlled.auth.currentSession, isNotNull);
+        expect(controlled.auth.currentSession, isNull);
         expect(controller.state, isNull);
         expect(container.read(adminReconciliationSessionKeyProvider), isNull);
         expect(fence.checkCurrent, throwsA(isA<AdminSessionChanged>()));
-        if (signal == 'error') {
-          events.add(
-            AuthState(AuthChangeEvent.signedIn, client.auth.currentSession),
-          );
+        if (signal != 'done') {
+          storage.failWrite = false;
+          await session(controlled, 'session-a', nonce: 1);
           expect(controller.state!.generation, greaterThan(before.generation));
-          // Recovery can start a new request; an old one remains invalid forever.
           expect(fence.checkCurrent, throwsA(isA<AdminSessionChanged>()));
         }
-        await fence.dispose();
-        container.dispose();
-        controller.dispose();
-        if (!events.isClosed) await events.close();
       },
     );
   }
 
-  testWidgets('session expiry clears authorization without an Auth event', (
-    tester,
-  ) async {
-    final events = StreamController<AuthState>.broadcast(sync: true);
-    final expiring = Session.fromJson(authReceipt('session-expiry', '0'))!
-      ..expiresAt = DateTime.now().millisecondsSinceEpoch ~/ 1000 + 1;
-    final controlled = _ControlledClient(
-      _ControlledAuth(expiring, events.stream),
+  test('session expiry clears authorization without an Auth event', () async {
+    // This is an authorization timer test, not a widget-layout test. Real time
+    // also keeps authentication storage/stream shutdown outside a fake clock.
+    final controlled = _controlledClient();
+    final expiration = DateTime.now().millisecondsSinceEpoch ~/ 1000 + 2;
+    final receipt = authReceipt('session-expiry', '0');
+    final parts = (receipt['access_token'] as String).split('.');
+    final claims = Map<String, dynamic>.from(
+      jsonDecode(utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))))
+          as Map,
+    );
+    claims['exp'] = expiration;
+    parts[1] = base64Url
+        .encode(utf8.encode(jsonEncode(claims)))
+        .replaceAll('=', '');
+    receipt['access_token'] = parts.join('.');
+    receipt['expires_at'] = expiration;
+    await controlled.auth.recoverSession(jsonEncode(receipt));
+    final authEvents = <CollectAuthEvent>[];
+    final subscription = controlled.auth.onAuthStateChange.listen(
+      (event) => authEvents.add(event.event),
     );
     final controller = AdminSessionController(controlled);
+    final fence = AdminRequestSession(controlled);
+    addTearDown(() async {
+      await subscription.cancel();
+      controller.dispose();
+      await fence.dispose();
+      await controlled.dispose();
+    });
     expect(controller.state, isNotNull);
-    await tester.pump(const Duration(seconds: 2));
+    fence.checkCurrent();
+    await controller.stream
+        .firstWhere((state) => state == null)
+        .timeout(const Duration(seconds: 4));
     expect(controller.state, isNull);
-    controller.dispose();
-    await events.close();
+    expect(authEvents, isEmpty);
+    expect(controlled.auth.currentSession!.isExpired, isTrue);
+    expect(fence.checkCurrent, throwsA(isA<AdminSessionChanged>()));
+    expect(
+      () => AdminRequestSession(controlled),
+      throwsA(isA<AdminSessionChanged>()),
+    );
   });
 }

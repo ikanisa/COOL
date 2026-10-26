@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "capture_engine": "cua_repl",
+  "kind": "browser_flutter_fixture",
+  "entrypoint": "tool/public_app_media_capture.dart",
+  "controls": [
+    "Compile the explicit fixture entrypoint from a frozen current source export with COLLECT_PUBLIC_MEDIA_CAPTURE=true.",
+    "Apply the maintained admin_cloudflare_assets.py local engine font fallback to the compiled fixture, retain its receipt and bind the helper source plus resulting artifact bytes.",
+    "Use cua_repl for every browser navigation, viewport, accessibility observation, network observation and original PNG capture.",
+    "Serve only the captured build on IPv4 loopback with a restrictive self-only CSP. Block remote HTTPS before navigating to the app.",
+    "Bind the actual served main.dart.js and all observed local response bodies to the build manifest. Save sanitized network statuses and console diagnostics.",
+    "Verify the exact expected route and rendered state, inspect each original capture, and preserve failures. No screenshot editing or invented interface is allowed.",
+    "Require unchanged source and generated bindings, source/build/runtime hashes, separate visual-review records and complete seven-route coverage.",
+    "Mark browser fixture evidence as native_capture_passed=false, native_acceptance=false and provider/hosted/database calls zero only when actually observed."
+  ],
+  "native_acceptance": false,
+  "owner_design_acceptance": false
+}

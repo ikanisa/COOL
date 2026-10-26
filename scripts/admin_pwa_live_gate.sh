@@ -171,12 +171,13 @@ robots_headers = requests.dig("robots", "headers") || {}
 required_index_headers = {
   "x-frame-options" => "DENY",
   "x-content-type-options" => "nosniff",
-  "referrer-policy" => "strict-origin-when-cross-origin",
+  "referrer-policy" => "no-referrer",
   "x-robots-tag" => "noindex, nofollow"
 }
 required_index_headers.each do |name, expected|
   actual = index_headers.fetch(name, "")
-  failures << "index response must include #{name}: #{expected}." unless actual.downcase.include?(expected.downcase)
+  matches = name == "referrer-policy" ? actual.downcase == expected.downcase : actual.downcase.include?(expected.downcase)
+  failures << "index response must include #{name}: #{expected}." unless matches
 end
 
 content_type_expectations = {
@@ -196,7 +197,7 @@ csp = index_headers.fetch("content-security-policy", "")
 [
   "default-src 'self'",
   "script-src 'self' 'wasm-unsafe-eval'",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+  "connect-src 'self'",
   "worker-src 'self'",
   "object-src 'none'",
   "frame-ancestors 'none'",

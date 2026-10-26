@@ -21,7 +21,7 @@ FORK = ROOT / "third_party/file_saver"
 CACHE = ROOT / ".cache/file-saver-upstream-0.4.0"
 METADATA = CACHE / "metadata.json"
 ARCHIVE = CACHE / "file_saver-0.4.0.tar.gz"
-OUTPUT = ROOT / "docs/release/critical-implementation-2026-10-01/kotlin-dependency-batch1/file-saver-fork-comparison.json"
+OUTPUT = ROOT / "docs/implementation/dependency-provenance/file_saver-0.4.0-comparison.json"
 API = "https://pub.dev/api/packages/file_saver/versions/0.4.0"
 ARCHIVE_SHA256 = "68c9a085d9bb4546e0a31d1e583a48d7c17a6987d538788ea064f0043b1fc02d"
 CHANGED = {
@@ -33,7 +33,7 @@ CHANGED = {
     "ios/file_saver/Sources/file_saver/Dialog.swift",
 }
 ADDED = {"COLLECT_FORK.md", "COLLECT_FORK_DELTA.json"}
-REVIEWED_DELTA_SHA256 = "ee7fc65799bb40e7083633dda3c3eea0a2b46c2d19e18c8ee2c1cd26b936f9b9"
+REVIEWED_DELTA_SHA256 = "39a134dd3345b2830d88dd45f4d3b56687d16d206293b47fd475be26fe2ba669"
 EXCLUDED = {".git", ".gradle", ".dart_tool", "build", "__pycache__"}
 
 
@@ -48,6 +48,8 @@ def sha256(data: bytes) -> str:
 
 def fetch() -> None:
     origin.no_symlinks(CACHE)
+    for path in (METADATA, ARCHIVE):
+        origin.safe_output(path, [FORK, Path(__file__).resolve()])
     CACHE.mkdir(parents=True, exist_ok=True)
     metadata_bytes = origin.public_download(API, origin.MAX_METADATA)
     metadata = origin.strict_json(metadata_bytes)
@@ -64,6 +66,7 @@ def fetch() -> None:
         temporary.write(archive_bytes)
         temporary_path = Path(temporary.name)
     try:
+        origin.safe_output(ARCHIVE, [FORK, Path(__file__).resolve()])
         os.replace(temporary_path, ARCHIVE)
     finally:
         temporary_path.unlink(missing_ok=True)
@@ -190,18 +193,36 @@ def main() -> None:
                         help="Fetch the exact versioned package from pub.dev")
     parser.add_argument("--check", action="store_true",
                         help="Compare with the saved report without writing")
-    parser.add_argument("--output", type=Path, default=OUTPUT)
+    parser.add_argument("--root", type=Path, default=ROOT,
+                        help="Authored-source root; exact fork verification is unchanged")
+    parser.add_argument("--cache-dir", type=Path,
+                        help="Official metadata/archive cache; defaults under the selected root")
+    parser.add_argument("--output", type=Path,
+                        help="Comparison report; defaults under the selected root")
     args = parser.parse_args()
+    global FORK, CACHE, METADATA, ARCHIVE
+    root = args.root.absolute()
+    origin.no_symlinks(root)
+    require(root.is_dir(), "Repository root missing")
+    root = root.resolve()
+    FORK = root / "third_party/file_saver"
+    CACHE = (args.cache_dir or root / ".cache/file-saver-upstream-0.4.0").absolute()
+    METADATA, ARCHIVE = CACHE / "metadata.json", CACHE / "file_saver-0.4.0.tar.gz"
+    output = (args.output or root / OUTPUT.relative_to(ROOT)).absolute()
+    origin.no_symlinks(CACHE)
+    protected = [FORK, root / "scripts/supply_chain", Path(__file__).resolve().parent]
+    require(not origin.overlaps_protected(CACHE, protected), "Cache may not modify verification inputs")
+    origin.safe_output(output, [*protected, CACHE])
     if args.fetch:
         fetch()
     document = json.dumps(build(), indent=2, sort_keys=True) + "\n"
     if args.check:
-        require(args.output.is_file() and args.output.read_text() == document,
+        require(output.is_file() and origin.regular_bytes(output, origin.MAX_METADATA).decode() == document,
                 "Fork comparison report is stale")
         print("Fork comparison report matches the official archive and local source")
         return
-    origin.write_output(args.output, document, [FORK, CACHE, Path(__file__).resolve()])
-    print(f"Wrote {args.output}")
+    origin.write_output(output, document, [*protected, CACHE])
+    print(f"Wrote {output}")
 
 
 if __name__ == "__main__":

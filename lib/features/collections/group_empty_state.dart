@@ -82,7 +82,7 @@ class ArchivedGroupStateScreen extends StatelessWidget {
           icon: Icons.archive_rounded,
           title: 'This group is archived.',
           message:
-              'New contributions, invitations, sharing, and profile changes are off. Existing confirmed ledger records remain available.',
+              'New contributions, invitations, sharing, and profile changes are off. Existing recorded contributions remain available.',
           tone: CollectStatusTone.warning,
         ),
       ],

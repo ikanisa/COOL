@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const _actor = '10000000-0000-0000-0000-000000000001';
 const _other = '10000000-0000-0000-0000-000000000002';
@@ -146,7 +146,7 @@ void main() {
     });
     final pending = h.repo.createPaymentIntent(_draft);
     await entered.future;
-    await h.client.auth.setInitialSession(
+    await h.client.auth.recoverSession(
       _session(_actor, _session1, revision: 2),
     );
     reply.complete(_json(_intent()));
@@ -254,7 +254,7 @@ typedef _Respond = FutureOr<http.Response> Function(http.Request);
 
 class _Harness {
   _Harness(this.client, this.repo, this.requests);
-  final SupabaseClient client;
+  final CollectCloudflareClient client;
   final _Repository repo;
   final List<http.Request> requests;
   late _Respond recent;
@@ -264,10 +264,8 @@ class _Harness {
   static Future<_Harness> create(_Respond respond) async {
     final requests = <http.Request>[];
     late _Harness h;
-    final client = SupabaseClient(
+    final client = CollectCloudflareClient(
       'http://127.0.0.1:1',
-      'synthetic-anon',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((r) async {
         requests.add(r);
         final http.Response response;
@@ -286,7 +284,7 @@ class _Harness {
         );
       }),
     );
-    await client.auth.setInitialSession(_session(_actor, _session1));
+    await client.auth.recoverSession(_session(_actor, _session1));
     final repo = _Repository(client);
     h = _Harness(client, repo, requests)
       ..recent = (_) => _json({
@@ -303,15 +301,15 @@ class _Harness {
   Future<void> login(String user, String session) async {
     final loaded = Completer<void>();
     repo.nextLoad = loaded;
-    await client.auth.setInitialSession(_session(user, session));
+    await client.auth.recoverSession(_session(user, session));
     await loaded.future.timeout(const Duration(seconds: 3));
   }
 }
 
 class _Repository extends CollectRepository {
   _Repository(this.client)
-    : super.fixture(initialState: _state(_actor), supabase: client);
-  final SupabaseClient client;
+    : super.fixture(initialState: _state(_actor), backend: client);
+  final CollectCloudflareClient client;
   Completer<void>? nextLoad;
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {

@@ -92,11 +92,8 @@ class AdminGatewayCheckpoint {
       (deviceId == null || result.identity?.deviceId == deviceId);
 }
 
-String adminGatewayOwnerDigest(String userId) => sha256
-    .convert(
-      utf8.encode('collect-gateway-owner-v1:lhbowpbcpwoiparwnwgt:$userId'),
-    )
-    .toString();
+String adminGatewayOwnerDigest(String userId) =>
+    sha256.convert(utf8.encode('collect-gateway-owner-v2:$userId')).toString();
 
 abstract class AdminGatewayCheckpointStore {
   String? read(String ownerDigest);

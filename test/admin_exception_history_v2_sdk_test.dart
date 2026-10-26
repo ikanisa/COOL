@@ -7,13 +7,13 @@ import 'package:collect_app/admin/core/admin_exception_history_v2_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 import 'admin_action_session_test.dart' as auth;
 import 'admin_exception_history_v2_models_test.dart' as history;
 import 'admin_exception_escalation_inbox_v2_models_test.dart' as inbox;
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late List<http.Request> requests;
   late Future<http.Response> Function(http.Request) respond;
@@ -45,10 +45,8 @@ void main() {
   setUp(() async {
     requests = [];
     respond = (_) async => auth.response(historyRaw);
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-public',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final parts = (jsonDecode(request.body)['token'] as String).split(
@@ -77,7 +75,7 @@ void main() {
     test('${entry.key} pinned SDK exactRPC currentBearer oneattempt', () async {
       respond = (_) async => auth.response(responses[entry.key]);
       await entry.value();
-      expect(requests.single.url.path, '/rest/v1/rpc/${entry.key}');
+      expect(requests.single.url.path, '/v1/rpc/${entry.key}');
       expect(
         requests.single.headers['Authorization'],
         'Bearer ${client.auth.currentSession!.accessToken}',
@@ -104,7 +102,7 @@ void main() {
             'code': status == 403 ? '42501' : 'XX000',
             'message': 'PRIVATE_CANARY',
           }, status);
-          await expectLater(entry.value(), throwsA(isA<PostgrestException>()));
+          await expectLater(entry.value(), throwsA(isA<CollectApiException>()));
           expect(requests, hasLength(1));
         },
       );

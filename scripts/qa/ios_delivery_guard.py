@@ -25,9 +25,11 @@ import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import collect_release_candidate as source_export
+import native_build_config
 
 TARGET = {"bundle_id": "app.cool.mobile", "apple_id": "6783960331", "team_id": "63STJ5N27W",
-          "supabase_url": "https://lhbowpbcpwoiparwnwgt.supabase.co", "public_url": "https://collect.ikanisa.com"}
+          "api_url": "https://platform-admin.collect.ikanisa.com", "public_url": "https://collect.ikanisa.com",
+          "admin_url": "https://platform-admin.collect.ikanisa.com"}
 ENVIRONMENTS = {"signed_candidate": "collect-ios-signing", "testflight_internal": "collect-ios-testflight",
                 "metadata": "collect-ios-metadata", "screenshots": "collect-ios-metadata",
                 "privacy_public": "collect-ios-privacy"}
@@ -43,6 +45,15 @@ def fail(code):
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
+
+
+def runtime_configuration_sha256(root=None):
+    try:
+        values = native_build_config.configuration(dict(os.environ), "ios",
+                                                   Path(root) / "pubspec.yaml" if root is not None else None)
+    except (ValueError, TypeError) as error:
+        raise GuardError("IOS_PUBLIC_BUILD_CONFIGURATION_WRONG") from error
+    return digest(json.dumps(values, sort_keys=True, separators=(",", ":")).encode())
 
 
 def required(name):
@@ -174,14 +185,8 @@ def check(operation=None, root=None, inspect_artifact=True):
     if operation == "signed_candidate":
         if record.get("artifact") is not None:
             fail("IOS_SIGNING_CANNOT_APPROVE_FUTURE_ARTIFACT")
-        sha_value(record.get("public_anon_key_sha256"))
-        # Public project configuration is bound separately because private/ignored
-        # runtime inputs are deliberately excluded from the source export.
-        anon = os.environ.get("SUPABASE_PRODUCTION_ANON_KEY", "")
-        if anon and record.get("public_anon_key_sha256") != digest(anon.encode()):
+        if record.get("runtime_configuration_sha256") != runtime_configuration_sha256(root):
             fail("IOS_PUBLIC_BUILD_CONFIGURATION_WRONG")
-        if os.environ.get("SUPABASE_PRODUCTION_URL", TARGET["supabase_url"]) != TARGET["supabase_url"] or os.environ.get("APP_PUBLIC_URL", TARGET["public_url"]) != TARGET["public_url"]:
-            fail("IOS_RUNTIME_TARGET_WRONG")
     if operation == "testflight_internal":
         artifact = record.get("artifact", {})
         ipa = Path(required("IPA"))
@@ -311,6 +316,12 @@ def inspect_ipa(ipa, record):
         entitlements = plist_output(output.stdout + output.stderr)
         if entitlements.get("application-identifier") != TARGET["team_id"] + "." + TARGET["bundle_id"] or entitlements.get("com.apple.developer.team-identifier") != TARGET["team_id"] or entitlements.get("aps-environment") != "production" or entitlements.get("get-task-allow") is not False:
             fail("IOS_SIGNED_ENTITLEMENTS_WRONG")
+        # The notification bridge reads this shipped Info.plist value to choose
+        # its APNS endpoint. A correct signature does not prove that value agrees
+        # with the entitlement; reject missing/unexpanded/mismatched markers.
+        runtime_apns_environment = info.get("CollectAPNSEnvironment")
+        if runtime_apns_environment != entitlements.get("aps-environment"):
+            fail("IOS_RUNTIME_APNS_ENVIRONMENT_WRONG")
         if "applinks:collect.ikanisa.com" not in entitlements.get("com.apple.developer.associated-domains", []):
             fail("IOS_SIGNED_LINK_ENTITLEMENT_MISSING")
         profile_path = app / "embedded.mobileprovision"
@@ -332,7 +343,8 @@ def inspect_ipa(ipa, record):
             fail("IOS_IPA_CHANGED_DURING_INSPECTION")
         return {"schema_version": 1, "kind": "collect_signed_ios_inspection", "ipa_sha256": before,
                 "source_commit": record["source_commit"], "source_manifest_sha256": record["source_manifest_sha256"],
-                "identity": identity, "entitlements": entitlements, "profile_sha256": digest(read_file(profile_path)),
+                "identity": identity, "entitlements": entitlements, "runtime_apns_environment": runtime_apns_environment,
+                "profile_sha256": digest(read_file(profile_path)),
                 "signing_authorities": authorities, "signer_requirement": signer_requirement,
                 "profile_uuid": profile["UUID"], "profile_expiration_utc": profile["ExpirationDate"].isoformat() + "Z",
                 "privacy_manifests": privacy, "signature_verification": "codesign --verify --deep --strict -R Apple-anchor-and-team-requirement",
@@ -382,8 +394,6 @@ def cleanup_signing():
 
 def import_signing():
     check("signed_candidate")  # First, before decoding/importing any credential.
-    if not os.environ.get("SUPABASE_PRODUCTION_ANON_KEY") or not os.environ.get("SUPABASE_PRODUCTION_URL"):
-        fail("IOS_PUBLIC_BUILD_CONFIGURATION_REQUIRED")
     verify_environment("signed_candidate")
     directory = signing_paths()
     directory.mkdir(mode=0o700, exist_ok=False)

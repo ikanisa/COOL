@@ -42,23 +42,21 @@ void main() {
     }
   });
 
-  test('private-group availability matches the real native platform guard', () {
-    final capability = collectPublicCapabilities['private_group_creation']!;
-    for (final entry in {
-      'android': TargetPlatform.android,
-      'ios': TargetPlatform.iOS,
-    }.entries) {
+  test('metadata creation does not inherit public marketing cohort limits', () {
+    // Registry claims remain separately governed; they do not restrict an
+    // authenticated principal's metadata-only creation or membership.
+    for (final platform in TargetPlatform.values) {
       expect(
-        capability.supportsSourceAction(region: 'RW', platform: entry.key),
-        groupCreationPlatformAllowed(isWeb: false, targetPlatform: entry.value),
+        groupCreationPlatformAllowed(isWeb: false, targetPlatform: platform),
+        isTrue,
       );
     }
     expect(
-      capability.supportsSourceAction(region: 'RW', platform: 'web'),
       groupCreationPlatformAllowed(
         isWeb: true,
         targetPlatform: TargetPlatform.android,
       ),
+      isTrue,
     );
   });
 
@@ -163,7 +161,8 @@ void main() {
       final ios = File(
         'fastlane/metadata/en-GB/description.txt',
       ).readAsStringSync();
-      expect(ios, contains('these actions are not available in the iOS app'));
+      expect(ios, contains('signed-in members can create private groups'));
+      expect(ios, contains('are unavailable in the iOS app'));
       expect(ios, isNot(contains('SEPA')));
       expect(ios, isNot(contains('bank-transfer')));
       expect(ios, isNot(contains('Revolut')));
@@ -171,9 +170,7 @@ void main() {
         File(
           'fastlane/metadata/android/en-US/full_description.txt',
         ).readAsStringSync(),
-        contains(
-          'Private-group creation is available only on eligible Android',
-        ),
+        contains('Any signed-in Collect user can create a private group'),
       );
     },
   );

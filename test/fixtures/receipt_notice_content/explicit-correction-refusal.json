@@ -1,0 +1,42 @@
+{
+  "scope": "rw_receipt_notice_content",
+  "candidate": {
+    "can_approve": false,
+    "can_prepare": false,
+    "reason_code": "correction_source_unavailable",
+    "notice_family": "correction",
+    "send_authority": false,
+    "source_evidence": {
+      "can_approve": false,
+      "reason_code": "correction_source_unavailable",
+      "send_action": false,
+      "source_facts": null,
+      "carrier_proof": false,
+      "notice_family": "correction",
+      "root_revision": 4,
+      "emergency_stop": false,
+      "quota_reserved": false,
+      "send_authority": false,
+      "delivery_proven": false,
+      "notice_revision": 0,
+      "operations_mode": "Live-limited",
+      "financial_action": false,
+      "source_snapshot_id": "3b49d7e4-212a-415c-8744-7ae092c36bd6",
+      "notice_policy_status": "unavailable",
+      "transport_observation": {
+        "attempt_id": "2f7ed0d2-26aa-42c0-a270-29b5092a450e",
+        "reason_code": "complete_gateway_observations",
+        "transport_sha256": "dde3e8d0c05aa023910f2eba9f47a2ec5816a693d32a38d228dcf0f85cc79ba6"
+      },
+      "notice_transport_status": "unavailable",
+      "primary_receipt_retained": true,
+      "financial_source_verified": false,
+      "operations_policy_revision": 2
+    }
+  },
+  "outbox_id": "dd726d62-e1e8-4c45-ba6e-0dbd263e7125",
+  "checked_at": "2026-10-03T06:52:21.068241Z",
+  "candidate_sha256": "cd7dbeda06f54d8ae074e221f8fdc7943dae2f6b0624459c7481b2a24ca81c65",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-03T06:53:21.081513Z"
+}

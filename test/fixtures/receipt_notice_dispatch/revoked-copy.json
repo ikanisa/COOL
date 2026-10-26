@@ -1,0 +1,12 @@
+{
+  "scope": "rw_receipt_notice_transport",
+  "action": "revoke_notice_transport",
+  "status": "revoked_unarmed",
+  "audit_id": "1b40ae70-22d0-45cd-a697-8e726a743e8d",
+  "request_id": "5a1a9bbe-e34c-4bc3-b00c-e2f486d46af0",
+  "approval_id": "8203f74c-f0df-414a-98e4-ff85ddb17ed7",
+  "recorded_at": "2026-10-03T07:57:36.578468Z",
+  "send_authority": false,
+  "contract_version": 1,
+  "transport_revision": 2
+}

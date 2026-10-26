@@ -1,0 +1,217 @@
+{
+  "format": "collect.managed-auth.repository-portability-delta.v1",
+  "state": "SOURCE_PREPARED_ROOT_FOCUSED_VERIFICATION_PENDING",
+  "write_boundary": "scripts/supabase/managed-auth-archive/",
+  "shared_helpers_unchanged_and_byte_identical_to_qualified_frozen_source": [
+    {
+      "path": "../current-archive/codec.mjs",
+      "bytes": 11791,
+      "sha256": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192",
+      "held_frozen_helper_byte_identical": true
+    },
+    {
+      "path": "../current-archive/bundle.mjs",
+      "bytes": 6811,
+      "sha256": "55c258aef1bba952eb5a9d09df7687f2dc178e6de2e183d97b7153b64f77078c",
+      "held_frozen_helper_byte_identical": true
+    },
+    {
+      "path": "../current-archive/restore.mjs",
+      "bytes": 6081,
+      "sha256": "b380b5542bae8fe2d79cd23e2e89c9f7e17521b953ecdbf5744682f1ad8d049c",
+      "held_frozen_helper_byte_identical": true
+    },
+    {
+      "path": "../current-archive/sql.mjs",
+      "bytes": 8159,
+      "sha256": "d3995d52215b81b1284f84e1c04768c09262703f3daeb5005d5d50b5c1f4948c",
+      "held_frozen_helper_byte_identical": true
+    },
+    {
+      "path": "../current-archive/transport.mjs",
+      "bytes": 3958,
+      "sha256": "e829844e3b029f793ff144ad967e31b021697a4ba49e4da88eb3a46e559386bb",
+      "held_frozen_helper_byte_identical": true
+    }
+  ],
+  "files": [
+    {
+      "path": "auth.mjs",
+      "qualified_input": {
+        "artifact": "managed-auth-encrypted-recovery-adapter1/auth.mjs",
+        "bytes": 32910,
+        "sha256": "b7f87b1b94856184fd7aa8bd38ee9348cb1011109f807e65a874cdf9d2a09c0d"
+      },
+      "repository_output": {
+        "bytes": 32441,
+        "sha256": "f58d65e2eb9f0c1695c75276732de8a86a3e8ef67cba5a53b3166fe6e15b0996"
+      },
+      "static_import_replacements": [
+        {
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/codec.mjs",
+          "to": "../current-archive/codec.mjs"
+        },
+        {
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/bundle.mjs",
+          "to": "../current-archive/bundle.mjs"
+        },
+        {
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/restore.mjs",
+          "to": "../current-archive/restore.mjs"
+        }
+      ],
+      "additional_change": "module-derived whole-checkout output exclusion plus node:url import",
+      "inverse_normalization_matches_qualified_input": true
+    },
+    {
+      "path": "counts.mjs",
+      "qualified_input": {
+        "artifact": "managed-auth-encrypted-recovery-adapter1/counts.mjs",
+        "bytes": 20342,
+        "sha256": "389c4dececdfb173641d95488cf442c43c5f7538b475cbb22875453f537db4d2"
+      },
+      "repository_output": {
+        "bytes": 20195,
+        "sha256": "34ec072a5996b33ddbfa36f23b10f1d76b7ff30614f2a4a26bdccd4c4529b1de"
+      },
+      "static_import_replacements": [
+        {
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/codec.mjs",
+          "to": "../current-archive/codec.mjs"
+        }
+      ],
+      "additional_change": null,
+      "inverse_normalization_matches_qualified_input": true
+    },
+    {
+      "path": "REFERENCE.json",
+      "qualified_input": {
+        "artifact": "managed-auth-encrypted-recovery-adapter1/REFERENCE.json",
+        "bytes": 79785,
+        "sha256": "4f91bb9b4e70503ae7f648acb6ec19e14d0a4417d3fd65cd9533a79decec6de4"
+      },
+      "repository_output": {
+        "bytes": 79785,
+        "sha256": "4f91bb9b4e70503ae7f648acb6ec19e14d0a4417d3fd65cd9533a79decec6de4"
+      },
+      "static_import_replacements": [],
+      "additional_change": null,
+      "inverse_normalization_matches_qualified_input": true
+    },
+    {
+      "path": "auth.test.mjs",
+      "qualified_input": {
+        "artifact": "managed-auth-encrypted-recovery-adapter1/auth.test.mjs",
+        "bytes": 11820,
+        "sha256": "590da0662152c6e0595eed2bc8a90acd44807b884bfe88a28fde0ed61552b9d4"
+      },
+      "repository_output": {
+        "bytes": 12404,
+        "sha256": "76f11eb6f86d1807348d37e641d616d0fd8dc7a4f895a40a0230b0c32433f727"
+      },
+      "static_import_replacements": [
+        {
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/codec.mjs",
+          "to": "../current-archive/codec.mjs"
+        },
+        {
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/bundle.mjs",
+          "to": "../current-archive/bundle.mjs"
+        },
+        {
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/transport.mjs",
+          "to": "../current-archive/transport.mjs"
+        }
+      ],
+      "additional_change": "one appended checkout-output refusal test plus node:url import; original17 definitions preserved",
+      "inverse_normalization_matches_qualified_input": true
+    },
+    {
+      "path": "native-definition.mjs",
+      "qualified_input": {
+        "artifact": "managed-auth-encrypted-recovery-adapter1/native-definition.mjs",
+        "bytes": 13747,
+        "sha256": "dede8fa81c340a0e7ac04168b65b8a6d5cbf1b3b58552da967ae6a7f7d572e48"
+      },
+      "repository_output": {
+        "bytes": 13453,
+        "sha256": "5276d689e9fad39d82d745880f01f9a92af016fcc8b49482e388084fed07601f"
+      },
+      "static_import_replacements": [
+        {
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/codec.mjs",
+          "to": "../current-archive/codec.mjs"
+        },
+        {
+          "from": "file:///Volumes/PRO-G40/.codex-collect-production-goal-20261023/backend/momo-response-cap-runtime-freeze-preparation1/frozen-source2/scripts/supabase/current-archive/restore.mjs",
+          "to": "../current-archive/restore.mjs"
+        }
+      ],
+      "additional_change": null,
+      "inverse_normalization_matches_qualified_input": true
+    },
+    {
+      "path": "README.md",
+      "qualified_input": {
+        "artifact": "managed-auth-encrypted-recovery-adapter1/README.md",
+        "bytes": 6423,
+        "sha256": "6e556b517b50d2fd726a8be3e3e46b8ef1c37d8d188f289d003d92b3de840718"
+      },
+      "repository_output": {
+        "bytes": 6495,
+        "sha256": "8ec05fc2c5ac15ef0ed46d758611fb797e7e28afa12e9b8a7804a4e46aca393a"
+      },
+      "change": "portable API/custody documentation and truthful predecessor acceptance; repository qualification remains pending"
+    }
+  ],
+  "authorized_semantic_delta": {
+    "function": "fresh(path)",
+    "file": "auth.mjs",
+    "from": "historical frozen-source2 absolute exclusion",
+    "to": "resolve(dirname(fileURLToPath(import.meta.url)),'../../..')",
+    "purpose": "bind existing output/source separation to the portable whole repository root",
+    "new_test": "capture refuses output inside the checkout before transport or directory creation",
+    "original17_test_definitions_preserved": true,
+    "new_focused_test_count": 18,
+    "native_case_count_unchanged": 8
+  },
+  "unchanged": [
+    "REFERENCE.json bytes",
+    "all counts/capture SQL",
+    "formats/scopes/AES-GCM/AAD",
+    "row/cell/byte/time caps",
+    "enum/inet/array/native-cell validation",
+    "inert restoration semantics",
+    "all original17 focused test definitions",
+    "all8 native case definitions",
+    "existing current-archive helpers",
+    "held private source/capture/failed/runtime evidence"
+  ],
+  "predecessor_actual_evidence": {
+    "scope": "original private b7 implementation only; not relabelled as this portable source",
+    "capture_root_sha256": "b301c0769654adfd033352d3b6f215d6c6c3e62500403f0f770b89c34e2c74c6",
+    "actual_inert_adoption_sha256": "d02210a8699c32d4bb39ff2f831b6fa115c93cdf45ee4c3d141fdd8ec6aea053",
+    "offsite_readback_root_sha256": "a583ad94fe55a9d944914707c07bfc6eef13ddbb11ee4d0bb670ebe0ff111853",
+    "tables": 27,
+    "rows": 115,
+    "operational_auth_restored": false,
+    "independent_key_custody": false,
+    "full_recovery_acceptance": false
+  },
+  "verification": {
+    "author_static_hash_import_path_and_inverse_delta_checks_only": true,
+    "author_imported_or_executed_sources_or_tests": false,
+    "author_runtime_SQL_provider_credentials_key_or_actual_data_access": false,
+    "repository_runtime_acceptance": false
+  },
+  "root_next_action": {
+    "command": [
+      "node",
+      "--test",
+      "scripts/supabase/managed-auth-archive/auth.test.mjs"
+    ],
+    "expected_tests": 18,
+    "under_existing_Root_runtime_G2_network_denial_and_external_private_TMPDIR": true,
+    "no_capture_or_native_restore_replay": true
+  }
+}

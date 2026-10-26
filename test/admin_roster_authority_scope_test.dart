@@ -5,12 +5,11 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/admin/core/admin_roster_dialog.dart';
 import 'package:collect_app/admin/core/admin_roster_import.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as auth;
 import 'support/admin_roster_fixture.dart';
@@ -34,7 +33,7 @@ const _identity = AdminIdentity(
 );
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late ProviderContainer container;
   late FakeRosterGateway gateway;
   late _Repository repository;
@@ -48,10 +47,8 @@ void main() {
     done = 0;
     disposed = false;
     gateway = FakeRosterGateway();
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final values = (jsonDecode(request.body)['token'] as String).split(
@@ -67,7 +64,7 @@ void main() {
     repositoryState = StateProvider((_) => repository);
     container = ProviderContainer(
       overrides: [
-        supabaseClientProvider.overrideWithValue(client),
+        collectBackendClientProvider.overrideWithValue(client),
         adminRepositoryProvider.overrideWith(
           (ref) => ref.watch(repositoryState),
         ),

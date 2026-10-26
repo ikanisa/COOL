@@ -51,10 +51,10 @@ class PublicAppMediaTest < Minitest::Test
 
   def local_fork_fixture
     fixture do |root, _|
-      File.write(File.join(root, 'pubspec.yaml'), YAML.dump({'version' => '1.2.4+23', 'dependency_overrides' => {'gotrue' => {'path' => 'third_party/gotrue'}}}))
-      FileUtils.mkdir_p(File.join(root, 'third_party/gotrue/lib'))
-      %w[lib/gotrue.dart pubspec.yaml LICENSE COLLECT_FORK.md UPSTREAM-SHA256.json].each do |name|
-        File.write(File.join(root, 'third_party/gotrue', name), 'synthetic public fork input')
+      File.write(File.join(root, 'pubspec.yaml'), YAML.dump({'version' => '1.2.4+23', 'dependency_overrides' => {'synthetic_fork' => {'path' => 'third_party/synthetic_fork'}}}))
+      FileUtils.mkdir_p(File.join(root, 'third_party/synthetic_fork/lib'))
+      %w[lib/synthetic_fork.dart pubspec.yaml LICENSE COLLECT_FORK.md UPSTREAM-SHA256.json].each do |name|
+        File.write(File.join(root, 'third_party/synthetic_fork', name), 'synthetic public fork input')
       end
       directory = File.join(root, 'web/public/app-screens')
       sha = PublicAppMedia.new(root).runtime_fingerprint
@@ -69,9 +69,9 @@ class PublicAppMediaTest < Minitest::Test
   end
 
   def test_local_fork_runtime_and_retained_provenance_changes_require_recapture
-    %w[lib/gotrue.dart LICENSE COLLECT_FORK.md UPSTREAM-SHA256.json].each do |name|
+    %w[lib/synthetic_fork.dart LICENSE COLLECT_FORK.md UPSTREAM-SHA256.json].each do |name|
       local_fork_fixture do |root|
-        File.write(File.join(root, 'third_party/gotrue', name), 'changed fork input')
+        File.write(File.join(root, 'third_party/synthetic_fork', name), 'changed fork input')
         assert_match(/runtime changed/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
       end
     end
@@ -79,24 +79,24 @@ class PublicAppMediaTest < Minitest::Test
 
   def test_local_fork_missing_license_symlink_and_escape_are_rejected
     local_fork_fixture do |root|
-      File.unlink(File.join(root, 'third_party/gotrue/LICENSE'))
+      File.unlink(File.join(root, 'third_party/synthetic_fork/LICENSE'))
       assert_raises(AssetManifestIntegrity::InvalidPath) { PublicAppMedia.new(root).runtime_fingerprint }
     end
     local_fork_fixture do |root|
-      path = File.join(root, 'third_party/gotrue/lib/gotrue.dart')
+      path = File.join(root, 'third_party/synthetic_fork/lib/synthetic_fork.dart')
       File.unlink(path)
       File.symlink(File.join(root, 'lib/app.dart'), path)
       assert_raises(AssetManifestIntegrity::InvalidPath) { PublicAppMedia.new(root).runtime_fingerprint }
     end
     local_fork_fixture do |root|
-      File.write(File.join(root, 'pubspec.yaml'), YAML.dump({'dependency_overrides' => {'gotrue' => {'path' => '../outside'}}}))
+      File.write(File.join(root, 'pubspec.yaml'), YAML.dump({'dependency_overrides' => {'synthetic_fork' => {'path' => '../outside'}}}))
       assert_raises(AssetManifestIntegrity::InvalidPath) { PublicAppMedia.new(root).runtime_fingerprint }
     end
   end
 
   def test_local_native_plugin_callback_change_requires_recapture
     local_fork_fixture do |root|
-      directory = File.join(root, 'third_party/gotrue/ios')
+      directory = File.join(root, 'third_party/synthetic_fork/ios')
       FileUtils.mkdir_p(directory)
       File.write(File.join(directory, 'callback.m'), 'synthetic changed native callback')
       assert_match(/runtime changed/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
@@ -186,6 +186,56 @@ class PublicAppMediaTest < Minitest::Test
     end
   end
 
+  def cua_fixture
+    browser_fixture do |root, asset, report, review, provenance, save|
+      sources = PublicAppMedia::CUA_CAPTURE_INPUTS.to_h do |relative|
+        path = File.join(root, relative)
+        FileUtils.mkdir_p(File.dirname(path))
+        File.write(path, 'Synthetic Cua control input: ' + relative)
+        [relative, Digest::SHA256.file(path).hexdigest]
+      end
+      capture = report.fetch('captures').first
+      ax = '.cache/captures/home.ax.txt'
+      File.write(File.join(root, ax), 'Observed fixture route: /home')
+      report.merge!('capture_engine' => 'cua_repl', 'legacy_browser_recorder_executed' => false,
+                    'csp_remote_blocking_verified' => true, 'diagnostic_observer_sources_before' => sources,
+                    'diagnostic_observer_sources_after' => sources.dup,
+                    'capture_recorder_sha256' => sources.fetch(PublicAppMedia::CUA_CAPTURE_INPUTS.first),
+                    'capture_observations' => [{'id' => 'home', 'app_route' => '/home', 'sha256' => capture['sha256'],
+                       'ax_path' => ax, 'ax_sha256' => Digest::SHA256.file(File.join(root, ax)).hexdigest,
+                       'url_route_verified' => true, 'console_errors' => [], 'original_png_unedited' => true}])
+      save.call
+      yield root, asset, report, review, provenance, save
+    end
+  end
+
+  def test_cua_original_capture_retains_source_build_and_route_guards
+    cua_fixture do |root, _asset, _report, _review, _provenance, _save|
+      assert_equal 'browser_flutter_fixture', PublicAppMedia.new(root).screens.fetch('home')['capture_kind']
+    end
+  end
+
+  def test_cua_cannot_claim_a_legacy_recorder_or_unblocked_network
+    %w[legacy_browser_recorder_executed csp_remote_blocking_verified].each do |field|
+      cua_fixture do |root, _asset, report, _review, _provenance, save|
+        report[field] = !report[field]
+        save.call
+        assert_match(/Cua browser observations/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
+      end
+    end
+  end
+
+  def test_cua_changed_or_unverified_route_observation_is_refused
+    ['sha256', 'app_route', 'ax_sha256', 'url_route_verified', 'original_png_unedited', 'console_errors'].each do |field|
+      cua_fixture do |root, _asset, report, _review, _provenance, save|
+        report['capture_observations'][0][field] = {'sha256' => 'd' * 64, 'app_route' => '/wrong', 'ax_sha256' => 'e' * 64,
+          'url_route_verified' => false, 'original_png_unedited' => false, 'console_errors' => ['controlled rendered error']}.fetch(field)
+        save.call
+        assert_match(/Cua browser observations/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
+      end
+    end
+  end
+
   def test_browser_capture_passes_only_with_separate_browser_evidence
     browser_fixture do |root, _asset, _report, _review, provenance, _save|
       refute provenance['native_capture_passed']
@@ -213,13 +263,17 @@ class PublicAppMediaTest < Minitest::Test
                                                     '.flutter-plugins-dependencies' => 'c' * 64})
       report['generated_bindings_after'] = report['generated_bindings_before'].dup
       report['resolved_local_bindings_before'] = {
-        'collect_app' => '/synthetic/export', 'file_saver' => '/synthetic/export/third_party/file_saver',
-        'gotrue' => '/synthetic/export/third_party/gotrue',
-        'firebase_messaging' => '/synthetic/export/third_party/firebase_messaging'
+        'collect_app' => '/synthetic/export'
       }
       report['resolved_local_bindings_after'] = report['resolved_local_bindings_before'].dup
       save.call
       assert_equal 'browser_flutter_fixture', PublicAppMedia.new(root).screens.fetch('home')['capture_kind']
+      report['resolved_local_bindings_before']['synthetic_fork'] = '/synthetic/export/third_party/synthetic_fork'
+      report['resolved_local_bindings_after'] = report['resolved_local_bindings_before'].dup
+      save.call
+      assert_match(/source binding is incomplete/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
+      report['resolved_local_bindings_before'].delete('synthetic_fork')
+      report['resolved_local_bindings_after'] = report['resolved_local_bindings_before'].dup
       report['generated_bindings_after']['.flutter-plugins-dependencies'] = 'd' * 64
       save.call
       assert_match(/source binding is incomplete/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)

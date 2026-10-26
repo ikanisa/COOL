@@ -1,3 +1,4 @@
+import '../shared/components/admin_data_listing.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -480,7 +481,7 @@ class _Panel extends StatelessWidget {
   final String title;
   final List<Widget> children;
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => AdminDataSection(
     child: Padding(
       padding: const EdgeInsets.all(20),
       child: Column(

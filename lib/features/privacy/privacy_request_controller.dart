@@ -1,7 +1,11 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:async';
+
+import '../../core/cloudflare/collect_cloudflare_client.dart';
 import 'package:uuid/uuid.dart';
 
 import 'privacy_contract.dart';
+import 'privacy_email_verification.dart';
+import 'privacy_review_contract.dart';
 import 'privacy_session.dart';
 import 'privacy_transport.dart';
 
@@ -15,6 +19,20 @@ final class PrivacyRequestController {
     String Function()? newSubmissionId,
   }) : _newId = newSubmissionId ?? const Uuid().v4,
        _subjectId = subjectId {
+    if (authority is PrivacyEmailSessionAuthority &&
+        transport is PrivacyEmailWireTransport &&
+        (transport as PrivacyEmailWireTransport).privacyEmailAvailable) {
+      _email = PrivacyEmailVerification(
+        authority: authority as PrivacyEmailSessionAuthority,
+        transport: transport as PrivacyEmailWireTransport,
+      );
+      try {
+        _usingEmail =
+            authority.capture().session.user.email?.isNotEmpty == true;
+      } catch (_) {
+        _usingEmail = false;
+      }
+    }
     if (subjectId != null && !privacyUuid(subjectId)) {
       throw const PrivacyRequestException(PrivacyFailure.protocolUnavailable);
     }
@@ -30,23 +48,95 @@ final class PrivacyRequestController {
   String? _reason;
   bool _reasonKnown = false;
   PrivacyIntakeReceipt? _receipt;
+  PrivacyReviewStatus? _review;
+  PrivacySessionSnapshot? _reviewSession;
+  PrivacySessionSnapshot? _verificationOwner;
+  PrivacyEmailVerification? _email;
+  bool _usingEmail = false;
+  bool get emailVerificationAvailable => _email != null;
+  bool get usingEmailVerification => _usingEmail;
+  bool get emailVerificationPending => _email?.hasAttempt == true;
+  bool get emailVerificationUnknown => _email?.unknown == true;
+  String? get emailDestinationHint => _email?.destinationHint;
+  String get emailVerificationMessage =>
+      _email?.message ?? 'Email verification is unavailable.';
+  bool get canSendEmailCode => _email?.canStart == true;
+  int get emailResendSeconds => _email?.resendSeconds ?? 0;
+
+  void selectEmailVerification(bool email) {
+    if (email == _usingEmail) return;
+    if (_busy ||
+        email && _email == null ||
+        _pending != null ||
+        _receipt != null) {
+      throw const PrivacyRequestException(PrivacyFailure.busy);
+    }
+    ++_epoch;
+    final owner = _verificationOwner;
+    if (owner != null && transport is PrivacyVerificationCancellation) {
+      (transport as PrivacyVerificationCancellation).cancelVerification(owner);
+    }
+    if (_usingEmail) unawaited(_email!.cancel());
+    _usingEmail = email;
+    _challenge = null;
+    _fresh = null;
+    _verificationOwner = null;
+  }
+
+  Future<void> checkEmailVerification() async {
+    if (!_usingEmail || _email == null) {
+      throw const PrivacyRequestException(PrivacyFailure.protocolUnavailable);
+    }
+    final original = _capture(), epoch = _begin();
+    try {
+      await _email!.status();
+      _fence(original, epoch);
+      _challenge = _email!.codeReady ? original : null;
+    } finally {
+      _finish(epoch);
+    }
+  }
+
+  Future<void> cancelEmailVerification() {
+    ++_epoch;
+    _busy = false;
+    _challenge = null;
+    _fresh = null;
+    _verificationOwner = null;
+    return _email?.cancel() ?? Future<void>.value();
+  }
+
   bool _unknown = false;
   bool _busy = false;
   bool _disposed = false;
   int _epoch = 0;
 
   bool get busy => _busy && _ownsVisibleState;
+  bool get hasFreshVerification {
+    final current = _visibleSession();
+    return current != null && _fresh != null && current.sameFence(_fresh!);
+  }
+
   bool get codeSent {
     final current = _visibleSession();
     return _challenge != null &&
         current != null &&
-        current.sameFence(_challenge!);
+        current.sameFence(_challenge!) &&
+        (!_usingEmail || _email?.codeReady == true);
   }
 
   bool get outcomeUnknown => _unknown && _ownsVisibleState;
   PrivacyPendingIdentity? get pendingIdentity =>
       _ownsVisibleState ? _pending : null;
   PrivacyIntakeReceipt? get receipt => _ownsVisibleState ? _receipt : null;
+  PrivacyReviewStatus? get reviewStatus {
+    final current = _visibleSession();
+    return current != null &&
+            _reviewSession != null &&
+            current.sameFence(_reviewSession!)
+        ? _review
+        : null;
+  }
 
   PrivacySessionSnapshot? _visibleSession() {
     if (_disposed || _subjectId == null) return null;
@@ -64,11 +154,23 @@ final class PrivacyRequestController {
   /// request. A sent request may commit even when its response is discarded.
   void cancel() {
     ++_epoch;
+    final verificationOwner = _verificationOwner;
+    _verificationOwner = null;
+    final cancellation = transport;
+    if (verificationOwner != null &&
+        cancellation is PrivacyVerificationCancellation) {
+      (cancellation as PrivacyVerificationCancellation).cancelVerification(
+        verificationOwner,
+      );
+    }
+    unawaited(_email?.cancel() ?? Future<void>.value());
     _busy = false;
     _challenge = null;
     _fresh = null;
     _reason = null;
     _reasonKnown = false;
+    _review = null;
+    _reviewSession = null;
     if (!_unknown && _receipt == null) {
       _pending = null;
     }
@@ -113,11 +215,16 @@ final class PrivacyRequestController {
   Future<void> sendCode({String? captchaToken}) async {
     final original = _capture();
     final epoch = _begin();
+    _verificationOwner = original;
     _challenge = null;
     _fresh = null;
     try {
       _fence(original, epoch);
-      await transport.sendCode(original, captchaToken: captchaToken);
+      if (_usingEmail) {
+        await _email!.challenge(original, captchaToken: captchaToken);
+      } else {
+        await transport.sendCode(original, captchaToken: captchaToken);
+      }
       _fence(original, epoch);
       _challenge = original;
     } finally {
@@ -126,7 +233,9 @@ final class PrivacyRequestController {
   }
 
   Future<void> verifyCode(String code, {String? captchaToken}) async {
-    if (!RegExp(r'^[0-9]{6}$').hasMatch(code)) {
+    if (!RegExp(
+      _usingEmail ? r'^[0-9]{6,10}$' : r'^[0-9]{6}$',
+    ).hasMatch(code)) {
       throw const PrivacyRequestException(PrivacyFailure.invalidCode);
     }
     final original = _challenge;
@@ -134,8 +243,16 @@ final class PrivacyRequestController {
       throw const PrivacyRequestException(PrivacyFailure.codeRequired);
     }
     final epoch = _begin();
+    _verificationOwner = original;
     try {
       _fence(original, epoch);
+      if (_usingEmail) {
+        final adopted = await _email!.verify(code, captchaToken: captchaToken);
+        _fence(adopted, epoch);
+        _fresh = adopted;
+        _challenge = null;
+        return;
+      }
       final verified = await transport.verifyCode(
         original,
         code,
@@ -154,7 +271,10 @@ final class PrivacyRequestController {
     }
   }
 
-  void _validateVerified(PrivacySessionSnapshot original, Session verified) {
+  void _validateVerified(
+    PrivacySessionSnapshot original,
+    CollectAuthSession verified,
+  ) {
     final candidate = PrivacySessionSnapshot.parse(
       verified,
       original.generation,
@@ -251,6 +371,8 @@ final class PrivacyRequestController {
   Future<PrivacyIntakeReceipt?> refreshStatus() async {
     final original = _capture();
     final epoch = _begin();
+    _review = null;
+    _reviewSession = null;
     try {
       final accepted = _pending == null
           ? await transport.currentStatus(original)
@@ -266,6 +388,36 @@ final class PrivacyRequestController {
         _reasonKnown = false;
       }
       return accepted;
+    } finally {
+      _finish(epoch);
+    }
+  }
+
+  /// A failed review read never changes the confirmed intake receipt or
+  /// supplies a guessed review state. The caller can show both outcomes.
+  Future<PrivacyReviewStatus> refreshReviewStatus() async {
+    final original = _capture();
+    final request = _receipt;
+    if (request == null) {
+      throw const PrivacyRequestException(PrivacyFailure.requestUnavailable);
+    }
+    final epoch = _begin();
+    _review = null;
+    _reviewSession = null;
+    try {
+      _fence(original, epoch);
+      final observed = await transport.reviewStatus(
+        original,
+        request.requestId,
+      );
+      _fence(original, epoch);
+      if (_receipt?.requestId != request.requestId ||
+          observed.requestId != request.requestId) {
+        throw const PrivacyRequestException(PrivacyFailure.protocolUnavailable);
+      }
+      _review = observed;
+      _reviewSession = original;
+      return observed;
     } finally {
       _finish(epoch);
     }

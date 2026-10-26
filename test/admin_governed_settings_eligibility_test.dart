@@ -7,7 +7,7 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 import 'admin_action_session_test.dart' as auth;
 import 'support/settings_fixture.dart' as f;
 import 'support/settings_eligibility_fixture.dart' as e;
@@ -272,10 +272,8 @@ void main() {
       final control = e.control('policy_document_sections'),
           raw = ' {"body":"Reviewed α"} ';
       final requests = <http.Request>[];
-      final client = SupabaseClient(
+      final client = CollectCloudflareClient(
         'https://synthetic.invalid',
-        'synthetic-publishable',
-        authOptions: const AuthClientOptions(autoRefreshToken: false),
         httpClient: MockClient((r) async {
           if (r.url.path.endsWith('/verify')) {
             final v = (jsonDecode(r.body)['token'] as String).split('|');

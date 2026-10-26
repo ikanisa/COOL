@@ -4,13 +4,12 @@ import 'package:collect_app/admin/core/admin_error_boundary.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/admin/shared/components/admin_loading_state.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'admin_action_session_test.dart' as sdk;
 import 'support/admin_read_fixture.dart';
@@ -29,13 +28,11 @@ Future<void> _page(
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
-  late final SupabaseClient client;
+  late final CollectCloudflareClient client;
   final reads = <http.Request>[];
   await tester.runAsync(() async {
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         final endpoint = request.url.path.split('/').last;
         Map<String, dynamic> response;
@@ -70,7 +67,7 @@ Future<void> _page(
   });
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(client),
+      collectBackendClientProvider.overrideWithValue(client),
       adminIdentityProvider.overrideWith(
         (_) async => const AdminIdentity(
           userId: sdk.actor,
@@ -253,10 +250,7 @@ void main() {
               'total': 1,
             },
             verify: (_) {
-              expect(
-                find.text('RWF ${sign}9,007,199,254,740,993'),
-                findsOneWidget,
-              );
+              expect(find.text('${sign}9,007,199,254,740,993'), findsOneWidget);
               if (find.byType(DataTable).evaluate().isEmpty) {
                 expect(find.text(_kigali), findsOneWidget);
               } else {

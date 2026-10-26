@@ -8,7 +8,7 @@ import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_action_session_test.dart' as auth;
 
@@ -25,7 +25,7 @@ Map<String, dynamic> _copy(Map<String, dynamic> row) =>
     Map<String, dynamic>.from(jsonDecode(jsonEncode(row)) as Map);
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late List<http.Request> requests;
   late Future<http.Response> Function(http.Request) respond;
@@ -62,10 +62,8 @@ void main() {
   setUp(() async {
     requests = [];
     respond = (_) async => auth.response(policy);
-    client = SupabaseClient(
+    client = CollectCloudflareClient(
       'https://synthetic.invalid',
-      'synthetic-publishable',
-      authOptions: const AuthClientOptions(autoRefreshToken: false),
       httpClient: MockClient((request) async {
         if (request.url.path.endsWith('/verify')) {
           final token = (jsonDecode(request.body)['token'] as String).split(
@@ -94,7 +92,7 @@ void main() {
       expect(await repository.receiptOperationsPolicy(), policy);
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_get_receipt_operations_policy_v2',
+        '/v1/rpc/admin_get_receipt_operations_policy_v2',
       );
       expect(
         requests.single.headers['authorization'],
@@ -113,7 +111,7 @@ void main() {
       );
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_configure_receipt_operations_v2',
+        '/v1/rpc/admin_configure_receipt_operations_v2',
       );
       expect(jsonDecode(requests.single.body), configure.parameters);
       expect(configure.parameters.containsKey('destination'), isFalse);
@@ -129,7 +127,7 @@ void main() {
       expect(await repository.configureReceiptOperations(stop), stopped);
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_stop_receipt_operations_v2',
+        '/v1/rpc/admin_stop_receipt_operations_v2',
       );
       expect(jsonDecode(requests.single.body), stop.parameters);
       expect(stop.parameters.keys.toSet(), {
@@ -154,7 +152,7 @@ void main() {
       });
       expect(
         requests.single.url.path,
-        '/rest/v1/rpc/admin_get_receipt_operations_owner_request_v2',
+        '/v1/rpc/admin_get_receipt_operations_owner_request_v2',
       );
     },
   );
@@ -225,7 +223,7 @@ void main() {
           ),
           _ => repository.receiptOperationsPolicy(),
         };
-        await expectLater(future, throwsA(isA<PostgrestException>()));
+        await expectLater(future, throwsA(isA<CollectApiException>()));
         expect(requests, hasLength(1));
       },
     );

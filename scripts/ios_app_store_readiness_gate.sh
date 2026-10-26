@@ -77,8 +77,28 @@ grep -q 'com.apple.Push' ios/Runner.xcodeproj/project.pbxproj ||
   fail 'Xcode Push Notifications capability is missing.'
 grep -q '^APS_ENVIRONMENT=production$' ios/Flutter/Release-production.xcconfig ||
   fail 'Production Release APNs environment is not production.'
-grep -q 'APNS_ENVIRONMENT' fastlane/Fastfile ||
-  fail 'Fastlane production Dart environment does not declare APNs production.'
+# Validate the same public profile Fastlane passes to the compiler. These values
+# live in native_build_config.py, rather than as duplicated Fastfile literals.
+python3 -B - <<'PY' || fail 'The iOS public Supabase configuration or APNs production profile is invalid.'
+import os
+import runpy
+
+configuration = runpy.run_path('scripts/qa/native_build_config.py')['configuration']
+profile = configuration(dict(os.environ), 'ios')
+expected = {
+    'COLLECT_BACKEND': 'supabase',
+    'APNS_ENVIRONMENT': 'production',
+    'APP_ENVIRONMENT': 'production',
+    'AUTH_CAPTCHA_ENABLED': 'true',
+    'AUTH_CAPTCHA_PROVIDER': 'turnstile',
+}
+if any(profile.get(key) != value for key, value in expected.items()):
+    raise SystemExit('The validated native profile is not the production iOS profile.')
+PY
+grep -Fq '"scripts/qa/native_build_config.py"' fastlane/Fastfile &&
+  grep -Fq 'review_defines = collect_native_public_defines' fastlane/Fastfile &&
+  grep -Fq -- '--dart-define-from-file=#{review_defines.path.shellescape}' fastlane/Fastfile ||
+  fail 'Fastlane must compile with the validated native public configuration.'
 grep -q -- '-t tool/main_store_preview.dart' scripts/app_store_ios_capture_assets.sh ||
   fail 'App Store screenshots are not bound to the dedicated synthetic preview target.'
 if rg -n 'main_store_preview\.dart|CollectRepository\.fixture' \
@@ -159,13 +179,6 @@ ruby -r json -e '
 ' || fail "App Privacy details are incomplete or invalid."
 privacy_type_count="$(ruby -r json -e 'puts JSON.parse(File.read("fastlane/app_privacy_details.json")).length')"
 
-for build_contract in \
-  'SUPABASE_PRODUCTION_URL' \
-  'SUPABASE_PRODUCTION_ANON_KEY' \
-  'APP_ENVIRONMENT'; do
-  grep -q "$build_contract" fastlane/Fastfile ||
-    fail "Fastlane production build contract is missing $build_contract."
-done
 if rg -q 'APP_REVIEW_AUTH_(ENABLED|PHONE|OTP)|signInForAppReview|appReviewDemo' \
   lib fastlane/Fastfile .github/workflows/ios-app-store.yml; then
   fail 'Production App Review packaging must not embed reviewer credentials or a local auth bypass.'

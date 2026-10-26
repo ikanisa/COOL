@@ -1,10 +1,9 @@
-title = "COOL repository gitleaks policy"
+title = "Collect repository gitleaks policy"
 
 [allowlist]
 description = "Allow placeholder-only examples and generated local build outputs."
 paths = [
   '''(^|/)\.env\.example$''',
-  '''(^|/)supabase/functions/\.env\.example$''',
   '''(^|/)build/''',
   '''(^|/)coverage/''',
   '''(^|/)node_modules/''',

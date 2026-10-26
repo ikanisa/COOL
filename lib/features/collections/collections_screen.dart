@@ -208,7 +208,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
             title: 'No groups yet',
             message: showMembersOnly
                 ? 'Groups you create or join will appear here.'
-                : 'Confirmed contributions will place active groups in this view.',
+                : 'Recorded contributions will place active groups in this view.',
             onClear: () => context.go('/groups'),
             clearLabel: 'Show all groups',
           )

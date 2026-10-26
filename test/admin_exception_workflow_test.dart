@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/admin/core/admin_exception_checkpoint.dart';
@@ -9,26 +8,21 @@ import 'package:collect_app/admin/core/admin_exception_escalation_inbox_v2_model
 import 'admin_exception_escalation_inbox_v2_models_test.dart' as paged;
 import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
-import 'package:collect_app/core/supabase/supabase_module.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'support/admin_exception_lifecycle_fixture.dart';
 
-Map<String, dynamic> observed(String name) => Map<String, dynamic>.from(
-  jsonDecode(
-        File(
-          'test/fixtures/admin_exception_lifecycle_v1/observed-$name.json',
-        ).readAsStringSync(),
-      )
-      as Map,
-);
+Map<String, dynamic> workflowFixture(String name) =>
+    exceptionLifecycleFixture(name);
 Map<String, dynamic> copy(Map<String, dynamic> value) =>
     Map<String, dynamic>.from(jsonDecode(jsonEncode(value)) as Map);
 String wire(DateTime time) => time.toUtc().toIso8601String().replaceFirstMapped(
   RegExp(r'\.(\d{3})Z$'),
   (match) => '.${match[1]}000Z',
 );
-final _raw = observed('workflow');
+final _raw = workflowFixture('workflow');
 final _now = DateTime.parse(_raw['checked_at'] as String);
 final _id = _raw['exception_id'] as String;
 final _actor = AdminIdentity(
@@ -144,13 +138,13 @@ class _Repository extends AdminEvidenceRepository {
 
   @override
   Future<Map<String, dynamic>> exceptionEscalationInbox() async =>
-      observed('inbox');
+      workflowFixture('inbox');
   @override
   Future<Map<String, dynamic>> exceptionEscalationInboxPage(
     AdminExceptionEscalationInboxQuery query,
   ) async {
-    // V2 presentation adapter preserves exact observed v1 delivery rows.
-    final raw = observed('inbox')
+    // V2 presentation adapter preserves declared v1 delivery rows.
+    final raw = workflowFixture('inbox')
       ..['contract_version'] = 2
       ..['scope'] = 'current_operator'
       ..['recipient_id'] = _actor.userId
@@ -167,7 +161,7 @@ class _Repository extends AdminEvidenceRepository {
   Future<Map<String, dynamic>> readExceptionEscalation(String id) async {
     openedEscalations.add(id);
     if (readEscalationGate != null) return readEscalationGate!.future;
-    final row = (observed('inbox')['rows'] as List).singleWhere(
+    final row = (workflowFixture('inbox')['rows'] as List).singleWhere(
       (row) => row['escalation_id'] == id,
     );
     return {
@@ -193,7 +187,7 @@ Future<ProviderContainer> _mount(
   await tester.binding.setSurfaceSize(Size(width, 1100));
   final container = ProviderContainer(
     overrides: [
-      supabaseClientProvider.overrideWithValue(null),
+      collectBackendClientProvider.overrideWithValue(null),
       adminIdentityProvider.overrideWith((ref) async => repository.actor),
       adminRepositoryProvider.overrideWithValue(repository),
       adminAuthSessionScopeProvider.overrideWith((ref) => sessions),
@@ -232,21 +226,18 @@ Future<void> close(WidgetTester tester) async {
 }
 
 void main() {
-  test(
-    'actual SQL workflow and inbox projections parse without dropping evidence',
-    () {
-      final workflow = AdminExceptionWorkflow.parse(_raw, _id);
-      expect(workflow.escalations, isNotEmpty);
-      expect(workflow.status, 'source_cleared');
-      expect(
-        AdminExceptionEscalationSnapshot.parse(observed('inbox')).rows,
-        isNotEmpty,
-      );
-    },
-  );
-  test('actual unassigned and resolved unassigned SQL evidence parse', () {
+  test('synthetic workflow and inbox DTOs preserve their history', () {
+    final workflow = AdminExceptionWorkflow.parse(_raw, _id);
+    expect(workflow.escalations, isNotEmpty);
+    expect(workflow.status, 'source_cleared');
+    expect(
+      AdminExceptionEscalationSnapshot.parse(workflowFixture('inbox')).rows,
+      isNotEmpty,
+    );
+  });
+  test('synthetic unassigned and cleared DTOs parse', () {
     for (final name in ['unassigned', 'unassigned-resolved']) {
-      final raw = observed(name);
+      final raw = workflowFixture(name);
       final value = AdminExceptionWorkflow.parse(
         raw,
         raw['exception_id'] as String,
@@ -830,7 +821,8 @@ void main() {
       store,
       sessions,
       inbox: true,
-      clock: () => DateTime.parse(observed('inbox')['checked_at'] as String),
+      clock: () =>
+          DateTime.parse(workflowFixture('inbox')['checked_at'] as String),
     );
     await tester.tap(find.text('Your escalation inbox'));
     await tester.pumpAndSettle();
@@ -849,7 +841,8 @@ void main() {
         store,
         sessions,
         inbox: true,
-        clock: () => DateTime.parse(observed('inbox')['checked_at'] as String),
+        clock: () =>
+            DateTime.parse(workflowFixture('inbox')['checked_at'] as String),
       );
       await tester.tap(find.text('Your escalation inbox'));
       await tester.pumpAndSettle();
@@ -877,7 +870,8 @@ void main() {
         store,
         sessions,
         inbox: true,
-        clock: () => DateTime.parse(observed('inbox')['checked_at'] as String),
+        clock: () =>
+            DateTime.parse(workflowFixture('inbox')['checked_at'] as String),
       );
       await tester.tap(find.text('Your escalation inbox'));
       await tester.pumpAndSettle();
@@ -907,7 +901,8 @@ void main() {
         store,
         sessions,
         inbox: true,
-        clock: () => DateTime.parse(observed('inbox')['checked_at'] as String),
+        clock: () =>
+            DateTime.parse(workflowFixture('inbox')['checked_at'] as String),
       );
       await tester.tap(find.text('Your escalation inbox'));
       await tester.pumpAndSettle();

@@ -10,7 +10,7 @@ class PublicBrowserGraphTest < Minitest::Test
     Dir.mktmpdir('collect-browser-graph-') do |root|
       rows = {
         'pubspec.yaml' => YAML.dump({'name' => 'collect_app', 'dependencies' => {'flutter' => {'sdk' => 'flutter'}},
-          'dependency_overrides' => {'gotrue' => {'path' => 'third_party/gotrue'}},
+          'dependency_overrides' => {'synthetic_fork' => {'path' => 'third_party/synthetic_fork'}},
           'flutter' => {'assets' => ['assets/icon.png']}}),
         'pubspec.lock' => 'pinned package fixture', '.fvmrc' => '{"flutter":"3.44.4"}', '.metadata' => 'project metadata',
         'analysis_options.yaml' => 'fixture options',
@@ -23,11 +23,12 @@ class PublicBrowserGraphTest < Minitest::Test
         'web/index.html' => 'web scaffold', 'web/manifest.json' => '{}',
         'scripts/public_app_media.rb' => 'bound implementation source',
         'scripts/qa/asset_manifest_integrity.rb' => 'bound helper source',
-        'third_party/gotrue/lib/gotrue.dart' => 'local fork runtime',
-        'third_party/gotrue/pubspec.yaml' => 'local fork metadata',
-        'third_party/gotrue/LICENSE' => 'retained license',
-        'third_party/gotrue/COLLECT_FORK.md' => 'retained provenance'
+        'third_party/synthetic_fork/lib/synthetic_fork.dart' => 'local fork runtime',
+        'third_party/synthetic_fork/pubspec.yaml' => 'local fork metadata',
+        'third_party/synthetic_fork/LICENSE' => 'retained license',
+        'third_party/synthetic_fork/COLLECT_FORK.md' => 'retained provenance'
       }
+      PublicAppMedia::BROWSER_DIAGNOSTIC_INPUTS.each { |name| rows[name] ||= 'bound diagnostic source fixture' }
       rows.each do |name, bytes|
         path = File.join(root, name)
         FileUtils.mkdir_p(File.dirname(path))
@@ -56,7 +57,7 @@ class PublicBrowserGraphTest < Minitest::Test
   def test_actual_unrelated_native_callback_change_preserves_browser_fingerprint
     fixture do |root, media|
       before = fingerprint(media)
-      directory = File.join(root, 'third_party/gotrue/ios')
+      directory = File.join(root, 'third_party/synthetic_fork/ios')
       FileUtils.mkdir_p(directory)
       File.write(File.join(directory, 'callback.m'), 'new native callback')
       assert_equal before, fingerprint(media)
@@ -71,7 +72,7 @@ class PublicBrowserGraphTest < Minitest::Test
   end
 
   def test_actual_reachable_source_asset_fork_and_web_mutations_change_fingerprint
-    %w[lib/src/native.dart assets/icon.png third_party/gotrue/lib/gotrue.dart third_party/gotrue/LICENSE web/index.html pubspec.lock].each do |name|
+    %w[lib/src/native.dart assets/icon.png third_party/synthetic_fork/lib/synthetic_fork.dart third_party/synthetic_fork/LICENSE web/index.html pubspec.lock].each do |name|
       fixture do |root, media|
         before = media.browser_runtime_fingerprint
         File.write(File.join(root, name), 'changed actual input')
@@ -132,11 +133,11 @@ class PublicBrowserGraphTest < Minitest::Test
   def test_actual_local_fork_directives_bind_sources_outside_its_lib_directory
     fixture do |root, media|
       before = media.browser_runtime_fingerprint
-      path = File.join(root, 'third_party/gotrue/shared.dart')
+      path = File.join(root, 'third_party/synthetic_fork/shared.dart')
       File.write(path, 'additional fork source')
-      File.write(File.join(root, 'third_party/gotrue/lib/gotrue.dart'), "import '../shared.dart';\n")
+      File.write(File.join(root, 'third_party/synthetic_fork/lib/synthetic_fork.dart'), "import '../shared.dart';\n")
       refute_equal before, media.browser_runtime_fingerprint
-      assert media.browser_source_snapshot.key?('third_party/gotrue/shared.dart')
+      assert media.browser_source_snapshot.key?('third_party/synthetic_fork/shared.dart')
       bound = media.browser_runtime_fingerprint
       File.write(path, 'changed additional fork source')
       refute_equal bound, media.browser_runtime_fingerprint
@@ -145,7 +146,7 @@ class PublicBrowserGraphTest < Minitest::Test
 
   def test_missing_local_fork_directive_is_refused
     fixture do |root, media|
-      File.write(File.join(root, 'third_party/gotrue/lib/gotrue.dart'), "import 'missing.dart';\n")
+      File.write(File.join(root, 'third_party/synthetic_fork/lib/synthetic_fork.dart'), "import 'missing.dart';\n")
       assert_raises(AssetManifestIntegrity::InvalidPath) { media.browser_runtime_fingerprint }
     end
   end

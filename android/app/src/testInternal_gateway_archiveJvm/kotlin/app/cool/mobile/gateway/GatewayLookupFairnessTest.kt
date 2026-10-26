@@ -29,10 +29,12 @@ class GatewayLookupFairnessTest {
         var lookupFault: String? = null;var onReadFailure: (() -> Unit)? = null
         val key = KeyPairGenerator.getInstance("EC").apply { initialize(ECGenParameterSpec("secp256r1")) }.generateKeyPair()
         val fingerprint = MessageDigest.getInstance("SHA-256").digest(key.public.encoded).joinToString("") { "%02x".format(it) }
-        val transport: GatewayHttpsTransport
+        private var transport: GatewayHttpsTransport
         init {
             f.storage.saveEnrollment(JSONObject().put("contract_version", 1).put("device_id", f.device).put("installation_id", f.id()).put("key_sha256", fingerprint).put("signing_certificate_sha256", "a".repeat(64)))
-            transport = GatewayHttpsTransport({ if (lookupFault == "identity") "bad-key" else fingerprint }, { body -> if (lookupFault == "signer" && JSONObject(String(body)).getString("action") in setOf("reconcile", "archive_lookup")) throw IOException("signing key unavailable");signed.add(body.clone());Base64.getEncoder().encodeToString(Signature.getInstance("SHA256withECDSA").run { initSign(key.private);update(body);sign() }) }, { url ->
+            transport = createTransport()
+        }
+        private fun createTransport(deadlineMs: Long = 15_000) = GatewayHttpsTransport({ if (lookupFault == "identity") "bad-key" else fingerprint }, { body -> if (lookupFault == "signer" && JSONObject(String(body)).getString("action") in setOf("reconcile", "archive_lookup")) throw IOException("signing key unavailable");signed.add(body.clone());Base64.getEncoder().encodeToString(Signature.getInstance("SHA256withECDSA").run { initSign(key.private);update(body);sign() }) }, { url ->
                 object : HttpsURLConnection(url) {
                     val output = ByteArrayOutputStream();lateinit var response: ByteArray;var status = 200
                     override fun connect() = Unit
@@ -76,8 +78,8 @@ class GatewayLookupFairnessTest {
                     }
                     override fun getInputStream() = ByteArrayInputStream(response)
                 }
-            }, deadlineMs = 200)
-        }
+            }, deadlineMs = deadlineMs)
+        fun useShortLookupDeadline() { transport = createTransport(200) }
         fun backend() = GatewaySignedBackend(f.context, f.store(), GatewayDeviceIdentity(), { fingerprint }, transport)
         fun cycle() = backend().reconcile(f.store().read())
         fun dispose() = f.dispose()
@@ -86,7 +88,9 @@ class GatewayLookupFairnessTest {
     private fun refuse(action: () -> Unit) { try { action();fail("Expected failure") } catch (_: GatewayStateException) {} }
     private fun startUnknown(f: Fixture): Pair<GatewayAttempt, ByteArray> {
         val a=f.f.seed();f.f.append(a,f.f.callback(a,0,0));f.failNextCallback=true;refuse { f.cycle() }
-        return a to f.signed.single().clone()
+        val exact=f.signed.single().clone();val target=JSONObject(String(exact)).getString("request_id")
+        assertEquals(1,callbackCount(f));assertFalse(f.failNextCallback);assertTrue(target in f.unknown)
+        return a to exact
     }
     private fun callbackCount(f: Fixture)=f.requests.count { it.getString("action")=="callback" }
     private fun assertOriginal(f: Fixture, exact: ByteArray) {
@@ -109,7 +113,7 @@ class GatewayLookupFairnessTest {
         assertOriginal(f,exact);assertEquals(1,f.f.store().readRequests().getJSONArray("requests").length());assertTrue(f.f.store().coldStop())
     }
     @Test fun lookupDeadlineDefersReadAndAllowsLaterEvidenceWithStopStillLatched() = test { f ->
-        val (a,exact)=startUnknown(f);repeat(2) { f.f.append(a,f.f.callback(a,it+1,it+1)) };f.lookupFault="deadline"
+        val (a,exact)=startUnknown(f);f.useShortLookupDeadline();repeat(2) { f.f.append(a,f.f.callback(a,it+1,it+1)) };f.lookupFault="deadline"
         f.cycle();assertEquals(3,callbackCount(f));assertOriginal(f,exact);assertTrue(f.f.store().coldStop())
     }
     @Test fun transientReadStatusesDoNotBecomeMutationRetries() {

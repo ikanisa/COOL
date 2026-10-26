@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../core/cloudflare/collect_cloudflare_client.dart';
 
 import 'privacy_contract.dart';
 
@@ -13,12 +13,15 @@ final class PrivacySessionSnapshot {
     this.sessionId,
     this.generation,
   );
-  final Session session;
+  final CollectAuthSession session;
   final String subjectId;
   final String sessionId;
   final int generation;
 
-  static PrivacySessionSnapshot? parse(Session? session, int generation) {
+  static PrivacySessionSnapshot? parse(
+    CollectAuthSession? session,
+    int generation,
+  ) {
     if (session == null || session.accessToken.length > 32768) return null;
     try {
       final parts = session.accessToken.split('.');
@@ -28,7 +31,7 @@ final class PrivacySessionSnapshot {
       );
       if (claims is! Map<String, dynamic> ||
           !privacyUuid(session.user.id) ||
-          claims['sub'] != session.user.id ||
+          claims['sub'] != session.authSubject ||
           !privacyUuid(claims['session_id']) ||
           claims['role'] != 'authenticated' ||
           session.user.isAnonymous ||
@@ -64,27 +67,39 @@ abstract interface class PrivacySessionAuthority {
   /// Synchronous compare-and-adopt. Never awaits before installing the session.
   PrivacySessionSnapshot adopt(
     PrivacySessionSnapshot original,
-    Session verified,
+    CollectAuthSession verified,
   );
 
   /// Integration must call this before the first await of logout/account reset.
   void invalidate();
 }
 
+/// Email uses an explicit managed/canonical pair and marks installation in the
+/// same synchronous turn, before later account observers can invalidate a view.
+abstract interface class PrivacyEmailSessionAuthority
+    implements PrivacySessionAuthority {
+  PrivacySessionSnapshot adoptEmail(
+    PrivacySessionSnapshot original,
+    CollectAuthSession verified, {
+    required void Function() onInstalled,
+  });
+}
+
 /// Owns no credentials beyond the live SDK. It creates no second Auth client.
-final class GoTruePrivacySessionAuthority implements PrivacySessionAuthority {
-  GoTruePrivacySessionAuthority(this._auth) {
+final class CollectPrivacySessionAuthority
+    implements PrivacyEmailSessionAuthority {
+  CollectPrivacySessionAuthority(this._auth) {
     _observed = _identity(_auth.currentSession);
     _observedEvent = _observed;
-    // The pinned synchronous stream closes account ABA races before futures
-    // complete. An asynchronous Riverpod/profile revision alone is too late.
+    // Collect emits Auth changes synchronously, closing account ABA races
+    // before an awaited response can be installed.
     // ignore: invalid_use_of_internal_member
     _subscription = _auth.onAuthStateChangeSync.listen((state) {
       _authEventsObserved = true;
       // ReplaySubject can initially queue events. Read each event's own
       // identity so a synchronous account switch and return cannot disappear
       // merely because the live getter already points at the original account.
-      final eventIdentity = state.event == AuthChangeEvent.signedOut
+      final eventIdentity = state.event == CollectAuthEvent.signedOut
           ? null
           : _identity(state.session);
       if (eventIdentity != _observedEvent) {
@@ -96,12 +111,12 @@ final class GoTruePrivacySessionAuthority implements PrivacySessionAuthority {
         _observed = identity;
         ++_generation;
       }
-      if (state.event == AuthChangeEvent.signedOut) {
+      if (state.event == CollectAuthEvent.signedOut) {
         ++_generation;
         _blocked = true;
       }
-      if ((state.event == AuthChangeEvent.signedIn ||
-              state.event == AuthChangeEvent.tokenRefreshed) &&
+      if ((state.event == CollectAuthEvent.signedIn ||
+              state.event == CollectAuthEvent.tokenRefreshed) &&
           identity != null &&
           identity != _invalidatedIdentity &&
           identity == eventIdentity) {
@@ -110,17 +125,17 @@ final class GoTruePrivacySessionAuthority implements PrivacySessionAuthority {
     }, onError: (Object _) => invalidate());
   }
 
-  final GoTrueClient _auth;
-  late final StreamSubscription<AuthState> _subscription;
+  final CollectAuthClient _auth;
+  late final StreamSubscription<CollectAuthState> _subscription;
   (String, String)? _observed;
   (String, String)? _observedEvent;
   int _generation = 0;
   bool _disposed = false;
   bool _blocked = false;
-  bool _authEventsObserved = false;
+  bool _authEventsObserved = true;
   (String, String)? _invalidatedIdentity;
 
-  (String, String)? _identity(Session? session) {
+  (String, String)? _identity(CollectAuthSession? session) {
     final snapshot = PrivacySessionSnapshot.parse(session, 0);
     return snapshot == null ? null : (snapshot.subjectId, snapshot.sessionId);
   }
@@ -145,12 +160,41 @@ final class GoTruePrivacySessionAuthority implements PrivacySessionAuthority {
   @override
   PrivacySessionSnapshot adopt(
     PrivacySessionSnapshot original,
-    Session verified,
-  ) {
-    // ReplaySubject initially defers replay even with sync:true. A same-tick
-    // switch and return is invisible to the getter until event delivery starts.
-    // Reject adoption during that gap; the explicit OTP network awaits normally
-    // prime this subscription before verification returns.
+    CollectAuthSession verified,
+  ) => _adopt(original, verified);
+
+  @override
+  PrivacySessionSnapshot adoptEmail(
+    PrivacySessionSnapshot original,
+    CollectAuthSession verified, {
+    required void Function() onInstalled,
+  }) {
+    final managed = original.session.user.authUserId;
+    if (!privacyUuid(managed) ||
+        original.session.claims['sub'] != managed ||
+        verified.user.authUserId != managed ||
+        verified.claims['sub'] != managed ||
+        !original.session.usesMappedAuthUser ||
+        !verified.usesMappedAuthUser) {
+      throw const PrivacyRequestException(
+        PrivacyFailure.verificationUnavailable,
+      );
+    }
+    final current = capture();
+    if (current.session.user.authUserId != managed ||
+        current.session.claims['sub'] != managed) {
+      throw const PrivacyRequestException(PrivacyFailure.sessionChanged);
+    }
+    return _adopt(original, verified, onInstalled: onInstalled);
+  }
+
+  PrivacySessionSnapshot _adopt(
+    PrivacySessionSnapshot original,
+    CollectAuthSession verified, {
+    void Function()? onInstalled,
+  }) {
+    // This authority is subscribed before any verification request. Compare
+    // the live account generation immediately before session installation.
     if (!_authEventsObserved) {
       throw const PrivacyRequestException(PrivacyFailure.sessionChanged);
     }
@@ -168,13 +212,15 @@ final class GoTruePrivacySessionAuthority implements PrivacySessionAuthority {
         PrivacyFailure.verificationUnavailable,
       );
     }
-    // In gotrue 2.27.1 this nonexpired branch saves synchronously, with no
-    // network, refresh or asynchronous gap. Tests bind that installed behavior.
-    final recovery = _auth.recoverSession(jsonEncode(verified.toJson()));
-    // Same-user recoverSession emits no event. Notify ordinary signedIn so the
-    // actual SDK persists the new session and updates member consumers.
-    // ignore: invalid_use_of_internal_member
-    _auth.notifyAllSubscribers(AuthChangeEvent.signedIn);
+    // Collect installs this nonexpired candidate synchronously before its
+    // protected persistence await; there is no network refresh in this path.
+    final recovery = _auth.recoverSession(
+      jsonEncode(verified.toJson()),
+      onInstalled: onInstalled,
+    );
+    // The install callback runs after memory installation and before any
+    // synchronous observer can cancel or dispose the verification view.
+    // Recovery itself publishes the fenced candidate synchronously.
     unawaited(recovery.then<void>((_) {}, onError: (Object _) {}));
     final adopted = capture();
     if (adopted.subjectId != candidate.subjectId ||

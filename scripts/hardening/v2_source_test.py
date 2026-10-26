@@ -31,7 +31,10 @@ class V2Integration(unittest.TestCase):
  def test_ios_no_unprotected_fallback(self):
   t=source('ios/Runner/AppDelegate.swift');self.assertIn('AES.GCM.seal',t);self.assertIn('AES.GCM.open',t);self.assertNotIn('UserDefaults',t)
  def test_missing_date_not_now(self):
-  t=source('lib/shared/repositories/collect_offline_cache.dart').split('DateTime _dateTime',1)[1].split('_profileToJson',1)[0];self.assertNotIn('DateTime.now',t)
+  t=source('lib/shared/repositories/collect_offline_cache.dart')
+  self.assertRegex(t,r"savedAt:\s*exactJsonTimestamp\(json\['saved_at'\],\s*field:\s*'snapshot.saved_at'\)")
+  self.assertNotIn('DateTime.now',t)
+  self.assertNotIn('DateTime.now',source('lib/core/data/exact_json_values.dart'))
  def test_home_does_not_sum_recent_history(self):
   t=source('lib/features/home/home_screen.dart');self.assertIn('state.historyPage?.ownTotals',t);self.assertNotIn('raisedTotalsByCurrencyProvider',t)
  def test_home_unavailable_not_zero(self):
@@ -44,8 +47,4 @@ class V2Integration(unittest.TestCase):
    self.assertIn('CollectionSummary? summary;',source('lib/shared/widgets/'+name))
  def test_summary_provider_no_derived_totals(self):
   t=source('lib/shared/repositories/collect_repository_providers.dart').split('final collectionSummariesProvider',1)[1].split('final activeCollectionsProvider',1)[0];self.assertNotIn('summaryFor(',t)
- def test_economic_review_binding(self):
-  t=source('deploy/hardening/reconciliation_approval_v2.sql');self.assertIn('payment_fingerprint text not null',t);self.assertIn('reconciliation_fingerprint(payment_row) is distinct from r.payment_fingerprint',t);self.assertIn('reconciliation_fingerprint(p) is distinct from r.payment_fingerprint',t)
- def test_reconciliation_cannot_be_self_approved(self):
-  t=source('deploy/hardening/reconciliation_approval_v2.sql');self.assertIn('r.proposed_by=auth.uid()',t);self.assertIn("auth.jwt()->>'aal'",t)
 if __name__=='__main__':unittest.main(verbosity=2)

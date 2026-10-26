@@ -4,7 +4,7 @@ import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const _revision = '0123456789abcdef0123456789abcdef';
 const _profile = CollectProfile(
@@ -158,7 +158,7 @@ void main() {
   );
   test('server revision-change error requires refresh', () async {
     final repo = _Repository()
-      ..onFetch = (_) async => throw const PostgrestException(
+      ..onFetch = (_) async => throw const CollectApiException(
         message: 'Synthetic changed response',
         code: 'P0001',
       );

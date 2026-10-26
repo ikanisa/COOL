@@ -4,31 +4,33 @@ class AuthInputPanel extends StatelessWidget {
   const AuthInputPanel({
     required this.otpSent,
     required this.phoneController,
+    this.emailController,
+    this.useEmail = false,
+    this.enabled = true,
     required this.otpController,
-    required this.captchaController,
-    required this.env,
     required this.error,
     required this.errorKey,
+    this.errorTitle = 'Authentication failed',
     required this.resendRemaining,
     required this.countryCode,
     required this.onPhoneChanged,
     required this.onOtpChanged,
-    required this.onCaptchaChanged,
     super.key,
   });
 
   final bool otpSent;
   final TextEditingController phoneController;
+  final TextEditingController? emailController;
+  final bool useEmail;
+  final bool enabled;
   final TextEditingController otpController;
-  final TextEditingController captchaController;
-  final AppEnv env;
   final String? error;
+  final String errorTitle;
   final Key errorKey;
   final int resendRemaining;
   final String countryCode;
   final VoidCallback onPhoneChanged;
   final VoidCallback onOtpChanged;
-  final VoidCallback onCaptchaChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +39,30 @@ class AuthInputPanel extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (!otpSent)
+        if (!otpSent && useEmail)
+          AuthEmailEntry(
+            controller: emailController!,
+            onChanged: onPhoneChanged,
+            enabled: enabled,
+          ),
+        if (!otpSent && !useEmail)
           AuthPhoneEntry(
             controller: phoneController,
             countryCode: countryCode,
+            enabled: enabled,
             onChanged: onPhoneChanged,
           ),
         if (otpSent) ...[
-          AuthOtpEntry(controller: otpController, onChanged: onOtpChanged),
+          AuthOtpEntry(
+            controller: otpController,
+            onChanged: onOtpChanged,
+            autofocus: error == null,
+          ),
           CollectSpacing.gap20,
           Text(
             resendRemaining > 0
-                ? 'Resend code in 00:${resendRemaining.toString().padLeft(2, '0')}'
-                : "Didn't get the code? Use Resend or Change number below.",
+                ? 'Resend code in ${(resendRemaining ~/ 60).toString().padLeft(2, '0')}:${(resendRemaining % 60).toString().padLeft(2, '0')}'
+                : "Didn't get the code? Use Resend or Change ${useEmail ? 'email' : 'number'} below.",
             key: const ValueKey('auth_otp_recovery_message'),
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               color: foreground.withValues(alpha: 0.90),
@@ -57,24 +70,9 @@ class AuthInputPanel extends StatelessWidget {
             ),
           ),
         ],
-        if (env.authCaptchaEnabled) ...[
-          CollectSpacing.gap20,
-          CollectTextInput(
-            controller: captchaController,
-            label: env.authCaptchaProvider.isEmpty
-                ? 'CAPTCHA'
-                : env.authCaptchaProvider,
-            textInputAction: TextInputAction.done,
-            onChanged: (_) => onCaptchaChanged(),
-          ),
-        ],
         if (error != null) ...[
           CollectSpacing.gap20,
-          AuthStatusNotice(
-            key: errorKey,
-            title: 'Authentication failed',
-            message: error!,
-          ),
+          AuthStatusNotice(key: errorKey, title: errorTitle, message: error!),
         ],
       ],
     );
@@ -86,12 +84,14 @@ class AuthPhoneEntry extends StatelessWidget {
     required this.controller,
     required this.countryCode,
     required this.onChanged,
+    this.enabled = true,
     super.key,
   });
 
   final TextEditingController controller;
   final String countryCode;
   final VoidCallback onChanged;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -143,6 +143,7 @@ class AuthPhoneEntry extends StatelessWidget {
                 onChanged: (_) => onChanged(),
                 builder: (focusNode) => TextField(
                   key: const ValueKey('auth_whatsapp_phone_input'),
+                  enabled: enabled,
                   focusNode: focusNode,
                   controller: controller,
                   keyboardType: TextInputType.phone,
@@ -233,4 +234,95 @@ class AuthStatusNotice extends StatelessWidget {
       ),
     );
   }
+}
+
+class AuthEmailEntry extends StatelessWidget {
+  const AuthEmailEntry({
+    required this.controller,
+    required this.onChanged,
+    this.enabled = true,
+    super.key,
+  });
+  final TextEditingController controller;
+  final VoidCallback onChanged;
+  final bool enabled;
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surfaceRaised,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: colors.authForeground.withValues(alpha: 0.14),
+        ),
+      ),
+      child: CollectAccessibleTextField(
+        controller: controller,
+        label: 'Email address',
+        onChanged: (_) => onChanged(),
+        builder: (focusNode) => TextField(
+          key: const ValueKey('auth_email_input'),
+          focusNode: focusNode,
+          controller: controller,
+          enabled: enabled,
+          keyboardType: TextInputType.emailAddress,
+          textInputAction: TextInputAction.done,
+          autofillHints: const [AutofillHints.email],
+          autocorrect: false,
+          inputFormatters: [LengthLimitingTextInputFormatter(254)],
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: colors.authForeground),
+          decoration: InputDecoration(
+            hintText: 'Email address',
+            hintStyle: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(color: colors.authInputHint),
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 18,
+            ),
+          ),
+          onChanged: (_) => onChanged(),
+        ),
+      ),
+    );
+  }
+}
+
+class AuthSignInOptions extends StatelessWidget {
+  const AuthSignInOptions({
+    required this.useEmail,
+    required this.onSwitch,
+    required this.onGoogle,
+    this.googleAvailable = false,
+    this.whatsAppAvailable = false,
+    super.key,
+  });
+  final bool useEmail;
+  final VoidCallback? onSwitch;
+  final VoidCallback? onGoogle;
+  final bool googleAvailable;
+  final bool whatsAppAvailable;
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      if (!useEmail || whatsAppAvailable)
+        _AuthNativeActionButton(
+          key: const ValueKey('auth_switch_method'),
+          label: useEmail ? 'Continue with WhatsApp' : 'Continue with email',
+          onPressed: onSwitch,
+          isPrimary: false,
+        ),
+      if (googleAvailable)
+        CollectGoogleSignInButton(
+          key: const ValueKey('auth_google_button'),
+          onPressed: onGoogle,
+        ),
+    ],
+  );
 }

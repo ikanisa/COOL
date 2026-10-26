@@ -7,7 +7,7 @@ import 'package:collect_app/admin/core/admin_roster_import.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 const _a = '99740000-0000-4000-8000-000000000001';
 const _b = '99740000-0000-4000-8000-000000000002';
@@ -24,71 +24,62 @@ http.Response _json(Object? value) => http.Response(
   headers: {'content-type': 'application/json'},
 );
 
-class _PkceBarrier extends GotrueAsyncStorage {
+class _StorageBarrier implements CollectAuthSessionStorage {
   final entered = Completer<void>(), release = Completer<void>();
   @override
-  Future<String?> getItem({required String key}) async => null;
+  Future<String?> read() async => null;
   @override
-  Future<void> setItem({required String key, required String value}) async {}
+  Future<void> write(String value) async {}
   @override
-  Future<void> removeItem({required String key}) {
+  Future<void> clear() {
     if (!entered.isCompleted) entered.complete();
     return release.future;
   }
 }
 
 void main() {
-  late SupabaseClient client;
+  late CollectCloudflareClient client;
   late AdminRepository repository;
   late FutureOr<http.Response> Function(http.Request) respond;
   late List<http.Request> requests;
   late int expires;
-  SupabaseClient makeClient({GotrueAsyncStorage? storage}) => SupabaseClient(
-    'http://127.0.0.1:1',
-    'synthetic-anon-key',
-    authOptions: AuthClientOptions(
-      autoRefreshToken: false,
-      pkceAsyncStorage: storage,
-    ),
-    httpClient: MockClient((r) async {
-      if (r.url.path.endsWith('/verify')) {
-        final parts = (jsonDecode(r.body)['token'] as String).split('|');
-        return _json({
-          'access_token':
-              'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': parts[0], 'session_id': parts[1], 'exp': expires}))).replaceAll('=', '')}.synthetic',
-          'refresh_token': 'synthetic-refresh',
-          'token_type': 'bearer',
-          'user': {
-            'id': parts[0],
-            'aud': 'authenticated',
-            'app_metadata': {},
-            'user_metadata': {},
-            'created_at': '2026-09-30T00:00:00Z',
-          },
-        });
-      }
-      requests.add(r);
-      final result = await respond(r);
-      return http.Response.bytes(
-        result.bodyBytes,
-        result.statusCode,
-        headers: result.headers,
-        request: r,
+  CollectCloudflareClient makeClient({CollectAuthSessionStorage? storage}) =>
+      CollectCloudflareClient(
+        'http://127.0.0.1:1',
+        sessionStorage: storage,
+        httpClient: MockClient((r) async {
+          requests.add(r);
+          final result = await respond(r);
+          return http.Response.bytes(
+            result.bodyBytes,
+            result.statusCode,
+            headers: result.headers,
+            request: r,
+          );
+        }),
       );
-    }),
-  );
-  Future<void> login(SupabaseClient c, String user, String session) => c.auth
-      .verifyOTP(
-        phone: '+250788974001',
-        token: '$user|$session',
-        type: OtpType.sms,
-      )
-      .then((_) {});
+  Future<void> login(CollectCloudflareClient c, String user, String sid) async {
+    await c.auth.recoverSession(
+      jsonEncode({
+        'access_token':
+            'e30.${base64Url.encode(utf8.encode(jsonEncode({'sub': user, 'session_id': sid, 'role': 'authenticated', 'exp': expires}))).replaceAll('=', '')}.synthetic',
+        'refresh_token': 'synthetic-refresh',
+        'token_type': 'bearer',
+        'user': {
+          'id': user,
+          'aud': 'authenticated',
+          'app_metadata': {},
+          'user_metadata': {},
+        },
+      }),
+    );
+  }
+
   setUp(() async {
     requests = [];
     expires = DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600;
     respond = (r) => r.url.path.endsWith('/logout')
-        ? http.Response('', 204)
+        ? _json({'ok': true})
         : r.url.path.endsWith('admin_current_user')
         ? _json(_identity(_a))
         : _json({});
@@ -142,11 +133,15 @@ void main() {
     'GAP-A06 roster gateway rejects an expired signed-in token before import dispatch',
     () async {
       expires = DateTime.now().millisecondsSinceEpoch ~/ 1000 - 1;
-      await login(client, _a, '99740000-0000-4000-8000-000000000011');
+      await client.auth.clearLocalSession();
+      await expectLater(
+        login(client, _a, '99740000-0000-4000-8000-000000000011'),
+        throwsA(isA<CollectAuthException>()),
+      );
       expect(adminSessionKey(client.auth.currentSession), isNull);
-      SupabaseAdminRosterGateway? gateway;
+      CollectAdminRosterGateway? gateway;
       try {
-        gateway = SupabaseAdminRosterGateway(client);
+        gateway = CollectAdminRosterGateway(client);
       } on StateError {
         return;
       }
@@ -155,9 +150,9 @@ void main() {
     },
   );
   test(
-    'GAP-A05 delayed old SDK logout cannot invalidate a newer Admin session',
+    'GAP-A05 delayed old protected-storage logout cannot invalidate a newer Admin session',
     () async {
-      final storage = _PkceBarrier();
+      final storage = _StorageBarrier();
       final c = makeClient(storage: storage);
       addTearDown(c.dispose);
       await login(c, _a, 'session-a');
@@ -165,17 +160,23 @@ void main() {
       addTearDown(controller.dispose);
       final logout = AdminRepository(c).signOut();
       await storage.entered.future;
-      await login(c, _b, 'session-b');
+      final replacement = login(c, _b, 'session-b');
       await Future<void>.delayed(Duration.zero);
       final newer = controller.state;
       expect(newer?.key.userId, _b);
       storage.release.complete();
       await logout;
+      await replacement;
       await Future<void>.delayed(Duration.zero);
       expect(c.auth.currentUser?.id, _b);
       expect(controller.state, newer);
       final sent = requests.singleWhere((r) => r.url.path.endsWith('/logout'));
-      expect(sent.url.queryParameters['scope'], 'local');
+      expect(sent.url.path, '/v1/auth/logout');
+      expect(jsonDecode(sent.body)['refresh_token'], 'synthetic-refresh');
+      expect(
+        sent.headers['Authorization'],
+        isNot('Bearer ${c.auth.currentSession!.accessToken}'),
+      );
     },
   );
 }

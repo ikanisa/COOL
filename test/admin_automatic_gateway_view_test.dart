@@ -9,7 +9,7 @@ import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import 'admin_automatic_gateway_models_test.dart' as fixture;
 
@@ -140,7 +140,7 @@ void main() {
     expect(find.text('Recorded state: uncertain'), findsNothing);
   });
   for (final error in [
-    const PostgrestException(message: 'denied', code: '42501'),
+    const CollectApiException(message: 'denied', code: '42501'),
     UnsupportedError('missing service'),
     const FormatException('private fixture'),
   ]) {
