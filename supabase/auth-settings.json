@@ -1,6 +1,6 @@
 {
   "format": "collect.supabase.auth-settings.v1",
-  "status": "partially_applied_not_release_accepted",
+  "status": "managed_auth_configured_qa_observed_production_acceptance_pending",
   "project_ref": "rrlduytparvsjfmegalh",
   "organization_id": "ghnjnepwvwknswrwzepn",
   "plan": "Free",
@@ -15,44 +15,30 @@
     "security_captcha_provider": "turnstile"
   },
   "live_readback": {
-    "method": "Authenticated correct-project dashboard; saved values verified after reload.",
-    "external_email_enabled": true,
-    "mailer_secure_email_change_enabled": true,
-    "totp": "Enabled",
-    "aal1_factor_verification_limit_minutes": 15,
-    "managed_captcha_enabled": true,
-    "application_turnstile_required": true,
-    "managed_captcha_note": "Persisted after authenticated dashboard save and reload using the unchanged sealed secret. GoTrue is the sole verifier; actual deployed-version endpoint behavior remains to be qualified. Pinned source protects OTP initiation but does not CAPTCHA-wrap /verify; verification retains application challenge and rate-limit controls.",
-    "smtp_enabled": false,
+    "observed_at": "2026-10-26T07:51:22.261202+00:00",
+    "method": "Authenticated correct-project official management API GET; no settings changed.",
+    "reference": "docs/implementation/supabase-uat/AUTH_MANAGED_CURRENT_READBACK_20261026.json",
+    "disable_signup": false,
     "external_google_enabled": false,
-    "runtime_custom_secret_count": 18,
-    "runtime_all_digests_match_sealed_source": false,
-    "runtime_receipt": "/Users/jeanbosco/Library/Caches/collect-supabase-auth-provider-20261020/runtime-secrets-readback.json",
-    "runtime_receipt_sha256": "7382826e254e8deb7057960acbb88921bc91071890d063d29d1c684432cce0b3",
-    "managed_captcha_provider": "turnstile",
-    "managed_captcha_receipt": "/Users/jeanbosco/Library/Caches/collect-supabase-auth-provider-20261020/managed-captcha-readback.json",
-    "managed_signup_enabled": false,
+    "security_captcha_enabled": true,
+    "security_captcha_provider": "turnstile",
+    "external_email_enabled": true,
+    "mfa_totp_enroll_enabled": false,
+    "mfa_totp_verify_enabled": true,
+    "mailer_secure_email_change_enabled": true,
+    "mailer_autoconfirm": false,
+    "mailer_allow_unverified_email_sign_ins": false,
+    "mailer_otp_exp": 300,
+    "mailer_otp_length": 6,
+    "jwt_exp": 900,
+    "site_url": "https://admin-supabase-qa.collect.ikanisa.com",
+    "smtp_enabled": true,
+    "managed_signup_enabled": true,
     "application_member_registration_enabled": false,
-    "runtime_digest_comparison": "All 18 current digests match the sealed source with AUTH_MEMBER_REGISTRATION_ENABLED intentionally overridden to false; the other 17 entries are unchanged. The original receipt remains historical evidence of the initial 18-entry import.",
-    "runtime_registration_pause_receipt": "/Users/jeanbosco/Library/Caches/collect-supabase-auth-provider-20261020/registration-pause-readback.json",
-    "managed_captcha_receipt_sha256": "d1c9489b8f932d137cc4973cfdf598b5d6bf84ca5494a90e26b2dc97ac86690a",
-    "runtime_registration_pause_receipt_sha256": "0761260fa6a05ab5cd7baa1b410b67b6e2459a2b425d8ed638e5deab571b9a5b",
-    "managed_captcha_negative_checks": {
-      "receipt": "/Users/jeanbosco/Library/Caches/collect-supabase-implementation-20261020/MANAGED_CAPTCHA_NEGATIVE_READBACK.json",
-      "sha256": "cd6ddaa17786af0ba5c30cf03135db911b4c5f8b22812cc097c384de747bd553",
-      "credential_kind": "publishable API key only",
-      "passed": 4,
-      "cases": [
-        "email OTP missing CAPTCHA",
-        "email OTP invalid CAPTCHA",
-        "password token missing CAPTCHA",
-        "password token invalid CAPTCHA"
-      ],
-      "result": "HTTP 400 captcha_failed in all cases",
-      "fresh_token_tested": false,
-      "email_delivery_claimed": false,
-      "cutover": false
-    }
+    "application_registration_pause_verified": true,
+    "totp": "Enrollment retired; existing-factor verification remains configured. No mandatory authenticator enrollment.",
+    "current_email_delivery_or_actor_journeys_verified": false,
+    "production_acceptance": false
   },
   "frontend_status": "Provisional existing Collect origins. Reconcile site_url, invitation/recovery links and application callback with the qualified Cloudflare frontend hosting and Supabase transport handoff before any provider update or email send.",
   "management_patch": {
@@ -101,11 +87,15 @@
   },
   "email_delivery": {
     "sender": "info@ikanisa.com",
-    "provider": null,
+    "provider": "Managed Auth custom SMTP",
     "production_verified": false,
-    "required_configuration": "Existing authorized custom SMTP or Supabase Send Email Hook. The default project mailer does not satisfy production staff/member delivery.",
+    "required_configuration": "Custom SMTP configuration is observed. Current-version real delivery, approved actor/provider journeys and production release acceptance remain separate requirements.",
     "credential_path": null,
-    "credential_values_in_repository": false
+    "credential_values_in_repository": false,
+    "configured": true,
+    "host": "smtp.gmail.com",
+    "port": "465",
+    "configuration_readback_reference": "docs/implementation/supabase-uat/AUTH_MANAGED_CURRENT_READBACK_20261026.json"
   },
   "google": {
     "enabled": false,
@@ -139,7 +129,7 @@
     "redirect_allowlist_candidate": "https://platform-admin.collect.ikanisa.com/functions/v1/collect-api/v1/auth/google/callback\\?state=*",
     "redirect_allowlist_status": "Prepared only. The query delimiter has one literal glob-escape backslash after JSON decoding. Reconcile the qualified frontend host and verify actual managed matching before applying uri_allow_list.",
     "redirect_allowlist_security_note": "Supabase Auth also admits redirects sharing SITE_URL authority. The allowlist does not replace fixed server callback, state, PKCE, surface and exact opener-origin checks. The collect:// URI is the final app handoff, not managed redirect_to.",
-    "activation_contract": "Configure and enable the managed provider only in the coordinated qualification phase. Keep published client Google flags off until approved member/Admin callback, PKCE, role, cookie and MFA checks pass; then release the client flags separately.",
+    "activation_contract": "Configure and enable the managed provider only in the coordinated qualification phase. Keep published client Google flags off until approved member/Admin callback, PKCE, role, cookie and current-session email-proof checks pass; then release the client flags separately.",
     "branding": {
       "status": "saved_and_reload_verified",
       "app_name": "Collect",
@@ -150,23 +140,24 @@
       "terms_of_service": "https://collect.ikanisa.com/terms/",
       "authorized_domain_added": "ikanisa.com",
       "audience_status": "External / Testing",
-      "client_activation_accepted": false
+      "client_activation_accepted": false,
+      "observation_scope": "Historical Console branding/audience observation; no fresh Console readback is established here. The managed Google provider is currently disabled."
     }
   },
   "application_constraints": {
     "staff_email_preapproved": true,
     "unknown_staff_email": "Contact your super admin",
     "member_token_grants_admin_access": false,
-    "admin_session": "HttpOnly cookie with current staff role and managed MFA",
+    "admin_session": "HttpOnly cookie with current staff role and current-session recent email proof. Mandatory authenticator enrollment is retired.",
     "unknown_delivery": "Keep the current challenge and code entry, show the uncertainty, and require an explicit resend after the server cooldown.",
-    "public_signup_policy": "Managed signups and application member registration are paused for the first import. The migration owner must preserve original identities and explicitly coordinate re-enablement after import qualification."
+    "public_signup_policy": "Managed Auth signups were enabled by the recorded admitted QA operation; application member registration remains disabled. Managed-user creation must not be interpreted as Collect principal admission or Admin authorization. Preserve original identity mapping and the separate application no-registration gate."
   },
   "application_prerequisites": [
-    "Use the working authenticated Collect dashboard for provider configuration; a separate management credential is not required for this path. Available MCP tools do not expose Auth config updates.",
+    "Use the existing verified correct-project management API or authorized dashboard. Reuse approved credentials securely; no new credential capture is required when existing access works.",
     "Read and retain current remote settings, then review the exact diff before applying this partial patch.",
     "Obtain the qualified Cloudflare frontend and same-origin Supabase transport contract; reconcile all frontend URLs and the COLLECT_GOOGLE_CALLBACK_URL function secret with that handoff.",
     "Merge the template owner's final content and subjects using the field mapping above.",
-    "Configure and verify the actual SMTP or Send Email Hook provider and the final callback allowlist.",
+    "Preserve the observed custom SMTP configuration; qualify current actual delivery and final callback allowlist against the admitted destination.",
     "Verify remote settings after the update, then perform the independent Admin/mobile sign-in and invitation tests."
   ],
   "references": [
@@ -179,5 +170,63 @@
     "https://github.com/supabase/auth/blob/ce9a8eee0cc042be8c7a42981a7ddae631e41d91/internal/utilities/request.go",
     "https://github.com/supabase/auth/blob/ce9a8eee0cc042be8c7a42981a7ddae631e41d91/internal/conf/configuration.go",
     "https://github.com/supabase/auth/blob/ce9a8eee0cc042be8c7a42981a7ddae631e41d91/internal/api/api.go#L236-L253"
+  ],
+  "historical_live_readbacks": [
+    {
+      "superseded_by_observation_at": "2026-10-26T07:51:22.261202+00:00",
+      "scope": "Retained initial Auth setup observation; superseded for current managed settings, not removed or relabelled as a current pass.",
+      "value": {
+        "method": "Authenticated correct-project dashboard; saved values verified after reload.",
+        "external_email_enabled": true,
+        "mailer_secure_email_change_enabled": true,
+        "totp": "Enabled",
+        "aal1_factor_verification_limit_minutes": 15,
+        "managed_captcha_enabled": true,
+        "application_turnstile_required": true,
+        "managed_captcha_note": "Persisted after authenticated dashboard save and reload using the unchanged sealed secret. GoTrue is the sole verifier; actual deployed-version endpoint behavior remains to be qualified. Pinned source protects OTP initiation but does not CAPTCHA-wrap /verify; verification retains application challenge and rate-limit controls.",
+        "smtp_enabled": false,
+        "external_google_enabled": false,
+        "runtime_custom_secret_count": 18,
+        "runtime_all_digests_match_sealed_source": false,
+        "runtime_receipt": "/Users/jeanbosco/Library/Caches/collect-supabase-auth-provider-20261020/runtime-secrets-readback.json",
+        "runtime_receipt_sha256": "7382826e254e8deb7057960acbb88921bc91071890d063d29d1c684432cce0b3",
+        "managed_captcha_provider": "turnstile",
+        "managed_captcha_receipt": "/Users/jeanbosco/Library/Caches/collect-supabase-auth-provider-20261020/managed-captcha-readback.json",
+        "managed_signup_enabled": false,
+        "application_member_registration_enabled": false,
+        "runtime_digest_comparison": "All 18 current digests match the sealed source with AUTH_MEMBER_REGISTRATION_ENABLED intentionally overridden to false; the other 17 entries are unchanged. The original receipt remains historical evidence of the initial 18-entry import.",
+        "runtime_registration_pause_receipt": "/Users/jeanbosco/Library/Caches/collect-supabase-auth-provider-20261020/registration-pause-readback.json",
+        "managed_captcha_receipt_sha256": "d1c9489b8f932d137cc4973cfdf598b5d6bf84ca5494a90e26b2dc97ac86690a",
+        "runtime_registration_pause_receipt_sha256": "0761260fa6a05ab5cd7baa1b410b67b6e2459a2b425d8ed638e5deab571b9a5b",
+        "managed_captcha_negative_checks": {
+          "receipt": "/Users/jeanbosco/Library/Caches/collect-supabase-implementation-20261020/MANAGED_CAPTCHA_NEGATIVE_READBACK.json",
+          "sha256": "cd6ddaa17786af0ba5c30cf03135db911b4c5f8b22812cc097c384de747bd553",
+          "credential_kind": "publishable API key only",
+          "passed": 4,
+          "cases": [
+            "email OTP missing CAPTCHA",
+            "email OTP invalid CAPTCHA",
+            "password token missing CAPTCHA",
+            "password token invalid CAPTCHA"
+          ],
+          "result": "HTTP 400 captcha_failed in all cases",
+          "fresh_token_tested": false,
+          "email_delivery_claimed": false,
+          "cutover": false
+        }
+      }
+    }
+  ],
+  "applied_management_fields_scope": "Historical initial management fields. The disable_signup value here predates the admitted managed-signup change; consult live_readback for observed current state. This record is not a patch to reapply.",
+  "management_patch_scope": "Prepared intended production destination/configuration. Current managed site_url is the qualified QA origin in live_readback; do not apply this production destination before controlled cutover admission.",
+  "historical_email_delivery_records": [
+    {
+      "sender": "info@ikanisa.com",
+      "provider": null,
+      "production_verified": false,
+      "required_configuration": "Existing authorized custom SMTP or Supabase Send Email Hook. The default project mailer does not satisfy production staff/member delivery.",
+      "credential_path": null,
+      "credential_values_in_repository": false
+    }
   ]
 }
