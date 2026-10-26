@@ -35,6 +35,70 @@ class CollectCiPolicyTest(unittest.TestCase):
     def test_current_declared_boundary_is_valid(self):
         self.assertEqual(policy.validate_workflows(self.workflows), [])
 
+    def test_original_job_env_runner_temp_placement_is_rejected(self):
+        job = self.workflows['supabase.yml']['jobs']['stopped-admission-lifecycle-native']
+        step = next(step for step in job['steps'] if '--with-member-history' in step.get('run', ''))
+        name = 'COLLECT_MEMBER_HISTORY_OUTPUT_DIR'
+        value = step['env'].pop(name)
+        self.assertEqual(value, '${{ runner.temp }}/collect-current14-member-history')
+        if not step['env']:
+            step.pop('env')
+        job['env'][name] = value
+        self.assertIn({'workflow': 'supabase.yml', 'job': 'stopped-admission-lifecycle-native',
+                       'code': 'CI_JOB_ENV_CONTEXT_UNAVAILABLE'},
+                      policy.validate_workflows(self.workflows))
+
+    def test_job_env_accepts_all_early_contexts(self):
+        job = self.workflows['ci.yml']['jobs']['repo-hygiene']
+        expressions = ['github.workspace', 'needs.prepare.result', 'strategy.job-index',
+                       'matrix.flavor', 'vars.runner', 'secrets.job', 'inputs.manual']
+        job.setdefault('env', {}).update({f'CONTEXT_{i}': '${{ ' + value + ' }}'
+                                         for i, value in enumerate(expressions)})
+        self.assertNotIn('CI_JOB_ENV_CONTEXT_UNAVAILABLE', self.codes())
+
+    def test_step_env_keeps_runner_and_other_late_contexts_available(self):
+        self.checkout()['env'] = {'TEMP': '${{ runner.temp }}', 'VALUE': '${{ env.VALUE }}',
+                                  'STATUS': '${{ job.status }}',
+                                  'OUTPUT': '${{ steps.compile.outputs.path }}'}
+        self.assertNotIn('CI_JOB_ENV_CONTEXT_UNAVAILABLE', self.codes())
+
+    def test_job_env_refuses_late_roots_in_actual_member_forms(self):
+        original = copy.deepcopy(self.workflows)
+        expressions = ['runner.temp', "runner['temp']", "RuNnEr [ 'temp' ]", '(runner).temp',
+                       'env.VALUE', "job['status']", "steps['compile'].outputs['path']",
+                       'jobs.release.outputs.path']
+        for expression in expressions:
+            with self.subTest(expression=expression):
+                self.workflows = copy.deepcopy(original)
+                self.workflows['ci.yml']['jobs']['repo-hygiene'].setdefault('env', {})['PROBE'] = '${{ ' + expression + ' }}'
+                self.assertIn('CI_JOB_ENV_CONTEXT_UNAVAILABLE', self.codes())
+
+    def test_job_env_refuses_nested_and_multiple_expression_late_roots(self):
+        original = copy.deepcopy(self.workflows)
+        values = ["${{ format('{0}', runner.temp) }}", '${{ vars[runner.temp] }}',
+                  "${{ fromJSON(env.CONFIG).value }}",
+                  "${{ 'literal }}' }}-${{ steps.compile.outputs.path }}",
+                  "${{ format('literal }} {0}', job.status) }}",
+                  "${{ format(\n  '{0}',\n  runner['temp']\n) }}"]
+        for value in values:
+            with self.subTest(value=value):
+                self.workflows = copy.deepcopy(original)
+                self.workflows['ci.yml']['jobs']['repo-hygiene'].setdefault('env', {})['PROBE'] = value
+                self.assertIn('CI_JOB_ENV_CONTEXT_UNAVAILABLE', self.codes())
+
+    def test_job_env_ignores_quoted_literals_and_context_named_properties(self):
+        job = self.workflows['ci.yml']['jobs']['repo-hygiene']
+        values = ['runner.temp env.VALUE job.status steps.compile',
+                  "${{ 'runner.temp env.VALUE job.status steps.compile' }}",
+                  "${{ 'It''s runner.temp }} and env.VALUE' }}",
+                  '${{ vars.runner }}', "${{ vars['env'] }}", '${{ vars . steps }}',
+                  "${{ format('{0}', vars.job) }}",
+                  '${{ fromJSON(vars.configuration).runner }}',
+                  "${{ github.event.inputs['steps'] }}"]
+        job.setdefault('env', {}).update({f'VALUE_{i}': value for i, value in enumerate(values)})
+        job['env']['runner'] = 'literal key and value'
+        self.assertNotIn('CI_JOB_ENV_CONTEXT_UNAVAILABLE', self.codes())
+
     def test_missing_and_enabled_persisted_credentials_fail(self):
         for value in [None, True, "false", "${{ inputs.persist }}"]:
             with self.subTest(value=value):

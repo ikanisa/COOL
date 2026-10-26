@@ -112,6 +112,64 @@ def legacy_execution(command, cwd):
             or re.search(r'cloudflare-platform-(?:test|dev|migrate-local)\b|admin_cloudflare_build\.sh|recovery17_ci\.mjs|(?:recovery12|recovery13|recovery15|momo_release_candidate)_test\.mjs|atomic_d1_restore_test\.mjs|operation_inventory\.mjs', command))
 
 
+
+# https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability
+# Job env permits github/needs/strategy/matrix/vars/secrets/inputs. These known
+# contexts are unavailable there; jobs is restricted to reusable-workflow output.
+JOB_ENV_UNAVAILABLE_CONTEXTS = frozenset({'env', 'job', 'jobs', 'runner', 'steps'})
+EXPRESSION_IDENTIFIER = re.compile(r'[A-Za-z_][A-Za-z0-9_-]*')
+
+
+def job_env_unavailable_contexts(value: object) -> set[str]:
+    """Find unavailable root references in interpolated job-env expressions.
+
+    This is a focused lexical check, not a GitHub expression syntax/type parser.
+    Single-quoted literals (with doubled quote escapes) and member names are
+    skipped, while grouped roots, function arguments and dynamic indexes are
+    scanned. A quoted '}}' cannot hide the rest of an expression. Other syntax
+    and context-placement rules still belong to GitHub/actionlint validation.
+    """
+    unavailable: set[str] = set()
+    if not isinstance(value, str):
+        return unavailable
+    position = 0
+    while position < len(value):
+        start = value.find('${{', position)
+        if start < 0:
+            break
+        position, previous = start + 3, None
+        while position < len(value):
+            if value.startswith('}}', position):
+                position += 2
+                break
+            character = value[position]
+            if character.isspace():
+                position += 1
+                continue
+            if character == "'":
+                position += 1
+                while position < len(value):
+                    if value[position] != "'":
+                        position += 1
+                        continue
+                    position += 1
+                    if position < len(value) and value[position] == "'":
+                        position += 1
+                        continue
+                    break
+                previous = 'literal'
+                continue
+            identifier = EXPRESSION_IDENTIFIER.match(value, position)
+            if identifier:
+                name = identifier.group().lower()
+                if previous != '.' and name in JOB_ENV_UNAVAILABLE_CONTEXTS:
+                    unavailable.add(name)
+                position, previous = identifier.end(), 'identifier'
+            else:
+                position, previous = position + 1, character
+    return unavailable
+
+
 def validate_workflows(workflows: dict[str, dict]) -> list[dict[str, str]]:
     findings: list[dict[str, str]] = []
 
@@ -140,6 +198,10 @@ def validate_workflows(workflows: dict[str, dict]) -> list[dict[str, str]]:
             if not isinstance(job, dict):
                 fail(path, "CI_JOB_SHAPE_INVALID", str(job_name))
                 continue
+            job_env = job.get("env", {})
+            env_values = job_env.values() if isinstance(job_env, dict) else (job_env,)
+            if any(job_env_unavailable_contexts(value) for value in env_values):
+                fail(path, "CI_JOB_ENV_CONTEXT_UNAVAILABLE", job_name)
             timeout = job.get("timeout-minutes")
             if type(timeout) is not int or not 1 <= timeout <= 60:
                 fail(path, "CI_JOB_DEADLINE_REQUIRED", job_name)
