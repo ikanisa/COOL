@@ -60,12 +60,15 @@ the empty public schema and the standard plpgsql extension are admitted. This
 connection check is an initial observation; it does not exclude later access by
 another process or establish exclusive control over the host for the full run.
 
-Example invocation from the repository root, with paths and local fixture
-password supplied by the operator:
+Example invocation from the repository root. Supply the local fixture URL
+through `COLLECT_BATCH_CAPACITY_DATABASE_URL` in the invoking environment. It
+must target `127.0.0.1:55441`, role `collect_test`, and database
+`collect_batch_capacity_test`, using the operator-supplied password. The
+command refuses an unset or empty value:
 
 ```sh
 COLLECT_CI_SYNTHETIC=true \
-COLLECT_BATCH_CAPACITY_DATABASE_URL='postgresql://collect_test:LOCAL_FIXTURE_PASSWORD@127.0.0.1:55441/collect_batch_capacity_test' \
+COLLECT_BATCH_CAPACITY_DATABASE_URL="${COLLECT_BATCH_CAPACITY_DATABASE_URL:?Set the admitted local test database URL}" \
 DENO_DIR=/absolute/path/to/prepared-deno-cache \
 /absolute/path/to/deno-2.9.6 run --cached-only --frozen \
   --config supabase/functions/deno.json --lock supabase/functions/deno.lock \
