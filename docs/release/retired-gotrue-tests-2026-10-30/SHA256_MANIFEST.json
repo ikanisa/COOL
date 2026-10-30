@@ -1,0 +1,386 @@
+{
+  "format": "collect.retired-partial-source-archive.v1",
+  "date": "2026-10-30",
+  "source_commit": "f6d0f54f0c2d0033f2f1c45d1d64b99d4ac0d7f6",
+  "source_tree": "fdcdc83b8618f5fa89c26eb135e3ed3cd29e9d59",
+  "original_root": "third_party/gotrue",
+  "archive_root": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue",
+  "classification": "retained partial GoTrue test sources; no package descriptor, lockfile or implementation existed at source_commit",
+  "root_pubspec_sha256": "be5c802769c475d24a9ec30c549059dda4163e9e053d5a4c3af41e7653afcf39",
+  "root_lockfile_sha256": "192c2f830a63b0b06b1a02bb97ce261e7c4832cee9ec16059731cce9edd18d5d",
+  "file_count": 41,
+  "total_bytes": 329073,
+  "archived_tests_executed": false,
+  "archived_tests_pass_claimed": false,
+  "files": [
+    {
+      "original_path": "third_party/gotrue/test/admin_delete_user_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/admin_delete_user_test.dart",
+      "git_blob": "5dcecc651612a1fd8f1748d46311ddd9261f602c",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 1303,
+      "sha256": "f5a4ed8f584790f95ef7c12692c290cc85d4f2b37244067746ddf5f9b6772f2a"
+    },
+    {
+      "original_path": "third_party/gotrue/test/admin_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/admin_test.dart",
+      "git_blob": "c1e2705ad00ea4f0a25f8d15d54ff474939cd0bf",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 6156,
+      "sha256": "7cddf381b480befc05997ea6e9fcc271fe80e1a8a9e629cbe4dc24af3cde06d0"
+    },
+    {
+      "original_path": "third_party/gotrue/test/api_version_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/api_version_test.dart",
+      "git_blob": "80ecb08211c113521efedb284dcd8cedf2bf18a7",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 1431,
+      "sha256": "2641535a3f65830b8408728b89298b66e5879829274dc1312c05e2738ffc35e8"
+    },
+    {
+      "original_path": "third_party/gotrue/test/client_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/client_test.dart",
+      "git_blob": "31301cf293baaac754263f6b1bb8c372d15374b2",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 30040,
+      "sha256": "d858675c849d9e8fa668090573b66c0cc2698fbed8d50d078d044069fd5f7469"
+    },
+    {
+      "original_path": "third_party/gotrue/test/custom_http_client.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/custom_http_client.dart",
+      "git_blob": "e02015b1f1a3fddcdce34e15aeed7a52209846be",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 8123,
+      "sha256": "a7d52e103a98399dc9bdea473c3602609d95afc512e79b12f49cff0e9845ce16"
+    },
+    {
+      "original_path": "third_party/gotrue/test/custom_oauth_provider_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/custom_oauth_provider_test.dart",
+      "git_blob": "0aad4b2b0a982f309ed5065ee7c8178eeaaa9376",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 3375,
+      "sha256": "952deccda2170a40084d33c4aedb5552ae019f2ca13e8b21e588bbf4b31570a6"
+    },
+    {
+      "original_path": "third_party/gotrue/test/custom_providers_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/custom_providers_test.dart",
+      "git_blob": "173f2a13b647244ffb4a87e719f559caae422e85",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 4531,
+      "sha256": "cd23b69794b16b63dd32d013d7c7f7147799cb45685c626e12779c36ddaaf3e6"
+    },
+    {
+      "original_path": "third_party/gotrue/test/fetch_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/fetch_test.dart",
+      "git_blob": "036d63846c45fcef2905215a90d42728c853f335",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 2249,
+      "sha256": "7945b6d0a4c59df85898991d1b9e9a221b149ef8eccecf4be675d2ff7d545a87"
+    },
+    {
+      "original_path": "third_party/gotrue/test/get_claims_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/get_claims_test.dart",
+      "git_blob": "614f2dc171a807ff9d74f6be78b507447a3856f8",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 11848,
+      "sha256": "0592d44387b3c9d1339d36b966c59e65c85c8fb5336e5efff5d46d227a4c9c43"
+    },
+    {
+      "original_path": "third_party/gotrue/test/get_session_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/get_session_test.dart",
+      "git_blob": "b6ba7d6d54f71ba21f37f8d2c95dbaaf6e25228e",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 5050,
+      "sha256": "cba5852863514d256cb125df6e99448c7dafd2929d7abaed00ded42964446fec"
+    },
+    {
+      "original_path": "third_party/gotrue/test/header_isolation_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/header_isolation_test.dart",
+      "git_blob": "bffdf789051ecb650bfad4012636a4dd2650114f",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 2257,
+      "sha256": "33bb4facab8eff9b3e204510639e2bfaa25ee50f4521307d058deff58077314e"
+    },
+    {
+      "original_path": "third_party/gotrue/test/jwk_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/jwk_test.dart",
+      "git_blob": "93c75964f55531218302048dbd971cc0e0986f19",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 1083,
+      "sha256": "8e5a67ac99c62de3057f9df85e262731b767f56f55bec645cf5fa53fab714d73"
+    },
+    {
+      "original_path": "third_party/gotrue/test/mfa_challenge_mock_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/mfa_challenge_mock_test.dart",
+      "git_blob": "ee340051d1a6599101af4787a03211f17c94993d",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 1888,
+      "sha256": "285b13a4606ffbad0b780bbdec57918bf9767d2d75b8989d9f4e2790bc7493dd"
+    },
+    {
+      "original_path": "third_party/gotrue/test/mfa_enroll_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/mfa_enroll_test.dart",
+      "git_blob": "97a16008a89775047f6ac91c11efa2f0dacac387",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 2463,
+      "sha256": "57fe9ef24d60b49c935727e9d3257c6fd8ae5c7352de68b48895cd3e6a37f418"
+    },
+    {
+      "original_path": "third_party/gotrue/test/mocks/otp_mock_client.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/mocks/otp_mock_client.dart",
+      "git_blob": "4af1d3abb4b80dff440418adba8a5f56c3bdd2bc",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 15633,
+      "sha256": "457140e72cf89d46fffc41994dc332b04397a3da75c3940182840f51f488dd98"
+    },
+    {
+      "original_path": "third_party/gotrue/test/mocks/passkey_mock_client.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/mocks/passkey_mock_client.dart",
+      "git_blob": "a0721adc1d81efa62d6c03b95adb39e8c63ed867",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 6846,
+      "sha256": "3f0d3ab223bbb82322bfeb08cf354d67c725a1f38340c806e2adde4979119a31"
+    },
+    {
+      "original_path": "third_party/gotrue/test/mocks/web3_mock_client.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/mocks/web3_mock_client.dart",
+      "git_blob": "af3247688e3c0efaf8a2795c8a8b1777658a67f2",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 3211,
+      "sha256": "293ad09acf8c3fdf0c42bc04283eecba4754e864de26ef6edd4f2ac0a958057e"
+    },
+    {
+      "original_path": "third_party/gotrue/test/otp_mock_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/otp_mock_test.dart",
+      "git_blob": "1b6c722e943c2f8e80ecb280f40997406be1ad45",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 21998,
+      "sha256": "aa29b8280fd8211ec372e949d6f66f9ef9784068d93f9fc3b4a111dccd589487"
+    },
+    {
+      "original_path": "third_party/gotrue/test/passkey_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/passkey_test.dart",
+      "git_blob": "420d7f681fdafddedaa6db9f8491946040757060",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 10953,
+      "sha256": "f85704696aab81f865e703cf578ff1ffa784f359bb794bb904c620246baaec22"
+    },
+    {
+      "original_path": "third_party/gotrue/test/provider_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/provider_test.dart",
+      "git_blob": "6107cc4693c417c66105b442a3fb54658567b2a7",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 6948,
+      "sha256": "dfbbedafcbcc602cf460d49120a2da050ef85a083d46a38c0e4b75688b34d1d2"
+    },
+    {
+      "original_path": "third_party/gotrue/test/refresh_token_race_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/refresh_token_race_test.dart",
+      "git_blob": "8a194b63305c478f6e5c7d7ebc6069bca00ef757",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 21438,
+      "sha256": "f6ebe2f758de527ad1001bbee6820694a08032145e8961ba58cef20f01177d7a"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/broadcast_web_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/broadcast_web_test.dart",
+      "git_blob": "fcbfe3d9a3a6d2af6ac365077f1b70473fbfbdef",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 1541,
+      "sha256": "02db77741d5c13ccfb81ca52888d97670de8e6eeb7394bb5930eaa9a6a417f9e"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/constants_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/constants_test.dart",
+      "git_blob": "1007d44f7e61c86c7d5a3c2a76e5531b29c2c9ec",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 11015,
+      "sha256": "a4e067b3f96ac8895e612b5dc057ea51ef2f813fe1527a707f57defe1e68eebf"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/gotrue_admin_custom_providers_api_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/gotrue_admin_custom_providers_api_test.dart",
+      "git_blob": "ad00d2f9f7a4772ac4542cf030d5e9e2794dc8e6",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 6115,
+      "sha256": "e613195a27ac47eb121226be1eb47d18de50fdc587a766ee7a2810e074022d90"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/gotrue_admin_mfa_api_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/gotrue_admin_mfa_api_test.dart",
+      "git_blob": "5dd2ba75ff323b8c681b64bd533700635017d61d",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 1581,
+      "sha256": "a67afd24be4cde2ac323aee410110c7f77b49bf1bf67f9c5767fba2bb69f655b"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/gotrue_admin_oauth_api_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/gotrue_admin_oauth_api_test.dart",
+      "git_blob": "3029a12f893ff528519ffdcd235d43f7698070b4",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 5969,
+      "sha256": "a63df52f2b98330071baa5c4dcfff6e74d6475304e1a2bcab64ab8b38a0ffa85"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/gotrue_mfa_api_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/gotrue_mfa_api_test.dart",
+      "git_blob": "9c457ccf0d0745a8be01015f20186223c99457d9",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 9824,
+      "sha256": "f8de64ef3e5674f58cec6b116412bf3ce227b1f1be5faeee3ad65f41fac3cf97"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/gotrue_oauth_api_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/gotrue_oauth_api_test.dart",
+      "git_blob": "8ab8135fc9b8e5f281bd64ee9aff8b9e9bccfe91",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 13499,
+      "sha256": "fd6f349392b303e81927639c465c2bff8cabe0ce6bc80eed90ad41891d02ceef"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/helper_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/helper_test.dart",
+      "git_blob": "3f8c864fe971de0bf33152e19d4347b4c7990386",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 10658,
+      "sha256": "f5cdb36c8eeb32d032b21e3f6b592ddab9bae8ac7c66f421507a37aa1044248e"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/set_session_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/set_session_test.dart",
+      "git_blob": "38342cb7834b421364e98b0546ad3c3f16113932",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 8366,
+      "sha256": "1e3089d506fe7a91c1ec6dba6d7956f6af2c82a69994a970fd607f4f859e439b"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/token_refresh_race_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/token_refresh_race_test.dart",
+      "git_blob": "f572aba4d5302978d43d63a069a87fbeed622fba",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 10302,
+      "sha256": "46ab34f86f8bb5ccb3590cbce155f65099036efba3eb64c5eac5e8eabd9a3f45"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/types/auth_exception_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/types/auth_exception_test.dart",
+      "git_blob": "798fd068a607425a769fcaa50eaef6fcd41f0876",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 16254,
+      "sha256": "0381836eafd5a9fdd723d21ec990d421a33c4834ecb76cf0c021a198dbfa9b6d"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/types/mfa_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/types/mfa_test.dart",
+      "git_blob": "4118036f3eae1dc1d7a5233b1127bb4a118fde67",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 1998,
+      "sha256": "35d1de5f9e7d1c973d5d1fcfe74af39846594dc7c02035b480af76b589812481"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/types/passkey_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/types/passkey_test.dart",
+      "git_blob": "1b05c6b3a4ff944264ef4818c546eb3caefaedcb",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 3942,
+      "sha256": "7f6e0d8cce9fa0e1635469c3741abb423b2b9e5360d63a0f47a8945299a7b6b8"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/types/session_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/types/session_test.dart",
+      "git_blob": "d18d0eb53164f0b61c8e5051d80b69e469e859fb",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 16739,
+      "sha256": "98d272b222d87bd3de26808962fa66e21104d49b894e0d46c9e635509b8908d0"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/types/user_attributes_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/types/user_attributes_test.dart",
+      "git_blob": "77932e30ea777c256450a2aa50f5b7128ad5dde2",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 4167,
+      "sha256": "032deb0e5245e7f3e3cd14f2f4d40aa361a9ef471f1741a855d0277d33eee649"
+    },
+    {
+      "original_path": "third_party/gotrue/test/src/types/user_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/types/user_test.dart",
+      "git_blob": "cf1ae63171601ac5361f4105914e8b29b8dc328d",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 26628,
+      "sha256": "0427fbd0f3f4358e7b96dbbcee9645fa84b6bd03cb92dafc4327d506ba69ff73"
+    },
+    {
+      "original_path": "third_party/gotrue/test/synthetic_jwt.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/synthetic_jwt.dart",
+      "git_blob": "e33f778fca77609ddc86e4891c168e8744a0f2e8",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 508,
+      "sha256": "5e7c3c9df7ad01f5beea4ce500c505d80600d2bcad9aafc0a6ccab8d357c82fb"
+    },
+    {
+      "original_path": "third_party/gotrue/test/utils.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/utils.dart",
+      "git_blob": "5dfaac4bb0a67cbe83eac4667aa36625099d3b23",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 3183,
+      "sha256": "81056a4bbb2962d25a140fcee581f142b9fea804a2c517090c26a3ce1b2fa22b"
+    },
+    {
+      "original_path": "third_party/gotrue/test/web3_auth_integration_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/web3_auth_integration_test.dart",
+      "git_blob": "bc56122c51c80fb63f09f43b383023417ebef958",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 3225,
+      "sha256": "08d5fcee2d6c5a4134afad73afeeab128a4f4142e1d053f44f471b536cf37a30"
+    },
+    {
+      "original_path": "third_party/gotrue/test/web3_auth_test.dart",
+      "archive_path": "docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/web3_auth_test.dart",
+      "git_blob": "8ddf7efe4885985d371ab0d32e2e24ba29e86962",
+      "git_mode": "100644",
+      "mode": 420,
+      "bytes": 4735,
+      "sha256": "ebc9a4a422aae085f518ef4fd973db705b625bf508c55f9eeb7a02ff8009fb1d"
+    }
+  ]
+}
