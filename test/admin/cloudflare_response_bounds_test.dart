@@ -126,7 +126,10 @@ void main() {
         reply: (_) async => http.Response.bytes(
           bytes,
           200,
-          headers: {'content-type': 'text/plain'},
+          headers: {
+            'content-type': 'text/plain',
+            'x-collect-evidence-sensitivity': 'ordinary',
+          },
         ),
       );
       const id = '11111111-1111-4111-8111-111111111111';
@@ -135,6 +138,7 @@ void main() {
           id,
           sha256Hex: digest,
           sizeBytes: bytes.length,
+          sourceSensitivity: 'ordinary',
         ),
         evidence,
       );
@@ -143,6 +147,7 @@ void main() {
           id,
           sha256Hex: 'a' * 64,
           sizeBytes: bytes.length,
+          sourceSensitivity: 'ordinary',
         ),
         throwsA(isA<AdminAccountException>()),
       );
@@ -151,6 +156,7 @@ void main() {
           id,
           sha256Hex: digest,
           sizeBytes: bytes.length - 1,
+          sourceSensitivity: 'ordinary',
         ),
         throwsA(isA<AdminAccountException>()),
       );
@@ -166,6 +172,7 @@ void main() {
         '11111111-1111-4111-8111-111111111111',
         sha256Hex: sha256.convert(bytes).toString(),
         sizeBytes: bytes.length,
+        sourceSensitivity: 'ordinary',
       );
       final checked = expectLater(
         pending,
@@ -183,7 +190,10 @@ void main() {
         http.Response.bytes(
           bytes,
           200,
-          headers: {'content-type': 'text/plain'},
+          headers: {
+            'content-type': 'text/plain',
+            'x-collect-evidence-sensitivity': 'ordinary',
+          },
         ),
       );
       await checked;

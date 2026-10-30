@@ -21,6 +21,39 @@ class _SensitiveFailure {
 }
 
 void main() {
+  test(
+    'diagnostic environments normalize shipped build modes to safe enums',
+    () {
+      for (final entry in {
+        'local': 'local',
+        'dev': 'development',
+        'development': 'development',
+        'stage': 'staging',
+        'staging': 'staging',
+        'qualification': 'staging',
+        'cloudflare-preview': 'staging',
+        'prod': 'production',
+        'production': 'production',
+        'supabase-platform': 'production',
+        'cloudflare-platform': 'production',
+        '  SUPABASE-PLATFORM  ': 'production',
+        'Bearer PRIVATE-SESSION': 'unknown',
+        'https://private.example.invalid': 'unknown',
+        '': 'unknown',
+      }.entries) {
+        final events = <String>[];
+        CollectDiagnostics(
+          surface: CollectDiagnosticSurface.member,
+          environmentName: entry.key,
+          sink: events.add,
+        ).record(CollectDiagnosticCode.startupReady);
+        expect(jsonDecode(events.single)['environment'], entry.value);
+        expect(events.single, isNot(contains('PRIVATE')));
+        expect(events.single, isNot(contains('private.example')));
+      }
+    },
+  );
+
   test('diagnostics allowlist, bounded burst and sink failure', () {
     final events = <String>[];
     var elapsed = Duration.zero;

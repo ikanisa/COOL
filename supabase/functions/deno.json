@@ -10,7 +10,14 @@
   },
   "tasks": {
     "check": "deno check --frozen collect-api/index.ts admin-api/index.ts collect-jobs/index.ts",
-    "test": "deno test --frozen --allow-env --allow-net --allow-read _shared/tests/"
+    "test:node": "node ../../scripts/supabase/run_edge_node_tests.mjs",
+    "test:deno": "deno test --frozen --allow-env --allow-net --allow-read _shared/tests/",
+    "test": "deno task test:node && deno task test:deno"
+  },
+  "test": {
+    "exclude": [
+      "_shared/tests/**/*.test.mjs"
+    ]
   },
   "exclude": [
     "**/._*"

@@ -14,6 +14,7 @@ import {dispatchOperation,publicRpcNames} from './operations.js';
 import {recordPlatformHealth,platformHealthComponent} from './observability.js';
 import {drainMomoJobs} from './momo_pipeline.js';
 import {momoGatewayRoute} from './momo_gateway.js';
+import {clientDiagnosticsRoute} from './client_diagnostics.js';
 const PUBLIC_OPERATIONS=new Set(publicRpcNames);
 function cors(request,env) {
  const origin=request.headers.get('Origin');
@@ -53,6 +54,7 @@ export default {
    const match=/^\/v1\/rpc\/([a-z][a-z0-9_]{0,100})$/.exec(url.pathname);
    if(match&&request.method==='POST'&&PUBLIC_OPERATIONS.has(match[1]))return json(await publicRpc(match[1],await readJson(request),env),200,headers);
    const actor=await requireSession(request,env);
+   const diagnostics=await clientDiagnosticsRoute(request,env,actor);if(diagnostics)return observeResponse(withHeaders(diagnostics,headers));
    if(request.method==='GET'&&url.pathname==='/v1/query/notification-events')return json(await notificationEvents(env,actor),200,headers);
    if(request.method==='GET'&&url.pathname==='/v1/sync')return json(await syncEvents(request,env,actor),200,headers);
    const receipt=await receiptRoute(request,env,actor);if(receipt)return observeResponse(withHeaders(receipt,headers));

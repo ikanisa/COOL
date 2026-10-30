@@ -20,6 +20,8 @@ class NativeBuildProvenanceTest < Minitest::Test
     write('scripts/qa/native_artifact_metadata.py', File.binread(helper))
     config = File.expand_path('../qa/native_build_config.py', __dir__)
     write('scripts/qa/native_build_config.py', File.binread(config))
+    diagnostics = File.expand_path('../qa/client_diagnostic_identity.py', __dir__)
+    write('scripts/qa/client_diagnostic_identity.py', File.binread(diagnostics))
     write('pubspec.yaml', "name: synthetic_provenance_fixture\nversion: 1.0.0+1\n")
     write('lib/main.dart', 'synthetic compiled source')
   end
@@ -75,6 +77,17 @@ class NativeBuildProvenanceTest < Minitest::Test
     _, error, status = invoke('begin', 'android')
     refute status.success?
     assert_includes error, 'Required native artifact metadata helper is absent'
+  end
+
+  def test_diagnostic_identity_helper_is_required_and_hash_bound
+    before = fingerprint
+    path = 'scripts/qa/client_diagnostic_identity.py'
+    write(path, File.read(File.join(@root, path)) + "\n# changed identity helper\n")
+    refute_equal before, fingerprint
+    File.unlink(File.join(@root, path))
+    _, error, status = invoke('begin', 'android')
+    refute status.success?
+    assert_includes error, 'Required client diagnostic identity helper is absent'
   end
 
   def test_admin_compilation_source_addition_and_mutation_change_fingerprint

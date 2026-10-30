@@ -262,7 +262,16 @@ begin
     observed = run('python3', File.join(root, 'scripts/qa/native_build_config.py'),
                    'android', '--defines-output', file.path)
     if observed.fetch('status') == 0
-      runtime_profile = JSON.parse(File.read(file.path))
+      Tempfile.create(['collect-play-diagnostic-source-', '.json']) do |manifest|
+        bound = run('python3', File.join(root, 'scripts/qa/client_diagnostic_identity.py'),
+                    'bind', '--surface', 'member', '--defines', file.path,
+                    '--manifest', manifest.path)
+        if bound.fetch('status') == 0
+          runtime_profile = JSON.parse(File.read(file.path))
+        else
+          runtime_profile_error = 'Current client source and public profile binding is required'
+        end
+      end
     else
       runtime_profile_error = 'Validated Supabase public production profile is required'
     end
@@ -281,11 +290,12 @@ runtime_identity_bound = runtime_profile && native_manifest['status'] == 'pass' 
   native_manifest['application_id'] == 'app.cool.mobile' && native_manifest['backend'] == 'supabase' &&
   native_manifest['artifact_version'] == pubspec[/^version:\s*(\S+)/, 1] &&
   native_manifest['public_runtime_config_sha256'] == runtime_profile_sha256 &&
+  native_manifest['diagnostics_source_revision'] == runtime_profile['COLLECT_BUILD_SOURCE_ID'] &&
   native_manifest['supabase_project_url'] == runtime_profile['SUPABASE_URL'] &&
   native_manifest['production_api_url'] == runtime_profile['SUPABASE_API_URL'] &&
   native_manifest.dig('artifacts', 'apk', 'sha256') == actual_apk_sha256 &&
   native_manifest.dig('artifacts', 'aab', 'sha256') == actual_aab_sha256
-required_runtime_keys = %w[SUPABASE_URL SUPABASE_API_URL SUPABASE_PUBLISHABLE_KEY]
+required_runtime_keys = %w[SUPABASE_URL SUPABASE_API_URL SUPABASE_PUBLISHABLE_KEY COLLECT_BUILD_VERSION COLLECT_BUILD_SOURCE_ID]
 apk_runtime_config = !!(runtime_profile && apk['exists'] && !File.symlink?(apk['path']) &&
   required_runtime_keys.all? { |key| archive_entry_includes?(apk['path'], 'lib/arm64-v8a/libapp.so', runtime_profile.fetch(key)) })
 aab_runtime_config = !!(runtime_profile && aab['exists'] && !File.symlink?(aab['path']) &&
@@ -295,7 +305,7 @@ runtime_artifacts_stable = apk['exists'] && aab['exists'] &&
   Digest::SHA256.file(aab['path']).hexdigest == actual_aab_sha256
 checks["production_runtime_config"] = check(
   runtime_identity_bound && apk_runtime_config && aab_runtime_config && runtime_artifacts_stable ? 'pass' : 'fail',
-  'APK and AAB require the reviewed Supabase project, API and public key, bound to the same build profile and artifacts.',
+  'APK and AAB require the reviewed Supabase profile and diagnostic source identity, bound to the same build inputs and artifacts.',
   'public_profile_sha256' => runtime_profile_sha256,
   'profile_error' => runtime_profile_error,
   'build_profile_and_artifacts_bound' => !!runtime_identity_bound,

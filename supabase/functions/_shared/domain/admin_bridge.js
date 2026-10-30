@@ -15,6 +15,8 @@ import {adminSyncEvents} from './admin_sync.js';
 import {adminPrivacyRoute} from './admin_privacy.js';
 import {notificationOperatorRoute} from './notification_operator.js';
 import {notificationOperatorManagementRoute} from './notification_operator_management.js';
+import {adminOversightRead} from './admin_oversight.js';
+import {clientDiagnosticsRoute} from './client_diagnostics.js';
 import {handleAdminAccounts,validateAdminOrigin,adminAccountSession,adminCanonicalActor,adminInternalRequest,accountDatabase} from './admin_accounts.js';
 
 const keys=(data,allowed)=>{if(Object.keys(data).some(k=>!allowed.includes(k)))fail(400,'invalid_request','Request has unsupported fields.');};
@@ -240,6 +242,8 @@ async function operatingRead(request,env,account,parts,url){
 async function bridgeRoute(request,env,ctx){
  validateAdminOrigin(request,env);const url=new URL(request.url),parts=url.pathname.slice('/api/admin/'.length).split('/'),account=await adminAccountSession(request,env),section=parts.shift();
  const base=accountDatabase(env,account);const actor=await adminCanonicalActor(request,base,account);
+ if(section==='oversight')return json(await adminOversightRead(request,base,account,actor,parts,url));
+ if(section==='diagnostics'&&parts.length===0)return clientDiagnosticsRoute(request,base,actor,{account});
  if(section==='momo')return adminMomoRoute(request,base,account,actor,parts,url);
  if(section==='sms')return json(await adminSmsMetadataRead(request,base,account,actor,parts,url));
  if(section==='gateway'&&parts[0]==='receipts')return json(await adminMemberReceiptRead(request,base,account,actor,parts,url));
@@ -285,7 +289,7 @@ async function bridgeRoute(request,env,ctx){
   return json(await genericMutation(request,scoped,account,actor,parts,data,rid,source));
  }
  if(section==='evidence'&&request.method==='GET'&&parts.length===1){
-  const reply=await evidenceRoute(await adminInternalRequest(request,base,account,`/v1/evidence/${uuid(parts[0])}`,'GET'),base,actor);if(!reply)unavailable();
+  const reply=await evidenceRoute(await adminInternalRequest(request,base,account,`/v1/evidence/${uuid(parts[0])}`,'GET'),base,actor,{adminRequest:request,account});if(!reply)unavailable();
   await adminAccountSession(request,env);return reply;
  }
  if(section==='reconciliations'){

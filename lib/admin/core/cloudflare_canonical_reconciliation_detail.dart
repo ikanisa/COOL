@@ -135,19 +135,46 @@ class _DetailState extends ConsumerState<CanonicalReconciliationDetailPage> {
     CanonicalReconciliationDetail detail,
     Map<String, dynamic> row,
   ) async {
+    if (_busy) return;
     final originalApi = _api,
         authority = ref
             .read(cloudflareAdminSessionProvider)
             .asData
             ?.value
-            ?.authorityKey;
+            ?.authorityKey,
+        protectedSource = retainedEvidenceRequiresReview(
+          row['source_sensitivity'],
+        );
+    setState(() {
+      _busy = true;
+      _message = null;
+    });
     try {
+      final reason = protectedSource
+          ? await _reviewRetainedEvidence(context, authority)
+          : null;
+      if (!mounted ||
+          (protectedSource && reason == null) ||
+          !identical(
+            originalApi,
+            ref.read(canonicalReconciliationApiProvider),
+          ) ||
+          ref
+                  .read(cloudflareAdminSessionProvider)
+                  .asData
+                  ?.value
+                  ?.authorityKey !=
+              authority) {
+        return;
+      }
       final text = await ref
           .read(cloudflareAdminSessionProvider.notifier)
           .retainedEvidence(
             row['id'] as String,
             sha256Hex: row['sha256'] as String,
             sizeBytes: row['size_bytes'] as int,
+            sourceSensitivity: row['source_sensitivity'],
+            reviewReason: reason,
           );
       if (!mounted ||
           !identical(
@@ -159,10 +186,16 @@ class _DetailState extends ConsumerState<CanonicalReconciliationDetailPage> {
       await showDialog<void>(
         context: context,
         animationStyle: CollectMotion.animationStyle(context),
-        builder: (context) => _CanonicalEvidenceDialog(text, authority),
+        builder: (context) => _CanonicalEvidenceDialog(
+          text,
+          authority,
+          protectedSource: protectedSource,
+        ),
       );
     } catch (error) {
       if (mounted) setState(() => _message = _safeError(error));
+    } finally {
+      if (mounted) setState(() => _busy = false);
     }
   }
 
@@ -349,8 +382,8 @@ class _DetailState extends ConsumerState<CanonicalReconciliationDetailPage> {
                   if (!_fresh(user)) ...[
                     _Note(
                       user?.usesEmailVerification == true
-                          ? 'Verify your email before recording a proposal, review or reversal.'
-                          : 'Complete a current authenticator check before recording a proposal, review or reversal.',
+                          ? 'Verify your email before revealing SMS-source evidence or recording a proposal, review or reversal.'
+                          : 'Complete a current authenticator check before revealing SMS-source evidence or recording a proposal, review or reversal.',
                     ),
                     Align(
                       alignment: Alignment.centerLeft,

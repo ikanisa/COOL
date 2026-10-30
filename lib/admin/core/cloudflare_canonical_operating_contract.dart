@@ -43,7 +43,12 @@ Map<String, dynamic> parseCanonicalRetainedEvidence(
   String expectedId,
 ) {
   _canonicalEvidence(row, expectedId);
-  return Map.unmodifiable(row);
+  return Map.unmodifiable({
+    ...row,
+    'source_sensitivity': retainedEvidenceSourceSensitivity(
+      row['source_sensitivity'],
+    ),
+  });
 }
 
 const _canonicalOperatingAreas = {
@@ -128,7 +133,7 @@ void _canonicalMembership(
 }
 
 void _canonicalEvidence(Map<String, dynamic> row, String expectedId) {
-  _canonicalKeys(row, const {
+  _canonicalKeys(row, {
     'id',
     'sha256',
     'size_bytes',
@@ -139,6 +144,7 @@ void _canonicalEvidence(Map<String, dynamic> row, String expectedId) {
     'created_at',
     'retained_until',
     'legal_hold',
+    if (row.containsKey('source_sensitivity')) 'source_sensitivity',
   });
   if (row['id'] != expectedId ||
       row['sha256'] is! String ||

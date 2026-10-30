@@ -10,6 +10,7 @@ function fixture({missingFence=false,missingStopped=false}={}){
  const realtime={contract_version:1,schema:{contract:'collect.member.realtime.inventory.v1',metadata_sha256:HASH,partitions_sha256:HASH},class:{status:'observed',count:0,rows:[],scope:'retained_member_topics_only',provider_logs_backups:'blocked',erasure_verified:false}};
  const managed={contract_version:1,schema:{fixture:'synthetic-managed-schema'},classes:{'managed:auth':{status:'observed',count:0,rows:[]},'managed:storage':{status:'observed',count:0,rows:[]}}};
  const DB={prepare(sql){const statement={sql,values:[],bind(...values){this.values=values;return this;},async first(key){const rows=(await this.all()).results;return key?rows[0]?.[key]:rows[0];},async all(){calls.push({sql,values:this.values});if(sql.includes("n.nspname='private'"))return{results:schema};if(sql.startsWith('SELECT private.retention_member_realtime_inventory'))return{results:[{inventory:realtime}]};if(sql.startsWith('SELECT private.retention_managed_inventory'))return{results:[{inventory:managed}]};if(sql.includes('pg_get_functiondef'))return{results:[{sha256:HASH}]};if(/FROM private\.collect_fence_/.test(sql))throw Error('Raw fence row access is forbidden');return{results:[]};}};return statement;}};
+ DB.batch=async statements=>{const results=[];for(const statement of statements)results.push(await statement.all());return results;};
  return{env:{DB},calls};
 }
 

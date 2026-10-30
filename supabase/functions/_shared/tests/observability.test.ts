@@ -47,11 +47,13 @@ fencedTest('custom fenced503 retains exact payload and CORS without inventing re
 
 fencedTest('scheduled503 preserves exact response with valid dispatch ID and explicit null correlation when no ID was submitted',async()=>{
  for(const dispatch of [crypto.randomUUID(),'11111111-1111-7111-8111-111111111111',null]){
-  const c=capture();let cleanup=0,processing=0;
-  const handler=createScheduledHandler(()=>base(),async()=>{cleanup++;throw Error('synthetic private SQL failure');},async()=>{processing++;return{processed:0,results:[],paused:true};},{openWork:fakeOpen,reportHealth:c.report});
+  const c=capture();let cleanup=0,processing=0,diagnostics=0;
+  // This is a pure observer fixture. Model a failed diagnostic cleanup
+  // explicitly instead of connecting its deliberately non-working SQL address.
+  const handler=createScheduledHandler(()=>base(),async()=>{cleanup++;throw Error('synthetic private SQL failure');},async()=>{processing++;return{processed:0,results:[],paused:true};},{openWork:fakeOpen,reportHealth:c.report,cleanupDiagnostics:async()=>{diagnostics++;throw Error('synthetic private diagnostics failure');}});
   const request=new Request('https://backend.example/functions/v1/collect-jobs',{method:'POST',headers:{Authorization:'Bearer synthetic-job-token',...(dispatch?{'Content-Type':'application/json'}:{})},...(dispatch?{body:JSON.stringify({dispatch_id:dispatch})}:{})});
-  const response=await handler(request),body=await response.json();assertEquals(response.status,503);assertEquals(body,{...(dispatch?{dispatch_id:dispatch}:{}),maintenance:{status:'unconfirmed',code:'auth_cleanup_unconfirmed'},processing:{processed:0,results:[],paused:true},realtime:{status:'disabled',scanned:0,attempted:0,failed:0,overflowed:0,delivery_confirmed:false,authoritative_polling:true}});
-  assertEquals(cleanup,1);assertEquals(processing,1);assertEquals(c.rows.length,1);assertEquals(c.rows[0].component,'operations');assertEquals(c.rows[0].request_id,null);assertEquals(c.rows[0].dispatch_id,dispatch);assertEquals(c.rows[0].event,'service_degraded');assertEquals(JSON.stringify(c.rows).includes('synthetic private SQL failure'),false);
+  const response=await handler(request),body=await response.json();assertEquals(response.status,503);assertEquals(body,{...(dispatch?{dispatch_id:dispatch}:{}),maintenance:{status:'unconfirmed',code:'auth_cleanup_unconfirmed'},processing:{processed:0,results:[],paused:true},notifications:{status:'disabled',paused:true,processed:0,results:[],recovered_unknown:0},realtime:{status:'disabled',scanned:0,attempted:0,failed:0,overflowed:0,delivery_confirmed:false,authoritative_polling:true},diagnostics:{status:'unconfirmed'}});
+  assertEquals(cleanup,1);assertEquals(processing,1);assertEquals(diagnostics,1);assertEquals(c.rows.length,1);assertEquals(c.rows[0].component,'operations');assertEquals(c.rows[0].request_id,null);assertEquals(c.rows[0].dispatch_id,dispatch);assertEquals(c.rows[0].event,'service_degraded');assertEquals(JSON.stringify(c.rows).includes('synthetic private SQL failure'),false);assertEquals(JSON.stringify({body,rows:c.rows}).includes('synthetic private diagnostics failure'),false);
  }
 });
 

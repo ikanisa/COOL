@@ -1,5 +1,5 @@
 {
-  "format": "collect.jobs.scheduler.v1",
+  "format": "collect.jobs.scheduler.v3",
   "project_ref": "rrlduytparvsjfmegalh",
   "function_name": "collect-jobs",
   "endpoint": "https://rrlduytparvsjfmegalh.supabase.co/functions/v1/collect-jobs",
@@ -36,5 +36,22 @@
     "readiness_max_age_seconds": 3600,
     "probe_max_age_seconds": 900
   },
-  "qualification": "Prepared only. No extensions, Vault secret, scheduler objects or Cron job have been installed by this artifact. Existing leased outbox remains the sole work queue."
+  "processing": {
+    "mode": "receipt_processing_v1",
+    "contract": "collect.receipt-processing.v1",
+    "enabled_by_default": false,
+    "batch_limit": 1,
+    "max_provider_requests_per_utc_month": 10000,
+    "requires_source_model_and_approval_binding": true
+  },
+  "notifications": {
+    "modes": ["notification_delivery_v1", "receipt_and_push_v1"],
+    "contract": "collect.android-push.v1",
+    "enabled_by_default": false,
+    "batch_limit": 1,
+    "max_delivery_attempts_per_utc_month": 10000,
+    "max_provider_http_requests_per_utc_month": 20000,
+    "requires_source_project_package_start_and_approval_binding": true
+  },
+  "qualification": "Source implementation only. No hosted extension, Vault secret, scheduler object, Cron job or provider has been activated by this artifact. Receipt and Android push lanes retain their own durable queues; the scheduler journal records wake-ups."
 }

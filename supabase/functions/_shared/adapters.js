@@ -8,6 +8,7 @@ import {SupabaseNativeTransport} from './storage/supabase-transport.js';
 import {PostgresStorageJournal} from './storage/postgres-journal.js';
 import {createTransport} from 'npm:nodemailer@10.1.7';
 import {createWorkspaceSmtpEmail} from './workspace-smtp-email.js';
+import {createFcmSender} from './fcm-notifications.js';
 const unavailable=name=>new ApiError(503,name+'_unavailable','The configured service is unavailable.');
 // postgres.js serializes JSONB parameters using their inferred PostgreSQL type.
 // Pre-stringifying here would store a JSON string instead of a JSON object.
@@ -90,6 +91,11 @@ function boundedMomoResponse(env,response){
 }
 export function providerAdapters(env){
  const adapters={};
+ if(env.FCM_SERVICE_ACCOUNT_JSON){
+  try{adapters.FCM=createFcmSender(env,{fetchImpl:(url,options)=>guardedFetch(env,url==='https://oauth2.googleapis.com/token'?'push_oauth':'push',url,options),
+   track:promise=>applicationWork(env).waitUntil(promise),onUncertain:label=>noteUnknownEffect(env,label)});}
+  catch{adapters.FCM=Object.freeze({available:false});}
+ }
  if(env.OPENAI_API_KEY&&env.MOMO_AI_MODEL)adapters.AI={async run(_legacy,options){
   if(env.MOMO_AI_ENABLED!=='true')throw unavailable('ai');
   const reply=await guardedFetch(env,'ai','https://api.openai.com/v1/chat/completions',{method:'POST',redirect:'error',signal:AbortSignal.timeout(45000),headers:{'Content-Type':'application/json',Authorization:'Bearer '+env.OPENAI_API_KEY},body:JSON.stringify({model:env.MOMO_AI_MODEL,messages:options.messages,temperature:0,max_completion_tokens:options.max_tokens,store:false,response_format:{type:'json_schema',json_schema:{name:'collect_momo_extraction',strict:true,schema:options.response_format.json_schema}}})});

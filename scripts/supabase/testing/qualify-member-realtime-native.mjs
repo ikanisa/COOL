@@ -16,6 +16,12 @@ const SQL13_ROLE='supabase/migrations/20261023102707_collect_retire_admin_mfa_en
 const ROOT_SQL13_SHA256='e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834';
 const SQL14_ROLE='supabase/migrations/20261023174000_collect_stopped_admission_lifecycle.sql';
 const ROOT_SQL14_SHA256='db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25';
+// Current on-disk source admission includes both additive candidates. This
+// preparer still applies and qualifies only its explicitly named SQL11 prefix.
+const SQL15_ROLE='supabase/migrations/20261029120000_collect_client_diagnostics.sql';
+const ROOT_SQL15_SHA256='6f7c1e537a3c7d114417cfa79bd7b545bbfd17c69ab1d643c806eeb457c81e3f';
+const SQL16_ROLE='supabase/migrations/20261029130000_collect_notification_delivery.sql';
+const ROOT_SQL16_SHA256='2d5904d5aaae917715c6ff5b996ce5b7395864fc5e225f5aaa67ec7d931a6792';
 const HELPER='scripts/supabase/testing/curated-platform-fixture.mjs';
 const RUNTIME='scripts/supabase/emergency-fence/native-runtime.ts';
 const REALTIME='scripts/supabase/testing/member-realtime-native.mjs';
@@ -32,14 +38,14 @@ export function projectRealtimeFailure(kind,bytes){
 const SOURCE='a'.repeat(64);
 const BASELINE='dfc7a4fafb696f73d207251c9f35cb892528eecd1929552fa575996874adc3e3';
 const EXPECTED=Object.freeze({
- "scripts/supabase/testing/curated-platform-fixture.mjs": "a5675bd5f6673eb9910590bdbeea0a7c72739709adedaf5b7e871143642edb0f",
+ "scripts/supabase/testing/curated-platform-fixture.mjs": "d7414577c68c94937c6fc49734c2a7197ec96db6367ca686e6d6b7844a5e008e",
  "scripts/supabase/testing/member-realtime-fixture-plan.json": "6156561ea1b893b56afcf54d64934ca042dbb3251426ea3d27e532272bf65d6f",
  "scripts/supabase/testing/member-realtime-interface.sql": "074e380664493eea86a56d3f3042460bbb33352bc4f46483fd19d559446b0e1b",
  "scripts/supabase/testing/member-realtime-metadata.sql": "ed97cdf0838100502344d2d54563992df6170c6a64e95843c037aaec4cd703e3",
  "scripts/supabase/testing/member-realtime-native.mjs": "ffdf6b47a062474485d39b4dd06c88ee2be962e6b1b1c51fa932a2d7e87f7809",
- "scripts/supabase/emergency-fence/native-runtime.ts": "0b79c3e5e23cfd612ec5c3b0858cafa222433010f40e2cd9360aa35ce512cd2e",
+ "scripts/supabase/emergency-fence/native-runtime.ts": "94e5d4489f8638e7b2de230d42205c6eb574e95fdeaaaa6778960feeeae883bb",
  "supabase/tests/sql/00_local_auth_fixture.sql": "b935e17f44219f018cf1a864505d1895d71903885ca6c61c039d7ab6596117ea",
- "supabase/functions/deno.json": "2c3962bd2c4fac761d154c43b0b48a55622142e02a2be70237361c02032f43e4",
+ "supabase/functions/deno.json": "a113702f8058ec724e0476eac1bcd523639451b75cc60c15735337a52ec6555d",
  "supabase/functions/deno.lock": "070d1f79d59faebba520e3d14c1b10f4d73a84584eafa8c34f767c013c628b9b",
  "scripts/supabase/package.json": "9e8be4e3558c58379bdde1710125fbdc66b374d4c4638958119d03fc6f7a1b8f",
  "scripts/supabase/package-lock.json": "aeb77c97700bd9a3c67c8ac339a841513d09a33507b30b163a5cf1ce22643599",
@@ -61,7 +67,9 @@ const EXPECTED=Object.freeze({
  [SQL11_ROLE]:ROOT_SQL11_SHA256,
  [SQL12_ROLE]:ROOT_SQL12_SHA256,
  [SQL13_ROLE]:ROOT_SQL13_SHA256,
- [SQL14_ROLE]:ROOT_SQL14_SHA256
+ [SQL14_ROLE]:ROOT_SQL14_SHA256,
+ [SQL15_ROLE]:ROOT_SQL15_SHA256,
+ [SQL16_ROLE]:ROOT_SQL16_SHA256
 });
 export const REVIEWED_INPUT_ROLES=Object.freeze(Object.keys(EXPECTED));
 const MIGRATIONS=REVIEWED_INPUT_ROLES.filter(role=>role.startsWith('supabase/migrations/')).map(role=>role.slice('supabase/migrations/'.length)).sort();
@@ -169,7 +177,7 @@ async function main(){
  async function parity(inputs){
   healthy();
   const names=(await readdir(join(root,'supabase/migrations'))).filter(name=>/^\d{14}_.*\.sql$/.test(name)).sort();
-  need(MIGRATIONS.length===14&&JSON.stringify(names)===JSON.stringify(MIGRATIONS),'EXACT_CURRENT14_MIGRATIONS_REQUIRED');
+  need(MIGRATIONS.length===16&&JSON.stringify(names)===JSON.stringify(MIGRATIONS),'EXACT_CURRENT16_MIGRATIONS_REQUIRED');
   for(const input of inputs){const current=await sourceFile(input.role);need(current.sha256===input.sha256&&current.bytes===input.bytes,'QUALIFIED_SOURCE_CHANGED');}
  }
  async function endClient(client,inputs){

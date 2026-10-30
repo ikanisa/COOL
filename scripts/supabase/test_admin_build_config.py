@@ -182,6 +182,13 @@ class AdminBuildConfigurationTests(unittest.TestCase):
         source = Path(__file__).resolve().parents[1] / "admin_pwa_release_build.sh"
         wrapper = self.root / "scripts/admin_pwa_release_build.sh"
         shutil.copy2(source, wrapper)
+        (self.root / "scripts/qa").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source.parent / "qa/client_diagnostic_identity.py",
+                     self.root / "scripts/qa/client_diagnostic_identity.py")
+        (self.root / "lib").mkdir(exist_ok=True)
+        (self.root / "lib/main_admin_cloudflare.dart").write_text("void main() {}\n")
+        (self.root / "pubspec.yaml").write_text("name: synthetic_admin\nversion: 1.0.8+65\n")
+        (self.root / "pubspec.lock").write_text("packages: {}\n")
         compiler = self.root / "fake-compiler"
         compiler.write_text("#!" + sys.executable + "\n" + r'''import json,os,sys
 from pathlib import Path
@@ -206,6 +213,10 @@ raise SystemExit(61)
         self.assertEqual(record["metadata"]["purpose"], "qualification")
         self.assertIs(record["metadata"]["shipping_candidate"], False)
         self.assertNotIn("source_commit", record["metadata"])
+        self.assertEqual(record["defines"]["COLLECT_BUILD_VERSION"], "1.0.8+65")
+        self.assertRegex(record["defines"]["COLLECT_BUILD_SOURCE_ID"], r"^[a-f0-9]{64}$")
+        self.assertEqual(record["metadata"]["diagnostics_source_revision"],
+                         record["defines"]["COLLECT_BUILD_SOURCE_ID"])
 
         observation.unlink()
         production = "https://platform-admin.collect.ikanisa.com"

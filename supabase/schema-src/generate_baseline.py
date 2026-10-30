@@ -141,6 +141,18 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true', help='Verify generated SQL/source manifest byte equality without writing')
     args = parser.parse_args()
+    # New source contracts use additive migrations, never rewritten historical
+    # baseline bytes. Keep their exact source/chain identity in the same gate.
+    additions = [('client-diagnostics.sql', '20261029120000_collect_client_diagnostics.sql'),
+                 ('notification-delivery.sql', '20261029130000_collect_notification_delivery.sql')]
+    for source_name, migration_name in additions:
+        source = (HERE / source_name).read_text()
+        migration = ROOT / 'supabase/migrations' / migration_name
+        if args.check:
+            if not migration.is_file() or migration.read_text() != source:
+                raise SystemExit('Additive source drift: ' + source_name)
+        else:
+            migration.write_text(source)
     # An additive migration must carry the exact current curated definition;
     # preserving the old generated baseline must not hide source/chain drift.
     storage = (HERE / 'storage.sql').read_text()

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:collect_app/core/notifications/collect_notification_service.dart';
 import 'package:flutter/foundation.dart';
@@ -25,6 +26,108 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUp(() => debugDefaultTargetPlatformOverride = TargetPlatform.linux);
   tearDown(() => debugDefaultTargetPlatformOverride = null);
+
+  test(
+    'server FCM fixture matches the private Android consumer contract',
+    () async {
+      final fixture =
+          jsonDecode(
+                File(
+                  'supabase/functions/_shared/tests/fixtures/android-contribution-push.fixture.json',
+                ).readAsStringSync(),
+              )
+              as Map<String, Object?>;
+      final data = fixture['data']! as Map<String, Object?>;
+      final providerText = fixture['notification']! as Map<String, Object?>;
+      final android = fixture['android']! as Map<String, Object?>;
+      final androidNotification =
+          android['notification']! as Map<String, Object?>;
+      final recipient = data['recipient_id']! as String;
+      final plugin = _NotificationPlugin();
+      final service = CollectNotificationService(
+        plugin: plugin,
+        authenticatedUserId: () => recipient,
+      );
+      addTearDown(service.dispose);
+      final taps = <CollectNotificationIntent>[];
+      final subscription = service.notificationTapPayloads.listen(taps.add);
+      addTearDown(subscription.cancel);
+      await service.synchronizeOwner(recipient);
+      expect(data.keys.toSet(), {
+        'collect_push_version',
+        'collect_event_id',
+        'recipient_id',
+        'deep_link',
+        'type',
+      });
+      await service.handleForegroundPayload({
+        ...data,
+        'title': 'Unexpected private name',
+        'body': 'Unexpected private amount',
+      });
+      service.handleRemoteTap(data);
+      await Future<void>.delayed(Duration.zero);
+      expect(plugin.shown, hasLength(1));
+      expect(plugin.shown.single.title, providerText['title']);
+      expect(plugin.shown.single.body, providerText['body']);
+      expect(
+        plugin.shown.single.details?.android?.channelId,
+        androidNotification['channel_id'],
+      );
+      expect(
+        plugin.shown.single.details?.android?.visibility,
+        NotificationVisibility.private,
+      );
+      expect(androidNotification['visibility'], 'PRIVATE');
+      expect(jsonDecode(plugin.shown.single.payload!), {
+        'collect_push_version': '2',
+        'recipient_id': recipient,
+        'collect_event_id': data['collect_event_id'],
+        'deep_link': '/activity',
+      });
+      expect(taps, hasLength(1));
+      expect(taps.single.recipientId, recipient);
+      expect(taps.single.eventId, data['collect_event_id']);
+      expect(taps.single.deepLink, '/activity');
+    },
+  );
+
+  test(
+    'server FCM fixture cannot cross accounts or use an unbound event key',
+    () async {
+      final fixture =
+          jsonDecode(
+                File(
+                  'supabase/functions/_shared/tests/fixtures/android-contribution-push.fixture.json',
+                ).readAsStringSync(),
+              )
+              as Map<String, Object?>;
+      final data = fixture['data']! as Map<String, Object?>;
+      final recipient = data['recipient_id']! as String;
+      var current = _ownerA;
+      final plugin = _NotificationPlugin();
+      final service = CollectNotificationService(
+        plugin: plugin,
+        authenticatedUserId: () => current,
+      );
+      addTearDown(service.dispose);
+      final taps = <CollectNotificationIntent>[];
+      final subscription = service.notificationTapPayloads.listen(taps.add);
+      addTearDown(subscription.cancel);
+      await service.synchronizeOwner(current);
+      await service.handleForegroundPayload(data);
+      service.handleRemoteTap(data);
+      current = recipient;
+      await service.synchronizeOwner(current);
+      final unbound = {...data, 'event_id': data['collect_event_id']}
+        ..remove('collect_event_id');
+      await service.handleForegroundPayload(unbound);
+      service.handleRemoteTap(unbound);
+      await Future<void>.delayed(Duration.zero);
+      expect(plugin.shown, isEmpty);
+      expect(taps, isEmpty);
+    },
+  );
 
   test(
     'current owner receives only generic text and a bound tap payload',

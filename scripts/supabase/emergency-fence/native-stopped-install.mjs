@@ -69,7 +69,7 @@ async function main(){
    reads.push(text);let query=text;
    if(values.length){assert.equal(values.length,1);assert.match(text,/^SELECT private\.retention_(managed|member_realtime)_inventory\(\?\) AS inventory$/);query=text.replace('(?)','($1)');}
    return{results:(await owner.query(query,values)).rows};
-  },async first(key){const row=(await statement.all()).results[0];return key?row?.[key]:row;}};return statement;}}};
+  },async first(key){const row=(await statement.all()).results[0];return key?row?.[key]:row;}};return statement;},async batch(statements){const results=[];for(const statement of statements)results.push(await statement.all());return results;}}};
   await assert.rejects(()=>privateRetentionCatalogIdentity(env),e=>e.code==='42501'&&e.message==='session_changed');checks++;
   await owner.query('BEGIN');await owner.query('SET LOCAL ROLE collect_runtime');
   await owner.query("SELECT set_config('request.jwt.claims',$1,true),set_config('collect.edge_verified','true',true)",[JSON.stringify(claims)]);

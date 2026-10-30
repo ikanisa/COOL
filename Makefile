@@ -248,6 +248,7 @@ qa-tooling-test:
 	@python3 scripts/tests/test_collect_release_candidate.py
 	@python3 scripts/tests/test_collect_ci_policy.py
 	@python3 scripts/tests/cloudflare_native_build_config_test.py
+	@python3 scripts/tests/client_diagnostic_identity_test.py
 	@python3 scripts/tests/ios_delivery_contract_test.py
 	@python3 scripts/tests/ios_workflow_contract_test.py
 	@python3 scripts/tests/candidate_runner_test.py
@@ -276,6 +277,7 @@ qa-tooling-test:
 	@ruby scripts/tests/mobile_route_artifact_gate_test.rb
 	@ruby scripts/tests/release_go_preflight_test.rb
 	@ruby scripts/tests/release_status_fail_closed_test.rb
+	@ruby scripts/tests/release_worktree_review_gate_test.rb
 
 .PHONY: cover-catalog-test
 cover-catalog-test:
@@ -332,7 +334,7 @@ cloudflare-platform-dev:
 cloudflare-platform-migrate-local:
 	@cd deploy/platform-api && npm run migrate:local
 
-.PHONY: supabase-inventory supabase-test supabase-schema-test supabase-data-test supabase-admin-consumers-test
+.PHONY: supabase-inventory supabase-test supabase-schema-test supabase-data-test supabase-admin-consumers-test supabase-current16-integration-native
 supabase-inventory:
 	@node scripts/supabase/inventory.mjs .
 
@@ -347,9 +349,19 @@ supabase-test:
 	@python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config
 	@node scripts/supabase/test_schema.mjs
 	@node --test scripts/supabase/data_stage.test.mjs
+	@node scripts/tests/payment_evidence_reveal_test.mjs
+	@node scripts/supabase/run_edge_node_tests.test.mjs
+	@node scripts/supabase/testing/curated-platform-fixture.test.mjs
+	@node scripts/supabase/testing/batch-capacity.test.mjs
+	@node --test scripts/supabase/testing/current16-integration.test.mjs
 	@cd supabase/functions && "$${COLLECT_DENO:-deno}" task check
 	@cd supabase/functions && "$${COLLECT_DENO:-deno}" task test
 	@$(MAKE) supabase-admin-consumers-test
+
+# Requires the explicitly owned loopback cluster, pinned native dependencies and
+# fresh output path documented in scripts/supabase/testing/current16-integration.md.
+supabase-current16-integration-native:
+	@node scripts/supabase/testing/current16-integration.mjs
 
 # Current frontend-host and CLI consumers; no legacy business backend is run.
 supabase-admin-consumers-test:

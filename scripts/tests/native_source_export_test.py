@@ -18,7 +18,7 @@ class NativeSourceExportTest(unittest.TestCase):
         self.root = Path(self.temp.name) / "repo"
         self.root.mkdir()
         subprocess.run(["git", "init", "-q"], cwd=self.root, check=True)
-        for name in ["pubspec.yaml", "pubspec.lock", "lib/main.dart", "android/app/build.gradle.kts", "ios/Runner.xcodeproj/project.pbxproj", "scripts/qa/native_artifact_metadata.py", "scripts/qa/native_build_config.py"]:
+        for name in ["pubspec.yaml", "pubspec.lock", "lib/main.dart", "android/app/build.gradle.kts", "ios/Runner.xcodeproj/project.pbxproj", "scripts/qa/native_artifact_metadata.py", "scripts/qa/native_build_config.py", "scripts/qa/client_diagnostic_identity.py"]:
             self.write(name)
 
     def write(self, name, text="synthetic input"):
@@ -36,7 +36,7 @@ class NativeSourceExportTest(unittest.TestCase):
                      "ios/Runner/AuthKey.p8", "third_party/synthetic_fork/test/private.pem", "android/private.key"]:
             self.write(name)
         result = module.export(self.root, Path(self.temp.name) / "output")
-        self.assertEqual(len(result["source_sha256"]), 7)
+        self.assertEqual(len(result["source_sha256"]), 8)
         self.assertFalse(result["private_provider_signing_inputs_copied"])
 
     def test_local_auth_fork_runtime_license_and_original_provenance_are_exported_exactly(self):
@@ -65,7 +65,7 @@ class NativeSourceExportTest(unittest.TestCase):
 
     def test_authority_and_actual_production_build_callers_are_hash_bound(self):
         names = ["AGENTS.md", "scripts/qa/native_build_provenance.rb",
-                 "scripts/qa/native_artifact_metadata.py",
+                 "scripts/qa/native_artifact_metadata.py", "scripts/qa/client_diagnostic_identity.py",
                  "scripts/android_play_store_build.sh", "scripts/android_release_signing_preflight.sh",
                  "scripts/ios_app_store_build.sh", "scripts/qa/native_source_export.py",
                  "scripts/supply_chain/gradle_runtime_inventory.init.gradle"]

@@ -44,6 +44,7 @@ Future<VoidCallback> pump(
   FinancialHarness h,
   Widget page, {
   DateTime? readAt,
+  DateTime Function()? clock,
 }) async {
   tester.view.physicalSize = const Size(1500, 2100);
   tester.view.devicePixelRatio = 1;
@@ -65,7 +66,10 @@ Future<VoidCallback> pump(
         return scope;
       }),
       adminPendingAttemptStorageProvider.overrideWithValue(h.storage),
-      if (readAt != null) adminClockProvider.overrideWithValue(() => readAt),
+      if (clock != null)
+        adminClockProvider.overrideWithValue(clock)
+      else if (readAt != null)
+        adminClockProvider.overrideWithValue(() => readAt),
     ],
   );
   var disposed = false;
@@ -254,14 +258,26 @@ void main() {
           'Exact controlled retained receiver evidence. No provider confirmation claim.';
       final h = await FinancialHarness.create(
         ownsSession: false,
-        reply: (request) async =>
-            request.url.path.contains('/api/admin/evidence/')
-            ? http.Response.bytes(
-                utf8.encode(evidence),
-                200,
-                headers: {'content-type': 'text/plain'},
-              )
-            : FinancialHarness.defaultRead(request),
+        reply: (request) async {
+          if (request.url.path.contains('/api/admin/evidence/')) {
+            return http.Response.bytes(
+              utf8.encode(evidence),
+              200,
+              headers: {
+                'content-type': 'text/plain',
+                'x-collect-evidence-sensitivity': 'ordinary',
+              },
+            );
+          }
+          if (request.url.path.contains('/api/admin/reconciliations/')) {
+            final detail = financialFixture('detail');
+            (detail['related']['evidence']['rows'] as List)
+                    .single['source_sensitivity'] =
+                'ordinary';
+            return financialResponse(detail);
+          }
+          return FinancialHarness.defaultRead(request);
+        },
       );
       final dispose = await pump(
         tester,

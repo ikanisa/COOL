@@ -19,6 +19,13 @@ export const ROOT_SQL13_SHA256='e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b8
 export const MIGRATION_FOURTEEN='20261023174000_collect_stopped_admission_lifecycle.sql';
 export const MIGRATION_FOURTEEN_ROLE='supabase/migrations/'+MIGRATION_FOURTEEN;
 export const ROOT_SQL14_SHA256='db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25';
+// This additive candidate is admitted by exact bytes only. Historical fixture
+// profiles still apply exactly their named prefix; admitting this file on disk
+// does not claim those old receipts qualify the new diagnostics table.
+export const MIGRATION_FIFTEEN='20261029120000_collect_client_diagnostics.sql';
+export const ROOT_SQL15_SHA256='6f7c1e537a3c7d114417cfa79bd7b545bbfd17c69ab1d643c806eeb457c81e3f';
+export const MIGRATION_SIXTEEN='20261029130000_collect_notification_delivery.sql';
+export const ROOT_SQL16_SHA256='2d5904d5aaae917715c6ff5b996ce5b7395864fc5e225f5aaa67ec7d931a6792';
 export const ORIGINAL_NINE=Object.freeze({
  '20261020134444_collect_curated_platform_baseline.sql':'0d943d17ddd92e809856831427cfc81b1264301dabdb867e1c90322d46b5a6f0',
  '20261020135932_collect_runtime_role_and_function_paths.sql':'59e4b13ddc81abeb39fb59b005c71a29f947023502727c118c9eb00b479e08a1',
@@ -35,6 +42,8 @@ export const EXACT_CURRENT11=Object.freeze([...EXACT_TEN,MIGRATION_ELEVEN]);
 export const EXACT_CURRENT12=Object.freeze([...EXACT_CURRENT11,MIGRATION_TWELVE]);
 export const EXACT_CURRENT13=Object.freeze([...EXACT_CURRENT12,MIGRATION_THIRTEEN]);
 export const EXACT_CURRENT14=Object.freeze([...EXACT_CURRENT13,MIGRATION_FOURTEEN]);
+export const EXACT_CURRENT15=Object.freeze([...EXACT_CURRENT14,MIGRATION_FIFTEEN]);
+export const EXACT_CURRENT16=Object.freeze([...EXACT_CURRENT15,MIGRATION_SIXTEEN]);
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const need=(value,code)=>{if(!value)throw Error(code);};
 const hex=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
@@ -72,12 +81,23 @@ export const restrictedPostgresSql="DO $$DECLARE p record;BEGIN SELECT rolcanlog
 async function bytesAt(root,role){const path=resolve(root,role);need(await realpath(path)===path,'FIXED_PHYSICAL_FIXTURE_SOURCE_REQUIRED');return readFile(path);}
 export async function loadOriginalNine(root,{requireTen=true}={}){
  // Historical callers may still pass requireTen:false to consume the nine
- // returned prefixes. Disk admission validates the exact current fourteen-file
- // chain, while consumers may continue applying the reviewed SQL11 prefix.
+ // returned prefixes. Disk admission validates exact14, exact15 or exact16 bytes;
+ // consumers continue applying only their explicitly selected SQL prefix.
  need(typeof requireTen==='boolean','BOOLEAN_LEGACY_LOADER_OPTION_REQUIRED');
  root=root instanceof URL?fileURLToPath(root):root;
  const names=(await readdir(resolve(root,'supabase/migrations'))).filter(name=>/^\d{14}_.*\.sql$/.test(name)).sort();
- need(JSON.stringify(names)===JSON.stringify(EXACT_CURRENT14),'EXACT_REVIEWED_MIGRATION_CHAIN_REQUIRED');
+ need([EXACT_CURRENT14,EXACT_CURRENT15,EXACT_CURRENT16].some(expected=>JSON.stringify(names)===JSON.stringify(expected)),'EXACT_REVIEWED_MIGRATION_CHAIN_REQUIRED');
+ let clientDiagnostics=null,notificationDelivery=null;
+ if(names.length>=15){
+  const bytes=await bytesAt(root,'supabase/migrations/'+MIGRATION_FIFTEEN);
+  need(sha(bytes)===ROOT_SQL15_SHA256,'CANDIDATE_DIAGNOSTICS_MIGRATION_CHANGED');
+  clientDiagnostics={name:MIGRATION_FIFTEEN,bytes,sql:bytes.toString('utf8'),sha256:ROOT_SQL15_SHA256};
+ }
+ if(names.length===16){
+  const bytes=await bytesAt(root,'supabase/migrations/'+MIGRATION_SIXTEEN);
+  need(sha(bytes)===ROOT_SQL16_SHA256,'CANDIDATE_NOTIFICATION_DELIVERY_MIGRATION_CHANGED');
+  notificationDelivery={name:MIGRATION_SIXTEEN,bytes,sql:bytes.toString('utf8'),sha256:ROOT_SQL16_SHA256};
+ }
  need(hex(ROOT_SQL11_SHA256),'ROOT_SQL11_SHA256_REQUIRED');
  need(hex(ROOT_SQL12_SHA256),'ROOT_SQL12_SHA256_REQUIRED');
  need(hex(ROOT_SQL13_SHA256),'ROOT_SQL13_SHA256_REQUIRED');
@@ -91,7 +111,7 @@ export async function loadOriginalNine(root,{requireTen=true}={}){
  need(sha(retirementBytes)===ROOT_SQL13_SHA256,'REVIEWED_MFA_RETIREMENT_MIGRATION_CHANGED');
  const stoppedBytes=await bytesAt(root,MIGRATION_FOURTEEN_ROLE);
  need(sha(stoppedBytes)===ROOT_SQL14_SHA256,'REVIEWED_STOPPED_ADMISSION_MIGRATION_CHANGED');
- return{auth:authBytes.toString('utf8'),authBytes,originals,
+ return{auth:authBytes.toString('utf8'),authBytes,originals,diskNames:names,clientDiagnostics,notificationDelivery,
   successor:{name:MIGRATION_ELEVEN,bytes:successorBytes,sql:successorBytes.toString('utf8'),sha256:ROOT_SQL11_SHA256},
   initialEmailProof:{name:MIGRATION_TWELVE,bytes:proofBytes,sql:proofBytes.toString('utf8'),sha256:ROOT_SQL12_SHA256},
   mfaRetirement:{name:MIGRATION_THIRTEEN,bytes:retirementBytes,sql:retirementBytes.toString('utf8'),sha256:ROOT_SQL13_SHA256},
@@ -115,6 +135,7 @@ export async function loadReviewedPlatformFixture(root,{includeInitialEmailProof
   ...(includeStoppedAdmissionLifecycleMigration?[original.stoppedAdmissionLifecycle]:[])];
  return{
   auth:original.auth,names:includeStoppedAdmissionLifecycleMigration?EXACT_CURRENT14:includeMfaRetirementMigration?EXACT_CURRENT13:includeInitialEmailProofMigration?EXACT_CURRENT12:EXACT_CURRENT11,rawMigrations,binding,successor:original.successor,
+  diskNames:original.diskNames,clientDiagnostics:original.clientDiagnostics,notificationDelivery:original.notificationDelivery,
   initialEmailProof:original.initialEmailProof,includeInitialEmailProofMigration,mfaRetirement:original.mfaRetirement,includeMfaRetirementMigration,
   stoppedAdmissionLifecycle:original.stoppedAdmissionLifecycle,includeStoppedAdmissionLifecycleMigration,
   async parity(){need(sha(await readFile(resolve(here,'member-realtime-fixture-plan.json')))===bindingSourceSha,'REALTIME_FIXTURE_REVIEW_CHANGED');await loadReviewedPlatformFixture(root,{includeInitialEmailProofMigration,includeMfaRetirementMigration,includeStoppedAdmissionLifecycleMigration});},
@@ -125,7 +146,7 @@ export async function loadReviewedPlatformFixture(root,{includeInitialEmailProof
    need(!includeInitialEmailProofMigration||includeSuccessor,'INITIAL_EMAIL_PROOF_REQUIRES_SQL11_SUCCESSOR');
    need(!includeMfaRetirementMigration||includeSuccessor,'MFA_RETIREMENT_REQUIRES_SQL11_SUCCESSOR');
    need(!includeStoppedAdmissionLifecycleMigration||includeSuccessor,'STOPPED_ADMISSION_REQUIRES_SQL11_SUCCESSOR');
-   // All modes have already admitted all14 files. Prefix-only application is
+   // All modes have admitted every exact disk file. Prefix-only application is
    // explicit for genuine initialize/drain/source-upgrade qualification only.
    await execute(fixtureIdentitySql);
    if(includeAuth)await execute(original.auth);

@@ -116,11 +116,17 @@ class CollectNotificationService {
     MethodChannel? nativeChannel,
     String? Function()? authenticatedUserId,
     String? Function()? authenticatedSessionId,
+    Future<FirebaseMessaging> Function()? androidMessagingInitializer,
+    Stream<RemoteMessage>? androidForegroundMessages,
+    Stream<RemoteMessage>? androidTapMessages,
   }) : this._(
          plugin ?? FlutterLocalNotificationsPlugin(),
          nativeChannel ?? const MethodChannel(_nativeChannelName),
          authenticatedUserId,
          authenticatedSessionId,
+         androidMessagingInitializer ?? _createAndroidMessaging,
+         androidForegroundMessages,
+         androidTapMessages,
        );
 
   CollectNotificationService._(
@@ -128,6 +134,9 @@ class CollectNotificationService {
     this._nativeChannel,
     this._authenticatedUserId,
     this._authenticatedSessionId,
+    this._androidMessagingInitializer,
+    this._androidForegroundMessages,
+    this._androidTapMessages,
   );
 
   static const _nativeChannelName = 'app.cool.mobile/notifications';
@@ -148,6 +157,9 @@ class CollectNotificationService {
   final MethodChannel _nativeChannel;
   final String? Function()? _authenticatedUserId;
   final String? Function()? _authenticatedSessionId;
+  final Future<FirebaseMessaging> Function() _androidMessagingInitializer;
+  final Stream<RemoteMessage>? _androidForegroundMessages;
+  final Stream<RemoteMessage>? _androidTapMessages;
   String? _sessionId;
   final ValueNotifier<CollectNotificationStatus> registrationStatus =
       ValueNotifier(CollectNotificationStatus.notRequested);
@@ -174,6 +186,8 @@ class CollectNotificationService {
   Future<void> _notificationWork = Future<void>.value();
   final _tapPayloads = StreamController<CollectNotificationIntent>.broadcast();
   Future<void>? _initializing;
+  bool _initialized = false;
+  bool _localInitialized = false;
   Completer<String?>? _remoteTokenWaiter;
   CollectRepository? _registrationRepository;
   String? _remoteToken;
@@ -242,58 +256,73 @@ class CollectNotificationService {
   }
 
   Future<void> initialize() {
-    if (_disposed) return Future<void>.value();
-    return _initializing ??= _initialize();
+    if (kIsWeb || _disposed || _initialized) return Future<void>.value();
+    // Share only the current attempt. A transient native/Firebase failure must
+    // remain retryable by the next caller in this process.
+    return _initializing ??= _initialize().whenComplete(() {
+      _initializing = null;
+    });
   }
 
   Future<void> _initialize() async {
     if (kIsWeb || _disposed) return;
     try {
-      const android = AndroidInitializationSettings(
-        '@drawable/ic_collect_notification',
-      );
-      const ios = DarwinInitializationSettings(
-        requestAlertPermission: false,
-        requestBadgePermission: false,
-        requestSoundPermission: false,
-      );
-      const settings = InitializationSettings(android: android, iOS: ios);
-      await _plugin.initialize(
-        settings: settings,
-        onDidReceiveNotificationResponse: (response) {
-          _emitTapPayload(response.payload);
-        },
-      );
-      if (_disposed) return;
-      final launchDetails = await _plugin.getNotificationAppLaunchDetails();
-      if (launchDetails?.didNotificationLaunchApp ?? false) {
-        _emitTapPayload(launchDetails?.notificationResponse?.payload);
-      }
-      final androidPlugin = _plugin
-          .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin
-          >();
-      for (final channel in _androidChannels) {
-        await androidPlugin?.createNotificationChannel(channel);
+      if (!_localInitialized) {
+        const android = AndroidInitializationSettings(
+          '@drawable/ic_collect_notification',
+        );
+        const ios = DarwinInitializationSettings(
+          requestAlertPermission: false,
+          requestBadgePermission: false,
+          requestSoundPermission: false,
+        );
+        const settings = InitializationSettings(android: android, iOS: ios);
+        final initialized = await _plugin.initialize(
+          settings: settings,
+          onDidReceiveNotificationResponse: (response) {
+            _emitTapPayload(response.payload);
+          },
+        );
+        if (_disposed) return;
+        // iOS returns false when initial permission prompts are disabled.
+        // Permission is checked separately when registering the device.
+        if (defaultTargetPlatform == TargetPlatform.android &&
+            initialized != true) {
+          return;
+        }
+        final launchDetails = await _plugin.getNotificationAppLaunchDetails();
+        if (_disposed) return;
+        final androidPlugin = _plugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >();
+        for (final channel in _androidChannels) {
+          await androidPlugin?.createNotificationChannel(channel);
+          if (_disposed) return;
+        }
+        // Keep local delivery working when remote setup fails, without
+        // reinstalling its callback or replaying the launch tap on a retry.
+        _localInitialized = true;
+        if (launchDetails?.didNotificationLaunchApp ?? false) {
+          _emitTapPayload(launchDetails?.notificationResponse?.payload);
+        }
       }
       if (defaultTargetPlatform == TargetPlatform.android) {
         await _initializeAndroidRemoteMessaging();
       }
+      if (_disposed) return;
       if (defaultTargetPlatform == TargetPlatform.iOS) {
         _nativeChannel.setMethodCallHandler(_handleNativeMethod);
-        try {
-          final initial = await _nativeChannel.invokeMethod<Object?>(
-            'getInitialNotification',
-          );
-          _emitNativeIntent(initial);
-        } on PlatformException {
-          // Remote notifications remain unavailable until native setup exists.
-        } on MissingPluginException {
-          // Widget tests and non-iOS builds do not expose the native channel.
-        }
+        final initial = await _nativeChannel.invokeMethod<Object?>(
+          'getInitialNotification',
+        );
+        if (_disposed) return;
+        _emitNativeIntent(initial);
       }
+      _initialized = true;
     } catch (_) {
-      // Widget tests and unsupported platforms do not register native plugins.
+      // Local delivery and permission UX remain usable if remote setup fails.
+      // Leave initialization incomplete so a later request can retry it.
     }
   }
 
@@ -324,38 +353,45 @@ class CollectNotificationService {
     ),
   ];
 
+  static Future<FirebaseMessaging> _createAndroidMessaging() async {
+    await Firebase.initializeApp();
+    return FirebaseMessaging.instance;
+  }
+
   Future<void> _initializeAndroidRemoteMessaging() async {
-    try {
-      await Firebase.initializeApp();
+    var messaging = _androidMessaging;
+    if (messaging == null) {
+      messaging = await _androidMessagingInitializer();
       if (_disposed) return;
-      final messaging = FirebaseMessaging.instance;
       _androidMessaging = messaging;
-      _androidForegroundSubscription ??= FirebaseMessaging.onMessage.listen(
-        _handleAndroidForegroundMessage,
-      );
-      _androidTapSubscription ??= FirebaseMessaging.onMessageOpenedApp.listen(
-        _emitRemoteMessageIntent,
-      );
-      _androidTokenSubscription ??= messaging.onTokenRefresh.listen((token) {
-        _remoteToken = token;
-        final repository = _registrationRepository;
-        if (repository != null) {
-          unawaited(
-            _registerRemoteToken(
-              repository,
-              token,
-              platform: 'android',
-              provider: 'fcm',
-              environment: 'production',
-            ),
-          );
-        }
-      });
-      final initial = await messaging.getInitialMessage();
-      if (initial != null) _emitRemoteMessageIntent(initial);
-    } catch (_) {
-      // Non-Firebase flavors retain local notifications and permission UX.
     }
+    _androidForegroundSubscription ??=
+        (_androidForegroundMessages ?? FirebaseMessaging.onMessage).listen(
+          _handleAndroidForegroundMessage,
+        );
+    _androidTapSubscription ??=
+        (_androidTapMessages ?? FirebaseMessaging.onMessageOpenedApp).listen(
+          _emitRemoteMessageIntent,
+        );
+    _androidTokenSubscription ??= messaging.onTokenRefresh.listen((token) {
+      if (_disposed) return;
+      _remoteToken = token;
+      final repository = _registrationRepository;
+      if (repository != null) {
+        unawaited(
+          _registerRemoteToken(
+            repository,
+            token,
+            platform: 'android',
+            provider: 'fcm',
+            environment: 'production',
+          ),
+        );
+      }
+    });
+    final initial = await messaging.getInitialMessage();
+    if (_disposed) return;
+    if (initial != null) _emitRemoteMessageIntent(initial);
   }
 
   Future<bool> requestPermission() async {

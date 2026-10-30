@@ -85,7 +85,7 @@ fencedTest('API keys cannot be interpreted as verified user tokens',async()=>{
 fencedTest('credentialed CORS is exact and preflight exposes required client headers only',async()=>{
  const handler=createHandler('admin-api',()=>({ADMIN_ORIGIN:'https://admin.example'}));
  const response=await handler(new Request('https://backend.example/functions/v1/admin-api/api/admin/auth/session',{method:'OPTIONS',headers:{Origin:'https://admin.example'}}));
- assertEquals(response.status,204);assertEquals(response.headers.get('Access-Control-Allow-Headers')?.includes('X-Collect-Admin'),true);assertEquals(response.headers.get('Access-Control-Allow-Origin'),'https://admin.example');assertEquals(response.headers.get('Access-Control-Allow-Credentials'),'true');
+ assertEquals(response.status,204);assertEquals(response.headers.get('Access-Control-Allow-Headers')?.includes('X-Collect-Admin'),true);assertEquals(response.headers.get('Access-Control-Allow-Origin'),'https://admin.example');assertEquals(response.headers.get('Access-Control-Allow-Credentials'),'true');assertEquals(response.headers.get('Access-Control-Expose-Headers'),'X-Collect-Evidence-Sensitivity');
  const denied=await handler(new Request('https://backend.example/functions/v1/admin-api/api/admin/auth/session',{method:'OPTIONS',headers:{Origin:'https://evil.example'}}));assertEquals(denied.status,403);
 });
 
