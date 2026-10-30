@@ -30,10 +30,14 @@ class CollectDiagnostics {
   }) : environment = switch (environmentName.trim().toLowerCase()) {
          'local' => 'local',
          'dev' || 'development' => 'development',
-         'stage' || 'staging' || 'qualification' || 'cloudflare-preview' =>
-           'staging',
-         'prod' || 'production' || 'supabase-platform' || 'cloudflare-platform' =>
-           'production',
+         'stage' ||
+         'staging' ||
+         'qualification' ||
+         'cloudflare-preview' => 'staging',
+         'prod' ||
+         'production' ||
+         'supabase-platform' ||
+         'cloudflare-platform' => 'production',
          _ => 'unknown',
        },
        build =

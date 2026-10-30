@@ -262,7 +262,10 @@ void main() {
       contains('expected_apk_restricted = ["android.permission.RECEIVE_SMS"]'),
     );
     expect(playUpload, contains('google_play_sms_permission_scope_mismatch'));
-    expect(playUpload, contains('google_play_sms_declaration_invalid_for_phase'));
+    expect(
+      playUpload,
+      contains('google_play_sms_declaration_invalid_for_phase'),
+    );
     expect(
       ((playPacket['app_content'] as Map<String, dynamic>)['permissions']
           as Map<String, dynamic>)['sms_permissions_declaration_status'],
