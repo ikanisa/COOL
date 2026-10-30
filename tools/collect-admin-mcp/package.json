@@ -4,13 +4,17 @@
   "private": true,
   "type": "module",
   "description": "Read-only local MCP adapter for Collect's origin-bound privileged Admin API",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "node src/server.mjs",
     "desktop:start": "node src/direct-desktop/server.mjs",
     "desktop:test": "node --test --test-concurrency=1 test/direct-desktop-*.test.mjs",
     "login": "node src/login.mjs",
     "test": "node --test --test-concurrency=1 test/*.test.mjs",
-    "check": "node --check src/config.mjs && node --check src/api.mjs && node --check src/tools.mjs && node --check src/server.mjs && node --check src/login.mjs && node --check src/stdio.mjs && node --check src/direct-desktop/contract.mjs && node --check src/direct-desktop/journal.mjs && node --check src/direct-desktop/core.mjs && node --check src/direct-desktop/runtime.mjs && node --check src/direct-desktop/tools.mjs && node --check src/direct-desktop/server.mjs"
+    "check": "node --check src/config.mjs && node --check src/api.mjs && node --check src/tools.mjs && node --check src/server.mjs && node --check src/login.mjs && node --check src/stdio.mjs && node --check src/direct-desktop/contract.mjs && node --check src/direct-desktop/journal.mjs && node --check src/direct-desktop/core.mjs && node --check src/direct-desktop/runtime.mjs && node --check src/direct-desktop/tools.mjs && node --check src/direct-desktop/server.mjs && node --check src/oversight.mjs && node --check src/retention_contract.mjs && node --check src/retention_api.mjs && node --check src/retention_journal.mjs && node --check src/retention_operator.mjs && node --check src/retention_cli.mjs && node --check src/verify_email.mjs",
+    "retention": "node src/retention_cli.mjs",
+    "verify-email": "node src/verify_email.mjs"
   }
 }

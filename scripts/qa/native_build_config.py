@@ -94,6 +94,11 @@ def configuration(env, platform, pubspec=None):
               "ENABLE_ANDROID_SMS_ACCESS": "true" if platform == "android" else "false"}
     if platform == "ios":
         values["APNS_ENVIRONMENT"] = "production"
+    if "COLLECT_BUILD_SOURCE_ID" in env:
+        source = env["COLLECT_BUILD_SOURCE_ID"]
+        if not isinstance(source, str) or not re.fullmatch(r"[a-f0-9]{64}", source):
+            raise ValueError("Diagnostic source identity must be the exact client source fingerprint")
+        values["COLLECT_BUILD_SOURCE_ID"] = source
     return values
 
 

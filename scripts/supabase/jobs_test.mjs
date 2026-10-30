@@ -1,4 +1,4 @@
-import {loadReviewedPlatformFixture,ORIGINAL_NINE} from './testing/curated-platform-fixture.mjs';
+import {loadReviewedPlatformFixture,ORIGINAL_NINE,EXACT_CURRENT11} from './testing/curated-platform-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
@@ -6,11 +6,19 @@ import {readFile,readdir,mkdtemp,writeFile,chmod,symlink,rm,realpath} from 'node
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 import {randomUUID,createHash} from 'node:crypto';
-import {loadConfig,renderSql,validateConfig,validateReadiness,readReadiness,validateConnection} from './jobs_config.mjs';
+import {loadConfig,renderSql,validateConfig,validateReadiness,readReadiness,validateConnection,previousScheduler} from './jobs_config.mjs';
 import {operate} from './jobs_operator.mjs';
 const readiness=()=>({format:'collect.jobs.readiness.v1',project_ref:'rrlduytparvsjfmegalh',endpoint:'https://rrlduytparvsjfmegalh.supabase.co/functions/v1/collect-jobs',deployment_sha256:'1'.repeat(64),runtime_evidence_sha256:'2'.repeat(64),token_custody_evidence_sha256:'3'.repeat(64),copy_inventory_evidence_sha256:'4'.repeat(64),quota_evidence_sha256:'5'.repeat(64),verified_at:new Date().toISOString(),momo_processing_paused:true,remaining_invocations:10000});
 const withDigest=()=>({...readiness(),evidence_file_sha256:'6'.repeat(64)});
 const validReply={maintenance:{status:'complete',examined_limit:100,purged:2,provider_calls:0},processing:{processed:0,results:[],paused:true}};
+const processingAdmission=()=>({contract:'collect.receipt-processing.v1',source_sha256:'a'.repeat(64),approval_sha256:'b'.repeat(64),model_id:'synthetic-reviewed-model',batch_limit:1});
+const processingReadiness=()=>({...readiness(),format:'collect.jobs.readiness.v2',mode:'receipt_processing_v1',momo_processing_paused:false,processing_admission:processingAdmission(),provider_evidence_sha256:'c'.repeat(64),remaining_provider_requests:10000});
+const processingReply=(admission=processingAdmission(),state='completed')=>({maintenance:validReply.maintenance,processing_admission:admission,processing:{status:'complete',processed:1,results:[{state}],paused:false}});
+const notificationAdmission=()=>({contract:'collect.android-push.v1',source_sha256:'a'.repeat(64),approval_sha256:'c'.repeat(64),project_id:'synthetic-collect',android_package:'app.cool.mobile',admitted_from:1793232000,batch_limit:1});
+const notificationReadiness=(combined=false)=>({...readiness(),format:'collect.jobs.readiness.v3',mode:combined?'receipt_and_push_v1':'notification_delivery_v1',momo_processing_paused:!combined,
+ notification_admission:notificationAdmission(),notification_provider_evidence_sha256:'d'.repeat(64),remaining_notification_attempts:10000,remaining_notification_provider_requests:20000,
+ ...(combined?{processing_admission:processingAdmission(),provider_evidence_sha256:'c'.repeat(64),remaining_provider_requests:10000}:{})});
+const notificationReply=(state='accepted',combined=false)=>({...validReply,...(combined?processingReply():{}),notification_admission:notificationAdmission(),notifications:{status:'complete',paused:false,processed:1,results:[{state}],recovered_unknown:0}});
 
 test('scheduler renderer pins endpoint, transport, cadence, bounds and inactive installation',async()=>{
  const c=await loadConfig(),rendered=await renderSql(c);assert(rendered.sql.includes('vault.decrypted_secrets'));assert(rendered.sql.includes('active:=false'));assert(!rendered.sql.includes('CREATE EXTENSION'));assert(!rendered.sql.includes('vault.create_secret'));
@@ -20,6 +28,36 @@ test('scheduler renderer pins endpoint, transport, cadence, bounds and inactive 
 test('readiness accepts only a fresh owned 0600 evidence file without token fields',async()=>{
  const dir=await realpath(await mkdtemp(join(tmpdir(),'collect-jobs-evidence-'))),file=join(dir,'readiness.json');
  try{await writeFile(file,JSON.stringify(readiness()),{mode:0o600});assert.equal((await readReadiness(file)).momo_processing_paused,true);await chmod(file,0o604);await assert.rejects(()=>readReadiness(file));await chmod(file,0o600);const link=join(dir,'linked.json');await symlink(file,link);await assert.rejects(()=>readReadiness(link));assert.throws(()=>validateReadiness({...readiness(),token:'forbidden'}));assert.throws(()=>validateReadiness({...readiness(),verified_at:new Date(Date.now()-3601000).toISOString()}));assert.throws(()=>validateReadiness({...readiness(),momo_processing_paused:false}));}finally{await rm(dir,{recursive:true});}
+});
+test('processing readiness binds exact source/model/approval and independent bounded quota evidence',()=>{
+ const ready=processingReadiness();assert.equal(validateReadiness(ready).mode,'receipt_processing_v1');
+ for(const patch of [{momo_processing_paused:true},{remaining_provider_requests:9999},{remaining_provider_requests:'10000'},
+  {mode:'maintenance_only'},{provider_evidence_sha256:''},{format:'collect.jobs.readiness.v1'},
+  {processing_admission:{...ready.processing_admission,batch_limit:2}},
+  {processing_admission:{...ready.processing_admission,source_sha256:'wrong'}},
+  {processing_admission:{...ready.processing_admission,model_id:'unsafe\nmodel'}},
+  {processing_admission:{...ready.processing_admission,credential:'not permitted'}}])assert.throws(()=>validateReadiness({...ready,...patch}));
+});
+test('notification and combined readiness require exact independent project/package/source/start and quota approvals',()=>{
+ for(const combined of [false,true])assert.equal(validateReadiness(notificationReadiness(combined)).mode,combined?'receipt_and_push_v1':'notification_delivery_v1');
+ const ready=notificationReadiness();
+ for(const patch of [{momo_processing_paused:false},{remaining_notification_attempts:9999},{remaining_notification_provider_requests:19999},
+  {remaining_notification_provider_requests:'20000'},{mode:'receipt_processing_v1'},{notification_provider_evidence_sha256:null},
+  {notification_admission:{...ready.notification_admission,batch_limit:2}},{notification_admission:{...ready.notification_admission,admitted_from:'1793232000'}},
+  {notification_admission:{...ready.notification_admission,android_package:'app.cool.mobile.gateway'}},{notification_admission:{...ready.notification_admission,private_key:'never accept credentials'}}])assert.throws(()=>validateReadiness({...ready,...patch}));
+ const combined=notificationReadiness(true);delete combined.processing_admission;assert.throws(()=>validateReadiness(combined));
+});
+test('inactive upgrade is exact-predecessor only, retains the journal and preserves all six write guards',async()=>{
+ const rendered=await renderSql(),previous=await readFile(new URL('./testing/jobs-predecessor.sql',import.meta.url),'utf8');
+ assert.equal(sha(previous),previousScheduler.templateSha,'Unmodified predecessor bootstrap is the upgrade fixture');
+ assert.equal((rendered.upgradeSql.match(/CREATE OR REPLACE FUNCTION collect_ops\./g)??[]).length,9);
+ assert(rendered.upgradeSql.includes(previousScheduler.configSha));assert(rendered.upgradeSql.includes(previousScheduler.templateSha));
+ assert(rendered.upgradeSql.includes("state IN('awaiting','unconfirmed')"));assert(rendered.upgradeSql.includes('AND NOT c.enabled AND NOT j.active'));
+ assert(!/DROP (?:SCHEMA|TABLE)|TRUNCATE|DELETE FROM collect_ops\.jobs_dispatches/i.test(rendered.upgradeSql.split('CREATE OR REPLACE FUNCTION')[0]));
+ for(const name of ['record_jobs_readiness','reconcile_jobs','dispatch_jobs','activate_jobs','review_unknown_jobs','tick_jobs']){
+  const body=rendered.sql.split('CREATE FUNCTION collect_ops.'+name+'(')[1]?.split('END$$;')[0];
+  assert.match(body??'',/BEGIN\s*-- collect_fence_sql2_write_guard_v1\s*PERFORM private\.collect_fence_assert_write\(NULL,NULL,NULL\);/);
+ }
 });
 test('local fixture port exception is explicit, literal-loopback and exact-user/name only',()=>{
  const previous=process.env.COLLECT_CI_SYNTHETIC;
@@ -51,17 +89,17 @@ const curatedMigrationPins={
 };
 async function curatedFixture(root){
  assert.deepEqual(curatedMigrationPins,ORIGINAL_NINE,'All nine predecessor migration pins remain exact');
- return loadReviewedPlatformFixture(root);
+ const fixture=await loadReviewedPlatformFixture(root);assert.deepEqual(fixture.names,EXACT_CURRENT11,'Scheduler qualifier deliberately applies the reviewed SQL11 prefix');return fixture;
 }
 const url=process.env.COLLECT_JOBS_TEST_DATABASE_URL;
 test('scheduler control plane on real PostgreSQL, with explicit Cron/net/Vault interface doubles', {skip:!url},async t=>{
  validateConnection(url,{localTest:true});const full=await curatedFixture(root),rendered=await renderSql(),r=withDigest();
- assert.equal(rendered.templateSha,'590273dc8710e32c46933d03a9f9e7fcce8ebb0269328f51ef97d82e614d6cd4','Reviewed six first-BEGIN scheduler guards required');
+ assert.equal(rendered.templateSha,'85c9128bf7f4f4d91eafe24710e8ae91f9a621fc817eb8443561b06c83d1f2f0','Reviewed six first-BEGIN scheduler guards and receipt/push contracts required');
  const require=createRequire(import.meta.url),{Client}=require(process.env.COLLECT_PG_MODULE??'pg');
  const adminUrl=new URL(url);adminUrl.pathname='/postgres';const admin=new Client({connectionString:adminUrl.href});await admin.connect();try{if(!(await admin.query("SELECT 1 FROM pg_database WHERE datname='collect_jobs_test'")).rowCount)await admin.query('CREATE DATABASE collect_jobs_test');}finally{await admin.end();}
  const db=new Client({connectionString:url});await db.connect();
  const value=async(sql,args=[])=>(await db.query(sql,args)).rows[0];
- const probe=async(id=randomUUID())=>{await db.query('SELECT collect_ops.record_jobs_readiness($1::jsonb)',[r]);return (await value("SELECT collect_ops.dispatch_jobs('probe',$1::uuid) AS v",[id])).v;};
+ const probe=async(id=randomUUID(),reviewed=r)=>{await db.query('SELECT collect_ops.record_jobs_readiness($1::jsonb)',[reviewed]);return (await value("SELECT collect_ops.dispatch_jobs('probe',$1::uuid) AS v",[id])).v;};
  const reply=async(id,payload=validReply,status=200)=>{payload={dispatch_id:id,...payload};await db.query('INSERT INTO net._http_response(id,status_code,content) SELECT net_request_id,$2,$3 FROM collect_ops.jobs_dispatches WHERE id=$1',[id,status,JSON.stringify(payload)]);await db.query('DELETE FROM net.http_request_queue WHERE id=(SELECT net_request_id FROM collect_ops.jobs_dispatches WHERE id=$1)',[id]);return value('SELECT collect_ops.reconcile_jobs() AS v');};
  const review=async(id)=>{await db.query("UPDATE collect_ops.jobs_dispatches SET created_at=clock_timestamp()-interval '6 minutes' WHERE id=$1",[id]);await db.query('SELECT collect_ops.review_unknown_jobs($1,$2)',[id,'7'.repeat(64)]);};
  try{
@@ -73,7 +111,27 @@ test('scheduler control plane on real PostgreSQL, with explicit Cron/net/Vault i
   const fence=(await value('SELECT private.collect_fence_initialize($1,$2,$3) AS value',[randomUUID(),fixtureSource,fixtureBaseline])).value;
   assert.equal(fence.mode,'open');assert.equal(fence.sourceSha256,fixtureSource);assert.equal(fence.resourceLimits.capacityBlocked,false);
   const scope=await value("SELECT (SELECT count(*)::integer FROM pg_catalog.pg_tables WHERE schemaname='app') AS app,(SELECT count(*)::integer FROM pg_catalog.pg_tables WHERE schemaname='private') AS private,(SELECT count(*)::integer FROM pg_catalog.pg_trigger WHERE tgname='collect_fence_statement_v1' AND tgenabled='A' AND tgtype=62) AS guards,(SELECT pg_catalog.pg_get_userbyid(c.relowner)=current_user FROM pg_catalog.pg_class c WHERE c.oid='private.collect_fence_control'::regclass) AS owner_matches");
-  assert.deepEqual(scope,{app:97,private:18,guards:111,owner_matches:true});
+  assert.deepEqual(scope,{app:97,private:21,guards:113,owner_matches:true});
+  await t.test('the exact maintenance predecessor upgrades only while inactive and settled, preserving history and Cron identity',async()=>{
+   const prior=(await readFile(new URL('./testing/jobs-predecessor.sql',import.meta.url),'utf8'))
+    .replaceAll('__CONFIG_SHA256__',previousScheduler.configSha).replaceAll('__TEMPLATE_SHA256__',previousScheduler.templateSha)
+    .replaceAll('__PROJECT_REF__',r.project_ref).replaceAll('__ENDPOINT__',r.endpoint).replaceAll('__VAULT_NAME__','collect_job_token_v1')
+    .replaceAll('__JOB_NAME__','collect-jobs-maintenance-v1').replaceAll('__SCHEDULE__','*/5 * * * *');
+   await db.query(prior);const original=(await operate(db,'status',{rendered})).state;
+   assert.equal(original.config_sha256,previousScheduler.configSha);
+   await db.query('UPDATE cron.job SET active=true');await assert.rejects(()=>operate(db,'upgrade-inactive',{rendered}),/Deactivate/);
+   await operate(db,'deactivate',{rendered});
+   const oldId=randomUUID();await db.query("INSERT INTO collect_ops.jobs_dispatches(id,kind,state,created_at)VALUES($1,'probe','unconfirmed',clock_timestamp()-interval '6 minutes')",[oldId]);
+   await assert.rejects(()=>operate(db,'upgrade-inactive',{rendered}),/inactive_exact_predecessor/);
+   assert.equal((await value('SELECT config_sha256 FROM collect_ops.jobs_config')).config_sha256,previousScheduler.configSha);
+   await operate(db,'review-unknown',{rendered,dispatchId:oldId,evidenceSha256:'7'.repeat(64)});
+   const upgraded=await operate(db,'upgrade-inactive',{rendered});assert.equal(upgraded.upgraded,true);assert.equal(upgraded.state.cron_job_id,original.cron_job_id);
+   assert.equal(upgraded.state.mode,'maintenance_only');assert.equal(upgraded.state.enabled,false);assert.equal(upgraded.state.last_probe_id,null);
+   assert.equal((await value('SELECT state FROM collect_ops.jobs_dispatches WHERE id=$1',[oldId])).state,'reviewed_unknown');
+   assert.equal((await operate(db,'upgrade-inactive',{rendered})).reconciled_existing,true);
+   // Only this owned synthetic scheduler is cleared for the independent fresh-install cases.
+   await db.query('DROP SCHEMA collect_ops CASCADE');await db.query('DELETE FROM cron.job');
+  });
   let first;
   await t.test('installation is inactive and disabled ticks cause no HTTP request',async()=>{await operate(db,'install-inactive',{rendered});const s=(await value('SELECT collect_ops.jobs_state() AS v')).v;assert.equal(s.enabled,false);assert.equal(s.cron_active,false);assert.equal((await value('SELECT collect_ops.tick_jobs() AS v')).v.state,'disabled');assert.equal((await value('SELECT count(*)::int AS n FROM net.http_request_queue')).n,0);await assert.rejects(()=>db.query('SELECT collect_ops.activate_jobs($1)',['6'.repeat(64)]),/fresh_confirmed_probe/);});
   await t.test('an unknown inactive-install commit is reconciled without replacing a named job',async()=>{assert.equal((await operate(db,'install-inactive',{rendered})).reconciled_existing,true);await db.query("UPDATE cron.job SET command='SELECT 123;'");await assert.rejects(()=>operate(db,'install-inactive',{rendered}),/identity drift/);await db.query("UPDATE cron.job SET command='SELECT collect_ops.tick_jobs();'");assert.equal((await value('SELECT count(*)::int AS n FROM cron.job')).n,1);});
@@ -110,6 +168,132 @@ test('scheduler control plane on real PostgreSQL, with explicit Cron/net/Vault i
   });
   await t.test('a confirmed probe from an earlier native instance cannot admit activation or a new scheduled slot',async()=>{
    const p=await probe();await reply(p.dispatch_id);await db.query('SELECT collect_ops.activate_jobs($1)',['6'.repeat(64)]);await db.query('SELECT net.collect_test_reset_transport()');await assert.rejects(()=>db.query('SELECT collect_ops.activate_jobs($1)',['6'.repeat(64)]),/fresh_confirmed_probe/);assert.equal((await value('SELECT collect_ops.tick_jobs() AS v')).v.state,'native_transport_instance_requires_probe');assert.equal((await value('SELECT count(*)::int AS n FROM net.http_request_queue')).n,0);assert.equal((await value('SELECT collect_ops.jobs_state() AS v')).v.enabled,false);const fresh=await probe();await reply(fresh.dispatch_id);await db.query('SELECT collect_ops.activate_jobs($1)',['6'.repeat(64)]);assert.equal((await value('SELECT collect_ops.jobs_state() AS v')).v.enabled,true);
+  });
+  await t.test('SQL processing admission rejects malformed, stale-source and underfunded readiness before changing control state',async()=>{
+   const ready={...processingReadiness(),evidence_file_sha256:'8'.repeat(64)};
+   const before=(await value('SELECT readiness FROM collect_ops.jobs_config')).readiness;
+   for(const changed of [{...ready,momo_processing_paused:true},{...ready,remaining_provider_requests:9999},
+    {...ready,remaining_provider_requests:'10000'},{...ready,provider_evidence_sha256:null},
+    {...ready,processing_admission:{...ready.processing_admission,batch_limit:2}},
+    {...ready,processing_admission:{...ready.processing_admission,source_sha256:'d'.repeat(64)}},
+    {...ready,processing_admission:{...ready.processing_admission,model_id:'bad\nmodel'}},
+    {...ready,processing_admission:{...ready.processing_admission,unreviewed:true}}]){
+    await assert.rejects(()=>db.query('SELECT collect_ops.record_jobs_readiness($1)',[changed]));
+    assert.deepEqual((await value('SELECT readiness FROM collect_ops.jobs_config')).readiness,before);
+   }
+  });
+  await t.test('reviewed periodic mode carries one immutable source/model/approval-bound contract through probe and scheduled dispatch',async()=>{
+   const ready={...processingReadiness(),evidence_file_sha256:'8'.repeat(64)},p=await probe(randomUUID(),ready);
+   assert.equal(p.state,'awaiting');
+   const queued=await value("SELECT convert_from(body,'UTF8') AS body FROM net.http_request_queue WHERE id=$1",[p.net_request_id]);
+   assert.deepEqual(JSON.parse(queued.body),{dispatch_id:p.dispatch_id,processing_admission:ready.processing_admission});
+   assert.deepEqual((await value('SELECT runtime_contract FROM collect_ops.jobs_dispatches WHERE id=$1',[p.dispatch_id])).runtime_contract,ready.processing_admission);
+   assert.equal((await value("SELECT collect_ops.dispatch_jobs('probe',$1) AS v",[p.dispatch_id])).v.replayed,true);
+   assert.equal((await value('SELECT count(*)::int AS n FROM net.http_request_queue')).n,1);
+   await reply(p.dispatch_id,{...processingReply(),diagnostics:{status:'unconfirmed'}});
+   assert.equal((await value('SELECT state FROM collect_ops.jobs_dispatches WHERE id=$1',[p.dispatch_id])).state,'confirmed');
+   await db.query('SELECT collect_ops.activate_jobs($1)',['8'.repeat(64)]);
+   await db.query("UPDATE collect_ops.jobs_dispatches SET slot=slot-interval '1 day' WHERE kind='scheduled' AND slot>clock_timestamp()-interval '10 minutes'");
+   const scheduled=(await value('SELECT collect_ops.tick_jobs() AS v')).v;assert.equal(scheduled.state,'awaiting');
+   assert.deepEqual((await value('SELECT runtime_contract FROM collect_ops.jobs_dispatches WHERE id=$1',[scheduled.dispatch_id])).runtime_contract,ready.processing_admission);
+   // A later operator review cannot rewrite what the original dispatch admitted.
+   const next={...ready,processing_admission:{...ready.processing_admission,approval_sha256:'d'.repeat(64)},evidence_file_sha256:'9'.repeat(64)};
+   await db.query('SELECT collect_ops.record_jobs_readiness($1)',[next]);await reply(scheduled.dispatch_id,processingReply());
+   assert.equal((await value('SELECT state FROM collect_ops.jobs_dispatches WHERE id=$1',[scheduled.dispatch_id])).state,'confirmed');
+   await assert.rejects(()=>db.query('SELECT collect_ops.activate_jobs($1)',['9'.repeat(64)]),/fresh_confirmed_probe/);
+  });
+  await t.test('active responses cannot acknowledge a changed admission, enlarged batch, leaked facts or uncertain lease outcome',async()=>{
+   const ready={...processingReadiness(),evidence_file_sha256:'8'.repeat(64)};
+   const replies=[validReply,processingReply({...processingAdmission(),source_sha256:'d'.repeat(64)}),
+    {...processingReply(),processing:{status:'complete',paused:false,processed:2,results:[{state:'completed'},{state:'completed'}]}},
+    {...processingReply(),processing:{status:'complete',paused:false,processed:1,results:[{state:'completed',raw_sms_id:'unreviewed-data'}]}},
+    processingReply(processingAdmission(),'retry_on_lease_expiry'),
+    {...processingReply(),processing:{status:'complete',paused:false,processed:1,results:[]}}];
+   for(const payload of replies){
+    const p=await probe(randomUUID(),ready);await reply(p.dispatch_id,payload);
+    assert.equal((await value('SELECT state FROM collect_ops.jobs_dispatches WHERE id=$1',[p.dispatch_id])).state,'unconfirmed');
+    assert.equal((await value('SELECT collect_ops.jobs_state() AS v')).v.enabled,false);
+    await review(p.dispatch_id);
+   }
+  });
+  await t.test('active numeric JSON variants cannot abort reconciliation or erase durable outcomes',async()=>{
+   const ready={...processingReadiness(),evidence_file_sha256:'8'.repeat(64)},p=await probe(randomUUID(),ready);
+   const body=JSON.stringify({dispatch_id:p.dispatch_id,...processingReply()}).replace('"processed":1','"processed":1.0');
+   await db.query('INSERT INTO net._http_response(id,status_code,content)VALUES($1,200,$2)',[p.net_request_id,body]);
+   await db.query('DELETE FROM net.http_request_queue WHERE id=$1',[p.net_request_id]);await db.query('SELECT collect_ops.reconcile_jobs()');
+   assert.equal((await value('SELECT state FROM collect_ops.jobs_dispatches WHERE id=$1',[p.dispatch_id])).state,'confirmed');
+  });
+  await t.test('processing source and approval drift stop future periodic work pending a new qualified probe',async()=>{
+   const ready={...processingReadiness(),evidence_file_sha256:'8'.repeat(64)},p=await probe(randomUUID(),ready);await reply(p.dispatch_id,processingReply());
+   await db.query('SELECT collect_ops.activate_jobs($1)',['8'.repeat(64)]);
+   await db.query("UPDATE collect_ops.jobs_dispatches SET slot=slot-interval '1 day' WHERE kind='scheduled' AND slot>clock_timestamp()-interval '10 minutes'");
+   await db.query("UPDATE collect_ops.jobs_config SET readiness=jsonb_set(readiness,'{processing_admission,approval_sha256}',$1::jsonb)",[JSON.stringify('d'.repeat(64))]);
+   assert.equal((await value('SELECT collect_ops.tick_jobs() AS v')).v.state,'processing_admission_requires_probe');
+   assert.equal((await value('SELECT count(*)::int AS n FROM net.http_request_queue')).n,0);
+   await db.query("UPDATE collect_ops.jobs_config SET readiness=jsonb_set(readiness,'{processing_admission,source_sha256}',$1::jsonb)",[JSON.stringify('e'.repeat(64))]);
+   assert.equal((await value("SELECT collect_ops.dispatch_jobs('probe',$1) AS v",[randomUUID()])).v.state,'processing_source_requires_review');
+   assert.equal((await value('SELECT count(*)::int AS n FROM net.http_request_queue')).n,0);
+  });
+  await t.test('SQL notification readiness rejects malformed bindings, unapproved modes and insufficient independent quota before effects',async()=>{
+   const ready={...notificationReadiness(),evidence_file_sha256:'8'.repeat(64)},before=(await value('SELECT readiness FROM collect_ops.jobs_config')).readiness;
+   for(const changed of [{...ready,momo_processing_paused:false},{...ready,remaining_notification_attempts:9999},
+    {...ready,remaining_notification_provider_requests:19999},{...ready,mode:'unreviewed'},
+    {...ready,notification_admission:{...ready.notification_admission,source_sha256:'e'.repeat(64)}},
+    {...ready,notification_admission:{...ready.notification_admission,admitted_from:'1793232000'}},
+    {...ready,notification_admission:{...ready.notification_admission,admitted_from:4102444800}},
+    {...ready,notification_admission:{...ready.notification_admission,android_package:'unapproved.app'}},
+    {...ready,notification_admission:{...ready.notification_admission,batch_limit:2}},
+    {...ready,notification_admission:{...ready.notification_admission,credential:'not stored'}}]){
+    await assert.rejects(()=>db.query('SELECT collect_ops.record_jobs_readiness($1)',[changed]));
+    assert.deepEqual((await value('SELECT readiness FROM collect_ops.jobs_config')).readiness,before);
+   }
+  });
+  await t.test('push-only probe, periodic wake-up and combined mode preserve exact immutable independent dispatch contracts',async()=>{
+   const ready={...notificationReadiness(),evidence_file_sha256:'8'.repeat(64)},p=await probe(randomUUID(),ready);
+   assert.equal(p.state,'awaiting');const body=JSON.parse((await value("SELECT convert_from(body,'UTF8') AS body FROM net.http_request_queue WHERE id=$1",[p.net_request_id])).body);
+   assert.deepEqual(body,{dispatch_id:p.dispatch_id,notification_admission:notificationAdmission()});
+   assert.deepEqual(await value('SELECT runtime_contract,notification_contract FROM collect_ops.jobs_dispatches WHERE id=$1',[p.dispatch_id]),{runtime_contract:null,notification_contract:notificationAdmission()});
+   // A known, retained unknown delivery is terminal, not a request to resend.
+   // The scheduler acknowledges only the bounded worker's recorded outcome.
+   await reply(p.dispatch_id,notificationReply('unknown'));assert.equal((await value('SELECT state FROM collect_ops.jobs_dispatches WHERE id=$1',[p.dispatch_id])).state,'confirmed');
+   await db.query('SELECT collect_ops.activate_jobs($1)',['8'.repeat(64)]);
+   await db.query("UPDATE collect_ops.jobs_dispatches SET slot=slot-interval '1 day' WHERE kind='scheduled' AND slot>clock_timestamp()-interval '10 minutes'");
+   const scheduled=(await value('SELECT collect_ops.tick_jobs() AS v')).v;assert.equal(scheduled.state,'awaiting');
+   assert.deepEqual((await value('SELECT notification_contract FROM collect_ops.jobs_dispatches WHERE id=$1',[scheduled.dispatch_id])).notification_contract,notificationAdmission());
+   const changed={...ready,notification_admission:{...notificationAdmission(),approval_sha256:'e'.repeat(64)},evidence_file_sha256:'9'.repeat(64)};
+   await db.query('SELECT collect_ops.record_jobs_readiness($1)',[changed]);await reply(scheduled.dispatch_id,notificationReply());
+   assert.equal((await value('SELECT state FROM collect_ops.jobs_dispatches WHERE id=$1',[scheduled.dispatch_id])).state,'confirmed');
+   await assert.rejects(()=>db.query('SELECT collect_ops.activate_jobs($1)',['9'.repeat(64)]),/fresh_confirmed_probe/);
+   const combined={...notificationReadiness(true),evidence_file_sha256:'8'.repeat(64)},both=await probe(randomUUID(),combined);
+   const queued=JSON.parse((await value("SELECT convert_from(body,'UTF8') AS body FROM net.http_request_queue WHERE id=$1",[both.net_request_id])).body);
+   assert.deepEqual(queued,{dispatch_id:both.dispatch_id,processing_admission:processingAdmission(),notification_admission:notificationAdmission()});assert(Buffer.byteLength(JSON.stringify(queued))<=2048);
+   await reply(both.dispatch_id,notificationReply('accepted',true));assert.equal((await value('SELECT state FROM collect_ops.jobs_dispatches WHERE id=$1',[both.dispatch_id])).state,'confirmed');
+  });
+  await t.test('push replies cannot acknowledge changed admission, payload leakage, enlarged bounds or unresolved work',async()=>{
+   const ready={...notificationReadiness(),evidence_file_sha256:'8'.repeat(64)},normal=notificationReply();
+   const candidates=[validReply,{...normal,notification_admission:{...notificationAdmission(),project_id:'another-project'}},
+    {...normal,notifications:{...normal.notifications,processed:2,results:[{state:'accepted'},{state:'accepted'}]}},
+    {...normal,notifications:{...normal.notifications,results:[{state:'accepted',provider_message_id:'not in scheduler response'}]}},
+    {...normal,notifications:{...normal.notifications,results:[{state:'sending'}]}},
+    {...normal,notifications:{...normal.notifications,status:'unconfirmed'}},
+    {...normal,notifications:{...normal.notifications,recovered_unknown:101}},
+    {...normal,notifications:{...normal.notifications,recovered_unknown:'1'}}];
+   for(const payload of candidates){const p=await probe(randomUUID(),ready);await reply(p.dispatch_id,payload);
+    assert.equal((await value('SELECT state FROM collect_ops.jobs_dispatches WHERE id=$1',[p.dispatch_id])).state,'unconfirmed');
+    assert.equal((await value('SELECT collect_ops.jobs_state() AS v')).v.enabled,false);await review(p.dispatch_id);
+   }
+   const maintenance=await probe();await reply(maintenance.dispatch_id,normal);
+   assert.equal((await value('SELECT reason FROM collect_ops.jobs_dispatches WHERE id=$1',[maintenance.dispatch_id])).reason,'runtime_gate_changed');await review(maintenance.dispatch_id);
+  });
+  await t.test('notification approval or source drift requires a fresh qualified probe before a periodic send',async()=>{
+   const ready={...notificationReadiness(),evidence_file_sha256:'8'.repeat(64)},p=await probe(randomUUID(),ready);await reply(p.dispatch_id,notificationReply());
+   await db.query('SELECT collect_ops.activate_jobs($1)',['8'.repeat(64)]);
+   await db.query("UPDATE collect_ops.jobs_dispatches SET slot=slot-interval '7 days' WHERE kind='scheduled' AND slot>clock_timestamp()-interval '10 minutes'");
+   await db.query("UPDATE collect_ops.jobs_config SET readiness=jsonb_set(readiness,'{notification_admission,approval_sha256}',$1::jsonb)",[JSON.stringify('e'.repeat(64))]);
+   assert.equal((await value('SELECT collect_ops.tick_jobs() AS v')).v.state,'processing_admission_requires_probe');
+   await db.query("UPDATE collect_ops.jobs_config SET readiness=jsonb_set(readiness,'{notification_admission,source_sha256}',$1::jsonb)",[JSON.stringify('f'.repeat(64))]);
+   assert.equal((await value("SELECT collect_ops.dispatch_jobs('probe',$1) AS v",[randomUUID()])).v.state,'notification_source_requires_review');
+   assert.equal((await value('SELECT count(*)::int AS n FROM net.http_request_queue')).n,0);
   });
   await t.test('the local monthly scheduler budget fails closed without claiming organization-wide quota control',async()=>{await db.query("INSERT INTO collect_ops.jobs_dispatches(id,kind,state,reason) SELECT gen_random_uuid(),'probe','confirmed','synthetic_budget_fixture' FROM generate_series(1,10000-(SELECT count(*)::integer FROM collect_ops.jobs_dispatches WHERE created_at>=date_trunc('month',clock_timestamp() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'))");assert.equal((await probe()).state,'monthly_budget_exhausted');assert.equal((await value('SELECT count(*)::int AS n FROM net.http_request_queue')).n,0);});
   await t.test('real fence denies every scheduler mutator before effects and retains legacy unknown blockers',async()=>{

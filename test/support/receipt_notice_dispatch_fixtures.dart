@@ -1,6 +1,7 @@
 // Exact actual SQL output JSON embedded for identical native/Chrome DTO fixtures.
 // See receipt_notice_dispatch/producer-bindings.json; no fixture IDs rewritten.
 import 'dart:convert';
+
 const dispatchActor = '99780000-0000-4000-8000-000000000001';
 const dispatchSession = '99780000-0000-4000-8000-000000010001';
 const _actual = <String, String>{
@@ -834,4 +835,5 @@ const _actual = <String, String>{
 }
 ''',
 };
-Map<String, dynamic> dispatchFixture(String name) => jsonDecode(_actual[name]!) as Map<String, dynamic>;
+Map<String, dynamic> dispatchFixture(String name) =>
+    jsonDecode(_actual[name]!) as Map<String, dynamic>;

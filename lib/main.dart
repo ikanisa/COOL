@@ -8,6 +8,8 @@ import 'app/env/app_env.dart';
 import 'app/router.dart';
 import 'app/theme/collect_colors.dart';
 import 'core/logging/app_logger.dart';
+import 'core/logging/collect_diagnostic_queue.dart';
+import 'core/logging/collect_member_diagnostics.dart';
 import 'core/notifications/collect_notification_service.dart';
 import 'core/startup/collect_global_error_handlers.dart';
 import 'core/startup/collect_startup_controller.dart';
@@ -17,13 +19,27 @@ import 'core/cloudflare/cloudflare_module.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final env = AppEnv.fromEnvironment();
+  final diagnosticQueue = CollectDiagnosticQueue(
+    surface: CollectDiagnosticSurface.member,
+    store: CollectPreferenceDiagnosticStore(CollectDiagnosticSurface.member),
+  );
+  final diagnosticBinding = CollectMemberDiagnostics(diagnosticQueue);
   final diagnostics = CollectDiagnostics(
     surface: CollectDiagnosticSurface.member,
     environmentName: env.environmentName,
+    sink: (event) {
+      debugPrint(event);
+      diagnosticQueue.add(event);
+    },
   );
   final startup = CollectStartupController<CollectCloudflareClient?>(
-    initialize: () =>
-        createCollectBackendClientFromEnvironment(environment: env),
+    initialize: () async {
+      final backend = await createCollectBackendClientFromEnvironment(
+        environment: env,
+      );
+      diagnosticBinding.bind(backend);
+      return backend;
+    },
     diagnostics: diagnostics,
   );
   CollectGlobalErrorHandlers(

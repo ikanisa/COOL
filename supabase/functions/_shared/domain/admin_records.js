@@ -1,5 +1,6 @@
 import {ApiError,first,uuid,integer,now} from './core.js';
 import {coreStatuses,coreOrdering,coreSearch} from './admin_search.js';
+import {evidenceSensitivitySql,evidenceSensitivity} from './evidence_provenance.js';
 
 // These read adapters receive an already authorized D1 binding from the route.
 export {marker,permission,lists,list,filters,overview,operatingDetail,relatedPage,ledgerSql,ledgerRow,evidenceMetadataSql,evidenceMetadata,exact,iso,fail,unavailable};
@@ -39,8 +40,8 @@ const payeeSql=`SELECT id,id AS group_id,title AS group_title,receiver_display_l
  FROM collections WHERE receiver_momo_number IS NOT NULL AND receiver_network IS NOT NULL`;
 const ledgerSql=`SELECT l.*,l.kind AS status,g.title AS group_title,p.status AS payment_status FROM ledger_entries l JOIN collections g ON g.id=l.collection_id JOIN payments p ON p.id=l.payment_id`;
 const evidenceMetadataSql=`SELECT e.id,e.object_sha256 AS sha256,e.size_bytes,e.content_type,e.authenticity,e.external_reference AS reference,
- e.observed_at,e.created_at,e.retained_until,e.legal_hold FROM payment_evidence e JOIN payments p ON p.evidence_id=e.id WHERE p.id=?`;
-const evidenceMetadata=r=>({...r,size_bytes:exact(r.size_bytes),observed_at:iso(r.observed_at),created_at:iso(r.created_at),
+ e.observed_at,e.created_at,e.retained_until,e.legal_hold,${evidenceSensitivitySql} AS source_sensitivity FROM payment_evidence e JOIN payments p ON p.evidence_id=e.id WHERE p.id=?`;
+const evidenceMetadata=r=>({...r,source_sensitivity:evidenceSensitivity(r.source_sensitivity),size_bytes:exact(r.size_bytes),observed_at:iso(r.observed_at),created_at:iso(r.created_at),
  retained_until:r.retained_until?iso(r.retained_until):null,legal_hold:r.legal_hold===1});
 
 function personRow(r){

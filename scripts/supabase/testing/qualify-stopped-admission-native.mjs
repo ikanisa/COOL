@@ -15,11 +15,11 @@ const INSTALL_RUNNER='scripts/supabase/emergency-fence/native-stopped-install.mj
 const HELPER='scripts/supabase/testing/curated-platform-fixture.mjs';
 const PINS=Object.freeze({
  'supabase/retention-inventory.json':'6b1229d9a01957a3e88e8f9b247b8781f3e2c6a1fc71ae52640a84ea7c48d585',
- 'supabase/functions/_shared/private-retention.js':'8e7b587d2f2134df82960c3883426ae12970ec3d146a92dcedf6b8493b650d1b',
- 'supabase/functions/_shared/member-realtime-retention.js':'c4197f27c1b1864bf3eafa75e3ce15b97310aba5f35f233cb43d495c9bee3898',
+ 'supabase/functions/_shared/private-retention.js':'eaab9655a3753d9fbd662dd057c032a7f716b914a9de36748f1443053c78ab61',
+ 'supabase/functions/_shared/member-realtime-retention.js':'2c29da6f8748bf98c4d4accc1c0e28d1a95e3ee42860c4c7bef505ba45c11bc6',
  'supabase/functions/_shared/domain/core.js':'18ce95c133a4895d13475338089fb00c9ba4c9283ee72c7d4d6f88ae8ea8723e',
- [HELPER]:'a5675bd5f6673eb9910590bdbeea0a7c72739709adedaf5b7e871143642edb0f',
- [INSTALL_RUNNER]:'ad1a408ed4b31f17efc41b0b6949362e83a462caeca4bc01cc260b4292574cd3',
+ [HELPER]:'d7414577c68c94937c6fc49734c2a7197ec96db6367ca686e6d6b7844a5e008e',
+ [INSTALL_RUNNER]:'727b5cd60c44bd5e62f7686bd5ff2bbf9775d274249ce81ff9e7e111920a133e',
  [RUNNER]:'959b39b063725f13e4a88da8a2b381bd58e97b23b5edca89923814cd3a5049c6',
  [MIGRATION_FOURTEEN_ROLE]:ROOT_SQL14_SHA256,
 });

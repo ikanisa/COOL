@@ -1,4 +1,4 @@
-import {loadReviewedPlatformFixture,EXACT_CURRENT11,EXACT_CURRENT14,MIGRATION_ELEVEN_ROLE,ROOT_SQL11_SHA256} from '../testing/curated-platform-fixture.mjs';
+import {loadReviewedPlatformFixture,EXACT_CURRENT11,EXACT_CURRENT16,MIGRATION_ELEVEN_ROLE,ROOT_SQL11_SHA256} from '../testing/curated-platform-fixture.mjs';
 import postgres from 'npm:postgres@3.4.7';
 import {dirname,join,resolve} from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
@@ -22,14 +22,16 @@ const PINS:Record<string,string>={
   "supabase/migrations/20261020195249_collect_admin_invitation_public_id_preservation.sql": "78f8c454a9825b0d9e25622b0659245d9568e7b95f637d3e20160a945b4e0850",
   "supabase/migrations/20261022195747_collect_application_mutation_fence.sql": "714abf2d24ce3d42a36525d18627362b02ff38c30810e988d365b5796d840497",
   "supabase/tests/sql/00_local_auth_fixture.sql": "b935e17f44219f018cf1a864505d1895d71903885ca6c61c039d7ab6596117ea",
-  "supabase/functions/deno.json": "2c3962bd2c4fac761d154c43b0b48a55622142e02a2be70237361c02032f43e4",
+  "supabase/functions/deno.json": "a113702f8058ec724e0476eac1bcd523639451b75cc60c15735337a52ec6555d",
   "supabase/functions/deno.lock": "070d1f79d59faebba520e3d14c1b10f4d73a84584eafa8c34f767c013c628b9b"
 };
 const MIGRATIONS=EXACT_CURRENT11;
 const PHYSICAL_PINS:Record<string,string>={
  'supabase/migrations/20261023072038_collect_admin_initial_email_proof_ack.sql':'2c31440ae10176e7e9e5f0befefce8e1ca44e06149d3cc4471119920b3abf6df',
  'supabase/migrations/20261023102707_collect_retire_admin_mfa_enrollment.sql':'e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834',
- 'supabase/migrations/20261023174000_collect_stopped_admission_lifecycle.sql':'db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25'
+ 'supabase/migrations/20261023174000_collect_stopped_admission_lifecycle.sql':'db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25',
+ 'supabase/migrations/20261029120000_collect_client_diagnostics.sql':'6f7c1e537a3c7d114417cfa79bd7b545bbfd17c69ab1d643c806eeb457c81e3f',
+ 'supabase/migrations/20261029130000_collect_notification_delivery.sql':'2d5904d5aaae917715c6ff5b996ce5b7395864fc5e225f5aaa67ec7d931a6792'
 };
 const ENV='COLLECT_FENCE_RUNTIME_TEST_DATABASE_URL';
 const USER='11111111-1111-4111-8111-111111111111',REQUEST='22222222-2222-4222-8222-222222222222',SESSION='33333333-3333-4333-8333-333333333333';
@@ -71,7 +73,7 @@ try{
  const caller=await Deno.realPath(fileURLToPath(import.meta.url)),root=await Deno.realPath(resolve(dirname(caller),'../../..'));
  need(caller===join(root,'scripts/supabase/emergency-fence/native-runtime.ts'),'FIXED_PHYSICAL_SOURCE_REQUIRED');
  const entries=[];for await(const entry of Deno.readDir(join(root,'supabase/migrations')))if(/^\d{14}_.*\.sql$/.test(entry.name))entries.push(entry.name);
- need(MIGRATIONS.length===11&&EXACT_CURRENT14.length===14&&JSON.stringify(entries.sort())===JSON.stringify(EXACT_CURRENT14),'EXACT_PHYSICAL14_SQL11_PREFIX_REQUIRED');
+ need(MIGRATIONS.length===11&&EXACT_CURRENT16.length===16&&JSON.stringify(entries.sort())===JSON.stringify(EXACT_CURRENT16),'EXACT_PHYSICAL16_SQL11_PREFIX_REQUIRED');
  const reviewedPlatform=await loadReviewedPlatformFixture(root);
  async function parity(){await reviewedPlatform.parity();for(const [role,pin]of Object.entries({...PINS,...PHYSICAL_PINS})){const path=join(root,role);need(await Deno.realPath(path)===path&&await sha(await Deno.readFile(path))===pin,'QUALIFIED_SOURCE_CHANGED');}}
  await parity();const closureSha256=await sha(JSON.stringify({original17:PINS,sql10:reviewedPlatform.binding,sql11:{role:MIGRATION_ELEVEN_ROLE,sha256:ROOT_SQL11_SHA256}}));

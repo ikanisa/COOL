@@ -6,8 +6,11 @@ import {openApplicationWork,sqlFenceBackend} from './application-fence.js';
 import {SupabaseObjectBucket,providerAdapters} from './adapters.js';
 import worker from './domain/index.js';
 import {drainMomoJobs} from './domain/momo_pipeline.js';
-import {json,readJson,uuid} from './domain/core.js';
+import {parseScheduledDispatch,scheduledProcessingAdmission,scheduledProcessingResult,scheduledNotificationResult} from './scheduled-processing.js';
+import {drainNotificationDeliveries} from './domain/notification_delivery.js';
+import {json,readJson} from './domain/core.js';
 import {recordPlatformHealth} from './domain/observability.js';
+import {cleanupClientDiagnostics} from './domain/client_diagnostics.js';
 export {runtimeFailureEvent} from './domain/observability.js';
 // Health observations never change an admitted response or application work.
 function observeFailure(report,value){try{report(value);}catch{}}
@@ -41,7 +44,7 @@ export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{op
    if(!admin&&path.startsWith('/api/admin'))return json({code:'not_found'},404);
    const allowed=(admin?env.ADMIN_ORIGINS??env.ADMIN_ORIGIN:env.ALLOWED_ORIGINS??'').split(',').map(v=>v.trim()).filter(Boolean);
    if(origin&&!allowed.includes(origin)&&!isGoogleProviderNavigation(logical))return json({code:'origin_denied'},403);
-   cors=origin?{'Access-Control-Allow-Origin':origin,Vary:'Origin','Access-Control-Allow-Methods':'GET,HEAD,POST,PATCH,DELETE,OPTIONS','Access-Control-Allow-Headers':'Authorization,Content-Type,apikey,Idempotency-Key,X-Request-ID,X-Collect-Admin,X-Collect-CSRF,X-Collect-Requested-With,X-Collect-Review-Reason',...(admin?{'Access-Control-Allow-Credentials':'true'}:{}),'Access-Control-Max-Age':'600'}:{};
+   cors=origin?{'Access-Control-Allow-Origin':origin,Vary:'Origin','Access-Control-Allow-Methods':'GET,HEAD,POST,PATCH,DELETE,OPTIONS','Access-Control-Allow-Headers':'Authorization,Content-Type,apikey,Idempotency-Key,X-Request-ID,X-Collect-Admin,X-Collect-CSRF,X-Collect-Requested-With,X-Collect-Review-Reason',...(admin?{'Access-Control-Allow-Credentials':'true','Access-Control-Expose-Headers':'X-Collect-Evidence-Sensitivity'}:{}),'Access-Control-Max-Age':'600'}:{};
    if(request.method==='OPTIONS')return new Response(null,{status:204,headers:cors});
    stage='normalization';env=normalizeRuntimeEnv(env);env.MOMO_PROCESSING_PAUSED=env.MOMO_PROCESSING_PAUSED??'true';env.AUTH_MEMBER_REGISTRATION_ENABLED=env.AUTH_MEMBER_REGISTRATION_ENABLED??'false';
    stage='database_initialization';env.DB=new PostgresDatabase(connection(env.COLLECT_DATABASE_URL));
@@ -62,15 +65,13 @@ export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{op
  };
 }
 /** @param {()=>Record<string, unknown>} [envReader] */
-export function createScheduledHandler(envReader=()=>Deno.env.toObject(),cleanup=cleanupExpiredGoogleFlows,processReceipts=drainMomoJobs,{openWork=openApplicationWork,reportHealth=recordPlatformHealth}={}){
+export function createScheduledHandler(envReader=()=>Deno.env.toObject(),cleanup=cleanupExpiredGoogleFlows,processReceipts=drainMomoJobs,{openWork=openApplicationWork,reportHealth=recordPlatformHealth,cleanupDiagnostics=cleanupClientDiagnostics,processNotifications=drainNotificationDeliveries}={}){
  return async request=>{
-  const started=performance.now();let work,env,dispatchId=null,stage='environment';try{env=envReader();const input=env,token=request.headers.get('Authorization');if(!input.COLLECT_JOB_TOKEN||token!=='Bearer '+input.COLLECT_JOB_TOKEN)return json({code:'unauthorized'},401);
+  const started=performance.now();let work,env,dispatchId=null,dispatch={dispatchId:null,processing:null,notifications:null},stage='environment';try{env=envReader();const input=env,token=request.headers.get('Authorization');if(!input.COLLECT_JOB_TOKEN||token!=='Bearer '+input.COLLECT_JOB_TOKEN)return json({code:'unauthorized'},401);
    if(request.method!=='POST')return json({code:'method_not_allowed'},405);
    if(!/^\/(?:functions\/v1\/)?collect-jobs\/?$/.test(new URL(request.url).pathname))return json({code:'not_found'},404);
    if(request.body!==null){
-    try{const payload=await readJson(request,128),keys=Object.keys(payload);
-     if(keys.length===1&&keys[0]==='dispatch_id')dispatchId=uuid(payload.dispatch_id,'dispatch_id');
-     else if(keys.length)throw new Error('Unexpected dispatch payload');
+    try{dispatch=parseScheduledDispatch(await readJson(request,2048));dispatchId=dispatch.dispatchId;
     }catch(error){return json({code:'invalid_job_dispatch'},[400,413,415].includes(error.status)?error.status:400);}
    }
    stage='normalization';env=normalizeRuntimeEnv(input);env.MOMO_PROCESSING_PAUSED=env.MOMO_PROCESSING_PAUSED??'true';stage='database_initialization';env.DB=new PostgresDatabase(connection(env.COLLECT_DATABASE_URL));stage='fence_admission';work=await openWork({backend:sqlFenceBackend(env.DB.sql,fenceConnection(env.COLLECT_DATABASE_URL)),sourceSha256:env.BUILD_SOURCE_ID,kind:'jobs'});env.COLLECT_FENCE_WORK=work;env.DB.setApplicationWork(work);stage='storage_initialization';env.PRIVATE_MEDIA=new SupabaseObjectBucket(env);stage='provider_initialization';Object.assign(env,providerAdapters(env));stage='dispatch';
@@ -79,13 +80,27 @@ export function createScheduledHandler(envReader=()=>Deno.env.toObject(),cleanup
    let maintenance,processing;try{maintenance=await cleanup(env,{limit:100});}catch{maintenance={status:'unconfirmed',code:'auth_cleanup_unconfirmed'};}
    // An optional hint failure never rolls back authoritative cleanup/payment work.
    const realtime=await publishMemberRealtime(env);
-   // This scheduler is admitted for maintenance only. Detect configuration
-   // drift BEFORE touching the receipt queue or an external AI/provider.
-   if(env.MOMO_PROCESSING_PAUSED!=='true')processing={status:'unconfirmed',code:'maintenance_gate_changed',processed:0,results:[],paused:false};
-   else try{processing=await processReceipts(env);}catch{processing={status:'unconfirmed',code:'receipt_processing_unconfirmed'};}
-   const status=maintenance.status==='complete'&&processing.status!=='unconfirmed'?200:503;
+   // Maintenance remains the default. Processing additionally binds the exact
+   // reviewed source/model/approval and immutable original dispatch contract;
+   // flipping the pause flag alone never authorizes provider work.
+   const admission=scheduledProcessingAdmission(env,dispatch);
+   if(!admission.allowed)processing={status:'unconfirmed',code:admission.code,processed:0,results:[],paused:env.MOMO_PROCESSING_PAUSED==='true'};
+   else try{const result=await processReceipts(env,admission.processing?{limit:admission.processing.batch_limit}:undefined);
+    processing=admission.processing?scheduledProcessingResult(result):result;
+   }catch{processing={status:'unconfirmed',code:'receipt_processing_unconfirmed'};}
+   let notifications={status:'disabled',paused:true,processed:0,results:[],recovered_unknown:0};
+   if(admission.allowed&&admission.notifications){
+    try{notifications=scheduledNotificationResult(await processNotifications(env,{limit:admission.notifications.batch_limit,admission:admission.notifications}));}
+    catch{notifications={status:'unconfirmed',code:'notification_delivery_unconfirmed',processed:0,results:[]};}
+   }
+   // Telemetry maintenance is bounded and reports its own outcome. It cannot
+   // turn an acknowledged business drain into an ambiguous financial failure.
+   let diagnostics;try{diagnostics=await cleanupDiagnostics(env,{limit:1000});
+    if(diagnostics?.status!=='complete'||!Number.isSafeInteger(diagnostics.removed)||diagnostics.removed<0||diagnostics.removed>1000)throw new Error('diagnostics_cleanup_unconfirmed');
+   }catch{diagnostics={status:'unconfirmed'};try{console.error(JSON.stringify({service:'collect_platform_api',event:'diagnostics_cleanup_unconfirmed'}));}catch{}}
+   const status=maintenance.status==='complete'&&processing.status!=='unconfirmed'&&notifications.status!=='unconfirmed'?200:503;
    if(status===503)observeFailure(reportHealth,{status,component:'operations',requestId:null,dispatchId,sourceId:env.BUILD_SOURCE_ID,elapsedMs:performance.now()-started});
-   return json({...(dispatchId?{dispatch_id:dispatchId}:{}),maintenance,processing,realtime},status);
+   return json({...(dispatchId?{dispatch_id:dispatchId}:{}),...(admission.processing?{processing_admission:admission.processing}:{}),...(admission.notifications?{notification_admission:admission.notifications}:{}),maintenance,processing,notifications,realtime,diagnostics},status);
   }catch(error){
    const fenced=error?.code==='application_fenced'||error?.code==='application_fence_unavailable';
    observeFailure(reportHealth,{status:503,component:'operations',requestId:null,dispatchId,sourceId:env?.BUILD_SOURCE_ID,elapsedMs:performance.now()-started,...(fenced?{}:{runtimeFailure:{error,stage,env}})});

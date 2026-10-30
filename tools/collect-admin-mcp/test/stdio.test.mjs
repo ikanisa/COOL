@@ -37,7 +37,7 @@ test('fixed catalogue discovery accepts omitted and empty request parameters', a
   for (const params of [undefined, {}]) {
     const replies = await exchange([list(params)]);
     assert.deepEqual(replies.at(-1).result, { tools: TOOLS });
-    assert.equal(replies.at(-1).result.tools.length, 12);
+    assert.equal(replies.at(-1).result.tools.length, 15);
     assert.equal('nextCursor' in replies.at(-1).result, false);
   }
 });

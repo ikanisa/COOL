@@ -43,12 +43,7 @@ class AdminPwaBundleGateTest < Minitest::Test
   def test_release_builder_rejects_successful_compile_without_bundle
     Dir.mktmpdir('collect-admin-builder-gate-') do |root|
       scripts = File.join(root, 'scripts')
-      FileUtils.mkdir_p(scripts)
-      %w[admin_pwa_release_build.sh load_dotenv_strict.sh].each do |name|
-        FileUtils.cp(File.join(ROOT, 'scripts', name), File.join(scripts, name))
-      end
-      FileUtils.mkdir_p(File.join(scripts, 'supabase'))
-      FileUtils.cp(File.join(ROOT, 'scripts/supabase/admin_build_config.py'), File.join(scripts, 'supabase/admin_build_config.py'))
+      prepare_diagnostic_builder_fixture(root)
       fake_flutter = File.join(root, 'fake-flutter')
       File.write(fake_flutter, <<~SH)
         #!/usr/bin/env bash
@@ -69,6 +64,50 @@ class AdminPwaBundleGateTest < Minitest::Test
       )
       refute status.success?
       assert_includes err, 'did not produce a nonempty main.dart.js bundle'
+    end
+  end
+
+  def test_release_builder_checks_compiled_labels_before_asset_postprocessing
+    Dir.mktmpdir('collect-admin-compiled-labels-') do |root|
+      prepare_diagnostic_builder_fixture(root)
+      fake_flutter = File.join(root, 'fake-flutter')
+      File.write(fake_flutter, <<~'SH')
+        #!/usr/bin/env bash
+        mkdir -p build/web
+        printf 'window.syntheticCompilerFixture = true;' > build/web/main.dart.js
+      SH
+      FileUtils.chmod(0o755, fake_flutter)
+      env = { 'FLUTTER' => fake_flutter, 'COLLECT_BACKEND' => 'cloudflare' }
+      wrapper = File.join(root, 'scripts/admin_pwa_release_build.sh')
+      out, err, status = Open3.capture3(env, 'bash', wrapper, chdir: root)
+      refute status.success?
+      assert_includes err, 'Client diagnostic source binding failed'
+      assert_empty out
+
+      File.write(fake_flutter, <<~'SH')
+        #!/usr/bin/env bash
+        python3 - "$@" <<'PY'
+        import json, sys
+        from pathlib import Path
+        config = next(value.split('=', 1)[1] for value in sys.argv
+                      if value.startswith('--dart-define-from-file='))
+        labels = json.loads(Path(config).read_text())
+        Path('build/web').mkdir(parents=True, exist_ok=True)
+        Path('build/web/main.dart.js').write_text('const syntheticCompilerLabels=' + json.dumps(
+            [labels['COLLECT_BUILD_SOURCE_ID'], labels['COLLECT_BUILD_VERSION']]) + ';')
+        PY
+      SH
+      # Stop deliberately at the next stage: this fixture proves wrapper
+      # ordering and actual label inspection, not a Flutter compilation.
+      File.write(File.join(root, 'scripts/admin_cloudflare_assets.py'), 'raise SystemExit(67)')
+      out, err, status = Open3.capture3(env, 'bash', wrapper, chdir: root)
+      assert_equal 67, status.exitstatus, err
+      proof = JSON.parse(out)
+      assert_equal 'quoted_label_bytes_present', proof.fetch('verification_scope')
+      assert_equal '1.2.4+23', proof.fetch('build_version')
+      assert_equal false, proof.fetch('signing_or_deployment_acceptance')
+      assert_equal Digest::SHA256.file(File.join(root, 'build/web/main.dart.js')).hexdigest,
+                   proof.fetch('sha256')
     end
   end
 
@@ -375,6 +414,19 @@ class AdminPwaBundleGateTest < Minitest::Test
   end
 
   private
+
+  def prepare_diagnostic_builder_fixture(root)
+    %w[scripts/admin_pwa_release_build.sh scripts/supabase/admin_build_config.py
+       scripts/qa/client_diagnostic_identity.py].each do |name|
+      destination = File.join(root, name)
+      FileUtils.mkdir_p(File.dirname(destination))
+      FileUtils.cp(File.join(ROOT, name), destination)
+    end
+    FileUtils.mkdir_p(File.join(root, 'lib'))
+    File.write(File.join(root, 'lib/main_admin_cloudflare.dart'), "void main() {}\n")
+    File.write(File.join(root, 'pubspec.yaml'), "name: synthetic_admin\nversion: 1.2.4+23\n")
+    File.write(File.join(root, 'pubspec.lock'), "packages: {}\n")
+  end
 
   def reviewed_config
     JSON.parse(reviewed_bootstrap[/^_flutter\.buildConfig = (.*);$/, 1])

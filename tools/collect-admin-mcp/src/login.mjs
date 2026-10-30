@@ -31,7 +31,7 @@ export async function loginWithCredentials(config, email, password, options = {}
     principalId: verified.principalId, sessionId: verified.sessionId, expiresAt: verified.expiresAt });
   return { role: verified.role, expiresAt: verified.expiresAt };
 }
-async function secretPrompt(label = 'Password (hidden): ', maximum = 512) {
+export async function secretPrompt(label = 'Password (hidden): ', maximum = 512) {
   return new Promise((resolve, reject) => {
     let value = '';
     process.stderr.write(label); process.stdin.setRawMode(true); process.stdin.resume();

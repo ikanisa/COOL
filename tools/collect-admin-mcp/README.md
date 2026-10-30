@@ -9,7 +9,12 @@ Admin API at `https://platform-admin.collect.ikanisa.com`. It uses the same
 account, session and capability checks as that Admin surface. It is separate
 from the older Admin deployment. Cookies are never copied between origins.
 
-This package advertises twelve read tools. Its membership receipt identifier fix
+This package advertises fifteen read tools, including cross-operator audit,
+operational queue health and redacted client diagnostics. A separate human-only
+approved-scope retention CLI is described in [OPERATOR_WORKFLOWS.md](OPERATOR_WORKFLOWS.md).
+It is not exposed through MCP.
+
+The earlier membership receipt identifier fix
 is integrated into this checkout; the affected package passed 56 local process
 and mock HTTP tests. On 18 October 2026, the effective local CLI configuration
 was verified with the exact enabled `collect-admin` entry and its 10/45-second
@@ -291,8 +296,10 @@ parity or every Admin route being exposed.
 | Operator notes and generic lookup menus | Not exposed; outside this operational read slice |
 | Sync event subscription | Not exposed; reads always revalidate live authority |
 | Password, MFA factors, invitations, account/role writes | Not exposed; separate human login setup only |
-| Privacy review/retention POSTs | Not exposed; no generic POST/RPC bridge |
-| Audit-log collection | No canonical cookie GET collection route exists in the inspected backend; not fabricated via bearer RPC or another deployment |
+| Privacy review/retention POSTs | Not exposed through MCP; separate fixed-operation, human-confirmed CLI |
+| Cross-operator audit metadata | `collect_admin_audit`: guarded domain/account event metadata, stable cursor, `audit.read`; raw details/reasons excluded |
+| Operational health | `collect_admin_health`: guarded queue counts/ages, errors and binding observations under `system_health.read` |
+| Client diagnostics | `collect_admin_diagnostics`: bounded safe failure aggregates under `system_health.read` |
 | Gateway devices, SMS/email dispatch/provider operations from another deployment | Not bridged into this origin/account |
 
 Future API or tool additions require their actual route/permission/response

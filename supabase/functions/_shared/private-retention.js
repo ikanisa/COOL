@@ -57,7 +57,10 @@ async function record(rows){
  if(rows.length>catalog.limits.rows_per_class)fail('privacy_retention_private_inventory_limit');
  return {status:'observed',count:rows.length,sha256:await digest(stableJson(rows)),rows};
 }
-const all=async(env,sql,args=[])=>(await env.DB.prepare(sql).bind(...args).all()).results;
+// The shipping Admin wrapper installs current email/account authority in batch.
+// A standalone Statement.all() opens a different transaction and loses that
+// local context before the managed retention helpers execute.
+const all=async(env,sql,args=[])=>(await env.DB.batch([env.DB.prepare(sql).bind(...args)]))[0].results;
 const privateSchemaSql=`SELECT c.relname::text AS name,c.relkind::text AS kind,
   (SELECT string_agg(a.attname||':'||format_type(a.atttypid,a.atttypmod)||':'||a.attnotnull::text,',' ORDER BY a.attnum) FROM pg_attribute a WHERE a.attrelid=c.oid AND a.attnum>0 AND NOT a.attisdropped) AS columns,
   (SELECT string_agg(pg_get_constraintdef(x.oid),';' ORDER BY x.conname) FROM pg_constraint x WHERE x.conrelid=c.oid) AS constraints,

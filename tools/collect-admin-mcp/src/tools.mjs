@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { SafeError, UUID, REQUEST_KEY, invalid, object, strictKeys, unavailable } from './config.mjs';
 import { capabilityName } from './api.mjs';
+import { OVERSIGHT_TOOLS, oversightTool, callOversightTool } from './oversight.mjs';
 
 const AREAS = ['groups', 'users', 'members', 'payees', 'transactions', 'ledgers'];
 const PERMISSIONS = { groups: 'collections.read', users: 'users.read', members: 'users.read', payees: 'receivers.read', transactions: 'payments.read', ledgers: 'ledger.read' };
@@ -29,6 +30,7 @@ const description = 'Read-only; uses the operator’s independent local Collect 
 const tool = (name, title, detail, inputSchema) => ({ name, title, description: `${detail} ${description}`, inputSchema,
   annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true } });
 export const TOOLS = Object.freeze([
+  ...OVERSIGHT_TOOLS,
   tool('collect_admin_session', 'Current Admin access', 'Verify the current operator, role and actual granted read capabilities. Does not sign in or return the cookie.', schema()),
   tool('collect_admin_overview', 'Workspace overview', 'Read measured canonical workspace totals; amounts are recorded evidence, not provider settlement.', schema()),
   tool('collect_admin_list_records', 'List Admin records', 'Read one bounded page of Groups, Users, Members, Payees, Transactions or Ledgers. Server search supports quoted phrases, status and type filters. Pagination does not aggregate all records.', schema({ area: areaProperty, search: { type: 'string', maxLength: 200 }, status: { type: 'string', maxLength: 32 }, sort: { type: 'string', maxLength: 80, description: 'An actual area ordering field followed by _asc or _desc; default created_at_desc.' }, ...page }, ['area'])),
@@ -193,6 +195,7 @@ function smsMetadataPage(value, requested) {
   return { rows, total: value.total, ...requested, next_offset: value.next_offset };
 }
 export async function callTool(api, name, args = {}, signal) {
+  if (oversightTool(name)) return callOversightTool(api, name, args, signal);
   if (!TOOLS.some(value => value.name === name)) throw new SafeError('unknown_tool', 'This tool is not exposed by Collect Admin MCP.');
   let permission, perform;
   if (name === 'collect_admin_session') {

@@ -9,9 +9,10 @@ export const capabilityName = value => typeof value === 'string' && value.length
   !/[^a-z_.]/.test(value) && /^[a-z_]+(?:\.[a-z_]+){1,2}$/.test(value);
 
 /** Shared bounded HTTPS transport. There is no generic MCP fetch tool. */
-export async function requestJson(config, path, { cookie, method = 'GET', body, signal } = {}) {
+export async function requestJson(config, path, { cookie, method = 'GET', body, signal, csrfToken } = {}) {
   if (!path.startsWith('/api/admin/') || path.split(/[/?]/).includes('..') || path.includes('#') || path.includes('\\') ||
       !['GET', 'POST'].includes(method) || method === 'GET' && body !== undefined) unavailable();
+  if (csrfToken !== undefined && (method !== 'POST' || !cookie || typeof csrfToken !== 'string' || !/^[a-f0-9]{64}$/.test(csrfToken))) unavailable();
   const url = new URL(path, config.origin);
   if (url.origin !== config.origin || url.protocol !== 'https:' || url.username || url.password) unavailable();
   const timeout = AbortSignal.timeout(API_TIMEOUT);
@@ -21,7 +22,8 @@ export async function requestJson(config, path, { cookie, method = 'GET', body, 
       method, redirect: 'error', signal: signal ? AbortSignal.any([signal, timeout]) : timeout,
       headers: { Accept: 'application/json', Origin: config.origin,
         ...(cookie ? { Cookie: cookie } : {}), ...(body ? { 'Content-Type': 'application/json',
-          'X-Collect-Admin': '1', 'X-Collect-Requested-With': 'collect-admin' } : {}) },
+          'X-Collect-Admin': '1', 'X-Collect-Requested-With': 'collect-admin' } : {}),
+        ...(csrfToken ? { 'X-Collect-CSRF': csrfToken } : {}) },
       ...(body ? { body: JSON.stringify(body) } : {}),
     });
     if (response.redirected || response.url && new URL(response.url).origin !== config.origin) unavailable();

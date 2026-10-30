@@ -6,7 +6,43 @@ import {readFile,mkdtemp,mkdir,writeFile,rm,realpath} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 import {validateBinding,renderSyntheticSql,loadOriginalNine,loadReviewedPlatformFixture,ORIGINAL_NINE,EXACT_TEN,EXACT_CURRENT11,EXACT_CURRENT12,EXACT_CURRENT13,EXACT_CURRENT14,MIGRATION_TEN,MIGRATION_ELEVEN,MIGRATION_TWELVE,MIGRATION_THIRTEEN,MIGRATION_FOURTEEN,ROOT_SQL11_SHA256,ROOT_SQL12_SHA256,ROOT_SQL13_SHA256,ROOT_SQL14_SHA256} from './curated-platform-fixture.mjs';
+import {MIGRATION_FIFTEEN,ROOT_SQL15_SHA256,EXACT_CURRENT15,MIGRATION_SIXTEEN,ROOT_SQL16_SHA256,EXACT_CURRENT16} from './curated-platform-fixture.mjs';
 const sha=text=>createHash('sha256').update(text).digest('hex');
+
+test('the exact diagnostics and push candidates are admitted without expanding historical executed profiles',async()=>{
+ const source=resolve(import.meta.dirname,'../../..');
+ const fixture=await loadReviewedPlatformFixture(source);
+ assert.deepEqual(fixture.diskNames,EXACT_CURRENT16);
+ assert.deepEqual(fixture.names,EXACT_CURRENT11);
+ assert.equal(fixture.clientDiagnostics.name,MIGRATION_FIFTEEN);
+ assert.equal(sha(fixture.clientDiagnostics.bytes),ROOT_SQL15_SHA256);
+ assert.equal(fixture.notificationDelivery.name,MIGRATION_SIXTEEN);
+ assert.equal(sha(fixture.notificationDelivery.bytes),ROOT_SQL16_SHA256);
+ const commands=[];await fixture.apply(async sql=>{commands.push(sql);if(sha(sql)===fixture.binding.hosted_sql_sha256)throw Object.assign(new Error('member_realtime_metadata_not_reviewed'),{code:'55000'});});
+ assert.equal(commands.some(sql=>sha(sql)===ROOT_SQL15_SHA256),false,'Historical current11 proof cannot silently apply or qualify SQL15.');
+ assert.equal(commands.some(sql=>sha(sql)===ROOT_SQL16_SHA256),false,'Historical current11 proof cannot silently apply or qualify SQL16.');
+ await fixture.parity();
+});
+
+test('diagnostics migration tamper and unlisted successors refuse before SQL execution',async()=>{
+ const source=resolve(import.meta.dirname,'../../..'),folder=await realpath(await mkdtemp(join(tmpdir(),'collect-candidate15-pin-')));
+ try{
+  await mkdir(join(folder,'supabase/migrations'),{recursive:true});await mkdir(join(folder,'supabase/tests/sql'),{recursive:true});
+  await writeFile(join(folder,'supabase/tests/sql/00_local_auth_fixture.sql'),await readFile(join(source,'supabase/tests/sql/00_local_auth_fixture.sql')));
+  for(const name of EXACT_CURRENT15)await writeFile(join(folder,'supabase/migrations',name),await readFile(join(source,'supabase/migrations',name)));
+  assert.deepEqual((await loadOriginalNine(folder)).diskNames,EXACT_CURRENT15);
+  await writeFile(join(folder,'supabase/migrations',MIGRATION_FIFTEEN),'-- changed candidate\n');
+  await assert.rejects(loadOriginalNine(folder),/CANDIDATE_DIAGNOSTICS_MIGRATION_CHANGED/);
+  await writeFile(join(folder,'supabase/migrations',MIGRATION_FIFTEEN),await readFile(join(source,'supabase/migrations',MIGRATION_FIFTEEN)));
+  await writeFile(join(folder,'supabase/migrations',MIGRATION_SIXTEEN),await readFile(join(source,'supabase/migrations',MIGRATION_SIXTEEN)));
+  assert.deepEqual((await loadOriginalNine(folder)).diskNames,EXACT_CURRENT16);
+  await writeFile(join(folder,'supabase/migrations',MIGRATION_SIXTEEN),'-- changed push candidate\n');
+  await assert.rejects(loadOriginalNine(folder),/CANDIDATE_NOTIFICATION_DELIVERY_MIGRATION_CHANGED/);
+  await writeFile(join(folder,'supabase/migrations',MIGRATION_SIXTEEN),await readFile(join(source,'supabase/migrations',MIGRATION_SIXTEEN)));
+  await writeFile(join(folder,'supabase/migrations/20261029130000_unlisted.sql'),'SELECT 1;');
+  await assert.rejects(loadOriginalNine(folder),/EXACT_REVIEWED_MIGRATION_CHAIN_REQUIRED/);
+ }finally{await rm(folder,{recursive:true});}
+});
 function input(){
  const hostedMeta='1'.repeat(64),syntheticMeta='2'.repeat(64),hosted="SELECT '"+hostedMeta+"'::text;\nSELECT '"+hostedMeta+"'::text;\n";
  const synthetic=hosted.replaceAll(hostedMeta,syntheticMeta);

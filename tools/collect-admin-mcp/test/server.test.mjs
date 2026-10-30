@@ -93,11 +93,11 @@ async function harness(t, handler = () => ({ ...MARKER, rows: [], total: 0 }), t
 function authOr(incoming, response) { return incoming.url.pathname.endsWith('/auth/session') ? undefined : response; }
 function safeCode(value) { return value.result?.structuredContent?.error?.code; }
 
-test('actual stdio lifecycle negotiates versions and advertises exactly twelve read-only tools without signing in', async t => {
+test('actual stdio lifecycle negotiates versions and advertises exactly fifteen read-only tools without signing in', async t => {
   const f = await harness(t);
   assert.equal((await f.call('tools/list')).error.code, -32002);
   const init = await f.initialize('2025-06-18'); assert.equal(init.result.protocolVersion, '2025-06-18');
-  const listed = await f.call('tools/list'); assert.equal(listed.result.tools.length, 12);
+  const listed = await f.call('tools/list'); assert.equal(listed.result.tools.length, 15);
   for (const tool of listed.result.tools) { assert.equal(tool.annotations.readOnlyHint, true); assert.equal(tool.inputSchema.additionalProperties, false); }
   assert.deepEqual((await f.call('ping')).result, {});
   assert.equal(f.requests.length, 0);
@@ -464,7 +464,7 @@ const smsTool = (f, detail = false, args = {}) => f.tool(detail ? 'collect_admin
   detail ? { source_kind: 'capture', id: SMS_DTO.detail.resource.id, ...args } : args);
 const smsAuthOr = (incoming, result) => incoming.url.pathname.endsWith('/auth/session') ? smsSession() : result;
 
-test('the twelve-tool catalogue adds exactly two capture metadata reads with explicit bounded schemas', async t => {
+test('the current catalogue retains exactly two capture metadata reads with explicit bounded schemas', async t => {
   const f = await harness(t); await f.initialize();
   const tools = (await f.call('tools/list')).result.tools;
   const sms = tools.filter(tool => tool.name.includes('sms'));
@@ -698,4 +698,26 @@ test('stdio membership history accepts the pair and rejects a single or malforme
   await f.initialize(); assert.equal((await f.tool('collect_admin_list_requests', { limit: 1 })).result.structuredContent.data.rows[0].receipt.resource_id, resourceId);
   for (resourceId of [RESOURCE, `${RESOURCE}/${ACCOUNT}/${RESOURCE}`, [RESOURCE, ACCOUNT]]) assert.equal(safeCode(await f.tool('collect_admin_list_requests', { limit: 1 })), 'service_unavailable');
   assert.equal(f.requests.every(r => r.method === 'GET'), true);
+});
+
+test('stdio cross-operator audit reads the guarded cookie collection with numeric cursor and audit.read',async t=>{
+ const f=await harness(t,incoming=>incoming.url.pathname.endsWith('/auth/session')?session(['audit.read']):{
+  contract_version:1,scope:'cross_operator_audit_metadata',source:'domain',actor_reference:'canonical_principal',limit:1,next_cursor:{before_id:'9223372036854775806'},rows:[{id:'9223372036854775806',actor_id:RESOURCE,action:'sms.raw.revealed',entity_type:'sms_receipt',entity_id:RESOURCE,request_id:null,created_at:new Date().toISOString()}],details_included:false,checked_at:new Date().toISOString()});
+ await f.initialize();const reply=await f.tool('collect_admin_audit',{limit:1,actor_id:RESOURCE,cursor:{before_id:'9223372036854775807'}});
+ assert.equal(reply.result.isError,undefined);assert.equal(reply.result.structuredContent.data.rows[0].actor_id,RESOURCE);assert.equal(f.requests[1].url.pathname,'/api/admin/oversight/audit/domain');assert.equal(f.requests[1].headers.cookie,COOKIE);assert.equal(f.requests[1].url.searchParams.get('before_id'),'9223372036854775807');
+});
+
+test('stdio health and diagnostics preserve actual aggregate meanings and reject extra sensitive response fields',async t=>{
+ const {healthFixture,diagnosticFixture}=await import('./oversight-fixture.mjs');let poisoned=false;
+ const f=await harness(t,incoming=>incoming.url.pathname.endsWith('/auth/session')?session(['system_health.read']):incoming.url.pathname.endsWith('/health')?healthFixture():{...diagnosticFixture(),...(poisoned?{raw_error:'secret-not-returned'}:{})});
+ await f.initialize();const health=await f.tool('collect_admin_health',{expected_source_revision:'a'.repeat(64)});assert.equal(health.result.structuredContent.data.source_matches,true);assert.equal(health.result.structuredContent.data.queues.assisted_sms.automatic_retry,false);
+ const diagnostics=await f.tool('collect_admin_diagnostics');assert.equal(diagnostics.result.structuredContent.data.groups.length,1);poisoned=true;
+ const denied=await f.tool('collect_admin_diagnostics');assert.equal(denied.result.isError,true);assert.equal(JSON.stringify(denied).includes('secret-not-returned'),false);
+});
+
+test('stdio oversight never substitutes a role or another read grant and withholds changed-grant data',async t=>{
+ const {diagnosticFixture}=await import('./oversight-fixture.mjs');
+ const f=await harness(t,(incoming,n)=>incoming.url.pathname.endsWith('/auth/session')?session(n===1?['system_health.read']:[]):diagnosticFixture());
+ await f.initialize();const revoked=await f.tool('collect_admin_diagnostics');assert.equal(revoked.result.isError,true);assert.equal(JSON.stringify(revoked).includes('frameworkFailure'),false);
+ const before=f.requests.length,denied=await f.tool('collect_admin_audit');assert.equal(safeCode(denied),'permission_denied');assert.equal(f.requests.length,before+1);
 });

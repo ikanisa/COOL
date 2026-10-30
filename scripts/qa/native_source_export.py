@@ -12,6 +12,7 @@ ROOTS = ("lib/", "assets/", "licenses/", "android/", "ios/", "third_party/", "te
 FILES = {"pubspec.yaml", "pubspec.lock", "analysis_options.yaml", ".metadata", ".fvmrc",
          "AGENTS.md", "scripts/qa/native_source_export.py", "scripts/qa/native_build_provenance.rb",
          "scripts/qa/native_artifact_metadata.py", "scripts/qa/native_build_config.py",
+         "scripts/qa/client_diagnostic_identity.py",
          "scripts/android_play_store_build.sh", "scripts/android_release_signing_preflight.sh",
          "scripts/ios_app_store_build.sh", "scripts/supply_chain/gradle_runtime_inventory.init.gradle"}
 PRIVATE_NAMES = {"key.properties", "google-services.json", "GoogleService-Info.plist", "local.properties", "Generated.xcconfig", "flutter_export_environment.sh"}
@@ -47,7 +48,7 @@ def export(root, destination):
         if source.is_symlink():
             raise ValueError("Native build source must be a regular file: " + name)
         paths[name] = digest(source)
-    if not {"pubspec.yaml", "pubspec.lock", "lib/main.dart", "android/app/build.gradle.kts", "ios/Runner.xcodeproj/project.pbxproj", "scripts/qa/native_artifact_metadata.py", "scripts/qa/native_build_config.py"} <= paths.keys():
+    if not {"pubspec.yaml", "pubspec.lock", "lib/main.dart", "android/app/build.gradle.kts", "ios/Runner.xcodeproj/project.pbxproj", "scripts/qa/native_artifact_metadata.py", "scripts/qa/native_build_config.py", "scripts/qa/client_diagnostic_identity.py"} <= paths.keys():
         raise ValueError("Required native build input is absent")
     destination.mkdir(parents=True)
     for name, sha in paths.items():

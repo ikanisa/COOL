@@ -68,6 +68,8 @@ jobs:
       COLLECT_PRIVATE_RETENTION_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_private_retention_test
       COLLECT_JOBS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_jobs_test
       COLLECT_RECEIPT_FACTS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_receipt_facts_test
+      COLLECT_DIAGNOSTICS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_diagnostics_test
+      COLLECT_NOTIFICATION_DELIVERY_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_notification_delivery_test
       COLLECT_SMS_CONTENT_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_sms_content_test
       COLLECT_ADMIN_PASSWORD_POLICY_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_email_test
       COLLECT_ADMIN_PASSWORD_POLICY_STALE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_email_test
@@ -118,7 +120,7 @@ jobs:
           import {createRequire} from 'node:module';
           const {Client}=createRequire(import.meta.url)(process.env.COLLECT_PG_MODULE);
           const db=new Client({connectionString:process.env.COLLECT_TEST_PG_URL});
-          try { await db.connect(); await db.query('CREATE DATABASE collect_rls_helper_acl_test'); await db.query('CREATE DATABASE collect_public_configuration_test'); await db.query('CREATE DATABASE collect_privacy_email_test'); await db.query('CREATE DATABASE collect_admin_invitation_test'); await db.query('CREATE DATABASE collect_invitation_notice_test'); await db.query('CREATE DATABASE collect_receipt_facts_test'); await db.query('CREATE DATABASE collect_sms_content_test'); await db.query('CREATE DATABASE collect_mfa_test'); await db.query('CREATE DATABASE collect_groups_test'); await db.query('CREATE DATABASE collect_private_retention_test'); await db.query('CREATE DATABASE collect_import_test'); await db.query('CREATE DATABASE collect_edge_test'); await db.query('CREATE DATABASE collect_be02_green_3f624f3e7a6d_test'); await db.query('CREATE DATABASE collect_google_test'); await db.query('CREATE DATABASE collect_admin_history_test'); await db.query('CREATE DATABASE collect_admin_email_test'); }
+          try { await db.connect(); await db.query('CREATE DATABASE collect_rls_helper_acl_test'); await db.query('CREATE DATABASE collect_public_configuration_test'); await db.query('CREATE DATABASE collect_privacy_email_test'); await db.query('CREATE DATABASE collect_admin_invitation_test'); await db.query('CREATE DATABASE collect_invitation_notice_test'); await db.query('CREATE DATABASE collect_receipt_facts_test'); await db.query('CREATE DATABASE collect_diagnostics_test'); await db.query('CREATE DATABASE collect_notification_delivery_test'); await db.query('CREATE DATABASE collect_sms_content_test'); await db.query('CREATE DATABASE collect_mfa_test'); await db.query('CREATE DATABASE collect_groups_test'); await db.query('CREATE DATABASE collect_private_retention_test'); await db.query('CREATE DATABASE collect_import_test'); await db.query('CREATE DATABASE collect_edge_test'); await db.query('CREATE DATABASE collect_be02_green_3f624f3e7a6d_test'); await db.query('CREATE DATABASE collect_google_test'); await db.query('CREATE DATABASE collect_admin_history_test'); await db.query('CREATE DATABASE collect_admin_email_test'); }
           finally { await db.end(); }
           NODE
       - name: Replay curated migrations and SQL failure cases
@@ -148,7 +150,11 @@ jobs:
       - name: Verify atomic public configuration and uncertain commits
         run: node --test scripts/supabase/public_configuration.test.mjs
       - name: Verify cutover and public build configuration guards
-        run: python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config
+        run: python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test
+      - name: Verify retained evidence reveal policy and audit before disclosure
+        run: node scripts/tests/payment_evidence_reveal_test.mjs
+      - name: Verify Node test discovery, exact migration admission and bounded capacity/current16 refusals
+        run: node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs scripts/supabase/testing/current16-integration.test.mjs
       - name: Verify inactive scheduling and ambiguous dispatch with explicit native-interface doubles
         run: node --test scripts/supabase/jobs_test.mjs
       - name: Verify direct SQL maintenance and owner isolation with explicit Cron fixture
@@ -313,6 +319,92 @@ jobs:
             ${{ runner.temp }}/collect-current14-member-history/SCHEMA-IDENTITY.json
             ${{ runner.temp }}/collect-current14-member-history/CHILD-METADATA.json
             ${{ runner.temp }}/collect-current14-member-history/DEFINES.json
+
+  current16-integration-native:
+    name: Complete current16 runtime, retention and delivery integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # A separate fresh cluster is required: this gate creates its own actual
+    # owner connection. No earlier job's discarded owner credential is reused.
+    container:
+      image: postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317
+    env:
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_TEST_PG_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test
+      COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_CURRENT16_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_PG_MODULE: ${{ github.workspace }}/scripts/supabase/node_modules/pg
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+      DENO_TLS_CA_STORE: system
+    steps:
+      - name: Install job-container prerequisites without upgrading pinned tools
+        run: |
+          set -eu
+          test "$(id -u)" -eq 0
+          command -v apt-get >/dev/null
+          command -v timeout >/dev/null
+          export DEBIAN_FRONTEND=noninteractive
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils
+          command -v gosu >/dev/null
+          command -v initdb >/dev/null
+          command -v pg_ctl >/dev/null
+          command -v psql >/dev/null
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without dependency lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify current16 target, source and typed acceptance refusals
+        run: node --test scripts/supabase/testing/current16-integration.test.mjs
+      - name: Warm and check only the exact locked current16 dependency graph
+        env:
+          DENO_DIR: ${{ runner.temp }}/collect-current16-deno-cache
+        run: '"$COLLECT_DENO" check --frozen --node-modules-dir=none --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock scripts/supabase/testing/current16-runtime.ts'
+      - name: Start this job's fresh owned literal-loopback cluster
+        run: sh scripts/supabase/testing/ci-native-postgres.sh start
+      - name: Require complete current16 native integration on a new database
+        env:
+          DENO_DIR: ${{ runner.temp }}/collect-current16-deno-cache
+          COLLECT_CURRENT16_OUTPUT_DIR: ${{ runner.temp }}/collect-current16-integration
+        run: timeout --signal=TERM --kill-after=5s 300s node scripts/supabase/testing/current16-integration.mjs
+      - name: Always stop only this job's owned native cluster
+        if: always()
+        run: |
+          set -eu
+          if [ -f scripts/supabase/testing/ci-native-postgres.sh ]; then
+            sh scripts/supabase/testing/ci-native-postgres.sh stop
+          elif [ -e "$RUNNER_TEMP/collect-supabase-ci-postgres.state" ]; then
+            echo CI_POSTGRES_CLEANUP_SCRIPT_MISSING >&2
+            exit 1
+          fi
+      - name: Preserve only safe current16 source and outcome records
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: current16-integration-${{ github.sha }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/collect-current16-integration/INPUTS.json
+            ${{ runner.temp }}/collect-current16-integration/CREATE-INTENT.json
+            ${{ runner.temp }}/collect-current16-integration/PREPARATION.json
+            ${{ runner.temp }}/collect-current16-integration/CHILD-STDOUT.log
+            ${{ runner.temp }}/collect-current16-integration/CHILD-STDERR.log
+            ${{ runner.temp }}/collect-current16-integration/CHILD-METADATA.json
+            ${{ runner.temp }}/collect-current16-integration/CASES.json
+            ${{ runner.temp }}/collect-current16-integration/OBSERVATIONS.json
+            ${{ runner.temp }}/collect-current16-integration/WORK-CLOSURES.json
+            ${{ runner.temp }}/collect-current16-integration/NATIVE-RESULT.json
+            ${{ runner.temp }}/collect-current16-integration/RESULT.json
+            !${{ runner.temp }}/collect-current16-integration/RUN-SPEC.private.json
 
   current14-member-history-dart:
     name: Actual current14 SQL receipts through the Dart financial decoder

@@ -32,13 +32,15 @@ class NativeConfigurationTest(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory(prefix="collect-native-config-")
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
-        for relative in ("scripts/qa", "scripts/audits", "android", "fastlane", "tmp"):
+        for relative in ("scripts/qa", "scripts/audits", "android", "fastlane", "tmp", "lib"):
             (self.root / relative).mkdir(parents=True)
         for relative in ("scripts/android_play_store_build.sh", "scripts/ios_app_store_build.sh",
-                         "scripts/audits/collect_release_build.rb", "scripts/qa/native_build_config.py", "scripts/android_release_signing_preflight.sh",
+                         "scripts/audits/collect_release_build.rb", "scripts/qa/native_build_config.py", "scripts/qa/client_diagnostic_identity.py", "scripts/android_release_signing_preflight.sh",
                          "scripts/google_play_optimization_gate.sh", "fastlane/Fastfile"):
             shutil.copy2(ROOT / relative, self.root / relative)
         (self.root / "pubspec.yaml").write_text("name: synthetic_config_fixture\nversion: 1.0.8+65\n")
+        (self.root / "pubspec.lock").write_text("packages: {}\n")
+        (self.root / "lib/main.dart").write_text("void main() {}\n")
         (self.root / "scripts/qa/native_build_provenance.rb").write_text(
             "require 'json'\n"
             "File.open('provenance-events.jsonl','a'){|f|f.puts(JSON.generate(ARGV))}\n"
@@ -69,7 +71,7 @@ path,member={'apk':('build/app/outputs/flutter-apk/app-production-release.apk','
 artifact=root/path;artifact.parent.mkdir(parents=True,exist_ok=True)
 with zipfile.ZipFile(artifact,'w',compression=zipfile.ZIP_STORED) as archive:
  values=json.loads(config.read_text())
- expected=[values[k] for k in ['SUPABASE_URL','SUPABASE_API_URL','SUPABASE_PUBLISHABLE_KEY'] if k!=os.environ.get('FIXTURE_OMIT_CONFIG')]
+ expected=[values[k] for k in ['SUPABASE_URL','SUPABASE_API_URL','SUPABASE_PUBLISHABLE_KEY','COLLECT_BUILD_VERSION','COLLECT_BUILD_SOURCE_ID'] if k in values and k!=os.environ.get('FIXTURE_OMIT_CONFIG')]
  if os.environ.get('FIXTURE_BINARY_URL'):expected[1]=os.environ['FIXTURE_BINARY_URL']
  archive.writestr(member,b'SYNTHETIC COMPILER SUBSTITUTE\0'+b'\0'.join(v.encode() for v in expected)+b'\0'+os.urandom(1_010_000))
  if os.environ.get('FIXTURE_QA_MARKER')=='1':archive.writestr('assets/collect-local-unsigned-qa.json','{}')
@@ -115,6 +117,10 @@ with zipfile.ZipFile(artifact,'w',compression=zipfile.ZIP_STORED) as archive:
             self.assertEqual(native, records[0]["defines"])
         expected_profile = hashlib.sha256(json.dumps(records[0]["defines"],sort_keys=True,separators=(",",":")).encode()).hexdigest()
         self.assertEqual(manifest["public_runtime_config_sha256"],expected_profile)
+        diagnostic = json.loads((self.root / ".cache/client-diagnostics/android.json").read_text())
+        self.assertEqual(records[0]["defines"]["COLLECT_BUILD_SOURCE_ID"], diagnostic["source_revision"])
+        self.assertEqual(manifest["diagnostics_source_revision"], diagnostic["source_revision"])
+        self.assertFalse(diagnostic["signing_or_deployment_acceptance"])
         self.assertNotIn("synthetic-private-value", json.dumps(manifest))
         self.assertFalse((self.root / ".dart_tool/collect-android-play-store-build.lock").exists())
         events = (self.root / "provenance-events.jsonl").read_text().splitlines()
@@ -265,6 +271,19 @@ actual_aab_sha256=Digest::SHA256.file(aab['path']).hexdigest
         with artifact.open("ab") as stream:stream.write(b"changed synthetic artifact")
         observed=self.runtime_gate()
         self.assertEqual(observed["status"],"fail")
+        self.assertFalse(observed["build_profile_and_artifacts_bound"])
+
+    def test_diagnostic_source_is_required_in_artifact_and_runtime_gate_detects_source_drift(self):
+        omitted = self.run_wrapper("android", FIXTURE_OMIT_CONFIG="COLLECT_BUILD_SOURCE_ID")
+        self.assertNotEqual(omitted.returncode, 0)
+        self.assertIn("missing the reviewed Supabase runtime configuration", omitted.stderr)
+        self.assertFalse((self.root / ".cache/android_play_store_build/1.0.8+65.json").exists())
+        result = self.run_wrapper("android")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.runtime_gate()["status"], "pass")
+        (self.root / "lib/main.dart").write_text("void main() { print('changed'); }\n")
+        observed = self.runtime_gate()
+        self.assertEqual(observed["status"], "fail")
         self.assertFalse(observed["build_profile_and_artifacts_bound"])
 
     def test_actual_play_runtime_reader_rejects_missing_key_and_legacy_url(self):

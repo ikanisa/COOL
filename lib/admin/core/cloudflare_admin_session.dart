@@ -12,6 +12,8 @@ import 'cloudflare_admin_transport.dart';
 import 'cloudflare_admin_response.dart';
 import '../../app/env/app_env.dart';
 import '../../core/data/exact_json_values.dart';
+import '../../core/logging/collect_diagnostic_queue.dart';
+import '../../core/logging/collect_member_diagnostics.dart';
 import '../../core/supabase/collect_supabase_configuration.dart';
 import '../../core/cloudflare/collect_turnstile.dart';
 import '../../core/cloudflare/collect_cloudflare_client.dart'
@@ -33,6 +35,104 @@ class CloudflareAdminRequestException extends AdminAccountException {
   final bool outcomeUnknown;
   final AdminEmailOtpReceipt? emailOtpReceipt;
   final AdminInvitationFailure? invitationFailure;
+}
+
+/// Missing or newer source metadata cannot grant ordinary evidence access.
+String retainedEvidenceSourceSensitivity(Object? value) =>
+    const {'ordinary', 'raw_sms', 'unclassified'}.contains(value)
+    ? value as String
+    : 'unclassified';
+
+bool retainedEvidenceRequiresReview(Object? value) =>
+    retainedEvidenceSourceSensitivity(value) != 'ordinary';
+
+String? retainedEvidenceReviewReason(String? value) {
+  if (value == null || RegExp(r'[\x00-\x1f\x7f]').hasMatch(value)) {
+    return null;
+  }
+  final reason = value.trim();
+  return reason.length >= 8 && reason.length <= 1000 ? reason : null;
+}
+
+void requireRetainedEvidenceReviewAccess(CloudflareAdminUser? user) {
+  if (user == null ||
+      !user.expiresAt.isAfter(DateTime.now()) ||
+      !const {
+        'payments.evidence.read',
+        'sms.read',
+        'sms.reveal',
+      }.every(user.permissions.contains)) {
+    throw const CloudflareAdminRequestException(
+      'This account does not have permission to reveal SMS-source evidence.',
+      code: 'permission_required',
+    );
+  }
+  if (!user.hasRecentSensitiveVerification()) {
+    throw CloudflareAdminRequestException(
+      user.usesEmailVerification
+          ? 'Verify your email before revealing SMS-source evidence.'
+          : 'Complete a current authenticator check before revealing SMS-source evidence.',
+      code: user.usesEmailVerification
+          ? 'recent_email_sign_in_required'
+          : 'recent_verification_required',
+    );
+  }
+}
+
+CloudflareAdminRequestException _retainedEvidenceFailure(
+  http.Response response,
+) {
+  String? code;
+  try {
+    final body = jsonDecode(utf8.decode(response.bodyBytes));
+    if (body is Map) {
+      final error = body['error'];
+      final value = error is String
+          ? error
+          : error is Map
+          ? error['code']
+          : body['code'];
+      if (const {
+        'permission_required',
+        '42501',
+        'recent_email_sign_in_required',
+        'reason_required',
+        'admin_session_required',
+        'evidence_integrity_failed',
+        'evidence_access_changed',
+        'admin_access_changed',
+        'session_changed',
+        'evidence_unavailable',
+      }.contains(value)) {
+        code = value as String;
+      }
+    }
+  } catch (_) {
+    // Raw server bodies and diagnostic details never become public copy.
+  }
+  final message = switch (code) {
+    'permission_required' ||
+    '42501' => 'This account does not have permission to read this evidence.',
+    'recent_email_sign_in_required' =>
+      'Verify your email before revealing SMS-source evidence.',
+    'reason_required' =>
+      'Enter a review reason of 8 to 1000 printable characters.',
+    'admin_session_required' =>
+      'Reopen the Admin workspace and sign in before reviewing this evidence.',
+    'evidence_access_changed' || 'admin_access_changed' || 'session_changed' =>
+      'Evidence access changed. Refresh this record before reading evidence.',
+    'evidence_integrity_failed' =>
+      'The retained evidence could not be verified. Close this view and contact your super admin.',
+    _ =>
+      response.statusCode == 403
+          ? 'This account does not have permission to read this evidence.'
+          : 'Retained evidence could not be read. Refresh and try again.',
+  };
+  return CloudflareAdminRequestException(
+    message,
+    statusCode: response.statusCode,
+    code: code,
+  );
 }
 
 class _EmailVerificationSessionMismatch implements Exception {
@@ -596,12 +696,61 @@ class CloudflareAdminSession
     return result;
   }
 
+  /// Telemetry cannot clear authentication, replay business requests or surface
+  /// raw errors. Its fixed batch has its own bounded, best-effort response.
+  Future<CollectDiagnosticDelivery> sendDiagnosticBatch(
+    Map<String, Object?> body, {
+    required bool Function() current,
+  }) async {
+    final before = authorityFence,
+        configuration = _supabase,
+        token = _csrfToken;
+    if (configuration == null) return CollectDiagnosticDelivery.discard;
+    if (!current() ||
+        user == null ||
+        !user!.expiresAt.isAfter(DateTime.now()) ||
+        token == null) {
+      return CollectDiagnosticDelivery.retry;
+    }
+    try {
+      final response = await boundedAdminResponse(
+        _http,
+        configuration.adminRequest('diagnostics', browserOrigin: _origin),
+        method: 'POST',
+        maximumBytes: 4096,
+        body: jsonEncode(body),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'apikey': configuration.publishableKey,
+          'X-Collect-Admin': '1',
+          'X-Collect-Requested-With': 'collect-admin',
+          'X-Collect-CSRF': token,
+        },
+      );
+      if (!mounted || !current() || before != authorityFence) {
+        return CollectDiagnosticDelivery.retry;
+      }
+      Object? value;
+      try {
+        value = jsonDecode(utf8.decode(response.bodyBytes));
+      } catch (_) {}
+      return collectDiagnosticReply(response.statusCode, value);
+    } catch (_) {
+      return CollectDiagnosticDelivery.retry;
+    }
+  }
+
   Future<String> retainedEvidence(
     String id, {
     required String sha256Hex,
     required int sizeBytes,
+    Object? sourceSensitivity,
+    String? reviewReason,
   }) async {
-    final before = authorityFence, user = this.user;
+    final before = authorityFence,
+        user = this.user,
+        protectedSource = retainedEvidenceRequiresReview(sourceSensitivity);
     if (!RegExp(
           r'^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$',
         ).hasMatch(id) ||
@@ -615,14 +764,27 @@ class CloudflareAdminSession
         'Retained evidence is unavailable to this account.',
       );
     }
+    String? reason;
+    if (protectedSource) {
+      requireRetainedEvidenceReviewAccess(user);
+      reason = retainedEvidenceReviewReason(reviewReason);
+      if (reason == null) {
+        throw const CloudflareAdminRequestException(
+          'Enter a review reason of 8 to 1000 printable characters.',
+          code: 'reason_required',
+        );
+      }
+    }
     http.Response response;
     try {
       response = await boundedAdminResponse(
         _http,
         _origin.resolve('/api/admin/evidence/$id'),
         method: 'GET',
-        headers: {'Accept': 'text/plain'},
-        maximumBytes: sizeBytes,
+        headers: {'Accept': 'text/plain', 'X-Collect-Review-Reason': ?reason},
+        // A denied read may carry a small JSON envelope even for tiny evidence.
+        // The successful plaintext must still match the exact retained size.
+        maximumBytes: max(sizeBytes, 4096),
       );
     } on Object {
       throw const AdminAccountException(
@@ -634,9 +796,24 @@ class CloudflareAdminSession
         before != authorityFence ||
         current == null ||
         !current.expiresAt.isAfter(DateTime.now()) ||
-        !current.permissions.contains('payments.evidence.read') ||
-        response.statusCode != 200 ||
-        response.headers['content-type']?.split(';').first.trim() !=
+        !current.permissions.contains('payments.evidence.read')) {
+      throw const AdminAccountException(
+        'The retained evidence or current authorization could not be verified.',
+      );
+    }
+    if (response.statusCode != 200) throw _retainedEvidenceFailure(response);
+    final sensitivity = response.headers['x-collect-evidence-sensitivity'];
+    if (!const {'ordinary', 'raw_sms', 'unclassified'}.contains(sensitivity) ||
+        (!protectedSource && retainedEvidenceRequiresReview(sensitivity))) {
+      throw const CloudflareAdminRequestException(
+        'Evidence access changed. Refresh this record before reading evidence.',
+        code: 'evidence_access_changed',
+      );
+    }
+    // Email proof can disappear without changing the same-session authority
+    // fence. Recheck it after the protected response has finished as well.
+    if (protectedSource) requireRetainedEvidenceReviewAccess(current);
+    if (response.headers['content-type']?.split(';').first.trim() !=
             'text/plain' ||
         response.bodyBytes.length != sizeBytes ||
         sha256.convert(response.bodyBytes).toString() != sha256Hex) {

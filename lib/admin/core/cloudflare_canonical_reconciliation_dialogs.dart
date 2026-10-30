@@ -281,26 +281,201 @@ class _CanonicalReviewControllerScopeState
   Widget build(BuildContext context) => widget.builder(_controller);
 }
 
-class _CanonicalEvidenceDialog extends ConsumerWidget {
-  const _CanonicalEvidenceDialog(this.text, this.authority);
+Future<String?> _reviewRetainedEvidence(
+  BuildContext context,
+  Object? authority,
+) async {
+  var accepted = false;
+  return showDialog<String>(
+    context: context,
+    animationStyle: CollectMotion.animationStyle(context),
+    builder: (context) => _CanonicalReviewControllerScope(
+      builder: (controller) => _CanonicalEvidenceAccess(
+        authority: authority,
+        protectedSource: true,
+        builder: (context, user, authorized) => StatefulBuilder(
+          builder: (context, local) => AlertDialog(
+            title: const Text('Review SMS-source evidence access'),
+            content: SizedBox(
+              width: 760,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      'This evidence contains an original SMS or its source has not been classified. Revealing it records your account and review reason in the audit history.',
+                    ),
+                    if (!authorized)
+                      _Note(
+                        user?.permissions.contains('sms.read') != true ||
+                                user?.permissions.contains('sms.reveal') != true
+                            ? 'This account does not have permission to reveal SMS-source evidence. Close this review.'
+                            : user?.usesEmailVerification == true
+                            ? 'Account access changed or email verification expired. Close this review, verify your email and reopen the payment.'
+                            : 'Account access changed or verification expired. Close this review, verify your authenticator and reopen the payment.',
+                        error: true,
+                      ),
+                    TextField(
+                      controller: controller,
+                      enabled: authorized,
+                      maxLength: 1000,
+                      minLines: 2,
+                      maxLines: 4,
+                      decoration: const InputDecoration(
+                        labelText: 'Evidence access reason',
+                        helperText: '8 to 1000 printable characters.',
+                      ),
+                      onChanged: (_) => local(() {}),
+                    ),
+                    CheckboxListTile(
+                      value: accepted,
+                      onChanged: authorized
+                          ? (value) => local(() => accepted = value == true)
+                          : null,
+                      title: const Text(
+                        'I need the original evidence for this review and understand that this access is audited.',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              FilledButton(
+                onPressed:
+                    authorized &&
+                        accepted &&
+                        retainedEvidenceReviewReason(controller.text) != null
+                    ? () => Navigator.pop(
+                        context,
+                        retainedEvidenceReviewReason(controller.text),
+                      )
+                    : null,
+                child: const Text('Reveal retained evidence'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/// Recheck both authority and proof on provider updates, proof/session expiry
+/// and resume. Once concealed, the operator must reopen and audit a new read.
+class _CanonicalEvidenceAccess extends ConsumerStatefulWidget {
+  const _CanonicalEvidenceAccess({
+    required this.authority,
+    required this.protectedSource,
+    required this.builder,
+  });
+
+  final Object? authority;
+  final bool protectedSource;
+  final Widget Function(BuildContext, CloudflareAdminUser?, bool) builder;
+
+  @override
+  ConsumerState<_CanonicalEvidenceAccess> createState() =>
+      _CanonicalEvidenceAccessState();
+}
+
+class _CanonicalEvidenceAccessState
+    extends ConsumerState<_CanonicalEvidenceAccess>
+    with WidgetsBindingObserver {
+  Timer? _expiry;
+  DateTime? _deadline;
+  bool _accessLost = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && mounted) setState(() {});
+  }
+
+  void _recheckAt(DateTime? deadline, DateTime now) {
+    if (_deadline == deadline) return;
+    _expiry?.cancel();
+    _deadline = deadline;
+    if (deadline == null) return;
+    _expiry = Timer(deadline.difference(now), () {
+      if (mounted) setState(() => _deadline = null);
+    });
+  }
+
+  @override
+  void dispose() {
+    _expiry?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final user = ref.watch(cloudflareAdminSessionProvider).asData?.value,
+        now = ref.watch(adminClockProvider)();
+    final authorized =
+        !_accessLost &&
+        user != null &&
+        user.authorityKey == widget.authority &&
+        user.expiresAt.isAfter(now) &&
+        user.permissions.contains('payments.evidence.read') &&
+        (!widget.protectedSource ||
+            user.permissions.contains('sms.read') &&
+                user.permissions.contains('sms.reveal') &&
+                user.hasRecentSensitiveVerification(now: now));
+    DateTime? deadline;
+    if (authorized) {
+      deadline = user.expiresAt;
+      if (widget.protectedSource) {
+        final proofDeadline = user.sensitiveVerificationAt!.add(
+          const Duration(minutes: 5, milliseconds: 1),
+        );
+        if (proofDeadline.isBefore(deadline)) deadline = proofDeadline;
+      }
+    } else {
+      _accessLost = true;
+    }
+    _recheckAt(deadline, now);
+    return widget.builder(context, user, authorized);
+  }
+}
+
+class _CanonicalEvidenceDialog extends StatelessWidget {
+  const _CanonicalEvidenceDialog(
+    this.text,
+    this.authority, {
+    required this.protectedSource,
+  });
   final String text;
   final Object? authority;
+  final bool protectedSource;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(cloudflareAdminSessionProvider).asData?.value;
-    final authorized =
-        user != null &&
-        user.authorityKey == authority &&
-        user.expiresAt.isAfter(DateTime.now()) &&
-        user.permissions.contains('payments.evidence.read');
-    return AlertDialog(
+  Widget build(BuildContext context) => _CanonicalEvidenceAccess(
+    authority: authority,
+    protectedSource: protectedSource,
+    builder: (context, user, authorized) => AlertDialog(
       title: const Text('Retained payment evidence'),
       content: SizedBox(
         width: 760,
         child: SingleChildScrollView(
           child: authorized
               ? SelectableText(text)
-              : const Text('Account access changed. Close this evidence view.'),
+              : Text(
+                  protectedSource
+                      ? 'Account access changed or verification expired. Close this evidence view.'
+                      : 'Account access changed. Close this evidence view.',
+                ),
         ),
       ),
       actions: [
@@ -309,6 +484,6 @@ class _CanonicalEvidenceDialog extends ConsumerWidget {
           child: const Text('Close evidence'),
         ),
       ],
-    );
-  }
+    ),
+  );
 }

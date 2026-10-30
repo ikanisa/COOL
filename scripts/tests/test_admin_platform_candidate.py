@@ -10,6 +10,8 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
+DIAGNOSTIC_SOURCE = 'a' * 64
+DIAGNOSTIC_VERSION = '1.2.4+23'
 
 
 def module(name, path):
@@ -35,6 +37,8 @@ class PlatformCandidateTest(unittest.TestCase):
         # The workflow uses the same reviewed source-input selector as verify.
         (self.root / 'scripts/admin_platform_candidate.py').write_bytes(
             (ROOT / 'scripts/admin_platform_candidate.py').read_bytes())
+        (self.root / 'scripts/qa/client_diagnostic_identity.py').write_bytes(
+            (ROOT / 'scripts/qa/client_diagnostic_identity.py').read_bytes())
         (self.root / candidate.SUPABASE_WRANGLER).write_bytes(
             (ROOT / candidate.SUPABASE_WRANGLER).read_bytes())
         (self.root / '.gitignore').write_text('build/\n')
@@ -49,6 +53,8 @@ class PlatformCandidateTest(unittest.TestCase):
             path = self.build / name
             path.parent.mkdir(parents=True,exist_ok=True)
             path.write_text('fixture artifact role: ' + name)
+        (self.build / 'main.dart.js').write_text(
+            f'const fixtureSource="{DIAGNOSTIC_SOURCE}";const fixtureVersion="{DIAGNOSTIC_VERSION}";')
         (self.build / 'custom-sw.js').write_text(
             'const CACHE_NAME = "collect-admin-fixture";\n'
             'const CACHE_URLS = ["./"];\nconst CACHE_HASHES = {"./":"fixture"};\n')
@@ -57,6 +63,8 @@ class PlatformCandidateTest(unittest.TestCase):
             'backend': 'cloudflare', 'authentication': 'email_otp_cookie_with_totp',
             'minimum_core_schema_migration': '0017_admin_email_otp.sql',
             'financial_model': 'canonical_evidence_ledger', 'financial_contract_version': 2,
+            'diagnostics_source_revision': DIAGNOSTIC_SOURCE,
+            'diagnostics_build_version': DIAGNOSTIC_VERSION,
         }))
         workflow = policy.read_workflow(ROOT / '.github/workflows/ci.yml')
         producer = next(s['run'] for s in workflow['jobs']['admin-web-build']['steps']
@@ -74,6 +82,9 @@ class PlatformCandidateTest(unittest.TestCase):
         value = self.verify()
         self.assertEqual(value['source_commit'], self.commit)
         self.assertIs(value['hosted_deployment_verified'], False)
+        self.assertEqual(value['diagnostics']['source_revision'], DIAGNOSTIC_SOURCE)
+        self.assertEqual(value['diagnostics']['verification_scope'], 'quoted_label_bytes_present')
+        self.assertIs(value['diagnostics']['signing_or_deployment_acceptance'], False)
 
     def test_producer_and_consumer_ignore_only_filesystem_metadata_preserving_app_links(self):
         metadata=self.build/'assets/._lazy.txt';metadata.parent.mkdir(parents=True);metadata.write_bytes(b'preserved resource fork')
@@ -129,13 +140,57 @@ class PlatformCandidateTest(unittest.TestCase):
             self.verify()
 
     def test_new_direct_builder_and_transport_dependencies_are_source_bound(self):
-        for name in ('scripts/supabase/admin_build_config.py', 'deploy/platform-admin/src/supabase-transport.js'):
+        for name in ('scripts/supabase/admin_build_config.py', 'scripts/qa/client_diagnostic_identity.py',
+                     'deploy/platform-admin/src/supabase-transport.js'):
             path = self.root / name
             original = path.read_bytes()
             path.write_bytes(original + b'changed direct dependency\n')
             with self.subTest(name=name), self.assertRaises(ValueError):
                 self.verify()
             path.write_bytes(original)
+
+    def test_diagnostic_helper_is_required_and_old_helper_omitting_receipts_fail_closed(self):
+        name = 'scripts/qa/client_diagnostic_identity.py'
+        path = self.root / name
+        original = path.read_bytes()
+        for backend in ('cloudflare', 'supabase'):
+            if backend == 'supabase':
+                self.supabase_receipt()
+            receipt = json.loads(self.receipt.read_text())
+            self.assertEqual(receipt['input_sha256'][name], hashlib.sha256(original).hexdigest())
+            verify = lambda: candidate.verify(self.build, self.receipt, self.commit,
+                                              self.root, backend=backend)
+            verify()
+            path.unlink()
+            with self.subTest(backend=backend, condition='missing'), self.assertRaises(ValueError):
+                verify()
+            path.write_bytes(original + b'\n# changed binding helper\n')
+            with self.subTest(backend=backend, condition='changed'), self.assertRaises(ValueError):
+                verify()
+            path.write_bytes(original)
+            stale = json.loads(json.dumps(receipt))
+            del stale['input_sha256'][name]
+            self.receipt.write_text(json.dumps(stale))
+            with self.subTest(backend=backend, condition='old receipt'), self.assertRaises(ValueError):
+                verify()
+            self.receipt.write_text(json.dumps(receipt))
+
+    def test_self_consistent_artifact_receipt_still_requires_compiled_diagnostic_labels(self):
+        original_receipt = self.receipt.read_bytes()
+        path = self.build / 'main.dart.js'
+        original = path.read_bytes()
+        for data in (b'const unrelated="fixture";', original.replace(DIAGNOSTIC_SOURCE.encode(), b'b' * 64),
+                     original.replace(DIAGNOSTIC_VERSION.encode(), b'1.2.4+24')):
+            path.write_bytes(data)
+            receipt = json.loads(original_receipt)
+            receipt['files']['main.dart.js'] = {'sha256': hashlib.sha256(data).hexdigest(), 'bytes': len(data)}
+            receipt['main_dart_js_sha256'] = receipt['files']['main.dart.js']['sha256']
+            receipt['artifact_manifest_sha256'] = hashlib.sha256(candidate.canonical(receipt['files'])).hexdigest()
+            self.receipt.write_text(json.dumps(receipt))
+            with self.subTest(data=data), self.assertRaises(ValueError):
+                self.verify()
+        path.write_bytes(original)
+        self.receipt.write_bytes(original_receipt)
 
     def test_self_consistent_old_transport_or_financial_model_is_rejected(self):
         version_path = self.build / 'version.json'

@@ -35,35 +35,38 @@ void main() {
     }
   });
 
-  test('raw instants sort across days, months and years in both directions', () {
-    final compare = operatingDateComparator('created_at')!;
-    final rows = [
-      _row('february', '2026-02-01T00:00:00Z'),
-      _row('january-last-day', '2026-01-31T10:00:00Z'),
-      _row(
+  test(
+    'raw instants sort across days, months and years in both directions',
+    () {
+      final compare = operatingDateComparator('created_at')!;
+      final rows = [
+        _row('february', '2026-02-01T00:00:00Z'),
+        _row('january-last-day', '2026-01-31T10:00:00Z'),
+        _row(
+          'january-second-day',
+          DateTime.utc(2026, 1, 2).millisecondsSinceEpoch ~/ 1000,
+        ),
+        _row('new-year', DateTime.utc(2026)),
+        _row('old-year', '2025-12-31T23:59:00Z'),
+      ];
+      rows.sort(compare);
+      expect(rows.map((row) => row.id), [
+        'old-year',
+        'new-year',
         'january-second-day',
-        DateTime.utc(2026, 1, 2).millisecondsSinceEpoch ~/ 1000,
-      ),
-      _row('new-year', DateTime.utc(2026)),
-      _row('old-year', '2025-12-31T23:59:00Z'),
-    ];
-    rows.sort(compare);
-    expect(rows.map((row) => row.id), [
-      'old-year',
-      'new-year',
-      'january-second-day',
-      'january-last-day',
-      'february',
-    ]);
-    rows.sort((left, right) => -compare(left, right));
-    expect(rows.map((row) => row.id), [
-      'february',
-      'january-last-day',
-      'january-second-day',
-      'new-year',
-      'old-year',
-    ]);
-  });
+        'january-last-day',
+        'february',
+      ]);
+      rows.sort((left, right) => -compare(left, right));
+      expect(rows.map((row) => row.id), [
+        'february',
+        'january-last-day',
+        'january-second-day',
+        'new-year',
+        'old-year',
+      ]);
+    },
+  );
 
   test('DateTime, epoch seconds and offset strings compare as instants', () {
     for (final key in ['observed_at', 'retained_until']) {
@@ -96,16 +99,26 @@ void main() {
     }
   });
 
-  test('null and unknown values retain an explicit order distinct from zero', () {
-    final compare = operatingDateComparator('created_at')!;
-    final epoch = _row('epoch', 0);
-    for (final unknown in [null, 'not recorded', '', true, 0.5, 9007199254740991]) {
-      final row = _row('unknown', unknown);
-      expect(compare(row, epoch), lessThan(0));
-      expect(compare(epoch, row), greaterThan(0));
-      expect(compare(row, _row('null', null)), 0);
-      expect(-compare(row, epoch), greaterThan(0));
-    }
-    expect(compare(epoch, _row('epoch-string', '1970-01-01T00:00:00Z')), 0);
-  });
+  test(
+    'null and unknown values retain an explicit order distinct from zero',
+    () {
+      final compare = operatingDateComparator('created_at')!;
+      final epoch = _row('epoch', 0);
+      for (final unknown in [
+        null,
+        'not recorded',
+        '',
+        true,
+        0.5,
+        9007199254740991,
+      ]) {
+        final row = _row('unknown', unknown);
+        expect(compare(row, epoch), lessThan(0));
+        expect(compare(epoch, row), greaterThan(0));
+        expect(compare(row, _row('null', null)), 0);
+        expect(-compare(row, epoch), greaterThan(0));
+      }
+      expect(compare(epoch, _row('epoch-string', '1970-01-01T00:00:00Z')), 0);
+    },
+  );
 }

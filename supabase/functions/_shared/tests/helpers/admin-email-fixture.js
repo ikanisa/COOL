@@ -8,7 +8,7 @@ async function local(sql){
  const row=(await sql`SELECT current_database() AS db,host(inet_server_addr()) AS host`)[0];
  assert(['127.0.0.1','::1'].includes(row.host));
  assert(['collect_admin_invitation_test','collect_invitation_notice_test','collect_sms_content_test',
-  'collect_private_retention_test','collect_receipt_facts_test','collect_admin_email_test'].includes(row.db));
+  'collect_private_retention_test','collect_receipt_facts_test','collect_admin_email_test','collect_notification_delivery_test'].includes(row.db));
 }
 export async function fixtureAdminAccount(sql,db,args){
  await local(sql);

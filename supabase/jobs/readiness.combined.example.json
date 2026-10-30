@@ -1,0 +1,35 @@
+{
+  "format":"collect.jobs.readiness.v3",
+  "project_ref":"rrlduytparvsjfmegalh",
+  "endpoint":"https://rrlduytparvsjfmegalh.supabase.co/functions/v1/collect-jobs",
+  "deployment_sha256":"REPLACE_WITH_REVIEWED_DEPLOYED_FUNCTION_BUNDLE_SHA256",
+  "runtime_evidence_sha256":"REPLACE_WITH_EXACT_SOURCE_MODE_MODEL_PROJECT_PACKAGE_AND_PAUSE_READBACK_SHA256",
+  "token_custody_evidence_sha256":"REPLACE_WITH_PRIVATE_VAULT_AND_EDGE_CUSTODY_EVIDENCE_SHA256",
+  "copy_inventory_evidence_sha256":"REPLACE_WITH_ACCEPTED_OPERATIONAL_COPY_INVENTORY_EVIDENCE_SHA256",
+  "quota_evidence_sha256":"REPLACE_WITH_CURRENT_ORGANIZATION_USAGE_EVIDENCE_SHA256",
+  "provider_evidence_sha256":"REPLACE_WITH_APPROVED_AI_PROVIDER_MODEL_AND_COST_EVIDENCE_SHA256",
+  "notification_provider_evidence_sha256":"REPLACE_WITH_REVIEWED_FIREBASE_ANDROID_DEVICE_AND_CREDENTIAL_EVIDENCE_SHA256",
+  "verified_at":"REPLACE_WITH_CURRENT_UTC_TIMESTAMP",
+  "mode":"receipt_and_push_v1",
+  "momo_processing_paused":false,
+  "remaining_invocations":10000,
+  "remaining_provider_requests":10000,
+  "remaining_notification_attempts":10000,
+  "remaining_notification_provider_requests":20000,
+  "processing_admission":{
+    "contract":"collect.receipt-processing.v1",
+    "source_sha256":"REPLACE_WITH_EXACT_ADOPTED_BUILD_SOURCE_SHA256",
+    "approval_sha256":"REPLACE_WITH_REVIEWED_PROCESSING_APPROVAL_SHA256",
+    "model_id":"REPLACE_WITH_APPROVED_CONFIGURED_MODEL_ID",
+    "batch_limit":1
+  },
+  "notification_admission":{
+    "contract":"collect.android-push.v1",
+    "source_sha256":"REPLACE_WITH_EXACT_ADOPTED_BUILD_SOURCE_SHA256",
+    "approval_sha256":"REPLACE_WITH_REVIEWED_NOTIFICATION_APPROVAL_SHA256",
+    "project_id":"REPLACE_WITH_APPROVED_FIREBASE_PROJECT_ID",
+    "android_package":"app.cool.mobile",
+    "admitted_from":"REPLACE_WITH_REVIEWED_INTEGER_UNIX_SECONDS_EVENT_LOWER_BOUND",
+    "batch_limit":1
+  }
+}

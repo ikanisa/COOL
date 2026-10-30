@@ -195,6 +195,35 @@ test('ordinary API, JavaScript and CSS responses keep their original policy and 
   }
 });
 
+test('retained evidence preserves its audit reason and server sensitivity through the same-origin proxy', async () => {
+  const path = '/api/admin/evidence/11111111-1111-4111-8111-111111111111';
+  const reason = 'Review the retained synthetic SMS source';
+  const calls = [];
+  const {handle} = fixture({fetchImpl: async outgoing => {
+    calls.push(outgoing);
+    assert.equal(outgoing.url, SUPABASE_ORIGIN + '/functions/v1/admin-api' + path);
+    assert.equal(outgoing.method, 'GET');
+    assert.equal(outgoing.headers.get('X-Collect-Review-Reason'), reason);
+    assert.equal(outgoing.headers.get('Origin'), FRONT);
+    assert.equal(outgoing.headers.get('Authorization'), null);
+    return new Response('Synthetic retained evidence', {headers: {
+      'Content-Type': 'text/plain',
+      'X-Collect-Evidence-Sensitivity': 'raw_sms',
+      'Cache-Control': 'no-store',
+    }});
+  }});
+  const response = await handle(request(path, {headers: {
+    'Accept': 'text/plain',
+    'X-Collect-Review-Reason': reason,
+    'Sec-Fetch-Site': 'same-origin',
+  }}));
+  assert.equal(response.status, 200);
+  assert.equal(calls.length, 1);
+  assert.equal(await response.text(), 'Synthetic retained evidence');
+  assert.equal(response.headers.get('X-Collect-Evidence-Sensitivity'), 'raw_sms');
+  assert.equal(response.headers.get('Cache-Control'), 'private, no-store, max-age=0');
+});
+
 test('only nominated project and the two fixed function protocols can be routed', () => {
   const query = '?a=one%2Btwo&a=three&url=https%3A%2F%2Fevil.invalid';
   assert.equal(routeCollectTarget('/v1/rpc/member_profile' + query).upstream,

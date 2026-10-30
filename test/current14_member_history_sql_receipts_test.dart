@@ -117,8 +117,9 @@ void main() {
         for (final item in decoded.items) {
           expect(item.createdAt.isUtc, isTrue);
           expect(item.amountMinor, inInclusiveRange(1, 9007199254740991));
-          if (!item.isCurrentUserContribution)
+          if (!item.isCurrentUserContribution) {
             expect(item.transactionId, isNull);
+          }
         }
       }
       expect(versions, {1, 2});

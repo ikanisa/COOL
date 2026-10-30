@@ -295,7 +295,7 @@ def validate_workflows(workflows: dict[str, dict]) -> list[dict[str, str]]:
         'node scripts/supabase/test_schema.mjs',
         'COLLECT_TEST_PG_URL="$COLLECT_GOOGLE_TEST_DATABASE_URL" node scripts/supabase/test_schema.mjs',
         'node --test scripts/supabase/data_stage.test.mjs scripts/supabase/data_promote.test.mjs',
-        'python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config',
+        'python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test',
         '"$COLLECT_DENO" task check', '"$COLLECT_DENO" task test',
         'node --test test/supabase-free-transport.test.mjs',
         'node --test test/local-challenge-parent.test.mjs',

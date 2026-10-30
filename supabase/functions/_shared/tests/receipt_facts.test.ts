@@ -8,6 +8,7 @@ import {issueAdminSession} from './helpers/module-domain-admin_accounts.js';
 import {fixtureAdminAccount,establishInitialAdminEmail} from './helpers/admin-email-fixture.js';
 import {projectSession} from './helpers/module-domain-auth.js';
 import {processMomoJob,validateMomoExtraction,MOMO_SCHEMA_VERSION,MOMO_PARSER_VERSION} from './helpers/module-domain-momo_pipeline.js';
+import {drainMomoJobs} from '../domain/momo_pipeline.js';
 import {digest,stableJson} from '../domain/core.js';
 import {encrypt} from './helpers/module-domain-encryption.js';
 
@@ -177,6 +178,39 @@ fencedTest({name:'versioned receipt facts: actual MoMo producer/handlers on isol
     const page=await json(await call(admin,'momo/transactions?receiving_account_id='+badAccount.id),503);assertEquals(page.error.code,'invalid_source_data',variant);
    }
    assertEquals(await financialState(),before);
+  });
+  await t.step('periodic one-job drain recovers due backlog and expired leases without new ingest, preserving retry and financial boundaries',async()=>{
+   const before=await financialState(),stamp=new Date().toISOString(),at=unix();let calls=0,failNext=false;
+   const queued=async(state:string,attempts:number,available:number,lease:number|null=null)=>{
+    const reference='SCHEDULED_'+crypto.randomUUID(),raw=await capture(member,`You have received RWF 100 successfully. TxId: ${reference}.`,a.receiver_hash);
+    await sql`insert into app.momo_processing_jobs(raw_sms_id,receiving_account_id,mode,state,attempt_count,available_at,lease_token,lease_until,created_at,updated_at)
+     values(${raw.id},${state==='source_unresolved'?null:a.id},'historical',${state},${attempts},${available},${lease===null?null:crypto.randomUUID()},${lease},${stamp},${stamp})`;
+    return raw.id;
+   };
+   const pending=await queued('pending',0,at-10),retry=await queued('retry',1,at-9),expired=await queued('processing',1,at-8,at-1),
+    future=await queued('pending',0,at+300),held=await queued('processing',1,at-7,at+300),exhausted=await queued('pending',4,at-6),unresolved=await queued('source_unresolved',0,at-5);
+   const processing={...env(),MOMO_PROCESSING_PAUSED:'false',MOMO_AI_MODEL:'synthetic-reviewed-model',AI:{run:async(_model:unknown,options:any)=>{
+    calls++;if(failNext){failNext=false;throw Error('synthetic temporary extraction refusal');}
+    const source=JSON.parse(options.messages.at(-1).content),reference=/TxId: ([^\s.]+)/.exec(source.sms)![1];
+    return {response:{schema_version:MOMO_SCHEMA_VERSION,event_kind:'incoming_receipt',payment_outcome:'successful',transaction_id_raw:reference,
+     original_transaction_id_raw:null,transaction_datetime_raw:null,principal_amount_raw:'100',currency_raw:'RWF',payer_name_raw:null,payer_identifier_raw:null,
+     payment_reference_raw:null,fee_amount_raw:null,wallet_balance_after_raw:null,evidence:{incoming_success:'You have received RWF 100',principal:'100',transaction_id:reference,
+      transaction_datetime:null,payer:null,fee:null,wallet_balance_after:null},issues:[]}};
+   }}};
+   const state=async(id:string)=>(await sql`select state,attempt_count,available_at,lease_token,last_error from app.momo_processing_jobs where raw_sms_id=${id}`)[0];
+   let result=await drainMomoJobs(processing,{limit:1});assertEquals(result.processed,1);assertEquals(result.results[0].state,'completed');assertEquals((await state(pending)).state,'completed');
+   failNext=true;result=await drainMomoJobs(processing,{limit:1});assertEquals(result.results[0].state,'retry');
+   const waiting=await state(retry);assertEquals(Number(waiting.attempt_count),2);assert(Number(waiting.available_at)>at);assertEquals(waiting.lease_token,null);
+   result=await drainMomoJobs(processing,{limit:1});assertEquals(result.results[0].state,'completed');assertEquals(Number((await state(expired)).attempt_count),2);
+   assertEquals(calls,3);assertEquals((await state(future)).state,'pending');assertEquals((await state(held)).state,'processing');assertEquals((await state(unresolved)).state,'source_unresolved');
+   assertEquals((await state(exhausted)).state,'needs_review');assertEquals((await state(exhausted)).last_error,'retry_budget_exhausted');
+   result=await drainMomoJobs(processing,{limit:1});assertEquals(result,{processed:0,results:[]});assertEquals(calls,3);
+   // Move only the synthetic retry clock. No new source/ingest causes recovery.
+   await sql`update app.momo_processing_jobs set available_at=${at-1} where raw_sms_id=${retry}`;
+   result=await drainMomoJobs(processing,{limit:1});assertEquals(result.results[0].state,'completed');assertEquals(Number((await state(retry)).attempt_count),3);assertEquals(calls,4);
+   assertEquals(await processMomoJob(processing,pending),{state:'not_claimed'});assertEquals(calls,4,'A completed receipt cannot be parsed twice by an old worker');
+   assertEquals(await drainMomoJobs({...processing,MOMO_PROCESSING_PAUSED:'true'},{limit:1}),{processed:0,results:[],paused:true});assertEquals(calls,4);
+   assertEquals(await financialState(),before,'Extraction and recovery create evidence facts only; no contributions or journal entries');
   });
   assert(authCalls>0);await reviewedPlatform.parity();for(const source of sources)assertEquals(await Deno.readTextFile(source.path),source.text,'Migration inputs changed during isolated qualification');
  }finally{globalThis.fetch=originalFetch;await finishSqlFixtureWork();await sql.end();}

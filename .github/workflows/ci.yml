@@ -832,6 +832,8 @@ jobs:
       COLLECT_PRIVATE_RETENTION_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_private_retention_test
       COLLECT_JOBS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_jobs_test
       COLLECT_RECEIPT_FACTS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_receipt_facts_test
+      COLLECT_DIAGNOSTICS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_diagnostics_test
+      COLLECT_NOTIFICATION_DELIVERY_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_notification_delivery_test
       COLLECT_SMS_CONTENT_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_sms_content_test
       COLLECT_ADMIN_PASSWORD_POLICY_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_email_test
       COLLECT_ADMIN_PASSWORD_POLICY_STALE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_email_test
@@ -883,7 +885,7 @@ jobs:
           import {createRequire} from 'node:module';
           const {Client}=createRequire(import.meta.url)(process.env.COLLECT_PG_MODULE);
           const db=new Client({connectionString:process.env.COLLECT_TEST_PG_URL});
-          try { await db.connect(); await db.query('CREATE DATABASE collect_rls_helper_acl_test'); await db.query('CREATE DATABASE collect_public_configuration_test'); await db.query('CREATE DATABASE collect_privacy_email_test'); await db.query('CREATE DATABASE collect_admin_invitation_test'); await db.query('CREATE DATABASE collect_invitation_notice_test'); await db.query('CREATE DATABASE collect_receipt_facts_test'); await db.query('CREATE DATABASE collect_sms_content_test'); await db.query('CREATE DATABASE collect_mfa_test'); await db.query('CREATE DATABASE collect_groups_test'); await db.query('CREATE DATABASE collect_private_retention_test'); await db.query('CREATE DATABASE collect_import_test'); await db.query('CREATE DATABASE collect_edge_test'); await db.query('CREATE DATABASE collect_be02_green_3f624f3e7a6d_test'); await db.query('CREATE DATABASE collect_google_test'); await db.query('CREATE DATABASE collect_admin_history_test'); await db.query('CREATE DATABASE collect_admin_email_test'); }
+          try { await db.connect(); await db.query('CREATE DATABASE collect_rls_helper_acl_test'); await db.query('CREATE DATABASE collect_public_configuration_test'); await db.query('CREATE DATABASE collect_privacy_email_test'); await db.query('CREATE DATABASE collect_admin_invitation_test'); await db.query('CREATE DATABASE collect_invitation_notice_test'); await db.query('CREATE DATABASE collect_receipt_facts_test'); await db.query('CREATE DATABASE collect_diagnostics_test'); await db.query('CREATE DATABASE collect_notification_delivery_test'); await db.query('CREATE DATABASE collect_sms_content_test'); await db.query('CREATE DATABASE collect_mfa_test'); await db.query('CREATE DATABASE collect_groups_test'); await db.query('CREATE DATABASE collect_private_retention_test'); await db.query('CREATE DATABASE collect_import_test'); await db.query('CREATE DATABASE collect_edge_test'); await db.query('CREATE DATABASE collect_be02_green_3f624f3e7a6d_test'); await db.query('CREATE DATABASE collect_google_test'); await db.query('CREATE DATABASE collect_admin_history_test'); await db.query('CREATE DATABASE collect_admin_email_test'); }
           finally { await db.end(); }
           NODE
       - name: Replay curated migrations and SQL failure cases
@@ -913,7 +915,11 @@ jobs:
       - name: Verify atomic public configuration and uncertain commits
         run: node --test scripts/supabase/public_configuration.test.mjs
       - name: Verify cutover and public build configuration guards
-        run: python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config
+        run: python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test
+      - name: Verify retained evidence reveal policy and audit before disclosure
+        run: node scripts/tests/payment_evidence_reveal_test.mjs
+      - name: Verify Node test discovery, exact migration admission and bounded capacity/current16 refusals
+        run: node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs scripts/supabase/testing/current16-integration.test.mjs
       - name: Verify inactive scheduling and ambiguous dispatch with explicit native-interface doubles
         run: node --test scripts/supabase/jobs_test.mjs
       - name: Verify direct SQL maintenance and owner isolation with explicit Cron fixture

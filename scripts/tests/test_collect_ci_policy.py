@@ -35,6 +35,59 @@ class CollectCiPolicyTest(unittest.TestCase):
     def test_current_declared_boundary_is_valid(self):
         self.assertEqual(policy.validate_workflows(self.workflows), [])
 
+    def test_current16_native_job_owns_a_fresh_cluster_and_publishes_only_safe_receipts(self):
+        job = self.workflows['supabase.yml']['jobs']['current16-integration-native']
+        self.assertNotIn('needs', job)
+        self.assertNotIn('if', job)
+        self.assertIs(job.get('continue-on-error', False), False)
+        env = job['env']
+        self.assertEqual(env['COLLECT_CI_SYNTHETIC'], 'true')
+        self.assertEqual(env['COLLECT_CURRENT16_ADMIN_DATABASE_URL'],
+                         'postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres')
+        self.assertEqual(env['COLLECT_DENO'],
+                         '${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno')
+        self.assertEqual(env['COLLECT_PG_MODULE'], '${{ github.workspace }}/scripts/supabase/node_modules/pg')
+        self.assertEqual(env['DENO_TLS_CA_STORE'], 'system')
+        self.assertNotIn('COLLECT_NATIVE_PROFILE', env)
+        self.assertNotIn('COLLECT_CURRENT16_OUTPUT_DIR', env)
+        steps = job['steps']
+        for step in [job, *steps]:
+            self.assertNotIn('COLLECT_CURRENT16_OWNER_DATABASE_URL', step.get('env', {}))
+        start = next(s for s in steps if s.get('run') == 'sh scripts/supabase/testing/ci-native-postgres.sh start')
+        warm = next(s for s in steps if 'current16-runtime.ts' in s.get('run', ''))
+        native = next(s for s in steps if s.get('run', '').endswith('node scripts/supabase/testing/current16-integration.mjs'))
+        self.assertEqual(warm['run'], '"$COLLECT_DENO" check --frozen --node-modules-dir=none --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock scripts/supabase/testing/current16-runtime.ts')
+        self.assertEqual(native['run'], 'timeout --signal=TERM --kill-after=5s 300s node scripts/supabase/testing/current16-integration.mjs')
+        self.assertEqual(warm['env']['DENO_DIR'], native['env']['DENO_DIR'])
+        output = '${{ runner.temp }}/collect-current16-integration'
+        self.assertEqual(native['env']['COLLECT_CURRENT16_OUTPUT_DIR'], output)
+        self.assertLess(steps.index(warm), steps.index(start))
+        self.assertLess(steps.index(start), steps.index(native))
+        for step in [start, warm, native]:
+            self.assertNotIn('if', step)
+            self.assertIs(step.get('continue-on-error', False), False)
+        stop = next(s for s in steps if 'ci-native-postgres.sh stop' in s.get('run', ''))
+        self.assertEqual(stop['if'], 'always()')
+        self.assertLess(steps.index(native), steps.index(stop))
+        upload = next(s for s in steps if s.get('uses', '').startswith('actions/upload-artifact@'))
+        self.assertEqual(upload['if'], 'always()')
+        self.assertEqual(upload['with']['if-no-files-found'], 'error')
+        names = {'INPUTS.json', 'CREATE-INTENT.json', 'PREPARATION.json', 'CHILD-STDOUT.log',
+                 'CHILD-STDERR.log', 'CHILD-METADATA.json', 'CASES.json', 'OBSERVATIONS.json',
+                 'WORK-CLOSURES.json', 'NATIVE-RESULT.json', 'RESULT.json'}
+        expected = {output + '/' + name for name in names} | {'!' + output + '/RUN-SPEC.private.json'}
+        self.assertEqual(set(upload['with']['path'].splitlines()), expected)
+        suite = 'scripts/supabase/testing/current16-integration.test.mjs'
+        for workflow, name in [('supabase.yml', 'local-qualification'), ('ci.yml', 'supabase-platform')]:
+            matches = [s for s in self.workflows[workflow]['jobs'][name]['steps'] if suite in s.get('run', '')]
+            self.assertEqual(len(matches), 1)
+            self.assertNotIn('if', matches[0])
+            self.assertIs(matches[0].get('continue-on-error', False), False)
+            self.assertTrue(matches[0]['run'].startswith('node --test '))
+        makefile = (ROOT / 'Makefile').read_text()
+        self.assertIn('\n\t@node --test ' + suite + '\n', makefile)
+        self.assertIn('\nsupabase-current16-integration-native:\n\t@node scripts/supabase/testing/current16-integration.mjs\n', makefile)
+
     def test_original_job_env_runner_temp_placement_is_rejected(self):
         job = self.workflows['supabase.yml']['jobs']['stopped-admission-lifecycle-native']
         step = next(step for step in job['steps'] if '--with-member-history' in step.get('run', ''))
@@ -470,6 +523,7 @@ class CollectCiPolicyTest(unittest.TestCase):
                 'deploy/admin.wrangler.jsonc', 'deploy/platform-admin/wrangler.jsonc',
                 '.github/workflows/ci.yml', '.fvmrc', 'pubspec.yaml', 'pubspec.lock',
                 'scripts/admin_platform_candidate.py',
+                'scripts/qa/client_diagnostic_identity.py',
             ]
             for name in inputs:
                 path = root / name

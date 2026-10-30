@@ -8,10 +8,14 @@ import 'admin/core/admin_account_api.dart';
 import 'admin/core/admin_auth_guard.dart';
 import 'admin/core/admin_repository_base.dart';
 import 'admin/core/cloudflare_admin_account_api.dart';
+import 'admin/core/cloudflare_admin_recovery_host.dart';
+import 'admin/core/cloudflare_admin_diagnostics_host.dart';
 import 'admin/core/cloudflare_admin_repository.dart';
 import 'admin/core/cloudflare_admin_session.dart';
 import 'admin/core/cloudflare_admin_sync.dart';
 import 'core/cloudflare/cloudflare_module.dart';
+import 'core/logging/app_logger.dart';
+import 'core/logging/collect_diagnostic_queue.dart';
 
 // Keep web accessibility available for the complete Admin app lifetime,
 // including installed windows that do not expose Flutter's opt-in placeholder.
@@ -22,10 +26,31 @@ void main() {
   if (kIsWeb) {
     _webSemantics ??= SemanticsBinding.instance.ensureSemantics();
   }
+  final diagnosticQueue = CollectDiagnosticQueue(
+    surface: CollectDiagnosticSurface.admin,
+    store: CollectPreferenceDiagnosticStore(CollectDiagnosticSurface.admin),
+  );
+  final diagnostics = CollectDiagnostics(
+    surface: CollectDiagnosticSurface.admin,
+    environmentName: const String.fromEnvironment(
+      'APP_ENVIRONMENT',
+      defaultValue: 'local',
+    ),
+    sink: (event) {
+      debugPrint(event);
+      diagnosticQueue.add(event);
+    },
+  );
   runApp(
     ProviderScope(
       overrides: cloudflareAdminOverrides(),
-      child: const CloudflareAdminApp(),
+      child: CloudflareAdminDiagnosticsHost(
+        queue: diagnosticQueue,
+        child: CloudflareAdminRecoveryHost(
+          diagnostics: diagnostics,
+          child: const CloudflareAdminApp(),
+        ),
+      ),
     ),
   );
 }

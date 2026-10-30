@@ -22,6 +22,7 @@ source_files = %w[
   pubspec.yaml pubspec.lock analysis_options.yaml .metadata .fvmrc AGENTS.md
   scripts/qa/native_build_provenance.rb scripts/qa/native_source_export.py
   scripts/qa/native_artifact_metadata.py scripts/qa/native_build_config.py
+  scripts/qa/client_diagnostic_identity.py
   scripts/android_play_store_build.sh scripts/android_release_signing_preflight.sh
   scripts/ios_app_store_build.sh
 ]
@@ -51,6 +52,8 @@ metadata_helper = 'scripts/qa/native_artifact_metadata.py'
 abort 'Required native artifact metadata helper is absent' unless source_paths.include?(metadata_helper)
 configuration_helper = 'scripts/qa/native_build_config.py'
 abort 'Required native public configuration helper is absent' unless source_paths.include?(configuration_helper)
+diagnostics_helper = 'scripts/qa/client_diagnostic_identity.py'
+abort 'Required client diagnostic identity helper is absent' unless source_paths.include?(diagnostics_helper)
 source_hashes = source_paths.to_h { |path| [path, Digest::SHA256.file(File.join(root, path)).hexdigest] }
 source_digest = Digest::SHA256.hexdigest(source_hashes.map do |path, digest|
   "#{path}\0#{digest}\n"
@@ -109,7 +112,8 @@ when ['finish', 5]
     'artifact_metadata' => artifact_metadata,
     'artifact_metadata_scope' => platform == 'android' ? 'Actual APK/AAB package and versions matched to pubspec; metadata only, signatures and release approval separate' : 'IPA metadata not checked by this Android helper; source/artifact provenance only',
     'metadata_helper_sha256' => source_hashes.fetch(metadata_helper),
-    'public_configuration_helper_sha256' => source_hashes.fetch(configuration_helper)
+    'public_configuration_helper_sha256' => source_hashes.fetch(configuration_helper),
+    'diagnostics_identity_helper_sha256' => source_hashes.fetch(diagnostics_helper)
   ) + "\n")
   puts "[native-build] #{platform} provenance recorded; release approval not granted"
 else

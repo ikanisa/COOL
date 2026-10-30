@@ -2,6 +2,7 @@
 """Verify the shipping platform PWA receipt; never deploy or infer hosted acceptance."""
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -9,7 +10,8 @@ import re
 import struct
 
 INPUTS = (
-    'scripts/admin_pwa_release_build.sh', 'scripts/supabase/admin_build_config.py', 'scripts/admin_pwa_manifest_gate.sh',
+    'scripts/admin_pwa_release_build.sh', 'scripts/supabase/admin_build_config.py',
+    'scripts/qa/client_diagnostic_identity.py', 'scripts/admin_pwa_manifest_gate.sh',
     'scripts/admin_pwa_hosting_gate.sh', 'scripts/admin_cloudflare_assets.py',
     'scripts/templates/admin_pwa_service_worker.js', 'deploy/platform-admin/src/index.js', 'deploy/platform-admin/src/supabase-transport.js',
     'deploy/admin.wrangler.jsonc', 'deploy/platform-admin/wrangler.jsonc',
@@ -160,6 +162,20 @@ def verify(root, receipt_path, commit, source_root=Path.cwd(), *, backend='supab
         path = physical(source_root / name)
         if not path.is_file() or digest(path.read_bytes()) != expected_inputs[name]:
             fail()
+    if any(not physical(root / name).is_file() for name in ('version.json', 'main.dart.js')):
+        fail()
+    version = parse((root / 'version.json').read_bytes())
+    if not isinstance(version, dict):
+        fail()
+    # Use the current, explicitly source-bound helper; never execute a helper
+    # supplied by the artifact directory or an arbitrary receipt path.
+    helper_path = physical(Path(__file__).parent / 'qa/client_diagnostic_identity.py')
+    helper_spec = importlib.util.spec_from_file_location('admin_diagnostic_identity', helper_path)
+    helper = importlib.util.module_from_spec(helper_spec)
+    helper_spec.loader.exec_module(helper)
+    diagnostics = helper.javascript_identity(root / 'main.dart.js',
+                                            version.get('diagnostics_source_revision'),
+                                            version.get('diagnostics_build_version'))
     files = {}
     for path in sorted(root.rglob('*')):
         if any(part.startswith('._') or part == '.DS_Store' for part in path.relative_to(root).parts):
@@ -169,9 +185,9 @@ def verify(root, receipt_path, commit, source_root=Path.cwd(), *, backend='supab
             data = path.read_bytes()
             files[path.relative_to(root).as_posix()] = {'sha256': digest(data), 'bytes': len(data)}
     if (files != receipt.get('files') or digest(canonical(files)) != receipt.get('artifact_manifest_sha256') or
+            files.get('main.dart.js', {}).get('sha256') != diagnostics['sha256'] or
             any(not files.get(name, {}).get('bytes') for name in REQUIRED)):
         fail()
-    version = parse((root / 'version.json').read_bytes())
     if ('qualification_complete' in version or
             version.get('purpose') == 'qualification' or
             version.get('environment') == 'qualification' or
@@ -216,6 +232,7 @@ def verify(root, receipt_path, commit, source_root=Path.cwd(), *, backend='supab
         fail()
     return {'status': 'verified', 'source_commit': commit,
             'artifact_manifest_sha256': receipt['artifact_manifest_sha256'],
+            'diagnostics': diagnostics,
             'hosted_deployment_verified': False}
 
 

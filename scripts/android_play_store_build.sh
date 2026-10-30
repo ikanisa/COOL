@@ -58,6 +58,7 @@ printf '%s\n' "$$" >"$BUILD_LOCK_DIR/pid"
 
 DEFINES_DIR="$(mktemp -d "${TMPDIR:-/tmp}/collect-android-defines.XXXXXX")"
 DEFINES_FILE="$DEFINES_DIR/defines.json"
+DIAGNOSTIC_SOURCE_MANIFEST="$ROOT_DIR/.cache/client-diagnostics/android.json"
 cleanup() {
   rm -f "$DEFINES_FILE"
   rmdir "$DEFINES_DIR" 2>/dev/null || true
@@ -69,6 +70,8 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 python3 scripts/qa/native_build_config.py android --defines-output "$DEFINES_FILE"
+python3 scripts/qa/client_diagnostic_identity.py bind --surface member \
+  --defines "$DEFINES_FILE" --manifest "$DIAGNOSTIC_SOURCE_MANIFEST"
 
 common_args=(
   --release
@@ -91,7 +94,7 @@ verify_public_runtime_config() {
     DEFINES_FILE="$DEFINES_FILE" ruby -r json -e '
       values = JSON.parse(File.read(ENV.fetch("DEFINES_FILE")))
       binary = STDIN.read.b
-      required = %w[SUPABASE_URL SUPABASE_API_URL SUPABASE_PUBLISHABLE_KEY]
+      required = %w[SUPABASE_URL SUPABASE_API_URL SUPABASE_PUBLISHABLE_KEY COLLECT_BUILD_VERSION COLLECT_BUILD_SOURCE_ID]
       exit(required.all? { |key| binary.include?(values.fetch(key).b) } ? 0 : 1)
     '
   then
@@ -155,6 +158,9 @@ verify_public_runtime_config \
   "$ROOT_DIR/build/app/outputs/bundle/productionRelease/app-production-release.aab" \
   'base/lib/arm64-v8a/libapp.so'
 
+python3 scripts/qa/client_diagnostic_identity.py verify --surface member \
+  --defines "$DEFINES_FILE" --manifest "$DIAGNOSTIC_SOURCE_MANIFEST"
+
 "$ROOT_DIR/scripts/android_release_signing_preflight.sh" --public-defines "$DEFINES_FILE"
 
 artifact_manifest="$ROOT_DIR/.cache/android_play_store_build/${BUILD_NAME}+${BUILD_NUMBER}.json"
@@ -193,6 +199,7 @@ manifest = {
   "production_api_url" => JSON.parse(File.read(ENV.fetch("DEFINES_FILE"))).fetch("SUPABASE_API_URL"),
   "supabase_project_url" => JSON.parse(File.read(ENV.fetch("DEFINES_FILE"))).fetch("SUPABASE_URL"),
   "public_runtime_config_sha256" => Digest::SHA256.hexdigest(JSON.generate(JSON.parse(File.read(ENV.fetch("DEFINES_FILE"))).sort.to_h)),
+  "diagnostics_source_revision" => JSON.parse(File.read(ENV.fetch("DEFINES_FILE"))).fetch("COLLECT_BUILD_SOURCE_ID"),
   "mobile_evidence_mode" => false,
   "artifacts" => artifacts
 }

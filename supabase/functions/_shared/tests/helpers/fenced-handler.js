@@ -7,4 +7,4 @@ const source=reader=>()=>({...reader(),BUILD_SOURCE_ID:SYNTHETIC_FENCE_SOURCE});
 // synthetic admission I/O while executing the actual production handler gate.
 const fakeOpen=async options=>ownFixtureWork(await openApplicationWork({...options,backend:syntheticFenceBackend()}));
 export const createHandler=(name,reader=()=>Deno.env.toObject())=>actualHandler(name,source(reader),{openWork:fakeOpen});
-export const createScheduledHandler=(reader=()=>Deno.env.toObject(),cleanup,process)=>actualScheduled(source(reader),cleanup,process,{openWork:fakeOpen});
+export const createScheduledHandler=(reader=()=>Deno.env.toObject(),cleanup,process,options={})=>actualScheduled(source(reader),cleanup,process,{openWork:fakeOpen,cleanupDiagnostics:async()=>({status:'complete',removed:0,limit:1000}),...options});

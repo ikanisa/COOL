@@ -28,6 +28,10 @@ elif [[ "$#" -ne 0 ]]; then
   exit 2
 fi
 python3 scripts/supabase/admin_build_config.py "${BUILD_CONFIG_ARGS[@]}"
+DIAGNOSTIC_SOURCE_MANIFEST="$ROOT_DIR/build/admin-diagnostics-source.json"
+python3 scripts/qa/client_diagnostic_identity.py bind --surface admin \
+  --defines "$DART_DEFINES_FILE" --manifest "$DIAGNOSTIC_SOURCE_MANIFEST" \
+  --metadata "$COLLECT_ADMIN_BUILD_METADATA"
 BUILD_ARGS=(
   --release
   --no-wasm-dry-run
@@ -37,11 +41,13 @@ BUILD_ARGS=(
 )
 
 "$FLUTTER" build web -t lib/main_admin_cloudflare.dart "${BUILD_ARGS[@]}"
-
 if [[ ! -s build/web/main.dart.js ]]; then
   echo "Admin PWA build did not produce a nonempty main.dart.js bundle." >&2
   exit 1
 fi
+python3 scripts/qa/client_diagnostic_identity.py verify --surface admin \
+  --defines "$DART_DEFINES_FILE" --manifest "$DIAGNOSTIC_SOURCE_MANIFEST" \
+  --metadata "$COLLECT_ADMIN_BUILD_METADATA" --javascript build/web/main.dart.js
 python3 scripts/admin_cloudflare_assets.py build/web --local-engine-fallback
 python3 - <<'PY_HEADERS'
 from pathlib import Path

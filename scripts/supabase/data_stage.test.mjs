@@ -8,6 +8,10 @@ import {DatabaseSync} from 'node:sqlite';
 import {createRequire} from 'node:module';
 import {encodeCell,decodeCell,rowDigest,readSnapshot,validateTarget,databaseConnectionOptions,stageSnapshot,verifyStage,reconcileStage} from './data_stage.mjs';
 
+function fixtureDatabaseUrl(address,username='u',password='p'){
+ const url=new URL(address);url.username=username;url.password=encodeURIComponent(password);return url.href;
+}
+
 test('typed snapshot cells preserve bigint null UTF8 blob and floating point',()=>{
  for(const value of [null,9223372036854775807n,-9007199254740993n,'RWF 😃\u0000\n',Buffer.from([0,255,1]),1.25])assert.deepEqual(decodeCell(encodeCell(value)),value);
  assert.throws(()=>decodeCell({type:'integer',value:'1.0'}));
@@ -16,13 +20,13 @@ test('typed snapshot cells preserve bigint null UTF8 blob and floating point',()
  assert.notEqual(rowDigest([{name:'id',type:'integer',value:'1'}]),rowDigest([{name:'id',type:'text',value:'1'}]));
 });
 test('target refuses other projects and local test cannot point at hosted DB',()=>{
- assert.throws(()=>validateTarget('postgresql://u:p@db.other.supabase.co/postgres','rrlduytparvsjfmegalh'));
- assert.throws(()=>validateTarget('postgresql://u:p@db.rrlduytparvsjfmegalh.supabase.co/postgres','rrlduytparvsjfmegalh',{localTest:true}));
- assert.equal(validateTarget('postgresql://u:p@127.0.0.1:55439/test','local',{localTest:true}).port,'55439');
+ assert.throws(()=>validateTarget(fixtureDatabaseUrl('postgresql://db.other.supabase.co/postgres'),'rrlduytparvsjfmegalh'));
+ assert.throws(()=>validateTarget(fixtureDatabaseUrl('postgresql://db.rrlduytparvsjfmegalh.supabase.co/postgres'),'rrlduytparvsjfmegalh',{localTest:true}));
+ assert.equal(validateTarget(fixtureDatabaseUrl('postgresql://127.0.0.1:55439/test'),'local',{localTest:true}).port,'55439');
 });
 test('effective pg connection cannot override nominated host database credentials or verified TLS',()=>{
  const {Client}=createRequire(import.meta.url)(process.env.COLLECT_PG_MODULE??'pg');
- const project='rrlduytparvsjfmegalh',base='postgresql://postgres:synthetic%24password@db.'+project+'.supabase.co:5432/postgres';
+ const project='rrlduytparvsjfmegalh',base=fixtureDatabaseUrl('postgresql://db.'+project+'.supabase.co:5432/postgres','postgres','synthetic$password');
  for(const suffix of ['?sslmode=disable','?sslmode=no-verify','?sslmode=require','?sslmode=verify-full&sslmode=verify-full',
   '?host=other.example','?port=1234','?user=other','?password=other','?database=other','?ssl=false',
   '?sslcert=/private/file','?sslkey=/private/file','?sslrootcert=/private/file','?options=-csearch_path=other','#ignored']){
@@ -38,7 +42,7 @@ test('effective pg connection cannot override nominated host database credential
   assert.equal(effective.user,'postgres');assert.equal(effective.password,'synthetic$password');
   assert.equal(effective.ssl.rejectUnauthorized,true);
  }
- const pool=databaseConnectionOptions('postgresql://postgres.'+project+':synthetic@aws-0-eu-north-1.pooler.supabase.com:6543/postgres?sslmode=verify-full',project);
+ const pool=databaseConnectionOptions(fixtureDatabaseUrl('postgresql://aws-0-eu-north-1.pooler.supabase.com:6543/postgres?sslmode=verify-full','postgres.'+project,'synthetic'),project);
  assert.equal(new Client(pool).connectionParameters.ssl.rejectUnauthorized,true);
 });
 test('sealed snapshot rejects tampering and preserves duplicate rows and exact cells',async()=>{
