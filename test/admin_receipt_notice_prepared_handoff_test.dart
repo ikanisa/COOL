@@ -24,8 +24,9 @@ class _Harness {
         break;
       }
     }
-    if (api.lookup == null)
+    if (api.lookup == null) {
       throw StateError('Actual original lookup fixture missing');
+    }
     controller = makeController();
   }
   final bool handoff;

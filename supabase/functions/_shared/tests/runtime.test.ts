@@ -101,7 +101,9 @@ fencedTest('Google callback exports only transient handoff with qualified render
 });
 
 fencedTest('documented Supabase runtime dictionaries normalize keys and retain nominated database identity',()=>{
- const input={SUPABASE_URL:COLLECT_SUPABASE_ORIGIN,SUPABASE_DB_URL:'postgres://postgres:synthetic@db.'+COLLECT_PROJECT_REF+'.supabase.co:5432/postgres',SUPABASE_PUBLISHABLE_KEYS:JSON.stringify({default:'sb_publishable_synthetic'}),SUPABASE_SECRET_KEYS:JSON.stringify({default:'sb_secret_synthetic'}),SUPABASE_ANON_KEY:'eyJlegacy.old.signature',SUPABASE_SERVICE_ROLE_KEY:'eyJlegacy.old.signature'};
+ const encode=(value:unknown)=>btoa(JSON.stringify(value)).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,'');
+ const legacyKey=[encode({alg:'synthetic-only',typ:'JWT'}),encode({fixture:'runtime-normalization-only'}),'synthetic-not-a-hosted-signature'].join('.');
+ const input={SUPABASE_URL:COLLECT_SUPABASE_ORIGIN,SUPABASE_DB_URL:'postgres://postgres:synthetic@db.'+COLLECT_PROJECT_REF+'.supabase.co:5432/postgres',SUPABASE_PUBLISHABLE_KEYS:JSON.stringify({default:'sb_publishable_synthetic'}),SUPABASE_SECRET_KEYS:JSON.stringify({default:'sb_secret_synthetic'}),SUPABASE_ANON_KEY:legacyKey,SUPABASE_SERVICE_ROLE_KEY:legacyKey};
  const env=normalizeRuntimeEnv(input);assertEquals(env.COLLECT_DATABASE_URL,input.SUPABASE_DB_URL);assertEquals(env.SUPABASE_PUBLISHABLE_KEY,'sb_publishable_synthetic');assertEquals(env.SUPABASE_SERVICE_ROLE_KEY,'sb_secret_synthetic');assertEquals(env.SUPABASE_SECRET_KEY,'sb_secret_synthetic');
  for(const patch of [{SUPABASE_URL:'https://another.supabase.co'},{SUPABASE_DB_URL:'postgres://postgres:synthetic@db.another.supabase.co:5432/postgres'},{SUPABASE_SECRET_KEYS:'{bad'},{SUPABASE_PUBLISHABLE_KEYS:'{}'},{SUPABASE_SECRET_KEY:''},{SUPABASE_DB_URL:input.SUPABASE_DB_URL+'?sslmode=disable'}])assertThrows(()=>normalizeRuntimeEnv({...input,...patch}));
  assertThrows(()=>normalizeRuntimeEnv({SUPABASE_URL:COLLECT_SUPABASE_ORIGIN}));
@@ -112,7 +114,7 @@ fencedTest('documented Supabase runtime dictionaries normalize keys and retain n
  assertEquals(normalizeRuntimeEnv({...input,SUPABASE_DB_URL:input.SUPABASE_DB_URL+'?sslmode=prefer'}).COLLECT_DATABASE_URL,input.SUPABASE_DB_URL);
  assertThrows(()=>normalizeRuntimeEnv({...input,COLLECT_DATABASE_URL:input.SUPABASE_DB_URL+'?sslmode=prefer'}));
  for(const option of ['sslmode=disable','sslmode=allow','sslmode=require&host=other.example','sslmode=require&sslmode=require','sslmode=require&sslrootcert=/tmp/ca'])assertThrows(()=>normalizeRuntimeEnv({...input,SUPABASE_DB_URL:input.SUPABASE_DB_URL+'?'+option}));
- const {SUPABASE_SECRET_KEYS:_secret,SUPABASE_PUBLISHABLE_KEYS:_public,...legacy}=input;assertEquals(normalizeRuntimeEnv(legacy).SUPABASE_SECRET_KEY,'eyJlegacy.old.signature');
+ const {SUPABASE_SECRET_KEYS:_secret,SUPABASE_PUBLISHABLE_KEYS:_public,...legacy}=input;assertEquals(normalizeRuntimeEnv(legacy).SUPABASE_SECRET_KEY,legacyKey);
  const fixture=normalizeRuntimeEnv({APP_ENVIRONMENT:'test',SUPABASE_URL:'https://fixture.example',COLLECT_DATABASE_URL:'postgres://fixture:synthetic@127.0.0.1:55439/collect_edge_test',SUPABASE_PUBLISHABLE_KEY:'synthetic-public',SUPABASE_SECRET_KEY:'synthetic-secret'});assertEquals(fixture.SUPABASE_URL,'https://fixture.example');
 });
 

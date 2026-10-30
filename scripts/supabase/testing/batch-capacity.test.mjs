@@ -2,7 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {CAPACITY_ENV, CAPACITY_LIMITS, validateCapacityInvocation, validateCapacityDatabaseIdentity, validateCapacityPristineCatalog, capacityKey, expectedCapacityRows, capacityLatency, capacityErrorCode} from './batch-capacity.mjs';
 
-const local = 'postgresql://collect_test:synthetic_only@127.0.0.1:55441/collect_batch_capacity_test';
+const localUrl = new URL('postgresql://127.0.0.1:55441/collect_batch_capacity_test');
+localUrl.username = 'collect_test'; localUrl.password = 'synthetic_only';
+const local = localUrl.href;
 const environment = {[CAPACITY_ENV]: local, COLLECT_CI_SYNTHETIC: 'true'};
 const invoke = change => validateCapacityInvocation({env: {...environment, ...change}});
 const refused = (change, code) => assert.throws(() => invoke(change), error => error.capacityCode === code);
