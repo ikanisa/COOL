@@ -22,6 +22,7 @@ async function fixture(){
  const env:any=fixtureEnvironment({DB:db,BUILD_SOURCE_ID:'a'.repeat(64),DATA_KEY_ID:'test',DATA_ENCRYPTION_KEY:btoa('e'.repeat(32)),COLLECT_RECEIPT_SMS_ENABLED:'true',COLLECT_RECEIPT_SMS_APPROVAL_SHA256:'b'.repeat(64),OPENSMS_RECEIPT_BASE_URL:'https://sms.example.invalid',OPENSMS_RECEIPT_APPLICATION_ID:'receipt-app',OPENSMS_RECEIPT_APPLICATION_TOKEN:'t'.repeat(48)});
  const ctx={env,account,actor:{userId:account.principal_id,sessionId:account.auth_session_id}};
  const grant=await prepareAssistedSmsDispatch(ctx,{id:row.attempt_id},{expires_seconds:at+60});
+ assert.ok(grant,'synthetic dispatch grant must be issued');
  row.grant_sha256=await digest(grant.token);row.provider_message_id='receipt-app:collect-receipt:'+row.attempt_id;
  const to='+250788000001',text='Synthetic recorded receipt',encoder=new TextEncoder();
  row.body_sha256=await digest(text);row.destination_sha256=await digest(to);

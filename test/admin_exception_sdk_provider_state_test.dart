@@ -275,6 +275,51 @@ void main() {
         expect(probe.requests.single.url.path, '/v1/rpc/$operation');
       },
     );
+    for (final status in [403, 503]) {
+      for (final reason in ['operation_unavailable', '501']) {
+        test(
+          '$operation production provider preserves HTTP $status/$reason',
+          () async {
+            probe.respond = (_) async => auth.response({
+              'code': reason,
+              'message': 'PRIVATE_CANARY',
+            }, status);
+            final container = ProviderContainer(
+              overrides: [
+                collectBackendClientProvider.overrideWithValue(probe.client),
+                adminRepositoryProvider.overrideWithValue(probe.repository),
+                adminIdentityProvider.overrideWith(
+                  (ref) async => const AdminIdentity(
+                    userId: auth.actor,
+                    displayName: 'Synthetic owner',
+                    roles: ['owner'],
+                    permissions: [
+                      'payments.read',
+                      'notifications.read',
+                      'system_health.read',
+                    ],
+                  ),
+                ),
+              ],
+            );
+            addTearDown(container.dispose);
+            await expectLater(
+              container.read(provider.future),
+              throwsA(
+                isA<CollectApiException>()
+                    .having((error) => error.code, 'code', reason)
+                    .having(
+                      (error) => error.httpStatusCode,
+                      'HTTP status',
+                      status,
+                    ),
+              ),
+            );
+            expect(probe.requests, hasLength(1));
+          },
+        );
+      }
+    }
     for (final code in ['42501', 'operation_unavailable']) {
       test(
         '$operation production provider redacts $code service failure',

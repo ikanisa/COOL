@@ -1,4 +1,5 @@
 import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/contribution_layout_repository_fixture.dart';
 
 import 'dart:io';
 
@@ -116,10 +117,15 @@ void main() {
               collectBackendClientProvider.overrideWithValue(null),
               appRouterProvider.overrideWithValue(router),
               collectRepositoryProvider.overrideWith(
-                (ref) => FixtureCollectRepository(
-                  // Pin baseline wall-clock labels across runner timezones.
-                  fixtureNow: DateTime(2026, 7, 24, 23),
-                ),
+                (ref) => surface.key == 'contribution_review'
+                    ? ContributionLayoutRepository(
+                        // Pin baseline wall-clock labels across runner timezones.
+                        fixtureNow: DateTime(2026, 7, 24, 23),
+                      )
+                    : FixtureCollectRepository(
+                        // Pin baseline wall-clock labels across runner timezones.
+                        fixtureNow: DateTime(2026, 7, 24, 23),
+                      ),
               ),
               collectThemeModeProvider.overrideWith(
                 (ref) => CollectThemeModeController(

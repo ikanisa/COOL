@@ -277,11 +277,21 @@ class CollectApiException implements Exception {
     this.code,
     this.details,
     this.hint,
+    this.httpStatusCode,
   });
   final String message;
   final String? code;
   final Object? details;
   final String? hint;
+
+  /// HTTP status when this exception came from an API response.
+  final int? httpStatusCode;
+
+  /// Legacy deployments can report an unsupported operation without status.
+  /// When the HTTP status is known, a denial or outage is not a 501 fallback.
+  bool get isLegacyOperationUnavailable =>
+      (httpStatusCode == null || httpStatusCode == 501) &&
+      (code == 'operation_unavailable' || code == '501');
   @override
   String toString() => 'CollectApiException(${code ?? 'unavailable'})';
 }

@@ -20,7 +20,12 @@ export async function readJson(request, maxBytes = 65536) {
     while (true) {
       const {done, value} = await reader.read(); if (done) break;
       size += value.byteLength;
-      if (size > maxBytes) { await reader.cancel(); throw new ApiError(413, 'request_too_large', 'The request is too large.'); }
+      if (size > maxBytes) {
+        // Cancellation is best-effort: a stream's underlying cancel callback
+        // can reject or remain pending. Do not let it hide or delay the 413.
+        try { void reader.cancel().catch(() => {}); } catch {}
+        throw new ApiError(413, 'request_too_large', 'The request is too large.');
+      }
       chunks.push(value);
     }
   } finally { reader.releaseLock(); }

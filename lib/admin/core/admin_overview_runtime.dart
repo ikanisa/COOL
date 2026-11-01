@@ -278,7 +278,9 @@ class _AdminOverviewContentState extends ConsumerState<AdminOverviewContent> {
                       final queueHealth = _QueueHealth(
                         metrics: data.metrics.valueOrNull ?? [],
                         result: result,
-                        sla: data.sla.valueOrNull,
+                        sla: data.sla,
+                        isRefreshing: workspace.isLoading,
+                        onRetry: _refresh,
                       );
                       if (constraints.maxWidth < 980) {
                         return Column(
@@ -561,11 +563,15 @@ class _QueueHealth extends StatelessWidget {
     required this.metrics,
     required this.result,
     required this.sla,
+    required this.isRefreshing,
+    required this.onRetry,
   });
 
   final List<AdminMetric> metrics;
   final AdminListResult result;
-  final AdminQueueSla? sla;
+  final AsyncValue<AdminQueueSla?> sla;
+  final bool isRefreshing;
+  final VoidCallback onRetry;
 
   @override
   Widget build(BuildContext context) {
@@ -581,6 +587,14 @@ class _QueueHealth extends StatelessWidget {
       fallback: 'Not available',
     );
     final oldest = _oldestAge(result.rows);
+    final target = sla.valueOrNull?.target;
+    final hasTarget = target != null && target.trim().isNotEmpty;
+    final loading = isRefreshing || sla.isLoading;
+    final slaValue = loading
+        ? 'Loading'
+        : sla.hasError
+        ? 'Could not load'
+        : _compactSla(target);
     return DecoratedBox(
       decoration: _overviewPanelDecoration(colors),
       child: Padding(
@@ -596,11 +610,28 @@ class _QueueHealth extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            _HealthRow(
-              label: 'SLA target',
-              value: _compactSla(sla?.target),
-              valueColor: colors.successForeground,
+            Semantics(
+              key: const Key('admin-overview-sla-state'),
+              liveRegion: sla.hasError && !loading,
+              child: _HealthRow(
+                label: 'SLA target',
+                value: slaValue,
+                valueColor: !loading && sla.hasError
+                    ? colors.warningForeground
+                    : !loading && hasTarget
+                    ? colors.successForeground
+                    : colors.textSecondary,
+              ),
             ),
+            if (sla.hasError)
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: loading ? null : onRetry,
+                  icon: const Icon(Icons.refresh_rounded),
+                  label: Text(loading ? 'Retrying SLA' : 'Retry SLA'),
+                ),
+              ),
             _HealthRow(
               label: 'Oldest visible item',
               value: oldest,

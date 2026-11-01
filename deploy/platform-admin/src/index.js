@@ -1,6 +1,7 @@
 import {renderLocalChallengeDocument} from '../../platform-supabase-free/local-challenge.mjs';
 import {createCollectTransport} from './supabase-transport.js';
 import {verifyDeploymentProfile} from '../../../supabase/functions/_shared/deployment-profile.js';
+import {versionedStatic} from './static-recovery.js';
 
 function failure(status, code, message) {
   return Response.json({error: {code, message}}, {status, headers: {
@@ -70,6 +71,9 @@ export function createAdminWorker({fetchImpl = (request, init) => globalThis.fet
       } catch {
         return failure(503, 'service_unavailable', 'The workspace service is unavailable.');
       }
+    }
+    if (backend === 'supabase' && url.pathname.startsWith('/_build/')) {
+      return versionedStatic(request, env.ASSETS);
     }
     const response = await env.ASSETS.fetch(request);
     if (response.headers.get('Content-Type')?.split(';', 1)[0].trim().toLowerCase() === 'text/html') {

@@ -70,9 +70,9 @@ const Map<String, String> _english = {
   'momoCouldNotContinue': 'MoMo could not continue',
   'checkConnection': 'Check your connection and try again.',
   'paymentDetailsChanged':
-      'Payment details changed. Review the group receiver and prepare again.',
+      'Payment details changed. If you may have paid, check with your mobile money provider before another transfer.',
   'paymentDetailsUnavailable':
-      'Payment details could not be confirmed. Prepare again when the group receiver is available.',
+      'Payment details could not be confirmed. If you may have paid, check with your mobile money provider before another transfer.',
   'payingTo': 'PAYING TO',
   'approveInMomo': 'Approve in MoMo',
   'howMuch': 'How much?',

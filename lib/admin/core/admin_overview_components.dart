@@ -709,15 +709,14 @@ String _month(int value) {
 
 String _compactSla(String? target) {
   if (target == null || target.trim().isEmpty) return 'Not available';
-  if (RegExp(r'next\s+business\s+day', caseSensitive: false).hasMatch(target)) {
+  final value = target.trim();
+  if (RegExp(
+    r'^next\s+business\s+day$',
+    caseSensitive: false,
+  ).hasMatch(value)) {
     return 'Next business day';
   }
-  final match = RegExp(
-    r'(\d+)\s*(?:business\s*)?hours?',
-    caseSensitive: false,
-  ).firstMatch(target);
-  if (match != null) return '< ${match.group(1)}h';
-  return target;
+  return value;
 }
 
 class _OverviewReadFailure extends StatelessWidget {

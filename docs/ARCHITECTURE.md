@@ -4,9 +4,9 @@ Collect is a Rwanda-only group-contribution and record-keeping service. Members 
 
 ## Member journey
 
-1. WhatsApp verification and a completed Rwanda profile establish the member's Collect ID, country `RW`, currency `RWF`, and MoMo provider/number.
-2. An eligible member enters a whole-RWF amount. Supabase creates a pending intent bound to the payer and exact group receiver; Android opens the provider's USSD prompt. The PIN remains with the mobile network.
-3. With explicit consent on an eligible Android receiver device, Collect captures only newly arriving likely MoMo receipt SMS into a protected queue. Authenticated ingestion and deterministic parsing produce candidate evidence.
+1. The current authentication source includes WhatsApp, email and SMS flows and a limited guest path. Provider configuration and verification determine which paths are available; guest access does not itself establish a verified member account.
+2. An eligible member enters a whole-RWF amount. The backend prepares a pending intent bound to the member and group receiver; the Android flow reviews current details before handing off to the provider's USSD prompt. The PIN remains with the mobile network. A device-local handoff journal is not proof of account-wide duplicate prevention.
+3. With explicit consent, the ordinary Android member app can capture eligible newly arriving MoMo SMS into an owner-bound protected queue. An optional dedicated receiver has a separate enrollment and inbox-recovery workflow. Authenticated ingestion produces candidate evidence, not settlement proof.
 4. The server evaluates owner, receiver, payer, amount, transaction ID, time window, replay and ambiguity. A durable acknowledgement may clear only the exact persisted envelope for the current owner.
 5. Financial confirmation and balanced ledger posting require independent provider/statement reconciliation or an explicitly approved constrained finality policy. Until that policy is implemented and proven on the deployed backend, candidate receipt matches remain a production-readiness gap.
 
@@ -14,12 +14,12 @@ Collect is a Rwanda-only group-contribution and record-keeping service. Members 
 
 - Flutter member app and public website: Rwanda profiles, private/public groups, MoMo contribution instructions, truthful pending/unknown status, notifications and ledger views.
 - Flutter Admin PWA: Groups and Members plus MoMo Payees, Transactions, Reconciliations and Ledgers, with scoped roles and audited exception handling.
-- Supabase Postgres: row-level security, scoped RPCs, idempotent evidence and posting transitions, reconciliation and immutable balanced journal.
-- Supabase Edge Functions: WhatsApp OTP, authenticated receipt ingestion/parsing, Play Integrity verification and notifications.
-- Firebase Cloud Messaging: device notification delivery; it does not prove financial finality.
+- Supabase Postgres, Edge Functions and protected storage: curated schema and application handlers for account, session, permission, receipt and financial workflows. Member bearer sessions and Admin cookie sessions have separate admission paths.
+- Frontend hosting and transport: the Admin frontend can route to the selected managed or self-hosted Supabase profile. Repository configuration does not establish which profile is deployed.
+- Notification delivery is separately governed. Current scheduled push processing is Android/FCM-oriented; registration of another device type does not establish delivery for it.
 
 ## Security and release boundaries
 
-Android requests `RECEIVE_SMS` only for consented Rwanda receipt capture; it does not request inbox history (`READ_SMS`) or message sending. USSD uses the phone permission. Group creation on Android is bound to product eligibility and Play Integrity. Raw SMS remains protected until authenticated durable ingestion, and raw-evidence reveal is capability-gated, reason-gated and audited.
+The ordinary member build declares `RECEIVE_SMS` for consented capture and does not request `READ_SMS` or `SEND_SMS`. The separate internal receiver declares `READ_SMS`; the internal gateway declares `SEND_SMS` for its distinct sending workflow. USSD uses the phone permission. The native source binds capture to consent and an owner. Raw evidence access requires server-side authorization; review the reason and audit controls for each exposed route before relying on them universally.
 
 Current source, staged SQL, deployed database/function state, physical MTN/Airtel journeys, signed store artifacts, privacy/legal position and accountable approval must be verified against one release candidate. Existing historical bank paths and documentation are not evidence that a bank rail is supported in the Rwanda-only release.

@@ -71,7 +71,7 @@ final adminReceiptCancelLookupProvider = FutureProvider.autoDispose
 void _receiptCancelReadError(CollectApiException error) {
   if (error.code == '42501') throw const AdminReceiptCancelDenied();
   if (error.code == '55P03') throw const AdminReceiptCancelBusy();
-  if ({'operation_unavailable', '501'}.contains(error.code)) {
+  if (error.isLegacyOperationUnavailable) {
     throw UnsupportedError('Safe receipt cancellation service unavailable.');
   }
 }

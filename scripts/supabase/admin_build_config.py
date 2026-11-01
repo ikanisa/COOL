@@ -7,6 +7,8 @@ import json
 import os
 from pathlib import Path
 import re
+import stat
+import tempfile
 from urllib.parse import urlsplit
 
 try:
@@ -66,6 +68,10 @@ def configuration(env: dict[str, str], root: Path, *, qualification: bool = Fals
         raise ValueError("AUTH_CAPTCHA_ENABLED must be true or false")
     provider = env.get("AUTH_CAPTCHA_PROVIDER", "turnstile" if captcha == "true" else "")
     site_key = env.get("AUTH_CAPTCHA_SITE_KEY", "")
+    # Disabled CAPTCHA has no active provider or site key. Do not serialize
+    # stale configuration values into the public compiler input.
+    if captcha == "false":
+        provider, site_key = "", ""
     if captcha == "true" and (provider != "turnstile" or not re.fullmatch(r"[A-Za-z0-9_-]{10,200}", site_key)):
         raise ValueError("Enabled CAPTCHA requires Turnstile and its public site key")
     # These documented public dummy keys do not qualify production protection.
@@ -116,6 +122,7 @@ def configuration(env: dict[str, str], root: Path, *, qualification: bool = Fals
                          "supabase_project_ref": PROJECT if profile["mode"] == "managed" else None,
                          "supabase_schema_sha256": hashlib.sha256(data).hexdigest(),
                          "admin_transport": "same_origin_static_proxy",
+                         "admin_origin": admin, "api_origin": api, "admin_api_origin": admin_api,
                          "supabase_qualification_complete": False})
         if explicit_profile:
             metadata.update({"deployment_profile": profile,
@@ -132,14 +139,109 @@ def configuration(env: dict[str, str], root: Path, *, qualification: bool = Fals
                          "shipping_candidate": False})
     return defines, metadata
 
+
+def read_public_file(path: Path) -> bytes:
+    """Read a bounded physical public input, rejecting links and replacement races."""
+    path = path.absolute()
+    if path.resolve() != path:
+        raise ValueError("Public build input must use a physical path")
+    fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | os.O_NONBLOCK)
+    try:
+        before = os.fstat(fd)
+        named = os.lstat(path)
+        stamp = lambda s: (s.st_dev, s.st_ino, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
+        if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or
+                not 0 < before.st_size <= 65536 or stamp(before) != stamp(named)):
+            raise ValueError("Invalid public build input")
+        data = b""
+        while len(data) < before.st_size:
+            chunk = os.read(fd, before.st_size - len(data))
+            if not chunk:
+                raise ValueError("Incomplete public build input")
+            data += chunk
+        if stamp(before) != stamp(os.fstat(fd)) or stamp(before) != stamp(os.lstat(path)):
+            raise ValueError("Public build input changed during inspection")
+        return data
+    finally:
+        os.close(fd)
+
+
+def verify_public_inputs(defines_bytes: bytes, metadata_bytes: bytes, env: dict[str, str],
+                         root: Path, *, qualification: bool = False, binding: bool = False) -> dict:
+    """Check the exact post-diagnostic compiler input; not an immutable lease."""
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("Duplicate public build input field")
+            result[key] = value
+        return result
+    try:
+        defines = json.loads(defines_bytes, object_pairs_hook=unique,
+                             parse_constant=lambda _: (_ for _ in ()).throw(ValueError("Invalid number")))
+        metadata = json.loads(metadata_bytes, object_pairs_hook=unique,
+                              parse_constant=lambda _: (_ for _ in ()).throw(ValueError("Invalid number")))
+    except (ValueError, UnicodeError, TypeError) as error:
+        raise ValueError("Invalid public build input") from error
+    expected_defines, expected_metadata = configuration(env, root, qualification=qualification)
+    if not isinstance(defines, dict) or not isinstance(metadata, dict):
+        raise ValueError("Invalid public build input")
+    source = defines.get("COLLECT_BUILD_SOURCE_ID")
+    version = defines.get("COLLECT_BUILD_VERSION")
+    if (not isinstance(source, str) or not re.fullmatch(r"[a-f0-9]{64}", source) or
+            not isinstance(version, str) or not re.fullmatch(r"(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\+[1-9][0-9]*", version) or
+            defines != {**expected_defines, "COLLECT_BUILD_VERSION": version, "COLLECT_BUILD_SOURCE_ID": source} or
+            (json.dumps(defines, indent=2) + "\n").encode() != defines_bytes):
+        raise ValueError("Public compiler inputs differ from the selected configuration")
+    expected_metadata.update({"diagnostics_source_revision": source, "diagnostics_build_version": version})
+    hashed = hashlib.sha256(defines_bytes).hexdigest()
+    if not binding:
+        expected_metadata["public_build_defines_sha256"] = hashed
+    if metadata != expected_metadata:
+        raise ValueError("Public build metadata does not match compiler inputs")
+    return {**expected_metadata, "public_build_defines_sha256": hashed}
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--qualification", action="store_true",
                         help="Build only for the approved isolated Admin qualification origin")
     parser.add_argument("--defines-output", type=Path, required=True)
     parser.add_argument("--metadata-output", type=Path, required=True)
+    parser.add_argument("--bind-public-input", action="store_true")
+    parser.add_argument("--verify-only", action="store_true")
+    parser.add_argument("--retain-defines", type=Path)
     args = parser.parse_args()
     try:
+        if args.bind_public_input or args.verify_only:
+            if args.bind_public_input and (args.verify_only or args.retain_defines):
+                raise ValueError("Choose one public input operation")
+            data = read_public_file(args.defines_output)
+            metadata = verify_public_inputs(data, read_public_file(args.metadata_output), dict(os.environ),
+                                            Path(__file__).resolve().parents[2], qualification=args.qualification,
+                                            binding=args.bind_public_input)
+            if args.bind_public_input:
+                target = args.metadata_output.absolute()
+                fd, temporary = tempfile.mkstemp(prefix='.admin-config-', dir=target.parent)
+                try:
+                    with os.fdopen(fd, "w") as output:
+                        json.dump(metadata, output, indent=2)
+                        output.write("\n")
+                        output.flush()
+                        os.fsync(output.fileno())
+                    os.replace(temporary, target)
+                finally:
+                    if os.path.exists(temporary):
+                        os.unlink(temporary)
+            if args.retain_defines:
+                target = args.retain_defines.absolute()
+                if target.parent.resolve() != target.parent:
+                    raise ValueError("Retained compiler input must use a physical directory")
+                fd = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0), 0o600)
+                with os.fdopen(fd, "wb") as output:
+                    output.write(data)
+            return
+        if args.retain_defines:
+            raise ValueError("Retaining compiler inputs requires verification")
         defines, metadata = configuration(dict(os.environ), Path(__file__).resolve().parents[2],
                                           qualification=args.qualification)
     except (OSError, ValueError) as error:

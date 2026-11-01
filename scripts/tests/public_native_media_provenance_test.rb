@@ -80,7 +80,101 @@ class PublicNativeMediaProvenanceTest < Minitest::Test
         File.write(File.join(directory, 'manifest.json'), JSON.generate(manifest))
       end
       save.call
-      yield root, report, review, raw, binding, provenance, save
+      yield root, report, review, raw, binding, provenance, save, manifest
+    end
+  end
+
+  def android_fixture
+    fixture do |root, report, review, raw, binding, provenance, save, manifest|
+      certificate = 'c' * 64
+      apk_hash = 'b' * 64
+      profile = {'device_id_sha256' => 'd' * 64, 'model' => 'Synthetic Android phone', 'android_release' => '13',
+                 'api' => 33, 'abi' => 'arm64-v8a', 'width' => 1080, 'height' => 2340, 'density_dpi' => 440}
+      android = {'package_name' => PublicAppMedia::ANDROID_PACKAGE, 'flavor' => 'media_capture', 'build_type' => 'debug',
+                 'debuggable' => true, 'version_name' => '1.2.4', 'version_code' => 23, 'retained_apk_sha256' => apk_hash,
+                 'installed_apk_sha256' => apk_hash, 'certificate_sha256' => certificate, 'device_profile' => profile}
+      controls = PublicAppMedia::ANDROID_CAPTURE_CONTROLS.to_h do |path|
+        target = File.join(root, path); FileUtils.mkdir_p(File.dirname(target)); File.write(target, 'synthetic control ' + path)
+        [path, Digest::SHA256.file(target).hexdigest]
+      end
+      xml = '<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="app.cool.mobile.mediafixture" android:versionName="1.2.4" android:versionCode="23"><uses-permission android:name="android.permission.INTERNET"/><application android:debuggable="true" android:allowBackup="false"><activity android:name="io.flutter.embedding.android.FlutterActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity>'
+      %w[firebase_data_collection_default_enabled firebase_messaging_auto_init_enabled firebase_analytics_collection_enabled firebase_crashlytics_collection_enabled].each do |name|
+        xml += '<meta-data android:name="' + name + '" android:value="false"/>'
+      end
+      xml += '</application></manifest>'
+      identity = %w[package_name version_name version_code certificate_sha256 retained_apk_sha256 installed_apk_sha256].to_h { |key| [key, android[key]] }
+      payloads = {'merged_manifest' => xml, 'apk_manifest' => xml, 'apk_signature' => "Signer #1 certificate SHA-256 digest: #{certificate}",
+                  'installed_apk_identity' => JSON.generate(identity), 'device_profile' => JSON.generate(profile)}
+      android_evidence = {}
+      payloads.each do |role, text|
+        path = 'web/public/app-screens/evidence/android-' + role + '.txt'
+        File.write(File.join(root, path), text)
+        hash = Digest::SHA256.hexdigest(text)
+        android_evidence[role] = {'path' => path, 'sha256' => hash}
+        provenance['android_' + role] = path
+        provenance['android_' + role + '_sha256'] = hash
+        command_name = {'apk_manifest' => 'apk-manifest', 'apk_signature' => 'apk-signature', 'installed_apk_identity' => 'installed-bundle', 'device_profile' => 'device-profile'}[role]
+        if command_name
+          report['commands'].reject! { |row| row['name'] == command_name }
+          report['commands'] << {'name' => command_name, 'exit_code' => 0, 'stdout_sha256' => hash}
+        end
+      end
+      manifest['screens'].each { |row| row.merge!('capture_kind' => 'native_android_fixture', 'platform' => 'Android device') }
+      report['captures'].each { |row| row.merge!('capture_kind' => 'native_android_fixture', 'platform' => 'Android device', 'capture_surface' => 'flutter_android_surface', 'theme' => 'dark', 'text_scale' => 1.0) }
+      values = {'kind' => 'native_android_fixture', 'android' => android, 'android_evidence' => android_evidence,
+                'capture_surface' => 'flutter_android_surface', 'bundle_manifest' => {'base.apk' => apk_hash},
+                'capture_controls_before' => controls, 'capture_controls_after' => controls.dup,
+                'existing_app_metadata_before' => {'app.cool.mobile' => ['versionCode=23'], 'app.cool.mobile.dev' => ['versionCode=23']},
+                'existing_app_metadata_after' => {'app.cool.mobile' => ['versionCode=23'], 'app.cool.mobile.dev' => ['versionCode=23']}}
+      raw.merge!(values); report.merge!(values)
+      provenance['kind'] = 'native_android_fixture'
+      provenance['bundle_manifest_sha256'] = Digest::SHA256.hexdigest(JSON.generate(values['bundle_manifest']))
+      save.call
+      yield root, report, raw, provenance, save
+    end
+  end
+
+  def test_android_native_packet_has_its_own_strict_platform_chain
+    android_fixture { |root, *| assert_equal 7, PublicAppMedia.new(root).screens.length }
+  end
+
+  def test_android_wrong_apk_certificate_or_existing_app_change_is_rejected
+    %w[installed_apk_sha256 certificate_sha256].each do |field|
+      android_fixture do |root, report, _raw, _provenance, save|
+        report['android'][field] = 'e' * 64; save.call
+        assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }
+      end
+    end
+    android_fixture do |root, report, raw, _provenance, save|
+      report['existing_app_metadata_after'] = raw['existing_app_metadata_after'] = {}; save.call
+      assert_match(/metadata changed/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
+    end
+  end
+
+  def test_android_provider_receiver_is_rejected_with_rebound_evidence_hashes
+    android_fixture do |root, report, _raw, provenance, save|
+      path = provenance['android_apk_manifest']
+      text = File.read(File.join(root, path)).sub('</application>', '<receiver android:name="unsafe"/></application>')
+      File.write(File.join(root, path), text); hash = Digest::SHA256.hexdigest(text)
+      provenance['android_apk_manifest_sha256'] = hash
+      report['android_evidence']['apk_manifest']['sha256'] = hash
+      report['commands'].find { |row| row['name'] == 'apk-manifest' }['stdout_sha256'] = hash
+      save.call
+      assert_match(/provider or incoming-event/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
+    end
+  end
+
+  def test_android_report_cannot_be_relabelled_as_ios
+    android_fixture do |root, report, raw, _provenance, save|
+      report['kind'] = raw['kind'] = 'native_ios_fixture'; save.call
+      assert_match(/platform differs/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
+    end
+  end
+
+  def test_android_control_source_mutation_is_rejected
+    android_fixture do |root, *|
+      File.write(File.join(root, 'scripts/qa/native_android_public_app_media.py'), 'mutated producer')
+      assert_match(/control source changed/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
     end
   end
 

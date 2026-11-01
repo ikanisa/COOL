@@ -57,6 +57,14 @@ class _Repository extends authority.Repository {
     );
   }
   final queries = <MemberHistoryQuery>[];
+
+  // Payment-help tests start with no unresolved contribution command. The
+  // separate protected support-request store below remains exercised end to end.
+  @override
+  Future<ContributionCommandCheckpoint?> restoreContributionCommand(
+    String collectionId,
+  ) async => null;
+
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {}
   @override

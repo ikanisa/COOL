@@ -672,8 +672,7 @@ void main() {
     () {
       final runtime = _readAdminRuntimeLibrary();
 
-      expect(runtime, contains("error.code == 'operation_unavailable'"));
-      expect(runtime, contains("error.code == '501'"));
+      expect(runtime, contains('error.isLegacyOperationUnavailable'));
       expect(
         runtime,
         contains('if (!_isUnavailableOperationError(error)) rethrow;'),

@@ -29,9 +29,11 @@ void main() {
     late CollectCloudflareClient client;
     late AdminRepository repository;
     late Object? body;
+    late Object? injectedError;
     late int code;
     setUp(() async {
       body = {};
+      injectedError = null;
       code = 200;
       client = CollectCloudflareClient(
         'http://127.0.0.1:1',
@@ -40,6 +42,7 @@ void main() {
             final values = (jsonDecode(r.body)['token'] as String).split('|');
             return sdk.response(sdk.authReceipt(values[0], values[1]));
           }
+          if (injectedError != null) throw injectedError!;
           return http.Response.bytes(
             sdk.response(body, code).bodyBytes,
             code,
@@ -52,6 +55,30 @@ void main() {
       repository = AdminRepository(client);
     });
     tearDown(() => client.dispose());
+    test('legacy unavailable predicate respects HTTP status and code', () {
+      const cases = <(int?, String?, bool)>[
+        (null, 'operation_unavailable', true),
+        (null, '501', true),
+        (501, 'operation_unavailable', true),
+        (501, '501', true),
+        (403, 'operation_unavailable', false),
+        (403, '501', false),
+        (503, 'operation_unavailable', false),
+        (503, '501', false),
+        (501, 'different_reason', false),
+        (null, '42501', false),
+        (501, '55P03', false),
+        (501, null, false),
+      ];
+      for (final (status, code, expected) in cases) {
+        final error = CollectApiException(code: code, httpStatusCode: status);
+        expect(
+          error.isLegacyOperationUnavailable,
+          expected,
+          reason: 'status=$status code=$code',
+        );
+      }
+    });
     test('GAP-A07 SLA rejects a response for another queue', () async {
       body = {
         'queue_key': 'admin_list_collect_payees',
@@ -65,6 +92,72 @@ void main() {
         throwsFormatException,
       );
     });
+    test('GAP-A07 unavailable SLA is not an absent policy', () async {
+      body = {
+        'code': 'queue_sla_unavailable',
+        'message': 'Queue SLA policy is unavailable.',
+      };
+      code = 503;
+      await expectLater(
+        repository.queueSla('admin_list_notifications'),
+        throwsA(
+          isA<CollectApiException>()
+              .having((error) => error.code, 'code', 'queue_sla_unavailable')
+              .having((error) => error.httpStatusCode, 'HTTP status', 503),
+        ),
+      );
+    });
+    test('existing 501 SLA compatibility remains optional', () async {
+      body = {'code': 'operation_unavailable'};
+      code = 501;
+      expect(await repository.queueSla('admin_list_notifications'), isNull);
+    });
+    test('HTTP denials and outages cannot masquerade as legacy 501', () async {
+      for (final status in [403, 503]) {
+        for (final reason in ['operation_unavailable', '501']) {
+          code = status;
+          body = {'code': reason};
+          final failure = isA<CollectApiException>()
+              .having((error) => error.code, 'code', reason)
+              .having((error) => error.httpStatusCode, 'HTTP status', status);
+          await expectLater(
+            repository.queueSla('admin_list_notifications'),
+            throwsA(failure),
+          );
+          await expectLater(repository.runtimeConfig(), throwsA(failure));
+        }
+      }
+    });
+    test('501 fallback only accepts recognized legacy error codes', () async {
+      code = 501;
+      for (final response in [
+        {'code': 'operation_unavailable'},
+        <String, Object?>{},
+      ]) {
+        body = response;
+        expect(await repository.queueSla('admin_list_notifications'), isNull);
+        expect(await repository.runtimeConfig(), isNull);
+      }
+      body = {'code': 'queue_sla_unavailable'};
+      final failure = isA<CollectApiException>()
+          .having((error) => error.code, 'code', 'queue_sla_unavailable')
+          .having((error) => error.httpStatusCode, 'HTTP status', 501);
+      await expectLater(
+        repository.queueSla('admin_list_notifications'),
+        throwsA(failure),
+      );
+      await expectLater(repository.runtimeConfig(), throwsA(failure));
+    });
+    test(
+      'legacy exceptions without HTTP status retain compatibility',
+      () async {
+        for (final reason in ['operation_unavailable', '501']) {
+          injectedError = CollectApiException(code: reason);
+          expect(await repository.queueSla('admin_list_notifications'), isNull);
+          expect(await repository.runtimeConfig(), isNull);
+        }
+      },
+    );
     test('GAP-A08 approval read rejects incomplete access state', () async {
       body = {
         'user_id': sdk.target,
@@ -80,6 +173,37 @@ void main() {
         throwsFormatException,
       );
     });
+    for (final errorCode in ['operation_unavailable', '501']) {
+      for (final status in [403, 503, 501]) {
+        test(
+          'compatibility requires a legacy or 501 status: $errorCode/$status',
+          () async {
+            body = {'code': errorCode, 'message': 'synthetic failure'};
+            code = status;
+            if (status == 501) {
+              expect(await repository.runtimeConfig(), isNull);
+              expect(
+                await repository.queueSla('admin_list_notifications'),
+                isNull,
+              );
+            } else {
+              final expected = throwsA(
+                isA<CollectApiException>().having(
+                  (e) => e.httpStatusCode,
+                  'HTTP status',
+                  status,
+                ),
+              );
+              await expectLater(repository.runtimeConfig(), expected);
+              await expectLater(
+                repository.queueSla('admin_list_notifications'),
+                expected,
+              );
+            }
+          },
+        );
+      }
+    }
     test('GAP-A09 successful null runtime response rejects fallback', () async {
       body = null;
       await expectLater(repository.runtimeConfig(), throwsFormatException);

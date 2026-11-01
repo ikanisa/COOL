@@ -31,7 +31,7 @@ final adminOperatingPolicyProvider =
         if (error.code == '55P03' || error.code == '40001') {
           throw const AdminOperatingPolicyBusy();
         }
-        if (error.code == 'operation_unavailable' || error.code == '501') {
+        if (error.isLegacyOperationUnavailable) {
           throw UnsupportedError('Unattended policy service unavailable.');
         }
         rethrow;

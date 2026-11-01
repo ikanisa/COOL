@@ -2,11 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   chmodSync, copyFileSync, existsSync, linkSync, lstatSync, mkdirSync, mkdtempSync,
-  readFileSync, realpathSync, renameSync, rmSync, statfsSync, symlinkSync, unlinkSync, writeFileSync,
+  readFileSync, realpathSync, renameSync, rmSync, symlinkSync, unlinkSync, writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { spawn } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 import { DatabaseSync } from 'node:sqlite';
 import { DesktopError } from '../src/direct-desktop/contract.mjs';
 import {
@@ -33,7 +33,14 @@ function safeError(code) {
 
 function fixture(t) {
   const root = realpathSync(tmpdir());
-  if (process.platform === 'darwin') assert.equal(statfsSync(root).type, 26, 'journal fixtures must use APFS');
+  if (process.platform === 'darwin') {
+    // Darwin's numeric f_type is mount-dependent. Ask the system for the
+    // filesystem identity instead of assuming an APFS number.
+    const device = execFileSync('/bin/df', ['-P', root], { encoding: 'utf8' }).trim().split('\n').at(-1).trim().split(/\s+/)[0];
+    const plist = execFileSync('/usr/sbin/diskutil', ['info', '-plist', device]);
+    const filesystem = execFileSync('/usr/bin/plutil', ['-extract', 'FilesystemType', 'raw', '-o', '-', '-'], { input: plist, encoding: 'utf8' }).trim();
+    assert.equal(filesystem, 'apfs', 'journal fixtures must use APFS');
+  }
   const directory = mkdtempSync(join(root, 'collect-desktop-journal-'));
   assert.equal(lstatSync(directory).mode & 0o7777, 0o700);
   t.after(() => rmSync(directory, { recursive: true, force: true }));

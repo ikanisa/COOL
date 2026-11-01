@@ -75,7 +75,7 @@ fencedTest({name:'actual Edge handlers on PostgreSQL: managed identities, phone 
  try{
   let r=await call('/v1/auth/user');let b=await r.json();assertEquals(r.status,200,JSON.stringify(b));assertEquals(b.id,principal);assertEquals(b.auth_user_id,authId);
   r=await call('/v1/rpc/list_current_user_collections',{});b=await r.json();assertEquals(r.status,200,JSON.stringify(b));assertEquals(b[0].id,group);
-  r=await call('/v1/rpc/create_contribution_intent',{p_request_id:crypto.randomUUID(),p_collection_id:group,p_expected_amount_rwf:1700});b=await r.json();assertEquals(r.status,200,JSON.stringify(b));assertEquals(b.amount_minor,1700);
+  r=await call('/v1/rpc/create_contribution_intent',{p_request_id:crypto.randomUUID(),p_collection_id:group,p_expected_amount_rwf:1700,p_sender_phone_hash:await digest(phone)});b=await r.json();assertEquals(r.status,200,JSON.stringify(b));assertEquals(b.amount_minor,1700);
   // Confirmed profile data alone cannot replace an OTP proven by this managed
   // sign-in. No wallet registration is required for the member's SMS choice.
   await sql`update auth.users set phone=${phone.slice(1)},phone_confirmed_at=now() where id=${authId}`;await sql`update app.users set momo_number='' where id=${principal}`;

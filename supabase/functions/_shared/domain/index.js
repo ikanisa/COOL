@@ -12,7 +12,6 @@ import {privacyPortalRoute} from './privacy_portal.js';
 import {handlePrivacyEmailAuth} from './privacy.js';
 import {dispatchOperation,publicRpcNames} from './operations.js';
 import {recordPlatformHealth,platformHealthComponent} from './observability.js';
-import {drainMomoJobs} from './momo_pipeline.js';
 import {momoGatewayRoute} from './momo_gateway.js';
 import {clientDiagnosticsRoute} from './client_diagnostics.js';
 const PUBLIC_OPERATIONS=new Set(publicRpcNames);
@@ -28,7 +27,9 @@ async function publicRpc(operation,body,env) {
  return JSON.parse(row.value_json);
 }
 export default {
- async scheduled(_event,env,ctx){ctx.waitUntil(drainMomoJobs(env));},
+ // The shared worker must never start receipt processing without the separate
+ // scheduled-dispatch admission and provider qualification.
+ async scheduled(){},
  async fetch(request,env,ctx){
   const requestId=crypto.randomUUID(),started=performance.now();let headers={};
   const observeResponse=response=>{
@@ -43,7 +44,8 @@ export default {
    headers=cors(request,env);const url=new URL(request.url);
    if(request.method==='OPTIONS')return new Response(null,{status:204,headers});
    const gateway=await momoGatewayRoute(request,env);
-   if(gateway){if(gateway.ok&&request.method==='POST'&&url.pathname.endsWith('/ingest'))ctx.waitUntil(drainMomoJobs(env));return observeResponse(withHeaders(gateway,headers));}
+   // Ingestion records a durable job; processing is admitted separately.
+   if(gateway)return observeResponse(withHeaders(gateway,headers));
    if(url.pathname==='/health'&&request.method==='GET'){
     await first(env,'SELECT 1 AS ready');return json({service:'collect-platform-api',database:'available',release:env.BUILD_SOURCE_ID??null,checked_at:now()},200,headers);
    }

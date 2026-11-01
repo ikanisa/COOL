@@ -132,6 +132,24 @@ class MainActivity : FlutterActivity() {
                 }
             }
 
+        val contributionCommands = app.cool.mobile.security.ContributionCommandStore(applicationContext)
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "collect/contribution_commands_v1")
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "read", "compareAndSet" -> runContributionCommandTask(result) {
+                        val arguments = call.arguments as? Map<*, *> ?: error("Arguments required")
+                        val expectedKeys = if (call.method == "read") setOf("partition_id")
+                            else setOf("partition_id", "expected_revision", "payload")
+                        require(arguments.keys == expectedKeys)
+                        val partition = arguments["partition_id"] as? String ?: error("Partition required")
+                        if (call.method == "read") contributionCommands.read(partition)
+                        else contributionCommands.compareAndSet(partition, arguments["expected_revision"],
+                            arguments["payload"] as? String ?: error("Payload required"))
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+
         val receiptSmsPending = app.cool.mobile.security.ReceiptSmsPendingStore(applicationContext)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "collect/receipt_sms_pending")
             .setMethodCallHandler { call, result ->
@@ -416,6 +434,26 @@ class MainActivity : FlutterActivity() {
         fun unavailable() = result.error(
             "payment_help_storage_unavailable",
             "Secure payment help recovery is unavailable; retained requests were not discarded.",
+            null,
+        )
+        try {
+            SmsQueueWorker.execute {
+                try {
+                    val value = task()
+                    runOnUiThread { result.success(value) }
+                } catch (_: Exception) {
+                    runOnUiThread { unavailable() }
+                }
+            }
+        } catch (_: RuntimeException) {
+            unavailable()
+        }
+    }
+
+    private fun runContributionCommandTask(result: MethodChannel.Result, task: () -> Any?) {
+        fun unavailable() = result.error(
+            "contribution_command_storage_unavailable",
+            "Secure contribution recovery is unavailable; retained requests were not discarded.",
             null,
         )
         try {

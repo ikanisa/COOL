@@ -12,7 +12,8 @@ PaymentIntentModel _intent({
   String receiverHash = 'receiver-hash',
   String label = 'Group receiver',
   String network = 'mtn_momo',
-  String senderHash = 'sender-hash',
+  String senderHash =
+      'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
   String status = 'pending',
   DateTime? expiresAt,
 }) => PaymentIntentModel(
@@ -63,6 +64,8 @@ void main() {
       _intent(expiresAt: _now),
       _intent(expiresAt: _now.add(const Duration(hours: 2))),
       _intent(receiver: ''),
+      _intent(senderHash: ''),
+      _intent(senderHash: 'not-a-sha256'),
     ]) {
       expect(
         preparedMomoIntentStillActionable(prepared, current, now: _now),
@@ -73,6 +76,14 @@ void main() {
       preparedMomoIntentStillActionable(
         _intent(expiresAt: _now),
         _intent(expiresAt: _now),
+        now: _now,
+      ),
+      isFalse,
+    );
+    expect(
+      preparedMomoIntentStillActionable(
+        _intent(senderHash: ''),
+        _intent(senderHash: ''),
         now: _now,
       ),
       isFalse,

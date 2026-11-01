@@ -5,6 +5,10 @@ import {createHash} from 'node:crypto';
 import {isAbsolute, join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 
+// The actual runtime graph imports the pinned Deno PostgreSQL driver. Keep this
+// Node fixture network- and database-denied while loading that same graph.
+await import('./helpers/node-postgres-import.mjs');
+
 // Root supplies a coherent actual _shared graph. No copied controller, helper
 // imports, real HTTP, JWT signature verification or PostgreSQL authority proof.
 // The helper fixture models receipts/CAS only; actual SQL remains independently

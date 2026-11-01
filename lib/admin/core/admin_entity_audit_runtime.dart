@@ -35,7 +35,7 @@ final adminEntityAuditProvider = FutureProvider.autoDispose
         if (error.code == '55P03' || error.code == '40001') {
           throw const AdminEntityAuditAuthorityBusy();
         }
-        if (error.code == 'operation_unavailable' || error.code == '501') {
+        if (error.isLegacyOperationUnavailable) {
           throw UnsupportedError('Entity action history is unavailable.');
         }
         rethrow;

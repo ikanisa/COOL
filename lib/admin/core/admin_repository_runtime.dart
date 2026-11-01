@@ -797,5 +797,5 @@ class AdminRepository extends AdminRepositoryBase
   }
 
   bool _isUnavailableOperationError(CollectApiException error) =>
-      error.code == 'operation_unavailable' || error.code == '501';
+      error.isLegacyOperationUnavailable;
 }

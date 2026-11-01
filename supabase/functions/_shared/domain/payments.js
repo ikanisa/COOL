@@ -4,6 +4,28 @@ import {mutation,retainedResponse} from './mutations.js';
 import {encrypt} from './encryption.js';
 import {memberHistoryPage} from './member_history.js';
 function intentJson(row) {return {id:row.id,collection_id:row.collection_id,amount_minor:row.amount_minor,currency:row.currency,rail:row.rail,status:row.status,receiver_momo_number:row.receiver_momo_number,network:row.receiver_network??row.network,receiver_label:row.receiver_label??'',receiver_momo_number_hash:row.receiver_momo_number_hash??'',sender_phone_hash:row.sender_phone_hash??'',originating_session_id:row.originating_session_id,created_at:row.created_at,expires_at:row.expires_at};}
+// Reuse the immutable creation projection when reviewing a retained receipt.
+export {intentJson as contributionIntentJson};
+// Match the client PhoneNormalizer exactly; only valid Rwanda mobile numbers
+// can bind a protected contribution request. Never return the number in errors.
+export function normalizeContributionSender(value) {
+ if(typeof value!=='string')return null;
+ let digits=value.trim().replace(/[^0-9+]/g,'');
+ if(digits.startsWith('+'))digits=digits.slice(1);
+ if(digits.startsWith('00'))digits=digits.slice(2);
+ let normalized='';
+ if(digits.startsWith('250')&&digits.length===12)normalized='+'+digits;
+ else if(digits.startsWith('0')&&digits.length===10)normalized='+250'+digits.slice(1);
+ else if(digits.length===9)normalized='+250'+digits;
+ return /^\+2507[2389][0-9]{7}$/.test(normalized)?normalized:null;
+}
+export function boundCreationReceipt(row,senderHash) {
+ if(typeof row?.creation_response_json!=='string'||new TextEncoder().encode(row.creation_response_json).length>8192||!/^([a-f0-9]{64})$/.test(senderHash))return false;
+ try {
+  const saved=JSON.parse(row.creation_response_json);
+  return JSON.stringify(saved)===row.creation_response_json&&stableJson(saved)===stableJson(intentJson({...row,status:'pending',sender_phone_hash:senderHash}));
+ }catch{return false;}
+}
 async function intentConfirmation(env,intent,actor){
  const linked=await first(env,`SELECT p.id,p.status,p.member_id,p.amount_minor,l.id AS entry_id,l.posted_at
  FROM payments p LEFT JOIN ledger_entries l ON l.payment_id=p.id AND l.kind='contribution'
@@ -21,15 +43,19 @@ export async function financialRpc(operation,body,env,actor,internal={}) {
  case 'create_contribution_intent': {
   const requestId=uuid(body.p_request_id??id(),'request_id');
   const g=await groupFor(env,actor,body.collection??body.p_collection_id);
-  const previous=await retainedResponse(env,actor,operation,requestId,body,{collectionId:g.id});if(previous.found)return {handled:true,value:previous.value};
   const amount=integer(body.p_expected_amount_rwf??body.amount_minor,'amount',1);
   if(!g.receiver_momo_number||!['mtn_momo','airtel_money'].includes(g.receiver_network))throw new ApiError(409,'route_unavailable','The group payment route is unavailable.');
   const member=await first(env,'SELECT momo_number,country_code FROM users WHERE id=?',actor.userId);
-  if(!member?.momo_number||member.country_code!=='RW')throw new ApiError(403,'profile_incomplete','Complete your verified MoMo profile first.');
-  const pending=await first(env,`SELECT * FROM payment_intents WHERE member_id=? AND collection_id=? AND amount_minor=? AND originating_session_id=? AND status='pending' AND expires_at>? ORDER BY created_at DESC LIMIT 1`,actor.userId,g.id,amount,actor.sessionId,now());
-  if(pending)return {handled:true,value:await mutation(env,actor,operation,requestId,body,intentJson(pending),[],{collectionId:g.id,expectedCollectionRevision:g.revision})};
+  const sender=normalizeContributionSender(member?.momo_number);
+  if(!sender||member?.country_code!=='RW')throw new ApiError(403,'profile_incomplete','Complete your verified MoMo profile first.');
+  const senderHash=await digest(sender);
+  if(typeof body.p_sender_phone_hash!=='string'||!/^([a-f0-9]{64})$/.test(body.p_sender_phone_hash)||body.p_sender_phone_hash!==senderHash)throw new ApiError(409,'contribution_sender_changed','Refresh your payment details before continuing.');
+  const previous=await retainedResponse(env,actor,operation,requestId,body,{collectionId:g.id});
+  if(previous.found){if(previous.value?.sender_phone_hash!==senderHash)throw new ApiError(409,'contribution_sender_changed','Refresh your payment details before continuing.');return {handled:true,value:previous.value};}
+  const pending=await first(env,`SELECT p.*,r.response_json AS creation_response_json FROM payment_intents p LEFT JOIN request_receipts r ON r.user_id=p.member_id AND r.request_id=p.request_id AND r.operation='create_contribution_intent' AND r.session_id=p.originating_session_id AND r.body_sha256=p.request_sha256 WHERE p.member_id=? AND p.collection_id=? AND p.amount_minor=? AND p.originating_session_id=? AND p.status='pending' AND p.expires_at>? ORDER BY p.created_at DESC LIMIT 1`,actor.userId,g.id,amount,actor.sessionId,now());
+  if(pending){if(!boundCreationReceipt(pending,senderHash))throw new ApiError(409,'contribution_sender_changed','Refresh your payment details before continuing.');return {handled:true,value:await mutation(env,actor,operation,requestId,body,intentJson({...pending,sender_phone_hash:senderHash}),[],{collectionId:g.id,expectedCollectionRevision:g.revision})};}
   const paymentId=id();const created=now();const expires=new Date(Date.now()+900000).toISOString();
-  const value=intentJson({id:paymentId,collection_id:g.id,amount_minor:amount,currency:'RWF',rail:'rwanda_momo',status:'pending',receiver_momo_number:g.receiver_momo_number,network:g.receiver_network,receiver_label:g.receiver_display_label,created_at:created,expires_at:expires,originating_session_id:actor.sessionId});
+  const value=intentJson({id:paymentId,collection_id:g.id,amount_minor:amount,currency:'RWF',rail:'rwanda_momo',status:'pending',receiver_momo_number:g.receiver_momo_number,network:g.receiver_network,receiver_label:g.receiver_display_label,sender_phone_hash:senderHash,created_at:created,expires_at:expires,originating_session_id:actor.sessionId});
   const stmt=env.DB.prepare(`INSERT INTO payment_intents(id,collection_id,member_id,amount_minor,receiver_momo_number,receiver_network,receiver_label,originating_session_id,created_at,expires_at,request_id,request_sha256) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).bind(paymentId,g.id,actor.userId,amount,g.receiver_momo_number,g.receiver_network,g.receiver_display_label??'',actor.sessionId,created,expires,requestId,await digest(stableJson(body)));
   return {handled:true,value:await mutation(env,actor,operation,requestId,body,value,[stmt],{collectionId:g.id,expectedCollectionRevision:g.revision})};
  }

@@ -1,4 +1,4 @@
-import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/contribution_command_repository_fixture.dart';
 
 import 'dart:ui' show SemanticsAction;
 
@@ -427,13 +427,15 @@ void main() {
   testWidgets('Rwanda contribution flow keeps MoMo action pinned', (
     tester,
   ) async {
-    final repo = FixtureCollectRepository();
+    final repo = ContributionFixtureRepository();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
         child: MaterialApp(
           theme: AppTheme.light(),
-          home: const ContributionFlowScreen(collectionId: 'qa-private-group'),
+          home: const ContributionFlowScreen(
+            collectionId: contributionFixtureGroup,
+          ),
         ),
       ),
     );
@@ -461,20 +463,29 @@ void main() {
     );
     expect(reviewedAmount.semanticsLabel, 'RWF 6,000');
     expect(reviewedAmount.data?.replaceAll('\u200b', ''), 'RWF 6,000');
-    expect(find.text('Open MoMo USSD'), findsOneWidget);
-    expect(find.text('Edit amount'), findsWidgets);
+    final openAction = find.widgetWithText(
+      FilledButton,
+      'Open MoMo USSD',
+      skipOffstage: false,
+    );
+    await tester.ensureVisible(openAction);
+    await tester.pumpAndSettle();
+    expect(openAction.hitTestable(), findsOneWidget);
+    expect(find.text('Edit amount', skipOffstage: false), findsWidgets);
   });
 
   testWidgets('Rwanda contribution flow rejects a zero MoMo amount', (
     tester,
   ) async {
-    final repo = FixtureCollectRepository();
+    final repo = ContributionFixtureRepository();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [collectRepositoryProvider.overrideWith((ref) => repo)],
         child: MaterialApp(
           theme: AppTheme.light(),
-          home: const ContributionFlowScreen(collectionId: 'qa-private-group'),
+          home: const ContributionFlowScreen(
+            collectionId: contributionFixtureGroup,
+          ),
         ),
       ),
     );

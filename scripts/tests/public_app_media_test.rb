@@ -128,6 +128,16 @@ class PublicAppMediaTest < Minitest::Test
     end
   end
 
+  def test_android_capture_cannot_inherit_legacy_ios_provenance
+    fixture do |root, _|
+      path = File.join(root, 'web/public/app-screens/manifest.json')
+      manifest = JSON.parse(File.read(path))
+      manifest['screens'][0]['capture_kind'] = 'native_android_fixture'
+      File.write(path, JSON.generate(manifest))
+      assert_match(/Android screenshot provenance is incomplete/, assert_raises(RuntimeError) { PublicAppMedia.new(root).screens }.message)
+    end
+  end
+
   def test_fabricated_capture_manifest_is_rejected
     fixture do |root, _|
       path = File.join(root, 'web/public/app-screens/capture-provenance.json')

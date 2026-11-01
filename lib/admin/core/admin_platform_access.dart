@@ -74,11 +74,13 @@ class _AdminPlatformAccessPanelState
           final message = switch (error) {
             AdminSessionChanged() =>
               'Your Admin session changed. Reopen this page to view access.',
-            CollectApiException(code: '42501') || CollectAuthException() =>
+            CollectApiException(code: '42501') ||
+            CollectApiException(httpStatusCode: 403) ||
+            CollectAuthException() =>
               'Platform access is denied for this Admin session.',
             UnsupportedError() ||
             CollectApiException(
-              code: 'operation_unavailable' || '501',
+              isLegacyOperationUnavailable: true,
             ) => 'Operator approval service is unavailable.',
             _ => 'Platform access could not be loaded.',
           };

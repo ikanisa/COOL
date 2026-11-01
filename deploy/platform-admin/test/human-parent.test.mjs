@@ -38,6 +38,18 @@ test('existing renderer accepts QA only from explicit bounded configured origin'
   }
 });
 
+test('profile origins are explicit, exact and bounded before the parent is served', async () => {
+  const origin = 'https://admin.example.invalid';
+  const request = new Request(origin + PATH);
+  assert.equal(renderLocalChallengeDocument(request, {origin, allowedOrigins: [origin]}).status, 200);
+  for (const allowedOrigins of [[], [QA], [origin + '/'], ['http://admin.example.invalid'],
+    ['https://user:password@admin.example.invalid'], ['https://admin.example.invalid:8443'],
+    [origin, origin, origin, origin, origin], 'https://admin.example.invalid']) {
+    assert.equal(renderLocalChallengeDocument(request, {origin, allowedOrigins}).status, 503);
+  }
+  assert.equal(renderLocalChallengeDocument(new Request(QA + PATH), {origin, allowedOrigins: [origin]}).status, 421);
+});
+
 test('parent security headers permit only nonce scripts/styles and explicit loopback human handoff', async () => {
   for (const origin of [QA, PROD]) {
     const f = fixture(origin), response = await f.handle(); const html = await response.text();
@@ -92,11 +104,13 @@ test('unrelated Admin app pages and explicit legacy mode preserve their existing
   assert.deepEqual(legacy.calls, {backend: 0, legacy: 0, assets: 1});
 });
 
-test('undeployed Supabase template adds only bounded parent-first selector', async () => {
-  const configuration = JSON.parse(await readFile(new URL('../wrangler.supabase.jsonc', import.meta.url), 'utf8'));
-  assert.ok(configuration.assets.run_worker_first.includes('/admin/auth/local-challenge*'));
-  assert.equal(configuration.assets.run_worker_first.some(path => path === '/admin/*' || path === '/admin/auth/*'), false);
-  assert.equal(configuration.vars.ADMIN_ORIGIN, PROD);
-  assert.equal(configuration.vars.COLLECT_BACKEND, 'supabase');
-  assert.equal(configuration.vars.SUPABASE_URL, PROJECT);
+test('Supabase production and QA templates use the bounded parent-first selector', async () => {
+  for (const [name, origin] of [['wrangler.supabase.jsonc', PROD], ['wrangler.supabase-qa.jsonc', QA]]) {
+    const configuration = JSON.parse(await readFile(new URL('../' + name, import.meta.url), 'utf8'));
+    assert.equal(configuration.assets.run_worker_first.filter(path => path === '/admin/auth/local-challenge*').length, 1, name);
+    assert.equal(configuration.assets.run_worker_first.some(path => path === '/admin/*' || path === '/admin/auth/*'), false, name);
+    assert.equal(configuration.vars.ADMIN_ORIGIN, origin, name);
+    assert.equal(configuration.vars.COLLECT_BACKEND, 'supabase', name);
+    assert.equal(configuration.vars.SUPABASE_URL, PROJECT, name);
+  }
 });

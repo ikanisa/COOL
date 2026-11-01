@@ -25,7 +25,8 @@
       "/functions/*",
       "/privacy/account-deletion",
       "/privacy/account-deletion/*",
-      "/admin/auth/local-challenge*"
+      "/admin/auth/local-challenge*",
+      "/_build/*"
     ]
   },
   "routes": [

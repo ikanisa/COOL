@@ -1,8 +1,10 @@
 import '../../shared/models/collect_models.dart';
+import 'contribution_command.dart';
 
 /// A server recheck must describe the exact payment the member reviewed.
 /// Historical intent reads can contain receivers that are no longer active;
-/// callers must obtain [current] from the live create_contribution_intent RPC.
+/// the field comparator alone grants no launch authority. The member flow must
+/// use [reviewedMomoIntentStillActionable] with a current-review response.
 bool preparedMomoIntentStillActionable(
   PaymentIntentModel prepared,
   PaymentIntentModel current, {
@@ -23,7 +25,15 @@ bool preparedMomoIntentStillActionable(
       prepared.receiverMomoNumberHash == current.receiverMomoNumberHash &&
       prepared.receiverMomoLabel == current.receiverMomoLabel &&
       prepared.momoNetwork == current.momoNetwork &&
+      RegExp(r'^[a-f0-9]{64}$').hasMatch(prepared.senderPhoneHash) &&
       prepared.senderPhoneHash == current.senderPhoneHash &&
       prepared.createdAt.isAtSameMomentAs(current.createdAt) &&
       prepared.expiresAt.isAtSameMomentAs(current.expiresAt);
 }
+
+/// Historical creation receipts cannot satisfy this typed current-review guard.
+bool reviewedMomoIntentStillActionable(
+  PaymentIntentModel prepared,
+  ContributionIntentReview review, {
+  required DateTime now,
+}) => preparedMomoIntentStillActionable(prepared, review.intent, now: now);

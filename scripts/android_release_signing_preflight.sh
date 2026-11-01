@@ -56,9 +56,47 @@ rescue JSON::ParserError
   nil
 end
 
-summary = parse_json_object(gradle_output)
+# Gradle diagnostics are not trusted output: forward only the status task's
+# public fields, with constrained types, and never an arbitrary message or key.
+def safe_summary(value)
+  return nil unless value.is_a?(Hash) && %w[pass blocked].include?(value["status"])
+  messages = [
+    "Production Android signing material is missing.",
+    "Configured Android signing certificate does not match the expected Google Play upload certificate.",
+    "Configured Android upload signing material is present; upload certificate pinning is not configured.",
+    "Configured Android signing certificate matches the expected Google Play upload certificate."
+  ]
+  result = {"status" => value["status"],
+            "message" => messages.include?(value["message"]) ? value["message"] : "Android signing status returned by Gradle."}
+  %w[store_file_configured store_file_exists key_alias_configured store_password_configured key_password_configured
+     matches_expected_upload_certificate matches_expected_play_signing_certificate].each do |key|
+    next unless value.key?(key)
+    return nil unless value[key] == true || value[key] == false
+    result[key] = value[key]
+  end
+  %w[configured_certificate_sha256 expected_upload_signing_sha256 expected_play_signing_sha256].each do |key|
+    next unless value.key?(key)
+    fingerprint = value[key]
+    return nil unless fingerprint.nil? || (fingerprint.is_a?(String) && fingerprint.match?(/\A[A-F0-9]{64}\z/))
+    result[key] = fingerprint
+  end
+  if result["status"] == "pass"
+    required = %w[store_file_configured store_file_exists key_alias_configured store_password_configured
+                  key_password_configured matches_expected_upload_certificate]
+    return nil unless required.all? { |key| result[key] == true }
+    configured = result["configured_certificate_sha256"]
+    expected = result["expected_upload_signing_sha256"]
+    return nil unless configured.is_a?(String) && expected.is_a?(String) && configured == expected
+  end
+  if value.key?("play_app_signing_certificate_note")
+    result["play_app_signing_certificate_note"] = "Google Play App Signing uses the upload key for uploaded bundles and the Play app-signing key for APKs delivered to users."
+  end
+  result
+end
+
+summary = safe_summary(parse_json_object(gradle_output))
 summary =
-  if summary
+  if summary && gradle_rc.zero?
     summary.merge(
       "gradle_exit_code" => gradle_rc,
       "secret_handling" => "This preflight reports certificate fingerprints and boolean configuration state only; it does not print keystore passwords or key aliases."
@@ -66,15 +104,15 @@ summary =
   else
     {
       "status" => "blocked",
-      "message" => "Unable to read Android signing preflight status from Gradle.",
+      "message" => gradle_rc.zero? ? "Unable to read Android signing preflight status from Gradle." : "Android signing preflight failed; Gradle diagnostics withheld.",
       "gradle_exit_code" => gradle_rc,
-      "gradle_output_tail" => gradle_output.lines.last(20).join,
+      "diagnostic_output_suppressed" => true,
       "expected_upload_signing_sha256" => nil,
       "matches_expected_upload_certificate" => false,
       "expected_play_signing_sha256" => nil,
       "matches_expected_play_signing_certificate" => false,
       "play_app_signing_certificate_note" => "Google Play App Signing uses the upload key for uploaded bundles and the Play app-signing key for APKs delivered to users.",
-      "secret_handling" => "Gradle output tail is included for diagnostics; the Gradle task does not print signing passwords or key aliases."
+      "secret_handling" => "Raw Gradle diagnostics are withheld because they can contain sensitive signing details."
     }
   end
 

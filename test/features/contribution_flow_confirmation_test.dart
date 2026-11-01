@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:collect_app/app/theme/collect_theme.dart';
+import 'package:collect_app/core/security/hash_utils.dart';
 import 'package:collect_app/core/utils/date_format.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
@@ -13,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/contribution_command_repository_fixture.dart';
 
 PaymentIntentModel intent({
   bool credited = false,
@@ -22,12 +23,13 @@ PaymentIntentModel intent({
   DateTime? expiresAt,
   String? confirmationStatus,
 }) => PaymentIntentModel(
-  id: 'synthetic-intent',
-  collectionId: 'qa-private-group',
+  id: contributionFixtureIntent,
+  collectionId: contributionFixtureGroup,
   expectedAmountRwf: 5000,
   receiverMomoNumber: '123456',
   receiverMomoNumberHash: 'synthetic-receiver',
   receiverMomoLabel: 'Collect synthetic receiver',
+  senderPhoneHash: HashUtils.phoneHash('0788123456'),
   status: status,
   createdAt: DateTime.utc(2026, 10, 18),
   expiresAt: expiresAt ?? DateTime.utc(2030),
@@ -44,7 +46,7 @@ PaymentIntentModel intent({
   balanceAfterContributionRwf: credited ? 12500 : null,
 );
 
-class _Repository extends FixtureCollectRepository {
+class _Repository extends ContributionFixtureRepository {
   _Repository({bool existing = false}) {
     state = state.copyWith(paymentIntents: existing ? [intent()] : []);
   }
@@ -131,7 +133,7 @@ void main() {
             child: RepaintBoundary(
               key: key,
               child: const ContributionFlowScreen(
-                collectionId: 'qa-private-group',
+                collectionId: contributionFixtureGroup,
               ),
             ),
           ),
@@ -208,8 +210,10 @@ void main() {
     expect(repository.checks, 1);
     expect(
       repository.creates,
-      2,
-    ); // Preparation and live dialer preflight only.
+      1,
+    ); // Preparation only; separate current review authorizes the dialer.
+    expect(repository.reviewCalls, 1);
+    expect(repository.handoffCalls, 1);
     expect(repository.state.collectionSummaries, balances);
     expect(repository.loads, 0);
     expect(find.text('Awaiting confirmation'), findsOneWidget);
@@ -224,8 +228,8 @@ void main() {
       // Match the accepted payment_received wire case: a linked payment row,
       // no contribution entry and no evidence object or provider reference.
       final linkedRecord = PaymentIntentModel.fromJson(const {
-        'id': 'synthetic-intent',
-        'collection_id': 'qa-private-group',
+        'id': contributionFixtureIntent,
+        'collection_id': contributionFixtureGroup,
         'amount_minor': 5000,
         'status': 'pending',
         'created_at': '2026-10-18T08:00:00Z',
@@ -329,7 +333,8 @@ void main() {
       }
       expect(repository.state.collectionSummaries, balances);
       expect(repository.loads, 0);
-      expect(repository.creates, 2);
+      expect(repository.creates, 1);
+      expect(repository.reviewCalls, 1);
       expect(repository.checks, 0);
       expect(tester.takeException(), isNull);
     });

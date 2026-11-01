@@ -64,7 +64,6 @@ class _ManagementState
       _authorityLost = false;
   bool _accessConfirmed = false,
       _policyConfirmed = false,
-      _batchConfirmed = false,
       _reopenRequired = false;
   String? _message, _loadError;
   int _generation = 0;
@@ -219,7 +218,6 @@ class _ManagementState
     _policy = null;
     _accessConfirmed = false;
     _policyConfirmed = false;
-    _batchConfirmed = false;
     _collection.clear();
     if (dropOriginal) {
       for (final entry in _pending) {
@@ -534,7 +532,6 @@ class _ManagementState
       _busy = true;
       _policy = null;
       _policyConfirmed = false;
-      _batchConfirmed = false;
       _message = null;
     });
     try {
@@ -656,7 +653,7 @@ class _ManagementState
     if (receipt is NotificationManagementMaterializationReceipt &&
         !receipt.resolved) {
       pending.status = receipt.observed
-          ? 'Original batch is incomplete. Check its status before deliberately resuming the same request.'
+          ? 'Original batch is incomplete. Check its status; resumption is unavailable pending qualification.'
           : 'No recorded batch was observed; keep this original UUID.';
       pending.facts = _receiptFacts(receipt);
       setState(() {});
@@ -743,7 +740,8 @@ class _ManagementState
 
   Future<void> _setPolicy(bool enabled) async {
     final expected = _policy;
-    if (!_canWrite ||
+    if (enabled ||
+        !_canWrite ||
         !_api.canManagePolicy ||
         expected == null ||
         !_policyConfirmed ||
@@ -771,33 +769,6 @@ class _ManagementState
       if (_current) {
         setState(() => _message = _error(error));
       }
-    }
-  }
-
-  Future<void> _prepareJobs() async {
-    final expected = _policy;
-    if (!_canWrite ||
-        !_api.canManagePolicy ||
-        !_batchConfirmed ||
-        expected == null) {
-      return;
-    }
-    try {
-      final operation = _api.prepareMaterialization(
-        expected: expected,
-        ownerConfirmation: _batchConfirmed,
-        limit: 5,
-      );
-      final pending = _Pending(
-        operation.requestId,
-        operation.action,
-        operation.resourceId,
-        original: operation,
-      );
-      setState(() => _batchConfirmed = false);
-      await _write(pending, () => _api.materialize(operation));
-    } catch (error) {
-      if (_current) setState(() => _message = _error(error));
     }
   }
 
@@ -879,7 +850,8 @@ class _ManagementState
         _busy ||
         _historyLoading ||
         original == null ||
-        !pending.unresolved) {
+        !pending.unresolved ||
+        pending.action == 'materialization') {
       return;
     }
     final receipt = await _write(
@@ -1024,6 +996,7 @@ class _ManagementState
                             current &&
                                 !_busy &&
                                 !_historyLoading &&
+                                entry.action != 'materialization' &&
                                 _references.storageAvailable
                             ? () => _replay(entry)
                             : null,
@@ -1082,7 +1055,6 @@ class _ManagementState
                 onChanged: (_) => setState(() {
                   _policy = null;
                   _policyConfirmed = false;
-                  _batchConfirmed = false;
                 }),
                 onSubmitted: (_) => _loadPolicy(),
               ),
@@ -1133,7 +1105,7 @@ class _ManagementState
                   contentPadding: EdgeInsets.zero,
                   controlAffinity: ListTileControlAffinity.leading,
                   value: _policyConfirmed,
-                  onChanged: _canWrite
+                  onChanged: _canWrite && policy.enabled
                       ? (value) =>
                             setState(() => _policyConfirmed = value == true)
                       : null,
@@ -1147,15 +1119,9 @@ class _ManagementState
                   spacing: 12,
                   runSpacing: 8,
                   children: [
-                    FilledButton(
-                      onPressed:
-                          _canWrite &&
-                              !policy.enabled &&
-                              policy.collectionActive &&
-                              _policyConfirmed
-                          ? () => _setPolicy(true)
-                          : null,
-                      child: const Text('Enable receipt SMS policy'),
+                    const FilledButton(
+                      onPressed: null,
+                      child: Text('Enable receipt SMS policy'),
                     ),
                     OutlinedButton.icon(
                       onPressed: _canWrite && policy.enabled && _policyConfirmed
@@ -1169,34 +1135,22 @@ class _ManagementState
               ],
               _heading(context, 'Prepare bounded jobs'),
               const _Message(
-                'Prepare up to five eligible contribution receipts for this collection. Each recipient must have current consent. Preparing jobs does not send messages.',
+                'Enabling receipt SMS and preparing or resuming jobs are unavailable pending qualification. Recorded status can still be checked.',
               ),
-              CheckboxListTile(
+              const CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
-                value: _batchConfirmed,
-                onChanged:
-                    _canWrite &&
-                        _policy?.enabled == true &&
-                        _policy?.collectionActive == true
-                    ? (value) => setState(() => _batchConfirmed = value == true)
-                    : null,
-                title: const Text(
+                value: false,
+                onChanged: null,
+                title: Text(
                   'I confirm preparing up to five receipt jobs for the selected collection',
                 ),
               ),
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: OutlinedButton(
-                  onPressed:
-                      _canWrite &&
-                          _api.canManagePolicy &&
-                          _batchConfirmed &&
-                          _policy?.enabled == true &&
-                          _policy?.collectionActive == true
-                      ? _prepareJobs
-                      : null,
-                  child: const Text('Prepare bounded receipt SMS jobs'),
+                  onPressed: null,
+                  child: Text('Prepare bounded receipt SMS jobs'),
                 ),
               ),
             ],

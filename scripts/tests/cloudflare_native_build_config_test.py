@@ -53,7 +53,7 @@ from pathlib import Path
 root=Path(__file__).resolve().parent.parent
 with (root/'gradle-observations.jsonl').open('a') as f:f.write(json.dumps(sys.argv[1:])+'\n')
 if ':app:printReleaseSigningCertificateStatus' in sys.argv:
- print(json.dumps({'status':'pass','message':'Synthetic signing task substitute'}))
+ print(json.dumps({'status':'pass','message':'Synthetic signing task substitute', 'store_file_configured':True,'store_file_exists':True,'key_alias_configured':True,'store_password_configured':True,'key_password_configured':True,'matches_expected_upload_certificate':True,'configured_certificate_sha256':'A'*64,'expected_upload_signing_sha256':'A'*64}))
 ''')
         path.chmod(0o700)
         (self.root / "scripts/android_release_signing_preflight.sh").chmod(0o700)
@@ -276,6 +276,155 @@ end
             self.assertEqual(record["defines"]["AUTH_CAPTCHA_ENABLED"], "true")
             self.assertEqual(record["defines"]["AUTH_CAPTCHA_PROVIDER"], "turnstile")
             self.assertEqual(record["defines"]["AUTH_CAPTCHA_SITE_KEY"], SITE_KEY)
+
+    def run_synthetic_signing_preflight(self, output_format="json"):
+        args = ["bash", "scripts/android_release_signing_preflight.sh"]
+        if output_format == "json":
+            args.append("--json")
+        return subprocess.run(args, cwd=self.root, env=self.env, capture_output=True, text=True, timeout=20)
+
+    def set_synthetic_gradle_response(self, stdout, stderr, exit_code):
+        path = self.root / "android/gradlew"
+        path.write_text("#!/usr/bin/env python3\nimport sys\n"
+                        f"sys.stdout.write({stdout!r})\n"
+                        f"sys.stderr.write({stderr!r})\n"
+                        f"sys.exit({exit_code})\n")
+        path.chmod(0o700)
+
+    @staticmethod
+    def synthetic_signing_pass():
+        return {"status": "pass", "message": "Synthetic signing task substitute",
+                "store_file_configured": True, "store_file_exists": True, "key_alias_configured": True,
+                "store_password_configured": True, "key_password_configured": True,
+                "matches_expected_upload_certificate": True,
+                "configured_certificate_sha256": "A" * 64, "expected_upload_signing_sha256": "A" * 64}
+
+    def test_signing_preflight_rejects_minimal_pass_report(self):
+        self.set_synthetic_gradle_response(json.dumps({"status": "pass"}) + "\n", "", 0)
+        for output_format in ("json", "text"):
+            with self.subTest(output_format=output_format):
+                result = self.run_synthetic_signing_preflight(output_format)
+                self.assertEqual(result.returncode, 1)
+                if output_format == "json":
+                    self.assertEqual(json.loads(result.stdout)["status"], "blocked")
+                else:
+                    self.assertIn("status=blocked", result.stdout)
+
+    def test_signing_preflight_rejects_incomplete_false_or_mismatched_upload_evidence(self):
+        flags = ("store_file_configured", "store_file_exists", "key_alias_configured",
+                 "store_password_configured", "key_password_configured", "matches_expected_upload_certificate")
+        cases = []
+        for name in flags:
+            missing = self.synthetic_signing_pass(); missing.pop(name)
+            false = self.synthetic_signing_pass(); false[name] = False
+            cases.extend(((name + " missing", missing), (name + " false", false)))
+        for name in ("configured_certificate_sha256", "expected_upload_signing_sha256"):
+            missing = self.synthetic_signing_pass(); missing.pop(name)
+            empty = self.synthetic_signing_pass(); empty[name] = None
+            cases.extend(((name + " missing", missing), (name + " null", empty)))
+        mismatch = self.synthetic_signing_pass(); mismatch["expected_upload_signing_sha256"] = "B" * 64
+        cases.append(("mismatched fingerprints", mismatch))
+        for description, report in cases:
+            with self.subTest(case=description):
+                self.set_synthetic_gradle_response(json.dumps(report) + "\n", "", 0)
+                result = self.run_synthetic_signing_preflight()
+                self.assertEqual(result.returncode, 1)
+                observed = json.loads(result.stdout)
+                self.assertEqual(observed["status"], "blocked")
+                self.assertEqual(observed["gradle_exit_code"], 0)
+
+    def test_signing_preflight_rejects_success_json_when_gradle_fails(self):
+        marker = "SYNTHETIC_ALIAS_MUST_NOT_APPEAR"
+        body = json.dumps(self.synthetic_signing_pass()) + "\n"
+        self.set_synthetic_gradle_response(body, marker + "\n", 23)
+        for output_format in ("json", "text"):
+            with self.subTest(output_format=output_format):
+                result = self.run_synthetic_signing_preflight(output_format)
+                self.assertNotIn(marker, result.stdout + result.stderr)
+                self.assertEqual(result.returncode, 1)
+                if output_format == "json":
+                    report = json.loads(result.stdout)
+                    self.assertEqual(report["status"], "blocked")
+                    self.assertEqual(report["gradle_exit_code"], 23)
+                else:
+                    self.assertIn("status=blocked", result.stdout)
+
+    def test_signing_preflight_never_emits_raw_failed_or_malformed_gradle_output(self):
+        marker = "SYNTHETIC_ALIAS_AND_PASSWORD_MUST_NOT_APPEAR"
+        for exit_code in (0, 23):
+            for output_format in ("json", "text"):
+                with self.subTest(exit_code=exit_code, output_format=output_format):
+                    self.set_synthetic_gradle_response("unparseable " + marker + "\n", "diagnostic " + marker + "\n", exit_code)
+                    result = self.run_synthetic_signing_preflight(output_format)
+                    self.assertEqual(result.returncode, 1)
+                    self.assertNotIn(marker, result.stdout + result.stderr)
+                    if output_format == "json":
+                        report = json.loads(result.stdout)
+                        self.assertEqual(report["status"], "blocked")
+                        self.assertEqual(report["gradle_exit_code"], exit_code)
+                        self.assertNotIn("gradle_output_tail", report)
+                    else:
+                        self.assertIn("status=blocked", result.stdout)
+
+    def test_signing_preflight_redacts_untrusted_fields_in_valid_json(self):
+        marker = "SYNTHETIC_UNTRUSTED_VALUE_MUST_NOT_APPEAR"
+        valid = self.synthetic_signing_pass()
+        valid.update({"message": marker, "unexpected_debug": marker})
+        body = json.dumps(valid) + "\n"
+        self.set_synthetic_gradle_response(body, "", 0)
+        for output_format in ("json", "text"):
+            with self.subTest(output_format=output_format):
+                result = self.run_synthetic_signing_preflight(output_format)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertNotIn(marker, result.stdout + result.stderr)
+                if output_format == "json":
+                    report = json.loads(result.stdout)
+                    self.assertEqual(report["configured_certificate_sha256"], "A" * 64)
+                    self.assertNotIn("unexpected_debug", report)
+
+        valid["configured_certificate_sha256"] = marker
+        bad = json.dumps(valid) + "\n"
+        self.set_synthetic_gradle_response(bad, "", 0)
+        result = self.run_synthetic_signing_preflight()
+        self.assertEqual(result.returncode, 1)
+        self.assertNotIn(marker, result.stdout + result.stderr)
+        self.assertEqual(json.loads(result.stdout)["status"], "blocked")
+
+    def test_signing_preflight_preserves_public_task_fields_for_pass_and_blocked(self):
+        note = "Google Play App Signing uses the upload key for uploaded bundles and the Play app-signing key for APKs delivered to users."
+        for status in ("pass", "blocked"):
+            with self.subTest(status=status):
+                expected = {"status": status,
+                            "message": ("Configured Android signing certificate matches the expected Google Play upload certificate."
+                                        if status == "pass" else "Production Android signing material is missing."),
+                            "store_file_configured": True, "store_file_exists": status == "pass",
+                            "key_alias_configured": True, "store_password_configured": True,
+                            "key_password_configured": True,
+                            "configured_certificate_sha256": "A" * 64 if status == "pass" else None,
+                            "expected_upload_signing_sha256": "A" * 64,
+                            "matches_expected_upload_certificate": status == "pass",
+                            "expected_play_signing_sha256": "B" * 64,
+                            "matches_expected_play_signing_certificate": False,
+                            "play_app_signing_certificate_note": note}
+                self.set_synthetic_gradle_response(json.dumps(expected) + "\n", "", 0)
+                result = self.run_synthetic_signing_preflight()
+                self.assertEqual(result.returncode, 0 if status == "pass" else 1)
+                observed = json.loads(result.stdout)
+                for key, value in expected.items():
+                    self.assertEqual(observed[key], value, key)
+                self.assertEqual(observed["gradle_exit_code"], 0)
+
+    def test_signing_preflight_keeps_successful_gradle_report(self):
+        for output_format in ("json", "text"):
+            with self.subTest(output_format=output_format):
+                result = self.run_synthetic_signing_preflight(output_format)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                if output_format == "json":
+                    report = json.loads(result.stdout)
+                    self.assertEqual(report["status"], "pass")
+                    self.assertEqual(report["gradle_exit_code"], 0)
+                else:
+                    self.assertIn("status=pass", result.stdout)
 
     def test_real_signing_preflight_rejects_inconsistent_profile_before_gradle(self):
         result = self.run_wrapper("android")

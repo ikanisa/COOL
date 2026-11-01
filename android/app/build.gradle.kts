@@ -15,6 +15,8 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.OutputFile
+import com.android.build.api.artifact.SingleArtifact
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import groovy.json.JsonSlurper
@@ -52,6 +54,29 @@ abstract class CollectVariantPluginRegistrant : DefaultTask() {
             original.absolutePath, output.absolutePath, omitNotifications.get().toString(),
         ).inheritIO().start()
         check(process.waitFor() == 0) { "Collect generated registrant adapter refused an unknown input" }
+    }
+}
+
+// The manifest merger can reintroduce an implicit storage permission after
+// tools:remove markers. Transform its source artifact only for the debug fixture.
+abstract class CollectFixtureMergedManifest : DefaultTask() {
+    @get:InputFile
+    abstract val mergedManifest: RegularFileProperty
+
+    @get:InputFile
+    abstract val adapterSource: RegularFileProperty
+
+    @get:OutputFile
+    abstract val fixtureManifest: RegularFileProperty
+
+    @TaskAction
+    fun transform() {
+        val javaExecutable = File(System.getProperty("java.home"), "bin/java")
+        val process = ProcessBuilder(
+            javaExecutable.absolutePath, "--source", "17", adapterSource.get().asFile.absolutePath,
+            mergedManifest.get().asFile.absolutePath, fixtureManifest.get().asFile.absolutePath,
+        ).inheritIO().start()
+        check(process.waitFor() == 0) { "Collect media fixture manifest boundary refused its input" }
     }
 }
 
@@ -305,6 +330,13 @@ android {
             dimension = "channel"
             applicationIdSuffix = ".dev"
         }
+        // Separate data/UID and launcher from both installed Collect apps.
+        // Only the debug variant exists; this is never a release candidate.
+        create("media_capture") {
+            dimension = "channel"
+            applicationIdSuffix = ".mediafixture"
+            resValue("string", "app_name", "Collect Media Fixture")
+        }
         create("internal_receiver") {
             dimension = "channel"
             applicationIdSuffix = ".receiver"
@@ -360,7 +392,8 @@ collectNotificationPluginDependencies.forEach { (pluginName, expectedDependencie
 val collectNotificationProjects = collectNotificationPluginDependencies.keys.map { project(":$it") }
 val collectNotificationProjectPaths = collectNotificationPluginDependencies.keys.map { ":$it" }.toSet()
 val collectStandaloneNativeFlavors = setOf("internal_gateway", "internal_receiver")
-val collectMemberFlavors = android.productFlavors.filter { it.name !in collectStandaloneNativeFlavors }
+val collectNoNotificationFlavors = collectStandaloneNativeFlavors + "media_capture"
+val collectMemberFlavors = android.productFlavors.filter { it.name !in collectNoNotificationFlavors }
 check(
     android.productFlavors.map { it.name }.containsAll(collectStandaloneNativeFlavors) &&
         collectMemberFlavors.isNotEmpty(),
@@ -426,7 +459,31 @@ android.sourceSets.named("main") {
     }
     java.setSrcDirs(declared.filter { file(it).canonicalFile != collectOriginalJavaDirectory.canonicalFile })
 }
+androidComponents.beforeVariants { variant ->
+    if (variant.productFlavors.any { it.first == "channel" && it.second == "media_capture" } &&
+        variant.buildType != "debug") {
+        variant.enable = false
+    }
+}
+// This offline fixture has no Firebase configuration or provider enrollment.
+tasks.matching { it.name == "processMedia_captureDebugGoogleServices" }.configureEach {
+    enabled = false
+}
 androidComponents.onVariants { variant ->
+    if (variant.productFlavors.any { it.first == "channel" && it.second == "media_capture" }) {
+        check(variant.buildType == "debug" && variant.name == "media_captureDebug") {
+            "Only the isolated debug media fixture may transform its manifest"
+        }
+        val boundary = tasks.register(
+            "collect${variant.name.replaceFirstChar { it.uppercaseChar() }}ManifestBoundary",
+            CollectFixtureMergedManifest::class.java,
+        ) {
+            adapterSource.set(rootProject.layout.projectDirectory.file("qa/CollectFixtureManifest.java"))
+        }
+        variant.artifacts.use(boundary)
+            .wiredWithFiles(CollectFixtureMergedManifest::mergedManifest, CollectFixtureMergedManifest::fixtureManifest)
+            .toTransform(SingleArtifact.MERGED_MANIFEST)
+    }
     // Flutter's combined-variant JNI directory is consumed by AGP's merger,
     // but is absent from AGP 9.0.1's incremental sourceFolderInputs collection.
     // A normal file input makes changed generated libraries trigger the full
@@ -447,7 +504,7 @@ androidComponents.onVariants { variant ->
         originalJavaDirectory.set(collectOriginalJavaDirectory)
         adapterSource.set(collectRegistrantAdapterSource)
         omitNotifications.set(variant.productFlavors.any {
-            it.first == "channel" && it.second in collectStandaloneNativeFlavors
+            it.first == "channel" && it.second in collectNoNotificationFlavors
         })
         outputDirectory.set(layout.buildDirectory.dir("generated/collectPluginRegistrants/${variant.name}"))
     }

@@ -30,7 +30,7 @@ final adminReceiptOperationsPolicyProvider =
       } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminReceiptOperationsDenied();
-        if ({'operation_unavailable', '501'}.contains(error.code)) {
+        if (error.isLegacyOperationUnavailable) {
           throw UnsupportedError(
             'Receipt operations policy service unavailable.',
           );

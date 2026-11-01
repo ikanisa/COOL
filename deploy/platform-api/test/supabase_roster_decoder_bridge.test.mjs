@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {createHash, createHmac, randomUUID} from 'node:crypto';
 import {fixture, admin, authorization, setupMfa, totp} from './support/auth_fixture.mjs';
 import {functionRpc} from '../../../supabase/functions/_shared/domain/roster.js';
+import {attestAdminEmailAccount,bindAdminEmailActor} from '../../../supabase/functions/_shared/domain/admin_email_policy.js';
 import {createRosterDecoderBridge} from '../../../supabase/functions/_shared/roster_decoder_bridge.mjs';
 
 // Execute the actual Supabase caller and bridge against the existing isolated
@@ -18,6 +19,19 @@ const endpoint = 'https://decoder.example/decode';
 const toolchain = {python: '3.12', pillow: '12.3.0', pypdfium2: '5.2.0',
   pypdf: '6.19.0', openpyxl: '3.1.5', defusedxml: '0.7.1'};
 const encoder = new TextEncoder();
+
+// The D1 harness predates the Supabase BFF's email proof. Model the verified
+// BFF account explicitly and bind it through the real in-process policy; this
+// fixture does not prove the BFF SQL or an actual email delivery.
+function bindSyntheticEmailProof(actor, ageSeconds = 0) {
+  const account = {id: randomUUID(), principal_id: actor.userId, auth_user_id: randomUUID(),
+    auth_session_id: actor.sessionId, token_hash: hash('synthetic-bff-token'),
+    public_id: randomUUID(), origin: 'https://admin.example.invalid', auth_version: 1};
+  attestAdminEmailAccount(account, {contract_version: 1, public_session_id: account.public_id,
+    email_verified_at: Math.floor(Date.now() / 1000) - ageSeconds, proof_id: randomUUID()});
+  bindAdminEmailActor(actor, account);
+  return actor;
+}
 
 class PrivateObjects {
   constructor() { this.objects = new Map(); }
@@ -42,7 +56,7 @@ async function base(t) {
   session = verified.body;
   const found = await f.actor(session);
   assert.equal(found.status, 200);
-  const actor = {...found.body, permissions: new Set(found.body.permissions)};
+  const actor = bindSyntheticEmailProof({...found.body, permissions: new Set(found.body.permissions)});
   const policy = {schema_version: 1, status: 'approved', enabled: true,
     purpose: 'collect_roster_pdf_image_extraction', provider: 'openai',
     responses_endpoint: 'https://api.openai.com/v1/responses',
@@ -74,6 +88,16 @@ function source(kind = 'image', large = false) {
     content_base64: bytes.toString('base64'), ai_consent: true,
     consent_version: 'roster-ai-extraction-v1'};
 }
+
+test('roster extraction rejects missing or stale email proof before external work', async t => {
+  const b = await base(t);
+  const unbound = {...b.actor};
+  const stale = bindSyntheticEmailProof({...b.actor}, 301);
+  for (const actor of [unbound, stale]) {
+    await assert.rejects(() => functionRpc('prepare-roster-import', source(), b.env, actor),
+      error => error.status === 403 && error.code === 'recent_email_sign_in_required');
+  }
+});
 
 function responseRows() {
   return {object: 'response', status: 'completed', error: null, incomplete_details: null, tools: [],

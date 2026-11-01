@@ -156,6 +156,18 @@ void _registerNotificationCommandPageCases() {
         isNull,
       );
       await _checkBox(tester, _policyCheckbox);
+      // Confirming a safe disable cannot activate a held batch command.
+      expect(
+        tester
+            .widget<OutlinedButton>(
+              find.widgetWithText(
+                OutlinedButton,
+                'Prepare bounded receipt SMS jobs',
+              ),
+            )
+            .onPressed,
+        isNull,
+      );
       await _tap(tester, 'Disable current collection policy');
       final body = _body(fixture.writes.single);
       expect(body['expected_revision'], 3);
@@ -176,6 +188,45 @@ void _registerNotificationCommandPageCases() {
         fixture.requests.any((r) => r.url.path.endsWith('/materialize')),
         isFalse,
       );
+      await _close(tester, container);
+    },
+  );
+
+  testWidgets(
+    'disabled policy cannot be enabled or prepare jobs while qualification is pending',
+    (tester) async {
+      final fixture = _Fixture(readGranted: true, manageGranted: true)
+        ..policyEnabled = false;
+      final container = await _mount(
+        tester,
+        fixture,
+        MemoryAdminPendingAttemptStorage(),
+      );
+      await _lookupPolicy(tester);
+      expect(
+        find.textContaining('unavailable pending qualification'),
+        findsOneWidget,
+      );
+      expect(
+        tester
+            .widget<FilledButton>(
+              find.widgetWithText(FilledButton, 'Enable receipt SMS policy'),
+            )
+            .onPressed,
+        isNull,
+      );
+      expect(
+        tester
+            .widget<OutlinedButton>(
+              find.widgetWithText(
+                OutlinedButton,
+                'Prepare bounded receipt SMS jobs',
+              ),
+            )
+            .onPressed,
+        isNull,
+      );
+      expect(fixture.writes, isEmpty);
       await _close(tester, container);
     },
   );

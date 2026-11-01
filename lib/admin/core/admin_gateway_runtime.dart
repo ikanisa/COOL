@@ -56,7 +56,7 @@ final adminGatewayDevicesProvider = FutureProvider.autoDispose
       } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminGatewayDenied();
-        if (error.code == 'operation_unavailable' || error.code == '501') {
+        if (error.isLegacyOperationUnavailable) {
           throw UnsupportedError('Gateway device service is unavailable.');
         }
         rethrow;
@@ -79,7 +79,7 @@ final adminGatewayRequestProvider = FutureProvider.autoDispose
       } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminGatewayDenied();
-        if (error.code == 'operation_unavailable' || error.code == '501') {
+        if (error.isLegacyOperationUnavailable) {
           throw UnsupportedError('Gateway request lookup is unavailable.');
         }
         rethrow;

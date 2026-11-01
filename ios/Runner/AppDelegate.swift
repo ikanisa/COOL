@@ -11,6 +11,9 @@ import WebKit
   private var authSessionChannel: FlutterMethodChannel?
   private var paymentHelpPendingChannel: FlutterMethodChannel?
   private var receiptSmsPendingChannel: FlutterMethodChannel?
+  private var contributionCommandChannel: FlutterMethodChannel?
+  private let contributionCommandStore = ContributionCommandStore()
+  private let contributionCommandQueue = DispatchQueue(label: "collect.contribution-commands")
   private let receiptSmsPendingStore = ReceiptSmsPendingStore()
   private let receiptSmsPendingQueue = DispatchQueue(label: "collect.receipt-sms.pending")
   private var turnstileChannel: FlutterMethodChannel?
@@ -135,6 +138,31 @@ import WebKit
               message: "Secure payment help recovery is unavailable; retained requests were not discarded.", details: nil))
           }
         }
+      }
+    }
+    let contributionChannel = FlutterMethodChannel(name: "collect/contribution_commands_v1",
+      binaryMessenger: engineBridge.applicationRegistrar.messenger())
+    contributionCommandChannel = contributionChannel
+    contributionChannel.setMethodCallHandler { [weak self] call, result in
+      guard let self else {
+        result(FlutterError(code: "contribution_command_storage_unavailable",
+          message: "Secure contribution recovery is unavailable; retained requests were not discarded.", details: nil)); return
+      }
+      guard ["read", "compareAndSet"].contains(call.method) else { result(FlutterMethodNotImplemented); return }
+      self.contributionCommandQueue.async {
+        do {
+          guard let arguments = call.arguments as? [String: Any],
+            Set(arguments.keys) == (call.method == "read" ? Set(["partition_id"]) : Set(["partition_id", "expected_revision", "payload"])),
+            let partition = arguments["partition_id"] as? String else { throw ContributionCommandFailure.invalid }
+          let value: [String: Any]
+          if call.method == "read" { value = try self.contributionCommandStore.read(partition: partition) }
+          else {
+            guard let payload = arguments["payload"] as? String else { throw ContributionCommandFailure.invalid }
+            value = try self.contributionCommandStore.compareAndSet(partition: partition, expected: arguments["expected_revision"], payload: payload)
+          }
+          DispatchQueue.main.async { result(value) }
+        } catch { DispatchQueue.main.async { result(FlutterError(code: "contribution_command_storage_unavailable",
+          message: "Secure contribution recovery is unavailable; retained requests were not discarded.", details: nil)) } }
       }
     }
     let receiptChannel = FlutterMethodChannel(name: "collect/receipt_sms_pending",

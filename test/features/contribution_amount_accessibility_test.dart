@@ -14,13 +14,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/contribution_command_repository_fixture.dart';
 
 const _captureKey = ValueKey('product_payment_capture');
 const _maximumDigits = '9007199254740991';
 const _maximumFormatted = '9,007,199,254,740,991';
 
-class _PaymentRepository extends FixtureCollectRepository {
+class _PaymentRepository extends ContributionFixtureRepository {
   bool failPreparation = false;
   int preparations = 0;
 
@@ -58,7 +58,9 @@ Future<void> _pumpFlow(
         ],
         child: MaterialApp(
           theme: AppTheme.dark(),
-          home: const ContributionFlowScreen(collectionId: 'qa-private-group'),
+          home: const ContributionFlowScreen(
+            collectionId: contributionFixtureGroup,
+          ),
         ),
       ),
     ),
@@ -312,7 +314,9 @@ void main() {
         expect(statusLabel, isNot(contains('confirmed')));
         expect(statusLabel, isNot(contains('parsed and allocated')));
         expect(launches, 1);
-        expect(repository.preparations, 2);
+        expect(repository.preparations, 1);
+        expect(repository.reviewCalls, 1);
+        expect(repository.handoffCalls, 1);
         expect(repository.state.contributions, orderedEquals(recordedBefore));
         expect(repository.state.historyPage?.ownTotals, totalsBefore);
         expect(

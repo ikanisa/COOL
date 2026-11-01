@@ -79,7 +79,7 @@ final adminExceptionInboxProvider = FutureProvider.autoDispose
       } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminExceptionDenied();
-        if (error.code == 'operation_unavailable' || error.code == '501') {
+        if (error.isLegacyOperationUnavailable) {
           throw UnsupportedError('Exception inbox service is unavailable.');
         }
         rethrow;
@@ -103,7 +103,7 @@ final adminExceptionLookupProvider = FutureProvider.autoDispose
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminExceptionDenied();
         if (error.code == '55P03') throw const AdminExceptionAuthorityBusy();
-        if (error.code == 'operation_unavailable' || error.code == '501') {
+        if (error.isLegacyOperationUnavailable) {
           throw UnsupportedError('Exception request lookup is unavailable.');
         }
         rethrow;

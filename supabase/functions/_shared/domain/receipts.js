@@ -1,8 +1,7 @@
-import {ApiError,first,uuid,text,now,id,digest,stableJson,requirePermission} from './core.js';
+import {ApiError,first,uuid,text,now,id,digest,stableJson} from './core.js';
 import {mutation,retainedResponse,assertMutationAdmission} from './mutations.js';
 import {consumeNativeCapability,canonicalRwandaPhone,clientSmsCaptureScope} from './native_integrity.js';
-import {encrypt,decrypt} from './encryption.js';
-import {requireSession} from './auth.js';
+import {encrypt} from './encryption.js';
 import {storageEntity,verifyRetainedObject} from '../storage-identity.js';
 import {processingInsert} from './momo_pipeline.js';
 // Capture consent belongs to a signed-in installation, independently of an
@@ -81,11 +80,9 @@ export async function receiptFunction(name,body,env,actor) {
 export async function receiptRoute(request,env,actor) {
  const match=/^\/v1\/receipts\/([0-9a-f-]{36})$/.exec(new URL(request.url).pathname);
  if(!match||request.method!=='GET')return null;
- requirePermission(actor,'sms.raw.reveal');
- const row=await first(env,'SELECT * FROM sms_receipts WHERE id=?',uuid(match[1],'receipt_id'));if(!row)throw new ApiError(404,'receipt_unavailable','Receipt evidence is unavailable.');
- const object=await env.PRIVATE_MEDIA.get(row.object_key);if(!object)throw new ApiError(503,'receipt_unavailable','Retained receipt evidence is unavailable.');
- const bytes=await decrypt(env,await object.text(),`sms:${row.id}:${row.object_sha256}`);
- if(bytes.length!==row.size_bytes||await digest(bytes)!==row.object_sha256)throw new ApiError(503,'receipt_integrity_failed','Retained receipt verification failed.');
- const current=await requireSession(request,env);requirePermission(current,'sms.raw.reveal');
- return new Response(bytes,{headers:{'Content-Type':'application/json','Content-Disposition':'attachment','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
+ // This obsolete bearer route did not establish the current Admin account,
+ // require a review reason, or atomically record a reveal audit. Do not release
+ // plaintext even if an old or newly added grant names sms.raw.reveal. The
+ // current Admin capture-content route provides the governed reveal workflow.
+ throw new ApiError(410,'receipt_access_retired','Open the Admin workspace to review retained receipt evidence.');
 }

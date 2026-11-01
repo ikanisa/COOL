@@ -1,56 +1,65 @@
-# Android SMS App Access
+# Android MoMo receipt capture
 
-SMS app access is Android-only. Both the `production` and
-`internal_receiver` flavors declare the minimum `RECEIVE_SMS` permission;
-development builds omit the restricted receiver.
+The ordinary Android member app offers opt-in capture of eligible newly arriving
+MoMo SMS. This feature is separate from the optional dedicated receiver and
+outbound gateway installations. Captured messages are candidate evidence; capture,
+parsing or a device-observed message does not independently prove settlement.
 
-No flavor declares `READ_SMS`, `SEND_SMS`, inbox-history, Call Log, contacts,
-or storage access. The production receiver handles only new
-`android.provider.Telephony.SMS_RECEIVED` broadcasts. Google Play distribution
-must stay blocked until the SMS Permissions Declaration is accepted for the
-SMS-based money-management core use case.
+## Installation boundaries
 
-Consent and data-handling controls:
+The source manifests describe the following capabilities. Review the merged
+manifest of the exact build before distribution.
 
-- The signed-in user must own an active configured receiving route.
-- The App permissions screen provides a prominent disclosure before Android's
-  native runtime prompt and a direct recovery route to Android app settings.
-- Native Android requests only `RECEIVE_SMS`, stores consent only after the OS
-  grants permission, and exposes denial, permanent-denial, rationale, and app
-  settings recovery state through the method channel.
-- The receiver is exported only so Android telephony can deliver the protected
-  broadcast; it requires the system signature permission
-  `android.permission.BROADCAST_SMS` and checks the native consent flag before
-  processing any PDU.
-- Provider and transaction markers, together with either an RWF/FRW marker or
-  an amount plus transaction reference, limit capture to likely MTN/Airtel
-  mobile-money events. Unrelated and promotional SMS are discarded on-device.
-- Matching messages are kept in a bounded Android Keystore AES-GCM encrypted
-  queue, excluded from backup/device transfer, and removed only after Flutter
-  acknowledges successful authenticated ingestion. Turning the feature off
-  clears the queue immediately.
-- Supabase consent audit rows are written through
-  `record_sms_access_consent`; the Flutter app does not directly insert into
-  SMS consent tables.
-- Matching raw SMS is sent to Supabase, protected by RLS, and never shown
-  publicly. The Supabase parser sends the opted-in message to the OpenAI API
-  for strict structured parsing. The app does not scan or backfill inbox
-  history.
-- Ingestion is accepted only when the authenticated user controls at least one
-  configured group receiver. When exactly one receiver is known or explicitly
-  present in the SMS, the app sends that receiver for hashing. With multiple
-  possible receivers, it does not guess: the Edge Function still captures the
-  raw receipt, and Postgres may derive a route only from one unique exact
-  payer/amount/time intent owned by the same SMS-receiving account. Multiple or
-  missing matches stay in review and never post.
-- A complete, high-confidence OpenAI result can post only through the locked
-  allocator after one exact pending-intent, receiver, payer, amount,
-  transaction, and time-window match. The transaction creates the group and
-  payer credits atomically; all other outcomes stay unposted and reviewable.
+| Flavor | Source permission and role |
+| --- | --- |
+| `production` | Consented member receipt capture through `RECEIVE_SMS`; its manifest removes `READ_SMS`. It is not the outbound gateway. |
+| `dev` | The main manifest supplies the member receiver and `RECEIVE_SMS`; check the actual merged build and test configuration. |
+| `internal_receiver` | A separate receiving installation declares `RECEIVE_SMS` and `READ_SMS` for its scoped receiving and inbox-recovery workflow. |
+| `internal_gateway` | A separate sending installation declares `SEND_SMS` and removes the member incoming receiver. Its governed outbound workflow is distinct from member receipt capture. |
 
-Fallback policy:
+The shared receiver is exported for Android's protected `SMS_RECEIVED` broadcast
+and declares `android.permission.BROADCAST_SMS`. Source manifest declarations do
+not establish Play permission approval, the contents of a particular signed build,
+or actual Android/OEM behavior.
 
-- There is no manual SMS paste.
-- There is no contributor-reported transaction field.
-- Ambiguous parsed SMS events stay in the admin exception queue for
-  investigation; there is no manual member or admin ledger-posting fallback.
+## Member consent and custody
+
+The member flow requests Android permission and binds capture to the consenting
+owner. `record_sms_access_consent` records the corresponding server-side consent.
+The receiver keeps eligible messages in a bounded, owner-bound encrypted queue;
+OTP/PIN and promotional messages are not intended for capture. The production
+member path does not request inbox-history or message-sending access. Device and
+provider coverage still need physical testing.
+
+Disabling capture stops new capture and preserves unacknowledged queued sources.
+A different account must not take over another owner's queue. Android background
+jobs require a current protected member session and network; expired sessions or
+transient failures leave the source pending for recovery. Permanent rejected
+sources can be parked for review rather than silently deleted.
+
+The authenticated `ingest-client-sms` handler stores protected receipt evidence
+and returns an acknowledgement containing the owner, client envelope and body
+hash. Native custody removes a queued source only after the acknowledgement
+matches its owner and retained body. Incomplete or ambiguous transport and
+receipt evidence must remain visible for review instead of being treated as a
+confirmed payment.
+
+## Dedicated receiver and outbound gateway
+
+The internal receiver's enrollment, account binding, capture permissions and
+retained-inbox recovery are separate from ordinary member consent. Pairing or a
+server credential does not grant operating-system permission. Original owner and
+binding information must not be rewritten when an installation is re-paired.
+The internal sending gateway has a separate credential, permission and dispatch
+workflow; enabling one installation does not authorize the other.
+
+## Verification and release
+
+Review the current native receiver, `MemberSmsJobs.kt`, `SmsQueueStore.kt`,
+`supabase/functions/_shared/domain/receipts.js` and the relevant migration chain
+for the candidate under test. Verify consent, revocation, account changes,
+protected custody, exact acknowledgements, multipart completeness, retry and
+recovery on controlled fixtures and on appropriate physical devices. Provider
+formats, background execution, finality controls, retention, signed artifacts
+and store permissions require their own evidence. A local build or synthetic test
+is not a deployment or production-acceptance record.

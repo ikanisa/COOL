@@ -37,15 +37,17 @@ class CollectSmsReceiver : BroadcastReceiver() {
                     val subscription = listOf("subscription", "subscription_id", "android.telephony.extra.SUBSCRIPTION_INDEX")
                         .firstNotNullOfOrNull { key -> if (intent.hasExtra(key)) intent.getIntExtra(key, -1).takeIf { it >= 0 } else null }
                     val pdus = intent.extras?.get("pdus") as? Array<*>
-                    val parts = pdus?.map { (it as? ByteArray)?.let { pdu -> MomoMultipartPolicy.part(pdu, intent.getStringExtra("format")) } }.orEmpty()
-                    val complete = MomoGatewayPolicy.completeParts(messages.map { it.originatingAddress.orEmpty() },
-                        messages.map { it.timestampMillis }, messages.map { it.messageBody }) &&
-                        parts.size == messages.size && MomoMultipartPolicy.complete(parts)
-                    val body = if (complete) messages.indices.sortedBy { parts[it]!!.sequence }
-                        .joinToString("") { messages[it].messageBody.orEmpty() }
-                        else messages.joinToString("") { it.messageBody.orEmpty() }
+                    val assembly = MomoMultipartPolicy.assemble(
+                        messages.map { it.originatingAddress.orEmpty() },
+                        messages.map { it.timestampMillis },
+                        messages.map { it.messageBody },
+                        pdus?.map { it as? ByteArray }.orEmpty(),
+                        intent.getStringExtra("format"),
+                    )
+                    val complete = assembly.complete
+                    val body = assembly.body
                     if (body.isEmpty()) return@executeCapture
-                    if (gateway == null && !MomoGatewayPolicy.memberSource(sender, body)) return@executeCapture
+                    if (gateway == null && !MomoMultipartPolicy.memberCaptureEligible(sender, assembly)) return@executeCapture
                     val envelope = JSONObject()
                         .put("id", if (gateway != null && binding != null)
                             MomoGatewayPolicy.captureId(gateway.installationId(), binding.getString("id"), sender, body,

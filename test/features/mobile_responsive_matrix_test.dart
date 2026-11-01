@@ -1,4 +1,5 @@
 import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/contribution_layout_repository_fixture.dart';
 import '../fixtures/auth_otp_gateway_fixture.dart';
 
 import 'dart:io';
@@ -289,11 +290,15 @@ Future<void> _open(WidgetTester tester, _Route route, _Variant variant) async {
   addTearDown(tester.view.resetDevicePixelRatio);
   addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
   addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
-  final repository = FixtureCollectRepository(
-    seeded: route.name != 'auth',
-    smsAccessChannel: const _FixtureSmsAccess(),
-    profileOverride: null,
-  );
+  final repository = route.name == 'contribution'
+      ? ContributionLayoutRepository(
+          smsAccessChannel: const _FixtureSmsAccess(),
+        )
+      : FixtureCollectRepository(
+          seeded: route.name != 'auth',
+          smsAccessChannel: const _FixtureSmsAccess(),
+          profileOverride: null,
+        );
   final router = createAppRouter(initialLocation: route.path);
   addTearDown(router.dispose);
   await tester.pumpWidget(

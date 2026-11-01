@@ -1,58 +1,50 @@
-# Collect Admin Security Model
+# Collect Admin security model
 
-Date: 2026-08-15
+This document describes source boundaries to verify for the candidate under
+review. It is not evidence that a particular Admin frontend or backend is deployed,
+that providers are configured, or that a release is approved.
 
-## Current Guarantees
+## Authentication and authorization
 
-- Flutter ships no service-role key.
-- Flutter ships no OpenAI, WhatsApp, SMS hook, or internal function secrets.
-- The customer app has no `/admin` route.
-- The admin app defaults to `/admin/login` for unauthenticated users and
-  `/admin/denied` for authenticated users without admin permissions.
-- Admin pages fetch data through Supabase RPCs and safe views. They do not read
-  raw SMS or privileged base tables directly from Flutter.
-- Raw SMS reveal is routed through `admin_reveal_raw_sms`, requires a reason,
-  and creates an audit/sensitive-access record before returning the message.
-- WhatsApp OTP accepts any valid international phone; authorization is decided
-  after verification by `admin_current_user` and server-side RBAC, not by a
-  phone number compiled into the browser.
-- Payment intents and posted transactions use separate list/detail RPCs.
-- Admin-role changes and notification retries require manage permissions,
-  reasons, audited mutations, and server-side safety checks.
-- Notification message bodies and device tokens remain outside admin list and
-  detail responses.
-- Realtime invalidation carries domain names only and never raw SMS, phone,
-  message-body, or device-token data.
+The active Admin workspace uses a server-backed, cookie-authenticated account
+and session; member bearer authentication is a separate admission path. The
+Admin frontend's transport can use a selected managed or self-hosted Supabase
+profile. Frontend route guards are conveniences: protected reads and mutations
+must enforce current server-side account, session and capability authority.
+Configuration and permission checks must fail closed; do not substitute a
+legacy fallback for an authorization or transient service failure.
 
-## Authorization Boundary
+The current read-only SMS oversight endpoint requires `system_health.read`. It
+reports only recorded queue states; worker heartbeat and receipt-gate status are
+not recorded in that contract. The older bearer-based notification-operator
+health route is not registered in the selected backend and remains unavailable.
+Do not infer delivery or a healthy worker from missing data.
 
-Client-side guards are convenience only. Admin behavior is enforced server-side
-through RLS, security-definer RPCs, role/permission tables, and audited
-permission checks.
+## Sensitive records and audit
 
-## Data Boundary
+Raw receipt bodies, phone numbers, operator notes, message bodies and device
+tokens require the actual scoped access, purpose, retention and audit controls.
+List, synchronization and invalidation responses must not disclose sensitive
+payloads outside their authorized purpose. Payment or evidence changes and
+privileged administration require their server-side permissions, mutation
+controls and audit evidence.
 
-- Raw phone numbers, raw SMS bodies, parser payloads, and MOMO evidence must not
-  be logged by Flutter or Edge Functions.
-- Raw SMS reveal must require permission, reason, and audit.
-- Payment allocation, ledger correction, role change, setting change, and
-  feature flag change must use backend mutations with audit metadata.
-- Security-definer collection helpers permit browser callers to evaluate only
-  their own `auth.uid()`; service-role workflows retain explicit cross-user
-  evaluation.
+Raw-evidence routes require route-by-route verification. The direct bearer
+`GET /v1/receipts/{id}` route now returns 410 before accessing receipt data.
+The separate Admin capture-content path requires scoped permissions and a reason,
+revalidates the session and records an audit event. Its local tests do not by
+themselves establish current deployed behavior or actual PostgreSQL coverage.
 
-## Secret Boundary
+## Secrets, recovery and verification
 
-Flutter-visible env remains client-safe:
+Flutter-visible configuration must contain only public client values. Service
+role keys, provider credentials, authentication secrets and encryption keys
+belong in the appropriate server-side secret store, not the app bundle or source
+control. Public URL or key configuration is not proof that the corresponding
+service is available.
 
-- `SUPABASE_URL`
-- `SUPABASE_ANON_KEY`
-- `APP_PUBLIC_URL`
-- `ADMIN_APP_URL`
-- `enable_sms_reader`
-- `enable_android_sms_access`
-- `ENABLE_ADMIN_PANEL`
-- `ENABLE_ADMIN_DEV_TOOLS`
-- `APP_ENVIRONMENT`
-
-Server-only secrets belong in Supabase or CI secret stores.
+Account/session revocation, cross-account access, raw-evidence authorization,
+mutations, retention, backup restoration and key custody require isolated tests
+and authorized deployed readback. A restored archive does not itself authorize
+restored accounts, sessions or credentials. Provider delivery, real MFA, hosted
+behavior and accountable release approval need separate evidence.

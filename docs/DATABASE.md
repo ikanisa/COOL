@@ -4,10 +4,10 @@ The active product is Rwanda-only, whole-RWF MTN MoMo/Airtel Money group contrib
 
 ## Active financial records
 
-- `collection_receivers` and `payment_intents` bind the authorized group receiver, payer, exact whole-RWF amount and pending request.
-- `raw_payment_sms` and `parsed_payment_events` preserve protected receipt evidence and bounded parsed facts. A likely SMS is candidate evidence, not independent settlement confirmation.
-- `payment_allocations`, `payments` and `ledger_entries` represent governed matching, exceptions and balanced postings. Replay, timeout, account-switch, reversal and concurrency paths require isolated relational tests.
-- Current Admin list RPCs present scoped Payees, Transactions, Reconciliations and Ledgers. Their client paging and totals must be checked against complete server aggregates, not recent-page sums.
+- `users`, `collections` and `payment_intents` hold member, group receiver and pending whole-RWF contribution state in the curated baseline.
+- `sms_receipts` records owner-bound capture metadata and an object identity; the corresponding retained payload is protected separately. A captured SMS is candidate evidence, not independent settlement confirmation.
+- `request_receipts` retains operation/session/body binding for idempotent outcomes. `payments` and `ledger_entries` represent governed financial records. Replay, timeout, account-switch, reversal and concurrency paths require isolated relational tests.
+- Admin pages use server-scoped list and detail contracts. Their client paging and totals must be checked against complete server aggregates, not recent-page sums.
 
 ## Historical schema compatibility
 
@@ -17,8 +17,8 @@ Past bank migrations introduced destination, bank-intent, evidence, statement, r
 
 Receipt capture, authenticated ingestion, parsing, unique receiver/payer/amount/reference matching, settlement reconciliation and final ledger posting are distinct states. A device-captured SMS can establish candidate evidence; it cannot independently prove that funds settled. Production confirmation requires independently reconciled provider/statement evidence or an explicitly approved constrained finality policy implemented and tested end to end. Ambiguous, duplicate, stale or unmatched evidence stays pending or in an audited exception queue.
 
-The staged SQL in `deploy/hardening/` is not a numbered migration and has not been applied to the current production database. Apply nothing until full-schema rehearsal, role/RLS checks, migration order, rollback/roll-forward and owner approval are recorded.
+The generator produces `supabase/schema-src/baseline.sql` from the recorded source inputs. The current baseline bytes match `supabase/migrations/20261020134444_collect_curated_platform_baseline.sql`; later numbered migrations are separate inputs. Historical or staged SQL is not evidence of application to a deployed database. Rehearse the complete reviewed migration chain, role/RLS checks and recovery plan before a release decision.
 
 ## Access and verification
 
-All financial reads and writes must use scoped RLS/RPC authority. Test direct authenticated table writes, cross-group identifiers, role revocation, security-definer behavior, raw-evidence reveal, and service-only finalization against an isolated full schema. Compare the exact reviewed migration/function hashes and grants with authorized deployed readback before any release decision.
+Financial operations require scoped server-side session and permission authority and the database's applicable role, RLS and transaction controls. Test direct authenticated table writes, cross-group identifiers, role revocation, raw-evidence reveal and finalization against an isolated full schema. Compare the exact reviewed migration/function hashes and grants with authorized deployed readback before any release decision.

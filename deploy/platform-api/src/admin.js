@@ -5,7 +5,7 @@ const lists={admin_list_collections:['collections','collections.read','title','s
 export const adminListOperations=Object.freeze(Object.keys(lists));
 function rowJson(row,table,title,status){
  const value={id:String(row.id??row.key),title:String(row[title]??row.id??row.key),subtitle:row.public_id?`Collect ID ${row.public_id}`:'',status:String(row[status]??'active'),amount:Number.isSafeInteger(row.amount_minor)?`${row.amount_minor} RWF`:'',created_at:row.created_at??row.updated_at??null,country_code:'RW'};
- if(table==='payments'){value.rail='rwanda_momo';value.evidence_level=row.status==='confirmed'?'provider_authenticated':'operator_recorded';}
+ if(table==='payments'){if(!['operator_recorded','provider_authenticated'].includes(row.evidence_authenticity))throw new ApiError(503,'invalid_source_data','Payment evidence is unavailable.');value.rail='rwanda_momo';value.evidence_level=row.evidence_authenticity;}
  if(table==='collections'){value.creator_user_id=row.creator_user_id;value.visibility_status=row.visibility_status;}
  if(table==='users'){value.public_id=row.public_id;value.country_code=row.country_code;}
  return value;
@@ -26,7 +26,8 @@ export async function adminRpc(operation,body,env,actor) {
   const params=[search,'%'+search+'%',filter,filter];
   const total=(await first(env,`SELECT count(*) AS n FROM ${table} ${where}`,...params)).n;
   const order=table==='audit_log'?'id DESC':table==='runtime_config'?'key ASC':'created_at DESC,id ASC';
-  const result=await rows(env,`SELECT * FROM ${table} ${where} ORDER BY ${order} LIMIT ? OFFSET ?`,...params,limit,offset);
+  const select=table==='payments'?`SELECT payments.*,(SELECT authenticity FROM payment_evidence WHERE payment_evidence.id=payments.evidence_id) AS evidence_authenticity FROM payments`:`SELECT * FROM ${table}`;
+  const result=await rows(env,`${select} ${where} ORDER BY ${order} LIMIT ? OFFSET ?`,...params,limit,offset);
   return {handled:true,value:{rows:result.map(r=>rowJson(r,table,title,status)),total}};
  }
  if(operation==='admin_runtime_config'){
@@ -48,6 +49,6 @@ export async function adminRpc(operation,body,env,actor) {
  if(operation==='admin_system_health'){
   requirePermission(actor,'system_health.read');await first(env,'SELECT 1 AS available');return {handled:true,value:{database:'available',storage_binding:!!env.PRIVATE_MEDIA,checked_at:now()}};
  }
- if(operation==='admin_get_queue_sla') {requirePermission(actor,'overview.read');return {handled:true,value:{}};}
+ if(operation==='admin_get_queue_sla') {requirePermission(actor,'overview.read');throw new ApiError(503,'queue_sla_unavailable','Queue SLA policy is unavailable.');}
  return {handled:false};
 }

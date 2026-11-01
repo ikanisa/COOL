@@ -6,7 +6,8 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
-from .admin_build_config import BASELINE, PROJECT_ORIGIN, QUALIFICATION_ORIGIN, configuration
+from .admin_build_config import (BASELINE, PROJECT_ORIGIN, QUALIFICATION_ORIGIN, configuration,
+                                 read_public_file, verify_public_inputs)
 from .deployment_profile import canonical_profile, profile_sha256
 
 class AdminBuildConfigurationTests(unittest.TestCase):
@@ -55,6 +56,61 @@ class AdminBuildConfigurationTests(unittest.TestCase):
         for key in ("SUPABASE_INTERNAL_URL", "SUPABASE_SERVICE_ROLE_KEY"):
             self.assertNotIn(key, defines)
             self.assertNotIn(key, metadata)
+
+    def test_exact_post_diagnostic_public_inputs_bind_managed_and_self_hosted_profiles(self):
+        for env in (self.env, self.self_hosted_environment()):
+            with self.subTest(profile=env.get('COLLECT_DEPLOYMENT_PROFILE', 'managed')):
+                defines, metadata = configuration(env, self.root)
+                source, version = 'a' * 64, '1.0.8+65'
+                defines.update(COLLECT_BUILD_VERSION=version, COLLECT_BUILD_SOURCE_ID=source)
+                metadata.update(diagnostics_source_revision=source, diagnostics_build_version=version)
+                encode = lambda value: (json.dumps(value, indent=2) + '\n').encode()
+                sealed = verify_public_inputs(encode(defines), encode(metadata), env, self.root, binding=True)
+                verify_public_inputs(encode(defines), encode(sealed), env, self.root)
+                changed = dict(defines, SUPABASE_API_URL='https://attacker.example.test')
+                with self.assertRaises(ValueError):
+                    verify_public_inputs(encode(changed), encode(sealed), env, self.root)
+                with self.assertRaises(ValueError):
+                    verify_public_inputs(encode(defines) + b' ', encode(sealed), env, self.root)
+
+    def test_public_file_reader_refuses_symlinks_and_hardlinks(self):
+        target = self.root.resolve() / 'public.json'
+        target.write_text('{}\n')
+        self.assertEqual(read_public_file(target), b'{}\n')
+        alias = self.root.resolve() / 'alias.json'
+        alias.symlink_to(target)
+        with self.assertRaises(ValueError):
+            read_public_file(alias)
+        alias.unlink()
+        os.link(target, alias)
+        with self.assertRaises(ValueError):
+            read_public_file(target)
+
+    def test_build_wrapper_rejects_changed_compiler_input(self):
+        self.copy_builder()
+        source = Path(__file__).resolve().parents[1] / 'admin_pwa_release_build.sh'
+        wrapper = self.root / 'scripts/admin_pwa_release_build.sh'
+        shutil.copy2(source, wrapper)
+        (self.root / 'scripts/qa').mkdir(parents=True)
+        shutil.copy2(source.parent / 'qa/client_diagnostic_identity.py',
+                     self.root / 'scripts/qa/client_diagnostic_identity.py')
+        (self.root / 'lib').mkdir()
+        (self.root / 'lib/main_admin_cloudflare.dart').write_text('void main() {}\n')
+        (self.root / 'pubspec.yaml').write_text('name: synthetic_admin\nversion: 1.0.8+65\n')
+        (self.root / 'pubspec.lock').write_text('packages: {}\n')
+        compiler = self.root / 'fake-compiler'
+        compiler.write_text('#!' + sys.executable + '\n' + r'''import json,sys
+from pathlib import Path
+config=Path(next(v.split('=',1)[1] for v in sys.argv if v.startswith('--dart-define-from-file=')))
+profile=json.loads(config.read_text()); profile['SUPABASE_API_URL']='https://changed.example.test'
+config.write_text(json.dumps(profile,indent=2)+'\n')
+out=Path('build/web/main.dart.js');out.parent.mkdir(parents=True,exist_ok=True);out.write_text('fixture')
+''')
+        compiler.chmod(0o700)
+        env = {'PATH':os.environ['PATH'], 'TMPDIR':str(self.root.resolve()), 'FLUTTER':str(compiler), **self.env}
+        result = subprocess.run(['/bin/bash',str(wrapper)],cwd=self.root.resolve(),env=env,capture_output=True,text=True)
+        self.assertNotEqual(result.returncode,0)
+        self.assertFalse((self.root/'build/admin-public-defines.json').exists())
 
     def test_self_hosted_disagreement_and_missing_or_changed_identity_fail_closed(self):
         for changes in ({"COLLECT_DEPLOYMENT_PROFILE_SHA256":"0"*64},
@@ -135,6 +191,10 @@ class AdminBuildConfigurationTests(unittest.TestCase):
     def test_captcha_public_configuration_is_explicit_and_validated(self):
         defines, _ = configuration(self.env, self.root)
         self.assertEqual(defines["AUTH_CAPTCHA_ENABLED"], "false")
+        stale = self.env | {"AUTH_CAPTCHA_PROVIDER": "turnstile", "AUTH_CAPTCHA_SITE_KEY": "1x00000000000000000000AA"}
+        disabled, _ = configuration(stale, self.root)
+        self.assertEqual(disabled["AUTH_CAPTCHA_PROVIDER"], "")
+        self.assertEqual(disabled["AUTH_CAPTCHA_SITE_KEY"], "")
         # Opaque syntax fixture only; no provider or release acceptance is run.
         enabled = self.env | {"AUTH_CAPTCHA_ENABLED":"true", "AUTH_CAPTCHA_SITE_KEY":"synthetic_public_site_key"}
         defines, _ = configuration(enabled, self.root)
@@ -217,7 +277,11 @@ class AdminBuildConfigurationTests(unittest.TestCase):
         metadata = self.root / "public-metadata.json"
         command = [sys.executable, "-B", str(builder), "--defines-output", str(defines),
                    "--metadata-output", str(metadata)]
-        env = {"PATH": os.environ["PATH"], **self.qualification_environment(),
+        # Exercise the common macOS case where the configured temp path is a
+        # symlink; the wrapper must pass physical paths to the source binder.
+        temp_link = self.root / "temp-link"
+        temp_link.symlink_to(self.root, target_is_directory=True)
+        env = {"PATH": os.environ["PATH"], "TMPDIR": str(temp_link), **self.qualification_environment(),
                "COLLECT_ADMIN_QUALIFICATION": "true"}
         result = subprocess.run(command, env=env, capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)
@@ -283,6 +347,18 @@ raise SystemExit(61)
         self.assertEqual(shipping["defines"]["APP_ENVIRONMENT"], "supabase-platform")
         self.assertNotIn("purpose", shipping["metadata"])
         self.assertNotIn("shipping_candidate", shipping["metadata"])
+
+        observation.unlink()
+        self_hosted = {"PATH": os.environ["PATH"], "TMPDIR": str(self.root.resolve()),
+                       "FLUTTER": str(compiler), **self.self_hosted_environment()}
+        result = subprocess.run(["bash", str(wrapper)], cwd=self.root.resolve(),
+                                env=self_hosted, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 61, result.stderr)
+        observed = json.loads(observation.read_text())
+        self.assertEqual(observed['defines']['ADMIN_APP_URL'], 'https://admin.example.test')
+        self.assertEqual(observed['defines']['SUPABASE_API_URL'], 'https://api.example.test')
+        self.assertEqual(observed['metadata']['supabase_hosting'], 'self_hosted')
+        self.assertRegex(observed['metadata']['public_build_defines_sha256'], r'^[a-f0-9]{64}$')
 
 if __name__ == "__main__":
     unittest.main()

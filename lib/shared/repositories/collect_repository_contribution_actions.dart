@@ -8,7 +8,6 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
   SmsAccessChannel get _smsAccessChannel;
   bool get _allowLocalWrites;
   _CollectSessionFence _captureSession();
-  bool _isCurrentSession(_CollectSessionFence session);
   void _requireCurrentMemberSession(
     _CollectSessionFence session,
     String profileId,
@@ -19,6 +18,9 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
 
   Future<void> loadInitial({bool syncPendingSms = false});
   Future<PaymentIntentModel> refreshPaymentIntent(String id);
+  Future<PaymentIntentModel> prepareContributionIntent(
+    PaymentIntentDraft draft,
+  );
   CollectProfile _requireReadyProfile();
   CollectProfile _requireProfile();
   CollectCollection _requireActiveCollection(String collectionId);
@@ -388,6 +390,10 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     return collections[index];
   }
 
+  /// Compatibility entry point. Authenticated creation uses the protected
+  /// contribution command and can raise [ContributionRecoveryRequired] after
+  /// an uncertain result; callers must check that original request instead of
+  /// starting another. Explicit offline fixtures retain their synthetic path.
   Future<PaymentIntentModel> createPaymentIntent(
     PaymentIntentDraft draft,
   ) async {
@@ -400,6 +406,12 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
       draft.collectionId,
       field: 'contribution.collection_id',
     );
+    // Preserve the public entry point but route every authenticated mutation
+    // through protected request custody. An uncertain response must not create
+    // a fresh request ID on the next explicit call.
+    if (_backend?.auth.currentUser != null) {
+      return prepareContributionIntent(draft);
+    }
     final profile = _requireReadyProfile();
     final collection = _requireActiveCollection(draft.collectionId);
     final contributionRail = collection.contributionRailFor(profile);
@@ -429,66 +441,6 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
           now.isBefore(intent.expiresAt.toLocal())) {
         return intent;
       }
-    }
-    if (backend != null && backend.auth.currentUser != null) {
-      final session = _captureSession();
-      if (session.identity?.userId != profile.id ||
-          session.accessToken == null) {
-        throw StateError('Refresh your signed-in profile before contributing.');
-      }
-      final response = await backend
-          .rpc<dynamic>(
-            'create_contribution_intent',
-            params: {
-              'collection': draft.collectionId,
-              'p_expected_amount_rwf': draft.amountRwf,
-              'p_sender_phone_hash': HashUtils.phoneHash(profile.momoNumber),
-            },
-          )
-          .setHeader('Authorization', 'Bearer ${session.accessToken}')
-          .retry(enabled: false);
-      if (response is List && response.length != 1) {
-        throw const FormatException('Invalid contribution response');
-      }
-      final responseRow = response is List ? response.single : response;
-      if (responseRow is! Map ||
-          responseRow.keys.any((key) => key is! String)) {
-        throw const FormatException('Invalid contribution response');
-      }
-      final intent = PaymentIntentModel.fromJson(
-        Map<String, dynamic>.from(responseRow),
-      );
-      if (intent.collectionId != draft.collectionId ||
-          intent.expectedAmountRwf != draft.amountRwf ||
-          intent.rail != contributionRail ||
-          intent.currency != 'RWF') {
-        throw const FormatException(
-          'Contribution response does not match the request',
-        );
-      }
-      if (!_isCurrentSession(session) ||
-          state.currentProfile?.id != profile.id) {
-        throw StateError('Account changed');
-      }
-      state = state.copyWith(
-        paymentIntents: [
-          intent,
-          ...state.paymentIntents.where((old) => old.id != intent.id).take(49),
-        ],
-        collections: [
-          for (final item in state.collections)
-            if (item.id == collection.id && collection.isPublic)
-              item.copyWith(isCurrentUserMember: true)
-            else
-              item,
-        ],
-      );
-      // The server may have reused an older active intent, so do not guess a
-      // pending count from the recent window or increment it optimistically.
-      unawaited(
-        refreshPaymentIntent(intent.id).catchError((Object _) => intent),
-      );
-      return intent;
     }
     if (!_allowLocalWrites) {
       throw StateError('Sign in before starting a contribution.');

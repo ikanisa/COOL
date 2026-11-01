@@ -7,6 +7,11 @@ on:
       - 'scripts/supabase/**'
       - 'tools/collect-admin-mcp/**'
       - 'tools/notification-operator/**'
+      - 'tools/roster-decoder/**'
+      - 'scripts/qa/roster_wheelhouse.py'
+      - 'scripts/tests/roster_wheelhouse_test.py'
+      - 'scripts/tests/roster_decoder_lifecycle_support.py'
+      - 'scripts/tests/roster_decoder_lifecycle_worker.py'
       - 'deploy/platform-api/**'
       - 'deploy/platform-supabase-free/**'
       - 'deploy/platform-admin/**'
@@ -31,6 +36,11 @@ on:
       - 'scripts/supabase/**'
       - 'tools/collect-admin-mcp/**'
       - 'tools/notification-operator/**'
+      - 'tools/roster-decoder/**'
+      - 'scripts/qa/roster_wheelhouse.py'
+      - 'scripts/tests/roster_wheelhouse_test.py'
+      - 'scripts/tests/roster_decoder_lifecycle_support.py'
+      - 'scripts/tests/roster_decoder_lifecycle_worker.py'
       - 'deploy/platform-api/**'
       - 'deploy/platform-supabase-free/**'
       - 'deploy/platform-admin/**'
@@ -106,6 +116,12 @@ jobs:
         run: node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs scripts/self_hosted/jobs-profile.test.mjs scripts/self_hosted/email-job-contract.test.mjs
       - name: Verify actual web hosting to Supabase transport contracts
         run: node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs
+      - name: Verify Admin static handoff and recovery
+        run: node --test deploy/platform-admin/test/static-handoff.test.mjs
+      - name: Verify roster decoder lifecycle and wheelhouse controls
+        run: python3 scripts/tests/roster_wheelhouse_test.py
+      - name: Verify recovered shared-domain fail-closed controls
+        run: node --test scripts/supabase/testing/recovered-domain-safety.test.mjs
       - name: Verify public transport and human challenge parent contracts
         run: node --test test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs
       - name: Verify private provider and privacy boundary protocols

@@ -8,6 +8,7 @@ import struct
 import sys
 import tempfile
 import unittest
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[2]
 DIAGNOSTIC_SOURCE = 'a' * 64
@@ -41,6 +42,8 @@ class PlatformCandidateTest(unittest.TestCase):
             (ROOT / 'scripts/qa/client_diagnostic_identity.py').read_bytes())
         (self.root / candidate.SUPABASE_WRANGLER).write_bytes(
             (ROOT / candidate.SUPABASE_WRANGLER).read_bytes())
+        (self.root / candidate.SUPABASE_QA_WRANGLER).write_bytes(
+            (ROOT / candidate.SUPABASE_QA_WRANGLER).read_bytes())
         (self.root / '.gitignore').write_text('build/\n')
         for args in (['init', '--quiet'], ['add', '.'],
                      ['-c', 'user.name=Identity fixture', '-c', 'user.email=fixture@example.invalid',
@@ -232,10 +235,30 @@ class PlatformCandidateTest(unittest.TestCase):
     def supabase_receipt(self, *, default_backend=False):
         path = self.build / 'version.json'
         version = json.loads(path.read_text())
+        # The fixture must match the reviewed managed profile; avoid copying its
+        # deployment host and project identifier into this test independently.
+        managed_origin = candidate.parse((self.root / candidate.SUPABASE_WRANGLER).read_bytes())['vars']['SUPABASE_URL']
+        managed_project_ref = urlsplit(managed_origin).hostname.split('.')[0]
+        public = {'COLLECT_BACKEND':'supabase', 'APP_PUBLIC_URL':'https://collect.ikanisa.com',
+                  'APP_ENVIRONMENT':'supabase-platform', 'COLLECT_BACKEND_REVISION':'supabase-platform-20261020',
+                  'ENABLE_ADMIN_PANEL':'true', 'COLLECT_PUBLIC_LANDING_HOME':'false',
+                  'AUTH_CAPTCHA_ENABLED':'false', 'AUTH_CAPTCHA_PROVIDER':'', 'AUTH_CAPTCHA_SITE_KEY':'',
+                  'GOOGLE_AUTH_ENABLED':'false', 'COLLECT_ASSISTED_SMS_ENABLED':'false',
+                  'ADMIN_APP_URL':'https://platform-admin.collect.ikanisa.com',
+                  'SUPABASE_ADMIN_API_URL':'https://platform-admin.collect.ikanisa.com',
+                  'SUPABASE_API_URL':'https://platform-admin.collect.ikanisa.com',
+                  'SUPABASE_URL':managed_origin,
+                  'SUPABASE_PUBLISHABLE_KEY':'sb_publishable_public_fixture_only',
+                  'COLLECT_BUILD_SOURCE_ID':DIAGNOSTIC_SOURCE, 'COLLECT_BUILD_VERSION':DIAGNOSTIC_VERSION}
+        public_bytes = (json.dumps(public, indent=2) + '\n').encode()
+        (self.root / 'build/admin-public-defines.json').write_bytes(public_bytes)
+        version['public_build_defines_sha256'] = hashlib.sha256(public_bytes).hexdigest()
+        version.update({'admin_origin':public['ADMIN_APP_URL'], 'api_origin':public['SUPABASE_API_URL'],
+                        'admin_api_origin':public['SUPABASE_ADMIN_API_URL']})
         migration = self.root / candidate.SUPABASE_INPUTS[1]
         version.update({'backend':'supabase', 'authentication':'supabase_auth_cookie_with_email_verification',
                         'minimum_core_schema_migration':migration.name,
-                        'supabase_project_ref':'rrlduytparvsjfmegalh',
+                        'supabase_project_ref':managed_project_ref,
                         'supabase_schema_sha256':hashlib.sha256(migration.read_bytes()).hexdigest(),
                         'admin_transport':'same_origin_static_proxy',
                         'legacy_data_import_required':True, 'supabase_qualification_complete':False})
@@ -293,6 +316,86 @@ class PlatformCandidateTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             candidate.verify(self.build,self.receipt,self.commit,self.root,backend='supabase')
 
+    def test_public_compiler_bytes_and_linked_inputs_fail_closed(self):
+        self.supabase_receipt()
+        public = self.root / 'build/admin-public-defines.json'
+        original = public.read_bytes()
+        candidate.verify(self.build, self.receipt, self.commit, self.root, backend='supabase')
+        public.write_bytes(original + b' ')
+        with self.assertRaises(ValueError):
+            candidate.verify(self.build, self.receipt, self.commit, self.root, backend='supabase')
+        public.unlink()
+        target = self.root / 'untrusted-public.json'
+        target.write_bytes(original)
+        public.symlink_to(target)
+        with self.assertRaises(ValueError):
+            candidate.verify(self.build, self.receipt, self.commit, self.root, backend='supabase')
+
+    def test_resealed_extra_or_inconsistent_public_inputs_are_rejected(self):
+        self.supabase_receipt()
+        public = self.root / 'build/admin-public-defines.json'
+        defines = json.loads(public.read_text())
+        version = json.loads((self.build / 'version.json').read_text())
+        for changes in [{'AUTH_CAPTCHA_ENABLED':'true', 'AUTH_CAPTCHA_PROVIDER':'turnstile', 'AUTH_CAPTCHA_SITE_KEY':''},
+                        {'AUTH_CAPTCHA_ENABLED':'false', 'AUTH_CAPTCHA_SITE_KEY':'stale_public_key'},
+                        {'ENABLE_ADMIN_PANEL':'false'}, {'EXTRA_FIELD':'unknown'}]:
+            altered = dict(defines, **changes)
+            data = (json.dumps(altered, indent=2) + '\n').encode()
+            resealed = dict(version, public_build_defines_sha256=hashlib.sha256(data).hexdigest())
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                candidate.public_build_identity(data, resealed)
+    def test_qa_candidate_is_exact_profile_bound_and_never_shipping(self):
+        self.supabase_receipt()
+        public = self.root / 'build/admin-public-defines.json'
+        defines = json.loads(public.read_text())
+        qa = candidate.TARGETS['qa']['origin']
+        defines.update({'ADMIN_APP_URL':qa, 'SUPABASE_API_URL':qa, 'SUPABASE_ADMIN_API_URL':qa,
+                        'APP_ENVIRONMENT':'qualification', 'AUTH_CAPTCHA_ENABLED':'true',
+                        'AUTH_CAPTCHA_PROVIDER':'turnstile', 'AUTH_CAPTCHA_SITE_KEY':'synthetic_public_site_key'})
+        data = (json.dumps(defines, indent=2) + '\n').encode()
+        public.write_bytes(data)
+        version_path = self.build / 'version.json'
+        version = json.loads(version_path.read_text())
+        version.update({'admin_origin':qa, 'api_origin':qa, 'admin_api_origin':qa,
+                        'public_build_defines_sha256':hashlib.sha256(data).hexdigest(),
+                        'purpose':'qualification', 'environment':'qualification',
+                        'shipping_candidate':False, 'qualification_complete':False})
+        version_path.write_text(json.dumps(version))
+        receipt = json.loads(self.receipt.read_text())
+        receipt['hosting'] = candidate.hosting_profile('supabase', 'qa')
+        receipt['public_build_defines_sha256'] = hashlib.sha256(data).hexdigest()
+        receipt['input_sha256'] = {name: hashlib.sha256((self.root/name).read_bytes()).hexdigest()
+                                   for name in candidate.source_inputs(self.root, 'supabase', 'qa')}
+        receipt['files']['version.json'] = {'sha256':hashlib.sha256(version_path.read_bytes()).hexdigest(),
+                                             'bytes':version_path.stat().st_size}
+        receipt['artifact_manifest_sha256'] = hashlib.sha256(candidate.canonical(receipt['files'])).hexdigest()
+        self.receipt.write_text(json.dumps(receipt))
+        result = candidate.verify(self.build, self.receipt, self.commit, self.root, backend='supabase', target='qa')
+        self.assertEqual(result['target'], 'qa')
+        self.assertIs(result['shipping_candidate'], False)
+        self.assertIs(result['hosted_deployment_verified'], False)
+        with self.assertRaises(ValueError):
+            candidate.verify(self.build, self.receipt, self.commit, self.root, backend='supabase')
+        for field, bad in [('shipping_candidate', True), ('qualification_complete', True),
+                           ('purpose', 'production'), ('environment', 'production')]:
+            changed = dict(version, **{field:bad})
+            version_path.write_text(json.dumps(changed))
+            changed_receipt = dict(receipt)
+            changed_receipt['files'] = dict(receipt['files'])
+            changed_receipt['files']['version.json'] = {
+                'sha256':hashlib.sha256(version_path.read_bytes()).hexdigest(), 'bytes':version_path.stat().st_size}
+            changed_receipt['artifact_manifest_sha256'] = hashlib.sha256(candidate.canonical(changed_receipt['files'])).hexdigest()
+            self.receipt.write_text(json.dumps(changed_receipt))
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                candidate.verify(self.build, self.receipt, self.commit, self.root, backend='supabase', target='qa')
+        version_path.write_text(json.dumps(version))
+        self.receipt.write_text(json.dumps(receipt))
+        path = self.root/candidate.SUPABASE_QA_WRANGLER
+        original = path.read_bytes()
+        path.write_bytes(original + b'\n')
+        with self.assertRaises(ValueError):
+            candidate.source_inputs(self.root, 'supabase', 'qa')
+
     def test_migration_inventory_ignores_only_structural_metadata(self):
         expected = candidate.migration_paths(self.root)
         metadata = self.root / 'supabase/migrations/._20261020134444_collect_curated_platform_baseline.sql'
@@ -327,8 +430,7 @@ class PlatformCandidateTest(unittest.TestCase):
                          'deploy/platform-admin/src/supabase-transport.js',
                          candidate.SUPABASE_WRANGLER}.issubset(receipt['input_sha256']))
         self.assertNotIn('deploy/platform-admin/wrangler.jsonc', receipt['input_sha256'])
-        self.assertFalse(any(name.startswith('deploy/platform-supabase-free/')
-                             for name in receipt['input_sha256']))
+        self.assertIn('deploy/platform-supabase-free/local-challenge.mjs', receipt['input_sha256'])
         for name in candidate.SUPABASE_INPUTS:
             path = self.root / name
             original = path.read_bytes()

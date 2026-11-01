@@ -325,6 +325,30 @@ void main() {
         'Operator approval service is unavailable.',
       ),
       (
+        const CollectApiException(
+          message: 'PRIVATE_CANARY',
+          code: 'operation_unavailable',
+          httpStatusCode: 403,
+        ),
+        'Platform access is denied for this Admin session.',
+      ),
+      (
+        const CollectApiException(
+          message: 'PRIVATE_CANARY',
+          code: 'operation_unavailable',
+          httpStatusCode: 503,
+        ),
+        'Platform access could not be loaded.',
+      ),
+      (
+        const CollectApiException(
+          message: 'PRIVATE_CANARY',
+          code: 'operation_unavailable',
+          httpStatusCode: 501,
+        ),
+        'Operator approval service is unavailable.',
+      ),
+      (
         const FormatException('PRIVATE_CANARY'),
         'Platform access could not be loaded.',
       ),

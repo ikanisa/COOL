@@ -269,6 +269,7 @@ qa-tooling-test:
 	@python3 scripts/tests/android_backup_policy_test.py
 	@python3 scripts/tests/export_public_configuration_test.py
 	@node scripts/tests/admin_pwa_worker_cache_test.mjs
+	@node --test scripts/tests/admin_pwa_fixture_metadata_test.mjs scripts/tests/admin_pwa_fixture_input_test.mjs
 	@ruby scripts/tests/public_configuration_payload_test.rb
 	@ruby scripts/tests/policy_configuration_payload_test.rb
 	@ruby scripts/tests/admin_pwa_bundle_gate_test.rb

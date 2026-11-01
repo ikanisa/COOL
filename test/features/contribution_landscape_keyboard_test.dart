@@ -1,4 +1,4 @@
-import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/contribution_layout_repository_fixture.dart';
 
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
@@ -28,7 +28,7 @@ void main() {
       addTearDown(tester.view.resetDevicePixelRatio);
       addTearDown(tester.view.resetViewInsets);
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
-      final repository = FixtureCollectRepository();
+      final repository = ContributionLayoutRepository();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [

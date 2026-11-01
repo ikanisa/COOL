@@ -54,7 +54,7 @@ Future<T> _receiptHistoryRead<T>(
   } on CollectApiException catch (e) {
     if (!current()) throw const AdminSessionChanged();
     if (e.code == '42501') throw const AdminReceiptHistoryDenied();
-    if ({'operation_unavailable', '501'}.contains(e.code)) {
+    if (e.isLegacyOperationUnavailable) {
       throw UnsupportedError('Receipt operational history is unavailable.');
     }
     rethrow;

@@ -3,6 +3,7 @@
 require 'digest'
 require 'json'
 require 'yaml'
+require 'rexml/document'
 require_relative 'qa/asset_manifest_integrity'
 
 # Marketing screenshots are unchanged captures of the current application.
@@ -182,9 +183,10 @@ class PublicAppMedia
       raise 'App screenshot provenance is incomplete' unless provenance['status'] == 'pass' &&
         provenance['runtime_sha256'] == manifest['runtime_sha256']
       case kinds.first
-      when 'native_ios_fixture'
+      when 'native_ios_fixture', 'native_android_fixture'
         raise 'App screenshot native provenance is incomplete' unless provenance['installed_matches_retained_bundle'] == true
-        verify_native_provenance!(manifest, provenance) if provenance['kind'] == 'native_ios_fixture'
+        verify_native_provenance!(manifest, provenance) if %w[native_ios_fixture native_android_fixture].include?(provenance['kind'])
+        raise 'Android screenshot provenance is incomplete' if kinds.first == 'native_android_fixture' && provenance['kind'] != 'native_android_fixture'
       when 'browser_flutter_fixture'
         verify_browser_provenance!(manifest, provenance)
       else
@@ -228,7 +230,80 @@ class PublicAppMedia
   def native_capture_input?(path)
     path.match?(%r{\A(?:lib|assets|licenses|android|ios|third_party)/}) ||
       %w[pubspec.yaml pubspec.lock .fvmrc .metadata tool/native_public_app_media_capture.dart
-         test/fixtures/collect_repository_fixture.dart test_driver/integration_test.dart].include?(path)
+         test/fixtures/collect_repository_fixture.dart test/features/privacy/privacy_test_support.dart
+         test_driver/integration_test.dart].include?(path)
+  end
+
+  ANDROID_PACKAGE = 'app.cool.mobile.mediafixture'
+  ANDROID_CAPTURE_CONTROLS = %w[scripts/qa/native_android_public_app_media.py scripts/android_device_uat.sh
+    scripts/assets/publish_public_app_media.py scripts/public_app_media.rb scripts/qa/asset_manifest_integrity.rb].freeze
+
+  def android_manifest_facts(text)
+    raise 'Unsafe Android manifest XML' if text.include?('<!DOCTYPE') || text.include?('<!ENTITY')
+    root = REXML::Document.new(text).root
+    app = root&.elements&.[]('application')
+    raise 'Isolated Android fixture package required' unless root&.name == 'manifest' && root.attributes['package'] == ANDROID_PACKAGE && app
+    raise 'Android fixture custom Application startup refused' unless [nil, 'android.app.Application'].include?(app.attributes['android:name'])
+    raise 'Android fixture must be debug-only without backup' unless app.attributes['android:debuggable'] == 'true' && app.attributes['android:allowBackup'] == 'false'
+    raise 'Android fixture contains native provider or incoming-event components' unless %w[service receiver provider activity-alias].all? { |tag| app.get_elements(tag).empty? }
+    permissions = %w[uses-permission uses-permission-sdk-23].flat_map { |tag| root.get_elements(tag).map { |node| node.attributes['android:name'] } }.sort
+    raise 'Android fixture permission boundary differs' unless permissions == ['android.permission.INTERNET']
+    activities = app.get_elements('activity')
+    raise 'Android fixture requires only the stock Flutter launcher' unless activities.length == 1 && activities.first.attributes['android:name'] == 'io.flutter.embedding.android.FlutterActivity' && activities.first.attributes['android:exported'] == 'true'
+    filters = activities.first.get_elements('intent-filter')
+    expected = [%w[action android.intent.action.MAIN], %w[category android.intent.category.LAUNCHER]]
+    raise 'Android fixture accepts incoming links or other intents' unless filters.length == 1 && filters.first.elements.map { |node| [node.name, node.attributes['android:name']] }.sort == expected
+    metadata = app.get_elements('meta-data').to_h { |node| [node.attributes['android:name'], node.attributes['android:value']] }
+    raise 'Android native provider auto-init is not disabled' unless %w[firebase_data_collection_default_enabled firebase_messaging_auto_init_enabled firebase_analytics_collection_enabled firebase_crashlytics_collection_enabled].all? { |name| metadata[name] == 'false' }
+    code = root.attributes['android:versionCode'].to_s
+    version = root.attributes['android:versionName'].to_s
+    raise 'Android fixture version is absent' unless code.match?(/\A[1-9][0-9]*\z/) && !version.empty?
+    {'package_name' => ANDROID_PACKAGE, 'version_name' => version, 'version_code' => code.to_i, 'debuggable' => true,
+     'native_components' => [], 'permissions' => permissions, 'launcher' => 'io.flutter.embedding.android.FlutterActivity'}
+  end
+
+  def verify_android_provenance!(report, provenance)
+    android = report.fetch('android')
+    raise 'Explicit isolated debug Android fixture required' unless android['package_name'] == ANDROID_PACKAGE && android['flavor'] == 'media_capture' && android['build_type'] == 'debug' && android['debuggable'] == true && report['capture_surface'] == 'flutter_android_surface' && provenance['source_binding_review']
+    raise 'Android APK/certificate binding incomplete' unless %w[retained_apk_sha256 installed_apk_sha256 certificate_sha256].all? { |key| android[key].is_a?(String) && android[key].match?(/\A[0-9a-f]{64}\z/) }
+    raise 'Android installed APK differs from reviewed artifact' unless android['retained_apk_sha256'] == android['installed_apk_sha256'] && report['bundle_manifest'] == {'base.apk' => android['retained_apk_sha256']}
+    version = YAML.safe_load(File.read(File.join(@root, 'pubspec.yaml'))).fetch('version').split('+', 2)
+    raise 'Android app version differs from current source' unless android['version_name'] == version[0] && android['version_code'] == Integer(version[1])
+    profile = android.fetch('device_profile')
+    raise 'Actual Android device profile required' unless profile['device_id_sha256'].to_s.match?(/\A[0-9a-f]{64}\z/) && !profile['model'].to_s.empty? && !profile['android_release'].to_s.empty? && %w[arm64-v8a armeabi-v7a x86_64 x86].include?(profile['abi']) && %w[api width height density_dpi].all? { |key| profile[key].is_a?(Integer) && profile[key] > 0 }
+    raise 'Existing Collect app metadata changed' unless report['existing_app_metadata_before'] == report['existing_app_metadata_after'] && report.fetch('existing_app_metadata_before').keys.sort == %w[app.cool.mobile app.cool.mobile.dev]
+    controls = report.fetch('capture_controls_before')
+    raise 'Android capture control inventory changed' unless controls.keys.sort == ANDROID_CAPTURE_CONTROLS.sort && controls == report['capture_controls_after']
+    controls.each do |path, expected|
+      bytes = AssetManifestIntegrity.read_regular(@root, path, max_bytes: 8 * 1024 * 1024) { |io| io.read }
+      raise 'Android capture control source changed' unless Digest::SHA256.hexdigest(bytes) == expected
+    end
+    proofs = {}
+    %w[merged_manifest apk_manifest apk_signature installed_apk_identity device_profile].each do |role|
+      key = 'android_' + role
+      expected = report.fetch('android_evidence').fetch(role).fetch('sha256')
+      raise 'Android execution evidence hash differs' unless provenance[key + '_sha256'] == expected
+      proofs[role] = AssetManifestIntegrity.read_regular(@root, provenance.fetch(key), max_bytes: 8 * 1024 * 1024) { |io| io.read }
+      raise 'Android execution evidence changed' unless Digest::SHA256.hexdigest(proofs[role]) == expected
+      command_name = {'apk_manifest' => 'apk-manifest', 'apk_signature' => 'apk-signature', 'installed_apk_identity' => 'installed-bundle', 'device_profile' => 'device-profile'}[role]
+      if command_name
+        command = report.fetch('commands').find { |row| row['name'] == command_name }
+        raise 'Android evidence is not bound to its actual command log' unless command && command['stdout_sha256'] == expected
+      end
+    end
+    merged = android_manifest_facts(proofs.fetch('merged_manifest'))
+    apk = android_manifest_facts(proofs.fetch('apk_manifest'))
+    raise 'Merged and installed artifact manifest identities differ' unless merged == apk && %w[package_name version_name version_code debuggable].all? { |key| android[key] == apk[key] }
+    certificates = proofs.fetch('apk_signature').scan(/Signer #\d+ certificate SHA-256 digest: ([0-9a-fA-F]{64})/).flatten.map(&:downcase)
+    raise 'Android APK certificate differs' unless certificates == [android['certificate_sha256']]
+    expected_identity = %w[package_name version_name version_code certificate_sha256 retained_apk_sha256 installed_apk_sha256].to_h { |key| [key, android[key]] }
+    raise 'Android installed readback identity differs' unless JSON.parse(proofs.fetch('installed_apk_identity')) == expected_identity
+    raise 'Android device profile differs from execution' unless JSON.parse(proofs.fetch('device_profile')) == profile
+    report.fetch('captures').each do |row|
+      raise 'Android frame differs from actual device profile' unless row['platform'] == 'Android device' && row['capture_surface'] == 'flutter_android_surface' && row['width'] <= profile['width'] && row['height'] <= profile['height'] && row['theme'] == 'dark' && row['text_scale'] == 1.0
+    end
+  rescue REXML::ParseException, ArgumentError, TypeError
+    raise 'Android screenshot evidence is missing or invalid'
   end
 
   # Current native publication packets bind the retained execution and review.
@@ -246,10 +321,12 @@ class PublicAppMedia
       AssetManifestIntegrity.validate_relative!(path)
       raise 'Invalid native bundle manifest hash' unless digest.is_a?(String) && digest.match?(/\A[0-9a-f]{64}\z/)
     end
-    raise 'Native installed-bundle binding differs' unless bundle.key?('Info.plist') &&
+    raise 'Native capture platform differs from publication' unless provenance['kind'] == report['kind'] && manifest.fetch('screens').all? { |row| row['capture_kind'] == report['kind'] }
+    android = report['kind'] == 'native_android_fixture'
+    raise 'Native installed-bundle binding differs' unless (android ? bundle.keys == ['base.apk'] : bundle.key?('Info.plist')) &&
       Digest::SHA256.hexdigest(JSON.generate(bundle.sort.to_h)) == provenance['bundle_manifest_sha256'] &&
       report['installed_matches_retained_bundle'] == true
-    raise 'Native capture execution is incomplete' unless report['kind'] == 'native_ios_fixture' &&
+    raise 'Native capture execution is incomplete' unless %w[native_ios_fixture native_android_fixture].include?(report['kind']) &&
       report['status'] == 'captured_pending_visual_review' && report['native_capture_passed'] == true &&
       provenance['native_capture_passed'] == true && report['errors'] == [] &&
       report['source_files_unchanged_before_build'] == true &&
@@ -262,6 +339,7 @@ class PublicAppMedia
       report.fetch('commands').any? { |row| %w[native-build native-direct-build].include?(row['name']) } &&
       report.fetch('commands').find { |row| row['name'] == 'native-drive' }['stdout_sha256'] == log_hash &&
       log.include?('collect_native_media:complete:7:network-attempts=0')
+    verify_android_provenance!(report, provenance) if android
     if provenance['source_binding_review']
       binding = evidence_json(provenance.fetch('source_binding_review'), provenance.fetch('source_binding_review_sha256'))
       raw = evidence_json(provenance.fetch('raw_capture_report'), provenance.fetch('raw_capture_report_sha256'))

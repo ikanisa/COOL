@@ -1,6 +1,7 @@
 import {ApiError} from './core.js';
 import {groupRpc} from './groups.js';
 import {financialRpc} from './payments.js';
+import {contributionCommandRpc} from './contribution_commands.js';
 import {adminRpc,adminListOperations} from './admin.js';
 import {notificationRpc} from './notifications.js';
 import {compensationRpc} from './evidence.js';
@@ -34,6 +35,9 @@ const definitions=[
     'propose_payment_reconciliation_v2','approve_payment_reconciliation_v2',
     'reject_payment_reconciliation_v2','get_payment_reconciliation_v2',
     'list_payment_reconciliations_v2',
+  ]],
+  ['rpc','contribution_commands.js',contributionCommandRpc,[
+    'get_current_member_contribution_session_v1','get_current_member_contribution_command_v1','review_current_member_contribution_intent_v1',
   ]],
   ['rpc','admin.js',adminRpc,[...adminListOperations,
     'admin_current_user','is_platform_admin','admin_overview','admin_runtime_config',

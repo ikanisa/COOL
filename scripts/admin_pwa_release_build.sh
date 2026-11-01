@@ -8,18 +8,26 @@ FLUTTER="${FLUTTER:-flutter}"
 
 # Admin API credentials are HttpOnly same-origin cookies.
 # Public builds consume only declared public runtime settings.
-APP_PUBLIC_URL="${APP_PUBLIC_URL:-https://collect.ikanisa.com}"
-ADMIN_APP_URL="${ADMIN_APP_URL:-https://platform-admin.collect.ikanisa.com}"
+if [[ -z "${COLLECT_DEPLOYMENT_PROFILE:-}" && -z "${COLLECT_DEPLOYMENT_PROFILE_SHA256:-}" ]]; then
+  APP_PUBLIC_URL="${APP_PUBLIC_URL:-https://collect.ikanisa.com}"
+  ADMIN_APP_URL="${ADMIN_APP_URL:-https://platform-admin.collect.ikanisa.com}"
+fi
 COLLECT_BACKEND="${COLLECT_BACKEND:-supabase}"
 export APP_PUBLIC_URL ADMIN_APP_URL COLLECT_BACKEND
 if [[ -n "${FLUTTER_ADMIN_WEB_BUILD_ARGS:-}" ]]; then
   echo "FLUTTER_ADMIN_WEB_BUILD_ARGS is not accepted for Admin PWA builds." >&2
   exit 1
 fi
-DART_DEFINES_FILE="$(mktemp)"
-COLLECT_ADMIN_BUILD_METADATA="$(mktemp)"
-export COLLECT_ADMIN_BUILD_METADATA
+DART_DEFINES_FILE=""
+COLLECT_ADMIN_BUILD_METADATA=""
 trap 'rm -f "${DART_DEFINES_FILE:-}" "${COLLECT_ADMIN_BUILD_METADATA:-}"' EXIT
+# Diagnostic source binding intentionally refuses symlinked paths. On macOS,
+# /tmp and /var can be aliases, so allocate public inputs under the physical
+# spelling of the selected temporary directory.
+TEMP_ROOT="$(cd "${TMPDIR:-/tmp}" && pwd -P)"
+DART_DEFINES_FILE="$(mktemp "$TEMP_ROOT/collect-admin-defines.XXXXXX")"
+COLLECT_ADMIN_BUILD_METADATA="$(mktemp "$TEMP_ROOT/collect-admin-metadata.XXXXXX")"
+export COLLECT_ADMIN_BUILD_METADATA
 BUILD_CONFIG_ARGS=(--defines-output "$DART_DEFINES_FILE" --metadata-output "$COLLECT_ADMIN_BUILD_METADATA")
 if [[ "$#" -eq 1 && "${1:-}" == "--qualification" ]]; then
   BUILD_CONFIG_ARGS+=(--qualification)
@@ -28,10 +36,17 @@ elif [[ "$#" -ne 0 ]]; then
   exit 2
 fi
 python3 scripts/supabase/admin_build_config.py "${BUILD_CONFIG_ARGS[@]}"
+if [[ "${AUTH_CAPTCHA_ENABLED:-false}" == "false" ]]; then
+  unset AUTH_CAPTCHA_PROVIDER AUTH_CAPTCHA_SITE_KEY
+fi
 DIAGNOSTIC_SOURCE_MANIFEST="$ROOT_DIR/build/admin-diagnostics-source.json"
 python3 scripts/qa/client_diagnostic_identity.py bind --surface admin \
   --defines "$DART_DEFINES_FILE" --manifest "$DIAGNOSTIC_SOURCE_MANIFEST" \
   --metadata "$COLLECT_ADMIN_BUILD_METADATA"
+if [[ "$COLLECT_BACKEND" == "supabase" ]]; then
+  python3 scripts/supabase/admin_build_config.py "${BUILD_CONFIG_ARGS[@]}" --bind-public-input
+  python3 scripts/supabase/admin_build_config.py "${BUILD_CONFIG_ARGS[@]}" --verify-only
+fi
 BUILD_ARGS=(
   --release
   --no-wasm-dry-run
@@ -48,6 +63,12 @@ fi
 python3 scripts/qa/client_diagnostic_identity.py verify --surface admin \
   --defines "$DART_DEFINES_FILE" --manifest "$DIAGNOSTIC_SOURCE_MANIFEST" \
   --metadata "$COLLECT_ADMIN_BUILD_METADATA" --javascript build/web/main.dart.js
+if [[ "$COLLECT_BACKEND" == "supabase" ]]; then
+  # Preserve the checked public input outside the served tree for candidate review.
+  # Refuse overwriting prior evidence; use a fresh build directory for each run.
+  python3 scripts/supabase/admin_build_config.py "${BUILD_CONFIG_ARGS[@]}" --verify-only \
+    --retain-defines "$ROOT_DIR/build/admin-public-defines.json"
+fi
 python3 scripts/admin_cloudflare_assets.py build/web --local-engine-fallback
 python3 - <<'PY_HEADERS'
 from pathlib import Path

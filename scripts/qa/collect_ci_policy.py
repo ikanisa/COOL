@@ -290,6 +290,14 @@ def validate_workflows(workflows: dict[str, dict]) -> list[dict[str, str]]:
     if downloads != ['admin-platform-pwa-candidate'] or 'python3 scripts/admin_platform_candidate.py ' not in commands:
         fail('ci.yml', 'CI_SHIPPING_PLATFORM_ARTIFACT_REQUIRED', 'admin-platform-candidate')
     build_steps = jobs.get('admin-web-build', {}).get('steps', [])
+    candidate_uploads = [s.get('with', {}) for s in build_steps
+                         if isinstance(s, dict) and str(s.get('uses', '')).startswith('actions/upload-artifact@')
+                         and s.get('with', {}).get('name') == 'admin-platform-pwa-candidate']
+    if (len(candidate_uploads) != 1
+            or 'build/admin-public-defines.json' not in str(candidate_uploads[0].get('path', '')).splitlines()
+            or not any(s.get('with', {}).get('path') == 'build' for s in shipping_steps
+                       if isinstance(s, dict) and str(s.get('uses', '')).startswith('actions/download-artifact@'))):
+        fail('ci.yml', 'CI_SHIPPING_PLATFORM_INPUT_REQUIRED', 'admin-web-build')
     builds = '\n'.join(str(s.get('run', '')) for s in build_steps if isinstance(s, dict))
     if 'bash scripts/admin_pwa_release_build.sh' not in builds or 'scripts/admin_cloudflare_build.sh' in builds:
         fail('ci.yml', 'CI_SHIPPING_PLATFORM_BUILD_REQUIRED', 'admin-web-build')

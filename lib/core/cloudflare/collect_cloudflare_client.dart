@@ -532,7 +532,11 @@ CollectApiException collectApiFailure(int status, Object? body) {
           RegExp(r'^[a-zA-Z0-9_.-]{1,160}$').hasMatch(rawMessage)
       ? rawMessage
       : 'Collect could not complete this request.';
-  return CollectApiException(code: code, message: message);
+  return CollectApiException(
+    code: code,
+    message: message,
+    httpStatusCode: status,
+  );
 }
 
 final class CollectFunctionsClient {

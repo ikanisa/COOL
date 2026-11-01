@@ -11,6 +11,7 @@ import { dirname, extname, isAbsolute, join, relative, resolve, sep } from 'node
 import { pathToFileURL } from 'node:url';
 import { observeWaitingAdminUpdate, reopenAfterAllAdminTabsLeave } from '../qa/admin_pwa_update_policy.mjs';
 import { validateAdminPwaFixtureMetadata } from '../qa/admin_pwa_fixture_metadata.mjs';
+import { readPinnedAdminMetadata } from './admin_pwa_fixture_input.mjs';
 
 const root = resolve('.');
 const output = resolve(process.argv[2] || '');
@@ -45,13 +46,18 @@ async function runtimePins() {
   };
 }
 const runtime = await runtimePins();
-const metadataInput = await pinnedFile(process.env.ADMIN_PWA_PUBLIC_METADATA_PATH,
-  process.env.ADMIN_PWA_PUBLIC_METADATA_SHA256, 'ADMIN_PWA_PUBLIC_METADATA_PATH and ADMIN_PWA_PUBLIC_METADATA_SHA256');
-if (metadataInput.bytes > 65536) throw Error('Public synthetic fixture metadata must be at most 64 KiB');
-const publicMetadata = validateAdminPwaFixtureMetadata(JSON.parse(await readFile(metadataInput.path, 'utf8')));
+const { value: metadataEnvelope, evidence: metadataInput } = await readPinnedAdminMetadata(
+  process.env.ADMIN_PWA_PUBLIC_METADATA_PATH, process.env.ADMIN_PWA_PUBLIC_METADATA_SHA256);
+// An explicit deployment profile must be independently selected by the
+// operator, not accepted solely because its own metadata carries a digest.
+const expectedProfileSha256 = process.env.ADMIN_PWA_DEPLOYMENT_PROFILE_SHA256;
+if (metadataEnvelope?.deployment_profile && !expectedProfileSha256) {
+  throw Error('Set ADMIN_PWA_DEPLOYMENT_PROFILE_SHA256 to the independently selected public deployment profile digest');
+}
+const publicMetadata = validateAdminPwaFixtureMetadata(metadataEnvelope, { expectedProfileSha256 });
 await mkdir(output, { recursive: true });
 const inputPaths = ['scripts/tests/admin_pwa_update_browser_test.mjs', 'scripts/qa/admin_pwa_update_policy.mjs',
-  'scripts/qa/admin_pwa_fixture_metadata.mjs',
+  'scripts/qa/admin_pwa_fixture_metadata.mjs', 'scripts/tests/admin_pwa_fixture_input.mjs',
   'scripts/templates/admin_pwa_service_worker.js', 'scripts/admin_pwa_release_build.sh', 'scripts/admin_pwa_manifest_gate.sh',
   'scripts/admin_pwa_hosting_gate.sh', 'scripts/admin_pwa_live_gate.sh', 'web/flutter_bootstrap.js', 'web/_headers',
   'web/index.html', 'web/robots.txt', 'web/icons/collect-web-512.png',
@@ -62,6 +68,7 @@ const report = { started_at: new Date().toISOString(), status: 'running', final_
   scope: 'real_chromium_loopback_tiny_static_fixtures_current_production_postprocessor',
   source_before: await snapshot(), checks: [], requests: [], commands: [], errors: [], hosted: false,
   actual_admin_workflow: false, provider_calls: 0, runtime_pins: runtime, public_metadata_input: metadataInput,
+  expected_public_profile_sha256: expectedProfileSha256 ?? null,
   synthetic_fixture: { compiled_app: false, real_authentication: false, schema_attestation: false, hosted_acceptance: false } };
 function check(id, condition, observed) {
   report.checks.push({ id, pass: Boolean(condition), observed });

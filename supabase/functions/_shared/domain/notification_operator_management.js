@@ -26,6 +26,10 @@ function failure(error){
  return new ApiError(503,'sms_configuration_unknown','The result could not be confirmed. Check its original request before repeating it.');
 }
 const accessOptions={...options,permission:'admin_users.manage',entityType:'assisted_sms_access'};
+// A recorded Owner decision is not qualification of the recoverable batch.
+// Readback and disabling remain available while new enabling and all batch
+// execution, including resumption of a prior plan, are held.
+const qualificationUnavailable=()=>new ApiError(503,'receipt_sms_qualification_unavailable','Receipt SMS enabling and job preparation are unavailable pending qualification.');
 const permissionNames=['assisted_sms.read','assisted_sms.manage'];
 async function accessState(ctx){
  const [row]=await query(ctx,`SELECT
@@ -129,7 +133,7 @@ async function currentPolicy(ctx,collectionId){
 async function configure(ctx,collectionId,body){
  fields(body,['request_id','expected_revision','enabled','owner_confirmation']);const requestId=uuid(body.request_id,'request_id'),expected=integer(body.expected_revision,'expected_revision',0,999999998),enabled=body.enabled===undefined?false:body.enabled;
  if(typeof enabled!=='boolean'||body.owner_confirmation!==undefined&&typeof body.owner_confirmation!=='boolean')throw new ApiError(400,'invalid_policy','Choose whether this group may offer receipt SMS.');
- if(enabled&&body.owner_confirmation!==true)throw new ApiError(400,'owner_confirmation_required','Confirm this collection policy explicitly before enabling it.');
+ if(enabled)throw qualificationUnavailable();
  const {env,actor}=ctx,operation='assisted_sms.policy.configure',input={collection_id:collectionId,...body};
  const retained=await retainedResponse(env,actor,operation,requestId,input,options);if(retained.found)return retained.value;
  const old=await currentPolicy(ctx,collectionId);if(old.revision!==expected)throw new ApiError(409,'sms_policy_changed','The policy changed. Refresh before continuing.');
@@ -267,7 +271,7 @@ export async function notificationOperatorManagementRoute(request,env){
   if(accessOperationMatch)return json({ok:true,result:await accessOperation(ctx,uuid(accessOperationMatch[1],'request_id'))});
   if(materialization)return json({ok:true,result:await materializationStatus(ctx,uuid(materialization[1],'request_id'))});
   if(isAccess)return json({ok:true,result:request.method==='GET'?await accessState(ctx):await setAccess(ctx,await readJson(request,4096))});
-  if(isMaterializer)return json({ok:true,result:await materialize(request,ctx,await readJson(request,4096))});
+  if(isMaterializer)throw qualificationUnavailable();
   const collectionId=uuid(match[1],'collection_id');return json({ok:true,result:request.method==='GET'?await currentPolicy(ctx,collectionId):await configure(ctx,collectionId,await readJson(request,4096))});
  }catch(error){throw failure(error);}
 }

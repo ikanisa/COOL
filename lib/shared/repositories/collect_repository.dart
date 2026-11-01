@@ -5,6 +5,9 @@ import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../core/payments/contribution_command.dart';
+import '../../core/payments/contribution_command_journal.dart';
+import '../../core/payments/momo_ussd_intent_guard.dart';
 import '../../core/security/phone_normalizer.dart';
 import '../../core/data/exact_json_values.dart';
 import '../../core/security/hash_utils.dart';
@@ -24,6 +27,7 @@ import 'runtime_control_contract.dart';
 import 'payment_help_pending_store.dart';
 
 export '../models/member_history_page.dart';
+export '../../core/payments/contribution_command.dart';
 
 part 'collect_repository_providers.dart';
 part 'collect_repository_state.dart';
@@ -31,6 +35,7 @@ part 'collect_repository_live_reader.dart';
 part 'collect_repository_helpers.dart';
 part 'collect_repository_history.dart';
 part 'collect_repository_contribution_actions.dart';
+part 'collect_repository_contribution_commands.dart';
 part 'collect_invitation_protection.dart';
 part 'collect_repository_notification_actions.dart';
 part 'collect_repository_receipt_sms_actions.dart';
@@ -41,6 +46,7 @@ part 'collect_repository_session_identity.dart';
 class CollectRepository extends StateNotifier<CollectState>
     with
         _CollectContributionActions,
+        _CollectContributionCommands,
         _CollectNotificationActions,
         _CollectReceiptSmsActions,
         _CollectGroupActions,
@@ -49,6 +55,7 @@ class CollectRepository extends StateNotifier<CollectState>
     CollectCloudflareClient? backend,
     ReceiptSmsPendingStore? receiptSmsPendingStore,
     PaymentHelpPendingStore? paymentHelpPendingStore,
+    ContributionCommandJournal? contributionCommandJournal,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
     CollectOfflineCache? offlineCache,
     void Function()? onSignOutStarted,
@@ -61,6 +68,7 @@ class CollectRepository extends StateNotifier<CollectState>
          onSignOutStarted,
          receiptSmsPendingStore ?? const NativeReceiptSmsPendingStore(),
          paymentHelpPendingStore ?? PaymentHelpPendingStore(),
+         contributionCommandJournal ?? ContributionCommandJournal(),
        );
 
   /// Test harness injection only. App entrypoints use the empty live constructor.
@@ -70,6 +78,7 @@ class CollectRepository extends StateNotifier<CollectState>
     CollectCloudflareClient? backend,
     ReceiptSmsPendingStore? receiptSmsPendingStore,
     PaymentHelpPendingStore? paymentHelpPendingStore,
+    ContributionCommandJournal? contributionCommandJournal,
     SmsAccessChannel smsAccessChannel = const SmsAccessChannel(),
     Map<String, List<CollectMember>> fixtureAdditionalMembers = const {},
     CollectOfflineCache? offlineCache,
@@ -83,6 +92,7 @@ class CollectRepository extends StateNotifier<CollectState>
          onSignOutStarted,
          receiptSmsPendingStore ?? const NativeReceiptSmsPendingStore(),
          paymentHelpPendingStore ?? PaymentHelpPendingStore(),
+         contributionCommandJournal ?? ContributionCommandJournal(),
          fixtureAdditionalMembers,
        );
 
@@ -94,7 +104,8 @@ class CollectRepository extends StateNotifier<CollectState>
     this._offlineCache,
     this._onSignOutStarted,
     this._receiptSmsPendingStore,
-    this._paymentHelpPendingStore, [
+    this._paymentHelpPendingStore,
+    this._contributionCommandJournal, [
     Map<String, List<CollectMember>> fixtureAdditionalMembers = const {},
   ]) : _fixtureAdditionalMembers = Map.unmodifiable({
          for (final entry in fixtureAdditionalMembers.entries)
@@ -143,6 +154,8 @@ class CollectRepository extends StateNotifier<CollectState>
   final bool _allowLocalWrites;
   final CollectOfflineCache _offlineCache;
   final PaymentHelpPendingStore _paymentHelpPendingStore;
+  @override
+  final ContributionCommandJournal _contributionCommandJournal;
   final void Function()? _onSignOutStarted;
   @override
   final Map<String, List<CollectMember>> _fixtureAdditionalMembers;

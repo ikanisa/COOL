@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, realpathSync, readFileSync, writeFileSync, rmSync, existsSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createDesktopRuntime } from '../src/direct-desktop/runtime.mjs';
 import { DEFAULT_POLICY, DesktopError } from '../src/direct-desktop/contract.mjs';
 
@@ -37,7 +38,7 @@ test('configuration cannot enable live dispatch, inject a mock, or claim a suppo
 
 test('runtime rejects repository and relative journal paths and linked policy files before starting', t => {
   const fixture = paths(t);
-  for (const path of ['journal.sqlite', new URL('../private-journal.sqlite', import.meta.url).pathname]) {
+  for (const path of ['journal.sqlite', fileURLToPath(new URL('../private-journal.sqlite', import.meta.url))]) {
     assert.throws(() => createDesktopRuntime({ COLLECT_DESKTOP_JOURNAL: path }), DesktopError);
   }
   writeFileSync(fixture.policy, JSON.stringify(DEFAULT_POLICY), { mode: 0o600 });

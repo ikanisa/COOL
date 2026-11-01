@@ -100,7 +100,7 @@ case "${1:-}" in
     ;;
   --help|-h)
     printf 'usage: %s\n' "$0"
-    printf 'Environment: ADB ANDROID_UAT_DEVICE_ID ANDROID_UAT_FLAVOR ANDROID_UAT_TEST_TARGET ANDROID_UAT_DRIVER ANDROID_UAT_TIMEOUT_SECONDS ANDROID_UAT_EVIDENCE_DIR ANDROID_UAT_SCREENSHOT_DIR ANDROID_UAT_REQUIRE_SCREENSHOTS ANDROID_UAT_VARIANT_NAME ANDROID_UAT_THEME_MODE ANDROID_UAT_TEXT_SCALE ANDROID_UAT_HIGH_CONTRAST ANDROID_UAT_REDUCED_MOTION ANDROID_UAT_STATE_FILTER ANDROID_UAT_MOBILE_EVIDENCE_MODE ANDROID_UAT_APPLICATION_BINARY\n'
+    printf 'Environment: ADB ANDROID_UAT_DEVICE_ID ANDROID_UAT_FLAVOR ANDROID_UAT_TEST_TARGET ANDROID_UAT_DRIVER ANDROID_UAT_TIMEOUT_SECONDS ANDROID_UAT_EVIDENCE_DIR ANDROID_UAT_SCREENSHOT_DIR ANDROID_UAT_REQUIRE_SCREENSHOTS ANDROID_UAT_VARIANT_NAME ANDROID_UAT_THEME_MODE ANDROID_UAT_TEXT_SCALE ANDROID_UAT_HIGH_CONTRAST ANDROID_UAT_REDUCED_MOTION ANDROID_UAT_STATE_FILTER ANDROID_UAT_MOBILE_EVIDENCE_MODE ANDROID_UAT_APPLICATION_BINARY ANDROID_UAT_MEDIA_PACKET ANDROID_UAT_REVIEWED_APK_SHA256\n'
     exit 0
     ;;
   *)
@@ -113,6 +113,19 @@ case "$MOBILE_EVIDENCE_MODE" in
   true|false) ;;
   *) fail "ANDROID_UAT_MOBILE_EVIDENCE_MODE must be true or false." ;;
 esac
+
+# Isolated marketing captures have their own two-phase artifact/readback chain.
+# This branch never builds, replaces either Collect app, or bypasses APK review.
+if [[ "$FLAVOR" == "media_capture" || "$TEST_TARGET" == "tool/native_public_app_media_capture.dart" ]]; then
+  [[ "$FLAVOR" == "media_capture" && "$TEST_TARGET" == "tool/native_public_app_media_capture.dart" &&
+     "$MOBILE_EVIDENCE_MODE" == "true" && "$REQUIRE_SCREENSHOTS" == "true" ]] || \
+    fail "Explicit media_capture native fixture and required screenshots are mandatory."
+  [[ -n "${ANDROID_UAT_MEDIA_PACKET:-}" && -n "${ANDROID_UAT_REVIEWED_APK_SHA256:-}" ]] || \
+    fail "Prepared media packet and separately reviewed APK SHA-256 are required."
+  exec "${PYTHON:-python3}" "$ROOT_DIR/scripts/qa/native_android_public_app_media.py" capture \
+    --packet "$ANDROID_UAT_MEDIA_PACKET" --adb "$ADB" --device "$DEVICE_ID" \
+    --reviewed-apk-sha256 "$ANDROID_UAT_REVIEWED_APK_SHA256"
+fi
 
 if ! "$ADB" devices | awk 'NR > 1 && $1 == id && $2 == "device" { found = 1 } END { exit(found ? 0 : 1) }' id="$DEVICE_ID"; then
   reason="Android device $DEVICE_ID is not connected and authorized over ADB."

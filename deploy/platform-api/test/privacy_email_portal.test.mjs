@@ -132,6 +132,38 @@ test('email portal is independent of phone flag and fail-closed without existing
  assert.equal(privacyPortalRoute(request,env).headers.get('X-Frame-Options'),'DENY');assert.match(privacyPortalRoute(request,env).headers.get('Content-Security-Policy'),/connect-src 'self'/);
 });
 
+test('Supabase privacy portal sends native-form navigation restrictions',async()=>{
+ const request=new Request('https://collect.example/privacy/account-deletion?phone=fixture-phone&code=fixture-code');
+ const response=privacyPortalRoute(request,{});
+ assert.equal(response.status,200);
+ const requireNoFormNavigation=policy=>{
+  assert.equal(typeof policy,'string');
+  const actions=policy.split(';').map(value=>value.trim()).filter(value=>/^form-action(?:\s|$)/i.test(value));
+  assert.equal(actions.length,1);
+  assert.match(actions[0],/^form-action\s+'none'$/i);
+ };
+ requireNoFormNavigation(response.headers.get('Content-Security-Policy'));
+ for(const unsafe of ["form-action 'self'; form-action 'none'","FORM-ACTION 'none'; form-action 'self'","form-action 'self'"]){
+  assert.throws(()=>requireNoFormNavigation(unsafe));
+ }
+ assert.equal(response.headers.get('Referrer-Policy'),'no-referrer');
+ assert.equal(response.headers.get('Cache-Control'),'no-store');
+ const body=await response.text();
+ for(const id of ['phone-form','code-form','email-form','email-code-form'])assert.ok(body.includes(`id="${id}"`));
+ for(const value of ['fixture-phone','fixture-code'])assert.ok(!body.includes(value));
+});
+
+test('mounted identity forms cancel native navigation before handling submissions',async()=>{
+ for(const formId of ['email-form','email-code-form','phone-form','code-form']){
+  await withMountedPrivacyPortal({client,route:privacyPortalRoute,phoneAvailable:true},async h=>{
+   let canceled=false;
+   h.node(formId).emit('submit',{preventDefault(){canceled=true;}});
+   assert.equal(canceled,true,formId+' did not cancel native form navigation');
+   await new Promise(resolve=>setImmediate(resolve));
+  });
+ }
+});
+
 test('actual email fetch adapter preserves no-cookie same-origin POST and bounded raw statuses',async t=>{
  const old=globalThis.fetch,calls=[];t.after(()=>{globalThis.fetch=old;});
  globalThis.fetch=async(path,init)=>{calls.push({path,init});return new Response(JSON.stringify({synthetic:true}),{status:202,headers:{'Content-Type':'application/json'}});};

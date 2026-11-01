@@ -2,6 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:collect_app/core/data/exact_json_values.dart';
+import 'package:collect_app/app/env/app_env.dart';
+import 'package:collect_app/core/payments/contribution_command_journal.dart';
+import 'package:collect_app/core/security/hash_utils.dart';
+import 'package:collect_app/core/supabase/collect_supabase_configuration.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
+import '../fixtures/contribution_command_values.dart';
 
 const _actor = '10000000-0000-0000-0000-000000000001';
 const _other = '10000000-0000-0000-0000-000000000002';
@@ -31,7 +36,11 @@ Map<String, dynamic> _intent({
   'created_at': '2026-09-30T10:00:00+00',
   'expires_at': '2030-09-30T10:00:00Z',
   'receiver_momo_number': '0788123456',
-  'momo_network': 'mtn_momo',
+  'network': 'mtn_momo',
+  'receiver_label': 'Synthetic receiver',
+  'receiver_momo_number_hash': '',
+  'sender_phone_hash': HashUtils.phoneHash('0788123456'),
+  'originating_session_id': _session1,
 };
 http.Response _json(Object? value) => http.Response(
   jsonEncode(value),
@@ -58,7 +67,7 @@ void main() {
       },
     );
   }
-  for (final shape in ['map', 'singleton list']) {
+  for (final shape in ['map']) {
     test(
       'valid $shape ACK is bound to submitted group and exact amount',
       () async {
@@ -74,6 +83,7 @@ void main() {
         final request = h.creates.single;
         expect(jsonDecode(request.body)['collection'], _groupId);
         expect(jsonDecode(request.body)['p_expected_amount_rwf'], 5000);
+        expect(jsonDecode(request.body)['p_request_id'], isA<String>());
         expect(
           request.headers['Authorization'],
           'Bearer ${_jwt(_actor, _session1)}',
@@ -85,6 +95,7 @@ void main() {
     'wrong group': _intent(group: 'foreign-group'),
     'wrong amount': _intent(amount: 5001),
     'multiple rows': [_intent(), _intent(id: 'different-intent')],
+    'singleton list': [_intent()],
     'empty rows': [],
     'null': null,
     'scalar': 17,
@@ -97,7 +108,7 @@ void main() {
         final h = await _Harness.create((_) => _json(entry.value));
         await expectLater(
           h.repo.createPaymentIntent(_draft),
-          throwsFormatException,
+          throwsA(isA<ContributionRecoveryRequired>()),
         );
         expect(h.creates, hasLength(1));
         expect(h.repo.state.paymentIntents, isEmpty);
@@ -118,7 +129,10 @@ void main() {
           return reply.future;
         });
         final pending = h.repo.createPaymentIntent(_draft);
-        final failure = expectLater(pending, throwsStateError);
+        final failure = expectLater(
+          pending,
+          throwsA(isA<ContributionRecoveryRequired>()),
+        );
         await entered.future;
         if (transition.startsWith('A')) {
           await h.login(_other, _session2);
@@ -157,29 +171,32 @@ void main() {
     );
   });
   for (final mode in ['503', 'transport loss']) {
-    test('$mode makes one mutation POST per explicit caller', () async {
-      final h = await _Harness.create((_) {
-        if (mode == 'transport loss') {
-          throw http.ClientException('Synthetic response loss');
-        }
-        return http.Response(
-          '{"message":"Synthetic unavailable"}',
-          503,
-          headers: {'content-type': 'application/json'},
+    test(
+      '$mode retains the original command and prevents another POST',
+      () async {
+        final h = await _Harness.create((_) {
+          if (mode == 'transport loss') {
+            throw http.ClientException('Synthetic response loss');
+          }
+          return http.Response(
+            '{"message":"Synthetic unavailable"}',
+            503,
+            headers: {'content-type': 'application/json'},
+          );
+        });
+        await expectLater(
+          h.repo.createPaymentIntent(_draft),
+          throwsA(isA<ContributionRecoveryRequired>()),
         );
-      });
-      await expectLater(
-        h.repo.createPaymentIntent(_draft),
-        throwsA(isA<Exception>()),
-      );
-      expect(h.creates, hasLength(1));
-      expect(h.repo.state.paymentIntents, isEmpty);
-      await expectLater(
-        h.repo.createPaymentIntent(_draft),
-        throwsA(isA<Exception>()),
-      );
-      expect(h.creates, hasLength(2));
-    });
+        expect(h.creates, hasLength(1));
+        expect(h.repo.state.paymentIntents, isEmpty);
+        await expectLater(
+          h.repo.createPaymentIntent(_draft),
+          throwsA(isA<ContributionRecoveryRequired>()),
+        );
+        expect(h.creates, hasLength(1));
+      },
+    );
   }
   for (final mode in [
     'foreign ID',
@@ -264,13 +281,48 @@ class _Harness {
   static Future<_Harness> create(_Respond respond) async {
     final requests = <http.Request>[];
     late _Harness h;
+    final config = CollectSupabaseConfiguration.fromEnvironment(
+      const AppEnv(
+        apiUrl: '',
+        publicUrl: '',
+        adminAppUrl: '',
+        enableSmsReader: false,
+        enableAndroidSmsAccess: false,
+        enableAdminPanel: false,
+        enableAdminDevTools: false,
+        authCaptchaEnabled: false,
+        authCaptchaProvider: '',
+        authCaptchaSiteKey: '',
+        backend: 'supabase',
+        supabaseUrl: commandProject,
+        supabasePublishableKey: 'sb_publishable_syntheticPublicKey1234',
+      ),
+    );
     final client = CollectCloudflareClient(
-      'http://127.0.0.1:1',
+      config.api.origin,
+      supabaseConfiguration: config,
       httpClient: MockClient((r) async {
         requests.add(r);
         final http.Response response;
         if (r.url.path.endsWith('/create_contribution_intent')) {
           response = await respond(r);
+        } else if (r.url.path.endsWith(
+          '/get_current_member_contribution_session_v1',
+        )) {
+          final token = r.headers['Authorization']!.substring('Bearer '.length);
+          final payload = token.split('.')[1];
+          final claims =
+              jsonDecode(
+                    utf8.decode(base64Url.decode(base64Url.normalize(payload))),
+                  )
+                  as Map;
+          response = _json(
+            commandWitnessWire(
+              owner: claims['sub'] as String,
+              auth: claims['sub'] as String,
+              session: claims['session_id'] as String,
+            ),
+          );
         } else if (r.url.path.endsWith('/list_current_member_recent_intents')) {
           response = await h.recent(r);
         } else {
@@ -285,7 +337,10 @@ class _Harness {
       }),
     );
     await client.auth.recoverSession(_session(_actor, _session1));
-    final repo = _Repository(client);
+    final repo = _Repository(
+      client,
+      ContributionCommandJournal(storage: MemoryContributionStore()),
+    );
     h = _Harness(client, repo, requests)
       ..recent = (_) => _json({
         'pending_count': 1,
@@ -307,8 +362,12 @@ class _Harness {
 }
 
 class _Repository extends CollectRepository {
-  _Repository(this.client)
-    : super.fixture(initialState: _state(_actor), backend: client);
+  _Repository(this.client, ContributionCommandJournal journal)
+    : super.fixture(
+        initialState: _state(_actor),
+        backend: client,
+        contributionCommandJournal: journal,
+      );
   final CollectCloudflareClient client;
   Completer<void>? nextLoad;
   @override
@@ -348,7 +407,7 @@ CollectState _state(String actor) => CollectState(
 String _jwt(String user, String session, {int revision = 1}) {
   String part(Object value) =>
       base64Url.encode(utf8.encode(jsonEncode(value))).replaceAll('=', '');
-  return '${part({'alg': 'HS256'})}.${part({'sub': user, 'session_id': session, 'role': 'authenticated', 'revision': revision, 'exp': 4102444800})}.synthetic';
+  return '${part({'alg': 'HS256'})}.${part({'sub': user, 'iss': '$commandProject/auth/v1', 'aud': 'authenticated', 'session_id': session, 'role': 'authenticated', 'revision': revision, 'exp': 4102444800})}.synthetic';
 }
 
 String _session(String user, String session, {int revision = 1}) => jsonEncode({
@@ -358,6 +417,7 @@ String _session(String user, String session, {int revision = 1}) => jsonEncode({
   'expires_in': 3600,
   'user': {
     'id': user,
+    'auth_user_id': user,
     'aud': 'authenticated',
     'app_metadata': {},
     'user_metadata': {},

@@ -444,6 +444,31 @@ class CollectCiPolicyTest(unittest.TestCase):
                 if isinstance(declaration, dict) and 'paths' in declaration:
                     self.assertIn('deploy/platform-admin/**', declaration['paths'])
 
+    def test_supabase_current_checks_cover_recovered_decoder_and_handoff(self):
+        workflow = self.workflows['supabase.yml']
+        events = workflow.get('on', workflow.get('true', {}))
+        paths = {
+            'tools/roster-decoder/**',
+            'scripts/qa/roster_wheelhouse.py',
+            'scripts/tests/roster_wheelhouse_test.py',
+            'scripts/tests/roster_decoder_lifecycle_support.py',
+            'scripts/tests/roster_decoder_lifecycle_worker.py',
+        }
+        for event in ('push', 'pull_request'):
+            self.assertTrue(paths.issubset(set(events[event]['paths'])), event)
+        job = workflow['jobs']['current-source-contracts']
+        self.assertEqual(job['if'], policy.CURRENT_PROFILE_CONDITION)
+        for command in (
+            'node --test deploy/platform-admin/test/static-handoff.test.mjs',
+            'python3 scripts/tests/roster_wheelhouse_test.py',
+            'node --test scripts/supabase/testing/recovered-domain-safety.test.mjs',
+        ):
+            with self.subTest(command=command):
+                matches = [step for step in job['steps'] if step.get('run') == command]
+                self.assertEqual(len(matches), 1)
+                self.assertNotIn('if', matches[0])
+                self.assertIs(matches[0].get('continue-on-error', False), False)
+
     def test_current_native_and_actual_dart_cannot_be_omitted_or_masked(self):
         original = copy.deepcopy(self.workflows)
         for name, command in [('current-self-hosted-native', policy.CURRENT_NATIVE_COMMAND),
@@ -541,6 +566,13 @@ class CollectCiPolicyTest(unittest.TestCase):
         step['with']['name'] = 'admin-cloudflare-candidate'
         self.assertIn('CI_SHIPPING_PLATFORM_ARTIFACT_REQUIRED', self.codes())
 
+    def test_shipping_identity_requires_retained_compiler_input(self):
+        job = self.workflows['ci.yml']['jobs']['admin-web-build']
+        step = next(s for s in job['steps'] if s.get('with', {}).get('name') == 'admin-platform-pwa-candidate')
+        step['with']['path'] = '\n'.join(line for line in step['with']['path'].splitlines()
+                                         if line.strip() != 'build/admin-public-defines.json')
+        self.assertIn('CI_SHIPPING_PLATFORM_INPUT_REQUIRED', self.codes())
+
     def test_legacy_preview_compilation_cannot_gate_the_shipping_build(self):
         job = self.workflows['ci.yml']['jobs']['admin-web-build']
         job['steps'].append({'run': 'bash scripts/admin_cloudflare_build.sh'})
@@ -596,7 +628,8 @@ class CollectCiPolicyTest(unittest.TestCase):
             # Tiny local artifact files exercise the actual receipt gate. They
             # are not Flutter, hosted, browser or release acceptance evidence.
             inputs = [
-                'scripts/admin_pwa_release_build.sh', 'scripts/supabase/admin_build_config.py', 'scripts/admin_pwa_manifest_gate.sh',
+                'scripts/admin_pwa_release_build.sh', 'scripts/supabase/admin_build_config.py',
+                'scripts/supabase/deployment_profile.py', 'scripts/admin_pwa_manifest_gate.sh',
                 'scripts/admin_pwa_hosting_gate.sh', 'scripts/admin_cloudflare_assets.py',
                 'scripts/templates/admin_pwa_service_worker.js', 'deploy/platform-admin/src/index.js', 'deploy/platform-admin/src/supabase-transport.js',
                 'deploy/admin.wrangler.jsonc', 'deploy/platform-admin/wrangler.jsonc',

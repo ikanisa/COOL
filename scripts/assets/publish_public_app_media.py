@@ -13,6 +13,7 @@ import shutil
 import subprocess
 import os
 import tempfile
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from urllib.parse import urljoin, urlsplit, unquote
 
@@ -23,6 +24,10 @@ APP_ROUTES = {"home": "/home", "groups": "/groups", "group-detail": "/groups/qa-
               "security": "/settings/security", "privacy": "/settings/legal/privacy",
               "terms": "/settings/legal/terms", "account-deletion": "/settings/account/delete"}
 PUBLISHED_METADATA_INPUT = "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256"
+ANDROID_PACKAGE = "app.cool.mobile.mediafixture"
+ANDROID_CAPTURE_CONTROLS = {"scripts/qa/native_android_public_app_media.py",
+    "scripts/android_device_uat.sh", "scripts/assets/publish_public_app_media.py",
+    "scripts/public_app_media.rb", "scripts/qa/asset_manifest_integrity.rb"}
 BROWSER_DIAGNOSTIC_INPUTS = {"scripts/qa/collect_diagnostic_observer.mjs",
                              "scripts/qa/public_browser_app_media.mjs"}
 
@@ -75,7 +80,7 @@ def validate_previous_manifest(old: dict) -> list[dict]:
         if (not isinstance(row.get("file"), str) or not re.fullmatch(r"[a-z0-9-]+\.png", row["file"]) or
                 not isinstance(row.get("sha256"), str) or not re.fullmatch(r"[a-f0-9]{64}", row["sha256"]) or
                 not isinstance(row.get("alt"), str) or
-                row.get("capture_kind") not in {"browser_flutter_fixture", "native_ios_fixture"}):
+                row.get("capture_kind") not in {"browser_flutter_fixture", "native_ios_fixture", "native_android_fixture"}):
             raise ValueError("Previous media filename, hash or provenance is invalid")
     return rows
 
@@ -91,7 +96,8 @@ def evidence(path: Path, expected: str):
 def native_input(relative: str) -> bool:
     return relative.startswith(("lib/", "assets/", "licenses/", "android/", "ios/", "third_party/")) or relative in {
         "pubspec.yaml", "pubspec.lock", ".fvmrc", ".metadata", "tool/native_public_app_media_capture.dart",
-        "test/fixtures/collect_repository_fixture.dart", "test_driver/integration_test.dart"}
+        "test/fixtures/collect_repository_fixture.dart", "test/features/privacy/privacy_test_support.dart",
+        "test_driver/integration_test.dart"}
 
 
 def relative_input(relative: str) -> None:
@@ -99,8 +105,9 @@ def relative_input(relative: str) -> None:
         raise ValueError("Invalid native input path")
 
 
-def file_manifest(directory: Path) -> dict:
-    if directory.is_symlink() or not directory.is_dir() or directory.suffix != ".app":
+def file_manifest(directory: Path, kind: str = "native_ios_fixture") -> dict:
+    android = kind == "native_android_fixture"
+    if directory.is_symlink() or not directory.is_dir() or (not android and directory.suffix != ".app"):
         raise ValueError("Native application bundle required")
     result = {}
     for path in sorted(directory.rglob("*")):
@@ -110,9 +117,106 @@ def file_manifest(directory: Path) -> dict:
             if path.is_symlink() or not path.resolve().is_relative_to(directory.resolve()):
                 raise ValueError("Native bundle escapes its retained directory")
             result[path.relative_to(directory).as_posix()] = sha(path)
-    if "Info.plist" not in result:
+    if (android and set(result) != {"base.apk"}) or (not android and "Info.plist" not in result):
         raise ValueError("Native bundle metadata missing")
     return result
+
+
+def android_manifest_facts(text: str) -> dict:
+    """Inspect decoded APK/merged XML; a source overlay alone is insufficient."""
+    if "<!DOCTYPE" in text or "<!ENTITY" in text:
+        raise ValueError("Unsafe Android manifest XML")
+    root = ET.fromstring(text)
+    attr = lambda name: "{http://schemas.android.com/apk/res/android}" + name
+    app = root.find("application")
+    if root.tag != "manifest" or root.get("package") != ANDROID_PACKAGE or app is None:
+        raise ValueError("Isolated Android fixture package required")
+    if app.get(attr("name")) not in {None, "android.app.Application"}:
+        raise ValueError("Android fixture custom Application startup refused")
+    if app.get(attr("debuggable")) != "true" or app.get(attr("allowBackup")) != "false":
+        raise ValueError("Android fixture must be debug-only without backup")
+    if any(app.findall(tag) for tag in ("service", "receiver", "provider", "activity-alias")):
+        raise ValueError("Android fixture contains native provider or incoming-event components")
+    permissions = sorted(x.get(attr("name")) for tag in ("uses-permission", "uses-permission-sdk-23") for x in root.findall(tag))
+    if permissions != ["android.permission.INTERNET"]:
+        raise ValueError("Android fixture permission boundary differs")
+    activities = app.findall("activity")
+    if len(activities) != 1 or activities[0].get(attr("name")) != "io.flutter.embedding.android.FlutterActivity" or activities[0].get(attr("exported")) != "true":
+        raise ValueError("Android fixture requires only the stock Flutter launcher")
+    filters = activities[0].findall("intent-filter")
+    if len(filters) != 1 or sorted((x.tag, x.get(attr("name"))) for x in filters[0]) != [("action", "android.intent.action.MAIN"), ("category", "android.intent.category.LAUNCHER")]:
+        raise ValueError("Android fixture accepts incoming links or other intents")
+    metadata = {x.get(attr("name")): x.get(attr("value")) for x in app.findall("meta-data")}
+    for key in ("firebase_data_collection_default_enabled", "firebase_messaging_auto_init_enabled", "firebase_analytics_collection_enabled", "firebase_crashlytics_collection_enabled"):
+        if metadata.get(key) != "false":
+            raise ValueError("Android native provider auto-init is not disabled")
+    version = root.get(attr("versionName"))
+    code = root.get(attr("versionCode"), "")
+    if not version or not code.isdigit() or int(code) <= 0:
+        raise ValueError("Android fixture version is absent")
+    return {"package_name": ANDROID_PACKAGE, "version_name": version, "version_code": int(code), "debuggable": True,
+            "native_components": [], "permissions": permissions, "launcher": "io.flutter.embedding.android.FlutterActivity"}
+
+
+def validate_android(report_path: Path, report: dict, runtime: str) -> dict:
+    android = report.get("android", {})
+    if (android.get("package_name") != ANDROID_PACKAGE or android.get("flavor") != "media_capture" or
+            android.get("build_type") != "debug" or android.get("debuggable") is not True or
+            report.get("capture_surface") != "flutter_android_surface" or
+            report.get("source_binding_review") is None):
+        raise ValueError("Explicit isolated debug Android fixture required")
+    for key in ("retained_apk_sha256", "installed_apk_sha256", "certificate_sha256"):
+        if not re.fullmatch(r"[0-9a-f]{64}", android.get(key, "")):
+            raise ValueError("Android APK/certificate binding incomplete")
+    if android["retained_apk_sha256"] != android["installed_apk_sha256"] or report.get("bundle_manifest") != {"base.apk": android["retained_apk_sha256"]}:
+        raise ValueError("Android installed APK differs from reviewed artifact")
+    version = re.search(r"(?m)^version:\s*([^\s#+]+)\+(\d+)", (ROOT / "pubspec.yaml").read_text())
+    if not version or (android.get("version_name"), android.get("version_code")) != (version[1], int(version[2])):
+        raise ValueError("Android app version differs from current source")
+    profile = android.get("device_profile", {})
+    if (not re.fullmatch(r"[0-9a-f]{64}", profile.get("device_id_sha256", "")) or not profile.get("model") or
+            not profile.get("android_release") or profile.get("abi") not in {"arm64-v8a", "armeabi-v7a", "x86_64", "x86"} or
+            any(type(profile.get(k)) is not int or profile[k] <= 0 for k in ("api", "width", "height", "density_dpi"))):
+        raise ValueError("Actual Android device profile required")
+    if report.get("existing_app_metadata_before") != report.get("existing_app_metadata_after") or set(report.get("existing_app_metadata_before", {})) != {"app.cool.mobile", "app.cool.mobile.dev"}:
+        raise ValueError("Existing Collect app metadata changed")
+    controls = report.get("capture_controls_before")
+    if not isinstance(controls, dict) or set(controls) != ANDROID_CAPTURE_CONTROLS or controls != report.get("capture_controls_after"):
+        raise ValueError("Android capture control inventory changed")
+    for relative, digest in controls.items():
+        if sha(local(ROOT / relative)) != digest:
+            raise ValueError("Android capture control source changed")
+    linked = {}
+    for role in ("merged_manifest", "apk_manifest", "apk_signature", "installed_apk_identity", "device_profile"):
+        value = report.get("android_evidence", {}).get(role, {})
+        path = local(ROOT / value["path"])
+        if sha(path) != value["sha256"]:
+            raise ValueError("Android execution evidence changed")
+        linked["android_" + role] = path
+        command_name = {"apk_manifest": "apk-manifest", "apk_signature": "apk-signature", "installed_apk_identity": "installed-bundle", "device_profile": "device-profile"}.get(role)
+        if command_name:
+            command = next((row for row in report["commands"] if row["name"] == command_name), {})
+            if path != local(report_path.parent / (command_name + ".stdout")) or command.get("stdout_sha256") != value["sha256"]:
+                raise ValueError("Android evidence is not bound to its actual command log")
+    merged = android_manifest_facts(linked["android_merged_manifest"].read_text())
+    apk = android_manifest_facts(linked["android_apk_manifest"].read_text())
+    if merged != apk or any(android.get(k) != apk[k] for k in ("package_name", "version_name", "version_code", "debuggable")):
+        raise ValueError("Merged and installed artifact manifest identities differ")
+    signatures = re.findall(r"Signer #\d+ certificate SHA-256 digest: ([0-9a-fA-F]{64})", linked["android_apk_signature"].read_text())
+    if [x.lower() for x in signatures] != [android["certificate_sha256"]]:
+        raise ValueError("Android APK certificate differs")
+    identity = json.loads(linked["android_installed_apk_identity"].read_text())
+    if identity != {k: android[k] for k in ("package_name", "version_name", "version_code", "certificate_sha256", "retained_apk_sha256", "installed_apk_sha256")}:
+        raise ValueError("Android installed readback identity differs")
+    if json.loads(linked["android_device_profile"].read_text()) != profile:
+        raise ValueError("Android device profile differs from execution")
+    names = {row["name"] for row in report["commands"]}
+    if not {"apk-manifest", "apk-signature", "installed-bundle", "device-profile"}.issubset(names):
+        raise ValueError("Android artifact/device commands incomplete")
+    for row in report["captures"]:
+        if row.get("capture_surface") != "flutter_android_surface" or row.get("theme") != "dark" or not (0 < row["width"] <= profile["width"] and 0 < row["height"] <= profile["height"]):
+            raise ValueError("Android frame differs from actual device profile")
+    return linked
 
 
 def validate_native(report_path: Path, report: dict, runtime: str) -> dict:
@@ -143,10 +247,12 @@ def validate_native(report_path: Path, report: dict, runtime: str) -> dict:
     installed = Path(report["installed_bundle"])
     if installed.resolve() == retained.resolve():
         raise ValueError("Installed native app must be verified separately from retained bundle")
-    if file_manifest(retained) != expected or file_manifest(installed) != expected:
+    if file_manifest(retained, report["kind"]) != expected or file_manifest(installed, report["kind"]) != expected:
         raise ValueError("Installed or retained native bundle differs")
     source = Path(report["source"])
     linked = {"native_drive_log": drive}
+    if report.get("kind") == "native_android_fixture":
+        linked.update(validate_android(report_path, report, runtime))
     if "source_binding_review" in report:
         binding_path = local(ROOT / report["source_binding_review"])
         binding = evidence(binding_path, report["source_binding_review_sha256"])
@@ -195,7 +301,7 @@ def validate_native(report_path: Path, report: dict, runtime: str) -> dict:
 def validate_capture(report_path: Path, review_path: Path, runtime: str):
     report, review = json.loads(report_path.read_text()), json.loads(review_path.read_text())
     kind = report.get("kind")
-    if report.get("status") != "captured_pending_visual_review" or kind not in {"browser_flutter_fixture", "native_ios_fixture"}:
+    if report.get("status") != "captured_pending_visual_review" or kind not in {"browser_flutter_fixture", "native_ios_fixture", "native_android_fixture"}:
         raise ValueError("Successful source-bound capture required")
     if report.get("runtime_before_sha256") != runtime or report.get("runtime_after_sha256") != runtime:
         raise ValueError("Runtime changed after capture")
@@ -218,10 +324,10 @@ def validate_capture(report_path: Path, review_path: Path, runtime: str):
             raise ValueError("Unreviewed or changed route capture")
         if row.get("capture_kind", kind) != kind or row.get("theme") not in {"dark", "light"} or row.get("text_scale") != 1.0 or not row.get("platform"):
             raise ValueError("Exact capture platform and theme evidence required")
-        if kind == "browser_flutter_fixture" and row["platform"] != "Chromium browser" or kind == "native_ios_fixture" and not row["platform"].startswith("iOS Simulator"):
+        if kind == "browser_flutter_fixture" and row["platform"] != "Chromium browser" or kind == "native_ios_fixture" and not row["platform"].startswith("iOS Simulator") or kind == "native_android_fixture" and row["platform"] != "Android device":
             raise ValueError("Capture platform differs from execution evidence")
     linked = {}
-    if kind == "native_ios_fixture":
+    if kind in {"native_ios_fixture", "native_android_fixture"}:
         linked = validate_native(report_path, report, runtime)
     else:
         validate_browser_diagnostic_binding(report)
@@ -437,7 +543,7 @@ def main() -> None:
     validate_previous_manifest(old)
     packet.mkdir(parents=True)
     old_kinds = {row["capture_kind"] for row in old["screens"]}
-    historic = packet / ("previous-native-media" if old_kinds == {"native_ios_fixture"} else "previous-browser-media")
+    historic = packet / ("previous-native-media" if old_kinds.issubset({"native_ios_fixture", "native_android_fixture"}) else "previous-browser-media")
     historic.mkdir()
     for name in ["manifest.json", "capture-provenance.json"]:
         shutil.copyfile(MEDIA / name, historic / name)
@@ -472,12 +578,12 @@ def main() -> None:
                         "capture_kind": kind, "alt": alt[id_], "app_route": row["app_route"],
                         "platform": row["platform"], "theme": row["theme"], "text_scale": row["text_scale"], "data": "synthetic example data"})
     provenance = {"status": "pass", "kind": kind, "runtime_sha256": runtime,
-                  "native_capture_passed": kind == "native_ios_fixture", "scope": report["scope"],
+                  "native_capture_passed": kind in {"native_ios_fixture", "native_android_fixture"}, "scope": report["scope"],
                   "capture_report": (packet / "capture-report.json").relative_to(ROOT).as_posix(),
                   "capture_report_sha256": sha(packet / "capture-report.json"),
                   "visual_review": (packet / "visual-review.json").relative_to(ROOT).as_posix(),
                   "visual_review_sha256": sha(packet / "visual-review.json"), "captures": list(captures.values())}
-    if kind == "native_ios_fixture":
+    if kind in {"native_ios_fixture", "native_android_fixture"}:
         provenance["installed_matches_retained_bundle"] = True
         provenance["bundle_manifest_sha256"] = hashlib.sha256(json.dumps(report["bundle_manifest"], sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
         for role, path in linked.items():
@@ -541,7 +647,7 @@ def main() -> None:
             raise RuntimeError("Media publication failed and exact restoration could not be verified") from failure
         raise
     write_json(packet / "publication.json", {"status": "pass", "scope": "Byte-identical reviewed interface previews; design and release acceptance remain open.",
-                                            "native_capture_passed": kind == "native_ios_fixture", "runtime_sha256": runtime,
+                                            "native_capture_passed": kind in {"native_ios_fixture", "native_android_fixture"}, "runtime_sha256": runtime,
                                             "published": {row["file"]: row["sha256"] for row in screens},
                                             "old_media_preserved": {row["file"]: row["sha256"] for row in old["screens"]}})
     print("Published reviewed " + kind + " media; previous images and provenance preserved.")

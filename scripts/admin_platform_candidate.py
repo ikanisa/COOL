@@ -7,10 +7,12 @@ import json
 import os
 from pathlib import Path
 import re
+import stat
 import struct
 
 INPUTS = (
     'scripts/admin_pwa_release_build.sh', 'scripts/supabase/admin_build_config.py',
+    'scripts/supabase/deployment_profile.py',
     'scripts/qa/client_diagnostic_identity.py', 'scripts/admin_pwa_manifest_gate.sh',
     'scripts/admin_pwa_hosting_gate.sh', 'scripts/admin_cloudflare_assets.py',
     'scripts/templates/admin_pwa_service_worker.js', 'deploy/platform-admin/src/index.js', 'deploy/platform-admin/src/supabase-transport.js',
@@ -20,8 +22,31 @@ INPUTS = (
 )
 SUPABASE_BASELINE = 'supabase/migrations/20261020134444_collect_curated_platform_baseline.sql'
 SUPABASE_WRANGLER = 'deploy/platform-admin/wrangler.supabase.jsonc'
+SUPABASE_QA_WRANGLER = 'deploy/platform-admin/wrangler.supabase-qa.jsonc'
+TARGETS = {
+    'production': {'configuration': SUPABASE_WRANGLER,
+                   'origin': 'https://platform-admin.collect.ikanisa.com',
+                   'worker': 'collect-platform-admin', 'host': 'platform-admin.collect.ikanisa.com',
+                   'profile_sha256': '84115d0d9388df49b3bf789ebbb5c4ca85b78a4170d0a37952892f85363d64aa'},
+    'qa': {'configuration': SUPABASE_QA_WRANGLER,
+           'origin': 'https://admin-supabase-qa.collect.ikanisa.com',
+           'worker': 'collect-platform-admin-supabase-qa', 'host': 'admin-supabase-qa.collect.ikanisa.com',
+           'profile_sha256': 'b7f7d4c990095cf513ba1c5cd1903a8b226eed7a410cafac12ce755f5312f509'},
+}
+WORKER_FIRST = ['/api', '/api/*', '/v1', '/v1/*', '/functions', '/functions/*',
+                '/privacy/account-deletion', '/privacy/account-deletion/*',
+                '/admin/auth/local-challenge*', '/_build/*']
+PUBLIC_DEFINE_KEYS = {'APP_PUBLIC_URL', 'ADMIN_APP_URL', 'COLLECT_BACKEND', 'APP_ENVIRONMENT',
+                      'COLLECT_BACKEND_REVISION', 'ENABLE_ADMIN_PANEL', 'COLLECT_PUBLIC_LANDING_HOME',
+                      'AUTH_CAPTCHA_ENABLED', 'AUTH_CAPTCHA_PROVIDER', 'AUTH_CAPTCHA_SITE_KEY',
+                      'GOOGLE_AUTH_ENABLED', 'COLLECT_ASSISTED_SMS_ENABLED', 'SUPABASE_URL',
+                      'SUPABASE_API_URL', 'SUPABASE_ADMIN_API_URL', 'SUPABASE_PUBLISHABLE_KEY',
+                      'COLLECT_BUILD_VERSION', 'COLLECT_BUILD_SOURCE_ID'}
 SUPABASE_INPUTS = ('deploy/platform-admin/src/index.js', SUPABASE_BASELINE,
-                   'deploy/platform-admin/src/supabase-transport.js', SUPABASE_WRANGLER)
+                   'deploy/platform-admin/src/supabase-transport.js', SUPABASE_WRANGLER,
+                   'deploy/platform-admin/src/static-recovery.js',
+                   'deploy/platform-supabase-free/local-challenge.mjs',
+                   'supabase/functions/_shared/deployment-profile.js')
 REQUIRED = {'main.dart.js', 'index.html', 'flutter_bootstrap.js', 'custom-sw.js',
             'manifest.json', '_headers', 'version.json',
             '.well-known/assetlinks.json', '.well-known/apple-app-site-association'}
@@ -60,11 +85,11 @@ def physical(path):
     return path
 
 
-def hosting_profile(backend):
-    if backend not in ('cloudflare', 'supabase'):
+def hosting_profile(backend, target='production'):
+    if backend not in ('cloudflare', 'supabase') or target not in TARGETS or (backend == 'cloudflare' and target != 'production'):
         fail()
     return {'provider': 'cloudflare_workers',
-            'configuration': SUPABASE_WRANGLER if backend == 'supabase'
+            'configuration': TARGETS[target]['configuration'] if backend == 'supabase'
             else 'deploy/platform-admin/wrangler.jsonc'}
 
 
@@ -115,31 +140,119 @@ def migration_paths(source_root):
     return paths
 
 
-def source_inputs(source_root, backend):
+def source_inputs(source_root, backend, target='production'):
     """One source identity shared by CI receipt production and verification."""
     source_root = physical(source_root)
+    if target not in TARGETS:
+        fail()
     if backend == 'cloudflare':
+        if target != 'production':
+            fail()
         return INPUTS
     if backend != 'supabase':
         fail()
-    profile = parse(physical(source_root / SUPABASE_WRANGLER).read_bytes())
-    if (not isinstance(profile, dict) or not isinstance(profile.get('vars'), dict) or
-            not isinstance(profile.get('assets'), dict) or profile.get('main') != 'src/index.js' or
-            profile.get('vars', {}).get('COLLECT_BACKEND') != 'supabase' or
-            profile.get('vars', {}).get('SUPABASE_URL') != 'https://rrlduytparvsjfmegalh.supabase.co' or
-            profile.get('vars', {}).get('ADMIN_ORIGIN') != 'https://platform-admin.collect.ikanisa.com' or
-            profile.get('assets', {}).get('binding') != 'ASSETS'):
+    expected = TARGETS[target]
+    raw = physical(source_root / expected['configuration']).read_bytes()
+    if digest(raw) != expected['profile_sha256']:
         fail()
+    profile = parse(raw)
+    allowed = {'name', 'main', 'compatibility_date', 'account_id', 'workers_dev',
+               'observability', 'vars', 'assets', 'routes', 'compatibility_flags'}
+    expected_vars = {'ADMIN_ORIGIN': expected['origin'], 'COLLECT_BACKEND': 'supabase',
+                     'SUPABASE_URL': 'https://rrlduytparvsjfmegalh.supabase.co'}
+    expected_assets = {'directory': './assets', 'binding': 'ASSETS',
+                       'not_found_handling': 'single-page-application', 'run_worker_first': WORKER_FIRST}
+    if (not isinstance(profile, dict) or set(profile) != allowed or
+            profile.get('name') != expected['worker'] or profile.get('main') != 'src/index.js' or
+            profile.get('account_id') != '2209b915a85b1c11cee79b7806c6e73b' or
+            profile.get('workers_dev') is not False or profile.get('vars') != expected_vars or
+            profile.get('assets') != expected_assets or
+            profile.get('routes') != [{'pattern': expected['host'], 'custom_domain': True}]):
+        fail()
+    selected = tuple(expected['configuration'] if name == SUPABASE_WRANGLER else name
+                     for name in SUPABASE_INPUTS)
     additional = tuple(path.relative_to(source_root).as_posix()
                        for path in migration_paths(source_root)
-                       if path.relative_to(source_root).as_posix() not in SUPABASE_INPUTS)
-    inputs = tuple(name for name in INPUTS if not name.startswith('deploy/')) + SUPABASE_INPUTS + additional
+                       if path.relative_to(source_root).as_posix() not in selected)
+    inputs = tuple(name for name in INPUTS if not name.startswith('deploy/')) + selected + additional
     if len(inputs) != len(set(inputs)):
         fail()
     return inputs
 
 
-def verify(root, receipt_path, commit, source_root=Path.cwd(), *, backend='supabase'):
+def read_public_defines(path):
+    """Read retained public compiler bytes without following links or replacements."""
+    path = physical(path)
+    descriptor = os.open(path, os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0) | os.O_NONBLOCK)
+    try:
+        before = os.fstat(descriptor)
+        stamp = lambda s: (s.st_dev, s.st_ino, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
+        if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or
+                not 0 < before.st_size <= 65536 or stamp(before) != stamp(os.lstat(path))):
+            fail()
+        data = b''
+        while len(data) < before.st_size:
+            chunk = os.read(descriptor, before.st_size - len(data))
+            if not chunk:
+                fail()
+            data += chunk
+        if stamp(before) != stamp(os.fstat(descriptor)) or stamp(before) != stamp(os.lstat(path)):
+            fail()
+        return data
+    finally:
+        os.close(descriptor)
+
+
+def public_build_identity(data, version):
+    defines = parse(data)
+    profile = version.get('deployment_profile') if isinstance(version, dict) else None
+    expected_keys = PUBLIC_DEFINE_KEYS | ({'COLLECT_DEPLOYMENT_PROFILE', 'COLLECT_DEPLOYMENT_PROFILE_SHA256',
+                                          'SUPABASE_AUTH_ISSUER'} if profile is not None else set())
+    if (not isinstance(defines, dict) or not isinstance(version, dict) or
+            set(defines) != expected_keys or
+            any(not isinstance(k, str) or not isinstance(v, str) for k, v in defines.items()) or
+            (json.dumps(defines, indent=2) + '\n').encode() != data or
+            defines.get('COLLECT_BACKEND') != 'supabase' or
+            defines.get('COLLECT_BACKEND_REVISION') != 'supabase-platform-20261020' or
+            defines.get('ENABLE_ADMIN_PANEL') != 'true' or defines.get('COLLECT_PUBLIC_LANDING_HOME') != 'false' or
+            defines.get('GOOGLE_AUTH_ENABLED') not in ('true', 'false') or
+            defines.get('COLLECT_ASSISTED_SMS_ENABLED') not in ('true', 'false') or
+            defines.get('COLLECT_BUILD_SOURCE_ID') != version.get('diagnostics_source_revision') or
+            defines.get('COLLECT_BUILD_VERSION') != version.get('diagnostics_build_version') or
+            defines.get('ADMIN_APP_URL') != defines.get('SUPABASE_ADMIN_API_URL') or
+            defines.get('ADMIN_APP_URL') != version.get('admin_origin') or
+            defines.get('SUPABASE_API_URL') != version.get('api_origin') or
+            defines.get('SUPABASE_ADMIN_API_URL') != version.get('admin_api_origin') or
+            not re.fullmatch(r'sb_publishable_[A-Za-z0-9_-]{10,300}', defines.get('SUPABASE_PUBLISHABLE_KEY', '')) or
+            version.get('public_build_defines_sha256') != digest(data)):
+        fail()
+    captcha = defines['AUTH_CAPTCHA_ENABLED']
+    if (captcha not in ('true', 'false') or
+            (captcha == 'false' and (defines['AUTH_CAPTCHA_PROVIDER'] or defines['AUTH_CAPTCHA_SITE_KEY'])) or
+            (captcha == 'true' and (defines['AUTH_CAPTCHA_PROVIDER'] != 'turnstile' or
+             not re.fullmatch(r'[A-Za-z0-9_-]{10,200}', defines['AUTH_CAPTCHA_SITE_KEY'])))):
+        fail()
+    if profile is not None:
+        if (not isinstance(profile, dict) or
+                defines.get('COLLECT_DEPLOYMENT_PROFILE') != canonical(profile).decode() or
+                defines.get('COLLECT_DEPLOYMENT_PROFILE_SHA256') != digest(canonical(profile)) or
+                version.get('deployment_profile_sha256') != digest(canonical(profile)) or
+                defines.get('APP_PUBLIC_URL') != profile.get('public_origin') or
+                defines.get('ADMIN_APP_URL') != profile.get('admin_origin') or
+                defines.get('SUPABASE_URL') != profile.get('supabase_origin') or
+                defines.get('SUPABASE_API_URL') != profile.get('member_api_origin') or
+                defines.get('APP_ENVIRONMENT') != profile.get('environment') or
+                version.get('supabase_hosting') != profile.get('mode') or
+                defines.get('SUPABASE_AUTH_ISSUER') != profile.get('supabase_origin', '') + '/auth/v1'):
+            fail()
+    elif (defines['APP_PUBLIC_URL'] != 'https://collect.ikanisa.com' or
+          defines['SUPABASE_API_URL'] != defines['ADMIN_APP_URL'] or
+          defines['APP_ENVIRONMENT'] not in ('supabase-platform', 'qualification')):
+        fail()
+    return {'public_build_defines_sha256': digest(data)}
+
+
+def verify(root, receipt_path, commit, source_root=Path.cwd(), *, backend='supabase', target='production'):
     if not re.fullmatch('[0-9a-f]{40}', commit):
         fail()
     root, receipt_path, source_root = map(physical, (root, receipt_path, source_root))
@@ -151,10 +264,10 @@ def verify(root, receipt_path, commit, source_root=Path.cwd(), *, backend='supab
         fail()
     if backend not in ('cloudflare', 'supabase'):
         fail()
-    if receipt.get('backend') != backend or receipt.get('hosting') != hosting_profile(backend):
+    if receipt.get('backend') != backend or receipt.get('hosting') != hosting_profile(backend, target):
         fail()
     migrations = migration_paths(source_root) if backend == 'supabase' else []
-    inputs = source_inputs(source_root, backend)
+    inputs = source_inputs(source_root, backend, target)
     expected_inputs = receipt.get('input_sha256')
     if not isinstance(expected_inputs, dict) or set(expected_inputs) != set(inputs):
         fail()
@@ -167,6 +280,16 @@ def verify(root, receipt_path, commit, source_root=Path.cwd(), *, backend='supab
     version = parse((root / 'version.json').read_bytes())
     if not isinstance(version, dict):
         fail()
+    if backend == 'supabase':
+        public_bytes = read_public_defines(receipt_path.parent / 'admin-public-defines.json')
+        public_identity = public_build_identity(public_bytes, version)
+        public_defines = parse(public_bytes)
+        worker_vars = parse((source_root / TARGETS[target]['configuration']).read_bytes())['vars']
+        if (public_defines.get('SUPABASE_URL') != worker_vars['SUPABASE_URL'] or
+                public_defines.get('ADMIN_APP_URL') != worker_vars['ADMIN_ORIGIN']):
+            fail()
+        if any(receipt.get(k) != v for k, v in public_identity.items()):
+            fail()
     # Use the current, explicitly source-bound helper; never execute a helper
     # supplied by the artifact directory or an arbitrary receipt path.
     helper_path = physical(Path(__file__).parent / 'qa/client_diagnostic_identity.py')
@@ -188,11 +311,18 @@ def verify(root, receipt_path, commit, source_root=Path.cwd(), *, backend='supab
             files.get('main.dart.js', {}).get('sha256') != diagnostics['sha256'] or
             any(not files.get(name, {}).get('bytes') for name in REQUIRED)):
         fail()
-    if ('qualification_complete' in version or
+    if target == 'production' and ('qualification_complete' in version or
             version.get('purpose') == 'qualification' or
             version.get('environment') == 'qualification' or
             version.get('admin_origin') == 'https://admin-supabase-qa.collect.ikanisa.com' or
             version.get('shipping_candidate') is False):
+        fail()
+    if target == 'qa' and (version.get('purpose') != 'qualification' or
+            version.get('environment') != 'qualification' or version.get('shipping_candidate') is not False or
+            version.get('qualification_complete') is not False or
+            version.get('admin_origin') != TARGETS['qa']['origin'] or
+            public_defines.get('APP_ENVIRONMENT') != 'qualification' or
+            public_defines.get('AUTH_CAPTCHA_ENABLED') != 'true'):
         fail()
     if backend == 'supabase':
         if not migrations or any(path.is_symlink() or not path.is_file() or not path.read_bytes().strip() for path in migrations):
@@ -230,8 +360,9 @@ def verify(root, receipt_path, commit, source_root=Path.cwd(), *, backend='supab
             receipt.get('cache_urls_sha256') != digest(canonical(constants['CACHE_URLS'])) or
             receipt.get('cache_hashes_sha256') != digest(canonical(constants['CACHE_HASHES']))):
         fail()
-    return {'status': 'verified', 'source_commit': commit,
+    return {'status': 'verified', 'target': target, 'source_commit': commit,
             'artifact_manifest_sha256': receipt['artifact_manifest_sha256'],
+            'shipping_candidate': target == 'production',
             'diagnostics': diagnostics,
             'hosted_deployment_verified': False}
 
@@ -242,8 +373,9 @@ if __name__ == '__main__':
     parser.add_argument('--receipt', type=Path, required=True)
     parser.add_argument('--commit', required=True)
     parser.add_argument('--backend', choices=('cloudflare', 'supabase'), default='supabase')
+    parser.add_argument('--target', choices=('production', 'qa'), default='production')
     args = parser.parse_args()
     try:
-        print(json.dumps(verify(args.build_root, args.receipt, args.commit, backend=args.backend)))
+        print(json.dumps(verify(args.build_root, args.receipt, args.commit, backend=args.backend, target=args.target)))
     except (ValueError, OSError, TypeError, KeyError):
         parser.exit(1, 'Shipping platform candidate identity could not be verified\n')

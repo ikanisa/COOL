@@ -1,4 +1,5 @@
 import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/contribution_layout_repository_fixture.dart';
 import '../fixtures/auth_otp_gateway_fixture.dart';
 import '../fixtures/collect_scroll_fixture.dart';
 
@@ -110,7 +111,7 @@ Future<void> pumpRoute(
         if (authOtpGateway != null)
           authOtpGatewayProvider.overrideWithValue(authOtpGateway),
         collectRepositoryProvider.overrideWith(
-          (ref) => repository ?? FixtureCollectRepository(),
+          (ref) => repository ?? ContributionLayoutRepository(),
         ),
         legalConsentAcceptedProvider.overrideWith(
           (ref) => legalConsentAccepted,
@@ -204,7 +205,7 @@ void main() {
   testWidgets('incomplete Rwanda profile cannot start a contribution', (
     tester,
   ) async {
-    final repository = FixtureCollectRepository(
+    final repository = ContributionLayoutRepository(
       profileOverride: _incompleteRwandaProfile,
     );
     final priorIntents = repository.state.paymentIntents.length;
@@ -234,7 +235,7 @@ void main() {
       tester,
       '/groups/qa-private-group/contribute',
       textScale: 2,
-      repository: FixtureCollectRepository(),
+      repository: ContributionLayoutRepository(),
     );
     await tester.pumpAndSettle();
     const payee = 'QA MoMo';
@@ -268,7 +269,7 @@ void main() {
     testWidgets('MoMo recipient keeps identity and number for $network', (
       tester,
     ) async {
-      final repository = FixtureCollectRepository();
+      final repository = ContributionLayoutRepository();
       final number = network == 'mtn_momo' ? '0788123456' : '0738123456';
       repository.state = repository.state.copyWith(
         collections: [
@@ -318,7 +319,7 @@ void main() {
   testWidgets(
     'MoMo groups typed amounts and quick picks without changing value',
     (tester) async {
-      final repository = FixtureCollectRepository();
+      final repository = ContributionLayoutRepository();
       await pumpRoute(
         tester,
         '/groups/col-public-savings-fixture/contribute',

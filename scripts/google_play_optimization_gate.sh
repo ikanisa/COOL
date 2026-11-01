@@ -12,6 +12,7 @@ while [[ $# -gt 0 ]]; do
       PHASE="$2"; shift 2 ;;
     --help|-h)
       printf 'Usage: %s [--json] [--phase prepare|upload|review|rollout]\n' "$0"
+      printf 'SDK tools: use android/local.properties sdk.dir or ANDROID_HOME (or ANDROID_SDK_ROOT); COLLECT_ANDROID_BUILD_TOOLS_VERSION defaults to 36.0.0.\n'
       exit 0 ;;
     *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
   esac
@@ -127,16 +128,106 @@ rescue StandardError => e
   }
 end
 
+def badging_integer(value)
+  value&.match?(/\A[0-9]+\z/) ? value.to_i : nil
+end
+
 def parse_badging(text)
   {
     "package_name" => text[/package: name='([^']+)'/, 1],
-    "version_code" => text[/versionCode='([^']+)'/, 1]&.to_i,
+    "version_code" => badging_integer(text[/versionCode='([^']+)'/, 1]),
     "version_name" => text[/versionName='([^']+)'/, 1],
-    "compile_sdk" => text[/compileSdkVersion='([^']+)'/, 1]&.to_i,
-    "min_sdk" => text[/sdkVersion:'([^']+)'/, 1]&.to_i,
-    "target_sdk" => text[/targetSdkVersion:'([^']+)'/, 1]&.to_i,
+    "compile_sdk" => badging_integer(text[/compileSdkVersion='([^']+)'/, 1]),
+    "min_sdk" => badging_integer(text[/sdkVersion:'([^']+)'/, 1]),
+    "target_sdk" => badging_integer(text[/targetSdkVersion:'([^']+)'/, 1]),
     "permissions" => text.scan(/uses-permission: name='([^']+)'/).flatten.sort
   }
+end
+
+# Select one explicit, stable Build Tools version from the configured SDK.
+# Record the binaries used for later release review; this is a point-in-time
+# identity check, not proof of the tools used to build the APK/AAB.
+def resolve_android_build_tools(root)
+  configured = %w[ANDROID_HOME ANDROID_SDK_ROOT].map { |name| ENV[name].to_s }.reject(&:empty?)
+  # Gradle can select an SDK from android/local.properties before either
+  # environment variable. Accept a deliberately narrow, unescaped properties
+  # subset and fail closed on ambiguous input rather than guess Java parsing.
+  local_properties = File.join(root, "android", "local.properties")
+  local_digest = nil
+  local_values = {}
+  local_opened = false
+  begin
+    File.open(local_properties, File::RDONLY | File::NOFOLLOW | File::NONBLOCK) do |file|
+      local_opened = true
+      before = file.stat
+      return {"status" => "blocked", "reason" => "local_properties_unavailable"} unless before.file? && before.size <= 65_536
+      contents = file.read(65_537) || "".b
+      after = file.stat
+      entry = File.lstat(local_properties)
+      identity = ->(s) { [s.dev, s.ino, s.size, s.mtime, s.ctime] }
+      return {"status" => "blocked", "reason" => "local_properties_changed"} unless
+        identity.call(before) == identity.call(after) && identity.call(after) == identity.call(entry) && contents.bytesize == before.size
+      return {"status" => "blocked", "reason" => "local_properties_unsupported"} unless contents.ascii_only? && !contents.include?("\0")
+      contents.split(/\r\n|\n|\r/, -1).each do |line|
+        line = line.sub(/\A[ \t\f]*/, "")
+        next if line.empty? || line.start_with?("#", "!")
+        return {"status" => "blocked", "reason" => "local_properties_unsupported"} if line.include?("\\")
+        key = line[/\A[^ \t\f:=]+/]
+        next unless key
+        value = line[key.length..].sub(/\A[ \t\f]*/, "").sub(/\A[:=]/, "").sub(/\A[ \t\f]*/, "")
+        next unless %w[sdk.dir android.dir].include?(key)
+        return {"status" => "blocked", "reason" => "local_properties_ambiguous"} if local_values.key?(key)
+        local_values[key] = value
+      end
+      local_digest = Digest::SHA256.hexdigest(contents)
+    end
+  rescue Errno::ENOENT
+    # An absent file leaves the documented SDK environment variables in use.
+    return {"status" => "blocked", "reason" => "local_properties_changed"} if local_opened
+  rescue SystemCallError, IOError
+    return {"status" => "blocked", "reason" => "local_properties_unavailable"}
+  end
+  return {"status" => "blocked", "reason" => "local_properties_unsupported"} if local_values.key?("android.dir")
+  if local_values.key?("sdk.dir")
+    local_sdk = local_values.fetch("sdk.dir")
+    return {"status" => "blocked", "reason" => "local_properties_unsupported"} if local_sdk.empty?
+    configured << local_sdk
+  end
+  return {"status" => "blocked", "reason" => "missing_sdk_root"} if configured.empty?
+  # AGP resolves relative SDK paths against the Android project's root. Resolve
+  # symlinks before .., and treat a leading ~ literally as Java File does.
+  sdk_roots = configured.map { |path| File.realpath(path, File.join(root, "android")) }.uniq
+  return {"status" => "blocked", "reason" => "conflicting_sdk_roots"} unless sdk_roots.length == 1
+
+  version = ENV.fetch("COLLECT_ANDROID_BUILD_TOOLS_VERSION", "36.0.0").strip
+  parts = version.match(/\A([0-9]+)\.([0-9]+)\.([0-9]+)\z/)
+  return {"status" => "blocked", "reason" => "invalid_build_tools_version"} unless parts && parts[1].to_i >= 36
+
+  build_tools_root = File.realpath(File.join(sdk_roots.first, "build-tools"))
+  return {"status" => "blocked", "reason" => "build_tools_root_outside_sdk"} unless File.dirname(build_tools_root) == sdk_roots.first
+  directory = File.realpath(File.join(build_tools_root, version))
+  return {"status" => "blocked", "reason" => "build_tools_directory_outside_sdk"} unless File.dirname(directory) == build_tools_root
+  properties = File.join(directory, "source.properties")
+  return {"status" => "blocked", "reason" => "build_tools_properties_outside_sdk"} unless File.realpath(properties).start_with?("#{directory}/")
+  revisions = File.readlines(properties, chomp: true).map do |line|
+    line[/\APkg\.Revision\s*=\s*(\S+)\s*\z/, 1]
+  end.compact
+  return {"status" => "blocked", "reason" => "build_tools_revision_mismatch"} unless revisions == [version]
+
+  binaries = %w[aapt zipalign].to_h do |name|
+    path = File.realpath(File.join(directory, name))
+    unless path.start_with?("#{directory}/") && File.file?(path) && File.executable?(path)
+      raise Errno::ENOENT, "invalid Build Tools executable"
+    end
+    [name, path]
+  end
+  {"status" => "pass", "sdk_root" => sdk_roots.first, "version" => version,
+   "local_properties_sha256" => local_digest,
+   "source_properties_sha256" => Digest::SHA256.file(properties).hexdigest,
+   "aapt" => binaries.fetch("aapt"), "aapt_sha256" => Digest::SHA256.file(binaries.fetch("aapt")).hexdigest,
+   "zipalign" => binaries.fetch("zipalign"), "zipalign_sha256" => Digest::SHA256.file(binaries.fetch("zipalign")).hexdigest}
+rescue SystemCallError, IOError
+  {"status" => "blocked", "reason" => "build_tools_unavailable"}
 end
 
 pubspec = read(File.join(root, "pubspec.yaml"))
@@ -161,11 +252,12 @@ source_latest = latest_mtime(root, [
   "web/.well-known/assetlinks.json"
 ])
 
-aapt = File.join(root, "../AppData/android/sdk/build-tools/36.1.0/aapt")
-zipalign = File.join(root, "../AppData/android/sdk/build-tools/36.1.0/zipalign")
-badging = apk["exists"] && File.executable?(aapt) ? run(aapt, "dump", "badging", apk["path"]) : { "status" => 127, "stdout" => "", "stderr" => "aapt missing or APK missing" }
-package = parse_badging(badging.fetch("stdout"))
-zipalign_16k = apk["exists"] && File.executable?(zipalign) ? run(zipalign, "-c", "-P", "16", "-v", "4", apk["path"]) : { "status" => 127, "stdout" => "", "stderr" => "zipalign missing or APK missing" }
+build_tools = resolve_android_build_tools(root)
+aapt = build_tools["aapt"]
+zipalign = build_tools["zipalign"]
+badging = apk["exists"] && aapt ? run(aapt, "dump", "badging", apk["path"]) : { "status" => 127, "stdout" => "", "stderr" => "aapt missing or APK missing" }
+package = parse_badging(badging.fetch("status") == 0 ? badging.fetch("stdout") : "")
+zipalign_16k = apk["exists"] && zipalign ? run(zipalign, "-c", "-P", "16", "-v", "4", apk["path"]) : { "status" => 127, "stdout" => "", "stderr" => "zipalign missing or APK missing" }
 
 native_libs = []
 if aab["exists"]
@@ -208,15 +300,21 @@ expected_play_fingerprint = "45:17:38:E6:9A:DF:1B:4D:3F:AA:7A:65:90:20:28:2E:02:
 expected_upload_fingerprint = "9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10"
 
 checks = {}
+checks["android_build_tools"] =
+  if build_tools["status"] == "pass"
+    check("pass", "Android Build Tools were resolved from one SDK and exact version.", build_tools)
+  else
+    check("blocked", "A consistent Android SDK and exact Build Tools version are required.", build_tools)
+  end
 checks["package_identity"] =
-  if package["package_name"] == "app.cool.mobile" && package["version_code"].is_a?(Integer) && package["version_name"].to_s.match?(/\A\d+\.\d+\.\d+\z/)
+  if badging.fetch("status") == 0 && package["package_name"] == "app.cool.mobile" && package["version_code"].is_a?(Integer) && package["version_code"].positive? && package["version_name"].to_s.match?(/\A\d+\.\d+\.\d+\z/)
     check("pass", "APK package identity and version metadata are valid.", package)
   else
     check("fail", "APK package identity/version metadata are invalid or unreadable.", package.merge("aapt_status" => badging.fetch("status")))
   end
 
 checks["target_api"] =
-  if package["compile_sdk"].to_i >= 36 && package["target_sdk"].to_i >= 36
+  if badging.fetch("status") == 0 && package["compile_sdk"].to_i >= 36 && package["target_sdk"].to_i >= 36
     check("pass", "APK targets the current Google Play API floor.", "compile_sdk" => package["compile_sdk"], "target_sdk" => package["target_sdk"], "min_sdk" => package["min_sdk"])
   else
     check("blocked", "APK must target API 36+ for Google Play submissions from 31 August 2026.", "compile_sdk" => package["compile_sdk"], "target_sdk" => package["target_sdk"])
@@ -322,7 +420,7 @@ checks["sixteen_kb_alignment"] =
   end
 
 checks["production_permissions"] =
-  if main_restricted == expected_apk_restricted &&
+  if badging.fetch("status") == 0 && main_restricted == expected_apk_restricted &&
       !production_declares_read &&
       receiver_declares_receive && !receiver_declares_read &&
       apk_restricted == expected_apk_restricted && sms_receiver_protected

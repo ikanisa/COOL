@@ -35,6 +35,7 @@ class _Probe {
   final entered = Completer<void>();
   Completer<void>? release;
   Object? error;
+  int? errorStatus;
   late final authority = StateProvider<Future<AdminIdentity?>>(
     (_) => Future.value(_identity),
   );
@@ -62,7 +63,7 @@ class _Probe {
             ? auth.response({
                 'code': error,
                 'message': 'PRIVATE_CANARY',
-              }, error == 'operation_unavailable' ? 501 : 403)
+              }, errorStatus ?? (error == 'operation_unavailable' ? 501 : 403))
             : auth.response(raw);
         return http.Response.bytes(
           response.bodyBytes,
@@ -193,6 +194,25 @@ void main() {
         expect(probe.requests, hasLength(1));
       },
     );
+  }
+  for (final status in [403, 503, 501]) {
+    test('provider preserves unavailable error status $status', () async {
+      probe.error = 'operation_unavailable';
+      probe.errorStatus = status;
+      await expectLater(
+        probe.read(),
+        throwsA(
+          status == 501
+              ? isA<UnsupportedError>()
+              : isA<CollectApiException>().having(
+                  (e) => e.httpStatusCode,
+                  'HTTP status',
+                  status,
+                ),
+        ),
+      );
+      expect(probe.requests, hasLength(1));
+    });
   }
   for (final field in [
     'role',

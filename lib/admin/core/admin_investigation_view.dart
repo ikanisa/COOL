@@ -52,7 +52,7 @@ final adminInvestigationProvider = FutureProvider.autoDispose
       } on CollectApiException catch (error) {
         if (!current) throw const AdminSessionChanged();
         if (error.code == '42501') throw const AdminInvestigationDenied();
-        if (error.code == 'operation_unavailable' || error.code == '501') {
+        if (error.isLegacyOperationUnavailable) {
           throw UnsupportedError(
             'Joined investigation service is unavailable.',
           );

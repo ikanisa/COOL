@@ -3,7 +3,7 @@ import {ApiError,json,readJson,uuid,integer,id,now,digest,stableJson,auditStatem
 import {adminAccountSession,adminCanonicalActor,accountDatabase,validateAdminOrigin} from './admin_accounts.js';
 import {encrypt,decrypt} from './encryption.js';
 import {mutation,retainedResponse} from './mutations.js';
-import {prepareAssistedSmsDispatch,dispatchAssistedSms,inspectAssistedSms} from './assisted_sms_dispatch.js';
+import {dispatchAssistedSms,inspectAssistedSms} from './assisted_sms_dispatch.js';
 
 const encoder=new TextEncoder(),decoder=new TextDecoder('utf-8',{fatal:true});
 const marker={contract_version:1,scope:'assisted_sms_internal_record',delivery_confirmed:false,provider_confirmation:false,settlement_status:'not_asserted'};
@@ -157,7 +157,9 @@ async function start(ctx,body){
  const records=await query(ctx,'SELECT * FROM assisted_sms_confirmations WHERE id=?',confirmationId),confirmation=records[0];
  if(!confirmation||confirmation.claim_id!==row.claim_id||confirmation.originating_session_id!==actor.sessionId||confirmation.public_session_id!==ctx.account.public_id)throw unavailable();
  const attempt={id:id(),job_id:row.id,confirmation_id:confirmationId,claim_id:row.claim_id,fence:row.fence,originating_session_id:actor.sessionId,public_session_id:ctx.account.public_id},receipt=startReceipt(attempt),sha=await digest(stableJson(body));
- const dispatch=await prepareAssistedSmsDispatch(ctx,attempt,confirmation);
+ // Automatic gateway grants remain held pending qualification. The manual
+ // first-response permit and original-request readback are unchanged.
+ const dispatch=null;
  try{
   // Only a successful FIRST batch acknowledgement can issue the transient
   // response permit. The stored receipt deliberately contains no permit bit.
@@ -210,6 +212,9 @@ export async function notificationOperatorRoute(request,env){
   dispatch_gateway:dispatchAssistedSms,inspect_gateway:inspectAssistedSms};
  if(!Object.hasOwn(handlers,action))throw new ApiError(400,'invalid_action','This operator action is unavailable.');
  const ctx=await context(request,env,action==='list_pending'?'assisted_sms.read':'assisted_sms.manage');
- try{return json({ok:true,result:await handlers[action](ctx,body)});}
+ try{
+  if(action==='dispatch_gateway')throw new ApiError(503,'receipt_sms_qualification_unavailable','Receipt SMS gateway dispatch is unavailable pending qualification.');
+  return json({ok:true,result:await handlers[action](ctx,body)});
+ }
  catch(error){throw failure(error);}
 }

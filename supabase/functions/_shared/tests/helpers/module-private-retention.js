@@ -9,3 +9,4 @@ export const privateErasureObjects=wrapped.privateErasureObjects;
 export const privateRetentionAfterAccess=wrapped.privateRetentionAfterAccess;
 export const privateRetentionCatalogIdentity=wrapped.privateRetentionCatalogIdentity;
 export const privateRetentionGuards=wrapped.privateRetentionGuards;
+export const sharedFenceRetentionClasses=wrapped.sharedFenceRetentionClasses;

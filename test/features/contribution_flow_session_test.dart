@@ -4,6 +4,7 @@ import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/core/security/sms_access_channel.dart';
+import 'package:collect_app/core/security/hash_utils.dart';
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 
 import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/contribution_command_repository_fixture.dart';
 import '../shared/member_data_authority_test.dart' as authority;
 
 class _InstantSms extends SmsAccessChannel {
@@ -45,13 +47,31 @@ class _FlowRepository extends FixtureCollectRepository {
           momoNumber: '0788123456',
         ),
       ) {
+    state = state.copyWith(
+      collections: [
+        CollectCollection(
+          id: contributionFixtureGroup,
+          slug: 'session-fixture',
+          creatorUserId: authority.actor,
+          title: 'Synthetic contribution group',
+          description: '',
+          receiverMomoNumber: '0788123456',
+          receiverDisplayLabel: 'Synthetic receiver',
+          receiverNetwork: 'mtn_momo',
+          isCurrentUserMember: true,
+          createdAt: DateTime.utc(2026),
+        ),
+      ],
+      paymentIntents: [],
+    );
     seed = state;
   }
   final CollectCloudflareClient client;
   late CollectState seed;
   Completer<void>? nextLoad;
-  int creates = 0;
+  int creates = 0, reviews = 0, handoffs = 0;
   Future<PaymentIntentModel> Function(int)? respond;
+  Future<PaymentIntentModel> Function()? respondReview;
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
     state = seed;
@@ -60,21 +80,50 @@ class _FlowRepository extends FixtureCollectRepository {
   }
 
   @override
-  Future<PaymentIntentModel> createPaymentIntent(PaymentIntentDraft draft) {
+  Future<ContributionCommandCheckpoint?> restoreContributionCommand(
+    String collectionId,
+  ) async => null;
+
+  @override
+  Future<PaymentIntentModel> prepareContributionIntent(
+    PaymentIntentDraft draft,
+  ) {
     creates++;
     return respond?.call(creates) ?? Future.value(_intent());
+  }
+
+  @override
+  Future<ContributionIntentReview> reviewContributionIntent(
+    PaymentIntentModel prepared,
+  ) async {
+    reviews++;
+    final current = await (respondReview?.call() ?? Future.value(prepared));
+    return contributionFixtureReview(current);
+  }
+
+  @override
+  Future<ContributionLaunchPermit> claimContributionHandoff(
+    PaymentIntentModel prepared,
+    ContributionIntentReview review,
+  ) async {
+    handoffs++;
+    final generation = sessionGeneration;
+    return ContributionLaunchPermit(
+      review: review,
+      isCurrent: () => sessionGeneration == generation,
+    );
   }
 }
 
 PaymentIntentModel _intent() => PaymentIntentModel(
-  id: 'synthetic-flow-intent',
-  collectionId: 'qa-private-group',
+  id: contributionFixtureIntent,
+  collectionId: contributionFixtureGroup,
   expectedAmountRwf: 5000,
   receiverMomoNumber: '0788123456',
   receiverMomoNumberHash: 'synthetic-receiver-hash',
   receiverMomoLabel: 'Synthetic receiver',
   momoNetwork: 'mtn_momo',
-  senderPhoneHash: 'synthetic-sender-hash',
+  senderPhoneHash: HashUtils.phoneHash('0788123456'),
   status: 'pending',
   createdAt: DateTime.utc(2026),
   expiresAt: DateTime.utc(2030),
@@ -129,7 +178,9 @@ void main() {
         container: container,
         child: MaterialApp(
           theme: CollectTheme.light(),
-          home: const ContributionFlowScreen(collectionId: 'qa-private-group'),
+          home: const ContributionFlowScreen(
+            collectionId: contributionFixtureGroup,
+          ),
         ),
       ),
     );
@@ -193,12 +244,13 @@ void main() {
     'old preflight reply cannot launch USSD after replacement session',
     (tester) async {
       final reply = Completer<PaymentIntentModel>();
-      repository.respond = (call) =>
-          call == 1 ? Future.value(_intent()) : reply.future;
+      repository.respondReview = () => reply.future;
       await pump(tester);
       await tester.tap(find.text('Open MoMo USSD'));
       await tester.pumpAndSettle();
-      expect(repository.creates, 2);
+      expect(repository.creates, 1);
+      expect(repository.reviews, 1);
+      expect(repository.handoffs, 0);
       await replaceSession(tester);
       reply.complete(_intent());
       await tester.pumpAndSettle();
@@ -213,7 +265,9 @@ void main() {
     await pump(tester);
     await tester.tap(find.text('Open MoMo USSD'));
     await tester.pumpAndSettle();
-    expect(repository.creates, 2);
+    expect(repository.creates, 1);
+    expect(repository.reviews, 1);
+    expect(repository.handoffs, 1);
     expect(launches, 1);
     expect(tester.takeException(), isNull);
   });

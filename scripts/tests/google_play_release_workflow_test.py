@@ -428,11 +428,172 @@ puts JSON.generate(@commands)
         source = (ROOT / "scripts/google_play_optimization_gate.sh").read_text()
         policy = source[source.index('checks["target_api"] ='):source.index('checks["sms_device_compatibility"]')]
         for sdk, expected in ((35, "blocked"), (36, "pass")):
-            code = "require 'json'; def check(s,m,e={});{'status'=>s}.merge(e);end;checks={};package=JSON.parse(ARGV[0]);\n" + policy + "\nputs JSON.generate(checks)"
+            code = "require 'json'; def check(s,m,e={});{'status'=>s}.merge(e);end;checks={};badging={'status'=>0};package=JSON.parse(ARGV[0]);\n" + policy + "\nputs JSON.generate(checks)"
             result = subprocess.run(["ruby", "-e", code, json.dumps({"compile_sdk": sdk, "target_sdk": sdk})],
                                     capture_output=True, text=True, timeout=10)
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(json.loads(result.stdout)["target_api"]["status"], expected)
+
+    def test_failed_or_malformed_aapt_badging_cannot_pass_release_checks(self):
+        source = (ROOT / "scripts/google_play_optimization_gate.sh").read_text()
+        parser = source[source.index("def badging_integer"):source.index("# Select one explicit")]
+        assignment = source[source.index("package = parse_badging("):source.index("zipalign_16k =")]
+        identity = source[source.index('checks["package_identity"] ='):source.index('checks["sms_device_compatibility"]')]
+        permissions = source[source.index('checks["production_permissions"] ='):source.index("sms_declaration_status =")]
+        code = r'''
+require 'json'
+def check(status,message,extra={}); {'status'=>status}.merge(extra); end
+''' + parser + r'''
+badging=JSON.parse(ARGV.fetch(0));checks={}
+''' + assignment + r'''
+restricted_sms=%w[android.permission.READ_SMS android.permission.RECEIVE_SMS android.permission.SEND_SMS android.permission.BROADCAST_SMS]
+main_restricted=['android.permission.RECEIVE_SMS'];expected_apk_restricted=main_restricted
+production_declares_receive=true;production_declares_read=false;receiver_declares_receive=true;receiver_declares_read=false;sms_receiver_protected=true
+apk_restricted=Array(package['permissions']) & restricted_sms
+''' + identity + permissions + "\nputs JSON.generate(checks)"
+        valid = ("package: name='app.cool.mobile' versionCode='23' versionName='1.2.4' compileSdkVersion='36'\n"
+                 "sdkVersion:'24'\ntargetSdkVersion:'36'\nuses-permission: name='android.permission.RECEIVE_SMS'\n")
+        cases = (
+            (0, valid, ("pass", "pass", "pass")),
+            (23, valid, ("fail", "blocked", "fail")),
+            (0, valid.replace("versionCode='23'", "versionCode='23junk'"), ("fail", "pass", "pass")),
+            (0, valid.replace("compileSdkVersion='36'", "compileSdkVersion='36junk'"), ("pass", "blocked", "pass")),
+            (0, valid.replace("targetSdkVersion:'36'", "targetSdkVersion:'36junk'"), ("pass", "blocked", "pass")),
+        )
+        for status, stdout, expected in cases:
+            with self.subTest(status=status, stdout=stdout):
+                result = subprocess.run(["ruby", "-e", code, json.dumps({"status": status, "stdout": stdout})],
+                                        cwd=self.root, env=self.env, capture_output=True, text=True, timeout=10)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                checks = json.loads(result.stdout)
+                self.assertEqual(tuple(checks[name]["status"] for name in
+                                       ("package_identity", "target_api", "production_permissions")), expected)
+
+    def test_build_tools_resolver_requires_one_sdk_and_exact_version(self):
+        source = (ROOT / "scripts/google_play_optimization_gate.sh").read_text()
+        resolver = source[source.index("def resolve_android_build_tools"):source.index("\npubspec =")]
+        code = "require 'digest'; require 'json';\n" + resolver + "\nputs JSON.generate(resolve_android_build_tools(Dir.pwd))"
+        sdk = self.root / "android-sdk"
+        tools = sdk / "build-tools" / "36.0.0"
+        tools.mkdir(parents=True)
+        (tools / "source.properties").write_text("Pkg.Revision=36.0.0\n")
+        for name in ("aapt", "zipalign"):
+            tool = tools / name
+            tool.write_text("#!/bin/sh\nexit 0\n")
+            tool.chmod(0o700)
+
+        def resolve(**overrides):
+            env = self.env | {"ANDROID_HOME": str(sdk), "ANDROID_SDK_ROOT": str(sdk)} | overrides
+            result = subprocess.run(["ruby", "-e", code], cwd=self.root, env=env,
+                                    capture_output=True, text=True, timeout=10)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            return json.loads(result.stdout)
+
+        result = resolve()
+        self.assertEqual(result["status"], "pass")
+        self.assertEqual(result["version"], "36.0.0")
+        self.assertEqual(result["aapt_sha256"], hashlib.sha256((tools / "aapt").read_bytes()).hexdigest())
+        self.assertEqual(result["zipalign_sha256"], hashlib.sha256((tools / "zipalign").read_bytes()).hexdigest())
+        other = self.root / "other-sdk"
+        other.mkdir()
+        shutil.copytree(sdk / "build-tools", other / "build-tools")
+        self.assertEqual(resolve(ANDROID_SDK_ROOT=str(other))["reason"], "conflicting_sdk_roots")
+        self.assertEqual(resolve(COLLECT_ANDROID_BUILD_TOOLS_VERSION="35.0.0")["reason"], "invalid_build_tools_version")
+        self.assertEqual(resolve(COLLECT_ANDROID_BUILD_TOOLS_VERSION="36.1.0")["reason"], "build_tools_unavailable")
+        redirected = self.root / "redirected-sdk"
+        outside = self.root / "outside-build-tools"
+        redirected.mkdir()
+        outside.mkdir()
+        (redirected / "build-tools").symlink_to(outside, target_is_directory=True)
+        self.assertEqual(resolve(ANDROID_HOME=str(redirected), ANDROID_SDK_ROOT=str(redirected))["reason"],
+                         "build_tools_root_outside_sdk")
+
+        properties = self.root / "android/local.properties"
+        properties.parent.mkdir(exist_ok=True)
+        properties.write_text(f"# synthetic Gradle SDK selection\nsdk.dir={sdk}\n")
+        local_result = resolve()
+        self.assertEqual(local_result["status"], "pass")
+        self.assertEqual(local_result["local_properties_sha256"], hashlib.sha256(properties.read_bytes()).hexdigest())
+        self.assertEqual(resolve(ANDROID_HOME="", ANDROID_SDK_ROOT="")["sdk_root"], str(sdk.resolve()))
+        properties.write_text(f"sdk.dir={os.path.relpath(sdk, properties.parent)}\n")
+        self.assertEqual(resolve()["status"], "pass")
+        for tilde in ("~", "~collect_nonexistent"):
+            literal = properties.parent / tilde
+            literal.mkdir()
+            (literal / "sdk").symlink_to(sdk, target_is_directory=True)
+            properties.write_text(f"sdk.dir={tilde}/sdk\n")
+            self.assertEqual(resolve()["sdk_root"], str(sdk.resolve()))
+        outside = self.root / "sdk-link-target"
+        (outside / "child").mkdir(parents=True)
+        (outside / "sdk").symlink_to(sdk, target_is_directory=True)
+        (properties.parent / "link").symlink_to(outside / "child", target_is_directory=True)
+        (properties.parent / "sdk").symlink_to(other, target_is_directory=True)
+        properties.write_text("sdk.dir=link/../sdk\n")
+        self.assertEqual(resolve(ANDROID_HOME="", ANDROID_SDK_ROOT="")["sdk_root"], str(sdk.resolve()))
+        properties.write_text(f"sdk.dir={other}\n")
+        self.assertEqual(resolve()["reason"], "conflicting_sdk_roots")
+        properties.write_text(f"sdk.dir={sdk}\nsdk.dir={other}\n")
+        self.assertEqual(resolve()["reason"], "local_properties_ambiguous")
+        properties.write_text(f"sdk.dir={sdk}\ns\\u0064k.dir={other}\n")
+        self.assertEqual(resolve()["reason"], "local_properties_unsupported")
+        properties.write_text(f"android.dir={other}\n")
+        self.assertEqual(resolve()["reason"], "local_properties_unsupported")
+        properties.write_bytes(b"")
+        empty_result = resolve()
+        self.assertEqual(empty_result["status"], "pass")
+        self.assertEqual(empty_result["local_properties_sha256"], hashlib.sha256(b"").hexdigest())
+        properties.unlink()
+        relative_sdk = os.path.relpath(sdk, properties.parent)
+        self.assertEqual(resolve(ANDROID_HOME=relative_sdk, ANDROID_SDK_ROOT=relative_sdk)["sdk_root"], str(sdk.resolve()))
+        self.assertEqual(resolve(ANDROID_HOME="~/sdk", ANDROID_SDK_ROOT="~collect_nonexistent/sdk")["sdk_root"], str(sdk.resolve()))
+        self.assertEqual(resolve(ANDROID_HOME="", ANDROID_SDK_ROOT="")["reason"], "missing_sdk_root")
+        os.mkfifo(properties)
+        self.assertEqual(resolve()["reason"], "local_properties_unavailable")
+        properties.unlink()
+        properties.symlink_to(self.root / "missing-local-properties")
+        self.assertEqual(resolve()["reason"], "local_properties_unavailable")
+        properties.unlink()
+        (tools / "source.properties").write_text("Pkg.Revision=36.1.0\n")
+        self.assertEqual(resolve()["reason"], "build_tools_revision_mismatch")
+
+    def test_full_play_gate_refuses_failed_aapt_with_plausible_output(self):
+        shutil.copy2(ROOT / "scripts/google_play_optimization_gate.sh", self.root / "scripts")
+        shutil.copy2(ROOT / "scripts/android_manifest_permissions.rb", self.root / "scripts")
+        sdk = self.root / "android-sdk"
+        tools = sdk / "build-tools" / "36.0.0"
+        tools.mkdir(parents=True)
+        (tools / "source.properties").write_text("Pkg.Revision=36.0.0\n")
+        (tools / "aapt").write_text('#!/bin/sh\nprintf "%s" "$FAKE_AAPT_STDOUT"\nexit "$FAKE_AAPT_RC"\n')
+        (tools / "zipalign").write_text("#!/bin/sh\nexit 0\n")
+        for name in ("aapt", "zipalign"):
+            (tools / name).chmod(0o700)
+        android_ns = 'xmlns:android="http://schemas.android.com/apk/res/android"'
+        receiver = ('<application><receiver android:name="app.cool.mobile.receiver_sms.CollectSmsReceiver" '
+                    'android:permission="android.permission.BROADCAST_SMS"/></application>')
+        permission = '<uses-permission android:name="android.permission.RECEIVE_SMS"/>'
+        feature = '<uses-feature android:name="android.hardware.telephony" android:required="false"/>'
+        manifests = {
+            "main": f"<manifest {android_ns}>{permission}{feature}{receiver}</manifest>",
+            "production": f"<manifest {android_ns}/>",
+            "internal_receiver": f"<manifest {android_ns}>{permission}{receiver}</manifest>",
+        }
+        for flavor, content in manifests.items():
+            path = self.root / "android/app/src" / flavor / "AndroidManifest.xml"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(content)
+        valid = ("package: name='app.cool.mobile' versionCode='23' versionName='1.2.4' compileSdkVersion='36'\n"
+                 "sdkVersion:'24'\ntargetSdkVersion:'36'\nuses-permission: name='android.permission.RECEIVE_SMS'\n")
+        for exit_code, expected in ((0, ("pass", "pass", "pass")), (23, ("fail", "blocked", "fail"))):
+            with self.subTest(exit_code=exit_code):
+                env = self.env | {"ANDROID_HOME": str(sdk), "ANDROID_SDK_ROOT": str(sdk), "TMPDIR": str(self.root),
+                                  "FAKE_AAPT_STDOUT": valid, "FAKE_AAPT_RC": str(exit_code)}
+                result = subprocess.run(["bash", "scripts/google_play_optimization_gate.sh", "--json", "--phase", "prepare"],
+                                        cwd=self.root, env=env, capture_output=True, text=True, timeout=30)
+                self.assertIn(result.returncode, (1, 99), result.stderr)  # unrelated synthetic release gates remain incomplete
+                checks = json.loads(result.stdout)["checks"]
+                self.assertEqual(checks["android_build_tools"]["status"], "pass")
+                self.assertEqual(tuple(checks[name]["status"] for name in
+                                       ("package_identity", "target_api", "production_permissions")), expected)
 
     def test_fastlane_submission_routes_only_through_canonical_phase_wrapper(self):
         for options, phase in (({}, "upload"), ({"phase": "review"}, "review"),

@@ -4,7 +4,7 @@ void _registerMobileCompletionAccountCases() {
   testWidgets('archived groups leave active surfaces and become read only', (
     tester,
   ) async {
-    final repository = FixtureCollectRepository();
+    final repository = ContributionLayoutRepository();
     await repository.archiveCollection('qa-private-group');
 
     for (final route in const ['/home', '/groups', '/contribute']) {

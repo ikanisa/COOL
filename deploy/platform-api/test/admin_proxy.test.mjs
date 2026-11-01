@@ -6,7 +6,7 @@ const {default: proxy} = await import(process.env.COLLECT_ADMIN_PROXY_MODULE ?? 
 test('same-origin service forwarding preserves the real origin-bound account cookie and never serves API failures as HTML', async t => {
   const f = await fixture(t), owner = await f.seedAccount();
   let assetReads = 0;
-  const env = {ADMIN_ORIGIN: ORIGIN,
+  const env = {ADMIN_ORIGIN: ORIGIN, COLLECT_BACKEND: 'cloudflare',
     PLATFORM_API: {fetch: async request => f.mf.dispatchFetch(request.url, {method: request.method, headers: request.headers, ...(request.method === 'GET' || request.method === 'HEAD' ? {} : {body: await request.text()})})},
     ASSETS: {fetch: () => {assetReads++; return new Response('static shell');}},
   };
@@ -40,6 +40,7 @@ test('HTML asset responses retain exact bytes and security headers with no-store
   for (const contentType of ['text/html; charset=utf-8', 'Text/HTML']) {
     const response = await proxy.fetch(new Request(ORIGIN + '/admin/privacy-requests'), {
       ADMIN_ORIGIN: ORIGIN,
+      COLLECT_BACKEND: 'cloudflare',
       ASSETS: {fetch: async () => new Response(body, {headers: {
         'Content-Type': contentType, 'Cache-Control': 'no-store',
         'Content-Security-Policy': "default-src 'self'; object-src 'none'",
@@ -59,6 +60,7 @@ test('non-HTML asset cache policies and exact payloads remain unchanged', async 
   const bytes = Uint8Array.from([0, 1, 2, 127, 255]);
   const response = await proxy.fetch(new Request(ORIGIN + '/_build/current/engine.wasm'), {
     ADMIN_ORIGIN: ORIGIN,
+    COLLECT_BACKEND: 'cloudflare',
     ASSETS: {fetch: async () => new Response(bytes, {headers: {
       'Content-Type': 'application/wasm',
       'Cache-Control': 'public, max-age=31536000, immutable', 'ETag': 'original',

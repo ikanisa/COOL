@@ -37,14 +37,7 @@ class ContributionFlowScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(collectRepositoryProvider);
-    final repository = ref.watch(collectRepositoryProvider.notifier);
-    final collection = repository.maybeCollectionById(collectionId);
-    if (collection == null) return const MissingGroupStateScreen();
-    return switch (collection.contributionRailFor(state.currentProfile)) {
-      'rwanda_momo' => _RwandaMomoContributionFlow(collectionId: collectionId),
-      _ => _UnavailableContributionRoute(collection: collection),
-    };
+    return _RwandaMomoContributionFlow(collectionId: collectionId);
   }
 }
 
@@ -94,6 +87,10 @@ class _RwandaMomoContributionFlowState
   final _amount = TextEditingController();
   final _amountFocus = FocusNode();
   PaymentIntentModel? _intent;
+  ContributionCommandCheckpoint? _commandRecovery;
+  Object? _recoveryOwnerKey;
+  bool _restoringRecovery = true;
+  bool _recoveryReadFailed = false;
   String? _preparedProfileId;
   CollectRepository? _preparedRepository;
   int? _preparedSessionGeneration;
@@ -108,6 +105,29 @@ class _RwandaMomoContributionFlowState
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didUpdateWidget(covariant _RwandaMomoContributionFlow oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.collectionId == widget.collectionId) return;
+    // A route can reuse this state for a different group. Never expose the new
+    // group's action until its protected request custody has been re-read.
+    ++_flowGeneration;
+    _recoveryOwnerKey = null;
+    _commandRecovery = null;
+    _restoringRecovery = true;
+    _recoveryReadFailed = false;
+    _intent = null;
+    _preparedProfileId = null;
+    _preparedRepository = null;
+    _preparedSessionGeneration = null;
+    _amount.clear();
+    _working = false;
+    _awaitingConfirmation = false;
+    _momoRequestOpened = false;
+    _manualInstructions = false;
+    _error = null;
   }
 
   @override
@@ -144,6 +164,9 @@ class _RwandaMomoContributionFlowState
           ++_flowGeneration;
           setState(() {
             _intent = null;
+            _commandRecovery = null;
+            _restoringRecovery = true;
+            _recoveryReadFailed = false;
             _preparedProfileId = null;
             _preparedRepository = null;
             _preparedSessionGeneration = null;
@@ -187,6 +210,24 @@ class _RwandaMomoContributionFlowState
     );
     final l10n = CollectLocalizations.of(context);
     final collection = repository.maybeCollectionById(widget.collectionId);
+    final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    final recoveryOwner = (
+      repository,
+      repository.sessionGeneration,
+      profile?.id,
+      widget.collectionId,
+    );
+    if (_recoveryOwnerKey != recoveryOwner) {
+      _recoveryOwnerKey = recoveryOwner;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) unawaited(_restoreCommand());
+      });
+    }
+    // Original request custody remains reachable after a group/route/member
+    // change. This is a read/check path; it grants no new contribution authority.
+    if (_restoringRecovery || _recoveryReadFailed || _commandRecovery != null) {
+      return _buildCommandRecovery(collection?.title ?? 'Payment request');
+    }
     if (collection == null) return const MissingGroupStateScreen();
     if (collection.isArchived) {
       return ArchivedGroupStateScreen(
@@ -194,7 +235,9 @@ class _RwandaMomoContributionFlowState
         groupTitle: collection.title,
       );
     }
-    final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    if (collection.contributionRailFor(profile) != 'rwanda_momo') {
+      return _UnavailableContributionRoute(collection: collection);
+    }
     final isMember =
         profile != null &&
         (collection.creatorUserId == profile.id ||
@@ -332,15 +375,20 @@ class _RwandaMomoContributionFlowState
                           TextButton.icon(
                             onPressed: receiver.isEmpty
                                 ? null
-                                : () => _copy(receiver, 'MoMo number or code'),
+                                : () => _openUssd(
+                                    copyValue: receiver,
+                                    copyLabel: 'MoMo number or code',
+                                  ),
                             icon: const Icon(Icons.copy_rounded),
                             label: const Text('Copy payment code'),
                           ),
                           TextButton.icon(
-                            onPressed: () => _copy(
-                              '${_intent!.expectedAmountRwf}',
-                              'Amount',
-                            ),
+                            onPressed: _working
+                                ? null
+                                : () => _openUssd(
+                                    copyValue: '${_intent!.expectedAmountRwf}',
+                                    copyLabel: 'Amount',
+                                  ),
                             icon: const Icon(Icons.copy_rounded),
                             label: const Text('Copy amount'),
                           ),
@@ -506,6 +554,201 @@ class _RwandaMomoContributionFlowState
     unawaited(_checkPayment());
   }
 
+  Future<void> _restoreCommand({bool preserveError = false}) async {
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    final generation = repository.sessionGeneration;
+    final profileId = ref.read(collectRepositoryProvider).currentProfile?.id;
+    final operation = ++_flowGeneration;
+    bool current() =>
+        mounted &&
+        operation == _flowGeneration &&
+        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        repository.sessionGeneration == generation &&
+        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
+    if (profileId == null) {
+      if (current()) setState(() => _restoringRecovery = false);
+      return;
+    }
+    try {
+      final recovery = await repository.restoreContributionCommand(
+        widget.collectionId,
+      );
+      if (!current()) return;
+      setState(() {
+        _commandRecovery = recovery;
+        _working = false;
+        _restoringRecovery = false;
+        _recoveryReadFailed = false;
+        if (!preserveError) _error = null;
+      });
+    } catch (_) {
+      if (current()) {
+        setState(() {
+          _working = false;
+          _restoringRecovery = false;
+          _recoveryReadFailed = true;
+          _error =
+              'Saved payment requests could not be read. Check again before another payment.';
+        });
+      }
+    }
+  }
+
+  Future<void> _checkCommand() async {
+    if (_working || _restoringRecovery) return;
+    final recovery = _commandRecovery;
+    if (recovery == null) {
+      setState(() => _restoringRecovery = true);
+      await _restoreCommand();
+      return;
+    }
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    final generation = repository.sessionGeneration;
+    final profileId = ref.read(collectRepositoryProvider).currentProfile?.id;
+    final operation = ++_flowGeneration;
+    bool current() =>
+        mounted &&
+        operation == _flowGeneration &&
+        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        repository.sessionGeneration == generation &&
+        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
+    setState(() {
+      _working = true;
+      _error = null;
+    });
+    try {
+      final checked = await repository.checkContributionCommand(
+        recovery.body.requestId,
+      );
+      if (!current()) return;
+      setState(() => _commandRecovery = checked);
+      final intentId = checked.intentId;
+      if (intentId == null) {
+        setState(
+          () => _error =
+              'The outcome is still unknown. This does not prove that no payment occurred.',
+        );
+        return;
+      }
+      final refreshed = await repository.refreshPaymentIntent(intentId);
+      if (!current()) return;
+      if (refreshed.id != intentId ||
+          refreshed.collectionId != recovery.body.collectionId ||
+          refreshed.expectedAmountRwf != recovery.body.amountRwf) {
+        throw const FormatException(
+          'Payment status does not match the original request.',
+        );
+      }
+      if (refreshed.hasCommittedContribution) {
+        await repository.acknowledgeCommittedContribution(refreshed);
+      }
+      if (!current()) return;
+      setState(() {
+        _commandRecovery = null;
+        _intent = refreshed;
+        _preparedRepository = repository;
+        _preparedProfileId = profileId;
+        _preparedSessionGeneration = generation;
+        _awaitingConfirmation = true;
+        _momoRequestOpened = false;
+        _manualInstructions = false;
+      });
+    } catch (_) {
+      if (current()) {
+        setState(
+          () => _error =
+              'The original request remains saved. Check your connection and try again.',
+        );
+      }
+    } finally {
+      if (current()) setState(() => _working = false);
+    }
+  }
+
+  Widget _buildCommandRecovery(String groupTitle) {
+    final recovery = _commandRecovery;
+    return Scaffold(
+      backgroundColor: context.collectColors.canvas,
+      body: SafeArea(
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: SizedBox(
+            width: 430,
+            height: double.infinity,
+            child: forms.CollectFormViewport(
+              maxWidth: 430,
+              header: _NativeContributionAppBar(
+                title: groupTitle,
+                onBack: () => context.go('/groups/${widget.collectionId}'),
+              ),
+              bodyPadding: const EdgeInsets.all(CollectSpacing.x5),
+              body: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _NativeMomoStatus(
+                    title: _restoringRecovery
+                        ? 'Checking saved requests'
+                        : recovery == null
+                        ? 'Saved requests unavailable'
+                        : 'Check your original request',
+                    message: _restoringRecovery
+                        ? 'Loading protected payment recovery.'
+                        : 'A payment outcome may be unknown. Check this request and your mobile money provider before another transfer.',
+                  ),
+                  if (recovery != null) ...[
+                    CollectSpacing.gap20,
+                    Text(
+                      formatRwf(recovery.body.amountRwf),
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    CollectSpacing.gap12,
+                    SelectableText('Request ${recovery.body.requestId}'),
+                    TextButton.icon(
+                      onPressed: _working
+                          ? null
+                          : () => _copy(
+                              'Collect contribution request: ${recovery.body.requestId}\n'
+                                  'Group: ${recovery.body.collectionId}\nAmount: ${recovery.body.amountRwf} RWF\n'
+                                  'Outcome unknown; no new payment or support acknowledgement is confirmed.',
+                              'Request details',
+                            ),
+                      icon: const Icon(Icons.copy_rounded),
+                      label: const Text('Copy request details'),
+                    ),
+                    CollectSpacing.gap12,
+                    const Text(
+                      'For help, contact Collect at info@ikanisa.com or +250 795 588 248 and share these request details. '
+                      'Copying details does not send a support request.',
+                    ),
+                  ],
+                  if (_error != null) ...[
+                    CollectSpacing.gap16,
+                    _NativeMomoStatus(
+                      title: 'Status could not be confirmed',
+                      message: _error!,
+                      isError: true,
+                    ),
+                  ],
+                ],
+              ),
+              actions: _NativeContributionBottomBar(
+                primaryLabel: _restoringRecovery || _working
+                    ? 'Checking request'
+                    : 'Check request',
+                primaryIcon: Icons.refresh_rounded,
+                onPrimary: _restoringRecovery || _working
+                    ? null
+                    : _checkCommand,
+                secondaryLabel: 'Back to group',
+                onSecondary: () => context.go('/groups/${widget.collectionId}'),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Future<void> _copy(String value, String label) async {
     await Clipboard.setData(ClipboardData(text: value));
     if (!mounted) return;
@@ -547,7 +790,10 @@ class _RwandaMomoContributionFlowState
       setState(() => _intent = refreshed);
       // Balances and history are fetched from their existing authoritative
       // readers. A successful check never increments a local position.
-      if (refreshed.hasCommittedContribution) await repository.loadInitial();
+      if (refreshed.hasCommittedContribution) {
+        await repository.acknowledgeCommittedContribution(refreshed);
+        if (current()) await repository.loadInitial();
+      }
     } catch (_) {
       if (current()) {
         setState(
@@ -685,7 +931,7 @@ class _RwandaMomoContributionFlowState
     try {
       await requireMemberProfileReady(context, ref);
       if (!current()) return;
-      final intent = await repository.createPaymentIntent(
+      final intent = await repository.prepareContributionIntent(
         PaymentIntentDraft(
           collectionId: widget.collectionId,
           amountRwf: amount,
@@ -699,16 +945,30 @@ class _RwandaMomoContributionFlowState
           _preparedSessionGeneration = sessionGeneration;
         });
       }
+    } on ContributionRecoveryRequired catch (recovery) {
+      if (current()) {
+        setState(() {
+          _commandRecovery = recovery.checkpoint;
+          _error = null;
+        });
+      }
     } catch (error) {
-      if (current()) setState(() => _error = _safeFlowError(error));
+      if (current()) {
+        setState(() => _error = _safeFlowError(error));
+        await _restoreCommand(preserveError: true);
+      }
     } finally {
       if (current()) setState(() => _working = false);
     }
   }
 
-  Future<void> _openUssd() async {
+  Future<void> _openUssd({String? copyValue, String? copyLabel}) async {
     final intent = _intent;
-    if (intent == null) return;
+    if (intent == null || _working) return;
+    if (copyValue != null && _awaitingConfirmation) {
+      await _copy(copyValue, copyLabel ?? 'Payment details');
+      return;
+    }
     final repository = _preparedRepository;
     final sessionGeneration = _preparedSessionGeneration;
     final preparedProfileId = _preparedProfileId;
@@ -732,19 +992,13 @@ class _RwandaMomoContributionFlowState
       if (!current()) {
         throw StateError('Account changed');
       }
-      // This live RPC rechecks account, membership, expiry and the active
-      // receiver. The recent-intents history RPC intentionally retains old
-      // receivers and cannot authorize opening a payment prompt.
-      final rechecked = await repository!.createPaymentIntent(
-        PaymentIntentDraft(
-          collectionId: widget.collectionId,
-          amountRwf: intent.expectedAmountRwf,
-        ),
-      );
+      // Creation replay is historical. Only the separate current-review RPC
+      // can supply this type, followed by durable provider-handoff custody.
+      final review = await repository!.reviewContributionIntent(intent);
       if (!current()) return;
-      if (!preparedMomoIntentStillActionable(
+      if (!reviewedMomoIntentStillActionable(
         intent,
-        rechecked,
+        review,
         now: DateTime.now(),
       )) {
         setState(() {
@@ -758,7 +1012,33 @@ class _RwandaMomoContributionFlowState
         });
         return;
       }
+      final permit = await repository.claimContributionHandoff(intent, review);
+      if (!current()) return;
+      if (!permit.consume()) {
+        setState(() {
+          _intent = null;
+          _error = CollectLocalizations.of(
+            context,
+          ).text('paymentDetailsUnavailable');
+        });
+        await _restoreCommand(preserveError: true);
+        return;
+      }
       preflightConfirmed = true;
+      if (copyValue != null) {
+        await _copy(copyValue, copyLabel ?? 'Payment details');
+        if (current()) {
+          setState(() {
+            _awaitingConfirmation = true;
+            _manualInstructions = true;
+            _momoRequestOpened = false;
+            _error =
+                'Payment details copied. If you may have paid, check your provider before another transfer.';
+          });
+        }
+        return;
+      }
+      final rechecked = permit.review.intent;
       final receiver = rechecked.receiverMomoNumber.replaceAll(
         RegExp(r'\D'),
         '',
@@ -781,6 +1061,24 @@ class _RwandaMomoContributionFlowState
           }
         });
       }
+    } on ContributionRecoveryRequired catch (recovery) {
+      if (current()) {
+        setState(() {
+          _intent = null;
+          _commandRecovery = recovery.checkpoint;
+          _error = null;
+        });
+      }
+    } on ContributionReviewChanged {
+      if (current()) {
+        setState(() {
+          _intent = null;
+          _error = CollectLocalizations.of(
+            context,
+          ).text('paymentDetailsChanged');
+        });
+        await _restoreCommand(preserveError: true);
+      }
     } catch (error) {
       if (current()) {
         setState(() {
@@ -796,6 +1094,7 @@ class _RwandaMomoContributionFlowState
                   context,
                 ).text('paymentDetailsUnavailable');
         });
+        if (!preflightConfirmed) await _restoreCommand(preserveError: true);
       }
     } finally {
       if (current()) setState(() => _working = false);

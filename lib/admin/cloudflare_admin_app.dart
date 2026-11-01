@@ -14,6 +14,7 @@ import 'core/admin_auth_guard.dart';
 import 'core/cloudflare_admin_location.dart';
 import 'core/cloudflare_admin_route_reporting.dart';
 import 'core/cloudflare_admin_core_pages.dart';
+import 'core/cloudflare_sms_oversight.dart';
 import 'core/cloudflare_admin_repository.dart';
 import 'core/cloudflare_admin_operating_pages.dart';
 import 'core/cloudflare_admin_gateway_pages.dart';
@@ -631,6 +632,8 @@ class _AccountOverview extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const CloudflareCoreOverviewPanel(),
+            const SizedBox(height: 24),
+            const CloudflareSmsOversightPanel(),
             const SizedBox(height: 24),
             AdminDataTable(
               tableLabel: 'Workspace access',

@@ -3,8 +3,11 @@
 import copy
 import importlib.util
 import json
+import shutil
+import subprocess
 import tempfile
 import unittest
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 SPEC = importlib.util.spec_from_file_location(
@@ -227,6 +230,73 @@ class GraphScopedBrowserSourceBindingTest(unittest.TestCase):
             stream.write("\nimport 'new.dart';\n")
         with self.assertRaisesRegex(ValueError, "reachable source closure differs"):
             self.verify()
+
+
+class AndroidCaptureBoundaryTest(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('java'), 'Android fixture boundary requires Java')
+    def test_manifest_transform_removes_only_implicit_storage_and_rejects_invalid_inputs(self):
+        source = Path(__file__).resolve().parents[2] / 'android/qa/CollectFixtureManifest.java'
+        xmlns = 'http://schemas.android.com/apk/res/android'
+        valid = (
+            '<manifest xmlns:android="' + xmlns + '" package="app.cool.mobile.mediafixture">'
+            '<uses-permission android:name="android.permission.INTERNET"/>'
+            '<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>'
+            '<uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>'
+            '<application android:debuggable="true" android:allowBackup="false"/>'
+            '</manifest>'
+        )
+        cases = {
+            'accepted': valid,
+            'wrong_package': valid.replace('app.cool.mobile.mediafixture', 'app.cool.mobile'),
+            'extra_permission': valid.replace('</manifest>', '<uses-permission android:name="android.permission.RECEIVE_SMS"/></manifest>'),
+            'external_entity': '<!DOCTYPE manifest [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>' + valid,
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            for name, xml in cases.items():
+                with self.subTest(name=name):
+                    original, result = directory / (name + '.xml'), directory / (name + '-out.xml')
+                    original.write_text(xml)
+                    run = subprocess.run(['java', '--source', '17', str(source), str(original), str(result)],
+                                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+                    if name != 'accepted':
+                        self.assertNotEqual(run.returncode, 0)
+                        self.assertFalse(result.exists())
+                        continue
+                    self.assertEqual(run.returncode, 0, run.stderr.decode(errors='replace'))
+                    root = ET.parse(result).getroot()
+                    permissions = [node.get('{' + xmlns + '}name') for node in root
+                                   if node.tag in ('uses-permission', 'uses-permission-sdk-23')]
+                    self.assertEqual(permissions, ['android.permission.INTERNET'])
+
+    def test_media_flavor_manifest_and_producer_are_bound_native_inputs(self):
+        self.assertTrue(PUBLICATION.native_input("android/app/src/media_capture/AndroidManifest.xml"))
+        self.assertTrue(PUBLICATION.native_input("android/app/build.gradle.kts"))
+        self.assertTrue(PUBLICATION.native_input("tool/native_public_app_media_capture.dart"))
+        self.assertIn("scripts/qa/native_android_public_app_media.py", PUBLICATION.ANDROID_CAPTURE_CONTROLS)
+
+    def test_publisher_and_reader_agree_on_privacy_fixture_input(self):
+        root = Path(__file__).resolve().parents[2]
+        fixture = 'test/features/privacy/privacy_test_support.dart'
+        self.assertTrue(PUBLICATION.native_input(fixture))
+        result = subprocess.run(
+            ['ruby', '-r', './scripts/public_app_media', '-e',
+             'exit(PublicAppMedia.new(Dir.pwd).send(:native_capture_input?, ARGV.fetch(0)) ? 0 : 1)', fixture],
+            cwd=root, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr.decode(errors='replace'))
+
+    def test_prepare_refuses_canonical_workspace_before_any_build(self):
+        import argparse
+        from unittest.mock import patch
+        path = Path(__file__).resolve().parents[1] / 'qa/native_android_public_app_media.py'
+        spec = importlib.util.spec_from_file_location('synthetic_android_boundary', path)
+        recorder = importlib.util.module_from_spec(spec); spec.loader.exec_module(recorder)
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp).resolve()
+            args = argparse.Namespace(checkout=root, source=root, output=root / '.cache/test')
+            with patch.object(recorder, 'command') as execute:
+                with self.assertRaisesRegex(ValueError, 'isolated source export'): recorder.prepare(args)
+                execute.assert_not_called()
 
 
 if __name__ == "__main__":

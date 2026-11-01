@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """Synthetic pinned-input/file-copy falsifications; no real acquisition/build."""
 from copy import deepcopy
+from contextlib import contextmanager
+import ast
 import hashlib
 import json
 import os
 from pathlib import Path
 import stat
 import ssl
+import signal
+import socket
+import threading
 import subprocess
 import sys
 import tempfile
@@ -18,6 +23,12 @@ from unittest.mock import MagicMock
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/qa"))
 import roster_wheelhouse as wheelhouse
+
+# Isolated -I control children add only this exact maintained test directory.
+sys.path.insert(0, str(ROOT / "scripts/tests"))
+from roster_decoder_lifecycle_support import (
+    HERE, SOURCE, CONTROL_WORKER, SECURITY_AST_BASELINE, ast_identity, load_lifecycle,
+)
 
 
 def sha(data):
@@ -595,6 +606,239 @@ class PublisherContract(unittest.TestCase):
             observed = wheelhouse.fetch_owned(url=row["wheel_url"], path=path, maximum=wheelhouse.MAX_WHEEL,
                 log_directory=self.base, ordinal=1, timeout=60, expected_sha=row["sha256"], expected_size=row["size"])
         self.assertEqual(observed.sha256, row["sha256"])
+
+
+# Host lifecycle controls use actual canonical definitions and inert owned
+# children. They do not import the Linux signer or claim signed/hosted proof.
+@contextmanager
+def control_server(handler_factory, input_timeout=0.18, io_timeout=0.45):
+    namespace = load_lifecycle()
+    namespace["INPUT_TIMEOUT"] = input_timeout
+    namespace["IO_TIMEOUT"] = io_timeout
+    base = namespace["BoundedServer"]
+
+    class QuietServer(base):
+        def handle_error(self, *_):
+            pass  # Expected closed-socket errors contain no decoder evidence.
+
+    handler, state = handler_factory(namespace)
+    server = QuietServer(("127.0.0.1", 0), handler)
+    loop = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": 0.01})
+    loop.start()
+    try:
+        yield server, state
+    finally:
+        server.stopping = True
+        server.shutdown()
+        server.server_close()
+        loop.join(timeout=1)
+        if loop.is_alive():
+            raise AssertionError("owned control server loop survived close")
+
+
+def wait_file(path, process, timeout=2):
+    deadline = time.monotonic() + timeout
+    while not path.is_file():
+        if process.poll() is not None or time.monotonic() >= deadline:
+            raise AssertionError(f"owned control prerequisite absent: {path.name}")
+        time.sleep(0.01)
+    return path.read_text()
+
+
+class LifecycleControls(unittest.TestCase):
+    def signal_drain(self, signals):
+        with tempfile.TemporaryDirectory(prefix="decoder-lifecycle-control-") as target:
+            directory = Path(target)
+            process = subprocess.Popen(
+                [sys.executable, "-I", str(CONTROL_WORKER), str(directory)],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                cwd=str(HERE), env={"PATH": "/usr/bin:/bin", "PYTHONDONTWRITEBYTECODE": "1"},
+            )
+            # The -I control child adds only its exact private adapter directory.
+            # A failed launch remains a test failure, never a decoder result.
+            connection = None
+            try:
+                port = int(wait_file(directory / "port", process))
+                connection = socket.create_connection(("127.0.0.1", port), timeout=1)
+                connection.sendall(b"POST /control HTTP/1.1\r\nHost: localhost\r\nContent-Length: 1\r\n\r\nx")
+                child_pid = int(wait_file(directory / "child-started", process))
+                started = time.monotonic()
+                for signum in signals:
+                    os.kill(process.pid, signum)
+                    time.sleep(0.015)
+                stdout, stderr = process.communicate(timeout=3)
+                self.assertEqual(process.returncode, 0, stderr.decode(errors="replace"))
+                self.assertLess(time.monotonic() - started, 2)
+                result = json.loads(stdout)
+                self.assertEqual(result["shutdown_calls"], 1)
+                self.assertEqual(result["shutdown_thread"], "decoder-shutdown")
+                self.assertEqual(result["completed"], 1)
+                self.assertEqual(result["child_pids"], [child_pid])
+                self.assertEqual(result["threads_after_close"], ["MainThread"])
+                with self.assertRaises(ProcessLookupError):
+                    os.kill(child_pid, 0)
+                response = bytearray()
+                while True:
+                    chunk = connection.recv(4096)
+                    if not chunk:
+                        break
+                    response.extend(chunk)
+                self.assertIn(b"control_complete", response)
+            finally:
+                if connection:
+                    connection.close()
+                if process.poll() is None:
+                    # Only this exact inert unit-control child can be cleaned.
+                    process.kill()
+                    process.communicate(timeout=2)
+
+    def test_sigterm_drains_and_reaps_owned_control_child(self):
+        self.signal_drain([signal.SIGTERM])
+
+    def test_sigint_drains_and_reaps_owned_control_child(self):
+        self.signal_drain([signal.SIGINT])
+
+    def test_repeated_signals_share_one_shutdown_controller(self):
+        self.signal_drain([signal.SIGTERM, signal.SIGINT, signal.SIGTERM])
+
+    def test_idle_partial_headers_cannot_hold_worker_join(self):
+        def factory(namespace):
+            return namespace["Handler"], {}
+        started = time.monotonic()
+        with control_server(factory) as (server, _):
+            with socket.create_connection(server.server_address, timeout=1) as client:
+                client.sendall(b"POST /decode HTTP/1.1\r\nHost: localhost\r\n")
+                self.assertEqual(client.recv(1024), b"")
+        self.assertLess(time.monotonic() - started, 1)
+
+    def test_trickled_body_does_not_reset_absolute_input_deadline(self):
+        state = {"authentication_calls": 0}
+        def factory(namespace):
+            def authentication(_):
+                state["authentication_calls"] += 1
+                raise AssertionError("an incomplete input reached authentication")
+            namespace["signature"] = authentication
+            return namespace["Handler"], state
+        started = time.monotonic()
+        with control_server(factory) as (server, _):
+            with socket.create_connection(server.server_address, timeout=1) as client:
+                client.sendall(b"POST /decode HTTP/1.1\r\nHost: localhost\r\nContent-Length: 100\r\n\r\n")
+                finished = threading.Event()
+                def trickle():
+                    try:
+                        for _ in range(100):
+                            client.sendall(b"x")
+                            time.sleep(0.025)
+                    except OSError:
+                        pass
+                    finally:
+                        finished.set()
+                sender = threading.Thread(target=trickle)
+                sender.start()
+                self.assertEqual(client.recv(1024), b"")
+                sender.join(timeout=1)
+                self.assertTrue(finished.is_set())
+        self.assertEqual(state["authentication_calls"], 0)
+        self.assertLess(time.monotonic() - started, 1)
+
+    def test_nonreading_peer_cannot_hold_reply_and_worker_join(self):
+        done = threading.Event()
+        def factory(namespace):
+            class ReplyControl(namespace["Handler"]):
+                def setup(self):
+                    super().setup()
+                    self.connection.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 4096)
+                def do_POST(self):
+                    self.rfile.read(1)
+                    self._finish_input()
+                    try:
+                        # Test-only backpressure, not a decoder output packet.
+                        self.reply({"control_backpressure": "x" * (2 * 1024 * 1024)})
+                    finally:
+                        done.set()
+            return ReplyControl, {}
+        started = time.monotonic()
+        with control_server(factory, input_timeout=0.18, io_timeout=0.4) as (server, _):
+            with socket.create_connection(server.server_address, timeout=1) as client:
+                client.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 4096)
+                client.sendall(b"POST /control HTTP/1.1\r\nHost: localhost\r\nContent-Length: 1\r\n\r\nx")
+                self.assertTrue(done.wait(timeout=0.9))
+        self.assertLess(time.monotonic() - started, 1.2)
+
+    def test_stopping_rejects_new_worker_admission(self):
+        state = {"entered": 0}
+        def factory(namespace):
+            class AdmissionControl(namespace["Handler"]):
+                def do_POST(self):
+                    state["entered"] += 1
+            return AdmissionControl, state
+        with control_server(factory) as (server, state):
+            server.stopping = True
+            with socket.create_connection(server.server_address, timeout=1) as client:
+                client.sendall(b"POST /control HTTP/1.1\r\nHost: localhost\r\nContent-Length: 0\r\n\r\n")
+                # Closing an accepted socket with unread client bytes may be
+                # reported as EOF or TCP reset. Both must admit no handler and
+                # produce no application response.
+                try:
+                    response = client.recv(1024)
+                except ConnectionResetError:
+                    response = b""
+                self.assertEqual(response, b"")
+            self.assertEqual(state["entered"], 0)
+
+    def test_two_workers_remain_bounded_and_third_connection_is_429(self):
+        state = {"entered": 0, "daemon_flags": []}
+        ready = threading.Event()
+        lock = threading.Lock()
+        def factory(namespace):
+            class SetupControl(namespace["Handler"]):
+                def setup(self):
+                    super().setup()
+                    with lock:
+                        state["entered"] += 1
+                        state["daemon_flags"].append(threading.current_thread().daemon)
+                        if state["entered"] == 2:
+                            ready.set()
+            return SetupControl, state
+        clients = []
+        with control_server(factory, input_timeout=0.6, io_timeout=0.9) as (server, state):
+            try:
+                for _ in range(2):
+                    client = socket.create_connection(server.server_address, timeout=1)
+                    clients.append(client)
+                    client.sendall(b"POST /decode HTTP/1.1\r\nHost: localhost\r\n")
+                self.assertTrue(ready.wait(timeout=0.4))
+                with socket.create_connection(server.server_address, timeout=1) as overflow:
+                    self.assertIn(b"429 Too Many Requests", overflow.recv(1024))
+                self.assertEqual(state["entered"], 2)
+                self.assertEqual(state["daemon_flags"], [False, False])
+            finally:
+                for client in clients:
+                    client.close()
+
+    def test_security_sensitive_decode_path_is_unchanged(self):
+        candidate=ast.parse(SOURCE.read_text())
+        def named(tree,kind,name):
+            return next(node for node in ast.walk(tree) if isinstance(node,kind) and node.name==name)
+        self.assertEqual(ast_identity(named(candidate,ast.FunctionDef,"signature")),
+                         SECURITY_AST_BASELINE["signature"])
+        class Normalize(ast.NodeTransformer):
+            def visit_Expr(self,node):
+                if isinstance(node.value,ast.Call) and isinstance(node.value.func,ast.Attribute):
+                    if node.value.func.attr in {"settimeout","_finish_input"}:
+                        return None
+                return self.generic_visit(node)
+            def visit_Name(self,node):
+                return ast.copy_location(ast.Constant(value=8),node) if node.id=="DECODE_TIMEOUT" else node
+        self.assertEqual(ast_identity(Normalize().visit(named(candidate,ast.FunctionDef,"do_POST"))),
+                         SECURITY_AST_BASELINE["normalized_do_POST"])
+        for prefix in ("SECRET =","if len(SECRET","if sys.platform","DB =","NONCE_LOCK =","with sqlite3.connect"):
+            node=next(node for node in candidate.body if ast.get_source_segment(SOURCE.read_text(),node).startswith(prefix))
+            self.assertEqual(ast_identity(node),SECURITY_AST_BASELINE[prefix])
+        namespace=load_lifecycle()
+        self.assertEqual((namespace["INPUT_TIMEOUT"],namespace["DECODE_TIMEOUT"],namespace["IO_TIMEOUT"]),(5,8,13))
+        self.assertFalse(namespace["BoundedServer"].daemon_threads)
+        self.assertTrue(namespace["BoundedServer"].block_on_close)
 
 
 if __name__ == "__main__":

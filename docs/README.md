@@ -5,7 +5,10 @@ evidence documentation for Collect. It does not contain design authority. The
 installed `revolut-design` skill is the sole design authority. Repository
 screenshots, contracts and reports are product evidence only.
 
-## Current Sources Of Truth
+## Documentation map
+
+These files describe source and intended controls. Check the exact candidate,
+deployed configuration and current evidence before treating a statement as live.
 
 | Topic | Current file |
 | --- | --- |
@@ -19,16 +22,17 @@ screenshots, contracts and reports are product evidence only.
 | Supabase functions | `docs/SUPABASE_FUNCTIONS.md` |
 | Android SMS access | `docs/ANDROID_SMS_ACCESS.md` |
 | Admin security | `docs/admin/ADMIN_SECURITY_MODEL.md` |
+| Privacy review | `docs/PRIVACY_AND_COMPLIANCE_NOTES.md` |
 | Release status | `docs/release/RELEASE_STATUS.md` |
 | Release approvals | `docs/release/RELEASE_APPROVALS.json` |
 | UAT evidence manifest | `docs/release/UAT_EVIDENCE_MANIFEST.json` |
 | Public deployments | `docs/release/LIVE_DEPLOYMENTS.json` |
 
-## Generated Evidence Rule
+## Evidence and historical material
 
-Dated goalbooks, implementation reports, manual audits, route evidence, command
-logs, screenshots, and generated JSON belong in `.cache/`, `output/`, or an
-external evidence pack once their current facts have been merged into the files
-above.
-
-Do not use archived docs as the current product, design, or release decision.
+Dated reports, input captures, hashes and proof packets are point-in-time
+evidence. Preserve their original bytes and referenced paths when consolidating;
+identical content at two paths may support different evidence chains. Do not
+present a historical snapshot as the current product, design or release decision.
+Local tests, builds and drafts do not establish hosted, device, provider, store or
+accountable-release acceptance.

@@ -50,7 +50,7 @@ Future<T> _automaticGatewayRead<T>(
   } on CollectApiException catch (error) {
     if (!current) throw const AdminSessionChanged();
     if (error.code == '42501') throw const AdminGatewayDenied();
-    if (error.code == 'operation_unavailable' || error.code == '501') {
+    if (error.isLegacyOperationUnavailable) {
       throw UnsupportedError('Automatic gateway investigation is unavailable.');
     }
     rethrow;

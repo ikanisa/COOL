@@ -89,6 +89,94 @@ class NativePublisherTest(unittest.TestCase):
     def validate(self):
         return publisher.validate_capture(self.report_path, self.review_path, self.runtime)
 
+    def android_fixture(self):
+        """Synthetic attestation bytes exercise the Android publication boundary."""
+        (self.root / "pubspec.yaml").write_text("version: 1.2.4+23")
+        for base in (self.retained, self.installed):
+            (base / "Info.plist").unlink()
+            (base / "base.apk").write_bytes(b"synthetic isolated debug APK")
+        profile = {"device_id_sha256": "d" * 64, "model": "Synthetic Android phone", "android_release": "13",
+                   "api": 33, "abi": "arm64-v8a", "width": 1080, "height": 2340, "density_dpi": 440}
+        apk_sha = publisher.sha(self.retained / "base.apk")
+        android = {"package_name": publisher.ANDROID_PACKAGE, "flavor": "media_capture", "build_type": "debug", "debuggable": True,
+                   "version_name": "1.2.4", "version_code": 23, "retained_apk_sha256": apk_sha, "installed_apk_sha256": apk_sha,
+                   "certificate_sha256": "c" * 64, "device_profile": profile}
+        controls = {}
+        for name in publisher.ANDROID_CAPTURE_CONTROLS:
+            path = self.root / name; path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("synthetic control " + name); controls[name] = publisher.sha(path)
+        xml = '<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="app.cool.mobile.mediafixture" android:versionName="1.2.4" android:versionCode="23"><uses-permission android:name="android.permission.INTERNET"/><application android:debuggable="true" android:allowBackup="false"><activity android:name="io.flutter.embedding.android.FlutterActivity" android:exported="true"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity>'
+        xml += ''.join('<meta-data android:name="' + key + '" android:value="false"/>' for key in
+                       ['firebase_data_collection_default_enabled', 'firebase_messaging_auto_init_enabled', 'firebase_analytics_collection_enabled', 'firebase_crashlytics_collection_enabled'])
+        xml += '</application></manifest>'
+        identity = {key: android[key] for key in ['package_name', 'version_name', 'version_code', 'certificate_sha256', 'retained_apk_sha256', 'installed_apk_sha256']}
+        payloads = {"merged_manifest": ("merged-manifest.xml", xml), "apk_manifest": ("apk-manifest.stdout", xml),
+                    "apk_signature": ("apk-signature.stdout", "Signer #1 certificate SHA-256 digest: " + "c" * 64),
+                    "installed_apk_identity": ("installed-bundle.stdout", json.dumps(identity)), "device_profile": ("device-profile.stdout", json.dumps(profile))}
+        proofs = {}
+        for role, (name, text) in payloads.items():
+            path = self.out / name; path.write_text(text)
+            proofs[role] = {"path": path.relative_to(self.root).as_posix(), "sha256": publisher.sha(path)}
+            if name.endswith('.stdout'):
+                command = name[:-7]
+                (self.out / (command + '.stderr')).write_text('')
+                self.commands[:] = [row for row in self.commands if row['name'] != command]
+                self.commands.append({'name': command, 'exit_code': 0, 'stdout_sha256': publisher.sha(path), 'stderr_sha256': publisher.sha(self.out / (command + '.stderr'))})
+        for row in self.captures:
+            row.update(capture_kind="native_android_fixture", platform="Android device", capture_surface="flutter_android_surface")
+        self.raw.update(kind="native_android_fixture", android=android, android_evidence=proofs, capture_surface="flutter_android_surface",
+                        bundle_manifest=publisher.file_manifest(self.retained, "native_android_fixture"), capture_controls_before=controls, capture_controls_after=controls.copy(),
+                        existing_app_metadata_before={'app.cool.mobile': ['versionCode=23'], 'app.cool.mobile.dev': ['versionCode=23']},
+                        existing_app_metadata_after={'app.cool.mobile': ['versionCode=23'], 'app.cool.mobile.dev': ['versionCode=23']})
+        self.save()
+
+    def test_real_android_attestation_contract_passes_with_synthetic_test_inputs(self):
+        self.android_fixture()
+        self.assertEqual(set(self.validate()[2]), publisher.REQUIRED)
+
+    def test_android_rejects_wrong_package_version_certificate_or_readback(self):
+        for key, value in [('package_name', 'app.cool.mobile.dev'), ('version_code', 24),
+                           ('certificate_sha256', 'e' * 64), ('installed_apk_sha256', 'f' * 64)]:
+            with self.subTest(key=key):
+                self.android_fixture(); self.raw['android'][key] = value; self.save()
+                with self.assertRaises(ValueError): self.validate()
+                # Each independent mutation starts from the original iOS setup.
+                for base in (self.retained, self.installed):
+                    (base / 'base.apk').unlink(); (base / 'Info.plist').write_text('synthetic test bundle metadata')
+
+    def test_android_rejects_native_receiver_even_with_rebound_proof_hashes(self):
+        self.android_fixture()
+        path = self.out / 'apk-manifest.stdout'
+        path.write_text(path.read_text().replace('</application>', '<receiver android:name="unsafe"/></application>'))
+        digest = publisher.sha(path)
+        self.raw['android_evidence']['apk_manifest']['sha256'] = digest
+        next(row for row in self.commands if row['name'] == 'apk-manifest')['stdout_sha256'] = digest
+        self.save()
+        with self.assertRaisesRegex(ValueError, 'provider or incoming-event'): self.validate()
+
+    def test_android_rejects_extra_library_activity_with_rebound_manifest_proof(self):
+        self.android_fixture()
+        path = self.out / 'apk-manifest.stdout'
+        path.write_text(path.read_text().replace('</application>',
+            '<activity android:name="io.flutter.plugins.urllauncher.WebViewActivity" android:exported="false"/></application>'))
+        digest = publisher.sha(path)
+        self.raw['android_evidence']['apk_manifest']['sha256'] = digest
+        next(row for row in self.commands if row['name'] == 'apk-manifest')['stdout_sha256'] = digest
+        self.save()
+        with self.assertRaisesRegex(ValueError, 'only the stock Flutter launcher'): self.validate()
+
+    def test_android_refuses_platform_relabel_and_changed_original_app_metadata(self):
+        self.android_fixture(); self.captures[0]['platform'] = 'iOS Simulator'; self.save()
+        with self.assertRaisesRegex(ValueError, 'platform differs'): self.validate()
+        self.captures[0]['platform'] = 'Android device'
+        self.raw['existing_app_metadata_after'] = {}; self.save()
+        with self.assertRaisesRegex(ValueError, 'metadata changed'): self.validate()
+
+    def test_android_capture_control_mutation_is_rejected(self):
+        self.android_fixture()
+        (self.root / 'scripts/qa/native_android_public_app_media.py').write_text('changed recorder')
+        with self.assertRaisesRegex(ValueError, 'control source changed'): self.validate()
+
     def test_reviewed_unused_test_drift_preserves_native_binding(self):
         result = self.validate()
         self.assertEqual(set(result[2]), publisher.REQUIRED)

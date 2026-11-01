@@ -390,6 +390,9 @@ jobs:
           receipt = {'source_commit': commit, 'source_dirty': False, 'source_binding': 'Exact clean workflow commit, including tracked lib/web/assets and declared local dependencies', 'build_root': str(root), 'files': files, 'artifact_manifest_sha256': digest(canonical(files)), 'main_dart_js_sha256': files['main.dart.js']['sha256'], 'worker_sha256': files['custom-sw.js']['sha256'], 'worker_cache_name': constants['CACHE_NAME'], 'cache_urls_sha256': digest(canonical(constants['CACHE_URLS'])), 'cache_hashes_sha256': digest(canonical(constants['CACHE_HASHES'])), 'input_sha256': {name: digest(Path(name).read_bytes()) for name in inputs}, 'hosted_deployment_verified': False}
           receipt['backend'] = backend
           receipt['hosting'] = platform_identity.hosting_profile(backend)
+          if backend == 'supabase':
+              receipt.update(platform_identity.public_build_identity(
+                  platform_identity.read_public_defines(Path('build/admin-public-defines.json')), version))
           Path('build/admin-platform-pwa-artifact.json').write_text(json.dumps(receipt, indent=2) + '\n')
           PY_PLATFORM_IDENTITY
 
@@ -404,6 +407,7 @@ jobs:
             !build/web/**/.DS_Store
             build/admin-platform-pwa-artifact.json
             build/admin-platform-pwa-hosting.json
+            build/admin-public-defines.json
           include-hidden-files: true
           retention-days: 14
           if-no-files-found: error
@@ -882,6 +886,40 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+      - name: Prepare pinned Android bundletool
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          bundletool_dir="$(mktemp -d "$RUNNER_TEMP/collect-bundletool.XXXXXX")"
+          bundletool_jar="$bundletool_dir/bundletool-all-1.18.3.jar"
+          curl --disable --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --tlsv1.2 --retry 2 --max-time 120 --max-filesize 32520401 \
+            https://github.com/google/bundletool/releases/download/1.18.3/bundletool-all-1.18.3.jar | python3 -c '
+          import hashlib, os, sys
+          limit = 32520401
+          digest = hashlib.sha256()
+          total = 0
+          with open(sys.argv[1], "xb") as output:
+              while True:
+                  block = sys.stdin.buffer.read(1048576)
+                  if not block:
+                      break
+                  total += len(block)
+                  if total > limit:
+                      print("Bundletool download exceeds expected size.", file=sys.stderr)
+                      sys.exit(1)
+                  digest.update(block)
+                  output.write(block)
+              output.flush()
+              os.fsync(output.fileno())
+          if total != limit:
+              print("Bundletool download size does not match the pinned release.", file=sys.stderr)
+              sys.exit(1)
+          if digest.hexdigest() != "a099cfa1543f55593bc2ed16a70a7c67fe54b1747bb7301f37fdfd6d91028e29":
+              print("Bundletool SHA-256 does not match the pinned release.", file=sys.stderr)
+              sys.exit(1)
+          ' "$bundletool_jar"
+          printf 'COLLECT_BUNDLETOOL_JAR=%s\n' "$bundletool_jar" >> "$GITHUB_ENV"
       - name: Read pinned Flutter version
         id: flutter-version
         run: python3 -c 'import json; print("version=" + json.load(open(".fvmrc"))["flutter"])' >> "$GITHUB_OUTPUT"

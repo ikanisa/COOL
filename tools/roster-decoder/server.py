@@ -7,6 +7,8 @@ import json
 import os
 from pathlib import Path
 import re
+import signal
+import socket
 import sqlite3
 import subprocess
 import sys
@@ -19,6 +21,9 @@ BUILD_HASH = hashlib.sha256(json.dumps({name:hashlib.sha256(Path(__file__).with_
     for name,path in {"decoder.py":"decoder.py","server.py":"server.py","requirements.lock":"requirements.lock","Dockerfile":"build.Dockerfile"}.items()},
     sort_keys=True,separators=(",",":")).encode()).hexdigest()
 LIMIT = 8 * 1024 * 1024
+INPUT_TIMEOUT = 5
+DECODE_TIMEOUT = 8
+IO_TIMEOUT = INPUT_TIMEOUT + DECODE_TIMEOUT
 SECRET = os.environ.get("ROSTER_DECODER_SECRET", "")
 if len(SECRET.encode()) < 32:
     raise SystemExit("ROSTER_DECODER_SECRET must contain at least 32 bytes")
@@ -37,12 +42,25 @@ def signature(value):
 
 
 class BoundedServer(ThreadingHTTPServer):
-    daemon_threads = True
+    # Join active handlers; each handler reaps its decoder before returning.
+    daemon_threads = False
+    block_on_close = True
+    stopping = False
     request_queue_size = 4
     # Bound connection threads BEFORE reading any untrusted body. Two active
     # decoders fit the container's 896MiB memory cap (384MiB each plus parent).
     connections = threading.BoundedSemaphore(2)
+    def get_request(self):
+        request, address = super().get_request()
+        # Also bound overload replies and request-line/header reads.
+        request.settimeout(INPUT_TIMEOUT)
+        return request, address
+    def verify_request(self, request, address):
+        return not self.stopping and super().verify_request(request, address)
     def process_request(self, request, address):
+        if self.stopping:
+            self.shutdown_request(request)
+            return
         if not self.connections.acquire(blocking=False):
             try:
                 request.sendall(b"HTTP/1.1 429 Too Many Requests\r\nConnection: close\r\nContent-Length: 0\r\n\r\n")
@@ -63,6 +81,45 @@ class BoundedServer(ThreadingHTTPServer):
 
 class Handler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
+    def setup(self):
+        super().setup()
+        self.connection.settimeout(INPUT_TIMEOUT)
+        self._input_lock = threading.Lock()
+        self._input_finished = False
+        self._input_expired = False
+        self._input_deadline = time.monotonic() + INPUT_TIMEOUT
+        # A socket timeout alone resets on progress. Absolute deadlines prevent
+        # slow headers/body or a non-reading peer from holding worker joins.
+        self._input_timer = threading.Timer(INPUT_TIMEOUT, self._expire_input)
+        self._io_timer = threading.Timer(IO_TIMEOUT, self._expire_connection)
+        self._input_timer.daemon = self._io_timer.daemon = True
+        self._input_timer.start()
+        self._io_timer.start()
+    def _expire_connection(self):
+        try:
+            self.connection.shutdown(socket.SHUT_RDWR)
+        except OSError:
+            pass
+    def _expire_input(self):
+        with self._input_lock:
+            if self._input_finished:
+                return
+            self._input_expired = True
+        self._expire_connection()
+    def _finish_input(self):
+        with self._input_lock:
+            if self._input_expired or time.monotonic() >= self._input_deadline:
+                raise TimeoutError("request input deadline exceeded")
+            self._input_finished = True
+        self._input_timer.cancel()
+    def finish(self):
+        try:
+            super().finish()
+        finally:
+            for timer in (self._input_timer, self._io_timer):
+                timer.cancel()
+            for timer in (self._input_timer, self._io_timer):
+                timer.join()
     def log_message(self, *_):
         pass  # No authorization, body, client source, filename or parser text.
     def reply(self, value, status=200):
@@ -77,11 +134,11 @@ class Handler(BaseHTTPRequestHandler):
         self.close_connection = True
     def do_POST(self):
         try:
-            self.connection.settimeout(5)
             length = self.headers.get("Content-Length", "")
             if self.path != "/decode" or self.headers.get("Transfer-Encoding") or not length.isdigit() or not 1 <= int(length) <= LIMIT:
                 return self.reply({"error": "roster_decoder_request_invalid"}, 400)
             body = self.rfile.read(int(length))
+            self._finish_input()
             supplied = self.headers.get("Authorization", "")
             if len(body) != int(length) or not hmac.compare_digest(supplied, "Roster-HMAC " + signature(body)):
                 return self.reply({"error": "roster_decoder_authentication_required"}, 401)
@@ -103,7 +160,7 @@ class Handler(BaseHTTPRequestHandler):
             process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                        stderr=subprocess.DEVNULL, env={"PATH": "/usr/local/bin:/usr/bin:/bin", "PYTHONDONTWRITEBYTECODE": "1"}, cwd="/tmp")
             try:
-                output, _ = process.communicate(body, timeout=8)
+                output, _ = process.communicate(body, timeout=DECODE_TIMEOUT)
             except subprocess.TimeoutExpired:
                 process.kill()
                 process.communicate()
@@ -126,5 +183,35 @@ class Handler(BaseHTTPRequestHandler):
             return self.reply({"error": "roster_decoder_unavailable"}, 503)
 
 
+def serve_until_signalled(server):
+    # Python runs signal handlers on the main (serving) thread. Only set a flag
+    # there: shutdown() must wait on serve_forever() from a different thread.
+    finished = False
+    def request_stop(_signum, _frame):
+        server.stopping = True
+    def stop_serving():
+        while not finished:
+            if server.stopping:
+                server.shutdown()
+                return
+            time.sleep(0.05)
+    previous = {sig: signal.signal(sig, request_stop)
+                for sig in (signal.SIGTERM, signal.SIGINT)}
+    controller = threading.Thread(target=stop_serving, name="decoder-shutdown")
+    controller.start()
+    try:
+        server.serve_forever(poll_interval=0.1)
+    finally:
+        finished = True
+        try:
+            # ThreadingMixIn closes the listener before joining non-daemon
+            # handlers, which in turn wait for their bounded decoder children.
+            server.server_close()
+        finally:
+            controller.join()
+            for sig, handler in previous.items():
+                signal.signal(sig, handler)
+
+
 if __name__ == "__main__":
-    BoundedServer(("0.0.0.0", int(os.environ.get("PORT", "8080"))), Handler).serve_forever()
+    serve_until_signalled(BoundedServer(("0.0.0.0", int(os.environ.get("PORT", "8080"))), Handler))

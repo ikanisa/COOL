@@ -141,12 +141,14 @@ export class PostgresDatabase {
   prepare(text) { return new Statement(this,text); }
   withSession() { return this; }
   setClaims(claims) { this.claims=claims; }
-  async readContext(tx) {
+  async readContext(tx,{isolation='repeatable read'}={}) {
     // This path cannot grant write authority: the server must already enforce a
-    // genuine read-only repeatable-read transaction before role/claims setup.
+    // genuine read-only transaction at the requested closed isolation level
+    // before role/claims setup. Existing callers retain repeatable-read.
+    if(!['repeatable read','read committed'].includes(isolation))throw fenceFailure(null);
     const work=this.applicationWork;if(!work)throw fenceFailure(null);await work.assert();
-    const mode=await tx.unsafe('SHOW transaction_read_only'),isolation=await tx.unsafe('SHOW transaction_isolation');
-    if(mode[0]?.transaction_read_only!=='on'||isolation[0]?.transaction_isolation!=='repeatable read')throw fenceFailure(null);
+    const mode=await tx.unsafe('SHOW transaction_read_only'),observedIsolation=await tx.unsafe('SHOW transaction_isolation');
+    if(mode[0]?.transaction_read_only!=='on'||observedIsolation[0]?.transaction_isolation!==isolation)throw fenceFailure(null);
     await tx`set local role collect_runtime`;
     await tx`select set_config('search_path','app,public,pg_catalog',true),set_config('request.jwt.claims',${JSON.stringify(this.claims)},true),set_config('collect.edge_verified','true',true)`;
     await tx`set local statement_timeout='15s'`;
