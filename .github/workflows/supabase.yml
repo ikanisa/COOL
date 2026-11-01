@@ -198,7 +198,7 @@ jobs:
           fi
       - name: Preserve current evidence and failures without private descriptors
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: current-selfhost-native-${{ github.sha }}
           retention-days: 14
@@ -562,7 +562,7 @@ jobs:
         if: always()
         run: sh scripts/supabase/testing/ci-native-postgres.sh stop
       - name: Preserve only the synthetic source-bound history receipts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: current14-member-history-${{ needs.select-profile.outputs.source_sha }}
           retention-days: 14
@@ -648,7 +648,7 @@ jobs:
           fi
       - name: Preserve only safe current16 source and outcome records
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: current16-integration-${{ needs.select-profile.outputs.source_sha }}
           retention-days: 14
