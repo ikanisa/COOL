@@ -58,7 +58,9 @@ final collectAuthenticatedUserIdProvider = Provider<String?>((ref) {
   final client = ref.watch(collectBackendClientProvider);
   final state = ref.watch(_collectAuthStateProvider);
   if (state case AsyncData<CollectAuthState>(:final value)) {
-    return value.session?.user.id;
+    return value.session?.user.isAnonymous == true
+        ? null
+        : value.session?.user.id;
   }
   return client?.auth.currentUser?.id;
 });
@@ -93,6 +95,7 @@ Future<CollectCloudflareClient?> createCollectBackendClientFromEnvironment({
           : challenge.acquire,
       cancelCaptcha: challenge.cancel,
       supabaseConfiguration: supabase,
+      allowAnonymousSignIn: env.anonymousAuthEnabled,
       sessionStorage: kIsWeb
           ? CollectMemorySessionStorage()
           : CollectNativeSessionStorage(

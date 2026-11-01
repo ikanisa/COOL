@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'cloudflare_module.dart';
 import 'google_auth_browser.dart';
+import 'auth_otp_gateway.dart';
 
 /// Build-time availability is explicit and defaults to unavailable until the
 /// corresponding backend provider is configured and verified.
@@ -20,6 +21,15 @@ abstract interface class AuthAlternativeGateway {
   void cancelGoogleSignIn();
 }
 
+abstract interface class AuthGuestGateway {
+  bool get guestSignInAvailable;
+  bool get isGuest;
+  CollectGuestUpgradeStatus? get pendingGuestUpgrade;
+  Future<void> signInAsGuest();
+  Future<void> reconcileGuestUpgrade();
+  Future<void> leaveGuest();
+}
+
 final authAlternativeGatewayProvider = Provider<AuthAlternativeGateway?>((ref) {
   final client = ref.watch(collectBackendClientProvider);
   if (client == null) return null;
@@ -31,16 +41,44 @@ final authAlternativeGatewayProvider = Provider<AuthAlternativeGateway?>((ref) {
   return gateway;
 });
 
-final class CollectAuthAlternativeGateway implements AuthAlternativeGateway {
+final class CollectAuthAlternativeGateway
+    implements
+        AuthAlternativeGateway,
+        AuthOtpCancellationGateway,
+        AuthGuestGateway {
   CollectAuthAlternativeGateway(
     this._client, {
-    bool googleSignInEnabled = false,
-  }) : googleSignInAvailable = googleSignInEnabled;
+    this.googleSignInEnabled = false,
+  });
 
   @override
-  final bool googleSignInAvailable;
+  bool get googleSignInAvailable => googleSignInEnabled && !isGuest;
+  final bool googleSignInEnabled;
   final CollectCloudflareClient _client;
   final _browser = GoogleAuthBrowser();
+
+  @override
+  bool get guestSignInAvailable => _client.auth.anonymousSignInAvailable;
+  @override
+  bool get isGuest => _client.auth.currentGuest != null;
+  @override
+  CollectGuestUpgradeStatus? get pendingGuestUpgrade =>
+      _client.auth.pendingGuestUpgrade;
+  @override
+  Future<void> signInAsGuest() async {
+    await _client.auth.signInAnonymously();
+  }
+
+  @override
+  Future<void> reconcileGuestUpgrade() async {
+    await _client.auth.reconcileGuestUpgrade();
+  }
+
+  @override
+  Future<void> leaveGuest() => _client.auth.signOut();
+
+  @override
+  void cancelOtpSignIn() => _client.auth.cancelOtpSignIn();
 
   @override
   Future<CollectOtpRequestReceipt> sendEmailOtp({required String email}) =>

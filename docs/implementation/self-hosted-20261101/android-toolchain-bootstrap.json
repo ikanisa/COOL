@@ -1,0 +1,214 @@
+{
+  "contract": "collect.android.prerequisites.readiness.v1",
+  "status": "ready",
+  "scope": "Verified local development build prerequisites only; Mobile owns subsequent Kotlin/unsigned QA builds.",
+  "official_references": [
+    "https://developer.android.com/studio",
+    "https://developer.android.com/tools/sdkmanager",
+    "https://dl.google.com/android/repository/repository2-3.xml"
+  ],
+  "commandline_tools_revision": "22.0",
+  "commandline_tools_archive_build": "15859902",
+  "jdk_version": "17.0.20+8-1~24.04",
+  "signed_ubuntu_snapshot": "20260828T000000Z noble-updates/main amd64",
+  "ubuntu_release_chain": {
+    "signed_release_sha256": "3b2e0ca04c6c8381fc54a06e0a494d76c3b941c34f2c7e2513565fead35da0d2",
+    "ubuntu_keyring_sha256": "80a36b0a6de2f69f49d2df75ef473ccde121e9e190b9ea01d20a4f63778d5c31",
+    "signed_packages_sha256": "8153ef8ce836b2043910958208f132126e9d95c8b3bce36f1d55ce2a22930164"
+  },
+  "initial_archives": [
+    {
+      "name": "openjdk-17-jdk-headless",
+      "version": "17.0.20+8-1~24.04",
+      "url": "https://snapshot.ubuntu.com/ubuntu/20260828T000000Z/pool/main/o/openjdk-17/openjdk-17-jdk-headless_17.0.20+8-1~24.04_amd64.deb",
+      "filename": "openjdk-17-jdk-headless_17.0.20+8-1~24.04_amd64.deb",
+      "sha256": "24a6fc05d51f205b4de06f78621c37f27d1e87673aa55507cf38d20f7eb38968",
+      "bytes": 71573808,
+      "identity_source": "signed Ubuntu noble-updates snapshot Packages",
+      "downloaded_bytes": 71573808,
+      "verified": true
+    },
+    {
+      "name": "openjdk-17-jre-headless",
+      "version": "17.0.20+8-1~24.04",
+      "url": "https://snapshot.ubuntu.com/ubuntu/20260828T000000Z/pool/main/o/openjdk-17/openjdk-17-jre-headless_17.0.20+8-1~24.04_amd64.deb",
+      "filename": "openjdk-17-jre-headless_17.0.20+8-1~24.04_amd64.deb",
+      "sha256": "2d5da465ef18c4db26e1d231262d7715e77824aa1f5e1af00883abe8a9369944",
+      "bytes": 48065500,
+      "identity_source": "signed Ubuntu noble-updates snapshot Packages",
+      "downloaded_bytes": 48065500,
+      "verified": true
+    },
+    {
+      "name": "android-commandline-tools",
+      "version": "15859902",
+      "url": "https://dl.google.com/android/repository/commandlinetools-linux-15859902_latest.zip",
+      "filename": "commandlinetools-linux-15859902_latest.zip",
+      "sha256": "4e4c464f145a7512b57d088ac6c278c03c9eea610886b35a5e0804e74eedf583",
+      "bytes": null,
+      "maximum_bytes": 262144000,
+      "identity_source": "https://developer.android.com/studio command-line tools Linux SHA256, independently read2026-11-01",
+      "downloaded_bytes": 181833628,
+      "verified": true
+    }
+  ],
+  "sdk": {
+    "contract": "collect.android.prerequisites.sdk.v2",
+    "status": "ready",
+    "archives": [
+      {
+        "path": "platforms;android-36",
+        "revision": "2.0.0",
+        "display_name": "Android SDK Platform 36",
+        "archive_url": "https://dl.google.com/android/repository/platform-36_r02.zip",
+        "archive_bytes": 65878410,
+        "official_checksum_type": "sha1",
+        "official_checksum": "2c1a80dd4d9f7d0e6dd336ec603d9b5c55a6f576",
+        "archive_file": "/workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/archives/platform-36_r02.zip",
+        "independent_sha256": "37607369a28c5b640b3a7998868d45898ebcb777565a0e85f9acf36f29631d2e",
+        "independent_sha1": "2c1a80dd4d9f7d0e6dd336ec603d9b5c55a6f576",
+        "verified_bytes": 65878410
+      },
+      {
+        "path": "ndk;28.2.13676358",
+        "revision": "28.2.13676358",
+        "display_name": "NDK (Side by side) 28.2.13676358",
+        "archive_url": "https://dl.google.com/android/repository/android-ndk-r28c-linux.zip",
+        "archive_bytes": 722261334,
+        "official_checksum_type": "sha1",
+        "official_checksum": "a7b54a5de87fecd125a17d54f73c446199e72a64",
+        "archive_file": "/workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/archives/android-ndk-r28c-linux.zip",
+        "independent_sha256": "dfb20d396df28ca02a8c708314b814a4d961dc9074f9a161932746f815aa552f",
+        "independent_sha1": "a7b54a5de87fecd125a17d54f73c446199e72a64",
+        "verified_bytes": 722261334
+      },
+      {
+        "path": "build-tools;36.0.0",
+        "revision": "36.0.0",
+        "display_name": "Android SDK Build-Tools 36",
+        "archive_url": "https://dl.google.com/android/repository/build-tools_r36_linux.zip",
+        "archive_bytes": 63737259,
+        "official_checksum_type": "sha1",
+        "official_checksum": "b0b6376977657e8ad9b969bacf4093601da2c6fb",
+        "archive_file": "/workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/archives/build-tools_r36_linux.zip",
+        "independent_sha256": "5d9ac77fb6ff43d9da518a337b4fcf8f9097113df531d99ccefe80ef7ce8250b",
+        "independent_sha1": "b0b6376977657e8ad9b969bacf4093601da2c6fb",
+        "verified_bytes": 63737259
+      },
+      {
+        "path": "platform-tools",
+        "revision": "37.0.1",
+        "display_name": "Android SDK Platform-Tools",
+        "archive_url": "https://dl.google.com/android/repository/platform-tools_r37.0.1-linux.zip",
+        "archive_bytes": 9054187,
+        "official_checksum_type": "sha1",
+        "official_checksum": "477254aa5f903c15cf51001717bdf347fb6b53e0",
+        "archive_file": "/workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/archives/platform-tools_r37.0.1-linux.zip",
+        "independent_sha256": "d230f13842f60f782a8645f9c813f8f845bf36089ea7289f28c48f17979313f1",
+        "independent_sha1": "477254aa5f903c15cf51001717bdf347fb6b53e0",
+        "verified_bytes": 9054187
+      }
+    ],
+    "validated_packages": [
+      {
+        "package": "platforms;android-36",
+        "files_compared": 11342,
+        "exact_official_archive_readback": true,
+        "source_properties_sha256": "72291ff6611dbfc46fdfb6de2821c4a62c87befa5200713847eda426e3a501c2",
+        "package_xml_sha256": "018f4d90ac85f10a1cd2975d1982f8af6210f278d12a0539e91d546e1fc18e87"
+      },
+      {
+        "package": "ndk;28.2.13676358",
+        "files_compared": 8449,
+        "exact_official_archive_readback": true,
+        "source_properties_sha256": "c00aa236fdb205e9be9edd9e2169763e48aca52735efff4e16f34205d49783b5",
+        "package_xml_sha256": "de7942c667fea2fa52d584d3460a2639b49e8a3c485a85a284f5b4182ea9ac84"
+      },
+      {
+        "package": "build-tools;36.0.0",
+        "files_compared": 168,
+        "exact_official_archive_readback": true,
+        "source_properties_sha256": "7dee6632e9ad6cb111da2bb99d747211e27927061b1276d040bb1d71fded5ebb",
+        "package_xml_sha256": "737904dbcee0845bc18385d3627cd6238bf5f1395f07c7300f88db717b7303b7"
+      },
+      {
+        "package": "platform-tools",
+        "files_compared": 12,
+        "exact_official_archive_readback": true,
+        "source_properties_sha256": "2dccd788c0234d8cf7f7457377e57f57527a86a629c6ed54feb8af0f549dac38",
+        "package_xml_sha256": "55d46ccebf3bba4ad4349d3747643bb0ed38aac843ce6c87782b009328f73e1e"
+      }
+    ],
+    "layout_repairs": [
+      {
+        "package": "build-tools;36.0.0",
+        "mismatched_or_missing_files": 168,
+        "preserved_failed_tree": "/workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/quarantined-sdkmanager-layouts/build-tools-36.0.0",
+        "operation": "Reconstructed normal package layout from independently verified official archive; original manager XML retained"
+      }
+    ],
+    "tool_versions": {
+      "adb": "Android Debug Bridge version 1.0.41\nVersion 37.0.1-15733141\nInstalled as /workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/sdk/platform-tools/adb\nRunning on Linux 6.18.57 (x86_64)",
+      "aapt2": "",
+      "clang": "Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)\nTarget: x86_64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin"
+    },
+    "independent_archive_checksums_verified": true,
+    "all_package_payload_files_compared": true,
+    "sdkmanager_report_alone_accepted": false,
+    "system_installation": false,
+    "app_source_or_lock_edits": false,
+    "application_build_executed": false,
+    "device_emulator_signing_provider_acceptance": false
+  },
+  "actual_tool_versions": {
+    "java": "openjdk version \"17.0.20\" 2026-07-21\nOpenJDK Runtime Environment (build 17.0.20+8-1-24.04-Ubuntu)\nOpenJDK 64-Bit Server VM (build 17.0.20+8-1-24.04-Ubuntu, mixed mode, sharing)",
+    "javac": "javac 17.0.20",
+    "adb": "Android Debug Bridge version 1.0.41\nVersion 37.0.1-15733141\nInstalled as /workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/sdk/platform-tools/adb\nRunning on Linux 6.18.57 (x86_64)",
+    "aapt2": "Android Asset Packaging Tool (aapt) 2.20-13193326",
+    "clang": "Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)\nTarget: x86_64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin"
+  },
+  "environment_paths": {
+    "JAVA_HOME": "/workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/jdk-root/usr/lib/jvm/java-17-openjdk-amd64",
+    "ANDROID_HOME": "/workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/sdk",
+    "ANDROID_SDK_ROOT": "/workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/sdk",
+    "ANDROID_USER_HOME": "/workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/android-user",
+    "GRADLE_USER_HOME": "/workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/gradle-user",
+    "sdkmanager": "/workspace/scratch/2d330cc6dfd0/toolchains/android-bootstrap-20261101/sdk/cmdline-tools/latest/bin/sdkmanager"
+  },
+  "task_owned_gradle_proxy_configuration": true,
+  "proxy_credentials_configured": false,
+  "toolchain_evidence_sha256": {
+    "bootstrap.py": "2a9a972791ded34335afdc8bfb5814ce6c6fc862ca9825f21605904ef75f2819",
+    "install_sdk.py": "92e9647362c7c25e4233e8704fe95ef1976e16c69ed84fc508f01ba7ecfeeeee",
+    "verify_sdk_archives.py": "1965bb170af9d61ae9e129686e142ef5f986be2f129bb77adbdbbd84a52cdaea",
+    "download-lock.json": "81aae5c48b9705fecc1f9b55048c028adef6e1f1b5183464b280ee3134484d31",
+    "sdk-package-lock.json": "654f316e8689bb1fa73d46b8d925116d0962294cd79bdc946cac59dc9af623bc",
+    "android-repository2-3.xml": "fb1bd2fcd70b6116519563f1ff96cc578381e4e29237ab05ec8920f0864a7955",
+    "bootstrap-receipt.json": "399feed097dda53dc21568d5fe0525bc64beafb3600bc402d61f48f1bdc01906",
+    "sdk-install-receipt.json": "b095841579de3ab4db0039712a96f20b131ab4f4c9f0c08e3419967b9675ae53",
+    "sdk-verified-archives.json": "f567e6c55f3e0369d7da0e9073b7eed74d1fa2a7cf993c7196a22f7b001db6ba",
+    "environment.json": "377ff4f7abc39dac8dcee2e07a3a4971235460fc5bfb117bd2c1be62be79851a",
+    "sdk-attempt1-note.json": "166a9cd4029821b8878a2dfc1ec1a8833469d64721dacafa997dba622c16d876",
+    "sdk-archive-validation-attempt1-note.json": "3eadbb736d0070450205ed2862cb22855265448400cd0c9f74f011e980f5c073",
+    "toolchain-cleanup.json": "e9d5bf51f97ad43e38e37eae6fc60c3584c245653201b7e71c2554e9ca9c7cf1",
+    "logs/ubuntu-release-signature.log": "9c5438280cae0da5abc2edf32c609b54e80b108eacdc5723afd605a399346d30",
+    "logs/sdkmanager-version-attempt2.log": "2f4979aa97d8ab5b516e1b6c9d81a17592fdcca445ff2820bc85eacfe1bcb659",
+    "logs/sdkmanager-installed-attempt2.log": "52cb91d0f951d09f8969d1e7fe7c3f95950142711419813040df09c1040abc07",
+    "logs/java-version.log": "bcd3d33d56df66f55a3ab1adbe20576c9b0e1abe37210209268f38efc89e3d52",
+    "logs/javac-version.log": "798431f83352c4aed3f8b6858d35865098eb3a3aaa9afb0720c73bb482ac30f1",
+    "logs/adb-verified-version.log": "051a4dd5518048fec8e31f2c35d538dac47369985df41e88656d7eec5aac57f1",
+    "logs/aapt2-verified-version.log": "082979328d73558f2fe6041ec0bce434add8e10c5d8b42f161fe78e7489ba30f",
+    "logs/clang-verified-version.log": "409dfb6f5cd037826018906f0a6d3ef98a47f8289555a6a597ec8adab17db014"
+  },
+  "ordinary_sdk_development_licenses_accepted": true,
+  "global_package_installation": false,
+  "application_source_or_dependency_locks_modified_by_bootstrap": false,
+  "application_build_executed_by_bootstrap": false,
+  "device_emulator_signing_provider_acceptance": false,
+  "production_acceptance": false,
+  "corrections": [
+    "Initial subprocess stdin/input conflict stopped before SDK install; corrected local process invocation.",
+    "SDK Manager reported build-tools36.0.0 installed but left its payload nested beside an unrelated NDK subtree. Reconstructed this owned package from the official independently verified archive and preserved the failed tree.",
+    "First independent NDK comparison incorrectly treated symlink contents as regular file bytes. Corrected link-text comparison, restored original NDK, and verified all8449 expected payload files/links. Temporary partial reconstruction was removed only after retaining its full hash manifest and exact archive/scripts."
+  ]
+}

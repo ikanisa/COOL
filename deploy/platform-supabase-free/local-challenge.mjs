@@ -236,8 +236,15 @@ export function renderLocalChallengeDocument(request, options = {}) {
   if (!parentPath(url.pathname)) return null;
   const validOptions = options !== null && typeof options === 'object' &&
     Object.getPrototypeOf(options) === Object.prototype &&
-    Object.keys(options).every(key => key === 'origin');
+    Object.keys(options).every(key => ['origin', 'allowedOrigins'].includes(key));
   const origin = validOptions && Object.hasOwn(options, 'origin') ? options.origin : ADMIN;
+  // Explicit origins come only from the host's verified deployment profile.
+  // The browser request and the pairing descriptor never choose this list.
+  const configured = validOptions && Object.hasOwn(options, 'allowedOrigins') ? options.allowedOrigins : [...ORIGINS];
+  const allowedOrigins = Array.isArray(configured) && configured.length > 0 && configured.length <= 4 && configured.every(value => {
+    try { const target = new URL(value); return typeof value === 'string' && target.origin === value &&
+      target.protocol === 'https:' && !target.port && !target.username && !target.password; } catch { return false; }
+  }) ? new Set(configured) : null;
   const headers = new Headers({
     'Cache-Control': 'private, no-store, max-age=0, no-transform', 'CDN-Cache-Control': 'no-store',
     'Netlify-CDN-Cache-Control': 'no-store', 'Surrogate-Control': 'no-store',
@@ -249,7 +256,7 @@ export function renderLocalChallengeDocument(request, options = {}) {
     headers.set('Content-Type', 'application/json; charset=utf-8');
     return new Response(JSON.stringify({ code }), { status, headers });
   };
-  if (!validOptions || !ORIGINS.has(origin)) return refuse(503, 'parent_configuration_invalid');
+  if (!validOptions || !allowedOrigins?.has(origin)) return refuse(503, 'parent_configuration_invalid');
   if (url.pathname !== PATH || request.url.includes('\\')) return refuse(404, 'parent_path_invalid');
   if (url.origin !== origin || url.username || url.password ||
       request.headers.has('host') && request.headers.get('host') !== url.host) return refuse(421, 'parent_origin_invalid');

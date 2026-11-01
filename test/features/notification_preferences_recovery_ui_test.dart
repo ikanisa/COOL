@@ -120,7 +120,17 @@ void main() {
     (tester) async {
       final h = await mount(tester, fresh: true);
       h.conflicts = 1;
-      await tapHttp(tester, find.byType(Switch).first);
+      final contributionSetting = find.byWidgetPredicate(
+        (widget) =>
+            widget is Semantics &&
+            widget.properties.label?.startsWith('Contribution updates.') ==
+                true,
+      );
+      expect(contributionSetting, findsOneWidget);
+      await tapHttp(
+        tester,
+        find.descendant(of: contributionSetting, matching: find.byType(Switch)),
+      );
       expect(h.saves, hasLength(1));
       expect(h.repo.pendingNotificationPreferences, isNotNull);
       await reachButton(tester, 'Save pending change');

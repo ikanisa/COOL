@@ -59,7 +59,7 @@ function refuse(status, code) { throw new ProxyFailure(status, code); }
 /** The fixed Supabase gateway replaces HTML MIME and CSP. Restore only the
  * current marked renderers, never arbitrary upstream HTML or a permissive CSP.
  * Exact opener shapes deliberately fail closed when a renderer changes. */
-function documentPolicy(document, text, upstreamPolicy, frontendOrigin) {
+function documentPolicy(document, text, upstreamPolicy, frontendOrigin, allowedFrontends) {
   const invalid = () => refuse(502, 'proxy_document_unqualified');
   if (!/^\s*(?:<!doctype html[^>]*>\s*)?<html\b/i.test(text) || !/<\/html>\s*$/i.test(text)) invalid();
   const scripts = [...text.matchAll(/<script\b[^>]*>/gi)].map(match => match[0]);
@@ -85,7 +85,7 @@ function documentPolicy(document, text, upstreamPolicy, frontendOrigin) {
     // A gateway-free response may retain that exact bounded renderer policy.
     if (upstreamPolicy.startsWith(prefix)) {
       const ancestors = upstreamPolicy.slice(prefix.length).trim().split(/\s+/);
-      if (ancestors[0] === "'self'" && ancestors.slice(1).every(origin => FRONTENDS.has(origin))) originalPolicy = upstreamPolicy;
+      if (ancestors[0] === "'self'" && ancestors.slice(1).every(origin => allowedFrontends.has(origin))) originalPolicy = upstreamPolicy;
     }
   } else if (document === 'collect.google.callback.v1') {
     const nonce = scripts[0]?.match(/^<script nonce="([A-Za-z0-9_-]{43})">$/)?.[1];
@@ -112,7 +112,7 @@ function failure(status, code, reason) {
 
 /** Validate the original raw path when the frontend host exposes it. Never
  * percent-decode a route into a second protocol or silently normalize dots. */
-export function routeCollectTarget(rawTarget) {
+export function routeCollectTarget(rawTarget, upstreamOrigin = SUPABASE_ORIGIN) {
   if (typeof rawTarget !== 'string' || !rawTarget.startsWith('/') || rawTarget.startsWith('//') ||
       /[\\\x00-\x20\x7f#]/.test(rawTarget)) refuse(400, 'proxy_path_invalid');
   const question = rawTarget.indexOf('?');
@@ -135,7 +135,7 @@ export function routeCollectTarget(rawTarget) {
     else return null;
   }
   return {path, logicalPath, query, functionName,
-    upstream: SUPABASE_ORIGIN + '/functions/v1/' + functionName + logicalPath + query};
+    upstream: upstreamOrigin + '/functions/v1/' + functionName + logicalPath + query};
 }
 
 async function boundedBytes(stream, limit, signal, status, code) {
@@ -207,9 +207,27 @@ function responseHeaders(upstream, route) {
   return protectedHeaders(headers);
 }
 
-export function createCollectTransport({frontendOrigin, fetchImpl = (request, init) => globalThis.fetch(request, init),
+function transportOrigin(value, {internal = false} = {}) {
+  if (typeof value !== 'string' || value !== value.trim()) throw new TypeError('Invalid proxy origin');
+  const parsed = new URL(value);
+  if (parsed.origin !== value || parsed.username || parsed.password || parsed.pathname !== '/' || parsed.search || parsed.hash ||
+      parsed.protocol !== 'https:' && !(internal && parsed.protocol === 'http:') ||
+      !internal && parsed.port) throw new TypeError('Invalid proxy origin');
+  if (parsed.protocol === 'http:') {
+    const host = parsed.hostname;
+    const privateAddress = /^(?:127|10)\./.test(host) || /^192\.168\./.test(host) || /^172\.(?:1[6-9]|2[0-9]|3[01])\./.test(host);
+    if (!privateAddress && host !== '[::1]' && host !== 'localhost' && host !== 'host.docker.internal' &&
+        !/^[a-z][a-z0-9-]*$/.test(host) && !/\.(?:internal|local)$/.test(host)) throw new TypeError('Invalid private proxy origin');
+  }
+  return value;
+}
+
+export function createCollectTransport({frontendOrigin, supabaseOrigin = SUPABASE_ORIGIN, upstreamOrigin = supabaseOrigin,
+  allowedFrontendOrigins = [...FRONTENDS], fetchImpl = (request, init) => globalThis.fetch(request, init),
   timeoutMs = 30000, maxRequestBytes = 16 * 1024 * 1024, maxResponseBytes = 16 * 1024 * 1024} = {}) {
-  if (!FRONTENDS.has(frontendOrigin) || typeof fetchImpl !== 'function' ||
+  const allowedFrontends = new Set(allowedFrontendOrigins.map(origin => transportOrigin(origin)));
+  transportOrigin(supabaseOrigin); transportOrigin(upstreamOrigin, {internal: true});
+  if (!allowedFrontends.has(transportOrigin(frontendOrigin)) || typeof fetchImpl !== 'function' ||
       !Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 60000 ||
       !Number.isSafeInteger(maxRequestBytes) || maxRequestBytes < 1 ||
       !Number.isSafeInteger(maxResponseBytes) || maxResponseBytes < 1) throw new TypeError('Invalid static-host proxy configuration');
@@ -223,7 +241,7 @@ export function createCollectTransport({frontendOrigin, fetchImpl = (request, in
       if (url.origin !== frontendOrigin || url.username || url.password || url.hash) refuse(421, 'proxy_origin_invalid');
       const host = request.headers.get('host'); if (host && host !== url.host) refuse(421, 'proxy_origin_invalid');
       const canonical = url.pathname + url.search;
-      const route = routeCollectTarget(rawTarget ?? canonical);
+      const route = routeCollectTarget(rawTarget ?? canonical, upstreamOrigin);
       if (!route) return null;
       // Admin reads can rotate managed credentials or revoke stale custody.
       // A missing response after dispatch cannot prove that no effect occurred.
@@ -237,7 +255,7 @@ export function createCollectTransport({frontendOrigin, fetchImpl = (request, in
       if (callback) effectful = true;
       const providerNavigation = callback && request.headers.get('sec-fetch-mode') === 'navigate' && request.headers.get('sec-fetch-dest') === 'document';
       const origin = request.headers.get('origin');
-      if (origin && origin !== frontendOrigin && !(providerNavigation && origin === SUPABASE_ORIGIN)) refuse(403, 'proxy_origin_denied');
+      if (origin && origin !== frontendOrigin && !(providerNavigation && origin === supabaseOrigin)) refuse(403, 'proxy_origin_denied');
       if (request.headers.get('sec-fetch-site') === 'cross-site' &&
           !providerNavigation) refuse(403, 'proxy_origin_denied');
       const adminRead = route.functionName === 'admin-api' && ['GET', 'HEAD'].includes(request.method);
@@ -290,7 +308,7 @@ export function createCollectTransport({frontendOrigin, fetchImpl = (request, in
         if (request.method !== 'HEAD') {
           const text = new TextDecoder('utf-8', {fatal: true}).decode(output);
           response.set('Content-Security-Policy', documentPolicy(document, text,
-            upstream.headers.get('Content-Security-Policy'), frontendOrigin));
+            upstream.headers.get('Content-Security-Policy'), frontendOrigin, allowedFrontends));
         }
         // HEAD has no renderer body/nonce proof. Keep its original restrictive
         // policy and empty-body semantics; never fetch or retry a GET for it.

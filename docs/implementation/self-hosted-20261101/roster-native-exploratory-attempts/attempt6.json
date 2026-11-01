@@ -1,0 +1,240 @@
+{
+  "format": "collect.roster.native-dependency-probe.v1",
+  "production_acceptance": false,
+  "parser_contract_qualified": false,
+  "binary_sha256": "7883510fe308b4b5c49ec0a8e2020ec81c5fa41133239f3969a372b1cbf107ba",
+  "results": [
+    {
+      "fixture": "scanned-multilingual.pdf",
+      "kind": "pdf",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "objects": 6,
+        "pages": 1,
+        "streams": 2,
+        "expanded_bytes": 47,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 4831
+    },
+    {
+      "fixture": "pages-2.pdf",
+      "kind": "pdf",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "objects": 5,
+        "pages": 2,
+        "streams": 0,
+        "expanded_bytes": 0,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 343
+    },
+    {
+      "fixture": "pages-21.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: page_limit",
+        "diagnostic_count": 0,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 3636
+    },
+    {
+      "fixture": "javascript.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: active_content",
+        "diagnostic_count": 0,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 723
+    },
+    {
+      "fixture": "encrypted.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: pdf_warning_or_error",
+        "diagnostic_count": 1,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 148
+    },
+    {
+      "fixture": "attachment.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: active_content",
+        "diagnostic_count": 0,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 240
+    },
+    {
+      "fixture": "flate-expansion.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: stream_expansion_limit",
+        "diagnostic_count": 0,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 765
+    },
+    {
+      "fixture": "compressed-objects.pdf",
+      "kind": "pdf",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "objects": 6,
+        "pages": 1,
+        "streams": 3,
+        "expanded_bytes": 228,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 130
+    },
+    {
+      "fixture": "object-stream-expansion.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: stream_expansion_limit",
+        "diagnostic_count": 0,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 909
+    },
+    {
+      "fixture": "broken-xref.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: pdf_warning_or_error",
+        "diagnostic_count": 1,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 136
+    },
+    {
+      "kind": "qpdf",
+      "version": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "code": 0,
+        "output": "this.program version 12.2.0\nRun this.program --copyright to see copyright and license information.",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      }
+    },
+    {
+      "kind": "qpdf",
+      "version": false,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "objects": 5,
+        "pages": 2,
+        "streams": 0,
+        "expanded_bytes": 0,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      }
+    }
+  ]
+}

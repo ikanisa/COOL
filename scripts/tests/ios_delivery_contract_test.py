@@ -23,7 +23,7 @@ SPEC.loader.exec_module(guard)
 PUBLIC_CONFIG = {"SUPABASE_URL": "https://rrlduytparvsjfmegalh.supabase.co",
                  "SUPABASE_API_URL": "https://platform-admin.collect.ikanisa.com",
                  "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_syntheticPublicKey1234",
-                 "AUTH_CAPTCHA_SITE_KEY": "1x00000000000000000000AA"}
+                 "AUTH_CAPTCHA_SITE_KEY": "synthetic_public_site_key"}
 
 
 class DeliveryTest(unittest.TestCase):

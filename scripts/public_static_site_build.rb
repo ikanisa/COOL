@@ -11,11 +11,13 @@ require_relative "public_app_media"
 require_relative "public_photography"
 require_relative "product_capabilities"
 require_relative "qa/bounded_git_metadata"
+require_relative "public_deployment_profile"
 
 ROOT = File.expand_path("..", __dir__)
 PRODUCT_CAPABILITIES = CollectProductCapabilities.new(ROOT)
 BUILD_DIR = File.expand_path(ENV.fetch("PUBLIC_BUILD_DIR", "build/public_web"), ROOT)
-PUBLIC_URL = "https://collect.ikanisa.com"
+PUBLIC_DEPLOYMENT = CollectPublicDeployment.resolve(ROOT)
+PUBLIC_URL = PUBLIC_DEPLOYMENT.fetch("public_origin")
 ASSET_VERSION = PublicPhotography.asset_version(ROOT)
 GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=app.cool.mobile"
 APPLE_APP_STORE_ID = "6783960331"
@@ -25,7 +27,7 @@ WHATSAPP_NUMBER = "250795588248"
 DISPLAY_PHONE = "+250 795 588 248"
 USSD_CODE = "*182**8*1*41258*2000#"
 SUPPORT_EMAIL = "info@ikanisa.com"
-ACCOUNT_DELETION_PORTAL_URL = "https://api.collect.ikanisa.com/privacy/account-deletion"
+ACCOUNT_DELETION_PORTAL_URL = PUBLIC_DEPLOYMENT.fetch("account_deletion_url")
 PUBLIC_WEB_ANALYTICS_PRIVACY_URL = "https://developers.cloudflare.com/speed/observatory/rum-beacon/#privacy-information"
 REGISTERED_ENTITY = "IKANISA Ltd."
 REGULATORY_FOOTER_NOTE = PRODUCT_CAPABILITIES.copy("regulatory_footer")
@@ -2060,6 +2062,9 @@ write_file(
     "source_dirty" => source_metadata.fetch("source_dirty"),
     "source_git_status" => source_metadata.fetch("source_git_status"),
     "source_git_status_error" => source_metadata.fetch("source_git_status_error"),
+    "public_origin" => PUBLIC_URL,
+    "deployment_profile" => PUBLIC_DEPLOYMENT["deployment_profile"],
+    "deployment_profile_sha256" => PUBLIC_DEPLOYMENT["deployment_profile_sha256"],
     "routes" => all_paths.uniq.sort,
     "share_routes" => ["/c/:slug", "/app", "/invite/:publicId"],
     "indexnow_key_file" => INDEXNOW_KEY.empty? ? nil : "#{INDEXNOW_KEY}.txt"

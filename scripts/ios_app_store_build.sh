@@ -16,19 +16,12 @@ BUILD_NAME="${COLLECT_IOS_BUILD_NAME:-$DEFAULT_BUILD_NAME}"
 BUILD_NUMBER="${COLLECT_IOS_BUILD_NUMBER:-$DEFAULT_BUILD_NUMBER}"
 BUILD_STARTED_EPOCH="$(date +%s)"
 NATIVE_SOURCE_BEFORE="$(ruby scripts/qa/native_build_provenance.rb begin ios)"
-readonly EXPECTED_PRODUCTION_PUBLIC_URL="https://collect.ikanisa.com"
-readonly EXPECTED_PRODUCTION_ADMIN_URL="https://platform-admin.collect.ikanisa.com"
-APP_PUBLIC_URL="${APP_PUBLIC_URL:-$EXPECTED_PRODUCTION_PUBLIC_URL}"
-ADMIN_APP_URL="${ADMIN_APP_URL:-$EXPECTED_PRODUCTION_ADMIN_URL}"
-export APP_PUBLIC_URL ADMIN_APP_URL
+# The shared native validator resolves the reviewed deployment's public/Admin
+# origins and rejects mismatched aliases before compilation. Its managed
+# defaults remain the compatibility path when no explicit profile is supplied.
 
 if [[ $# -ne 0 ]]; then
   printf 'This production wrapper accepts no extra Flutter arguments. Update the reviewed script for any build-contract change.\n' >&2
-  exit 2
-fi
-
-if [[ "$APP_PUBLIC_URL" != "$EXPECTED_PRODUCTION_PUBLIC_URL" || "$ADMIN_APP_URL" != "$EXPECTED_PRODUCTION_ADMIN_URL" ]]; then
-  printf 'Public and Admin URLs must match the reviewed HTTPS production targets.\n' >&2
   exit 2
 fi
 

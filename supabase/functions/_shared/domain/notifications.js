@@ -2,7 +2,22 @@ import {ApiError,first,uuid,id,now,digest,integer,text} from './core.js';
 import {mutation} from './mutations.js';
 import {encrypt} from './encryption.js';
 import {momoGuard} from './momo_gateway.js';
-function preferences(row,actor) {return {contract_version:1,user_id:actor.userId,revision:row?.revision??1,preferences:{push_enabled:row?.push_enabled!==0,payment_updates:row?.payment_updates!==0,group_updates:row?.group_updates!==0}};}
+function preferences(row,actor) {return {contract_version:1,user_id:actor.userId,revision:row?.revision??1,preferences:{push_enabled:row?.push_enabled!==0,payment_updates:row?.payment_updates!==0,group_updates:row?.group_updates!==0,email_enabled:row?.email_enabled===1}};}
+function preferencesV2(row,actor){return {contract_version:2,ok:true,user_id:actor.userId,revision:row?.revision??0,exists:!!row,preferences:{contribution_confirmations:row?.payment_updates!==0,payment_reminders:row?.payment_reminders!==0,group_updates:row?.group_updates!==0,security_notices:row?.security_notices!==0,email_enabled:row?.email_enabled===1}};}
+async function savePreferencesV2(body,env,actor){
+ const fields=['contribution_confirmations','payment_reminders','group_updates','security_notices','email_enabled'],p=body.p_preferences;
+ if(!p||Array.isArray(p)||Object.keys(p).length!==fields.length||fields.some(k=>typeof p[k]!=='boolean'))throw new ApiError(400,'invalid_preferences','Invalid notification preferences.');
+ const expected=integer(body.p_expected_revision,'revision',0,999999999),old=await first(env,'SELECT * FROM notification_preferences WHERE user_id=?',actor.userId);
+ if((old?.revision??0)!==expected)throw new ApiError(409,'notification_preferences_revision_conflict','Refresh notification preferences before saving.');
+ const previous=preferencesV2(old,actor).preferences,changed=!old||fields.some(k=>p[k]!==previous[k]),revision=expected+(changed?1:0),timestamp=now();
+ const [check,remove]=momoGuard(env,'coalesce((SELECT revision FROM notification_preferences WHERE user_id=?),0)=?',[actor.userId,expected]);
+ const writes=[check];
+ if(changed)writes.push(env.DB.prepare(`INSERT INTO notification_preferences(user_id,push_enabled,payment_updates,payment_reminders,group_updates,security_notices,email_enabled,revision,updated_at)
+  VALUES(?,?,?,?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET payment_updates=excluded.payment_updates,payment_reminders=excluded.payment_reminders,group_updates=excluded.group_updates,security_notices=excluded.security_notices,email_enabled=excluded.email_enabled,revision=excluded.revision,updated_at=excluded.updated_at WHERE notification_preferences.revision=?`)
+  .bind(actor.userId,old?.push_enabled??1,+p.contribution_confirmations,+p.payment_reminders,+p.group_updates,+p.security_notices,+p.email_enabled,revision,timestamp,expected));
+ writes.push(remove);
+ return mutation(env,actor,'set_notification_preferences_v2',uuid(body.p_request_id??id(),'request_id'),body,{contract_version:2,ok:true,user_id:actor.userId,previous_revision:expected,revision,changed,updated_at:timestamp},writes);
+}
 
 function registrationGuard(env,actor) {
  const guardId=id();
@@ -107,14 +122,16 @@ async function paymentReviewRequest(body,env,actor){
 export async function notificationRpc(operation,body,env,actor) {
  switch(operation){
  case 'get_current_member_payment_review_request_v1':return {handled:true,value:await paymentReviewRequest(body,env,actor)};
- case 'get_notification_preferences_v2':return {handled:true,value:preferences(await first(env,'SELECT * FROM notification_preferences WHERE user_id=?',actor.userId),actor)};
+ case 'get_notification_preferences_v2':return {handled:true,value:(body.p_contract_version===2?preferencesV2:preferences)(await first(env,'SELECT * FROM notification_preferences WHERE user_id=?',actor.userId),actor)};
  case 'set_notification_preferences_v2': {
+  if(body.p_contract_version===2)return {handled:true,value:await savePreferencesV2(body,env,actor)};
   const p=body.p_preferences;
-  if(!p||['push_enabled','payment_updates','group_updates'].some(k=>typeof p[k]!=='boolean'))throw new ApiError(400,'invalid_preferences','Invalid notification preferences.');
+  if(!p||['push_enabled','payment_updates','group_updates'].some(k=>typeof p[k]!=='boolean')||p.email_enabled!==undefined&&typeof p.email_enabled!=='boolean')throw new ApiError(400,'invalid_preferences','Invalid notification preferences.');
   const expected=integer(body.p_expected_revision,'revision',1);const old=await first(env,'SELECT * FROM notification_preferences WHERE user_id=?',actor.userId);
   if((old?.revision??1)!==expected)throw new ApiError(409,'notification_preferences_revision_conflict','Refresh notification preferences before saving.');
   const revision=expected+1;
-  const writes=[env.DB.prepare(`INSERT INTO notification_preferences(user_id,push_enabled,payment_updates,group_updates,revision,updated_at) VALUES(?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET push_enabled=excluded.push_enabled,payment_updates=excluded.payment_updates,group_updates=excluded.group_updates,revision=excluded.revision,updated_at=excluded.updated_at WHERE notification_preferences.revision=?`).bind(actor.userId,+p.push_enabled,+p.payment_updates,+p.group_updates,revision,now(),expected)];
+  const emailEnabled=p.email_enabled===undefined?(old?.email_enabled??0):+p.email_enabled;
+  const writes=[env.DB.prepare(`INSERT INTO notification_preferences(user_id,push_enabled,payment_updates,group_updates,email_enabled,revision,updated_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET push_enabled=excluded.push_enabled,payment_updates=excluded.payment_updates,group_updates=excluded.group_updates,email_enabled=excluded.email_enabled,revision=excluded.revision,updated_at=excluded.updated_at WHERE notification_preferences.revision=?`).bind(actor.userId,+p.push_enabled,+p.payment_updates,+p.group_updates,emailEnabled,revision,now(),expected)];
   return {handled:true,value:await mutation(env,actor,operation,uuid(body.p_request_id??id(),'request_id'),body,{contract_version:1,user_id:actor.userId,revision},writes,{expectedPreferenceRevision:expected})};
  }
  case 'mark_notification_event_read': {

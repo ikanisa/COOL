@@ -12,8 +12,11 @@ class AuthActionDock extends StatelessWidget {
     required this.onResend,
     this.embedded = false,
     this.useEmail = false,
+    this.phoneMethod = 'WhatsApp',
     this.googlePending = false,
     this.onCancelGoogle,
+    this.verificationUnknown = false,
+    this.onLeaveGuest,
     super.key,
   });
 
@@ -27,8 +30,11 @@ class AuthActionDock extends StatelessWidget {
   final VoidCallback? onResend;
   final bool embedded;
   final bool useEmail;
+  final String phoneMethod;
   final bool googlePending;
   final VoidCallback? onCancelGoogle;
+  final bool verificationUnknown;
+  final VoidCallback? onLeaveGuest;
 
   @override
   Widget build(BuildContext context) {
@@ -48,16 +54,22 @@ class AuthActionDock extends StatelessWidget {
         children: [
           Semantics(
             liveRegion: submitting,
-            label: googlePending
+            label: verificationUnknown && submitting
+                ? 'Checking verification'
+                : googlePending
                 ? 'Connecting to Google'
                 : submitting
                 ? otpSent
                       ? 'Verifying code'
-                      : 'Sending ${useEmail ? 'email' : 'WhatsApp'} code'
+                      : 'Sending ${useEmail ? 'email' : phoneMethod} code'
                 : null,
             child: _AuthNativeActionButton(
               key: const ValueKey('auth_submit_button'),
-              label: googlePending
+              label: verificationUnknown
+                  ? submitting
+                        ? 'Checking verification'
+                        : 'Check verification'
+                  : googlePending
                   ? 'Connecting to Google'
                   : submitting
                   ? otpSent
@@ -65,7 +77,7 @@ class AuthActionDock extends StatelessWidget {
                         : 'Sending code'
                   : otpSent
                   ? 'Verify and continue'
-                  : 'Send ${useEmail ? 'email' : 'WhatsApp'} code',
+                  : 'Send ${useEmail ? 'email' : phoneMethod} code',
               busy: submitting,
               onPressed: canSubmit ? onSubmit : null,
             ),
@@ -79,7 +91,16 @@ class AuthActionDock extends StatelessWidget {
               isPrimary: false,
             ),
           ],
-          if (otpSent) ...[
+          if (verificationUnknown) ...[
+            CollectSpacing.gap8,
+            _AuthNativeActionButton(
+              key: const ValueKey('auth_leave_guest_button'),
+              label: 'Use another account',
+              onPressed: submitting ? null : onLeaveGuest,
+              isPrimary: false,
+            ),
+          ],
+          if (otpSent && !verificationUnknown) ...[
             CollectSpacing.gap8,
             if (usesAccessibilityText) ...[
               _AuthNativeActionButton(

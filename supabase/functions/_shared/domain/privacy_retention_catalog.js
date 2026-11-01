@@ -125,8 +125,16 @@ export const diagnosticRetentionColumns=Object.freeze({
 export const notificationDeliveryRetentionColumns=Object.freeze({
  notification_deliveries:Object.freeze(['id','event_id','device_id','user_id','owner_session_id','token_sha256','event_sha256','project_id','android_package','state','attempt_count','available_at','lease_token','lease_until','attempt_log','provider_message_id','last_error','last_http_status','created_at','updated_at'])
 });
+// New retained obligations have no erasure adapter. A distinct exact profile
+// prevents a prior retention approval silently accepting additional copies.
+export const notificationChannelRetentionColumns=Object.freeze({
+ notification_preferences:Object.freeze([...retentionColumns.notification_preferences,'email_enabled','payment_reminders','security_notices']),
+ assisted_sms_dispatches:Object.freeze(['attempt_id','grant_sha256','expires_seconds','application_id','provider_message_id','not_after','state','provider_state','evidence_sha256','started_seconds','updated_seconds']),
+ notification_email_deliveries:Object.freeze(['id','event_id','user_id','recipient_sha256','event_sha256','state','attempt_id','started_seconds','provider_message_id','created_seconds','updated_seconds']),
+ notification_email_job_dispatches:Object.freeze(['id','admission_sha256','admission_json','state','result_json','created_seconds','updated_seconds'])
+});
 export const engineTables=Object.freeze(['privacy_retention_plans','privacy_retention_tasks','privacy_retention_claims','privacy_retention_outcomes','privacy_retention_effects','privacy_retention_guards','privacy_retention_barriers']);
-export const copyClasses=Object.freeze(['r2:payment_evidence','r2:sms_receipts','r2:roster_imports','r2:upload_objects','external:derivatives','external:exports','external:backups','external:processors','external:unmapped_identifiers']);
+export const copyClasses=Object.freeze(['r2:payment_evidence','r2:sms_receipts','r2:roster_imports','r2:upload_objects','external:derivatives','external:exports','external:backups','external:processors','external:unmapped_identifiers','external:collect_sms','external:collect_ops','external:vault','external:net','external:cron','external:supabase_migrations']);
 export const retentionClasses=Object.freeze(['access',...Object.keys(retentionColumns),...engineTables,...copyClasses]);
 const fail=code=>{throw new ApiError(409,code,'Retention source coverage could not be verified.');};
 const all=async(env,sql,...args)=>(await env.DB.prepare(sql).bind(...args).all()).results;
@@ -191,11 +199,11 @@ function selection(table,subject,catalog=retentionColumns){
  // Diagnostic principal quota hashes are still reidentifiable for a known
  // subject. The existing full rate-table inventory deliberately retains them
  // (including their expiry); TTL does not grant this engine deletion authority.
- if(['runtime_config','admin_account_role_capabilities','auth_rate_buckets','admin_rate_limits'].includes(table))return {sql:'1=1',args:[]};
+ if(['runtime_config','admin_account_role_capabilities','auth_rate_buckets','admin_rate_limits','notification_email_job_dispatches'].includes(table))return {sql:'1=1',args:[]};
  if(['request_receipts','audit_log'].includes(table))add('request_id IN('+relatedSmsRequests+')',...Array(9).fill(subject));
  if(table.startsWith('assisted_sms_')){
   if(columns.includes('job_id'))add('job_id IN(SELECT id FROM assisted_sms_jobs WHERE recipient_user_id=?)',subject);
-  if(table==='assisted_sms_outcomes')add('attempt_id IN(SELECT s.id FROM assisted_sms_send_starts s JOIN assisted_sms_jobs j ON j.id=s.job_id WHERE j.recipient_user_id=?)',subject);
+  if(['assisted_sms_outcomes','assisted_sms_dispatches'].includes(table))add('attempt_id IN(SELECT s.id FROM assisted_sms_send_starts s JOIN assisted_sms_jobs j ON j.id=s.job_id WHERE j.recipient_user_id=?)',subject);
   if(columns.includes('collection_id'))add('collection_id IN(SELECT collection_id FROM assisted_sms_authorizations WHERE recipient_user_id=? UNION SELECT collection_id FROM assisted_sms_jobs WHERE recipient_user_id=?)',subject,subject);
  }
  for(const column of columns){
@@ -219,6 +227,9 @@ function selection(table,subject,catalog=retentionColumns){
  }
  return {sql:parts.length?'('+parts.join(' OR ')+')':'0=1',args};
 }
+// Reused by the offline manifest-catalog compiler; never accept predicates
+// supplied by a request or by a retention policy.
+export {selection as retentionSelection};
 export async function retentionSchema(env){
  const provider={_cf_METADATA:"CREATE TABLE _cf_METADATA (\n        key INTEGER PRIMARY KEY,\n        value BLOB\n      )",_cf_KV:'CREATE TABLE _cf_KV (\n        key TEXT PRIMARY KEY,\n        value BLOB\n      ) WITHOUT ROWID',d1_migrations:'CREATE TABLE "d1_migrations"(\n\t\tid         INTEGER PRIMARY KEY AUTOINCREMENT,\n\t\tname       TEXT UNIQUE,\n\t\tapplied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL\n)'};
  const observed=await all(env,"SELECT type,name,tbl_name,sql FROM sqlite_schema WHERE sql IS NOT NULL AND name NOT GLOB 'sqlite_*' ORDER BY type,name"),schema=[];
@@ -230,7 +241,7 @@ export async function retentionSchema(env){
  for(const row of await all(env,'SELECT name FROM sqlite_sequence'))if(/^_cf_/i.test(row.name))fail('privacy_retention_unknown_class');
  const names=schema.filter(r=>r.type==='table').map(r=>r.name).sort();
  const auth17={...retentionColumns,...momoPipelineRetentionColumns,...momoFinancialRetentionColumns,...googleAuthRetentionColumns,...adminOtpRetentionColumns};
- const profiles=[['predecessor12_13',retentionColumns],['momo14',{...retentionColumns,...momoPipelineRetentionColumns,...momoFinancialRetentionColumns}],['momo15',{...retentionColumns,...momoPipelineRetentionColumns,...momoFinancialRetentionColumns}],['auth16',{...retentionColumns,...momoPipelineRetentionColumns,...momoFinancialRetentionColumns,...googleAuthRetentionColumns}],['auth17',auth17],['admin_email11',{...auth17,...adminEmailRetentionColumns}],['diagnostics15',{...auth17,...adminEmailRetentionColumns,...diagnosticRetentionColumns}],['notifications16',{...auth17,...adminEmailRetentionColumns,...diagnosticRetentionColumns,...notificationDeliveryRetentionColumns}]];
+ const profiles=[['predecessor12_13',retentionColumns],['momo14',{...retentionColumns,...momoPipelineRetentionColumns,...momoFinancialRetentionColumns}],['momo15',{...retentionColumns,...momoPipelineRetentionColumns,...momoFinancialRetentionColumns}],['auth16',{...retentionColumns,...momoPipelineRetentionColumns,...momoFinancialRetentionColumns,...googleAuthRetentionColumns}],['auth17',auth17],['admin_email11',{...auth17,...adminEmailRetentionColumns}],['diagnostics15',{...auth17,...adminEmailRetentionColumns,...diagnosticRetentionColumns}],['notifications16',{...auth17,...adminEmailRetentionColumns,...diagnosticRetentionColumns,...notificationDeliveryRetentionColumns}],['notification_channels17',{...auth17,...adminEmailRetentionColumns,...diagnosticRetentionColumns,...notificationDeliveryRetentionColumns,...notificationChannelRetentionColumns}]];
  const candidates=profiles.filter(([,columns])=>stableJson(names)===stableJson([...Object.keys(columns),...engineTables].sort()));
  if(!candidates.length)fail('privacy_retention_unknown_class');
  // auth17 and SQL11 have identical table names. Select only after comparing
@@ -242,7 +253,7 @@ export async function retentionSchema(env){
  const profile=exactProfiles[0];
  const privateInventory=await privateRetentionCatalogIdentity(env);
  const currentPrivate=['private:admin_email_operations','private:admin_sensitive_email_proofs','private:collect_fence_source_upgrades'];
- if(['admin_email11','diagnostics15','notifications16'].includes(profile[0])?!currentPrivate.every(name=>privateInventory.classes.includes(name)):currentPrivate.some(name=>privateInventory.classes.includes(name)))fail('privacy_retention_schema_changed');
+ if(['admin_email11','diagnostics15','notifications16','notification_channels17'].includes(profile[0])?!currentPrivate.every(name=>privateInventory.classes.includes(name)):currentPrivate.some(name=>privateInventory.classes.includes(name)))fail('privacy_retention_schema_changed');
  return {sha256:await digest(stableJson({application:schema,private_inventory:privateInventory})),privateInventory,tables:names,catalog:observed,profile:profile[0],columns:profile[1],classes:['access',...Object.keys(profile[1]),...engineTables,...copyClasses,...privateRetentionClasses]};
 }
 export async function retentionSnapshot(env,subject,{limit=500}={}){
@@ -275,7 +286,7 @@ export async function retentionSnapshot(env,subject,{limit=500}={}){
  objects.sort((a,b)=>a.key.localeCompare(b.key));
  const balances={};for(const row of rows.ledger_entries){const key=row.collection_id+':'+(row.member_id??'unassigned');balances[key]=((BigInt(balances[key]??'0'))+BigInt(row.amount_minor)).toString();}
  const holds=[...rows.privacy_holds.filter(r=>r.active===1).map(r=>({id:r.id,category:r.category})),...rows.payment_evidence.filter(r=>r.legal_hold===1).map(r=>({id:r.id,category:'financial_evidence'}))];
- const inFlight=(rows.admin_email_otp_challenges??[]).some(r=>r.used_at===null&&['pending','accepted','unknown'].includes(r.delivery_status)&&r.expires_at>Math.floor(Date.now()/1000))||(rows.auth_google_flows??[]).some(r=>['pending','exchanging','ready'].includes(r.status)&&r.expires_at>Math.floor(Date.now()/1000))||rows.native_reservations.some(r=>!['completed','rejected'].includes(r.state))||rows.roster_imports.some(r=>['processing','ambiguous'].includes(r.state))||rows.auth_otp_challenges.some(r=>['dispatching','delivery_unknown'].includes(r.status))||rows.assisted_sms_jobs.some(r=>!['observed_sent','failed_no_send'].includes(r.state))||(rows.momo_processing_jobs??[]).some(r=>r.state!=='completed')||(rows.momo_processing_guards??[]).length>0||(rows.notification_deliveries??[]).some(r=>['pending','claimed','sending','retry','unknown'].includes(r.state));
+ const inFlight=(rows.admin_email_otp_challenges??[]).some(r=>r.used_at===null&&['pending','accepted','unknown'].includes(r.delivery_status)&&r.expires_at>Math.floor(Date.now()/1000))||(rows.auth_google_flows??[]).some(r=>['pending','exchanging','ready'].includes(r.status)&&r.expires_at>Math.floor(Date.now()/1000))||rows.native_reservations.some(r=>!['completed','rejected'].includes(r.state))||rows.roster_imports.some(r=>['processing','ambiguous'].includes(r.state))||rows.auth_otp_challenges.some(r=>['dispatching','delivery_unknown'].includes(r.status))||rows.assisted_sms_jobs.some(r=>!['observed_sent','failed_no_send'].includes(r.state))||(rows.momo_processing_jobs??[]).some(r=>r.state!=='completed')||(rows.momo_processing_guards??[]).length>0||(rows.notification_deliveries??[]).some(r=>['pending','claimed','sending','retry','unknown'].includes(r.state))||(rows.notification_email_deliveries??[]).some(r=>['pending','sending','unknown'].includes(r.state))||(rows.notification_email_job_dispatches??[]).some(r=>['claimed','unknown'].includes(r.state))||(rows.assisted_sms_dispatches??[]).some(r=>['ready','sending','unknown'].includes(r.state));
  const privateInventory=await inventoryPrivateRetention(env,subject);
  const summary={subject_id:subject,schema_sha256:schema.sha256,tables,objects,holds,in_flight_unresolved:inFlight||privateInventory.in_flight_unresolved,balances,ledger_sha256:tables.ledger_entries.sha256,private_inventory:privateInventory};
  return {summary,rows,schemaCatalog:schema.catalog,columns:schema.columns,classes:schema.classes,sha256:await digest(stableJson(summary))};

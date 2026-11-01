@@ -104,7 +104,7 @@ List<Widget> _historyWidgets(_ManagementState state, BuildContext context) {
         ('Missing history', 'Never resolves an original UUID.'),
         (
           'Materialization plans',
-          'Metadata only here. No batch preparation, resume or sender action is available.',
+          'Read-only original batch status is available with current permission. History never supplies resume or sending authority.',
         ),
       ],
     ),
@@ -170,11 +170,7 @@ List<Widget> _historyWidgets(_ManagementState state, BuildContext context) {
                 'recorded_outcome': item.recordedOutcome == 'plan_recorded'
                     ? 'Plan recorded'
                     : 'Decision recorded',
-                'lookup':
-                    item.kind ==
-                        NotificationManagementHistoryKind.materialization
-                    ? 'Read-only plan status unavailable here'
-                    : state._canViewHistory(item)
+                'lookup': state._canViewHistory(item)
                     ? 'Available under current access'
                     : 'Review and record permission required',
               }),
@@ -193,12 +189,7 @@ List<Widget> _historyWidgets(_ManagementState state, BuildContext context) {
                       ? () => state._viewHistory(item, sequence)
                       : null,
                   icon: const Icon(Icons.manage_search),
-                  label: Text(
-                    item.kind ==
-                            NotificationManagementHistoryKind.materialization
-                        ? 'Status unavailable'
-                        : 'View recorded status',
-                  ),
+                  label: const Text('View recorded status'),
                 );
               },
             ),
@@ -315,6 +306,22 @@ List<(String, String)> _receiptFacts(NotificationManagementReceipt receipt) => [
     ('Recorded revision', '${receipt.revision}'),
     ('Decision SHA-256', receipt.recordedOwnerDecisionSha256),
     ('Recorded at', adminKigaliDateTime(receipt.recordedAt)),
+  ],
+  if (receipt is NotificationManagementMaterializationReceipt) ...[
+    ('Original batch status', receipt.status),
+    ('Collection ID', receipt.collectionId ?? 'Not observed'),
+    ('Planned jobs', receipt.plannedCount?.toString() ?? 'Not observed'),
+    ('Prepared jobs', '${receipt.materializedCount}'),
+    (
+      'Additional eligible records observed',
+      receipt.hasMoreObserved == true ? 'Yes' : 'No',
+    ),
+    ('Transport started', 'No'),
+    for (final item in receipt.items)
+      (
+        'Contribution ${item.entryId}',
+        '${item.status}${item.code == null ? '' : ': ${item.code}'}',
+      ),
   ],
 ];
 

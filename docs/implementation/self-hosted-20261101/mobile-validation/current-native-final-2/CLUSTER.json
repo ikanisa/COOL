@@ -1,0 +1,15 @@
+{
+  "identity": {
+    "current_user": "collect_test",
+    "session_user": "collect_test",
+    "host": "127.0.0.1",
+    "port": 55446,
+    "major": 17,
+    "max": 60,
+    "super_reserved": 3,
+    "reserved": 0,
+    "bootstrap": true
+  },
+  "provider_calls": 0,
+  "synthetic": true
+}

@@ -23,6 +23,10 @@ class AppEnv {
     this.supabaseApiUrl = '',
     this.supabaseAdminApiUrl = '',
     this.supabasePublishableKey = '',
+    this.deploymentProfile = '',
+    this.deploymentProfileSha256 = '',
+    this.supabaseAuthIssuer = '',
+    this.anonymousAuthEnabled = false,
   });
 
   factory AppEnv.fromEnvironment() {
@@ -54,6 +58,14 @@ class AppEnv {
       supabasePublishableKey: String.fromEnvironment(
         'SUPABASE_PUBLISHABLE_KEY',
       ),
+      deploymentProfile: String.fromEnvironment('COLLECT_DEPLOYMENT_PROFILE'),
+      deploymentProfileSha256: String.fromEnvironment(
+        'COLLECT_DEPLOYMENT_PROFILE_SHA256',
+      ),
+      supabaseAuthIssuer: String.fromEnvironment('SUPABASE_AUTH_ISSUER'),
+      anonymousAuthEnabled: bool.fromEnvironment(
+        'COLLECT_ANONYMOUS_AUTH_ENABLED',
+      ),
     );
   }
 
@@ -73,6 +85,10 @@ class AppEnv {
   final String supabaseApiUrl;
   final String supabaseAdminApiUrl;
   final String supabasePublishableKey;
+  final String deploymentProfile;
+  final String deploymentProfileSha256;
+  final String supabaseAuthIssuer;
+  final bool anonymousAuthEnabled;
 
   bool get usesSupabase => backend == 'supabase';
   bool get hasBackendConfig =>

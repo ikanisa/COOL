@@ -1,0 +1,38 @@
+{
+  "format": "collect.task-cache-cleanup.v1",
+  "observed_at": "2026-11-01T04:13:26.427170+00:00",
+  "status": "complete",
+  "deleted_path": "/workspace/scratch/2d330cc6dfd0/toolchains/chrome-for-testing-156.0.8078.80-linux64.zip",
+  "archive_sha256": "b711c720f774be355197f32edf37e0651418ba036d92446ee2da19ac017540a7",
+  "archive_bytes": 201329937,
+  "provenance": "docs/implementation/self-hosted-20261101/public-media/README.md",
+  "installed_runtime": "/workspace/scratch/2d330cc6dfd0/toolchains/chrome-for-testing-156.0.8078.80",
+  "installed_payload_files_verified": 301,
+  "installed_payload_bytes_verified": 422995514,
+  "payload_inventory_sha256": "e2fa3c6a5fe5f7e7c6281da779f867026c28941d580c45214618ee5b047a36d6",
+  "all_archive_entries_match_installed_payload": true,
+  "open_handle_checks": [
+    {
+      "tool": "/usr/bin/lsof",
+      "exit_code": 1,
+      "stdout_empty": true,
+      "stderr_empty": true,
+      "observed_open_handles": 0
+    },
+    {
+      "tool": "/usr/bin/fuser",
+      "exit_code": 1,
+      "stdout_empty": true,
+      "stderr_empty": true,
+      "observed_open_handles": 0
+    }
+  ],
+  "free_bytes_before": 376066048,
+  "unique_source_or_capture_artifacts_deleted": false,
+  "runtime_source_edited": false,
+  "browser_started": false,
+  "archive_deleted": true,
+  "installed_runtime_preserved": true,
+  "free_bytes_after": 577376256,
+  "deleted_files": 1
+}

@@ -137,6 +137,7 @@ mixin _CollectNotificationActions on StateNotifier<CollectState> {
           .rpc<dynamic>(
             'set_notification_preferences_v2',
             params: {
+              'p_contract_version': 2,
               'p_preferences': preferences.toJson(),
               'p_expected_revision': revision,
             },

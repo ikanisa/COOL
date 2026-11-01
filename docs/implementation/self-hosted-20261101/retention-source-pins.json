@@ -1,0 +1,16 @@
+{
+  "contract": "collect.selfhost.retention.source-pins.v1",
+  "receipt_sha256": "4a02cfdd6da2a48ff58121ff8b880420ab688ba3c0cadb5db120fc3e633fa843",
+  "captured_after_native_run": true,
+  "files": {
+    "supabase/functions/_shared/domain/privacy_retention_manifest.js": "8751b26ab2baa50552f34eaafd9bb745b9805258fe15aa297741f0a5b67a799a",
+    "supabase/functions/_shared/domain/privacy_retention_rows.js": "fe6eaef4d769ddf78eb1e20652bd14652e282a4562e677304c3dfed48ae34b90",
+    "supabase/functions/_shared/domain/privacy_retention_rpc.js": "8fe050f40546c57d658c545dc5352ddf4c4ac24cce119cc2373042fc73c42efc",
+    "supabase/functions/_shared/domain/privacy_retention_catalog.js": "0a759cfcb3e82709e0c1b19e23d1f3bf94fc446fd6b771867008acce8f4f835a",
+    "supabase/functions/_shared/domain/privacy_retention_policy.js": "4e10422a94f0a94cc0b0a518016d6250d81c98bc5076fecf5eca28df92b14117",
+    "supabase/functions/_shared/private-retention.js": "02570624533e303765cc82a53beb71add429ff78c85959cfd477af948e1c8bf0",
+    "supabase/retention-inventory.json": "df74afa15380c2e9a070d3743ac0c927beca919803c21492e14285272ada6d43",
+    "scripts/supabase/compile-retention-manifest-catalog.mjs": "255cc9142ff9f53099214a98d0c9a539d7fc1ee68dd11aeee266fd281ca4b378",
+    "scripts/supabase/testing/self-hosted-retention-runtime.ts": "7746481caf6182cadd9c2d57b0b0f1429a87645143b9864d7d66b34f5492fdac"
+  }
+}

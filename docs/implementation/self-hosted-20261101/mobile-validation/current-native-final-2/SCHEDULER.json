@@ -1,0 +1,407 @@
+{
+  "format": "collect.selfhost.combined-scheduler-native.v1",
+  "run_id": "622b0bda-61a8-490b-be87-f5ee46bb2c78",
+  "status": "pass",
+  "started_at": "2026-11-01T03:32:26.905Z",
+  "normal_postgres_owner": true,
+  "real_database_identity": true,
+  "profile_assertion_double": false,
+  "original_migrations": 16,
+  "current_migrations": [
+    {
+      "name": "20261101012309_collect_admission_archive.sql",
+      "sha256": "82b09d4d2abd5994429a978ccf80daa796fd83e5dc5d29bc54076f2b7565ad84"
+    },
+    {
+      "name": "20261101012310_collect_member_history_pagination.sql",
+      "sha256": "2e67c30af2860d9ffe4a8636c225278e24728e59f9ce9ee29b38f7f441932835"
+    },
+    {
+      "name": "20261101012311_collect_guest_auth_upgrade.sql",
+      "sha256": "c16f38f37fbe1f9e344a258125214bfc2e8f4930f3974adaa1416717716ad7f9"
+    },
+    {
+      "name": "20261101012312_collect_notification_channels.sql",
+      "sha256": "67faa7d057eb033abf27e9c3c93ed8eb9e910d108949ef378172aa743e299244"
+    },
+    {
+      "name": "20261101012503_collect_sms_gateway.sql",
+      "sha256": "4235bf5eb7e84006c38f06a01d5dbe3bd4d3bdd06589c927dcb5d5c0561e5906"
+    },
+    {
+      "name": "20261101013157_collect_deployment_identity.sql",
+      "sha256": "916a7b3012135484c74f0a6b4707cdda39c637959f8564233fc8f6a8f5adbdc1"
+    },
+    {
+      "name": "20261101014231_collect_retention_inventory_manifests.sql",
+      "sha256": "cfe8da08a85db4309abb6eea5c8a8aca4d84171b64addec3733ba5af7aeb67b6"
+    },
+    {
+      "name": "20261101020642_collect_retention_row_executor.sql",
+      "sha256": "63262c3dbadeae748b87b490460462403101536ede6708b30a88b1ba23893346"
+    },
+    {
+      "name": "20261101030502_collect_sms_application_fence.sql",
+      "sha256": "94e166bd70669743fe8ad1dc1c4aa504d82549f831c658d582d786049c354515"
+    }
+  ],
+  "synthetic_interfaces": [
+    "cron",
+    "vault",
+    "pg_net"
+  ],
+  "provider_calls": 0,
+  "native_extension_acceptance": false,
+  "hosted_acceptance": false,
+  "production_acceptance": false,
+  "tests": [
+    {
+      "name": "fresh clone applies the complete reviewed current additions as normal postgres",
+      "status": "pass"
+    },
+    {
+      "name": "real immutable deployment binding precedes source initialization and rejects mismatches",
+      "status": "pass"
+    },
+    {
+      "name": "main jobs then email install inactive with verified combined fence coverage",
+      "status": "pass"
+    },
+    {
+      "name": "combined coverage refuses unexpected routine drift",
+      "status": "pass"
+    },
+    {
+      "name": "combined coverage refuses email body drift",
+      "status": "pass"
+    },
+    {
+      "name": "combined coverage refuses email routine ACL drift",
+      "status": "pass"
+    },
+    {
+      "name": "combined coverage refuses email relation ACL drift",
+      "status": "pass"
+    },
+    {
+      "name": "combined coverage refuses main guarded body drift",
+      "status": "pass"
+    },
+    {
+      "name": "combined coverage refuses main helper body drift",
+      "status": "pass"
+    },
+    {
+      "name": "combined coverage refuses main security mode drift",
+      "status": "pass"
+    },
+    {
+      "name": "combined coverage refuses main null-input contract drift",
+      "status": "pass"
+    },
+    {
+      "name": "combined coverage refuses main owner drift",
+      "status": "pass"
+    },
+    {
+      "name": "combined coverage refuses main helper ACL drift",
+      "status": "pass"
+    },
+    {
+      "name": "combined coverage refuses email cron command drift",
+      "status": "pass"
+    },
+    {
+      "name": "wrong source and independently valid sibling profile cannot admit work",
+      "status": "pass"
+    },
+    {
+      "name": "reviewed synthetic readiness remains separate from real provider authorization",
+      "status": "pass"
+    },
+    {
+      "name": "both lanes retain original probe identities and count queued obligations",
+      "status": "pass"
+    },
+    {
+      "name": "exact synthetic probes admit both schedules and active jobs block fencing",
+      "status": "pass"
+    },
+    {
+      "name": "active email admission refuses a changed configured source without a send",
+      "status": "pass"
+    },
+    {
+      "name": "unknown outcomes from both lanes pause work and cannot be replayed as new sends",
+      "status": "pass"
+    },
+    {
+      "name": "reviewed unknown labels and wrong-generation proofs never settle either lane",
+      "status": "pass"
+    },
+    {
+      "name": "real application journal counts orphan uncertainty without double-counting its outer dispatch",
+      "status": "pass"
+    },
+    {
+      "name": "actual fence drain remains quiescing with retained unresolved scheduler obligations",
+      "status": "pass"
+    },
+    {
+      "name": "exact recorded runtime source remained unchanged throughout qualification",
+      "status": "pass"
+    }
+  ],
+  "observations": {
+    "inactive_coverage": {
+      "checked": true,
+      "blocking": false,
+      "namedActiveJobs": 0,
+      "coverageVerified": true,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "drift_unexpected_routine": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "drift_email_body": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "drift_email_routine_ACL": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "drift_email_relation_ACL": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "drift_main_guarded_body": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "drift_main_helper_body": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "drift_main_security_mode": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "drift_main_null-input_contract": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "drift_main_owner": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "drift_main_helper_ACL": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "drift_email_cron_command": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "two_awaiting": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": true,
+      "lifecycleUnproven": 2,
+      "awaitingDispatches": 2,
+      "pendingNativeRequests": 2,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "two_active": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 2,
+      "coverageVerified": true,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "source_drift": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 2,
+      "coverageVerified": false,
+      "lifecycleUnproven": 0,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 0
+    },
+    "two_unknown": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": true,
+      "lifecycleUnproven": 2,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 2,
+      "reviewedUnknownDispatches": 0
+    },
+    "two_reviewed_unknown": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": true,
+      "lifecycleUnproven": 2,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 2
+    },
+    "with_orphan_unknown": {
+      "checked": true,
+      "blocking": true,
+      "namedActiveJobs": 0,
+      "coverageVerified": true,
+      "lifecycleUnproven": 3,
+      "awaitingDispatches": 0,
+      "pendingNativeRequests": 0,
+      "unconfirmedDispatches": 0,
+      "reviewedUnknownDispatches": 2
+    }
+  },
+  "source_sha256": "30be121bf2515f5b0934e9b3af8f0819c4a04aa00a3545365c5623591aff8418",
+  "source_manifest_sha256": "9827dc1cfd3cc0f2e1fe24c32ae90be2a17d0125fbbbe00e52a8200afd87da44",
+  "profile_sha256": "342d432894780cc86af2366355b35009a075e51bdab1a8180893f8cd16cc8e49",
+  "profile": {
+    "format": "collect.deployment.v1",
+    "id": "combined-scheduler-fixture",
+    "mode": "self_hosted",
+    "environment": "qualification",
+    "supabase_origin": "https://supabase.combined.example.invalid",
+    "member_api_origin": "https://api.combined.example.invalid",
+    "admin_origin": "https://admin.combined.example.invalid",
+    "public_origin": "https://www.combined.example.invalid",
+    "google_callback_origin": "https://admin.combined.example.invalid"
+  },
+  "fixture_database_sha256": "4b8fa59eb344b3b455b5e5b5bc59e17f2599328fa752d72ecaf7a856e86d735d",
+  "fixture_record_basename": "collect-scheduler-combined-622b0bda-61a8-490b-be87-f5ee46bb2c78.private.json",
+  "postgres_version": "17.11",
+  "synthetic_auth_scaffold_delta": [
+    "email_confirmed_at timestamptz",
+    "is_anonymous boolean NOT NULL DEFAULT false"
+  ],
+  "profile_assertion_body_sha256": "94dd79ac9e0dabb5a5a02057515124e54eba66cf04e3ce2da6f7f0027df88fbd",
+  "identity_migration_sha256": "916a7b3012135484c74f0a6b4707cdda39c637959f8564233fc8f6a8f5adbdc1",
+  "scheduler_artifacts": {
+    "main": {
+      "config_sha256": "5378553ada5d7dd464b1996078a209de26a107d20ec2d021bcd833b00b1ed413",
+      "template_sha256": "85c9128bf7f4f4d91eafe24710e8ae91f9a621fc817eb8443561b06c83d1f2f0",
+      "rendered_sha256": "f5e9710c6263441d30403242fe92e51afca958a6980dac4c31e2dc88b0c1487b"
+    },
+    "email": {
+      "config_sha256": "38f39dae7b5517cd0235608b5986d4d40d151eb8b2faa87fdba861ddd53f98fa",
+      "template_sha256": "9e8d2e7e12250161a72465f7dd33a75b1a40db4ca1f47dae5400a6c2e085b1df",
+      "rendered_sha256": "66c0c9c9cc48b4529a64b65b23c0b6cec92433add005fe92ad1447a6130e5b24"
+    }
+  },
+  "final_scheduler_status": {
+    "checked": true,
+    "blocking": true,
+    "namedActiveJobs": 0,
+    "coverageVerified": true,
+    "lifecycleUnproven": 3,
+    "awaitingDispatches": 0,
+    "pendingNativeRequests": 0,
+    "unconfirmedDispatches": 0,
+    "reviewedUnknownDispatches": 2
+  },
+  "final_controller_mode": "quiescing",
+  "source_drift": [],
+  "final_source_sha256": "30be121bf2515f5b0934e9b3af8f0819c4a04aa00a3545365c5623591aff8418",
+  "finished_at": "2026-11-01T03:32:28.153Z",
+  "passed": 24,
+  "failed": 0
+}

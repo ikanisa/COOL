@@ -347,11 +347,13 @@ class NotificationOperatorSendPermit {
     this._api,
     this.attemptId,
     this.jobId,
-    this._expiresAt,
-  );
+    this._expiresAt, {
+    this.dispatchToken,
+  });
   final CloudflareAdminNotificationOperatorApi _api;
   final String attemptId, jobId;
   final DateTime _expiresAt;
+  final String? dispatchToken;
   bool _consumed = false;
   bool get isUsable =>
       !_consumed && _api.canManage && _expiresAt.isAfter(_api._now());
@@ -376,6 +378,7 @@ class NotificationOperatorSendStart extends NotificationOperatorReceipt {
       publicSessionId = _id(row['public_session_id']),
       replay = row['replay'] as bool?,
       acknowledgement = row['acknowledgement'] as String?,
+      dispatchToken = row['dispatch_token'] as String?,
       super(_id(row['job_id'])) {
     _receiptKeys(
       row,
@@ -389,11 +392,17 @@ class NotificationOperatorSendStart extends NotificationOperatorReceipt {
         'originating_session_id',
         'public_session_id',
       },
-      {'replay', 'may_send', 'acknowledgement'},
+      {'replay', 'may_send', 'acknowledgement', 'dispatch_token'},
     );
     if (row['state'] != 'send_started' ||
         (row.containsKey('may_send') && row['may_send'] is! bool) ||
         (row.containsKey('acknowledgement') && acknowledgement == null)) {
+      _invalid();
+    }
+    if (row.containsKey('dispatch_token') &&
+        (row['may_send'] != true ||
+            row['replay'] != false ||
+            !RegExp(r'^[a-f0-9]{64}$').hasMatch(dispatchToken ?? ''))) {
       _invalid();
     }
   }
@@ -405,6 +414,7 @@ class NotificationOperatorSendStart extends NotificationOperatorReceipt {
   final int fenceVersion;
   final bool? replay;
   final String? acknowledgement;
+  final String? dispatchToken;
   final NotificationOperatorSendPermit? permit;
   @override
   String get action => 'record_send_start';
@@ -798,6 +808,7 @@ class CloudflareAdminNotificationOperatorApi {
           start.attemptId,
           start.jobId!,
           confirmation.expiresAt,
+          dispatchToken: start.dispatchToken,
         ),
       );
     }

@@ -18,6 +18,7 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 
 plugins {
     id("com.android.application")
@@ -93,6 +94,47 @@ require(collectBackend != "supabase" || collectPublishableKey.matches(Regex("sb_
     "Supabase native transport requires a publishable key"
 }
 val collectProjectOrigin = collectSupabaseProject?.let { "https://${it.host.lowercase(Locale.US)}" }
+val collectDeploymentRaw = collectPublicDefines["COLLECT_DEPLOYMENT_PROFILE"]
+val collectDeploymentDigest = collectPublicDefines["COLLECT_DEPLOYMENT_PROFILE_SHA256"]
+if (collectDeploymentRaw != null || collectDeploymentDigest != null) {
+    require(collectDeploymentRaw != null && collectDeploymentRaw.length <= 8192 &&
+        collectDeploymentDigest?.matches(Regex("[a-f0-9]{64}")) == true) {
+        "Collect deployment profile and SHA256 must be configured together"
+    }
+    val profile = JsonSlurper().parseText(collectDeploymentRaw) as? Map<*, *>
+        ?: error("Invalid Collect deployment profile")
+    val fields = setOf("format", "id", "mode", "environment", "supabase_origin", "member_api_origin", "admin_origin", "public_origin", "google_callback_origin")
+    require(profile.keys == fields && profile.values.all { it is String }) { "Invalid Collect deployment profile" }
+    val canonical = JsonOutput.toJson(profile.entries.associate { it.key as String to it.value as String }.toSortedMap())
+    val digest = MessageDigest.getInstance("SHA-256").digest(canonical.toByteArray(Charsets.UTF_8)).joinToString("") { "%02x".format(it) }
+    require(canonical == collectDeploymentRaw && digest == collectDeploymentDigest &&
+        profile["format"] == "collect.deployment.v1" &&
+        (profile["id"] as String).matches(Regex("[a-z][a-z0-9-]{0,62}")) &&
+        profile["mode"] in setOf("managed", "self_hosted") &&
+        profile["environment"] in setOf("production", "qualification")) { "Invalid Collect deployment identity" }
+    fields.filter { it.endsWith("_origin") }.forEach { key ->
+        val raw = profile[key] as String
+        val value = collectOrigin(raw)
+        val host = value.host.lowercase(Locale.US)
+        require(raw == "https://$host" && host.contains('.') && !host.endsWith('.') && host.length <= 253 &&
+            host.split('.').all { it.matches(Regex("[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?")) } &&
+            !host.matches(Regex("[0-9.]+"))) {
+            "Collect deployment origins require canonical HTTPS hostnames"
+        }
+    }
+    require(profile["google_callback_origin"] in setOf(profile["member_api_origin"], profile["admin_origin"]) &&
+        (profile["mode"] != "managed" || profile["supabase_origin"] == "https://rrlduytparvsjfmegalh.supabase.co") &&
+        profile["supabase_origin"] == collectProjectOrigin &&
+        profile["member_api_origin"] == collectSupabaseApi?.let { "https://${it.host.lowercase(Locale.US)}" } &&
+        profile["admin_origin"] == collectPublicDefines["SUPABASE_ADMIN_API_URL"] &&
+        profile["admin_origin"] == collectPublicDefines["ADMIN_APP_URL"] &&
+        profile["public_origin"] == collectPublicDefines["APP_PUBLIC_URL"] &&
+        profile["environment"] == collectPublicDefines["APP_ENVIRONMENT"]) { "Collect native origins must match the deployment profile" }
+}
+require(collectPublicDefines["SUPABASE_AUTH_ISSUER"] == null ||
+    collectPublicDefines["SUPABASE_AUTH_ISSUER"] == collectProjectOrigin?.plus("/auth/v1")) {
+    "Collect native Auth must use the public Supabase issuer"
+}
 val collectSessionOwner = if (collectProjectOrigin == null) "00000000-0000-4000-8000-000000000001" else {
     val digest = MessageDigest.getInstance("SHA-256").digest("collect-auth-session:v1:supabase:$collectProjectOrigin".toByteArray(Charsets.UTF_8))
         .joinToString("") { "%02x".format(it) }

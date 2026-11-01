@@ -1,0 +1,72 @@
+{
+  "format": "collect.public-media.review.v1",
+  "status": "pass",
+  "kind": "current_capture_accuracy_review",
+  "reviewed_at": "2026-11-01T02:36:33.095955+00:00",
+  "reviewer": "Assistant direct visual inspection of each of the seven original PNGs",
+  "scope": "Limited product-evidence review: exact route/content, readable visible text, absence of unintended clipping/overlap, original unedited screenshot bytes and suitability as synthetic interface previews. No design-system comparator, native-device, interaction-completeness or release signoff.",
+  "capture_report_sha256": "e7eadaaf9f445cbebf6d6d979709418bb50eef1589f23bd3af638beb19915e7b",
+  "runtime_sha256": "18be7b92dd1135a5f3c94d4fb5d8dba6cfd38635724ff863526a1f4e478cd2ab",
+  "build_manifest_sha256": "4b66a517afdb64eee379ff257d633a62b0a7f83e193c75ecd13ac2fb56b3fdc2",
+  "native_acceptance": false,
+  "release_acceptance": false,
+  "design_acceptance": false,
+  "design_acceptance_status": "pending_required_revolut_authority_unavailable",
+  "image_edits": false,
+  "backend_or_provider_acceptance": false,
+  "screens": [
+    {
+      "id": "home",
+      "sha256": "b9ea247884a3c1bbaa31fc0fc7195fba36633a9edd2fb64391b51848cc4c59a0",
+      "reviewed_for_website": true,
+      "review_scope": "accurate synthetic interface preview only",
+      "notes": "The Home route shows the synthetic RWF 35,000 recorded total, two recorded activity rows and selected Home navigation. Visible text and controls are legible; the next group card continues below the viewport."
+    },
+    {
+      "id": "groups",
+      "sha256": "a3afac41233c4ce8e5e3e90a653d85621abdef86a80b4ecd38e740b6549a8bcf",
+      "reviewed_for_website": true,
+      "review_scope": "accurate synthetic interface preview only",
+      "notes": "The Groups route shows the QA private group, recorded RWF 35,000 and one member with selected Groups navigation. The next group card is a normal scroll continuation; no unintended text or control overlap is visible."
+    },
+    {
+      "id": "group-detail",
+      "sha256": "582d9d3ebd2131e037052c68cc9b4b3ce003956370c781638167b814490d4510",
+      "reviewed_for_website": true,
+      "review_scope": "accurate synthetic interface preview only",
+      "notes": "The private group detail shows its name, recorded total, contribution/member/share/manage controls and the ledger-versus-provider-settlement disclosure. Activity continues below the fixed navigation viewport; visible text is legible."
+    },
+    {
+      "id": "security",
+      "sha256": "0f2bde766ea6352bbe212bc1cf45766a388bf3c73d70aa6f624a0a1bc6f50b97",
+      "reviewed_for_website": true,
+      "review_scope": "accurate synthetic interface preview only",
+      "notes": "The Security route shows the MoMo approval/PIN warning and four security navigation rows without clipping or overlap. The remaining space is the existing screen layout."
+    },
+    {
+      "id": "privacy",
+      "sha256": "d4f7f94d1b08c4d73c2dcb548fb68ba31b4df3ac5211b22745fc3b1f4e288db5",
+      "reviewed_for_website": true,
+      "review_scope": "accurate synthetic interface preview only",
+      "notes": "The Privacy Policy route shows Data we collect and Signing in with readable wrapping. The long policy continues below the captured viewport; this is an interface preview, not a full legal-document capture."
+    },
+    {
+      "id": "terms",
+      "sha256": "ab0bd9ec6002dd4f196aaddaa00553b367d94db15f69f4d56b03cec312aebfe2",
+      "reviewed_for_website": true,
+      "review_scope": "accurate synthetic interface preview only",
+      "notes": "The Terms and Conditions route shows Using Collect, Contribution rails and Group ownership with readable wrapping. The disputes section continues below the captured viewport; this is an interface preview, not full legal-document acceptance."
+    },
+    {
+      "id": "account-deletion",
+      "sha256": "b95fdb220fda18f6650d5e3f21f9812af1ae46698f869bb27aa5ac40a1109227",
+      "reviewed_for_website": true,
+      "review_scope": "accurate synthetic interface preview only",
+      "notes": "The Delete request route accurately shows Request service unavailable and Get help because the isolated fixture has no backend client. It does not claim a submitted request or completed erasure; visible controls and copy are legible."
+    }
+  ],
+  "design_skill_availability": "revolut-design@jean-bosco-skills; the current entrypoint and maintained local fallback were unavailable; no substitute design authority was used",
+  "design_authority": "revolut-design",
+  "design_authority_provider": "revolut-design@jean-bosco-skills",
+  "metadata_correction": "Reserved authority field now uses the canonical sole authority; the availability note is separate. Capture bytes, report and limited visual findings are unchanged."
+}

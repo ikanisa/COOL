@@ -225,6 +225,7 @@ void main() {
       expect(h.repo.notificationPreferencesRevision, 0);
       await h.repo.updateNotificationPreferences(_edit);
       expect(_body(h.saves.single), {
+        'p_contract_version': 2,
         'p_preferences': _edit.toJson(),
         'p_expected_revision': 0,
       });

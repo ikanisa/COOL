@@ -11,7 +11,7 @@ enum CollectAuthEvent {
 
 enum CollectOtpType { sms, email }
 
-enum CollectOtpChannel { whatsapp }
+enum CollectOtpChannel { sms, whatsapp }
 
 enum CollectSignOutScope { local, global }
 
@@ -80,6 +80,9 @@ final class CollectAuthUser {
     }
 
     final rawFactors = json['factors'];
+    if (json.containsKey('is_anonymous') && json['is_anonymous'] is! bool) {
+      throw const FormatException();
+    }
     final authUserId = json['auth_user_id'];
     if (authUserId != null &&
         (authUserId is! String ||
@@ -189,6 +192,7 @@ final class CollectAuthSession {
   static CollectAuthSession? fromJson(
     Map<String, dynamic> json, {
     bool allowMappedAuthUser = false,
+    bool allowAnonymous = false,
     String? expectedIssuer,
   }) {
     final rawUser = json['user'];
@@ -229,7 +233,13 @@ final class CollectAuthSession {
         claims['exp'] is! int ||
         (claims['exp'] as int) > 253402300799 ||
         session.tokenType.toLowerCase() != 'bearer' ||
-        user.isAnonymous) {
+        (claims.containsKey('is_anonymous') &&
+            claims['is_anonymous'] is! bool) ||
+        (claims['is_anonymous'] == true) != user.isAnonymous ||
+        (user.isAnonymous &&
+            (!allowAnonymous ||
+                !allowMappedAuthUser ||
+                user.authUserId != user.id))) {
       return null;
     }
     return session;
@@ -290,6 +300,20 @@ class CollectAuthException implements Exception {
 final class CollectOtpRequestReceipt {
   const CollectOtpRequestReceipt({required this.retryAfterSeconds});
   final int retryAfterSeconds;
+}
+
+/// Retained only in the protected Auth store. No guest financial work exists.
+final class CollectGuestUpgradeStatus {
+  const CollectGuestUpgradeStatus({
+    this.phone,
+    this.email,
+    this.channel,
+    required this.unconfirmed,
+  });
+  final String? phone;
+  final String? email;
+  final CollectOtpChannel? channel;
+  final bool unconfirmed;
 }
 
 /// The server retained a challenge, but provider delivery was not confirmed.

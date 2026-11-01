@@ -1,0 +1,64 @@
+{
+  "format": "collect.flutter.targeted-correction.v1",
+  "status": "PASS",
+  "command": [
+    "/workspace/scratch/2d330cc6dfd0/toolchains/flutter-3.44.4/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "test/features/public_capability_content_test.dart",
+    "test/features/mobile_completion_test.dart",
+    "test/features/notification_preferences_recovery_ui_test.dart",
+    "test/admin/supabase_admin_email_verification_page_test.dart"
+  ],
+  "passed": 64,
+  "failed": 0,
+  "skipped": 0,
+  "elapsed": "00:30",
+  "exit_code": 0,
+  "log_sha256": "7af5b67d5a4ea6d9b17b7ac06700db331ff4553f9a14e586d8c6ffffb4855566",
+  "files": [
+    {
+      "path": "test/features/public_capability_content_test.dart",
+      "sha256": "7ae619fac74d15846d5b9e52ec00238a84fcea1c4ef1820345b3ff7f2f795a6d"
+    },
+    {
+      "path": "test/features/mobile_completion_test.dart",
+      "sha256": "a9fcbaf8b0bd0aca507a4db29fcae57be3fa3aba428d2c67cca6b8e65492ce1c"
+    },
+    {
+      "path": "test/features/notification_preferences_recovery_ui_test.dart",
+      "sha256": "38feb213fe7ad4b69da28d2b2ded162b2d70388f26233cc050c8db5020618296"
+    },
+    {
+      "path": "test/admin/supabase_admin_email_verification_page_test.dart",
+      "sha256": "8b7bbeef1a5a2d63d78c4212f0eb37535dfe7a1a443fad31303ee119ca5d794a"
+    },
+    {
+      "path": "content/product/collect_capabilities.json",
+      "sha256": "99d4fe469af79b84ab66b832c8c6c85beb4e773ad9e95b97e5870841db66a22e"
+    },
+    {
+      "path": "lib/features/landing/public_capability_content.dart",
+      "sha256": "936e555a3cde9a419bef3e996178585422e62e50dd7e53a6e74880a36bff1553"
+    },
+    {
+      "path": "lib/features/landing/public_marketing_page_content.dart",
+      "sha256": "e0f38b7207481243adcf7f6296da300ba1dad41a36e79468139cb013a66be419"
+    }
+  ],
+  "scope": "Only the four affected non-visual test files; the full suite result remains separately failed",
+  "corrections": [
+    "Maintained public capability generator refreshed; exact current registry/compiled content matches in a fresh invocation",
+    "Two preference fixtures target the Contribution updates semantics rather than positional Switch.first",
+    "Admin verification proof timestamp uses its injected fixture clock"
+  ],
+  "earlier_attempt": {
+    "log": "flutter-four-corrections-sandbox-refusal.log",
+    "executed_cases": 0,
+    "reason": "Default sandbox denied Flutter loopback test-host socket; rerun used the authorized local validation boundary"
+  },
+  "goldens_rerun": false,
+  "design_acceptance": false,
+  "production_acceptance": false
+}

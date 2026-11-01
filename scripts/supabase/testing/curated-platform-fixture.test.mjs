@@ -6,13 +6,13 @@ import {readFile,mkdtemp,mkdir,writeFile,rm,realpath} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 import {validateBinding,renderSyntheticSql,loadOriginalNine,loadReviewedPlatformFixture,ORIGINAL_NINE,EXACT_TEN,EXACT_CURRENT11,EXACT_CURRENT12,EXACT_CURRENT13,EXACT_CURRENT14,MIGRATION_TEN,MIGRATION_ELEVEN,MIGRATION_TWELVE,MIGRATION_THIRTEEN,MIGRATION_FOURTEEN,ROOT_SQL11_SHA256,ROOT_SQL12_SHA256,ROOT_SQL13_SHA256,ROOT_SQL14_SHA256} from './curated-platform-fixture.mjs';
-import {MIGRATION_FIFTEEN,ROOT_SQL15_SHA256,EXACT_CURRENT15,MIGRATION_SIXTEEN,ROOT_SQL16_SHA256,EXACT_CURRENT16} from './curated-platform-fixture.mjs';
+import {MIGRATION_FIFTEEN,ROOT_SQL15_SHA256,EXACT_CURRENT15,MIGRATION_SIXTEEN,ROOT_SQL16_SHA256,EXACT_CURRENT16,EXACT_SELF_HOSTED_CURRENT} from './curated-platform-fixture.mjs';
 const sha=text=>createHash('sha256').update(text).digest('hex');
 
 test('the exact diagnostics and push candidates are admitted without expanding historical executed profiles',async()=>{
  const source=resolve(import.meta.dirname,'../../..');
  const fixture=await loadReviewedPlatformFixture(source);
- assert.deepEqual(fixture.diskNames,EXACT_CURRENT16);
+ assert.deepEqual(fixture.diskNames,EXACT_SELF_HOSTED_CURRENT);
  assert.deepEqual(fixture.names,EXACT_CURRENT11);
  assert.equal(fixture.clientDiagnostics.name,MIGRATION_FIFTEEN);
  assert.equal(sha(fixture.clientDiagnostics.bytes),ROOT_SQL15_SHA256);
@@ -21,7 +21,23 @@ test('the exact diagnostics and push candidates are admitted without expanding h
  const commands=[];await fixture.apply(async sql=>{commands.push(sql);if(sha(sql)===fixture.binding.hosted_sql_sha256)throw Object.assign(new Error('member_realtime_metadata_not_reviewed'),{code:'55000'});});
  assert.equal(commands.some(sql=>sha(sql)===ROOT_SQL15_SHA256),false,'Historical current11 proof cannot silently apply or qualify SQL15.');
  assert.equal(commands.some(sql=>sha(sql)===ROOT_SQL16_SHA256),false,'Historical current11 proof cannot silently apply or qualify SQL16.');
+ for(const name of EXACT_SELF_HOSTED_CURRENT.slice(16))assert.equal(commands.includes(await readFile(join(source,'supabase/migrations',name),'utf8')),false,'Historical proof never applies self-hosted additions.');
  await fixture.parity();
+});
+
+test('explicit self-hosted additions reject tampering and never admit an unlisted migration',async()=>{
+ const source=resolve(import.meta.dirname,'../../..'),folder=await realpath(await mkdtemp(join(tmpdir(),'collect-selfhost-pin-')));
+ try{
+  await mkdir(join(folder,'supabase/migrations'),{recursive:true});await mkdir(join(folder,'supabase/tests/sql'),{recursive:true});
+  await writeFile(join(folder,'supabase/tests/sql/00_local_auth_fixture.sql'),await readFile(join(source,'supabase/tests/sql/00_local_auth_fixture.sql')));
+  for(const name of EXACT_SELF_HOSTED_CURRENT)await writeFile(join(folder,'supabase/migrations',name),await readFile(join(source,'supabase/migrations',name)));
+  assert.deepEqual((await loadOriginalNine(folder)).diskNames,EXACT_SELF_HOSTED_CURRENT);
+  const name=EXACT_SELF_HOSTED_CURRENT.at(-1);await writeFile(join(folder,'supabase/migrations',name),'-- changed new migration\n');
+  await assert.rejects(loadOriginalNine(folder),/REVIEWED_SELF_HOSTED_MIGRATION_CHANGED/);
+  await writeFile(join(folder,'supabase/migrations',name),await readFile(join(source,'supabase/migrations',name)));
+  await writeFile(join(folder,'supabase/migrations/20261101090000_unlisted.sql'),'SELECT 1;');
+  await assert.rejects(loadOriginalNine(folder),/EXACT_REVIEWED_MIGRATION_CHAIN_REQUIRED/);
+ }finally{await rm(folder,{recursive:true});}
 });
 
 test('diagnostics migration tamper and unlisted successors refuse before SQL execution',async()=>{

@@ -1,0 +1,47 @@
+{
+  "contract": "collect.roster.native-exploratory-preservation.v1",
+  "synthetic_only": true,
+  "exact_result_bytes_preserved": true,
+  "complete_per_attempt_source_binding": false,
+  "parser_contract_qualified": false,
+  "production_acceptance": false,
+  "note": "Historical exploratory results retained without retroactively attaching the final adapter hashes. Use the separately reproduced final source-bound observations for current exact-byte claims.",
+  "attempts": [
+    {
+      "file": "attempt1.json",
+      "sha256": "7965d26ea8a96135772f8e9741fe11074d394167c0ab00ec218bad691602389d",
+      "results": 24,
+      "complete_per_attempt_source_binding": false
+    },
+    {
+      "file": "attempt2.json",
+      "sha256": "ed1ea449bbea43949e765d46a6b4d684042d5fa63276167c06d2b373e70941ad",
+      "results": 14,
+      "complete_per_attempt_source_binding": false
+    },
+    {
+      "file": "attempt3.json",
+      "sha256": "45ccddc15f00ed1fcf09b1165ec08a5f3e358a7b8666ac8f312032bff12ee1e1",
+      "results": 14,
+      "complete_per_attempt_source_binding": false
+    },
+    {
+      "file": "attempt4.json",
+      "sha256": "5c24bf837f4c9ed8c049c733b72a90b73571c8d19c4f1678e2fb83b177125acb",
+      "results": 2,
+      "complete_per_attempt_source_binding": false
+    },
+    {
+      "file": "attempt5.json",
+      "sha256": "25afbf1fe78d56db77bf8c06bc08864120819d20416845006a934ab27554dd36",
+      "results": 2,
+      "complete_per_attempt_source_binding": false
+    },
+    {
+      "file": "attempt6.json",
+      "sha256": "6b33629d5b110708020fc4f10c9dfb3f563e8ae51cfcb642681b69282d5328c5",
+      "results": 12,
+      "complete_per_attempt_source_binding": false
+    }
+  ]
+}

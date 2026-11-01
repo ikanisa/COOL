@@ -1,0 +1,438 @@
+{
+  "format": "collect.roster.native-dependency-probe.v1",
+  "production_acceptance": false,
+  "parser_contract_qualified": false,
+  "binary_sha256": "7883510fe308b4b5c49ec0a8e2020ec81c5fa41133239f3969a372b1cbf107ba",
+  "results": [
+    {
+      "fixture": "scanned-multilingual.png",
+      "kind": "image",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "frames": 1,
+        "pixels": 200000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 404
+    },
+    {
+      "fixture": "truncated.png",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: UnexpectedEndOfFile `' @ error/png.c/MagickPNGError/1308",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 470
+    },
+    {
+      "fixture": "scanned-multilingual.jpg",
+      "kind": "image",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "frames": 1,
+        "pixels": 200000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 438
+    },
+    {
+      "fixture": "truncated.jpg",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "frames": 1,
+        "pixels": 200000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 317
+    },
+    {
+      "fixture": "scanned-multilingual.webp",
+      "kind": "image",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "frames": 1,
+        "pixels": 200000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 289
+    },
+    {
+      "fixture": "truncated.webp",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: InsufficientImageDataInFile `' @ error/webp.c/ReadWEBPImage/582",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 241
+    },
+    {
+      "fixture": "bad-crc.png",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: IDAT: invalid code lengths set `' @ error/png.c/MagickPNGError/1308",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 263
+    },
+    {
+      "fixture": "dimension-bomb.png",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: Invalid IHDR data `' @ error/png.c/MagickPNGError/1308",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 241
+    },
+    {
+      "fixture": "animation-3.png",
+      "kind": "image",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "frames": 1,
+        "pixels": 24000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 359
+    },
+    {
+      "fixture": "animation-21.png",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "frames": 1,
+        "pixels": 24000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 450
+    },
+    {
+      "fixture": "animation-3.webp",
+      "kind": "image",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "frames": 3,
+        "pixels": 72000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 398
+    },
+    {
+      "fixture": "animation-21.webp",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: ListLengthExceedsLimit `' @ error/cache.c/OpenPixelCache/3824",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 245
+    },
+    {
+      "fixture": "scanned-multilingual.pdf",
+      "kind": "pdf",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "pages": 1,
+        "pixels": 200000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 193
+    },
+    {
+      "fixture": "pages-2.pdf",
+      "kind": "pdf",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "pages": 2,
+        "pixels": 85120,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 149
+    },
+    {
+      "fixture": "pages-21.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: page_limit",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 134
+    },
+    {
+      "fixture": "javascript.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "pages": 1,
+        "pixels": 42560,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 183
+    },
+    {
+      "fixture": "encrypted.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: Password required or incorrect password",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 152
+    },
+    {
+      "fixture": "attachment.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "pages": 1,
+        "pixels": 42560,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 152
+    },
+    {
+      "fixture": "flate-expansion.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "pages": 1,
+        "pixels": 42560,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 508
+    },
+    {
+      "fixture": "compressed-objects.pdf",
+      "kind": "pdf",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "pages": 1,
+        "pixels": 42560,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 150
+    },
+    {
+      "fixture": "object-stream-expansion.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "pages": 1,
+        "pixels": 42560,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 896
+    },
+    {
+      "fixture": "broken-xref.pdf",
+      "kind": "pdf",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: File not in PDF format or corrupted",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 169
+    },
+    {
+      "kind": "qpdf",
+      "version": true,
+      "http_status": 503,
+      "response": {
+        "ok": false,
+        "stage": "worker_boot",
+        "error": "InvalidWorkerCreation: worker boot error: failed to bootstrap runtime: unsupported media type Cjs for file:///workspace/scratch/2d330cc6dfd0/toolchains/roster-wasm-investigation/qpdf/vendor/parser.cjs"
+      }
+    },
+    {
+      "kind": "qpdf",
+      "version": false,
+      "http_status": 503,
+      "response": {
+        "ok": false,
+        "stage": "worker_boot",
+        "error": "InvalidWorkerCreation: worker boot error: failed to bootstrap runtime: unsupported media type Cjs for file:///workspace/scratch/2d330cc6dfd0/toolchains/roster-wasm-investigation/qpdf/vendor/parser.cjs"
+      }
+    }
+  ]
+}

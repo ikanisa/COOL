@@ -19,22 +19,15 @@ PACKAGE_VERSION="$(sed -n 's/^version:[[:space:]]*//p' pubspec.yaml | head -n 1)
 }
 BUILD_NAME="${COLLECT_ANDROID_BUILD_NAME:-${PACKAGE_VERSION%%+*}}"
 BUILD_NUMBER="${COLLECT_ANDROID_BUILD_NUMBER:-${PACKAGE_VERSION##*+}}"
-readonly EXPECTED_PRODUCTION_PUBLIC_URL="https://collect.ikanisa.com"
-readonly EXPECTED_PRODUCTION_ADMIN_URL="https://platform-admin.collect.ikanisa.com"
-APP_PUBLIC_URL="${APP_PUBLIC_URL:-$EXPECTED_PRODUCTION_PUBLIC_URL}"
-ADMIN_APP_URL="${ADMIN_APP_URL:-$EXPECTED_PRODUCTION_ADMIN_URL}"
-export APP_PUBLIC_URL ADMIN_APP_URL
+# native_build_config.py resolves the exact reviewed deployment profile and
+# checks any explicit public/Admin aliases before invoking either compiler.
+# Omitting a profile retains that validator's managed production defaults.
 PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER_VALUE="${PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER:-}"
 BUILD_STARTED_EPOCH="$(date +%s)"
 NATIVE_SOURCE_BEFORE="$(ruby scripts/qa/native_build_provenance.rb begin android)"
 
 if [[ $# -ne 0 ]]; then
   printf 'This production wrapper accepts no extra Flutter arguments. Update the reviewed script for any build-contract change.\n' >&2
-  exit 2
-fi
-
-if [[ "$APP_PUBLIC_URL" != "$EXPECTED_PRODUCTION_PUBLIC_URL" || "$ADMIN_APP_URL" != "$EXPECTED_PRODUCTION_ADMIN_URL" ]]; then
-  printf 'Public and Admin URLs must match the reviewed HTTPS production targets.\n' >&2
   exit 2
 fi
 

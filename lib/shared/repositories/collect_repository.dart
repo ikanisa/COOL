@@ -582,7 +582,7 @@ class CollectRepository extends StateNotifier<CollectState>
     String? countryCode,
   }) async {
     if (otp.trim().length < 4) {
-      throw const FormatException('Enter the WhatsApp OTP code');
+      throw const FormatException('Enter the phone verification code');
     }
     final normalized = PhoneNormalizer.normalizeRwanda(phone);
     final requestedCountry = CollectProfileCountryRules.normalizeCountryCode(
@@ -605,7 +605,7 @@ class CollectRepository extends StateNotifier<CollectState>
       return profile;
     }
     if (!_allowLocalWrites) {
-      throw StateError('Live WhatsApp sign-in is unavailable.');
+      throw StateError('Live phone sign-in is unavailable.');
     }
 
     final existingIds = state.currentProfile == null

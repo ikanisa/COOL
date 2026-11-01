@@ -1,0 +1,15 @@
+{
+  "format": "collect.gateway.fence-gap-native.v1",
+  "date": "2026-11-01T03:03:03.558Z",
+  "scope": "isolated synthetic PostgreSQL fixture; rollback-only gateway mutation",
+  "provider_calls": 0,
+  "production_acceptance": false,
+  "controller": {
+    "mode": "quiescing",
+    "epoch": "1",
+    "source_sha256": "f3503b1b54ca4a08906a46ddd6da60ef6e63fb408b59e8499025230e517d6f65"
+  },
+  "status": "blocked",
+  "error_class": "PostgresError",
+  "sqlstate": "42501"
+}

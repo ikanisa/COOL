@@ -1,0 +1,24 @@
+{
+  "format": "collect.selfhost.history.dart-consumer.v1",
+  "status": "PASS",
+  "tests": 6,
+  "profile": "current16_plus_admission_archive_and_history_v2",
+  "source_sha256": "01887d9b750beda9ca6590ed17636b12e4926ab9e1eb3887e47b8afd6431701c",
+  "packet_sha256": "ed61a7c9716b5f95ee6eaeeccf3abecfb7ffa1fb94f0ecb1ecd55a5a45cf3a0d",
+  "toolchain": {
+    "flutter": "3.44.4",
+    "dart": "3.12.2",
+    "deno": "2.9.6",
+    "postgres_major": 17
+  },
+  "command": [
+    "make",
+    "test-history-selfhost",
+    "FLUTTER=/absolute/path/to/flutter",
+    "DEFINES=docs/implementation/self-hosted-20261101/history/DEFINES.json"
+  ],
+  "provider_calls": 0,
+  "managed_auth_acceptance": false,
+  "hosted_acceptance": false,
+  "production_acceptance": false
+}

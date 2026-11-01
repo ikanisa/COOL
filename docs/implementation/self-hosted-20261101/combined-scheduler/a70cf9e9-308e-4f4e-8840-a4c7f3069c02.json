@@ -1,0 +1,29 @@
+{
+  "format": "collect.selfhost.combined-scheduler-native.v1",
+  "run_id": "a70cf9e9-308e-4f4e-8840-a4c7f3069c02",
+  "status": "fail",
+  "started_at": "2026-11-01T02:49:00.544Z",
+  "normal_postgres_owner": false,
+  "real_database_identity": false,
+  "profile_assertion_double": false,
+  "original_migrations": 16,
+  "current_migrations": [],
+  "synthetic_interfaces": [
+    "cron",
+    "vault",
+    "pg_net"
+  ],
+  "provider_calls": 0,
+  "native_extension_acceptance": false,
+  "hosted_acceptance": false,
+  "production_acceptance": false,
+  "tests": [],
+  "observations": {},
+  "fatal": {
+    "failure_class": "NotCapable",
+    "sqlstate": null
+  },
+  "finished_at": "2026-11-01T02:49:00.553Z",
+  "passed": 0,
+  "failed": 0
+}

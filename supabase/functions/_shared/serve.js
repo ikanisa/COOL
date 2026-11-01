@@ -1,4 +1,6 @@
-import {normalizeRuntimeEnv,isGoogleProviderNavigation,COLLECT_SUPABASE_ORIGIN} from './runtime-env.js';
+import {verifyDeploymentProfile,resolveDeploymentProfile} from './deployment-profile.js';
+import {normalizeRuntimeEnv,configurePublicRuntimeEnv,isGoogleProviderNavigation,COLLECT_SUPABASE_ORIGIN} from './runtime-env.js';
+import {assertRuntimeDeployment} from './deployment-database.js';
 import {cleanupExpiredGoogleFlows} from './auth-cleanup.js';
 import {publishMemberRealtime} from './member-realtime-publisher.js';
 import {connection,fenceConnection,PostgresDatabase} from './postgres.js';
@@ -18,12 +20,14 @@ export function requestTransportProfile(request){
  const url=new URL(request.url),site=request.headers.get('Sec-Fetch-Site');
  return {protocol:['http:','https:'].includes(url.protocol)?url.protocol:'other',host:url.origin===COLLECT_SUPABASE_ORIGIN||url.hostname===new URL(COLLECT_SUPABASE_ORIGIN).hostname?'project':['localhost','127.0.0.1','[::1]'].includes(url.hostname)?'loopback':'other',port:['','80','443','9000','9999'].includes(url.port)?url.port:'other',sec_fetch_site:['same-origin','same-site','cross-site','none'].includes(site)?site:'other',origin_present:request.headers.has('Origin')};
 }
-export function logicalRequest(request,functionName) {
+export function logicalRequest(request,functionName,env={}) {
  const url=new URL(request.url),prefix='/functions/v1/'+functionName;
  // Hosted Supabase terminates HTTPS before invoking Edge with an internal
  // http URL for this exact project host. Restore only that fixed public
  // scheme; never infer it from caller-supplied forwarding headers or hosts.
- if(url.protocol==='http:'&&url.hostname===new URL(COLLECT_SUPABASE_ORIGIN).hostname&&!url.port)url.protocol='https:';
+ const profile=resolveDeploymentProfile(env),publicUrl=new URL(profile.supabase_origin);
+ if(url.protocol==='http:'&&url.hostname===publicUrl.hostname&&!url.port)url.protocol='https:';
+ if(env.COLLECT_DEPLOYMENT_PROFILE!==undefined&&profile.mode==='self_hosted'&&['http://api-gw:8000','http://functions:9000','http://127.0.0.1:9000'].includes(url.origin)){url.protocol=publicUrl.protocol;url.hostname=publicUrl.hostname;url.port='';}
  if(url.pathname===prefix)url.pathname='/';else if(url.pathname.startsWith(prefix+'/'))url.pathname=url.pathname.slice(prefix.length);
  else if(url.pathname==='/'+functionName)url.pathname='/';else if(url.pathname.startsWith('/'+functionName+'/'))url.pathname=url.pathname.slice(functionName.length+1);
  else throw new Error('Wrong function prefix.');
@@ -38,17 +42,17 @@ export function logicalRequest(request,functionName) {
  */
 export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{openWork=openApplicationWork,reportHealth=recordPlatformHealth}={}) {
  return async request=>{
-  const started=performance.now();let env,work,cors={},stage='environment';try {env=envReader();env.ALLOWED_ORIGINS=[...new Set([...(env.ALLOWED_ORIGINS??'').split(','),...(env.ADMIN_ORIGINS??env.ADMIN_ORIGIN??'').split(',')].map(v=>v.trim()).filter(Boolean))].join(',');const logical=logicalRequest(request,functionName),path=new URL(logical.url).pathname;
+  const started=performance.now();let env,work,cors={},stage='environment';try {env=configurePublicRuntimeEnv(envReader());await verifyDeploymentProfile(env);env.ALLOWED_ORIGINS=[...new Set([...(env.ALLOWED_ORIGINS??'').split(','),...(env.ADMIN_ORIGINS??env.ADMIN_ORIGIN??'').split(',')].map(v=>v.trim()).filter(Boolean))].join(',');const logical=logicalRequest(request,functionName,env),path=new URL(logical.url).pathname;
    const admin=functionName==='admin-api',origin=request.headers.get('Origin');
    if(admin&&!path.startsWith('/api/admin/'))return json({code:'not_found'},404);
    if(!admin&&path.startsWith('/api/admin'))return json({code:'not_found'},404);
    const allowed=(admin?env.ADMIN_ORIGINS??env.ADMIN_ORIGIN:env.ALLOWED_ORIGINS??'').split(',').map(v=>v.trim()).filter(Boolean);
-   if(origin&&!allowed.includes(origin)&&!isGoogleProviderNavigation(logical))return json({code:'origin_denied'},403);
+   if(origin&&!allowed.includes(origin)&&!isGoogleProviderNavigation(logical,env))return json({code:'origin_denied'},403);
    cors=origin?{'Access-Control-Allow-Origin':origin,Vary:'Origin','Access-Control-Allow-Methods':'GET,HEAD,POST,PATCH,DELETE,OPTIONS','Access-Control-Allow-Headers':'Authorization,Content-Type,apikey,Idempotency-Key,X-Request-ID,X-Collect-Admin,X-Collect-CSRF,X-Collect-Requested-With,X-Collect-Review-Reason',...(admin?{'Access-Control-Allow-Credentials':'true','Access-Control-Expose-Headers':'X-Collect-Evidence-Sensitivity'}:{}),'Access-Control-Max-Age':'600'}:{};
    if(request.method==='OPTIONS')return new Response(null,{status:204,headers:cors});
    stage='normalization';env=normalizeRuntimeEnv(env);env.MOMO_PROCESSING_PAUSED=env.MOMO_PROCESSING_PAUSED??'true';env.AUTH_MEMBER_REGISTRATION_ENABLED=env.AUTH_MEMBER_REGISTRATION_ENABLED??'false';
-   stage='database_initialization';env.DB=new PostgresDatabase(connection(env.COLLECT_DATABASE_URL));
-   stage='fence_admission';work=await openWork({backend:sqlFenceBackend(env.DB.sql,fenceConnection(env.COLLECT_DATABASE_URL)),sourceSha256:env.BUILD_SOURCE_ID,kind:admin?'http_admin':'http_collect'});env.COLLECT_FENCE_WORK=work;env.DB.setApplicationWork(work);
+   stage='database_initialization';env.DB=new PostgresDatabase(connection(env.COLLECT_DATABASE_URL,env));await assertRuntimeDeployment(env.DB.sql,env);
+   stage='fence_admission';work=await openWork({backend:sqlFenceBackend(env.DB.sql,fenceConnection(env.COLLECT_DATABASE_URL,env)),sourceSha256:env.BUILD_SOURCE_ID,kind:admin?'http_admin':'http_collect'});env.COLLECT_FENCE_WORK=work;env.DB.setApplicationWork(work);
    stage='storage_initialization';env.PRIVATE_MEDIA=new SupabaseObjectBucket(env);stage='provider_initialization';Object.assign(env,providerAdapters(env));
    const ctx={waitUntil:promise=>{work.waitUntil(promise);if(typeof EdgeRuntime!=='undefined')EdgeRuntime.waitUntil(Promise.resolve(promise).catch(()=>{}));}};
    stage='dispatch';const response=await worker.fetch(logical,env,ctx);if(admin&&response.status===403){const failure=await response.clone().json().catch(()=>null);if(failure?.error?.code==='origin_rejected')console.error(JSON.stringify({service:'collect_platform_api',event:'admin_transport_rejected',profile:requestTransportProfile(logical)}));}let content=response.body;if(path.startsWith('/privacy/account-deletion')&&response.ok&&/text\/(?:html|javascript)|application\/javascript/.test(response.headers.get('Content-Type')??'')){const prefix='/functions/v1/'+functionName;content=(await response.text()).replaceAll('/v1/',prefix+'/v1/').replaceAll('/privacy/account-deletion',prefix+'/privacy/account-deletion');}const copy=new Response(content,response);if(response.ok&&/text\/html/i.test(copy.headers.get('Content-Type')??'')){if(path==='/v1/security/challenge')copy.headers.set('X-Collect-Document','collect.turnstile.v1');if(/^\/privacy\/account-deletion\/?$/.test(path))copy.headers.set('X-Collect-Document','collect.privacy.portal.v1');}for(const[k,v]of Object.entries(cors))copy.headers.set(k,v);return copy;
@@ -74,7 +78,7 @@ export function createScheduledHandler(envReader=()=>Deno.env.toObject(),cleanup
     try{dispatch=parseScheduledDispatch(await readJson(request,2048));dispatchId=dispatch.dispatchId;
     }catch(error){return json({code:'invalid_job_dispatch'},[400,413,415].includes(error.status)?error.status:400);}
    }
-   stage='normalization';env=normalizeRuntimeEnv(input);env.MOMO_PROCESSING_PAUSED=env.MOMO_PROCESSING_PAUSED??'true';stage='database_initialization';env.DB=new PostgresDatabase(connection(env.COLLECT_DATABASE_URL));stage='fence_admission';work=await openWork({backend:sqlFenceBackend(env.DB.sql,fenceConnection(env.COLLECT_DATABASE_URL)),sourceSha256:env.BUILD_SOURCE_ID,kind:'jobs'});env.COLLECT_FENCE_WORK=work;env.DB.setApplicationWork(work);stage='storage_initialization';env.PRIVATE_MEDIA=new SupabaseObjectBucket(env);stage='provider_initialization';Object.assign(env,providerAdapters(env));stage='dispatch';
+   stage='normalization';await verifyDeploymentProfile(input);env=normalizeRuntimeEnv(input);env.MOMO_PROCESSING_PAUSED=env.MOMO_PROCESSING_PAUSED??'true';stage='database_initialization';env.DB=new PostgresDatabase(connection(env.COLLECT_DATABASE_URL,env));await assertRuntimeDeployment(env.DB.sql,env);stage='fence_admission';work=await openWork({backend:sqlFenceBackend(env.DB.sql,fenceConnection(env.COLLECT_DATABASE_URL,env)),sourceSha256:env.BUILD_SOURCE_ID,kind:'jobs'});env.COLLECT_FENCE_WORK=work;env.DB.setApplicationWork(work);stage='storage_initialization';env.PRIVATE_MEDIA=new SupabaseObjectBucket(env);stage='provider_initialization';Object.assign(env,providerAdapters(env));stage='dispatch';
    // Expired credential custody has its own budget and executes even while
    // receipt extraction is paused. One failure never becomes a success count.
    let maintenance,processing;try{maintenance=await cleanup(env,{limit:100});}catch{maintenance={status:'unconfirmed',code:'auth_cleanup_unconfirmed'};}

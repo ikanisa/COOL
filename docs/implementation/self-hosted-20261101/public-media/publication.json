@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "scope": "Byte-identical reviewed interface previews; design and release acceptance remain open.",
+  "native_capture_passed": false,
+  "runtime_sha256": "18be7b92dd1135a5f3c94d4fb5d8dba6cfd38635724ff863526a1f4e478cd2ab",
+  "published": {
+    "account-deletion-b95fdb220fda.png": "b95fdb220fda18f6650d5e3f21f9812af1ae46698f869bb27aa5ac40a1109227",
+    "group-detail-582d9d3ebd21.png": "582d9d3ebd2131e037052c68cc9b4b3ce003956370c781638167b814490d4510",
+    "groups-a3afac41233c.png": "a3afac41233c4ce8e5e3e90a653d85621abdef86a80b4ecd38e740b6549a8bcf",
+    "home-b9ea247884a3.png": "b9ea247884a3c1bbaa31fc0fc7195fba36633a9edd2fb64391b51848cc4c59a0",
+    "privacy-d4f7f94d1b08.png": "d4f7f94d1b08c4d73c2dcb548fb68ba31b4df3ac5211b22745fc3b1f4e288db5",
+    "security-0f2bde766ea6.png": "0f2bde766ea6352bbe212bc1cf45766a388bf3c73d70aa6f624a0a1bc6f50b97",
+    "terms-ab0bd9ec6002.png": "ab0bd9ec6002dd4f196aaddaa00553b367d94db15f69f4d56b03cec312aebfe2"
+  },
+  "old_media_preserved": {
+    "account-deletion-abd540ec627f.png": "abd540ec627f5f8e6b5ae6d646d255197e1ec325103746e24eb6e55bd9787f44",
+    "group-detail-1c2ae1b0570e.png": "1c2ae1b0570ec64cc64c865f9d70e9b31c03b08c0a55bed7c6832a8eeffe1b7c",
+    "groups-0d52c04b884c.png": "0d52c04b884c4c1cd44cad187b92ab0b5999e6a29f5cbf99d99f0c486e1f923a",
+    "home-1eebdcbc4b49.png": "1eebdcbc4b490a86eb3e08f677a9300bd8309fbd9dc70672d03db7995c80f30e",
+    "privacy-50f507ecab2c.png": "50f507ecab2c386dd98074e2c451bde75ac4e579ca4c7c7b09cbf5eccc385ac0",
+    "security-a271c1834de4.png": "a271c1834de41c9fd3992dc01d18a39c81d9e5b3f546f7b3b231d8d64f1b8480",
+    "terms-c62aaef04827.png": "c62aaef04827f6e58ec97ba750ed7f6707b2e13b5e5b406241f7a6c3f55e8a66"
+  }
+}

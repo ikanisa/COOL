@@ -1,0 +1,224 @@
+{
+  "format": "collect.selfhost.backend.native.v2",
+  "status": "PASS",
+  "cases": [
+    "upgrade preserves original safe/unknown/lost admissions",
+    "archive/index/counters reject client access and unsafe owner shortcuts",
+    "real runtime close archives atomically and retains exact original evidence",
+    "seed more than ten thousand synthetic financial events with native constraints",
+    "large history pages keep exact totals and bounded payload with all four sort orders",
+    "half-open dates, literal search and cross-group authority remain scoped",
+    "group mutation invalidates old cursors and balances share one exact aggregate",
+    "normal service admits beyond the former hundred-thousand lifetime cap",
+    "eight retained stopped proofs release effective slots without rewriting unknown history",
+    "revoked actual fixture session cannot use a retained history cursor"
+  ],
+  "observed": {
+    "migrations": [
+      {
+        "name": "20261101012309_collect_admission_archive.sql",
+        "sha256": "82b09d4d2abd5994429a978ccf80daa796fd83e5dc5d29bc54076f2b7565ad84"
+      },
+      {
+        "name": "20261101012310_collect_member_history_pagination.sql",
+        "sha256": "2e67c30af2860d9ffe4a8636c225278e24728e59f9ce9ee29b38f7f441932835"
+      },
+      {
+        "name": "20261101012311_collect_guest_auth_upgrade.sql",
+        "sha256": "c16f38f37fbe1f9e344a258125214bfc2e8f4930f3974adaa1416717716ad7f9"
+      },
+      {
+        "name": "20261101012312_collect_notification_channels.sql",
+        "sha256": "67faa7d057eb033abf27e9c3c93ed8eb9e910d108949ef378172aa743e299244"
+      },
+      {
+        "name": "20261101012503_collect_sms_gateway.sql",
+        "sha256": "4235bf5eb7e84006c38f06a01d5dbe3bd4d3bdd06589c927dcb5d5c0561e5906"
+      },
+      {
+        "name": "20261101013157_collect_deployment_identity.sql",
+        "sha256": "916a7b3012135484c74f0a6b4707cdda39c637959f8564233fc8f6a8f5adbdc1"
+      },
+      {
+        "name": "20261101014231_collect_retention_inventory_manifests.sql",
+        "sha256": "cfe8da08a85db4309abb6eea5c8a8aca4d84171b64addec3733ba5af7aeb67b6"
+      },
+      {
+        "name": "20261101020642_collect_retention_row_executor.sql",
+        "sha256": "63262c3dbadeae748b87b490460462403101536ede6708b30a88b1ba23893346"
+      },
+      {
+        "name": "20261101030502_collect_sms_application_fence.sql",
+        "sha256": "94e166bd70669743fe8ad1dc1c4aa504d82549f831c658d582d786049c354515"
+      }
+    ],
+    "current_schema": {
+      "profile": "reviewed_current_self_hosted",
+      "migration_count": 25,
+      "migrations": [
+        {
+          "name": "20261020134444_collect_curated_platform_baseline.sql",
+          "sha256": "0d943d17ddd92e809856831427cfc81b1264301dabdb867e1c90322d46b5a6f0"
+        },
+        {
+          "name": "20261020135932_collect_runtime_role_and_function_paths.sql",
+          "sha256": "59e4b13ddc81abeb39fb59b005c71a29f947023502727c118c9eb00b479e08a1"
+        },
+        {
+          "name": "20261020174856_collect_retention_retry_authority.sql",
+          "sha256": "d3ba38736fa46b70a0bb66520deffa56fd6f7317deb7c0144f8e06d791f8808c"
+        },
+        {
+          "name": "20261020184012_collect_admin_invitation_attempts.sql",
+          "sha256": "c6dc8aa6ac5130162c6e69904aae7221edde6dcb0c898af2cf9e10dba444b665"
+        },
+        {
+          "name": "20261020190301_collect_rls_helper_permissions.sql",
+          "sha256": "dccb79af17182164dc6afe0b8339b70bd35a80fc4a1c1fa7df1a09408310a645"
+        },
+        {
+          "name": "20261020191847_collect_privacy_email_reauthentication.sql",
+          "sha256": "d6f002a6e904226a88e666c70937a142f06aa5a7e29874c6edb564d59c5fcab4"
+        },
+        {
+          "name": "20261020193752_collect_admin_invitation_access_notice_v2.sql",
+          "sha256": "b48a381169e777160a37396539248325e40b331a61db986622514724517f8467"
+        },
+        {
+          "name": "20261020195249_collect_admin_invitation_public_id_preservation.sql",
+          "sha256": "78f8c454a9825b0d9e25622b0659245d9568e7b95f637d3e20160a945b4e0850"
+        },
+        {
+          "name": "20261022195747_collect_application_mutation_fence.sql",
+          "sha256": "714abf2d24ce3d42a36525d18627362b02ff38c30810e988d365b5796d840497"
+        },
+        {
+          "name": "20261022200028_collect_private_member_realtime.sql",
+          "sha256": "ebfd0389e6ba3aa5fe1595f854b25c69b9b31a0500f202b8e0643209ab0ef6e4"
+        },
+        {
+          "name": "20261023002500_collect_admin_recent_email_source_upgrade.sql",
+          "sha256": "02c93209f546880032cf38382c61e78a3de0b0073dd2cb88699319afc6f0f185"
+        },
+        {
+          "name": "20261023072038_collect_admin_initial_email_proof_ack.sql",
+          "sha256": "2c31440ae10176e7e9e5f0befefce8e1ca44e06149d3cc4471119920b3abf6df"
+        },
+        {
+          "name": "20261023102707_collect_retire_admin_mfa_enrollment.sql",
+          "sha256": "e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834"
+        },
+        {
+          "name": "20261023174000_collect_stopped_admission_lifecycle.sql",
+          "sha256": "db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25"
+        },
+        {
+          "name": "20261029120000_collect_client_diagnostics.sql",
+          "sha256": "6f7c1e537a3c7d114417cfa79bd7b545bbfd17c69ab1d643c806eeb457c81e3f"
+        },
+        {
+          "name": "20261029130000_collect_notification_delivery.sql",
+          "sha256": "2d5904d5aaae917715c6ff5b996ce5b7395864fc5e225f5aaa67ec7d931a6792"
+        },
+        {
+          "name": "20261101012309_collect_admission_archive.sql",
+          "sha256": "82b09d4d2abd5994429a978ccf80daa796fd83e5dc5d29bc54076f2b7565ad84"
+        },
+        {
+          "name": "20261101012310_collect_member_history_pagination.sql",
+          "sha256": "2e67c30af2860d9ffe4a8636c225278e24728e59f9ce9ee29b38f7f441932835"
+        },
+        {
+          "name": "20261101012311_collect_guest_auth_upgrade.sql",
+          "sha256": "c16f38f37fbe1f9e344a258125214bfc2e8f4930f3974adaa1416717716ad7f9"
+        },
+        {
+          "name": "20261101012312_collect_notification_channels.sql",
+          "sha256": "67faa7d057eb033abf27e9c3c93ed8eb9e910d108949ef378172aa743e299244"
+        },
+        {
+          "name": "20261101012503_collect_sms_gateway.sql",
+          "sha256": "4235bf5eb7e84006c38f06a01d5dbe3bd4d3bdd06589c927dcb5d5c0561e5906"
+        },
+        {
+          "name": "20261101013157_collect_deployment_identity.sql",
+          "sha256": "916a7b3012135484c74f0a6b4707cdda39c637959f8564233fc8f6a8f5adbdc1"
+        },
+        {
+          "name": "20261101014231_collect_retention_inventory_manifests.sql",
+          "sha256": "cfe8da08a85db4309abb6eea5c8a8aca4d84171b64addec3733ba5af7aeb67b6"
+        },
+        {
+          "name": "20261101020642_collect_retention_row_executor.sql",
+          "sha256": "63262c3dbadeae748b87b490460462403101536ede6708b30a88b1ba23893346"
+        },
+        {
+          "name": "20261101030502_collect_sms_application_fence.sql",
+          "sha256": "94e166bd70669743fe8ad1dc1c4aa504d82549f831c658d582d786049c354515"
+        }
+      ],
+      "synthetic_auth_columns": [
+        "email_confirmed_at",
+        "is_anonymous"
+      ],
+      "production_acceptance": false
+    },
+    "history_rows": 10005,
+    "archive": {
+      "resourceLimits": {
+        "archiveMode": "immutable_in_place",
+        "activeWorkLimit": 8,
+        "capacityBlocked": false,
+        "operationReceipts": 1,
+        "workingAdmissions": 2,
+        "archivedAdmissions": 100025,
+        "retainedAdmissions": 100027,
+        "originalRowsDeleted": false,
+        "operationReceiptLimit": 10000,
+        "workingAdmissionLimit": 100000,
+        "admissionBudgetVersion": 4,
+        "retainedAdmissionLimit": null,
+        "stoppedLocalAdmissions": 0,
+        "settledRetentionEnabled": true,
+        "schedulerLifecycleProofs": 0,
+        "operationReceiptSaturated": false,
+        "schedulerLifecycleProofLimit": 10000,
+        "activeAndUnresolvedAdmissions": 1,
+        "rawActiveAndUnresolvedAdmissions": 1,
+        "retainedUnquantifiedUnknownObligations": 0
+      },
+      "contractVersion": 4,
+      "providerSettlement": false,
+      "fullHistoryVerified": true,
+      "originalRowsDeleted": false,
+      "unknownObligationSettled": false
+    },
+    "stopped": {
+      "raw": 8,
+      "effective": 0,
+      "original_unknown_preserved": true,
+      "provider_settlement": false
+    },
+    "history_capture": {
+      "format": "collect.selfhost.history.capture.v3",
+      "status": "PASS",
+      "profile": "reviewed_current_chain_member_history_v3",
+      "source_sha256": "946c980d46a5c51797c3d6534fc7bfb0419e93483fe959c9f663599fb4d65da8",
+      "packet_sha256": "edb92ec73676757b47aee2bf9b9f189d88621c25d566e7f6dc969955d234487a",
+      "inputs_sha256": "6f9119a218934b7485f782b57dc4f00eb04e5f161b67df9c89e04519275af6cd",
+      "sql_sha256": "0a856123ef93a4207a10e835185250accfdf11a2daf316bc18486da20eec91f0",
+      "requests": 22,
+      "pages": 15,
+      "sql_statements": 41,
+      "historical_current14_or_current16_acceptance": false,
+      "provider_calls": 0,
+      "hosted_acceptance": false,
+      "production_acceptance": false
+    }
+  },
+  "failure": null,
+  "real_postgres": true,
+  "synthetic_auth": true,
+  "external_calls": 0,
+  "production_acceptance": false
+}

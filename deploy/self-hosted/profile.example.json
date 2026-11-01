@@ -1,0 +1,11 @@
+{
+  "format": "collect.deployment.v1",
+  "id": "collect-production",
+  "mode": "self_hosted",
+  "environment": "production",
+  "supabase_origin": "https://supabase.collect.example",
+  "member_api_origin": "https://api.collect.example",
+  "admin_origin": "https://admin.collect.example",
+  "public_origin": "https://collect.example",
+  "google_callback_origin": "https://admin.collect.example"
+}

@@ -16,6 +16,10 @@ on:
       - 'lib/core/data/exact_json_values.dart'
       - 'lib/shared/repositories/collect_repository_live_reader.dart'
       - 'test/current14_member_history_sql_receipts_test.dart'
+      - 'test/self_hosted_member_history_sql_receipts_test.dart'
+      - 'deploy/self-hosted/**'
+      - 'deploy/collect-sms/**'
+      - 'scripts/self_hosted/**'
       - 'pubspec.yaml'
       - 'pubspec.lock'
       - '.fvmrc'
@@ -36,18 +40,248 @@ on:
       - 'lib/core/data/exact_json_values.dart'
       - 'lib/shared/repositories/collect_repository_live_reader.dart'
       - 'test/current14_member_history_sql_receipts_test.dart'
+      - 'test/self_hosted_member_history_sql_receipts_test.dart'
+      - 'deploy/self-hosted/**'
+      - 'deploy/collect-sms/**'
+      - 'scripts/self_hosted/**'
       - 'pubspec.yaml'
       - 'pubspec.lock'
       - '.fvmrc'
       - '.github/workflows/supabase.yml'
   workflow_dispatch:
+    inputs:
+      qualification_profile:
+        description: Current candidate or an explicitly reviewed historical source
+        type: choice
+        default: current-self-hosted
+        options: [current-self-hosted, historical-standard, historical-current14, historical-current16]
+      reviewed_historical_commit:
+        description: Exact reviewed 40-character historical commit; required only for a historical profile
+        type: string
+        default: ''
+  workflow_call:
 
 permissions:
   contents: read
 
 jobs:
+  current-source-contracts:
+    name: Current source, safety, transport and frozen Edge contracts
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'current-self-hosted'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+      DENO_TLS_CA_STORE: system
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Check deterministic baseline generation
+        run: python3 supabase/schema-src/generate_baseline.py --check
+      - name: Verify pure data encoding, custody and import planning contracts
+        run: node --test scripts/supabase/data-contracts.test.mjs
+      - name: Verify public build, cutover and diagnostic identity guards
+        run: python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test
+      - name: Verify self-hosted deployment and provider separation contracts
+        run: |
+          node --test deploy/self-hosted/*.test.mjs scripts/self_hosted/*.test.mjs scripts/supabase/deployment-profile.test.mjs
+          python3 -m unittest scripts.self_hosted.test_operations.Configuration
+      - name: Run every shared Node Edge contract through maintained exhaustive discovery
+        run: node scripts/supabase/run_edge_node_tests.mjs
+      - name: Verify current orchestration and retained historical source-admission guards
+        run: node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs scripts/supabase/testing/current16-integration.test.mjs scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs
+      - name: Verify scheduler and operator configuration contracts
+        run: node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs scripts/self_hosted/jobs-profile.test.mjs scripts/self_hosted/email-job-contract.test.mjs
+      - name: Verify actual web hosting to Supabase transport contracts
+        run: node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs
+      - name: Verify public transport and human challenge parent contracts
+        run: node --test test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs
+      - name: Verify private provider and privacy boundary protocols
+        run: node --test deploy/platform-api/test/supabase_privacy_portal.test.mjs deploy/platform-api/test/privacy_email_portal.test.mjs deploy/platform-api/test/supabase_roster_decoder_protocol.test.mjs supabase/functions/_shared/tests/native-storage-semantics.test.mjs supabase/functions/send-sms-hook/handler.test.mjs deploy/self-hosted/auth-phone-proxy.test.mjs
+      - name: Check all six current Edge entrypoints with the exact frozen lock
+        working-directory: supabase/functions
+        run: '"$COLLECT_DENO" task check'
+
+  current-self-hosted-native:
+    name: Current migration-chain native security, control, Auth, retention and delivery
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'current-self-hosted'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    container:
+      image: postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317
+    env:
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_NATIVE_PROFILE: control-concurrency
+      COLLECT_TEST_PG_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test
+      COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+      DENO_TLS_CA_STORE: system
+    steps:
+      - name: Install the bounded job-container prerequisites
+        run: |
+          set -eu
+          test "$(id -u)" -eq 0
+          export DEBIAN_FRONTEND=noninteractive
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils
+          command -v gosu >/dev/null
+          command -v initdb >/dev/null
+          command -v pg_ctl >/dev/null
+          command -v psql >/dev/null
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without dependency lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify current-only target, source, migration and receipt guards
+        run: node --test scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs
+      - name: Warm and check every current native harness with frozen dependencies
+        env:
+          DENO_DIR: ${{ runner.temp }}/collect-current-selfhost-deno-cache
+        run: |
+          "$COLLECT_DENO" check --frozen --node-modules-dir=none --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock scripts/supabase/testing/self-hosted-control-concurrency.ts scripts/supabase/testing/self-hosted-runtime.ts scripts/supabase/testing/self-hosted-backend-runtime.ts scripts/supabase/testing/self-hosted-auth-runtime.ts scripts/supabase/testing/self-hosted-retention-runtime.ts scripts/supabase/testing/notification-channels.ts scripts/supabase/testing/combined-self-hosted-scheduler.ts scripts/supabase/testing/gateway-fence.ts deploy/collect-sms/test/gateway.test.ts
+          cd supabase/functions
+          "$COLLECT_DENO" task check
+      - name: Start this job's fresh native PG17 cluster with60/3/0 limits
+        run: sh scripts/supabase/testing/ci-native-postgres.sh start
+      - name: Require all current migration-chain native harnesses and actual history receipts
+        env:
+          DENO_DIR: ${{ runner.temp }}/collect-current-selfhost-deno-cache
+          COLLECT_SELFHOST_OUTPUT_DIR: ${{ runner.temp }}/collect-current-selfhost-native
+        run: timeout --signal=TERM --kill-after=10s 900s node scripts/supabase/testing/current-self-hosted-native.mjs
+      - name: Always stop only the job-owned native cluster
+        if: always()
+        run: |
+          set -eu
+          if [ -f scripts/supabase/testing/ci-native-postgres.sh ]; then
+            sh scripts/supabase/testing/ci-native-postgres.sh stop
+          elif [ -e "$RUNNER_TEMP/collect-supabase-ci-postgres.state" ]; then
+            echo CI_POSTGRES_CLEANUP_SCRIPT_MISSING >&2
+            exit 1
+          fi
+      - name: Preserve current evidence and failures without private descriptors
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: current-selfhost-native-${{ github.sha }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/collect-current-selfhost-native/INPUTS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/CLUSTER.json
+            ${{ runner.temp }}/collect-current-selfhost-native/INSTALLATION.json
+            ${{ runner.temp }}/collect-current-selfhost-native/RESULT.json
+            ${{ runner.temp }}/collect-current-selfhost-native/*-CHILD.json
+            ${{ runner.temp }}/collect-current-selfhost-native/CONTROL.json
+            ${{ runner.temp }}/collect-current-selfhost-native/RUNTIME.json
+            ${{ runner.temp }}/collect-current-selfhost-native/BACKEND.json
+            ${{ runner.temp }}/collect-current-selfhost-native/AUTH.json
+            ${{ runner.temp }}/collect-current-selfhost-native/RETENTION.json
+            ${{ runner.temp }}/collect-current-selfhost-native/NOTIFICATIONS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/DATA_STAGE.json
+            ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY.json
+            ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY.xml
+            ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY-FENCE.json
+            ${{ runner.temp }}/collect-current-selfhost-native/SCHEDULER.json
+            ${{ runner.temp }}/collect-current-selfhost-native/*.log
+            ${{ runner.temp }}/collect-current-selfhost-native/runtime/CASES.json
+            ${{ runner.temp }}/collect-current-selfhost-native/runtime/OBSERVATIONS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/runtime/WORK-CLOSURES.json
+            ${{ runner.temp }}/collect-current-selfhost-native/runtime/NATIVE-RESULT.json
+            ${{ runner.temp }}/collect-current-selfhost-native/history/INPUTS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/history/ACTUAL-HISTORY-PACKET.json
+            ${{ runner.temp }}/collect-current-selfhost-native/history/ACTUAL-SQL-STATEMENTS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/history/DEFINES.json
+            ${{ runner.temp }}/collect-current-selfhost-native/history/RESULT.json
+            ${{ runner.temp }}/collect-current-selfhost-native/data-stage/INPUTS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/data-stage/SOURCE.sqlite
+            ${{ runner.temp }}/collect-current-selfhost-native/data-stage/TYPED.sqlite
+
+  current-self-hosted-history-dart:
+    name: Decode actual current migration-chain history SQL with the matching Dart source
+    needs: [select-profile, current-self-hosted-native]
+    if: needs.select-profile.outputs.profile == 'current-self-hosted'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Read the exact checked-in Flutter version
+        id: flutter-version
+        run: echo "version=$(python3 -c 'import json; print(json.load(open(".fvmrc"))["flutter"])')" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+      - name: Restore exact Dart dependency versions
+        run: flutter pub get --enforce-lockfile
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: current-selfhost-native-${{ github.sha }}
+          path: ${{ runner.temp }}/collect-current-selfhost-native
+      - name: Verify exact current packet, all source bytes and relative define paths
+        run: node scripts/supabase/testing/admit-self-hosted-history.mjs "$RUNNER_TEMP/collect-current-selfhost-native/history" "$RUNNER_TEMP/collect-current-selfhost-history-defines.json"
+      - name: Decode real pages, exact totals, dates and refusals
+        run: flutter test --no-pub --concurrency=1 --tags=integration --dart-define-from-file="$RUNNER_TEMP/collect-current-selfhost-history-defines.json" test/self_hosted_member_history_sql_receipts_test.dart
+
+  select-profile:
+    name: Select the exact current or reviewed historical source
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      profile: ${{ steps.source.outputs.profile }}
+      source_sha: ${{ steps.source.outputs.source_sha }}
+    steps:
+      - name: Refuse an implicit historical source or mutable ref
+        id: source
+        env:
+          PROFILE: ${{ inputs.qualification_profile || 'current-self-hosted' }}
+          REVIEWED_SHA: ${{ inputs.reviewed_historical_commit }}
+        run: |
+          python3 - <<'PYCODE'
+          import os, re
+          profile = os.environ['PROFILE']
+          historical = profile in ('historical-standard', 'historical-current14', 'historical-current16')
+          assert historical or profile == 'current-self-hosted'
+          source = os.environ.get('REVIEWED_SHA', '') if historical else os.environ['GITHUB_SHA']
+          assert re.fullmatch(r'[a-f0-9]{40}', source)
+          assert not historical or os.environ['GITHUB_EVENT_NAME'] == 'workflow_dispatch'
+          if not historical:
+              assert not os.environ.get('REVIEWED_SHA')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('profile=' + profile + '\nsource_sha=' + source + '\n')
+          PYCODE
+
   local-qualification:
-    name: Isolated PostgreSQL and Edge contracts
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'historical-standard'
+    name: Historical standard PostgreSQL and Edge contracts
     runs-on: ubuntu-latest
     timeout-minutes: 25
     # Native PG and every run step share one network namespace. Preserve the
@@ -102,6 +336,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.19.0'
@@ -191,7 +426,9 @@ jobs:
           fi
 
   control-concurrency-native:
-    name: Bounded control concurrency on its own PostgreSQL cluster
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'historical-standard'
+    name: Historical bounded control concurrency
     runs-on: ubuntu-latest
     timeout-minutes: 10
     container:
@@ -222,6 +459,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.19.0'
@@ -252,7 +490,9 @@ jobs:
         run: sh scripts/supabase/testing/ci-native-postgres.sh stop
 
   stopped-admission-lifecycle-native:
-    name: Stopped admission, orphan installation and current14 member history
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'historical-current14'
+    name: Historical current14 lifecycle and member history
     runs-on: ubuntu-latest
     timeout-minutes: 10
     # The owner-profile fixture owns its own cluster; it cannot change the
@@ -282,6 +522,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.19.0'
@@ -299,14 +540,15 @@ jobs:
       - name: Require real lifecycle, orphan installation and current14 history contracts
         env:
           COLLECT_MEMBER_HISTORY_OUTPUT_DIR: ${{ runner.temp }}/collect-current14-member-history
-        run: timeout --signal=TERM --kill-after=5s 180s node scripts/supabase/testing/qualify-stopped-admission-native.mjs --with-member-history
+          REVIEWED_SOURCE_SHA: ${{ needs.select-profile.outputs.source_sha }}
+        run: env GITHUB_SHA="$REVIEWED_SOURCE_SHA" timeout --signal=TERM --kill-after=5s 180s node scripts/supabase/testing/qualify-stopped-admission-native.mjs --with-member-history
       - name: Always stop only this job's owned native cluster
         if: always()
         run: sh scripts/supabase/testing/ci-native-postgres.sh stop
       - name: Preserve only the synthetic source-bound history receipts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: current14-member-history-${{ github.sha }}
+          name: current14-member-history-${{ needs.select-profile.outputs.source_sha }}
           retention-days: 14
           if-no-files-found: error
           path: |
@@ -321,7 +563,9 @@ jobs:
             ${{ runner.temp }}/collect-current14-member-history/DEFINES.json
 
   current16-integration-native:
-    name: Complete current16 runtime, retention and delivery integration
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'historical-current16'
+    name: Historical current16 runtime, retention and delivery
     runs-on: ubuntu-latest
     timeout-minutes: 15
     # A separate fresh cluster is required: this gate creates its own actual
@@ -354,6 +598,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.19.0'
@@ -389,7 +634,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: current16-integration-${{ github.sha }}
+          name: current16-integration-${{ needs.select-profile.outputs.source_sha }}
           retention-days: 14
           if-no-files-found: error
           path: |
@@ -408,13 +653,15 @@ jobs:
 
   current14-member-history-dart:
     name: Actual current14 SQL receipts through the Dart financial decoder
-    needs: stopped-admission-lifecycle-native
+    needs: [select-profile, stopped-admission-lifecycle-native]
+    if: needs.select-profile.outputs.profile == 'historical-current14'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
       - name: Read the pinned Flutter version
         id: flutter
         run: |
@@ -434,11 +681,12 @@ jobs:
       - run: flutter pub get --enforce-lockfile
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
-          name: current14-member-history-${{ github.sha }}
+          name: current14-member-history-${{ needs.select-profile.outputs.source_sha }}
           path: ${{ runner.temp }}/collect-current14-member-history
       - name: Verify source and receipt bytes before rebasing three local paths
         env:
           COLLECT_MEMBER_HISTORY_OUTPUT_DIR: ${{ runner.temp }}/collect-current14-member-history
+          REVIEWED_SOURCE_SHA: ${{ needs.select-profile.outputs.source_sha }}
         run: |
           python3 - <<'PY'
           import hashlib, json, os, re
@@ -454,7 +702,7 @@ jobs:
           read = lambda name: json.loads((folder / name).read_bytes())
           digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
           result, inputs, packet, defines = (read(name) for name in ['RESULT.json', 'INPUTS.json', 'ACTUAL-HISTORY-PACKET.json', 'DEFINES.json'])
-          commit = os.environ['GITHUB_SHA']
+          commit = os.environ['REVIEWED_SOURCE_SHA']
           assert re.fullmatch(r'[a-f0-9]{40}', commit)
           assert result['status'] == 'PASS' and result['source_commit'] == inputs['source_commit'] == packet['source_commit'] == defines['CURRENT14_HISTORY_SOURCE_COMMIT'] == commit
           assert result['provider_calls'] == 0 and result['hosted_acceptance'] is False and result['legacy_gates_closed'] is False

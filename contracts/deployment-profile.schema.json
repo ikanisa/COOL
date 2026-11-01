@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "collect.deployment.v1",
+  "title": "Collect public deployment identity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "id", "mode", "environment", "supabase_origin", "member_api_origin", "admin_origin", "public_origin", "google_callback_origin"],
+  "properties": {
+    "format": {"const": "collect.deployment.v1"},
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,62}$"},
+    "mode": {"enum": ["managed", "self_hosted"]},
+    "environment": {"enum": ["production", "qualification"]},
+    "supabase_origin": {"type": "string", "format": "uri", "pattern": "^https://[^/]+$"},
+    "member_api_origin": {"type": "string", "format": "uri", "pattern": "^https://[^/]+$"},
+    "admin_origin": {"type": "string", "format": "uri", "pattern": "^https://[^/]+$"},
+    "public_origin": {"type": "string", "format": "uri", "pattern": "^https://[^/]+$"},
+    "google_callback_origin": {"type": "string", "format": "uri", "pattern": "^https://[^/]+$"}
+  },
+  "$comment": "Origin canonicalization, Google callback membership, managed identity and SHA256 are also enforced by Python, JavaScript and Dart validators. SHA256 is integrity binding, not authorization."
+}

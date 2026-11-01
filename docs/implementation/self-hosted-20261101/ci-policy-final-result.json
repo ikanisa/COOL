@@ -1,0 +1,52 @@
+{
+  "format": "collect.selfhost.current-ci-policy.executed.v1",
+  "status": "pass",
+  "checked_at": "2026-11-01T06:39:48.799837+00:00",
+  "python_tests_passed": 46,
+  "data_source_cases_passed": 5,
+  "policy_findings": [],
+  "input_parity": true,
+  "actual_hosted_execution": false,
+  "historical_tests_unchanged": true,
+  "current_positive_first_import_supported": false,
+  "inputs": {
+    "scripts/qa/collect_ci_policy.py": "d189842c48549b9407d56edf3a03056271f90210df678e91b56ca33733ebe388",
+    "scripts/tests/test_collect_ci_policy.py": "d7fd0a259168b491c8b4107838a3b808322048a47a479cb90d38893b79486c5b",
+    ".github/workflows/ci.yml": "c97925e26481a382a5d5bcc3462722a27ecec15567d57099ce8c191b968a5927",
+    ".github/workflows/supabase.yml": "50abee6d73a8352f72a4a07bc66b2859908bc69e12b16b2827cd5580f7d087ec",
+    "Makefile": "b8d8f409ab393bc45924d82b4f74701d0d4f8b76824aee708ed29e2ffd38ee4c",
+    "scripts/supabase/data-contracts.test.mjs": "c3dfc89fd31fbda8579ba41741d4f9455a6091b3b4fa8ebd2ef885c1ff329414",
+    "scripts/supabase/testing/self-hosted-data-stage.mjs": "3d7889627a9e0e165df701723cf9943a9e90f035daf02058aeec9848a7f9a0c8"
+  },
+  "runs": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "scripts.tests.test_collect_ci_policy",
+        "-q"
+      ],
+      "exit_code": 0,
+      "log_sha256": "9d8d1810c61a108a39d58fe281a48aa927c1bac884cee4c122e7cd5a41f81c29"
+    },
+    {
+      "command": [
+        "python",
+        "scripts/qa/collect_ci_policy.py"
+      ],
+      "exit_code": 0,
+      "log_sha256": "36cc1b855234d7f3a589180dccac69e24a38e19e268da0e1e15af1a8b3d5a6c9"
+    },
+    {
+      "command": [
+        "/workspace/scratch/2d330cc6dfd0/toolchains/node-v24.19.0-linux-x64/bin/node",
+        "--test",
+        "--test-reporter=tap",
+        "scripts/supabase/data-contracts.test.mjs"
+      ],
+      "exit_code": 0,
+      "log_sha256": "7d57c4c29b49390f381cc51031f7dcf3cb10cf13b7b83c68c9a11971359e73a7"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "format": "collect.frontend.evidence-copy.v1",
+  "original_directory": "/workspace/scratch/2d330cc6dfd0/review/mobile-validation/current-frontends-package5",
+  "byte_identical": true,
+  "compiled_artifacts_stored_at_original": true,
+  "files": [
+    {
+      "path": "BUILD-EVIDENCE.json",
+      "bytes": 127287,
+      "sha256": "00d2ba6aeb0e2635e69671cf4d1de74c7be981fb844351e52eb550cba69fba6b"
+    },
+    {
+      "path": "OBSERVATION.json",
+      "bytes": 535,
+      "sha256": "9dd78042eaf32b87c16bfec683fefe52d47ec316758b2013614fec193d054805"
+    },
+    {
+      "path": "admin-build.log",
+      "bytes": 1619,
+      "sha256": "57e64f61b2021de70c9256338b64f1d1e95cad98368f4232a06f2f3ae337cb3f"
+    },
+    {
+      "path": "admin-result.json",
+      "bytes": 43,
+      "sha256": "97888a83245a8dd716090e46b496c692223af1a0869a3cab002711594a5dae4c"
+    },
+    {
+      "path": "excluded-admin-housekeeping.json",
+      "bytes": 174,
+      "sha256": "22ee99cd693c57fa823b6a5c7c0fe07a43446f8a3d01d54cb9f557620dd22ee9"
+    },
+    {
+      "path": "public-build.log",
+      "bytes": 129,
+      "sha256": "fb0bcb6536dc505c3ed772d5e448b88302b57555b41a940c631968125277d3f9"
+    },
+    {
+      "path": "public-result.json",
+      "bytes": 44,
+      "sha256": "b33857eb730fbcb178815bee06e17243ae2ae4d9098a9c8d13bb98a03ce0fa82"
+    }
+  ]
+}

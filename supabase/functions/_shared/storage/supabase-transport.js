@@ -38,9 +38,10 @@ function isLegacyMissingObject(body) {
     body.message === 'Object not found' && body.code === 'NoSuchKey';
 }
 export class SupabaseNativeTransport {
-  constructor({url, secretKey, bucket = 'collect-evidence', fetchImpl = fetch, timeoutMs = 30_000, allowInsecureLoopback = false, pageSize = 1000, maxObjects = 100_000, maxDepth = 32, maxPages = 10_000, maxEntries = 200_000, maxPrefixes = 10_000, authorizeMutation = null}) {
+  constructor({url, secretKey, bucket = 'collect-evidence', fetchImpl = fetch, timeoutMs = 30_000, allowInsecureLoopback = false, allowPrivateGateway = false, pageSize = 1000, maxObjects = 100_000, maxDepth = 32, maxPages = 10_000, maxEntries = 200_000, maxPrefixes = 10_000, authorizeMutation = null}) {
     const u = new URL(url); const local = ['localhost', '127.0.0.1', '[::1]', '::1'].includes(u.hostname);
-    if (u.username || u.password || u.search || u.hash || u.pathname !== '/' || (u.protocol !== 'https:' && !(allowInsecureLoopback && local && u.protocol === 'http:'))) throw new TypeError('Verified HTTPS Storage origin required');
+    const internal=allowPrivateGateway===true&&u.origin==='http://api-gw:8000';
+    if (u.username || u.password || u.search || u.hash || u.pathname !== '/' || (u.protocol !== 'https:' && !internal && !(allowInsecureLoopback && local && u.protocol === 'http:'))) throw new TypeError('Verified HTTPS Storage origin required');
     if (typeof secretKey !== 'string' || secretKey.length < 8 || !/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,99}$/.test(bucket)) throw new TypeError('Invalid server Storage configuration');
     if (!Number.isInteger(pageSize) || pageSize < 1 || pageSize > 1000 || !Number.isInteger(maxObjects) || maxObjects < 1 || !Number.isInteger(maxDepth) || maxDepth < 1 || [maxPages,maxEntries,maxPrefixes].some(x=>!Number.isInteger(x)||x<1)) throw new TypeError('Invalid inventory limits');
     this.authorizeMutation=authorizeMutation;this.url = u.origin; this.secretKey = secretKey; this.bucket = bucket; this.fetchImpl = fetchImpl; this.timeoutMs = timeoutMs; this.pageSize = pageSize; this.maxObjects = maxObjects; this.maxDepth = maxDepth; this.maxPages=maxPages; this.maxEntries=maxEntries; this.maxPrefixes=maxPrefixes;

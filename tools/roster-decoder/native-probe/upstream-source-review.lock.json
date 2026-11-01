@@ -1,0 +1,46 @@
+{
+  "contract": "collect.roster.native-probe.source-review.v1",
+  "source_review_only": true,
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/supabase/edge-runtime/v1.77.4/ext/workers/user_workers.js",
+      "sha256": "3d843f6a05b42367573c46e4f95748a6973dae895743e0bad1a8e8096a8e84dc",
+      "bytes": 4662
+    },
+    {
+      "url": "https://raw.githubusercontent.com/supabase/edge-runtime/v1.77.4/ext/workers/lib.rs",
+      "sha256": "2df43133deed05d6c17530a903305e3193b3660b3c569045e2ef777d428041ef",
+      "bytes": 20350
+    },
+    {
+      "url": "https://raw.githubusercontent.com/supabase/edge-runtime/v1.77.4/ext/workers/context.rs",
+      "sha256": "2eff47cf40bab71ee7b715785c46c2b749cab643979a089049f71663b783ba1c",
+      "bytes": 8754
+    },
+    {
+      "url": "https://raw.githubusercontent.com/supabase/edge-runtime/v1.77.4/ext/workers/errors.rs",
+      "sha256": "8ba93e3d0156d4a42fa4d363e2ccc5d6e17302dd1a3b00ec1618b8ef54adae99",
+      "bytes": 316
+    },
+    {
+      "url": "https://raw.githubusercontent.com/supabase/edge-runtime/v1.77.4/crates/base/src/runtime/permissions.rs",
+      "sha256": "57b4df21d5fe5f41dc9e3eaa0471c0406caa8290e35228bbff2edd50fd1518cf",
+      "bytes": 1050
+    },
+    {
+      "url": "https://raw.githubusercontent.com/supabase/edge-runtime/v1.77.4/crates/base/src/runtime/ops/permissions.rs",
+      "sha256": "fe9d86302e6d6a1a65217bc9cd8f0f251eb31481e39dd605decbbefb42181910",
+      "bytes": 236
+    },
+    {
+      "url": "https://raw.githubusercontent.com/supabase/edge-runtime/v1.77.4/crates/deno_facade/permissions.rs",
+      "sha256": "c38c6e2db5c4b7369a0fb95ae480695b36d29a5b712183fd00852237a3a4893d",
+      "bytes": 3859
+    },
+    {
+      "url": "https://raw.githubusercontent.com/supabase/edge-runtime/v1.77.4/deno/runtime/ops/permissions.rs",
+      "sha256": "15a5cac1d338400730ce11afb6884a5c012297f28f91cff6b84ae4abe895711c",
+      "bytes": 3922
+    }
+  ]
+}

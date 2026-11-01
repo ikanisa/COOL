@@ -1,0 +1,268 @@
+{
+  "format": "collect.gateway.fence-native.v1",
+  "run_id": "ea1473f3-9a4a-4144-8438-6f72c12a0232",
+  "status": "pass",
+  "started_at": "2026-11-01T04:01:33.757Z",
+  "tests": [
+    {
+      "name": "fresh current chain installs as normal owner without changing prior migration bytes",
+      "status": "pass"
+    },
+    {
+      "name": "real identity binds before source initialization and runtime has only the gateway role",
+      "status": "pass"
+    },
+    {
+      "name": "unadmitted direct SQL writes and database reads fail closed",
+      "status": "pass"
+    },
+    {
+      "name": "each request binds actual profile and current source rather than cached identity",
+      "status": "pass"
+    },
+    {
+      "name": "exact ingress aliases preserve authority, browser origin and token checks",
+      "status": "pass"
+    },
+    {
+      "name": "gateway wrappers cannot inspect or close an application admission",
+      "status": "pass"
+    },
+    {
+      "name": "real gateway API writes use owned admissions and retain the original protocol",
+      "status": "pass"
+    },
+    {
+      "name": "uncertain FCM is retained and never reported as phone settlement",
+      "status": "pass"
+    },
+    {
+      "name": "in-flight callback work blocks drain while new HTTP and maintenance admissions close",
+      "status": "pass"
+    },
+    {
+      "name": "fenced work cannot write or restart maintenance and ownership history is immutable",
+      "status": "pass"
+    },
+    {
+      "name": "actual source upgrade and new epoch reject a still-running old gateway instance",
+      "status": "pass"
+    },
+    {
+      "name": "lost close acknowledgement reads the original receipt without replaying close",
+      "status": "pass"
+    },
+    {
+      "name": "lost registration acknowledgement retains one original obligation and blocks drain",
+      "status": "pass"
+    },
+    {
+      "name": "runtime source remains exact and no actual provider was contacted",
+      "status": "pass"
+    }
+  ],
+  "observations": {
+    "unknown_fcm": {
+      "state": "settled",
+      "reason": "completed_with_unknown_obligation",
+      "external_dispatches": 2,
+      "uncertain_dispatches": 1
+    },
+    "quiesced": {
+      "mode": "fenced",
+      "epoch": 1,
+      "projectRef": "rrlduytparvsjfmegalh",
+      "operationId": "58236227-cb59-4777-9bde-c68e82514103",
+      "sourceSha256": "30be121bf2515f5b0934e9b3af8f0819c4a04aa00a3545365c5623591aff8418",
+      "sb29Satisfied": false,
+      "resourceLimits": {
+        "archiveMode": "immutable_in_place",
+        "activeWorkLimit": 8,
+        "capacityBlocked": false,
+        "operationReceipts": 3,
+        "workingAdmissions": 2,
+        "archivedAdmissions": 19,
+        "retainedAdmissions": 21,
+        "originalRowsDeleted": false,
+        "operationReceiptLimit": 10000,
+        "workingAdmissionLimit": 100000,
+        "admissionBudgetVersion": 4,
+        "retainedAdmissionLimit": null,
+        "stoppedLocalAdmissions": 0,
+        "settledRetentionEnabled": true,
+        "schedulerLifecycleProofs": 0,
+        "operationReceiptSaturated": false,
+        "schedulerLifecycleProofLimit": 10000,
+        "activeAndUnresolvedAdmissions": 0,
+        "rawActiveAndUnresolvedAdmissions": 0,
+        "retainedUnquantifiedUnknownObligations": 0
+      },
+      "contractVersion": 3,
+      "schedulerStatus": {
+        "checked": true,
+        "blocking": false,
+        "namedActiveJobs": 0,
+        "coverageVerified": true,
+        "lifecycleUnproven": 0,
+        "awaitingDispatches": 0,
+        "pendingNativeRequests": 0,
+        "unconfirmedDispatches": 0,
+        "reviewedUnknownDispatches": 0
+      },
+      "activeAdmissions": 0,
+      "providerSettlement": false,
+      "humanMessagesFenced": false,
+      "rawActiveAdmissions": 0,
+      "unresolvedAdmissions": 0,
+      "wholeSystemAcceptance": false,
+      "atomicRecoverySnapshot": false,
+      "runtimeFinishRecovered": false,
+      "stoppedLifecycleProofs": 0,
+      "stoppedLocalAdmissions": 0,
+      "localLeaseDrainComplete": true,
+      "rawUnresolvedAdmissions": 0,
+      "applicationFenceComplete": true,
+      "unknownObligationSettled": false,
+      "effectiveActiveAdmissions": 0,
+      "originalCountersRecovered": false,
+      "retainedUnknownObligations": 2,
+      "managedInternalWritesFenced": false,
+      "effectiveUnresolvedAdmissions": 0,
+      "retainedUnquantifiedUnknownObligations": 0
+    },
+    "unknown_callback": {
+      "state": "settled",
+      "uncertain_dispatches": 1
+    },
+    "unknown_register": {
+      "mode": "quiescing",
+      "epoch": 3,
+      "projectRef": "rrlduytparvsjfmegalh",
+      "operationId": "8e4bc7f8-19b8-4cdb-90ba-98fc592d2275",
+      "sourceSha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "sb29Satisfied": false,
+      "resourceLimits": {
+        "archiveMode": "immutable_in_place",
+        "activeWorkLimit": 8,
+        "capacityBlocked": false,
+        "operationReceipts": 6,
+        "workingAdmissions": 3,
+        "archivedAdmissions": 21,
+        "retainedAdmissions": 24,
+        "originalRowsDeleted": false,
+        "operationReceiptLimit": 10000,
+        "workingAdmissionLimit": 100000,
+        "admissionBudgetVersion": 4,
+        "retainedAdmissionLimit": null,
+        "stoppedLocalAdmissions": 0,
+        "settledRetentionEnabled": true,
+        "schedulerLifecycleProofs": 0,
+        "operationReceiptSaturated": false,
+        "schedulerLifecycleProofLimit": 10000,
+        "activeAndUnresolvedAdmissions": 1,
+        "rawActiveAndUnresolvedAdmissions": 1,
+        "retainedUnquantifiedUnknownObligations": 0
+      },
+      "contractVersion": 3,
+      "schedulerStatus": {
+        "checked": true,
+        "blocking": false,
+        "namedActiveJobs": 0,
+        "coverageVerified": true,
+        "lifecycleUnproven": 0,
+        "awaitingDispatches": 0,
+        "pendingNativeRequests": 0,
+        "unconfirmedDispatches": 0,
+        "reviewedUnknownDispatches": 0
+      },
+      "activeAdmissions": 1,
+      "providerSettlement": false,
+      "humanMessagesFenced": false,
+      "rawActiveAdmissions": 1,
+      "unresolvedAdmissions": 0,
+      "wholeSystemAcceptance": false,
+      "atomicRecoverySnapshot": false,
+      "runtimeFinishRecovered": false,
+      "stoppedLifecycleProofs": 0,
+      "stoppedLocalAdmissions": 0,
+      "localLeaseDrainComplete": false,
+      "rawUnresolvedAdmissions": 0,
+      "applicationFenceComplete": false,
+      "unknownObligationSettled": false,
+      "effectiveActiveAdmissions": 1,
+      "originalCountersRecovered": false,
+      "retainedUnknownObligations": 2,
+      "managedInternalWritesFenced": false,
+      "effectiveUnresolvedAdmissions": 0,
+      "retainedUnquantifiedUnknownObligations": 0
+    }
+  },
+  "provider_calls": 0,
+  "synthetic_provider_attempts": 3,
+  "production_acceptance": false,
+  "physical_send_settlement": false,
+  "real_database_identity": true,
+  "profile_assertion_double": false,
+  "original_migrations": 16,
+  "current_migrations": [
+    {
+      "name": "20261101012309_collect_admission_archive.sql",
+      "sha256": "82b09d4d2abd5994429a978ccf80daa796fd83e5dc5d29bc54076f2b7565ad84"
+    },
+    {
+      "name": "20261101012310_collect_member_history_pagination.sql",
+      "sha256": "2e67c30af2860d9ffe4a8636c225278e24728e59f9ce9ee29b38f7f441932835"
+    },
+    {
+      "name": "20261101012311_collect_guest_auth_upgrade.sql",
+      "sha256": "c16f38f37fbe1f9e344a258125214bfc2e8f4930f3974adaa1416717716ad7f9"
+    },
+    {
+      "name": "20261101012312_collect_notification_channels.sql",
+      "sha256": "67faa7d057eb033abf27e9c3c93ed8eb9e910d108949ef378172aa743e299244"
+    },
+    {
+      "name": "20261101012503_collect_sms_gateway.sql",
+      "sha256": "4235bf5eb7e84006c38f06a01d5dbe3bd4d3bdd06589c927dcb5d5c0561e5906"
+    },
+    {
+      "name": "20261101013157_collect_deployment_identity.sql",
+      "sha256": "916a7b3012135484c74f0a6b4707cdda39c637959f8564233fc8f6a8f5adbdc1"
+    },
+    {
+      "name": "20261101014231_collect_retention_inventory_manifests.sql",
+      "sha256": "cfe8da08a85db4309abb6eea5c8a8aca4d84171b64addec3733ba5af7aeb67b6"
+    },
+    {
+      "name": "20261101020642_collect_retention_row_executor.sql",
+      "sha256": "63262c3dbadeae748b87b490460462403101536ede6708b30a88b1ba23893346"
+    },
+    {
+      "name": "20261101030502_collect_sms_application_fence.sql",
+      "sha256": "94e166bd70669743fe8ad1dc1c4aa504d82549f831c658d582d786049c354515"
+    }
+  ],
+  "source_sha256": "30be121bf2515f5b0934e9b3af8f0819c4a04aa00a3545365c5623591aff8418",
+  "profile_sha256": "d8c2f2d47fc3be6f405079e1c0a2545eb4d2e5deb54ae327f55c989c37f6b179",
+  "profile": {
+    "format": "collect.deployment.v1",
+    "id": "gateway-fence-fixture",
+    "mode": "self_hosted",
+    "environment": "qualification",
+    "supabase_origin": "https://supabase.gateway.example.invalid",
+    "member_api_origin": "https://api.gateway.example.invalid",
+    "admin_origin": "https://admin.gateway.example.invalid",
+    "public_origin": "https://www.gateway.example.invalid",
+    "google_callback_origin": "https://admin.gateway.example.invalid"
+  },
+  "fixture_record_basename": "collect-gateway-fence-ea1473f3-9a4a-4144-8438-6f72c12a0232.private.json",
+  "fixture_database_sha256": "ffcc4d1bf4841dd90c360e1705659bd81360dc0c9b90bbc02051030f9b4ae16f",
+  "normal_owner": true,
+  "migration_count": 25,
+  "synthetic_source_upgrade": true,
+  "final_controller_mode": "quiescing",
+  "source_drift": [],
+  "finished_at": "2026-11-01T04:01:36.692Z",
+  "passed": 14,
+  "failed": 0
+}

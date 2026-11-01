@@ -40,7 +40,7 @@ class CandidateBoundaryTest(unittest.TestCase):
                     "PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER": "123456789012", "COLLECT_ANDROID_GOOGLE_SERVICES_JSON": provider,
                     "SUPABASE_URL": guard.native_build_config.PROJECT, "SUPABASE_API_URL": guard.native_build_config.ADMIN,
                     "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_syntheticPublicKey1234",
-                    "AUTH_CAPTCHA_SITE_KEY": "1x00000000000000000000AA", "FLUTTER_ROOT": str(self.base / "unused-sdk"),
+                    "AUTH_CAPTCHA_SITE_KEY": "synthetic_public_site_key", "FLUTTER_ROOT": str(self.base / "unused-sdk"),
                     "KEYSTORE_BASE64": base64.b64encode(b"SYNTHETIC NOT A KEYSTORE").decode(),
                     "KEY_ALIAS": "synthetic-alias", "KEY_PASSWORD": "synthetic-password", "STORE_PASSWORD": "synthetic-password"}
         self.profile = guard.native_build_config.configuration(self.env, "android", self.root / "pubspec.yaml")

@@ -72,10 +72,7 @@ void main() {
           }
           if (request.url.path.endsWith('/auth/email/verify')) {
             verifies++;
-            proof = DateTime.now()
-                .toUtc()
-                .subtract(const Duration(seconds: 1))
-                .toIso8601String();
+            proof = now.subtract(const Duration(seconds: 1)).toIso8601String();
           }
           return _json({
             'contractVersion': 1,

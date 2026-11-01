@@ -1,6 +1,7 @@
 import {ApiError,json,readJson,first,rows,digest,id,now,uuid} from './core.js';
 import {authRequest,verifyToken,claimsOf} from '../auth-http.js';
 import {handleGoogleAuth} from './google_auth.js';
+import {guestResponseSession,handleGuestAuth} from './anonymous_auth.js';
 const unix=()=>Math.floor(Date.now()/1000);
 function originalAuthenticationAt(claims,at) {
  // Token iat renews on refresh; only a validated first-factor AMR event is fresh.
@@ -88,11 +89,16 @@ function identity(body) {
  if(typeof body.email!=='string'||body.email.length>254||!/^\S+@[^\s@]+\.[^\s@]+$/.test(body.email.trim()))fail('invalid_email',400);
  return {type:'email',value:body.email.trim().toLowerCase(),surface,channel:'email'};
 }
-export async function projectSession(env,verified,{surface='member',factorId=null,mfaVerified=false,existingLinkOnly=false,expectedAuthUserId=null,expectedUserId=null}={}) {
+export async function projectSession(env,verified,{surface='member',factorId=null,mfaVerified=false,existingLinkOnly=false,expectedAuthUserId=null,expectedUserId=null,rejectExistingIdentity=false}={}) {
  if(mfaVerified)throw new ApiError(410,'mfa_not_available','Verify your email to confirm sensitive changes.');
  const {user,claims}=verified;
+ if(user.is_anonymous===true||claims.is_anonymous===true)fail('verified_identity_required',403);
  if(expectedAuthUserId!==null&&user.id!==expectedAuthUserId)fail('verified_identity_mismatch',403);
  env.DB.setClaims(claims);
+ if(env.AUTH_ANONYMOUS_ENABLED==='true'){
+  const upgrade=await first(env,'SELECT private.guest_upgrade_projection_allowed() AS allowed');
+  if(upgrade?.allowed!==true)fail('guest_upgrade_unknown',403);
+ }
  const managed=await first(env,'SELECT private.is_managed_session(?::uuid,?::uuid) AS allowed',user.id,claims.session_id);if(!managed?.allowed)fail('access_revoked');
  let link=await first(env,'SELECT user_id FROM private.auth_principal_links WHERE auth_user_id=?',user.id);
  if(existingLinkOnly&&!link||expectedUserId!==null&&link?.user_id!==expectedUserId)fail('verified_identity_mismatch',403);
@@ -101,6 +107,7 @@ export async function projectSession(env,verified,{surface='member',factorId=nul
   let principal;
   if(surface==='admin')principal=await first(env,"SELECT l.user_id AS id FROM admin_users a JOIN admin_principal_links l ON l.admin_user_id=a.id WHERE a.email=? AND a.status IN('active','invited')",email);
   else {const found=await rows(env,`SELECT id FROM users WHERE (? IS NOT NULL AND lower(email)=?) OR (? IS NOT NULL AND phone=?) UNION SELECT l.user_id AS id FROM admin_principal_links l JOIN admin_users a ON a.id=l.admin_user_id JOIN users u ON u.id=l.user_id WHERE ? IS NOT NULL AND a.email=? AND a.status IN('active','invited')`,email,email,phone,phone,email,email);if(found.length>1)fail('identity_link_conflict',409);principal=found[0];}
+  if(principal&&rejectExistingIdentity)fail('identity_already_exists',409);
   if(!principal){if(!email&&!phone)fail('verified_identity_required',403);if(surface!=='member'||env.AUTH_MEMBER_REGISTRATION_ENABLED!=='true')fail('registration_unavailable',403);
    const newId=id(),stamp=now();await env.DB.batch([env.DB.prepare(`INSERT INTO users(id,public_id,phone,email,full_name,created_at,updated_at) VALUES(?,(SELECT printf('%06d',min(candidate)) FROM (SELECT 0 AS candidate UNION ALL SELECT CAST(public_id AS INTEGER)+1 FROM users WHERE public_id!='999999') c WHERE candidate<1000000 AND NOT EXISTS(SELECT 1 FROM users WHERE public_id=printf('%06d',candidate))),?,?,'',?,?)`).bind(newId,phone,email,stamp,stamp)]);principal={id:newId};
   }
@@ -130,11 +137,19 @@ export async function requireSession(request,env) {
  return projectSession(env,verified);
 }
 export async function responseSession(env,data,options={}) {
+ if(options.allowGuest===true){
+  const verified=await verifyToken(env,data.access_token,{allowAnonymous:true});
+  if(verified.user.is_anonymous===true)return guestResponseSession(env,data);
+ }
  const verified=await verifyToken(env,data.access_token);const actor=await projectSession(env,verified,options);
  return {...data,user:actor.user};
 }
 export async function startOtp(env,body) {
  const target=identity(body);if(target.type==='phone'&&!['sms','whatsapp'].includes(target.channel))fail('invalid_channel',400);
+ if(target.type==='phone'){
+  const flag=target.channel==='sms'?'AUTH_SMS_ENABLED':'AUTH_WHATSAPP_ENABLED';
+  if(env[flag]!==undefined?env[flag]!=='true':env.COLLECT_DEPLOYMENT_PROFILE!==undefined||env.AUTH_PHONE_ENABLED==='false')fail(target.channel+'_unavailable',503);
+ }
  const existing=target.surface==='admin'?await first(env,"SELECT a.id FROM admin_users a JOIN admin_principal_links l ON l.admin_user_id=a.id JOIN users u ON u.id=l.user_id WHERE a.email=? AND a.status IN('active','invited') AND u.access_status='active'",target.value):target.type==='email'?await first(env,`SELECT id FROM users WHERE lower(email)=? AND access_status='active' UNION SELECT l.user_id AS id FROM admin_principal_links l JOIN admin_users a ON a.id=l.admin_user_id JOIN users u ON u.id=l.user_id WHERE a.email=? AND a.status IN('active','invited') AND u.access_status='active'`,target.value,target.value):await first(env,`SELECT id FROM users WHERE phone=? AND access_status='active'`,target.value);
  const registration=target.surface==='member'&&env.AUTH_MEMBER_REGISTRATION_ENABLED==='true'&&body.allow_registration!==false&&body.should_create_user!==false;
  if(!existing&&!registration)fail(target.surface==='admin'?'admin_access_not_approved':'registration_unavailable',403);
@@ -174,13 +189,28 @@ export async function handleAuth(request,env) {
  const path=new URL(request.url).pathname;if(!path.startsWith('/v1/auth/'))return null;
  if(path==='/v1/auth/mfa'||path.startsWith('/v1/auth/mfa/'))throw new ApiError(410,'mfa_not_available','Verify your email to confirm sensitive changes.');
  if(path.startsWith('/v1/auth/google/'))return handleGoogleAuth(request,env);
- if(request.method==='GET'&&path==='/v1/auth/user'){const actor=await requireSession(request,env);return json(userWithFactors(actor.user));}
+ if(request.method==='GET'&&path==='/v1/auth/user'){
+  const token=request.headers.get('Authorization')?.match(/^Bearer (\S+)$/)?.[1];
+  if(token&&env.AUTH_ANONYMOUS_ENABLED==='true'){
+   const verified=await verifyToken(env,token,{allowAnonymous:true});
+   if(verified.user.is_anonymous===true){env.DB.setClaims(verified.claims);await first(env,'SELECT private.guest_auth_session(false) AS actor');return json({id:verified.user.id,auth_user_id:verified.user.id,is_anonymous:true,app_metadata:{capabilities:['public_read']},user_metadata:{}});}
+  }
+  const actor=await requireSession(request,env);return json(userWithFactors(actor.user));
+ }
  if(request.method!=='POST')throw new ApiError(405,'method_not_allowed','Use POST.');
  const body=await readJson(request,16384);
+ const guest=await handleGuestAuth(request,env,body,projectSession);if(guest)return guest;
  if(path==='/v1/auth/otp')return json(await startOtp(env,body));
  if(path==='/v1/auth/verify'){if(body.surface==='admin')fail('admin_cookie_required',403);return json(await verifyOtp(env,body));}
- if(path==='/v1/auth/refresh'){const data=await authRequest(env,'/token?grant_type=refresh_token',{body:{refresh_token:body.refresh_token}});return json(await responseSession(env,data));}
- if(path==='/v1/auth/logout'){const actor=await requireSession(request,env);await authRequest(env,'/logout?scope=local',{token:env.AUTH_VERIFIED.token});await env.DB.prepare("UPDATE auth_sessions SET revoked_at=?,revocation_reason='signed_out' WHERE id=? AND user_id=?").bind(unix(),actor.sessionId,actor.userId).run();return json({ok:true});}
+ if(path==='/v1/auth/refresh'){const data=await authRequest(env,'/token?grant_type=refresh_token',{body:{refresh_token:body.refresh_token}});return json(await responseSession(env,data,{allowGuest:env.AUTH_ANONYMOUS_ENABLED==='true'}));}
+ if(path==='/v1/auth/logout'){
+  const token=request.headers.get('Authorization')?.match(/^Bearer (\S+)$/)?.[1];
+  if(token&&env.AUTH_ANONYMOUS_ENABLED==='true'){
+   const verified=await verifyToken(env,token,{allowAnonymous:true,allowAnonymousTransition:true});
+   if(verified.claims.is_anonymous===true){await authRequest(env,'/logout?scope=local',{token});return json({ok:true});}
+  }
+  const actor=await requireSession(request,env);await authRequest(env,'/logout?scope=local',{token:env.AUTH_VERIFIED.token});await env.DB.prepare("UPDATE auth_sessions SET revoked_at=?,revocation_reason='signed_out' WHERE id=? AND user_id=?").bind(unix(),actor.sessionId,actor.userId).run();return json({ok:true});
+ }
  throw new ApiError(404,'not_found','This identity operation does not exist.');
 }
 

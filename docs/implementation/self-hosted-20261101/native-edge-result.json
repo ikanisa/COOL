@@ -1,0 +1,31 @@
+{
+  "format": "collect.selfhost.native-edge.v1",
+  "status": "fail",
+  "binary_sha256": "7883510fe308b4b5c49ec0a8e2020ec81c5fa41133239f3969a372b1cbf107ba",
+  "image": "supabase/edge-runtime:v1.77.4",
+  "native_deno": "2.1.4",
+  "source_sha256": "b00cb0058e78cb668b6e2cb170d1de71fb3042530bb2fc5bd4418cb50c3ab6df",
+  "profile_sha256": "6df8400029535bfab256b07dc9091e41180cd1408147e111f020d8f67cb94ec1",
+  "inputs": {
+    "deploy/self-hosted/edge-main/router.ts": "0776513660caa97d7d68cf8961b1ac1312ca2d2e8a4cc0de775580a51469608a",
+    "deploy/self-hosted/edge-main/environment.mjs": "8cc635c36fa629a1b76d141b111fe6e4973dcf3bb0f94bd2007bede04e353f49",
+    "scripts/supabase/testing/self-hosted-edge-runtime.mjs": "d5efaf43009c7660d0734bf302e34c987d3cb1591e173b55828e613059d71701",
+    "supabase/functions/_shared/serve.js": "44eab6acbfe5bf13601fd08f0b03a96d35228a3efe33351c2af544b76cf7e7ef",
+    "supabase/functions/_shared/postgres.js": "84007c62afe7a56cc89bc46314bc4cae80093a9da3db4f5474460c48ab856f4d",
+    "supabase/functions/_shared/runtime-env.js": "659ba4f36c0efd2805ec3269bcdb94dd4b04824230dbe4b547a33d1bb5226c86",
+    "supabase/functions/_shared/deployment-profile.js": "81aa502648712421de8a06dc6eb083c95fb46b063c57b6d1c46cf40d8426ee7d",
+    "supabase/functions/_shared/deployment-database.js": "a565de0abdd14dca94ba3bd0aad8041b5ed81b35d1b77365f5d2f2dc8799dc7f"
+  },
+  "synthetic_auth_interface": true,
+  "real_runtime_logins": true,
+  "real_pg_major": 17,
+  "checks": [],
+  "failure": {
+    "code": "Error",
+    "message": "native_runtime_exited"
+  },
+  "external_provider_calls": 0,
+  "production_mount_replaced_by_exact_test_source_path": true,
+  "docker_stack_acceptance": false,
+  "production_acceptance": false
+}

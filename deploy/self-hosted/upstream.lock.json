@@ -1,0 +1,169 @@
+{
+  "format": "collect.selfhost.upstream.v1",
+  "repository": "https://github.com/supabase/supabase",
+  "tag": "self-hosted/v0.8.3",
+  "commit": "bc27d2661edd09a5d0b8d76ce33da6d4071a756e",
+  "files": [
+    {
+      "path": ".env.example",
+      "sha256": "d27fb4516702358ac5965fb06d207736abeb3c26c7d949f19b90e88b25e694ef"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "65e11ac33d7a546583ef1bd98355ffd6f2b1331b7ebb91e94490bb495787965a"
+    },
+    {
+      "path": "CONFIG.md",
+      "sha256": "31f191c6333f630b49cde8ea6ef995677725239b71131f0121b8db108f63cba4"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "c29468abcd629e248c2f76848155c386b733872bcabcc4cf65ef1e7c61431042"
+    },
+    {
+      "path": "README.md",
+      "sha256": "b326e2a0de29f02e3c109cf5008872a4764a5f1048ec44e343634f42258614ac"
+    },
+    {
+      "path": "compose.json",
+      "sha256": "01675f1eb7fd72dc33d15ba62edc040fb3712d061262e2ae12149332b67886ec"
+    },
+    {
+      "path": "docker-compose.yml",
+      "sha256": "1bf8df5776dd81e9be15790851b46cdca1d0be8556450d4c88d73089d3b97a8b"
+    },
+    {
+      "path": "utils/add-new-auth-keys.sh",
+      "sha256": "afeddcb0c4e2f6a4ee5775a357d90ae7e804a6ff3e5160725468ce7ac0daad0f"
+    },
+    {
+      "path": "utils/db-passwd.sh",
+      "sha256": "8ed0b3b97532a1309379fba0f28ee3aefcdc01e1d1d48d28ac7ff4955228f87c"
+    },
+    {
+      "path": "utils/generate-keys.sh",
+      "sha256": "6299efc24ce94d771ca4abb8ac96b67624cc4ac9a4b13ee0c2a8f0071aa3d619"
+    },
+    {
+      "path": "utils/reassign-owner.sh",
+      "sha256": "ac91162f0144e899c9a9f2b58818485a1c9ccd390b3942ad9bb52c41e7944171"
+    },
+    {
+      "path": "utils/rotate-new-api-keys.sh",
+      "sha256": "4955fc70b856174dea9014bb461d5d6e0ff271c2925561f24c855c357bde628d"
+    },
+    {
+      "path": "utils/upgrade-pg17.sh",
+      "sha256": "0a3fd8a6bd095c9982418aae544ce4143190c0872757f1a57faa72091a4bf220"
+    },
+    {
+      "path": "versions.md",
+      "sha256": "3b950039315a233c2449bcfc0dd7818d2681871aabdc938a7f42130c46d3f2f0"
+    },
+    {
+      "path": "volumes/api/envoy/cds.yaml",
+      "sha256": "1d7514b891370ed27c25911df008887402e16ab09273e6e433225bb7f09f7905"
+    },
+    {
+      "path": "volumes/api/envoy/docker-entrypoint.sh",
+      "sha256": "8a0c9503764de32ba39e0d81e73629457b13ec42ef19897e30e4918c996d0508"
+    },
+    {
+      "path": "volumes/api/envoy/envoy.yaml",
+      "sha256": "3697f23b0be9ec5b829f937c600eb9b878f1f778ab510b42ad5e4f14742447e9"
+    },
+    {
+      "path": "volumes/api/envoy/lds.template.yaml",
+      "sha256": "f6b7e2c7a58abf54fe0f5eba6ad144c9f0d2a8c445ab66e05b298fb64bf6fa32"
+    },
+    {
+      "path": "volumes/api/kong-entrypoint.sh",
+      "sha256": "aacdadade6adde6284163ea79e0d88decce0276796ae4749a15f018d56eda933"
+    },
+    {
+      "path": "volumes/api/kong.yml",
+      "sha256": "0f71e5c471ae8a5c9f78cfdf10235bf1095506bd179e45c3575dbc68a7751925"
+    },
+    {
+      "path": "volumes/db/_supabase.sql",
+      "sha256": "9dce462adc04137d6afabcf28efa60a6c355270a4b32d7af58891ac4eb964c5f"
+    },
+    {
+      "path": "volumes/db/init/data.sql",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "volumes/db/jwt.sql",
+      "sha256": "c1d3f5c01e44646c2e533c5a1c111821cc49cb5a4c2534e08cddad61d8fb0339"
+    },
+    {
+      "path": "volumes/db/logs.sql",
+      "sha256": "f0463ce5030907acef49326d2bffd36002df0718035071be7c99bd7fc897c63d"
+    },
+    {
+      "path": "volumes/db/pooler.sql",
+      "sha256": "df97ebe148d94cfb92a5e37ebf972dfd496be195f0915ecf14396b2cf50efecb"
+    },
+    {
+      "path": "volumes/db/realtime.sql",
+      "sha256": "7e9e442e7fc4dae05544c07b67bede37a00d84644304dfce4d937134cb4c8f88"
+    },
+    {
+      "path": "volumes/db/roles.sql",
+      "sha256": "3ad717b225daa38aa982da26750f35641eb404e1eb5e69a763c22236ab96c1b2"
+    },
+    {
+      "path": "volumes/db/webhooks.sql",
+      "sha256": "05a61316b899374253891cbba66ce073d9273f33983c3f47961eda3aa26c2823"
+    },
+    {
+      "path": "volumes/functions/deno.jsonc",
+      "sha256": "a9a29da36c2576f755dd868b9f553a02afdf7d7bccf52e97e65c7f68cf36bfef"
+    },
+    {
+      "path": "volumes/functions/hello/index.ts",
+      "sha256": "65e7d7ce5d898dd285e660cbab54521fca4bf990c41370f51fad5b4d4cae5f42"
+    },
+    {
+      "path": "volumes/functions/main/index.ts",
+      "sha256": "ed402c31abf346198d71cc7bab3b7eead03b91d6b9d638b30fc5e5fada25802b"
+    },
+    {
+      "path": "volumes/logs/vector.yml",
+      "sha256": "8f9fa080e3cd8107ac3e6d3bf8d6aa8959b6845d3cd8d5144fb8f28a45607a41"
+    },
+    {
+      "path": "volumes/pooler/pooler.exs",
+      "sha256": "d844e49f8915021ccbf6af6b769fef7909a723346bfc8f94ddb0433a328e49b1"
+    },
+    {
+      "path": "volumes/proxy/caddy/Caddyfile",
+      "sha256": "a5116edc1ec748e0b0533ff1c6cce49b9372b5a96b036aa37a0bc3679aa3ec1e"
+    },
+    {
+      "path": "volumes/proxy/nginx/supabase-nginx.conf.tpl",
+      "sha256": "742638cca4b1defdd50df7b0924630e1369090fe7976e8e1b1be575ff99e9d86"
+    },
+    {
+      "path": "volumes/snippets/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "volumes/storage/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "images": {
+    "studio": "supabase/studio:2026.10.12-sha-3699278",
+    "api-gw": "envoyproxy/envoy:v1.39.1",
+    "auth": "supabase/gotrue:v2.197.0",
+    "rest": "postgrest/postgrest:v14.18",
+    "realtime": "supabase/realtime:v2.143.3",
+    "storage": "supabase/storage-api:v1.81.0",
+    "imgproxy": "darthsim/imgproxy:v3.31.4",
+    "meta": "supabase/postgres-meta:v0.100.0",
+    "functions": "supabase/edge-runtime:v1.77.4",
+    "db": "supabase/postgres:17.6.1.136",
+    "supavisor": "supabase/supavisor:2.9.13"
+  }
+}

@@ -942,12 +942,14 @@ class NotificationPreferences {
     this.paymentReminders = true,
     this.groupUpdates = true,
     this.securityNotices = true,
+    this.emailEnabled = false,
   });
 
   final bool contributionConfirmations;
   final bool paymentReminders;
   final bool groupUpdates;
   final bool securityNotices;
+  final bool emailEnabled;
 
   static const defaults = NotificationPreferences();
 
@@ -958,6 +960,7 @@ class NotificationPreferences {
       paymentReminders: (json['payment_reminders'] as bool?) ?? true,
       groupUpdates: (json['group_updates'] as bool?) ?? true,
       securityNotices: (json['security_notices'] as bool?) ?? true,
+      emailEnabled: (json['email_enabled'] as bool?) ?? false,
     );
   }
 
@@ -967,6 +970,7 @@ class NotificationPreferences {
       'payment_reminders': paymentReminders,
       'group_updates': groupUpdates,
       'security_notices': securityNotices,
+      'email_enabled': emailEnabled,
     };
   }
 
@@ -975,6 +979,7 @@ class NotificationPreferences {
     bool? paymentReminders,
     bool? groupUpdates,
     bool? securityNotices,
+    bool? emailEnabled,
   }) {
     return NotificationPreferences(
       contributionConfirmations:
@@ -982,6 +987,7 @@ class NotificationPreferences {
       paymentReminders: paymentReminders ?? this.paymentReminders,
       groupUpdates: groupUpdates ?? this.groupUpdates,
       securityNotices: securityNotices ?? this.securityNotices,
+      emailEnabled: emailEnabled ?? this.emailEnabled,
     );
   }
 }

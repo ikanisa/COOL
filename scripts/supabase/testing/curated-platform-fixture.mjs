@@ -3,6 +3,7 @@ import {readFile,readdir,realpath} from 'node:fs/promises';
 import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
+import {SELF_HOSTED_ADDITIONS} from './reviewed-self-hosted-migrations.mjs';
 const here=dirname(fileURLToPath(import.meta.url));
 export const AUTH_FIXTURE_SHA256='b935e17f44219f018cf1a864505d1895d71903885ca6c61c039d7ab6596117ea';
 export const MIGRATION_TEN='20261022200028_collect_private_member_realtime.sql';
@@ -44,6 +45,7 @@ export const EXACT_CURRENT13=Object.freeze([...EXACT_CURRENT12,MIGRATION_THIRTEE
 export const EXACT_CURRENT14=Object.freeze([...EXACT_CURRENT13,MIGRATION_FOURTEEN]);
 export const EXACT_CURRENT15=Object.freeze([...EXACT_CURRENT14,MIGRATION_FIFTEEN]);
 export const EXACT_CURRENT16=Object.freeze([...EXACT_CURRENT15,MIGRATION_SIXTEEN]);
+export const EXACT_SELF_HOSTED_CURRENT=Object.freeze([...EXACT_CURRENT16,...Object.keys(SELF_HOSTED_ADDITIONS)]);
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const need=(value,code)=>{if(!value)throw Error(code);};
 const hex=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
@@ -81,19 +83,22 @@ export const restrictedPostgresSql="DO $$DECLARE p record;BEGIN SELECT rolcanlog
 async function bytesAt(root,role){const path=resolve(root,role);need(await realpath(path)===path,'FIXED_PHYSICAL_FIXTURE_SOURCE_REQUIRED');return readFile(path);}
 export async function loadOriginalNine(root,{requireTen=true}={}){
  // Historical callers may still pass requireTen:false to consume the nine
- // returned prefixes. Disk admission validates exact14, exact15 or exact16 bytes;
+ // returned prefixes. Disk admission validates exact14/15/16 or the complete reviewed current bytes;
  // consumers continue applying only their explicitly selected SQL prefix.
  need(typeof requireTen==='boolean','BOOLEAN_LEGACY_LOADER_OPTION_REQUIRED');
  root=root instanceof URL?fileURLToPath(root):root;
  const names=(await readdir(resolve(root,'supabase/migrations'))).filter(name=>/^\d{14}_.*\.sql$/.test(name)).sort();
- need([EXACT_CURRENT14,EXACT_CURRENT15,EXACT_CURRENT16].some(expected=>JSON.stringify(names)===JSON.stringify(expected)),'EXACT_REVIEWED_MIGRATION_CHAIN_REQUIRED');
+ need([EXACT_CURRENT14,EXACT_CURRENT15,EXACT_CURRENT16,EXACT_SELF_HOSTED_CURRENT].some(expected=>JSON.stringify(names)===JSON.stringify(expected)),'EXACT_REVIEWED_MIGRATION_CHAIN_REQUIRED');
+ if(JSON.stringify(names)===JSON.stringify(EXACT_SELF_HOSTED_CURRENT))for(const [name,pin]of Object.entries(SELF_HOSTED_ADDITIONS)){
+  need(sha(await bytesAt(root,'supabase/migrations/'+name))===pin,'REVIEWED_SELF_HOSTED_MIGRATION_CHANGED');
+ }
  let clientDiagnostics=null,notificationDelivery=null;
  if(names.length>=15){
   const bytes=await bytesAt(root,'supabase/migrations/'+MIGRATION_FIFTEEN);
   need(sha(bytes)===ROOT_SQL15_SHA256,'CANDIDATE_DIAGNOSTICS_MIGRATION_CHANGED');
   clientDiagnostics={name:MIGRATION_FIFTEEN,bytes,sql:bytes.toString('utf8'),sha256:ROOT_SQL15_SHA256};
  }
- if(names.length===16){
+ if(names.length>=16){
   const bytes=await bytesAt(root,'supabase/migrations/'+MIGRATION_SIXTEEN);
   need(sha(bytes)===ROOT_SQL16_SHA256,'CANDIDATE_NOTIFICATION_DELIVERY_MIGRATION_CHANGED');
   notificationDelivery={name:MIGRATION_SIXTEEN,bytes,sql:bytes.toString('utf8'),sha256:ROOT_SQL16_SHA256};

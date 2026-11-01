@@ -6,6 +6,7 @@ const notificationPreferenceKeys = {
   'payment_reminders',
   'group_updates',
   'security_notices',
+  'email_enabled',
 };
 
 bool runtimeUuid(Object? value) =>
@@ -68,10 +69,18 @@ class NotificationPreferenceRead {
       );
     }
     final preferences = Map<String, dynamic>.from(value['preferences'] as Map);
+    // Older v2 servers omitted the new explicit email opt-in; they cannot
+    // enable it by omission. Every current write sends its actual value.
+    if (!preferences.containsKey('email_enabled')) {
+      preferences['email_enabled'] = false;
+    }
     if (!exactRuntimeKeys(preferences, notificationPreferenceKeys) ||
         preferences.values.any((v) => v is! bool) ||
         value['exists'] == true && value['revision'] == 0 ||
-        value['exists'] == false && preferences.values.any((v) => v != true)) {
+        value['exists'] == false &&
+            preferences.entries.any(
+              (entry) => entry.value != (entry.key != 'email_enabled'),
+            )) {
       throw const FormatException(
         'Notification preferences are unavailable. Refresh before saving.',
       );

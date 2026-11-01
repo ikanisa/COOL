@@ -43,7 +43,7 @@ export async function loadRetentionPolicy(env,expectedSha){
   retentionFail('privacy_retention_policy_unavailable');
  if(!exact(policy.scope,['request_id','subject_id','snapshot_sha256'])||!retentionUuid.test(policy.scope.request_id)||!retentionUuid.test(policy.scope.subject_id)||!retentionSha.test(policy.scope.snapshot_sha256))retentionFail('privacy_retention_scope_unapproved');
  for(const [name,rule]of Object.entries(policy.rules)){
-  if(!exact(rule,['action','basis_reference','deadline'])||!['retain','erase','quarantine','blocked'].includes(rule.action)||typeof rule.basis_reference!=='string'||!rule.basis_reference.trim()||rule.basis_reference.length>256||!timestamp(rule.deadline)||name==='access'&&!['quarantine','blocked'].includes(rule.action)||name!=='access'&&rule.action==='quarantine'||engineTables.includes(name)&&!['retain','blocked'].includes(rule.action))
+  if(!exact(rule,['action','basis_reference','deadline'])||!['retain','erase','quarantine','blocked'].includes(rule.action)||typeof rule.basis_reference!=='string'||!rule.basis_reference.trim()||rule.basis_reference.length>256||!timestamp(rule.deadline)||name==='access'&&!['quarantine','blocked'].includes(rule.action)||name!=='access'&&rule.action==='quarantine'||engineTables.includes(name)&&!['retain','blocked'].includes(rule.action)||name==='notification_email_job_dispatches'&&rule.action!=='blocked')
    retentionFail('privacy_retention_policy_rule_invalid');
  }
  const fence=policy.writer_fence;

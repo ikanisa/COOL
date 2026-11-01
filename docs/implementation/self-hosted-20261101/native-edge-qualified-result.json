@@ -1,0 +1,3811 @@
+{
+  "format": "collect.selfhost.native-edge.v2",
+  "status": "pass",
+  "binary_sha256": "7883510fe308b4b5c49ec0a8e2020ec81c5fa41133239f3969a372b1cbf107ba",
+  "image": "supabase/edge-runtime:v1.77.4",
+  "native_deno": "2.1.4",
+  "source_sha256": "b00cb0058e78cb668b6e2cb170d1de71fb3042530bb2fc5bd4418cb50c3ab6df",
+  "profile_sha256": "6df8400029535bfab256b07dc9091e41180cd1408147e111f020d8f67cb94ec1",
+  "inputs": {
+    "deploy/self-hosted/edge-main/router.ts": "0776513660caa97d7d68cf8961b1ac1312ca2d2e8a4cc0de775580a51469608a",
+    "deploy/self-hosted/edge-main/environment.mjs": "8cc635c36fa629a1b76d141b111fe6e4973dcf3bb0f94bd2007bede04e353f49",
+    "scripts/supabase/testing/self-hosted-edge-runtime.mjs": "df788f367833a8e4289b656fbfa20426283e18ecd91e05ef8d2297b93e23ff5f",
+    "supabase/functions/_shared/serve.js": "44eab6acbfe5bf13601fd08f0b03a96d35228a3efe33351c2af544b76cf7e7ef",
+    "supabase/functions/_shared/postgres.js": "84007c62afe7a56cc89bc46314bc4cae80093a9da3db4f5474460c48ab856f4d",
+    "supabase/functions/_shared/runtime-env.js": "659ba4f36c0efd2805ec3269bcdb94dd4b04824230dbe4b547a33d1bb5226c86",
+    "supabase/functions/_shared/deployment-profile.js": "81aa502648712421de8a06dc6eb083c95fb46b063c57b6d1c46cf40d8426ee7d",
+    "supabase/functions/_shared/deployment-database.js": "a565de0abdd14dca94ba3bd0aad8041b5ed81b35d1b77365f5d2f2dc8799dc7f"
+  },
+  "synthetic_auth_interface": true,
+  "real_runtime_logins": true,
+  "real_pg_major": 17,
+  "checks": [
+    {
+      "case": "closed_native_router",
+      "status": "pass",
+      "http_status": 404
+    },
+    {
+      "case": "/functions/v1/collect-api/health",
+      "status": "pass",
+      "http_status": 200,
+      "real_database_query": true
+    },
+    {
+      "case": "/collect-api/health",
+      "status": "pass",
+      "http_status": 200,
+      "real_database_query": true
+    },
+    {
+      "case": "admin_public_health_not_exposed",
+      "status": "pass",
+      "http_status": 404
+    },
+    {
+      "case": "admin_operational_health_requires_session",
+      "status": "pass",
+      "http_status": 401,
+      "authenticated_health_query_executed": false
+    },
+    {
+      "case": "/collect-jobs",
+      "status": "pass",
+      "http_status": 401
+    },
+    {
+      "case": "/collect-email-jobs",
+      "status": "pass",
+      "http_status": 401
+    },
+    {
+      "case": "disabled_gateway_stays_closed",
+      "status": "pass",
+      "http_status": 503
+    },
+    {
+      "case": "unsigned_hook_denied_before_effect",
+      "status": "pass",
+      "http_status": 401
+    },
+    {
+      "case": "native_http_admissions_settle_without_provider_effects",
+      "status": "pass",
+      "member_admissions": 2,
+      "admin_admissions": 1,
+      "other_admissions": 0,
+      "external_dispatches": 0,
+      "uncertain_dispatches": 0
+    }
+  ],
+  "failure": null,
+  "external_provider_calls": 0,
+  "application_inputs": [
+    {
+      "path": "deploy/collect-sms/src/admin.ts",
+      "sha256": "9d9a91f47558c4560d7af73c370420062f8f0e3cccdfa75fe7d96bba03f97c96"
+    },
+    {
+      "path": "deploy/collect-sms/src/application-health.ts",
+      "sha256": "ebd67c69a9e422f224ec047bff6a85a8a94011c708f3da7ef1334bfcbb1dc960"
+    },
+    {
+      "path": "deploy/collect-sms/src/auth.ts",
+      "sha256": "fc9ceeacc356d8df89123948b1a976ebc62d88071209f185d5591482b6e88428"
+    },
+    {
+      "path": "deploy/collect-sms/src/callbacks.ts",
+      "sha256": "6242591a12daffc2b067e3428b531eea1a373732bb7b6e5d02da85a3a8326f2b"
+    },
+    {
+      "path": "deploy/collect-sms/src/campaigns.ts",
+      "sha256": "88b07c6cd722857a1df2def1ce2359758cbcaa526b1b6a0b7eb9e64b48e012dc"
+    },
+    {
+      "path": "deploy/collect-sms/src/capacity.ts",
+      "sha256": "26e304e4cf3a8a717ebcc27ba64055a107a8e423815d4a187ebebdb6cb040913"
+    },
+    {
+      "path": "deploy/collect-sms/src/devices.ts",
+      "sha256": "92f818de1a1f2a65d2ae1c22e54c1932b2621cf33b9506377114656f296d1fc8"
+    },
+    {
+      "path": "deploy/collect-sms/src/edge.ts",
+      "sha256": "eeb16fb766e75a8255e5feac526efa38dea7ef0ad8f7a79eb75b5b4a1aab1c04"
+    },
+    {
+      "path": "deploy/collect-sms/src/fcm.ts",
+      "sha256": "2f1bdea6614afbccdc8145844116d36013b72d703b1af61636ae19cb5529f964"
+    },
+    {
+      "path": "deploy/collect-sms/src/history.ts",
+      "sha256": "5fde06c9cbea323cf77dc7e7caf6aa8be2958e28dd0c4f944d73e3a73ac4eea3"
+    },
+    {
+      "path": "deploy/collect-sms/src/index.ts",
+      "sha256": "6756fe7779251eb65d7328081f132f768b2edaddaa544a2ea8493945a7ce35c3"
+    },
+    {
+      "path": "deploy/collect-sms/src/messages.ts",
+      "sha256": "43b9c9d4f0139ad61d0d0a87f5a3277781a2209bd7b4a996f01b8475cac7dbf6"
+    },
+    {
+      "path": "deploy/collect-sms/src/metrics.ts",
+      "sha256": "3005d99b9d35e2cfd652a02d2dc5d2250787bcf93bacc55a5306106d50a86e37"
+    },
+    {
+      "path": "deploy/collect-sms/src/otp.ts",
+      "sha256": "85e34d29be40b652c603bb21b5bf24809de3e395c7bf174d3501bc44a16983cb"
+    },
+    {
+      "path": "deploy/collect-sms/src/postgres.ts",
+      "sha256": "dcf698aea45c3d72dc328704ea43b291a7069474a9c831c0328ed158fc20fde8"
+    },
+    {
+      "path": "deploy/collect-sms/src/recovery.ts",
+      "sha256": "e684c1e0f02fb82814b543195c20b6147734eb59c65b6cf86c102e4544b94a8a"
+    },
+    {
+      "path": "deploy/collect-sms/src/retention.ts",
+      "sha256": "275b92f7cae9b44442e94df12ca29d9bf87261a3a3b5670b1b37b0aaa985c958"
+    },
+    {
+      "path": "deploy/collect-sms/src/schedules.ts",
+      "sha256": "56dfd45835fd462fcc276435e75ebe3da2c623e9dc8fac1914f491ba2d31586a"
+    },
+    {
+      "path": "deploy/collect-sms/src/snapshots.ts",
+      "sha256": "ff3037d5e12ff015580e8d06584ea31550ab588d409434154b9bc5f6402a90b3"
+    },
+    {
+      "path": "deploy/collect-sms/src/staff.ts",
+      "sha256": "0a87608f674a7ec41f6dab48074d64eb927719377358d7467e43293397b8ddf3"
+    },
+    {
+      "path": "deploy/collect-sms/src/templates.ts",
+      "sha256": "e316dac1e8eaafd40d694631ca17ad0849a85d8adaa11389cfc0e84f0d488dca"
+    },
+    {
+      "path": "deploy/collect-sms/src/types.ts",
+      "sha256": "c9078f2f55066da6bb7f5ca972518a8534741f9148d8d8f86c33958931cafc58"
+    },
+    {
+      "path": "deploy/collect-sms/src/util.ts",
+      "sha256": "03463d65a3e09dadf4e7477c5133b4e3686d1c1d79bf4e098cc2878b6b50c014"
+    },
+    {
+      "path": "deploy/self-hosted/migrations.lock.json",
+      "sha256": "d14ba88d096c773824d7559d0dc99fcc64039595ae003d156ca851f17a985ace"
+    },
+    {
+      "path": "scripts/supabase/testing/self-hosted-integration.mjs",
+      "sha256": "b03c286ce9eb086512fac0da3d2ed2656e110328792abf817277db4c1fa0a4be"
+    },
+    {
+      "path": "supabase/functions/_shared/adapters.js",
+      "sha256": "9e5deb02c41b40c8166719378f421b95fa4de54ba56d74d0ac28c3ca38267fe4"
+    },
+    {
+      "path": "supabase/functions/_shared/admin-security.js",
+      "sha256": "e852668a47f2f0ecfbdd5ca8d6151210d8ca462716159fca0a10249ae5a3cfe3"
+    },
+    {
+      "path": "supabase/functions/_shared/application-fence.js",
+      "sha256": "7abbf94ff699f6942619b6a0409a5623a6fa7322b41cdabe72e32d99689184de"
+    },
+    {
+      "path": "supabase/functions/_shared/auth-cleanup.js",
+      "sha256": "f3b1c13ea9b4df3b6491b47b19fc0e9eee7aacabc5679ea9f37d61dc92f7efcd"
+    },
+    {
+      "path": "supabase/functions/_shared/auth-http.js",
+      "sha256": "205ce1e9878b13a187d887cd1d564cc9d6e705bc22e55ebf051fba2a047732e7"
+    },
+    {
+      "path": "supabase/functions/_shared/deployment-database.js",
+      "sha256": "a565de0abdd14dca94ba3bd0aad8041b5ed81b35d1b77365f5d2f2dc8799dc7f"
+    },
+    {
+      "path": "supabase/functions/_shared/deployment-profile.js",
+      "sha256": "81aa502648712421de8a06dc6eb083c95fb46b063c57b6d1c46cf40d8426ee7d"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_access_notice_email.js",
+      "sha256": "676412b5aecf921f726305d086101288a360000a84897c1c4320df6ff667c459"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_account_support/emails.js",
+      "sha256": "94a0b2ccbb367106ad0f4db83520906e77a9a04add06a33915c857e9d9b06509"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_account_support/NOBLE-LICENSE.txt",
+      "sha256": "4f221aee6e072336700c408c68ab3b96a3fc09f6aebe6f48f1bd99e5ef13faec"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_account_support/security.js",
+      "sha256": "1c69619b364fca9eb58022aed6ecb945a053abc342ffeb0bc13647a162be8ede"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_accounts_legacy.js",
+      "sha256": "5574f8280e4952c7f41cfb5013c0c613e550c1dc8a2218ec2543f8ae1067ac97"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_accounts.js",
+      "sha256": "49d8ec373b3b1f4b4f1fa23efaea2538d701b469f92c99603e4e05a2929fd661"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_bridge.js",
+      "sha256": "fafa984c9ae0647af068707ffb06e3423281bcaded7a6078830ce9d0ce316df2"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_email_auth.js",
+      "sha256": "d893a6f5b4f1172f02dfd7cd91877589f5b133218d7bb7fc51c446dca45a21d9"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_email_policy.js",
+      "sha256": "91b91a09297d5d219ed3ea755075752918e9df98731438510a91c17508d7ffc1"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_invitation_v2.js",
+      "sha256": "b45c03f8b746c0d87516c2ec770a1ef5b3e29d2a17bd5382d8b7736c4fc57cce"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_invitation.js",
+      "sha256": "083e8404b8aa97f658950c35b4885f7aaed4925ac974633d3b8ad28eab16864b"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_member_receipts.js",
+      "sha256": "3e1a5795ba3e91c186a1925cfb4641cc013435b2afebb75008a40bfe1c924f22"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_momo.js",
+      "sha256": "2a18177ec6f018694730960100fa3a18f0f65e8fed36dc9858ace78dc535ea5a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_oversight.js",
+      "sha256": "499dced06b5b8a1fd2e1d628830fce4ad72c66d887df21ff83e9d6b8343e96ea"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_password.js",
+      "sha256": "cbd47c76b8be30b8b4e98e2f42ac1626c0914b7625fecb493cbaa8509bb6e039"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_privacy.js",
+      "sha256": "21c947bc4ce7d37644a9bd429cc71ffddafc222355c8da6737352756d8ccd12a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_reconciliation_reads.js",
+      "sha256": "8a8c7a0b00fc55386df80f8cebef6d9bf74fdce5848873705d27086009a5c287"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_records.js",
+      "sha256": "3cf38e94b50cd3a4f36c7e44bc1d48b4daa1eb8364a71ff039efc89f80f8cb7d"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_search.js",
+      "sha256": "00473c46f0b06aaf77d1d6cb6ee484199c76f757f1722aa82421e996f940aff4"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_sms_receipts.js",
+      "sha256": "afcc12318229e995fcac0110e25850cd807aa23ac1650ba39f98a4d0bfb2dae6"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_sync.js",
+      "sha256": "415d5e3276919edd0e28693ae4641b59a905762a05852cb480713eaeaffd961f"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin-google.js",
+      "sha256": "cbf157f9ac7e2849422532ffcf2494f3fb91b2645aa210ec5121a61a40943ac0"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin.js",
+      "sha256": "6205e836e6f6dbdb0bb431466f3a3af4592245deca2745d8adff6b3736a10235"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/anonymous_auth.js",
+      "sha256": "689610befd3fc12af2df656c1aacbea81a9798ac3fec2cd0000c47556a58c1e4"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/assisted_sms_dispatch.js",
+      "sha256": "14e3a96fd634c85011289997445102b527d9253a9d3c878d9d676d41921559f6"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/auth.js",
+      "sha256": "7f5b332125028261432850a76e9fe19718dac2f584a48ddefa5eb1af3c378313"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/challenge.js",
+      "sha256": "704e8c11abf24a999bc7694e362b680df31dd6c73d478833238b344708591146"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/client_diagnostics.js",
+      "sha256": "277448f09c31a8079e66f60fde1359b89bebb5a261f3ef2ae9b71e1062aee33b"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/contribution_email_delivery.js",
+      "sha256": "197d359cd0e7fae532dee00401eb9f7cd90ca6b87dcef16a5b0f396ab341edd7"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/core.js",
+      "sha256": "18ce95c133a4895d13475338089fb00c9ba4c9283ee72c7d4d6f88ae8ea8723e"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/email_delivery.js",
+      "sha256": "55e7f5cdfac654b50f02d120737ee82563da2d154294ebf95252b7e8cd534e36"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/encryption.js",
+      "sha256": "ee5935065cd86b486b268a5da7026bcfaf123068e866f0ff56347f8582326e1c"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/evidence_provenance.js",
+      "sha256": "18202bbaf8be0b6eda74bb7c8472af2c064df49a38d4bd8ef99a47c5a7f5650d"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/evidence.js",
+      "sha256": "b8e1e2c283701db83ea24714c2e8bd20f3b874a78c3c414b392673634d9ec8c7"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/google_auth.js",
+      "sha256": "692ffd20a89eab54c960386f5c23f809de1445654cdcf6c9a246ba50ea9c14a5"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/groups.js",
+      "sha256": "379badbb07a29ced101f1bc176d9494d0cbe09e34131c3c96d070a77395e0f61"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/identity_keys.js",
+      "sha256": "c0c9fbfb48b44c72c7192acd3853644349a000ba3e7fbf62fdc11037d5f6d4f7"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/index.js",
+      "sha256": "583cab1496a85e498086eadbf839d54bc460a4a9174876ca7e38891e914549f5"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/member_history_sql.js",
+      "sha256": "b89541479a2237b5406b3775f8fbc263bcceb5501861c304226f74284d97c48a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/member_history.js",
+      "sha256": "3ad699d41af1ff37ae34739925b4f02a37b895a44a96d37907994141c1c4c35f"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/momo_gateway.js",
+      "sha256": "8c9378b4528af16b513a344e02c50f883054edadea4b34541fa0de4e28010129"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/momo_pipeline.js",
+      "sha256": "0e9ac645d6afe82a0a4b8e4221ba0e77d278695038adaa2a89803d1fb10a101a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/mutations.js",
+      "sha256": "dcdcf6d7604d7ce888927bbcdeaf5ac8ddff106a1e5b0f262086d54c6b98fc94"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/native_integrity.js",
+      "sha256": "066b3af360b47b18cec5e93192a40ad4319d83ce682262d4794d8960d9796cb9"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/notification_delivery.js",
+      "sha256": "d136fa33848b25670c9c849eab8b5f985424d2cc1c00679af9c08f05c08e47f3"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/notification_operator_consent.js",
+      "sha256": "0f2d138551b6dae1d049ccf32729be78e63b14770b8beca227e96ca8351f0426"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/notification_operator_management.js",
+      "sha256": "a8e6668170d5589cd75255618029334e7e8f349eeee29571de6092a14ee2843f"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/notification_operator.js",
+      "sha256": "db7c2dda8fabf28c3d884dcd67dd674bf636e6c85e8bb544bd7f79469307feac"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/notifications.js",
+      "sha256": "f4ca7a6127a31eabb33935eacec027895607b61828e9ec6785b746f640fbf45e"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/observability.js",
+      "sha256": "17327016ec759e4268b28b5d9666546b5f98784a8079ba17fc1ade5663e2751a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/operations.js",
+      "sha256": "614c08cc11085683d836ceb19adf93f1ca394f71cb995adf445799242526cf30"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/operator_notes.js",
+      "sha256": "9fb388bd916cc7bc1ad0ed294591bf01b77fe0f493f3575ae91dcbfafb9920a3"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/payments.js",
+      "sha256": "bc7418caa10c176f0178c001285f52b5010eb387261651424cf7fbe750c03fcb"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_email_auth.js",
+      "sha256": "6c5de1961cfc722179cbeed02084de98aec74b5384183a723f153f200690a381"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_portal_assets.js",
+      "sha256": "8b33a10934b0d4c49bc40718dccfdcb2fcf923b998ae8ac0b4ed71aef7cf25ae"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_portal.js",
+      "sha256": "779a378ede8a7b4bbcd33daea355f965a748628263c18bad4f8b6eaf91faec83"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_catalog.js",
+      "sha256": "0a759cfcb3e82709e0c1b19e23d1f3bf94fc446fd6b771867008acce8f4f835a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_chunks.js",
+      "sha256": "b6c3d9cab1d5fac8e026e36c251e12731a26fc364536c11543640c3c83c34066"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_manifest.js",
+      "sha256": "8751b26ab2baa50552f34eaafd9bb745b9805258fe15aa297741f0a5b67a799a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_policy.js",
+      "sha256": "4e10422a94f0a94cc0b0a518016d6250d81c98bc5076fecf5eca28df92b14117"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_rows.js",
+      "sha256": "fe6eaef4d769ddf78eb1e20652bd14652e282a4562e677304c3dfed48ae34b90"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_rpc.js",
+      "sha256": "8fe050f40546c57d658c545dc5352ddf4c4ac24cce119cc2373042fc73c42efc"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_tasks.js",
+      "sha256": "6ea3ee0d6af2d39ddc01e5d64a1b08c76f9f382575100d9edc658b2db6b45e46"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention.js",
+      "sha256": "8e975961a8ce7a5dd891ba1cba6cb99dda565c3a17afa9c51dfbad098304316a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy.js",
+      "sha256": "32a95fadfc816da165c6cbaf4abd20cf8f7b64423c3808ea71b44cb276c03ba9"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/receipt_facts.js",
+      "sha256": "ca493abb8a14eed99d5b6a9d724ccb68576ff91a51ccea1a9c7b5d887e45e24b"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/receipts.js",
+      "sha256": "893f5db5f323f55d1743e1aa90ab392290d0230e2d98f5be30837137eae5a0b5"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/roster.js",
+      "sha256": "352746a1bacae1a05d1f760739efff04b89e4b921b22e05d96d414a67b648c52"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/sync.js",
+      "sha256": "436f820c6795a77fd25b8450c937bd6396d934207dc7879d136d1a1bdb499f54"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/user_access.js",
+      "sha256": "76abb6576d7dddd1dcb710a925e337182a6e429680283b518e0e4de0a20c118b"
+    },
+    {
+      "path": "supabase/functions/_shared/email-job-contract.js",
+      "sha256": "c1fdc9edf037fbd107096d553a0adce8515a684686661d6d980c55d26e3421ef"
+    },
+    {
+      "path": "supabase/functions/_shared/email-jobs.js",
+      "sha256": "01c4858438c858b44db360c3fef48e30aabf5df2ecafe6e0983bf3851e62303a"
+    },
+    {
+      "path": "supabase/functions/_shared/fcm-notifications.js",
+      "sha256": "16d5a1c4384e1c214b12d0b68503536c0c98c13e2d73d788f01789316b8b0900"
+    },
+    {
+      "path": "supabase/functions/_shared/member-realtime-publisher.js",
+      "sha256": "7356d7c8b5a2efab407933ede9baff37e9997ee863de3940347a2e9a02d4d7fb"
+    },
+    {
+      "path": "supabase/functions/_shared/member-realtime-retention.js",
+      "sha256": "2c29da6f8748bf98c4d4accc1c0e28d1a95e3ee42860c4c7bef505ba45c11bc6"
+    },
+    {
+      "path": "supabase/functions/_shared/opensms-receipts.js",
+      "sha256": "d6af31e1f3c6cbca2e2aaf1e09f7bb06ce159238e98959ac4e772b261273869c"
+    },
+    {
+      "path": "supabase/functions/_shared/postgres.js",
+      "sha256": "84007c62afe7a56cc89bc46314bc4cae80093a9da3db4f5474460c48ab856f4d"
+    },
+    {
+      "path": "supabase/functions/_shared/private-retention.js",
+      "sha256": "02570624533e303765cc82a53beb71add429ff78c85959cfd477af948e1c8bf0"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder_bridge.mjs",
+      "sha256": "056df1fee06578a4d110cc2d11b57cf0db153c91022cbbe5185f4f0cd9ee518a"
+    },
+    {
+      "path": "supabase/functions/_shared/runtime-env.js",
+      "sha256": "659ba4f36c0efd2805ec3269bcdb94dd4b04824230dbe4b547a33d1bb5226c86"
+    },
+    {
+      "path": "supabase/functions/_shared/scheduled-processing.js",
+      "sha256": "08571899e08aa0e9b01b2cf8aa8807e099061de29725e54f8719c37ed5fd8270"
+    },
+    {
+      "path": "supabase/functions/_shared/send-sms-hook.js",
+      "sha256": "672f208e3d61088f51714b6f55e9ea8bf134745b213c54469e4dd2d77e16c19a"
+    },
+    {
+      "path": "supabase/functions/_shared/serve.js",
+      "sha256": "44eab6acbfe5bf13601fd08f0b03a96d35228a3efe33351c2af544b76cf7e7ef"
+    },
+    {
+      "path": "supabase/functions/_shared/SOURCE_PROVENANCE.json",
+      "sha256": "9b437987386ae87db5515e30e56e657df5c32daa41da427692b0d1bdca9f5341"
+    },
+    {
+      "path": "supabase/functions/_shared/storage-identity.js",
+      "sha256": "8e245202257aa89e226fdc8705458f167f4c27a290da6561b1556c2cf51ab83b"
+    },
+    {
+      "path": "supabase/functions/_shared/storage/postgres-journal.js",
+      "sha256": "69b3d19179d145e34a707250e108560977b81a5ecbd6791840b22261245b3784"
+    },
+    {
+      "path": "supabase/functions/_shared/storage/protocol.js",
+      "sha256": "6117a178abc7d1e9486532fa25a3344fe83913dfc0f4399f438683a22ab5a6ce"
+    },
+    {
+      "path": "supabase/functions/_shared/storage/supabase-transport.js",
+      "sha256": "2d66353e4010ce3cdb772d6eef59d9021b4f028c796149937e1f3de0b1682c74"
+    },
+    {
+      "path": "supabase/functions/_shared/workspace-smtp-email.js",
+      "sha256": "05833369873f15ef71805a351f9868787d97e74a6df7a5a21a303b8feef24eef"
+    },
+    {
+      "path": "supabase/functions/admin-api/index.ts",
+      "sha256": "9da16c686dab97001bf713eaf2563839b998e612157176d854d0d656c453c9f2"
+    },
+    {
+      "path": "supabase/functions/collect-api/index.ts",
+      "sha256": "0f43de24002878ba2be7a19f8675d59f8355a01db1103d6e100ea55f78842609"
+    },
+    {
+      "path": "supabase/functions/collect-email-jobs/index.ts",
+      "sha256": "89c0cdc91f77a8b94a712bc579f52d16a3573d3e6e4ea1c2373ff0fdaa81679a"
+    },
+    {
+      "path": "supabase/functions/collect-jobs/index.ts",
+      "sha256": "8f86df331e15251519bdbd99231596d38fbb07ccce341a387ca3a89f192f72d7"
+    },
+    {
+      "path": "supabase/functions/collect-sms/index.ts",
+      "sha256": "7e5acf8d58537be1454d0ce365d38d375916719b97c93565754fba96227f3b16"
+    },
+    {
+      "path": "supabase/functions/deno.json",
+      "sha256": "a113702f8058ec724e0476eac1bcd523639451b75cc60c15735337a52ec6555d"
+    },
+    {
+      "path": "supabase/functions/deno.lock",
+      "sha256": "070d1f79d59faebba520e3d14c1b10f4d73a84584eafa8c34f767c013c628b9b"
+    },
+    {
+      "path": "supabase/functions/send-sms-hook/handler.mjs",
+      "sha256": "8d7224e1975a3558760c0cbfd1b934502e8bc1010b9833bbc79592cc3f25f7da"
+    },
+    {
+      "path": "supabase/functions/send-sms-hook/handler.test.mjs",
+      "sha256": "a154c5cbfb10b54460ae9443501e11c1abd73bfd06d9dac9352893a307ed73b2"
+    },
+    {
+      "path": "supabase/functions/send-sms-hook/index.ts",
+      "sha256": "45d572d8857a7149319f245e6bcde030c77b67e763633a012360422041975d36"
+    },
+    {
+      "path": "supabase/functions/send-sms-hook/provider-contract.json",
+      "sha256": "a664476047e8eb2d47537342c114fb2663985a00b2840bf3431189a3f5f3b5fd"
+    },
+    {
+      "path": "supabase/functions/send-sms-hook/source-provenance.json",
+      "sha256": "d66ee45e4c4cec4bca43a60120917c0421563669aab4b71f1796c5bd20262b97"
+    },
+    {
+      "path": "supabase/migrations/20261020134444_collect_curated_platform_baseline.sql",
+      "sha256": "0d943d17ddd92e809856831427cfc81b1264301dabdb867e1c90322d46b5a6f0"
+    },
+    {
+      "path": "supabase/migrations/20261020135932_collect_runtime_role_and_function_paths.sql",
+      "sha256": "59e4b13ddc81abeb39fb59b005c71a29f947023502727c118c9eb00b479e08a1"
+    },
+    {
+      "path": "supabase/migrations/20261020174856_collect_retention_retry_authority.sql",
+      "sha256": "d3ba38736fa46b70a0bb66520deffa56fd6f7317deb7c0144f8e06d791f8808c"
+    },
+    {
+      "path": "supabase/migrations/20261020184012_collect_admin_invitation_attempts.sql",
+      "sha256": "c6dc8aa6ac5130162c6e69904aae7221edde6dcb0c898af2cf9e10dba444b665"
+    },
+    {
+      "path": "supabase/migrations/20261020190301_collect_rls_helper_permissions.sql",
+      "sha256": "dccb79af17182164dc6afe0b8339b70bd35a80fc4a1c1fa7df1a09408310a645"
+    },
+    {
+      "path": "supabase/migrations/20261020191847_collect_privacy_email_reauthentication.sql",
+      "sha256": "d6f002a6e904226a88e666c70937a142f06aa5a7e29874c6edb564d59c5fcab4"
+    },
+    {
+      "path": "supabase/migrations/20261020193752_collect_admin_invitation_access_notice_v2.sql",
+      "sha256": "b48a381169e777160a37396539248325e40b331a61db986622514724517f8467"
+    },
+    {
+      "path": "supabase/migrations/20261020195249_collect_admin_invitation_public_id_preservation.sql",
+      "sha256": "78f8c454a9825b0d9e25622b0659245d9568e7b95f637d3e20160a945b4e0850"
+    },
+    {
+      "path": "supabase/migrations/20261022195747_collect_application_mutation_fence.sql",
+      "sha256": "714abf2d24ce3d42a36525d18627362b02ff38c30810e988d365b5796d840497"
+    },
+    {
+      "path": "supabase/migrations/20261022200028_collect_private_member_realtime.sql",
+      "sha256": "ebfd0389e6ba3aa5fe1595f854b25c69b9b31a0500f202b8e0643209ab0ef6e4"
+    },
+    {
+      "path": "supabase/migrations/20261023002500_collect_admin_recent_email_source_upgrade.sql",
+      "sha256": "02c93209f546880032cf38382c61e78a3de0b0073dd2cb88699319afc6f0f185"
+    },
+    {
+      "path": "supabase/migrations/20261023072038_collect_admin_initial_email_proof_ack.sql",
+      "sha256": "2c31440ae10176e7e9e5f0befefce8e1ca44e06149d3cc4471119920b3abf6df"
+    },
+    {
+      "path": "supabase/migrations/20261023102707_collect_retire_admin_mfa_enrollment.sql",
+      "sha256": "e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834"
+    },
+    {
+      "path": "supabase/migrations/20261023174000_collect_stopped_admission_lifecycle.sql",
+      "sha256": "db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25"
+    },
+    {
+      "path": "supabase/migrations/20261029120000_collect_client_diagnostics.sql",
+      "sha256": "6f7c1e537a3c7d114417cfa79bd7b545bbfd17c69ab1d643c806eeb457c81e3f"
+    },
+    {
+      "path": "supabase/migrations/20261029130000_collect_notification_delivery.sql",
+      "sha256": "2d5904d5aaae917715c6ff5b996ce5b7395864fc5e225f5aaa67ec7d931a6792"
+    },
+    {
+      "path": "supabase/migrations/20261101012309_collect_admission_archive.sql",
+      "sha256": "82b09d4d2abd5994429a978ccf80daa796fd83e5dc5d29bc54076f2b7565ad84"
+    },
+    {
+      "path": "supabase/migrations/20261101012310_collect_member_history_pagination.sql",
+      "sha256": "2e67c30af2860d9ffe4a8636c225278e24728e59f9ce9ee29b38f7f441932835"
+    },
+    {
+      "path": "supabase/migrations/20261101012311_collect_guest_auth_upgrade.sql",
+      "sha256": "c16f38f37fbe1f9e344a258125214bfc2e8f4930f3974adaa1416717716ad7f9"
+    },
+    {
+      "path": "supabase/migrations/20261101012312_collect_notification_channels.sql",
+      "sha256": "67faa7d057eb033abf27e9c3c93ed8eb9e910d108949ef378172aa743e299244"
+    },
+    {
+      "path": "supabase/migrations/20261101012503_collect_sms_gateway.sql",
+      "sha256": "4235bf5eb7e84006c38f06a01d5dbe3bd4d3bdd06589c927dcb5d5c0561e5906"
+    },
+    {
+      "path": "supabase/migrations/20261101013157_collect_deployment_identity.sql",
+      "sha256": "916a7b3012135484c74f0a6b4707cdda39c637959f8564233fc8f6a8f5adbdc1"
+    },
+    {
+      "path": "supabase/migrations/20261101014231_collect_retention_inventory_manifests.sql",
+      "sha256": "cfe8da08a85db4309abb6eea5c8a8aca4d84171b64addec3733ba5af7aeb67b6"
+    },
+    {
+      "path": "supabase/migrations/20261101020642_collect_retention_row_executor.sql",
+      "sha256": "63262c3dbadeae748b87b490460462403101536ede6708b30a88b1ba23893346"
+    }
+  ],
+  "dependency_source_sha256": "2c5c8097a1c696d5bf993e1548d19c3799cc898858d6b1f4610804a9f77df32f",
+  "dependency_inputs": [
+    {
+      "path": "hono/4.13.13/dist/_virtual/_rolldown/runtime.js",
+      "sha256": "1b10431e13b4eb349c329aba7d2beb6e6c224de569eac52966731c8239a941c9"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/aws-lambda/conninfo.js",
+      "sha256": "0c137b2cf22fa44c4063d2eb95c94c3561cbf707c955261690f68bf522a15586"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/aws-lambda/handler.js",
+      "sha256": "360103ad2e2e4257904fe59616ecdb88cdb5c3adeaadde54ecae828ea63c93d8"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/aws-lambda/index.js",
+      "sha256": "e1d1c2a824b7191d0d8e1f3625fb583adc6b2935f29bdf853b4f1b09c6a057fa"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/aws-lambda/types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/bun/conninfo.js",
+      "sha256": "d19de2ed9ca8fb8b9e11f40a1655ed5b3768d78b4a4bb1c9bf12985ffb9626dd"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/bun/index.js",
+      "sha256": "4f6d9ed5349f76100f045cb5d25dea41a210337203a3d4c7cfc7c30b80d8f423"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/bun/serve-static.js",
+      "sha256": "e882b1f20cf2305efba8b6cc5b34c5f315ae2497c91b86d1d971700a4633dbef"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/bun/server.js",
+      "sha256": "be1336601bc44ab1e078922b7bbeda5afffa59eac9ab557df6d71e87e5a338f6"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/bun/ssg.js",
+      "sha256": "29e11e2fe0315396529dbdb7ed2c89a4610ff78d744232723869374021778602"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/bun/websocket.js",
+      "sha256": "8890a422851496d78294a7423740c8ea6883e52746fc57ac929f85099282e019"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/cloudflare-pages/conninfo.js",
+      "sha256": "2a9f104b2cfa0d7677be65eebb2925ed259428a9df119dc8f534992908cc8101"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/cloudflare-pages/handler.js",
+      "sha256": "b211322a7e85b550bd0dd59af5bb8d5294ca5e62d201434d323c8ac6f221a859"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/cloudflare-pages/index.js",
+      "sha256": "c309ccebac9abd93fed5a1642b242fa8e5d19a2e4323755e65dbe8e34eaf26c8"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/cloudflare-workers/conninfo.js",
+      "sha256": "c7e67bb67c41de45d31abf2f8a622b32998d0cea2eb912a3a3d00f836c2b6235"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/cloudflare-workers/index.js",
+      "sha256": "f1e0016d690ba56aa959dce57f4f1d48501169ad30be627cf5709d792be196c3"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/cloudflare-workers/serve-static-module.js",
+      "sha256": "24744623f334a6d334b42198565f8ba159747c84f26a7e87dddb208048359d6e"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/cloudflare-workers/serve-static.js",
+      "sha256": "16840c5afa5910d02db9cba9aa961b22841f5566067e6f15b081789e99dd10ed"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/cloudflare-workers/utils.js",
+      "sha256": "7bfcd6f92b6d4c7972405196702a42a11032c224ebaa8ed4767e6c374b92de4d"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/cloudflare-workers/websocket.js",
+      "sha256": "3faa3551b567996ad79485cda7416a4c415b5974d7e87fe9371327dcf1ad81b1"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/deno/conninfo.js",
+      "sha256": "aac68e0b4c7d6df2a03253ae37bfd4ab285bf13138b9a94191ab927a041d6474"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/deno/deno.d.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/deno/index.js",
+      "sha256": "e4b98634dfa5da3f65f6a143d5b345c81a2456f875129d17df33af14f0b0b192"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/deno/serve-static.js",
+      "sha256": "79c05d31ca942a4c785d7067305128f29cc61623253e0724dc11aff02dd050af"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/deno/ssg.js",
+      "sha256": "053130c5a60adbad1adb9c4f8777a44b57433129a512dff42c2a2ca302414989"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/deno/websocket.js",
+      "sha256": "857899560c4e607c49b12f50990a55de008f17d64de37494fc49fb0c436033e0"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/lambda-edge/conninfo.js",
+      "sha256": "99550f645f2b17f7a6f2434ac90c3897c113515e5f584eb6b4480b491e51c524"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/lambda-edge/handler.js",
+      "sha256": "e39fd32030ed552e721088056473a0dd26c9065a24f2922d745082c935f9210b"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/lambda-edge/index.js",
+      "sha256": "10b12694337df921ed3fbeb6a12e1e23434e05a02fab1a4a02bd9257aa7de621"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/netlify/conninfo.js",
+      "sha256": "1adcd56f58a710e30c3f41a5eef2b10a7bcbf944b82daa2b2eb3851da1668f5d"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/netlify/handler.js",
+      "sha256": "ccf650f15a8ef0e27b729b7532519917ce876e74fec3ebe21e05fd0275291463"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/netlify/index.js",
+      "sha256": "10b12694337df921ed3fbeb6a12e1e23434e05a02fab1a4a02bd9257aa7de621"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/netlify/mod.js",
+      "sha256": "10b12694337df921ed3fbeb6a12e1e23434e05a02fab1a4a02bd9257aa7de621"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/service-worker/handler.js",
+      "sha256": "be9dbb9de6695f24e86f398838ff13bf346a33dbbb661894a01c003179a1af2c"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/service-worker/index.js",
+      "sha256": "06089047e5c1a177bfb99d3489a0d655ecf2283cc87113afb3a0fb607c8f323d"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/service-worker/types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/vercel/conninfo.js",
+      "sha256": "2569b63796ec177663578928afa8569b29568218dea05d7c89e7e961e82033df"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/vercel/handler.js",
+      "sha256": "8afcbbed51445912a601335fa57b7a420a5768a941053d46682d13c3c39b8b82"
+    },
+    {
+      "path": "hono/4.13.13/dist/adapter/vercel/index.js",
+      "sha256": "10b12694337df921ed3fbeb6a12e1e23434e05a02fab1a4a02bd9257aa7de621"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/_virtual/_rolldown/runtime.js",
+      "sha256": "3366cfc673858aaea1300f206dfa5d457d0d7caf0bc5553e09f8c675e39bfe48"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/aws-lambda/conninfo.js",
+      "sha256": "7b2be16b492e4e6d6e223a30f4b320fe09069b7fcd091c95ec85f141f49837dd"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/aws-lambda/handler.js",
+      "sha256": "ad56599b6ed4036f7e58f69db82fa67816e8c7cf385b8cdfa8879b89f09362b8"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/aws-lambda/index.js",
+      "sha256": "671ef421cfe996b060ddd014a2a3096e098a48ce405ecb998f0e7448ce07e671"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/aws-lambda/types.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/bun/conninfo.js",
+      "sha256": "710edd1a1684ae9f54b1c8c97dc3868a7f3b270f062abf0c01f3403592ad8d32"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/bun/index.js",
+      "sha256": "39c0ef1c4c93e4762ccb0723cdf6cc8f829bddf929a6831b95c56df5bbeefe2a"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/bun/serve-static.js",
+      "sha256": "4c12e75686a7bfeafd62881fe0f876db16dc6acd97c93b7fbbbf6f6ba247e28f"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/bun/server.js",
+      "sha256": "326ebcb9e0e64ef5331ffe2a3bd2e8b9ddf3dc59649d60faa5cbdc1a7a91408c"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/bun/ssg.js",
+      "sha256": "68178877d0061431d5a73c8ea43aef883270021bb472548088081680b2430682"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/bun/websocket.js",
+      "sha256": "a5860637d9afacfe523d8199e83c93771e511b58a4ac0d2438e927084883c1ae"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/cloudflare-pages/conninfo.js",
+      "sha256": "ad1cfe271ae01d3dded8de8e4dc6944e92ea62d7e805370c98e10f67133d2621"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/cloudflare-pages/handler.js",
+      "sha256": "8f169819d6534774c96475e495b3ebaafc67d3139fe1f426ce360aee3368f8d9"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/cloudflare-pages/index.js",
+      "sha256": "a9f0837e9e0e206563c0832f834682e809332507bfd66589c0d436b49dd46b43"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/cloudflare-workers/conninfo.js",
+      "sha256": "21f12476adc20b1dc98897b0b3f42daa32445979c2f3fa92b79adaea5deef96a"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/cloudflare-workers/index.js",
+      "sha256": "ff8896f199241f8cf5f85d884963019cd6677349c025d20ce5ac889bb898e41d"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/cloudflare-workers/serve-static-module.js",
+      "sha256": "1333f06eb972b0e4a40e876019eeef87b7da52a89b6b3ce2b32a87a569e62752"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/cloudflare-workers/serve-static.js",
+      "sha256": "b2a6f07bd23169697703f3931b3555ee3d291a21e9f94a0f15a68fd5223d84d1"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/cloudflare-workers/utils.js",
+      "sha256": "652898d3b8929267f34636e3d6ac3cefdcd91ca5cb57f3a42ca5feb5a45a1528"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/cloudflare-workers/websocket.js",
+      "sha256": "ffbfcfc9548d0b7a85961e690d580fd350dcfd8c0918cf9befa49a91b100697a"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/deno/conninfo.js",
+      "sha256": "e6210de2303f997012c29b03875cd609e40fd3a18e3c16b0cc5df45e0d9c5ca9"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/deno/deno.d.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/deno/index.js",
+      "sha256": "46826068deef9415cdbf04a391fe6efdd2e1925008a9e7f591984801ac895555"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/deno/serve-static.js",
+      "sha256": "e4d03c4bfacf0aa601e48c18f0406273c2d8983f83ac3abb5c7a2e0a73d52949"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/deno/ssg.js",
+      "sha256": "7e3c631847dc649fa7f36bc8b9a18f32874be5f29d24670c288706c04d36e2a6"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/deno/websocket.js",
+      "sha256": "e02407431c0e872d51b2e502f8ba1467ae53ba5085c2f3f432507e05e0738732"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/lambda-edge/conninfo.js",
+      "sha256": "534451c852d63406d60b639fbb558234b0acf2c6785e5e3b8a1e7417e4f22f47"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/lambda-edge/handler.js",
+      "sha256": "9601cce6a663d8ea1b95f458821157623a85d5b807e7cf27bc9e24963e756053"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/lambda-edge/index.js",
+      "sha256": "56ae555d70221ccd06987141c3138dc17f15133df535eb1a63936c17f7bd9499"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/netlify/conninfo.js",
+      "sha256": "6d829b0f06d25f6aa06ac257c4738a513cfa9a49196aabc54b7f4c8a8ce42a70"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/netlify/handler.js",
+      "sha256": "29cb2bb5ea672afab686bbc16759e612d1366fb6590eee526e9cf59678cabf33"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/netlify/index.js",
+      "sha256": "9d8cc4afaf814066c48592830adfec12cd97df9673cbf4e50bce3a6e23263b39"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/netlify/mod.js",
+      "sha256": "9d8cc4afaf814066c48592830adfec12cd97df9673cbf4e50bce3a6e23263b39"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/service-worker/handler.js",
+      "sha256": "cfe00ab4fc4681d0d77c292f904f2ff43f2affab258bf0e43128b47282c89bf5"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/service-worker/index.js",
+      "sha256": "ba04425819ce3e781ee3aa826ab9cd38d73b720378d49a57aa467506df57ba87"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/service-worker/types.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/vercel/conninfo.js",
+      "sha256": "97003c94e3bc090e466baee1d586f2f6f5b583f1f8d804f94d5fa427a60b0ec7"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/vercel/handler.js",
+      "sha256": "4376ddf494855629b538f891872e825c5bac658e743031d31aff31531a2b295f"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/adapter/vercel/index.js",
+      "sha256": "8a96b4bc5a67b3dc308bab423995e8dacfbe9b85c5ceb8f0d79a533dd64a456d"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/client/client.js",
+      "sha256": "8a21d031f995f945fa6ed1dca092579effdb02960fbeeaad1d73dcfb07ff388e"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/client/fetch-result-please.js",
+      "sha256": "420fe0bf838df7c159e5f2fade0956302285e450bb559adc53c938bf925876c6"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/client/index.js",
+      "sha256": "9d2446fb577e28ac683bcbdfc606da9b4797e728ee40f31c90d631b6fbc024b8"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/client/types.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/client/utils.js",
+      "sha256": "27c3adcc8193271305f14137bed41eff25833c1af11161d2161c64900bf16912"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/compose.js",
+      "sha256": "6b7de513fab3ad04c44232ec16b1882a4677c6d2b3b1d4a3eef029141019cf03"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/context.js",
+      "sha256": "63067a35cfa33c1dc23bace6658e533f4cd3b840cb72bf701145a931210814e4"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/accepts/accepts.js",
+      "sha256": "f493df00cf4a438147a2c3d8527adf6c7d6026d7858b58838bea442c655c1df7"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/accepts/index.js",
+      "sha256": "1ee7e4ab8ecc9827bbf46678148b462d14ac87d7926703a4489afc29c4dd9068"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/adapter/index.js",
+      "sha256": "bd6a09d4b1a1909c097f5e12796bb256a2c5fdfd019bbff49641372423fa9264"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/conninfo/index.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/conninfo/types.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/cookie/index.js",
+      "sha256": "f84fce7e4d7b2bba8c612f89debffae84c69e86bd0675582fa659adb5bdf38bd"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/css/common.js",
+      "sha256": "0d1a070abc329a3c34b11778e78df54bc5981a1f99ff7dfb30984a20edc128c9"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/css/index.js",
+      "sha256": "cf94405ae6a26d901561d0f9750d5fc88543029a4e47b880dcac9279f2f6e919"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/dev/index.js",
+      "sha256": "d5401a37a4a208db45ac6ee359eaba60dd2d406e93ae5a3dcfedaea0e8f341ac"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/factory/index.js",
+      "sha256": "15671a0d7a777f1557a70448e86e072b209a850b1837d29ffe905375fb2eb696"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/html/index.js",
+      "sha256": "6bdcf4eb8facee9ba555599c5afe9529a87e451e2ea67b46d7e605c55c6cff92"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/proxy/index.js",
+      "sha256": "dde5fea8b4a071d48ad2025ffcfbe8f95afdf575a680beec53c0d50c78b0293a"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/route/index.js",
+      "sha256": "a7fdad505bdab085a701473535902c576c6b8a931ea27103363ecdcd02dd09eb"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/ssg/index.js",
+      "sha256": "f056e5c4d197627107f7d6b4fdb2c0039a80176f14a88f616725640500bdd7b5"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/ssg/middleware.js",
+      "sha256": "54197d8c14209d83996ab8bea4144093269563aacd9fb8a180de75bec9ab07a5"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/ssg/plugins.js",
+      "sha256": "216936ed241da78541a961b8c8afa0ee859d4b1f94c56b0a57e0d6a01a24356f"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/ssg/ssg.js",
+      "sha256": "45fca2c96d8b7fa6485ee464feff377e1853b582e828579a61dbe8118760f0ff"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/ssg/utils.js",
+      "sha256": "4416135d1b86f43a1a2b24aaad77596d920042733dcbad1e0956218e3dc4729f"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/streaming/index.js",
+      "sha256": "5688ff3f04cc6f9debd7d850321b62d8ed934f7425dce88bc9a7017747011068"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/streaming/sse.js",
+      "sha256": "d24a317afade834a438b0afc19ac83000c42b53097a064de69253ef7e80f1315"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/streaming/stream.js",
+      "sha256": "f638020132fc7134ce91df9374fba15f92d198747c39eba9a12e01cec1bbf981"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/streaming/text.js",
+      "sha256": "db23fc9de6dfd41cafd2ccc97ed74b2408c54c699aa9bbbe523a59da4753822a"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/streaming/utils.js",
+      "sha256": "63bb52f65ad9c90def62e88691f2f7396e8c452057b9af9f5245b357eb0ff712"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/testing/index.js",
+      "sha256": "ba0fbd25154668ee7f4c60eb3584053314715ba5722f52ee99a0c883deb1d264"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/helper/websocket/index.js",
+      "sha256": "bc2cf374b6582a2f953ba45eaef556e3203317bd1b7823b9b8d694c7e7736d4c"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/hono-base.js",
+      "sha256": "6edd50326727cae429f3bdf3c326b9aae15ea6c5cc330c59131f341d52511218"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/hono.js",
+      "sha256": "51269a690024423b1a863e309556fd8ebd7bbb207a4898176cb8b473359602e6"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/http-exception.js",
+      "sha256": "ca45092f389c8013bde72772ed0a99610eb481e7a506bb077ec100e29763153f"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/index.js",
+      "sha256": "f06fe5a53cda57589ade2a3c33bb666ceb60bcbef5796dd13e59a87f5a389082"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/base.js",
+      "sha256": "5e705e75cd95e75a1f8581a4665ea76256447f391bab136f114712b4550a0f25"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/children.js",
+      "sha256": "4cfc28208003fb9ee8afdc54cfca23ce6350c8042cbd60de486e52b42ee5dd52"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/components.js",
+      "sha256": "744379356b9eaa03940ab4b2617adf29c19ca130e992b7414322ae235fa6ed4a"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/constants.js",
+      "sha256": "41be2819634ecaa5aa1cff463d30234c67b80bf7dcf131b8e33dc9a9f8854c63"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/context.js",
+      "sha256": "4a4e13e5b846c9fd31925064a0e8a7de77375588fd2a66995657d89ea2daefe8"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/client.js",
+      "sha256": "b918686583faa6cdaf3c034688222ac4896a8c6bd4828c832fd29578c9e3b81b"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/components.js",
+      "sha256": "de59b7a9873a7039ba4d77027cdd4d85687ea10251732f53eb521ef0ab117c39"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/context.js",
+      "sha256": "c011e151bdbef945812c1dc422cc0d19511bbfedde4bcc3e7781a4911780e950"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/css.js",
+      "sha256": "40616722dd3bd1848d3dfaebe4d49dd9e94191a66f73cc056eb2c1df9f72706c"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/hooks/index.js",
+      "sha256": "e914c92bb0f2878a4d3b7d8ce3691ae029f1f43aac17293fc9da5d5809fe55fe"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/index.js",
+      "sha256": "48ea58bdfbd25c08fb6be09ecb9cd86d796e841b8c56bc0e147909d6adfd92a0"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/intrinsic-element/components.js",
+      "sha256": "3a630ca9692d9dbd023577efeeb95af8a92475acf9ebccc828fd14057d1e8b34"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/jsx-dev-runtime.js",
+      "sha256": "e95c452af2b71906dbb234d94b0baa3c363c2420cc12615ce1b39409680f1147"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/jsx-runtime.js",
+      "sha256": "a3c94d733bfe2cd309c7c855a5fb6820522aef6cc997bdc98a31acbed55347ba"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/render.js",
+      "sha256": "54baf998f98d8cb8647212565936a2a16850ec133e84e1449267f18a88fa76f5"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/server.js",
+      "sha256": "36699e371600c25d173675b4fe012d022c53c5b2b510ba117b7bf383c933ec16"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/dom/utils.js",
+      "sha256": "61ed1e036ffd0fc25079a5e72008f1141418d176c487638c9f499e46e0c95439"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/hooks/index.js",
+      "sha256": "55d1f18bac493e382be32bc7850e82b37052e56adc6562670889d7e908fa47f7"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/index.js",
+      "sha256": "f30b5dbbd655ac595e34152055e62fca314127df94f1be634c3465abbd7947c3"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/intrinsic-element/common.js",
+      "sha256": "202f18a802f0666ac30dc15a8268a093e77bd827588cc5da5b9f9bfd5388037b"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/intrinsic-element/components.js",
+      "sha256": "f05f80c16212861d49cbbdfeefbf4f18e8ad2eb72eeffb28491e9a8e5b1ef948"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/intrinsic-elements.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/jsx-dev-runtime.js",
+      "sha256": "c23834114d274707bb55b09e872ce4c7d01c0b5bb856a4a67b3480a966501034"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/jsx-runtime.js",
+      "sha256": "8128e8126c309480f7c792ec702a898f0b8e6cd46464d8eba2b1a7c3e7b2e550"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/streaming.js",
+      "sha256": "f8e92a911c33481757b817646bd3ee612a8a591f567e6635793d95ff65726bcc"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/types.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/jsx/utils.js",
+      "sha256": "e9402d4f8b24804ff95c2c87c5fd3c53480f84174fcc6aa013b6d862eb2f30ea"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/basic-auth/index.js",
+      "sha256": "702c2dcde6e19510e8cafdf30f423b527051b1a0e4e35e27f09ab46f5dee7f21"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/bearer-auth/index.js",
+      "sha256": "f30156198765ebb03e4fadd902a171fe019e200f86298b5d002e5fb35376ee7b"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/body-limit/index.js",
+      "sha256": "b820897aab5220e6858b8a2503dcf2f4533af3fe792541e16924a436bd5cb843"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/cache/index.js",
+      "sha256": "a71a010de69a2f9e0b9b1ac3a8813d7e669bc71ccf8cf662839c1c5260a3b4a2"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/combine/index.js",
+      "sha256": "c1da542854c810a810441d7e3f4e0755137ac92e81b3cbba68f2dfa47c17b901"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/compress/index.js",
+      "sha256": "e4f0d054252a1104773a5b535252a6473f1cf289de849c8ac716106b2719e443"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/context-storage/index.js",
+      "sha256": "b2a482dc90ffb32c660c6218c8dedcbcf1998f994fc70e15c25cc002aaae7494"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/cors/index.js",
+      "sha256": "ccf6380b3a4f7332051ade949b64f482f3f83eec3db7ffdbd54b1cdcfbcf60be"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/csrf/index.js",
+      "sha256": "43e3f25b840ff304de74bcb1dd73219e638a3b63fa803fe01f489398625c3335"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/etag/digest.js",
+      "sha256": "619cde04e5708c8bcf83ac1ff7b0c63bc7646382765d0d63700179721de40a10"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/etag/index.js",
+      "sha256": "f68f9f4e86e7fc19969ede8d34edb1ee6967cf5120892feca4c14f2863eea2f5"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/ip-restriction/index.js",
+      "sha256": "0c76ddb35e042222978db886b7e9474b399c704ec86da79e4bab794ca5a2b9e4"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/jsx-renderer/index.js",
+      "sha256": "f8104a798d5d96677090243708459ee22ee9f823b560e09d87772679a1fbbf81"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/jwk/index.js",
+      "sha256": "2e35076ffdec67df1d096f69fc64b1064038bc7cd48f4cd536936335465d3e06"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/jwk/jwk.js",
+      "sha256": "372e1fb892ad9eeda68b994ce0a3331b4996166bc649acf7b35795a707c97aad"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/jwt/index.js",
+      "sha256": "c6c2664eb49dfa4450c8e26a037f1301826d64195ddd661dc60bf0184e8ebf11"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/jwt/jwt.js",
+      "sha256": "13feeca2ebd8cc97b86a547398b887febdc3134302c14d2160f5bf40c2843f54"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/language/index.js",
+      "sha256": "8f7196acfd178bfb4abd47d754316d02f5d3114779fbda4916882ba76c2352b4"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/language/language.js",
+      "sha256": "b2f1bbdc466360486cac02e23d4cb60f3e44f01377d31febb9391285e0ce6141"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/logger/index.js",
+      "sha256": "8ea625dee42806f7fa01af46b9473a05bc60662d27152f5c0c82a50a55413b79"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/method-not-allowed/index.js",
+      "sha256": "5c23d03540b3b5049f9e061d9fd3035e08a4dfed13d248594a27dfd05d2cb1d4"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/method-override/index.js",
+      "sha256": "96b9968183163d8d42eba623a9fb2a8f155e116e7788ced2da352b748ee3f243"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/mount/index.js",
+      "sha256": "40c9ba31b7b5eae45c25bb5542984fabf8500daee4d463c7149c4825ba917721"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/powered-by/index.js",
+      "sha256": "1b5d5da8dbcbfdfca0d074cdf25adf4a27492ccdb6b6f361a5726e4952be48d8"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/pretty-json/index.js",
+      "sha256": "e26b63fb1de53bcbbb9a07e7562d970ab3b933ed2f9343f0bc830bb19220ed2f"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/request-id/index.js",
+      "sha256": "0500b2b1eba546f87e0989b1cbcae9b1882a327a434b21dab6f86afa773b0887"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/request-id/request-id.js",
+      "sha256": "d8eb0c432162017368e4c9f19b807d943b5acbaa3c71976cc72f0f86ebf68ce5"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/secure-headers/index.js",
+      "sha256": "afcc26a41a89865d363fb1130a4bfc88497cacee3529e96be04092c221d730c9"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/secure-headers/permissions-policy.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/secure-headers/secure-headers.js",
+      "sha256": "9cfa38ec0e779ad29118f0060c822b0774b9e09efeafc6d8dd65703849dd29b7"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/serve-static/index.js",
+      "sha256": "8fc85110a32a6323934e2e346ed8d0d002c92b9e7f56606d46853da3770559b2"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/serve-static/path.js",
+      "sha256": "10823cdafaeb6db3fe0c434d42e76ef617ec352d6bf9622996151ac691893633"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/timeout/index.js",
+      "sha256": "9ff46ef32ac8585eb5a10cef72e62953bf7ccf3aeacb328dd5d130340c862f14"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/timing/index.js",
+      "sha256": "e7933db439c368944e52761308422ddc7c5f7ce91182c443df8fa6f85d27714b"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/timing/timing.js",
+      "sha256": "0d0c550d0e9fa79b1baf5e00a21bf832be41974d145b881989e6197ca52076a6"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/middleware/trailing-slash/index.js",
+      "sha256": "f4c786fceaaae5633df1f776813df91b1461bd2a0141ba9d727b61b0af27b62f"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/package.json",
+      "sha256": "8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/preset/quick.js",
+      "sha256": "00d55dbeabebf13471b5347ac33070a1ff3e60270d0d52c26a5155bac41f783c"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/preset/tiny.js",
+      "sha256": "d255aa3488c46ea94a8a2f01632a4550c8bed9544ee3bfa86c8a3bfbd9d1e934"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/request.js",
+      "sha256": "0d89ae8acd1b228c1c1dd6081a57f417e8503c70a679cf4e29b7a678968e19cd"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/request/constants.js",
+      "sha256": "13e8dbb342132b2008363ec8a511a9c714ad1e96bbc5375d761f56cc62650458"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router.js",
+      "sha256": "e6e4b22f03bec855c966f4c75cafeca176d471ceeb1779d8ed56eedcae45c1f9"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/linear-router/index.js",
+      "sha256": "5821ceefe1e9e146c3a346e41552aa6c7a65a2a03963574f38c87e140601162a"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/linear-router/router.js",
+      "sha256": "e6b2f30701a8037b936b6bc579bbd20306a30467fa749fa88f26ec47db5af803"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/pattern-router/index.js",
+      "sha256": "9c753d37a7783993ca2d2797347fe9dd25f9cccea8127d5b79157d19842da54c"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/pattern-router/router.js",
+      "sha256": "3852bff6b6ff4dc672a9081b537b266afbfc622a0b85820b747931fc5d10b99b"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/reg-exp-router/index.js",
+      "sha256": "d392e273292d926647cbd50800e366d541a56a37a6715ad458ec12e0887caa92"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/reg-exp-router/matcher.js",
+      "sha256": "c77785aa1ab2ab6f71ed56c7e6bf44ab641ecded66c93cc91a1afd9407873446"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/reg-exp-router/node.js",
+      "sha256": "4d5b3173787ee45a7c9a15688419fba2385cc89e825b5de322943ace416a94bc"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/reg-exp-router/prepared-router.js",
+      "sha256": "ea466566ad9a3b90cd07357ded4eef0e95da90136a350d46ef4530a206b0bc39"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/reg-exp-router/router.js",
+      "sha256": "66033c63853f62408e86cadb204689b5f67b4c95c93cbef1b935ed98d8210013"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/reg-exp-router/trie.js",
+      "sha256": "c6b21284fb3e39c62c1c4b605d200fbb0281beedd36f88fe3489301365391ea3"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/smart-router/index.js",
+      "sha256": "d4fca8c18fb980fc945e120d9de6ad94d84d6df484fb4f1fd8223cc130d7b9f3"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/smart-router/router.js",
+      "sha256": "947b5e3f07929e3c3b301937d2a32c4b2b8f58bf38f949b973de3a11abaec1ee"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/trie-router/index.js",
+      "sha256": "5271f43cefbb8fd39e43da6b9efe8f2882e1d3f99084d42644ffbfbcdb006023"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/trie-router/node.js",
+      "sha256": "e6c7bbd0c737addfe2e1732078f00d3c2a49380a6e5571ffe13f5a7ba7eba09c"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/trie-router/router.js",
+      "sha256": "8d1c373203b1578b9954c85aefcc1e103260651387b0dc4b173978816d09c418"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/router/utils.js",
+      "sha256": "8a78c9498ba5c6fdf97e74d7b172873842f23cf55e757062b015f4996d971be8"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/types.js",
+      "sha256": "ba13154c52e15dac51ed6bdae8ec778f57f33793410d5d36b895e9d9c0a2a7de"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/accept.js",
+      "sha256": "2b7f5fd4e5eadc22bde3bfd91ee96d9ef59f387121a2b53db61c010f1c1311a9"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/basic-auth.js",
+      "sha256": "b6a4023c9a0786f8362155dfa3e90cad3f1ad9d665d73d723bcf99836a91217f"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/body.js",
+      "sha256": "a4c6ba89102fbd8de046467008fce23b3c04d60abb67be8f2b9352f7c459fff0"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/buffer.js",
+      "sha256": "3d0d8ba9b6829c4a95ab24c7e3096a3d72f7ef26f89ba43ea23b36da3e0fc1d8"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/color.js",
+      "sha256": "e041c5dc59be4af1fec395c96f6e7df7171cf9b3c2a674f58f3e0749a51c41e7"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/compress.js",
+      "sha256": "387e6c74a4bc37ba0f64b89491637e137c12617a13fd8864cabcdd44509c86bf"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/concurrent.js",
+      "sha256": "94ffeb6a3d89062e2a128b2c3608380e782150a8b87a1bcfa6bfcfdbca0a4b70"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/constants.js",
+      "sha256": "b86c73cf5a6b6aa0a6910e2bb79d5f77b5136c639908cd7ed9f7565d1b08e2b3"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/cookie.js",
+      "sha256": "59e43f7630aabe6107dd4205250fd2252cfb5860dca82805c6e093a1d8e1ecdf"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/crypto.js",
+      "sha256": "fc02aad3a74546b16960145bcf93f438349c3b7147fdbf74dba627841a2efc62"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/encode.js",
+      "sha256": "0f5fa7e6b82aaf126514d3aa23841d6e1fe3911c5bcea0be7f28dcbfc3b0670f"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/filepath.js",
+      "sha256": "f657e24a59184767d4d705be67614b37f3d95d2cba1be35e3cdbe8b09019a957"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/handler.js",
+      "sha256": "b7fa1ec58bc4a58f68f85e2c422051e5f48ff334f85086d83430a1367b79bf10"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/headers.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/html.js",
+      "sha256": "060228527176a57bd435af8d6daa13f9f5812d3a34339ce3894bce9a7a15cd31"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/http-status.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/ipaddr.js",
+      "sha256": "e21672abd64149a80b1e8ee404fe0a013f8ce0db929b2dca721993889835f774"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/jwt/index.js",
+      "sha256": "23b1bfd9f40b7db7ff2424aedc8b1d04b291b8b41f98e489ec1dd945debf5270"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/jwt/jwa.js",
+      "sha256": "be58de308ec87e9e28fbba81d52ac35f45995d893bc70cefa09605241a3e0f54"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/jwt/jws.js",
+      "sha256": "c91edddda20a692bea2db607cf5b92d6b7dcebffa12accad14904bbbd1ccc71f"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/jwt/jwt.js",
+      "sha256": "48b2d7c3254ef56bf15a2107fae40864b0a7597582a9721fd64e79b4deff0971"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/jwt/types.js",
+      "sha256": "684ce54fce0cae6c8384ef8254addbe8692690bc0debc5c853a0c53a466389d1"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/jwt/utf8.js",
+      "sha256": "acd85d4567ddc6804f401e206cdaa06f8b954903ad0876d82b1332b2ca4b8579"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/mime.js",
+      "sha256": "d2a973b0b335368d72f22a697d7cc8fbaf041168195578d930a329d382f77c4b"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/stream.js",
+      "sha256": "9f9bb136ed14dd0587652cbf1f760c0c67a1b8af685e0eee93228f60252f98e3"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/types.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/utils/url.js",
+      "sha256": "27d31dcae52c65b9f1710e913f7a7b0967050aff737dfb227f2aaadfcf33db9d"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/validator/index.js",
+      "sha256": "67c3075cd4ea89698ba30d87cd42526695402edab15b08e5bf17f8e7ef6219af"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/validator/utils.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "hono/4.13.13/dist/cjs/validator/validator.js",
+      "sha256": "33c89a62cc8482394f4f3d54c4cc8f005ae17c04c79b3bea003b622067680725"
+    },
+    {
+      "path": "hono/4.13.13/dist/client/client.js",
+      "sha256": "4ef24feab506637b586d873c0a55a718a17865c6806f7afe52bfe7034e65d326"
+    },
+    {
+      "path": "hono/4.13.13/dist/client/fetch-result-please.js",
+      "sha256": "b343b7f102480641cf9db6275bc1077bba9d30a12fdadb0c2c6595897e72f6a0"
+    },
+    {
+      "path": "hono/4.13.13/dist/client/index.js",
+      "sha256": "f324825ef7afa484c7d8a899acd0329ca167fd6eb2042df18757bd03efde50f6"
+    },
+    {
+      "path": "hono/4.13.13/dist/client/types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/client/utils.js",
+      "sha256": "c2214c24d69ef5ec9a8ad57658b159025a8056c9b0a7447d68b346869466fc59"
+    },
+    {
+      "path": "hono/4.13.13/dist/compose.js",
+      "sha256": "6dcd93b8a74298b867b8d2c90ca4fa344677333f16e92393668d224404326b3a"
+    },
+    {
+      "path": "hono/4.13.13/dist/context.js",
+      "sha256": "1f70e2e2c14ab515476bcf18897d887a9fb2a97464b41a732c61e75c8079893d"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/accepts/accepts.js",
+      "sha256": "149a7cd688ead489dae363c7f8b9136faed195dc043767ec5468cb4f67e8b9f6"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/accepts/index.js",
+      "sha256": "d8e17d8f887a9e53ff5e457a8a14342fbe275027a9208c0c9571cb56e5afd7ca"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/adapter/index.js",
+      "sha256": "ddb47fdd81979682ec89860482785b6c5faaf5f001e7367b3a192e136de37336"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/conninfo/index.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/conninfo/types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/cookie/index.js",
+      "sha256": "fcb2a37f557ac35320064121cd4d060ccda664016e8e7c014a5770be59c9ef4e"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/css/common.js",
+      "sha256": "028560777c63755aa994f7ba7b5c2b8733c72b2c5849ac034f1eec6447c5b1a2"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/css/index.js",
+      "sha256": "b6ce67e556991772d048e462fef66932fb28545856cc87d2e8fead9503368424"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/dev/index.js",
+      "sha256": "385750673fb511fe3bc37201e58d9996777eda4eb2fb37bc61d4261ad814eb35"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/factory/index.js",
+      "sha256": "5e46cd194c89fa0ad4a60b6b2b4861a92c8186b2a24f4a92b025ceb2e9be9cb5"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/html/index.js",
+      "sha256": "6d73103df7f662ea449cda118b009ca819de4c6dc50fd750c6429f92fe0ff306"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/proxy/index.js",
+      "sha256": "5370b81f777da242d41a520bda4445b0dd3cea3474ce8f822ca78ef6203d81a7"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/route/index.js",
+      "sha256": "d6d63a0f6a47601c002d8e7ff4bf440b24f31f0f2a97e559d39ff96f7be52a8c"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/ssg/index.js",
+      "sha256": "473a144c836a123267707df4a553847a3fd9a430ed9777daf595542c47ab1e3f"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/ssg/middleware.js",
+      "sha256": "bd1aa0705606e155d62d90b7400c56cf9a17d0938807df3bdce7afa356d70d66"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/ssg/plugins.js",
+      "sha256": "cd57a2c3388e12fa5b09424653505474bd11344bb7a129367fb5cfe79a96a359"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/ssg/ssg.js",
+      "sha256": "212c31fbdc6e6537f36837ee2388c0f15d8418f5c4fae4b3a36a5928deeb8d07"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/ssg/utils.js",
+      "sha256": "b9a6395b3db76a977a1c8f8ad04bb09ff1b7ee09b5eb7858dff6e7c96836b790"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/streaming/index.js",
+      "sha256": "88ee314551d90c1af601101f77e77ed7596b3d9991c361daacc30e16dc1ba5ed"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/streaming/sse.js",
+      "sha256": "747acd0d83d2b1dc6ec89278c9e21826eee68f3fead7440f7992f8f20a2631d6"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/streaming/stream.js",
+      "sha256": "9468dfa62d388c645bfb6b11a1bfb1fec761f71a6c9fe62a801e8eabbf6aac06"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/streaming/text.js",
+      "sha256": "a21ea95f07733a21496ec0f4bdd745c8ff0ff0cf12a8da792b2f9b1cc3fa151f"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/streaming/utils.js",
+      "sha256": "ee40f063143c32fe44f56cee274260cf3c859888e9ab663b3d1be5c120c5b8f2"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/testing/index.js",
+      "sha256": "abd3c028ca1fd62bcdd03741eec5cf9d0c6ef15c1fee1812798c650c0580534c"
+    },
+    {
+      "path": "hono/4.13.13/dist/helper/websocket/index.js",
+      "sha256": "c7fc914a4281b144b5fd09317570e8a48ac993117a4329ebe2b15e99fb5f807f"
+    },
+    {
+      "path": "hono/4.13.13/dist/hono-base.js",
+      "sha256": "b187a52a0d57f47a6a5ede24bb05bc8f1daab4c1c53f290dd749098d677e1d34"
+    },
+    {
+      "path": "hono/4.13.13/dist/hono.js",
+      "sha256": "e630eb3e76ab5dc306e64bb5ba78eab92f539aa43202a2def785f1bf9c7defe4"
+    },
+    {
+      "path": "hono/4.13.13/dist/http-exception.js",
+      "sha256": "449b2603121978f28c50a9809c577d5a761b24617a55fd21dbfeaea5335ad1d2"
+    },
+    {
+      "path": "hono/4.13.13/dist/index.js",
+      "sha256": "a18108f10e31afeda6c1489a3dc6588c45966d4800ff6361f7cc77e0159154be"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/base.js",
+      "sha256": "c3eda9d3c2a06b9eae0d959ca9845152deb7f8bc395870ba605040cfd826f82d"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/children.js",
+      "sha256": "6a7587692b7f752dd2d7128bcf59593876f00badfc5a594aca607eafc7e26ab5"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/components.js",
+      "sha256": "ae4e0eb0ecc67582b72c1f9a2d04ae6dd07b2983ad755dc7a9650e7824e39601"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/constants.js",
+      "sha256": "7b296145674c9b4d46fbc4d2eecee37f0b4636665dc3eb64ad48ed5c8dee2ccd"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/context.js",
+      "sha256": "b6f07545a988e874345f29efdf3910ae764138acf85401fcb913745b31344d6b"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/client.js",
+      "sha256": "4440a5d2409257d34b32f849cbbfbe6c24ed69cd34baaff2e0cda794bbfd80e0"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/components.js",
+      "sha256": "d40d4ac2e9862f699b94ccf955f59eb1d95bfd6617167945f3548d3b205e425a"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/context.js",
+      "sha256": "f985f2baef48732977979557878ac1b2bbd414ec931ea30ccd4d2b5fd6c26bd4"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/css.js",
+      "sha256": "c843968b41557ec3d6a0bbe6d360a3ba1ce08a81bf896e0a4fc019ce87e48404"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/hooks/index.js",
+      "sha256": "c77796504c8bdccf6a42b48e130a58b541d619fb99db4cada4f2e263eaea76c1"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/index.js",
+      "sha256": "c083719a31ef8113841dac509426ed621f5d13eb6a7b6ad394868e1eb453e554"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/intrinsic-element/components.js",
+      "sha256": "99b5d9ccc623211149a8edb936dfd0d75962abdc448a93032c3c775a88908fd8"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/jsx-dev-runtime.js",
+      "sha256": "f92e07b6e37722c4e9a5ce76458b625e7a2345ba97243e1d667dbc29b89276aa"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/jsx-runtime.js",
+      "sha256": "3516a77b2e82a41d168188cfe4952efd40a78ad5dad1ce1c63c64f98b7b2e57e"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/render.js",
+      "sha256": "4ee6ae9823a515999f6fa39c52efd18b8171d0e381a5dbb67a87f829befa86ae"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/server.js",
+      "sha256": "2d5575bfb50bcc2fd88abde7080819e78e538129214ea42ae816f0b388404b1a"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/dom/utils.js",
+      "sha256": "26c926e46cb6ef95d8671fd214708a3a4ba6644fbf3b4d5b40ad101960f1fe79"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/hooks/index.js",
+      "sha256": "51463b8adb9b426241f4f001a1003e90bad5e70d3fd808d0dcf034bfe5bf41aa"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/index.js",
+      "sha256": "ca98edd2ad1fdd40bc2ec72c715d238e7ffabdc4eb61e391095a7c8866771560"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/intrinsic-element/common.js",
+      "sha256": "7774c3b2d850832bcfd27b3eaf3e6a0859963177e3f7aee6582ee73b81bf6ec0"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/intrinsic-element/components.js",
+      "sha256": "4a18564a1215a9b1da2fafb8fda914d3a34d2a5fe77b07e3dd6aa0aad1865c84"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/intrinsic-elements.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/jsx-dev-runtime.js",
+      "sha256": "5e8a1f3dd2fc992c516555709a28256448238308edb3827b7e9dc7247dcf20fe"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/jsx-runtime.js",
+      "sha256": "4c409c30ba0befde4b2be91e18b1b4037b71488ce11088971032d34b2dc61b63"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/streaming.js",
+      "sha256": "87248a2f512db45269ab9d6a7ae8f457d0a47e48faa55dd412922636bb46fe7d"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/jsx/utils.js",
+      "sha256": "e9e8ddcd4c8f0448ff3854053a171e893f6280fb308dbf054481bd8a7d896791"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/basic-auth/index.js",
+      "sha256": "b54d99c1abcd1ba57fb9d16e1a00376ed8d468c417203501482f723cb5dd4990"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/bearer-auth/index.js",
+      "sha256": "4a42aa005f5143e3109dde5968383ff3905cfb010ee313ad50806ac47b5f50b1"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/body-limit/index.js",
+      "sha256": "19761aea2af27b7c539d6d7e6bf856e147b2f2842d96e0099aa0c36e3023bb82"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/cache/index.js",
+      "sha256": "5b0145fe6d0d2d53223cd17799b0cc8b8e5be3a5b607f8ae9f3053543d207991"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/combine/index.js",
+      "sha256": "a8b7a480547d32ee69dba793f86cf05f8dffc1fd6cce317d544fc8fa4991d1f3"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/compress/index.js",
+      "sha256": "12249147aea7b0bf4dabb8c20a00616139bdc58cfa1c44899ed4fe1d301c0522"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/context-storage/index.js",
+      "sha256": "21174a4107ea499b660eaa1eefd850bd0566370bb6b084c819fe87c50b7e8417"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/cors/index.js",
+      "sha256": "cd304718072500b981b7bac430d22e4004c858d91d0c1cefa09d065edf84ef40"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/csrf/index.js",
+      "sha256": "7af4e6626d5ea4e84b87041f9da0f53343ba68c1f96c297fe20c478c4f541789"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/etag/digest.js",
+      "sha256": "5250cc08d8962be5cdb92d056dbe07bef2cf3d4322c84e6c2e287349d8cd71f9"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/etag/index.js",
+      "sha256": "14d4ed7ae141acaa64e7215332eab8887db1e1ab96e150910642ecda0e4e8e30"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/ip-restriction/index.js",
+      "sha256": "6b9e2830ef85981ad1855670e31adff9bd71d676158a493e796e0f8005f605c8"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/jsx-renderer/index.js",
+      "sha256": "960f9f96be50b93ef69dc18f15e74c9e679fdb8e1d5335517a05f3d1a6e6119f"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/jwk/index.js",
+      "sha256": "020d2224d18809ee5c4964f3ca3f44bcf3d307a71b8e185e2979c10069be9f56"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/jwk/jwk.js",
+      "sha256": "12b7ca04967741d5703ce9474359cda04c66a5f83446fa9f95f4014de30f33d4"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/jwt/index.js",
+      "sha256": "f4748b1e748a0e542122f3d395fc03661a01d21262ee34d7b7f2abde4767f459"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/jwt/jwt.js",
+      "sha256": "89fc957f99ce9218f46d1f22cc8134b851b0d88001b596fada1c7544747b843e"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/language/index.js",
+      "sha256": "61748e76811bd3969c08ba56b2c564ee941de63ce3a0239bb6193a3981b437b2"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/language/language.js",
+      "sha256": "a7a67f26c2e8b9300fc1b3ad471ac09851b26d5f95b79af7874136ad4374250c"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/logger/index.js",
+      "sha256": "6c272358c1efa7bbe71603a3407a0189a651b2c0364de180a4dba6e8488d5046"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/method-not-allowed/index.js",
+      "sha256": "f6bc2239455b98562abaa9759610b4d3dc1e165c6367c296cfcf03fa518af4fd"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/method-override/index.js",
+      "sha256": "1230960dd0bfcd4641fa402842afd9264183e1b2476e14226b25d47d251b6f04"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/mount/index.js",
+      "sha256": "aebd9872e726fb86b58f37e168a3662e058e9e86913f215a4d70d71627710625"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/powered-by/index.js",
+      "sha256": "2fe9184982417db3ec2381dd1d3ce79c690d0dafcea0d9a3eb6859904f1d8605"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/pretty-json/index.js",
+      "sha256": "e484258fddc7db3c95e8bc8edcedc236b7eb7a7fc148c4805b4604b58012a282"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/request-id/index.js",
+      "sha256": "b20aea3f0762f2fbc75a720d081f45d920b32be0bae2242ef012c18d3e230386"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/request-id/request-id.js",
+      "sha256": "92220b063e60cac761ad70f66d68a81d0db1d899bd2140ee98cb53e291c22e62"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/secure-headers/index.js",
+      "sha256": "6d3881390ec386a9d8e81bb740dc40a25d20b7128f4761796c3ce0d74549faa5"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/secure-headers/permissions-policy.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/secure-headers/secure-headers.js",
+      "sha256": "85b46603ed235872459ed4b9c72166b2dbb554c820214a5397d616bdd64792ec"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/serve-static/index.js",
+      "sha256": "367ab6e405018eb56c8d730910e3c9facb1f6b5973804f9b35cd5816559bb4b9"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/serve-static/path.js",
+      "sha256": "6284fc82686432b2eb30d19a77ed02e801fd6d3437fb90f4965a92e7ade62f83"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/timeout/index.js",
+      "sha256": "98fd93570335c35806337a31110ab9ddb7df4d15454a2bb8436f03ae22955bab"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/timing/index.js",
+      "sha256": "67100dab6fc34ef790485cce002ebe38d95b2ea557f9d428e74e73419e57b0dd"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/timing/timing.js",
+      "sha256": "3261b0cab5eb00e0dc220c3ff31d958b63e685427ec95d7613e75657d6439a0b"
+    },
+    {
+      "path": "hono/4.13.13/dist/middleware/trailing-slash/index.js",
+      "sha256": "0ee19d4f0aca5bef6a9f7ed9fcbb379948208b7ac6bd3f1afdc0a07f464c8dfd"
+    },
+    {
+      "path": "hono/4.13.13/dist/preset/quick.js",
+      "sha256": "01709d1cfb78a895282b60e31de2203136db7ec4b42620dbff72ba0d8c96a62c"
+    },
+    {
+      "path": "hono/4.13.13/dist/preset/tiny.js",
+      "sha256": "56621ddd5e79a890f18ced77db3e58811e417871d09ddc9d6b8c2cb8970e5fd3"
+    },
+    {
+      "path": "hono/4.13.13/dist/request.js",
+      "sha256": "7606a9234008de851797cf618667c4ec9debe8cb517fe5a4aa9a9fa3507cd265"
+    },
+    {
+      "path": "hono/4.13.13/dist/request/constants.js",
+      "sha256": "983bf06a2f366ec289ddbc253008175a63eead569dc501b5adea98b9f8faf3a9"
+    },
+    {
+      "path": "hono/4.13.13/dist/router.js",
+      "sha256": "cf1dec50138249bcadc086cfb427780ee46ee5671231ea0bb25a3a5c38dd6bce"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/linear-router/index.js",
+      "sha256": "f5d068eefd19f467c93f5eacc7f45dc6e93205bf4dc2af76e707e8e226199dd6"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/linear-router/router.js",
+      "sha256": "4c29f2a4b6eb6cbadbadb2ae29adbe0d6ceff5fc7f72b3cb3c055962b074eaf7"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/pattern-router/index.js",
+      "sha256": "2d6f5753d40866134bd48b971088d466459e4351cb5b1de6696a348bc2a37781"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/pattern-router/router.js",
+      "sha256": "36e3c9179edabb70e83930667ca2dca75571a187f563d938d72b54188bd89e8d"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/reg-exp-router/index.js",
+      "sha256": "822304b59df8cd453267e5335817db09e1d126307a4060afb465b4fa702c807d"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/reg-exp-router/matcher.js",
+      "sha256": "bbb976ff313449c4490290ef392ab0fe0cb01c5a1f93a4ba5baf47e26ad0036f"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/reg-exp-router/node.js",
+      "sha256": "c962a952318e80f0260b47e67a92ae296ce9b253ae4be3c93823029bdecd25a4"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/reg-exp-router/prepared-router.js",
+      "sha256": "c3cfadf01bcf8e2fa9963cf891ae395e7c258480a1edeb338cbc12c2ecd97e67"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/reg-exp-router/router.js",
+      "sha256": "949c2286aa6787b942336c107b6877fee5518c43491e01bb163a04abc29b8621"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/reg-exp-router/trie.js",
+      "sha256": "dc3a7f110a75ae2de852e4de9af9570ae24f5981fc7084e5816a69f1e1dfee9b"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/smart-router/index.js",
+      "sha256": "66e237deef0c95fb2750b0c38d1b47e702c4af44d0fe0ee64c496fb2dc48a9a8"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/smart-router/router.js",
+      "sha256": "545e65d0abf3d265678ad02478f1523610a2f361e338e9fe7abd6dbb54535dc8"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/trie-router/index.js",
+      "sha256": "0dba884522130fe101909713ef612ebd46da0ab030176259bd2cedd0a39fdd2e"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/trie-router/node.js",
+      "sha256": "b8ff86a389359d734245b0bd2096bd7db5cbbe40eaeb910f4d51d29a56923a62"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/trie-router/router.js",
+      "sha256": "529da9a7e75c8bd388cf00527883d991dfcf51d97cb1934247c230db544af469"
+    },
+    {
+      "path": "hono/4.13.13/dist/router/utils.js",
+      "sha256": "517286c2e5cfeb573ad35119a4b8813c66ca730f086fc195928a251f88c66824"
+    },
+    {
+      "path": "hono/4.13.13/dist/types.js",
+      "sha256": "619377da140c8d689dcd6a993cae2290d4c9b21fe0cfb3d5206a7af76b033abf"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/aws-lambda/conninfo.d.ts",
+      "sha256": "e4f0e4edb63153162fe7eecc36082f4e399d3872ae6785ed0b17df1489bb3779"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/aws-lambda/handler.d.ts",
+      "sha256": "0c03bef4aada51424980c64bf4535b2841061d24dbd2f5bae482203e0272d05d"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/aws-lambda/index.d.ts",
+      "sha256": "9745b1544e295e24bac7a67d1a1a4c8f27557bd5922bb41f27d249169ca6a542"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/aws-lambda/types.d.ts",
+      "sha256": "50a853553f947b9ef8565f830fdfd87dd2643c823d8cfde0927d31f1dccbf145"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/bun/conninfo.d.ts",
+      "sha256": "3028948b62d6fe7db0eaecc28db7c2d3d0e1ec85a2d8758d0870945da762f8aa"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/bun/index.d.ts",
+      "sha256": "bbd8d46f2fa89d6ade1a52f473ec96bbca410baa67371e434532a1b42501ace6"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/bun/serve-static.d.ts",
+      "sha256": "e3adc9536bd39de045271f9fc5fb6db5f0f454a1b894a15b10c1427c860f303b"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/bun/server.d.ts",
+      "sha256": "a77502c55fdf7e0ee2117dd3c5afea353487a552a614b68c6981c8c48f1da8ba"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/bun/ssg.d.ts",
+      "sha256": "268abaae3643fa58c6979aa89032f93a6c4e91bc61c8527e23f5d2bee99e0f4f"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/bun/websocket.d.ts",
+      "sha256": "ced71c56452402f6fc5dbe62f6893eeb6003037ccee96258e34957f81e826a8a"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/cloudflare-pages/conninfo.d.ts",
+      "sha256": "72d7e44c9e51c28a2da96071337964320c9b826339179b6b83d3266ba48c58f8"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/cloudflare-pages/handler.d.ts",
+      "sha256": "d982eea100ea241ca02a887596a3230ea74c332add129235816de937d249acb1"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/cloudflare-pages/index.d.ts",
+      "sha256": "79f8c39fb00713711331b278af89dc3cfbd0ecddb0b02b740cc62e8817ed5c16"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/cloudflare-workers/conninfo.d.ts",
+      "sha256": "0154485da56c1158ec1e6315ce36f6d8c1e9964abbd43041b9962f7de1b7b6b9"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/cloudflare-workers/index.d.ts",
+      "sha256": "147d37193c4be77cfc02fc7cf4fb782f1a9d9275466ce7caaa2dd3a85389f047"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/cloudflare-workers/serve-static-module.d.ts",
+      "sha256": "74e0fce2b0d6a8aae6c11272e760c4656789db13a506ab89e6bec047d9f67f51"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/cloudflare-workers/serve-static.d.ts",
+      "sha256": "904b0ceb4de08493681e522abaa6ad664fbcfd2865698b55aa5a1c621e3871d0"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/cloudflare-workers/utils.d.ts",
+      "sha256": "d8ded02b64471a7b2c3167df075fb5fc590f85f0637e48b0c133b895edbee6f8"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/cloudflare-workers/websocket.d.ts",
+      "sha256": "091e55fbc9c59056dc3c85ae6ea5f3e0dab0e980611052d08208bfad6727dfb8"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/deno/conninfo.d.ts",
+      "sha256": "866429943db130e5d58d8568d3a7fadc5b7f3de35abf2f6b303003e36b893507"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/deno/deno.d.ts",
+      "sha256": "f4c5cf9bb78e85f15dc27180260637cf24b2a24bc39e0788783a3accc4dde614"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/deno/index.d.ts",
+      "sha256": "377b70fe7437a42cab67f6bc94a4328870b5daf94059b23032f017a84838fc80"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/deno/serve-static.d.ts",
+      "sha256": "220ed3366e6c2ebb53c05995f9286692029bde019326fccb937f3fd9cb4d5a1f"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/deno/ssg.d.ts",
+      "sha256": "d0015347ab9cbb9b9261381413e2f5cc0920a0db33c7dc7822316b2db07d9926"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/deno/websocket.d.ts",
+      "sha256": "ce3ba829e0ee27ded6694ff886ece5d9d2ee596c434f6f3373848ba2d5f63bf5"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/lambda-edge/conninfo.d.ts",
+      "sha256": "7d46785e18d5793ea7885bc15c7e1c9063bd5573ac878ac29292965a3b1b0603"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/lambda-edge/handler.d.ts",
+      "sha256": "fb59ad05ac4b674fe9eaf1a7ec678fc719df2c8061c1b7cac6add6bb1f2e047f"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/lambda-edge/index.d.ts",
+      "sha256": "c1f7cdb942180113edda3c7587d58892b9d2d1cee939375678aed4954822c6d3"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/netlify/conninfo.d.ts",
+      "sha256": "f369cf782806dc12c6d8c0139526470b641e176b3b3045fcba02dc2e73899cb3"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/netlify/handler.d.ts",
+      "sha256": "ea77d77922d11ca2273ad1b62886d1e5cc525517491ae4eedc6e38d057bfbdb5"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/netlify/index.d.ts",
+      "sha256": "8bda7286b3974ef19be1a4afeeb671fac74437ece4084a264c71132f0814ffaf"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/netlify/mod.d.ts",
+      "sha256": "8bda7286b3974ef19be1a4afeeb671fac74437ece4084a264c71132f0814ffaf"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/service-worker/handler.d.ts",
+      "sha256": "ee8e11c69b0c031f7c4b9bf51809aff2123c0e1cca63bf69647c68bf29407729"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/service-worker/index.d.ts",
+      "sha256": "7f5dd2c91d1ac6824ff63a8ae714423edf7fa2bcd4a7b0e26dea60413b999474"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/service-worker/types.d.ts",
+      "sha256": "3bb94cec45566d578ebbe9ba298bc63baf035a191115539955e7c72326403cc2"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/vercel/conninfo.d.ts",
+      "sha256": "b82507b26e5b21bc8b318185d75cdd2f566cb592eca37f6b1fa5630cda725cf1"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/vercel/handler.d.ts",
+      "sha256": "26ec4ae67072e53afbb975b8a563845c50c6cd9a2aae704407e86c756860fc28"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/adapter/vercel/index.d.ts",
+      "sha256": "8bda7286b3974ef19be1a4afeeb671fac74437ece4084a264c71132f0814ffaf"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/client/client.d.ts",
+      "sha256": "85fc5027c27e35ac77f2fe28db8efc88eff8db2b48d6df1ea5cd017613b5c516"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/client/fetch-result-please.d.ts",
+      "sha256": "a5ec600863fcfec53c962b214b5d270d84a789277c76f2e72fde177726c2bfb0"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/client/index.d.ts",
+      "sha256": "21100b63b9571c4d595cc77b81fd59a4e81836d873294a8b6cfa0741fefcc14e"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/client/types.d.ts",
+      "sha256": "d8e011c5e09e367cff78be7ef719924470b4373a2372b421dd2a37e223285728"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/client/utils.d.ts",
+      "sha256": "fa2d020487fc9a29014b22a627702c9bf56b0c1bdba4589ccc81e3adfd69bfb0"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/compose.d.ts",
+      "sha256": "a2ade0ccd54a2830a2008b4eaf700b27b7d427e4227646d9f561c8e01c302b01"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/context.d.ts",
+      "sha256": "4c37c272fe6a11bd63281450512955515856e8b5ba2c8d49521b8303a8621306"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/accepts/accepts.d.ts",
+      "sha256": "db6c34df89cfb2bd0431475104ea574c507dc5dba9ac45cdb984fcc51ed5e198"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/accepts/index.d.ts",
+      "sha256": "e2d9556091d017234370ac258ac40ca4e4e75786a415f471149d61b3ccd3e026"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/adapter/index.d.ts",
+      "sha256": "b997626838e1cad093700214664910e175cea02d0b2a8d981db7dbaf783ed01f"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/conninfo/index.d.ts",
+      "sha256": "52deaf10794b22fccf7fd4daf7941dbd45251bde0d4e81fca13f5063e5b93d9f"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/conninfo/types.d.ts",
+      "sha256": "1df5825d25c9b32db4fb261c24c2b0b3ce4a76b4e36f0cf78f68b84f9cab906e"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/cookie/index.d.ts",
+      "sha256": "051f8b6b52e8084a9d696c96e371637ce7f9f6e0e58973b3ef2a277b38b8768f"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/css/common.d.ts",
+      "sha256": "eae9bbc443d62542b785c37476c93e676067cd3aa13fc3f9f4132dc89a9fdf6b"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/css/index.d.ts",
+      "sha256": "fd921fb3ce2f68225e0a25c55f65108fcd881b011093e3b1d3082601230fc95e"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/dev/index.d.ts",
+      "sha256": "021866089e215fccca33a3632664fefee98a4b2610c2b9fb5fa812a4fb2343f9"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/factory/index.d.ts",
+      "sha256": "32da6a1d0f6d185d096d1e7872b9ad2c333d72529df0a10453812daa88368b7f"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/html/index.d.ts",
+      "sha256": "063077b820b06f52e0e9c164ba2383e4a6f970d1dbe8ef1c5efdd09e211ae662"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/proxy/index.d.ts",
+      "sha256": "660f81359385f7746279c45bb4943ef17a0075bf7b0f462706c0075f6accde52"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/route/index.d.ts",
+      "sha256": "d082706872b7b820d7a0fa0ad2243bbf031a215f288e926d1f920745d070df1c"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/ssg/index.d.ts",
+      "sha256": "ad30bd6db4530776c73a2e8188d4746b6408e0be9e3c576d9df44bf023cbc633"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/ssg/middleware.d.ts",
+      "sha256": "73db86fe69c39b974140c6cdd106b5fe3f06975379db5f1372a1efe44aee8fa4"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/ssg/plugins.d.ts",
+      "sha256": "136ee15b1cb9e24919903ac4e41b1407ecfb10b824c795bb89bae9d25af19abd"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/ssg/ssg.d.ts",
+      "sha256": "ba858b339e6ca1db5aeed163c2fd98a080f4efde59380edc5a2bf16ec184806a"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/ssg/utils.d.ts",
+      "sha256": "d8b070ed8e152ec33b8fddb6ecaa26d1a80abe3645465c92a8a6c8e8e95e1db4"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/streaming/index.d.ts",
+      "sha256": "dae717d006d04d2da8e7bea8da2979f1db70acaee880460732510ac1ce0ed3a9"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/streaming/sse.d.ts",
+      "sha256": "f4fb8d6f469e5e3d332532fb5d0886c7279c1092b4dea3a83576609c6195404a"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/streaming/stream.d.ts",
+      "sha256": "2ef94c24fba8fe932d33989bcfc58df24703f95381d07faf471a4cbebef3be5f"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/streaming/text.d.ts",
+      "sha256": "b626e25acddc930910970752c314139416f7b554891847f6b7e3d4b882d40346"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/streaming/utils.d.ts",
+      "sha256": "a412278be6f393ea91b83fc7147aea91286455fd993cdcdb1c6d6c4ba01784b6"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/testing/index.d.ts",
+      "sha256": "b541f47340594ad926aa38a2021e0f0aab0d51c767930bba330d27953f3265c1"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/helper/websocket/index.d.ts",
+      "sha256": "67935e11e106f33b8ceba31942c8db86e4bd25b21f8f7e9d584dbbb7155dc366"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/hono-base.d.ts",
+      "sha256": "adc54032de5f0751a8a914b0720c26f1cfe854d10031c3e5d37731191dd47191"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/hono.d.ts",
+      "sha256": "65451de7c104b560dad74a279855a715db0d0d846e2c7f0f46f163b315d70655"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/http-exception.d.ts",
+      "sha256": "6351d0ee1eefccceab22ec7c2eee67844f69448d081ef43e77f1e397a0716459"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/index.d.ts",
+      "sha256": "ec4fd50e1e34d03621c3216ffae720ea2c2abe2d84a06ba29da0c78089e7d3fa"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/base.d.ts",
+      "sha256": "df8ea7e617bd7138c1ce3ccfbc95c0c03a0fb02b1c09076490cea7ac59f11053"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/children.d.ts",
+      "sha256": "4a233e03fbcd86d49fdfbe8626381b99009a1ab204e21121aa0dd46d611f65bb"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/components.d.ts",
+      "sha256": "b45b44e4deacfd766b630a0df48572cc654ded2fa5a945bc83eefb1fc2cb13bb"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/constants.d.ts",
+      "sha256": "599545af226d8f7ef1304a1f7c53525d986fa676bbddad408a16b48907876759"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/context.d.ts",
+      "sha256": "406b50b57400004e27fcc9877b172ec425ecc575e7cb877be5b4c093a25fa14a"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/client.d.ts",
+      "sha256": "11ea52738d2562ee190686085db270797cfc199f9e72b0ea484275cb165a4077"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/components.d.ts",
+      "sha256": "329e70bfb3b7a99ed4b151c6efade50138a2df5a34818172ffc2053ae3978970"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/context.d.ts",
+      "sha256": "db4c1ea6d8e74a4fcd9863bbc2f2086f0d7e542e6f6c3807205b2548a510f47a"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/css.d.ts",
+      "sha256": "78932a825ffd209e8cfd594fae4641660af1f19856ed204a37434feef661073a"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/hooks/index.d.ts",
+      "sha256": "ae750468eaf9689f26aca08824d3fdbab412968baf4fe19ae40896fcd4184a2c"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/index.d.ts",
+      "sha256": "e81da91711140022480711092000076958579030f4eeab9a03649acf979c7d83"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/intrinsic-element/components.d.ts",
+      "sha256": "6a0673fd596d067ef32b6db94a2858e574271404ec1fe6e744458ed29900c791"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/jsx-dev-runtime.d.ts",
+      "sha256": "8631fcc7c8c4c133549704e17bb12f2b6f58b248f33ac7063abe472702ace291"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/jsx-runtime.d.ts",
+      "sha256": "0952a989b8785565bbcc77b989a9cb87be07bc85ecbfe57cd0974a597e2c1380"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/render.d.ts",
+      "sha256": "1f78950598e8b37402caa0531bb754511720a600fc0ca21095ab44e19b48d48c"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/server.d.ts",
+      "sha256": "902d61850737f56283903a3748f6e3e677b852b367507310dde206ce6309e5b7"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/dom/utils.d.ts",
+      "sha256": "48d8d94ed2a3723d85cf0142a0544d00b467a0707b02c2474ca58e248dabed80"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/hooks/index.d.ts",
+      "sha256": "955cb8ec8e08908ef57840fd92b10b5f6e7d15c7f0fd80f540b08415e8fcf38b"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/index.d.ts",
+      "sha256": "47716d6b491a7be1db5035fb887347c685c1b0031c97671e494d7fe5084baa41"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/intrinsic-element/common.d.ts",
+      "sha256": "e3c2986ea2841d9ecdf2ed6cc635915858d1bc5cb2fe79da6d3173619c87bc47"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/intrinsic-element/components.d.ts",
+      "sha256": "0ffe24efbc235d2b20a741c69f5bb87d1225a7d5e4a4798342a4c4f38e8b3583"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/intrinsic-elements.d.ts",
+      "sha256": "5f1dff374aa151eccb77a3c12af7c85d7beb6d58ca2c20cb1e860802fb05ac86"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/jsx-dev-runtime.d.ts",
+      "sha256": "1cd2316be5a76e09fb9758900e1c9068803851aa76aec1b9c952e9d0f73f4df8"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/jsx-runtime.d.ts",
+      "sha256": "bae4e17cb929ef6a010a951a2e8c0a4f9c6692fbb2f97e5582274043ed9970c7"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/streaming.d.ts",
+      "sha256": "53b2ceeb49da98b9cac6a552a2026fd3f0406e00842fc31b03672d643594fdef"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/types.d.ts",
+      "sha256": "aa6ddd5cfb2d6841e5b7068a140783681676cd130a8a3b25fa903235b7b15ec6"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/jsx/utils.d.ts",
+      "sha256": "be9eae5932c239b3deabbf2342b896e56cc1222b33ee71831c9e76ab75231d9b"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/basic-auth/index.d.ts",
+      "sha256": "5375ce257527d19aa6fa8a51dbae1e6c3844ab4b44bd799e7e349d95bae0edc2"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/bearer-auth/index.d.ts",
+      "sha256": "bbfe5e01b7d7b763e3060d2a1c78804f77439828f4c7b741c5cb6c1ae82da666"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/body-limit/index.d.ts",
+      "sha256": "a1fd37f33dde007518c506e8af15d33c6c16c58072fb368b2786048db4dc2d80"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/cache/index.d.ts",
+      "sha256": "021eaa57c3c2a726a28651eb1ec63a0b0b48aff384941bc20229c69d2b663b5e"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/combine/index.d.ts",
+      "sha256": "8ce3eecfa0608155692c4ab19e32c8c8afba0ed1af99e099d8fdfbd8e9096269"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/compress/index.d.ts",
+      "sha256": "06160dd866938e3e9244bcbf5afdcef6447525611dc5ed712fd1e5e1a10eb38f"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/context-storage/index.d.ts",
+      "sha256": "827c0e2e17efac8e19eb6274cbcdc9b1af21bfbf83340c716eff6ab6cf78196b"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/cors/index.d.ts",
+      "sha256": "20731800e6e9fdf1d24ad90e1f2db2f6eb281f38d4a20143458fa14672071be6"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/csrf/index.d.ts",
+      "sha256": "e98c19a109ae327d6efbffbe32a06eb32dc59b766a9c503c76ee9e9ee94f5b72"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/etag/digest.d.ts",
+      "sha256": "627b0790bb5e39d4e13a7fad68ca9f61a4b368af7337cc7a893c2a06326c2807"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/etag/index.d.ts",
+      "sha256": "fe690d0db2f9f11653c425a68ba3d6bb3b421bd261400f83e6da740dbf9824b6"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/ip-restriction/index.d.ts",
+      "sha256": "5a261cbfa3a627067abd6d7d8799c9f5f3aa21fa173ecc7275347d64179957a3"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/jsx-renderer/index.d.ts",
+      "sha256": "770f300d792be89a5164f9659cdb8b20173741fde4477d693aa5e7efb1589562"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/jwk/index.d.ts",
+      "sha256": "a788973aa43ae7f3e2a34a6a54135b623923540e6d950fcd44fb59e3159d2091"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/jwk/jwk.d.ts",
+      "sha256": "d6235615981635118242eec1b6b182574dd87238fe25843e3c8aa5e413e5969a"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/jwt/index.d.ts",
+      "sha256": "391abddafd30c91747470f7c780e5f42268a458efb02ebb17933073fad5d69d8"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/jwt/jwt.d.ts",
+      "sha256": "07039135e366082e7e12e0940d97c536d267c9a9abf24d5f716f6c34cc56d2a7"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/language/index.d.ts",
+      "sha256": "fb95dd07fe2d91b6a15e2c7e4226af4fc077a751e4579447a96e9d863112360e"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/language/language.d.ts",
+      "sha256": "4fa6e1c323f2cada728ec62af4a516ddb26b2042e9fec662ac3cd6f902f0ce41"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/logger/index.d.ts",
+      "sha256": "4600a80b441aef4537fd9ac243cbe7ffba1dcd6ccd0ad2a0b76940a924190338"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/method-not-allowed/index.d.ts",
+      "sha256": "960d52489a5dce30811e111f2541ea3272062848621d5ca5cd51ec1045b5665d"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/method-override/index.d.ts",
+      "sha256": "5ef39b43eb867e228b6f6782507249a22b2025b244ef4a59416c6dd46e80bdb1"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/mount/index.d.ts",
+      "sha256": "7c3486269e23ef68e42ff15e5247205c29608997cc3cdf478e820ace9678f398"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/powered-by/index.d.ts",
+      "sha256": "817919dc12f81dcdc5a4e90e196ada4df27fbeba7fe1bfe169aac9869124f433"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/pretty-json/index.d.ts",
+      "sha256": "83981e75ae3728ea67dd93ac5cbe7ea2f622ca3601328ac8533e55b1cfc95cfe"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/request-id/index.d.ts",
+      "sha256": "bb22f86b8efc3059e33179b1e27b58cc4f4f7ff2e7fa2942e5321814001de8da"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/request-id/request-id.d.ts",
+      "sha256": "ac1d62fcfcff9a26cad7ec0d20748c1de0c1031adb24642e2833e81502b573e8"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/secure-headers/index.d.ts",
+      "sha256": "e0df88073585e6e85ce375cae2c2c7ab9c83ccf013aaf82fb416af86392648c7"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/secure-headers/permissions-policy.d.ts",
+      "sha256": "cdd7d3a53c5acb3f7e547fa5c59ae9ccd1bdf96c3f2c5d71a5ca427bc1c81bcd"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/secure-headers/secure-headers.d.ts",
+      "sha256": "80c2167217e364438255feab625787dd4a74e0dd16c5f43c6f099c218e0a6171"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/serve-static/index.d.ts",
+      "sha256": "b4a9959949e5b8009cc4e7a9955182b4e1dfe24daebd7eda5591fff81e6e2352"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/serve-static/path.d.ts",
+      "sha256": "7ced1aacf120370abb5e43855a6a332ebac47b9f7b9002043969fa6e8cfc1445"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/timeout/index.d.ts",
+      "sha256": "65268dc0f73b3dd60d940c75848cc5ac1d27bf84f0887e1e620dd7841b7e09cc"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/timing/index.d.ts",
+      "sha256": "0d0dbc7dbca00e347aeb6ec92d12a0b91b562699be323603c18c75d3610f7f68"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/timing/timing.d.ts",
+      "sha256": "f3d3c968592ff1c1440996239caa9c66484f220f9dfd19b9e14c301aa61b7bf1"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/middleware/trailing-slash/index.d.ts",
+      "sha256": "11ae412e13bfeaa435a505f5b0621198361c343bd7676684de0e4e004021e707"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/package.json",
+      "sha256": "8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/preset/quick.d.ts",
+      "sha256": "2b52f916f2583891015e8a48b5e8db2082214ae0c36efa063a9150946e77721a"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/preset/tiny.d.ts",
+      "sha256": "36e041452941f12f8ecffe1e3c878d0779c5e9588a9b4117cd6223319bbd4e8b"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/request.d.ts",
+      "sha256": "1249777837dd0a8a76970f5336cc20a508770a1e73a7c07707a6484cb2f28359"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/request/constants.d.ts",
+      "sha256": "2105b94251053ac7f09cf04580e184faa248429b73f177f304f692899a940c84"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router.d.ts",
+      "sha256": "1ce58ec0ce67b21f4ec336751d0a0b2e8140e0affa0a3d164379bd7fdb7f9bc8"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/linear-router/index.d.ts",
+      "sha256": "071aad45502889f75fe45f6fc8a9127315a15a1df3c053ac1e52d21916a02db9"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/linear-router/router.d.ts",
+      "sha256": "f52bc15eb2acc71dd2b99cc109f42f828ba44f5a75340371d95ddcf7498cde18"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/pattern-router/index.d.ts",
+      "sha256": "4e9f39cc48a52e0a7a46eff0fcc5a985a3be695be263f156f35ec982bc65e8f7"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/pattern-router/router.d.ts",
+      "sha256": "3bae67f85178509b3bd9cd56faac00926067a1eace4a953d2f0d02664bf95757"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/reg-exp-router/index.d.ts",
+      "sha256": "6e541f9423cc1b136c1bcdac75e3a43f755aba5ccdfaee464392ae456646afe7"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/reg-exp-router/matcher.d.ts",
+      "sha256": "0fe1ed8c5b75d5aeaef9117b856894a228309d8643bb1c76407a88cec22e4ca4"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/reg-exp-router/node.d.ts",
+      "sha256": "9a3e2bc09f71d01e5c73e4194f246628d501ad45fc80aa9eee373b6d28227a0f"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/reg-exp-router/prepared-router.d.ts",
+      "sha256": "4ba1df5c3e7ce4a7acc4961a653f4aa0d05ae3284cd4e28c061a12ff6897e7ea"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/reg-exp-router/router.d.ts",
+      "sha256": "686156bd7fdc58b4c5d07c7b634e0b2ea3bc78fc47e1cdb0759d6b512d9d5cbe"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/reg-exp-router/trie.d.ts",
+      "sha256": "3d853b2920f42e41408409193b98afc7823f2bd47469ff7fbf81b50083c2901e"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/smart-router/index.d.ts",
+      "sha256": "eddd35a67af1838b6aaaab6b5ca6914ed09a7ad4ce0c411008fb3c0f1e5fed97"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/smart-router/router.d.ts",
+      "sha256": "9db80936212fbed6fc279cbdf0cfb94e649b5bf3da60eb8f51738ff31837abd9"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/trie-router/index.d.ts",
+      "sha256": "98a2d316535753cbc0332139d9856aec2ab04ec1683fbd64842659057ac8cd99"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/trie-router/node.d.ts",
+      "sha256": "2971312c801c981446c16a63c8d9660578e4bbf6ae863bc10ac6772e9df23408"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/trie-router/router.d.ts",
+      "sha256": "58715c4b2e04dfe8971309e558008074bfda2df8a707654f4710ef558b8b09f0"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/router/utils.d.ts",
+      "sha256": "cf830b8e6538acc3dafc0ac9819012750aef567c2b18dd9f2cf9af902d49149c"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/types.d.ts",
+      "sha256": "55f1e79132b033f4ca6c41d46fefe2728af7daf0c2b73c47ee8b861518b5153b"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/accept.d.ts",
+      "sha256": "815d08bf64cf477d0e19f3e4bfe04c3ad6f63f712f7e5eaaf701dd1d584247a0"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/basic-auth.d.ts",
+      "sha256": "6e509ee35c84d9e30810a224920f7286c90c66a589ea8652e37674cd087ae0e7"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/body.d.ts",
+      "sha256": "1c8318d40ab6d75140cc5698d6bdc4b7744fd2adc237146234c034c4da00a4a5"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/buffer.d.ts",
+      "sha256": "cda7dd6156be6b3e6c167376887cdea194b604df82fef690b91ae456ee112696"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/color.d.ts",
+      "sha256": "067b1b8484bf46c7b3412a27e15fd8334d7df2b0b0014b6dc0188b2ab2777279"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/compress.d.ts",
+      "sha256": "e666561a6794f50f31495b7eb7ada15d54abbec9193f74c2f821001896ccbb84"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/concurrent.d.ts",
+      "sha256": "ac605aae991ecfd88a27128dd22df34b85ba5f450f7e50491181988a6030f2a3"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/constants.d.ts",
+      "sha256": "b764a7af68042c7b44f58eb170eb10208ff1638f407278756e3fed496f0f7360"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/cookie.d.ts",
+      "sha256": "fe1220eaeef142a1bb3f248667c3592f85e14ab5361b3e087f243bd7db9ba4e3"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/crypto.d.ts",
+      "sha256": "5f5ab342c2202d0d4af1567ee3b0ab280c0cfb0a9758bac7b4880f2b8d54c1c3"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/encode.d.ts",
+      "sha256": "59d85f2247b867d1e670024d567b7cab2a7a2498e081360c6044f88ef45a2651"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/filepath.d.ts",
+      "sha256": "5e46e3cee74b1cfcdbfc09cfc0609c7db2ad63c5c4f07b4de04a287c1727dd71"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/handler.d.ts",
+      "sha256": "5a9157adaf70fe1036f45444692ba63496533846e7ea2ff64ba71324bf162889"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/headers.d.ts",
+      "sha256": "6eea6cc08d101b84a7bb4da62ef6fba018ce012c593aa0aee696c0f6c1100db3"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/html.d.ts",
+      "sha256": "21780d54dd79879e33ad827550b144989f40389e1e00c64593801e0149ec064c"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/http-status.d.ts",
+      "sha256": "c110166f886b1c19477a6f59b723d8a48d20a98da3150ffe1c07c32650ec0750"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/ipaddr.d.ts",
+      "sha256": "e8ac6d291fde78806f88baf3e7d897651f6b95fcc98fc393f9f16c15087d6967"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/jwt/index.d.ts",
+      "sha256": "77aec8fe3ea1adacefbeb25ee054f1e6cb207643a2b94f155fdb9ce84cb9cdc2"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/jwt/jwa.d.ts",
+      "sha256": "721ff7d27ddf7ae3352dbda7cd580d5d3542fad7ba26732f61e09dcdcfe80792"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/jwt/jws.d.ts",
+      "sha256": "5d930504be6c8847b39c244838ca29398f2f0e5eccd17f46219f8c66d87fae0a"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/jwt/jwt.d.ts",
+      "sha256": "047994936ab230f8dce5864d31acf9a26a7b6f6f771b74d5313055565f702722"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/jwt/types.d.ts",
+      "sha256": "e4edecded22abbe0aa0333df06714a228be15b8eda692c830faebc879f7c0379"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/jwt/utf8.d.ts",
+      "sha256": "5818b8ffe6f4750eac9edc98ab8efa99d4f10cbe53bcfa17669c82edf08414a9"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/mime.d.ts",
+      "sha256": "3081cc93e03f3ee991e44b106a124f3dbe6cab242319ebbe3b3648ac82b1ba2b"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/stream.d.ts",
+      "sha256": "296409cd6bd20e6a18ccf2718c99769b7ee0a90c3c084ce5451e9e4009d4eca5"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/types.d.ts",
+      "sha256": "2f0d7b357f7ec60afc012f4e3422460abecd57a56537c149218eb4bdb17c77b3"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/utils/url.d.ts",
+      "sha256": "e65bf247e12af82654acab7ebd06b7de8982d625fec226e43cbbd728263417cc"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/validator/index.d.ts",
+      "sha256": "0017d93aa933a4e276720fb9e17e49a4288ab954d36a520d7283d9a1db48ad6a"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/validator/utils.d.ts",
+      "sha256": "1f0d7752ef3bccdd03c4cbdbb914ffbd8e2b6634d31d427ddb5b2cc2b57cd29d"
+    },
+    {
+      "path": "hono/4.13.13/dist/types/validator/validator.d.ts",
+      "sha256": "bf3bcfec74d36a703ea33e943523177eec2de05c47233a7b212cc64136e3f371"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/accept.js",
+      "sha256": "8a7b2b942e56fa9cda83588d741ba8e0e3099965cbad58f6efa150499e254033"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/basic-auth.js",
+      "sha256": "8e86558bea5f4336bbea28114a750c686f704457aea8a1684efc2b34a82a720d"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/body.js",
+      "sha256": "6e41a63e30a29a0158a2016aecc7b5c68c7a465c20d08868262cc8a3e21e74e4"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/buffer.js",
+      "sha256": "f72bd9c18c958eeccf72fd658de570a2471942a1a93da2f60930f46b8beb3bae"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/color.js",
+      "sha256": "0db35994db8e2830b3de5660e2f98df439b1dcc32ea0207e9f306d58de749c2f"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/compress.js",
+      "sha256": "0fd4e822b7322591da6f437fd41379e554cc0bba83440885daaf0c64ba6c296d"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/concurrent.js",
+      "sha256": "683be95e4689e958a90e1f4a5ebc82e74098df7a24087e4930c1c737fcd5c92a"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/constants.js",
+      "sha256": "9252298eac70224f65a052b98eab0f81460e9eb1d835bbd652faa762fcf4131a"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/cookie.js",
+      "sha256": "a3794b506645c5b004d78f730ded447100e2d128b759ebc307bc0ccdb59f54ef"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/crypto.js",
+      "sha256": "cd2ad39f936ad472b583e248d218ea0fbc0d10678feb629571421bd38c05734b"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/encode.js",
+      "sha256": "39db4c67891401c8839439cc98b1c7ae421a3269c4b71c0cf7180234260abb71"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/filepath.js",
+      "sha256": "5d3f7489ddfe90f3d1e9a3f08e5ae22ec263d40918267109b46b03916bc66c34"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/handler.js",
+      "sha256": "d6561d12f6a7d21dbb07caa3d1ceca2388c7458eb24fd6a0547633d93fb89ac3"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/headers.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/html.js",
+      "sha256": "fa086b8a756ce3aca5d58dd6d462f3a8cf75fa46c52b78681b792de5d19c4c03"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/http-status.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/ipaddr.js",
+      "sha256": "d4cf46fde348dd73586ba4e0b1e1170f32ab4c5f670e9a64e2ab722f390c2e58"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/jwt/index.js",
+      "sha256": "387338c6078cfc93262b01ce15726b8eab338cf067358630c9e5aabeff895d54"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/jwt/jwa.js",
+      "sha256": "f0349ddff0ae2dec7d8412cc00359d2f110d05bc62943e302cb2673022618610"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/jwt/jws.js",
+      "sha256": "8ee987b6ff79bf97333b4407425e9926fe6dbc2175f368b28af356ecc8f6b28b"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/jwt/jwt.js",
+      "sha256": "c97745e3263259bbc0b8e756cc53b97b8fdd1e92eb273da0f6b38b9337af2690"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/jwt/types.js",
+      "sha256": "268bed3570fed9b17acdf657321d65e41cfcd7419ed903cabe71762281130428"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/jwt/utf8.js",
+      "sha256": "87dc2c8ffef4e648d83b1d39262610ff972ddf3a3ceefcd97f0b556586406832"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/mime.js",
+      "sha256": "28ca5e0b5f8c372996f98b4c4ccf2381e28c445b471ff45ba60a2a21d6b48d56"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/stream.js",
+      "sha256": "a7599a03863853e3b2c1cbd6c6cb5e194ebcaa7463d51f467387c3822ce51813"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/utils/url.js",
+      "sha256": "2bac19f291e7b82961f1e8c643b1fa2a9c4a45085aba9a24f46c12e88ed4e873"
+    },
+    {
+      "path": "hono/4.13.13/dist/validator/index.js",
+      "sha256": "05426feb4e961243c849df152a018837f84797172b2a9fca6f94d4cd39e58b84"
+    },
+    {
+      "path": "hono/4.13.13/dist/validator/utils.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "hono/4.13.13/dist/validator/validator.js",
+      "sha256": "baa0dc87b51af8d3c7a34a246a68068d19e58ec6f5695823e3b621114e5b7fe0"
+    },
+    {
+      "path": "hono/4.13.13/LICENSE",
+      "sha256": "a6ab98e5c77b9070c443eaff2ff81034a6f8cc05a7524d5098eb0f24defa0115"
+    },
+    {
+      "path": "hono/4.13.13/package.json",
+      "sha256": "169a02072e32d85aacb089ad14b62b027d975479d811f741771fbd0f559fb5c9"
+    },
+    {
+      "path": "hono/4.13.13/README.md",
+      "sha256": "8a99075e115af304594f7d7cfb120a46228629811f0a9ede7e7edb151c218f32"
+    },
+    {
+      "path": "nodemailer/10.1.7/CHANGELOG.md",
+      "sha256": "d33b3407908cb384ca76b7126ec0a712e6aac889c85ae2b95a9c9bd0f7fc087b"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/addressparser/index.d.ts",
+      "sha256": "8ba3d478123a624ca795fa899c657953d3c0f8ea75da99829f68638d67154bec"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/addressparser/index.js",
+      "sha256": "9f2a5b44325818ee8c8c6cacb06dc43c4f6fe187bfb2289dd39baa186bf2992c"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/base64/index.d.ts",
+      "sha256": "0258c9fb2455a0d3ee1656946f5684ae28a5c0c3cf261b78185398d4b265eade"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/base64/index.js",
+      "sha256": "9f6177425b17a1fc669b8d07e717b1c34b5aea6da2cad27d4060352a17844b4a"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/dkim/index.d.ts",
+      "sha256": "3fc98e80672d4a80203a128e35695e2c0b42b03a47f7e79b2a3d0560f7b3932c"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/dkim/index.js",
+      "sha256": "dc74e6f56de85e1dc7c951b50b0d12c10a4e3c1d0f3522d23beaa6187b561310"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/dkim/message-parser.d.ts",
+      "sha256": "04a9ee62a3dcd899b2e2e1297e004327a3319ae8d9753b4bd97b8ab3087754dc"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/dkim/message-parser.js",
+      "sha256": "03861e8e19c767cff58cff60494492a1cb409b5243e2a26c20f82e1b5f85619f"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/dkim/relaxed-body.d.ts",
+      "sha256": "b2c91d70ac171b4c02fb017e48807d62b6146949d729f4f171b3606974fcd82a"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/dkim/relaxed-body.js",
+      "sha256": "b5b72cf25e7483371cebfb5c9019ba3e7c084db64357bf031cd915526c1d8a47"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/dkim/sign.d.ts",
+      "sha256": "21936e4909fa74dde9e9da02edb16fdb1f7d6d3204356bbd0bd81ac0a698578d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/dkim/sign.js",
+      "sha256": "cc3055e4f2030fc96e1d1579523da552de0eef96bb549da52c5bf65e99122e59"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/errors.d.ts",
+      "sha256": "6ed34d0cb0ad1d2faa66ecbaf64add715d3c794d9be237a81d253ca6827cbae8"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/errors.js",
+      "sha256": "9deb41331b80d5b61d2aef8df21356110116f48f98fadecd768d865ec298eb97"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/fetch/cookies.d.ts",
+      "sha256": "a30fc48cdb7af168cec51404585b4d16e0f3ea43e69b66dc4690086aef4a006f"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/fetch/cookies.js",
+      "sha256": "ddb6b717cdf8aa5445e45891bcc2d0622038bccda19945f63e2e4c113748eada"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/fetch/index.d.ts",
+      "sha256": "9b8694e9c1855f5b34e76fb87e034d27fa3fb96cf4d0ff9bc67f10264e55179a"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/fetch/index.js",
+      "sha256": "332e2f770bd16110cbe1c000ce4b32ab3e8c3321cf982407ab125daa6dbe5fda"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/json-transport/index.d.ts",
+      "sha256": "74f26db55abbaab0bc2b7e4a9de2a4dec51a515f08336dc80d69eedb21223a48"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/json-transport/index.js",
+      "sha256": "50de723c957ac12f245ac4d4e978efac6adc455950514f24961de0023ce32822"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mail-composer/index.d.ts",
+      "sha256": "eea2ea059283e6eb5acb72d5f79b20c34559b7982b0eb244c980c82a2ce94e7d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mail-composer/index.js",
+      "sha256": "78a6446d8510eb6d0338a78fb5611eb5fda0222758b9ef8a62ff0dfc3a766abd"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mailer/index.d.ts",
+      "sha256": "73530d4a6dc4862ebaeed3035d6179f50bc949cf7845195f072c2358942d9fd4"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mailer/index.js",
+      "sha256": "160d0b24dcd0f279b3d802a0d4c332cd9f7bc243c8eebab30eb06ad5a8d8391d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mailer/mail-message.d.ts",
+      "sha256": "74f642bfeba82014e3be19d7bd960421ad88ab7e2c0bd9924dbd2f721a0432a8"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mailer/mail-message.js",
+      "sha256": "a4f6fff014a2a10b225a6c255d4063da535a20685f7d5984a6b1aba53deada5c"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-funcs/index.d.ts",
+      "sha256": "35eedd0835e501e32d6678d40bcde093d03f96de70b5d2833b629da8c04eede2"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-funcs/index.js",
+      "sha256": "ac371716ded13fbd923a3c4fe2e77dddd98536c7a74975d4200ed9cd9fd7d087"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-funcs/mime-types.d.ts",
+      "sha256": "0e1d4d8eb8d382535e4dd02a8a1d230f418a94c752eebcc2e4487d8dced83b0f"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-funcs/mime-types.js",
+      "sha256": "9d26680bae58c307e99cf16cd74e0d07c7d56683f5cb0d7d975be7d810a15ba5"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-node/index.d.ts",
+      "sha256": "95cbd67b478feb2d1e15f9298c3b944b08f21322fa890b87752a2e8d4a8f3505"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-node/index.js",
+      "sha256": "e01e28388ac66e5c4561b1d1921b052cf3c83f93ff698d61b1decf0b57979cbf"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-node/last-newline.d.ts",
+      "sha256": "97f99d766b5a4d535e33341811e2789b8c6b1dfa0ebce0614c9a5d8ae575c334"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-node/last-newline.js",
+      "sha256": "3835280f3fed476eb5b109407bfdc38fb46f19baf561ca68d3482dd316e5626f"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-node/le-unix.d.ts",
+      "sha256": "f147fbd429b3856f5285848c78f44f0816a942fc4d8945d2c53c698cc7e43e8d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-node/le-unix.js",
+      "sha256": "31464bd9c69811690e00b79730e2dc937bdd72dd75fb0197d2435e79811ab707"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-node/le-windows.d.ts",
+      "sha256": "e6e75484ead0f14f87dac779e8db036ac8b41efd4bbf8da02d31b63fb55226a1"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/mime-node/le-windows.js",
+      "sha256": "e88c3044f1f7f5a8abdd7f84c8582b491b39ac5238e971604d001d47208d4a83"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/nodemailer.d.ts",
+      "sha256": "7eacdddef05b1c8d5aa8a0cec2bccd3c992960bb00de87007309ccc55373031f"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/nodemailer.js",
+      "sha256": "d1f3765e3d08e62bf79b4270aad4385be9da8d259a52c24bacceaa9ad5d5876b"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/package-info.d.ts",
+      "sha256": "bf1ecd145267859ada5c9f1353d17c94a1d811fd729f054075e2ee999d54f690"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/package-info.js",
+      "sha256": "9e11abeb04e9860b0ce36314415b473aa730c3e6b35886729eadf4e9554a83e2"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/package.json",
+      "sha256": "3d04369a44dc75f6a70dfc51080beb357eb39b395a2db0b6557ce8b9900ceec4"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/punycode/index.d.ts",
+      "sha256": "8fb85424b89b8806b1a438601357219963ec33e1fe75a2bb68361346661f9568"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/punycode/index.js",
+      "sha256": "675cc94011e0f8f806f1cc714e38d7b3f7152d669ba31a62d7ed537bf1e2de1d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/qp/index.d.ts",
+      "sha256": "12d7550e55ef349907ba403a6a6bd9008c09fe4e783a76ce48666e05c3f28a2d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/qp/index.js",
+      "sha256": "b10b2fb4e66b2cea9fcffa195f2c3fbca7b77f17c0c18b15f00d5a1e0db593a1"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/sendmail-transport/index.d.ts",
+      "sha256": "7adbb45ee988847c8e213d8a1add237284d0ec0d45e4584d5098c869a4658a7c"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/sendmail-transport/index.js",
+      "sha256": "90e12af87ce42e833b66148a9d59564554a0f8d08a3d4e9d45a1f9e79a5ec53f"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/ses-transport/index.d.ts",
+      "sha256": "221159c7be8aed5365c3e992d216d92767d8657c466310ad8a28236e653076bb"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/ses-transport/index.js",
+      "sha256": "1e921428a073d97518c3140b813c78e250b6d4915669ef34e177a6757a73e070"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/shared/index.d.ts",
+      "sha256": "6fcbcf85654aca1a331ac6e52650d04006046d2ee11cb3dfdbc9630bfa5e7506"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/shared/index.js",
+      "sha256": "bd4d597f7ca19d105dd820a5996f24af1a45fbfe6992f2c7e6b81a0e4c21bacd"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/shared/objects.d.ts",
+      "sha256": "da93ecb33e0b7e915f43ba741189b83587ed0a4810a141985255acf9c001f9a8"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/shared/objects.js",
+      "sha256": "64ca71908c7a1dc0390d75a2746e8bd53b100e3c2fdd56bb2041962d7d78e3ec"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/shared/url.d.ts",
+      "sha256": "e28dee2f44d0af199e4afeba607e02f810db0807ab72f44a72263123657b71aa"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/shared/url.js",
+      "sha256": "58cbbfc29f412d13820d683e461b05c6a7525ffe95028a9521e21acc20c01c0b"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-connection/data-stream.d.ts",
+      "sha256": "2a21c7ade60d4ae241425e9bd07ed0711c3cf9b0780f4a3c0f89e800a6d25df6"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-connection/data-stream.js",
+      "sha256": "989b45dcd9341b6a7ed976cb911611f242f5ce7b86209a01fd54a195eb3db4ff"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-connection/http-proxy-client.d.ts",
+      "sha256": "936eb81c9004f78895064a51231ce605d2fdc877d4fcc689b618a47e139f6ba7"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-connection/http-proxy-client.js",
+      "sha256": "91c387b80e6f9a00be681c8615fdea768129c30801809ed7d69ead3fcbb9af53"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-connection/index.d.ts",
+      "sha256": "f6ad7b7f0a7f89e54b887c2f3b6d937103e1bca0b677cb77a555858c570d841f"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-connection/index.js",
+      "sha256": "8b8f2a8a4ee02e50852d1be5ac5108878102ba5baa09985b660e1e6e87a392cf"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-pool/index.d.ts",
+      "sha256": "3ca5c940319706a7fcfc4134c7d129e9ecbcd9b57a0a9169c01ebe084bc1f2e5"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-pool/index.js",
+      "sha256": "65e1fc9128a84fd1bb644411830e6e5961cc15cd2d0b21b4c0b4d83fd0bbaa55"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-pool/pool-resource.d.ts",
+      "sha256": "04ae5d7a4bde590da5a0bef4cc10c4a684736bb7a47e6702e8a1dfd86da2872e"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-pool/pool-resource.js",
+      "sha256": "0b172f4dd967399625c04c5f60707de680b0e007963c29c4e74ac345b5881243"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-transport/index.d.ts",
+      "sha256": "6f29355904d42e338ac233725537d97c1dea889dad0e8fd794d8694f8f0304f7"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/smtp-transport/index.js",
+      "sha256": "7f79be3c792828325b8ed749efc3b1356ac7160a73143fe69b5c32a88ffe04e8"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/stream-transport/index.d.ts",
+      "sha256": "0e1fb67b7c219be6e718e1c8f4ed2575b0fd01ef7ac50e68e325a43a5db5be00"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/stream-transport/index.js",
+      "sha256": "8588c137f23ac1f86d3dfe06b850431a98e81496b3611fe545df7e4dac7f4284"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/well-known/index.d.ts",
+      "sha256": "9b0ebfade7f6a61c37bb5d70589076f0f19ddc15a0955ce7bf5a4a37ff2f900e"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/well-known/index.js",
+      "sha256": "d3a02c4868d1260d7ed8a9c0729395db33f9364614dfb483db3089ca2419a669"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/well-known/services.d.ts",
+      "sha256": "0ad3629089aa672b73fee1304a33f7ea38581b448a9d5144eae77cfa209eae26"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/well-known/services.js",
+      "sha256": "bd882246a060ef808cdc5d5d7b225ed853995fd3bf7feacae2b11f214c2bb281"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/xoauth2/index.d.ts",
+      "sha256": "9be39d76692a004d6929e4d4329810cab244b3e2f33ad38227148e4abe031332"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/cjs/xoauth2/index.js",
+      "sha256": "f8ec3edd031afd07a7740b75f1c3f739d7756b7b4b9ea31663529d9c263a1d43"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/addressparser/index.d.ts",
+      "sha256": "8ba3d478123a624ca795fa899c657953d3c0f8ea75da99829f68638d67154bec"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/addressparser/index.js",
+      "sha256": "8007e25c683d845e0f1df8b7ac2f5aaea1f1347ab87e310fe3106c23f9bbebf6"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/base64/index.d.ts",
+      "sha256": "0258c9fb2455a0d3ee1656946f5684ae28a5c0c3cf261b78185398d4b265eade"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/base64/index.js",
+      "sha256": "01e37e5a7c0688e501dcf04862bd4d150aed33748432d43eff5037b4c6b4a8b5"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/dkim/index.d.ts",
+      "sha256": "3fc98e80672d4a80203a128e35695e2c0b42b03a47f7e79b2a3d0560f7b3932c"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/dkim/index.js",
+      "sha256": "6be687bf59190f56d9a92e455777e3e4c40f2c4785ff58036f32cd8589e3a6fa"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/dkim/message-parser.d.ts",
+      "sha256": "04a9ee62a3dcd899b2e2e1297e004327a3319ae8d9753b4bd97b8ab3087754dc"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/dkim/message-parser.js",
+      "sha256": "f93f795e40129822e69d485977b831f3e08971c4dc8956b9dd8a47b3685b2915"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/dkim/relaxed-body.d.ts",
+      "sha256": "b2c91d70ac171b4c02fb017e48807d62b6146949d729f4f171b3606974fcd82a"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/dkim/relaxed-body.js",
+      "sha256": "9c6329dd8ff0b4e6ab4bb473cc49971e4bfa9e52629d6238fbf8cbd2dc84e780"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/dkim/sign.d.ts",
+      "sha256": "21936e4909fa74dde9e9da02edb16fdb1f7d6d3204356bbd0bd81ac0a698578d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/dkim/sign.js",
+      "sha256": "c55eea0fe21dcbf24fdbc411c17f3095c74bedd53005d50dc5e4b1f40e551aff"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/errors.d.ts",
+      "sha256": "6ed34d0cb0ad1d2faa66ecbaf64add715d3c794d9be237a81d253ca6827cbae8"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/errors.js",
+      "sha256": "2b88d9dc18e1d1022acbb0038565d4eab6615817fa0ef6b15ad941e87fd5c92a"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/fetch/cookies.d.ts",
+      "sha256": "a30fc48cdb7af168cec51404585b4d16e0f3ea43e69b66dc4690086aef4a006f"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/fetch/cookies.js",
+      "sha256": "3a9973afe09ff766a424f114983e80defd638b47b05874a94dc025d1ab860976"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/fetch/index.d.ts",
+      "sha256": "9b8694e9c1855f5b34e76fb87e034d27fa3fb96cf4d0ff9bc67f10264e55179a"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/fetch/index.js",
+      "sha256": "bcd09d5f0095002b34e7454dcf3e099db4a834f4d2794b88c579e46619d05798"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/json-transport/index.d.ts",
+      "sha256": "74f26db55abbaab0bc2b7e4a9de2a4dec51a515f08336dc80d69eedb21223a48"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/json-transport/index.js",
+      "sha256": "094e489c433477accd9aa9aa0a38dddacd6d28bc1ab5c34f6de50f4770ce0dec"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mail-composer/index.d.ts",
+      "sha256": "eea2ea059283e6eb5acb72d5f79b20c34559b7982b0eb244c980c82a2ce94e7d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mail-composer/index.js",
+      "sha256": "7132badc3fb58604734db79e39ee6aca06d724c515de2e9bdbd76d4324b9614d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mailer/index.d.ts",
+      "sha256": "73530d4a6dc4862ebaeed3035d6179f50bc949cf7845195f072c2358942d9fd4"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mailer/index.js",
+      "sha256": "e3a5adc9e9a1371779e25973a704d5ebe6d641e615f234a69a0bef8a49b3e3c6"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mailer/mail-message.d.ts",
+      "sha256": "74f642bfeba82014e3be19d7bd960421ad88ab7e2c0bd9924dbd2f721a0432a8"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mailer/mail-message.js",
+      "sha256": "097bbbaaf3e6ca485e477983b5c62bf8f9aa18704d02170e23409902abfc5a40"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-funcs/index.d.ts",
+      "sha256": "35eedd0835e501e32d6678d40bcde093d03f96de70b5d2833b629da8c04eede2"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-funcs/index.js",
+      "sha256": "e4a7bd63dc09b3a64022d26c51cf34453cb19677afd0493417fe6bbffa5b834a"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-funcs/mime-types.d.ts",
+      "sha256": "0e1d4d8eb8d382535e4dd02a8a1d230f418a94c752eebcc2e4487d8dced83b0f"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-funcs/mime-types.js",
+      "sha256": "8d657655a29723d357d25a657cf4fdc759003c9351c55280f4a38957e3485eea"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-node/index.d.ts",
+      "sha256": "95cbd67b478feb2d1e15f9298c3b944b08f21322fa890b87752a2e8d4a8f3505"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-node/index.js",
+      "sha256": "78ce5db0c72085980d39d6752f5dc7ba6f2f4178efa0eff03640059801c20733"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-node/last-newline.d.ts",
+      "sha256": "97f99d766b5a4d535e33341811e2789b8c6b1dfa0ebce0614c9a5d8ae575c334"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-node/last-newline.js",
+      "sha256": "51def41ae98d82bc95dfb2a899f4d95200b295bbc461f5d78999a9656855dab5"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-node/le-unix.d.ts",
+      "sha256": "f147fbd429b3856f5285848c78f44f0816a942fc4d8945d2c53c698cc7e43e8d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-node/le-unix.js",
+      "sha256": "4a4e91b9f41993363c78a2fbd453fed6f3d6b9a44985674fbca80c01e4db31d2"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-node/le-windows.d.ts",
+      "sha256": "e6e75484ead0f14f87dac779e8db036ac8b41efd4bbf8da02d31b63fb55226a1"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/mime-node/le-windows.js",
+      "sha256": "114717979dc15b15f83534833c431b27868861e1b609d0d6694f8fdaee2d45c9"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/nodemailer.d.ts",
+      "sha256": "7eacdddef05b1c8d5aa8a0cec2bccd3c992960bb00de87007309ccc55373031f"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/nodemailer.js",
+      "sha256": "241069dda7771e83a076e3c57610883e3b887d19c7cf5f2c09312c452cc1384c"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/package-info.d.ts",
+      "sha256": "bf1ecd145267859ada5c9f1353d17c94a1d811fd729f054075e2ee999d54f690"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/package-info.js",
+      "sha256": "3b9424157d8b3904208325dbedcfeb9e004f4a0265f4ee24b8e0b493cc612c09"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/package.json",
+      "sha256": "c366c8924e786646a7e69185092cddccd3953667e8476f584ebbcc548b632690"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/punycode/index.d.ts",
+      "sha256": "8fb85424b89b8806b1a438601357219963ec33e1fe75a2bb68361346661f9568"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/punycode/index.js",
+      "sha256": "b6ff42bda2f95617684c828c68dd17618af1a3b4ce541f442dadf919da907a97"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/qp/index.d.ts",
+      "sha256": "12d7550e55ef349907ba403a6a6bd9008c09fe4e783a76ce48666e05c3f28a2d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/qp/index.js",
+      "sha256": "84c13d7c3ed5190cf2cadad843d62422c5a8c178b693e0bc0ea737f9f6578118"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/sendmail-transport/index.d.ts",
+      "sha256": "7adbb45ee988847c8e213d8a1add237284d0ec0d45e4584d5098c869a4658a7c"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/sendmail-transport/index.js",
+      "sha256": "196629665779bc68bf60df692762f365bc973a4784f0bf4361992f95a61daf0e"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/ses-transport/index.d.ts",
+      "sha256": "221159c7be8aed5365c3e992d216d92767d8657c466310ad8a28236e653076bb"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/ses-transport/index.js",
+      "sha256": "dc0bdd68965e9cf7494a3eff5992fc5f825e1d0b0842684f621108fd6a98f150"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/shared/index.d.ts",
+      "sha256": "6fcbcf85654aca1a331ac6e52650d04006046d2ee11cb3dfdbc9630bfa5e7506"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/shared/index.js",
+      "sha256": "28484277eb126aa8eb775ecb9bbe864012d58be4ea0c5012859261999c091719"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/shared/objects.d.ts",
+      "sha256": "da93ecb33e0b7e915f43ba741189b83587ed0a4810a141985255acf9c001f9a8"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/shared/objects.js",
+      "sha256": "c9b2591c189c9b37c428eb10fd7176639279f8bb2d6835f86acf4436ba6de145"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/shared/url.d.ts",
+      "sha256": "e28dee2f44d0af199e4afeba607e02f810db0807ab72f44a72263123657b71aa"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/shared/url.js",
+      "sha256": "327b913e718728dfc5f6b99df7e52469351ca90f98391580378d6726cf3f2a3d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-connection/data-stream.d.ts",
+      "sha256": "2a21c7ade60d4ae241425e9bd07ed0711c3cf9b0780f4a3c0f89e800a6d25df6"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-connection/data-stream.js",
+      "sha256": "dd38616960acd6f1e1295b031953033bb3c19dbeaac77523b42c2c8f37ab6ec5"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-connection/http-proxy-client.d.ts",
+      "sha256": "936eb81c9004f78895064a51231ce605d2fdc877d4fcc689b618a47e139f6ba7"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-connection/http-proxy-client.js",
+      "sha256": "9994e5a8a8dea55f54af98f9f92e1dbc840fb1d3553c61ea1727e4523c74b909"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-connection/index.d.ts",
+      "sha256": "f6ad7b7f0a7f89e54b887c2f3b6d937103e1bca0b677cb77a555858c570d841f"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-connection/index.js",
+      "sha256": "eb795a909980dd9569f40866421ded75d07f43bbc232737255f8d8c4d5649101"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-pool/index.d.ts",
+      "sha256": "3ca5c940319706a7fcfc4134c7d129e9ecbcd9b57a0a9169c01ebe084bc1f2e5"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-pool/index.js",
+      "sha256": "fbcf3d173c4726e14ef77cdcd7a821ecbd9877677026cebb86e5bb06a8d2aeab"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-pool/pool-resource.d.ts",
+      "sha256": "04ae5d7a4bde590da5a0bef4cc10c4a684736bb7a47e6702e8a1dfd86da2872e"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-pool/pool-resource.js",
+      "sha256": "a2bee7f7af9992e6f7954628dda941c03ee2ac4d630e7dbece8f6724ac816e77"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-transport/index.d.ts",
+      "sha256": "6f29355904d42e338ac233725537d97c1dea889dad0e8fd794d8694f8f0304f7"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/smtp-transport/index.js",
+      "sha256": "9a272cee0797118403f0fd661b9b3aec27f46af51f39b5ca53ff3128e5f848bd"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/stream-transport/index.d.ts",
+      "sha256": "0e1fb67b7c219be6e718e1c8f4ed2575b0fd01ef7ac50e68e325a43a5db5be00"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/stream-transport/index.js",
+      "sha256": "0b92091a08aa5eb4a6fccbb048c11aed97769e869b5b53fffa51e6cca7518927"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/well-known/index.d.ts",
+      "sha256": "9b0ebfade7f6a61c37bb5d70589076f0f19ddc15a0955ce7bf5a4a37ff2f900e"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/well-known/index.js",
+      "sha256": "f8650526ad95f67315e60daf3408c0de633667c46b0a3db11d363b87bd94c1d4"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/well-known/services.d.ts",
+      "sha256": "0ad3629089aa672b73fee1304a33f7ea38581b448a9d5144eae77cfa209eae26"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/well-known/services.js",
+      "sha256": "94da60684487187ffa22173fdcbbe104d7d527eaf181e509af91d474b2d8d8e5"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/xoauth2/index.d.ts",
+      "sha256": "9be39d76692a004d6929e4d4329810cab244b3e2f33ad38227148e4abe031332"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/esm/xoauth2/index.js",
+      "sha256": "4d2e8df384118d6a2d0cedf23c9f8e839ac9800be83a39a7b0f1f83eec454f0d"
+    },
+    {
+      "path": "nodemailer/10.1.7/dist/well-known/services.json",
+      "sha256": "23224087136052a403f12f60330d43decc46dddca737e32552a7940a3ce4784e"
+    },
+    {
+      "path": "nodemailer/10.1.7/LICENSE",
+      "sha256": "4f814dcacd2da618d62829ea1f6238701cf421f18a6b36c91c5d8212245e2c78"
+    },
+    {
+      "path": "nodemailer/10.1.7/package.json",
+      "sha256": "d0abc740bf63dfabf87a439f2d8b4c18a6c139cded50eb771e362c91c6399996"
+    },
+    {
+      "path": "nodemailer/10.1.7/README.md",
+      "sha256": "196a69b2b6c19cfdb200c47216471709d7f953a0ca3f7bdf476515b0f76a5a85"
+    },
+    {
+      "path": "nodemailer/10.1.7/SECURITY.md",
+      "sha256": "a3aead950510b3c64ed07e9ed160be7a11a7a4b273acc6cd67c9ab24eb2eeb0a"
+    },
+    {
+      "path": "nodemailer/10.1.7/SECURITY.txt",
+      "sha256": "2a1f66431b09276f3c88d7b3724fba181e94cbd6cd0073b7a69d7e908572e8d5"
+    },
+    {
+      "path": "postgres/3.4.7/cf/polyfills.js",
+      "sha256": "c9bfd7d57f1402676a42c8b6a49386ca18f95ccc687fdaad625f3a3fc7ba3f81"
+    },
+    {
+      "path": "postgres/3.4.7/cf/src/bytes.js",
+      "sha256": "368a278367814e80f7ae816e01e202279f3ce38347f2ac465b562ebeb61d84ca"
+    },
+    {
+      "path": "postgres/3.4.7/cf/src/connection.js",
+      "sha256": "e0ca7e7b893ede84bb4414aca1472f18bbba495531b4a1b0ad6495c93b32d47e"
+    },
+    {
+      "path": "postgres/3.4.7/cf/src/errors.js",
+      "sha256": "85cfbed9a5ab0db41ab8e97b806c881af29807dfe99bc656fdf1a18c1c13b6c6"
+    },
+    {
+      "path": "postgres/3.4.7/cf/src/index.js",
+      "sha256": "7b0bf30f1e703074eb9b60b5ce072b95ebaa3e710361e4852658cce5d509f1c7"
+    },
+    {
+      "path": "postgres/3.4.7/cf/src/large.js",
+      "sha256": "b02b13cf2b5d435368c7d61989af1692a9965b6edf9b60e1d0bc320ac42f48df"
+    },
+    {
+      "path": "postgres/3.4.7/cf/src/query.js",
+      "sha256": "67c45a5151032aa46b587abc15381fe4efd97c696e5c1b53082b8161309c4ee2"
+    },
+    {
+      "path": "postgres/3.4.7/cf/src/queue.js",
+      "sha256": "15e6345adb6708bf3b99ad39fc2231c2fb61de5f6cba4b7a7a6be881482a4ec3"
+    },
+    {
+      "path": "postgres/3.4.7/cf/src/result.js",
+      "sha256": "001ff5e0c8d634674f483d07fbcd620a797e3101f842d6c20ca3ace936260465"
+    },
+    {
+      "path": "postgres/3.4.7/cf/src/subscribe.js",
+      "sha256": "9ce6fd98780e0adff813d13cc03951e5b1c66d602637beb6f9494c40e7b9212e"
+    },
+    {
+      "path": "postgres/3.4.7/cf/src/types.js",
+      "sha256": "e6c9e8f43272ae853944613560e5eabb15955fd8b2981749e7fa1c9015f370db"
+    },
+    {
+      "path": "postgres/3.4.7/cjs/package.json",
+      "sha256": "fa6944a20ca5e6fbaf98fd202eb8c7004d5b4ab786e36b9ed02ee31dbe196c9f"
+    },
+    {
+      "path": "postgres/3.4.7/cjs/src/bytes.js",
+      "sha256": "4e13b04c965e8dcc45104091a92318715af96e7f6d820faea9097a014930bc70"
+    },
+    {
+      "path": "postgres/3.4.7/cjs/src/connection.js",
+      "sha256": "68bac70e765b38266d8ff6e7602870abc63a72560f813c173fdd10d2a9bdab2e"
+    },
+    {
+      "path": "postgres/3.4.7/cjs/src/errors.js",
+      "sha256": "fad515c5d5e76e0f44e7e4408342301ec4df51517ffdbb836be9942cd48e5a99"
+    },
+    {
+      "path": "postgres/3.4.7/cjs/src/index.js",
+      "sha256": "478b3c76c6f87c268102786688605cc0187427613fc8531b8be0c3ea87336a57"
+    },
+    {
+      "path": "postgres/3.4.7/cjs/src/large.js",
+      "sha256": "40b498ca792f3d28b1ce8a99b931cbd9c04c2931366b9fdc93a19083e545b9ff"
+    },
+    {
+      "path": "postgres/3.4.7/cjs/src/query.js",
+      "sha256": "75ae9c69a1aaf3be4d8d65e4742c36018b89594907b85769e560c2590716c109"
+    },
+    {
+      "path": "postgres/3.4.7/cjs/src/queue.js",
+      "sha256": "7d20fa53a3930be070609d7912ecd14c347df3526805bca2f6cb7eb35d2e62cf"
+    },
+    {
+      "path": "postgres/3.4.7/cjs/src/result.js",
+      "sha256": "84b46a3940d3bd1fbea85e5beb5b7c652f3f1058fec2c6cc5ce351730533ee10"
+    },
+    {
+      "path": "postgres/3.4.7/cjs/src/subscribe.js",
+      "sha256": "5c6dfb4fa656f814a47749d342daa86a1dbaa9e695f43ac1c7050302c7e91fea"
+    },
+    {
+      "path": "postgres/3.4.7/cjs/src/types.js",
+      "sha256": "8ba968fc19489cdb670e8fc0d184b942eafa5f3d7a06dca4b165318fcd57e9fb"
+    },
+    {
+      "path": "postgres/3.4.7/package.json",
+      "sha256": "7324573388770786378751cf5e4267587261e694319be41924dcd2420262eb85"
+    },
+    {
+      "path": "postgres/3.4.7/README.md",
+      "sha256": "04d0e666d1fb3c02ea497c2732b7ae373ec58418344088b5c54fb0e6458078eb"
+    },
+    {
+      "path": "postgres/3.4.7/src/bytes.js",
+      "sha256": "53b73b5ee2919ab5561229c62a4e2db578f63ca613b795b380c23cb684f2d514"
+    },
+    {
+      "path": "postgres/3.4.7/src/connection.js",
+      "sha256": "0847375f271c373745b4c2af1bbb5dc2da5ee6f69937cc52516b5b6a667af7a4"
+    },
+    {
+      "path": "postgres/3.4.7/src/errors.js",
+      "sha256": "85cfbed9a5ab0db41ab8e97b806c881af29807dfe99bc656fdf1a18c1c13b6c6"
+    },
+    {
+      "path": "postgres/3.4.7/src/index.js",
+      "sha256": "c68e4fb85975e2c83550d47fe44068a306585afcb63d5c6a6ffd6ba4607a2fc0"
+    },
+    {
+      "path": "postgres/3.4.7/src/large.js",
+      "sha256": "05ea787f79cefaf16310f14119fbfd36d2fed0795581b0df1b0e63b591a3ed94"
+    },
+    {
+      "path": "postgres/3.4.7/src/query.js",
+      "sha256": "67c45a5151032aa46b587abc15381fe4efd97c696e5c1b53082b8161309c4ee2"
+    },
+    {
+      "path": "postgres/3.4.7/src/queue.js",
+      "sha256": "15e6345adb6708bf3b99ad39fc2231c2fb61de5f6cba4b7a7a6be881482a4ec3"
+    },
+    {
+      "path": "postgres/3.4.7/src/result.js",
+      "sha256": "001ff5e0c8d634674f483d07fbcd620a797e3101f842d6c20ca3ace936260465"
+    },
+    {
+      "path": "postgres/3.4.7/src/subscribe.js",
+      "sha256": "5d0b1ec9705281ed4a60236fe5f65654038bae117845a71d19e35374d34c0cfa"
+    },
+    {
+      "path": "postgres/3.4.7/src/types.js",
+      "sha256": "1883bd4536eab1c94b9e708d325b13708b0f18ec80020e3a825f34a72f603b81"
+    },
+    {
+      "path": "postgres/3.4.7/types/index.d.ts",
+      "sha256": "12d19496f25ecd6afef2094be494b3b0ae12c02bd631901f6da760c7540a5ec1"
+    },
+    {
+      "path": "postgres/3.4.7/types/package.json",
+      "sha256": "c96411ecdd1bdeeac8096b325a2da3777775cdfb1357046e8e12f60de96274e6"
+    },
+    {
+      "path": "postgres/3.4.7/types/tsconfig.json",
+      "sha256": "6b56b1f0c7a63493b52bbcf977396dcfc5e894b668ebc827d54809b26ffd3301"
+    }
+  ],
+  "internal_transport_origin": "http://127.0.0.1:9000",
+  "protected_admin_health_authenticated": false,
+  "fixture_environment_alias": "test",
+  "signed_hook_environment": "qualification",
+  "production_mount_replaced_by_exact_test_source_path": true,
+  "docker_stack_acceptance": false,
+  "production_acceptance": false
+}

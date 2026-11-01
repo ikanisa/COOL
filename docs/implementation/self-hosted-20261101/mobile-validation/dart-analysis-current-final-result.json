@@ -1,0 +1,4027 @@
+{
+  "format": "collect.dart.analysis.v1",
+  "status": "PASS",
+  "exit_code": 0,
+  "command": [
+    "dart",
+    "analyze",
+    "lib",
+    "test"
+  ],
+  "dart_version": "3.12.2",
+  "flutter_version": "3.44.4",
+  "log_sha256": "95a28819c918db92d8f3f7dfadfc18f1248f79ab8313759391ad318fe94cf093",
+  "dart_input_files": 1002,
+  "dart_inputs_sha256": "0ada885852b95c980c7a568d0c6ea09cf6749a4947cc94f24d162660aa2819b7",
+  "files": [
+    {
+      "path": "lib/admin/admin_app.dart",
+      "sha256": "d29642acc43f052490e10316a237dc9b5fdc7977549f90fbb26afb9abaecc5d9"
+    },
+    {
+      "path": "lib/admin/admin_router.dart",
+      "sha256": "0ba01fbe2c3b21b08436752dd236fe21040c50c8f212d7cbae2f28908e22db0c"
+    },
+    {
+      "path": "lib/admin/admin_shell.dart",
+      "sha256": "81c84089b427c804b97f812421a809ccbaabe65cc9ec080489420d1ca866580b"
+    },
+    {
+      "path": "lib/admin/admin_shell_navigation.dart",
+      "sha256": "bba7770db55f1f2f8b91159f9a4165c1996a26ec86532dbc09a4e08bdaceef48"
+    },
+    {
+      "path": "lib/admin/cloudflare_admin_app.dart",
+      "sha256": "a24d7221718cf87fcd0081dd5c75449ac8aab46309d90ab4a3388bf0bbbeeb42"
+    },
+    {
+      "path": "lib/admin/core/admin_account_api.dart",
+      "sha256": "b618bb6ddbae4fa8057d8079971ea55bd0b83c7056162c7691203627aac6d0db"
+    },
+    {
+      "path": "lib/admin/core/admin_account_pages.dart",
+      "sha256": "55e7781dff4dd0e219d1e431cb10328876c2d94d749df0264da7aa3f5fa9e85e"
+    },
+    {
+      "path": "lib/admin/core/admin_action_contracts.dart",
+      "sha256": "dc95d0598331395de6ec433da3c51352ab94d32a58639b066f32658b045a98df"
+    },
+    {
+      "path": "lib/admin/core/admin_auth_guard.dart",
+      "sha256": "62a419085b284213cd9f7fcbe59ef5d9538b0eff73a5488261973249cfe42249"
+    },
+    {
+      "path": "lib/admin/core/admin_automatic_gateway_models.dart",
+      "sha256": "4d5c6d0d478a9b7fdebc29fbae0cb3891243ee8c1021e75143cc1e9ddc536c88"
+    },
+    {
+      "path": "lib/admin/core/admin_automatic_gateway_runtime.dart",
+      "sha256": "35e400b8ec1f8b30a2cdd58be17afe3c8563686607921a4aedfd72d9a5f180ac"
+    },
+    {
+      "path": "lib/admin/core/admin_automatic_gateway_view.dart",
+      "sha256": "b97121abda59652bd82dde26e729bd8b7095f0b57ff8c57c5a78860ba8d139f3"
+    },
+    {
+      "path": "lib/admin/core/admin_automations_page.dart",
+      "sha256": "dd1175c53ac299e2d967168c3b75f9f732287947199553545364984cff591647"
+    },
+    {
+      "path": "lib/admin/core/admin_detail_actions.dart",
+      "sha256": "ac99cb6955a04317ea52410673c41446916ce8843caae12d720020aad18ac8be"
+    },
+    {
+      "path": "lib/admin/core/admin_detail_formatters.dart",
+      "sha256": "061e9d66613270fbcf06b2f03c7c43c854d2fdf1de323c49e5508d64c77b6b75"
+    },
+    {
+      "path": "lib/admin/core/admin_detail_runtime.dart",
+      "sha256": "8322bda407ce6f9a58cd542efab701347d1bf13f7246c951a59ea4e603e232d5"
+    },
+    {
+      "path": "lib/admin/core/admin_detail_specs.dart",
+      "sha256": "4d94db0a87f9f7c833904afc4cb554664ff832af8f85739cd884ba15ceeeb0d2"
+    },
+    {
+      "path": "lib/admin/core/admin_display_formatters.dart",
+      "sha256": "1440f5aea2de13baec799da0b3aa279788353c0b901c9bcfc8aea4ce9a89ba63"
+    },
+    {
+      "path": "lib/admin/core/admin_email_otp.dart",
+      "sha256": "586bea2a7986443c329d1d65ad611d4100491d6ae61dabf183061db9252d0892"
+    },
+    {
+      "path": "lib/admin/core/admin_entity_audit.dart",
+      "sha256": "17db9d8cc6d8cae563f829b166b95b090bfd675d397a2c4f374f15e3b816b53a"
+    },
+    {
+      "path": "lib/admin/core/admin_entity_audit_link.dart",
+      "sha256": "c18afb63ab1aab25770ba36ca4afb2682127f373ddb38568028130b8f8aa8fcf"
+    },
+    {
+      "path": "lib/admin/core/admin_entity_audit_page.dart",
+      "sha256": "67957725aa703b21313fc38e2beb55236e62313f11705e267b4a93c804942a3c"
+    },
+    {
+      "path": "lib/admin/core/admin_entity_audit_runtime.dart",
+      "sha256": "7ae108f365011c4e5636413b0453dea221d13eeb472c7690b442a55732ba38f8"
+    },
+    {
+      "path": "lib/admin/core/admin_error_boundary.dart",
+      "sha256": "2b7afda8b4588096eee8640ca39fe8afd30b107972d472c93fe7b6ed3bd92b4f"
+    },
+    {
+      "path": "lib/admin/core/admin_evidence_mode.dart",
+      "sha256": "4d4f095b1f6e9835e2ec40f3e2769f04a7b98f714752b9db2264f4207bed38be"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_assignment_dialog.dart",
+      "sha256": "feb62fe469c648d6c80c00d7f629e6b4f70ac0aae650db9c9bfbb2cffe10ce7b"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_checkpoint.dart",
+      "sha256": "d3da4a85e9bfd3a46f0e570101e1d297e04798ca37f1817ec9c8dfc549db7291"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_checkpoint_stub.dart",
+      "sha256": "21f9558073dc1121d09249e5a6ef056a196da61f625df1fc2f330d4184414d9a"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_checkpoint_web.dart",
+      "sha256": "ee1a6a744a68bee84a945dea7a849ae13aef3f4ba31f57cde7f1ed9c60a170e7"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_escalation_inbox_v2_models.dart",
+      "sha256": "130fe41cc97d9f3872c29bcaafb6124747ef8748030cde1d0416f5c7fbcd19f4"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_followup_v2_models.dart",
+      "sha256": "e8c4999848c27487813dd0f2db958098d9dfe51dde6ed94268c748bdd666e765"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_history_runtime.dart",
+      "sha256": "51eb8879d966f10b12a5bdc71e72af4bf315472ec2fde78eacdc16376d18713b"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_history_v2_models.dart",
+      "sha256": "a3da3b7fefcd8ae41270bf1356ed1014c8fe8d68e7659f672ed1d4e0a43ed60c"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_models.dart",
+      "sha256": "d7e23cc4029daf7e9011ef3f3b4eba8e561e8c0f88da6c40defbed8a8ff8038f"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_page.dart",
+      "sha256": "50070c3788dc87fd06697454cb5acf15f078ecd244c62f5640397c2278025572"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_repository.dart",
+      "sha256": "a28478b8fc319c3ee303bca597c5f07c6d03d7be6a87a0637480e8b325c07b7a"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_runtime.dart",
+      "sha256": "ed66d2a0557d316cc40c6a6c21bf6d30c9890e95370bacfcc83bf05ad5010a3f"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_workflow_card.dart",
+      "sha256": "55013ee522585943396fd05f1cd48bffd7b892f1906c033ea795a09ea01d69c7"
+    },
+    {
+      "path": "lib/admin/core/admin_exception_workflow_models.dart",
+      "sha256": "fe288b85a53479ed3e0eccb3cf0fac4256e19503dc2d38b1292b198a09285a85"
+    },
+    {
+      "path": "lib/admin/core/admin_existing_member_allocation.dart",
+      "sha256": "20a7ede52386fd9b8c0c9e51390162eb1deaebdd48cd9c82022e3b1ec4c5b757"
+    },
+    {
+      "path": "lib/admin/core/admin_full_payment_compensation_checkpoint.dart",
+      "sha256": "f7276a68a2118250737ada5d30c575c4aa7b1a450691b39766b9eafa1694dc12"
+    },
+    {
+      "path": "lib/admin/core/admin_full_payment_compensation_checkpoint_stub.dart",
+      "sha256": "e92c60cd8d3794bfde5e393113dd77b73870af54dd38574c7d17bc80059edef5"
+    },
+    {
+      "path": "lib/admin/core/admin_full_payment_compensation_checkpoint_web.dart",
+      "sha256": "94dabdb717c9373135fb9a1644dcac07f8f1ea792d2c7052ce68e21afe5b042e"
+    },
+    {
+      "path": "lib/admin/core/admin_full_payment_compensation_controller.dart",
+      "sha256": "e93b1dafa9efce01964bfa8e5184ba6b177b93cad3b7f52f4802879b587c11a3"
+    },
+    {
+      "path": "lib/admin/core/admin_full_payment_compensation_host.dart",
+      "sha256": "41c1ca86a2aeb6d5358198b82dd96ff980a46af8a49f772a805e9af450fbf5e8"
+    },
+    {
+      "path": "lib/admin/core/admin_full_payment_compensation_investigation.dart",
+      "sha256": "56f61dc6b0c45cbdcf1fb65b8383bbffff49c2bbacd4d0e350fc1645f268e58c"
+    },
+    {
+      "path": "lib/admin/core/admin_full_payment_compensation_models.dart",
+      "sha256": "5bdc01ce4818ecbcaa498853b33af56e5f604742940732ab72e379add792894d"
+    },
+    {
+      "path": "lib/admin/core/admin_full_payment_compensation_sdk.dart",
+      "sha256": "b749fe35dd3861e24b05ef70bb2c5d3da0e238a2139b0b55434a6b6e0625cd5a"
+    },
+    {
+      "path": "lib/admin/core/admin_full_payment_compensation_view.dart",
+      "sha256": "567d4bc4be75b95bbd6ae2a4211b6a1920b86713ac33587bacff6e7f6819ffa0"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_checkpoint.dart",
+      "sha256": "7a2adb12ff04427909e33a57d41c9fa0e8f6556c35b0e263ade4b8a17e2de261"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_checkpoint_stub.dart",
+      "sha256": "7a8af283597aa75d972bb1b75e2d18aa70de1ce7903ca6158b45770c377abf06"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_checkpoint_web.dart",
+      "sha256": "c46f8988d158e6ce4dc8cfd54f16b01b37b2b5bd8f264cc0c167ba71ffc65c6b"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_contracts.dart",
+      "sha256": "5a40558d53c4e527be8161e074f902bf89d8a8f4eb00847347d31f0cc47f7310"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_dialogs.dart",
+      "sha256": "2f487c7d0aa4d31dffb89b1134c72a89e41c6921c14cb4ac18f398103b4c122e"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_models.dart",
+      "sha256": "be3b8165444e3d8dd3ae8b31ab8c480392874875cd0631f3b11d6c90c18feb3f"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_page.dart",
+      "sha256": "e1331e870e6c2543f31da23e28dd4db2152713349a65e58eeda679cee987e3cd"
+    },
+    {
+      "path": "lib/admin/core/admin_gateway_runtime.dart",
+      "sha256": "38392bbabd25bf5da45575b6dae7912ceffad3c002a35d8731074468662205b5"
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_checkpoint.dart",
+      "sha256": "23f34065f93445725647a95f046987b78985a2dcfc0c54703d7815be435bc6d1"
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_checkpoint_stub.dart",
+      "sha256": "9dfd5abc536c0be5d7e80a4e59733cb62689433977b13409930f243a7001e95d"
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_checkpoint_web.dart",
+      "sha256": "a013752f88a6d25eba983dd0c49bbb182d6c1ced5b5fd98d2a9cff8ba4d38011"
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_controller.dart",
+      "sha256": "d48ec03af442568da97ea12a603498dea5749576ade8a05156b2c7369ac793c9"
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_history_models.dart",
+      "sha256": "2a028dfa0258cccb51c0878a366a94ca8b2d1293e8c48ae12cd692861d0d1565"
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_models.dart",
+      "sha256": "5b71afad52aba4781e0b10f4250c1dbb6a0ca8fa46023a1def7d1db7e3fe238c"
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_page.dart",
+      "sha256": "b8e3a15c0a403f175a6754785fc2f06a9a54c3f7b71a65128ba27abc67c5e9aa"
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_registry.dart",
+      "sha256": "e35dbc60fed30cb788a9f3a2f3fdec5d007da6bab3131a918b20b9fc3c4d0787"
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_runtime.dart",
+      "sha256": "5e3b6d88beca3c0c4cf07294ee94f6f31e36aeb11a973d5108e1dbb95795f1b2"
+    },
+    {
+      "path": "lib/admin/core/admin_governed_settings_sdk.dart",
+      "sha256": "4899be8e363099371f118b0e8ebae5ef2fa909d2cdafb3921e57007edcbc0e7a"
+    },
+    {
+      "path": "lib/admin/core/admin_group_runtime.dart",
+      "sha256": "41269a0e47827ea932c14d5755ea424a9d2e0d8d3520049db9c06c2ed565b70b"
+    },
+    {
+      "path": "lib/admin/core/admin_investigation.dart",
+      "sha256": "aa87c5e82591a3b0e1ced03f7905298126360209dfa81f004a4752ad15333a6b"
+    },
+    {
+      "path": "lib/admin/core/admin_investigation_view.dart",
+      "sha256": "1a08153dbb91f7f5b74e37b4f79a5ac55fb4fa2240f802dacf4581d52fca59f3"
+    },
+    {
+      "path": "lib/admin/core/admin_invitation_recovery.dart",
+      "sha256": "4d629906a9bbae6d47fbf56259bfd03d3bc7e0454336d6137a410c230d9605a5"
+    },
+    {
+      "path": "lib/admin/core/admin_list_paging.dart",
+      "sha256": "2353d92b5a0c1c8f58f65452b0db6012b72e5ef859157e5c4a14c2d6840a3833"
+    },
+    {
+      "path": "lib/admin/core/admin_list_runtime.dart",
+      "sha256": "2d17a950a45ff6694994dd8710ae0824e34a59f09ff2f74ce4e46e06e951c542"
+    },
+    {
+      "path": "lib/admin/core/admin_list_specs.dart",
+      "sha256": "19a5ec19d7d9b8df0d36505c85da6ca82912441a3144359ec5c100095353394e"
+    },
+    {
+      "path": "lib/admin/core/admin_live_updates.dart",
+      "sha256": "9f9db51b6965b860205e81c3343cefb8b71dd8eee68f7d97ace46a8302026012"
+    },
+    {
+      "path": "lib/admin/core/admin_login_runtime.dart",
+      "sha256": "2e414bd9670806913697592f2ed3095eff822fd177c7e3068fb2bfaefec283cd"
+    },
+    {
+      "path": "lib/admin/core/admin_member_allocation_dialog.dart",
+      "sha256": "f006d404c8a0b41544ae051070a491de6bac0500c342421cc65e9054b1eb9429"
+    },
+    {
+      "path": "lib/admin/core/admin_member_allocation_runtime.dart",
+      "sha256": "089bf64108d3697888daff3215328993ab253ca1528b8a402f4ae9c83aa02b86"
+    },
+    {
+      "path": "lib/admin/core/admin_member_identity_contract.dart",
+      "sha256": "8afd603db93ca5e5b5d3a713528f272bf6950001f64698b1e3037c2bc0d57779"
+    },
+    {
+      "path": "lib/admin/core/admin_models.dart",
+      "sha256": "0f11a52de9d546ec1c876d893946dcb4c3582c69a8eada3d6e1fdc4fdc740163"
+    },
+    {
+      "path": "lib/admin/core/admin_operating_policy_card.dart",
+      "sha256": "a36472b6a99875a7106c72ddd081cbd858a28252f1646b6de515b1902306333e"
+    },
+    {
+      "path": "lib/admin/core/admin_operating_policy_models.dart",
+      "sha256": "beaa07a3919d46555bad58222d5fc45a4f011c5ec7c53892137aed9fab189ae1"
+    },
+    {
+      "path": "lib/admin/core/admin_operating_policy_runtime.dart",
+      "sha256": "7aec19601154372676e7b22befe66896df4db5dedbf48174633c571702a39c93"
+    },
+    {
+      "path": "lib/admin/core/admin_operation_components.dart",
+      "sha256": "ffde2b565ee38ca45f28818e64688fdb0c09435250516093f277bc6fa699ced8"
+    },
+    {
+      "path": "lib/admin/core/admin_operation_tables.dart",
+      "sha256": "a51d79e134f921958f8bd11f38c83c9ad92a34c764478416202add68f660f397"
+    },
+    {
+      "path": "lib/admin/core/admin_operational_health.dart",
+      "sha256": "87789cb574c76ade1602029a20312fbf1637ac60179dea158ecd3a892c864717"
+    },
+    {
+      "path": "lib/admin/core/admin_operator_approval.dart",
+      "sha256": "716d84791e74adcff9b6a40060a4a29a91f747d2f9c19a3eb15501519a41dc5f"
+    },
+    {
+      "path": "lib/admin/core/admin_operator_draft_owner.dart",
+      "sha256": "d74612866d983f9490643ff2539c39fc433505abdbb5a615ad8c4c1ea6792d40"
+    },
+    {
+      "path": "lib/admin/core/admin_overview_components.dart",
+      "sha256": "2fa7fba5031310390a0321b5315f6c7d3bd6524902a89d1bd30396df97523de3"
+    },
+    {
+      "path": "lib/admin/core/admin_overview_runtime.dart",
+      "sha256": "3e2faa3ab38ac07e7b5fc3b5ba583e8e143e3402464dcac45ffc704264152e97"
+    },
+    {
+      "path": "lib/admin/core/admin_payee_runtime.dart",
+      "sha256": "3245fe431929323fd93820a672ef25ac8a559dae302bdcd568ecb2e05065bf8f"
+    },
+    {
+      "path": "lib/admin/core/admin_payee_workspace.dart",
+      "sha256": "0b7eb1b7ab0aed048f133e4d4e978cd600c16e9de5107fa28464e28b46276cf5"
+    },
+    {
+      "path": "lib/admin/core/admin_pending_attempt_storage.dart",
+      "sha256": "70e909f22fa5e03e216870bb811a4875e30ab459f7d7b8278e490fd6ae659cb6"
+    },
+    {
+      "path": "lib/admin/core/admin_pending_attempt_storage_stub.dart",
+      "sha256": "bc0e2c133af5c91e93a9d7debeb33dbd7b3ba0965f30042bbf4ef750e6c9109a"
+    },
+    {
+      "path": "lib/admin/core/admin_pending_attempt_storage_web.dart",
+      "sha256": "a34d4520f059f1ceb2fedebb8b6c6deeb56dd8418cabfa8c348333a811bfabf2"
+    },
+    {
+      "path": "lib/admin/core/admin_pending_attempt_store.dart",
+      "sha256": "d4b38c571cb09f684996bae872fa05b011fa48d942dcb3033601e8f06c402c19"
+    },
+    {
+      "path": "lib/admin/core/admin_platform_access.dart",
+      "sha256": "232fcbe1ae27f2fb376722d6835e484bf5abc5f7bacf783fb51aa8fe677e871c"
+    },
+    {
+      "path": "lib/admin/core/admin_privacy_review_checkpoint.dart",
+      "sha256": "c84f8bb6e357aba74f07fd7db67bcbd48c83fa35c2ed96259621685a3343c964"
+    },
+    {
+      "path": "lib/admin/core/admin_privacy_review_checkpoint_stub.dart",
+      "sha256": "93a8cadd8e1ba4ece21a4163adffde9e793a1107396fe533b65e30eaf2d58c4f"
+    },
+    {
+      "path": "lib/admin/core/admin_privacy_review_checkpoint_web.dart",
+      "sha256": "2646ee74f8cb82c93faf4d854cd9c38ed997f89296b316b838ae181beb6684ae"
+    },
+    {
+      "path": "lib/admin/core/admin_privacy_review_controller.dart",
+      "sha256": "1b9a353f5e18af75d2a1e41e351e52ef039fa313accf5395cd1813cce41b5d34"
+    },
+    {
+      "path": "lib/admin/core/admin_privacy_review_host.dart",
+      "sha256": "3fca94c52a617b444009e0428cc001f0ff9638caaa60a24ee660bdfa006a223b"
+    },
+    {
+      "path": "lib/admin/core/admin_privacy_review_models.dart",
+      "sha256": "1839f958469c25212c7ee1276aebc66287f6e2c1ea1d49d0eb8b1812840b9784"
+    },
+    {
+      "path": "lib/admin/core/admin_privacy_review_sdk.dart",
+      "sha256": "ccadc0361aa1496e844858619d1eefc8219d037334f661287a0bc288282e3e91"
+    },
+    {
+      "path": "lib/admin/core/admin_privacy_review_view.dart",
+      "sha256": "6f09c5092012cab4b2b0199732d3581975db141bcb6b9d8438c9bddcca96d6fd"
+    },
+    {
+      "path": "lib/admin/core/admin_read_contracts.dart",
+      "sha256": "8f159c4dfde6aed17fd0ccfe1c3a822bda7b1c3313d0619773f2c1d575d91e19"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_aggregate_v2_card.dart",
+      "sha256": "f65330c325a4399ce22ad983a317f1fd4b9f6e164ba0e5a492e0e1a9dbc37558"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_aggregate_v2_models.dart",
+      "sha256": "9c0e63f04e65747e9fbc1aa34749a47842c23d8c1c894d0aee266f5e0449c30d"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_aggregate_v2_sdk.dart",
+      "sha256": "e139c07d8af786a34df7e2270d0e7da7895388c663c7f30cd3bfce7e2f2a3546"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_aggregate_v3_card.dart",
+      "sha256": "415bd3d318e4885b3651da26ae4f31d5f60e01562ab2268f3f1b8f2be5a4fd5b"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_aggregate_v3_models.dart",
+      "sha256": "27aa54f056470ce815d000ab2be353d7c2090ae734b38ed9f41d1e79e1a5eb8a"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_aggregate_v3_sdk.dart",
+      "sha256": "81885e2b0f120bff696598c2cbfb76071dbde886fca4b8c150c86ac06be42fc8"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_callback_deadline_models.dart",
+      "sha256": "8de6dd6cb93d3840940d99f86f85bc333045180daf524854a55fe10eac210135"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_callback_deadline_runtime.dart",
+      "sha256": "e914b91ce9506694fd93eb4bad9b08b619f3a8ba6632a19e74613c05aa790a02"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_callback_deadline_view.dart",
+      "sha256": "7e9ce021ad340db1fdd0b2914170c5e6a05ff24784283d87d1540f365b48e35d"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_cancel_card.dart",
+      "sha256": "e5e279c41f3a31762c1ba44fd9c1aa1ae4a3e6a0826669c5818fe2fe0e9d19ee"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_cancel_checkpoint.dart",
+      "sha256": "075566e7326b829785ef16ab9bb571317467bcbd12e23ddd137837b44fc9b1db"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_cancel_checkpoint_stub.dart",
+      "sha256": "c7a6650ce57eda195bf977491e3e225abef189f2a6ac62971d5c950e3be630f5"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_cancel_checkpoint_web.dart",
+      "sha256": "09596906f8753f100bd4caabf38884bc14b37bb1e8c5a38a425be87a14fbb5c1"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_cancel_models.dart",
+      "sha256": "3c26bf683ca02df85669ef9d8e066d8b611890c8a11929bf796c59bb359a49b7"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_cancel_runtime.dart",
+      "sha256": "6319dd292e9a4815e990638c6e47c9cfb1cf18f5fe48602967510328082ef798"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_deferral_card.dart",
+      "sha256": "71bcf9f8d4e1679a1ada67077a5981f3c5cf8c4aae9bf0bac1498ddcacc538d2"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_deferral_models.dart",
+      "sha256": "20697bc56cafb45c44aaefe452cf62915debaf9f18d4b231eb5205ed9c23ca66"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_content_checkpoint.dart",
+      "sha256": "7fec9c2d74e430dc5464d9af7c1fe9af253449626de6823d7f1d08ec25f5ac68"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_content_checkpoint_stub.dart",
+      "sha256": "46ff9c3aec329d0afe6e69be28b971d8a16514120c7055ca198c48bb3d89400d"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_content_checkpoint_web.dart",
+      "sha256": "8c56b95edfa10b33c5c36fd5724a884cbe89724e43cfa90ec9de37107f19adfa"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_content_controller.dart",
+      "sha256": "df4bec6568bff8f61bc749cdd32efd03478cfc638046fa190d195050e7f19ff9"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_content_host.dart",
+      "sha256": "c835b858404c1f0e874f1cf1fa3ae54c2c6feed86d8836664ee18f4052bcb2be"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_content_models.dart",
+      "sha256": "6cad87bd6761963829e5f7abd7580971057cf0602bfaa6d7192f39aacbe65b9b"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_content_sdk.dart",
+      "sha256": "55ef3385249a22241adff0cb16358fc072b3c8ebe345976bfc2ae9ee1ed37e55"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_content_view.dart",
+      "sha256": "49af00703b9044d98369bdcd728ed3b9244e826adf49400b70a3eceda43cbf85"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_dispatch_checkpoint.dart",
+      "sha256": "aa6af1e35f6b59918021ef436c896a20b73a4df8adecad8c2623e943a0d1ecff"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_dispatch_checkpoint_stub.dart",
+      "sha256": "e758e995b55cb94e6be06ecafa88e057daa0a7343e4a7542899690a28a15c617"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_dispatch_checkpoint_web.dart",
+      "sha256": "c0e51dd94d07c6a53492f534493bd1f05d1efbb1806d94288eaad3f03a5d6e3f"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_dispatch_controller.dart",
+      "sha256": "9d65f1d4ef0270cdf23e9e48992705e2879f41ce914a560ec3c43945da45eece"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_dispatch_host.dart",
+      "sha256": "efc3c2d45cf4d8fb2773ae8697fda4189a84444f9325c912573f2c163918136a"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_dispatch_models.dart",
+      "sha256": "97ee8ac3851fe7f1a76a1e3374a1bd133d10fafb3e5cb7ca129d909eeff4450d"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_dispatch_sdk.dart",
+      "sha256": "d64a49289dddc6dc9bff2afeb69500f5c6de3141d4042ce9525468fba010b171"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_dispatch_view.dart",
+      "sha256": "5003934468e71ad39094d6eacc57b8d155820a829839e6ab028fea799418c3b5"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_notice_investigation.dart",
+      "sha256": "2d3ac417a637bd60d6655b6edd399d2e6408a69c81c64a99677750bf15cd1dea"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operational_history_models.dart",
+      "sha256": "8f77a0e5745cd3cb5be0efd4c4697eddc85ff802f89974e864b6b1fe0999859c"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operational_history_runtime.dart",
+      "sha256": "65cf8cba393b3258efffd83019902a57f30bf64579236d1295fb66036e684c0b"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operational_history_sdk.dart",
+      "sha256": "2ad6d090de012c59de680a63398c5dcb8895e431d52e8c93f0176077b8f44e33"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operational_history_view.dart",
+      "sha256": "c8718d44296f519d4a77c2081ca08a2bbfcf4deedbca7e5aa689f8a519dd161c"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operational_telemetry.dart",
+      "sha256": "96b86417f9fe0a73d9fa299671d29bf82f9793c5ac9d8d34bf14b0e3fef64a27"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operations_card.dart",
+      "sha256": "89b30e331188bbf7cbecb01db67519ecf2a068874c67af3986c82e98fdb5d605"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operations_checkpoint.dart",
+      "sha256": "f029ce02f24411723484fd5a90a037e48fd1ceef8ddd699d39629880c871bcf4"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operations_checkpoint_stub.dart",
+      "sha256": "5ed5053c57b98a3d3ab294c6ba0b2d12fc8913172ff8e3dbe394f5657b063acc"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operations_checkpoint_web.dart",
+      "sha256": "6767acd9b5a97405f1dae8b27909edef1061adcf8a498421408032d0305bc8bf"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operations_models.dart",
+      "sha256": "557321a7f0ff4a3181469896924707aec35fea6394f5f0bdcb743e1af9d729f2"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_operations_runtime.dart",
+      "sha256": "ccceb7e0f9d8f8e5471f887a80652b5d69dbc88125042e460629d8d6dcb2c70d"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_overview.dart",
+      "sha256": "d5b0a2102a213bbd9c02d00f0d8ebcd9212cdc8d8ee389ed62bf0a259215a0e7"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_principal_card.dart",
+      "sha256": "454454ef0f25875d39d0bf90a85ca6eebf21b12eb938adfec8e110049cb5bfab"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_principal_checkpoint.dart",
+      "sha256": "fc29e9bbec86c4977dd5556b916e5d339b9af91d43bef4534102fc0053fee0a5"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_principal_checkpoint_stub.dart",
+      "sha256": "ca9263e4b17ee9f53c2a3d73b2e4e71331ebe1cff52e890782820f7077bbf12d"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_principal_checkpoint_web.dart",
+      "sha256": "7eb6f58c8478894a63acfe184f3a6f27e817946f911c1f38748b286134382e34"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_principal_controller.dart",
+      "sha256": "a826594bd27bf4c95d75560f9945e82ceecef927714c574138693b9bcd58d52d"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_principal_models.dart",
+      "sha256": "016cc3fc84ee2d45232d913143b4dda0faed87bbbf81f126c73abb4b78447842"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_principal_runtime.dart",
+      "sha256": "7dc0858a4443f8dd700028b5a49f0e06b18de402b7e788fefb0ab471dd015fac"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_repository.dart",
+      "sha256": "f811103f72890e93573c53075a78eddd25630f0844a2a6145672cb8ea03939f9"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_checkpoint.dart",
+      "sha256": "fa502301572a7060e12335a98fafa199b43c67ce04dd62464f7357565a595625"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_checkpoint_stub.dart",
+      "sha256": "75cf0ca16f05c01cffcbefcfaa137a10246e8f2726273270999f3838eebdfdb0"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_checkpoint_web.dart",
+      "sha256": "b880845ea7b41054ca609ccfda7324f0cb6cdd44891f472b30c3e88370e432e3"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_controller.dart",
+      "sha256": "6de89f2b119571b8e3e2b5616ad7b3036759101f4930813160e169fee660e449"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_execution_controller.dart",
+      "sha256": "4ebb59646e5458ef03e3dfbb3877b5b89678fe39e02f7e3a45f5144f23d47c20"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_execution_host.dart",
+      "sha256": "9d616e19662472b855c8f52a4aa2f2911b2347ae71a62f03d3a9f2a6a2c13d5c"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_execution_models.dart",
+      "sha256": "f021e196fac3c0968ca6b2cc493b5cae5b87f4098cd388c9b02d38575a751651"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_execution_sdk.dart",
+      "sha256": "416a0a58d28a30971e5e94e1ab351a82c100ecbe5d07f63b776c0cd024c01d3e"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_execution_view.dart",
+      "sha256": "59f7c49504fadc4e326a9e89e44f9e60235b90b438507952245d362d0e9b7a67"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_host.dart",
+      "sha256": "01c3a1ca16cd506f511b332f680d359181033d02852e940b6ed9c38313580511"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_models.dart",
+      "sha256": "9ebc6f0adc8941192b753708dde050dd66168827369c1106da0f9724d65e7bca"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_sdk.dart",
+      "sha256": "65b6f2cdf68069fd9b6b0ab80903ec6f2a504b3a42a94465bdcd9ac97767ee07"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_successor_view.dart",
+      "sha256": "74bba9a5d0b22c3b1d5ec0aa26ca1294d732472fdbc9d89ec4336a6eb9017e30"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_telemetry_card.dart",
+      "sha256": "c907be141cdc7e053d212e3bc268420b165d2f2474ea988b47b50cf9d8f9daf5"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_worker_card.dart",
+      "sha256": "e9c6279fab3606dfcaaba2c189ac24f9cbae6878d434d9ffc3fa62d80ddbda82"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_worker_health.dart",
+      "sha256": "508509acf8bd2c1a52ed8e5b0a7027ac86ae1a289b1e77f2dc22bce5becf9019"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_worker_transport_card.dart",
+      "sha256": "46025a42090c4749978ae267ff489e2c81d0fe875b90f0defea8ed693460bec5"
+    },
+    {
+      "path": "lib/admin/core/admin_receipt_worker_transport_models.dart",
+      "sha256": "e6e2118d59cb0e8e694c0164577bd779a5415842f80a776f3e33da8ce65f3d15"
+    },
+    {
+      "path": "lib/admin/core/admin_reconciliation_dialogs.dart",
+      "sha256": "541db18024f3a3e1ae771fe8a92fce857b4daff56fdba5bcdb1c0ad2d73aba25"
+    },
+    {
+      "path": "lib/admin/core/admin_reconciliation_models.dart",
+      "sha256": "fd96f9fd0ee45b261626cc8d2a02749ec05a29e27d6ea84e6c11e2daa6d27da6"
+    },
+    {
+      "path": "lib/admin/core/admin_reconciliation_runtime.dart",
+      "sha256": "db9e8a14016497adc173043b5ed97b268774bb331ea3d84f9985720ede560048"
+    },
+    {
+      "path": "lib/admin/core/admin_reconciliation_step_up.dart",
+      "sha256": "03f5cd82e02ee9e838d1be6249d01b77ac53dc9689dead70ee7eb3ec48532126"
+    },
+    {
+      "path": "lib/admin/core/admin_recovery_namespace.dart",
+      "sha256": "2b9b72cbfbfb53fcbd94f5aba0600bc10bfd7a07e5497b836e963db3cc94558d"
+    },
+    {
+      "path": "lib/admin/core/admin_repository_base.dart",
+      "sha256": "0560034669e87a5e7ef3949b057a3afd20c7452eb79ed523dc87429ea08fa286"
+    },
+    {
+      "path": "lib/admin/core/admin_repository_runtime.dart",
+      "sha256": "a2a8be255c5f6c4f7d17c56bda14265cfe9ac669d62ef0fcebe1c8b73266e2df"
+    },
+    {
+      "path": "lib/admin/core/admin_review_credentials.dart",
+      "sha256": "921c5f7680abe32c9699e41ba5100cddb7676ac899d841332741044e12eb2362"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_checkpoint.dart",
+      "sha256": "90dd65f9bae025122a63e5f4ed3c6a9ad054e2f1919f75a39d9813137b9b5dfb"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_checkpoint_stub.dart",
+      "sha256": "e44cb39d90438fd2f4b76a24775592e000386258365457e8325f62af4f9b67db"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_checkpoint_web.dart",
+      "sha256": "5dd3f1c15622ad1460f08426d0aba4f069ddbca2f6effa84380f35f1de40ce59"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_dialog.dart",
+      "sha256": "4c298bb9829441af3f3c11b6f031730d8e9c36e5bfc62c7b37d15bcf926519a8"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_gateway.dart",
+      "sha256": "37092016b406c3e624a11c27bc94f092f37459e7dd0edb6b1fc240b51a5412d9"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_import.dart",
+      "sha256": "735ea7bee541ec6a0be7796a52c393f7b977f8913a7c8a9794cb8478ee6a910b"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_models.dart",
+      "sha256": "f594e11dcf13b35dd01efb36f756947146b3f34bfada450b49a416111c1129f9"
+    },
+    {
+      "path": "lib/admin/core/admin_roster_upload.dart",
+      "sha256": "c58bd38b10e6f827dbc267f3216cc94213c9e625ac74a9595afbea4436d85636"
+    },
+    {
+      "path": "lib/admin/core/admin_runtime.dart",
+      "sha256": "bd2638dba697bcef1374b39211bbc242bb505c6e587ed4db2661b8fb11f96fbe"
+    },
+    {
+      "path": "lib/admin/core/admin_sender_picker.dart",
+      "sha256": "2c4f59f3fac0401d92b6715aafa2708469022416a4b986722be1df57020b0c7d"
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_checkpoint.dart",
+      "sha256": "6435ef4476d2fd57ed1b6fc2f376265cc284bad6414e14d29e4ee4294e406aaf"
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_checkpoint_stub.dart",
+      "sha256": "0ffd7dc70672a80757a1627aa297e613bd6d4beacff2de2ff3697bfb60ea9b64"
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_checkpoint_web.dart",
+      "sha256": "fa30ce391f7124fab960284614fba6d79cb5826db2aa7c51911b252da36988f5"
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_controller.dart",
+      "sha256": "ec59595cbff44c37c0a697432146e2d9f631cd6312d0a8c0945c7a229bd956c1"
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_host.dart",
+      "sha256": "69ef6085db2e7d7ab73832b6a643638ca7a2d2abfaec1ad48b699991299dead3"
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_models.dart",
+      "sha256": "96755c33385cfbf5654dbf8e10e4c1014b66515450d8a38202d04ac837bf887e"
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_sdk.dart",
+      "sha256": "1cfa8d4941ea196a5bcf318c3a9a67a7b00fb0f776d0ffdfb2f4b4a2c5a6f810"
+    },
+    {
+      "path": "lib/admin/core/admin_sender_retention_view.dart",
+      "sha256": "939ddb49f565ee77924b9583ec1859e29bef36423ac20b39dfc3e248faa262da"
+    },
+    {
+      "path": "lib/admin/core/admin_shadow_runs.dart",
+      "sha256": "534fc45e6ae99315bc9ecdcbb05526d0bba1d02ab13576ca3c1987ece74087ca"
+    },
+    {
+      "path": "lib/admin/core/admin_sms_queue_health.dart",
+      "sha256": "0a4d3577bf7417900cb4620f0de3cca673903b6e9c74d286ce488d4f3c9e8578"
+    },
+    {
+      "path": "lib/admin/core/admin_staff_workspace.dart",
+      "sha256": "a835b73e9e704c3507bce206040d0cf0d20f365ea11e424914e3e3e94075d6a7"
+    },
+    {
+      "path": "lib/admin/core/admin_transaction_detail_supplement.dart",
+      "sha256": "b4f75f294d8054167056aa8d2cf82ba9116b5caea4461c2add3749c41856b756"
+    },
+    {
+      "path": "lib/admin/core/admin_transaction_details.dart",
+      "sha256": "c28951dc94ebf636199b8e4cdac7d6ab94f50fd4e8a42e12348f32867b4bb1b9"
+    },
+    {
+      "path": "lib/admin/core/admin_transaction_lifecycle.dart",
+      "sha256": "7813669a7fed4abcfb6c4cc28cb0e6ba04b914ab45ec22ffbbbfd3483e9a5f1d"
+    },
+    {
+      "path": "lib/admin/core/admin_user_groups.dart",
+      "sha256": "ec54f5deacaeec070f2d7b3411eed1d355d2bb8073e90421dc0fe940f94d3416"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_account_api.dart",
+      "sha256": "c122d789e108397aba33ff473c2f62940072c8a09ad48c4be40d2e7bb328bfec"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_assisted_sms_gateway.dart",
+      "sha256": "e7035332eee78d2d6c87f597c56cda633dbdf0b5627a530dbb2fed82c28466ad"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_core_pages.dart",
+      "sha256": "1b1be9084573b0e2c0afbfaa4ecdfc12b3ee6bf9d2302dc2be1e1cfed6fe3843"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_diagnostics_host.dart",
+      "sha256": "79dbd99a19ec14fdd474cf5bd96b3ec195d4e7cb4cf6966b3101cbe61bd0ab8f"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_email_pages.dart",
+      "sha256": "93cdfa7c95d1b8ccc37177eae896a96014f6a026b517ad40ce230af4d12c63a3"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_email_verification_page.dart",
+      "sha256": "47e18db591fc9e215f992b14d49db0de7c368388e39bd14d824aae503280331c"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_gateway_pages.dart",
+      "sha256": "461e027e0397e2c477a56509e2b18eaf9b3da94400b022fc483e40e6d2df277c"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_licenses_page.dart",
+      "sha256": "b8ebe1b1614607f5ad4c43a1e499b006a59ef920a286638a1908bf19894ffad9"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_location.dart",
+      "sha256": "956898632fd82be9b18cbded0bef51bda52adeb485ac3b3b59c6c81e083de11a"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_location_stub.dart",
+      "sha256": "34a1cc8912678e10698874e0a1ede3c5ef2e5413a98ce1f70edf7e0e24ea2f9a"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_location_web.dart",
+      "sha256": "4c1d202c74671e1944816c33a44b075fc384e55942d60c957883bc821f080e3a"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_mfa.dart",
+      "sha256": "bf24faadbdb25e2bdb748a0e59b33a6ddb34d2057484ccf17489549d6a91b020"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_momo_gateway_setup.dart",
+      "sha256": "f5c6a85b17d3e260722e77a93cdb939d90e512ae6e78962c063366b24a025245"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_momo_incoming_sms.dart",
+      "sha256": "df73e62fd5aa2cf21ff0ad90befb44b2a1de1ed58e662949ebbdb18d8285f485"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_momo_page.dart",
+      "sha256": "8b7f04df5bbcd4720ee572cab08c904933c725053a12e3f58e08b9d4f3f8f8bb"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_momo_source_review.dart",
+      "sha256": "0f7afcdbe0650e493665bbdb1bf8069ece2b210d3f61a5f256597d337c06a3d6"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_momo_transaction_dialogs.dart",
+      "sha256": "506960674939ac8c0f8b84d61b42edf2c61497a85d37200d87a0cbb16bc97d17"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_notification_management_api.dart",
+      "sha256": "432931e1d0c12f788bb152f03f6168d731c42f34a43ae07a566ade4befe9c1da"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_notification_management_history.dart",
+      "sha256": "6945020005c3be9b0488b32d2891738295f21221f502709dc61d5bf50eeae743"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_notification_management_page.dart",
+      "sha256": "49e7db918258950d70d112e33adfc3bd73716abf61b25543bd318b71da79e399"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_notification_materialization.dart",
+      "sha256": "e8556594e08d11393a4421b808c99120695089fb2fd5102bfbe5e9eb6e8faff1"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_notification_operator_api.dart",
+      "sha256": "00e9d9f841160c48020f8e8245bfcfc438852edc3438aa476b2169c933b01bd7"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_notification_operator_page.dart",
+      "sha256": "df8e3f2bc5c3d7fa347135e990dcbd69231cdcaedbc39849df38f677332f5e99"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_operating_confirmation.dart",
+      "sha256": "d266f04c16abd3e0906512d04c10b0efbd494cf749a32f105266c5d400f11a98"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_operating_detail.dart",
+      "sha256": "0b057237aebb38c3468bbc25a395aac8c94d54400a0993210f75c2167e6cf8e5"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_operating_fields.dart",
+      "sha256": "6e54f9907141919190d7c7173122203e814a7891eb18743dfaf9550437d56df1"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_operating_form.dart",
+      "sha256": "da79cf96b2b6d065d4087c6282b2f959fc4c33c45a09e916f2aad9be50536136"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_operating_form_fields.dart",
+      "sha256": "96fd6782b183630661ae900b8619eba3c09bb270cdb3a08229866901ed922b9c"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_operating_pages.dart",
+      "sha256": "46e822830ad6ab80f733313d8bc2aa3b0e8b15e01aab25dc56fc30235c340940"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_operating_requests.dart",
+      "sha256": "f084a76210d6511bb7136219bacad7d92d2a16107c154af82098aa0d6935e825"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_operator_notes.dart",
+      "sha256": "b9a890d658ac07ab63be4de09d840e3e35b706cb0a639cd12f53eb50b3eb44ca"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_privacy_review_host.dart",
+      "sha256": "d21b1183fcade59cc283924d2a4f6871e344047de221438d0d8ba5295205fcf8"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_receipt_pages.dart",
+      "sha256": "af3ce0cf0e4db5c66ea8db93802f28234e7a3084242fccb5a2b80117a5ea5c6c"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_receiver_api.dart",
+      "sha256": "5be409686070ddb347c8d3f3d3eecd65b332a1c39740416d92056582cd170421"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_receiver_pages.dart",
+      "sha256": "15742fb653cdc6ba5b039b0ea4e1450ae7028132bc8c55ab5cf19da1627e8898"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_reconciliation_api.dart",
+      "sha256": "74644a92f436efdf1f03f561e02363139b668d79c16771ddb130c9ef27524f7d"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_reconciliation_detail_pages.dart",
+      "sha256": "f00db740892d131d77e6d911ef3d74c094f14feb9b05f1c2de56c5435b782ca6"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_reconciliation_models.dart",
+      "sha256": "29707ecdde67231e35c86cf570aeabf4508ceac6722e1d72f4174650460df634"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_reconciliation_pages.dart",
+      "sha256": "af8a0a9ff5b0d02bbc2323e02373511cbbb84c436d7b500b8f351e6438d88963"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_recovery_host.dart",
+      "sha256": "87f7aadfd082e7ac21fce3c3bc187b4575ba72f41e904a7db8a1d3a79aac9e62"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_repository.dart",
+      "sha256": "f5e6e31b51e888f9483a2eca4aab3920b6100776877fd997dc34c429966bd789"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_repository_email.dart",
+      "sha256": "482ed5c75fa8901175a3820316e3bf2c02856e92c2bdf4bc7bd08c62ce6c4b56"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_repository_gateway.dart",
+      "sha256": "956a974eb8239fbd45bc330a7bc0340f5aa8747a2954f932491985c14d3d6d9b"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_repository_member.dart",
+      "sha256": "ada3d762c2fb32a36a3966a6d3076ccbfbc9b67804925ba27442c5a539ee4ab0"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_repository_models.dart",
+      "sha256": "db68ae42472dbcf026ca02798c5285fe105a1ae3d390eb27b79a7106d51dc193"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_repository_notes.dart",
+      "sha256": "0b6bcdfc609ee47a9af6e1e8b877739e0f39a42b5df37260c6831fe5011873a9"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_repository_operating.dart",
+      "sha256": "2920eddd731e4e4832f12f6dee2b13f5493d6ac759414cde8f4f3a941fdc00dd"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_request_cancellation.dart",
+      "sha256": "24758affad098ad33ff040b094775c1a2c841fe33bf5af3911ba13c43542c47f"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_request_identity.dart",
+      "sha256": "68ce2e60c81de87eca1a3222e93bb8ccfaeacbf5c5ea48bce0223e9d3ca40a3f"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_response.dart",
+      "sha256": "fd033e6f099e9f4e0b38d40bc402890405ac476d9cab7b517f2eae0638ecbff7"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_retention_inspection.dart",
+      "sha256": "c58f3b133b749c0931ce63e7d47bde48a7de853409efc4b1644f420f5fdc1028"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_return_location.dart",
+      "sha256": "d00d3f5cf45eb1c62f56d83da1916a439e015514715ffc2016edffb6976ec63c"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_route_reporting.dart",
+      "sha256": "336f0c3cece6789f09edf9a4292d92adbdf4179d9d46d7214581c4e97a33b662"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_session.dart",
+      "sha256": "9751066f637f3d7d9393a80ad929819dfdead50cb44d58573559fd9588466116"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_sms_api.dart",
+      "sha256": "d63bbc7c8f71c6201db8aa7252635d8e0f3a567502f44ca8d0e3286430d8e133"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_sms_pages.dart",
+      "sha256": "304c6bb21b2290c8ce6fad1a343b261093da16b18126118f33be98ce21d43c07"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_sync.dart",
+      "sha256": "c5304bb71b24cba861942fce94e5f494d66327315941cdf3f9818314e9d910ad"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_transport.dart",
+      "sha256": "fa79d3ae4e642c87ef670dac945c0269eae754703235ac3c7ef6f6191d9b0d41"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_transport_stub.dart",
+      "sha256": "308be1a64280d4c52ff66e7c0c9cbe2ee88e1e4887d03f041064e61783872985"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_admin_transport_web.dart",
+      "sha256": "6998489d065f0cfed93273fc0fd5c6e990556b71c600f4efe6959b0ba91c3fbf"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_canonical_ledger_contract.dart",
+      "sha256": "8ee7e8df5bfbc213cf511d006508ff10112f0d637a628a6a01b64a4308733c9d"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_canonical_member_form.dart",
+      "sha256": "9ec0d01e1fa1e9560be0a99ed9446683e2b9eb525954806198d7110a7a31de51"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_canonical_operating_contract.dart",
+      "sha256": "4ed1603d3b6438d4014a420787387520f5a8bce6fd2b3b3bbb2e1e00d993fbe5"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_canonical_operating_fields.dart",
+      "sha256": "bb9800e7650e1a6c15d7bf24fbaefd37fd875f72fbc36e62bdfe4551421ab3b2"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_canonical_reconciliation_api.dart",
+      "sha256": "f3cc7a400b9e885e33800e01927fa9eaa79e75268a3ae45d6625a4ef37fe8cbd"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_canonical_reconciliation_attempts.dart",
+      "sha256": "85e82e30e6c90d8a7989a79faf7fa7efe3aa6c3d7d0e6e22646006b822c69f60"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_canonical_reconciliation_detail.dart",
+      "sha256": "574dc5025dd5e71244070ae0535c104e1e3a16de688d7273b58769df60495e13"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_canonical_reconciliation_dialogs.dart",
+      "sha256": "ace87bf2819ddec1c77bdedc3f7323549fff39ba8c808e4ce4686a33c15f1987"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_canonical_reconciliation_models.dart",
+      "sha256": "312ac7ed5d8e8286df6daec296052fac85f2e4d63be6d6e2ece8d664df2add7b"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_canonical_reconciliation_pages.dart",
+      "sha256": "1f4363e3e134384deeec1879af5e02887e2edfb52c829879ece621fa2f772c4c"
+    },
+    {
+      "path": "lib/admin/core/cloudflare_canonical_reconciliation_records.dart",
+      "sha256": "e4f95362f8afcb407db5fa6b0a5f01c920b791de2c7d6026c263607c58d526c1"
+    },
+    {
+      "path": "lib/admin/core/roster_file_parser.dart",
+      "sha256": "1758be4aee130a4cc7d3ea7a4e55b0332bda77513fb1907d4c20f560bc50ed7b"
+    },
+    {
+      "path": "lib/admin/core/roster_xlsx_preflight.dart",
+      "sha256": "c340adc8ba938d329abd74f61450112af2add500b61c1cfdcc811bc5ce71a757"
+    },
+    {
+      "path": "lib/admin/shared/admin_theme.dart",
+      "sha256": "a42edb06347fb3ab8f7c0b358d23f9443c946781a248eb6c198c2d5265818291"
+    },
+    {
+      "path": "lib/admin/shared/components/admin_confirm_dialog.dart",
+      "sha256": "126876be268a2e72dac7a76e4ac156de3e72d15824454615603471c33e0eec4f"
+    },
+    {
+      "path": "lib/admin/shared/components/admin_data_listing.dart",
+      "sha256": "d008001cd49a8902cd7a88e0c4bc10aa25607dcd5d91934dc38c746b3e5821e6"
+    },
+    {
+      "path": "lib/admin/shared/components/admin_data_table.dart",
+      "sha256": "337f09ef8a789c3f09c375c942b2ecbfd88521d948e5b528bf3e4196b18aef6a"
+    },
+    {
+      "path": "lib/admin/shared/components/admin_empty_state.dart",
+      "sha256": "8f37537f698c880cdc86093528389fb70c995a20336cf6dbb1a515d0276a4450"
+    },
+    {
+      "path": "lib/admin/shared/components/admin_filter_bar.dart",
+      "sha256": "1181e49568df1fa72480cef51a6d9088e0914e535f1ef8d8cc1734c6794cfc13"
+    },
+    {
+      "path": "lib/admin/shared/components/admin_loading_state.dart",
+      "sha256": "d52fc34efd47558b80d23827b0496d298ece3ec44f357e75533e35b8f75f7f7f"
+    },
+    {
+      "path": "lib/admin/shared/components/admin_page.dart",
+      "sha256": "81b72ac462c30ffd41a5244220aa6c788db80e2400641e10197665c95300e4f2"
+    },
+    {
+      "path": "lib/admin/shared/components/admin_public_account_page.dart",
+      "sha256": "b8127ff0ddb85cc55a8334868cce833830f066279e127477737b965569bc4634"
+    },
+    {
+      "path": "lib/admin/shared/components/admin_sensitive_data_gate.dart",
+      "sha256": "6905409eac589f3bae3a13eb064668f68a83d917ac2605f1b08b0c954df223ef"
+    },
+    {
+      "path": "lib/admin/shared/components/admin_status_chip.dart",
+      "sha256": "eeda5a18df8186a96891d089931da94684eee88deac28c9c7c0a0baf0a65fc5f"
+    },
+    {
+      "path": "lib/app/app.dart",
+      "sha256": "ac6f788f66dfca21c59eea1f1b9d3c253073fd0d33bd1db7accb4c034ff4f97e"
+    },
+    {
+      "path": "lib/app/env/app_env.dart",
+      "sha256": "d3ad4fc32f10cfa6bb7ad3258f9faa3d97e354f4196e057d92d6fa74281663cb"
+    },
+    {
+      "path": "lib/app/router.dart",
+      "sha256": "551dc8be704d46273b2872a5d8bbaf31b41e07667fb2e2895e9f75dd194b6f6e"
+    },
+    {
+      "path": "lib/app/theme/app_theme.dart",
+      "sha256": "adaf4dccd704dd316d8f8b1645e52564fccdde0d327724d67c6d9ac67437dfde"
+    },
+    {
+      "path": "lib/app/theme/collect_colors.dart",
+      "sha256": "8b13e3e6ae963bed583152fdd8de65d733992e11ea8739c701db5a117ecf962c"
+    },
+    {
+      "path": "lib/app/theme/collect_component_tokens.dart",
+      "sha256": "c0b9bc0e7b6cab695cb846a5d47bac43b3be6ba924d21ba42eb9cfeb40d9b388"
+    },
+    {
+      "path": "lib/app/theme/collect_icons.dart",
+      "sha256": "49b8263bd46ad8bb8d21a2cdffa1dd51a60d4f70275ec1640c2c1587fcdf8a67"
+    },
+    {
+      "path": "lib/app/theme/collect_motion.dart",
+      "sha256": "75cc290e8757f865286877fc07a889c1b34f685a8d266fb4826d92bfbdce31b0"
+    },
+    {
+      "path": "lib/app/theme/collect_radius.dart",
+      "sha256": "96a54883ad9e18be5b656483e9764e9f0678cc9da9d1e097fe2fc21b675f86da"
+    },
+    {
+      "path": "lib/app/theme/collect_runtime_assets.dart",
+      "sha256": "be014b1144b148efd916dd4cad20ea972b7fdee72da687f71ecd8487e1d098e6"
+    },
+    {
+      "path": "lib/app/theme/collect_runtime_tokens.dart",
+      "sha256": "f83468fec873916e7074b470e3feec5cca3f0afa10f5d3f0467f106eb6003d6a"
+    },
+    {
+      "path": "lib/app/theme/collect_runtime_typography.dart",
+      "sha256": "4b0f661fa07b2b34e6ce1682203ef23bfba087af8400d73fff329d9e1d3c2776"
+    },
+    {
+      "path": "lib/app/theme/collect_semantic_icons.dart",
+      "sha256": "5e92d255fa482e935a6321f8b5d2a47bb5cdef8531242690425eb36a1c5f96a8"
+    },
+    {
+      "path": "lib/app/theme/collect_spacing.dart",
+      "sha256": "ae0095b8900c6aadc3fbc5fbf236607ecb4b90f643af191514c861453e077a62"
+    },
+    {
+      "path": "lib/app/theme/collect_theme.dart",
+      "sha256": "2d50f9e6ca75b6c5349aeb2e40022f8368cde0399a6de038b4398d600b525247"
+    },
+    {
+      "path": "lib/app/theme/collect_theme_controller.dart",
+      "sha256": "4b059082498b447983068a9c1b01dd2f073c737bc2c3381b2c07b0cd210b40e4"
+    },
+    {
+      "path": "lib/app/theme/collect_typography.dart",
+      "sha256": "4940bd4087abb89a9dd51c0c898c6e6a7d0354cf2d8dfca9c18810155f16902b"
+    },
+    {
+      "path": "lib/app/theme/collect_universal_tokens.dart",
+      "sha256": "cdf6b1b0bdebde96834e3a4dff609f5c7ade01ca91d90461f0c11511173ae910"
+    },
+    {
+      "path": "lib/core/cloudflare/auth_alternative_gateway.dart",
+      "sha256": "29e9e14b7c730e9f5839b3526d4ea18bbb514d6c4f321f0af660e85ea24e5da5"
+    },
+    {
+      "path": "lib/core/cloudflare/auth_otp_gateway.dart",
+      "sha256": "553aa97b9812e4b006e4c42e7fa823137b04db39d28430b1e2a3e17c2f197e37"
+    },
+    {
+      "path": "lib/core/cloudflare/cloudflare_module.dart",
+      "sha256": "551ce551a0008031ec1c690ff0b6ba995175855fe81147d705b26196a9e120c1"
+    },
+    {
+      "path": "lib/core/cloudflare/collect_cloudflare_client.dart",
+      "sha256": "79570d069e30732c67a65fe9da0895a82269ad565c2135f3e3449289b104d036"
+    },
+    {
+      "path": "lib/core/cloudflare/collect_cloudflare_types.dart",
+      "sha256": "82bad9137e332fcb3f1e471a4ce2e7da3e639dea89a306add2315aa6052758db"
+    },
+    {
+      "path": "lib/core/cloudflare/collect_turnstile.dart",
+      "sha256": "4e3bdaa006640f5ce6ce083785d7270eff52e4856f1d167b2c63e72e810a404e"
+    },
+    {
+      "path": "lib/core/cloudflare/collect_turnstile_contract.dart",
+      "sha256": "ce5a42a0e6305c3a1ed968a30dc90894b46798bce804e3bca5167265fa5a5401"
+    },
+    {
+      "path": "lib/core/cloudflare/collect_turnstile_platform_native.dart",
+      "sha256": "9280ef5dcb8ef3acfb8361afad1c5ca23578e62dc94daa7b21f178b3cd559817"
+    },
+    {
+      "path": "lib/core/cloudflare/collect_turnstile_platform_stub.dart",
+      "sha256": "bcd8294a103006673a1a19b0facd6683bc2e7a66293eaca6465fc896e327fe53"
+    },
+    {
+      "path": "lib/core/cloudflare/collect_turnstile_platform_web.dart",
+      "sha256": "d0c030e3889ac69af8e3c1150f5bde7a4d310184043ea2c2250600ef537b9de1"
+    },
+    {
+      "path": "lib/core/cloudflare/google_auth_browser.dart",
+      "sha256": "551de7f3e762b67155bb21709a230935922a44464cba166642608f80b515b9cc"
+    },
+    {
+      "path": "lib/core/cloudflare/google_auth_browser_native.dart",
+      "sha256": "74e074c3b90045c307bf54c41780f64e7358d25fd0a0795a9d6f6754d7f761a9"
+    },
+    {
+      "path": "lib/core/cloudflare/google_auth_browser_web.dart",
+      "sha256": "5583f2786fbb19211110dd2f93233897e2244661a2e541b73380e78f9bcb5ddf"
+    },
+    {
+      "path": "lib/core/cloudflare/realtime_invalidation.dart",
+      "sha256": "fe7547db6eb3662b3089a0e72d7edc536aa32e737f35b25a120132dcfe0574cf"
+    },
+    {
+      "path": "lib/core/data/exact_json_values.dart",
+      "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223"
+    },
+    {
+      "path": "lib/core/logging/app_logger.dart",
+      "sha256": "4991ce91d6745071470892aed4874f9a394e7ece8940b9f2ae88ca1eda1ddc91"
+    },
+    {
+      "path": "lib/core/logging/collect_diagnostic_queue.dart",
+      "sha256": "281750a1b4dcc56ee7caea1c5bad03554f3df65674f636754bcb1492ac9d6310"
+    },
+    {
+      "path": "lib/core/logging/collect_member_diagnostics.dart",
+      "sha256": "8ca41e23322eede0cafbc0baa5653ef8e5f2fdebddc3be816f67ce60e63d203c"
+    },
+    {
+      "path": "lib/core/notifications/collect_notification_service.dart",
+      "sha256": "2209ea76bca42059c59c390e1d64810264124d419f38ea3c49f0bfd8d998775a"
+    },
+    {
+      "path": "lib/core/payments/momo_ussd_intent_guard.dart",
+      "sha256": "5aa73c226a7fb0d7d0cda87a3c09826131faead7d548841cec182781e04f6069"
+    },
+    {
+      "path": "lib/core/payments/momo_ussd_launcher.dart",
+      "sha256": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88"
+    },
+    {
+      "path": "lib/core/payments/rwanda_momo_number.dart",
+      "sha256": "0d437e90e81373491f596c2ce320686bb385e48d49e424b733ab9f196e6a424a"
+    },
+    {
+      "path": "lib/core/security/durable_sms_receipt.dart",
+      "sha256": "71442da6264e4a9a7aa4437a9fba1a2c76c2fe612f49aaf7efc9e87a135aac2e"
+    },
+    {
+      "path": "lib/core/security/hash_utils.dart",
+      "sha256": "db07adc8445506135abc0596ae071e033c6375713eeb8f24918feabf2d97efc6"
+    },
+    {
+      "path": "lib/core/security/phone_normalizer.dart",
+      "sha256": "04e88eeee1cb40ff9f21a85b3e6e708a43f9ea3d2f7c59f2b85d39c8651e0fb8"
+    },
+    {
+      "path": "lib/core/security/play_integrity_service.dart",
+      "sha256": "d249c0c5189eafa37ff622276dd47feea0fd76f0a08c54fd41804ce701bd225d"
+    },
+    {
+      "path": "lib/core/security/protected_snapshot_store.dart",
+      "sha256": "1ecead68d52ed5ddee95fb4e2e2d25dacd33c8bf60d50ef03d0d284ed74155c0"
+    },
+    {
+      "path": "lib/core/security/public_id_generator.dart",
+      "sha256": "de67eb96a490b7dbbf696099b98fd984a8e2ae13d6eee81d0d2946fd4162c5c2"
+    },
+    {
+      "path": "lib/core/security/sms_access_channel.dart",
+      "sha256": "5a87a0ddb9bfe1e0c34ef5f11c033a552df3bdee57712fe32e3437c0fb69af19"
+    },
+    {
+      "path": "lib/core/startup/collect_global_error_handlers.dart",
+      "sha256": "7d644f2886a15387390ca03ce1b2da5cc53406d4d126eadbe40cfd2e7f8c6436"
+    },
+    {
+      "path": "lib/core/startup/collect_startup_controller.dart",
+      "sha256": "62c328f9df586923983a92e39aea020c9416ef8d2f649928d60e9dc00221b409"
+    },
+    {
+      "path": "lib/core/startup/collect_startup_host.dart",
+      "sha256": "f83232eeb64983446a083f4b4476196d7ceffab94a19252d1b0ed8e6a52c790b"
+    },
+    {
+      "path": "lib/core/supabase/collect_deployment_profile.dart",
+      "sha256": "573c898f612aa2db5619e79d483bef94834788e2d0ec9b10785338783f0c2906"
+    },
+    {
+      "path": "lib/core/supabase/collect_supabase_configuration.dart",
+      "sha256": "06137f9fe414b0f6681679ac1d08965a7605f851e6ce9160f658c75807abbbc2"
+    },
+    {
+      "path": "lib/core/supabase/collect_supabase_member_realtime.dart",
+      "sha256": "957824543c3e3305d523a56c55927fac58adc63977312f189e81b15ecc14ea74"
+    },
+    {
+      "path": "lib/core/supabase/collect_supabase_member_socket_io.dart",
+      "sha256": "15cedc80369d4548f9da77fa098133a8346efa586922ffa4322313fed4c8a1b3"
+    },
+    {
+      "path": "lib/core/supabase/collect_supabase_member_socket_stub.dart",
+      "sha256": "43e2926944cab18a5176b8c86f855b3f9c87717af5c34c5db4f5955abec2314f"
+    },
+    {
+      "path": "lib/core/utils/date_format.dart",
+      "sha256": "8418c516785db62985c8a4f15768730da4236de4a40985c6bae9f4186fb8ea28"
+    },
+    {
+      "path": "lib/core/utils/money_format.dart",
+      "sha256": "0a74340daefa3f3f94212afd7ef22045f8f13500973c64f93aab1c2d4f03f4f5"
+    },
+    {
+      "path": "lib/core/widgets/collect_shell.dart",
+      "sha256": "04365e02a23a4c6c8690112b4ea726e5cd148b377b19cc696824e015a92edbb2"
+    },
+    {
+      "path": "lib/features/activity/activity_screen.dart",
+      "sha256": "1edb227133b609c6010c0ae38aba195f90dfa5d17d21ae6d7c9b8737f68c1eb2"
+    },
+    {
+      "path": "lib/features/auth/auth_screen.dart",
+      "sha256": "e3b013912e80ceec829da0ee02fa36400529f33f05fc8c7469fb726223107451"
+    },
+    {
+      "path": "lib/features/auth/widgets/auth_action_dock.dart",
+      "sha256": "035e9caed28b85ce50331f4a430fbde6c87e3c51df1cc022758be96944b2a72d"
+    },
+    {
+      "path": "lib/features/auth/widgets/auth_identity_header.dart",
+      "sha256": "ff5759279dab67df15aec1cb60a603b9867e4dff24adc348fddb5ce7edf9833c"
+    },
+    {
+      "path": "lib/features/auth/widgets/auth_input_panel.dart",
+      "sha256": "34907df7eb86dd132b6f63128836455b67acea5d94d0aead0ff9794d64799816"
+    },
+    {
+      "path": "lib/features/auth/widgets/auth_otp_entry.dart",
+      "sha256": "216a58b40c6ef69e91ca0d5c3368db0b7ac40ab3da0df91dbcf3fa0a6cc5adcd"
+    },
+    {
+      "path": "lib/features/auth/widgets/auth_phone_confirmation_sheet.dart",
+      "sha256": "b179446db7709dfd141e7f422fab012e1628502fdf7e5728b7b4788eb061bde3"
+    },
+    {
+      "path": "lib/features/auth/widgets/auth_screen_widgets.dart",
+      "sha256": "36124a9755c4b898343ef8f3991d82a52a8b821fc22cd0ea4271dff3dd6456d4"
+    },
+    {
+      "path": "lib/features/auth/widgets/collect_google_sign_in_button.dart",
+      "sha256": "87c355eddb758dcb5c933e29d5ccf0e8ceb6d74756d0efdcc0af8becc8d594f9"
+    },
+    {
+      "path": "lib/features/collections/collection_create_screen.dart",
+      "sha256": "83af7e318d3c159ef657cb621511620be31be3707d515adff1456982ceed89d0"
+    },
+    {
+      "path": "lib/features/collections/collection_create_widgets.dart",
+      "sha256": "c59b2185d5fdae900a06c385d0e5fa27d192f19cdcf6e7ccde6986ed1ccf9399"
+    },
+    {
+      "path": "lib/features/collections/collection_detail_screen.dart",
+      "sha256": "bf77771be2be6093cd233da4239181dfd5ca3dfc6ee24cb2dcdfbce1b8bf0654"
+    },
+    {
+      "path": "lib/features/collections/collection_detail_timeline.dart",
+      "sha256": "3843b336fcd5eec6a71e5b838003ae2b5830f9ac61e478bd7564edc551f1746b"
+    },
+    {
+      "path": "lib/features/collections/collection_manage_screen.dart",
+      "sha256": "f5e5858303da227ddbe29a2bde6033f47d15262a788570584371960089ddfc06"
+    },
+    {
+      "path": "lib/features/collections/collections_screen.dart",
+      "sha256": "00e02158e6d79255a23d8336e8c7a323be4b1766feb5f9963e3cbaa3219166f3"
+    },
+    {
+      "path": "lib/features/collections/group_creation_platform.dart",
+      "sha256": "b572bd76e392221dd461d66a16bd8a32b3a0702072ea6ecab7d8d02f70911c64"
+    },
+    {
+      "path": "lib/features/collections/group_empty_state.dart",
+      "sha256": "87fb532528dde7c2145b64b138360d7090a7c428174b706024da3a678937fd49"
+    },
+    {
+      "path": "lib/features/collections/group_invitation_transport.dart",
+      "sha256": "7784d11149973919cf9c545019d43721ed9eeb9ac98d5785c477d6c16b58abe9"
+    },
+    {
+      "path": "lib/features/collections/group_link_screen.dart",
+      "sha256": "9d4d97d13b4d6a295db768852947ddf45100ee1da6e1cc8b232943c10de83c04"
+    },
+    {
+      "path": "lib/features/collections/group_profile_form_controls.dart",
+      "sha256": "f99e94c6136d8d41dbfdb5ad2f169bceba6cb0f97286efc2666c20587a740795"
+    },
+    {
+      "path": "lib/features/collections/group_profile_media.dart",
+      "sha256": "81ce71952dc2b8c9722e774fe211430b81c4520bec4da5731d3a57dd8686aa2d"
+    },
+    {
+      "path": "lib/features/collections/group_profile_screen.dart",
+      "sha256": "c39e4098c2a5eff459cbbfc9dae419231e1a940064f6005aa5170f4e3d7385cb"
+    },
+    {
+      "path": "lib/features/collections/group_qr_scanner_screen.dart",
+      "sha256": "aeea4c7ed7b9d79d6c3c1f7d7d3c32190687e7119d9ecbbe11085f376e2375b0"
+    },
+    {
+      "path": "lib/features/collections/group_share_service.dart",
+      "sha256": "c049cbfeae9166a225996da099baeb122a2649a83df0a8766592b7ac69d04522"
+    },
+    {
+      "path": "lib/features/collections/share_screen.dart",
+      "sha256": "b9c4d1a582fc86c11c8df1feb7f093cb9e16f9d36865eda0730860ded80af0ae"
+    },
+    {
+      "path": "lib/features/home/app_share_service.dart",
+      "sha256": "3225dfee45d07b50c0a8a16914fc8b667be021d9abc9a55d93b49c27f993f57e"
+    },
+    {
+      "path": "lib/features/home/home_public_groups_section.dart",
+      "sha256": "bbace34ce98d2be127cc445614bcd8780614423709d6355e589b6b59c6d7b2fa"
+    },
+    {
+      "path": "lib/features/home/home_screen.dart",
+      "sha256": "eb34101448b4f7cbbb9e5c96c75650ca2384ecdc82d434896ae24fdd56c72bda"
+    },
+    {
+      "path": "lib/features/landing/collect_landing_page.dart",
+      "sha256": "b5324733356584d5bd9fdcfd99dae58b004f8111aae569a5606d1ffd9925d822"
+    },
+    {
+      "path": "lib/features/landing/public_capability_content.dart",
+      "sha256": "936e555a3cde9a419bef3e996178585422e62e50dd7e53a6e74880a36bff1553"
+    },
+    {
+      "path": "lib/features/landing/public_content.dart",
+      "sha256": "5b5b4ab791cd40ff6c45501492fdbf4a987b54586683f6118a3dd7acd7b0c8a8"
+    },
+    {
+      "path": "lib/features/landing/public_marketing_hero.dart",
+      "sha256": "45f234e8f75be670a0125afe6a8202f5274e400bf15afb11e481af3035f228bb"
+    },
+    {
+      "path": "lib/features/landing/public_marketing_page_content.dart",
+      "sha256": "e0f38b7207481243adcf7f6296da300ba1dad41a36e79468139cb013a66be419"
+    },
+    {
+      "path": "lib/features/landing/public_marketing_theme.dart",
+      "sha256": "72875b3b0a58a3aeb208a7303ae31f9a9460a52ce94c7e6fb312ea151518c75e"
+    },
+    {
+      "path": "lib/features/landing/public_page_content.dart",
+      "sha256": "02263b89e9f352ab22f9fcde9f017a02be0e3effe7c54e7f955976cbcf4fdad4"
+    },
+    {
+      "path": "lib/features/landing/public_policy_page_content.dart",
+      "sha256": "e6821f17c766a4ea4e19dc7fa304382a1e1ede6edd91145f6a1becab825ba4ba"
+    },
+    {
+      "path": "lib/features/launch/launch_splash_screen.dart",
+      "sha256": "82e7586022f8f6b8abe9b869dcd5889c29c299d0e1cf115f70fec71b9e5ca9f0"
+    },
+    {
+      "path": "lib/features/ledger/ledger_screen.dart",
+      "sha256": "e373fd3ad925a62def2211e4ef07fdded244de37110748f03535d78bffb31bf8"
+    },
+    {
+      "path": "lib/features/payments/contribute_entry_screen.dart",
+      "sha256": "07ee820165da03632f76a40716c133a5f7d299f6b1e4506ee904da1cf542bc6d"
+    },
+    {
+      "path": "lib/features/payments/contribution_amount_widgets.dart",
+      "sha256": "9ef493c335f9b5a1a8b23c5c7262b221ecdfe72aabf3d88eba4d4f212cba4ac2"
+    },
+    {
+      "path": "lib/features/payments/contribution_flow_screen.dart",
+      "sha256": "f47079a4f35ae1cfd004d36a4b063eec8a6c16234eb239e5249c6ddd787e8d10"
+    },
+    {
+      "path": "lib/features/payments/contribution_flow_widgets.dart",
+      "sha256": "5bd0a3ab3a6bbd072de04b5d883cbeef0fac0c279fdcb59ab3c8dd8699113ab7"
+    },
+    {
+      "path": "lib/features/privacy/privacy_contract.dart",
+      "sha256": "550b891eb357659c87cde85ea90a3f83f4db01752844c540ae5e814e478db15d"
+    },
+    {
+      "path": "lib/features/privacy/privacy_email_verification.dart",
+      "sha256": "00e90e32aea9b280f978043889ff6fee42ffa4b62be7e4c07b483b6905376f37"
+    },
+    {
+      "path": "lib/features/privacy/privacy_providers.dart",
+      "sha256": "9c316e1e359e3f8375d97e451b2573698c5d7a3bcf1ded70a4aab558a37ee5c5"
+    },
+    {
+      "path": "lib/features/privacy/privacy_request_controller.dart",
+      "sha256": "c856c958bd48f52ccc039d3be6605ae6da7a444d9928fbe86d66a0a053070761"
+    },
+    {
+      "path": "lib/features/privacy/privacy_request_screen.dart",
+      "sha256": "7f902521f86202b49e5e00439c42c7078957f446279e78558e0610a32324df01"
+    },
+    {
+      "path": "lib/features/privacy/privacy_review_contract.dart",
+      "sha256": "db325e947a9783654c542a50595691fc0b8cad20f2974ff12515700d7e7d11fd"
+    },
+    {
+      "path": "lib/features/privacy/privacy_session.dart",
+      "sha256": "e76d53e4aeb06ff8f4360be01683b9e9fe4695797eb2453a1c64088b300e7769"
+    },
+    {
+      "path": "lib/features/privacy/privacy_transport.dart",
+      "sha256": "9583183723fe03ee84ba02ab8ae9ff2cfba252106327c06d5a7586c90627dfcf"
+    },
+    {
+      "path": "lib/features/profile/member_profile_gate.dart",
+      "sha256": "b271c00969909829e9e0d46c67514c47a072cab98bb1aefe2fd034e51866dd71"
+    },
+    {
+      "path": "lib/features/profile/profile_edit_screen.dart",
+      "sha256": "c9b99d7ce204947bbf651099108075c21dc2629b29465d4a0b6fc2b2a278ab2a"
+    },
+    {
+      "path": "lib/features/profile/profile_edit_widgets.dart",
+      "sha256": "65c64ce2b9dca5270933956667d50f100c1f0d8f7c004a9b5487db5bcb4e133e"
+    },
+    {
+      "path": "lib/features/settings/app_permissions_screen.dart",
+      "sha256": "a532fd47b28563ae0f47763c13f695a699a65f7ed215922dda5758047e4bdfb2"
+    },
+    {
+      "path": "lib/features/settings/receipt_sms_consent_section.dart",
+      "sha256": "2e403acbbfdfc13a1b079e319d9144b1b7901ce33abfefa3517bbe37b541a8da"
+    },
+    {
+      "path": "lib/features/settings/security_hub_header.dart",
+      "sha256": "b9b4c83d50ba26cf47a567174b4bf789a04a6f10456ae3c07d7f306f1dba5846"
+    },
+    {
+      "path": "lib/features/settings/settings_screen.dart",
+      "sha256": "1c7c448cfd7dd66998beaa94740f95de8a89617c0ae0c3efa62c81a060aa2c6b"
+    },
+    {
+      "path": "lib/features/settings/settings_subscreens.dart",
+      "sha256": "4ea7b0b50dc93fdab392b8b3b230865f9090e043aea9c7c1e53e87d7edea6bc2"
+    },
+    {
+      "path": "lib/features/status/account_legal_screens.dart",
+      "sha256": "8a782d567bcaf27544b18665cb63879b564a315f7dd98bd36e97f0226d061bbe"
+    },
+    {
+      "path": "lib/features/status/connection_recovery_screens.dart",
+      "sha256": "a4f9362ee7ec8000aabd58f3c60260aaab7d2c614535b74d96117dc49c75159e"
+    },
+    {
+      "path": "lib/features/status/group_members_screen.dart",
+      "sha256": "c483773fff695e88f1b76b9854dddf50d2c7cabbe11f87e32acc21892a5f0650"
+    },
+    {
+      "path": "lib/features/status/native_permission_sheets.dart",
+      "sha256": "c151dc93e7b7046dbdf649833dd93f822897569de0999c92e38a9227507731b8"
+    },
+    {
+      "path": "lib/features/status/production_state_screens.dart",
+      "sha256": "0afb0293791e24867767cb2666abe5ec344cd1e2fc7e48ad7d368162c9e28a54"
+    },
+    {
+      "path": "lib/gateway/gateway_app.dart",
+      "sha256": "a847a14f9a2f7e1387f091a1385f7245b9481bb0aa5417b9fe09633cb320cea3"
+    },
+    {
+      "path": "lib/gateway/gateway_platform.dart",
+      "sha256": "cc23ad4800e7196532b10cfb61ecc8929008ff7db19f5420a5a9c069671739b4"
+    },
+    {
+      "path": "lib/gateway/gateway_recovery_page.dart",
+      "sha256": "22f00a6fda86dfd328dd84b1f4ab6ddefced68d7402698eabe0fd5c617eb5b44"
+    },
+    {
+      "path": "lib/gateway/gateway_recovery_platform.dart",
+      "sha256": "1ab4512869b4b578fe3e4a1706f9126b9aef8405a192d411804220721d788a57"
+    },
+    {
+      "path": "lib/l10n/collect_localizations.dart",
+      "sha256": "8ae197696f13efd13af418aea854b725739da70889cd1962cb30188151ab0713"
+    },
+    {
+      "path": "lib/main.dart",
+      "sha256": "1e65db7a123dba1af834e04d14e172d006ca68ee9f389be545d406f74824ed72"
+    },
+    {
+      "path": "lib/main_admin.dart",
+      "sha256": "259ef3269ab73e86a788aa9bf68efdcba2a85e2d5c5d13d893e4d8ffcf006f42"
+    },
+    {
+      "path": "lib/main_admin_cloudflare.dart",
+      "sha256": "e02426a92c8dbb7ccb3696b0e0ab6d3481750a78c58ffd5f3d67f769ba27653e"
+    },
+    {
+      "path": "lib/main_gateway.dart",
+      "sha256": "b3f132cff06f11f0686349d6011778b0c84900969b36a8fc92b3f3d920c6ff08"
+    },
+    {
+      "path": "lib/main_public.dart",
+      "sha256": "3614ad22111462144ce7a94d3ea06fd122bb82909257e4ae3b4d55f9f32af95a"
+    },
+    {
+      "path": "lib/shared/models/collect_group_cover.dart",
+      "sha256": "76514a01ba2e5f280e1b6661bad7188bbf0892e092a6992e2e6ff173f9a43552"
+    },
+    {
+      "path": "lib/shared/models/collect_group_cover_catalog.dart",
+      "sha256": "f0da8e24a5f1b66a8b8365675b7fb92e057c0527eb093461103f495c2432abf0"
+    },
+    {
+      "path": "lib/shared/models/collect_group_cover_catalog_community_projects.dart",
+      "sha256": "ba56260716fe0a446215e7e56a12732daa72af83c5c3acf1e6405e7772dd0153"
+    },
+    {
+      "path": "lib/shared/models/collect_group_cover_catalog_education.dart",
+      "sha256": "d7eef85a04b55fc932d7d0c215405adf8f0c199e994e19c5cb6e34d944c737dc"
+    },
+    {
+      "path": "lib/shared/models/collect_group_cover_catalog_faith_giving.dart",
+      "sha256": "2ff815c661047fb25b81101d8394d0addb397d0c38722135de4f1b29d8cb9a07"
+    },
+    {
+      "path": "lib/shared/models/collect_group_cover_catalog_family_solidarity.dart",
+      "sha256": "f121c96ae01376ef40995ec80e4f016f5646bd48e094605a308e309f7a4b327f"
+    },
+    {
+      "path": "lib/shared/models/collect_group_cover_catalog_savings_livelihoods.dart",
+      "sha256": "529c05741529db340f7ffc226188ae0c445d52ee627a40fc1a8451fa30d02538"
+    },
+    {
+      "path": "lib/shared/models/collect_group_cover_catalog_sport_culture.dart",
+      "sha256": "ee0894447b22a140a84dde91e6dff5392d376fc562dee59eea762dd077d01689"
+    },
+    {
+      "path": "lib/shared/models/collect_group_cover_catalog_weddings.dart",
+      "sha256": "254f8c79d1e18936e3d2edb9731e99121987755498f20da6fc87023ed9fcbb91"
+    },
+    {
+      "path": "lib/shared/models/collect_model_json_helpers.dart",
+      "sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a"
+    },
+    {
+      "path": "lib/shared/models/collect_models.dart",
+      "sha256": "29de79a79f394a1c8e70f87629ab8af23660a15d804699d922d33a9ba201b05d"
+    },
+    {
+      "path": "lib/shared/models/collect_payment_json.dart",
+      "sha256": "d0308eed1b325a1d9df6a23da93fef6eb353226d56b9b5ec36ff30e2de9afa59"
+    },
+    {
+      "path": "lib/shared/models/collect_payment_models.dart",
+      "sha256": "0b856548bf763542b1bc997b632aaa2fcd864c8e24e4dc3fd13ce6460609eb23"
+    },
+    {
+      "path": "lib/shared/models/collect_profile_country_rules.dart",
+      "sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332"
+    },
+    {
+      "path": "lib/shared/models/collect_summary_json.dart",
+      "sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d"
+    },
+    {
+      "path": "lib/shared/models/contribution_record_copy.dart",
+      "sha256": "700d349e177137b670b04345ee9cff49317df41caac92d7449f2a446c1cb8d46"
+    },
+    {
+      "path": "lib/shared/models/member_history_page.dart",
+      "sha256": "a865c52bfbc3e9ed1b0ecd3c922b3b01b08e05bdd75409c39cd99d90029080f3"
+    },
+    {
+      "path": "lib/shared/models/member_history_signed.dart",
+      "sha256": "df14e9df5c149007b64eb5ec39cbb83e41ff9ba9755e7ae81842e2d9a84a7bcc"
+    },
+    {
+      "path": "lib/shared/models/receipt_sms_consent.dart",
+      "sha256": "e75dd6ea5e4eccb5afc79df806542461cc15d36a74e9d52f1c0fd89d2c198806"
+    },
+    {
+      "path": "lib/shared/providers/collect_app_state.dart",
+      "sha256": "9064bfb8734d1261c46fef8294c7e62f367fd552af41471c033fb3cff34249a1"
+    },
+    {
+      "path": "lib/shared/repositories/collect_invitation_protection.dart",
+      "sha256": "a62072548c406a8770ba597c629481b92294acbfce03b67de04c8a7131ae2bfa"
+    },
+    {
+      "path": "lib/shared/repositories/collect_offline_cache.dart",
+      "sha256": "05e318ca7663958eaad9effc6ea8720d4e1eb27e248f4deb08cadcd30051025b"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository.dart",
+      "sha256": "f40be80f771380ab110796775494037edced32a80d2b3c907b7311a7a849555c"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository_contribution_actions.dart",
+      "sha256": "af446ad78f23104d638fc7711675d3f0e06963e40d6d9fd8bd1a8878a7ba075d"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository_group_actions.dart",
+      "sha256": "4e4088435516f1b18d26d5df108c3480932c67ea54f24fd3c4c7e04bed59b97f"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository_helpers.dart",
+      "sha256": "f6852c129532bdc1d54169afd0ccdd022d59a54584d7fc0d66f4d89024dd3572"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository_history.dart",
+      "sha256": "3d23415652590cc20d44bad12e511cc9249b2c1ac54dd2e2ca01f366ba92163a"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository_live_reader.dart",
+      "sha256": "2f14b24f97f73e553012c5e343d697f3bf354767b1f69ab66890bfb63e06a5ec"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository_notification_actions.dart",
+      "sha256": "12367fcda6665932fc4c0900e80e9337be4985b46ac836cfb63ec8cc871fb80c"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository_providers.dart",
+      "sha256": "5ff0499e4a2244a1dbc44bde0e40370d5f07917aa9fc4b09dc4f1e59d0e59e15"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository_receipt_sms_actions.dart",
+      "sha256": "85a4a5133bd2c42bafe3b7c7a145e08a4949bcc5ac4983d296c2c86ced0e14b9"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository_record_reads.dart",
+      "sha256": "d9d78af5cd715bc2ae1045be5c04085c3d56814214135b80a121cd170e6a9186"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository_session_identity.dart",
+      "sha256": "648eed1c422590e9cdfaefac65e71c63f90049daac154d4e048eb5dd2361e94c"
+    },
+    {
+      "path": "lib/shared/repositories/collect_repository_state.dart",
+      "sha256": "6d6036d7b223f6da65221c6857963578d9a6369c0270b6f20c7f10442b8342dd"
+    },
+    {
+      "path": "lib/shared/repositories/payment_help_pending_store.dart",
+      "sha256": "efab7da5a0c7228d54fe0ab89625ba74251970351a0f0af3f3ec1d438a975dc4"
+    },
+    {
+      "path": "lib/shared/repositories/payment_help_storage.dart",
+      "sha256": "040e88047bc5bb497243ad3fd5694405db6f8d2eccdbb3b9e19a03542b98e7d0"
+    },
+    {
+      "path": "lib/shared/repositories/payment_help_storage_contract.dart",
+      "sha256": "cc0cf08350ae93766eaf6a15afaa8bad36c5522775931a8956c616587930cbbd"
+    },
+    {
+      "path": "lib/shared/repositories/payment_help_storage_native.dart",
+      "sha256": "1a6f16cf1626ac310cb0e65b732fe6b375a1da59a7a1ad3aac03be1db69ef117"
+    },
+    {
+      "path": "lib/shared/repositories/payment_help_storage_web.dart",
+      "sha256": "a23f77b02bbd0eb61fecdbdbbe8f04c07a0ea811e9831c011d356b6126501c8d"
+    },
+    {
+      "path": "lib/shared/repositories/pending_shared_group_intent_store.dart",
+      "sha256": "238b5e67210018c86ec420c6d3fac3618f9d859fe09a84e1753b7a7d4e26a89b"
+    },
+    {
+      "path": "lib/shared/repositories/receipt_sms_pending_store.dart",
+      "sha256": "2e177ecd3d599db4e72d94fba11a95663312a83dcbd36b0f39191d2481fbb5c1"
+    },
+    {
+      "path": "lib/shared/repositories/runtime_control_contract.dart",
+      "sha256": "a16fdf669793109a1e09ad6c2c98225b99b0365fb482ca22ba25db4ef9410580"
+    },
+    {
+      "path": "lib/shared/utils/collect_haptics.dart",
+      "sha256": "c23ac42a9af435dc203fea3f093d15cd0432289fa92e9483ebef6d8188ee8ae3"
+    },
+    {
+      "path": "lib/shared/utils/collect_share_links.dart",
+      "sha256": "bf5b9a06a9c3c95d6ebd530df7bcb891392532ad82ae69de970c9e0608335219"
+    },
+    {
+      "path": "lib/shared/utils/collect_share_origin.dart",
+      "sha256": "01c7b922ec8022a7c6f0996f5b93711ea9cb6209a018136f3810c6ca4c925428"
+    },
+    {
+      "path": "lib/shared/utils/support_contact.dart",
+      "sha256": "67a69dd9ee47545d309d32fcad684f415789e0077a63a00208694619818c9f8e"
+    },
+    {
+      "path": "lib/shared/widgets/collect_action_controls.dart",
+      "sha256": "d0698d7b6e2055531caab45d97cf6b71a4947ea83ad5d54bc4bc88e1efbdea9c"
+    },
+    {
+      "path": "lib/shared/widgets/collect_bento_actions.dart",
+      "sha256": "f88434506bcd952d88ceef5e0c642fcc598ed6e8cd31a5730d00a9054bec7fd6"
+    },
+    {
+      "path": "lib/shared/widgets/collect_chrome.dart",
+      "sha256": "65105b8054c630fd4788f04f86665e627fafe8b6c502024a38b6f5bb7a41f772"
+    },
+    {
+      "path": "lib/shared/widgets/collect_components.dart",
+      "sha256": "40fc3526c7a618a649afb3e3cd29f28e779783aa13a1d2dc36e7dfd049dee775"
+    },
+    {
+      "path": "lib/shared/widgets/collect_confirmation_sheet.dart",
+      "sha256": "b3856d296569a8b3a3e29e8e7776ab5013e465ae338d407591168f82f0df6368"
+    },
+    {
+      "path": "lib/shared/widgets/collect_data_load_failure.dart",
+      "sha256": "b7d2962dd74364e8d32d443bf555f76f5adc13bdda1a39d2b31a57e332793089"
+    },
+    {
+      "path": "lib/shared/widgets/collect_display_primitives.dart",
+      "sha256": "b98d06723517b1cfea10dd8a9964a70aa842c06dca84f1b4ef2eb24b8d251117"
+    },
+    {
+      "path": "lib/shared/widgets/collect_feature_surfaces.dart",
+      "sha256": "0ecb75bf96d95ab7abf98e3fd54ccaf84e001d2e74e5e4f272fb95a7d0597c83"
+    },
+    {
+      "path": "lib/shared/widgets/collect_financial_amount_entry.dart",
+      "sha256": "3b240a7825705e64443b9d5df84dd353534e1c1a4b1cb2cbd887dc37ed752993"
+    },
+    {
+      "path": "lib/shared/widgets/collect_financial_components.dart",
+      "sha256": "5633957d111834e3e985acebfedf3122862208612f51cfff94881609f4cd4465"
+    },
+    {
+      "path": "lib/shared/widgets/collect_financial_ledger.dart",
+      "sha256": "882240d4dbd27cbfbf62af0d1a3c7cf890fb45e30d269e7cc767eb7a85d23428"
+    },
+    {
+      "path": "lib/shared/widgets/collect_financial_money.dart",
+      "sha256": "12cbc251caeb73de509b932299787b6b96f274e598185fc48c169d3e04ca754c"
+    },
+    {
+      "path": "lib/shared/widgets/collect_financial_payments.dart",
+      "sha256": "6f9b1a50bded6ff8a9cddfaaddf80e14e051dcfc3211b516eddf4a40b1fb9679"
+    },
+    {
+      "path": "lib/shared/widgets/collect_form_viewport.dart",
+      "sha256": "ec6c6769c6d6341beb22caf471e5455c6ce66167a458bac312ece11c1a433c04"
+    },
+    {
+      "path": "lib/shared/widgets/collect_foundation.dart",
+      "sha256": "da5fcfa9fd1971d4a4c6012d30f8ff972c196145f18884f209c953f8497d7f70"
+    },
+    {
+      "path": "lib/shared/widgets/collect_group_card_editorial.dart",
+      "sha256": "026107d57274fd0375215191e98a219326132260618cdf78dc1e3f355db6d4c1"
+    },
+    {
+      "path": "lib/shared/widgets/collect_group_card_media.dart",
+      "sha256": "2f3b0c6bd5600d36cbe94e382f03b0393888a1ac7fd723efa014c371666356c4"
+    },
+    {
+      "path": "lib/shared/widgets/collect_group_card_metrics.dart",
+      "sha256": "8360c158301bbca317f14d8fead7767107b7b3028c451ed570d18b9ae587fda1"
+    },
+    {
+      "path": "lib/shared/widgets/collect_group_cards.dart",
+      "sha256": "915929dae090911ad6dfe3334e64008e7d2ba3ab1fa63bca9a4a227b3895fefb"
+    },
+    {
+      "path": "lib/shared/widgets/collect_group_image.dart",
+      "sha256": "0dbe5c6e23762a2a3672125fc11ef1c4aa9f394b0222df1f46f276bf65df43d7"
+    },
+    {
+      "path": "lib/shared/widgets/collect_group_photo_picker.dart",
+      "sha256": "a12a6413389784e59379b253bec11986768cdd1b3973ce4a5625163d56609bce"
+    },
+    {
+      "path": "lib/shared/widgets/collect_history_footer.dart",
+      "sha256": "a68de36c51384d67bdfb73fd2ae02b0bcd97e10aad4519c6768a58d247593f83"
+    },
+    {
+      "path": "lib/shared/widgets/collect_inputs.dart",
+      "sha256": "ac9de611166f0195d6a8a9900df5f63d760f2f8daef17c5c87e4fe7d6161635a"
+    },
+    {
+      "path": "lib/shared/widgets/collect_licenses_page.dart",
+      "sha256": "8a6a8ce9151677f000891152587c5ffa8dc840b667c4ebdbc022d929802e60bd"
+    },
+    {
+      "path": "lib/shared/widgets/collect_loading_surfaces.dart",
+      "sha256": "eac8027bc688b92fecdfbd72d8cf7946fc7c96a9065898b23066a5855b54523a"
+    },
+    {
+      "path": "lib/shared/widgets/collect_scaffold_chrome.dart",
+      "sha256": "6d81b591c717977ac698baa435f910de9f60fdcb7fc4f955d290f42a5c2fef1b"
+    },
+    {
+      "path": "lib/shared/widgets/collect_selection_controls.dart",
+      "sha256": "272b45075f93eab8f2e8a8fc6fa1eec0c940e78f6370fcde45dbabb2bdbd85b5"
+    },
+    {
+      "path": "lib/shared/widgets/collect_state_feedback.dart",
+      "sha256": "1d38a5d289df62be2d2d9e5f3767b4f8a51957b2715b61b84f00801b60752c48"
+    },
+    {
+      "path": "lib/shared/widgets/collect_state_illustrations.dart",
+      "sha256": "ec272bf1eed29b8212a7bf9fcff33e07341ace92383be753bebf24ac082a0992"
+    },
+    {
+      "path": "lib/shared/widgets/collect_state_panels.dart",
+      "sha256": "be88208cd8dccadbc7947a36723c997deaccb321947a24c9267f8418cd2b85d6"
+    },
+    {
+      "path": "lib/shared/widgets/collect_tone_icon.dart",
+      "sha256": "c91e3969e3a201472cdc452e8cc245465a81d8959a3804b9084f844bcd07e53a"
+    },
+    {
+      "path": "lib/shared/widgets/collect_top_chrome.dart",
+      "sha256": "69f3ce6a17e11a3b1d3a0133c794fea8c902c4c886f2da34db6822534afd2423"
+    },
+    {
+      "path": "lib/shared/widgets/screen_scaffold.dart",
+      "sha256": "c418e9fc6e127a68b14c65c272edecfd83c456473a002074f654e96fc03735dd"
+    },
+    {
+      "path": "test/actual_member_history_sql_receipts_test.dart",
+      "sha256": "fc5c358150eefb07f913e731fba32ab53de8e9dc2f39981ef4ea7f2487f22e22"
+    },
+    {
+      "path": "test/admin/admin_account_email_otp_test.dart",
+      "sha256": "3e1f83de4ecceaec97e49df497fd1957e8a37317e941251eac7cd36c38f4d548"
+    },
+    {
+      "path": "test/admin/admin_account_public_layout_test.dart",
+      "sha256": "fc8a89aa02398aa6a90025c1140a10975010d0d139d449dfe9a50cf50341f114"
+    },
+    {
+      "path": "test/admin/admin_filter_bar_accessibility_test.dart",
+      "sha256": "5f350005c2076443027a5b65639bce477bee5e3e0d88dcc0659383c1326aae60"
+    },
+    {
+      "path": "test/admin/admin_filter_bar_clear_focus_test.dart",
+      "sha256": "e73d7bd2238977fd645de411427fffe38845967f020d38c53445ca4bad49e08b"
+    },
+    {
+      "path": "test/admin/admin_filtered_table_semantics_test.dart",
+      "sha256": "14efee280c586480b46d52778855c168234c62707726dea3d0c0a3ebc12c7f72"
+    },
+    {
+      "path": "test/admin/admin_invitation_recovery_test.dart",
+      "sha256": "7c668bc8f11dc51aabb75d8d8a4d236451d3a201661c456b39d3c75b153526d1"
+    },
+    {
+      "path": "test/admin/admin_invitation_recovery_widget_test.dart",
+      "sha256": "c732df4bf34eac7b2a3567dbd3c763ace38f25b53b19b5eaf54a6017930d41ce"
+    },
+    {
+      "path": "test/admin/admin_invitation_v2_test.dart",
+      "sha256": "5140ae07e00e592be6f7316656647f04baa9a78f70b5698d63acebab6d3c07fb"
+    },
+    {
+      "path": "test/admin/admin_invitation_v2_widget_test.dart",
+      "sha256": "d610c9bd79f4a823032459e9d10ca170298e24bde56e54c8f7035d4e7a6cc533"
+    },
+    {
+      "path": "test/admin/admin_long_fact_table_test.dart",
+      "sha256": "6f8b52e021988da0d9612aa2eaa52c30741318fd733123c0a856100e6f86922c"
+    },
+    {
+      "path": "test/admin/admin_pending_attempt_store_test.dart",
+      "sha256": "9c98c3d768426ee0497a07dab80718c7495106e00311bdc45fbaf6c4994fbaaf"
+    },
+    {
+      "path": "test/admin/admin_record_table_test.dart",
+      "sha256": "80c52cb41f76f61120479ebf416f82cde182c7c7db718d1c7c72efb8b62b62d1"
+    },
+    {
+      "path": "test/admin/cloudflare_account_recovery_test.dart",
+      "sha256": "c41ad9965695f82f7b3e958b209765d076ecc805ad971818e12a9a3b3fa6bb5d"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_email_otp_test.dart",
+      "sha256": "f0d55573f6a4cf18839c02e096311d7bbef76ddccdffec1f3978614f0d043f8d"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_licenses_test.dart",
+      "sha256": "af9af210d907f34c001d9b313a565ebf5e99d00f0bd19c6ee500131606c8e172"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_momo_incoming_sms_test.dart",
+      "sha256": "3cd7160e8bb56898374f21ed411c1636a581cb5e488e00df452d53748b2b148c"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_momo_page_cases/gateway.dart",
+      "sha256": "d37f3b3ccfd339d8a6a15a9cb2ec459e7ddce0bf9a6f782abb041a050fdeb553"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_momo_page_cases/layout_source.dart",
+      "sha256": "6d7d3aa53d25d06a77af49348452f59fc11953d97ee27985982bf72baa249958"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_momo_page_cases/source_review.dart",
+      "sha256": "29260d08fcfb6ed7b6fde1c39123591a380048261dc80554ea64835dc32e76e3"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_momo_page_test.dart",
+      "sha256": "baa1770a5f659b79ece80a71985b3166d7166c3f6f55fbd25eaa6a44729889d3"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_management_api_cases/authority.dart",
+      "sha256": "ac81929dafaab5293c6f28496ebc745107bb9a2a4bde30487bdabe89444334db"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_management_api_cases/history.dart",
+      "sha256": "944e11281928f52b3108c441e7951f074a0d1fb2972d4001343062e3484ee9df"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_management_api_cases/materialization.dart",
+      "sha256": "0a60257f27900dc78099204bc865ffe669c2177d93ee0f9d47c195d53ae0e2e9"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_management_api_cases/recovery.dart",
+      "sha256": "71b634129ad4bf483a0e501b0e5d5f3a8b5a31ce91434d84bb9c355e4058bf32"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_management_api_cases/status.dart",
+      "sha256": "72f231a9bc7b187a6dfcdf30cfefedba7df8b61bdf0deb4863cece1475db0e5f"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_management_api_test.dart",
+      "sha256": "78cc1bc48dd45bb5ea009eb0566db00d67114ac3e62ca3241984440a0ebb63c7"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_management_page_cases/commands.dart",
+      "sha256": "ce4925de0f403c27291f9998f592ce1119ef9cafcf74a306efb92d30d5b4383a"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_management_page_cases/history_authority.dart",
+      "sha256": "9e8cb4900627dabf81928992faee31f66e77c95859854ca422f4ac94820f789c"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_management_page_cases/paging_responsive.dart",
+      "sha256": "47d3cf773a95706bccf468e3b01093bb97fb406fca913aee5bd95da2c5255f2a"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_management_page_cases/recovery.dart",
+      "sha256": "7a28cfc5e979db51940cef4274dad92ab85dd312a77ae15719e7eece1ac48285"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_management_page_test.dart",
+      "sha256": "463ed9840320a6855259728755174064f6ee9f9f563a4243dcc8f13ea9b4337a"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_operator_api_test.dart",
+      "sha256": "e8f6d23f1d8b06108bdf377aa7617438c922618f7c90cf434d7e7b82683c4458"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_notification_operator_page_test.dart",
+      "sha256": "151ed1c7456ef0cdbe2de6e997858c9c305f3298d92f09f4e9782f9931991e97"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_privacy_test.dart",
+      "sha256": "80d256377cbdf55a7c5d28fc009901d89a68e88909827e3803a0c3746e81194b"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_receiver_test.dart",
+      "sha256": "91ad4ccb7ab75c2fff813f9ed1cf0d67b2e77e56ea873a62d268a4c05153a438"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_recovery_test.dart",
+      "sha256": "0f2d18f5e9c0b740e704c9ea718015feacd0d8c9957378ec03de629072a05ed0"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_route_reporting_test.dart",
+      "sha256": "dd1798de2403f896514bcf63aa8a2825d69723276604d4c6637bde120336efb7"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_sms_actual_api_dto_test.dart",
+      "sha256": "4b952fc2c29a72fe464d318a54bcdba5493c85c444f3cdeba45520584e9d68be"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_sms_capture_test.dart",
+      "sha256": "5f6b6dd4d27a07adf842d84ccb3e3f76610ff9f7b77d68607e574da0a59e7714"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_sms_reveal_bounds_test.dart",
+      "sha256": "fa2e5b7cb70681eef080e1b0a8aa7737ad77b62f9970ddbae2f49f9ae2231e87"
+    },
+    {
+      "path": "test/admin/cloudflare_admin_sms_test.dart",
+      "sha256": "2a22ac45acf543505948a3c25804e9b2400a89f33db0cac315fe74bb027350be"
+    },
+    {
+      "path": "test/admin/cloudflare_canonical_ledger_detail_test.dart",
+      "sha256": "299613d3c193ffc203dafbf6105efe222da1783890aa3fac2fea5d6f10c1f840"
+    },
+    {
+      "path": "test/admin/cloudflare_canonical_operating_form_test.dart",
+      "sha256": "051c0cf35c56965b5ebe78c9a09e7a9a7036ed247ea20593bc2a4e48128a524b"
+    },
+    {
+      "path": "test/admin/cloudflare_canonical_operating_test.dart",
+      "sha256": "36dcb89417db36f8c077ebfc5403d3a2804806a953deaf2712887af689dc2030"
+    },
+    {
+      "path": "test/admin/cloudflare_canonical_reconciliation_pages_test.dart",
+      "sha256": "aea8ee195ed6311af31d3c2f00cfb05691009e9f790c2f01e90efedd8870e51a"
+    },
+    {
+      "path": "test/admin/cloudflare_canonical_reconciliation_reference_pages_test.dart",
+      "sha256": "8f2be7ffc7201a5681fadd6df9e0455511c9e50bcd6764b86053175098902155"
+    },
+    {
+      "path": "test/admin/cloudflare_canonical_reconciliation_reference_test.dart",
+      "sha256": "ee1a02e0b914e005577a92da62b5fafb56e9df42bfe16697a59cc0a4de6ed3c7"
+    },
+    {
+      "path": "test/admin/cloudflare_canonical_reconciliation_support.dart",
+      "sha256": "befbaf0832d41a481f8aae173f826c492fe9421656f41f38acea183a18cb5c6e"
+    },
+    {
+      "path": "test/admin/cloudflare_canonical_reconciliation_test.dart",
+      "sha256": "05e4bedbf5b57402c36576b2d2dd9e9a4a960098632e1c23d32672a3a687a8de"
+    },
+    {
+      "path": "test/admin/cloudflare_canonical_request_cancellation_test.dart",
+      "sha256": "517732d78dd65696dd9b3ef6043878bf3e6824b99c1965d19974fec53ade3c08"
+    },
+    {
+      "path": "test/admin/cloudflare_cookie_sync_test.dart",
+      "sha256": "2d1990e525c7f432403cda1cdc23bce32541f8796c03a8a038ef29e9261cd0c6"
+    },
+    {
+      "path": "test/admin/cloudflare_core_fixtures.dart",
+      "sha256": "ea015349e2c71f4acd1ee7c6ba8e8988370fae1d8b1073505c0d0e025c9693b8"
+    },
+    {
+      "path": "test/admin/cloudflare_core_pages_test.dart",
+      "sha256": "d8ca98575db98843d228d17bb5201cc79f0421735c0f2b75626dc6119ddec197"
+    },
+    {
+      "path": "test/admin/cloudflare_core_repository_test.dart",
+      "sha256": "0877a481f8cf9f89fd3da085ea5503df6dc98b14193ca625aa59b37711ece17a"
+    },
+    {
+      "path": "test/admin/cloudflare_evidence_contract_test.dart",
+      "sha256": "2e4dc76e9e122f27da800a6ca679d34367d8ef30aced1e6e156067e6ed5a190d"
+    },
+    {
+      "path": "test/admin/cloudflare_evidence_test_support.dart",
+      "sha256": "fa8704cf4fa4355675a0459e8c7ea351e58ea9e922d93d28dc3162689af048c8"
+    },
+    {
+      "path": "test/admin/cloudflare_evidence_views_test.dart",
+      "sha256": "b8e1bcc26512e26db102191a559923be8252dec66918b99465d2f5dfd4752d38"
+    },
+    {
+      "path": "test/admin/cloudflare_integrations_fixtures.dart",
+      "sha256": "f9090336921c7b745b7e8c47f31214b3915e8df7682a0078ef694980250ba197"
+    },
+    {
+      "path": "test/admin/cloudflare_integrations_pages_test.dart",
+      "sha256": "55f9434c4911ce99ee921831a956960d4f9303183435617e2c1ae8a11932bc8a"
+    },
+    {
+      "path": "test/admin/cloudflare_integrations_repository_test.dart",
+      "sha256": "038cfcb20180dd4b543720e6e9f1ab7e5d10a0826634de9821cbd0301aa28e63"
+    },
+    {
+      "path": "test/admin/cloudflare_integrations_responsive_test.dart",
+      "sha256": "173498b5c005a08c91444a8d44d5835f7b358d3125a12c24b8fb0b8655b85408"
+    },
+    {
+      "path": "test/admin/cloudflare_integrations_routes_test.dart",
+      "sha256": "e8197c8a3e91e321ab9b9b5b40761c21db9e467c9bad51bd38f82445da1a2d08"
+    },
+    {
+      "path": "test/admin/cloudflare_journal_posting_confirmation_test.dart",
+      "sha256": "39e04eba002ff7505dec699fed5f382b3185c6ba70dde8f252e8c74f20ce865c"
+    },
+    {
+      "path": "test/admin/cloudflare_member_capture_dto_test.dart",
+      "sha256": "1b6c70e355d83e4ac9e42bd8ab0435c9682a86b85062572a4087b237b305e756"
+    },
+    {
+      "path": "test/admin/cloudflare_member_capture_pages_actual_dto_test.dart",
+      "sha256": "c704088b5cbacefffdd2fedd790650ac8ba55cdbf66315fd9a1fc8c1ac5e3def"
+    },
+    {
+      "path": "test/admin/cloudflare_mfa_test.dart",
+      "sha256": "f05047ef7abbe36a685452d4525dc09c8722fd41688308eaf7d97d723521d66f"
+    },
+    {
+      "path": "test/admin/cloudflare_notification_management_integration_test.dart",
+      "sha256": "2012997a781812f38a2c2fa2628b54e4bd143760c6ba2825c70dffb762da0464"
+    },
+    {
+      "path": "test/admin/cloudflare_notification_operator_integration_test.dart",
+      "sha256": "71971a1e8ac48221eab1216b30a135fab09917d635c0509895b31adbc71e918f"
+    },
+    {
+      "path": "test/admin/cloudflare_operating_date_sort_test.dart",
+      "sha256": "514505dc830e44d7b5185acbf5f91192cf4c0559ab6cdd889eb5b70e7603dee8"
+    },
+    {
+      "path": "test/admin/cloudflare_operating_pages_cases/detail.dart",
+      "sha256": "3c22637f8e68445780a9eda8f21227fee0d80af31c8136a1ad8e23a1f8b37877"
+    },
+    {
+      "path": "test/admin/cloudflare_operating_pages_cases/mutations.dart",
+      "sha256": "bb0f9973d2409c84ac7855c2c69c6b7a246c4659e1c2cf289f83a7ad8347aab1"
+    },
+    {
+      "path": "test/admin/cloudflare_operating_pages_test.dart",
+      "sha256": "4054d9a1a436b4de1c7e589c50e3928e24e10d9620a93aad1e675224b1964ccc"
+    },
+    {
+      "path": "test/admin/cloudflare_operating_repository_test.dart",
+      "sha256": "367722a80bffabacea603aacc9a1a401e7e5eacd717d181a964c99a9c020707a"
+    },
+    {
+      "path": "test/admin/cloudflare_operating_requests_tables_test.dart",
+      "sha256": "7f827e6b427fc6a61d0662fe06aa480abb5546035b07ef42e34e8af0025b581d"
+    },
+    {
+      "path": "test/admin/cloudflare_operating_routes_test.dart",
+      "sha256": "73f1684d8f412456e57994fe323f1e53306ae73b8577d01e98539ecd9b77b593"
+    },
+    {
+      "path": "test/admin/cloudflare_operator_notes_test.dart",
+      "sha256": "3638e409ce775709597247e082a6a98e8e025fa669920688dd06c4dc353ba412"
+    },
+    {
+      "path": "test/admin/cloudflare_operator_serialized_backend_test.dart",
+      "sha256": "0831d61eb20533c70d3b90910c792b307b929c8ca7915c7a6bf17bca63f55c65"
+    },
+    {
+      "path": "test/admin/cloudflare_payee_group_guidance_test.dart",
+      "sha256": "669fdd4f5b4fa54667c5da61d04bf65f6f78cbd2480e5af10bc18a512244432a"
+    },
+    {
+      "path": "test/admin/cloudflare_privacy_server_clock_test.dart",
+      "sha256": "7a21ac26c19f25bd936bb07ae76169ccc6f4b74698cf33c4a826bb194cb986ce"
+    },
+    {
+      "path": "test/admin/cloudflare_reconciliation_api_test.dart",
+      "sha256": "2c4909872fea41ef38368a87fd91018651b00faec448c915b969fb2d2269fd87"
+    },
+    {
+      "path": "test/admin/cloudflare_reconciliation_fixtures.dart",
+      "sha256": "bf6c63b2f9f37dab9ffceffc40f6f03d467beb1f55d2f84e6e2dfc9bb04d9779"
+    },
+    {
+      "path": "test/admin/cloudflare_reconciliation_pages_test.dart",
+      "sha256": "f7234bd7971e66f694b4699561f55f0eb98b79bc1f6261fa3a6d22d43eb86acc"
+    },
+    {
+      "path": "test/admin/cloudflare_related_payees_table_test.dart",
+      "sha256": "407e0232424357fae48d609325402ef5a63959f51fbd7df8844fb8cb35ef6508"
+    },
+    {
+      "path": "test/admin/cloudflare_request_date_columns_test.dart",
+      "sha256": "d472c951284eea65fde3ffec0bbda6eeac8a4278c2168b6ecce426dbd6f8a98f"
+    },
+    {
+      "path": "test/admin/cloudflare_response_bounds_test.dart",
+      "sha256": "3db24c3609aca62b495472545ae04ace99f8738039cb906ff8bd4574987d86bc"
+    },
+    {
+      "path": "test/admin/cloudflare_retention_inspection_table_test.dart",
+      "sha256": "2d44879e80614e530725e3da5719a979d38e8fd9e5ca806a27c2cd9072bbc9fb"
+    },
+    {
+      "path": "test/admin/cloudflare_route_inventory_test.dart",
+      "sha256": "f1460b61116bd51e03ef361ee94b37d8a39c9b55c2c747ec45ee5976858d99c0"
+    },
+    {
+      "path": "test/admin/cloudflare_shipping_table_test_support.dart",
+      "sha256": "334cb960fdb4fc89c6ad78ab047b812e336f47becd06f1c212caf10584950ee2"
+    },
+    {
+      "path": "test/admin/cloudflare_unlinked_operator_contract_test.dart",
+      "sha256": "7a24a7c7e0054bf3a26fff0b3bfb794573f3d64291acb4999a0c5d2d313cadf1"
+    },
+    {
+      "path": "test/admin/privacy_review_concise_view_test.dart",
+      "sha256": "819b53706993ff980ac7b86a9bf6147bb215812f50692de1864ed1a9610b5822"
+    },
+    {
+      "path": "test/admin/supabase_admin_email_verification_page_test.dart",
+      "sha256": "8b7bbeef1a5a2d63d78c4212f0eb37535dfe7a1a443fad31303ee119ca5d794a"
+    },
+    {
+      "path": "test/admin/supabase_admin_email_verification_test.dart",
+      "sha256": "b518e74ab67244eb2a7c0ef18331ff3a7c9552d7a1413e1490ecde00dd59a0bf"
+    },
+    {
+      "path": "test/admin/supabase_admin_password_recovery_handoff_test.dart",
+      "sha256": "a0c73176d78950a42e5a6a7a3dd3b84d263582f15407849404d6609826137dbe"
+    },
+    {
+      "path": "test/admin/supabase_admin_transport_test.dart",
+      "sha256": "35e030a69ff3ca3853a75fedc4ab55a13d06a04c22f3198ab351c308b5fe23d9"
+    },
+    {
+      "path": "test/admin/supabase_canonical_reconciliation_reference_pages_test.dart",
+      "sha256": "32d4824311e4f3182ee00c0416a3c843111a847174dd3c4e8865c69c1a7002d4"
+    },
+    {
+      "path": "test/admin/supabase_canonical_reconciliation_reference_test.dart",
+      "sha256": "4e3c494a641969d60e5c262fddb982a810dcb9878e9b2398f5b8e1017b4f38d8"
+    },
+    {
+      "path": "test/admin/supabase_google_transport_test.dart",
+      "sha256": "9a0b55c2db25ff7a699150618e5688e118ed60e14aa8535a7fc8fb7928674df8"
+    },
+    {
+      "path": "test/admin/supabase_retained_evidence_pages_test.dart",
+      "sha256": "1228260135807c9b72bd313024cb6465d4807201443f399ef1cc8d05eeb4bab6"
+    },
+    {
+      "path": "test/admin/supabase_retained_evidence_test.dart",
+      "sha256": "52131ebbf945cdd6c47a00a5db2c90f05b7aa002cbef82ca8f9b707dee73eab3"
+    },
+    {
+      "path": "test/admin_action_contracts_test.dart",
+      "sha256": "90c80da33a4f7c7b969078a7f51c4b3a42fa3edc09d552fca27bb0de696b1575"
+    },
+    {
+      "path": "test/admin_action_session_test.dart",
+      "sha256": "e324216526edd40f80ca143cdd1bb06f056f6bfa7b88838785c0a263ca11eed5"
+    },
+    {
+      "path": "test/admin_action_ui_session_test.dart",
+      "sha256": "134802b59fe2c330e926fd7cd959eeb3e8b174f2a3323a8dca7c7bfd691e7baa"
+    },
+    {
+      "path": "test/admin_automatic_gateway_device_view_test.dart",
+      "sha256": "386bd2ea8f1e64b9699b040e17ff335ce7d89f11aaa488c78ca201226513d169"
+    },
+    {
+      "path": "test/admin_automatic_gateway_models_test.dart",
+      "sha256": "355a6ffb7c63629043ec203ef6256302f37efa9f280ffe850b8642eeb311f58f"
+    },
+    {
+      "path": "test/admin_automatic_gateway_repository_test.dart",
+      "sha256": "c720ca26301f0fc31977f7801db728dfe12eb07e9cf0c0fed3934ed73d98e1f3"
+    },
+    {
+      "path": "test/admin_automatic_gateway_view_test.dart",
+      "sha256": "9f61e3189b9f2bc6e04a2ad2918b6ecf005c493bf2226af38f1b61c0bc19864f"
+    },
+    {
+      "path": "test/admin_automations_test.dart",
+      "sha256": "651286ea6c0a14b5d45ba365509e2d71c420fd48fe6e15140c660881f01a2fb7"
+    },
+    {
+      "path": "test/admin_bounded_loading_test.dart",
+      "sha256": "949b2b119c9be6ea7acefd71508a0ebc9ff5959eace4c02593f4f83803c0baee"
+    },
+    {
+      "path": "test/admin_custom_action_ui_test.dart",
+      "sha256": "b7ded1d59f941e3bce72dff91ff090a1e99b600037699579e50fe22e9ec1e980"
+    },
+    {
+      "path": "test/admin_data_sync_test.dart",
+      "sha256": "586842897d660d1ff20faedcb224351cbb64a593c98cdf22cdcba8661009f50c"
+    },
+    {
+      "path": "test/admin_data_table_reflow_test.dart",
+      "sha256": "35681a9346bbf1fe8a5f684d2614ea2c9d2a19b1653cba046d242e9b10deb166"
+    },
+    {
+      "path": "test/admin_declared_action_dispatch_test.dart",
+      "sha256": "f65562b99839bb915cace55669753cb484d54e74aa9a5c89143aaa4e1a7cdcf9"
+    },
+    {
+      "path": "test/admin_declared_read_dispatch_test.dart",
+      "sha256": "ee8570c6429577f5ef76e1d529afc5cfc689870f6bcc97d4fa1c2c98bf8de1a9"
+    },
+    {
+      "path": "test/admin_declared_route_states_test.dart",
+      "sha256": "5b062ab77641c9a342ff5a813b4f6328fe151591532d13ad6d3b2f7f6397aa5f"
+    },
+    {
+      "path": "test/admin_email_login_test.dart",
+      "sha256": "8d9bca0cec9243db75d25653f7ecf548546918a0b0e8ebad70ac64691f651755"
+    },
+    {
+      "path": "test/admin_email_submit_paint_test.dart",
+      "sha256": "cf4025fed04a15c89789e792280b799da4a148ac537d0e8f05ed79cbbcc5643d"
+    },
+    {
+      "path": "test/admin_email_transport_session_test.dart",
+      "sha256": "236905e25ec2864df95a37d6a425da4be1111cd95a7cfc78378c724642a666ea"
+    },
+    {
+      "path": "test/admin_entity_audit_authority_test.dart",
+      "sha256": "b4cf7b3d60b09ad765fcf1656a3d2626769518904f78dcf3a459860d8f80ae64"
+    },
+    {
+      "path": "test/admin_entity_audit_links_test.dart",
+      "sha256": "c658dc5544872d51224438460022b217d77d6237cebaf659e9937918eeb9867f"
+    },
+    {
+      "path": "test/admin_entity_audit_models_test.dart",
+      "sha256": "7b2ef1870f98904204f1e12dab571805aadc7aebd2a9e786cedbf4040fc25851"
+    },
+    {
+      "path": "test/admin_entity_audit_page_test.dart",
+      "sha256": "9d6a793425d5b5efeae6feb336c4e0e65a214f92b6384847bf20dacb3aeeb123"
+    },
+    {
+      "path": "test/admin_entity_audit_repository_test.dart",
+      "sha256": "b2a19870769b3f9334bf1c32d519b276d55dfd446fea4025b14066ac3eb7b23c"
+    },
+    {
+      "path": "test/admin_entrypoint_rebuild_test.dart",
+      "sha256": "d54cf5356a38dc7170cc054d0b3b9b242d91d24175c436122ff4477d487a2aa3"
+    },
+    {
+      "path": "test/admin_error_redaction_test.dart",
+      "sha256": "ca47330f5909ca4761ee59e22e8760490c438424bceaa8d13973d04a93f9341e"
+    },
+    {
+      "path": "test/admin_exception_assignment_test.dart",
+      "sha256": "1cb1ecfa5e400b3e27d23b460e548a1950e86f94424c769db3388865f213e8c7"
+    },
+    {
+      "path": "test/admin_exception_checkpoint_browser_test.dart",
+      "sha256": "40af729ecc19d93ec9322c44a3f1eb258a4c6d898d2ef19b6595c3b9ec8f6641"
+    },
+    {
+      "path": "test/admin_exception_escalation_inbox_v2_models_test.dart",
+      "sha256": "5116559194b23c34ef36e43ef979eb9283784ae11be344c730377fe335217685"
+    },
+    {
+      "path": "test/admin_exception_escalation_inbox_v2_test.dart",
+      "sha256": "3d70c3fa364d7041b48a81cf40c9891af30372dca49b60e69faedf61a148a2c2"
+    },
+    {
+      "path": "test/admin_exception_followup_sdk_test.dart",
+      "sha256": "8f3be6e7994050cb6e462338faefa465a94ddf108c2151e456395e7ee1b44e6f"
+    },
+    {
+      "path": "test/admin_exception_followup_v2_models_test.dart",
+      "sha256": "33c90ad61bfbe24263ab9a62dceca0e695c035bb25981ec60cbb97037f5354bf"
+    },
+    {
+      "path": "test/admin_exception_history_v2_models_test.dart",
+      "sha256": "a1a53f05de9b1925efbdc35a0f079c5d19b3015c5aeb8fca8b50744c9853f3e1"
+    },
+    {
+      "path": "test/admin_exception_history_v2_page_test.dart",
+      "sha256": "3271ea7551a46ce7ca246100c6c35ca81c4dbe840dbe467e91e85ee0ac9c3f40"
+    },
+    {
+      "path": "test/admin_exception_history_v2_sdk_test.dart",
+      "sha256": "b6942949e4ed0fddd8adbd1d5a6547f369a25018d10e7b4432406b52b129872b"
+    },
+    {
+      "path": "test/admin_exception_models_test.dart",
+      "sha256": "92aa284558e624a678d6b1b1b12fcef4ceed41d797d1fd2f772b88108f9965ac"
+    },
+    {
+      "path": "test/admin_exception_page_test.dart",
+      "sha256": "f41bc7fe2a5ee41fa20e6012eaafe698ab990d2242bac71a5da0f406681e4e94"
+    },
+    {
+      "path": "test/admin_exception_repository_test.dart",
+      "sha256": "d851a448b8d52e683e424e8416a73d43b238bd4120a2293b0e1b50f3eebe59ab"
+    },
+    {
+      "path": "test/admin_exception_sdk_provider_state_test.dart",
+      "sha256": "36511fdbc5dcc7fae2746e000ea2867cbf74cc43557746115ca9801c06bb772e"
+    },
+    {
+      "path": "test/admin_exception_workflow_sdk_test.dart",
+      "sha256": "d0be8760bd8412c5a4749c98235bfacb2a4566048fe2f65ff14ad07207a3081c"
+    },
+    {
+      "path": "test/admin_exception_workflow_test.dart",
+      "sha256": "c54d13df23ccc22e5a27c251cd4fc7fcace58ef103d5aae8133a40e6469cf15a"
+    },
+    {
+      "path": "test/admin_feature_flag_runtime_test.dart",
+      "sha256": "654a6be9a77cdf420f0a817ea4344f2149fc37a11ca2a1f6ae2e194667f61276"
+    },
+    {
+      "path": "test/admin_filter_bar_responsive_test.dart",
+      "sha256": "97834c952a9d378973f8308afb21609b054a97153d37a0fb382015297a297063"
+    },
+    {
+      "path": "test/admin_full_coverage_gap_test.dart",
+      "sha256": "b472f0c143d354e6e90c233078a9db8b9af059170d10da5f628cae4682203d08"
+    },
+    {
+      "path": "test/admin_gateway_action_ui_sdk_test.dart",
+      "sha256": "dc4e362cb3203468b9ef49857d73980365df0cdad1a748784cfaffd079c1676f"
+    },
+    {
+      "path": "test/admin_gateway_checkpoint_browser_test.dart",
+      "sha256": "91c4416cc8b0c1dbb714747449c79dd4bd3729f7b320a5914eee7998bf5a9c6c"
+    },
+    {
+      "path": "test/admin_gateway_checkpoint_test.dart",
+      "sha256": "84ff168083becad3213ba6b0a1e1b9f4ac1fc9930bfff26446e322026d96f77b"
+    },
+    {
+      "path": "test/admin_gateway_contracts_test.dart",
+      "sha256": "56424872aedbd09f40b477aa4f701dde63e8b89f9ba9673d1d4ac5c606dcaad0"
+    },
+    {
+      "path": "test/admin_gateway_models_test.dart",
+      "sha256": "29ff465464e44eb5528006c90a227e61bb149f34ef0a7a4534da6fe75a7e87f7"
+    },
+    {
+      "path": "test/admin_gateway_page_test.dart",
+      "sha256": "5bdb85589f8c0f5a9ffc377d355eb1dc38f6197f258d19ae98145bf15704abee"
+    },
+    {
+      "path": "test/admin_gateway_repository_test.dart",
+      "sha256": "6417e22d63df95b4ff2d137a7f0bbc5e50fb343cbc21f5616e6ad5af9f4f19e1"
+    },
+    {
+      "path": "test/admin_gateway_sdk_state_matrix_test.dart",
+      "sha256": "6158472eb6a8cde7b1af9afae3ac82112e195d024ee7f58b1902fe2c8aba10a0"
+    },
+    {
+      "path": "test/admin_google_login_test.dart",
+      "sha256": "9318c1eab8509b3ba38f730d7d86ddc7c5d91095869741e115443ed9f37a520e"
+    },
+    {
+      "path": "test/admin_governed_settings_checkpoint_browser_test.dart",
+      "sha256": "24a51e4ecc31b6337832bb56ad6fdb3dd11e37db84241958719fa0d79d1ad529"
+    },
+    {
+      "path": "test/admin_governed_settings_controller_test.dart",
+      "sha256": "69ea3ab20672ac205dad9fab76cd9b478e9ed3a5466a85055699c5838277ebfa"
+    },
+    {
+      "path": "test/admin_governed_settings_eligibility_test.dart",
+      "sha256": "4d865407bd17958999f2d6f4e22455ac0c2341dbdae0b6affffb0b0330063e53"
+    },
+    {
+      "path": "test/admin_governed_settings_eligibility_widget_test.dart",
+      "sha256": "985c2114c75a0ad2fe947eb766e67962e6ebcabd435e789826949d26b0f664a4"
+    },
+    {
+      "path": "test/admin_governed_settings_models_test.dart",
+      "sha256": "a87c0d64dd292b5066473ce937141b520466553f957cda5512594e9008357de0"
+    },
+    {
+      "path": "test/admin_governed_settings_sdk_test.dart",
+      "sha256": "da867830e4a8f1de58cf2b2835b0a42e765ed112a95fd9522a26b81ac0549ccb"
+    },
+    {
+      "path": "test/admin_governed_settings_widget_test.dart",
+      "sha256": "55afec2b7ab1a954a28606282d446d316db8ca4f719c4f2061df58dd5f0d0056"
+    },
+    {
+      "path": "test/admin_header_accessibility_test.dart",
+      "sha256": "ce38a16d4bbe05132082fb00a6ae89d64177669a2d571ab173f15bcede2cf868"
+    },
+    {
+      "path": "test/admin_hybrid_member_directory_test.dart",
+      "sha256": "1f19cd564decadb1a4cdee0ccf795e60b53d9ac2baae2be282b157b8b2e0056b"
+    },
+    {
+      "path": "test/admin_investigation_test.dart",
+      "sha256": "570faa7d01135e012aa94b95c5ebbe9e344ea8a49c18c4c451d893c5a786348f"
+    },
+    {
+      "path": "test/admin_investigation_view_test.dart",
+      "sha256": "7e1bff978a6446aa0319d0cc211319c27480e42fbaadd2ddff82adb622cad0c5"
+    },
+    {
+      "path": "test/admin_list_models_test.dart",
+      "sha256": "29a2248a3f03b7e11ab716315800e28f152db215d413b34650e5ccfec96b6de2"
+    },
+    {
+      "path": "test/admin_list_paging_test.dart",
+      "sha256": "8c222108ad34b65e8883f03476e0fb63653d1250aa951617b741106208ccf9c7"
+    },
+    {
+      "path": "test/admin_login_recovery_test.dart",
+      "sha256": "502757e95fcd7a4a8e63bcf58c23f38496371dc6b7a767743e505b9cf1b23a2c"
+    },
+    {
+      "path": "test/admin_logout_lifecycle_test.dart",
+      "sha256": "f07fd06a8b3ff258ab9e3341750dc3ef392c4854c7aa93820eee53e920d7053c"
+    },
+    {
+      "path": "test/admin_operating_policy_models_test.dart",
+      "sha256": "9696444e3157a324efe2fec4b2f6677a4bb12815469fd51ed1ab165424443781"
+    },
+    {
+      "path": "test/admin_operating_policy_runtime_test.dart",
+      "sha256": "d1fa76e3e02de4fcfe6cc109141e49d56c1ec22e189d1e5a17d450edb7458cfe"
+    },
+    {
+      "path": "test/admin_operational_health_test.dart",
+      "sha256": "f4225f73e163267f5e605e414c9b75167debd55044b3d7600cff54493a278cc5"
+    },
+    {
+      "path": "test/admin_operations_readability_test.dart",
+      "sha256": "56de30feadd03c49de09ee60fd415c1ecc65c1eb2e0511ed577306002b2599cb"
+    },
+    {
+      "path": "test/admin_operator_approval_sdk_matrix_test.dart",
+      "sha256": "b7677e9212494ec4eff450b7aef775cf1ed633e55a437cedf498ecc1eaca64d7"
+    },
+    {
+      "path": "test/admin_operator_approval_test.dart",
+      "sha256": "0b3e7965d966e0875c9bd798d5bb84d2ae972a49b5b613d5cca5dd232dd102ad"
+    },
+    {
+      "path": "test/admin_overview_totals_test.dart",
+      "sha256": "ab2ca24dddef52749d6406a69f2c2df8dde5fab0885e310b11c9ceb6e83cac51"
+    },
+    {
+      "path": "test/admin_page_reflow_test.dart",
+      "sha256": "ecfbc9f97ff90b6c9aa126de849119f10b43d7682c423466828ad67bdbf3f793"
+    },
+    {
+      "path": "test/admin_permission_refresh_test.dart",
+      "sha256": "13ccac815c8aa081d162b8bf17b92c5fafbf2cf46a9155480955c640609804a6"
+    },
+    {
+      "path": "test/admin_platform_access_test.dart",
+      "sha256": "5129dbd2201d90e5d3a2e0ecfd6b53edb96105d6f11de82f0f946d7476cface1"
+    },
+    {
+      "path": "test/admin_privacy_review_browser_test.dart",
+      "sha256": "2b06039c59f078a5febd2c5a9b033cc33f656e2462edf66bd0f5ad75417667e1"
+    },
+    {
+      "path": "test/admin_privacy_review_mount_test.dart",
+      "sha256": "c6993a8dc4345cfea8d6c5df9a496171004b64a59b237719bd646e6c92fb1f32"
+    },
+    {
+      "path": "test/admin_privacy_review_test.dart",
+      "sha256": "946571117f1d18041bfff4cc568202f98f247b9c8822f272743f06c6a4f24c61"
+    },
+    {
+      "path": "test/admin_private_provider_authority_test.dart",
+      "sha256": "5425aa9ddb0cf112b33dcb1044055a5f671b3e97f932154e049b93b22ed64e34"
+    },
+    {
+      "path": "test/admin_pwa_test.dart",
+      "sha256": "ad7c8bf4568bbfa8b7518b3394dcae2440c39a32b016c21fdc0387b6b69dd6e3"
+    },
+    {
+      "path": "test/admin_queue_navigation_test.dart",
+      "sha256": "42b7d1e853fe17ba72bd757db264bcd391ddb967aef95ecf41fb00c0f667e343"
+    },
+    {
+      "path": "test/admin_read_contracts_test.dart",
+      "sha256": "156fbd06c4e437c7288437642b31f62053962da4c424c0e4249fe7e978e804ff"
+    },
+    {
+      "path": "test/admin_realtime_sdk_provider_test.dart",
+      "sha256": "1f92d24875151bd3b6e80a51d3d5ebefb38580280c7d657f892bfb52a5abcea8"
+    },
+    {
+      "path": "test/admin_realtime_stability_test.dart",
+      "sha256": "b275359a3a1058e1f5b96dafe62e24349d3c6c0a0010c58e16aa62568468a6a1"
+    },
+    {
+      "path": "test/admin_reason_dialog_bounds_test.dart",
+      "sha256": "2989c43ec3ab85c4587b6071bc0740f499fcb6b50920ee6c39b7137164cbb63a"
+    },
+    {
+      "path": "test/admin_reason_dialog_focus_test.dart",
+      "sha256": "9096c01cfa24dc89c7f839aac343efc00f8046a8ff4e368b83ea73b0e2a992bc"
+    },
+    {
+      "path": "test/admin_receipt_aggregate_v2_card_test.dart",
+      "sha256": "559bc7bdd01601dad4b38931aa516b6e4075a638fcb60eeaeb116fe64b89f84b"
+    },
+    {
+      "path": "test/admin_receipt_aggregate_v2_test.dart",
+      "sha256": "3304d0403da629f231036e7c18e86e0842cefdf7a183a8f5602f0d76a4f78b3f"
+    },
+    {
+      "path": "test/admin_receipt_callback_deadline_mount_test.dart",
+      "sha256": "5b9b62918b6490249ad7ab5d8dcf6b6589e656843df351f807fd52140cc1357a"
+    },
+    {
+      "path": "test/admin_receipt_callback_deadline_test.dart",
+      "sha256": "200cbf067c99b0db75d7c96b7990d381581d2140b9f271b23d5532551cb09df9"
+    },
+    {
+      "path": "test/admin_receipt_cancel_card_test.dart",
+      "sha256": "3bd0867e6d3929a27833d7121eaf0940689857f653c4ba5cf1d555fc7dc66a3c"
+    },
+    {
+      "path": "test/admin_receipt_cancel_checkpoint_browser_test.dart",
+      "sha256": "fd6b97ae52e283b6fd6b079e75fad3171d18a4d3175d68ae66f16f51415cb188"
+    },
+    {
+      "path": "test/admin_receipt_cancel_models_test.dart",
+      "sha256": "134e15658699ad6925e10962076250d4b4aeaeedb5aaf83bc95379e2bd3fcd8d"
+    },
+    {
+      "path": "test/admin_receipt_cancel_repository_test.dart",
+      "sha256": "8434ca064d58633ba1be3f4012a67b9acae23525bbb694547a59fd12ff200411"
+    },
+    {
+      "path": "test/admin_receipt_cancel_sdk_authority_test.dart",
+      "sha256": "dea8f92bd2a6ddbaf92d27d23d794504939b9648b63c2c60574ae319766c49e7"
+    },
+    {
+      "path": "test/admin_receipt_content_v2_test.dart",
+      "sha256": "1a869944f3b493f6dcde77dda96ec150e55c17136a8895bfd62363f91408c4e8"
+    },
+    {
+      "path": "test/admin_receipt_history_labels_capture_test.dart",
+      "sha256": "19e9cd7c09c9177bd4471f47e9f53b3e879085e76d8dbde3fa5d2512fb2e693e"
+    },
+    {
+      "path": "test/admin_receipt_notice_content_browser_test.dart",
+      "sha256": "ff2466e7f7acdfb84551a0b584e58582d0f6e72c2937bb52d45629fad1c7eb38"
+    },
+    {
+      "path": "test/admin_receipt_notice_content_mount_test.dart",
+      "sha256": "1ff9a9a77d8f60925cc540c0b8fdef1487f22adbc34aac466e82df3fc7f18192"
+    },
+    {
+      "path": "test/admin_receipt_notice_content_test.dart",
+      "sha256": "11e53a21b13a88a0a905d3716889122077d6e8ccb53a7fc089f18ddac3c739b5"
+    },
+    {
+      "path": "test/admin_receipt_notice_dispatch_browser_test.dart",
+      "sha256": "73a7d18d1d3e5d7b5e772702f3d489b4a126b22d0f60c306e24353290d874aac"
+    },
+    {
+      "path": "test/admin_receipt_notice_dispatch_mount_test.dart",
+      "sha256": "075ac3732d93dbe9d94579c29f1a0c186dfd3d1c1c7a93ef9f93b84bc37627a9"
+    },
+    {
+      "path": "test/admin_receipt_notice_dispatch_test.dart",
+      "sha256": "6d2054535e1da33c25d7406a6b157ed493f4f1c1c5c72e977c45643cba32bec7"
+    },
+    {
+      "path": "test/admin_receipt_notice_integration_mount_test.dart",
+      "sha256": "652464d4c76f837edcc3a50b5af1c2194036e34899457208e6e36a647bc17eeb"
+    },
+    {
+      "path": "test/admin_receipt_notice_investigation_test.dart",
+      "sha256": "9e4bad69d1a4346abafe9292a7382eea092915f44c7987f0fd6a9237944b3fb1"
+    },
+    {
+      "path": "test/admin_receipt_notice_prepared_handoff_test.dart",
+      "sha256": "1c018a24db6926cf706150a4036919ed1d5693b8f146e1501bdab23c3a85219d"
+    },
+    {
+      "path": "test/admin_receipt_operational_history_recovery_test.dart",
+      "sha256": "ad81fc450100702b2434bc2fbd156c0bedaa1a80da449742f2febd5093dc7853"
+    },
+    {
+      "path": "test/admin_receipt_operational_history_test.dart",
+      "sha256": "d571b24711ed4f016e0cc4d5e3670861eb4df0a976e195909815a70aee90d3a5"
+    },
+    {
+      "path": "test/admin_receipt_operations_card_test.dart",
+      "sha256": "01c9f982296f02637be05137a94129c8f47845d02c5d6c56e66c167963e3ce79"
+    },
+    {
+      "path": "test/admin_receipt_operations_checkpoint_browser_test.dart",
+      "sha256": "eb578f0e36841272ffd60995fef8cc5827036508357b7d6b41d1b868d93d0684"
+    },
+    {
+      "path": "test/admin_receipt_operations_checkpoint_test.dart",
+      "sha256": "7e0479b96b72c70753bd9374596b57c199cb902b2f3ba992a5db9737f29edb3b"
+    },
+    {
+      "path": "test/admin_receipt_operations_models_test.dart",
+      "sha256": "59888a05f2267754788a125938a48dda6e0807b3bdf3597a38de14d6a23e8bda"
+    },
+    {
+      "path": "test/admin_receipt_operations_runtime_test.dart",
+      "sha256": "dbb2fe21c4d0f245091fa4153abc122eaf2d7a7b84528dab84f2f32123fec788"
+    },
+    {
+      "path": "test/admin_receipt_operations_sdk_test.dart",
+      "sha256": "d0804c48d96faf64bfbaaf2b7de1a618d8784a5f0212546955203220c8693072"
+    },
+    {
+      "path": "test/admin_receipt_overview_test.dart",
+      "sha256": "451e8e2a9249a61554c3662cc2f118121c3cde3fd9b5462d6e7f81e4868ac037"
+    },
+    {
+      "path": "test/admin_receipt_principal_browser_test.dart",
+      "sha256": "563513a81410274a1c89dea93b53e46c06de6f5bc7a3aa3a23e371991596e101"
+    },
+    {
+      "path": "test/admin_receipt_principal_integration_test.dart",
+      "sha256": "9dd3cafc64e48e022f5a0ad601bb602c2d9eb21c884756d44a1e1230e30e67d9"
+    },
+    {
+      "path": "test/admin_receipt_principal_recovery_test.dart",
+      "sha256": "6b528336efb373b7db8d3734199a484f36c1024fb08c9e9423d87f0b24389e19"
+    },
+    {
+      "path": "test/admin_receipt_principal_workflow_cases.dart",
+      "sha256": "6ba8bbdb9c73bcad9abec44ac2d148664d4608e0663a05ac8e19395281bb3248"
+    },
+    {
+      "path": "test/admin_receipt_successor_checkpoint_browser_test.dart",
+      "sha256": "c03ea538e86c8ca3a4611b5c0476b01b887e820608dcd3b649cec793b0b1349d"
+    },
+    {
+      "path": "test/admin_receipt_successor_execution_access_denial_test.dart",
+      "sha256": "c7446bef65993de626796750d144e75dc5823dbf8ae6e105128e36d6b648c34b"
+    },
+    {
+      "path": "test/admin_receipt_successor_execution_models_test.dart",
+      "sha256": "345d2fbef4c93a657c9d7a68f3b0d34b9eebf9b2e6e03b2809771e580b413d40"
+    },
+    {
+      "path": "test/admin_receipt_successor_execution_mount_test.dart",
+      "sha256": "0586a0b7e0d0650e5d89e5d2d06e18e5a7d2a74676efc78733645dc910bbda3a"
+    },
+    {
+      "path": "test/admin_receipt_successor_execution_sdk_controller_test.dart",
+      "sha256": "2841a1d155faaa25eeea63ab298a4be469ebd61d2c4d29c9e5dd0813a2c39c03"
+    },
+    {
+      "path": "test/admin_receipt_successor_execution_view_host_test.dart",
+      "sha256": "0c58e7b8d985367a1993624d528448b880641d6f9e14c955bef231912d197d4c"
+    },
+    {
+      "path": "test/admin_receipt_successor_host_test.dart",
+      "sha256": "f4756e0a6f58764f5c47640ae172c7d80b6127afc9d986b951da029763f12fdc"
+    },
+    {
+      "path": "test/admin_receipt_successor_integration_test.dart",
+      "sha256": "cfff4c6cd4a88deef1aaaf6d4f512229561fff9ff0b7e1ea6084e14e12efbf59"
+    },
+    {
+      "path": "test/admin_receipt_successor_models_test.dart",
+      "sha256": "4fb1f2789f5ffe19af6eb25657a03cc78da465067316d492afbebaacb8675767"
+    },
+    {
+      "path": "test/admin_receipt_successor_retry_host_test.dart",
+      "sha256": "cfcb39412d79908f9b782f336b4898699a14db135bf0a960cd1012d0167207df"
+    },
+    {
+      "path": "test/admin_receipt_successor_retry_v2_test.dart",
+      "sha256": "4ef29c3870fce3da97c691b0d28a50c1da4cb86d3e03229aa2ab7eed80ddd0cc"
+    },
+    {
+      "path": "test/admin_receipt_successor_sdk_controller_test.dart",
+      "sha256": "de2da4678a975628b68f13b0e070207ea233238d9d4adfe540769cde26f72ad4"
+    },
+    {
+      "path": "test/admin_receipt_successor_view_test.dart",
+      "sha256": "ab8fa319c8cb6777e48a6d91ff90e5fa77698c21c77404fb0425fb9e04455d78"
+    },
+    {
+      "path": "test/admin_receipt_telemetry_test.dart",
+      "sha256": "0019f806ba8ef82d8f5ad82410cf141ba9426ea25e7d50a260cc9aa2770a538e"
+    },
+    {
+      "path": "test/admin_reconciliation_repository_test.dart",
+      "sha256": "6fbed19fa33c712940673d29e7dd273084f036d95cf431f12412d8c8d3bba4a4"
+    },
+    {
+      "path": "test/admin_reconciliation_step_up_test.dart",
+      "sha256": "6a9f536c0ad67d90e0db1e4489798139638b58b0ea2c3453d9206cd273428a6a"
+    },
+    {
+      "path": "test/admin_reconciliation_ui_test.dart",
+      "sha256": "4f0fa39da8e25e5ac79b855c130783e8ff2337175c350ce68ae260dac98ff745"
+    },
+    {
+      "path": "test/admin_recovery_namespace_browser_test.dart",
+      "sha256": "14af75b7d5fefdb215470020f3758c7841bb4c2ce535b4e7c253b124f3f3bc4b"
+    },
+    {
+      "path": "test/admin_recovery_namespace_test.dart",
+      "sha256": "36dabcf60d3598ce1e37d1a4b527d331b069fba58d6211e4398a7b85a0b467c9"
+    },
+    {
+      "path": "test/admin_repository_paging_test.dart",
+      "sha256": "4ab04667b43b14a923d56f13fb0973c3fec23150be965ddd2faaf01c4812326f"
+    },
+    {
+      "path": "test/admin_roster_authority_scope_test.dart",
+      "sha256": "4ca73f6a8f3e643b4f24561c321b9f6539c231cd3875e4f76eb9c9406090ca11"
+    },
+    {
+      "path": "test/admin_roster_bookmark_browser_test.dart",
+      "sha256": "3aa226e963428dac35f5f1369bb77d1159143c4d675c93074af3f3a0d82eb75f"
+    },
+    {
+      "path": "test/admin_roster_calendar_test.dart",
+      "sha256": "6f8e8a29151005d59e5b48b840408d547c4d856decee2a976c083cf5c1c2d516"
+    },
+    {
+      "path": "test/admin_roster_declared_read_dispatch_test.dart",
+      "sha256": "fc96cf9bdf6a60129a65b5861933843682348894dce9d98487258d354437aa23"
+    },
+    {
+      "path": "test/admin_roster_dialog_test.dart",
+      "sha256": "1ef240c1d95f6ca0da6f109fe250952bd75f1baf15c6b89f4c968b7d67d9770a"
+    },
+    {
+      "path": "test/admin_roster_file_parser_test.dart",
+      "sha256": "99c0ca1da284f83647212ad011ff71bc36e643c95c4820368e6a97d3dbf30746"
+    },
+    {
+      "path": "test/admin_roster_fresh_auth_sql_receipts_test.dart",
+      "sha256": "e1ff2fb5e4fc6c5fcc94d75a851d61fc5e5b3ac1281163f54b77c1ca207ca43d"
+    },
+    {
+      "path": "test/admin_roster_fresh_auth_test.dart",
+      "sha256": "75300b969947cb1370334b7a3acaab8a8575e4e99b05e46501c2c208fbaa9d95"
+    },
+    {
+      "path": "test/admin_roster_gateway_expiry_test.dart",
+      "sha256": "798f2a3e34e0d1856032ef5720c98097e3d7d6d95d2db8cc6730619da5092d7c"
+    },
+    {
+      "path": "test/admin_roster_import_test.dart",
+      "sha256": "001df89ff6fd1a7461fdbe3e369de6fa9d96723748a7d056208e0666b2967d63"
+    },
+    {
+      "path": "test/admin_roster_reload_test.dart",
+      "sha256": "ef9cb2dfdfb34ae36da13d1fe62ac757209e5eae0df41e6b4a497507005ce0a2"
+    },
+    {
+      "path": "test/admin_roster_sql_receipts_test.dart",
+      "sha256": "dee59a4d77e817a04c76d2cae65f38a7c9245110d21a850ab870f447ec75f2ac"
+    },
+    {
+      "path": "test/admin_roster_transport_test.dart",
+      "sha256": "d79f2e0ad6d41f9b1b7aba8cf6d1536614f6e8d07fce1de86d23c5651fe11fa2"
+    },
+    {
+      "path": "test/admin_roster_upload_admission_test.dart",
+      "sha256": "8fede243fe4718b231b8d642d4ab452e5d36c516e4922b48321d87b9275038a4"
+    },
+    {
+      "path": "test/admin_roster_xlsx_preflight_test.dart",
+      "sha256": "04c7e03060320cb9c363caaf916d6ee9890212c790b748664b83fc6f03328ba3"
+    },
+    {
+      "path": "test/admin_route_access_test.dart",
+      "sha256": "a19e428840a94f0f0676b01f49e756926d8ec75e7d6657d3fe2aef7bf024e800"
+    },
+    {
+      "path": "test/admin_runtime_control_gap_test.dart",
+      "sha256": "bbd73ac09338b1e1f960bc670631f97a61fe05c78c326112d72c94189bc6d6a6"
+    },
+    {
+      "path": "test/admin_sender_retention_browser_test.dart",
+      "sha256": "f70d9def76fab27ccae41306aa3397673a2098362e89b6e6c345e11139475ada"
+    },
+    {
+      "path": "test/admin_sender_retention_controller_test.dart",
+      "sha256": "6fcacfd189f889d9323fce49bd93751a394a0f8582fff97a2d8dd8afe67eed4b"
+    },
+    {
+      "path": "test/admin_sender_retention_models_test.dart",
+      "sha256": "51028525a6ebc57a74fc6b93aebf6b44367e419980269778fc02cdd26d714ec4"
+    },
+    {
+      "path": "test/admin_sender_retention_mount_test.dart",
+      "sha256": "f24b55e8187e0c9cb687b6bb66bad8a703f9cb9654c3369e05649a4254888a82"
+    },
+    {
+      "path": "test/admin_sender_retention_view_test.dart",
+      "sha256": "6ceff828a043e4b15a4bfe4e048c6e55aada2eba39a1664fb85e85b2311dc708"
+    },
+    {
+      "path": "test/admin_sensitive_permission_test.dart",
+      "sha256": "8e4039182ba30ca08c56142eb5495b8e8c870c06bda00a53af3c7954c5153311"
+    },
+    {
+      "path": "test/admin_session_scope_test.dart",
+      "sha256": "383f49a39a955fc092eb9b3202ca1e098dbf65bf6e8884d4dc4dbde774c2f003"
+    },
+    {
+      "path": "test/admin_shadow_runs_repository_test.dart",
+      "sha256": "802c51644b4bdbf981a019059dfe622fc48368e31696971ab12785f0092b1927"
+    },
+    {
+      "path": "test/admin_shadow_runs_test.dart",
+      "sha256": "1c3aa5a9586f7f7b35abc1bebb5ea382e34e0012137b86cf92378aa396bf23c9"
+    },
+    {
+      "path": "test/admin_sms_queue_repository_test.dart",
+      "sha256": "e619630e41f61a76ce9bad37224d6c1cf7ff28319f16b1b0f326fc0aefc39814"
+    },
+    {
+      "path": "test/admin_support_read_contracts_test.dart",
+      "sha256": "b4a784e963b05a249e59edbc6104d9fe91ed36d46dff612cc21fc10f0afad6bf"
+    },
+    {
+      "path": "test/admin_transaction_lifecycle_test.dart",
+      "sha256": "2c473a319e238836628c3177bfda465cfff1d5edc1d2e9534baf7cbf3ae69f8a"
+    },
+    {
+      "path": "test/admin_utc_observation_timestamp_test.dart",
+      "sha256": "a186966fc3161d838a8b2d81507e78c951094ac8144593369cf18cca46b3231e"
+    },
+    {
+      "path": "test/admin_value_integrity_test.dart",
+      "sha256": "e9d8bed43a602d67d90fbf91961f37d98d5da54c61e5d40e61ef15c23d8e82e9"
+    },
+    {
+      "path": "test/admin_value_screen_integrity_test.dart",
+      "sha256": "caa0914426e88133e38eb8d3eaa51ed6cd07741ba1cdf18f7fcf651c8f73bf33"
+    },
+    {
+      "path": "test/admin_worker_cold_consumer_test.dart",
+      "sha256": "3b3af2bee231799ac0ab3b515bc0929285ff839c7bfb142197f2e84ab10146fd"
+    },
+    {
+      "path": "test/app_shell_test.dart",
+      "sha256": "3055711a39f90a7e2173e03848b908d0e35c141d5dc9ad3157c5cdd7c8e24f61"
+    },
+    {
+      "path": "test/app_shell_theme_contract_cases.dart",
+      "sha256": "19257cfc15b726eaa8c40d829c6cbf822408eff683efa388aaea8a342b78150e"
+    },
+    {
+      "path": "test/browser/payment_help_storage_harness.dart",
+      "sha256": "6ecbbfd6861c69d89b44644d3d4aa11d41debf9a1d49c4cf761181175e55e34b"
+    },
+    {
+      "path": "test/callback_deadline_mount_support.dart",
+      "sha256": "f9fc36a17562cca05e686e2526de7e3c07a7b7d7170ff914973fc3c15b9b378a"
+    },
+    {
+      "path": "test/cloudflare_admin_runtime_preservation_test.dart",
+      "sha256": "2e37a2552f3f6ac6841601ccb5be127f35094caaf6ad9638ab1646d34e26996a"
+    },
+    {
+      "path": "test/cloudflare_admin_session_test.dart",
+      "sha256": "06c7b957fc00d95b79c15e378ef0949c13044d55856fb119134059f5189ed8d8"
+    },
+    {
+      "path": "test/collect_disabled_action_regression_test.dart",
+      "sha256": "2bd2800a8938a552d33e7d3eb87bb2ff330fe365bceaf0c9f6699f80056c97bd"
+    },
+    {
+      "path": "test/collect_form_viewport_test.dart",
+      "sha256": "9813f5d80f17369a8d6605789c85fb27bde6a33b90ce31639dd2289071baa2dc"
+    },
+    {
+      "path": "test/collect_lazy_group_list_test.dart",
+      "sha256": "6de34344b3ad9719e08ee8488de668d357615d4ab0fdc69b21e9de20a0421ae4"
+    },
+    {
+      "path": "test/connection_recovery_screen_test.dart",
+      "sha256": "5180eae2d127b850174f5bb2bcdbf95c8f464d3893c0f170caddfb2f34b5e295"
+    },
+    {
+      "path": "test/connection_recovery_screens_test.dart",
+      "sha256": "ec6e6ecb7b3ea2917ffb4a09775916664ba27f669e1ce6a2a9dd67130d371659"
+    },
+    {
+      "path": "test/core/auth_fixture_token_test.dart",
+      "sha256": "197378a51e282d58e8b1c3e9be1c3e020d54e9e4edc2d63213ab0bc7f9eb22d1"
+    },
+    {
+      "path": "test/core/browser_auth_memory_test.dart",
+      "sha256": "c3fa4cfeb3f1aaacd6b71f6229ab7fbea9e4937907ec1af0208b9d12214aa958"
+    },
+    {
+      "path": "test/core/cloudflare_captcha_fencing_test.dart",
+      "sha256": "ebb9a328a0a26e85939f6450e25f9343b64d3686cc75b4c1ee8201bba4b13eb2"
+    },
+    {
+      "path": "test/core/cloudflare_client_test.dart",
+      "sha256": "4511ad2adf05919f7b5173b5cc4a4392c6161b04a10f45822f7614a84c623dd5"
+    },
+    {
+      "path": "test/core/cloudflare_google_auth_test.dart",
+      "sha256": "c8ed91bd017b5856985cd3c21032715fc29247feccc6dfbb3d611e69c0de2bae"
+    },
+    {
+      "path": "test/core/cloudflare_session_persistence_test.dart",
+      "sha256": "ed284baaf6b57a516529b163fc23f69c8de503a3789e2046c5fa7812d0a386e4"
+    },
+    {
+      "path": "test/core/collect_cloudflare_bootstrap_test.dart",
+      "sha256": "9871940a9b27f03676d36244c1921ed9846ca5050bab81d3c4916e578d53f61b"
+    },
+    {
+      "path": "test/core/collect_diagnostic_queue_test.dart",
+      "sha256": "706c85a154e8799de1106689db48abd9a33ec0ed67d9ef0a7d004e7774df0c38"
+    },
+    {
+      "path": "test/core/collect_diagnostic_transport_test.dart",
+      "sha256": "ad60572cb05cd42b53b0241fa0229a5e127481c77c26ee3e1c9dd3278f3eae33"
+    },
+    {
+      "path": "test/core/collect_startup_recovery_test.dart",
+      "sha256": "d3f5d52838e9e99b995eefe220732776161ad4f6e81b5bd56fb78d8bace6cdee"
+    },
+    {
+      "path": "test/core/collect_turnstile_contract_test.dart",
+      "sha256": "5931d535fa7d1a25a73ffaeb963ec328583c379d39c1fd80685f1d95ccda823c"
+    },
+    {
+      "path": "test/core/cupertino_assets_test.dart",
+      "sha256": "98df83b4259fb8f8ef00778b5c92bf0075eaabdaac0886aa7448a95258155e30"
+    },
+    {
+      "path": "test/core/momo_ussd_amount_boundary_test.dart",
+      "sha256": "ef1706d655c92c72624a7960a5ed367cdddef79ffe07cd79aca6bedd2c3d5380"
+    },
+    {
+      "path": "test/core/momo_ussd_intent_guard_test.dart",
+      "sha256": "4bf4e15b23e686239e05419b0300f17de63835997f1c4d7ea1c0d3114e1d8a0f"
+    },
+    {
+      "path": "test/core/money_format_test.dart",
+      "sha256": "8bfb13b792fceaf0efb4cd0a305aa68a8ffb20c6fd34962f967a8abd63f295ad"
+    },
+    {
+      "path": "test/core/notification_account_isolation_test.dart",
+      "sha256": "32b559b4dd3e053c213330ea474d859509dd20cb6761d69c36c8c3a9440c92e8"
+    },
+    {
+      "path": "test/core/notification_initialization_recovery_test.dart",
+      "sha256": "5e915c57bc85202cf6e5610e0497b47c2734ef21eff51345ff0ff4a08f950e27"
+    },
+    {
+      "path": "test/core/notification_registration_recovery_test.dart",
+      "sha256": "2b8cac57049538479bac7955cc03eb6321cbfd0d69ef9d3695b3c7f8891dfa02"
+    },
+    {
+      "path": "test/core/phone_and_public_id_test.dart",
+      "sha256": "8455a67220e4c7ddb1baea19ac0145c78efa06ff443dfc2e4cce2f1ead7b4e37"
+    },
+    {
+      "path": "test/core/play_integrity_service_test.dart",
+      "sha256": "9b9dbbb03f6fa4fb30bc808409f066709fea5aa9c4063f032938125f94a8def3"
+    },
+    {
+      "path": "test/core/privacy_captcha_fencing_test.dart",
+      "sha256": "b2131d549313e5d84d2eafcb262e4a16ea752768a10bedd028b3079edec0fad7"
+    },
+    {
+      "path": "test/core/revolut_launcher_test.dart",
+      "sha256": "cb13d409b682a178fd77dbd5b35ccf416d51e7fab21226407ab295ec01ba221c"
+    },
+    {
+      "path": "test/core/route_inventory_contract_test.dart",
+      "sha256": "ee60fd4f57e33650c5838252e09027e943fe850ec78e0539df8996276dd3b643"
+    },
+    {
+      "path": "test/core/rwanda_momo_number_test.dart",
+      "sha256": "04ca28aa7db038c13e52a5dd6f668e4fac5609acaa8ad24aadb7337e861ef30c"
+    },
+    {
+      "path": "test/core/rwf_amount_input_formatter_test.dart",
+      "sha256": "116dfac160319cf9cfa02258a7af0e6849f0a60ffa3b974e9f3f89252619799a"
+    },
+    {
+      "path": "test/core/self_hosted_auth_test.dart",
+      "sha256": "c9fddae0ef768c7f96417f256eed46f1bee37b3fb2f9fa88edd04c8f66527c79"
+    },
+    {
+      "path": "test/core/settlement_currency_test.dart",
+      "sha256": "b62bd22fb848a6d58414f5753fbdaa722dfd0ba2201e662638aab7258b4f681f"
+    },
+    {
+      "path": "test/core/supabase_backend_test.dart",
+      "sha256": "aee20eedd6a4f2438e404a4fa0d1902fdb1bd4c02d031d1e4a1f40460fb11dc7"
+    },
+    {
+      "path": "test/core/supabase_google_auth_test.dart",
+      "sha256": "dbd047cd0f35c380505386ad8ae9e0ff52f2cfd03dacfbb230608ba298b28238"
+    },
+    {
+      "path": "test/core/supabase_member_realtime_transport_test.dart",
+      "sha256": "736e477013c7f155603cc23d59279233f446cb4686a571c9092182fc0bff39ae"
+    },
+    {
+      "path": "test/core/supabase_member_socket_ownership_test.dart",
+      "sha256": "3794484c4bb2991e69c018b6598ca25dd055a41661b42efdc65cc31f315a50dd"
+    },
+    {
+      "path": "test/current14_member_history_sql_receipts_test.dart",
+      "sha256": "25108d25fdc2a9cc76198798a121b62789b89c502029ff5f5860f2443fc6e856"
+    },
+    {
+      "path": "test/data_correctness_contract_test.dart",
+      "sha256": "1fec0aea095d3fdfa69f9b57ee1e03edb2026de2dcb134466716989544da6287"
+    },
+    {
+      "path": "test/features/app_share_service_test.dart",
+      "sha256": "07b2eb346f87d9905be8fd37ae2cd764fcd143415d26153d5dd378f930c5f668"
+    },
+    {
+      "path": "test/features/auth_alternative_methods_test.dart",
+      "sha256": "86eac077314a8b33fba4659b5a672cd9590f69b7e09f5c413c3c9b19e3f0691f"
+    },
+    {
+      "path": "test/features/auth_confirmation_reflow_test.dart",
+      "sha256": "5ece0e187dfc72b2ca03c06c8154f9a57db7569c5a122c6f25ff6f94cfb25260"
+    },
+    {
+      "path": "test/features/auth_error_recovery_test.dart",
+      "sha256": "48ca9ad35f7bb2858116fae503f510a20ae8cba2c40968eb192ee8719d15a4ee"
+    },
+    {
+      "path": "test/features/auth_resend_recovery_test.dart",
+      "sha256": "4d5a63f40a924366790eb7f907829340b6f4630ce314d33ff6f7e3c3ac4b6fee"
+    },
+    {
+      "path": "test/features/auth_route_accessibility_regression_test.dart",
+      "sha256": "e9e13aa996a95ed48fb8f07955bdbc91ded3517f6c6bcac190ecca6d945e7092"
+    },
+    {
+      "path": "test/features/auth_theme_sync_test.dart",
+      "sha256": "5a6c64e5419a8b8a3cf123ab9a11b6695652251850464060c36e58a29fc9b86c"
+    },
+    {
+      "path": "test/features/collect_google_sign_in_button_test.dart",
+      "sha256": "33747a11c357a566304676f7fdded14301132a2f2d56c95337c69f6a84cc24e6"
+    },
+    {
+      "path": "test/features/collect_surface_keyboard_focus_test.dart",
+      "sha256": "3e002978adb430b444c21be65018526a417e52dee3b9401944ba9504446bae94"
+    },
+    {
+      "path": "test/features/contribution_amount_accessibility_test.dart",
+      "sha256": "4276c84d823ad88087db23b78f5ce155f2c5316cad5b63a990e037a1aa1a44bd"
+    },
+    {
+      "path": "test/features/contribution_flow_confirmation_test.dart",
+      "sha256": "2bbf942f5c52bc0bc2f7385f2bdfcf00cf729678e6b5e4c82552d9abb1fe87b3"
+    },
+    {
+      "path": "test/features/contribution_flow_session_test.dart",
+      "sha256": "d599d7ef5c76535edb7f958f49d668339afbfe7ab82c0c6d4003a0e236eef2a7"
+    },
+    {
+      "path": "test/features/contribution_landscape_keyboard_test.dart",
+      "sha256": "56e57b09cc59e7f854f8a5b52e35f2c2906e88ab558eea05d855ac32ad530c2a"
+    },
+    {
+      "path": "test/features/contribution_prelaunch_guard_test.dart",
+      "sha256": "8496051f749171b97bb2fb3250143f4816dd26242a22a57b570028b707eeeb85"
+    },
+    {
+      "path": "test/features/country_settings_contract_test.dart",
+      "sha256": "43091ab10933696cc85fb44881005c58568cb55d28b3cc129d2d4d03f3305b2d"
+    },
+    {
+      "path": "test/features/data_load_failure_test.dart",
+      "sha256": "e4949348c3fe2de7ab47cc1ea2da2f88be7cded4d239f64d377f26241ce28127"
+    },
+    {
+      "path": "test/features/device_permission_contract_test.dart",
+      "sha256": "11b154e193ea3f1225a46e29764529a9a767600ab21ecb03d424145114400672"
+    },
+    {
+      "path": "test/features/financial_row_amount_reflow_test.dart",
+      "sha256": "b4810798bd4305773bc1c8ee9a0797e5d57a1f7236992ea1400f28e68a348edc"
+    },
+    {
+      "path": "test/features/group_admin_access_policy_test.dart",
+      "sha256": "51a9a04d5583103a9f33854f420771ba1141405feb6d68e03af9536e38dda32c"
+    },
+    {
+      "path": "test/features/group_card_editorial_test.dart",
+      "sha256": "18acb22ac16b79079102ee8c58ffd55f1fd46455a26eee625dd1022f39a6eb07"
+    },
+    {
+      "path": "test/features/group_invitation_output_test.dart",
+      "sha256": "537b3e964925c8e0c8cef7093b562808033050a2f067ee6f7101817c3ae06285"
+    },
+    {
+      "path": "test/features/group_invitation_save_receipt_test.dart",
+      "sha256": "09702bb25719f5849e8a2c087d1140f3ee03258e98a70faf98e4597810472fbb"
+    },
+    {
+      "path": "test/features/group_link_explicit_join_test.dart",
+      "sha256": "942df8145608ced12cb8ccabf35fc9f6305c83506f16e2d299ea20970a2b7858"
+    },
+    {
+      "path": "test/features/group_metadata_payment_state_test.dart",
+      "sha256": "94ced7b3ba9aa1dbe4ccd5d1e5e4febb3a05f5cd196b40a716d303eeaf882547"
+    },
+    {
+      "path": "test/features/group_photo_bank_test.dart",
+      "sha256": "275b2b3b0d726e1487f1d19000bd7acc5ece849952bd70e900487e31d6f4de01"
+    },
+    {
+      "path": "test/features/group_qr_target_parity_test.dart",
+      "sha256": "ce0ed79c2c46c0c21bda6e02ffe56aaa693e45ddd7c568d8ecd30a53b376980b"
+    },
+    {
+      "path": "test/features/hero_quick_action_reflow_test.dart",
+      "sha256": "85f36ea58f4c374dc5f92d412cfffa507ca681e690f48e4f0cd08ffb5fd94328"
+    },
+    {
+      "path": "test/features/home_activity_order_test.dart",
+      "sha256": "2ee738d5878f78e4807433fd4e9cb5914d7aac17c83d7a7778b9e4d4933e8dae"
+    },
+    {
+      "path": "test/features/home_design_parity_test.dart",
+      "sha256": "375e71ac5fcab5222f8c56c748f30b06562cceded42a04cb5872183225837fa3"
+    },
+    {
+      "path": "test/features/interaction_target_contract_test.dart",
+      "sha256": "86577bb026dba513e480e89105704de105c12260f0158c05e9093228a99d2509"
+    },
+    {
+      "path": "test/features/large_member_lists_test.dart",
+      "sha256": "fc6426a02fab05af5cfb797a6a4b7841df25734afa88acfa11d368cfc755b8cc"
+    },
+    {
+      "path": "test/features/member_data_unknown_states_test.dart",
+      "sha256": "9f55062bedcc6e99c994e92f7801907089b97a1617ed59297ea3e9c218f962bf"
+    },
+    {
+      "path": "test/features/member_payment_help_test.dart",
+      "sha256": "b4899341c81d891533f1d0e31f1098d5fb9d256537f1cb4fcc864d1552d58b43"
+    },
+    {
+      "path": "test/features/member_receipt_sms_consent_ui_test.dart",
+      "sha256": "e16bd4b3c5b657d307104a29cb61d036a4f4906f8b7353ccf151bea7443acff1"
+    },
+    {
+      "path": "test/features/member_roster_screen_test.dart",
+      "sha256": "35ee7c2a01d797fc9f8ac4485d78363d221cdfe1b69c6826c393ed8483ba3363"
+    },
+    {
+      "path": "test/features/member_signed_history_views_test.dart",
+      "sha256": "04f0df4c69b49a18f4e4c764e77e3fc872c0cb0fc47835eb0eeab46f8241a27f"
+    },
+    {
+      "path": "test/features/mobile_completion_account_cases.dart",
+      "sha256": "e8962f3b990570a35251cb291eeb2eb1bf6797fbb5c7a614ba31d9b302b3a6d3"
+    },
+    {
+      "path": "test/features/mobile_completion_test.dart",
+      "sha256": "a9fcbaf8b0bd0aca507a4db29fcae57be3fa3aba428d2c67cca6b8e65492ce1c"
+    },
+    {
+      "path": "test/features/mobile_responsive_matrix_test.dart",
+      "sha256": "f7c2bf609f6ec11c458e23bbb12b3c88b22595346d86a874831aef4cc002ced2"
+    },
+    {
+      "path": "test/features/mobile_review_navigation_test.dart",
+      "sha256": "cef8e6b9b0f7ef29ad4d8d7fb69ae71bea17a5ae4740c0e6bb26fe2b68e51767"
+    },
+    {
+      "path": "test/features/mobile_shell_reference_test.dart",
+      "sha256": "93d4ca40a834810d9227c080297502ca5e3b2598f6253cd2cee8f5a65bf90ded"
+    },
+    {
+      "path": "test/features/native_detail_navigation_paint_test.dart",
+      "sha256": "ed64692d9a6724564122afa678dabceb565f998971929dc39985809126018b96"
+    },
+    {
+      "path": "test/features/native_permission_sheet_accessibility_test.dart",
+      "sha256": "9a2da52c0b3fb1a9eb3bd923e596ce8948057a053a2f07f38a5e41cb94e6ba0c"
+    },
+    {
+      "path": "test/features/notification_preferences_recovery_ui_test.dart",
+      "sha256": "38feb213fe7ad4b69da28d2b2ded162b2d70388f26233cc050c8db5020618296"
+    },
+    {
+      "path": "test/features/open_source_licenses_test.dart",
+      "sha256": "c793c7582b94be745dee085d8efb2cbac2c3591acbea5205890fb85a8f1e8255"
+    },
+    {
+      "path": "test/features/photo_filter_label_spacing_test.dart",
+      "sha256": "b9f15a719592aebb43c836b4af5e406fdd0b8821f3ee9bef362cfed8566d1239"
+    },
+    {
+      "path": "test/features/privacy/privacy_cloudflare_errors_test.dart",
+      "sha256": "74a058484f2b55b6f4e9e8b899445942f3091d6628fc5741fb5c5b38fe7d759b"
+    },
+    {
+      "path": "test/features/privacy/privacy_contract_test.dart",
+      "sha256": "e520180a6828de77cffe561c4b2329038544826f4357eb8381235b5d3a0c7928"
+    },
+    {
+      "path": "test/features/privacy/privacy_controller_transport_test.dart",
+      "sha256": "7bf2d5d2fe7f24676ea8986fff3e0311b1cbedaeb95a0563aba39ab0b14c22e8"
+    },
+    {
+      "path": "test/features/privacy/privacy_default_route_integration_test.dart",
+      "sha256": "808ca567456bdc66735d84ed171d3551e4729b01c3fed31be2a0491c7a0e3ca7"
+    },
+    {
+      "path": "test/features/privacy/privacy_email_request_screen_test.dart",
+      "sha256": "58062587c8268d6ffce24c58b53fff479fc8e7a4b31afcccc65fda103c07731e"
+    },
+    {
+      "path": "test/features/privacy/privacy_email_verification_test.dart",
+      "sha256": "a2a8e631954b2d106048ae175ff996f441ceeb2e6d357477f2a6cace0d5cccf4"
+    },
+    {
+      "path": "test/features/privacy/privacy_http_bounds_test.dart",
+      "sha256": "e87bd6fd9080e97e37f974ba977a47d5e9f6ecd5b0796154fb2019803e3a8c85"
+    },
+    {
+      "path": "test/features/privacy/privacy_logout_integration_test.dart",
+      "sha256": "f6712ec1647683f7278cc8f487d45b87e17d836a76c3dc84ecb973791e242361"
+    },
+    {
+      "path": "test/features/privacy/privacy_providers_test.dart",
+      "sha256": "68bf8f5ab9e824085780564cbf2ae8556ebfc5ca155517fee0ffae65761c497b"
+    },
+    {
+      "path": "test/features/privacy/privacy_request_screen_test.dart",
+      "sha256": "4bcdc2d27ac23013ecda0a786df0acbb99886380a18cbdafaabd03567fdab3a9"
+    },
+    {
+      "path": "test/features/privacy/privacy_review_test.dart",
+      "sha256": "fe6d2ce5e98dd7314065867fc444d43e971a6da8521c7ed65f0d2a92eabbcc79"
+    },
+    {
+      "path": "test/features/privacy/privacy_session_test.dart",
+      "sha256": "a53b4f71f8ea4197f173a8c2f150c16ea82b004f26a5518a86fc7d0e207cf01c"
+    },
+    {
+      "path": "test/features/privacy/privacy_test_support.dart",
+      "sha256": "c3e4e4ef8d57c2047788f3c3d64769752883f1cafad1789246c9ff4ec01fd5d0"
+    },
+    {
+      "path": "test/features/profile_editor_test.dart",
+      "sha256": "088105abb4a938c9dac0cf746f29a25e3ca5c40b09cd00970ef70571820cbd4b"
+    },
+    {
+      "path": "test/features/public_capability_content_test.dart",
+      "sha256": "7ae619fac74d15846d5b9e52ec00238a84fcea1c4ef1820345b3ff7f2f795a6d"
+    },
+    {
+      "path": "test/features/revolut_shared_states_test.dart",
+      "sha256": "8a21bd6bd242afb5c9415c2d5fc961ef8989153840a97e1bff240154221ed9f2"
+    },
+    {
+      "path": "test/features/runtime_component_contract_test.dart",
+      "sha256": "82b219248c922b08fe7b0e9b641d291be58d2437b620d9cd994da5bbf2136877"
+    },
+    {
+      "path": "test/features/runtime_component_interaction_cases.dart",
+      "sha256": "e86643da8bf12d4b58b71fe281c272f472a5fa1d02f3da7db89103417746d62e"
+    },
+    {
+      "path": "test/features/rwanda_momo_balances_test.dart",
+      "sha256": "cc63cbf25eda916d841ea5479efef428da12d07d46bf0f2c128a9d11fd0d8773"
+    },
+    {
+      "path": "test/features/rwanda_scope_empty_states_test.dart",
+      "sha256": "5c5a91a322fcd51353e6a17e0df75bbfd5045255ce43441d3296f4a9df4c4577"
+    },
+    {
+      "path": "test/features/security_hub_header_test.dart",
+      "sha256": "2770229723d9def98b37ec72b0f024ee682bcbdb55e28817cc60f1bbbd738cd9"
+    },
+    {
+      "path": "test/features/self_hosted_auth_screen_test.dart",
+      "sha256": "e83051cc371650761187766f3913a4dd3def4969fd668ab44262a21c441ba474"
+    },
+    {
+      "path": "test/features/share_deep_link_platform_contract_test.dart",
+      "sha256": "f92c0eb50847f004dd2b02ff27a65aebdfe797996c84bec1ffa9942689899c2c"
+    },
+    {
+      "path": "test/features/shared_chrome_accessibility_test.dart",
+      "sha256": "53c5ece5dbd51e3fdc6099857796754c68f116a16ed9e0a0d0fbdf18962f4e74"
+    },
+    {
+      "path": "test/features/theme_contrast_contract_test.dart",
+      "sha256": "f1f10e2303e4ee03e7d45f99260e0e9b6ef901fbff4349ea2ef962dc51743af5"
+    },
+    {
+      "path": "test/features/theme_mode_contract_test.dart",
+      "sha256": "31021147988c4668d22d19cc8e8a4cf04cf58f5b0293b8c58be19ffd9cf7092d"
+    },
+    {
+      "path": "test/features/widgets_test.dart",
+      "sha256": "0e6c083448008d171ef2233b437d248b9269cbd1404f99420df5774221470a5c"
+    },
+    {
+      "path": "test/fixtures/auth_otp_gateway_fixture.dart",
+      "sha256": "58b9821cd3e7a2a3b67838499715effb4bb4f49c29871e702ead3552c037f5d2"
+    },
+    {
+      "path": "test/fixtures/collect_repository_fixture.dart",
+      "sha256": "b305d8103c878659b5f4c4f86d17c711a5e05b194230e9bc37fe07151ae10249"
+    },
+    {
+      "path": "test/fixtures/collect_scroll_fixture.dart",
+      "sha256": "6f129b0b19178cd4a5ab30cf7fa6202de4afe5955c6bbcbad953cc26f2928979"
+    },
+    {
+      "path": "test/fixtures/mobile_matrix_capture.dart",
+      "sha256": "9112d4f047e23da1181fe70c978dcc53500a887ce9eca430dc46223757ecb3f0"
+    },
+    {
+      "path": "test/form_viewport_namespace_test.dart",
+      "sha256": "6fa5a8f897544389e6d9e26f0b3f5971f59d86b1f57294434a75f59887597119"
+    },
+    {
+      "path": "test/gateway/gateway_capture_test.dart",
+      "sha256": "5b6d53facfc640a698b3dc096fd2ce0e6e2750e8138e3a8ec4d1f64537d75966"
+    },
+    {
+      "path": "test/gateway/gateway_device_probe_test.dart",
+      "sha256": "19c1a13276893732a667880ffd55c35086a5fbbadaffe5fe8c14170ca2802422"
+    },
+    {
+      "path": "test/gateway/gateway_enrollment_lifecycle_test.dart",
+      "sha256": "d1f2b12464ea960c1d52ff82ec001715c69d7b6ae4db0902d6ad84b5442168b6"
+    },
+    {
+      "path": "test/gateway/gateway_local_dispatch_test.dart",
+      "sha256": "6a77d103959e89af9571cb487354288ad9b795a26b023d01b7e50a7987513862"
+    },
+    {
+      "path": "test/gateway/gateway_recovery_capture_test.dart",
+      "sha256": "1df42d8d23071b87debf8d7145e37210b29a3bed3060cc2cc01077d347e58055"
+    },
+    {
+      "path": "test/gateway/gateway_recovery_test.dart",
+      "sha256": "9fbf290619557e404ebdc5b9189e1753f7b692332b73930b24b864eecc86628e"
+    },
+    {
+      "path": "test/gateway/gateway_safety_test.dart",
+      "sha256": "13fd24c28fdf392c9e1b247b7dbc7ae80c743e457754f2aa0b7da7b265fd766c"
+    },
+    {
+      "path": "test/goldens/collect_core_surfaces_golden_test.dart",
+      "sha256": "9c4685945c57d9f03a8c09ab59558cf14b26cd01e5373b15561abae906021411"
+    },
+    {
+      "path": "test/group_list_summary_availability_test.dart",
+      "sha256": "9da40bc636f295da2b7747a7ffd36c3b86a68cf531bf871efff5da33ebd2cb88"
+    },
+    {
+      "path": "test/group_summary_cache_recovery_test.dart",
+      "sha256": "33af31ad563d415c486aae86b13168bd66fac2f83b7e2a789307e1fceb83106a"
+    },
+    {
+      "path": "test/group_summary_decoding_test.dart",
+      "sha256": "0d03a7e478cadcbb2c8f21f2278a06e530c9dc8fdd2a9bfeefea0255c60c875d"
+    },
+    {
+      "path": "test/group_summary_integrity_test.dart",
+      "sha256": "c55d6ed0e732b7e02e50679e381da72f96b7480e8f33e29d3782499c83ae203b"
+    },
+    {
+      "path": "test/hardening/durable_sms_receipt_test.dart",
+      "sha256": "fd3de490efdf15871ebd486cf24db4a05f528ed89acac5347f9490b5b037162a"
+    },
+    {
+      "path": "test/hardening/editorial_summary_availability_test.dart",
+      "sha256": "23cf01a6c9f72747b61925eb8aefc90f04fe99b9cfb8f89b4a81b7bc2bd35a41"
+    },
+    {
+      "path": "test/hardening/member_sms_upload_test.dart",
+      "sha256": "ab7adf6344ecfc0542d2852f6468f7122b1d8cd49849b1eec2634512d3182219"
+    },
+    {
+      "path": "test/hardening/protected_snapshot_store_test.dart",
+      "sha256": "53d4885c3bad6847b3ad2605c543ef42d066c10a657de87be7826e9649af2004"
+    },
+    {
+      "path": "test/hardening/sms_queue_status_recovery_test.dart",
+      "sha256": "e0c784b9fd1582e4eb14a87dbcd5c7796a385dde1e34018343261ff2953d5d03"
+    },
+    {
+      "path": "test/helpers/android_manifest_permissions.dart",
+      "sha256": "ae7b53deb0dfca184ba4f7f0ffeb031703ada381e4ff3ff31436f18c96763e03"
+    },
+    {
+      "path": "test/helpers/process_runner.dart",
+      "sha256": "e968b084b7cbf4b977aa72a5abc22334d9c6420d31893f7932a716774fc28a13"
+    },
+    {
+      "path": "test/helpers/repository_source_files.dart",
+      "sha256": "500f24781ed51461335f0ead42e6f1b59d8d7f4121321f5f2d3604849210767f"
+    },
+    {
+      "path": "test/helpers/source_hygiene_helpers_test.dart",
+      "sha256": "56db9387f3ad3a73962b3f4112f8ed31cd2473907e97980fa626a6f39e371488"
+    },
+    {
+      "path": "test/l10n/collect_localizations_test.dart",
+      "sha256": "3655037e430a132bad505d5470336c4641e2f11575ab72bbe03f436bd2872ade"
+    },
+    {
+      "path": "test/landing_page_test.dart",
+      "sha256": "4c5f1ba89ce1e89ee5e2101f4097427acd50ef72f18e895a118f9b7afa7cd4b6"
+    },
+    {
+      "path": "test/member_history_controller_integrity_test.dart",
+      "sha256": "3dcc1fbd7fe2efc1992d78bebc5963878f486c647c9bd115e2fc7364094e79bd"
+    },
+    {
+      "path": "test/member_history_page_integrity_test.dart",
+      "sha256": "def7378623862d3087940b7445dd279951fc601ce5006334278ec1ad2fd86747"
+    },
+    {
+      "path": "test/payment_cache_integrity_test.dart",
+      "sha256": "29bcc2fe32d00b9ca30d9a5d6ca38c457a0f00669683b37267221d189ea50a1e"
+    },
+    {
+      "path": "test/payment_event_decoding_test.dart",
+      "sha256": "8c55a898a5ee2692d114f883e899ba7b8ab4dba932ee73f99c0a9898b7013884"
+    },
+    {
+      "path": "test/payment_intent_cache_boundary_test.dart",
+      "sha256": "af4c4406ff831235ea6d52295182f9c74c739195bd39a4d5201573118e1909dd"
+    },
+    {
+      "path": "test/payment_intent_confirmation_test.dart",
+      "sha256": "f5d9b031866084b308d637360c72b56af0c42d04ec66da960ace0c0fbf7da3a3"
+    },
+    {
+      "path": "test/payment_intent_decoding_test.dart",
+      "sha256": "fede5152c4d2c368a9971af64dea1ea087982100a0c16006ae577ff199f57fb4"
+    },
+    {
+      "path": "test/payment_json_integrity_test.dart",
+      "sha256": "38659ce2b315dacc511075a89767abb94e47d61fa0c16e919809b82878e98964"
+    },
+    {
+      "path": "test/persona_uat_smoke_test.dart",
+      "sha256": "3e101fc54a27891fbbd1692dc2244342c9bd7e4666d685910ccef6de08af2198"
+    },
+    {
+      "path": "test/release_docs_test.dart",
+      "sha256": "455f0b6e959bd7951c36f90ce7b12fa5a3dab880a77553f4dc588ffdd3644116"
+    },
+    {
+      "path": "test/review/current_routes.dart",
+      "sha256": "8c03aa971124e60c99847e3b6fa6dc79a0df051efcdca22fd9cc82acc686ece8"
+    },
+    {
+      "path": "test/review/current_states.dart",
+      "sha256": "912141111bfc5906082d6a99ebb51c5a215359dc5654e5f12e16dab1b58f5c83"
+    },
+    {
+      "path": "test/security_hygiene_test.dart",
+      "sha256": "bb15c9ff3c386a7124b5bdabf64165836e8cf8bc989aea93ad25da3ccb5e9516"
+    },
+    {
+      "path": "test/self_hosted_member_history_sql_receipts_test.dart",
+      "sha256": "6cfd5ef27de0b74263b5fa7e19b68805eb6b841cbf9f72df284067d61a98f85d"
+    },
+    {
+      "path": "test/shared/collect_offline_cache_test.dart",
+      "sha256": "85cbb0180dd17eeb915440a63629920b6a364dbb2260e78c0d0a8129fca84e29"
+    },
+    {
+      "path": "test/shared/collect_profile_country_rules_test.dart",
+      "sha256": "0de517ee43431e723d4d4950296f9a47bab3b8d8155ee1f87a926a19c7fdd62e"
+    },
+    {
+      "path": "test/shared/collect_repository_read_contract_test.dart",
+      "sha256": "c61c8f8237701aa067341d9bac54852542cc5a807fdd87ad77cd6d1115c339d8"
+    },
+    {
+      "path": "test/shared/collect_repository_test.dart",
+      "sha256": "71b266ad0b793c4d31b807657daf045ec92d21160de313051fb5cf379f155a59"
+    },
+    {
+      "path": "test/shared/collect_share_links_test.dart",
+      "sha256": "ec84a010e7721a895bac5069af31e468bc599e3588b78aa71765bcc15e1157c2"
+    },
+    {
+      "path": "test/shared/collect_share_origin_test.dart",
+      "sha256": "85c98e328104815591d63ab7825a591005f4a1ae2f900b41d14dff8ddd175ff8"
+    },
+    {
+      "path": "test/shared/contribution_intent_binding_test.dart",
+      "sha256": "26ec63f4f660ba3fb72b4bb5f332a29d87d381baf648d98606e2d3373eb74e03"
+    },
+    {
+      "path": "test/shared/group_admin_api_test.dart",
+      "sha256": "e0086274947bb5c2eac3dad05ec8c0aa78cf2a39edc959a3d2fa4f4ddf919c8a"
+    },
+    {
+      "path": "test/shared/group_invitation_protection_test.dart",
+      "sha256": "2ad6b03f7b6e88786e2e1dab3aab00f2f13fab742c1ea044a976188bda946d88"
+    },
+    {
+      "path": "test/shared/group_join_account_boundary_test.dart",
+      "sha256": "88bf33bb513277e033029681c38857065bbf03b1ef67340ba9aee9ed9a9bbaba"
+    },
+    {
+      "path": "test/shared/group_metadata_creation_test.dart",
+      "sha256": "19bfd7e252f0a0f123419b83b3b90386d99d2beacc8e453dbda7f28b5d5c5e3c"
+    },
+    {
+      "path": "test/shared/group_owner_controls_test.dart",
+      "sha256": "474077c89b8093104863e9967c6383d2f2d611161de9e122c6a6efffda3ce216"
+    },
+    {
+      "path": "test/shared/live_group_data_test.dart",
+      "sha256": "492a7a69babfb95369c22f50b918cfd695d70961807b5f386b97f440af068adf"
+    },
+    {
+      "path": "test/shared/member_data_authority_test.dart",
+      "sha256": "0612620ea0cb49a5afff594845c436251177ec37c7e5633c89c2cbed74eb3dad"
+    },
+    {
+      "path": "test/shared/member_history_pagination_test.dart",
+      "sha256": "1e57b0a24e3e0d9a68a122533a645d7916574cc3857452e1d444abd362528c6f"
+    },
+    {
+      "path": "test/shared/member_mutation_session_test.dart",
+      "sha256": "17de4c1e5d0e77548dd1a5ac7ed8390a366c47d930b6cd3af84903d81df4a85c"
+    },
+    {
+      "path": "test/shared/member_profile_gate_test.dart",
+      "sha256": "2f7a1fdb9dcc2f45caee7f56632b22d37bd4762ad6b67a91b06477921f166e06"
+    },
+    {
+      "path": "test/shared/member_read_integrity_test.dart",
+      "sha256": "45dfa6a91c0c4293e8b8782ddf685dd8fda18ae0382f083afc8677dea7fff17e"
+    },
+    {
+      "path": "test/shared/member_realtime_sdk_session_test.dart",
+      "sha256": "d61bf76790fcd90169a588cd1837e06df74e28613f29e1c95937651218cf3a0d"
+    },
+    {
+      "path": "test/shared/member_receipt_sms_consent_test.dart",
+      "sha256": "b7e864dbbb678ddf6c24dcd12a692928b06ed6facbc8c77e833001f82c1d6325"
+    },
+    {
+      "path": "test/shared/member_roster_test.dart",
+      "sha256": "faaaa24dea8a82842387e8ec5a95b805f7d61ee3c15757de597dd61e0fa57857"
+    },
+    {
+      "path": "test/shared/member_signed_history_live_reader_test.dart",
+      "sha256": "69852c00675f6e414dd94f6680b5f2b7b93ece940e093b59b1faf3161a11e3b2"
+    },
+    {
+      "path": "test/shared/member_signed_history_test.dart",
+      "sha256": "e71fa105dd2c2d57195630e127d75f698c9b116d2629db2bc859b38207878040"
+    },
+    {
+      "path": "test/shared/notification_preference_runtime_test.dart",
+      "sha256": "730ae2f6cf2a48a296a8ee80ca964cbb40c1cb4d8fce6960b50745ba0f83d502"
+    },
+    {
+      "path": "test/shared/payment_help_pending_store_test.dart",
+      "sha256": "0d6ae5b112cf882b789514caa30317383b15879399957d43af3a46ec2cf753c0"
+    },
+    {
+      "path": "test/shared/payment_help_recovery_repository_test.dart",
+      "sha256": "08d81997113d73d6c8c199f89dfd92202160e6105123fd0c1caa69d3035c9ee7"
+    },
+    {
+      "path": "test/shared/payment_support_review_test.dart",
+      "sha256": "37950e4a5a937a1619ce6724aa3829ed0850a23a8f88d326c9bedbd1fbc05263"
+    },
+    {
+      "path": "test/shared/pending_shared_group_intent_store_test.dart",
+      "sha256": "e005eaf72a51cad4d4d0bc54ea3d455a5e9d8835bc54ae13fa3be6d7cb656140"
+    },
+    {
+      "path": "test/shared/realtime_invalidation_recovery_test.dart",
+      "sha256": "9a1ac4e8cf5cf9713044ec430e778255c315bfefbd779fe713d4bbb7308785e7"
+    },
+    {
+      "path": "test/shared/repository_session_fencing_test.dart",
+      "sha256": "04561ce603e5a80b468c2c6588fb1a6e85e0141a6bcf2e23ad57528e99d114b5"
+    },
+    {
+      "path": "test/shared/rwanda_momo_history_test.dart",
+      "sha256": "38a7f9c52003285ddf5d15674c306914e0abe00e83b91cf93dd73f6c4a727fe3"
+    },
+    {
+      "path": "test/shared/supabase_member_realtime_denial_test.dart",
+      "sha256": "a7f39923e062f51b456e2a0d343c2214a7330d8e1c0109827936c838b37e8ef6"
+    },
+    {
+      "path": "test/support/admin_entity_audit_fixture.dart",
+      "sha256": "107ba7b3b392b9bf3b157bcdf09b431dc5e20e6aee3a238c1d645ccf5f0f661e"
+    },
+    {
+      "path": "test/support/admin_entity_audit_state_fixture.dart",
+      "sha256": "cb56d55d4380cb160654d4925c81799c3d494751ee6d569bbd034e011c18b3ef"
+    },
+    {
+      "path": "test/support/admin_exception_fixture.dart",
+      "sha256": "70f11bd26dba756ecd3e7a7ff8c97bf1c48055f3a4d0cda3116e5a3a417af780"
+    },
+    {
+      "path": "test/support/admin_exception_lifecycle_fixture.dart",
+      "sha256": "c2ff6a0cdb01a5c8f0b2ade0d75da7abc880fd2cdf1d4523b95f2c2aa4d15e32"
+    },
+    {
+      "path": "test/support/admin_followup_fixture.dart",
+      "sha256": "8886c7f29e9e3aec0a96626159a364da091b7aa5b4094c59d83acf3e41be7736"
+    },
+    {
+      "path": "test/support/admin_gateway_checkpoint_store.dart",
+      "sha256": "316a7edd6314ecc3b7c6c2fbdc129a2739827bb030630829192bacb4a4d7b3f3"
+    },
+    {
+      "path": "test/support/admin_gateway_fixture.dart",
+      "sha256": "d85c1ac47f630e6b6ab6015f2a29b32f0ddf4e7eedc589fb4790f67fd430e672"
+    },
+    {
+      "path": "test/support/admin_operating_policy_fixture.dart",
+      "sha256": "8470262ecd7f136bed0e0c6d96008da560150f8601f337564dab874e3e41ce53"
+    },
+    {
+      "path": "test/support/admin_read_fixture.dart",
+      "sha256": "c91690cfd78429786f927a66756b38df739fc73eba48fde645bb5e848bc6d7b7"
+    },
+    {
+      "path": "test/support/admin_receipt_operations_fixture.dart",
+      "sha256": "c8d08e33d124783fad907a97812432654e20709ea9d5caeb200cb0a4822a3abf"
+    },
+    {
+      "path": "test/support/admin_roster_fixture.dart",
+      "sha256": "686925d416ffb3afe71752de3ab27a4bd9da5e27a6dba1878b876c8c40376cf0"
+    },
+    {
+      "path": "test/support/execution_api_fixture.dart",
+      "sha256": "a50fb029c5ef25923e191dbd07b73e498eb6e68c6460de3123a6fa2eb56d9313"
+    },
+    {
+      "path": "test/support/execution_fixture.dart",
+      "sha256": "a724543e2431eaa0006b3f14056c48b183cd0e7a03cf7dd1ae4548cc7643c8c8"
+    },
+    {
+      "path": "test/support/execution_history_pages.dart",
+      "sha256": "5fb88aacc0793420097c6c935b1212aabc2174ca6156df02661a4f1874bfe9a0"
+    },
+    {
+      "path": "test/support/execution_maximum_page.dart",
+      "sha256": "ef4b34ac094fc115192519658ad8dcf164f94ce1eefd8194cc107504506a75df"
+    },
+    {
+      "path": "test/support/legacy_backend_fixture.dart",
+      "sha256": "9b73ba2e456247308f13a8de1b06e1c1c07f079d909b37658410ea3dc015c491"
+    },
+    {
+      "path": "test/support/privacy_review_fixtures.dart",
+      "sha256": "53208928cfe70bb5f78845e5965533f7caffe23f914fa80f016a0e52baabdb5f"
+    },
+    {
+      "path": "test/support/receipt_notice_content_browser_fixture.dart",
+      "sha256": "34e35da1302cd585273bc32808e1ee2e90c81611f90f70a2ebdbf238b00ed984"
+    },
+    {
+      "path": "test/support/receipt_notice_dispatch_fixtures.dart",
+      "sha256": "ce4f55cab535daecbe0e80f454dd3b23a2e1ffbec1f525ae09dc359868ee408c"
+    },
+    {
+      "path": "test/support/receipt_notice_dispatch_journal_fixture.dart",
+      "sha256": "33b454a1aad23f20211a972c189bd71ff8be083996cad5eecbeb41ae0a9adec2"
+    },
+    {
+      "path": "test/support/receipt_sms_harness.dart",
+      "sha256": "2905ea478a10ef8972c99f42b23360ccb466b2c36b0287e7cbcbbf4666b39b2e"
+    },
+    {
+      "path": "test/support/recorded_auth_fixture.dart",
+      "sha256": "3cc639e64fd33e3855a423c1206e7ddec9c42c4a680fcdea94b55a93ea2323de"
+    },
+    {
+      "path": "test/support/retention_api_fixture.dart",
+      "sha256": "6ac442be2d40e0266e7f34880eba6c0aeaad4ccf32872d052327333f54212305"
+    },
+    {
+      "path": "test/support/retention_fixture.dart",
+      "sha256": "70753d50acbbfe6cce3184c6bc165217b4d6eea8dfcad8aea8b32729bb607c36"
+    },
+    {
+      "path": "test/support/settings_eligibility_fixture.dart",
+      "sha256": "3efa16309c75c2ab23c749a1556937d1bb5a0c262ae1c43c094bd8949267f0fa"
+    },
+    {
+      "path": "test/support/settings_fixture.dart",
+      "sha256": "2d6ccb1f41b07ddbe4679346a7e39dcbc46563cf61f395a688c4c9f6f1b296cc"
+    },
+    {
+      "path": "test/support/successor_fixture.dart",
+      "sha256": "1c6da1bc800030f25eb80fd09b0fa274859e616f7b186f04075b1c1da95d041d"
+    },
+    {
+      "path": "test/support/successor_retry_fixture.dart",
+      "sha256": "d0110e9261015249404392b2ae5058add814a64ae4179c7fe9b83f8365fc6cfd"
+    },
+    {
+      "path": "test/support/supabase_sms_fixture.dart",
+      "sha256": "131720e30d1e0c9d1ec34414cdf396509c72c14f56a93fb5c6bd6d11eedd0281"
+    },
+    {
+      "path": "test/support/synthetic_jwt.dart",
+      "sha256": "f887172e988fbf9b0a532340eec475cfaab31aed2824197fe389bd04e4aa5ae1"
+    },
+    {
+      "path": "test/support/test_capture_paths.dart",
+      "sha256": "1053c008625b9df2bcc9d661da0dd6d27b84312e6aaaf672025024d3ca2b37f1"
+    },
+    {
+      "path": "test/tools/public_configuration_defaults_export_test.dart",
+      "sha256": "8ceb1b9f456dad0c5934f07b6248d656246ade44c9fa3e262f878ec1c1394818"
+    }
+  ],
+  "visual_or_device_acceptance": false
+}

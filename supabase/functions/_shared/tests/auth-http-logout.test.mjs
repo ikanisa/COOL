@@ -90,7 +90,7 @@ test('authRequest admits only the actual authenticated POST logout no-content co
     await t.test('204 remains invalid outside the exact allowlist: ' + path, async () => {
       await intercepted(new Response(null, {status: 204}), async calls => {
         await assert.rejects(authRequest(ENV, path, {token: TOKEN}), error => safeError(error, 503, 'auth_unavailable'));
-        assert.equal(calls.length, 1);
+        assert.equal(calls.length, path.includes('#') ? 0 : 1);
       });
     });
   }

@@ -1,0 +1,24 @@
+{
+  "contract": "collect.retention.current25.source-fixtures.v1",
+  "status": "pass",
+  "command": [
+    "node",
+    "--test",
+    "--test-isolation=none",
+    "--test-reporter=tap",
+    "supabase/functions/_shared/tests/fence-retention.test.mjs",
+    "supabase/functions/_shared/tests/retention-admin-context.test.mjs"
+  ],
+  "fixture_tests": 10,
+  "source_sha256": {
+    "supabase/functions/_shared/tests/fence-retention.test.mjs": "841e48506864e6c4332501f5353e46f90f0fd6688a5a99a5c3e6553ad529ca1c",
+    "supabase/functions/_shared/tests/retention-admin-context.test.mjs": "ee0edd19ffececfdace46fea2c9dc978d3e2ebe2f1e730a72710cbeb8cd685c1",
+    "supabase/functions/_shared/private-retention.js": "c33248ff54b4800ad7368f1e5563028f93fde534eec3074428b9d48b891c132f",
+    "supabase/retention-inventory.json": "f27086229c5aadc43ed4681150e96c2eba49aafe092ecdbe2ae647efbbb2d4bb"
+  },
+  "log_sha256": "63cb95c7b0e5a9378a6904d214b8bd09410c24f1844aded0ade94af5ace2e2bb",
+  "runtime_or_migration_modified": false,
+  "actual_database_acceptance": false,
+  "production_acceptance": false,
+  "scope": "Correct current25 private schema projection and retained legacy11/14 private profiles; all original blocking/current-account/email assertions preserved, plus exact SMS-map shape/dependency refusal."
+}

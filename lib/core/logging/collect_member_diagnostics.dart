@@ -27,7 +27,11 @@ class CollectMemberDiagnostics {
 
   String? _fence(CollectCloudflareClient? client) {
     final session = client?.auth.currentSession;
-    if (client?.supabaseConfiguration == null || session == null) return null;
+    if (client?.supabaseConfiguration == null ||
+        session == null ||
+        session.user.isAnonymous) {
+      return null;
+    }
     try {
       final claims = jsonDecode(
         utf8.decode(

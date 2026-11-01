@@ -288,7 +288,10 @@ class _CollectLiveReader {
       throw StateError('Sign in and refresh notification preferences.');
     }
     final value = await backend
-        .rpc<dynamic>('get_notification_preferences_v2')
+        .rpc<dynamic>(
+          'get_notification_preferences_v2',
+          params: {'p_contract_version': 2},
+        )
         .setHeader('Authorization', 'Bearer $accessToken');
     return NotificationPreferenceRead.parse(value, profile.id);
   }

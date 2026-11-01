@@ -106,6 +106,7 @@ internal object MemberSmsUploadPolicy {
         val claims = JSONObject(decode(parts[1]))
         val authUserId = if (allowMappedAuthUser) user.optString("auth_user_id", owner) else owner
         token.takeIf { token.length <= 32768 && parts.size == 3 && user.getString("id") == owner &&
+            !user.optBoolean("is_anonymous") && !claims.optBoolean("is_anonymous") &&
             authUserId.matches(Regex("^[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$")) &&
             claims.optString("sub") == authUserId && claims.optString("role") == "authenticated" &&
             claims.optString("iss") == expectedIssuer && claims.optString("aud") == expectedAudience &&

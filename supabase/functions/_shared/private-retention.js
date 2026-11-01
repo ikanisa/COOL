@@ -49,6 +49,9 @@ function expressions(entry){
  if(entry.relation==='private.storage_delete_intents')lifecycle="jsonb_build_object('state',r.state,'absence',coalesce(r.absence_proof @> '{\"headStatus\":404,\"getStatus\":404,\"bucketVerified\":true}'::jsonb,false),'sha256',r.expected_sha256)";
  return {rowHash:hash(row),identityHash:hash(identity),keyHash:hash(key),lifecycle};
 }
+// Offline SQL manifest compilation reuses these exact trusted selectors and
+// identity/lifecycle expressions. They are not request-controlled SQL.
+export {selection as privateRetentionSelection,expressions as privateRetentionExpressions};
 function rowQuery(entry,subject){
  const scoped=selection(entry,subject),e=expressions(entry);
  return {sql:`SELECT ${e.keyHash} AS key_sha256,${e.rowHash} AS row_sha256,${e.identityHash} AS identity_sha256,${e.lifecycle} AS lifecycle FROM ${entry.relation} r WHERE ${scoped.where} ORDER BY ${e.keyHash} LIMIT ${catalog.limits.rows_per_class+1}`,args:scoped.args};
@@ -67,21 +70,42 @@ const privateSchemaSql=`SELECT c.relname::text AS name,c.relkind::text AS kind,
   (SELECT string_agg(pg_get_triggerdef(t.oid),';' ORDER BY t.tgname) FROM pg_trigger t WHERE t.tgrelid=c.oid AND NOT t.tgisinternal) AS triggers
   FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='private' AND c.relkind IN('r','p','v') ORDER BY c.relname`;
 const stoppedClass='private:collect_fence_stopped_admissions';
+const archiveHistoryRelations=new Set(['collect_fence_working_admissions','collect_fence_admission_archive','collect_fence_admission_totals','member_history_versions']);
+const manifestRelations=new Set(['retention_inventory_manifests','retention_inventory_pages']);
+const rowExecutorRelations=new Set(['retention_row_plans','retention_row_claims','retention_row_effects','retention_row_operations']);
 export async function privateRetentionCatalogIdentity(env){
  const observed=await all(env,privateSchemaSql);
  const expected=catalog.classes.filter(x=>x.relation.startsWith('private.')).map(x=>x.relation.slice(8)).sort();
- const names=stableJson(observed.map(x=>x.name)),current=names===stableJson(expected);
- // SQL11 remains an explicitly qualified historical application prefix. Only
- // the exact SQL14 addition may be absent there; every other relation remains
- // mandatory. Both profiles retain a blocked, unmapped stopped-work class.
- const legacy=names===stableJson(expected.filter(name=>name!==stoppedClass.slice(8)));
- if(!current&&!legacy)fail('privacy_retention_unknown_private_class');
+ const actualNames=observed.map(x=>x.name),actual=new Set(actualNames);
+ const archiveCount=[...archiveHistoryRelations].filter(name=>actual.has(name)).length;
+ const manifestCount=[...manifestRelations].filter(name=>actual.has(name)).length;
+ const rowExecutorCount=[...rowExecutorRelations].filter(name=>actual.has(name)).length;
+ const smsFence=actual.has('collect_sms_fence_admissions');
+ // Each additive capability is explicit. An incomplete archive group or any
+ // other unknown relation is refused; historical fixture prefixes stay exact.
+ if(archiveCount!==0&&archiveCount!==archiveHistoryRelations.size)fail('privacy_retention_unknown_private_class');
+ if(manifestCount!==0&&manifestCount!==manifestRelations.size)fail('privacy_retention_unknown_private_class');
+ if(rowExecutorCount!==0&&rowExecutorCount!==rowExecutorRelations.size||rowExecutorCount&&manifestCount!==manifestRelations.size)fail('privacy_retention_unknown_private_class');
+ if(smsFence&&(archiveCount!==archiveHistoryRelations.size||manifestCount!==manifestRelations.size||rowExecutorCount!==rowExecutorRelations.size||!actual.has('collect_deployment_identity')||
+  observed.find(row=>row.name==='collect_sms_fence_admissions')?.kind!=='r'||
+  observed.find(row=>row.name==='collect_sms_fence_admissions')?.columns!=='admission_id:uuid:true,profile_sha256:text:true,created_at:timestamp with time zone:true'))fail('privacy_retention_unknown_private_class');
+ if((archiveCount||manifestCount||actual.has('guest_upgrade_challenges')||actual.has('collect_deployment_identity'))&&!actual.has(stoppedClass.slice(8)))
+  fail('privacy_retention_unknown_private_class');
+ const optional=new Set([...archiveHistoryRelations,...manifestRelations,...rowExecutorRelations,'guest_upgrade_challenges','collect_deployment_identity','collect_sms_fence_admissions',stoppedClass.slice(8)]);
+ const admitted=expected.filter(name=>!optional.has(name)||actual.has(name));
+ if(stableJson(actualNames)!==stableJson(admitted))fail('privacy_retention_unknown_private_class');
+ let profile=archiveCount?'archive_history_v4':actual.has(stoppedClass.slice(8))?'stopped_admission14':'admin_email11';
+ if(actual.has('guest_upgrade_challenges'))profile+='_guest_upgrade';
+ if(actual.has('collect_deployment_identity'))profile+='_deployment';
+ if(manifestCount)profile+='_manifests_v2';
+ if(rowExecutorCount)profile+='_row_executor_v2';
+ if(smsFence)profile+='_sms_fence';
  const managed=await all(env,'SELECT private.retention_managed_inventory(?) AS inventory',[null]);
  const schema=managed[0]?.inventory?.schema;
  if(!schema||managed[0].inventory.contract_version!==1)fail('privacy_retention_managed_inventory_unavailable');
  const memberRealtimeIdentity=await memberRealtimeRetentionIdentity(env);
  const definition=(await all(env,"SELECT encode(sha256(convert_to(pg_get_functiondef('private.retention_managed_inventory(text)'::regprocedure),'UTF8')),'hex') AS sha256"))[0].sha256;
- return {contract_version:1,schema_profile:current?'stopped_admission14':'admin_email11',catalog_sha256:await digest(stableJson(catalog)),schema_sha256:await digest(stableJson({private:observed,managed:schema,managed_helper:definition,member_realtime:memberRealtimeIdentity})),private_schema:observed,managed_schema:schema,managed_helper_sha256:definition,member_realtime_identity:memberRealtimeIdentity,classes:privateRetentionClasses};
+ return {contract_version:1,schema_profile:profile,catalog_sha256:await digest(stableJson(catalog)),schema_sha256:await digest(stableJson({private:observed,managed:schema,managed_helper:definition,member_realtime:memberRealtimeIdentity})),private_schema:observed,managed_schema:schema,managed_helper_sha256:definition,member_realtime_identity:memberRealtimeIdentity,classes:privateRetentionClasses};
 }
 export async function inventoryPrivateRetention(env,subject){
  if(typeof subject!=='string'||!subject.length||subject.length>200)fail('privacy_retention_subject_invalid');

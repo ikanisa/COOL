@@ -9,7 +9,7 @@
     ]
   },
   "tasks": {
-    "check": "deno check --frozen collect-api/index.ts admin-api/index.ts collect-jobs/index.ts",
+    "check": "deno check --frozen collect-api/index.ts admin-api/index.ts collect-jobs/index.ts collect-email-jobs/index.ts collect-sms/index.ts send-sms-hook/index.ts",
     "test:node": "node ../../scripts/supabase/run_edge_node_tests.mjs",
     "test:deno": "deno test --frozen --allow-env --allow-net --allow-read _shared/tests/",
     "test": "deno task test:node && deno task test:deno"

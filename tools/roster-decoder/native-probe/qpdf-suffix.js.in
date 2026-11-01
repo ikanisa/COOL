@@ -1,0 +1,2 @@
+
+export default async options=>{const lib=await module.exports(options);lib.diagnostics=diagnostics;return lib;};

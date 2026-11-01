@@ -61,7 +61,7 @@ void _registerNotificationPagingResponsivePageCases() {
           'Metadata does not grant access.',
           'Not authorized by history.',
           'Never resolves an original UUID.',
-          'Metadata only here. No batch preparation, resume or sender action is available.',
+          'Read-only original batch status is available with current permission. History never supplies resume or sending authority.',
         ]) {
           final fact = find.descendant(of: details, matching: find.text(value));
           await _reveal(tester, fact);

@@ -19,7 +19,7 @@ const PUBLIC_OPERATIONS=new Set(publicRpcNames);
 function cors(request,env) {
  const origin=request.headers.get('Origin');
  const allowed=(env.ALLOWED_ORIGINS??'').split(',').map(s=>s.trim()).filter(Boolean);
- if(origin&&!allowed.includes(origin)&&!isGoogleProviderNavigation(request))throw new ApiError(403,'origin_denied','This origin is not allowed.');
+ if(origin&&!allowed.includes(origin)&&!isGoogleProviderNavigation(request,env))throw new ApiError(403,'origin_denied','This origin is not allowed.');
  return origin?{'Access-Control-Allow-Origin':origin,'Vary':'Origin','Access-Control-Allow-Methods':'GET,POST,OPTIONS','Access-Control-Allow-Headers':'Authorization,Content-Type,X-Request-ID','Access-Control-Max-Age':'600'}:{};
 }
 async function publicRpc(operation,body,env) {

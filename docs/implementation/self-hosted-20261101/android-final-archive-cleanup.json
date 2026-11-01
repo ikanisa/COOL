@@ -1,0 +1,205 @@
+{
+  "contract": "collect.android.final-archive-reclamation.v1",
+  "checked_at": "2026-11-01T06:24:38.958810+00:00",
+  "status": "complete",
+  "removed_files": [
+    {
+      "path": "archives/.android-ndk-r28c-linux.zip.3XGeoj",
+      "kind": "verified_duplicate_ndk_prefix",
+      "bytes": 643039232,
+      "allocated_bytes": 643043328,
+      "sha256": "33a5ad71c3806178e01752a48f5b83c30e8455203618a363798d7bb202101038",
+      "official_source_url": "https://dl.google.com/android/repository/android-ndk-r28c-linux.zip",
+      "complete_archive_sha256": "dfb20d396df28ca02a8c708314b814a4d961dc9074f9a161932746f815aa552f",
+      "link_count": 1,
+      "inode": 3070112,
+      "mtime_ns": 1793505825294587412
+    },
+    {
+      "path": "archives/.android-ndk-r28c-linux.zip.3XGeoj.7StcTd",
+      "kind": "verified_duplicate_ndk_prefix",
+      "bytes": 518520832,
+      "allocated_bytes": 518524928,
+      "sha256": "7c3b634b36c70f4a379f4e1096b7e7bff905da5d099703249de55bed7075396b",
+      "official_source_url": "https://dl.google.com/android/repository/android-ndk-r28c-linux.zip",
+      "complete_archive_sha256": "dfb20d396df28ca02a8c708314b814a4d961dc9074f9a161932746f815aa552f",
+      "link_count": 1,
+      "inode": 3074927,
+      "mtime_ns": 1793506009274442093
+    },
+    {
+      "path": "archives/.android-ndk-r28c-linux.zip.3XGeoj.7StcTd.EB6r3h",
+      "kind": "verified_duplicate_ndk_prefix",
+      "bytes": 223084544,
+      "allocated_bytes": 223088640,
+      "sha256": "0ca3426b1c1cb43c806abb3fc1f371d5810063137fbabe674f893df19215fea7",
+      "official_source_url": "https://dl.google.com/android/repository/android-ndk-r28c-linux.zip",
+      "complete_archive_sha256": "dfb20d396df28ca02a8c708314b814a4d961dc9074f9a161932746f815aa552f",
+      "link_count": 1,
+      "inode": 3074929,
+      "mtime_ns": 1793506038669127898
+    },
+    {
+      "path": "archives/.android-ndk-r28c-linux.zip.PRC0wE",
+      "kind": "verified_duplicate_ndk_prefix",
+      "bytes": 299368448,
+      "allocated_bytes": 299372544,
+      "sha256": "22fde508121b334b685463c6ae357d99281b71b8c5c988ed3493d63561891e07",
+      "official_source_url": "https://dl.google.com/android/repository/android-ndk-r28c-linux.zip",
+      "complete_archive_sha256": "dfb20d396df28ca02a8c708314b814a4d961dc9074f9a161932746f815aa552f",
+      "link_count": 1,
+      "inode": 3045237,
+      "mtime_ns": 1793504608188300437
+    },
+    {
+      "path": "archives/.android-ndk-r28c-linux.zip.W0ie78",
+      "kind": "verified_duplicate_ndk_prefix",
+      "bytes": 577241088,
+      "allocated_bytes": 577245184,
+      "sha256": "45894eee78a0797bc872db8b0bbb83fc933abd55e9960c2afbadd630934c94d8",
+      "official_source_url": "https://dl.google.com/android/repository/android-ndk-r28c-linux.zip",
+      "complete_archive_sha256": "dfb20d396df28ca02a8c708314b814a4d961dc9074f9a161932746f815aa552f",
+      "link_count": 1,
+      "inode": 3045236,
+      "mtime_ns": 1793504635779080997
+    },
+    {
+      "path": "archives/.android-ndk-r28c-linux.zip.W0ie78.4row4f",
+      "kind": "verified_duplicate_ndk_prefix",
+      "bytes": 346816512,
+      "allocated_bytes": 346820608,
+      "sha256": "7237b8468d319a529f8e9f430107171a6e6107ce613fb06e33dff5fa0f595503",
+      "official_source_url": "https://dl.google.com/android/repository/android-ndk-r28c-linux.zip",
+      "complete_archive_sha256": "dfb20d396df28ca02a8c708314b814a4d961dc9074f9a161932746f815aa552f",
+      "link_count": 1,
+      "inode": 3069873,
+      "mtime_ns": 1793504658166080967
+    },
+    {
+      "path": "archives/.android-ndk-r28c-linux.zip.W0ie78.hISaRV",
+      "kind": "verified_duplicate_ndk_prefix",
+      "bytes": 398196736,
+      "allocated_bytes": 398200832,
+      "sha256": "16e7a32f1fe68eb27f4d246a673fd11752d32b7d52342be7c5df15e41893e886",
+      "official_source_url": "https://dl.google.com/android/repository/android-ndk-r28c-linux.zip",
+      "complete_archive_sha256": "dfb20d396df28ca02a8c708314b814a4d961dc9074f9a161932746f815aa552f",
+      "link_count": 1,
+      "inode": 3069836,
+      "mtime_ns": 1793505799455723557
+    },
+    {
+      "path": "archives/android-ndk-r28c-linux.zip",
+      "kind": "verified_official_archive",
+      "bytes": 722261334,
+      "allocated_bytes": 722268160,
+      "sha256": "dfb20d396df28ca02a8c708314b814a4d961dc9074f9a161932746f815aa552f",
+      "official_source_url": "https://dl.google.com/android/repository/android-ndk-r28c-linux.zip",
+      "complete_archive_sha256": "dfb20d396df28ca02a8c708314b814a4d961dc9074f9a161932746f815aa552f",
+      "link_count": 1,
+      "inode": 3069870,
+      "mtime_ns": 1793504610867518551
+    },
+    {
+      "path": "archives/build-tools_r36_linux.zip",
+      "kind": "verified_official_archive",
+      "bytes": 63737259,
+      "allocated_bytes": 63737856,
+      "sha256": "5d9ac77fb6ff43d9da518a337b4fcf8f9097113df531d99ccefe80ef7ce8250b",
+      "official_source_url": "https://dl.google.com/android/repository/build-tools_r36_linux.zip",
+      "complete_archive_sha256": "5d9ac77fb6ff43d9da518a337b4fcf8f9097113df531d99ccefe80ef7ce8250b",
+      "link_count": 1,
+      "inode": 3069872,
+      "mtime_ns": 1793504597904095671
+    },
+    {
+      "path": "archives/commandlinetools-linux-15859902_latest.zip",
+      "kind": "verified_official_archive",
+      "bytes": 181833628,
+      "allocated_bytes": 181833728,
+      "sha256": "4e4c464f145a7512b57d088ac6c278c03c9eea610886b35a5e0804e74eedf583",
+      "official_source_url": "https://dl.google.com/android/repository/commandlinetools-linux-15859902_latest.zip",
+      "complete_archive_sha256": "4e4c464f145a7512b57d088ac6c278c03c9eea610886b35a5e0804e74eedf583",
+      "link_count": 1,
+      "inode": 3069871,
+      "mtime_ns": 1793504335191987486
+    },
+    {
+      "path": "archives/openjdk-17-jdk-headless_17.0.20+8-1~24.04_amd64.deb",
+      "kind": "verified_official_archive",
+      "bytes": 71573808,
+      "allocated_bytes": 71581696,
+      "sha256": "24a6fc05d51f205b4de06f78621c37f27d1e87673aa55507cf38d20f7eb38968",
+      "official_source_url": "https://snapshot.ubuntu.com/ubuntu/20260828T000000Z/pool/main/o/openjdk-17/openjdk-17-jdk-headless_17.0.20+8-1~24.04_amd64.deb",
+      "complete_archive_sha256": "24a6fc05d51f205b4de06f78621c37f27d1e87673aa55507cf38d20f7eb38968",
+      "link_count": 1,
+      "inode": 3069842,
+      "mtime_ns": 1793504337031902347
+    },
+    {
+      "path": "archives/openjdk-17-jre-headless_17.0.20+8-1~24.04_amd64.deb",
+      "kind": "verified_official_archive",
+      "bytes": 48065500,
+      "allocated_bytes": 48066560,
+      "sha256": "2d5da465ef18c4db26e1d231262d7715e77824aa1f5e1af00883abe8a9369944",
+      "official_source_url": "https://snapshot.ubuntu.com/ubuntu/20260828T000000Z/pool/main/o/openjdk-17/openjdk-17-jre-headless_17.0.20+8-1~24.04_amd64.deb",
+      "complete_archive_sha256": "2d5da465ef18c4db26e1d231262d7715e77824aa1f5e1af00883abe8a9369944",
+      "link_count": 1,
+      "inode": 3069839,
+      "mtime_ns": 1793504336059947324
+    },
+    {
+      "path": "archives/platform-36_r02.zip",
+      "kind": "verified_official_archive",
+      "bytes": 65878410,
+      "allocated_bytes": 65880064,
+      "sha256": "37607369a28c5b640b3a7998868d45898ebcb777565a0e85f9acf36f29631d2e",
+      "official_source_url": "https://dl.google.com/android/repository/platform-36_r02.zip",
+      "complete_archive_sha256": "37607369a28c5b640b3a7998868d45898ebcb777565a0e85f9acf36f29631d2e",
+      "link_count": 1,
+      "inode": 3069838,
+      "mtime_ns": 1793504597708104400
+    },
+    {
+      "path": "archives/platform-tools_r37.0.1-linux.zip",
+      "kind": "verified_official_archive",
+      "bytes": 9054187,
+      "allocated_bytes": 9056256,
+      "sha256": "d230f13842f60f782a8645f9c813f8f845bf36089ea7289f28c48f17979313f1",
+      "official_source_url": "https://dl.google.com/android/repository/platform-tools_r37.0.1-linux.zip",
+      "complete_archive_sha256": "d230f13842f60f782a8645f9c813f8f845bf36089ea7289f28c48f17979313f1",
+      "link_count": 1,
+      "inode": 3069837,
+      "mtime_ns": 1793504595340210195
+    }
+  ],
+  "removed_file_bytes": 4168671518,
+  "removed_allocated_bytes": 4168720384,
+  "free_bytes_before": 364142592,
+  "free_bytes_after": 4532498432,
+  "net_free_bytes_increase": 4168355840,
+  "plan_sha256": "716c52dc70d8b5fb3b720d5e01804e848c9d4b482036e72ea204c77b8fd1a99b",
+  "prior_receipts_preserved": [
+    {
+      "name": "archive-space-reclamation-receipt.json",
+      "sha256": "c7d460566a838a7c8244c473a216bcafe5935db54fd313aecf8df1799279489e"
+    },
+    {
+      "name": "additional-archive-cleanup.json",
+      "sha256": "2c4c33073ccc2353a6577a6b102b09da44978ba5c372f06d0cff648f8d9d10e1"
+    }
+  ],
+  "installed_critical_sha256_before_and_after": {
+    "jdk-root/usr/lib/jvm/java-17-openjdk-amd64/bin/java": "4976918b29ece3fe634bdbcf1377676e42af429b5311ba234f6f95039117d4d4",
+    "jdk-root/usr/lib/jvm/java-17-openjdk-amd64/bin/javac": "bedc80c8a804b2f3ec8beb928e0ceaa50542d6c482e2194327a292eef254d11f",
+    "sdk/build-tools/36.0.0/aapt2": "1a6a396b9cd071f7040071fdd108718cb98c3c9f4960044f373b288993d19eb7",
+    "sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin/clang": "6156dd4e5e466333197a00b8d20bca72c292186643b749dcaaa3aa9164afb1de",
+    "sdk/platforms/android-36/android.jar": "d9eb9da824d9e247a352f570f01e1169e725b2954bca9e283a71786c59b59f9a"
+  },
+  "archive_directory_remaining": [],
+  "new_downloads": 0,
+  "sdk_jdk_installed_files_modified": false,
+  "gradle_runtime_and_caches_modified": false,
+  "source_or_database_modified": false,
+  "unique_failure_evidence_outside_archives_preserved": true,
+  "scope": "Only current checksum-verified official download copies and proved byte-identical NDK prefixes in this owned archives directory were removed."
+}

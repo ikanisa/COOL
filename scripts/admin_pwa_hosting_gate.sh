@@ -17,7 +17,7 @@ case "${1:-}" in
     ;;
 esac
 
-BUILD_DIR="$BUILD_DIR" OUTPUT_FORMAT="$output_format" ruby -r json -r time <<'RUBY'
+ROOT_DIR="$ROOT_DIR" BUILD_DIR="$BUILD_DIR" OUTPUT_FORMAT="$output_format" ruby -r json -r time -r open3 <<'RUBY'
 build_dir = ENV.fetch("BUILD_DIR")
 output_format = ENV.fetch("OUTPUT_FORMAT")
 
@@ -40,7 +40,10 @@ unless ["cloudflare", "supabase"].include?(expected_backend) && version["backend
   failures << "version.json must declare the explicitly selected Collect backend"
 end
 if expected_backend == "supabase"
-  unless version["supabase_project_ref"] == "rrlduytparvsjfmegalh" &&
+  _identity_out, _identity_error, identity_status = Open3.capture3(
+    'python3', File.join(ENV.fetch('ROOT_DIR'), 'scripts/supabase/admin_hosting_metadata.py'), version_path
+  )
+  unless identity_status.success? &&
       version["authentication"] == "supabase_auth_cookie_with_email_verification" &&
       version["admin_transport"] == "same_origin_static_proxy" &&
       version["supabase_schema_sha256"].to_s.match?(/\A[a-f0-9]{64}\z/) &&

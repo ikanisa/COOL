@@ -14,7 +14,9 @@ help:
 	@echo "  make flutter-pub-get   Run flutter pub get"
 	@echo "  make format            Format Dart sources"
 	@echo "  make analyze           Run Flutter analyzer"
-	@echo "  make test              Run Flutter tests"
+	@echo "  make test              Run unit/widget tests (SQL receipts require their explicit integration target)"
+	@echo "  make test-history-current14 DEFINES='...' Run historical current14 SQL receipt consumer"
+	@echo "  make test-history-selfhost DEFINES='...' Run current additive self-hosted SQL receipt consumer"
 	@echo "  make admin-web-build   Build the Collect admin web console"
 	@echo "  make admin-pwa-gate    Validate generated Admin PWA metadata and secret hygiene"
 	@echo "  make admin-pwa-hosting-gate Validate Admin PWA static hosting headers and robots policy"
@@ -66,12 +68,19 @@ format-check:
 analyze:
 	$(FLUTTER) analyze
 
+# The maintained unit scope matches CI. Integration packets are never silently
+# synthesized or skipped by their tests; invoke the exact named profile below.
 test:
-	@set -euo pipefail; \
-	while IFS= read -r -d '' test_file; do \
-		echo "[flutter-test] $$test_file"; \
-		"$(FLUTTER)" test --no-pub --concurrency=1 "$$test_file"; \
-	done < <(find test -type f -name '*_test.dart' ! -name '._*' -print0 | sort -z)
+	"$(FLUTTER)" test --no-pub --concurrency=1 --exclude-tags=integration
+
+.PHONY: test-history-current14 test-history-selfhost
+test-history-current14:
+	@test -n "$(DEFINES)" && test -f "$(DEFINES)" || { echo "DEFINES must name the reviewed historical current14 packet defines file." >&2; exit 2; }
+	"$(FLUTTER)" test --no-pub --tags=integration --dart-define-from-file="$(DEFINES)" test/current14_member_history_sql_receipts_test.dart
+
+test-history-selfhost:
+	@test -n "$(DEFINES)" && test -f "$(DEFINES)" || { echo "DEFINES must name the reviewed current additive self-hosted packet defines file." >&2; exit 2; }
+	"$(FLUTTER)" test --no-pub --tags=integration --dart-define-from-file="$(DEFINES)" test/self_hosted_member_history_sql_receipts_test.dart
 
 admin-web-build:
 	@./scripts/admin_pwa_release_build.sh
@@ -334,31 +343,47 @@ cloudflare-platform-dev:
 cloudflare-platform-migrate-local:
 	@cd deploy/platform-api && npm run migrate:local
 
-.PHONY: supabase-inventory supabase-test supabase-schema-test supabase-data-test supabase-admin-consumers-test supabase-current16-integration-native
+.PHONY: supabase-inventory supabase-test supabase-source-test supabase-current-native supabase-schema-test supabase-historical-schema-test supabase-data-test supabase-admin-consumers-test supabase-current16-integration-native
 supabase-inventory:
 	@node scripts/supabase/inventory.mjs .
 
 supabase-schema-test:
+	@$(MAKE) supabase-current-native
+
+# Historical original-schema qualification requires its reviewed source checkout.
+supabase-historical-schema-test:
 	@node scripts/supabase/test_schema.mjs
 
 supabase-data-test:
 	@node --test scripts/supabase/data_stage.test.mjs
 
 supabase-test:
-	@python3 supabase/schema-src/generate_baseline.py --check
-	@python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config
-	@node scripts/supabase/test_schema.mjs
-	@node --test scripts/supabase/data_stage.test.mjs
-	@node scripts/tests/payment_evidence_reveal_test.mjs
-	@node scripts/supabase/run_edge_node_tests.test.mjs
-	@node scripts/supabase/testing/curated-platform-fixture.test.mjs
-	@node scripts/supabase/testing/batch-capacity.test.mjs
-	@node --test scripts/supabase/testing/current16-integration.test.mjs
-	@cd supabase/functions && "$${COLLECT_DENO:-deno}" task check
-	@cd supabase/functions && "$${COLLECT_DENO:-deno}" task test
+	@$(MAKE) supabase-source-test
+	@$(MAKE) supabase-current-native
 	@$(MAKE) supabase-admin-consumers-test
 
-# Requires the explicitly owned loopback cluster, pinned native dependencies and
+# No database/provider claim: these are current source and transport contracts.
+supabase-source-test:
+	@python3 supabase/schema-src/generate_baseline.py --check
+	@python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test
+	@python3 -m unittest scripts.self_hosted.test_operations.Configuration
+	@node --test deploy/self-hosted/*.test.mjs scripts/self_hosted/*.test.mjs scripts/supabase/deployment-profile.test.mjs
+	@node --test scripts/supabase/data-contracts.test.mjs
+	@node scripts/tests/payment_evidence_reveal_test.mjs
+	@node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs
+	@node --test scripts/supabase/testing/current16-integration.test.mjs
+	@node --test scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs
+	@node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs scripts/self_hosted/jobs-profile.test.mjs scripts/self_hosted/email-job-contract.test.mjs
+	@node scripts/supabase/run_edge_node_tests.mjs
+	@node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs
+	@cd supabase/functions && "$${COLLECT_DENO:-deno}" task check
+
+# Mandatory private fixture inputs are validated before allocating a new DB.
+# Missing inputs fail this target; a no-DB source pass never satisfies it.
+supabase-current-native:
+	@node scripts/supabase/testing/current-self-hosted-native.mjs
+
+# Historical original16 only. Requires its reviewed checkout, owned cluster and
 # fresh output path documented in scripts/supabase/testing/current16-integration.md.
 supabase-current16-integration-native:
 	@node scripts/supabase/testing/current16-integration.mjs
