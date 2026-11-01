@@ -2,6 +2,7 @@ import {ApiError,readJson,json,first,id,digest} from './core.js';
 import {encrypt,decrypt} from './encryption.js';
 import {authRequest,verifyToken} from '../auth-http.js';
 import {responseSession} from './auth.js';
+import {verifyDeploymentProfile} from '../deployment-profile.js';
 
 export const GOOGLE_PROJECT_ORIGIN='https://rrlduytparvsjfmegalh.supabase.co';
 export const GOOGLE_APPLICATION_CALLBACK='https://platform-admin.collect.ikanisa.com/functions/v1/collect-api/v1/auth/google/callback';
@@ -12,10 +13,16 @@ const b64=bytes=>btoa(String.fromCharCode(...new Uint8Array(bytes))).replace(/\+
 const opaque=value=>typeof value==='string'&&/^[A-Za-z0-9_-]{43}$/.test(value);
 const fail=(code='invalid_google_sign_in',status=400)=>{throw new ApiError(status,code,'Google sign-in could not finish.');};
 const custody=env=>({...env,DATA_KEY_ID:env.SESSION_KEY_ID??'bff-v1',DATA_ENCRYPTION_KEY:env.SESSION_ENCRYPTION_KEY,DATA_DECRYPTION_KEYS_JSON:env.SESSION_DECRYPTION_KEYS_JSON});
-const configured=env=>{
+const configured=async env=>{
  if(env.GOOGLE_AUTH_ENABLED!=='true')fail('google_auth_unavailable',503);
  const callback=env.COLLECT_GOOGLE_CALLBACK_URL??env.SUPABASE_GOOGLE_CALLBACK_URL;
  if(env.COLLECT_GOOGLE_CALLBACK_URL!==undefined&&env.SUPABASE_GOOGLE_CALLBACK_URL!==undefined&&env.COLLECT_GOOGLE_CALLBACK_URL!==env.SUPABASE_GOOGLE_CALLBACK_URL)fail('google_auth_unavailable',503);
+ if(env.COLLECT_DEPLOYMENT_PROFILE!==undefined||env.COLLECT_DEPLOYMENT_PROFILE_SHA256!==undefined){
+  let profile;try{profile=await verifyDeploymentProfile(env);}catch{fail('google_auth_unavailable',503);}
+  const approved=profile.google_callback_origin+'/functions/v1/collect-api/v1/auth/google/callback';
+  if(env.SUPABASE_URL!==profile.supabase_origin||callback!==undefined&&callback!==approved)fail('google_auth_unavailable',503);
+  return approved;
+ }
  if(env.SUPABASE_URL!==GOOGLE_PROJECT_ORIGIN||!GOOGLE_APPLICATION_CALLBACKS.has(callback))fail('google_auth_unavailable',503);
  return callback;
 };
@@ -73,7 +80,7 @@ export function callbackResult(flow,data) {
 }
 
 export async function startGoogleFlow(request,env,{surface='member'}={}) {
- const callback=configured(env);if(request.method!=='POST')fail('method_not_allowed',405);
+ const callback=await configured(env);if(request.method!=='POST')fail('method_not_allowed',405);
  if(!['member','admin'].includes(surface))fail();
  const body=await readJson(request,8192);
  if(body.surface!==undefined&&body.surface!==surface||!opaque(body.code_challenge)||!opaque(body.client_state))fail('invalid_request');
@@ -86,7 +93,7 @@ export async function startGoogleFlow(request,env,{surface='member'}={}) {
   env.DB.prepare('INSERT INTO private.google_flow_context(flow_id,surface,request_origin) VALUES(?,?,?)').bind(fid,surface,requestOrigin),
  ]);
  const redirect=new URL(callback);redirect.searchParams.set('state',state);
- const target=new URL(GOOGLE_PROJECT_ORIGIN+'/auth/v1/authorize');
+ const target=new URL(env.SUPABASE_URL+'/auth/v1/authorize');
  target.search=new URLSearchParams({provider:'google',redirect_to:redirect.href,code_challenge:b64(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(verifier))),code_challenge_method:'s256',scopes:'openid email profile',prompt:'select_account'}).toString();
  return json({authorization_url:target.href,expires_in:300});
 }
@@ -122,7 +129,7 @@ async function googleCallback(request,env,callback) {
  * @param {any} env
  * @param {{surface?:'member'|'admin',admit?:null|((request:Request,env:any,tokens:any)=>Promise<Response>)}} options */
 export async function exchangeGoogleFlow(request,env,{surface='member',admit=null}={}) {
- const callback=configured(env);if(request.method!=='POST')fail('method_not_allowed',405);
+ const callback=await configured(env);if(request.method!=='POST')fail('method_not_allowed',405);
  if(surface==='admin')frontend(request,env,surface,request.headers.get('Origin'),callback);
  const body=await readJson(request,8192);if(!opaque(body.code)||!opaque(body.code_verifier)||body.client_state!==undefined&&!opaque(body.client_state))fail();
  const flow=await first(env,"SELECT * FROM auth_google_flows WHERE handoff_hash=? AND status='ready' AND expires_at>?",await digest(body.code),unix());if(!flow)fail();
@@ -155,7 +162,7 @@ export async function exchangeGoogleFlow(request,env,{surface='member',admit=nul
 export async function handleGoogleAuth(request,env) {
  const path=new URL(request.url).pathname;
  if(!['/v1/auth/google/start','/v1/auth/google/callback','/v1/auth/google/exchange'].includes(path))fail('not_found',404);
- const callback=configured(env);if(request.method!==(path.endsWith('/callback')?'GET':'POST'))fail('method_not_allowed',405);
+ const callback=await configured(env);if(request.method!==(path.endsWith('/callback')?'GET':'POST'))fail('method_not_allowed',405);
  if(path.endsWith('/start'))return startGoogleFlow(request,env);
  if(path.endsWith('/callback'))return googleCallback(request,env,callback);
  return exchangeGoogleFlow(request,env);

@@ -1,5 +1,6 @@
 import {renderLocalChallengeDocument} from '../../platform-supabase-free/local-challenge.mjs';
-import {createCollectTransport, SUPABASE_ORIGIN} from './supabase-transport.js';
+import {createCollectTransport} from './supabase-transport.js';
+import {verifyDeploymentProfile} from '../../../supabase/functions/_shared/deployment-profile.js';
 
 function failure(status, code, message) {
   return Response.json({error: {code, message}}, {status, headers: {
@@ -16,23 +17,30 @@ export function createAdminWorker({fetchImpl = (request, init) => globalThis.fet
       return failure(403, 'origin_denied', 'This workspace origin is unavailable.');
     }
     const backend = env.COLLECT_BACKEND ?? 'supabase';
-    if (backend !== 'cloudflare' && backend !== 'supabase') {
+    if (backend !== 'cloudflare' && backend !== 'supabase' || backend !== 'supabase' &&
+        (env.COLLECT_DEPLOYMENT_PROFILE !== undefined || env.COLLECT_DEPLOYMENT_PROFILE_SHA256 !== undefined)) {
       return failure(503, 'backend_configuration_invalid', 'The workspace backend is unavailable.');
     }
     if (backend === 'supabase') {
-      // The target is compiled into the transport. A configuration mismatch
-      // fails closed instead of choosing a different project or legacy API.
-      if (env.SUPABASE_URL !== SUPABASE_ORIGIN) {
-        return failure(503, 'backend_configuration_invalid', 'The workspace backend is unavailable.');
-      }
-      let transport;
+      let transport, profile;
+      const explicitProfile = env.COLLECT_DEPLOYMENT_PROFILE !== undefined || env.COLLECT_DEPLOYMENT_PROFILE_SHA256 !== undefined;
       try {
-        transport = createCollectTransport({frontendOrigin: env.ADMIN_ORIGIN, fetchImpl});
+        profile = await verifyDeploymentProfile(env);
+        if (env.SUPABASE_URL !== profile.supabase_origin ||
+            explicitProfile && (env.ADMIN_ORIGIN !== profile.admin_origin ||
+              env.APP_ENVIRONMENT !== undefined && env.APP_ENVIRONMENT !== profile.environment) ||
+            !explicitProfile && env.SUPABASE_INTERNAL_URL !== undefined) throw new Error('Backend profile mismatch');
+        transport = createCollectTransport({frontendOrigin: env.ADMIN_ORIGIN,
+          supabaseOrigin: profile.supabase_origin,
+          upstreamOrigin: env.SUPABASE_INTERNAL_URL ?? profile.supabase_origin,
+          ...(explicitProfile ? {allowedFrontendOrigins: [profile.public_origin, profile.member_api_origin, profile.admin_origin]} : {}),
+          fetchImpl});
       } catch {
         return failure(503, 'backend_configuration_invalid', 'The workspace backend is unavailable.');
       }
       // Presentation only: use the validated configured frontend, never the URL as authority.
-      const parent = renderLocalChallengeDocument(request, {origin: env.ADMIN_ORIGIN});
+      const parent = renderLocalChallengeDocument(request, {origin: env.ADMIN_ORIGIN,
+        ...(explicitProfile ? {allowedOrigins: [profile.admin_origin]} : {})});
       if (parent) return parent;
       const managed = url.pathname === '/api' || url.pathname.startsWith('/api/') ||
         url.pathname === '/v1' || url.pathname.startsWith('/v1/') ||

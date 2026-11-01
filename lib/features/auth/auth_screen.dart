@@ -24,17 +24,36 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   final _phone = TextEditingController();
   final _email = TextEditingController();
   bool _useEmail = true;
+  CollectOtpChannel _phoneChannel = CollectOtpChannel.whatsapp;
   bool _googlePending = false;
   int _googleAttempt = 0;
   AuthAlternativeGateway? _activeGoogleGateway;
+  AuthOtpGateway? _activeOtpGateway;
+  AuthAlternativeGateway? _activeAlternativeGateway;
+  bool _verificationUnknown = false;
+  AuthGuestGateway? get _guestGateway =>
+      _activeAlternativeGateway is AuthGuestGateway
+      ? _activeAlternativeGateway as AuthGuestGateway
+      : null;
 
   String get _normalizedEmail => _email.text.trim().toLowerCase();
   bool get _validIdentity => _useEmail
       ? _normalizedEmail.length <= 254 &&
             RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(_normalizedEmail)
-      : _whatsAppAvailable && _normalizedPhoneOrNull != null;
+      : _phoneAvailable && _normalizedPhoneOrNull != null;
   bool get _whatsAppAvailable =>
       ref.read(authOtpGatewayProvider)?.whatsAppSignInAvailable ?? false;
+  bool get _smsAvailable {
+    final gateway = ref.read(authOtpGatewayProvider);
+    return gateway is AuthSmsOtpGateway &&
+        (gateway as AuthSmsOtpGateway).smsSignInAvailable;
+  }
+
+  bool get _phoneAvailable => _phoneChannel == CollectOtpChannel.sms
+      ? _smsAvailable
+      : _whatsAppAvailable;
+  String get _phoneMethod =>
+      _phoneChannel == CollectOtpChannel.sms ? 'SMS' : 'WhatsApp';
   final _otp = TextEditingController();
   final _scrollController = ScrollController();
   final _formViewportController = ScrollController();
@@ -74,6 +93,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       _otp.text.replaceAll(RegExp(r'\D'), '').length == AuthOtpEntry.digitCount;
 
   bool get _canSubmit {
+    if (_verificationUnknown) return !_submitting;
     if (_submitting || !_validIdentity) {
       return false;
     }
@@ -81,12 +101,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   bool get _canResend =>
-      _otpSent && !_submitting && _resendRemaining == 0 && _validIdentity;
+      !_verificationUnknown &&
+      _otpSent &&
+      !_submitting &&
+      _resendRemaining == 0 &&
+      _validIdentity;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _restoreGuestVerification(),
+    );
   }
 
   @override
@@ -101,6 +128,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _activeGoogleGateway?.cancelGoogleSignIn();
+    _cancelPendingOtp();
     _email.dispose();
     _phone.dispose();
     _otp.dispose();
@@ -113,9 +141,17 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   @override
   Widget build(BuildContext context) {
     final otpGateway = ref.watch(authOtpGatewayProvider);
+    _activeOtpGateway = otpGateway;
     final whatsAppAvailable = otpGateway?.whatsAppSignInAvailable ?? false;
+    final smsAvailable =
+        otpGateway is AuthSmsOtpGateway &&
+        (otpGateway as AuthSmsOtpGateway).smsSignInAvailable;
     final alternativeGateway = ref.watch(authAlternativeGatewayProvider);
+    _activeAlternativeGateway = alternativeGateway;
     final googleAvailable = alternativeGateway?.googleSignInAvailable ?? false;
+    final guestGateway = alternativeGateway is AuthGuestGateway
+        ? alternativeGateway as AuthGuestGateway
+        : null;
     final mediaQuery = MediaQuery.of(context);
     final textScale = mediaQuery.textScaler.scale(1).clamp(1.0, 1.5);
     // The form is inside SafeArea: compare its usable height, not the full
@@ -163,16 +199,25 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                         otpSent: _otpSent,
                         phone: _useEmail ? _normalizedEmail : displayPhone,
                         useEmail: _useEmail,
+                        phoneMethod: _phoneMethod,
                         googlePending: _googlePending,
                       ),
                       CollectSpacing.gap24,
+                      if (guestGateway?.isGuest == true) ...[
+                        const Text(
+                          'You are browsing as a guest. Verify an email address or phone number to create your member account.',
+                        ),
+                        CollectSpacing.gap16,
+                      ],
                       if (!_googlePending)
                         AuthInputPanel(
                           otpSent: _otpSent,
                           phoneController: _phone,
                           emailController: _email,
                           useEmail: _useEmail,
-                          enabled: !_submitting,
+                          phoneMethod: _phoneMethod,
+                          enabled: !_submitting && !_verificationUnknown,
+                          verificationUnknown: _verificationUnknown,
                           otpController: _otp,
                           error: _error,
                           errorTitle: _errorTitle,
@@ -187,11 +232,26 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                         AuthSignInOptions(
                           useEmail: _useEmail,
                           whatsAppAvailable: whatsAppAvailable,
+                          smsAvailable: smsAvailable,
+                          phoneMethod: _phoneMethod,
+                          onSms: _submitting
+                              ? null
+                              : () => _selectPhoneMethod(CollectOtpChannel.sms),
+                          onWhatsApp: _submitting
+                              ? null
+                              : () => _selectPhoneMethod(
+                                  CollectOtpChannel.whatsapp,
+                                ),
                           googleAvailable: googleAvailable,
                           onSwitch: _submitting ? null : _switchMethod,
                           onGoogle: _submitting || !googleAvailable
                               ? null
                               : _signInWithGoogle,
+                          guestAvailable:
+                              guestGateway?.guestSignInAvailable ?? false,
+                          isGuest: guestGateway?.isGuest ?? false,
+                          onGuest: _submitting ? null : _signInAsGuest,
+                          onLeaveGuest: _submitting ? null : _leaveGuest,
                         ),
                       ],
                     ],
@@ -201,7 +261,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                   key: _authActionDockKey,
                   otpSent: _otpSent,
                   useEmail: _useEmail,
+                  phoneMethod: _phoneMethod,
                   googlePending: _googlePending,
+                  verificationUnknown: _verificationUnknown,
+                  onLeaveGuest: _leaveGuest,
                   onCancelGoogle: _cancelGoogle,
                   submitting: _submitting,
                   resendRemaining: _resendRemaining,
@@ -211,6 +274,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                   onAnotherNumber: _submitting
                       ? null
                       : () => setState(() {
+                          _cancelPendingOtp();
                           _resendTimer?.cancel();
                           _otpSent = false;
                           _otp.clear();
@@ -258,23 +322,25 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
 
   Future<void> _submit() async {
     if (_submitting) return;
-    _authMethod = _useEmail ? 'Email' : 'WhatsApp';
+    if (_verificationUnknown) {
+      await _checkGuestVerification();
+      return;
+    }
+    _authMethod = _useEmail ? 'Email' : _phoneMethod;
     if (_useEmail) {
       await _submitEmail();
       return;
     }
     final otpGateway = ref.read(authOtpGatewayProvider);
-    if (otpGateway == null || !otpGateway.whatsAppSignInAvailable) {
-      _showAuthError(StateError('WhatsApp sign-in is unavailable.'));
+    if (otpGateway == null || !_phoneAvailable) {
+      _showAuthError(StateError('$_phoneMethod sign-in is unavailable.'));
       return;
     }
     setState(() => _error = null);
     try {
       final phone = _normalizedPhoneOrNull;
       if (phone == null) {
-        throw const FormatException(
-          'Enter a valid Rwanda WhatsApp phone number.',
-        );
+        throw const FormatException('Enter a valid Rwanda phone number.');
       }
       if (!_otpSent) {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -294,7 +360,15 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         return;
       }
       setState(() => _submitting = true);
-      await otpGateway.verifyWhatsAppOtp(phone: phone, otp: _otp.text);
+      if (_phoneChannel == CollectOtpChannel.sms &&
+          otpGateway is AuthSmsOtpGateway) {
+        await (otpGateway as AuthSmsOtpGateway).verifySmsOtp(
+          phone: phone,
+          otp: _otp.text,
+        );
+      } else {
+        await otpGateway.verifyWhatsAppOtp(phone: phone, otp: _otp.text);
+      }
       if (!mounted) return;
       await ref
           .read(collectRepositoryProvider.notifier)
@@ -311,9 +385,48 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   void _switchMethod() {
-    if (_submitting || (_useEmail && !_whatsAppAvailable)) return;
+    if (_submitting ||
+        _verificationUnknown ||
+        (_useEmail && !_whatsAppAvailable)) {
+      return;
+    }
+    if (_useEmail) {
+      _selectPhoneMethod(CollectOtpChannel.whatsapp);
+      return;
+    }
+    _cancelPendingOtp();
     setState(() {
-      _useEmail = !_useEmail;
+      _useEmail = true;
+      _otpSent = false;
+      _otp.clear();
+      _resendTimer?.cancel();
+      _resendRemaining = 0;
+      _error = null;
+    });
+  }
+
+  void _cancelPendingOtp() {
+    if (_activeOtpGateway case final AuthOtpCancellationGateway gateway) {
+      gateway.cancelOtpSignIn();
+    }
+    if (_activeAlternativeGateway
+        case final AuthOtpCancellationGateway gateway) {
+      gateway.cancelOtpSignIn();
+    }
+  }
+
+  void _selectPhoneMethod(CollectOtpChannel channel) {
+    if (_submitting ||
+        _verificationUnknown ||
+        (channel == CollectOtpChannel.sms
+            ? !_smsAvailable
+            : !_whatsAppAvailable)) {
+      return;
+    }
+    _cancelPendingOtp();
+    setState(() {
+      _useEmail = false;
+      _phoneChannel = channel;
       _otpSent = false;
       _otp.clear();
       _resendTimer?.cancel();
@@ -417,7 +530,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       sheetAnimationStyle: CollectMotion.animationStyle(context),
-      builder: (context) => AuthPhoneConfirmationSheet(phone: phone),
+      builder: (context) =>
+          AuthPhoneConfirmationSheet(phone: phone, phoneMethod: _phoneMethod),
     );
     return confirmed ?? false;
   }
@@ -436,9 +550,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     try {
       final phone = _normalizedPhoneOrNull;
       if (phone == null) {
-        throw const FormatException(
-          'Enter a valid Rwanda WhatsApp phone number.',
-        );
+        throw const FormatException('Enter a valid Rwanda phone number.');
       }
       final resendAfterSeconds = await _sendOtp(
         ref.read(authOtpGatewayProvider),
@@ -453,6 +565,15 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   }
 
   Future<int> _sendOtp(AuthOtpGateway? otpGateway, String phone) async {
+    if (_phoneChannel == CollectOtpChannel.sms) {
+      if (otpGateway is! AuthSmsOtpGateway ||
+          !(otpGateway as AuthSmsOtpGateway).smsSignInAvailable) {
+        throw StateError('SMS sign-in is unavailable.');
+      }
+      return (await (otpGateway as AuthSmsOtpGateway).requestSmsOtpReceipt(
+        phone: phone,
+      )).retryAfterSeconds;
+    }
     if (otpGateway == null || !otpGateway.whatsAppSignInAvailable) {
       throw StateError('WhatsApp sign-in is unavailable.');
     }
@@ -482,6 +603,16 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     }
     final method = _authMethod;
     if (error is CollectAuthException) {
+      if (error.code == 'guest_upgrade_unknown' ||
+          error.code == 'guest_upgrade_busy') {
+        return 'Your account verification was not confirmed. Check the existing verification before requesting or entering another code.';
+      }
+      if (error.code == 'identity_already_exists') {
+        return 'This email address or phone number already has an account. Choose Use another account to sign in to it. Accounts are kept separate.';
+      }
+      if (error.code == 'guest_otp_rejected') {
+        return 'That verification code was rejected. Check the code or request a fresh one.';
+      }
       if (error.code == 'google_use_email_sign_in') {
         return 'Use email sign-in to verify this Google account’s email address.';
       }
@@ -536,14 +667,20 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     if (!mounted) return;
     FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
+      _verificationUnknown =
+          _guestGateway?.pendingGuestUpgrade?.unconfirmed ?? false;
       _error = _safeAuthErrorMessage(error);
+      if (_verificationUnknown) {
+        _error =
+            'Your account verification was not confirmed. Check verification to recover the result without sending another code.';
+      }
       _errorTitle = error is CollectOtpDeliveryUnknownException
           ? 'Delivery not confirmed'
           : 'Authentication failed';
       _submitting = false;
       if (error is CollectOtpDeliveryUnknownException) {
         _otpSent = true;
-      } else if (discardPendingCode) {
+      } else if (discardPendingCode && !_verificationUnknown) {
         _otpSent = false;
         _otp.clear();
         _resendTimer?.cancel();
@@ -590,6 +727,102 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
         return;
       }
       setState(() => _resendRemaining -= 1);
+    });
+  }
+
+  void _restoreGuestVerification() {
+    if (!mounted) return;
+    final pending = _guestGateway?.pendingGuestUpgrade;
+    if (pending == null) return;
+    setState(() {
+      _useEmail = pending.email != null;
+      _email.text = pending.email ?? '';
+      _phone.text = pending.phone ?? '';
+      _phoneChannel = pending.channel ?? CollectOtpChannel.whatsapp;
+      _otpSent = true;
+      _verificationUnknown = pending.unconfirmed;
+      if (pending.unconfirmed) {
+        _errorTitle = 'Verification not confirmed';
+        _error =
+            'Check the retained verification before requesting or entering another code.';
+      }
+    });
+    if (!pending.unconfirmed) _startResendCooldown(seconds: 60);
+  }
+
+  Future<void> _signInAsGuest() async {
+    final gateway = _guestGateway;
+    if (_submitting || gateway == null || !gateway.guestSignInAvailable) return;
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() {
+      _submitting = true;
+      _error = null;
+    });
+    try {
+      await gateway.signInAsGuest();
+      if (mounted) context.go('/groups');
+    } catch (error) {
+      _showAuthError(error);
+    }
+  }
+
+  Future<void> _checkGuestVerification() async {
+    final gateway = _guestGateway;
+    if (_submitting || gateway == null) return;
+    setState(() {
+      _submitting = true;
+      _error = null;
+    });
+    try {
+      await gateway.reconcileGuestUpgrade();
+      if (mounted) context.go(_safePostAuthTarget(context) ?? '/home');
+    } catch (error) {
+      _showAuthError(error);
+    }
+  }
+
+  Future<void> _leaveGuest() async {
+    final gateway = _guestGateway;
+    if (_submitting || gateway?.isGuest != true) return;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      animationStyle: CollectMotion.animationStyle(context),
+      builder: (context) => AlertDialog(
+        title: const Text('Use another account?'),
+        content: const Text(
+          'This closes guest access on this device. Sign in again to the account you want to use. Guest access and other accounts are never merged.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Continue'),
+          ),
+        ],
+      ),
+    );
+    if (!mounted || confirmed != true) return;
+    setState(() => _submitting = true);
+    Object? failure;
+    try {
+      await gateway!.leaveGuest();
+    } catch (error) {
+      failure = error;
+    }
+    if (!mounted) return;
+    setState(() {
+      _submitting = false;
+      _verificationUnknown = false;
+      _otpSent = false;
+      _otp.clear();
+      _email.clear();
+      _phone.clear();
+      _error = failure == null
+          ? null
+          : 'Guest access is closed on this device. Remote sign-out could not be confirmed.';
     });
   }
 }

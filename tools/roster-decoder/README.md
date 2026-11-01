@@ -1,8 +1,10 @@
 # Collect roster decoder
 
 Standalone codec/workbook validation source retained for Collect roster imports.
-The canonical Cloudflare roster routes live in
-`deploy/platform-api/src/roster.js`.
+The current application routes live in
+`supabase/functions/_shared/domain/roster.js`. This Python helper is not a
+Supabase Edge Function and does not satisfy the native Supabase parser gate by
+itself; see `docs/architecture/roster-ai-dispatch-policy.md`.
 
 ## Decoder controls
 
@@ -45,14 +47,22 @@ a private build context. Build that prepared directory with
 wheelhouse and is not a complete image build context. Preserve the acquired
 metadata, source hashes and publisher receipt outside this repository.
 
-## Cloudflare integration status
+## Supabase integration status
 
-The canonical Worker requires a `ROSTER_DECODER` service binding and an approved
-processing policy. Its current request and direct `content` response contract
-differ from this standalone supervisor's authenticated request and signed payload
-contract. An adapter and an end-to-end integration check are still required before
-this supervisor can serve that binding. Retaining this source does not establish
-that integration or a hosted decoder deployment.
+The current Supabase application requires a `ROSTER_DECODER` adapter and an
+approved processing policy. The signed protocol adapter is implemented in
+`supabase/functions/_shared/roster_decoder_bridge.mjs`, with application and
+protocol tests in `deploy/platform-api/test/supabase_roster_decoder_*`. The
+adapter verifies exact source/build/request/reservation/nonce lineage and signed
+outcomes. Those tests use transport doubles; they do not establish a deployed
+Linux parser or exact runtime/container qualification.
+
+The supervisor's persistent SQLite replay state is a separate backend. It must
+not be silently enabled in the Supabase-only production deployment. A faithful
+native parser and private Supabase replay journal remain a release gate; an
+Edge Function proxy or file-header-only parser does not close it. Roster AI stays
+disabled in that deployment until those capabilities and the processor policy
+are qualified.
 
 Run the existing canonical roster tests from `deploy/platform-api` with
 `node --test test/ingestion.test.mjs`. Those tests do not establish a deployed

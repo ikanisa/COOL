@@ -1,0 +1,248 @@
+{
+  "format": "collect.roster.native-dependency-probe.v1",
+  "production_acceptance": false,
+  "parser_contract_qualified": false,
+  "binary_sha256": "7883510fe308b4b5c49ec0a8e2020ec81c5fa41133239f3969a372b1cbf107ba",
+  "results": [
+    {
+      "fixture": "scanned-multilingual.png",
+      "kind": "image",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "frames": 1,
+        "pixels": 200000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 1333
+    },
+    {
+      "fixture": "truncated.png",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: UnexpectedEndOfFile `' @ error/png.c/MagickPNGError/1308",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 499
+    },
+    {
+      "fixture": "scanned-multilingual.jpg",
+      "kind": "image",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "frames": 1,
+        "pixels": 200000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 354
+    },
+    {
+      "fixture": "truncated.jpg",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: jpeg_decode_warning",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 373
+    },
+    {
+      "fixture": "scanned-multilingual.webp",
+      "kind": "image",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "frames": 1,
+        "pixels": 200000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 328
+    },
+    {
+      "fixture": "truncated.webp",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: InsufficientImageDataInFile `' @ error/webp.c/ReadWEBPImage/582",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 375
+    },
+    {
+      "fixture": "bad-crc.png",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: IDAT: invalid code lengths set `' @ error/png.c/MagickPNGError/1308",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 392
+    },
+    {
+      "fixture": "dimension-bomb.png",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: Invalid IHDR data `' @ error/png.c/MagickPNGError/1308",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 383
+    },
+    {
+      "fixture": "animation-3.png",
+      "kind": "image",
+      "expected_accept": true,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: FailedToExecuteCommand `'ffmpeg' -nostdin -loglevel error -i '/tmp/magick-_3asd7XXg5IhesSRLfUheWPQtFJOgbcP' -an -f rawvideo -y  -pix_fmt rgba -vcodec webp '/tmp/magick-fuR_021rYWQ9ZbJfAG6uVSvzX",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 435
+    },
+    {
+      "fixture": "animation-21.png",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: FailedToExecuteCommand `'ffmpeg' -nostdin -loglevel error -i '/tmp/magick-UAj_LbI-tdNERWj0ILgtlWSo26KoJlli' -an -f rawvideo -y  -pix_fmt rgba -vcodec webp '/tmp/magick-egnMH0xaTjxC1YXSDkBLatLav",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 212
+    },
+    {
+      "fixture": "animation-3.webp",
+      "kind": "image",
+      "expected_accept": true,
+      "http_status": 200,
+      "response": {
+        "ok": true,
+        "frames": 3,
+        "pixels": 72000,
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 393
+    },
+    {
+      "fixture": "animation-21.webp",
+      "kind": "image",
+      "expected_accept": false,
+      "http_status": 422,
+      "response": {
+        "ok": false,
+        "error": "Error: ListLengthExceedsLimit `' @ error/cache.c/OpenPixelCache/3824",
+        "isolation": {
+          "network": "NotCapable",
+          "environment": "NotCapable",
+          "file_read": "NotFound",
+          "file_write": "NotCapable",
+          "run": "Error"
+        }
+      },
+      "elapsed_ms": 318
+    },
+    {
+      "kind": "qpdf",
+      "version": true,
+      "http_status": 503,
+      "response": {
+        "ok": false,
+        "stage": "worker_boot",
+        "error": "InvalidWorkerCreation: worker boot error: failed to bootstrap runtime: failed to create the graph: Failed loading https://registry.npmjs.org/@types%2fnode for package \"@types/node\": error sending request for url (https:/"
+      }
+    },
+    {
+      "kind": "qpdf",
+      "version": false,
+      "http_status": 503,
+      "response": {
+        "ok": false,
+        "stage": "worker_boot",
+        "error": "InvalidWorkerCreation: worker boot error: failed to bootstrap runtime: failed to create the graph: Failed loading https://registry.npmjs.org/@types%2fnode for package \"@types/node\": error sending request for url (https:/"
+      }
+    }
+  ]
+}

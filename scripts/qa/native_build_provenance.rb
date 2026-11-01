@@ -23,6 +23,7 @@ source_files = %w[
   scripts/qa/native_build_provenance.rb scripts/qa/native_source_export.py
   scripts/qa/native_artifact_metadata.py scripts/qa/native_build_config.py
   scripts/qa/client_diagnostic_identity.py
+  scripts/supabase/deployment_profile.py contracts/deployment-profile.schema.json
   scripts/android_play_store_build.sh scripts/android_release_signing_preflight.sh
   scripts/ios_app_store_build.sh
 ]

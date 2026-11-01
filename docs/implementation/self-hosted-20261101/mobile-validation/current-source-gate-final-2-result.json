@@ -1,0 +1,43 @@
+{
+  "format": "collect.selfhost.current-source-gate.v1",
+  "status": "PASS",
+  "exit_code": 0,
+  "command": [
+    "make",
+    "supabase-source-test"
+  ],
+  "log_sha256": "e4ae84638ead3f4467ab86a3ade91426346ce35316c1f6196818b4fd42ce56ff",
+  "scope": "Current pure source/transport/custody/configuration contracts and all six frozen Edge entrypoints; native checks separate and required",
+  "source": [
+    {
+      "path": "Makefile",
+      "sha256": "b8d8f409ab393bc45924d82b4f74701d0d4f8b76824aee708ed29e2ffd38ee4c"
+    },
+    {
+      "path": ".github/workflows/supabase.yml",
+      "sha256": "50abee6d73a8352f72a4a07bc66b2859908bc69e12b16b2827cd5580f7d087ec"
+    },
+    {
+      "path": "scripts/supabase/data-contracts.test.mjs",
+      "sha256": "e5bfe4f6f97936b79fb9fdd2ebc34b8239ed3f0856c5f7f497a76ee6a9ac7ddb"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/fence-retention.test.mjs",
+      "sha256": "841e48506864e6c4332501f5353e46f90f0fd6688a5a99a5c3e6553ad529ca1c"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/retention-admin-context.test.mjs",
+      "sha256": "ee0edd19ffececfdace46fea2c9dc978d3e2ebe2f1e730a72710cbeb8cd685c1"
+    },
+    {
+      "path": "supabase/functions/deno.json",
+      "sha256": "fc708eb9cebff2f0dc23f30c1b3b689e42669c71f37814f9297d6a8e508b9188"
+    },
+    {
+      "path": "supabase/functions/deno.lock",
+      "sha256": "00a1c51ba2482358d519085e91990ca84485dbe546d32479c1587188ec15a8c4"
+    }
+  ],
+  "hosted_ci_execution": false,
+  "production_acceptance": false
+}

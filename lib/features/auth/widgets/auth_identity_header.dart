@@ -33,6 +33,7 @@ class AuthHeadline extends StatelessWidget {
     required this.otpSent,
     required this.phone,
     this.useEmail = false,
+    this.phoneMethod = 'WhatsApp',
     this.googlePending = false,
     super.key,
   });
@@ -40,6 +41,7 @@ class AuthHeadline extends StatelessWidget {
   final bool otpSent;
   final String phone;
   final bool useEmail;
+  final String phoneMethod;
   final bool googlePending;
 
   @override
@@ -73,10 +75,10 @@ class AuthHeadline extends StatelessWidget {
           googlePending
               ? 'Complete sign-in in your browser, then return to Collect.'
               : otpSent
-              ? 'Enter the ${useEmail ? 'email' : 'WhatsApp'} code for $phone.'
+              ? 'Enter the ${useEmail ? 'email' : phoneMethod} code for $phone.'
               : useEmail
               ? 'Enter your email address. We will send a secure sign-in code.'
-              : 'Enter your phone number. We will send a secure sign-in code on WhatsApp.',
+              : 'Enter your phone number. We will send a secure sign-in code ${phoneMethod == 'SMS' ? 'by SMS' : 'on WhatsApp'}.',
           style: textTheme.bodyLarge?.copyWith(
             color: foreground.withValues(alpha: 0.70),
             fontWeight: CollectTypography.weightSemibold,

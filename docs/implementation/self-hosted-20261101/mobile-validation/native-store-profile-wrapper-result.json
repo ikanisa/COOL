@@ -1,0 +1,39 @@
+{
+  "format": "collect.native-store-profile-contract-test.v1",
+  "status": "PASS",
+  "tests": 32,
+  "exit_code": 0,
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "scripts.tests.cloudflare_native_build_config_test"
+  ],
+  "source_files": [
+    {
+      "path": "scripts/android_play_store_build.sh",
+      "sha256": "a09d70f1ba273beff144df9897568aaefb3f2d0c287359e24fbeaa5443b90ab8"
+    },
+    {
+      "path": "scripts/ios_app_store_build.sh",
+      "sha256": "99f591937b869e3675313f7570c1b1ec2ea2432f9e55f022bee7b146ce708ddc"
+    },
+    {
+      "path": "scripts/qa/native_build_config.py",
+      "sha256": "6ed267c63b78ddcf4ed84bc5075f1bfbcb0a8bd67192516370f46139f23ca305"
+    },
+    {
+      "path": "scripts/supabase/deployment_profile.py",
+      "sha256": "478edfd92d17884bed1efba7f00a472186573edbc6116848b5e65c615d90f03f"
+    },
+    {
+      "path": "scripts/tests/cloudflare_native_build_config_test.py",
+      "sha256": "4e9a8ca98af0bb645b18194f0fb8da6a2916065fbad54cd930ce91d1b1ca713d"
+    }
+  ],
+  "log_sha256": "6e290439862bbaf9ea8a2c92b4bd3f2c4f4de88a8aa3d55ce62759cb2523c288",
+  "build_substitutes": true,
+  "actual_android_compile": false,
+  "actual_ios_compile": false,
+  "signing_or_store_acceptance": false
+}

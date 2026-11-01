@@ -1,0 +1,519 @@
+{
+  "synthetic_only": true,
+  "provider_accuracy_verified": false,
+  "fixtures": [
+    {
+      "id": "scanned-multilingual",
+      "path": "scanned-multilingual.png",
+      "kind": "image",
+      "sha256": "6bf9a68d098645da7542cb50d6fa86eb0bee8b4b2766dcd354cca911469a73a6",
+      "accepted": true,
+      "labels": [
+        "scanned",
+        "French",
+        "Kinyarwanda",
+        "synthetic"
+      ],
+      "expected_rows": [
+        {
+          "member_name": "Élodie Niyonzima",
+          "momo_name": "ÉLODIE NIYONZIMA",
+          "momo_number": "0789969001"
+        },
+        {
+          "member_name": "Aline Uwase",
+          "momo_name": "ALINE UWASE",
+          "momo_number": "0789969002"
+        }
+      ]
+    },
+    {
+      "id": "truncated",
+      "path": "truncated.png",
+      "kind": "image",
+      "sha256": "9695c74e3204a6e697c6946dc8bf3f3105a8eb1813b5ffc9be347e66d6d830d2",
+      "accepted": false,
+      "labels": [
+        "malformed",
+        "truncated"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "scanned-multilingual",
+      "path": "scanned-multilingual.jpg",
+      "kind": "image",
+      "sha256": "2881d2538c97a86f39526b62e96cdea71d37bcf6483d8a2f43af2b9d17805944",
+      "accepted": true,
+      "labels": [
+        "scanned",
+        "French",
+        "Kinyarwanda",
+        "synthetic"
+      ],
+      "expected_rows": [
+        {
+          "member_name": "Élodie Niyonzima",
+          "momo_name": "ÉLODIE NIYONZIMA",
+          "momo_number": "0789969001"
+        },
+        {
+          "member_name": "Aline Uwase",
+          "momo_name": "ALINE UWASE",
+          "momo_number": "0789969002"
+        }
+      ]
+    },
+    {
+      "id": "truncated",
+      "path": "truncated.jpg",
+      "kind": "image",
+      "sha256": "7bf868124c8f5cbb14cb13711123e4aaafc74b1a5bf6c281617523609439acc0",
+      "accepted": false,
+      "labels": [
+        "malformed",
+        "truncated"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "scanned-multilingual",
+      "path": "scanned-multilingual.webp",
+      "kind": "image",
+      "sha256": "2088ddc49de516aac0eb9d14514977d1eb9c6615cbe25e2fa7f0a7604a589f4c",
+      "accepted": true,
+      "labels": [
+        "scanned",
+        "French",
+        "Kinyarwanda",
+        "synthetic"
+      ],
+      "expected_rows": [
+        {
+          "member_name": "Élodie Niyonzima",
+          "momo_name": "ÉLODIE NIYONZIMA",
+          "momo_number": "0789969001"
+        },
+        {
+          "member_name": "Aline Uwase",
+          "momo_name": "ALINE UWASE",
+          "momo_number": "0789969002"
+        }
+      ]
+    },
+    {
+      "id": "truncated",
+      "path": "truncated.webp",
+      "kind": "image",
+      "sha256": "b24f960a67410286c3cee9e0b12fb17982d2c0bc909acd6157c8bb62fca3d0b3",
+      "accepted": false,
+      "labels": [
+        "malformed",
+        "truncated"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "bad-crc",
+      "path": "bad-crc.png",
+      "kind": "image",
+      "sha256": "4f94198978caad5128f904a88c399f52a881119f44117a342848bc9cbd539759",
+      "accepted": false,
+      "labels": [
+        "malformed",
+        "CRC"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "dimension-bomb",
+      "path": "dimension-bomb.png",
+      "kind": "image",
+      "sha256": "cb626713b231e7fea15df026001df9003fd84e190358b505e7551244c434d760",
+      "accepted": false,
+      "labels": [
+        "resource",
+        "dimensions"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "animation-3",
+      "path": "animation-3.png",
+      "kind": "image",
+      "sha256": "5857322121abb979c7210c0b939786259b5f603814cc49699760ee78c9eca62e",
+      "accepted": true,
+      "labels": [
+        "animation",
+        "resource"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "animation-21",
+      "path": "animation-21.png",
+      "kind": "image",
+      "sha256": "a6e7d8b0f33cd5387c85c830c34dcee165f9af410dae1541801ece6f8c0abe9f",
+      "accepted": false,
+      "labels": [
+        "animation",
+        "resource"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "animation-3",
+      "path": "animation-3.webp",
+      "kind": "image",
+      "sha256": "e4563756fd21923973e4a5f7778fb66c031109efaa642cff0a8e41799aa8de5c",
+      "accepted": true,
+      "labels": [
+        "animation",
+        "resource"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "animation-21",
+      "path": "animation-21.webp",
+      "kind": "image",
+      "sha256": "1d52e199c1b6d84ef5508f3373b11668598b809d26d75f688bfa47c45687c18c",
+      "accepted": false,
+      "labels": [
+        "animation",
+        "resource"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "scanned-multilingual",
+      "path": "scanned-multilingual.pdf",
+      "kind": "pdf",
+      "sha256": "e748775606cb30ddef9f5ba7b5fc64a03b8f053f3b0dceb3bba93404e3b85a05",
+      "accepted": true,
+      "labels": [
+        "scanned",
+        "French",
+        "Kinyarwanda"
+      ],
+      "expected_rows": [
+        {
+          "member_name": "Élodie Niyonzima",
+          "momo_name": "ÉLODIE NIYONZIMA",
+          "momo_number": "0789969001"
+        },
+        {
+          "member_name": "Aline Uwase",
+          "momo_name": "ALINE UWASE",
+          "momo_number": "0789969002"
+        }
+      ]
+    },
+    {
+      "id": "pages-2",
+      "path": "pages-2.pdf",
+      "kind": "pdf",
+      "sha256": "9c40130cc9702d3f9d3045f84216fcd52e8724c20474bf63e6c184f6d95eb3f6",
+      "accepted": true,
+      "labels": [
+        "pages",
+        "resource"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "pages-21",
+      "path": "pages-21.pdf",
+      "kind": "pdf",
+      "sha256": "cf7b095a12b4444d5c95ad1acfbed33bf06affa667b0d1f54bce477686bcc620",
+      "accepted": false,
+      "labels": [
+        "pages",
+        "resource"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "javascript",
+      "path": "javascript.pdf",
+      "kind": "pdf",
+      "sha256": "cba5feaab81c12f52cf3d8943bb28a8e78072abcd1833bfeb8e4dc82e66d32a0",
+      "accepted": false,
+      "labels": [
+        "active-content"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "encrypted",
+      "path": "encrypted.pdf",
+      "kind": "pdf",
+      "sha256": "eab961011713c954050a91e2b67a761072e3934e1bdebeb6e030cbfd735d272c",
+      "accepted": false,
+      "labels": [
+        "encrypted"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "attachment",
+      "path": "attachment.pdf",
+      "kind": "pdf",
+      "sha256": "f40f291f91c9c7555ae1baae6c4ede5275272f0464250eee705fb8b92035b5b9",
+      "accepted": false,
+      "labels": [
+        "active-content"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "flate-expansion",
+      "path": "flate-expansion.pdf",
+      "kind": "pdf",
+      "sha256": "a115e9679d1b9c9e9bfd2b7bdf44be2c511fcb8ec2d8142b1c9dbfb3108b8836",
+      "accepted": false,
+      "labels": [
+        "resource",
+        "decompression"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "compressed-objects",
+      "path": "compressed-objects.pdf",
+      "kind": "pdf",
+      "sha256": "bcdf01402721a6ee5bdb129e03fd2d15bcdc48d94a2ebb87c0a54b2252d3966c",
+      "accepted": true,
+      "labels": [
+        "PDF-1.5",
+        "compressed-objects",
+        "xref-stream"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "object-stream-expansion",
+      "path": "object-stream-expansion.pdf",
+      "kind": "pdf",
+      "sha256": "c572d5fa178c99fc1047a06aadcaf8d502a9134718b04e40e596987710d8e29b",
+      "accepted": false,
+      "labels": [
+        "PDF-1.5",
+        "compressed-objects",
+        "resource",
+        "decompression"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "broken-xref",
+      "path": "broken-xref.pdf",
+      "kind": "pdf",
+      "sha256": "e138511c6b5eb18e83547a85208b088fcdd9928301a357a98b14ea73d125d1a1",
+      "accepted": false,
+      "labels": [
+        "malformed",
+        "xref"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "multilingual",
+      "path": "multilingual.xlsx",
+      "kind": "xlsx",
+      "sha256": "f06f529c14625b388faa8da408f2612835ff3a13e308c913d8906d3e4f43b59a",
+      "accepted": true,
+      "labels": [
+        "French",
+        "Kinyarwanda",
+        "original-workbook"
+      ],
+      "expected_rows": [
+        {
+          "member_name": "Élodie Niyonzima",
+          "momo_name": "ÉLODIE NIYONZIMA",
+          "momo_number": "0789969001"
+        },
+        {
+          "member_name": "Aline Uwase",
+          "momo_name": "ALINE UWASE",
+          "momo_number": "0789969002"
+        }
+      ]
+    },
+    {
+      "id": "formula",
+      "path": "formula.xlsx",
+      "kind": "xlsx",
+      "sha256": "68ab2cac47abeb29a09619dd89f1cc7cc2990f25d95418efa4ba4fef191d267e",
+      "accepted": false,
+      "labels": [
+        "formula",
+        "injection"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "oversized-grid",
+      "path": "oversized-grid.xlsx",
+      "kind": "xlsx",
+      "sha256": "4ff47824e9fadc9108960339303dab53d77d80f48d5d6f41e630d75983c2ad8a",
+      "accepted": false,
+      "labels": [
+        "resource",
+        "rows"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "entity",
+      "path": "entity.xlsx",
+      "kind": "xlsx",
+      "sha256": "88c683f9753f2e9a5ccf25d1e978dfbf22c1d0876a8b7e16a7e8e3aaacf58bf6",
+      "accepted": false,
+      "labels": [
+        "XML",
+        "external-reference"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "external",
+      "path": "external.xlsx",
+      "kind": "xlsx",
+      "sha256": "834ce7269816bb1a7ab2f7abfe5d9025acec94740f088f699d3791184dac0765",
+      "accepted": false,
+      "labels": [
+        "XML",
+        "external-reference"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "zip-expansion",
+      "path": "zip-expansion.xlsx",
+      "kind": "xlsx",
+      "sha256": "5e6631d69d0c8c2c308f13485fa93fe1ded1c1c95ccec373f0f9e2091e940caa",
+      "accepted": false,
+      "labels": [
+        "resource",
+        "decompression"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "english",
+      "path": "english.csv",
+      "kind": "text",
+      "sha256": "2c7c3f078bb4e86d2b3fe6f030186c77888168b1e0367f07acb50c451cb53b5d",
+      "accepted": true,
+      "labels": [
+        "English",
+        "deterministic"
+      ],
+      "expected_rows": [
+        {
+          "member_name": "Aline Uwase",
+          "momo_name": "ALINE UWASE",
+          "momo_number": "0789969002"
+        }
+      ]
+    },
+    {
+      "id": "french",
+      "path": "french.csv",
+      "kind": "text",
+      "sha256": "ad7d7e64f98f953171b3b7536396e459eec50c2de0ece16792c9dd8e9716d963",
+      "accepted": true,
+      "labels": [
+        "French",
+        "deterministic"
+      ],
+      "expected_rows": [
+        {
+          "member_name": "Élodie Niyonzima",
+          "momo_name": "ÉLODIE NIYONZIMA",
+          "momo_number": "0789969001"
+        }
+      ]
+    },
+    {
+      "id": "kinyarwanda",
+      "path": "kinyarwanda.csv",
+      "kind": "text",
+      "sha256": "e0dacdae04e9d5dc8e21770efdb78e5083ed8829b7e846b0fe9f5b23f5919aba",
+      "accepted": true,
+      "labels": [
+        "Kinyarwanda",
+        "deterministic"
+      ],
+      "expected_rows": [
+        {
+          "member_name": "Aline Uwase",
+          "momo_name": "ALINE UWASE",
+          "momo_number": "0789969002"
+        }
+      ]
+    },
+    {
+      "id": "swahili",
+      "path": "swahili.csv",
+      "kind": "text",
+      "sha256": "6b6d43401996916df12210bf9fe38c51f79a3f71fdfcb05709a48e2ee4c7064b",
+      "accepted": true,
+      "labels": [
+        "Swahili",
+        "deterministic"
+      ],
+      "expected_rows": [
+        {
+          "member_name": "Aline Uwase",
+          "momo_name": "ALINE UWASE",
+          "momo_number": "0789969002"
+        }
+      ]
+    },
+    {
+      "id": "ambiguous",
+      "path": "ambiguous.csv",
+      "kind": "text",
+      "sha256": "5cc49a4941133d80a617d0f53b26e7e78b82951609cbba9e1bf204630d90c67a",
+      "accepted": true,
+      "labels": [
+        "ambiguous",
+        "missing"
+      ],
+      "expected_rows": []
+    },
+    {
+      "id": "prompt-injection",
+      "path": "prompt-injection.txt",
+      "kind": "text",
+      "sha256": "a3184535c1c5713574f1668a6279b9de4cfedd0193c929edf96e258e44a61941",
+      "accepted": true,
+      "labels": [
+        "prompt-injection",
+        "synthetic"
+      ],
+      "expected_rows": [
+        {
+          "member_name": "Aline Uwase",
+          "momo_name": "ALINE UWASE",
+          "momo_number": "0789969002"
+        }
+      ]
+    },
+    {
+      "id": "malformed",
+      "path": "malformed.csv",
+      "kind": "text",
+      "sha256": "ac386bc0ee153be3cf32769bdb21684d07c63fa39dbdbb68b508abfa76265ce5",
+      "accepted": false,
+      "labels": [
+        "malformed",
+        "deterministic"
+      ],
+      "expected_rows": []
+    }
+  ]
+}

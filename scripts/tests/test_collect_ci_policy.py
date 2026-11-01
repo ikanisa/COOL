@@ -35,10 +35,10 @@ class CollectCiPolicyTest(unittest.TestCase):
     def test_current_declared_boundary_is_valid(self):
         self.assertEqual(policy.validate_workflows(self.workflows), [])
 
-    def test_current16_native_job_owns_a_fresh_cluster_and_publishes_only_safe_receipts(self):
+    def test_historical_current16_keeps_owned_cluster_and_safe_receipts_at_exact_source(self):
         job = self.workflows['supabase.yml']['jobs']['current16-integration-native']
-        self.assertNotIn('needs', job)
-        self.assertNotIn('if', job)
+        self.assertEqual(job['needs'], 'select-profile')
+        self.assertEqual(job['if'], "needs.select-profile.outputs.profile == 'historical-current16'")
         self.assertIs(job.get('continue-on-error', False), False)
         env = job['env']
         self.assertEqual(env['COLLECT_CI_SYNTHETIC'], 'true')
@@ -78,7 +78,7 @@ class CollectCiPolicyTest(unittest.TestCase):
         expected = {output + '/' + name for name in names} | {'!' + output + '/RUN-SPEC.private.json'}
         self.assertEqual(set(upload['with']['path'].splitlines()), expected)
         suite = 'scripts/supabase/testing/current16-integration.test.mjs'
-        for workflow, name in [('supabase.yml', 'local-qualification'), ('ci.yml', 'supabase-platform')]:
+        for workflow, name in [('supabase.yml', 'local-qualification'), ('supabase.yml', 'current-source-contracts')]:
             matches = [s for s in self.workflows[workflow]['jobs'][name]['steps'] if suite in s.get('run', '')]
             self.assertEqual(len(matches), 1)
             self.assertNotIn('if', matches[0])
@@ -293,6 +293,31 @@ class CollectCiPolicyTest(unittest.TestCase):
             changed = source.replace('\t@$(MAKE) supabase-admin-consumers-test\n', replacement, 1)
             self.assertIn('CI_CURRENT_MAKE_QUALIFICATION_REQUIRED', {x['code'] for x in policy.validate_platform_makefile(changed)})
 
+    def test_current_make_cannot_substitute_source_checks_for_native_evidence(self):
+        source = (ROOT / 'Makefile').read_text()
+        for command in ('$(MAKE) supabase-source-test', '$(MAKE) supabase-current-native'):
+            line = '\t@' + command + '\n'
+            for replacement in ('', line + line, line.rstrip() + ' || true\n', '\t@true\n'):
+                with self.subTest(command=command, replacement=replacement):
+                    changed = source.replace('supabase-test:\n', 'supabase-test:\n', 1)
+                    before, rest = changed.split('supabase-test:\n', 1)
+                    changed = before + 'supabase-test:\n' + rest.replace(line, replacement, 1)
+                    self.assertIn('CI_CURRENT_MAKE_QUALIFICATION_REQUIRED',
+                                  {x['code'] for x in policy.validate_platform_makefile(changed)})
+        command = '\t@node scripts/supabase/testing/current-self-hosted-native.mjs\n'
+        for replacement in ('', command + command, command.replace('@node', '-@node'),
+                            command.rstrip() + ' || true\n', '\t@node scripts/supabase/testing/current16-integration.mjs\n'):
+            with self.subTest(native=replacement):
+                self.assertIn('CI_CURRENT_MAKE_NATIVE_REQUIRED',
+                              {x['code'] for x in policy.validate_platform_makefile(source.replace(command, replacement, 1))})
+        for command in ('python3 supabase/schema-src/generate_baseline.py --check',
+                        'node scripts/supabase/run_edge_node_tests.mjs',
+                        'cd supabase/functions && "$${COLLECT_DENO:-deno}" task check'):
+            before, rest = source.split('supabase-source-test:\n', 1)
+            changed = before + 'supabase-source-test:\n' + rest.replace('\t@' + command + '\n', '\t@true\n', 1)
+            self.assertIn('CI_CURRENT_MAKE_SOURCE_REQUIRED',
+                          {x['code'] for x in policy.validate_platform_makefile(changed)})
+
     def test_recovery13_make_hook_cannot_be_conditional_ignored_or_duplicated(self):
         source = (ROOT / "Makefile").read_text()
         command = "\t@node --test scripts/tests/recovery13_test.mjs\n"
@@ -363,7 +388,7 @@ class CollectCiPolicyTest(unittest.TestCase):
                    'SUPABASE_API_URL': 'https://platform-admin.collect.ikanisa.com',
                    'SUPABASE_PUBLISHABLE_KEY': 'sb_publishable_synthetic_public_fixture',
                    'AUTH_CAPTCHA_ENABLED': 'true', 'AUTH_CAPTCHA_PROVIDER': 'turnstile',
-                   'AUTH_CAPTCHA_SITE_KEY': '1x00000000000000000000AA'}
+                   'AUTH_CAPTCHA_SITE_KEY': 'synthetic_public_site_key'}
             result = subprocess.run(['bash', '-e', '-c', step['run']], cwd=root, env=env,
                                     capture_output=True, text=True, timeout=20)
             self.assertEqual(result.returncode, 0, result.stderr)
@@ -398,49 +423,103 @@ class CollectCiPolicyTest(unittest.TestCase):
     def test_supabase_cf_web_transport_command_and_filtered_events(self):
         command = ('node --test deploy/platform-admin/test/backend-selection.test.mjs '
                    'deploy/platform-admin/test/supabase-transport.test.mjs')
-        for filename, job_name in [('ci.yml', 'supabase-platform'),
-                                   ('supabase.yml', 'local-qualification')]:
-            with self.subTest(workflow=filename):
-                workflow = self.workflows[filename]
-                job = workflow['jobs'][job_name]
-                matching = [step for step in job['steps'] if step.get('run') == command]
-                self.assertEqual(len(matching), 1)
-                step = matching[0]
-                for boundary in (job, step):
-                    self.assertNotIn('if', boundary)
-                    self.assertIs(boundary.get('continue-on-error', False), False)
-                default = job.get('defaults', {}).get('run', {}).get('working-directory', '.')
-                self.assertIn(step.get('working-directory', default),
-                              ('.', '${{ github.workspace }}'))
-                events = workflow.get('on', workflow.get('true', {}))
-                for event in ('push', 'pull_request'):
-                    declaration = events.get(event)
-                    if isinstance(declaration, dict) and 'paths' in declaration:
-                        self.assertIn('deploy/platform-admin/**', declaration['paths'])
+        caller = self.workflows['ci.yml']['jobs']['supabase-platform']
+        self.assertEqual(caller['uses'], './.github/workflows/supabase.yml')
+        self.assertNotIn('if', caller)
+        self.assertNotIn('with', caller)
+        job = self.workflows['supabase.yml']['jobs']['current-source-contracts']
+        self.assertEqual(job['if'], policy.CURRENT_PROFILE_CONDITION)
+        matching = [step for step in job['steps'] if step.get('run') == command]
+        self.assertEqual(len(matching), 1)
+        self.assertNotIn('if', matching[0])
+        self.assertIs(matching[0].get('continue-on-error', False), False)
+        self.assertIs(job.get('continue-on-error', False), False)
+        default = job.get('defaults', {}).get('run', {}).get('working-directory', '.')
+        self.assertIn(matching[0].get('working-directory', default), ('.', '${{ github.workspace }}'))
+        for filename in ('ci.yml', 'supabase.yml'):
+            workflow = self.workflows[filename]
+            events = workflow.get('on', workflow.get('true', {}))
+            for event in ('push', 'pull_request'):
+                declaration = events.get(event)
+                if isinstance(declaration, dict) and 'paths' in declaration:
+                    self.assertIn('deploy/platform-admin/**', declaration['paths'])
 
-    def test_supabase_checks_cannot_skip_fixture_or_drift_from_declared_workflow(self):
+    def test_current_native_and_actual_dart_cannot_be_omitted_or_masked(self):
         original = copy.deepcopy(self.workflows)
-        for mutation in ('omit', 'skip-job', 'ignore-job', 'skip-check', 'ignore-check', 'wrong-db', 'workflow-drift'):
-            with self.subTest(mutation=mutation):
+        for name, command in [('current-self-hosted-native', policy.CURRENT_NATIVE_COMMAND),
+                              ('current-self-hosted-history-dart', policy.CURRENT_DART_COMMAND)]:
+            for mutation in ('omit', 'skip-job', 'ignore-job', 'skip-check', 'ignore-check', 'different-command', 'mutable-checkout'):
+                with self.subTest(job=name, mutation=mutation):
+                    self.workflows = copy.deepcopy(original)
+                    job = self.workflows['supabase.yml']['jobs'][name]
+                    step = next(step for step in job['steps'] if step.get('run') == command)
+                    if mutation == 'omit': job['steps'].remove(step)
+                    elif mutation == 'skip-job': job['if'] = '${{ false }}'
+                    elif mutation == 'ignore-job': job['continue-on-error'] = True
+                    elif mutation == 'skip-check': step['if'] = '${{ false }}'
+                    elif mutation == 'ignore-check': step['continue-on-error'] = True
+                    elif mutation == 'different-command': step['run'] += ' || true'
+                    else:
+                        checkout = next(step for step in job['steps'] if step.get('uses', '').startswith('actions/checkout@'))
+                        checkout['with']['ref'] = 'main'
+                    self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+
+    def test_supabase_source_contracts_and_synthetic_target_cannot_drift(self):
+        original = copy.deepcopy(self.workflows)
+        for command in policy.CURRENT_SOURCE_COMMANDS:
+            for mutation in ('omit', 'skip', 'ignore'):
                 self.workflows = copy.deepcopy(original)
-                job = self.workflows['ci.yml']['jobs']['supabase-platform']
-                other = self.workflows['supabase.yml']['jobs']['local-qualification']
-                if mutation == 'workflow-drift':
-                    other['timeout-minutes'] = 24
-                else:
-                    for target in (job, other):
-                        if mutation == 'omit':
-                            target['steps'] = [step for step in target['steps'] if step.get('run') != '"$COLLECT_DENO" task test']
-                        elif mutation == 'skip-job':
-                            target['if'] = '${{ false }}'
-                        elif mutation == 'ignore-job':
-                            target['continue-on-error'] = True
-                        elif mutation in ('skip-check', 'ignore-check'):
-                            step = next(step for step in target['steps'] if step.get('run') == '"$COLLECT_DENO" task test')
-                            step['if' if mutation == 'skip-check' else 'continue-on-error'] = '${{ false }}' if mutation == 'skip-check' else True
-                        else:
-                            target['env']['COLLECT_TEST_DATABASE_URL'] = 'postgres://hosted.invalid/production'
+                job = self.workflows['supabase.yml']['jobs']['current-source-contracts']
+                step = next(step for step in job['steps'] if step.get('run') == command)
+                if mutation == 'omit': job['steps'].remove(step)
+                elif mutation == 'skip': step['if'] = '${{ false }}'
+                else: step['continue-on-error'] = True
+                with self.subTest(command=command, mutation=mutation):
+                    self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+        self.workflows = copy.deepcopy(original)
+        self.workflows['supabase.yml']['jobs']['current-self-hosted-native']['env']['COLLECT_FENCE_ADMIN_DATABASE_URL'] = 'postgres://hosted.invalid/production'
+        self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+
+    def test_reusable_current_gate_cannot_select_history_or_be_hidden(self):
+        original = copy.deepcopy(self.workflows)
+        for patch in ({'uses': './.github/workflows/other.yml'}, {'if': '${{ false }}'},
+                      {'continue-on-error': True}, {'with': {'qualification_profile': 'historical-current16'}},
+                      {'secrets': 'inherit'}, {'steps': []}, {'timeout-minutes': 25}):
+            self.workflows = copy.deepcopy(original)
+            self.workflows['ci.yml']['jobs']['supabase-platform'].update(patch)
+            with self.subTest(patch=patch):
                 self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+
+    def test_historical_native_jobs_require_reviewed_immutable_source(self):
+        original = copy.deepcopy(self.workflows)
+        for name in ('local-qualification', 'control-concurrency-native', 'stopped-admission-lifecycle-native',
+                     'current16-integration-native', 'current14-member-history-dart'):
+            for mutation in ('automatic', 'mutable-source'):
+                self.workflows = copy.deepcopy(original)
+                job = self.workflows['supabase.yml']['jobs'][name]
+                if mutation == 'automatic': job.pop('if')
+                else:
+                    checkout = next(step for step in job['steps'] if step.get('uses', '').startswith('actions/checkout@'))
+                    checkout['with']['ref'] = 'main'
+                with self.subTest(job=name, mutation=mutation):
+                    self.assertIn('CI_HISTORICAL_SOURCE_REQUIRED', self.codes())
+
+    def test_current_profile_cannot_default_to_or_auto_admit_history(self):
+        original = copy.deepcopy(self.workflows)
+        for mutation in ('historical-default', 'mutable-history', 'automatic-history'):
+            self.workflows = copy.deepcopy(original)
+            step = self.workflows['supabase.yml']['jobs']['select-profile']['steps'][0]
+            if mutation == 'historical-default': step['env']['PROFILE'] = 'historical-current16'
+            elif mutation == 'mutable-history': step['run'] = step['run'].replace("assert re.fullmatch(r'[a-f0-9]{40}', source)", 'assert source')
+            else: step['run'] = step['run'].replace("assert not historical or os.environ['GITHUB_EVENT_NAME'] == 'workflow_dispatch'", 'assert True')
+            with self.subTest(mutation=mutation):
+                self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+
+    def test_current_evidence_never_uploads_private_runtime_descriptor(self):
+        job = self.workflows['supabase.yml']['jobs']['current-self-hosted-native']
+        upload = next(step for step in job['steps'] if step.get('uses', '').startswith('actions/upload-artifact@'))
+        upload['with']['path'] += '\n${{ runner.temp }}/collect-current-selfhost-native/runtime.private.json'
+        self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
 
     def test_supabase_candidate_cannot_fall_back_to_another_backend(self):
         original = copy.deepcopy(self.workflows)

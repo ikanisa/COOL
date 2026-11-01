@@ -1,0 +1,255 @@
+{
+  "format": "collect.selfhost.images.v1",
+  "upstream_commit": "bc27d2661edd09a5d0b8d76ce33da6d4071a756e",
+  "database_update": "Official PostgreSQL17.11.0.006 image; qualified SQL uses PG17.11. Docker acceptance remains separate.",
+  "services": {
+    "studio": {
+      "tag": "supabase/studio:2026.10.12-sha-3699278",
+      "reference": "supabase/studio:2026.10.12-sha-3699278@sha256:948770ec467f00e6ae34c35018ef7cb23d7b30eb806b42c2cc0d7bcfdcf8a7a8",
+      "manifest_digest": "sha256:948770ec467f00e6ae34c35018ef7cb23d7b30eb806b42c2cc0d7bcfdcf8a7a8",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:bfb1b1e4a7ee9fee9f0f5aaa86f990f271305cf89d736f64b437e11d5d85b86d"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:2262ab615e92c46c7cdc72629de91ad189950548666697ad393aaafba353e8a6"
+        }
+      ]
+    },
+    "api-gw": {
+      "tag": "envoyproxy/envoy:v1.39.1",
+      "reference": "envoyproxy/envoy:v1.39.1@sha256:57e14a549d7bd43c8d3f6d03e8cfa653e037d4b38e133acd9b54f38c524401b4",
+      "manifest_digest": "sha256:57e14a549d7bd43c8d3f6d03e8cfa653e037d4b38e133acd9b54f38c524401b4",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:be87c8b52663c1164a5bdf3c5419017a269cb3d8c74be1ec93638a71f1ffbd4b"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:b21240e552b588017072424716c0bce30000f49deed6262bde55b042b5acfd97"
+        }
+      ]
+    },
+    "auth": {
+      "tag": "supabase/gotrue:v2.197.0",
+      "reference": "supabase/gotrue:v2.197.0@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+      "manifest_digest": "sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:839f529492d116b4e8b7777c953a27c381d34c15a744b1bcefde5eefaa1f9f9f"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:3439d5affb9e96395d1348521f4c675eea7096d8d76d18d4e31fcc08df802116"
+        }
+      ]
+    },
+    "rest": {
+      "tag": "postgrest/postgrest:v14.18",
+      "reference": "postgrest/postgrest:v14.18@sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf",
+      "manifest_digest": "sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:c847127074bd26e1b8d3f7c0e6e01e5346f4b85dd34f5d699fd230af960827c0"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:dfa6464b877fa7b1b0be85740f6ce6985144b509a6edb5f09c5ee67e687e8c1f"
+        }
+      ]
+    },
+    "realtime": {
+      "tag": "supabase/realtime:v2.143.3",
+      "reference": "supabase/realtime:v2.143.3@sha256:768b559241dd234c4e8852c5c0f504e598b80f1df2ad4dd78d5486fbed2f17a2",
+      "manifest_digest": "sha256:768b559241dd234c4e8852c5c0f504e598b80f1df2ad4dd78d5486fbed2f17a2",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:1591e9049bf15fd392da9e8344db892f6acfe9da274517327dbd14733f32b9e1"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:39abd3593110424c8512ffdaefd6b3ef016a5867065a87c1658e9bc55199a464"
+        }
+      ]
+    },
+    "storage": {
+      "tag": "supabase/storage-api:v1.81.0",
+      "reference": "supabase/storage-api:v1.81.0@sha256:98ffec5d0678803783c30e404c27f4ec65e97efbe014088f2a86b4b8b54b9f54",
+      "manifest_digest": "sha256:98ffec5d0678803783c30e404c27f4ec65e97efbe014088f2a86b4b8b54b9f54",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:92c5fe87ba5291915d0c21ca530ece9a58e13cc76a36a6c84fc69121a8dde799"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:a1249fe15965769752f81eec9313af1636cd2b1ff5622bf99ecf283a6a84c099"
+        }
+      ]
+    },
+    "imgproxy": {
+      "tag": "darthsim/imgproxy:v3.31.4",
+      "reference": "darthsim/imgproxy:v3.31.4@sha256:73c5dda13199745b0d2d00e4149d4a589c5b2e205dbf335ca05eca8276b54712",
+      "manifest_digest": "sha256:73c5dda13199745b0d2d00e4149d4a589c5b2e205dbf335ca05eca8276b54712",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:80200afeaa85c4abb58bbcb84deadab6d6cf5c79ac7af0694ff22e2b5de1477b"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:658c826d4f46f8f9955d0e71ec14a7aab5a01e171233587b8d1d166e548a243a"
+        }
+      ]
+    },
+    "meta": {
+      "tag": "supabase/postgres-meta:v0.100.0",
+      "reference": "supabase/postgres-meta:v0.100.0@sha256:145325b7e39f8ef4931d6e8cfd3f6f4d655de09d72a2ccc96d9513542c2202bd",
+      "manifest_digest": "sha256:145325b7e39f8ef4931d6e8cfd3f6f4d655de09d72a2ccc96d9513542c2202bd",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:822227a8d12c109b24b8d8f1dae98a9c089a698b4586d35527dadf929e655136"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:e3e00f3d8315884717b9751cbf47888a0359c640097d96abff987de37a0edf81"
+        }
+      ]
+    },
+    "functions": {
+      "tag": "supabase/edge-runtime:v1.77.4",
+      "reference": "supabase/edge-runtime:v1.77.4@sha256:ad45164b7548bf5820ed7be714789c17ac2865edce79a09cfb4c3756c3d365a8",
+      "manifest_digest": "sha256:ad45164b7548bf5820ed7be714789c17ac2865edce79a09cfb4c3756c3d365a8",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:fded42ff725708990b1a0803633c2659453259d075c4bec6b4d01dfb82dc055e"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:79d1d8273f192f06bb04e69158a59d492365dab56b5c4516a033a90e3f4518f4"
+        }
+      ]
+    },
+    "db": {
+      "tag": "supabase/postgres:17.11.0.006",
+      "reference": "supabase/postgres:17.11.0.006@sha256:c141fd17ac6a76c4323e90b3aee8ff1a23d2e89e547c2b963cfadc309c079cc2",
+      "manifest_digest": "sha256:c141fd17ac6a76c4323e90b3aee8ff1a23d2e89e547c2b963cfadc309c079cc2",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:80700a6f21573b4fdf82927ab9deac3910690fb81b093ce47ee7eaf55ea9761d"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:0dc4532986d493c8e424480112ac130f18090c80ce665251ac695d1fa1dd835a"
+        }
+      ]
+    },
+    "supavisor": {
+      "tag": "supabase/supavisor:2.9.13",
+      "reference": "supabase/supavisor:2.9.13@sha256:07f1a6098ffc04b80263bca4eb5c3e7bd2e03dfd1fc465aa108d7329000a1a4e",
+      "manifest_digest": "sha256:07f1a6098ffc04b80263bca4eb5c3e7bd2e03dfd1fc465aa108d7329000a1a4e",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:c57b1222f3ca21a3180c202dea14806cc0be67cda633eb62bcc6481efc0e7a95"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:98861660eb5f2ef229c383b0cf1532c7937705c60513d2edf0c0cd1523d61437"
+        }
+      ]
+    },
+    "web": {
+      "tag": "node:24.19.0-bookworm-slim",
+      "reference": "node:24.19.0-bookworm-slim@sha256:a9f5f7c91a432850b2a8a7797adf5eadb6c733ceed61167806cee7ea7fbc29df",
+      "manifest_digest": "sha256:a9f5f7c91a432850b2a8a7797adf5eadb6c733ceed61167806cee7ea7fbc29df",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:e5a8dee7bc1e6a215d224a7ef8206f7e77271bc3cabd5febf2beafac0674f174"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:be8929e08ae137e81b5e1edba02259e6c4cb2f5ad655092bb9f56b97e41c4536"
+        }
+      ]
+    },
+    "proxy": {
+      "tag": "caddy:2.11.2",
+      "reference": "caddy:2.11.2@sha256:25cdc846626b62d05f6b633b9b40c2c9f6ef89b515dc76133cefd920f7dbe562",
+      "manifest_digest": "sha256:25cdc846626b62d05f6b633b9b40c2c9f6ef89b515dc76133cefd920f7dbe562",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:6d125e80883be8a2bef5f088c7535945b42cdbb8a0f5471bf36eaf18dc0638f1"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:df9781ddd351c310248024d964065cd8d41b11fb5d238256d55d30925e8b6ae4"
+        },
+        {
+          "os": "windows",
+          "architecture": "amd64",
+          "digest": "sha256:b8df27c06cfdbe2fa4590d2de484278aad4f969b053b9202c91a5072a6b73787"
+        },
+        {
+          "os": "windows",
+          "architecture": "amd64",
+          "digest": "sha256:2ee305ceeda7058037d4a404f699dffdd0d47d21964fc6ff65d10e15baf2c88a"
+        }
+      ]
+    },
+    "backup": {
+      "tag": "busybox:1.37.0",
+      "reference": "busybox:1.37.0@sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec",
+      "manifest_digest": "sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec",
+      "platforms": [
+        {
+          "os": "linux",
+          "architecture": "amd64",
+          "digest": "sha256:66a6306db78bf2dbf3487f293aa8d6990d8e506fdffab9cc43fe422becf886e4"
+        },
+        {
+          "os": "linux",
+          "architecture": "arm64",
+          "digest": "sha256:d82c2ab94640ded77cf76514ce6a84870761105058a4a9e51b05a8a79be97a6c"
+        }
+      ]
+    }
+  }
+}

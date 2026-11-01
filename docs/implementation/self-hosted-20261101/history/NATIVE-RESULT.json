@@ -1,0 +1,85 @@
+{
+  "format": "collect.selfhost.backend.native.v1",
+  "status": "PASS",
+  "cases": [
+    "upgrade preserves original safe/unknown/lost admissions",
+    "archive/index/counters reject client access and unsafe owner shortcuts",
+    "real runtime close archives atomically and retains exact original evidence",
+    "seed more than ten thousand synthetic financial events with native constraints",
+    "large history pages keep exact totals and bounded payload with all four sort orders",
+    "half-open dates, literal search and cross-group authority remain scoped",
+    "group mutation invalidates old cursors and balances share one exact aggregate",
+    "normal service admits beyond the former hundred-thousand lifetime cap",
+    "eight retained stopped proofs release effective slots without rewriting unknown history",
+    "revoked actual fixture session cannot use a retained history cursor"
+  ],
+  "observed": {
+    "migrations": [
+      {
+        "name": "20261101012309_collect_admission_archive.sql",
+        "sha256": "82b09d4d2abd5994429a978ccf80daa796fd83e5dc5d29bc54076f2b7565ad84"
+      },
+      {
+        "name": "20261101012310_collect_member_history_pagination.sql",
+        "sha256": "2e67c30af2860d9ffe4a8636c225278e24728e59f9ce9ee29b38f7f441932835"
+      }
+    ],
+    "history_rows": 10005,
+    "archive": {
+      "resourceLimits": {
+        "archiveMode": "immutable_in_place",
+        "activeWorkLimit": 8,
+        "capacityBlocked": false,
+        "operationReceipts": 1,
+        "workingAdmissions": 2,
+        "archivedAdmissions": 100025,
+        "retainedAdmissions": 100027,
+        "originalRowsDeleted": false,
+        "operationReceiptLimit": 10000,
+        "workingAdmissionLimit": 100000,
+        "admissionBudgetVersion": 4,
+        "retainedAdmissionLimit": null,
+        "stoppedLocalAdmissions": 0,
+        "settledRetentionEnabled": true,
+        "schedulerLifecycleProofs": 0,
+        "operationReceiptSaturated": false,
+        "schedulerLifecycleProofLimit": 10000,
+        "activeAndUnresolvedAdmissions": 1,
+        "rawActiveAndUnresolvedAdmissions": 1,
+        "retainedUnquantifiedUnknownObligations": 0
+      },
+      "contractVersion": 4,
+      "providerSettlement": false,
+      "fullHistoryVerified": true,
+      "originalRowsDeleted": false,
+      "unknownObligationSettled": false
+    },
+    "stopped": {
+      "raw": 8,
+      "effective": 0,
+      "original_unknown_preserved": true,
+      "provider_settlement": false
+    },
+    "history_capture": {
+      "format": "collect.selfhost.history.capture.v1",
+      "status": "PASS",
+      "profile": "current16_plus_admission_archive_and_history_v2",
+      "source_sha256": "01887d9b750beda9ca6590ed17636b12e4926ab9e1eb3887e47b8afd6431701c",
+      "packet_sha256": "ed61a7c9716b5f95ee6eaeeccf3abecfb7ffa1fb94f0ecb1ecd55a5a45cf3a0d",
+      "inputs_sha256": "62cbc029641dd09bd90a0b8c966d722d7cabdcbf08b44fd48101ed8efd4a808d",
+      "sql_sha256": "ee78cc3d304b66e6c8b5d596016c28383e4d18a7bae9d9dfeb072dd1cf0037af",
+      "requests": 22,
+      "pages": 15,
+      "sql_statements": 41,
+      "historical_current14_or_current16_acceptance": false,
+      "provider_calls": 0,
+      "hosted_acceptance": false,
+      "production_acceptance": false
+    }
+  },
+  "failure": null,
+  "real_postgres": true,
+  "synthetic_auth": true,
+  "external_calls": 0,
+  "production_acceptance": false
+}

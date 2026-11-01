@@ -1,0 +1,45 @@
+{
+  "format": "collect.frontend.evidence-copy.v1",
+  "original_directory": "/workspace/scratch/2d330cc6dfd0/review/mobile-validation/current-frontends-package6",
+  "byte_identical": true,
+  "compiled_artifacts_stored_at_original": true,
+  "contains_preserved_previous_admin_generations": true,
+  "reproducibility_scope": "Exact invocation and output bytes; preexisting generated Admin generations retained by canonical builder",
+  "files": [
+    {
+      "path": "BUILD-EVIDENCE.json",
+      "bytes": 170639,
+      "sha256": "13e9395d9c7998468b1e1bc7a20dc0b66a714e1272418510e3fa51c90ae74e8b"
+    },
+    {
+      "path": "OBSERVATION.json",
+      "bytes": 535,
+      "sha256": "c452b6e97634db9147537092dc573213aeaee20dec518580ca49a37cd88c861f"
+    },
+    {
+      "path": "public-build.log",
+      "bytes": 129,
+      "sha256": "4f4e5f227ef74115a29f8f3ec5407c7701fd87a3747653ce8dabb56d4648e7f0"
+    },
+    {
+      "path": "public-result.json",
+      "bytes": 44,
+      "sha256": "b33857eb730fbcb178815bee06e17243ae2ae4d9098a9c8d13bb98a03ce0fa82"
+    },
+    {
+      "path": "admin-build.log",
+      "bytes": 1619,
+      "sha256": "9e1809bc141b8cf5a855486abea89a70a720401e4b665e91b745dec04627c4af"
+    },
+    {
+      "path": "admin-result.json",
+      "bytes": 43,
+      "sha256": "97888a83245a8dd716090e46b496c692223af1a0869a3cab002711594a5dae4c"
+    },
+    {
+      "path": "excluded-admin-housekeeping.json",
+      "bytes": 174,
+      "sha256": "b7b5720b01325e4c34b84e9971cf69f40a000e7c450004881ea4f981dc3d7c50"
+    }
+  ]
+}

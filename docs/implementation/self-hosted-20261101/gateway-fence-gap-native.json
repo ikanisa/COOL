@@ -1,0 +1,21 @@
+{
+  "format": "collect.gateway.fence-gap-native.v1",
+  "date": "2026-11-01T03:03:57.857Z",
+  "scope": "isolated synthetic PostgreSQL fixture; rollback-only gateway mutation",
+  "provider_calls": 0,
+  "production_acceptance": false,
+  "controller": {
+    "mode": "quiescing",
+    "epoch": "1",
+    "source_sha256": "f3503b1b54ca4a08906a46ddd6da60ef6e63fb408b59e8499025230e517d6f65"
+  },
+  "role": "collect_sms_runtime",
+  "role_flags": {
+    "rolsuper": false,
+    "rolbypassrls": false
+  },
+  "profile_verified": true,
+  "gateway_write_accepted_while_quiescing": true,
+  "rollback_verified": true,
+  "status": "confirmed_fence_gap"
+}

@@ -10,7 +10,7 @@ const HASH='a'.repeat(64),uuid=n=>String(n).padStart(8,'0')+'-1111-4111-8111-111
 function fixture({stale=false,revoked=false}={}){
  const account={id:uuid(1),principal_id:uuid(2),auth_user_id:uuid(3),auth_session_id:uuid(4),public_id:uuid(5),token_hash:HASH,origin:'https://synthetic-admin.example.invalid',auth_version:1,role:'owner',issued_assurance_level:1,issued_mfa_at:null,issued_mfa_factor_id:null};
  attestAdminEmailAccount(account,{contract_version:1,public_session_id:account.public_id,email_verified_at:Math.floor(Date.now()/1000)-(stale?301:0),proof_id:uuid(6)});
- const schemas=catalog.classes.filter(item=>item.relation.startsWith('private.')).map(item=>({name:item.relation.slice(8),kind:'r',columns:'synthetic',constraints:'synthetic',triggers:'synthetic'})).sort((a,b)=>a.name.localeCompare(b.name));
+ const schemas=catalog.classes.filter(item=>item.relation.startsWith('private.')).map(item=>({name:item.relation.slice(8),kind:'r',columns:item.relation==='private.collect_sms_fence_admissions'?'admission_id:uuid:true,profile_sha256:text:true,created_at:timestamp with time zone:true':'synthetic',constraints:'synthetic',triggers:'synthetic'})).sort((a,b)=>a.name.localeCompare(b.name));
  const managed={contract_version:1,schema:{fixture:'synthetic-managed-schema'},classes:{'managed:auth':{status:'observed',count:0,rows:[]},'managed:storage':{status:'observed',count:0,rows:[]}}};
  const realtime={contract_version:1,schema:{contract:'collect.member.realtime.inventory.v1',metadata_sha256:HASH,partitions_sha256:HASH},class:{status:'observed',count:0,rows:[],erasure_verified:false}};
  const calls=[],transactions=[];
@@ -36,7 +36,7 @@ function fixture({stale=false,revoked=false}={}){
 }
 test('shipping wrapper supplies current email/account context to both managed inventory helpers',async()=>{
  const f=fixture();const identity=await privateRetentionCatalogIdentity(f.env),inventory=await inventoryPrivateRetention(f.env,'synthetic-subject');
- assert.equal(identity.schema_profile,'stopped_admission14');assert.equal(inventory.classes['managed:realtime_messages'].status,'observed');
+ assert.equal(identity.schema_profile,'archive_history_v4_guest_upgrade_deployment_manifests_v2_row_executor_v2_sms_fence');assert.equal(inventory.classes['managed:realtime_messages'].status,'observed');
  for(const helper of ['retention_managed_inventory','retention_member_realtime_inventory'])assert(f.calls.some(row=>row.sql.startsWith('SELECT private.'+helper)));
  assert(f.transactions.length>5);assert(f.transactions.every(tx=>tx[0].startsWith('SELECT private.set_admin_email_context(')&&tx[1].startsWith('INSERT INTO admin_account_guards')&&tx.at(-1).startsWith('DELETE FROM admin_account_guards')));
 });

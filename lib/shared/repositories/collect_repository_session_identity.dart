@@ -10,7 +10,7 @@ typedef _CollectSessionFence = ({
   int generation,
 });
 _CollectAuthIdentity? _sessionIdentity(CollectAuthSession? session) {
-  if (session == null) return null;
+  if (session == null || session.user.isAnonymous) return null;
   var identity = session.accessToken;
   try {
     final parts = session.accessToken.split('.');

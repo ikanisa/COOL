@@ -38,13 +38,21 @@ abstract interface class NotificationOperatorAssistedSmsAdapter {
   );
 }
 
+abstract interface class NotificationOperatorAssistedSmsStatusAdapter {
+  Future<NotificationOperatorAdapterObservation> inspect(String attemptId);
+}
+
 class NotificationOperatorAdapterObservation {
   const NotificationOperatorAdapterObservation({
     required this.observation,
     required this.evidenceReferenceSha256,
+    this.providerAccepted = false,
+    this.gatewayState,
   });
-  final NotificationOperatorObservation observation;
+  final NotificationOperatorObservation? observation;
   final String evidenceReferenceSha256;
+  final bool providerAccepted;
+  final String? gatewayState;
 }
 
 class NotificationOperatorNativePayload {
@@ -52,8 +60,10 @@ class NotificationOperatorNativePayload {
     this.attemptId,
     this.destinationE164,
     this.messageBody,
+    this.dispatchToken,
   );
   final String attemptId, destinationE164, messageBody;
+  final String? dispatchToken;
 }
 
 /// Ephemeral, single-take handoff. Lifecycle invalidation erases the payload
@@ -545,6 +555,7 @@ class _OperatorPageState
           start.attemptId,
           content.destinationE164,
           content.messageBody,
+          permit.dispatchToken,
         ),
         permit,
         () => _taskCurrent(task) && _api.canManage,
@@ -573,11 +584,53 @@ class _OperatorPageState
         if (mounted) setState(() => _busy = false);
       }
       if (!_taskCurrent(task) || observation == null) return;
-      _observation = observation.observation;
       _evidence.text = observation.evidenceReferenceSha256;
+      if (observation.observation == null) {
+        setState(
+          () => _message = observation!.providerAccepted
+              ? 'The gateway accepted this original job. Check its status before recording a send observation.'
+              : 'The gateway result remains unknown. Check this original attempt; do not send it again.',
+        );
+        return;
+      }
+      _observation = observation.observation!;
       await _recordOutcome();
     } catch (error) {
       if (_taskCurrent(task)) setState(() => _message = _error(error));
+    }
+  }
+
+  Future<void> _inspectGateway() async {
+    final adapter = widget.assistedSmsAdapter, attempt = _attemptId;
+    if (!_current ||
+        _busy ||
+        !_api.canManage ||
+        attempt == null ||
+        adapter is! NotificationOperatorAssistedSmsStatusAdapter) {
+      return;
+    }
+    final task = _generation;
+    setState(() => _busy = true);
+    NotificationOperatorAdapterObservation? result;
+    try {
+      result = await (adapter as NotificationOperatorAssistedSmsStatusAdapter)
+          .inspect(attempt);
+      if (_taskCurrent(task)) {
+        _evidence.text = result.evidenceReferenceSha256;
+        setState(
+          () => _message = result!.observation == null
+              ? 'Gateway status: ${result.gatewayState ?? 'unknown'}. No send observation is confirmed yet.'
+              : 'The gateway returned an observation for this original attempt.',
+        );
+      }
+    } catch (error) {
+      if (_taskCurrent(task)) setState(() => _message = _error(error));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+    if (_taskCurrent(task) && result?.observation != null) {
+      _observation = result!.observation!;
+      await _recordOutcome();
     }
   }
 
@@ -951,6 +1004,16 @@ class _OperatorPageState
               ),
             ],
             if (_attemptId != null && _api.canManage) ...[
+              if (widget.assistedSmsAdapter
+                  is NotificationOperatorAssistedSmsStatusAdapter)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: OutlinedButton.icon(
+                    onPressed: _current && !_busy ? _inspectGateway : null,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Check original gateway attempt'),
+                  ),
+                ),
               _heading(context, 'Record observed outcome'),
               AdminRecordFactsTable(
                 semanticLabel: 'Assisted SMS attempt',

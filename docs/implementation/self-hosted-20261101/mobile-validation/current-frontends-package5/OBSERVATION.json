@@ -1,0 +1,22 @@
+{
+  "build_evidence_sha256": "00d2ba6aeb0e2635e69671cf4d1de74c7be981fb844351e52eb550cba69fba6b",
+  "builds": [
+    {
+      "exit_code": 0,
+      "surface": "public"
+    },
+    {
+      "exit_code": 0,
+      "surface": "admin"
+    }
+  ],
+  "design_acceptance": false,
+  "device_acceptance": false,
+  "exact_public_client": true,
+  "format": "collect.selfhost.frontend-qualification.v1",
+  "hosted_acceptance": false,
+  "production_acceptance": false,
+  "provider_calls": 0,
+  "source_parity_before_and_after": true,
+  "status": "PASS"
+}

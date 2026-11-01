@@ -3,6 +3,7 @@ import {ApiError,json,readJson,uuid,integer,id,now,digest,stableJson,auditStatem
 import {adminAccountSession,adminCanonicalActor,accountDatabase,validateAdminOrigin} from './admin_accounts.js';
 import {encrypt,decrypt} from './encryption.js';
 import {mutation,retainedResponse} from './mutations.js';
+import {prepareAssistedSmsDispatch,dispatchAssistedSms,inspectAssistedSms} from './assisted_sms_dispatch.js';
 
 const encoder=new TextEncoder(),decoder=new TextDecoder('utf-8',{fatal:true});
 const marker={contract_version:1,scope:'assisted_sms_internal_record',delivery_confirmed:false,provider_confirmation:false,settlement_status:'not_asserted'};
@@ -156,6 +157,7 @@ async function start(ctx,body){
  const records=await query(ctx,'SELECT * FROM assisted_sms_confirmations WHERE id=?',confirmationId),confirmation=records[0];
  if(!confirmation||confirmation.claim_id!==row.claim_id||confirmation.originating_session_id!==actor.sessionId||confirmation.public_session_id!==ctx.account.public_id)throw unavailable();
  const attempt={id:id(),job_id:row.id,confirmation_id:confirmationId,claim_id:row.claim_id,fence:row.fence,originating_session_id:actor.sessionId,public_session_id:ctx.account.public_id},receipt=startReceipt(attempt),sha=await digest(stableJson(body));
+ const dispatch=await prepareAssistedSmsDispatch(ctx,attempt,confirmation);
  try{
   // Only a successful FIRST batch acknowledgement can issue the transient
   // response permit. The stored receipt deliberately contains no permit bit.
@@ -164,6 +166,7 @@ async function start(ctx,body){
    env.DB.prepare(`INSERT INTO assisted_sms_send_starts
    (id,request_id,job_id,confirmation_id,claim_id,fence,actor_admin_id,actor_user_id,originating_session_id,public_session_id,body_sha256,destination_sha256,destination_revision,started_seconds)
    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,unixepoch())`).bind(attempt.id,requestId,row.id,confirmationId,row.claim_id,row.fence,...identity(ctx),row.body_sha256,row.destination_sha256,row.destination_revision),
+   ...(dispatch?[dispatch.statement]:[]),
    auditStatement(env,actor,operation,'assisted_sms',row.id,{attempt_id:attempt.id,confirmation_id:confirmationId,request_sha256:sha,public_session_id:ctx.account.public_id},requestId),
   ]);
  }catch(error){
@@ -174,7 +177,7 @@ async function start(ctx,body){
   throw failure(error);
  }
  await authority(ctx);
- return {...receipt,replay:false,may_send:true,acknowledgement:'first_committed_response_only'};
+ return {...receipt,replay:false,may_send:true,acknowledgement:'first_committed_response_only',...(dispatch?{dispatch_token:dispatch.token}:{})};
 }
 async function release(ctx,body){
  fields(body,['job_id','claim_token','fence_version','request_id']);const {env,actor}=ctx,requestId=uuid(body.request_id,'request_id');
@@ -203,7 +206,8 @@ export async function notificationOperatorRoute(request,env){
  if(request.method!=='POST')throw new ApiError(405,'method_not_allowed','Use the authenticated operator command.');
  if(request.headers.get('X-Collect-Admin')!=='1')throw new ApiError(403,'operator_origin_required','Open the configured Admin workspace.');
  const raw=await readJson(request,4096),{action,...body}=raw;
- const handlers={list_pending:pending,claim,get_claimed:content,confirm,record_send_start:start,record_outcome:outcome,release_claim:release,get_operation:resolve};
+ const handlers={list_pending:pending,claim,get_claimed:content,confirm,record_send_start:start,record_outcome:outcome,release_claim:release,get_operation:resolve,
+  dispatch_gateway:dispatchAssistedSms,inspect_gateway:inspectAssistedSms};
  if(!Object.hasOwn(handlers,action))throw new ApiError(400,'invalid_action','This operator action is unavailable.');
  const ctx=await context(request,env,action==='list_pending'?'assisted_sms.read':'assisted_sms.manage');
  try{return json({ok:true,result:await handlers[action](ctx,body)});}

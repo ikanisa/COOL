@@ -1,0 +1,53 @@
+{
+  "format": "collect.android.kotlin-qualification-attempt.v1",
+  "status": "PASS",
+  "started_at": "2026-11-01T06:28:41.599339+00:00",
+  "deadline_seconds": 900,
+  "disk_reserve_bytes": 536870912,
+  "elapsed_seconds": 267.999,
+  "exit_code": 0,
+  "target": ":app:testDevDebugUnitTest",
+  "test_filter": "app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest",
+  "expected_tests": 14,
+  "observed_test_cases": 14,
+  "junit": {
+    "tests": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "junit_files": [
+    {
+      "path": "android-network-TEST-app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest.xml",
+      "sha256": "68f45c8b021b6661230802c82eda348bbd272bf3bae3b867b9cc439b0552a824"
+    }
+  ],
+  "offline": false,
+  "command": [
+    "bash",
+    "./gradlew",
+    "--no-daemon",
+    "--max-workers=1",
+    ":app:testDevDebugUnitTest",
+    "--tests",
+    "app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest",
+    "-Pdart-defines=QURNSU5fQVBQX1VSTD1odHRwczovL2FkbWluLmNvbGxlY3QuZXhhbXBsZQ==,QURNSU5fT1JJR0lOPWh0dHBzOi8vYWRtaW4uY29sbGVjdC5leGFtcGxl,QVBQX0VOVklST05NRU5UPXF1YWxpZmljYXRpb24=,QVBQX1BVQkxJQ19VUkw9aHR0cHM6Ly9jb2xsZWN0LmV4YW1wbGU=,QVVUSF9DQVBUQ0hBX0VOQUJMRUQ9dHJ1ZQ==,QVVUSF9DQVBUQ0hBX1BST1ZJREVSPXR1cm5zdGlsZQ==,QVVUSF9DQVBUQ0hBX1NJVEVfS0VZPTF4MDAwMDAwMDAwMDAwMDAwMDAwMDBBQQ==,QVVUSF9QSE9ORV9ERUxJVkVSWV9NT0RFPW9wZW5zbXNfaG9vaw==,QVVUSF9XSEFUU0FQUF9FTkFCTEVEPWZhbHNl,QlVJTERfU09VUkNFX0lEPTMwYmUxMjFiZjI1MTVmNWIwOTM0ZTliM2FmOGYwODE5YzRhMDRhYTAwYTM1NDUzNjVjNTYyMzU5MWFmZjg0MTg=,Q09MTEVDVF9BTk9OWU1PVVNfQVVUSF9FTkFCTEVEPWZhbHNl,Q09MTEVDVF9BU1NJU1RFRF9TTVNfRU5BQkxFRD1mYWxzZQ==,Q09MTEVDVF9CQUNLRU5EPXN1cGFiYXNl,Q09MTEVDVF9CVUlMRF9WRVJTSU9OPTEuMi40KzIz,Q09MTEVDVF9ERVBMT1lNRU5UX1BST0ZJTEU9eyJhZG1pbl9vcmlnaW4iOiJodHRwczovL2FkbWluLmNvbGxlY3QuZXhhbXBsZSIsImVudmlyb25tZW50IjoicXVhbGlmaWNhdGlvbiIsImZvcm1hdCI6ImNvbGxlY3QuZGVwbG95bWVudC52MSIsImdvb2dsZV9jYWxsYmFja19vcmlnaW4iOiJodHRwczovL2FkbWluLmNvbGxlY3QuZXhhbXBsZSIsImlkIjoiY29sbGVjdC1xdWFsaWZpY2F0aW9uIiwibWVtYmVyX2FwaV9vcmlnaW4iOiJodHRwczovL2FwaS5jb2xsZWN0LmV4YW1wbGUiLCJtb2RlIjoic2VsZl9ob3N0ZWQiLCJwdWJsaWNfb3JpZ2luIjoiaHR0cHM6Ly9jb2xsZWN0LmV4YW1wbGUiLCJzdXBhYmFzZV9vcmlnaW4iOiJodHRwczovL3N1cGFiYXNlLmNvbGxlY3QuZXhhbXBsZSJ9,Q09MTEVDVF9ERVBMT1lNRU5UX1BST0ZJTEVfU0hBMjU2PTUwNGM1YmEyMjU3N2JkYmY5MDk3NWQxM2ZiY2FiYTQ0ZmYyMzcxYTQzODhjNGQyZWI3YzVjNzRmYTYwOWMxNDg=,Q09MTEVDVF9HT09HTEVfQVVUSF9FTkFCTEVEPWZhbHNl,Q09MTEVDVF9TTVNfQVVUSF9FTkFCTEVEPWZhbHNl,Q09MTEVDVF9XSEFUU0FQUF9BVVRIX0VOQUJMRUQ9ZmFsc2U=,UFVCTElDX09SSUdJTj1odHRwczovL2NvbGxlY3QuZXhhbXBsZQ==,U1VQQUJBU0VfQURNSU5fQVBJX1VSTD1odHRwczovL2FkbWluLmNvbGxlY3QuZXhhbXBsZQ==,U1VQQUJBU0VfQVBJX1VSTD1odHRwczovL2FwaS5jb2xsZWN0LmV4YW1wbGU=,U1VQQUJBU0VfQVVUSF9JU1NVRVI9aHR0cHM6Ly9zdXBhYmFzZS5jb2xsZWN0LmV4YW1wbGUvYXV0aC92MQ==,U1VQQUJBU0VfUFVCTElTSEFCTEVfS0VZPXNiX3B1Ymxpc2hhYmxlX2h6dnVwMGZnVTNKMEJOZmFJNXFOSzBfeEY5V1Z2clc=,U1VQQUJBU0VfVVJMPWh0dHBzOi8vc3VwYWJhc2UuY29sbGVjdC5leGFtcGxl,Q09MTEVDVF9CVUlMRF9TT1VSQ0VfSUQ9MzQ2NzhjYTcyNWYwNGZjNTdlNDJlZDkxNDA0MmRlNmQxYzRjMzFmNzNkNjMxMzEwYzkxZWI4ODM0MWE0ZjU4Mw=="
+  ],
+  "client_config_sha256": "22c969c37c4ab3f3c3204830bb0b614ad4e8fed7d8c0d06f6033757b54d5a358",
+  "prepared_backend_source_sha256": "30be121bf2515f5b0934e9b3af8f0819c4a04aa00a3545365c5623591aff8418",
+  "prepared_frontend_source_sha256": "4af8d40f9037301a280c4e76ffeef856cb7f09d583008cdaa6a488eea26e4061",
+  "public_defines_sha256": "e39ee4a053acd30709b1dc6152ac91886830b6e02f2b2328242cbb478ae7bd35",
+  "source_export_sha256": "aff20bc69d3f819db4f7f15f776f85ca817c3136ae2f28529d1ea2f697f9e49a",
+  "source_drift": [],
+  "log_sha256": "b844f8b819c74638e39b83e21a11d2265073620ee477ef0266def9edbf24f36b",
+  "initial_free_bytes": 4170702848,
+  "final_free_bytes": 3243474944,
+  "kotlin_policy_pass": true,
+  "application_kotlin_compilation_complete": true,
+  "unsigned_apk_built": false,
+  "qualification_client_package": "collect-selfhost-package-5",
+  "final_release_binding": false,
+  "application_provider_actions": false,
+  "device_acceptance": false,
+  "signing_or_store_acceptance": false
+}

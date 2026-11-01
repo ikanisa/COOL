@@ -8,6 +8,33 @@ log() {
   printf '[secret-scan] %s\n' "$*"
 }
 
+# The reviewed upstream example contains Supabase's published dummy JWTs.
+# Permit only its exact admitted bytes/provenance, never an edited secret file.
+# Keep the original vendor bytes; the release generator creates fresh keys.
+if [[ -e deploy/self-hosted/upstream/.env.example ]]; then
+  python3 - <<'PY_PUBLIC_FIXTURE'
+import hashlib, json
+from pathlib import Path
+path=Path('deploy/self-hosted/upstream/.env.example')
+lock_path=Path('deploy/self-hosted/upstream.lock.json')
+reviewed='d27fb4516702358ac5965fb06d207736abeb3c26c7d949f19b90e88b25e694ef'
+try:
+    lock=json.loads(lock_path.read_text())
+    entries=[entry for entry in lock['files'] if entry['path']=='.env.example']
+    valid=(not path.is_symlink() and not lock_path.is_symlink()
+        and lock['format']=='collect.selfhost.upstream.v1'
+        and lock['repository']=='https://github.com/supabase/supabase'
+        and lock['tag']=='self-hosted/v0.8.3'
+        and lock['commit']=='bc27d2661edd09a5d0b8d76ce33da6d4071a756e'
+        and len(entries)==1 and entries[0]['sha256']==reviewed
+        and hashlib.sha256(path.read_bytes()).hexdigest()==reviewed)
+except (OSError,KeyError,TypeError,ValueError):
+    valid=False
+if not valid:
+    raise SystemExit('[secret-scan][FAIL] Upstream public example changed; no placeholder exemption applies.')
+PY_PUBLIC_FIXTURE
+fi
+
 if command -v gitleaks >/dev/null 2>&1; then
   log "running gitleaks detect with redacted output"
   args=(detect --source "$ROOT_DIR" --redact --no-banner)
@@ -31,6 +58,10 @@ should_scan_file() {
       return 1
       ;;
     .env.example)
+      return 1
+      ;;
+    deploy/self-hosted/upstream/.env.example)
+      # The exact-byte/provenance preflight above is mandatory.
       return 1
       ;;
     *.png|*.jpg|*.jpeg|*.webp|*.gif|*.ico|*.mp4|*.mov|*.tflite|*.ttf|*.otf|*.jar|*.zip|*.gz)

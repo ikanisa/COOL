@@ -1,0 +1,13 @@
+{
+  "code": 0,
+  "signal": null,
+  "expired": false,
+  "overflow": false,
+  "cancelled": false,
+  "spawn_error": false,
+  "reaped": true,
+  "stdout_bytes": 4558,
+  "stderr_bytes": 56,
+  "stdout_sha256": "98ca8be4a34684946bc11ca1f1c09cffe09c36fd426a1d557b48e984b994230b",
+  "stderr_sha256": "d3a56e2db92fa5a44b07d1e6c1bd865c585fbccf8e11f3becbe435b2c97b091c"
+}

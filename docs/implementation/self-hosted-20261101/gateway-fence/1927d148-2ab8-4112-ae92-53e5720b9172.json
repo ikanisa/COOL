@@ -1,0 +1,21 @@
+{
+  "format": "collect.gateway.fence-native.v1",
+  "run_id": "1927d148-2ab8-4112-ae92-53e5720b9172",
+  "status": "blocked",
+  "started_at": "2026-11-01T03:14:17.763Z",
+  "tests": [],
+  "observations": {},
+  "provider_calls": 0,
+  "synthetic_provider_attempts": 0,
+  "production_acceptance": false,
+  "physical_send_settlement": false,
+  "real_database_identity": false,
+  "profile_assertion_double": false,
+  "original_migrations": 16,
+  "current_migrations": [],
+  "fatal_class": "AssertionError",
+  "fatal_sqlstate": "ERR_ASSERTION",
+  "finished_at": "2026-11-01T03:14:17.853Z",
+  "passed": 0,
+  "failed": 0
+}

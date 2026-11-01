@@ -1,0 +1,89 @@
+{
+  "scope": "Remaining source gates after separately retained failed canonical entrypoint; not an overall make pass",
+  "commands": [
+    {
+      "command": [
+        "node",
+        "scripts/tests/payment_evidence_reveal_test.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "scripts/supabase/run_edge_node_tests.test.mjs",
+        "scripts/supabase/testing/curated-platform-fixture.test.mjs",
+        "scripts/supabase/testing/batch-capacity.test.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "scripts/supabase/testing/current16-integration.test.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "scripts/supabase/testing/current-self-hosted-native.test.mjs",
+        "scripts/supabase/testing/self-hosted-member-history.test.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "scripts/supabase/jobs-config-contracts.test.mjs",
+        "scripts/supabase/email_jobs_operator.test.mjs",
+        "scripts/self_hosted/jobs-profile.test.mjs",
+        "scripts/self_hosted/email-job-contract.test.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "scripts/supabase/run_edge_node_tests.mjs"
+      ],
+      "exit_code": 1
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "deploy/platform-admin/test/backend-selection.test.mjs",
+        "deploy/platform-admin/test/supabase-transport.test.mjs",
+        "test/supabase-free-transport.test.mjs",
+        "test/local-challenge-parent.test.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "deploy/platform-api/test/supabase_privacy_portal.test.mjs",
+        "deploy/platform-api/test/privacy_email_portal.test.mjs",
+        "deploy/platform-api/test/supabase_roster_decoder_protocol.test.mjs",
+        "supabase/functions/_shared/tests/native-storage-semantics.test.mjs",
+        "supabase/functions/send-sms-hook/handler.test.mjs",
+        "deploy/self-hosted/auth-phone-proxy.test.mjs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/workspace/scratch/2d330cc6dfd0/review/COOL/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno",
+        "task",
+        "check"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

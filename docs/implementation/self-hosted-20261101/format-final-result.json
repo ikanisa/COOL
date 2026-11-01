@@ -1,0 +1,17 @@
+{
+  "format": "collect.source.format-final.v1",
+  "status": "pass",
+  "checked_at": "2026-11-01T06:38:34.549771+00:00",
+  "command": [
+    "make",
+    "format-check",
+    "DART=/workspace/scratch/2d330cc6dfd0/toolchains/flutter-3.44.4/bin/dart"
+  ],
+  "files_checked": 1051,
+  "files_changed": 0,
+  "prior_failure_preserved": true,
+  "prior_mismatch": "test/admin/supabase_admin_email_verification_page_test.dart",
+  "correction": "Pinned formatter only; existing fresh-email fixture semantics retained",
+  "corrected_source_sha256": "d5a6306e720e1a3b2e71e9a69c7cfac26e72dfdd76937eff1f1936dd33cd16ce",
+  "log_sha256": "582ed891856c1f50bb4e07efc5b48661d0133b0c2b250fc09a5e44b0bf4d57dc"
+}

@@ -1,0 +1,39 @@
+{
+  "source_archive_sha256": "fbb65c024d8b1c1340245ea0014d525f7b1e2009910598e34de56c2ca0eb4909",
+  "source_archive_drive_id": "1j5Xg6iMIYilauzBkIaFCIUc9v07UnInn",
+  "version": "0.3.0",
+  "files": {
+    "apps/worker/src/admin.ts": "d18495a568155b9b9691f13a30e8dce5ab2a6e199f1825f79707a88326e13202",
+    "apps/worker/src/application-health.ts": "f979054130e5746b904a53184418e078dbc46838cda40a992dbcd5f3d89cda64",
+    "apps/worker/src/auth.ts": "dfd3035fe0cc70b5361774d8a0d7ab1829ba2ebece5d978a1d15e3f60a8a911d",
+    "apps/worker/src/callbacks.ts": "82bed2bab6dae47b49f111631145db461ca4fc25073b437b5ff3960ac50daf24",
+    "apps/worker/src/campaigns.ts": "2e944529a8b6a83de48fdc01cb0175002d9c71eb144ec0d9201a22bc18b48ec5",
+    "apps/worker/src/capacity.ts": "1d02be9307d7331c9fc28451024895b279992090f34580cd6098c9b66436d4e9",
+    "apps/worker/src/devices.ts": "f3b534fb62d067d2f1c6dfa8a8f66217e4f6c33433c8064aff076ae37b308abc",
+    "apps/worker/src/fcm.ts": "fb060e4c38acc3de63ed13de95c0607ee4a3e96efdcb9423bff9c6360c9b46c2",
+    "apps/worker/src/history.ts": "1bff1f324a87addc7663da6cb1a11cf1539889740fad8727640efee9c1a2521a",
+    "apps/worker/src/index.ts": "1f1e4e876f1964102922972ca76e88eb3e6ae5ad4fe2ca038b3a6ecb32a82c24",
+    "apps/worker/src/messages.ts": "6bfb62e028d57fe19930c27a9b117acc5f30f0f9cbee87464647595718f3d237",
+    "apps/worker/src/metrics.ts": "494e9eec9579121be9bec416265cdcd9015809ec4ec59b9582546d174b455262",
+    "apps/worker/src/otp.ts": "aec6fa9de0f82fd9862f2c537fb7943406ee54ff595cf20c03a985b29d1233d6",
+    "apps/worker/src/recovery.ts": "5de8c2a6ef94ed70452e5be25921e68f7cd282064d00af995772477cb3cb885c",
+    "apps/worker/src/retention.ts": "c449ebdb27e38bdac6049a799471d19df88dd30289799115ee791d069581a639",
+    "apps/worker/src/schedules.ts": "9540a23ec7c4259112f979a77e93a783d42f1df132bf05fb81e30802cee2db69",
+    "apps/worker/src/snapshots.ts": "14b8357aca2a17771f0c34694f9ad283201bbfbed3a2236ea735a9299e3e3283",
+    "apps/worker/src/staff.ts": "61e0893d6aed2a6516d4046d2d1afa5ef551f4f3e5637adc535bb68c61726121",
+    "apps/worker/src/templates.ts": "11cbb0a4e69c50a8a9fe52aae71cc792859855d1ea7cf3944f0fb44a4ca6c10c",
+    "apps/worker/src/types.ts": "93230f8c3d99789f3cc9dd7eb19ee62eb45d7e54b305a0ad4462f751fe7c8ea1",
+    "apps/worker/src/util.ts": "1cbd51d86071aa9cd0abee3bd1708ab353dd72c00b10661544ddaf993aa5e5ee",
+    "apps/worker/migrations/0001_initial.sql": "806420b34e7d7cff45fa5d14fc1d8d20db05b07409260e0206edf5706d39ec83",
+    "apps/worker/migrations/0002_staff_and_retention.sql": "3c73538e171de051ef6569aaeba362e7a85c13fbc92bb7050f74825d9888caaa",
+    "apps/worker/migrations/0003_independent_features.sql": "154a356a501d3e52bd218e56346ccdc3bf2fe0dfd2f520369e3cb728e621056b",
+    "apps/worker/migrations/0004_final_hardening.sql": "5c5c7dd10676b76925ecf5db68d4074bbd469aa403892b60e7fef8bc19c13a56"
+  },
+  "adaptations": [
+    "Explicit TypeScript/npm imports",
+    "Internal PostgreSQL adapter replaces D1 storage",
+    "Typed numeric extraction in bulk campaign messages",
+    "Private PostgreSQL trigger conversion",
+    "Supabase Edge runtime entrypoint"
+  ]
+}

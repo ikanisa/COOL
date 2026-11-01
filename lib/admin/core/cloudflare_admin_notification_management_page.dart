@@ -64,6 +64,7 @@ class _ManagementState
       _authorityLost = false;
   bool _accessConfirmed = false,
       _policyConfirmed = false,
+      _batchConfirmed = false,
       _reopenRequired = false;
   String? _message, _loadError;
   int _generation = 0;
@@ -218,6 +219,7 @@ class _ManagementState
     _policy = null;
     _accessConfirmed = false;
     _policyConfirmed = false;
+    _batchConfirmed = false;
     _collection.clear();
     if (dropOriginal) {
       for (final entry in _pending) {
@@ -321,7 +323,8 @@ class _ManagementState
       switch (item.kind) {
         NotificationManagementHistoryKind.access => _api.canReadAccessOperation,
         NotificationManagementHistoryKind.policy => _api.canReadPolicyOperation,
-        NotificationManagementHistoryKind.materialization => false,
+        NotificationManagementHistoryKind.materialization =>
+          _api.canManagePolicy,
       };
 
   Future<void> _viewHistory(
@@ -364,7 +367,12 @@ class _ManagementState
             receipt: policyStatus.recordedDecision,
           );
         case NotificationManagementHistoryKind.materialization:
-          return;
+          final batch = await _api.getMaterialization(item.requestId);
+          view = _HistoryReadback(
+            requestId: batch.requestId,
+            kind: item.kind,
+            receipt: batch.observed ? batch : null,
+          );
       }
       if (_taskCurrent(task) && expectedSequence == _historySequence) {
         // Discovery is display-only: never resolve a local checkpoint, adopt
@@ -438,7 +446,7 @@ class _ManagementState
             resource = entry.intent['resource_id'],
             expectedRevision = entry.intent['expected_decision_revision'];
         if (!_uuid.hasMatch(entry.requestKey) ||
-            !const {'access', 'policy'}.contains(action) ||
+            !const {'access', 'policy', 'materialization'}.contains(action) ||
             resource is! String ||
             !_uuid.hasMatch(resource) ||
             entry.resourceId != '$action:$resource') {
@@ -526,6 +534,7 @@ class _ManagementState
       _busy = true;
       _policy = null;
       _policyConfirmed = false;
+      _batchConfirmed = false;
       _message = null;
     });
     try {
@@ -627,12 +636,16 @@ class _ManagementState
   }
 
   void _record(_Pending pending, NotificationManagementReceipt receipt) {
-    final resource = receipt is NotificationManagementAccessReceipt
-        ? receipt.principalId
-        : (receipt as NotificationManagementPolicyReceipt).collectionId;
+    final resource = switch (receipt) {
+      NotificationManagementAccessReceipt() => receipt.principalId,
+      NotificationManagementPolicyReceipt() => receipt.collectionId,
+      NotificationManagementMaterializationReceipt() => receipt.collectionId,
+    };
     if (receipt.requestId != pending.requestId ||
         receipt.action != pending.action ||
-        resource != pending.resourceId ||
+        resource != pending.resourceId &&
+            !(receipt is NotificationManagementMaterializationReceipt &&
+                !receipt.observed) ||
         receipt is NotificationManagementAccessReceipt &&
             pending.expectedDecisionRevision != null &&
             receipt.decisionRevision != pending.expectedDecisionRevision! + 1) {
@@ -640,10 +653,20 @@ class _ManagementState
         'The receipt does not match the retained original reference.',
       );
     }
+    if (receipt is NotificationManagementMaterializationReceipt &&
+        !receipt.resolved) {
+      pending.status = receipt.observed
+          ? 'Original batch is incomplete. Check its status before deliberately resuming the same request.'
+          : 'No recorded batch was observed; keep this original UUID.';
+      pending.facts = _receiptFacts(receipt);
+      setState(() {});
+      return;
+    }
     pending.unresolved = false;
     pending.original = null;
-    pending.status =
-        'Recorded historical decision; current state requires a separate read';
+    pending.status = receipt is NotificationManagementMaterializationReceipt
+        ? 'Bounded batch result recorded. No transport was started.'
+        : 'Recorded historical decision; current state requires a separate read';
     pending.facts = _receiptFacts(receipt);
     _references.clear(family: _family, resourceId: pending.storageId);
     setState(() {});
@@ -718,20 +741,21 @@ class _ManagementState
     }
   }
 
-  Future<void> _disablePolicy() async {
+  Future<void> _setPolicy(bool enabled) async {
     final expected = _policy;
     if (!_canWrite ||
         !_api.canManagePolicy ||
         expected == null ||
         !_policyConfirmed ||
-        !expected.enabled) {
+        expected.enabled == enabled ||
+        enabled && !expected.collectionActive) {
       return;
     }
     try {
       final operation = _api.preparePolicy(
         expected: expected,
-        enabled: false,
-        ownerConfirmation: false,
+        enabled: enabled,
+        ownerConfirmation: enabled && _policyConfirmed,
       );
       final pending = _Pending(
         operation.requestId,
@@ -747,6 +771,33 @@ class _ManagementState
       if (_current) {
         setState(() => _message = _error(error));
       }
+    }
+  }
+
+  Future<void> _prepareJobs() async {
+    final expected = _policy;
+    if (!_canWrite ||
+        !_api.canManagePolicy ||
+        !_batchConfirmed ||
+        expected == null) {
+      return;
+    }
+    try {
+      final operation = _api.prepareMaterialization(
+        expected: expected,
+        ownerConfirmation: _batchConfirmed,
+        limit: 5,
+      );
+      final pending = _Pending(
+        operation.requestId,
+        operation.action,
+        operation.resourceId,
+        original: operation,
+      );
+      setState(() => _batchConfirmed = false);
+      await _write(pending, () => _api.materialize(operation));
+    } catch (error) {
+      if (_current) setState(() => _message = _error(error));
     }
   }
 
@@ -786,6 +837,12 @@ class _ManagementState
             _accessConfirmed = false;
           });
         }
+      } else if (pending.action == 'materialization') {
+        final receipt = await _api.getMaterialization(
+          pending.requestId,
+          originalOperation: pending.original,
+        );
+        if (_taskCurrent(task)) _record(pending, receipt);
       } else {
         final result = await _api.getPolicyOperation(
           pending.requestId,
@@ -827,9 +884,11 @@ class _ManagementState
     }
     final receipt = await _write(
       pending,
-      () => pending.action == 'access'
-          ? _api.replayAccess(original)
-          : _api.replayPolicy(original),
+      () => switch (pending.action) {
+        'access' => _api.replayAccess(original),
+        'materialization' => _api.resumeMaterialization(original),
+        _ => _api.replayPolicy(original),
+      },
     );
     if (receipt is NotificationManagementAccessReceipt && _current) {
       await _afterAccessDecision();
@@ -1023,6 +1082,7 @@ class _ManagementState
                 onChanged: (_) => setState(() {
                   _policy = null;
                   _policyConfirmed = false;
+                  _batchConfirmed = false;
                 }),
                 onSubmitted: (_) => _loadPolicy(),
               ),
@@ -1069,30 +1129,37 @@ class _ManagementState
                     ('Required operations permission', 'assisted_sms.manage'),
                   ],
                 ),
-                if (policy.enabled)
-                  CheckboxListTile(
-                    contentPadding: EdgeInsets.zero,
-                    controlAffinity: ListTileControlAffinity.leading,
-                    value: _policyConfirmed,
-                    onChanged: _canWrite
-                        ? (value) =>
-                              setState(() => _policyConfirmed = value == true)
-                        : null,
-                    title: const Text(
-                      'I confirm disabling receipt SMS for this exact collection and revision',
-                    ),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: _policyConfirmed,
+                  onChanged: _canWrite
+                      ? (value) =>
+                            setState(() => _policyConfirmed = value == true)
+                      : null,
+                  title: Text(
+                    policy.enabled
+                        ? 'I confirm disabling receipt SMS for this exact collection and revision'
+                        : 'I confirm enabling receipt SMS for this exact collection and revision',
                   ),
+                ),
                 Wrap(
                   spacing: 12,
                   runSpacing: 8,
                   children: [
-                    const FilledButton(
-                      onPressed: null,
-                      child: Text('Enable receipt SMS policy'),
+                    FilledButton(
+                      onPressed:
+                          _canWrite &&
+                              !policy.enabled &&
+                              policy.collectionActive &&
+                              _policyConfirmed
+                          ? () => _setPolicy(true)
+                          : null,
+                      child: const Text('Enable receipt SMS policy'),
                     ),
                     OutlinedButton.icon(
                       onPressed: _canWrite && policy.enabled && _policyConfirmed
-                          ? _disablePolicy
+                          ? () => _setPolicy(false)
                           : null,
                       icon: const Icon(Icons.block_outlined),
                       label: const Text('Disable current collection policy'),
@@ -1102,13 +1169,34 @@ class _ManagementState
               ],
               _heading(context, 'Prepare bounded jobs'),
               const _Message(
-                'Job preparation is unavailable while the recoverable batch contract is being qualified. No batch is queued or automatically retried.',
+                'Prepare up to five eligible contribution receipts for this collection. Each recipient must have current consent. Preparing jobs does not send messages.',
               ),
-              const Align(
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                controlAffinity: ListTileControlAffinity.leading,
+                value: _batchConfirmed,
+                onChanged:
+                    _canWrite &&
+                        _policy?.enabled == true &&
+                        _policy?.collectionActive == true
+                    ? (value) => setState(() => _batchConfirmed = value == true)
+                    : null,
+                title: const Text(
+                  'I confirm preparing up to five receipt jobs for the selected collection',
+                ),
+              ),
+              Align(
                 alignment: Alignment.centerLeft,
                 child: OutlinedButton(
-                  onPressed: null,
-                  child: Text('Prepare bounded receipt SMS jobs'),
+                  onPressed:
+                      _canWrite &&
+                          _api.canManagePolicy &&
+                          _batchConfirmed &&
+                          _policy?.enabled == true &&
+                          _policy?.collectionActive == true
+                      ? _prepareJobs
+                      : null,
+                  child: const Text('Prepare bounded receipt SMS jobs'),
                 ),
               ),
             ],

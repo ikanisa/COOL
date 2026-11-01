@@ -1,8 +1,8 @@
 {
   "source": "deploy/platform-admin/src/supabase-transport.js",
-  "source_sha256": "80cb28114d7ec5913d585ed585014bd6ea1e6184cda5d52ccc3fa5adbb342342",
+  "source_sha256": "41675ea13db39f6e6c15b36ac3d9df2443e4f8d25b03736cd2fde3b8f3330605",
   "integration": "Retained Cloudflare same-origin Supabase transport; index.js owns host selection/static fallback. Originless Admin GET/HEAD binds configured origin, explicit Origin remains required for mutations, dispatched Admin outcomes are not replayed, and qualified native Google errors remain token-free.",
-  "deployed": true,
+  "deployed": false,
   "base_source_sha256": "643a76d0a38e1023cc0edf38e5514e97e4eec565037c43d66b08648f351ba16c",
   "historical_draft": {
     "source": "private APFS free-proxy/proxy.mjs",
@@ -75,7 +75,7 @@
     "browser_acceptance": "pending_separate_current_build_review",
     "provider_or_production_acceptance": false
   },
-  "deployment_scope": "existing_isolated_QA_web_host_only",
+  "deployment_scope": "unpublished_self_hosted_candidate",
   "production_deployed": false,
   "gateway_no_transform_successor": {
     "at": "2026-10-21T18:37:08.564807+00:00",
@@ -137,5 +137,14 @@
     "production_cutover": false,
     "browser_handoff_sha256": "c1a192b059d2f94574b5902fc9ddaf1db29d922c5e4298183557fbe0c786f8fc",
     "affected_fix_status": "private_bundle_fix_review_and_canonical_adoption_pending"
+  },
+  "self_hosted_successor": {
+    "at": "2026-11-01",
+    "previous_source_sha256": "80cb28114d7ec5913d585ed585014bd6ea1e6184cda5d52ccc3fa5adbb342342",
+    "previous_deployed_status": true,
+    "change": "Verified hashed deployment profile selects explicit public and private routing origins while preserving cookie, CSRF, document, and unknown-outcome protections.",
+    "deployed": false,
+    "production_acceptance": false,
+    "verification": "Local Node checks: 49 protected transport + 5 self-hosted profile + 17 backend selection tests passed; Python Admin build config 16 passed. Candidate not deployed; historical evidence is unchanged."
   }
 }

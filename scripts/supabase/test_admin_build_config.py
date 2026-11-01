@@ -7,6 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from .admin_build_config import BASELINE, PROJECT_ORIGIN, QUALIFICATION_ORIGIN, configuration
+from .deployment_profile import canonical_profile, profile_sha256
 
 class AdminBuildConfigurationTests(unittest.TestCase):
     def setUp(self):
@@ -31,12 +32,61 @@ class AdminBuildConfigurationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             configuration({}, self.root)
 
+    def self_hosted_environment(self):
+        profile = {"format":"collect.deployment.v1", "id":"collect-local-test", "mode":"self_hosted",
+                   "environment":"production", "supabase_origin":"https://supabase.example.test",
+                   "member_api_origin":"https://api.example.test", "admin_origin":"https://admin.example.test",
+                   "public_origin":"https://collect.example.test", "google_callback_origin":"https://admin.example.test"}
+        return {"COLLECT_BACKEND":"supabase", "COLLECT_DEPLOYMENT_PROFILE":canonical_profile(profile),
+                "COLLECT_DEPLOYMENT_PROFILE_SHA256":profile_sha256(profile),
+                "SUPABASE_PUBLISHABLE_KEY":"sb_publishable_public_fixture_only"}
+
+    def test_self_hosted_profile_emits_only_public_identity_and_current_migration_chain(self):
+        env = self.self_hosted_environment() | {"SUPABASE_INTERNAL_URL":"http://kong:8000",
+                                               "SUPABASE_SERVICE_ROLE_KEY":"private-fixture"}
+        defines, metadata = configuration(env, self.root)
+        self.assertEqual(defines["SUPABASE_URL"], "https://supabase.example.test")
+        self.assertEqual(defines["SUPABASE_API_URL"], "https://api.example.test")
+        self.assertEqual(defines["SUPABASE_ADMIN_API_URL"], "https://admin.example.test")
+        self.assertEqual(defines["SUPABASE_AUTH_ISSUER"], "https://supabase.example.test/auth/v1")
+        self.assertEqual(defines["APP_ENVIRONMENT"], "production")
+        self.assertEqual(metadata["supabase_hosting"], "self_hosted")
+        self.assertFalse(metadata["supabase_qualification_complete"])
+        for key in ("SUPABASE_INTERNAL_URL", "SUPABASE_SERVICE_ROLE_KEY"):
+            self.assertNotIn(key, defines)
+            self.assertNotIn(key, metadata)
+
+    def test_self_hosted_disagreement_and_missing_or_changed_identity_fail_closed(self):
+        for changes in ({"COLLECT_DEPLOYMENT_PROFILE_SHA256":"0"*64},
+                        {"SUPABASE_URL":PROJECT_ORIGIN}, {"ADMIN_APP_URL":"https://elsewhere.example.test"},
+                        {"SUPABASE_ADMIN_API_URL":"https://api.example.test"},
+                        {"SUPABASE_API_URL":"https://admin.example.test"}, {"COLLECT_BACKEND":"cloudflare"},
+                        {"APP_ENVIRONMENT":"qualification"}, {"SUPABASE_AUTH_ISSUER":"http://kong:8000/auth/v1"}):
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                configuration(self.self_hosted_environment() | changes, self.root)
+
     def test_legacy_configuration_requires_explicit_backend_selection(self):
         defines, metadata = configuration({"COLLECT_BACKEND": "cloudflare",
                                           "SUPABASE_SERVICE_ROLE_KEY": "fixture-secret"}, self.root)
         self.assertEqual(metadata["backend"], "cloudflare")
         self.assertNotIn("SUPABASE_SERVICE_ROLE_KEY", defines)
         self.assertNotIn("SUPABASE_URL", defines)
+
+    def test_public_turnstile_test_keys_are_qualification_only(self):
+        for key in ('1x00000000000000000000AA', '2x00000000000000000000AB',
+                    '1x00000000000000000000BB', '2x00000000000000000000BB',
+                    '3x00000000000000000000FF'):
+            env = self.self_hosted_environment() | {'AUTH_CAPTCHA_ENABLED': 'true',
+                                                   'AUTH_CAPTCHA_SITE_KEY': key}
+            with self.subTest(key=key), self.assertRaisesRegex(ValueError, 'test key'):
+                configuration(env, self.root)
+            profile = json.loads(env['COLLECT_DEPLOYMENT_PROFILE'])
+            profile['environment'] = 'qualification'
+            env.update(COLLECT_DEPLOYMENT_PROFILE=canonical_profile(profile),
+                       COLLECT_DEPLOYMENT_PROFILE_SHA256=profile_sha256(profile))
+            defines, metadata = configuration(env, self.root, qualification=True)
+            self.assertEqual(defines['AUTH_CAPTCHA_SITE_KEY'], key)
+            self.assertFalse(metadata['shipping_candidate'])
 
     def test_supabase_is_same_origin_bound_and_unqualified(self):
         defines, metadata = configuration(self.env, self.root)
@@ -85,7 +135,8 @@ class AdminBuildConfigurationTests(unittest.TestCase):
     def test_captcha_public_configuration_is_explicit_and_validated(self):
         defines, _ = configuration(self.env, self.root)
         self.assertEqual(defines["AUTH_CAPTCHA_ENABLED"], "false")
-        enabled = self.env | {"AUTH_CAPTCHA_ENABLED":"true", "AUTH_CAPTCHA_SITE_KEY":"1x00000000000000000000AA"}
+        # Opaque syntax fixture only; no provider or release acceptance is run.
+        enabled = self.env | {"AUTH_CAPTCHA_ENABLED":"true", "AUTH_CAPTCHA_SITE_KEY":"synthetic_public_site_key"}
         defines, _ = configuration(enabled, self.root)
         self.assertEqual(defines["AUTH_CAPTCHA_ENABLED"], "true")
         self.assertEqual(defines["AUTH_CAPTCHA_PROVIDER"], "turnstile")
@@ -115,6 +166,7 @@ class AdminBuildConfigurationTests(unittest.TestCase):
         target = self.root / "scripts/supabase/admin_build_config.py"
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)
+        shutil.copy2(source.with_name("deployment_profile.py"), target.with_name("deployment_profile.py"))
         return target
 
     def test_qualification_is_explicit_and_does_not_change_ordinary_shipping(self):

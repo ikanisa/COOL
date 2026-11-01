@@ -1,67 +1,48 @@
-# Roster extraction dispatch policy
+# Roster extraction policy and Supabase deployment
 
-The `prepare-roster-import` function denies a new PDF/image AI extraction with
-`roster_extraction_unavailable` (HTTP 503) unless its represented server policy
-passes validation. The check runs before resource reservation and again at the
-actual decoder/provider fetch boundaries. Stored-result and recovery paths
-retain their existing behavior. This document describes the current code; it
-does not approve a processor, deployment or production release.
+The current application implementation is `supabase/functions/_shared/domain/roster.js`. It runs through the authenticated Collect Admin API, private Supabase Storage adapter, SQL import/commit guards and application admission fence. The old Cloudflare source and earlier release documents remain provenance; they do not establish the current deployed behavior.
 
-The upload passes through authenticated import validation, the signed decoder,
-and the immutable original-source acknowledgement. When model processing is
-used, the request includes the original PDF/image bytes. PDF requests use the
-generic filename `collect-roster.pdf`; this minimizes the filename, not the
-document content. The Responses request sets `store: false` and fixes its URL to
-`https://api.openai.com/v1/responses`. Human review remains required for an import.
+Text, UTF-8 CSV and the existing client-derived XLSX path are deterministic. The XLSX receipt explicitly records `derived_assurance: client_derived_tsv`; the server checks the retained source and derivative hashes, parses the submitted derivative, and requires human review before commit. That receipt does not claim server-side workbook-to-TSV validation. PDF/image extraction additionally needs the exact independently approved AI and decoder policy below. Human review and an acknowledged source/revision remain required for either path.
 
-Four server environment values supplement the existing model/API-key and
-decoder settings:
+## Required inactive configuration
 
-| Value | Required binding |
-| --- | --- |
-| `ROSTER_AI_APPROVAL_JSON` | The exact represented approval bytes, at most 8 KiB |
-| `ROSTER_AI_APPROVAL_SHA256` | Independent lowercase SHA-256 of those complete bytes |
-| `OPENAI_ORGANIZATION_ID` | Exact match to the policy organization |
-| `OPENAI_PROJECT_ID` | Exact match to the policy project |
+| Value | Current binding |
+|---|---|
+| `ROSTER_AI_APPROVAL_JSON` | Exact compact approval JSON, no more than 16,384 JavaScript characters. |
+| `ROSTER_AI_APPROVAL_SHA256` | Lowercase SHA-256 of the complete raw approval bytes. |
+| `ROSTER_AI_MODEL` | Exact approved model. No model is selected by this document. |
+| `OPENAI_API_KEY` | Server-side provider credential; never supplied to the decoder child. |
+| `OPENAI_PROJECT_ID`, `OPENAI_ORGANIZATION_ID` | Exact approved project and organization; sent as request headers. |
+| `ROSTER_DECODER_PROTOCOL` | `roster-hmac-v1`. |
+| `ROSTER_DECODER_URL` | Signed-supervisor transport URL: HTTPS, `/decode`, no credentials, query or fragment, port 443/default. |
+| `ROSTER_DECODER_SECRET` | Dedicated supervisor HMAC key, 32–4,096 UTF-8 bytes. |
+| `ROSTER_DECODER_BUILD_SHA256` | Exact approved decoder source/build identity. |
 
-The closed JSON object contains exactly these twenty fields:
+The policy binds schema version 1, enabled/approved status, purpose `collect_roster_pdf_image_extraction`, provider `openai`, approval UUID and evidence hash, a current approval window, the exact organization/project/model/build, and bounded processor, residency and retention evidence references for both the AI provider and decoder. `responses_endpoint` is fixed to `https://api.openai.com/v1/responses`. `decoder_url` is the logical binding `https://roster-decoder.internal/decode`; the signed bridge separately fixes the physical HTTPS transport destination above.
 
-| Fields | Validation |
-| --- | --- |
-| `schema_version`, `purpose`, `provider` | `1`, `collect_roster_pdf_image_extraction`, `openai` |
-| `enabled`, `status` | `true`, `approved` |
-| `approval_id`, `approval_evidence_sha256` | UUID and lowercase SHA-256 |
-| `approved_at`, `valid_until` | Valid zoned instants with a currently active window |
-| `organization_id`, `project_id`, `model` | Exact effective runtime configuration matches |
-| `responses_endpoint` | The fixed Responses URL above |
-| `decoder_url`, `decoder_build_sha256` | Exact configured endpoint/build; `/decode`, no credentials/query/fragment, HTTPS except the explicitly permitted local test hosts |
-| `processing_region_evidence_ref`, `retention_evidence_ref` | Bounded ASCII evidence references |
-| `decoder_processor_evidence_ref`, `decoder_region_evidence_ref`, `decoder_retention_evidence_ref` | Bounded ASCII evidence references |
+The application validates the policy before extraction and rechecks its raw bytes, digest, effective settings and expiry at dispatch boundaries. It records the approved policy, source/object hashes, processor/project/model, decoder lineage and dispatch phase in SQL. An environment template containing empty fields is not an approval. Changing settings or allowing the policy to expire does not authorize replay of a previously ambiguous provider dispatch.
 
-Use compact JSON serialization. Duplicate/unknown fields or a mismatched whole
-byte digest are rejected. Leading/trailing whitespace is included in the
-digest. The model, API key and decoder URL retain their existing trim/default
-normalization; the nine-value snapshot binds effective configuration. Changes
-to that snapshot or expiry of the window abort the dispatch. No valid production
-approval record or organization/project values are supplied by the test fixtures.
+## Existing signed decoder integration
 
-`store: false` is not proof of zero retention. OpenAI separately documents abuse
-monitoring, application state, approved retention controls and image/file
-exceptions. Residency is configured per project and can require a regional
-domain prefix. These account settings and processor terms must be evidenced
-independently; the current fixed global endpoint and evidence-reference strings
-do not establish regional processing. [OpenAI data controls, reviewed 2 October
-2026](https://developers.openai.com/api/docs/guides/your-data).
+`supabase/functions/_shared/roster_decoder_bridge.mjs` translates the logical request into the existing Python supervisor's authenticated protocol. It binds the processing/request UUID, reservation/import UUID, source hash, nonce, freshness window and approved build. The exact response payload is verified before content can reach the model. It enforces source, request, response and decoded-content bounds, rejects redirects/mismatched lineage, and retains uncertain work through the application fence. Its protocol and application tests are `deploy/platform-api/test/supabase_roster_decoder_protocol.test.mjs` and `supabase_roster_decoder_bridge.test.mjs`; they exercise the current Supabase modules but do not run native codecs or prove a deployed decoder.
 
-The remaining BE-13 work includes actual processor/region/transfer/retention
-acceptance, durable policy lineage, source/derivative/backup erasure and holds,
-spend and model-quality controls, and accurate Admin disclosure. The current
-policy hash is not added to the existing three-field SQL AI metadata contract.
-After a request may have left the process, a transport failure retains its
-ambiguous charge/lease and does not establish that the provider stopped or
-refunded it. Expiry/revocation and any processor-routing change need fresh
-scoped verification before use.
+The real parser remains in `tools/roster-decoder/decoder.py`. It fully decodes supported image frames, inspects PDF objects/streams and active content, renders every supported PDF page, and bounds workbook ZIP/XML expansion and cell semantics. Its Python 3.12, Pillow, PDFium/pypdfium2 and pypdf implementation runs inside a disposable Linux process with memory/CPU/file/socket/process controls. `server.py` authenticates requests and retains nonce replay authority in SQLite. The child receives no database, HMAC or provider credentials.
 
-Implementation sources: `supabase/functions/_shared/roster_ai_dispatch_policy.ts`,
-`supabase/functions/_shared/openai_roster.ts`, and
-`supabase/functions/prepare-roster-import/{index,handler}.ts`.
+## Unclosed native Supabase parser gate
+
+This helper is not a Supabase Edge Function. Its Python/native libraries, subprocess isolation and SQLite replay authority cannot be treated as equivalent to the user's Supabase-only backend requirement. Supabase documents Edge Functions as TypeScript/JavaScript/WASM execution and explicitly states that native image dependencies require a WASM alternative: [WASM modules](https://supabase.com/docs/guides/functions/wasm), [image manipulation](https://supabase.com/docs/guides/functions/examples/image-manipulation).
+
+No equivalent qualified WASM parser, complete corpus comparison, per-job native isolation replacement or Supabase-backed durable decoder replay journal is present in this candidate. File headers and image dimensions do not replace the existing complete decoding and PDF inspection. A proxy to the Python helper would retain its separate runtime and SQLite backend; it would not close this gate.
+
+The production self-host configuration must keep roster AI disabled until the following evidence exists:
+
+1. A reviewed native Supabase function with pinned parser assets implements the existing image/PDF/container/expansion/active-content limits and proves them with the full valid and adversarial corpus on the exact Edge Runtime image.
+2. Replay claims and original outcomes live in a private, admission-fenced Supabase schema, with bounded capacity and retained unknown obligations. Existing logical request/reservation/source/build bindings remain exact.
+3. Parser isolation, memory, CPU, cancellation and concurrent-load behavior are qualified without giving untrusted parsing code database/provider secrets or broader filesystem/network access.
+4. The processor, organization/project, region, retention, transfer, spend and model-quality decisions have actual approved evidence and the exact policy is bound to that deployed build. Provider/device/restore acceptance is recorded independently from synthetic protocol tests.
+
+## AI provider copies
+
+The current model request contains original PDF/image bytes after verified decoding; PDF uses a generic filename, which does not remove document content. The request sets `store: false`, uses structured output with no tools, and is still an external processor dispatch. Supabase hosts the application and its retained state; it does not host this OpenAI model. The fixed endpoint and evidence-reference strings do not prove regional processing or zero retention. OpenAI's official [data controls](https://developers.openai.com/api/docs/guides/your-data) describe the separate account and retention conditions.
+
+Any transport failure after dispatch may leave an unknown external outcome. The import remains ambiguous and cannot be relabeled as a stopped, refunded, erased or successful request without original-outcome evidence. Retained sources, derivatives, processor records, holds and backup copies remain part of the governed retention inventory.

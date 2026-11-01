@@ -315,6 +315,15 @@ class _Probe {
   Future<void> quiet() =>
       Future<void>.delayed(const Duration(milliseconds: 450));
 
+  Future<void> settledCurrentPolling(String user) => until(
+    () =>
+        joins.isNotEmpty &&
+        joins.last.epoch == epoch &&
+        joins.last.pending != null &&
+        !repo.state.isLoading &&
+        repo.state.currentProfile?.id == user,
+  );
+
   Future<void> close() async {
     for (final pending in retainedReads) {
       if (!pending.release.isCompleted) pending.release.complete();
@@ -413,7 +422,10 @@ void main() {
               !probe.repo.state.isLoading &&
               probe.repo.state.currentProfile?.id == user,
         );
-        await probe.quiet();
+        // A held second poll proves that this scope's initial successful poll
+        // and its connection reconciliation have settled. A wall-clock quiet
+        // delay can instead race that legitimate current-scope refresh.
+        await probe.settledCurrentPolling(user);
         final reads = probe.reads;
         old.event('departed-late');
         await probe.quiet();
@@ -464,7 +476,7 @@ void main() {
               !probe.repo.state.isLoading &&
               probe.repo.state.currentProfile?.id == user,
         );
-        await probe.quiet();
+        await probe.settledCurrentPolling(user);
         final reads = probe.reads;
         expect(
           old.pending,
@@ -525,7 +537,7 @@ void main() {
       // The replacement polling scope's legitimate connection reconciliation is distinct
       // from the retained old request. Settle that current read before its
       // final dispatch count becomes the old-request negative control.
-      await probe.quiet();
+      await probe.settledCurrentPolling(_b);
       final before = probe.requests.length;
       pending.release.complete();
       await probe.quiet();

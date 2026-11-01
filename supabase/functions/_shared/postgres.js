@@ -4,14 +4,16 @@ import {applicationWorkTuple,fenceFailure,reserveDatabaseConnection,FENCE_IO_TIM
 // Only Edge holds this database credential. SQL strings come from reviewed
 // server modules; this adapter is never an HTTP/RPC accepting client SQL.
 const pools = new Map();
-export function connection(url) { return configuredConnection(url,false); }
-export function fenceConnection(url) { return configuredConnection(url,true); }
-function configuredConnection(url,control) {
+export function connection(url,env={}) { return configuredConnection(url,false,env); }
+export function fenceConnection(url,env={}) { return configuredConnection(url,true,env); }
+function configuredConnection(url,control,env) {
   if (!url) throw new Error('COLLECT_DATABASE_URL is required.');
   const target=new URL(url);const local=['127.0.0.1','localhost','::1','[::1]'].includes(target.hostname);if(!['postgres:','postgresql:'].includes(target.protocol))throw new Error('Invalid database URL.');
-  const poolKey=(control?'control:':'business:')+url;
+  const ca=env.COLLECT_DB_CA_PEM;
+  if(ca!==undefined&&(typeof ca!=='string'||!ca.startsWith('-----BEGIN CERTIFICATE-----\n')||ca.length>32768))throw new Error('Invalid database CA.');
+  const poolKey=(control?'control:':'business:')+url+'\n'+(ca??'');
   if (!pools.has(poolKey)) {const options={max: control ? 1 : 4, prepare: false,
-    idle_timeout: 20, connect_timeout: 10, ssl: local ? false : {rejectUnauthorized: true},
+    idle_timeout: 20, connect_timeout: 10, ssl: local ? false : {rejectUnauthorized: true,...(ca?{ca}:{}),servername:target.hostname},
     types: {numeric: {to:1700,from:[1700],serialize:String,parse:value=>{const n=Number(value);if(!/^-?\d+(?:\.0+)?$/.test(value)||!Number.isSafeInteger(n))throw new Error('integer_out_of_range');return n;}},bigint: {to: 20, from: [20], serialize: String, parse: value => {
       const n = Number(value); if (!Number.isSafeInteger(n)) throw new Error('integer_out_of_range'); return n;
     }}}, onnotice: () => {}};

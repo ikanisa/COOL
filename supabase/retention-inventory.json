@@ -159,6 +159,84 @@
       "relation": "realtime.messages",
       "scope": "managed_realtime",
       "purpose": "Attributable pseudonymous member AuthUUID/sessionUUID topic plus opaque invalidationUUID and provider envelope/timestamps"
+    },
+    {
+      "name": "private:collect_fence_working_admissions",
+      "relation": "private.collect_fence_working_admissions",
+      "scope": "shared_fence",
+      "purpose": "Derived bounded working index; removing an index row requires an immutable safe-settlement archive receipt; original history and unknown effects remain retained"
+    },
+    {
+      "name": "private:collect_fence_admission_archive",
+      "relation": "private.collect_fence_admission_archive",
+      "scope": "shared_fence",
+      "purpose": "Immutable hash receipts of original settled admissions with zero uncertain dispatches; logical in-place archival, never erasure"
+    },
+    {
+      "name": "private:collect_fence_admission_totals",
+      "relation": "private.collect_fence_admission_totals",
+      "scope": "shared_fence",
+      "purpose": "Derived lifetime and logical-archive counts maintained atomically by lifecycle triggers; no subject-empty assertion"
+    },
+    {
+      "name": "private:member_history_versions",
+      "relation": "private.member_history_versions",
+      "scope": "shared_fence",
+      "purpose": "Shared group-scoped history revision counters for consistent cursor invalidation; no financial payload or subject erasure"
+    },
+    {
+      "name": "private:collect_deployment_identity",
+      "relation": "private.collect_deployment_identity",
+      "scope": "shared_fence",
+      "purpose": "Owner-only public deployment profile/hash and operation identity; blocked shared configuration lineage with no subject erasure"
+    },
+    {
+      "name": "private:collect_sms_fence_admissions",
+      "relation": "private.collect_sms_fence_admissions",
+      "scope": "shared_fence",
+      "purpose": "Immutable ownership of SMS gateway application admissions, deployment profile hash and creation time; shared controller lineage retained in database backups, no subject selector or erasure adapter"
+    },
+    {
+      "name": "private:guest_upgrade_challenges",
+      "relation": "private.guest_upgrade_challenges",
+      "scope": "shared_fence",
+      "purpose": "Retained guest identity upgrade and projection-denial journal; unknown, unverified, expired and delivery-rejected records remain while the native identity exists. No pruning or subject-empty assertion; verified completion requires the durable same-AuthUUID principal link."
+    },
+    {
+      "name": "private:retention_inventory_manifests",
+      "relation": "private.retention_inventory_manifests",
+      "scope": "shared_fence",
+      "purpose": "Immutable subject/request/review/source/schema/hold-bound metadata inventory receipts; capture is not erasure authorization"
+    },
+    {
+      "name": "private:retention_inventory_pages",
+      "relation": "private.retention_inventory_pages",
+      "scope": "shared_fence",
+      "purpose": "Immutable bounded opaque descriptor pages and hashes; governed retention evidence, no raw Auth secrets or object bodies"
+    },
+    {
+      "name": "private:retention_row_plans",
+      "relation": "private.retention_row_plans",
+      "scope": "shared_fence",
+      "purpose": "Exact owner-approved manifest policy and retained SQL-row disposition state"
+    },
+    {
+      "name": "private:retention_row_claims",
+      "relation": "private.retention_row_claims",
+      "scope": "shared_fence",
+      "purpose": "Immutable actor/session/fence-bound SQL-row leases"
+    },
+    {
+      "name": "private:retention_row_effects",
+      "relation": "private.retention_row_effects",
+      "scope": "shared_fence",
+      "purpose": "Immutable opaque before/after descriptor commitments for authorized SQL changes"
+    },
+    {
+      "name": "private:retention_row_operations",
+      "relation": "private.retention_row_operations",
+      "scope": "shared_fence",
+      "purpose": "Immutable original-operation outcome receipts; atomic SQL results do not prove external erasure"
     }
   ],
   "policy_actions": [
@@ -170,13 +248,20 @@
     "external:exports",
     "external:backups",
     "external:processors",
-    "external:unmapped_identifiers"
+    "external:unmapped_identifiers",
+    "external:collect_sms",
+    "external:collect_ops",
+    "external:vault",
+    "external:net",
+    "external:cron",
+    "external:supabase_migrations"
   ],
   "external_copy_sources": {
     "external:backups": [
       "Protected collect_stage_<run UUID> full-source quarantines, including archived legacy Auth/session/challenge/capability rows and promotion receipts",
       "Database provider backups and restore copies",
-      "Private APFS recovery checkpoints and synthetic-versus-live evidence archives"
+      "Private APFS recovery checkpoints and synthetic-versus-live evidence archives",
+      "Private collect_sms schema, its tables, views, triggers and role grants must be included in encrypted logical backups and tested restore; never infer absence from the app/private catalog."
     ],
     "external:exports": [
       "Operator source captures, reconciliation manifests and evidence exports kept outside the public repository"
@@ -192,13 +277,34 @@
     "external:unmapped_identifiers": [
       "Historic or pre-identity OAuth/OTP/SSO/provider records without a retained principal link",
       "Untracked provider objects or versions that cannot be attributed to an exact owned source key"
+    ],
+    "external:collect_sms": [
+      "Private collect_sms PostgreSQL schema: message bodies/recipients, OTP verifiers, device assignments and delivery evidence, application/staff credentials, callbacks, templates, schedules, contribution and ledger snapshots. No approved Collect principal selector; always blocked for personal erasure.",
+      "Android sender local queue and replay ledger, system SMS store, radio/operator records and FCM wakeup infrastructure are separate copies; a message state is not a deletion receipt."
+    ],
+    "external:collect_ops": [
+      "Shared scheduler admission, request bodies, job outcome and credential-version custody in collect_ops; no approved personal selector, always blocked for erasure.",
+      "Includes jobs_config/jobs_dispatches and inactive contribution-email email_config/email_dispatches; retain unknown dispatch evidence and include all scheduler schema/functions in encrypted backup and restore checks.",
+      "The application notification_email_job_dispatches table is also a retained shared scheduler admission/result journal. It has no recipient selector and remains blocked for personal erasure."
+    ],
+    "external:vault": [
+      "Vault encrypted secrets, decrypted-secret view and credential references; shared service custody, never included as raw values or treated as empty subject copies."
+    ],
+    "external:net": [
+      "pg_net pending HTTP requests and response custody, including dispatch headers and bodies; shared/provider work with possible unresolved effects, always blocked for personal erasure."
+    ],
+    "external:cron": [
+      "pg_cron job and job_run_details metadata plus scheduler service logs; shared operational custody with no approved personal selector or erasure adapter."
+    ],
+    "external:supabase_migrations": [
+      "Unlinked control-only installation/migration lineage, including collect_installation_steps profile/source/rendered SQL hashes, operation identity and timestamps. Immutable provenance must be included in full database recovery; no personal erasure adapter."
     ]
   },
   "limits": {
     "rows_per_class": 500,
     "inventory_bytes": 1048576
   },
-  "qualification": "Database row hashes and actual protected-object probes do not establish erasure of provider logs, backups, untracked objects, unlinked historic identifiers or processor copies. Those classes remain blocked pending their own reviewed inventory and adapter. Shared fence inventory count/rows describe subject attribution only: unmapped with zero descriptors does not mean zero global rows or settled work. The five shared operational classes are always blocked, have no subject selector or erasure adapter, and do not grant runtime table access. Member Realtime topic copies are attributable from retained member sessions after managed session loss; neither provider TTL nor a zero scoped count verifies erasure. Both new classes require blocked policy.",
+  "qualification": "Database row hashes and actual protected-object probes do not establish erasure of provider logs, backups, untracked objects, unlinked historic identifiers or processor copies. Those classes remain blocked pending their own reviewed inventory and adapter. Shared fence inventory count/rows describe subject attribution only: unmapped with zero descriptors does not mean zero global rows or settled work. Shared operational classes are always blocked, have no subject selector or erasure adapter, and do not grant runtime table access. Member Realtime topic copies are attributable from retained member sessions after managed session loss; neither provider TTL nor a zero scoped count verifies erasure. Both new classes require blocked policy. Admission archive and working-index classes preserve original history and unknown obligations; logical archival is not deletion or a provider-settlement assertion. History revision counters are shared derived metadata. All four additions remain blocked for personal erasure.",
   "shared_unattributed_classes": [
     "private:collect_fence_control",
     "private:collect_fence_admissions",
@@ -206,6 +312,19 @@
     "private:collect_fence_scheduler_lifecycle",
     "private:member_realtime_control",
     "private:collect_fence_source_upgrades",
-    "private:collect_fence_stopped_admissions"
+    "private:collect_fence_stopped_admissions",
+    "private:collect_fence_working_admissions",
+    "private:collect_fence_admission_archive",
+    "private:collect_fence_admission_totals",
+    "private:member_history_versions",
+    "private:collect_deployment_identity",
+    "private:guest_upgrade_challenges",
+    "private:retention_inventory_manifests",
+    "private:retention_inventory_pages",
+    "private:retention_row_plans",
+    "private:retention_row_claims",
+    "private:retention_row_effects",
+    "private:retention_row_operations",
+    "private:collect_sms_fence_admissions"
   ]
 }

@@ -1,0 +1,203 @@
+{
+  "contract": "collect.roster.native-probe.preflight-note.v1",
+  "status": "refused_before_native_start",
+  "stage": "prepared_source_comparison",
+  "note": "The first reproducibility attempt compared Python Path component ordering with JavaScript relative-path string ordering. Identical entries had different positions (corpus-provenance.json versus corpus/*); the assertion stopped before creating the child. The preparer now orders exact relative-path strings. The original prepared directory remains unchanged. This note records the observed failure, not a native parser result.",
+  "initial_prepared_receipt_sha256": "0420d87a85a8f1280b764f878f2726edf543a686c37a8529e42e4a7a8277ed98",
+  "initial_source_inputs": [
+    {
+      "path": "README.md",
+      "sha256": "82adb868a10c6805288c22b80852cb8bb83781e2bc775b7c5db36c63ca373ce2"
+    },
+    {
+      "path": "corpus/ambiguous.csv",
+      "sha256": "5cc49a4941133d80a617d0f53b26e7e78b82951609cbba9e1bf204630d90c67a"
+    },
+    {
+      "path": "corpus/animation-21.png",
+      "sha256": "a6e7d8b0f33cd5387c85c830c34dcee165f9af410dae1541801ece6f8c0abe9f"
+    },
+    {
+      "path": "corpus/animation-21.webp",
+      "sha256": "1d52e199c1b6d84ef5508f3373b11668598b809d26d75f688bfa47c45687c18c"
+    },
+    {
+      "path": "corpus/animation-3.png",
+      "sha256": "5857322121abb979c7210c0b939786259b5f603814cc49699760ee78c9eca62e"
+    },
+    {
+      "path": "corpus/animation-3.webp",
+      "sha256": "e4563756fd21923973e4a5f7778fb66c031109efaa642cff0a8e41799aa8de5c"
+    },
+    {
+      "path": "corpus/attachment.pdf",
+      "sha256": "f40f291f91c9c7555ae1baae6c4ede5275272f0464250eee705fb8b92035b5b9"
+    },
+    {
+      "path": "corpus/bad-crc.png",
+      "sha256": "4f94198978caad5128f904a88c399f52a881119f44117a342848bc9cbd539759"
+    },
+    {
+      "path": "corpus/broken-xref.pdf",
+      "sha256": "e138511c6b5eb18e83547a85208b088fcdd9928301a357a98b14ea73d125d1a1"
+    },
+    {
+      "path": "corpus/compressed-objects.pdf",
+      "sha256": "bcdf01402721a6ee5bdb129e03fd2d15bcdc48d94a2ebb87c0a54b2252d3966c"
+    },
+    {
+      "path": "corpus/dimension-bomb.png",
+      "sha256": "cb626713b231e7fea15df026001df9003fd84e190358b505e7551244c434d760"
+    },
+    {
+      "path": "corpus/encrypted.pdf",
+      "sha256": "eab961011713c954050a91e2b67a761072e3934e1bdebeb6e030cbfd735d272c"
+    },
+    {
+      "path": "corpus/english.csv",
+      "sha256": "2c7c3f078bb4e86d2b3fe6f030186c77888168b1e0367f07acb50c451cb53b5d"
+    },
+    {
+      "path": "corpus/entity.xlsx",
+      "sha256": "88c683f9753f2e9a5ccf25d1e978dfbf22c1d0876a8b7e16a7e8e3aaacf58bf6"
+    },
+    {
+      "path": "corpus/external.xlsx",
+      "sha256": "834ce7269816bb1a7ab2f7abfe5d9025acec94740f088f699d3791184dac0765"
+    },
+    {
+      "path": "corpus/flate-expansion.pdf",
+      "sha256": "a115e9679d1b9c9e9bfd2b7bdf44be2c511fcb8ec2d8142b1c9dbfb3108b8836"
+    },
+    {
+      "path": "corpus/formula.xlsx",
+      "sha256": "68ab2cac47abeb29a09619dd89f1cc7cc2990f25d95418efa4ba4fef191d267e"
+    },
+    {
+      "path": "corpus/french.csv",
+      "sha256": "ad7d7e64f98f953171b3b7536396e459eec50c2de0ece16792c9dd8e9716d963"
+    },
+    {
+      "path": "corpus/javascript.pdf",
+      "sha256": "cba5feaab81c12f52cf3d8943bb28a8e78072abcd1833bfeb8e4dc82e66d32a0"
+    },
+    {
+      "path": "corpus/kinyarwanda.csv",
+      "sha256": "e0dacdae04e9d5dc8e21770efdb78e5083ed8829b7e846b0fe9f5b23f5919aba"
+    },
+    {
+      "path": "corpus/malformed.csv",
+      "sha256": "ac386bc0ee153be3cf32769bdb21684d07c63fa39dbdbb68b508abfa76265ce5"
+    },
+    {
+      "path": "corpus/manifest.json",
+      "sha256": "c615a4e1158815a550ae1e21e209b1d53c1eba87d436105dc69f349f0db39830"
+    },
+    {
+      "path": "corpus/multilingual.xlsx",
+      "sha256": "f06f529c14625b388faa8da408f2612835ff3a13e308c913d8906d3e4f43b59a"
+    },
+    {
+      "path": "corpus/object-stream-expansion.pdf",
+      "sha256": "c572d5fa178c99fc1047a06aadcaf8d502a9134718b04e40e596987710d8e29b"
+    },
+    {
+      "path": "corpus/oversized-grid.xlsx",
+      "sha256": "4ff47824e9fadc9108960339303dab53d77d80f48d5d6f41e630d75983c2ad8a"
+    },
+    {
+      "path": "corpus/pages-2.pdf",
+      "sha256": "9c40130cc9702d3f9d3045f84216fcd52e8724c20474bf63e6c184f6d95eb3f6"
+    },
+    {
+      "path": "corpus/pages-21.pdf",
+      "sha256": "cf7b095a12b4444d5c95ad1acfbed33bf06affa667b0d1f54bce477686bcc620"
+    },
+    {
+      "path": "corpus/prompt-injection.txt",
+      "sha256": "a3184535c1c5713574f1668a6279b9de4cfedd0193c929edf96e258e44a61941"
+    },
+    {
+      "path": "corpus/scanned-multilingual.jpg",
+      "sha256": "2881d2538c97a86f39526b62e96cdea71d37bcf6483d8a2f43af2b9d17805944"
+    },
+    {
+      "path": "corpus/scanned-multilingual.pdf",
+      "sha256": "e748775606cb30ddef9f5ba7b5fc64a03b8f053f3b0dceb3bba93404e3b85a05"
+    },
+    {
+      "path": "corpus/scanned-multilingual.png",
+      "sha256": "6bf9a68d098645da7542cb50d6fa86eb0bee8b4b2766dcd354cca911469a73a6"
+    },
+    {
+      "path": "corpus/scanned-multilingual.webp",
+      "sha256": "2088ddc49de516aac0eb9d14514977d1eb9c6615cbe25e2fa7f0a7604a589f4c"
+    },
+    {
+      "path": "corpus/swahili.csv",
+      "sha256": "6b6d43401996916df12210bf9fe38c51f79a3f71fdfcb05709a48e2ee4c7064b"
+    },
+    {
+      "path": "corpus/truncated.jpg",
+      "sha256": "7bf868124c8f5cbb14cb13711123e4aaafc74b1a5bf6c281617523609439acc0"
+    },
+    {
+      "path": "corpus/truncated.png",
+      "sha256": "9695c74e3204a6e697c6946dc8bf3f3105a8eb1813b5ffc9be347e66d6d830d2"
+    },
+    {
+      "path": "corpus/truncated.webp",
+      "sha256": "b24f960a67410286c3cee9e0b12fb17982d2c0bc909acd6157c8bb62fca3d0b3"
+    },
+    {
+      "path": "corpus/zip-expansion.xlsx",
+      "sha256": "5e6631d69d0c8c2c308f13485fa93fe1ded1c1c95ccec373f0f9e2091e940caa"
+    },
+    {
+      "path": "corpus-provenance.json",
+      "sha256": "179e1749473e0e142ed9f52efbfe773c8af3d7593e695ff42c9e3d1ade2f48eb"
+    },
+    {
+      "path": "dependencies.lock.json",
+      "sha256": "6752a9c9cb1e88e2a454156af9085a7e5931322acbc0499dc13b3b9058566f48"
+    },
+    {
+      "path": "image.ts",
+      "sha256": "54c8cfeaf83ae71380e33c2bb7511ff684c5348c47abfc904c2ae45bc0a5d9cc"
+    },
+    {
+      "path": "main.ts.in",
+      "sha256": "220f1ef0a80a443556b7f2fa15b62d17435a19c395dd904edd6d436ec50b0850"
+    },
+    {
+      "path": "pdfium.ts",
+      "sha256": "eb9e96ffc875dff3b1d342619b86b692a5153e642bf18c04ee674403285eb828"
+    },
+    {
+      "path": "prepare.py",
+      "sha256": "dc8064d93f57e09f61bff361eea3d1e5c6b0edc4495ef2e5a00b7b470afb7482"
+    },
+    {
+      "path": "qpdf-prefix.js.in",
+      "sha256": "cf62503efbc03648ae76f29a25538ecd426875faf134cc4f9c08ebcd6f6d6f2d"
+    },
+    {
+      "path": "qpdf-suffix.js.in",
+      "sha256": "86897b9bfbf6231c712e17794bddc3f07d24cfb84e193eaab9968ee92783462f"
+    },
+    {
+      "path": "qpdf.ts",
+      "sha256": "796e90b0ea161533aec5339b3e32e4337e688219d3cb72226a192fad0a7de17c"
+    },
+    {
+      "path": "run.mjs",
+      "sha256": "c37ec409901c8d908a47fdfe855632c48432afd1e7120cfdeba96fc5b44f45b7"
+    },
+    {
+      "path": "upstream-source-review.lock.json",
+      "sha256": "a9ad6b25c8e6c323d22d81f0c32479754b1d36cde9954787518e820bc7bd1ddb"
+    }
+  ],
+  "parser_contract_qualified": false,
+  "production_acceptance": false
+}

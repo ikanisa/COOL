@@ -23,6 +23,7 @@ import 'core/cloudflare_admin_receipt_pages.dart';
 import 'core/cloudflare_admin_reconciliation_pages.dart';
 import 'core/cloudflare_admin_sms_pages.dart';
 import 'core/cloudflare_admin_notification_operator_page.dart';
+import 'core/cloudflare_admin_assisted_sms_gateway.dart';
 import 'core/cloudflare_admin_notification_management_page.dart';
 import 'core/cloudflare_admin_session.dart';
 import 'core/cloudflare_admin_mfa.dart';
@@ -299,9 +300,18 @@ final cloudflareAdminRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/admin/notification-operator',
-            builder: (_, _) => const Material(
-              type: MaterialType.transparency,
-              child: CloudflareAdminNotificationOperatorPage(),
+            builder: (_, _) => Consumer(
+              builder: (_, ref, _) => Material(
+                type: MaterialType.transparency,
+                child: CloudflareAdminNotificationOperatorPage(
+                  assistedSmsAdapter:
+                      const bool.fromEnvironment('COLLECT_ASSISTED_SMS_ENABLED')
+                      ? CloudflareAdminAssistedSmsGateway(
+                          ref.read(cloudflareAdminSessionProvider.notifier),
+                        )
+                      : null,
+                ),
+              ),
             ),
           ),
           GoRoute(

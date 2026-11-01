@@ -120,6 +120,11 @@ class _NotificationSettingsScreenState
                   preferences.securityNotices,
                   pending.securityNotices,
                 ),
+                (
+                  'Email contribution records',
+                  preferences.emailEnabled,
+                  pending.emailEnabled,
+                ),
               ])
                 Padding(
                   padding: const EdgeInsets.all(CollectSpacing.x3),
@@ -147,6 +152,15 @@ class _NotificationSettingsScreenState
         ],
         _SettingsOptionPanel(
           children: [
+            _SettingsSwitchRow(
+              title: 'Email contribution records',
+              subtitle:
+                  'Send contribution records to your verified account email when contribution confirmations are enabled.',
+              value: preferences.emailEnabled,
+              onChanged: !canEdit
+                  ? null
+                  : (value) => _save(preferences.copyWith(emailEnabled: value)),
+            ),
             _SettingsSwitchRow(
               title: ContributionRecordCopy.channelTitle,
               subtitle: ContributionRecordCopy.channelDescription,

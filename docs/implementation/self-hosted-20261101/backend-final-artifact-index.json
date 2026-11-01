@@ -1,0 +1,384 @@
+{
+  "contract": "collect.readiness.backend-final-evidence.v1",
+  "status": "stable",
+  "scope": "Final native integration/TLS/Edge qualification and explicitly unqualified native parser feasibility packet. Earlier backend/retention receipts remain separately scoped.",
+  "production_acceptance": false,
+  "original_task29": "open_native_decoder_v2_and_workbook_required",
+  "receipts": [
+    {
+      "path": "docs/implementation/self-hosted-20261101/integration-current25-result.json",
+      "sha256": "0127f65554ff89a2dd3ee3e340318713faba21523f4c0bae7f23f2f20af90066",
+      "status": "pass",
+      "production_acceptance": false,
+      "cases": 7,
+      "source_sha256": "d10db9adc4f550d1516b89125ed4e4564f3ee8f175f00a1ed460e44e324ceb93"
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/native-edge-current25-result.json",
+      "sha256": "25ce8364ad5cc0dd65893b3574e2f309b4cfcf466f3e9cbc27d469bd000d47fc",
+      "status": "pass",
+      "production_acceptance": false,
+      "checks": 11,
+      "source_sha256": "d10db9adc4f550d1516b89125ed4e4564f3ee8f175f00a1ed460e44e324ceb93"
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/database-tls-final-native-result.json",
+      "sha256": "d1eab6a663a908e0973bc294db10f0c2e2671de61ee650e77a3bc09f6a6a2704",
+      "status": "pass",
+      "production_acceptance": false,
+      "scenarios": 8
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-observations.json",
+      "sha256": "821259266b388fc272115057f4ac51a86b9b4c26a3cd3afcecd8b86bb961d79a",
+      "status": "completed",
+      "production_acceptance": false,
+      "observations": 45,
+      "parser_contract_qualified": false,
+      "source_sha256": "92d187d3503341ccead7c52ef13d35e0e4c3c2eb73ff244f1ccba886cf70a550",
+      "native_process_stopped": true
+    }
+  ],
+  "files": [
+    {
+      "path": "docs/implementation/self-hosted-20261101/database-tls-final-native-result.json",
+      "sha256": "d1eab6a663a908e0973bc294db10f0c2e2671de61ee650e77a3bc09f6a6a2704",
+      "bytes": 4399
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/database-tls-status.md",
+      "sha256": "9373bf4a3f72f579ae36f7a226897cd1582758ec01993d0885c9cc473fd3b9c6",
+      "bytes": 6011
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/integration-current25-result.json",
+      "sha256": "0127f65554ff89a2dd3ee3e340318713faba21523f4c0bae7f23f2f20af90066",
+      "bytes": 32425
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/native-edge-current25-result.json",
+      "sha256": "25ce8364ad5cc0dd65893b3574e2f309b4cfcf466f3e9cbc27d469bd000d47fc",
+      "bytes": 152454
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/native-edge-status.md",
+      "sha256": "47c46afec5369bdc5467ce01d762d36be6515d54633baa0998afe0ebd67df37c",
+      "bytes": 7275
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-exploratory-attempts/attempt1.json",
+      "sha256": "7965d26ea8a96135772f8e9741fe11074d394167c0ab00ec218bad691602389d",
+      "bytes": 11263
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-exploratory-attempts/attempt2.json",
+      "sha256": "ed1ea449bbea43949e765d46a6b4d684042d5fa63276167c06d2b373e70941ad",
+      "bytes": 6743
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-exploratory-attempts/attempt3.json",
+      "sha256": "45ccddc15f00ed1fcf09b1165ec08a5f3e358a7b8666ac8f312032bff12ee1e1",
+      "bytes": 7096
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-exploratory-attempts/attempt4.json",
+      "sha256": "5c24bf837f4c9ed8c049c733b72a90b73571c8d19c4f1678e2fb83b177125acb",
+      "bytes": 1051
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-exploratory-attempts/attempt5.json",
+      "sha256": "25afbf1fe78d56db77bf8c06bc08864120819d20416845006a934ab27554dd36",
+      "bytes": 1039
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-exploratory-attempts/attempt6.json",
+      "sha256": "6b33629d5b110708020fc4f10c9dfb3f563e8ae51cfcb642681b69282d5328c5",
+      "bytes": 6050
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-exploratory-attempts/index.json",
+      "sha256": "c0f45bb1db440db5263c1245b7bca7103ab51064dca84d9b1034ca0078c6d27f",
+      "bytes": 1678
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-feasibility.md",
+      "sha256": "be968dba772c69b305158e23a657df174620f8f7c9f7422df3ef2bf0df132e37",
+      "bytes": 14216
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-observations-version-check-failure.json",
+      "sha256": "11f8000c3276aeb3b1f46f34f5d857a7dd951a467fb6259f55262ffd118b6981",
+      "bytes": 50935
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-observations.json",
+      "sha256": "821259266b388fc272115057f4ac51a86b9b4c26a3cd3afcecd8b86bb961d79a",
+      "bytes": 50688
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-native-preflight-note.json",
+      "sha256": "53ce1fea54fa00ef8a434040e87b55167a54242817b127edffd58ebbddcfdd2e",
+      "bytes": 7266
+    },
+    {
+      "path": "docs/implementation/self-hosted-20261101/roster-status.md",
+      "sha256": "f0715d5e8f29aa378bc0c203bca878514fdc9f8c33c882741f291d023fdf6b75",
+      "bytes": 3255
+    },
+    {
+      "path": "scripts/self_hosted/qualify_database_tls.py",
+      "sha256": "81810ef177f208f32a434116cdaabba21691c313e11cde705e10d01d3b6fc2a8",
+      "bytes": 10597
+    },
+    {
+      "path": "scripts/supabase/testing/self-hosted-database-tls.ts",
+      "sha256": "d46ece2978bbd6e7bf70dc51464a06531239312438f19e480a552a83d1a8cae4",
+      "bytes": 9740
+    },
+    {
+      "path": "scripts/supabase/testing/self-hosted-edge-runtime.mjs",
+      "sha256": "8ad184376f5003613f767f1e59c290398d166ed2a5c93f4d0f39d525aac020cc",
+      "bytes": 15435
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/README.md",
+      "sha256": "82adb868a10c6805288c22b80852cb8bb83781e2bc775b7c5db36c63ca373ce2",
+      "bytes": 7116
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus-provenance.json",
+      "sha256": "179e1749473e0e142ed9f52efbfe773c8af3d7593e695ff42c9e3d1ade2f48eb",
+      "bytes": 6150
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/ambiguous.csv",
+      "sha256": "5cc49a4941133d80a617d0f53b26e7e78b82951609cbba9e1bf204630d90c67a",
+      "bytes": 62
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/animation-21.png",
+      "sha256": "a6e7d8b0f33cd5387c85c830c34dcee165f9af410dae1541801ece6f8c0abe9f",
+      "bytes": 7990
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/animation-21.webp",
+      "sha256": "1d52e199c1b6d84ef5508f3373b11668598b809d26d75f688bfa47c45687c18c",
+      "bytes": 3612
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/animation-3.png",
+      "sha256": "5857322121abb979c7210c0b939786259b5f603814cc49699760ee78c9eca62e",
+      "bytes": 987
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/animation-3.webp",
+      "sha256": "e4563756fd21923973e4a5f7778fb66c031109efaa642cff0a8e41799aa8de5c",
+      "bytes": 530
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/attachment.pdf",
+      "sha256": "f40f291f91c9c7555ae1baae6c4ede5275272f0464250eee705fb8b92035b5b9",
+      "bytes": 794
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/bad-crc.png",
+      "sha256": "4f94198978caad5128f904a88c399f52a881119f44117a342848bc9cbd539759",
+      "bytes": 13077
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/broken-xref.pdf",
+      "sha256": "e138511c6b5eb18e83547a85208b088fcdd9928301a357a98b14ea73d125d1a1",
+      "bytes": 64
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/compressed-objects.pdf",
+      "sha256": "bcdf01402721a6ee5bdb129e03fd2d15bcdc48d94a2ebb87c0a54b2252d3966c",
+      "bytes": 470
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/dimension-bomb.png",
+      "sha256": "cb626713b231e7fea15df026001df9003fd84e190358b505e7551244c434d760",
+      "bytes": 13077
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/encrypted.pdf",
+      "sha256": "eab961011713c954050a91e2b67a761072e3934e1bdebeb6e030cbfd735d272c",
+      "bytes": 828
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/english.csv",
+      "sha256": "2c7c3f078bb4e86d2b3fe6f030186c77888168b1e0367f07acb50c451cb53b5d",
+      "bytes": 69
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/entity.xlsx",
+      "sha256": "88c683f9753f2e9a5ccf25d1e978dfbf22c1d0876a8b7e16a7e8e3aaacf58bf6",
+      "bytes": 5124
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/external.xlsx",
+      "sha256": "834ce7269816bb1a7ab2f7abfe5d9025acec94740f088f699d3791184dac0765",
+      "bytes": 5184
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/flate-expansion.pdf",
+      "sha256": "a115e9679d1b9c9e9bfd2b7bdf44be2c511fcb8ec2d8142b1c9dbfb3108b8836",
+      "bytes": 34197
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/formula.xlsx",
+      "sha256": "68ab2cac47abeb29a09619dd89f1cc7cc2990f25d95418efa4ba4fef191d267e",
+      "bytes": 4972
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/french.csv",
+      "sha256": "ad7d7e64f98f953171b3b7536396e459eec50c2de0ece16792c9dd8e9716d963",
+      "bytes": 83
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/javascript.pdf",
+      "sha256": "cba5feaab81c12f52cf3d8943bb28a8e78072abcd1833bfeb8e4dc82e66d32a0",
+      "bytes": 671
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/kinyarwanda.csv",
+      "sha256": "e0dacdae04e9d5dc8e21770efdb78e5083ed8829b7e846b0fe9f5b23f5919aba",
+      "bytes": 89
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/malformed.csv",
+      "sha256": "ac386bc0ee153be3cf32769bdb21684d07c63fa39dbdbb68b508abfa76265ce5",
+      "bytes": 64
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/manifest.json",
+      "sha256": "c615a4e1158815a550ae1e21e209b1d53c1eba87d436105dc69f349f0db39830",
+      "bytes": 12943
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/multilingual.xlsx",
+      "sha256": "f06f529c14625b388faa8da408f2612835ff3a13e308c913d8906d3e4f43b59a",
+      "bytes": 4947
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/object-stream-expansion.pdf",
+      "sha256": "c572d5fa178c99fc1047a06aadcaf8d502a9134718b04e40e596987710d8e29b",
+      "bytes": 34127
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/oversized-grid.xlsx",
+      "sha256": "4ff47824e9fadc9108960339303dab53d77d80f48d5d6f41e630d75983c2ad8a",
+      "bytes": 4966
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/pages-2.pdf",
+      "sha256": "9c40130cc9702d3f9d3045f84216fcd52e8724c20474bf63e6c184f6d95eb3f6",
+      "bytes": 551
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/pages-21.pdf",
+      "sha256": "cf7b095a12b4444d5c95ad1acfbed33bf06affa667b0d1f54bce477686bcc620",
+      "bytes": 2865
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/prompt-injection.txt",
+      "sha256": "a3184535c1c5713574f1668a6279b9de4cfedd0193c929edf96e258e44a61941",
+      "bytes": 143
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/scanned-multilingual.jpg",
+      "sha256": "2881d2538c97a86f39526b62e96cdea71d37bcf6483d8a2f43af2b9d17805944",
+      "bytes": 14130
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/scanned-multilingual.pdf",
+      "sha256": "e748775606cb30ddef9f5ba7b5fc64a03b8f053f3b0dceb3bba93404e3b85a05",
+      "bytes": 14997
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/scanned-multilingual.png",
+      "sha256": "6bf9a68d098645da7542cb50d6fa86eb0bee8b4b2766dcd354cca911469a73a6",
+      "bytes": 13077
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/scanned-multilingual.webp",
+      "sha256": "2088ddc49de516aac0eb9d14514977d1eb9c6615cbe25e2fa7f0a7604a589f4c",
+      "bytes": 7890
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/swahili.csv",
+      "sha256": "6b6d43401996916df12210bf9fe38c51f79a3f71fdfcb05709a48e2ee4c7064b",
+      "bytes": 83
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/truncated.jpg",
+      "sha256": "7bf868124c8f5cbb14cb13711123e4aaafc74b1a5bf6c281617523609439acc0",
+      "bytes": 7065
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/truncated.png",
+      "sha256": "9695c74e3204a6e697c6946dc8bf3f3105a8eb1813b5ffc9be347e66d6d830d2",
+      "bytes": 6538
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/truncated.webp",
+      "sha256": "b24f960a67410286c3cee9e0b12fb17982d2c0bc909acd6157c8bb62fca3d0b3",
+      "bytes": 3945
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/corpus/zip-expansion.xlsx",
+      "sha256": "5e6631d69d0c8c2c308f13485fa93fe1ded1c1c95ccec373f0f9e2091e940caa",
+      "bytes": 9307
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/dependencies.lock.json",
+      "sha256": "6752a9c9cb1e88e2a454156af9085a7e5931322acbc0499dc13b3b9058566f48",
+      "bytes": 4308
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/image.ts",
+      "sha256": "54c8cfeaf83ae71380e33c2bb7511ff684c5348c47abfc904c2ae45bc0a5d9cc",
+      "bytes": 2532
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/main.ts.in",
+      "sha256": "220f1ef0a80a443556b7f2fa15b62d17435a19c395dd904edd6d436ec50b0850",
+      "bytes": 943
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/pdfium.ts",
+      "sha256": "eb9e96ffc875dff3b1d342619b86b692a5153e642bf18c04ee674403285eb828",
+      "bytes": 1469
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/prepare.py",
+      "sha256": "32d33c850716c010addddf164ca2f07e201f3c3a6ef58a8c776a257d3ce6c7d7",
+      "bytes": 6311
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/qpdf-prefix.js.in",
+      "sha256": "cf62503efbc03648ae76f29a25538ecd426875faf134cc4f9c08ebcd6f6d6f2d",
+      "bytes": 385
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/qpdf-suffix.js.in",
+      "sha256": "86897b9bfbf6231c712e17794bddc3f07d24cfb84e193eaab9968ee92783462f",
+      "bytes": 114
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/qpdf.ts",
+      "sha256": "796e90b0ea161533aec5339b3e32e4337e688219d3cb72226a192fad0a7de17c",
+      "bytes": 3610
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/run.mjs",
+      "sha256": "498927c324310020476de1f97b1f76cabb1123cd671cc453977bcb812f453e08",
+      "bytes": 9243
+    },
+    {
+      "path": "tools/roster-decoder/native-probe/upstream-source-review.lock.json",
+      "sha256": "a9ad6b25c8e6c323d22d81f0c32479754b1d36cde9954787518e820bc7bd1ddb",
+      "bytes": 1929
+    }
+  ]
+}

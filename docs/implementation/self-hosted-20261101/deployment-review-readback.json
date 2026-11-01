@@ -1,0 +1,16 @@
+{
+  "contract": "collect.selfhost.deployment-review-readback.v1",
+  "all_five_findings_corrected": true,
+  "native_vault_or_docker_acceptance": false,
+  "health_behavior_checks": [
+    "source_mismatch",
+    "stopped_proof_7999_no_alarm",
+    "stopped_proof_8000_alarm"
+  ],
+  "files": {
+    "scripts/self_hosted/scheduler.py": "3b152f3c06f0cf33cf5de5e68465fe85d522ce207aad8657f978b000b71c4804",
+    "scripts/supabase/jobs_operator.mjs": "b51beb9504d5f5d1d63190ae2179d63001bc09565675d07bdc566b06071315dd",
+    "scripts/self_hosted/health.py": "707bed7ec569082e72dea1a227bb73551e59a1e6a1573a968225e826ecf3adc5",
+    "scripts/self_hosted/release_operator.py": "b02d5e88fbc513a983a86a8a80ba5d30b3db3039660fca8f4de896535c0239d3"
+  }
+}

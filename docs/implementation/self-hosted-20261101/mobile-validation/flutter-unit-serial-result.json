@@ -1,0 +1,77 @@
+{
+  "format": "collect.flutter.unit-observation.v1",
+  "status": "FAIL",
+  "command": [
+    "make",
+    "test",
+    "FLUTTER=/workspace/scratch/2d330cc6dfd0/toolchains/flutter-3.44.4/bin/flutter"
+  ],
+  "resolved_flutter_arguments": [
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--exclude-tags=integration"
+  ],
+  "toolchain": {
+    "flutter": "3.44.4",
+    "dart": "3.12.2",
+    "host": "linux-x86_64"
+  },
+  "passed": 7133,
+  "failed": 17,
+  "skipped": 6,
+  "reported_elapsed": "43:42",
+  "make_exit_code": 2,
+  "log_sha256": "e14b57c74cc24a1f00d3133d5d0093d28dac9e198adf168bdfb4b104f90cc2ef",
+  "failures": [
+    "test/features/public_capability_content_test.dart: Flutter public facts and pages consume the exact current registry",
+    "test/features/mobile_completion_test.dart: notification settings persist repository preferences",
+    "test/features/notification_preferences_recovery_ui_test.dart: conflict retains intent; refresh reviews all differences and never silently retries",
+    "test/admin/supabase_admin_email_verification_page_test.dart: fresh return",
+    "test/goldens/collect_core_surfaces_golden_test.dart: member auth compares the current implementation regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: member home compares the current implementation regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: member groups compares the current implementation regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: member contribute_entry compares the current implementation regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: member activity compares the current implementation regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: member profile compares the current implementation regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: member group_detail compares the current implementation regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: member contribution_review compares the current implementation regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: member ledger compares the current implementation regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: member offline compares the current implementation regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: member appearance compares the current implementation regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: public website compares reviewed current desktop regression baseline (variant: TargetPlatform.android)",
+    "test/goldens/collect_core_surfaces_golden_test.dart: legacy Admin adapter overview compares its reviewed desktop regression baseline (variant: TargetPlatform.android)"
+  ],
+  "skips": [
+    {
+      "case": "test/admin_roster_sql_receipts_test.dart: actual PostgreSQL142 receipts agree with the Admin decoders",
+      "reason": "Requires separately executed root-owned rollback SQL stdout."
+    },
+    {
+      "case": "test/admin_roster_reload_test.dart: actual rollback SQL144 receipts decode staged and completed recovery exactly",
+      "reason": "Requires root-executed rollback-only144 fixture output."
+    },
+    {
+      "case": "test/admin_roster_fresh_auth_sql_receipts_test.dart: actual149 fresh recovery receipts agree with every client decoder",
+      "reason": "Requires separately executed root rollback SQL149 receipts."
+    },
+    {
+      "case": "test/actual_member_history_sql_receipts_test.dart: actual SQL history receipts require the source-bound local packet",
+      "reason": "Supply MEMBER_HISTORY_SQL_RECEIPTS_BASE64 through the reviewed gate"
+    },
+    {
+      "case": "test/admin_roster_import_test.dart: actual SQL deterministic and AI status receipts bind their source, revision and commit",
+      "reason": "Requires root-executed rollback-only SQL receipt output."
+    },
+    {
+      "case": "test/admin_read_contracts_test.dart: root-owned actual SQL read receipts satisfy the routed contracts",
+      "reason": "Root must provide guarded actual SQL receipts."
+    }
+  ],
+  "correction_rerun_is_separate": true,
+  "source_tree_changed_during_run": true,
+  "source_change_note": "Maintained public capability generator refresh and narrow test-fixture corrections occurred while the suite continued. The complete failed run is retained; it is not rebound to the final source or treated as a full pass.",
+  "visual_baselines_changed": false,
+  "visual_tolerance_changed": false,
+  "production_acceptance": false
+}

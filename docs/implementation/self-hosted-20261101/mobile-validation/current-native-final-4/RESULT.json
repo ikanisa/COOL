@@ -1,0 +1,75 @@
+{
+  "format": "collect.selfhost.current-native.result.v1",
+  "status": "PASS",
+  "profile": "reviewed_current_self_hosted",
+  "source_sha256": "fcf1ead40a86061a9454f25f1fa80900d7c3bd025b5483b7765bae92a98cff9a",
+  "migration_count": 25,
+  "original16_preserved": true,
+  "results": [
+    {
+      "name": "installation",
+      "status": "PASS",
+      "cases": 7
+    },
+    {
+      "name": "control",
+      "status": "PASS",
+      "cases": 8
+    },
+    {
+      "name": "runtime",
+      "status": "PASS",
+      "cases": 16
+    },
+    {
+      "name": "backend",
+      "status": "PASS",
+      "cases": 10
+    },
+    {
+      "name": "auth",
+      "status": "PASS",
+      "cases": 10
+    },
+    {
+      "name": "retention",
+      "status": "PASS",
+      "cases": 15
+    },
+    {
+      "name": "notifications",
+      "status": "PASS",
+      "cases": 9
+    },
+    {
+      "name": "gateway",
+      "status": "PASS",
+      "cases": 34
+    },
+    {
+      "name": "data_stage",
+      "status": "PASS",
+      "cases": 5
+    },
+    {
+      "name": "scheduler",
+      "status": "PASS",
+      "cases": 24
+    },
+    {
+      "name": "gateway_fence",
+      "status": "PASS",
+      "cases": 14
+    }
+  ],
+  "fatal": null,
+  "synthetic_auth": true,
+  "synthetic_provider_boundaries": true,
+  "actual_postgres": true,
+  "provider_calls": 0,
+  "hosted_acceptance": false,
+  "native_extensions_acceptance": false,
+  "production_acceptance": false,
+  "historical_current14_or_current16_acceptance": false,
+  "fixtures_preserved": true
+}

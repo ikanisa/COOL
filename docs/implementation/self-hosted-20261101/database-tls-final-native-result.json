@@ -1,0 +1,96 @@
+{
+  "contract": "collect.selfhost.postgres-tls.native.v1",
+  "passed": true,
+  "driver": "postgres.js 3.4.7",
+  "runtime": "Deno 2.9.6",
+  "owned_loopback_port": 55448,
+  "scenarios": [
+    "trusted private CA and explicit db hostname negotiate verified native PostgreSQL TLS",
+    "wrong CA and absent explicit trust reject before an SQL result",
+    "correct CA with a different expected hostname rejects the db-only certificate",
+    "server rejects plaintext and wrong SCRAM credentials",
+    "fresh fixture creates separate non-owner runtime membership and RLS custody",
+    "restricted login authenticates over TLS and requires explicit local application role",
+    "restricted login cannot become owner or create database schemas",
+    "application role cannot read private custody, alter schema, bypass RLS or write ungranted rows"
+  ],
+  "observed": {
+    "server": {
+      "postgres_version": 170011,
+      "tls_protocol": "TLSv1.3",
+      "cipher_bits": 256
+    },
+    "wrong_ca": {
+      "rejected": true,
+      "error_code": "UNABLE_TO_VERIFY_LEAF_SIGNATURE"
+    },
+    "missing_ca": {
+      "rejected": true,
+      "error_code": "UNABLE_TO_VERIFY_LEAF_SIGNATURE"
+    },
+    "wrong_hostname": {
+      "rejected": true,
+      "error_code": "ERR_TLS_CERT_ALTNAME_INVALID"
+    },
+    "authentication": {
+      "hostssl_required": true,
+      "scram_password_rejection": true
+    },
+    "fixture": {
+      "application_schema_fixture_only": true,
+      "original_migrations_applied": false,
+      "owner_role": "postgres",
+      "runtime_role": "collect_runtime",
+      "login_role": "collect_edge"
+    },
+    "restricted_login": {
+      "tls": true,
+      "explicit_set_local_role": true,
+      "rls_visible_rows": 1,
+      "rls_hidden_rows": 1,
+      "attributes": {
+        "rolsuper": false,
+        "rolinherit": false,
+        "rolcreaterole": false,
+        "rolcreatedb": false,
+        "rolreplication": false,
+        "rolbypassrls": false
+      }
+    }
+  },
+  "production_acceptance": false,
+  "docker_acceptance": false,
+  "original_application_rls_acceptance": false,
+  "qualification": "Actual PostgreSQL TLS/SCRAM and restricted driver role behavior on a new synthetic native cluster",
+  "checked_at": "2026-11-01T03:17:48.781917+00:00",
+  "source_sha256": {
+    "scripts/self_hosted/qualify_database_tls.py": "81810ef177f208f32a434116cdaabba21691c313e11cde705e10d01d3b6fc2a8",
+    "scripts/supabase/testing/self-hosted-database-tls.ts": "d46ece2978bbd6e7bf70dc51464a06531239312438f19e480a552a83d1a8cae4",
+    "scripts/self_hosted/prepare.py": "291e9d5e50b5c83578aa54c76a113d9e22a94c4e396cfb155fd040e8b7f28eb8",
+    "supabase/functions/_shared/postgres.js": "84007c62afe7a56cc89bc46314bc4cae80093a9da3db4f5474460c48ab856f4d",
+    "supabase/functions/_shared/deployment-database.js": "a565de0abdd14dca94ba3bd0aad8041b5ed81b35d1b77365f5d2f2dc8799dc7f",
+    "supabase/functions/deno.lock": "00a1c51ba2482358d519085e91990ca84485dbe546d32479c1587188ec15a8c4"
+  },
+  "driver_sha256": {
+    "src/bytes.js": "53b73b5ee2919ab5561229c62a4e2db578f63ca613b795b380c23cb684f2d514",
+    "src/connection.js": "0847375f271c373745b4c2af1bbb5dc2da5ee6f69937cc52516b5b6a667af7a4",
+    "src/errors.js": "85cfbed9a5ab0db41ab8e97b806c881af29807dfe99bc656fdf1a18c1c13b6c6",
+    "src/index.js": "c68e4fb85975e2c83550d47fe44068a306585afcb63d5c6a6ffd6ba4607a2fc0",
+    "src/large.js": "05ea787f79cefaf16310f14119fbfd36d2fed0795581b0df1b0e63b591a3ed94",
+    "src/query.js": "67c45a5151032aa46b587abc15381fe4efd97c696e5c1b53082b8161309c4ee2",
+    "src/queue.js": "15e6345adb6708bf3b99ad39fc2231c2fb61de5f6cba4b7a7a6be881482a4ec3",
+    "src/result.js": "001ff5e0c8d634674f483d07fbcd620a797e3101f842d6c20ca3ace936260465",
+    "src/subscribe.js": "5d0b1ec9705281ed4a60236fe5f65654038bae117845a71d19e35374d34c0cfa",
+    "src/types.js": "1883bd4536eab1c94b9e708d325b13708b0f18ec80020e3a825f34a72f603b81",
+    "package.json": "7324573388770786378751cf5e4267587261e694319be41924dcd2420262eb85"
+  },
+  "certificate_sha256": {
+    "ca": "0c7eb5271093804c4b221be9058614adef204c786c4cf529485f7f664cdf23d5",
+    "server": "90cea5e9620f84f277067da745fe11e5952b1f7fa255aa200435fd7275e35a45",
+    "wrong_ca": "3500ac875707380545c67156ff41e2996840100fe7e7081101b02abe486d6bc0"
+  },
+  "private_keys_disclosed": false,
+  "private_logs_retained": true,
+  "other_clusters_modified": false,
+  "owned_cluster_stopped": true
+}

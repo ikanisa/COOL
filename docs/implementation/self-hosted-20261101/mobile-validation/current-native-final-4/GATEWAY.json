@@ -1,0 +1,11 @@
+{
+  "format": "collect.selfhost.gateway.native.v1",
+  "status": "PASS",
+  "cases": 34,
+  "migration_count": 25,
+  "profile": "reviewed_current_self_hosted",
+  "provider_calls": 0,
+  "synthetic_phone_fcm_and_http": true,
+  "production_acceptance": false,
+  "junit_sha256": "186d063868c18260a4110789a2ae0bcb0221b659187d89f4b3c727c68820df73"
+}

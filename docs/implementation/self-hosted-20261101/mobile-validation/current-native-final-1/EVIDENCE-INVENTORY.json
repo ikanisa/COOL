@@ -1,0 +1,203 @@
+{
+  "format": "collect.current-native.evidence-copy.v1",
+  "source_run": "current-native-final-1",
+  "exact_bytes": true,
+  "private_descriptors_excluded": true,
+  "files": [
+    {
+      "path": "AUTH-CHILD.json",
+      "bytes": 359,
+      "sha256": "c91db7688a39930e1d7f2997cf538165a80afb772289b1b1db487db63f193324"
+    },
+    {
+      "path": "AUTH.json",
+      "bytes": 5768,
+      "sha256": "fdfa57b3ec5162c91bfec8ad42e9558dfaf5f2550590c440ebb1c6b7bb12683d"
+    },
+    {
+      "path": "AUTH.log",
+      "bytes": 5828,
+      "sha256": "92da2e1bd8bd650726f1835ceb01e3a13d4621b186226ca9e4b257e4ce123947"
+    },
+    {
+      "path": "BACKEND-CHILD.json",
+      "bytes": 359,
+      "sha256": "9d3a0253bd587eb94f647e5b9e59d63a778b24f305cd23addf4be9ebffe422d7"
+    },
+    {
+      "path": "BACKEND.json",
+      "bytes": 9368,
+      "sha256": "7e537997c065840c7cce49e08e2960848bdba06f6e13b495b0ae69735716d4d9"
+    },
+    {
+      "path": "BACKEND.log",
+      "bytes": 7450,
+      "sha256": "d132bb6f51879e9f1295ffcc99d0539ecf78bbafecbf06b57458421a1f097955"
+    },
+    {
+      "path": "CLUSTER.json",
+      "bytes": 282,
+      "sha256": "f0e2d34e495562eb6ed2b09528a9ea964602615f6b5fd8250ebe2c39c0af0f07"
+    },
+    {
+      "path": "CONTROL-CHILD.json",
+      "bytes": 358,
+      "sha256": "f38749447e9eabe27e5597bc743da5cf453c3b40a307023190071cad25cf3bd2"
+    },
+    {
+      "path": "CONTROL.log",
+      "bytes": 168,
+      "sha256": "a79e8dca857095ed2e5b818d19690bcd4984ad85427fbb2dcb20440ac0a94cb9"
+    },
+    {
+      "path": "GATEWAY-CHILD.json",
+      "bytes": 359,
+      "sha256": "5bed9df38f4e3a6e5e95383e8c460d2441ea45d190cb54eb4ac44e9f81e49be1"
+    },
+    {
+      "path": "GATEWAY-FENCE-CHILD.json",
+      "bytes": 360,
+      "sha256": "2a3329b130c3a7e0b3e6d74dcc2ab15bc1dc5c9c98b57b18fa4b622d58574ac6"
+    },
+    {
+      "path": "GATEWAY-FENCE.log",
+      "bytes": 1816,
+      "sha256": "ca719069a5ad0f5737ae294b5831893129b23a0bd4d9bc897c79b566583eab25"
+    },
+    {
+      "path": "GATEWAY.json",
+      "bytes": 341,
+      "sha256": "80e8451c12df4901c13abadb001608aded0ebe4757d20406e5dcda70f925cf2b"
+    },
+    {
+      "path": "GATEWAY.log",
+      "bytes": 3438,
+      "sha256": "706cb54350a3dab6f138616484aa57fa096daf0af0c6c10a6dd56cd05c7f18c8"
+    },
+    {
+      "path": "GATEWAY.xml",
+      "bytes": 7356,
+      "sha256": "132ddb79bcbe5f2d09d38b5e4e761c8e2fafe03529fe11f053243a91211d150d"
+    },
+    {
+      "path": "INPUTS.json",
+      "bytes": 93873,
+      "sha256": "d2900f9f256edc0fdfeca6105464b15e036ba0040039df03682b83c9214c0eb5"
+    },
+    {
+      "path": "INSTALLATION.json",
+      "bytes": 32425,
+      "sha256": "0127f65554ff89a2dd3ee3e340318713faba21523f4c0bae7f23f2f20af90066"
+    },
+    {
+      "path": "NOTIFICATIONS-CHILD.json",
+      "bytes": 359,
+      "sha256": "65d26394893380d424ef2eb09356ed0bedba886d0999bbf4b7c284bf93fcb895"
+    },
+    {
+      "path": "NOTIFICATIONS.json",
+      "bytes": 4801,
+      "sha256": "73e85db469472bc15304cdfee4ccbcd44202ee8802d0cca75f5c91c6ef9cea06"
+    },
+    {
+      "path": "NOTIFICATIONS.log",
+      "bytes": 4615,
+      "sha256": "a478a2a6b254293596141c49065487194cb16caff267d351d3958f1542ba5aee"
+    },
+    {
+      "path": "RESULT.json",
+      "bytes": 1461,
+      "sha256": "238e56b427088bede1b6182581a2e8c2151520715a92164ae675df1191809391"
+    },
+    {
+      "path": "RETENTION-CHILD.json",
+      "bytes": 359,
+      "sha256": "a939d1fc9e032e7f29c2a9cb71c40a45e4ff6cc4d7ec3850d1015792707bc025"
+    },
+    {
+      "path": "RETENTION.json",
+      "bytes": 8546,
+      "sha256": "91553bbef307749524f03d67b5f30bb10202a19f78ed970b5914cced081e0ab9"
+    },
+    {
+      "path": "RETENTION.log",
+      "bytes": 8611,
+      "sha256": "405ada7d95b1a1822d82d7b08bfef22ca32512737c5def15429562b6843ec3dc"
+    },
+    {
+      "path": "RUNTIME-CHILD.json",
+      "bytes": 359,
+      "sha256": "f355f523dcb65badfa3b289863506501d13412c420fce0160a51c49389d5f7ef"
+    },
+    {
+      "path": "RUNTIME.json",
+      "bytes": 5062,
+      "sha256": "29476857ff268066d5dc3669ea733d86cb46a3897dd6c38b7c45553b9fb663e0"
+    },
+    {
+      "path": "RUNTIME.log",
+      "bytes": 4149,
+      "sha256": "0ed043540afc9d149f61c80c6df02cc232cd9377725e1d224d5ce5fed7eb16b8"
+    },
+    {
+      "path": "SCHEDULER-CHILD.json",
+      "bytes": 360,
+      "sha256": "606e0e063464950c3639a2b2896ed36865449915b92b537588355cea6f15a06c"
+    },
+    {
+      "path": "SCHEDULER.log",
+      "bytes": 2622,
+      "sha256": "b14f3d2aeaeebbd72efd4a638171326200e3afd41610c5f241cdd469e898ccdc"
+    },
+    {
+      "path": "history/ACTUAL-HISTORY-PACKET.json",
+      "bytes": 962823,
+      "sha256": "5aeb1ee90c97b230dc843f994af66640e72364edfd83f8c22d1f3eb8c89c9148"
+    },
+    {
+      "path": "history/ACTUAL-SQL-STATEMENTS.json",
+      "bytes": 614337,
+      "sha256": "6085c692b860b46cfc953e1b14e9606c1649c46d971553ff0f1792eda18e587d"
+    },
+    {
+      "path": "history/DEFINES.json",
+      "bytes": 575,
+      "sha256": "61bf830085b5cf5ba201566788d24f0e1bae011f4ae4f5291eb0d5aba361dd0d"
+    },
+    {
+      "path": "history/INPUTS.json",
+      "bytes": 29989,
+      "sha256": "6f9119a218934b7485f782b57dc4f00eb04e5f161b67df9c89e04519275af6cd"
+    },
+    {
+      "path": "history/RESULT.json",
+      "bytes": 677,
+      "sha256": "aa47c5439218611c371122a62402869faf41f4e467bcc1fef2d6d4ca3ab21c6a"
+    },
+    {
+      "path": "runtime/CASES.json",
+      "bytes": 2032,
+      "sha256": "a4ee677e6f82a27cd6515b8c84ee0698f90e9ccc4614a40d535528c639e5355a"
+    },
+    {
+      "path": "runtime/NATIVE-RESULT.json",
+      "bytes": 5062,
+      "sha256": "29476857ff268066d5dc3669ea733d86cb46a3897dd6c38b7c45553b9fb663e0"
+    },
+    {
+      "path": "runtime/OBSERVATIONS.json",
+      "bytes": 7010,
+      "sha256": "1865627d89273732293176a047c82f86ecd6143f2bc0451c1f74b9a98f453c8b"
+    },
+    {
+      "path": "runtime/WORK-CLOSURES.json",
+      "bytes": 10227,
+      "sha256": "ac23b850c962661247c8da87556179151d20fbf7c00ad2749ddc9479aeba8fbe"
+    },
+    {
+      "path": "orchestrator.log",
+      "bytes": 1506,
+      "sha256": "fd6cbfc282aa0e6294d8f70f5175d87979f56d15dbc1310c4b903c19e4d2b1da"
+    }
+  ]
+}

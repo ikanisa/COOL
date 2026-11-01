@@ -13,6 +13,7 @@ FILES = {"pubspec.yaml", "pubspec.lock", "analysis_options.yaml", ".metadata", "
          "AGENTS.md", "scripts/qa/native_source_export.py", "scripts/qa/native_build_provenance.rb",
          "scripts/qa/native_artifact_metadata.py", "scripts/qa/native_build_config.py",
          "scripts/qa/client_diagnostic_identity.py",
+         "scripts/supabase/deployment_profile.py", "contracts/deployment-profile.schema.json",
          "scripts/android_play_store_build.sh", "scripts/android_release_signing_preflight.sh",
          "scripts/ios_app_store_build.sh", "scripts/supply_chain/gradle_runtime_inventory.init.gradle"}
 PRIVATE_NAMES = {"key.properties", "google-services.json", "GoogleService-Info.plist", "local.properties", "Generated.xcconfig", "flutter_export_environment.sh"}

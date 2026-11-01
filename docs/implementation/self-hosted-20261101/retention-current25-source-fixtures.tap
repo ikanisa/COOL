@@ -1,0 +1,71 @@
+TAP version 13
+# Subtest: original six fence classes and all current additive shared custody remain unmapped and blocked
+ok 1 - original six fence classes and all current additive shared custody remain unmapped and blocked
+  ---
+  duration_ms: 34.474542
+  type: 'test'
+  ...
+# Subtest: missing fence relations and predecessor catalog approvals fail closed; retain/erase cannot authorize shared fence disposition
+ok 2 - missing fence relations and predecessor catalog approvals fail closed; retain/erase cannot authorize shared fence disposition
+  ---
+  duration_ms: 5.536152
+  type: 'test'
+  ...
+# Subtest: explicit historical private profiles preserve SQL11/14 stopped-work attribution and refusal of crossed inventory
+ok 3 - explicit historical private profiles preserve SQL11/14 stopped-work attribution and refusal of crossed inventory
+  ---
+  duration_ms: 24.989515
+  type: 'test'
+  ...
+# Subtest: current SMS custody requires its exact columns and the stopped-admission dependency
+ok 4 - current SMS custody requires its exact columns and the stopped-admission dependency
+  ---
+  duration_ms: 0.46128
+  type: 'test'
+  ...
+# Subtest: per-subject snapshots remain stable without inventing global row emptiness and never allow predecessor copy identity
+ok 5 - per-subject snapshots remain stable without inventing global row emptiness and never allow predecessor copy identity
+  ---
+  duration_ms: 17.134638
+  type: 'test'
+  ...
+# Subtest: private row guards retain exact schema and prior subject selectors without granting shared fence row reads/writes
+ok 6 - private row guards retain exact schema and prior subject selectors without granting shared fence row reads/writes
+  ---
+  duration_ms: 6.224388
+  type: 'test'
+  ...
+# Subtest: Realtime copies use the attributable managed helper and remain blocked; they are not shared unmapped absence
+ok 7 - Realtime copies use the attributable managed helper and remain blocked; they are not shared unmapped absence
+  ---
+  duration_ms: 5.58528
+  type: 'test'
+  ...
+# Subtest: shipping wrapper supplies current email/account context to both managed inventory helpers
+ok 8 - shipping wrapper supplies current email/account context to both managed inventory helpers
+  ---
+  duration_ms: 8.412528
+  type: 'test'
+  ...
+# Subtest: current grant/session refusal aborts the shipping inventory before reading any rows
+ok 9 - current grant/session refusal aborts the shipping inventory before reading any rows
+  ---
+  duration_ms: 0.61489
+  type: 'test'
+  ...
+# Subtest: expired email proof cannot start a retention inventory transaction
+ok 10 - expired email proof cannot start a retention inventory transaction
+  ---
+  duration_ms: 0.501864
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 130.801418
+

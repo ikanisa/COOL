@@ -6,7 +6,9 @@ class AuthInputPanel extends StatelessWidget {
     required this.phoneController,
     this.emailController,
     this.useEmail = false,
+    this.phoneMethod = 'WhatsApp',
     this.enabled = true,
+    this.verificationUnknown = false,
     required this.otpController,
     required this.error,
     required this.errorKey,
@@ -22,7 +24,9 @@ class AuthInputPanel extends StatelessWidget {
   final TextEditingController phoneController;
   final TextEditingController? emailController;
   final bool useEmail;
+  final String phoneMethod;
   final bool enabled;
+  final bool verificationUnknown;
   final TextEditingController otpController;
   final String? error;
   final String errorTitle;
@@ -47,6 +51,7 @@ class AuthInputPanel extends StatelessWidget {
           ),
         if (!otpSent && !useEmail)
           AuthPhoneEntry(
+            phoneMethod: phoneMethod,
             controller: phoneController,
             countryCode: countryCode,
             enabled: enabled,
@@ -56,11 +61,14 @@ class AuthInputPanel extends StatelessWidget {
           AuthOtpEntry(
             controller: otpController,
             onChanged: onOtpChanged,
-            autofocus: error == null,
+            enabled: enabled,
+            autofocus: enabled && error == null,
           ),
           CollectSpacing.gap20,
           Text(
-            resendRemaining > 0
+            verificationUnknown
+                ? 'Verification is not confirmed. Use Check verification below.'
+                : resendRemaining > 0
                 ? 'Resend code in ${(resendRemaining ~/ 60).toString().padLeft(2, '0')}:${(resendRemaining % 60).toString().padLeft(2, '0')}'
                 : "Didn't get the code? Use Resend or Change ${useEmail ? 'email' : 'number'} below.",
             key: const ValueKey('auth_otp_recovery_message'),
@@ -85,6 +93,7 @@ class AuthPhoneEntry extends StatelessWidget {
     required this.countryCode,
     required this.onChanged,
     this.enabled = true,
+    this.phoneMethod = 'WhatsApp',
     super.key,
   });
 
@@ -92,6 +101,7 @@ class AuthPhoneEntry extends StatelessWidget {
   final String countryCode;
   final VoidCallback onChanged;
   final bool enabled;
+  final String phoneMethod;
 
   @override
   Widget build(BuildContext context) {
@@ -139,10 +149,14 @@ class AuthPhoneEntry extends StatelessWidget {
             Expanded(
               child: CollectAccessibleTextField(
                 controller: controller,
-                label: 'WhatsApp phone number',
+                label: '$phoneMethod phone number',
                 onChanged: (_) => onChanged(),
                 builder: (focusNode) => TextField(
-                  key: const ValueKey('auth_whatsapp_phone_input'),
+                  key: ValueKey(
+                    phoneMethod == 'SMS'
+                        ? 'auth_sms_phone_input'
+                        : 'auth_whatsapp_phone_input',
+                  ),
                   enabled: enabled,
                   focusNode: focusNode,
                   controller: controller,
@@ -301,6 +315,14 @@ class AuthSignInOptions extends StatelessWidget {
     required this.onGoogle,
     this.googleAvailable = false,
     this.whatsAppAvailable = false,
+    this.smsAvailable = false,
+    this.phoneMethod = 'WhatsApp',
+    this.onSms,
+    this.onWhatsApp,
+    this.guestAvailable = false,
+    this.isGuest = false,
+    this.onGuest,
+    this.onLeaveGuest,
     super.key,
   });
   final bool useEmail;
@@ -308,6 +330,14 @@ class AuthSignInOptions extends StatelessWidget {
   final VoidCallback? onGoogle;
   final bool googleAvailable;
   final bool whatsAppAvailable;
+  final bool smsAvailable;
+  final String phoneMethod;
+  final VoidCallback? onSms;
+  final VoidCallback? onWhatsApp;
+  final bool guestAvailable;
+  final bool isGuest;
+  final VoidCallback? onGuest;
+  final VoidCallback? onLeaveGuest;
   @override
   Widget build(BuildContext context) => Column(
     children: [
@@ -315,13 +345,41 @@ class AuthSignInOptions extends StatelessWidget {
         _AuthNativeActionButton(
           key: const ValueKey('auth_switch_method'),
           label: useEmail ? 'Continue with WhatsApp' : 'Continue with email',
-          onPressed: onSwitch,
+          onPressed: useEmail ? onWhatsApp ?? onSwitch : onSwitch,
+          isPrimary: false,
+        ),
+      if (!useEmail && phoneMethod != 'WhatsApp' && whatsAppAvailable)
+        _AuthNativeActionButton(
+          key: const ValueKey('auth_whatsapp_method'),
+          label: 'Continue with WhatsApp',
+          onPressed: onWhatsApp,
+          isPrimary: false,
+        ),
+      if (smsAvailable && (useEmail || phoneMethod != 'SMS'))
+        _AuthNativeActionButton(
+          key: const ValueKey('auth_sms_method'),
+          label: 'Continue with SMS',
+          onPressed: onSms,
           isPrimary: false,
         ),
       if (googleAvailable)
         CollectGoogleSignInButton(
           key: const ValueKey('auth_google_button'),
           onPressed: onGoogle,
+        ),
+      if (guestAvailable && !isGuest)
+        _AuthNativeActionButton(
+          key: const ValueKey('auth_guest_button'),
+          label: 'Browse as guest',
+          onPressed: onGuest,
+          isPrimary: false,
+        ),
+      if (isGuest)
+        _AuthNativeActionButton(
+          key: const ValueKey('auth_leave_guest_button'),
+          label: 'Use another account',
+          onPressed: onLeaveGuest,
+          isPrimary: false,
         ),
     ],
   );

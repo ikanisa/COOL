@@ -68,6 +68,7 @@ class CollectSupabaseMemberRealtime {
     return !_disposed &&
         !_departed &&
         session != null &&
+        !session.user.isAnonymous &&
         _owner != null &&
         session.user.id == _owner &&
         session.authSubject == _subject &&
@@ -76,7 +77,7 @@ class CollectSupabaseMemberRealtime {
 
   bool get _eligible {
     final session = _client.auth.currentSession;
-    if (session == null) return false;
+    if (session == null || session.user.isAnonymous) return false;
     return _current &&
         _foreground &&
         _client.auth.surface == 'member' &&

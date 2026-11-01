@@ -1,0 +1,42 @@
+{
+  "contract": "collect.android.additional-archive-cleanup.v1",
+  "checked_at": "2026-11-01T04:08:34.112644+00:00",
+  "free_bytes_before": 429379584,
+  "free_bytes_after": 744079360,
+  "observed_files": [
+    {
+      "path": "build-platform-addition-validation-attempt2/platform-35_r02.zip",
+      "bytes": 63488000,
+      "sha1": "7716df83508f326951e4c6faf37af1e305d522b3",
+      "sha256": "68d2bfb9d726ae5ae8d21deb2a07d21f834aee79a1591c81f93447624e9ef62d",
+      "matches_expected_archive": false,
+      "stable_during_read": true,
+      "inode": 3074868,
+      "mtime_ns": 1793505936621015675,
+      "expected_checksum_type": "sha1",
+      "expected_checksum": "0bb560a90a7a2cbd0dd8348224d518b638fe7949",
+      "open_handle_observed": false
+    },
+    {
+      "path": "gradle-user/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip",
+      "bytes": 232491070,
+      "sha1": "0cc31cb66cfa8f52512193d39a8881b4e8d91032",
+      "sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+      "matches_expected_archive": true,
+      "stable_during_read": true,
+      "inode": 3200291,
+      "mtime_ns": 1793504973187380324,
+      "expected_checksum_type": "sha256",
+      "expected_checksum": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+      "open_handle_observed": false
+    }
+  ],
+  "removed_paths": [
+    "gradle-user/wrapper/dists/gradle-9.1.0-all/7wzd0jkjit61aq2p43wpjgij9/gradle-9.1.0-all.zip"
+  ],
+  "removed_bytes": 232491070,
+  "sdk_and_jdk_installed_files_modified": false,
+  "gradle_installed_runtime_modified": false,
+  "gradle_dependency_transform_caches_modified": false,
+  "unverified_failed_archive_copies_preserved": true
+}

@@ -48,6 +48,18 @@ class MemberSmsUploadPolicyTest {
         assertNull(token(null))
         assertNull(token("malformed"))
     }
+    @Test fun guestCredentialsNeverUploadMemberSms() {
+        val normal = JSONObject(session())
+        normal.getJSONObject("user").put("is_anonymous", true)
+        assertNull(token(normal.toString()))
+        val claims = JSONObject().put("sub", owner).put("session_id", "test-session")
+            .put("iss", "collect-platform-api").put("aud", "collect")
+            .put("role", "authenticated").put("exp", 2000).put("is_anonymous", true)
+        val encoded = java.util.Base64.getUrlEncoder().withoutPadding().encodeToString(claims.toString().toByteArray())
+        normal.getJSONObject("user").put("is_anonymous", false)
+        normal.put("access_token", "header.$encoded.signature")
+        assertNull(token(normal.toString()))
+    }
     @Test fun supabaseIdentityMapsToStableCaptureOwnerOnlyForTheConfiguredIssuer() {
         val issuer = "https://rrlduytparvsjfmegalh.supabase.co/auth/v1"
         val claims = JSONObject().put("sub", other).put("session_id", "test-session")

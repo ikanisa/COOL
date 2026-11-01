@@ -1,0 +1,797 @@
+{
+  "format": "collect.selfhost.integration-result.v1",
+  "status": "pass",
+  "server_major": 17,
+  "migration_count": 24,
+  "original16_byte_identical": true,
+  "synthetic_auth_interface": true,
+  "source_sha256": "5ac310dc6f98afaaaac1a3c6918c740fca7928e66699bf545c8a7c3f0fc85ea9",
+  "profile_sha256": "a3c143b311798136da10d9a8f03c44456bee0010074045fd3da55e6236fcd99a",
+  "inputs": [
+    {
+      "path": "deploy/collect-sms/src/admin.ts",
+      "sha256": "9d9a91f47558c4560d7af73c370420062f8f0e3cccdfa75fe7d96bba03f97c96"
+    },
+    {
+      "path": "deploy/collect-sms/src/application-health.ts",
+      "sha256": "ebd67c69a9e422f224ec047bff6a85a8a94011c708f3da7ef1334bfcbb1dc960"
+    },
+    {
+      "path": "deploy/collect-sms/src/auth.ts",
+      "sha256": "fc9ceeacc356d8df89123948b1a976ebc62d88071209f185d5591482b6e88428"
+    },
+    {
+      "path": "deploy/collect-sms/src/callbacks.ts",
+      "sha256": "6242591a12daffc2b067e3428b531eea1a373732bb7b6e5d02da85a3a8326f2b"
+    },
+    {
+      "path": "deploy/collect-sms/src/campaigns.ts",
+      "sha256": "88b07c6cd722857a1df2def1ce2359758cbcaa526b1b6a0b7eb9e64b48e012dc"
+    },
+    {
+      "path": "deploy/collect-sms/src/capacity.ts",
+      "sha256": "26e304e4cf3a8a717ebcc27ba64055a107a8e423815d4a187ebebdb6cb040913"
+    },
+    {
+      "path": "deploy/collect-sms/src/devices.ts",
+      "sha256": "92f818de1a1f2a65d2ae1c22e54c1932b2621cf33b9506377114656f296d1fc8"
+    },
+    {
+      "path": "deploy/collect-sms/src/edge.ts",
+      "sha256": "eeb16fb766e75a8255e5feac526efa38dea7ef0ad8f7a79eb75b5b4a1aab1c04"
+    },
+    {
+      "path": "deploy/collect-sms/src/fcm.ts",
+      "sha256": "2f1bdea6614afbccdc8145844116d36013b72d703b1af61636ae19cb5529f964"
+    },
+    {
+      "path": "deploy/collect-sms/src/history.ts",
+      "sha256": "5fde06c9cbea323cf77dc7e7caf6aa8be2958e28dd0c4f944d73e3a73ac4eea3"
+    },
+    {
+      "path": "deploy/collect-sms/src/index.ts",
+      "sha256": "6756fe7779251eb65d7328081f132f768b2edaddaa544a2ea8493945a7ce35c3"
+    },
+    {
+      "path": "deploy/collect-sms/src/messages.ts",
+      "sha256": "43b9c9d4f0139ad61d0d0a87f5a3277781a2209bd7b4a996f01b8475cac7dbf6"
+    },
+    {
+      "path": "deploy/collect-sms/src/metrics.ts",
+      "sha256": "3005d99b9d35e2cfd652a02d2dc5d2250787bcf93bacc55a5306106d50a86e37"
+    },
+    {
+      "path": "deploy/collect-sms/src/otp.ts",
+      "sha256": "85e34d29be40b652c603bb21b5bf24809de3e395c7bf174d3501bc44a16983cb"
+    },
+    {
+      "path": "deploy/collect-sms/src/postgres.ts",
+      "sha256": "dcf698aea45c3d72dc328704ea43b291a7069474a9c831c0328ed158fc20fde8"
+    },
+    {
+      "path": "deploy/collect-sms/src/recovery.ts",
+      "sha256": "e684c1e0f02fb82814b543195c20b6147734eb59c65b6cf86c102e4544b94a8a"
+    },
+    {
+      "path": "deploy/collect-sms/src/retention.ts",
+      "sha256": "275b92f7cae9b44442e94df12ca29d9bf87261a3a3b5670b1b37b0aaa985c958"
+    },
+    {
+      "path": "deploy/collect-sms/src/schedules.ts",
+      "sha256": "56dfd45835fd462fcc276435e75ebe3da2c623e9dc8fac1914f491ba2d31586a"
+    },
+    {
+      "path": "deploy/collect-sms/src/snapshots.ts",
+      "sha256": "ff3037d5e12ff015580e8d06584ea31550ab588d409434154b9bc5f6402a90b3"
+    },
+    {
+      "path": "deploy/collect-sms/src/staff.ts",
+      "sha256": "0a87608f674a7ec41f6dab48074d64eb927719377358d7467e43293397b8ddf3"
+    },
+    {
+      "path": "deploy/collect-sms/src/templates.ts",
+      "sha256": "e316dac1e8eaafd40d694631ca17ad0849a85d8adaa11389cfc0e84f0d488dca"
+    },
+    {
+      "path": "deploy/collect-sms/src/types.ts",
+      "sha256": "c9078f2f55066da6bb7f5ca972518a8534741f9148d8d8f86c33958931cafc58"
+    },
+    {
+      "path": "deploy/collect-sms/src/util.ts",
+      "sha256": "03463d65a3e09dadf4e7477c5133b4e3686d1c1d79bf4e098cc2878b6b50c014"
+    },
+    {
+      "path": "deploy/self-hosted/migrations.lock.json",
+      "sha256": "d14ba88d096c773824d7559d0dc99fcc64039595ae003d156ca851f17a985ace"
+    },
+    {
+      "path": "scripts/supabase/testing/self-hosted-integration.mjs",
+      "sha256": "93f8c8d330cb633d64fe0ee87d9dc9a1b90eabe881e469e69e5a453aecdc39a1"
+    },
+    {
+      "path": "supabase/functions/_shared/adapters.js",
+      "sha256": "9e5deb02c41b40c8166719378f421b95fa4de54ba56d74d0ac28c3ca38267fe4"
+    },
+    {
+      "path": "supabase/functions/_shared/admin-security.js",
+      "sha256": "e852668a47f2f0ecfbdd5ca8d6151210d8ca462716159fca0a10249ae5a3cfe3"
+    },
+    {
+      "path": "supabase/functions/_shared/application-fence.js",
+      "sha256": "7abbf94ff699f6942619b6a0409a5623a6fa7322b41cdabe72e32d99689184de"
+    },
+    {
+      "path": "supabase/functions/_shared/auth-cleanup.js",
+      "sha256": "f3b1c13ea9b4df3b6491b47b19fc0e9eee7aacabc5679ea9f37d61dc92f7efcd"
+    },
+    {
+      "path": "supabase/functions/_shared/auth-http.js",
+      "sha256": "205ce1e9878b13a187d887cd1d564cc9d6e705bc22e55ebf051fba2a047732e7"
+    },
+    {
+      "path": "supabase/functions/_shared/deployment-database.js",
+      "sha256": "a565de0abdd14dca94ba3bd0aad8041b5ed81b35d1b77365f5d2f2dc8799dc7f"
+    },
+    {
+      "path": "supabase/functions/_shared/deployment-profile.js",
+      "sha256": "81aa502648712421de8a06dc6eb083c95fb46b063c57b6d1c46cf40d8426ee7d"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_access_notice_email.js",
+      "sha256": "676412b5aecf921f726305d086101288a360000a84897c1c4320df6ff667c459"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_account_support/emails.js",
+      "sha256": "94a0b2ccbb367106ad0f4db83520906e77a9a04add06a33915c857e9d9b06509"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_account_support/NOBLE-LICENSE.txt",
+      "sha256": "4f221aee6e072336700c408c68ab3b96a3fc09f6aebe6f48f1bd99e5ef13faec"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_account_support/security.js",
+      "sha256": "1c69619b364fca9eb58022aed6ecb945a053abc342ffeb0bc13647a162be8ede"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_accounts_legacy.js",
+      "sha256": "5574f8280e4952c7f41cfb5013c0c613e550c1dc8a2218ec2543f8ae1067ac97"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_accounts.js",
+      "sha256": "49d8ec373b3b1f4b4f1fa23efaea2538d701b469f92c99603e4e05a2929fd661"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_bridge.js",
+      "sha256": "fafa984c9ae0647af068707ffb06e3423281bcaded7a6078830ce9d0ce316df2"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_email_auth.js",
+      "sha256": "d893a6f5b4f1172f02dfd7cd91877589f5b133218d7bb7fc51c446dca45a21d9"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_email_policy.js",
+      "sha256": "91b91a09297d5d219ed3ea755075752918e9df98731438510a91c17508d7ffc1"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_invitation_v2.js",
+      "sha256": "b45c03f8b746c0d87516c2ec770a1ef5b3e29d2a17bd5382d8b7736c4fc57cce"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_invitation.js",
+      "sha256": "083e8404b8aa97f658950c35b4885f7aaed4925ac974633d3b8ad28eab16864b"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_member_receipts.js",
+      "sha256": "3e1a5795ba3e91c186a1925cfb4641cc013435b2afebb75008a40bfe1c924f22"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_momo.js",
+      "sha256": "2a18177ec6f018694730960100fa3a18f0f65e8fed36dc9858ace78dc535ea5a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_oversight.js",
+      "sha256": "499dced06b5b8a1fd2e1d628830fce4ad72c66d887df21ff83e9d6b8343e96ea"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_password.js",
+      "sha256": "cbd47c76b8be30b8b4e98e2f42ac1626c0914b7625fecb493cbaa8509bb6e039"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_privacy.js",
+      "sha256": "21c947bc4ce7d37644a9bd429cc71ffddafc222355c8da6737352756d8ccd12a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_reconciliation_reads.js",
+      "sha256": "8a8c7a0b00fc55386df80f8cebef6d9bf74fdce5848873705d27086009a5c287"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_records.js",
+      "sha256": "3cf38e94b50cd3a4f36c7e44bc1d48b4daa1eb8364a71ff039efc89f80f8cb7d"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_search.js",
+      "sha256": "00473c46f0b06aaf77d1d6cb6ee484199c76f757f1722aa82421e996f940aff4"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_sms_receipts.js",
+      "sha256": "afcc12318229e995fcac0110e25850cd807aa23ac1650ba39f98a4d0bfb2dae6"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin_sync.js",
+      "sha256": "415d5e3276919edd0e28693ae4641b59a905762a05852cb480713eaeaffd961f"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin-google.js",
+      "sha256": "cbf157f9ac7e2849422532ffcf2494f3fb91b2645aa210ec5121a61a40943ac0"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/admin.js",
+      "sha256": "6205e836e6f6dbdb0bb431466f3a3af4592245deca2745d8adff6b3736a10235"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/anonymous_auth.js",
+      "sha256": "689610befd3fc12af2df656c1aacbea81a9798ac3fec2cd0000c47556a58c1e4"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/assisted_sms_dispatch.js",
+      "sha256": "14e3a96fd634c85011289997445102b527d9253a9d3c878d9d676d41921559f6"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/auth.js",
+      "sha256": "7f5b332125028261432850a76e9fe19718dac2f584a48ddefa5eb1af3c378313"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/challenge.js",
+      "sha256": "704e8c11abf24a999bc7694e362b680df31dd6c73d478833238b344708591146"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/client_diagnostics.js",
+      "sha256": "277448f09c31a8079e66f60fde1359b89bebb5a261f3ef2ae9b71e1062aee33b"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/contribution_email_delivery.js",
+      "sha256": "197d359cd0e7fae532dee00401eb9f7cd90ca6b87dcef16a5b0f396ab341edd7"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/core.js",
+      "sha256": "18ce95c133a4895d13475338089fb00c9ba4c9283ee72c7d4d6f88ae8ea8723e"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/email_delivery.js",
+      "sha256": "55e7f5cdfac654b50f02d120737ee82563da2d154294ebf95252b7e8cd534e36"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/encryption.js",
+      "sha256": "ee5935065cd86b486b268a5da7026bcfaf123068e866f0ff56347f8582326e1c"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/evidence_provenance.js",
+      "sha256": "18202bbaf8be0b6eda74bb7c8472af2c064df49a38d4bd8ef99a47c5a7f5650d"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/evidence.js",
+      "sha256": "b8e1e2c283701db83ea24714c2e8bd20f3b874a78c3c414b392673634d9ec8c7"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/google_auth.js",
+      "sha256": "692ffd20a89eab54c960386f5c23f809de1445654cdcf6c9a246ba50ea9c14a5"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/groups.js",
+      "sha256": "379badbb07a29ced101f1bc176d9494d0cbe09e34131c3c96d070a77395e0f61"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/identity_keys.js",
+      "sha256": "c0c9fbfb48b44c72c7192acd3853644349a000ba3e7fbf62fdc11037d5f6d4f7"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/index.js",
+      "sha256": "583cab1496a85e498086eadbf839d54bc460a4a9174876ca7e38891e914549f5"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/member_history_sql.js",
+      "sha256": "b89541479a2237b5406b3775f8fbc263bcceb5501861c304226f74284d97c48a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/member_history.js",
+      "sha256": "3ad699d41af1ff37ae34739925b4f02a37b895a44a96d37907994141c1c4c35f"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/momo_gateway.js",
+      "sha256": "8c9378b4528af16b513a344e02c50f883054edadea4b34541fa0de4e28010129"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/momo_pipeline.js",
+      "sha256": "0e9ac645d6afe82a0a4b8e4221ba0e77d278695038adaa2a89803d1fb10a101a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/mutations.js",
+      "sha256": "dcdcf6d7604d7ce888927bbcdeaf5ac8ddff106a1e5b0f262086d54c6b98fc94"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/native_integrity.js",
+      "sha256": "066b3af360b47b18cec5e93192a40ad4319d83ce682262d4794d8960d9796cb9"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/notification_delivery.js",
+      "sha256": "d136fa33848b25670c9c849eab8b5f985424d2cc1c00679af9c08f05c08e47f3"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/notification_operator_consent.js",
+      "sha256": "0f2d138551b6dae1d049ccf32729be78e63b14770b8beca227e96ca8351f0426"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/notification_operator_management.js",
+      "sha256": "a8e6668170d5589cd75255618029334e7e8f349eeee29571de6092a14ee2843f"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/notification_operator.js",
+      "sha256": "db7c2dda8fabf28c3d884dcd67dd674bf636e6c85e8bb544bd7f79469307feac"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/notifications.js",
+      "sha256": "f4ca7a6127a31eabb33935eacec027895607b61828e9ec6785b746f640fbf45e"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/observability.js",
+      "sha256": "17327016ec759e4268b28b5d9666546b5f98784a8079ba17fc1ade5663e2751a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/operations.js",
+      "sha256": "614c08cc11085683d836ceb19adf93f1ca394f71cb995adf445799242526cf30"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/operator_notes.js",
+      "sha256": "9fb388bd916cc7bc1ad0ed294591bf01b77fe0f493f3575ae91dcbfafb9920a3"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/payments.js",
+      "sha256": "bc7418caa10c176f0178c001285f52b5010eb387261651424cf7fbe750c03fcb"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_email_auth.js",
+      "sha256": "6c5de1961cfc722179cbeed02084de98aec74b5384183a723f153f200690a381"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_portal_assets.js",
+      "sha256": "8b33a10934b0d4c49bc40718dccfdcb2fcf923b998ae8ac0b4ed71aef7cf25ae"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_portal.js",
+      "sha256": "779a378ede8a7b4bbcd33daea355f965a748628263c18bad4f8b6eaf91faec83"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_catalog.js",
+      "sha256": "0a759cfcb3e82709e0c1b19e23d1f3bf94fc446fd6b771867008acce8f4f835a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_chunks.js",
+      "sha256": "b6c3d9cab1d5fac8e026e36c251e12731a26fc364536c11543640c3c83c34066"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_manifest.js",
+      "sha256": "8751b26ab2baa50552f34eaafd9bb745b9805258fe15aa297741f0a5b67a799a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_policy.js",
+      "sha256": "4e10422a94f0a94cc0b0a518016d6250d81c98bc5076fecf5eca28df92b14117"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_rows.js",
+      "sha256": "fe6eaef4d769ddf78eb1e20652bd14652e282a4562e677304c3dfed48ae34b90"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_rpc.js",
+      "sha256": "8fe050f40546c57d658c545dc5352ddf4c4ac24cce119cc2373042fc73c42efc"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention_tasks.js",
+      "sha256": "6ea3ee0d6af2d39ddc01e5d64a1b08c76f9f382575100d9edc658b2db6b45e46"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy_retention.js",
+      "sha256": "8e975961a8ce7a5dd891ba1cba6cb99dda565c3a17afa9c51dfbad098304316a"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/privacy.js",
+      "sha256": "32a95fadfc816da165c6cbaf4abd20cf8f7b64423c3808ea71b44cb276c03ba9"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/receipt_facts.js",
+      "sha256": "ca493abb8a14eed99d5b6a9d724ccb68576ff91a51ccea1a9c7b5d887e45e24b"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/receipts.js",
+      "sha256": "893f5db5f323f55d1743e1aa90ab392290d0230e2d98f5be30837137eae5a0b5"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/roster.js",
+      "sha256": "352746a1bacae1a05d1f760739efff04b89e4b921b22e05d96d414a67b648c52"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/sync.js",
+      "sha256": "436f820c6795a77fd25b8450c937bd6396d934207dc7879d136d1a1bdb499f54"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/user_access.js",
+      "sha256": "76abb6576d7dddd1dcb710a925e337182a6e429680283b518e0e4de0a20c118b"
+    },
+    {
+      "path": "supabase/functions/_shared/email-job-contract.js",
+      "sha256": "c1fdc9edf037fbd107096d553a0adce8515a684686661d6d980c55d26e3421ef"
+    },
+    {
+      "path": "supabase/functions/_shared/email-jobs.js",
+      "sha256": "01c4858438c858b44db360c3fef48e30aabf5df2ecafe6e0983bf3851e62303a"
+    },
+    {
+      "path": "supabase/functions/_shared/fcm-notifications.js",
+      "sha256": "16d5a1c4384e1c214b12d0b68503536c0c98c13e2d73d788f01789316b8b0900"
+    },
+    {
+      "path": "supabase/functions/_shared/member-realtime-publisher.js",
+      "sha256": "7356d7c8b5a2efab407933ede9baff37e9997ee863de3940347a2e9a02d4d7fb"
+    },
+    {
+      "path": "supabase/functions/_shared/member-realtime-retention.js",
+      "sha256": "2c29da6f8748bf98c4d4accc1c0e28d1a95e3ee42860c4c7bef505ba45c11bc6"
+    },
+    {
+      "path": "supabase/functions/_shared/opensms-receipts.js",
+      "sha256": "d6af31e1f3c6cbca2e2aaf1e09f7bb06ce159238e98959ac4e772b261273869c"
+    },
+    {
+      "path": "supabase/functions/_shared/postgres.js",
+      "sha256": "84007c62afe7a56cc89bc46314bc4cae80093a9da3db4f5474460c48ab856f4d"
+    },
+    {
+      "path": "supabase/functions/_shared/private-retention.js",
+      "sha256": "02570624533e303765cc82a53beb71add429ff78c85959cfd477af948e1c8bf0"
+    },
+    {
+      "path": "supabase/functions/_shared/roster_decoder_bridge.mjs",
+      "sha256": "056df1fee06578a4d110cc2d11b57cf0db153c91022cbbe5185f4f0cd9ee518a"
+    },
+    {
+      "path": "supabase/functions/_shared/runtime-env.js",
+      "sha256": "659ba4f36c0efd2805ec3269bcdb94dd4b04824230dbe4b547a33d1bb5226c86"
+    },
+    {
+      "path": "supabase/functions/_shared/scheduled-processing.js",
+      "sha256": "08571899e08aa0e9b01b2cf8aa8807e099061de29725e54f8719c37ed5fd8270"
+    },
+    {
+      "path": "supabase/functions/_shared/send-sms-hook.js",
+      "sha256": "672f208e3d61088f51714b6f55e9ea8bf134745b213c54469e4dd2d77e16c19a"
+    },
+    {
+      "path": "supabase/functions/_shared/serve.js",
+      "sha256": "44eab6acbfe5bf13601fd08f0b03a96d35228a3efe33351c2af544b76cf7e7ef"
+    },
+    {
+      "path": "supabase/functions/_shared/SOURCE_PROVENANCE.json",
+      "sha256": "9b437987386ae87db5515e30e56e657df5c32daa41da427692b0d1bdca9f5341"
+    },
+    {
+      "path": "supabase/functions/_shared/storage-identity.js",
+      "sha256": "8e245202257aa89e226fdc8705458f167f4c27a290da6561b1556c2cf51ab83b"
+    },
+    {
+      "path": "supabase/functions/_shared/storage/postgres-journal.js",
+      "sha256": "69b3d19179d145e34a707250e108560977b81a5ecbd6791840b22261245b3784"
+    },
+    {
+      "path": "supabase/functions/_shared/storage/protocol.js",
+      "sha256": "6117a178abc7d1e9486532fa25a3344fe83913dfc0f4399f438683a22ab5a6ce"
+    },
+    {
+      "path": "supabase/functions/_shared/storage/supabase-transport.js",
+      "sha256": "2d66353e4010ce3cdb772d6eef59d9021b4f028c796149937e1f3de0b1682c74"
+    },
+    {
+      "path": "supabase/functions/_shared/workspace-smtp-email.js",
+      "sha256": "05833369873f15ef71805a351f9868787d97e74a6df7a5a21a303b8feef24eef"
+    },
+    {
+      "path": "supabase/functions/admin-api/index.ts",
+      "sha256": "9da16c686dab97001bf713eaf2563839b998e612157176d854d0d656c453c9f2"
+    },
+    {
+      "path": "supabase/functions/collect-api/index.ts",
+      "sha256": "0f43de24002878ba2be7a19f8675d59f8355a01db1103d6e100ea55f78842609"
+    },
+    {
+      "path": "supabase/functions/collect-email-jobs/index.ts",
+      "sha256": "89c0cdc91f77a8b94a712bc579f52d16a3573d3e6e4ea1c2373ff0fdaa81679a"
+    },
+    {
+      "path": "supabase/functions/collect-jobs/index.ts",
+      "sha256": "8f86df331e15251519bdbd99231596d38fbb07ccce341a387ca3a89f192f72d7"
+    },
+    {
+      "path": "supabase/functions/collect-sms/index.ts",
+      "sha256": "7e5acf8d58537be1454d0ce365d38d375916719b97c93565754fba96227f3b16"
+    },
+    {
+      "path": "supabase/functions/deno.json",
+      "sha256": "a113702f8058ec724e0476eac1bcd523639451b75cc60c15735337a52ec6555d"
+    },
+    {
+      "path": "supabase/functions/deno.lock",
+      "sha256": "070d1f79d59faebba520e3d14c1b10f4d73a84584eafa8c34f767c013c628b9b"
+    },
+    {
+      "path": "supabase/functions/send-sms-hook/handler.mjs",
+      "sha256": "8d7224e1975a3558760c0cbfd1b934502e8bc1010b9833bbc79592cc3f25f7da"
+    },
+    {
+      "path": "supabase/functions/send-sms-hook/handler.test.mjs",
+      "sha256": "a154c5cbfb10b54460ae9443501e11c1abd73bfd06d9dac9352893a307ed73b2"
+    },
+    {
+      "path": "supabase/functions/send-sms-hook/index.ts",
+      "sha256": "45d572d8857a7149319f245e6bcde030c77b67e763633a012360422041975d36"
+    },
+    {
+      "path": "supabase/functions/send-sms-hook/provider-contract.json",
+      "sha256": "a664476047e8eb2d47537342c114fb2663985a00b2840bf3431189a3f5f3b5fd"
+    },
+    {
+      "path": "supabase/functions/send-sms-hook/source-provenance.json",
+      "sha256": "d66ee45e4c4cec4bca43a60120917c0421563669aab4b71f1796c5bd20262b97"
+    },
+    {
+      "path": "supabase/migrations/20261020134444_collect_curated_platform_baseline.sql",
+      "sha256": "0d943d17ddd92e809856831427cfc81b1264301dabdb867e1c90322d46b5a6f0"
+    },
+    {
+      "path": "supabase/migrations/20261020135932_collect_runtime_role_and_function_paths.sql",
+      "sha256": "59e4b13ddc81abeb39fb59b005c71a29f947023502727c118c9eb00b479e08a1"
+    },
+    {
+      "path": "supabase/migrations/20261020174856_collect_retention_retry_authority.sql",
+      "sha256": "d3ba38736fa46b70a0bb66520deffa56fd6f7317deb7c0144f8e06d791f8808c"
+    },
+    {
+      "path": "supabase/migrations/20261020184012_collect_admin_invitation_attempts.sql",
+      "sha256": "c6dc8aa6ac5130162c6e69904aae7221edde6dcb0c898af2cf9e10dba444b665"
+    },
+    {
+      "path": "supabase/migrations/20261020190301_collect_rls_helper_permissions.sql",
+      "sha256": "dccb79af17182164dc6afe0b8339b70bd35a80fc4a1c1fa7df1a09408310a645"
+    },
+    {
+      "path": "supabase/migrations/20261020191847_collect_privacy_email_reauthentication.sql",
+      "sha256": "d6f002a6e904226a88e666c70937a142f06aa5a7e29874c6edb564d59c5fcab4"
+    },
+    {
+      "path": "supabase/migrations/20261020193752_collect_admin_invitation_access_notice_v2.sql",
+      "sha256": "b48a381169e777160a37396539248325e40b331a61db986622514724517f8467"
+    },
+    {
+      "path": "supabase/migrations/20261020195249_collect_admin_invitation_public_id_preservation.sql",
+      "sha256": "78f8c454a9825b0d9e25622b0659245d9568e7b95f637d3e20160a945b4e0850"
+    },
+    {
+      "path": "supabase/migrations/20261022195747_collect_application_mutation_fence.sql",
+      "sha256": "714abf2d24ce3d42a36525d18627362b02ff38c30810e988d365b5796d840497"
+    },
+    {
+      "path": "supabase/migrations/20261022200028_collect_private_member_realtime.sql",
+      "sha256": "ebfd0389e6ba3aa5fe1595f854b25c69b9b31a0500f202b8e0643209ab0ef6e4"
+    },
+    {
+      "path": "supabase/migrations/20261023002500_collect_admin_recent_email_source_upgrade.sql",
+      "sha256": "02c93209f546880032cf38382c61e78a3de0b0073dd2cb88699319afc6f0f185"
+    },
+    {
+      "path": "supabase/migrations/20261023072038_collect_admin_initial_email_proof_ack.sql",
+      "sha256": "2c31440ae10176e7e9e5f0befefce8e1ca44e06149d3cc4471119920b3abf6df"
+    },
+    {
+      "path": "supabase/migrations/20261023102707_collect_retire_admin_mfa_enrollment.sql",
+      "sha256": "e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834"
+    },
+    {
+      "path": "supabase/migrations/20261023174000_collect_stopped_admission_lifecycle.sql",
+      "sha256": "db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25"
+    },
+    {
+      "path": "supabase/migrations/20261029120000_collect_client_diagnostics.sql",
+      "sha256": "6f7c1e537a3c7d114417cfa79bd7b545bbfd17c69ab1d643c806eeb457c81e3f"
+    },
+    {
+      "path": "supabase/migrations/20261029130000_collect_notification_delivery.sql",
+      "sha256": "2d5904d5aaae917715c6ff5b996ce5b7395864fc5e225f5aaa67ec7d931a6792"
+    },
+    {
+      "path": "supabase/migrations/20261101012309_collect_admission_archive.sql",
+      "sha256": "82b09d4d2abd5994429a978ccf80daa796fd83e5dc5d29bc54076f2b7565ad84"
+    },
+    {
+      "path": "supabase/migrations/20261101012310_collect_member_history_pagination.sql",
+      "sha256": "2e67c30af2860d9ffe4a8636c225278e24728e59f9ce9ee29b38f7f441932835"
+    },
+    {
+      "path": "supabase/migrations/20261101012311_collect_guest_auth_upgrade.sql",
+      "sha256": "c16f38f37fbe1f9e344a258125214bfc2e8f4930f3974adaa1416717716ad7f9"
+    },
+    {
+      "path": "supabase/migrations/20261101012312_collect_notification_channels.sql",
+      "sha256": "67faa7d057eb033abf27e9c3c93ed8eb9e910d108949ef378172aa743e299244"
+    },
+    {
+      "path": "supabase/migrations/20261101012503_collect_sms_gateway.sql",
+      "sha256": "4235bf5eb7e84006c38f06a01d5dbe3bd4d3bdd06589c927dcb5d5c0561e5906"
+    },
+    {
+      "path": "supabase/migrations/20261101013157_collect_deployment_identity.sql",
+      "sha256": "916a7b3012135484c74f0a6b4707cdda39c637959f8564233fc8f6a8f5adbdc1"
+    },
+    {
+      "path": "supabase/migrations/20261101014231_collect_retention_inventory_manifests.sql",
+      "sha256": "cfe8da08a85db4309abb6eea5c8a8aca4d84171b64addec3733ba5af7aeb67b6"
+    },
+    {
+      "path": "supabase/migrations/20261101020642_collect_retention_row_executor.sql",
+      "sha256": "63262c3dbadeae748b87b490460462403101536ede6708b30a88b1ba23893346"
+    }
+  ],
+  "migrations": [
+    {
+      "name": "20261020134444_collect_curated_platform_baseline.sql",
+      "sha256": "0d943d17ddd92e809856831427cfc81b1264301dabdb867e1c90322d46b5a6f0",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261020135932_collect_runtime_role_and_function_paths.sql",
+      "sha256": "59e4b13ddc81abeb39fb59b005c71a29f947023502727c118c9eb00b479e08a1",
+      "transaction": "wrap"
+    },
+    {
+      "name": "20261020174856_collect_retention_retry_authority.sql",
+      "sha256": "d3ba38736fa46b70a0bb66520deffa56fd6f7317deb7c0144f8e06d791f8808c",
+      "transaction": "wrap"
+    },
+    {
+      "name": "20261020184012_collect_admin_invitation_attempts.sql",
+      "sha256": "c6dc8aa6ac5130162c6e69904aae7221edde6dcb0c898af2cf9e10dba444b665",
+      "transaction": "wrap"
+    },
+    {
+      "name": "20261020190301_collect_rls_helper_permissions.sql",
+      "sha256": "dccb79af17182164dc6afe0b8339b70bd35a80fc4a1c1fa7df1a09408310a645",
+      "transaction": "wrap"
+    },
+    {
+      "name": "20261020191847_collect_privacy_email_reauthentication.sql",
+      "sha256": "d6f002a6e904226a88e666c70937a142f06aa5a7e29874c6edb564d59c5fcab4",
+      "transaction": "wrap"
+    },
+    {
+      "name": "20261020193752_collect_admin_invitation_access_notice_v2.sql",
+      "sha256": "b48a381169e777160a37396539248325e40b331a61db986622514724517f8467",
+      "transaction": "wrap"
+    },
+    {
+      "name": "20261020195249_collect_admin_invitation_public_id_preservation.sql",
+      "sha256": "78f8c454a9825b0d9e25622b0659245d9568e7b95f637d3e20160a945b4e0850",
+      "transaction": "wrap"
+    },
+    {
+      "name": "20261022195747_collect_application_mutation_fence.sql",
+      "sha256": "714abf2d24ce3d42a36525d18627362b02ff38c30810e988d365b5796d840497",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261022200028_collect_private_member_realtime.sql",
+      "sha256": "ebfd0389e6ba3aa5fe1595f854b25c69b9b31a0500f202b8e0643209ab0ef6e4",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261023002500_collect_admin_recent_email_source_upgrade.sql",
+      "sha256": "02c93209f546880032cf38382c61e78a3de0b0073dd2cb88699319afc6f0f185",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261023072038_collect_admin_initial_email_proof_ack.sql",
+      "sha256": "2c31440ae10176e7e9e5f0befefce8e1ca44e06149d3cc4471119920b3abf6df",
+      "transaction": "wrap"
+    },
+    {
+      "name": "20261023102707_collect_retire_admin_mfa_enrollment.sql",
+      "sha256": "e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834",
+      "transaction": "wrap"
+    },
+    {
+      "name": "20261023174000_collect_stopped_admission_lifecycle.sql",
+      "sha256": "db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261029120000_collect_client_diagnostics.sql",
+      "sha256": "6f7c1e537a3c7d114417cfa79bd7b545bbfd17c69ab1d643c806eeb457c81e3f",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261029130000_collect_notification_delivery.sql",
+      "sha256": "2d5904d5aaae917715c6ff5b996ce5b7395864fc5e225f5aaa67ec7d931a6792",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261101012309_collect_admission_archive.sql",
+      "sha256": "82b09d4d2abd5994429a978ccf80daa796fd83e5dc5d29bc54076f2b7565ad84",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261101012310_collect_member_history_pagination.sql",
+      "sha256": "2e67c30af2860d9ffe4a8636c225278e24728e59f9ce9ee29b38f7f441932835",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261101012311_collect_guest_auth_upgrade.sql",
+      "sha256": "c16f38f37fbe1f9e344a258125214bfc2e8f4930f3974adaa1416717716ad7f9",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261101012312_collect_notification_channels.sql",
+      "sha256": "67faa7d057eb033abf27e9c3c93ed8eb9e910d108949ef378172aa743e299244",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261101012503_collect_sms_gateway.sql",
+      "sha256": "4235bf5eb7e84006c38f06a01d5dbe3bd4d3bdd06589c927dcb5d5c0561e5906",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261101013157_collect_deployment_identity.sql",
+      "sha256": "916a7b3012135484c74f0a6b4707cdda39c637959f8564233fc8f6a8f5adbdc1",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261101014231_collect_retention_inventory_manifests.sql",
+      "sha256": "cfe8da08a85db4309abb6eea5c8a8aca4d84171b64addec3733ba5af7aeb67b6",
+      "transaction": "outer"
+    },
+    {
+      "name": "20261101020642_collect_retention_row_executor.sql",
+      "sha256": "63262c3dbadeae748b87b490460462403101536ede6708b30a88b1ba23893346",
+      "transaction": "outer"
+    }
+  ],
+  "cases": [
+    {
+      "name": "all24_migrations_install_under_normal_owner",
+      "status": "pass"
+    },
+    {
+      "name": "wrong_hash_null_profile_and_noncanonical_binding_refused",
+      "status": "pass"
+    },
+    {
+      "name": "same_operation_readback_and_immutable_deployment",
+      "status": "pass"
+    },
+    {
+      "name": "public_roles_denied_and_runtime_read_only_assertion_allowed",
+      "status": "pass"
+    },
+    {
+      "name": "gateway_profile_wrapper_does_not_grant_private_access",
+      "status": "pass"
+    },
+    {
+      "name": "new_capacity_contract_retains_original_controller_semantics",
+      "status": "pass"
+    },
+    {
+      "name": "actual_restricted_runtime_logins_authenticate_and_bind",
+      "status": "pass"
+    }
+  ],
+  "normal_owner": true,
+  "normal_runtime": true,
+  "external_provider_calls": 0,
+  "synthetic": true,
+  "production_acceptance": false
+}

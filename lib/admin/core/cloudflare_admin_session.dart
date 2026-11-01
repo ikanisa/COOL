@@ -17,9 +17,7 @@ import '../../core/logging/collect_member_diagnostics.dart';
 import '../../core/supabase/collect_supabase_configuration.dart';
 import '../../core/cloudflare/collect_turnstile.dart';
 import '../../core/cloudflare/collect_cloudflare_client.dart'
-    show
-        collectGoogleAuthorizationUrlAllowed,
-        collectSupabaseGoogleCallbackOriginAllowed;
+    show collectGoogleAuthorizationUrlAllowed;
 
 class CloudflareAdminRequestException extends AdminAccountException {
   const CloudflareAdminRequestException(
@@ -405,9 +403,7 @@ class CloudflareAdminSession
       _supabase != null &&
       _origin.scheme == 'https' &&
       _origin.hasAuthority &&
-      _supabase.project.origin == 'https://rrlduytparvsjfmegalh.supabase.co' &&
-      collectSupabaseGoogleCallbackOriginAllowed(_origin.origin) &&
-      _supabase.api.origin == _origin.origin &&
+      _supabase.googleCallbackOrigin == _origin.origin &&
       _supabase.adminApi?.origin == _origin.origin;
 
   /// Public account metadata plus a local generation; never cookie material.
@@ -1318,6 +1314,7 @@ class CloudflareAdminSession
         if (!collectGoogleAuthorizationUrlAllowed(
           uri,
           usesSupabase: true,
+          supabaseConfiguration: _supabase,
           supabaseCallbackOrigin: _origin.origin,
         )) {
           throw const AdminAccountException('Google sign-in is unavailable.');

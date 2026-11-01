@@ -203,7 +203,16 @@ def validate_workflows(workflows: dict[str, dict]) -> list[dict[str, str]]:
             if any(job_env_unavailable_contexts(value) for value in env_values):
                 fail(path, "CI_JOB_ENV_CONTEXT_UNAVAILABLE", job_name)
             timeout = job.get("timeout-minutes")
-            if type(timeout) is not int or not 1 <= timeout <= 60:
+            reusable = job.get('uses')
+            if reusable is not None:
+                # Same-revision local calls inherit the called jobs' explicitly
+                # validated deadlines. GitHub does not permit timeout-minutes
+                # on a reusable-workflow caller job.
+                if (path != 'ci.yml' or job_name != 'supabase-platform'
+                        or reusable != './.github/workflows/supabase.yml'
+                        or any(key in job for key in ('timeout-minutes', 'steps', 'runs-on'))):
+                    fail(path, 'CI_REUSABLE_WORKFLOW_BOUNDARY_INVALID', job_name)
+            elif type(timeout) is not int or not 1 <= timeout <= 60:
                 fail(path, "CI_JOB_DEADLINE_REQUIRED", job_name)
             for step in job.get("steps", []):
                 if not isinstance(step, dict):
@@ -288,42 +297,143 @@ def validate_workflows(workflows: dict[str, dict]) -> list[dict[str, str]]:
     if (len(backend_steps) != 2 or any(step.get('env', {}).get('COLLECT_BACKEND') != 'supabase' for step in backend_steps)
             or shipping.get('env', {}).get('COLLECT_BACKEND') != 'supabase' or '--backend "$COLLECT_BACKEND"' not in commands):
         fail('ci.yml', 'CI_SUPABASE_CANDIDATE_SELECTION_REQUIRED', 'admin-web-build')
-    supabase = jobs.get('supabase-platform', {})
-    standalone = workflows.get('supabase.yml', {}).get('jobs', {}).get('local-qualification', {})
-    required_supabase = {
-        'python3 supabase/schema-src/generate_baseline.py --check',
-        'node scripts/supabase/test_schema.mjs',
-        'COLLECT_TEST_PG_URL="$COLLECT_GOOGLE_TEST_DATABASE_URL" node scripts/supabase/test_schema.mjs',
-        'node --test scripts/supabase/data_stage.test.mjs scripts/supabase/data_promote.test.mjs',
-        'python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test',
-        '"$COLLECT_DENO" task check', '"$COLLECT_DENO" task test',
-        'node --test test/supabase-free-transport.test.mjs',
-        'node --test test/local-challenge-parent.test.mjs',
-        'node --test scripts/supabase/jobs_test.mjs',
+    findings.extend(validate_current_supabase_qualification(workflows))
+    return findings
+
+
+CURRENT_PROFILE_CONDITION = "needs.select-profile.outputs.profile == 'current-self-hosted'"
+SELECTED_SOURCE = '${{ needs.select-profile.outputs.source_sha }}'
+CURRENT_NATIVE_COMMAND = 'timeout --signal=TERM --kill-after=10s 900s node scripts/supabase/testing/current-self-hosted-native.mjs'
+CURRENT_DART_COMMAND = 'flutter test --no-pub --concurrency=1 --tags=integration --dart-define-from-file="$RUNNER_TEMP/collect-current-selfhost-history-defines.json" test/self_hosted_member_history_sql_receipts_test.dart'
+CURRENT_SOURCE_COMMANDS = (
+    'python3 supabase/schema-src/generate_baseline.py --check',
+    'node --test scripts/supabase/data-contracts.test.mjs',
+    'python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test',
+    'node scripts/supabase/run_edge_node_tests.mjs',
+    'node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs',
+    'node --test test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs',
+    '"$COLLECT_DENO" task check',
+)
+
+
+def validate_current_supabase_qualification(workflows: dict[str, dict]) -> list[dict[str, str]]:
+    """Require the current full-chain native proof and its actual Dart consumer.
+
+    Historical packets remain available only against an explicitly selected
+    immutable historical checkout. A historical pass cannot replace this job.
+    """
+    findings = []
+    def fail(job, code='CI_SUPABASE_QUALIFICATION_REQUIRED'):
+        findings.append({'workflow': 'supabase.yml', 'job': job, 'code': code})
+    caller = workflows.get('ci.yml', {}).get('jobs', {}).get('supabase-platform', {})
+    if (caller.get('uses') != './.github/workflows/supabase.yml'
+            or set(caller) - {'name', 'uses'}):
+        findings.append({'workflow': 'ci.yml', 'job': 'supabase-platform', 'code': 'CI_SUPABASE_QUALIFICATION_REQUIRED'})
+    workflow = workflows.get('supabase.yml', {})
+    events = workflow.get('on', workflow.get('true', {}))
+    if not isinstance(events, dict) or 'workflow_call' not in events:
+        fail('supabase-platform')
+    jobs = workflow.get('jobs', {})
+    select = jobs.get('select-profile', {})
+    selected = [step for step in select.get('steps', []) if step.get('id') == 'source']
+    if ('if' in select or 'needs' in select or select.get('continue-on-error', False) is not False
+            or len(selected) != 1 or any(key in selected[0] for key in ('if', 'continue-on-error'))):
+        fail('select-profile')
+    else:
+        step = selected[0]
+        command = step.get('run', '')
+        required = (
+            "source = os.environ.get('REVIEWED_SHA', '') if historical else os.environ['GITHUB_SHA']",
+            "assert re.fullmatch(r'[a-f0-9]{40}', source)",
+            "assert not historical or os.environ['GITHUB_EVENT_NAME'] == 'workflow_dispatch'",
+            "assert not os.environ.get('REVIEWED_SHA')",
+            "assert historical or profile == 'current-self-hosted'",
+        )
+        if (step.get('env', {}).get('PROFILE') != "${{ inputs.qualification_profile || 'current-self-hosted' }}"
+                or step.get('env', {}).get('REVIEWED_SHA') != '${{ inputs.reviewed_historical_commit }}'
+                or any(line not in command for line in required)):
+            fail('select-profile')
+    current_names = ('current-source-contracts', 'current-self-hosted-native', 'current-self-hosted-history-dart')
+    for name in current_names:
+        job = jobs.get(name, {})
+        needs = job.get('needs', [])
+        needs = [needs] if isinstance(needs, str) else needs
+        required_needs = {'select-profile', 'current-self-hosted-native'} if name.endswith('history-dart') else {'select-profile'}
+        if (set(needs) != required_needs or job.get('if') != CURRENT_PROFILE_CONDITION
+                or job.get('continue-on-error', False) is not False):
+            fail(name)
+        checkout = [step for step in job.get('steps', []) if str(step.get('uses', '')).startswith('actions/checkout@')]
+        if len(checkout) != 1 or checkout[0].get('with', {}).get('ref') != SELECTED_SOURCE or 'if' in checkout[0]:
+            fail(name)
+    source = jobs.get('current-source-contracts', {})
+    source_steps = source.get('steps', [])
+    for command in CURRENT_SOURCE_COMMANDS:
+        matches = [step for step in source_steps if step.get('run', '').strip() == command]
+        if (len(matches) != 1 or 'if' in matches[0]
+                or matches[0].get('continue-on-error', False) is not False):
+            fail('current-source-contracts')
+    source_commands = '\n'.join(step.get('run', '') for step in source_steps)
+    for required in ('scripts/supabase/testing/current16-integration.test.mjs',
+                     'scripts/supabase/testing/current-self-hosted-native.test.mjs',
+                     'scripts/supabase/testing/self-hosted-member-history.test.mjs',
+                     'scripts/supabase/jobs-config-contracts.test.mjs',
+                     'scripts/supabase/email_jobs_operator.test.mjs',
+                     'deploy/self-hosted/*.test.mjs',
+                     'scripts.self_hosted.test_operations.Configuration'):
+        matches = [step for step in source_steps if required in step.get('run', '')]
+        if (len(matches) != 1 or 'if' in matches[0] or '||' in matches[0].get('run', '')
+                or matches[0].get('continue-on-error', False) is not False):
+            fail('current-source-contracts')
+    native = jobs.get('current-self-hosted-native', {})
+    env = native.get('env', {})
+    expected = {
+        'COLLECT_CI_SYNTHETIC': 'true', 'COLLECT_NATIVE_PROFILE': 'control-concurrency',
+        'COLLECT_TEST_PG_URL': 'postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test',
+        'COLLECT_FENCE_ADMIN_DATABASE_URL': 'postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres',
+        'COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL': 'postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres',
     }
-    hooks = supabase.get('steps', [])
-    selected = [step for step in hooks if step.get('run') in required_supabase]
-    env = supabase.get('env', {})
-    expected_databases = {
-        'COLLECT_TEST_PG_URL':'collect_schema_test', 'COLLECT_TEST_DATABASE_URL':'collect_edge_test',
-        'COLLECT_GOOGLE_TEST_DATABASE_URL':'collect_google_test',
-        'COLLECT_ADMIN_HISTORY_TEST_DATABASE_URL':'collect_admin_history_test',
-        'COLLECT_IMPORT_TEST_DATABASE_URL':'collect_import_test',
-        'COLLECT_PRIVATE_RETENTION_TEST_DATABASE_URL':'collect_private_retention_test',
-        'COLLECT_MFA_TEST_DATABASE_URL':'collect_mfa_test',
-        'COLLECT_RECEIPT_FACTS_TEST_DATABASE_URL':'collect_receipt_facts_test',
-        'COLLECT_SMS_CONTENT_TEST_DATABASE_URL':'collect_sms_content_test',
-        'COLLECT_JOBS_TEST_DATABASE_URL':'collect_jobs_test',
-        'COLLECT_GROUPS_TEST_DATABASE_URL':'collect_groups_test',
-    }
-    if (not standalone or standalone != supabase or 'if' in supabase or
-            supabase.get('continue-on-error', False) is not False or
-            len(selected) != len(required_supabase) or
-            {step.get('run') for step in selected} != required_supabase or
-            any('if' in step or step.get('continue-on-error', False) is not False for step in selected) or
-            any(env.get(key) != 'postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/' + name
-                for key, name in expected_databases.items())):
-        fail('ci.yml', 'CI_SUPABASE_QUALIFICATION_REQUIRED', 'supabase-platform')
+    if any(env.get(key) != value for key, value in expected.items()):
+        fail('current-self-hosted-native')
+    for name, command in (('current-self-hosted-native', CURRENT_NATIVE_COMMAND),
+                          ('current-self-hosted-history-dart', CURRENT_DART_COMMAND)):
+        steps = jobs.get(name, {}).get('steps', [])
+        matches = [step for step in steps if step.get('run', '').strip() == command]
+        if len(matches) != 1 or 'if' in matches[0] or matches[0].get('continue-on-error', False) is not False:
+            fail(name)
+    native_steps = native.get('steps', [])
+    runs = [step.get('run', '') for step in native_steps]
+    start = 'sh scripts/supabase/testing/ci-native-postgres.sh start'
+    warming = [step for step in native_steps if 'self-hosted-control-concurrency.ts' in step.get('run', '')]
+    if (start not in runs or CURRENT_NATIVE_COMMAND not in runs or runs.index(start) >= runs.index(CURRENT_NATIVE_COMMAND)
+            or len(warming) != 1 or '--frozen' not in warming[0].get('run', '') or '--no-lock' in warming[0].get('run', '')
+            or 'if' in warming[0] or warming[0].get('continue-on-error', False) is not False):
+        fail('current-self-hosted-native')
+    uploads = [step for step in native_steps if str(step.get('uses', '')).startswith('actions/upload-artifact@')]
+    if len(uploads) != 1:
+        fail('current-self-hosted-native')
+    else:
+        upload = uploads[0]
+        paths = upload.get('with', {}).get('path', '').splitlines()
+        if (upload.get('if') != 'always()' or upload.get('with', {}).get('if-no-files-found') != 'error'
+                or any('private' in path.lower() or '**' in path for path in paths if not path.startswith('!'))
+                or not any(path.endswith('/RESULT.json') for path in paths)
+                or not any(path.endswith('/history/ACTUAL-HISTORY-PACKET.json') for path in paths)):
+            fail('current-self-hosted-native')
+    history_steps = jobs.get('current-self-hosted-history-dart', {}).get('steps', [])
+    admits = [step for step in history_steps if 'node scripts/supabase/testing/admit-self-hosted-history.mjs ' in step.get('run', '')]
+    if len(admits) != 1 or 'if' in admits[0] or admits[0].get('continue-on-error', False) is not False:
+        fail('current-self-hosted-history-dart')
+    historical = {'local-qualification': 'historical-standard', 'control-concurrency-native': 'historical-standard',
+                  'stopped-admission-lifecycle-native': 'historical-current14', 'current14-member-history-dart': 'historical-current14',
+                  'current16-integration-native': 'historical-current16'}
+    for name, profile in historical.items():
+        job = jobs.get(name, {})
+        if not job:
+            fail(name, 'CI_HISTORICAL_SOURCE_REQUIRED');continue
+        checkout = [step for step in job.get('steps', []) if str(step.get('uses', '')).startswith('actions/checkout@')]
+        if (job.get('if') != "needs.select-profile.outputs.profile == '" + profile + "'"
+                or len(checkout) != 1 or checkout[0].get('with', {}).get('ref') != SELECTED_SOURCE):
+            fail(name, 'CI_HISTORICAL_SOURCE_REQUIRED')
     return findings
 
 
@@ -375,10 +485,29 @@ def validate_platform_makefile(contents: str) -> list[dict[str, str]]:
         findings.append({'workflow': 'Makefile', 'job': 'supabase-admin-consumers-test',
                          'code': 'CI_CURRENT_MAKE_CONSUMERS_REQUIRED'})
     count, qualification = target_commands('supabase-test')
-    if (count != 1 or qualification.count('$(MAKE) supabase-admin-consumers-test') != 1
-            or any(legacy_execution(command, '.') for command in qualification)):
+    if (count != 1 or qualification != ['$(MAKE) supabase-source-test',
+                                      '$(MAKE) supabase-current-native',
+                                      '$(MAKE) supabase-admin-consumers-test']):
         findings.append({'workflow': 'Makefile', 'job': 'supabase-test',
                          'code': 'CI_CURRENT_MAKE_QUALIFICATION_REQUIRED'})
+    for name, expected in (
+        ('supabase-current-native', ['node scripts/supabase/testing/current-self-hosted-native.mjs']),
+        ('supabase-schema-test', ['$(MAKE) supabase-current-native']),
+    ):
+        count, commands = target_commands(name)
+        if count != 1 or commands != expected:
+            findings.append({'workflow': 'Makefile', 'job': name,
+                             'code': 'CI_CURRENT_MAKE_NATIVE_REQUIRED'})
+    count, commands = target_commands('supabase-source-test')
+    required = (
+        'python3 supabase/schema-src/generate_baseline.py --check',
+        'node scripts/supabase/run_edge_node_tests.mjs',
+        'cd supabase/functions && "$${COLLECT_DENO:-deno}" task check',
+    )
+    if (count != 1 or any(commands.count(command) != 1 for command in required)
+            or any(legacy_execution(command, '.') for command in commands)):
+        findings.append({'workflow': 'Makefile', 'job': 'supabase-source-test',
+                         'code': 'CI_CURRENT_MAKE_SOURCE_REQUIRED'})
     return findings
 
 

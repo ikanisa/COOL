@@ -1,0 +1,53 @@
+{
+  "contract": "collect.android.build-installed-platform-additions.v1",
+  "checked_at": "2026-11-01T04:08:34.126749+00:00",
+  "status": "installed_metadata_verified_payload_verification_incomplete",
+  "packages": [
+    {
+      "path": "platforms;android-34",
+      "revision": 3,
+      "official_archive_url": "https://dl.google.com/android/repository/platform-34-ext7_r03.zip",
+      "official_sha1": "1f2e9478d6a7601425ceaa553311dc43191f103d",
+      "official_archive_bytes": 63180081,
+      "source_properties": "Pkg.Desc=Android SDK Platform 14\nPkg.UserSrc=false\nPlatform.Version=14\nPlatform.CodeName=\nPkg.Revision=3\nAndroidVersion.ApiLevel=34\nAndroidVersion.ExtensionLevel=7\nAndroidVersion.IsBaseSdk=true\nLayoutlib.Api=15\nLayoutlib.Revision=1\nPlatform.MinToolsRev=22\n",
+      "source_properties_sha256": "a2e2cf71d36c90fb1a2ab5af9d0cad186e4604147f3fb37416c214881bf58489",
+      "package_xml_sha256": "d7e1f91ce1f426d5a6938af7754514106ba77c051752d2b13c28c4f161f86d38",
+      "download_observation": null,
+      "independent_installed_payload_verification_complete": false
+    },
+    {
+      "path": "platforms;android-35",
+      "revision": 2,
+      "official_archive_url": "https://dl.google.com/android/repository/platform-35_r02.zip",
+      "official_sha1": "0bb560a90a7a2cbd0dd8348224d518b638fe7949",
+      "official_archive_bytes": 64273788,
+      "source_properties": "Pkg.Desc=Android SDK Platform 15\nPkg.UserSrc=false\nPlatform.Version=15\nPlatform.CodeName=\nPkg.Revision=2\nAndroidVersion.ApiLevel=35\nAndroidVersion.ExtensionLevel=13\nAndroidVersion.IsBaseSdk=true\nLayoutlib.Api=15\nLayoutlib.Revision=1\nPlatform.MinToolsRev=22\n",
+      "source_properties_sha256": "2c3764446f335ad2cc44383a0360fe247620b7c774ec100d5087771ac8ed3b28",
+      "package_xml_sha256": "be43080629a7cacfc86480233e585083a387c14722a7f641c286eb0ace9f8a4d",
+      "download_observation": {
+        "path": "build-platform-addition-validation-attempt2/platform-35_r02.zip",
+        "bytes": 63488000,
+        "sha1": "7716df83508f326951e4c6faf37af1e305d522b3",
+        "sha256": "68d2bfb9d726ae5ae8d21deb2a07d21f834aee79a1591c81f93447624e9ef62d",
+        "matches_expected_archive": false,
+        "stable_during_read": true,
+        "inode": 3074868,
+        "mtime_ns": 1793505936621015675,
+        "expected_checksum_type": "sha1",
+        "expected_checksum": "0bb560a90a7a2cbd0dd8348224d518b638fe7949",
+        "open_handle_observed": false
+      },
+      "independent_installed_payload_verification_complete": false
+    }
+  ],
+  "official_metadata_url": "https://dl.google.com/android/repository/repository2-3.xml",
+  "official_metadata_sha256": "fb1bd2fcd70b6116519563f1ff96cc578381e4e29237ab05ec8920f0864a7955",
+  "original_four_package_receipt_preserved": true,
+  "failure_stage": "archive size/checksum assertion in existing bounded verifier during service/resource degradation",
+  "verification_restarted": false,
+  "sdk_modified_by_verifier": false,
+  "gradle_caches_modified_by_verifier": false,
+  "application_build_success_claimed": false,
+  "production_acceptance": false,
+  "note": "These are subsequent plugin-driven SDK additions. Exact local package metadata matches the official current records, but the independent payload comparison did not complete. No broader four-package qualification claim is extended to them."
+}

@@ -6,6 +6,8 @@ import 'package:uuid/uuid.dart';
 import 'admin_account_api.dart';
 import 'cloudflare_admin_session.dart';
 
+part 'cloudflare_admin_notification_materialization.dart';
+
 final _uuid = RegExp(
   r'^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$',
   caseSensitive: false,
@@ -926,6 +928,12 @@ class CloudflareAdminNotificationManagementApi {
             receipt.enabled != operation._body['enabled'] ||
             receipt.ownerUserId != _id(session.user?.principalId) ||
             receipt.publicSessionId != _id(session.user?.sessionId)) {
+          _invalid();
+        }
+      case NotificationManagementMaterializationReceipt():
+        if (receipt.observed &&
+            (receipt.collectionId != operation.resourceId ||
+                receipt.publicSessionId != _id(session.user?.sessionId))) {
           _invalid();
         }
     }

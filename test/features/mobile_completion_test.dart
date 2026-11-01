@@ -553,7 +553,15 @@ void main() {
       repository.state.notificationPreferences.contributionConfirmations,
       isTrue,
     );
-    await tester.tap(find.byType(Switch).first);
+    final contributionSetting = find.byWidgetPredicate(
+      (widget) =>
+          widget is Semantics &&
+          widget.properties.label?.startsWith('Contribution updates.') == true,
+    );
+    expect(contributionSetting, findsOneWidget);
+    await tester.tap(
+      find.descendant(of: contributionSetting, matching: find.byType(Switch)),
+    );
     await tester.pump();
 
     expect(

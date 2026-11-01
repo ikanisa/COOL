@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-11-01T06:33:02.901Z" hostname="b80ca7ff1478" time="0.197">
+  <properties/>
+  <testcase name="flutterProjectionRetainsCompletenessAndReviewWithoutInferringSuccess" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.015"/>
+  <testcase name="bodyWhitespaceRemainsPartOfAcknowledgementIdentity" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.084"/>
+  <testcase name="captureIdentityPreservesOriginalSenderWhitespace" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.03"/>
+  <testcase name="supabaseIdentityMapsToStableCaptureOwnerOnlyForTheConfiguredIssuer" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.018"/>
+  <testcase name="reviewAndRetryNeverChangeTheOriginalEvidenceFields" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.007"/>
+  <testcase name="exactTombstoneMakesConcurrentForegroundAndBackgroundAcknowledgementIdempotent" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.009"/>
+  <testcase name="backgroundDrainUsesOnlyCurrentOwnerUnexpiredSession" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.004"/>
+  <testcase name="ordinaryAppCaptureDoesNotRequireOperatorFlavor" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.001"/>
+  <testcase name="storesIncomingOutgoingFailedAndReversalMessagesWithoutAReceiptTemplate" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.003"/>
+  <testcase name="guestCredentialsNeverUploadMemberSms" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.0"/>
+  <testcase name="parkedOriginalsDoNotBlockLaterSourcesOrTriggerEndlessDrain" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.0"/>
+  <testcase name="acknowledgementRequiresExactOwnerEnvelopeBodyAndDurableContract" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.017"/>
+  <testcase name="tombstoneCannotAcknowledgeAnotherOwnerUnknownIdOrChangedBody" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.002"/>
+  <testcase name="captureExcludesUnrelatedMessagesPromotionsAndOneTimeCodes" classname="app.cool.mobile.receiver_sms.MemberSmsUploadPolicyTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -3,19 +3,25 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
 import '../../app/env/app_env.dart';
+import 'collect_deployment_profile.dart';
+export 'collect_deployment_profile.dart';
 
 /// Compile-time opt-in to the Supabase-backed Collect compatibility protocol.
 /// Auth stays server-owned; this is never a second SDK session or token store.
 final class CollectSupabaseConfiguration {
-  CollectSupabaseConfiguration.fromEnvironment(AppEnv env)
-    : project = _origin(env.supabaseUrl),
-      api = _origin(
-        env.supabaseApiUrl.isEmpty ? env.supabaseUrl : env.supabaseApiUrl,
-      ),
-      adminApi = env.supabaseAdminApiUrl.isEmpty
-          ? null
-          : _origin(env.supabaseAdminApiUrl),
-      publishableKey = env.supabasePublishableKey {
+  factory CollectSupabaseConfiguration.fromEnvironment(AppEnv env) {
+    final project = _origin(env.supabaseUrl);
+    final api = _origin(
+      env.supabaseApiUrl.isEmpty ? env.supabaseUrl : env.supabaseApiUrl,
+    );
+    final adminApi = env.supabaseAdminApiUrl.isEmpty
+        ? null
+        : _origin(env.supabaseAdminApiUrl);
+    final publishableKey = env.supabasePublishableKey;
+    final profile = CollectDeploymentProfile.parse(
+      env.deploymentProfile,
+      env.deploymentProfileSha256,
+    );
     if (env.backend != 'supabase' ||
         !RegExp(
           r'^sb_publishable_[A-Za-z0-9_-]{10,300}$',
@@ -29,12 +35,60 @@ final class CollectSupabaseConfiguration {
         'Supabase HTML verification requires a custom API domain.',
       );
     }
+    if (profile != null &&
+        (project.origin != profile.supabaseOrigin ||
+            api.origin != profile.memberApiOrigin ||
+            adminApi?.origin != profile.adminOrigin ||
+            env.publicUrl != profile.publicOrigin ||
+            env.adminAppUrl != profile.adminOrigin ||
+            env.environmentName != profile.environment)) {
+      throw ArgumentError('Collect origins must match the deployment profile.');
+    }
+    final issuer = '${project.origin}/auth/v1';
+    if (env.supabaseAuthIssuer.isNotEmpty && env.supabaseAuthIssuer != issuer) {
+      throw ArgumentError('Collect Auth must use the public Supabase issuer.');
+    }
+    return CollectSupabaseConfiguration._(
+      project,
+      api,
+      adminApi,
+      publishableKey,
+      profile,
+    );
   }
+
+  const CollectSupabaseConfiguration._(
+    this.project,
+    this.api,
+    this.adminApi,
+    this.publishableKey,
+    this.deploymentProfile,
+  );
 
   final Uri project;
   final Uri api;
   final Uri? adminApi;
   final String publishableKey;
+  final CollectDeploymentProfile? deploymentProfile;
+  String get authIssuer => '${project.origin}/auth/v1';
+  String get googleAuthorizationOrigin => project.origin;
+  String? get googleCallbackOrigin {
+    if (deploymentProfile case final profile?) {
+      return profile.googleCallbackOrigin;
+    }
+    if (project.origin != 'https://rrlduytparvsjfmegalh.supabase.co') {
+      return null;
+    }
+    if (api.origin == 'https://admin-supabase-qa.collect.ikanisa.com') {
+      return api.origin;
+    }
+    if (api.origin == project.origin ||
+        api.origin == 'https://platform-admin.collect.ikanisa.com') {
+      return 'https://platform-admin.collect.ikanisa.com';
+    }
+    return null;
+  }
+
   static const memberPrefix = '/functions/v1/collect-api/';
   static const adminPrefix = '/functions/v1/admin-api/api/admin/';
 
@@ -54,7 +108,11 @@ final class CollectSupabaseConfiguration {
 
   Uri adminRequest(String path, {required Uri browserOrigin}) {
     final target = adminApi;
-    if (target == null || !_sameSite(target, browserOrigin)) {
+    if (target == null ||
+        (deploymentProfile == null
+            ? !_sameSite(target, browserOrigin)
+            : target.origin != deploymentProfile!.adminOrigin ||
+                  browserOrigin.origin != deploymentProfile!.adminOrigin)) {
       throw ArgumentError(
         'Supabase Admin requires an explicitly configured same-site API origin.',
       );

@@ -22,7 +22,9 @@ ROOT = Path(__file__).resolve().parents[2]
 API = "https://platform-admin.collect.ikanisa.com"
 PROJECT = "https://rrlduytparvsjfmegalh.supabase.co"
 KEY = "sb_publishable_syntheticPublicKey1234"
-SITE_KEY = "1x00000000000000000000AA"
+# Opaque syntax fixture only. The documented public dummy keys are rejected by
+# production native builds and tested separately; no provider is called here.
+SITE_KEY = "synthetic_public_site_key"
 PUBLIC = "https://collect.ikanisa.com"
 ADMIN = "https://platform-admin.collect.ikanisa.com"
 
@@ -32,11 +34,11 @@ class NativeConfigurationTest(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory(prefix="collect-native-config-")
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
-        for relative in ("scripts/qa", "scripts/audits", "android", "fastlane", "tmp", "lib"):
+        for relative in ("scripts/qa", "scripts/audits", "scripts/supabase", "android", "fastlane", "tmp", "lib"):
             (self.root / relative).mkdir(parents=True)
         for relative in ("scripts/android_play_store_build.sh", "scripts/ios_app_store_build.sh",
                          "scripts/audits/collect_release_build.rb", "scripts/qa/native_build_config.py", "scripts/qa/client_diagnostic_identity.py", "scripts/android_release_signing_preflight.sh",
-                         "scripts/google_play_optimization_gate.sh", "fastlane/Fastfile"):
+                         "scripts/google_play_optimization_gate.sh", "scripts/supabase/deployment_profile.py", "fastlane/Fastfile"):
             shutil.copy2(ROOT / relative, self.root / relative)
         (self.root / "pubspec.yaml").write_text("name: synthetic_config_fixture\nversion: 1.0.8+65\n")
         (self.root / "pubspec.lock").write_text("packages: {}\n")
@@ -94,6 +96,52 @@ with zipfile.ZipFile(artifact,'w',compression=zipfile.ZIP_STORED) as archive:
     def observations(self):
         path = self.root / "compiler-observations.jsonl"
         return [json.loads(line) for line in path.read_text().splitlines()] if path.exists() else []
+
+    def self_hosted_configuration(self, environment="production"):
+        profile = {"format": "collect.deployment.v1", "id": "native-wrapper-fixture",
+                   "mode": "self_hosted", "environment": environment,
+                   "supabase_origin": "https://supabase.native.example",
+                   "member_api_origin": "https://api.native.example",
+                   "admin_origin": "https://admin.native.example",
+                   "public_origin": "https://www.native.example",
+                   "google_callback_origin": "https://admin.native.example"}
+        raw = json.dumps(profile, sort_keys=True, separators=(",", ":"))
+        return {"COLLECT_DEPLOYMENT_PROFILE": raw,
+                "COLLECT_DEPLOYMENT_PROFILE_SHA256": hashlib.sha256(raw.encode()).hexdigest(),
+                "APP_ENVIRONMENT": environment,
+                "SUPABASE_URL": profile["supabase_origin"],
+                "SUPABASE_API_URL": profile["member_api_origin"],
+                "SUPABASE_ADMIN_API_URL": profile["admin_origin"],
+                "SUPABASE_AUTH_ISSUER": profile["supabase_origin"] + "/auth/v1"}
+
+    def test_store_wrappers_use_reviewed_self_hosted_origins_without_managed_aliases(self):
+        values = self.self_hosted_configuration()
+        for platform in ("android", "ios"):
+            result = self.run_wrapper(platform, **values)
+            self.assertEqual(result.returncode, 0, result.stderr)
+        records = self.observations()
+        self.assertEqual(len(records), 3)
+        for record in records:
+            defines = record["defines"]
+            self.assertEqual(defines["APP_PUBLIC_URL"], "https://www.native.example")
+            self.assertEqual(defines["ADMIN_APP_URL"], "https://admin.native.example")
+            self.assertEqual(defines["SUPABASE_API_URL"], values["SUPABASE_API_URL"])
+            self.assertEqual(defines["COLLECT_DEPLOYMENT_PROFILE"], values["COLLECT_DEPLOYMENT_PROFILE"])
+            self.assertEqual(defines["COLLECT_DEPLOYMENT_PROFILE_SHA256"], values["COLLECT_DEPLOYMENT_PROFILE_SHA256"])
+            self.assertEqual(defines["APP_ENVIRONMENT"], "production")
+            self.assertFalse(Path(record["temporary_path"]).exists())
+
+    def test_self_hosted_store_wrappers_keep_alias_hash_captcha_and_environment_guards(self):
+        values = self.self_hosted_configuration()
+        for platform in ("android", "ios"):
+            for changes in ({"APP_PUBLIC_URL": PUBLIC}, {"ADMIN_APP_URL": ADMIN},
+                            {"COLLECT_DEPLOYMENT_PROFILE_SHA256": "0" * 64},
+                            {"AUTH_CAPTCHA_SITE_KEY": "1x00000000000000000000AA"},
+                            self.self_hosted_configuration("qualification")):
+                with self.subTest(platform=platform, changes=changes):
+                    result = self.run_wrapper(platform, **(values | changes))
+                    self.assertEqual(result.returncode, 2, result.stderr)
+                    self.assertEqual(self.observations(), [])
 
     def test_android_public_config_artifact_target_and_cleanup(self):
         result = self.run_wrapper("android")

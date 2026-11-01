@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="deno test" tests="34" failures="0" errors="0" time="9.784">
+    <testsuite name="./deploy/collect-sms/test/gateway.test.ts" tests="34" disabled="0" errors="0" failures="0">
+        <testcase name="private schema and evidence view deny REST roles" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.575" line="63" col="1">
+        </testcase>
+        <testcase name="published template versions are immutable and schedules need fresh eligibility" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.367" line="68" col="1">
+        </testcase>
+        <testcase name="staff sessions preserve role scopes and rotation revokes old authority" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.180" line="83" col="1">
+        </testcase>
+        <testcase name="retention redacts old terminal payloads without erasing unknowns or replay identity" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.198" line="92" col="1">
+        </testcase>
+        <testcase name="ledger snapshot replay cannot rewrite facts or add a recipient after redaction" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.148" line="102" col="1">
+        </testcase>
+        <testcase name="callback outbox records message transitions and generation cancels old obligations" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.151" line="110" col="1">
+        </testcase>
+        <testcase name="auth scopes, application isolation and production HTTPS boundary" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.454" line="245" col="1">
+        </testcase>
+        <testcase name="concurrent immutable message requests create one durable job" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.559" line="313" col="1">
+        </testcase>
+        <testcase name="contribution facts remain frozen across duplicate delivery and recipients" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.640" line="345" col="1">
+        </testcase>
+        <testcase name="challenge, current generation and OTP outbox roll back together on enqueue failure" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.384" line="411" col="1">
+        </testcase>
+        <testcase name="concurrent challenge requests obey cooldown without orphan messages" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.404" line="435" col="1">
+        </testcase>
+        <testcase name="current OTP is consumed exactly once by concurrent correct verification" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.170" line="453" col="1">
+        </testcase>
+        <testcase name="wrong-code concurrency cannot exceed the attempt budget; expired codes fail" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.162" line="481" col="1">
+        </testcase>
+        <testcase name="resend invalidates an in-flight generation without pretending to recall its SMS" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.214" line="529" col="1">
+        </testcase>
+        <testcase name="changing purpose cannot bypass the per-phone issuance budget" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.154" line="588" col="1">
+        </testcase>
+        <testcase name="lost acceptance reoffers the same owner; another phone cannot steal or acknowledge" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.256" line="615" col="1">
+        </testcase>
+        <testcase name="wrong-owner or conflicting event batches roll back all effects" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.181" line="669" col="1">
+        </testcase>
+        <testcase name="multipart callbacks are replay safe and one delivered part is not a delivered message" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.245" line="708" col="1">
+        </testcase>
+        <testcase name="delivery failure and unknown evidence are distinct from Android submission success" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.258" line="784" col="1">
+        </testcase>
+        <testcase name="cancel and handoff transitions cannot both certify success" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.193" line="826" col="1">
+        </testcase>
+        <testcase name="documented pre-call abort resolves a marker but cannot erase unknown evidence" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.267" line="849" col="1">
+        </testcase>
+        <testcase name="campaign drafts do not send; permits share an atomic segment budget and pause immediately" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.515" line="899" col="1">
+        </testcase>
+        <testcase name="dynamic operations fail closed without a fresh business eligibility decision" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.296" line="988" col="1">
+        </testcase>
+        <testcase name="paused owned jobs retain ownership without blocking other eligible work" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.256" line="1027" col="1">
+        </testcase>
+        <testcase name="token refresh is separate from identity; rotation and revocation preserve ownership history" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.254" line="1058" col="1">
+        </testcase>
+        <testcase name="campaign expansion resumes atomically with deterministic IDs and revocation stops work" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.324" line="1118" col="1">
+        </testcase>
+        <testcase name="an older FCM response cannot clear or back off a newer durable wake revision" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.247" line="1212" col="1">
+        </testcase>
+        <testcase name="one part cannot count twice toward complete multipart failure" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.165" line="1275" col="1">
+        </testcase>
+        <testcase name="pre-call abort codes must match the declared terminal event" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.162" line="1307" col="1">
+        </testcase>
+        <testcase name="chunked request bodies are bounded and cancelled without buffering the entire input" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.094" line="1328" col="1">
+        </testcase>
+        <testcase name="production OTP admission rejects unavailable phones without creating a challenge or outbox" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.229" line="1368" col="1">
+        </testcase>
+        <testcase name="OTP availability defaults fail closed and can be explicitly configured for local tests" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.146" line="1443" col="1">
+        </testcase>
+        <testcase name="ordinary registration heartbeats preserve push state and concurrent token registration rearms once" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.425" line="1486" col="1">
+        </testcase>
+        <testcase name="a retired FCM token stays rejected across heartbeats and a different token recovers" classname="./deploy/collect-sms/test/gateway.test.ts" time="0.462" line="1551" col="1">
+        </testcase>
+    </testsuite>
+</testsuites>

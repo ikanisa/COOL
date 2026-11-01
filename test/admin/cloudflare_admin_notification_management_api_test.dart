@@ -16,6 +16,7 @@ part 'cloudflare_admin_notification_management_api_cases/history.dart';
 part 'cloudflare_admin_notification_management_api_cases/status.dart';
 part 'cloudflare_admin_notification_management_api_cases/authority.dart';
 part 'cloudflare_admin_notification_management_api_cases/recovery.dart';
+part 'cloudflare_admin_notification_management_api_cases/materialization.dart';
 
 const _admin = '30000000-0000-4000-8000-000000000001';
 const _principal = '30000000-0000-4000-8000-000000000002';
@@ -348,6 +349,7 @@ class _NotificationManagementApiSuite {
     _registerNotificationStatusCases();
     _registerNotificationAuthorityCases();
     _registerNotificationRecoveryCases();
+    _registerNotificationMaterializationCases();
   }
 }
 

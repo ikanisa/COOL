@@ -1,0 +1,43 @@
+{
+  "format": "collect.gateway.fence-native.v1",
+  "run_id": "ead17ae2-97d2-409c-9191-41491e1c0bae",
+  "status": "blocked",
+  "started_at": "2026-11-01T03:12:00.274Z",
+  "tests": [
+    {
+      "name": "fresh current chain installs as normal owner without changing prior migration bytes",
+      "status": "fail",
+      "error_class": "Error",
+      "sqlstate": "UNSAFE_TRANSACTION"
+    }
+  ],
+  "observations": {},
+  "provider_calls": 0,
+  "synthetic_provider_attempts": 0,
+  "production_acceptance": false,
+  "physical_send_settlement": false,
+  "real_database_identity": false,
+  "profile_assertion_double": false,
+  "original_migrations": 16,
+  "current_migrations": [],
+  "source_sha256": "bb1fc2de5e60822a21d412df81bacf3f73707c36f9c9833ab84a1ccc28da1275",
+  "profile_sha256": "d8c2f2d47fc3be6f405079e1c0a2545eb4d2e5deb54ae327f55c989c37f6b179",
+  "profile": {
+    "format": "collect.deployment.v1",
+    "id": "gateway-fence-fixture",
+    "mode": "self_hosted",
+    "environment": "qualification",
+    "supabase_origin": "https://supabase.gateway.example.invalid",
+    "member_api_origin": "https://api.gateway.example.invalid",
+    "admin_origin": "https://admin.gateway.example.invalid",
+    "public_origin": "https://www.gateway.example.invalid",
+    "google_callback_origin": "https://admin.gateway.example.invalid"
+  },
+  "fixture_record_basename": "collect-gateway-fence-ead17ae2-97d2-409c-9191-41491e1c0bae.private.json",
+  "fixture_database_sha256": "6539ab0eb35e848047c369ffda8954b0507f863619a85afe025e50feea14a2fb",
+  "fatal_class": "Error",
+  "fatal_sqlstate": "UNSAFE_TRANSACTION",
+  "finished_at": "2026-11-01T03:12:03.625Z",
+  "passed": 0,
+  "failed": 1
+}

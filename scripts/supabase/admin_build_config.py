@@ -9,6 +9,11 @@ from pathlib import Path
 import re
 from urllib.parse import urlsplit
 
+try:
+    from .deployment_profile import resolve_profile, public_profile_defines
+except ImportError:
+    from deployment_profile import resolve_profile, public_profile_defines
+
 PROJECT = "rrlduytparvsjfmegalh"
 PROJECT_ORIGIN = f"https://{PROJECT}.supabase.co"
 ADMIN_ORIGINS = {"https://admin.collect.ikanisa.com", "https://platform-admin.collect.ikanisa.com"}
@@ -32,19 +37,30 @@ def origin(value: str) -> str:
     return f"https://{parsed.hostname}"
 
 def configuration(env: dict[str, str], root: Path, *, qualification: bool = False) -> tuple[dict, dict]:
+    profile = resolve_profile(env, qualification=qualification)
+    explicit_profile = "COLLECT_DEPLOYMENT_PROFILE" in env or "COLLECT_DEPLOYMENT_PROFILE_SHA256" in env
     backend = env.get("COLLECT_BACKEND", "supabase")
     if backend not in ("cloudflare", "supabase"):
         raise ValueError("Unsupported Collect backend")
     if qualification and backend != "supabase":
         raise ValueError("Admin qualification requires the Supabase backend")
-    public = origin(env.get("APP_PUBLIC_URL", "https://collect.ikanisa.com"))
-    admin = origin(env.get("ADMIN_APP_URL", "https://platform-admin.collect.ikanisa.com"))
+    if explicit_profile and backend != "supabase":
+        raise ValueError("A deployment profile requires the Supabase backend")
+    public = origin(env.get("APP_PUBLIC_URL", profile["public_origin"] if explicit_profile else "https://collect.ikanisa.com"))
+    admin = origin(env.get("ADMIN_APP_URL", profile["admin_origin"] if explicit_profile else "https://platform-admin.collect.ikanisa.com"))
     if not qualification and admin == QUALIFICATION_ORIGIN:
         raise ValueError("The Admin qualification origin requires explicit qualification mode")
     defines = {"APP_PUBLIC_URL": public, "ADMIN_APP_URL": admin,
                "COLLECT_BACKEND": backend, "APP_ENVIRONMENT": f"{backend}-platform",
                "COLLECT_BACKEND_REVISION": f"{backend}-platform-20261020" if backend == "supabase" else "cloudflare-platform-20261014",
                "ENABLE_ADMIN_PANEL": "true", "COLLECT_PUBLIC_LANDING_HOME": "false"}
+    if explicit_profile:
+        if env.get("APP_ENVIRONMENT", profile["environment"]) != profile["environment"]:
+            raise ValueError("Admin environment must match its deployment profile")
+        if env.get("SUPABASE_AUTH_ISSUER", profile["supabase_origin"] + "/auth/v1") != profile["supabase_origin"] + "/auth/v1":
+            raise ValueError("Admin Auth issuer must use its public Supabase origin")
+        defines.update(public_profile_defines(env, qualification=qualification))
+        defines["APP_ENVIRONMENT"] = profile["environment"]
     captcha = env.get("AUTH_CAPTCHA_ENABLED", "false")
     if captcha not in ("true", "false"):
         raise ValueError("AUTH_CAPTCHA_ENABLED must be true or false")
@@ -52,6 +68,12 @@ def configuration(env: dict[str, str], root: Path, *, qualification: bool = Fals
     site_key = env.get("AUTH_CAPTCHA_SITE_KEY", "")
     if captcha == "true" and (provider != "turnstile" or not re.fullmatch(r"[A-Za-z0-9_-]{10,200}", site_key)):
         raise ValueError("Enabled CAPTCHA requires Turnstile and its public site key")
+    # These documented public dummy keys do not qualify production protection.
+    if not qualification and site_key in {
+            "1x00000000000000000000AA", "2x00000000000000000000AB",
+            "1x00000000000000000000BB", "2x00000000000000000000BB",
+            "3x00000000000000000000FF"}:
+        raise ValueError("Production Admin builds cannot use a public CAPTCHA test key")
     if qualification and captcha != "true":
         raise ValueError("Admin qualification requires enabled Turnstile CAPTCHA")
     defines.update({"AUTH_CAPTCHA_ENABLED": captcha, "AUTH_CAPTCHA_PROVIDER": provider,
@@ -60,6 +82,10 @@ def configuration(env: dict[str, str], root: Path, *, qualification: bool = Fals
     if google not in ("true", "false"):
         raise ValueError("GOOGLE_AUTH_ENABLED must be true or false")
     defines["GOOGLE_AUTH_ENABLED"] = google
+    assisted_sms = env.get("COLLECT_ASSISTED_SMS_ENABLED", "false")
+    if assisted_sms not in ("true", "false") or assisted_sms == "true" and backend != "supabase":
+        raise ValueError("Assisted SMS requires an explicit Supabase public enable flag")
+    defines["COLLECT_ASSISTED_SMS_ENABLED"] = assisted_sms
     metadata = {"backend": backend, "authentication": "email_otp_cookie_with_totp",
                 "notifications": "provider_configuration_required", "data_strategy": "fresh_cloudflare",
                 "legacy_data_import_required": False, "minimum_core_schema_migration": "0017_admin_email_otp.sql",
@@ -67,14 +93,14 @@ def configuration(env: dict[str, str], root: Path, *, qualification: bool = Fals
                 "financial_model": "canonical_evidence_ledger", "financial_contract_version": 2,
                 "provider_settlement_available": False}
     if backend == "supabase":
-        allowed_admin_origins = {QUALIFICATION_ORIGIN} if qualification else ADMIN_ORIGINS
-        if public != "https://collect.ikanisa.com" or admin not in allowed_admin_origins:
+        allowed_admin_origins = {profile["admin_origin"]} if explicit_profile else ({QUALIFICATION_ORIGIN} if qualification else ADMIN_ORIGINS)
+        if public != profile["public_origin"] or admin not in allowed_admin_origins:
             raise ValueError("Supabase release must use approved Collect frontend origins")
-        project = origin(env.get("SUPABASE_URL", ""))
-        api = origin(env.get("SUPABASE_API_URL", admin))
+        project = origin(env.get("SUPABASE_URL", profile["supabase_origin"] if explicit_profile else ""))
+        api = origin(env.get("SUPABASE_API_URL", profile["member_api_origin"] if explicit_profile else admin))
         admin_api = origin(env.get("SUPABASE_ADMIN_API_URL", admin))
         key = env.get("SUPABASE_PUBLISHABLE_KEY", "")
-        if project != PROJECT_ORIGIN or api != admin or admin_api != admin:
+        if project != profile["supabase_origin"] or api != (profile["member_api_origin"] if explicit_profile else admin) or admin_api != admin:
             raise ValueError("Admin release requires the nominated project and same-origin transport")
         if not re.fullmatch(r"sb_publishable_[A-Za-z0-9_-]{10,300}", key):
             raise ValueError("Admin release requires a public Supabase publishable key")
@@ -87,10 +113,15 @@ def configuration(env: dict[str, str], root: Path, *, qualification: bool = Fals
         metadata.update({"authentication": "supabase_auth_cookie_with_email_verification",
                          "data_strategy": "preserve_existing_source", "legacy_data_import_required": True,
                          "minimum_core_schema_migration": BASELINE,
-                         "supabase_project_ref": PROJECT,
+                         "supabase_project_ref": PROJECT if profile["mode"] == "managed" else None,
                          "supabase_schema_sha256": hashlib.sha256(data).hexdigest(),
                          "admin_transport": "same_origin_static_proxy",
                          "supabase_qualification_complete": False})
+        if explicit_profile:
+            metadata.update({"deployment_profile": profile,
+                             "deployment_profile_sha256": defines["COLLECT_DEPLOYMENT_PROFILE_SHA256"],
+                             "supabase_hosting": profile["mode"],
+                             "supabase_auth_issuer": defines["SUPABASE_AUTH_ISSUER"]})
         chain = migration_chain(root)
         metadata.update({'supabase_migrations': chain,
                          'supabase_migration_chain_sha256': hashlib.sha256(json.dumps(chain, sort_keys=True, separators=(',', ':')).encode()).hexdigest()})

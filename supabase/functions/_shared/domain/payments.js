@@ -41,15 +41,20 @@ export async function financialRpc(operation,body,env,actor,internal={}) {
   return {handled:true,value:{items:pipeline?await Promise.all(list.map(row=>intentConfirmation(env,row,actor))):list.map(intentJson),pending_count:count.n}};
  }
  case 'list_current_member_collection_balances': {
-  const memberships=await rows(env,`SELECT collection_id FROM memberships WHERE user_id=? AND active=1`,actor.userId);
-  const result=[];
-  for(const m of memberships){
-   const sum=await first(env,`SELECT coalesce(sum(amount_minor),0) AS total,coalesce(sum(CASE WHEN member_id=? THEN amount_minor ELSE 0 END),0) AS own FROM ledger_entries WHERE collection_id=?`,actor.userId,m.collection_id);
-   const supporters=await first(env,`SELECT count(*) AS n FROM (SELECT member_id FROM ledger_entries WHERE collection_id=? GROUP BY member_id HAVING sum(amount_minor)>0)`,m.collection_id);
-   if(!Number.isSafeInteger(sum.total)||!Number.isSafeInteger(sum.own)||sum.total<0||sum.own<0)throw new ApiError(503,'balance_unavailable','Balances are unavailable.');
-   result.push({collection_id:m.collection_id,currency:'RWF',balances:[{currency:'RWF',amount_raised_minor:sum.total,current_user_balance_minor:sum.own}],supporter_count:supporters.n});
-  }
-  return {handled:true,value:result};
+  // Authority, all group totals and supporter counts share one MVCC snapshot.
+  // SQL NUMERIC aggregates travel as decimal strings until exact-range checks.
+  const list=await rows(env,`WITH authority AS MATERIALIZED(SELECT private.assert_actor() AS principal),
+   groups AS MATERIALIZED(SELECT m.collection_id FROM app.memberships m CROSS JOIN authority a
+    WHERE m.user_id=a.principal AND a.principal=? AND api.current_session_id()=? AND m.active=1),
+   members AS(SELECT l.collection_id,l.member_id,sum(l.amount_minor) AS balance
+    FROM app.ledger_entries l JOIN groups g ON g.collection_id=l.collection_id GROUP BY l.collection_id,l.member_id)
+   SELECT g.collection_id,coalesce(sum(m.balance),0)::text AS total,
+    coalesce(sum(m.balance) FILTER(WHERE m.member_id=?),0)::text AS own,
+    count(m.collection_id) FILTER(WHERE m.balance>0)::text AS supporters
+   FROM groups g LEFT JOIN members m ON m.collection_id=g.collection_id GROUP BY g.collection_id ORDER BY g.collection_id`,actor.userId,actor.sessionId,actor.userId);
+  const exact=value=>{if(typeof value!=='string'||!/^\d+$/.test(value)||BigInt(value)>9007199254740991n)throw new ApiError(503,'balance_unavailable','Balances are unavailable.');return Number(value);};
+  return {handled:true,value:list.map(row=>({collection_id:row.collection_id,currency:'RWF',
+   balances:[{currency:'RWF',amount_raised_minor:exact(row.total),current_user_balance_minor:exact(row.own)}],supporter_count:exact(row.supporters)}))};
  }
  case 'list_current_member_history_page': {
   if(body.p_contract_version===2)return {handled:true,value:await memberHistoryPage(body,env,actor)};

@@ -1,9 +1,14 @@
 part of 'auth_screen_widgets.dart';
 
 class AuthPhoneConfirmationSheet extends StatelessWidget {
-  const AuthPhoneConfirmationSheet({required this.phone, super.key});
+  const AuthPhoneConfirmationSheet({
+    required this.phone,
+    this.phoneMethod = 'WhatsApp',
+    super.key,
+  });
 
   final String phone;
+  final String phoneMethod;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,7 @@ class AuthPhoneConfirmationSheet extends StatelessWidget {
               ),
               CollectSpacing.gap8,
               Text(
-                'We will send a six-digit sign-in code on WhatsApp to',
+                'We will send a six-digit sign-in code ${phoneMethod == 'SMS' ? 'by SMS' : 'on WhatsApp'} to',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: colors.authForeground.withValues(alpha: 0.68),

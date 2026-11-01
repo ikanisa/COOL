@@ -1,0 +1,743 @@
+{
+  "format": "collect.selfhost.history.inputs.v1",
+  "profile": "current16_plus_admission_archive_and_history_v2",
+  "files": [
+    {
+      "role": ".fvmrc",
+      "bytes": 26,
+      "sha256": "e9f064716218b10b1e1a262891bdd6f50ed5f8af960858217ddab723a047f756"
+    },
+    {
+      "role": "lib/core/data/exact_json_values.dart",
+      "bytes": 3650,
+      "sha256": "5585082d05282f839dd4041ea6307199d7852f03675f319cfe009dd7df353223"
+    },
+    {
+      "role": "lib/shared/models/collect_group_cover.dart",
+      "bytes": 4633,
+      "sha256": "76514a01ba2e5f280e1b6661bad7188bbf0892e092a6992e2e6ff173f9a43552"
+    },
+    {
+      "role": "lib/shared/models/collect_group_cover_catalog.dart",
+      "bytes": 1536,
+      "sha256": "f0da8e24a5f1b66a8b8365675b7fb92e057c0527eb093461103f495c2432abf0"
+    },
+    {
+      "role": "lib/shared/models/collect_group_cover_catalog_community_projects.dart",
+      "bytes": 2749,
+      "sha256": "ba56260716fe0a446215e7e56a12732daa72af83c5c3acf1e6405e7772dd0153"
+    },
+    {
+      "role": "lib/shared/models/collect_group_cover_catalog_education.dart",
+      "bytes": 2687,
+      "sha256": "d7eef85a04b55fc932d7d0c215405adf8f0c199e994e19c5cb6e34d944c737dc"
+    },
+    {
+      "role": "lib/shared/models/collect_group_cover_catalog_faith_giving.dart",
+      "bytes": 4640,
+      "sha256": "2ff815c661047fb25b81101d8394d0addb397d0c38722135de4f1b29d8cb9a07"
+    },
+    {
+      "role": "lib/shared/models/collect_group_cover_catalog_family_solidarity.dart",
+      "bytes": 4138,
+      "sha256": "f121c96ae01376ef40995ec80e4f016f5646bd48e094605a308e309f7a4b327f"
+    },
+    {
+      "role": "lib/shared/models/collect_group_cover_catalog_savings_livelihoods.dart",
+      "bytes": 5977,
+      "sha256": "529c05741529db340f7ffc226188ae0c445d52ee627a40fc1a8451fa30d02538"
+    },
+    {
+      "role": "lib/shared/models/collect_group_cover_catalog_sport_culture.dart",
+      "bytes": 3889,
+      "sha256": "ee0894447b22a140a84dde91e6dff5392d376fc562dee59eea762dd077d01689"
+    },
+    {
+      "role": "lib/shared/models/collect_group_cover_catalog_weddings.dart",
+      "bytes": 3646,
+      "sha256": "254f8c79d1e18936e3d2edb9731e99121987755498f20da6fc87023ed9fcbb91"
+    },
+    {
+      "role": "lib/shared/models/collect_model_json_helpers.dart",
+      "bytes": 1332,
+      "sha256": "92ce16631700a55ce968ea8877c207e63e843131403f9d2ff0b65d28cb6f504a"
+    },
+    {
+      "role": "lib/shared/models/collect_models.dart",
+      "bytes": 41675,
+      "sha256": "29de79a79f394a1c8e70f87629ab8af23660a15d804699d922d33a9ba201b05d"
+    },
+    {
+      "role": "lib/shared/models/collect_payment_json.dart",
+      "bytes": 2505,
+      "sha256": "d0308eed1b325a1d9df6a23da93fef6eb353226d56b9b5ec36ff30e2de9afa59"
+    },
+    {
+      "role": "lib/shared/models/collect_payment_models.dart",
+      "bytes": 15930,
+      "sha256": "0b856548bf763542b1bc997b632aaa2fcd864c8e24e4dc3fd13ce6460609eb23"
+    },
+    {
+      "role": "lib/shared/models/collect_profile_country_rules.dart",
+      "bytes": 893,
+      "sha256": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332"
+    },
+    {
+      "role": "lib/shared/models/collect_summary_json.dart",
+      "bytes": 1961,
+      "sha256": "9f04e2202f9e33f5acbd56d7341fa917ad9eacc987e7f163c3e42f14cb8b1c5d"
+    },
+    {
+      "role": "lib/shared/models/contribution_record_copy.dart",
+      "bytes": 2231,
+      "sha256": "700d349e177137b670b04345ee9cff49317df41caac92d7449f2a446c1cb8d46"
+    },
+    {
+      "role": "lib/shared/models/member_history_page.dart",
+      "bytes": 13089,
+      "sha256": "a865c52bfbc3e9ed1b0ecd3c922b3b01b08e05bdd75409c39cd99d90029080f3"
+    },
+    {
+      "role": "lib/shared/models/member_history_signed.dart",
+      "bytes": 4769,
+      "sha256": "df14e9df5c149007b64eb5ec39cbb83e41ff9ba9755e7ae81842e2d9a84a7bcc"
+    },
+    {
+      "role": "lib/shared/models/receipt_sms_consent.dart",
+      "bytes": 15277,
+      "sha256": "e75dd6ea5e4eccb5afc79df806542461cc15d36a74e9d52f1c0fd89d2c198806"
+    },
+    {
+      "role": "lib/shared/repositories/collect_repository_live_reader.dart",
+      "bytes": 10645,
+      "sha256": "2f14b24f97f73e553012c5e343d697f3bf354767b1f69ab66890bfb63e06a5ec"
+    },
+    {
+      "role": "pubspec.lock",
+      "bytes": 36451,
+      "sha256": "192c2f830a63b0b06b1a02bb97ce261e7c4832cee9ec16059731cce9edd18d5d"
+    },
+    {
+      "role": "pubspec.yaml",
+      "bytes": 2289,
+      "sha256": "be5c802769c475d24a9ec30c549059dda4163e9e053d5a4c3af41e7653afcf39"
+    },
+    {
+      "role": "scripts/supabase/testing/curated-platform-fixture.mjs",
+      "bytes": 18417,
+      "sha256": "d0233ddcaf6253b5a4ec0ff99347fc4e0c47764bcba53b34e97c8cf5c2f12ff2"
+    },
+    {
+      "role": "scripts/supabase/testing/member-realtime-fixture-plan.json",
+      "bytes": 913,
+      "sha256": "6156561ea1b893b56afcf54d64934ca042dbb3251426ea3d27e532272bf65d6f"
+    },
+    {
+      "role": "scripts/supabase/testing/member-realtime-interface.sql",
+      "bytes": 2667,
+      "sha256": "074e380664493eea86a56d3f3042460bbb33352bc4f46483fd19d559446b0e1b"
+    },
+    {
+      "role": "scripts/supabase/testing/self-hosted-backend-runtime.ts",
+      "bytes": 24896,
+      "sha256": "9dae20c3ee076df9b02bb40b12907c6b1fae4895a953ff92846e3fa4a40985b8"
+    },
+    {
+      "role": "scripts/supabase/testing/self-hosted-fixture.mjs",
+      "bytes": 8426,
+      "sha256": "751b25204d7c1e1001362257f763e5431f4aaa6717e4db08b4ff7460209e4070"
+    },
+    {
+      "role": "scripts/supabase/testing/self-hosted-member-history.mjs",
+      "bytes": 8135,
+      "sha256": "5d2a79c7db6dde6b2c7581cc20fd2c58df464374e990824753aff32995203e97"
+    },
+    {
+      "role": "scripts/supabase/testing/self-hosted-member-history.test.mjs",
+      "bytes": 4571,
+      "sha256": "3d3d4a818994e9397054755bd6f84c1a91946248d58768eb5ae0b1f08db646d0"
+    },
+    {
+      "role": "supabase/functions/_shared/adapters.js",
+      "bytes": 14432,
+      "sha256": "9e5deb02c41b40c8166719378f421b95fa4de54ba56d74d0ac28c3ca38267fe4"
+    },
+    {
+      "role": "supabase/functions/_shared/admin-security.js",
+      "bytes": 1033,
+      "sha256": "e852668a47f2f0ecfbdd5ca8d6151210d8ca462716159fca0a10249ae5a3cfe3"
+    },
+    {
+      "role": "supabase/functions/_shared/application-fence.js",
+      "bytes": 12866,
+      "sha256": "7abbf94ff699f6942619b6a0409a5623a6fa7322b41cdabe72e32d99689184de"
+    },
+    {
+      "role": "supabase/functions/_shared/auth-cleanup.js",
+      "bytes": 2177,
+      "sha256": "f3b1c13ea9b4df3b6491b47b19fc0e9eee7aacabc5679ea9f37d61dc92f7efcd"
+    },
+    {
+      "role": "supabase/functions/_shared/auth-http.js",
+      "bytes": 3542,
+      "sha256": "205ce1e9878b13a187d887cd1d564cc9d6e705bc22e55ebf051fba2a047732e7"
+    },
+    {
+      "role": "supabase/functions/_shared/deployment-database.js",
+      "bytes": 684,
+      "sha256": "a565de0abdd14dca94ba3bd0aad8041b5ed81b35d1b77365f5d2f2dc8799dc7f"
+    },
+    {
+      "role": "supabase/functions/_shared/deployment-profile.js",
+      "bytes": 4007,
+      "sha256": "81aa502648712421de8a06dc6eb083c95fb46b063c57b6d1c46cf40d8426ee7d"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin-google.js",
+      "bytes": 747,
+      "sha256": "cbf157f9ac7e2849422532ffcf2494f3fb91b2645aa210ec5121a61a40943ac0"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin.js",
+      "bytes": 7430,
+      "sha256": "6205e836e6f6dbdb0bb431466f3a3af4592245deca2745d8adff6b3736a10235"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_access_notice_email.js",
+      "bytes": 4718,
+      "sha256": "676412b5aecf921f726305d086101288a360000a84897c1c4320df6ff667c459"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_account_support/emails.js",
+      "bytes": 7566,
+      "sha256": "94a0b2ccbb367106ad0f4db83520906e77a9a04add06a33915c857e9d9b06509"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_account_support/security.js",
+      "bytes": 18581,
+      "sha256": "1c69619b364fca9eb58022aed6ecb945a053abc342ffeb0bc13647a162be8ede"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_accounts.js",
+      "bytes": 18555,
+      "sha256": "49d8ec373b3b1f4b4f1fa23efaea2538d701b469f92c99603e4e05a2929fd661"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_accounts_legacy.js",
+      "bytes": 7939,
+      "sha256": "5574f8280e4952c7f41cfb5013c0c613e550c1dc8a2218ec2543f8ae1067ac97"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_bridge.js",
+      "bytes": 43919,
+      "sha256": "fafa984c9ae0647af068707ffb06e3423281bcaded7a6078830ce9d0ce316df2"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_email_auth.js",
+      "bytes": 11203,
+      "sha256": "d893a6f5b4f1172f02dfd7cd91877589f5b133218d7bb7fc51c446dca45a21d9"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_email_policy.js",
+      "bytes": 3593,
+      "sha256": "91b91a09297d5d219ed3ea755075752918e9df98731438510a91c17508d7ffc1"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_invitation.js",
+      "bytes": 8737,
+      "sha256": "083e8404b8aa97f658950c35b4885f7aaed4925ac974633d3b8ad28eab16864b"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_invitation_v2.js",
+      "bytes": 14293,
+      "sha256": "b45c03f8b746c0d87516c2ec770a1ef5b3e29d2a17bd5382d8b7736c4fc57cce"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_member_receipts.js",
+      "bytes": 4385,
+      "sha256": "3e1a5795ba3e91c186a1925cfb4641cc013435b2afebb75008a40bfe1c924f22"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_momo.js",
+      "bytes": 36316,
+      "sha256": "2a18177ec6f018694730960100fa3a18f0f65e8fed36dc9858ace78dc535ea5a"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_oversight.js",
+      "bytes": 13644,
+      "sha256": "499dced06b5b8a1fd2e1d628830fce4ad72c66d887df21ff83e9d6b8343e96ea"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_password.js",
+      "bytes": 2283,
+      "sha256": "cbd47c76b8be30b8b4e98e2f42ac1626c0914b7625fecb493cbaa8509bb6e039"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_privacy.js",
+      "bytes": 1203,
+      "sha256": "21c947bc4ce7d37644a9bd429cc71ffddafc222355c8da6737352756d8ccd12a"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_reconciliation_reads.js",
+      "bytes": 6405,
+      "sha256": "8a8c7a0b00fc55386df80f8cebef6d9bf74fdce5848873705d27086009a5c287"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_records.js",
+      "bytes": 22252,
+      "sha256": "3cf38e94b50cd3a4f36c7e44bc1d48b4daa1eb8364a71ff039efc89f80f8cb7d"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_search.js",
+      "bytes": 4403,
+      "sha256": "00473c46f0b06aaf77d1d6cb6ee484199c76f757f1722aa82421e996f940aff4"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_sms_receipts.js",
+      "bytes": 13012,
+      "sha256": "afcc12318229e995fcac0110e25850cd807aa23ac1650ba39f98a4d0bfb2dae6"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/admin_sync.js",
+      "bytes": 3893,
+      "sha256": "415d5e3276919edd0e28693ae4641b59a905762a05852cb480713eaeaffd961f"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/anonymous_auth.js",
+      "bytes": 11380,
+      "sha256": "689610befd3fc12af2df656c1aacbea81a9798ac3fec2cd0000c47556a58c1e4"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/assisted_sms_dispatch.js",
+      "bytes": 6002,
+      "sha256": "14e3a96fd634c85011289997445102b527d9253a9d3c878d9d676d41921559f6"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/auth.js",
+      "bytes": 22105,
+      "sha256": "7f5b332125028261432850a76e9fe19718dac2f584a48ddefa5eb1af3c378313"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/challenge.js",
+      "bytes": 5049,
+      "sha256": "704e8c11abf24a999bc7694e362b680df31dd6c73d478833238b344708591146"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/client_diagnostics.js",
+      "bytes": 9268,
+      "sha256": "277448f09c31a8079e66f60fde1359b89bebb5a261f3ef2ae9b71e1062aee33b"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/contribution_email_delivery.js",
+      "bytes": 10018,
+      "sha256": "197d359cd0e7fae532dee00401eb9f7cd90ca6b87dcef16a5b0f396ab341edd7"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/core.js",
+      "bytes": 4838,
+      "sha256": "18ce95c133a4895d13475338089fb00c9ba4c9283ee72c7d4d6f88ae8ea8723e"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/email_delivery.js",
+      "bytes": 2704,
+      "sha256": "55e7f5cdfac654b50f02d120737ee82563da2d154294ebf95252b7e8cd534e36"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/encryption.js",
+      "bytes": 4126,
+      "sha256": "ee5935065cd86b486b268a5da7026bcfaf123068e866f0ff56347f8582326e1c"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/evidence.js",
+      "bytes": 13074,
+      "sha256": "b8e1e2c283701db83ea24714c2e8bd20f3b874a78c3c414b392673634d9ec8c7"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/evidence_provenance.js",
+      "bytes": 1181,
+      "sha256": "18202bbaf8be0b6eda74bb7c8472af2c064df49a38d4bd8ef99a47c5a7f5650d"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/google_auth.js",
+      "bytes": 14297,
+      "sha256": "692ffd20a89eab54c960386f5c23f809de1445654cdcf6c9a246ba50ea9c14a5"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/groups.js",
+      "bytes": 23360,
+      "sha256": "379badbb07a29ced101f1bc176d9494d0cbe09e34131c3c96d070a77395e0f61"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/identity_keys.js",
+      "bytes": 4438,
+      "sha256": "c0c9fbfb48b44c72c7192acd3853644349a000ba3e7fbf62fdc11037d5f6d4f7"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/index.js",
+      "bytes": 5918,
+      "sha256": "583cab1496a85e498086eadbf839d54bc460a4a9174876ca7e38891e914549f5"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/member_history.js",
+      "bytes": 4970,
+      "sha256": "3ad699d41af1ff37ae34739925b4f02a37b895a44a96d37907994141c1c4c35f"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/member_history_sql.js",
+      "bytes": 4312,
+      "sha256": "b89541479a2237b5406b3775f8fbc263bcceb5501861c304226f74284d97c48a"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/momo_gateway.js",
+      "bytes": 13360,
+      "sha256": "8c9378b4528af16b513a344e02c50f883054edadea4b34541fa0de4e28010129"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/momo_pipeline.js",
+      "bytes": 27129,
+      "sha256": "0e9ac645d6afe82a0a4b8e4221ba0e77d278695038adaa2a89803d1fb10a101a"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/mutations.js",
+      "bytes": 5322,
+      "sha256": "dcdcf6d7604d7ce888927bbcdeaf5ac8ddff106a1e5b0f262086d54c6b98fc94"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/native_integrity.js",
+      "bytes": 21370,
+      "sha256": "066b3af360b47b18cec5e93192a40ad4319d83ce682262d4794d8960d9796cb9"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/notification_delivery.js",
+      "bytes": 10668,
+      "sha256": "d136fa33848b25670c9c849eab8b5f985424d2cc1c00679af9c08f05c08e47f3"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/notification_operator.js",
+      "bytes": 24752,
+      "sha256": "db7c2dda8fabf28c3d884dcd67dd674bf636e6c85e8bb544bd7f79469307feac"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/notification_operator_consent.js",
+      "bytes": 10897,
+      "sha256": "0f2d138551b6dae1d049ccf32729be78e63b14770b8beca227e96ca8351f0426"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/notification_operator_management.js",
+      "bytes": 28969,
+      "sha256": "a8e6668170d5589cd75255618029334e7e8f349eeee29571de6092a14ee2843f"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/notifications.js",
+      "bytes": 18194,
+      "sha256": "f4ca7a6127a31eabb33935eacec027895607b61828e9ec6785b746f640fbf45e"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/observability.js",
+      "bytes": 6909,
+      "sha256": "17327016ec759e4268b28b5d9666546b5f98784a8079ba17fc1ade5663e2751a"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/operations.js",
+      "bytes": 5258,
+      "sha256": "614c08cc11085683d836ceb19adf93f1ca394f71cb995adf445799242526cf30"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/operator_notes.js",
+      "bytes": 4151,
+      "sha256": "9fb388bd916cc7bc1ad0ed294591bf01b77fe0f493f3575ae91dcbfafb9920a3"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/payments.js",
+      "bytes": 23585,
+      "sha256": "bc7418caa10c176f0178c001285f52b5010eb387261651424cf7fbe750c03fcb"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy.js",
+      "bytes": 19481,
+      "sha256": "32a95fadfc816da165c6cbaf4abd20cf8f7b64423c3808ea71b44cb276c03ba9"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy_email_auth.js",
+      "bytes": 18844,
+      "sha256": "6c5de1961cfc722179cbeed02084de98aec74b5384183a723f153f200690a381"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy_portal.js",
+      "bytes": 9059,
+      "sha256": "779a378ede8a7b4bbcd33daea355f965a748628263c18bad4f8b6eaf91faec83"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy_portal_assets.js",
+      "bytes": 43371,
+      "sha256": "8b33a10934b0d4c49bc40718dccfdcb2fcf923b998ae8ac0b4ed71aef7cf25ae"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy_retention.js",
+      "bytes": 18075,
+      "sha256": "8e975961a8ce7a5dd891ba1cba6cb99dda565c3a17afa9c51dfbad098304316a"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy_retention_catalog.js",
+      "bytes": 43466,
+      "sha256": "0a759cfcb3e82709e0c1b19e23d1f3bf94fc446fd6b771867008acce8f4f835a"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy_retention_chunks.js",
+      "bytes": 5317,
+      "sha256": "b6c3d9cab1d5fac8e026e36c251e12731a26fc364536c11543640c3c83c34066"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy_retention_manifest.js",
+      "bytes": 2705,
+      "sha256": "8751b26ab2baa50552f34eaafd9bb745b9805258fe15aa297741f0a5b67a799a"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy_retention_policy.js",
+      "bytes": 10152,
+      "sha256": "4e10422a94f0a94cc0b0a518016d6250d81c98bc5076fecf5eca28df92b14117"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy_retention_rows.js",
+      "bytes": 4049,
+      "sha256": "fe6eaef4d769ddf78eb1e20652bd14652e282a4562e677304c3dfed48ae34b90"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy_retention_rpc.js",
+      "bytes": 3514,
+      "sha256": "8fe050f40546c57d658c545dc5352ddf4c4ac24cce119cc2373042fc73c42efc"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/privacy_retention_tasks.js",
+      "bytes": 27314,
+      "sha256": "6ea3ee0d6af2d39ddc01e5d64a1b08c76f9f382575100d9edc658b2db6b45e46"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/receipt_facts.js",
+      "bytes": 5532,
+      "sha256": "ca493abb8a14eed99d5b6a9d724ccb68576ff91a51ccea1a9c7b5d887e45e24b"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/receipts.js",
+      "bytes": 10201,
+      "sha256": "893f5db5f323f55d1743e1aa90ab392290d0230e2d98f5be30837137eae5a0b5"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/roster.js",
+      "bytes": 34052,
+      "sha256": "352746a1bacae1a05d1f760739efff04b89e4b921b22e05d96d414a67b648c52"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/sync.js",
+      "bytes": 2333,
+      "sha256": "436f820c6795a77fd25b8450c937bd6396d934207dc7879d136d1a1bdb499f54"
+    },
+    {
+      "role": "supabase/functions/_shared/domain/user_access.js",
+      "bytes": 1304,
+      "sha256": "76abb6576d7dddd1dcb710a925e337182a6e429680283b518e0e4de0a20c118b"
+    },
+    {
+      "role": "supabase/functions/_shared/email-job-contract.js",
+      "bytes": 1446,
+      "sha256": "c1fdc9edf037fbd107096d553a0adce8515a684686661d6d980c55d26e3421ef"
+    },
+    {
+      "role": "supabase/functions/_shared/email-jobs.js",
+      "bytes": 2621,
+      "sha256": "01c4858438c858b44db360c3fef48e30aabf5df2ecafe6e0983bf3851e62303a"
+    },
+    {
+      "role": "supabase/functions/_shared/fcm-notifications.js",
+      "bytes": 10035,
+      "sha256": "16d5a1c4384e1c214b12d0b68503536c0c98c13e2d73d788f01789316b8b0900"
+    },
+    {
+      "role": "supabase/functions/_shared/member-realtime-publisher.js",
+      "bytes": 2096,
+      "sha256": "7356d7c8b5a2efab407933ede9baff37e9997ee863de3940347a2e9a02d4d7fb"
+    },
+    {
+      "role": "supabase/functions/_shared/member-realtime-retention.js",
+      "bytes": 2810,
+      "sha256": "2c29da6f8748bf98c4d4accc1c0e28d1a95e3ee42860c4c7bef505ba45c11bc6"
+    },
+    {
+      "role": "supabase/functions/_shared/opensms-receipts.js",
+      "bytes": 5359,
+      "sha256": "d6af31e1f3c6cbca2e2aaf1e09f7bb06ce159238e98959ac4e772b261273869c"
+    },
+    {
+      "role": "supabase/functions/_shared/postgres.js",
+      "bytes": 13907,
+      "sha256": "84007c62afe7a56cc89bc46314bc4cae80093a9da3db4f5474460c48ab856f4d"
+    },
+    {
+      "role": "supabase/functions/_shared/private-retention.js",
+      "bytes": 26079,
+      "sha256": "02570624533e303765cc82a53beb71add429ff78c85959cfd477af948e1c8bf0"
+    },
+    {
+      "role": "supabase/functions/_shared/roster_decoder_bridge.mjs",
+      "bytes": 16747,
+      "sha256": "056df1fee06578a4d110cc2d11b57cf0db153c91022cbbe5185f4f0cd9ee518a"
+    },
+    {
+      "role": "supabase/functions/_shared/runtime-env.js",
+      "bytes": 6354,
+      "sha256": "659ba4f36c0efd2805ec3269bcdb94dd4b04824230dbe4b547a33d1bb5226c86"
+    },
+    {
+      "role": "supabase/functions/_shared/scheduled-processing.js",
+      "bytes": 6564,
+      "sha256": "08571899e08aa0e9b01b2cf8aa8807e099061de29725e54f8719c37ed5fd8270"
+    },
+    {
+      "role": "supabase/functions/_shared/send-sms-hook.js",
+      "bytes": 3071,
+      "sha256": "672f208e3d61088f51714b6f55e9ea8bf134745b213c54469e4dd2d77e16c19a"
+    },
+    {
+      "role": "supabase/functions/_shared/serve.js",
+      "bytes": 13542,
+      "sha256": "44eab6acbfe5bf13601fd08f0b03a96d35228a3efe33351c2af544b76cf7e7ef"
+    },
+    {
+      "role": "supabase/functions/_shared/storage-identity.js",
+      "bytes": 989,
+      "sha256": "8e245202257aa89e226fdc8705458f167f4c27a290da6561b1556c2cf51ab83b"
+    },
+    {
+      "role": "supabase/functions/_shared/storage/postgres-journal.js",
+      "bytes": 15697,
+      "sha256": "69b3d19179d145e34a707250e108560977b81a5ecbd6791840b22261245b3784"
+    },
+    {
+      "role": "supabase/functions/_shared/storage/protocol.js",
+      "bytes": 16145,
+      "sha256": "6117a178abc7d1e9486532fa25a3344fe83913dfc0f4399f438683a22ab5a6ce"
+    },
+    {
+      "role": "supabase/functions/_shared/storage/supabase-transport.js",
+      "bytes": 10843,
+      "sha256": "2d66353e4010ce3cdb772d6eef59d9021b4f028c796149937e1f3de0b1682c74"
+    },
+    {
+      "role": "supabase/functions/_shared/workspace-smtp-email.js",
+      "bytes": 6238,
+      "sha256": "05833369873f15ef71805a351f9868787d97e74a6df7a5a21a303b8feef24eef"
+    },
+    {
+      "role": "supabase/functions/deno.json",
+      "bytes": 588,
+      "sha256": "a113702f8058ec724e0476eac1bcd523639451b75cc60c15735337a52ec6555d"
+    },
+    {
+      "role": "supabase/functions/deno.lock",
+      "bytes": 834,
+      "sha256": "070d1f79d59faebba520e3d14c1b10f4d73a84584eafa8c34f767c013c628b9b"
+    },
+    {
+      "role": "supabase/migrations/20261020134444_collect_curated_platform_baseline.sql",
+      "bytes": 277789,
+      "sha256": "0d943d17ddd92e809856831427cfc81b1264301dabdb867e1c90322d46b5a6f0"
+    },
+    {
+      "role": "supabase/migrations/20261020135932_collect_runtime_role_and_function_paths.sql",
+      "bytes": 3333,
+      "sha256": "59e4b13ddc81abeb39fb59b005c71a29f947023502727c118c9eb00b479e08a1"
+    },
+    {
+      "role": "supabase/migrations/20261020174856_collect_retention_retry_authority.sql",
+      "bytes": 5064,
+      "sha256": "d3ba38736fa46b70a0bb66520deffa56fd6f7317deb7c0144f8e06d791f8808c"
+    },
+    {
+      "role": "supabase/migrations/20261020184012_collect_admin_invitation_attempts.sql",
+      "bytes": 27332,
+      "sha256": "c6dc8aa6ac5130162c6e69904aae7221edde6dcb0c898af2cf9e10dba444b665"
+    },
+    {
+      "role": "supabase/migrations/20261020190301_collect_rls_helper_permissions.sql",
+      "bytes": 1402,
+      "sha256": "dccb79af17182164dc6afe0b8339b70bd35a80fc4a1c1fa7df1a09408310a645"
+    },
+    {
+      "role": "supabase/migrations/20261020191847_collect_privacy_email_reauthentication.sql",
+      "bytes": 35471,
+      "sha256": "d6f002a6e904226a88e666c70937a142f06aa5a7e29874c6edb564d59c5fcab4"
+    },
+    {
+      "role": "supabase/migrations/20261020193752_collect_admin_invitation_access_notice_v2.sql",
+      "bytes": 31484,
+      "sha256": "b48a381169e777160a37396539248325e40b331a61db986622514724517f8467"
+    },
+    {
+      "role": "supabase/migrations/20261020195249_collect_admin_invitation_public_id_preservation.sql",
+      "bytes": 2289,
+      "sha256": "78f8c454a9825b0d9e25622b0659245d9568e7b95f637d3e20160a945b4e0850"
+    },
+    {
+      "role": "supabase/migrations/20261022195747_collect_application_mutation_fence.sql",
+      "bytes": 69312,
+      "sha256": "714abf2d24ce3d42a36525d18627362b02ff38c30810e988d365b5796d840497"
+    },
+    {
+      "role": "supabase/migrations/20261022200028_collect_private_member_realtime.sql",
+      "bytes": 25723,
+      "sha256": "ebfd0389e6ba3aa5fe1595f854b25c69b9b31a0500f202b8e0643209ab0ef6e4"
+    },
+    {
+      "role": "supabase/migrations/20261023002500_collect_admin_recent_email_source_upgrade.sql",
+      "bytes": 85877,
+      "sha256": "02c93209f546880032cf38382c61e78a3de0b0073dd2cb88699319afc6f0f185"
+    },
+    {
+      "role": "supabase/migrations/20261023072038_collect_admin_initial_email_proof_ack.sql",
+      "bytes": 2954,
+      "sha256": "2c31440ae10176e7e9e5f0befefce8e1ca44e06149d3cc4471119920b3abf6df"
+    },
+    {
+      "role": "supabase/migrations/20261023102707_collect_retire_admin_mfa_enrollment.sql",
+      "bytes": 8461,
+      "sha256": "e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834"
+    },
+    {
+      "role": "supabase/migrations/20261023174000_collect_stopped_admission_lifecycle.sql",
+      "bytes": 29256,
+      "sha256": "db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25"
+    },
+    {
+      "role": "supabase/migrations/20261029120000_collect_client_diagnostics.sql",
+      "bytes": 2472,
+      "sha256": "6f7c1e537a3c7d114417cfa79bd7b545bbfd17c69ab1d643c806eeb457c81e3f"
+    },
+    {
+      "role": "supabase/migrations/20261029130000_collect_notification_delivery.sql",
+      "bytes": 8804,
+      "sha256": "2d5904d5aaae917715c6ff5b996ce5b7395864fc5e225f5aaa67ec7d931a6792"
+    },
+    {
+      "role": "supabase/migrations/20261101012309_collect_admission_archive.sql",
+      "bytes": 21057,
+      "sha256": "82b09d4d2abd5994429a978ccf80daa796fd83e5dc5d29bc54076f2b7565ad84"
+    },
+    {
+      "role": "supabase/migrations/20261101012310_collect_member_history_pagination.sql",
+      "bytes": 6636,
+      "sha256": "2e67c30af2860d9ffe4a8636c225278e24728e59f9ce9ee29b38f7f441932835"
+    },
+    {
+      "role": "supabase/tests/sql/00_local_auth_fixture.sql",
+      "bytes": 1500,
+      "sha256": "b935e17f44219f018cf1a864505d1895d71903885ca6c61c039d7ab6596117ea"
+    },
+    {
+      "role": "test/self_hosted_member_history_sql_receipts_test.dart",
+      "bytes": 11585,
+      "sha256": "945faee1e84de0417244e400f22ab010a903127bf18a0bbdcc547b92690e7ec5"
+    }
+  ],
+  "source_sha256": "01887d9b750beda9ca6590ed17636b12e4926ab9e1eb3887e47b8afd6431701c",
+  "scope": "Exact local SQL/domain and Dart consumer source; synthetic native PostgreSQL, not managed Auth or production acceptance."
+}

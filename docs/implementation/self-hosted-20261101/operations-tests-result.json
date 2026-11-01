@@ -1,0 +1,48 @@
+{
+  "format": "collect.selfhost.local-operations-tests.v1",
+  "checked_at": "2026-11-01T02:59:51.617081+00:00",
+  "results": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "scripts.self_hosted.test_operations",
+        "-v"
+      ],
+      "passed": 12,
+      "failed": 0
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "deploy/self-hosted/*.test.mjs",
+        "scripts/self_hosted/*.test.mjs",
+        "scripts/supabase/deployment-profile.test.mjs"
+      ],
+      "node_version": "24.19.0",
+      "passed": 32,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "source_sha256": {
+    "scripts/self_hosted/prepare.py": "11ccdd037cdaa22fef47b6573aa3fc1fb558f0960f4e1d61cc34e3aba0ca6a67",
+    "scripts/self_hosted/configure.py": "e2e184aa9d123fb30834d33afa3849a6cb87615ddc8792f3d2e8cc210d359738",
+    "scripts/self_hosted/release_operator.py": "b02d5e88fbc513a983a86a8a80ba5d30b3db3039660fca8f4de896535c0239d3",
+    "scripts/self_hosted/database.py": "fb027eafbcb15b9019e941bfa39218a854ccbf022e5567783e261c538ed027ea",
+    "scripts/self_hosted/recovery.py": "e837f1e6210f24455dacbcefac084c2b1773d902a8775afea9d77c99cd2711c8",
+    "scripts/self_hosted/assets.py": "70aaf952e5985fc5a507d24ffa4d152e64cca6397a495fc199799317200689cc",
+    "scripts/self_hosted/health.py": "707bed7ec569082e72dea1a227bb73551e59a1e6a1573a968225e826ecf3adc5",
+    "scripts/self_hosted/test_operations.py": "bc6d8cf1e757a24a2b12f30f729a3d0d4f3b1231a3ce68008fd8aff2fc3fb6d6",
+    "deploy/self-hosted/web-server.mjs": "44afdb4cb727d0e4f54ff8c571ef724a677df0abefbd6fe90b8352c8afff68b7",
+    "deploy/self-hosted/auth-phone-proxy.mjs": "db729d188374ffc2ed19b6ad96a8786310a67f84589ee2d1266828cf4758a12a",
+    "deploy/self-hosted/edge-main/environment.mjs": "8cc635c36fa629a1b76d141b111fe6e4973dcf3bb0f94bd2007bede04e353f49",
+    "deploy/self-hosted/generate-keys.mjs": "d622a41af5941e3bfc6f67bfafccab0b2b043c28407dbe6b709a9257bac2f822"
+  },
+  "scope": "Local configuration, ingress, key format, environment scopes, profile identity, archive path/crypto and health checks; not Docker or provider acceptance.",
+  "provider_calls": 0,
+  "docker_acceptance": false,
+  "production_acceptance": false
+}

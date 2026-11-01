@@ -30,3 +30,7 @@ verify_jwt = false
 verify_jwt = false
 [functions.collect-jobs]
 verify_jwt = false
+[functions.send-sms-hook]
+verify_jwt = false
+[functions.collect-email-jobs]
+verify_jwt = false
