@@ -52,12 +52,11 @@ object MomoGatewayJobs {
             val state = store.read()!!
             val owner = state.getJSONObject("binding").getString("owner_user_id")
             val binding = state.getJSONObject("binding")
-            val cases = state.optJSONObject("source_cases") ?: JSONObject()
+            val cases = gatewaySourceCases(state)
             val pending = SmsQueueStore(context).readForGateway(owner)
             val uploadable = (0 until pending.length()).any { index ->
                 val row = pending.getJSONObject(index)
-                MomoGatewayPolicy.uploadEligible(row.optString("gateway_binding_id"), row.optInt("gateway_binding_version"),
-                    binding.getString("id"), binding.getInt("version"), row.optBoolean("source_unresolved", true), cases.sourceParked(row.optString("id")))
+                gatewayUploadEligible(row, binding, cases)
             }
             if (retry || uploadable || state.optBoolean("catch_up_pending")) signal(context, if (retry) 60_000 else 0)
         }
@@ -118,13 +117,12 @@ class MomoGatewayUploader(private val context: Context, private val http: MomoGa
         val token = snapshot.getString("gateway_token")
         val queue = SmsQueueStore(context)
         val pending = queue.readForGateway(owner)
-        val cases = snapshot.optJSONObject("source_cases") ?: JSONObject()
+        val cases = gatewaySourceCases(snapshot)
         var count = 0
         for (index in 0 until pending.length()) {
             if (stopped.get() || !state.active()) return false
             val row = pending.getJSONObject(index)
-            if (!MomoGatewayPolicy.uploadEligible(row.optString("gateway_binding_id"), row.optInt("gateway_binding_version"),
-                    binding.getString("id"), binding.getInt("version"), row.optBoolean("source_unresolved", true), cases.sourceParked(row.getString("id")))) continue
+            if (!gatewayUploadEligible(row, binding, cases)) continue
             if (count >= MomoGatewayPolicy.MAX_UPLOAD_BATCH) return true
             count++
             val body = JSONObject()

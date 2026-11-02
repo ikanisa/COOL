@@ -5,12 +5,44 @@ import org.junit.Test
 
 class MomoGatewayPolicyTest {
     @Test fun deterministicSourceFailuresDoNotStopUnrelatedUploads() {
+        fun eligible(binding: String = "binding-1", unresolved: Boolean = false, parked: Boolean = false) =
+            MomoGatewayPolicy.uploadEligible(binding, 1, "binding-1", 1, unresolved, parked,
+                "live", true, "M-Money", "You received 500 RWF, transaction 123")
         assertEquals(MomoGatewayPolicy.UploadFailure.SOURCE_CONFLICT, MomoGatewayPolicy.uploadFailure(409))
         assertEquals(MomoGatewayPolicy.UploadFailure.SOURCE_REJECTED, MomoGatewayPolicy.uploadFailure(422))
-        assertFalse(MomoGatewayPolicy.uploadEligible("binding-1", 1, "binding-1", 1, false, true))
-        assertTrue(MomoGatewayPolicy.uploadEligible("binding-1", 1, "binding-1", 1, false, false))
-        assertFalse(MomoGatewayPolicy.uploadEligible("binding-old", 1, "binding-1", 1, false, false))
-        assertFalse(MomoGatewayPolicy.uploadEligible("binding-1", 1, "binding-1", 1, true, false))
+        assertFalse(eligible(parked = true))
+        assertFalse(eligible())
+        assertFalse(eligible(binding = "binding-old"))
+        assertFalse(eligible(unresolved = true))
+    }
+    @Test fun ownerHoldStopsEvenCompleteLiveFinancialMessages() {
+        fun eligible(mode: String = "live", complete: Boolean = true, sender: String = "M-Money",
+                     body: String = "You received 500 RWF, transaction 123") =
+            MomoGatewayPolicy.uploadEligible("binding-1", 1, "binding-1", 1, false, false,
+                mode, complete, sender, body)
+        assertFalse(MomoGatewayPolicy.gatewayUploadsAdmitted())
+        assertFalse(eligible())
+        assertFalse(eligible(complete = false))
+        // Legacy inbox rows claimed complete without retaining PDU evidence.
+        assertFalse(eligible(mode = "catch_up"))
+        assertFalse(eligible(mode = ""))
+        assertFalse(eligible(sender = "Courier"))
+        assertFalse(eligible(body = "Your verification code is 1234 for transaction 5 RWF"))
+        assertFalse(eligible(body = "Your passcode is 1234 for transaction 5 RWF"))
+        assertFalse(eligible(body = "Your security code is 1234 for transaction 5 RWF"))
+        assertFalse(eligible(sender = "MTN", body = "Your login code is 123456; reference 42"))
+        assertFalse(eligible(body = "Your code is 123456; transaction 42 RWF"))
+        assertFalse(eligible(body = "Votre code est 123456, référence transaction 42 RWF"))
+        assertFalse(eligible(body = "Airtime offer 5 RWF"))
+    }
+    @Test fun inboxRecoveryReservesSpaceForLiveCapture() {
+        val max = MomoGatewayPolicy.MAX_PENDING
+        val reserve = MomoGatewayPolicy.LIVE_CAPTURE_RESERVE
+        assertEquals(MomoGatewayPolicy.QueueAdmission.AVAILABLE, MomoGatewayPolicy.queueAdmission(max - reserve - 1, max, reserve))
+        assertEquals(MomoGatewayPolicy.QueueAdmission.RESERVED, MomoGatewayPolicy.queueAdmission(max - reserve, max, reserve))
+        assertEquals(MomoGatewayPolicy.QueueAdmission.RESERVED, MomoGatewayPolicy.queueAdmission(max, max, reserve))
+        assertEquals(MomoGatewayPolicy.QueueAdmission.AVAILABLE, MomoGatewayPolicy.queueAdmission(max - reserve, max, 0))
+        assertEquals(MomoGatewayPolicy.QueueAdmission.FULL, MomoGatewayPolicy.queueAdmission(max, max, 0))
     }
     @Test fun authorizationAndTemporaryFailuresHaveDifferentRecoveryOwners() {
         assertEquals(MomoGatewayPolicy.UploadFailure.AUTHORIZATION, MomoGatewayPolicy.uploadFailure(401))

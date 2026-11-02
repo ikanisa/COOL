@@ -106,31 +106,42 @@ class MomoGatewayActivity : Activity() {
             val queue = try { SmsQueueStore(this).readForGateway(owner) } catch (_: Exception) { null }
             val unresolved = queue?.let { rows -> (0 until rows.length()).count {
                 val row = rows.getJSONObject(it)
-                row.optBoolean("source_unresolved", true) || row.optString("gateway_binding_id") != binding.getString("id") ||
-                    row.optInt("gateway_binding_version") != binding.getInt("version")
+                !gatewaySourceResolved(row, binding)
             } }
             val reason = state.optString("reason")
-            val cases = state.optJSONObject("source_cases") ?: JSONObject()
-            val parkedCount = queue?.let { rows -> (0 until rows.length()).count { cases.sourceParked(rows.getJSONObject(it).optString("id")) } } ?: 0
+            val cases = gatewaySourceCases(state)
+            val parkedCount = if (cases == null) 0 else queue?.let { rows -> (0 until rows.length()).count { cases.sourceParked(rows.getJSONObject(it).optString("id")) } } ?: 0
+            val eligibleCount = queue?.let { rows -> (0 until rows.length()).count {
+                gatewayUploadEligible(rows.getJSONObject(it), binding, cases)
+            } }
+            val heldCount = if (queue != null && eligibleCount != null) queue.length() - eligibleCount else null
             val overflowed = getSharedPreferences(SmsQueueStore.SMS_ACCESS_PREFS, MODE_PRIVATE)
                 .getBoolean(SmsQueueStore.SMS_QUEUE_OVERFLOW_KEY, false)
             val permissions = granted(Manifest.permission.RECEIVE_SMS) && granted(Manifest.permission.READ_SMS)
             val status = when {
-                reason == "authorization_required" || parkedCount > 0 || queue == null || overflowed -> "Action needed"
+                reason == "authorization_required" || parkedCount > 0 || queue == null || cases == null || overflowed -> "Action needed"
                 !permissions || !state.optBoolean("capture_enabled") || reason == "permission_required" -> "Capture paused"
+                !MomoGatewayPolicy.gatewayUploadsAdmitted() -> "Uploads paused"
                 reason == "connection_waiting" -> "Waiting for connection"
-                unresolved != null && unresolved > 0 -> "Source review needed"
+                heldCount != null && heldCount > 0 -> "Sources held on phone"
                 else -> "Ready to capture"
             }
             val card = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(20), dp(18), dp(20), dp(18)); background = rounded(SURFACE, 24) }
             card.addView(text(binding.optString("recipient_name", "Receiving account"), 20, true))
             card.addView(text("MoMo code ${binding.optString("public_code")}", 17, false, MUTED), margin(8))
             card.addView(text(status, 18, true).apply { accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE }, margin(22))
-            card.addView(text("Pending uploads  ${queue?.length()?.toString() ?: "Unavailable"}", 16), margin(14))
+            card.addView(text("Ready to sync  ${eligibleCount?.toString() ?: "Unavailable"}", 16), margin(14))
+            if (heldCount != null && heldCount > 0) card.addView(text("Held on this phone  $heldCount", 16, false, MUTED), margin(10))
+            if (!MomoGatewayPolicy.gatewayUploadsAdmitted()) card.addView(text("Uploads are paused. Retained sources stay on this phone while recovery is qualified.", 15, false, MUTED), margin(12))
+            if (cases == null) card.addView(text("Source review state is unavailable. Sources remain on this phone.", 15, false, ERROR), margin(12))
             if (unresolved != null && unresolved > 0) card.addView(text("$unresolved sources need receiving-account review. Their original messages remain on this phone; they have not been assigned to the current wallet.", 15, false, MUTED), margin(12))
-            if (state.optBoolean("historical_backlog_paused")) card.addView(text("Older inbox recovery is paused until retained sources can be reviewed. Space is reserved for new receipts.", 15, false, ERROR), margin(12))
-            if (overflowed) card.addView(text("Capture storage reached its limit. Sync retained receipts and ask an administrator to review recovery. Existing evidence has been preserved.", 15, false, ERROR), margin(12))
-            if (parkedCount > 0) card.addView(text("$parkedCount uploads need source review. Other eligible receipts continue syncing.", 15, false, ERROR), margin(12))
+            if (state.optBoolean("historical_backlog_paused")) card.addView(text("Older inbox recovery is paused to protect capacity for new receipts. Check capture storage before continuing.", 15, false, ERROR), margin(12))
+            if (overflowed) card.addView(text(if (MomoGatewayPolicy.gatewayUploadsAdmitted())
+                "Capture storage reached its limit. Sync retained receipts and ask an administrator to review recovery. Existing evidence has been preserved."
+                else "Capture storage reached its limit. Ask an administrator to review recovery. Existing evidence has been preserved.", 15, false, ERROR), margin(12))
+            if (parkedCount > 0) card.addView(text(if (MomoGatewayPolicy.gatewayUploadsAdmitted())
+                "$parkedCount uploads need source review. Other eligible receipts continue syncing."
+                else "$parkedCount sources need review and remain on this phone.", 15, false, ERROR), margin(12))
             card.addView(text("Last upload  ${displayTime(state.optString("last_upload_at"))}", 15, false, MUTED), margin(14))
             card.addView(text("Last provider SMS  ${displayTime(state.optString("last_sms_at"))}", 15, false, MUTED), margin(10))
             layout.addView(card, margin(28))
@@ -139,7 +150,11 @@ class MomoGatewayActivity : Activity() {
             } else if (!permissions || !state.optBoolean("capture_enabled") || reason == "permission_required") {
                 layout.addView(button("Enable SMS capture", true) { requestCapture() }, margin(24))
             } else {
-                layout.addView(button(if (busy) "Syncing…" else "Sync now", true) { sync() }, margin(24))
+                if (MomoGatewayPolicy.gatewayUploadsAdmitted()) {
+                    layout.addView(button(if (busy) "Syncing…" else "Sync now", true) { sync() }, margin(24))
+                } else {
+                    layout.addView(button("Sync paused", true) {}.apply { isEnabled = false }, margin(24))
+                }
                 layout.addView(button("Pause capture") { task {
                     store.update { it.put("capture_enabled", false) }
                     check(SmsQueueStore(this).disablePreservingQueue(owner))
@@ -147,16 +162,17 @@ class MomoGatewayActivity : Activity() {
             }
             layout.addView(button("Phone settings") { startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, "package:$packageName".toUri())) }, margin(8))
             layout.addView(button("Diagnostics") { diagnostics(state, queue?.length()) }, margin(8))
-            if (parkedCount > 0) {
+            if (parkedCount > 0 && cases != null) {
                 layout.addView(button("Review retained uploads") {
                     val details = cases.keys().asSequence().filter { cases.sourceParked(it) }.take(20).joinToString("\n\n") { id ->
-                        val source = cases.getJSONObject(id)
-                        "$id\n${if (source.optString("reason") == "capture_conflict") "Capture conflict" else "Source rejected"} (HTTP ${source.optInt("http_status")})"
+                        val source = cases.optJSONObject(id)
+                        if (source == null) "$id\nSource case unavailable" else
+                            "$id\n${if (source.optString("reason") == "capture_conflict") "Capture conflict" else "Source rejected"} (HTTP ${source.optInt("http_status")})"
                     }
                     AlertDialog.Builder(this).setTitle("Retained source cases").setMessage(details)
                         .setPositiveButton("Done", null).show()
                 }, margin(8))
-                layout.addView(button("Retry reviewed uploads") {
+                if (MomoGatewayPolicy.gatewayUploadsAdmitted()) layout.addView(button("Retry reviewed uploads") {
                     AlertDialog.Builder(this).setTitle("Retry original retained uploads?")
                         .setMessage("Retry after an administrator has reviewed or repaired the source problem. The original messages, identities and receiving bindings stay unchanged.")
                         .setPositiveButton("Retry") { _, _ -> task { store.retryReviewedSources(); MomoGatewayJobs.signal(this) } }

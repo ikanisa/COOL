@@ -25,6 +25,7 @@ class SmsQueueStore(private val context: Context) {
     enum class AppendResult {
         STORED,
         DUPLICATE,
+        RESERVED,
         FULL,
         DISABLED,
         FAILED,
@@ -66,7 +67,7 @@ class SmsQueueStore(private val context: Context) {
         queue.length() to oldest
     }
 
-    fun appendIfCapacity(envelope: JSONObject, maxItems: Int): AppendResult =
+    fun appendIfCapacity(envelope: JSONObject, maxItems: Int, reserveItems: Int = 0): AppendResult =
         synchronized(lock) {
             val prefs = preferences()
             val envelopeOwner = envelope.optString("owner_user_id", "").trim()
@@ -95,9 +96,13 @@ class SmsQueueStore(private val context: Context) {
                         AppendResult.DUPLICATE else AppendResult.FAILED
                 }
             }
-            if (queue.length() >= maxItems) {
-                prefs.edit(commit = true) { putBoolean(SMS_QUEUE_OVERFLOW_KEY, true) }
-                return@synchronized AppendResult.FULL
+            when (MomoGatewayPolicy.queueAdmission(queue.length(), maxItems, reserveItems)) {
+                MomoGatewayPolicy.QueueAdmission.RESERVED -> return@synchronized AppendResult.RESERVED
+                MomoGatewayPolicy.QueueAdmission.FULL -> {
+                    prefs.edit(commit = true) { putBoolean(SMS_QUEUE_OVERFLOW_KEY, true) }
+                    return@synchronized AppendResult.FULL
+                }
+                MomoGatewayPolicy.QueueAdmission.AVAILABLE -> Unit
             }
             queue.put(envelope)
             if (writeLocked(queue)) AppendResult.STORED else AppendResult.FAILED

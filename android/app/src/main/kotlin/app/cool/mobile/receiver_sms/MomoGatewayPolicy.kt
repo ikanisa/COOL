@@ -7,10 +7,23 @@ import java.util.UUID
 /** Capture policy only. Financial classification and account authorization are server-owned. */
 object MomoGatewayPolicy {
     const val MAX_PENDING = 1_000
+    const val LIVE_CAPTURE_RESERVE = 100
     const val MAX_SCAN_ROWS = 200
     const val MAX_UPLOAD_BATCH = 20
 
+    enum class QueueAdmission { AVAILABLE, RESERVED, FULL }
+    fun queueAdmission(count: Int, max: Int, reserve: Int): QueueAdmission {
+        require(count >= 0 && max > 0 && reserve in 0..max)
+        return when {
+            reserve > 0 && count >= max - reserve -> QueueAdmission.RESERVED
+            count >= max -> QueueAdmission.FULL
+            else -> QueueAdmission.AVAILABLE
+        }
+    }
+
     enum class UploadFailure { AUTHORIZATION, SOURCE_CONFLICT, SOURCE_REJECTED, RETRY }
+    /** Owner-directed hold pending an admitted privacy and recovery contract. */
+    fun gatewayUploadsAdmitted(): Boolean = false
     fun uploadFailure(status: Int): UploadFailure = when (status) {
         401, 403 -> UploadFailure.AUTHORIZATION
         409 -> UploadFailure.SOURCE_CONFLICT
@@ -19,9 +32,15 @@ object MomoGatewayPolicy {
         else -> UploadFailure.RETRY
     }
 
+    /** Inbox text lacks the PDU evidence required to prove multipart completeness.
+     * Retain uncertain or non-financial sources locally; never transport them merely
+     * because their SIM binding was resolved. This is not provider authentication. */
     fun uploadEligible(sourceBinding: String, sourceVersion: Int, currentBinding: String, currentVersion: Int,
-                       sourceUnresolved: Boolean, parked: Boolean): Boolean =
-        !sourceUnresolved && !parked && sourceBinding == currentBinding && sourceVersion == currentVersion
+                       sourceUnresolved: Boolean, parked: Boolean, sourceMode: String,
+                       complete: Boolean, sender: String, body: String): Boolean =
+        gatewayUploadsAdmitted() && !sourceUnresolved && !parked && sourceBinding == currentBinding && sourceVersion == currentVersion &&
+            sourceMode == "live" && complete && memberSource(sender, body) &&
+            !Regex("(?:\\b(?:code|password|passcode|otp)\\b|mot de passe)", RegexOption.IGNORE_CASE).containsMatchIn(body)
 
     fun providerSource(sender: String): Boolean = sender.length in 2..96 &&
         Regex("(?:momo|m[- ]?money|mobile[- ]?money|mtn|airtel)", RegexOption.IGNORE_CASE)

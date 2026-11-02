@@ -58,12 +58,6 @@ class MomoGatewayRecovery(private val context: Context) {
                     val bindingCreated = try { Instant.parse(binding.optString("created_at")).toEpochMilli() } catch (_: Exception) { null }
                     val resolved = bindingCreated != null && received >= bindingCreated &&
                         MomoGatewayPolicy.historicalSourceResolved(id, baseline, selected, subscription, multipleSims())
-                    if (!resolved && SmsQueueStore(context).readForGateway(owner).length() >= MomoGatewayPolicy.MAX_PENDING - 100) {
-                        // Reserve room for live captures while older sources await review.
-                        // Do not checkpoint this uncopied inbox row.
-                        state.update { it.put("historical_backlog_paused", true).put("catch_up_pending", false) }
-                        return false
-                    }
                     val capture = JSONObject()
                         .put("id", MomoGatewayPolicy.captureId(state.installationId(), binding.getString("id"), sender, body, sent, subscription))
                         .put("owner_user_id", owner).put("raw_sender", sender).put("raw_body", body)
@@ -71,10 +65,29 @@ class MomoGatewayRecovery(private val context: Context) {
                         .put("service_centre_at", instant(sent)).put("received_at_device", instant(sent))
                         .put("captured_at", Instant.now().toString()).put("inbox_received_at", instant(received))
                         .put("subscription_id", subscription ?: JSONObject.NULL).put("source_mode", "catch_up")
-                        .put("source_unresolved", !resolved).put("inbox_row_id", id).put("complete", true)
-                    when (SmsQueueStore(context).appendIfCapacity(capture, MomoGatewayPolicy.MAX_PENDING)) {
+                        // Inbox rows expose text but not the original PDUs; do not
+                        // claim a complete multipart payload or release it to transport.
+                        .put("source_unresolved", !resolved).put("inbox_row_id", id).put("complete", false)
+                    when (SmsQueueStore(context).appendIfCapacity(capture, MomoGatewayPolicy.MAX_PENDING,
+                        MomoGatewayPolicy.LIVE_CAPTURE_RESERVE)) {
                         SmsQueueStore.AppendResult.STORED, SmsQueueStore.AppendResult.DUPLICATE -> Unit
-                        else -> return false // Never checkpoint an uncopied source.
+                        SmsQueueStore.AppendResult.RESERVED, SmsQueueStore.AppendResult.FULL -> {
+                            // Capacity is checked under the same lock as the write.
+                            // Leave this row and every later row uncheckpointed, and
+                            // wait for periodic recovery instead of an immediate loop.
+                            state.update {
+                                val current = it.getJSONObject("binding")
+                                check(current.getString("id") == binding.getString("id") && current.getInt("version") == binding.getInt("version"))
+                                it.put("historical_backlog_paused", true).put("catch_up_pending", false)
+                            }
+                            SmsQueueEventBus.notifyQueueChanged()
+                            return false
+                        }
+                        SmsQueueStore.AppendResult.DISABLED, SmsQueueStore.AppendResult.FAILED -> {
+                            // Failures retry through the job's bounded delay; do not
+                            // advance the checkpoint for an unretained source.
+                            throw IllegalStateException("Gateway inbox source not retained")
+                        }
                     }
                 }
                 advanced = maxOf(advanced, id)

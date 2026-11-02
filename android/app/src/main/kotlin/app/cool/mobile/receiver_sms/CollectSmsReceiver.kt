@@ -78,13 +78,11 @@ class CollectSmsReceiver : BroadcastReceiver() {
                             // transaction ID, or the device-local envelope ID.
                             Log.i(TAG, "Consented MoMo receipt queued for secure ingestion")
                             gateway?.update { it.put("last_sms_at", capturedAt) }
-                            if (gateway != null) MomoGatewayJobs.signal(context.applicationContext)
-                            else MemberSmsJobs.ensure(context.applicationContext)
+                            if (gateway == null) MemberSmsJobs.ensure(context.applicationContext)
                             SmsQueueEventBus.notifyQueueChanged()
                         }
                         SmsQueueStore.AppendResult.DUPLICATE -> {
-                            if (gateway != null) MomoGatewayJobs.signal(context.applicationContext)
-                            else MemberSmsJobs.ensure(context.applicationContext)
+                            if (gateway == null) MemberSmsJobs.ensure(context.applicationContext)
                             // A duplicate broadcast may be the signal that wakes a
                             // foreground Flutter engine after an earlier event race.
                             SmsQueueEventBus.notifyQueueChanged()
@@ -93,6 +91,8 @@ class CollectSmsReceiver : BroadcastReceiver() {
                             Log.w(TAG, "Secure SMS queue is full; existing evidence was preserved")
                             SmsQueueEventBus.notifyQueueChanged()
                         }
+                        // Live capture never requests a reserve, so this is a fail-closed invariant.
+                        SmsQueueStore.AppendResult.RESERVED -> Log.w(TAG, "Secure SMS queue reservation unavailable")
                         SmsQueueStore.AppendResult.DISABLED -> Unit
                         SmsQueueStore.AppendResult.FAILED -> {
                             Log.w(TAG, "Unable to persist consented SMS queue item")

@@ -5,11 +5,14 @@ import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 
-class MomoGatewayHttp {
+class MomoGatewayHttp(private val openConnection: (String) -> HttpURLConnection = {
+    URL(it).openConnection() as HttpURLConnection
+}) {
     class ResponseFailure(val status: Int) : Exception("Gateway request needs attention")
     fun request(path: String, token: String? = null, body: JSONObject? = null): JSONObject {
         require(path in setOf("pair", "ingest", "status", "heartbeat"))
-        val connection = URL("https://${BuildConfig.COLLECT_API_HOST}${BuildConfig.COLLECT_API_PATH_PREFIX}/v1/momo/gateway/$path").openConnection() as HttpURLConnection
+        check(path != "ingest" || MomoGatewayPolicy.gatewayUploadsAdmitted()) { "Gateway uploads are paused" }
+        val connection = openConnection("https://${BuildConfig.COLLECT_API_HOST}${BuildConfig.COLLECT_API_PATH_PREFIX}/v1/momo/gateway/$path")
         connection.instanceFollowRedirects = false
         connection.connectTimeout = 15_000
         connection.readTimeout = 20_000

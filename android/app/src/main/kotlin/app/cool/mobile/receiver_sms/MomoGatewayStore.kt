@@ -65,13 +65,7 @@ class MomoGatewayStore(private val context: Context) {
     }
     fun parkSource(id: String, status: Int, reason: String) {
         update {
-            val cases = it.optJSONObject("source_cases") ?: JSONObject()
-            val prior = cases.optJSONObject(id) ?: JSONObject().put("first_reason", reason)
-                .put("first_http_status", status).put("recorded_at", Instant.now().toString())
-            prior.put("reason", reason).put("http_status", status).put("parked", true)
-                .put("attempts", prior.optInt("attempts") + 1).put("last_recorded_at", Instant.now().toString())
-            cases.put(id, prior)
-            it.put("source_cases", cases)
+            it.put("source_cases", gatewayCasesWithParkedSource(it, id, status, reason, Instant.now().toString()))
         }
         SmsQueueEventBus.notifyQueueChanged()
     }
@@ -101,4 +95,45 @@ class MomoGatewayStore(private val context: Context) {
     companion object { private val lock = Any() }
 }
 
-internal fun JSONObject.sourceParked(id: String): Boolean = optJSONObject(id)?.optBoolean("parked", true) == true
+internal fun JSONObject.sourceParked(id: String): Boolean =
+    if (!has(id)) false else optJSONObject(id)?.opt("parked") != false
+
+/** A missing case map means none yet; a present invalid map cannot authorize upload. */
+internal fun gatewaySourceCases(state: JSONObject): JSONObject? =
+    if (!state.has("source_cases")) JSONObject() else state.optJSONObject("source_cases")
+
+/** Never replace unknown existing case data after an in-flight request returns. */
+internal fun gatewayCasesWithParkedSource(state: JSONObject, id: String, status: Int,
+                                         reason: String, at: String): JSONObject {
+    val cases = gatewaySourceCases(state) ?: throw IllegalStateException("Gateway source cases unavailable")
+    val prior = if (!cases.has(id)) JSONObject().put("first_reason", reason)
+        .put("first_http_status", status).put("recorded_at", at)
+    else cases.optJSONObject(id) ?: throw IllegalStateException("Gateway source case unavailable")
+    prior.put("reason", reason).put("http_status", status).put("parked", true)
+        .put("attempts", prior.optInt("attempts") + 1).put("last_recorded_at", at)
+    cases.put(id, prior)
+    return cases
+}
+
+internal fun gatewaySourceResolved(row: JSONObject, binding: JSONObject): Boolean {
+    val sourceBinding = row.opt("gateway_binding_id") as? String ?: return false
+    val sourceVersion = row.opt("gateway_binding_version") as? Int ?: return false
+    val bindingId = binding.opt("id") as? String ?: return false
+    val bindingVersion = binding.opt("version") as? Int ?: return false
+    return sourceBinding.isNotEmpty() && sourceBinding == bindingId && sourceVersion > 0 &&
+        sourceVersion == bindingVersion && row.opt("source_unresolved") == false
+}
+
+/** One decision for both display and transport; malformed legacy fields fail closed. */
+internal fun gatewayUploadEligible(row: JSONObject, binding: JSONObject, cases: JSONObject?): Boolean {
+    if (cases == null) return false
+    if (!gatewaySourceResolved(row, binding)) return false
+    val id = row.opt("id") as? String ?: return false
+    val mode = row.opt("source_mode") as? String ?: return false
+    val sender = row.opt("raw_sender") as? String ?: return false
+    val body = row.opt("raw_body") as? String ?: return false
+    if (id.isBlank()) return false
+    return MomoGatewayPolicy.uploadEligible(row.getString("gateway_binding_id"), row.getInt("gateway_binding_version"),
+        binding.getString("id"), binding.getInt("version"), false, cases.sourceParked(id), mode,
+        row.opt("complete") == true, sender, body)
+}
