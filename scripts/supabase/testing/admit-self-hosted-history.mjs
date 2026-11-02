@@ -1,6 +1,7 @@
 // Rebase only physical artifact paths. Never rewrite receipt bytes or source pins.
 import {readFile,readdir,realpath,lstat,writeFile} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {HISTORY_PROFILE,validateSelfHostedHistoryPacket,verifySelfHostedHistorySources} from './self-hosted-member-history.mjs';
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -27,7 +28,7 @@ export async function admitHistoryArtifact(folder,output){
  await writeFile(output,JSON.stringify(defines,null,2)+'\n',{flag:'wx',mode:0o600});
  return {status:'PASS',profile:HISTORY_PROFILE,source_sha256:inputs.source_sha256};
 }
-if(process.argv[1]&&resolve(process.argv[1])===new URL(import.meta.url).pathname){
+if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  try{need(process.argv.length===4,'ARTIFACT_AND_FRESH_DEFINES_REQUIRED');console.log(JSON.stringify(await admitHistoryArtifact(resolve(process.argv[2]),resolve(process.argv[3]))));}
  catch(error){console.error(JSON.stringify({status:'FAIL',code:/^[A-Z0-9_]+$/.test(error.message)?error.message:'HISTORY_ARTIFACT_UNCONFIRMED'}));process.exitCode=1;}
 }

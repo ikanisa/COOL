@@ -111,7 +111,7 @@ jobs:
       - name: Run every shared Node Edge contract through maintained exhaustive discovery
         run: node scripts/supabase/run_edge_node_tests.mjs
       - name: Verify current orchestration and retained historical source-admission guards
-        run: node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs scripts/supabase/testing/current16-integration.test.mjs scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs
+        run: node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs scripts/supabase/testing/current16-integration.test.mjs scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs scripts/supabase/testing/admit-self-hosted-history.test.mjs
       - name: Verify scheduler and operator configuration contracts
         run: node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs scripts/self_hosted/jobs-profile.test.mjs scripts/self_hosted/email-job-contract.test.mjs
       - name: Verify actual web hosting to Supabase transport contracts
@@ -171,7 +171,7 @@ jobs:
         working-directory: scripts/supabase
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Verify current-only target, source, migration and receipt guards
-        run: node --test scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs
+        run: node --test scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/admit-self-hosted-history.test.mjs
       - name: Warm and check every current native harness with frozen dependencies
         env:
           DENO_DIR: ${{ runner.temp }}/collect-current-selfhost-deno-cache

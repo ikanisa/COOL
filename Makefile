@@ -373,7 +373,7 @@ supabase-source-test:
 	@node scripts/tests/payment_evidence_reveal_test.mjs
 	@node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs
 	@node --test scripts/supabase/testing/current16-integration.test.mjs
-	@node --test scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs
+	@node --test scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs scripts/supabase/testing/admit-self-hosted-history.test.mjs
 	@node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs scripts/self_hosted/jobs-profile.test.mjs scripts/self_hosted/email-job-contract.test.mjs
 	@node scripts/supabase/run_edge_node_tests.mjs
 	@node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs
