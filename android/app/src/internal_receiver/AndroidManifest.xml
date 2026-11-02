@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <service android:name=".receiver_sms.MomoGatewayJobService" android:permission="android.permission.BIND_JOB_SERVICE" android:exported="false" />
+        <service android:name=".receiver_sms.MomoGatewayLocalRecoveryService" android:permission="android.permission.BIND_JOB_SERVICE" android:exported="false" />
         <receiver android:name=".receiver_sms.MomoGatewayRecoveryReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

@@ -33,6 +33,7 @@ object MomoGatewayJobs {
                 .setPeriodic(15 * 60 * 1000L).build()
             check(scheduler.schedule(recovery) == JobScheduler.RESULT_SUCCESS) { "Gateway scheduling unavailable" }
         }
+        MomoGatewayLocalRecoveryJobs.ensure(context, scheduler)
         signal(context)
     }
     fun signal(context: Context, delay: Long = 0) = gate.signal schedule@{

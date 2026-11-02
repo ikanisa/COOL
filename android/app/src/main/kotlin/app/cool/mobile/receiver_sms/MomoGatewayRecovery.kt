@@ -24,7 +24,7 @@ class MomoGatewayRecovery(private val context: Context) {
     } catch (_: Exception) { true }
 
     /** Copies before advancing. Re-reading overlap rows is harmless through stable source identities. */
-    fun catchUp(): Boolean = synchronized(scanLock) { catchUpLocked() }
+    fun catchUp(): Boolean = MomoGatewayInboxScanLock.run { catchUpLocked() }
 
     private fun catchUpLocked(): Boolean {
         if (!state.active() || !inboxAvailable()) return false
@@ -104,7 +104,12 @@ class MomoGatewayRecovery(private val context: Context) {
     }
 
     private fun instant(value: Long): Any = if (value > 0) Instant.ofEpochMilli(value).toString() else JSONObject.NULL
-    companion object { private val scanLock = Any() }
+}
+
+/** All online and offline jobs share the same cursor and scan owner. */
+internal object MomoGatewayInboxScanLock {
+    private val lock = Any()
+    fun <T> run(scan: () -> T): T = synchronized(lock) { scan() }
 }
 
 internal fun JSONObject.optionalInt(key: String): Int? = if (has(key) && !isNull(key)) optInt(key, -1).takeIf { it >= 0 } else null
