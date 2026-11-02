@@ -4,6 +4,7 @@ import argparse
 from datetime import datetime,timezone
 import json
 from pathlib import Path
+import re
 import shutil
 import ssl
 import sys
@@ -49,6 +50,29 @@ def capacity_alarms(fence):
     if stopped>=10000:alarms.append({'code':'finite_capacity_blocked','resource':'stoppedLifecycleProofs'})
     return alarms
 
+def capacity_detail(fence,expected_source):
+    """Return static count headroom only when the current budget is verified.
+
+    Counts come from one owner-status read, not an atomic cross-counter
+    snapshot, authorization, forecast, or guarantee of control completion.
+    """
+    if not isinstance(expected_source,str) or not re.fullmatch(r'[a-f0-9]{64}',expected_source) or fence.get('sourceSha256')!=expected_source or any(
+            alarm['code']=='capacity_unconfirmed' for alarm in capacity_alarms(fence)):
+        return {'status':'unconfirmed','resources':[]}
+    resource=fence['resourceLimits']
+    counts=[('workingAdmissions',resource['workingAdmissions'],100000),
+        ('activeAndUnresolvedAdmissions',resource['activeAndUnresolvedAdmissions'],8),
+        ('operationReceipts',resource['operationReceipts'],9998),
+        ('schedulerLifecycleProofs',resource['schedulerLifecycleProofs'],10000),
+        ('stoppedLifecycleProofs',fence['stoppedLifecycleProofs'],10000)]
+    entries=[{'resource':name,'used':used,'threshold':threshold,
+        'remaining':max(0,threshold-used)} for name,used,threshold in counts]
+    # The lower operation threshold is for admission; the immutable record
+    # limit is distinct and some control actions reserve additional entries.
+    entries[2]['hard_limit']=10000
+    return {'status':'confirmed','observation':'owner_status_read',
+        'authorizes_operations':False,'resources':entries}
+
 def evaluate(fence,services,disk,certificate_days,expected_source,expected_services):
     alarms=[]
     if fence.get('sourceSha256')!=expected_source:alarms.append({'code':'source_mismatch'})
@@ -63,27 +87,38 @@ def evaluate(fence,services,disk,certificate_days,expected_source,expected_servi
     if certificate_days<30:alarms.append({'code':'database_tls_expiring','days_remaining':certificate_days})
     return alarms
 
-def health(op):
+def health(op,*,include_capacity_detail=False):
     status=op.status()
     raw=op.sql("SELECT private.collect_assert_deployment('"+op.meta['profile_sha256']+"');SELECT private.collect_fence_owner_status_v3();").decode().strip().splitlines()
-    fence=json.loads(raw[-1]);usage=shutil.disk_usage(op.root/'data');disk={'free_bytes':usage.free,'total_bytes':usage.total,'free_ratio':usage.free/usage.total}
+    if not raw:raise ValueError('Controller status unconfirmed')
+    fence=json.loads(raw[-1])
+    if not isinstance(fence,dict):raise ValueError('Controller status unconfirmed')
+    usage=shutil.disk_usage(op.root/'data');disk={'free_bytes':usage.free,'total_bytes':usage.total,'free_ratio':usage.free/usage.total}
     certificate=ssl._ssl._test_decode_cert(str(op.root/'private/db-tls/server.crt'))
     expiry=datetime.fromtimestamp(ssl.cert_time_to_seconds(certificate['notAfter']),timezone.utc);days=(expiry-datetime.now(timezone.utc)).days
     images=json.loads((op.root/'images.lock.json').read_text())['services']
     alarms=evaluate(fence,status['services'],disk,days,op.meta['source_sha256'],set(images)-{'backup'})
     # Expose counts and stable codes, never principals, tokens, queue bodies,
     # provider responses or ciphertext. A supervisor can alert on nonzero exit.
-    return {'format':'collect.selfhost.health.v1','checked_at':datetime.now(timezone.utc).isoformat(),
+    result={'format':'collect.selfhost.health.v1','checked_at':datetime.now(timezone.utc).isoformat(),
         'profile_sha256':op.meta['profile_sha256'],'source_sha256':op.meta['source_sha256'],'status':'attention_required' if alarms else 'healthy',
         'services':status['services'],'mode':fence.get('mode'),'active_admissions':fence.get('effectiveActiveAdmissions',fence.get('activeAdmissions')),
         'unresolved_admissions':fence.get('effectiveUnresolvedAdmissions',fence.get('unresolvedAdmissions')),
         'retained_unknown_obligations':fence.get('retainedUnknownObligations'),'scheduler':fence.get('schedulerStatus'),
         'retained_unquantified_unknown_obligations':fence.get('retainedUnquantifiedUnknownObligations'),
         'resources':fence.get('resourceLimits'),'disk':disk,'database_certificate_days':days,'alarms':alarms}
+    if include_capacity_detail:
+        result['capacity_detail']=capacity_detail(fence,op.meta['source_sha256'])
+    return result
+
+def main(argv=None):
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--release',type=Path,required=True)
+    p.add_argument('--capacity-detail',action='store_true',help='Include owner-status capacity counts and headroom; does not authorize operations')
+    a=p.parse_args(argv)
+    try:
+        result=health(Operator(a.release),include_capacity_detail=a.capacity_detail);print(json.dumps(result,sort_keys=True));return 0 if result['status']=='healthy' else 2
+    except (OSError,ValueError,KeyError,RuntimeError) as error:
+        print(json.dumps({'status':'health_unconfirmed','error_class':type(error).__name__,'private_values_disclosed':False}),file=sys.stderr);return 3
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--release',type=Path,required=True);a=p.parse_args()
-    try:
-        result=health(Operator(a.release));print(json.dumps(result,sort_keys=True));sys.exit(0 if result['status']=='healthy' else 2)
-    except (OSError,ValueError,KeyError,RuntimeError) as error:
-        print(json.dumps({'status':'health_unconfirmed','error_class':type(error).__name__,'private_values_disclosed':False}),file=sys.stderr);sys.exit(3)
+    sys.exit(main())

@@ -289,6 +289,15 @@ delivery, on-call ownership and approved workload/SLO/RPO/RTO still need real
 host evidence. Finite controller/operation histories have explicit limits;
 settled-admission archiving does not make every history unbounded.
 
+To include the stopped-lifecycle proof count and remaining capacity at each
+current threshold, add `--capacity-detail` to the same health command. The
+optional detail uses the owner-status read and is withheld when the source or
+budget is unconfirmed. Counts can change during or after the read; they do not
+predict a date of exhaustion or authorize an admission, release or upgrade.
+The operation-receipt threshold of 9,998 is the admission cutoff; the stored
+hard limit is 10,000 and some control actions reserve additional entries. This
+observation neither archives nor deletes history.
+
 Cold backup requires the actual committed v3 FENCED controller, completed local
 lease drain and nonblocking inactive schedulers. Use the original operation and
 epoch with the maintained owner APIs: begin quiesce, commit, then v3 drain in a

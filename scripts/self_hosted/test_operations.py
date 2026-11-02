@@ -1,10 +1,12 @@
 import copy
+from contextlib import redirect_stdout,redirect_stderr
 import hashlib
 import io
 import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tarfile
 import tempfile
 import unittest
@@ -15,7 +17,7 @@ from scripts.self_hosted.configure import validated_settings,read_env,private_fi
 from scripts.self_hosted.database import transaction_sql,migrations
 from scripts.self_hosted.recovery import safe_member
 from scripts.self_hosted.assets import tree
-from scripts.self_hosted.health import evaluate
+from scripts.self_hosted.health import evaluate,capacity_detail,health,main as health_main
 from scripts.self_hosted.frontend_manifest import inventory
 
 PROFILE={'format':'collect.deployment.v1','id':'test','mode':'self_hosted','environment':'qualification','supabase_origin':'https://supabase.collect.example','admin_origin':'https://admin.collect.example','member_api_origin':'https://api.collect.example','public_origin':'https://collect.example','google_callback_origin':'https://admin.collect.example'}
@@ -34,6 +36,93 @@ def health_codes(fence):
         {'free_bytes':20*1024**3,'free_ratio':.5},90,'a'*64,{'db'})
 
 class Configuration(unittest.TestCase):
+    def test_capacity_detail_reports_owner_status_counts_including_stopped_proofs(self):
+        fence=healthy_capacity_fence()
+        fence['resourceLimits'].update(workingAdmissions=17,activeAndUnresolvedAdmissions=3,
+            operationReceipts=9997,schedulerLifecycleProofs=9999)
+        fence['stoppedLifecycleProofs']=9999
+        detail=capacity_detail(fence,'a'*64)
+        self.assertEqual(detail['status'],'confirmed')
+        self.assertEqual(detail['observation'],'owner_status_read')
+        self.assertIs(detail['authorizes_operations'],False)
+        resources={item['resource']:item for item in detail['resources']}
+        self.assertEqual(resources['workingAdmissions']['remaining'],99983)
+        self.assertEqual(resources['activeAndUnresolvedAdmissions']['remaining'],5)
+        self.assertEqual(resources['operationReceipts'],{'resource':'operationReceipts',
+            'used':9997,'threshold':9998,'remaining':1,'hard_limit':10000})
+        self.assertEqual(resources['schedulerLifecycleProofs']['remaining'],1)
+        self.assertEqual(resources['stoppedLifecycleProofs']['remaining'],1)
+        # Counts beyond the cutoff never turn into negative headroom.
+        fence['resourceLimits'].update(operationReceipts=10000,operationReceiptSaturated=True,capacityBlocked=True)
+        detail=capacity_detail(fence,'a'*64)
+        self.assertEqual(next(r['remaining'] for r in detail['resources'] if r['resource']=='operationReceipts'),0)
+
+    def test_capacity_detail_withholds_counts_for_unconfirmed_inputs(self):
+        for mutation in ('missing','invalid','inconsistent','wrong_source','invalid_source'):
+            with self.subTest(mutation=mutation):
+                fence=healthy_capacity_fence();source='a'*64
+                if mutation=='missing':del fence['stoppedLifecycleProofs']
+                if mutation=='invalid':fence['resourceLimits']['operationReceipts']=True
+                if mutation=='inconsistent':fence['resourceLimits']['activeAndUnresolvedAdmissions']=1
+                if mutation=='wrong_source':fence['sourceSha256']='b'*64
+                if mutation=='invalid_source':source='not-a-source';fence['sourceSha256']=source
+                self.assertEqual(capacity_detail(fence,source),{'status':'unconfirmed','resources':[]})
+
+    def test_capacity_detail_is_opt_in_on_existing_health_operator(self):
+        class FakeOperator:
+            meta={'profile_sha256':'b'*64,'source_sha256':'a'*64}
+            def __init__(self,root):self.root=root
+            def status(self):return {'services':[{'service':'db','state':'running','health':'healthy'}]}
+            def sql(self,query):
+                self.query=query
+                return ('t\n'+json.dumps(healthy_capacity_fence())+'\n').encode()
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'images.lock.json').write_text(json.dumps({'services':{'db':{},'backup':{}}}))
+            op=FakeOperator(root)
+            usage=type('Usage',(),{'free':20*1024**3,'total':40*1024**3})()
+            with patch('scripts.self_hosted.health.shutil.disk_usage',return_value=usage), \
+                 patch('scripts.self_hosted.health.ssl._ssl._test_decode_cert',return_value={'notAfter':'future'}), \
+                 patch('scripts.self_hosted.health.ssl.cert_time_to_seconds',return_value=4102444800):
+                default=health(op);detailed=health(op,include_capacity_detail=True)
+            self.assertNotIn('capacity_detail',default)
+            self.assertEqual(default['format'],'collect.selfhost.health.v1')
+            self.assertEqual(detailed['format'],default['format'])
+            self.assertEqual(detailed['capacity_detail']['status'],'confirmed')
+            self.assertIn("private.collect_assert_deployment('"+'b'*64+"')",op.query)
+            self.assertIn('private.collect_fence_owner_status_v3()',op.query)
+
+    def test_health_cli_routes_optional_detail_and_fails_closed_for_missing_release(self):
+        out=io.StringIO();err=io.StringIO()
+        with patch('scripts.self_hosted.health.Operator',return_value=object()), \
+             patch('scripts.self_hosted.health.health',return_value={'status':'healthy'}) as call, \
+             redirect_stdout(out),redirect_stderr(err):
+            self.assertEqual(health_main(['--release','/synthetic/release','--capacity-detail']),0)
+        self.assertTrue(call.call_args.kwargs['include_capacity_detail'])
+        self.assertEqual(json.loads(out.getvalue()),{'status':'healthy'})
+        self.assertEqual(err.getvalue(),'')
+        missing=subprocess.run([sys.executable,'-B','-m','scripts.self_hosted.health',
+            '--release','/definitely-absent-collect-release','--capacity-detail'],capture_output=True,text=True)
+        self.assertEqual(missing.returncode,3)
+        self.assertEqual(json.loads(missing.stderr)['status'],'health_unconfirmed')
+        self.assertNotIn('/definitely-absent-collect-release',missing.stderr)
+
+    def test_health_cli_redacts_empty_or_non_object_controller_status(self):
+        class FakeOperator:
+            meta={'profile_sha256':'b'*64,'source_sha256':'a'*64}
+            root=Path('/synthetic')
+            def __init__(self,raw):self.raw=raw
+            def status(self):return {'services':[]}
+            def sql(self,query):return self.raw
+        for raw in (b'',b'[]\n',b'null\n'):
+            with self.subTest(raw=raw):
+                out=io.StringIO();err=io.StringIO()
+                with patch('scripts.self_hosted.health.Operator',return_value=FakeOperator(raw)), \
+                     redirect_stdout(out),redirect_stderr(err):
+                    self.assertEqual(health_main(['--release','/synthetic','--capacity-detail']),3)
+                self.assertEqual(out.getvalue(),'')
+                self.assertEqual(json.loads(err.getvalue()),{'status':'health_unconfirmed',
+                    'error_class':'ValueError','private_values_disclosed':False})
+
     def test_health_reports_unconfirmed_capacity_and_never_assumes_missing_zero(self):
         fence=healthy_capacity_fence();self.assertEqual(health_codes(fence),[])
         for name,bad in [('workingAdmissions',None),('activeAndUnresolvedAdmissions',True),
