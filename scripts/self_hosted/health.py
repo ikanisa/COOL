@@ -11,6 +11,44 @@ sys.dont_write_bytecode=True
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT))
 from scripts.self_hosted.release_operator import Operator
 
+def capacity_alarms(fence):
+    """Read the current fence budget without treating absent counters as zero."""
+    resources=fence.get('resourceLimits')
+    if not isinstance(resources,dict):return [{'code':'capacity_unconfirmed'}]
+    limits={'admissionBudgetVersion':4,'workingAdmissionLimit':100000,
+        'activeWorkLimit':8,'operationReceiptLimit':10000,'schedulerLifecycleProofLimit':10000}
+    counts=('workingAdmissions','activeAndUnresolvedAdmissions','operationReceipts','schedulerLifecycleProofs')
+    valid=(all(type(resources.get(name)) is int and resources[name]==value for name,value in limits.items())
+        and all(type(resources.get(name)) is int and resources[name]>=0 for name in counts)
+        and type(fence.get('stoppedLifecycleProofs')) is int and fence['stoppedLifecycleProofs']>=0
+        and type(resources.get('capacityBlocked')) is bool
+        and type(resources.get('operationReceiptSaturated')) is bool)
+    if not valid:
+        alarms=[{'code':'capacity_unconfirmed'}]
+        if resources.get('capacityBlocked') is True:alarms.append({'code':'finite_capacity_blocked'})
+        return alarms
+    working=resources['workingAdmissions'];active=resources['activeAndUnresolvedAdmissions']
+    receipts=resources['operationReceipts'];scheduler=resources['schedulerLifecycleProofs']
+    stopped=fence['stoppedLifecycleProofs']
+    blocked=working>=100000 or active>=8 or receipts>=9998 or scheduler>=10000
+    alarms=[]
+    if active>working or resources['capacityBlocked']!=blocked or resources['operationReceiptSaturated']!=(receipts>=10000):
+        alarms.append({'code':'capacity_unconfirmed'})
+    # A reported block remains actionable even if its component counters disagree.
+    if blocked or resources['capacityBlocked']:alarms.append({'code':'finite_capacity_blocked'})
+    # 9,998 blocks new admission; 10,000 is the underlying receipt limit.
+    for name,used,threshold in [('workingAdmissions',working,100000),
+            ('operationReceipts',receipts,9998),('schedulerLifecycleProofs',scheduler,10000),
+            ('stoppedLifecycleProofs',stopped,10000)]:
+        if used*5>=threshold*4:
+            # Keep the existing v1 output shape and report the hard receipt
+            # limit even though admission stops at the lower threshold.
+            alarm={'code':'finite_capacity_near_limit','resource':name,'used':used,
+                'limit':10000 if name=='operationReceipts' else threshold}
+            alarms.append(alarm)
+    if stopped>=10000:alarms.append({'code':'finite_capacity_blocked','resource':'stoppedLifecycleProofs'})
+    return alarms
+
 def evaluate(fence,services,disk,certificate_days,expected_source,expected_services):
     alarms=[]
     if fence.get('sourceSha256')!=expected_source:alarms.append({'code':'source_mismatch'})
@@ -20,11 +58,7 @@ def evaluate(fence,services,disk,certificate_days,expected_source,expected_servi
     if fence.get('mode')!='open':alarms.append({'code':'application_maintenance','mode':fence.get('mode')})
     if fence.get('schedulerStatus',{}).get('coverageVerified') is not True:alarms.append({'code':'scheduler_coverage_unverified'})
     if int(fence.get('retainedUnknownObligations',0))>0 or int(fence.get('retainedUnquantifiedUnknownObligations',0))>0:alarms.append({'code':'unresolved_external_effects'})
-    resources=fence.get('resourceLimits',{})
-    for actual,limit in [('workingAdmissions','workingAdmissionLimit'),('operationReceipts','operationReceiptLimit'),('schedulerLifecycleProofs','schedulerLifecycleProofLimit')]:
-        value,maximum=resources.get(actual),resources.get(limit)
-        if isinstance(value,(int,float)) and isinstance(maximum,(int,float)) and maximum>0 and value>=maximum*.8:alarms.append({'code':'finite_capacity_near_limit','resource':actual,'used':value,'limit':maximum})
-    if int(fence.get('stoppedLifecycleProofs',0))>=8000:alarms.append({'code':'finite_capacity_near_limit','resource':'stoppedLifecycleProofs','used':fence['stoppedLifecycleProofs'],'limit':10000})
+    alarms.extend(capacity_alarms(fence))
     if disk['free_bytes']<10*1024**3 or disk['free_ratio']<.15:alarms.append({'code':'disk_space_low'})
     if certificate_days<30:alarms.append({'code':'database_tls_expiring','days_remaining':certificate_days})
     return alarms

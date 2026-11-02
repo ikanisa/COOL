@@ -20,7 +20,78 @@ from scripts.self_hosted.frontend_manifest import inventory
 
 PROFILE={'format':'collect.deployment.v1','id':'test','mode':'self_hosted','environment':'qualification','supabase_origin':'https://supabase.collect.example','admin_origin':'https://admin.collect.example','member_api_origin':'https://api.collect.example','public_origin':'https://collect.example','google_callback_origin':'https://admin.collect.example'}
 
+def healthy_capacity_fence():
+    return {'mode':'open','sourceSha256':'a'*64,'retainedUnknownObligations':0,
+        'retainedUnquantifiedUnknownObligations':0,'schedulerStatus':{'coverageVerified':True},
+        'stoppedLifecycleProofs':0,'resourceLimits':{'admissionBudgetVersion':4,
+            'workingAdmissions':0,'workingAdmissionLimit':100000,
+            'activeAndUnresolvedAdmissions':0,'activeWorkLimit':8,
+            'operationReceipts':0,'operationReceiptLimit':10000,'operationReceiptSaturated':False,
+            'schedulerLifecycleProofs':0,'schedulerLifecycleProofLimit':10000,'capacityBlocked':False}}
+
+def health_codes(fence):
+    return evaluate(fence,[{'service':'db','state':'running','health':'healthy'}],
+        {'free_bytes':20*1024**3,'free_ratio':.5},90,'a'*64,{'db'})
+
 class Configuration(unittest.TestCase):
+    def test_health_reports_unconfirmed_capacity_and_never_assumes_missing_zero(self):
+        fence=healthy_capacity_fence();self.assertEqual(health_codes(fence),[])
+        for name,bad in [('workingAdmissions',None),('activeAndUnresolvedAdmissions',True),
+            ('operationReceipts',-1),('schedulerLifecycleProofs',0.0),('workingAdmissionLimit',100001),
+            ('admissionBudgetVersion',3),('capacityBlocked','false'),('operationReceiptSaturated',0)]:
+            with self.subTest(name=name,bad=bad):
+                candidate=healthy_capacity_fence();candidate['resourceLimits'][name]=bad
+                self.assertIn('capacity_unconfirmed',{a['code'] for a in health_codes(candidate)})
+        for name in ('resourceLimits','stoppedLifecycleProofs'):
+            with self.subTest(missing=name):
+                candidate=healthy_capacity_fence();del candidate[name]
+                self.assertIn('capacity_unconfirmed',{a['code'] for a in health_codes(candidate)})
+        candidate=healthy_capacity_fence();candidate['stoppedLifecycleProofs']=False
+        self.assertIn('capacity_unconfirmed',{a['code'] for a in health_codes(candidate)})
+
+    def test_health_reports_active_saturation_and_inconsistent_capacity_flag(self):
+        candidate=healthy_capacity_fence();candidate['resourceLimits'].update(activeAndUnresolvedAdmissions=7,workingAdmissions=7)
+        self.assertEqual(health_codes(candidate),[])
+        candidate['resourceLimits'].update(activeAndUnresolvedAdmissions=8,workingAdmissions=8,capacityBlocked=True)
+        self.assertIn('finite_capacity_blocked',{a['code'] for a in health_codes(candidate)})
+        candidate['resourceLimits']['capacityBlocked']=False
+        self.assertEqual({a['code'] for a in health_codes(candidate)},{'finite_capacity_blocked','capacity_unconfirmed'})
+        candidate=healthy_capacity_fence();candidate['resourceLimits']['capacityBlocked']=True
+        self.assertEqual({a['code'] for a in health_codes(candidate)},{'finite_capacity_blocked','capacity_unconfirmed'})
+        candidate=healthy_capacity_fence();candidate['resourceLimits']['activeAndUnresolvedAdmissions']=1
+        self.assertEqual({a['code'] for a in health_codes(candidate)},{'capacity_unconfirmed'})
+
+    def test_health_warns_at_each_current_finite_capacity_threshold(self):
+        for name,location,before,warning,blocked in [
+            ('workingAdmissions','resourceLimits',79999,80000,100000),
+            ('operationReceipts','resourceLimits',7998,7999,9998),
+            ('schedulerLifecycleProofs','resourceLimits',7999,8000,10000),
+            ('stoppedLifecycleProofs',None,7999,8000,10000)]:
+            for value,expect_warning in ((before,False),(warning,True),(blocked,True)):
+                with self.subTest(name=name,value=value):
+                    candidate=healthy_capacity_fence();target=candidate[location] if location else candidate
+                    target[name]=value
+                    if location and value==blocked:candidate['resourceLimits']['capacityBlocked']=True
+                    alarms=health_codes(candidate)
+                    near=[a for a in alarms if a['code']=='finite_capacity_near_limit' and a['resource']==name]
+                    self.assertEqual(bool(near),expect_warning)
+                    if name=='operationReceipts' and near:
+                        self.assertEqual(near[0],{'code':'finite_capacity_near_limit','resource':'operationReceipts','used':value,'limit':10000})
+                    if value==blocked:self.assertIn('finite_capacity_blocked',{a['code'] for a in alarms})
+                    self.assertNotIn('capacity_unconfirmed',{a['code'] for a in alarms})
+
+    def test_health_distinguishes_receipt_admission_cutoff_from_hard_limit(self):
+        for value,blocked in ((9997,False),(9998,True),(9999,True),(10000,True)):
+            with self.subTest(value=value):
+                candidate=healthy_capacity_fence();candidate['resourceLimits'].update(
+                    operationReceipts=value,capacityBlocked=blocked,operationReceiptSaturated=value>=10000)
+                alarms=health_codes(candidate);codes={a['code'] for a in alarms}
+                self.assertEqual('finite_capacity_blocked' in codes,blocked)
+                self.assertNotIn('capacity_unconfirmed',codes)
+                self.assertEqual(next(a['limit'] for a in alarms if a.get('resource')=='operationReceipts'),10000)
+        candidate=healthy_capacity_fence();candidate['resourceLimits']['operationReceiptSaturated']=True
+        self.assertIn('capacity_unconfirmed',{a['code'] for a in health_codes(candidate)})
+
     def test_member_package_and_gateway_wake_identity_are_separate(self):
         self.assertEqual(PROVIDER_SETTINGS['FCM_ANDROID_PACKAGE'],'app.cool.mobile')
         with self.assertRaises(ValueError):validated_settings({**PROVIDER_SETTINGS,'FCM_ANDROID_PACKAGE':'com.ikanisa.collect'},PROFILE,'a'*64)
@@ -92,7 +163,7 @@ class MigrationAndArchive(unittest.TestCase):
                 self.assertIn('INSERT INTO supabase_migrations.collect_installation_steps',actual)
                 self.assertEqual(actual.count('INSERT INTO supabase_migrations.collect_installation_steps'),1)
     def test_health_alarms_use_real_controller_fields_and_keep_unknown_obligations(self):
-        fence={'mode':'open','sourceSha256':'a'*64,'retainedUnknownObligations':0,'retainedUnquantifiedUnknownObligations':1,'schedulerStatus':{'coverageVerified':True},'resourceLimits':{'workingAdmissions':80000,'workingAdmissionLimit':100000}}
+        fence=healthy_capacity_fence();fence['retainedUnquantifiedUnknownObligations']=1;fence['resourceLimits']['workingAdmissions']=80000
         alarms=evaluate(fence,[{'service':'db','state':'running','health':'healthy'}],{'free_bytes':20*1024**3,'free_ratio':.5},90,'a'*64,{'db'})
         self.assertEqual({a['code'] for a in alarms},{'finite_capacity_near_limit','unresolved_external_effects'})
         self.assertIn('source_mismatch',{a['code'] for a in evaluate(fence,[],{'free_bytes':20*1024**3,'free_ratio':.5},90,'b'*64,{'db'})})
