@@ -11,6 +11,7 @@ sys.dont_write_bytecode=True
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT))
 from scripts.self_hosted.release_operator import Operator
+from scripts.self_hosted.configure import parse_fcm_account_json,provider_utf8,read_provider_settings
 
 def digest(data):return hashlib.sha256(data).hexdigest()
 def tree(directory):
@@ -54,14 +55,16 @@ def install(op,admin,public,evidence):
     public_names={'format','ANON_KEY','ANON_KEY_ASYMMETRIC','SUPABASE_PUBLISHABLE_KEY','DASHBOARD_USERNAME'}
     forbidden=[v.encode() for k,v in keys.items() if k not in public_names and isinstance(v,str) and len(v)>=20]
     forbidden.extend(jwk['d'].encode() for jwk in json.loads(keys['JWT_KEYS']) if 'd' in jwk)
-    settings=json.loads((op.root/'private/provider-settings.json').read_text())
+    settings=read_provider_settings(op.root/'private/provider-settings.json')
     secret_fields={'SMTP_PASS','GOOGLE_SECRET','TURNSTILE_SECRET_KEY','OPENSMS_APPLICATION_TOKEN','OPENSMS_RECEIPT_APPLICATION_TOKEN',
         'COLLECT_NOTICE_SMTP_PASSWORD','FCM_SERVICE_ACCOUNT_JSON','OPENAI_API_KEY','ROSTER_DECODER_SECRET',
         'GOTRUE_SMS_TWILIO_AUTH_TOKEN','GOTRUE_SMS_TWILIO_VERIFY_AUTH_TOKEN','OPENSMS_FCM_PRIVATE_KEY'}
-    forbidden.extend(settings[name].encode() for name in secret_fields if settings.get(name))
+    account=None
     if settings.get('FCM_SERVICE_ACCOUNT_JSON'):
-        account=json.loads(settings['FCM_SERVICE_ACCOUNT_JSON'])
-        if isinstance(account.get('private_key'),str):forbidden.append(account['private_key'].encode())
+        account=parse_fcm_account_json(settings['FCM_SERVICE_ACCOUNT_JSON'])
+    forbidden.extend(provider_utf8(settings[name]) for name in secret_fields if settings.get(name))
+    if account is not None and isinstance(account.get('private_key'),str):
+        forbidden.append(provider_utf8(account['private_key']))
     for base,items in ((admin,inventories['admin']),(public,inventories['public'])):
         for item in items:
             data=(base/item['path']).read_bytes()

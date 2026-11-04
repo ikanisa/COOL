@@ -42,6 +42,7 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
         : members;
     final items = currentMembers.whenOrNull(data: (items) => items);
     final query = _query.trim().toLowerCase();
+    final hasFilter = _filter != _MemberFilter.all;
     final filtered = (items ?? const <CollectMember>[]).where((item) {
       final matchesQuery =
           query.isEmpty ||
@@ -57,8 +58,9 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
     return ScreenScaffold(
       title: 'Members',
       showHeader: false,
+      // Keep the search field in the same scroll tree as results change.
       sliver: filtered.isEmpty
-          ? null
+          ? const SliverToBoxAdapter(child: SizedBox.shrink())
           : CollectSliverCardList(
               itemCount: filtered.length,
               itemBuilder: (context, index) {
@@ -102,16 +104,6 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
                     'Members appear after they join from a group QR or deep link.',
               );
             }
-            if (filtered.isEmpty) {
-              return EmptySearchState(
-                title: 'No members found',
-                message: 'No Collect ID or role matches that search.',
-                onClear: () => setState(() {
-                  _search.clear();
-                  _query = '';
-                }),
-              );
-            }
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -122,10 +114,35 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
                   onSortTap: _showMemberSortSheet,
                 ),
                 CollectSpacing.gap12,
-                SectionHeader(
-                  title: 'Roster',
-                  actionLabel: '${filtered.length}',
-                ),
+                if (filtered.isEmpty)
+                  Semantics(
+                    liveRegion: true,
+                    child: EmptySearchState(
+                      title: query.isEmpty
+                          ? 'No members in this filter'
+                          : 'No members found',
+                      message: query.isEmpty
+                          ? 'No members match the selected filter.'
+                          : hasFilter
+                          ? 'No members match this search and filter.'
+                          : 'No Collect ID or role matches that search.',
+                      clearLabel: query.isEmpty
+                          ? 'Clear filter'
+                          : hasFilter
+                          ? 'Clear search and filter'
+                          : 'Clear search',
+                      onClear: () => setState(() {
+                        _search.clear();
+                        _query = '';
+                        _filter = _MemberFilter.all;
+                      }),
+                    ),
+                  )
+                else
+                  SectionHeader(
+                    title: 'Roster',
+                    actionLabel: '${filtered.length}',
+                  ),
               ],
             );
           },

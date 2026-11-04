@@ -18,9 +18,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class _RosterRepository extends FixtureCollectRepository {
-  _RosterRepository() : super(fixtureNow: DateTime.utc(2026, 9, 2));
+  _RosterRepository({this.members})
+    : super(fixtureNow: DateTime.utc(2026, 9, 2));
+
+  final List<CollectMember>? members;
+
   @override
   Future<List<CollectMember>> membersForCollection(String collectionId) async =>
+      members ??
       [
         CollectMember(
           publicId: '123456',
@@ -67,6 +72,7 @@ void main() {
     WidgetTester tester, {
     double width = 390,
     double scale = 1,
+    List<CollectMember>? members,
   }) async {
     tester.view.physicalSize = Size(width, 844);
     tester.view.devicePixelRatio = 1;
@@ -81,7 +87,9 @@ void main() {
         overrides: [
           collectBackendClientProvider.overrideWithValue(null),
           appRouterProvider.overrideWithValue(router),
-          collectRepositoryProvider.overrideWith((ref) => _RosterRepository()),
+          collectRepositoryProvider.overrideWith(
+            (ref) => _RosterRepository(members: members),
+          ),
           collectThemeModeProvider.overrideWith(
             (ref) => CollectThemeModeController(initialMode: ThemeMode.dark),
           ),
@@ -89,13 +97,18 @@ void main() {
         child: RepaintBoundary(
           key: key,
           child: MediaQuery(
-            data: MediaQueryData(textScaler: TextScaler.linear(scale)),
+            data: MediaQueryData.fromView(
+              tester.view,
+            ).copyWith(textScaler: TextScaler.linear(scale)),
             child: const CollectApp(),
           ),
         ),
       ),
     );
     await tester.pumpAndSettle();
+    final searchContext = tester.element(find.byType(TextField));
+    expect(MediaQuery.sizeOf(searchContext), Size(width, 844));
+    expect(MediaQuery.textScalerOf(searchContext).scale(1), scale);
     addTearDown(() async {
       await tester.pumpWidget(const SizedBox.shrink());
       router.dispose();
@@ -193,5 +206,173 @@ void main() {
     expect(row.amounts, isEmpty);
     expect(row.amounts, isEmpty);
     expect(find.text('No members found'), findsNothing);
+  });
+
+  testWidgets('an empty owner filter remains visible and can be cleared', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    addTearDown(semantics.dispose);
+    await pumpRoster(
+      tester,
+      members: [
+        CollectMember(
+          publicId: '111111',
+          role: 'member',
+          status: 'active',
+          joinedAt: DateTime.utc(2026, 9, 1),
+        ),
+      ],
+    );
+
+    await tester.tap(find.text('All'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Owner'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('No members in this filter'), findsOneWidget);
+    expect(find.text('No members yet'), findsNothing);
+    expect(find.bySemanticsLabel(RegExp('Members Owner')), findsWidgets);
+    final clear = find.widgetWithText(CollectButton, 'Clear filter');
+    await tester.ensureVisible(clear);
+    await tester.pumpAndSettle();
+    expect(find.bySemanticsLabel(RegExp('Clear filter')), findsWidgets);
+    await tester.tap(clear);
+    await tester.pumpAndSettle();
+
+    expect(find.text('No members in this filter'), findsNothing);
+    await tester.ensureVisible(find.text('All'));
+    await tester.pumpAndSettle();
+    expect(find.bySemanticsLabel(RegExp('Members All')), findsWidgets);
+    expect(find.text('111111'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('an empty search can be cleared to restore results', (
+    tester,
+  ) async {
+    await pumpRoster(tester);
+    await tester.enterText(find.byType(TextField), '999999');
+    await tester.pumpAndSettle();
+
+    expect(find.text('No members found'), findsOneWidget);
+    expect(
+      find.text('No Collect ID or role matches that search.'),
+      findsOneWidget,
+    );
+    expect(find.text('No members yet'), findsNothing);
+    final clear = find.widgetWithText(CollectButton, 'Clear search');
+    await tester.ensureVisible(clear);
+    await tester.tap(clear);
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.widget<TextField>(find.byType(TextField)).controller!.text,
+      '',
+    );
+    expect(find.text('No members found'), findsNothing);
+    expect(find.text('038491'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('roster search keeps focus as results disappear and return', (
+    tester,
+  ) async {
+    await pumpRoster(tester);
+    final field = find.byType(TextField);
+    final editable = find.descendant(
+      of: field,
+      matching: find.byType(EditableText),
+    );
+    await tester.showKeyboard(field);
+    await tester.pump();
+    final focus = tester.widget<EditableText>(editable).focusNode;
+    expect(focus.hasFocus, isTrue);
+    expect(tester.testTextInput.isVisible, isTrue);
+
+    tester.testTextInput.updateEditingValue(
+      const TextEditingValue(
+        text: '999999',
+        selection: TextSelection.collapsed(offset: 6),
+      ),
+    );
+    await tester.pump();
+    expect(find.text('No members found'), findsOneWidget);
+    expect(tester.widget<EditableText>(editable).focusNode, same(focus));
+    expect(focus.hasFocus, isTrue);
+    expect(tester.testTextInput.isVisible, isTrue);
+
+    tester.testTextInput.updateEditingValue(
+      const TextEditingValue(
+        text: '038491',
+        selection: TextSelection.collapsed(offset: 6),
+      ),
+    );
+    await tester.pump();
+    expect(find.text('No members found'), findsNothing);
+    final rows = tester.widgetList<FinancialListRow>(
+      find.byType(FinancialListRow),
+    );
+    expect(rows, hasLength(1));
+    expect(rows.single.title, '038491');
+    expect(tester.widget<EditableText>(editable).focusNode, same(focus));
+    expect(focus.hasFocus, isTrue);
+    expect(tester.testTextInput.isVisible, isTrue);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('empty combined search and filter can be cleared at large text', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    addTearDown(semantics.dispose);
+    await pumpRoster(tester, width: 320, scale: 2);
+    await tester.enterText(find.byType(TextField), '038491');
+    await tester.pumpAndSettle();
+    tester.binding.focusManager.primaryFocus?.unfocus();
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.text('All'));
+    await tester.tap(find.text('All'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Owner'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('No members found'), findsOneWidget);
+    expect(
+      find.text('No members match this search and filter.'),
+      findsOneWidget,
+    );
+    final clear = find.widgetWithText(CollectButton, 'Clear search and filter');
+    await tester.ensureVisible(clear);
+    await tester.pumpAndSettle();
+    expect(
+      find.bySemanticsLabel(RegExp('Clear search and filter')),
+      findsWidgets,
+    );
+    await tester.tap(clear);
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.widget<TextField>(find.byType(TextField)).controller!.text,
+      '',
+    );
+    await tester.ensureVisible(find.text('All'));
+    await tester.pumpAndSettle();
+    expect(find.bySemanticsLabel(RegExp('Members All')), findsWidgets);
+    expect(find.text('No members found'), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('an empty member list keeps its distinct empty state', (
+    tester,
+  ) async {
+    await pumpRoster(tester, members: []);
+
+    expect(find.text('No members yet'), findsOneWidget);
+    expect(find.text('No members found'), findsNothing);
+    expect(find.text('No members in this filter'), findsNothing);
+    expect(find.widgetWithText(CollectButton, 'Clear filter'), findsNothing);
+    expect(tester.takeException(), isNull);
   });
 }

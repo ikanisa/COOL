@@ -21,6 +21,15 @@ import java.util.concurrent.RejectedExecutionException
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 
+/** A failure to register periodic recovery must not suppress an immediate wakeup. */
+internal fun scheduleMemberSmsWakeups(registerPeriodic: () -> Unit, signalImmediate: () -> Unit) {
+    try {
+        registerPeriodic()
+    } finally {
+        signalImmediate()
+    }
+}
+
 /** Best-effort background drain. Authentication expiry never discards a message. */
 object MemberSmsJobs {
     private const val IMMEDIATE = 904_611
@@ -39,11 +48,15 @@ object MemberSmsJobs {
             SmsQueueStore(context).activeCaptureOwner() == null) return
         signals.incrementAndGet()
         val scheduler = context.getSystemService(JobScheduler::class.java) ?: return
-        if (scheduler.getPendingJob(RECOVERY) == null) {
-            check(scheduler.schedule(JobInfo.Builder(RECOVERY, ComponentName(context, MemberSmsJobService::class.java))
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setPersisted(true).setPeriodic(15 * 60 * 1000L).build()) == JobScheduler.RESULT_SUCCESS)
-        }
-        signal(context)
+        scheduleMemberSmsWakeups(
+            registerPeriodic = {
+                if (scheduler.getPendingJob(RECOVERY) == null) {
+                    check(scheduler.schedule(JobInfo.Builder(RECOVERY, ComponentName(context, MemberSmsJobService::class.java))
+                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setPersisted(true).setPeriodic(15 * 60 * 1000L).build()) == JobScheduler.RESULT_SUCCESS)
+                }
+            },
+            signalImmediate = { signal(context) },
+        )
     }
     private fun signal(context: Context, delay: Long = 0) = gate.signal schedule@{
         val scheduler = context.getSystemService(JobScheduler::class.java) ?: return@schedule

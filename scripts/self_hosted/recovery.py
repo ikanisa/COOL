@@ -292,8 +292,9 @@ def _restore_verified_archive(archive_stream,receipt,identity,destination,*,dock
     # Only the physical root label changes. Database, secrets, source, hosts,
     # application identity and all unresolved obligations remain byte-identical.
     stack=read_env(destination/'private/stack.env');stack['COLLECT_RELEASE_ROOT']=str(destination)
+    content=dotenv(stack)
     path=destination/'private/stack.env';temp=path.with_suffix('.restore-next')
-    with temp.open('x') as out:os.chmod(temp,0o600);out.write(dotenv(stack))
+    with temp.open('x',encoding='utf8') as out:os.chmod(temp,0o600);out.write(content)
     temp.replace(path)
     seal_configuration(destination)
     result={'format':'collect.selfhost.restore.v1','source_sha256':receipt['source_sha256'],'profile_sha256':receipt['profile_sha256'],

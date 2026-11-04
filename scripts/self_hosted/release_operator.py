@@ -19,7 +19,7 @@ import uuid
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT))
 from scripts.supabase.deployment_profile import validate_profile,profile_sha256
-from scripts.self_hosted.configure import private_file,read_env,validated_settings,verify_configuration
+from scripts.self_hosted.configure import private_file,read_env,read_provider_settings,validated_settings,verify_configuration
 from scripts.self_hosted.prepare import FrontendOriginsMustDiffer
 
 _MAX_SOURCE_MANIFEST_BYTES=128*1024*1024
@@ -201,14 +201,14 @@ class Operator:
         if not isinstance(endpoint,str) or not endpoint.startswith('unix://'):raise ValueError('Local Unix Docker context required')
         info=json.loads(self.run([self.docker,'info','--format','{{json .}}']))
         if int(str(info.get('ServerVersion','0')).split('.')[0])<28 or info.get('OSType')!='linux':raise ValueError('Docker28+ Linux engine required')
-        config=json.loads(self.compose('config','--format','json'))
+        config=self.sensitive_json(self.compose('config','--format','json'))
         if any(name!='proxy' and service.get('ports') for name,service in config['services'].items()):raise ValueError('Only the TLS proxy may publish host ports')
         if any(not re.fullmatch(r'[^\s@]+@sha256:[a-f0-9]{64}',s.get('image','')) for s in config['services'].values()):raise ValueError('All images must be immutable')
         images=json.loads((self.root/'images.lock.json').read_text())['services']
         if set(config['services'])!=set(images)-{'backup'} or any(service['image']!=images[name]['reference'] for name,service in config['services'].items()):raise ValueError('Exact reviewed service images required')
         existing=self.run([self.docker,'ps','-aq','--filter','label=com.docker.compose.project='+self.project]).decode().split()
         if existing:
-            rows=json.loads(self.run([self.docker,'inspect',*existing]))
+            rows=self.sensitive_json(self.run([self.docker,'inspect',*existing]))
             for row in rows:
                 labels=row['Config'].get('Labels',{})
                 if labels.get('com.collect.profile-sha256')!=self.meta['profile_sha256'] or labels.get('com.collect.release-root')!=str(self.root) or labels.get('com.collect.source-sha256')!=self.meta['source_sha256']:raise ValueError('Existing resources belong to another release; explicit cutover required')
@@ -280,14 +280,181 @@ psql --no-psqlrc --no-password --host=db --port=5432 --username=collect_sms_edge
         result=self.compose('exec','-T','db','sh','-c',script,input_bytes=pgpass.encode()).decode().split()
         if result!=['t','t']:raise ValueError('Both actual runtime TLS authentication probes must succeed')
 
+    def auth_inspection(self,args):
+        # Docker inspect can return provider values on stdout. Do not persist
+        # either stream on failure or timeout, and never include it in errors.
+        result=None
+        try:result=subprocess.run(args,capture_output=True,timeout=15)
+        except (OSError,subprocess.SubprocessError):pass
+        # Raise after leaving the handler so the provider-bearing subprocess
+        # exception cannot survive as the public exception's __context__.
+        if result is None or result.returncode or not isinstance(result.stdout,bytes) or len(result.stdout)>2*1024*1024:
+            result=None
+            raise ValueError('Running Auth inspection was not confirmed')
+        return result.stdout
+
+    def auth_inspection_json(self,args):
+        return self.sensitive_json(self.auth_inspection(args))
+
+    def sensitive_json(self,raw):
+        try:return json.loads(raw)
+        except (ValueError,TypeError):pass
+        # JSONDecodeError.doc and UnicodeDecodeError.object may contain the
+        # complete secret-bearing inspection response. Do not chain them.
+        raw=None
+        raise ValueError('Sensitive configuration or inspection was not confirmed')
+
+    def validate_running_auth(self,config,settings):
+        """Observe the existing Auth container without restarting or exposing it.
+
+        Compose config hashes have changed across versions and do not alone
+        prove the container's environment. Compare the sealed intended values,
+        Compose's resolved model, and the actual container plus its pinned image.
+        No credential enters argv, a diagnostic, or the returned result. This
+        point-in-time check does not lock out another host operator.
+        """
+        receipt=self.root/'private/configuration.json'
+        initial_receipt=hashlib.sha256(receipt.read_bytes()).digest()
+        verify_configuration(self.root)
+        original=self.sensitive_json((self.root/'compose.json').read_bytes())['services']['auth']
+        resolved=config['services']['auth']
+        stack=None
+        try:stack=read_env(self.root/'private/stack.env')
+        except (OSError,ValueError,TypeError,AttributeError):pass
+        if stack is None:raise ValueError('Sealed Auth settings cannot be verified')
+        if read_provider_settings(self.root/'private/provider-settings.json')!=settings:
+            raise ValueError('Sealed Auth settings changed before verification')
+        keys=self.sensitive_json((self.root/'private/keys.json').read_bytes())
+        if not isinstance(keys,dict):raise ValueError('Sealed Auth settings cannot be verified')
+        hook_secret=keys.get('COLLECT_SMS_HOOK_SECRET')
+        jwt_keys=keys.get('JWT_KEYS');jwt_secret=keys.get('JWT_SECRET')
+        postgres_password=keys.get('POSTGRES_PASSWORD')
+        if any(not isinstance(value,str) or not value for value in (hook_secret,jwt_keys,jwt_secret)):
+            raise ValueError('Sealed Auth settings cannot be verified')
+        if not isinstance(postgres_password,str) or not re.fullmatch(r'[a-f0-9]{64}',postgres_password):
+            raise ValueError('Sealed Auth settings cannot be verified')
+        template=original.get('environment')
+        if original.get('env_file') or not isinstance(template,dict) or not template:
+            raise ValueError('Sealed Auth environment cannot be verified')
+        substitutions=re.compile(r'\$\{([A-Z][A-Z0-9_]*)\}')
+        expected={}
+        for key,value in template.items():
+            if not isinstance(key,str) or not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*',key):
+                raise ValueError('Sealed Auth environment cannot be verified')
+            if type(value) is int:value=str(value)
+            if not isinstance(value,str) or '$' in substitutions.sub('',value):
+                raise ValueError('Sealed Auth environment cannot be verified')
+            try:expected[key]=substitutions.sub(lambda match:stack[match[1]],value)
+            except KeyError:raise ValueError('Sealed Auth environment cannot be verified') from None
+        sms=settings['AUTH_SMS_ENABLED']=='true';whatsapp=settings['AUTH_WHATSAPP_ENABLED']=='true'
+        mode=settings['AUTH_PHONE_DELIVERY_MODE']
+        semantics={
+            'GOTRUE_DB_DRIVER':'postgres',
+            'GOTRUE_DB_DATABASE_URL':'postgres://supabase_auth_admin:'+postgres_password+'@db:5432/postgres',
+            'API_EXTERNAL_URL':self.profile['supabase_origin']+'/auth/v1',
+            'GOTRUE_SITE_URL':self.profile['public_origin'],
+            'GOTRUE_URI_ALLOW_LIST':self.profile['google_callback_origin']+'/functions/v1/collect-api/v1/auth/google/callback',
+            'GOTRUE_DISABLE_SIGNUP':'false','GOTRUE_EXTERNAL_EMAIL_ENABLED':'true',
+            'GOTRUE_MAILER_SECURE_EMAIL_CHANGE_ENABLED':'true',
+            **{'GOTRUE_MAILER_URLPATHS_'+suffix:'/auth/v1/verify'
+               for suffix in ('INVITE','CONFIRMATION','RECOVERY','EMAIL_CHANGE')},
+            'GOTRUE_RATE_LIMIT_EMAIL_SENT':'30','GOTRUE_RATE_LIMIT_SMS_SENT':'30',
+            'GOTRUE_RATE_LIMIT_ANONYMOUS_USERS':'10',
+            'GOTRUE_JWT_AUD':'authenticated','GOTRUE_JWT_DEFAULT_GROUP_NAME':'authenticated',
+            'GOTRUE_JWT_ADMIN_ROLES':'service_role','GOTRUE_JWT_EXP':'3600',
+            'GOTRUE_JWT_KEYS':jwt_keys,'GOTRUE_JWT_SECRET':jwt_secret,
+            'GOTRUE_JWT_ISSUER':self.profile['supabase_origin']+'/auth/v1',
+            'GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED':settings['AUTH_ANONYMOUS_ENABLED'],
+            'GOTRUE_EXTERNAL_GOOGLE_ENABLED':settings['GOTRUE_EXTERNAL_GOOGLE_ENABLED'],
+            'GOTRUE_EXTERNAL_GOOGLE_CLIENT_ID':settings['GOOGLE_CLIENT_ID'],
+            'GOTRUE_EXTERNAL_GOOGLE_SECRET':settings['GOOGLE_SECRET'],
+            'GOTRUE_EXTERNAL_GOOGLE_REDIRECT_URI':self.profile['supabase_origin']+'/auth/v1/callback',
+            'GOTRUE_EXTERNAL_PHONE_ENABLED':'true' if sms or whatsapp else 'false',
+            'GOTRUE_HOOK_SEND_SMS_ENABLED':'true' if mode=='opensms_hook' and sms else 'false',
+            'GOTRUE_HOOK_SEND_SMS_URI':'http://functions:9000/send-sms-hook',
+            'GOTRUE_HOOK_SEND_SMS_SECRETS':'v1,whsec_'+hook_secret,
+            'GOTRUE_SMS_PROVIDER':'twilio' if mode=='opensms_hook' else mode,
+            'GOTRUE_SMS_OTP_LENGTH':'6','GOTRUE_SMS_OTP_EXP':'300',
+            'GOTRUE_SMS_AUTOCONFIRM':'false','GOTRUE_MAILER_AUTOCONFIRM':'false',
+            'GOTRUE_SECURITY_CAPTCHA_ENABLED':'true' if self.profile['environment']=='production' or settings['TURNSTILE_SITE_KEY'] else 'false',
+            'GOTRUE_SECURITY_CAPTCHA_PROVIDER':'turnstile',
+            'GOTRUE_SECURITY_CAPTCHA_SECRET':settings['TURNSTILE_SECRET_KEY'],
+            **{'GOTRUE_'+key:settings[key] for key in ('SMTP_HOST','SMTP_PORT','SMTP_USER','SMTP_PASS','SMTP_ADMIN_EMAIL','SMTP_SENDER_NAME')},
+        }
+        if mode!='opensms_hook' and (sms or whatsapp):
+            prefix='GOTRUE_SMS_'+mode.upper()+'_'
+            semantics.update({key:value for key,value in settings.items() if key.startswith(prefix)})
+        image=original.get('image')
+        # Compose's rendered JSON doubles literal dollars so it can be loaded
+        # again. The container inspection below must match the unescaped values.
+        rendered={key:value.replace('$','$$') for key,value in expected.items()}
+        if (any(expected.get(key)!=value for key,value in semantics.items()) or not isinstance(image,str)
+            or not re.fullmatch(r'[^\s@]+@sha256:[a-f0-9]{64}',image)
+            or resolved.get('image')!=image or resolved.get('environment')!=rendered):
+            raise ValueError('Resolved Auth configuration differs from the sealed release')
+        raw_ids=self.auth_inspection([self.docker,'ps','-aq','--no-trunc',
+            '--filter','label=com.docker.compose.project='+self.project,
+            '--filter','label=com.docker.compose.service=auth'])
+        try:ids=raw_ids.decode('ascii').split()
+        except UnicodeError:ids=None
+        raw_ids=None
+        if ids is None:raise ValueError('Running Auth inspection was not confirmed')
+        if len(ids)!=1 or not re.fullmatch(r'[a-f0-9]{64}',ids[0]):
+            raise ValueError('One existing Auth container is required')
+        rows=self.auth_inspection_json([self.docker,'container','inspect',ids[0]])
+        images=self.auth_inspection_json([self.docker,'image','inspect',image])
+        if not isinstance(rows,list) or len(rows)!=1 or not isinstance(images,list) or len(images)!=1:
+            raise ValueError('Running Auth configuration cannot be verified')
+        container=rows[0];inspected_image=images[0]
+        if not isinstance(container,dict) or not isinstance(inspected_image,dict):
+            raise ValueError('Running Auth configuration cannot be verified')
+        fields=container.get('Config');state=container.get('State')
+        if not isinstance(fields,dict) or not isinstance(state,dict):
+            raise ValueError('Running Auth configuration cannot be verified')
+        labels=fields.get('Labels');health=state.get('Health')
+        wanted={'com.docker.compose.project':self.project,'com.docker.compose.service':'auth',
+                'com.docker.compose.oneoff':'False','com.docker.compose.container-number':'1',
+                'com.collect.profile-sha256':self.meta['profile_sha256'],
+                'com.collect.source-sha256':self.meta['source_sha256'],
+                'com.collect.release-root':str(self.root)}
+        if (container.get('Id')!=ids[0] or not isinstance(labels,dict)
+            or any(labels.get(key)!=value for key,value in wanted.items())
+            or state.get('Status')!='running' or state.get('Running') is not True
+            or state.get('Paused') is not False or state.get('Restarting') is not False
+            or state.get('Dead') is not False or not isinstance(health,dict)
+            or health.get('Status')!='healthy' or fields.get('Image')!=image
+            or not re.fullmatch(r'sha256:[a-f0-9]{64}',str(inspected_image.get('Id','')))
+            or container.get('Image')!=inspected_image['Id']):
+            raise ValueError('Running Auth configuration cannot be verified')
+        def environment(entries,*,empty_allowed=False):
+            if entries is None and empty_allowed:return {}
+            if not isinstance(entries,list):raise ValueError('Running Auth environment cannot be verified')
+            result={}
+            for entry in entries:
+                if not isinstance(entry,str) or '=' not in entry or '\0' in entry:
+                    raise ValueError('Running Auth environment cannot be verified')
+                key,value=entry.split('=',1)
+                if not key or key in result:raise ValueError('Running Auth environment cannot be verified')
+                result[key]=value
+            return result
+        image_config=inspected_image.get('Config')
+        if not isinstance(image_config,dict):raise ValueError('Running Auth image cannot be verified')
+        image_env=environment(image_config.get('Env'),empty_allowed=True)
+        if environment(fields.get('Env'))!={**image_env,**expected}:
+            raise ValueError('Running Auth environment differs from the sealed release')
+        verify_configuration(self.root)
+        if hashlib.sha256(receipt.read_bytes()).digest()!=initial_receipt:
+            raise ValueError('Sealed configuration changed during Auth verification')
+
     def publish(self):
         if self.profile['admin_origin']==self.profile['public_origin']:raise FrontendOriginsMustDiffer('Self-hosted Admin and public origins must differ')
-        self.docker_preflight();self.validate_runtime_database()
-        settings=json.loads((self.root/'private/provider-settings.json').read_text())
+        settings=read_provider_settings(self.root/'private/provider-settings.json')
         status=validated_settings(settings,self.profile,self.meta['source_sha256'])
         if self.profile['environment']=='production' and (not status['smtp_configured'] or not settings['TURNSTILE_SECRET_KEY'] or not settings['TURNSTILE_SITE_KEY']):raise ValueError('Production Auth SMTP and abuse controls must be configured')
+        config=self.docker_preflight();self.validate_runtime_database()
         from scripts.self_hosted.assets import verify_assets
         verify_assets(self)
+        self.validate_running_auth(config,settings)
         self.compose('up','-d','--wait','--wait-timeout','55','functions','web','proxy',timeout=60)
         return {'public_listener_started':True,'profile_sha256':self.meta['profile_sha256'],'source_sha256':self.meta['source_sha256'],'production_acceptance':'requires runtime/device/provider/recovery evidence'}
 

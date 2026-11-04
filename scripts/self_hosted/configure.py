@@ -29,6 +29,67 @@ TURNSTILE_TEST_SECRET_KEYS=frozenset((
     '3x0000000000000000000000000000000AA',
 ))
 
+# Accommodates the existing per-field character contract even when JSON encodes
+# every non-BMP code point as a surrogate pair, while bounding a hostile file.
+MAX_PROVIDER_SETTINGS_BYTES=32*1024*1024
+MAX_PROVIDER_FIELD_CHARS=32768
+MAX_FCM_ACCOUNT_BYTES=16384
+
+def provider_utf8(value):
+    """Enforce the projection contract without leaking an encoding error."""
+    encoded=None
+    try:
+        if isinstance(value,str) and len(value)<=MAX_PROVIDER_FIELD_CHARS:
+            # Use the same character rules as the environment-file writer.
+            dotenv({'VALUE':value})
+            encoded=value.encode('utf8')
+    except ValueError:pass
+    if encoded is None:raise ValueError('Provider settings could not be parsed')
+    return encoded
+
+def read_provider_settings(path):
+    """Read bounded UTF-8 JSON without exposing malformed private input."""
+    with path.open('rb') as source:raw=source.read(MAX_PROVIDER_SETTINGS_BYTES+1)
+    settings=None
+    try:
+        if len(raw)<=MAX_PROVIDER_SETTINGS_BYTES:
+            settings=json.loads(raw.decode('utf8'))
+    except (ValueError,RecursionError):pass
+    raw=None
+    if not isinstance(settings,dict) or any(not isinstance(value,str) for value in settings.values()):
+        settings=None
+        raise ValueError('Provider settings could not be parsed')
+    valid=True
+    try:
+        for key,value in settings.items():
+            provider_utf8(key)
+            provider_utf8(value)
+    except ValueError:valid=False
+    key=value=None
+    if not valid:
+        settings=None
+        raise ValueError('Provider settings could not be parsed: invalid environment entry')
+    return settings
+
+def parse_fcm_account_json(value):
+    """Parse the member service account without retaining a decoder error."""
+    # Each UTF-8 code point occupies at least one byte. Avoid allocating a
+    # larger encoded copy when the existing byte limit cannot be met.
+    if not isinstance(value,str) or len(value)>MAX_FCM_ACCOUNT_BYTES:
+        raise ValueError('Provider settings could not be parsed')
+    encoded=provider_utf8(value)
+    if len(encoded)>MAX_FCM_ACCOUNT_BYTES:
+        encoded=None
+        raise ValueError('Provider settings could not be parsed')
+    account=None
+    try:account=json.loads(value)
+    except (ValueError,RecursionError):pass
+    encoded=None
+    if not isinstance(account,dict):
+        account=None
+        raise ValueError('Provider settings could not be parsed')
+    return account
+
 def verify_configuration(release):
     path=release/'private/configuration.json';private_file(path)
     receipt=json.loads(path.read_text());meta=json.loads((release/'release.json').read_text())
@@ -38,7 +99,10 @@ def verify_configuration(release):
 
 def read_env(path):
     values={}
-    for line in path.read_text().splitlines():
+    lines=path.read_text(encoding='utf8').split('\n')
+    if lines[-1]=='':lines.pop()
+    # splitlines() also splits valid Unicode characters inside quoted values.
+    for line in lines:
         key,sep,raw=line.partition('=')
         if not sep or key in values or not re.fullmatch(r'[A-Z][A-Z0-9_]*',key):raise ValueError('Invalid generated environment file')
         values[key]=json.loads(raw).replace('$$','$')
@@ -56,7 +120,8 @@ def fcm_identity(project,email,key):
         and len(key)<=8192 and bool(re.fullmatch(r'-----BEGIN PRIVATE KEY-----\r?\n[A-Za-z0-9+/=\r\n]+-----END PRIVATE KEY-----\r?\n?',key)))
 
 def validated_settings(settings,profile,source_sha):
-    if not isinstance(settings,dict) or set(settings)!=set(PROVIDER_SETTINGS) or any(not isinstance(v,str) or '\0' in v or len(v)>32768 for v in settings.values()):raise ValueError('Exact provider settings contract required')
+    if not isinstance(settings,dict) or set(settings)!=set(PROVIDER_SETTINGS) or any(not isinstance(v,str) or '\0' in v or len(v)>MAX_PROVIDER_FIELD_CHARS for v in settings.values()):raise ValueError('Exact provider settings contract required')
+    for value in settings.values():provider_utf8(value)
     flags=[k for k,v in PROVIDER_SETTINGS.items() if v in ('true','false')]
     if any(settings[k] not in ('true','false') for k in flags):raise ValueError('Provider switches require true or false')
     digest=lambda key:bool(re.fullmatch(r'[a-f0-9]{64}',settings[key]))
@@ -108,8 +173,8 @@ def validated_settings(settings,profile,source_sha):
     if settings['COLLECT_PUSH_ENABLED']=='true' and (not settings['FCM_PROJECT_ID'] or not settings['FCM_SERVICE_ACCOUNT_JSON'] or not digest('COLLECT_JOBS_PUSH_APPROVAL_SHA256') or not settings['COLLECT_PUSH_ADMITTED_FROM'].isdigit()):raise ValueError('Verified push provider, start and approval required')
     if settings['FCM_ANDROID_PACKAGE'] not in ('app.cool.mobile','app.cool.mobile.dev') or profile['environment']=='production' and settings['FCM_ANDROID_PACKAGE']!='app.cool.mobile':raise ValueError('Exact registered member Android package required')
     if settings['FCM_SERVICE_ACCOUNT_JSON']:
-        account=json.loads(settings['FCM_SERVICE_ACCOUNT_JSON'])
-        if not isinstance(account,dict) or len(settings['FCM_SERVICE_ACCOUNT_JSON'].encode())>16384 or account.get('type')!='service_account' or account.get('project_id')!=settings['FCM_PROJECT_ID'] or account.get('token_uri')!='https://oauth2.googleapis.com/token' or account.get('universe_domain','googleapis.com')!='googleapis.com' or not isinstance(account.get('private_key_id'),str) or not re.fullmatch(r'[-A-Za-z0-9_]{1,128}',account.get('private_key_id','')) or not fcm_identity(settings['FCM_PROJECT_ID'],account.get('client_email',''),account.get('private_key','')):raise ValueError('Exact member push service identity required')
+        account=parse_fcm_account_json(settings['FCM_SERVICE_ACCOUNT_JSON'])
+        if account.get('type')!='service_account' or account.get('project_id')!=settings['FCM_PROJECT_ID'] or account.get('token_uri')!='https://oauth2.googleapis.com/token' or account.get('universe_domain','googleapis.com')!='googleapis.com' or not isinstance(account.get('private_key_id'),str) or not re.fullmatch(r'[-A-Za-z0-9_]{1,128}',account.get('private_key_id','')) or not fcm_identity(settings['FCM_PROJECT_ID'],account.get('client_email',''),account.get('private_key','')):raise ValueError('Exact member push service identity required')
     if settings['MOMO_PROCESSING_PAUSED']=='false' and (settings['MOMO_AI_ENABLED']!='true' or not settings['OPENAI_API_KEY'] or not settings['MOMO_AI_MODEL'] or not digest('COLLECT_JOBS_PROCESSING_APPROVAL_SHA256')):raise ValueError('Reviewed receipt extraction provider required')
     if settings['ROSTER_AI_APPROVAL_JSON'] or settings['ROSTER_AI_APPROVAL_SHA256']:raise ValueError('Roster PDF/image AI requires a qualified Supabase-native decoder; the current Python/SQLite helper is not admitted by this deployment')
     return {'smtp_configured':smtp_ready,'google_configured':google,'source_sha256':source_sha,'configuration_only':True}
@@ -117,7 +182,7 @@ def validated_settings(settings,profile,source_sha):
 def configure(release:Path):
     release=release.resolve(strict=True);meta=json.loads((release/'release.json').read_text());profile=meta['profile']
     settings_file=release/'private/provider-settings.json';private_file(settings_file)
-    settings=json.loads(settings_file.read_text());status=validated_settings(settings,profile,meta['source_sha256'])
+    settings=read_provider_settings(settings_file);status=validated_settings(settings,profile,meta['source_sha256'])
     stack=read_env(release/'private/stack.env');functions=read_env(release/'private/functions.env');public=read_env(release/'public.env')
     stack.update(settings)
     function_settings={k:v for k,v in settings.items() if not k.startswith(('SMTP_','GOTRUE_')) and k not in ('GOOGLE_SECRET','GOOGLE_CLIENT_ID')}
@@ -138,9 +203,12 @@ def configure(release:Path):
     stack['GOTRUE_HOOK_SEND_SMS_ENABLED']='true' if settings['AUTH_PHONE_DELIVERY_MODE']=='opensms_hook' and settings['AUTH_SMS_ENABLED']=='true' else 'false'
     stack['GOTRUE_SMS_PROVIDER']='twilio' if settings['AUTH_PHONE_DELIVERY_MODE']=='opensms_hook' else settings['AUTH_PHONE_DELIVERY_MODE']
     stack['GOTRUE_SECURITY_CAPTCHA_ENABLED']='true' if profile['environment']=='production' or settings['TURNSTILE_SITE_KEY'] else 'false'
-    for path,values,mode in [(release/'private/stack.env',stack,0o600),(release/'private/functions.env',functions,0o600),(release/'public.env',public,0o644)]:
+    projections=[(release/'private/stack.env',dotenv(stack),0o600),
+                 (release/'private/functions.env',dotenv(functions),0o600),
+                 (release/'public.env',dotenv(public),0o644)]
+    for path,content,mode in projections:
         temp=path.with_suffix(path.suffix+'.next')
-        with temp.open('x') as out:os.chmod(temp,mode);out.write(dotenv(values))
+        with temp.open('x',encoding='utf8') as out:os.chmod(temp,mode);out.write(content)
         temp.replace(path)
     temp=release/'client.json.next'
     with temp.open('x') as out:os.chmod(temp,0o644);json.dump(public,out,sort_keys=True,indent=2);out.write('\n')

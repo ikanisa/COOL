@@ -302,12 +302,15 @@ def _stage_inputs(output,snapshot):
         for fd in reversed(list(directories.values())):os.close(fd)
 
 def dotenv(values):
-    # Compose double-quoted values decode escaped newlines; $$ prevents Compose
-    # interpolation of arbitrary provider credentials. No shell sources this file.
+    # Compose double-quoted values decode JSON's short control escapes and $$
+    # preserves literal dollars. Compose does not decode JSON's \\u escapes, so
+    # emit Unicode directly and refuse controls without a compatible escape.
+    # No shell sources this file.
     for key in values:
-        if not re.fullmatch(r'[A-Z][A-Z0-9_]*',key) or not isinstance(values[key],str) or '\0' in values[key]:
+        if (not re.fullmatch(r'[A-Z][A-Z0-9_]*',key) or not isinstance(values[key],str)
+            or re.search(r'[\x00-\x07\x0b\x0e-\x1f\ud800-\udfff]',values[key])):
             raise ValueError('Invalid private environment entry')
-    return ''.join(k+'='+json.dumps(values[k].replace('$','$$'))+'\n' for k in sorted(values))
+    return ''.join(k+'='+json.dumps(values[k].replace('$','$$'),ensure_ascii=False)+'\n' for k in sorted(values))
 
 CONFIGURATION_FILES=('release.json','compose.json','Caddyfile','images.lock.json','public.env','client.json','frontend-source-manifest.json',
                      'private/keys.json','private/provider-settings.json','private/stack.env','private/functions.env',
@@ -453,6 +456,9 @@ def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None):
     if profile['mode']!='self_hosted':raise ValueError('Self-hosted profile required')
     if profile['admin_origin']==profile['public_origin']:raise FrontendOriginsMustDiffer('Self-hosted Admin and public origins must differ')
     output=output.absolute()
+    # The release path enters stack.env. Refuse an unrepresentable path before
+    # creating a release directory, generating keys, or exporting source.
+    dotenv({'COLLECT_RELEASE_ROOT':str(output)})
     if output.exists() or output.parent.resolve()!=output.parent:raise ValueError('Fresh physical release directory required')
     snapshot=_capture_inputs(ROOT,SOURCE_ROOTS);images=verify_vendor(snapshot=snapshot)
     manifest=snapshot['manifest'];frontend=frontend_inventory(ROOT)
@@ -479,7 +485,7 @@ def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None):
     public.update({'AUTH_CAPTCHA_ENABLED':'true' if profile['environment']=='production' else 'false',
                    'AUTH_CAPTCHA_PROVIDER':'turnstile','AUTH_CAPTCHA_SITE_KEY':''})
     write_json(output/'client.json',public)
-    (output/'public.env').write_text(dotenv(public));(output/'public.env').chmod(0o644)
+    (output/'public.env').write_text(dotenv(public),encoding='utf8');(output/'public.env').chmod(0o644)
     stack={k:v for k,v in keys.items() if k!='format'}
     stack.update(public)
     stack['COLLECT_RELEASE_ROOT']=str(output)
@@ -499,7 +505,7 @@ def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None):
         'MAILER_URLPATHS_CONFIRMATION':'/auth/v1/verify','MAILER_URLPATHS_INVITE':'/auth/v1/verify','MAILER_URLPATHS_RECOVERY':'/auth/v1/verify','MAILER_URLPATHS_EMAIL_CHANGE':'/auth/v1/verify'})
     required=set(re.findall(r'\$\{([A-Z][A-Z0-9_]*)\}',json.dumps(compose)))
     if required-set(stack):raise ValueError('Compose requires explicit values for every interpolation variable')
-    (private/'stack.env').write_text(dotenv(stack));(private/'stack.env').chmod(0o600)
+    (private/'stack.env').write_text(dotenv(stack),encoding='utf8');(private/'stack.env').chmod(0o600)
     function_settings={k:v for k,v in PROVIDER_SETTINGS.items() if not k.startswith(('SMTP_','GOTRUE_')) and k not in ('GOOGLE_SECRET','GOOGLE_CLIENT_ID')}
     functions={**public,**function_settings,**{k:keys[k] for k in PRIVATE_KEYS},
         'SUPABASE_INTERNAL_URL':'http://api-gw:8000','SUPABASE_SECRET_KEY':keys['SUPABASE_SECRET_KEY'],
@@ -510,7 +516,7 @@ def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None):
         'GOOGLE_WEB_ORIGINS':profile['public_origin']+','+profile['member_api_origin'],
         'AUTH_SEND_SMS_SECRET':'v1,whsec_'+keys['COLLECT_SMS_HOOK_SECRET'],'AUTH_PROJECT_ID':profile['id'],
         'COLLECT_PRIVATE_BUCKET':'collect-evidence'}
-    (private/'functions.env').write_text(dotenv(functions));(private/'functions.env').chmod(0o600)
+    (private/'functions.env').write_text(dotenv(functions),encoding='utf8');(private/'functions.env').chmod(0o600)
     write_json(private/'provider-settings.json',PROVIDER_SETTINGS,private=True)
     write_json(output/'source-manifest.json',manifest)
     write_json(output/'frontend-source-manifest.json',frontend)
