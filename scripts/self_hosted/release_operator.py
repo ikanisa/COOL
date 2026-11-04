@@ -9,8 +9,9 @@ import argparse
 import hashlib
 import json
 import os
-from pathlib import Path
+from pathlib import Path,PurePosixPath
 import re
+import stat
 import subprocess
 import sys
 sys.dont_write_bytecode=True
@@ -20,6 +21,101 @@ sys.path.insert(0,str(ROOT))
 from scripts.supabase.deployment_profile import validate_profile,profile_sha256
 from scripts.self_hosted.configure import private_file,read_env,validated_settings,verify_configuration
 from scripts.self_hosted.prepare import FrontendOriginsMustDiffer
+
+_MAX_SOURCE_MANIFEST_BYTES=128*1024*1024
+_MAX_SOURCE_DIRECTORIES=65536
+_MAX_SOURCE_DEPTH=512
+
+def _read_source_manifest(path):
+    """Read a bounded regular control file without following its final link."""
+    if not all(hasattr(os,name) for name in ('O_NOFOLLOW','O_NONBLOCK')):
+        raise ValueError('Physical source manifest access unavailable')
+    before=path.lstat()
+    if not stat.S_ISREG(before.st_mode) or before.st_size>_MAX_SOURCE_MANIFEST_BYTES:
+        raise ValueError('Physical bounded source manifest required')
+    descriptor=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+    try:
+        actual=os.fstat(descriptor)
+        if not stat.S_ISREG(actual.st_mode) or (actual.st_dev,actual.st_ino)!=(before.st_dev,before.st_ino) or actual.st_size>_MAX_SOURCE_MANIFEST_BYTES:
+            raise ValueError('Physical bounded source manifest required')
+        remaining=actual.st_size;data=bytearray()
+        while remaining:
+            chunk=os.read(descriptor,min(1024*1024,remaining))
+            if not chunk:raise ValueError('Source manifest changed')
+            data.extend(chunk);remaining-=len(chunk)
+        if os.read(descriptor,1):raise ValueError('Source manifest changed')
+        after=os.fstat(descriptor)
+        if (actual.st_size,actual.st_mtime_ns,actual.st_ctime_ns)!=(after.st_size,after.st_mtime_ns,after.st_ctime_ns):raise ValueError('Source manifest changed')
+        return json.loads(bytes(data))
+    finally:os.close(descriptor)
+
+def _source_name(name):
+    if not isinstance(name,str) or not name or '\0' in name or '\\' in name:
+        raise ValueError('Safe relative source path required')
+    path=PurePosixPath(name)
+    if path.is_absolute() or not path.parts or '..' in path.parts or str(path)!=name:
+        raise ValueError('Safe relative source path required')
+    return name
+
+def _verify_physical_tree(root,expected,*,capture=None):
+    """Verify every file while refusing links and special nodes without following them.
+
+    Directory-relative opens keep each traversal on the directory that was
+    inspected. Host custody is still required after verification: a Docker
+    bind mount can observe later host changes.
+    """
+    if not all(hasattr(os,name) for name in ('O_NOFOLLOW','O_DIRECTORY','O_NONBLOCK')):
+        raise ValueError('Physical source traversal unavailable')
+    root_stat=root.lstat()
+    if not stat.S_ISDIR(root_stat.st_mode):raise ValueError('Physical source directory required')
+    flags=os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW
+    root_fd=os.open(root,flags)
+    seen=set();captured=None;directories=0
+    def same_inode(left,right):
+        return (left.st_dev,left.st_ino)==(right.st_dev,right.st_ino)
+    def walk(directory,prefix,depth):
+        nonlocal captured,directories
+        directories+=1
+        if directories>_MAX_SOURCE_DIRECTORIES or depth>_MAX_SOURCE_DEPTH:raise ValueError('Source directory budget exceeded')
+        with os.scandir(directory) as entries:
+            for entry in entries:
+                name=prefix+entry.name
+                before=entry.stat(follow_symlinks=False)
+                if stat.S_ISDIR(before.st_mode):
+                    child=os.open(entry.name,flags,dir_fd=directory)
+                    try:
+                        actual=os.fstat(child)
+                        if not stat.S_ISDIR(actual.st_mode) or not same_inode(before,actual):raise ValueError('Source directory changed')
+                        walk(child,name+'/',depth+1)
+                    finally:os.close(child)
+                elif stat.S_ISREG(before.st_mode):
+                    if name not in expected or name in seen:raise ValueError('Unexpected source file')
+                    info=expected[name]
+                    descriptor=os.open(entry.name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=directory)
+                    try:
+                        actual=os.fstat(descriptor)
+                        if not stat.S_ISREG(actual.st_mode) or not same_inode(before,actual):raise ValueError('Source file changed')
+                        if actual.st_size!=info['bytes']:raise ValueError('Source file changed')
+                        digest=hashlib.sha256();size=0;data=bytearray() if name==capture else None
+                        while True:
+                            chunk=os.read(descriptor,1024*1024)
+                            if not chunk:break
+                            digest.update(chunk);size+=len(chunk)
+                            if size>info['bytes']:raise ValueError('Source file changed')
+                            if data is not None:data.extend(chunk)
+                        after=os.fstat(descriptor)
+                        if (actual.st_size,actual.st_mtime_ns,actual.st_ctime_ns)!=(after.st_size,after.st_mtime_ns,after.st_ctime_ns) or size!=actual.st_size or digest.hexdigest()!=info['sha256']:
+                            raise ValueError('Source file changed')
+                        if data is not None:captured=bytes(data)
+                    finally:os.close(descriptor)
+                    seen.add(name)
+                else:raise ValueError('Source links and special files are refused')
+    try:
+        if not stat.S_ISDIR(os.fstat(root_fd).st_mode) or not same_inode(root_stat,os.fstat(root_fd)):raise ValueError('Source directory changed')
+        walk(root_fd,'',0)
+    finally:os.close(root_fd)
+    if seen!=set(expected):raise ValueError('Source file inventory changed')
+    return captured
 
 class Operator:
     def __init__(self,release:Path,*,docker='docker'):
@@ -35,17 +131,35 @@ class Operator:
         verify_configuration(self.root)
 
     def verify_source(self):
-        manifest=json.loads((self.root/'source-manifest.json').read_text())
+        manifest=_read_source_manifest(self.root/'source-manifest.json')
         if manifest['format']!='collect.selfhost.source.v1' or manifest['sha256']!=self.meta['source_sha256']:raise ValueError('Source identity mismatch')
+        if not isinstance(manifest.get('files'),list) or len(manifest['files'])>4096:raise ValueError('Bounded source inventory required')
         if hashlib.sha256(json.dumps(manifest['files'],sort_keys=True,separators=(',',':')).encode()).hexdigest()!=manifest['sha256']:raise ValueError('Source manifest changed')
-        seen=set()
+        expected={};total=0
         for item in manifest['files']:
-            name=item['path'];p=self.root/'source'/name
-            if name in seen or p.resolve()!=p or not p.is_file() or not p.is_relative_to(self.root/'source'):raise ValueError('Physical unique release source required')
-            data=p.read_bytes()
-            if len(data)!=item['bytes'] or hashlib.sha256(data).hexdigest()!=item['sha256']:raise ValueError('Release source changed')
-            seen.add(name)
-        if seen!={p.relative_to(self.root/'source').as_posix() for p in (self.root/'source').rglob('*') if p.is_file()}:raise ValueError('Unexpected source file')
+            if not isinstance(item,dict):raise ValueError('Unique source inventory required')
+            name=_source_name(item['path']);size=item['bytes'];digest=item['sha256']
+            if name in expected or type(size) is not int or not 0<=size<=8*1024*1024 or not isinstance(digest,str) or not re.fullmatch(r'[a-f0-9]{64}',digest):raise ValueError('Unique bounded source inventory required')
+            total+=size
+            if total>100*1024*1024:raise ValueError('Bounded source inventory required')
+            expected[name]={'bytes':size,'sha256':digest}
+        lock_name='deploy/self-hosted/upstream.lock.json'
+        if lock_name not in expected or expected[lock_name]['bytes']>8*1024*1024:raise ValueError('Source-bound upstream lock required')
+        lock_data=_verify_physical_tree(self.root/'source',expected,capture=lock_name)
+        lock=json.loads(lock_data)
+        if not isinstance(lock,dict) or lock.get('format')!='collect.selfhost.upstream.v1' or not isinstance(lock.get('commit'),str) or not re.fullmatch(r'[a-f0-9]{40}',lock['commit']) or lock['commit']!=self.meta.get('upstream_commit') or not isinstance(lock.get('files'),list) or not 1<=len(lock['files'])<=4096:
+            raise ValueError('Exact source-bound upstream lock required')
+        upstream={}
+        for item in lock['files']:
+            if not isinstance(item,dict):raise ValueError('Unique upstream inventory required')
+            name=_source_name(item['path']);digest=item['sha256']
+            if name in upstream or not isinstance(digest,str) or not re.fullmatch(r'[a-f0-9]{64}',digest):raise ValueError('Unique upstream inventory required')
+            source=expected.get('deploy/self-hosted/upstream/'+name)
+            if source is None or source['sha256']!=digest:raise ValueError('Upstream source identity mismatch')
+            upstream[name]={'bytes':source['bytes'],'sha256':digest}
+        source_upstream={name.removeprefix('deploy/self-hosted/upstream/') for name in expected if name.startswith('deploy/self-hosted/upstream/')}
+        if source_upstream!=set(upstream):raise ValueError('Upstream source inventory mismatch')
+        _verify_physical_tree(self.root/'upstream',upstream)
 
     def run(self,args,*,input_bytes=None,timeout=60):
         # Process diagnostics may contain operational data. Retain privately;

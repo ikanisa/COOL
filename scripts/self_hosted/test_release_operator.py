@@ -121,11 +121,21 @@ class OperatorDiagnostics(unittest.TestCase):
             'environment':'qualification','supabase_origin':'https://identity.example',
             'admin_origin':'https://same.example','public_origin':'https://same.example',
             'member_api_origin':'https://api.example','google_callback_origin':'https://same.example'}
-        digest=hashlib.sha256(b'[]').hexdigest()
+        commit='a'*40;content=b'synthetic upstream source\n';name='volumes/db/jwt.sql'
+        upstream=self.root/'upstream'/name;upstream.parent.mkdir(parents=True);upstream.write_bytes(content)
+        source=self.root/'source';source.mkdir()
+        source_upstream=source/'deploy/self-hosted/upstream'/name;source_upstream.parent.mkdir(parents=True);source_upstream.write_bytes(content)
+        lock=source/'deploy/self-hosted/upstream.lock.json'
+        lock.write_text(json.dumps({'format':'collect.selfhost.upstream.v1','commit':commit,
+            'files':[{'path':name,'sha256':hashlib.sha256(content).hexdigest()}]}))
+        files=[]
+        for path in sorted(source.rglob('*')):
+            if path.is_file():
+                data=path.read_bytes();files.append({'path':path.relative_to(source).as_posix(),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()})
+        digest=hashlib.sha256(json.dumps(files,sort_keys=True,separators=(',',':')).encode()).hexdigest()
         meta={'format':'collect.selfhost.release.v1','profile':profile,
-            'profile_sha256':profile_sha256(profile),'source_sha256':digest}
-        (self.root/'source').mkdir()
-        (self.root/'source-manifest.json').write_text(json.dumps({'format':'collect.selfhost.source.v1','sha256':digest,'files':[]}))
+            'profile_sha256':profile_sha256(profile),'source_sha256':digest,'upstream_commit':commit}
+        (self.root/'source-manifest.json').write_text(json.dumps({'format':'collect.selfhost.source.v1','sha256':digest,'files':files}))
         for name in CONFIGURATION_FILES:
             path=self.root/name;path.parent.mkdir(parents=True,exist_ok=True)
             path.write_text(json.dumps(meta) if name=='release.json' else '{}')

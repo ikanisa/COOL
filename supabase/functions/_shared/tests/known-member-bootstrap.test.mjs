@@ -1,7 +1,10 @@
 import {test} from './helpers/fenced-node-test.js';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {startOtp} from './helpers/module-domain-auth.js';
 import {ApiError} from '../domain/core.js';
+import {canonicalProfile, verifyDeploymentProfile} from '../deployment-profile.js';
+import {normalizeRuntimeEnv} from '../runtime-env.js';
 
 // Intended path: _shared/tests/known-member-bootstrap.test.mjs.
 // Actual startOtp, in-memory admission/reservation and fully intercepted GoTrue.
@@ -20,6 +23,14 @@ const CASES = [
 const IDENTITIES = [CASES[0], CASES[1]];
 const OPT_OUTS = [{should_create_user: false}, {allow_registration: false},
   {should_create_user: false, allow_registration: false}];
+const SELF_HOSTED_PROFILE = {
+  format: 'collect.deployment.v1', id: 'synthetic-sms-bootstrap', mode: 'self_hosted',
+  environment: 'qualification', supabase_origin: PROJECT,
+  member_api_origin: 'https://member.example.invalid', admin_origin: 'https://admin.example.invalid',
+  public_origin: 'https://public.example.invalid', google_callback_origin: 'https://member.example.invalid',
+};
+const SELF_HOSTED_RAW = canonicalProfile(SELF_HOSTED_PROFILE);
+const SELF_HOSTED_HASH = createHash('sha256').update(SELF_HOSTED_RAW).digest('hex');
 
 class Statement {
   values = [];
@@ -58,8 +69,18 @@ async function fixture(options, check) {
   const db = new Database(options.eligible ?? true), calls = [];
   // Managed identity existence is deliberately independent of local membership.
   const provider = {hasIdentity: options.managedIdentity ?? false, created: 0};
-  const env = {DB: db, SUPABASE_URL: PROJECT, SUPABASE_PUBLISHABLE_KEY: PUBLIC_KEY,
+  const baseEnv = {DB: db, SUPABASE_URL: PROJECT, SUPABASE_PUBLISHABLE_KEY: PUBLIC_KEY,
     AUTH_MEMBER_REGISTRATION_ENABLED: options.registration ? 'true' : 'false'};
+  const env = options.selfHosted ? normalizeRuntimeEnv({
+    ...baseEnv, APP_ENVIRONMENT: 'qualification',
+    COLLECT_DEPLOYMENT_PROFILE: SELF_HOSTED_RAW, COLLECT_DEPLOYMENT_PROFILE_SHA256: SELF_HOSTED_HASH,
+    COLLECT_DATABASE_URL: 'postgres://collect_edge:synthetic@db:5432/postgres',
+    COLLECT_DB_CA_PEM: '-----BEGIN CERTIFICATE-----\nQQ==\n-----END CERTIFICATE-----',
+    SUPABASE_INTERNAL_URL: 'http://api-gw:8000', SUPABASE_SECRET_KEY: 'sb_secret_synthetic_bootstrap_only',
+    // Legacy phone enablement must not override an absent or disabled explicit SMS setting.
+    AUTH_PHONE_ENABLED: 'true', ...(options.smsEnabled === undefined ? {} : {AUTH_SMS_ENABLED: options.smsEnabled}),
+  }) : baseEnv;
+  if (options.selfHosted) assert.deepEqual(await verifyDeploymentProfile(env), SELF_HOSTED_PROFILE);
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async (input, init) => {
     const request = new Request(input, init), body = await request.json();
@@ -70,6 +91,9 @@ async function fixture(options, check) {
     if (body.phone && !['sms', 'whatsapp'].includes(body.channel)) return Response.json({error_code: 'synthetic_phone_channel_invalid'}, {status: 400});
     if (typeof options.mode === 'number') return Response.json({error_code: 'synthetic_provider_rejected'}, {status: options.mode});
     if (options.mode === 'network') throw new TypeError('synthetic unconfirmed transport');
+    if (options.mode === 'signup-disabled' && !provider.hasIdentity && body.create_user === true) {
+      return Response.json({error_code: 'signup_disabled'}, {status: 422});
+    }
     if (!provider.hasIdentity && body.create_user !== true) {
       return Response.json({error_code: 'otp_disabled'}, {status: 422});
     }
@@ -82,7 +106,7 @@ async function fixture(options, check) {
     globalThis.fetch = originalFetch;
     // Run after restoration so even a failed assertion never leaves a fetch stub.
     for (const call of calls) {
-      assert.equal(call.url, PROJECT + '/auth/v1/otp'); assert.equal(call.method, 'POST');
+      assert.equal(call.url, (env.SUPABASE_INTERNAL_URL ?? PROJECT) + '/auth/v1/otp'); assert.equal(call.method, 'POST');
       assert.equal(call.redirect, 'error'); assert.equal(call.headers.get('Content-Type'), 'application/json');
       assert.equal(call.headers.get('apikey'), PUBLIC_KEY); assert.equal(call.headers.has('Authorization'), false);
     }
@@ -199,6 +223,76 @@ test('eligible local member managed-Auth bootstrap preserves registration and de
         const result = await start(CASES[1].body); assert.equal(calls.length, 1); wire(calls[0], CASES[1], true);
         challenge(result, db, CASES[1], {delivery: 'unknown'});
         if (mode === 'lost-after-create') assert.equal(provider.created, 1, 'A possibly committed provider operation is never replayed');
+      });
+    });
+  }
+});
+
+// The explicit deployment profile disables the legacy implicit phone-channel
+// fallback. These cases still exercise only the OTP admission and wire contract;
+// the fake provider does not establish a real signup, phone proof or delivery.
+test('self-hosted member SMS registration honors admission and managed GoTrue boundaries', async t => {
+  const sms = CASES[3];
+  for (const flags of [{}, {allow_registration: true, should_create_user: true}]) {
+    await t.test('enabled registration admits a new SMS identity: ' + JSON.stringify(flags), async () => {
+      await fixture({selfHosted: true, smsEnabled: 'true', registration: true, eligible: false}, async ({start, db, calls, provider}) => {
+        const result = await start({...sms.body, ...flags});
+        assert.equal(calls.length, 1); wire(calls[0], sms, true);
+        challenge(result, db, sms, {registration: true});
+        assert.equal(provider.created, 1); assert.equal(provider.hasIdentity, true);
+      });
+    });
+  }
+  for (const flags of [{}, {allow_registration: true, should_create_user: true}]) {
+    await t.test('paused registration denies an unknown SMS identity: ' + JSON.stringify(flags), async () => {
+      await fixture({selfHosted: true, smsEnabled: 'true', eligible: false}, async ({start, db, calls, provider}) => {
+        await assert.rejects(start({...sms.body, ...flags}), errorIs(403, 'registration_unavailable'));
+        denied(db, calls); assert.equal(provider.created, 0);
+      });
+    });
+  }
+  for (const flags of OPT_OUTS) {
+    await t.test('each explicit caller opt-out prevents new SMS registration: ' + JSON.stringify(flags), async () => {
+      await fixture({selfHosted: true, smsEnabled: 'true', registration: true, eligible: false}, async ({start, db, calls, provider}) => {
+        await assert.rejects(start({...sms.body, ...flags}), errorIs(403, 'registration_unavailable'));
+        denied(db, calls); assert.equal(provider.created, 0);
+      });
+    });
+  }
+  for (const smsEnabled of [undefined, 'false']) {
+    await t.test('an absent or disabled SMS flag stops before lookup or provider: ' + String(smsEnabled), async () => {
+      await fixture({selfHosted: true, smsEnabled, registration: true, eligible: false}, async ({start, db, calls, provider}) => {
+        await assert.rejects(start(sms.body), errorIs(503, 'sms_unavailable'));
+        assert.equal(db.lookups.length, 0); assert.equal(db.batches.length, 0);
+        assert.equal(db.reservations.length, 0); assert.equal(db.updates.length, 0);
+        assert.equal(calls.length, 0); assert.equal(provider.created, 0);
+      });
+    });
+  }
+  await t.test('GoTrue signup rejection does not become an accepted challenge', async () => {
+    await fixture({selfHosted: true, smsEnabled: 'true', registration: true, eligible: false, mode: 'signup-disabled'}, async ({start, db, calls, provider}) => {
+      await assert.rejects(start(sms.body), errorIs(422, 'signup_disabled'));
+      assert.equal(calls.length, 1); wire(calls[0], sms, true);
+      assert.equal(db.reservations.length, 1); assert.equal(db.reservations[0].registrationAllowed, 1);
+      assert.equal(db.reservations[0].delivery, 'rejected');
+      assert.deepEqual(db.updates, [{id: db.reservations[0].id, status: 'rejected'}]);
+      assert.equal(provider.created, 0); assert.equal(provider.hasIdentity, false);
+    });
+  });
+  for (const managedIdentity of [false, true]) {
+    await t.test('known local SMS member opt-out preserves managed identity creation boundary: ' + managedIdentity, async () => {
+      await fixture({selfHosted: true, smsEnabled: 'true', registration: true, managedIdentity}, async ({start, db, calls, provider}) => {
+        const request = {...sms.body, allow_registration: false, should_create_user: false};
+        if (managedIdentity) {
+          const result = await start(request);
+          challenge(result, db, sms);
+        } else {
+          await assert.rejects(start(request), errorIs(422, 'otp_disabled'));
+          assert.equal(db.reservations.length, 1); assert.equal(db.reservations[0].registrationAllowed, 0);
+          assert.equal(db.reservations[0].delivery, 'rejected');
+          assert.deepEqual(db.updates, [{id: db.reservations[0].id, status: 'rejected'}]);
+        }
+        assert.equal(calls.length, 1); wire(calls[0], sms, false); assert.equal(provider.created, 0);
       });
     });
   }
