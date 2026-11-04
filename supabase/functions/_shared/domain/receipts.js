@@ -3,6 +3,7 @@ import {mutation,retainedResponse,assertMutationAdmission} from './mutations.js'
 import {consumeNativeCapability,canonicalRwandaPhone,clientSmsCaptureScope} from './native_integrity.js';
 import {encrypt} from './encryption.js';
 import {storageEntity,verifyRetainedObject} from '../storage-identity.js';
+import {gatewayUploadHeld,hasGatewayBinding} from '../gateway-upload-hold.js';
 import {processingInsert} from './momo_pipeline.js';
 // Capture consent belongs to a signed-in installation, independently of an
 // optional wallet attestation. A later explicit disable from any session wins;
@@ -26,6 +27,9 @@ function captureGuard(env,actor,{budget=false}={}) {
 }
 export async function receiptFunction(name,body,env,actor) {
  if(!['ingest-payment-sms','ingest-client-sms'].includes(name))return {handled:false};
+ // The owner has held receiving-gateway uploads. Ordinary member captures
+ // carry no gateway binding and remain independently enabled by consent.
+ if(hasGatewayBinding(body))throw gatewayUploadHeld();
  const envelope=uuid(body.client_envelope_id,'client_envelope_id');
  if(typeof body.raw_body!=='string'||!body.raw_body||new TextEncoder().encode(body.raw_body).length>16384||body.raw_body.includes('\0'))throw new ApiError(400,'invalid_sms_request','Invalid receipt text.');
  const sender=text(body.raw_sender,'raw_sender',96),bodySha=await digest(body.raw_body),general=body.receiver_momo_number==null&&body.native_capability==null;

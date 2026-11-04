@@ -50,7 +50,7 @@ function fixture(pauseSetting) {
   return {env, ctx, body, statements, batches, stored, deferred};
 }
 
-test('gateway capture retains the processing job without starting it even when the pause setting drifts', async () => {
+test('gateway capture stays held even when the processing pause setting drifts', async () => {
   for (const setting of ['false', 'true', 'TRUE', '', undefined]) {
     const f = fixture(setting);
     const response = await worker.fetch(new Request('https://synthetic.example/v1/momo/gateway/ingest', {
@@ -58,13 +58,13 @@ test('gateway capture retains the processing job without starting it even when t
       body: JSON.stringify(f.body),
     }), f.env, f.ctx);
     const body = await response.json();
-    assert.equal(response.status, 200, JSON.stringify(body));
-    assert.equal(body.receipt.stored, true);
-    assert.equal(f.stored.length, 1);
-    assert.equal(f.batches.length, 1);
-    assert.equal(f.batches[0].filter(statement => statement.sql.includes('INSERT INTO momo_processing_jobs')).length, 1);
-    assert.equal(f.statements.some(statement => /UPDATE momo_processing_jobs SET state=/.test(statement.sql)), false);
-    assert.equal(f.deferred.length, 0, 'No background receipt processing may be started by ingestion.');
+    assert.equal(response.status, 503, JSON.stringify(body));
+    assert.equal(body.code, 'gateway_upload_held');
+    assert.equal(body.receipt, undefined);
+    assert.equal(f.stored.length, 0);
+    assert.equal(f.batches.length, 0);
+    assert.equal(f.statements.length, 0);
+    assert.equal(f.deferred.length, 0, 'No background receipt processing may be started by a held upload.');
     await Promise.all(f.deferred);
   }
 });

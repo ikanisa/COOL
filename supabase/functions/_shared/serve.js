@@ -13,6 +13,7 @@ import {drainNotificationDeliveries} from './domain/notification_delivery.js';
 import {json,readJson} from './domain/core.js';
 import {recordPlatformHealth} from './domain/observability.js';
 import {cleanupClientDiagnostics} from './domain/client_diagnostics.js';
+import {gatewayUploadHeld,isGatewayIngest} from './gateway-upload-hold.js';
 export {runtimeFailureEvent} from './domain/observability.js';
 // Health observations never change an admitted response or application work.
 function observeFailure(report,value){try{report(value);}catch{}}
@@ -50,6 +51,9 @@ export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{op
    if(origin&&!allowed.includes(origin)&&!isGoogleProviderNavigation(logical,env))return json({code:'origin_denied'},403);
    cors=origin?{'Access-Control-Allow-Origin':origin,Vary:'Origin','Access-Control-Allow-Methods':'GET,HEAD,POST,PATCH,DELETE,OPTIONS','Access-Control-Allow-Headers':'Authorization,Content-Type,apikey,Idempotency-Key,X-Request-ID,X-Collect-Admin,X-Collect-CSRF,X-Collect-Requested-With,X-Collect-Review-Reason',...(admin?{'Access-Control-Allow-Credentials':'true','Access-Control-Expose-Headers':'X-Collect-Evidence-Sensitivity'}:{}),'Access-Control-Max-Age':'600'}:{};
    if(request.method==='OPTIONS')return new Response(null,{status:204,headers:cors});
+   if(functionName==='collect-api'&&isGatewayIngest(request.method,path)){
+    const held=gatewayUploadHeld();return json({code:held.code,message:held.message},held.status,cors);
+   }
    stage='normalization';env=normalizeRuntimeEnv(env);env.MOMO_PROCESSING_PAUSED=env.MOMO_PROCESSING_PAUSED??'true';env.AUTH_MEMBER_REGISTRATION_ENABLED=env.AUTH_MEMBER_REGISTRATION_ENABLED??'false';
    stage='database_initialization';env.DB=new PostgresDatabase(connection(env.COLLECT_DATABASE_URL,env));await assertRuntimeDeployment(env.DB.sql,env);
    stage='fence_admission';work=await openWork({backend:sqlFenceBackend(env.DB.sql,fenceConnection(env.COLLECT_DATABASE_URL,env)),sourceSha256:env.BUILD_SOURCE_ID,kind:admin?'http_admin':'http_collect'});env.COLLECT_FENCE_WORK=work;env.DB.setApplicationWork(work);

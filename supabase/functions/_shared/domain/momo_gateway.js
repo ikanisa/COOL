@@ -1,6 +1,7 @@
 import {ApiError,json,readJson,first,now,id,digest,stableJson,uuid,integer,text} from './core.js';
 import {encrypt,decrypt} from './encryption.js';
 import {storageEntity,verifyRetainedObject} from '../storage-identity.js';
+import {gatewayUploadHeld,isGatewayIngest} from '../gateway-upload-hold.js';
 import {processingInsert} from './momo_pipeline.js';
 
 const enc=new TextEncoder(),dec=new TextDecoder();
@@ -51,6 +52,8 @@ async function pair(body,env){const code=text(body.pairing_code,'pairing_code',1
  catch(error){const committed=await first(env,'SELECT * FROM momo_gateway_credentials WHERE pairing_id=?',row.id);
   if(committed?.installation_id===installation)return pair(body,env);throw new ApiError(409,'pairing_changed','This pairing changed. Check the gateway before trying another code.');}
  const current=await first(env,credentialSql,await digest(secret));if(!current)fail(401,'gateway_unauthorized','This binding was revoked.');return {binding:bindingJson(current),gateway_token:secret};}
+// Retained for a separately qualified release; the active route below refuses
+// every gateway upload and never invokes this capture implementation.
 async function ingest(body,env,c){
  const envelope=uuid(body.client_envelope_id,'client_envelope_id');
  if(body.gateway_binding_id!==c.binding_id||body.gateway_binding_version!==c.binding_version)fail(403,'gateway_binding_mismatch','The capture belongs to a different receiving binding.');
@@ -80,9 +83,12 @@ async function ingest(body,env,c){
   throw new ApiError(503,'gateway_capture_unavailable','Keep this capture pending and retry after checking the connection.');}
 }
 export async function momoGatewayRoute(request,env){const path=new URL(request.url).pathname;if(!path.startsWith('/v1/momo/gateway/'))return null;
+ // Gateway messages remain on the originating phone until the source and
+ // recovery contracts are qualified. Refuse before reading or storing them;
+ // a retryable response must never be mistaken for a durable capture receipt.
+ if(isGatewayIngest(request.method,path))throw gatewayUploadHeld();
  if(path==='/v1/momo/gateway/pair'&&request.method==='POST')return json(await pair(await readJson(request,2048),env));
  const c=await authenticate(request,env);
- if(path==='/v1/momo/gateway/ingest'&&request.method==='POST')return json(await ingest(await readJson(request,32768),env,c));
  if(path==='/v1/momo/gateway/status'&&request.method==='GET'){
   const gate=momoGuard(env,activeCondition,[c.id,c.token_sha256]);const result=await env.DB.batch([gate[0],env.DB.prepare(`SELECT count(*) AS n FROM momo_processing_jobs WHERE binding_id=? AND state IN('pending','processing','retry')`).bind(c.binding_id),env.DB.prepare('UPDATE momo_gateway_credentials SET last_contact_at=? WHERE id=?').bind(now(),c.id),gate[1]]);
   return json({binding:bindingJson(c),pending_processing:result[1].results[0].n,last_contact_at:now(),last_sms_at:c.last_sms_at});}
