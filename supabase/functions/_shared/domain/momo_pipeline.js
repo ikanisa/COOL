@@ -3,7 +3,7 @@ import {decrypt} from './encryption.js';
 
 export const MOMO_SCHEMA_VERSION='momo-extraction.v1';
 export const MOMO_PROMPT_VERSION='momo-evidence.v1';
-export const MOMO_PARSER_VERSION='momo-validation.v1';
+export const MOMO_PARSER_VERSION='momo-validation.v2';
 export const MOMO_MODEL='unconfigured-supabase-provider';
 const MAX_ATTEMPTS=4,LEASE_SECONDS=180;
 // SQLite evaluates unixepoch() per statement. The Postgres adapter translates
@@ -130,7 +130,7 @@ export function validateMomoExtraction(output,source,account,profile=validatePro
  const fee=output.fee_amount_raw===null?null:exactMinor(output.fee_amount_raw),balance=output.wallet_balance_after_raw===null?null:exactMinor(output.wallet_balance_after_raw);
  if(output.fee_amount_raw!==null&&(fee===null||!present(output.evidence.fee??'',output.fee_amount_raw)||!/(?:fee|charge)/i.test(output.evidence.fee??'')))bad('fee_role_unverified');
  if(output.wallet_balance_after_raw!==null&&(balance===null||!present(output.evidence.wallet_balance_after??'',output.wallet_balance_after_raw)||!/balance/i.test(output.evidence.wallet_balance_after??'')))bad('balance_role_unverified');
- if((output.payer_name_raw!==null||output.payer_identifier_raw!==null)&&!present(output.evidence.payer??'',output.payer_name_raw??output.payer_identifier_raw))bad('payer_evidence_missing');
+ if([output.payer_name_raw,output.payer_identifier_raw].some(value=>value!==null&&!present(output.evidence.payer??'',value)))bad('payer_evidence_missing');
  if(output.payer_identifier_raw!==null&&!/^(?:\+?[0-9][0-9 -]{5,24}|\*{2,}[0-9]{3,10})$/.test(output.payer_identifier_raw))bad('unsupported_payer_identifier');
  if(output.issues.length)bad('model_reported_issues');
  const payer=output.payer_identifier_raw;
