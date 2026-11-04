@@ -45,6 +45,10 @@ class CandidateBoundaryTest(unittest.TestCase):
         (java_bin / "java").write_text("#!/bin/sh\nexit 99\n")
         (java_bin / "java").chmod(0o700)
         (self.root / "pubspec.yaml").write_text("name: collect_app\nversion: 1.0.8+65\n")
+        (self.root / "pubspec.lock").write_text("packages: {}\n")
+        (self.root / "lib").mkdir()
+        (self.root / "lib/main.dart").write_text("void main() {}\n")
+        (self.root / "lib/other.dart").write_text("const syntheticValue = true;\n")
         self.commit = "a" * 40
         self.pin = "B" * 64
         provider = json.dumps({"client": [{"client_info": {"android_client_info": {"package_name": guard.PACKAGE}}}]})
@@ -59,7 +63,7 @@ class CandidateBoundaryTest(unittest.TestCase):
                     "AUTH_CAPTCHA_SITE_KEY": "synthetic_public_site_key", "FLUTTER_ROOT": str(self.base / "unused-sdk"),
                     "KEYSTORE_BASE64": base64.b64encode(b"SYNTHETIC NOT A KEYSTORE").decode(),
                     "KEY_ALIAS": "synthetic-alias", "KEY_PASSWORD": "synthetic-password", "STORE_PASSWORD": "synthetic-password"}
-        self.profile = guard.native_build_config.configuration(self.env, "android", self.root / "pubspec.yaml")
+        self.profile = guard.source_bound_public_configuration(self.root, self.env)
         now = datetime.now(timezone.utc)
         self.record = {"schema_version": 1, "kind": "collect_android_candidate_approval", "decision": "approved",
                        "operation": "signed_candidate", "environment": guard.ENVIRONMENT, "application_id": guard.PACKAGE,
@@ -120,6 +124,101 @@ class CandidateBoundaryTest(unittest.TestCase):
             with patch.dict(os.environ, {"REVIEWED_ANDROID_APPROVAL_RECORD": "{}"}):
                 with self.assertRaises(guard.Blocked):
                     guard.configuration_and_approval(self.root)
+
+    def assert_real_builder_binding_matches_approval(self, environment, approved):
+        """Run the actual diagnostic bind CLI on an isolated synthetic tree."""
+        builder_env = {**environment, "COLLECT_BUILD_SOURCE_ID": approved["COLLECT_BUILD_SOURCE_ID"]}
+        builder_profile = guard.native_build_config.configuration(builder_env, "android", self.root / "pubspec.yaml")
+        defines = self.base / "synthetic-builder-defines.json"
+        manifest = self.base / "synthetic-diagnostic-manifest.json"
+        defines.write_text(json.dumps(builder_profile))
+        result = subprocess.run(
+            [sys.executable, "-B", str(ROOT / "scripts/qa/client_diagnostic_identity.py"), "bind",
+             "--root", str(self.root), "--surface", "member", "--defines", str(defines),
+             "--manifest", str(manifest)],
+            env={"PATH": os.defpath, "PYTHONDONTWRITEBYTECODE": "1"},
+            capture_output=True, text=True, timeout=20,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        actual = json.loads(defines.read_text())
+        self.assertEqual(actual, approved)
+        self.assertEqual(json.loads(manifest.read_text())["source_revision"], approved["COLLECT_BUILD_SOURCE_ID"])
+        self.assertEqual(guard.sha(guard.canonical(actual)), self.record["public_runtime_config_sha256"])
+        # Match the store wrapper's manifest serialization, not a second copy of
+        # the guard's Python hash calculation.
+        ruby = subprocess.run(
+            ["ruby", "-rjson", "-rdigest", "-e",
+             'values = JSON.parse(File.read(ARGV.fetch(0))); '
+             'puts Digest::SHA256.hexdigest(JSON.generate(values.sort.to_h))', str(defines)],
+            env={"PATH": os.defpath}, capture_output=True, text=True, timeout=20,
+        )
+        self.assertEqual(ruby.returncode, 0, ruby.stderr)
+        self.assertEqual(ruby.stdout.strip(), self.record["public_runtime_config_sha256"])
+
+    def test_approved_hash_matches_the_actual_diagnostic_bind_for_managed_profile(self):
+        with patch.object(guard, "command", side_effect=self.git_command):
+            _, approved, _ = guard.configuration_and_approval(self.root)
+        self.assert_real_builder_binding_matches_approval(self.env, approved)
+
+    def test_approved_hash_matches_the_actual_diagnostic_bind_for_self_hosted_profile(self):
+        deployment = {"format": "collect.deployment.v1", "id": "synthetic-selfhost",
+                      "mode": "self_hosted", "environment": "production",
+                      "supabase_origin": "https://supabase.collect.example",
+                      "member_api_origin": "https://api.collect.example",
+                      "admin_origin": "https://admin.collect.example",
+                      "public_origin": "https://collect.example",
+                      "google_callback_origin": "https://admin.collect.example"}
+        raw = json.dumps(deployment, sort_keys=True, separators=(",", ":"))
+        values = {"COLLECT_DEPLOYMENT_PROFILE": raw, "COLLECT_DEPLOYMENT_PROFILE_SHA256": guard.sha(raw.encode()),
+                  "SUPABASE_URL": deployment["supabase_origin"], "SUPABASE_API_URL": deployment["member_api_origin"],
+                  "COLLECT_SMS_AUTH_ENABLED": "true"}
+        self.record["public_runtime_config_sha256"] = guard.sha(guard.canonical(
+            guard.source_bound_public_configuration(self.root, {**self.env, **values})))
+        self.write_approval()
+        with patch.dict(os.environ, values), patch.object(guard, "command", side_effect=self.git_command):
+            _, approved, _ = guard.configuration_and_approval(self.root)
+            with patch.dict(os.environ, {"COLLECT_SMS_AUTH_ENABLED": "false"}):
+                with self.assertRaisesRegex(guard.Blocked, "ANDROID_APPROVAL_SCOPE_OR_INPUT_WRONG"):
+                    guard.configuration_and_approval(self.root)
+        self.assertEqual(approved["COLLECT_SMS_AUTH_ENABLED"], "true")
+        self.assert_real_builder_binding_matches_approval({**self.env, **values}, approved)
+
+    def test_source_or_sms_flag_change_invalidates_approval(self):
+        with patch.object(guard, "command", side_effect=self.git_command):
+            source = self.root / "lib/other.dart"
+            original = source.read_text()
+            source.write_text(original + "// changed synthetic source\n")
+            try:
+                with self.assertRaisesRegex(guard.Blocked, "ANDROID_APPROVAL_SCOPE_OR_INPUT_WRONG"):
+                    guard.configuration_and_approval(self.root)
+            finally:
+                source.write_text(original)
+            with patch.dict(os.environ, {"COLLECT_SMS_AUTH_ENABLED": "true"}):
+                with self.assertRaisesRegex(guard.Blocked, "ANDROID_APPROVAL_SCOPE_OR_INPUT_WRONG"):
+                    guard.configuration_and_approval(self.root)
+            _, approved, _ = guard.configuration_and_approval(self.root)
+        self.assertEqual(approved, self.profile)
+
+    def test_supplied_diagnostic_id_must_match_before_approval(self):
+        expected = self.profile["COLLECT_BUILD_SOURCE_ID"]
+        wrong = "0" * 64 if expected != "0" * 64 else "1" * 64
+        with patch.object(guard, "command", side_effect=self.git_command), \
+                patch.object(guard, "run_builder") as builder:
+            with patch.dict(os.environ, {"COLLECT_BUILD_SOURCE_ID": wrong}):
+                with self.assertRaisesRegex(guard.Blocked, "ANDROID_DIAGNOSTIC_SOURCE_WRONG"):
+                    guard.build()
+            with patch.dict(os.environ, {"COLLECT_BUILD_SOURCE_ID": expected}):
+                _, approved, _ = guard.configuration_and_approval(self.root)
+                self.assertEqual(approved, self.profile)
+        builder.assert_not_called()
+
+    def test_invalid_diagnostic_source_is_refused_before_builder(self):
+        (self.root / "lib/linked.dart").symlink_to(self.root / "lib/main.dart")
+        with patch.object(guard, "command", side_effect=self.git_command), \
+                patch.object(guard, "run_builder") as builder:
+            with self.assertRaisesRegex(guard.Blocked, "ANDROID_DIAGNOSTIC_SOURCE_INVALID"):
+                guard.build()
+        builder.assert_not_called()
 
     def test_current_environment_must_have_independent_review_no_bypass_and_main_only(self):
         with patch.object(guard, "command", side_effect=self.policy_command):
@@ -468,6 +567,7 @@ class CandidateBoundaryTest(unittest.TestCase):
             self.assertEqual(key.read_bytes(), b"SYNTHETIC NOT A KEYSTORE")
             self.assertEqual(key.stat().st_mode & 0o777, 0o600)
             self.assertNotIn("KEYSTORE_BASE64", child)
+            self.assertEqual(child["COLLECT_BUILD_SOURCE_ID"], self.profile["COLLECT_BUILD_SOURCE_ID"])
             self.assertEqual(child["COOL_EXPECTED_UPLOAD_SIGNING_SHA256"], self.pin)
             self.assertEqual(child["COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY"], "false")
             self.assertNotEqual(log, subprocess.PIPE)

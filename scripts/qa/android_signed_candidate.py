@@ -22,6 +22,7 @@ from xml.parsers import expat
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import collect_release_candidate as source_export
+import client_diagnostic_identity
 import native_build_config
 
 ENVIRONMENT = "collect-android-signing"
@@ -61,6 +62,7 @@ ANDROID_BUNDLETOOL_INTERRUPTED ANDROID_BUNDLETOOL_IO_FAILED ANDROID_BUNDLETOOL_L
 ANDROID_BUNDLETOOL_OUTPUT_BOUND ANDROID_BUNDLETOOL_REQUIRED ANDROID_BUNDLETOOL_TIMEOUT
 ANDROID_CANDIDATE_BLOCKED ANDROID_CANDIDATE_BUILD_FAILED ANDROID_CHECKOUT_COMMIT_WRONG ANDROID_CLEAN_CHECKOUT_REQUIRED
 ANDROID_CLEANUP_FAILED ANDROID_DUPLICATE_JSON_KEY ANDROID_EXTERNAL_REVIEW_REQUIRED ANDROID_INSPECTION_INPUT_BOUND
+ANDROID_DIAGNOSTIC_SOURCE_INVALID ANDROID_DIAGNOSTIC_SOURCE_WRONG
 ANDROID_INSPECTION_INPUT_CHANGED ANDROID_INSPECTION_INPUT_REQUIRED ANDROID_INSPECTION_PLATFORM_UNSUPPORTED
 ANDROID_INSPECTOR_KIND_WRONG ANDROID_JAVA_LAUNCHER_CHANGED ANDROID_JAVA_REQUIRED ANDROID_KEYSTORE_INPUT_BOUND
 ANDROID_KEYSTORE_INPUT_REQUIRED ANDROID_MAIN_IDENTITY_REQUIRED ANDROID_NEW_OUTPUT_REQUIRED ANDROID_NEW_PRIVATE_PATH_REQUIRED
@@ -303,13 +305,26 @@ def workflow_identity(root):
     return commit
 
 
+def source_bound_public_configuration(root, env):
+    """Compute the exact public defines that the existing builder will bind."""
+    profile = native_build_config.configuration(env, "android", root / "pubspec.yaml")
+    try:
+        _, bound = client_diagnostic_identity.identity(root, "member", profile)
+    except (OSError, ValueError, UnicodeError) as error:
+        raise Blocked("ANDROID_DIAGNOSTIC_SOURCE_INVALID") from error
+    require("COLLECT_BUILD_SOURCE_ID" not in profile
+            or profile["COLLECT_BUILD_SOURCE_ID"] == bound["COLLECT_BUILD_SOURCE_ID"],
+            "ANDROID_DIAGNOSTIC_SOURCE_WRONG")
+    return bound
+
+
 def configuration_and_approval(root):
     commit = workflow_identity(root)
     pin = os.environ.get("COLLECT_ANDROID_APPROVED_UPLOAD_CERT_SHA256", "").replace(":", "").upper()
     require(re.fullmatch(r"[A-F0-9]{64}", pin), "ANDROID_APPROVED_UPLOAD_CERT_REQUIRED")
     number = os.environ.get("PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER", "")
     require(re.fullmatch(r"[1-9][0-9]+", number), "ANDROID_PLAY_INTEGRITY_PROJECT_REQUIRED")
-    profile = native_build_config.configuration(dict(os.environ), "android", root / "pubspec.yaml")
+    profile = source_bound_public_configuration(root, dict(os.environ))
     provider_raw = os.environ.get("COLLECT_ANDROID_GOOGLE_SERVICES_JSON", "").encode()
     require(0 < len(provider_raw) < 1024**2, "ANDROID_PUBLIC_PROVIDER_CONFIG_REQUIRED")
     source_export.screen_credentials(provider_raw, "android/app/google-services.json")
@@ -652,6 +667,10 @@ def build():
         child.pop("KEYSTORE_BASE64", None)
         child.pop("GH_TOKEN", None)
         child.pop("GITHUB_TOKEN", None)
+        # The wrapper recomputes and verifies this label while binding its
+        # defines. Supplying the approved value also makes its final profile
+        # hash identical to the one reviewed before signing.
+        child["COLLECT_BUILD_SOURCE_ID"] = profile["COLLECT_BUILD_SOURCE_ID"]
         child["COOL_ANDROID_STORE_FILE"] = str(key_file)
         for secret, name in (("KEY_ALIAS", "COOL_ANDROID_KEY_ALIAS"), ("KEY_PASSWORD", "COOL_ANDROID_KEY_PASSWORD"),
                              ("STORE_PASSWORD", "COOL_ANDROID_STORE_PASSWORD")):

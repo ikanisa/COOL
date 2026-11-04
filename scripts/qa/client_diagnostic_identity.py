@@ -91,7 +91,7 @@ def javascript_identity(path: Path, source_revision: str, build_version: str):
     path = path.absolute()
     if path.name != "main.dart.js" or path.is_symlink() or path.resolve() != path:
         raise ValueError("Expected physical main.dart.js compiler output")
-    before = path.stat(follow_symlinks=False)
+    before = path.lstat()
     if not stat.S_ISREG(before.st_mode) or not 0 < before.st_size <= MAX_JAVASCRIPT_BYTES:
         raise ValueError("Compiled JavaScript exceeds its size/type bounds")
     descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
@@ -104,7 +104,7 @@ def javascript_identity(path: Path, source_revision: str, build_version: str):
         if (len(data) != before.st_size
                 or stamp(os.fstat(handle.fileno())) != stamp(before)):
             raise ValueError("Compiled JavaScript changed during inspection")
-    if path.resolve() != path or stamp(path.stat(follow_symlinks=False)) != stamp(before):
+    if path.resolve() != path or stamp(path.lstat()) != stamp(before):
         raise ValueError("Compiled JavaScript changed during inspection")
     for label in (source_revision, build_version):
         token = label.encode("ascii")
