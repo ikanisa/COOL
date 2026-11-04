@@ -367,7 +367,7 @@ supabase-test:
 supabase-source-test:
 	@python3 supabase/schema-src/generate_baseline.py --check
 	@python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test
-	@python3 -m unittest scripts.self_hosted.test_operations.Configuration scripts.self_hosted.test_recovery_promotion scripts.self_hosted.test_release_operator
+	@python3 -m unittest scripts.self_hosted.test_operations.Configuration scripts.self_hosted.test_recovery_promotion scripts.self_hosted.test_release_operator scripts.self_hosted.test_scheduler_custody
 	@node --test deploy/self-hosted/*.test.mjs scripts/self_hosted/*.test.mjs scripts/supabase/deployment-profile.test.mjs
 	@node --test scripts/supabase/data-contracts.test.mjs
 	@node scripts/tests/payment_evidence_reveal_test.mjs

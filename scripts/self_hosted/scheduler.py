@@ -52,19 +52,31 @@ def execute(op,lane,args,readiness=None):
     # Docker's --env-file does not implement Compose quoted-value decoding.
     # Use a public bootstrap script to read the exact private JSON instead.
     values=op.root/'private'/('operator-'+uuid.uuid4().hex+'.json')
-    with values.open('x') as out:os.chmod(values,0o600);json.dump(env,out)
-    command+=['--mount','type=bind,src='+str(values)+',dst=/operator-env.json,readonly']
-    if readiness:
-        readiness=readiness.absolute();private_file(readiness)
-        command+=['--mount','type=bind,src='+str(readiness)+',dst=/readiness.json,readonly']
-    module='scripts/supabase/jobs_operator.mjs' if lane=='main' else 'scripts/supabase/email_jobs_operator.mjs'
-    bootstrap="const fs=require('node:fs'),cp=require('node:child_process');const e=JSON.parse(fs.readFileSync('/operator-env.json','utf8'));const r=cp.spawnSync(process.execPath,process.argv.slice(1),{env:{PATH:process.env.PATH,...e},stdio:'inherit'});process.exit(r.status??1);"
-    command+=['--entrypoint','node',config['services']['web']['image'],'-e',bootstrap,module,*args]
+    created=False
     try:
+        # Restrict permissions at creation, and never remove a pre-existing file
+        # if exclusive creation fails. Cleanup also covers serialization and
+        # readiness validation failures before the operator starts.
+        fd=os.open(values,os.O_WRONLY|os.O_CREAT|os.O_EXCL|getattr(os,'O_NOFOLLOW',0),0o600)
+        created=True
+        try:
+            out=os.fdopen(fd,'w')
+        except BaseException:
+            os.close(fd)
+            raise
+        with out:json.dump(env,out)
+        command+=['--mount','type=bind,src='+str(values)+',dst=/operator-env.json,readonly']
+        if readiness:
+            readiness=readiness.absolute();private_file(readiness)
+            command+=['--mount','type=bind,src='+str(readiness)+',dst=/readiness.json,readonly']
+        module='scripts/supabase/jobs_operator.mjs' if lane=='main' else 'scripts/supabase/email_jobs_operator.mjs'
+        bootstrap="const fs=require('node:fs'),cp=require('node:child_process');const e=JSON.parse(fs.readFileSync('/operator-env.json','utf8'));const r=cp.spawnSync(process.execPath,process.argv.slice(1),{env:{PATH:process.env.PATH,...e},stdio:'inherit'});process.exit(r.status??1);"
+        command+=['--entrypoint','node',config['services']['web']['image'],'-e',bootstrap,module,*args]
         data=op.run(command,timeout=60).decode()
         if len(data)>131072:raise ValueError('Operator response exceeds bounded metadata contract')
         return [json.loads(line) for line in data.splitlines() if line.strip()]
-    finally:values.unlink(missing_ok=True)
+    finally:
+        if created:values.unlink(missing_ok=True)
 
 def native_custody(op):
     op.docker_preflight()
