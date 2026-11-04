@@ -1,0 +1,15 @@
+{
+  "format": "collect.play-upload-key.readback.v1",
+  "observed_utc_date": "2026-11-01",
+  "package": "app.cool.mobile",
+  "source": "Google Play Console Collect App signing, Upload key Download certificates control",
+  "public_certificate_file": "upload-cert-play.der",
+  "certificate_der_sha256": "c3317249ea865ff82e7a7a3164c6bb511a181ad8c82b19357167fbed991fa6f0",
+  "previously_prepared_reset_public_fingerprint_sha256": "c3317249ea865ff82e7a7a3164c6bb511a181ad8c82b19357167fbed991fa6f0",
+  "fingerprint_matches_prepared_reset_certificate": true,
+  "certificate_valid_from_utc": "2026-10-29T10:19:00Z",
+  "certificate_valid_until_utc": "2056-10-21T10:19:00Z",
+  "private_key_access_tested": false,
+  "signed_candidate_produced": false,
+  "approval_or_store_acceptance_established": false
+}

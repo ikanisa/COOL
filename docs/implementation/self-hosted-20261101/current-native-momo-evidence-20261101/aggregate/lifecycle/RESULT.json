@@ -1,0 +1,70 @@
+{
+  "format": "collect.current-native.synthetic.run.v1",
+  "normal_stop": true,
+  "postmaster_pid_absent": true,
+  "listener_absent": true,
+  "input_pins_unchanged": true,
+  "input_count": 1457,
+  "failures": [],
+  "steps": [
+    {
+      "label": "initdb",
+      "exit_code": 0,
+      "reason": null,
+      "direct_child_waited": true,
+      "signals_sent": [],
+      "process_group_absent_at_command_end": true,
+      "intentional_server_start": false,
+      "elapsed_seconds": 0.779,
+      "stdout_sha256": "1d523644011b30bd4bdf3d767732779671c214182c47f81a566532aa3b37e0ce",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 753,
+      "stderr_bytes": 0
+    },
+    {
+      "label": "start",
+      "exit_code": 0,
+      "reason": null,
+      "direct_child_waited": true,
+      "signals_sent": [],
+      "process_group_absent_at_command_end": true,
+      "intentional_server_start": true,
+      "elapsed_seconds": 0.271,
+      "stdout_sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 52,
+      "stderr_bytes": 0
+    },
+    {
+      "label": "qualification",
+      "exit_code": 0,
+      "reason": null,
+      "direct_child_waited": true,
+      "signals_sent": [],
+      "process_group_absent_at_command_end": true,
+      "intentional_server_start": false,
+      "elapsed_seconds": 129.768,
+      "stdout_sha256": "f72a0e852870946deec8f75d16b45554946210fa5a7a3d96ca495d309cc60f85",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 1624,
+      "stderr_bytes": 0
+    },
+    {
+      "label": "stop",
+      "exit_code": 0,
+      "reason": null,
+      "direct_child_waited": true,
+      "signals_sent": [],
+      "process_group_absent_at_command_end": true,
+      "intentional_server_start": false,
+      "elapsed_seconds": 0.254,
+      "stdout_sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 56,
+      "stderr_bytes": 0
+    }
+  ],
+  "owned_cluster_bytes": 678661941,
+  "production_acceptance": false,
+  "accepted_local": true
+}

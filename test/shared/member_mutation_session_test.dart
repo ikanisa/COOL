@@ -27,6 +27,7 @@ const _nativeStatus = SmsAccessStatus(
 const _operationRpc = {
   'create': 'create_private_group_with_owner_media_attested',
   'profile': 'update_current_member_profile',
+  'phone onboarding': 'ensure_current_member_profile',
   'group profile': 'update_rwanda_momo_group_profile',
   'join': 'join_group_by_share_code',
   'promote': 'add_group_admin',
@@ -116,7 +117,8 @@ class _Harness {
             'create_private_group_with_owner_media_attested' ||
             'join_group_by_share_code' => authority.group,
             'list_current_user_collections' => [group ?? _group()],
-            'update_current_member_profile' => profile ?? _profile(),
+            'update_current_member_profile' ||
+            'ensure_current_member_profile' => profile ?? _profile(),
             'add_group_admin' => {
               'collection_id': authority.group,
               'public_id': _peer,
@@ -157,6 +159,11 @@ class _Harness {
     'create' => repo.createCollectionWithVerifiedReceiver(
       title: 'Synthetic group',
       description: '',
+    ),
+    'phone onboarding' => repo.signInWithOtp(
+      phone: '+250788123456',
+      otp: '123456',
+      countryCode: 'RW',
     ),
     'profile' => repo.updateCurrentProfile(
       countryCode: 'RW',
@@ -248,7 +255,7 @@ void main() {
           release.complete(
             authority.jsonResponse(switch (operation) {
               'create' || 'join' => authority.group,
-              'profile' => _profile(),
+              'profile' || 'phone onboarding' => _profile(),
               'promote' => {
                 'collection_id': authority.group,
                 'public_id': _peer,

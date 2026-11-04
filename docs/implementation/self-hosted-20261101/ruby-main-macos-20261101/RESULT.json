@@ -1,0 +1,149 @@
+{
+  "current_main_head": "14f32d43961cd566e8834dae841ba67e475b21f5",
+  "source": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "current_sha256": "50e708dc304817c13bdf0735dc46206db906bbeb3880b78c9e32f9febd0cd1fc",
+      "stage_sha256": "50e708dc304817c13bdf0735dc46206db906bbeb3880b78c9e32f9febd0cd1fc",
+      "unchanged": true
+    },
+    {
+      "path": "Gemfile",
+      "current_sha256": "c507b94b39939c6a7060ca97507b5e57ef998a08ed9dc8c2d7762b1876733745",
+      "stage_sha256": "c507b94b39939c6a7060ca97507b5e57ef998a08ed9dc8c2d7762b1876733745",
+      "unchanged": true
+    },
+    {
+      "path": "Gemfile.lock",
+      "current_sha256": "bc7fc3647cf9661fac7f481f6017881d3118d64ce570ed6b9189f8cbde914745",
+      "stage_sha256": "bc7fc3647cf9661fac7f481f6017881d3118d64ce570ed6b9189f8cbde914745",
+      "unchanged": true
+    },
+    {
+      "path": "fastlane/Appfile",
+      "current_sha256": "c6571586493e4928443ef1e4e734b33d2bab689b74fd80f813240d81fd4e6071",
+      "stage_sha256": "c6571586493e4928443ef1e4e734b33d2bab689b74fd80f813240d81fd4e6071",
+      "unchanged": true
+    },
+    {
+      "path": "fastlane/Fastfile",
+      "current_sha256": "950c8f22bce7469d79aeba3b41cd60588ddb5189d5e1a29145bd68c9b78d669a",
+      "stage_sha256": "950c8f22bce7469d79aeba3b41cd60588ddb5189d5e1a29145bd68c9b78d669a",
+      "unchanged": true
+    },
+    {
+      "path": "pubspec.yaml",
+      "current_sha256": "be5c802769c475d24a9ec30c549059dda4163e9e053d5a4c3af41e7653afcf39",
+      "stage_sha256": "be5c802769c475d24a9ec30c549059dda4163e9e053d5a4c3af41e7653afcf39",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/tests/ruby_dependency_security_test.rb",
+      "current_sha256": "723bb6618ee09296cf7f5e655b5ccbd82adf134672054146a128a110383aed27",
+      "stage_sha256": "723bb6618ee09296cf7f5e655b5ccbd82adf134672054146a128a110383aed27",
+      "unchanged": true
+    }
+  ],
+  "ruby_job_matches_historical": true,
+  "ruby_job_sha256": "8b73c3e9a6fc05158176b197cf005fdd434d033cf7ba99d4097a929d9612e367",
+  "historical_archive_count": 102,
+  "historical_archive_hashes_matched": true,
+  "commands": [
+    {
+      "argv": [
+        "ruby",
+        "--version"
+      ],
+      "exit_code": 0,
+      "process_group_live_after_exit": false
+    },
+    {
+      "argv": [
+        "bundle",
+        "--version"
+      ],
+      "exit_code": 0,
+      "process_group_live_after_exit": false
+    },
+    {
+      "argv": [
+        "bundle",
+        "check"
+      ],
+      "exit_code": 0,
+      "process_group_live_after_exit": false
+    },
+    {
+      "argv": [
+        "bundle",
+        "exec",
+        "ruby",
+        "scripts/tests/ruby_dependency_security_test.rb"
+      ],
+      "exit_code": 0,
+      "process_group_live_after_exit": false
+    },
+    {
+      "argv": [
+        "bundle",
+        "exec",
+        "fastlane",
+        "lanes"
+      ],
+      "exit_code": 0,
+      "process_group_live_after_exit": false
+    }
+  ],
+  "all_passed": true,
+  "scope": "Local macOS frozen dependency check and lane discovery only; no lanes, signing, store, provider, hosted CI, or production acceptance.",
+  "historical_ruby_job_sha256": "8b73c3e9a6fc05158176b197cf005fdd434d033cf7ba99d4097a929d9612e367",
+  "actual_head": "14f32d43961cd566e8834dae841ba67e475b21f5",
+  "copied_dependency_files_post_run": [
+    {
+      "directory": "bundle",
+      "source_file_count": 5732,
+      "copied_file_count": 5732,
+      "missing": [],
+      "extra": [],
+      "different": [],
+      "all_match": true
+    },
+    {
+      "directory": "bootstrap-gems",
+      "source_file_count": 353,
+      "copied_file_count": 353,
+      "missing": [],
+      "extra": [],
+      "different": [],
+      "all_match": true
+    }
+  ],
+  "semantic_results": {
+    "ruby": "ruby 3.3.8 (2025-04-09 revision b200bad6cd) [arm64-darwin20]",
+    "bundler": "Bundler version 2.7.2",
+    "zip": {
+      "status": "pass",
+      "ruby_version": "3.3.8",
+      "rubyzip_version": "3.4.0",
+      "api": "extract",
+      "cases": [
+        {
+          "id": "benign-default-extraction",
+          "passed": true
+        },
+        {
+          "id": "sibling-prefix-upload_backup-denied",
+          "passed": true
+        },
+        {
+          "id": "sibling-prefix-upload2-denied",
+          "passed": true
+        }
+      ],
+      "provider_calls": 0,
+      "real_customer_data": false
+    },
+    "android_lane_discovery": true
+  },
+  "dependency_integrity_scope": "Archived package bytes matched prior manifest. Copied extracted dependency files matched the historical bundle after the run; package payloads were not independently re-extracted and compared."
+}

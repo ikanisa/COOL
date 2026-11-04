@@ -144,11 +144,14 @@ export async function responseSession(env,data,options={}) {
  const verified=await verifyToken(env,data.access_token);const actor=await projectSession(env,verified,options);
  return {...data,user:actor.user};
 }
+function phoneChannelEnabled(env,channel) {
+ const flag=channel==='sms'?'AUTH_SMS_ENABLED':'AUTH_WHATSAPP_ENABLED';
+ return env[flag]!==undefined?env[flag]==='true':env.COLLECT_DEPLOYMENT_PROFILE===undefined&&env.AUTH_PHONE_ENABLED!=='false';
+}
 export async function startOtp(env,body) {
  const target=identity(body);if(target.type==='phone'&&!['sms','whatsapp'].includes(target.channel))fail('invalid_channel',400);
  if(target.type==='phone'){
-  const flag=target.channel==='sms'?'AUTH_SMS_ENABLED':'AUTH_WHATSAPP_ENABLED';
-  if(env[flag]!==undefined?env[flag]!=='true':env.COLLECT_DEPLOYMENT_PROFILE!==undefined||env.AUTH_PHONE_ENABLED==='false')fail(target.channel+'_unavailable',503);
+  if(!phoneChannelEnabled(env,target.channel))fail(target.channel+'_unavailable',503);
  }
  const existing=target.surface==='admin'?await first(env,"SELECT a.id FROM admin_users a JOIN admin_principal_links l ON l.admin_user_id=a.id JOIN users u ON u.id=l.user_id WHERE a.email=? AND a.status IN('active','invited') AND u.access_status='active'",target.value):target.type==='email'?await first(env,`SELECT id FROM users WHERE lower(email)=? AND access_status='active' UNION SELECT l.user_id AS id FROM admin_principal_links l JOIN admin_users a ON a.id=l.admin_user_id JOIN users u ON u.id=l.user_id WHERE a.email=? AND a.status IN('active','invited') AND u.access_status='active'`,target.value,target.value):await first(env,`SELECT id FROM users WHERE phone=? AND access_status='active'`,target.value);
  const registration=target.surface==='member'&&env.AUTH_MEMBER_REGISTRATION_ENABLED==='true'&&body.allow_registration!==false&&body.should_create_user!==false;
@@ -214,4 +217,5 @@ export async function handleAuth(request,env) {
  throw new ApiError(404,'not_found','This identity operation does not exist.');
 }
 
-export const otpDeliveryAvailable=env=>env.AUTH_PHONE_ENABLED==='true'&&Boolean(env.SUPABASE_URL&&env.SUPABASE_PUBLISHABLE_KEY);
+export const otpDeliveryAvailable=env=>Boolean(env.SUPABASE_URL&&env.SUPABASE_PUBLISHABLE_KEY)&&
+ (env.AUTH_WHATSAPP_ENABLED!==undefined||env.AUTH_PHONE_ENABLED==='true')&&phoneChannelEnabled(env,'whatsapp');

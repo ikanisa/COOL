@@ -15,6 +15,15 @@ PaymentIntentModel _intent({
   String senderHash =
       'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
   String status = 'pending',
+  String confirmationStatus = 'awaiting_confirmation',
+  String? paymentId,
+  String? contributionEntryId,
+  int? creditedAmountRwf,
+  DateTime? postedAt,
+  DateTime? providerTransactionAt,
+  String? providerTransactionReference,
+  int? balanceAfterContributionRwf,
+  int? groupBalanceAfterContributionRwf,
   DateTime? expiresAt,
 }) => PaymentIntentModel(
   id: id,
@@ -26,6 +35,15 @@ PaymentIntentModel _intent({
   momoNetwork: network,
   senderPhoneHash: senderHash,
   status: status,
+  confirmationStatus: confirmationStatus,
+  paymentId: paymentId,
+  contributionEntryId: contributionEntryId,
+  creditedAmountRwf: creditedAmountRwf,
+  postedAt: postedAt,
+  providerTransactionAt: providerTransactionAt,
+  providerTransactionReference: providerTransactionReference,
+  balanceAfterContributionRwf: balanceAfterContributionRwf,
+  groupBalanceAfterContributionRwf: groupBalanceAfterContributionRwf,
   createdAt: _now.subtract(const Duration(minutes: 5)),
   expiresAt: expiresAt ?? _now.add(const Duration(hours: 1)),
 );
@@ -89,4 +107,37 @@ void main() {
       isFalse,
     );
   });
+
+  test(
+    'pending intent with any observed financial evidence is not actionable',
+    () {
+      final normal = _intent();
+      for (final observed in [
+        for (final status in [
+          'payment_received',
+          'credited',
+          'needs_review',
+          'reversed',
+        ])
+          _intent(confirmationStatus: status),
+        _intent(paymentId: 'payment'),
+        _intent(contributionEntryId: 'entry'),
+        _intent(creditedAmountRwf: 1),
+        _intent(postedAt: _now),
+        _intent(providerTransactionAt: _now),
+        _intent(providerTransactionReference: 'reference'),
+        _intent(balanceAfterContributionRwf: 0),
+        _intent(groupBalanceAfterContributionRwf: 0),
+      ]) {
+        expect(
+          preparedMomoIntentStillActionable(normal, observed, now: _now),
+          isFalse,
+        );
+        expect(
+          preparedMomoIntentStillActionable(observed, normal, now: _now),
+          isFalse,
+        );
+      }
+    },
+  );
 }

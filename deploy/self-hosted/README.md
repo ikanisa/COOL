@@ -318,10 +318,31 @@ python -m scripts.self_hosted.recovery restore \
 Backup stops every service and leaves it stopped, scans the complete release for
 unsupported links/special files, then streams the whole database/Auth/Storage/
 gateway/Vault/key/config/source/assets tree directly into authenticated `age`
-encryption. No plaintext archive is persisted. Restore requires a separate
-target without an existing deployment project, verifies ciphertext identity,
-bounds every archive entry and restores into a new directory. It starts
-nothing. Reconcile all financial records, objects, Auth/session/revocation
+encryption. Before stopping services, it requires an operator-owned backup
+directory that is not group/world writable and verifies that its filesystem
+supports hard links and directory fsync. Unsupported filesystems are refused;
+choose a supported private directory. The ciphertext is published without
+overwriting an existing destination. Its original staged hard-link name and a
+small capability-probe directory are retained and reported in the command
+result; preserve them until an independently reviewed cleanup procedure exists.
+The archive and encryption child waits share a 24-hour deadline by default.
+For a planned slow backup, set `--pipeline-timeout-seconds` to an
+integer from 1 to 604800 before starting it. A timeout leaves the services
+stopped and the partial ciphertext and diagnostic log in place; treat the
+backup as unconfirmed. Cleanup continues after this deadline and can take
+longer. This does not bound process startup, filesystem operations, the whole
+backup or a Docker daemon-side container's lifetime.
+No plaintext archive is persisted. Restore requires a separate target without
+an existing deployment project. Its destination parent must be an absolute,
+physical, operator-owned directory that is not group/world writable. The
+operator must also secure its ACLs and ancestor directories. Restore copies the
+verified ciphertext to an anonymous private temporary file on that filesystem
+before decrypting it; the filesystem must support that file and have at least
+the ciphertext size available. This space check is not a reservation and does
+not include the space needed for extracted files. The host, restoring account
+and its processes must be trusted. Restore bounds every archive entry and
+restores into a new directory. It starts nothing. Reconcile all financial
+records, objects, Auth/session/revocation
 state, original operations and unknown effects before release. A receipt with
 `restored_not_started` is not recovery acceptance.
 

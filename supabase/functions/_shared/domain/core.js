@@ -15,24 +15,53 @@ export async function readJson(request, maxBytes = 65536) {
     throw new ApiError(413, 'request_too_large', 'The request is too large.');
   const reader = request.body?.getReader();
   if (!reader) throw new ApiError(400, 'invalid_request', 'A JSON object is required.');
-  const chunks = []; let size = 0;
+  let bytes = new Uint8Array(0), size = 0; const signal = request.signal; const aborted = Symbol('request_aborted');
+  let onAbort, wakeRead;
+  const cancelReader = () => { try { void Promise.resolve(reader.cancel()).catch(() => {}); } catch {} };
+  if (signal) {
+    onAbort = () => {
+      wakeRead?.();
+      // Cancellation is best-effort; a source may reject or never settle.
+      cancelReader();
+    };
+    signal.addEventListener('abort', onAbort, {once: true});
+    if (signal.aborted) onAbort();
+  }
   try {
     while (true) {
-      const {done, value} = await reader.read(); if (done) break;
-      size += value.byteLength;
-      if (size > maxBytes) {
+      if (signal?.aborted) throw new ApiError(400, 'request_aborted', 'The request was interrupted.');
+      const pending = reader.read();
+      const next = signal ? await new Promise((resolve, reject) => {
+        let settled = false;
+        const finish = (callback, value) => { if (!settled) { settled = true; callback(value); } };
+        wakeRead = () => finish(resolve, aborted);
+        // Observe a late rejection even if the abort wins this read.
+        Promise.resolve(pending).then(value => finish(resolve, value), error => finish(reject, error));
+        if (signal.aborted) wakeRead();
+      }) : await pending;
+      wakeRead = undefined;
+      if (next === aborted || signal?.aborted) throw new ApiError(400, 'request_aborted', 'The request was interrupted.');
+      const {done, value} = next; if (done) break;
+      if (!ArrayBuffer.isView(value) || Object.prototype.toString.call(value) !== '[object Uint8Array]') {
+        cancelReader(); throw new ApiError(400, 'invalid_request', 'A JSON object is required.');
+      }
+      const required = size + value.byteLength;
+      if (required > maxBytes) {
         // Cancellation is best-effort: a stream's underlying cancel callback
         // can reject or remain pending. Do not let it hide or delay the 413.
-        try { void reader.cancel().catch(() => {}); } catch {}
+        cancelReader();
         throw new ApiError(413, 'request_too_large', 'The request is too large.');
       }
-      chunks.push(value);
+      if (!value.byteLength) continue;
+      if (required > bytes.byteLength) {
+        const capacity = Math.min(maxBytes, Math.max(required, bytes.byteLength ? bytes.byteLength * 2 : 256));
+        const grown = new Uint8Array(capacity); grown.set(bytes.subarray(0, size)); bytes = grown;
+      }
+      bytes.set(value, size); size = required;
     }
-  } finally { reader.releaseLock(); }
-  const bytes = new Uint8Array(size); let offset = 0;
-  for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length; }
+  } finally { wakeRead = undefined; if (onAbort) signal.removeEventListener('abort', onAbort); reader.releaseLock(); }
   let data;
-  try { data = JSON.parse(new TextDecoder('utf-8', {fatal: true}).decode(bytes)); }
+  try { data = JSON.parse(new TextDecoder('utf-8', {fatal: true}).decode(bytes.subarray(0, size))); }
   catch { throw new ApiError(400, 'invalid_json', 'The JSON request is invalid.'); }
   if (!data || Array.isArray(data) || typeof data !== 'object') throw new ApiError(400, 'invalid_request', 'A JSON object is required.');
   return data;

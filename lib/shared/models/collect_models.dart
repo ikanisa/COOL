@@ -629,6 +629,8 @@ class CollectProfile {
   String get safeAlias => 'Collect ID $publicId';
 }
 
+const _unspecifiedReceiverRouteLabel = Object();
+
 @immutable
 class CollectCollection {
   const CollectCollection({
@@ -641,7 +643,8 @@ class CollectCollection {
     this.categorySubtype,
     this.purposeLabel,
     this.receiverMomoNumber,
-    this.receiverDisplayLabel = 'Primary MoMo receiver',
+    String? receiverDisplayLabel,
+    Object? receiverRouteLabel = _unspecifiedReceiverRouteLabel,
     this.receiverNetwork = 'unknown',
     this._primaryPaymentRail,
     this.settlementCurrency = 'RWF',
@@ -656,7 +659,12 @@ class CollectCollection {
     this.suggestedAmountRwf,
     this.moderationStatus = 'not_requested',
     required this.createdAt,
-  }) : visibilityStatus =
+  }) : receiverDisplayLabel = receiverDisplayLabel ?? 'Primary MoMo receiver',
+       receiverRouteLabel =
+           identical(receiverRouteLabel, _unspecifiedReceiverRouteLabel)
+           ? receiverDisplayLabel
+           : receiverRouteLabel as String?,
+       visibilityStatus =
            visibilityStatus ?? (isPublic ? 'public_approved' : 'private');
 
   final String id;
@@ -669,6 +677,10 @@ class CollectCollection {
   final String? purposeLabel;
   final String? receiverMomoNumber;
   final String receiverDisplayLabel;
+  // Null means the source omitted the field; an empty string represents an
+  // explicitly observed null or empty server label. The visible fallback is
+  // never used as evidence that the underlying route label matched.
+  final String? receiverRouteLabel;
   final String receiverNetwork;
   final String? _primaryPaymentRail;
   final String settlementCurrency;
@@ -706,10 +718,13 @@ class CollectCollection {
     if (receivers is List && receivers.isNotEmpty) {
       receiver = Map<String, dynamic>.from(receivers.first as Map);
     }
-    final receiverDisplayLabel =
+    final rawReceiverLabel =
         (receiver?['label'] as String?) ??
-        (json['receiver_display_label'] as String?) ??
-        'Primary MoMo receiver';
+        (json['receiver_display_label'] as String?);
+    final receiverLabelObserved =
+        rawReceiverLabel != null ||
+        (receiver?.containsKey('label') ?? false) ||
+        json.containsKey('receiver_display_label');
     final receiverMomoNumber =
         (receiver?['momo_number'] as String?) ??
         (json['receiver_momo_number'] as String?);
@@ -740,7 +755,8 @@ class CollectCollection {
       categorySubtype: json['category_subtype'] as String?,
       purposeLabel: json['purpose_label'] as String?,
       receiverMomoNumber: receiverMomoNumber,
-      receiverDisplayLabel: receiverDisplayLabel,
+      receiverDisplayLabel: rawReceiverLabel,
+      receiverRouteLabel: receiverLabelObserved ? rawReceiverLabel ?? '' : null,
       receiverNetwork: receiverNetwork,
       primaryPaymentRail: primaryPaymentRail,
       settlementCurrency:
@@ -791,6 +807,7 @@ class CollectCollection {
     String? purposeLabel,
     String? receiverMomoNumber,
     String? receiverDisplayLabel,
+    Object? receiverRouteLabel = _unspecifiedReceiverRouteLabel,
     String? receiverNetwork,
     String? primaryPaymentRail,
     String? settlementCurrency,
@@ -817,6 +834,13 @@ class CollectCollection {
       purposeLabel: purposeLabel ?? this.purposeLabel,
       receiverMomoNumber: receiverMomoNumber ?? this.receiverMomoNumber,
       receiverDisplayLabel: receiverDisplayLabel ?? this.receiverDisplayLabel,
+      receiverRouteLabel:
+          !identical(receiverRouteLabel, _unspecifiedReceiverRouteLabel)
+          ? receiverRouteLabel
+          : receiverDisplayLabel == null ||
+                receiverDisplayLabel == this.receiverDisplayLabel
+          ? this.receiverRouteLabel
+          : null,
       receiverNetwork: receiverNetwork ?? this.receiverNetwork,
       primaryPaymentRail: primaryPaymentRail ?? this.primaryPaymentRail,
       settlementCurrency: settlementCurrency ?? this.settlementCurrency,

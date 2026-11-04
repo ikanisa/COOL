@@ -17,6 +17,7 @@ import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.Executors
+import java.util.concurrent.RejectedExecutionException
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 
@@ -51,44 +52,71 @@ object MemberSmsJobs {
             .setBackoffCriteria(30_000, JobInfo.BACKOFF_POLICY_EXPONENTIAL).build()) == JobScheduler.RESULT_SUCCESS)
     }
     fun begin(): Boolean = gate.begin().also { if (it) runningSequence = signals.get() }
-    fun finish(context: Context, retry: Boolean, finished: () -> Unit) = gate.finish(finished) {
-        if ((retry || signals.get() != runningSequence) && SmsQueueStore(context).activeCaptureOwner() != null)
-            signal(context, if (retry) 60_000 else 0)
+    fun finish(context: Context, retry: Boolean, finished: () -> Unit) {
+        var completionFailed = false
+        gate.finish({
+            try { finished() } catch (_: Exception) { completionFailed = true }
+        }) {
+            if ((retry || completionFailed || signals.get() != runningSequence) &&
+                SmsQueueStore(context).activeCaptureOwner() != null)
+                signal(context, if (retry || completionFailed) 60_000 else 0)
+        }
     }
 }
 
 class MemberSmsJobService : JobService() {
     private val executor = Executors.newSingleThreadExecutor()
     private val main = Handler(Looper.getMainLooper())
+    private val stateLock = Any()
     private var current: Pair<JobParameters, AtomicBoolean>? = null
     override fun onStartJob(params: JobParameters): Boolean {
         if (!MomoGatewayPolicy.memberCaptureSupported(BuildConfig.FLAVOR) || !MemberSmsJobs.begin()) return false
         val stopped = AtomicBoolean(false)
-        current = params to stopped
-        executor.execute {
-            val retry = try { MemberSmsUploader(applicationContext).cycle(stopped) } catch (_: Exception) { true }
-            main.post {
-                if (current?.second === stopped) {
-                    current = null
-                    try { MemberSmsJobs.finish(applicationContext, retry) { jobFinished(params, false) } }
-                    catch (_: Exception) { /* Reopen/new SMS/periodic work can recover the protected queue. */ }
+        val completed = AtomicBoolean(false)
+        synchronized(stateLock) { current = params to stopped }
+        fun complete(retry: Boolean, notifySystem: Boolean) {
+            // A rejected post (or a late posted callback) must not release a
+            // later invocation's process-wide gate a second time.
+            if (!completed.compareAndSet(false, true)) return
+            synchronized(stateLock) {
+                val active = current?.second === stopped
+                if (active) current = null
+                try {
+                    MemberSmsJobs.finish(applicationContext, retry || !active || !notifySystem) {
+                        if (active && notifySystem) jobFinished(params, false)
+                    }
+                } catch (_: Exception) {
+                    // The durable queue remains available to periodic/reopen recovery.
                 }
             }
+        }
+        try {
+            executor.execute {
+                val retry = try { MemberSmsUploader(applicationContext).cycle(stopped) } catch (_: Exception) { true }
+                val posted = try { main.post { complete(retry, true) } } catch (_: Exception) { false }
+                if (!posted) complete(true, false)
+            }
+        } catch (_: RejectedExecutionException) {
+            complete(true, false)
+            return false
         }
         return true
     }
     override fun onStopJob(params: JobParameters): Boolean {
-        if (current?.first?.jobId != params.jobId) return false
-        current?.second?.set(true)
-        current = null
-        MemberSmsJobs.finish(applicationContext, false) {}
-        return true
+        return synchronized(stateLock) {
+            if (current?.first?.jobId != params.jobId) false else {
+                current?.second?.set(true)
+                current = null
+                // The worker retains the process-wide gate until its connection exits.
+                true
+            }
+        }
     }
     override fun onDestroy() {
-        val pending = current
-        current = null
-        pending?.second?.set(true)
-        if (pending != null) MemberSmsJobs.finish(applicationContext, false) {}
+        synchronized(stateLock) {
+            current?.second?.set(true)
+            current = null
+        }
         executor.shutdown()
         super.onDestroy()
     }
@@ -195,6 +223,9 @@ internal class MemberSmsUploader(private val context: Context) {
                 connection.setFixedLengthStreamingMode(bytes.size)
                 connection.outputStream.use { it.write(bytes) }
                 val status = connection.responseCode
+                // A stopped or replaced session must not park a stale rejection.
+                if (stopped.get() || queue.activeCaptureOwner() != owner ||
+                    storage.read(BuildConfig.COLLECT_AUTH_SESSION_OWNER) != serialized) return false
                 if (status in setOf(401, 403)) return false
                 if (MemberSmsUploadPolicy.permanentSourceError(status)) {
                     check(queue.parkRejected(owner, row.getString("id"), status))

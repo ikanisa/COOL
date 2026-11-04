@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Reject missing artifact integrity and graph edges outside observed identity scope."""
 import copy
+import contextlib
 import hashlib
 import importlib.util
+import io
 import json
 import os
 import stat
@@ -132,6 +134,38 @@ class ObservedGradleSbomTest(unittest.TestCase):
                     self.assertEqual(result.returncode, 0, result.stderr)
                     self.assertEqual(before, [(root / name).read_bytes() for name in ["bom.json", "inventory.json"]])
 
+    def test_default_graph_hash_and_content_stay_bound_when_file_changes(self):
+        with tempfile.TemporaryDirectory(prefix=".sbom-default-test-", dir=module.ROOT) as directory:
+            root = Path(directory).resolve()
+            paths = self.write_graphs(root)
+            original = paths[0].read_bytes()
+            changed_graph = json.loads(original)
+            changed_graph["artifacts"][0]["sha256"] = "b" * 64
+            replacement = json.dumps(changed_graph).encode()
+            original_read_bytes = Path.read_bytes
+            changed = False
+
+            def change_after_read(path):
+                nonlocal changed
+                raw = original_read_bytes(path)
+                if path == paths[0] and not changed:
+                    path.write_bytes(replacement)
+                    changed = True
+                return raw
+
+            args = ["gradle_observed_sbom.py", "--runtime-graph", str(paths[0]),
+                    "--compile-graph", str(paths[1]), "--output", str(root / "bom.json"),
+                    "--inventory", str(root / "inventory.json")]
+            with patch.object(Path, "read_bytes", change_after_read), patch("sys.argv", args), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                module.main()
+            inventory = json.loads((root / "inventory.json").read_bytes())
+            self.assertTrue(changed)
+            self.assertEqual(inventory["evidence_sha256"][paths[0].relative_to(module.ROOT).as_posix()],
+                             hashlib.sha256(original).hexdigest())
+            self.assertEqual(inventory["artifacts"][0]["sha256"], "a" * 64)
+            self.assertEqual(paths[0].read_bytes(), replacement)
+
     def test_external_graphs_still_require_explicit_root(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory).resolve()
@@ -246,6 +280,7 @@ class ObservedGradleSbomTest(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             validation = json.loads(result.stdout)
             self.assertEqual(validation["status"], "pass")
+            self.assertEqual(validation["document_sha256"], hashlib.sha256((root / "bom.json").read_bytes()).hexdigest())
             self.assertEqual(validation["network_fetches"], 0)
             self.assertTrue(validation["schema_conformance_only"])
 

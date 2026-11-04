@@ -1,5 +1,6 @@
-import {applicationWork,noteUnknownEffect} from '../application-fence.js';
+import {applicationWork} from '../application-fence.js';
 import {ApiError} from './core.js';
+import {isBuiltinEmailBinding} from '../email-binding-registry.js';
 
 // The legacy Admin binding is constrained to the existing Collect sender.
 // AUTH_EMAIL is the shared, explicitly configured successor for both apps.
@@ -30,21 +31,27 @@ export async function sendTransactionalEmail(env, message) {
       (message.html !== undefined && (typeof message.html !== 'string' || message.html.length > 100000))) throw unavailable();
   let timeout;
   const work=applicationWork(env);await work.assert();
+  const reservation=isBuiltinEmailBinding(binding)?work.reserveDispatch('smtp'):undefined;
+  let finishSpan;work.waitUntil(new Promise(resolve=>{finishSpan=resolve;}));
   try {
+    const original=reservation===undefined?binding.send({from: {email: from, name: 'Collect'}, to: message.to, subject: message.subject,
+        text: message.text, ...(message.html === undefined ? {} : {html: message.html})}):
+      Promise.resolve().then(()=>binding.send({from: {email: from, name: 'Collect'}, to: message.to, subject: message.subject,
+        text: message.text, ...(message.html === undefined ? {} : {html: message.html})},reservation)).finally(()=>work.releaseReserved(reservation));
     const result = await Promise.race([
-      work.waitUntil(binding.send({from: {email: from, name: 'Collect'}, to: message.to, subject: message.subject,
-        text: message.text, ...(message.html === undefined ? {} : {html: message.html})})),
+      work.waitUntil(original),
       new Promise((_, reject) => { timeout = setTimeout(() => reject(unavailable()), 10000); }),
     ]);
     if (typeof result?.messageId !== 'string' || result.messageId.trim().length < 1 ||
         result.messageId.length > 256 || /[\u0000-\u001f\u007f]/.test(result.messageId)) throw unavailable();
     return {messageId: result.messageId};
   } catch {
-    noteUnknownEffect(env,'smtp');
+    if(reservation===undefined)work.unconfirmedExternalOutcome();else work.unknownReserved(reservation);
     // Neither provider messages, recipients nor message/code contents enter
     // exception text or logs. The caller retains accepted-vs-unknown state.
     throw unavailable();
   } finally {
     clearTimeout(timeout);
+    finishSpan?.();
   }
 }

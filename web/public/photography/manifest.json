@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "generator": "scripts/assets/build_public_photography.mjs",
-  "generator_sha256": "4fd67bb3e19b8379505fddc593abb276ef5c8cc69eaafaeac4888d53ad1287f0",
+  "generator_sha256": "15b1a02f2f14ddeb298b9db40768e9d870aa1e88c88ca3c2a59dbb8f7a09723a",
   "encoder": {
-    "sharp": "0.35.4",
+    "sharp": "0.35.5",
     "webp": "1.6.0"
   },
   "operation": "Full-resolution WebP delivery encoding; opaque photos quality92, alpha photos quality95 with lossless alpha. No resize, crop, redraw or source replacement.",

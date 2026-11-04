@@ -8,6 +8,7 @@ import {SupabaseNativeTransport} from './storage/supabase-transport.js';
 import {PostgresStorageJournal} from './storage/postgres-journal.js';
 import {createTransport} from 'npm:nodemailer@10.1.7';
 import {createWorkspaceSmtpEmail} from './workspace-smtp-email.js';
+import {registerBuiltinEmailBinding} from './email-binding-registry.js';
 import {createFcmSender} from './fcm-notifications.js';
 const unavailable=name=>new ApiError(503,name+'_unavailable','The configured service is unavailable.');
 // postgres.js serializes JSONB parameters using their inferred PostgreSQL type.
@@ -30,8 +31,17 @@ export class SupabaseObjectBucket {
  async checked(fn){try{return await fn();}catch(error){if(error instanceof StorageProtocolError){const wrapped=new ApiError(error.status,error.code,'Protected storage could not be confirmed. Keep the request pending.');wrapped.cause=error;throw wrapped;}throw error;}}
  async put(key,value,options={}){return this.checked(async()=>{
   if(typeof value!=='string'||!options.scope||typeof options.aad!=='string'||!/^[a-f0-9]{64}$/.test(options.sourceDigest??''))throw new ApiError(400,'storage_identity_required','A protected source identity is required.');
-  const prior=await this.journal.getPayloadBinding(key),custom={...(options.customMetadata??{})};if(prior&&Object.hasOwn(custom,'key_id'))custom.key_id=prior.keyId;const plain=custom.sha256??custom.source_sha256;if(!/^[a-f0-9]{64}$/.test(plain??''))throw new ApiError(400,'storage_identity_required','A protected source digest is required.');
-  const descriptor={scope:options.scope,aad:options.aad,keyId:prior?.keyId??this.env.DATA_KEY_ID,plaintextSha256:plain,requestDigest:options.sourceDigest,httpMetadata:options.httpMetadata??{},customMetadata:custom};
+  const prior=await this.journal.getPayloadBinding(key);let custom={...(options.customMetadata??{})};if(prior&&Object.hasOwn(custom,'key_id'))custom.key_id=prior.keyId;const plain=custom.sha256??custom.source_sha256;if(!/^[a-f0-9]{64}$/.test(plain??''))throw new ApiError(400,'storage_identity_required','A protected source digest is required.');
+  const descriptorFor=metadata=>({scope:options.scope,aad:options.aad,keyId:prior?.keyId??this.env.DATA_KEY_ID,plaintextSha256:plain,requestDigest:options.sourceDigest,httpMetadata:options.httpMetadata??{},customMetadata:metadata});
+  // Current SQL requires the generic plaintext digest. Add it to new roster
+  // reservations only; an existing fingerprint selects the original descriptor
+  // even if the process stopped before creating a put intent. Never rewrite an
+  // old reservation or silently rebind its object identity.
+  if(options.scope.purpose==='roster_source'&&!Object.hasOwn(custom,'sha256')&&custom.source_sha256===plain){
+   const enriched={...custom,sha256:plain};
+   if(!prior||prior.sourceFingerprint===await sha256(canonical(descriptorFor(enriched))))custom=enriched;
+  }
+  const descriptor=descriptorFor(custom);
   const reservation=await this.journal.reservePayload(key,descriptor,value);
   if(reservation.sealedBody===null){const intent=await this.journal.getPutByKey(key);if(!intent||intent.customMetadata.source_fingerprint!==reservation.sourceFingerprint)throw unavailable('storage_reservation');return this.protocol.confirmCommitted(intent);}
   const retainedPlaintext=await decrypt(this.env,reservation.sealedBody,options.aad);if(await digest(retainedPlaintext)!==plain)throw unavailable('storage_plaintext_integrity');
@@ -108,6 +118,6 @@ export function providerAdapters(env){
  if(env.COLLECT_NOTICE_SMTP_PASSWORD!==undefined&&env.COLLECT_NOTICE_SMTP_PASSWORD!==null&&env.COLLECT_NOTICE_SMTP_PASSWORD!==''){
   try{adapters.AUTH_EMAIL=createWorkspaceSmtpEmail(env,{createTransport});adapters.AUTH_EMAIL_FROM='info@ikanisa.com';}
   catch{adapters.AUTH_EMAIL=Object.freeze({provider:'workspace_smtp_v1',unavailable:true});}
- }else if(env.TRANSACTIONAL_EMAIL_URL&&env.TRANSACTIONAL_EMAIL_TOKEN)adapters.AUTH_EMAIL={async send(message){const target=new URL(env.TRANSACTIONAL_EMAIL_URL);if(target.protocol!=='https:'||target.username||target.password)throw unavailable('email');const reply=await guardedFetch(env,'smtp',target,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+env.TRANSACTIONAL_EMAIL_TOKEN},body:JSON.stringify(message),redirect:'error',signal:AbortSignal.timeout(10000)});if(!reply.ok)throw unavailable('email');const data=await reply.json();return {messageId:data.messageId??data.id};}};
+ }else if(env.TRANSACTIONAL_EMAIL_URL&&env.TRANSACTIONAL_EMAIL_TOKEN)adapters.AUTH_EMAIL=registerBuiltinEmailBinding({async send(message,reservation){const target=new URL(env.TRANSACTIONAL_EMAIL_URL);if(target.protocol!=='https:'||target.username||target.password)throw unavailable('email');const reply=await guardedFetch(env,'smtp',target,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+env.TRANSACTIONAL_EMAIL_TOKEN},body:JSON.stringify(message),redirect:'error',signal:AbortSignal.timeout(10000)},reservation);if(!reply.ok)throw unavailable('email');const data=await reply.json();return {messageId:data.messageId??data.id};}});
  return adapters;
 }

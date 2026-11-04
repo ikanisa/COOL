@@ -32,7 +32,7 @@ function fixture(options={}){
  let row={authority_user_id:user,authority_session_id:session,surface:'member',authority_expires_at:now+900,managed_expires_at:now+900,admin_expires_at:null,
   observed_at:new Date(),receipt_request_id:request,id:intent,collection_id:collection,member_id:user,amount_minor:500,currency:'RWF',rail:'rwanda_momo',status:'pending',
   receiver_momo_number:'250788123492',receiver_network:'mtn_momo',receiver_label:'Original receiver',originating_session_id:session,created_at:new Date().toISOString(),expires_at:new Date(Date.now()+600000).toISOString(),
-  group_status:'active',collection_revision:1,current_receiver_number:'250788123492',current_receiver_network:'mtn_momo',current_receiver_label:'Original receiver',membership_active:1,profile_momo_number:'+250788123491',profile_country_code:'RW',...options.row};
+  group_status:'active',collection_revision:1,current_receiver_number:'250788123492',current_receiver_network:'mtn_momo',current_receiver_label:'Original receiver',membership_active:1,profile_momo_number:'+250788123491',profile_country_code:'RW',linked_payment_exists:false,...options.row};
  row.response_json=options.response??JSON.stringify(contributionIntentJson({...row,status:'pending',sender_phone_hash:senderHash}));
  row.creation_response_json=options.creationResponse??JSON.stringify(contributionIntentJson({...row,status:'pending',sender_phone_hash:senderHash}));
  const tx=async(strings,...values)=>{calls.push({text:String.raw({raw:strings},...values.map(()=>'?')),values});return [];};
@@ -167,6 +167,14 @@ test('SQL authority absence and app/managed/Admin deadline crossing fail closed'
 });
 test('valid current review uses the unchanged creation projection',async()=>{
  const f=fixture(),{value}=await invoke(f,reviewName,review());assert.equal(value.launch_authorized,true);assert.equal(value.retry_authorized,false);assert.equal(value.external_payment,'unknown');assert.equal(value.reviewed_session_id,session);assert.deepEqual(value.intent,contributionIntentJson({...f.row,sender_phone_hash:senderHash}));assert.equal(f.released.length,1);
+});
+test('review fails closed for linked or indeterminate payment state',async()=>{
+ for(const linked_payment_exists of [true,null,undefined]){
+  const f=fixture({row:{linked_payment_exists}});
+  await assert.rejects(()=>invoke(f,reviewName,review()),denied(404,'contribution_intent_unavailable'));
+  const query=f.calls.find(c=>c.text.startsWith('WITH authority')).text;
+  assert.match(query,/EXISTS\s*\(SELECT 1 FROM payments linked_payment WHERE linked_payment\.intent_id=p\.id\)/);
+ }
 });
 test('review accepts equivalent profile formats but rejects a changed sender',async()=>{
  for(const phone of ['0788 123 491','00250 788 123 491','788123491']){

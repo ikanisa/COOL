@@ -4,7 +4,7 @@ import {pathToFileURL} from 'node:url';
 import {compilePlanningRequest,decodeManagementResult,preparePlanCandidate,compileCaptureRequest,assembleManagementSnapshot,sealManagementResponse} from './capture.mjs';
 import {ArchiveError,PROJECT,HASH,exact,need,canonical,sha} from './codec.mjs';
 import {privateDirectory,readPrivateFile,readEncryptedBundle} from './bundle.mjs';
-import {restoreInertArchive} from './restore.mjs';
+import {restoreInertArchive,newInertDatabaseName} from './restore.mjs';
 import {createManagementTransport,checkEnvironment} from './transport.mjs';
 export const DEFAULT_SOURCE_ROOT=resolve(import.meta.dirname,'../../..');
 const hash=x=>HASH.test(x??'');
@@ -24,7 +24,7 @@ function parse(argv){const [mode,...rest]=argv;need(['plan','capture','restore-i
 function allowed(v,required,optional=[]){need(required.every(k=>Object.hasOwn(v,k))&&Object.keys(v).every(k=>required.includes(k)||optional.includes(k)),'ARGUMENTS_INVALID');}
 async function credential(v,env){need(Boolean(v['--token-file'])!==Boolean(v['--token-env']),'ONE_TOKEN_SOURCE_REQUIRED');let token;if(v['--token-file']){const raw=await readPrivateFile(v['--token-file'],16384);try{token=raw.toString('utf8').trim();}finally{raw.fill(0);}}else{need(v['--token-env']==='COLLECT_ARCHIVE_ACCESS_TOKEN','TOKEN_ENV_INVALID');token=env.COLLECT_ARCHIVE_ACCESS_TOKEN;delete env.COLLECT_ARCHIVE_ACCESS_TOKEN;}need(typeof token==='string'&&token.length>=16&&!/\s/.test(token),'TOKEN_INVALID');return token;}
 export async function run(argv,{environment=process.env,transportFactory=createManagementTransport,makeClient}={}){
- need(Number(process.versions.node.split('.')[0])===24,'NODE24_REQUIRED');const {mode,v}=parse(argv),root=v['--source-root']??DEFAULT_SOURCE_ROOT;let out;
+ need(Number(process.versions.node.split('.')[0])===24,'NODE24_REQUIRED');const {mode,v}=parse(argv),root=v['--source-root']??DEFAULT_SOURCE_ROOT;let out,restoreDatabase=null,restoreCreationState='not_requested';
  const shared=['--source-set','--source-set-sha256','--output-dir'];const auth=['--source-root','--token-file','--token-env'];
  if(mode==='restore-inert')allowed(v,['--capture-result','--capture-result-sha256','--local-connection-file','--output-dir','--execute-reviewed-inert'],['--source-root']);
  else allowed(v,mode==='plan'?shared:[...shared,'--plan','--plan-sha256','--key-dir','--execute-reviewed-read-only'],auth);
@@ -36,10 +36,10 @@ export async function run(argv,{environment=process.env,transportFactory=createM
    const {value:receipt}=await pinnedJson(result.receipt_path,result.receipt_sha256);need(canonical(receipt)===canonical(result.receipt),'RECEIPT_CHANGED');
    const {value:summary}=await pinnedJson(result.summary_path,result.summary_sha256);need(summary.source_snapshot_sha256===result.source_snapshot_sha256&&summary.runtime_source_sha256===result.runtime_source_sha256,'SUMMARY_CHANGED');
    const {snapshot}=await readEncryptedBundle({archivePath:receipt.archive_path,keyPath:receipt.key_path,expectedArchiveSha256:receipt.archive_sha256});need(snapshot.fixture===false&&snapshot.project_ref===PROJECT&&snapshot.runtime_source_sha256===result.runtime_source_sha256&&sha(canonical(snapshot))===result.source_snapshot_sha256,'SNAPSHOT_CHANGED');
-   out=await freshDirectory(v['--output-dir'],root);await savePrivate(resolve(out,'INTENT.json'),{stage:mode,capture_result_sha256:v['--capture-result-sha256'],archive_sha256:receipt.archive_sha256,new_inert_database_only:true,automatic_retry:false});
+   out=await freshDirectory(v['--output-dir'],root);restoreDatabase=newInertDatabaseName();await savePrivate(resolve(out,'INTENT.json'),{stage:mode,capture_result_sha256:v['--capture-result-sha256'],archive_sha256:receipt.archive_sha256,inert_database:restoreDatabase,new_inert_database_only:true,automatic_retry:false});
    const urlBytes=await readPrivateFile(v['--local-connection-file'],16384);let url;try{url=urlBytes.toString('utf8').trim();}finally{urlBytes.fill(0);}
    if(!makeClient){const {Client}=await import('pg');makeClient=connectionString=>{const c=new Client({connectionString,ssl:false,statement_timeout:30000,connectionTimeoutMillis:5000});c.on('error',()=>{});return c;};}
-   const native=await restoreInertArchive(snapshot,{adminUrl:url,makeClient});const file=resolve(out,'INERT_RESTORE.json');await savePrivate(file,native);return {stage:mode,receipt_path:file,receipt_sha256:sha(await readFile(file)),database:native.database,tables:native.tables.length,rows:native.tables.reduce((n,t)=>n+t.rows,0),columns_and_native_cells_exact:true,full_recovery_acceptance:false};
+   const native=await restoreInertArchive(snapshot,{adminUrl:url,makeClient,databaseName:restoreDatabase});restoreCreationState='confirmed_created';const file=resolve(out,'INERT_RESTORE.json');await savePrivate(file,native);return {stage:mode,receipt_path:file,receipt_sha256:sha(await readFile(file)),database:native.database,tables:native.tables.length,rows:native.tables.reduce((n,t)=>n+t.rows,0),columns_and_native_cells_exact:true,full_recovery_acceptance:false};
   }
   checkEnvironment(environment);const sources=await sourceSet(v['--source-set'],v['--source-set-sha256'],root);
   let plan;if(mode==='capture'){plan=(await pinnedJson(v['--plan'],v['--plan-sha256'])).value;planSources(plan,sources);}
@@ -60,6 +60,6 @@ export async function run(argv,{environment=process.env,transportFactory=createM
    const result={format:'collect.current-archive.capture.v1',project_ref:PROJECT,fixture:false,runtime_source_sha256:snapshot.runtime_source_sha256,source_snapshot_sha256:summary.source_snapshot_sha256,receipt_path:receiptPath,receipt_sha256:sha(await readFile(receiptPath)),summary_path:summaryPath,summary_sha256:sha(await readFile(summaryPath)),receipt,full_recovery_acceptance:false};const resultPath=resolve(out,'RESULT.json');await savePrivate(resultPath,result);
    return {stage:mode,result_path:resultPath,result_sha256:sha(await readFile(resultPath)),tables:receipt.tables,rows:receipt.rows,archive_sha256:receipt.archive_sha256,full_recovery_acceptance:false};
   }finally{response?.body.fill(0);}
- }catch(error){if(out)await savePrivate(resolve(out,'FAILED.json'),{stage:mode,code:error instanceof ArchiveError?error.code:'ARCHIVE_UNCONFIRMED',automatic_retry:false,preserve_partial:true});throw error;}
+ }catch(error){if(out){const state=['not_requested','requested_unconfirmed','confirmed_created'].includes(error?.database_creation_state)?error.database_creation_state:restoreCreationState;await savePrivate(resolve(out,'FAILED.json'),{stage:mode,code:error instanceof ArchiveError?error.code:'ARCHIVE_UNCONFIRMED',...(mode==='restore-inert'?{inert_database:restoreDatabase,database_creation_state:state}:{}),automatic_retry:false,preserve_partial:true});}throw error;}
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)run(process.argv.slice(2)).then(r=>process.stdout.write(JSON.stringify(r)+'\n')).catch(()=>{process.stderr.write('Archive operation refused or unconfirmed; preserve partial files/database; no automatic retry.\n');process.exitCode=1;});

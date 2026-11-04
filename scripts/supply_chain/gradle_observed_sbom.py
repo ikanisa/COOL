@@ -4,6 +4,7 @@ import argparse
 from collections import Counter, defaultdict
 from contextlib import ExitStack
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -329,8 +330,14 @@ def main():
         raise ValueError("Cached licence annotations require fresh additive output paths")
     paths = [Path(args.runtime_graph), Path(args.compile_graph)]
     if args.graph_evidence_root is None:
-        evidence = {p.resolve().relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
-        bom, inventory = build([json.loads(p.read_text()) for p in paths], evidence, args.flavor)
+        graphs, evidence = [], {}
+        for p in paths:
+            key = p.resolve().relative_to(ROOT).as_posix()
+            raw = p.read_bytes()
+            evidence[key] = hashlib.sha256(raw).hexdigest()
+            with io.TextIOWrapper(io.BytesIO(raw)) as text:
+                graphs.append(json.loads(text.read()))
+        bom, inventory = build(graphs, evidence, args.flavor)
     else:
         graphs, evidence, root = read_rooted_graph_evidence(
             [args.runtime_graph, args.compile_graph], args.graph_evidence_root)

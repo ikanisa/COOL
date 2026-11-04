@@ -1,4 +1,5 @@
 import {applicationWork} from './application-fence.js';
+import {registerBuiltinEmailBinding} from './email-binding-registry.js';
 const sender='info@ikanisa.com';
 const controls=/[\u0000-\u001f\u007f-\u009f]/;
 const bodyControls=/[\u0000-\u0009\u000b-\u001f\u007f-\u009f]/;
@@ -70,7 +71,7 @@ export function createWorkspaceSmtpEmail(env,{createTransport}={}) {
  let password;
  try{if(!record(env))throw unavailable();password=configuredPassword(env);}catch{throw unavailable();}
  if(typeof createTransport!=='function')throw unavailable();
- return Object.freeze({provider:'workspace_smtp_v1',async send(message) {
+ return registerBuiltinEmailBinding(Object.freeze({provider:'workspace_smtp_v1',async send(message,reservation) {
   let mail,transport;try{mail=messageData(message);}catch{throw invalid();}
   try {
    transport=createTransport({host:'smtp.gmail.com',port:465,secure:true,name:'collect.ikanisa.com',
@@ -82,7 +83,8 @@ export function createWorkspaceSmtpEmail(env,{createTransport}={}) {
    if(!transport||typeof transport.sendMail!=='function')throw new WorkspaceSmtpError();
    // The pinned non-pooled transport resolves only after DATA's final response.
    // Generated Message-ID or envelope acceptance alone is never sufficient.
-   const info=await applicationWork(env).dispatch('smtp',()=>transport.sendMail(mail));return accepted(info,mail.envelope.to[0]);
+   const work=applicationWork(env),send=()=>transport.sendMail(mail);
+   const info=await(reservation===undefined?work.dispatch('smtp',send):work.dispatchReserved(reservation,'smtp',send));return accepted(info,mail.envelope.to[0]);
   }catch{throw new WorkspaceSmtpError();}
   finally {
    // close() releases local transport resources; it is NOT active-send abort.
@@ -90,5 +92,5 @@ export function createWorkspaceSmtpEmail(env,{createTransport}={}) {
    // Its late resolution has no receipt authority and must never cause retry.
    try{if(typeof transport?.close==='function')transport.close();}catch{}
   }
- }});
+ }}));
 }

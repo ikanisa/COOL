@@ -1,0 +1,103 @@
+{
+  "format": "collect.golden.evidence-integrity.v1",
+  "recorded_pngs_checked": 52,
+  "recorded_png_hash_mismatches": [],
+  "comparisons": [
+    {
+      "name": "member_auth_dark",
+      "master_matches_current": true,
+      "changed_pixels": 5845,
+      "expected_pixels": 5845,
+      "matches": true
+    },
+    {
+      "name": "member_home_dark",
+      "master_matches_current": true,
+      "changed_pixels": 11723,
+      "expected_pixels": 11723,
+      "matches": true
+    },
+    {
+      "name": "member_groups_dark",
+      "master_matches_current": true,
+      "changed_pixels": 5352,
+      "expected_pixels": 5352,
+      "matches": true
+    },
+    {
+      "name": "member_contribute_entry_dark",
+      "master_matches_current": true,
+      "changed_pixels": 8433,
+      "expected_pixels": 8433,
+      "matches": true
+    },
+    {
+      "name": "member_activity_dark",
+      "master_matches_current": true,
+      "changed_pixels": 14772,
+      "expected_pixels": 14772,
+      "matches": true
+    },
+    {
+      "name": "member_profile_dark",
+      "master_matches_current": true,
+      "changed_pixels": 8566,
+      "expected_pixels": 8566,
+      "matches": true
+    },
+    {
+      "name": "member_group_detail_dark",
+      "master_matches_current": true,
+      "changed_pixels": 16908,
+      "expected_pixels": 16908,
+      "matches": true
+    },
+    {
+      "name": "member_contribution_review_dark",
+      "master_matches_current": true,
+      "changed_pixels": 15611,
+      "expected_pixels": 15611,
+      "matches": true
+    },
+    {
+      "name": "member_ledger_dark",
+      "master_matches_current": true,
+      "changed_pixels": 14076,
+      "expected_pixels": 14076,
+      "matches": true
+    },
+    {
+      "name": "member_offline_dark",
+      "master_matches_current": true,
+      "changed_pixels": 10392,
+      "expected_pixels": 10392,
+      "matches": true
+    },
+    {
+      "name": "member_appearance_dark",
+      "master_matches_current": true,
+      "changed_pixels": 6565,
+      "expected_pixels": 6565,
+      "matches": true
+    },
+    {
+      "name": "public_home_desktop",
+      "master_matches_current": true,
+      "changed_pixels": 24699,
+      "expected_pixels": 24699,
+      "matches": true
+    },
+    {
+      "name": "admin_overview_desktop",
+      "master_matches_current": true,
+      "changed_pixels": 50730,
+      "expected_pixels": 50730,
+      "matches": true
+    }
+  ],
+  "all_master_bytes_match_current": true,
+  "all_pixel_counts_match": true,
+  "source_tree_changed_during_original_run": true,
+  "current_host_comparison_performed": false,
+  "visual_acceptance": false
+}

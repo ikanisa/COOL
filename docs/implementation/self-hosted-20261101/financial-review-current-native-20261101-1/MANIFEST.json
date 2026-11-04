@@ -1,0 +1,314 @@
+{
+  "format": "collect.current-native.public-receipts.v1",
+  "files": [
+    {
+      "path": "lifecycle/INTENT.json",
+      "bytes": 713,
+      "sha256": "c4f5c512db56ab150b429bad1f99f8cd5c85ef3cf4b3157eb2e86627193735ee"
+    },
+    {
+      "path": "lifecycle/RESULT.json",
+      "bytes": 2331,
+      "sha256": "528d5e98a4dd798ce82c6c38a54d2cfc23888857610f4c44474b4ac463f4389d"
+    },
+    {
+      "path": "lifecycle/SNAPSHOT.json",
+      "bytes": 296266,
+      "sha256": "dc5cbb8094e54668c79941087ef60ff4279836b7a2fb99d075c48d3023e2fc7a"
+    },
+    {
+      "path": "lifecycle/qualification.stdout",
+      "bytes": 1738,
+      "sha256": "661273e5bffe7743a9c44af26394cffea9ceb1ea473ce272494f9f765c73a9f1"
+    },
+    {
+      "path": "lifecycle/qualification.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "lifecycle/WARM.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "lifecycle/WARM.stderr",
+      "bytes": 694,
+      "sha256": "4b8446191e488951cbde5e7ce0a5991ce7f0d494a2bfc8d59bf87b7f1abed910"
+    },
+    {
+      "path": "groups/INPUTS.json",
+      "bytes": 97387,
+      "sha256": "1b6bcb887b9a54ed613888d0904b29dbde872986e4861c6e837e1b67d2c9f81a"
+    },
+    {
+      "path": "groups/CLUSTER.json",
+      "bytes": 282,
+      "sha256": "f0e2d34e495562eb6ed2b09528a9ea964602615f6b5fd8250ebe2c39c0af0f07"
+    },
+    {
+      "path": "groups/INSTALLATION.json",
+      "bytes": 32597,
+      "sha256": "4665d59230331d8a08ea58798f8dd4968d944426ff0dab0aa49640c5aa01e8ea"
+    },
+    {
+      "path": "groups/RESULT.json",
+      "bytes": 1679,
+      "sha256": "1641b171b72f927c819cf366917dc3179d5c0a681f8726cc580a441bdecb80f6"
+    },
+    {
+      "path": "groups/CONTROL.json",
+      "bytes": 14000,
+      "sha256": "c8bccc77cdc2a36fa9b95f82efea4e340bcb888f053e87b19fe8e5d0a5180aa3"
+    },
+    {
+      "path": "groups/RUNTIME.json",
+      "bytes": 5062,
+      "sha256": "29476857ff268066d5dc3669ea733d86cb46a3897dd6c38b7c45553b9fb663e0"
+    },
+    {
+      "path": "groups/BACKEND.json",
+      "bytes": 9368,
+      "sha256": "dace0ac132c4ae83af1889ff58771a614b00aba8877960afd7e2997a532bfe28"
+    },
+    {
+      "path": "groups/AUTH.json",
+      "bytes": 5768,
+      "sha256": "fdfa57b3ec5162c91bfec8ad42e9558dfaf5f2550590c440ebb1c6b7bb12683d"
+    },
+    {
+      "path": "groups/RETENTION.json",
+      "bytes": 8546,
+      "sha256": "91553bbef307749524f03d67b5f30bb10202a19f78ed970b5914cced081e0ab9"
+    },
+    {
+      "path": "groups/NOTIFICATIONS.json",
+      "bytes": 4801,
+      "sha256": "73e85db469472bc15304cdfee4ccbcd44202ee8802d0cca75f5c91c6ef9cea06"
+    },
+    {
+      "path": "groups/DATA_STAGE.json",
+      "bytes": 6000,
+      "sha256": "16eab44b66cb5c9b211eabd8547b8f2acb35b9a6208c9aa688c32d0c913b34ae"
+    },
+    {
+      "path": "groups/GATEWAY.json",
+      "bytes": 341,
+      "sha256": "10c41f8299ab12d49d9ba9b4e49f3f241c2a7d8b087c020f8a7ed41fee1b9f26"
+    },
+    {
+      "path": "groups/GATEWAY.xml",
+      "bytes": 7355,
+      "sha256": "249c09a37de67d2ceea4fe2275a3b4d44112120f94970818d930a9e7469dcd80"
+    },
+    {
+      "path": "groups/MOMO.json",
+      "bytes": 6259,
+      "sha256": "ad46add77bfbb63bbb78a84f4c6acc7c5c6c5b8fcbf98f993eef601f3365b77c"
+    },
+    {
+      "path": "groups/CONTRIBUTION_REVIEW.json",
+      "bytes": 5488,
+      "sha256": "a0a36a31bd526a8402a4d50146ac0c93df22a51044a85a54ed1b083cff04b4f2"
+    },
+    {
+      "path": "groups/GATEWAY-FENCE.json",
+      "bytes": 9550,
+      "sha256": "d1e8797824acc2c752d9c213cf1b12764a2999c1a04496f003b761ae059105b7"
+    },
+    {
+      "path": "groups/SCHEDULER.json",
+      "bytes": 12930,
+      "sha256": "bcc15639b27a94389eeb282db012654e1ee6b9ab31d600e2a15dea76719d0652"
+    },
+    {
+      "path": "groups/AUTH-CHILD.json",
+      "bytes": 359,
+      "sha256": "c91db7688a39930e1d7f2997cf538165a80afb772289b1b1db487db63f193324"
+    },
+    {
+      "path": "groups/BACKEND-CHILD.json",
+      "bytes": 359,
+      "sha256": "0aea0341206ed675d84c252f309f637c54333bfef7fca85ee54bb9a290f14764"
+    },
+    {
+      "path": "groups/CONTRIBUTION_REVIEW-CHILD.json",
+      "bytes": 359,
+      "sha256": "6415f45085215bfe0fee1117b1d4559c93e0beaf6139241a3b384586072dde81"
+    },
+    {
+      "path": "groups/CONTROL-CHILD.json",
+      "bytes": 360,
+      "sha256": "61c648ae62ed31892cbf1119d03a7aa4c72cffbe643fc5553d30d49a5341b9c9"
+    },
+    {
+      "path": "groups/DATA_STAGE-CHILD.json",
+      "bytes": 358,
+      "sha256": "2fc7b346bccfabab991d1057b26200b73435d63788f8cb7d41af3ad19051f1f7"
+    },
+    {
+      "path": "groups/GATEWAY-CHILD.json",
+      "bytes": 359,
+      "sha256": "ed05c5437e46d9a4b96702ed738d9e18e51769e874fb289de4ee8a68c801b7f8"
+    },
+    {
+      "path": "groups/GATEWAY-FENCE-CHILD.json",
+      "bytes": 359,
+      "sha256": "a343b8d9e5810e8782c753fb097c08ab9ae0d748fa21091ac17f94869f7fce4a"
+    },
+    {
+      "path": "groups/MOMO-CHILD.json",
+      "bytes": 359,
+      "sha256": "702b0c3a4675087a8ebecfb454995064c20f9ef8cae544f0e413aa8d3e46a126"
+    },
+    {
+      "path": "groups/NOTIFICATIONS-CHILD.json",
+      "bytes": 359,
+      "sha256": "65d26394893380d424ef2eb09356ed0bedba886d0999bbf4b7c284bf93fcb895"
+    },
+    {
+      "path": "groups/RETENTION-CHILD.json",
+      "bytes": 359,
+      "sha256": "a939d1fc9e032e7f29c2a9cb71c40a45e4ff6cc4d7ec3850d1015792707bc025"
+    },
+    {
+      "path": "groups/RUNTIME-CHILD.json",
+      "bytes": 359,
+      "sha256": "f355f523dcb65badfa3b289863506501d13412c420fce0160a51c49389d5f7ef"
+    },
+    {
+      "path": "groups/SCHEDULER-CHILD.json",
+      "bytes": 359,
+      "sha256": "064b37c6017a6a18c3d6a4ab588a820e4c41e48f1c19aae23a7e884f12014591"
+    },
+    {
+      "path": "groups/AUTH.log",
+      "bytes": 5828,
+      "sha256": "92da2e1bd8bd650726f1835ceb01e3a13d4621b186226ca9e4b257e4ce123947"
+    },
+    {
+      "path": "groups/BACKEND.log",
+      "bytes": 7450,
+      "sha256": "eefea39d78e3c933d64ccc8f4f821cc3b06dca148cf4d588b2609a10a3d58a63"
+    },
+    {
+      "path": "groups/CONTRIBUTION_REVIEW.log",
+      "bytes": 4561,
+      "sha256": "0047d74db6aa709a7763bd6489e819dc504b21a1127d27716599390db855df04"
+    },
+    {
+      "path": "groups/CONTROL.log",
+      "bytes": 10793,
+      "sha256": "452f7ea46073534a00d277240e56ae7011038b9d3c70392852c9fca4508295d1"
+    },
+    {
+      "path": "groups/DATA_STAGE.log",
+      "bytes": 4944,
+      "sha256": "3e606f9775635d79bb823071d28a605a2de4dbdc5d499e39edaa478a83d7767e"
+    },
+    {
+      "path": "groups/GATEWAY-FENCE.log",
+      "bytes": 1297,
+      "sha256": "a44d0c39f66362653dae1126d8ce286ca928330fa44e9427ebcf94b9780664f9"
+    },
+    {
+      "path": "groups/GATEWAY.log",
+      "bytes": 3411,
+      "sha256": "cc2c4b5a1da355fc5e86ff4e4fdda132912ac858280786d68fca25301e5940d6"
+    },
+    {
+      "path": "groups/MOMO.log",
+      "bytes": 5232,
+      "sha256": "1071251cdb0d8775051dd5f9b48751fb1e9d02dcd6ced0152cc49693d3a423fe"
+    },
+    {
+      "path": "groups/NOTIFICATIONS.log",
+      "bytes": 4615,
+      "sha256": "a478a2a6b254293596141c49065487194cb16caff267d351d3958f1542ba5aee"
+    },
+    {
+      "path": "groups/RETENTION.log",
+      "bytes": 8611,
+      "sha256": "405ada7d95b1a1822d82d7b08bfef22ca32512737c5def15429562b6843ec3dc"
+    },
+    {
+      "path": "groups/RUNTIME.log",
+      "bytes": 4149,
+      "sha256": "0ed043540afc9d149f61c80c6df02cc232cd9377725e1d224d5ce5fed7eb16b8"
+    },
+    {
+      "path": "groups/SCHEDULER.log",
+      "bytes": 1930,
+      "sha256": "e858c1a130690fa947459b8eed2a09c83cd3f92518c6467978bed1b85169ad2f"
+    },
+    {
+      "path": "groups/history/INPUTS.json",
+      "bytes": 30182,
+      "sha256": "3bcc0264dcb970a4376070098a666c7531ff4b9b7503cc8477963e09e3143925"
+    },
+    {
+      "path": "groups/history/ACTUAL-HISTORY-PACKET.json",
+      "bytes": 962823,
+      "sha256": "d27e13fb62520201b09a6b6093fb3919f85661f893610e1692262a30f58ae886"
+    },
+    {
+      "path": "groups/history/ACTUAL-SQL-STATEMENTS.json",
+      "bytes": 614337,
+      "sha256": "7003acced2548c38b65327702c57236edf920e949ff1ede0941fbbbfb62004ea"
+    },
+    {
+      "path": "groups/history/DEFINES.json",
+      "bytes": 575,
+      "sha256": "099fda98e4f64d63fc62b6c79d8e712166cff9f6d1afc9cc5468baf79fe175ba"
+    },
+    {
+      "path": "groups/history/RESULT.json",
+      "bytes": 677,
+      "sha256": "93c9ec37b90288edc54ca0218610f3f0c7da915a4ba72f0dd2b98eb9f0662fcd"
+    },
+    {
+      "path": "groups/runtime/CASES.json",
+      "bytes": 2032,
+      "sha256": "a4ee677e6f82a27cd6515b8c84ee0698f90e9ccc4614a40d535528c639e5355a"
+    },
+    {
+      "path": "groups/runtime/OBSERVATIONS.json",
+      "bytes": 7010,
+      "sha256": "f0f8449b3ccf6e86dc278aeb77c3dd0be722603f0c57d4f6cb7a8987e906db9c"
+    },
+    {
+      "path": "groups/runtime/WORK-CLOSURES.json",
+      "bytes": 10227,
+      "sha256": "ac23b850c962661247c8da87556179151d20fbf7c00ad2749ddc9479aeba8fbe"
+    },
+    {
+      "path": "groups/runtime/NATIVE-RESULT.json",
+      "bytes": 5062,
+      "sha256": "29476857ff268066d5dc3669ea733d86cb46a3897dd6c38b7c45553b9fb663e0"
+    },
+    {
+      "path": "groups/data-stage/INPUTS.json",
+      "bytes": 8711,
+      "sha256": "35df72f86c608ca57e8b7b6b367528c56f00f9ea28b4935689e03bae14f5e0c6"
+    },
+    {
+      "path": "groups/data-stage/SOURCE.sqlite",
+      "bytes": 1441792,
+      "sha256": "c7e85e0e862a8ab50f978e1092efe9b0a88f7e526550cdb537fe0c64617dca80"
+    },
+    {
+      "path": "groups/data-stage/TYPED.sqlite",
+      "bytes": 16384,
+      "sha256": "78d6743c46334c199973244a8e5ed9bf4f596d348c5ce51d6427691579772400"
+    },
+    {
+      "path": "README.md",
+      "bytes": 968,
+      "sha256": "48856f2983bd21b50f246e627b94f8e1ccb62427bc4f542eeee1c12c4dd0b76d"
+    }
+  ],
+  "count": 61,
+  "source_sha256": "b388c96c8d91a274f04b99ea2a786297b6330bcbcb0d782cb543b82220e4d75a",
+  "provider_calls": 0,
+  "production_acceptance": false
+}

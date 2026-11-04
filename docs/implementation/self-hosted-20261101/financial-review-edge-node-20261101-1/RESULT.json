@@ -1,0 +1,36 @@
+{
+  "counts": {
+    "cancelled": 0,
+    "fail": 0,
+    "pass": 751,
+    "skipped": 0,
+    "tests": 751,
+    "todo": 0
+  },
+  "elapsed_seconds": 16.931,
+  "exit_code": 0,
+  "format": "collect.edge-node.financial-review.result.v1",
+  "hosted_acceptance": false,
+  "inputs_unchanged": true,
+  "network_denied_by_os_sandbox": true,
+  "network_probe": {
+    "elapsed_seconds": 0.155,
+    "exit_code": 0,
+    "process_group_absent": true,
+    "reason": null,
+    "signals_sent": [],
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "223036dad0eae25fa9f0f26be0972ca38fddeba3038a316621cc779689cb9d28",
+    "waited": true
+  },
+  "passed": true,
+  "process_group_absent": true,
+  "production_acceptance": false,
+  "reason": null,
+  "signals_sent": [],
+  "source_snapshot": "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/worktrees/collect-consolidation-20261101/COLLECT/docs/implementation/self-hosted-20261101/financial-review-edge-node-20261101-1/snapshot",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "f83ae88f2440ec7a62a30bfac289f6b6e4ead374ba7d55508273fc0785ee63b4",
+  "test_files": 32,
+  "waited": true
+}

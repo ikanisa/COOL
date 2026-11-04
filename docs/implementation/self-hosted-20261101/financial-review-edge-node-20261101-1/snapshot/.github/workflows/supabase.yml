@@ -1,0 +1,750 @@
+name: Supabase migration qualification
+
+on:
+  pull_request:
+    paths:
+      - 'supabase/**'
+      - 'scripts/supabase/**'
+      - 'tools/collect-admin-mcp/**'
+      - 'tools/notification-operator/**'
+      - 'tools/roster-decoder/**'
+      - 'scripts/qa/roster_wheelhouse.py'
+      - 'scripts/tests/roster_wheelhouse_test.py'
+      - 'scripts/tests/roster_decoder_lifecycle_support.py'
+      - 'scripts/tests/roster_decoder_lifecycle_worker.py'
+      - 'deploy/platform-api/**'
+      - 'deploy/platform-supabase-free/**'
+      - 'deploy/platform-admin/**'
+      - 'test/supabase-free-transport.test.mjs'
+      - 'test/local-challenge-parent.test.mjs'
+      - 'lib/shared/models/**'
+      - 'lib/core/data/exact_json_values.dart'
+      - 'lib/shared/repositories/collect_repository_live_reader.dart'
+      - 'test/current14_member_history_sql_receipts_test.dart'
+      - 'test/self_hosted_member_history_sql_receipts_test.dart'
+      - 'deploy/self-hosted/**'
+      - 'deploy/collect-sms/**'
+      - 'scripts/self_hosted/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+      - '.fvmrc'
+      - '.github/workflows/supabase.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/**'
+      - 'scripts/supabase/**'
+      - 'tools/collect-admin-mcp/**'
+      - 'tools/notification-operator/**'
+      - 'tools/roster-decoder/**'
+      - 'scripts/qa/roster_wheelhouse.py'
+      - 'scripts/tests/roster_wheelhouse_test.py'
+      - 'scripts/tests/roster_decoder_lifecycle_support.py'
+      - 'scripts/tests/roster_decoder_lifecycle_worker.py'
+      - 'deploy/platform-api/**'
+      - 'deploy/platform-supabase-free/**'
+      - 'deploy/platform-admin/**'
+      - 'test/supabase-free-transport.test.mjs'
+      - 'test/local-challenge-parent.test.mjs'
+      - 'lib/shared/models/**'
+      - 'lib/core/data/exact_json_values.dart'
+      - 'lib/shared/repositories/collect_repository_live_reader.dart'
+      - 'test/current14_member_history_sql_receipts_test.dart'
+      - 'test/self_hosted_member_history_sql_receipts_test.dart'
+      - 'deploy/self-hosted/**'
+      - 'deploy/collect-sms/**'
+      - 'scripts/self_hosted/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+      - '.fvmrc'
+      - '.github/workflows/supabase.yml'
+  workflow_dispatch:
+    inputs:
+      qualification_profile:
+        description: Current candidate or an explicitly reviewed historical source
+        type: choice
+        default: current-self-hosted
+        options: [current-self-hosted, historical-standard, historical-current14, historical-current16]
+      reviewed_historical_commit:
+        description: Exact reviewed 40-character historical commit; required only for a historical profile
+        type: string
+        default: ''
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  current-source-contracts:
+    name: Current source, safety, transport and frozen Edge contracts
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'current-self-hosted'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+      DENO_TLS_CA_STORE: system
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Check deterministic baseline generation
+        run: python3 supabase/schema-src/generate_baseline.py --check
+      - name: Verify pure data encoding, custody and import planning contracts
+        run: node --test scripts/supabase/data-contracts.test.mjs
+      - name: Verify public build, cutover and diagnostic identity guards
+        run: python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test
+      - name: Verify self-hosted deployment and provider separation contracts
+        run: |
+          node --test deploy/self-hosted/*.test.mjs scripts/self_hosted/*.test.mjs scripts/supabase/deployment-profile.test.mjs
+          python3 -m unittest scripts.self_hosted.test_operations.Configuration
+      - name: Run every shared Node Edge contract through maintained exhaustive discovery
+        run: node scripts/supabase/run_edge_node_tests.mjs
+      - name: Verify current orchestration and retained historical source-admission guards
+        run: node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs scripts/supabase/testing/current16-integration.test.mjs scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs
+      - name: Verify scheduler and operator configuration contracts
+        run: node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs scripts/self_hosted/jobs-profile.test.mjs scripts/self_hosted/email-job-contract.test.mjs
+      - name: Verify actual web hosting to Supabase transport contracts
+        run: node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs
+      - name: Verify Admin static handoff and recovery
+        run: node --test deploy/platform-admin/test/static-handoff.test.mjs
+      - name: Verify roster decoder lifecycle and wheelhouse controls
+        run: python3 scripts/tests/roster_wheelhouse_test.py
+      - name: Verify recovered shared-domain fail-closed controls
+        run: node --test scripts/supabase/testing/recovered-domain-safety.test.mjs
+      - name: Verify public transport and human challenge parent contracts
+        run: node --test test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs
+      - name: Verify private provider and privacy boundary protocols
+        run: node --test deploy/platform-api/test/supabase_privacy_portal.test.mjs deploy/platform-api/test/privacy_email_portal.test.mjs deploy/platform-api/test/supabase_roster_decoder_protocol.test.mjs supabase/functions/_shared/tests/native-storage-semantics.test.mjs supabase/functions/send-sms-hook/handler.test.mjs deploy/self-hosted/auth-phone-proxy.test.mjs
+      - name: Check all six current Edge entrypoints with the exact frozen lock
+        working-directory: supabase/functions
+        run: '"$COLLECT_DENO" task check'
+
+  current-self-hosted-native:
+    name: Current migration-chain native security, control, Auth, retention and delivery
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'current-self-hosted'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    container:
+      image: postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317
+    env:
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_NATIVE_PROFILE: control-concurrency
+      COLLECT_TEST_PG_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test
+      COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+      DENO_TLS_CA_STORE: system
+    steps:
+      - name: Install the bounded job-container prerequisites
+        run: |
+          set -eu
+          test "$(id -u)" -eq 0
+          export DEBIAN_FRONTEND=noninteractive
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils
+          command -v gosu >/dev/null
+          command -v initdb >/dev/null
+          command -v pg_ctl >/dev/null
+          command -v psql >/dev/null
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without dependency lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify current-only target, source, migration and receipt guards
+        run: node --test scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs
+      - name: Warm and check every current native harness with frozen dependencies
+        env:
+          DENO_DIR: ${{ runner.temp }}/collect-current-selfhost-deno-cache
+        run: |
+          "$COLLECT_DENO" check --frozen --node-modules-dir=none --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock scripts/supabase/testing/self-hosted-control-concurrency.ts scripts/supabase/testing/self-hosted-runtime.ts scripts/supabase/testing/self-hosted-backend-runtime.ts scripts/supabase/testing/self-hosted-auth-runtime.ts scripts/supabase/testing/self-hosted-retention-runtime.ts scripts/supabase/testing/notification-channels.ts scripts/supabase/testing/combined-self-hosted-scheduler.ts scripts/supabase/testing/gateway-fence.ts scripts/supabase/testing/self-hosted-momo-runtime.ts scripts/supabase/testing/self-hosted-contribution-review-runtime.ts deploy/collect-sms/test/gateway.test.ts
+          cd supabase/functions
+          "$COLLECT_DENO" task check
+      - name: Start this job's fresh native PG17 cluster with60/3/0 limits
+        run: sh scripts/supabase/testing/ci-native-postgres.sh start
+      - name: Require all current migration-chain native harnesses and actual history receipts
+        env:
+          DENO_DIR: ${{ runner.temp }}/collect-current-selfhost-deno-cache
+          COLLECT_SELFHOST_OUTPUT_DIR: ${{ runner.temp }}/collect-current-selfhost-native
+        run: timeout --signal=TERM --kill-after=10s 900s node scripts/supabase/testing/current-self-hosted-native.mjs
+      - name: Always stop only the job-owned native cluster
+        if: always()
+        run: |
+          set -eu
+          if [ -f scripts/supabase/testing/ci-native-postgres.sh ]; then
+            sh scripts/supabase/testing/ci-native-postgres.sh stop
+          elif [ -e "$RUNNER_TEMP/collect-supabase-ci-postgres.state" ]; then
+            echo CI_POSTGRES_CLEANUP_SCRIPT_MISSING >&2
+            exit 1
+          fi
+      - name: Preserve current evidence and failures without private descriptors
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: current-selfhost-native-${{ github.sha }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/collect-current-selfhost-native/INPUTS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/CLUSTER.json
+            ${{ runner.temp }}/collect-current-selfhost-native/INSTALLATION.json
+            ${{ runner.temp }}/collect-current-selfhost-native/RESULT.json
+            ${{ runner.temp }}/collect-current-selfhost-native/*-CHILD.json
+            ${{ runner.temp }}/collect-current-selfhost-native/CONTROL.json
+            ${{ runner.temp }}/collect-current-selfhost-native/RUNTIME.json
+            ${{ runner.temp }}/collect-current-selfhost-native/BACKEND.json
+            ${{ runner.temp }}/collect-current-selfhost-native/AUTH.json
+            ${{ runner.temp }}/collect-current-selfhost-native/RETENTION.json
+            ${{ runner.temp }}/collect-current-selfhost-native/NOTIFICATIONS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/DATA_STAGE.json
+            ${{ runner.temp }}/collect-current-selfhost-native/MOMO.json
+            ${{ runner.temp }}/collect-current-selfhost-native/CONTRIBUTION_REVIEW.json
+            ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY.json
+            ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY.xml
+            ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY-FENCE.json
+            ${{ runner.temp }}/collect-current-selfhost-native/SCHEDULER.json
+            ${{ runner.temp }}/collect-current-selfhost-native/*.log
+            ${{ runner.temp }}/collect-current-selfhost-native/runtime/CASES.json
+            ${{ runner.temp }}/collect-current-selfhost-native/runtime/OBSERVATIONS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/runtime/WORK-CLOSURES.json
+            ${{ runner.temp }}/collect-current-selfhost-native/runtime/NATIVE-RESULT.json
+            ${{ runner.temp }}/collect-current-selfhost-native/history/INPUTS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/history/ACTUAL-HISTORY-PACKET.json
+            ${{ runner.temp }}/collect-current-selfhost-native/history/ACTUAL-SQL-STATEMENTS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/history/DEFINES.json
+            ${{ runner.temp }}/collect-current-selfhost-native/history/RESULT.json
+            ${{ runner.temp }}/collect-current-selfhost-native/data-stage/INPUTS.json
+            ${{ runner.temp }}/collect-current-selfhost-native/data-stage/SOURCE.sqlite
+            ${{ runner.temp }}/collect-current-selfhost-native/data-stage/TYPED.sqlite
+
+  current-self-hosted-history-dart:
+    name: Decode actual current migration-chain history SQL with the matching Dart source
+    needs: [select-profile, current-self-hosted-native]
+    if: needs.select-profile.outputs.profile == 'current-self-hosted'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Read the exact checked-in Flutter version
+        id: flutter-version
+        run: echo "version=$(python3 -c 'import json; print(json.load(open(".fvmrc"))["flutter"])')" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+      - name: Restore exact Dart dependency versions
+        run: flutter pub get --enforce-lockfile
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: current-selfhost-native-${{ github.sha }}
+          path: ${{ runner.temp }}/collect-current-selfhost-native
+      - name: Verify exact current packet, all source bytes and relative define paths
+        run: node scripts/supabase/testing/admit-self-hosted-history.mjs "$RUNNER_TEMP/collect-current-selfhost-native/history" "$RUNNER_TEMP/collect-current-selfhost-history-defines.json"
+      - name: Decode real pages, exact totals, dates and refusals
+        run: flutter test --no-pub --concurrency=1 --tags=integration --dart-define-from-file="$RUNNER_TEMP/collect-current-selfhost-history-defines.json" test/self_hosted_member_history_sql_receipts_test.dart
+
+  select-profile:
+    name: Select the exact current or reviewed historical source
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      profile: ${{ steps.source.outputs.profile }}
+      source_sha: ${{ steps.source.outputs.source_sha }}
+    steps:
+      - name: Refuse an implicit historical source or mutable ref
+        id: source
+        env:
+          PROFILE: ${{ inputs.qualification_profile || 'current-self-hosted' }}
+          REVIEWED_SHA: ${{ inputs.reviewed_historical_commit }}
+        run: |
+          python3 - <<'PYCODE'
+          import os, re
+          profile = os.environ['PROFILE']
+          historical = profile in ('historical-standard', 'historical-current14', 'historical-current16')
+          assert historical or profile == 'current-self-hosted'
+          source = os.environ.get('REVIEWED_SHA', '') if historical else os.environ['GITHUB_SHA']
+          assert re.fullmatch(r'[a-f0-9]{40}', source)
+          assert not historical or os.environ['GITHUB_EVENT_NAME'] == 'workflow_dispatch'
+          if not historical:
+              assert not os.environ.get('REVIEWED_SHA')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('profile=' + profile + '\nsource_sha=' + source + '\n')
+          PYCODE
+
+  local-qualification:
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'historical-standard'
+    name: Historical standard PostgreSQL and Edge contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    # Native PG and every run step share one network namespace. Preserve the
+    # exact literal-loopback address/port guards in all maintained fixtures.
+    container:
+      image: postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317
+    env:
+      COLLECT_TEST_PG_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test
+      COLLECT_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_edge_test
+      COLLECT_FINANCIAL_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_be02_green_3f624f3e7a6d_test
+      COLLECT_RLS_HELPER_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_rls_helper_acl_test
+      COLLECT_PUBLIC_CONFIG_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_public_configuration_test
+      COLLECT_PRIVACY_EMAIL_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_privacy_email_test
+      COLLECT_SQL_MAINTENANCE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_sql_maintenance_test
+      COLLECT_INVITATION_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_invitation_test
+      COLLECT_INVITATION_NOTICE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_invitation_notice_test
+      COLLECT_GOOGLE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_google_test
+      COLLECT_PRIVATE_RETENTION_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_private_retention_test
+      COLLECT_JOBS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_jobs_test
+      COLLECT_RECEIPT_FACTS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_receipt_facts_test
+      COLLECT_DIAGNOSTICS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_diagnostics_test
+      COLLECT_NOTIFICATION_DELIVERY_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_notification_delivery_test
+      COLLECT_SMS_CONTENT_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_sms_content_test
+      COLLECT_ADMIN_PASSWORD_POLICY_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_email_test
+      COLLECT_ADMIN_PASSWORD_POLICY_STALE_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_email_test
+      COLLECT_MFA_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_mfa_test
+      COLLECT_GROUPS_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_groups_test
+      COLLECT_AUTH_SOURCE_ROOT: ${{ github.workspace }}/supabase/functions/_shared
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_IMPORT_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_import_test
+      COLLECT_ADMIN_HISTORY_TEST_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_admin_history_test
+      COLLECT_PG_MODULE: ${{ github.workspace }}/scripts/supabase/node_modules/pg
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+    steps:
+      - name: Install and check job-container prerequisites without upgrading pinned tools
+        run: |
+          set -eu
+          test "$(id -u)" -eq 0
+          command -v apt-get >/dev/null
+          command -v timeout >/dev/null
+          export DEBIAN_FRONTEND=noninteractive
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils
+          git --version
+          python3 --version
+          command -v gosu >/dev/null
+          command -v initdb >/dev/null
+          command -v pg_ctl >/dev/null
+          command -v psql >/dev/null
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without dependency lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Start the owned native PostgreSQL fixture on literal loopback
+        run: sh scripts/supabase/testing/ci-native-postgres.sh start
+      - name: Check deterministic schema source
+        run: python3 supabase/schema-src/generate_baseline.py --check
+      - name: Create a separate disposable Edge handler fixture database
+        run: |
+          node --input-type=module <<'NODE'
+          import {createRequire} from 'node:module';
+          const {Client}=createRequire(import.meta.url)(process.env.COLLECT_PG_MODULE);
+          const db=new Client({connectionString:process.env.COLLECT_TEST_PG_URL});
+          try { await db.connect(); await db.query('CREATE DATABASE collect_rls_helper_acl_test'); await db.query('CREATE DATABASE collect_public_configuration_test'); await db.query('CREATE DATABASE collect_privacy_email_test'); await db.query('CREATE DATABASE collect_admin_invitation_test'); await db.query('CREATE DATABASE collect_invitation_notice_test'); await db.query('CREATE DATABASE collect_receipt_facts_test'); await db.query('CREATE DATABASE collect_diagnostics_test'); await db.query('CREATE DATABASE collect_notification_delivery_test'); await db.query('CREATE DATABASE collect_sms_content_test'); await db.query('CREATE DATABASE collect_mfa_test'); await db.query('CREATE DATABASE collect_groups_test'); await db.query('CREATE DATABASE collect_private_retention_test'); await db.query('CREATE DATABASE collect_import_test'); await db.query('CREATE DATABASE collect_edge_test'); await db.query('CREATE DATABASE collect_be02_green_3f624f3e7a6d_test'); await db.query('CREATE DATABASE collect_google_test'); await db.query('CREATE DATABASE collect_admin_history_test'); await db.query('CREATE DATABASE collect_admin_email_test'); }
+          finally { await db.end(); }
+          NODE
+      - name: Replay curated migrations and SQL failure cases
+        run: node scripts/supabase/test_schema.mjs
+      - name: Initialize the separate Google handoff fixture
+        run: COLLECT_TEST_PG_URL="$COLLECT_GOOGLE_TEST_DATABASE_URL" node scripts/supabase/test_schema.mjs
+      - name: Verify selected current SQL archive, exact review pins and transport refusal
+        run: npm run test:current-archive --prefix scripts/supabase
+      - name: Verify portable managed Auth data archive boundaries
+        run: |
+          TMPDIR="$(mktemp -d "$RUNNER_TEMP/collect-managed-auth.XXXXXX")"
+          export TMPDIR
+          node --test --test-concurrency=1 scripts/supabase/managed-auth-archive/auth.test.mjs
+      - name: Verify portable managed Storage metadata and object archive boundaries
+        run: |
+          TMPDIR="$(mktemp -d "$RUNNER_TEMP/collect-managed-storage.XXXXXX")"
+          export TMPDIR
+          node --test --test-concurrency=1 scripts/supabase/managed-storage-archive/storage.test.mjs scripts/supabase/managed-storage-archive/objects.test.mjs
+      - name: Verify native preparer refuses unsafe targets and overclaims
+        run: node --test scripts/supabase/testing/qualify-member-realtime-native.test.mjs
+      - name: Verify genuine mutation fence, capacity and release on new local fixtures
+        run: node scripts/supabase/emergency-fence/qualify.mjs
+      - name: Verify private exact data staging and unknown commits
+        run: node --test scripts/supabase/data_stage.test.mjs scripts/supabase/data_promote.test.mjs
+      - name: Verify automatic RLS helper permission hygiene
+        run: node --test scripts/supabase/rls_helper_permissions.test.mjs
+      - name: Verify atomic public configuration and uncertain commits
+        run: node --test scripts/supabase/public_configuration.test.mjs
+      - name: Verify cutover and public build configuration guards
+        run: python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test
+      - name: Verify retained evidence reveal policy and audit before disclosure
+        run: node scripts/tests/payment_evidence_reveal_test.mjs
+      - name: Verify Node test discovery, exact migration admission and bounded capacity/current16 refusals
+        run: node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs scripts/supabase/testing/current16-integration.test.mjs
+      - name: Verify inactive scheduling and ambiguous dispatch with explicit native-interface doubles
+        run: node --test scripts/supabase/jobs_test.mjs
+      - name: Verify direct SQL maintenance and owner isolation with explicit Cron fixture
+        run: node --test scripts/supabase/sql-maintenance/maintenance-test.mjs
+      - name: Check Edge entrypoints
+        working-directory: supabase/functions
+        run: '"$COLLECT_DENO" task check'
+      - name: Test Edge contracts against the isolated local database
+        working-directory: supabase/functions
+        run: '"$COLLECT_DENO" task test'
+      - name: Verify actual held-work lifetime and the private Realtime SQL subset
+        run: node scripts/supabase/testing/qualify-member-realtime-native.mjs
+      - name: Verify actual static host transport contracts
+        run: node --test test/supabase-free-transport.test.mjs
+      - name: Verify Cloudflare web hosting to Supabase transport contracts
+        run: node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs
+      - name: Verify legacy source admission fence before final capture
+        run: node --experimental-vm-modules --test deploy/platform-api/test/source_freeze_entrypoint.vm.mjs
+      - name: Verify managed privacy portal and signed decoder protocol
+        run: node --test deploy/platform-api/test/supabase_privacy_portal.test.mjs deploy/platform-api/test/privacy_email_portal.test.mjs deploy/platform-api/test/supabase_roster_decoder_protocol.test.mjs supabase/functions/_shared/tests/native-storage-semantics.test.mjs
+      - name: Verify notification operator email proof and preserved manual authority
+        run: node --test tools/notification-operator/test/*.test.mjs
+      - name: Verify the isolated human challenge parent contract
+        run: node --test test/local-challenge-parent.test.mjs
+      - name: Stop the owned PostgreSQL fixture and preserve its data and logs
+        if: always()
+        run: |
+          set -eu
+          if [ -f scripts/supabase/testing/ci-native-postgres.sh ]; then
+            sh scripts/supabase/testing/ci-native-postgres.sh stop
+          elif [ -e "$RUNNER_TEMP/collect-supabase-ci-postgres.state" ]; then
+            echo CI_POSTGRES_CLEANUP_SCRIPT_MISSING >&2
+            exit 1
+          fi
+
+  control-concurrency-native:
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'historical-standard'
+    name: Historical bounded control concurrency
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    container:
+      image: postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317
+    env:
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_NATIVE_PROFILE: control-concurrency
+      COLLECT_TEST_PG_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test
+      COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+    steps:
+      - name: Install and check job-container prerequisites without upgrading pinned tools
+        run: |
+          set -eu
+          test "$(id -u)" -eq 0
+          command -v apt-get >/dev/null
+          command -v timeout >/dev/null
+          export DEBIAN_FRONTEND=noninteractive
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils
+          git --version
+          python3 --version
+          command -v gosu >/dev/null
+          command -v initdb >/dev/null
+          command -v pg_ctl >/dev/null
+          command -v psql >/dev/null
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without dependency lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Start a fresh separately owned native60/3/0 cluster
+        run: sh scripts/supabase/testing/ci-native-postgres.sh start
+      - name: Admit the locked native control dependency graph
+        run: '"$COLLECT_DENO" check --frozen --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock scripts/supabase/emergency-fence/native-control-concurrency.ts'
+      - name: Require real control concurrency cleanup and warm-envelope proof
+        run: |
+          timeout --signal=TERM --kill-after=5s 120s node --input-type=module <<'NODE'
+          import {spawn} from 'node:child_process';
+          const target=new URL(process.env.COLLECT_FENCE_ADMIN_DATABASE_URL);
+          if(target.protocol!=='postgres:'||target.hostname!=='127.0.0.1'||target.port!=='55439'||target.pathname!=='/postgres'||target.username!=='collect_test'||target.password!=='collect_local_fixture_only'||target.search||target.hash)throw Error('EXACT_FRESH_CI_LOCAL_TARGET_REQUIRED');
+          target.pathname='/collect_fence_concurrency_'+crypto.randomUUID().replaceAll('-','').slice(0,16)+'_test';
+          const env={COLLECT_FENCE_CONCURRENCY_TEST_DATABASE_URL:target.href,DENO_NO_UPDATE_CHECK:'1',NO_COLOR:'1'};
+          for(const key of ['HOME','PATH','TMPDIR','DENO_DIR','LANG','LC_ALL','TZ'])if(process.env[key]!==undefined)env[key]=process.env[key];
+          const child=spawn(process.env.COLLECT_DENO,['run','--check','--cached-only','--frozen','--config=supabase/functions/deno.json','--lock=supabase/functions/deno.lock','--allow-env','--allow-read='+process.cwd(),'--allow-net=127.0.0.1:55439','scripts/supabase/emergency-fence/native-control-concurrency.ts'],{env,shell:false,stdio:'inherit'});
+          const code=await new Promise(resolve=>{child.once('error',()=>resolve(1));child.once('close',code=>resolve(code));});
+          process.exitCode=code===0?0:1;
+          NODE
+      - name: Always stop only this job's owned native cluster
+        if: always()
+        run: sh scripts/supabase/testing/ci-native-postgres.sh stop
+
+  stopped-admission-lifecycle-native:
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'historical-current14'
+    name: Historical current14 lifecycle and member history
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # The owner-profile fixture owns its own cluster; it cannot change the
+    # restricted postgres role used by the standard/runtime qualification jobs.
+    container:
+      image: postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317
+    env:
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_NATIVE_PROFILE: stopped-admission
+      COLLECT_TEST_PG_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test
+      COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_STOPPED_ADMISSION_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_PG_MODULE: ${{ github.workspace }}/scripts/supabase/node_modules/pg
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+    steps:
+      - name: Install job-container prerequisites without upgrading pinned tools
+        run: |
+          set -eu
+          test "$(id -u)" -eq 0
+          export DEBIAN_FRONTEND=noninteractive
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils
+          command -v gosu >/dev/null
+          command -v initdb >/dev/null
+          command -v pg_ctl >/dev/null
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without dependency lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify local-only target and typed acceptance refusal
+        run: node --test scripts/supabase/testing/qualify-stopped-admission-native.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/current14-member-history.test.mjs
+      - name: Admit the exact locked history dependency graph before database work
+        run: '"$COLLECT_DENO" check --frozen --node-modules-dir=none --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock scripts/supabase/testing/current14-member-history.mjs'
+      - name: Start this job's fresh owned native60/3/0 cluster
+        run: sh scripts/supabase/testing/ci-native-postgres.sh start
+      - name: Require real lifecycle, orphan installation and current14 history contracts
+        env:
+          COLLECT_MEMBER_HISTORY_OUTPUT_DIR: ${{ runner.temp }}/collect-current14-member-history
+          REVIEWED_SOURCE_SHA: ${{ needs.select-profile.outputs.source_sha }}
+        run: env GITHUB_SHA="$REVIEWED_SOURCE_SHA" timeout --signal=TERM --kill-after=5s 180s node scripts/supabase/testing/qualify-stopped-admission-native.mjs --with-member-history
+      - name: Always stop only this job's owned native cluster
+        if: always()
+        run: sh scripts/supabase/testing/ci-native-postgres.sh stop
+      - name: Preserve only the synthetic source-bound history receipts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: current14-member-history-${{ needs.select-profile.outputs.source_sha }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/collect-current14-member-history/RESULT.json
+            ${{ runner.temp }}/collect-current14-member-history/INPUTS.json
+            ${{ runner.temp }}/collect-current14-member-history/ACTUAL-HISTORY-PACKET.json
+            ${{ runner.temp }}/collect-current14-member-history/ACTUAL-SQL-STATEMENTS.json
+            ${{ runner.temp }}/collect-current14-member-history/NATIVE-RESULT.json
+            ${{ runner.temp }}/collect-current14-member-history/CASES.json
+            ${{ runner.temp }}/collect-current14-member-history/SCHEMA-IDENTITY.json
+            ${{ runner.temp }}/collect-current14-member-history/CHILD-METADATA.json
+            ${{ runner.temp }}/collect-current14-member-history/DEFINES.json
+
+  current16-integration-native:
+    needs: select-profile
+    if: needs.select-profile.outputs.profile == 'historical-current16'
+    name: Historical current16 runtime, retention and delivery
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # A separate fresh cluster is required: this gate creates its own actual
+    # owner connection. No earlier job's discarded owner credential is reused.
+    container:
+      image: postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317
+    env:
+      COLLECT_CI_SYNTHETIC: 'true'
+      COLLECT_TEST_PG_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test
+      COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_CURRENT16_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
+      COLLECT_PG_MODULE: ${{ github.workspace }}/scripts/supabase/node_modules/pg
+      COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
+      DENO_TLS_CA_STORE: system
+    steps:
+      - name: Install job-container prerequisites without upgrading pinned tools
+        run: |
+          set -eu
+          test "$(id -u)" -eq 0
+          command -v apt-get >/dev/null
+          command -v timeout >/dev/null
+          export DEBIAN_FRONTEND=noninteractive
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils
+          command -v gosu >/dev/null
+          command -v initdb >/dev/null
+          command -v pg_ctl >/dev/null
+          command -v psql >/dev/null
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: scripts/supabase/package-lock.json
+      - name: Install exact tooling without dependency lifecycle scripts
+        working-directory: scripts/supabase
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify current16 target, source and typed acceptance refusals
+        run: node --test scripts/supabase/testing/current16-integration.test.mjs
+      - name: Warm and check only the exact locked current16 dependency graph
+        env:
+          DENO_DIR: ${{ runner.temp }}/collect-current16-deno-cache
+        run: '"$COLLECT_DENO" check --frozen --node-modules-dir=none --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock scripts/supabase/testing/current16-runtime.ts'
+      - name: Start this job's fresh owned literal-loopback cluster
+        run: sh scripts/supabase/testing/ci-native-postgres.sh start
+      - name: Require complete current16 native integration on a new database
+        env:
+          DENO_DIR: ${{ runner.temp }}/collect-current16-deno-cache
+          COLLECT_CURRENT16_OUTPUT_DIR: ${{ runner.temp }}/collect-current16-integration
+        run: timeout --signal=TERM --kill-after=5s 300s node scripts/supabase/testing/current16-integration.mjs
+      - name: Always stop only this job's owned native cluster
+        if: always()
+        run: |
+          set -eu
+          if [ -f scripts/supabase/testing/ci-native-postgres.sh ]; then
+            sh scripts/supabase/testing/ci-native-postgres.sh stop
+          elif [ -e "$RUNNER_TEMP/collect-supabase-ci-postgres.state" ]; then
+            echo CI_POSTGRES_CLEANUP_SCRIPT_MISSING >&2
+            exit 1
+          fi
+      - name: Preserve only safe current16 source and outcome records
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: current16-integration-${{ needs.select-profile.outputs.source_sha }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/collect-current16-integration/INPUTS.json
+            ${{ runner.temp }}/collect-current16-integration/CREATE-INTENT.json
+            ${{ runner.temp }}/collect-current16-integration/PREPARATION.json
+            ${{ runner.temp }}/collect-current16-integration/CHILD-STDOUT.log
+            ${{ runner.temp }}/collect-current16-integration/CHILD-STDERR.log
+            ${{ runner.temp }}/collect-current16-integration/CHILD-METADATA.json
+            ${{ runner.temp }}/collect-current16-integration/CASES.json
+            ${{ runner.temp }}/collect-current16-integration/OBSERVATIONS.json
+            ${{ runner.temp }}/collect-current16-integration/WORK-CLOSURES.json
+            ${{ runner.temp }}/collect-current16-integration/NATIVE-RESULT.json
+            ${{ runner.temp }}/collect-current16-integration/RESULT.json
+            !${{ runner.temp }}/collect-current16-integration/RUN-SPEC.private.json
+
+  current14-member-history-dart:
+    name: Actual current14 SQL receipts through the Dart financial decoder
+    needs: [select-profile, stopped-admission-lifecycle-native]
+    if: needs.select-profile.outputs.profile == 'historical-current14'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ needs.select-profile.outputs.source_sha }}
+      - name: Read the pinned Flutter version
+        id: flutter
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          from pathlib import Path
+          version = json.loads(Path('.fvmrc').read_text())['flutter']
+          assert re.fullmatch(r'\d+\.\d+\.\d+', version)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('version=' + version + '\n')
+          PY
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          flutter-version: ${{ steps.flutter.outputs.version }}
+          channel: stable
+          cache: true
+      - run: flutter pub get --enforce-lockfile
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: current14-member-history-${{ needs.select-profile.outputs.source_sha }}
+          path: ${{ runner.temp }}/collect-current14-member-history
+      - name: Verify source and receipt bytes before rebasing three local paths
+        env:
+          COLLECT_MEMBER_HISTORY_OUTPUT_DIR: ${{ runner.temp }}/collect-current14-member-history
+          REVIEWED_SOURCE_SHA: ${{ needs.select-profile.outputs.source_sha }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, re
+          from pathlib import Path
+          root = Path.cwd().resolve()
+          folder = Path(os.environ['COLLECT_MEMBER_HISTORY_OUTPUT_DIR'])
+          assert folder.is_dir() and not folder.is_symlink() and folder.resolve() == folder
+          expected = {'RESULT.json', 'INPUTS.json', 'ACTUAL-HISTORY-PACKET.json', 'ACTUAL-SQL-STATEMENTS.json', 'NATIVE-RESULT.json', 'CASES.json', 'SCHEMA-IDENTITY.json', 'CHILD-METADATA.json', 'DEFINES.json'}
+          assert {path.name for path in folder.iterdir()} == expected
+          for name in expected:
+              path = folder / name
+              assert path.is_file() and not path.is_symlink() and path.resolve() == path
+          read = lambda name: json.loads((folder / name).read_bytes())
+          digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+          result, inputs, packet, defines = (read(name) for name in ['RESULT.json', 'INPUTS.json', 'ACTUAL-HISTORY-PACKET.json', 'DEFINES.json'])
+          commit = os.environ['REVIEWED_SOURCE_SHA']
+          assert re.fullmatch(r'[a-f0-9]{40}', commit)
+          assert result['status'] == 'PASS' and result['source_commit'] == inputs['source_commit'] == packet['source_commit'] == defines['CURRENT14_HISTORY_SOURCE_COMMIT'] == commit
+          assert result['provider_calls'] == 0 and result['hosted_acceptance'] is False and result['legacy_gates_closed'] is False
+          for key, name in [('packet', 'ACTUAL-HISTORY-PACKET.json'), ('inputs', 'INPUTS.json'), ('SQL', 'ACTUAL-SQL-STATEMENTS.json'), ('defines', 'DEFINES.json'), ('native_result', 'NATIVE-RESULT.json')]:
+              assert result[key]['sha256'] == digest(folder / name)
+          assert packet['source_inputs_sha256'] == digest(folder / 'INPUTS.json')
+          roles = set()
+          for pin in inputs['files']:
+              role = pin['role']
+              assert role not in roles and isinstance(role, str) and not Path(role).is_absolute() and '..' not in Path(role).parts
+              roles.add(role)
+              path = root / role
+              assert path.resolve() == path and path.is_file() and not path.is_symlink()
+              assert path.stat().st_size == pin['bytes'] and digest(path) == pin['sha256']
+          assert {'test/current14_member_history_sql_receipts_test.dart', 'lib/shared/models/member_history_page.dart', 'lib/shared/models/member_history_signed.dart', 'lib/shared/models/collect_models.dart', 'lib/shared/models/collect_payment_models.dart', 'lib/shared/models/collect_payment_json.dart', 'lib/shared/models/collect_model_json_helpers.dart', 'lib/shared/models/collect_summary_json.dart', 'lib/shared/models/collect_profile_country_rules.dart', 'lib/shared/repositories/collect_repository_live_reader.dart'}.issubset(roles)
+          paths = {'CURRENT14_HISTORY_PACKET': 'ACTUAL-HISTORY-PACKET.json', 'CURRENT14_HISTORY_INPUTS': 'INPUTS.json', 'CURRENT14_HISTORY_SQL': 'ACTUAL-SQL-STATEMENTS.json'}
+          assert set(defines) == set(paths) | {key + '_SHA256' for key in paths} | {'CURRENT14_HISTORY_SOURCE_COMMIT'}
+          for key, name in paths.items():
+              assert defines[key] == name and defines[key + '_SHA256'] == digest(folder / name)
+              defines[key] = str(folder / name)
+          output = folder.parent / 'collect-current14-rebased-defines.json'
+          with output.open('x') as handle:
+              json.dump(defines, handle)
+              handle.write('\n')
+          PY
+      - name: Decode the actual SQL history windows, exact totals and refusals
+        run: flutter test --no-pub --tags=integration --dart-define-from-file="$RUNNER_TEMP/collect-current14-rebased-defines.json" test/current14_member_history_sql_receipts_test.dart

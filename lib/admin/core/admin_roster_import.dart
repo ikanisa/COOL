@@ -36,6 +36,8 @@ class AdminRosterDraft extends ChangeNotifier {
   final String? collectionId;
   final RosterBookmarkStore? bookmarkStore;
   RosterBookmark? _bookmark;
+  String? _storedBookmarkBytes;
+  bool _bookmarkSlotProtected = false;
   String? storageWarning, recoveryMessage;
   List<AdminRosterInterruption> interruptedImports = const [];
   AdminRosterInterruption? selectedInterruption;
@@ -48,7 +50,8 @@ class AdminRosterDraft extends ChangeNotifier {
   bool reloadAvailable = false,
       recovered = false,
       recoveryUnsaved = false,
-      _resumedIntent = false;
+      _resumedIntent = false,
+      _recoveredBindingUnconfirmed = false;
   bool get canReaffirm =>
       _resumedIntent &&
       commitPending &&
@@ -67,35 +70,70 @@ class AdminRosterDraft extends ChangeNotifier {
       final text = bookmarkStore!.read();
       if (text == null) return;
       final candidate = RosterBookmark.parse(text, gateway.ownerDigest!);
-      if (candidate.collectionId != collectionId) return;
+      if (candidate.collectionId != collectionId) {
+        _protectBookmarkSlot();
+        return;
+      }
       _bookmark = candidate;
+      _storedBookmarkBytes = text;
       reloadAvailable = true;
     } catch (_) {
-      storageWarning =
-          'A recovery reference could not be read. No roster data was stored in this browser.';
-      try {
-        bookmarkStore!.clear();
-      } catch (_) {}
+      _protectBookmarkSlot();
     }
+  }
+
+  void _protectBookmarkSlot() {
+    _bookmarkSlotProtected = true;
+    storageWarning =
+        'A saved recovery reference could not be read or used for this draft. This draft did not change it and cannot save a replacement reference.';
   }
 
   void _persistBookmark() {
-    if (_bookmark == null || bookmarkStore == null) return;
+    if (_bookmark == null || bookmarkStore == null || _bookmarkSlotProtected) {
+      return;
+    }
     try {
-      bookmarkStore!.write(jsonEncode(_bookmark!.toJson()));
+      if (bookmarkStore!.read() != _storedBookmarkBytes) {
+        _protectBookmarkSlot();
+        return;
+      }
+      final text = jsonEncode(_bookmark!.toJson());
+      bookmarkStore!.write(text);
+      _storedBookmarkBytes = text;
     } catch (_) {
+      _bookmarkSlotProtected = true;
       storageWarning =
-          'This browser could not save a recovery reference. Keep this tab open; a reload may lose access to the draft.';
+          'The browser did not confirm saving the recovery reference. Its storage state is unknown; keep this tab open.';
     }
   }
 
-  void discardRecoveryReference() {
-    _bookmark = null;
-    reloadAvailable = false;
+  bool discardRecoveryReference({bool explicit = false}) {
+    if (_recoveredBindingUnconfirmed && !explicit) return false;
+    if (_bookmarkSlotProtected) {
+      storageWarning ??=
+          'This draft cannot confirm that the browser recovery reference was removed.';
+      return false;
+    }
+    if (_storedBookmarkBytes == null || bookmarkStore == null) {
+      _bookmark = null;
+      reloadAvailable = false;
+      return true;
+    }
     try {
-      bookmarkStore?.clear();
+      if (bookmarkStore!.read() != _storedBookmarkBytes) {
+        _protectBookmarkSlot();
+        return false;
+      }
+      bookmarkStore!.clear();
+      _storedBookmarkBytes = null;
+      _bookmark = null;
+      reloadAvailable = false;
+      return true;
     } catch (_) {
-      storageWarning = 'The browser recovery reference could not be removed.';
+      _bookmarkSlotProtected = true;
+      storageWarning =
+          'The browser did not confirm removing the recovery reference. Its storage state is unknown.';
+      return false;
     }
   }
 
@@ -151,6 +189,7 @@ class AdminRosterDraft extends ChangeNotifier {
       preview == null &&
       const {
         'roster_extraction_failed',
+        'roster_animated_image_unsupported',
         'roster_preview_invalid',
         'roster_extraction_timeout',
         'roster_extraction_refused',
@@ -208,7 +247,12 @@ class AdminRosterDraft extends ChangeNotifier {
     if (_disposed) return;
     invalidated = true;
     _generation++;
-    discardRecoveryReference();
+    // Invalidation fences this instance and clears private memory, while the
+    // opaque owner-scoped reference remains available to its rightful owner.
+    _bookmark = null;
+    _storedBookmarkBytes = null;
+    _bookmarkSlotProtected = true;
+    reloadAvailable = false;
     _draftSaveParams = null;
     editorTitle = '';
     editorReason = '';
@@ -219,6 +263,7 @@ class AdminRosterDraft extends ChangeNotifier {
     _commitJson = null;
     _statusRequired = false;
     _writesStopped = true;
+    _recoveredBindingUnconfirmed = false;
     initialPreview = null;
     preview = null;
     rows = [];
@@ -317,13 +362,28 @@ class AdminRosterDraft extends ChangeNotifier {
       if (_upload == null) {
         final upload = await readUpload();
         if (!_current(generation)) return;
-        _upload = upload;
-        _uploadJson = jsonEncode(upload.body);
+        // Bind the original upload before freezing its request bytes. A
+        // supplied binding may match this draft, but can never be retargeted.
+        if (upload.body.containsKey('collection_id') &&
+            (collectionId == null
+                ? upload.body['collection_id'] != null
+                : upload.body['collection_id'] != collectionId)) {
+          throw StateError('The upload is bound to a different group.');
+        }
+        final body = <String, dynamic>{
+          ...upload.body,
+          if (collectionId != null) 'collection_id': collectionId,
+        };
+        _upload = AdminRosterUpload._(
+          Map<String, dynamic>.unmodifiable(body),
+          upload.sourceSha256,
+        );
+        _uploadJson = jsonEncode(_upload!.body);
         if (gateway.supportsRecovery && gateway.ownerDigest != null) {
           _bookmark = RosterBookmark(
             ownerDigest: gateway.ownerDigest!,
-            uploadRequestId: upload.body['request_id'] as String,
-            sourceSha256: upload.sourceSha256,
+            uploadRequestId: _upload!.body['request_id'] as String,
+            sourceSha256: _upload!.sourceSha256,
             collectionId: collectionId,
           );
           _persistBookmark();
@@ -620,7 +680,10 @@ class AdminRosterDraft extends ChangeNotifier {
         pendingSha256: bookmark.pendingSha256,
       );
       _draftSaveParams = null;
-      _writesStopped = false;
+      // The v1 bookmark identifies the screen, not the server reservation.
+      // Recovery currently returns no authoritative destination binding.
+      _recoveredBindingUnconfirmed = collectionId != null;
+      _writesStopped = _recoveredBindingUnconfirmed;
       _terminalCode = null;
       recovered = true;
       affirmed = false;
@@ -645,10 +708,12 @@ class AdminRosterDraft extends ChangeNotifier {
       rows = preview!.rows.map((r) => r.editable).toList();
       edited = false;
       recoveryUnsaved = false;
-      _bookmark = bookmark.withReferences(
-        importId: receipt.importId,
-        checkpointId: receipt.checkpointId,
-      );
+      if (!_recoveredBindingUnconfirmed) {
+        _bookmark = bookmark.withReferences(
+          importId: receipt.importId,
+          checkpointId: receipt.checkpointId,
+        );
+      }
       editorTitle = '';
       editorReason = '';
       if (receipt.status!.state == 'committed') {
@@ -656,6 +721,8 @@ class AdminRosterDraft extends ChangeNotifier {
         if (receipt.intentKind == 'commit' &&
             receipt.intent != null &&
             receipt.intentResult != null &&
+            receipt.intent!['p_mode'] == mode &&
+            receipt.intent!['p_collection_id'] == collectionId &&
             receipt.status!.commit!['request_id'] ==
                 receipt.intent!['p_request_id']) {
           return AdminRosterCommit.fromJson(
@@ -711,9 +778,16 @@ class AdminRosterDraft extends ChangeNotifier {
               ? 'A newer review superseded the editor draft. The latest saved review is shown; no stale edits were applied.'
               : 'The latest saved review is shown. Unsaved rows, group name and reason were not stored.';
         }
-        _bookmark = _bookmark!.withReferences(clearPending: true);
+        if (!_recoveredBindingUnconfirmed) {
+          _bookmark = _bookmark!.withReferences(clearPending: true);
+        }
       }
-      _persistBookmark();
+      if (_recoveredBindingUnconfirmed) {
+        recoveryMessage =
+            '${recoveryMessage ?? 'The saved import was inspected.'} The original existing-group binding cannot be verified, so this recovery is read-only. No saved request was changed or resent.';
+      } else {
+        _persistBookmark();
+      }
       return null;
     });
   }
@@ -756,7 +830,9 @@ class AdminRosterDraft extends ChangeNotifier {
           _terminalCode ??= 'roster_revision_superseded';
         }
         errorCode = _terminalCode;
-        error = _writesStopped
+        error = _recoveredBindingUnconfirmed
+            ? 'The original existing-group binding cannot be verified. This recovery is read-only; no saved request was repeated.'
+            : _writesStopped
             ? 'The server reports no completed submission for this import. ${AdminRosterRequestError(_terminalCode ?? 'roster_revision_superseded').message}'
             : 'The server reports no completed submission. You may retry the same saved submission; its request ID and data are unchanged.';
       }
@@ -811,8 +887,9 @@ class AdminRosterDraft extends ChangeNotifier {
       selectedInterruption = selected;
       interruptedInspection = inspected;
       freshRecoveryAffirmed = false;
-      recoveryMessage =
-          'This is a read-only inspection. An explicit recovery starts a new branch and resets every review and submission confirmation. No provider call or member submission is made.';
+      recoveryMessage = collectionId != null
+          ? 'This is a read-only inspection. The original existing-group binding cannot be verified, so a recovery branch cannot be started here.'
+          : 'This is a read-only inspection. An explicit recovery starts a new branch and resets every review and submission confirmation. No provider call or member submission is made.';
     });
   }
 
@@ -884,6 +961,7 @@ class AdminRosterDraft extends ChangeNotifier {
   void affirmFreshRecovery(bool value) {
     if (busy ||
         invalidated ||
+        collectionId != null ||
         interruptedInspection == null ||
         _transferRequest != null) {
       return;
@@ -894,6 +972,7 @@ class AdminRosterDraft extends ChangeNotifier {
 
   Future<void> transferFreshRecovery() async {
     if (_transferRequest != null ||
+        collectionId != null ||
         !freshRecoveryAffirmed ||
         interruptedInspection == null ||
         selectedInterruption == null) {
@@ -949,6 +1028,11 @@ class AdminRosterDraft extends ChangeNotifier {
       ownerDigest: gateway.ownerDigest!,
       inspected: interruptedInspection!,
     );
+    if (collectionId != null) {
+      recoveryMessage =
+          'The transfer status was inspected, but its original existing-group binding cannot be verified. The saved reference remains unchanged.';
+      return;
+    }
     final recoveredRaw = await gateway
         .recoveryRpc('admin_recover_roster_import', {
           'p_upload_request_id': ack.destinationReferenceId,
@@ -1035,6 +1119,9 @@ class AdminRosterDraft extends ChangeNotifier {
     completedRecoveryReceipt = null;
     _transferRequest = null;
     _draftSaveParams = null;
+    _bookmark = null;
+    _storedBookmarkBytes = null;
+    _bookmarkSlotProtected = true;
     editorTitle = '';
     editorReason = '';
     _generation++;

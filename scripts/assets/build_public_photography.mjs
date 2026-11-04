@@ -1,6 +1,6 @@
 // Package existing Collect photos for web delivery. Originals and dimensions
 // stay unchanged; this does not confer visual or release acceptance.
-// Requires sharp 0.35.4 (NODE_PATH may point to a bundled installation).
+// Requires sharp 0.35.5 (NODE_PATH may point to a bundled installation).
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {createRequire} from 'node:module';
@@ -11,7 +11,7 @@ const sharp=createRequire(import.meta.url)('sharp');
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const mode=process.argv[2]||'--check';
 if(!['--check','--write'].includes(mode)||process.argv.length>3)throw new Error('Use --check or --write');
-if(sharp.versions.sharp!=='0.35.4'||sharp.versions.webp!=='1.6.0')throw new Error('Expected sharp0.35.4 and libwebp1.6.0');
+if(sharp.versions.sharp!=='0.35.5'||sharp.versions.webp!=='1.6.0')throw new Error('Expected sharp0.35.5 and libwebp1.6.0');
 const bank='assets/marketing/rwanda';
 const directory='web/public/photography';
 const manifestPath=path.join(root,directory,'manifest.json');

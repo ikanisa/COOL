@@ -30,7 +30,7 @@ class _AdminRosterImportDialogState extends State<AdminRosterImportDialog> {
     text: 'Member name,MoMo name,MoMo number\n',
   );
   PlatformFile? _file;
-  bool _consent = false, _picking = false;
+  bool _consent = false, _picking = false, _discardReferenceBlocked = false;
   int _page = 0;
   final Set<int> _visited = {0};
   AdminRosterDraft get draft => widget.draft;
@@ -519,11 +519,17 @@ class _AdminRosterImportDialogState extends State<AdminRosterImportDialog> {
             onPressed: locked
                 ? null
                 : () {
-                    draft.discardRecoveryReference();
+                    if (!_discardReferenceBlocked &&
+                        !draft.discardRecoveryReference(explicit: true)) {
+                      setState(() => _discardReferenceBlocked = true);
+                      return;
+                    }
                     Navigator.of(context).pop();
                   },
             child: Text(
-              draft.commitPending
+              _discardReferenceBlocked
+                  ? 'Close draft'
+                  : draft.commitPending
                   ? 'Discard draft · outcome may be unknown'
                   : 'Discard draft',
             ),

@@ -588,6 +588,86 @@ void main() {
       draft.dispose();
     },
   );
+  for (final mode in ['create', 'existing']) {
+    test('$mode upload freezes the intended original destination before dispatch', () async {
+      final gateway = FakeRosterGateway();
+      final draft = AdminRosterDraft(
+        gateway,
+        collectionId: mode == 'existing' ? rosterCollectionId : null,
+      );
+      final upload = AdminRosterUpload.pasted('Alice,ALICE,0788100000');
+      final requestId = upload.body['request_id'];
+      await draft.prepare(() async => upload);
+      final sent = gateway.prepares.single;
+      expect(sent['request_id'], requestId);
+      expect(sent.containsKey('collection_id'), mode == 'existing');
+      if (mode == 'existing') expect(sent['collection_id'], rosterCollectionId);
+      expect(upload.body.containsKey('collection_id'), isFalse);
+      expect(draft.preview, isNotNull);
+      draft.dispose();
+    });
+  }
+  test('create upload preserves an explicitly null target and existing upload accepts the same target', () async {
+    for (final existing in [false, true]) {
+      final gateway = FakeRosterGateway();
+      final draft = AdminRosterDraft(gateway, collectionId: existing ? rosterCollectionId : null);
+      final upload = AdminRosterUpload.pasted('Alice,ALICE,0788100000')
+        ..body['collection_id'] = existing ? rosterCollectionId : null;
+      await draft.prepare(() async => upload);
+      expect(gateway.prepares.single.containsKey('collection_id'), isTrue);
+      expect(gateway.prepares.single['collection_id'], existing ? rosterCollectionId : null);
+      expect(draft.preview, isNotNull);
+      draft.dispose();
+    }
+  });
+  for (final (target, supplied) in <(String?, Object?)>[
+    (null, rosterCollectionId),
+    (rosterCollectionId, null),
+    (rosterCollectionId, rosterActorB),
+  ]) {
+    test('conflicting target $target with supplied $supplied is rejected without dispatch', () async {
+      final gateway = FakeRosterGateway();
+      final draft = AdminRosterDraft(gateway, collectionId: target);
+      final upload = AdminRosterUpload.pasted('Alice,ALICE,0788100000')
+        ..body['collection_id'] = supplied;
+      await draft.prepare(() async => upload);
+      expect(gateway.prepares, isEmpty);
+      expect(draft.sourceLocked, isFalse);
+      expect(draft.preview, isNull);
+      expect(draft.error, isNot(contains(rosterActorB)));
+      draft.dispose();
+    });
+  }
+  test('mutating supplied source and failed dispatch cannot retarget a retry', () async {
+    final gateway = FakeRosterGateway();
+    final draft = AdminRosterDraft(gateway, collectionId: rosterCollectionId);
+    final upload = AdminRosterUpload.pasted('Alice,ALICE,0788100000');
+    var reads = 0;
+    gateway.onPrepare = (body) async {
+      if (gateway.prepares.length == 1) {
+        body['collection_id'] = rosterActorB;
+        body['content'] = 'Changed in failed dispatch';
+        throw TimeoutException('lost');
+      }
+      return previewFixture(body);
+    };
+    Future<AdminRosterUpload> read() async {
+      reads++;
+      return upload;
+    }
+    await draft.prepare(read);
+    upload.body['collection_id'] = rosterActorB;
+    upload.body['request_id'] = rosterActorB;
+    upload.body['content'] = 'Changed after first dispatch';
+    await draft.prepare(read);
+    expect(reads, 1);
+    expect(gateway.prepares, hasLength(2));
+    expect(gateway.prepares[1], gateway.prepares[0]);
+    expect(gateway.prepares.last['collection_id'], rosterCollectionId);
+    expect(gateway.prepares.last['content'], 'Alice,ALICE,0788100000');
+    expect(draft.preview, isNotNull);
+    draft.dispose();
+  });
   test(
     'lost review response freezes payload and retries same parent/request',
     () async {

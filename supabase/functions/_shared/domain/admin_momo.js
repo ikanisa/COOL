@@ -4,7 +4,7 @@ import {mutation,retainedResponse} from './mutations.js';
 import {encrypt,decrypt} from './encryption.js';
 import {storageEntity} from '../storage-identity.js';
 import {gatewayToken,momoGuard} from './momo_gateway.js';
-import {validateProviderProfile,prepareMomoSourceReview} from './momo_pipeline.js';
+import {validateProviderProfile,prepareMomoSourceReview,momoOutcomeUnresolved,MOMO_JOB_CHECKPOINT,MOMO_UNCERTAIN_ERRORS} from './momo_pipeline.js';
 import {receiptFactColumns,receiptFactJoins,withReceiptFacts} from './receipt_facts.js';
 import {captureContent} from './admin_sms_receipts.js';
 
@@ -127,9 +127,9 @@ async function reviewConflict(env,actor,txId,body,rid,source){
  const value={transaction_id:txId,version:version+1,status:'needs_allocation',financial_effects:0};
  return mutation(env,actor,operation,rid,source,value,[guard[0],
   env.DB.prepare("UPDATE momo_transactions SET has_conflict=0,allocation_state='unallocated',version=version+1,updated_at=? WHERE id=?").bind(now(),txId),
-  env.DB.prepare(`UPDATE momo_processing_jobs SET state='completed',last_error=NULL,updated_at=? WHERE state='needs_review' AND raw_sms_id IN
+  env.DB.prepare(`UPDATE momo_processing_jobs SET state='completed',last_error=NULL,updated_at=? WHERE state='needs_review' AND last_error IS NOT NULL AND last_error NOT IN(${MOMO_UNCERTAIN_ERRORS.map(()=>'?').join(',')}) AND raw_sms_id IN
    (SELECT raw_sms_id FROM momo_transaction_sources WHERE transaction_id=? AND relation='conflict' AND parse_attempt_id IN(${slots}))
-   AND (SELECT id FROM momo_parse_attempts a WHERE a.raw_sms_id=momo_processing_jobs.raw_sms_id ORDER BY attempt_number DESC LIMIT 1) IN(${slots})`).bind(now(),txId,...expected,...expected),guard[1]],
+   AND (SELECT id FROM momo_parse_attempts a WHERE a.raw_sms_id=momo_processing_jobs.raw_sms_id ORDER BY attempt_number DESC LIMIT 1) IN(${slots})`).bind(now(),...MOMO_UNCERTAIN_ERRORS,txId,...expected,...expected),guard[1]],
   {...options,entityType:'payment',entityId:txId,auditDetails:{decision:'retain_original',reason:body.reason,evidence_reference:evidence,dismissed_parse_attempt_ids:expected}});
 }
 export async function adminMomoRoute(request,env,account,actor,parts,url){
@@ -216,15 +216,24 @@ export async function adminMomoRoute(request,env,account,actor,parts,url){
  }else if(area==='sources'&&parts.length===3&&parts[2]==='resolve'){
   keys(body,['reason','receiving_account_id','evidence_reference']);const rawId=uuid(parts[1]),accountId=uuid(body.receiving_account_id),evidence=text(body.evidence_reference,'historical evidence reference',500);
   if(evidence.length<8)fail(400,'evidence_required','Reference the evidence establishing the historical receiving account.');
-  const gate=momoGuard(scoped,`EXISTS(SELECT 1 FROM momo_processing_jobs j JOIN sms_receipts s ON s.id=j.raw_sms_id
-   JOIN momo_receiving_accounts a ON a.id=? AND a.receiver_hash=s.receiver_hash WHERE j.raw_sms_id=? AND j.state='source_unresolved' AND j.binding_id IS NULL AND j.receiving_account_id IS NULL AND a.status='active')`,[accountId,rawId]);
-  writes.push(gate[0],scoped.DB.prepare(`INSERT INTO momo_source_resolutions(id,raw_sms_id,receiving_account_id,source_body_sha256,reviewed_by,evidence_reference,reason,created_at)
+  const gate=momoGuard(scoped,'changes()=1'),updated=momoGuard(scoped,'changes()=1');
+  // Lock and recheck the unresolved row first. The immutable source-identity
+  // trigger requires the evidence row to exist before assigning the account.
+  writes.push(scoped.DB.prepare(`UPDATE momo_processing_jobs SET lease_token=lease_token
+   WHERE raw_sms_id=? AND state='source_unresolved' AND attempt_count=0 AND last_error IS NULL AND binding_id IS NULL AND receiving_account_id IS NULL
+   AND EXISTS(SELECT 1 FROM sms_receipts s JOIN momo_receiving_accounts a ON a.id=? AND a.receiver_hash=s.receiver_hash WHERE s.id=momo_processing_jobs.raw_sms_id AND a.status='active')`).bind(rawId,accountId),gate[0],
+   scoped.DB.prepare(`INSERT INTO momo_source_resolutions(id,raw_sms_id,receiving_account_id,source_body_sha256,reviewed_by,evidence_reference,reason,created_at)
    SELECT ?,s.id,?,s.body_sha256,?,?,?,? FROM sms_receipts s WHERE s.id=?`).bind(id(),accountId,actor.userId,evidence,reason,now(),rawId),
-   scoped.DB.prepare(`UPDATE momo_processing_jobs SET receiving_account_id=?,mode='historical',state='pending',max_attempts=attempt_count+4,available_at=unixepoch(),last_error=NULL,updated_at=? WHERE raw_sms_id=?`).bind(accountId,now(),rawId),gate[1]);
+   scoped.DB.prepare(`UPDATE momo_processing_jobs SET receiving_account_id=?,mode='historical',state='pending',max_attempts=attempt_count+4,available_at=unixepoch(),last_error=?,updated_at=?
+   WHERE raw_sms_id=? AND state='source_unresolved' AND attempt_count=0 AND last_error IS NULL AND binding_id IS NULL AND receiving_account_id IS NULL`).bind(accountId,MOMO_JOB_CHECKPOINT.reparse,now(),rawId),updated[0],updated[1],gate[1]);
   value={raw_sms_id:rawId,receiving_account_id:accountId,status:'pending',mode:'historical',financial_effects:0};
  }else if(area==='sources'&&parts.length===3&&parts[2]==='reparse'){keys(body,['reason']);const rawId=uuid(parts[1]),job=await first(scoped,'SELECT * FROM momo_processing_jobs WHERE raw_sms_id=?',rawId);if(!job||!job.receiving_account_id)fail(409,'source_unresolved','Resolve this historical receiving source before parsing.');
-  const gate=momoGuard(scoped,`EXISTS(SELECT 1 FROM momo_processing_jobs WHERE raw_sms_id=? AND state NOT IN('processing','pending','retry'))`,[rawId]);
-  writes.push(gate[0],scoped.DB.prepare(`UPDATE momo_processing_jobs SET state='pending',max_attempts=attempt_count+4,available_at=unixepoch(),lease_token=NULL,lease_until=NULL,last_error=NULL,updated_at=? WHERE raw_sms_id=?`).bind(now(),rawId),gate[1]);value={raw_sms_id:rawId,status:'pending'};
+  if(momoOutcomeUnresolved(job))fail(409,'provider_outcome_unresolved','The previous extraction outcome must be reconciled before requesting another parse.');
+  if(!['completed','needs_review'].includes(job.state))fail(409,'source_changed','Refresh the source before requesting another parse.');
+  // Recheck the exact observed state inside the existing authorized mutation
+  // batch so a concurrent unknown outcome cannot be overwritten by a reparse.
+  const gate=momoGuard(scoped,'changes()=1');
+  writes.push(scoped.DB.prepare(`UPDATE momo_processing_jobs SET state='pending',max_attempts=attempt_count+4,available_at=unixepoch(),lease_token=NULL,lease_until=NULL,last_error=?,updated_at=? WHERE raw_sms_id=? AND state=? AND attempt_count=? AND last_error IS ?`).bind(MOMO_JOB_CHECKPOINT.reparse,now(),rawId,job.state,job.attempt_count,job.last_error??null),gate[0],gate[1]);value={raw_sms_id:rawId,status:'pending'};
  }else fail(404,'not_found','This MoMo action is unavailable.');
  return json(await mutation(scoped,actor,operation,rid,source,value,writes,{...options,entityType:area==='sources'?'sms_receipt':area==='transactions'?'payment':'momo_account',entityId:value.id??value.binding_id??value.raw_sms_id,auditDetails:{reason}}));
 }

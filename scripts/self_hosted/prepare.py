@@ -21,6 +21,10 @@ sys.path.insert(0, str(ROOT))
 from scripts.supabase.deployment_profile import validate_profile, canonical_profile, profile_sha256
 from scripts.self_hosted.frontend_manifest import inventory as frontend_inventory
 
+class FrontendOriginsMustDiffer(ValueError):
+    """The self-hosted Admin and public sites need distinct origins."""
+
+
 DEPLOY = ROOT / 'deploy/self-hosted'
 BLOCKED_PARTS = {'node_modules', '.git', '.dart_tool', '__pycache__', 'tests', '.temp'}
 SOURCE_ROOTS = ('supabase/functions', 'supabase/migrations', 'supabase/jobs',
@@ -248,6 +252,7 @@ def caddyfile(profile,tls_mode,acme_email):
 def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None):
     profile=validate_profile(json.loads(profile_path.read_text()))
     if profile['mode']!='self_hosted':raise ValueError('Self-hosted profile required')
+    if profile['admin_origin']==profile['public_origin']:raise FrontendOriginsMustDiffer('Self-hosted Admin and public origins must differ')
     output=output.absolute()
     if output.exists() or output.parent.resolve()!=output.parent:raise ValueError('Fresh physical release directory required')
     images=verify_vendor();manifest=source_manifest();frontend=frontend_inventory(ROOT)

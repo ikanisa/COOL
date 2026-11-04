@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:collect_app/app/theme/app_theme.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -142,7 +145,7 @@ void main() {
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
     const channel = MethodChannel('collect/momo_ussd');
     messenger.setMockMethodCallHandler(channel, (call) async {
-      launchCalls++;
+      if (call.method == 'launch') launchCalls++;
       return true;
     });
     addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
@@ -169,7 +172,7 @@ void main() {
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
     const channel = MethodChannel('collect/momo_ussd');
     messenger.setMockMethodCallHandler(channel, (call) async {
-      launchCalls++;
+      if (call.method == 'launch') launchCalls++;
       return true;
     });
     addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
@@ -230,7 +233,7 @@ void main() {
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
     const channel = MethodChannel('collect/momo_ussd');
     messenger.setMockMethodCallHandler(channel, (call) async {
-      launchCalls++;
+      if (call.method == 'launch') launchCalls++;
       return true;
     });
     addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
@@ -273,7 +276,7 @@ void main() {
         TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
     const channel = MethodChannel('collect/momo_ussd');
     messenger.setMockMethodCallHandler(channel, (call) async {
-      launchCalls++;
+      if (call.method == 'launch') launchCalls++;
       return true;
     });
     addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
@@ -296,6 +299,258 @@ void main() {
       findsOneWidget,
     );
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Android permission completes before review and handoff', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    try {
+      final repo = _CountingRepository();
+      final permission = Completer<bool>();
+      final calls = <String>[];
+      final messenger =
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+      const channel = MethodChannel('collect/momo_ussd');
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        calls.add(call.method);
+        if (call.method == 'ensurePermission') return permission.future;
+        return true;
+      });
+      addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+      await _prepare(tester, repo);
+      await tester.tap(find.widgetWithText(FilledButton, 'Open MoMo USSD'));
+      await tester.pump();
+      expect(calls, ['ensurePermission']);
+      expect(repo.reviewCalls, 0);
+      expect(repo.handoffCalls, 0);
+      permission.complete(true);
+      await tester.pumpAndSettle();
+      expect(repo.reviewCalls, 1);
+      expect(repo.handoffCalls, 1);
+      expect(calls, ['ensurePermission', 'launch']);
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
+  });
+
+  testWidgets('account switch while permission is pending prevents handoff', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    try {
+      final repo = _SwitchingRepository();
+      final permission = Completer<bool>();
+      final calls = <String>[];
+      final messenger =
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+      const channel = MethodChannel('collect/momo_ussd');
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        calls.add(call.method);
+        if (call.method == 'ensurePermission') return permission.future;
+        return true;
+      });
+      addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+      await _prepare(tester, repo);
+      await tester.tap(find.widgetWithText(FilledButton, 'Open MoMo USSD'));
+      await tester.pump();
+      repo.switchAccount();
+      await tester.pump();
+      permission.complete(true);
+      await tester.pumpAndSettle();
+      expect(repo.reviewCalls, 0);
+      expect(repo.handoffCalls, 0);
+      expect(calls, ['ensurePermission']);
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
+  });
+
+  testWidgets(
+    'denied permission keeps manual payment details without handoff',
+    (tester) async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      try {
+        final repo = _CountingRepository();
+        final calls = <String>[];
+        final messenger =
+            TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+        const channel = MethodChannel('collect/momo_ussd');
+        messenger.setMockMethodCallHandler(channel, (call) async {
+          calls.add(call.method);
+          return false;
+        });
+        addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+        await _prepare(tester, repo);
+        await tester.tap(find.widgetWithText(FilledButton, 'Open MoMo USSD'));
+        await tester.pumpAndSettle();
+        expect(repo.reviewCalls, 0);
+        expect(repo.handoffCalls, 0);
+        expect(calls, ['ensurePermission']);
+        expect(find.text('Copy payment code'), findsOneWidget);
+        expect(
+          find.textContaining('Phone permission is required'),
+          findsOneWidget,
+        );
+      } finally {
+        debugDefaultTargetPlatformOverride = null;
+      }
+    },
+  );
+
+  testWidgets('permission channel exception leaves manual option available', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    try {
+      final repo = _CountingRepository();
+      final calls = <String>[];
+      final messenger =
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+      const channel = MethodChannel('collect/momo_ussd');
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        calls.add(call.method);
+        throw PlatformException(code: 'permission_unavailable');
+      });
+      addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+      await _prepare(tester, repo);
+      await tester.tap(find.widgetWithText(FilledButton, 'Open MoMo USSD'));
+      await tester.pumpAndSettle();
+      expect(repo.reviewCalls, 0);
+      expect(repo.handoffCalls, 0);
+      expect(calls, ['ensurePermission']);
+      expect(find.text('Copy payment code'), findsOneWidget);
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
+  });
+
+  testWidgets('manual copy on Android does not request phone permission', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    try {
+      final repo = _CountingRepository();
+      final calls = <String>[];
+      final messenger =
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+      const channel = MethodChannel('collect/momo_ussd');
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        calls.add(call.method);
+        return true;
+      });
+      addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+      await _prepare(tester, repo);
+      final copy = find.text('Copy payment code');
+      await tester.ensureVisible(copy);
+      await tester.pumpAndSettle();
+      await tester.tap(copy);
+      await tester.pumpAndSettle();
+      expect(repo.reviewCalls, 1);
+      expect(repo.handoffCalls, 1);
+      expect(calls, isEmpty);
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
+  });
+
+  testWidgets('non-Android opening retains the existing channel flow', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    try {
+      final repo = _CountingRepository();
+      final calls = <String>[];
+      final messenger =
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+      const channel = MethodChannel('collect/momo_ussd');
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        calls.add(call.method);
+        return true;
+      });
+      addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+      await _prepare(tester, repo);
+      await tester.tap(find.widgetWithText(FilledButton, 'Open MoMo USSD'));
+      await tester.pumpAndSettle();
+      expect(repo.reviewCalls, 1);
+      expect(repo.handoffCalls, 1);
+      expect(calls, ['launch']);
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
+  });
+
+  testWidgets('native launch failure after claim prevents repeat handoff', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    try {
+      final repo = _CountingRepository();
+      final calls = <String>[];
+      final messenger =
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+      const channel = MethodChannel('collect/momo_ussd');
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        calls.add(call.method);
+        if (call.method == 'ensurePermission') return true;
+        throw PlatformException(code: 'permission_revoked');
+      });
+      addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+      await _prepare(tester, repo);
+      await tester.tap(find.widgetWithText(FilledButton, 'Open MoMo USSD'));
+      await tester.pumpAndSettle();
+      expect(repo.reviewCalls, 1);
+      expect(repo.handoffCalls, 1);
+      expect(calls, ['ensurePermission', 'launch']);
+      expect(
+        find.textContaining('This does not indicate a failed payment.'),
+        findsOneWidget,
+      );
+      await tester.scrollUntilVisible(
+        find.text('Check payment'),
+        80,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Check payment'), findsOneWidget);
+      expect(find.text('Open MoMo USSD'), findsNothing);
+      expect(repo.handoffCalls, 1);
+      expect(calls, ['ensurePermission', 'launch']);
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
+  });
+
+  testWidgets('disposing while permission is pending prevents handoff', (
+    tester,
+  ) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    try {
+      final repo = _CountingRepository();
+      final permission = Completer<bool>();
+      final calls = <String>[];
+      final messenger =
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+      const channel = MethodChannel('collect/momo_ussd');
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        calls.add(call.method);
+        if (call.method == 'ensurePermission') return permission.future;
+        return true;
+      });
+      addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+      await _prepare(tester, repo);
+      await tester.tap(find.widgetWithText(FilledButton, 'Open MoMo USSD'));
+      await tester.pump();
+      await tester.pumpWidget(const SizedBox());
+      permission.complete(true);
+      await tester.pumpAndSettle();
+      expect(repo.reviewCalls, 0);
+      expect(repo.handoffCalls, 0);
+      expect(calls, ['ensurePermission']);
+      expect(tester.takeException(), isNull);
+    } finally {
+      debugDefaultTargetPlatformOverride = null;
+    }
   });
 
   testWidgets('account switch clears prepared receiver before launch', (

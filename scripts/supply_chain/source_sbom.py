@@ -41,7 +41,8 @@ def component_hash(value: str | None) -> list[dict]:
 
 
 def build(inventory_path: Path) -> dict:
-    inventory = json.loads(inventory_path.read_text())
+    inventory_raw = inventory_path.read_bytes()
+    inventory = json.loads(inventory_raw)
     for relative, expected in inventory["source_sha256"].items():
         path = (ROOT / relative).resolve()
         if not path.is_relative_to(ROOT) or digest(path) != expected:
@@ -74,7 +75,9 @@ def build(inventory_path: Path) -> dict:
             raise ValueError("Inventory asset drift: " + asset["path"])
     grouped = {}
     for package in inventory["packages"]:
-        identity = json.dumps({k: package.get(k) for k in ["ecosystem", "name", "version", "integrity", "origin", "qualifier"]}, sort_keys=True)
+        identity = json.dumps({k: package.get(k) for k in ["ecosystem", "name", "version", "integrity", "origin", "qualifier",
+                               "lock_path", "development", "optional", "peer", "platform_metadata", "lock_metadata_integrity",
+                               "lock_metadata_dependencies", "image_service", "declared_manifest_digest", "declared_platforms"]}, sort_keys=True)
         grouped.setdefault(identity, []).append(package)
     components = []
     for identity, rows in sorted(grouped.items()):
@@ -90,6 +93,12 @@ def build(inventory_path: Path) -> dict:
             if values:
                 component["properties"].append(prop(key, values))
         for key in ["local_tree_sha256", "local_tree_file_count", "local_provenance"]:
+            if row.get(key) is not None:
+                component["properties"].append(prop(key, row[key]))
+        # These are lock declarations, never proof of installed package bytes,
+        # actual OCI platform selection or deployed image contents.
+        for key in ["lock_path", "development", "optional", "peer", "platform_metadata", "lock_metadata_integrity",
+                    "lock_metadata_dependencies", "image_service", "declared_manifest_digest", "declared_platforms"]:
             if row.get(key) is not None:
                 component["properties"].append(prop(key, row[key]))
         if row.get("version"):
@@ -109,7 +118,7 @@ def build(inventory_path: Path) -> dict:
             "metadata": {"component": {"type": "application", "bom-ref": "application:collect-source", "name": "Collect",
                                        "version": inventory["checks"]["dart"]["pubspec_version"]},
                          "properties": [prop("scope", "Source declarations and local lock inventory; signed-artifact SBOM not verified."),
-                                        prop("inventory_sha256", digest(inventory_path)),
+                                        prop("inventory_sha256", hashlib.sha256(inventory_raw).hexdigest()),
                                         prop("generator_sha256", digest(Path(__file__))),
                                         prop("source_sha256", inventory["source_sha256"]),
                                         prop("coverage_included", inventory["coverage"]["included"]),

@@ -1,0 +1,130 @@
+{
+  "format": "collect.financial-handoff.flutter.evidence.v1",
+  "head": "14f32d43961cd566e8834dae841ba67e475b21f5",
+  "prior_cohort": {
+    "passing_cases": 205,
+    "failing_fixture_cases": 2,
+    "terminal_pass": false,
+    "result": "member-finality3-evidence-20261101/RESULT.json"
+  },
+  "corrected_preference_suite": {
+    "passing_cases": 57,
+    "terminal_pass": true,
+    "result": "member-finality5-evidence-20261101/RESULT.json"
+  },
+  "only_mobile_source_change_between_those_runs": "test/shared/notification_preference_runtime_test.dart",
+  "all_production_sources_dependencies_toolchain_unchanged_between_those_runs": true,
+  "hosted_device_production_acceptance": false,
+  "files": [
+    {
+      "path": "member-finality-evidence-20261101/RESULT.json",
+      "bytes": 2082,
+      "sha256": "051078d6fb89ce93eea5a0fe2b972f1717edf97c08d45e0a2abeccac05be4def"
+    },
+    {
+      "path": "member-finality-evidence-20261101/INPUTS.json",
+      "bytes": 202157,
+      "sha256": "789d82b56025975b98e94d3bbfbc62593db848f642bbda6e2aef8b1b3de69954"
+    },
+    {
+      "path": "member-finality-evidence-20261101/stdout.txt",
+      "bytes": 34013,
+      "sha256": "eee904db1b725b2f77f0f7c683dba23c72a756ce9a7cd27169012296a0cc140a"
+    },
+    {
+      "path": "member-finality-evidence-20261101/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "member-finality2-evidence-20261101/RESULT.json",
+      "bytes": 2144,
+      "sha256": "1c911f492bac3fe7086c6f14457acc31a2e2de6f06e973b9908afefdc8e10630"
+    },
+    {
+      "path": "member-finality2-evidence-20261101/INPUTS.json",
+      "bytes": 202158,
+      "sha256": "1935c777036120b9553d966cbf40bcaae7af221af27d35742b63ed49bf637885"
+    },
+    {
+      "path": "member-finality2-evidence-20261101/CANCELLATION.json",
+      "bytes": 527,
+      "sha256": "7c1e9c206bcd2693b7cadfe65b0cc809f10041aba6fa1a7312cf0a6f0c247b2b"
+    },
+    {
+      "path": "member-finality2-evidence-20261101/stdout.txt",
+      "bytes": 16152,
+      "sha256": "4c4b1a7609228a7e8df9b458612c61e2e40042e256ca1a849a3d3f615937faad"
+    },
+    {
+      "path": "member-finality2-evidence-20261101/stderr.txt",
+      "bytes": 103,
+      "sha256": "a3aad1b237654e7d9ac8ab74ed966458d99f6cb78dbd95f07e011d88f418a706"
+    },
+    {
+      "path": "member-finality3-evidence-20261101/RESULT.json",
+      "bytes": 2208,
+      "sha256": "f77840b50e337547bebffa78853b222fb9972f45e260d91fe18e7d7406a6defc"
+    },
+    {
+      "path": "member-finality3-evidence-20261101/INPUTS.json",
+      "bytes": 203337,
+      "sha256": "acad5e96be843e69f2618c0e8c73a4e250f65205cedd36a4c714a9a7bac9019c"
+    },
+    {
+      "path": "member-finality3-evidence-20261101/stdout.txt",
+      "bytes": 50627,
+      "sha256": "e45bfc748cb1586e24ac645aecb24230ecdb5f74f88c4131ff55c1d6b04db4e6"
+    },
+    {
+      "path": "member-finality3-evidence-20261101/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "member-finality4-evidence-20261101/RESULT.json",
+      "bytes": 1564,
+      "sha256": "345a8467577776b0369549b19522b6ba682b2eb4185abd60f00173315f67bb4f"
+    },
+    {
+      "path": "member-finality4-evidence-20261101/INPUTS.json",
+      "bytes": 203337,
+      "sha256": "47577484fb9f382304c07ab880ab55053a4137ea060f1a8c8d447eb0b17c4c8f"
+    },
+    {
+      "path": "member-finality4-evidence-20261101/stdout.txt",
+      "bytes": 6509,
+      "sha256": "3221307aea71c9e3622709a2d526f51962ba0e18341b4f72b5d3541dc734fa4b"
+    },
+    {
+      "path": "member-finality4-evidence-20261101/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "member-finality5-evidence-20261101/RESULT.json",
+      "bytes": 1563,
+      "sha256": "b54f502644b7b23c29659898b4abd6a51df57e4d90f7b70e61fb14e20a8ac1c9"
+    },
+    {
+      "path": "member-finality5-evidence-20261101/INPUTS.json",
+      "bytes": 203337,
+      "sha256": "15554a21ffb383ff38b656fc495ebd49948037c3d546b126275f99eefa0afb24"
+    },
+    {
+      "path": "member-finality5-evidence-20261101/CANDIDATE-FILES.json",
+      "bytes": 2441,
+      "sha256": "a202f813abcacdcc6eba8be666087775aee2d8ef443cde45dec40860edc1163c"
+    },
+    {
+      "path": "member-finality5-evidence-20261101/stdout.txt",
+      "bytes": 5137,
+      "sha256": "af4e0217ef838bf6fe1bf56c9b213b0db67c5f985bedff7cff553412680b4d46"
+    },
+    {
+      "path": "member-finality5-evidence-20261101/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

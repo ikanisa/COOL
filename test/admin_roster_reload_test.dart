@@ -42,8 +42,23 @@ class RecoveryGateway extends FakeRosterGateway {
   String? checkpoint, draftText, draftHash;
   final intents = <String, Map<String, dynamic>>{};
   final results = <String, Object?>{};
+  final reads = <String>[];
   Future<Object?> Function(String, Map<String, dynamic>)? overrideRpc;
   String? phase;
+  @override
+  Future<Object?> read(String importId) async {
+    reads.add(importId);
+    return {
+      'contract_version': 1,
+      'ok': true,
+      'import_id': importId,
+      'state': 'preview_ready',
+      'expires_at': latest!['expires_at'],
+      'preview': latest,
+      'commit': null,
+      'error_code': null,
+    };
+  }
   @override
   Future<Object?> recoveryRpc(String name, Map<String, dynamic> p) async {
     calls.add(name);
@@ -170,11 +185,12 @@ class RecoveryGateway extends FakeRosterGateway {
 void main() {
   Future<AdminRosterDraft> prepared(
     RecoveryGateway g,
-    MemoryBookmarks store,
-  ) async {
+    MemoryBookmarks store, {
+    String? collectionId = rosterCollectionId,
+  }) async {
     final d = AdminRosterDraft(
       g,
-      collectionId: rosterCollectionId,
+      collectionId: collectionId,
       bookmarkStore: store,
     );
     await d.prepare(() async => AdminRosterUpload.pasted('synthetic roster'));
@@ -282,17 +298,16 @@ void main() {
     () async {
       final g = RecoveryGateway(),
           s = MemoryBookmarks(),
-          d = await prepared(g, s);
+          d = await prepared(g, s, collectionId: null);
       await d.saveReview('Reviewed all source rows');
       d.affirm(true);
       g.onCommit = (_) async => throw TimeoutException('lost before commit');
-      await d.commit(title: '', reason: 'Reviewed all source identities');
+      await d.commit(title: 'Saved group', reason: 'Reviewed all source identities');
       expect(g.intents.length, 2);
       d.dispose();
       final next = reloadGateway(g),
           r = AdminRosterDraft(
             next,
-            collectionId: rosterCollectionId,
             bookmarkStore: s,
           );
       await r.recoverReload();
@@ -330,26 +345,70 @@ void main() {
             collectionId: rosterCollectionId,
             bookmarkStore: s,
           );
+      final savedReference = s.value;
       final ack = await r.recoverReload();
       expect(ack!.collectionId, rosterCollectionId);
       expect(next.commits, isEmpty);
       expect(next.calls, ['admin_recover_roster_import']);
+      r.discardRecoveryReference();
+      expect(s.value, savedReference);
+      r.discardRecoveryReference(explicit: true);
+      expect(s.value, isNull);
       r.dispose();
     },
   );
+  for (final previouslyBound in [false, true]) {
+  test('v1 existing-group recovery with bound=$previouslyBound permits status but no replay or writes', () async {
+    final g = RecoveryGateway(), s = MemoryBookmarks(), d = await prepared(g, s);
+    await d.saveReview('Reviewed all source rows');
+    d.affirm(true);
+    g.onCommit = (_) async => throw TimeoutException('lost before commit');
+    await d.commit(title: '', reason: 'Reviewed all source identities');
+    final savedReference = s.value;
+    final originalRequest = g.commits.single;
+    d.dispose();
+    final next = reloadGateway(g);
+    if (!previouslyBound) {
+      next.body = Map<String, dynamic>.from(g.body!)..remove('collection_id');
+    }
+    final r = AdminRosterDraft(next, collectionId: rosterCollectionId, bookmarkStore: s);
+    await r.recoverReload();
+    expect(r.commitPending, isTrue);
+    expect(r.canEdit, isFalse);
+    expect(r.canReaffirm, isFalse);
+    expect(r.canRetryCommit, isFalse);
+    expect(r.canSaveReview, isFalse);
+    expect(r.canSaveRecoveryDraft, isFalse);
+    expect(r.canCheckStatus, isTrue);
+    expect(r.recoveryMessage, contains('read-only'));
+    expect(s.value, savedReference);
+    r.affirm(true);
+    await r.saveReview('must not repeat');
+    await r.saveRecoveryDraft();
+    expect(await r.commit(title: '', reason: 'must not repeat'), isNull);
+    expect(next.reviews, isEmpty);
+    expect(next.commits, isEmpty);
+    expect(next.calls, ['admin_recover_roster_import']);
+    expect(await r.recoverStatus(), isNull);
+    expect(next.reads, [rosterImportId]);
+    expect(r.error, contains('read-only'));
+    expect(s.value, savedReference);
+    expect(g.commits.single, originalRequest);
+    r.dispose();
+  });
+  }
   test(
     'staged review recovery executes same immutable request only on explicit review',
     () async {
       final g = RecoveryGateway(),
           s = MemoryBookmarks(),
-          d = await prepared(g, s);
+          d = await prepared(g, s, collectionId: null);
       g.onReview = (_) async => throw TimeoutException('lost');
       await d.saveReview('Reviewed every row');
       d.dispose();
       final next = reloadGateway(g),
           r = AdminRosterDraft(
             next,
-            collectionId: rosterCollectionId,
             bookmarkStore: s,
           );
       await r.recoverReload();
@@ -411,28 +470,99 @@ void main() {
       final m = rosterObject(jsonDecode(s.value!))
         ..['owner_digest'] = rosterTextDigest('another session');
       s.value = jsonEncode(m);
+      final original = s.value;
       final r = AdminRosterDraft(
         RecoveryGateway(),
         collectionId: rosterCollectionId,
         bookmarkStore: s,
       );
       expect(r.reloadAvailable, false);
-      expect(s.value, isNull);
+      expect(s.value, original);
       expect(r.storageWarning, isNotNull);
+      expect(r.storageWarning, isNot(contains(original)));
       r.dispose();
     },
   );
+  for (final kind in ['foreign owner', 'different collection', 'malformed', 'future version']) {
+    test('$kind reference is neither overwritten nor cleared by this draft', () async {
+      final value = RosterBookmark(
+        ownerDigest: rosterTextDigest(kind == 'foreign owner' ? 'other owner' : 'test-owner-A'),
+        uploadRequestId: rosterActorA,
+        sourceSha256: 'a' * 64,
+        collectionId: kind == 'different collection' ? rosterActorB : rosterCollectionId,
+      ).toJson();
+      if (kind == 'future version') value['version'] = 2;
+      final original = kind == 'malformed' ? 'PRIVATE-SYNTHETIC-UNREADABLE' : jsonEncode(value);
+      final store = MemoryBookmarks()..value = original;
+      final gateway = RecoveryGateway();
+      final draft = AdminRosterDraft(gateway, collectionId: rosterCollectionId, bookmarkStore: store);
+      expect(draft.reloadAvailable, isFalse);
+      expect(draft.storageWarning, isNotNull);
+      expect(draft.storageWarning, isNot(contains(original)));
+      expect(draft.storageWarning, isNot(contains('PRIVATE-SYNTHETIC-UNREADABLE')));
+      await draft.prepare(() async => AdminRosterUpload.pasted('synthetic new roster'));
+      expect(gateway.prepares, hasLength(1));
+      expect(gateway.prepares.single['collection_id'], rosterCollectionId);
+      expect(store.value, original);
+      draft.discardRecoveryReference();
+      expect(store.value, original);
+      draft.discardRecoveryReference(explicit: true);
+      expect(store.value, original);
+      draft.dispose();
+    });
+  }
+  test('slot changed between read and recovery save is not overwritten or cleared', () async {
+    final g = RecoveryGateway(), s = MemoryBookmarks(), d = await prepared(g, s);
+    const replacement = 'PRIVATE-SYNTHETIC-NEW-OWNER';
+    s.value = replacement;
+    d.setEditorMetadata(title: 'Saved editor');
+    await d.saveRecoveryDraft();
+    expect(s.value, replacement);
+    expect(d.storageWarning, isNot(contains(replacement)));
+    d.discardRecoveryReference();
+    d.discardRecoveryReference(explicit: true);
+    expect(s.value, replacement);
+    d.dispose();
+  });
+  test('slot changed before explicit discard is not cleared', () async {
+    final g = RecoveryGateway(), s = MemoryBookmarks(), d = await prepared(g, s);
+    const replacement = 'PRIVATE-SYNTHETIC-OTHER-SLOT';
+    s.value = replacement;
+    d.discardRecoveryReference(explicit: true);
+    expect(s.value, replacement);
+    expect(d.storageWarning, isNot(contains(replacement)));
+    d.dispose();
+  });
+  test('recognized unchanged reference can be explicitly discarded', () async {
+    final g = RecoveryGateway(), s = MemoryBookmarks(), d = await prepared(g, s);
+    expect(s.value, isNotNull);
+    d.discardRecoveryReference(explicit: true);
+    expect(s.value, isNull);
+    d.dispose();
+  });
+  test('acknowledged fresh submission clears only its recognized unchanged reference', () async {
+    final g = RecoveryGateway(), s = MemoryBookmarks(), d = await prepared(g, s);
+    await d.saveReview('Reviewed all source rows');
+    d.affirm(true);
+    expect(await d.commit(title: '', reason: 'Reviewed all source identities'), isNotNull);
+    expect(s.value, isNotNull);
+    d.discardRecoveryReference();
+    expect(s.value, isNull);
+    d.dispose();
+  });
   test(
-    'session invalidation clears reference and private values permanently through A B A',
+    'session invalidation preserves opaque reference but clears private values through A B A',
     () async {
       final g = RecoveryGateway(),
           s = MemoryBookmarks(),
           d = await prepared(g, s);
+      final original = s.value;
       d.edit(0, 'member_name', 'Private Alice');
       g.invalidate();
       g.current = true;
       expect(d.rows, isEmpty);
-      expect(s.value, isNull);
+      expect(s.value, original);
+      expect(d.preview, isNull);
       expect(d.invalidated, true);
       await d.recoverReload();
       expect(g.calls, isEmpty);
@@ -440,11 +570,12 @@ void main() {
     },
   );
   test(
-    'revocation during recovery clears reference, result and private editor values',
+    'revocation during recovery preserves reference and clears private editor values',
     () async {
       final g = RecoveryGateway(),
           s = MemoryBookmarks(),
           d = await prepared(g, s);
+      final original = s.value;
       d.dispose();
       final next = reloadGateway(g)
         ..overrideRpc = (_, _) async =>
@@ -456,7 +587,7 @@ void main() {
       );
       await r.recoverReload();
       expect(r.invalidated, true);
-      expect(s.value, isNull);
+      expect(s.value, original);
       expect(r.rows, isEmpty);
       r.dispose();
     },
@@ -468,7 +599,7 @@ void main() {
           s = MemoryBookmarks()..fail = true,
           d = await prepared(g, s);
       expect(d.preview, isNotNull);
-      expect(d.storageWarning, contains('could not save'));
+      expect(d.storageWarning, contains('cannot save'));
       expect(d.storageWarning, isNot(contains('private browser error')));
       d.dispose();
     },
@@ -612,7 +743,7 @@ void main() {
     () async {
       final g = RecoveryGateway(),
           s = MemoryBookmarks(),
-          d = await prepared(g, s);
+          d = await prepared(g, s, collectionId: null);
       d.setEditorMetadata(title: 'Server draft');
       await d.saveRecoveryDraft();
       g.checkpoint = rosterActorB;
@@ -626,6 +757,33 @@ void main() {
       d.dispose();
     },
   );
+  testWidgets('discard reports a changed reference before closing', (tester) async {
+    final g = RecoveryGateway(), s = MemoryBookmarks(), draft = await prepared(g, s);
+    const replacement = 'PRIVATE-SYNTHETIC-CHANGED-REFERENCE';
+    await tester.pumpWidget(MaterialApp(
+      theme: CollectTheme.light(),
+      home: Scaffold(body: Builder(builder: (context) => TextButton(
+        onPressed: () => showDialog<void>(
+          context: context,
+          builder: (_) => AdminRosterImportDialog(draft: draft),
+        ),
+        child: const Text('Open draft'),
+      ))),
+    ));
+    await tester.tap(find.text('Open draft'));
+    await tester.pumpAndSettle();
+    s.value = replacement;
+    await tester.tap(find.text('Discard draft'));
+    await tester.pumpAndSettle();
+    expect(find.text('Close draft'), findsOneWidget);
+    expect(find.textContaining('cannot save a replacement reference'), findsOneWidget);
+    expect(find.textContaining(replacement), findsNothing);
+    expect(s.value, replacement);
+    await tester.tap(find.text('Close draft'));
+    await tester.pumpAndSettle();
+    expect(find.byType(AdminRosterImportDialog), findsNothing);
+    expect(s.value, replacement);
+  });
   testWidgets(
     'operator reload controls restore server draft; enlarged compact UI retains explicit recovery actions',
     (tester) async {
@@ -635,14 +793,13 @@ void main() {
       addTearDown(tester.view.resetDevicePixelRatio);
       final g = RecoveryGateway(),
           s = MemoryBookmarks(),
-          original = await prepared(g, s);
+          original = await prepared(g, s, collectionId: null);
       original.setEditorMetadata(reason: 'Saved private operator reason');
       await original.saveRecoveryDraft();
       original.dispose();
       final next = reloadGateway(g),
           draft = AdminRosterDraft(
             next,
-            collectionId: rosterCollectionId,
             bookmarkStore: s,
           );
       await tester.pumpWidget(

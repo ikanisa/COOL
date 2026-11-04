@@ -2,13 +2,19 @@
 
 ## Decision
 
+The owner has since selected a static-image-only roster policy: animated
+images must be rejected with an actionable message. Full APNG decoding and a
+dedicated APNG supervisor are no longer release requirements. The observations
+below are retained as historical evidence; they do not authorize animation
+delivery or prove the static-only policy is deployed.
+
 **Original task 29 remains open.** The pinned Supabase Edge Runtime can execute
 the reviewed candidate WASM engines in a restricted disposable worker, so a
 Supabase-owned replacement is technically plausible. The current investigation
 does not establish a complete replacement for the signed Python decoder. The
 production template continues to keep the optional roster AI decoder inactive.
 
-The gap is now specific: complete PNG animation support, equivalent PDF
+The remaining gaps include static-image validation and animation refusal, equivalent PDF
 structure semantics combined with rendering, the bounded workbook parser, a
 truthful version 2 signed contract, PostgreSQL replay/outcome custody, and
 resource/isolation acceptance. No existing Python toolchain identity has been
@@ -50,9 +56,9 @@ PDF/workbook timestamps or library-generated structures between comparisons.
 | Area | Native evidence | Remaining acceptance |
 |---|---|---|
 | Runtime compatibility | Actual Edge 1.77.4 / Deno 2.1.4 loads the pinned image, PDFium and qpdf WASM engines without npm/network resolution in the child. | Independent dependency provenance, license/security review and a reproducible release build remain separate from tarball checksum identity. |
-| Static PNG/JPEG/WebP and animated WebP | Candidate code materializes full RGBA pixels. The existing corpus covers malformed/truncated files, CRC, dimensions and frame count. | Broader format variants, decoder warnings, allocation bounds and resource exhaustion still need acceptance. |
+| Static PNG/JPEG/WebP and animated WebP | Historical candidate code materializes full RGBA pixels. The existing corpus covers malformed/truncated files, CRC, dimensions and frame count. | Qualify static formats and fail-closed animation detection and refusal, including resource bounds. |
 | JPEG strictness | Default Magick accepted the truncated JPEG. Installing the warning callback before reading rejects it. | All relevant warning classes must fail closed in the production adapter; this probe only establishes the concrete supplied sample. |
-| PNG animation | Default PNG decoding returned one frame for three-frame APNG and accepted a 21-frame file. Explicit APNG selected the codec that requires an unavailable external ffmpeg delegate, rejecting even the valid three-frame fixture. | A complete native APNG decoder is required. Merely trusting the animation chunk's advertised count would not validate all frame data. |
+| PNG animation | Default PNG decoding returned one frame for three-frame APNG and accepted a 21-frame file. Explicit APNG selected the codec that requires an unavailable external ffmpeg delegate, rejecting even the valid three-frame fixture. | Detect and refuse animated PNGs; a decoder that silently drops frames does not establish static-only enforcement. |
 | PDF rendering | PDFium renders bounded pages, including compressed-object PDFs. Rendering alone also accepted JavaScript/attachment and oversized stream examples forbidden by current policy. | Rendering must follow full structural checks; renderer success is insufficient validation. |
 | PDF structure | qpdf JSON exposes complete object and decoded-stream data; the prototype correctly handles the ten existing PDF structural labels, including compressed objects, encryption, active content, malformed xref and 33 MiB expansions. | Complete semantic equivalence, normalized name/string action values, indirect references, filter combinations, all unreferenced objects, allocation order, and integration with rendering remain unqualified. |
 | Child isolation | Workers receive no environment entries. Recorded network/environment/write denials and subprocess failure occur in the real pinned runtime. | A missing `/etc/hostname` is only `NotFound`, not a proved permission denial. Existing-secret canaries, FFI/system probes, worker teardown, CPU/memory exhaustion and concurrent supervision require explicit tests. |
@@ -78,13 +84,12 @@ decoder's validation remains unchanged.
 
 ### 1. Complete native file validation
 
-Select or build a reviewed PNG/APNG codec that fully decodes all frames,
-including interlaced/color/alpha variants, CRC errors, frame sequencing,
-blend/disposal behavior and truncated frame payloads. Preserve the current
-5 MiB input, 16,000-side, 20-frame and 16 million aggregate-pixel limits. Qualify
-static JPEG/PNG/WebP and animated WebP with the same complete pixel rules and
-strict warning behavior. Decode limits must bound allocation, not only check
-dimensions after unbounded work.
+Select or build a reviewed image validator that fully decodes supported static
+JPEG/PNG/WebP, including interlaced/color/alpha variants, CRC errors and
+truncated payloads. Detect and reject animated images without silently treating
+them as static. Preserve the applicable input, dimension and pixel limits;
+decode limits must bound allocation, not only check dimensions after unbounded
+work. Full animation-frame decoding and compositing are no longer required.
 
 For PDF, integrate the qpdf structural stage and PDFium raster stage inside one
 disposable worker. Normalize the JSON representation without losing current

@@ -1,0 +1,66 @@
+[
+  {
+    "name": "complete current_chain schema with normal owner and unchanged stopped protocol",
+    "status": "pass"
+  },
+  {
+    "name": "new tables retain forced RLS, narrow privileges and no unfenced writes",
+    "status": "pass"
+  },
+  {
+    "name": "migration installation leaves optional services inactive and queues empty",
+    "status": "pass"
+  },
+  {
+    "name": "authenticated diagnostics replay uses actual current_chain transactions without identity leakage",
+    "status": "pass"
+  },
+  {
+    "name": "diagnostic validation and revoked managed session refuse before a new report",
+    "status": "pass"
+  },
+  {
+    "name": "SQL12 original-email proof and SQL13 retirement remain current under complete reviewed chain",
+    "status": "pass"
+  },
+  {
+    "name": "shipping Admin wrapper reads the complete app and private retention catalogs",
+    "status": "pass"
+  },
+  {
+    "name": "default-disabled push leaves a committed event without provider or outbox work",
+    "status": "pass"
+  },
+  {
+    "name": "actual outbox, serializer and adapter accept one event once under current_chain",
+    "status": "pass"
+  },
+  {
+    "name": "current consent after OAuth prevents FCM send-start across the full migration chain",
+    "status": "pass"
+  },
+  {
+    "name": "unknown FCM result is durable, not retried, and retains the application obligation",
+    "status": "pass"
+  },
+  {
+    "name": "shipping privacy inventory retains unknown push after original event and device erase",
+    "status": "pass"
+  },
+  {
+    "name": "all seven shipping oversight projections execute against exact current_chain",
+    "status": "pass"
+  },
+  {
+    "name": "actual maintenance handler defaults to paused receipts and disabled push",
+    "status": "pass"
+  },
+  {
+    "name": "shipping retention refuses revoked current Admin access after earlier successful proof",
+    "status": "pass"
+  },
+  {
+    "name": "current_chain financial rows remain unchanged and v3 quiesce blocks fresh runtime admission",
+    "status": "pass"
+  }
+]

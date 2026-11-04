@@ -1,6 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,writeFile,symlink,rm} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';import {createHash} from 'node:crypto';
-import {createWebApplication,staticAssets,validRawTarget} from './web-server.mjs';
+import {createWebApplication,serveWeb,staticAssets,validRawTarget} from './web-server.mjs';
+import http from 'node:http';import {Readable,Writable} from 'node:stream';
 import {workerEnvironment} from './edge-main/environment.mjs';
 import {canonicalProfile} from '../../supabase/functions/_shared/deployment-profile.js';
 const profile={format:'collect.deployment.v1',id:'qualification',mode:'self_hosted',environment:'qualification',supabase_origin:'https://supabase.collect.example',admin_origin:'https://admin.collect.example',member_api_origin:'https://api.collect.example',public_origin:'https://collect.example',google_callback_origin:'https://admin.collect.example'};
@@ -50,4 +51,89 @@ test('gateway wake credentials cannot inherit member push identity or escape the
  }
  const missing=Object.fromEntries(workerEnvironment('collect-sms',{...env,FCM_PROJECT_ID:'member-only',FCM_SERVICE_ACCOUNT_JSON:'member-account'}));
  assert.equal(missing.FCM_PROJECT_ID,undefined);
+});
+
+test('self-hosted frontend origins remain distinct while member API may share either',async()=>{
+ const folder=await mkdtemp(join(tmpdir(),'collect-web-origins-'));
+ try{
+  const admin=join(folder,'admin'),publicSite=join(folder,'public');await mkdir(admin);await mkdir(publicSite);
+  await writeFile(join(admin,'index.html'),'ADMIN-MARKER');await writeFile(join(publicSite,'index.html'),'PUBLIC-MARKER');
+  const webEnv=value=>{const valueRaw=canonicalProfile(value);return {...env,COLLECT_DEPLOYMENT_PROFILE:valueRaw,
+   COLLECT_DEPLOYMENT_PROFILE_SHA256:createHash('sha256').update(valueRaw).digest('hex'),COLLECT_ADMIN_ASSET_DIR:admin,COLLECT_PUBLIC_ASSET_DIR:publicSite};};
+  const collision={...profile,public_origin:profile.admin_origin};
+  await assert.rejects(createWebApplication(webEnv(collision)),/Admin and public origins must differ/);
+  for(const memberOrigin of [profile.admin_origin,profile.public_origin]){
+   const candidate={...profile,member_api_origin:memberOrigin};
+   const application=await createWebApplication(webEnv(candidate));
+   const request=origin=>new Request(origin+'/',{headers:{Accept:'text/html'}});
+   assert.equal(await (await application(request(candidate.admin_origin))).text(),'ADMIN-MARKER');
+   assert.equal(await (await application(request(candidate.public_origin))).text(),'PUBLIC-MARKER');
+  }
+ }finally{await rm(folder,{recursive:true,force:true});}
+});
+
+test('self-hosted HTTP bridge handles client disconnects without late writes',async t=>{
+ const originalCreate=http.createServer,originalFetch=globalThis.fetch;let handler;
+ http.createServer=(_options,fn)=>{handler=fn;return{listen(){return this;}};};
+ class Reply extends Writable{
+  constructor(){super();this.parts=[];this.headersSent=false;this.statusCode=null;this.headCalls=0;this.endCalls=0;}
+  _write(chunk,_encoding,done){this.parts.push(Buffer.from(chunk));done();}
+  writeHead(status){this.headCalls++;this.statusCode=status;this.headersSent=true;return this;}
+  end(...args){this.endCalls++;return super.end(...args);}
+ }
+ function input(stream=Readable.from([Buffer.from('{}')])){
+  stream.headers={host:'api.collect.example','content-type':'application/json'};
+  stream.rawHeaders=['host','api.collect.example','content-type','application/json'];stream.method='POST';stream.url='/v1/example';return stream;
+ }
+ try{
+  await serveWeb(env);
+  await t.test('normal response finishes and removes abort listeners',async()=>{
+   let calls=0,outgoing;globalThis.fetch=async request=>{calls++;outgoing=request;return Response.json({ok:true});};
+   const req=input(),res=new Reply(),finished=new Promise(resolve=>res.once('finish',resolve));await handler(req,res);await finished;
+   assert.equal(calls,1);assert.equal(res.statusCode,200);assert.equal(outgoing.signal.aborted,false);
+   assert.equal(req.listenerCount('aborted'),0);assert.equal(res.listenerCount('close'),0);
+  });
+  await t.test('early request abort refuses before upstream dispatch',async()=>{
+   let calls=0;globalThis.fetch=async()=>{calls++;return Response.json({ok:true});};
+   const req=input(new Readable({read(){}})),res=new Reply(),finished=new Promise(resolve=>res.once('finish',resolve)),pending=handler(req,res);
+   req.emit('aborted');req.push('{}');req.push(null);await pending;await finished;
+   assert.equal(calls,0);assert.equal(res.statusCode,504);assert.equal(req.listenerCount('aborted'),0);
+  });
+  await t.test('closed response after POST dispatch aborts upstream and never writes',async()=>{
+   let calls=0,outgoing,ready;const dispatched=new Promise(resolve=>{ready=resolve;});
+   globalThis.fetch=request=>{calls++;outgoing=request;ready();return new Promise((_,reject)=>request.signal.addEventListener('abort',()=>reject(Error('synthetic abort')),{once:true}));};
+   const req=input(),res=new Reply(),pending=handler(req,res);await dispatched;
+   const closed=new Promise(resolve=>res.once('close',resolve));res.destroy();await closed;await pending;
+   assert.equal(calls,1);assert.equal(outgoing.signal.aborted,true);assert.equal(res.headCalls,0);assert.equal(res.endCalls,0);assert.equal(req.listenerCount('aborted'),0);
+  });
+  await t.test('already destroyed response never reads or dispatches',async()=>{
+   let calls=0;globalThis.fetch=async()=>{calls++;return Response.json({ok:true});};
+   const req=input(),res=new Reply(),closed=new Promise(resolve=>res.once('close',resolve));res.destroy();await closed;await handler(req,res);
+   assert.equal(calls,0);assert.equal(res.headCalls,0);assert.equal(res.endCalls,0);assert.equal(req.listenerCount('aborted'),0);
+  });
+  await t.test('late uncooperative response cancellation errors are observed without writing',async()=>{
+   const originalCancel=ReadableStream.prototype.cancel;
+   try{for(const mode of ['throw','reject']){
+    let calls=0,outgoing,send,ready,cancels=0;const dispatched=new Promise(resolve=>{ready=resolve;});
+    ReadableStream.prototype.cancel=function(){cancels++;if(mode==='throw')throw Error('synthetic cancellation');return Promise.reject(Error('synthetic cancellation'));};
+    globalThis.fetch=request=>{calls++;outgoing=request;ready();return new Promise(resolve=>{send=resolve;});};
+    const req=input(),res=new Reply(),pending=handler(req,res);await dispatched;
+    const closed=new Promise(resolve=>res.once('close',resolve));res.destroy();await closed;assert.equal(outgoing.signal.aborted,true);
+    send(Response.json({ok:true}));await pending;await new Promise(resolve=>setTimeout(resolve,10));
+    assert.equal(calls,1);assert.equal(cancels,1);assert.equal(res.headCalls,0);assert.equal(res.endCalls,0);assert.equal(req.listenerCount('aborted'),0);
+   }}finally{ReadableStream.prototype.cancel=originalCancel;}
+  });
+  await t.test('response close destroys an active output stream and removes listeners',async()=>{
+   const originalFromWeb=Readable.fromWeb;let output,wrote;
+   const writeStarted=new Promise(resolve=>{wrote=resolve;});
+   try{
+    Readable.fromWeb=()=>{let sent=false;output=new Readable({read(){if(!sent){sent=true;this.push(Buffer.from('synthetic'));}}});return output;};
+    globalThis.fetch=async()=>Response.json({ok:true});const req=input(),res=new Reply();
+    res._write=()=>{wrote();};await handler(req,res);await writeStarted;
+    assert.equal(output.destroyed,false);assert.equal(res.writableFinished,false);
+    const closed=new Promise(resolve=>res.once('close',resolve));res.destroy();await closed;
+    assert.equal(output.destroyed,true);assert.equal(req.listenerCount('aborted'),0);
+   }finally{Readable.fromWeb=originalFromWeb;}
+  });
+ }finally{http.createServer=originalCreate;globalThis.fetch=originalFetch;}
 });

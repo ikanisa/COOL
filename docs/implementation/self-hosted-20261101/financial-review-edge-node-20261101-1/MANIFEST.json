@@ -1,0 +1,51 @@
+{
+  "files": {
+    "CANDIDATE-FILES.json": {
+      "bytes": 2441,
+      "sha256": "a202f813abcacdcc6eba8be666087775aee2d8ef443cde45dec40860edc1163c"
+    },
+    "CLOSURE.json": {
+      "bytes": 378,
+      "sha256": "34b3c6d5953fbf3b39dd6a28433b6b30d59182d7a43fed9167e53940ab3f0fac"
+    },
+    "INPUTS.json": {
+      "bytes": 33216,
+      "sha256": "d7c8832b9bba22ceab35a66b1ac6a48f77238aa6a14eb65e9de00ce76cfc6b5d"
+    },
+    "README.md": {
+      "bytes": 1515,
+      "sha256": "64749e5c8c3a5f2cd128f568af1f36ea6a6824d4f03644d1a23548cf3680ab4c"
+    },
+    "RESULT.json": {
+      "bytes": 1228,
+      "sha256": "207b4099ea1a8a6b62f3ef8b57e774c3dc981c17ba7eeb3bac012abc8d6b3b01"
+    },
+    "deny-network.sb": {
+      "bytes": 493,
+      "sha256": "8ac6b8b99837f9fc4942fe2e5b18dbae9cd3d11e7bfccd601f305bc490855a22"
+    },
+    "network-probe.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "network-probe.stdout": {
+      "bytes": 6,
+      "sha256": "223036dad0eae25fa9f0f26be0972ca38fddeba3038a316621cc779689cb9d28"
+    },
+    "run.py": {
+      "bytes": 12227,
+      "sha256": "2b0fad7855b7d6de9532202ef41ff8852d27d9f32a9161f374c9ac941f28841c"
+    },
+    "suite.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "suite.stdout": {
+      "bytes": 67446,
+      "sha256": "f83ae88f2440ec7a62a30bfac289f6b6e4ead374ba7d55508273fc0785ee63b4"
+    }
+  },
+  "format": "collect.edge-node.financial-review.evidence.v1",
+  "production_acceptance": false,
+  "snapshot_hashes": "INPUTS.json source_files"
+}

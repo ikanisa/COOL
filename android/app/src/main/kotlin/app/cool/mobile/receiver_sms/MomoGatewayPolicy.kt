@@ -51,7 +51,7 @@ object MomoGatewayPolicy {
     /** Broad financial capture, independent of a wallet registry or receipt template. */
     fun memberSource(sender: String, body: String): Boolean = providerSource(sender) &&
         body.any { it.isDigit() } &&
-        !Regex("(?:OTP|verification code|one[ -]time password|PIN\\s*(?:is|:|=)?\\s*\\d{3,8}\\b|buy\\s+(?:a\\s+)?bundle|promotion|promo\\b|airtime\\s+offer)",
+        !Regex("(?:OTP|verification code|one[ -]time password|\\bauthori[sz]ation\\s+code\\b|\\bpassword\\b|\\bmot\\s+de\\s+passe\\b|PIN\\s*(?:is|:|=)?\\s*\\d{3,8}\\b|buy\\s+(?:a\\s+)?bundle|promotion|promo\\b|airtime\\s+offer)",
             RegexOption.IGNORE_CASE).containsMatchIn(body) &&
         Regex("(?:RWF|FRW|UGX|KES|TZS|USD|EUR|transaction|txn|txid|reference|received|credited|paid|sent|revers|failed|pending|wakiriye|wahawe)",
             RegexOption.IGNORE_CASE).containsMatchIn(body)

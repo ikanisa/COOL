@@ -1,0 +1,24 @@
+{
+  "at_utc": "2026-11-01T19:33:05.869226+00:00",
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-f",
+    "/Volumes/T7/01 Projects/COLLECT/.cache/continuation-20261029/admin/flutter-focused.sb",
+    "/Volumes/CollectAdminFocusedQA20261029/admin-status-fixture/flutter/bin/cache/dart-sdk/bin/dart",
+    "analyze",
+    "test/shared/contribution_command_repository_test.dart"
+  ],
+  "cwd": "/Volumes/CollectAdminFocusedQA20261029/admin-status-fixture/member-main-20261101",
+  "exit_code": 0,
+  "elapsed_seconds": 24.028,
+  "test_file_sha256": "5ff7959b50c63b70f1588bd627857766ed276e1945e1a815aced7a5143e66433",
+  "source_and_fixture_unchanged": true,
+  "capacity_after": {
+    "/System/Volumes/Data": 20215230464,
+    "/Volumes/T7": 273467047936,
+    "/Volumes/PRO-G40": 6010515456,
+    "/Volumes/CollectAdminFocusedQA20261029": 12161290240
+  },
+  "capacity_floor_bytes": 4563402752,
+  "scope": "isolated targeted static analysis; not production acceptance"
+}

@@ -2,9 +2,11 @@ import {randomUUID} from 'node:crypto';
 import {ArchiveError,need,canonical,sha,identifier,columnType,outputExpression,sealTable,validateSnapshot} from './codec.mjs';
 import {SETTINGS} from './sql.mjs';
 export function localAdminUrl(raw){let u;try{u=new URL(raw);}catch{throw Error('LOCAL_DATABASE_URL_REQUIRED');}need(['postgres:','postgresql:'].includes(u.protocol)&&['127.0.0.1','[::1]'].includes(u.hostname)&&u.pathname==='/postgres'&&u.username&&u.password&&!u.search&&!u.hash&&(!u.port||/^\d{1,5}$/.test(u.port)&&+u.port>0&&+u.port<=65535),'LOCAL_DATABASE_URL_REQUIRED');if(!u.port)u.port='5432';return u;}
-export async function restoreInertArchive(snapshot,{adminUrl,makeClient}={}){
- validateSnapshot(snapshot);need(typeof makeClient==='function','LOCAL_CLIENT_FACTORY_REQUIRED');const u=localAdminUrl(adminUrl),name='collect_archive_'+randomUUID().replaceAll('-','')+'_test',admin=makeClient(u.href),targetUrl=new URL(u);targetUrl.pathname='/'+name;let created=false;
- await admin.connect();try{const id=(await admin.query('SELECT current_database()::text AS database,pg_catalog.host(pg_catalog.inet_server_addr()) AS address')).rows[0];need(id?.database==='postgres'&&['127.0.0.1','::1'].includes(id.address),'LOCAL_DATABASE_IDENTITY_REQUIRED');await admin.query('CREATE DATABASE '+identifier(name)+' TEMPLATE template0 ENCODING \'UTF8\'');created=true;}finally{await admin.end();}
+export function newInertDatabaseName(){return 'collect_archive_'+randomUUID().replaceAll('-','')+'_test';}
+export async function restoreInertArchive(snapshot,{adminUrl,makeClient,databaseName=newInertDatabaseName()}={}){
+ validateSnapshot(snapshot);need(typeof makeClient==='function','LOCAL_CLIENT_FACTORY_REQUIRED');need(typeof databaseName==='string'&&/^collect_archive_[0-9a-f]{32}_test$/.test(databaseName),'INERT_DATABASE_NAME_INVALID');const u=localAdminUrl(adminUrl),name=databaseName;let creationState='not_requested';
+ try{const admin=makeClient(u.href),targetUrl=new URL(u);targetUrl.pathname='/'+name;let created=false;
+ await admin.connect();try{const id=(await admin.query('SELECT current_database()::text AS database,pg_catalog.host(pg_catalog.inet_server_addr()) AS address')).rows[0];need(id?.database==='postgres'&&['127.0.0.1','::1'].includes(id.address),'LOCAL_DATABASE_IDENTITY_REQUIRED');creationState='requested_unconfirmed';await admin.query('CREATE DATABASE '+identifier(name)+' TEMPLATE template0 ENCODING \'UTF8\'');created=true;creationState='confirmed_created';}finally{await admin.end();}
  const db=makeClient(targetUrl.href);await db.connect();let begun=false;
  try{
   const id=(await db.query('SELECT current_database()::text AS database,pg_catalog.host(pg_catalog.inet_server_addr()) AS address,current_setting(\'server_version_num\') AS version')).rows[0];need(id?.database===name&&['127.0.0.1','::1'].includes(id.address)&&/^17[0-9]{4}$/.test(id.version),'LOCAL_DATABASE_IDENTITY_REQUIRED');
@@ -30,4 +32,5 @@ export async function restoreInertArchive(snapshot,{adminUrl,makeClient}={}){
   await db.query('COMMIT');begun=false;return {format:'collect.sql-archive.inert-restore-receipt.v1',database:name,created_new_database:created,snapshot_sha256:sha(canonical(snapshot)),tables:result,columns_and_native_cells_exact:true,inert_data_only:true,managed_auth_storage_ddl_dml:false,operational_functions_triggers:false,production_restore_authority:false,full_recovery_acceptance:false};
  }catch(error){const safe=error instanceof ArchiveError?error:new ArchiveError('INERT_RESTORE_FAILED');safe.database=name;throw safe;}finally{try{if(begun)await db.query('ROLLBACK');}catch{const e=new ArchiveError('LOCAL_ROLLBACK_UNCONFIRMED');e.database=name;throw e;}finally{await db.end();}}
  // Preserve failed/successful fixture databases for independent review. No drop.
+ }catch(error){const safe=error instanceof ArchiveError?error:new ArchiveError('INERT_RESTORE_FAILED');safe.database=name;safe.database_creation_state=creationState;throw safe;}
 }

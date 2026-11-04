@@ -103,9 +103,11 @@ no deployment or build. They exercise real entrypoint routing, secure cookies,
 CSRF/CORS forwarding, denied paths/origins, no retry, uncertain effects, callback
 HTML/native outcomes, synthetic signing inputs and exact 7,100,000-byte request
 and response hashes. They do not establish hosted performance or a native signer
-contract. `VERIFICATION.json` records the frozen local inputs and result.
+contract. `VERIFICATION.json` and `SHA256SUMS` are historical snapshots; they
+do not certify the subsequently modified transport and tests. The current source
+has not been qualified as a package or deployed.
 
-The default transport buffers up to 16 MiB each way and has a 30-second deadline.
+The default transport buffers up to 16 MiB each way and uses a 30-second abort signal.
 The source roster JSON limit is 7,100,000 bytes. This is why the target uses
 Netlify Edge Functions: ordinary Node Functions have a 6 MB buffered limit,
 effectively about 4.5 MB for binary requests. Edge has 512 MB memory, 50 ms CPU

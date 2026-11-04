@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Retained schema identity, offline validation and mutation refusals."""
 import importlib.util
+import contextlib
+import hashlib
+import io
 import json
 from pathlib import Path
 import shutil
@@ -29,6 +32,37 @@ class SourceSbomSchemaTest(unittest.TestCase):
 
     def test_invalid_document_returns_real_schema_errors(self):
         document=json.loads(self.document.read_text());document['bomFormat']='not-CycloneDX';self.document.write_text(json.dumps(document))
+        self.assertTrue(validator.validate(self.document))
+
+    def test_cli_digest_identifies_the_bytes_actually_validated_when_file_changes(self):
+        valid = self.document.read_bytes()
+        replacement = b'{"bomFormat":"invalid"}'
+        original_read_bytes, original_read_text = Path.read_bytes, Path.read_text
+        replaced = False
+
+        def change_after_read(path, result):
+            nonlocal replaced
+            if path == self.document and not replaced:
+                path.write_bytes(replacement)
+                replaced = True
+            return result
+
+        def read_bytes(path):
+            return change_after_read(path, original_read_bytes(path))
+
+        def read_text(path, *args, **kwargs):
+            return change_after_read(path, original_read_text(path, *args, **kwargs))
+
+        output = io.StringIO()
+        with patch.object(Path, 'read_bytes', read_bytes), patch.object(Path, 'read_text', read_text), \
+             patch('sys.argv', ['validate_source_sbom.py', str(self.document)]), contextlib.redirect_stdout(output):
+            exit_code = validator.main()
+        report = json.loads(output.getvalue())
+        self.assertTrue(replaced)
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(report['status'], 'pass')
+        self.assertEqual(report['document_sha256'], hashlib.sha256(valid).hexdigest())
+        self.assertNotEqual(report['document_sha256'], hashlib.sha256(replacement).hexdigest())
         self.assertTrue(validator.validate(self.document))
 
     def test_modified_schema_is_refused(self):

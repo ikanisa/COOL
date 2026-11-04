@@ -16,7 +16,7 @@ export class PostgresStorageJournal {
     } catch (error) { await client.query('ROLLBACK').catch(() => {}); if (error.code === '23505') conflict('storage_request_conflict'); throw error; }
     finally { client.release(); }
   }
-  async getPayloadBinding(key){return this.transaction(key,async c=>{const row=(await c.query('SELECT key_id FROM private.storage_payload_reservations WHERE object_key=$1',[key])).rows[0];return row?{keyId:row.key_id}:null;});}
+  async getPayloadBinding(key){return this.transaction(key,async c=>{const row=(await c.query('SELECT key_id,source_fingerprint FROM private.storage_payload_reservations WHERE object_key=$1',[key])).rows[0];return row?{keyId:row.key_id,sourceFingerprint:row.source_fingerprint}:null;});}
   async reservePayload(key,descriptor,sealedBody){
     const sourceFingerprint=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(canonical(descriptor))).then(b=>Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,'0')).join(''));
     if(typeof sealedBody!=='string'||!sealedBody.length||new TextEncoder().encode(sealedBody).length>10_700_000)conflict('storage_payload_size_invalid');

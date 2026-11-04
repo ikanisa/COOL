@@ -469,6 +469,16 @@ class CollectCiPolicyTest(unittest.TestCase):
                 self.assertNotIn('if', matches[0])
                 self.assertIs(matches[0].get('continue-on-error', False), False)
 
+    def test_current_native_retains_validated_momo_and_contribution_receipts(self):
+        job = self.workflows['supabase.yml']['jobs']['current-self-hosted-native']
+        upload = next(s for s in job['steps'] if s.get('uses', '').startswith('actions/upload-artifact@'))
+        paths = set(upload['with']['path'].splitlines())
+        prefix = '${{ runner.temp }}/collect-current-selfhost-native/'
+        self.assertTrue({prefix + 'MOMO.json', prefix + 'CONTRIBUTION_REVIEW.json'}.issubset(paths))
+        self.assertFalse(any('/private/' in path or path.endswith('.private.json') for path in paths))
+        warm = next(s for s in job['steps'] if s.get('name') == 'Warm and check every current native harness with frozen dependencies')
+        self.assertIn('scripts/supabase/testing/self-hosted-contribution-review-runtime.ts', warm['run'])
+
     def test_current_native_and_actual_dart_cannot_be_omitted_or_masked(self):
         original = copy.deepcopy(self.workflows)
         for name, command in [('current-self-hosted-native', policy.CURRENT_NATIVE_COMMAND),

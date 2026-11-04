@@ -1,0 +1,16 @@
+{
+  "format": "collect.current-native.synthetic.run.v1",
+  "inputs_sha256": "5f58d4355a245ef365de0bab50c48b402ff4a5ece66ea6513039f1557bcf3e4e",
+  "source_snapshot_sha256": "364bccf76a287581f7b0b8a02b7b9e24814bcb314d1878c95b59dbf319a31652",
+  "expected_current_source_sha256": "050c2d1c45013dc94137e1fd7813828fc782075f4b570ceed8272e6de078a0dd",
+  "expected_release_source_sha256": "9618a250a596575756a5e221d8e91ef09463370dffc10b7127b25e1f09430314",
+  "port": 55446,
+  "floor_bytes_each": 4563402752,
+  "cluster_cap_bytes": 2147483648,
+  "deadline_seconds": 900,
+  "expected_groups": 12,
+  "expected_migrations": 25,
+  "loopback_only": true,
+  "network_sandbox": "loopback_only",
+  "production_acceptance": false
+}

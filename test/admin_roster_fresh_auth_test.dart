@@ -226,6 +226,36 @@ void main() {
     },
   );
   test(
+    'existing-group fresh recovery can inspect but cannot transfer an unconfirmed binding',
+    () async {
+      final g = _FreshGateway();
+      final s = _Bookmarks();
+      final d = AdminRosterDraft(
+        g,
+        collectionId: rosterCollectionId,
+        bookmarkStore: s,
+      );
+      await d.listFreshRecovery();
+      await d.inspectFreshRecovery(d.interruptedImports.single);
+      expect(d.interruptedInspection, isNotNull);
+      expect(d.recoveryMessage, contains('read-only'));
+      d.affirmFreshRecovery(true);
+      expect(d.freshRecoveryAffirmed, isFalse);
+      await d.transferFreshRecovery();
+      expect(g.calls, [
+        'admin_list_interrupted_roster_imports',
+        'admin_inspect_interrupted_roster_import',
+      ]);
+      expect(d.preview, isNull);
+      expect(d.transferOutcomePending, isFalse);
+      expect(s.value, isNull);
+      expect(g.prepares, isEmpty);
+      expect(g.reviews, isEmpty);
+      expect(g.commits, isEmpty);
+      d.dispose();
+    },
+  );
+  test(
     'explicit recovery preserves upload proof and resets approval, with references-only bookmark',
     () async {
       final g = _FreshGateway(),

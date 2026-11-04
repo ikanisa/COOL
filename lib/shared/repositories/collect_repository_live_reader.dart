@@ -36,19 +36,23 @@ class _CollectLiveReader {
     String userId,
     String normalizedPhone, {
     String? countryCode,
+    required String accessToken,
   }) async {
     final backend = _backend;
     final currentUser = backend?.auth.currentUser;
     if (backend == null || currentUser == null || currentUser.id != userId) {
       throw StateError('Sign in first');
     }
-    final row = await backend.rpc<dynamic>(
-      'ensure_current_member_profile',
-      params: {
-        'p_whatsapp_phone': normalizedPhone,
-        'p_country_code': countryCode,
-      },
-    );
+    final row = await backend
+        .rpc<dynamic>(
+          'ensure_current_member_profile',
+          params: {
+            'p_whatsapp_phone': normalizedPhone,
+            'p_country_code': countryCode,
+          },
+        )
+        .setHeader('Authorization', 'Bearer $accessToken')
+        .retry(enabled: false);
     if (row == null) {
       throw StateError('Collect profile could not be created');
     }

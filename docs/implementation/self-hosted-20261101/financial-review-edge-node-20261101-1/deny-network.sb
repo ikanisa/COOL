@@ -1,0 +1,6 @@
+(version 1)
+(allow default)
+(deny network*)
+(deny file-write*)
+(allow file-write* (subpath "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/worktrees/collect-consolidation-20261101/COLLECT/docs/implementation/self-hosted-20261101/financial-review-edge-node-20261101-1"))
+(deny file-write* (subpath "/Volumes/PRO-G40/Application Data/Codex/Codex-Home/worktrees/collect-consolidation-20261101/COLLECT/docs/implementation/self-hosted-20261101/financial-review-edge-node-20261101-1/snapshot"))

@@ -1,0 +1,15 @@
+{
+  "token": "synthetic-registration-token",
+  "notification": {"title": "Collect", "body": "Open Collect to view your updates."},
+  "data": {
+    "collect_push_version": "2",
+    "collect_event_id": "00000000-0000-4000-8000-000000000001",
+    "recipient_id": "00000000-0000-4000-8000-000000000002",
+    "deep_link": "/activity",
+    "type": "contribution"
+  },
+  "android": {
+    "priority": "NORMAL", "ttl": "300s", "restricted_package_name": "app.cool.mobile",
+    "notification": {"channel_id": "collect_contributions", "tag": "collect:00000000-0000-4000-8000-000000000001", "visibility": "PRIVATE"}
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "at_utc": "2026-11-01T20:26:10.239661+00:00",
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-f",
+    "/Volumes/T7/01 Projects/COLLECT/.cache/continuation-20261029/admin/flutter-focused.sb",
+    "/Volumes/CollectAdminFocusedQA20261029/admin-status-fixture/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--reporter",
+    "expanded",
+    "test/shared/notification_preference_runtime_test.dart"
+  ],
+  "cwd": "/Volumes/CollectAdminFocusedQA20261029/admin-status-fixture/member-finality5-20261101",
+  "input_manifest_sha256": "15554a21ffb383ff38b656fc495ebd49948037c3d546b126275f99eefa0afb24",
+  "pid": 98430,
+  "exit_code": 0,
+  "direct_child_waited": true,
+  "elapsed_seconds": 29.817,
+  "termination_reason": null,
+  "signals": [],
+  "output_bytes": 5137,
+  "capacity_before": {
+    "/System/Volumes/Data": 20297392128,
+    "/Volumes/T7": 272498425856,
+    "/Volumes/PRO-G40": 5923463168,
+    "/Volumes/CollectAdminFocusedQA20261029": 10823921664
+  },
+  "capacity_after": {
+    "/System/Volumes/Data": 20293394432,
+    "/Volumes/T7": 272490954752,
+    "/Volumes/PRO-G40": 5923479552,
+    "/Volumes/CollectAdminFocusedQA20261029": 10742476800
+  },
+  "capacity_floor_bytes": 4563402752,
+  "process_group_members_after": [],
+  "changed_source_files": [],
+  "changed_fixture_inputs": [],
+  "dependency_dart_lib_and_pubspec_unchanged": true,
+  "package_config_unchanged": true,
+  "full_descendant_custody_proved": false,
+  "device_hosted_or_production_acceptance": false,
+  "toolchain_unchanged": true,
+  "suite_terminal_pass": true
+}

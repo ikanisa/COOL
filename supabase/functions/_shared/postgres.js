@@ -86,9 +86,23 @@ function quotedEnd(sql, i) {
 export function compileSql(input, values = []) {
   if (typeof input !== 'string' || !input.trim()) throw new Error('Invalid server SQL.');
   let out = '', index = 0;
+  // The explicitly marked MoMo lease clock remains ordinary unixepoch() on
+  // SQLite. PostgreSQL's app.unixepoch() is transaction-stable, so just this
+  // marker needs a moving clock after a row-lock wait. Do not alter other SQL.
+  const momoLeaseClock='unixepoch(/*collect_momo_lease_clock*/)';
   for (let i = 0; i < input.length;) {
     if (input[i] === "'" || input[i] === '"') { const end = quotedEnd(input, i); out += input.slice(i, end); i = end; continue; }
     if (input.slice(i,i+2) === '--') { const end = input.indexOf('\n',i); if (end < 0) break; out += '\n'; i=end+1; continue; }
+    if (input.slice(i,i+2) === '/*') {
+      let end=i+2,depth=1;
+      while(end<input.length&&depth){
+        if(input.slice(end,end+2)==='/*'){depth++;end+=2;}
+        else if(input.slice(end,end+2)==='*/'){depth--;end+=2;}
+        else end++;
+      }
+      if(depth)throw new Error('Unclosed SQL comment.');out+=input.slice(i,end);i=end;continue;
+    }
+    if (input.startsWith(momoLeaseClock,i)) { out+='floor(extract(epoch from pg_catalog.clock_timestamp()))::bigint';i+=momoLeaseClock.length;continue; }
     if (input[i] === '?') { out += '$' + (++index); i++; continue; }
     out += input[i++];
   }

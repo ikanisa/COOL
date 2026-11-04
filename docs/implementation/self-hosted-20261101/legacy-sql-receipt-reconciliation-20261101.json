@@ -1,0 +1,72 @@
+{
+  "format": "collect.legacy-sql-receipt-reconciliation.v1",
+  "historical_receipt_copies": [
+    {
+      "define": "ADMIN_READ_SQL_RECEIPTS",
+      "copied_path": "docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/admin_receipts.stdout",
+      "sha256": "0b3d5f33e28eb233286d4e56d5ef102e51ff25ccaea44454408fefa0bacf19f5",
+      "matches_historical_manifest": true
+    },
+    {
+      "define": "ROSTER_FRESH_SQL_RECEIPTS",
+      "copied_path": "docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/roster_fresh.stdout",
+      "sha256": "d21809a634413f426c78daaad87f9de57f98342ef7dc84ac27ca369292873984",
+      "matches_historical_manifest": true
+    },
+    {
+      "define": "ROSTER_RELOAD_SQL_RECEIPTS",
+      "copied_path": "docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/roster_reload.stdout",
+      "sha256": "a0b41c9caca78597c8aa1ad250c2ae8a75e43da934ecb6aca6a5e623fc8377af",
+      "matches_historical_manifest": true
+    },
+    {
+      "define": "ROSTER_SQL_RECEIPTS",
+      "copied_path": "docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/roster_original.stdout",
+      "sha256": "fc2e8e09e5c46c998f396c361c4cef3d20114b50460690f0ff3cca4b640661c9",
+      "matches_historical_manifest": true
+    }
+  ],
+  "test_files": [
+    {
+      "path": "test/admin_roster_sql_receipts_test.dart",
+      "current_sha256": "dee59a4d77e817a04c76d2cae65f38a7c9245110d21a850ab870f447ec75f2ac",
+      "historical_sha256": "dee59a4d77e817a04c76d2cae65f38a7c9245110d21a850ab870f447ec75f2ac",
+      "matches_historical": true
+    },
+    {
+      "path": "test/admin_roster_reload_test.dart",
+      "current_sha256": "ef9cb2dfdfb34ae36da13d1fe62ac757209e5eae0df41e6b4a497507005ce0a2",
+      "historical_sha256": "ef9cb2dfdfb34ae36da13d1fe62ac757209e5eae0df41e6b4a497507005ce0a2",
+      "matches_historical": true
+    },
+    {
+      "path": "test/admin_roster_fresh_auth_sql_receipts_test.dart",
+      "current_sha256": "e1ff2fb5e4fc6c5fcc94d75a851d61fc5e5b3ac1281163f54b77c1ca207ca43d",
+      "historical_sha256": "e1ff2fb5e4fc6c5fcc94d75a851d61fc5e5b3ac1281163f54b77c1ca207ca43d",
+      "matches_historical": true
+    },
+    {
+      "path": "test/actual_member_history_sql_receipts_test.dart",
+      "current_sha256": "fc5c358150eefb07f913e731fba32ab53de8e9dc2f39981ef4ea7f2487f22e22",
+      "historical_sha256": "fc5c358150eefb07f913e731fba32ab53de8e9dc2f39981ef4ea7f2487f22e22",
+      "matches_historical": true
+    },
+    {
+      "path": "test/admin_roster_import_test.dart",
+      "current_sha256": "001df89ff6fd1a7461fdbe3e369de6fa9d96723748a7d056208e0666b2967d63",
+      "historical_sha256": "484daa960849458b05dcc01f51ab5022980aa9f8e4c7a4d4db52ec2de8437c03",
+      "matches_historical": false
+    },
+    {
+      "path": "test/admin_read_contracts_test.dart",
+      "current_sha256": "156fbd06c4e437c7288437642b31f62053962da4c424c0e4249fe7e978e804ff",
+      "historical_sha256": "b8a660d717aef2e7bddaed2f8e42b39228181f6b11b638afacadde458dbaa886",
+      "matches_historical": false
+    }
+  ],
+  "historical_full_validation_status": "fail",
+  "history_source_at_original_path_available": false,
+  "purpose": "Historical synthetic SQL decoder compatibility inputs only. These data do not prove execution on the current self-hosted schema or close the original six current-source receipt gates.",
+  "current_sql_executed": false,
+  "production_acceptance": false
+}

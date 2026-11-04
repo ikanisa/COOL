@@ -259,7 +259,7 @@ export function createRosterDecoderBridge({
               || decoded.derived_content !== null || decoded.derived_sha256 !== null) {
             fail('roster_decoder_response_invalid');
           }
-          if (decoded.frames !== 1) fail('roster_decoder_content_unavailable');
+          if (decoded.frames !== 1) fail('roster_animated_image_unsupported');
           // The signed supervisor validated precisely these original source bytes.
           content = [{type: 'input_image', image_url: `data:${logical.mime_type};base64,${logical.content_base64}`}];
         } else if (kind === 'pdf') {

@@ -156,8 +156,13 @@ class CollectSyncInvalidationSubscription {
         },
       );
       if (_disposed || !_ownerCurrent || !_foreground) return;
+      final reconcileCurrentMember =
+          _memberRealtime != null ||
+          (_client.auth.surface == 'member' &&
+              _client.supabaseConfiguration?.deploymentProfile?.mode ==
+                  'self_hosted');
       // An old JWT reply cannot deny or invalidate a rotated token scope.
-      if (_memberRealtime != null &&
+      if (reconcileCurrentMember &&
           bearer != _client.auth.currentSession?.accessToken) {
         return;
       }
@@ -200,7 +205,7 @@ class CollectSyncInvalidationSubscription {
         _coordinator.event(row as Map<String, dynamic>);
       }
       _cursor = data['cursor'] as String;
-      if (_memberRealtime != null &&
+      if (reconcileCurrentMember &&
           (_lastReconciliation == null ||
               _now().difference(_lastReconciliation!) >=
                   const Duration(seconds: 60))) {

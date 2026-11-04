@@ -420,6 +420,67 @@ void main() {
   );
 
   test(
+    'failed financial read during a newer preference write stays uncertain until complete reload',
+    () async {
+      final h = await _Harness.create();
+      await h.repo.refreshNotificationPreferences();
+      await h.repo.reloadFull();
+      expect(h.repo.state.lastError, isNull);
+      expect(h.repo.notificationPreferencesRevision, 1);
+      expect(h.repo.state.lastSuccessfulSyncAt, isNotNull);
+      expect(h.repo.state.financialObservationUncertain, isFalse);
+      final previousSync = h.repo.state.lastSuccessfulSyncAt;
+      final read = _Barrier();
+      h.respond = (r) =>
+          _rpc(r, 'get_current_member_profile') ? read.hold() : _fallback(r);
+      final reload = h.repo.reloadFull();
+      await read.entered.future;
+      await h.repo.updateNotificationPreferences(_edit);
+      read.reply.complete(
+        _json({'code': 'synthetic_failure', 'message': 'unavailable'}, 500),
+      );
+      await reload;
+      expect(h.repo.state.financialObservationUncertain, isTrue);
+      expect(h.repo.state.usingStaleCache, isFalse);
+      expect(h.repo.state.lastSuccessfulSyncAt, previousSync);
+      expect(h.repo.state.notificationPreferences.paymentReminders, isFalse);
+      h.respond = _fallback;
+      await h.repo.reloadFull();
+      expect(h.repo.state.financialObservationUncertain, isFalse);
+      expect(h.repo.state.lastSuccessfulSyncAt, isNotNull);
+    },
+  );
+
+  test(
+    'failed preference read during a newer write leaves discarded financial observations uncertain',
+    () async {
+      final h = await _Harness.create();
+      await h.repo.refreshNotificationPreferences();
+      await h.repo.reloadFull();
+      expect(h.repo.state.lastError, isNull);
+      expect(h.repo.notificationPreferencesRevision, 1);
+      expect(h.repo.state.lastSuccessfulSyncAt, isNotNull);
+      final read = _Barrier();
+      h.respond = (r) => _rpc(r, 'get_notification_preferences_v2')
+          ? read.hold()
+          : _fallback(r);
+      final reload = h.repo.reloadFull();
+      await read.entered.future;
+      await h.repo.updateNotificationPreferences(_edit);
+      read.reply.complete(
+        _json({'code': 'synthetic_failure', 'message': 'unavailable'}, 500),
+      );
+      await reload;
+      expect(h.repo.state.financialObservationUncertain, isTrue);
+      expect(h.repo.state.usingStaleCache, isFalse);
+      expect(h.repo.state.notificationPreferences.paymentReminders, isFalse);
+      h.respond = _fallback;
+      await h.repo.reloadFull();
+      expect(h.repo.state.financialObservationUncertain, isFalse);
+    },
+  );
+
+  test(
     'a reload begun during pending write cannot overwrite its later ACK',
     () async {
       final h = await _Harness.create();
@@ -712,7 +773,8 @@ http.Response _fallback(http.Request r) {
       'next_cursor': null,
     });
   }
-  if (_rpc(r, 'list_current_user_collections') ||
+  if (r.url.path.endsWith('/v1/query/notification-events') ||
+      _rpc(r, 'list_current_user_collections') ||
       _rpc(r, 'list_current_member_collection_balances') ||
       _rpc(r, 'notification_events')) {
     return _json([]);

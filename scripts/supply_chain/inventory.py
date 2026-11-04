@@ -52,6 +52,39 @@ def read_json(path: str, sources: dict[str, str]) -> dict:
     return json.loads(source(path, sources).read_text(encoding="utf-8"))
 
 
+def locked_json(path: str, sources: dict[str, str]) -> dict:
+    """Bind the parsed lock to the same bytes and reject ambiguous JSON keys."""
+    target = ROOT / path
+    if target.is_symlink() or not target.is_file() or not target.resolve().is_relative_to(ROOT.resolve()):
+        raise ValueError("Lock source missing or outside checkout: " + path)
+    raw = target.read_bytes()
+    sources[path] = hashlib.sha256(raw).hexdigest()
+    def unique(pairs):
+        out = {}
+        for key, value in pairs:
+            if key in out:
+                raise ValueError("Duplicate JSON key in " + path)
+            out[key] = value
+        return out
+    value = json.loads(raw, object_pairs_hook=unique)
+    if not isinstance(value, dict):
+        raise ValueError("Lock object required: " + path)
+    return value
+
+
+def require_sri(value: str) -> str:
+    match = re.fullmatch(r"sha(256|384|512)-([A-Za-z0-9+/=]+)", value) if isinstance(value, str) else None
+    if not match:
+        raise ValueError("Strong lock integrity required")
+    try:
+        raw = base64.b64decode(match[2], validate=True)
+    except ValueError as error:
+        raise ValueError("Invalid lock integrity") from error
+    if len(raw) * 8 != int(match[1]) or base64.b64encode(raw).decode() != match[2]:
+        raise ValueError("Invalid lock integrity")
+    return value
+
+
 def local_tree_hash(directory: str, sources: dict[str, str] | None = None) -> tuple[str, int]:
     base = ROOT / directory
     if not base.is_dir() or base.is_symlink() or not base.resolve().is_relative_to(ROOT.resolve()):
@@ -320,6 +353,155 @@ def node_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
     return packages, projects
 
 
+LOCK_VERSION = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?")
+LOCK_NAME = re.compile(r"(?:@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*")
+
+
+def lock_name_version(key: str) -> tuple[str, str]:
+    if not isinstance(key, str) or '@' not in key:
+        raise ValueError("Exact locked package identity required")
+    name, version = key.rsplit('@', 1)
+    if not LOCK_NAME.fullmatch(name) or not LOCK_VERSION.fullmatch(version):
+        raise ValueError("Exact locked package identity required")
+    return name, version
+
+
+def deno_lock_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
+    path = 'supabase/functions/deno.lock'
+    lock = locked_json(path, sources)
+    if lock.get('version') != '5' or not all(isinstance(lock.get(k), dict) for k in ('specifiers', 'npm', 'jsr')):
+        raise ValueError('Unsupported Deno lock format')
+    packages = []
+    for ecosystem in ('npm', 'jsr'):
+        for key, entry in sorted(lock[ecosystem].items()):
+            name, version = lock_name_version(key)
+            if not isinstance(entry, dict):
+                raise ValueError('Deno locked package object required')
+            integrity = entry.get('integrity')
+            deps = entry.get('dependencies', [])
+            if not isinstance(deps, list) or any(not isinstance(dep, str) or not dep for dep in deps):
+                raise ValueError('Invalid Deno lock dependency tokens')
+            if ecosystem == 'npm':
+                integrity = require_sri(integrity)
+            elif not isinstance(integrity, str) or not re.fullmatch(r'[a-f0-9]{64}', integrity):
+                raise ValueError('Invalid JSR lock integrity token')
+            item = row(ecosystem, name, version, 'Deno lock entry; runtime/test reachability unverified', path,
+                       integrity=integrity if ecosystem == 'npm' else None, qualifier='Deno v5 lock declaration')
+            item['lock_metadata_dependencies'] = deps
+            if ecosystem == 'jsr':
+                # A JSR lock token is preserved as metadata, not asserted to be
+                # the hash of an installed package archive or image.
+                item['lock_metadata_integrity'] = integrity
+            packages.append(item)
+    for specifier, version in lock['specifiers'].items():
+        if not isinstance(specifier, str) or not isinstance(version, str) or not LOCK_VERSION.fullmatch(version):
+            raise ValueError('Invalid Deno lock specifier')
+        match = re.fullmatch(r'(npm|jsr):(.+)@([^@]+)', specifier)
+        if not match or not LOCK_NAME.fullmatch(match[2]) or match[2] + '@' + version not in lock[match[1]]:
+            raise ValueError('Deno lock specifier does not resolve to a locked entry')
+        selector = match[3]
+        requested = selector[1:] if selector[:1] in ('^', '~') else selector
+        if not LOCK_VERSION.fullmatch(requested) or (selector == requested and requested != version):
+            raise ValueError('Invalid or mismatched Deno lock specifier')
+    return packages, {'lock_version': '5', 'npm_entries': len(lock['npm']), 'jsr_entries': len(lock['jsr']),
+                      'specifier_count': len(lock['specifiers']), 'range_satisfaction': 'not evaluated',
+                      'installed_or_runtime_reachability': 'not verified'}
+
+
+def supabase_tool_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
+    directory = 'scripts/supabase'
+    manifest_path, lock_path = directory + '/package.json', directory + '/package-lock.json'
+    manifest, lock = locked_json(manifest_path, sources), locked_json(lock_path, sources)
+    entries = lock.get('packages')
+    if lock.get('lockfileVersion') != 3 or not isinstance(entries, dict) or not isinstance(entries.get(''), dict):
+        raise ValueError('Unsupported npm tooling lock format')
+    name, version = manifest.get('name'), manifest.get('version')
+    if not isinstance(name, str) or not LOCK_NAME.fullmatch(name) or not isinstance(version, str) or not LOCK_VERSION.fullmatch(version) or any(record.get('name') != name or record.get('version') != version for record in (lock, entries[''])):
+        raise ValueError('Tooling project identity mismatch')
+    declarations = {}
+    for field in ('dependencies', 'devDependencies'):
+        declared, locked = manifest.get(field, {}), entries[''].get(field, {})
+        if not isinstance(declared, dict) or declared != locked:
+            raise ValueError('Tooling manifest/lock declarations differ')
+        for name, version in declared.items():
+            if not isinstance(name, str) or not LOCK_NAME.fullmatch(name) or not isinstance(version, str) or not LOCK_VERSION.fullmatch(version) or name in declarations:
+                raise ValueError('Exact tooling declaration required')
+            declarations[name] = (field, version)
+    packages = []
+    path_pattern = re.compile(r'(?:node_modules/(?:@[^/]+/)?[^/]+/)*node_modules/(?:@[^/]+/)?[^/]+')
+    for path, entry in sorted(entries.items()):
+        if path == '':
+            continue
+        if not isinstance(path, str) or not path_pattern.fullmatch(path) or not isinstance(entry, dict) or entry.get('link'):
+            raise ValueError('Unsupported tooling lock path')
+        name = path.rsplit('node_modules/', 1)[-1]
+        version = entry.get('version')
+        if not LOCK_NAME.fullmatch(name) or not isinstance(version, str) or not LOCK_VERSION.fullmatch(version):
+            raise ValueError('Exact tooling lock version required')
+        integrity = require_sri(entry.get('integrity'))
+        url = entry.get('resolved')
+        parsed = urlsplit(url) if isinstance(url, str) else None
+        if not parsed or parsed.scheme != 'https' or not parsed.hostname or parsed.username or parsed.password or parsed.fragment:
+            raise ValueError('Resolved HTTPS tooling package required')
+        for flag in ('dev', 'optional', 'peer'):
+            if flag in entry and type(entry[flag]) is not bool:
+                raise ValueError('Invalid tooling lock flag')
+        platforms = {}
+        for field in ('os', 'cpu', 'libc'):
+            if field in entry:
+                if not isinstance(entry[field], list) or any(not isinstance(value, str) or not value for value in entry[field]):
+                    raise ValueError('Invalid tooling platform metadata')
+                platforms[field] = entry[field]
+        direct = path == 'node_modules/' + name and name in declarations
+        if direct and (version != declarations[name][1] or (declarations[name][0] == 'devDependencies') != entry.get('dev', False)):
+            raise ValueError('Tooling direct lock version or scope mismatch')
+        item = row('npm', name, version, 'tooling direct ' + declarations[name][0] if direct else 'tooling transitive or optional',
+                   lock_path, integrity=integrity, license_assertion=entry.get('license'),
+                   license_evidence='lock_metadata_only' if entry.get('license') else 'unknown', origin=url,
+                   qualifier='Supabase operator/test tooling; installed membership unverified')
+        item.update(lock_path=path, development=entry.get('dev', False), optional=entry.get('optional', False),
+                    peer=entry.get('peer', False), platform_metadata=platforms)
+        packages.append(item)
+    for name, (_, version) in declarations.items():
+        if entries.get('node_modules/' + name, {}).get('version') != version:
+            raise ValueError('Tooling direct dependency absent from lock')
+    return packages, {'lockfile_version': 3, 'locked_entries': len(packages), 'direct_declarations': len(declarations),
+                      'installed_or_artifact_membership': 'not verified'}
+
+
+def selfhost_image_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
+    path = 'deploy/self-hosted/images.lock.json'
+    lock = locked_json(path, sources)
+    services = lock.get('services')
+    if lock.get('format') != 'collect.selfhost.images.v1' or not isinstance(services, dict) or not services:
+        raise ValueError('Unsupported self-host image lock')
+    packages, count = [], 0
+    for service, entry in sorted(services.items()):
+        if not isinstance(service, str) or not re.fullmatch(r'[a-z0-9][a-z0-9_-]*', service) or not isinstance(entry, dict):
+            raise ValueError('Invalid image service')
+        tag, reference, manifest, platforms = (entry.get(key) for key in ('tag', 'reference', 'manifest_digest', 'platforms'))
+        if not isinstance(tag, str) or not re.fullmatch(r'[^\s@]+', tag) or not isinstance(manifest, str) or not re.fullmatch(r'sha256:[a-f0-9]{64}', manifest) or reference != tag + '@' + manifest:
+            raise ValueError('Image tag/reference/manifest mismatch')
+        if not isinstance(platforms, list) or not platforms:
+            raise ValueError('Declared image platform descriptors required')
+        seen = set()
+        for descriptor in platforms:
+            if not isinstance(descriptor, dict) or not set(descriptor).issubset({'os', 'architecture', 'digest', 'variant', 'os.version'}) or not all(isinstance(descriptor.get(k), str) and descriptor[k] for k in ('os', 'architecture', 'digest')) or not re.fullmatch(r'sha256:[a-f0-9]{64}', descriptor['digest']):
+                raise ValueError('Invalid image platform descriptor')
+            if any(not isinstance(value, str) or not value for value in descriptor.values()):
+                raise ValueError('Invalid image platform descriptor')
+            key = json.dumps(descriptor, sort_keys=True, separators=(',', ':'))
+            if key in seen:
+                raise ValueError('Duplicate image platform descriptor')
+            seen.add(key)
+        item = row('oci', tag, None, 'self-host image manifest declaration', path, origin=reference,
+                   qualifier='Service ' + service + '; image contents and platform selection unverified')
+        item.update(image_service=service, declared_manifest_digest=manifest, declared_platforms=platforms)
+        packages.append(item);count += len(platforms)
+    return packages, {'services': len(packages), 'platform_descriptors': count,
+                      'pulled_or_deployed_image_contents': 'not verified'}
+
+
 def ruby_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
     gemfile = source("Gemfile", sources).read_text(encoding="utf-8")
     lock = source("Gemfile.lock", sources).read_text(encoding="utf-8")
@@ -467,6 +649,8 @@ def build() -> dict:
         ("dart", dart_packages), ("gradle", gradle_packages),
         ("ios", ios_packages),
         ("node", node_packages), ("ruby", ruby_packages), ("decoder", decoder_packages),
+        ("supabase_deno", deno_lock_packages), ("supabase_tooling", supabase_tool_packages),
+        ("selfhost_images", selfhost_image_packages),
     ):
         rows, check = collector(sources)
         package_rows.extend(rows)
@@ -484,6 +668,8 @@ def build() -> dict:
                 "pubspec.lock and declared local Dart forks, regular-source tree hashes, license texts and provenance", "Gradle declarations and wrapper versions",
                 "Podfile.lock", "two Swift Package.resolved files",
                 "Cloudflare service and public-photography npm locks", "Gemfile.lock", "pubspec declared asset paths and fonts",
+                "Supabase Deno npm/JSR lock declarations and Supabase operator/test tooling npm lock",
+                "self-host service image manifest and platform descriptor declarations",
                 "Rwanda group runtime derivative hash checks",
                 "Linux aarch64/Python3.12 roster decoder wheel hashes and OCI base digest declarations",
                 "Reviewed app production compile/runtime Gradle dependency lock entries when present",
@@ -493,6 +679,7 @@ def build() -> dict:
                 "installed SDK/cache contents", "native artifact contents and signed AAB/IPA SBOM",
                 "registry advisory/current maintenance queries", "full asset reachability and legal license approval",
                 "decoder image platform attestation and installed wheel contents",
+                "Supabase Deno range satisfaction and runtime/test reachability, installed tooling membership and pulled/deployed image contents or platform attestation",
             ],
         },
         "source_sha256": dict(sorted(sources.items())),

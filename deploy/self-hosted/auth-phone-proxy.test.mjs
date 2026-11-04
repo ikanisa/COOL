@@ -93,3 +93,113 @@ test('network failures and oversized provider replies never expose credentials o
   const f=fixture({},reply),response=await f.handle(request('/user'));assert.equal(response.status,503);assert(!((await response.text()).includes('secret')));
  }
 });
+
+function fragmented(bytes,emptyPerByte=1){
+ let position=0,empty=0;
+ return new ReadableStream({pull(controller){
+  if(position===bytes.length){controller.close();return;}
+  if(empty++<emptyPerByte){controller.enqueue(new Uint8Array());return;}
+  empty=0;controller.enqueue(bytes.subarray(position,++position));
+ }});
+}
+
+test('fragmented request and upstream bodies respect byte limits and preserve bytes',async()=>{
+ const encoder=new TextEncoder(),requestText='{"email":"'+'x'.repeat(16372)+'"}';
+ const requestBytes=encoder.encode(requestText);assert.equal(requestBytes.length,16384);
+ for(const extra of [0,1]){
+  const bytes=extra?encoder.encode(requestText+' '):requestBytes,f=fixture();
+  const input=new Request(profile.supabase_origin+'/auth/v1/recover',{method:'POST',duplex:'half',headers:{'Content-Type':'application/json'},body:fragmented(bytes)});
+  const result=await f.handle(input);assert.equal(result.status,extra?413:200);assert.equal(f.calls.length,extra?0:1);
+  if(!extra)assert.deepEqual(f.calls[0].options.body,requestBytes);
+ }
+ for(const extra of [0,1]){
+  const bytes=new Uint8Array(65536+extra).fill(97),f=fixture({},()=>new Response(fragmented(bytes,0)));
+  const response=await f.handle(request('/user'));assert.equal(response.status,extra?503:200);
+  if(!extra)assert.deepEqual(new Uint8Array(await response.arrayBuffer()),bytes);
+ }
+});
+
+test('abort cancels a stalled incoming stream without invoking the provider',async()=>{
+ const aborter=new AbortController();let started,cancelled=false;
+ const pending=new Promise(resolve=>{started=resolve;});
+ const body=new ReadableStream({pull(){started();return new Promise(()=>{});},cancel(){cancelled=true;}});
+ const f=fixture(),input=new Request(profile.supabase_origin+'/auth/v1/recover',{method:'POST',duplex:'half',headers:{'Content-Type':'application/json'},body,signal:aborter.signal});
+ const operation=f.handle(input);await pending;aborter.abort();
+ const response=await operation;assert.equal(response.status,503);assert.equal(f.calls.length,0);assert.equal(cancelled,true);
+});
+
+test('upstream abort returns promptly even when cancellation rejects or never settles',async()=>{
+ for(const cancellation of ['reject','pending']){
+  const aborter=new AbortController();let started,rejectRead,cancelled=0;
+  const pending=new Promise(resolve=>{started=resolve;});
+  const body={getReader(){return {
+   read(){started();return new Promise((_,reject)=>{rejectRead=reject;});},
+   cancel(){cancelled++;return cancellation==='reject'?Promise.reject(Error('synthetic cancel')):new Promise(()=>{});},
+  };}};
+  const f=fixture({},()=>({status:200,body,headers:new Headers()}));
+  const operation=f.handle(request('/user',undefined,{signal:aborter.signal}));
+  await pending;aborter.abort();let timer;
+  const response=await Promise.race([operation,new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('abort did not settle')),1000);})]).finally(()=>clearTimeout(timer));
+  assert.equal(response.status,503);assert.equal(cancelled,1);assert.equal(f.calls.length,1);
+  rejectRead(Error('synthetic late read'));await new Promise(resolve=>setImmediate(resolve));
+ }
+});
+
+test('a non-byte upstream chunk fails closed',async()=>{
+ const f=fixture({},()=>new Response(new ReadableStream({start(controller){controller.enqueue('not bytes');controller.close();}})));
+ assert.equal((await f.handle(request('/user'))).status,503);
+});
+
+test('OpenSMS token grants inspect JSON bytes independently of Content-Type',async()=>{
+ const phoneBodies=[
+  '{"phone":"+250700000000","password":"synthetic"}',
+  '{"PHONE":"+250700000000","password":"synthetic"}',
+  '{"\\u0070hone":"+250700000000","password":"synthetic"}',
+  '{"phone":"+250700000000","phone":null}',
+  '{"phone":null,"phone":"+250700000000"}',
+  '{"Phone":"+250700000000","PHONE":null}',
+  '{"PHONE":null,"Phone":"+250700000000"}',
+ ];
+ for(const contentType of ['application/json','text/plain','application/octet-stream','']){
+  for(const body of phoneBodies){
+   const f=fixture(),headers={apikey:'synthetic','Content-Type':contentType};
+   const response=await f.handle(request('/token?grant_type=password',body,{headers}));
+   assert.equal(response.status,403);assert.equal(f.calls.length,0);
+  }
+ }
+ const missing=fixture(),headers=new Headers({apikey:'synthetic'});
+ const input=new Request(profile.supabase_origin+'/auth/v1/token?grant_type=password',{method:'POST',headers,body:new TextEncoder().encode(phoneBodies[0])});
+ assert.equal((await missing.handle(input)).status,403);assert.equal(missing.calls.length,0);
+ for(const path of ['/token/?grant_type=password','/token?grant_type=password&PHONE=synthetic']){
+  const f=fixture();const response=await f.handle(request(path,phoneBodies[0],{headers:{'Content-Type':'text/plain'}}));
+  assert.equal(response.status,403);assert.equal(f.calls.length,0);
+ }
+ const queryOnly=fixture();
+ assert.equal((await queryOnly.handle(request('/token?grant_type=password&PHONE=synthetic','{"email":"member@example.invalid","password":"synthetic"}',{headers:{'Content-Type':'text/plain'}}))).status,403);
+ assert.equal(queryOnly.calls.length,0);
+ const slashAllowed=fixture();
+ assert.equal((await slashAllowed.handle(request('/token/?grant_type=refresh_token','{"refresh_token":"synthetic"}',{headers:{'Content-Type':'text/plain'}}))).status,200);
+ assert.equal(slashAllowed.calls.length,1);
+ for(const body of ['{','[]','null','"value"']){
+  const f=fixture();const response=await f.handle(request('/token?grant_type=password',body,{headers:{'Content-Type':'text/plain'}}));
+  assert.equal(response.status,400);assert.equal(f.calls.length,0);
+ }
+ const invalid=fixture();const bad=new Request(profile.supabase_origin+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'Content-Type':'text/plain'},body:new Uint8Array([0xff])});
+ assert.equal((await invalid.handle(bad)).status,400);assert.equal(invalid.calls.length,0);
+});
+
+test('OpenSMS retains email and refresh grants; native modes retain phone grants',async()=>{
+ for(const [grant,body] of [['password','{"email":"member@example.invalid","password":"synthetic"}'],['refresh_token','{"refresh_token":"synthetic"}']]){
+  for(const contentType of ['application/json','text/plain','']){
+   const f=fixture();const response=await f.handle(request('/token?grant_type='+grant,body,{headers:{'Content-Type':contentType}}));
+   assert.equal(response.status,200);assert.equal(f.calls.length,1);
+   assert.equal(new TextDecoder().decode(f.calls[0].options.body),body);
+   assert.equal(f.calls[0].options.headers.get('Content-Type'),contentType);
+  }
+ }
+ for(const mode of ['twilio','twilio_verify'])for(const contentType of ['application/json','text/plain']){
+  const body='{"phone":"+250700000000","password":"synthetic"}',f=fixture({AUTH_PHONE_DELIVERY_MODE:mode});
+  const response=await f.handle(request('/token?grant_type=password',body,{headers:{'Content-Type':contentType}}));
+  assert.equal(response.status,200);assert.equal(f.calls.length,1);assert.equal(new TextDecoder().decode(f.calls[0].options.body),body);
+ }
+});

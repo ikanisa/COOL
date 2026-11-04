@@ -1,0 +1,66 @@
+{
+  "argv": [
+    "/usr/bin/sandbox-exec",
+    "-f",
+    "/Volumes/T7/01 Projects/COLLECT/.cache/continuation-20261029/admin/flutter-focused.sb",
+    "/Volumes/CollectAdminFocusedQA20261029/admin-status-fixture/flutter/bin/flutter",
+    "test",
+    "--no-pub",
+    "--concurrency=1",
+    "--plain-name",
+    "member home compares the current implementation regression baseline",
+    "--reporter",
+    "expanded",
+    "test/goldens/collect_core_surfaces_golden_test.dart"
+  ],
+  "artifacts": [
+    {
+      "bytes": 74183,
+      "kind": "candidate",
+      "name": "member_home_dark.png",
+      "sha256": "3662ba0e4ec42c0bc87348acc0f2b530f971e11aa25c19d6abf0fdfa05479336"
+    }
+  ],
+  "at_utc": "2026-11-01T19:53:18.279765+00:00",
+  "baselines_refreshed": false,
+  "capacity_after": {
+    "/System/Volumes/Data": 20509368320,
+    "/Volumes/CollectAdminFocusedQA20261029": 11894452224,
+    "/Volumes/PRO-G40": 5982248960,
+    "/Volumes/T7": 273225744384
+  },
+  "capacity_before": {
+    "/System/Volumes/Data": 20940279808,
+    "/Volumes/CollectAdminFocusedQA20261029": 12013404160,
+    "/Volumes/PRO-G40": 5984387072,
+    "/Volumes/T7": 273460887552
+  },
+  "capacity_floor_bytes": 4563402752,
+  "child_elapsed_seconds": 56.488,
+  "cwd": "/Volumes/CollectAdminFocusedQA20261029/admin-status-fixture/home-golden-main-20261101-a4c3e1/workspace",
+  "dependency_cache_changes": [],
+  "dependency_cache_sha256_after": "32fce0ff976552a56f9fe0219902aa315e2c01f948a80f7c8b3317820f7e9bda",
+  "dependency_cache_sha256_before": "32fce0ff976552a56f9fe0219902aa315e2c01f948a80f7c8b3317820f7e9bda",
+  "design_or_device_acceptance": false,
+  "direct_child_waited": true,
+  "elapsed_including_post_verification_seconds": 234.78,
+  "exit_code": 0,
+  "fixture_input_changes": [],
+  "full_descendant_custody_proved": false,
+  "output_bytes": 358,
+  "package_config_unchanged": true,
+  "package_graph_unchanged": true,
+  "plugin_metadata_unchanged": true,
+  "process_group_members_after": [],
+  "sandbox_unchanged": true,
+  "sdk_changes": [],
+  "sdk_sha256_after": "0e6044e5472e717f91a3622d40f0b2f97023a7706cf51a8c710f7fe686d563ab",
+  "sdk_sha256_before": "0e6044e5472e717f91a3622d40f0b2f97023a7706cf51a8c710f7fe686d563ab",
+  "signals": [],
+  "source_changes": [],
+  "source_head_after": "14f32d43961cd566e8834dae841ba67e475b21f5",
+  "source_sha256_after": "802d9ff69b95b8fca43dfc2e6a7476e9c8ce6d3762a62e22a630f608128dd767",
+  "source_sha256_before": "802d9ff69b95b8fca43dfc2e6a7476e9c8ce6d3762a62e22a630f608128dd767",
+  "strict_comparator_modified": false,
+  "termination_reason": null
+}

@@ -630,3 +630,60 @@ test('ordinary member reads and Admin OPTIONS keep non-effectful unavailable cla
     assert.equal(response.status,502);assert.deepEqual(await response.json(),{code:'proxy_unavailable'});assert.equal(calls,1);
   }
 });
+
+// Cancellation is not proof that the source stopped. An uncooperative or
+// rejecting source must not hold an already-refused transport request open.
+test('unsettled upstream cancellations do not delay qualified error responses',async()=>{
+ const scenarios=[
+  ['stream','proxy_response_too_large',200,{}],
+  ['declared','proxy_response_too_large',200,{'content-length':'3'}],
+  ['redirect','proxy_redirect_denied',302,{location:'https://other.invalid'}],
+  ['encoding','proxy_encoding_unqualified',200,{'content-encoding':'gzip'}],
+ ];
+ for(const [kind,reason,status,headers] of scenarios){
+  for(const [method,path,effectful] of [['GET','/v1/example',false],['POST','/v1/example',true],['GET','/api/admin/users',true]]){
+   let cancelled=0,calls=0,outgoing;
+   const body=new ReadableStream({start(controller){controller.enqueue(new Uint8Array([1,2,3]));},cancel(){cancelled++;return new Promise(()=>{});}});
+   const {handle}=fixture({timeoutMs:20,maxResponseBytes:2,fetchImpl:async request=>{calls++;outgoing=request;return new Response(body,{status,headers});}});
+   const options={method,...(method==='POST'?{body:'{}'}:{})};let timer;
+   const response=await Promise.race([handle(request(path,options)),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('transport remained pending')),500);})]).finally(()=>clearTimeout(timer));
+   assert.equal(response.status,502,kind+' '+method+' '+path);
+   assert.deepEqual(await response.json(),effectful?{code:'proxy_outcome_unknown',reason}:{code:reason});
+   assert.equal(calls,1);assert.equal(cancelled,1);assert.equal(outgoing.signal.aborted,true);
+  }
+ }
+});
+
+test('oversized request returns before its cancellation settles and never dispatches',async()=>{
+ let cancelled=0,calls=0,timer;
+ const body=new ReadableStream({start(controller){controller.enqueue(new Uint8Array([1,2,3]));},cancel(){cancelled++;return new Promise(()=>{});}});
+ const {handle}=fixture({timeoutMs:20,maxRequestBytes:2,fetchImpl:async()=>{calls++;return new Response('{}');}});
+ const input=request('/v1/example',{method:'POST',body,duplex:'half'});
+ const response=await Promise.race([handle(input),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('transport remained pending')),500);})]).finally(()=>clearTimeout(timer));
+ assert.equal(response.status,413);assert.deepEqual(await response.json(),{code:'proxy_request_too_large'});
+ assert.equal(cancelled,1);assert.equal(calls,0);
+});
+
+test('late cancellation completion or rejection and synchronous throws are observed safely',async()=>{
+ for(const outcome of ['resolve','reject']){
+  let settle,calls=0;
+  const body=new ReadableStream({start(controller){controller.enqueue(new Uint8Array([1,2,3]));},cancel(){return new Promise((resolve,reject)=>{settle=outcome==='resolve'?resolve:()=>reject(Error('synthetic cancellation failure'));});}});
+  const {handle}=fixture({timeoutMs:20,maxResponseBytes:2,fetchImpl:async()=>{calls++;return new Response(body);}});
+  let timer;const response=await Promise.race([handle(request('/v1/example')),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('transport remained pending')),500);})]).finally(()=>clearTimeout(timer));
+  assert.equal(response.status,502);assert.deepEqual(await response.json(),{code:'proxy_response_too_large'});assert.equal(calls,1);
+  settle();await new Promise(resolve=>setTimeout(resolve,10));
+ }
+ const headers=new Headers({location:'https://other.invalid'});
+ const {handle}=fixture({fetchImpl:async()=>({status:302,headers,body:{cancel(){throw Error('synthetic synchronous cancellation failure');}}})});
+ const response=await handle(request('/v1/example'));
+ assert.equal(response.status,502);assert.deepEqual(await response.json(),{code:'proxy_redirect_denied'});
+});
+
+test('successful responses clear the deadline and detach caller abort handling',async()=>{
+ const caller=new AbortController();let outgoing;
+ const {handle}=fixture({timeoutMs:20,fetchImpl:async request=>{outgoing=request;return Response.json({ok:true});}});
+ const response=await handle(request('/v1/example',{signal:caller.signal}));
+ assert.equal(response.status,200);assert.deepEqual(await response.json(),{ok:true});
+ await new Promise(resolve=>setTimeout(resolve,50));assert.equal(outgoing.signal.aborted,false);
+ caller.abort();await Promise.resolve();assert.equal(outgoing.signal.aborted,false);
+});

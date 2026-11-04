@@ -7,6 +7,17 @@ class MomoUssdLauncher {
 
   static const MethodChannel _channel = MethodChannel('collect/momo_ussd');
 
+  /// Ask before obtaining a fresh payment review. Permission never opens USSD.
+  Future<bool> ensurePermission() async {
+    try {
+      return await _channel.invokeMethod<bool>('ensurePermission') ?? false;
+    } on MissingPluginException {
+      return false;
+    } on PlatformException {
+      return false;
+    }
+  }
+
   Future<bool> launch({
     required String receiver,
     required int amountRwf,
@@ -28,10 +39,10 @@ class MomoUssdLauncher {
           false;
     } on MissingPluginException {
       return false;
-    } on PlatformException catch (error) {
-      throw StateError(
-        error.message ?? 'MoMo USSD is unavailable on this device.',
-      );
+    } on PlatformException {
+      // A lost native reply can follow an attempted handoff. Keep the caller
+      // in its conservative manual/confirmation state rather than retrying.
+      return false;
     }
   }
 }

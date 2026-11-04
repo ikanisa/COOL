@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../profile/member_profile_gate.dart';
@@ -8,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/payments/momo_ussd_launcher.dart';
 import '../../core/payments/momo_ussd_intent_guard.dart';
+import '../../core/payments/rwf_submission_amount.dart';
 import '../../core/utils/money_format.dart';
 import '../../core/utils/date_format.dart';
 import '../../l10n/collect_localizations.dart';
@@ -473,63 +475,72 @@ class _RwandaMomoContributionFlowState
                   ],
                 ),
               ),
-              actions: _NativeContributionBottomBar(
-                primaryLabel: isAmountStep
-                    ? (_working
-                          ? l10n.text('preparingMomo')
-                          : l10n.text('continueToMomo'))
-                    : isCommitted
-                    ? 'View activity'
-                    : _awaitingConfirmation
-                    ? (_working ? 'Checking payment' : 'Check payment')
-                    : (_working
-                          ? l10n.text('openingMomo')
-                          : l10n.text('openMomoUssd')),
-                primaryIcon: isAmountStep
-                    ? CollectIcons.arrowForward
-                    : isCommitted
-                    ? CollectIcons.activity
-                    : _awaitingConfirmation
-                    ? Icons.refresh_rounded
-                    : CollectIcons.momo,
-                onPrimary:
-                    _working ||
-                        (isAmountStep &&
-                            (int.tryParse(_amount.text.replaceAll(',', '')) ??
-                                    0) <=
-                                0)
-                    ? null
-                    : isAmountStep
-                    ? _prepare
-                    : isCommitted
-                    ? () => context.go(
-                        Uri(
-                          path: '/groups/${widget.collectionId}/ledger',
-                          queryParameters: {'payment_id': _intent!.paymentId!},
-                        ).toString(),
-                      )
-                    : _awaitingConfirmation
-                    ? _checkPayment
-                    : _openUssd,
-                secondaryLabel: isAmountStep || isCommitted
-                    ? null
-                    : _awaitingConfirmation
-                    ? 'Back to group'
-                    : l10n.text('editAmount'),
-                onSecondary: _working || isAmountStep
-                    ? null
-                    : _awaitingConfirmation
-                    ? () => context.go('/groups/${widget.collectionId}')
-                    : () => setState(() {
-                        _intent = null;
-                        _preparedProfileId = null;
-                        _preparedRepository = null;
-                        _preparedSessionGeneration = null;
-                        _awaitingConfirmation = false;
-                        _momoRequestOpened = false;
-                        _manualInstructions = false;
-                        _error = null;
-                      }),
+              actions: ValueListenableBuilder<TextEditingValue>(
+                valueListenable: _amount,
+                builder: (context, amountValue, _) =>
+                    _NativeContributionBottomBar(
+                      primaryLabel: isAmountStep
+                          ? (_working
+                                ? l10n.text('preparingMomo')
+                                : l10n.text('continueToMomo'))
+                          : isCommitted
+                          ? 'View activity'
+                          : _awaitingConfirmation
+                          ? (_working ? 'Checking payment' : 'Check payment')
+                          : (_working
+                                ? l10n.text('openingMomo')
+                                : l10n.text('openMomoUssd')),
+                      primaryIcon: isAmountStep
+                          ? CollectIcons.arrowForward
+                          : isCommitted
+                          ? CollectIcons.activity
+                          : _awaitingConfirmation
+                          ? Icons.refresh_rounded
+                          : CollectIcons.momo,
+                      onPrimary:
+                          _working ||
+                              (isAmountStep &&
+                                  parseRwfSubmissionAmount(
+                                        amountValue.text,
+                                        isComposing:
+                                            !amountValue.composing.isCollapsed,
+                                      ) ==
+                                      null)
+                          ? null
+                          : isAmountStep
+                          ? _prepare
+                          : isCommitted
+                          ? () => context.go(
+                              Uri(
+                                path: '/groups/${widget.collectionId}/ledger',
+                                queryParameters: {
+                                  'payment_id': _intent!.paymentId!,
+                                },
+                              ).toString(),
+                            )
+                          : _awaitingConfirmation
+                          ? _checkPayment
+                          : _openUssd,
+                      secondaryLabel: isAmountStep || isCommitted
+                          ? null
+                          : _awaitingConfirmation
+                          ? 'Back to group'
+                          : l10n.text('editAmount'),
+                      onSecondary: _working || isAmountStep
+                          ? null
+                          : _awaitingConfirmation
+                          ? () => context.go('/groups/${widget.collectionId}')
+                          : () => setState(() {
+                              _intent = null;
+                              _preparedProfileId = null;
+                              _preparedRepository = null;
+                              _preparedSessionGeneration = null;
+                              _awaitingConfirmation = false;
+                              _momoRequestOpened = false;
+                              _manualInstructions = false;
+                              _error = null;
+                            }),
+                    ),
               ),
             ),
           ),
@@ -905,7 +916,11 @@ class _RwandaMomoContributionFlowState
       );
       return;
     }
-    final amount = int.tryParse(_amount.text.replaceAll(RegExp(r'\D'), ''));
+    final amountValue = _amount.value;
+    final amount = parseRwfSubmissionAmount(
+      amountValue.text,
+      isComposing: !amountValue.composing.isCollapsed,
+    );
     if (amount == null || amount <= 0) {
       setState(
         () => _error = CollectLocalizations.of(
@@ -991,6 +1006,20 @@ class _RwandaMomoContributionFlowState
     try {
       if (!current()) {
         throw StateError('Account changed');
+      }
+      if (copyValue == null &&
+          !kIsWeb &&
+          defaultTargetPlatform == TargetPlatform.android) {
+        final allowed = await const MomoUssdLauncher().ensurePermission();
+        if (!current()) return;
+        if (!allowed) {
+          setState(() {
+            _error =
+                'Phone permission is required to open MoMo. '
+                'You can use the payment details below instead.';
+          });
+          return;
+        }
       }
       // Creation replay is historical. Only the separate current-review RPC
       // can supply this type, followed by durable provider-handoff custody.

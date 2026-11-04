@@ -4,6 +4,7 @@ const SHA=/^[a-f0-9]{64}$/, UUID=/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/
 export const FENCE_IO_TIMEOUT_MS=5000;
 const KINDS=new Set(['http_collect','http_admin','jobs']);
 const contexts=new WeakSet();
+const reservedDispatches=new WeakMap();
 const unavailable=()=>new ApiError(503,'application_fence_unavailable','The service is temporarily unavailable. Keep the original request pending.');
 const closed=()=>new ApiError(503,'application_fenced','The service is temporarily paused. Keep the original request pending.');
 const need=(value)=>{if(!value)throw unavailable();};
@@ -73,7 +74,7 @@ export async function openApplicationWork({backend,sourceSha256,kind,id=crypto.r
 }
 
 class ApplicationWork{
- constructor(backend,lease,id,epoch,source,kind){this.backend=backend;this.lease=lease;this.id=id;this.epoch=epoch;this.source=source;this.kind=kind;this.phase='running';this.lost=false;this.pending=new Set();this.dispatches=[];this.responses=new Map();this.lostReason=null;this.check=Promise.resolve();this.completion=null;}
+ constructor(backend,lease,id,epoch,source,kind){this.backend=backend;this.lease=lease;this.id=id;this.epoch=epoch;this.source=source;this.kind=kind;this.phase='running';this.lost=false;this.externalOutcomeUnconfirmed=false;this.pending=new Set();this.dispatches=[];this.responses=new Map();this.lostReason=null;this.check=Promise.resolve();this.completion=null;}
  tuple(){return [this.id,this.epoch,this.source];}
  async assert(){
   need(['running','finishing'].includes(this.phase)&&!this.lost);
@@ -92,18 +93,33 @@ class ApplicationWork{
   // caller cannot let finish() overtake a queued permission check/provider start.
   return this.track((async()=>{await this.assert();this.dispatches.push(record);return operation();})(),record);
  }
+ reserveDispatch(label){
+  need(this.phase==='running'&&typeof label==='string'&&/^[a-z_]{1,40}$/.test(label));
+  const token=Object.freeze({});let release;
+  const pending=new Promise(resolve=>{release=resolve;});this.track(pending);
+  reservedDispatches.set(token,{owner:this,label,record:{label,unknown:false},used:false,released:false,release});return token;
+ }
+ reserved(token,label){const item=reservedDispatches.get(token);need(item?.owner===this&&(label===undefined||item.label===label));return item;}
+ unknownReserved(token){this.reserved(token).record.unknown=true;}
+ releaseReserved(token){const item=this.reserved(token);if(!item.released){item.released=true;item.release();}}
+ dispatchReserved(token,label,operation){
+  const item=this.reserved(token,label);need(!item.used&&!item.released&&typeof operation==='function'&&['running','finishing'].includes(this.phase));item.used=true;
+  const result=this.track((async()=>{await this.assert();this.dispatches.push(item.record);return operation();})(),item.record);
+  this.releaseReserved(token);return result;
+ }
  unknown(label){const record=this.dispatches.findLast(row=>row.label===label);if(record)record.unknown=true;}
+ unconfirmedExternalOutcome(){this.assertLocal();this.externalOutcomeUnconfirmed=true;}
  assertLocal(){need(['running','finishing'].includes(this.phase));}
  abandon(reason='work_lost'){this.assertLocal();need(['work_lost','lease_lost'].includes(reason));this.lost=true;this.lostReason=reason;}
  async local(operation){this.assertLocal();need(typeof operation==='function');return this.track(Promise.resolve().then(operation));}
- retainResponse(response,label){this.assertLocal();if(response?.body&&!this.responses.has(response))this.responses.set(response,{label,handled:false});}
+ retainResponse(response,label,onUnknown=()=>this.unknown(label)){this.assertLocal();if(response?.body&&!this.responses.has(response))this.responses.set(response,{label,onUnknown,handled:false});}
  cleanupResponses(){
   for(const [response,item]of this.responses){if(item.handled)continue;item.handled=true;
    if(!response.body||response.bodyUsed)continue;
    // A locked body without any tracked owner is unproven work, not settlement.
-   if(response.body.locked){this.lost=true;this.lostReason='work_lost';this.unknown(item.label);continue;}
-   this.unknown(item.label);let raw;try{raw=response.body.cancel();}catch{this.lost=true;this.lostReason='work_lost';continue;}
-   this.track(Promise.resolve(raw).catch(()=>{this.unknown(item.label);}));
+   if(response.body.locked){this.lost=true;this.lostReason='work_lost';item.onUnknown();continue;}
+   item.onUnknown();let raw;try{raw=response.body.cancel();}catch{this.lost=true;this.lostReason='work_lost';continue;}
+   this.track(Promise.resolve(raw).catch(()=>{item.onUnknown();}));
   }
  }
  waitUntil(promise){need(['running','finishing'].includes(this.phase));return this.track(promise);}
@@ -114,7 +130,7 @@ class ApplicationWork{
     // A tracked task may register further raw work before it settles.
     while(true){while(this.pending.size)await Promise.all([...this.pending]);this.cleanupResponses();if(this.pending.size)continue;try{await this.assert();}catch{this.lost=true;}this.cleanupResponses();if(!this.pending.size)break;}
     this.phase='closing';const uncertain=this.dispatches.filter(row=>row.unknown).length;
-    const outcome=this.lost?'unresolved':'settled',reason=this.lost?(this.lostReason??'lease_lost'):uncertain?'completed_with_unknown_obligation':failed&&this.dispatches.length===0?'work_failed_before_dispatch':'completed';
+    const outcome=this.lost||this.externalOutcomeUnconfirmed?'unresolved':'settled',reason=this.lost?(this.lostReason??'lease_lost'):this.externalOutcomeUnconfirmed?'dispatch_unconfirmed':uncertain?'completed_with_unknown_obligation':failed&&this.dispatches.length===0?'work_failed_before_dispatch':'completed';
     const verify=row=>{base(row,this.id,this.source,this.epoch);need(row.state===outcome&&row.reason===reason&&row.externalDispatches===this.dispatches.length&&row.uncertainDispatches===uncertain);return row;};
     let row;
     try{row=verify(await this.backend.close(this.id,this.epoch,this.source,outcome,reason,this.dispatches.length,uncertain));}
@@ -131,20 +147,21 @@ class ApplicationWork{
 
 export function applicationWork(env){const work=env?.COLLECT_FENCE_WORK;need(contexts.has(work));return work;}
 export function applicationWorkTuple(work){need(contexts.has(work));return work.tuple();}
-function guardedResponse(response,work,label){
+function guardedResponse(response,work,label,onUnknown=()=>work.unknown(label)){
  const readers=new Set(['json','text','arrayBuffer','blob','formData','bytes']),methods=new Map();
  const proxy=new Proxy(response,{get(target,key){const value=Reflect.get(target,key,target);if(typeof value!=='function')return value;
   if(methods.has(key))return methods.get(key);let method;
-  if(readers.has(key))method=(...args)=>work.local(async()=>{try{return await value.apply(target,args);}catch(error){work.unknown(label);throw error;}});
-  else if(key==='clone')method=(...args)=>{work.assertLocal();return guardedResponse(value.apply(target,args),work,label);};
+  if(readers.has(key))method=(...args)=>work.local(async()=>{try{return await value.apply(target,args);}catch(error){onUnknown();throw error;}});
+  else if(key==='clone')method=(...args)=>{work.assertLocal();return guardedResponse(value.apply(target,args),work,label,onUnknown);};
   else method=value.bind(target);methods.set(key,method);return method;
- }});work.retainResponse(proxy,label);return proxy;
+ }});work.retainResponse(proxy,label,onUnknown);return proxy;
 }
-export async function guardedFetch(env,label,input,options){
+export async function guardedFetch(env,label,input,options,reservation){
  const work=applicationWork(env);
+ const onUnknown=reservation===undefined?()=>work.unknown(label):()=>work.unknownReserved(reservation);
  // Span includes late response registration, so an abort after headers cannot
  // race finish() before unread-body cleanup becomes owned durable work.
- return work.waitUntil((async()=>{const response=await work.dispatch(label,()=>fetch(input,options));if(response.status>=500)work.unknown(label);return guardedResponse(response,work,label);})());
+ return work.waitUntil((async()=>{const response=reservation===undefined?await work.dispatch(label,()=>fetch(input,options)):await work.dispatchReserved(reservation,label,()=>fetch(input,options));if(response.status>=500)onUnknown();return guardedResponse(response,work,label,onUnknown);})());
 }
 export function noteUnknownEffect(env,label){applicationWork(env).unknown(label);}
 
@@ -153,6 +170,6 @@ export function noteUnknownEffect(env,label){applicationWork(env).unknown(label)
 export function deferredApplicationWork(options){
  let actual;const ready=openApplicationWork(options).then(value=>{actual=value;return value;});
  // Consumers await assert() before requesting its synchronous tuple.
- const holder={tuple(){need(actual);return actual.tuple();},async assert(){return(await ready).assert();},async dispatch(label,operation){return(await ready).dispatch(label,operation);},unknown(label){actual?.unknown(label);},assertLocal(){need(actual);actual.assertLocal();},abandon(reason){need(actual);actual.abandon(reason);},async local(operation){return(await ready).local(operation);},retainResponse(response,label){need(actual);actual.retainResponse(response,label);},waitUntil(promise){return ready.then(work=>work.waitUntil(promise));},async finish(options){return(await ready).finish(options);}};
+ const holder={tuple(){need(actual);return actual.tuple();},async assert(){return(await ready).assert();},async dispatch(label,operation){return(await ready).dispatch(label,operation);},reserveDispatch(label){need(actual);return actual.reserveDispatch(label);},dispatchReserved(token,label,operation){need(actual);return actual.dispatchReserved(token,label,operation);},unknownReserved(token){need(actual);actual.unknownReserved(token);},releaseReserved(token){need(actual);actual.releaseReserved(token);},unknown(label){actual?.unknown(label);},unconfirmedExternalOutcome(){need(actual);actual.unconfirmedExternalOutcome();},assertLocal(){need(actual);actual.assertLocal();},abandon(reason){need(actual);actual.abandon(reason);},async local(operation){return(await ready).local(operation);},retainResponse(response,label,onUnknown){need(actual);actual.retainResponse(response,label,onUnknown);},waitUntil(promise){return ready.then(work=>work.waitUntil(promise));},async finish(options){return(await ready).finish(options);}};
  contexts.add(holder);return holder;
 }

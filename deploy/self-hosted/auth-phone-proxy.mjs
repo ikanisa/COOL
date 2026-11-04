@@ -14,20 +14,35 @@ function failure(status,code,cors={}){
 }
 async function limitedBytes(stream,limit,signal){
  if(!stream)return new Uint8Array();
- const reader=stream.getReader(),parts=[];let size=0,listener;
- const interrupted=new Promise((_,reject)=>{
-  listener=()=>reject(Error('deadline'));
-  if(signal.aborted)listener();else signal.addEventListener('abort',listener,{once:true});
+ const reader=stream.getReader();let bytes=new Uint8Array(),size=0;
+ // A fresh listener is removed after every read. Reusing a pending abort
+ // promise in Promise.race would retain one reaction per consumed chunk.
+ const read=()=>new Promise((resolve,reject)=>{
+  let settled=false;
+  const finish=(callback,value)=>{if(settled)return;settled=true;signal.removeEventListener('abort',abort);callback(value);};
+  const abort=()=>finish(reject,Error('deadline'));
+  if(signal.aborted){abort();return;}
+  signal.addEventListener('abort',abort,{once:true});
+  if(signal.aborted){abort();return;}
+  try{reader.read().then(value=>finish(resolve,value),error=>finish(reject,error));}catch(error){finish(reject,error);}
  });
  try{
   while(true){
-   const chunk=await Promise.race([reader.read(),interrupted]);
+   const chunk=await read();
    if(chunk.done)break;
-   size+=chunk.value.length;if(size>limit)throw Error('body_limit');parts.push(chunk.value);
+   if(!(chunk.value instanceof Uint8Array))throw Error('invalid_chunk');
+   const length=chunk.value.byteLength;
+   if(length>limit-size)throw Error('body_limit');
+   if(!length)continue;
+   const needed=size+length;
+   if(needed>bytes.length){
+    const capacity=Math.min(limit,Math.max(needed,bytes.length?bytes.length*2:1024));
+    const grown=new Uint8Array(capacity);grown.set(bytes.subarray(0,size));bytes=grown;
+   }
+   bytes.set(chunk.value,size);size=needed;
   }
-  const bytes=new Uint8Array(size);let at=0;for(const part of parts){bytes.set(part,at);at+=part.length;}return bytes;
+  return bytes.subarray(0,size);
  }finally{
-  signal.removeEventListener('abort',listener);
   // Do not leave a slow or oversized upstream/body stream running after denial.
   void reader.cancel().catch(()=>{});
  }
@@ -105,7 +120,9 @@ export function createAuthPhoneProxy(env,{fetchImpl=fetch}={}){
    let body={};
    if(bytes.length){
     if(phoneRoute&&!jsonType)return failure(415,'json_required',cors);
-    if(jsonType){try{body=parseObject(bytes);}catch{return failure(400,'invalid_request',cors);}}
+    // GoTrue parses token grant JSON regardless of Content-Type. Inspect the
+    // same bytes in OpenSMS mode so a misleading header cannot hide a phone.
+    if(jsonType||smsOnly&&path==='/token'){try{body=parseObject(bytes);}catch{return failure(400,'invalid_request',cors);}}
    }else if(phoneRoute&&!['GET','HEAD'].includes(request.method))return failure(400,'invalid_request',cors);
    if(smsOnly&&(phoneFields(url.searchParams)||phoneFields(Object.entries(body))))return failure(403,'phone_requires_collect',cors);
    const guestIdentityChange=path==='/user'&&request.method==='PUT'&&Object.keys(body).some(key=>['email','phone'].includes(key.toLowerCase()))||path==='/user/identities/authorize';

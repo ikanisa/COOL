@@ -12,7 +12,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 import uuid
-from scripts.self_hosted.prepare import PROVIDER_SETTINGS,dotenv,build_compose,verify_vendor,caddyfile
+from scripts.self_hosted.prepare import PROVIDER_SETTINGS,dotenv,build_compose,verify_vendor,caddyfile,prepare
 from scripts.self_hosted.configure import validated_settings,read_env,private_file,TURNSTILE_TEST_SITE_KEYS,TURNSTILE_TEST_SECRET_KEYS
 from scripts.self_hosted.database import transaction_sql,migrations
 from scripts.self_hosted.recovery import safe_member
@@ -23,7 +23,7 @@ from scripts.self_hosted.frontend_manifest import inventory
 PROFILE={'format':'collect.deployment.v1','id':'test','mode':'self_hosted','environment':'qualification','supabase_origin':'https://supabase.collect.example','admin_origin':'https://admin.collect.example','member_api_origin':'https://api.collect.example','public_origin':'https://collect.example','google_callback_origin':'https://admin.collect.example'}
 
 def healthy_capacity_fence():
-    return {'mode':'open','sourceSha256':'a'*64,'retainedUnknownObligations':0,
+    return {'contractVersion':3,'mode':'open','sourceSha256':'a'*64,'effectiveUnresolvedAdmissions':0,'retainedUnknownObligations':0,
         'retainedUnquantifiedUnknownObligations':0,'schedulerStatus':{'coverageVerified':True},
         'stoppedLifecycleProofs':0,'resourceLimits':{'admissionBudgetVersion':4,
             'workingAdmissions':0,'workingAdmissionLimit':100000,
@@ -36,6 +36,25 @@ def health_codes(fence):
         {'free_bytes':20*1024**3,'free_ratio':.5},90,'a'*64,{'db'})
 
 class Configuration(unittest.TestCase):
+    def test_prepare_refuses_colliding_frontend_origins_before_output_or_vendor_work(self):
+        profile={**PROFILE,'public_origin':PROFILE['admin_origin']}
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);source=root/'profile.json';output=root/'release'
+            source.write_text(json.dumps(profile))
+            with patch('scripts.self_hosted.prepare.verify_vendor') as vendor, \
+                 patch('scripts.self_hosted.prepare.subprocess.run') as command:
+                with self.assertRaisesRegex(ValueError,'Admin and public origins must differ'):
+                    prepare(source,output)
+            self.assertFalse(output.exists())
+            vendor.assert_not_called();command.assert_not_called()
+            cli=subprocess.run([sys.executable,'-B','-m','scripts.self_hosted.prepare',
+                '--profile',str(source),'--output',str(output)],capture_output=True,text=True,timeout=15)
+            self.assertNotEqual(cli.returncode,0)
+            self.assertEqual(cli.stdout,'')
+            self.assertIn('FrontendOriginsMustDiffer',cli.stderr)
+            self.assertNotIn(profile['admin_origin'],cli.stderr)
+            self.assertFalse(output.exists())
+
     def test_capacity_detail_reports_owner_status_counts_including_stopped_proofs(self):
         fence=healthy_capacity_fence()
         fence['resourceLimits'].update(workingAdmissions=17,activeAndUnresolvedAdmissions=3,
@@ -137,6 +156,90 @@ class Configuration(unittest.TestCase):
                 self.assertIn('capacity_unconfirmed',{a['code'] for a in health_codes(candidate)})
         candidate=healthy_capacity_fence();candidate['stoppedLifecycleProofs']=False
         self.assertIn('capacity_unconfirmed',{a['code'] for a in health_codes(candidate)})
+
+    def test_health_alarms_for_effective_unresolved_admissions_and_unknown_counts(self):
+        candidate=healthy_capacity_fence();self.assertEqual(health_codes(candidate),[])
+        candidate['effectiveUnresolvedAdmissions']=1
+        self.assertIn({'code':'unresolved_admissions','count':1},health_codes(candidate))
+        for value in (None,True,False,-1,'1',1.0):
+            with self.subTest(value=value):
+                candidate=healthy_capacity_fence();candidate['effectiveUnresolvedAdmissions']=value
+                self.assertIn({'code':'unresolved_admissions_unconfirmed'},health_codes(candidate))
+        candidate=healthy_capacity_fence();del candidate['effectiveUnresolvedAdmissions'];candidate['unresolvedAdmissions']=0
+        self.assertIn({'code':'unresolved_admissions_unconfirmed'},health_codes(candidate))
+
+    def test_stopped_admission_proof_does_not_hide_retained_unknown_obligation(self):
+        candidate=healthy_capacity_fence();candidate.update(rawUnresolvedAdmissions=1,unresolvedAdmissions=1,
+            effectiveUnresolvedAdmissions=0,retainedUnquantifiedUnknownObligations=1)
+        codes={alarm['code'] for alarm in health_codes(candidate)}
+        self.assertEqual(codes,{'unresolved_external_effects'})
+
+    def test_retained_unknown_counts_validate_independently_without_losing_known_positives(self):
+        names=('retainedUnknownObligations','retainedUnquantifiedUnknownObligations')
+        candidate=healthy_capacity_fence();self.assertEqual(health_codes(candidate),[])
+        for name in names:
+            other=next(item for item in names if item!=name)
+            for invalid in ('missing',None,True,False,-1,'1',1.0,[],{}):
+                for known in (0,1):
+                    with self.subTest(field=name,invalid=invalid,known=known):
+                        candidate=healthy_capacity_fence();candidate[other]=known
+                        if invalid=='missing':del candidate[name]
+                        else:candidate[name]=invalid
+                        codes={alarm['code'] for alarm in health_codes(candidate)}
+                        self.assertIn('retained_unknown_obligations_unconfirmed',codes)
+                        self.assertEqual('unresolved_external_effects' in codes,known>0)
+        candidate=healthy_capacity_fence();candidate.update({name:2 for name in names})
+        self.assertEqual(health_codes(candidate),[{'code':'unresolved_external_effects'}])
+
+    def test_retained_unknown_count_failure_sets_health_cli_attention(self):
+        class FakeOperator:
+            meta={'profile_sha256':'b'*64,'source_sha256':'a'*64}
+            def __init__(self,root):self.root=root
+            def status(self):return {'services':[{'service':'db','state':'running','health':'healthy'}]}
+            def sql(self,query):
+                fence=healthy_capacity_fence();fence['retainedUnknownObligations']=None
+                fence['retainedUnquantifiedUnknownObligations']=1
+                return ('t\n'+json.dumps(fence)+'\n').encode()
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'images.lock.json').write_text(json.dumps({'services':{'db':{},'backup':{}}}))
+            usage=type('Usage',(),{'free':20*1024**3,'total':40*1024**3})();out=io.StringIO();err=io.StringIO()
+            with patch('scripts.self_hosted.health.Operator',return_value=FakeOperator(root)), \
+                 patch('scripts.self_hosted.health.shutil.disk_usage',return_value=usage), \
+                 patch('scripts.self_hosted.health.ssl._ssl._test_decode_cert',return_value={'notAfter':'future'}), \
+                 patch('scripts.self_hosted.health.ssl.cert_time_to_seconds',return_value=4102444800), \
+                 redirect_stdout(out),redirect_stderr(err):
+                self.assertEqual(health_main(['--release',str(root)]),2)
+            result=json.loads(out.getvalue());self.assertEqual(result['status'],'attention_required')
+            self.assertEqual({a['code'] for a in result['alarms']},{'retained_unknown_obligations_unconfirmed','unresolved_external_effects'})
+            self.assertIsNone(result['retained_unknown_obligations']);self.assertEqual(result['retained_unquantified_unknown_obligations'],1)
+            self.assertEqual(err.getvalue(),'')
+
+    def test_unresolved_admission_sets_health_cli_attention_exit(self):
+        class FakeOperator:
+            meta={'profile_sha256':'b'*64,'source_sha256':'a'*64}
+            def __init__(self,root,missing=False):self.root=root;self.missing=missing
+            def status(self):return {'services':[{'service':'db','state':'running','health':'healthy'}]}
+            def sql(self,query):
+                fence=healthy_capacity_fence();fence['unresolvedAdmissions']=0
+                if self.missing:del fence['effectiveUnresolvedAdmissions']
+                else:fence['effectiveUnresolvedAdmissions']=1
+                return ('t\n'+json.dumps(fence)+'\n').encode()
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);(root/'images.lock.json').write_text(json.dumps({'services':{'db':{},'backup':{}}}))
+            usage=type('Usage',(),{'free':20*1024**3,'total':40*1024**3})()
+            for missing in (False,True):
+                with self.subTest(missing=missing):
+                    out=io.StringIO();err=io.StringIO()
+                    with patch('scripts.self_hosted.health.Operator',return_value=FakeOperator(root,missing)), \
+                         patch('scripts.self_hosted.health.shutil.disk_usage',return_value=usage), \
+                         patch('scripts.self_hosted.health.ssl._ssl._test_decode_cert',return_value={'notAfter':'future'}), \
+                         patch('scripts.self_hosted.health.ssl.cert_time_to_seconds',return_value=4102444800), \
+                         redirect_stdout(out),redirect_stderr(err):
+                        self.assertEqual(health_main(['--release',str(root)]),2)
+                    result=json.loads(out.getvalue());self.assertEqual(result['status'],'attention_required')
+                    self.assertIn({'code':'unresolved_admissions_unconfirmed'} if missing else {'code':'unresolved_admissions','count':1},result['alarms'])
+                    self.assertIsNone(result['unresolved_admissions']) if missing else self.assertEqual(result['unresolved_admissions'],1)
+                    self.assertEqual(err.getvalue(),'')
 
     def test_health_reports_active_saturation_and_inconsistent_capacity_flag(self):
         candidate=healthy_capacity_fence();candidate['resourceLimits'].update(activeAndUnresolvedAdmissions=7,workingAdmissions=7)

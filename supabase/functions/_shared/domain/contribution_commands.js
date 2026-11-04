@@ -71,10 +71,14 @@ const lookupSql=authoritySql+`SELECT ${authorityProjection},r.response_json,r.re
  LEFT JOIN payment_intents p ON p.id=(CASE WHEN json_valid(r.response_json) THEN r.response_json::jsonb->>'id' ELSE NULL END)
   AND p.member_id=a.authority_user_id AND p.collection_id=? AND p.originating_session_id=? AND p.amount_minor=?
  WHERE ${admissionSql}`;
+// A recorded payment may have member_id NULL while its financial link names
+// the beneficiary. Any linked payment makes a new handoff unsafe; do not filter
+// by the payment's member_id or treat this snapshot as provider settlement.
 const reviewSql=authoritySql+`SELECT ${authorityProjection},a.profile_momo_number,a.profile_country_code,p.*,
  c.status AS group_status,c.revision AS collection_revision,c.receiver_momo_number AS current_receiver_number,
  c.receiver_network AS current_receiver_network,c.receiver_display_label AS current_receiver_label,m.active AS membership_active,
- r.response_json AS creation_response_json
+ r.response_json AS creation_response_json,
+ EXISTS(SELECT 1 FROM payments linked_payment WHERE linked_payment.intent_id=p.id) AS linked_payment_exists
  FROM authority a LEFT JOIN payment_intents p ON p.id=? AND p.collection_id=? AND p.member_id=a.authority_user_id AND p.originating_session_id=a.authority_session_id
  LEFT JOIN collections c ON c.id=p.collection_id LEFT JOIN memberships m ON m.collection_id=c.id AND m.user_id=a.authority_user_id
  LEFT JOIN request_receipts r ON r.user_id=p.member_id AND r.request_id=p.request_id AND r.operation='create_contribution_intent' AND r.session_id=p.originating_session_id AND r.body_sha256=p.request_sha256
@@ -147,7 +151,7 @@ export async function contributionCommandRpc(operation,body,env,actor){
   const sender=normalizeContributionSender(row.profile_momo_number),senderHash=sender?await digest(sender):null;
   if(row.id!==input.intent||row.collection_id!==input.collection||row.member_id!==binding.user||row.originating_session_id!==binding.session||row.status!=='pending'||row.currency!=='RWF'||row.rail!=='rwanda_momo'||
    !Number.isSafeInteger(row.amount_minor)||row.amount_minor<=0||!Number.isFinite(expires)||expires<=Date.now()||!Number.isFinite(created)||row.membership_active!==1||row.group_status!=='active'||
-   !Number.isSafeInteger(row.collection_revision)||row.collection_revision<1||row.profile_country_code!=='RW'||!senderHash||!boundCreationReceipt(row,senderHash)||
+   !Number.isSafeInteger(row.collection_revision)||row.collection_revision<1||row.profile_country_code!=='RW'||!senderHash||!boundCreationReceipt(row,senderHash)||row.linked_payment_exists!==false||
    !['mtn_momo','airtel_money'].includes(row.receiver_network)||typeof row.receiver_momo_number!=='string'||!/^\+?[0-9]{4,12}$/.test(row.receiver_momo_number)||row.receiver_momo_number!==row.current_receiver_number||row.receiver_network!==row.current_receiver_network||(row.receiver_label??'')!==(row.current_receiver_label??''))throw unavailable();
   if(!sameActor(env,actor,binding))throw accessError();
   return {handled:true,value:{contract_version:1,review_status:'current',collection_id:input.collection,intent_id:input.intent,reviewed_session_id:binding.session,collection_revision:row.collection_revision,

@@ -176,7 +176,7 @@ jobs:
         env:
           DENO_DIR: ${{ runner.temp }}/collect-current-selfhost-deno-cache
         run: |
-          "$COLLECT_DENO" check --frozen --node-modules-dir=none --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock scripts/supabase/testing/self-hosted-control-concurrency.ts scripts/supabase/testing/self-hosted-runtime.ts scripts/supabase/testing/self-hosted-backend-runtime.ts scripts/supabase/testing/self-hosted-auth-runtime.ts scripts/supabase/testing/self-hosted-retention-runtime.ts scripts/supabase/testing/notification-channels.ts scripts/supabase/testing/combined-self-hosted-scheduler.ts scripts/supabase/testing/gateway-fence.ts deploy/collect-sms/test/gateway.test.ts
+          "$COLLECT_DENO" check --frozen --node-modules-dir=none --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock scripts/supabase/testing/self-hosted-control-concurrency.ts scripts/supabase/testing/self-hosted-runtime.ts scripts/supabase/testing/self-hosted-backend-runtime.ts scripts/supabase/testing/self-hosted-auth-runtime.ts scripts/supabase/testing/self-hosted-retention-runtime.ts scripts/supabase/testing/notification-channels.ts scripts/supabase/testing/combined-self-hosted-scheduler.ts scripts/supabase/testing/gateway-fence.ts scripts/supabase/testing/self-hosted-momo-runtime.ts scripts/supabase/testing/self-hosted-contribution-review-runtime.ts deploy/collect-sms/test/gateway.test.ts
           cd supabase/functions
           "$COLLECT_DENO" task check
       - name: Start this job's fresh native PG17 cluster with60/3/0 limits
@@ -216,6 +216,8 @@ jobs:
             ${{ runner.temp }}/collect-current-selfhost-native/RETENTION.json
             ${{ runner.temp }}/collect-current-selfhost-native/NOTIFICATIONS.json
             ${{ runner.temp }}/collect-current-selfhost-native/DATA_STAGE.json
+            ${{ runner.temp }}/collect-current-selfhost-native/MOMO.json
+            ${{ runner.temp }}/collect-current-selfhost-native/CONTRIBUTION_REVIEW.json
             ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY.json
             ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY.xml
             ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY-FENCE.json

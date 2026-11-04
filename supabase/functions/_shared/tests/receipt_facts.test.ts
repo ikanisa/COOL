@@ -8,7 +8,7 @@ import {issueAdminSession} from './helpers/module-domain-admin_accounts.js';
 import {fixtureAdminAccount,establishInitialAdminEmail} from './helpers/admin-email-fixture.js';
 import {projectSession} from './helpers/module-domain-auth.js';
 import {processMomoJob,validateMomoExtraction,MOMO_SCHEMA_VERSION,MOMO_PARSER_VERSION} from './helpers/module-domain-momo_pipeline.js';
-import {drainMomoJobs} from '../domain/momo_pipeline.js';
+import {drainMomoJobs,MOMO_JOB_CHECKPOINT} from '../domain/momo_pipeline.js';
 import {digest,stableJson} from '../domain/core.js';
 import {encrypt} from './helpers/module-domain-encryption.js';
 
@@ -67,9 +67,9 @@ fencedTest({name:'versioned receipt facts: actual MoMo producer/handlers on isol
   }
   return f;
  };
- const call=async(f:any,path:string,{reason,origin=front,method='GET',csrf=true}:{reason?:string,origin?:string,method?:string,csrf?:boolean}={})=>
+ const call=async(f:any,path:string,{reason,origin=front,method='GET',csrf=true,body={},idempotencyKey}:{reason?:string,origin?:string,method?:string,csrf?:boolean,body?:Record<string,unknown>,idempotencyKey?:string}={})=>
   worker.fetch(new Request(front+'/api/admin/'+path,{method,headers:{Origin:origin,...(f?.cookie?{Cookie:f.cookie}:{}),...(reason?{'X-Collect-Review-Reason':reason}:{}),
-   ...(method==='GET'?{}:{'Content-Type':'application/json','X-Collect-Requested-With':'collect-admin',...(csrf?{'X-Collect-CSRF':f?.csrf??''}:{})})},...(method==='GET'?{}:{body:'{}'})}),env(),{waitUntil:()=>{}});
+   ...(method==='GET'?{}:{'Content-Type':'application/json','X-Collect-Requested-With':'collect-admin',...(csrf?{'X-Collect-CSRF':f?.csrf??''}:{}),...(idempotencyKey?{'Idempotency-Key':idempotencyKey}:{})})},...(method==='GET'?{}:{body:JSON.stringify(body)})}),env(),{waitUntil:()=>{}});
  const json=async(response:Response,status=200)=>{const value=await response.json();assertEquals(response.status,status,JSON.stringify(value));return value;};
  const capture=async(owner:any,body:string,receiverHash='d'.repeat(64))=>{
   const id=crypto.randomUUID(),key='sms/'+id,bodyHash=await digest(body),payload=new TextEncoder().encode(JSON.stringify({raw_sender:'MTN MoMo',raw_body:body,received_at_device:'2026-10-20T19:35:00+02:00',completeness:'complete'})),sha=await digest(payload),
@@ -96,7 +96,7 @@ fencedTest({name:'versioned receipt facts: actual MoMo producer/handlers on isol
   const validation=validateMomoExtraction(output,{raw_sender:'MTN MoMo',raw_body:body,completeness:'complete'},a);assert(validation.accepted,JSON.stringify(validation));
   const raw=await capture(owner,body,a.receiver_hash),stamp=new Date().toISOString();
   await sql`insert into app.momo_processing_jobs(raw_sms_id,receiving_account_id,mode,state,available_at,created_at,updated_at)values(${raw.id},${a.id},'historical','pending',${unix()},${stamp},${stamp})`;
-  const result=await processMomoJob({...env(),AI:{run:async()=>{aiCalls++;return {response:output};}}},raw.id);assert(['accepted','duplicate','conflict'].includes(result.relation),JSON.stringify(result));
+  const result=await processMomoJob({...env(),MOMO_PROCESSING_PAUSED:'false',AI:{run:async()=>{aiCalls++;return {response:output};}}},raw.id);assert(['accepted','duplicate','conflict'].includes(result.relation),JSON.stringify(result));
   return {...raw,output,result,tx:(await sql`select * from app.momo_transactions where id=${result.transaction_id}`)[0]};
  };
  const financialState=async()=>stableJson(await sql`select (select count(*) from app.payments)::int as payments,(select count(*) from app.payment_evidence)::int as evidence,(select count(*) from app.ledger_entries)::int as ledger,(select count(*) from app.momo_financial_links)::int as links`);
@@ -179,16 +179,47 @@ fencedTest({name:'versioned receipt facts: actual MoMo producer/handlers on isol
    }
    assertEquals(await financialState(),before);
   });
-  await t.step('periodic one-job drain recovers due backlog and expired leases without new ingest, preserving retry and financial boundaries',async()=>{
+  await t.step('reparse requires current authority and cannot overwrite an unresolved provider outcome',async()=>{
+   const operator=await fixture('admin'),before=await financialState(),bff=(await sql`select token_hash,public_id,origin from app.admin_sessions where auth_session_id=${operator.sid}`)[0],emailDb=new PostgresDatabase(sql,operator.claims);
+   const emailAccount=await fixtureAdminAccount(sql,emailDb,[operator.aid,bff.token_hash,bff.origin,bff.public_id]);await establishInitialAdminEmail(sql,emailDb,emailAccount);
+   const raw=await capture(member,'SYNTHETIC uncertain extraction',a.receiver_hash),stamp=new Date().toISOString();
+   await sql`insert into app.momo_processing_jobs(raw_sms_id,receiving_account_id,mode,state,attempt_count,available_at,last_error,created_at,updated_at)
+    values(${raw.id},${a.id},'historical','needs_review',1,${unix()},${MOMO_JOB_CHECKPOINT.unknown},${stamp},${stamp})`;
+   const action={method:'POST',body:{reason:'Review the retained source before another extraction'},idempotencyKey:crypto.randomUUID()};
+   const denied=await json(await call(operator,'momo/sources/'+raw.id+'/reparse',action),409);assertEquals(denied.error.code,'provider_outcome_unresolved');
+   assertEquals((await sql`select last_error from app.momo_processing_jobs where raw_sms_id=${raw.id}`)[0].last_error,MOMO_JOB_CHECKPOINT.unknown);
+   assertEquals((await call(staff,'momo/sources/'+raw.id+'/reparse',{...action,idempotencyKey:crypto.randomUUID()})).status,403);
+   await sql`update app.momo_processing_jobs set last_error='provider_profile_unverified' where raw_sms_id=${raw.id}`;
+   const accepted=await json(await call(operator,'momo/sources/'+raw.id+'/reparse',{...action,idempotencyKey:crypto.randomUUID()}));assertEquals(accepted.status,'pending');
+   const job=(await sql`select state,last_error,attempt_count from app.momo_processing_jobs where raw_sms_id=${raw.id}`)[0];
+   assertEquals(job.state,'pending');assertEquals(job.last_error,MOMO_JOB_CHECKPOINT.reparse);assertEquals(Number(job.attempt_count),1);
+   // Keep this authorized synthetic reparse out of the following independent
+   // drain-order test; its source intentionally is not a payment message.
+   await sql`update app.momo_processing_jobs set available_at=${unix()+3600} where raw_sms_id=${raw.id}`;
+   const historical=await capture(member,'SYNTHETIC historical source',a.receiver_hash);
+   await sql`insert into app.momo_processing_jobs(raw_sms_id,mode,state,available_at,created_at,updated_at)
+    values(${historical.id},'historical','source_unresolved',${unix()},${stamp},${stamp})`;
+   const resolution={method:'POST',body:{reason:'Resolve a retained historical source',receiving_account_id:a.id,evidence_reference:'synthetic reviewed source evidence'},idempotencyKey:crypto.randomUUID()};
+   const resolved=await json(await call(operator,'momo/sources/'+historical.id+'/resolve',resolution));assertEquals(resolved.status,'pending');
+   const resolvedJob=(await sql`select state,receiving_account_id,last_error from app.momo_processing_jobs where raw_sms_id=${historical.id}`)[0];
+   assertEquals(resolvedJob.state,'pending');assertEquals(resolvedJob.receiving_account_id,a.id);assertEquals(resolvedJob.last_error,MOMO_JOB_CHECKPOINT.reparse);
+   assertEquals((await sql`select count(*)::int as n from app.momo_source_resolutions where raw_sms_id=${historical.id}`)[0].n,1);
+   assertEquals((await call(operator,'momo/sources/'+historical.id+'/resolve',{...resolution,idempotencyKey:crypto.randomUUID()})).status,409);
+   assertEquals((await sql`select count(*)::int as n from app.momo_source_resolutions where raw_sms_id=${historical.id}`)[0].n,1);
+   await sql`update app.momo_processing_jobs set available_at=${unix()+3600} where raw_sms_id=${historical.id}`;
+   assertEquals(await financialState(),before);
+  });
+  await t.step('periodic drain recovers only safe backlog and parks ambiguous attempts without financial effects',async()=>{
    const before=await financialState(),stamp=new Date().toISOString(),at=unix();let calls=0,failNext=false;
-   const queued=async(state:string,attempts:number,available:number,lease:number|null=null)=>{
+   const queued=async(state:string,attempts:number,available:number,lease:number|null=null,lastError:string|null=null)=>{
     const reference='SCHEDULED_'+crypto.randomUUID(),raw=await capture(member,`You have received RWF 100 successfully. TxId: ${reference}.`,a.receiver_hash);
-    await sql`insert into app.momo_processing_jobs(raw_sms_id,receiving_account_id,mode,state,attempt_count,available_at,lease_token,lease_until,created_at,updated_at)
-     values(${raw.id},${state==='source_unresolved'?null:a.id},'historical',${state},${attempts},${available},${lease===null?null:crypto.randomUUID()},${lease},${stamp},${stamp})`;
+    await sql`insert into app.momo_processing_jobs(raw_sms_id,receiving_account_id,mode,state,attempt_count,available_at,lease_token,lease_until,last_error,created_at,updated_at)
+     values(${raw.id},${state==='source_unresolved'?null:a.id},'historical',${state},${attempts},${available},${lease===null?null:crypto.randomUUID()},${lease},${lastError},${stamp},${stamp})`;
     return raw.id;
    };
-   const pending=await queued('pending',0,at-10),retry=await queued('retry',1,at-9),expired=await queued('processing',1,at-8,at-1),
-    future=await queued('pending',0,at+300),held=await queued('processing',1,at-7,at+300),exhausted=await queued('pending',4,at-6),unresolved=await queued('source_unresolved',0,at-5);
+   const pending=await queued('pending',0,at-10),retry=await queued('retry',1,at-9,null,MOMO_JOB_CHECKPOINT.retry),expired=await queued('processing',1,at-8,at-1,MOMO_JOB_CHECKPOINT.preflight),
+    future=await queued('pending',0,at+300),held=await queued('processing',1,at-7,at+300),exhausted=await queued('retry',4,at-6,null,MOMO_JOB_CHECKPOINT.retry),unresolved=await queued('source_unresolved',0,at-5),
+    legacyRetry=await queued('retry',1,at-4),legacyExpired=await queued('processing',1,at-3,at-1);
    const processing={...env(),MOMO_PROCESSING_PAUSED:'false',MOMO_AI_MODEL:'synthetic-reviewed-model',AI:{run:async(_model:unknown,options:any)=>{
     calls++;if(failNext){failNext=false;throw Error('synthetic temporary extraction refusal');}
     const source=JSON.parse(options.messages.at(-1).content),reference=/TxId: ([^\s.]+)/.exec(source.sms)![1];
@@ -199,17 +230,22 @@ fencedTest({name:'versioned receipt facts: actual MoMo producer/handlers on isol
    }}};
    const state=async(id:string)=>(await sql`select state,attempt_count,available_at,lease_token,last_error from app.momo_processing_jobs where raw_sms_id=${id}`)[0];
    let result=await drainMomoJobs(processing,{limit:1});assertEquals(result.processed,1);assertEquals(result.results[0].state,'completed');assertEquals((await state(pending)).state,'completed');
-   failNext=true;result=await drainMomoJobs(processing,{limit:1});assertEquals(result.results[0].state,'retry');
-   const waiting=await state(retry);assertEquals(Number(waiting.attempt_count),2);assert(Number(waiting.available_at)>at);assertEquals(waiting.lease_token,null);
+   failNext=true;result=await drainMomoJobs(processing,{limit:1});assertEquals(result.results[0].state,'needs_review');
+   const waiting=await state(retry);assertEquals(Number(waiting.attempt_count),2);assertEquals(waiting.last_error,MOMO_JOB_CHECKPOINT.unknown);assertEquals(waiting.lease_token,null);
    result=await drainMomoJobs(processing,{limit:1});assertEquals(result.results[0].state,'completed');assertEquals(Number((await state(expired)).attempt_count),2);
    assertEquals(calls,3);assertEquals((await state(future)).state,'pending');assertEquals((await state(held)).state,'processing');assertEquals((await state(unresolved)).state,'source_unresolved');
-   assertEquals((await state(exhausted)).state,'needs_review');assertEquals((await state(exhausted)).last_error,'retry_budget_exhausted');
+   assertEquals((await state(exhausted)).state,'needs_review');assertEquals((await state(exhausted)).last_error,MOMO_JOB_CHECKPOINT.budget);
+   for(const id of [legacyRetry,legacyExpired]){assertEquals((await state(id)).state,'needs_review');assertEquals((await state(id)).last_error,MOMO_JOB_CHECKPOINT.unknown);}
    result=await drainMomoJobs(processing,{limit:1});assertEquals(result,{processed:0,results:[]});assertEquals(calls,3);
-   // Move only the synthetic retry clock. No new source/ingest causes recovery.
-   await sql`update app.momo_processing_jobs set available_at=${at-1} where raw_sms_id=${retry}`;
-   result=await drainMomoJobs(processing,{limit:1});assertEquals(result.results[0].state,'completed');assertEquals(Number((await state(retry)).attempt_count),3);assertEquals(calls,4);
+   // A local Storage failure occurs before dispatch and has a distinct safe
+   // retry marker. Move only its synthetic clock to demonstrate recovery.
+   const safeRetry=await queued('pending',0,at-2);
+   assertEquals((await processMomoJob({...processing,PRIVATE_MEDIA:{async get(){throw Error('synthetic storage failure');}}},safeRetry)).state,'retry');
+   assertEquals((await state(safeRetry)).last_error,MOMO_JOB_CHECKPOINT.retry);assertEquals(calls,3);
+   await sql`update app.momo_processing_jobs set available_at=${at-1} where raw_sms_id=${safeRetry}`;
+   result=await drainMomoJobs(processing,{limit:1});assertEquals(result.results[0].state,'completed');assertEquals(Number((await state(safeRetry)).attempt_count),2);assertEquals(calls,4);
    assertEquals(await processMomoJob(processing,pending),{state:'not_claimed'});assertEquals(calls,4,'A completed receipt cannot be parsed twice by an old worker');
-   assertEquals(await drainMomoJobs({...processing,MOMO_PROCESSING_PAUSED:'true'},{limit:1}),{processed:0,results:[],paused:true});assertEquals(calls,4);
+   for(const paused of ['true','FALSE','',undefined])assertEquals(await drainMomoJobs({...processing,MOMO_PROCESSING_PAUSED:paused},{limit:1}),{processed:0,results:[],paused:true});assertEquals(calls,4);
    assertEquals(await financialState(),before,'Extraction and recovery create evidence facts only; no contributions or journal entries');
   });
   assert(authCalls>0);await reviewedPlatform.parity();for(const source of sources)assertEquals(await Deno.readTextFile(source.path),source.text,'Migration inputs changed during isolated qualification');

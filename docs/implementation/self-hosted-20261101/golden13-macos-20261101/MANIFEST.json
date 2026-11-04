@@ -1,0 +1,30 @@
+{
+  "format": "collect.golden13.macos.evidence.v1",
+  "files": {
+    "RESULT.json": {
+      "bytes": 4867,
+      "sha256": "a058260fb54fe2b40cc83726890d19a3935c80f7dc4665f3c970339985638f61"
+    },
+    "INPUTS.json": {
+      "bytes": 4034324,
+      "sha256": "2da6ddb1fdd1710f31a86c06a9106d8f9aaea851490a219144d8d85b89e12b59"
+    },
+    "SOURCE-FREEZE.json": {
+      "bytes": 201920,
+      "sha256": "acfba5d7d981035789f18c794cbaa2a0ea0057465e3e8e4da86450fa7a4c431d"
+    },
+    "stdout.txt": {
+      "bytes": 1840,
+      "sha256": "8f04882c0e0f1aeddaac20c65c62c2d28176d397f69b85fbdc773b0b46a6da09"
+    },
+    "stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "candidate_count": 13,
+  "all_candidates_identical_to_current_baselines": true,
+  "original_candidates": "/Volumes/T7/Collect-production-recovery/golden13-main-20261101.o71jQM/artifacts/candidate",
+  "linux_mismatch_explained": false,
+  "design_or_device_acceptance": false
+}

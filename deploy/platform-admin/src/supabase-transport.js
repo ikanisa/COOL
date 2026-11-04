@@ -138,23 +138,33 @@ export function routeCollectTarget(rawTarget, upstreamOrigin = SUPABASE_ORIGIN) 
     upstream: upstreamOrigin + '/functions/v1/' + functionName + logicalPath + query};
 }
 
+// A stream implementation may reject or never finish cancellation. Observe the
+// outcome without letting it hold an already-refused request open.
+function cancelObserved(target) {
+  try { const pending = target?.cancel(); if (pending !== undefined) void Promise.resolve(pending).catch(() => {}); } catch {}
+}
 async function boundedBytes(stream, limit, signal, status, code) {
   if (!stream) return new Uint8Array();
-  const reader = stream.getReader(); const chunks = []; let total = 0;
-  const abort = () => { void reader.cancel().catch(() => {}); };
+  const reader = stream.getReader(); let bytes = new Uint8Array(); let total = 0;
+  const abort = () => cancelObserved(reader);
   signal.addEventListener('abort', abort, {once: true});
   try {
     while (true) {
       if (signal.aborted) refuse(504, 'proxy_deadline');
       const {done, value} = await reader.read(); if (done) break;
-      total += value.byteLength;
-      if (total > limit) { await reader.cancel(); refuse(status, code); }
-      chunks.push(value);
+      if (!(value instanceof Uint8Array)) { cancelObserved(reader); throw new TypeError('Invalid stream chunk'); }
+      const length = value.byteLength;
+      if (length > limit - total) { cancelObserved(reader); refuse(status, code); }
+      if (length === 0) continue;
+      const needed = total + length;
+      if (needed > bytes.byteLength) {
+        const capacity = Math.min(limit, Math.max(needed, bytes.byteLength ? bytes.byteLength * 2 : 1024));
+        const grown = new Uint8Array(capacity); grown.set(bytes.subarray(0, total)); bytes = grown;
+      }
+      bytes.set(value, total); total = needed;
     }
     if (signal.aborted) refuse(504, 'proxy_deadline');
-    const bytes = new Uint8Array(total); let offset = 0;
-    for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
-    return bytes;
+    return bytes.subarray(0, total);
   } finally { signal.removeEventListener('abort', abort); reader.releaseLock(); }
 }
 function cookiesOf(headers) {
@@ -288,15 +298,15 @@ export function createCollectTransport({frontendOrigin, supabaseOrigin = SUPABAS
       const upstream = await fetchImpl(outgoing);
       const nativeCallback = nativeGoogleRedirect(upstream, route, request.method);
       if (!nativeCallback && (upstream.status >= 300 && upstream.status < 400 || upstream.headers.has('location'))) {
-        await upstream.body?.cancel(); refuse(502, 'proxy_redirect_denied');
+        cancelObserved(upstream.body); refuse(502, 'proxy_redirect_denied');
       }
       const encoding = upstream.headers.get('content-encoding');
       if (encoding && encoding.trim().toLowerCase() !== 'identity') {
-        await upstream.body?.cancel(); refuse(502, 'proxy_encoding_unqualified');
+        cancelObserved(upstream.body); refuse(502, 'proxy_encoding_unqualified');
       }
       const size = upstream.headers.get('content-length');
       if (size !== null && (!/^[0-9]+$/.test(size) || Number(size) > maxResponseBytes)) {
-        await upstream.body?.cancel(); refuse(502, 'proxy_response_too_large');
+        cancelObserved(upstream.body); refuse(502, 'proxy_response_too_large');
       }
       const output = await boundedBytes(upstream.body, maxResponseBytes, controller.signal, 502, 'proxy_response_too_large');
       const response = responseHeaders(upstream, route);
@@ -326,8 +336,10 @@ export function createCollectTransport({frontendOrigin, supabaseOrigin = SUPABAS
         console.error(JSON.stringify({service:'collect_web_transport',event:'proxy_runtime_failure',attempted,classification}));
       }
       const unknown = attempted && effectful;
-      if (error instanceof ProxyFailure) return failure(error.status,
-        unknown ? 'proxy_outcome_unknown' : error.code, unknown ? error.code : undefined);
+      if (error instanceof ProxyFailure) {
+        controller.abort();
+        return failure(error.status, unknown ? 'proxy_outcome_unknown' : error.code, unknown ? error.code : undefined);
+      }
       return failure(controller.signal.aborted ? 504 : 502,
         unknown ? 'proxy_outcome_unknown' : 'proxy_unavailable',
         unknown ? controller.signal.aborted ? 'proxy_deadline' : 'proxy_upstream_failure' : undefined);

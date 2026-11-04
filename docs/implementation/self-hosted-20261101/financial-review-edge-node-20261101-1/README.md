@@ -1,0 +1,7 @@
+# Financial-review shared Node Edge suite
+
+This is a separate local synthetic qualification of the frozen candidate at Git HEAD `14f32d43961cd566e8834dae841ba67e475b21f5`. The maintained shared Node Edge runner passed **751 of 751 tests across 32 files**, with no failed, skipped, cancelled or todo tests. It completed in 16.9 seconds under an operating-system sandbox that denied network access; the preceding loopback probe returned `EPERM`.
+
+The source owner identified the reviewed current-native digest as `b388c96c8d91a274f04b99ea2a786297b6330bcbcb0d782cb543b82220e4d75a`. The copied `CANDIDATE-FILES.json` is the owner's non-secret frozen candidate manifest. The seven files shared by that manifest and this Node run matched. `INPUTS.json` records all 216 source/context-file hashes, the Node 24.19.0 binary, sandbox and wrapper hashes, capacity, isolated HOME/TMP paths and the absence of a shared Node/Deno cache. `snapshot/` is the read-only source copy used for this run.
+
+`RESULT.json` records the output hashes, successful pre/post input parity, network probe, and normal process-group closure. `CLOSURE.json` records a later independent process-group and capacity check. `suite.stdout`, `suite.stderr`, and the network probe files preserve the underlying output. No PostgreSQL database, live provider, deployed Edge handler, or hosted environment was used by this Node run. It does not establish production, device, CI, provider, or cutover acceptance, and does not close the review-to-provider race.

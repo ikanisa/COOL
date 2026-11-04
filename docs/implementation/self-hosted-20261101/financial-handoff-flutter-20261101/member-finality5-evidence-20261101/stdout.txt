@@ -1,0 +1,59 @@
+00:00 +0: loading /Volumes/CollectAdminFocusedQA20261029/admin-status-fixture/member-finality5-20261101/test/shared/notification_preference_runtime_test.dart
+00:00 +0: cached defaults never invent revision zero or authorize a save
+00:00 +1: authorized preview fixture permits local choices without inventing a server revision
+00:00 +2: discard after uncertainty retains null revision and required explicit refresh
+00:00 +3: discard after refreshed review preserves server revision and never dispatches a save
+00:00 +4: actual preference read rejects null and invalidates prior revision
+00:00 +5: actual preference read rejects array and invalidates prior revision
+00:00 +6: actual preference read rejects missing and invalidates prior revision
+00:00 +7: actual preference read rejects unknown field and invalidates prior revision
+00:00 +8: actual preference read rejects version string and invalidates prior revision
+00:00 +9: actual preference read rejects version double and invalidates prior revision
+00:00 +10: actual preference read rejects wrong owner and invalidates prior revision
+00:00 +11: actual preference read rejects revision string and invalidates prior revision
+00:00 +12: actual preference read rejects negative revision and invalidates prior revision
+00:00 +13: actual preference read rejects large revision and invalidates prior revision
+00:00 +14: actual preference read rejects existing zero and invalidates prior revision
+00:00 +15: actual preference read rejects nullable exists and invalidates prior revision
+00:00 +16: actual preference read rejects missing preference and invalidates prior revision
+00:00 +17: actual preference read rejects nullable bool and invalidates prior revision
+00:00 +18: actual preference read rejects string bool and invalidates prior revision
+00:00 +19: actual preference read rejects extra bool and invalidates prior revision
+00:00 +20: actual preference read rejects absent nondefault and invalidates prior revision
+00:00 +21: fresh absent receipt supplies legitimate zero; exact four booleans create revision one
+00:00 +22: unchanged ACK retains loaded revision without optimistic invention
+00:00 +23: actual preference save rejects null; retains dirty intent and saved state
+00:00 +24: actual preference save rejects array; retains dirty intent and saved state
+00:00 +25: actual preference save rejects missing; retains dirty intent and saved state
+00:00 +26: actual preference save rejects extra field; retains dirty intent and saved state
+00:00 +27: actual preference save rejects wrong owner; retains dirty intent and saved state
+00:00 +28: actual preference save rejects version string; retains dirty intent and saved state
+00:00 +29: actual preference save rejects version double; retains dirty intent and saved state
+00:00 +30: actual preference save rejects nullable changed; retains dirty intent and saved state
+00:00 +31: actual preference save rejects string changed; retains dirty intent and saved state
+00:00 +32: actual preference save rejects previous mismatch; retains dirty intent and saved state
+00:00 +33: actual preference save rejects string revision; retains dirty intent and saved state
+00:00 +34: actual preference save rejects revision double; retains dirty intent and saved state
+00:00 +35: actual preference save rejects large revision; retains dirty intent and saved state
+00:00 +36: actual preference save rejects nonincrement; retains dirty intent and saved state
+00:00 +37: actual preference save rejects noop increment; retains dirty intent and saved state
+00:00 +38: actual preference save rejects timestamp null; retains dirty intent and saved state
+00:00 +39: actual preference save rejects timestamp invalid; retains dirty intent and saved state
+00:00 +40: actual preference save rejects timestamp overflow; retains dirty intent and saved state
+00:00 +41: 40001 sends once; explicit refresh retains intent and permits only a user retry
+00:00 +42: read rejects late other user reply using captured bearer
+00:00 +43: save rejects late other user reply using captured bearer
+00:00 +44: read rejects late same user new session reply using captured bearer
+00:00 +45: save rejects late same user new session reply using captured bearer
+00:00 +46: read rejects late A-B-A reply using captured bearer
+00:00 +47: save rejects late A-B-A reply using captured bearer
+00:00 +48: same-session token refresh permits ACK but pins original authorization
+00:00 +49: late full live reload cannot undo a newer acknowledged write
+00:00 +50: failed financial read during a newer preference write stays uncertain until complete reload
+00:00 +51: failed preference read during a newer write leaves discarded financial observations uncertain
+00:00 +52: a reload begun during pending write cannot overwrite its later ACK
+00:00 +53: background reload after conflict cannot authorize a hidden rebase
+00:00 +54: old-session read error is replaced before private error text can escape
+00:00 +55: pending save refuses refresh/second dispatch and keeps newer dirty intent
+00:00 +56: older explicit refresh cannot replace a newer explicit refresh
+00:00 +57: All tests passed!

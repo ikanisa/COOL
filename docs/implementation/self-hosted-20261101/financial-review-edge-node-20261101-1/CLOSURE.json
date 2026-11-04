@@ -1,0 +1,13 @@
+{
+  "capacity_free_bytes": {
+    "/System/Volumes/Data": 19908980736,
+    "/Volumes/PRO-G40": 5918572544
+  },
+  "checked_utc": "2026-11-01T20:28:06.749439+00:00",
+  "format": "collect.edge-node.process-closure.v1",
+  "observed_suite_process_group": 3926,
+  "observed_wrapper_pid": 3724,
+  "production_acceptance": false,
+  "suite_group_absent": true,
+  "wrapper_absent": true
+}

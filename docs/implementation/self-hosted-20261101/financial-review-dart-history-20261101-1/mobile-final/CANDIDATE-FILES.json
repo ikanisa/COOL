@@ -1,0 +1,31 @@
+{
+  "head": "14f32d43961cd566e8834dae841ba67e475b21f5",
+  "native": {
+    "sha256": "b388c96c8d91a274f04b99ea2a786297b6330bcbcb0d782cb543b82220e4d75a",
+    "files": 498,
+    "migrations": 25
+  },
+  "files": {
+    "lib/core/payments/momo_ussd_intent_guard.dart": "c5d6d2bbe24dd901c48154958781cdc0a072a3358a7d665394a798b34fee5040",
+    "lib/shared/models/collect_models.dart": "41cef56abc89d659648e02b2a646646e347a2118bcabf07e876ffe7260c99a63",
+    "lib/shared/repositories/collect_repository.dart": "afd80b50fee66d2a37118680ebf65368eb481f285aefd4a390f6ee7d6cb3030e",
+    "lib/shared/repositories/collect_repository_state.dart": "066397f1e4fed766b4562db46f06266b31610a51e254ba915155393ebb5f1d60",
+    "lib/shared/repositories/collect_repository_contribution_commands.dart": "dc7e91c3635c80be749edd59870b7ba146b6aebb96d3a16c4a6f455b8df15f23",
+    "test/core/momo_ussd_intent_guard_test.dart": "64e01bfd50e7609bac996912522be0a31fe9c130ccbc2f9b5b194b7e9cd59a29",
+    "test/shared/contribution_command_repository_test.dart": "0ceb21bb5ae2106b3035ac8494709a5221c88ae74c54755fd0e9caf31b0e96a2",
+    "test/shared/notification_preference_runtime_test.dart": "7561cc74f9fc79161c0e03e522bc616ee7f2bc2d6fd3eb6b2c7dc4154fb27d6a",
+    "supabase/functions/_shared/domain/contribution_commands.js": "934e4f3b2758788cfe4f3fdefa58ad2f9057777dfd749cb2f764fe886467317c",
+    "supabase/functions/_shared/tests/contribution-commands.test.mjs": "756162253b9cf3cc90346261a0eaf2b825127f8afc4275919ed667935d741fe8",
+    "scripts/supabase/testing/self-hosted-contribution-review-runtime.ts": "a41f3ec61e9dcdc4d82a7c5e60bbfdc8ad1a9daeaba9433ad4deec82c8971cf8",
+    "scripts/supabase/testing/current-self-hosted-native.mjs": "f0fe2c00cc4302859ce3a30b06c56004934c52c212b205ef92b9f9dfc99b42e5",
+    "scripts/supabase/testing/current-self-hosted-native.test.mjs": "fd18c0eb017a164ff67c3904bfedf8423c439841a0850db23ea17ffa7cda9746",
+    "scripts/tests/test_collect_ci_policy.py": "927d38406990901d51fd9a18286ed1fd639dab742b5defe6292811e8e70849e8",
+    ".github/workflows/supabase.yml": "4ef30a76fe3896971c539fc3e56fc92e65d376a869cab4899ada568300ed5af0"
+  },
+  "mobile_full_input_manifest_sha256": "15554a21ffb383ff38b656fc495ebd49948037c3d546b126275f99eefa0afb24",
+  "mobile_prior_to_final_changed": [
+    "test/shared/notification_preference_runtime_test.dart"
+  ],
+  "prior_and_final_mobile_dependencies_and_toolchain_match": true,
+  "hosted_or_device_acceptance": false
+}

@@ -1,4 +1,9 @@
-"""Read-only operational health and finite-capacity alarms; never emit row data."""
+"""Read-only operational health and finite-capacity alarms; never emit row data.
+
+The unresolved-admission and retained-obligation alarm codes are additive to
+health.v1. External monitors that enumerate codes must recognize them or use
+the nonzero exit.
+"""
 from __future__ import annotations
 import argparse
 from datetime import datetime,timezone
@@ -81,7 +86,13 @@ def evaluate(fence,services,disk,certificate_days,expected_source,expected_servi
         if service.get('state')!='running' or service.get('health') in ('unhealthy','starting'):alarms.append({'code':'service_unavailable','service':service.get('service')})
     if fence.get('mode')!='open':alarms.append({'code':'application_maintenance','mode':fence.get('mode')})
     if fence.get('schedulerStatus',{}).get('coverageVerified') is not True:alarms.append({'code':'scheduler_coverage_unverified'})
-    if int(fence.get('retainedUnknownObligations',0))>0 or int(fence.get('retainedUnquantifiedUnknownObligations',0))>0:alarms.append({'code':'unresolved_external_effects'})
+    retained=[fence.get('retainedUnknownObligations'),fence.get('retainedUnquantifiedUnknownObligations')]
+    valid=[type(value) is int and value>=0 for value in retained]
+    if not all(valid):alarms.append({'code':'retained_unknown_obligations_unconfirmed'})
+    if any(ok and value>0 for ok,value in zip(valid,retained)):alarms.append({'code':'unresolved_external_effects'})
+    unresolved=fence.get('effectiveUnresolvedAdmissions')
+    if type(unresolved) is not int or unresolved<0:alarms.append({'code':'unresolved_admissions_unconfirmed'})
+    elif unresolved>0:alarms.append({'code':'unresolved_admissions','count':unresolved})
     alarms.extend(capacity_alarms(fence))
     if disk['free_bytes']<10*1024**3 or disk['free_ratio']<.15:alarms.append({'code':'disk_space_low'})
     if certificate_days<30:alarms.append({'code':'database_tls_expiring','days_remaining':certificate_days})
@@ -103,7 +114,7 @@ def health(op,*,include_capacity_detail=False):
     result={'format':'collect.selfhost.health.v1','checked_at':datetime.now(timezone.utc).isoformat(),
         'profile_sha256':op.meta['profile_sha256'],'source_sha256':op.meta['source_sha256'],'status':'attention_required' if alarms else 'healthy',
         'services':status['services'],'mode':fence.get('mode'),'active_admissions':fence.get('effectiveActiveAdmissions',fence.get('activeAdmissions')),
-        'unresolved_admissions':fence.get('effectiveUnresolvedAdmissions',fence.get('unresolvedAdmissions')),
+        'unresolved_admissions':fence.get('effectiveUnresolvedAdmissions'),
         'retained_unknown_obligations':fence.get('retainedUnknownObligations'),'scheduler':fence.get('schedulerStatus'),
         'retained_unquantified_unknown_obligations':fence.get('retainedUnquantifiedUnknownObligations'),
         'resources':fence.get('resourceLimits'),'disk':disk,'database_certificate_days':days,'alarms':alarms}

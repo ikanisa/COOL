@@ -1,6 +1,6 @@
 {
   "source": "deploy/platform-admin/src/supabase-transport.js",
-  "source_sha256": "41675ea13db39f6e6c15b36ac3d9df2443e4f8d25b03736cd2fde3b8f3330605",
+  "source_sha256": "4ec1baaf271cbd605bb1fb92364379af430bf99c73d49e52b9023963cff8c4e9",
   "integration": "Retained Cloudflare same-origin Supabase transport; index.js owns host selection/static fallback. Originless Admin GET/HEAD binds configured origin, explicit Origin remains required for mutations, dispatched Admin outcomes are not replayed, and qualified native Google errors remain token-free.",
   "deployed": false,
   "base_source_sha256": "643a76d0a38e1023cc0edf38e5514e97e4eec565037c43d66b08648f351ba16c",
@@ -146,5 +146,18 @@
     "deployed": false,
     "production_acceptance": false,
     "verification": "Local Node checks: 49 protected transport + 5 self-hosted profile + 17 backend selection tests passed; Python Admin build config 16 passed. Candidate not deployed; historical evidence is unchanged."
+  },
+  "cancellation_handling_successor": {
+    "previous_source_sha256": "41675ea13db39f6e6c15b36ac3d9df2443e4f8d25b03736cd2fde3b8f3330605",
+    "source_sha256": "4ec1baaf271cbd605bb1fb92364379af430bf99c73d49e52b9023963cff8c4e9",
+    "change": "Observed non-blocking cancellation for refused streams; preserves unknown post-dispatch outcome classification.",
+    "focused_test_source_sha256": "7a146662bff16d6ff4d015790781d14eeb642105710cc82571f3508bcc4acf80",
+    "focused_evidence_result_sha256": "a7ac63f176c8aec8ed2c77e7102ee11c3c392d8d43bcddd91f721c128e976f51",
+    "focused_evidence_log_sha256": "cc3cc2d1f632c1d2715d3f697094912daada9abcbf8f4b06a285456b880ed168",
+    "focused_tests": 59,
+    "failed": 0,
+    "deployed": false,
+    "production_acceptance": false,
+    "scope": "Local synthetic streams and self-hosted marker fixtures; no real provider, database, or hosted release. Cancellation completion and an independently uncooperative fetch deadline remain unproven."
   }
 }

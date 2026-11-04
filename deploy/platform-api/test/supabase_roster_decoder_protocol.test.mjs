@@ -291,7 +291,16 @@ test('nonce factory reuse is refused before a second transport', async () => {
 
 test('attested animated image remains unavailable', async () => {
   const animated = fixture(); animated.state.respond = ({body}) => signed({...attestation(body), frames: 2});
-  await assert.rejects(animated.call(), refusal('roster_decoder_content_unavailable')); assert.equal(animated.state.calls.length, 1);
+  await assert.rejects(animated.call(), refusal('roster_animated_image_unsupported')); assert.equal(animated.state.calls.length, 1);
+});
+
+test('untrusted animation claims cannot select the animated-image error', async () => {
+  const invalidSignature = fixture();
+  invalidSignature.state.respond = ({body}) => signed({...attestation(body), frames: 2}, {signature: '0'.repeat(64)});
+  await assert.rejects(invalidSignature.call(), refusal('roster_decoder_authentication_failed'));
+  const unsignedError = fixture();
+  unsignedError.state.respond = () => Response.json({code: 'roster_animated_image_unsupported'}, {status: 422});
+  await assert.rejects(unsignedError.call(), refusal('roster_decoder_unavailable'));
 });
 
 for (const [field, value] of [

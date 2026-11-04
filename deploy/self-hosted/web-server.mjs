@@ -28,6 +28,7 @@ export function staticAssets(directory){
 export async function createWebApplication(env){
  const profile=await verifyDeploymentProfile(env);
  if(profile.mode!=='self_hosted'||env.SUPABASE_URL!==profile.supabase_origin||env.APP_ENVIRONMENT!==profile.environment)throw new Error('A matching self-hosted web profile is required');
+ if(profile.admin_origin===profile.public_origin)throw new Error('Self-hosted Admin and public origins must differ');
  const origins=[...new Set([profile.admin_origin,profile.member_api_origin,profile.public_origin])],adminAssets=staticAssets(env.COLLECT_ADMIN_ASSET_DIR??'/srv/admin'),memberAssets=staticAssets(env.COLLECT_PUBLIC_ASSET_DIR??'/srv/public');
  const admin=createAdminWorker(),auth=createAuthPhoneProxy(env),transports=new Map(origins.map(origin=>[origin,createCollectTransport({frontendOrigin:origin,supabaseOrigin:profile.supabase_origin,upstreamOrigin:env.SUPABASE_INTERNAL_URL??profile.supabase_origin,allowedFrontendOrigins:origins})]));
  return async request=>{
@@ -50,19 +51,29 @@ export function validRawTarget(target){
 export async function serveWeb(env=process.env){
  const application=await createWebApplication(env),profile=await verifyDeploymentProfile(env),hosts=new Set([profile.admin_origin,profile.member_api_origin,profile.public_origin,profile.supabase_origin].map(v=>new URL(v).host));
  const server=http.createServer({maxHeaderSize:16384,requestTimeout:20000,headersTimeout:10000,keepAliveTimeout:5000},async(req,res)=>{
-  const controller=new AbortController();req.on('aborted',()=>controller.abort());
+  const controller=new AbortController();let stream=null;
+  const cleanup=()=>{req.removeListener('aborted',onAbort);res.removeListener('close',onClose);res.removeListener('finish',onFinish);};
+  const onAbort=()=>controller.abort();
+  const onClose=()=>{if(!res.writableFinished){controller.abort();stream?.destroy();}cleanup();};
+  const onFinish=()=>cleanup();
+  req.on('aborted',onAbort);res.once('close',onClose);res.once('finish',onFinish);
+  if(res.destroyed||res.writableEnded){if(!res.writableFinished)controller.abort();cleanup();return;}
+  if(req.aborted)controller.abort();
   try{
    if(typeof req.headers.host!=='string'||!hosts.has(req.headers.host)||req.rawHeaders.filter((_,i)=>i%2===0&&req.rawHeaders[i].toLowerCase()==='host').length!==1){res.writeHead(421,safeHeaders);res.end();return;}
    if(!validRawTarget(req.url)){res.writeHead(400,safeHeaders);res.end();return;}
    const limit=req.headers.host===new URL(profile.supabase_origin).host?16384:16777216;
    const declared=req.headers['content-length'];if(declared!==undefined&&(!/^\d+$/.test(declared)||Number(declared)>limit)){res.writeHead(413,safeHeaders);res.end();return;}
    const chunks=[];let size=0;for await(const chunk of req){size+=chunk.length;if(size>limit){res.writeHead(413,safeHeaders);res.end();return;}chunks.push(chunk);}
+   if(res.destroyed||res.writableEnded){if(!res.writableFinished)controller.abort();cleanup();return;}
    const headers=new Headers();for(let i=0;i<req.rawHeaders.length;i+=2)headers.append(req.rawHeaders[i],req.rawHeaders[i+1]);
    const request=new Request('https://'+req.headers.host+req.url,{method:req.method,headers,body:['GET','HEAD'].includes(req.method)?undefined:Buffer.concat(chunks),signal:controller.signal});
-   const response=await application(request),output=Object.fromEntries(response.headers);if(response.headers.getSetCookie().length)output['set-cookie']=response.headers.getSetCookie();
+   const response=await application(request);
+   if(res.destroyed||res.writableEnded){if(!res.writableFinished)controller.abort();try{const pending=response.body?.cancel();if(pending!==undefined)void Promise.resolve(pending).catch(()=>{});}catch{}cleanup();return;}
+   const output=Object.fromEntries(response.headers);if(response.headers.getSetCookie().length)output['set-cookie']=response.headers.getSetCookie();
    res.writeHead(response.status,output);if(!response.body||req.method==='HEAD'){res.end();return;}
-   const stream=Readable.fromWeb(response.body);res.on('close',()=>{if(!res.writableEnded){controller.abort();stream.destroy();}});stream.on('error',()=>res.destroy());stream.pipe(res);
-  }catch{if(!res.headersSent)res.writeHead(503,safeHeaders);res.end();}
+   stream=Readable.fromWeb(response.body);stream.on('error',()=>res.destroy());stream.pipe(res);
+  }catch{if(res.destroyed||res.writableEnded){if(!res.writableFinished)controller.abort();cleanup();return;}if(!res.headersSent)res.writeHead(503,safeHeaders);res.end();}
  });
  server.listen(Number(env.PORT??8080),'0.0.0.0');return server;
 }

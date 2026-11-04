@@ -1,0 +1,12 @@
+{
+  "at_utc": "2026-11-01T20:17:46.795255+00:00",
+  "intentional_stop": true,
+  "signal": "SIGTERM",
+  "verified_process_group": 50312,
+  "supervisor_pid": 47238,
+  "result": "INCOMPLETE_NOT_A_PASS",
+  "reason": "Source revisions required after start; process group stopped before all tests",
+  "flutter_exit_code": 0,
+  "exit_code_interpretation": "Flutter returned zero after SIGTERM despite incomplete output and a stream shutdown error; the raw RESULT.json is preserved and is not a pass",
+  "process_group_absent": true
+}

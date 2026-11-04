@@ -28,6 +28,7 @@ class MainActivity : FlutterActivity() {
     private var turnstileHost: CollectTurnstileHost? = null
 
     override fun onDestroy() {
+        cancelPendingMomoPermission()
         turnstileHost?.dispose()
         turnstileHost = null
         super.onDestroy()
@@ -46,8 +47,7 @@ class MainActivity : FlutterActivity() {
     private var pendingSmsAccessResult: MethodChannel.Result? = null
     private var pendingSmsOwnerUserId: String? = null
     private var pendingSmsRequestCode: Int? = null
-    private var pendingMomoUssdResult: MethodChannel.Result? = null
-    private var pendingMomoUssdCode: String? = null
+    private var pendingMomoPermissionResult: MethodChannel.Result? = null
     private var standardIntegrityProvider:
         StandardIntegrityManager.StandardIntegrityTokenProvider? = null
     private val pendingIntegrityResults = mutableListOf<Pair<String, MethodChannel.Result>>()
@@ -394,16 +394,18 @@ class MainActivity : FlutterActivity() {
             flutterEngine.dartExecutor.binaryMessenger,
             "collect/momo_ussd",
         ).setMethodCallHandler { call, result ->
-            if (call.method != "launch") {
-                result.notImplemented()
-                return@setMethodCallHandler
+            when (call.method) {
+                "ensurePermission" -> requestMomoPermission(result)
+                "launch" -> {
+                    val code = call.argument<String>("ussd_code")?.trim().orEmpty()
+                    if (!MOMO_USSD_PATTERN.matches(code)) {
+                        result.error("momo_ussd_invalid", "Unsupported MoMo USSD request", null)
+                        return@setMethodCallHandler
+                    }
+                    launchMomoUssd(code, result)
+                }
+                else -> result.notImplemented()
             }
-            val code = call.argument<String>("ussd_code")?.trim().orEmpty()
-            if (!MOMO_USSD_PATTERN.matches(code)) {
-                result.error("momo_ussd_invalid", "Unsupported MoMo USSD request", null)
-                return@setMethodCallHandler
-            }
-            launchMomoUssd(code, result)
         }
 
         MethodChannel(
@@ -425,6 +427,7 @@ class MainActivity : FlutterActivity() {
     }
 
     override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
+        cancelPendingMomoPermission()
         SmsQueueEventBus.removeListener(smsQueueListener)
         smsQueueEventSink = null
         super.cleanUpFlutterEngine(flutterEngine)
@@ -538,24 +541,12 @@ class MainActivity : FlutterActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == MOMO_USSD_PERMISSION_REQUEST_CODE) {
-            val result = pendingMomoUssdResult
-            val code = pendingMomoUssdCode
-            pendingMomoUssdResult = null
-            pendingMomoUssdCode = null
-            if (
-                result != null &&
-                code != null &&
+            val result = pendingMomoPermissionResult
+            pendingMomoPermissionResult = null
+            result?.success(
                 checkSelfPermission(Manifest.permission.CALL_PHONE) ==
-                    PackageManager.PERMISSION_GRANTED
-            ) {
-                launchMomoUssd(code, result)
-            } else {
-                result?.error(
-                    "momo_ussd_permission_denied",
-                    "Phone permission is required to open the MoMo USSD request",
-                    null,
-                )
-            }
+                    PackageManager.PERMISSION_GRANTED,
+            )
             return
         }
         if (requestCode != pendingSmsRequestCode) return
@@ -590,20 +581,44 @@ class MainActivity : FlutterActivity() {
         pendingSmsOwnerUserId = null
     }
 
-    private fun launchMomoUssd(code: String, result: MethodChannel.Result) {
-        if (checkSelfPermission(Manifest.permission.CALL_PHONE) !=
-            PackageManager.PERMISSION_GRANTED
-        ) {
-            if (pendingMomoUssdResult != null) {
-                result.error("momo_ussd_pending", "A MoMo request is already pending", null)
-                return
-            }
-            pendingMomoUssdResult = result
-            pendingMomoUssdCode = code
+    private fun requestMomoPermission(result: MethodChannel.Result) {
+        if (pendingMomoPermissionResult != null) {
+            result.error("momo_ussd_pending", "A phone permission request is already pending", null)
+            return
+        }
+        if (checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            result.success(true)
+            return
+        }
+        pendingMomoPermissionResult = result
+        try {
             requestPermissions(
                 arrayOf(Manifest.permission.CALL_PHONE),
                 MOMO_USSD_PERMISSION_REQUEST_CODE,
             )
+        } catch (_: Exception) {
+            if (pendingMomoPermissionResult === result) {
+                pendingMomoPermissionResult = null
+                result.success(false)
+            }
+        }
+    }
+
+    private fun cancelPendingMomoPermission() {
+        val result = pendingMomoPermissionResult
+        pendingMomoPermissionResult = null
+        try {
+            result?.success(false)
+        } catch (_: Exception) {
+            // The engine may already be detached; never retain a pending code.
+        }
+    }
+
+    private fun launchMomoUssd(code: String, result: MethodChannel.Result) {
+        if (checkSelfPermission(Manifest.permission.CALL_PHONE) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            result.success(false)
             return
         }
         try {

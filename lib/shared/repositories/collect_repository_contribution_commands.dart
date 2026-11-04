@@ -59,6 +59,55 @@ mixin _CollectContributionCommands on StateNotifier<CollectState> {
     }
   }
 
+  // Local state can only withhold a handoff. A matching snapshot is never a
+  // substitute for the separate server review of the current intent.
+  bool _contributionObservationCompatible(
+    CollectState snapshot,
+    PaymentIntentModel prepared,
+    ContributionCommandOwner owner,
+  ) {
+    if (snapshot.isLoading ||
+        snapshot.usingStaleCache ||
+        snapshot.financialObservationUncertain ||
+        snapshot.lastSuccessfulSyncAt == null) {
+      return false;
+    }
+    final profile = snapshot.currentProfile;
+    if (profile == null ||
+        profile.id != owner.principalId ||
+        !profile.isRwanda) {
+      return false;
+    }
+    try {
+      if (HashUtils.phoneHash(profile.momoNumber) != prepared.senderPhoneHash) {
+        return false;
+      }
+    } catch (_) {
+      return false;
+    }
+    final groups = snapshot.collections
+        .where((group) => group.id == prepared.collectionId)
+        .take(2)
+        .toList();
+    final intents = snapshot.paymentIntents
+        .where((intent) => intent.id == prepared.id)
+        .take(2)
+        .toList();
+    if (groups.length != 1 || intents.length != 1) return false;
+    final group = groups.single;
+    return !group.isArchived &&
+        group.isCurrentUserMember &&
+        group.contributionRailFor(profile) == 'rwanda_momo' &&
+        group.receiverMomoNumber?.trim() == prepared.receiverMomoNumber &&
+        group.receiverNetwork == prepared.momoNetwork &&
+        group.receiverRouteLabel?.trim() == prepared.receiverMomoLabel &&
+        preparedMomoIntentStillActionable(
+          prepared,
+          intents.single,
+          now: DateTime.now(),
+        );
+  }
+
   Future<ContributionSessionWitness> _contributionWitness(
     _CollectSessionFence fence,
     ContributionCommandOwner owner,
@@ -362,46 +411,80 @@ mixin _CollectContributionCommands on StateNotifier<CollectState> {
         !_contributionSenderCurrent(command.body.senderPhoneHash)) {
       throw const ContributionReviewChanged();
     }
-    bool stillBound() =>
-        current() && _contributionSenderCurrent(command.body.senderPhoneHash);
-    await _contributionCommandJournal.claimProviderHandoff(
-      witness,
-      command.body.requestId,
-      prepared.id,
-      isCurrent: stillBound,
-    );
-    // The journal commit can await storage for an arbitrary time. Never use
-    // the earlier review to authorize a launch after that await: membership,
-    // route or intent status may have changed while it was in flight.
-    final reviewAge = Stopwatch()..start();
-    final freshReview = await _fetchContributionReview(
-      prepared,
-      witness,
-      fence,
-      owner,
-      command.body.senderPhoneHash,
-    );
-    if (reviewAge.elapsed >= _handoffReviewWindow ||
-        freshReview.collectionRevision != review.collectionRevision ||
-        !reviewedMomoIntentStillActionable(
-          prepared,
-          freshReview,
-          now: DateTime.now(),
-        )) {
-      throw const ContributionReviewChanged();
+    var observationInvalidated = false;
+    final removeObservation = addListener((snapshot) {
+      if (!_contributionObservationCompatible(snapshot, prepared, owner)) {
+        observationInvalidated = true;
+      }
+    }, fireImmediately: false);
+    Timer? expiry;
+    var observationClosed = false;
+    void closeObservation() {
+      if (observationClosed) return;
+      observationClosed = true;
+      expiry?.cancel();
+      removeObservation();
     }
-    return ContributionLaunchPermit(
-      review: freshReview,
-      isCurrent: () =>
-          stillBound() &&
-          witness.usableAt(DateTime.now()) &&
-          reviewAge.elapsed < _handoffReviewWindow &&
-          reviewedMomoIntentStillActionable(
+
+    bool stillBound() =>
+        !observationInvalidated &&
+        current() &&
+        _contributionSenderCurrent(command.body.senderPhoneHash) &&
+        _contributionObservationCompatible(state, prepared, owner);
+    try {
+      if (!stillBound()) throw const ContributionReviewChanged();
+      await _contributionCommandJournal.claimProviderHandoff(
+        witness,
+        command.body.requestId,
+        prepared.id,
+        isCurrent: stillBound,
+      );
+      // Storage may await arbitrarily long. The final server review remains
+      // mandatory, and a newer local contradiction stays invalid even if an
+      // older response arrives afterward or the local value changes back.
+      final reviewAge = Stopwatch()..start();
+      final freshReview = await _fetchContributionReview(
+        prepared,
+        witness,
+        fence,
+        owner,
+        command.body.senderPhoneHash,
+      );
+      if (!stillBound() ||
+          reviewAge.elapsed >= _handoffReviewWindow ||
+          freshReview.collectionRevision != review.collectionRevision ||
+          !reviewedMomoIntentStillActionable(
             prepared,
             freshReview,
             now: DateTime.now(),
-          ),
-    );
+          )) {
+        throw const ContributionReviewChanged();
+      }
+      expiry = Timer(
+        _handoffReviewWindow - reviewAge.elapsed,
+        closeObservation,
+      );
+      return ContributionLaunchPermit(
+        review: freshReview,
+        isCurrent: () {
+          final allowed =
+              !observationClosed &&
+              stillBound() &&
+              witness.usableAt(DateTime.now()) &&
+              reviewAge.elapsed < _handoffReviewWindow &&
+              reviewedMomoIntentStillActionable(
+                prepared,
+                freshReview,
+                now: DateTime.now(),
+              );
+          closeObservation();
+          return allowed;
+        },
+      );
+    } catch (_) {
+      closeObservation();
+      rethrow;
+    }
   }
 
   /// Only a server-confirmed posted contribution permits another genuine

@@ -25,7 +25,26 @@ export const CURRENT_HARNESSES=Object.freeze([
  {name:'notifications',purpose:'notifications',entry:'scripts/supabase/testing/notification-channels.ts',env:'COLLECT_NOTIFICATION_FIXTURE_FILE',cases:9},
  {name:'gateway',purpose:'gateway',entry:'deploy/collect-sms/test/gateway.test.ts',env:'COLLECT_SMS_FIXTURE_FILE',cases:34},
  {name:'data_stage',purpose:'backend',runtime:'node',entry:'scripts/supabase/testing/self-hosted-data-stage.mjs',env:'COLLECT_DATA_STAGE_FIXTURE_DESCRIPTOR',cases:5},
+ {name:'momo',purpose:'backend',entry:'scripts/supabase/testing/self-hosted-momo-runtime.ts',env:'COLLECT_MOMO_FIXTURE_DESCRIPTOR',cases:18},
+ {name:'contribution_review',purpose:'backend',entry:'scripts/supabase/testing/self-hosted-contribution-review-runtime.ts',env:'COLLECT_CONTRIBUTION_REVIEW_FIXTURE_DESCRIPTOR',cases:7},
 ]);
+const CONTRIBUTION_REVIEW_CHECKS=Object.freeze([
+ 'normal_runtime_has_select_and_active_rls_without_bypass','real_create_and_unlinked_review_succeed',
+ 'normal_runtime_rls_sees_null_member_beneficiary_payment','pending_beneficiary_link_denies_review',
+ 'shared_worker_http_with_synthetic_preverified_claims_denies_link_and_missing_auth',
+ 'committed_link_between_context_and_review_select_is_denied','unrelated_link_does_not_disable_unlinked_intent_or_replace_receipt',
+]);
+
+const MOMO_OUTBOX_CHECKS=Object.freeze(['actual_SQL_source_and_enqueue_commit_or_roll_back_together',
+ 'actual_SQL_overlapping_worker_cannot_claim_unexpired_lease','expired_preflight_reclaims_once_and_fences_old_dispatch',
+ 'expired_dispatched_attempt_is_parked_and_stale_result_cannot_commit','parking_lock_wins_and_stale_completion_rolls_back_all_facts',
+ 'lease_expiry_while_finishing_lock_held_rolls_back_and_parks','lease_expiry_during_unmodified_row_lock_wait_prevents_stale_facts',
+ 'lease_expiry_during_dispatch_lock_wait_never_calls_provider','lost_provider_response_is_durable_unknown_and_never_automatically_retried',
+ 'lost_dispatch_marker_ack_never_sends_or_reclaims_ambiguously','pre_dispatch_failure_retries_safely_after_backoff',
+ 'legacy_ambiguous_pending_retry_and_expired_processing_are_parked']);
+const MOMO_ADMIN_CHECKS=Object.freeze(['missing_fresh_email_proof_and_missing_csrf_denied',
+ 'authorized_resolution_and_idempotent_replay_keep_one_evidence_row','unknown_outcome_and_insufficient_staff_role_denied',
+ 'reparse_compare_and_set_refuses_concurrent_unknown','authorized_reparse_and_replay','authorized_manual_correction_has_no_financial_effect']);
 
 export function validateCurrentInvocation(env,nodeVersion=process.versions.node){
  need(/^24\./.test(nodeVersion),'NODE24_REQUIRED');
@@ -83,6 +102,17 @@ export function validateHarnessReceipt(name,value){
  else if(name==='control')need(value.format==='collect.selfhost.control.native.v1'&&value.state==='PASS_CURRENT_BOUNDED_CONTROL_NATIVE'&&value.receipts.length===8&&value.provider_calls===0&&value.production_capacity_closed===false,'CURRENT_CONTROL_RECEIPT_REQUIRED');
  else if(name==='runtime')need(value.format==='collect.selfhost.runtime.native.v1'&&value.status==='PASS'&&value.cases===16&&value.normal_owner===true&&value.normal_runtime===true&&value.external_provider_calls===0&&value.synthetic_provider_calls>=4&&value.financial_posting_acceptance===false&&value.hosted_acceptance===false,'CURRENT_RUNTIME_RECEIPT_REQUIRED');
  else if(name==='data_stage')need(value.format==='collect.selfhost.data-stage.native.v1'&&value.status==='PASS'&&value.cases.length===5&&value.provider_calls===0&&value.observed.actual_postgres===true&&value.observed.actual_sqlite===true&&value.current_first_import_supported===false&&value.historical_positive_import_acceptance===false&&value.production_acceptance===false,'CURRENT_DATA_STAGE_RECEIPT_REQUIRED');
+ else if(name==='contribution_review')need(value.format==='collect.selfhost.contribution-review.native.v1'&&value.status==='PASS'&&value.normal_owner===true&&value.normal_runtime===true&&
+  JSON.stringify(value.checks)===JSON.stringify(CONTRIBUTION_REVIEW_CHECKS)&&value.provider_calls===0&&value.external_network_calls===0&&
+  value.hosted_acceptance===false&&value.production_acceptance===false&&value.http_router==='shared_worker'&&
+  value.auth_fixture==='synthetic_preverified_claims'&&value.outer_deployed_edge_handler_exercised===false&&
+  value.review_to_provider_race_closed===false,'CURRENT_CONTRIBUTION_REVIEW_RECEIPT_REQUIRED');
+ else if(name==='momo')need(value.format==='collect.selfhost.momo.native.v1'&&value.status==='PASS'&&value.normal_owner===true&&value.normal_runtime===true&&
+  JSON.stringify(value.outbox_checks)===JSON.stringify(MOMO_OUTBOX_CHECKS)&&JSON.stringify(value.admin_checks)===JSON.stringify(MOMO_ADMIN_CHECKS)&&
+  JSON.stringify(value.synthetic_provider_calls)==='{"unexpired_overlap":1,"expired_overlap":1,"lost_response":1,"lost_marker_ack":0}'&&
+  value.provider_calls===0&&value.external_network_calls===0&&Number.isSafeInteger(value.synthetic_auth_get_user_calls)&&value.synthetic_auth_get_user_calls>0&&
+  Number.isSafeInteger(value.admin_completed_admissions)&&value.admin_completed_admissions>0&&
+  value.hosted_acceptance===false&&value.production_acceptance===false,'CURRENT_MOMO_RECEIPT_REQUIRED');
  else need(false,'UNKNOWN_CURRENT_HARNESS');
  const schema=value.current_schema??value.observed?.current_schema;
  need(schema?.profile===CURRENT_NATIVE_PROFILE&&schema.migration_count===CURRENT_MIGRATION_COUNT&&
@@ -218,7 +248,7 @@ export async function qualifyCurrentSelfHosted(env=process.env){
  }catch(error){fatal=/^[A-Z0-9_]+$/.test(error.message)?error.message:'CURRENT_NATIVE_QUALIFICATION_UNCONFIRMED';}
  finally{try{await admin.end();}catch{}}
  try{await parity();}catch{fatal='CURRENT_NATIVE_SOURCE_CHANGED';}
- const result={format:'collect.selfhost.current-native.result.v1',status:!fatal&&results.length===11&&results.every(row=>row.status==='PASS')?'PASS':'FAIL',profile:CURRENT_NATIVE_PROFILE,source_sha256:source.source_sha256,
+ const result={format:'collect.selfhost.current-native.result.v1',status:!fatal&&results.length===13&&results.every(row=>row.status==='PASS')?'PASS':'FAIL',profile:CURRENT_NATIVE_PROFILE,source_sha256:source.source_sha256,
   migration_count:CURRENT_MIGRATION_COUNT,original16_preserved:true,results,fatal,synthetic_auth:true,synthetic_provider_boundaries:true,actual_postgres:true,
   provider_calls:0,hosted_acceptance:false,native_extensions_acceptance:false,production_acceptance:false,historical_current14_or_current16_acceptance:false,fixtures_preserved:true};
  await exclusive(join(config.output,'RESULT.json'),result);return result;

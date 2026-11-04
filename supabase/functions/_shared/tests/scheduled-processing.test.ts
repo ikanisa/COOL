@@ -84,7 +84,8 @@ fencedTest('durable retry and review outcomes are acknowledgements; uncertain le
   const handler=createScheduledHandler(environment,cleanup,async()=>({processed:1,results:[{state}]}));
   const response=await handler(request(dispatch()));assertEquals(response.status,200);assertEquals((await response.json()).processing.results,[{state}]);
  }
- for(const result of [{processed:1,results:[{state:'retry_on_lease_expiry'}]},{processed:2,results:[{state:'completed'},{state:'completed'}]},
+ for(const result of [{processed:1,results:[{state:'retry_on_lease_expiry'}]},{processed:1,results:[{state:'awaiting_lease_reconciliation'}]},
+  {processed:2,results:[{state:'completed'},{state:'completed'}]},
   {processed:1,results:[]},{processed:0,results:[],paused:true}]){
   const handler=createScheduledHandler(environment,cleanup,async()=>result),response=await handler(request(dispatch()));
   assertEquals(response.status,503);assertEquals((await response.json()).processing.code,'receipt_processing_unconfirmed');

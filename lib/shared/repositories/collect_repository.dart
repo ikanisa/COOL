@@ -317,6 +317,7 @@ class CollectRepository extends StateNotifier<CollectState>
         isLoading: false,
         usingStaleCache: false,
         lastSuccessfulSyncAt: DateTime.now().toUtc(),
+        financialObservationUncertain: false,
       );
       if (!readStillCurrent()) return;
       if (accessReduced || profile == null || _offlineRestoreSuspended) {
@@ -348,7 +349,13 @@ class CollectRepository extends StateNotifier<CollectState>
               (preferencesReadAttempt != null &&
                   preferencesReadAttempt !=
                       _notificationPreferencesReadGeneration))) {
-        state = state.copyWith(isLoading: false);
+        // This generation race preserves the newer preference operation. The
+        // freshly fetched financial data was not installed, even when failure
+        // happened during preferences. Deny until a complete load succeeds.
+        state = state.copyWith(
+          isLoading: false,
+          financialObservationUncertain: true,
+        );
         return;
       }
       _notificationPreferencesRevision = null;
@@ -608,11 +615,33 @@ class CollectRepository extends StateNotifier<CollectState>
     final backend = _backend;
     final user = backend?.auth.currentUser;
     if (backend != null && user != null) {
-      final profile = await _liveReader.ensureLiveProfile(
-        user.id,
-        normalized,
-        countryCode: initialCountry,
-      );
+      final session = _captureSession();
+      bool current() =>
+          _isCurrentSession(session) &&
+          session.identity?.userId == user.id &&
+          session.accessToken != null &&
+          _signingOutIdentity != session.identity &&
+          backend.auth.currentUser?.id == user.id;
+      void requireCurrent() {
+        if (!current()) {
+          throw StateError('Account changed. Refresh before continuing.');
+        }
+      }
+
+      requireCurrent();
+      late final CollectProfile profile;
+      try {
+        profile = await _liveReader.ensureLiveProfile(
+          user.id,
+          normalized,
+          countryCode: initialCountry,
+          accessToken: session.accessToken!,
+        );
+      } catch (_) {
+        requireCurrent();
+        rethrow;
+      }
+      requireCurrent();
       state = state.copyWith(currentProfile: profile);
       unawaited(loadInitial());
       return profile;

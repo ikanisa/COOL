@@ -1,0 +1,7 @@
+# Financial review Dart and history evidence
+
+The final-source isolated sequence passed eight targeted Dart analyses, a non-mutating format check for those eight files, current history artifact admission, and all six current-chain history consumer cases. The current native/history input digest was 53be517dd55c6557cc21cb01710645c56611dcf0ef357f82d3be86ae8e90c0ec; native source digest was b388c96c8d91a274f04b99ea2a786297b6330bcbcb0d782cb543b82220e4d75a. Source, fixture, dependency and toolchain parity and all owned child process groups were checked.
+
+The complete earlier focused mobile cohort passed 205 cases and had two failing synthetic preference-fixture setup cases. The sole changed mobile input afterward was that test fixture, and the final 57-case notification suite passed with matching production source and dependency/toolchain inputs. Both unsuccessful attempts remain in prior-attempts. The cancelled attempt returned Flutter exit zero but is incomplete and is not a pass; its cancellation record and output are retained.
+
+The admitted v3 packet was produced using synthetic seeded rows on local PostgreSQL and is not one of the six historical legacy SQL gates. No hosted, device, provider or production acceptance is asserted. Rebased define paths record the isolated fixture used during this run; receipt bytes and source pins are retained separately in the sibling financial-review-current-native-20261101-1 packet.

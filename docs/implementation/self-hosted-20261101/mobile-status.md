@@ -216,6 +216,17 @@ retains the visible layout while text/icon rasterization differs, but the cause
 has not been established. These failures are not declared pre-existing,
 platform-only, or acceptable without evidence and the selected design review.
 
+A 1 November read-only follow-up verified the hashes of all 52 retained PNGs
+and confirmed the 13 masters match the current baseline files. Visible content,
+wrapping and major layout appear similar; many differences follow text and icon
+edges, with small additional image-region differences. This suggests a shared
+rendering difference but does not establish its cause. The original run's source
+tree changed during execution and its captured inputs cannot be rebound to
+current main. The installed owner-selected Revolut skill is available on this
+host; its iOS reference images and these synthetic widget images do not by
+themselves establish matching native or authenticated Admin states. A new
+source-bound focused comparison and appropriate direct comparators remain needed.
+
 The six skips are existing explicit SQL-receipt dependencies in
 `admin_roster_sql_receipts_test.dart`, `admin_roster_reload_test.dart`,
 `admin_roster_fresh_auth_sql_receipts_test.dart`,
@@ -464,3 +475,16 @@ hosted TLS/OAuth/cookie/device
 qualification, signing, Android permission/USSD/SMS lifecycle UAT, production
 backup/restore/cutover and owner release approval. Source and local tests do
 not satisfy those gates by themselves.
+
+## Focused Home regression continuation
+
+The separate [current-main macOS Home check](home-golden-macos-20261101/RESULT.json) passed on the Android test-platform variant, and the captured candidate was byte-identical to the existing baseline. Source, fixture, SDK and dependency inventories were unchanged; the full inventory and original image remain in the named T7 evidence directory. This does not rerun the other twelve comparisons, explain the earlier Linux result, or establish a direct design, device or hosted acceptance.
+
+## Thirteen-surface macOS regression continuation
+
+The separate [13-surface macOS continuation](golden13-macos-20261101/README.md)
+passed all 13 current comparisons plus the historical manifest test. Each
+captured candidate is byte-identical to its existing current baseline; no
+baseline or comparator was changed. Source, fixture, SDK and dependency checks
+matched. This does not establish the cause of the earlier Linux mismatches,
+the shipping cookie-Admin rendering, device behavior or design acceptance.

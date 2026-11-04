@@ -1,0 +1,33 @@
+running 1 test from ./supabase/functions/_shared/tests/receipt_facts.test.ts
+versioned receipt facts: actual MoMo producer/handlers on isolated PostgreSQL ...
+  ordinary capture remains metadata only without registration or financial effects ... ok (37ms)
+  actual extraction/list/detail preserve full/masked identifiers and leading zeros with original provenance ... ok (104ms)
+  raw time, normalized instant and receiving profile timezone are distinct, absent facts stay null ... ok (82ms)
+  duplicate/conflicting source attempts never replace original accepted facts or IDs ... ok (79ms)
+  current permissions/origin and independent email/reason/audit guards remain active ... ok (171ms)
+  broken accepted relation/digest/attempt provenance fails closed for detail and counted list ...
+------- output -------
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":19}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":18}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":18}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":20}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":17}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":17}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":17}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":19}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":18}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":21}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":16}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":17}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":19}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":20}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":19}
+{"service":"collect_platform_api","schema_version":1,"event":"service_degraded","component":"admin","status":503,"request_id":null,"source_id":"unknown","elapsed_ms":20}
+----- output end -----
+  broken accepted relation/digest/attempt provenance fails closed for detail and counted list ... ok (316ms)
+  reparse requires current authority and cannot overwrite an unresolved provider outcome ... ok (130ms)
+  periodic drain recovers only safe backlog and parks ambiguous attempts without financial effects ... ok (58ms)
+versioned receipt facts: actual MoMo producer/handlers on isolated PostgreSQL ... ok (1s)
+
+ok | 1 passed (8 steps) | 0 failed (1s)
+

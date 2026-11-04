@@ -19,6 +19,7 @@ ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT))
 from scripts.supabase.deployment_profile import validate_profile,profile_sha256
 from scripts.self_hosted.configure import private_file,read_env,validated_settings,verify_configuration
+from scripts.self_hosted.prepare import FrontendOriginsMustDiffer
 
 class Operator:
     def __init__(self,release:Path,*,docker='docker'):
@@ -50,8 +51,26 @@ class Operator:
         # Process diagnostics may contain operational data. Retain privately;
         # the command's argv, SQL, environment and output never enter reports.
         log=self.root/'private'/('operation-'+uuid.uuid4().hex+'.log')
-        result=subprocess.run(args,input=input_bytes,capture_output=True,timeout=timeout)
-        with log.open('xb') as stream:os.chmod(log,0o600);stream.write(result.stderr)
+        def retain(stderr):
+            fd=os.open(log,os.O_WRONLY|os.O_CREAT|os.O_EXCL|getattr(os,'O_NOFOLLOW',0),0o600)
+            with os.fdopen(fd,'wb') as stream:stream.write(stderr)
+        try:
+            result=subprocess.run(args,input=input_bytes,capture_output=True,timeout=timeout)
+        except subprocess.TimeoutExpired as error:
+            retained=False
+            try:
+                # This bounds persisted diagnostics, not subprocess memory or daemon effects.
+                stderr=error.stderr or b''
+                if len(stderr)>1024*1024:stderr=stderr[:1024*1024]+b'\n[stderr truncated]\n'
+                retain(stderr);retained=True
+            except OSError:
+                # Diagnostic failure must not hide the unknown command outcome.
+                pass
+            finally:
+                error.cmd='operation';error.args=('operation',error.timeout);error.output=None;error.stderr=None
+                error.private_diagnostic_retained=retained
+            raise
+        retain(result.stderr)
         if result.returncode:raise RuntimeError('Operation failed; inspect its private diagnostic')
         return result.stdout
 
@@ -146,6 +165,7 @@ psql --no-psqlrc --no-password --host=db --port=5432 --username=collect_sms_edge
         if result!=['t','t']:raise ValueError('Both actual runtime TLS authentication probes must succeed')
 
     def publish(self):
+        if self.profile['admin_origin']==self.profile['public_origin']:raise FrontendOriginsMustDiffer('Self-hosted Admin and public origins must differ')
         self.docker_preflight();self.validate_runtime_database()
         settings=json.loads((self.root/'private/provider-settings.json').read_text())
         status=validated_settings(settings,self.profile,self.meta['source_sha256'])

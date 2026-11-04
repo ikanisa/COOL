@@ -40,6 +40,12 @@ class MemberSmsUploadPolicyTest {
         assertFalse(MomoGatewayPolicy.memberSource("M-Money", "Your PIN is 1234 for 1000 RWF"))
         assertFalse(MomoGatewayPolicy.memberSource("M-Money", "Hello"))
     }
+    @Test fun captureExcludesKnownCredentialPhrasesButKeepsTransactionCodes() {
+        for (credential in listOf("authorization code", "AUTHORISATION CODE", "password", "mot de passe")) {
+            assertFalse(credential, MomoGatewayPolicy.memberSource("MTN", "Your $credential is 123456; transaction 100 RWF"))
+        }
+        assertTrue(MomoGatewayPolicy.memberSource("MTN", "Transaction code 123456: received 100 RWF"))
+    }
     @Test fun backgroundDrainUsesOnlyCurrentOwnerUnexpiredSession() {
         assertNotNull(token(session()))
         assertNull(token(session(), other))

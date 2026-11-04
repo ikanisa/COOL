@@ -1,5 +1,6 @@
 import 'support/recorded_auth_fixture.dart';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:collect_app/admin/core/admin_roster_import.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -34,6 +35,65 @@ Map<String, Object?> _auth() => {
 };
 
 void main() {
+  test(
+    'animated image rejection survives the actual function transport',
+    () async {
+      final posts = <http.Request>[];
+      final client = recordedFixtureClient(
+        'http://127.0.0.1:9989',
+        recordedAuthPath: '/auth/v1/verify',
+        httpClient: MockClient((request) async {
+          if (request.url.path.startsWith('/auth/v1/')) {
+            return http.Response(
+              jsonEncode(_auth()),
+              200,
+              headers: {'content-type': 'application/json'},
+            );
+          }
+          posts.add(request);
+          return http.Response(
+            jsonEncode({
+              'code': 'roster_animated_image_unsupported',
+              'message':
+                  'Animated images are not supported. Please upload a static image.',
+            }),
+            400,
+            headers: {'content-type': 'application/json'},
+          );
+        }),
+      );
+      await installRecordedAuthFixture(
+        client,
+        phone: '+250788989001',
+        token: 'B',
+        type: CollectOtpType.sms,
+      );
+      final gateway = CollectAdminRosterGateway(client);
+      final draft = AdminRosterDraft(gateway);
+      addTearDown(() async {
+        draft.dispose();
+        gateway.dispose();
+        await client.dispose();
+      });
+      Future<AdminRosterUpload> image() async => AdminRosterUpload.fromBytes(
+        'roster.png',
+        'png',
+        Uint8List.fromList([1, 2, 3]),
+        aiConsent: true,
+      );
+      await draft.prepare(image);
+      expect(draft.errorCode, 'roster_animated_image_unsupported');
+      expect(
+        draft.error,
+        contains('Animated or multi-frame images are not supported'),
+      );
+      expect(draft.error, contains('Discard this draft'));
+      expect(draft.terminalUploadFailure, isTrue);
+      await draft.prepare(image);
+      expect(posts, hasLength(1));
+    },
+  );
+
   for (final name in _writes) {
     for (final failure in ['network', '503']) {
       test(

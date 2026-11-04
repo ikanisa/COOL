@@ -1,0 +1,12 @@
+Download https://registry.npmjs.org/hono
+Check scripts/supabase/testing/self-hosted-control-concurrency.ts
+Check scripts/supabase/testing/self-hosted-runtime.ts
+Check scripts/supabase/testing/self-hosted-backend-runtime.ts
+Check scripts/supabase/testing/self-hosted-auth-runtime.ts
+Check scripts/supabase/testing/self-hosted-retention-runtime.ts
+Check scripts/supabase/testing/notification-channels.ts
+Check scripts/supabase/testing/combined-self-hosted-scheduler.ts
+Check scripts/supabase/testing/gateway-fence.ts
+Check scripts/supabase/testing/self-hosted-momo-runtime.ts
+Check scripts/supabase/testing/self-hosted-contribution-review-runtime.ts
+Check deploy/collect-sms/test/gateway.test.ts

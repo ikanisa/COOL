@@ -1,0 +1,16 @@
+{
+  "format": "collect.selfhost.history.capture.v3",
+  "status": "PASS",
+  "profile": "reviewed_current_chain_member_history_v3",
+  "source_sha256": "53be517dd55c6557cc21cb01710645c56611dcf0ef357f82d3be86ae8e90c0ec",
+  "packet_sha256": "d27e13fb62520201b09a6b6093fb3919f85661f893610e1692262a30f58ae886",
+  "inputs_sha256": "3bcc0264dcb970a4376070098a666c7531ff4b9b7503cc8477963e09e3143925",
+  "sql_sha256": "7003acced2548c38b65327702c57236edf920e949ff1ede0941fbbbfb62004ea",
+  "requests": 22,
+  "pages": 15,
+  "sql_statements": 41,
+  "historical_current14_or_current16_acceptance": false,
+  "provider_calls": 0,
+  "hosted_acceptance": false,
+  "production_acceptance": false
+}

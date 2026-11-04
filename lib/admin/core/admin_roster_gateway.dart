@@ -46,6 +46,8 @@ class AdminRosterRequestError implements Exception {
       'The roster service requires a compatible app version. Close this draft and update the app before continuing.',
     'roster_commit_conflict' =>
       'The roster conflicts with existing member or group data. No changes were committed. Check the group before discarding this draft.',
+    'roster_animated_image_unsupported' =>
+      'Animated or multi-frame images are not supported. Discard this draft and choose a still PNG, JPEG or WebP image, or a supported document.',
     'roster_extraction_failed' ||
     'roster_preview_invalid' ||
     'roster_extraction_timeout' ||
@@ -85,6 +87,7 @@ const _safeRosterCodes = {
   'roster_collection_unavailable',
   'roster_provenance_required',
   'roster_commit_conflict',
+  'roster_animated_image_unsupported',
   'roster_extraction_failed',
   'roster_preview_invalid',
   'roster_extraction_timeout',
@@ -96,9 +99,21 @@ const _safeRosterCodes = {
 };
 AdminRosterRequestError _safeRosterError(Object error) {
   Object? code;
-  if (error is CollectApiException) code = error.message;
+  final candidates = <Object?>[];
+  if (error is CollectApiException) {
+    candidates.addAll([error.message, error.code]);
+  }
   if (error is CollectFunctionException && error.details is Map) {
-    code = (error.details as Map)['error'];
+    final details = error.details as Map;
+    // The functions client wraps a non-2xx API error as code/message. Keep
+    // accepting the older error field, but expose only our known safe codes.
+    candidates.addAll([details['error'], details['code'], details['message']]);
+  }
+  for (final candidate in candidates) {
+    if (candidate is String && _safeRosterCodes.contains(candidate)) {
+      code = candidate;
+      break;
+    }
   }
   if (!(code is String && _safeRosterCodes.contains(code)) &&
       ((error is CollectApiException && error.code == '42501') ||

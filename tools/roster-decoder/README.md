@@ -8,6 +8,12 @@ itself; see `docs/architecture/roster-ai-dispatch-policy.md`.
 
 ## Decoder controls
 
+The owner-selected roster policy accepts supported static images and rejects
+animated or multi-frame images. Admission performs that refusal before source
+retention; the signed bridge remains a second safeguard. The legacy helper's
+frame-validation behavior below is retained as factual context and does not
+authorize animation delivery.
+
 The decoder performs Pillow PNG/JPEG/WebP decoding of every animation frame,
 PDF object/stream inspection and PDFium rendering of every page, and bounded
 ZIP/XML/openpyxl workbook-to-TSV derivation. It rejects active PDF content,

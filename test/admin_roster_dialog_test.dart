@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:collect_app/admin/core/admin_roster_dialog.dart';
 import 'package:collect_app/admin/core/admin_roster_import.dart';
@@ -97,6 +98,36 @@ void main() {
       'Compared all rows against original source',
     );
   }
+
+  testWidgets('animated image explains how to start a static upload', (
+    tester,
+  ) async {
+    final gateway = FakeRosterGateway();
+    gateway.onPrepare = (_) async => throw const AdminRosterRequestError(
+      'roster_animated_image_unsupported',
+    );
+    final draft = AdminRosterDraft(gateway);
+    await draft.prepare(
+      () async => AdminRosterUpload.fromBytes(
+        'animated.png',
+        'png',
+        Uint8List.fromList([1, 2, 3]),
+        aiConsent: true,
+      ),
+    );
+    await show(tester, draft);
+
+    expect(
+      find.textContaining('Animated or multi-frame images are not supported.'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('Discard this draft'), findsOneWidget);
+    final retry = find.widgetWithText(OutlinedButton, 'Retry preview');
+    expect(tester.widget<OutlinedButton>(retry).onPressed, isNull);
+    await tap(tester, 'Discard draft');
+    expect(find.byType(AdminRosterImportDialog), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
 
   testWidgets(
     'feature revocation hides private rows and shows actionable close state',

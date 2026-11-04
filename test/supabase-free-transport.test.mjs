@@ -420,6 +420,54 @@ test('Admin session and team reads retain unknown refresh outcomes without retry
   }
 });
 
+test('free host refuses unqualified responses without waiting for cancellation',async()=>{
+  const routes=[['/v1/groups','POST',true],['/api/admin/auth/session','GET',true],
+    ['/v1/auth/google/callback','GET',true],['/v1/groups','GET',false]];
+  const refusals=[['proxy_redirect_denied',{location:'https://synthetic.invalid/'}],
+    ['proxy_encoding_unqualified',{'content-encoding':'gzip'}],
+    ['proxy_response_too_large',{'content-length':'100'}]];
+  for(const [path,method,effectful] of routes) for(const [reason,headers] of refusals)
+    for(const mode of ['pending','reject','throw']){
+      let calls=0,cancels=0,outgoing;
+      const handle=createFreeHost({transportOptions:{timeoutMs:25,maxResponseBytes:16},fetchImpl:async req=>{
+        calls++;outgoing=req.signal;
+        return {status:200,headers:new Headers(headers),body:{cancel(){cancels++;
+          if(mode==='throw')throw new Error('synthetic cancellation');
+          return mode==='reject'?Promise.reject(new Error('synthetic cancellation')):new Promise(()=>{});
+        }}};
+      }});
+      const response=await handle(request(path,{method,...(method==='POST'?{body:'{}'}:{})}));
+      assert.equal(response.status,502);assert.deepEqual(await response.json(),effectful?
+        {code:'proxy_outcome_unknown',reason}:{code:reason});
+      assert.equal(calls,1);assert.equal(cancels,1);assert.equal(outgoing.aborted,true);
+    }
+  // Allow asynchronously rejected cancellations to surface as unhandled rejections.
+  await new Promise(resolve=>setTimeout(resolve,10));
+});
+
+test('free host refuses oversized streams without waiting for cancellation',async()=>{
+  let dispatches=0,requestCancels=0;
+  const requestBody=new ReadableStream({start(c){c.enqueue(new Uint8Array(4));},cancel(){requestCancels++;return new Promise(()=>{});}});
+  const handler=createFreeHost({transportOptions:{maxRequestBytes:3,timeoutMs:25},fetchImpl:async()=>{dispatches++;return Response.json({});}});
+  const incoming=new Request(FRONT+'/v1/groups',{method:'POST',headers:{Origin:FRONT},body:requestBody,duplex:'half'});
+  const refusal=await handler(incoming);assert.equal(refusal.status,413);assert.equal(await code(refusal),'proxy_request_too_large');
+  assert.equal(dispatches,0);assert.equal(requestCancels,1);
+  let responseCancels=0;
+  const responseHandler=createFreeHost({transportOptions:{maxResponseBytes:3,timeoutMs:25},fetchImpl:async()=>{
+    dispatches++;return new Response(new ReadableStream({start(c){c.enqueue(new Uint8Array(4));},cancel(){responseCancels++;return new Promise(()=>{});}}));
+  }});
+  const response=await responseHandler(request('/v1/groups',{method:'POST',body:'{}'}));
+  assert.equal(response.status,502);assert.deepEqual(await response.json(),{code:'proxy_outcome_unknown',reason:'proxy_response_too_large'});
+  assert.equal(dispatches,1);assert.equal(responseCancels,1);
+});
+
+test('free host clears its deadline after a successful response',async()=>{
+  let signal,calls=0;const caller=new AbortController();
+  const handler=createFreeHost({transportOptions:{timeoutMs:15},fetchImpl:async req=>{calls++;signal=req.signal;return Response.json({ok:true});}});
+  const response=await handler(request('/v1/groups',{signal:caller.signal}));assert.equal(response.status,200);assert.deepEqual(await response.json(),{ok:true});
+  caller.abort();await new Promise(resolve=>setTimeout(resolve,35));assert.equal(calls,1);assert.equal(signal.aborted,false);
+});
+
 test('only the dedicated local challenge document receives loopback CSP without static or upstream dispatch',async()=>{
  let upstream=0,staticCalls=0;const handler=createFreeHost({fetchImpl:async()=>{upstream++;throw Error('No upstream');}}),context={next:async()=>{staticCalls++;return new Response('fixture',{headers:{'Content-Type':'text/html','Content-Security-Policy':"connect-src 'self'"}});}};
  const response=await handler(request('/admin/auth/local-challenge',{headers:{'Sec-Fetch-Site':'same-origin'}}),context);

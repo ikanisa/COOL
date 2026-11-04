@@ -1,0 +1,322 @@
+{
+  "format": "collect.current-native-momo.evidence.v1",
+  "tested_git_head": "14f32d43961cd566e8834dae841ba67e475b21f5",
+  "tested_current_source_sha256": "050c2d1c45013dc94137e1fd7813828fc782075f4b570ceed8272e6de078a0dd",
+  "tested_release_source_sha256": "9618a250a596575756a5e221d8e91ef09463370dffc10b7127b25e1f09430314",
+  "later_financial_source": {
+    "path": "supabase/functions/_shared/domain/contribution_commands.js",
+    "tested_sha256": "33c015cb0b1b172a5755231cfd1ba9eb1527db4c9c191fac388365bcb919f586",
+    "observed_after_run_sha256": "934e4f3b2758788cfe4f3fdefa58ad2f9057777dfd749cb2f764fe886467317c"
+  },
+  "local_synthetic_only": true,
+  "hosted_acceptance": false,
+  "production_acceptance": false,
+  "files": [
+    {
+      "path": "aggregate/lifecycle/RESULT.json",
+      "bytes": 2331,
+      "sha256": "00e0dc68ee156ca5734d358a9a2c50e3c63c50571cb121c10ab8cce1179bfa6c",
+      "scope": "local synthetic 12-group qualification"
+    },
+    {
+      "path": "aggregate/lifecycle/INTENT.json",
+      "bytes": 713,
+      "sha256": "153cee9d82236a5b4207dcaaddad3dc2ec8a2f79829c86112e82c57af06ed693",
+      "scope": "local synthetic 12-group qualification"
+    },
+    {
+      "path": "aggregate/lifecycle/SNAPSHOT.json",
+      "bytes": 296055,
+      "sha256": "364bccf76a287581f7b0b8a02b7b9e24814bcb314d1878c95b59dbf319a31652",
+      "scope": "local synthetic 12-group qualification"
+    },
+    {
+      "path": "aggregate/lifecycle/qualification.stdout",
+      "bytes": 1624,
+      "sha256": "f72a0e852870946deec8f75d16b45554946210fa5a7a3d96ca495d309cc60f85",
+      "scope": "local synthetic 12-group qualification"
+    },
+    {
+      "path": "aggregate/lifecycle/qualification.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "local synthetic 12-group qualification"
+    },
+    {
+      "path": "aggregate/lifecycle/WARM.stderr",
+      "bytes": 41,
+      "sha256": "9c776ca2e8e833e6dc78ab3a1b9c8ade7faa4b4f01c13358f5c26a335d5bbe3c",
+      "scope": "local synthetic 12-group qualification"
+    },
+    {
+      "path": "aggregate/groups/AUTH-CHILD.json",
+      "bytes": 359,
+      "sha256": "c91db7688a39930e1d7f2997cf538165a80afb772289b1b1db487db63f193324",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/AUTH.json",
+      "bytes": 5768,
+      "sha256": "fdfa57b3ec5162c91bfec8ad42e9558dfaf5f2550590c440ebb1c6b7bb12683d",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/AUTH.log",
+      "bytes": 5828,
+      "sha256": "92da2e1bd8bd650726f1835ceb01e3a13d4621b186226ca9e4b257e4ce123947",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/BACKEND-CHILD.json",
+      "bytes": 359,
+      "sha256": "1ff2ed713cdc60970bd3dfb4cd360139ef04d089e069a88b7d1b65e697a5de07",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/BACKEND.json",
+      "bytes": 9368,
+      "sha256": "0170b953fa063e0e938fe6c88bd01124ac88402a7189b4a16f00c21d71e9d42f",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/BACKEND.log",
+      "bytes": 7450,
+      "sha256": "271404f8ab69260803d53ada8e73ed9577f0a969cc8eaf38545c19824b1dc0bd",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/CLUSTER.json",
+      "bytes": 282,
+      "sha256": "f0e2d34e495562eb6ed2b09528a9ea964602615f6b5fd8250ebe2c39c0af0f07",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/CONTROL-CHILD.json",
+      "bytes": 360,
+      "sha256": "94a3c85025ab2a30d5f14fd5e7f9a3a3e3e2e8071303666dba87e0370d333448",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/CONTROL.json",
+      "bytes": 14000,
+      "sha256": "a4e431ece69a7008534e66a0cf1aa6c7b32b5491912f5f1c96aa3700fbe738b1",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/CONTROL.log",
+      "bytes": 10793,
+      "sha256": "bcb2c9afb6df02e9346b07eda4d67e9e5c4475a49557ea9eae8faad672d7e124",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/DATA_STAGE-CHILD.json",
+      "bytes": 358,
+      "sha256": "27f59ad20986bd276e375841a4726d9d33098774184f2e0644cc8b117996db5c",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/DATA_STAGE.json",
+      "bytes": 6000,
+      "sha256": "7ebcf90ffc6a8d90e2f4d410bcb90fe1d9eb46768db7f2f99473653a3eb6d9e0",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/DATA_STAGE.log",
+      "bytes": 4944,
+      "sha256": "53c6ea4ea4bc29ac6eb0b92b83a20adb2e9b4ca6e1f12ab40b74cdb747468e4f",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/GATEWAY-CHILD.json",
+      "bytes": 359,
+      "sha256": "d3bb4f137ecd1f2c6ae824703a5fb4b21ca5e820a2e234ba5bdbb2f5ea7d04d1",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/GATEWAY-FENCE-CHILD.json",
+      "bytes": 359,
+      "sha256": "050e8496dec44381d09c44831745fb8bb07fcf0f9b2a67edbc649e98d7486176",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/GATEWAY-FENCE.json",
+      "bytes": 9550,
+      "sha256": "52fdf615359eb74bcad48b64f495c55e1dde3914cddbedcddd0e40ce44bd4833",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/GATEWAY-FENCE.log",
+      "bytes": 1297,
+      "sha256": "d0aa364ecf0efd1b0c0e838c5a929ceab67b787228583344a06089c1783f857c",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/GATEWAY.json",
+      "bytes": 341,
+      "sha256": "61be09f8f0bd6a051c1017036356350753a107c51bc576feb31a6201ea8db8eb",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/GATEWAY.log",
+      "bytes": 3411,
+      "sha256": "e5a1295e2bac1213843fdb519157d32b71fdff30e02b66e59a6971a74a8b0e38",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/GATEWAY.xml",
+      "bytes": 7355,
+      "sha256": "7e1f16c30cc321ba63308d5f225c365bde80a330c166cb3f86f940f772cb5cb6",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/INPUTS.json",
+      "bytes": 97183,
+      "sha256": "92dc4201b1450cb2162bb42d93be29217c7528457b087cdd3e2af147f43a3ef3",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/INSTALLATION.json",
+      "bytes": 32597,
+      "sha256": "b485a5c8ea45c8c602715a4353e84d46c1e99774faeef47521bbeef75db81ef0",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/MOMO-CHILD.json",
+      "bytes": 359,
+      "sha256": "702b0c3a4675087a8ebecfb454995064c20f9ef8cae544f0e413aa8d3e46a126",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/MOMO.json",
+      "bytes": 6259,
+      "sha256": "ad46add77bfbb63bbb78a84f4c6acc7c5c6c5b8fcbf98f993eef601f3365b77c",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/MOMO.log",
+      "bytes": 5232,
+      "sha256": "1071251cdb0d8775051dd5f9b48751fb1e9d02dcd6ced0152cc49693d3a423fe",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/NOTIFICATIONS-CHILD.json",
+      "bytes": 359,
+      "sha256": "65d26394893380d424ef2eb09356ed0bedba886d0999bbf4b7c284bf93fcb895",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/NOTIFICATIONS.json",
+      "bytes": 4801,
+      "sha256": "73e85db469472bc15304cdfee4ccbcd44202ee8802d0cca75f5c91c6ef9cea06",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/NOTIFICATIONS.log",
+      "bytes": 4615,
+      "sha256": "a478a2a6b254293596141c49065487194cb16caff267d351d3958f1542ba5aee",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/RESULT.json",
+      "bytes": 1588,
+      "sha256": "1fc3520c72f8d1b96cc8ee15f2b26b8d50b1ae1d8dbaea17fdaa27ebf17a4e2c",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/RETENTION-CHILD.json",
+      "bytes": 359,
+      "sha256": "a939d1fc9e032e7f29c2a9cb71c40a45e4ff6cc4d7ec3850d1015792707bc025",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/RETENTION.json",
+      "bytes": 8546,
+      "sha256": "91553bbef307749524f03d67b5f30bb10202a19f78ed970b5914cced081e0ab9",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/RETENTION.log",
+      "bytes": 8611,
+      "sha256": "405ada7d95b1a1822d82d7b08bfef22ca32512737c5def15429562b6843ec3dc",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/RUNTIME-CHILD.json",
+      "bytes": 359,
+      "sha256": "f355f523dcb65badfa3b289863506501d13412c420fce0160a51c49389d5f7ef",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/RUNTIME.json",
+      "bytes": 5062,
+      "sha256": "29476857ff268066d5dc3669ea733d86cb46a3897dd6c38b7c45553b9fb663e0",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/RUNTIME.log",
+      "bytes": 4149,
+      "sha256": "0ed043540afc9d149f61c80c6df02cc232cd9377725e1d224d5ce5fed7eb16b8",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/SCHEDULER-CHILD.json",
+      "bytes": 359,
+      "sha256": "b98abe06812372e138cfdec2047578df1da0ade49e38709c7f64457f54aa888f",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/SCHEDULER.json",
+      "bytes": 12930,
+      "sha256": "4a5f2afe0610d562f39a893b6c3fc8880982f94aa5b5abfb009a98f0182fcbdd",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "aggregate/groups/SCHEDULER.log",
+      "bytes": 1930,
+      "sha256": "3a2808f290fbd434ceda827ef489694bfd7946ba6882465f81b451857b48506c",
+      "scope": "redacted local synthetic group evidence"
+    },
+    {
+      "path": "node-edge/RESULT.json",
+      "bytes": 500,
+      "sha256": "16cb4a280eff04adeef79111b440a006a6894216d937d563a1d38e22e868006b",
+      "scope": "local Node test suite under network denial"
+    },
+    {
+      "path": "node-edge/suite.stdout",
+      "bytes": 67359,
+      "sha256": "e3eb59527a94f8656d7c5978ea5c94d95831c3437b160013fab298c5adf17f23",
+      "scope": "local Node test suite under network denial"
+    },
+    {
+      "path": "strict-outbox/RESULT.json",
+      "bytes": 3851,
+      "sha256": "19879b67b133174dd35dd9b653a5617dd2c1b343a26490812a301912154df8f1",
+      "scope": "earlier local synthetic current-chain proof"
+    },
+    {
+      "path": "strict-outbox/current-outbox.stdout",
+      "bytes": 5220,
+      "sha256": "709ffb91af2a1ece02d8ac0399b3db83ad119ef74fe2fc5d12048bebbfbb98e0",
+      "scope": "earlier local synthetic current-chain proof"
+    },
+    {
+      "path": "strict-outbox/receipt-http.stdout",
+      "bytes": 4013,
+      "sha256": "3c437a4653af966d3c790acf008985bec4a4681695e5e8d92be9111c4c037a02",
+      "scope": "earlier local synthetic current-chain proof"
+    },
+    {
+      "path": "strict-admin/RESULT.json",
+      "bytes": 2835,
+      "sha256": "23bb29059d02565c46fa5622c1d84811628de36d35d097f2420578c78d2405c8",
+      "scope": "earlier local synthetic current-chain proof"
+    },
+    {
+      "path": "strict-admin/current-admin.stdout",
+      "bytes": 4636,
+      "sha256": "6623c03f1ee07a9166b1fea0000ec20825dfd0ba183f4107343657d554160953",
+      "scope": "earlier local synthetic current-chain proof"
+    }
+  ]
+}
