@@ -27,6 +27,10 @@ KEY = "sb_publishable_syntheticPublicKey1234"
 SITE_KEY = "synthetic_public_site_key"
 PUBLIC = "https://collect.ikanisa.com"
 ADMIN = "https://platform-admin.collect.ikanisa.com"
+NATIVE_PROJECT = "https://supabase.native.example"
+NATIVE_API = "https://api.native.example"
+NATIVE_PUBLIC = "https://www.native.example"
+NATIVE_ADMIN = "https://admin.native.example"
 
 
 class NativeConfigurationTest(unittest.TestCase):
@@ -86,11 +90,16 @@ with zipfile.ZipFile(artifact,'w',compression=zipfile.ZIP_STORED) as archive:
                     "PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER": "123456789012",
                     # Retired provider input must never enter compiled defines.
                     "COLLECT_PRIVATE_TEST_KEY": "synthetic-private-value"}
+        self.env.update(self.self_hosted_configuration())
+        self.env["COLLECT_SMS_AUTH_ENABLED"] = "true"
 
-    def run_wrapper(self, platform, *args, **extra):
+    def run_wrapper(self, platform, *args, _unset=(), **extra):
+        env = self.env | extra
+        for name in _unset:
+            env.pop(name, None)
         return subprocess.run(["bash", "scripts/" + platform + "_" +
                                ("play_store_build.sh" if platform == "android" else "app_store_build.sh"), *args],
-                              cwd=self.root, env={**self.env, **extra}, text=True,
+                              cwd=self.root, env=env, text=True,
                               capture_output=True, timeout=20)
 
     def observations(self):
@@ -100,11 +109,9 @@ with zipfile.ZipFile(artifact,'w',compression=zipfile.ZIP_STORED) as archive:
     def self_hosted_configuration(self, environment="production"):
         profile = {"format": "collect.deployment.v1", "id": "native-wrapper-fixture",
                    "mode": "self_hosted", "environment": environment,
-                   "supabase_origin": "https://supabase.native.example",
-                   "member_api_origin": "https://api.native.example",
-                   "admin_origin": "https://admin.native.example",
-                   "public_origin": "https://www.native.example",
-                   "google_callback_origin": "https://admin.native.example"}
+                   "supabase_origin": NATIVE_PROJECT, "member_api_origin": NATIVE_API,
+                   "admin_origin": NATIVE_ADMIN, "public_origin": NATIVE_PUBLIC,
+                   "google_callback_origin": NATIVE_ADMIN}
         raw = json.dumps(profile, sort_keys=True, separators=(",", ":"))
         return {"COLLECT_DEPLOYMENT_PROFILE": raw,
                 "COLLECT_DEPLOYMENT_PROFILE_SHA256": hashlib.sha256(raw.encode()).hexdigest(),
@@ -151,9 +158,9 @@ with zipfile.ZipFile(artifact,'w',compression=zipfile.ZIP_STORED) as archive:
         for record in records:
             self.assert_configuration(record, apns=False)
         manifest = json.loads((self.root / ".cache/android_play_store_build/1.0.8+65.json").read_text())
-        self.assertEqual(manifest["production_api_url"], API)
+        self.assertEqual(manifest["production_api_url"], NATIVE_API)
         self.assertEqual(manifest["backend"], "supabase")
-        self.assertEqual(manifest["supabase_project_url"], PROJECT)
+        self.assertEqual(manifest["supabase_project_url"], NATIVE_PROJECT)
         import base64
         gradle_calls = [json.loads(line) for line in (self.root/"gradle-observations.jsonl").read_text().splitlines()]
         self.assertEqual(len(gradle_calls), 2)
@@ -210,27 +217,31 @@ end
                                 cwd=self.root, env=self.env, capture_output=True, text=True, timeout=20)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout), self.observations()[0]["defines"])
-        result = subprocess.run(["ruby", "-e", code, str(self.root / "fastlane/Fastfile")],
-                                cwd=self.root, env=self.env | {"SUPABASE_PUBLISHABLE_KEY": ""},
-                                capture_output=True, text=True, timeout=20)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("Invalid public Supabase", result.stderr)
+        for changes in ({"SUPABASE_PUBLISHABLE_KEY": ""}, {"COLLECT_SMS_AUTH_ENABLED": "false"},
+                        {"COLLECT_DEPLOYMENT_PROFILE_SHA256": "0" * 64}):
+            with self.subTest(changed=sorted(changes)):
+                result = subprocess.run(["ruby", "-e", code, str(self.root / "fastlane/Fastfile")],
+                                        cwd=self.root, env=self.env | changes,
+                                        capture_output=True, text=True, timeout=20)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("Invalid public Supabase", result.stderr)
 
     def assert_configuration(self, record, *, apns):
         defines = record["defines"]
         self.assertEqual(defines["COLLECT_BUILD_VERSION"], "1.0.8+65")
-        self.assertEqual(defines["COLLECT_API_URL"], API)
+        self.assertEqual(defines["COLLECT_API_URL"], NATIVE_API)
         self.assertEqual(defines["COLLECT_BACKEND"], "supabase")
-        self.assertEqual(defines["SUPABASE_URL"], PROJECT)
-        self.assertEqual(defines["SUPABASE_API_URL"], API)
+        self.assertEqual(defines["SUPABASE_URL"], NATIVE_PROJECT)
+        self.assertEqual(defines["SUPABASE_API_URL"], NATIVE_API)
         self.assertEqual(defines["SUPABASE_PUBLISHABLE_KEY"], KEY)
         self.assertEqual(defines["AUTH_CAPTCHA_SITE_KEY"], SITE_KEY)
         self.assertEqual(defines["GOOGLE_AUTH_ENABLED"], "false")
         self.assertEqual(defines["COLLECT_GOOGLE_AUTH_ENABLED"], "false")
         self.assertEqual(defines["ENABLE_SMS_READER"], "false" if apns else "true")
         self.assertEqual(defines["ENABLE_ANDROID_SMS_ACCESS"], "false" if apns else "true")
-        self.assertEqual(defines["APP_PUBLIC_URL"], PUBLIC)
-        self.assertEqual(defines["ADMIN_APP_URL"], ADMIN)
+        self.assertEqual(defines["APP_PUBLIC_URL"], NATIVE_PUBLIC)
+        self.assertEqual(defines["ADMIN_APP_URL"], NATIVE_ADMIN)
+        self.assertEqual(defines["COLLECT_SMS_AUTH_ENABLED"], "true")
         self.assertEqual(defines["AUTH_CAPTCHA_ENABLED"], "true")
         self.assertEqual(defines["AUTH_CAPTCHA_PROVIDER"], "turnstile")
         self.assertEqual(defines["APP_ENVIRONMENT"], "production")
@@ -261,6 +272,24 @@ end
                     result = self.run_wrapper(platform, **changes)
                     self.assertEqual(result.returncode, 2, result.stderr)
                     self.assertEqual(self.observations(), [])
+
+    def test_store_wrappers_refuse_missing_or_managed_candidate_before_compilation(self):
+        profile_fields = ("COLLECT_DEPLOYMENT_PROFILE", "COLLECT_DEPLOYMENT_PROFILE_SHA256")
+        managed = json.loads(self.env[profile_fields[0]])
+        managed.update(mode="managed", supabase_origin=PROJECT)
+        raw = json.dumps(managed, sort_keys=True, separators=(",", ":"))
+        cases = [((profile_fields[0],), {}), ((profile_fields[1],), {}),
+                 (("COLLECT_SMS_AUTH_ENABLED",), {}), ((), {"COLLECT_SMS_AUTH_ENABLED": "false"}),
+                 (profile_fields, {"SUPABASE_URL": PROJECT, "SUPABASE_API_URL": API}),
+                 ((), {profile_fields[0]: raw, profile_fields[1]: hashlib.sha256(raw.encode()).hexdigest(),
+                       "SUPABASE_URL": PROJECT})]
+        for platform in ("android", "ios"):
+            for unset, changes in cases:
+                with self.subTest(platform=platform, unset=unset, changes=changes):
+                    result = self.run_wrapper(platform, _unset=unset, **changes)
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertEqual(self.observations(), [])
+                    self.assertFalse((self.root / "gradle-observations.jsonl").exists())
 
     def test_native_and_shared_google_flags_are_forwarded_to_both_consumers(self):
         for source, key in (("lib/core/cloudflare/auth_alternative_gateway.dart", "COLLECT_GOOGLE_AUTH_ENABLED"),
@@ -555,6 +584,89 @@ actual_aab_sha256=Digest::SHA256.file(aab['path']).hexdigest
             if accepted:
                 self.assertEqual(json.loads(result.stdout)["SUPABASE_API_URL"], API)
                 self.assertEqual(json.loads(result.stdout)["COLLECT_BACKEND"], "supabase")
+
+    def test_mobile_interactive_adapter_passes_exact_self_hosted_profile_to_wrappers(self):
+        valid = {"deployment_profile": self.env["COLLECT_DEPLOYMENT_PROFILE"],
+                 "deployment_profile_sha256": self.env["COLLECT_DEPLOYMENT_PROFILE_SHA256"],
+                 "supabase_publishable_key": KEY, "auth_captcha_site_key": SITE_KEY,
+                 "sms_auth_enabled": "true", "google_auth_enabled": "false"}
+        for platform in ("android", "ios"):
+            result = subprocess.run(["ruby", "scripts/audits/collect_release_build.rb", platform],
+                                    cwd=self.root, input=json.dumps(valid), env=self.env,
+                                    text=True, capture_output=True, timeout=20)
+            self.assertEqual(result.returncode, 0, result.stderr)
+        for record in self.observations():
+            self.assert_configuration(record, apns=record["args"][1] == "ipa")
+            self.assertEqual(record["defines"]["COLLECT_DEPLOYMENT_PROFILE"], valid["deployment_profile"])
+            self.assertEqual(record["defines"]["COLLECT_DEPLOYMENT_PROFILE_SHA256"], valid["deployment_profile_sha256"])
+
+    def test_mobile_interactive_adapter_refuses_unsafe_or_incomplete_candidate(self):
+        valid = {"deployment_profile": self.env["COLLECT_DEPLOYMENT_PROFILE"],
+                 "deployment_profile_sha256": self.env["COLLECT_DEPLOYMENT_PROFILE_SHA256"],
+                 "supabase_publishable_key": KEY, "auth_captcha_site_key": SITE_KEY,
+                 "sms_auth_enabled": "true"}
+        cases = [valid | {"sms_auth_enabled": "false"}, valid | {"deployment_profile": "{"},
+                 valid | {"deployment_profile_sha256": "0" * 64},
+                 valid | {"service_key": "synthetic-private-value"},
+                 valid | {"deployment_profile": "", "deployment_profile_sha256": ""},
+                 {key: value for key, value in valid.items() if key != "deployment_profile"}]
+        for platform in ("android", "ios"):
+            for value in cases:
+                with self.subTest(platform=platform, changed_keys=sorted(value)):
+                    result = subprocess.run(["ruby", "scripts/audits/collect_release_build.rb", platform],
+                                            cwd=self.root, input=json.dumps(value), env=self.env,
+                                            text=True, capture_output=True, timeout=20)
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertNotIn("synthetic-private-value", result.stdout + result.stderr)
+                    self.assertEqual(self.observations(), [])
+                    self.assertFalse((self.root / "gradle-observations.jsonl").exists())
+
+    def test_mobile_interactive_adapter_sets_optional_auth_only_from_public_input(self):
+        valid = {"deployment_profile": self.env["COLLECT_DEPLOYMENT_PROFILE"],
+                 "deployment_profile_sha256": self.env["COLLECT_DEPLOYMENT_PROFILE_SHA256"],
+                 "supabase_publishable_key": KEY, "auth_captcha_site_key": SITE_KEY,
+                 "sms_auth_enabled": "true"}
+        cases = [({}, "false", "false"),
+                 ({"whatsapp_auth_enabled": "true", "anonymous_auth_enabled": "false"}, "true", "false"),
+                 ({"whatsapp_auth_enabled": "false", "anonymous_auth_enabled": "true"}, "false", "true"),
+                 ({"whatsapp_auth_enabled": "true", "anonymous_auth_enabled": "true"}, "true", "true")]
+        inherited = self.env | {"COLLECT_WHATSAPP_AUTH_ENABLED": "true", "COLLECT_ANONYMOUS_AUTH_ENABLED": "true"}
+        for platform in ("android", "ios"):
+            for choices, whatsapp, anonymous in cases:
+                with self.subTest(platform=platform, choices=choices):
+                    before = len(self.observations())
+                    result = subprocess.run(["ruby", "scripts/audits/collect_release_build.rb", platform],
+                                            cwd=self.root, input=json.dumps(valid | choices), env=inherited,
+                                            text=True, capture_output=True, timeout=20)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    records = self.observations()[before:]
+                    self.assertEqual(len(records), 2 if platform == "android" else 1)
+                    for record in records:
+                        self.assertEqual(record["defines"]["COLLECT_SMS_AUTH_ENABLED"], "true")
+                        self.assertEqual(record["defines"]["COLLECT_WHATSAPP_AUTH_ENABLED"], whatsapp)
+                        self.assertEqual(record["defines"]["COLLECT_ANONYMOUS_AUTH_ENABLED"], anonymous)
+
+    def test_mobile_interactive_adapter_rejects_invalid_optional_flags_and_redacts_malformed_json(self):
+        marker = "SYNTHETIC_PRIVATE_VALUE_MUST_NOT_APPEAR"
+        valid = {"deployment_profile": self.env["COLLECT_DEPLOYMENT_PROFILE"],
+                 "deployment_profile_sha256": self.env["COLLECT_DEPLOYMENT_PROFILE_SHA256"],
+                 "supabase_publishable_key": KEY, "auth_captcha_site_key": SITE_KEY,
+                 "sms_auth_enabled": "true"}
+        invalid = [json.dumps(valid | {name: value})
+                   for name in ("whatsapp_auth_enabled", "anonymous_auth_enabled")
+                   for value in (None, True, "", "TRUE")]
+        invalid += ['{"sensitive":"' + marker + '"',
+                    json.dumps(valid | {"deployment_profile": '{"sensitive":"' + marker + '"'})]
+        for platform in ("android", "ios"):
+            for payload in invalid:
+                with self.subTest(platform=platform):
+                    result = subprocess.run(["ruby", "scripts/audits/collect_release_build.rb", platform],
+                                            cwd=self.root, input=payload, env=self.env,
+                                            text=True, capture_output=True, timeout=20)
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertNotIn(marker, result.stdout + result.stderr)
+                    self.assertEqual(self.observations(), [])
+                    self.assertFalse((self.root / "gradle-observations.jsonl").exists())
 
 
 class NativeBuildVersionTest(unittest.TestCase):

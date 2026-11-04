@@ -19,9 +19,8 @@ PACKAGE_VERSION="$(sed -n 's/^version:[[:space:]]*//p' pubspec.yaml | head -n 1)
 }
 BUILD_NAME="${COLLECT_ANDROID_BUILD_NAME:-${PACKAGE_VERSION%%+*}}"
 BUILD_NUMBER="${COLLECT_ANDROID_BUILD_NUMBER:-${PACKAGE_VERSION##*+}}"
-# native_build_config.py resolves the exact reviewed deployment profile and
-# checks any explicit public/Admin aliases before invoking either compiler.
-# Omitting a profile retains that validator's managed production defaults.
+# Require the explicit self-hosted, SMS-enabled candidate profile and check
+# public/Admin aliases before invoking either compiler.
 PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER_VALUE="${PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER:-}"
 BUILD_STARTED_EPOCH="$(date +%s)"
 NATIVE_SOURCE_BEFORE="$(ruby scripts/qa/native_build_provenance.rb begin android)"
@@ -62,7 +61,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-python3 scripts/qa/native_build_config.py android --defines-output "$DEFINES_FILE"
+python3 scripts/qa/native_build_config.py android --store-candidate --defines-output "$DEFINES_FILE"
 python3 scripts/qa/client_diagnostic_identity.py bind --surface member \
   --defines "$DEFINES_FILE" --manifest "$DIAGNOSTIC_SOURCE_MANIFEST"
 

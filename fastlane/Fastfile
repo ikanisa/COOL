@@ -35,7 +35,7 @@ def collect_native_public_defines
   root = File.expand_path("..", __dir__)
   file = Tempfile.new(["collect-app-review-defines", ".json"])
   _output, _error, result = Open3.capture3(
-    "python3", File.join(root, "scripts/qa/native_build_config.py"), "ios",
+    "python3", File.join(root, "scripts/qa/native_build_config.py"), "ios", "--store-candidate",
     "--defines-output", file.path,
   )
   UI.user_error!("Invalid public Supabase native build configuration") unless result.success?

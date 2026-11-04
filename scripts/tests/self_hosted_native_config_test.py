@@ -1,10 +1,15 @@
 """Public profile parity only; no compiler, signing key, or deployment access."""
 import hashlib
+import contextlib
 import importlib.util
+import io
 import json
+import os
 from pathlib import Path
+import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 spec = importlib.util.spec_from_file_location('native_config', ROOT / 'scripts/qa/native_build_config.py')
@@ -113,6 +118,56 @@ class SelfHostedNativeProfileTest(unittest.TestCase):
             self.assertEqual(native.configuration(legacy, platform, self.pubspec)['SUPABASE_URL'], native.PROJECT)
             with self.assertRaises(ValueError):
                 native.store_candidate_configuration(legacy, platform, self.pubspec)
+
+    def cli(self, env, *args):
+        with patch.dict(os.environ, env, clear=True), patch.object(sys, 'argv', ['native_build_config.py', *args]):
+            native.main()
+
+    def test_candidate_cli_generates_and_validates_each_platform(self):
+        path = Path(self.temp.name) / 'candidate.json'
+        for platform in ('android', 'ios'):
+            self.cli(self.configured(), platform, '--store-candidate', '--defines-output', str(path))
+            values = json.loads(path.read_text())
+            self.assertEqual(values['COLLECT_SMS_AUTH_ENABLED'], 'true')
+            self.assertEqual(values['COLLECT_DEPLOYMENT_PROFILE_SHA256'], self.configured()['COLLECT_DEPLOYMENT_PROFILE_SHA256'])
+            self.cli({}, platform, '--store-candidate', '--validate-defines', str(path))
+
+    def test_candidate_cli_refuses_invalid_input_and_invalid_saved_defines(self):
+        path = Path(self.temp.name) / 'candidate.json'
+        valid = self.configured()
+        cases = [{key: value for key, value in valid.items() if key != field}
+                 for field in ('COLLECT_DEPLOYMENT_PROFILE', 'COLLECT_DEPLOYMENT_PROFILE_SHA256', 'COLLECT_SMS_AUTH_ENABLED')]
+        cases += [{**valid, 'COLLECT_DEPLOYMENT_PROFILE_SHA256': '0' * 64},
+                  {**valid, 'COLLECT_SMS_AUTH_ENABLED': 'false'},
+                  {'SUPABASE_URL': native.PROJECT, 'SUPABASE_API_URL': native.ADMIN,
+                   'SUPABASE_PUBLISHABLE_KEY': self.env['SUPABASE_PUBLISHABLE_KEY'],
+                   'AUTH_CAPTCHA_SITE_KEY': self.env['AUTH_CAPTCHA_SITE_KEY']}]
+        for platform in ('android', 'ios'):
+            for case in cases:
+                with self.subTest(platform=platform, keys=sorted(case)), contextlib.redirect_stderr(io.StringIO()):
+                    with self.assertRaises(SystemExit) as caught:
+                        self.cli(case, platform, '--store-candidate', '--defines-output', str(path))
+                    self.assertEqual(caught.exception.code, 2)
+            self.cli(valid, platform, '--store-candidate', '--defines-output', str(path))
+            saved = json.loads(path.read_text())
+            invalid = [{key: value for key, value in saved.items() if key != field}
+                       for field in ('COLLECT_DEPLOYMENT_PROFILE', 'COLLECT_DEPLOYMENT_PROFILE_SHA256', 'COLLECT_SMS_AUTH_ENABLED')]
+            invalid += [{**saved, 'COLLECT_SMS_AUTH_ENABLED': 'false'},
+                        {**saved, 'COLLECT_DEPLOYMENT_PROFILE_SHA256': '0' * 64}]
+            for values in invalid:
+                path.write_text(json.dumps(values))
+                with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as caught:
+                    self.cli({}, platform, '--store-candidate', '--validate-defines', str(path))
+                self.assertEqual(caught.exception.code, 2)
+
+            legacy = {'SUPABASE_URL': native.PROJECT, 'SUPABASE_API_URL': native.ADMIN,
+                      'SUPABASE_PUBLISHABLE_KEY': self.env['SUPABASE_PUBLISHABLE_KEY'],
+                      'AUTH_CAPTCHA_SITE_KEY': self.env['AUTH_CAPTCHA_SITE_KEY']}
+            self.cli(legacy, platform, '--defines-output', str(path))
+            self.cli({}, platform, '--validate-defines', str(path))
+            with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as caught:
+                self.cli({}, platform, '--store-candidate', '--validate-defines', str(path))
+            self.assertEqual(caught.exception.code, 2)
 
 
 if __name__ == '__main__': unittest.main()

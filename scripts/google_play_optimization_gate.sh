@@ -140,8 +140,41 @@ def parse_badging(text)
     "compile_sdk" => badging_integer(text[/compileSdkVersion='([^']+)'/, 1]),
     "min_sdk" => badging_integer(text[/sdkVersion:'([^']+)'/, 1]),
     "target_sdk" => badging_integer(text[/targetSdkVersion:'([^']+)'/, 1]),
-    "permissions" => text.scan(/uses-permission: name='([^']+)'/).flatten.sort
+    "permissions" => text.scan(/^uses-permission(?:-sdk-23|-sdk-m)?: name='([^']+)'/).flatten.sort
   }
+end
+
+# `aapt dump badging` omits several uses-permission conditions. Require the
+# compiled APK tree to show one direct, unqualified RECEIVE_SMS declaration.
+def unqualified_apk_receive_sms?(text)
+  return false unless text.valid_encoding? && text.bytesize <= 4 * 1024 * 1024
+  lines = text.lines(chomp: true)
+  return false if lines.length > 100_000
+  roots = lines.each_index.select { |i| lines[i].match?(/\A *E: manifest \(line=[0-9]+\)\z/) }
+  return false unless roots.length == 1
+  root_indent = lines[roots.first][/\A */].length
+  match_count = 0
+  lines.each_with_index do |line, index|
+    entry = line.match(/\A( *)E: (uses-permission(?:-sdk-23|-sdk-m)?) \(line=[0-9]+\)\z/)
+    next unless entry && entry[1].length == root_indent + 2 && index > roots.first
+    indent = entry[1].length
+    block = []
+    cursor = index + 1
+    while cursor < lines.length
+      following = lines[cursor]
+      element = following.match(/\A( *)E: /)
+      break if element && element[1].length <= indent
+      block << following
+      cursor += 1
+    end
+    next unless block.any? { |item| item.include?('android.permission.RECEIVE_SMS') }
+    match_count += 1
+    attrs = block.select { |item| item.match?(/\A *A: /) }.map(&:strip)
+    expected = 'A: android:name(0x01010003)="android.permission.RECEIVE_SMS" (Raw: "android.permission.RECEIVE_SMS")'
+    return false unless entry[2] == 'uses-permission' && attrs == [expected] &&
+                        block.none? { |item| item.match?(/\A *E: /) }
+  end
+  match_count == 1
 end
 
 # Select one explicit, stable Build Tools version from the configured SDK.
@@ -255,8 +288,13 @@ source_latest = latest_mtime(root, [
 build_tools = resolve_android_build_tools(root)
 aapt = build_tools["aapt"]
 zipalign = build_tools["zipalign"]
+apk_badging_before_sha256 = apk["exists"] && !File.symlink?(apk["path"]) ? Digest::SHA256.file(apk["path"]).hexdigest : nil
 badging = apk["exists"] && aapt ? run(aapt, "dump", "badging", apk["path"]) : { "status" => 127, "stdout" => "", "stderr" => "aapt missing or APK missing" }
+apk_tree = apk["exists"] && aapt ? run(aapt, "dump", "xmltree", apk["path"], "AndroidManifest.xml") : { "status" => 127, "stdout" => "" }
+apk_badging_after_sha256 = apk["exists"] && !File.symlink?(apk["path"]) ? Digest::SHA256.file(apk["path"]).hexdigest : nil
+apk_badging_stable = apk_badging_before_sha256 && apk_badging_before_sha256 == apk_badging_after_sha256
 package = parse_badging(badging.fetch("status") == 0 ? badging.fetch("stdout") : "")
+apk_receive_sms_unqualified = apk_tree.fetch('status') == 0 && unqualified_apk_receive_sms?(apk_tree.fetch('stdout'))
 zipalign_16k = apk["exists"] && zipalign ? run(zipalign, "-c", "-P", "16", "-v", "4", apk["path"]) : { "status" => 127, "stdout" => "", "stderr" => "zipalign missing or APK missing" }
 
 native_libs = []
@@ -280,6 +318,14 @@ restricted_sms = %w[
   android.permission.RECEIVE_SMS
   android.permission.SEND_SMS
   android.permission.BROADCAST_SMS
+  android.permission.RECEIVE_MMS
+  android.permission.RECEIVE_WAP_PUSH
+  android.permission.BROADCAST_WAP_PUSH
+  android.permission.WRITE_SMS
+  android.permission.READ_CELL_BROADCASTS
+  android.permission.READ_CALL_LOG
+  android.permission.WRITE_CALL_LOG
+  android.permission.PROCESS_OUTGOING_CALLS
 ]
 main_permissions = AndroidManifestPermissions.requested(manifest)
 production_permissions = AndroidManifestPermissions.requested(production_manifest)
@@ -307,7 +353,7 @@ checks["android_build_tools"] =
     check("blocked", "A consistent Android SDK and exact Build Tools version are required.", build_tools)
   end
 checks["package_identity"] =
-  if badging.fetch("status") == 0 && package["package_name"] == "app.cool.mobile" && package["version_code"].is_a?(Integer) && package["version_code"].positive? && package["version_name"].to_s.match?(/\A\d+\.\d+\.\d+\z/)
+  if badging.fetch("status") == 0 && apk_badging_stable && package["package_name"] == "app.cool.mobile" && package["version_code"].is_a?(Integer) && package["version_code"].positive? && package["version_name"].to_s.match?(/\A\d+\.\d+\.\d+\z/)
     check("pass", "APK package identity and version metadata are valid.", package)
   else
     check("fail", "APK package identity/version metadata are invalid or unreadable.", package.merge("aapt_status" => badging.fetch("status")))
@@ -342,6 +388,19 @@ expected_aab_sha256 = console_audit_packet.dig("target_release", "aab_sha256").t
 expected_apk_sha256 = console_audit_packet.dig("target_release", "apk_sha256").to_s
 actual_aab_sha256 = aab["exists"] ? Digest::SHA256.file(aab["path"]).hexdigest : ""
 actual_apk_sha256 = apk["exists"] ? Digest::SHA256.file(apk["path"]).hexdigest : ""
+aab_permissions = {"status" => "fail", "error" => "aab_missing_or_unreadable"}
+if aab["exists"] && !File.symlink?(aab["path"])
+  inspection = run('python3', File.join(root, 'scripts/qa/android_aab_permissions.py'),
+                   '--artifact', aab['path'], '--pubspec', File.join(root, 'pubspec.yaml'))
+  begin
+    parsed_inspection = JSON.parse(inspection.fetch('stdout'))
+    if inspection.fetch('status') == 0 && parsed_inspection.is_a?(Hash)
+      aab_permissions = parsed_inspection
+    end
+  rescue JSON::ParserError
+    # Missing, failed, or malformed inspection is not permission evidence.
+  end
+end
 checks["release_artifact_hash_binding"] =
   if !expected_aab_sha256.empty? && !expected_apk_sha256.empty? &&
       expected_aab_sha256 == actual_aab_sha256 && expected_apk_sha256 == actual_apk_sha256
@@ -358,7 +417,7 @@ begin
   require 'tempfile'
   Tempfile.create(['collect-play-public-profile-', '.json']) do |file|
     observed = run('python3', File.join(root, 'scripts/qa/native_build_config.py'),
-                   'android', '--defines-output', file.path)
+                   'android', '--store-candidate', '--defines-output', file.path)
     if observed.fetch('status') == 0
       Tempfile.create(['collect-play-diagnostic-source-', '.json']) do |manifest|
         bound = run('python3', File.join(root, 'scripts/qa/client_diagnostic_identity.py'),
@@ -422,11 +481,20 @@ checks["sixteen_kb_alignment"] =
 checks["production_permissions"] =
   if badging.fetch("status") == 0 && main_restricted == expected_apk_restricted &&
       !production_declares_read &&
-      receiver_declares_receive && !receiver_declares_read &&
-      apk_restricted == expected_apk_restricted && sms_receiver_protected
-    check("pass", "Android production contains only the reviewed RECEIVE_SMS restricted permission and no READ/SEND SMS or Call Log permission.", "apk_permissions" => package["permissions"], "restricted_permissions" => apk_restricted)
+      receiver_declares_receive && apk_restricted == expected_apk_restricted && sms_receiver_protected &&
+      apk_badging_stable && apk_badging_after_sha256 == actual_apk_sha256 && apk_receive_sms_unqualified &&
+      aab_permissions['status'] == 'pass' && aab_permissions['artifact_sha256'] == actual_aab_sha256 &&
+      aab_permissions['restricted_permissions'] == expected_apk_restricted &&
+      aab_permissions.dig('runtime', 'compile_sdk') == package['compile_sdk'] &&
+      aab_permissions.dig('runtime', 'min_sdk') == package['min_sdk'] &&
+      aab_permissions.dig('runtime', 'target_sdk') == package['target_sdk'] &&
+      aab_permissions.dig('runtime', 'sms_receiver') == 'protected_enabled_exported_with_sms_received_filter' &&
+      aab_permissions['actual'] == {'package' => package['package_name'], 'version_name' => package['version_name'],
+                                    'version_code' => package['version_code']} &&
+      Digest::SHA256.file(aab['path']).hexdigest == actual_aab_sha256
+    check("pass", "The production APK and AAB contain only the reviewed RECEIVE_SMS restricted permission; the AAB receiver declaration is protected.", "apk_permissions" => package["permissions"], "restricted_permissions" => apk_restricted, "apk_receiver_inspected" => false, "aab_inspection" => aab_permissions)
   else
-    check("fail", "Restricted SMS permission scope or receiver protection is invalid.", "restricted_in_main_manifest" => main_restricted, "production_declares_receive" => production_declares_receive, "production_declares_read" => production_declares_read, "receiver_declares_receive" => receiver_declares_receive, "receiver_declares_read" => receiver_declares_read, "apk_restricted" => apk_restricted, "sms_receiver_protected" => sms_receiver_protected)
+    check("fail", "Production APK/AAB restricted permission scope, identity, or receiver protection is invalid or unverified.", "restricted_in_main_manifest" => main_restricted, "production_declares_receive" => production_declares_receive, "production_declares_read" => production_declares_read, "receiver_declares_receive" => receiver_declares_receive, "receiver_declares_read" => receiver_declares_read, "apk_restricted" => apk_restricted, "apk_receive_sms_unqualified" => apk_receive_sms_unqualified, "source_sms_receiver_protected" => sms_receiver_protected, "apk_receiver_inspected" => false, "aab_inspection" => aab_permissions)
   end
 
 sms_declaration_status = console_audit_packet.dig("app_content", "permissions", "sms_permissions_declaration_status").to_s

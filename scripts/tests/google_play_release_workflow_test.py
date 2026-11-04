@@ -6,6 +6,7 @@ tests prove local control flow, never Google approval or external delivery.
 """
 import copy
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -14,12 +15,76 @@ import subprocess
 import tempfile
 import time
 import unittest
+import zipfile
 from datetime import datetime, timedelta, timezone
 
 ROOT = Path(__file__).resolve().parents[2]
 AAB = "build/app/outputs/bundle/productionRelease/app-production-release.aab"
 APK = "build/app/outputs/flutter-apk/app-production-release.apk"
 PACKET = "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json"
+
+fixture_spec = importlib.util.spec_from_file_location(
+    "android_metadata_fixtures", ROOT / "scripts/tests/native_artifact_metadata_test.py")
+fixtures = importlib.util.module_from_spec(fixture_spec)
+fixture_spec.loader.exec_module(fixtures)
+
+
+def synthetic_bundle(path, permissions=('android.permission.RECEIVE_SMS',),
+                     *, package='app.cool.mobile', version='1.2.4', code=23,
+                     extra_module=False, wrong_name_id=False, duplicate_manifest=False,
+                     permission_qualifier=False, compile_sdk=36, min_sdk=24, target_sdk=36,
+                     receiver_name='.receiver_sms.CollectSmsReceiver', receiver_enabled=True,
+                     receiver_exported=True, receiver_permission='android.permission.BROADCAST_SMS',
+                     receiver_action='android.provider.Telephony.SMS_RECEIVED', application_enabled=True):
+    """Build a tiny synthetic AAB with actual AAPT protobuf field encodings."""
+    root = fixtures.metadata._one(fixtures.metadata._proto(
+        fixtures.aab_manifest(package=package, name=version, code=code)), 1)
+
+    def android_attr(name, value, resource, compiled=b''):
+        return (fixtures.message(1, fixtures.ANDROID.encode()) + fixtures.message(2, name.encode())
+                + fixtures.message(3, str(value).encode()) + fixtures.scalar(5, resource)
+                + (fixtures.message(6, compiled) if compiled else b''))
+
+    def integer(value):
+        return fixtures.message(7, fixtures.scalar(6, value))
+
+    def boolean(value):
+        return fixtures.message(7, fixtures.scalar(8, int(value)))
+
+    root += fixtures.message(4, android_attr('compileSdkVersion', compile_sdk, 16844146, integer(compile_sdk)))
+    sdk = (fixtures.message(3, b'uses-sdk')
+           + fixtures.message(4, android_attr('minSdkVersion', min_sdk, 16843276, integer(min_sdk)))
+           + fixtures.message(4, android_attr('targetSdkVersion', target_sdk, 16843376, integer(target_sdk))))
+    root += fixtures.message(5, fixtures.message(1, sdk))
+    for index, permission in enumerate(permissions):
+        tag, permission = permission if isinstance(permission, tuple) else ('uses-permission', permission)
+        attr = (fixtures.message(1, fixtures.ANDROID.encode()) + fixtures.message(2, b'name')
+                + fixtures.message(3, permission.encode())
+                + fixtures.scalar(5, 1 if wrong_name_id and index == 0 else 16842755))
+        qualifier = (fixtures.message(1, fixtures.ANDROID.encode()) + fixtures.message(2, b'maxSdkVersion')
+                     + fixtures.message(3, b'22') + fixtures.scalar(5, 16843377))
+        element = (fixtures.message(3, tag.encode()) + fixtures.message(4, attr)
+                   + (fixtures.message(4, qualifier) if permission_qualifier and index == 0 else b''))
+        root += fixtures.message(5, fixtures.message(1, element))
+    action = fixtures.message(3, b'action') + fixtures.message(4, android_attr('name', receiver_action, 16842755))
+    intent = fixtures.message(3, b'intent-filter') + fixtures.message(5, fixtures.message(1, action))
+    receiver = (fixtures.message(3, b'receiver')
+                + fixtures.message(4, android_attr('name', receiver_name, 16842755))
+                + fixtures.message(4, android_attr('permission', receiver_permission, 16842758))
+                + fixtures.message(4, android_attr('enabled', str(receiver_enabled).lower(), 16842766, boolean(receiver_enabled)))
+                + fixtures.message(4, android_attr('exported', str(receiver_exported).lower(), 16842768, boolean(receiver_exported)))
+                + fixtures.message(5, fixtures.message(1, intent)))
+    app = (fixtures.message(3, b'application')
+           + fixtures.message(4, android_attr('enabled', str(application_enabled).lower(), 16842766, boolean(application_enabled)))
+           + fixtures.message(5, fixtures.message(1, receiver)))
+    root += fixtures.message(5, fixtures.message(1, app))
+    manifest = fixtures.message(1, root)
+    with zipfile.ZipFile(path, 'w') as archive:
+        archive.writestr('base/manifest/AndroidManifest.xml', manifest)
+        if extra_module:
+            archive.writestr('other/manifest/AndroidManifest.xml', manifest)
+        if duplicate_manifest:
+            archive.writestr('base/manifest/androidmanifest.xml', manifest)
 
 
 class PlayWorkflowTest(unittest.TestCase):
@@ -441,24 +506,35 @@ puts JSON.generate(@commands)
         identity = source[source.index('checks["package_identity"] ='):source.index('checks["sms_device_compatibility"]')]
         permissions = source[source.index('checks["production_permissions"] ='):source.index("sms_declaration_status =")]
         code = r'''
-require 'json'
+require 'json'; require 'digest'
 def check(status,message,extra={}); {'status'=>status}.merge(extra); end
 ''' + parser + r'''
 badging=JSON.parse(ARGV.fetch(0));checks={}
+apk_tree={'status'=>0,'stdout'=>"  E: manifest (line=1)\n    E: uses-permission (line=2)\n      A: android:name(0x01010003)=\"android.permission.RECEIVE_SMS\" (Raw: \"android.permission.RECEIVE_SMS\")\n"}
 ''' + assignment + r'''
-restricted_sms=%w[android.permission.READ_SMS android.permission.RECEIVE_SMS android.permission.SEND_SMS android.permission.BROADCAST_SMS]
+restricted_sms=%w[android.permission.READ_SMS android.permission.RECEIVE_SMS android.permission.SEND_SMS android.permission.BROADCAST_SMS android.permission.READ_CALL_LOG]
 main_restricted=['android.permission.RECEIVE_SMS'];expected_apk_restricted=main_restricted
-production_declares_receive=true;production_declares_read=false;receiver_declares_receive=true;receiver_declares_read=false;sms_receiver_protected=true
+production_declares_receive=true;production_declares_read=false;receiver_declares_receive=true;receiver_declares_read=true;sms_receiver_protected=true
 apk_restricted=Array(package['permissions']) & restricted_sms
+aab={'path'=>'build/app/outputs/bundle/productionRelease/app-production-release.aab'}
+actual_aab_sha256=Digest::SHA256.file(aab['path']).hexdigest
+apk_badging_stable=true;apk_badging_after_sha256='synthetic-apk-hash';actual_apk_sha256=apk_badging_after_sha256
+aab_permissions={'status'=>'pass','artifact_sha256'=>actual_aab_sha256,'restricted_permissions'=>expected_apk_restricted,
+ 'actual'=>{'package'=>'app.cool.mobile','version_name'=>'1.2.4','version_code'=>23},
+ 'runtime'=>{'compile_sdk'=>36,'min_sdk'=>24,'target_sdk'=>36,'sms_receiver'=>'protected_enabled_exported_with_sms_received_filter'}}
 ''' + identity + permissions + "\nputs JSON.generate(checks)"
         valid = ("package: name='app.cool.mobile' versionCode='23' versionName='1.2.4' compileSdkVersion='36'\n"
                  "sdkVersion:'24'\ntargetSdkVersion:'36'\nuses-permission: name='android.permission.RECEIVE_SMS'\n")
         cases = (
             (0, valid, ("pass", "pass", "pass")),
             (23, valid, ("fail", "blocked", "fail")),
-            (0, valid.replace("versionCode='23'", "versionCode='23junk'"), ("fail", "pass", "pass")),
-            (0, valid.replace("compileSdkVersion='36'", "compileSdkVersion='36junk'"), ("pass", "blocked", "pass")),
-            (0, valid.replace("targetSdkVersion:'36'", "targetSdkVersion:'36junk'"), ("pass", "blocked", "pass")),
+            (0, valid.replace("versionCode='23'", "versionCode='23junk'"), ("fail", "pass", "fail")),
+            (0, valid.replace("compileSdkVersion='36'", "compileSdkVersion='36junk'"), ("pass", "blocked", "fail")),
+            (0, valid.replace("targetSdkVersion:'36'", "targetSdkVersion:'36junk'"), ("pass", "blocked", "fail")),
+            (0, valid + "uses-permission: name='android.permission.READ_CALL_LOG'\n", ("pass", "pass", "fail")),
+            (0, valid + "uses-permission: name='android.permission.READ_SMS'\n", ("pass", "pass", "fail")),
+            (0, valid + "uses-permission-sdk-23: name='android.permission.READ_SMS'\n", ("pass", "pass", "fail")),
+            (0, valid + "uses-permission-sdk-m: name='android.permission.READ_CALL_LOG'\n", ("pass", "pass", "fail")),
         )
         for status, stdout, expected in cases:
             with self.subTest(status=status, stdout=stdout):
@@ -559,11 +635,18 @@ apk_restricted=Array(package['permissions']) & restricted_sms
     def test_full_play_gate_refuses_failed_aapt_with_plausible_output(self):
         shutil.copy2(ROOT / "scripts/google_play_optimization_gate.sh", self.root / "scripts")
         shutil.copy2(ROOT / "scripts/android_manifest_permissions.rb", self.root / "scripts")
+        qa = self.root / 'scripts/qa'
+        qa.mkdir()
+        for name in ('android_aab_permissions.py', 'native_artifact_metadata.py'):
+            shutil.copy2(ROOT / 'scripts/qa' / name, qa)
+        (qa / 'native_build_config.py').write_text(
+            "import pathlib,sys\npathlib.Path('.cache/candidate-mode.log').write_text(' '.join(sys.argv[1:]))\nsys.exit(1)\n")
+        synthetic_bundle(self.root / AAB)
         sdk = self.root / "android-sdk"
         tools = sdk / "build-tools" / "36.0.0"
         tools.mkdir(parents=True)
         (tools / "source.properties").write_text("Pkg.Revision=36.0.0\n")
-        (tools / "aapt").write_text('#!/bin/sh\nprintf "%s" "$FAKE_AAPT_STDOUT"\nexit "$FAKE_AAPT_RC"\n')
+        (tools / "aapt").write_text('#!/bin/sh\nif [ "${FAKE_AAPT_CHANGE_APK:-0}" = 1 ]; then printf changed >> "$3"; fi\nif [ "$2" = xmltree ]; then printf "%s" "$FAKE_AAPT_XML"; else printf "%s" "$FAKE_AAPT_STDOUT"; fi\nexit "$FAKE_AAPT_RC"\n')
         (tools / "zipalign").write_text("#!/bin/sh\nexit 0\n")
         for name in ("aapt", "zipalign"):
             (tools / name).chmod(0o700)
@@ -575,7 +658,7 @@ apk_restricted=Array(package['permissions']) & restricted_sms
         manifests = {
             "main": f"<manifest {android_ns}>{permission}{feature}{receiver}</manifest>",
             "production": f"<manifest {android_ns}/>",
-            "internal_receiver": f"<manifest {android_ns}>{permission}{receiver}</manifest>",
+            "internal_receiver": (ROOT / 'android/app/src/internal_receiver/AndroidManifest.xml').read_text(),
         }
         for flavor, content in manifests.items():
             path = self.root / "android/app/src" / flavor / "AndroidManifest.xml"
@@ -583,6 +666,9 @@ apk_restricted=Array(package['permissions']) & restricted_sms
             path.write_text(content)
         valid = ("package: name='app.cool.mobile' versionCode='23' versionName='1.2.4' compileSdkVersion='36'\n"
                  "sdkVersion:'24'\ntargetSdkVersion:'36'\nuses-permission: name='android.permission.RECEIVE_SMS'\n")
+        self.env['FAKE_AAPT_XML'] = ('  E: manifest (line=1)\n    E: uses-permission (line=2)\n'
+                                     '      A: android:name(0x01010003)="android.permission.RECEIVE_SMS" '
+                                     '(Raw: "android.permission.RECEIVE_SMS")\n')
         for exit_code, expected in ((0, ("pass", "pass", "pass")), (23, ("fail", "blocked", "fail"))):
             with self.subTest(exit_code=exit_code):
                 env = self.env | {"ANDROID_HOME": str(sdk), "ANDROID_SDK_ROOT": str(sdk), "TMPDIR": str(self.root),
@@ -594,6 +680,199 @@ apk_restricted=Array(package['permissions']) & restricted_sms
                 self.assertEqual(checks["android_build_tools"]["status"], "pass")
                 self.assertEqual(tuple(checks[name]["status"] for name in
                                        ("package_identity", "target_api", "production_permissions")), expected)
+                self.assertIn('--store-candidate', (self.root / '.cache/candidate-mode.log').read_text())
+
+        # The actual internal flavor requests READ_SMS. A production APK with
+        # the expected permission still cannot compensate for a bad AAB.
+        for aab_kwargs, aapt_suffix in (
+                ({'permissions': ('android.permission.RECEIVE_SMS', 'android.permission.READ_SMS')}, ''),
+                ({'extra_module': True}, ''),
+                ({'permission_qualifier': True}, ''),
+                ({'min_sdk': 23}, ''),
+                ({'target_sdk': 37}, ''),
+                ({'receiver_exported': False}, ''),
+                ({}, "uses-permission: name='android.permission.READ_CALL_LOG'\n"),
+                ({}, "uses-permission-sdk-23: name='android.permission.READ_SMS'\n")):
+            with self.subTest(aab_kwargs=aab_kwargs, aapt_suffix=aapt_suffix):
+                synthetic_bundle(self.root / AAB, **aab_kwargs)
+                env = self.env | {'ANDROID_HOME': str(sdk), 'ANDROID_SDK_ROOT': str(sdk), 'TMPDIR': str(self.root),
+                                  'FAKE_AAPT_STDOUT': valid + aapt_suffix, 'FAKE_AAPT_RC': '0'}
+                result = subprocess.run(['bash', 'scripts/google_play_optimization_gate.sh', '--json', '--phase', 'prepare'],
+                                        cwd=self.root, env=env, capture_output=True, text=True, timeout=30)
+                self.assertIn(result.returncode, (1, 99), result.stderr)
+                self.assertEqual(json.loads(result.stdout)['checks']['production_permissions']['status'], 'fail')
+
+        synthetic_bundle(self.root / AAB)
+        env = self.env | {'ANDROID_HOME': str(sdk), 'ANDROID_SDK_ROOT': str(sdk), 'TMPDIR': str(self.root),
+                          'FAKE_AAPT_STDOUT': valid, 'FAKE_AAPT_RC': '0',
+                          'FAKE_AAPT_XML': self.env['FAKE_AAPT_XML'] +
+                          '      A: android:requiredFeature(0x01010554)="example.feature" (Raw: "example.feature")\n'}
+        result = subprocess.run(['bash', 'scripts/google_play_optimization_gate.sh', '--json', '--phase', 'prepare'],
+                                cwd=self.root, env=env, capture_output=True, text=True, timeout=30)
+        self.assertIn(result.returncode, (1, 99), result.stderr)
+        self.assertEqual(json.loads(result.stdout)['checks']['production_permissions']['status'], 'fail')
+
+        synthetic_bundle(self.root / AAB)
+        env = self.env | {'ANDROID_HOME': str(sdk), 'ANDROID_SDK_ROOT': str(sdk), 'TMPDIR': str(self.root),
+                          'FAKE_AAPT_STDOUT': valid, 'FAKE_AAPT_RC': '0', 'FAKE_AAPT_CHANGE_APK': '1'}
+        result = subprocess.run(['bash', 'scripts/google_play_optimization_gate.sh', '--json', '--phase', 'prepare'],
+                                cwd=self.root, env=env, capture_output=True, text=True, timeout=30)
+        self.assertIn(result.returncode, (1, 99), result.stderr)
+        checks = json.loads(result.stdout)['checks']
+        self.assertEqual(checks['package_identity']['status'], 'fail')
+        self.assertEqual(checks['production_permissions']['status'], 'fail')
+
+        synthetic_bundle(self.root / AAB)
+        # A forged or stale inspection for a different bundle must not count.
+        (qa / 'android_aab_permissions.py').write_text("""import json
+print(json.dumps({'status':'pass','artifact_sha256':'0'*64,'restricted_permissions':['android.permission.RECEIVE_SMS'],
+                  'actual':{'package':'app.cool.mobile','version_name':'1.2.4','version_code':23},
+                  'runtime':{'compile_sdk':36,'min_sdk':24,'target_sdk':36,'sms_receiver':'protected_enabled_exported_with_sms_received_filter'}}))
+""")
+        env = self.env | {'ANDROID_HOME': str(sdk), 'ANDROID_SDK_ROOT': str(sdk), 'TMPDIR': str(self.root),
+                          'FAKE_AAPT_STDOUT': valid, 'FAKE_AAPT_RC': '0'}
+        result = subprocess.run(['bash', 'scripts/google_play_optimization_gate.sh', '--json', '--phase', 'prepare'],
+                                cwd=self.root, env=env, capture_output=True, text=True, timeout=30)
+        self.assertIn(result.returncode, (1, 99), result.stderr)
+        self.assertEqual(json.loads(result.stdout)['checks']['production_permissions']['status'], 'fail')
+
+    def test_aab_permissions_bind_production_identity_and_artifact(self):
+        aab = self.root / AAB
+        inspector = ROOT / 'scripts/qa/android_aab_permissions.py'
+
+        def inspect(**kwargs):
+            synthetic_bundle(aab, **kwargs)
+            result = subprocess.run(['python3', str(inspector), '--artifact', str(aab),
+                                     '--pubspec', str(self.root / 'pubspec.yaml')],
+                                    env={'PATH': os.environ['PATH'], 'PYTHONDONTWRITEBYTECODE': '1'},
+                                    capture_output=True, text=True, timeout=10)
+            return result.returncode, json.loads(result.stdout)
+
+        code, result = inspect()
+        self.assertEqual(code, 0)
+        self.assertEqual(result['status'], 'pass')
+        self.assertEqual(result['artifact_sha256'], hashlib.sha256(aab.read_bytes()).hexdigest())
+        self.assertEqual(result['actual'], {'package': 'app.cool.mobile', 'version_name': '1.2.4',
+                                           'version_code': 23})
+        self.assertEqual(result['runtime'], {'compile_sdk': 36, 'min_sdk': 24, 'target_sdk': 36,
+                                            'sms_receiver': 'protected_enabled_exported_with_sms_received_filter'})
+        self.assertFalse(result['signature_or_release_approval'])
+        cases = (
+            {'permissions': ('android.permission.RECEIVE_SMS', 'android.permission.READ_SMS')},
+            {'permissions': ('android.permission.RECEIVE_SMS', ('uses-permission-sdk-23', 'android.permission.READ_SMS'))},
+            {'permissions': ('android.permission.RECEIVE_SMS', 'android.permission.READ_CALL_LOG')},
+            {'permissions': ('android.permission.RECEIVE_SMS', 'android.permission.RECEIVE_WAP_PUSH')},
+            {'permissions': ()},
+            {'permissions': ('android.permission.RECEIVE_SMS', 'android.permission.RECEIVE_SMS')},
+            {'permissions': (('uses-permission-sdk-23', 'android.permission.RECEIVE_SMS'),)},
+            {'package': 'app.cool.mobile.receiver'},
+            {'version': '1.2.3'},
+            {'code': 22},
+            {'compile_sdk': 35},
+            {'min_sdk': 37},
+            {'target_sdk': 35},
+            {'receiver_name': '.receiver_sms.OtherReceiver'},
+            {'receiver_enabled': False},
+            {'receiver_exported': False},
+            {'receiver_permission': 'android.permission.INTERNET'},
+            {'receiver_action': 'android.intent.action.BOOT_COMPLETED'},
+            {'application_enabled': False},
+            {'extra_module': True},
+            {'wrong_name_id': True},
+            {'permission_qualifier': True},
+            {'duplicate_manifest': True},
+        )
+        for case in cases:
+            with self.subTest(case=case):
+                code, result = inspect(**case)
+                self.assertEqual(code, 1)
+                self.assertEqual(result['status'], 'fail')
+
+        aab.write_bytes(b'NOT A BUNDLE')
+        failed = subprocess.run(['python3', str(inspector), '--artifact', str(aab),
+                                 '--pubspec', str(self.root / 'pubspec.yaml')],
+                                env={'PATH': os.environ['PATH'], 'PYTHONDONTWRITEBYTECODE': '1'},
+                                capture_output=True, text=True, timeout=10)
+        self.assertEqual(failed.returncode, 1)
+        self.assertEqual(json.loads(failed.stdout)['status'], 'fail')
+
+    def test_sdk_generated_synthetic_manifests_match_permission_readers(self):
+        # This compiles only a temporary synthetic manifest, never the app.
+        sdk = Path(os.environ.get('ANDROID_HOME') or os.environ.get('ANDROID_SDK_ROOT')
+                   or str(Path.home() / 'Library/Android/sdk'))
+        tools = sdk / 'build-tools/36.0.0'
+        aapt2, aapt, android_jar = tools / 'aapt2', tools / 'aapt', sdk / 'platforms/android-36/android.jar'
+        if not all(path.is_file() for path in (aapt2, aapt, android_jar)):
+            self.skipTest('Android SDK 36 and Build Tools 36.0.0 are needed for the synthetic manifest fixture')
+        inspector = ROOT / 'scripts/qa/android_aab_permissions.py'
+        source = (ROOT / 'scripts/google_play_optimization_gate.sh').read_text()
+        parser = source[source.index('def badging_integer'):source.index('# Select one explicit')]
+        env = {'PATH': os.environ['PATH'], 'HOME': str(self.root), 'TMPDIR': str(self.root),
+               'PYTHONDONTWRITEBYTECODE': '1'}
+        cases = (
+            ('plain', '', '', True, False, {}),
+            ('explicit_true', '', '', True, False, {'app_enabled': 'true', 'receiver_enabled': 'true'}),
+            ('read', '', '<uses-permission-sdk-23 android:name="android.permission.READ_SMS"/>', True, True, {}),
+            ('maximum', ' android:maxSdkVersion="22"', '', False, False, {}),
+            ('minimum', ' android:minSdkVersion="35"', '', False, False, {}),
+            ('required', ' android:requiredFeature="example.feature"', '', False, False, {}),
+            ('forbidden', ' android:requiredNotFeature="example.feature"', '', False, False, {}),
+            ('flags', ' android:usesPermissionFlags="neverForLocation"', '', False, False, {}),
+            ('app_disabled', '', '', True, False, {'app_enabled': 'false'}),
+            ('receiver_disabled', '', '', True, False, {'receiver_enabled': 'false'}),
+            ('receiver_unexported', '', '', True, False, {'exported': 'false'}),
+            ('receiver_unprotected', '', '', True, False, {'permission': 'android.permission.INTERNET'}),
+            ('receiver_wrong_action', '', '', True, False, {'action': 'android.intent.action.BOOT_COMPLETED'}),
+            ('receiver_conditional_filter', '', '', True, False, {'filter_extra': '<category android:name="example.category"/>'}),
+            ('old_target', '', '', True, False, {'target': '35'}),
+        )
+        for label, qualifier, extra, unqualified, add_read, overrides in cases:
+            with self.subTest(case=label):
+                app_enabled = (' android:enabled="' + overrides['app_enabled'] + '"') if 'app_enabled' in overrides else ''
+                receiver_enabled = (' android:enabled="' + overrides['receiver_enabled'] + '"') if 'receiver_enabled' in overrides else ''
+                manifest = self.root / 'SyntheticManifest.xml'
+                manifest.write_text('<manifest xmlns:android="http://schemas.android.com/apk/res/android" '
+                                    'package="app.cool.mobile" android:versionCode="23" android:versionName="1.2.4">'
+                                    '<uses-sdk android:minSdkVersion="24" android:targetSdkVersion="' + overrides.get('target', '36') + '"/>'
+                                    '<uses-permission android:name="android.permission.RECEIVE_SMS"' + qualifier + '/>' + extra +
+                                    '<application android:label="Synthetic"' + app_enabled + '>'
+                                    '<receiver android:name=".receiver_sms.CollectSmsReceiver" '
+                                    'android:exported="' + overrides.get('exported', 'true') + '" android:permission="' +
+                                    overrides.get('permission', 'android.permission.BROADCAST_SMS') + '"' + receiver_enabled + '>'
+                                    '<intent-filter><action android:name="' + overrides.get('action', 'android.provider.Telephony.SMS_RECEIVED') + '"/>' +
+                                    overrides.get('filter_extra', '') +
+                                    '</intent-filter></receiver></application></manifest>')
+                linked = self.root / 'synthetic-proto.zip'
+                subprocess.run([str(aapt2), 'link', '--proto-format', '-I', str(android_jar),
+                                '--manifest', str(manifest), '-o', str(linked)], cwd=self.root, env=env,
+                               check=True, capture_output=True, timeout=20)
+                with zipfile.ZipFile(linked) as archive:
+                    compiled = archive.read('AndroidManifest.xml')
+                with zipfile.ZipFile(self.root / AAB, 'w') as archive:
+                    archive.writestr('base/manifest/AndroidManifest.xml', compiled)
+                result = subprocess.run(['python3', str(inspector), '--artifact', str(self.root / AAB),
+                                         '--pubspec', str(self.root / 'pubspec.yaml')], cwd=self.root, env=env,
+                                        capture_output=True, text=True, timeout=10)
+                expected_code = 0 if label in ('plain', 'explicit_true') else 1
+                self.assertEqual(result.returncode, expected_code, result.stdout + result.stderr)
+                self.assertEqual(json.loads(result.stdout)['status'], 'pass' if expected_code == 0 else 'fail')
+
+                apk = self.root / 'synthetic.apk'
+                subprocess.run([str(aapt2), 'link', '-I', str(android_jar), '--manifest', str(manifest),
+                                '-o', str(apk)], cwd=self.root, env=env, check=True, capture_output=True, timeout=20)
+                badging = subprocess.run([str(aapt), 'dump', 'badging', str(apk)], cwd=self.root, env=env,
+                                        check=True, capture_output=True, text=True, timeout=10)
+                tree = subprocess.run([str(aapt), 'dump', 'xmltree', str(apk), 'AndroidManifest.xml'],
+                                      cwd=self.root, env=env, check=True, capture_output=True, text=True, timeout=10)
+                parsed = subprocess.run(['ruby', '-e', "require 'json';\n" + parser +
+                                         "\ndata=JSON.parse(STDIN.read); puts JSON.generate({'permissions'=>parse_badging(data.fetch('badging'))['permissions'], 'unqualified'=>unqualified_apk_receive_sms?(data.fetch('tree'))})"],
+                                        input=json.dumps({'badging': badging.stdout, 'tree': tree.stdout}), cwd=self.root, env=env,
+                                        capture_output=True, text=True, timeout=10, check=True)
+                parsed_tree = json.loads(parsed.stdout)
+                permissions = parsed_tree['permissions']
+                self.assertIn('android.permission.RECEIVE_SMS', permissions)
+                self.assertEqual('android.permission.READ_SMS' in permissions, add_read)
+                self.assertEqual(parsed_tree['unqualified'], unqualified)
 
     def test_fastlane_submission_routes_only_through_canonical_phase_wrapper(self):
         for options, phase in (({}, "upload"), ({"phase": "review"}, "review"),

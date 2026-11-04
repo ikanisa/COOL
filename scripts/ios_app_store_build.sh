@@ -16,9 +16,8 @@ BUILD_NAME="${COLLECT_IOS_BUILD_NAME:-$DEFAULT_BUILD_NAME}"
 BUILD_NUMBER="${COLLECT_IOS_BUILD_NUMBER:-$DEFAULT_BUILD_NUMBER}"
 BUILD_STARTED_EPOCH="$(date +%s)"
 NATIVE_SOURCE_BEFORE="$(ruby scripts/qa/native_build_provenance.rb begin ios)"
-# The shared native validator resolves the reviewed deployment's public/Admin
-# origins and rejects mismatched aliases before compilation. Its managed
-# defaults remain the compatibility path when no explicit profile is supplied.
+# Require the explicit self-hosted, SMS-enabled candidate profile and check
+# public/Admin aliases before compilation.
 
 if [[ $# -ne 0 ]]; then
   printf 'This production wrapper accepts no extra Flutter arguments. Update the reviewed script for any build-contract change.\n' >&2
@@ -32,7 +31,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-python3 scripts/qa/native_build_config.py ios --defines-output "$DEFINES_FILE"
+python3 scripts/qa/native_build_config.py ios --store-candidate --defines-output "$DEFINES_FILE"
 
 "$FLUTTER_BIN" build ipa \
   --release \

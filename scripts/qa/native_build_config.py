@@ -163,17 +163,20 @@ def store_candidate_configuration(env, platform, pubspec=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("platform", choices=("android", "ios"))
+    parser.add_argument("--store-candidate", action="store_true",
+                        help="require the explicit self-hosted, SMS-enabled store candidate profile")
     outputs = parser.add_mutually_exclusive_group(required=True)
     outputs.add_argument("--defines-output", type=Path)
     outputs.add_argument("--validate-defines", type=Path)
     args = parser.parse_args()
+    configure = store_candidate_configuration if args.store_candidate else configuration
     try:
         if args.validate_defines:
             values = json.loads(args.validate_defines.read_text())
-            if not isinstance(values, dict) or values != configuration(values, args.platform):
+            if not isinstance(values, dict) or values != configure(values, args.platform):
                 raise ValueError("Public profile differs from the validated native configuration")
         else:
-            values = configuration(dict(os.environ), args.platform)
+            values = configure(dict(os.environ), args.platform)
     except (ValueError, TypeError, OSError) as error:
         parser.error(str(error))
     if args.defines_output:
