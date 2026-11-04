@@ -135,6 +135,9 @@ async function genericMutation(request,env,account,actor,parts,data,rid,source){
    if(status==='suspended')writes.push(env.DB.prepare(`UPDATE auth_sessions SET revoked_at=?,revocation_reason='account_suspended' WHERE user_id=? AND revoked_at IS NULL`).bind(Math.floor(Date.now()/1000),resourceId));writes.push(guards[1]);}
  }else if(type==='memberships'){
   keys(data,['group_id','user_id','role','status','reason','expected_version']);
+  // A partial PATCH must not silently demote an administrator or reactivate a
+  // removed member. Existing exact request receipts were checked above.
+  if(!create&&(data.role==null||data.status==null))fail(400,'invalid_request','Provide both group role and membership status.');
   const groupId=uuid(create?data.group_id:parts[1]),userId=uuid(create?data.user_id:parts[2]),role=data.role??'member',active=(data.status??'active')==='active'?1:0;
   if(!['member','admin'].includes(role)||!['active','removed','left'].includes(data.status??'active'))unavailable();
   const existing=await first(env,'SELECT * FROM memberships WHERE collection_id=? AND user_id=?',groupId,userId);if(existing?.role==='owner')unavailable();
