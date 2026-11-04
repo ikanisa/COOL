@@ -77,13 +77,32 @@ export async function groupRpc(operation,body,env,actor) {
  }
  case 'update_current_member_profile': {
   const requestId=uuid(body.p_request_id??body.request_id??id(),'request_id');
-  const number=body.p_momo_number??body.momo_number;
-  if(number && !/^\+?2507[2389]\d{7}$/.test(number))throw new ApiError(400,'22023','Enter a Rwanda MoMo number.');
-  const phone=actor.user.phone;
-  if(number && number.replace(/^\+/,'')!==phone.replace(/^\+/,''))throw new ApiError(403,'42501','Verify the MoMo number before changing it.');
+  // A linked account may have a provider phone which has not been confirmed.
+  // Do not treat that value, or another supplied number, as ownership proof.
+  const phone=actor.user?.phone;
+  if(typeof actor.user?.phone_confirmed_at!=='string'||!actor.user.phone_confirmed_at.trim())throw new ApiError(403,'42501','Verify the MoMo number before changing it.');
+  let verified;
+  try{verified=canonicalRwandaPhone(phone);}catch{throw new ApiError(403,'42501','Verify the MoMo number before changing it.');}
+  const raw=body.p_momo_number??body.momo_number??phone;
+  // Accept the same local and international forms as the member editor, but
+  // reject unrelated punctuation and non-leading plus signs before canonicalizing.
+  if(typeof raw!=='string'||raw.length>40||!/^[+0-9 ()-]+$/.test(raw.trim()))throw new ApiError(400,'22023','Enter a Rwanda MoMo number.');
+  let compact=raw.trim().replace(/[ ()-]/g,'');
+  if(!/^\+?[0-9]+$/.test(compact)||compact.startsWith('+')&&!compact.startsWith('+250'))throw new ApiError(400,'22023','Enter a Rwanda MoMo number.');
+  if(compact.startsWith('00'))compact=compact.slice(2);
+  let canonical;
+  try{canonical=canonicalRwandaPhone(compact);}catch{throw new ApiError(400,'22023','Enter a Rwanda MoMo number.');}
+  if(canonical!==verified)throw new ApiError(403,'42501','Verify the MoMo number before changing it.');
+  const number='0'+canonical.slice(4);
   const provider=body.p_momo_provider??body.momo_provider??'mtn_momo';
-  if(!['mtn_momo','airtel_money'].includes(provider))throw new ApiError(400,'22023','Invalid MoMo network.');
-  await mutation(env,actor,operation,requestId,body,null,[env.DB.prepare(`UPDATE users SET momo_provider=?,momo_number=?,momo_pay_code=?,updated_at=? WHERE id=?`).bind(provider,number??phone,text(body.p_momo_pay_code??body.momo_pay_code??'not-set','pay_code',40),now(),actor.userId)]);
+  const providerMatches=provider==='mtn_momo'&&/^07[89]\d{7}$/.test(number)||
+   provider==='airtel_money'&&/^07[23]\d{7}$/.test(number);
+  if(!providerMatches)throw new ApiError(400,'22023','Invalid MoMo network.');
+  const suppliedCode=body.p_momo_pay_code??body.momo_pay_code;
+  if(suppliedCode!==undefined&&suppliedCode!==null&&(typeof suppliedCode!=='string'||suppliedCode.trim()!==''&&!/^[0-9]{4,9}$/.test(suppliedCode.trim())))throw new ApiError(400,'22023','Enter a MoMo code with 4 to 9 digits.');
+  const code=suppliedCode==null?null:suppliedCode.trim();
+  // Missing means preserve the prior code; an explicit empty string clears it.
+  await mutation(env,actor,operation,requestId,body,null,[env.DB.prepare(`UPDATE users SET momo_provider=?,momo_number=?,momo_pay_code=coalesce(?,momo_pay_code),updated_at=? WHERE id=?`).bind(provider,number,code,now(),actor.userId)]);
   return {handled:true,value:null};
  }
  case 'list_current_user_collections': {
