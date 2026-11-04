@@ -10,7 +10,8 @@ import unittest
 from unittest.mock import patch
 
 from scripts.self_hosted.release_operator import Operator
-from scripts.self_hosted.prepare import CONFIGURATION_FILES,seal_configuration
+from scripts.self_hosted.prepare import CONFIGURATION_FILES,PROVIDER_SETTINGS,seal_configuration
+from scripts.self_hosted.configure import validated_settings
 from scripts.supabase.deployment_profile import profile_sha256
 
 
@@ -18,7 +19,9 @@ class OperatorDiagnostics(unittest.TestCase):
     def setUp(self):
         self.area=tempfile.TemporaryDirectory()
         self.addCleanup(self.area.cleanup)
-        self.root=Path(self.area.name)
+        # macOS exposes its temporary directory through /var -> /private/var;
+        # production Operator requires a physical, non-symlinked release path.
+        self.root=Path(self.area.name).resolve()
         (self.root/'private').mkdir()
         self.operator=object.__new__(Operator)
         self.operator.root=self.root
@@ -92,6 +95,26 @@ class OperatorDiagnostics(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'Admin and public origins must differ'):
                 self.operator.publish()
         preflight.assert_not_called();database.assert_not_called()
+
+    def test_production_publish_rejects_missing_captcha_after_private_configuration(self):
+        self.operator.profile={'environment':'production','admin_origin':'https://admin.example',
+            'public_origin':'https://public.example'}
+        self.operator.meta={'source_sha256':'a'*64}
+        settings={**PROVIDER_SETTINGS,'SMTP_HOST':'smtp.example','SMTP_PORT':'587',
+            'SMTP_USER':'synthetic-user','SMTP_PASS':'synthetic-password',
+            'SMTP_ADMIN_EMAIL':'sender@example.com','TURNSTILE_SITE_KEY':'',
+            'TURNSTILE_SECRET_KEY':''}
+        # Private preparation accepts incomplete configuration, but publication
+        # must fail before assets or the public listener are started.
+        self.assertTrue(validated_settings(settings,self.operator.profile,'a'*64)['smtp_configured'])
+        (self.root/'private'/'provider-settings.json').write_text(json.dumps(settings))
+        with patch.object(self.operator,'docker_preflight'), \
+             patch.object(self.operator,'validate_runtime_database'), \
+             patch('scripts.self_hosted.assets.verify_assets') as assets, \
+             patch.object(self.operator,'compose') as compose:
+            with self.assertRaisesRegex(ValueError,'Production Auth SMTP and abuse controls must be configured'):
+                self.operator.publish()
+        assets.assert_not_called();compose.assert_not_called()
 
     def test_publish_cli_explains_origin_collision_without_disclosing_values(self):
         profile={'format':'collect.deployment.v1','id':'synthetic','mode':'self_hosted',
