@@ -28,6 +28,8 @@ class CollectState {
     this.smsQueueOverflowed = false,
     this.isLoading = false,
     this.usingStaleCache = false,
+    this.publicDiscoveryLoading = false,
+    this.publicDiscoveryUnavailable = false,
     this.financialObservationUncertain = false,
     this.lastSuccessfulSyncAt,
     this.lastError,
@@ -48,6 +50,8 @@ class CollectState {
   final bool smsQueueOverflowed;
   final bool isLoading;
   final bool usingStaleCache;
+  final bool publicDiscoveryLoading;
+  final bool publicDiscoveryUnavailable;
   final bool financialObservationUncertain;
   final DateTime? lastSuccessfulSyncAt;
   final String? lastError;
@@ -84,6 +88,8 @@ class CollectState {
     bool? smsQueueOverflowed,
     bool? isLoading,
     bool? usingStaleCache,
+    bool? publicDiscoveryLoading,
+    bool? publicDiscoveryUnavailable,
     bool? financialObservationUncertain,
     Object? lastSuccessfulSyncAt = _unsetDateTimeField,
     String? lastError,
@@ -112,6 +118,10 @@ class CollectState {
       smsQueueOverflowed: smsQueueOverflowed ?? this.smsQueueOverflowed,
       isLoading: isLoading ?? this.isLoading,
       usingStaleCache: usingStaleCache ?? this.usingStaleCache,
+      publicDiscoveryLoading:
+          publicDiscoveryLoading ?? this.publicDiscoveryLoading,
+      publicDiscoveryUnavailable:
+          publicDiscoveryUnavailable ?? this.publicDiscoveryUnavailable,
       financialObservationUncertain:
           financialObservationUncertain ?? this.financialObservationUncertain,
       lastSuccessfulSyncAt: identical(lastSuccessfulSyncAt, _unsetDateTimeField)

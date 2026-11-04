@@ -26,6 +26,100 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUp(() => SharedPreferences.setMockInitialValues({}));
   test(
+    'public nonmember joins and hydrates before creating a payment command',
+    () async {
+      final h = await _Harness.create();
+      h.repo.preserveJoinedGroupOnRefresh = true;
+      h.repo.replaceGroup(
+        h.repo.state.collections.single.copyWith(
+          creatorUserId: '50000000-0000-4000-8000-000000000001',
+          isCurrentUserMember: false,
+        ),
+      );
+      final intent = await h.repo.prepareContributionIntent(_draft);
+      expect(intent.id, commandIntentId);
+      final paths = h.requests
+          .map((request) => request.url.path.split('/').last)
+          .toList();
+      for (final operation in [
+        'join_public_group',
+        'list_current_user_collections',
+        'get_current_member_contribution_session_v1',
+        'create_contribution_intent',
+      ]) {
+        expect(paths, contains(operation), reason: operation);
+      }
+      final join = h.requests.singleWhere(
+        (request) => request.url.path.endsWith('/join_public_group'),
+      );
+      expect(jsonDecode(join.body)['p_collection_id'], commandGroupId);
+      expect(
+        join.headers['authorization'],
+        'Bearer ${h.client.auth.currentSession!.accessToken}',
+      );
+      expect(
+        paths.indexOf('join_public_group'),
+        lessThan(paths.indexOf('list_current_user_collections')),
+      );
+      expect(
+        paths.indexOf('list_current_user_collections'),
+        lessThan(paths.indexOf('get_current_member_contribution_session_v1')),
+      );
+      expect(
+        paths.indexOf('get_current_member_contribution_session_v1'),
+        lessThan(paths.indexOf('create_contribution_intent')),
+      );
+      expect(h.repo.state.collections.single.isCurrentUserMember, isTrue);
+      expect(h.creates, hasLength(1));
+    },
+  );
+
+  test('uncertain public join does not create a payment command', () async {
+    final h = await _Harness.create();
+    h.repo.replaceGroup(
+      h.repo.state.collections.single.copyWith(
+        creatorUserId: '50000000-0000-4000-8000-000000000001',
+        isCurrentUserMember: false,
+      ),
+    );
+    h.onPublicJoin = (_) =>
+        throw http.ClientException('Synthetic lost join response');
+    await expectLater(
+      h.repo.prepareContributionIntent(_draft),
+      throwsA(
+        isA<FormatException>().having(
+          (error) => error.message,
+          'message',
+          contains('confirm joining'),
+        ),
+      ),
+    );
+    expect(
+      h.requests.where(
+        (request) => request.url.path.endsWith('/join_public_group'),
+      ),
+      hasLength(1),
+    );
+    expect(
+      h.requests.where(
+        (request) =>
+            request.url.path.endsWith('/list_current_user_collections'),
+      ),
+      isEmpty,
+    );
+    expect(
+      h.requests.where(
+        (request) => request.url.path.endsWith(
+          '/get_current_member_contribution_session_v1',
+        ),
+      ),
+      isEmpty,
+    );
+    expect(h.creates, isEmpty);
+    expect(await h.journal.read(commandOwner()), isEmpty);
+  });
+
+  test(
     'actual repository persists exact original body before one creation POST and uses separate review',
     () async {
       final h = await _Harness.create();
@@ -810,7 +904,12 @@ class _Harness {
   final List<http.Request> requests;
   final _Sms sms;
   late _Repository repo;
-  late _Respond onCreate, onReview, onLookup, onWitness;
+  late _Respond onCreate,
+      onReview,
+      onLookup,
+      onWitness,
+      onPublicJoin,
+      onMemberGroups;
   final repositories = <_Repository>[];
   String currentSession = commandSessionId,
       currentOwner = commandOwnerId,
@@ -858,6 +957,8 @@ class _Harness {
           'get_current_member_contribution_session_v1' => await h.onWitness(
             request,
           ),
+          'join_public_group' => await h.onPublicJoin(request),
+          'list_current_user_collections' => await h.onMemberGroups(request),
           'record_sms_access_consent' => null,
           'logout' => <String, dynamic>{},
           _ => throw StateError('Unexpected synthetic HTTP operation'),
@@ -874,6 +975,24 @@ class _Harness {
         journal = ContributionCommandJournal(storage: storage);
     h = _Harness(client, storage, journal, requests, _Sms());
     h.onCreate = (_) => commandIntentWire();
+    h.onPublicJoin = (_) => commandGroupId;
+    h.onMemberGroups = (_) => [
+      {
+        'id': commandGroupId,
+        'slug': 'synthetic-group',
+        'creator_user_id': '50000000-0000-4000-8000-000000000001',
+        'title': 'Synthetic group',
+        'description': '',
+        'collection_type': 'ikimina',
+        'created_at': '2026-01-01T00:00:00.000Z',
+        'receiver_momo_number': '0788123456',
+        'receiver_display_label': 'Synthetic receiver',
+        'receiver_network': 'mtn_momo',
+        'payment_rail': 'rwanda_momo',
+        'is_member': true,
+        'is_public': true,
+      },
+    ];
     h.onReview = (_) => commandReviewWire(session: h.currentSession);
     h.onWitness = (_) => commandWitnessWire(
       session: h.currentSession,
@@ -957,6 +1076,7 @@ class _Repository extends CollectRepository {
         initialState: _state(client.auth.currentUser!.id),
       );
   final CollectCloudflareClient client;
+  bool preserveJoinedGroupOnRefresh = false;
   void updateMomoNumber(String number) {
     state = state.copyWith(
       currentProfile: state.currentProfile!.copyWith(momoNumber: number),
@@ -1064,6 +1184,7 @@ class _Repository extends CollectRepository {
 
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
+    if (preserveJoinedGroupOnRefresh) return;
     state = _state(client.auth.currentUser!.id);
   }
 }

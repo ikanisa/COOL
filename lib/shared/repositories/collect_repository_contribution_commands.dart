@@ -14,6 +14,7 @@ mixin _CollectContributionCommands on StateNotifier<CollectState> {
   bool _isCurrentSession(_CollectSessionFence session);
   CollectProfile _requireReadyProfile();
   CollectCollection _requireActiveCollection(String collectionId);
+  Future<CollectCollection> joinPublicGroup(String collectionId);
 
   ContributionCommandOwner _contributionOwner() {
     final backend = _backend, auth = backend?.auth.currentSession;
@@ -165,10 +166,39 @@ mixin _CollectContributionCommands on StateNotifier<CollectState> {
       throw StateError('Join this group before contributing.');
     }
     final owner = _contributionOwner(), fence = _captureSession();
+    final senderHash = HashUtils.phoneHash(profile.momoNumber);
+    if (!_contributionCurrent(fence, owner) ||
+        !_contributionSenderCurrent(senderHash)) {
+      throw StateError('Account changed. Sign in again.');
+    }
+    if (collection.isPublic &&
+        !collection.isCurrentUserMember &&
+        collection.creatorUserId != profile.id) {
+      try {
+        await joinPublicGroup(collection.id);
+      } catch (_) {
+        if (!_contributionCurrent(fence, owner)) {
+          throw StateError('Account changed. Sign in again.');
+        }
+        throw const FormatException(
+          'Could not confirm joining. Refresh this group before contributing.',
+        );
+      }
+      if (!_contributionCurrent(fence, owner) ||
+          !_contributionSenderCurrent(senderHash)) {
+        throw StateError('Account changed. Sign in again.');
+      }
+      final joined = _requireActiveCollection(collection.id);
+      if (!joined.isPublic ||
+          !joined.isCurrentUserMember ||
+          joined.contributionRailFor(_requireReadyProfile()) != 'rwanda_momo') {
+        throw StateError('This group is no longer available for contribution.');
+      }
+    }
     final body = ContributionCommandBody(
       collectionId: draft.collectionId,
       amountRwf: draft.amountRwf,
-      senderPhoneHash: HashUtils.phoneHash(profile.momoNumber),
+      senderPhoneHash: senderHash,
       requestId: _uuid.v4(),
     );
     bool current() =>

@@ -91,6 +91,54 @@ fencedTest({name:'wallet-free metadata on actual handlers and PostgreSQL: author
    const clear=await call(owner,'update_rwanda_momo_group_profile',{...edit,p_group_image_url:''});assert.equal(clear.status,200);assert.equal(clear.body,null);assert.equal((await read()).image_url,null);
    assert.equal((await call(owner,'update_rwanda_momo_group_profile',edit)).status,200);assert.equal((await read()).image_url,null);
   });
+  await t.step('public join is idempotent and never reactivates a removed membership',async()=>{
+   const sponsor=await actor(),group=await successful(sponsor),member=await actor();
+   await sql`UPDATE app.collections SET visibility_status='public_approved' WHERE id=${group}`;
+   const request={p_collection_id:group,p_request_id:crypto.randomUUID()};
+   const first=await call(member,'join_public_group',request);assert.equal(first.status,200,JSON.stringify(first.body));assert.equal(first.body,group);
+   const replay=await call(member,'join_public_group',request);assert.equal(replay.status,200);assert.equal(replay.body,group);
+   assert.equal((await sql`SELECT count(*)::int AS n FROM app.memberships WHERE collection_id=${group} AND user_id=${member.principal} AND active=1`)[0].n,1);
+   await sql`UPDATE app.memberships SET active=0 WHERE collection_id=${group} AND user_id=${member.principal}`;
+   assert.equal((await call(member,'join_public_group',request)).status,409);
+   assert.notEqual((await call(member,'join_public_group',{...request,p_request_id:crypto.randomUUID()})).status,200);
+   assert.equal((await sql`SELECT active FROM app.memberships WHERE collection_id=${group} AND user_id=${member.principal}`)[0].active,0);
+  });
+  await t.step('private, suspended and concurrently withdrawn public groups refuse public join',async()=>{
+   const sponsor=await actor(),group=await successful(sponsor),member=await actor();
+   const request={p_collection_id:group,p_request_id:crypto.randomUUID()},before=await snapshot();
+   assert.notEqual((await call(member,'join_public_group',request)).status,200);assert.equal(await snapshot(),before);
+   await sql`UPDATE app.collections SET visibility_status='public_approved',status='suspended' WHERE id=${group}`;
+   assert.notEqual((await call(member,'join_public_group',{...request,p_request_id:crypto.randomUUID()})).status,200);assert.equal(await snapshot(),before);
+   await sql`UPDATE app.collections SET status='active' WHERE id=${group}`;
+   const db=new BeforeBatch(member,async()=>{await sql`UPDATE app.collections SET visibility_status='private' WHERE id=${group}`;});
+   await assert.rejects(()=>groupRpc('join_public_group',{...request,p_request_id:crypto.randomUUID()},nativeEnv(member,db),domainActor(member)));
+   assert.equal((await sql`SELECT count(*)::int AS n FROM app.memberships WHERE collection_id=${group} AND user_id=${member.principal}`)[0].n,0);
+  });
+  await t.step('public join denies a session revoked before the transaction',async()=>{
+   const sponsor=await actor(),group=await successful(sponsor),member=await actor();
+   await sql`UPDATE app.collections SET visibility_status='public_approved' WHERE id=${group}`;
+   const db=new BeforeBatch(member,async()=>{await sql`UPDATE app.auth_sessions SET revoked_at=app.unixepoch(),revocation_reason='synthetic_test' WHERE id=${member.session}`;});
+   await assert.rejects(()=>groupRpc('join_public_group',{p_collection_id:group,p_request_id:crypto.randomUUID()},nativeEnv(member,db),domainActor(member)));
+   assert.equal((await sql`SELECT count(*)::int AS n FROM app.memberships WHERE collection_id=${group} AND user_id=${member.principal}`)[0].n,0);
+  });
+  await t.step('concurrent public joins serialize at the hourly limit and exact replay stays available',async()=>{
+   const sponsor=await actor(),group=await successful(sponsor),member=await actor();
+   await sql`UPDATE app.collections SET visibility_status='public_approved' WHERE id=${group}`;
+   const first={p_collection_id:group,p_request_id:crypto.randomUUID()};assert.equal((await call(member,'join_public_group',first)).status,200);
+   await sql`INSERT INTO app.request_receipts(user_id,request_id,operation,session_id,body_sha256,response_json,created_at)
+    SELECT ${member.principal},gen_random_uuid()::text,'join_public_group',${member.session},${'a'.repeat(64)},${JSON.stringify(group)},app.strftime('%Y-%m-%dT%H:%M:%fZ','now') FROM generate_series(1,58)`;
+   const results=await Promise.all([call(member,'join_public_group',{p_collection_id:group,p_request_id:crypto.randomUUID()}),call(member,'join_public_group',{p_collection_id:group,p_request_id:crypto.randomUUID()})]);
+   assert.deepEqual(results.map(r=>r.status).sort(),[200,429]);assert.equal((await call(member,'join_public_group',first)).status,200);
+   assert.equal((await sql`SELECT count(*)::int AS n FROM app.memberships WHERE collection_id=${group} AND user_id=${member.principal} AND active=1`)[0].n,1);
+  });
+  await t.step('public join refuses at the daily limit without changing membership',async()=>{
+   const sponsor=await actor(),group=await successful(sponsor),member=await actor();
+   await sql`UPDATE app.collections SET visibility_status='public_approved' WHERE id=${group}`;
+   await sql`INSERT INTO app.request_receipts(user_id,request_id,operation,session_id,body_sha256,response_json,created_at)
+    SELECT ${member.principal},gen_random_uuid()::text,'join_public_group',${member.session},${'a'.repeat(64)},${JSON.stringify(group)},app.strftime('%Y-%m-%dT%H:%M:%fZ','now','-2 hours') FROM generate_series(1,500)`;
+   const result=await call(member,'join_public_group',{p_collection_id:group,p_request_id:crypto.randomUUID()});assert.equal(result.status,429);
+   assert.equal((await sql`SELECT count(*)::int AS n FROM app.memberships WHERE collection_id=${group} AND user_id=${member.principal}`)[0].n,0);
+  });
   await t.step('create/edit/join never posts a payment, intent, evidence or ledger row',async()=>{for(const table of['ledger_entries','payments','payment_evidence','payment_intents','sms_receipts'])assert.equal((await sql.unsafe('SELECT count(*)::int AS n FROM app.'+table))[0].n,0);});
  }finally{globalThis.fetch=originalFetch;await finishSqlFixtureWork();await sql.end();}
 }});

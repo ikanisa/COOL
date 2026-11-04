@@ -232,9 +232,12 @@ class _CollectionDetailScreenState
     try {
       requireMemberGroupProfileReady(ref);
       if (!mounted) return;
-      await ref
-          .read(collectRepositoryProvider.notifier)
-          .joinGroupBySlug(collection.slug);
+      final repository = ref.read(collectRepositoryProvider.notifier);
+      if (collection.isPublic) {
+        await repository.joinPublicGroup(collection.id);
+      } else {
+        await repository.joinGroupBySlug(collection.slug);
+      }
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
@@ -242,7 +245,11 @@ class _CollectionDetailScreenState
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not join this group.')),
+        const SnackBar(
+          content: Text(
+            'Could not confirm joining. Refresh before trying again.',
+          ),
+        ),
       );
     }
   }

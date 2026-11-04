@@ -28,6 +28,77 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
 
   final Map<String, List<CollectMember>> _fixtureRosterOverrides = {};
 
+  /// Join an approved public group by its ID, not by its private invitation.
+  Future<CollectCollection> joinPublicGroup(String collectionId) async {
+    final group = _requireActiveCollection(collectionId);
+    if (!group.isPublic) throw StateError('This group is not public.');
+    final profile = _requireProfile();
+    final backend = _backend;
+    final ownerId = backend?.auth.currentUser?.id;
+    if (backend != null && ownerId != null) {
+      final session = _captureSession();
+      final generation = _loadGeneration;
+      void requireOriginalSession() {
+        _requireCurrentMemberSession(session, ownerId);
+        if (!mounted ||
+            generation != _loadGeneration ||
+            backend.auth.currentUser?.id != ownerId ||
+            state.currentProfile?.id != ownerId) {
+          throw StateError('Account changed during group join.');
+        }
+      }
+
+      requireOriginalSession();
+      final response = await backend
+          .rpc<dynamic>(
+            'join_public_group',
+            params: {
+              'p_collection_id': collectionId,
+              'p_request_id': _uuid.v4(),
+            },
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}')
+          .retry(enabled: false);
+      requireOriginalSession();
+      final joinedId = exactJsonIdentifier(response, field: 'joined_group.id');
+      if (joinedId != collectionId) {
+        throw const FormatException('Joined group identity is invalid.');
+      }
+      final joined = await _liveReader.fetchCollection(
+        joinedId,
+        accessToken: session.accessToken,
+      );
+      requireOriginalSession();
+      if (!joined.isPublic ||
+          (!joined.isCurrentUserMember && joined.creatorUserId != ownerId)) {
+        throw const FormatException('Public group membership is invalid.');
+      }
+      final collections = [...state.collections];
+      final index = collections.indexWhere((item) => item.id == joined.id);
+      if (index == -1) {
+        collections.insert(0, joined);
+      } else {
+        collections[index] = joined;
+      }
+      state = state.copyWith(collections: collections);
+      requireOriginalSession();
+      _refreshAfterGroupJoin(session);
+      return joined;
+    }
+    if (!_allowLocalWrites) throw StateError('Sign in before joining a group.');
+    if (state.currentProfile?.id != profile.id) {
+      throw StateError('Account changed during group join.');
+    }
+    final joined = group.copyWith(isCurrentUserMember: true);
+    state = state.copyWith(
+      collections: [
+        for (final item in state.collections)
+          if (item.id == joined.id) joined else item,
+      ],
+    );
+    return joined;
+  }
+
   Future<CollectCollection> joinGroupBySlug(String slug) async {
     final normalizedSlug = slug.trim();
     if (normalizedSlug.isEmpty) {
@@ -79,6 +150,8 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
         collections[existing] = collection;
       }
       state = state.copyWith(collections: collections);
+      requireOriginalSession();
+      _refreshAfterGroupJoin(session);
       return collection;
     }
     if (!_allowLocalWrites) {
@@ -86,6 +159,27 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
     }
 
     return collectionBySlug(normalizedSlug);
+  }
+
+  void _refreshAfterGroupJoin(_CollectSessionFence session) {
+    // Starting the fresh read immediately invalidates any member-list read
+    // that began before the confirmed join. Never union its stale rows back in.
+    final refresh = loadInitial();
+    final generation = _loadGeneration;
+    unawaited(
+      refresh.catchError((Object _) {
+        if (!mounted ||
+            generation != _loadGeneration ||
+            !_isCurrentSession(session))
+          return;
+        state = state.copyWith(
+          isLoading: false,
+          financialObservationUncertain: true,
+          lastError:
+              'Group membership could not be refreshed. Please reconnect.',
+        );
+      }),
+    );
   }
 
   Future<String> getGroupShareCode(String collectionId) async {

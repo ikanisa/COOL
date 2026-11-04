@@ -228,6 +228,8 @@ class CollectRepository extends StateNotifier<CollectState>
           pendingIntentCount: 0,
           isLoading: false,
           usingStaleCache: false,
+          publicDiscoveryLoading: false,
+          publicDiscoveryUnavailable: false,
           lastSuccessfulSyncAt: DateTime.now().toUtc(),
         );
       } catch (error) {
@@ -235,6 +237,8 @@ class CollectRepository extends StateNotifier<CollectState>
         state = state.copyWith(
           isLoading: false,
           usingStaleCache: false,
+          publicDiscoveryLoading: false,
+          publicDiscoveryUnavailable: true,
           lastError: error.toString(),
         );
       }
@@ -249,10 +253,17 @@ class CollectRepository extends StateNotifier<CollectState>
         accessToken: preferencesSession.accessToken,
       );
       if (!readStillCurrent()) return;
-      final collections = await _liveReader.fetchCollections(
+      final memberCollections = await _liveReader.fetchCollections(
         accessToken: preferencesSession.accessToken,
       );
       if (!readStillCurrent()) return;
+      final memberCollectionIds = memberCollections
+          .map((item) => item.id)
+          .toSet();
+      if (memberCollectionIds.length != memberCollections.length ||
+          memberCollections.any((item) => !item.isCurrentUserMember)) {
+        throw const _CollectAccessMismatch();
+      }
       final intents = await _liveReader.fetchRecentIntents(
         accessToken: preferencesSession.accessToken,
       );
@@ -289,21 +300,23 @@ class CollectRepository extends StateNotifier<CollectState>
       if (acceptPreferences) {
         _notificationPreferencesRevision = notificationPreferences?.revision;
       }
-      final visibleCollectionIds = collections.map((item) => item.id).toSet();
       if (collectionSummaries.keys.any(
-        (id) => !visibleCollectionIds.contains(id),
+        (id) => !memberCollectionIds.contains(id),
       )) {
         throw const _CollectAccessMismatch();
       }
-      final priorCollectionIds = state.collections
+      final priorMemberCollectionIds = state.collections
+          .where(
+            (item) => item.isCurrentUserMember || item.creatorUserId == user.id,
+          )
           .map((item) => item.id)
           .toSet();
-      final accessReduced = priorCollectionIds.any(
-        (id) => !visibleCollectionIds.contains(id),
+      final accessReduced = priorMemberCollectionIds.any(
+        (id) => !memberCollectionIds.contains(id),
       );
       state = state.copyWith(
         currentProfile: profile,
-        collections: collections,
+        collections: memberCollections,
         paymentIntents: intents.items,
         pendingIntentCount: intents.pendingCount,
         contributions: history.items,
@@ -316,6 +329,8 @@ class CollectRepository extends StateNotifier<CollectState>
             : state.notificationPreferences,
         isLoading: false,
         usingStaleCache: false,
+        publicDiscoveryLoading: true,
+        publicDiscoveryUnavailable: false,
         lastSuccessfulSyncAt: DateTime.now().toUtc(),
         financialObservationUncertain: false,
       );
@@ -342,8 +357,35 @@ class CollectRepository extends StateNotifier<CollectState>
         }),
       );
       _ensureRealtimeSync();
+      // Public discovery must not delay a valid member financial refresh. Its
+      // result is independently fenced to this exact load and session.
+      unawaited(
+        _refreshPublicDiscovery(generation, preferencesSession, user.id),
+      );
     } catch (error) {
-      if (!readStillCurrent()) return;
+      if (!readStillCurrent()) {
+        // A superseded read can still carry a real denial for this exact
+        // bearer. Do not let a newer but stalled refresh expose old authority.
+        // A replacement bearer or an active sign-out has its own lifecycle and
+        // must not be disturbed by this earlier response.
+        if (user != null &&
+            preferencesSession.identity != null &&
+            preferencesSession.accessToken != null &&
+            _signingOutIdentity != preferencesSession.identity &&
+            _isCurrentSession(preferencesSession) &&
+            _isAccessFailure(error)) {
+          try {
+            await _memberSyncAuthorityDenied(
+              preferencesSession,
+              preferencesSession.accessToken!,
+            );
+          } catch (_) {
+            // The helper has already latched the in-memory denial. A failed
+            // follow-up read does not restore authority.
+          }
+        }
+        return;
+      }
       if (!_isAccessFailure(error) &&
           (preferencesGeneration != _notificationPreferencesGeneration ||
               (preferencesReadAttempt != null &&
@@ -383,6 +425,52 @@ class CollectRepository extends StateNotifier<CollectState>
           lastError: error.toString(),
         );
       }
+    }
+  }
+
+  Future<void> _refreshPublicDiscovery(
+    int generation,
+    _CollectSessionFence session,
+    String userId,
+  ) async {
+    bool current() =>
+        _acceptLoad(generation, userId) && _isCurrentSession(session);
+    try {
+      final publicCollections = await _liveReader.fetchPublicCollections();
+      if (!current()) return;
+      final ids = publicCollections.map((item) => item.id).toSet();
+      if (ids.length != publicCollections.length ||
+          publicCollections.any(
+            (item) =>
+                !item.isPublic || item.isCurrentUserMember || item.isArchived,
+          )) {
+        throw const FormatException('Public group data is invalid.');
+      }
+      // A join can finish while the public request is in flight. Keep current
+      // member DTOs and never replace them with redacted public versions.
+      final members = state.collections
+          .where(
+            (item) => item.isCurrentUserMember || item.creatorUserId == userId,
+          )
+          .toList();
+      final memberIds = members.map((item) => item.id).toSet();
+      state = state.copyWith(
+        collections: [
+          ...members,
+          ...publicCollections.where((item) => !memberIds.contains(item.id)),
+        ],
+        publicDiscoveryLoading: false,
+        publicDiscoveryUnavailable: false,
+        lastError: state.lastError,
+      );
+    } catch (_) {
+      if (!current()) return;
+      // A public-list failure is not evidence that member authority failed.
+      state = state.copyWith(
+        publicDiscoveryLoading: false,
+        publicDiscoveryUnavailable: true,
+        lastError: state.lastError,
+      );
     }
   }
 
@@ -577,6 +665,8 @@ class CollectRepository extends StateNotifier<CollectState>
       pendingIntentCount: cached.pendingIntentCount,
       isLoading: false,
       usingStaleCache: true,
+      publicDiscoveryLoading: false,
+      publicDiscoveryUnavailable: true,
       lastSuccessfulSyncAt: cached.savedAt,
       lastError: reason,
     );
@@ -584,10 +674,20 @@ class CollectRepository extends StateNotifier<CollectState>
   }
 
   CollectOfflineSnapshot _offlineSnapshotFromState() {
+    final owner = state.currentProfile?.id;
     return CollectOfflineSnapshot(
       savedAt: state.lastSuccessfulSyncAt ?? DateTime.now().toUtc(),
       currentProfile: state.currentProfile,
-      collections: state.collections,
+      // Discovery is refreshed from its public source; only the authenticated
+      // member scope belongs in this protected offline financial snapshot.
+      collections: owner == null
+          ? const []
+          : state.collections
+                .where(
+                  (item) =>
+                      item.isCurrentUserMember || item.creatorUserId == owner,
+                )
+                .toList(),
       paymentIntents: state.paymentIntents,
       contributions: state.contributions,
       collectionSummaries: state.collectionSummaries,

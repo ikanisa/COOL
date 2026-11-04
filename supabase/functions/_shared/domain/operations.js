@@ -25,7 +25,7 @@ const definitions=[
     'get_current_member_profile','ensure_current_member_profile',
     'update_current_member_profile','list_current_user_collections',
     'list_current_member_group_roster','get_group_share_code',
-    'rotate_group_share_code_v2','join_group_by_share_code','archive_group',
+    'rotate_group_share_code_v2','join_public_group','join_group_by_share_code','archive_group',
     'add_group_admin','transfer_group_ownership','update_rwanda_momo_group_profile',
     'get_owner_group_health','create_private_group_metadata_v1','create_private_group_with_owner_media_attested',
   ]],

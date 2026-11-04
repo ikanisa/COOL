@@ -71,7 +71,11 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
         : showContributedOnly
         ? 'Supported groups'
         : 'Groups';
-    if (isInitialLoading) {
+    if (isInitialLoading ||
+        (collections.isEmpty &&
+            state.publicDiscoveryLoading &&
+            !showMembersOnly &&
+            !showContributedOnly)) {
       return ScreenScaffold(
         title: 'Groups',
         showHeader: false,
@@ -121,7 +125,10 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
               label: 'Search group name, type, or purpose',
               onChanged: (value) => setState(() => _query = value),
             ),
-          if (state.hasInitialLoadFailure)
+          if (state.hasInitialLoadFailure ||
+              (state.publicDiscoveryUnavailable &&
+                  !showMembersOnly &&
+                  !showContributedOnly))
             CollectDataLoadFailure(
               onRetry: () =>
                   ref.read(collectRepositoryProvider.notifier).loadInitial(),
@@ -167,6 +174,13 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
       children: [
         SectionHeader(title: pageTitle),
+        if (state.publicDiscoveryUnavailable &&
+            !showMembersOnly &&
+            !showContributedOnly)
+          CollectDataLoadFailure(
+            onRetry: () =>
+                ref.read(collectRepositoryProvider.notifier).loadInitial(),
+          ),
         if (_searching)
           SearchWithClearField(
             controller: _search,
@@ -197,6 +211,8 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
             message: 'Clear the search and try again.',
             onClear: _clearSearch,
           )
+        else if (showFeaturedOnly && state.publicDiscoveryUnavailable)
+          const SizedBox.shrink()
         else if (showFeaturedOnly)
           const EmptyIllustrationState(
             icon: CollectIcons.people,

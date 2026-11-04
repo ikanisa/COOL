@@ -239,7 +239,7 @@ test('readContext closed isolation modes cannot grant writes or accept another i
  }
 });
 test('runtime inventory preserves creation and registers only three bearer-session contribution reads',async()=>{
- const {operationInventory}=await import('../domain/operations.js');assert.equal(operationInventory.length,103);
+ const {operationInventory}=await import('../domain/operations.js');assert.equal(operationInventory.length,104);
  assert.equal(operationInventory.find(entry=>entry.name==='create_contribution_intent').source,'payments.js');
  const added=operationInventory.filter(entry=>entry.source==='contribution_commands.js');assert.equal(added.length,3);
  assert.deepEqual(added.map(entry=>entry.name).sort(),[sessionName,lookupName,reviewName].sort());

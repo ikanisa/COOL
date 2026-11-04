@@ -1,8 +1,14 @@
 import {ApiError,rows,first,decode,text,uuid,integer,now,id,digest} from './core.js';
-import {mutation,retainedResponse} from './mutations.js';
+import {assertMutationAdmission,mutation,retainedResponse} from './mutations.js';
 import {encrypt,decrypt} from './encryption.js';
 import {consumeNativeCapability,canonicalRwandaPhone} from './native_integrity.js';
 const boolean = value => value===1;
+function publicJoinFailure(error) {
+ if(error instanceof ApiError&&error.code==='stale_state'||
+    !(error instanceof ApiError)&&/admin_bridge_guards|admin_bridge_state/.test(String(error?.message??error)))
+  return new ApiError(409,'group_join_unconfirmed','Refresh this group before continuing.');
+ return error;
+}
 // Keep this allow-list aligned with the maintained Collect cover catalog.
 const metadataCoverRefs=new Set(["collect-cover:rw-01-neighbourhood-ikimina:v1","collect-cover:rw-02-women-savings-circle:v1","collect-cover:rw-03-young-professionals-goal:v1","collect-cover:rw-04-market-traders-stock:v1","collect-cover:rw-05-moto-riders-shared-goal:v1","collect-cover:rw-06-farmers-season-inputs:v1","collect-cover:rw-07-family-home-goal:v1","collect-cover:rw-08-craft-cooperative-tools:v1","collect-cover:rw-09-wedding-committee:v2","collect-cover:rw-10-gusaba-gukwa-gathering:v2","collect-cover:rw-11-wedding-attire-preparation:v2","collect-cover:rw-12-wedding-reception-table:v2","collect-cover:rw-13-new-home-wedding-gift:v2","collect-cover:rw-14-wedding-day-family:v2","collect-cover:rw-15-church-community-offering:v1","collect-cover:rw-16-church-building-project:v1","collect-cover:rw-17-choir-shared-equipment:v1","collect-cover:rw-18-muslim-community-giving:v1","collect-cover:rw-19-ramadan-community-meal:v1","collect-cover:rw-20-community-giving-parcels:v1","collect-cover:rw-21-bereavement-support:v1","collect-cover:rw-22-medical-care-support:v1","collect-cover:rw-23-health-cover-contribution:v1","collect-cover:rw-24-neighbours-recovery-support:v1","collect-cover:rw-25-family-everyday-support:v1","collect-cover:rw-26-welcoming-new-baby:v1","collect-cover:rw-27-school-supplies:v1","collect-cover:rw-28-school-meal-support:v1","collect-cover:rw-29-higher-study-support:v1","collect-cover:rw-30-youth-skills-training:v1","collect-cover:rw-31-umuganda-project-tools:v1","collect-cover:rw-32-shared-water-point:v1","collect-cover:rw-33-community-hall-improvement:v1","collect-cover:rw-34-tree-planting-neighbours:v1","collect-cover:rw-35-football-fan-community:v1","collect-cover:rw-36-local-team-equipment:v1","collect-cover:rw-37-away-match-travel:v1","collect-cover:rw-38-cultural-troupe-rehearsal:v1","collect-cover:rw-41-buri-munsi:v1","collect-cover:rw-42-gikundiro:v1","collect-cover:rw-43-church-congregation:v1","collect-cover:rw-44-football-fans-matchday:v1"]);
 const groupPaymentRail=row=>typeof row.receiver_momo_number==='string'&&row.receiver_momo_number.trim()&&['mtn_momo','airtel_money'].includes(row.receiver_network)?'rwanda_momo':'unavailable';
@@ -10,6 +16,9 @@ const groupPaymentRail=row=>typeof row.receiver_momo_number==='string'&&row.rece
 // Android attestation requirements belong to their corresponding operations.
 const metadataAuthority=`EXISTS(SELECT 1 FROM auth_sessions s JOIN users u ON u.id=s.user_id WHERE s.id=? AND s.user_id=? AND s.revoked_at IS NULL AND s.expires_at>unixepoch() AND u.access_status='active')`;
 const metadataBudget=`(SELECT count(*) FROM request_receipts WHERE user_id=? AND operation='create_private_group_metadata_v1' AND request_id!=? AND created_at>=strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 hour'))<3 AND (SELECT count(*) FROM request_receipts WHERE user_id=? AND operation='create_private_group_metadata_v1' AND request_id!=? AND created_at>=strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 day'))<10`;
+// Fresh public-join operations consume bounded receipt/audit capacity. A replay
+// of the same request is checked by mutation() without consuming this budget.
+const publicJoinBudget=`(SELECT count(*) FROM request_receipts WHERE user_id=? AND operation='join_public_group' AND request_id!=? AND created_at>=strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 hour'))<60 AND (SELECT count(*) FROM request_receipts WHERE user_id=? AND operation='join_public_group' AND request_id!=? AND created_at>=strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 day'))<500`;
 async function metadataAccess(env,actor,requestId,{budget=false}={}) {
  if(!(await first(env,'SELECT '+metadataAuthority+' AS allowed',actor.sessionId,actor.userId))?.allowed)throw new ApiError(403,'group_creation_unavailable','Use your current active sign-in to create a group.');
  if(budget&&!(await first(env,'SELECT '+metadataBudget+' AS allowed',actor.userId,requestId,actor.userId,requestId))?.allowed)throw new ApiError(429,'group_creation_limited','Group creation is temporarily limited. Try again later.');
@@ -106,6 +115,47 @@ export async function groupRpc(operation,body,env,actor) {
   const value={contract_version:1,ok:true,collection_id:g.id,request_id:requestId,share_code:code};
   const cipher=await encrypt(env,new TextEncoder().encode(code),`group-invite:${g.id}`);
   return {handled:true,value:await mutation(env,actor,operation,requestId,body,value,[env.DB.prepare(`UPDATE collections SET share_code_hash=?,share_code_ciphertext=?,share_code_version=share_code_version+1,revision=revision+1,updated_at=? WHERE id=?`).bind(await digest(code),cipher,now(),g.id)],{collectionId:g.id,role:'owner',expectedCollectionRevision:g.revision})};
+ }
+ case 'join_public_group': {
+  const groupId=uuid(body.p_collection_id,'collection_id');
+  const requestId=uuid(body.p_request_id??id(),'request_id');
+  const before=id(),after=id();
+  const authority=`EXISTS(SELECT 1 FROM auth_sessions s JOIN users u ON u.id=s.user_id
+   WHERE s.id=? AND s.user_id=? AND s.revoked_at IS NULL AND s.expires_at>unixepoch() AND u.access_status='active')
+   AND EXISTS(SELECT 1 FROM collections c WHERE c.id=? AND c.status='active' AND c.visibility_status='public_approved')`;
+  // Lock the authority and group before rechecking them. A membership conflict
+  // may represent a concurrent insert, so lock and verify it after INSERT too.
+  // Inactive memberships are never silently reactivated by a public join.
+  const writes=[
+   env.DB.prepare('SELECT id FROM auth_sessions WHERE id=? AND user_id=? FOR UPDATE').bind(actor.sessionId,actor.userId),
+   env.DB.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(actor.userId),
+   env.DB.prepare('SELECT id FROM collections WHERE id=? FOR UPDATE').bind(groupId),
+   env.DB.prepare(`INSERT INTO admin_bridge_guards(id,passed) SELECT ?,CASE WHEN ${authority} AND ${publicJoinBudget} THEN 1 ELSE 0 END`).bind(before,actor.sessionId,actor.userId,groupId,actor.userId,requestId,actor.userId,requestId),
+   env.DB.prepare(`INSERT INTO memberships(id,collection_id,user_id,role,active,joined_at) VALUES(?,?,?,'member',1,?) ON CONFLICT(collection_id,user_id) DO NOTHING`).bind(id(),groupId,actor.userId,now()),
+   env.DB.prepare('SELECT id FROM memberships WHERE collection_id=? AND user_id=? FOR UPDATE').bind(groupId,actor.userId),
+   env.DB.prepare(`INSERT INTO admin_bridge_guards(id,passed) SELECT ?,CASE WHEN ${authority} AND EXISTS(SELECT 1 FROM memberships WHERE collection_id=? AND user_id=? AND active=1) THEN 1 ELSE 0 END`).bind(after,actor.sessionId,actor.userId,groupId,groupId,actor.userId),
+   env.DB.prepare('DELETE FROM admin_bridge_guards WHERE id IN (?,?)').bind(before,after),
+  ];
+  let result;
+  try{result=await mutation(env,actor,operation,requestId,body,groupId,writes,{entityType:'collection',entityId:groupId,auditDetails:{membership:'public_join'}});}
+  catch(error){
+   if(error instanceof ApiError&&error.code==='stale_state'||!(error instanceof ApiError)&&/admin_bridge_guards|admin_bridge_state/.test(String(error?.message??error))){
+    const budget=await first(env,'SELECT '+publicJoinBudget+' AS allowed',actor.userId,requestId,actor.userId,requestId);
+    if(budget&&!budget.allowed)throw new ApiError(429,'public_join_limited','Group joining is temporarily limited. Try again later.');
+   }
+   throw publicJoinFailure(error);
+  }
+  if(result!==groupId)throw new ApiError(409,'group_join_unconfirmed','Refresh this group before continuing.');
+  // A retained response proves the earlier operation, not current membership.
+  // Recheck managed session, public visibility and membership transactionally.
+  const verify=id();
+  try{await assertMutationAdmission(env,actor,[
+   env.DB.prepare('SELECT id FROM collections WHERE id=? FOR UPDATE').bind(groupId),
+   env.DB.prepare('SELECT id FROM memberships WHERE collection_id=? AND user_id=? FOR UPDATE').bind(groupId,actor.userId),
+   env.DB.prepare(`INSERT INTO admin_bridge_guards(id,passed) SELECT ?,CASE WHEN ${authority} AND EXISTS(SELECT 1 FROM memberships WHERE collection_id=? AND user_id=? AND active=1) THEN 1 ELSE 0 END`).bind(verify,actor.sessionId,actor.userId,groupId,groupId,actor.userId),
+   env.DB.prepare('DELETE FROM admin_bridge_guards WHERE id=?').bind(verify),
+  ]);}catch(error){throw publicJoinFailure(error);}
+  return {handled:true,value:groupId};
  }
  case 'join_group_by_share_code': {
   const code=uuid(body.p_group_code,'group_code');
