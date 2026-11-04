@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../repositories/collect_repository.dart';
 import 'collect_components.dart';
 
-/// Paged histories retain a visible retry path, including after a revision change.
+/// Controls continuation of a currently retained history page.
 class CollectHistoryFooter extends StatelessWidget {
   const CollectHistoryFooter({
     required this.feed,

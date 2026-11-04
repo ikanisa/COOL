@@ -171,6 +171,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
             : state.hasInitialLoadFailure || feed.page == null
             ? [
                 CollectDataLoadFailure(
+                  message: feed.error ?? '',
                   onRetry: () async {
                     await ref
                         .read(collectRepositoryProvider.notifier)

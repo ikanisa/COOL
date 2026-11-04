@@ -2,7 +2,7 @@
 
 This record preserves every numbered task and every SB/BE/ARC/PD identifier from the 26 October production execution goal. It is a status view over that goal, not a replacement backlog or a claim that the 36 tasks are complete. The complete original task text is copied verbatim into the CSV `originaltask` field and below each task heading. The CSV has one row per original task and the seven requested columns.
 
-The current target is **locally hosted Supabase for all backend, database and platform capabilities**. Implemented gateway state is now private Supabase PostgreSQL; no new D1 authority is introduced. The remaining Python/SQLite binary roster decoder cannot be represented as an all-Supabase capability and stays an explicit engineering gate. The original Admin-on-Cloudflare release criterion is preserved: preparing a local Caddy/Node frontend option does not establish that deployment's acceptance or silently change the goal.
+The target recorded for this original goal was **locally hosted Supabase for all backend, database and platform capabilities**. Implemented gateway state is now private Supabase PostgreSQL; no new D1 authority is introduced. The remaining Python/SQLite binary roster decoder was an engineering gate for that original scope. The owner has since excluded historical import from the first MVP and chosen to reject animated images; the decoder and APNG supervisor are not first-launch requirements. See the current [MVP task map](mvp-source-audit-20261104.md). The original Admin-on-Cloudflare release criterion is preserved: preparing a local Caddy/Node frontend option does not establish that deployment's acceptance or silently change the original goal.
 
 ## 1 November local continuation
 

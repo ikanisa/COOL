@@ -78,6 +78,24 @@ http.Response jsonResponse(Object? value) => http.Response(
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUp(() => SharedPreferences.setMockInitialValues({}));
+  test(
+    'invalid local history search does not invalidate another feed',
+    () async {
+      final h = await Harness.create((_) => jsonResponse(history()));
+      h.repo.seedHistory();
+      final sibling = _ObservedHistory(h.repo, const MemberHistoryQuery());
+      final invalid = _ObservedHistory(
+        h.repo,
+        MemberHistoryQuery(search: 'x' * 81),
+      );
+      addTearDown(sibling.dispose);
+      addTearDown(invalid.dispose);
+      await invalid.refresh();
+      expect(invalid.value.error, 'Check your history search or filter.');
+      expect(sibling.value.page, isNotNull);
+      expect(h.requests, isEmpty);
+    },
+  );
   test('owner health ACK is exactly bound to requested group', () async {
     final h = await Harness.create(
       (_) => jsonResponse(health(id: 'foreign-group')),
@@ -298,12 +316,23 @@ class Repository extends CollectRepository {
     : super.fixture(initialState: stateFor(actor), backend: client);
   final CollectCloudflareClient client;
   Completer<void>? nextLoad;
+  void seedHistory() {
+    state = state.copyWith(
+      historyPage: localHistoryPage(const MemberHistoryQuery()),
+    );
+  }
+
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
     state = stateFor(client.auth.currentUser!.id);
     nextLoad?.complete();
     nextLoad = null;
   }
+}
+
+class _ObservedHistory extends MemberHistoryController {
+  _ObservedHistory(super.repository, super.query);
+  MemberHistoryState get value => state;
 }
 
 CollectState stateFor(String user) => CollectState(

@@ -292,14 +292,39 @@ final class CollectCloudflareClient {
         throw const CollectApiException(code: 'request_too_large');
       }
     }
+    // Preserve an actual denial only for the read-only history RPC. The
+    // body still carries authoritative reason codes when it can be read.
+    final historyRead =
+        method == 'POST' && path == 'v1/rpc/list_current_member_history_page';
+    int? receivedHistoryDenial;
+    var requestDeadline = false;
     try {
-      return await _readResponse(request, responseLimit).timeout(
+      return await _readResponse(
+        request,
+        responseLimit,
+        onStatus: historyRead
+            ? (status) {
+                if (status == 401 || status == 403) {
+                  receivedHistoryDenial = status;
+                }
+              }
+            : null,
+      ).timeout(
         timeout,
         onTimeout: () {
-          if (!abort.isCompleted) abort.complete();
+          if (!abort.isCompleted) {
+            requestDeadline = true;
+            abort.complete();
+          }
           throw TimeoutException('Collect request deadline');
         },
       );
+    } catch (error, stack) {
+      final status = receivedHistoryDenial;
+      if (status != null && (requestDeadline || !abort.isCompleted)) {
+        throw CollectApiException(code: '$status', httpStatusCode: status);
+      }
+      Error.throwWithStackTrace(error, stack);
     } finally {
       _requests.remove(abort);
       if (!abort.isCompleted) abort.complete();
@@ -308,9 +333,11 @@ final class CollectCloudflareClient {
 
   Future<(int, dynamic)> _readResponse(
     http.BaseRequest request,
-    int limit,
-  ) async {
+    int limit, {
+    void Function(int status)? onStatus,
+  }) async {
     final response = await _http.send(request);
+    onStatus?.call(response.statusCode);
     if (response.statusCode >= 300 && response.statusCode < 400) {
       await response.stream.listen((_) {}).cancel();
       throw const CollectApiException(code: 'redirect_denied');

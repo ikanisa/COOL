@@ -4,6 +4,10 @@ class _CollectAccessMismatch implements Exception {
   const _CollectAccessMismatch();
 }
 
+class _InvalidMemberHistoryQuery extends FormatException {
+  const _InvalidMemberHistoryQuery() : super('Invalid history query');
+}
+
 class _CollectLiveReader {
   const _CollectLiveReader(this._backend);
 
@@ -181,12 +185,22 @@ class _CollectLiveReader {
     Map<String, dynamic>? cursor,
     String? accessToken,
   }) async {
-    if (query.collectionId != null) {
-      exactJsonIdentifier(query.collectionId, field: 'history.collection_id');
-    }
-    if (query.search.trim().length > 80 ||
-        !const {'newest', 'oldest', 'highest', 'lowest'}.contains(query.sort)) {
-      throw const FormatException('Invalid history query');
+    try {
+      if (query.collectionId != null) {
+        exactJsonIdentifier(query.collectionId, field: 'history.collection_id');
+      }
+      if (query.search.length > 80 ||
+          RegExp(r'[\u0000-\u001f\u007f]').hasMatch(query.search) ||
+          !const {
+            'newest',
+            'oldest',
+            'highest',
+            'lowest',
+          }.contains(query.sort)) {
+        throw const _InvalidMemberHistoryQuery();
+      }
+    } on FormatException {
+      throw const _InvalidMemberHistoryQuery();
     }
     var request = _backend!.rpc<dynamic>(
       'list_current_member_history_page',

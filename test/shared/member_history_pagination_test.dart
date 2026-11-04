@@ -178,7 +178,7 @@ void main() {
       _page([50], revision: '22222222222222222222222222222222'),
     );
     await request;
-    expect(feed.state.page!.items.length, 50);
+    expect(feed.state.page, isNull);
     expect(feed.state.error, 'History changed. Refresh to continue.');
   });
 

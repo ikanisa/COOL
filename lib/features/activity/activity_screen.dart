@@ -145,6 +145,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
             : state.hasInitialLoadFailure || feed.page == null
             ? [
                 CollectDataLoadFailure(
+                  message: feed.error ?? '',
                   onRetry: () async {
                     await ref
                         .read(collectRepositoryProvider.notifier)

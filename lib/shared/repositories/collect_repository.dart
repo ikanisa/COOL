@@ -176,6 +176,8 @@ class CollectRepository extends StateNotifier<CollectState>
   @override
   _CollectAuthIdentity? _signingOutIdentity;
   int _authGeneration = 0;
+  int? _historySeedInvalidatedAtSession;
+  final _historyInvalidationListeners = <void Function()>{};
   int _profileSaveAuthorityGeneration = 0;
   final _profileSavesInFlight = <(String, int)>{};
   int _signOutGeneration = 0;
@@ -191,6 +193,92 @@ class CollectRepository extends StateNotifier<CollectState>
 
   /// A credential-free sticky lifecycle revision for dependent client views.
   int get sessionGeneration => _authGeneration;
+
+  bool get _historySeedInvalidated =>
+      _historySeedInvalidatedAtSession == _authGeneration;
+
+  bool _historySignalCurrent(_CollectSessionFence session) =>
+      _isCurrentSession(session) &&
+      (_signingOutIdentity == null || _signingOutIdentity != session.identity);
+
+  bool _acceptHistorySeedSession(_CollectSessionFence session) =>
+      _historySignalCurrent(session) &&
+      _backend?.auth.currentSession?.accessToken == session.accessToken;
+
+  void _markHistorySeedInvalidated(_CollectSessionFence session) {
+    if (_acceptHistorySeedSession(session)) {
+      _historySeedInvalidatedAtSession = _authGeneration;
+    }
+  }
+
+  void _invalidateHistorySeed(
+    _CollectSessionFence session, {
+    void Function()? except,
+    bool surviveBearerChange = false,
+  }) {
+    if (surviveBearerChange
+        ? !_historySignalCurrent(session)
+        : !_acceptHistorySeedSession(session)) {
+      return;
+    }
+    _historySeedInvalidatedAtSession = _authGeneration;
+    _notifyHistoryInvalidation(
+      session,
+      except: except,
+      surviveBearerChange: surviveBearerChange,
+    );
+  }
+
+  void _invalidateHistoryForSignOut(
+    _CollectSessionFence session,
+    int operation,
+  ) {
+    if (session.identity == null ||
+        !_isCurrentSession(session) ||
+        _signingOutIdentity != session.identity ||
+        operation != _signOutGeneration) {
+      return;
+    }
+    _historySeedInvalidatedAtSession = _authGeneration;
+    _notifyHistoryInvalidation(session, signOutOperation: operation);
+  }
+
+  void _notifyHistoryInvalidation(
+    _CollectSessionFence session, {
+    void Function()? except,
+    bool surviveBearerChange = false,
+    int? signOutOperation,
+  }) {
+    bool current() => signOutOperation == null
+        ? _historySignalCurrent(session)
+        : _isCurrentSession(session) &&
+              session.identity != null &&
+              _signingOutIdentity == session.identity &&
+              _signOutGeneration == signOutOperation;
+    Object? firstError;
+    StackTrace? firstStack;
+    for (final listener in List<void Function()>.of(
+      _historyInvalidationListeners,
+    )) {
+      if (!current()) break;
+      if (signOutOperation == null &&
+          !surviveBearerChange &&
+          _backend?.auth.currentSession?.accessToken != session.accessToken) {
+        break;
+      }
+      if (identical(listener, except) ||
+          !_historyInvalidationListeners.contains(listener)) {
+        continue;
+      }
+      try {
+        listener();
+      } catch (error, stack) {
+        firstError ??= error;
+        firstStack ??= stack;
+      }
+    }
+    if (firstError != null) Error.throwWithStackTrace(firstError, firstStack!);
+  }
 
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
@@ -859,6 +947,12 @@ class CollectRepository extends StateNotifier<CollectState>
     ++_loadGeneration;
     _stopRealtimeSync();
     try {
+      try {
+        _invalidateHistoryForSignOut(session, operation);
+      } catch (_) {
+        // StateNotifier reports listener errors. Continue native and Auth cleanup.
+      }
+      if (!current()) return await _revokeCapturedSession(session);
       // Native disable is bound to the original owner; never suspend whichever
       // account happens to be active after an RPC or platform await completes.
       final stopped = owner == null
@@ -1455,6 +1549,7 @@ class CollectRepository extends StateNotifier<CollectState>
   void dispose() {
     unawaited(_authSubscription?.cancel());
     _stopRealtimeSync();
+    _historyInvalidationListeners.clear();
     super.dispose();
   }
 
