@@ -15,7 +15,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _captureKey = ValueKey('profile-editor-capture');
@@ -35,14 +34,6 @@ void main() {
     await (FontLoader(
       'MaterialIcons',
     )..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'))).load();
-    await (FontLoader(
-          'packages/font_awesome_flutter/FontAwesomeBrands',
-        )..addFont(
-          rootBundle.load(
-            'packages/font_awesome_flutter/lib/fonts/Font-Awesome-7-Brands-Regular-400.otf',
-          ),
-        ))
-        .load();
   });
 
   Future<CollectRepository> pumpEditor(
@@ -164,16 +155,18 @@ void main() {
     }
   }
 
-  testWidgets('verified WhatsApp is read only beside fixed Rwanda profile', (
+  testWidgets('account phone is read only beside fixed Rwanda profile', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
     try {
       await pumpEditor(tester);
-      final whatsapp = tester.getSemantics(
-        find.byKey(const ValueKey('profile_whatsapp_semantics')),
+      final phone = tester.getSemantics(
+        find.byKey(const ValueKey('profile_account_phone_semantics')),
       );
-      expect(whatsapp.flagsCollection.isReadOnly, isTrue);
+      expect(phone.flagsCollection.isReadOnly, isTrue);
+      expect(find.text('Account phone'), findsOneWidget);
+      expect(find.text('Verified WhatsApp'), findsNothing);
       expect(
         find.byKey(const ValueKey('profile_country_picker')),
         findsNothing,
@@ -181,6 +174,26 @@ void main() {
     } finally {
       semantics.dispose();
     }
+  });
+
+  testWidgets('an absent account phone is shown as not recorded', (
+    tester,
+  ) async {
+    await pumpEditor(
+      tester,
+      profile: const CollectProfile(
+        id: 'local-user',
+        publicId: '038491',
+        whatsappPhone: '',
+        countryCode: 'RW',
+        currencyCode: 'RWF',
+        momoProvider: 'mtn_momo',
+        momoNumber: '0788123456',
+      ),
+    );
+    expect(find.text('Account phone'), findsOneWidget);
+    expect(find.text('Not recorded'), findsOneWidget);
+    expect(find.text('Verified WhatsApp'), findsNothing);
   });
 
   Future<void> capture(WidgetTester tester, String name) async {
@@ -250,9 +263,11 @@ void main() {
       );
       expect(
         tester
-            .widget<FaIcon>(find.byKey(const ValueKey('profile_whatsapp_icon')))
+            .widget<Icon>(
+              find.byKey(const ValueKey('profile_account_phone_icon')),
+            )
             .icon,
-        FontAwesomeIcons.whatsapp.data,
+        Icons.phone_android_rounded,
       );
       expect(find.text('Save').hitTestable(), findsOneWidget);
       expect(

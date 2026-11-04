@@ -259,25 +259,20 @@ class _ProfileDetails extends StatelessWidget {
           ),
         ),
         Semantics(
-          key: const ValueKey('profile_whatsapp_semantics'),
+          key: const ValueKey('profile_account_phone_semantics'),
           container: true,
-          label: 'Verified WhatsApp, read only',
+          label: 'Account phone, read only',
           readOnly: true,
           child: _ProfileDetailRow(
-            leading: const FaIcon(
-              FontAwesomeIcons.whatsapp,
-              key: ValueKey('profile_whatsapp_icon'),
+            leading: const Icon(
+              Icons.phone_android_rounded,
+              key: ValueKey('profile_account_phone_icon'),
             ),
-            label: 'WhatsApp',
-            value: whatsappPhone,
-            trailing: Tooltip(
-              message: 'Verified WhatsApp',
-              child: Icon(
-                CollectIcons.check,
-                color: context.collectColors.textSecondary,
-                size: CollectSpacing.x5,
-              ),
-            ),
+            label: 'Account phone',
+            value: whatsappPhone.trim().isEmpty
+                ? 'Not recorded'
+                : whatsappPhone,
+            trailing: const SizedBox.shrink(),
           ),
         ),
       ],

@@ -1,7 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/payments/rwanda_momo_number.dart';
@@ -36,7 +35,7 @@ class ProfileEditScreen extends ConsumerWidget {
 }
 
 class _ProfileEditor extends ConsumerStatefulWidget {
-  const _ProfileEditor({super.key});
+  const _ProfileEditor();
 
   @override
   ConsumerState<_ProfileEditor> createState() => _ProfileEditorState();
@@ -283,9 +282,9 @@ class _ProfileEditorState extends ConsumerState<_ProfileEditor> {
         confirmLabel: 'Discard',
         destructive: true,
       );
-      if (!_scopeIsCurrent || discard != true) return;
+      if (!mounted || !_scopeIsCurrent || discard != true) return;
     }
-    if (_scopeIsCurrent) {
+    if (mounted && _scopeIsCurrent) {
       setState(() => _dirty = false);
       context.go('/settings');
     }
@@ -342,7 +341,7 @@ class _ProfileEditorState extends ConsumerState<_ProfileEditor> {
         momoNumber: momo.localNumber,
         momoPayCode: _momoPayCode.text,
       );
-      if (!current()) return;
+      if (!mounted || !current()) return;
       if (updated.id != _scopeProfileId) {
         throw const FormatException('Updated profile identity is invalid.');
       }
