@@ -69,7 +69,7 @@ ANDROID_KEYSTORE_INPUT_REQUIRED ANDROID_MAIN_IDENTITY_REQUIRED ANDROID_NEW_OUTPU
 ANDROID_OPERATION_ABORTED ANDROID_OPERATION_INTERRUPTED ANDROID_OPERATION_TIMEOUT ANDROID_PLAY_INTEGRITY_PROJECT_REQUIRED ANDROID_PREPARED_OUTPUT_REQUIRED
 ANDROID_PRIVATE_PATH_SYMLINK ANDROID_PRIVATE_STAGE_NOT_OWNED ANDROID_PROCESS_FINALIZATION_FAILED ANDROID_PROCESS_SETTLEMENT_FAILED ANDROID_PROCESS_SETTLEMENT_UNCONFIRMED
 ANDROID_PROTECTED_REVIEW_POLICY_REQUIRED ANDROID_PROVIDER_PATH_ALREADY_EXISTS ANDROID_PUBLIC_PROVIDER_CONFIG_CHANGED
-ANDROID_PUBLIC_PROVIDER_CONFIG_REQUIRED ANDROID_PUBLIC_PROVIDER_PACKAGE_WRONG ANDROID_REVIEWED_SOURCE_CHANGED
+ANDROID_PUBLIC_BUILD_CONFIGURATION_WRONG ANDROID_PUBLIC_PROVIDER_CONFIG_REQUIRED ANDROID_PUBLIC_PROVIDER_PACKAGE_WRONG ANDROID_REVIEWED_SOURCE_CHANGED
 ANDROID_REVIEWED_SOURCE_WRONG ANDROID_SIGNATURE_INSPECTOR_FAILED ANDROID_SIGNATURE_INSPECTOR_INTERRUPTED
 ANDROID_SIGNATURE_INSPECTOR_INVALID_OUTPUT ANDROID_SIGNATURE_INSPECTOR_IO_FAILED ANDROID_SIGNATURE_INSPECTOR_LAUNCH_FAILED ANDROID_SIGNATURE_INSPECTOR_OUTPUT_BOUND
 ANDROID_SIGNATURE_INSPECTOR_TIMEOUT ANDROID_SIGNED_AAB_NOT_VERIFIED ANDROID_SIGNING_FIELD_REQUIRED
@@ -305,9 +305,11 @@ def workflow_identity(root):
     return commit
 
 
-def source_bound_public_configuration(root, env):
+def source_bound_public_configuration(root, env, *, store_candidate=False):
     """Compute the exact public defines that the existing builder will bind."""
-    profile = native_build_config.configuration(env, "android", root / "pubspec.yaml")
+    configure = (native_build_config.store_candidate_configuration if store_candidate
+                 else native_build_config.configuration)
+    profile = configure(env, "android", root / "pubspec.yaml")
     try:
         _, bound = client_diagnostic_identity.identity(root, "member", profile)
     except (OSError, ValueError, UnicodeError) as error:
@@ -324,7 +326,12 @@ def configuration_and_approval(root):
     require(re.fullmatch(r"[A-F0-9]{64}", pin), "ANDROID_APPROVED_UPLOAD_CERT_REQUIRED")
     number = os.environ.get("PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER", "")
     require(re.fullmatch(r"[1-9][0-9]+", number), "ANDROID_PLAY_INTEGRITY_PROJECT_REQUIRED")
-    profile = source_bound_public_configuration(root, dict(os.environ))
+    try:
+        profile = source_bound_public_configuration(root, dict(os.environ), store_candidate=True)
+    except Blocked:
+        raise
+    except (ValueError, TypeError) as error:
+        raise Blocked("ANDROID_PUBLIC_BUILD_CONFIGURATION_WRONG") from error
     provider_raw = os.environ.get("COLLECT_ANDROID_GOOGLE_SERVICES_JSON", "").encode()
     require(0 < len(provider_raw) < 1024**2, "ANDROID_PUBLIC_PROVIDER_CONFIG_REQUIRED")
     source_export.screen_credentials(provider_raw, "android/app/google-services.json")

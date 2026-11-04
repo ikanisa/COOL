@@ -65,5 +65,54 @@ class SelfHostedNativeProfileTest(unittest.TestCase):
                 with self.subTest(key=key, platform=platform), self.assertRaisesRegex(ValueError, 'test key'):
                     native.configuration(self.configured(AUTH_CAPTCHA_SITE_KEY=key), platform, self.pubspec)
 
+    def test_candidate_requires_explicit_self_hosted_profile_and_enabled_sms(self):
+        for platform in ('android', 'ios'):
+            values = native.store_candidate_configuration(self.configured(), platform, self.pubspec)
+            self.assertEqual(values, native.configuration(self.configured(), platform, self.pubspec))
+            self.assertEqual(values['COLLECT_SMS_AUTH_ENABLED'], 'true')
+            self.assertEqual(values['COLLECT_DEPLOYMENT_PROFILE_SHA256'], self.configured()['COLLECT_DEPLOYMENT_PROFILE_SHA256'])
+
+    def test_candidate_rejects_absent_malformed_mismatched_or_disabled_inputs(self):
+        valid = self.configured()
+        missing_profile = dict(valid); del missing_profile['COLLECT_DEPLOYMENT_PROFILE']
+        missing_digest = dict(valid); del missing_digest['COLLECT_DEPLOYMENT_PROFILE_SHA256']
+        missing_sms = dict(valid); del missing_sms['COLLECT_SMS_AUTH_ENABLED']
+        no_profile = dict(missing_profile); del no_profile['COLLECT_DEPLOYMENT_PROFILE_SHA256']
+        malformed = {**valid, 'COLLECT_DEPLOYMENT_PROFILE': '{'}
+        duplicate = {**valid, 'COLLECT_DEPLOYMENT_PROFILE': valid['COLLECT_DEPLOYMENT_PROFILE'].replace(
+            '"mode":"self_hosted"', '"mode":"self_hosted","mode":"self_hosted"')}
+        cases = [missing_profile, missing_digest, no_profile, missing_sms, malformed, duplicate,
+                 {**valid, 'COLLECT_DEPLOYMENT_PROFILE': valid['COLLECT_DEPLOYMENT_PROFILE'] + ' '},
+                 {**valid, 'COLLECT_DEPLOYMENT_PROFILE_SHA256': '0' * 64},
+                 {**valid, 'COLLECT_SMS_AUTH_ENABLED': 'false'},
+                 {**valid, 'COLLECT_SMS_AUTH_ENABLED': '1'},
+                 {**valid, 'SUPABASE_URL': 'https://wrong.collect.example'},
+                 {**valid, 'SUPABASE_API_URL': 'https://wrong.collect.example'},
+                 {**valid, 'SUPABASE_AUTH_ISSUER': 'https://wrong.collect.example/auth/v1'}]
+        for platform in ('android', 'ios'):
+            for case in cases:
+                with self.subTest(platform=platform, case=cases.index(case)), self.assertRaises(ValueError):
+                    native.store_candidate_configuration(case, platform, self.pubspec)
+
+    def test_candidate_rejects_managed_qualification_and_disguised_managed_origin(self):
+        original = dict(self.profile)
+        variants = [dict(mode='managed', supabase_origin=native.PROJECT),
+                    dict(environment='qualification'), dict(supabase_origin=native.PROJECT)]
+        for variant in variants:
+            self.profile = {**original, **variant}
+            env = self.configured(SUPABASE_URL=self.profile['supabase_origin'])
+            for platform in ('android', 'ios'):
+                with self.subTest(variant=variant, platform=platform), self.assertRaises(ValueError):
+                    native.store_candidate_configuration(env, platform, self.pubspec)
+
+    def test_generic_managed_configuration_remains_available(self):
+        legacy = {'SUPABASE_URL': native.PROJECT, 'SUPABASE_API_URL': native.ADMIN,
+                  'SUPABASE_PUBLISHABLE_KEY': 'sb_publishable_synthetic_test_key',
+                  'AUTH_CAPTCHA_SITE_KEY': 'synthetic_public_captcha'}
+        for platform in ('android', 'ios'):
+            self.assertEqual(native.configuration(legacy, platform, self.pubspec)['SUPABASE_URL'], native.PROJECT)
+            with self.assertRaises(ValueError):
+                native.store_candidate_configuration(legacy, platform, self.pubspec)
+
 
 if __name__ == '__main__': unittest.main()

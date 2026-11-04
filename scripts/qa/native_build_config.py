@@ -145,6 +145,21 @@ def configuration(env, platform, pubspec=None):
     return values
 
 
+def store_candidate_configuration(env, platform, pubspec=None):
+    """Require the self-hosted SMS-enabled target for new store candidates.
+
+    Generic native configuration remains available to its existing callers;
+    candidate admission must never fall back to the legacy managed profile.
+    """
+    profile, profile_defines = deployment_configuration(env)
+    if (not profile_defines or profile.get("mode") != "self_hosted"
+            or profile.get("supabase_origin") == PROJECT):
+        raise ValueError("Store candidate requires an explicit self-hosted production profile")
+    if env.get("COLLECT_SMS_AUTH_ENABLED") != "true":
+        raise ValueError("Store candidate requires SMS authentication enabled")
+    return configuration(env, platform, pubspec)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("platform", choices=("android", "ios"))

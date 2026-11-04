@@ -52,13 +52,20 @@ class CandidateBoundaryTest(unittest.TestCase):
         self.commit = "a" * 40
         self.pin = "B" * 64
         provider = json.dumps({"client": [{"client_info": {"android_client_info": {"package_name": guard.PACKAGE}}}]})
+        deployment = {"format": "collect.deployment.v1", "id": "synthetic-selfhost", "mode": "self_hosted",
+                      "environment": "production", "supabase_origin": "https://supabase.collect.example",
+                      "member_api_origin": "https://api.collect.example", "admin_origin": "https://admin.collect.example",
+                      "public_origin": "https://collect.example", "google_callback_origin": "https://admin.collect.example"}
+        raw = json.dumps(deployment, sort_keys=True, separators=(",", ":"))
         self.env = {"GITHUB_WORKSPACE": str(self.root), "RUNNER_TEMP": str(self.base),
                     "PATH": str(java_bin) + os.pathsep + os.defpath, "COLLECT_BUNDLETOOL_JAR": str(self.bundletool),
                     "GITHUB_REPOSITORY": "ikanisa/COOL", "GITHUB_REF": "refs/heads/main", "GITHUB_SHA": self.commit,
                     "COLLECT_ANDROID_EXPECTED_COMMIT": self.commit, "COLLECT_ANDROID_SOURCE_SHA256": "c" * 64,
                     "COLLECT_ANDROID_APPROVED_UPLOAD_CERT_SHA256": self.pin,
                     "PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER": "123456789012", "COLLECT_ANDROID_GOOGLE_SERVICES_JSON": provider,
-                    "SUPABASE_URL": guard.native_build_config.PROJECT, "SUPABASE_API_URL": guard.native_build_config.ADMIN,
+                    "COLLECT_DEPLOYMENT_PROFILE": raw, "COLLECT_DEPLOYMENT_PROFILE_SHA256": guard.sha(raw.encode()),
+                    "COLLECT_SMS_AUTH_ENABLED": "true", "SUPABASE_URL": deployment["supabase_origin"],
+                    "SUPABASE_API_URL": deployment["member_api_origin"],
                     "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_syntheticPublicKey1234",
                     "AUTH_CAPTCHA_SITE_KEY": "synthetic_public_site_key", "FLUTTER_ROOT": str(self.base / "unused-sdk"),
                     "KEYSTORE_BASE64": base64.b64encode(b"SYNTHETIC NOT A KEYSTORE").decode(),
@@ -156,9 +163,17 @@ class CandidateBoundaryTest(unittest.TestCase):
         self.assertEqual(ruby.stdout.strip(), self.record["public_runtime_config_sha256"])
 
     def test_approved_hash_matches_the_actual_diagnostic_bind_for_managed_profile(self):
-        with patch.object(guard, "command", side_effect=self.git_command):
-            _, approved, _ = guard.configuration_and_approval(self.root)
-        self.assert_real_builder_binding_matches_approval(self.env, approved)
+        environment = {**self.env, "SUPABASE_URL": guard.native_build_config.PROJECT,
+                       "SUPABASE_API_URL": guard.native_build_config.ADMIN}
+        del environment["COLLECT_DEPLOYMENT_PROFILE"]
+        del environment["COLLECT_DEPLOYMENT_PROFILE_SHA256"]
+        approved = guard.source_bound_public_configuration(self.root, environment)
+        self.record["public_runtime_config_sha256"] = guard.sha(guard.canonical(approved))
+        self.assert_real_builder_binding_matches_approval(environment, approved)
+        with patch.dict(os.environ, environment, clear=True), patch.object(guard, "command", side_effect=self.git_command):
+            self.write_approval()
+            with self.assertRaisesRegex(guard.Blocked, "ANDROID_PUBLIC_BUILD_CONFIGURATION_WRONG"):
+                guard.configuration_and_approval(self.root)
 
     def test_approved_hash_matches_the_actual_diagnostic_bind_for_self_hosted_profile(self):
         deployment = {"format": "collect.deployment.v1", "id": "synthetic-selfhost",
@@ -178,7 +193,7 @@ class CandidateBoundaryTest(unittest.TestCase):
         with patch.dict(os.environ, values), patch.object(guard, "command", side_effect=self.git_command):
             _, approved, _ = guard.configuration_and_approval(self.root)
             with patch.dict(os.environ, {"COLLECT_SMS_AUTH_ENABLED": "false"}):
-                with self.assertRaisesRegex(guard.Blocked, "ANDROID_APPROVAL_SCOPE_OR_INPUT_WRONG"):
+                with self.assertRaisesRegex(guard.Blocked, "ANDROID_PUBLIC_BUILD_CONFIGURATION_WRONG"):
                     guard.configuration_and_approval(self.root)
         self.assertEqual(approved["COLLECT_SMS_AUTH_ENABLED"], "true")
         self.assert_real_builder_binding_matches_approval({**self.env, **values}, approved)
@@ -193,11 +208,23 @@ class CandidateBoundaryTest(unittest.TestCase):
                     guard.configuration_and_approval(self.root)
             finally:
                 source.write_text(original)
-            with patch.dict(os.environ, {"COLLECT_SMS_AUTH_ENABLED": "true"}):
-                with self.assertRaisesRegex(guard.Blocked, "ANDROID_APPROVAL_SCOPE_OR_INPUT_WRONG"):
+            with patch.dict(os.environ, {"COLLECT_SMS_AUTH_ENABLED": "false"}):
+                with self.assertRaisesRegex(guard.Blocked, "ANDROID_PUBLIC_BUILD_CONFIGURATION_WRONG"):
                     guard.configuration_and_approval(self.root)
             _, approved, _ = guard.configuration_and_approval(self.root)
         self.assertEqual(approved, self.profile)
+
+    def test_invalid_candidate_profile_is_refused_before_android_builder(self):
+        variants = [{"COLLECT_DEPLOYMENT_PROFILE": ""}, {"COLLECT_DEPLOYMENT_PROFILE_SHA256": "0" * 64},
+                    {"COLLECT_SMS_AUTH_ENABLED": ""}, {"COLLECT_SMS_AUTH_ENABLED": "false"},
+                    {"SUPABASE_API_URL": "https://wrong.collect.example"}]
+        with patch.object(guard, "command", side_effect=self.git_command), \
+                patch.object(guard, "run_builder") as builder:
+            for values in variants:
+                with self.subTest(values=list(values)), patch.dict(os.environ, values):
+                    with self.assertRaisesRegex(guard.Blocked, "ANDROID_PUBLIC_BUILD_CONFIGURATION_WRONG"):
+                        guard.build()
+        builder.assert_not_called()
 
     def test_supplied_diagnostic_id_must_match_before_approval(self):
         expected = self.profile["COLLECT_BUILD_SOURCE_ID"]
@@ -312,6 +339,13 @@ class CandidateBoundaryTest(unittest.TestCase):
         self.assertIsNotNone(needs)
         self.assertEqual({value.strip() for value in needs.group(1).split(",")}, {"analyze", "android-signing-policy"})
         self.assertIn("environment: collect-android-signing", signed)
+        mappings = {"COLLECT_DEPLOYMENT_PROFILE": "COLLECT_DEPLOYMENT_PROFILE",
+                    "COLLECT_DEPLOYMENT_PROFILE_SHA256": "COLLECT_DEPLOYMENT_PROFILE_SHA256",
+                    "COLLECT_SMS_AUTH_ENABLED": "COLLECT_SMS_AUTH_ENABLED", "SUPABASE_URL": "COLLECT_SUPABASE_URL",
+                    "SUPABASE_API_URL": "COLLECT_SUPABASE_API_URL", "SUPABASE_ADMIN_API_URL": "COLLECT_SUPABASE_ADMIN_API_URL",
+                    "APP_PUBLIC_URL": "COLLECT_APP_PUBLIC_URL", "ADMIN_APP_URL": "COLLECT_ADMIN_APP_URL"}
+        for name, variable in mappings.items():
+            self.assertIn(name + ": ${{ vars." + variable + " }}", signed)
         self.assertIn("${{ runner.temp }}/android-delivery/Collect.apk", signed)
         self.assertIn("${{ runner.temp }}/android-delivery/Collect.aab", signed)
         acquisition = re.search(r"      - name: Prepare pinned Android bundletool\n(.*?)(?=^      - |\Z)",

@@ -76,6 +76,21 @@ jobs:
         with:
           ref: ${{ inputs.expected_commit }}
           persist-credentials: false
+      - name: Select reviewed candidate public configuration
+        if: ${{ inputs.operation == 'unsigned_candidate' || inputs.operation == 'signed_candidate' }}
+        env:
+          COLLECT_DEPLOYMENT_PROFILE: ${{ vars.COLLECT_DEPLOYMENT_PROFILE }}
+          COLLECT_DEPLOYMENT_PROFILE_SHA256: ${{ vars.COLLECT_DEPLOYMENT_PROFILE_SHA256 }}
+          COLLECT_SMS_AUTH_ENABLED: ${{ vars.COLLECT_SMS_AUTH_ENABLED }}
+          SUPABASE_URL: ${{ vars.COLLECT_SUPABASE_URL }}
+          SUPABASE_API_URL: ${{ vars.COLLECT_SUPABASE_API_URL }}
+          SUPABASE_ADMIN_API_URL: ${{ vars.COLLECT_SUPABASE_ADMIN_API_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.COLLECT_SUPABASE_PUBLISHABLE_KEY }}
+          AUTH_CAPTCHA_SITE_KEY: ${{ vars.COLLECT_AUTH_CAPTCHA_SITE_KEY }}
+          GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
+          APP_PUBLIC_URL: ${{ vars.COLLECT_APP_PUBLIC_URL }}
+          ADMIN_APP_URL: ${{ vars.COLLECT_ADMIN_APP_URL }}
+        run: python3 -B scripts/qa/ios_delivery_guard.py stage-candidate-config --source "$GITHUB_WORKSPACE"
       - name: Set isolated delivery paths
         env:
           REVIEWED_APPROVAL_RECORD: ${{ inputs.approval_record }}
@@ -141,6 +156,21 @@ jobs:
         with:
           ref: ${{ inputs.expected_commit }}
           persist-credentials: false
+      - name: Select reviewed candidate public configuration
+        if: ${{ inputs.operation == 'signed_candidate' }}
+        env:
+          COLLECT_DEPLOYMENT_PROFILE: ${{ vars.COLLECT_DEPLOYMENT_PROFILE }}
+          COLLECT_DEPLOYMENT_PROFILE_SHA256: ${{ vars.COLLECT_DEPLOYMENT_PROFILE_SHA256 }}
+          COLLECT_SMS_AUTH_ENABLED: ${{ vars.COLLECT_SMS_AUTH_ENABLED }}
+          SUPABASE_URL: ${{ vars.COLLECT_SUPABASE_URL }}
+          SUPABASE_API_URL: ${{ vars.COLLECT_SUPABASE_API_URL }}
+          SUPABASE_ADMIN_API_URL: ${{ vars.COLLECT_SUPABASE_ADMIN_API_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.COLLECT_SUPABASE_PUBLISHABLE_KEY }}
+          AUTH_CAPTCHA_SITE_KEY: ${{ vars.COLLECT_AUTH_CAPTCHA_SITE_KEY }}
+          GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
+          APP_PUBLIC_URL: ${{ vars.COLLECT_APP_PUBLIC_URL }}
+          ADMIN_APP_URL: ${{ vars.COLLECT_ADMIN_APP_URL }}
+        run: python3 -B scripts/qa/ios_delivery_guard.py stage-candidate-config --source "$GITHUB_WORKSPACE"
       - name: Set isolated delivery paths
         env:
           REVIEWED_APPROVAL_RECORD: ${{ inputs.approval_record }}

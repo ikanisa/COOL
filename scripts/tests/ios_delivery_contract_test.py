@@ -20,8 +20,15 @@ guard = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(guard)
 
 
-PUBLIC_CONFIG = {"SUPABASE_URL": "https://rrlduytparvsjfmegalh.supabase.co",
-                 "SUPABASE_API_URL": "https://platform-admin.collect.ikanisa.com",
+PUBLIC_PROFILE = {"format": "collect.deployment.v1", "id": "synthetic-selfhost", "mode": "self_hosted",
+                  "environment": "production", "supabase_origin": "https://supabase.collect.example",
+                  "member_api_origin": guard.TARGET["api_url"], "admin_origin": guard.TARGET["admin_url"],
+                  "public_origin": guard.TARGET["public_url"], "google_callback_origin": guard.TARGET["admin_url"]}
+PUBLIC_PROFILE_RAW = json.dumps(PUBLIC_PROFILE, sort_keys=True, separators=(",", ":"))
+PUBLIC_CONFIG = {"COLLECT_DEPLOYMENT_PROFILE": PUBLIC_PROFILE_RAW,
+                 "COLLECT_DEPLOYMENT_PROFILE_SHA256": guard.digest(PUBLIC_PROFILE_RAW.encode()),
+                 "COLLECT_SMS_AUTH_ENABLED": "true", "SUPABASE_URL": PUBLIC_PROFILE["supabase_origin"],
+                 "SUPABASE_API_URL": PUBLIC_PROFILE["member_api_origin"],
                  "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_syntheticPublicKey1234",
                  "AUTH_CAPTCHA_SITE_KEY": "synthetic_public_site_key"}
 
@@ -43,7 +50,8 @@ class DeliveryTest(unittest.TestCase):
             path.write_text("synthetic source")
         (self.repo / ".fvmrc").write_text('{"flutter":"3.44.4"}')
         (self.repo / "pubspec.yaml").write_text("name: collect\nversion: 1.0.8+65\n")
-        for name in ("scripts/qa/ios_delivery_guard.py", "scripts/qa/collect_release_candidate.py", "scripts/qa/native_build_config.py", "fastlane/Fastfile"):
+        for name in ("scripts/qa/ios_delivery_guard.py", "scripts/qa/collect_release_candidate.py", "scripts/qa/native_build_config.py",
+                     "scripts/supabase/deployment_profile.py", "fastlane/Fastfile"):
             path = self.repo / name
             path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / name, path)
@@ -66,7 +74,7 @@ class DeliveryTest(unittest.TestCase):
         self.ipa, self.inspection_path = self.base / "Collect.ipa", self.base / "inspection.json"
         now = datetime.now(timezone.utc)
         with patch.dict(os.environ, PUBLIC_CONFIG, clear=True):
-            public_configuration_sha256 = guard.runtime_configuration_sha256(self.work)
+            public_configuration_sha256 = guard.runtime_configuration_sha256(self.work, store_candidate=True)
         self.record = {"schema_version": 1, "kind": "collect_ios_delivery_approval", "decision": "approved",
                        "operation": "signed_candidate", "environment": "collect-ios-signing", "target": dict(guard.TARGET),
                        "source_commit": self.commit, "source_manifest_sha256": self.export["source_manifest_sha256"],
@@ -232,6 +240,70 @@ class DeliveryTest(unittest.TestCase):
     def test_missing_public_build_configuration_cannot_import(self):
         with patch.dict(os.environ, {"SUPABASE_PUBLISHABLE_KEY": ""}):
             self.assert_import_denied_without_effect("PUBLIC_BUILD_CONFIGURATION_WRONG")
+
+    def test_candidate_profile_and_sms_must_be_valid_before_signing(self):
+        variants = [{"COLLECT_DEPLOYMENT_PROFILE": ""}, {"COLLECT_DEPLOYMENT_PROFILE_SHA256": "0" * 64},
+                    {"COLLECT_SMS_AUTH_ENABLED": ""}, {"COLLECT_SMS_AUTH_ENABLED": "false"}]
+        for values in variants:
+            with self.subTest(values=list(values)), patch.dict(os.environ, values):
+                self.assert_import_denied_without_effect("PUBLIC_BUILD_CONFIGURATION_WRONG")
+
+    def test_signed_approval_cannot_accept_a_disabled_sms_configuration(self):
+        with patch.dict(os.environ, {"COLLECT_SMS_AUTH_ENABLED": "false"}):
+            # Even a record rehashed for the disabled public configuration cannot
+            # turn it into an admissible signed candidate.
+            self.record["runtime_configuration_sha256"] = guard.runtime_configuration_sha256(self.work)
+            self.write_approval()
+            self.assert_import_denied_without_effect("PUBLIC_BUILD_CONFIGURATION_WRONG")
+
+    def test_signed_approval_binds_qualification_and_signing_public_config(self):
+        self.assertEqual(guard.check()["operation"], "signed_candidate")
+        with patch.dict(os.environ, {"AUTH_CAPTCHA_SITE_KEY": "different_synthetic_public_site_key"}):
+            guard.native_build_config.store_candidate_configuration(dict(os.environ), "ios", self.work / "pubspec.yaml")
+            self.assert_import_denied_without_effect("PUBLIC_BUILD_CONFIGURATION_WRONG")
+
+    def test_candidate_rejects_origins_different_from_approved_ios_target(self):
+        for key, replacement in (("member_api_origin", "https://api.collect.example"),
+                                 ("admin_origin", "https://admin.collect.example"),
+                                 ("public_origin", "https://public.collect.example")):
+            profile = {**PUBLIC_PROFILE, key: replacement}
+            if key == "admin_origin":
+                profile["google_callback_origin"] = replacement
+            raw = json.dumps(profile, sort_keys=True, separators=(",", ":"))
+            values = {"COLLECT_DEPLOYMENT_PROFILE": raw, "COLLECT_DEPLOYMENT_PROFILE_SHA256": guard.digest(raw.encode()),
+                      "SUPABASE_API_URL": profile["member_api_origin"], "COLLECT_API_URL": profile["member_api_origin"],
+                      "SUPABASE_ADMIN_API_URL": profile["admin_origin"], "ADMIN_APP_URL": profile["admin_origin"],
+                      "APP_PUBLIC_URL": profile["public_origin"]}
+            with self.subTest(key=key), patch.dict(os.environ, values):
+                # The self-hosted config itself is valid; the iOS target is the failing boundary.
+                guard.native_build_config.store_candidate_configuration(dict(os.environ), "ios", self.work / "pubspec.yaml")
+                self.assert_import_denied_without_effect("PUBLIC_BUILD_CONFIGURATION_WRONG")
+
+    def test_unsigned_candidate_checks_profile_before_export_and_compile(self):
+        def fake_git(command, **_kwargs):
+            stdout = self.commit + "\n" if command[1:] == ["rev-parse", "HEAD"] else ""
+            return subprocess.CompletedProcess(command, 0, stdout, "")
+        with patch.dict(os.environ, {"COLLECT_IOS_OPERATION": "unsigned_candidate", "COLLECT_SMS_AUTH_ENABLED": "false"}), \
+                patch.object(guard, "run_command", side_effect=fake_git), \
+                patch.object(guard.source_export, "export_candidate") as export:
+            with self.assertRaisesRegex(guard.GuardError, "IOS_PUBLIC_BUILD_CONFIGURATION_WRONG"):
+                guard.prepare(self.repo, self.base / "new-candidate", self.base / "new-work", self.sdk)
+        export.assert_not_called()
+
+    def test_non_build_operations_do_not_require_candidate_configuration(self):
+        def fake_git(command, **_kwargs):
+            stdout = self.commit + "\n" if command[1:] == ["rev-parse", "HEAD"] else ""
+            return subprocess.CompletedProcess(command, 0, stdout, "")
+        for operation in ("testflight_internal", "metadata", "screenshots", "privacy_public"):
+            with self.subTest(operation=operation), patch.dict(os.environ, {"COLLECT_IOS_OPERATION": operation,
+                                                                          "COLLECT_SMS_AUTH_ENABLED": "false"}), \
+                    patch.object(guard, "run_command", side_effect=fake_git), \
+                    patch.object(guard, "approval", return_value={}), \
+                    patch.object(guard, "runtime_configuration_sha256") as config, \
+                    patch.object(guard.source_export, "export_candidate", side_effect=RuntimeError("synthetic stop")):
+                with self.assertRaisesRegex(RuntimeError, "synthetic stop"):
+                    guard.prepare(self.repo, self.base / "new-candidate", self.base / "new-work", self.sdk)
+                config.assert_not_called()
 
     def test_changed_working_source_and_added_source_fail_before_signing(self):
         path = self.work / "lib/main.dart"

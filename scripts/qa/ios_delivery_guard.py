@@ -33,6 +33,10 @@ TARGET = {"bundle_id": "app.cool.mobile", "apple_id": "6783960331", "team_id": "
 ENVIRONMENTS = {"signed_candidate": "collect-ios-signing", "testflight_internal": "collect-ios-testflight",
                 "metadata": "collect-ios-metadata", "screenshots": "collect-ios-metadata",
                 "privacy_public": "collect-ios-privacy"}
+CANDIDATE_PUBLIC_ENV_NAMES = ("COLLECT_DEPLOYMENT_PROFILE", "COLLECT_DEPLOYMENT_PROFILE_SHA256",
+                              "COLLECT_SMS_AUTH_ENABLED", "SUPABASE_URL", "SUPABASE_API_URL",
+                              "SUPABASE_ADMIN_API_URL", "SUPABASE_PUBLISHABLE_KEY", "AUTH_CAPTCHA_SITE_KEY",
+                              "GOOGLE_AUTH_ENABLED", "APP_PUBLIC_URL", "ADMIN_APP_URL")
 
 
 class GuardError(ValueError):
@@ -47,13 +51,67 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def runtime_configuration_sha256(root=None):
+def runtime_configuration_sha256(root=None, *, store_candidate=False):
     try:
-        values = native_build_config.configuration(dict(os.environ), "ios",
-                                                   Path(root) / "pubspec.yaml" if root is not None else None)
+        configure = (native_build_config.store_candidate_configuration if store_candidate
+                     else native_build_config.configuration)
+        values = configure(dict(os.environ), "ios",
+                           Path(root) / "pubspec.yaml" if root is not None else None)
+        if store_candidate and (values["SUPABASE_API_URL"] != TARGET["api_url"]
+                                or values["SUPABASE_ADMIN_API_URL"] != TARGET["admin_url"]
+                                or values["APP_PUBLIC_URL"] != TARGET["public_url"]):
+            raise ValueError("Store candidate origins must match the reviewed iOS target")
     except (ValueError, TypeError) as error:
         raise GuardError("IOS_PUBLIC_BUILD_CONFIGURATION_WRONG") from error
     return digest(json.dumps(values, sort_keys=True, separators=(",", ":")).encode())
+
+
+def stage_candidate_public_environment(root):
+    """Append only validated public candidate values to the runner's env file."""
+    configuration_hash = runtime_configuration_sha256(root, store_candidate=True)
+    rows = []
+    for name in CANDIDATE_PUBLIC_ENV_NAMES:
+        value = os.environ.get(name, "")
+        if not value or "\r" in value or "\n" in value:
+            fail("IOS_CANDIDATE_PUBLIC_ENV_INVALID")
+        rows.append(name + "=" + value + "\n")
+    payload = "".join(rows)
+    if len(payload.encode("utf-8")) > 65536:
+        fail("IOS_CANDIDATE_PUBLIC_ENV_INVALID")
+
+    output_name, temp_name = os.environ.get("GITHUB_ENV", ""), os.environ.get("RUNNER_TEMP", "")
+    if not output_name or not temp_name or not Path(output_name).is_absolute() or not Path(temp_name).is_absolute():
+        fail("IOS_CANDIDATE_ENV_OUTPUT_INVALID")
+    output_path = Path(output_name)
+    try:
+        root_path = Path(temp_name).resolve(strict=True)
+        if not root_path.is_dir() or output_path.is_symlink():
+            fail("IOS_CANDIDATE_ENV_OUTPUT_INVALID")
+        output_path.resolve(strict=True).relative_to(root_path)
+        original = output_path.lstat()
+        if not stat.S_ISREG(original.st_mode) or original.st_nlink != 1:
+            fail("IOS_CANDIDATE_ENV_OUTPUT_INVALID")
+        if not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_NONBLOCK"):
+            fail("IOS_CANDIDATE_ENV_OUTPUT_INVALID")
+        descriptor = os.open(output_path, os.O_WRONLY | os.O_APPEND | os.O_NOFOLLOW | os.O_NONBLOCK)
+        try:
+            current = os.fstat(descriptor)
+            if (not stat.S_ISREG(current.st_mode) or current.st_nlink != 1
+                    or (current.st_dev, current.st_ino) != (original.st_dev, original.st_ino)):
+                fail("IOS_CANDIDATE_ENV_OUTPUT_INVALID")
+            handle = os.fdopen(descriptor, "a", encoding="utf-8")
+            descriptor = -1
+            with handle:
+                handle.write(payload)
+        finally:
+            if descriptor != -1:
+                os.close(descriptor)
+    except (OSError, ValueError) as error:
+        if isinstance(error, GuardError):
+            raise
+        raise GuardError("IOS_CANDIDATE_ENV_OUTPUT_INVALID") from error
+    return {"status": "pass", "public_configuration_sha256": configuration_hash,
+            "scope": "Validated public candidate environment; not build or release acceptance."}
 
 
 def required(name):
@@ -185,7 +243,7 @@ def check(operation=None, root=None, inspect_artifact=True):
     if operation == "signed_candidate":
         if record.get("artifact") is not None:
             fail("IOS_SIGNING_CANNOT_APPROVE_FUTURE_ARTIFACT")
-        if record.get("runtime_configuration_sha256") != runtime_configuration_sha256(root):
+        if record.get("runtime_configuration_sha256") != runtime_configuration_sha256(root, store_candidate=True):
             fail("IOS_PUBLIC_BUILD_CONFIGURATION_WRONG")
     if operation == "testflight_internal":
         artifact = record.get("artifact", {})
@@ -213,6 +271,8 @@ def prepare(source, candidate, workdir, sdk):
     if run_command(["git", "status", "--porcelain", "--untracked-files=all"], cwd=source, text=True).stdout:
         fail("IOS_CHECKOUT_DIRTY")
     operation = required("OPERATION")
+    if operation in ("unsigned_candidate", "signed_candidate"):
+        runtime_configuration_sha256(source, store_candidate=True)
     if operation != "unsigned_candidate":
         approval(operation)
     source_export.export_candidate(source, candidate, sdk)
@@ -446,7 +506,7 @@ def import_signing():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["prepare", "check", "verify-environment", "inspect", "import-signing", "cleanup-signing"])
+    parser.add_argument("command", choices=["prepare", "check", "verify-environment", "inspect", "import-signing", "cleanup-signing", "stage-candidate-config"])
     parser.add_argument("--source", type=Path)
     parser.add_argument("--candidate", type=Path)
     parser.add_argument("--workdir", type=Path)
@@ -455,7 +515,11 @@ def main():
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     try:
-        if args.command == "prepare":
+        if args.command == "stage-candidate-config":
+            if not args.source:
+                fail("IOS_CANDIDATE_SOURCE_REQUIRED")
+            result = stage_candidate_public_environment(args.source.resolve())
+        elif args.command == "prepare":
             if not all([args.source, args.candidate, args.workdir]):
                 fail("IOS_PREPARE_PATHS_REQUIRED")
             result = prepare(args.source.resolve(), args.candidate.absolute(), args.workdir.absolute(), args.flutter_sdk)
