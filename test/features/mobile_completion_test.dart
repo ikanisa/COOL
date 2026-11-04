@@ -723,7 +723,7 @@ void main() {
     },
   );
 
-  testWidgets('missing group deep link renders recovery empty state', (
+  testWidgets('unconfirmed group deep link renders recovery state', (
     tester,
   ) async {
     final router = createAppRouter(initialLocation: '/groups/missing-group');
@@ -742,7 +742,7 @@ void main() {
     await tester.pump();
 
     expect(tester.takeException(), isNull);
-    expect(find.text('Group is not available.'), findsOneWidget);
+    expect(find.text('Group not yet confirmed'), findsOneWidget);
     expect(find.text('Open groups'), findsWidgets);
   });
 

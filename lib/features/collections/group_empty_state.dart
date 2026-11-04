@@ -5,9 +5,17 @@ import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
 class MissingGroupStateScreen extends StatelessWidget {
-  const MissingGroupStateScreen({this.title = 'Group unavailable', super.key});
+  const MissingGroupStateScreen({
+    this.title = 'Group unavailable',
+    this.panelTitle = 'Group is not available.',
+    this.panelMessage =
+        'The group may not be joined on this device, the link may have expired, or the group may have been removed.',
+    super.key,
+  });
 
   final String title;
+  final String panelTitle;
+  final String panelMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +39,11 @@ class MissingGroupStateScreen extends StatelessWidget {
           ),
         ],
       ),
-      children: const [
+      children: [
         MinimalStatePanel(
           icon: CollectIcons.collectionsOutline,
-          title: 'Group is not available.',
-          message:
-              'The group may not be joined on this device, the link may have expired, or the group may have been removed.',
+          title: panelTitle,
+          message: panelMessage,
           tone: CollectStatusTone.warning,
         ),
       ],

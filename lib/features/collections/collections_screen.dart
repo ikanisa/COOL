@@ -50,6 +50,59 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
         showContributedOnly && state.historyPage == null;
     final showMembersOnly = routeUri.queryParameters['filter'] == 'member';
     final showFeaturedOnly = routeUri.queryParameters['filter'] == 'featured';
+    final includesPublicDiscovery = !showMembersOnly && !showContributedOnly;
+    final publicDiscoveryLoading =
+        includesPublicDiscovery &&
+        (state.isLoading || state.publicDiscoveryLoading);
+    final publicDiscoveryUnavailable =
+        includesPublicDiscovery &&
+        !publicDiscoveryLoading &&
+        state.publicDiscoveryUnavailable;
+    final publicDiscoveryUncertain =
+        includesPublicDiscovery &&
+        !publicDiscoveryLoading &&
+        !publicDiscoveryUnavailable &&
+        (state.usingStaleCache ||
+            state.financialObservationUncertain ||
+            state.lastSuccessfulSyncAt == null);
+    final publicResultsUnconfirmed =
+        state.lastSuccessfulSyncAt == null &&
+        !state.usingStaleCache &&
+        !state.financialObservationUncertain;
+    Widget publicResultsUncertain() => Semantics(
+      liveRegion: true,
+      child: MinimalStatePanel(
+        icon: CollectIcons.sync,
+        title: publicResultsUnconfirmed
+            ? 'Public groups not yet confirmed'
+            : 'Public groups may be incomplete',
+        message: publicResultsUnconfirmed
+            ? 'Group information has not been confirmed yet.'
+            : 'Loaded groups may be out of date.',
+        tone: CollectStatusTone.warning,
+        primaryAction: publicResultsUnconfirmed && !publicDiscoveryUnavailable
+            ? null
+            : CollectButton(
+                label: publicDiscoveryUnavailable ? 'Retry' : 'Refresh groups',
+                icon: CollectIcons.sync,
+                onPressed: () =>
+                    ref.read(collectRepositoryProvider.notifier).loadInitial(),
+                expand: true,
+              ),
+      ),
+    );
+    Widget supportedGroupsUnavailable() => MinimalStatePanel(
+      icon: CollectIcons.collections,
+      title: 'Supported groups unavailable',
+      message:
+          'Connect and refresh to load the complete list of groups you have supported.',
+      tone: CollectStatusTone.warning,
+      primaryAction: CollectButton(
+        label: 'Refresh groups',
+        onPressed: () =>
+            ref.read(collectRepositoryProvider.notifier).loadInitial(),
+      ),
+    );
     final memberCollectionIds = ref
         .watch(memberCollectionsProvider)
         .map((collection) => collection.id)
@@ -71,11 +124,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
         : showContributedOnly
         ? 'Supported groups'
         : 'Groups';
-    if (isInitialLoading ||
-        (collections.isEmpty &&
-            state.publicDiscoveryLoading &&
-            !showMembersOnly &&
-            !showContributedOnly)) {
+    if (isInitialLoading || (collections.isEmpty && publicDiscoveryLoading)) {
       return ScreenScaffold(
         title: 'Groups',
         showHeader: false,
@@ -125,19 +174,28 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
               label: 'Search group name, type, or purpose',
               onChanged: (value) => setState(() => _query = value),
             ),
-          if (state.hasInitialLoadFailure ||
-              (state.publicDiscoveryUnavailable &&
-                  !showMembersOnly &&
-                  !showContributedOnly))
+          if (publicDiscoveryUnavailable && state.usingStaleCache)
+            publicResultsUncertain()
+          else if (state.hasInitialLoadFailure || publicDiscoveryUnavailable)
             CollectDataLoadFailure(
               onRetry: () =>
                   ref.read(collectRepositoryProvider.notifier).loadInitial(),
             )
+          else if (supportedGroupsUnknown)
+            supportedGroupsUnavailable()
+          else if (publicDiscoveryUncertain)
+            publicResultsUncertain()
           else
             EmptyIllustrationState(
               icon: CollectIcons.collections,
-              title: showFeaturedOnly ? 'Featured Groups' : 'No groups yet',
-              message: 'Public groups selected by Collect will appear here.',
+              title: showFeaturedOnly
+                  ? 'No featured groups loaded'
+                  : 'No groups loaded',
+              message: showMembersOnly
+                  ? 'Groups you create or join will appear here.'
+                  : showContributedOnly
+                  ? 'Recorded contributions will place active groups in this view.'
+                  : 'Groups will appear here as they are loaded.',
             ),
         ],
       );
@@ -174,13 +232,15 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
       children: [
         SectionHeader(title: pageTitle),
-        if (state.publicDiscoveryUnavailable &&
-            !showMembersOnly &&
-            !showContributedOnly)
+        if (publicDiscoveryUnavailable && state.usingStaleCache)
+          publicResultsUncertain()
+        else if (publicDiscoveryUnavailable)
           CollectDataLoadFailure(
             onRetry: () =>
                 ref.read(collectRepositoryProvider.notifier).loadInitial(),
-          ),
+          )
+        else if (publicDiscoveryUncertain)
+          publicResultsUncertain(),
         if (_searching)
           SearchWithClearField(
             controller: _search,
@@ -188,36 +248,32 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
             label: 'Search group name, type, or purpose',
             onChanged: (value) => setState(() => _query = value),
           ),
-        if (supportedGroupsUnknown)
-          MinimalStatePanel(
+        if (publicDiscoveryLoading)
+          const CollectScreenLoadingState(
+            title: 'Loading public groups',
+            message: 'Public groups are still being refreshed.',
             icon: CollectIcons.collections,
-            title: 'Supported groups unavailable',
-            message:
-                'Connect and refresh to load the complete list of groups you have supported.',
-            tone: CollectStatusTone.warning,
-            primaryAction: CollectButton(
-              label: 'Refresh groups',
-              onPressed: () =>
-                  ref.read(collectRepositoryProvider.notifier).loadInitial(),
-            ),
+            skeletonCount: 1,
           ),
+        if (supportedGroupsUnknown) supportedGroupsUnavailable(),
         if (visibleCollections.isNotEmpty)
           _GroupsCardGrid(collections: visibleCollections, summaries: summaries)
-        else if (supportedGroupsUnknown)
+        else if (supportedGroupsUnknown ||
+            publicDiscoveryLoading ||
+            publicDiscoveryUnavailable ||
+            publicDiscoveryUncertain)
           const SizedBox.shrink()
         else if (query.isNotEmpty)
           EmptySearchState(
-            title: 'No matching groups',
-            message: 'Clear the search and try again.',
+            title: 'No matches in loaded groups',
+            message: 'Only loaded groups were searched.',
             onClear: _clearSearch,
           )
-        else if (showFeaturedOnly && state.publicDiscoveryUnavailable)
-          const SizedBox.shrink()
         else if (showFeaturedOnly)
           const EmptyIllustrationState(
             icon: CollectIcons.people,
-            title: 'No featured groups yet',
-            message: 'Public groups selected by Collect will appear here.',
+            title: 'No featured groups loaded',
+            message: 'Featured public groups will appear here as they load.',
           )
         else if (showMembersOnly || showContributedOnly)
           EmptySearchState(

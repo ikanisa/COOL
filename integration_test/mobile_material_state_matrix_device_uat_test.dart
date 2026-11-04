@@ -848,7 +848,8 @@ const _stateSpecs = <_StateSpec>[
   _StateSpec(
     'groups-no-results',
     '/groups',
-    'No matching groups',
+    'No matches in loaded groups',
+    repositoryKind: _RepositoryKind.syncedGroups,
     inputText: 'No group matches this search',
   ),
   _StateSpec(
@@ -996,7 +997,7 @@ const _stateSpecs = <_StateSpec>[
   _StateSpec(
     'groups-empty',
     '/groups',
-    'No groups yet',
+    'Public groups not yet confirmed',
     repositoryKind: _RepositoryKind.empty,
   ),
   _StateSpec(
@@ -1068,7 +1069,7 @@ const _stateSpecs = <_StateSpec>[
   ),
 ];
 
-enum _RepositoryKind { fixture, empty, diaspora, unavailable }
+enum _RepositoryKind { fixture, syncedGroups, empty, diaspora, unavailable }
 
 class _StateSpec {
   const _StateSpec(
@@ -1109,6 +1110,7 @@ class _StateSpec {
       ? _HomeParityRepository(homeScenario!)
       : switch (repositoryKind) {
           _RepositoryKind.fixture => FixtureCollectRepository(),
+          _RepositoryKind.syncedGroups => _SyncedGroupsRepository(),
           _RepositoryKind.unavailable => _UnavailablePaymentRepository(),
           _RepositoryKind.empty => FixtureCollectRepository(seeded: false),
           _RepositoryKind.diaspora => FixtureCollectRepository(
@@ -1121,6 +1123,12 @@ class _StateSpec {
             ),
           ),
         };
+}
+
+class _SyncedGroupsRepository extends FixtureCollectRepository {
+  _SyncedGroupsRepository() {
+    state = state.copyWith(lastSuccessfulSyncAt: DateTime.utc(2026));
+  }
 }
 
 class _UnavailablePaymentRepository extends FixtureCollectRepository {

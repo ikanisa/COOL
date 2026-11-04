@@ -32,7 +32,8 @@ class _CollectionDetailScreenState
     final state = ref.watch(collectRepositoryProvider);
     final repo = ref.read(collectRepositoryProvider.notifier);
     final collection = repo.maybeCollectionById(widget.collectionId);
-    if (collection == null && state.isLoading) {
+    if (collection == null &&
+        (state.isLoading || state.publicDiscoveryLoading)) {
       return const ScreenScaffold(
         title: 'Group',
         showHeader: false,
@@ -46,7 +47,11 @@ class _CollectionDetailScreenState
         ],
       );
     }
-    if (collection == null && state.lastError != null) {
+    if (collection == null &&
+        (state.lastError != null ||
+            state.publicDiscoveryUnavailable ||
+            state.usingStaleCache ||
+            state.financialObservationUncertain)) {
       return ScreenScaffold(
         title: 'Group',
         showHeader: false,
@@ -58,7 +63,17 @@ class _CollectionDetailScreenState
         ],
       );
     }
-    if (collection == null) return const MissingGroupStateScreen();
+    if (collection == null) {
+      final unconfirmed = state.lastSuccessfulSyncAt == null;
+      return MissingGroupStateScreen(
+        panelTitle: unconfirmed
+            ? 'Group not yet confirmed'
+            : 'Group not in loaded groups',
+        panelMessage: unconfirmed
+            ? 'Group information has not been confirmed yet.'
+            : 'This group is not in the groups currently loaded.',
+      );
+    }
     if (collection.isArchived) {
       return ArchivedGroupStateScreen(
         collectionId: widget.collectionId,
@@ -69,15 +84,19 @@ class _CollectionDetailScreenState
     final totalLabel = summary == null
         ? 'Not available'
         : formatCurrencyTotals(summary.totalsByCurrency, separator: '\n');
-    final historyQuery = MemberHistoryQuery(collectionId: widget.collectionId);
-    final history = ref.watch(memberHistoryProvider(historyQuery));
-    final visibleContributions =
-        history.page?.items.take(8).toList() ?? const <Contribution>[];
     final profile = state.currentProfile;
     final isAdmin = profile != null && collection.creatorUserId == profile.id;
     final canManage =
         isAdmin && !collection.isPlatformSponsored && !collection.isPublic;
     final isMember = isAdmin || collection.isCurrentUserMember;
+    final historyQuery = MemberHistoryQuery(collectionId: widget.collectionId);
+    // The history RPC is membership-scoped; an empty nonmember response says
+    // nothing about whether the group has contributions.
+    final history = isMember
+        ? ref.watch(memberHistoryProvider(historyQuery))
+        : null;
+    final visibleContributions =
+        history?.page?.items.take(8).toList() ?? const <Contribution>[];
     final hasPaymentRoute = collection.supportsRwandaMomo;
     final paymentEligible =
         collection.contributionRailFor(profile) == 'rwanda_momo';
@@ -208,9 +227,16 @@ class _CollectionDetailScreenState
           CollectSpacing.gap16,
         ],
         const SectionHeader(title: 'Activity'),
-        if (history.loading && history.page == null)
+        if (!isMember)
+          const MinimalStatePanel(
+            icon: CollectIcons.activity,
+            title: 'Activity for members',
+            message: 'Group activity is available to members.',
+            tone: CollectStatusTone.privacy,
+          )
+        else if (history != null && history.loading && history.page == null)
           const Center(child: CircularProgressIndicator())
-        else if (history.page == null)
+        else if (history == null || history.page == null)
           CollectDataLoadFailure(
             onRetry: () => ref
                 .read(memberHistoryProvider(historyQuery).notifier)

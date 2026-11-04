@@ -441,7 +441,7 @@ void _registerMobileCompletionAccountCases() {
     expect(find.text('QA private group'), findsWidgets);
   });
 
-  testWidgets('groups empty state does not show home hero actions', (
+  testWidgets('groups unconfirmed state does not show home hero actions', (
     tester,
   ) async {
     await pumpRoute(
@@ -451,7 +451,7 @@ void _registerMobileCompletionAccountCases() {
       repository: CollectRepository(),
     );
 
-    expect(find.text('No groups yet'), findsOneWidget);
+    expect(find.text('Public groups not yet confirmed'), findsOneWidget);
     expect(find.text('Scan'), findsNothing);
     expect(find.text('Supported'), findsNothing);
     expect(find.text('Home'), findsOneWidget);
