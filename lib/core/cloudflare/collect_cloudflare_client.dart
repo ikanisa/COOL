@@ -635,6 +635,22 @@ final class _CollectGuestUpgrade {
   };
 }
 
+final class _CollectInitializationOwner {
+  _CollectInitializationOwner({
+    required this.generation,
+    required this.otpGeneration,
+    required this.googleGeneration,
+    required this.anonymousGeneration,
+  });
+
+  int generation;
+  int otpGeneration, googleGeneration, anonymousGeneration;
+  CollectAuthSession? session;
+  bool refreshingGuest = false;
+  Future<void>? failedPersistClear;
+  int? retirementGeneration;
+}
+
 final class CollectAuthClient {
   CollectAuthClient(
     this._client,
@@ -661,6 +677,8 @@ final class CollectAuthClient {
   Timer? _refreshTimer;
   Future<CollectAuthResponse>? _refreshInFlight;
   Future<CollectAuthResponse>? _guestReconcileInFlight;
+  Future<void>? _initializationInFlight;
+  _CollectInitializationOwner? _initializationOwner;
   Future<void> _storageTail = Future.value();
   bool _disposed = false;
   CollectAuthSession? get currentSession => _session;
@@ -690,6 +708,7 @@ final class CollectAuthClient {
         statusCode: '503',
       );
     }
+    _requireGuestRestoreSettled();
     if (_session != null) {
       throw const CollectAuthException(
         'An account is already open.',
@@ -738,10 +757,111 @@ final class CollectAuthClient {
     return CollectAuthResponse(session: session);
   }
 
-  Future<void> initialize() async {
-    final stored = await _storage.read();
-    if (stored == null || _disposed) return;
+  Future<void> initialize() {
+    if (_disposed) return Future.value();
+    final running = _initializationInFlight;
+    if (running != null) {
+      final owner = _initializationOwner;
+      return owner != null && _ownsInitialization(owner)
+          ? running
+          : Future.value();
+    }
+    if (_session != null ||
+        _generation != 0 ||
+        _otpGeneration != 0 ||
+        _googleGeneration != 0 ||
+        _anonymousGeneration != 0) {
+      return Future.value();
+    }
+    final owner = _CollectInitializationOwner(
+      generation: _generation,
+      otpGeneration: _otpGeneration,
+      googleGeneration: _googleGeneration,
+      anonymousGeneration: _anonymousGeneration,
+    );
+    _initializationOwner = owner;
+    late final Future<void> operation;
+    operation = _initialize(owner).whenComplete(() {
+      if (identical(_initializationInFlight, operation)) {
+        _initializationInFlight = null;
+        _initializationOwner = null;
+      }
+    });
+    _initializationInFlight = operation;
+    return operation;
+  }
+
+  bool _ownsInitialization(_CollectInitializationOwner owner) =>
+      !_disposed &&
+      identical(_initializationOwner, owner) &&
+      identical(_session, owner.session) &&
+      _generation == owner.generation &&
+      (owner.refreshingGuest ||
+          (_otpGeneration == owner.otpGeneration &&
+              _googleGeneration == owner.googleGeneration &&
+              _anonymousGeneration == owner.anonymousGeneration));
+
+  void _requireGuestRestoreSettled() {
+    final owner = _initializationOwner;
+    if (owner != null && owner.refreshingGuest && _ownsInitialization(owner)) {
+      throw const CollectAuthException(
+        'Guest sign-in is still starting.',
+        code: 'guest_initialization_pending',
+        statusCode: '503',
+      );
+    }
+  }
+
+  bool _ownsInitializationCleanup(_CollectInitializationOwner owner) =>
+      !_disposed &&
+      identical(_initializationOwner, owner) &&
+      owner.failedPersistClear != null &&
+      owner.retirementGeneration == _generation &&
+      _session == null &&
+      _otpGeneration == owner.otpGeneration &&
+      _googleGeneration == owner.googleGeneration &&
+      _anonymousGeneration == owner.anonymousGeneration;
+
+  void _recordInitializationCancellation({
+    bool otp = false,
+    bool google = false,
+  }) {
+    final owner = _initializationOwner;
+    if (owner == null || _disposed || !identical(_initializationOwner, owner)) {
+      return;
+    }
+    final activeGuest = owner.refreshingGuest && _ownsInitialization(owner);
+    final retiring =
+        owner.failedPersistClear != null &&
+        owner.retirementGeneration == _generation &&
+        _session == null;
+    if (activeGuest || retiring) {
+      if (otp) {
+        owner.otpGeneration = _otpGeneration;
+        owner.anonymousGeneration = _anonymousGeneration;
+      }
+      if (google) owner.googleGeneration = _googleGeneration;
+    }
+  }
+
+  Future<void> _initialize(_CollectInitializationOwner owner) async {
+    bool ownsRestore() => owner.session == null && _ownsInitialization(owner);
+
+    // Existing writes and clears finish before this read. Do not add the read
+    // itself to the write tail: a stuck read must not block disposal or a new
+    // account's protected write.
+    await _storageTail.catchError((Object _) {});
+    if (!ownsRestore()) return;
+    String? stored;
+    try {
+      stored = await _storage.read();
+    } catch (_) {
+      if (!ownsRestore()) return;
+      rethrow;
+    }
+    if (!ownsRestore() || stored == null) return;
     CollectAuthSession? session;
+    _CollectGuestUpgrade? restoredUpgrade;
     try {
       if (stored.length > 131072) throw const FormatException();
       final decoded = jsonDecode(stored);
@@ -781,7 +901,7 @@ final class CollectAuthClient {
             ? null
             : CollectOtpChannel.values.byName(pending['channel'] as String);
         if ((phone == null) != (channel == null)) throw const FormatException();
-        _guestUpgrade = _CollectGuestUpgrade(
+        restoredUpgrade = _CollectGuestUpgrade(
           key: key,
           challengeId: pending['challenge_id'] as String,
           authSubject: session.authSubject,
@@ -792,30 +912,96 @@ final class CollectAuthClient {
           unconfirmed: pending['unconfirmed'] as bool,
           recoveryRefreshToken: pending['recovery_refresh_token'] as String?,
         );
-        _challenges[key] = _guestUpgrade!.challengeId;
-        _challengeChannels[key] = channel;
       }
     } catch (_) {
-      await _storage.clear();
+      if (!ownsRestore()) return;
+      // A clear already in progress must precede any later account write.
+      // Recheck ownership after earlier queued storage operations complete.
+      final clear = _storageTail.catchError((Object _) {}).then((_) async {
+        if (ownsRestore()) await _storage.clear();
+      });
+      _storageTail = clear;
+      try {
+        await clear;
+      } catch (_) {
+        if (!ownsRestore()) return;
+        rethrow;
+      }
       return;
     }
-    _session = session;
-    if (_guestUpgrade?.unconfirmed == true) {
+    final restoredSession = session;
+    if (!ownsRestore() || restoredSession == null) return;
+    if (restoredSession.isExpired && restoredUpgrade?.unconfirmed != true) {
+      // Keep an expired restore private until its refresh succeeds. While a
+      // retained guest is refreshing, its upgrade must not become ordinary OTP.
+      owner.refreshingGuest = restoredSession.user.isAnonymous;
+      await _initializeExpired(owner, restoredSession, restoredUpgrade);
+      return;
+    }
+    final installedGeneration = ++_generation;
+    _session = restoredSession;
+    owner.generation = installedGeneration;
+    owner.session = restoredSession;
+    _guestUpgrade = restoredUpgrade;
+    if (restoredUpgrade != null) {
+      _challenges[restoredUpgrade.key] = restoredUpgrade.challengeId;
+      _challengeChannels[restoredUpgrade.key] = restoredUpgrade.channel;
+    }
+    if (restoredUpgrade?.unconfirmed == true) {
       // The original guest credential and challenge are recovery evidence.
       // Refreshing an identity that GoTrue may already have converted could
       // replace them before the application projection is acknowledged.
-      _events.add(CollectAuthState(CollectAuthEvent.initialSession, session));
+      _events.add(
+        CollectAuthState(CollectAuthEvent.initialSession, restoredSession),
+      );
       return;
     }
-    if (session.isExpired) {
-      try {
-        await refreshSession();
-      } catch (_) {
-        await clearLocalSession();
+    _events.add(
+      CollectAuthState(CollectAuthEvent.initialSession, restoredSession),
+    );
+    _scheduleRefresh();
+  }
+
+  Future<void> _initializeExpired(
+    _CollectInitializationOwner owner,
+    CollectAuthSession original,
+    _CollectGuestUpgrade? restoredUpgrade,
+  ) async {
+    try {
+      final data = await _authRequest('refresh', {
+        'refresh_token': original.refreshToken,
+      });
+      if (!_ownsInitialization(owner) || owner.session != null) return;
+      final next = _verifiedRefreshSession(data, original);
+      _guestUpgrade = restoredUpgrade;
+      if (restoredUpgrade != null) {
+        _challenges[restoredUpgrade.key] = restoredUpgrade.challengeId;
+        _challengeChannels[restoredUpgrade.key] = restoredUpgrade.channel;
       }
-    } else {
-      _events.add(CollectAuthState(CollectAuthEvent.initialSession, session));
-      _scheduleRefresh();
+      _install(
+        next,
+        CollectAuthEvent.tokenRefreshed,
+        onInstalled: () {
+          owner.generation = _generation;
+          owner.session = next;
+          owner.otpGeneration = _otpGeneration;
+          owner.googleGeneration = _googleGeneration;
+          owner.anonymousGeneration = _anonymousGeneration;
+        },
+      );
+      await _persist();
+    } catch (_) {
+      if (_ownsInitialization(owner)) {
+        await clearLocalSession();
+      } else if (_ownsInitializationCleanup(owner)) {
+        // Await only the clear owned by this failed protected write. A later
+        // account or sign-out must not inherit a stale cleanup failure.
+        try {
+          await owner.failedPersistClear!;
+        } catch (_) {
+          if (_ownsInitializationCleanup(owner)) rethrow;
+        }
+      }
     }
   }
 
@@ -826,6 +1012,7 @@ final class CollectAuthClient {
     bool shouldCreateUser = true,
     String? captchaToken,
   }) async {
+    _requireGuestRestoreSettled();
     final key = _otpKey(phone, email);
     final guestSession = currentGuest == null ? null : _session;
     if (guestSession != null && _guestUpgrade?.unconfirmed == true) {
@@ -1069,6 +1256,7 @@ final class CollectAuthClient {
 
   void cancelGoogleSignIn() {
     ++_googleGeneration;
+    _recordInitializationCancellation(google: true);
     _client.cancelCaptcha?.call();
   }
 
@@ -1081,6 +1269,7 @@ final class CollectAuthClient {
       _challenges[pending.key] = pending.challengeId;
       _challengeChannels[pending.key] = pending.channel;
     }
+    _recordInitializationCancellation(otp: true);
     _client.cancelCaptcha?.call();
   }
 
@@ -1186,6 +1375,7 @@ final class CollectAuthClient {
         code: 'invalid_surface',
       );
     }
+    _requireGuestRestoreSettled();
     if (currentGuest != null) {
       throw const CollectAuthException(
         'Verify an email address or phone number to keep this guest session.',
@@ -1362,7 +1552,20 @@ final class CollectAuthClient {
         code: 'session_changed',
       );
     }
-    final next = _verifiedSession(data);
+    final next = _verifiedRefreshSession(data, original);
+    _install(next, CollectAuthEvent.tokenRefreshed);
+    await _persist();
+    return CollectAuthResponse(session: next);
+  }
+
+  CollectAuthSession _verifiedRefreshSession(
+    Map<String, dynamic> data,
+    CollectAuthSession original,
+  ) {
+    final next = _verifiedSession(
+      data,
+      allowRetainedGuest: original.user.isAnonymous,
+    );
     if (next.user.id != original.user.id ||
         next.authSubject != original.authSubject ||
         next.user.isAnonymous != original.user.isAnonymous ||
@@ -1372,13 +1575,17 @@ final class CollectAuthClient {
         code: 'invalid_session',
       );
     }
-    _install(next, CollectAuthEvent.tokenRefreshed);
-    await _persist();
-    return CollectAuthResponse(session: next);
+    return next;
   }
 
-  CollectAuthSession _verifiedSession(Map<String, dynamic> data) {
-    final session = _decodeSession(data);
+  CollectAuthSession _verifiedSession(
+    Map<String, dynamic> data, {
+    bool allowRetainedGuest = false,
+  }) {
+    final session = _decodeSession(
+      data,
+      allowRetainedGuest: allowRetainedGuest,
+    );
     if (session == null || session.isExpired || session.refreshToken == null) {
       throw const CollectAuthException(
         'Verification is unavailable.',
@@ -1462,11 +1669,25 @@ final class CollectAuthClient {
     _storageTail = operation;
     return operation.catchError((Object _) {
       if (generation == _generation && !_disposed) {
-        _clearLocal();
+        final initialization = _initializationOwner;
+        final ownsInitialization =
+            initialization != null &&
+            _ownsInitialization(initialization) &&
+            identical(initialization.session, session);
         final clear = _storageTail
             .catchError((Object _) {})
             .then((_) => _storage.clear());
         _storageTail = clear;
+        if (ownsInitialization && initialization != null) {
+          initialization.failedPersistClear = clear;
+          initialization.retirementGeneration = _generation + 1;
+          initialization.otpGeneration = _otpGeneration + 1;
+          initialization.googleGeneration = _googleGeneration;
+          initialization.anonymousGeneration = _anonymousGeneration + 1;
+        }
+        // Reserve clear ordering before synchronous sign-out observers run, so
+        // a later account write cannot be erased by this failed installation.
+        _clearLocal();
         unawaited(clear.catchError((Object _) {}));
       }
       throw const CollectAuthException(
