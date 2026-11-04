@@ -62,8 +62,15 @@ export function phone(value: unknown): string {
 }
 export function timestamp(value: unknown, field: string): string {
   const v = string(value, field, 20, 35);
+  const parts = /^(\d{4})-(\d\d)-(\d\d)T\d\d:\d\d:\d\d(?:\.\d{1,3})?Z$/.exec(v);
+  const year = parts ? Number(parts[1]) : 0;
+  const month = parts ? Number(parts[2]) : 0;
+  const day = parts ? Number(parts[3]) : 0;
+  const leapYear = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  const daysInMonth = [31, leapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   if (
-    !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{1,3})?Z$/.test(v) ||
+    !parts ||
+    month < 1 || month > 12 || day < 1 || day > daysInMonth[month - 1] ||
     !Number.isFinite(Date.parse(v))
   )
     throw new ApiError(
