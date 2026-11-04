@@ -1,6 +1,6 @@
 import http from 'node:http';
 import {readFile,realpath,stat} from 'node:fs/promises';
-import {resolve,extname,sep} from 'node:path';
+import {resolve,extname,relative,sep} from 'node:path';
 import {Readable} from 'node:stream';
 import {createAdminWorker} from '../platform-admin/src/index.js';
 import {createCollectTransport} from '../platform-admin/src/supabase-transport.js';
@@ -9,14 +9,29 @@ import {renderLocalChallengeDocument} from '../platform-supabase-free/local-chal
 import {createAuthPhoneProxy} from './auth-phone-proxy.mjs';
 const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','.json':'application/json','.wasm':'application/wasm','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.ico':'image/x-icon','.webp':'image/webp','.woff2':'font/woff2','.ttf':'font/ttf','.otf':'font/otf','.webmanifest':'application/manifest+json'};
 const safeHeaders={'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Cache-Control':'no-store, no-transform'};
-export function staticAssets(directory){
+export function staticAssets(directory,{directoryIndex=false}={}){
  const base=resolve(directory);
+ const invitationRoots=['c','group-link'].map(name=>resolve(base,name));
  return {async fetch(request){
   if(!['GET','HEAD'].includes(request.method))return new Response(null,{status:405,headers:safeHeaders});
   let path;try{path=decodeURIComponent(new URL(request.url).pathname);}catch{return new Response(null,{status:400,headers:safeHeaders});}
   const wellKnown=['/.well-known/assetlinks.json','/.well-known/apple-app-site-association'].includes(path);
   if(path.includes('\\')||path.includes('\0')||path.split('/').some(p=>p.startsWith('.')&&!(wellKnown&&p==='.well-known'))||path.endsWith('.map'))return new Response(null,{status:404,headers:safeHeaders});
-  const locate=async name=>{const candidate=resolve(base,'.'+name);if(candidate!==base&&!candidate.startsWith(base+sep))throw Error('invalid');const real=await realpath(candidate);if(!real.startsWith(base+sep)||!(await stat(real)).isFile())throw Error('invalid');return real;};
+  const hidden=real=>relative(base,real).split(sep).some(part=>part.startsWith('.'));
+  const locate=async name=>{
+   const candidate=resolve(base,'.'+name);if(candidate!==base&&!candidate.startsWith(base+sep))throw Error('invalid');
+   const real=await realpath(candidate);if(!real.startsWith(base+sep))throw Error('invalid');
+   const info=await stat(real);if(info.isFile()){
+    if(directoryIndex&&hidden(real)&&!(wellKnown&&real===candidate))throw Error('invalid');
+    return real;
+   }
+   // Invitation directories retain their existing fallback until that route is qualified.
+   const invitation=location=>invitationRoots.some(root=>location===root||location.startsWith(root+sep));
+   if(!directoryIndex||!info.isDirectory()||hidden(real)||invitation(candidate)||invitation(real))throw Error('invalid');
+   const index=await realpath(resolve(real,'index.html'));
+   if(!index.startsWith(base+sep)||hidden(index)||invitation(index)||!(await stat(index)).isFile())throw Error('invalid');
+   return index;
+  };
   let file;try{file=await locate(path==='/'?'/index.html':path);}catch{
    if(!request.headers.get('Accept')?.includes('text/html'))return new Response(null,{status:404,headers:safeHeaders});
    try{file=await locate('/index.html');}catch{return new Response(null,{status:503,headers:safeHeaders});}
@@ -29,7 +44,7 @@ export async function createWebApplication(env){
  const profile=await verifyDeploymentProfile(env);
  if(profile.mode!=='self_hosted'||env.SUPABASE_URL!==profile.supabase_origin||env.APP_ENVIRONMENT!==profile.environment)throw new Error('A matching self-hosted web profile is required');
  if(profile.admin_origin===profile.public_origin)throw new Error('Self-hosted Admin and public origins must differ');
- const origins=[...new Set([profile.admin_origin,profile.member_api_origin,profile.public_origin])],adminAssets=staticAssets(env.COLLECT_ADMIN_ASSET_DIR??'/srv/admin'),memberAssets=staticAssets(env.COLLECT_PUBLIC_ASSET_DIR??'/srv/public');
+ const origins=[...new Set([profile.admin_origin,profile.member_api_origin,profile.public_origin])],adminAssets=staticAssets(env.COLLECT_ADMIN_ASSET_DIR??'/srv/admin'),memberAssets=staticAssets(env.COLLECT_PUBLIC_ASSET_DIR??'/srv/public'),publicAssets=staticAssets(env.COLLECT_PUBLIC_ASSET_DIR??'/srv/public',{directoryIndex:true});
  const admin=createAdminWorker(),auth=createAuthPhoneProxy(env),transports=new Map(origins.map(origin=>[origin,createCollectTransport({frontendOrigin:origin,supabaseOrigin:profile.supabase_origin,upstreamOrigin:env.SUPABASE_INTERNAL_URL??profile.supabase_origin,allowedFrontendOrigins:origins})]));
  return async request=>{
   const url=new URL(request.url);
@@ -40,7 +55,7 @@ export async function createWebApplication(env){
   if(url.pathname==='/api'||url.pathname.startsWith('/api/admin'))return new Response(null,{status:404,headers:safeHeaders});
   const challenge=renderLocalChallengeDocument(request,{origin:url.origin,allowedOrigins:origins});if(challenge)return challenge;
   if(['/v1','/functions','/privacy/account-deletion'].some(path=>url.pathname===path||url.pathname.startsWith(path+'/')))return await transports.get(url.origin)(request)??new Response(null,{status:404,headers:safeHeaders});
-  return memberAssets.fetch(request);
+  return (url.origin===profile.public_origin?publicAssets:memberAssets).fetch(request);
  };
 }
 export function validRawTarget(target){

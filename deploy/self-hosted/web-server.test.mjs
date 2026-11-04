@@ -22,6 +22,79 @@ test('static serving isolates files, preserves association files and blocks arbi
   assert.equal((await assets.fetch(new Request('https://collect.example/',{method:'HEAD'}))).body,null);
  }finally{await rm(folder,{recursive:true,force:true});}
 });
+test('public directory indexes are isolated from Admin and retain static-file protections',async()=>{
+ const folder=await mkdtemp(join(tmpdir(),'collect-web-directory-'));
+ try{
+  const admin=join(folder,'admin'),publicSite=join(folder,'public'),outside=join(folder,'outside');
+  await mkdir(admin);await mkdir(publicSite);await mkdir(outside);
+  await writeFile(join(admin,'index.html'),'ADMIN-ROOT');await mkdir(join(admin,'privacy'));await writeFile(join(admin,'privacy/index.html'),'ADMIN-PRIVATE-DIRECTORY');
+  await writeFile(join(publicSite,'index.html'),'PUBLIC-ROOT');await mkdir(join(publicSite,'privacy'));await writeFile(join(publicSite,'privacy/index.html'),'PUBLIC-PRIVACY');
+  await mkdir(join(publicSite,'privacy/terms'));await writeFile(join(publicSite,'privacy/terms/index.html'),'PUBLIC-TERMS');
+  await mkdir(join(publicSite,'empty'));await mkdir(join(publicSite,'.hidden'));await writeFile(join(publicSite,'.hidden/index.html'),'HIDDEN-MARKER');
+  await mkdir(join(publicSite,'.well-known'));await writeFile(join(publicSite,'.well-known/assetlinks.json'),'ASSET-LINKS');await writeFile(join(publicSite,'.well-known/apple-app-site-association'),'APPLE-ASSOCIATION');
+  await writeFile(join(publicSite,'visible.txt'),'VISIBLE-FILE');await symlink(join(publicSite,'visible.txt'),join(publicSite,'visible-file-alias'));
+  await symlink(join(publicSite,'.hidden/index.html'),join(publicSite,'hidden-file-alias'));
+  await symlink(join(publicSite,'.well-known/assetlinks.json'),join(publicSite,'well-known-file-alias'));
+  for(const route of ['c','group-link']){
+   await mkdir(join(publicSite,route));await writeFile(join(publicSite,route,'index.html'),route+'-INVITATION');
+   await mkdir(join(publicSite,route,'slug'));await writeFile(join(publicSite,route,'slug/index.html'),route+'-SLUG');
+   await symlink(join(publicSite,route),join(publicSite,route+'-alias'));
+   await mkdir(join(publicSite,route+'-index-alias'));await symlink(join(publicSite,route,'index.html'),join(publicSite,route+'-index-alias/index.html'));
+  }
+  await symlink(join(publicSite,'privacy'),join(publicSite,'c/other-directory'));
+  await mkdir(join(publicSite,'c-extra'));await writeFile(join(publicSite,'c-extra/index.html'),'OTHER-PAGE');
+  await writeFile(join(outside,'index.html'),'OUTSIDE-MARKER');await symlink(outside,join(publicSite,'outside-directory'));
+  await mkdir(join(publicSite,'outside-index'));await symlink(join(outside,'index.html'),join(publicSite,'outside-index/index.html'));
+  await symlink(join(publicSite,'.hidden'),join(publicSite,'hidden-directory'));
+  await mkdir(join(publicSite,'hidden-index'));await symlink(join(publicSite,'.hidden/index.html'),join(publicSite,'hidden-index/index.html'));
+  await symlink(join(publicSite,'privacy'),join(publicSite,'inside-directory'));
+  const application=await createWebApplication({...env,COLLECT_ADMIN_ASSET_DIR:admin,COLLECT_PUBLIC_ASSET_DIR:publicSite});
+  const request=(origin,path,options={})=>application(new Request(origin+path,options));
+  for(const path of ['/privacy','/privacy/']){
+   const result=await request(profile.public_origin,path);assert.equal(result.status,200,path);assert.equal(await result.text(),'PUBLIC-PRIVACY');
+   assert.match(result.headers.get('Content-Type'),/^text\/html/);assert.match(result.headers.get('Cache-Control'),/no-store/);
+   const head=await request(profile.public_origin,path,{method:'HEAD'});assert.equal(head.status,200);assert.equal(head.body,null);
+   assert.match(head.headers.get('Content-Type'),/^text\/html/);
+  }
+  assert.equal(await (await request(profile.public_origin,'/privacy/terms/')).text(),'PUBLIC-TERMS');
+  assert.equal(await (await request(profile.public_origin,'/inside-directory')).text(),'PUBLIC-PRIVACY');
+  assert.equal(await (await request(profile.public_origin,'/c-extra')).text(),'OTHER-PAGE');
+  for(const path of ['/c','/c/','/c///','/%63','/%63/','/c/slug','/c/%73lug','/c%2Fslug','/c/other-directory','/c-alias','/c-alias/slug','/c-index-alias','/group-link','/group-link/','/group%2Dlink','/group-link/slug','/group-link-alias/slug','/group-link-index-alias']){
+   assert.equal((await request(profile.public_origin,path)).status,404,path);
+   assert.equal(await (await request(profile.public_origin,path,{headers:{Accept:'text/html'}})).text(),'PUBLIC-ROOT',path);
+  }
+  for(const [path,body] of [['/c/index.html','c-INVITATION'],['/c/slug/index.html','c-SLUG'],['/c-index-alias/index.html','c-INVITATION'],['/group-link/index.html','group-link-INVITATION'],['/group-link/slug/index.html','group-link-SLUG'],['/group-link-index-alias/index.html','group-link-INVITATION']]){
+   assert.equal(await (await request(profile.public_origin,path)).text(),body,path);
+  }
+  assert.equal(await (await request(profile.public_origin,'/visible.txt')).text(),'VISIBLE-FILE');
+  assert.equal(await (await request(profile.public_origin,'/visible-file-alias')).text(),'VISIBLE-FILE');
+  for(const [path,body] of [['/.well-known/assetlinks.json','ASSET-LINKS'],['/.well-known/apple-app-site-association','APPLE-ASSOCIATION']]){
+   const result=await request(profile.public_origin,path);assert.equal(result.status,200);assert.equal(await result.text(),body);assert.equal(result.headers.get('Content-Type'),'application/json');
+  }
+  for(const path of ['/outside-directory','/outside-index/','/hidden-directory','/hidden-index','/hidden-file-alias','/well-known-file-alias','/.hidden','/privacy%2F..%2F.hidden%2Findex.html','/missing.js','/empty/','/source.js.map']){
+   assert.equal((await request(profile.public_origin,path)).status,404,path);
+  }
+  assert.equal((await request(profile.public_origin,'/hidden-file-alias',{method:'HEAD'})).status,404);
+  for(const path of ['/outside-directory','/outside-index/','/hidden-file-alias','/empty/']){
+   const result=await request(profile.public_origin,path,{headers:{Accept:'text/html'}});
+   assert.equal(await result.text(),'PUBLIC-ROOT',path);
+  }
+  for(const path of ['/.well-known/assetlinks.json','/.well-known/apple-app-site-association']){
+   const file=join(publicSite,path);await rm(file);await symlink(join(publicSite,'.hidden/index.html'),file);
+   assert.equal((await request(profile.public_origin,path)).status,404,path);
+  }
+  await rm(join(publicSite,'.well-known/assetlinks.json'));await symlink(join(publicSite,'visible.txt'),join(publicSite,'.well-known/assetlinks.json'));
+  assert.equal(await (await request(profile.public_origin,'/.well-known/assetlinks.json')).text(),'VISIBLE-FILE');
+  assert.equal((await request(profile.public_origin,'/privacy',{method:'POST'})).status,405);
+  assert.equal((await request(profile.admin_origin,'/privacy')).status,404);
+  assert.equal(await (await request(profile.admin_origin,'/privacy',{headers:{Accept:'text/html'}})).text(),'ADMIN-ROOT');
+  assert.equal(await (await request(profile.admin_origin,'/privacy/index.html')).text(),'ADMIN-PRIVATE-DIRECTORY');
+  assert.equal((await request(profile.member_api_origin,'/privacy')).status,404);
+  assert.equal(await (await request(profile.member_api_origin,'/privacy',{headers:{Accept:'text/html'}})).text(),'PUBLIC-ROOT');
+  assert.equal(validRawTarget('/privacy/%2e%2e/index.html'),false);
+  assert.equal(validRawTarget('/c%2Fslug'),false);assert.equal(validRawTarget('/c/%73lug'),true);
+ }finally{await rm(folder,{recursive:true,force:true});}
+});
 test('public Supabase phone route is filtered and other hosts remain exact',async()=>{
  const app=await createWebApplication(env);
  assert.equal((await app(new Request('https://unknown.example/'))).status,421);
