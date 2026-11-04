@@ -345,7 +345,7 @@ void main() {
     expect(find.textContaining('info@ikanisa.com'), findsWidgets);
     expect(find.textContaining('+250 795 588 248'), findsWidgets);
     expect(
-      find.textContaining('Matched MoMo receipt evidence determines'),
+      find.textContaining('Receipt evidence is assessed separately'),
       findsOneWidget,
     );
     expect(find.textContaining('OpenAI'), findsNothing);

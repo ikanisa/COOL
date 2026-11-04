@@ -1,10 +1,10 @@
 // Generated from content/product/collect_capabilities.json.
-// Registry SHA-256: 99d4fe469af79b84ab66b832c8c6c85beb4e773ad9e95b97e5870841db66a22e
+// Registry SHA-256: 985e13d1e693dca0cc4afe26555f7b7d324c81e7861713e6f7dabc84a1e1d301
 // Source observations only; no publication or provider approval.
 part of 'public_content.dart';
 
 const collectPublicCapabilityRegistrySha256 =
-    '99d4fe469af79b84ab66b832c8c6c85beb4e773ad9e95b97e5870841db66a22e';
+    '985e13d1e693dca0cc4afe26555f7b7d324c81e7861713e6f7dabc84a1e1d301';
 const collectPublicHomeCopy = <String, String>{
   'title': 'Rwanda MoMo contributions, clearly recorded.',
   'intro':
@@ -72,7 +72,7 @@ const collectPublicCapabilities = <String, CollectPublicCapabilityData>{
   'receipt_sms': CollectPublicCapabilityData(
     label: 'Consented receipt SMS',
     summary:
-        'Signed-in Android users can opt in to submit newly arriving MoMo SMS as candidate evidence. Consent can be withdrawn; SMS history and Call Logs are not read.',
+        'After a signed-in Android user enables SMS access, Collect automatically detects and selects newly arriving messages that appear to be MoMo receipts and attempts to send them as candidate evidence. Sending may be delayed or fail. The filter can also select other messages, including sensitive information. Users can turn SMS capture off, but a message already being processed may still be retained. The member app does not read SMS history or Call Logs.',
     region: 'RW',
     ownerApproved: false,
     availability: {

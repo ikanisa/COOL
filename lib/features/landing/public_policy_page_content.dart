@@ -35,10 +35,10 @@ const _publicPolicyPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'How payment evidence is handled',
         body:
-            'Likely MoMo receipt SMS is sent to Collect servers for structured extraction and reconciliation. Raw evidence and full phone values are not displayed publicly.',
+            'After an Android member enables SMS access, Collect automatically checks new messages for possible MoMo receipts and may send their full text for processing. The filter may also select unrelated messages containing sensitive information. Raw evidence and full phone values are not displayed publicly.',
         bullets: [
           'Parsers cannot update balances',
-          'Matched MoMo receipt evidence determines ledger posting',
+          'Receipt evidence is assessed separately from contribution posting',
           'Server logs and public pages must not contain raw messages, PINs or OTPs',
         ],
       ),
@@ -133,9 +133,9 @@ const _publicPolicyPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Contribution records',
         body:
-            'A ledger entry is created only after the server reconciles an incoming MoMo receipt to one pending member request.',
+            'The server maintains contribution records and reconciliation decisions. A receipt alone does not confirm provider settlement.',
         bullets: [
-          'Duplicate transaction evidence cannot post twice',
+          'Duplicate and conflicting evidence must be handled before posting',
           'Corrections and reversals remain audited',
           'Contact support when a contribution is missing or incorrect',
         ],

@@ -22,7 +22,7 @@ pages:
       title: Privacy Policy | Collect by IKANISA
       description: Learn how Collect by IKANISA collects, uses, shares, protects, retains and deletes
         personal data.
-    last_updated: 20 October 2026
+    last_updated: 4 November 2026
     hero:
       eyebrow: PRIVACY AND TRUST
       headline: Your data. Your choice. Your financial journey.
@@ -65,7 +65,7 @@ pages:
       - Visit the Collect website
       - Use an available Collect member or Admin application
       - Create or join a group where supported
-      - Submit contribution evidence through an authorised, consented route
+      - Use an authorised, consented route for contribution evidence, including automatic Android SMS detection where enabled
       - Manage authorised group, roster or reconciliation records
       - Contact Collect support
       closing: Credit readiness, lending, insurance, collateral and related professional-service handoffs
@@ -93,6 +93,9 @@ pages:
       - heading: Receipt and roster evidence
         bullets:
         - Raw receipt text and related payer, receiver, amount, reference and time facts
+        - For opted-in Android members, the full text, sender and, when available, receipt time of new
+          messages detected automatically by the MoMo filter. The filter may also select unrelated messages
+          containing sensitive information, and Collect may automatically receive them.
         - Source files and reviewed rows supplied through authorised roster imports
         - Consent, access, review and audit records
         closing: Raw evidence may contain personal names or telephone numbers. It is restricted to authorised
@@ -101,6 +104,7 @@ pages:
         bullets:
         - Sign-in challenges, session identifiers and abuse-prevention signals
         - Email-code delivery and verification records; a sign-in code expiring does not delete these records
+        - SMS-code delivery and verification records where enabled
         - Google sign-in verification and account-linking records where enabled
         - Protected Admin password and authenticator records
         - Device or integrity-verification results where that capability is enabled

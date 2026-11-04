@@ -1,5 +1,5 @@
 // Generated from content/product/collect_capabilities.json.
-// Registry SHA-256: 99d4fe469af79b84ab66b832c8c6c85beb4e773ad9e95b97e5870841db66a22e
+// Registry SHA-256: 985e13d1e693dca0cc4afe26555f7b7d324c81e7861713e6f7dabc84a1e1d301
 // Source observations only; no publication or provider approval.
 part of 'public_content.dart';
 
@@ -27,7 +27,7 @@ const _publicMarketingPages = <CollectPublicPageData>[
             'Eligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt. The Collect app’s USSD handoff and receipt-SMS access require Android. iOS and web support private-group setup, invitations, group records and account controls; they do not provide this handoff or SMS intake.',
         bullets: [
           'Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your Collect sign-in code is only for signing in to Collect.',
-          'Members do not upload receipts or report transaction IDs',
+          'No manual receipt upload or transaction-ID reporting is required',
           'Payment approval stays in the provider’s USSD prompt',
         ],
       ),
@@ -77,26 +77,26 @@ const _publicMarketingPages = <CollectPublicPageData>[
     navLabel: 'Trust',
     title: 'Evidence, reconciliation and posting are separate controls.',
     intro:
-        'Collect accepts consented Android MoMo receipt SMS as candidate evidence and keeps contribution posting on the server.',
+        'With SMS access enabled, Collect may automatically receive selected Android messages as candidate evidence and keeps contribution posting on the server.',
     sections: [
       CollectPublicSectionData(
         title: 'Evidence ingestion is controlled',
         body:
-            'Signed-in Android users may choose to submit newly arriving MoMo SMS. Intake requires their current consent, SMS permission, authentication and duplicate protection; it does not require wallet registration or device pairing.',
+            'After a signed-in Android user enables SMS access, Collect automatically selects newly arriving messages that appear to be MoMo receipts and attempts to send them as candidate evidence. Sending may be delayed or fail. Intake is intended to require current consent, SMS permission, authentication and duplicate protection; it does not require wallet registration or device pairing. A message already being processed may still be retained after consent is withdrawn.',
         bullets: [
           'Consent and permission state are recorded',
-          'Only likely MoMo messages are submitted; financial posting is separate',
+          'The filter can automatically select and send the full text of other messages, including sensitive information',
           'iOS and web do not read receipt SMS',
         ],
       ),
       CollectPublicSectionData(
         title: 'Receipt facts stay separate from posting',
         body:
-            'Deterministic parsers validate receipt facts without choosing a group or posting a balance.',
+            'When enabled, extraction results are checked against the message before a separate group assignment or posting decision.',
         bullets: [
-          'References, amounts and transaction identifiers are normalized',
+          'Amounts and transaction identifiers are checked against the original message',
           'Raw evidence has separate audited reveal permission',
-          'Failed, outgoing or incomplete messages do not post',
+          'The successful-incoming extraction path rejects messages identified as failed, outgoing or incomplete',
         ],
       ),
       CollectPublicSectionData(

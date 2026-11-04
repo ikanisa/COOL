@@ -37,6 +37,11 @@ const collectDefaultPrivacyPolicySections = [
         'Depending on what is enabled, you can sign in using an SMS code, an email code or Google. If you choose Google, Collect receives and stores your Google account identifier and verified email to create or link your member account and authenticate you. Google sign-in requests OpenID identity, email and basic profile access. Collect keeps verification, session and security records; a sign-in code expiring does not delete those records.',
   ),
   CollectPolicySection(
+    title: 'Automatic SMS detection',
+    body:
+        'On Android, if you enable SMS access, Collect automatically checks new messages for possible MoMo receipts. The filter may select unrelated messages containing sensitive information. Collect may automatically send their full text and sender, and receipt time when available, linked to your account. You can turn access off in App permissions, but this cannot recall sent messages and may not stop uploads already in progress.',
+  ),
+  CollectPolicySection(
     title: 'How we use data',
     body:
         'We use this data to create and join groups, review contribution evidence, keep ledgers accurate, show notifications, prevent misuse, provide support, and maintain reconciliation audit records.',

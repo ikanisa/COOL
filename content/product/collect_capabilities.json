@@ -15,14 +15,16 @@
   "source_inputs": {
     "docs/PRODUCT.md": "6f065e32578d9ebb33b1e07d848c575a382d7578d033e2eb2e4d8da92641aaa9",
     "lib/features/collections/group_creation_platform.dart": "b572bd76e392221dd461d66a16bd8a32b3a0702072ea6ecab7d8d02f70911c64",
-    "lib/core/payments/momo_ussd_launcher.dart": "08664119eb5294a5710dc4d3e69052529d36aae682839a05e4d4654455580c88",
+    "lib/core/payments/momo_ussd_launcher.dart": "c54f43916c983c78550a266113894a653d82eef0ed5b8a63db4dc4131ba3187d",
     "lib/core/security/sms_access_channel.dart": "5a87a0ddb9bfe1e0c34ef5f11c033a552df3bdee57712fe32e3437c0fb69af19",
-    "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt": "2e831bd828ca76c533a9b461c43c94a32de35e30dad4884495952056e05ac08c",
-    "ios/Runner/AppDelegate.swift": "49b7593f90de910fc908bfc7fb34c4d3bd1c1e71ee4d02c1e29e5473f381ea20",
+    "lib/features/auth/auth_screen.dart": "e3b013912e80ceec829da0ee02fa36400529f33f05fc8c7469fb726223107451",
+    "lib/core/cloudflare/auth_otp_gateway.dart": "553aa97b9812e4b006e4c42e7fa823137b04db39d28430b1e2a3e17c2f197e37",
+    "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt": "94604ae2b0d784b4302bd5169709e6f7cbcc480c6b68e3c74cfa9b36f438ee7c",
+    "ios/Runner/AppDelegate.swift": "e5310fae00dcf132677624509b9a82f5c211c419b4dc79dba586325fdf23b1af",
     "lib/features/settings/settings_screen.dart": "1c7c448cfd7dd66998beaa94740f95de8a89617c0ae0c3efa62c81a060aa2c6b",
     "lib/features/settings/settings_subscreens.dart": "4ea7b0b50dc93fdab392b8b3b230865f9090e043aea9c7c1e53e87d7edea6bc2",
     "lib/features/status/account_legal_screens.dart": "8a782d567bcaf27544b18665cb63879b564a315f7dd98bd36e97f0226d061bbe",
-    "lib/shared/models/collect_models.dart": "29de79a79f394a1c8e70f87629ab8af23660a15d804699d922d33a9ba201b05d",
+    "lib/shared/models/collect_models.dart": "849b32957753ece00a31145d0fb3a80686b840a30108af20a3bf76f0af963fe0",
     "lib/shared/models/collect_profile_country_rules.dart": "754e8eeea216a27821f77b071dc0d96685dfe6891880cc0dab49e0161aed1332",
     "lib/app/router.dart": "551dc8be704d46273b2872a5d8bbaf31b41e07667fb2e2895e9f75dd194b6f6e",
     "lib/features/privacy/privacy_contract.dart": "550b891eb357659c87cde85ea90a3f83f4db01752844c540ae5e814e478db15d",
@@ -32,16 +34,19 @@
     "lib/features/privacy/privacy_request_controller.dart": "c856c958bd48f52ccc039d3be6605ae6da7a444d9928fbe86d66a0a053070761",
     "lib/features/privacy/privacy_providers.dart": "9c316e1e359e3f8375d97e451b2573698c5d7a3bcf1ded70a4aab558a37ee5c5",
     "lib/features/privacy/privacy_request_screen.dart": "7f902521f86202b49e5e00439c42c7078957f446279e78558e0610a32324df01",
-    "lib/shared/repositories/collect_repository.dart": "f40be80f771380ab110796775494037edced32a80d2b3c907b7311a7a849555c",
+    "lib/shared/repositories/collect_repository.dart": "61ccef2689ec5627400d652dec2a5322734b55d13fff7288ed3212d0a344519b",
     "lib/shared/repositories/collect_repository_providers.dart": "5ff0499e4a2244a1dbc44bde0e40370d5f07917aa9fc4b09dc4f1e59d0e59e15",
     "lib/shared/repositories/collect_repository_record_reads.dart": "d9d78af5cd715bc2ae1045be5c04085c3d56814214135b80a121cd170e6a9186",
     "lib/shared/repositories/collect_repository_session_identity.dart": "648eed1c422590e9cdfaefac65e71c63f90049daac154d4e048eb5dd2361e94c",
-    "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayPolicy.kt": "ac1284dfc3ea56f1dde1cb0d4d15af552a6fe7199176abca3f9b68dd65efa709",
-    "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MemberSmsJobs.kt": "67ed598739e1ff70f12cc91addcef73226cd162d2d11c1c99bfde97b979f9da1",
-    "supabase/functions/_shared/domain/receipts.js": "893f5db5f323f55d1743e1aa90ab392290d0230e2d98f5be30837137eae5a0b5",
-    "supabase/functions/_shared/domain/groups.js": "379badbb07a29ced101f1bc176d9494d0cbe09e34131c3c96d070a77395e0f61",
-    "supabase/functions/_shared/domain/operations.js": "614c08cc11085683d836ceb19adf93f1ca394f71cb995adf445799242526cf30",
-    "lib/shared/repositories/collect_repository_contribution_actions.dart": "af446ad78f23104d638fc7711675d3f0e06963e40d6d9fd8bd1a8878a7ba075d"
+    "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayPolicy.kt": "d9fbfd5c50e0cc926a214328de946cf08ace5894b94c640ed285cae1934d7a98",
+    "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/CollectSmsReceiver.kt": "c8a62846995143151f1b72e1c748e932c5f5f502dd566d4472b1f19f0339951c",
+    "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoMultipartPolicy.kt": "e95272ffefe99ff6ba526658f0b72b7069d2aae26cee87abcb5de3cac65c629a",
+    "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MemberSmsJobs.kt": "e8bb958253753021cb784a12656f3f48fa466afcfd238a985b14755ea56c8ab9",
+    "supabase/functions/_shared/domain/receipts.js": "af7539966b304812526f5a61758d415401ba9fd83b8e13ac5a80dab204aec148",
+    "supabase/functions/_shared/domain/momo_pipeline.js": "821735ae7d27a4762c5f48517da5a1a3a1f2ac865ac1d73aeeff96d6ac5d7245",
+    "supabase/functions/_shared/domain/groups.js": "69a9ba071ee21340d96cb2c3305f8d8c521874a64767f4354beb3bd6830c69b3",
+    "supabase/functions/_shared/domain/operations.js": "ce8473f957699336707d94d36fe2c9f72a6e9986424f94c95b2df862e696a7dc",
+    "lib/shared/repositories/collect_repository_contribution_actions.dart": "2716923649c059125f6d5bdf22c37d8daa64ca7652c6d1872d971c8a87527ccb"
   },
   "capabilities": [
     {
@@ -161,17 +166,20 @@
         "web": "unavailable",
         "basic_phone": "unavailable"
       },
-      "summary": "Signed-in Android users can opt in to submit newly arriving MoMo SMS as candidate evidence. Consent can be withdrawn; SMS history and Call Logs are not read.",
+      "summary": "After a signed-in Android user enables SMS access, Collect automatically detects and selects newly arriving messages that appear to be MoMo receipts and attempts to send them as candidate evidence. Sending may be delayed or fail. The filter can also select other messages, including sensitive information. Users can turn SMS capture off, but a message already being processed may still be retained. The member app does not read SMS history or Call Logs.",
       "evidence": [
         "lib/core/security/sms_access_channel.dart",
         "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
         "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayPolicy.kt",
+        "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/CollectSmsReceiver.kt",
+        "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoMultipartPolicy.kt",
         "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MemberSmsJobs.kt",
-        "supabase/functions/_shared/domain/receipts.js"
+        "supabase/functions/_shared/domain/receipts.js",
+        "supabase/functions/_shared/domain/momo_pipeline.js"
       ],
       "eligibility": [
         "Signed-in Android app user",
-        "Explicit current consent and SMS permission",
+        "Member capture is intended to require explicit current consent and SMS permission",
         "No wallet registration or device pairing required for intake",
         "Candidate evidence only; no automatic contribution credit"
       ],
@@ -841,7 +849,7 @@
           "body": "Eligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt. The Collect app’s USSD handoff and receipt-SMS access require Android. iOS and web support private-group setup, invitations, group records and account controls; they do not provide this handoff or SMS intake.",
           "bullets": [
             "Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your Collect sign-in code is only for signing in to Collect.",
-            "Members do not upload receipts or report transaction IDs",
+            "No manual receipt upload or transaction-ID reporting is required",
             "Payment approval stays in the provider’s USSD prompt"
           ]
         },
@@ -886,24 +894,24 @@
       "path": "/trust",
       "navLabel": "Trust",
       "title": "Evidence, reconciliation and posting are separate controls.",
-      "intro": "Collect accepts consented Android MoMo receipt SMS as candidate evidence and keeps contribution posting on the server.",
+      "intro": "With SMS access enabled, Collect may automatically receive selected Android messages as candidate evidence and keeps contribution posting on the server.",
       "sections": [
         {
           "title": "Evidence ingestion is controlled",
-          "body": "Signed-in Android users may choose to submit newly arriving MoMo SMS. Intake requires their current consent, SMS permission, authentication and duplicate protection; it does not require wallet registration or device pairing.",
+          "body": "After a signed-in Android user enables SMS access, Collect automatically selects newly arriving messages that appear to be MoMo receipts and attempts to send them as candidate evidence. Sending may be delayed or fail. Intake is intended to require current consent, SMS permission, authentication and duplicate protection; it does not require wallet registration or device pairing. A message already being processed may still be retained after consent is withdrawn.",
           "bullets": [
             "Consent and permission state are recorded",
-            "Only likely MoMo messages are submitted; financial posting is separate",
+            "The filter can automatically select and send the full text of other messages, including sensitive information",
             "iOS and web do not read receipt SMS"
           ]
         },
         {
           "title": "Receipt facts stay separate from posting",
-          "body": "Deterministic parsers validate receipt facts without choosing a group or posting a balance.",
+          "body": "When enabled, extraction results are checked against the message before a separate group assignment or posting decision.",
           "bullets": [
-            "References, amounts and transaction identifiers are normalized",
+            "Amounts and transaction identifiers are checked against the original message",
             "Raw evidence has separate audited reveal permission",
-            "Failed, outgoing or incomplete messages do not post"
+            "The successful-incoming extraction path rejects messages identified as failed, outgoing or incomplete"
           ]
         },
         {
@@ -929,9 +937,9 @@
     "fastlane/metadata/en-GB/description.txt": "Collect helps Rwanda savings groups organize member records and review whole-RWF MoMo contribution activity.\n\nOn iOS, signed-in members can create private groups, invite members, inspect group activity and use account and privacy controls. Group setup does not require MoMo registration or SMS access. The app’s MTN MoMo or Airtel Money USSD handoff and consented receipt-SMS intake require eligible Android devices and are unavailable in the iOS app.\n\nA pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.\n\nCollect never asks for a MoMo PIN or payment provider OTP. Your Collect sign-in code is only for signing in to Collect. Collect is a technology and record-keeping service, not a bank or wallet, and does not hold customer funds or provide loans or insurance.\n\nFor support, email info@ikanisa.com. In the app, request eligible data deletion through Settings → Security → Delete data. Collect is operated by IKANISA for Rwanda group-contribution workflows.",
     "fastlane/metadata/en-GB/promotional_text.txt": "Review Rwanda MoMo group-contribution records and member activity, with clear account and privacy controls.",
     "fastlane/metadata/en-GB/keywords.txt": "Rwanda,MoMo,savings groups,contributions,ledger,group records,member activity",
-    "fastlane/metadata/en-GB/review_notes.txt": "A real review account and supported Sign-In Information must be supplied separately for the artifact under review; no reviewer credentials or authentication bypass are embedded in the app. Sign-in uses an email verification code, or Google where enabled.\n\nUse synthetic review data and do not send real funds. iOS supports signed-in private-group setup, invitations, group records, activity and account controls. Collect’s MoMo USSD handoff and receipt-SMS intake require eligible Android builds and are unavailable on iOS. No SEPA, bank-transfer or Revolut handoff is implemented. Pending requests and receipt SMS are not independent settlement proof; production confirmation requires governed finality and reconciliation acceptance.\n\nIn the app, eligible data deletion is requested through Settings → Security → Delete data. Support: info@ikanisa.com. These source notes do not prove hosted review-account access, provider UAT, artifact approval or App Store readiness.",
+    "fastlane/metadata/en-GB/review_notes.txt": "A real review account and supported Sign-In Information must be supplied separately for the artifact under review; no reviewer credentials or authentication bypass are embedded in the app. Depending on configuration, sign-in uses an SMS, email or WhatsApp verification code, or Google.\n\nUse synthetic review data and do not send real funds. iOS supports signed-in private-group setup, invitations, group records, activity and account controls. Collect’s MoMo USSD handoff and receipt-SMS intake require eligible Android builds and are unavailable on iOS. No SEPA, bank-transfer or Revolut handoff is implemented. Pending requests and receipt SMS are not independent settlement proof; production confirmation requires governed finality and reconciliation acceptance.\n\nIn the app, eligible data deletion is requested through Settings → Security → Delete data. Support: info@ikanisa.com. These source notes do not prove hosted review-account access, provider UAT, artifact approval or App Store readiness.",
     "fastlane/metadata/en-GB/release_notes.txt": "Rwanda MoMo group-contribution records, member activity and account/privacy controls. Signed-in members can create private groups. The Android USSD handoff and receipt-SMS intake are unavailable on iOS. No bank-transfer journey is included.",
-    "fastlane/metadata/android/en-US/full_description.txt": "Collect helps Rwanda groups organize members and review whole-RWF MoMo contribution records. It is a technology and record-keeping service.\n\nAny signed-in Collect user can create a private group and invite members without registering a MoMo number, provider or recipient. Group setup does not request SMS access or authorize payments.\n\nEligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt. Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your Collect sign-in code is only for signing in to Collect.\n\nSigned-in Android users can explicitly opt in to submit newly arriving MoMo SMS as candidate evidence, without wallet registration or device pairing. Collect does not read SMS history, send SMS or access Call Logs. SMS access can be turned off. A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.\n\nFor a Collect question, email info@ikanisa.com. In the app, use Settings → Security → Delete data to request eligible data deletion. Collect does not provide loans, insurance or deposit custody.",
+    "fastlane/metadata/android/en-US/full_description.txt": "Collect helps Rwanda groups organize members and review whole-RWF MoMo contribution records. It is a technology and record-keeping service.\n\nAny signed-in Collect user can create a private group and invite members without registering a MoMo number, provider or recipient. Group setup does not request SMS access or authorize payments.\n\nEligible Android members check the exact MTN MoMo or Airtel Money receiver and whole-RWF amount, then approve payment in the mobile network’s USSD prompt. Collect never asks for a MoMo PIN or payment provider OTP and does not hold customer funds. Your Collect sign-in code is only for signing in to Collect.\n\nAfter a signed-in Android user enables SMS access, Collect automatically detects and selects newly arriving messages that appear to be MoMo receipts and attempts to send them as candidate evidence, without wallet registration or device pairing. Sending may be delayed or fail. No manual receipt upload or transaction-ID reporting is required. The filter can also send the full text of other messages, including sensitive information. The member app does not send SMS messages from your phone. It does not read SMS history or access Call Logs. SMS access can be turned off, but a message already being processed may still be retained. A pending request or receipt SMS is not a confirmed contribution. Production confirmation requires independently reconciled settlement evidence or an explicitly approved constrained finality policy.\n\nFor a Collect question, email info@ikanisa.com. In the app, use Settings → Security → Delete data to request eligible data deletion. Collect does not provide loans, insurance or deposit custody.",
     "fastlane/metadata/android/en-US/short_description.txt": "Rwanda MoMo group contributions, member records and clear group activity."
   },
   "remaining_approval_requirements": [

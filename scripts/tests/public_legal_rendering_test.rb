@@ -87,6 +87,8 @@ class PublicLegalRenderingTest < Minitest::Test
     refute_includes deletion, 'Withdraw or transfer any available balance'
     refute_includes deletion, 'Complete or cancel an active credit-readiness handoff'
     assert_includes privacy, 'does not by itself authenticate provider settlement'
+    assert_includes privacy, 'The filter may also select unrelated messages containing sensitive information, and Collect may automatically receive them.'
+    assert_includes privacy, 'SMS-code delivery and verification records where enabled'
     assert_includes terms, 'not services available through the current Collect app'
     assert_includes deletion, 'Do not email a MoMo PIN, password, one-time code'
   end

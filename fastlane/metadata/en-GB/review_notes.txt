@@ -1,4 +1,4 @@
-A real review account and supported Sign-In Information must be supplied separately for the artifact under review; no reviewer credentials or authentication bypass are embedded in the app. Sign-in uses an email verification code, or Google where enabled.
+A real review account and supported Sign-In Information must be supplied separately for the artifact under review; no reviewer credentials or authentication bypass are embedded in the app. Depending on configuration, sign-in uses an SMS, email or WhatsApp verification code, or Google.
 
 Use synthetic review data and do not send real funds. iOS supports signed-in private-group setup, invitations, group records, activity and account controls. Collect’s MoMo USSD handoff and receipt-SMS intake require eligible Android builds and are unavailable on iOS. No SEPA, bank-transfer or Revolut handoff is implemented. Pending requests and receipt SMS are not independent settlement proof; production confirmation requires governed finality and reconciliation acceptance.
 

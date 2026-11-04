@@ -238,15 +238,20 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
                 children: [
                   const CollectPermissionEducationSheet(
                     icon: CollectIcons.sms,
-                    title: 'Allow M-Money SMS uploads?',
-                    message: 'Share incoming M-Money messages with Collect.',
+                    title: 'Allow automatic M-Money SMS detection?',
+                    message:
+                        'Let Collect detect new MoMo messages automatically.',
                     education:
-                        'New M-Money SMS received after you allow access are '
-                        'linked to your signed-in account and uploaded for '
-                        'Admin review. Original messages are protected and '
-                        'wait on this device while offline. Uploading a message '
-                        'never credits a payment automatically. You can turn '
-                        'access off here at any time.',
+                        'Collect automatically checks new SMS for possible '
+                        'MoMo messages. The filter may also select unrelated '
+                        'messages, including sensitive information. Collect may '
+                        'automatically send the full text, sender and receipt '
+                        'time, when available, and link them to your account. '
+                        'Captured messages may wait on this '
+                        'phone while offline. Detection alone does not confirm '
+                        'a contribution. You can turn access off here; this '
+                        'cannot recall messages already sent and may not stop '
+                        'sending already in progress.',
                     tone: CollectStatusTone.warning,
                   ),
                   CollectSpacing.gap16,

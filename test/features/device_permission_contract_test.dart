@@ -144,13 +144,16 @@ void main() {
         await tester.pumpAndSettle();
         await tester.tap(find.text('Allow').first);
         await tester.pumpAndSettle();
-        expect(find.text('Allow M-Money SMS uploads?'), findsOneWidget);
         expect(
-          find.textContaining('Original messages are protected'),
+          find.text('Allow automatic M-Money SMS detection?'),
           findsOneWidget,
         );
         expect(
-          find.textContaining('never credits a payment automatically'),
+          find.textContaining('select unrelated messages, including sensitive'),
+          findsOneWidget,
+        );
+        expect(
+          find.textContaining('automatically send the full text, sender'),
           findsOneWidget,
         );
         expect(find.textContaining('pair'), findsNothing);
@@ -260,7 +263,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(settingsCalls, 1);
       expect(repository.enableCalls, isEmpty);
-      expect(find.text('Allow M-Money SMS uploads?'), findsNothing);
+      expect(find.text('Allow automatic M-Money SMS detection?'), findsNothing);
     },
     variant: TargetPlatformVariant.only(TargetPlatform.android),
   );

@@ -20,7 +20,7 @@ Future<void> showSmsAccessSheet(
     icon: CollectIcons.sms,
     title: 'SMS access',
     message:
-        'This separately signed operations build uses Android SMS access only for new MoMo receipt messages after you opt in. It does not read inbox history or unrelated SMS.',
+        'Collect automatically checks new SMS for possible MoMo receipts. The filter may also select unrelated messages, including sensitive information, and send their full text.',
     tone: CollectStatusTone.warning,
     primaryLabel: 'Open app settings',
     primaryIcon: CollectIcons.settings,

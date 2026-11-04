@@ -57,7 +57,7 @@ void main() {
           await tester.pumpAndSettle();
           expect(tester.takeException(), isNull);
           final explanation = find.textContaining(
-            camera ? 'without storing photos' : 'does not read inbox history',
+            camera ? 'without storing photos' : 'select unrelated messages',
           );
           expect(explanation, findsOneWidget);
           expect(
