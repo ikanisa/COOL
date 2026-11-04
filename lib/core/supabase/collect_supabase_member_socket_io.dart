@@ -12,6 +12,28 @@ typedef CollectMemberSocketOpener =
       HttpClient client,
     );
 
+/// `WebSocket.connect` uses `HttpClient.openUrl` for the upgrade request.
+/// Refuse redirects before the request is sent so the private join token can
+/// only reach the originally selected endpoint.
+class _NoRedirectHttpClient implements HttpClient {
+  _NoRedirectHttpClient(this._client);
+  final HttpClient _client;
+
+  @override
+  Future<HttpClientRequest> openUrl(String method, Uri url) async {
+    final request = await _client.openUrl(method, url);
+    request.followRedirects = false;
+    return request;
+  }
+
+  @override
+  void close({bool force = false}) => _client.close(force: force);
+
+  // Any unexpected future SDK client operation fails closed.
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
 /// One native attempt owns its HTTP handshake and socket. Retiring it aborts
 /// the handshake synchronously; timeout alone would leave WebSocket.connect alive.
 class CollectMemberSocketTransport {
@@ -32,7 +54,11 @@ class CollectMemberSocketTransport {
     String url,
     Map<String, String> headers,
     HttpClient client,
-  ) => WebSocket.connect(url, headers: headers, customClient: client);
+  ) => WebSocket.connect(
+    url,
+    headers: headers,
+    customClient: _NoRedirectHttpClient(client),
+  );
 
   WebSocketChannel _connect(String url, Map<String, String> headers) {
     if (_retired || _attempt != null) {

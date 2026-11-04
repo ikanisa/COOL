@@ -18,6 +18,73 @@ class _Client implements HttpClient {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
+class _Headers implements HttpHeaders {
+  @override
+  void set(String name, Object value, {bool preserveHeaderCase = false}) {}
+  @override
+  void add(String name, Object value, {bool preserveHeaderCase = false}) {}
+  @override
+  List<String>? operator [](String name) => null;
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class _DetachedSocket implements Socket {
+  bool destroyed = false;
+  @override
+  void destroy() => destroyed = true;
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class _RedirectResponse implements HttpClientResponse {
+  _RedirectResponse(this.socket);
+  final _DetachedSocket socket;
+  @override
+  int get statusCode => HttpStatus.found;
+  @override
+  final HttpHeaders headers = _Headers();
+  @override
+  Future<Socket> detachSocket() async => socket;
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+/// A synthetic request models a redirect only when the SDK leaves its default
+/// redirect setting enabled. No HTTP server or network connection is used.
+class _RedirectRequest implements HttpClientRequest {
+  @override
+  bool followRedirects = true;
+  @override
+  final HttpHeaders headers = _Headers();
+  final socket = _DetachedSocket();
+  bool? followRedirectsAtClose;
+  int redirectTargetRequests = 0;
+  int closeCalls = 0;
+  @override
+  Future<HttpClientResponse> close() async {
+    closeCalls++;
+    followRedirectsAtClose = followRedirects;
+    if (followRedirects) redirectTargetRequests++;
+    return _RedirectResponse(socket);
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class _RedirectClient extends _Client {
+  final request = _RedirectRequest();
+  String? method;
+  Uri? uri;
+  @override
+  Future<HttpClientRequest> openUrl(String method, Uri uri) async {
+    this.method = method;
+    this.uri = uri;
+    return request;
+  }
+}
+
 class _Socket extends Stream<dynamic> implements WebSocket {
   final input = StreamController<dynamic>();
   int closes = 0;
@@ -54,6 +121,64 @@ class _Socket extends Stream<dynamic> implements WebSocket {
 }
 
 void main() {
+  test(
+    'native default opener refuses redirect before HTTP handshake closes',
+    () async {
+      final client = _RedirectClient(), unrelated = _Client();
+      final owner = CollectMemberSocketTransport(
+        connectTimeout: const Duration(seconds: 20),
+        httpClientFactory: () => client,
+      );
+      final channel = owner.connect(_url, {});
+      await expectLater(
+        channel.ready,
+        throwsA(
+          predicate<Object>(
+            (error) =>
+                error is WebSocketChannelException &&
+                error.toString().contains('Member connection unavailable'),
+          ),
+        ),
+      );
+      expect(client.method, 'GET');
+      expect(client.uri?.scheme, 'https');
+      expect(client.uri?.host, 'rrlduytparvsjfmegalh.supabase.co');
+      expect(client.request.closeCalls, 1);
+      expect(client.request.followRedirectsAtClose, isFalse);
+      expect(client.request.redirectTargetRequests, 0);
+      expect(client.forced, isTrue);
+      expect(unrelated.forced, isFalse);
+      await Future<void>.delayed(Duration.zero);
+      expect(client.request.socket.destroyed, isTrue);
+      owner.close();
+    },
+  );
+
+  test('unsafe handshake parameters are refused before acquiring a client', () {
+    var acquired = 0;
+    final owner = CollectMemberSocketTransport(
+      connectTimeout: const Duration(seconds: 20),
+      httpClientFactory: () {
+        acquired++;
+        return _Client();
+      },
+    );
+    expect(
+      () => owner.connect(_url.replaceFirst('wss:', 'ws:'), {}),
+      throwsStateError,
+    );
+    expect(
+      () => owner.connect(_url, {'Authorization': 'Bearer synthetic'}),
+      throwsStateError,
+    );
+    expect(
+      () => owner.connect('$_url&access_token=synthetic', {}),
+      throwsStateError,
+    );
+    expect(acquired, 0);
+    owner.close();
+  });
+
   test(
     'never-ready native handshake deadline force-closes owned HttpClient and settles ready',
     () async {

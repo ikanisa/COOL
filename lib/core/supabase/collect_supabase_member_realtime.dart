@@ -6,10 +6,10 @@ import 'package:flutter/widgets.dart';
 import 'package:realtime_client/realtime_client.dart';
 
 import '../cloudflare/collect_cloudflare_client.dart';
+import 'collect_member_realtime_origin_policy.dart';
 import 'collect_supabase_member_socket_stub.dart'
     if (dart.library.io) 'collect_supabase_member_socket_io.dart';
 
-const _project = 'https://rrlduytparvsjfmegalh.supabase.co';
 final _uuid = RegExp(r'^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$');
 
 /// Receives opaque native member hints only. Auth, persistence and all reads
@@ -77,15 +77,21 @@ class CollectSupabaseMemberRealtime {
 
   bool get _eligible {
     final session = _client.auth.currentSession;
-    if (session == null || session.user.isAnonymous) return false;
+    final configuration = _client.supabaseConfiguration;
+    if (session == null || session.user.isAnonymous || configuration == null) {
+      return false;
+    }
     return _current &&
         _foreground &&
         _client.auth.surface == 'member' &&
-        _client.supabaseConfiguration?.project.origin == _project &&
+        collectMemberRealtimeOriginAllowed(
+          configuration.project.origin,
+          configuration.deploymentProfile,
+        ) &&
         session.usesMappedAuthUser &&
         session.user.authUserId == _subject &&
         session.claims['sub'] == _subject &&
-        session.claims['iss'] == '$_project/auth/v1' &&
+        session.claims['iss'] == configuration.authIssuer &&
         session.claims['aud'] == 'authenticated' &&
         session.claims['role'] == 'authenticated' &&
         _uuid.hasMatch(_subject ?? '') &&
@@ -207,7 +213,9 @@ class CollectSupabaseMemberRealtime {
         : null;
     _ownedTransport = owned;
     final socket = _SilentRealtimeClient(
-      project.project.replace(scheme: 'wss', path: '/realtime/v1').toString(),
+      Uri.parse(
+        project.project.origin,
+      ).replace(scheme: 'wss', path: '/realtime/v1').toString(),
       project.publishableKey,
       transport: transport ?? owned!.connect,
       timeout: joinTimeout,

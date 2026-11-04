@@ -4,8 +4,10 @@ import 'dart:convert';
 import 'package:collect_app/app/env/app_env.dart';
 import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
 import 'package:collect_app/core/cloudflare/realtime_invalidation.dart';
+import 'package:collect_app/core/supabase/collect_member_realtime_origin_policy.dart';
 import 'package:collect_app/core/supabase/collect_supabase_configuration.dart';
 import 'package:collect_app/core/supabase/collect_supabase_member_realtime.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -19,11 +21,67 @@ const _sid = '99110000-0000-4000-8000-000000000003';
 const _sid2 = '99110000-0000-4000-8000-000000000004';
 const _secret = 'SYNTHETIC_JWT_PRIVATE_MARKER';
 const _project = 'https://rrlduytparvsjfmegalh.supabase.co';
+const _selfHostedProject = 'https://supabase.collect.example';
+const _selfHostedProfile = <String, String>{
+  'admin_origin': 'https://admin.collect.example',
+  'environment': 'production',
+  'format': 'collect.deployment.v1',
+  'google_callback_origin': 'https://admin.collect.example',
+  'id': 'collect-selfhost',
+  'member_api_origin': 'https://api.collect.example',
+  'mode': 'self_hosted',
+  'public_origin': 'https://collect.example',
+  'supabase_origin': _selfHostedProject,
+};
 
-String _token(String sid, int revision, {bool mapped = true}) {
+String _token(
+  String sid,
+  int revision, {
+  bool mapped = true,
+  String project = _project,
+  String? issuer,
+  String audience = 'authenticated',
+  String role = 'authenticated',
+  String? subject,
+  int? expiration,
+}) {
   String part(Object value) =>
       base64Url.encode(utf8.encode(jsonEncode(value))).replaceAll('=', '');
-  return '${part({'alg': 'none'})}.${part({'sub': mapped ? _subject : _app, 'session_id': sid, 'iss': '$_project/auth/v1', 'aud': 'authenticated', 'role': 'authenticated', 'exp': DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600, 'revision': revision})}.$_secret';
+  return '${part({'alg': 'none'})}.${part({'sub': subject ?? (mapped ? _subject : _app), 'session_id': sid, 'iss': issuer ?? '${Uri.parse(project).origin}/auth/v1', 'aud': audience, 'role': role, 'exp': expiration ?? DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600, 'revision': revision})}.$_secret';
+}
+
+AppEnv _environment({
+  String project = _project,
+  Map<String, String>? profile,
+  String? digest,
+}) {
+  final encoded = profile == null ? '' : jsonEncode(profile);
+  return AppEnv(
+    apiUrl: '',
+    publicUrl: profile?['public_origin'] ?? 'https://collect.ikanisa.com',
+    adminAppUrl: profile?['admin_origin'] ?? '',
+    enableSmsReader: false,
+    enableAndroidSmsAccess: false,
+    enableAdminPanel: false,
+    enableAdminDevTools: false,
+    authCaptchaEnabled: false,
+    authCaptchaProvider: '',
+    authCaptchaSiteKey: '',
+    environmentName: profile?['environment'] ?? 'local',
+    backend: 'supabase',
+    supabaseUrl: project,
+    supabaseApiUrl:
+        profile?['member_api_origin'] ??
+        'https://platform-admin.collect.ikanisa.com',
+    supabaseAdminApiUrl: profile?['admin_origin'] ?? '',
+    supabasePublishableKey: 'sb_publishable_syntheticPublicKey1234',
+    deploymentProfile: encoded,
+    deploymentProfileSha256:
+        digest ??
+        (profile == null
+            ? ''
+            : sha256.convert(utf8.encode(encoded)).toString()),
+  );
 }
 
 class _Socket implements WebSocketChannel {
@@ -127,10 +185,14 @@ class _Harness {
     this.httpReply,
     this.surface = 'member',
     this.useSupabase = true,
+    this.project = _project,
+    this.profile,
   });
   final bool autoJoin, autoHeartbeat;
   final String surface;
   final bool useSupabase;
+  final String project;
+  final Map<String, String>? profile;
   final Future<http.Response> Function(http.Request)? httpReply;
   final sockets = <_Socket>[];
   final urls = <String>[];
@@ -142,10 +204,28 @@ class _Harness {
   CollectSyncInvalidationSubscription? subscription;
   int reads = 0;
 
-  Future<void> login({String sid = _sid, int revision = 0}) => client.auth
+  Future<void> login({
+    String sid = _sid,
+    int revision = 0,
+    String? issuer,
+    String audience = 'authenticated',
+    String role = 'authenticated',
+    String? subject,
+    int? expiration,
+  }) => client.auth
       .recoverSession(
         jsonEncode({
-          'access_token': _token(sid, revision, mapped: useSupabase),
+          'access_token': _token(
+            sid,
+            revision,
+            mapped: useSupabase,
+            project: project,
+            issuer: issuer,
+            audience: audience,
+            role: role,
+            subject: subject,
+            expiration: expiration,
+          ),
           'refresh_token': 'SYNTHETIC_REFRESH',
           'token_type': 'bearer',
           'user': {'id': _app, if (useSupabase) 'auth_user_id': _subject},
@@ -158,22 +238,7 @@ class _Harness {
 
   Future<void> initialize() async {
     final config = CollectSupabaseConfiguration.fromEnvironment(
-      const AppEnv(
-        apiUrl: '',
-        publicUrl: 'https://collect.ikanisa.com',
-        adminAppUrl: '',
-        enableSmsReader: false,
-        enableAndroidSmsAccess: false,
-        enableAdminPanel: false,
-        enableAdminDevTools: false,
-        authCaptchaEnabled: false,
-        authCaptchaProvider: '',
-        authCaptchaSiteKey: '',
-        backend: 'supabase',
-        supabaseUrl: _project,
-        supabaseApiUrl: 'https://platform-admin.collect.ikanisa.com',
-        supabasePublishableKey: 'sb_publishable_syntheticPublicKey1234',
-      ),
+      _environment(project: project, profile: profile),
     );
     client = CollectCloudflareClient(
       config.api.origin,
@@ -298,13 +363,280 @@ void main() {
       expect((config['broadcast'] as Map)['replay'], isNull);
       expect(h.urls.single, isNot(contains(_secret)));
       expect(h.headers.single.values.join(), isNot(contains(_secret)));
-      expect(Uri.parse(h.urls.single).queryParameters['vsn'], '1.0.0');
+      final target = Uri.parse(h.urls.single);
+      expect(target.path, '/realtime/v1/websocket');
+      expect(target.queryParametersAll, {
+        'apikey': ['sb_publishable_syntheticPublicKey1234'],
+        'vsn': ['1.0.0'],
+      });
+      expect(
+        h.headers.single.keys.any(
+          (key) => key.toLowerCase() == 'authorization',
+        ),
+        false,
+      );
       h.sockets.single.ack(join);
       await _flush(tester);
       expect(h.statuses, [true]);
       expect(h.reads, 1);
       await _closeHarness(h, tester);
       await _flush(tester);
+    },
+  );
+
+  testWidgets(
+    'validated self-host profile joins its exact private socket and refreshes on a hint',
+    (tester) async {
+      for (final project in [
+        _selfHostedProject,
+        '$_selfHostedProject?',
+        '$_selfHostedProject#',
+      ]) {
+        final h = _Harness(
+          project: project,
+          profile: _selfHostedProfile,
+          autoJoin: false,
+        );
+        await h.initialize();
+        h.start();
+        await _flush(tester);
+
+        expect(h.sockets, hasLength(1));
+        final socket = h.sockets.single;
+        final target = Uri.parse(h.urls.single);
+        expect(target.scheme, 'wss');
+        expect(target.host, 'supabase.collect.example');
+        expect(target.path, '/realtime/v1/websocket');
+        expect(target.hasFragment, false);
+        expect(target.queryParametersAll, {
+          'apikey': ['sb_publishable_syntheticPublicKey1234'],
+          'vsn': ['1.0.0'],
+        });
+        expect(h.urls.single, isNot(contains(_secret)));
+        expect(h.headers.single.values.join(), isNot(contains(_secret)));
+        expect(
+          h.headers.single.keys.any(
+            (key) => key.toLowerCase() == 'authorization',
+          ),
+          false,
+        );
+        final join = socket.sent.singleWhere((m) => m['event'] == 'phx_join');
+        expect(join['topic'], 'realtime:collect:member:$_subject:$_sid');
+        final payload = join['payload'] as Map<String, dynamic>;
+        expect(
+          payload['access_token'],
+          h.client.auth.currentSession!.accessToken,
+        );
+        expect((payload['config'] as Map)['private'], true);
+        expect(h.statuses, isEmpty);
+        expect(h.reads, 0);
+
+        socket.ack(join);
+        await _flush(tester);
+        expect(h.statuses, [true]);
+        expect(h.reads, 1);
+        socket.hint('99110000-0000-4000-8000-000000000010');
+        await _flush(tester);
+        expect(h.reads, 2);
+        await _closeHarness(h, tester);
+      }
+    },
+  );
+
+  testWidgets(
+    'self-host token renewal and changed session fence departed sockets',
+    (tester) async {
+      final h = _Harness(
+        project: _selfHostedProject,
+        profile: _selfHostedProfile,
+      );
+      await h.initialize();
+      h.start();
+      await _flush(tester);
+      final old = h.sockets.single;
+      final before = h.reads;
+
+      await h.login(revision: 1);
+      await _flush(tester);
+      expect(h.sockets, hasLength(2));
+      expect(old.incoming.isClosed, true);
+      expect(Uri.parse(h.urls.last).host, 'supabase.collect.example');
+      final join = h.sockets.last.sent.singleWhere(
+        (m) => m['event'] == 'phx_join',
+      );
+      expect(
+        (join['payload'] as Map)['access_token'],
+        h.client.auth.currentSession!.accessToken,
+      );
+      old.hint('99110000-0000-4000-8000-000000000011');
+      await _flush(tester);
+      expect(h.reads, before + 1);
+
+      final readsBeforeChange = h.reads;
+      await h.login(sid: _sid2);
+      await _flush(tester);
+      expect(h.adapter!.isConnected, false);
+      await h.login(sid: _sid);
+      await _flush(tester);
+      expect(h.sockets, hasLength(2));
+      expect(h.reads, readsBeforeChange);
+      await _closeHarness(h, tester);
+    },
+  );
+
+  testWidgets(
+    'self-host origin without a validated profile never opens a socket',
+    (tester) async {
+      final h = _Harness(project: _selfHostedProject);
+      await h.initialize();
+      h.start();
+      await _flush(tester);
+      expect(h.sockets, isEmpty);
+      expect(h.statuses, isEmpty);
+      expect(h.reads, 0);
+      await _closeHarness(h, tester);
+    },
+  );
+
+  testWidgets('self-host Admin session never opens a member socket', (
+    tester,
+  ) async {
+    final h = _Harness(
+      project: _selfHostedProject,
+      profile: _selfHostedProfile,
+      surface: 'admin',
+    );
+    await h.initialize();
+    h.start();
+    await _flush(tester);
+    expect(h.sockets, isEmpty);
+    expect(h.statuses, isEmpty);
+    await _closeHarness(h, tester);
+  });
+
+  test(
+    'self-host profile digest, origin and mode are validated before use',
+    () {
+      final managedWrongOrigin = Map<String, String>.of(_selfHostedProfile)
+        ..['mode'] = 'managed';
+      for (final env in [
+        _environment(
+          project: _selfHostedProject,
+          profile: _selfHostedProfile,
+          digest: '0' * 64,
+        ),
+        _environment(project: _project, profile: _selfHostedProfile),
+        _environment(project: _selfHostedProject, profile: managedWrongOrigin),
+      ]) {
+        expect(
+          () => CollectSupabaseConfiguration.fromEnvironment(env),
+          throwsArgumentError,
+        );
+      }
+      final encoded = jsonEncode(_selfHostedProfile);
+      final profile = CollectDeploymentProfile.parse(
+        encoded,
+        sha256.convert(utf8.encode(encoded)).toString(),
+      );
+      expect(collectMemberRealtimeOriginAllowed(_project, profile), false);
+    },
+  );
+
+  testWidgets(
+    'self-host rejects invalid token claims before socket replacement',
+    (tester) async {
+      final h = _Harness(
+        project: _selfHostedProject,
+        profile: _selfHostedProfile,
+      );
+      await h.initialize();
+      h.start();
+      await _flush(tester);
+      final original = h.client.auth.currentSession!.accessToken;
+      final socket = h.sockets.single;
+      for (final attempt in <Future<void> Function()>[
+        () => h.login(issuer: 'https://other.collect.example/auth/v1'),
+        () => h.login(audience: 'other'),
+        () => h.login(role: 'anon'),
+        () => h.login(subject: _app),
+        () => h.login(expiration: 1),
+      ]) {
+        expect(attempt, throwsA(isA<CollectAuthException>()));
+        expect(h.client.auth.currentSession!.accessToken, original);
+      }
+      await _flush(tester);
+      expect(h.sockets, hasLength(1));
+      expect(socket.incoming.isClosed, false);
+      expect(h.adapter!.isConnected, true);
+      await _closeHarness(h, tester);
+    },
+  );
+
+  testWidgets('self-host sign-out retires the socket and its late callbacks', (
+    tester,
+  ) async {
+    final h = _Harness(
+      project: _selfHostedProject,
+      profile: _selfHostedProfile,
+    );
+    await h.initialize();
+    h.start();
+    await _flush(tester);
+    final socket = h.sockets.single;
+    final reads = h.reads;
+    await h.client.auth.clearLocalSession();
+    await _flush(tester);
+    expect(socket.incoming.isClosed, true);
+    expect(h.adapter!.isConnected, false);
+    socket.hint('99110000-0000-4000-8000-000000000012');
+    await h.login();
+    await _flush(tester);
+    expect(h.sockets, hasLength(1));
+    expect(h.reads, reads);
+    await _closeHarness(h, tester);
+  });
+
+  testWidgets(
+    'self-host polling reconciles when the private join is not acknowledged',
+    (tester) async {
+      var now = DateTime.utc(2026, 10, 21);
+      final h = _Harness(
+        project: _selfHostedProject,
+        profile: _selfHostedProfile,
+        autoJoin: false,
+      );
+      await h.initialize();
+      h.subscription = CollectSyncInvalidationSubscription(
+        client: h.client,
+        topic: 'self-hosted-poll-test',
+        areas: collectMobileRealtimeAreas,
+        realtimeTransport: h.transport,
+        observeRealtimeLifecycle: false,
+        currentTime: () => now,
+        debounce: const Duration(milliseconds: 1),
+        onInvalidate: () => h.reads++,
+        onStatus: (status, _) =>
+            h.statuses.add(status == CollectSyncStatus.connected),
+      )..start();
+      await _flush(tester);
+      await tester.pump(const Duration(milliseconds: 2));
+      expect(h.sockets, hasLength(1));
+      expect(h.statuses, isEmpty);
+      expect(h.reads, 1);
+      expect(h.requests, hasLength(1));
+      expect(
+        h.requests.single.headers['Authorization'],
+        'Bearer ${h.client.auth.currentSession!.accessToken}',
+      );
+
+      now = now.add(const Duration(seconds: 61));
+      await tester.pump(const Duration(seconds: 5));
+      await _flush(tester);
+      await tester.pump(const Duration(milliseconds: 2));
+      expect(h.requests.length, greaterThanOrEqualTo(2));
+      expect(h.statuses, isEmpty);
+      expect(h.reads, 2);
+      await _closeHarness(h, tester);
     },
   );
 
