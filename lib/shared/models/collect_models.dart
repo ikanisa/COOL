@@ -592,15 +592,25 @@ class CollectProfile {
   }
 
   bool get isRwanda => countryCode.trim().toUpperCase() == 'RW';
-  bool get isComplete =>
-      RegExp(r'^\d{6}$').hasMatch(publicId) &&
-      whatsappPhone.trim().isNotEmpty &&
-      isRwanda &&
-      currencyCode == 'RWF' &&
-      const {'mtn_momo', 'airtel_money'}.contains(momoProvider) &&
-      (momoProvider == 'mtn_momo'
-          ? RegExp(r'^07[89][0-9]{7}$').hasMatch(momoNumber)
-          : RegExp(r'^07[23][0-9]{7}$').hasMatch(momoNumber));
+  bool get isComplete {
+    // A compact international spelling represents the same saved Rwanda
+    // number. Project it only for readiness; keep the stored value intact.
+    final international = RegExp(
+      r'^(?:\+250|250)(7[2389][0-9]{7})$',
+    ).firstMatch(momoNumber);
+    final readinessNumber =
+        international == null || international.end != momoNumber.length
+        ? momoNumber
+        : '0${international.group(1)!}';
+    return RegExp(r'^\d{6}$').hasMatch(publicId) &&
+        whatsappPhone.trim().isNotEmpty &&
+        isRwanda &&
+        currencyCode == 'RWF' &&
+        const {'mtn_momo', 'airtel_money'}.contains(momoProvider) &&
+        (momoProvider == 'mtn_momo'
+            ? RegExp(r'^07[89][0-9]{7}$').hasMatch(readinessNumber)
+            : RegExp(r'^07[23][0-9]{7}$').hasMatch(readinessNumber));
+  }
 
   CollectProfile copyWith({
     String? countryCode,
