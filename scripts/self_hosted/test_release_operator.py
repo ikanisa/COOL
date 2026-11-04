@@ -171,5 +171,23 @@ class OperatorDiagnostics(unittest.TestCase):
                 self.assertEqual(stat.S_IMODE(log.stat().st_mode),0o600)
                 log.unlink()
 
+    def test_empty_success_does_not_create_a_diagnostic_but_failure_does(self):
+        evidence=self.root/'private'/'operation-preserved.log'
+        evidence.write_bytes(b'existing evidence')
+        evidence.chmod(0o600)
+        success=subprocess.CompletedProcess(['command'],0,b'result',b'')
+        failure=subprocess.CompletedProcess(['command'],2,b'',b'')
+        with patch('scripts.self_hosted.release_operator.subprocess.run',return_value=success):
+            for _ in range(2):self.assertEqual(self.operator.run(['command']),b'result')
+        self.assertEqual(self.logs(),[evidence])
+        self.assertEqual(evidence.read_bytes(),b'existing evidence')
+        with patch('scripts.self_hosted.release_operator.subprocess.run',return_value=failure):
+            with self.assertRaisesRegex(RuntimeError,'private diagnostic'):self.operator.run(['command'])
+        logs=set(self.logs())-{evidence};self.assertEqual(len(logs),1)
+        diagnostic=logs.pop()
+        self.assertEqual(diagnostic.read_bytes(),b'')
+        self.assertEqual(stat.S_IMODE(diagnostic.stat().st_mode),0o600)
+        self.assertEqual(evidence.read_bytes(),b'existing evidence')
+
 if __name__=='__main__':
     unittest.main()

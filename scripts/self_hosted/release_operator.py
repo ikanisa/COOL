@@ -70,7 +70,9 @@ class Operator:
                 error.cmd='operation';error.args=('operation',error.timeout);error.output=None;error.stderr=None
                 error.private_diagnostic_retained=retained
             raise
-        retain(result.stderr)
+        # Empty successful diagnostics carry no stderr evidence. Avoid creating
+        # a new empty private file on each routine health-check subprocess.
+        if result.returncode or result.stderr:retain(result.stderr)
         if result.returncode:raise RuntimeError('Operation failed; inspect its private diagnostic')
         return result.stdout
 
