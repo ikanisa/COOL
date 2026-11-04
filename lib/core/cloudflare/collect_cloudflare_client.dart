@@ -1046,9 +1046,19 @@ final class CollectAuthClient {
     _guestUpgrade = null;
     _challenges.remove(key);
     _challengeChannels.remove(key);
-    _install(session, CollectAuthEvent.signedIn);
+    // Capture before synchronous observers can replace and restore a session.
+    late final int installedGeneration;
+    _install(
+      session,
+      CollectAuthEvent.signedIn,
+      onInstalled: () {
+        installedGeneration = _generation;
+      },
+    );
     await _persist();
-    if (_session?.accessToken != session.accessToken) {
+    if (_disposed ||
+        _generation != installedGeneration ||
+        _session?.accessToken != session.accessToken) {
       throw const CollectAuthException(
         'Your sign-in changed.',
         code: 'session_changed',

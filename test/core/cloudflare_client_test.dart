@@ -325,6 +325,114 @@ void main() {
     expect(client.auth.currentUser?.id, _otherActor);
   });
 
+  for (final transition in [
+    'unchanged',
+    'A to B to A',
+    'sign-out',
+    'same session',
+  ]) {
+    test(
+      'OTP verification checks $transition during protected storage',
+      () async {
+        final storage = _BarrierStorage();
+        final original = _credentials();
+        var verificationRequests = 0;
+        final client = CollectCloudflareClient(
+          'https://api.example.com',
+          sessionStorage: storage,
+          httpClient: MockClient((request) async {
+            if (request.url.path.endsWith('/otp')) {
+              return _json({'challenge_id': 'challenge'});
+            }
+            expect(request.url.path, '/v1/auth/verify');
+            verificationRequests++;
+            return _json(original);
+          }),
+        );
+        final events = <String?>[];
+        final subscription = client.auth.onAuthStateChange.listen(
+          (event) => events.add(event.session?.user.id),
+        );
+        addTearDown(() async {
+          if (!storage.release.isCompleted) storage.release.complete();
+          await subscription.cancel();
+          await client.dispose();
+        });
+
+        await client.auth.signInWithOtp(phone: '+250788123456');
+        final verifying = client.auth.verifyOTP(
+          phone: '+250788123456',
+          token: '123456',
+          type: CollectOtpType.sms,
+        );
+        final checked = transition == 'unchanged'
+            ? expectLater(verifying, completion(isA<CollectAuthResponse>()))
+            : expectLater(
+                verifying,
+                throwsA(
+                  isA<CollectAuthException>().having(
+                    (error) => error.code,
+                    'reason',
+                    'session_changed',
+                  ),
+                ),
+              );
+        await storage.started.future;
+        expect(client.auth.currentUser?.id, _actor);
+        expect(events, [_actor]);
+
+        final adoptions = <Future<CollectAuthResponse>>[];
+        Future<void>? clearing;
+        if (transition == 'A to B to A') {
+          adoptions.add(
+            client.auth.recoverSession(
+              jsonEncode(
+                _credentials(
+                  actor: _otherActor,
+                  session: '44444444-4444-4444-8444-444444444444',
+                ),
+              ),
+            ),
+          );
+          expect(client.auth.currentUser?.id, _otherActor);
+          adoptions.add(client.auth.recoverSession(jsonEncode(original)));
+          expect(
+            client.auth.currentSession?.accessToken,
+            original['access_token'],
+          );
+          expect(events, [_actor, _otherActor, _actor]);
+        } else if (transition == 'sign-out') {
+          clearing = client.auth.clearLocalSession();
+          expect(client.auth.currentSession, isNull);
+          expect(events, [_actor, null]);
+        } else if (transition == 'same session') {
+          adoptions.add(client.auth.recoverSession(jsonEncode(original)));
+          expect(
+            client.auth.currentSession?.accessToken,
+            original['access_token'],
+          );
+          expect(events, [_actor, _actor]);
+        }
+
+        storage.release.complete();
+        await checked;
+        await Future.wait(adoptions);
+        if (clearing != null) await clearing;
+        expect(verificationRequests, 1);
+        expect(
+          client.auth.currentUser?.id,
+          transition == 'sign-out' ? null : _actor,
+        );
+        if (transition == 'unchanged') {
+          expect(
+            (await verifying).session?.accessToken,
+            original['access_token'],
+          );
+        }
+      },
+    );
+  }
+
   test(
     'a captured RPC executes once and never retries uncertain writes',
     () async {
@@ -598,6 +706,29 @@ void main() {
       expect(client.auth.currentUser?.id, _actor);
     },
   );
+}
+
+final class _BarrierStorage implements CollectAuthSessionStorage {
+  final started = Completer<void>();
+  final release = Completer<void>();
+  String? _value;
+
+  @override
+  Future<String?> read() async => _value;
+
+  @override
+  Future<void> write(String value) async {
+    if (!started.isCompleted) {
+      started.complete();
+      await release.future;
+    }
+    _value = value;
+  }
+
+  @override
+  Future<void> clear() async {
+    _value = null;
+  }
 }
 
 final class _FailingStorage implements CollectAuthSessionStorage {
