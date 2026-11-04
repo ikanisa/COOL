@@ -1323,10 +1323,8 @@ class CollectRepository extends StateNotifier<CollectState>
         }
       }
 
-      if (!sameMomoNumber(current.momoNumber, updated.momoNumber) ||
-          current.momoProvider != updated.momoProvider) {
-        await setSmsAccess(false, expectedOwnerUserId: current.id);
-      }
+      // SMS capture is a separate member choice. A profile save must neither
+      // disable it nor replay an earlier enabled state over a later opt-out.
       requireCurrentOwner();
       // Do not let a load that read the old profile before this confirmed save
       // later replace it. A fresh complete load still determines member access.

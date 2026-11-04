@@ -108,6 +108,7 @@ class _Cache extends CollectOfflineCache {
 
 class _Sms extends SmsAccessChannel {
   int disables = 0;
+  int enables = 0;
   Completer<void>? stopStarted, stopRelease;
 
   @override
@@ -115,6 +116,7 @@ class _Sms extends SmsAccessChannel {
 
   @override
   Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async {
+    if (enabled) enables++;
     if (!enabled) {
       disables++;
       if (stopStarted case final started?) {
@@ -156,6 +158,10 @@ class _Repository extends CollectRepository {
 
   final CollectCloudflareClient client;
   Completer<void>? nextLoad;
+
+  void setSmsChoice(bool enabled) {
+    state = state.copyWith(smsAccessEnabled: enabled);
+  }
 
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
@@ -438,6 +444,101 @@ void main() {
       },
     );
   }
+
+  for (final enabled in [true, false]) {
+    test('changed MoMo number preserves SMS choice $enabled', () async {
+      final h = await _Harness.create((request) {
+        if (request.url.path.endsWith('/update_current_member_profile')) {
+          return _json(null);
+        }
+        if (request.url.path.endsWith('/get_current_member_profile')) {
+          return _json(_row(number: '0788999000'));
+        }
+        throw StateError('Unexpected request');
+      }, number: '0788111222');
+      h.repo.setSmsChoice(enabled);
+      final updated = await h.save(number: '0788999000');
+      expect(updated.momoNumber, '0788999000');
+      expect(h.repo.state.smsAccessEnabled, enabled);
+      expect(h.sms.enables, 0);
+      expect(h.sms.disables, 0);
+      expect(h.requests.map((r) => r.url.path.split('/').last), [
+        'update_current_member_profile',
+        'get_current_member_profile',
+      ]);
+    });
+  }
+
+  test('withdrawal during a held profile save stays withdrawn', () async {
+    final entered = Completer<void>();
+    final reply = Completer<http.Response>();
+    addTearDown(() {
+      if (!reply.isCompleted) reply.complete(_json(null));
+    });
+    final h = await _Harness.create((request) {
+      if (request.url.path.endsWith('/update_current_member_profile')) {
+        entered.complete();
+        return reply.future;
+      }
+      if (request.url.path.endsWith('/record_sms_access_consent')) {
+        return _json(null);
+      }
+      if (request.url.path.endsWith('/get_current_member_profile')) {
+        return _json(_row(number: '0788999000'));
+      }
+      throw StateError('Unexpected request');
+    }, number: '0788111222');
+    final saving = h.save(number: '0788999000');
+    await entered.future.timeout(const Duration(seconds: 3));
+    await h.repo.setSmsAccess(false);
+    reply.complete(_json(null));
+    final updated = await saving;
+    expect(updated.momoNumber, '0788999000');
+    expect(h.repo.state.smsAccessEnabled, isFalse);
+    expect(h.sms.enables, 0);
+    expect(h.sms.disables, 1);
+    final consent = h.requests.singleWhere(
+      (r) => r.url.path.endsWith('/record_sms_access_consent'),
+    );
+    expect(jsonDecode(consent.body), {
+      'enabled': false,
+      'build_channel': 'android_sms_access',
+      'device_label': 'flutter_app',
+    });
+  });
+
+  test('withdrawal during a held profile readback stays withdrawn', () async {
+    final entered = Completer<void>();
+    final reply = Completer<http.Response>();
+    addTearDown(() {
+      if (!reply.isCompleted) reply.complete(_json(_row(number: '0788999000')));
+    });
+    final h = await _Harness.create((request) {
+      if (request.url.path.endsWith('/update_current_member_profile')) {
+        return _json(null);
+      }
+      if (request.url.path.endsWith('/record_sms_access_consent')) {
+        return _json(null);
+      }
+      if (request.url.path.endsWith('/get_current_member_profile')) {
+        entered.complete();
+        return reply.future;
+      }
+      throw StateError('Unexpected request');
+    }, number: '0788111222');
+    final saving = h.save(number: '0788999000');
+    await entered.future.timeout(const Duration(seconds: 3));
+    await h.repo.setSmsAccess(false);
+    reply.complete(_json(_row(number: '0788999000')));
+    await saving;
+    expect(h.repo.state.smsAccessEnabled, isFalse);
+    expect(h.sms.enables, 0);
+    expect(h.sms.disables, 1);
+    final consent = h.requests.singleWhere(
+      (r) => r.url.path.endsWith('/record_sms_access_consent'),
+    );
+    expect(jsonDecode(consent.body)['enabled'], isFalse);
+  });
 
   test('map ACK with mismatched requested fields is refused', () async {
     final h = await _Harness.create(

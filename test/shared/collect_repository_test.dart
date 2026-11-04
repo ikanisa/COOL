@@ -5,19 +5,12 @@ import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class _AccountSwitchingSmsAccess extends SmsAccessChannel {
-  void Function()? onDisable;
-  bool suspendedAfterSwitch = false;
+class _RecordingSmsAccess extends SmsAccessChannel {
+  final List<bool> changes = [];
 
   @override
   Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async {
-    if (!enabled) onDisable?.call();
-    return true;
-  }
-
-  @override
-  Future<bool> suspendUnlessOwner(String? currentUserId) async {
-    suspendedAfterSwitch = true;
+    changes.add(enabled);
     return true;
   }
 }
@@ -25,8 +18,8 @@ class _AccountSwitchingSmsAccess extends SmsAccessChannel {
 class _SwitchableFixtureRepository extends FixtureCollectRepository {
   _SwitchableFixtureRepository({required super.smsAccessChannel});
 
-  void switchTo(CollectProfile profile) {
-    state = state.copyWith(currentProfile: profile);
+  void setSmsChoice(bool enabled) {
+    state = state.copyWith(smsAccessEnabled: enabled);
   }
 }
 
@@ -106,42 +99,24 @@ void main() {
     );
   });
 
-  test(
-    'profile save cannot overwrite an account switched during SMS disable',
-    () async {
-      final smsAccess = _AccountSwitchingSmsAccess();
+  for (final enabled in [true, false]) {
+    test('profile change preserves SMS choice $enabled', () async {
+      final smsAccess = _RecordingSmsAccess();
       final repository = _SwitchableFixtureRepository(
         smsAccessChannel: smsAccess,
       );
-      final previous = repository.state.currentProfile!;
-      smsAccess.onDisable = () {
-        repository.switchTo(
-          const CollectProfile(
-            id: 'different-account',
-            publicId: '123456',
-            whatsappPhone: '+250788111222',
-            countryCode: 'RW',
-            currencyCode: 'RWF',
-            momoProvider: 'mtn_momo',
-            momoNumber: '0788111222',
-          ),
-        );
-      };
-
-      await expectLater(
-        repository.updateCurrentProfile(
-          countryCode: 'RW',
-          momoProvider: 'airtel_money',
-          momoNumber: '0720000001',
-        ),
-        throwsStateError,
+      repository.setSmsChoice(enabled);
+      final updated = await repository.updateCurrentProfile(
+        countryCode: 'RW',
+        momoProvider: 'airtel_money',
+        momoNumber: '0720000001',
       );
-      expect(repository.state.currentProfile?.id, 'different-account');
-      expect(repository.state.currentProfile?.momoNumber, '0788111222');
-      expect(repository.state.currentProfile?.id, isNot(previous.id));
-      expect(smsAccess.suspendedAfterSwitch, isTrue);
-    },
-  );
+      expect(updated.momoNumber, '0720000001');
+      expect(repository.state.smsAccessEnabled, enabled);
+      expect(smsAccess.changes, isEmpty);
+      repository.dispose();
+    });
+  }
 
   test('member group creation stays private and uses MoMo receiver', () async {
     final repository = FixtureCollectRepository();

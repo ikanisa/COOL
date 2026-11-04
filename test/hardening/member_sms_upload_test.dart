@@ -80,6 +80,8 @@ class _Sms extends SmsAccessChannel {
   final enableCalls = <({bool enabled, String? owner})>[];
   final parkCalls = <({String owner, String id})>[];
   final retryOwners = <String>[];
+  final suspendedOwners = <String?>[];
+  Completer<void>? toggleEntered, toggleRelease;
   Completer<void>? retryEntered;
   Completer<bool>? retryReply;
 
@@ -124,11 +126,16 @@ class _Sms extends SmsAccessChannel {
   Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async {
     enableCalls.add((enabled: enabled, owner: ownerUserId));
     nativeEnabled = enabled;
+    if (toggleEntered case final entered?) {
+      if (!entered.isCompleted) entered.complete();
+    }
+    if (toggleRelease case final release?) await release.future;
     return true;
   }
 
   @override
   Future<bool> suspendUnlessOwner(String? currentUserId) async {
+    suspendedOwners.add(currentUserId);
     if (currentUserId != _owner) nativeEnabled = false;
     return true;
   }
@@ -454,6 +461,32 @@ void main() {
       );
     },
   );
+
+  test('explicit SMS disable cannot follow an account switch', () async {
+    final h = await _Harness.create();
+    h.sms.toggleEntered = Completer<void>();
+    h.sms.toggleRelease = Completer<void>();
+    addTearDown(() {
+      if (!h.sms.toggleRelease!.isCompleted) h.sms.toggleRelease!.complete();
+    });
+    final pending = h.repository.setSmsAccess(false);
+    final failed = expectLater(pending, throwsStateError);
+    await h.sms.toggleEntered!.future.timeout(const Duration(seconds: 3));
+    final authReloaded = Completer<void>();
+    h.repository.reloadSignal = authReloaded;
+    await _Harness.login(h.client, _other);
+    await authReloaded.future.timeout(const Duration(seconds: 3));
+    h.repository.replaceOwner(_other);
+    h.sms.suspendedOwners.clear();
+    h.sms.toggleRelease!.complete();
+    await failed;
+    expect(h.sms.suspendedOwners, [_other]);
+    expect(h.sms.enableCalls, [(enabled: false, owner: _owner)]);
+    expect(h.sms.acknowledged, isEmpty);
+    expect(h.requests, isEmpty);
+    expect(h.sms.pending.single.ownerUserId, _owner);
+    expect(h.sms.pending.single.rawBody, _body);
+  });
 
   test(
     'successful server consent ACK starts foreground recovery asynchronously',
