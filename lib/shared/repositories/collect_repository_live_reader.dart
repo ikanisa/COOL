@@ -86,11 +86,13 @@ class _CollectLiveReader {
   Future<CollectCollection> fetchCollection(
     String id, {
     String? accessToken,
+    bool requireActiveStatus = false,
   }) async {
     exactJsonIdentifier(id, field: 'group.id');
     final collections = await _fetchMemberCollections(
       collectionId: id,
       accessToken: accessToken,
+      requireActiveStatus: requireActiveStatus,
     );
     if (collections.length != 1 || collections.single.id != id) {
       throw StateError('Group is not available');
@@ -101,6 +103,7 @@ class _CollectLiveReader {
   Future<List<CollectCollection>> _fetchMemberCollections({
     String? collectionId,
     String? accessToken,
+    bool requireActiveStatus = false,
   }) async {
     var request = _backend!.rpc<dynamic>(
       'list_current_user_collections',
@@ -112,6 +115,14 @@ class _CollectLiveReader {
     final response = await request;
     if (response is! List) {
       throw const FormatException('Group response is unavailable');
+    }
+    if (requireActiveStatus &&
+        (collectionId == null ||
+            response.length != 1 ||
+            response.single is! Map ||
+            (response.single as Map)['status'] != 'active' ||
+            (response.single as Map)['moderation_status'] != 'not_requested')) {
+      throw const FormatException('Active group status could not be verified.');
     }
     return _collectionRows(response);
   }

@@ -1200,6 +1200,8 @@ class _Harness {
         'payment_rail': 'rwanda_momo',
         'is_member': true,
         'is_public': true,
+        'status': 'active',
+        'moderation_status': 'not_requested',
       },
     ];
     h.onReview = (_) => commandReviewWire(session: h.currentSession);

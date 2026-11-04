@@ -161,6 +161,45 @@ void main() {
     expect(repo.state.collections.single.isCurrentUserMember, isFalse);
   });
 
+  final unconfirmedStatusRows = <String, Map<String, Object?> Function()>{
+    'missing status': () => _serverGroup()..remove('status'),
+    'null status': () => _serverGroup()..['status'] = null,
+    'unknown status': () => _serverGroup()..['status'] = 'unknown',
+    'missing moderation': () => _serverGroup()..remove('moderation_status'),
+    'null moderation': () => _serverGroup()..['moderation_status'] = null,
+    'unknown moderation': () =>
+        _serverGroup()..['moderation_status'] = 'unknown',
+    'conflicting moderation': () =>
+        _serverGroup()..['moderation_status'] = 'archived',
+  };
+  for (final entry in unconfirmedStatusRows.entries) {
+    test('public join rejects ${entry.key} in readback', () async {
+      final requests = <http.Request>[];
+      final client = CollectCloudflareClient(
+        'http://127.0.0.1:1',
+        httpClient: MockClient((request) async {
+          requests.add(request);
+          final value = request.url.path.endsWith('/join_public_group')
+              ? _group
+              : [entry.value()];
+          return http.Response(
+            jsonEncode(value),
+            200,
+            headers: {'content-type': 'application/json'},
+          );
+        }),
+      );
+      addTearDown(client.dispose);
+      await client.auth.recoverSession(_session(_sessionA));
+      final repo = _JoinOnlyRepository(client);
+      addTearDown(repo.dispose);
+
+      await expectLater(repo.joinPublicGroup(_group), throwsFormatException);
+      expect(requests.length, 2);
+      expect(repo.state.collections.single.isCurrentUserMember, isFalse);
+    });
+  }
+
   test(
     'same-user replacement during join cannot publish stale membership',
     () async {

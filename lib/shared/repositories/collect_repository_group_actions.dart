@@ -67,6 +67,7 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
       final joined = await _liveReader.fetchCollection(
         joinedId,
         accessToken: session.accessToken,
+        requireActiveStatus: true,
       );
       requireOriginalSession();
       if (joined.isArchived ||

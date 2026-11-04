@@ -52,6 +52,8 @@ Map<String, Object?> _group(String id, {required bool member}) => {
   'is_member': member,
   'is_public': true,
   'visibility_status': 'public_approved',
+  if (member) 'status': 'active',
+  'moderation_status': 'not_requested',
   'receiver_network': 'mtn_momo',
   if (member) 'receiver_momo_number': '250788123456',
   'payment_rail': 'rwanda_momo',
