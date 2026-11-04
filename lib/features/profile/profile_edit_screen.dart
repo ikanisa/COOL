@@ -11,17 +11,44 @@ import '../../shared/widgets/collect_components.dart';
 
 part 'profile_edit_widgets.dart';
 
-class ProfileEditScreen extends ConsumerStatefulWidget {
+class ProfileEditScreen extends ConsumerWidget {
   const ProfileEditScreen({super.key});
 
   @override
-  ConsumerState<ProfileEditScreen> createState() => _ProfileEditScreenState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final repository = ref.watch(collectRepositoryProvider.notifier);
+    final scope = ref.watch(
+      collectRepositoryProvider.select(
+        (state) => (
+          repository,
+          repository.sessionGeneration,
+          state.currentProfile?.id,
+        ),
+      ),
+    );
+    // Controllers, drafts and their notifications belong to one authenticated
+    // session, even when the replacement session belongs to the same user.
+    return ScaffoldMessenger(
+      key: ValueKey(scope),
+      child: const _ProfileEditor(),
+    );
+  }
 }
 
-class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
+class _ProfileEditor extends ConsumerStatefulWidget {
+  const _ProfileEditor({super.key});
+
+  @override
+  ConsumerState<_ProfileEditor> createState() => _ProfileEditorState();
+}
+
+class _ProfileEditorState extends ConsumerState<_ProfileEditor> {
   final _momoNumber = TextEditingController();
   final _momoPayCode = TextEditingController();
-  String? _hydratedProfileId;
+  late final CollectRepository _scopeRepository;
+  late final int _scopeGeneration;
+  late final String? _scopeProfileId;
+  int _saveRevision = 0;
   String? _error;
   CollectProfile? _savedProfile;
   final _scrollController = ScrollController();
@@ -33,6 +60,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   @override
   void initState() {
     super.initState();
+    _scopeRepository = ref.read(collectRepositoryProvider.notifier);
+    _scopeGeneration = _scopeRepository.sessionGeneration;
+    _scopeProfileId = ref.read(collectRepositoryProvider).currentProfile?.id;
     _momoNumber.addListener(_markDirty);
     _momoPayCode.addListener(_markDirty);
     _hydrate(ref.read(collectRepositoryProvider).currentProfile);
@@ -40,6 +70,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
 
   @override
   void dispose() {
+    ++_saveRevision;
     _momoNumber.removeListener(_markDirty);
     _momoPayCode.removeListener(_markDirty);
     _momoNumber.dispose();
@@ -51,11 +82,11 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(collectRepositoryProvider);
-    final profile = state.currentProfile;
+    final profile = _scopeIsCurrent ? state.currentProfile : null;
     ref.listen<CollectProfile?>(
       collectRepositoryProvider.select((state) => state.currentProfile),
       (_, next) {
-        if (next == null || _saving || _dirty) return;
+        if (next == null || _saving || _dirty || !_scopeIsCurrent) return;
         setState(() => _hydrate(next));
       },
     );
@@ -242,7 +273,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   }
 
   Future<void> _leave() async {
-    if (_saving) return;
+    if (_saving || !_scopeIsCurrent) return;
     if (_dirty) {
       final discard = await showCollectConfirmationSheet(
         context: context,
@@ -252,19 +283,29 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         confirmLabel: 'Discard',
         destructive: true,
       );
-      if (!mounted || discard != true) return;
+      if (!_scopeIsCurrent || discard != true) return;
     }
-    if (mounted) {
+    if (_scopeIsCurrent) {
       setState(() => _dirty = false);
       context.go('/settings');
     }
   }
 
+  bool get _scopeIsCurrent =>
+      mounted &&
+      identical(
+        ref.read(collectRepositoryProvider.notifier),
+        _scopeRepository,
+      ) &&
+      _scopeRepository.sessionGeneration == _scopeGeneration &&
+      ref.read(collectRepositoryProvider).currentProfile?.id == _scopeProfileId;
+
   void _hydrate(CollectProfile? profile) {
-    if (profile == null || profile.id == _hydratedProfileId) return;
+    if (profile == null || profile.id != _scopeProfileId || !_scopeIsCurrent) {
+      return;
+    }
     _hydrating = true;
     _savedProfile = profile;
-    _hydratedProfileId = profile.id;
     _momoNumber.text = profile.momoNumber;
     _momoPayCode.text = profile.momoPayCode;
     _dirty = false;
@@ -273,7 +314,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
 
   void _markDirty() {
     final saved = _savedProfile;
-    if (_hydrating || !mounted || saved == null) return;
+    if (_hydrating || !_scopeIsCurrent || saved == null) return;
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     setState(() {
       _dirty =
@@ -284,7 +325,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   }
 
   Future<void> _save() async {
-    if (_saving) return;
+    if (_saving || _scopeProfileId == null || !_scopeIsCurrent) return;
+    final revision = ++_saveRevision;
+    bool current() => revision == _saveRevision && _scopeIsCurrent;
     FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
       _saving = true;
@@ -292,16 +335,17 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     });
     try {
       final momo = RwandaMomoNumber.parse(_momoNumber.text);
-      final updated = await ref
-          .read(collectRepositoryProvider.notifier)
-          .updateCurrentProfile(
-            countryCode: 'RW',
-            momoProvider: momo.provider,
-            momoNumber: momo.localNumber,
-            momoPayCode: _momoPayCode.text,
-          );
-      if (!mounted) return;
-      _hydratedProfileId = null;
+      if (!current()) return;
+      final updated = await _scopeRepository.updateCurrentProfile(
+        countryCode: 'RW',
+        momoProvider: momo.provider,
+        momoNumber: momo.localNumber,
+        momoPayCode: _momoPayCode.text,
+      );
+      if (!current()) return;
+      if (updated.id != _scopeProfileId) {
+        throw const FormatException('Updated profile identity is invalid.');
+      }
       setState(() {
         _hydrate(updated);
         _saving = false;
@@ -310,7 +354,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         context,
       ).showSnackBar(const SnackBar(content: Text('Profile saved.')));
     } catch (error) {
-      if (!mounted) return;
+      if (!current()) return;
       setState(() {
         _saving = false;
         _error = _safeProfileError(error);
