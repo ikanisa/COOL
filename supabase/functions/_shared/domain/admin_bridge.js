@@ -89,6 +89,9 @@ async function genericMutation(request,env,account,actor,parts,data,rid,source){
    const visibility=data.visibility??'private',sponsored=data.is_platform_sponsored??false;
     if(!['private','public_approved'].includes(visibility)||typeof sponsored!=='boolean'||(visibility==='public_approved')!==sponsored)fail(400,'invalid_publication','Choose a private group or a public Collect-sponsored group.');
     const title=text(data.title,'title',160),slug=text(data.slug,'slug',100),owner=uuid(data.owner_user_id,'owner_user_id'),receiver=validReceiver(data.receiver,{allowCode:publicCreate}),kind=text(data.collection_type,'collection_type',64);
+   // users.id is text: normalizing a different spelling could select another
+   // row. Exact retained responses have already been checked above.
+   if(data.owner_user_id!==owner)fail(400,'invalid_owner','The selected owner cannot be verified. Refresh the member record.');
    if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)||!['ikimina','sport','church','wedding','other'].includes(kind))fail(400,'invalid_group','Choose a supported group type and slug.');
    if(data.status&&data.status!=='active')unavailable();
    const description=data.description??'';if(typeof description!=='string'||description.length>2000)fail(400,'invalid_group','The group description is too long.');

@@ -128,3 +128,22 @@ test('private phone-only rules, public sponsorship and replay order are unchange
  reply=await call(f,'operations/groups','POST',group('123456789012'));
  assert.equal(reply.status,200);assert.equal(reply.body.resource_id,ids.group);assert.equal(f.mutations.length,0);
 });
+
+test('new groups use the exact canonical owner ID and retain prior replay',async()=>{
+ const owner='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+ for(const [visibility,sponsored,route] of [['public_approved',true,'0001'],['private',false,'0788123456']]){
+  const body={...group(route,visibility,sponsored),owner_user_id:owner};
+  const f=fixture(),reply=await call(f,'operations/groups','POST',body);
+  assert.equal(reply.status,200);assert.equal(written(f,'collections')[2],owner);
+  assert.equal(written(f,'memberships')[2],owner);
+  const guard=f.mutations[0].writes.find(statement=>statement.sql.startsWith('INSERT INTO admin_bridge_guards'));
+  assert.equal(guard.args[1],owner);
+  for(const [changed,errorCode] of [[owner.toUpperCase(),'invalid_owner'],[owner.replace('a','A'),'invalid_owner'],[` ${owner} `,'invalid_parameter']]){
+   const rejected=fixture(),result=await call(rejected,'operations/groups','POST',{...body,owner_user_id:changed});
+   assert.equal(result.status,400);assert.equal(result.body.error.code,errorCode);assert.equal(rejected.mutations.length,0);
+  }
+ }
+ const retained=fixture();retained.retained={found:true,value:{status:'succeeded',resource_id:ids.group}};
+ const replay=await call(retained,'operations/groups','POST',{...group('0001'),owner_user_id:owner.toUpperCase()});
+ assert.equal(replay.status,200);assert.equal(replay.body.resource_id,ids.group);assert.equal(retained.mutations.length,0);
+});
