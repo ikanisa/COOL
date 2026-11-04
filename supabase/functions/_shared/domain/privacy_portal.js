@@ -1,5 +1,5 @@
 import {privacyPortalCss, privacyPortalScript} from './privacy_portal_assets.js';
-import {otpDeliveryAvailable} from './auth.js';
+import {otpDeliveryChannel} from './auth.js';
 
 const route = '/privacy/account-deletion';
 const assets = route + '/assets/';
@@ -19,9 +19,9 @@ const html = `<!doctype html>
 <noscript><p>JavaScript is needed for secure verification and request status. You can also <a href="mailto:info@ikanisa.com?subject=Collect%20account%20deletion">email Collect support</a> without installing the app. Do not send a PIN, password, code or identity-document image.</p></noscript>
 <p id="status" role="status" aria-live="polite" aria-atomic="true"></p><p id="error" role="alert" hidden></p>
 <section id="step-phone"><h2 tabindex="-1">Verify your number</h2><p>Use the Rwanda number registered with Collect. This does not create a new account.</p>
-<form id="phone-form"><label for="phone">Registered number</label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+250 7…" pattern="\\+2507[2389][0-9]{7}" maxlength="13" aria-describedby="phone-help" required><p id="phone-help" class="hint">Enter +250 followed by your nine-digit number, without spaces. The code is sent through the configured WhatsApp verification service.</p><div class="actions"><button type="submit">Send verification code</button></div></form></section>
+<form id="phone-form"><label for="phone">Registered number</label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+250 7…" pattern="\\+2507[2389][0-9]{7}" maxlength="13" aria-describedby="phone-help" required><p id="phone-help" class="hint">Enter +250 followed by your nine-digit number, without spaces. Verification uses the configured phone verification service.</p><div class="actions"><button type="submit">Send verification code</button></div></form></section>
 <div class="actions"><button id="use-email" class="secondary" type="button" hidden>Use email instead</button></div>
-<section id="step-email" hidden><h2 tabindex="-1">Verify your email</h2><p>Use the email registered with Collect. This does not create an account.</p><form id="email-form"><label for="email">Registered email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" required><div class="actions"><button type="submit">Request email code</button><button id="use-phone" class="secondary" type="button">Use WhatsApp instead</button></div></form></section>
+<section id="step-email" hidden><h2 tabindex="-1">Verify your email</h2><p>Use the email registered with Collect. This does not create an account.</p><form id="email-form"><label for="email">Registered email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" required><div class="actions"><button type="submit">Request email code</button><button id="use-phone" class="secondary" type="button">Use phone instead</button></div></form></section>
 <section id="step-email-code" hidden><h2 tabindex="-1">Enter your email code</h2><p>If the account can be verified, a code may arrive. Delivery is not disclosed.</p><form id="email-code-form"><label for="email-code">Email verification code</label><input id="email-code" name="email-code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" minlength="6" maxlength="10" required><div class="actions"><button type="submit">Verify email code</button><button id="email-resend" class="secondary" type="button">Send new code</button></div></form></section>
 <section id="step-email-unknown" hidden><h2 tabindex="-1">Verification unconfirmed</h2><p>A verification may have finished even if its response was lost. Status cannot recover a lost sign-in session. No deletion request has been submitted by this verification.</p><div class="actions"><button id="email-check" type="button">Check original verification</button><button id="email-cancel" class="secondary" type="button">Cancel verification</button></div></section>
 <section id="step-code" hidden><h2 tabindex="-1">Enter your code</h2><p>Use the code sent for this request. Never share it with support.</p><form id="code-form"><label for="code">Verification code</label><input id="code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" required><div class="actions"><button type="submit">Verify code</button><button id="resend-code" class="secondary" type="button">Send new code</button></div></form></section>
@@ -39,12 +39,16 @@ export function privacyPortalRoute(request, env) {
   const path = new URL(request.url).pathname;
   let body, type;
   if (path === route || path === route + '/') {
-    const available = otpDeliveryAvailable(env);
+    // Both phone and email flows require the same browser CAPTCHA challenge.
+    const challengeAvailable = typeof env.TURNSTILE_SITE_KEY === 'string' &&
+      /^[A-Za-z0-9_-]{10,256}$/.test(env.TURNSTILE_SITE_KEY);
+    const channel = challengeAvailable ? otpDeliveryChannel(env) : null;
+    const available = channel !== null;
     // A configured privacy email route still needs the existing challenge
     // document. Missing CAPTCHA binding remains visibly unavailable.
-    const emailAvailable = Boolean(env.SUPABASE_URL && env.SUPABASE_PUBLISHABLE_KEY &&
-      typeof env.TURNSTILE_SITE_KEY === 'string' && /^[A-Za-z0-9_-]{10,256}$/.test(env.TURNSTILE_SITE_KEY));
-    body = html.replace('<body>', `<body data-verification-available="${available}" data-email-verification-available="${emailAvailable}">`);
+    const emailAvailable = Boolean(env.SUPABASE_URL && env.SUPABASE_PUBLISHABLE_KEY && challengeAvailable);
+    body = html.replace('<body>', `<body data-verification-available="${available}" data-email-verification-available="${emailAvailable}" data-verification-channel="${channel ?? ''}">`);
+    if (channel) body = body.replace('the configured phone verification service', channel === 'sms' ? 'SMS' : 'WhatsApp');
     if (!available && !emailAvailable) {
       body = body.replace('<section id="step-phone">', `<section id="verification-unavailable"><h2>Contact Collect support</h2><p>Phone verification is currently unavailable. You can <a href="mailto:info@ikanisa.com?subject=Collect%20account%20deletion">request a review by email</a> without installing the app.</p></section><section id="step-phone" hidden>`);
     }

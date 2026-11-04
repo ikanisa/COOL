@@ -44,7 +44,7 @@ class Statement {
     return {meta: {changes: 1}};
   }
 }
-function harness(t, {eligible = true, providerUnknown = false, storage = {value: null}} = {}) {
+function harness(t, {eligible = true, providerUnknown = false, storage = {value: null}, channel = 'whatsapp'} = {}) {
   let clock = Date.now();
   const h = {principal: randomUUID(), managed: randomUUID(), session: randomUUID(), calls: [],
     provider: [], accepted: null, hook: null, storage, securityChecks: 0};
@@ -56,7 +56,9 @@ function harness(t, {eligible = true, providerUnknown = false, storage = {value:
       return statements.map(() => ({meta: {changes: 1}}));
     }};
   const env = {DB: h.db, AUTH_MEMBER_REGISTRATION_ENABLED: 'true', SUPABASE_URL: origin,
-    SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_synthetic_privacy_only'};
+    SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_synthetic_privacy_only',
+    ...(channel === 'sms' ? {AUTH_SMS_ENABLED: 'true', AUTH_WHATSAPP_ENABLED: 'false',
+      COLLECT_DEPLOYMENT_PROFILE: 'synthetic-profile'} : {})};
   const previousFetch = globalThis.fetch;
   globalThis.fetch = async (url, init) => {
     h.provider.push({url, init, body: JSON.parse(init.body)});
@@ -70,7 +72,7 @@ function harness(t, {eligible = true, providerUnknown = false, storage = {value:
       assert.equal(call.url, origin + '/auth/v1/otp');
       assert.equal(call.init.method, 'POST'); assert.equal(call.init.redirect, 'error');
       assert.equal(call.init.headers.apikey, env.SUPABASE_PUBLISHABLE_KEY);
-      assert.equal(call.body.create_user, false); assert.equal(call.body.channel, 'whatsapp');
+      assert.equal(call.body.create_user, false); assert.equal(call.body.channel, channel);
       assert.equal(call.body.phone, phone);
       assert.equal(Object.hasOwn(call.init.headers, 'Authorization'), false);
     }
@@ -105,7 +107,7 @@ function harness(t, {eligible = true, providerUnknown = false, storage = {value:
     if (path === '/v1/auth/logout') return {ok: true};
     assert.fail('Unexpected local request: ' + path);
   };
-  h.create = () => client.createPrivacyPortalController({request: h.request, now: () => clock,
+  h.create = () => client.createPrivacyPortalController({request: h.request, now: () => clock, phoneChannel: channel,
     randomUUID, challenge: async () => 'synthetic-captcha-' + (++h.securityChecks),
     checkpoint: {read: () => storage.value, write: value => {storage.value = structuredClone(value);},
       clear: () => {storage.value = null;}}});
@@ -127,6 +129,45 @@ test('actual Supabase OTP and mapped managed response reach deletion intake with
   assert.equal(h.controller.state.step, 'received');
   assert.match(h.controller.state.message, /have not been erased/);
   assert.equal(h.storage.value, null);
+});
+
+test('SMS-only portal sends an explicit SMS challenge without creating an account', async t => {
+  const h = harness(t, {channel: 'sms'}); await h.signIn();
+  const otp = h.calls.find(c => c.path === '/v1/auth/otp');
+  assert.equal(otp.body.channel, 'sms');
+  assert.equal(otp.body.allow_registration, false);
+  assert.equal(otp.body.should_create_user, false);
+  assert.equal(h.db.reservations[0].registrationAllowed, 0);
+  assert.equal(h.securityChecks, 2);
+  assert.equal(h.controller.state.step, 'request');
+});
+
+test('SMS challenge rejects a mismatched WhatsApp response before verification', async t => {
+  const h = harness(t, {channel: 'sms'});
+  h.hook = path => path === '/v1/auth/otp' ? {challenge_id: randomUUID(), retry_after: 60,
+    expires_in: 300, channel: 'whatsapp', delivery_status: 'accepted'} : undefined;
+  await assert.rejects(h.controller.requestCode(phone), e => e.code === 'protocol_unavailable');
+  await assert.rejects(h.controller.verifyCode('123456'), e => e.code === 'invalid_code');
+  assert.equal(h.provider.length, 0);
+  assert.equal(h.calls.filter(c => c.path === '/v1/auth/verify').length, 0);
+});
+
+test('SMS unknown delivery retains its challenge and can be verified without resend', async t => {
+  const h = harness(t, {channel: 'sms', providerUnknown: true});
+  await h.controller.requestCode(phone);
+  assert.equal(h.controller.state.step, 'code');
+  assert.match(h.controller.state.message, /could not be confirmed/);
+  await h.controller.verifyCode('123456');
+  assert.equal(h.db.reservations[0].delivery, 'unknown');
+  assert.equal(h.calls.filter(c => c.path === '/v1/auth/otp').length, 1);
+  assert.equal(h.controller.state.step, 'request');
+});
+
+test('invalid phone-channel configuration refuses before requesting a challenge', async t => {
+  const h = harness(t, {channel: 'unknown'});
+  await assert.rejects(h.controller.requestCode(phone), e => e.code === 'unavailable');
+  assert.equal(h.securityChecks, 0);
+  assert.equal(h.calls.length, 0);
 });
 
 test('an unregistered phone cannot create an account even when member registration is enabled', async t => {

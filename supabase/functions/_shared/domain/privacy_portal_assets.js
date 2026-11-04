@@ -134,7 +134,7 @@ function managedPortalSession(value,phone,at){
  return {token:value.access_token,userId:user.id,sessionId:claims.session_id,expiresAt:claims.exp,authAt};
 }
 
-export function createPrivacyPortalController({request,challenge,randomUUID,now=Date.now,checkpoint={read:()=>null,write:()=>{},clear:()=>{}},changed=()=>{},phoneAvailable=true,emailAvailable=false,emailRequest=portalEmailRequest,emailRandomContext=emailContext}){
+export function createPrivacyPortalController({request,challenge,randomUUID,now=Date.now,checkpoint={read:()=>null,write:()=>{},clear:()=>{}},changed=()=>{},phoneAvailable=true,phoneChannel='whatsapp',emailAvailable=false,emailRequest=portalEmailRequest,emailRandomContext=emailContext}){
  const initialMode=!phoneAvailable&&emailAvailable?'email':'phone';
  let state={step:initialMode,verification:initialMode,busy:false,message:'',error:'',receipt:null,review:null,unknown:false,canRetry:false,cooldownUntil:0,signedIn:false};
  let session=null,phone='',challengeId=null,pending=null,generation=0;
@@ -180,17 +180,17 @@ export function createPrivacyPortalController({request,challenge,randomUUID,now=
    await emailFlow.status();fence(epoch);const e=emailFlow.state;state={...state,step:e.ready?'email-code':'email-unknown',emailCanStart:e.canStart,cooldownUntil:e.cooldownUntil,message:e.ready?'If a code arrives, enter it here. Delivery is not disclosed.':'The verification result is unconfirmed. Status cannot recover a lost sign-in session.'};
   });},
   async requestCode(number){return work(async epoch=>{
-   if(!phoneAvailable)throw fault('unavailable');
+   if(!phoneAvailable||!['sms','whatsapp'].includes(phoneChannel))throw fault('unavailable');
    if(typeof number!=='string'||!/^\+2507[2389][0-9]{7}$/.test(number))throw fault('invalid_phone');
    if(now()<state.cooldownUntil)throw fault('rate_limited');
    if(session)throw fault('session_changed');
    phone=number;challengeId=null;
    const captcha=await freshChallenge(epoch);state={...state,cooldownUntil:now()+60000};
-   let value;try{value=await call('/v1/auth/otp',{phone,surface:'member',channel:'whatsapp',allow_registration:false,should_create_user:false,captcha_token:captcha},epoch);}catch(error){if(error?.code==='otp_delivery_unknown'||!error?.status||error.status>=500){state={...state,step:'phone',message:'Code delivery could not be confirmed. Wait before requesting a new code, or contact support.'};return;}throw error;}
+   let value;try{value=await call('/v1/auth/otp',{phone,surface:'member',channel:phoneChannel,allow_registration:false,should_create_user:false,captcha_token:captcha},epoch);}catch(error){if(error?.code==='otp_delivery_unknown'||!error?.status||error.status>=500){state={...state,step:'phone',message:'Code delivery could not be confirmed. Wait before requesting a new code, or contact support.'};return;}throw error;}
    const keys=['challenge_id','retry_after','expires_in','channel','delivery_status'];
-   if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==keys.length||keys.some(key=>!Object.hasOwn(value,key))||!UUID.test(value.challenge_id)||value.channel!=='whatsapp'||!['accepted','unknown'].includes(value.delivery_status)||!Number.isSafeInteger(value.retry_after)||value.retry_after<1||value.retry_after>3600||!Number.isSafeInteger(value.expires_in)||value.expires_in<1||value.expires_in>3600)throw fault('protocol_unavailable');
+   if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==keys.length||keys.some(key=>!Object.hasOwn(value,key))||!UUID.test(value.challenge_id)||value.channel!==phoneChannel||!['accepted','unknown'].includes(value.delivery_status)||!Number.isSafeInteger(value.retry_after)||value.retry_after<1||value.retry_after>3600||!Number.isSafeInteger(value.expires_in)||value.expires_in<1||value.expires_in>3600)throw fault('protocol_unavailable');
    challengeId=value.challenge_id;
-   state={...state,step:'code',cooldownUntil:now()+value.retry_after*1000,message:value.delivery_status==='unknown'?'Delivery could not be confirmed. If a code arrives, enter it before requesting another.':'If this account can be verified, a code will be sent. Enter it here.'};
+   state={...state,step:'code',cooldownUntil:now()+value.retry_after*1000,message:value.delivery_status==='unknown'?'Delivery could not be confirmed. If a code arrives, enter it before requesting another.':'If this account can be verified, a code may arrive. Enter it here.'};
   });},
   async verifyCode(code){return work(async epoch=>{
    if(!phoneAvailable)throw fault('unavailable');
@@ -227,7 +227,7 @@ export async function portalRequest(path,body,token){
 }
 
 export function mountPrivacyPortal(){
- const phoneAvailable=document.body.dataset.verificationAvailable!=='false',emailAvailable=document.body.dataset.emailVerificationAvailable==='true';
+ const phoneChannel=document.body.dataset.verificationChannel,phoneAvailable=document.body.dataset.verificationAvailable==='true'&&['sms','whatsapp'].includes(phoneChannel),emailAvailable=document.body.dataset.emailVerificationAvailable==='true';
  if(!phoneAvailable&&!emailAvailable)return;
  const $=id=>document.getElementById(id),page=$('page'),dialog=$('verification');let activeChallenge=null,returnFocus=null;const text=(id,value)=>{if($(id).textContent!==value)$(id).textContent=value;};
  function cancelChallenge(){activeChallenge?.cancel();}
@@ -246,7 +246,7 @@ export function mountPrivacyPortal(){
  }
  const checkpoint={read(){const raw=sessionStorage.getItem('collect.privacy.portal.v1');if(raw&&raw.length>512)return null;return raw?JSON.parse(raw):null;},write(value){sessionStorage.setItem('collect.privacy.portal.v1',JSON.stringify(value));},clear(){sessionStorage.removeItem('collect.privacy.portal.v1');}};
  let lastStep='phone';
- const controller=createPrivacyPortalController({request:portalRequest,challenge:acquireChallenge,randomUUID:()=>crypto.randomUUID(),checkpoint,phoneAvailable,emailAvailable,changed(state){
+ const controller=createPrivacyPortalController({request:portalRequest,challenge:acquireChallenge,randomUUID:()=>crypto.randomUUID(),checkpoint,phoneAvailable,phoneChannel,emailAvailable,changed(state){
   for(const step of ['phone','code','email','email-code','email-unknown','request','confirm','unknown','received'])$('step-'+step).hidden=state.step!==step;
   $('use-email').hidden=!emailAvailable||state.signedIn||state.verification==='email';text('status',state.message);text('error',state.error);if(state.signedIn){$('phone').value='';$('code').value='';$('email').value='';$('email-code').value='';}$('error').hidden=!state.error;page.setAttribute('aria-busy',String(state.busy));
   for(const element of page.querySelectorAll('button,input'))element.disabled=state.busy;

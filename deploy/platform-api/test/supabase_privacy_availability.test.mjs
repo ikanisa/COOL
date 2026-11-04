@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {privacyPortalRoute} from '../../../supabase/functions/_shared/domain/privacy_portal.js';
-import {privacyPortalScript} from '../../../supabase/functions/_shared/domain/privacy_portal_assets.js';
 import {startOtp} from '../../../supabase/functions/_shared/domain/auth.js';
 
 // Actual route and OTP admission, stopped at an explicitly fake database.
@@ -14,7 +13,13 @@ const cases = [
   ['explicit enabled wins over legacy false', {...explicit, AUTH_WHATSAPP_ENABLED: 'true', AUTH_PHONE_ENABLED: 'false'}, true, true],
   ['explicit disabled wins over legacy true', {...explicit, AUTH_WHATSAPP_ENABLED: 'false', AUTH_PHONE_ENABLED: 'true'}, false, false],
   ['explicit profile missing flag refuses legacy true', {...explicit, AUTH_PHONE_ENABLED: 'true'}, false, false],
-  ['OpenSMS SMS-only mode', {...explicit, AUTH_PHONE_DELIVERY_MODE: 'opensms_hook', AUTH_SMS_ENABLED: 'true', AUTH_WHATSAPP_ENABLED: 'false'}, false, false],
+  ['OpenSMS SMS-only mode', {...explicit, AUTH_PHONE_DELIVERY_MODE: 'opensms_hook', AUTH_SMS_ENABLED: 'true', AUTH_WHATSAPP_ENABLED: 'false'}, true, false, 'sms'],
+  ['both explicit channels preserve WhatsApp preference', {...explicit, AUTH_SMS_ENABLED:'true', AUTH_WHATSAPP_ENABLED:'true'}, true, true, 'whatsapp'],
+  ['SMS flag must be exact', {...explicit, AUTH_SMS_ENABLED:'TRUE', AUTH_WHATSAPP_ENABLED:'false'}, false, false, ''],
+  ['SMS without CAPTCHA site key', {...explicit, AUTH_SMS_ENABLED:'true', AUTH_WHATSAPP_ENABLED:'false', TURNSTILE_SITE_KEY:''}, false, false, ''],
+  ['SMS with invalid CAPTCHA site key', {...explicit, AUTH_SMS_ENABLED:'true', AUTH_WHATSAPP_ENABLED:'false', TURNSTILE_SITE_KEY:'bad!'}, false, false, ''],
+  ['WhatsApp without CAPTCHA site key', {...explicit, AUTH_WHATSAPP_ENABLED:'true', TURNSTILE_SITE_KEY:''}, false, true, ''],
+  ['WhatsApp with invalid CAPTCHA site key', {...explicit, AUTH_WHATSAPP_ENABLED:'true', TURNSTILE_SITE_KEY:'bad!'}, false, true, ''],
   ['legacy enabled', {AUTH_PHONE_ENABLED: 'true'}, true, true],
   ['legacy disabled', {AUTH_PHONE_ENABLED: 'false'}, false, false],
   ['legacy absent remains conservative in portal', {}, false, true],
@@ -23,15 +28,18 @@ const cases = [
   ['missing Supabase URL', {...explicit, AUTH_WHATSAPP_ENABLED: 'true', SUPABASE_URL: ''}, false, true],
 ];
 
-test('portal WhatsApp availability follows explicit admission and legacy fallback', async () => {
-  assert.ok(privacyPortalScript.includes("channel:'whatsapp'"));
-  for (const [name, flags, expectedPortal, expectedAdmission] of cases) {
+test('portal selects an explicitly admitted channel while preserving legacy WhatsApp behavior', async () => {
+  for (const [name, flags, expectedPortal, expectedAdmission, expectedChannel = expectedPortal ? 'whatsapp' : ''] of cases) {
     let calls = 0;
     const env = {...base, ...flags, DB: {prepare() {calls++; throw Error('synthetic_fake_database_stop');}}};
     const response = privacyPortalRoute(new Request('https://api.collect.example/privacy/account-deletion'), env);
-    const marker = /data-verification-available="(true|false)"/.exec(await response.text());
+    const page = await response.text();
+    const marker = /data-verification-available="(true|false)"/.exec(page);
     assert.ok(marker, name);
     assert.equal(marker[1] === 'true', expectedPortal, name);
+    assert.match(page, new RegExp('data-verification-channel="' + expectedChannel + '"'), name);
+    if(!expectedPortal)assert.match(page, /id="step-phone" hidden>/, name);
+    if(expectedChannel) assert.match(page, new RegExp('Verification uses ' + (expectedChannel === 'sms' ? 'SMS' : 'WhatsApp')), name);
     let admitted = false;
     try {
       await startOtp(env, {phone: '+250788123456', surface: 'member', channel: 'whatsapp',

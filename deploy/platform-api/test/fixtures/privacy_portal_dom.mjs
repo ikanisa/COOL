@@ -39,10 +39,10 @@ function documentFrom(html,origin,window){
 const encodedJwt=claims=>Buffer.from('{"alg":"ES256"}').toString('base64url')+'.'+Buffer.from(JSON.stringify(claims)).toString('base64url')+'.synthetic';
 const instant=now=>new Date(now).toISOString().replace(/\.(\d{3})Z$/,'.$1000Z');
 
-export async function withMountedPrivacyPortal({client,route,phoneAvailable=false,failFirstChallenge=false,failLogout=false},check){
+export async function withMountedPrivacyPortal({client,route,phoneAvailable=false,phoneChannel='whatsapp',failFirstChallenge=false,failLogout=false},check){
  let clock=Date.now(),created=null,challengeCalls=0;const calls=[],timers=new Map(),window=new Events(),origin='https://collect.example';
  const saved=Object.fromEntries(['document','window','location','sessionStorage','fetch','setInterval','clearInterval'].map(key=>[key,{exists:Object.hasOwn(globalThis,key),value:globalThis[key]}])),savedNow=Date.now;
- const env={SUPABASE_URL:'https://rrlduytparvsjfmegalh.supabase.co',SUPABASE_PUBLISHABLE_KEY:'sb_publishable_fixture_only',AUTH_PHONE_ENABLED:phoneAvailable?'true':'false',TURNSTILE_SITE_KEY:'synthetic-site-key'};
+ const env={SUPABASE_URL:'https://rrlduytparvsjfmegalh.supabase.co',SUPABASE_PUBLISHABLE_KEY:'sb_publishable_fixture_only',AUTH_PHONE_ENABLED:phoneAvailable?'true':'false',TURNSTILE_SITE_KEY:'synthetic-site-key',...(phoneAvailable&&phoneChannel==='sms'?{COLLECT_DEPLOYMENT_PROFILE:'synthetic',AUTH_SMS_ENABLED:'true',AUTH_WHATSAPP_ENABLED:'false'}:{})};
  const html=await route(new Request(origin+'/privacy/account-deletion'),env).text();const document=documentFrom(html,origin,window),storage=new Map();
  const principal=randomUUID(),managed=randomUUID(),sid=randomUUID(),email='mounted.member@example.test';
  const envelope=body=>({...Object.fromEntries(['contract_version','purpose','mode','challenge_id','challenge_context'].map(key=>[key,body[key]])),identity_type:'email',channel:'email'});
@@ -51,6 +51,7 @@ export async function withMountedPrivacyPortal({client,route,phoneAvailable=fals
  const fetch=async(path,init)=>{
   assert.equal(init.method,'POST');const body=JSON.parse(init.body);calls.push({path,body,headers:init.headers});
   if(path.startsWith('/v1/privacy/email/'))assert.equal(Object.hasOwn(init.headers,'Authorization'),false);
+  if(path==='/v1/auth/otp')return Response.json({challenge_id:randomUUID(),channel:body.channel,retry_after:60,expires_in:300,delivery_status:'unknown'});
   if(path.endsWith('/challenge')){created=Math.floor(clock/1000);if(failFirstChallenge&&++challengeCalls===1)throw Error('SYNTHETIC_LOST_CHALLENGE_REPLY');return Response.json(descriptor(body),{status:202});}
   if(path.endsWith('/verify'))return Response.json(candidate(body));
   if(path.endsWith('/cancel'))return Response.json({...descriptor(body),cancelled:true});

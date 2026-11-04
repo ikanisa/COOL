@@ -164,6 +164,17 @@ test('mounted identity forms cancel native navigation before handling submission
  }
 });
 
+test('mounted SMS-only portal sends the configured channel and preserves unknown delivery',async()=>{
+ await withMountedPrivacyPortal({client,route:privacyPortalRoute,phoneAvailable:true,phoneChannel:'sms'},async h=>{
+  assert.ok(h.visible('phone-form'));
+  h.node('phone').value='+250788000001';await h.submit('phone-form');
+  const requests=h.calls.filter(c=>c.path==='/v1/auth/otp');assert.equal(requests.length,1);
+  assert.equal(requests[0].body.channel,'sms');assert.equal(requests[0].body.allow_registration,false);
+  assert.equal(requests[0].body.should_create_user,false);assert.equal(requests[0].body.captcha_token,'synthetic-mounted-captcha');
+  assert.ok(h.visible('code-form'));assert.match(h.node('status').textContent,/could not be confirmed/);
+ });
+});
+
 test('actual email fetch adapter preserves no-cookie same-origin POST and bounded raw statuses',async t=>{
  const old=globalThis.fetch,calls=[];t.after(()=>{globalThis.fetch=old;});
  globalThis.fetch=async(path,init)=>{calls.push({path,init});return new Response(JSON.stringify({synthetic:true}),{status:202,headers:{'Content-Type':'application/json'}});};

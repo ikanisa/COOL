@@ -217,5 +217,12 @@ export async function handleAuth(request,env) {
  throw new ApiError(404,'not_found','This identity operation does not exist.');
 }
 
-export const otpDeliveryAvailable=env=>Boolean(env.SUPABASE_URL&&env.SUPABASE_PUBLISHABLE_KEY)&&
- (env.AUTH_WHATSAPP_ENABLED!==undefined||env.AUTH_PHONE_ENABLED==='true')&&phoneChannelEnabled(env,'whatsapp');
+// Keep the existing WhatsApp preference for compatible configurations. SMS is
+// offered only when explicitly enabled, including the self-hosted OpenSMS mode.
+export function otpDeliveryChannel(env) {
+ if(!env.SUPABASE_URL||!env.SUPABASE_PUBLISHABLE_KEY)return null;
+ if((env.AUTH_WHATSAPP_ENABLED!==undefined||env.AUTH_PHONE_ENABLED==='true')&&phoneChannelEnabled(env,'whatsapp'))return 'whatsapp';
+ if(env.AUTH_SMS_ENABLED==='true'&&phoneChannelEnabled(env,'sms'))return 'sms';
+ return null;
+}
+export const otpDeliveryAvailable=env=>otpDeliveryChannel(env)!==null;
