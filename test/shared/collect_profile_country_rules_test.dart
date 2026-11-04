@@ -32,4 +32,31 @@ void main() {
     expect(ready.copyWith(currencyCode: 'EUR').isComplete, isFalse);
     expect(ready.copyWith(momoNumber: '').isComplete, isFalse);
   });
+
+  test('missing MoMo data does not become the sign-in phone', () {
+    final data = <String, dynamic>{
+      'id': 'user-1',
+      'public_id': '123456',
+      'whatsapp_phone': '+250788123456',
+      'country_code': 'RW',
+      'currency_code': 'RWF',
+      'momo_provider': 'mtn_momo',
+    };
+    for (final value in [null, '']) {
+      final profile = CollectProfile.fromJson({...data, 'momo_number': value});
+      expect(profile.momoNumber, isEmpty);
+      expect(profile.isComplete, isFalse);
+    }
+    final omitted = CollectProfile.fromJson(data);
+    expect(omitted.momoNumber, isEmpty);
+    expect(omitted.isComplete, isFalse);
+
+    final different = CollectProfile.fromJson({
+      ...data,
+      'momo_number': '0788999000',
+    });
+    expect(different.momoNumber, '0788999000');
+    expect(different.whatsappPhone, '+250788123456');
+    expect(different.isComplete, isTrue);
+  });
 }

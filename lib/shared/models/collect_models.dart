@@ -541,16 +541,6 @@ class AccountRequestReasonOption {
   }
 }
 
-String _defaultRwandaMomoNumber(String whatsappPhone, String countryCode) {
-  if (countryCode.trim().toUpperCase() != 'RW') return '';
-  final digits = whatsappPhone.replaceAll(RegExp(r'\D'), '');
-  if (RegExp(r'^2507[2389][0-9]{7}$').hasMatch(digits)) {
-    return '0${digits.substring(3)}';
-  }
-  if (RegExp(r'^07[2389][0-9]{7}$').hasMatch(digits)) return digits;
-  return '';
-}
-
 @immutable
 class CollectProfile {
   const CollectProfile({
@@ -594,9 +584,9 @@ class CollectProfile {
           ? storedCurrency!
           : CollectProfileCountryRules.currencyForCountry(countryCode),
       momoProvider: (json['momo_provider'] as String?)?.trim() ?? '',
-      momoNumber:
-          (json['momo_number'] as String?)?.trim() ??
-          _defaultRwandaMomoNumber(whatsappPhone, countryCode),
+      // A sign-in phone is not evidence of a saved MoMo account. Missing
+      // account data must leave the profile incomplete until it is supplied.
+      momoNumber: (json['momo_number'] as String?)?.trim() ?? '',
       momoPayCode: (json['momo_pay_code'] as String?)?.trim() ?? '',
     );
   }
