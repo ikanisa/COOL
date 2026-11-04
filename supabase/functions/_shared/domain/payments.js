@@ -20,11 +20,23 @@ export function normalizeContributionSender(value) {
  return /^\+2507[2389][0-9]{7}$/.test(normalized)?normalized:null;
 }
 export function boundCreationReceipt(row,senderHash) {
- if(typeof row?.creation_response_json!=='string'||new TextEncoder().encode(row.creation_response_json).length>8192||!/^([a-f0-9]{64})$/.test(senderHash))return false;
+ if(typeof row?.creation_response_json!=='string'||row.creation_response_json.length>8192||new TextEncoder().encode(row.creation_response_json).length>8192||typeof senderHash!=='string'||!/^([a-f0-9]{64})$/.test(senderHash))return false;
  try {
   const saved=JSON.parse(row.creation_response_json);
   return JSON.stringify(saved)===row.creation_response_json&&stableJson(saved)===stableJson(intentJson({...row,status:'pending',sender_phone_hash:senderHash}));
  }catch{return false;}
+}
+function restoreOriginalSender(row,sessionId) {
+ // Only the immutable, exact create receipt can supply this binding. A later
+ // profile value or an unverified database projection is not original evidence.
+ const raw=row.creation_response_json;
+ if(row.originating_session_id===sessionId&&typeof raw==='string'&&raw.length<=8192&&new TextEncoder().encode(raw).length<=8192){
+  try{
+   const hash=JSON.parse(raw)?.sender_phone_hash;
+   if(boundCreationReceipt(row,hash))return {...row,sender_phone_hash:hash};
+  }catch{/* An unavailable receipt leaves this historical intent non-actionable. */}
+ }
+ return {...row,sender_phone_hash:''};
 }
 async function intentConfirmation(env,intent,actor){
  const linked=await first(env,`SELECT p.id,p.status,p.member_id,p.amount_minor,l.id AS entry_id,l.posted_at
@@ -61,10 +73,14 @@ export async function financialRpc(operation,body,env,actor,internal={}) {
  }
  case 'list_current_member_recent_intents': {
   const selected=body.p_intent_id==null?null:uuid(body.p_intent_id,'intent_id');
-  const list=await rows(env,`SELECT * FROM payment_intents WHERE member_id=? AND (? IS NULL OR id=?) ORDER BY created_at DESC,id LIMIT 50`,actor.userId,selected,selected);
+  const list=await rows(env,`SELECT p.*,CASE WHEN length(r.response_json)<=8192 THEN r.response_json ELSE NULL END AS creation_response_json FROM payment_intents p
+   LEFT JOIN request_receipts r ON r.user_id=p.member_id AND r.request_id=p.request_id AND r.operation='create_contribution_intent'
+    AND r.session_id=p.originating_session_id AND r.body_sha256=p.request_sha256
+   WHERE p.member_id=? AND (? IS NULL OR p.id=?) ORDER BY p.created_at DESC,p.id LIMIT 50`,actor.userId,selected,selected);
   const count=await first(env,`SELECT count(*) AS n FROM payment_intents WHERE member_id=? AND status='pending' AND expires_at>?`,actor.userId,now());
   const pipeline=await first(env,"SELECT name FROM sqlite_master WHERE type='table' AND name='momo_financial_links'");
-  return {handled:true,value:{items:pipeline?await Promise.all(list.map(row=>intentConfirmation(env,row,actor))):list.map(intentJson),pending_count:count.n}};
+  const original=list.map(row=>restoreOriginalSender(row,actor.sessionId));
+  return {handled:true,value:{items:pipeline?await Promise.all(original.map(row=>intentConfirmation(env,row,actor))):original.map(intentJson),pending_count:count.n}};
  }
  case 'list_current_member_collection_balances': {
   // Authority, all group totals and supporter counts share one MVCC snapshot.
