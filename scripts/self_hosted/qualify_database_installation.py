@@ -6,6 +6,13 @@ Docker, actual GoTrue/Realtime services and production admission are not tested.
 The installer, migration transactions and immutable journal are real.
 """
 from __future__ import annotations
+
+# The qualification below relies on assertions to perform and verify checks.
+# Refuse before importing project code or creating a cluster when Python would
+# remove those assertions.
+if not __debug__:
+    raise SystemExit('Database installation qualification requires non-optimized Python.')
+
 import argparse
 import hashlib
 import json
