@@ -95,6 +95,21 @@ class PreparationSourceSafety(unittest.TestCase):
         ancestor.unlink();saved.rename(ancestor)
         self.assertEqual(self.sentinel.read_bytes(),b'outside evidence')
 
+    def test_absolute_ancestor_swap_is_refused_without_following(self):
+        requested=self.root/'supabase/functions';ancestor=self.root/'supabase'
+        saved=self.root/'supabase-saved';original=module._open_child_directory;swapped=False
+        def swap_before_open(parent,name):
+            nonlocal swapped
+            if name=='supabase' and not swapped:
+                ancestor.rename(saved);ancestor.symlink_to(self.outside,target_is_directory=True);swapped=True
+            return original(parent,name)
+        try:
+            with patch.object(module,'_open_child_directory',side_effect=swap_before_open):
+                with self.assertRaises(ValueError):module._open_physical_root(requested)
+        finally:
+            if swapped:ancestor.unlink();saved.rename(ancestor)
+        self.assertTrue(swapped);self.assertEqual(self.sentinel.read_bytes(),b'outside evidence')
+
     def test_excluded_source_link_is_skipped_without_exporting_it(self):
         before=self.capture()['manifest']
         (self.root/'supabase/functions/node_modules').symlink_to(self.outside,target_is_directory=True)
@@ -157,6 +172,19 @@ class PreparationSourceSafety(unittest.TestCase):
         (output/'source').unlink();module._stage_inputs(output,snapshot)
         with self.assertRaises(FileExistsError):module._stage_inputs(output,snapshot)
         self.assertEqual((output/'source/supabase/functions/main.js').read_bytes(),self.sources['supabase/functions/main.js'])
+
+    def test_stripped_vendor_directory_mode_is_refused(self):
+        snapshot=self.capture();output=self.base/'release';output.mkdir()
+        original_fchmod=os.fchmod;stripped=False
+        def strip_vendor_mode(fd,mode):
+            nonlocal stripped
+            if stat.S_ISDIR(os.fstat(fd).st_mode) and mode==0o750:
+                stripped=True;return original_fchmod(fd,0o740)
+            return original_fchmod(fd,mode)
+        with patch.object(module.os,'fchmod',side_effect=strip_vendor_mode):
+            with self.assertRaisesRegex(ValueError,'Release source directory changed'):
+                module._stage_inputs(output,snapshot)
+        self.assertTrue(stripped);self.assertEqual(self.sentinel.read_bytes(),b'outside evidence')
 
     def test_vendor_lock_refuses_missing_extra_duplicate_and_unsafe_paths(self):
         original=self.lock['files'];valid=original[0]

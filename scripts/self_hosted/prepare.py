@@ -114,13 +114,14 @@ def _same_inode(first,second):
 def _open_physical_root(root):
     root=Path(root).absolute()
     if root.resolve(strict=True)!=root:raise ValueError('Physical source root required')
-    before=root.lstat()
-    if not stat.S_ISDIR(before.st_mode):raise ValueError('Physical source root required')
-    fd=os.open(root,_directory_flags())
-    actual=os.fstat(fd)
-    if not stat.S_ISDIR(actual.st_mode) or not _same_inode(before,actual):
-        os.close(fd);raise ValueError('Source root changed')
-    return fd
+    fd=os.open(root.anchor,_directory_flags())
+    try:
+        for part in root.parts[1:]:
+            child=_open_child_directory(fd,part)
+            previous=fd;fd=child;os.close(previous)
+        return fd
+    except BaseException:
+        os.close(fd);raise
 
 def _open_child_directory(parent,name):
     before=os.stat(name,dir_fd=parent,follow_symlinks=False)
@@ -295,7 +296,7 @@ def _stage_inputs(output,snapshot):
                 relative='/'.join(parts[1:]);mode=snapshot['vendor_dirs'][relative]
             os.fchmod(fd,mode)
             parent,name=directory_links[parts];linked=os.stat(name,dir_fd=parent,follow_symlinks=False)
-            if not stat.S_ISDIR(linked.st_mode) or not _same_inode(linked,os.fstat(fd)):raise ValueError('Release source directory changed')
+            if not stat.S_ISDIR(linked.st_mode) or stat.S_IMODE(linked.st_mode)!=mode or not _same_inode(linked,os.fstat(fd)):raise ValueError('Release source directory changed')
         if not _same_inode(Path(output).lstat(),os.fstat(root_fd)):raise ValueError('Release directory changed')
     finally:
         for fd in reversed(list(directories.values())):os.close(fd)
