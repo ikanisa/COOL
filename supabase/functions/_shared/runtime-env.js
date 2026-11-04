@@ -15,8 +15,10 @@ export function configurePublicRuntimeEnv(input){
  env.ADMIN_ORIGIN=profile.admin_origin;env.ADMIN_ORIGINS=profile.admin_origin;env.ALLOWED_ORIGINS=[...new Set(allowed)].join(',');
  return env;
 }
-export function normalizeRuntimeEnv(input){
- const env=configurePublicRuntimeEnv(input),url=field(env,'SUPABASE_URL'),database=field(env,'COLLECT_DATABASE_URL')??field(env,'SUPABASE_DB_URL');
+// Validate the database target independently of Supabase application keys.
+// The signed SMS hook needs the same target policy but does not receive those keys.
+function databaseTarget(env){
+ const url=field(env,'SUPABASE_URL'),database=field(env,'COLLECT_DATABASE_URL')??field(env,'SUPABASE_DB_URL');
  if(!url||!database)throw new Error('Supabase origin and database must be configured');
  const origin=new URL(url),db=new URL(database),loopback=['127.0.0.1','localhost','::1','[::1]'].includes(db.hostname),fixture=env.APP_ENVIRONMENT==='test'&&loopback;
  if(origin.origin!==url||origin.protocol!=='https:'||origin.username||origin.password)throw new Error('Invalid Supabase origin');
@@ -42,6 +44,14 @@ export function normalizeRuntimeEnv(input){
    if((!direct&&!pooler)||db.pathname!=='/postgres'||!['','5432','6543'].includes(db.port))throw new Error('Database project identity mismatch');
   }
  }
+ db.search='';
+ return {url,db,fixture,selfHosted};
+}
+export function normalizeDatabaseTarget(input){
+ return databaseTarget(configurePublicRuntimeEnv(input)).db.href;
+}
+export function normalizeRuntimeEnv(input){
+ const env=configurePublicRuntimeEnv(input),{url,db,fixture,selfHosted}=databaseTarget(env);
  const issuer=field(env,'SUPABASE_AUTH_ISSUER');
  if(issuer!==null&&issuer!==url+'/auth/v1')throw new Error('Auth issuer must use the public Supabase origin');
  env.SUPABASE_AUTH_ISSUER=url+'/auth/v1';
@@ -51,7 +61,6 @@ export function normalizeRuntimeEnv(input){
  for(const name of ['AUTH_ANONYMOUS_ENABLED','AUTH_SMS_ENABLED','AUTH_WHATSAPP_ENABLED']){
   if(env[name]!==undefined&&!['true','false'].includes(env[name]))throw new Error('Invalid '+name);
  }
- db.search='';
  const publicDefault=dictionary(env,'SUPABASE_PUBLISHABLE_KEYS'),secretDefault=dictionary(env,'SUPABASE_SECRET_KEYS');
  const publicKey=field(env,'SUPABASE_PUBLISHABLE_KEY')??publicDefault??field(env,'SUPABASE_ANON_KEY');
  const serverKey=field(env,'SUPABASE_SECRET_KEY')??secretDefault??field(env,'SUPABASE_SERVICE_ROLE_KEY');

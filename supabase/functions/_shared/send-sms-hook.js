@@ -2,14 +2,19 @@ import {createHandler as createSignedHandler} from '../send-sms-hook/handler.mjs
 import {verifyDeploymentProfile} from './deployment-profile.js';
 import {assertRuntimeDeployment} from './deployment-database.js';
 import {connection,fenceConnection} from './postgres.js';
+import {normalizeDatabaseTarget} from './runtime-env.js';
 import {openApplicationWork,sqlFenceBackend,guardedFetch,noteUnknownEffect} from './application-fence.js';
 
 const unavailable=()=>new Response(JSON.stringify({error:{http_code:503,message:'SMS service unavailable.'}}),
  {status:503,headers:{'Content-Type':'application/json','Cache-Control':'no-store'}});
 async function beginWork(env){
- const sql=connection(env.COLLECT_DATABASE_URL,env);
+ // This worker deliberately has no injected Supabase database or service keys.
+ // Validate the explicit target before opening either fence connection.
+ if(!env.COLLECT_DATABASE_URL)throw Error('COLLECT_DATABASE_URL is required.');
+ const target=normalizeDatabaseTarget(env);
+ const sql=connection(target,env);
  await assertRuntimeDeployment(sql,env);
- return openApplicationWork({backend:sqlFenceBackend(sql,fenceConnection(env.COLLECT_DATABASE_URL,env)),sourceSha256:env.BUILD_SOURCE_ID,kind:'http_collect'});
+ return openApplicationWork({backend:sqlFenceBackend(sql,fenceConnection(target,env)),sourceSha256:env.BUILD_SOURCE_ID,kind:'http_collect'});
 }
 
 /** Signature/body validation precedes every DB admission and provider operation.
