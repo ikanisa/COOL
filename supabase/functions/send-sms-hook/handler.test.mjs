@@ -225,6 +225,37 @@ test('bad or privileged configuration fails closed without leaking the credentia
   }
 });
 
+test('enabled OpenSMS namespace, credential, label and TTL boundaries match preparation', async () => {
+  for (const overrides of [
+    { OPENSMS_APPLICATION_ID: 'A', OPENSMS_APPLICATION_TOKEN: 'app_' + 'x'.repeat(32), OPENSMS_SENDER_LABEL: '', OPENSMS_DISPATCH_TTL_SECONDS: '30' },
+    { OPENSMS_APPLICATION_ID: 'A'.repeat(80), OPENSMS_APPLICATION_TOKEN: 'app_' + 'x'.repeat(252), OPENSMS_SENDER_LABEL: 'A'.repeat(40), OPENSMS_DISPATCH_TTL_SECONDS: '030' },
+    { OPENSMS_SENDER_LABEL: "O'Brien", OPENSMS_DISPATCH_TTL_SECONDS: '300' },
+  ]) {
+    const calls = [];
+    const transport = async (url, options) => {
+      calls.push(String(url));
+      if (options.method === 'GET') return Response.json({error: {code: 'not_found'}}, {status: 404});
+      return Response.json({message_id: JSON.parse(options.body).message_id, state: 'accepted'}, {status: 202});
+    };
+    const reply = await createHandler({...env, ...overrides}, {now: () => NOW, transport, cryptography: webcrypto})(signed());
+    assert.equal(reply.status, 200);
+    assert.equal(calls.length, 2);
+  }
+  for (const overrides of [
+    { OPENSMS_APPLICATION_ID: '_draft' }, { OPENSMS_APPLICATION_ID: 'A'.repeat(81) },
+    { OPENSMS_APPLICATION_TOKEN: 'x'.repeat(32) }, { OPENSMS_APPLICATION_TOKEN: 'app_' + 'x'.repeat(31) },
+    { OPENSMS_APPLICATION_TOKEN: 'app_' + 'x'.repeat(253) }, { OPENSMS_APPLICATION_TOKEN: 'app_' + 'x'.repeat(32) + '=' },
+    { OPENSMS_SENDER_LABEL: ' leading' }, { OPENSMS_SENDER_LABEL: 'A'.repeat(41) },
+    { OPENSMS_DISPATCH_TTL_SECONDS: '0030' }, { OPENSMS_DISPATCH_TTL_SECONDS: '٣٠' },
+    { OPENSMS_DISPATCH_TTL_SECONDS: '29' }, { OPENSMS_DISPATCH_TTL_SECONDS: '301' },
+  ]) {
+    const sms = service();
+    const reply = await handler(sms, overrides)(signed());
+    assert.equal(reply.status, 503);
+    assert.equal(sms.calls.length, 0);
+  }
+});
+
 test('HTTP requires local environment, explicit opt-in and a local/private host', async () => {
   for (const overrides of [
     { OPENSMS_ALLOW_LOCAL_HTTP: '' }, { APP_ENVIRONMENT: 'production' },

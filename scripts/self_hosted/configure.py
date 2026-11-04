@@ -79,7 +79,15 @@ def validated_settings(settings,profile,source_sha):
         if not re.fullmatch(r'AC[0-9a-fA-F]{32}',settings[prefix+'ACCOUNT_SID']) or len(settings[prefix+'AUTH_TOKEN'])<32 or not re.fullmatch(r'(?:MG|VA)[0-9a-fA-F]{32}',settings[prefix+'MESSAGE_SERVICE_SID']):raise ValueError('Native phone provider credentials and service required')
     if mode=='opensms_hook' and settings['AUTH_SMS_ENABLED']=='true':
         expected=profile['supabase_origin']+'/functions/v1/collect-sms'
-        if settings['OPENSMS_BASE_URL']!=expected or not re.fullmatch(r'[A-Za-z0-9_-]{1,100}',settings['OPENSMS_APPLICATION_ID']) or len(settings['OPENSMS_APPLICATION_TOKEN'])<32:raise ValueError('Same-deployment OTP-only OpenSMS application required')
+        # Match the signed Send SMS hook's runtime namespace and credential
+        # contract before declaring the enabled configuration usable.
+        label=settings['OPENSMS_SENDER_LABEL'] or 'Your app'
+        if (settings['OPENSMS_BASE_URL']!=expected
+            or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}',settings['OPENSMS_APPLICATION_ID'])
+            or not re.fullmatch(r'app_[A-Za-z0-9_-]{32,252}',settings['OPENSMS_APPLICATION_TOKEN'])
+            or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9 ._'-]{0,39}",label)
+            or not re.fullmatch(r'[0-9]{2,3}',settings['OPENSMS_DISPATCH_TTL_SECONDS'])):
+            raise ValueError('Same-deployment OTP-only OpenSMS application required')
         if settings['OPENSMS_APPLICATION_TOKEN']==settings['OPENSMS_RECEIPT_APPLICATION_TOKEN']:raise ValueError('OTP and receipt credentials must be distinct')
         if settings['COLLECT_SMS_ENABLED']!='true':raise ValueError('OTP hook requires the approved local gateway')
     if not settings['OPENSMS_DISPATCH_TTL_SECONDS'].isdigit() or not 30<=int(settings['OPENSMS_DISPATCH_TTL_SECONDS'])<=300:raise ValueError('SMS dispatch TTL outside bounds')

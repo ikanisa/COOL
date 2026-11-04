@@ -317,6 +317,32 @@ class Configuration(unittest.TestCase):
         validated_settings(sms,PROFILE,'a'*64);validated_settings({**sms,'AUTH_WHATSAPP_ENABLED':'true'},PROFILE,'a'*64)
         with self.assertRaises(ValueError):validated_settings({**sms,'AUTH_PHONE_DELIVERY_MODE':'opensms_hook','AUTH_WHATSAPP_ENABLED':'true'},PROFILE,'a'*64)
         with self.assertRaises(ValueError):validated_settings({**PROVIDER_SETTINGS,'AUTH_PHONE_DELIVERY_MODE':'custom'},PROFILE,'a'*64)
+    def test_enabled_opensms_settings_match_signed_hook_contract(self):
+        base={**PROVIDER_SETTINGS,'AUTH_SMS_ENABLED':'true','AUTH_PHONE_DELIVERY_MODE':'opensms_hook',
+            'COLLECT_SMS_ENABLED':'true','COLLECT_SMS_APPROVAL_SHA256':'a'*64,
+            'OPENSMS_BASE_URL':PROFILE['supabase_origin']+'/functions/v1/collect-sms',
+            'OPENSMS_APPLICATION_ID':'otp-app','OPENSMS_APPLICATION_TOKEN':'app_'+'a'*64,
+            'OPENSMS_SENDER_LABEL':'Collect','OPENSMS_DISPATCH_TTL_SECONDS':'120'}
+        for change in ({},{'OPENSMS_APPLICATION_ID':'A'}, {'OPENSMS_APPLICATION_ID':'A'*80},
+            {'OPENSMS_APPLICATION_TOKEN':'app_'+'x'*32}, {'OPENSMS_APPLICATION_TOKEN':'app_'+'x'*252},
+            {'OPENSMS_SENDER_LABEL':''}, {'OPENSMS_SENDER_LABEL':"O'Brien"},
+            {'OPENSMS_SENDER_LABEL':'A'*40}, {'OPENSMS_DISPATCH_TTL_SECONDS':'30'},
+            {'OPENSMS_DISPATCH_TTL_SECONDS':'030'}, {'OPENSMS_DISPATCH_TTL_SECONDS':'300'}):
+            with self.subTest(valid_fields=tuple(change)):
+                self.assertTrue(validated_settings({**base,**change},PROFILE,'a'*64)['configuration_only'])
+        for change in ({'OPENSMS_APPLICATION_ID':'_not-an-id'}, {'OPENSMS_APPLICATION_ID':'A'*81},
+            {'OPENSMS_APPLICATION_TOKEN':'x'*32}, {'OPENSMS_APPLICATION_TOKEN':'app_'+'x'*31},
+            {'OPENSMS_APPLICATION_TOKEN':'app_'+'x'*253}, {'OPENSMS_APPLICATION_TOKEN':'app_'+'x'*32+'='},
+            {'OPENSMS_SENDER_LABEL':' leading'}, {'OPENSMS_SENDER_LABEL':'bad\nlabel'},
+            {'OPENSMS_SENDER_LABEL':'A'*41}, {'OPENSMS_DISPATCH_TTL_SECONDS':'0030'},
+            {'OPENSMS_DISPATCH_TTL_SECONDS':'٣٠'}, {'OPENSMS_DISPATCH_TTL_SECONDS':'29'},
+            {'OPENSMS_DISPATCH_TTL_SECONDS':'301'}):
+            with self.subTest(invalid_fields=tuple(change)),self.assertRaises(ValueError):
+                validated_settings({**base,**change},PROFILE,'a'*64)
+        # Incomplete, disabled hook settings remain available for staging.
+        disabled={**PROVIDER_SETTINGS,'AUTH_PHONE_DELIVERY_MODE':'opensms_hook',
+            'OPENSMS_APPLICATION_ID':'_draft','OPENSMS_APPLICATION_TOKEN':'draft'}
+        self.assertTrue(validated_settings(disabled,PROFILE,'a'*64)['configuration_only'])
     def test_receipt_credentials_and_gateway_are_independent(self):
         settings={**PROVIDER_SETTINGS,'COLLECT_RECEIPT_SMS_ENABLED':'true','OPENSMS_RECEIPT_BASE_URL':PROFILE['supabase_origin']+'/functions/v1/collect-sms','OPENSMS_RECEIPT_APPLICATION_ID':'receipt','OPENSMS_RECEIPT_APPLICATION_TOKEN':'r'*48,'COLLECT_RECEIPT_SMS_APPROVAL_SHA256':'a'*64,'COLLECT_SMS_ENABLED':'true','COLLECT_SMS_APPROVAL_SHA256':'b'*64}
         validated_settings(settings,PROFILE,'c'*64)
