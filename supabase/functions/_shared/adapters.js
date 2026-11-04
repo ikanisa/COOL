@@ -87,7 +87,7 @@ function boundedMomoResponse(env,response){
    }
    const bytes=new Uint8Array(size);let offset=0;for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.byteLength;}
    return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes));
-  }catch(error){noteUnknownEffect(env,'ai');throw error;}
+  }catch{noteUnknownEffect(env,'ai');throw unavailable('ai_response');}
   finally{
    // Caller refusal does not acknowledge the original cancellation. Keep its
    // promise owned by the same admission, even when cancellation later fails.
@@ -95,7 +95,7 @@ function boundedMomoResponse(env,response){
     try{const raw=reader?reader.cancel():response.body.cancel();work.waitUntil(Promise.resolve(raw).catch(()=>noteUnknownEffect(env,'ai')));}
     catch{noteUnknownEffect(env,'ai');}
    }
-   reader?.releaseLock();
+   try{reader?.releaseLock();}catch{noteUnknownEffect(env,'ai');throw unavailable('ai_response');}
   }
  });
 }
