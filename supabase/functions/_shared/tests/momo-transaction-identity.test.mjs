@@ -27,7 +27,7 @@ test('single synthetic reference retains its exact ID and versioned checkpoint c
  const result=check();
  assert.equal(result.accepted,true);
  assert.equal(result.facts.provider_transaction_id,'001234567890');
- assert.equal(MOMO_PARSER_VERSION,'momo-validation.v3');
+ assert.equal(MOMO_PARSER_VERSION,'momo-validation.v4');
  assert.equal(MOMO_JOB_CHECKPOINT.dispatch,'momo_v2:provider_dispatch');
  assert.equal(MOMO_JOB_CHECKPOINT.unknown,'momo_v2:provider_outcome_unknown');
 });

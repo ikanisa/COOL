@@ -3,7 +3,7 @@ import {decrypt} from './encryption.js';
 
 export const MOMO_SCHEMA_VERSION='momo-extraction.v1';
 export const MOMO_PROMPT_VERSION='momo-evidence.v1';
-export const MOMO_PARSER_VERSION='momo-validation.v3';
+export const MOMO_PARSER_VERSION='momo-validation.v4';
 export const MOMO_MODEL='unconfigured-supabase-provider';
 const MAX_ATTEMPTS=4,LEASE_SECONDS=180;
 // SQLite evaluates unixepoch() per statement. The Postgres adapter translates
@@ -37,6 +37,71 @@ const escaped=value=>value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const sameText=(a,b)=>typeof a==='string'&&a.toLocaleLowerCase('en')===b.toLocaleLowerCase('en');
 const present=(body,text)=>typeof text==='string'&&text.length>0&&body.includes(text);
 const issue=code=>({code});
+
+// Bind the complete, unsigned numeric token to the same occurrence of the
+// source excerpt. A truncated excerpt must not turn part of a larger amount
+// or a signed value into a positive amount.
+function previousPoint(body,index){
+ if(index<=0)return null;
+ let start=index-1;
+ const unit=body.charCodeAt(start);
+ if(unit>=0xdc00&&unit<=0xdfff&&start>0){const high=body.charCodeAt(start-1);if(high>=0xd800&&high<=0xdbff)start--;}
+ return {value:body.slice(start,index),start};
+}
+function nextPoint(body,index){
+ if(index>=body.length)return null;
+ const value=String.fromCodePoint(body.codePointAt(index));
+ return {value,end:index+value.length};
+}
+const whitespace=value=>typeof value==='string'&&/^\s$/u.test(value);
+function amountAt(body,index,raw){
+ if(index<0||typeof raw!=='string'||!body.startsWith(raw,index))return false;
+ const left=previousPoint(body,index),right=nextPoint(body,index+raw.length);
+ if(left&&!whitespace(left.value)&&!':([{'.includes(left.value)&&!/^\p{Sc}$/u.test(left.value))return false;
+ if(right&&!whitespace(right.value)&&!')]}.,;:!?'.includes(right.value))return false;
+ let after=index+raw.length;
+ if(right&&(right.value==='.'||right.value===','))after=right.end;
+ let next=nextPoint(body,after);
+ while(next&&whitespace(next.value)){after=next.end;next=nextPoint(body,after);}
+ if(next&&/^\p{N}$/u.test(next.value))return false;
+ if(next&&(next.value==='.'||next.value===',')){
+  let cursor=next.end,digit=nextPoint(body,cursor);
+  while(digit&&whitespace(digit.value)){cursor=digit.end;digit=nextPoint(body,cursor);}
+  if(digit&&/^\p{N}$/u.test(digit.value))return false;
+ }
+ if(next&&(next.value==='e'||next.value==='E')&&/^[eE]\s*[+\-]?\s*\p{N}/u.test(body.slice(after,after+32)))return false;
+ let before=index,previous=previousPoint(body,before);
+ while(previous&&whitespace(previous.value)){before=previous.start;previous=previousPoint(body,before);}
+ if(['RWF','FRW'].includes(body.slice(Math.max(0,before-3),before).toUpperCase())){
+  before-=3;previous=previousPoint(body,before);
+  while(previous&&whitespace(previous.value)){before=previous.start;previous=previousPoint(body,before);}
+ }else if(previous&&/^\p{Sc}$/u.test(previous.value)){
+  before=previous.start;previous=previousPoint(body,before);
+  while(previous&&whitespace(previous.value)){before=previous.start;previous=previousPoint(body,before);}
+ }
+ let closing=next;
+ if(previous?.value==='('&&['RWF','FRW'].includes(body.slice(after,after+3).toUpperCase())){
+  let cursor=after+3;closing=nextPoint(body,cursor);
+  while(closing&&whitespace(closing.value)){cursor=closing.end;closing=nextPoint(body,cursor);}
+ }
+ if(previous?.value==='('&&closing?.value===')')return false;
+ return !previous||!/[\p{N}\p{Sm}\p{Pd}]/u.test(previous.value);
+}
+function wholeAmountEvidence(body,excerpt,raw){
+ if(!present(body,excerpt)||typeof raw!=='string'||!raw.length)return false;
+ const positions=[];
+ for(let pos=body.indexOf(raw);pos!==-1;pos=body.indexOf(raw,pos+1))if(amountAt(body,pos,raw))positions.push(pos);
+ if(!positions.length)return false;
+ const offsets=[];
+ for(let offset=excerpt.indexOf(raw);offset!==-1;offset=excerpt.indexOf(raw,offset+1))offsets.push(offset);
+ if(!offsets.length)return false;
+ const positionSet=new Set(positions),offsetSet=new Set(offsets);
+ for(let at=body.indexOf(excerpt);at!==-1;at=body.indexOf(excerpt,at+1)){
+  if(positions.length<=offsets.length){if(positions.some(pos=>offsetSet.has(pos-at)))return true;}
+  else if(offsets.some(offset=>positionSet.has(at+offset)))return true;
+ }
+ return false;
+}
 
 /** Commit this with the immutable raw row, never in a later HTTP request. */
 export function processingInsert(env,rawId,{bindingId=null,bindingVersion=null,mode='live',createdAt=now()}={}) {
@@ -139,7 +204,9 @@ export function validateMomoExtraction(output,source,account,profile=validatePro
  const aliases=profile.currency_aliases.map(escaped).join('|'),prefixes=profile.incoming_prefixes.map(escaped).join('|');
  const principalPattern=new RegExp(`(?:${prefixes})\\s+(?:(?:${aliases})\\s+([0-9][0-9,]*)|([0-9][0-9,]*)\\s+(?:${aliases}))(?![0-9,.])`,'giu');
  const incoming=[...body.matchAll(principalPattern)];
- if(incoming.length!==1||exactMinor(incoming[0]?.[1]??incoming[0]?.[2])!==amount||!present(output.evidence.incoming_success??'',incoming[0]?.[0])||!present(output.evidence.principal??'',output.principal_amount_raw))bad('principal_role_unverified');
+ const incomingAmount=incoming[0]?.[1]??incoming[0]?.[2];
+ const amountIndex=incoming.length===1&&typeof incomingAmount==='string'?incoming[0].index+incoming[0][0].lastIndexOf(incomingAmount):-1;
+ if(incoming.length!==1||exactMinor(incomingAmount)!==amount||!amountAt(body,amountIndex,incomingAmount)||!present(output.evidence.incoming_success??'',incoming[0]?.[0])||!wholeAmountEvidence(body,output.evidence.principal,output.principal_amount_raw))bad('principal_role_unverified');
  const tx=output.transaction_id_raw;
  if(typeof tx!=='string'||!tx.length||tx.length>160||!/^\S+$/.test(tx))bad('provider_identity_missing');
  else if(!transactionIdentityVerified(body,tx,output.evidence.transaction_id,profile.transaction_id_prefixes))bad('provider_identity_unverified');
@@ -147,8 +214,8 @@ export function validateMomoExtraction(output,source,account,profile=validatePro
  const time=transactionTime(output.transaction_datetime_raw,account,profile);if(!time)bad('ambiguous_provider_time');
  if(output.transaction_datetime_raw!==null&&!present(output.evidence.transaction_datetime??'',output.transaction_datetime_raw))bad('provider_time_evidence_missing');
  const fee=output.fee_amount_raw===null?null:exactMinor(output.fee_amount_raw),balance=output.wallet_balance_after_raw===null?null:exactMinor(output.wallet_balance_after_raw);
- if(output.fee_amount_raw!==null&&(fee===null||!present(output.evidence.fee??'',output.fee_amount_raw)||!/(?:fee|charge)/i.test(output.evidence.fee??'')))bad('fee_role_unverified');
- if(output.wallet_balance_after_raw!==null&&(balance===null||!present(output.evidence.wallet_balance_after??'',output.wallet_balance_after_raw)||!/balance/i.test(output.evidence.wallet_balance_after??'')))bad('balance_role_unverified');
+ if(output.fee_amount_raw!==null&&(fee===null||!wholeAmountEvidence(body,output.evidence.fee,output.fee_amount_raw)||!/(?:fee|charge)/i.test(output.evidence.fee??'')))bad('fee_role_unverified');
+ if(output.wallet_balance_after_raw!==null&&(balance===null||!wholeAmountEvidence(body,output.evidence.wallet_balance_after,output.wallet_balance_after_raw)||!/balance/i.test(output.evidence.wallet_balance_after??'')))bad('balance_role_unverified');
  if([output.payer_name_raw,output.payer_identifier_raw].some(value=>value!==null&&!present(output.evidence.payer??'',value)))bad('payer_evidence_missing');
  if(output.payer_identifier_raw!==null&&!/^(?:\+?[0-9][0-9 -]{5,24}|\*{2,}[0-9]{3,10})$/.test(output.payer_identifier_raw))bad('unsupported_payer_identifier');
  if(output.issues.length)bad('model_reported_issues');
