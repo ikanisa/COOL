@@ -1495,11 +1495,11 @@ def share_landing_page_html(kind:)
   end
   heading = group_link ? "Open this Collect group" : "Open Collect"
   intro = if group_link
-    "This privacy-safe link takes you to the exact group after sign-in. If you are new to Collect, the invitation is retained while you finish onboarding."
+    "Open this link in Collect. If you need to install the app, return to the original message and open the link again."
   else
     "Continue in the native Collect app. If Collect is not installed, use the official store for this phone."
   end
-  native_link = group_link ? "collect://group/shared-group" : "collect://app"
+  native_link = group_link ? nil : "collect://app"
   share_schema = JSON.generate(
     "@context" => "https://schema.org",
     "@graph" => [
@@ -1528,7 +1528,7 @@ def share_landing_page_html(kind:)
       <meta name="description" content="#{esc(description)}">
       <meta name="robots" content="noindex, nofollow">
       <meta name="theme-color" content="#{BRAND_BLACK}">
-      <meta name="apple-itunes-app" content="app-id=#{APPLE_APP_STORE_ID}, app-argument=#{PUBLIC_URL}#{canonical_path}" data-share-smart-banner>
+      #{group_link ? '<meta name="referrer" content="no-referrer">' : %(<meta name="apple-itunes-app" content="app-id=#{APPLE_APP_STORE_ID}, app-argument=#{PUBLIC_URL}#{canonical_path}" data-share-smart-banner>)}
       <link rel="canonical" href="#{PUBLIC_URL}#{canonical_path}" data-share-canonical>
       <link rel="icon" href="/icons/collect.png" type="image/png">
       <link rel="manifest" href="/manifest.json">
@@ -1555,10 +1555,10 @@ def share_landing_page_html(kind:)
         <nav id="site-nav" class="site-nav" data-site-nav aria-label="Public website">
           <a class="nav-link" href="/group-savings/">Group Savings</a>
           <a class="nav-link" href="/trust/">Trust &amp; Security</a>
-          <div class="mobile-menu-actions"><a class="button primary" href="#{GOOGLE_PLAY_URL}" data-collect-store-link>Get Collect</a></div>
+          <div class="mobile-menu-actions"><a class="button primary" href="#{GOOGLE_PLAY_URL}" data-collect-store-link>#{group_link ? "Google Play" : "Get Collect"}</a></div>
         </nav>
         <div class="header-actions">
-          <a class="button secondary" href="#{GOOGLE_PLAY_URL}" data-collect-store-link>Get Collect</a>
+          <a class="button secondary" href="#{GOOGLE_PLAY_URL}" data-collect-store-link>#{group_link ? "Google Play" : "Get Collect"}</a>
         </div>
       </header>
 
@@ -1568,36 +1568,36 @@ def share_landing_page_html(kind:)
             <p class="hero-eyebrow">Shared Collect link</p>
             <h1 data-share-heading>#{esc(heading)}</h1>
             <p class="hero-intro">#{esc(intro)}</p>
-            <p class="share-link-code" data-share-code#{group_link ? "" : " hidden"}>Secure group invitation</p>
-            #{group_link ? '<p class="share-link-validity">Collect confirms the invitation after sign-in. Expired, revoked or invalid links cannot join a group.</p>' : ''}
+            #{group_link ? '<p class="share-link-validity">Use the account you intend to join with, and choose Join in the app.</p><noscript><p>Enable JavaScript to open this link in Collect, or install Collect and reopen the original link from the message where you received it.</p></noscript>' : '<p class="share-link-code" data-share-code hidden>Secure group invitation</p>'}
+
             <div class="hero-actions">
-              <a class="button primary" href="#{native_link}" data-collect-open-link>Open in Collect</a>
-              <a class="button ghost" href="#{GOOGLE_PLAY_URL}" data-collect-store-link>Get Collect</a>
-              <button class="button ghost" type="button" data-collect-copy-link>Copy link</button>
+              #{group_link ? '<button class="button primary" type="button" data-collect-open-link disabled>Open in Collect</button>' : %(<a class="button primary" href="#{native_link}" data-collect-open-link>Open in Collect</a>)}
+              <a class="button ghost" href="#{GOOGLE_PLAY_URL}" data-collect-store-link>#{group_link ? "Google Play" : "Get Collect"}</a>
+              <button class="button ghost" type="button" data-collect-copy-link#{group_link ? " disabled" : ""}>Copy link</button>
             </div>
             <p class="share-link-store-options">
               <a href="#{APPLE_APP_STORE_URL}" aria-label="Get Collect on the Apple App Store">App Store</a>
               <span aria-hidden="true">&middot;</span>
               <a href="#{GOOGLE_PLAY_URL}" aria-label="Get Collect on Google Play">Google Play</a>
             </p>
-            <p class="share-link-status" data-share-status role="status" aria-live="polite"></p>
+            <p class="share-link-status" data-share-status role="status" aria-live="polite">#{group_link ? "If Open in Collect is unavailable, reopen the original link after installing." : ""}</p>
           </div>
           <div class="hero-device">
             <div class="hero-widget share-link-widget" aria-label="Collect shared link preview">
               <img src="/icons/collect.png" alt="" width="72" height="72">
               <span>#{group_link ? "COLLECT GROUP LINK" : "COLLECT APP LINK"}</span>
-              <strong>Private details stay in the app.</strong>
-              <p>Receiver numbers, raw payment messages and member phone numbers are never placed in this public link.</p>
+              <strong>#{group_link ? "Continue in Collect." : "Private details stay in the app."}</strong>
+              <p>#{group_link ? "Use your intended account and choose Join in the app." : "Receiver numbers, raw payment messages and member phone numbers are never placed in this public link."}</p>
             </div>
           </div>
         </section>
         <section class="start-section" aria-labelledby="share-link-help-heading">
           <div>
-            <h2 id="share-link-help-heading">#{group_link ? "A link that survives onboarding" : "Continue in the Collect app"}</h2>
+            <h2 id="share-link-help-heading">#{group_link ? "After installing Collect" : "Continue in the Collect app"}</h2>
           </div>
           <div>
-            <p>#{group_link ? "Collect retains the invitation link for up to 24 hours on the device, then joins only after the member signs in and the backend confirms that the invitation is current." : "Open Collect if it is installed, or use the store link for this device to install the app. Group invitations are confirmed separately after sign-in."}</p>
-            <p>Having a link does not expose payment credentials or confirm a payment.</p>
+            <p>#{group_link ? "Return to the original message and open its link again. Sign in to the account you want to use and choose Join in the app." : "Open Collect if it is installed, or use the store link for this device to install the app. Group invitations are confirmed separately after sign-in."}</p>
+            <p>#{group_link ? "Having a link does not join you to a group or confirm a payment." : "Having a link does not expose payment credentials or confirm a payment."}</p>
           </div>
         </section>
       </main>
@@ -1749,7 +1749,83 @@ def site_js
       window.location.replace('/privacy/');
     }
     const shareLanding = document.querySelector('[data-share-landing]');
-    if (shareLanding) {
+    if (shareLanding && shareLanding.dataset.shareLanding === 'group') {
+      const openLink = document.querySelector('[data-collect-open-link]');
+      const copyButton = document.querySelector('[data-collect-copy-link]');
+      const status = document.querySelector('[data-share-status]');
+      const googlePlayUrl = '#{GOOGLE_PLAY_URL}', appleAppStoreUrl = '#{APPLE_APP_STORE_URL}';
+      const userAgent = navigator.userAgent || '';
+      const platform = navigator.userAgentData?.platform || navigator.platform || '';
+      const isIPadOS = platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+      const isIOS = /iPad|iPhone|iPod/i.test(userAgent) || isIPadOS;
+      const isAndroid = /Android/i.test(userAgent);
+      const storeUrl = isIOS ? appleAppStoreUrl : googlePlayUrl;
+      const storeLabel = isIOS ? 'Get on the App Store' : isAndroid ? 'Get it on Google Play' : 'Get Collect';
+      document.querySelectorAll('[data-collect-store-link]').forEach((link) => {
+        link.href = storeUrl;
+        link.textContent = storeLabel;
+        link.setAttribute('aria-label', isIOS ? 'Get Collect on the Apple App Store' :
+          isAndroid ? 'Get Collect on Google Play' : 'Get Collect for this device');
+      });
+      // A stale, href-bearing group template is incompatible with this script.
+      if (!openLink || openLink.tagName !== 'BUTTON') {
+        if (openLink) {
+          openLink.removeAttribute('href');
+          openLink.setAttribute('aria-disabled', 'true');
+          openLink.addEventListener('click', (event) => event.preventDefault());
+        }
+        if (copyButton) copyButton.disabled = true;
+        if (status) status.textContent = 'Reopen the original link after installing Collect.';
+      } else {
+        const address = new URL(window.location.href), parts = address.pathname.split('/');
+        const keys = [...address.searchParams.keys()].map((key) => key.toLowerCase());
+        const legacy = ['/c','/c/','/c/index.html','/group-link','/group-link/','/group-link/index.html'].includes(address.pathname.toLowerCase());
+        let candidate = null;
+        const expectedOrigin = #{JSON.generate(PUBLIC_URL)};
+        if (address.protocol === 'https:' && address.origin === expectedOrigin &&
+            !address.username && !address.password && !address.href.includes('#')) {
+          if (legacy && keys.filter((key) => key === 'slug').length === 1 &&
+              !keys.some((key) => key === 'code' || key === 'group')) {
+            candidate = [...address.searchParams.entries()].find(([key]) => key.toLowerCase() === 'slug')?.[1] ?? null;
+          } else if (!legacy && parts.length === 3 && parts[0] === '' && parts[1].toLowerCase() === 'c' &&
+                     !keys.some((key) => ['code', 'slug', 'group'].includes(key))) {
+            try { candidate = decodeURIComponent(parts[2]); } catch (_) {}
+          }
+        }
+        const slug = candidate?.trim().toLowerCase() ?? '';
+        // Match the version and variant accepted by the actual join validator.
+        const match = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/.exec(slug);
+        const valid = candidate === candidate?.trim() && slug.length === 36 && match?.[0] === slug;
+        if (valid) {
+          const stillCurrent = () => {
+            if (window.location.href === address.href) return true;
+            openLink.disabled = true;
+            if (copyButton) copyButton.disabled = true;
+            if (status) status.textContent = 'The link changed. Open the current link again.';
+            return false;
+          };
+          openLink.disabled = false;
+          openLink.addEventListener('click', () => {
+            if (stillCurrent()) window.location.assign(`collect://group/${encodeURIComponent(slug)}`);
+          });
+          if (copyButton) {
+            copyButton.disabled = false;
+            copyButton.addEventListener('click', async () => {
+              if (!stillCurrent()) return;
+              try {
+                const canonical = new URL(`/c/${encodeURIComponent(slug)}`, address.origin).href;
+                await navigator.clipboard.writeText(canonical);
+                if (window.location.href === address.href && status) status.textContent = 'Link copied.';
+              } catch (_) {
+                if (window.location.href === address.href && status) status.textContent = 'Return to the original message to open the link again.';
+              }
+            });
+          }
+        } else if (status) {
+          status.textContent = 'This group link cannot be used with this version of Collect. Ask the sender for a new link.';
+        }
+      }
+    } else if (shareLanding) {
       const segments = window.location.pathname.split('/').filter(Boolean);
       const search = new URLSearchParams(window.location.search);
       const kind = shareLanding.dataset.shareLanding;

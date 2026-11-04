@@ -60,8 +60,11 @@ test('public directory indexes are isolated from Admin and retain static-file pr
   assert.equal(await (await request(profile.public_origin,'/inside-directory')).text(),'PUBLIC-PRIVACY');
   assert.equal(await (await request(profile.public_origin,'/c-extra')).text(),'OTHER-PAGE');
   for(const path of ['/c','/c/','/c///','/%63','/%63/','/c/slug','/c/%73lug','/c%2Fslug','/c/other-directory','/c-alias','/c-alias/slug','/c-index-alias','/group-link','/group-link/','/group%2Dlink','/group-link/slug','/group-link-alias/slug','/group-link-index-alias']){
-   assert.equal((await request(profile.public_origin,path)).status,404,path);
-   assert.equal(await (await request(profile.public_origin,path,{headers:{Accept:'text/html'}})).text(),'PUBLIC-ROOT',path);
+   const groupRoutes=new Set(['/c/slug','/c/%73lug','/c%2Fslug','/c/other-directory']);
+   const plain=await request(profile.public_origin,path);
+   assert.equal(plain.status,groupRoutes.has(path)?200:404,path);
+   if(groupRoutes.has(path))assert.equal(await plain.text(),'c-INVITATION',path);
+   assert.equal(await (await request(profile.public_origin,path,{headers:{Accept:'text/html'}})).text(),groupRoutes.has(path)?'c-INVITATION':'PUBLIC-ROOT',path);
   }
   for(const [path,body] of [['/c/index.html','c-INVITATION'],['/c/slug/index.html','c-SLUG'],['/c-index-alias/index.html','c-INVITATION'],['/group-link/index.html','group-link-INVITATION'],['/group-link/slug/index.html','group-link-SLUG'],['/group-link-index-alias/index.html','group-link-INVITATION']]){
    assert.equal(await (await request(profile.public_origin,path)).text(),body,path);
@@ -209,4 +212,36 @@ test('self-hosted HTTP bridge handles client disconnects without late writes',as
    }finally{Readable.fromWeb=originalFromWeb;}
   });
  }finally{http.createServer=originalCreate;globalThis.fetch=originalFetch;}
+});
+
+
+test('public group routes intentionally serve the HTML shell for JSON and image GET or HEAD',async()=>{
+ const folder=await mkdtemp(join(tmpdir(),'collect-web-group-accept-'));
+ try{
+  const admin=join(folder,'admin'),publicSite=join(folder,'public');await mkdir(admin);await mkdir(publicSite);await mkdir(join(publicSite,'c'));
+  await writeFile(join(admin,'index.html'),'ADMIN-ROOT');await writeFile(join(publicSite,'index.html'),'PUBLIC-ROOT');await writeFile(join(publicSite,'c/index.html'),'GROUP-SHELL');
+  const code='f0e5d2a1-9213-45cc-8e03-123456789abc',collision='f0e5d2a1-9213-45cc-8e03-abcdefabcdef';
+  await writeFile(join(publicSite,'c',collision),'COLLIDING-FILE');
+  const application=await createWebApplication({...env,COLLECT_ADMIN_ASSET_DIR:admin,COLLECT_PUBLIC_ASSET_DIR:publicSite});
+  const request=(origin,path,accept,method='GET')=>application(new Request(origin+path,{method,headers:{Accept:accept}}));
+  for(const accept of ['application/json','image/*'])for(const method of ['GET','HEAD']){
+   for(const item of [code,'legacy-slug',collision]){
+    const response=await request(profile.public_origin,'/c/'+item,accept,method);
+    assert.equal(response.status,200,`${accept} ${method} ${item}`);assert.match(response.headers.get('Content-Type'),/^text\/html;\s*charset=utf-8$/);
+    assert.match(response.headers.get('Cache-Control'),/no-store/);assert.equal(response.headers.get('Referrer-Policy'),'no-referrer');
+    if(method==='HEAD')assert.equal(response.body,null);else assert.equal(await response.text(),'GROUP-SHELL');
+   }
+   for(const origin of [profile.admin_origin,profile.member_api_origin]){
+    const response=await request(origin,'/c/'+code,accept,method);assert.equal(response.status,404);assert.equal(response.body,null);
+   }
+   for(const path of ['/c/bad--slug','/c/?slug='+code,'/group-link/?slug='+code])assert.equal((await request(profile.public_origin,path,accept,method)).status,404,path);
+  }
+  const memberCollision=await request(profile.member_api_origin,'/c/'+collision,'image/*');assert.equal(memberCollision.status,200);assert.equal(await memberCollision.text(),'COLLIDING-FILE');
+  assert.equal((await request(profile.public_origin,'/c/'+code,'application/json','POST')).status,405);
+  await rm(join(publicSite,'c/index.html'));
+  for(const accept of ['application/json','image/*'])for(const method of ['GET','HEAD']){
+   const response=await request(profile.public_origin,'/c/'+code,accept,method);assert.equal(response.status,503);assert.equal(response.body,null);
+   assert.match(response.headers.get('Cache-Control'),/no-store/);assert.equal(response.headers.get('Referrer-Policy'),'no-referrer');
+  }
+ }finally{await rm(folder,{recursive:true,force:true});}
 });

@@ -12,6 +12,8 @@ build_dir = ARGV.fetch(0)
 mode = ARGV.fetch(1)
 require File.expand_path("scripts/qa/public_capability_contract", Dir.pwd)
 product_capabilities = CollectProductCapabilities.new(Dir.pwd)
+require File.expand_path("scripts/public_deployment_profile", Dir.pwd)
+expected_public_origin = CollectPublicDeployment.resolve(Dir.pwd).fetch("public_origin")
 
 def read(path)
   File.file?(path) ? File.read(path) : ""
@@ -136,13 +138,42 @@ group_share_path = File.join(build_dir, "c", "index.html")
 app_share_path = File.join(build_dir, "app", "index.html")
 redirects_path = File.join(build_dir, "_redirects")
 group_share_html = read(group_share_path)
+group_link_share_path = File.join(build_dir, "group-link", "index.html")
+group_link_share_html = read(group_link_share_path)
 app_share_html = read(app_share_path)
 redirects = read(redirects_path)
+# Static structure only: this does not validate hosted redirect query preservation.
+site_script = read(File.join(build_dir, "site.js"))
+start_group = site_script.index("if (shareLanding && shareLanding.dataset.shareLanding === 'group') {")
+end_group = start_group && site_script.index("} else if (shareLanding) {", start_group)
+group_script = start_group && end_group ? site_script[start_group...end_group] : ""
+begin
+  group_canonical = group_share_html[/<link rel="canonical" href="([^"]+)" data-share-canonical>/, 1]
+  generic_group_canonical = group_canonical == "#{expected_public_origin}/c/" &&
+    group_share_html.include?(%(<meta property="og:url" content="#{expected_public_origin}/c/" data-share-og-url>))
+  origin_declarations = group_script.scan(/^\s*const expectedOrigin = ("(?:[^"\\]|\\.)*");\s*$/)
+  compiled_origin_matches = origin_declarations.length == 1 &&
+    JSON.parse(origin_declarations.first.first) == expected_public_origin
+rescue JSON::ParserError
+  generic_group_canonical = false
+  compiled_origin_matches = false
+end
 share_routes_ok =
+  File.file?(group_share_path) && File.file?(group_link_share_path) &&
+  group_share_html == group_link_share_html && compiled_origin_matches &&
   group_share_html.include?("Open this Collect group") &&
   group_share_html.include?('data-share-landing="group"') &&
-  group_share_html.include?("collect://group/shared-group") &&
-  group_share_html.include?("Expired, revoked or invalid links cannot join a group.") &&
+  group_share_html.include?('<button class="button primary" type="button" data-collect-open-link disabled>') &&
+  group_share_html.include?('<button class="button ghost" type="button" data-collect-copy-link disabled>') &&
+  group_share_html.include?('<meta name="referrer" content="no-referrer">') &&
+  group_share_html.include?("<noscript>") && group_share_html.include?("reopen the original link") &&
+  !group_share_html.include?("collect://group/shared-group") &&
+  !group_share_html.include?("data-share-code") && !group_share_html.include?("app-argument=") &&
+  generic_group_canonical &&
+  group_script.include?("address.origin === expectedOrigin") &&
+  group_script.include?("candidate === candidate?.trim() && slug.length === 36") &&
+  group_script.include?("openLink.addEventListener('click'") &&
+  group_script.include?("navigator.clipboard.writeText(canonical)") &&
   group_share_html.include?('name="robots" content="noindex, nofollow"') &&
   app_share_html.include?("Open Collect") &&
   app_share_html.include?('data-share-landing="app"') &&
@@ -157,8 +188,9 @@ check(
   checks,
   "native_share_link_fallbacks",
   pass_if(share_routes_ok),
-  share_routes_ok ? "Group and app share URLs have native-open and public-web fallbacks." : "Group or app share-link fallback output is incomplete.",
+  share_routes_ok ? "Static share templates and actions are present; hosted redirect and device behavior remain unverified." : "Group or app share-link fallback output is incomplete.",
   "group_path" => group_share_path,
+  "group_link_path" => group_link_share_path,
   "app_path" => app_share_path,
   "redirects_path" => redirects_path
 )

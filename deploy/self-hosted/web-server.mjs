@@ -14,7 +14,7 @@ export function staticAssets(directory,{directoryIndex=false}={}){
  const invitationRoots=['c','group-link'].map(name=>resolve(base,name));
  return {async fetch(request){
   if(!['GET','HEAD'].includes(request.method))return new Response(null,{status:405,headers:safeHeaders});
-  let path;try{path=decodeURIComponent(new URL(request.url).pathname);}catch{return new Response(null,{status:400,headers:safeHeaders});}
+  let path,url;try{url=new URL(request.url);path=decodeURIComponent(url.pathname);}catch{return new Response(null,{status:400,headers:safeHeaders});}
   const wellKnown=['/.well-known/assetlinks.json','/.well-known/apple-app-site-association'].includes(path);
   if(path.includes('\\')||path.includes('\0')||path.split('/').some(p=>p.startsWith('.')&&!(wellKnown&&p==='.well-known'))||path.endsWith('.map'))return new Response(null,{status:404,headers:safeHeaders});
   const hidden=real=>relative(base,real).split(sep).some(part=>part.startsWith('.'));
@@ -32,8 +32,16 @@ export function staticAssets(directory,{directoryIndex=false}={}){
    if(!index.startsWith(base+sep)||hidden(index)||invitation(index)||!(await stat(index)).isFile())throw Error('invalid');
    return index;
   };
-  let file;try{file=await locate(path==='/'?'/index.html':path);}catch{
-   if(!request.headers.get('Accept')?.includes('text/html'))return new Response(null,{status:404,headers:safeHeaders});
+  const html=!!request.headers.get('Accept')?.includes('text/html');
+  const segments=path.split('/');const groupCode=segments.length===3&&segments[1].toLowerCase()==='c'?segments[2].trim().toLowerCase():'';
+  const slugMatch=/^[a-z0-9]+(?:-[a-z0-9]+)*/.exec(groupCode);
+  const groupRoute=groupCode.length>0&&groupCode.length<=140&&slugMatch?.[0]===groupCode;
+  const legacyRoute=['/c','/c/','/group-link','/group-link/'].includes(path.toLowerCase())&&[...url.searchParams.keys()].some(key=>key.toLowerCase()==='slug');
+  // Group routes are reserved before file lookup, avoiding a same-name file collision.
+  const shareShell=directoryIndex&&(groupRoute||(html&&legacyRoute));
+  let file;try{file=await locate(shareShell?'/c/index.html':path==='/'?'/index.html':path);}catch{
+   if(shareShell)return new Response(null,{status:503,headers:safeHeaders});
+   if(!html)return new Response(null,{status:404,headers:safeHeaders});
    try{file=await locate('/index.html');}catch{return new Response(null,{status:503,headers:safeHeaders});}
   }
   const headers={...safeHeaders,'Content-Type':wellKnown?'application/json':types[extname(file)]??'application/octet-stream'};

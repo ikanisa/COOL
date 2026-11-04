@@ -41,6 +41,7 @@
 .revolut-public :is(button, .button):focus-visible { opacity: 1; outline: 2px solid var(--web-focus-outer); outline-offset: 2px; box-shadow: inset 0 0 0 2px var(--web-focus-inner), inset 0 0 0 3.6px var(--web-canvas); }
 .revolut-public :is(button, .button):disabled,
 .revolut-public .hero .button[aria-disabled="true"],
+.revolut-public.route-share-link .hero .button:disabled,
 .revolut-public.route-share-link .hero .button[aria-disabled="true"] { background: var(--web-card-border); color: var(--web-secondary); border-color: var(--web-card-border); cursor: default; opacity: 1; }
 .revolut-public .site-header { padding: 16px var(--web-gutter); min-height: 80px; background: var(--web-canvas); color: var(--web-ink); border: 0; backdrop-filter: none; }
 .revolut-public .brand small { color: var(--web-secondary); font-weight: var(--type-weight-regular); }

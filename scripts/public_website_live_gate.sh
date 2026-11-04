@@ -61,13 +61,16 @@ def json_ld_types_for(html)
   [scripts, types, parse_error]
 end
 
+group_fixture_code = "f0e5d2a1-9213-45cc-8e03-123456789abc"
+group_route = "/c/#{group_fixture_code}"
+
 required_routes = {
   "/" => ["Microsavings and group savings for daily earners", "People earn daily. Finance still works monthly."],
   "/privacy/" => ["Privacy Policy", "Your data. Your choice. Your financial journey."],
   "/terms/" => ["Terms of Use", "Clear rules for using Collect."],
   "/account-deletion/" => ["Delete Your Collect Account", "Delete your Collect account."],
   "/data-deletion/" => ["Data Deletion", "Data deletion and retention"],
-  "/c/production-link-audit" => ["Open this Collect group", "Open in Collect"],
+  group_route => ["Open this Collect group", "Open in Collect"],
   "/our-partners/" => ["Our Partners", "Growth Engines for Banks"],
   "/trust/" => ["Trust", "Security and trust"],
   "/security/" => ["Security | Collect by IKANISA", "Security, privacy and trust controls."],
@@ -96,6 +99,28 @@ required_routes.each do |route, required_text|
     },
   )
 end
+
+
+# BEGIN_GROUP_SHARE_STATIC_SHELL_CHECK
+# This checks response markup only; browser action, native app, and redirect query preservation need separate evidence.
+group_item = responses.fetch(group_route)
+group_body = group_item.fetch(:body)
+group_headers = group_item.fetch(:headers)
+group_shell_ok = group_item.fetch(:response).code.to_i == 200 &&
+  group_headers.fetch('referrer-policy', '').strip.downcase == 'no-referrer' &&
+  group_headers.fetch('cache-control', '').split(',').any? { |directive| directive.strip.downcase == 'no-store' } &&
+  group_body.include?('name="robots" content="noindex, nofollow"') &&
+  group_body.include?('data-share-landing="group"') &&
+  group_body.include?('<button class="button primary" type="button" data-collect-open-link disabled>') &&
+  group_body.include?('<button class="button ghost" type="button" data-collect-copy-link disabled>') &&
+  group_body.include?('<meta name="referrer" content="no-referrer">') &&
+  group_body.include?(%(<link rel="canonical" href="#{canonical_url}/c/" data-share-canonical>)) &&
+  group_body.include?("<noscript>") && group_body.include?("reopen the original link") &&
+  !group_body.include?("collect://group/shared-group") && !group_body.include?("data-share-code") &&
+  !group_body.include?("app-argument=") && !group_body.include?(group_fixture_code)
+check(checks, "group_share_static_shell", group_shell_ok,
+  "Static group shell and final response protections only; browser action, actual join and redirect-chain behavior remain separate.")
+# END_GROUP_SHARE_STATIC_SHELL_CHECK
 
 ["/styles.css", "/site.js", "/manifest.json", "/icons/collect.png"].each do |route|
   url = "#{base_url}#{route}"
