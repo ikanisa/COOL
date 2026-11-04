@@ -71,8 +71,8 @@ export async function groupRpc(operation,body,env,actor) {
   const row=await first(env,`SELECT id,public_id,phone AS whatsapp_phone,country_code,currency_code,momo_provider,momo_number,momo_pay_code FROM users WHERE id=? AND access_status='active'`,actor.userId);return {handled:true,value:row};
  }
  case 'ensure_current_member_profile': {
-  const row=await first(env,'SELECT * FROM users WHERE id=?',actor.userId);
-  if(body.p_whatsapp_phone && body.p_whatsapp_phone!==row.phone) throw new ApiError(403,'42501','Profile verification does not match this sign-in.');
+  const row=await first(env,"SELECT * FROM users WHERE id=? AND access_status='active'",actor.userId);
+  if(!row || body.p_whatsapp_phone && body.p_whatsapp_phone!==row.phone) throw new ApiError(403,'42501','Profile verification does not match this sign-in.');
   return {handled:true,value:{id:row.id,public_id:row.public_id,whatsapp_phone:row.phone??'',country_code:row.country_code,currency_code:row.currency_code,momo_provider:row.momo_provider,momo_number:row.momo_number,momo_pay_code:row.momo_pay_code}};
  }
  case 'update_current_member_profile': {
