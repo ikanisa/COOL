@@ -4,6 +4,30 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class MomoGatewayPolicyTest {
+    private fun memberCapture(sender: String, body: String, complete: Boolean = true): Boolean =
+        MomoMultipartPolicy.memberCaptureEligible(sender, MomoMultipartPolicy.Assembly(body, complete))
+
+    @Test fun memberCaptureKeepsCompleteFinancialMessagesWithoutAReceiptTemplate() {
+        for (body in listOf("You received 1500 RWF.", "Sent 3000 RWF. Txn 1234", "Transaction failed: 100 RWF", "Reversal 321: 200 UGX", "Wakiriye 600 RWF"))
+            assertTrue(body, memberCapture("M-Money", body))
+        val maskedReceipt = "You have received 1,500 RWF from TEST MEMBER A (***456) " +
+            "at 2026-09-02 10:00:00. Your balance: 0 RWF."
+        assertTrue(memberCapture("M-Money", maskedReceipt))
+        assertTrue(memberCapture("AirtelMoney", "Wakiriye 45,000 RWF from 0732123456. Transaction ID 88776655"))
+        assertFalse(memberCapture("M-Money", "You received 1500 RWF.", complete = false))
+    }
+    @Test fun memberCaptureExcludesKnownUnrelatedPromotionalAndCredentialMessages() {
+        assertFalse(memberCapture("Courier", "Received 100 RWF ref 123"))
+        assertFalse(memberCapture("M-Money", "OTP verification code 123456 for transaction 100 RWF"))
+        assertFalse(memberCapture("MTN MoMo", "Promotion: buy a bundle for 1000 RWF"))
+        assertFalse(memberCapture("M-Money", "Your PIN is 1234 for 1000 RWF"))
+        assertFalse(memberCapture("M-Money", "Hello"))
+        for (credential in listOf("authorization code", "AUTHORISATION CODE", "password", "mot de passe")) {
+            assertFalse(credential, memberCapture("MTN", "Your $credential is 123456; transaction 100 RWF"))
+        }
+        assertTrue(memberCapture("MTN", "Transaction code 123456: received 100 RWF"))
+    }
+
     @Test fun deterministicSourceFailuresDoNotStopUnrelatedUploads() {
         fun eligible(binding: String = "binding-1", unresolved: Boolean = false, parked: Boolean = false) =
             MomoGatewayPolicy.uploadEligible(binding, 1, "binding-1", 1, unresolved, parked,

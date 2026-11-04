@@ -278,8 +278,6 @@ void main() {
       contains('android:permission="android.permission.BROADCAST_SMS"'),
     );
     expect(receiver, contains('Secure SMS queue unavailable'));
-    expect(receiver, contains('isLikelyMomoReceipt'));
-    expect(receiver, contains('CURRENCY_HINT'));
     expect(playGate, contains('production_permissions'));
     expect(
       playGate,

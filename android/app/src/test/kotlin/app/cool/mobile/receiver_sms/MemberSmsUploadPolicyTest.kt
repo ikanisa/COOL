@@ -29,23 +29,6 @@ class MemberSmsUploadPolicyTest {
         assertTrue(MomoGatewayPolicy.memberCaptureSupported("dev"))
         assertFalse(MomoGatewayPolicy.memberCaptureSupported("internal_gateway"))
     }
-    @Test fun storesIncomingOutgoingFailedAndReversalMessagesWithoutAReceiptTemplate() {
-        for (body in listOf("You received 1500 RWF.", "Sent 3000 RWF. Txn 1234", "Transaction failed: 100 RWF", "Reversal 321: 200 UGX", "Wakiriye 600 RWF"))
-            assertTrue(body, MomoGatewayPolicy.memberSource("M-Money", body))
-    }
-    @Test fun captureExcludesUnrelatedMessagesPromotionsAndOneTimeCodes() {
-        assertFalse(MomoGatewayPolicy.memberSource("Courier", "Received 100 RWF ref 123"))
-        assertFalse(MomoGatewayPolicy.memberSource("M-Money", "OTP verification code 123456 for transaction 100 RWF"))
-        assertFalse(MomoGatewayPolicy.memberSource("MTN MoMo", "Promotion: buy a bundle for 1000 RWF"))
-        assertFalse(MomoGatewayPolicy.memberSource("M-Money", "Your PIN is 1234 for 1000 RWF"))
-        assertFalse(MomoGatewayPolicy.memberSource("M-Money", "Hello"))
-    }
-    @Test fun captureExcludesKnownCredentialPhrasesButKeepsTransactionCodes() {
-        for (credential in listOf("authorization code", "AUTHORISATION CODE", "password", "mot de passe")) {
-            assertFalse(credential, MomoGatewayPolicy.memberSource("MTN", "Your $credential is 123456; transaction 100 RWF"))
-        }
-        assertTrue(MomoGatewayPolicy.memberSource("MTN", "Transaction code 123456: received 100 RWF"))
-    }
     @Test fun backgroundDrainUsesOnlyCurrentOwnerUnexpiredSession() {
         assertNotNull(token(session()))
         assertNull(token(session(), other))

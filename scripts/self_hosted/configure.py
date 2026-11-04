@@ -65,6 +65,9 @@ def validated_settings(settings,profile,source_sha):
     if settings['SMTP_HOST'] and (not re.fullmatch(r'[A-Za-z0-9.-]+',settings['SMTP_HOST']) or settings['SMTP_PORT'] not in ('465','587')):raise ValueError('Explicit SMTP TLS endpoint required')
     if settings['SMTP_ADMIN_EMAIL'] and not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+',settings['SMTP_ADMIN_EMAIL']):raise ValueError('Valid sender email required')
     if bool(settings['TURNSTILE_SITE_KEY'])!=bool(settings['TURNSTILE_SECRET_KEY']):raise ValueError('Turnstile requires both public site key and private secret')
+    # Match the stricter native and Admin build contracts as well as the
+    # challenge endpoint, before publishing an unusable configuration.
+    if settings['TURNSTILE_SITE_KEY'] and not re.fullmatch(r'[A-Za-z0-9_-]{10,200}',settings['TURNSTILE_SITE_KEY']):raise ValueError('Valid Turnstile site key required')
     if profile['environment']=='production' and (settings['TURNSTILE_SITE_KEY'] in TURNSTILE_TEST_SITE_KEYS or settings['TURNSTILE_SECRET_KEY'] in TURNSTILE_TEST_SECRET_KEYS):raise ValueError('Documented Turnstile test keys cannot protect a production deployment')
     if settings['AUTH_ANONYMOUS_ENABLED']=='true' and (not settings['TURNSTILE_SITE_KEY'] or not settings['TURNSTILE_SECRET_KEY']):raise ValueError('Anonymous sign-in requires configured abuse protection')
     google=settings['GOOGLE_AUTH_ENABLED']=='true'
@@ -88,7 +91,7 @@ def validated_settings(settings,profile,source_sha):
             or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9 ._'-]{0,39}",label)
             or not re.fullmatch(r'[0-9]{2,3}',settings['OPENSMS_DISPATCH_TTL_SECONDS'])):
             raise ValueError('Same-deployment OTP-only OpenSMS application required')
-        if settings['OPENSMS_APPLICATION_TOKEN']==settings['OPENSMS_RECEIPT_APPLICATION_TOKEN']:raise ValueError('OTP and receipt credentials must be distinct')
+        if settings['OPENSMS_APPLICATION_TOKEN']==settings['OPENSMS_RECEIPT_APPLICATION_TOKEN'] or settings['OPENSMS_APPLICATION_ID']==settings['OPENSMS_RECEIPT_APPLICATION_ID']:raise ValueError('OTP and receipt applications and credentials must be distinct')
         if settings['COLLECT_SMS_ENABLED']!='true':raise ValueError('OTP hook requires the approved local gateway')
     if not settings['OPENSMS_DISPATCH_TTL_SECONDS'].isdigit() or not 30<=int(settings['OPENSMS_DISPATCH_TTL_SECONDS'])<=300:raise ValueError('SMS dispatch TTL outside bounds')
     if settings['COLLECT_SMS_ENABLED']=='true' and not digest('COLLECT_SMS_APPROVAL_SHA256'):raise ValueError('Gateway source approval digest required')

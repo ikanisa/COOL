@@ -133,58 +133,7 @@ class CollectSmsReceiver : BroadcastReceiver() {
         return UUID(bytes.long, bytes.long).toString()
     }
 
-    internal fun isLikelyMomoReceipt(sender: String, body: String): Boolean {
-        val allowedSender = sender.toByteArray(Charsets.UTF_8).size in 2..96 &&
-            MOMO_SENDER_HINT.containsMatchIn(sender)
-        val moneyHint = CURRENCY_HINT.containsMatchIn(body) && AMOUNT_HINT.containsMatchIn(body)
-        val transactionHint = TRANSACTION_ID_HINT.containsMatchIn(body)
-        val maskedReceiptHint = MASKED_PAYER_HINT.containsMatchIn(body) &&
-            WALLET_BALANCE_HINT.containsMatchIn(body)
-        val incomingHint = INCOMING_HINT.containsMatchIn(body)
-        val promotionalHint = PROMOTIONAL_HINT.containsMatchIn(body)
-        return allowedSender && moneyHint && (transactionHint || maskedReceiptHint) &&
-            incomingHint && !promotionalHint && !EXCLUDED_HINT.containsMatchIn(body)
-    }
-
     companion object {
         private const val TAG = "CollectSmsReceiver"
-        private val MOMO_SENDER_HINT = Regex(
-            "(?:momo|m[- ]?money|mobile[- ]?money|mtn|airtel)",
-            RegexOption.IGNORE_CASE,
-        )
-        private val MOMO_CONTEXT_HINT = Regex(
-            "(?:momo|mobile money|mtn|airtel)",
-            RegexOption.IGNORE_CASE,
-        )
-        private val CURRENCY_HINT = Regex("(?:RWF|FRW)", RegexOption.IGNORE_CASE)
-        private val AMOUNT_HINT = Regex("(?:^|\\D)[0-9][0-9 ,.]{0,18}(?:$|\\D)")
-        private val TRANSACTION_ID_HINT = Regex(
-            "(?:transaction|trans(?:action)?\\s*id|txn|txid|financial transaction id|reference|ref\\b)",
-            RegexOption.IGNORE_CASE,
-        )
-        // Capture eligibility only. The server validates amounts, identity and
-        // route before posting; a provider reference is optional for this form.
-        private val MASKED_PAYER_HINT = Regex(
-            "\\bfrom\\s+[^()\\r\\n]{2,120}\\s*\\(\\s*\\*{3,}[0-9]{3}\\s*\\)",
-            RegexOption.IGNORE_CASE,
-        )
-        private val WALLET_BALANCE_HINT = Regex(
-            "\\bbalance\\s*(?:is|:|=)?\\s*(?:(?:RWF|FRW)\\s+[0-9]|[0-9][0-9 ,.]*\\s*(?:RWF|FRW))",
-            RegexOption.IGNORE_CASE,
-        )
-        private val EXCLUDED_HINT = Regex(
-            "\\b(?:failed|reversed|reversal|cancelled|pending|declined|you have sent|" +
-                "transferred to|cash.?out|withdraw(?:al|n)?|OTP|verification code|one.time password)\\b",
-            RegexOption.IGNORE_CASE,
-        )
-        private val INCOMING_HINT = Regex(
-            "(?:received|credited|incoming|payment received|you have received|wakiriye|wahawe)",
-            RegexOption.IGNORE_CASE,
-        )
-        private val PROMOTIONAL_HINT = Regex(
-            "(?:buy\\s+(?:a\\s+)?bundle|airtime\\s+offer|promotion|promo\\b|bonus\\s+offer|" +
-                "apply\\s+for\\s+(?:a\\s+)?loan)",
-            RegexOption.IGNORE_CASE,
-        )
     }
 }
