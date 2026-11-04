@@ -11,7 +11,7 @@ const source={raw_sender:fixture.sender,raw_body:fixture.body+' Recipient: +2507
 
 test('every supplied payer field must occur in its evidence snippet',()=>{
   const validate=validateSupabase;
-  assert.equal(MOMO_PARSER_VERSION,'momo-validation.v2');
+  assert.equal(MOMO_PARSER_VERSION,'momo-validation.v3');
   const complete=structuredClone(fixture.output);
   assert.equal(validate(complete,source,account).accepted,true);
   const nameOnly=structuredClone(complete);nameOnly.payer_identifier_raw=null;

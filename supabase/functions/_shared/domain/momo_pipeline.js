@@ -3,7 +3,7 @@ import {decrypt} from './encryption.js';
 
 export const MOMO_SCHEMA_VERSION='momo-extraction.v1';
 export const MOMO_PROMPT_VERSION='momo-evidence.v1';
-export const MOMO_PARSER_VERSION='momo-validation.v2';
+export const MOMO_PARSER_VERSION='momo-validation.v3';
 export const MOMO_MODEL='unconfigured-supabase-provider';
 const MAX_ATTEMPTS=4,LEASE_SECONDS=180;
 // SQLite evaluates unixepoch() per statement. The Postgres adapter translates
@@ -95,6 +95,28 @@ function nonPaymentProven(output,source,profile){
  return markerIn(source.raw_body,selected.markers)&&Object.values(output.evidence).some(value=>value!==null&&present(source.raw_body,value)&&markerIn(value,selected.markers));
 }
 
+// Profile prefixes are approved literal labels, not an identifier grammar.
+// Retain the selected-ID check and fail closed if any other standalone label
+// occurs outside that label's span. Overlapping aliases inside the same label
+// do not constitute another reference. Lookahead also finds overlapping labels.
+function transactionIdentityVerified(body,tx,evidence,prefixes){
+ const selectedPattern=new RegExp(`(${prefixes.map(escaped).join('|')})\\s*(${escaped(tx)})(?![\\p{L}\\p{N}\\p{M}_/-]|\\.[\\p{L}\\p{N}\\p{M}])`,'giu');
+ const selected=[...body.matchAll(selectedPattern)];
+ if(selected.length!==1||selected[0][2]!==tx||!present(evidence??'',tx))return false;
+ const start=selected[0].index,end=start+selected[0][1].length;
+ let selectedLabelFound=false;
+ for(const prefix of prefixes){
+  const boundary=/^[\p{L}\p{N}\p{M}_]/u.test(prefix)?'(?<![\\p{L}\\p{N}\\p{M}_])':'';
+  const labels=new RegExp(`${boundary}(?=(${escaped(prefix)}))`,'giu');
+  for(const label of body.matchAll(labels)){
+   const labelEnd=label.index+label[1].length;
+   if(label.index<start||labelEnd>end)return false;
+   if(label.index===start&&labelEnd===end)selectedLabelFound=true;
+  }
+ }
+ return selectedLabelFound;
+}
+
 /** Model facts never bypass source, field-role or exact-unit checks. */
 export function validateMomoExtraction(output,source,account,profile=validateProviderProfile(account)) {
  const errors=[];const bad=code=>errors.push(issue(code));
@@ -120,10 +142,7 @@ export function validateMomoExtraction(output,source,account,profile=validatePro
  if(incoming.length!==1||exactMinor(incoming[0]?.[1]??incoming[0]?.[2])!==amount||!present(output.evidence.incoming_success??'',incoming[0]?.[0])||!present(output.evidence.principal??'',output.principal_amount_raw))bad('principal_role_unverified');
  const tx=output.transaction_id_raw;
  if(typeof tx!=='string'||!tx.length||tx.length>160||!/^\S+$/.test(tx))bad('provider_identity_missing');
- else{
-  const ids=new RegExp(`(?:${profile.transaction_id_prefixes.map(escaped).join('|')})\\s*(${escaped(tx)})(?![\\p{L}\\p{N}_/-]|\\.[\\p{L}\\p{N}])`,'giu');
-  if([...body.matchAll(ids)].length!==1||!present(output.evidence.transaction_id??'',tx))bad('provider_identity_unverified');
- }
+ else if(!transactionIdentityVerified(body,tx,output.evidence.transaction_id,profile.transaction_id_prefixes))bad('provider_identity_unverified');
  if(output.original_transaction_id_raw!==null)bad('unexpected_original_reference');
  const time=transactionTime(output.transaction_datetime_raw,account,profile);if(!time)bad('ambiguous_provider_time');
  if(output.transaction_datetime_raw!==null&&!present(output.evidence.transaction_datetime??'',output.transaction_datetime_raw))bad('provider_time_evidence_missing');
