@@ -23,6 +23,7 @@ Map<String, dynamic> groupRow() => {
   'creator_user_id': actor,
   'title': 'Synthetic group',
   'created_at': '2000-01-01T00:00:00+00',
+  'is_member': true,
   'settlement_currency': 'RWF',
 };
 Map<String, dynamic> event() => {

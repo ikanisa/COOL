@@ -291,7 +291,10 @@ class _CollectLiveReader {
       accessToken: accessToken,
     );
     if (rows.any(
-          (row) => row['collection_id'] is! String || row['balances'] is! List,
+          (row) =>
+              row['collection_id'] is! String ||
+              row['balances'] is! List ||
+              (row['balances'] as List).isEmpty,
         ) ||
         rows.map((row) => row['collection_id']).toSet().length != rows.length) {
       throw const FormatException('Group balances are unavailable');
