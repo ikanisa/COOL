@@ -114,9 +114,17 @@ class CollectRepository extends StateNotifier<CollectState>
        super(initialState) {
     _observedAuthIdentity = _sessionIdentity(_backend?.auth.currentSession);
     _paymentHelpPendingStore.bindOwner(_observedAuthIdentity?.userId);
-    _authSubscription = _backend?.auth.onAuthStateChange.listen((_) {
+    _authSubscription = _backend?.auth.onAuthStateChange.listen((event) {
       final identity = _sessionIdentity(_backend.auth.currentSession);
-      if (!mounted || identity == _observedAuthIdentity) return;
+      if (!mounted) return;
+      if (identity == _observedAuthIdentity) {
+        // A fresh sign-in is a profile-save boundary even when the same
+        // session is reinstalled. Ordinary token refresh is not.
+        if (event.event == CollectAuthEvent.signedIn) {
+          ++_profileSaveAuthorityGeneration;
+        }
+        return;
+      }
       final sameOwner =
           identity != null && identity.userId == _observedAuthIdentity?.userId;
       if (!sameOwner) _paymentHelpPendingStore.bindOwner(identity?.userId);
@@ -168,6 +176,8 @@ class CollectRepository extends StateNotifier<CollectState>
   @override
   _CollectAuthIdentity? _signingOutIdentity;
   int _authGeneration = 0;
+  int _profileSaveAuthorityGeneration = 0;
+  final _profileSavesInFlight = <(String, int)>{};
   int _signOutGeneration = 0;
   @override
   int _loadGeneration = 0;
@@ -368,8 +378,7 @@ class CollectRepository extends StateNotifier<CollectState>
         // bearer. Do not let a newer but stalled refresh expose old authority.
         // A replacement bearer or an active sign-out has its own lifecycle and
         // must not be disturbed by this earlier response.
-        if (user != null &&
-            preferencesSession.identity != null &&
+        if (preferencesSession.identity != null &&
             preferencesSession.accessToken != null &&
             _signingOutIdentity != preferencesSession.identity &&
             _isCurrentSession(preferencesSession) &&
@@ -969,64 +978,190 @@ class CollectRepository extends StateNotifier<CollectState>
     }
     final backend = _backend;
     final session = _captureSession();
-    void requireCurrentOwner() {
-      if (state.currentProfile?.id != current.id ||
-          (backend != null && backend.auth.currentUser?.id != current.id)) {
-        throw StateError('Profile account changed. Try again.');
-      }
-      if (backend != null) _requireCurrentMemberSession(session, current.id);
+    final profileAuthority = _profileSaveAuthorityGeneration;
+    final saveKey = (current.id, session.generation);
+    if (!_profileSavesInFlight.add(saveKey)) {
+      throw StateError('Wait for your current profile update to finish.');
     }
+    try {
+      void requireCurrentOwner() {
+        if (state.currentProfile?.id != current.id ||
+            profileAuthority != _profileSaveAuthorityGeneration ||
+            (backend != null && backend.auth.currentUser?.id != current.id)) {
+          throw StateError('Profile account changed. Try again.');
+        }
+        if (backend != null) _requireCurrentMemberSession(session, current.id);
+      }
 
-    late final CollectProfile updated;
-    if (backend != null && backend.auth.currentUser != null) {
-      requireCurrentOwner();
-      final row = await backend
-          .rpc<dynamic>(
-            'update_current_member_profile',
-            params: {
-              'p_country_code': cleanCountry,
-              'p_momo_provider': cleanMomoProvider,
-              'p_momo_number': cleanMomoNumber,
-              'p_momo_pay_code': cleanMomoPayCode,
-            },
-          )
-          .setHeader('Authorization', 'Bearer ${session.accessToken}')
-          .retry(enabled: false);
-      if (row is! Map) {
-        throw StateError('Collect profile could not be updated.');
+      late final CollectProfile updated;
+      if (backend != null && backend.auth.currentUser != null) {
+        requireCurrentOwner();
+        final (status, acknowledgement) = await backend.request(
+          'POST',
+          'v1/rpc/update_current_member_profile',
+          body: {
+            'p_country_code': cleanCountry,
+            'p_momo_provider': cleanMomoProvider,
+            'p_momo_number': cleanMomoNumber,
+            'p_momo_pay_code': cleanMomoPayCode,
+          },
+          bearer: session.accessToken,
+        );
+        requireCurrentOwner();
+        if (status < 200 || status >= 300) {
+          throw collectApiFailure(status, acknowledgement);
+        }
+        if (status != 200) {
+          throw StateError('Collect could not confirm the profile update.');
+        }
+        // The self-hosted 200 contract returns null. The transport also maps a
+        // 200 empty body to null, so readback proves only the current values,
+        // not the particular mutation's commit provenance. Never retry a write.
+        final isReadback = acknowledgement == null;
+        final row = isReadback
+            ? await backend
+                  .rpc<dynamic>('get_current_member_profile')
+                  .setHeader('Authorization', 'Bearer ${session.accessToken}')
+            : acknowledgement;
+        requireCurrentOwner();
+        if (row is! Map || row.keys.any((key) => key is! String)) {
+          throw StateError('Collect profile could not be updated.');
+        }
+        final values = Map<String, dynamic>.from(row);
+        final storedCountry = values['country_code'];
+        final storedCurrency = values['currency_code'];
+        final storedProvider = values['momo_provider'];
+        final storedNumber = values['momo_number'];
+        final storedCode = values['momo_pay_code'];
+        // Model defaults are useful for display, but cannot prove a write: a
+        // missing MoMo number or country must not be inferred from the phone.
+        if (storedCountry is! String ||
+            CollectProfileCountryRules.normalizeCountryCode(storedCountry) !=
+                cleanCountry ||
+            ((isReadback || values.containsKey('currency_code')) &&
+                (storedCurrency is! String ||
+                    storedCurrency.trim().toUpperCase() !=
+                        CollectProfileCountryRules.currencyForCountry(
+                          cleanCountry,
+                        ))) ||
+            storedProvider is! String ||
+            storedProvider.trim().toLowerCase() != cleanMomoProvider ||
+            storedNumber is! String ||
+            storedNumber.length > 40 ||
+            !RegExp(r'^\+?[0-9 ()-]+$').hasMatch(storedNumber.trim()) ||
+            (!values.containsKey('momo_pay_code') &&
+                (isReadback ||
+                    cleanMomoPayCode.isNotEmpty ||
+                    current.momoPayCode.trim().isNotEmpty)) ||
+            (storedCode != null && storedCode is! String) ||
+            ((storedCode as String?)?.trim() ?? '') != cleanMomoPayCode) {
+          throw const FormatException('Updated profile values do not match.');
+        }
+        final normalized = PhoneNormalizer.normalizeRwanda(storedNumber);
+        if ('0${normalized.substring(4)}' != cleanMomoNumber) {
+          throw const FormatException('Updated profile values do not match.');
+        }
+        final confirmed = CollectProfile.fromJson(values);
+        if (confirmed.id != current.id ||
+            confirmed.publicId != current.publicId ||
+            confirmed.whatsappPhone != current.whatsappPhone) {
+          throw const FormatException('Updated profile identity is invalid.');
+        }
+        // Existing mobile profile and SMS capture use local Rwanda digits.
+        updated = confirmed.copyWith(
+          countryCode: cleanCountry,
+          momoProvider: cleanMomoProvider,
+          momoNumber: cleanMomoNumber,
+          momoPayCode: cleanMomoPayCode,
+        );
+      } else {
+        if (!_allowLocalWrites) {
+          throw StateError('Connect to Collect before updating your profile.');
+        }
+        updated = current.copyWith(
+          countryCode: cleanCountry,
+          currencyCode: CollectProfileCountryRules.currencyForCountry(
+            cleanCountry,
+          ),
+          momoProvider: cleanMomoProvider,
+          momoNumber: cleanMomoNumber,
+          momoPayCode: cleanMomoPayCode,
+        );
       }
-      requireCurrentOwner();
-      updated = CollectProfile.fromJson(Map<String, dynamic>.from(row));
-      if (updated.id != current.id ||
-          updated.publicId != current.publicId ||
-          updated.whatsappPhone != current.whatsappPhone) {
-        throw const FormatException('Updated profile identity is invalid.');
-      }
-    } else {
-      if (!_allowLocalWrites) {
-        throw StateError('Connect to Collect before updating your profile.');
-      }
-      updated = current.copyWith(
-        countryCode: cleanCountry,
-        currencyCode: CollectProfileCountryRules.currencyForCountry(
-          cleanCountry,
-        ),
-        momoProvider: cleanMomoProvider,
-        momoNumber: cleanMomoNumber,
-        momoPayCode: cleanMomoPayCode,
-      );
-    }
 
-    requireCurrentOwner();
-    if (current.momoNumber != updated.momoNumber ||
-        current.momoProvider != updated.momoProvider) {
-      await setSmsAccess(false, expectedOwnerUserId: current.id);
+      requireCurrentOwner();
+      bool sameMomoNumber(String left, String right) {
+        if (left.length > 40 ||
+            !RegExp(r'^\+?[0-9 ()-]+$').hasMatch(left.trim())) {
+          return false;
+        }
+        try {
+          return PhoneNormalizer.normalizeRwanda(left) ==
+              PhoneNormalizer.normalizeRwanda(right);
+        } on FormatException {
+          return false;
+        }
+      }
+
+      if (!sameMomoNumber(current.momoNumber, updated.momoNumber) ||
+          current.momoProvider != updated.momoProvider) {
+        await setSmsAccess(false, expectedOwnerUserId: current.id);
+      }
+      requireCurrentOwner();
+      // Do not let a load that read the old profile before this confirmed save
+      // later replace it. A fresh complete load still determines member access.
+      if (backend != null) ++_loadGeneration;
+      state = state.copyWith(currentProfile: updated, isLoading: false);
+      requireCurrentOwner();
+      final cacheSave = _offlineCache.save(_offlineSnapshotFromState());
+      if (backend != null &&
+          _isCurrentSession(session) &&
+          profileAuthority == _profileSaveAuthorityGeneration &&
+          _signingOutIdentity != session.identity) {
+        final refresh = loadInitial();
+        final generation = _loadGeneration;
+        unawaited(
+          refresh.catchError((Object _) {
+            if (!mounted ||
+                generation != _loadGeneration ||
+                !_isCurrentSession(session) ||
+                profileAuthority != _profileSaveAuthorityGeneration ||
+                _signingOutIdentity == session.identity) {
+              return;
+            }
+            state = state.copyWith(
+              isLoading: false,
+              financialObservationUncertain: true,
+              lastError:
+                  'Profile data could not be refreshed. Please reconnect.',
+            );
+          }),
+        );
+      }
+      await cacheSave;
+      requireCurrentOwner();
+      // A newer authoritative refresh may have completed while the protected
+      // cache was saving. Do not return the older profile to an editor that
+      // would otherwise hydrate it over the already-published newer values.
+      final latest = state.currentProfile;
+      if (latest == null ||
+          latest.id != updated.id ||
+          latest.publicId != updated.publicId ||
+          latest.whatsappPhone != updated.whatsappPhone ||
+          CollectProfileCountryRules.normalizeCountryCode(latest.countryCode) !=
+              updated.countryCode ||
+          latest.currencyCode.trim().toUpperCase() != updated.currencyCode ||
+          latest.momoProvider.trim().toLowerCase() != updated.momoProvider ||
+          !sameMomoNumber(latest.momoNumber, updated.momoNumber) ||
+          latest.momoPayCode.trim() != updated.momoPayCode) {
+        throw StateError(
+          'Profile changed during the update. Refresh and try again.',
+        );
+      }
+      return updated;
+    } finally {
+      _profileSavesInFlight.remove(saveKey);
     }
-    requireCurrentOwner();
-    state = state.copyWith(currentProfile: updated);
-    await _offlineCache.save(_offlineSnapshotFromState());
-    requireCurrentOwner();
-    return updated;
   }
 
   Future<void> createSupportRequest({
