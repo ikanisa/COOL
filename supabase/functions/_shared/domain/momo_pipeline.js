@@ -166,8 +166,11 @@ async function readSource(env,raw) {
  if(typeof source.raw_body!=='string'||!source.raw_body.length||source.raw_body.length>16384||typeof source.raw_sender!=='string'||!source.raw_sender.length||await digest(source.raw_body)!==raw.body_sha256)throw new Error('source_integrity_failed');
  return source;
 }
-const coreFacts=['provider','provider_transaction_id','event_kind','original_transaction_id','amount_minor','currency','currency_scale','payer_name','payer_identifier','transaction_at','fee_minor'];
-const equivalent=(a,b)=>coreFacts.every(k=>(a[k]??null)===(b[k]??null));
+// A provider identity cannot silently collapse different balance observations.
+// Missing and present values also differ; retaining the original immutable
+// fact and flagging the source for reconciliation avoids guessing which value
+// reflects the receiving wallet.
+const coreFacts=['provider','provider_transaction_id','event_kind','original_transaction_id','amount_minor','currency','currency_scale','payer_name','payer_identifier','transaction_at','fee_minor','wallet_balance_after_minor'];
 function finishStatements(env,job,account,{output=null,validation,outcome,state,facts=null,retry=false,jobError,modelId=env.MOMO_AI_MODEL??MOMO_MODEL,promptVersion=MOMO_PROMPT_VERSION}) {
  const stamp=now(),attemptId=id(),guardId=id(),candidateId=id();
  const args=[job.raw_sms_id,job.lease_token];
