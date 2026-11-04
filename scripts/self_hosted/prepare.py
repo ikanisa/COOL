@@ -412,7 +412,7 @@ def build_compose(profile,images,*,upstream_compose=None):
             'com.collect.source-sha256':'${BUILD_SOURCE_ID}','com.collect.release-root':'${COLLECT_RELEASE_ROOT}'}
     return compose
 
-def caddyfile(profile,tls_mode,acme_email):
+def caddyfile(profile,tls_mode,acme_email,*,_qualify_device_alias=False):
     if tls_mode=='internal' and profile['environment']!='qualification':raise ValueError('Internal CA is qualification only')
     if tls_mode=='acme' and not re.fullmatch(r'[^\s@{}]+@[^\s@{}]+\.[^\s@{}]+',acme_email or ''):raise ValueError('An ACME contact is required')
     header='{\n admin off\n'+(' email '+acme_email+'\n' if tls_mode=='acme' else '')+'}\n'
@@ -422,7 +422,30 @@ def caddyfile(profile,tls_mode,acme_email):
     for origin in sorted({profile['admin_origin'],profile['member_api_origin'],profile['public_origin']}):
         if origin==profile['supabase_origin']:raise ValueError('Supabase and application origins must be distinct')
         sites.append(origin.removeprefix('https://')+' {\n'+tls+' request_body {\n  max_size 16MB\n }\n header Strict-Transport-Security "max-age=31536000"\n reverse_proxy web:8080\n}\n')
-    sites.append(api+' {\n'+tls+' request_body {\n  max_size 16MB\n }\n header Strict-Transport-Security "max-age=31536000"\n @auth path /auth/v1/*\n handle @auth {\n  request_body {\n   max_size 16KB\n  }\n  reverse_proxy web:8080\n }\n @api path /rest/v1/* /storage/v1/* /realtime/v1/* /functions/v1/* /graphql/v1\n handle @api {\n  reverse_proxy api-gw:8000\n }\n handle {\n  respond 404\n }\n}\n')
+    if _qualify_device_alias is True:
+        # Qualification only: keep the public release generator on its
+        # existing routes until sender compatibility and inbound hold are
+        # resolved. Match original escaped targets to preserve the ID bytes.
+        device=("(method('POST') && {http.request.orig_uri}.matches('^/v1/device/(registration|acceptances|events)([?].*)?$')) || "
+                "(method('GET') && {http.request.orig_uri}.matches('^/v1/device/jobs([?].*)?$')) || "
+                "(method('GET') && {http.request.orig_uri}.matches('^/v1/device/messages/([A-Za-z0-9_:-]|%2[dD]|%3[0-9aA]|%4[1-9A-Fa-f]|%5[0-9aAfF]|%6[1-9A-Fa-f]|%7[0-9aA]){1,200}/permit([?].*)?$'))")
+        sites.append(api+' {\n'+tls+' request_body {\n  max_size 16MB\n }\n header Strict-Transport-Security "max-age=31536000"\n'
+            ' @device `'+device+'`\n'
+            " @v1_invalid `{http.request.uri.path}.matches('(?i)^/+v1(/|$)')`\n"
+            ' @auth path /auth/v1/*\n'
+            ' @api path /rest/v1/* /storage/v1/* /realtime/v1/* /functions/v1/* /graphql/v1\n'
+            ' route {\n'
+            '  handle @device {\n'
+            '   uri path_regexp ^ /functions/v1/collect-sms\n'
+            '   reverse_proxy api-gw:8000\n'
+            '  }\n'
+            '  handle @v1_invalid {\n   respond 404\n  }\n'
+            '  handle @auth {\n   request_body {\n    max_size 16KB\n   }\n   reverse_proxy web:8080\n  }\n'
+            '  handle @api {\n   reverse_proxy api-gw:8000\n  }\n'
+            '  handle {\n   respond 404\n  }\n'
+            ' }\n}\n')
+    else:
+        sites.append(api+' {\n'+tls+' request_body {\n  max_size 16MB\n }\n header Strict-Transport-Security "max-age=31536000"\n @auth path /auth/v1/*\n handle @auth {\n  request_body {\n   max_size 16KB\n  }\n  reverse_proxy web:8080\n }\n @api path /rest/v1/* /storage/v1/* /realtime/v1/* /functions/v1/* /graphql/v1\n handle @api {\n  reverse_proxy api-gw:8000\n }\n handle {\n  respond 404\n }\n}\n')
     return header+'\n'.join(sites)
 
 def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None):
