@@ -1,8 +1,8 @@
 """Read-only operational health and finite-capacity alarms; never emit row data.
 
-The unresolved-admission and retained-obligation alarm codes are additive to
-health.v1. External monitors that enumerate codes must recognize them or use
-the nonzero exit.
+The unresolved-admission, retained-obligation and unconfirmed-service-health
+alarm codes are additive to health.v1. External monitors that enumerate codes
+must recognize them or use the nonzero exit.
 """
 from __future__ import annotations
 import argparse
@@ -84,6 +84,7 @@ def evaluate(fence,services,disk,certificate_days,expected_source,expected_servi
     for name in sorted(set(expected_services)-{s.get('service') for s in services}):alarms.append({'code':'service_missing','service':name})
     for service in services:
         if service.get('state')!='running' or service.get('health') in ('unhealthy','starting'):alarms.append({'code':'service_unavailable','service':service.get('service')})
+        elif service.get('health')!='healthy':alarms.append({'code':'service_health_unconfirmed','service':service.get('service')})
     if fence.get('mode')!='open':alarms.append({'code':'application_maintenance','mode':fence.get('mode')})
     if fence.get('schedulerStatus',{}).get('coverageVerified') is not True:alarms.append({'code':'scheduler_coverage_unverified'})
     retained=[fence.get('retainedUnknownObligations'),fence.get('retainedUnquantifiedUnknownObligations')]

@@ -36,6 +36,23 @@ def health_codes(fence):
         {'free_bytes':20*1024**3,'free_ratio':.5},90,'a'*64,{'db'})
 
 class Configuration(unittest.TestCase):
+    def test_service_health_requires_confirmed_docker_health(self):
+        fence=healthy_capacity_fence();disk={'free_bytes':20*1024**3,'free_ratio':.5}
+        cases=[({'service':'db','state':'running','health':'healthy'},None),
+            ({'service':'db','state':'running','health':'starting'},'service_unavailable'),
+            ({'service':'db','state':'running','health':'unhealthy'},'service_unavailable'),
+            ({'service':'db','state':'exited','health':None},'service_unavailable'),
+            ({'service':'db','state':'running','health':None},'service_health_unconfirmed'),
+            ({'service':'db','state':'running','health':''},'service_health_unconfirmed'),
+            ({'service':'db','state':'running','health':'unexpected'},'service_health_unconfirmed'),
+            ({'service':'db','state':'running'},'service_health_unconfirmed')]
+        for service,expected in cases:
+            with self.subTest(service=service):
+                alarms=evaluate(fence,[service],disk,90,'a'*64,{'db'})
+                self.assertEqual(alarms,[] if expected is None else [{'code':expected,'service':'db'}])
+        self.assertEqual(evaluate(fence,[],disk,90,'a'*64,{'db'}),
+            [{'code':'service_missing','service':'db'}])
+
     def test_prepare_refuses_colliding_frontend_origins_before_output_or_vendor_work(self):
         profile={**PROFILE,'public_origin':PROFILE['admin_origin']}
         with tempfile.TemporaryDirectory() as directory:
@@ -103,10 +120,14 @@ class Configuration(unittest.TestCase):
                  patch('scripts.self_hosted.health.ssl._ssl._test_decode_cert',return_value={'notAfter':'future'}), \
                  patch('scripts.self_hosted.health.ssl.cert_time_to_seconds',return_value=4102444800):
                 default=health(op);detailed=health(op,include_capacity_detail=True)
+                with patch.object(op,'status',return_value={'services':[{'service':'db','state':'running','health':''}]}):
+                    unconfirmed=health(op)
             self.assertNotIn('capacity_detail',default)
             self.assertEqual(default['format'],'collect.selfhost.health.v1')
             self.assertEqual(detailed['format'],default['format'])
             self.assertEqual(detailed['capacity_detail']['status'],'confirmed')
+            self.assertEqual(unconfirmed['status'],'attention_required')
+            self.assertIn({'code':'service_health_unconfirmed','service':'db'},unconfirmed['alarms'])
             self.assertIn("private.collect_assert_deployment('"+'b'*64+"')",op.query)
             self.assertIn('private.collect_fence_owner_status_v3()',op.query)
 
