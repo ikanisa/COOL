@@ -11,7 +11,171 @@ import 'package:http/http.dart' as http;
 
 import 'cloudflare_canonical_reconciliation_support.dart';
 
+Map<String, dynamic> _receiverFixture(String route, {required bool phone}) {
+  final data = financialFixture('detail');
+  final resource = data['resource'] as Map<String, dynamic>;
+  resource['payee_momo_number'] = phone ? route : null;
+  resource['payee_momo_code'] = phone ? null : route;
+  resource['payee_momo_number_or_code'] = route;
+  final groupReceiver = data['group_state']['receiver'] as Map<String, dynamic>;
+  final snapshotReceiver =
+      _proposalRow(data)['receiver_identity'] as Map<String, dynamic>;
+  groupReceiver['momo_number_or_code'] = route;
+  snapshotReceiver['momo_number_or_code'] = route;
+  return data;
+}
+
+Map<String, dynamic> _proposalRow(Map<String, dynamic> data) =>
+    ((data['related']['proposals']['rows'] as List).single
+        as Map<String, dynamic>);
+
+Future<FinancialHarness> _receiverHarness(Map<String, dynamic> data) =>
+    FinancialHarness.create(
+      reply: (request) async {
+        if (request.method != 'GET') {
+          throw StateError('The receiver contract fixture permits reads only.');
+        }
+        return financialResponse(
+          request.url.path.endsWith('/members')
+              ? financialFixture('members')
+              : data,
+        );
+      },
+    );
+
 void main() {
+  test('canonical receiver contract accepts codes and phone strings', () async {
+    for (final example in const [
+      (route: '0000', phone: false),
+      (route: '001234567890', phone: false),
+      (route: '0788123456', phone: true),
+      (route: '250788123456', phone: true),
+      (route: '+250788123456', phone: true),
+    ]) {
+      final h = await _receiverHarness(
+        _receiverFixture(example.route, phone: example.phone),
+      );
+      final api = h.api;
+      final detail = await api.detail(
+        financialFixture('detail')['resource']['id'] as String,
+      );
+      final members = await api.members(detail);
+      final proposal = CanonicalReconciliationProposal.parse(
+        detail.related['proposals']!.rows.single,
+        transactionId: detail.id,
+        evidenceId: detail.transaction['evidence_id'] as String,
+      );
+      expect(detail.group['receiver']['momo_number_or_code'], example.route);
+      expect(
+        proposal.values['receiver_identity']['momo_number_or_code'],
+        example.route,
+      );
+      expect(detail.transaction['payee_momo_number_or_code'], example.route);
+      expect(proposal.currentFor(detail, members.rows.single), isTrue);
+      final attempt = api.review(
+        detail,
+        proposal,
+        'approved',
+        'Independent synthetic evidence review',
+        member: members.rows.single,
+      );
+      expect(
+        attempt.body['expected_proposal_version'],
+        proposal.values['version'],
+      );
+      expect(
+        attempt.body['expected_transaction_version'],
+        detail.transaction['version'],
+      );
+    }
+  });
+
+  test('canonical receiver contract rejects malformed fields', () async {
+    for (final field in const [
+      (name: 'momo_number_or_code', value: null),
+      (name: 'momo_number_or_code', value: 1234),
+      (name: 'momo_number_or_code', value: '123'),
+      (name: 'momo_number_or_code', value: '1234567890123'),
+      (name: 'momo_number_or_code', value: '+250688123456'),
+      (name: 'momo_number_or_code', value: '12A4'),
+      (name: 'momo_number_or_code', value: ' 1234'),
+      (name: 'network', value: 'unknown'),
+      (name: 'label', value: '   '),
+    ]) {
+      for (final snapshot in [false, true]) {
+        final data = financialFixture('detail');
+        final receiver = snapshot
+            ? _proposalRow(data)['receiver_identity'] as Map<String, dynamic>
+            : data['group_state']['receiver'] as Map<String, dynamic>;
+        receiver[field.name] = field.value;
+        final h = await _receiverHarness(data);
+        await expectLater(
+          h.api.detail(data['resource']['id'] as String),
+          throwsFormatException,
+          reason:
+              '${snapshot ? 'snapshot' : 'group'}: ${field.name}=${field.value}',
+        );
+      }
+    }
+  });
+
+  test('canonical receiver contract holds stale snapshots', () async {
+    for (final change in const [
+      (field: 'momo_number_or_code', value: '0001', receiver: true),
+      (field: 'network', value: 'airtel_money', receiver: true),
+      (field: 'label', value: 'Different receiver', receiver: true),
+      (field: 'expected_payment_version', value: 2, receiver: false),
+      (field: 'member_version', value: 2, receiver: false),
+      (field: 'membership_version', value: 2, receiver: false),
+      (field: 'group_version', value: 2, receiver: false),
+    ]) {
+      final data = _receiverFixture('0000', phone: false);
+      final row = _proposalRow(data);
+      if (change.receiver) {
+        (row['receiver_identity'] as Map<String, dynamic>)[change.field] =
+            change.value;
+      } else {
+        row[change.field] = change.value;
+      }
+      final h = await _receiverHarness(data);
+      final api = h.api;
+      final detail = await api.detail(data['resource']['id'] as String);
+      final member = (await api.members(detail)).rows.single;
+      final proposal = CanonicalReconciliationProposal.parse(
+        detail.related['proposals']!.rows.single,
+        transactionId: detail.id,
+        evidenceId: detail.transaction['evidence_id'] as String,
+      );
+      expect(
+        proposal.currentFor(detail, member),
+        isFalse,
+        reason: change.field,
+      );
+      expect(
+        () => api.review(
+          detail,
+          proposal,
+          'approved',
+          'Independent synthetic evidence review',
+          member: member,
+        ),
+        throwsFormatException,
+      );
+      expect(
+        api
+            .review(
+              detail,
+              proposal,
+              'rejected',
+              'Independent synthetic evidence review',
+              member: member,
+            )
+            .body['outcome'],
+        'rejected',
+      );
+    }
+  });
+
   test(
     'request identity agrees with independently executed Worker D1 receipts',
     () {

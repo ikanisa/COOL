@@ -403,7 +403,7 @@ void _receiver(Map<String, dynamic> value) {
   _keys(value, const {'momo_number_or_code', 'network', 'label'});
   if (value['momo_number_or_code'] is! String ||
       !RegExp(
-        r'^(?:07[2389][0-9]{7}|\+?2507[2389][0-9]{7})$',
+        r'^(?:[0-9]{4,12}|\+2507[2389][0-9]{7})$',
       ).hasMatch(value['momo_number_or_code'] as String) ||
       !const {'mtn_momo', 'airtel_money'}.contains(value['network']) ||
       value['label'] is! String ||
