@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -19,7 +20,9 @@ import '../fixtures/contribution_command_repository_fixture.dart';
 PaymentIntentModel intent({
   bool credited = false,
   bool providerTime = true,
-  String status = 'pending',
+  int? memberBalance = 12500,
+  int? groupBalance = 30000,
+  String? status,
   DateTime? expiresAt,
   String? confirmationStatus,
 }) => PaymentIntentModel(
@@ -30,7 +33,7 @@ PaymentIntentModel intent({
   receiverMomoNumberHash: 'synthetic-receiver',
   receiverMomoLabel: 'Collect synthetic receiver',
   senderPhoneHash: HashUtils.phoneHash('0788123456'),
-  status: status,
+  status: status ?? (credited ? 'matched' : 'pending'),
   createdAt: DateTime.utc(2026, 10, 18),
   expiresAt: expiresAt ?? DateTime.utc(2030),
   confirmationStatus:
@@ -43,7 +46,8 @@ PaymentIntentModel intent({
       ? DateTime.utc(2026, 10, 18, 8, 15)
       : null,
   providerTransactionReference: credited ? 'MOMO-SYNTHETIC-001' : null,
-  balanceAfterContributionRwf: credited ? 12500 : null,
+  balanceAfterContributionRwf: credited ? memberBalance : null,
+  groupBalanceAfterContributionRwf: credited ? groupBalance : null,
 );
 
 class _Repository extends ContributionFixtureRepository {
@@ -52,6 +56,7 @@ class _Repository extends ContributionFixtureRepository {
   }
   int creates = 0, checks = 0, loads = 0;
   PaymentIntentModel response = intent();
+  Completer<PaymentIntentModel>? pendingResponse;
   bool fail = false;
   void publish(PaymentIntentModel updated) {
     state = state.copyWith(paymentIntents: [updated]);
@@ -70,8 +75,11 @@ class _Repository extends ContributionFixtureRepository {
   Future<PaymentIntentModel> refreshPaymentIntent(String id) async {
     checks++;
     if (fail) throw StateError('Synthetic network interruption');
-    state = state.copyWith(paymentIntents: [response]);
-    return response;
+    final next = pendingResponse == null
+        ? response
+        : await pendingResponse!.future;
+    state = state.copyWith(paymentIntents: [next]);
+    return next;
   }
 
   @override
@@ -262,7 +270,11 @@ void main() {
       expect(find.textContaining('Your payment was received'), findsNothing);
       expect(find.text('Credited'), findsNothing);
       expect(find.text('Contribution credited'), findsNothing);
-      expect(find.text('Balance after this contribution'), findsNothing);
+      expect(
+        find.text('Your balance in this group after this contribution'),
+        findsNothing,
+      );
+      expect(find.text('Group balance after this contribution'), findsNothing);
       expect(find.textContaining('Provider transaction '), findsNothing);
       expect(find.text('Check payment'), findsOneWidget);
       expect(find.text('Payment help'), findsOneWidget);
@@ -280,7 +292,14 @@ void main() {
       await tester.tap(find.text('Check payment'));
       await tester.pumpAndSettle();
       expect(find.text('Credited'), findsOneWidget);
-      expect(find.text('Balance after this contribution'), findsOneWidget);
+      expect(
+        find.text('Your balance in this group after this contribution'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Group balance after this contribution'),
+        findsOneWidget,
+      );
       expect(find.text('Payment record linked'), findsNothing);
       expect(repository.loads, 1);
       expect(repository.checks, 2);
@@ -400,7 +419,16 @@ void main() {
       await tester.tap(find.text('Resume payment request'));
       await tester.pumpAndSettle();
       expect(find.text('Credited'), findsOneWidget);
-      expect(find.text('Balance after this contribution'), findsOneWidget);
+      expect(
+        find.text('Your balance in this group after this contribution'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Group balance after this contribution'),
+        findsOneWidget,
+      );
+      expect(find.text('RWF 12,500'), findsOneWidget);
+      expect(find.text('RWF 30,000'), findsOneWidget);
       expect(find.textContaining('MOMO-SYNTHETIC-001'), findsOneWidget);
       expect(
         find.textContaining(
@@ -435,12 +463,17 @@ void main() {
     'legacy receipt omits absent provider time and keeps credited time',
     (tester) async {
       final repository = _Repository(existing: true)
-        ..response = intent(credited: true, providerTime: false);
+        ..response = intent(
+          credited: true,
+          providerTime: false,
+          groupBalance: null,
+        );
       await pump(tester, repository);
       await tester.tap(find.text('Resume payment request'));
       await tester.pumpAndSettle();
       expect(find.text('Credited'), findsOneWidget);
       expect(find.textContaining('Provider transaction '), findsNothing);
+      expect(find.text('Group balance after this contribution'), findsNothing);
       expect(
         find.textContaining(
           'Credited ${formatCollectDateTime(repository.response.postedAt!)}',
@@ -450,6 +483,73 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+
+  testWidgets('reversal does not present the old posting balances', (
+    tester,
+  ) async {
+    final repository = _Repository(existing: true)
+      ..response = intent(credited: true, confirmationStatus: 'reversed');
+    await pump(tester, repository);
+    await tester.tap(find.text('Resume payment request'));
+    await tester.pumpAndSettle();
+    expect(find.text('Reversed'), findsOneWidget);
+    expect(find.textContaining('Originally credited '), findsOneWidget);
+    expect(
+      find.text('Your balance in this group after this contribution'),
+      findsNothing,
+    );
+    expect(find.text('Group balance after this contribution'), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
+  for (final includeZero in [false, true]) {
+    testWidgets(
+      includeZero
+          ? 'zero posting balances are visible'
+          : 'absent posting balances stay hidden',
+      (tester) async {
+        final value = includeZero ? 0 : null;
+        final repository = _Repository(existing: true)
+          ..response = intent(
+            credited: true,
+            memberBalance: value,
+            groupBalance: value,
+          );
+        await pump(tester, repository);
+        await tester.tap(find.text('Resume payment request'));
+        await tester.pumpAndSettle();
+        expect(
+          find.text('Your balance in this group after this contribution'),
+          includeZero ? findsOneWidget : findsNothing,
+        );
+        expect(
+          find.text('Group balance after this contribution'),
+          includeZero ? findsOneWidget : findsNothing,
+        );
+        if (includeZero) expect(find.text('RWF 0'), findsNWidgets(2));
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
+
+  testWidgets('late credit refresh cannot replace a displayed reversal', (
+    tester,
+  ) async {
+    final pending = Completer<PaymentIntentModel>();
+    final repository = _Repository(existing: true)..pendingResponse = pending;
+    await pump(tester, repository);
+    await tester.tap(find.text('Resume payment request'));
+    await tester.pump();
+    repository.publish(intent(credited: true, confirmationStatus: 'reversed'));
+    await tester.pump();
+    expect(find.text('Reversed'), findsOneWidget);
+    pending.complete(intent(credited: true));
+    await tester.pumpAndSettle();
+    expect(find.text('Reversed'), findsOneWidget);
+    expect(find.text('Group balance after this contribution'), findsNothing);
+    expect(repository.loads, 0);
+    expect(tester.takeException(), isNull);
+  });
 
   testWidgets('provider and credited times reflow at 320 with enlarged text', (
     tester,
@@ -464,17 +564,21 @@ void main() {
     );
     await tester.tap(find.text('Resume payment request'));
     await tester.pumpAndSettle();
+    final memberBalance = find.text(
+      'Your balance in this group after this contribution',
+    );
+    final groupBalance = find.text('Group balance after this contribution');
     final provider = find.textContaining('Provider transaction ');
     final credited = find.textContaining(
       'Credited ${formatCollectDateTime(repository.response.postedAt!)}',
     );
-    await tester.scrollUntilVisible(
-      provider,
-      160,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await tester.pumpAndSettle();
-    for (final finder in [provider, credited]) {
+    for (final finder in [memberBalance, groupBalance, provider, credited]) {
+      await tester.scrollUntilVisible(
+        finder,
+        160,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
       expect(finder, findsOneWidget);
       final paragraph = tester.renderObject<RenderParagraph>(finder);
       expect(paragraph.didExceedMaxLines, isFalse);
@@ -500,7 +604,14 @@ void main() {
       repository.publish(intent(credited: true));
       await tester.pumpAndSettle();
       expect(find.text('Credited'), findsOneWidget);
-      expect(find.text('Balance after this contribution'), findsOneWidget);
+      expect(
+        find.text('Your balance in this group after this contribution'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Group balance after this contribution'),
+        findsOneWidget,
+      );
       expect(repository.checks, 0);
       expect(launches, 0);
       expect(repository.state.collectionSummaries, balances);
@@ -508,6 +619,16 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Credited'), findsOneWidget);
       expect(find.text('Awaiting confirmation'), findsNothing);
+      repository.publish(
+        intent(credited: true, confirmationStatus: 'reversed'),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Reversed'), findsOneWidget);
+      expect(find.text('Group balance after this contribution'), findsNothing);
+      repository.publish(intent(credited: true));
+      await tester.pumpAndSettle();
+      expect(find.text('Reversed'), findsOneWidget);
+      expect(find.text('Group balance after this contribution'), findsNothing);
       expect(tester.takeException(), isNull);
     },
   );

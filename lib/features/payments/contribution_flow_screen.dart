@@ -196,7 +196,9 @@ class _RwandaMomoContributionFlowState
             .firstOrNull;
         if (updated != null &&
             (!current.hasCommittedContribution ||
-                updated.hasCommittedContribution)) {
+                updated.hasCommittedContribution) &&
+            !(current.confirmationStatus == 'reversed' &&
+                updated.confirmationStatus != 'reversed')) {
           setState(() {
             _intent = updated;
             if (updated.confirmationStatus != 'awaiting_confirmation' ||
@@ -423,14 +425,28 @@ class _RwandaMomoContributionFlowState
                         ),
                       ),
                     if (isCommitted) ...[
-                      if (_intent!.balanceAfterContributionRwf != null) ...[
+                      if (_intent!.confirmationStatus == 'credited' &&
+                          _intent!.balanceAfterContributionRwf != null) ...[
                         CollectSpacing.gap12,
                         Text(
-                          'Balance after this contribution',
+                          'Your balance in this group after this contribution',
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         Text(
                           formatRwf(_intent!.balanceAfterContributionRwf!),
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ],
+                      if (_intent!.confirmationStatus == 'credited' &&
+                          _intent!.groupBalanceAfterContributionRwf !=
+                              null) ...[
+                        CollectSpacing.gap12,
+                        Text(
+                          'Group balance after this contribution',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        Text(
+                          formatRwf(_intent!.groupBalanceAfterContributionRwf!),
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ],
@@ -443,7 +459,8 @@ class _RwandaMomoContributionFlowState
                       ],
                       CollectSpacing.gap12,
                       Text(
-                        'Credited ${_receiptTimestamp(_intent!.postedAt!)}',
+                        '${_intent!.confirmationStatus == 'reversed' ? 'Originally credited' : 'Credited'} '
+                        '${_receiptTimestamp(_intent!.postedAt!)}',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       if (_intent!.providerTransactionReference != null) ...[
@@ -791,11 +808,15 @@ class _RwandaMomoContributionFlowState
     try {
       final refreshed = await repository.refreshPaymentIntent(intent.id);
       if (!current()) return;
+      final displayed = _intent;
       if (refreshed.id != intent.id ||
           refreshed.collectionId != intent.collectionId ||
           refreshed.expectedAmountRwf != intent.expectedAmountRwf ||
           (intent.hasCommittedContribution &&
-              !refreshed.hasCommittedContribution)) {
+              !refreshed.hasCommittedContribution) ||
+          (displayed?.id == refreshed.id &&
+              displayed?.confirmationStatus == 'reversed' &&
+              refreshed.confirmationStatus != 'reversed')) {
         throw const FormatException('Payment status could not be verified');
       }
       setState(() => _intent = refreshed);
