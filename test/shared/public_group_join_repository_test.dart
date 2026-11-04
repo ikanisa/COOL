@@ -77,6 +77,8 @@ Map<String, Object?> _serverGroup({bool member = true}) => {
   'visibility_status': 'public_approved',
   'is_public': true,
   'is_member': member,
+  'status': 'active',
+  'moderation_status': 'not_requested',
   'created_at': '2026-01-01T00:00:00Z',
 };
 
@@ -127,6 +129,37 @@ void main() {
       expect(requests.first.headers['authorization'], startsWith('Bearer '));
     },
   );
+
+  test('archived group readback cannot publish join success', () async {
+    final requests = <http.Request>[];
+    final client = CollectCloudflareClient(
+      'http://127.0.0.1:1',
+      httpClient: MockClient((request) async {
+        requests.add(request);
+        final value = request.url.path.endsWith('/join_public_group')
+            ? _group
+            : [
+                _serverGroup()
+                  ..['status'] = 'archived'
+                  ..['moderation_status'] = 'archived',
+              ];
+        return http.Response(
+          jsonEncode(value),
+          200,
+          headers: {'content-type': 'application/json'},
+        );
+      }),
+    );
+    addTearDown(client.dispose);
+    await client.auth.recoverSession(_session(_sessionA));
+    final repo = _JoinOnlyRepository(client);
+    addTearDown(repo.dispose);
+
+    await expectLater(repo.joinPublicGroup(_group), throwsFormatException);
+    expect(requests.length, 2);
+    expect(requests.last.url.path, endsWith('/list_current_user_collections'));
+    expect(repo.state.collections.single.isCurrentUserMember, isFalse);
+  });
 
   test(
     'same-user replacement during join cannot publish stale membership',

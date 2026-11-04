@@ -69,7 +69,8 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
         accessToken: session.accessToken,
       );
       requireOriginalSession();
-      if (!joined.isPublic ||
+      if (joined.isArchived ||
+          !joined.isPublic ||
           (!joined.isCurrentUserMember && joined.creatorUserId != ownerId)) {
         throw const FormatException('Public group membership is invalid.');
       }
@@ -170,8 +171,9 @@ mixin _CollectGroupActions on StateNotifier<CollectState> {
       refresh.catchError((Object _) {
         if (!mounted ||
             generation != _loadGeneration ||
-            !_isCurrentSession(session))
+            !_isCurrentSession(session)) {
           return;
+        }
         state = state.copyWith(
           isLoading: false,
           financialObservationUncertain: true,
