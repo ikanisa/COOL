@@ -1,25 +1,32 @@
 import type {Context} from "npm:hono@4.13.13";
 import type {AppEnv,Env} from "./types.ts";
 import {admin} from "./auth.ts";
-import {isoNow,uid} from "./util.ts";
+import {uid} from "./util.ts";
 export async function serviceMetrics(env:Env) {
- const now=isoNow(),minute=new Date(Date.now()-60000).toISOString(),stale=new Date(Date.now()-90000).toISOString();
- const [queue,devices,outcomes,callbacks,outboxes]=await env.DB.batch([
+ const observedMs=Date.now(),now=new Date(observedMs).toISOString(),minute=new Date(observedMs-60000).toISOString(),stale=new Date(observedMs-90000).toISOString();
+ const [queue,devices,outcomes,callbacks,outboxes,observations]=await env.DB.batch([
  env.DB.prepare(`SELECT kind,COUNT(*) AS count,MIN(created_at) AS oldest_at FROM messages WHERE state IN('accepted','assigned','phone_accepted','queued') AND cancel_requested=0 AND not_after>? GROUP BY kind`).bind(now),
  env.DB.prepare(`SELECT COUNT(*) AS total,COALESCE(SUM(CASE WHEN ready=1 AND last_seen_at>=? THEN 1 ELSE 0 END),0) AS ready,
  COALESCE(SUM(CASE WHEN last_seen_at IS NULL OR last_seen_at<? OR ready=0 THEN 1 ELSE 0 END),0) AS unavailable,
  COALESCE(SUM(CASE WHEN fcm_last_error IS NOT NULL THEN 1 ELSE 0 END),0) AS fcm_errors FROM devices WHERE revoked_at IS NULL`).bind(stale,stale),
  env.DB.prepare("SELECT kind,state,COUNT(*) AS count FROM messages WHERE state IN('outcome_unknown','partial') OR (kind='otp' AND state IN('expired','failed') AND updated_at>=?) GROUP BY kind,state").bind(minute),
  env.DB.prepare("SELECT state,COUNT(*) AS count,MIN(created_at) AS oldest_at FROM webhook_deliveries WHERE state IN('pending','sending','failed') GROUP BY state"),
- env.DB.prepare('SELECT h.* FROM application_outbox_health h JOIN applications a ON a.application_id=h.application_id WHERE a.revoked_at IS NULL')]);
- return {observed_at:now,dispatch_paused:env.DISPATCH_PAUSED==='true',queue:queue!.results.map(row=>Object.assign({},row,{oldest_age_seconds:Math.max(0,Math.floor((Date.now()-Date.parse(String(row.oldest_at)))/1000))})),devices:devices!.results[0],outcomes:outcomes!.results,callbacks:callbacks!.results,
- application_outboxes:outboxes!.results.map(r=>Object.assign({},r,{stale:Date.parse(String(r.sampled_at))<Date.now()-300000})),
- notice:"Queue/radio estimates are not recipient arrival measurements. Outbox counts are application-reported; absent reports mean unknown, not healthy."};
+ env.DB.prepare('SELECT h.* FROM application_outbox_health h JOIN applications a ON a.application_id=h.application_id WHERE a.revoked_at IS NULL'),
+ env.DB.prepare("SELECT state,COUNT(*) AS count FROM messages WHERE state='handoff_started' OR (state IN('accepted','assigned','phone_accepted','queued') AND not_after<=?) GROUP BY state").bind(now)]);
+ const counts:Record<string,number>={handoff_started:0,accepted:0,assigned:0,phone_accepted:0,queued:0};
+ for(const row of observations!.results){const state=String(row.state),count=row.count;
+  if(!Object.hasOwn(counts,state)||typeof count!=='number'||!Number.isSafeInteger(count)||count<0)throw Error('invalid_delivery_observation');
+  counts[state]=count;
+ }
+ return {observed_at:now,dispatch_paused:env.DISPATCH_PAUSED==='true',queue:queue!.results.map(row=>Object.assign({},row,{oldest_age_seconds:Math.max(0,Math.floor((observedMs-Date.parse(String(row.oldest_at)))/1000))})),devices:devices!.results[0],outcomes:outcomes!.results,callbacks:callbacks!.results,
+ application_outboxes:outboxes!.results.map(r=>Object.assign({},r,{stale:Date.parse(String(r.sampled_at))<observedMs-300000})),
+ delivery_observations:{handoff_started:counts.handoff_started,overdue:{accepted:counts.accepted,assigned:counts.assigned,phone_accepted:counts.phone_accepted,queued:counts.queued}},
+ notice:"Queue/radio estimates are not recipient arrival measurements. Outbox counts are application-reported; absent reports mean unknown, not healthy. Unresolved handoff and overdue states are observations, not proof of delivery failure."};
 }
 export async function evaluateAlerts(env:Env) {
- const m=await serviceMetrics(env),now=m.observed_at;
+ const m=await serviceMetrics(env),now=m.observed_at,observedMs=Date.parse(now);
  const flags:Record<string,{active:boolean;severity:string}>={
-  application_outbox_blocked:{active:m.application_outboxes.some(r=>Number(r.failed_count)>0||(Number(r.pending_count)>0&&Date.parse(String(r.oldest_pending_at))<Date.now()-300000)),severity:'critical'},
+  application_outbox_blocked:{active:m.application_outboxes.some(r=>Number(r.failed_count)>0||(Number(r.pending_count)>0&&Date.parse(String(r.oldest_pending_at))<observedMs-300000)),severity:'critical'},
   application_outbox_stale:{active:m.application_outboxes.some(r=>r.stale),severity:'warning'},
   gateway_unavailable:{active:Number(m.devices?.unavailable??0)>0,severity:'warning'},
   no_ready_gateway:{active:Number(m.devices?.ready??0)===0&&m.queue.length>0,severity:'critical'},
