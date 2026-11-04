@@ -59,7 +59,7 @@ export async function financialRpc(operation,body,env,actor,internal={}) {
   if(!g.receiver_momo_number||!['mtn_momo','airtel_money'].includes(g.receiver_network))throw new ApiError(409,'route_unavailable','The group payment route is unavailable.');
   const member=await first(env,'SELECT momo_number,country_code FROM users WHERE id=?',actor.userId);
   const sender=normalizeContributionSender(member?.momo_number);
-  if(!sender||member?.country_code!=='RW')throw new ApiError(403,'profile_incomplete','Complete your verified MoMo profile first.');
+  if(!sender||member?.country_code!=='RW')throw new ApiError(403,'profile_incomplete','Complete your MoMo profile first.');
   const senderHash=await digest(sender);
   if(typeof body.p_sender_phone_hash!=='string'||!/^([a-f0-9]{64})$/.test(body.p_sender_phone_hash)||body.p_sender_phone_hash!==senderHash)throw new ApiError(409,'contribution_sender_changed','Refresh your payment details before continuing.');
   const previous=await retainedResponse(env,actor,operation,requestId,body,{collectionId:g.id});
