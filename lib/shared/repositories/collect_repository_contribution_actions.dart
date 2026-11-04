@@ -7,6 +7,7 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
   _CollectLiveReader get _liveReader;
   SmsAccessChannel get _smsAccessChannel;
   bool get _allowLocalWrites;
+  int get _loadGeneration;
   _CollectSessionFence _captureSession();
   void _requireCurrentMemberSession(
     _CollectSessionFence session,
@@ -43,6 +44,9 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
     required String requestId,
   }) async {
     final profile = _requireProfile();
+    if (state.memberScopeUncertain) {
+      throw StateError('Refresh your groups before creating a group.');
+    }
     if (isPublic) {
       throw const FormatException('Member-created groups are private.');
     }
@@ -72,24 +76,48 @@ mixin _CollectContributionActions on StateNotifier<CollectState> {
           .setHeader('Authorization', 'Bearer ${session.accessToken}')
           .retry(enabled: false);
       current();
+      // A retained creation response is not current membership. Refresh first,
+      // then read this group again so a stale pre-refresh DTO cannot be put
+      // back after the refresh has removed access.
+      final refresh = loadInitial();
+      final refreshGeneration = _loadGeneration;
+      await refresh;
+      void requireCurrentRefresh() {
+        current();
+        if (refreshGeneration != _loadGeneration ||
+            state.isLoading ||
+            state.usingStaleCache ||
+            state.memberScopeUncertain ||
+            state.financialObservationUncertain ||
+            state.lastError != null) {
+          throw StateError(
+            'The group could not be confirmed. Refresh before continuing.',
+          );
+        }
+      }
+
+      requireCurrentRefresh();
       final collection = await _liveReader.fetchCollection(
         collectionId,
         accessToken: session.accessToken,
       );
-      current();
+      requireCurrentRefresh();
       if (collection.creatorUserId != user.id ||
           !collection.isCurrentUserMember ||
           collection.isPublic ||
           collection.isPlatformSponsored ||
+          collection.isArchived ||
           collection.primaryPaymentRail != 'unavailable' ||
           collection.receiverMomoNumber != null) {
         throw const FormatException('Created group metadata is invalid.');
       }
-      await loadInitial();
-      current();
-      if (!state.collections.any((item) => item.id == collectionId)) {
-        state = state.copyWith(collections: [collection, ...state.collections]);
-      }
+      state = state.copyWith(
+        collections: [
+          collection,
+          ...state.collections.where((item) => item.id != collectionId),
+        ],
+      );
+      requireCurrentRefresh();
       return collection;
     }
     if (!_allowLocalWrites) {

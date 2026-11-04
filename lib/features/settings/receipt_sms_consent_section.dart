@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../shared/models/collect_models.dart';
 import '../../shared/models/receipt_sms_consent.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
@@ -27,10 +26,12 @@ class _ReceiptSmsConsentSectionState
         .where((g) => g.isCurrentUserMember && !g.isArchived)
         .toList(growable: false);
     final selected = groups.where((g) => g.id == _group).firstOrNull;
-    if (_group != null && selected == null) {
+    if (!state.memberScopeUncertain && _group != null && selected == null) {
       final removed = _group;
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted && _group == removed) {
+        if (mounted &&
+            _group == removed &&
+            !ref.read(collectRepositoryProvider).memberScopeUncertain) {
           setState(() {
             _group = null;
             _operation++;
@@ -97,6 +98,27 @@ class _ReceiptSmsConsentSectionState
         CollectSpacing.gap12,
         if (state.currentProfile == null)
           const Text('Sign in to view your receipt SMS choices.')
+        else if (state.memberScopeUncertain)
+          Semantics(
+            liveRegion: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'Group information is unavailable. Refresh to view your saved receipt SMS choices.',
+                ),
+                CollectSpacing.gap12,
+                CollectButton(
+                  label: 'Refresh groups',
+                  icon: CollectIcons.sync,
+                  onPressed: state.isLoading
+                      ? null
+                      : () => repository.loadInitial(),
+                  expand: true,
+                ),
+              ],
+            ),
+          )
         else if (groups.isEmpty)
           const Text('There are no current groups to manage here.')
         else ...[
@@ -109,7 +131,7 @@ class _ReceiptSmsConsentSectionState
             label: selected == null ? 'Choose group' : 'Change group',
             variant: CollectButtonVariant.secondary,
             expand: true,
-            onPressed: () => _select(groups),
+            onPressed: _select,
           ),
           if (_selectionError != null)
             Semantics(liveRegion: true, child: Text(_selectionError!)),
@@ -277,7 +299,7 @@ class _ReceiptSmsConsentSectionState
     };
   }
 
-  Future<void> _select(List<CollectCollection> groups) async {
+  Future<void> _select() async {
     final repository = ref.read(collectRepositoryProvider.notifier),
         generation = repository.sessionGeneration;
     final user = ref.read(collectRepositoryProvider).currentProfile?.id;
@@ -285,34 +307,100 @@ class _ReceiptSmsConsentSectionState
       context: context,
       sheetAnimationStyle: CollectMotion.animationStyle(context),
       isScrollControlled: true,
-      builder: (context) => SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(CollectSpacing.x3),
-                child: Text(
-                  'Choose group for receipt SMS',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
+      builder: (context) => Consumer(
+        builder: (context, sheetRef, _) {
+          final sheetState = sheetRef.watch(collectRepositoryProvider);
+          final sheetRepository = sheetRef.watch(
+            collectRepositoryProvider.notifier,
+          );
+          final current =
+              identical(sheetRepository, repository) &&
+              repository.sessionGeneration == generation &&
+              sheetState.currentProfile?.id == user;
+          final groups = sheetState.collections
+              .where((g) => g.isCurrentUserMember && !g.isArchived)
+              .toList(growable: false);
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(CollectSpacing.x3),
+                    child: Text(
+                      'Choose group for receipt SMS',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  if (!current || sheetState.memberScopeUncertain) ...[
+                    Semantics(
+                      liveRegion: true,
+                      child: Padding(
+                        padding: const EdgeInsets.all(CollectSpacing.x3),
+                        child: Text(
+                          current
+                              ? 'Group information is unavailable. Close and refresh your data.'
+                              : 'Account changed. Close and reopen this selection.',
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(CollectSpacing.x3),
+                      child: CollectButton(
+                        label: 'Close',
+                        variant: CollectButtonVariant.secondary,
+                        onPressed: () => Navigator.of(context).pop(),
+                        expand: true,
+                      ),
+                    ),
+                  ] else
+                    for (final group in groups)
+                      ListTile(
+                        title: Text(group.title),
+                        selected: group.id == _group,
+                        onTap: () {
+                          if (!mounted ||
+                              !identical(
+                                ref.read(collectRepositoryProvider.notifier),
+                                repository,
+                              ) ||
+                              repository.sessionGeneration != generation) {
+                            return;
+                          }
+                          final latest = ref.read(collectRepositoryProvider);
+                          if (latest.memberScopeUncertain ||
+                              latest.currentProfile?.id != user ||
+                              !latest.collections.any(
+                                (g) =>
+                                    g.id == group.id &&
+                                    g.isCurrentUserMember &&
+                                    !g.isArchived,
+                              )) {
+                            return;
+                          }
+                          Navigator.of(context).pop(group.id);
+                        },
+                      ),
+                ],
               ),
-              for (final group in groups)
-                ListTile(
-                  title: Text(group.title),
-                  selected: group.id == _group,
-                  onTap: () => Navigator.of(context).pop(group.id),
-                ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
     if (!mounted ||
         selected == null ||
+        !identical(ref.read(collectRepositoryProvider.notifier), repository) ||
         repository.sessionGeneration != generation ||
         ref.read(collectRepositoryProvider).currentProfile?.id != user) {
+      return;
+    }
+    if (ref.read(collectRepositoryProvider).memberScopeUncertain) {
+      setState(
+        () => _selectionError =
+            'Group information is unavailable. Refresh and try again.',
+      );
       return;
     }
     final current = ref

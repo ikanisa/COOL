@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:collect_app/app/theme/app_theme.dart';
+import 'package:collect_app/core/security/hash_utils.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -70,6 +71,36 @@ class _RecoveryRepository extends ContributionFixtureRepository {
     expect(requestId, commandRequestId);
     checks++;
     return record;
+  }
+}
+
+class _FoundRecoveryRepository extends _RecoveryRepository {
+  _FoundRecoveryRepository() : super(restored: true);
+  int statusReads = 0;
+  @override
+  Future<ContributionCommandCheckpoint> checkContributionCommand(
+    String requestId,
+  ) async {
+    checks++;
+    return record.received(contributionFixtureIntent);
+  }
+
+  @override
+  Future<PaymentIntentModel> refreshPaymentIntent(String id) async {
+    statusReads++;
+    final result = PaymentIntentModel(
+      id: contributionFixtureIntent,
+      collectionId: contributionFixtureGroup,
+      expectedAmountRwf: commandBody().amountRwf,
+      receiverMomoNumber: '0788999999',
+      receiverMomoLabel: 'Different receiver',
+      senderPhoneHash: HashUtils.phoneHash('0788123456'),
+      status: 'pending',
+      createdAt: DateTime.utc(2026),
+      expiresAt: DateTime.utc(2030),
+    );
+    state = state.copyWith(paymentIntents: [result]);
+    return result;
   }
 }
 
@@ -233,6 +264,204 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+  testWidgets('a found noncommitted request stays in neutral recovery', (
+    tester,
+  ) async {
+    final repo = _FoundRecoveryRepository();
+    await pump(tester, repo);
+    await tap(tester, 'Check request');
+    expect(repo.checks, 1);
+    expect(repo.statusReads, 1);
+    expect(find.textContaining(commandRequestId), findsOneWidget);
+    expect(find.textContaining('outcome is not confirmed'), findsOneWidget);
+    expect(find.text('Different receiver'), findsNothing);
+    expect(find.text('0788999999'), findsNothing);
+    expect(find.text('Copy payment code'), findsNothing);
+    expect(find.text('Open MoMo USSD'), findsNothing);
+    expect(find.text('Payment help'), findsOneWidget);
+    expect(repo.prepares, 0);
+    expect(launches, 0);
+    await tap(tester, 'Check request');
+    expect(repo.checks, 2);
+    expect(repo.prepares, 0);
+    expect(launches, 0);
+  });
+  testWidgets(
+    'scope change retains the request and hides prior payment instructions',
+    (tester) async {
+      final repo = _ScopeRecoveryRepository();
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [collectRepositoryProvider.overrideWith((_) => repo)],
+          child: MaterialApp(
+            theme: AppTheme.light(),
+            home: const ContributionFlowScreen(
+              collectionId: contributionFixtureGroup,
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).first, '5000');
+      await tester.pumpAndSettle();
+      await tap(tester, 'Continue to MoMo');
+      expect(find.text('Open MoMo USSD'), findsOneWidget);
+      repo.denyScope();
+      await tester.pumpAndSettle();
+      expect(find.textContaining(commandRequestId), findsOneWidget);
+      expect(find.text('Open MoMo USSD'), findsNothing);
+      expect(find.text('Copy payment code'), findsNothing);
+      repo.publishFreshSnapshot();
+      await tester.pumpAndSettle();
+      expect(find.textContaining(commandRequestId), findsOneWidget);
+      expect(find.text('Open MoMo USSD'), findsNothing);
+      expect(find.text('Copy payment code'), findsNothing);
+      expect(repo.firstCreations, 1);
+      expect(launches, 0);
+    },
+  );
+  testWidgets('ordinary group-route refresh hides an active old receiver', (
+    tester,
+  ) async {
+    final repo = _RouteRefreshRepository();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [collectRepositoryProvider.overrideWith((_) => repo)],
+        child: MaterialApp(
+          theme: AppTheme.light(),
+          home: const ContributionFlowScreen(
+            collectionId: contributionFixtureGroup,
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField).first, '5000');
+    await tester.pumpAndSettle();
+    await tap(tester, 'Continue to MoMo');
+    expect(find.text('Open MoMo USSD'), findsOneWidget);
+    repo.changeReceiver();
+    await tester.pumpAndSettle();
+    expect(find.textContaining(commandRequestId), findsOneWidget);
+    expect(find.text('Open MoMo USSD'), findsNothing);
+    expect(find.text('Copy payment code'), findsNothing);
+    expect(repo.firstCreations, 1);
+    expect(launches, 0);
+  });
+  testWidgets('resume with a historical receiver uses neutral recovery', (
+    tester,
+  ) async {
+    final repo = _RouteRefreshRepository()
+      ..seedHistoricalIntent()
+      ..changeReceiver();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [collectRepositoryProvider.overrideWith((_) => repo)],
+        child: MaterialApp(
+          theme: AppTheme.light(),
+          home: const ContributionFlowScreen(
+            collectionId: contributionFixtureGroup,
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Resume payment request'));
+    await tester.pumpAndSettle();
+    expect(find.text('Check your original request'), findsOneWidget);
+    expect(find.text('Open MoMo USSD'), findsNothing);
+    expect(find.text('Copy payment code'), findsNothing);
+    expect(launches, 0);
+  });
+  for (final nested in [false, true]) {
+    testWidgets(
+      'scope change while ${nested ? 'nested custody read' : 'preparation'} is pending recovers once',
+      (tester) async {
+        final repo = _HeldScopeRecoveryRepository(holdNestedRead: nested);
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [collectRepositoryProvider.overrideWith((_) => repo)],
+            child: MaterialApp(
+              theme: AppTheme.light(),
+              home: const ContributionFlowScreen(
+                collectionId: contributionFixtureGroup,
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        await tester.enterText(find.byType(TextField).first, '5000');
+        await tester.pumpAndSettle();
+        final button = find.widgetWithText(FilledButton, 'Continue to MoMo');
+        await tester.ensureVisible(button);
+        await tester.tap(button);
+        await tester.pump();
+        expect(repo.prepares, 1);
+        if (nested) {
+          repo.preparation.completeError(
+            StateError('Synthetic uncertain prepare'),
+          );
+          await tester.pump();
+          expect(repo.reads, 2);
+        }
+        repo.denyScope();
+        await tester.pump();
+        if (nested) {
+          repo.nestedRead.complete(repo.record);
+        } else {
+          repo.preparation.completeError(
+            ContributionRecoveryRequired(repo.record),
+          );
+        }
+        await tester.pumpAndSettle();
+        expect(repo.reads, nested ? 3 : 2);
+        expect(find.textContaining(commandRequestId), findsOneWidget);
+        expect(find.text('Check request'), findsOneWidget);
+        expect(find.text('Checking request'), findsNothing);
+        expect(find.text('Open MoMo USSD'), findsNothing);
+        expect(repo.prepares, 1);
+        expect(launches, 0);
+      },
+    );
+  }
+  for (final changed in ['stale cache', 'financial uncertainty', 'sender']) {
+    testWidgets(
+      '$changed while a status read is pending restores neutral custody',
+      (tester) async {
+        final repo = _HeldIntentRepository();
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [collectRepositoryProvider.overrideWith((_) => repo)],
+            child: MaterialApp(
+              theme: AppTheme.light(),
+              home: const ContributionFlowScreen(
+                collectionId: contributionFixtureGroup,
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        await tester.enterText(find.byType(TextField).first, '5000');
+        await tester.pumpAndSettle();
+        await tap(tester, 'Continue to MoMo');
+        final check = find.text('Check payment');
+        await tester.ensureVisible(check);
+        await tester.tap(check);
+        await tester.pump();
+        repo.invalidateObservation(changed);
+        await tester.pump();
+        repo.status.complete(repo.preparedIntent!);
+        await tester.pumpAndSettle();
+        expect(find.textContaining(commandRequestId), findsOneWidget);
+        expect(find.text('Check request'), findsOneWidget);
+        expect(find.text('Checking request'), findsNothing);
+        expect(find.text('Open MoMo USSD'), findsNothing);
+        expect(find.text('Copy payment code'), findsNothing);
+        expect(repo.firstCreations, 1);
+        expect(launches, 0);
+      },
+    );
+  }
   for (final localAck in [false, true]) {
     testWidgets(
       'uncertain ${localAck ? 'local ACK' : 'creation reply'} restores original request instead of Continue',
@@ -349,5 +578,124 @@ class _EditableRepository extends ContributionFixtureRepository {
     firstCreations++;
     prepared = true;
     return super.prepareContributionIntent(draft);
+  }
+}
+
+class _ScopeRecoveryRepository extends _EditableRepository {
+  int _scopeGeneration = 0;
+  CollectState? _previous;
+  @override
+  int get memberScopeGeneration => _scopeGeneration;
+  void denyScope() {
+    _previous = state;
+    _scopeGeneration++;
+    state = state.copyWith(memberScopeUncertain: true);
+  }
+
+  void publishFreshSnapshot() => state = _previous!;
+  @override
+  Future<ContributionCommandCheckpoint?> restoreContributionCommand(
+    String collectionId,
+  ) async => prepared ? record : null;
+}
+
+class _RouteRefreshRepository extends _EditableRepository {
+  @override
+  Future<ContributionCommandCheckpoint?> restoreContributionCommand(
+    String collectionId,
+  ) async => prepared ? record : null;
+  void changeReceiver() {
+    state = state.copyWith(
+      collections: [
+        for (final group in state.collections)
+          if (group.id == contributionFixtureGroup)
+            group.copyWith(receiverMomoNumber: '0788999999')
+          else
+            group,
+      ],
+    );
+  }
+
+  void seedHistoricalIntent() {
+    state = state.copyWith(
+      paymentIntents: [
+        PaymentIntentModel(
+          id: contributionFixtureIntent,
+          collectionId: contributionFixtureGroup,
+          expectedAmountRwf: 5000,
+          receiverMomoNumber: '0788123456',
+          receiverMomoLabel: 'Synthetic recipient',
+          momoNetwork: 'mtn_momo',
+          senderPhoneHash: HashUtils.phoneHash('0788123456'),
+          status: 'pending',
+          createdAt: DateTime.utc(2026),
+          expiresAt: DateTime.utc(2030),
+        ),
+      ],
+    );
+  }
+}
+
+class _HeldScopeRecoveryRepository extends ContributionFixtureRepository {
+  _HeldScopeRecoveryRepository({required this.holdNestedRead});
+  final bool holdNestedRead;
+  final preparation = Completer<PaymentIntentModel>();
+  final nestedRead = Completer<ContributionCommandCheckpoint?>();
+  final record = ContributionCommandCheckpoint.prepared(
+    commandBody(),
+    commandWitness(),
+  ).dispatched();
+  int _scopeGeneration = 0, prepares = 0, reads = 0;
+  @override
+  int get memberScopeGeneration => _scopeGeneration;
+  void denyScope() {
+    _scopeGeneration++;
+    state = state.copyWith(memberScopeUncertain: true);
+  }
+
+  @override
+  Future<PaymentIntentModel> prepareContributionIntent(
+    PaymentIntentDraft draft,
+  ) {
+    prepares++;
+    return preparation.future;
+  }
+
+  @override
+  Future<ContributionCommandCheckpoint?> restoreContributionCommand(
+    String collectionId,
+  ) {
+    reads++;
+    if (holdNestedRead && reads == 2) return nestedRead.future;
+    return Future.value(prepares > 0 ? record : null);
+  }
+}
+
+class _HeldIntentRepository extends _RouteRefreshRepository {
+  final status = Completer<PaymentIntentModel>();
+  PaymentIntentModel? preparedIntent;
+  @override
+  Future<PaymentIntentModel> prepareContributionIntent(
+    PaymentIntentDraft draft,
+  ) async {
+    final intent = await super.prepareContributionIntent(draft);
+    preparedIntent = intent;
+    return intent;
+  }
+
+  @override
+  Future<PaymentIntentModel> refreshPaymentIntent(String id) => status.future;
+  void invalidateObservation(String change) {
+    if (change == 'stale cache') {
+      state = state.copyWith(usingStaleCache: true);
+    } else if (change == 'financial uncertainty') {
+      state = state.copyWith(financialObservationUncertain: true);
+    } else {
+      state = state.copyWith(
+        currentProfile: state.currentProfile!.copyWith(
+          momoNumber: '0788999999',
+        ),
+      );
+    }
   }
 }

@@ -103,7 +103,7 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
             CollectChromeAction(
               icon: CollectIcons.collections,
               tooltip: 'Filter by group',
-              onPressed: () => _showGroupSheet(state.collections),
+              onPressed: _showGroupSheet,
             ),
           CollectChromeAction(
             icon: CollectIcons.filter,
@@ -235,33 +235,84 @@ class _LedgerScreenState extends ConsumerState<LedgerScreen> {
     );
   }
 
-  void _showGroupSheet(List<CollectCollection> collections) {
-    if (collections.isEmpty) return;
+  void _showGroupSheet() {
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    final generation = repository.sessionGeneration;
+    final profileId = ref.read(collectRepositoryProvider).currentProfile?.id;
+    bool current() =>
+        mounted &&
+        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        repository.sessionGeneration == generation &&
+        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
     showModalBottomSheet<void>(
       context: context,
       useRootNavigator: true,
       backgroundColor: context.collectColors.transparent,
       isScrollControlled: true,
       sheetAnimationStyle: CollectMotion.animationStyle(context),
-      builder: (context) {
-        return CollectBottomSheet(
-          child: _LedgerOptionSheet<CollectCollection>(
-            title: 'Filter by group',
-            values: collections,
-            selected: collections.firstWhere(
-              (item) => item.id == widget.collectionId,
-              orElse: () => collections.first,
+      builder: (context) => Consumer(
+        builder: (context, sheetRef, _) {
+          final sheetState = sheetRef.watch(collectRepositoryProvider);
+          sheetRef.watch(collectRepositoryProvider.notifier);
+          final collections = sheetState.collections;
+          if (!current() ||
+              sheetState.memberScopeUncertain ||
+              collections.isEmpty) {
+            return CollectBottomSheet(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Semantics(
+                    liveRegion: true,
+                    child: Text(
+                      !current()
+                          ? 'Account changed. Close and reopen this filter.'
+                          : sheetState.memberScopeUncertain
+                          ? 'Group information is unavailable. Close and refresh your data.'
+                          : sheetState.isLoading
+                          ? 'Refreshing groups.'
+                          : 'No groups are available for this filter.',
+                    ),
+                  ),
+                  CollectSpacing.gap12,
+                  CollectButton(
+                    label: 'Close',
+                    variant: CollectButtonVariant.secondary,
+                    onPressed: () => Navigator.of(context).pop(),
+                    expand: true,
+                  ),
+                ],
+              ),
+            );
+          }
+          return CollectBottomSheet(
+            child: _LedgerOptionSheet<CollectCollection>(
+              title: 'Filter by group',
+              values: collections,
+              selected: collections.firstWhere(
+                (item) => item.id == widget.collectionId,
+                orElse: () => collections.first,
+              ),
+              labelFor: (collection) => collection.title,
+              onSelected: (collection) {
+                if (!current()) return;
+                final latest = ref.read(collectRepositoryProvider);
+                if (latest.memberScopeUncertain ||
+                    !latest.collections.any(
+                      (group) => group.id == collection.id,
+                    )) {
+                  return;
+                }
+                Navigator.of(context).pop();
+                if (collection.id != widget.collectionId) {
+                  context.go('/groups/${collection.id}/ledger');
+                }
+              },
             ),
-            labelFor: (collection) => collection.title,
-            onSelected: (collection) {
-              Navigator.of(context).pop();
-              if (collection.id != widget.collectionId) {
-                context.go('/groups/${collection.id}/ledger');
-              }
-            },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

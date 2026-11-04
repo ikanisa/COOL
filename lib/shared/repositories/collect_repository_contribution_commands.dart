@@ -9,12 +9,15 @@ mixin _CollectContributionCommands on StateNotifier<CollectState> {
   CollectCloudflareClient? get _backend;
   ContributionCommandJournal get _contributionCommandJournal;
   _CollectAuthIdentity? get _signingOutIdentity;
+  int get _loadGeneration;
+  bool get _historySeedInvalidated;
   Uuid get _uuid;
   _CollectSessionFence _captureSession();
   bool _isCurrentSession(_CollectSessionFence session);
   CollectProfile _requireReadyProfile();
   CollectCollection _requireActiveCollection(String collectionId);
   Future<CollectCollection> joinPublicGroup(String collectionId);
+  Future<void> loadInitial({bool syncPendingSms = false});
 
   ContributionCommandOwner _contributionOwner() {
     final backend = _backend, auth = backend?.auth.currentSession;
@@ -171,11 +174,36 @@ mixin _CollectContributionCommands on StateNotifier<CollectState> {
         !_contributionSenderCurrent(senderHash)) {
       throw StateError('Account changed. Sign in again.');
     }
+    if (_historySeedInvalidated ||
+        state.memberScopeUncertain ||
+        state.financialObservationUncertain ||
+        state.usingStaleCache ||
+        state.isLoading) {
+      throw StateError('Refresh your groups before contributing.');
+    }
+    bool sameRoute(
+      CollectCollection before,
+      CollectCollection after, {
+      bool publicRedaction = false,
+    }) =>
+        before.id == after.id &&
+        before.isPublic == after.isPublic &&
+        before.primaryPaymentRail == after.primaryPaymentRail &&
+        before.receiverNetwork == after.receiverNetwork &&
+        (publicRedaction && before.receiverMomoNumber == null ||
+            before.receiverMomoNumber?.trim() ==
+                after.receiverMomoNumber?.trim()) &&
+        (publicRedaction && before.receiverRouteLabel == null ||
+            before.receiverRouteLabel?.trim() ==
+                after.receiverRouteLabel?.trim());
+
+    var selectedRoute = collection;
     if (collection.isPublic &&
         !collection.isCurrentUserMember &&
         collection.creatorUserId != profile.id) {
+      CollectCollection joined;
       try {
-        await joinPublicGroup(collection.id);
+        joined = await joinPublicGroup(collection.id);
       } catch (_) {
         if (!_contributionCurrent(fence, owner)) {
           throw StateError('Account changed. Sign in again.');
@@ -188,105 +216,192 @@ mixin _CollectContributionCommands on StateNotifier<CollectState> {
           !_contributionSenderCurrent(senderHash)) {
         throw StateError('Account changed. Sign in again.');
       }
-      final joined = _requireActiveCollection(collection.id);
+      if (_historySeedInvalidated || state.memberScopeUncertain) {
+        throw StateError('Refresh your groups before contributing.');
+      }
       if (!joined.isPublic ||
           !joined.isCurrentUserMember ||
-          joined.contributionRailFor(_requireReadyProfile()) != 'rwanda_momo') {
+          joined.contributionRailFor(_requireReadyProfile()) != 'rwanda_momo' ||
+          !sameRoute(collection, joined, publicRedaction: true)) {
         throw StateError('This group is no longer available for contribution.');
       }
+      selectedRoute = joined;
     }
-    final body = ContributionCommandBody(
-      collectionId: draft.collectionId,
-      amountRwf: draft.amountRwf,
-      senderPhoneHash: senderHash,
-      requestId: _uuid.v4(),
-    );
-    bool current() =>
-        _contributionCurrent(fence, owner) &&
-        _contributionSenderCurrent(body.senderPhoneHash);
-    var witness = await _contributionWitness(fence, owner);
-    var checkpoint = await _contributionCommandJournal.prepare(
-      witness,
-      body,
-      isCurrent: current,
-    );
+
+    // A prior read may already be in flight before its loading state is
+    // published. Supersede it, including the public join's background read,
+    // and bind the command to one complete accepted membership snapshot.
+    final previousSync = state.lastSuccessfulSyncAt;
+    final refresh = loadInitial(syncPendingSms: false);
+    final scopeGeneration = _loadGeneration;
+    await refresh;
+    if (!_contributionCurrent(fence, owner) ||
+        !_contributionSenderCurrent(senderHash) ||
+        scopeGeneration != _loadGeneration ||
+        _historySeedInvalidated ||
+        state.memberScopeUncertain ||
+        state.financialObservationUncertain ||
+        state.isLoading ||
+        state.usingStaleCache ||
+        state.lastError != null ||
+        state.lastSuccessfulSyncAt == null ||
+        (previousSync != null &&
+            !state.lastSuccessfulSyncAt!.isAfter(previousSync))) {
+      throw StateError('Refresh your groups before contributing.');
+    }
+    final groups = state.collections
+        .where((group) => group.id == draft.collectionId)
+        .take(2)
+        .toList();
+    if (groups.length != 1 ||
+        groups.single.isArchived ||
+        !groups.single.isCurrentUserMember ||
+        groups.single.contributionRailFor(state.currentProfile) !=
+            'rwanda_momo' ||
+        !sameRoute(selectedRoute, groups.single)) {
+      throw StateError('This group is no longer available for contribution.');
+    }
+    final acceptedGroup = groups.single;
+    final acceptedSync = state.lastSuccessfulSyncAt;
+    bool compatible(CollectState snapshot) {
+      if (scopeGeneration != _loadGeneration ||
+          _historySeedInvalidated ||
+          snapshot.memberScopeUncertain ||
+          snapshot.financialObservationUncertain ||
+          snapshot.isLoading ||
+          snapshot.usingStaleCache ||
+          snapshot.lastSuccessfulSyncAt != acceptedSync) {
+        return false;
+      }
+      final currentProfile = snapshot.currentProfile;
+      if (currentProfile == null ||
+          currentProfile.id != owner.principalId ||
+          !currentProfile.isRwanda) {
+        return false;
+      }
+      try {
+        if (HashUtils.phoneHash(currentProfile.momoNumber) != senderHash) {
+          return false;
+        }
+      } catch (_) {
+        return false;
+      }
+      final matching = snapshot.collections
+          .where((group) => group.id == draft.collectionId)
+          .take(2)
+          .toList();
+      return matching.length == 1 &&
+          !matching.single.isArchived &&
+          matching.single.isCurrentUserMember &&
+          matching.single.contributionRailFor(snapshot.currentProfile) ==
+              'rwanda_momo' &&
+          sameRoute(acceptedGroup, matching.single);
+    }
+
+    var scopeInvalidated = false;
+    final removeScopeObserver = addListener((snapshot) {
+      if (!compatible(snapshot)) scopeInvalidated = true;
+    }, fireImmediately: false);
     try {
-      witness = await _contributionWitness(fence, owner);
-      if (witness.sessionId != checkpoint.originalSessionId) {
-        throw ContributionRecoveryRequired(checkpoint);
+      final body = ContributionCommandBody(
+        collectionId: draft.collectionId,
+        amountRwf: draft.amountRwf,
+        senderPhoneHash: senderHash,
+        requestId: _uuid.v4(),
+      );
+      bool current() =>
+          !scopeInvalidated &&
+          compatible(state) &&
+          _contributionCurrent(fence, owner) &&
+          _contributionSenderCurrent(body.senderPhoneHash);
+      if (!current()) {
+        throw StateError('Refresh your groups before contributing.');
       }
-      checkpoint = await _contributionCommandJournal.claimDispatch(
+      var witness = await _contributionWitness(fence, owner);
+      var checkpoint = await _contributionCommandJournal.prepare(
         witness,
-        body.requestId,
+        body,
         isCurrent: current,
       );
-      if (!current() || !witness.usableAt(DateTime.now())) {
-        throw ContributionRecoveryRequired(checkpoint);
-      }
-      final response = await _backend!
-          .rpc<dynamic>('create_contribution_intent', params: body.toJson())
-          .setHeader('Authorization', 'Bearer ${fence.accessToken}')
-          .retry(enabled: false);
-      if (!current()) throw ContributionRecoveryRequired(checkpoint);
-      final row = contributionObject(response, const {
-        'id',
-        'collection_id',
-        'amount_minor',
-        'currency',
-        'rail',
-        'status',
-        'receiver_momo_number',
-        'network',
-        'receiver_label',
-        'receiver_momo_number_hash',
-        'sender_phone_hash',
-        'originating_session_id',
-        'created_at',
-        'expires_at',
-      });
-      final intent = PaymentIntentModel.fromJson(row);
-      if (contributionUuid(intent.id) != intent.id ||
-          intent.collectionId != body.collectionId ||
-          intent.expectedAmountRwf != body.amountRwf ||
-          intent.senderPhoneHash != body.senderPhoneHash ||
-          intent.status != 'pending' ||
-          row['originating_session_id'] != checkpoint.originalSessionId ||
-          !intent.isRwandaMomo ||
-          intent.receiverMomoNumber.isEmpty ||
-          !const {'mtn_momo', 'airtel_money'}.contains(intent.momoNetwork)) {
-        throw const FormatException(
-          'Contribution receipt does not match the original request.',
+      try {
+        witness = await _contributionWitness(fence, owner);
+        if (witness.sessionId != checkpoint.originalSessionId) {
+          throw ContributionRecoveryRequired(checkpoint);
+        }
+        checkpoint = await _contributionCommandJournal.claimDispatch(
+          witness,
+          body.requestId,
+          isCurrent: current,
         );
-      }
-      witness = await _contributionWitness(fence, owner);
-      if (witness.sessionId != checkpoint.originalSessionId) {
+        if (!current() || !witness.usableAt(DateTime.now())) {
+          throw ContributionRecoveryRequired(checkpoint);
+        }
+        final response = await _backend!
+            .rpc<dynamic>('create_contribution_intent', params: body.toJson())
+            .setHeader('Authorization', 'Bearer ${fence.accessToken}')
+            .retry(enabled: false);
+        if (!current()) throw ContributionRecoveryRequired(checkpoint);
+        final row = contributionObject(response, const {
+          'id',
+          'collection_id',
+          'amount_minor',
+          'currency',
+          'rail',
+          'status',
+          'receiver_momo_number',
+          'network',
+          'receiver_label',
+          'receiver_momo_number_hash',
+          'sender_phone_hash',
+          'originating_session_id',
+          'created_at',
+          'expires_at',
+        });
+        final intent = PaymentIntentModel.fromJson(row);
+        if (contributionUuid(intent.id) != intent.id ||
+            intent.collectionId != body.collectionId ||
+            intent.expectedAmountRwf != body.amountRwf ||
+            intent.senderPhoneHash != body.senderPhoneHash ||
+            intent.status != 'pending' ||
+            row['originating_session_id'] != checkpoint.originalSessionId ||
+            !intent.isRwandaMomo ||
+            intent.receiverMomoNumber.isEmpty ||
+            intent.receiverMomoNumber !=
+                acceptedGroup.receiverMomoNumber?.trim() ||
+            intent.momoNetwork != acceptedGroup.receiverNetwork ||
+            intent.receiverMomoLabel !=
+                acceptedGroup.receiverRouteLabel?.trim() ||
+            !const {'mtn_momo', 'airtel_money'}.contains(intent.momoNetwork)) {
+          throw const FormatException(
+            'Contribution receipt does not match the original request.',
+          );
+        }
+        witness = await _contributionWitness(fence, owner);
+        if (witness.sessionId != checkpoint.originalSessionId) {
+          throw ContributionRecoveryRequired(checkpoint);
+        }
+        checkpoint = await _contributionCommandJournal.retainReceipt(
+          witness,
+          body.requestId,
+          intent.id,
+          isCurrent: current,
+        );
+        if (!current()) throw ContributionRecoveryRequired(checkpoint);
+        state = state.copyWith(
+          paymentIntents: [
+            intent,
+            ...state.paymentIntents.where((r) => r.id != intent.id).take(49),
+          ],
+        );
+        if (!current()) throw ContributionRecoveryRequired(checkpoint);
+        return intent;
+      } catch (_) {
+        // Every uncertain response/ACK retains the original key/body. A failed
+        // local acknowledgement never grants dispatch or a replacement key.
         throw ContributionRecoveryRequired(checkpoint);
       }
-      checkpoint = await _contributionCommandJournal.retainReceipt(
-        witness,
-        body.requestId,
-        intent.id,
-        isCurrent: current,
-      );
-      if (!current()) throw ContributionRecoveryRequired(checkpoint);
-      state = state.copyWith(
-        paymentIntents: [
-          intent,
-          ...state.paymentIntents.where((r) => r.id != intent.id).take(49),
-        ],
-        collections: [
-          for (final row in state.collections)
-            if (row.id == collection.id && collection.isPublic)
-              row.copyWith(isCurrentUserMember: true)
-            else
-              row,
-        ],
-      );
-      return intent;
-    } catch (_) {
-      // Every uncertain response/ACK retains the original key/body. A failed
-      // local acknowledgement never grants dispatch or a replacement key.
-      throw ContributionRecoveryRequired(checkpoint);
+    } finally {
+      removeScopeObserver();
     }
   }
 

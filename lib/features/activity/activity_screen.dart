@@ -69,7 +69,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
           CollectChromeAction(
             icon: CollectIcons.filter,
             tooltip: _collectionId == null ? 'Filter by group' : 'Group filter',
-            onPressed: () => _showGroupFilter(state.collections),
+            onPressed: _showGroupFilter,
           ),
         ],
       ),
@@ -212,7 +212,15 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
     });
   }
 
-  void _showGroupFilter(List<CollectCollection> collections) {
+  void _showGroupFilter() {
+    final repository = ref.read(collectRepositoryProvider.notifier);
+    final generation = repository.sessionGeneration;
+    final profileId = ref.read(collectRepositoryProvider).currentProfile?.id;
+    bool current() =>
+        mounted &&
+        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        repository.sessionGeneration == generation &&
+        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
     showModalBottomSheet<void>(
       context: context,
       useRootNavigator: true,
@@ -220,39 +228,70 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
       backgroundColor: context.collectColors.transparent,
       isScrollControlled: true,
       sheetAnimationStyle: CollectMotion.animationStyle(context),
-      builder: (sheetContext) {
-        return CollectBottomSheet(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SectionHeader(title: 'Filter by group'),
-                RadioGroup<String?>(
-                  groupValue: _collectionId,
-                  onChanged: (value) {
-                    setState(() => _collectionId = value);
-                    Navigator.of(sheetContext).pop();
-                  },
-                  child: Column(
-                    children: [
-                      const RadioListTile<String?>(
-                        value: null,
-                        title: Text('All groups'),
+      builder: (sheetContext) => Consumer(
+        builder: (context, sheetRef, _) {
+          final sheetState = sheetRef.watch(collectRepositoryProvider);
+          sheetRef.watch(collectRepositoryProvider.notifier);
+          final available = current() && !sheetState.memberScopeUncertain;
+          return CollectBottomSheet(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SectionHeader(title: 'Filter by group'),
+                  if (!available) ...[
+                    Semantics(
+                      liveRegion: true,
+                      child: Text(
+                        current()
+                            ? 'Group information is unavailable. Close and refresh your data.'
+                            : 'Account changed. Close and reopen this filter.',
                       ),
-                      for (final collection in collections)
-                        RadioListTile<String?>(
-                          value: collection.id,
-                          title: Text(collection.title),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
+                    ),
+                    CollectSpacing.gap12,
+                    CollectButton(
+                      label: 'Close',
+                      variant: CollectButtonVariant.secondary,
+                      onPressed: () => Navigator.of(sheetContext).pop(),
+                      expand: true,
+                    ),
+                  ] else
+                    RadioGroup<String?>(
+                      groupValue: _collectionId,
+                      onChanged: (value) {
+                        if (!current()) return;
+                        final latest = ref.read(collectRepositoryProvider);
+                        if (latest.memberScopeUncertain ||
+                            (value != null &&
+                                !latest.collections.any(
+                                  (group) => group.id == value,
+                                ))) {
+                          return;
+                        }
+                        setState(() => _collectionId = value);
+                        Navigator.of(sheetContext).pop();
+                      },
+                      child: Column(
+                        children: [
+                          const RadioListTile<String?>(
+                            value: null,
+                            title: Text('All groups'),
+                          ),
+                          for (final collection in sheetState.collections)
+                            RadioListTile<String?>(
+                              value: collection.id,
+                              title: Text(collection.title),
+                            ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

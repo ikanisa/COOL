@@ -74,6 +74,218 @@ void main() {
     },
   );
 
+  test(
+    'redacted public route is hydrated before a superseding refresh',
+    () async {
+      final h = await _Harness.create();
+      h.repo.preserveJoinedGroupOnRefresh = true;
+      h.repo.replaceGroup(
+        CollectCollection.fromJson(const {
+          'id': commandGroupId,
+          'slug': 'synthetic-group',
+          'creator_user_id': '50000000-0000-4000-8000-000000000001',
+          'title': 'Synthetic group',
+          'description': '',
+          'created_at': '2026-01-01T00:00:00.000Z',
+          'receiver_display_label': 'Synthetic receiver',
+          'receiver_network': 'mtn_momo',
+          'payment_rail': 'rwanda_momo',
+          'is_member': false,
+          'is_public': true,
+        }),
+      );
+      final background = Completer<void>();
+      h.repo.onSyntheticLoad = (generation) async {
+        if (generation == 1) await background.future;
+      };
+      final intent = await h.repo.prepareContributionIntent(_draft);
+      expect(intent.id, commandIntentId);
+      expect(h.repo.syntheticLoadGeneration, 2);
+      background.complete();
+      await Future<void>.delayed(Duration.zero);
+      expect(h.repo.state.collections.single.isCurrentUserMember, isTrue);
+      expect(h.creates, hasLength(1));
+    },
+  );
+
+  for (final change in ['recipient', 'network', 'membership']) {
+    test('refresh rejects changed $change before preparing custody', () async {
+      final h = await _Harness.create();
+      h.repo.onSyntheticLoad = (_) async {
+        final group = h.repo.state.collections.single;
+        h.repo.replaceGroup(switch (change) {
+          'recipient' => group.copyWith(receiverMomoNumber: '0788999999'),
+          'network' => group.copyWith(receiverNetwork: 'airtel_money'),
+          _ => group.copyWith(isCurrentUserMember: false),
+        });
+      };
+      await expectLater(
+        h.repo.prepareContributionIntent(_draft),
+        throwsStateError,
+      );
+      expect(h.creates, isEmpty);
+      expect(await h.journal.read(commandOwner()), isEmpty);
+    });
+  }
+
+  for (final change in ['recipient', 'network', 'label']) {
+    test('creation response with changed $change requires recovery', () async {
+      final h = await _Harness.create();
+      h.onCreate = (_) {
+        final wire = commandIntentWire();
+        switch (change) {
+          case 'recipient':
+            wire['receiver_momo_number'] = '0788999999';
+          case 'network':
+            wire['network'] = 'airtel_money';
+          case 'label':
+            wire['receiver_label'] = 'Changed receiver';
+        }
+        return wire;
+      };
+      await expectLater(
+        h.repo.prepareContributionIntent(_draft),
+        throwsA(isA<ContributionRecoveryRequired>()),
+      );
+      final retained = (await h.repo.restoreContributionCommand(
+        commandGroupId,
+      ))!;
+      expect(retained.phase, ContributionCommandPhase.dispatchPossible);
+      expect(retained.providerHandoffPossible, isFalse);
+      expect(h.repo.state.paymentIntents, isEmpty);
+      expect(h.creates, hasLength(1));
+    });
+  }
+
+  test(
+    'history denial during the first witness blocks custody and dispatch',
+    () async {
+      final h = await _Harness.create();
+      final entered = Completer<void>();
+      final reply = Completer<Object?>();
+      h.onWitness = (_) {
+        entered.complete();
+        return reply.future;
+      };
+      final preparing = h.repo.prepareContributionIntent(_draft);
+      final denied = expectLater(preparing, throwsStateError);
+      await entered.future;
+      await h.repo.denyHistoryScope();
+      reply.complete(commandWitnessWire());
+      await denied;
+      expect(h.repo.state.memberScopeUncertain, isTrue);
+      expect(await h.journal.read(commandOwner()), isEmpty);
+      expect(h.creates, isEmpty);
+    },
+  );
+
+  for (final boundary in ['prepared', 'dispatch', 'receipt']) {
+    test('history denial at $boundary keeps the durable checkpoint', () async {
+      final h = await _Harness.create();
+      var witnessCount = 0;
+      h.onWitness = (_) {
+        witnessCount++;
+        if ((boundary == 'prepared' && witnessCount == 1) ||
+            (boundary == 'dispatch' && witnessCount == 2) ||
+            (boundary == 'receipt' && witnessCount == 3)) {
+          h.storage.afterCommit = h.repo.denyHistoryScope;
+        }
+        return commandWitnessWire();
+      };
+      await expectLater(
+        h.repo.prepareContributionIntent(_draft),
+        boundary == 'prepared'
+            ? throwsStateError
+            : throwsA(isA<ContributionRecoveryRequired>()),
+      );
+      final retained = (await h.journal.read(commandOwner())).single;
+      expect(retained.phase, switch (boundary) {
+        'prepared' => ContributionCommandPhase.prepared,
+        'dispatch' => ContributionCommandPhase.dispatchPossible,
+        _ => ContributionCommandPhase.receiptRetained,
+      });
+      expect(retained.body.collectionId, commandGroupId);
+      expect(
+        (await h.repo.restoreContributionCommand(
+          commandGroupId,
+        ))!.body.canonical,
+        retained.body.canonical,
+      );
+      expect(h.creates, hasLength(boundary == 'receipt' ? 1 : 0));
+      expect(h.repo.state.paymentIntents, isEmpty);
+    });
+  }
+
+  test('late creation response after scope denial is not published', () async {
+    final h = await _Harness.create();
+    final entered = Completer<void>();
+    final response = Completer<Object?>();
+    h.onCreate = (_) {
+      entered.complete();
+      return response.future;
+    };
+    final preparing = h.repo.prepareContributionIntent(_draft);
+    final denied = expectLater(
+      preparing,
+      throwsA(isA<ContributionRecoveryRequired>()),
+    );
+    await entered.future;
+    await h.repo.denyHistoryScope();
+    response.complete(commandIntentWire());
+    await denied;
+    final retained = (await h.repo.restoreContributionCommand(commandGroupId))!;
+    expect(retained.phase, ContributionCommandPhase.dispatchPossible);
+    expect(h.repo.state.paymentIntents, isEmpty);
+    expect(h.creates, hasLength(1));
+  });
+
+  test(
+    'scope denial keeps the original command status lookup available',
+    () async {
+      final h = await _Harness.create();
+      await h.repo.prepareContributionIntent(_draft);
+      final original = (await h.repo.restoreContributionCommand(
+        commandGroupId,
+      ))!;
+      await h.repo.denyHistoryScope();
+      final observation = await h.repo.checkContributionCommand(
+        original.body.requestId,
+      );
+      expect(observation.body.canonical, original.body.canonical);
+      expect(observation.originalSessionId, original.originalSessionId);
+      expect(h.lookups, hasLength(1));
+      expect(h.creates, hasLength(1));
+      expect(h.repo.state.memberScopeUncertain, isTrue);
+      expect(h.repo.state.paymentIntents, isEmpty);
+    },
+  );
+
+  test(
+    'a synchronous membership contradiction prevents returning the receipt',
+    () async {
+      final h = await _Harness.create();
+      var changed = false;
+      final remove = h.repo.addListener((snapshot) {
+        if (!changed && snapshot.paymentIntents.isNotEmpty) {
+          changed = true;
+          h.repo.replaceGroup(
+            snapshot.collections.single.copyWith(isCurrentUserMember: false),
+          );
+        }
+      }, fireImmediately: false);
+      addTearDown(remove);
+      await expectLater(
+        h.repo.prepareContributionIntent(_draft),
+        throwsA(isA<ContributionRecoveryRequired>()),
+      );
+      expect(changed, isTrue);
+      expect(
+        (await h.repo.restoreContributionCommand(commandGroupId))!.phase,
+        ContributionCommandPhase.receiptRetained,
+      );
+    },
+  );
+
   test('uncertain public join does not create a payment command', () async {
     final h = await _Harness.create();
     h.repo.replaceGroup(
@@ -636,24 +848,21 @@ void main() {
       );
     },
   );
-  test('missing route-label provenance denies before handoff claim', () async {
+  test('missing route-label provenance keeps creation in recovery', () async {
     final h = await _Harness.create();
     h.repo.replaceGroup(_collectionWithLabel(null, omitted: true));
     h.onCreate = (_) => commandIntentWire()..['receiver_label'] = '';
-    h.onReview = (_) {
-      final wire = commandReviewWire();
-      (wire['intent'] as Map<String, dynamic>)['receiver_label'] = '';
-      return wire;
-    };
-    final intent = await h.repo.prepareContributionIntent(_draft);
-    final review = await h.repo.reviewContributionIntent(intent);
     await expectLater(
-      h.repo.claimContributionHandoff(intent, review),
-      throwsA(isA<ContributionReviewChanged>()),
+      h.repo.prepareContributionIntent(_draft),
+      throwsA(isA<ContributionRecoveryRequired>()),
     );
     expect(
       (await h.journal.read(commandOwner())).single.providerHandoffPossible,
       isFalse,
+    );
+    expect(
+      (await h.journal.read(commandOwner())).single.phase,
+      ContributionCommandPhase.dispatchPossible,
     );
   });
   test(
@@ -1077,6 +1286,43 @@ class _Repository extends CollectRepository {
       );
   final CollectCloudflareClient client;
   bool preserveJoinedGroupOnRefresh = false;
+  Future<void> Function(int generation)? onSyntheticLoad;
+  Future<MemberHistoryPage> Function()? onSyntheticHistory;
+  int syntheticLoadGeneration = 0;
+
+  Future<void> denyHistoryScope() async {
+    final response = Completer<MemberHistoryPage>();
+    onSyntheticHistory = () => response.future;
+    final controller = MemberHistoryController(
+      this,
+      const MemberHistoryQuery(),
+    );
+    final denied = Completer<void>();
+    final remove = controller.addListener((value) {
+      if (value.error != null && !denied.isCompleted) denied.complete();
+    }, fireImmediately: false);
+    try {
+      response.completeError(
+        const CollectApiException(
+          code: 'history_scope_unavailable',
+          httpStatusCode: 403,
+        ),
+      );
+      await denied.future;
+    } finally {
+      remove();
+      controller.dispose();
+      onSyntheticHistory = null;
+    }
+  }
+
+  @override
+  Future<MemberHistoryPage> fetchHistoryPage(
+    MemberHistoryQuery query, {
+    Map<String, dynamic>? cursor,
+  }) =>
+      onSyntheticHistory?.call() ??
+      super.fetchHistoryPage(query, cursor: cursor);
   void updateMomoNumber(String number) {
     state = state.copyWith(
       currentProfile: state.currentProfile!.copyWith(momoNumber: number),
@@ -1184,8 +1430,18 @@ class _Repository extends CollectRepository {
 
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
-    if (preserveJoinedGroupOnRefresh) return;
-    state = _state(client.auth.currentUser!.id);
+    final generation = ++syntheticLoadGeneration;
+    await onSyntheticLoad?.call(generation);
+    if (generation != syntheticLoadGeneration) return;
+    final nextSync = (state.lastSuccessfulSyncAt ?? DateTime.utc(2026)).add(
+      const Duration(microseconds: 1),
+    );
+    final refreshed =
+        preserveJoinedGroupOnRefresh ||
+            state.currentProfile?.id == client.auth.currentUser!.id
+        ? state
+        : _state(client.auth.currentUser!.id);
+    state = refreshed.copyWith(lastSuccessfulSyncAt: nextSync);
   }
 }
 
@@ -1225,6 +1481,7 @@ CollectState _state(String actor) => CollectState(
       receiverDisplayLabel: 'Synthetic receiver',
       receiverNetwork: 'mtn_momo',
       isPublic: true,
+      isCurrentUserMember: true,
     ),
   ],
   paymentIntents: const [],

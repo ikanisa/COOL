@@ -50,6 +50,8 @@ class _HistoryRepository extends CollectRepository {
         ),
       );
   final MemberHistoryPage page;
+  void markScopeUncertain() =>
+      state = state.copyWith(memberScopeUncertain: true);
   @override
   bool get isLive => true;
   @override
@@ -62,6 +64,50 @@ class _HistoryRepository extends CollectRepository {
 }
 
 void main() {
+  for (final route in ['/activity', '/groups/${fixture.uuid(200)}/ledger']) {
+    testWidgets('$route open group filter masks stale groups', (tester) async {
+      SharedPreferences.setMockInitialValues({});
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final page = fixture.decode(fixture.wire([fixture.event(1)]));
+      final repository = _HistoryRepository(page);
+      final router = createAppRouter(initialLocation: route);
+      addTearDown(router.dispose);
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            collectBackendClientProvider.overrideWithValue(null),
+            appRouterProvider.overrideWithValue(router),
+            collectRepositoryProvider.overrideWith((ref) => repository),
+          ],
+          child: const CollectApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Filter by group'));
+      await tester.pumpAndSettle();
+      final sheet = find.byType(CollectBottomSheet);
+      expect(
+        find.descendant(of: sheet, matching: find.text('Member group')),
+        findsOneWidget,
+      );
+      repository.markScopeUncertain();
+      await tester.pump();
+      expect(
+        find.descendant(of: sheet, matching: find.text('Member group')),
+        findsNothing,
+      );
+      expect(
+        find.textContaining('Close and refresh your data.'),
+        findsOneWidget,
+      );
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+    });
+  }
   for (final route in [
     '/activity',
     '/groups/${fixture.uuid(200)}/ledger',

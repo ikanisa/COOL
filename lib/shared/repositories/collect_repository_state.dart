@@ -12,14 +12,15 @@ CollectState _emptyCollectState() {
 const _unsetDateTimeField = Object();
 
 class CollectState {
+  // Public named parameters are kept while masked backing fields stay private.
   const CollectState({
     required this.currentProfile,
-    required this.collections,
-    required this.paymentIntents,
-    required this.contributions,
-    this.collectionSummaries = const {},
-    this.historyPage,
-    this.pendingIntentCount,
+    required List<CollectCollection> collections,
+    required List<PaymentIntentModel> paymentIntents,
+    required List<Contribution> contributions,
+    Map<String, CollectionSummary> collectionSummaries = const {},
+    MemberHistoryPage? historyPage,
+    int? pendingIntentCount,
     this.notificationEvents = const [],
     this.notificationPreferences = NotificationPreferences.defaults,
     this.smsAccessEnabled = false,
@@ -30,18 +31,48 @@ class CollectState {
     this.usingStaleCache = false,
     this.publicDiscoveryLoading = false,
     this.publicDiscoveryUnavailable = false,
-    this.financialObservationUncertain = false,
+    bool financialObservationUncertain = false,
+    this.memberScopeUncertain = false,
     this.lastSuccessfulSyncAt,
     this.lastError,
-  });
+  }) : _collections = collections, // ignore: prefer_initializing_formals
+       // ignore: prefer_initializing_formals
+       _paymentIntents = paymentIntents,
+       // ignore: prefer_initializing_formals
+       _contributions = contributions,
+       // ignore: prefer_initializing_formals
+       _collectionSummaries = collectionSummaries,
+       // ignore: prefer_initializing_formals
+       _historyPage = historyPage,
+       // ignore: prefer_initializing_formals
+       _pendingIntentCount = pendingIntentCount,
+       // ignore: prefer_initializing_formals
+       _financialObservationUncertain = financialObservationUncertain;
 
   final CollectProfile? currentProfile;
-  final List<CollectCollection> collections;
-  final List<PaymentIntentModel> paymentIntents;
-  final List<Contribution> contributions;
-  final Map<String, CollectionSummary> collectionSummaries;
-  final MemberHistoryPage? historyPage;
-  final int? pendingIntentCount;
+  final List<CollectCollection> _collections;
+  final List<PaymentIntentModel> _paymentIntents;
+  final List<Contribution> _contributions;
+  final Map<String, CollectionSummary> _collectionSummaries;
+  final MemberHistoryPage? _historyPage;
+  final int? _pendingIntentCount;
+
+  // A history denial can reflect changed membership, but does not revoke the
+  // account or its SMS consent. Hide the previous member snapshot until one
+  // complete current-session read replaces it; never present it as zero.
+  final bool memberScopeUncertain;
+  List<CollectCollection> get collections =>
+      memberScopeUncertain ? const [] : _collections;
+  List<PaymentIntentModel> get paymentIntents =>
+      memberScopeUncertain ? const [] : _paymentIntents;
+  List<Contribution> get contributions =>
+      memberScopeUncertain ? const [] : _contributions;
+  Map<String, CollectionSummary> get collectionSummaries =>
+      memberScopeUncertain ? const {} : _collectionSummaries;
+  MemberHistoryPage? get historyPage =>
+      memberScopeUncertain ? null : _historyPage;
+  int? get pendingIntentCount =>
+      memberScopeUncertain ? null : _pendingIntentCount;
   final List<NotificationEvent> notificationEvents;
   final NotificationPreferences notificationPreferences;
   final bool smsAccessEnabled;
@@ -52,18 +83,21 @@ class CollectState {
   final bool usingStaleCache;
   final bool publicDiscoveryLoading;
   final bool publicDiscoveryUnavailable;
-  final bool financialObservationUncertain;
+  final bool _financialObservationUncertain;
+  bool get financialObservationUncertain =>
+      memberScopeUncertain || _financialObservationUncertain;
   final DateTime? lastSuccessfulSyncAt;
   final String? lastError;
 
   bool get hasInitialLoadFailure =>
       !isLoading &&
-      lastError != null &&
-      !usingStaleCache &&
-      lastSuccessfulSyncAt == null &&
-      collections.isEmpty &&
-      contributions.isEmpty &&
-      paymentIntents.isEmpty;
+      (memberScopeUncertain ||
+          (lastError != null &&
+              !usingStaleCache &&
+              lastSuccessfulSyncAt == null &&
+              collections.isEmpty &&
+              contributions.isEmpty &&
+              paymentIntents.isEmpty));
 
   bool get hasOfflineReadableData {
     return currentProfile != null ||
@@ -91,6 +125,7 @@ class CollectState {
     bool? publicDiscoveryLoading,
     bool? publicDiscoveryUnavailable,
     bool? financialObservationUncertain,
+    bool? memberScopeUncertain,
     Object? lastSuccessfulSyncAt = _unsetDateTimeField,
     String? lastError,
   }) {
@@ -124,6 +159,7 @@ class CollectState {
           publicDiscoveryUnavailable ?? this.publicDiscoveryUnavailable,
       financialObservationUncertain:
           financialObservationUncertain ?? this.financialObservationUncertain,
+      memberScopeUncertain: memberScopeUncertain ?? this.memberScopeUncertain,
       lastSuccessfulSyncAt: identical(lastSuccessfulSyncAt, _unsetDateTimeField)
           ? this.lastSuccessfulSyncAt
           : lastSuccessfulSyncAt as DateTime?,

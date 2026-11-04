@@ -39,6 +39,7 @@ class _Repository extends CollectRepository {
   Future<void> Function()? onRefresh;
 
   void publish(CollectState value) => state = value;
+  void publishUnrelatedCopy() => state = state.copyWith(isLoading: false);
 
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
@@ -197,6 +198,30 @@ void main() {
       ),
       findsOneWidget,
     );
+    expect(repository.smsRequests, [false]);
+  });
+
+  testWidgets('uncertain financial scope never claims a completed refresh', (
+    tester,
+  ) async {
+    final repository = _Repository(
+      _empty.copyWith(currentProfile: _profile, lastSuccessfulSyncAt: _oldSync),
+    );
+    repository.onRefresh = () async => repository.publish(
+      _empty.copyWith(
+        currentProfile: _profile,
+        lastSuccessfulSyncAt: _newSync,
+        memberScopeUncertain: true,
+      ),
+    );
+    await _pump(tester, repository);
+    await _refresh(tester);
+    expect(find.text('Updates unavailable'), findsOneWidget);
+    expect(find.text('Data refreshed'), findsNothing);
+    repository.publishUnrelatedCopy();
+    await tester.pump();
+    expect(find.text('Updates unavailable'), findsOneWidget);
+    expect(find.text('Data refreshed'), findsNothing);
     expect(repository.smsRequests, [false]);
   });
 

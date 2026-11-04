@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_data_load_failure.dart';
 import '../../shared/widgets/collect_group_cards.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
@@ -121,6 +122,14 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
                 message: 'Refreshing the groups you can contribute to.',
                 icon: CollectIcons.donate,
                 skeletonCount: 3,
+              ),
+            ]
+          : state.memberScopeUncertain
+          ? [
+              CollectDataLoadFailure(
+                message: 'Refresh to verify which groups you can contribute to.',
+                onRetry: () =>
+                    ref.read(collectRepositoryProvider.notifier).loadInitial(),
               ),
             ]
           : [

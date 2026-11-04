@@ -4,6 +4,9 @@ mixin _CollectRecordReads on StateNotifier<CollectState> {
   bool get _allowLocalWrites;
   CollectCloudflareClient? get _backend;
   _CollectLiveReader get _liveReader;
+  _CollectAuthIdentity? get _signingOutIdentity;
+  bool get _historySeedInvalidated;
+  int get memberScopeGeneration;
   _CollectSessionFence _captureSession();
   bool _isCurrentSession(_CollectSessionFence session);
 
@@ -56,14 +59,26 @@ mixin _CollectRecordReads on StateNotifier<CollectState> {
       return intentById(id);
     }
     final session = _captureSession();
+    final scopeGeneration = memberScopeGeneration;
+    void requireCurrentScope() {
+      if (!_isCurrentSession(session) ||
+          _signingOutIdentity == session.identity) {
+        throw StateError('Account changed');
+      }
+      if (memberScopeGeneration != scopeGeneration ||
+          _historySeedInvalidated ||
+          state.memberScopeUncertain) {
+        throw StateError('Refresh your groups before checking payment status.');
+      }
+    }
+
+    requireCurrentScope();
     final prior = maybeIntentById(id);
     final result = await _liveReader.fetchRecentIntents(
       intentId: id,
       accessToken: session.accessToken,
     );
-    if (!_isCurrentSession(session)) {
-      throw StateError('Account changed');
-    }
+    requireCurrentScope();
     final matches = result.items.where((item) => item.id == id).toList();
     if (matches.length != 1) {
       throw StateError('Payment intent is unavailable');
@@ -85,6 +100,8 @@ mixin _CollectRecordReads on StateNotifier<CollectState> {
       ],
       pendingIntentCount: result.pendingCount,
     );
+    // A synchronous observer may invalidate scope while state is published.
+    requireCurrentScope();
     return intent;
   }
 }

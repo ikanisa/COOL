@@ -501,6 +501,7 @@ class ReceiptSmsRepository extends CollectRepository {
   void replaceGroups(List<CollectCollection> groups) =>
       state = state.copyWith(collections: groups);
   void offline() => state = state.copyWith(usingStaleCache: true);
+  void markScopeUncertain() => state = state.copyWith(memberScopeUncertain: true);
 }
 
 class _Sms extends SmsAccessChannel {

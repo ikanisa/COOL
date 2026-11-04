@@ -129,11 +129,13 @@ class _PaymentHelpSheet extends ConsumerStatefulWidget {
     required this.groupTitle,
     required this.repository,
     required this.isCurrent,
+    required this.isScopeCurrent,
   });
   final PaymentIntentModel intent;
   final String groupTitle;
   final CollectRepository repository;
   final bool Function() isCurrent;
+  final bool Function() isScopeCurrent;
   @override
   ConsumerState<_PaymentHelpSheet> createState() => _PaymentHelpSheetState();
 }
@@ -253,7 +255,11 @@ class _PaymentHelpSheetState extends ConsumerState<_PaymentHelpSheet> {
                     ),
                   ],
                 ),
-                if (!current)
+                if (!widget.isScopeCurrent())
+                  const Text(
+                    'Group information changed. Close this sheet and refresh before reopening payment help.',
+                  )
+                else if (!current)
                   const Text('Account changed. Close and reopen payment help.')
                 else ...[
                   Text(

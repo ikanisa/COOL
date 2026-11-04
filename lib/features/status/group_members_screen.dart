@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/utils/date_format.dart';
 import '../../shared/models/collect_models.dart';
 import '../../shared/providers/collect_app_state.dart';
+import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_data_load_failure.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
 class GroupMembersScreen extends ConsumerStatefulWidget {
@@ -30,6 +32,29 @@ class _GroupMembersScreenState extends ConsumerState<GroupMembersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(collectRepositoryProvider);
+    if (state.memberScopeUncertain) {
+      return ScreenScaffold(
+        title: 'Members',
+        showHeader: false,
+        children: [
+          const _MembersPageHeader(),
+          if (state.isLoading)
+            const CollectScreenLoadingState(
+              title: 'Loading members',
+              message: 'Refreshing group information.',
+              icon: CollectIcons.people,
+              skeletonCount: 1,
+            )
+          else
+            CollectDataLoadFailure(
+              message: 'Refresh to verify this group before viewing members.',
+              onRetry: () =>
+                  ref.read(collectRepositoryProvider.notifier).loadInitial(),
+            ),
+        ],
+      );
+    }
     final members = ref.watch(groupMembersProvider(widget.collectionId));
     // Retained AsyncData during refresh is not current roster authority.
     final currentMembers = members.isLoading

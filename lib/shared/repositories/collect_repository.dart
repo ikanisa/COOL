@@ -177,6 +177,10 @@ class CollectRepository extends StateNotifier<CollectState>
   _CollectAuthIdentity? _signingOutIdentity;
   int _authGeneration = 0;
   int? _historySeedInvalidatedAtSession;
+  int _historyScopeEpoch = 0;
+  // This is an in-process read/write hold. It does not erase the protected
+  // snapshot or claim to survive a process restart.
+  bool _historyCacheReadSuppressed = false;
   final _historyInvalidationListeners = <void Function()>{};
   int _profileSaveAuthorityGeneration = 0;
   final _profileSavesInFlight = <(String, int)>{};
@@ -194,6 +198,11 @@ class CollectRepository extends StateNotifier<CollectState>
   /// A credential-free sticky lifecycle revision for dependent client views.
   int get sessionGeneration => _authGeneration;
 
+  /// Revision of the current member-history authority view.
+  @override
+  int get memberScopeGeneration => _historyScopeEpoch;
+
+  @override
   bool get _historySeedInvalidated =>
       _historySeedInvalidatedAtSession == _authGeneration;
 
@@ -211,22 +220,62 @@ class CollectRepository extends StateNotifier<CollectState>
     }
   }
 
-  void _invalidateHistorySeed(
+  bool _fenceHistoryScope(
     _CollectSessionFence session, {
-    void Function()? except,
     bool surviveBearerChange = false,
   }) {
     if (surviveBearerChange
         ? !_historySignalCurrent(session)
         : !_acceptHistorySeedSession(session)) {
-      return;
+      return false;
     }
     _historySeedInvalidatedAtSession = _authGeneration;
-    _notifyHistoryInvalidation(
-      session,
-      except: except,
-      surviveBearerChange: surviveBearerChange,
+    ++_historyScopeEpoch;
+    ++_loadGeneration;
+    _historyCacheReadSuppressed = true;
+    return true;
+  }
+
+  void _maskHistoryScope() {
+    state = state.copyWith(
+      memberScopeUncertain: true,
+      isLoading: false,
+      usingStaleCache: false,
+      publicDiscoveryLoading: false,
+      lastError: 'Refresh to verify your groups and activity.',
     );
+  }
+
+  void _invalidateHistorySeed(
+    _CollectSessionFence session, {
+    void Function()? except,
+    bool surviveBearerChange = false,
+  }) {
+    if (!_fenceHistoryScope(
+      session,
+      surviveBearerChange: surviveBearerChange,
+    )) {
+      return;
+    }
+    Object? firstError;
+    StackTrace? firstStack;
+    try {
+      _maskHistoryScope();
+    } catch (error, stack) {
+      firstError = error;
+      firstStack = stack;
+    }
+    try {
+      _notifyHistoryInvalidation(
+        session,
+        except: except,
+        surviveBearerChange: surviveBearerChange,
+      );
+    } catch (error, stack) {
+      firstError ??= error;
+      firstStack ??= stack;
+    }
+    if (firstError != null) Error.throwWithStackTrace(firstError, firstStack!);
   }
 
   void _invalidateHistoryForSignOut(
@@ -240,6 +289,7 @@ class CollectRepository extends StateNotifier<CollectState>
       return;
     }
     _historySeedInvalidatedAtSession = _authGeneration;
+    ++_historyScopeEpoch;
     _notifyHistoryInvalidation(session, signOutOperation: operation);
   }
 
@@ -345,6 +395,7 @@ class CollectRepository extends StateNotifier<CollectState>
 
     state = state.copyWith(isLoading: true, usingStaleCache: false);
     int? preferencesReadAttempt;
+    var historyReadInFlight = false;
     try {
       final profile = await _liveReader.fetchProfile(
         user.id,
@@ -366,10 +417,12 @@ class CollectRepository extends StateNotifier<CollectState>
         accessToken: preferencesSession.accessToken,
       );
       if (!readStillCurrent()) return;
+      historyReadInFlight = true;
       final history = await _liveReader.fetchHistoryPage(
         const MemberHistoryQuery(),
         accessToken: preferencesSession.accessToken,
       );
+      historyReadInFlight = false;
       if (!readStillCurrent()) return;
       final collectionSummaries = await _liveReader.fetchCollectionSummaries(
         accessToken: preferencesSession.accessToken,
@@ -412,6 +465,15 @@ class CollectRepository extends StateNotifier<CollectState>
       final accessReduced = priorMemberCollectionIds.any(
         (id) => !memberCollectionIds.contains(id),
       );
+      if (state.memberScopeUncertain && profile == null) {
+        state = state.copyWith(
+          isLoading: false,
+          lastError: 'Refresh to verify your groups and activity.',
+        );
+        return;
+      }
+      final historyCacheRecovery = _historyCacheReadSuppressed;
+      _historySeedInvalidatedAtSession = null;
       state = state.copyWith(
         currentProfile: profile,
         collections: memberCollections,
@@ -431,9 +493,11 @@ class CollectRepository extends StateNotifier<CollectState>
         publicDiscoveryUnavailable: false,
         lastSuccessfulSyncAt: DateTime.now().toUtc(),
         financialObservationUncertain: false,
+        memberScopeUncertain: false,
       );
       if (!readStillCurrent()) return;
-      if (accessReduced || profile == null || _offlineRestoreSuspended) {
+      if (!historyCacheRecovery &&
+          (accessReduced || profile == null || _offlineRestoreSuspended)) {
         // Remove the previous protected snapshot before any later offline read
         // can revive a group that the current scoped RPC no longer returns.
         try {
@@ -448,12 +512,18 @@ class CollectRepository extends StateNotifier<CollectState>
       if (!readStillCurrent()) return;
       // Only a complete accepted current-scope read restores member authority.
       if (profile != null) _memberAuthorityDenied = false;
-      unawaited(
-        _offlineCache.save(_offlineSnapshotFromState()).catchError((Object _) {
-          // Optional encrypted cache failure never converts a successful server
-          // read into a failed financial operation. No payload is logged.
-        }),
-      );
+      if (!historyCacheRecovery) {
+        unawaited(
+          _saveOfflineSnapshot().catchError((Object _) {
+            // Optional encrypted cache failure never converts a successful
+            // server read into a failed financial operation.
+          }),
+        );
+      }
+      // A no-throw cache save does not prove that protected storage accepted
+      // the replacement. Keep the in-process read/write hold after scope
+      // uncertainty until a positively acknowledged replacement protocol is
+      // available. A previously started cache write can still finish.
       _ensureRealtimeSync();
       // Public discovery must not delay a valid member financial refresh. Its
       // result is independently fenced to this exact load and session.
@@ -461,6 +531,49 @@ class CollectRepository extends StateNotifier<CollectState>
         _refreshPublicDiscovery(generation, preferencesSession, user.id),
       );
     } catch (error) {
+      if (historyReadInFlight) {
+        final changed =
+            (error is FormatException &&
+                error is! _InvalidMemberHistoryQuery) ||
+            (error is CollectApiException &&
+                const {'P0001', 'history_changed'}.contains(error.code));
+        final accessChanged =
+            _isAccessFailure(error) ||
+            (error is CollectApiException &&
+                (error.httpStatusCode == 401 ||
+                    error.httpStatusCode == 403 ||
+                    error.code == 'history_scope_unavailable'));
+        final scopeChanged =
+            changed ||
+            (error is CollectApiException &&
+                (const {
+                      'history_scope_unavailable',
+                      'access_revoked',
+                    }.contains(error.code) ||
+                    (error.code == 'session_changed' &&
+                        error.httpStatusCode == 403)));
+        if (changed || accessChanged) {
+          if (!scopeChanged &&
+              _isCurrentSession(preferencesSession) &&
+              backend.auth.currentSession?.accessToken !=
+                  preferencesSession.accessToken) {
+            // A refusal for an older bearer cannot revoke the newer one.
+            if (readStillCurrent()) {
+              state = state.copyWith(
+                isLoading: false,
+                financialObservationUncertain: true,
+                lastError: 'Refresh to verify your groups and activity.',
+              );
+            }
+          } else {
+            _invalidateHistorySeed(
+              preferencesSession,
+              surviveBearerChange: scopeChanged,
+            );
+          }
+          return;
+        }
+      }
       if (!readStillCurrent()) {
         // A superseded read can still carry a real denial for this exact
         // bearer. Do not let a newer but stalled refresh expose old authority.
@@ -650,6 +763,9 @@ class CollectRepository extends StateNotifier<CollectState>
     MemberHistoryQuery query, {
     Map<String, dynamic>? cursor,
   }) async {
+    if (state.memberScopeUncertain) {
+      throw StateError('Refresh your groups before loading history');
+    }
     if (_allowLocalWrites && !isLive) return localHistoryPage(query);
     if (_memberAuthorityDenied ||
         state.currentProfile == null ||
@@ -729,7 +845,11 @@ class CollectRepository extends StateNotifier<CollectState>
   }
 
   Future<bool> restoreOfflineSnapshot({required String reason}) async {
-    if (_memberAuthorityDenied || _offlineRestoreSuspended) return false;
+    if (_memberAuthorityDenied ||
+        _offlineRestoreSuspended ||
+        _historyCacheReadSuppressed) {
+      return false;
+    }
     final generation = _loadGeneration;
     final initialUserId = _backend?.auth.currentUser?.id;
     CollectOfflineSnapshot? cached;
@@ -741,6 +861,7 @@ class CollectRepository extends StateNotifier<CollectState>
       return false;
     }
     if (!mounted ||
+        _historyCacheReadSuppressed ||
         generation != _loadGeneration ||
         initialUserId != _backend?.auth.currentUser?.id) {
       return false;
@@ -791,6 +912,11 @@ class CollectRepository extends StateNotifier<CollectState>
       historyPage: state.historyPage,
       pendingIntentCount: state.pendingIntentCount,
     );
+  }
+
+  Future<void> _saveOfflineSnapshot() {
+    if (_historyCacheReadSuppressed) return Future<void>.value();
+    return _offlineCache.save(_offlineSnapshotFromState());
   }
 
   Future<CollectProfile> signInWithOtp({
@@ -877,7 +1003,7 @@ class CollectRepository extends StateNotifier<CollectState>
         : existingProfile;
     state = state.copyWith(currentProfile: profile);
     unawaited(
-      _offlineCache.save(_offlineSnapshotFromState()).catchError((Object _) {
+      _saveOfflineSnapshot().catchError((Object _) {
         // Optional encrypted cache failure never converts a successful server
         // read into a failed financial operation. No payload is logged.
       }),
@@ -1207,7 +1333,7 @@ class CollectRepository extends StateNotifier<CollectState>
       if (backend != null) ++_loadGeneration;
       state = state.copyWith(currentProfile: updated, isLoading: false);
       requireCurrentOwner();
-      final cacheSave = _offlineCache.save(_offlineSnapshotFromState());
+      final cacheSave = _saveOfflineSnapshot();
       if (backend != null &&
           _isCurrentSession(session) &&
           profileAuthority == _profileSaveAuthorityGeneration &&

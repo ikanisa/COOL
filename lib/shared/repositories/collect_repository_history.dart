@@ -22,8 +22,18 @@ final memberHistoryProvider = StateNotifierProvider.autoDispose
     });
 
 class MemberHistoryState {
-  const MemberHistoryState({this.page, this.loading = false, this.error});
-  final MemberHistoryPage? page;
+  // Public named parameters are kept while page storage remains private.
+  const MemberHistoryState({
+    MemberHistoryPage? page,
+    this.loading = false,
+    this.error,
+    bool Function()? pageIsCurrent,
+  }) : _page = page, // ignore: prefer_initializing_formals
+       // ignore: prefer_initializing_formals
+       _pageIsCurrent = pageIsCurrent;
+  final MemberHistoryPage? _page;
+  final bool Function()? _pageIsCurrent;
+  MemberHistoryPage? get page => _pageIsCurrent?.call() == false ? null : _page;
   final bool loading;
   final String? error;
 }
@@ -43,11 +53,11 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
           !repository.isLive &&
           !repository.state.usingStaleCache &&
           initial == null) {
-        state = MemberHistoryState(page: repository.localHistoryPage(query));
+        state = _pageState(repository.localHistoryPage(query));
       } else if (query.isDefault &&
           initial != null &&
           !repository._historySeedInvalidated) {
-        state = MemberHistoryState(page: initial);
+        state = _pageState(initial);
       } else {
         if (query.search.isNotEmpty && repository.isLive) {
           state = const MemberHistoryState(loading: true);
@@ -74,6 +84,32 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
   Timer? _debounce;
   bool _refreshing = false;
   bool _refreshRequired = false;
+  int _pageEpoch = 0;
+
+  MemberHistoryState _pageState(
+    MemberHistoryPage? page, {
+    bool loading = false,
+    String? error,
+  }) {
+    final epoch = repository._historyScopeEpoch;
+    final pageEpoch = _pageEpoch;
+    return MemberHistoryState(
+      page: page,
+      loading: loading,
+      error: error,
+      // Previously emitted states must not expose their old page during
+      // synchronous invalidation callbacks, or revive it after a later load.
+      pageIsCurrent: () =>
+          mounted &&
+          repository.mounted &&
+          repository._historyScopeEpoch == epoch &&
+          _pageEpoch == pageEpoch &&
+          repository._historySignalCurrent(_ownerSession) &&
+          repository.state.currentProfile?.id == _ownerProfileId &&
+          repository._backend?.auth.currentUser?.id == _ownerAuthId &&
+          !repository.state.memberScopeUncertain,
+    );
+  }
 
   bool _contextCurrent() {
     if (!mounted) return false;
@@ -83,6 +119,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
         repository.state.currentProfile?.id != _ownerProfileId ||
         repository._backend?.auth.currentUser?.id != _ownerAuthId) {
       ++_generation;
+      ++_pageEpoch;
       _debounce?.cancel();
       _refreshing = false;
       _refreshRequired = false;
@@ -133,8 +170,8 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
         if (mounted && generation == _generation) {
           try {
             if (_contextCurrent() && generation == _generation) {
-              state = MemberHistoryState(
-                page: previousPage,
+              state = _pageState(
+                previousPage,
                 error: 'Connect to load the complete history.',
               );
             }
@@ -155,7 +192,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
         _handleFailure(error, generation, requestSession);
         return;
       }
-      state = MemberHistoryState(page: page);
+      state = _pageState(page);
     } finally {
       if (mounted && generation == _generation) _refreshing = false;
     }
@@ -167,17 +204,14 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
     if (state.loading || page?.nextCursor == null) return;
     final generation = ++_generation;
     try {
-      state = MemberHistoryState(page: page, loading: true);
+      state = _pageState(page, loading: true);
     } catch (error, stack) {
       // StateNotifier updates its state before reporting listener failures.
       // Restore a retryable page unless an observer started a newer request.
       if (mounted && generation == _generation) {
         try {
           if (_contextCurrent() && generation == _generation) {
-            state = MemberHistoryState(
-              page: page,
-              error: 'Could not load more. Try again.',
-            );
+            state = _pageState(page, error: 'Could not load more. Try again.');
           }
         } catch (_) {
           // Preserve the original listener failure after restoring the state.
@@ -199,7 +233,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
       _handleFailure(error, generation, requestSession, previousPage: page);
       return;
     }
-    state = MemberHistoryState(page: merged);
+    state = _pageState(merged);
   }
 
   void _handleFailure(
@@ -250,6 +284,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
       // A denial for a replaced bearer cannot invalidate a newer response.
       // If no newer request exists, require a read with the current bearer.
       if (generation != _generation) return;
+      ++_pageEpoch;
       repository._markHistorySeedInvalidated(repository._captureSession());
       _refreshRequired = true;
       state = const MemberHistoryState(
@@ -266,32 +301,61 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
         ? repository._captureSession()
         : requestSession;
     _refreshRequired = shouldInvalidate;
+    Object? firstError;
+    StackTrace? firstStack;
     if (shouldInvalidate) {
-      repository._markHistorySeedInvalidated(invalidationSession);
-    }
-    try {
-      state = MemberHistoryState(
-        // A revision change can reflect revoked membership. Do not leave rows
-        // or totals from the earlier authority snapshot on screen or seed them.
-        page: shouldInvalidate ? null : previousPage,
-        error: invalidQuery
-            ? 'Check your history search or filter.'
-            : changed
-            ? 'History changed. Refresh to continue.'
-            : accessChanged
-            ? 'History access changed. Refresh to continue.'
-            : previousPage == null
-            ? 'Connect to load the complete history.'
-            : 'Could not load more. Try again.',
-      );
-    } finally {
-      if (shouldInvalidate) {
-        repository._invalidateHistorySeed(
-          invalidationSession,
-          except: _historyInvalidationListener,
-          surviveBearerChange: scopeChanged,
-        );
+      // Fence in-flight reads and mask the repository before notifying this
+      // controller's observers. The setter installs state before it notifies,
+      // so the mask remains in place even if a repository listener throws.
+      if (!repository._fenceHistoryScope(
+        invalidationSession,
+        surviveBearerChange: scopeChanged,
+      )) {
+        return;
+      }
+      try {
+        repository._maskHistoryScope();
+      } catch (error, stack) {
+        firstError = error;
+        firstStack = stack;
       }
     }
+    try {
+      // A repository listener may synchronously dispose this controller or
+      // replace the signed-in session while receiving the mask.
+      if (mounted && _contextCurrent()) {
+        state = _pageState(
+          // A revision change can reflect revoked membership. Do not leave rows
+          // or totals from the earlier authority snapshot on screen or seed them.
+          shouldInvalidate ? null : previousPage,
+          error: invalidQuery
+              ? 'Check your history search or filter.'
+              : changed
+              ? 'History changed. Refresh to continue.'
+              : accessChanged
+              ? 'History access changed. Refresh to continue.'
+              : previousPage == null
+              ? 'Connect to load the complete history.'
+              : 'Could not load more. Try again.',
+        );
+      }
+    } catch (error, stack) {
+      firstError ??= error;
+      firstStack ??= stack;
+    } finally {
+      if (shouldInvalidate) {
+        try {
+          repository._invalidateHistorySeed(
+            invalidationSession,
+            except: _historyInvalidationListener,
+            surviveBearerChange: scopeChanged,
+          );
+        } catch (error, stack) {
+          firstError ??= error;
+          firstStack ??= stack;
+        }
+      }
+    }
+    if (firstError != null) Error.throwWithStackTrace(firstError, firstStack!);
   }
 }

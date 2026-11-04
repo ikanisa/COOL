@@ -49,6 +49,7 @@ class _Repository extends CollectRepository {
     bool refreshing = false,
     bool stale = false,
     bool financialUncertain = false,
+    bool memberScopeUncertain = false,
     bool synced = true,
     bool signedIn = true,
   }) : super.fixture(
@@ -62,6 +63,7 @@ class _Repository extends CollectRepository {
            publicDiscoveryLoading: publicLoading,
            publicDiscoveryUnavailable: publicUnavailable,
            financialObservationUncertain: financialUncertain,
+           memberScopeUncertain: memberScopeUncertain,
            lastSuccessfulSyncAt: synced ? DateTime.utc(2026) : null,
          ),
        );
@@ -160,6 +162,25 @@ Future<void> _pumpScreen(
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  testWidgets('unverified membership does not claim a group is missing', (
+    tester,
+  ) async {
+    final repository = _Repository(
+      collections: [_privateGroup()],
+      memberScopeUncertain: true,
+    );
+    await _pumpScreen(
+      tester,
+      repository,
+      '/groups/private-group',
+      defaultMissingState: true,
+    );
+    expect(find.text('Refresh to verify this group.'), findsOneWidget);
+    expect(find.text('Group is not available.'), findsNothing);
+    await tester.tap(find.text('Retry'));
+    await tester.pump();
+    expect(repository.refreshes, 1);
+  });
   testWidgets('featured groups wait for public discovery', (tester) async {
     final repo = _Repository(
       collections: [_privateGroup()],

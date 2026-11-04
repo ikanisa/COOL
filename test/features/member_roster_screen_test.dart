@@ -22,11 +22,14 @@ class _RosterRepository extends FixtureCollectRepository {
     : super(fixtureNow: DateTime.utc(2026, 9, 2));
 
   final List<CollectMember>? members;
+  int reads = 0;
+
+  void markScopeUncertain() => state = state.copyWith(memberScopeUncertain: true);
 
   @override
-  Future<List<CollectMember>> membersForCollection(String collectionId) async =>
-      members ??
-      [
+  Future<List<CollectMember>> membersForCollection(String collectionId) async {
+    reads++;
+    return members ?? [
         CollectMember(
           publicId: '123456',
           role: 'owner',
@@ -55,7 +58,8 @@ class _RosterRepository extends FixtureCollectRepository {
           status: 'invited',
           joinedAt: DateTime.utc(2026, 9, 2),
         ),
-      ];
+    ];
+  }
 }
 
 void main() {
@@ -115,6 +119,36 @@ void main() {
     });
     return key;
   }
+
+  testWidgets('unverified membership does not render an empty roster', (
+    tester,
+  ) async {
+    final repository = _RosterRepository()..markScopeUncertain();
+    final router = createAppRouter(
+      initialLocation: '/groups/qa-private-group/members',
+    );
+    addTearDown(() async {
+      await tester.pumpWidget(const SizedBox.shrink());
+      router.dispose();
+    });
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          collectBackendClientProvider.overrideWithValue(null),
+          appRouterProvider.overrideWithValue(router),
+          collectRepositoryProvider.overrideWith((ref) => repository),
+          collectThemeModeProvider.overrideWith(
+            (ref) => CollectThemeModeController(initialMode: ThemeMode.dark),
+          ),
+        ],
+        child: const CollectApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('No members yet'), findsNothing);
+    expect(find.text('Could not load data'), findsOneWidget);
+    expect(repository.reads, 0);
+  });
 
   for (final width in [320.0, 390.0, 430.0]) {
     for (final scale in [1.0, 2.0]) {

@@ -65,6 +65,8 @@ class _ConnectionRecoveryScreenState
     final busy = _retrying || state.isLoading;
     final failed =
         state.lastError != null ||
+        state.memberScopeUncertain ||
+        state.financialObservationUncertain ||
         (_retryFailed && state.lastSuccessfulSyncAt == _failureBaseline);
     final refreshed =
         !busy &&
@@ -192,6 +194,8 @@ class _ConnectionRecoveryScreenState
       final confirmed =
           !after.isLoading &&
           !after.usingStaleCache &&
+          !after.memberScopeUncertain &&
+          !after.financialObservationUncertain &&
           after.lastError == null &&
           syncedAt != null &&
           (before.lastSuccessfulSyncAt == null ||

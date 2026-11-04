@@ -113,6 +113,59 @@ void main() {
     },
   );
   testWidgets(
+    'uncertain scope preserves the selected SMS choice until refresh',
+    (tester) async {
+      final h = await mount(tester);
+      await choose(tester, h, 'Community group');
+      expect(find.text('Saved choice: Off'), findsOneWidget);
+      h.repo.markScopeUncertain();
+      await tester.pump();
+      expect(
+        find.textContaining('Group information is unavailable.'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('There are no current groups to manage here.'),
+        findsNothing,
+      );
+      expect(
+        find.byKey(const ValueKey('receipt-sms-group-title')),
+        findsNothing,
+      );
+      expect(h.writes, isEmpty);
+
+      final retry = find.text('Refresh groups');
+      await reach(tester, retry);
+      await tester.tap(retry);
+      await tester.pumpAndSettle();
+      expect(find.text('Community group'), findsOneWidget);
+      expect(find.text('Saved choice: Off'), findsOneWidget);
+      expect(
+        find.text('Your group membership changed. Choose a current group.'),
+        findsNothing,
+      );
+      expect(h.writes, isEmpty);
+    },
+  );
+  testWidgets(
+    'an open receipt SMS group picker masks old groups on scope uncertainty',
+    (tester) async {
+      final h = await mount(tester);
+      await choose(tester, h, 'Community group');
+      await button(tester, 'receipt-sms-group');
+      await tester.pumpAndSettle();
+      expect(find.widgetWithText(ListTile, 'Another group'), findsOneWidget);
+      h.repo.markScopeUncertain();
+      await tester.pump();
+      expect(find.widgetWithText(ListTile, 'Another group'), findsNothing);
+      expect(
+        find.textContaining('Close and refresh your data.'),
+        findsOneWidget,
+      );
+      expect(h.writes, isEmpty);
+    },
+  );
+  testWidgets(
     'unsupported backend is truthful and cannot expose an enabled opt-in',
     (tester) async {
       final h = await mount(tester);

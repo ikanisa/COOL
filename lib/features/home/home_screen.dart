@@ -103,6 +103,9 @@ class HomeScreen extends ConsumerWidget {
           ),
         if (state.hasInitialLoadFailure)
           CollectDataLoadFailure(
+            message: state.memberScopeUncertain
+                ? 'Refresh to verify your groups and activity.'
+                : '',
             onRetry: () =>
                 ref.read(collectRepositoryProvider.notifier).loadInitial(),
           ),
@@ -157,18 +160,19 @@ class HomeScreen extends ConsumerWidget {
             onRetry: () =>
                 ref.read(collectRepositoryProvider.notifier).loadInitial(),
           ),
-        _HomeGroupsSection(
-          key: const ValueKey('home_featured_groups'),
-          title: 'Featured Groups',
-          groupsRoute: '/groups?filter=featured',
-          collections: publicCollections,
-          summaries: summaries,
-          showWhenEmpty: !state.publicDiscoveryUnavailable,
-          isLoading: isInitialLoading || state.publicDiscoveryLoading,
-          emptyMessage: state.hasInitialLoadFailure
-              ? 'Featured groups could not be loaded. Try again.'
-              : 'Public groups selected by Collect will appear here.',
-        ),
+        if (!state.memberScopeUncertain)
+          _HomeGroupsSection(
+            key: const ValueKey('home_featured_groups'),
+            title: 'Featured Groups',
+            groupsRoute: '/groups?filter=featured',
+            collections: publicCollections,
+            summaries: summaries,
+            showWhenEmpty: !state.publicDiscoveryUnavailable,
+            isLoading: isInitialLoading || state.publicDiscoveryLoading,
+            emptyMessage: state.hasInitialLoadFailure
+                ? 'Featured groups could not be loaded. Try again.'
+                : 'Public groups selected by Collect will appear here.',
+          ),
       ],
     );
   }

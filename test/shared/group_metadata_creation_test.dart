@@ -52,14 +52,19 @@ class MetadataRepository extends FixtureCollectRepository {
     super.backend,
     CollectProfile memberProfile = profile,
     CollectCollection? selectedGroup,
+    this.onLoadInitial,
   }) : super(profileOverride: memberProfile, smsAccessChannel: NoSms()) {
     if (selectedGroup != null) {
       state = state.copyWith(collections: [selectedGroup]);
     }
   }
 
+  final Future<void> Function()? onLoadInitial;
+
   @override
-  Future<void> loadInitial({bool syncPendingSms = false}) async {}
+  Future<void> loadInitial({bool syncPendingSms = false}) async {
+    await onLoadInitial?.call();
+  }
 }
 
 CollectCloudflareClient backendFor(
@@ -327,6 +332,110 @@ void main() {
       );
       expect(calls, hasLength(1));
       expectSupabaseCalls(calls, token);
+    },
+  );
+
+  test('created group is read after refresh before publishing', () async {
+    final refreshStarted = Completer<void>();
+    final releaseRefresh = Completer<void>();
+    final calls = <http.Request>[];
+    final backend = backendFor((request) async {
+      calls.add(request);
+      if (request.url.path.endsWith('create_private_group_metadata_v1')) {
+        return reply(groupId);
+      }
+      if (request.url.path.endsWith('list_current_user_collections')) {
+        // Membership was removed while the refresh was held.
+        return reply([]);
+      }
+      throw StateError('Unexpected request ${request.url.path}');
+    });
+    await recover(backend);
+    final repo = MetadataRepository(
+      backend: backend,
+      onLoadInitial: () async {
+        refreshStarted.complete();
+        await releaseRefresh.future;
+      },
+    );
+    addTearDown(() async {
+      if (!releaseRefresh.isCompleted) releaseRefresh.complete();
+      repo.dispose();
+      await backend.dispose();
+    });
+    final pending = expectLater(
+      repo.createCollection(
+        title: 'Private draft',
+        description: '',
+        requestId: requestId,
+      ),
+      throwsStateError,
+    );
+    await refreshStarted.future;
+    expect(calls, hasLength(1), reason: 'Do not read before the refresh.');
+    releaseRefresh.complete();
+    await pending;
+    expect(repo.state.collections.any((item) => item.id == groupId), isFalse);
+    expect(calls, hasLength(2));
+  });
+
+  test('uncertain membership scope prevents group creation dispatch', () async {
+    final calls = <http.Request>[];
+    final backend = backendFor((request) async {
+      calls.add(request);
+      return reply(groupId);
+    });
+    await recover(backend);
+    final repo = MetadataRepository(backend: backend);
+    addTearDown(() async {
+      repo.dispose();
+      await backend.dispose();
+    });
+    repo.state = repo.state.copyWith(memberScopeUncertain: true);
+    await expectLater(
+      repo.createCollection(
+        title: 'Private draft',
+        description: '',
+        requestId: requestId,
+      ),
+      throwsStateError,
+    );
+    expect(calls, isEmpty);
+  });
+
+  test(
+    'created group replaces an older snapshot with current readback',
+    () async {
+      final backend = backendFor((request) async {
+        if (request.url.path.endsWith('create_private_group_metadata_v1')) {
+          return reply(groupId);
+        }
+        if (request.url.path.endsWith('list_current_user_collections')) {
+          return reply([
+            {...group(), 'title': 'Current group'},
+          ]);
+        }
+        throw StateError('Unexpected request ${request.url.path}');
+      });
+      await recover(backend);
+      final repo = MetadataRepository(
+        backend: backend,
+        selectedGroup: CollectCollection.fromJson(group()),
+      );
+      addTearDown(() async {
+        repo.dispose();
+        await backend.dispose();
+      });
+      final created = await repo.createCollection(
+        title: 'Private draft',
+        description: '',
+        requestId: requestId,
+      );
+      expect(created.title, 'Current group');
+      expect(
+        repo.state.collections.singleWhere((item) => item.id == groupId).title,
+        'Current group',
+      );
     },
   );
 

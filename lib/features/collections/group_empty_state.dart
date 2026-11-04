@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../shared/repositories/collect_repository.dart';
 import '../../shared/widgets/collect_components.dart';
+import '../../shared/widgets/collect_data_load_failure.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
-class MissingGroupStateScreen extends StatelessWidget {
+class MissingGroupStateScreen extends ConsumerWidget {
   const MissingGroupStateScreen({
     this.title = 'Group unavailable',
     this.panelTitle = 'Group is not available.',
@@ -18,7 +21,29 @@ class MissingGroupStateScreen extends StatelessWidget {
   final String panelMessage;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(collectRepositoryProvider);
+    if (state.memberScopeUncertain) {
+      return ScreenScaffold(
+        title: title,
+        showHeader: false,
+        children: [
+          if (state.isLoading)
+            const CollectScreenLoadingState(
+              title: 'Loading group',
+              message: 'Refreshing group information.',
+              icon: CollectIcons.collections,
+              skeletonCount: 1,
+            )
+          else
+            CollectDataLoadFailure(
+              message: 'Refresh to verify this group.',
+              onRetry: () =>
+                  ref.read(collectRepositoryProvider.notifier).loadInitial(),
+            ),
+        ],
+      );
+    }
     return ScreenScaffold(
       title: title,
       showHeader: false,

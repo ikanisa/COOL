@@ -41,6 +41,7 @@ class _HomeDesignRepository extends FixtureCollectRepository {
       isLoading: scenario == 'loading',
       lastError: scenario == 'error' ? 'Fixture read failed' : null,
       usingStaleCache: scenario == 'offline',
+      memberScopeUncertain: scenario == 'scope-uncertain',
     );
   }
 
@@ -222,6 +223,20 @@ void main() {
     expect(find.text('No groups yet'), findsNothing);
     expect(tester.takeException(), isNull);
   });
+
+  for (final route in ['/home', '/groups?filter=member', '/contribute']) {
+    testWidgets('Unverified member scope is not shown as empty at $route', (
+      tester,
+    ) async {
+      await pumpHome(tester, 'scope-uncertain', route: route);
+      expect(find.text('Could not load data'), findsOneWidget);
+      expect(find.text('No groups yet'), findsNothing);
+      expect(find.text('Explore public groups'), findsNothing);
+      expect(find.text('QA private group'), findsNothing);
+      expect(find.text('RWF 0'), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+  }
 
   testWidgets('My groups discovery state explains membership and recovers', (
     tester,

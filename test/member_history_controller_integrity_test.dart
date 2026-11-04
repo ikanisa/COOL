@@ -61,6 +61,21 @@ class _Repository extends CollectRepository {
       );
   final requests = <Map<String, dynamic>?>[];
   Future<MemberHistoryPage> Function(Map<String, dynamic>? cursor)? onFetch;
+  CollectState get snapshot => state;
+  void enableSyntheticSms() => state = state.copyWith(smsAccessEnabled: true);
+  // This fixture cannot run the real live load. Represent its accepted fresh
+  // state explicitly before testing a new history read.
+  void acceptSyntheticFreshSnapshot() => state = state.copyWith(
+    currentProfile: _profile,
+    collections: const [],
+    paymentIntents: const [],
+    contributions: const [],
+    historyPage: _page([0], more: true),
+    collectionSummaries: const {},
+    pendingIntentCount: 0,
+    memberScopeUncertain: false,
+    financialObservationUncertain: false,
+  );
   @override
   bool get isLive => true;
   void setOwner(CollectProfile owner) =>
@@ -304,6 +319,10 @@ void main() {
       expect(repo.requests.length, 2);
       fresh.complete(_page([0, 1], total: 25));
       await Future<void>.delayed(Duration.zero);
+      expect(reopened.value.page, isNull);
+      repo.acceptSyntheticFreshSnapshot();
+      repo.onFetch = (_) async => _page([0, 1], total: 25);
+      await reopened.refresh();
       expect(reopened.value.page!.totals['RWF'], 25);
     },
   );
@@ -325,6 +344,10 @@ void main() {
     expect(reopened.value.loading, isTrue);
     fresh.complete(_page([0, 1]));
     await Future<void>.delayed(Duration.zero);
+    expect(reopened.value.page, isNull);
+    repo.acceptSyntheticFreshSnapshot();
+    repo.onFetch = (_) async => _page([0, 1]);
+    await reopened.refresh();
     expect(reopened.value.page!.items.length, 2);
   });
   test('scope denial clears other mounted history controllers', () async {
@@ -341,9 +364,65 @@ void main() {
     expect(second.value.page, isNull);
     await second.loadMore();
     expect(repo.requests.length, 1);
+    repo.acceptSyntheticFreshSnapshot();
     repo.onFetch = (_) async => _page([0, 1]);
     await second.refresh();
     expect(second.value.page!.items.length, 2);
+  });
+  test(
+    'scope denial masks repository history without changing SMS state',
+    () async {
+      final repo = _Repository()
+        ..enableSyntheticSms()
+        ..onFetch = (_) async =>
+            throw const CollectApiException(httpStatusCode: 403);
+      final controller = _Controller(repo, const MemberHistoryQuery());
+      addTearDown(controller.dispose);
+      addTearDown(repo.dispose);
+      await controller.loadMore();
+      expect(repo.snapshot.memberScopeUncertain, isTrue);
+      expect(repo.snapshot.historyPage, isNull);
+      expect(repo.snapshot.currentProfile, same(_profile));
+      expect(repo.snapshot.smsAccessEnabled, isTrue);
+      expect(repo.snapshot.hasInitialLoadFailure, isTrue);
+    },
+  );
+  test('synchronous observers cannot read old sibling pages', () async {
+    final repo = _Repository()
+      ..onFetch = (_) async =>
+          throw const CollectApiException(httpStatusCode: 403);
+    final source = _Controller(repo, const MemberHistoryQuery());
+    final sibling = _Controller(repo, const MemberHistoryQuery());
+    final oldSource = source.value;
+    final oldSibling = sibling.value;
+    var repositoryObserved = false;
+    var sourceObserved = false;
+    final removeRepository = repo.addListener((state) {
+      if (!state.memberScopeUncertain) return;
+      repositoryObserved = true;
+      expect(oldSource.page, isNull);
+      expect(oldSibling.page, isNull);
+      expect(sibling.value.page, isNull);
+    }, fireImmediately: false);
+    final removeSource = source.addListener((state) {
+      if (state.error == null) return;
+      sourceObserved = true;
+      expect(repo.snapshot.memberScopeUncertain, isTrue);
+      expect(oldSibling.page, isNull);
+    }, fireImmediately: false);
+    addTearDown(() {
+      removeRepository();
+      removeSource();
+      source.dispose();
+      sibling.dispose();
+      repo.dispose();
+    });
+    await source.loadMore();
+    expect(repositoryObserved, isTrue);
+    expect(sourceObserved, isTrue);
+    repo.acceptSyntheticFreshSnapshot();
+    expect(oldSource.page, isNull);
+    expect(oldSibling.page, isNull);
   });
   test('disposed request can still invalidate a mounted sibling', () async {
     final pending = Completer<MemberHistoryPage>();
@@ -525,6 +604,7 @@ void main() {
     repo.onFetch = (_) async =>
         throw const CollectApiException(httpStatusCode: 403);
     await source.loadMore();
+    repo.acceptSyntheticFreshSnapshot();
     repo.onFetch = (_) => next.future;
     final nextRefresh = sibling.refresh();
     old.complete(_page([0, 1]));

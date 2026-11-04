@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_theme.dart';
 import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
+import 'package:collect_app/core/security/hash_utils.dart';
 import 'package:collect_app/features/payments/contribution_flow_screen.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
@@ -29,6 +30,7 @@ PaymentIntentModel intent({bool committed = false}) => PaymentIntentModel(
   expectedAmountRwf: 5000,
   receiverMomoNumber: '123456',
   receiverMomoLabel: 'Synthetic receiving account',
+  senderPhoneHash: HashUtils.phoneHash('0788123456'),
   status: committed ? 'matched' : 'pending',
   createdAt: DateTime.utc(2026),
   expiresAt: DateTime.utc(2030),
@@ -49,6 +51,7 @@ class _Repository extends authority.Repository {
           isCurrentUserMember: true,
           receiverMomoNumber: '123456',
           receiverDisplayLabel: 'Synthetic receiving account',
+          receiverRouteLabel: 'Synthetic receiving account',
           receiverNetwork: 'mtn_momo',
           primaryPaymentRail: 'rwanda_momo',
         ),
@@ -57,6 +60,10 @@ class _Repository extends authority.Repository {
     );
   }
   final queries = <MemberHistoryQuery>[];
+  bool denyHistory = false;
+  CollectState get snapshot => state;
+  void publishSyntheticSnapshot(CollectState value) => state = value;
+  void removeGroup() => state = state.copyWith(collections: const []);
 
   // Payment-help tests start with no unresolved contribution command. The
   // separate protected support-request store below remains exercised end to end.
@@ -76,6 +83,7 @@ class _Repository extends authority.Repository {
     Map<String, dynamic>? cursor,
   }) async {
     queries.add(query);
+    if (denyHistory) throw const CollectApiException(httpStatusCode: 403);
     return history.decode(
       history.wire([
         {
@@ -301,6 +309,61 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pump();
       await h.client.dispose();
+    },
+  );
+  testWidgets('open payment help remains masked after a scope denial', (
+    tester,
+  ) async {
+    final h = await pump(tester);
+    await tester.ensureVisible(find.text('Payment help'));
+    await tester.tap(find.text('Payment help'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Synthetic group ·'), findsOneWidget);
+    final before = h.repo.snapshot;
+    h.repo.denyHistory = true;
+    final history = MemberHistoryController(h.repo, const MemberHistoryQuery());
+    addTearDown(history.dispose);
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Synthetic group ·'), findsNothing);
+    expect(find.textContaining('Close this sheet and refresh'), findsOneWidget);
+    expect(find.text('Request check'), findsNothing);
+    expect(h.requests, isEmpty);
+
+    // The real transition requires a complete accepted load; this fixture
+    // only simulates its resulting state and tests that the old sheet cannot
+    // be reused after the authority epoch has changed.
+    h.repo.publishSyntheticSnapshot(before);
+    await tester.pump();
+    expect(find.textContaining('Close this sheet and refresh'), findsOneWidget);
+    expect(find.text('Request check'), findsNothing);
+    expect(h.requests, isEmpty);
+  });
+  testWidgets(
+    'open payment help is invalidated when group membership disappears',
+    (tester) async {
+      final h = await pump(tester);
+      await tester.ensureVisible(find.text('Payment help'));
+      await tester.tap(find.text('Payment help'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Synthetic group ·'), findsOneWidget);
+      final before = h.repo.snapshot;
+      h.repo.removeGroup();
+      await tester.pump();
+      expect(find.textContaining('Synthetic group ·'), findsNothing);
+      expect(find.text('Request check'), findsNothing);
+      expect(
+        find.textContaining('Close this sheet and refresh'),
+        findsOneWidget,
+      );
+      expect(h.requests, isEmpty);
+      h.repo.publishSyntheticSnapshot(before);
+      await tester.pump();
+      expect(
+        find.textContaining('Close this sheet and refresh'),
+        findsOneWidget,
+      );
+      expect(find.text('Request check'), findsNothing);
+      expect(h.requests, isEmpty);
     },
   );
   testWidgets(

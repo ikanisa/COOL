@@ -52,7 +52,20 @@ PaymentIntentModel intent({
 
 class _Repository extends ContributionFixtureRepository {
   _Repository({bool existing = false}) {
-    state = state.copyWith(paymentIntents: existing ? [intent()] : []);
+    state = state.copyWith(
+      collections: [
+        for (final group in state.collections)
+          if (group.id == contributionFixtureGroup)
+            group.copyWith(
+              receiverMomoNumber: '123456',
+              receiverDisplayLabel: 'Collect synthetic receiver',
+              receiverRouteLabel: 'Collect synthetic receiver',
+            )
+          else
+            group,
+      ],
+      paymentIntents: existing ? [intent()] : [],
+    );
   }
   int creates = 0, checks = 0, loads = 0;
   PaymentIntentModel response = intent();

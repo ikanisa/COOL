@@ -103,7 +103,7 @@ void main() {
   };
   for (final entry in malformed.entries) {
     test(
-      '${entry.key} ACK cannot enter client state or mark membership',
+      '${entry.key} ACK cannot enter client state or alter membership',
       () async {
         final h = await _Harness.create((_) => _json(entry.value));
         await expectLater(
@@ -112,7 +112,7 @@ void main() {
         );
         expect(h.creates, hasLength(1));
         expect(h.repo.state.paymentIntents, isEmpty);
-        expect(h.repo.state.collections.single.isCurrentUserMember, isFalse);
+        expect(h.repo.state.collections.single.isCurrentUserMember, isTrue);
       },
     );
   }
@@ -265,6 +265,101 @@ void main() {
       );
     },
   );
+
+  test(
+    'payment status does not start while membership scope is uncertain',
+    () async {
+      final h = await _Harness.create((_) => _json(_intent()));
+      await h.repo.denyHistoryScope();
+      await expectLater(
+        h.repo.refreshPaymentIntent(_intentId),
+        throwsStateError,
+      );
+      expect(
+        h.requests.where(
+          (r) => r.url.path.endsWith('/list_current_member_recent_intents'),
+        ),
+        isEmpty,
+      );
+    },
+  );
+
+  test('late payment status after scope denial cannot publish', () async {
+    final h = await _Harness.create((_) => _json(_intent()));
+    final entered = Completer<void>();
+    final reply = Completer<http.Response>();
+    h.recent = (_) {
+      entered.complete();
+      return reply.future;
+    };
+    final pending = h.repo.refreshPaymentIntent(_intentId);
+    final denied = expectLater(pending, throwsStateError);
+    await entered.future;
+    await h.repo.denyHistoryScope();
+    reply.complete(
+      _json({
+        'pending_count': 1,
+        'items': [_intent()],
+      }),
+    );
+    await denied;
+    expect(h.repo.state.memberScopeUncertain, isTrue);
+    expect(h.repo.state.paymentIntents, isEmpty);
+  });
+
+  test(
+    'synchronous scope masking during payment publication prevents return',
+    () async {
+      final h = await _Harness.create((_) => _json(_intent()));
+      var masked = false;
+      final remove = h.repo.addListener((snapshot) {
+        if (!masked && snapshot.paymentIntents.isNotEmpty) {
+          masked = true;
+          h.repo.maskScope();
+        }
+      }, fireImmediately: false);
+      addTearDown(remove);
+      await expectLater(
+        h.repo.refreshPaymentIntent(_intentId),
+        throwsStateError,
+      );
+      expect(masked, isTrue);
+      expect(h.repo.state.memberScopeUncertain, isTrue);
+      expect(h.repo.state.paymentIntents, isEmpty);
+    },
+  );
+
+  test(
+    'payment status keeps its captured bearer through same-session rotation',
+    () async {
+      final h = await _Harness.create((_) => _json(_intent()));
+      final entered = Completer<void>();
+      final reply = Completer<http.Response>();
+      h.recent = (_) {
+        entered.complete();
+        return reply.future;
+      };
+      final pending = h.repo.refreshPaymentIntent(_intentId);
+      await entered.future;
+      await h.client.auth.recoverSession(
+        _session(_actor, _session1, revision: 2),
+      );
+      reply.complete(
+        _json({
+          'pending_count': 1,
+          'items': [_intent()],
+        }),
+      );
+      expect((await pending).id, _intentId);
+      final request = h.requests.singleWhere(
+        (r) => r.url.path.endsWith('/list_current_member_recent_intents'),
+      );
+      expect(
+        request.headers['Authorization'],
+        'Bearer ${_jwt(_actor, _session1)}',
+      );
+    },
+  );
 }
 
 typedef _Respond = FutureOr<http.Response> Function(http.Request);
@@ -370,9 +465,54 @@ class _Repository extends CollectRepository {
       );
   final CollectCloudflareClient client;
   Completer<void>? nextLoad;
+  Future<MemberHistoryPage> Function()? onSyntheticHistory;
+
+  void maskScope() => state = state.copyWith(memberScopeUncertain: true);
+
+  Future<void> denyHistoryScope() async {
+    final response = Completer<MemberHistoryPage>();
+    onSyntheticHistory = () => response.future;
+    final controller = MemberHistoryController(
+      this,
+      const MemberHistoryQuery(),
+    );
+    final denied = Completer<void>();
+    final remove = controller.addListener((value) {
+      if (value.error != null && !denied.isCompleted) denied.complete();
+    }, fireImmediately: false);
+    try {
+      response.completeError(
+        const CollectApiException(
+          code: 'history_scope_unavailable',
+          httpStatusCode: 403,
+        ),
+      );
+      await denied.future;
+    } finally {
+      remove();
+      controller.dispose();
+      onSyntheticHistory = null;
+    }
+  }
+
+  @override
+  Future<MemberHistoryPage> fetchHistoryPage(
+    MemberHistoryQuery query, {
+    Map<String, dynamic>? cursor,
+  }) =>
+      onSyntheticHistory?.call() ??
+      super.fetchHistoryPage(query, cursor: cursor);
+
   @override
   Future<void> loadInitial({bool syncPendingSms = false}) async {
-    state = _state(client.auth.currentUser!.id);
+    final userId = client.auth.currentUser!.id;
+    final nextSync = (state.lastSuccessfulSyncAt ?? DateTime.utc(2026)).add(
+      const Duration(microseconds: 1),
+    );
+    final refreshed = state.currentProfile?.id == userId
+        ? state
+        : _state(userId);
+    state = refreshed.copyWith(lastSuccessfulSyncAt: nextSync);
     nextLoad?.complete();
     nextLoad = null;
   }
@@ -397,12 +537,15 @@ CollectState _state(String actor) => CollectState(
       description: '',
       createdAt: DateTime.utc(2026),
       receiverMomoNumber: '0788123456',
+      receiverDisplayLabel: 'Synthetic receiver',
       receiverNetwork: 'mtn_momo',
       isPublic: true,
+      isCurrentUserMember: true,
     ),
   ],
   paymentIntents: const [],
   contributions: const [],
+  lastSuccessfulSyncAt: DateTime.utc(2026),
 );
 String _jwt(String user, String session, {int revision = 1}) {
   String part(Object value) =>
