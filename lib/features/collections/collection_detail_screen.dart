@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../profile/member_profile_gate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,6 +29,53 @@ class CollectionDetailScreen extends ConsumerStatefulWidget {
 
 class _CollectionDetailScreenState
     extends ConsumerState<CollectionDetailScreen> {
+  int _joinOperation = 0;
+  int _routeGeneration = 0;
+  String? _joiningGroupId, _joiningProfileId;
+  int? _joiningSession;
+  CollectRepository? _joiningRepository;
+
+  @override
+  void didUpdateWidget(covariant CollectionDetailScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.collectionId != widget.collectionId) {
+      _routeGeneration++;
+      _joinOperation++;
+      _joiningGroupId = null;
+      _joiningProfileId = null;
+      _joiningSession = null;
+      _joiningRepository = null;
+    }
+  }
+
+  bool _isJoining(
+    CollectRepository repository,
+    String groupId,
+    String? profileId,
+    int session,
+  ) =>
+      _joiningGroupId == groupId &&
+      _joiningProfileId == profileId &&
+      _joiningSession == session &&
+      identical(_joiningRepository, repository);
+
+  bool _matchesActionScope(
+    CollectCollection collection,
+    CollectRepository repository,
+    String? profileId,
+    int session,
+    int routeGeneration,
+    bool isLive,
+  ) =>
+      mounted &&
+      widget.collectionId == collection.id &&
+      routeGeneration == _routeGeneration &&
+      identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+      repository.sessionGeneration == session &&
+      repository.isLive == isLive &&
+      ref.read(collectRepositoryProvider).currentProfile?.id == profileId &&
+      identical(repository.maybeCollectionById(collection.id), collection);
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(collectRepositoryProvider);
@@ -85,6 +134,39 @@ class _CollectionDetailScreenState
         ? 'Not available'
         : formatCurrencyTotals(summary.totalsByCurrency, separator: '\n');
     final profile = state.currentProfile;
+    final session = repo.sessionGeneration;
+    final routeGeneration = _routeGeneration;
+    final isLive = repo.isLive;
+    void joinGroup() => unawaited(
+      _joinGroup(
+        collection,
+        repo,
+        profile?.id,
+        session,
+        routeGeneration,
+        isLive,
+      ),
+    );
+    void openContribution() {
+      if (!_matchesActionScope(
+            collection,
+            repo,
+            profile?.id,
+            session,
+            routeGeneration,
+            isLive,
+          ) ||
+          _isJoining(repo, collection.id, profile?.id, session)) {
+        return;
+      }
+      context.go(
+        Uri(
+          pathSegments: ['', 'groups', collection.id, 'contribute'],
+        ).toString(),
+      );
+    }
+
+    final joiningGroup = _isJoining(repo, collection.id, profile?.id, session);
     final isAdmin = profile != null && collection.creatorUserId == profile.id;
     final canManage =
         isAdmin && !collection.isPlatformSponsored && !collection.isPublic;
@@ -133,8 +215,7 @@ class _CollectionDetailScreenState
             CollectHeroQuickAction(
               icon: CollectIcons.donate,
               label: contributionActionLabel,
-              onTap: () =>
-                  context.go('/groups/${widget.collectionId}/contribute'),
+              onTap: joiningGroup ? null : openContribution,
             ),
           if (isMember)
             CollectHeroQuickAction(
@@ -152,7 +233,7 @@ class _CollectionDetailScreenState
             CollectHeroQuickAction(
               icon: CollectIcons.people,
               label: 'Join',
-              onTap: () => _joinPrivateGroup(collection),
+              onTap: joiningGroup ? null : joinGroup,
             ),
           if (canManage)
             CollectHeroQuickAction(
@@ -164,7 +245,21 @@ class _CollectionDetailScreenState
       ),
       onRefresh: () =>
           ref.read(collectRepositoryProvider.notifier).loadInitial(),
-      bottomAction: !paymentEligible && isMember
+      bottomAction: collection.isPublic && !isMember
+          ? CollectButton(
+              key: const ValueKey('join-public-group'),
+              label: joiningGroup
+                  ? 'Joining group'
+                  : profile == null
+                  ? isLive
+                        ? 'Profile unavailable'
+                        : 'Sign in to join'
+                  : 'Join group',
+              icon: CollectIcons.people,
+              onPressed: joiningGroup ? null : joinGroup,
+              expand: true,
+            )
+          : !paymentEligible && isMember
           ? const CollectButton(
               key: ValueKey('group-payment-unavailable'),
               label: 'Payments unavailable',
@@ -175,12 +270,19 @@ class _CollectionDetailScreenState
           : canManage
           ? null
           : CollectButton(
-              label: canContribute ? contributionActionLabel : 'Join group',
+              label: canContribute
+                  ? contributionActionLabel
+                  : profile == null
+                  ? isLive
+                        ? 'Profile unavailable'
+                        : 'Sign in to join'
+                  : 'Join group',
               icon: canContribute ? CollectIcons.donate : CollectIcons.people,
-              onPressed: canContribute
-                  ? () =>
-                        context.go('/groups/${widget.collectionId}/contribute')
-                  : () => _joinPrivateGroup(collection),
+              onPressed: joiningGroup
+                  ? null
+                  : canContribute
+                  ? openContribution
+                  : joinGroup,
               expand: true,
             ),
       children: [
@@ -255,22 +357,75 @@ class _CollectionDetailScreenState
     );
   }
 
-  Future<void> _joinPrivateGroup(CollectCollection collection) async {
+  Future<void> _joinGroup(
+    CollectCollection collection,
+    CollectRepository repository,
+    String? profileId,
+    int session,
+    int routeGeneration,
+    bool isLive,
+  ) async {
+    if (!_matchesActionScope(
+      collection,
+      repository,
+      profileId,
+      session,
+      routeGeneration,
+      isLive,
+    )) {
+      return;
+    }
+    if (_isJoining(repository, collection.id, profileId, session)) return;
+    if (profileId == null) {
+      if (isLive) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Your profile is unavailable. Refresh and try again.',
+            ),
+          ),
+        );
+        return;
+      }
+      final target = Uri(pathSegments: ['', 'groups', collection.id]);
+      context.go(
+        Uri(
+          path: '/auth',
+          queryParameters: {'next': target.toString()},
+        ).toString(),
+      );
+      return;
+    }
+    final operation = ++_joinOperation;
+    bool current() =>
+        mounted &&
+        operation == _joinOperation &&
+        routeGeneration == _routeGeneration &&
+        widget.collectionId == collection.id &&
+        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        repository.sessionGeneration == session &&
+        repository.isLive == isLive &&
+        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
     try {
       requireMemberGroupProfileReady(ref);
-      if (!mounted) return;
-      final repository = ref.read(collectRepositoryProvider.notifier);
+      if (!current()) return;
+      setState(() {
+        _joiningGroupId = collection.id;
+        _joiningProfileId = profileId;
+        _joiningSession = session;
+        _joiningRepository = repository;
+      });
       if (collection.isPublic) {
         await repository.joinPublicGroup(collection.id);
       } else {
         await repository.joinGroupBySlug(collection.slug);
       }
-      if (!mounted) return;
+      if (!mounted || !current()) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('You joined the group.')));
     } catch (_) {
-      if (!mounted) return;
+      if (!mounted || !current()) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
@@ -278,6 +433,15 @@ class _CollectionDetailScreenState
           ),
         ),
       );
+    } finally {
+      if (mounted && operation == _joinOperation) {
+        setState(() {
+          _joiningGroupId = null;
+          _joiningProfileId = null;
+          _joiningSession = null;
+          _joiningRepository = null;
+        });
+      }
     }
   }
 }
