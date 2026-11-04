@@ -483,14 +483,14 @@ class _OperatingFormState extends ConsumerState<CloudflareOperatingForm> {
         !(_canonical
                 ? field.key == 'receiver_route' && _publicGroupRequested
                       ? RegExp(
-                          r'^(?:07[2389][0-9]{7}|\+?2507[2389][0-9]{7}|[0-9]{4,12})$',
+                          r'^(?:07[2389][0-9]{7}|\+?2507[2389][0-9]{7}|[0-9]{4,9})$',
                         )
                       : RegExp(r'^(?:07[2389][0-9]{7}|\+?2507[2389][0-9]{7})$')
                 : RegExp(r'^[0-9]{4,12}$'))
             .hasMatch(value)) {
       return _canonical
           ? field.key == 'receiver_route' && _publicGroupRequested
-                ? 'Enter a Rwanda MoMo number or a 4–12 digit merchant code.'
+                ? 'Enter a Rwanda MoMo number or a 4–9 digit merchant code.'
                 : 'Enter the recorded Rwanda MoMo number.'
           : 'Use 4–12 digits.';
     }
@@ -634,7 +634,7 @@ class _OperatingFormState extends ConsumerState<CloudflareOperatingForm> {
                     'airtel_money',
                   ].contains(receiver['network']) &&
                   RegExp(
-                    r'^(?:07[2389][0-9]{7}|\+?2507[2389][0-9]{7}|[0-9]{4,12})$',
+                    r'^(?:07[2389][0-9]{7}|\+?2507[2389][0-9]{7}|[0-9]{4,9})$',
                   ).hasMatch('${receiver['momo_number_or_code'] ?? ''}'),
             ))) {
       return 'Refresh the recorded group owner and active MoMo receiver before publishing.';

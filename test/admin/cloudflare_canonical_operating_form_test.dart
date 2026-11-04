@@ -121,6 +121,7 @@ CloudflareOperatingDetail _groupDetail({
   String visibility = 'private',
   bool sponsored = false,
   bool receiver = true,
+  String route = '0788123456',
 }) {
   final data = financialFixture('detail');
   final id = data['resource']['group_id'] as String;
@@ -145,7 +146,7 @@ CloudflareOperatingDetail _groupDetail({
           {
             'status': 'active',
             'network': 'mtn_momo',
-            'momo_number_or_code': '0788123456',
+            'momo_number_or_code': route,
           },
       ],
     },
@@ -212,6 +213,41 @@ void main() {
       expect(form.sent.single['receiver']['momo_number_or_code'], '008000');
       expect(form.sent.single['owner_user_id'], isNotEmpty);
       expect(tester.takeException(), isNull);
+      await _finishGroup(tester, form.harness);
+    });
+  }
+  for (final route in [
+    '0001',
+    '123456789',
+    '0788123456',
+    '250788123456',
+    '+250788123456',
+  ]) {
+    testWidgets('public group accepts supported destination $route', (
+      tester,
+    ) async {
+      final form = await _groupForm(tester, route: route);
+      await _selectPublic(tester);
+      await _reviewGroup(tester);
+      await tester.tap(find.text('Confirm change'));
+      await tester.pumpAndSettle();
+      expect(form.sent.single['receiver']['momo_number_or_code'], route);
+      await _finishGroup(tester, form.harness);
+    });
+  }
+  for (final route in ['0718123456', '00012345678', '251788123456']) {
+    testWidgets('public group refuses unsupported destination $route', (
+      tester,
+    ) async {
+      final form = await _groupForm(tester, route: route);
+      await _selectPublic(tester);
+      await _reviewGroup(tester);
+      expect(form.sent, isEmpty);
+      expect(
+        find.text('Enter a Rwanda MoMo number or a 4–9 digit merchant code.'),
+        findsOneWidget,
+      );
+      expect(find.text('Confirm change'), findsNothing);
       await _finishGroup(tester, form.harness);
     });
   }
@@ -318,6 +354,48 @@ void main() {
     expect(find.text('Confirm change'), findsNothing);
     await _finishGroup(tester, form.harness);
   });
+  for (final visibility in ['private', 'public_pending']) {
+    testWidgets('publishing $visibility rejects an unsupported receiver', (
+      tester,
+    ) async {
+      final form = await _groupForm(
+        tester,
+        detail: _groupDetail(visibility: visibility, route: '0718123456'),
+      );
+      await _selectPublic(tester);
+      await _reviewGroup(tester);
+      expect(form.sent, isEmpty);
+      expect(
+        find.text(
+          'Refresh the recorded group owner and active MoMo receiver before publishing.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Confirm change'), findsNothing);
+      await _finishGroup(tester, form.harness);
+    });
+  }
+  for (final sponsored in [false, true]) {
+    testWidgets(
+      'existing public legacy receiver remains editable ($sponsored)',
+      (tester) async {
+        final form = await _groupForm(
+          tester,
+          detail: _groupDetail(
+            visibility: 'public_approved',
+            sponsored: sponsored,
+            route: '123456789012',
+          ),
+        );
+        await _reviewGroup(tester);
+        await tester.tap(find.text('Confirm change'));
+        await tester.pumpAndSettle();
+        expect(form.sent.single.containsKey('receiver'), isFalse);
+        expect(form.sent.single.containsKey('visibility'), isFalse);
+        await _finishGroup(tester, form.harness);
+      },
+    );
+  }
   testWidgets('public group edits cannot demote or unlock its receiver', (
     tester,
   ) async {

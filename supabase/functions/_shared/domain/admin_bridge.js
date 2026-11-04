@@ -34,9 +34,14 @@ function domainGuard(env,condition,args=[]){const guardId=id();return [env.DB.pr
 function expected(data,current){const value=integer(data.expected_version,'expected_version',1);if(value!==current)fail(409,'stale_state','The record changed. Refresh before continuing.');return value;}
 function rwPhone(value,{optional=false}={}){if(optional&&(value==null||value===''))return null;if(typeof value!=='string')fail(400,'invalid_phone','Enter a Rwanda phone number.');const digits=value.replace(/^\+/,'');
  const normalized=/^07[2389]\d{7}$/.test(digits)?'250'+digits.slice(1):digits;if(!/^2507[2389]\d{7}$/.test(normalized))fail(400,'invalid_phone','Enter a Rwanda phone number.');return '+'+normalized;}
-function validReceiver(receiver,{allowCode=false}={}){if(!receiver||typeof receiver!=='object'||Array.isArray(receiver))fail(400,'invalid_receiver','Record the group receiver.');keys(receiver,['label','network','momo_number_or_code']);
+function validReceiver(receiver,{allowCode=false,allowLegacyPublicCode=false}={}){if(!receiver||typeof receiver!=='object'||Array.isArray(receiver))fail(400,'invalid_receiver','Record the group receiver.');keys(receiver,['label','network','momo_number_or_code']);
  if(!['mtn_momo','airtel_money'].includes(receiver.network))fail(400,'invalid_receiver','Choose a Rwanda MoMo network.');
- const route=receiver.momo_number_or_code,code=allowCode&&typeof route==='string'&&/^[0-9]{4,12}$/.test(route)&&!/^07[2389][0-9]{7}$/.test(route);
+ const route=receiver.momo_number_or_code;
+ // New public destinations must be registrable by the receiving-account API.
+ // The negative lookahead requires the actual end, including after newlines.
+ if(allowCode&&!allowLegacyPublicCode&&(typeof route!=='string'||!/^(?:[0-9]{4,9}|07[2389][0-9]{7}|\+?2507[2389][0-9]{7})(?![\s\S])/.test(route)))
+  fail(400,'invalid_receiver','Enter a Rwanda MoMo number or a 4–9 digit merchant code.');
+ const code=allowCode&&typeof route==='string'&&/^[0-9]{4,12}$/.test(route)&&!/^07[2389][0-9]{7}$/.test(route);
  return {label:text(receiver.label,'receiver label',120),network:receiver.network,number:code?route:rwPhone(route).slice(1)};}
 function receipt(requestId,type,resourceId,version){return {status:'succeeded',request_id:requestId,resource_type:type,resource_id:resourceId,version};}
 
@@ -100,7 +105,7 @@ async function genericMutation(request,env,account,actor,parts,data,rid,source){
    if(data.visibility!==undefined&&!['private','public_approved'].includes(visibility))fail(400,'invalid_publication','Choose private or public visibility.');
    const sponsored=row.is_platform_sponsored===1||row.visibility_status==='public_approved'||visibility==='public_approved';
    if(data.is_platform_sponsored!==undefined&&(typeof data.is_platform_sponsored!=='boolean'||data.is_platform_sponsored!==sponsored))fail(409,'publication_locked','A public group stays Collect-sponsored and its receiver stays locked.');
-   if(visibility==='public_approved')validReceiver({label:row.receiver_display_label,network:row.receiver_network,momo_number_or_code:row.receiver_momo_number},{allowCode:true});
+   if(visibility==='public_approved')validReceiver({label:row.receiver_display_label,network:row.receiver_network,momo_number_or_code:row.receiver_momo_number},{allowCode:true,allowLegacyPublicCode:row.visibility_status==='public_approved'});
    const kind=data.collection_type??row.collection_type;if(!['ikimina','sport','church','wedding','other'].includes(kind))fail(400,'invalid_group','Choose a supported group type.');
    const stored=JSON.parse(row.data_json);if(data.purpose_label!==undefined)stored.purpose_label=optionalText(data.purpose_label,'purpose label',120);
    const description=data.description??row.description;if(typeof description!=='string'||description.length>2000)fail(400,'invalid_group','The group description is too long.');
