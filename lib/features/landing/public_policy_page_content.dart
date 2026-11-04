@@ -24,7 +24,7 @@ const _publicPolicyPages = <CollectPublicPageData>[
       CollectPublicSectionData(
         title: 'Signing in',
         body:
-            'You can sign in with an email code or, where enabled, Google. Google sign-in requests OpenID identity, email and basic profile access to create or link your Collect member account.',
+            'Depending on what is enabled, you can sign in using an SMS code, an email code or Google. Google sign-in requests OpenID identity, email and basic profile access to create or link your Collect member account.',
         bullets: [
           'Supabase provides Collect authentication, database and private evidence storage; Cloudflare provides web hosting, API forwarding and security challenges',
           'Records and recovery copies from the earlier Cloudflare backend may remain; changing providers does not erase them',

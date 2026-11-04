@@ -34,7 +34,7 @@ const collectDefaultPrivacyPolicySections = [
   CollectPolicySection(
     title: 'Signing in',
     body:
-        'You can sign in with an email code or, where enabled, Google. If you choose Google, Collect receives and stores your Google account identifier and verified email to create or link your member account and authenticate you. Google sign-in requests OpenID identity, email and basic profile access. Collect keeps verification, session and security records; a sign-in code expiring does not delete those records.',
+        'Depending on what is enabled, you can sign in using an SMS code, an email code or Google. If you choose Google, Collect receives and stores your Google account identifier and verified email to create or link your member account and authenticate you. Google sign-in requests OpenID identity, email and basic profile access. Collect keeps verification, session and security records; a sign-in code expiring does not delete those records.',
   ),
   CollectPolicySection(
     title: 'How we use data',
