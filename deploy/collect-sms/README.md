@@ -58,6 +58,11 @@ Encrypted backups and restore rehearsals must include `collect_sms` tables, the 
 
 ## Local verification
 
+The focused receipt-guard regression uses Node 24's TypeScript transformation and a
+fake database. Run `node --experimental-transform-types --test --test-isolation=none deploy/collect-sms/test/ledger_snapshot_receipt_guard.test.mjs`
+from the repository root. It covers replay conflicts and zero-valued new
+contribution receipts; it does not establish PostgreSQL concurrency or SMS delivery.
+
 The ported original API/Android suite plus six added PostgreSQL cases passes 34 tests on the isolated PostgreSQL 17 fixture. The added cases cover private schema access, template version immutability, schedule eligibility/concurrency, staff rotation, retention/no rehydration, immutable ledger snapshots and callback generations. No real phones, carrier submissions, FCM credentials or callback destinations are used.
 
 The maintained test runner requires `COLLECT_CI_SYNTHETIC=true`, `COLLECT_SELFHOST_NATIVE_PROFILE=reviewed_current_self_hosted` and `COLLECT_SMS_FIXTURE_FILE` naming the expressly provisioned fresh original16 fixture. It installs the reviewed current additions exactly once, verifies the loopback host/database/normal owner, reaches the real inactive fence before binding its qualification profile, and runs under an actual gateway work admission. There is no schema-drop or reset path. The separate `scripts/supabase/testing/gateway-fence.ts` uses another fresh database and an actual restricted login to test source/profile refusal, mutation guards, held work, quiesce, unknown callback/FCM results, source upgrade and original-acknowledgement recovery. Its provider boundaries are explicit doubles and its evidence states the exact source/migration scope. Never point these runners at a deployment. These checks do not replace an actual device, reverse-proxy, native scheduler-extension or restore rehearsal.

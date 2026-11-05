@@ -20,9 +20,11 @@ export async function ledgerSnapshot(c:Context<AppEnv>,b:Record<string,unknown>)
  const facts={event_id:eventId,collection_id:string(b.collection_id,'collection_id',1,100),collection_name:name,member_id:string(b.member_id,'member_id',1,100),currency:'RWF',entry:{type,amount_rwf:amount},snapshot:{basis,scope,period_id:period,member_total_rwf:member,group_total_rwf:group,posted_at:timestamp(s.posted_at,'posted_at'),ledger_version:string(s.ledger_version,'ledger_version',1,100)}};
  const digest=await sha256(canonical(facts));const old=await c.env.DB.prepare('SELECT * FROM ledger_notification_events WHERE application_id=? AND event_id=?').bind(p.id,eventId).first();
  if(old&&old.facts_digest!==digest)throw new ApiError(409,'snapshot_conflict','Create a new correction event instead of rewriting posted facts');
- const existing=await c.env.DB.prepare('SELECT r.message_id,m.state FROM ledger_notification_receipts r JOIN messages m ON m.message_id=r.message_id WHERE r.application_id=? AND r.event_id=? AND r.recipient=?').bind(p.id,eventId,recipient).first();
- if(existing)return c.json({message_id:existing.message_id,state:'existing'},202);
+ const existing=await c.env.DB.prepare('SELECT r.message_id,m.state,e.facts_digest FROM ledger_notification_receipts r JOIN messages m ON m.message_id=r.message_id JOIN ledger_notification_events e ON e.application_id=r.application_id AND e.event_id=r.event_id WHERE r.application_id=? AND r.event_id=? AND r.recipient=?').bind(p.id,eventId,recipient).first();
+ if(existing){if(existing.facts_digest!==digest)throw new ApiError(409,'snapshot_conflict','Create a new correction event instead of rewriting posted facts');return c.json({message_id:existing.message_id,state:'existing'},202);}
  if(old?.redacted_at)throw new ApiError(409,'source_facts_redacted','The prior notification facts were redacted; no new recipient can be silently added');
+ // Preserve exact previously recorded receipts, but never queue a new SMS for a zero contribution.
+ if(type==='contribution'&&amount===0)throw new ApiError(400,'invalid_snapshot','A contribution amount must be greater than zero');
  const n=(x:number)=>String(x).replace(/\B(?=(\d{3})+(?!\d))/g,',');const label=basis==='available_balance'?'available':'contributions';
  const scopeLabel=scope==='cycle'?` Cycle ${period}.`:scope==='all_time'?' All-time.':'';
  const text=`COLLECT ${name}: ${type} RWF ${n(amount)}. Your ${label}: RWF ${n(member)}. Group ${label}: RWF ${n(group)}.${scopeLabel} As of ${facts.snapshot.posted_at.slice(0,16).replace('T',' ')} UTC. Ref ${eventId}.`;
