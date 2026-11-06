@@ -1,0 +1,60 @@
+name: BuriMunsi native implementation
+
+on:
+  push:
+    branches: [codex/burimunsi-native-20261106]
+    paths:
+      - '.github/workflows/burimunsi-native.yml'
+      - 'native/burimunsi/**'
+      - 'supabase/functions/_shared/domain/burimunsi/**'
+      - 'supabase/functions/_shared/tests/burimunsi/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: burimunsi-native-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  source-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Record tracked source for bounded implementation verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/burimunsi-evidence
+          python3 - <<'PY'
+          import hashlib, json, pathlib, subprocess, zipfile
+          root=pathlib.Path.cwd()
+          names=subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
+          prefixes=('android/','supabase/','scripts/supabase/','scripts/tests/','native/burimunsi/')
+          explicit={'AGENTS.md','.dvmrc','docs/ENVIRONMENT.md','docs/ANDROID_SMS_ACCESS.md','README.md'}
+          manifest=[]
+          with zipfile.ZipFile('/tmp/burimunsi-evidence/collect-source.zip','w',zipfile.ZIP_DEFLATED) as archive:
+              for name in sorted(filter(None,names)):
+                  if not (name.startswith(prefixes) or name in explicit): continue
+                  p=root/name
+                  if p.is_symlink() or not p.is_file(): continue
+                  if any(part in ('node_modules','.git','build','.gradle','.env') for part in p.parts): continue
+                  if p.name.startswith('.env') or p.suffix in ('.apk','.aab','.jks','.keystore'): continue
+                  if p.stat().st_size > 5*1024*1024: continue
+                  body=p.read_bytes()
+                  archive.writestr(name,body)
+                  manifest.append({'path':name,'sha256':hashlib.sha256(body).hexdigest(),'bytes':len(body)})
+          report={'repository':'ikanisa/COOL','commit':subprocess.check_output(['git','rev-parse','HEAD']).decode().strip(),'files':manifest,'scope':'Tracked public source only. No environment secrets, deployment, or financial mutations.'}
+          pathlib.Path('/tmp/burimunsi-evidence/source-manifest.json').write_text(json.dumps(report,indent=2)+'\n')
+          print('Captured',len(manifest),'tracked source files')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: burimunsi-source-evidence
+          path: /tmp/burimunsi-evidence/
+          if-no-files-found: error
+          retention-days: 7
