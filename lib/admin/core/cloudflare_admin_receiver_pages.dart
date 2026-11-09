@@ -11,6 +11,7 @@ import 'admin_account_api.dart';
 import 'admin_display_formatters.dart';
 import 'admin_pending_attempt_store.dart';
 import 'admin_repository_base.dart';
+import 'cloudflare_admin_data_refresh.dart';
 import 'cloudflare_admin_gateway_pages.dart';
 import 'cloudflare_admin_receiver_api.dart';
 import 'cloudflare_admin_repository.dart';
@@ -65,6 +66,9 @@ class _GrantListState extends ConsumerState<CloudflareReceiverGrantListPage> {
   void initState() {
     super.initState();
     _load();
+    ref.listenManual(cloudflareAdminDataRevisionProvider, (previous, next) {
+      if (mounted && previous != null && next > previous) setState(_load);
+    });
   }
 
   void _load() {
@@ -91,7 +95,7 @@ class _GrantListState extends ConsumerState<CloudflareReceiverGrantListPage> {
         ),
         if (ref.watch(cloudflareAdminReceiverApiProvider).canManage) ...[
           const SizedBox(height: 16),
-          CloudflareReceiverGrantForm(onSaved: () => setState(_load)),
+          CloudflareReceiverGrantForm(onSaved: () {}),
           const SizedBox(height: 24),
         ],
         DropdownButtonFormField<String>(
@@ -322,6 +326,7 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
   String? _key, _message;
   bool _busy = false, _unknown = false, _retry = false;
   Object? _authority;
+  Object? _authorityFence;
   String get _resource => widget.grant?.id ?? 'new';
   static const _family = 'receiver-capture-grant';
   AdminPendingAttemptSchema get _schema => AdminPendingAttemptSchema(
@@ -343,6 +348,9 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
         .asData
         ?.value
         ?.authorityKey;
+    _authorityFence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
     final saved = ref
         .read(adminPendingAttemptStoreProvider)
         .restore(family: _family, resourceId: _resource, schema: _schema);
@@ -366,7 +374,9 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
       mounted &&
       _authority != null &&
       ref.read(cloudflareAdminSessionProvider).asData?.value?.authorityKey ==
-          _authority;
+          _authority &&
+      ref.read(cloudflareAdminSessionProvider.notifier).authorityFence ==
+          _authorityFence;
   bool get _locked => _busy || _unknown;
   bool _validPayeeReview(Map<String, dynamic> payee) {
     final label = payee['label'], route = payee['momo_number_or_code'];
@@ -508,6 +518,10 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
   }
 
   Future<void> _send(Map<String, dynamic> body, String key) async {
+    final fence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
+    if (!_current || !cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
     try {
       final store = ref.read(adminPendingAttemptStoreProvider);
       store.retain(
@@ -528,7 +542,7 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
       final receipt = await ref
           .read(cloudflareAdminReceiverApiProvider)
           .submit(key: key, body: body, revokeId: widget.grant?.id);
-      if (!_current) return;
+      if (!_current || !cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
       _clear();
       setState(() {
         _key = null;
@@ -536,9 +550,10 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
         _unknown = false;
         _message = 'Capture change saved. Request ${receipt.requestId}';
       });
+      refreshCloudflareAdminData(ref, fence);
       widget.onSaved();
     } catch (error) {
-      if (!_current) return;
+      if (!_current || !cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
       final unknown =
           error is CloudflareAdminRequestException &&
               (error.outcomeUnknown || error.code == 'request_pending') ||
@@ -555,12 +570,18 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
         _intent = null;
       }
     } finally {
-      if (_current) setState(() => _busy = false);
+      if (_current && cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        setState(() => _busy = false);
+      }
     }
   }
 
   Future<void> _recover() async {
     if (_busy || _key == null) return;
+    final fence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
+    if (!_current || !cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
     setState(() {
       _busy = true;
       _retry = false;
@@ -569,7 +590,7 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
       final receipt = await ref
           .read(cloudflareAdminReceiverApiProvider)
           .lookup(_key!, revokeId: widget.grant?.id);
-      if (!_current) return;
+      if (!_current || !cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
       if (receipt == null) {
         if (widget.grant == null) {
           final intent = _intent!;
@@ -578,12 +599,16 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
           final device = await repo.gatewayDevice(
             intent['device_id'] as String,
           );
-          if (!_current) return;
+          if (!_current || !cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+            return;
+          }
           final payee = await repo.operatingDetail(
             'payees',
             intent['payee_id'] as String,
           );
-          if (!_current) return;
+          if (!_current || !cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+            return;
+          }
           if (!_validPayeeReview(payee.resource)) {
             throw const AdminAccountException(
               'The original payee name and MoMo route could not be verified. The request remains locked; check its original receipt before another change.',
@@ -614,12 +639,17 @@ class _GrantFormState extends ConsumerState<CloudflareReceiverGrantForm> {
           _key = null;
           _message = 'Capture change saved. Request ${receipt.requestId}';
         });
+        refreshCloudflareAdminData(ref, fence);
         widget.onSaved();
       }
     } catch (error) {
-      if (_current) setState(() => _message = gatewayErrorMessage(error));
+      if (_current && cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        setState(() => _message = gatewayErrorMessage(error));
+      }
     } finally {
-      if (_current) setState(() => _busy = false);
+      if (_current && cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        setState(() => _busy = false);
+      }
     }
   }
 

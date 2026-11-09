@@ -11,6 +11,7 @@ import 'admin_account_api.dart';
 import 'admin_display_formatters.dart';
 import 'admin_models.dart';
 import 'admin_pending_attempt_store.dart';
+import 'cloudflare_admin_data_refresh.dart';
 import 'cloudflare_admin_session.dart';
 import 'cloudflare_admin_sms_api.dart';
 
@@ -25,8 +26,9 @@ typedef _ListQuery = ({
 });
 typedef _DetailQuery = ({String kind, String id, int offset});
 final _receiptsProvider = FutureProvider.autoDispose
-    .family<SmsReceiptPage<SmsReceiptSource>, _ListQuery>(
-      (ref, query) => ref
+    .family<SmsReceiptPage<SmsReceiptSource>, _ListQuery>((ref, query) {
+      ref.watch(cloudflareAdminDataRevisionProvider);
+      return ref
           .watch(cloudflareAdminSmsApiProvider)
           .receipts(
             search: query.search,
@@ -36,8 +38,8 @@ final _receiptsProvider = FutureProvider.autoDispose
             duplicates: query.duplicates,
             offset: query.offset,
             limit: query.limit,
-          ),
-    );
+          );
+    });
 final _detailProvider = FutureProvider.autoDispose
     .family<SmsReceiptDetail, _DetailQuery>(
       (ref, query) => ref
@@ -560,7 +562,7 @@ class _ReceiptDetailState
       authority != null &&
       authority ==
           ref.read(cloudflareAdminSessionProvider).asData?.value?.authorityKey;
-  void _accepted(SmsExtractionReceipt receipt) {
+  void _accepted(SmsExtractionReceipt receipt, Object fence) {
     _forget();
     setState(() {
       _receipt = receipt;
@@ -573,6 +575,7 @@ class _ReceiptDetailState
           'Extraction recorded. The server receipt confirms saved facts; payment and settlement are not asserted.';
     });
     ref.invalidate(_detailProvider(_query));
+    refreshCloudflareAdminData(ref, fence);
   }
 
   Future<void> _submit([SmsReceiptSource? source]) async {
@@ -580,6 +583,10 @@ class _ReceiptDetailState
     final api = ref.read(cloudflareAdminSmsApiProvider),
         authority = _authority,
         epoch = _actionEpoch;
+    final fence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
+    if (!cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
     try {
       final attempt = _attempt ?? api.extract(source!, _reason.text);
       _remember(attempt);
@@ -590,9 +597,13 @@ class _ReceiptDetailState
         _message = null;
       });
       final receipt = await api.submit(attempt);
-      if (_same(authority, epoch)) _accepted(receipt);
+      if (_same(authority, epoch) &&
+          cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        _accepted(receipt, fence);
+      }
     } catch (error) {
-      if (_same(authority, epoch)) {
+      if (_same(authority, epoch) &&
+          cloudflareAdminAuthorityIsCurrent(ref, fence)) {
         final unknown =
             error is CloudflareAdminRequestException &&
             (error.outcomeUnknown || error.code == 'request_pending');
@@ -607,13 +618,20 @@ class _ReceiptDetailState
         if (!unknown) _forget();
       }
     } finally {
-      if (_same(authority, epoch)) setState(() => _busy = false);
+      if (_same(authority, epoch) &&
+          cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        setState(() => _busy = false);
+      }
     }
   }
 
   Future<void> _recover() async {
     if (_busy || _attempt == null) return;
     final authority = _authority, attempt = _attempt!, epoch = _actionEpoch;
+    final fence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
+    if (!cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
     setState(() {
       _busy = true;
       _retryAllowed = false;
@@ -622,9 +640,12 @@ class _ReceiptDetailState
       final lookup = await ref
           .read(cloudflareAdminSmsApiProvider)
           .lookup(attempt);
-      if (!_same(authority, epoch)) return;
+      if (!_same(authority, epoch) ||
+          !cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        return;
+      }
       if (lookup.receipt != null) {
-        _accepted(lookup.receipt!);
+        _accepted(lookup.receipt!, fence);
       } else if (lookup.status == 'failed') {
         _forget();
         setState(() {
@@ -644,9 +665,15 @@ class _ReceiptDetailState
         });
       }
     } catch (error) {
-      if (_same(authority, epoch)) setState(() => _message = _error(error));
+      if (_same(authority, epoch) &&
+          cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        setState(() => _message = _error(error));
+      }
     } finally {
-      if (_same(authority, epoch)) setState(() => _busy = false);
+      if (_same(authority, epoch) &&
+          cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        setState(() => _busy = false);
+      }
     }
   }
 

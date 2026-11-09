@@ -15,6 +15,7 @@ class CloudflareOperatingDetailPage extends ConsumerStatefulWidget {
 
 class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
   late Future<CloudflareOperatingDetail> _future;
+  int _readEpoch = 0;
   bool _paging = false;
   bool _hasLiveChanges = false;
   String? _pageError;
@@ -31,6 +32,9 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
   }
 
   void _load() {
+    _readEpoch++;
+    _paging = false;
+    _pageError = null;
     _future = _repository(ref).operatingDetail(widget.type, widget.id);
   }
 
@@ -44,6 +48,7 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
     int offset,
   ) async {
     if (_paging) return;
+    final epoch = _readEpoch;
     setState(() {
       _paging = true;
       _pageError = null;
@@ -57,7 +62,7 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
         limit: page.limit,
         offset: offset,
       );
-      if (!mounted) return;
+      if (!mounted || epoch != _readEpoch) return;
       // A changed resource needs fresh complete detail before any financial action.
       if (fetched.version != current.version) {
         setState(_load);
@@ -76,9 +81,11 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
       );
       setState(() => _future = Future.value(merged));
     } catch (failure) {
-      if (mounted) setState(() => _pageError = _safeOperatingError(failure));
+      if (mounted && epoch == _readEpoch) {
+        setState(() => _pageError = _safeOperatingError(failure));
+      }
     } finally {
-      if (mounted) setState(() => _paging = false);
+      if (mounted && epoch == _readEpoch) setState(() => _paging = false);
     }
   }
 
@@ -228,10 +235,13 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
             onPressed: loading ? null : _refresh,
             icon: const Icon(Icons.refresh),
           ),
-          child: loading
-              ? const AdminLoadingState(title: 'Loading record')
-              : snapshot.hasError
-              ? Column(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (loading)
+                const AdminLoadingState(title: 'Loading record')
+              else if (snapshot.hasError)
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _OperatingMessage(
@@ -244,48 +254,49 @@ class _DetailPageState extends ConsumerState<CloudflareOperatingDetailPage> {
                     ),
                   ],
                 )
-              : detail == null
-              ? const AdminEmptyState(
+              else if (detail == null)
+                const AdminEmptyState(
                   title: 'Record unavailable',
                   message: 'Return to the list and refresh.',
                 )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    if (_hasLiveChanges)
-                      const _OperatingMessage(
-                        'New changes are available. Refresh this record before starting another action. Your current form is unchanged.',
-                      ),
-                    _RecordFacts(
-                      detail.resource,
-                      _fieldsForResource(detail.type),
-                    ),
-                    const SizedBox(height: 20),
-                    _OperatingPendingRequests(
-                      key: ValueKey('${detail.type}:${detail.id}'),
-                      type: detail.type,
-                      id: detail.id,
-                    ),
-                    _actions(detail),
-                    const SizedBox(height: 24),
-                    if (detail.usesCanonicalEvidence &&
-                        {'groups', 'users'}.contains(detail.type)) ...[
-                      CloudflareOperatorNotes(
-                        key: ValueKey('notes:${detail.type}:${detail.id}'),
-                        type: detail.type,
-                        id: detail.id,
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                    for (final entry in detail.related.entries) ...[
-                      _relatedSection(detail, entry.key, entry.value),
-                      _relatedPager(detail, entry.key),
-                      const SizedBox(height: 24),
-                    ],
-                    if (_pageError != null)
-                      _OperatingMessage(_pageError!, error: true),
-                  ],
-                ),
+              else ...[
+                if (_hasLiveChanges)
+                  const _OperatingMessage(
+                    'New changes are available. Refresh this record before starting another action. Your current form is unchanged.',
+                  ),
+                _RecordFacts(detail.resource, _fieldsForResource(detail.type)),
+              ],
+              const SizedBox(height: 20),
+              // Keep the original receipt and recovery controls mounted while
+              // the newly confirmed record is loading or temporarily fails.
+              _OperatingPendingRequests(
+                key: ValueKey('${widget.type}:${widget.id}'),
+                type: widget.type,
+                id: widget.id,
+                onRecovered: _refresh,
+              ),
+              if (!loading && !snapshot.hasError && detail != null) ...[
+                _actions(detail),
+                const SizedBox(height: 24),
+                if (detail.usesCanonicalEvidence &&
+                    {'groups', 'users'}.contains(detail.type)) ...[
+                  CloudflareOperatorNotes(
+                    key: ValueKey('notes:${detail.type}:${detail.id}'),
+                    type: detail.type,
+                    id: detail.id,
+                  ),
+                  const SizedBox(height: 24),
+                ],
+                for (final entry in detail.related.entries) ...[
+                  _relatedSection(detail, entry.key, entry.value),
+                  _relatedPager(detail, entry.key),
+                  const SizedBox(height: 24),
+                ],
+                if (_pageError != null)
+                  _OperatingMessage(_pageError!, error: true),
+              ],
+            ],
+          ),
         );
       },
     );
@@ -546,9 +557,11 @@ class _OperatingPendingRequests extends ConsumerStatefulWidget {
   const _OperatingPendingRequests({
     required this.type,
     required this.id,
+    required this.onRecovered,
     super.key,
   });
   final String type, id;
+  final VoidCallback onRecovered;
 
   @override
   ConsumerState<_OperatingPendingRequests> createState() =>
@@ -683,7 +696,13 @@ class _OperatingPendingRequestsState
       return;
     }
     final authority = _authority, epoch = ++_epoch;
-    if (!_current(authority, epoch, attempt)) return;
+    final fence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
+    if (!_current(authority, epoch, attempt) ||
+        !cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+      return;
+    }
     final key = attempt.checkpoint.requestKey;
     setState(() {
       _checking = key;
@@ -691,7 +710,10 @@ class _OperatingPendingRequestsState
     });
     try {
       final result = await _repository(ref).operatingRequest(key);
-      if (!_current(authority, epoch, attempt)) return;
+      if (!_current(authority, epoch, attempt) ||
+          !cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        return;
+      }
       if (result['status'] == 'succeeded') {
         final receipt = CloudflareOperationReceipt.parse(
           Map<String, dynamic>.from(result['receipt'] as Map),
@@ -717,6 +739,8 @@ class _OperatingPendingRequestsState
           _statuses[key] = 'Saved';
           _checking = _message = null;
         });
+        refreshCloudflareAdminData(ref, fence);
+        widget.onRecovered();
       } else {
         setState(() {
           _statuses[key] = switch (result['status']) {

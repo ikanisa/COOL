@@ -380,6 +380,10 @@ class _RequestPageState extends ConsumerState<CloudflareOperatingRequestPage> {
 
   Future<void> _check() async {
     if (_busy || !_current) return;
+    final fence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
+    if (!cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
     final key = _key.text.trim(), generation = ++_lookupEpoch;
     setState(() {
       _busy = true;
@@ -390,8 +394,15 @@ class _RequestPageState extends ConsumerState<CloudflareOperatingRequestPage> {
     });
     try {
       final result = await _repository(ref).operatingRequest(key);
-      if (_current && generation == _lookupEpoch && key == _key.text.trim()) {
+      if (_current &&
+          generation == _lookupEpoch &&
+          key == _key.text.trim() &&
+          cloudflareAdminAuthorityIsCurrent(ref, fence)) {
         _accept(result, key);
+        if (_receipt != null) {
+          refreshCloudflareAdminData(ref, fence);
+          _loadRecent();
+        }
       }
     } catch (error) {
       if (_current && generation == _lookupEpoch) {
@@ -444,6 +455,9 @@ class _RequestPageState extends ConsumerState<CloudflareOperatingRequestPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen(adminRealtimeTickProvider, (_, _) {
+      if (_current && !_busy) _loadRecent();
+    });
+    ref.listen(cloudflareAdminDataRevisionProvider, (_, _) {
       if (_current && !_busy) _loadRecent();
     });
     final user = ref.watch(cloudflareAdminSessionProvider).asData?.value;

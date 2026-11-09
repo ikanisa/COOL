@@ -10,6 +10,7 @@ import 'admin_pending_attempt_store.dart';
 import 'admin_display_formatters.dart';
 import 'admin_models.dart';
 import 'admin_repository_base.dart' show adminRealtimeTickProvider;
+import 'cloudflare_admin_data_refresh.dart';
 import 'cloudflare_admin_reconciliation_api.dart';
 import 'cloudflare_admin_session.dart';
 
@@ -29,6 +30,7 @@ final _queueProvider = FutureProvider.autoDispose
       query,
     ) {
       ref.watch(adminRealtimeTickProvider);
+      ref.watch(cloudflareAdminDataRevisionProvider);
       return ref
           .watch(cloudflareReconciliationApiProvider)
           .queue(

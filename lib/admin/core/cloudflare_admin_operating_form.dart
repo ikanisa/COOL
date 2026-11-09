@@ -64,6 +64,7 @@ class _OperatingFormState extends ConsumerState<CloudflareOperatingForm> {
   String? _error, _unknownKey;
   CloudflareOperationReceipt? _receipt;
   Object? _authority;
+  Object? _authorityFence;
   String get _recoveryFamily =>
       'operating-${widget.operation.name.toLowerCase()}';
   String? get _target =>
@@ -78,6 +79,8 @@ class _OperatingFormState extends ConsumerState<CloudflareOperatingForm> {
     final user = ref.read(cloudflareAdminSessionProvider).asData?.value;
     return user != null &&
         user.authorityKey == _authority &&
+        ref.read(cloudflareAdminSessionProvider.notifier).authorityFence ==
+            _authorityFence &&
         user.expiresAt.isAfter(DateTime.now()) &&
         user.permissions.contains(_permission) &&
         (user.role != AdminAccountRole.staff ||
@@ -161,6 +164,9 @@ class _OperatingFormState extends ConsumerState<CloudflareOperatingForm> {
         .asData
         ?.value
         ?.authorityKey;
+    _authorityFence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
     _fields = [
       ...(_canonical
               ? _canonicalFieldsFor(widget.operation)
@@ -788,16 +794,20 @@ class _OperatingFormState extends ConsumerState<CloudflareOperatingForm> {
       _canRetryIdentical = false;
     });
     _pendingBody = body;
+    final fence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
     try {
       final receipt = await _repository(
         ref,
       ).operate(widget.operation, id: _target, key: key, body: body);
-      if (!_current) return;
+      if (!_current || !cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
       _forgetAttempt();
       setState(() {
         _receipt = receipt;
         _unknownKey = null;
       });
+      refreshCloudflareAdminData(ref, fence);
       widget.onSaved?.call();
     } catch (error) {
       if (!_current) return;
@@ -820,13 +830,16 @@ class _OperatingFormState extends ConsumerState<CloudflareOperatingForm> {
 
   Future<void> _check() async {
     if (_unknownKey == null || _checking || !_current) return;
+    final fence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
     setState(() {
       _checking = true;
       _canRetryIdentical = false;
     });
     try {
       final result = await _repository(ref).operatingRequest(_unknownKey!);
-      if (!_current) return;
+      if (!_current || !cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
       if (result['status'] == 'succeeded') {
         final receipt = CloudflareOperationReceipt.parse(
           Map<String, dynamic>.from(result['receipt'] as Map),
@@ -848,6 +861,7 @@ class _OperatingFormState extends ConsumerState<CloudflareOperatingForm> {
           _unknownKey = null;
           _error = null;
         });
+        refreshCloudflareAdminData(ref, fence);
         widget.onSaved?.call();
       } else if (result['status'] == 'cancelled') {
         _forgetAttempt();
@@ -956,6 +970,15 @@ class _OperatingFormState extends ConsumerState<CloudflareOperatingForm> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(cloudflareAdminSessionProvider).asData?.value;
+    if (user != null &&
+        (user.authorityKey != _authority ||
+            ref.read(cloudflareAdminSessionProvider.notifier).authorityFence !=
+                _authorityFence ||
+            !user.expiresAt.isAfter(DateTime.now()))) {
+      return const _OperatingMessage(
+        'Your account access changed. Reopen this form with the current session.',
+      );
+    }
     if (user == null ||
         widget.detail?.canManage == false ||
         widget.detail?.allows(widget.operation) == false ||

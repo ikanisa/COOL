@@ -140,6 +140,10 @@ class _DetailState extends ConsumerState<CloudflareReconciliationDetailPage> {
 
   Future<void> _send(ReconciliationAttempt attempt) async {
     if (_busy) return;
+    final fence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
+    if (!cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
     setState(() {
       _attempt = attempt;
       _busy = true;
@@ -154,10 +158,18 @@ class _DetailState extends ConsumerState<CloudflareReconciliationDetailPage> {
       final receipt = await ref
           .read(cloudflareReconciliationApiProvider)
           .submit(attempt);
-      if (!mounted || widget.transactionId != attempt.transactionId) return;
-      _accepted(receipt);
+      if (!mounted ||
+          widget.transactionId != attempt.transactionId ||
+          !cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        return;
+      }
+      _accepted(receipt, fence);
     } catch (error) {
-      if (!mounted || widget.transactionId != attempt.transactionId) return;
+      if (!mounted ||
+          widget.transactionId != attempt.transactionId ||
+          !cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        return;
+      }
       setState(() {
         _busy = false;
         _unknown =
@@ -173,7 +185,7 @@ class _DetailState extends ConsumerState<CloudflareReconciliationDetailPage> {
     }
   }
 
-  void _accepted(ReconciliationReceipt receipt) {
+  void _accepted(ReconciliationReceipt receipt, Object fence) {
     _forgetAttempt();
     setState(() {
       _receipt = receipt;
@@ -195,6 +207,7 @@ class _DetailState extends ConsumerState<CloudflareReconciliationDetailPage> {
     });
     ref.invalidate(_detailProvider(_detailQuery));
     ref.invalidate(_membersProvider(_memberQuery));
+    refreshCloudflareAdminData(ref, fence);
   }
 
   void _forgetAttempt() {
@@ -206,6 +219,10 @@ class _DetailState extends ConsumerState<CloudflareReconciliationDetailPage> {
   Future<void> _recover() async {
     final attempt = _attempt;
     if (attempt == null || _busy) return;
+    final fence = ref
+        .read(cloudflareAdminSessionProvider.notifier)
+        .authorityFence;
+    if (!cloudflareAdminAuthorityIsCurrent(ref, fence)) return;
     setState(() {
       _busy = true;
       _retryAllowed = false;
@@ -215,9 +232,13 @@ class _DetailState extends ConsumerState<CloudflareReconciliationDetailPage> {
       final lookup = await ref
           .read(cloudflareReconciliationApiProvider)
           .lookup(attempt);
-      if (!mounted || widget.transactionId != attempt.transactionId) return;
+      if (!mounted ||
+          widget.transactionId != attempt.transactionId ||
+          !cloudflareAdminAuthorityIsCurrent(ref, fence)) {
+        return;
+      }
       if (lookup.receipt != null) {
-        _accepted(lookup.receipt!);
+        _accepted(lookup.receipt!, fence);
       } else {
         setState(() {
           _busy = false;
@@ -228,7 +249,9 @@ class _DetailState extends ConsumerState<CloudflareReconciliationDetailPage> {
         });
       }
     } catch (error) {
-      if (mounted && widget.transactionId == attempt.transactionId) {
+      if (mounted &&
+          widget.transactionId == attempt.transactionId &&
+          cloudflareAdminAuthorityIsCurrent(ref, fence)) {
         setState(() {
           _busy = false;
           _message = _error(error);

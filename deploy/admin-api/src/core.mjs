@@ -97,16 +97,25 @@ export const SYSTEM_PEOPLE_QUERY = `SELECT u.id,u.id AS collect_user_id,u.operat
   u.email,u.phone_e164,u.status,u.created_at,u.updated_at,u.version,u.member_type,
   COALESCE(p.public_id,i.public_id) AS public_id,(CASE WHEN p.display_name_recorded=1 THEN p.display_name END) AS display_name,p.momo_provider,p.momo_number,p.momo_pay_code,
   a.role AS operator_role,a.status AS operator_status,ai.public_id AS operator_public_id,
-  COALESCE((SELECT sum(x.amount_rwf) FROM collect_payment_allocations x JOIN collect_transactions t ON t.id=x.transaction_id
-    WHERE x.member_user_id=u.id AND t.verification_status='confirmation_recorded'),0) AS total_contributed_rwf,
-  COALESCE((SELECT sum(x.amount_rwf) FROM collect_payment_allocations x JOIN collect_transactions t ON t.id=x.transaction_id
-    JOIN collect_journals j ON j.allocation_id=x.id AND j.status='posted'
-    WHERE x.member_user_id=u.id AND t.verification_status='confirmation_recorded'),0) AS posted_contributed_rwf,
+  COALESCE(contributions.total_contributed_rwf,0) AS total_contributed_rwf,
+  COALESCE(contributions.posted_contributed_rwf,0) AS posted_contributed_rwf,
   COALESCE((SELECT group_concat(g.title,' ') FROM collect_memberships m JOIN collect_groups g ON g.id=m.group_id
     WHERE m.user_id=u.id AND m.status='active'),'') AS group_names,
   COALESCE((SELECT group_concat(m.role,' ') FROM collect_memberships m WHERE m.user_id=u.id AND m.status='active'),'') AS group_roles,
   (SELECT count(*) FROM collect_memberships m WHERE m.user_id=u.id AND m.status='active') AS active_groups,COALESCE(p.display_name_recorded,0) AS display_name_recorded
   FROM collect_users u LEFT JOIN collect_profiles p ON p.user_id=u.id
+  -- allocation_id is UNIQUE on journals. Amounts are nonnegative integers;
+  -- total() remains exact within the safe range and avoids SQLite overflow for
+  -- unrelated people. An out-of-range total reaches the existing row guard.
+  LEFT JOIN (SELECT x.member_user_id,
+    CASE WHEN total(x.amount_rwf)>9007199254740991 THEN 9007199254740992
+      ELSE CAST(total(x.amount_rwf) AS INTEGER) END AS total_contributed_rwf,
+    CASE WHEN total(CASE WHEN j.id IS NOT NULL THEN x.amount_rwf ELSE 0 END)>9007199254740991 THEN 9007199254740992
+      ELSE CAST(total(CASE WHEN j.id IS NOT NULL THEN x.amount_rwf ELSE 0 END) AS INTEGER) END AS posted_contributed_rwf
+    FROM collect_payment_allocations x JOIN collect_transactions t ON t.id=x.transaction_id
+    LEFT JOIN collect_journals j ON j.allocation_id=x.id AND j.status='posted'
+    WHERE t.verification_status='confirmation_recorded' AND x.member_user_id IS NOT NULL
+    GROUP BY x.member_user_id) contributions ON contributions.member_user_id=u.id
   LEFT JOIN collect_public_identities i ON i.collect_user_id=u.id
   LEFT JOIN admin_users a ON a.id=u.operator_admin_id LEFT JOIN collect_public_identities ai ON ai.admin_user_id=a.id
   UNION ALL SELECT a.id,NULL,a.id,a.email,NULL,a.status,a.created_at,a.updated_at,NULL,NULL,

@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:collect_app/admin/cloudflare_admin_app.dart';
 import 'package:collect_app/admin/core/cloudflare_admin_repository.dart';
 import 'package:collect_app/admin/core/cloudflare_admin_core_pages.dart';
+import 'package:collect_app/admin/core/cloudflare_admin_data_refresh.dart';
 import 'package:collect_app/admin/core/cloudflare_admin_session.dart';
 import 'package:collect_app/admin/core/admin_repository_base.dart';
+import 'package:collect_app/admin/shared/components/admin_data_table.dart';
 import 'package:collect_app/main_admin_cloudflare.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,6 +31,8 @@ Future<ProviderContainer> pumpCore(
   Future<http.Response> Function(http.Request) respond, {
   List<String>? permissions,
   String role = 'admin',
+  bool canonical = false,
+  void Function()? onOverviewRead,
 }) async {
   tester.view.physicalSize = const Size(1440, 1000);
   tester.view.devicePixelRatio = 1;
@@ -38,6 +43,10 @@ Future<ProviderContainer> pumpCore(
       if (request.url.path.endsWith('/auth/session')) {
         final session = coreSession(permissions: permissions);
         (session['user'] as Map<String, dynamic>)['role'] = role;
+        if (canonical) {
+          (session['user'] as Map<String, dynamic>)['financialModel'] =
+              'canonical_evidence_ledger';
+        }
         return response(jsonEncode(session), 200);
       }
       if (request.url.path.endsWith('/sync')) {
@@ -51,7 +60,16 @@ Future<ProviderContainer> pumpCore(
         );
       }
       if (request.url.path.endsWith('/core/overview')) {
-        return response(jsonEncode(coreOverview()), 200);
+        onOverviewRead?.call();
+        final overview = canonical
+            ? (jsonDecode(
+                    File(
+                      'test/admin/admin-dto-examples.json',
+                    ).readAsStringSync(),
+                  )
+                  as Map)['overview']
+            : coreOverview();
+        return response(jsonEncode(overview), 200);
       }
       return respond(request);
     }),
@@ -123,6 +141,15 @@ void main() {
       expect(router.routeInformationProvider.value.uri.toString(), location);
       expect(find.text('26–26 of 26'), findsOneWidget);
       expect(container.read(adminLastSuccessfulRefreshProvider), isNotNull);
+      final beforeRevision = queries.length;
+      container.read(cloudflareAdminDataRevisionProvider.notifier).state++;
+      await tester.pumpAndSettle();
+      expect(queries.length, greaterThan(beforeRevision));
+      expect(queries.last, containsPair('search', 'example'));
+      expect(queries.last, containsPair('status', 'active'));
+      expect(queries.last, containsPair('sort', 'created_at_asc'));
+      expect(queries.last, containsPair('offset', '25'));
+      expect(router.routeInformationProvider.value.uri.toString(), location);
       final table = tester.widget<DataTable>(find.byType(DataTable));
       final created = table.columns.indexWhere(
         (column) => (column.label as Text).data == 'Created · Kigali',
@@ -157,6 +184,59 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );
+  for (final canonical in [false, true]) {
+    testWidgets(
+      '${canonical ? 'Canonical' : 'Legacy'} overview keeps its data basis and refreshes after a revision',
+      (tester) async {
+        var reads = 0;
+        final container = await pumpCore(
+          tester,
+          (_) async => response('{"rows":[],"total":0}', 200),
+          canonical: canonical,
+          onOverviewRead: () => reads++,
+        );
+        final summary = tester.widget<AdminDataTable>(
+          find.byKey(const ValueKey('admin-all-workspace-totals')),
+        );
+        final amountLabel = canonical
+            ? 'Unallocated evidence amount'
+            : 'Total unallocated';
+        final amount = summary.rows.singleWhere(
+          (row) => row.title == amountLabel,
+        );
+        final basis = summary.columns!.singleWhere(
+          (column) => column.label == 'Data basis',
+        );
+        expect(
+          basis.value(amount),
+          canonical
+              ? 'Retained payment evidence'
+              : 'Non-rejected transactions, less allocations',
+        );
+        if (canonical) {
+          expect(find.text('Unallocated evidence amount'), findsOneWidget);
+          expect(find.text('Retained payment evidence'), findsWidgets);
+          expect(
+            find.text('Non-rejected transactions, less allocations'),
+            findsNothing,
+          );
+        } else {
+          expect(find.text('Total unallocated'), findsOneWidget);
+          expect(
+            find.text('Non-rejected transactions, less allocations'),
+            findsOneWidget,
+          );
+          expect(find.text('Confirmed recorded payments'), findsWidgets);
+        }
+        final beforeRevision = reads;
+        container.read(cloudflareAdminDataRevisionProvider.notifier).state++;
+        await tester.pumpAndSettle();
+        expect(reads, greaterThan(beforeRevision));
+        container.read(cloudflareAdminSessionProvider.notifier).clear();
+        await tester.pumpWidget(const SizedBox.shrink());
+      },
+    );
+  }
   testWidgets(
     'all six registered routes expose authoritative empty lists and sidebar navigation',
     (tester) async {

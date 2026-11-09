@@ -3,9 +3,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { DatabaseSync } from 'node:sqlite';
 import { build } from 'esbuild';
 import { Miniflare, convertV4MiniflareOptions } from 'miniflare';
-import { CORE_READ_PERMISSIONS, CoreReadError, handleCoreRead } from '../src/core.mjs';
+import { CORE_READ_PERMISSIONS, CoreReadError, handleCoreRead, personRow, SYSTEM_PEOPLE_QUERY } from '../src/core.mjs';
 import { OPERATIONS_MANAGE_PERMISSIONS, OPERATIONS_CREATE_PERMISSIONS } from '../src/operations.mjs';
 import { digest, randomToken } from '../src/security.mjs';
 import { prepareTransactionPublicReference,reviewedMemberSmsLinkStatements } from '../src/admin-sms.mjs';
@@ -336,4 +337,84 @@ test('smart tables sort the whole query and interpret bounded concepts without w
   assert.equal((await get('groups?search='+encodeURIComponent('name:"Alpha savings"'))).body.total,1);
   for(const query of ['sort=amount_rwf_desc','sort=constructor_asc','sort=title_desc%3BDROP%20TABLE%20admin_users','search=private_field:secret'])assert.equal((await get('groups?'+query)).status,400);
   assert.deepEqual(await first('SELECT count(*) AS n FROM collect_operation_requests'),before);
+});
+
+test('directory contribution totals retain person, confirmation and posting boundaries when sorted and paged', async () => {
+  const f=fixture,extra=uuid(),other=uuid(),unassigned=uuid(),draft=uuid();
+  await run("UPDATE collect_memberships SET status='active',joined_at=?,version=version+1 WHERE group_id=? AND user_id=?",timestamp,f.group,f.user2);
+  for(const [id,member,amount] of [[extra,f.user,400],[other,f.user2,100],[unassigned,null,100]]) {
+    await run('INSERT INTO collect_payment_allocations(id,transaction_id,group_id,member_user_id,amount_rwf,operation_request_id,created_by_admin_id,created_at) VALUES(?,?,?,?,?,?,?,?)',id,f.tx,f.group,member,amount,await operation('payment.allocate'),owner.id,timestamp);
+  }
+  // Pending transactions must not contribute even when an allocation exists.
+  await run('INSERT INTO collect_payment_allocations(id,transaction_id,group_id,member_user_id,amount_rwf,operation_request_id,created_by_admin_id,created_at) VALUES(?,?,?,?,50,?,?,?)',uuid(),f.tx2,f.group2,f.user,await operation('payment.allocate'),owner.id,timestamp);
+  await run('INSERT INTO collect_journals(id,group_id,transaction_id,allocation_id,operation_request_id,description,created_by_admin_id,created_at) VALUES(?,?,?,?,?,?,?,?)',draft,f.group,f.tx,extra,await operation('journal.create'),'Directory contribution fixture draft',owner.id,timestamp);
+  for(const [account,line,debit,credit] of [[f.debit,1,400,0],[f.credit,2,0,400]]) {
+    await run('INSERT INTO collect_journal_entries(id,journal_id,group_id,account_id,line_number,debit_rwf,credit_rwf) VALUES(?,?,?,?,?,?,?)',uuid(),draft,f.group,account,line,debit,credit);
+  }
+  // An allocation whose confirmation was later rejected must not count.
+  const rejected=uuid(),evidence=uuid(),excluded=uuid();
+  await run("INSERT INTO collect_transactions(id,group_id,payee_id,network,provider_reference,amount_rwf,recorded_by_admin_id,observed_at,created_at) VALUES(?,?,?,'mtn_momo',?,50,?,?,?)",rejected,f.group,f.payee,'DIRECTORY-EXCLUDED-'+rejected,owner.id,timestamp,timestamp);
+  await run("INSERT INTO collect_transaction_evidence(id,transaction_id,kind,reference,artifact_sha256,recorded_by_admin_id,operation_request_id,recorded_at) VALUES(?,?,'receiver_statement','Directory independent source fixture',?,?,?,?)",evidence,rejected,'c'.repeat(64),owner.id,await operation('payment.evidence'),timestamp);
+  for(const [version,outcome,time] of [[2,'confirmation_recorded',timestamp],[3,'rejection_recorded',timestamp+1]]) {
+    await run('INSERT INTO collect_transaction_reviews(id,transaction_id,evidence_id,outcome,transaction_version,reviewed_by_admin_id,operation_request_id,reason,reviewed_at) VALUES(?,?,?,?,?,?,?,\'Independent directory fixture review\',?)',uuid(),rejected,evidence,outcome,version,admin.id,await operation('payment.review'),time);
+    await run('UPDATE collect_transactions SET verification_status=?,verified_by_admin_id=?,verified_at=?,version=? WHERE id=?',outcome,admin.id,time,version,rejected);
+    if(version===2) await run('INSERT INTO collect_payment_allocations(id,transaction_id,group_id,member_user_id,amount_rwf,operation_request_id,created_by_admin_id,created_at) VALUES(?,?,?,?,50,?,?,?)',excluded,rejected,f.group,f.user,await operation('payment.allocate'),owner.id,timestamp);
+  }
+  const before=await first('SELECT count(*) AS n FROM collect_operation_requests');
+  for(const area of ['users','members']) {
+    const result=await get(`${area}?sort=total_contributed_rwf_desc&limit=1`);
+    assert.equal(result.status,200,JSON.stringify(result.body));assert.equal(result.body.rows[0].id,f.user);
+    assert.equal(result.body.rows[0].total_contributed_rwf,1000);assert.equal(result.body.rows[0].posted_contributed_rwf,600);
+    const next=await get(`${area}?sort=total_contributed_rwf_desc&limit=1&offset=1`);
+    assert.equal(next.status,200,JSON.stringify(next.body));assert.equal(next.body.rows[0].id,f.user2);
+    assert.equal(next.body.rows[0].total_contributed_rwf,100);assert.equal(next.body.rows[0].posted_contributed_rwf,0);
+    const posted=await get(`${area}?search=group:Alpha&sort=posted_contributed_rwf_desc&limit=100`);
+    assert.equal(posted.status,200);assert.equal(posted.body.rows[0].id,f.user);
+    assert.equal(posted.body.rows.filter(row=>row.id===f.user).length,1);
+    assert.ok(posted.body.rows.filter(row=>row.id!==f.user).every(row=>row.posted_contributed_rwf===0));
+  }
+  const operators=(await get('users?search=type:admin')).body.rows;
+  assert.ok(operators.length>0);assert.ok(operators.every(row=>row.total_contributed_rwf===0&&row.posted_contributed_rwf===0));
+  const overview=(await get('overview')).body;
+  assert.equal(overview.amounts.total_allocated_rwf,'1200');assert.equal(overview.amounts.total_posted_contributions_rwf,'600');
+  assert.deepEqual(await first('SELECT count(*) AS n FROM collect_operation_requests'),before,'Directory reads remain nonmutating');
+});
+
+test('large unrelated contribution totals cannot overflow filtered people and safe totals stay exact', async () => {
+  const sqlite=new DatabaseSync(':memory:');
+  try {
+    sqlite.exec(`CREATE TABLE collect_users(id TEXT PRIMARY KEY,operator_admin_id TEXT,email TEXT,phone_e164 TEXT,status TEXT,created_at INTEGER,updated_at INTEGER,version INTEGER,member_type TEXT);
+      CREATE TABLE collect_profiles(user_id TEXT,public_id TEXT,display_name_recorded INTEGER,display_name TEXT,momo_provider TEXT,momo_number TEXT,momo_pay_code TEXT);
+      CREATE TABLE collect_public_identities(collect_user_id TEXT,admin_user_id TEXT,public_id TEXT);
+      CREATE TABLE admin_users(id TEXT,email TEXT,status TEXT,created_at INTEGER,updated_at INTEGER,display_name TEXT,role TEXT);
+      CREATE TABLE collect_memberships(user_id TEXT,group_id TEXT,status TEXT,role TEXT);
+      CREATE TABLE collect_groups(id TEXT,title TEXT);
+      CREATE TABLE collect_transactions(id TEXT PRIMARY KEY,verification_status TEXT);
+      CREATE TABLE collect_payment_allocations(id TEXT PRIMARY KEY,transaction_id TEXT,member_user_id TEXT,amount_rwf INTEGER);
+      CREATE TABLE collect_journals(id TEXT PRIMARY KEY,allocation_id TEXT UNIQUE,status TEXT);
+      INSERT INTO collect_users VALUES('safe',NULL,NULL,NULL,'active',1,1,1,'app'),('over',NULL,NULL,NULL,'active',1,1,1,'app');
+      INSERT INTO collect_profiles VALUES('safe','123450',1,'Safe',NULL,NULL,NULL),('over','123451',1,'Over',NULL,NULL,NULL);
+      INSERT INTO collect_transactions VALUES('safe-a','confirmation_recorded'),('safe-b','confirmation_recorded');
+      INSERT INTO collect_payment_allocations VALUES('safe-a','safe-a','safe',9007199254740990),('safe-b','safe-b','safe',1);
+      INSERT INTO collect_journals VALUES('safe-j','safe-a','posted');`);
+    const transaction=sqlite.prepare('INSERT INTO collect_transactions VALUES (?,?)');
+    const allocation=sqlite.prepare('INSERT INTO collect_payment_allocations VALUES (?,?,?,?)');
+    const journal=sqlite.prepare('INSERT INTO collect_journals VALUES (?,?,?)');
+    for(let i=0;i<1030;i++) {
+      const id=`over-${i}`;
+      transaction.run(id,'confirmation_recorded');allocation.run(id,id,'over',9007199254740991n);journal.run(id,id,'posted');
+    }
+    const select=sqlite.prepare(`SELECT id,total_contributed_rwf,posted_contributed_rwf FROM (${SYSTEM_PEOPLE_QUERY}) WHERE id=?`);
+    select.setReadBigInts(true);
+    const safe=select.get('safe');
+    assert.equal(safe.total_contributed_rwf,9007199254740991n);
+    assert.equal(safe.posted_contributed_rwf,9007199254740990n);
+    const over=select.get('over');
+    assert.equal(over.total_contributed_rwf,9007199254740992n);
+    assert.equal(over.posted_contributed_rwf,9007199254740992n);
+    const d1Overflow=await first('SELECT 9007199254740992 AS amount');
+    assert.equal(Number.isSafeInteger(d1Overflow.amount),false);
+    assert.throws(() => personRow({public_id:'123451',active_groups:0,total_contributed_rwf:d1Overflow.amount,posted_contributed_rwf:d1Overflow.amount}),
+      error => error instanceof CoreReadError && error.status===503 && error.code==='invalid_source_data');
+  } finally { sqlite.close(); }
 });
