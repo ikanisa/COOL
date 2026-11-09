@@ -1,0 +1,310 @@
+{
+  "inputs": [
+    {
+      "name": "BuriMunsi_Complete_Source_v0.17.0_SMS_R1_2026-11-09.zip",
+      "drive_file_id": "1yDrsQJ2A2QireDIleuxDOKU1Lo2S7ujS",
+      "sha256": "a776ffb66bd72d843f7341e08e0465d9f14f98b5c8fe8f6b5fd5555bb57d5af9"
+    },
+    {
+      "name": "M-Money_Native_Android_v0.2.11_SMS_Source.zip",
+      "drive_file_id": "1J3If-ogB5dy76yjYXqdFFC3X1Mk_rRfL",
+      "sha256": "180db2a6e0e19c181cb8fd6096ff08155a7f0fd9b4dd9ca9a8ad230148808ae5"
+    }
+  ],
+  "files": [
+    {
+      "path": "vendor/buri/core/OperationJournal.kt",
+      "sha256": "616454470bbbcdbc730795214cac0185b943f19433d3542fe22701a99b812930",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/OperationJournal.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/core/Models.kt",
+      "sha256": "c400de5f1ae21cffabbab57044a3085320a7e1da2ae41aa4ecb69b174876ec0b",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Models.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/core/Presentation.kt",
+      "sha256": "e37889c26506b54624f1d9a63de478d59a11c3fc8244a1b106685e5405b34c81",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Presentation.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/core/SessionAuthority.kt",
+      "sha256": "28eb9f8676269ec8c19273949b5043a6402020b3fcd2d8ce331ea536aa6ab676",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/SessionAuthority.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/core/SnapshotFreshness.kt",
+      "sha256": "6ce9ea3048757c86688475adbe1f7e732548f8bf5d835733528b9f571c3cdab3",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/SnapshotFreshness.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/core/ScreenGate.kt",
+      "sha256": "80e66c4a54a6e13e7ab02078e78d348ed528a8c4c29785e25c3cb676d45ec228",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ScreenGate.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/core/GatewayHealth.kt",
+      "sha256": "a53b6f18c98bea78d7546344948f00f35c0aeb0828c046e8e6344872008a7b1e",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/GatewayHealth.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/core/ViewMemory.kt",
+      "sha256": "e269f8fb772d6742e69b255935e8cd143d83fc078f032282836a77aac08721aa",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ViewMemory.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/core/Values.kt",
+      "sha256": "802bc2a66b9ac09429c29d9b0cf2fbc577f5632d43bf74e90452bbe003b26554",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Values.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/core/Acknowledgement.kt",
+      "sha256": "b4b00d78f7693459ce7f4114f95ae46998fd747da7bd411aee23e561baa49da1",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Acknowledgement.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/core/PageIntegrity.kt",
+      "sha256": "009afeaf91e77f7ef07b3321affa08445b3d72df03315c6a7755a33550030e45",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/PageIntegrity.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/core/Receipt.kt",
+      "sha256": "8f5cf76484006305504e4b7755e9355e8479695eeeac4980925da8124cd0fcad",
+      "source": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Receipt.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/tests/CoreChecks.kt",
+      "sha256": "89d43849f637ca74f620463c8bdb575187b3dfb60f58717716c76dc348ccd96f",
+      "source": "native/burimunsi/core/src/test/kotlin/rw/ikanisa/burimunsi/core/CoreChecks.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/core/Models.kt",
+      "sha256": "0f146a6b7c91a375d54cc2c76fdcbb4de97b8ad1dbcb95e9a152d0555225cd43",
+      "source": "core/src/main/kotlin/com/ikanisa/mmoney/core/Models.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/core/PdfPresentation.kt",
+      "sha256": "c3bd5140593eb08d4971576035ad4d6db42089d8cf6535112302c7bf6650eb13",
+      "source": "core/src/main/kotlin/com/ikanisa/mmoney/core/PdfPresentation.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/core/LedgerRules.kt",
+      "sha256": "61d347b52b06abb7d35df9d9eb71543c2907b7088e86b36993f4520dffe5b5dc",
+      "source": "core/src/main/kotlin/com/ikanisa/mmoney/core/LedgerRules.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/core/ExportWriters.kt",
+      "sha256": "aabdd8cb78ced615878a23fcdd63fa2751a4b6500269866459eac191412e3bd1",
+      "source": "core/src/main/kotlin/com/ikanisa/mmoney/core/ExportWriters.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/core/ReferenceIdentity.kt",
+      "sha256": "41a56f1522146ef353b17936c5d1deaf905b69354d127e289cfca32a036362f3",
+      "source": "core/src/main/kotlin/com/ikanisa/mmoney/core/ReferenceIdentity.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/platform/IncomingSms.kt",
+      "sha256": "14e4d868a50188cca16fabd2461ef7f9fa202f27d170622856f37d8be52b0da3",
+      "source": "app/src/main/java/com/ikanisa/mmoney/platform/IncomingSms.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/platform/SmsSourceEvidence.kt",
+      "sha256": "dbce000ae15e4d04b0b56c1d974abfa51206b73709f94d1918de9839f8ab0955",
+      "source": "app/src/main/java/com/ikanisa/mmoney/platform/SmsSourceEvidence.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/platform/SmsHistoryQuery.kt",
+      "sha256": "a0c883a74db45474c259e2daec348bf3eb2f86f7aff812712acee32c281d55e1",
+      "source": "app/src/main/java/com/ikanisa/mmoney/platform/SmsHistoryQuery.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/platform/SmsObservationFactory.kt",
+      "sha256": "005ebfec83df6693da31d720c3bde47dfba44e5e920e3406fe84982f3d3e018f",
+      "source": "app/src/main/java/com/ikanisa/mmoney/platform/SmsObservationFactory.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/platform/SmsBroadcastPolicy.kt",
+      "sha256": "216a4bac606435778904ab9ffc57b58fe917d6671c39c5366ebe72dd89854ec2",
+      "source": "app/src/main/java/com/ikanisa/mmoney/platform/SmsBroadcastPolicy.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/platform/SmsMultipartEnvelope.kt",
+      "sha256": "3544eb52e89ca1f1bf2ff9b038395390106f0a2f313c92cffd8bb8735fdf82ac",
+      "source": "app/src/main/java/com/ikanisa/mmoney/platform/SmsMultipartEnvelope.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/data/IntakeIdentity.kt",
+      "sha256": "952364d57efcc476726ac8650afc9a5f94d22e7f26d483a08fe292e49f7f8ecc",
+      "source": "app/src/main/java/com/ikanisa/mmoney/data/IntakeIdentity.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/tests/SmsReliabilityContractCases.kt",
+      "sha256": "9cbf04dbab7de267286b170ba6863238306a9915667f3fb1e246c3f0f02306fe",
+      "source": "app/src/test/java/com/ikanisa/mmoney/platform/SmsReliabilityContractCases.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/mmoney/tests/SmsReliabilityProbe.kt",
+      "sha256": "074402003b9d03a49557cbf761615ff8e1ed64f1bb5f79092d0a427231b55cef",
+      "source": "scripts/SmsReliabilityProbe.kt",
+      "application": "M-Money",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/receiver/ReceiptCipher.kt",
+      "sha256": "091aed61fef7890436fee094011fa15e4c9dd36be78e388938a0e3f15c30a165",
+      "source": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/ReceiptCipher.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/receiver/ReceiptAckPolicy.kt",
+      "sha256": "424850a1eac148a360f99d651b7c6bf661d8bf889e74533ecd4dd2074b11d045",
+      "source": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/ReceiptAckPolicy.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/receiver/SmsQueueOwnerPolicy.kt",
+      "sha256": "c558cb1418ced6bb4dafebab4d5006991c3dac47bb5bb6f8a1db85d7d3f8cd3b",
+      "source": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueOwnerPolicy.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/receiver/MomoGatewayPolicy.kt",
+      "sha256": "d9fbfd5c50e0cc926a214328de946cf08ace5894b94c640ed285cae1934d7a98",
+      "source": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayPolicy.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/receiver/MomoMultipartPolicy.kt",
+      "sha256": "e95272ffefe99ff6ba526658f0b72b7069d2aae26cee87abcb5de3cac65c629a",
+      "source": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoMultipartPolicy.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/receiver/MomoGatewayWakeupGate.kt",
+      "sha256": "3cfd62121a29eab7fe72c67af68135e27637b696864e3e8824a7c49784d4eea6",
+      "source": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayWakeupGate.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/receiver/SmsQueueEventBus.kt",
+      "sha256": "ea68c61d3a68a408845880398a50b0cd48842023dee4867e4c381f99b561db1a",
+      "source": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueEventBus.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/receiver/BuriReceiverReliability.kt",
+      "sha256": "7db5d53bff8c14d6b0dd767c74014e01e2c446223d2a4c25d02b10884aeafb9d",
+      "source": "native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriReceiverReliability.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/receiver/BuriQueueFile.kt",
+      "sha256": "d619115477b5fad485d54fe3fc86ac2d32399be9ddefc2dc6880b28f3d98ad53",
+      "source": "native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriQueueFile.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/tests/ReceiverChecks.kt",
+      "sha256": "607876c5bb955fbc234fb9db7641608997c0a881cd867dd99fa2f2c343b82a85",
+      "source": "native/burimunsi/receiver-tests/ReceiverChecks.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/tests/ReliabilityChecks.kt",
+      "sha256": "203874042da76efe2c66600134ea309a6cb0be635a74f463a6f295d49dcda670",
+      "source": "native/burimunsi/receiver-tests/ReliabilityChecks.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-host-dependency"
+    },
+    {
+      "path": "vendor/buri/effective/ReceiptAckPolicy.kt",
+      "sha256": "afda9755d99c42b2a1ba9623228dcc91735ed9988aad849fa3d985d440905131",
+      "source": "native/burimunsi/scripts/prepare_receiver.py::generated/ReceiptAckPolicy.kt",
+      "application": "BuriMunsi",
+      "decision": "pin-effective-R1-output-generated-by-unchanged-baseline-preparer"
+    },
+    {
+      "path": "vendor/buri/recipe/prepare_receiver.py",
+      "sha256": "31c46c6486df3f1ef146c6365a34a4f98ff8cbbc6e4f79d33b665a62ee9d3390",
+      "source": "native/burimunsi/scripts/prepare_receiver.py",
+      "application": "BuriMunsi",
+      "decision": "pin-unchanged-generation-recipe-for-audit"
+    }
+  ],
+  "effective_receiver": {
+    "generator": "vendor/buri/recipe/prepare_receiver.py",
+    "raw_input": "vendor/buri/receiver/ReceiptAckPolicy.kt",
+    "effective_output": "vendor/buri/effective/ReceiptAckPolicy.kt",
+    "transformation": "R1 adds a conflicting acknowledged-tombstone digest guard; other selected pure receiver files are byte-identical to prepared output.",
+    "observed_preparation": {
+      "preparedFiles": 17,
+      "changed": true,
+      "sourceCommit": "497de00bb16c86c797ebaad0f938dfd5efb42541",
+      "uploadHoldPreserved": true,
+      "upstreamModified": false,
+      "scope": "Deterministic source extraction only; not an Android build."
+    }
+  }
+}

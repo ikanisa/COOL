@@ -1,0 +1,3 @@
+# Preserve the supplied SMS R4 logs as historical package provenance.
+# Current integration verification is recorded in docs/implementation/burimunsi-android.
+!sms-r4/evidence/*.log

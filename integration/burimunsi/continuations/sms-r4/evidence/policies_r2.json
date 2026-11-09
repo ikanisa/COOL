@@ -1,0 +1,849 @@
+{
+  "status": "passed",
+  "tests": 210,
+  "failed": 0,
+  "assertions": 6831,
+  "model_events": 2000,
+  "cases": [
+    {
+      "name": "fixture/mm-received-null-fee",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-merchant-leading-zero",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-balance-only",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-explicit-zero-fee-balance",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-unrelated-sender",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-missing-sender",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-otp",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-promotion",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-service-notice",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-uncertain-confirmation",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-url-injection",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-whitespace-original",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-zero-movement",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-supported",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-wrong-sender",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-case-sender",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-spaced-sender",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-zero",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-fraction",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-bad-grouping",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-overflow",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-invalid-date",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-trailing-text",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-otp",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-alpha-ftid",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-zero-balance",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-full-phone",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/buri-bidi",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-amount-28",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-amount-29",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-amount-30",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-amount-31",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-amount-32",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-amount-33",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-amount-34",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-amount-35",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-multiple-statements",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-currency-without-number",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-bidi",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-zero-balance",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-conflicting-reference",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-case-reference-conflict",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-invalid-reference",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-long-reference",
+      "status": "passed"
+    },
+    {
+      "name": "fixture/mm-agreed-reference",
+      "status": "passed"
+    },
+    {
+      "name": "evidence/defensive-copy",
+      "status": "passed"
+    },
+    {
+      "name": "evidence/redacted-toString",
+      "status": "passed"
+    },
+    {
+      "name": "evidence/framing-and-invalid-unicode",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/ordered-copy-preserves-observation-order",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-empty",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-missing",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-duplicate",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-sender",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-timestamp",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-sim",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-coding",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-reference",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-width",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-total",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-zero-sequence",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-reference-range",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-missing-reference",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-body-null",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-timestamp-null",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-timestamp-zero",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-invalid-pdu",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-missing-pdu",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-binary",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-compressed",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-port",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-unvalidated",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-split-surrogate",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-oversized",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/reject-utf8-oversized",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/unsupported-format",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/ucs2-and-wide-reference",
+      "status": "passed"
+    },
+    {
+      "name": "multipart/provider-not-pdu-proof",
+      "status": "passed"
+    },
+    {
+      "name": "classification/profile-refusal",
+      "status": "passed"
+    },
+    {
+      "name": "classification/forged-positive-blocked",
+      "status": "passed"
+    },
+    {
+      "name": "sim/invalid-observed-null",
+      "status": "passed"
+    },
+    {
+      "name": "sim/invalid-observed--1",
+      "status": "passed"
+    },
+    {
+      "name": "sim/invalid-observed-2147483647",
+      "status": "passed"
+    },
+    {
+      "name": "sim/invalid-observed-9",
+      "status": "passed"
+    },
+    {
+      "name": "sim/invalid-binding-null",
+      "status": "passed"
+    },
+    {
+      "name": "sim/invalid-binding--1",
+      "status": "passed"
+    },
+    {
+      "name": "sim/invalid-binding-2147483647",
+      "status": "passed"
+    },
+    {
+      "name": "sim/invalid-binding-9",
+      "status": "passed"
+    },
+    {
+      "name": "sim/permission-empty-and-other-sim",
+      "status": "passed"
+    },
+    {
+      "name": "duplicate/replay-even-when-full",
+      "status": "passed"
+    },
+    {
+      "name": "duplicate/conflict-retains-both",
+      "status": "passed"
+    },
+    {
+      "name": "duplicate/mmoney-source-body-not-global",
+      "status": "passed"
+    },
+    {
+      "name": "duplicate/buri-does-not-use-body-as-payment-dedup",
+      "status": "passed"
+    },
+    {
+      "name": "queue/capacity-reserve-and-corrupt-index",
+      "status": "passed"
+    },
+    {
+      "name": "batch/identity-and-size-rules",
+      "status": "passed"
+    },
+    {
+      "name": "batch/new-operation-cannot-rebind-original",
+      "status": "passed"
+    },
+    {
+      "name": "batch/same-operation-changed-payload-conflict",
+      "status": "passed"
+    },
+    {
+      "name": "ack/BURI_COLLECT_V2-valid",
+      "status": "passed"
+    },
+    {
+      "name": "ack/MMONEY_LEDGER_V1-valid",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-0",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-1",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-2",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-3",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-4",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-5",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-6",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-7",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-8",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-9",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-10",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-invalid-11",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-missing-contract_version",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-missing-stored",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-missing-owner_user_id",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-missing-client_envelope_id",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-missing-raw_sms_id",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-missing-body_sha256",
+      "status": "passed"
+    },
+    {
+      "name": "ack/collect-root-and-cross-contract",
+      "status": "passed"
+    },
+    {
+      "name": "ack/mmoney-invalid-0",
+      "status": "passed"
+    },
+    {
+      "name": "ack/mmoney-invalid-1",
+      "status": "passed"
+    },
+    {
+      "name": "ack/mmoney-invalid-2",
+      "status": "passed"
+    },
+    {
+      "name": "ack/mmoney-invalid-3",
+      "status": "passed"
+    },
+    {
+      "name": "ack/mmoney-invalid-4",
+      "status": "passed"
+    },
+    {
+      "name": "ack/mmoney-invalid-5",
+      "status": "passed"
+    },
+    {
+      "name": "ack/mmoney-invalid-6",
+      "status": "passed"
+    },
+    {
+      "name": "ack/mmoney-missing-fields-and-strict-version",
+      "status": "passed"
+    },
+    {
+      "name": "ack/mmoney-rejection-requires-code-and-null",
+      "status": "passed"
+    },
+    {
+      "name": "ack/mmoney-batch-coverage-is-atomic",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/BURI_COLLECT_V2-ack-two-phase-and-replay",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/MMONEY_LEDGER_V1-ack-two-phase-and-replay",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/rejected-batch-retains-original",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/conflicting-acks-preserve-both",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/lost-ack-original-id-and-payload",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/timeout-lease-and-restart",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-hold-401",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-hold-403",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-hold-409",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-hold-400",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-hold-404",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-hold-422",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-hold-301",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-hold-200",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-hold-0",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-retry-null",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-retry-408",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-retry-429",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-retry-500",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-retry-503",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/http-retry-599",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/reauth-does-not-reset-identity-or-attempts",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/changed-owner-generation-binding-session",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/offline-paused-and-invalid-sim-do-not-spend-attempt",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/malformed-ack-does-not-retire",
+      "status": "passed"
+    },
+    {
+      "name": "retry/default-budget-and-late-final-receipt",
+      "status": "passed"
+    },
+    {
+      "name": "retry/backoff-bounds-age-overflow-and-retry-after",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/clock-rollback-no-send",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/capture/BEFORE_FAIL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/reserve/BEFORE_FAIL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/ack-stage/BEFORE_FAIL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/finalize/BEFORE_FAIL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/capture/BEFORE_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/reserve/BEFORE_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/ack-stage/BEFORE_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/finalize/BEFORE_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/capture/AFTER_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/reserve/AFTER_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/ack-stage/AFTER_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/finalize/AFTER_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/capture/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/reserve/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/ack-stage/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/finalize/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/capture/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/reserve/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/ack-stage/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/finalize/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/capture/CAS_CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/reserve/CAS_CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/ack-stage/CAS_CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "fault/BURI_COLLECT_V2/finalize/CAS_CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/capture/BEFORE_FAIL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/reserve/BEFORE_FAIL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/ack-stage/BEFORE_FAIL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/finalize/BEFORE_FAIL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/capture/BEFORE_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/reserve/BEFORE_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/ack-stage/BEFORE_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/finalize/BEFORE_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/capture/AFTER_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/reserve/AFTER_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/ack-stage/AFTER_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/finalize/AFTER_UNKNOWN",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/capture/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/reserve/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/ack-stage/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/finalize/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/capture/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/reserve/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/ack-stage/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/finalize/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/capture/CAS_CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/reserve/CAS_CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/ack-stage/CAS_CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "fault/MMONEY_LEDGER_V1/finalize/CAS_CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "storage/no-recreation-on-missing-corrupt-unavailable",
+      "status": "passed"
+    },
+    {
+      "name": "storage/concurrent-reservation-emits-once",
+      "status": "passed"
+    },
+    {
+      "name": "dispatch/recheck-and-cas-stale-commit",
+      "status": "passed"
+    },
+    {
+      "name": "model/2000-deterministic-events-retain-evidence-and-budget",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/mmoney-full-batch-mixed-outcomes-atomic",
+      "status": "passed"
+    },
+    {
+      "name": "lifecycle/policy-drift-stops-without-reset-or-send",
+      "status": "passed"
+    },
+    {
+      "name": "storage/malformed-restored-receipt-rejected",
+      "status": "passed"
+    }
+  ]
+}

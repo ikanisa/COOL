@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "workstream": "SMS queue persistence and recovery R3",
+  "date": "2026-11-09",
+  "source_completion": "implemented_for_documented_host_and_shared_scope",
+  "local_verification": "passed",
+  "external_acceptance": "blocked",
+  "production_ready": false,
+  "actual_collect_checkout_modified": false,
+  "android_workers_modified": false,
+  "live_upload_enabled": false,
+  "baseline_archive_sha256": "4175a7cd8508769dc17a005d7c6031198e7821c4ccbeec53cc08bde3c7fbf5d2",
+  "input_set_sha256": "db35d011e8029470c19ebce8d3263a682057be2a61fb7dcdfd47015b1d6675fe",
+  "executed_test_check_cases": 543,
+  "tasks": [
+    {
+      "id": "SMS-R3-01",
+      "task": "Strict snapshot codec",
+      "source_completion": "implemented",
+      "local_verification": "passed",
+      "external_acceptance": "blocked_android",
+      "files": [
+        "src/main/kotlin/rw/ikanisa/sms/policy/SnapshotCodec.kt"
+      ],
+      "tests": [
+        "codec/*"
+      ]
+    },
+    {
+      "id": "SMS-R3-02",
+      "task": "Journal history and atomic identity admission",
+      "source_completion": "implemented",
+      "local_verification": "passed",
+      "external_acceptance": "blocked_native_port",
+      "files": [
+        "src/main/kotlin/rw/ikanisa/sms/policy/JournalFormat.kt",
+        "src/main/kotlin/rw/ikanisa/sms/policy/JournalQueueStore.kt"
+      ],
+      "tests": [
+        "journal/*",
+        "fault/*"
+      ]
+    },
+    {
+      "id": "SMS-R3-03",
+      "task": "POSIX host persistence and crash recovery",
+      "source_completion": "implemented_host_only_plaintext",
+      "local_verification": "passed",
+      "external_acceptance": "not_production_adapter",
+      "files": [
+        "host/kotlin/rw/ikanisa/sms/host/HostFileJournal.kt"
+      ],
+      "tests": [
+        "host/*"
+      ]
+    },
+    {
+      "id": "SMS-R3-04",
+      "task": "Reservation expiry and current-authority gate",
+      "source_completion": "implemented_pure_gate",
+      "local_verification": "passed",
+      "external_acceptance": "blocked_native_fence_wiring",
+      "files": [
+        "src/main/kotlin/rw/ikanisa/sms/policy/JournalQueueStore.kt"
+      ],
+      "tests": [
+        "dispatch/*"
+      ]
+    },
+    {
+      "id": "SMS-R3-05",
+      "task": "R2 preservation and additive installation",
+      "source_completion": "implemented",
+      "local_verification": "passed_temporary_checkouts",
+      "external_acceptance": "blocked_actual_checkout",
+      "files": [
+        "scripts/install_overlay.py",
+        "tests/python/test_persistence_delivery.py"
+      ],
+      "tests": [
+        "PersistenceDeliveryTests",
+        "DeliveryTests"
+      ]
+    },
+    {
+      "id": "SMS-R3-06",
+      "task": "Pinned and inherited regression verification",
+      "source_completion": "implemented",
+      "local_verification": "passed",
+      "external_acceptance": "not_a_native_or_service_acceptance",
+      "files": [
+        "scripts/verify.py",
+        "evidence/verification.json"
+      ],
+      "tests": [
+        "pinned_dependency_hashes",
+        "python_tooling",
+        "persistence_r3",
+        "policies_r2",
+        "buri_core",
+        "buri_receiver",
+        "buri_reliability",
+        "mmoney_sms"
+      ]
+    }
+  ],
+  "remaining_external_requirements": [
+    {
+      "name": "native_runtime_adapter_wiring",
+      "status": "blocked",
+      "reason": "Android workers, encrypted durable adapter, lifecycle fence and legacy queue migration are not wired or qualified. The supplied file port is plaintext host-only."
+    },
+    {
+      "name": "android_compile_instrumentation",
+      "status": "blocked",
+      "reason": "Not executed by this host-only runner."
+    },
+    {
+      "name": "storage_anti_rollback_and_encryption",
+      "status": "blocked",
+      "reason": "No trusted external high-water mark or production encrypted storage implemented; complete-prefix rollback is not detected."
+    },
+    {
+      "name": "carrier_delivery",
+      "status": "blocked",
+      "reason": "No authorized handset/SIM/live carrier observations supplied."
+    },
+    {
+      "name": "hosted_ingestion_idempotency",
+      "status": "blocked",
+      "reason": "No deployed service or real database tested."
+    },
+    {
+      "name": "actual_collect_checkout_import",
+      "status": "blocked",
+      "reason": "Only temporary repository fixtures used."
+    }
+  ],
+  "additional_remaining": [
+    "Intake/quarantine/checkpoint atomicity and retention of unadmitted observations",
+    "Explicit migration of existing native queues; no automatic version conversion",
+    "Journal capacity/throughput and mobile memory qualification",
+    "Authorized recovery/compaction procedure without loss of originals or tombstones"
+  ],
+  "local_skill": {
+    "path": "/Volumes/PRO-G40/Agents/Codex/Operational-Installation/.agents/skills/efficient-codex/SKILL.md",
+    "used": false,
+    "reason": "Not mounted in this environment"
+  }
+}

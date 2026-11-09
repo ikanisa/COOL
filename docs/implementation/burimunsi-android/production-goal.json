@@ -1,0 +1,950 @@
+{
+  "objective": "Implement all remaining tasks to get BuriMunsi native Android staff/admin app and the existing Collect Admin panel into verified production on their shared local Supabase backend",
+  "goal_status": "active",
+  "created_at_utc": "2026-11-09T19:49:15.559562+00:00",
+  "authoritative_checkout": "/Volumes/COLLECT-STAGING-20261109/main-source",
+  "baseline": "Existing source import and build007/API36 qualification preserved; new implementation invalidates affected build evidence until refreshed",
+  "task_source": "docs/implementation/burimunsi-android/drive-handover/registers/BuriMunsi_Original_65_Task_Contracts.json",
+  "tasks": [
+    {
+      "id": "T001",
+      "title": "Revalidate the current Collect source and deployed environment",
+      "condition": "Required",
+      "depends_on": [],
+      "acceptance": "Record repository commit plus working-tree snapshot, schema/migration versions, deployed function versions and actual API behavior. Recheck every 5 Nov finding before treating it as current. Preserve unrelated working changes.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T002",
+      "title": "Confirm the production group, wallet, SIM, roster and administrator",
+      "condition": "Required",
+      "depends_on": [
+        "T001"
+      ],
+      "acceptance": "Supply authoritative BuriMunsi group ID, canonical receiving-account ID, authorized wallet/SIM route, complete roster, admin login phone and named device custodian. Confirm +250780025501 as the operated WhatsApp support destination. No demonstration values enter production.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T003",
+      "title": "Choose native packaging and record receiver reuse boundaries",
+      "condition": "Required",
+      "depends_on": [
+        "T001"
+      ],
+      "acceptance": "Select a fully native Kotlin UI implementation and document whether the existing receiver is extended or extracted into a slim native module. Reuse queue/acknowledgement controls; do not replace them with a WebView or an unintegrated OpenSMS fork.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T004",
+      "title": "Select devices and the internal distribution route",
+      "condition": "Required",
+      "depends_on": [
+        "T002",
+        "T003"
+      ],
+      "acceptance": "Record managed receiving phone, staff device range, supported Android versions, minimum SDK, target SDK and installer/distribution method. Verify current requirements at release. No assumption that an internal gateway automatically qualifies for Play SMS access.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T005",
+      "title": "Approve a safe automatic member-matching policy",
+      "condition": "Required",
+      "depends_on": [
+        "T002"
+      ],
+      "acceptance": "Demonstrate a unique trusted full payment identity or supported authenticated member reference. Names or masked suffixes alone never authorize credit. The supplied *********816 receipt remains unallocated without independent identity evidence; no fabricated digits. If intended receipts cannot meet this rule, document the limitation and resolve it before claiming full automatic allocation.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T006",
+      "title": "Confirm branding and reusable-asset rights",
+      "condition": "Required",
+      "depends_on": [
+        "T003"
+      ],
+      "acceptance": "Use the approved BuriMunsi identity; verify icon and font licenses and the exact native font mapping. Package no source-brand artwork or font binaries from the reference library. Compare native outputs against the frozen BuriMunsi HTML, not a claim of universal Revolut parity.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T007",
+      "title": "Implement server-validated phone and four-digit passcode sign-in",
+      "condition": "Required",
+      "depends_on": [
+        "T001",
+        "T002"
+      ],
+      "acceptance": "Normalize Rwanda phone inputs; enforce exactly four digits, preserving leading zeroes. Verify credentials on the server over TLS, with a reviewed password/PIN hashing and server-side secret strategy. No email login, OTP or public registration; no frontend account array in production. Qualify a scoped native authentication design compatible with existing Collect services; do not weaken global shared password/security settings to fit the short code.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T008",
+      "title": "Mitigate the four-digit passcode threat",
+      "condition": "Required",
+      "depends_on": [
+        "T004",
+        "T007"
+      ],
+      "acceptance": "Approve a threat model acknowledging only 10,000 possible codes. Enforce distributed per-account and risk-based throttling, bounded lockout/recovery, generic failures, audit alerts and managed-device/session restrictions. Test online guessing, distributed attempts and stolen credential material. Four digits alone is not treated as a strong internet-facing secret.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T009",
+      "title": "Provision the Admin without shipping a master credential",
+      "condition": "Required",
+      "depends_on": [
+        "T002",
+        "T007"
+      ],
+      "acceptance": "Provision the authorized Admin phone through trusted release configuration and server administration. Deliver initial secret out of band. An app constant or editable request never grants Admin. Define recovery that does not require adding email/OTP to the frozen UI.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T010",
+      "title": "Implement staff lifecycle and passcode changes",
+      "condition": "Required",
+      "depends_on": [
+        "T007",
+        "T009"
+      ],
+      "acceptance": "Admin can add/edit/disable/re-enable/remove staff and assign/reset initial passcodes. Staff can change their own passcode with current/new/confirm, but not their phone or rights. Reject duplicate login numbers; revoke affected sessions on reset/removal and retain audit history.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T011",
+      "title": "Enforce group, role and action capabilities on every endpoint",
+      "condition": "Required",
+      "depends_on": [
+        "T001",
+        "T007",
+        "T009"
+      ],
+      "acceptance": "Deny out-of-scope list/detail/search/totals/exports/update channels and mutations. Staff cannot read raw SMS, enroll a gateway or manage staff. Enforce enroll/allocate capabilities independently. Negative tests tamper with IDs, group, role and client flags.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T012",
+      "title": "Implement native sessions and independent capture authority",
+      "condition": "Required",
+      "depends_on": [
+        "T007",
+        "T011"
+      ],
+      "acceptance": "Use secure revocable native sessions, lifecycle expiry and reauthentication; qualify the transport rather than assuming browser cookies/CSRF work natively. Clear protected operator cache on sign-out without deleting the capture outbox. A revoked operator is not a revoked gateway and vice versa.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": [
+        ".cache/burimunsi-drive-20261109/checks/managed-login-001/burimunsi-backend-final.log",
+        "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/build-012/build-result.json",
+        "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/device-api36-005/instrumentation-result.json"
+      ],
+      "implementation_progress": "Shared BFF broker, native credential form and device-bound access bridge locally implemented and current-source APK/API36/host checks pass. Actual GoTrue/PG/TLS commissioning and independent capture/production acceptance still required."
+    },
+    {
+      "id": "T013",
+      "title": "Enforce exactly one active receiving installation",
+      "condition": "Required",
+      "depends_on": [
+        "T002",
+        "T011"
+      ],
+      "acceptance": "Use an atomic server constraint/transaction for the active BuriMunsi gateway and receiving account. Reject concurrent enrollment and second-phone ingestion. Replacing the device revokes its predecessor without creating a new wallet identity.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T014",
+      "title": "Qualify business-SIM enrollment and subscription changes",
+      "condition": "Required",
+      "depends_on": [
+        "T004",
+        "T013"
+      ],
+      "acceptance": "Test actual subscription-to-business-SIM mapping and credential binding. Treat missing/changed subscription metadata as uncertain; do not assume ICCID/IMEI/phone number are always readable or stable. Never relabel already queued sources after a SIM change.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T015",
+      "title": "Create SMS-free Staff and receiving Admin variants",
+      "condition": "Required",
+      "depends_on": [
+        "T003",
+        "T004",
+        "T013"
+      ],
+      "acceptance": "Use one codebase with isolated source sets. Staff final APK excludes SMS permissions, receiving components, recovery jobs and any notification-listener substitute. Inspect merged manifests and packaged components; Admin role on a non-bound device cannot bypass the gateway boundary.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T016",
+      "title": "Secure device secrets and replacement recovery",
+      "condition": "Required",
+      "depends_on": [
+        "T012",
+        "T013",
+        "T014"
+      ],
+      "acceptance": "Use protected installation keys/tokens, rotation and explicit lost-device revocation. Document queue/evidence reconciliation during replacement. Exclude transferable gateway tokens from backups; restoring an app backup must not clone gateway authority.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T017",
+      "title": "Reuse and qualify the incoming SMS receiver",
+      "condition": "Required",
+      "depends_on": [
+        "T003",
+        "T014",
+        "T015"
+      ],
+      "acceptance": "Capture complete M-Money incoming receipts, including alphanumeric sender IDs and multipart reconstruction. Keep receiver work bounded: no network or financial posting in the broadcast handler. Test actual device and intended sender formats.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T018",
+      "title": "Filter unrelated and secret-bearing SMS before retention/upload",
+      "condition": "Required",
+      "depends_on": [
+        "T017"
+      ],
+      "acceptance": "Permit only the intended business receiving route and supported financial receipt class. OTPs, promotions, personal messages and unrelated SIM traffic never enter the cloud receipt queue. Ambiguous provider-like messages do not become contributions.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T019",
+      "title": "Implement encrypted, owner-bound durable outbox",
+      "condition": "Required",
+      "depends_on": [
+        "T016",
+        "T017"
+      ],
+      "acceptance": "Commit source and binding version locally before scheduling upload. Preserve raw body, sender, multipart metadata, capture time and immutable local source identity across process death, reboot-after-unlock and retries. Do not encrypt the queue with the four-digit login code.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T020",
+      "title": "Implement durable acknowledgement and idempotent retry recovery",
+      "condition": "Required",
+      "depends_on": [
+        "T019",
+        "T024"
+      ],
+      "acceptance": "Delete/retire local upload work only after matching durable server acknowledgement. Simulate timeout after server commit, duplicate batch items, partial acknowledgement and reconnect. Preserve stable keys and fetch outcome instead of making a second economic transaction.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T021",
+      "title": "Qualify scheduling, battery and stopped-state behavior",
+      "condition": "Required",
+      "depends_on": [
+        "T019",
+        "T020"
+      ],
+      "acceptance": "Measure normal background, Doze, battery saver, OEM restrictions, denied permissions, reboot-before/after-unlock and force-stop. Document explicit user reopen after force-stop. Reuse the existing scheduler unless a measured migration warrants a change; no promise of continuous capture through all OS states.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T022",
+      "title": "Implement backfill and queue-capacity recovery",
+      "condition": "Required",
+      "depends_on": [
+        "T018",
+        "T020",
+        "T028"
+      ],
+      "acceptance": "Use bounded authorized inbox scans with overlap/deduplication, historical cutoffs and retained capture context. Test capacity/disk-full behavior and oldest-pending alerts. Revalidate reported 1,000-record/20-upload/200-scan limits instead of treating them as safe capacity or latency promises.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T023",
+      "title": "Provide truthful gateway health and incident diagnostics",
+      "condition": "Required",
+      "depends_on": [
+        "T020",
+        "T021",
+        "T022"
+      ],
+      "acceptance": "Show the frozen gateway panel with actual last capture/upload, pending age/count and permission/SIM/network state. A heartbeat is not processing success. Redacted support diagnostics contain no passcodes, tokens, OTPs or unnecessary raw SMS.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T024",
+      "title": "Qualify the fixed production API origin",
+      "condition": "Required",
+      "depends_on": [
+        "T001",
+        "T011",
+        "T013"
+      ],
+      "acceptance": "Pair/upload/status/heartbeat/revocation return expected JSON, authorization and durable outcomes at one fixed TLS origin. Test explicit routes; reject HTML fallbacks despite HTTP 200. Recheck the 5 Nov proxy finding rather than assuming it persists.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T025",
+      "title": "Validate source provenance and admission at ingress",
+      "condition": "Required",
+      "depends_on": [
+        "T013",
+        "T018",
+        "T024"
+      ],
+      "acceptance": "Resolve scope from authenticated binding, not claimed group/phone/user fields. Retain source hashes and policy versions. Test spoofed body, forged sender claims, stale credentials, wrong wallet and replay; document SMS authenticity limitations and reconciliation controls.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T026",
+      "title": "Collect approved real provider fixtures",
+      "condition": "Required",
+      "depends_on": [
+        "T002",
+        "T005"
+      ],
+      "acceptance": "Capture authorized examples from the intended wallet: masked/full numbers, real FT Id, numeric formats, languages, pending/failed receipts, reversals and multipart cases. Keep consented private fixtures outside public repositories. Distinguish owner-supplied example from synthetic fixtures.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T027",
+      "title": "Implement deterministic M-Money parsing and validation",
+      "condition": "Required",
+      "depends_on": [
+        "T025",
+        "T026"
+      ],
+      "acceptance": "Preserve amount, RWF, original payer name, original phone mask, source timestamp, wallet Balance and FT Id; validate positive integer RWF and timestamp syntax/timezone policy. Unsupported formats fail closed. A model may assist extraction only under separately qualified controls; it cannot invent identity or post balances.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T028",
+      "title": "Enforce canonical transaction identity and conflict handling",
+      "condition": "Required",
+      "depends_on": [
+        "T024",
+        "T027"
+      ],
+      "acceptance": "Deduplicate by provider, receiving account, event kind and provider transaction ID. Preserve multiple source observations without multiple credits; conflicting amount/payer facts for the same reference are blocked and diagnosed. Keep internal stable keys hidden in the UI.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T029",
+      "title": "Replace or qualify the maintenance-only processing admission",
+      "condition": "Required",
+      "depends_on": [
+        "T001",
+        "T024",
+        "T027",
+        "T028"
+      ],
+      "acceptance": "Prove scheduled work consumes retained receipts and creates canonical transactions. Implement a processing-capable handler if the reported maintenance gate still exists. Changing MOMO_PROCESSING_PAUSED alone is not accepted as proof. Test leases, retries, poison messages, dead-letter alerts and bounded jobs.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T030",
+      "title": "Preserve any supported routing reference end to end",
+      "condition": "Required decision; implementation conditional on supported reference",
+      "depends_on": [
+        "T005",
+        "T027",
+        "T028"
+      ],
+      "acceptance": "Decide whether a supported provider/member reference exists. When used, retain payment_reference_raw through extraction, canonical storage, matching and audit. Do not manufacture or display a new BM member code. If unused, document the decision and test full-identity matching instead.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T031",
+      "title": "Implement unique existing-member matching",
+      "condition": "Required",
+      "depends_on": [
+        "T005",
+        "T028",
+        "T030"
+      ],
+      "acceptance": "Match only an active eligible membership via the approved unique trusted payment identity/reference rule. Payer name and masked suffix are evidence, never sufficient matching authority. Unknown, ambiguous and third-party payer cases remain named unallocated receipts.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T032",
+      "title": "Implement atomic automatic posting through the canonical writer",
+      "condition": "Required",
+      "depends_on": [
+        "T029",
+        "T031"
+      ],
+      "acceptance": "For an eligible valid receipt, atomically create allocation, immutable contribution entry, canonical balance result and audit event. Handle concurrency/retries with an idempotency key. No proposal/reviewer/approver wait; no mobile balance writer or second ledger.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T033",
+      "title": "Implement single-step exception allocation",
+      "condition": "Required",
+      "depends_on": [
+        "T011",
+        "T032"
+      ],
+      "acceptance": "Authorized user selects an existing member for an unallocated receipt and confirms once. Server checks latest version/status/eligibility then posts via the same atomic writer. Racing staff, stale state and timeout reconciliation cannot double-credit. No independent approval stage is added.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T034",
+      "title": "Make enrollment-triggered rematching safe",
+      "condition": "Required",
+      "depends_on": [
+        "T031",
+        "T032",
+        "T039"
+      ],
+      "acceptance": "After a valid Direct-member enrollment, reprocess only eligible unallocated receipts using the same trusted identity rule. Enrolling a name/suffix cannot retroactively claim receipts. Demonstrate one credit per receipt even under repeated events.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T035",
+      "title": "Implement authoritative balances and ledger reads",
+      "condition": "Required",
+      "depends_on": [
+        "T032"
+      ],
+      "acceptance": "Use the canonical ledger and balance snapshots for Home/member/group totals and pagination. Preserve all real ledger rows and FT Id links. Never use SMS receiving-wallet Balance as a member balance or create fabricated brought-forward entries. Define correction/reversal signs and as-of semantics.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T036",
+      "title": "Define and qualify reversals, corrections and late events",
+      "condition": "Required",
+      "depends_on": [
+        "T028",
+        "T032",
+        "T035"
+      ],
+      "acceptance": "Decide supported reversal/correction formats and safe automatic rules; retain immutable compensating entries and original lineage. Duplicate or conflicting reversal cannot erase/recredit funds. Unsupported events fail closed with operational incident handling, not a new manual payment-approval journey. Scope and pilot handling require sign-off.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T037",
+      "title": "Reconcile gateway, Collect Admin and financial evidence",
+      "condition": "Required",
+      "depends_on": [
+        "T032",
+        "T035",
+        "T036"
+      ],
+      "acceptance": "For the same group/member/filters/as-of basis, native app and Collect Admin agree exactly. Reconcile real controlled deposits with authorized provider evidence; queued/failed/unallocated items never inflate balances. Keep data lineage from SMS to ledger.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T038",
+      "title": "Measure ingestion and ledger concurrency under load",
+      "condition": "Required",
+      "depends_on": [
+        "T029",
+        "T032"
+      ],
+      "acceptance": "Test projected daily/peak receipts, queue drain after outage and transaction lock contention. Set measured capacity and latency targets with alert thresholds; no invented throughput guarantee from a single advisory lock or 15-minute schedule.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T039",
+      "title": "Implement scoped Direct-member onboarding and duplicates",
+      "condition": "Required",
+      "depends_on": [
+        "T002",
+        "T011",
+        "T031"
+      ],
+      "acceptance": "Enroll a person/membership with MoMo identity without member-app credentials. Normalize full numbers; detect existing person/member; display MoMo number as the identifier. Do not create an identity solely from an SMS name or suffix.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T040",
+      "title": "Protect membership and shared person edits",
+      "condition": "Required",
+      "depends_on": [
+        "T011",
+        "T039"
+      ],
+      "acceptance": "BuriMunsi actions cannot silently change a shared person in another Collect group. Qualify deactivation, identity changes/number recycling and audit/version rules. Admin/staff capabilities follow the approved scope; historical ledger links survive identity changes.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T041",
+      "title": "Implement full transaction lists, search and authorized exports",
+      "condition": "Required",
+      "depends_on": [
+        "T028",
+        "T035",
+        "T039"
+      ],
+      "acceptance": "Serve all relevant transactions with source amount, date/time and FT Id using stable pagination/filter contracts. Maintain original payer name even when unallocated. Export complete authorized data with CSV-injection safeguards and controlled Android document sharing. No invented BM display reference.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T042",
+      "title": "Implement refresh, offline cache and stale-data reconciliation",
+      "condition": "Required",
+      "depends_on": [
+        "T012",
+        "T035",
+        "T041"
+      ],
+      "acceptance": "Display server snapshots; offline records are read-only and truthfully stale without restoring the removed Home timestamp. Test pagination, realtime/poll updates, cache expiry and reconnection. A local receipt queue does not change a server savings balance before posting.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T043",
+      "title": "Implement native shell and eight frozen routes",
+      "condition": "Required",
+      "depends_on": [
+        "T003",
+        "T006",
+        "T012"
+      ],
+      "acceptance": "Build Kotlin native screens (Compose recommended) for Sign in, Home, Payments, Payment detail, Members, Member ledger, SMS and Settings. Four icon navigation destinations; Staff has seven core routes. Do not ship the HTML/review workspace as production UI.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T044",
+      "title": "Port exact tokens, typography, icon controls and truncation",
+      "condition": "Required",
+      "depends_on": [
+        "T006",
+        "T043"
+      ],
+      "acceptance": "Translate the frozen CSS/geometry into native dp/sp adapters with licensed fonts. Preserve route colors, large values, icon-first controls, single-line name ellipses and full accessible names. Amounts/FT Id/full known phones remain complete; test 320\u2013430 widths and 200% font scale.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T045",
+      "title": "Implement contextual panels and Android navigation behavior",
+      "condition": "Required",
+      "depends_on": [
+        "T010",
+        "T033",
+        "T039",
+        "T043"
+      ],
+      "acceptance": "Implement allocation/onboarding/profile/passcode/staff/gateway/raw-SMS/history/help/filter panels without extra approval screens. Test Android back, keyboard/IME, safe areas, scrolling, state restoration and process recreation.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T046",
+      "title": "Preserve all approved text and receipt semantics",
+      "condition": "Required",
+      "depends_on": [
+        "T027",
+        "T041",
+        "T044"
+      ],
+      "acceptance": "Confirm phone-only and four digits; no email/OTP; no visible BM IDs, brought-forward/net-contribution or Home Automatic/time subtitle; Messages is the fourth Admin Home shortcut with no duplicate header icon. Full names remain recoverable when ellipsized; original SMS is unmodified.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T047",
+      "title": "Qualify accessibility and support handoff",
+      "condition": "Required",
+      "depends_on": [
+        "T044",
+        "T045"
+      ],
+      "acceptance": "Test TalkBack, focus traversal, non-color status, touch targets, large fonts, reduced motion and financial confirmation. WhatsApp support uses +250780025501, with verified destination ownership and a practical fallback when unavailable. No source message is auto-shared with support.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T048",
+      "title": "Complete locale and notification scope decisions",
+      "condition": "Required",
+      "depends_on": [
+        "T004",
+        "T026",
+        "T043"
+      ],
+      "acceptance": "Confirm release UI language(s), timestamp timezone/display and number formatting. Localize approved labels without translating original receipt evidence. Decide whether member confirmations use existing Collect notifications; no SEND_SMS added solely for inbound capture.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T049",
+      "title": "Review data retention and regulated operating obligations",
+      "condition": "Required",
+      "depends_on": [
+        "T002",
+        "T004",
+        "T025"
+      ],
+      "acceptance": "Confirm authority/notice for business-SIM processing, staff/member access, hosting and processors, retention/deletion, incident handling and applicable Rwanda/BNR or sandbox terms with qualified owners. Record the applicable obligations rather than claiming compliance from this package. No bank-core work is added by default.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T050",
+      "title": "Harden storage, transport, backups and exported components",
+      "condition": "Required",
+      "depends_on": [
+        "T016",
+        "T019",
+        "T042"
+      ],
+      "acceptance": "Use TLS validation, Keystore-protected secrets and encrypted sensitive stores; restrict backup, logs, clipboard/screenshots as policy requires and component exports. Verify no sensitive intent/provider leak, debug endpoint or cleartext path. Never package Supabase service-role credentials.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T051",
+      "title": "Run independent authorization and abuse testing",
+      "condition": "Required",
+      "depends_on": [
+        "T008",
+        "T011",
+        "T013",
+        "T033",
+        "T050"
+      ],
+      "acceptance": "Test staff on gateway/non-gateway devices, raw-SMS denial, cross-group IDs/exports, replay, revocation races, forged sender/receipts, PIN spraying, cache leakage and credential reset abuse. Resolve critical/high findings and retain reproducible evidence.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T052",
+      "title": "Build parser and financial invariant unit/contract suites",
+      "condition": "Required",
+      "depends_on": [
+        "T027",
+        "T028",
+        "T031",
+        "T032",
+        "T036"
+      ],
+      "acceptance": "Fixtures prove exact extraction and explicit rejection; properties prove no double credit, no balance from wallet field, no amount loss, no incorrect member inference and atomic rollback. Include reference conflicts and timestamp/currency edge cases.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T053",
+      "title": "Test real physical-device receipt journeys",
+      "condition": "Required",
+      "depends_on": [
+        "T017",
+        "T020",
+        "T021",
+        "T033",
+        "T037",
+        "T043"
+      ],
+      "acceptance": "Execute authorized controlled contributions on the intended carrier/SIM/phone. Retain anonymized evidence for delivery, capture, acknowledgement, allocation, ledger and Collect Admin. Include a Staff phone proving zero SMS access. Emulator/browser mocks alone do not close this task.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T054",
+      "title": "Run interruption and upgrade fault-injection tests",
+      "condition": "Required",
+      "depends_on": [
+        "T016",
+        "T020",
+        "T022",
+        "T036",
+        "T042"
+      ],
+      "acceptance": "Cover capture commit interruption, upload-ack loss, processing/posting timeout, offline, wrong SIM, revoked session/device, disk/queue saturation, historical replay, reboot/force-stop and app update with pending items. No silent loss, reassignment or duplicate financial effect.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T055",
+      "title": "Measure native performance on the release build",
+      "condition": "Required",
+      "depends_on": [
+        "T043",
+        "T044",
+        "T054"
+      ],
+      "acceptance": "Measure install size, cold/warm start, scrolling/jank, memory, battery, network and backlog drain on the selected low-end device. Agree budgets from measured needs and test minified/shrunk release artifacts rather than the historical large debug APK.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T056",
+      "title": "Perform final native visual and operational acceptance",
+      "condition": "Required",
+      "depends_on": [
+        "T044",
+        "T046",
+        "T047",
+        "T052",
+        "T053",
+        "T054",
+        "T055"
+      ],
+      "acceptance": "Compare native screenshots and interactions with frozen baseline across Admin/Staff, states and sizes. Apply only documented accessibility/platform adaptations. Record explicit sign-off by actual owners; no visual parity or production acceptance inferred from generated test counts.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T057",
+      "title": "Set up CI and reproducible release build records",
+      "condition": "Required",
+      "depends_on": [
+        "T003",
+        "T015",
+        "T052"
+      ],
+      "acceptance": "Pin Gradle/Kotlin/Android dependencies, record source commits, run tests/lint/manifest permission gates and secret/dependency checks; produce SBOM and a reproducible artifact recipe. Exclude fixtures, BMDemo/BMReview/review controls and demonstration credentials from native production.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T058",
+      "title": "Manage signing keys and release identities",
+      "condition": "Required",
+      "depends_on": [
+        "T004",
+        "T057"
+      ],
+      "acceptance": "Establish package IDs, version codes, signing custody/recovery and update trust. Build signed non-debuggable optimized Admin-gateway and Staff artifacts; test upgrade from installed versions with credentials and queues intact. Never place signing keys in this handoff repository.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T059",
+      "title": "Complete the chosen distribution and permission requirements",
+      "condition": "Required; channel-specific substeps",
+      "depends_on": [
+        "T004",
+        "T015",
+        "T049",
+        "T058"
+      ],
+      "acceptance": "For controlled distribution, qualify installer, grants, device management, revocation and signed updates. For Play, obtain applicable SMS use/declaration acceptance and current target-policy/privacy/data-safety clearance before release. Do not assume permission exemption.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T060",
+      "title": "Prepare production migrations, worker activation and rollback",
+      "condition": "Required",
+      "depends_on": [
+        "T024",
+        "T029",
+        "T032",
+        "T036",
+        "T051",
+        "T057"
+      ],
+      "acceptance": "Apply reviewed additive migrations in rehearsal/staging, validate backups and activation settings, then deploy a versioned backend. Rollback stops unsafe processing without losing sources or deleting committed ledger entries; retain compatibility for existing Collect clients.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": [
+        "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-09/retained-native-rehearsal-003/foundation-result.json"
+      ],
+      "implementation_progress": "Native retained restore and first9migration rehearsal pass; completion/adoption, activation and rollback still pending"
+    },
+    {
+      "id": "T061",
+      "title": "Instrument processing and financial operations",
+      "condition": "Required",
+      "depends_on": [
+        "T023",
+        "T029",
+        "T032",
+        "T038"
+      ],
+      "acceptance": "Alert on no recent capture where expected, oldest queue/job age, unallocated backlog, parser failure, duplicate conflict, ledger drift and rejected sessions/bindings. Validate alerts, escalation owners and redacted dashboards with actual failures.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T062",
+      "title": "Rehearse restore, lost-phone and emergency-stop runbooks",
+      "condition": "Required",
+      "depends_on": [
+        "T016",
+        "T054",
+        "T060",
+        "T061"
+      ],
+      "acceptance": "Perform a restore/reconciliation rehearsal, replacement of the sole receiver, emergency processing pause, token revocation and safe recovery. Prove stopped workers retain evidence and no restore creates a second active gateway or double credits.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T063",
+      "title": "Run an explicitly bounded production pilot",
+      "condition": "Required",
+      "depends_on": [
+        "T056",
+        "T059",
+        "T060",
+        "T061",
+        "T062"
+      ],
+      "acceptance": "Define authorized participants, transaction/volume bounds, monitoring window, success/stop criteria and responsible on-call personnel. Reconcile each controlled receipt through App/Admin/ledger and authorized wallet evidence before expanding rollout. No arbitrary launch estimate replaces evidence.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T064",
+      "title": "Hand over operations and authorize the production release",
+      "condition": "Required",
+      "depends_on": [
+        "T063"
+      ],
+      "acceptance": "Deliver final signed artifact checksums, backend release identity, trained Admin/staff, support/escalation contacts, recovery instructions, rights/retention record and release decision. Close all required tasks or formally document permitted non-blocking exclusions; no critical financial/access issue remains.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    },
+    {
+      "id": "T065",
+      "title": "Establish ongoing patch and reconciliation ownership",
+      "condition": "Required",
+      "depends_on": [
+        "T061",
+        "T063"
+      ],
+      "acceptance": "Assign owners and cadence for OS/app dependencies, credential rotation, device health, daily reconciliation, incident triage, backup restore drills and future review changes. Keep the frozen design baseline immutable; change native UI through a versioned decision record.",
+      "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
+      "production_status": "not_yet_proven",
+      "evidence": []
+    }
+  ],
+  "current_work": {
+    "backend": "Device-bound access facade implemented. Canonical financial/roster/gateway bridge factory and actual additive migration remain pending.",
+    "native": "Shared native login locally implemented/qualified (build012/API36 device005); actual managed Auth/PG/device/TLS and production release acceptance still open.",
+    "admin": "Existing cookie Admin proxy supports scoped native access; Buri provisioning/management workspace still pending.",
+    "deployment": "Retained native Supabase backup/isolated schema adoption rehearsal, actual public profile/production commissioning"
+  },
+  "no_production_claim": true,
+  "updated_at_utc": "2026-11-09T23:02:09.391711+00:00",
+  "latest_progress": {
+    "native_retained_snapshot": "Fresh full snapshot-v3/isolated native restore004 passes. Source owner/settings, ACL name/grantor/privilege sets, native role flags/memberships and checked counts match; clone stopped after verification. Private configuration contains credentials; role dump omits password hashes. No encrypted complete-backup or schema-adoption acceptance.",
+    "isolated_native_rehearsal": "Same native PG17.11image; network none/no published ports; nine maintained Collect foundation migrations committed in clone. Real main source unmigrated.",
+    "platform_review": "Independent SQL10/Auth/Realtime/catalog review requested; no hash substitution accepted yet.",
+    "implementation": "Native process-memory-only Collect BFF broker and device-bound Admin access endpoint implemented, including actual shared proxy integration. Real canonical command bridges and scoped Admin provisioning workspace remain pending.",
+    "pending_user_input": [
+      "T002: actual MoMo receiving identity/network, receiving SIM/Admin login phone and named custodian; requested asynchronously after live empty-custody readback."
+    ],
+    "live_commissioning": false,
+    "admin_owner": "info@ikanisa.com (explicitly confirmed by owner)",
+    "release_guard_linux": "Complete original r4 delivery regression passes in existing managed Linux VM; canonical four adopted guard libraries byte-identical. Current app integration and independent production approvals remain separate.",
+    "managed_login_tests": "Current build012 compiles and inspects8APKs; API36 device005 passes59/59 (staff26,receiver33), all4sandbox packages removed and named task emulator stopped. Backend1597, Admin115, pipeline88, core121, native HTTP20, full host aggregate and denied-permission Deno imports pass within their stated boundaries.",
+    "legacy_cloudflare_state": "SELECT-only: approved email is active owner; one user/one Admin, zero checked business records, zero receiving accounts/gateway bindings/pairings. No routing or business data changed."
+  },
+  "rehearsal_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-09/retained-native-rehearsal-003/foundation-result.json",
+  "approved_admin_owner_email": "info@ikanisa.com",
+  "pending_user_input": [
+    "T002: actual MoMo receiving identity/network, receiving SIM/Admin login phone and named custodian; requested asynchronously after live empty-custody readback."
+  ],
+  "selected_production_profile": {
+    "path": "docs/implementation/burimunsi-android/production-profile.proposed.json",
+    "sha256": "18f9b92d996651911d57693b7ba7e3c1c782c85cf17142983f2061ea592de5c1",
+    "status": "Selected hostnames under user-authorized Collect domain; DNS/tunnel/routes/native Auth not commissioned yet",
+    "dns_readback": "Existing collect, api and platform-admin hostnames resolve via Cloudflare; supabase hostname absent"
+  },
+  "release_guard_evidence": ".cache/burimunsi-drive-20261109/checks/release-r4-linux-complete-38f41c26b99f",
+  "orchestration": {
+    "state": "Root sole writer; three allocated agents remain pending_init and write ownership has been revoked. Extra worker launch refused by host agent thread limit.",
+    "independent_review": "Not performed; requested SQL10 platform review remains open."
+  },
+  "retained_restore_verification": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/retained-native-rehearsal-004/verification.json"
+}

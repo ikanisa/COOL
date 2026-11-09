@@ -188,7 +188,7 @@ test('shipping configurations keep Cloudflare default and require a separate com
   assert.deepEqual(selected.assets.directory, defaults.assets.directory);
 });
 
-test('integrated transport bytes retain the recorded reviewed source identity', async () => {
+test('integrated transport bytes retain the recorded current source identity', async () => {
   const provenance = JSON.parse(await readFile(new URL('../supabase-transport.provenance.json', import.meta.url), 'utf8'));
   const source = await readFile(new URL('../src/supabase-transport.js', import.meta.url));
   assert.equal(createHash('sha256').update(source).digest('hex'), provenance.source_sha256);

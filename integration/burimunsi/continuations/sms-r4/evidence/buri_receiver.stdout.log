@@ -1,0 +1,37 @@
+TAP version 13
+ok 1 - AES-GCM roundtrip preserves Unicode and exact receipt bytes
+ok 2 - AES-GCM encryptions use different nonces
+ok 3 - AES-GCM wrong key rejects ciphertext
+ok 4 - AES-GCM modified ciphertext fails authentication
+ok 5 - AES-GCM modified IV fails authentication
+ok 6 - AES-GCM malformed envelope and short tag are rejected
+ok 7 - Acknowledgement accepts exact owner, identity and body hash
+ok 8 - Acknowledgement rejects a different owner and mixed stored owners
+ok 9 - Acknowledgement rejects wrong body, blank hash and empty request
+ok 10 - Acknowledgement rejects duplicate stored identities
+ok 11 - Acknowledgement replay requires matching durable tombstone
+ok 12 - Acknowledgement batch cannot retire an unproved second identity
+ok 13 - Queue reads require enabled capture and the exact owner
+ok 14 - Queue disable cannot be issued by another owner
+ok 15 - Gateway upload hold remains closed even for otherwise eligible receipt
+ok 16 - Queue reserve protects live capture capacity
+ok 17 - Invalid queue limits are rejected
+ok 18 - Capture identity is stable but changes with binding and subscription
+ok 19 - Historical recovery requires enrollment boundary and resolved SIM
+ok 20 - Source ambiguity is retained when selected SIM does not match
+ok 21 - Upload response categories do not convert rejection to success
+ok 22 - Capture text classifier rejects synthetic OTP and promotion
+ok 23 - Single bounded 8-bit frame has structural completeness
+ok 24 - Unknown transport and truncated payload abstain
+ok 25 - Multipart reorders coherent segments without editing original bodies
+ok 26 - Multipart missing or duplicate sequence remains incomplete
+ok 27 - Multipart conflicting sender and timestamp remain incomplete
+ok 28 - Multipart conflicting concatenation references remain incomplete
+ok 29 - Multipart differing coding metadata remains incomplete
+ok 30 - Malformed UCS2 code unit and high-bit 8-bit payload abstain
+ok 31 - Incomplete multipart cannot enter member capture classification
+ok 32 - Wakeup gate has a single concurrent owner
+ok 33 - Wakeup gate serializes finish before recheck
+ok 34 - Metadata event listener failures do not suppress other listeners
+1..34
+# Scope: actual pinned pure Kotlin receiver policies on JVM; not Android or carrier qualification.

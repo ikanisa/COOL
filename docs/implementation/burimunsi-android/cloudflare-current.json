@@ -1,0 +1,62 @@
+{
+  "observed_at_utc": "2026-11-09T21:48:48.929521+00:00",
+  "account_id": "2209b915a85b1c11cee79b7806c6e73b",
+  "zone_id": "d622ef0cdd2d6705f2cd47aa24b7d87f",
+  "account": "Ikanisa",
+  "zone": "ikanisa.com",
+  "methods": [
+    "Authenticated Wrangler whoami",
+    "Authoritative Cloudflare dashboard DNS records and tunnel inventory",
+    "Public DNS resolution"
+  ],
+  "existing_collect_workers": {
+    "collect.ikanisa.com": "collect-public",
+    "api.collect.ikanisa.com": "collect-platform-api",
+    "platform-admin.collect.ikanisa.com": "collect-platform-admin",
+    "admin.collect.ikanisa.com": "collect-admin"
+  },
+  "supabase_hostname_present": false,
+  "collect_tunnel_present": false,
+  "existing_tunnels": {
+    "count": 3,
+    "connected_replicas": 0,
+    "statuses": [
+      "Down",
+      "Down",
+      "Inactive"
+    ]
+  },
+  "cli_capability": "Worker/account/zone reads and Worker controls available; DNS/tunnel management scopes absent",
+  "external_configuration_changed": false,
+  "selected_profile": "production-profile.proposed.json",
+  "production_status": "Not commissioned; actual secure frontdoor/connector, retained service adaptation and cutover proof required",
+  "legacy_production_database_readback": {
+    "observed_at_utc": "2026-11-09T22:22:57.644468+00:00",
+    "database_name": "collect-platform",
+    "database_id": "a6a0d284-c445-4fe3-8e64-af5fd42491ae",
+    "method": "Authenticated Wrangler SELECT-only catalog and table counts",
+    "counts": {
+      "users": 1,
+      "collections": 0,
+      "memberships": 0,
+      "payments": 0,
+      "ledger_entries": 0,
+      "momo_transactions": 0,
+      "sms_receipts": 0,
+      "admin_users": 1,
+      "approved_owner_email_rows": 1
+    },
+    "rows_written": 0,
+    "changed_db": false,
+    "meaning": "One existing Collect/Admin owner must be preserved and reconciled; checked business tables contain no records. Other stores/provider state are not covered.",
+    "receiving_custody": {
+      "receiving_accounts": 0,
+      "gateway_bindings": 0,
+      "gateway_pairings": 0
+    },
+    "approved_email_account_status": {
+      "role": "owner",
+      "status": "active"
+    }
+  }
+}

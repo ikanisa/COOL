@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "patch_exit_code": 0,
+  "test_inputs_verified": 75,
+  "input_set_sha256": "1f636b84a400a803f013640e86643faa11ccf8aab48e56945b422a1c740cdbde",
+  "mismatches": [],
+  "stdout": "patching file README.md\npatching file docs/R4_INTEGRATION.md\npatching file docs/R4_MERGE_DECISIONS.md\npatching file provenance/R3_BASELINE.json\npatching file provenance/R3_README.md\npatching file provenance/R3_SHA256SUMS.txt\npatching file provenance/R3_SOURCE_MANIFEST.json\npatching file provenance/R3_TASK_STATUS.json\npatching file provenance/R3_VERIFICATION.md\npatching file scripts/verify.py\npatching file src/main/kotlin/rw/ikanisa/sms/policy/EncryptedJournal.kt\npatching file src/main/kotlin/rw/ikanisa/sms/policy/ProtectedJournalPort.kt\npatching file src/main/kotlin/rw/ikanisa/sms/policy/TrustedCheckpoint.kt\npatching file tests/protected/ProtectedChecks.kt\npatching file tests/python/test_persistence_delivery.py\npatching file tests/python/test_protected_delivery.py\n"
+}

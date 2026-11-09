@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "version": "0.19.0-presentation.3",
+  "routes": {
+    "PAYMENTS": 2,
+    "MEMBERS": 1,
+    "MEMBER": 5,
+    "SMS": 3
+  },
+  "headerCountMeaning": "Fixed LazyColumn items before repository-backed records; no footer cursor is persisted.",
+  "maximumAutomaticPagesIncludingFirst": 16,
+  "maximumAutomaticallyRetainedItems": 2000,
+  "stateStops": [
+    "POSITION_READY",
+    "END_REACHED",
+    "OFFLINE",
+    "STALE",
+    "BUDGET_REACHED"
+  ],
+  "checkpointCodecVersion": 1,
+  "persistentCursor": false,
+  "persistentRecords": false,
+  "replayCommand": false,
+  "evidence": {
+    "pure": "native/burimunsi/presentation-tests/PagedRestorationChecks.kt",
+    "actualViewModelWithDoubles": "native/burimunsi/viewmodel-tests/PagedRestorationChecks.kt",
+    "staticContract": "tests/paged_restoration_contract_test.py"
+  },
+  "scope": "Positional restoration from freshly requested pages; not same-record identity anchoring or installed-screen acceptance.",
+  "remaining": [
+    "Installed-screen process death and scroll geometry acceptance",
+    "Android/Compose build and instrumentation",
+    "Operator localization review",
+    "Actual Collect integration"
+  ]
+}

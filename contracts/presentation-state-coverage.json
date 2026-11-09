@@ -1,0 +1,82 @@
+{
+  "version": "0.19.0-presentation.2",
+  "scope": "Actual UiState projection with synthetic fixtures; separate operational journey tests; no rendered/device acceptance",
+  "routes": [
+    "LOGIN",
+    "HOME",
+    "PAYMENTS",
+    "PAYMENT",
+    "MEMBERS",
+    "MEMBER",
+    "SMS",
+    "SETTINGS"
+  ],
+  "inputStates": [
+    "SIGN_IN",
+    "LOCKED",
+    "LOADING",
+    "EMPTY",
+    "CONTENT",
+    "OFFLINE",
+    "STALE",
+    "REJECTED",
+    "CONFLICT",
+    "UNCERTAIN",
+    "UNAVAILABLE"
+  ],
+  "journeyRoutes": {
+    "J01": [
+      "LOGIN",
+      "HOME"
+    ],
+    "J02": [
+      "HOME",
+      "PAYMENTS"
+    ],
+    "J03": [
+      "PAYMENTS",
+      "PAYMENT"
+    ],
+    "J04": [
+      "PAYMENT"
+    ],
+    "J05": [
+      "PAYMENT",
+      "MEMBERS"
+    ],
+    "J06": [
+      "MEMBERS"
+    ],
+    "J07": [
+      "MEMBER"
+    ],
+    "J08": [
+      "SETTINGS"
+    ],
+    "J09": [
+      "SETTINGS"
+    ],
+    "J10": [
+      "SETTINGS"
+    ],
+    "J11": [
+      "SMS"
+    ],
+    "J12": [
+      "HOME"
+    ]
+  },
+  "naturalEmptyRoutes": [
+    "PAYMENTS",
+    "MEMBERS",
+    "SMS"
+  ],
+  "notes": [
+    "Home and member detail remain content when child lists are empty.",
+    "Settings carries no financial snapshot, so stale timestamps alone do not expire it.",
+    "Authentication and screen guards override other display states, but unresolvedWarning is retained.",
+    "Conflicting record copies and parent frames are quarantined until online readback; unresolved journal warnings remain independent.",
+    "Composite snapshots keep the oldest known constituent timestamp; missing or future provenance fails closed.",
+    "RetryFreshnessChecks executes deferred-read, cache-fallback, parent-restoration and panel-freshness regressions in the actual ViewModel with doubles."
+  ]
+}

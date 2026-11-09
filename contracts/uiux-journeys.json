@@ -1,0 +1,103 @@
+{
+  "version": "0.17.0-uiux.1",
+  "definition": "This continuation makes twelve executable controller scenarios explicit from the existing routes and panels. It does not assert these names were a previously enumerated canonical acceptance list.",
+  "controllerScope": "Actual BuriViewModel with platform, repository and gateway doubles; not Compose or provider end-to-end execution.",
+  "journeys": [
+    {
+      "id": "J01",
+      "title": "Sign-in and sign-out",
+      "controllerCoverage": "Valid/invalid credentials; protected screen clearing",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Actual sign-in provider, hardware and soft-keyboard submission, rotation during login, logout then another operator."
+    },
+    {
+      "id": "J02",
+      "title": "Home and unallocated shortcut",
+      "controllerCoverage": "Repository values; unallocated filter applied before read",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Compare canonical balances, empty/error/loading/offline states and screen-reader order."
+    },
+    {
+      "id": "J03",
+      "title": "Payment search, filters, pagination and Back",
+      "controllerCoverage": "Second page; query/filter/list position restored in memory",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Exercise two or more real pages, long names, Back/rotation/process death and keyboard dismissal."
+    },
+    {
+      "id": "J04",
+      "title": "Payment history and original receipt",
+      "controllerCoverage": "Transaction-scoped history pagination; unchanged raw receipt; no mutation",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Verify original SMS, identifiers, timestamps, history ordering, clipboard selection and role restrictions."
+    },
+    {
+      "id": "J05",
+      "title": "Allocation and unresolved actions",
+      "controllerCoverage": "Selection required; unresolved action blocks duplicate dispatch; explicit command clears selection",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Use genuine identities and PostgreSQL/provider reconciliation. Drop network after submit and verify one canonical posting."
+    },
+    {
+      "id": "J06",
+      "title": "Member enrollment and unsaved changes",
+      "controllerCoverage": "Keep editing/discard; invalid name blocked; explicit enrollment clears draft",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Validate provider identity rules, duplicate membership, dirty-panel Back/swipe/Escape, IME and accessible errors."
+    },
+    {
+      "id": "J07",
+      "title": "Member ledger, export and lifecycle",
+      "controllerCoverage": "Member-scoped ledger/export; explicit lifecycle command",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Reconcile actual ledger signs/balances and exported statement, file picker cancellation, access revocation and lifecycle policy."
+    },
+    {
+      "id": "J08",
+      "title": "Profile, passcode and reauthentication",
+      "controllerCoverage": "Nested panel Back; passcode command clears session and panels",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Test real PIN rotation, wrong current PIN, process death with credentials present and foreground reauthentication."
+    },
+    {
+      "id": "J09",
+      "title": "Staff account and removal confirmation",
+      "controllerCoverage": "Contextual removal confirmation; cancel preserves edit; save returns to list",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Test real authority boundaries, staff revocation, last-admin safeguards and TalkBack focus return."
+    },
+    {
+      "id": "J10",
+      "title": "Receiving-phone diagnostics and capture controls",
+      "controllerCoverage": "Upload hold distinguished from member credit; pause/resume preserves queue",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Pair an authorized receiving phone, change SIM, replace phone, deny permissions, check queue retention and real carrier receipts. Staff APK must have no SMS access."
+    },
+    {
+      "id": "J11",
+      "title": "SMS filter, original evidence and access revocation",
+      "controllerCoverage": "Queue filter; original source reachable; revocation removes SMS/raw state",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Test real queue statuses, malformed/duplicate receipts, raw evidence readability, and server-authorized revocation."
+    },
+    {
+      "id": "J12",
+      "title": "Background, offline recovery and no replay",
+      "controllerCoverage": "Foreground guard; blocked navigation until validation; recovery does not replay commands",
+      "controllerStatus": "passed",
+      "deviceAcceptanceStatus": "not_executed",
+      "deviceAcceptance": "Real process kill/restart, offline cache expiry, return from settings, keystore restore failure and unknown financial outcomes."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "repository": "ikanisa/COOL",
+  "commit": "497de00bb16c86c797ebaad0f938dfd5efb42541",
+  "root": "android/app/src/main/kotlin/app/cool/mobile/receiver_sms",
+  "files": {
+    "CollectSmsReceiver.kt": "9402f8fc79c1d18509b816750b8137788996728b",
+    "MomoGatewayHttp.kt": "b1806ee86b455af7ffc93460305d1ed3f262e9ce",
+    "MomoGatewayJobs.kt": "502cf42016d1d91362f1901953a32f32d8a8d67d",
+    "MomoGatewayLocalRecovery.kt": "f55a73e0ab69d18747038dce8e5224825d3ade28",
+    "MomoGatewayPolicy.kt": "e51b70ccc2574f1fb93d836d8aa68b2fefbced75",
+    "MomoGatewayRecovery.kt": "16b89c64ad75f4ed23f681ca756380270dafba7a",
+    "MomoGatewayStore.kt": "f6bd25c21577f4d9fe27d691ae63800d39d13b1f",
+    "MomoGatewayWakeupGate.kt": "a982bae38811847ae123b7012eb15f6750aba9b1",
+    "MomoMultipartPolicy.kt": "08bc8b61327af38e728df9bc5af32860e43d771e",
+    "ReceiptAckPolicy.kt": "834268e3fd31345a3c67050189373d46e91de6c4",
+    "ReceiptCipher.kt": "c3de7ded05689a733387bdc9abeccc2d3821730f",
+    "SmsCaptureJournal.kt": "d5b11217436efab81b498c05caf148f190b69d72",
+    "SmsQueueEventBus.kt": "a6a0d4c691ccdc5ad80a2b48e162195b174f17c4",
+    "SmsQueueOwnerPolicy.kt": "8f474066b9fb6b0edfbf6826c0576582dc98fe2b",
+    "SmsQueueStore.kt": "fec118b373b3fdfb0a078cb35947ae80c481a914",
+    "SmsQueueWorker.kt": "a372a3f483add0f61b9db65f8a2c68736003c45f",
+    "MemberSmsJobs.kt": "63c9023bdef94834806923a9530e497e26190161"
+  },
+  "policy": "Upload hold must remain false until a separately qualified release; no blind source substitution."
+}

@@ -1,0 +1,15 @@
+src/main/kotlin/rw/ikanisa/sms/policy/Queue.kt:41:89: warning: unnecessary safe call on a non-null receiver of type String?
+                    (batch.scope.contract == Contract.MMONEY_LEDGER_V1 && (r.canonicalId?.let(AckPolicy::uuid) != true || r.bodySha256 != null)) ||
+                                                                                        ^
+tests/kotlin/PolicyChecks.kt:399:13: warning: name shadowed: b
+        val b=batch(c);val s=MemoryStore();val d=CommitDriver(s,machine(c));val a=authority(b)
+            ^
+tests/kotlin/PolicyChecks.kt:423:13: warning: name shadowed: b
+        val b=batch();val s=MemoryStore();val d=CommitDriver(s,machine(b.scope.contract));val a=authority(b)
+            ^
+tests/kotlin/PolicyChecks.kt:466:13: warning: name shadowed: b
+        val b=UploadBatch(uuid(500),originals);val s=MemoryStore();val d=CommitDriver(s,machine(b.scope.contract));val a=authority(b)
+            ^
+tests/kotlin/PolicyChecks.kt:479:27: warning: name shadowed: b
+        val x=setup();val b=x.batch
+                          ^

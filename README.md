@@ -1,6 +1,8 @@
 # Collect
 
-Collect is a Rwanda group-contribution system with a Flutter member app, Admin PWA and public website. Contributions use whole RWF through MTN MoMo or Airtel Money USSD; payment authorization remains with the network provider.
+Collect is a Rwanda group-contribution system with a Flutter member app, Admin PWA, public website and BuriMunsi native Android app for staff and admins. Contributions use whole RWF through MTN MoMo or Airtel Money USSD; payment authorization remains with the network provider.
+
+The 9 November BuriMunsi integration uses the same local Supabase backend, Collect Admin, authentication and canonical ledger as Collect. Its Kotlin/Compose project is `native/burimunsi/`; [the integration record](docs/implementation/burimunsi-android/README.md) distinguishes imported source, local build evidence and remaining shared-backend setup. The resumed retained Supabase instance currently contains the generic account schema, so its healthy services do not yet establish a deployed Collect/BuriMunsi backend.
 
 ## Current release profile
 
@@ -11,6 +13,7 @@ The [26 October production execution addendum](docs/plans/supabase-return-2026-1
 | Business API, Admin API and jobs | `supabase/functions/collect-api/`, `supabase/functions/admin-api/` and `supabase/functions/collect-jobs/`, sharing `supabase/functions/_shared/`. |
 | PostgreSQL schema and storage | `supabase/migrations/`, generated from the curated inputs documented in `supabase/schema-src/README.md`; Supabase object storage through the current adapters. |
 | Android member app | `lib/main.dart`; the native release configuration in `scripts/qa/native_build_config.py` requires the Supabase profile. |
+| BuriMunsi staff/admin Android | `native/burimunsi/`, with Staff and receiving-device variants; `configuration/installation.example.properties` selects the same local Collect Supabase origin and `collect-api` prefix. |
 | Cookie-authenticated Admin PWA | `lib/main_admin_cloudflare.dart`, selected by `scripts/admin_pwa_release_build.sh`; `deploy/platform-admin/` hosts the frontend and forwards its same-origin API traffic. The entrypoint's Cloudflare name does not select D1 as the business database. |
 | Prior Cloudflare business backend | `deploy/platform-api/` and its D1/R2 recovery tooling are retained for legacy compatibility and the controlled transition. They are not the selected Supabase release backend. |
 

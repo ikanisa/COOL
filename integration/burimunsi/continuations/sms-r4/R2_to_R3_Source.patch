@@ -1,0 +1,1151 @@
+diff --git a/src/main/kotlin/rw/ikanisa/sms/policy/JournalFormat.kt b/src/main/kotlin/rw/ikanisa/sms/policy/JournalFormat.kt
+new file mode 100644
+--- /dev/null
++++ b/src/main/kotlin/rw/ikanisa/sms/policy/JournalFormat.kt
+@@ -0,0 +1,108 @@
++package rw.ikanisa.sms.policy
++
++import java.security.MessageDigest
++import java.util.Collections
++
++/** Monotone storage history, in addition to each snapshot's structural checks. */
++object JournalHistory {
++    fun initial(s: QueueSnapshot): Boolean = SnapshotIntegrity.valid(s) && s.revision==0L &&
++        s.phase==Phase.READY && s.reason=="CAPTURED" && s.attempts==0 && s.receipts.isEmpty() && s.conflictingReceipts.isEmpty()
++
++    fun follows(old: QueueSnapshot, next: QueueSnapshot): Boolean {
++        if (!SnapshotIntegrity.valid(old) || !SnapshotIntegrity.valid(next) || old.revision==Long.MAX_VALUE ||
++            next.revision != old.revision+1 || next.lastObservedAt < old.lastObservedAt ||
++            !SnapshotCodec.batchBytes(old.batch).contentEquals(SnapshotCodec.batchBytes(next.batch))) return false
++        val allowed=when(old.phase) {
++            Phase.READY -> setOf(Phase.IN_FLIGHT)
++            Phase.IN_FLIGHT -> setOf(Phase.RETRY_WAIT,Phase.HELD,Phase.CONFLICT,Phase.ACK_PENDING)
++            Phase.RETRY_WAIT -> setOf(Phase.IN_FLIGHT,Phase.HELD,Phase.ACK_PENDING)
++            Phase.HELD -> setOf(Phase.RETRY_WAIT,Phase.HELD,Phase.ACK_PENDING)
++            Phase.ACK_PENDING -> setOf(Phase.ACKNOWLEDGED,Phase.REJECTED,Phase.CONFLICT)
++            Phase.ACKNOWLEDGED,Phase.REJECTED -> setOf(Phase.CONFLICT)
++            Phase.CONFLICT -> emptySet()
++        }
++        if(next.phase !in allowed) return false
++        if(next.phase==Phase.IN_FLIGHT) {
++            val a=next.activeAttempt ?: return false
++            if(next.attempts!=old.attempts+1 || a.startedAt!=next.lastObservedAt ||
++                next.firstAttemptAt != (old.firstAttemptAt ?: a.startedAt)) return false
++        } else if(next.attempts!=old.attempts || next.activeAttempt!=old.activeAttempt || next.firstAttemptAt!=old.firstAttemptAt) return false
++        if(old.receipts.isNotEmpty() && next.receipts!=old.receipts) return false
++        if(old.conflictingReceipts.isNotEmpty() && next.conflictingReceipts!=old.conflictingReceipts) return false
++        if(old.outcomeUncertain && next.receipts.isEmpty() && !next.outcomeUncertain) return false
++        return true
++    }
++    /** Atomic admission includes terminal originals and M-Money's separate source/body identity. */
++    fun admission(batch: UploadBatch, retained: Collection<QueueSnapshot>): BatchAdmission {
++        val base=BatchAdmissionPolicy.decide(batch,retained.toList())
++        if(base!=BatchAdmission.NEW) return base
++        val seen=retained.flatMap { it.batch.originals }.toMutableList()
++        for(o in batch.originals) {
++            if(seen.any { it.key==o.key || (o.scope.contract==Contract.MMONEY_LEDGER_V1 &&
++                o.scope==it.scope && o.sourceId==it.sourceId && o.body==it.body) }) return BatchAdmission.ORIGINAL_ALREADY_BOUND
++            seen+=o
++        }
++        return BatchAdmission.NEW
++    }
++}
++
++class JournalState internal constructor(val scope: OwnerScope, val recordCount: Int,
++    val tailHash: String, val contentHash: String, snapshots: Map<String,QueueSnapshot>) {
++    val snapshots: Map<String,QueueSnapshot> = Collections.unmodifiableMap(LinkedHashMap(snapshots))
++    override fun toString() = "JournalState(records=$recordCount,entries=${snapshots.size})"
++}
++
++/** Append-only versioned hash chain. Digests detect corruption; they are NOT authentication. */
++object JournalFormat {
++    const val VERSION=1
++    const val HEADER_BYTES=40
++    const val MAX_BYTES=64*1024*1024
++    const val MAX_RECORDS=10000
++    const val MAX_ENTRIES=1000
++    private const val MAGIC=0x534d534a // SMSJ
++    private fun digest(b: ByteArray)=MessageDigest.getInstance("SHA-256").digest(b)
++    private fun hex(b: ByteArray)=b.joinToString("") { "%02x".format(it.toInt() and 255) }
++    private fun unhex(s: String): ByteArray {
++        requireFormat(s.matches(Regex("[a-f0-9]{64}")))
++        return ByteArray(32) { s.substring(it*2,it*2+2).toInt(16).toByte() }
++    }
++    fun empty(scope: OwnerScope): ByteArray {
++        requireFormat(scope.valid(),DecodeCode.SCOPE)
++        return BinaryWriter(HEADER_BYTES).also { w -> w.int(MAGIC); w.int(VERSION); w.raw(unhex(EvidenceHash.framed(scope.fields()))) }.result()
++    }
++    fun replay(bytes: ByteArray, expectedScope: OwnerScope): JournalState {
++        requireFormat(bytes.size in HEADER_BYTES..MAX_BYTES,DecodeCode.SIZE)
++        val r=BinaryReader(bytes)
++        requireFormat(r.int()==MAGIC,DecodeCode.MAGIC); requireFormat(r.int()==VERSION,DecodeCode.VERSION)
++        requireFormat(expectedScope.valid() && MessageDigest.isEqual(r.raw(32),unhex(EvidenceHash.framed(expectedScope.fields()))),DecodeCode.SCOPE)
++        var tail=digest(bytes.copyOfRange(0,HEADER_BYTES)); var count=0
++        val states=LinkedHashMap<String,QueueSnapshot>()
++        while(r.remaining>0) {
++            requireFormat(++count<=MAX_RECORDS,DecodeCode.SIZE)
++            val length=r.count(32+44+32,32+SnapshotCodec.MAX_BYTES+32)
++            requireFormat(length<=r.remaining,DecodeCode.TRUNCATED)
++            val payload=r.raw(length-32); val check=r.raw(32)
++            requireFormat(MessageDigest.isEqual(check,digest(payload)),DecodeCode.CHECKSUM)
++            requireFormat(MessageDigest.isEqual(payload.copyOfRange(0,32),tail),DecodeCode.HISTORY)
++            val s=SnapshotCodec.decode(payload.copyOfRange(32,payload.size))
++            requireFormat(s.batch.scope==expectedScope,DecodeCode.SCOPE)
++            val old=states[s.batch.key]
++            if(old==null) {
++                requireFormat(states.size<MAX_ENTRIES,DecodeCode.SIZE)
++                requireFormat(JournalHistory.initial(s) && JournalHistory.admission(s.batch,states.values)==BatchAdmission.NEW,DecodeCode.HISTORY)
++            } else requireFormat(JournalHistory.follows(old,s),DecodeCode.HISTORY)
++            states[s.batch.key]=s; tail=check
++        }
++        return JournalState(expectedScope,count,hex(tail),EvidenceHash.sha256(bytes),states)
++    }
++    fun record(previous: JournalState, next: QueueSnapshot): ByteArray {
++        requireFormat(previous.recordCount<MAX_RECORDS,DecodeCode.SIZE)
++        requireFormat(next.batch.scope==previous.scope,DecodeCode.SCOPE)
++        val old=previous.snapshots[next.batch.key]
++        requireFormat(if(old==null) previous.snapshots.size<MAX_ENTRIES && JournalHistory.initial(next) &&
++            JournalHistory.admission(next.batch,previous.snapshots.values)==BatchAdmission.NEW else JournalHistory.follows(old,next),DecodeCode.HISTORY)
++        val snapshot=SnapshotCodec.encode(next)
++        val payload=unhex(previous.tailHash)+snapshot
++        return BinaryWriter(payload.size+36).also { it.int(payload.size+32); it.raw(payload); it.raw(digest(payload)) }.result()
++    }
++}
+diff --git a/src/main/kotlin/rw/ikanisa/sms/policy/JournalQueueStore.kt b/src/main/kotlin/rw/ikanisa/sms/policy/JournalQueueStore.kt
+new file mode 100644
+--- /dev/null
++++ b/src/main/kotlin/rw/ikanisa/sms/policy/JournalQueueStore.kt
+@@ -0,0 +1,78 @@
++package rw.ikanisa.sms.policy
++
++sealed class JournalRead {
++    class Bytes(bytes: ByteArray): JournalRead() {
++        private val retained=bytes.copyOf()
++        fun copy(): ByteArray=retained.copyOf()
++        override fun toString()="JournalBytes(length=${retained.size})"
++    }
++    data object Missing: JournalRead()
++    data object Unavailable: JournalRead()
++}
++/**
++ * Integration contract: atomically compare the SHA-256 of ALL existing bytes and append the record
++ * under one exclusive interprocess lock. COMMITTED requires the platform's durable write barrier.
++ * Missing/uninitialized storage must NOT be created. Partial/unknown writes are retained; never
++ * truncate a torn tail, skip a corrupt record, reset an index, or report UNKNOWN as COMMITTED.
++ * The production port must protect confidentiality and bind storage to the installation lifecycle.
++ */
++interface AppendJournalPort {
++    fun read(): JournalRead
++    fun append(expectedContentHash: String, record: ByteArray): StoreWrite
++}
++sealed class JournalInspection {
++    data class Ready(val state: JournalState): JournalInspection()
++    data class Blocked(val reason: String): JournalInspection()
++}
++
++/** QueueStorePort implementation: indexes are derived from the same committed log as the evidence. */
++class JournalQueueStore(private val port: AppendJournalPort, private val scope: OwnerScope): QueueStorePort {
++    fun inspect(): JournalInspection = try {
++        when(val result=port.read()) {
++            is JournalRead.Bytes -> JournalInspection.Ready(JournalFormat.replay(result.copy(),scope))
++            JournalRead.Missing -> JournalInspection.Blocked("JOURNAL_MISSING")
++            JournalRead.Unavailable -> JournalInspection.Blocked("JOURNAL_UNAVAILABLE")
++        }
++    } catch(e: SnapshotFormatException) { JournalInspection.Blocked("JOURNAL_${e.code.name}") }
++      catch(_: Exception) { JournalInspection.Blocked("JOURNAL_UNAVAILABLE") }
++
++    override fun read(key: String): StoreRead = when(val inspection=inspect()) {
++        is JournalInspection.Ready -> inspection.state.snapshots[key]?.let(StoreRead::Present) ?: StoreRead.Missing
++        is JournalInspection.Blocked -> if(inspection.reason in setOf("JOURNAL_MISSING","JOURNAL_UNAVAILABLE")) StoreRead.Unavailable else StoreRead.Corrupt
++    }
++    override fun createIfUnbound(initial: QueueSnapshot): StoreWrite {
++        if(!JournalHistory.initial(initial) || initial.batch.scope!=scope) return StoreWrite.NOT_COMMITTED
++        val state=(inspect() as? JournalInspection.Ready)?.state ?: return StoreWrite.NOT_COMMITTED
++        when(JournalHistory.admission(initial.batch,state.snapshots.values)) {
++            BatchAdmission.NEW -> Unit
++            BatchAdmission.ORIGINAL_ALREADY_BOUND -> return StoreWrite.ORIGINAL_ALREADY_BOUND
++            else -> return StoreWrite.REVISION_CONFLICT
++        }
++        return append(state,initial)
++    }
++    override fun compareAndSet(key: String, expectedRevision: Long, next: QueueSnapshot): StoreWrite {
++        val state=(inspect() as? JournalInspection.Ready)?.state ?: return StoreWrite.NOT_COMMITTED
++        val before=state.snapshots[key] ?: return StoreWrite.REVISION_CONFLICT
++        if(next.batch.key!=key || before.revision!=expectedRevision || !JournalHistory.follows(before,next)) return StoreWrite.REVISION_CONFLICT
++        return append(state,next)
++    }
++    private fun append(state: JournalState, next: QueueSnapshot): StoreWrite {
++        val frame=try { JournalFormat.record(state,next) } catch(_: SnapshotFormatException) { return StoreWrite.NOT_COMMITTED }
++        return try { port.append(state.contentHash,frame) } catch(_: Exception) { StoreWrite.UNKNOWN }
++    }
++}
++
++/**
++ * Additional last-moment gate for R3 callers. The native lifecycle fence MUST cover this check
++ * and request submission together; this pure function is neither a mutex nor a single-use token.
++ */
++object ReservationGate {
++    fun permitted(effect: QueueEffect.UploadOriginal, committed: QueueSnapshot, authority: Authority,
++                  now: Long, machine: QueueMachine): Boolean {
++        val a=effect.attempt
++        return SnapshotIntegrity.valid(committed) && machine.admits(committed.batch) &&
++            DispatchPolicy.permitted(effect,committed,authority,now) &&
++            SnapshotCodec.batchBytes(effect.batch).contentEquals(SnapshotCodec.batchBytes(committed.batch)) &&
++            now>=a.startedAt && now-a.startedAt<machine.limits.leaseMs
++    }
++}
+diff --git a/src/main/kotlin/rw/ikanisa/sms/policy/SnapshotCodec.kt b/src/main/kotlin/rw/ikanisa/sms/policy/SnapshotCodec.kt
+new file mode 100644
+--- /dev/null
++++ b/src/main/kotlin/rw/ikanisa/sms/policy/SnapshotCodec.kt
+@@ -0,0 +1,171 @@
++package rw.ikanisa.sms.policy
++
++import java.io.ByteArrayInputStream
++import java.io.ByteArrayOutputStream
++import java.io.DataInputStream
++import java.io.DataOutputStream
++import java.io.IOException
++import java.security.MessageDigest
++
++/** Diagnostic codes never interpolate a message body, sender, identity or raw bytes. */
++enum class DecodeCode { SIZE, MAGIC, VERSION, CHECKSUM, TRUNCATED, STRUCTURE, INVARIANT, TRAILING, SCOPE, HISTORY }
++class SnapshotFormatException(val code: DecodeCode): IOException(code.name)
++internal fun requireFormat(ok: Boolean, code: DecodeCode = DecodeCode.STRUCTURE) {
++    if (!ok) throw SnapshotFormatException(code)
++}
++
++/** Bounds are enforced BEFORE allocations. Strings are exact UTF-16 units, not lossy UTF-8. */
++internal class BinaryWriter(private val limit: Int) {
++    private val bytes = ByteArrayOutputStream()
++    private val out = DataOutputStream(bytes)
++    private fun room(n: Int) = requireFormat(n >= 0 && bytes.size().toLong()+n <= limit, DecodeCode.SIZE)
++    fun int(n: Int) { room(4); out.writeInt(n) }
++    fun long(n: Long) { room(8); out.writeLong(n) }
++    fun bool(b: Boolean) { room(1); out.writeByte(if (b) 1 else 0) }
++    fun text(s: String?, max: Int = 128) {
++        if (s == null) { int(-1); return }
++        requireFormat(s.length <= max, DecodeCode.SIZE)
++        room(4 + s.length * 2); out.writeInt(s.length); s.forEach { out.writeChar(it.code) }
++    }
++    fun nullableInt(n: Int?) { bool(n != null); if (n != null) int(n) }
++    fun nullableLong(n: Long?) { bool(n != null); if (n != null) long(n) }
++    fun raw(b: ByteArray) { room(b.size); out.write(b) }
++    fun result(): ByteArray = bytes.toByteArray()
++}
++internal class BinaryReader(bytes: ByteArray) {
++    private val input = DataInputStream(ByteArrayInputStream(bytes))
++    val remaining get() = input.available()
++    private fun need(n: Int) = requireFormat(n >= 0 && n <= remaining, DecodeCode.TRUNCATED)
++    fun int(): Int { need(4); return input.readInt() }
++    fun long(): Long { need(8); return input.readLong() }
++    fun bool(): Boolean { need(1); val n=input.readUnsignedByte(); requireFormat(n in 0..1); return n==1 }
++    fun count(min: Int, max: Int): Int = int().also { requireFormat(it in min..max, DecodeCode.SIZE) }
++    fun text(max: Int = 128): String? {
++        val n=int(); if (n == -1) return null
++        requireFormat(n in 0..max, DecodeCode.SIZE); need(n*2)
++        return CharArray(n) { input.readChar() }.concatToString()
++    }
++    fun required(max: Int = 128): String = text(max) ?: throw SnapshotFormatException(DecodeCode.STRUCTURE)
++    fun nullableInt(): Int? = if (bool()) int() else null
++    fun nullableLong(): Long? = if (bool()) long() else null
++    fun raw(n: Int): ByteArray { need(n); return ByteArray(n).also(input::readFully) }
++    inline fun <reified T: Enum<T>> enum(): T {
++        val name=required(64)
++        return enumValues<T>().firstOrNull { it.name == name } ?: throw SnapshotFormatException(DecodeCode.STRUCTURE)
++    }
++    fun end() = requireFormat(remaining == 0, DecodeCode.TRAILING)
++}
++
++/** Additional persisted-state invariants; no trust in serialized derived fields or receipt lists. */
++object SnapshotIntegrity {
++    fun valid(s: QueueSnapshot): Boolean {
++        if (!s.valid() || !s.batch.originals.all { it.eligible() }) return false
++        if (!s.reason.matches(Regex("[A-Z0-9_]{1,128}"))) return false
++        if (s.phase == Phase.READY && (s.attempts != 0 || s.receipts.isNotEmpty())) return false
++        if (s.phase != Phase.READY && s.activeAttempt == null) return false
++        if (s.phase == Phase.HELD && !s.outcomeUncertain) return false
++        fun receiptsValid(rows: List<VerifiedReceipt>): Boolean {
++            if (rows.size != s.batch.originals.size || rows.map { it.captureId }.toSet() != s.batch.originals.map { it.captureId }.toSet()) return false
++            return rows.all { r -> when (r.outcome) {
++                ReceiptOutcome.RETAINED -> r.rejectionCode == null && r.canonicalId?.let(EvidenceHash::identity) == true &&
++                    if (s.batch.scope.contract == Contract.BURI_COLLECT_V2)
++                        r.bodySha256 == s.batch.originals.single().bodySha256
++                    else r.canonicalId.let(AckPolicy::uuid) && r.bodySha256 == null
++                ReceiptOutcome.REJECTED -> s.batch.scope.contract == Contract.MMONEY_LEDGER_V1 &&
++                    r.canonicalId == null && r.bodySha256 == null && r.rejectionCode?.matches(Regex("[A-Z0-9_]{1,64}")) == true
++            } }
++        }
++        if (s.receipts.isNotEmpty() && !receiptsValid(s.receipts)) return false
++        if (s.conflictingReceipts.isNotEmpty() && (!receiptsValid(s.conflictingReceipts) || s.receipts.isEmpty() || s.conflictingReceipts == s.receipts)) return false
++        if (s.phase == Phase.CONFLICT && s.receipts.isNotEmpty() && s.conflictingReceipts.isEmpty()) return false
++        return true
++    }
++}
++
++/** Version 1 is the FIRST persisted format. R2 defined no persisted wire format to migrate. */
++object SnapshotCodec {
++    const val VERSION = 1
++    const val MAX_BYTES = 8 * 1024 * 1024
++    private const val MAGIC = 0x534d5353 // SMSS
++    private fun digest(b: ByteArray) = MessageDigest.getInstance("SHA-256").digest(b)
++
++    fun encode(s: QueueSnapshot): ByteArray {
++        requireFormat(SnapshotIntegrity.valid(s), DecodeCode.INVARIANT)
++        val w=BinaryWriter(MAX_BYTES-44)
++        writeBatch(w,s.batch)
++        w.long(s.revision); w.text(s.phase.name); w.text(s.reason)
++        w.int(s.attempts); w.nullableLong(s.firstAttemptAt); w.long(s.lastObservedAt); w.nullableLong(s.notBefore)
++        w.bool(s.activeAttempt != null)
++        s.activeAttempt?.let { a -> w.text(a.key); w.text(a.operationId); w.text(a.payloadHash); w.int(a.ordinal); w.long(a.sessionEpoch); w.long(a.startedAt) }
++        w.bool(s.outcomeUncertain); writeReceipts(w,s.receipts); writeReceipts(w,s.conflictingReceipts)
++        val payload=w.result()
++        val frame=BinaryWriter(MAX_BYTES); frame.int(MAGIC); frame.int(VERSION); frame.int(payload.size); frame.raw(payload)
++        val prefix=frame.result(); frame.raw(digest(prefix)); return frame.result()
++    }
++
++    fun decode(bytes: ByteArray): QueueSnapshot {
++        requireFormat(bytes.size in 44..MAX_BYTES, DecodeCode.SIZE)
++        val r=BinaryReader(bytes)
++        requireFormat(r.int()==MAGIC, DecodeCode.MAGIC)
++        requireFormat(r.int()==VERSION, DecodeCode.VERSION)
++        val n=r.int(); requireFormat(n >= 0 && n == r.remaining-32, DecodeCode.SIZE)
++        val payload=r.raw(n); val checksum=r.raw(32); r.end()
++        requireFormat(MessageDigest.isEqual(checksum,digest(bytes.copyOfRange(0,bytes.size-32))), DecodeCode.CHECKSUM)
++        val p=BinaryReader(payload); val batch=readBatch(p)
++        val revision=p.long(); val phase=p.enum<Phase>(); val reason=p.required()
++        val attempts=p.int(); val first=p.nullableLong(); val observed=p.long(); val notBefore=p.nullableLong()
++        val active=if(p.bool()) Attempt(p.required(),p.required(),p.required(),p.int(),p.long(),p.long()) else null
++        val uncertain=p.bool(); val receipts=readReceipts(p); val conflicts=readReceipts(p); p.end()
++        val s=QueueSnapshot(batch,revision,phase,reason,attempts,first,observed,notBefore,active,uncertain,receipts,conflicts)
++        requireFormat(SnapshotIntegrity.valid(s),DecodeCode.INVARIANT)
++        return s
++    }
++
++    internal fun batchBytes(b: UploadBatch): ByteArray = BinaryWriter(MAX_BYTES).also { writeBatch(it,b) }.result()
++    private fun writeBatch(w: BinaryWriter,b: UploadBatch) {
++        w.text(b.operationId); w.int(b.originals.size)
++        for(o in b.originals) {
++            w.text(o.scope.contract.name); w.text(o.scope.ownerId); w.text(o.scope.installationId); w.text(o.scope.generation)
++            w.text(o.binding.id); w.int(o.binding.version); w.nullableInt(o.binding.subscriptionId)
++            w.text(o.captureId); w.text(o.sourceId)
++            val input=o.assembly.input; w.text(input.mode.name); w.text(input.format); w.int(input.parts.size)
++            for(p in input.parts) {
++                w.nullableInt(p.sequence); w.nullableInt(p.total); w.nullableInt(p.reference); w.nullableInt(p.referenceBits)
++                w.text(p.sender,65536); w.text(p.body,65536); w.nullableLong(p.serviceCentreMillis); w.nullableInt(p.subscriptionId)
++                w.nullableInt(p.dcs); w.text(p.applicationPort); w.bool(p.envelopeValidated); w.text(p.pduHex,8192)
++            }
++            val c=o.classification; w.text(c.contract.name); w.text(c.kind.name); w.text(c.reason); w.text(c.policyVersion); w.text(c.evidenceFingerprint)
++            // All derived hashes are redundant checks; they are never accepted in place of recomputation.
++            w.text(o.assembly.completeness.name); w.text(o.assembly.reason); w.text(o.bodySha256); w.text(o.evidenceHash)
++        }
++        w.text(b.key); w.text(b.payloadHash)
++    }
++    private fun readBatch(r: BinaryReader): UploadBatch {
++        val operation=r.required(); val count=r.count(1,20)
++        val originals=List(count) {
++            val scope=OwnerScope(r.enum(),r.required(),r.required(),r.required())
++            val binding=SourceBinding(r.required(),r.int(),r.nullableInt())
++            val capture=r.required(); val source=r.required(); val mode=r.enum<InputMode>(); val format=r.text()
++            val parts=List(r.count(1,MultipartPolicy.MAX_PARTS)) {
++                SmsPart(r.nullableInt(),r.nullableInt(),r.nullableInt(),r.nullableInt(),r.text(65536),r.text(65536),
++                    r.nullableLong(),r.nullableInt(),r.nullableInt(),r.text(),r.bool(),r.text(8192))
++            }
++            val assembly=MultipartPolicy.inspect(SmsInput(mode,format,parts))
++            val classification=Classification(r.enum(),r.enum(),r.required(),r.required(),r.required())
++            val o=Original(scope,binding,capture,source,assembly,classification)
++            requireFormat(r.enum<Completeness>()==assembly.completeness && r.required()==assembly.reason &&
++                r.text()==o.bodySha256 && r.required()==o.evidenceHash, DecodeCode.INVARIANT)
++            o
++        }
++        val b=UploadBatch(operation,originals)
++        requireFormat(b.valid() && r.required()==b.key && r.required()==b.payloadHash,DecodeCode.INVARIANT)
++        return b
++    }
++    private fun writeReceipts(w: BinaryWriter, rows: List<VerifiedReceipt>) {
++        w.int(rows.size)
++        for(r in rows) { w.text(r.captureId); w.text(r.outcome.name); w.text(r.canonicalId); w.text(r.bodySha256); w.text(r.rejectionCode) }
++    }
++    private fun readReceipts(r: BinaryReader): List<VerifiedReceipt> = List(r.count(0,20)) {
++        VerifiedReceipt(r.required(),r.enum(),r.text(),r.text(),r.text())
++    }
++}
+diff --git a/host/kotlin/rw/ikanisa/sms/host/HostFileJournal.kt b/host/kotlin/rw/ikanisa/sms/host/HostFileJournal.kt
+new file mode 100644
+--- /dev/null
++++ b/host/kotlin/rw/ikanisa/sms/host/HostFileJournal.kt
+@@ -0,0 +1,92 @@
++package rw.ikanisa.sms.host
++
++import rw.ikanisa.sms.policy.*
++import java.io.IOException
++import java.nio.ByteBuffer
++import java.nio.channels.FileChannel
++import java.nio.file.Files
++import java.nio.file.Path
++import java.nio.file.LinkOption.NOFOLLOW_LINKS
++import java.nio.file.StandardOpenOption.*
++import java.nio.file.attribute.PosixFilePermissions
++
++/** Test injection stages; production adapters must not include selectable faults. */
++enum class HostWriteStage { BEFORE_APPEND, AFTER_PARTIAL_APPEND, AFTER_APPEND, AFTER_FORCE }
++fun interface HostWriteFault { fun at(stage: HostWriteStage) }
++
++/**
++ * JVM/POSIX HOST REFERENCE ONLY. Stores plaintext; never install with real message evidence.
++ * Not an Android/Keystore port. Constructor/read/write never initialize, replace or repair storage.
++ * One JVM monitor covers all instances; an OS file lock covers cooperating processes.
++ * The path checks are not a security boundary against hostile concurrent filesystem replacement.
++ */
++class HostFileJournal(private val directory: Path, private val fault: HostWriteFault = HostWriteFault {}): AppendJournalPort {
++    private val file get()=directory.resolve("queue.journal")
++    override fun read(): JournalRead = synchronized(lock) {
++        try {
++            safe(directory); safe(file)
++            if(Files.notExists(file,NOFOLLOW_LINKS)) return@synchronized JournalRead.Missing
++            FileChannel.open(file,READ,WRITE,NOFOLLOW_LINKS).use { channel ->
++                val lease=channel.tryLock() ?: return@synchronized JournalRead.Unavailable
++                lease.use { JournalRead.Bytes(readAll(channel)) }
++            }
++        } catch(_: Exception) { JournalRead.Unavailable }
++    }
++    override fun append(expectedContentHash: String,record: ByteArray): StoreWrite = synchronized(lock) {
++        var started=false
++        try {
++            safe(directory); safe(file)
++            FileChannel.open(file,READ,WRITE,NOFOLLOW_LINKS).use { channel ->
++                val lease=channel.tryLock() ?: return@synchronized StoreWrite.NOT_COMMITTED
++                lease.use {
++                    val before=readAll(channel)
++                    if(EvidenceHash.sha256(before)!=expectedContentHash) return@synchronized StoreWrite.REVISION_CONFLICT
++                    if(record.isEmpty() || before.size.toLong()+record.size>JournalFormat.MAX_BYTES) return@synchronized StoreWrite.NOT_COMMITTED
++                    fault.at(HostWriteStage.BEFORE_APPEND)
++                    channel.position(channel.size()); started=true
++                    val middle=maxOf(1,record.size/2)
++                    writeAll(channel,ByteBuffer.wrap(record,0,middle))
++                    fault.at(HostWriteStage.AFTER_PARTIAL_APPEND)
++                    writeAll(channel,ByteBuffer.wrap(record,middle,record.size-middle))
++                    fault.at(HostWriteStage.AFTER_APPEND)
++                    channel.force(true)
++                    fault.at(HostWriteStage.AFTER_FORCE)
++                    StoreWrite.COMMITTED
++                }
++            }
++        } catch(_: Exception) { if(started) StoreWrite.UNKNOWN else StoreWrite.NOT_COMMITTED }
++    }
++    companion object {
++        private val lock=Any()
++        private fun safe(path: Path) {
++            val absolute=path.toAbsolutePath()
++            require(absolute==absolute.normalize()) { "UNSAFE_PATH" }
++            var node: Path?=absolute
++            while(node!=null) { require(!Files.isSymbolicLink(node)) { "SYMLINK_PATH" }; node=node.parent }
++        }
++        private fun readAll(channel: FileChannel): ByteArray {
++            val size=channel.size()
++            require(size in 0..JournalFormat.MAX_BYTES.toLong()) { "JOURNAL_SIZE" }
++            val b=ByteBuffer.allocate(size.toInt()); channel.position(0)
++            while(b.hasRemaining()) if(channel.read(b)<=0) throw IOException("SHORT_READ")
++            return b.array()
++        }
++        private fun writeAll(channel: FileChannel, buffer: ByteBuffer) {
++            while(buffer.hasRemaining()) if(channel.write(buffer)<=0) throw IOException("SHORT_WRITE")
++        }
++        /** Explicit provisioning of a NEW directory only. Failure retains all partial artifacts. */
++        fun initializeFresh(directory: Path, scope: OwnerScope) = synchronized(lock) {
++            val header=JournalFormat.empty(scope) // Validate before any filesystem mutation.
++            safe(directory)
++            Files.createDirectory(directory,PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------")))
++            val file=directory.resolve("queue.journal")
++            FileChannel.open(file,setOf(CREATE_NEW,WRITE,NOFOLLOW_LINKS),
++                PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-------"))).use {
++                writeAll(it,ByteBuffer.wrap(header)); it.force(true)
++            }
++            // Fail closed on filesystems that cannot honor these host provisioning barriers.
++            FileChannel.open(directory,READ,NOFOLLOW_LINKS).use { it.force(true) }
++            FileChannel.open(directory.toAbsolutePath().parent,READ,NOFOLLOW_LINKS).use { it.force(true) }
++        }
++    }
++}
+diff --git a/tests/persistence/PersistenceChecks.kt b/tests/persistence/PersistenceChecks.kt
+new file mode 100644
+--- /dev/null
++++ b/tests/persistence/PersistenceChecks.kt
+@@ -0,0 +1,468 @@
++package rw.ikanisa.sms.persistence.tests
++
++import rw.ikanisa.sms.policy.*
++import rw.ikanisa.sms.host.*
++import rw.ikanisa.sms.adapters.burimunsi.BuriSmsClassifier
++import rw.ikanisa.sms.adapters.mmoney.MmoneySmsClassifier
++import java.nio.file.Files
++import java.nio.file.Path
++import java.nio.file.StandardOpenOption
++import java.nio.file.attribute.PosixFilePermissions
++import java.nio.ByteBuffer
++import java.security.MessageDigest
++import java.util.concurrent.CountDownLatch
++import java.util.concurrent.CopyOnWriteArrayList
++import kotlin.random.Random
++
++private const val BODY="You have received 1,000 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789."
++private val buri=BuriSmsClassifier()
++private val mm=MmoneySmsClassifier()
++private fun uuid(n: Int)="20000000-0000-4000-8000-"+n.toString().padStart(12,'0')
++private fun scope(c: Contract)=OwnerScope(c,"synthetic-owner","synthetic-installation","generation-1")
++private val binding=SourceBinding("synthetic-binding",1,7)
++private fun classifier(c: Contract)=if(c==Contract.BURI_COLLECT_V2) buri else mm
++private fun batch(c: Contract=Contract.BURI_COLLECT_V2,n: Int=1,parts: List<SmsPart>?=null,
++                  mode: InputMode=InputMode.LIVE,source: String="source-$n",owner: OwnerScope=scope(c),
++                  bind: SourceBinding=binding): UploadBatch {
++    val p=parts ?: listOf(SmsPart(1,1,null,null,"M-Money",BODY,1000,7,0,null,true,"aB00"))
++    val a=MultipartPolicy.inspect(SmsInput(mode,if(mode==InputMode.LIVE) "3gpp" else null,p))
++    val o=Original(owner,bind,uuid(n),source,a,classifier(c).classify(a))
++    return UploadBatch(if(c==Contract.BURI_COLLECT_V2) o.captureId else uuid(n+100),listOf(o))
++}
++private fun auth(b: UploadBatch)=Authority(b.scope,b.binding,1,SimState(true,setOf(7,8)))
++private fun machine(b: UploadBatch)=QueueMachine(classifier(b.scope.contract))
++private fun initial(b: UploadBatch=batch())=QueueSnapshot.capture(b,1000)
++private fun move(s: QueueSnapshot,a: QueueAction,now: Long=s.lastObservedAt)=machine(s.batch).transition(s,a,auth(s.batch),now).next
++private fun ack(b: UploadBatch,canonical: String=uuid(900),rejected: Boolean=false): Map<String,Any?> =
++    if(b.scope.contract==Contract.BURI_COLLECT_V2) mapOf("ok" to true,"receipt" to mapOf("contract_version" to 2,
++        "stored" to true,"owner_user_id" to b.scope.ownerId,"client_envelope_id" to b.originals.single().captureId,
++        "raw_sms_id" to canonical,"body_sha256" to b.originals.single().bodySha256))
++    else mapOf("schemaVersion" to 1,"acknowledgements" to b.originals.map {
++        if(rejected) mapOf("id" to it.captureId,"status" to "rejected","canonicalId" to null,"code" to "UNSUPPORTED")
++        else mapOf("id" to it.captureId,"status" to "accepted","canonicalId" to canonical)
++    })
++private fun stateCopy(s: QueueSnapshot, batch: UploadBatch=s.batch, revision: Long=s.revision,
++    phase: Phase=s.phase,reason: String=s.reason,attempts: Int=s.attempts,first: Long?=s.firstAttemptAt,
++    observed: Long=s.lastObservedAt,notBefore: Long?=s.notBefore,active: Attempt?=s.activeAttempt,
++    uncertain: Boolean=s.outcomeUncertain,receipts: List<VerifiedReceipt> = s.receipts,
++    conflicts: List<VerifiedReceipt> = s.conflictingReceipts) =
++    QueueSnapshot(batch,revision,phase,reason,attempts,first,observed,notBefore,active,uncertain,receipts,conflicts)
++
++private var assertions=0
++private var malformedInputs=0
++private var processRuns=0
++private val results=mutableListOf<Pair<String,String>>()
++private fun yes(value: Boolean) { assertions++; check(value) { "assertion-$assertions" } }
++private fun test(name: String, body: ()->Unit) {
++    try { body(); results+=name to "passed" }
++    catch(e: Throwable) { results+=name to "failed"; System.err.println("FAILED $name: ${e.javaClass.simpleName}: ${e.message}"); e.printStackTrace(System.err) }
++}
++private fun rejected(bytes: ByteArray,code: DecodeCode?=null) {
++    malformedInputs++
++    try { SnapshotCodec.decode(bytes); error("accepted-malformed-input") }
++    catch(e: SnapshotFormatException) { yes(code==null || e.code==code) }
++}
++private fun invalid(s: QueueSnapshot) {
++    try { SnapshotCodec.encode(s); error("accepted-invalid-state") }
++    catch(e: SnapshotFormatException) { yes(e.code==DecodeCode.INVARIANT) }
++}
++private fun reseal(bytes: ByteArray): ByteArray {
++    val prefix=bytes.copyOfRange(0,bytes.size-32)
++    return prefix+MessageDigest.getInstance("SHA-256").digest(prefix)
++}
++private fun replace(bytes: ByteArray,old: String,new: String): ByteArray {
++    require(old.length==new.length)
++    fun raw(s: String)=ByteBuffer.allocate(s.length*2).also { b -> s.forEach { b.putChar(it) } }.array()
++    val from=raw(old); val to=raw(new); val out=bytes.copyOf()
++    val at=(12..out.size-32-from.size).first { i -> from.indices.all { out[i+it]==from[it] } }
++    to.copyInto(out,at); return reseal(out)
++}
++private enum class Fault { NONE, BEFORE, UNKNOWN_BEFORE, UNKNOWN_AFTER, THROW_BEFORE, THROW_AFTER, PARTIAL, CONFLICT }
++private class MemoryJournal(initial: ByteArray): AppendJournalPort {
++    var bytes=initial.copyOf()
++    var fault=Fault.NONE
++    var missing=false
++    var unavailable=false
++    @Synchronized override fun read(): JournalRead = when { missing -> JournalRead.Missing; unavailable -> JournalRead.Unavailable; else -> JournalRead.Bytes(bytes) }
++    @Synchronized override fun append(expectedContentHash: String,record: ByteArray): StoreWrite {
++        if(EvidenceHash.sha256(bytes)!=expectedContentHash) return StoreWrite.REVISION_CONFLICT
++        val f=fault; fault=Fault.NONE
++        when(f) {
++            Fault.BEFORE -> return StoreWrite.NOT_COMMITTED
++            Fault.UNKNOWN_BEFORE -> return StoreWrite.UNKNOWN
++            Fault.THROW_BEFORE -> error("injected-before")
++            Fault.CONFLICT -> return StoreWrite.REVISION_CONFLICT
++            Fault.PARTIAL -> { bytes+=record.copyOfRange(0,record.size/2); return StoreWrite.UNKNOWN }
++            else -> Unit
++        }
++        bytes+=record
++        if(f==Fault.THROW_AFTER) error("injected-after")
++        return if(f==Fault.UNKNOWN_AFTER) StoreWrite.UNKNOWN else StoreWrite.COMMITTED
++    }
++}
++private class Setup(val b: UploadBatch=batch()) {
++    val port=MemoryJournal(JournalFormat.empty(b.scope))
++    val store=JournalQueueStore(port,b.scope)
++    val driver=CommitDriver(store,machine(b))
++    fun capture()=driver.capture(b,1000)
++    fun get()=(store.read(b.key) as StoreRead.Present).snapshot
++    fun step(a: QueueAction,now: Long=1000)=driver.advance(b.key,a,auth(b),now)
++}
++private fun chain(states: List<QueueSnapshot>): ByteArray {
++    var bytes=JournalFormat.empty(states.first().batch.scope)
++    for(s in states) bytes+=JournalFormat.record(JournalFormat.replay(bytes,s.batch.scope),s)
++    return bytes
++}
++private fun readyAndSent(b: UploadBatch=batch()): Pair<QueueSnapshot,QueueSnapshot> {
++    val r=initial(b); return r to move(r,QueueAction.SendOriginal)
++}
++private fun child(args: Array<String>) {
++    val command=args[0]; val dir=Path.of(args[1]); val b=batch(); val port=HostFileJournal(dir)
++    val store=JournalQueueStore(port,b.scope); val driver=CommitDriver(store,machine(b))
++    when(command) {
++        "child-capture" -> { check(driver.capture(b,1000).status=="CAPTURE_COMMITTED"); println("captured") }
++        "child-send" -> { val r=driver.advance(b.key,QueueAction.SendOriginal,auth(b),1000); check(r.effect is QueueEffect.UploadOriginal); println("reserved") }
++        "child-restore" -> { val r=driver.advance(b.key,QueueAction.Restore,auth(b),1100); check(r.snapshot?.phase==Phase.RETRY_WAIT && r.effect==QueueEffect.None); println("restored") }
++        "child-inspect" -> { val s=(store.read(b.key) as StoreRead.Present).snapshot; println("${s.phase}:${s.attempts}:${s.batch.payloadHash}") }
++        "child-stage-ack" -> {
++            val s=(store.read(b.key) as StoreRead.Present).snapshot
++            val r=driver.advance(b.key,QueueAction.Response(s.activeAttempt!!,ack(b)),auth(b),2200)
++            check(r.snapshot?.phase==Phase.ACK_PENDING); println("staged")
++        }
++        "child-finalize" -> { val r=driver.advance(b.key,QueueAction.FinalizeAcknowledgement,auth(b),2300); check(r.snapshot?.phase==Phase.ACKNOWLEDGED); println("finalized") }
++        "child-race" -> {
++            val start=args[2].toLong(); while(System.currentTimeMillis()<start) Thread.sleep(5)
++            val r=driver.advance(b.key,QueueAction.SendOriginal,auth(b),1000)
++            println(if(r.effect is QueueEffect.UploadOriginal) "send" else "no-send")
++        }
++        "child-halt-partial" -> {
++            val interrupted=HostFileJournal(dir,HostWriteFault { if(it==HostWriteStage.AFTER_PARTIAL_APPEND) Runtime.getRuntime().halt(71) })
++            CommitDriver(JournalQueueStore(interrupted,b.scope),machine(b)).advance(b.key,QueueAction.SendOriginal,auth(b),1000)
++            error("halt-not-triggered")
++        }
++        "child-halt-forced" -> {
++            val interrupted=HostFileJournal(dir,HostWriteFault { if(it==HostWriteStage.AFTER_FORCE) Runtime.getRuntime().halt(72) })
++            CommitDriver(JournalQueueStore(interrupted,b.scope),machine(b)).advance(b.key,QueueAction.SendOriginal,auth(b),1000)
++            error("halt-not-triggered")
++        }
++        else -> error("unknown-child-command")
++    }
++}
++private fun startChild(command: String,dir: Path,extra: String?=null): Process {
++    processRuns++
++    val args=mutableListOf(Path.of(System.getProperty("java.home"),"bin","java").toString(),"-cp",System.getProperty("java.class.path"),
++        "rw.ikanisa.sms.persistence.tests.PersistenceChecksKt",command,dir.toString())
++    if(extra!=null) args+=extra
++    return ProcessBuilder(args).redirectErrorStream(true).start()
++}
++private fun finish(p: Process,expected: Int=0): String {
++    check(p.waitFor(20,java.util.concurrent.TimeUnit.SECONDS)) { "child-timeout" }
++    val out=p.inputStream.bufferedReader().readText().trim()
++    check(p.exitValue()==expected) { "child-exit-${p.exitValue()}:$out" }
++    return out
++}
++private fun runChild(command: String,dir: Path,expected: Int=0)=finish(startChild(command,dir),expected)
++
++fun main(args: Array<String>) {
++    if(args.isNotEmpty() && args[0].startsWith("child-")) { child(args); return }
++    for(c in Contract.values()) {
++        val b=batch(c); val (r,s)=readyAndSent(b)
++        val pending=move(s,QueueAction.Response(s.activeAttempt!!,ack(b)),1100)
++        val acknowledged=move(pending,QueueAction.FinalizeAcknowledgement,1200)
++        val conflict=move(acknowledged,QueueAction.Response(s.activeAttempt,ack(b,uuid(901))),1300)
++        val wait=move(s,QueueAction.Failure(s.activeAttempt,503),1100)
++        val held=move(s,QueueAction.Failure(s.activeAttempt,401),1100)
++        val states=mutableListOf(r,s,pending,acknowledged,conflict,wait,held)
++        if(c==Contract.MMONEY_LEDGER_V1) {
++            val reject=move(s,QueueAction.Response(s.activeAttempt,ack(b,rejected=true)),1100)
++            states+=move(reject,QueueAction.FinalizeAcknowledgement,1200)
++        }
++        for(st in states) test("codec/$c/${st.phase}") {
++            val bytes=SnapshotCodec.encode(st); val restored=SnapshotCodec.decode(bytes)
++            yes(bytes.contentEquals(SnapshotCodec.encode(restored)))
++            yes(restored.batch.originals.single().assembly.input.parts==st.batch.originals.single().assembly.input.parts)
++            yes(restored.batch.payloadHash==st.batch.payloadHash && restored.activeAttempt==st.activeAttempt)
++            yes(restored.receipts==st.receipts && restored.conflictingReceipts==st.conflictingReceipts)
++            yes(restored.phase==st.phase && restored.reason==st.reason && restored.revision==st.revision)
++        }
++        test("journal/$c/full-acknowledgement-history") {
++            val bytes=chain(listOf(r,s,pending,acknowledged,conflict))
++            val restored=JournalFormat.replay(bytes,b.scope)
++            yes(restored.recordCount==5 && restored.snapshots.size==1)
++            yes(restored.snapshots[b.key]!!.phase==Phase.CONFLICT)
++        }
++    }
++    test("codec/multipart-observation-order-and-PDU-case") {
++        val first=SmsPart(1,2,55,8,"M-Money",BODY.take(30),1000,7,0,null,true,"aAbB")
++        val last=first.copy(sequence=2,body=BODY.drop(30),pduHex="bBcC")
++        val s=initial(batch(parts=listOf(last,first)))
++        val out=SnapshotCodec.decode(SnapshotCodec.encode(s))
++        yes(out.batch.originals.single().assembly.input.parts==listOf(last,first))
++        yes(out.batch.originals.single().body==BODY)
++    }
++    test("codec/provider-body-never-gains-PDU-completeness") {
++        val p=SmsPart(null,null,null,null,"M-Money",BODY,1000,7,null,null,false,null)
++        val s=initial(batch(Contract.MMONEY_LEDGER_V1,parts=listOf(p),mode=InputMode.PROVIDER))
++        val o=SnapshotCodec.decode(SnapshotCodec.encode(s)).batch.originals.single()
++        yes(o.assembly.completeness==Completeness.PROVIDER_BODY_ONLY)
++        yes(o.assembly.input.parts.single()==p)
++    }
++    test("codec/raw-null-empty-and-invalid-code-unit-metadata") {
++        // Provider metadata is retained as evidence, not interpreted as live-PDU proof.
++        val p=SmsPart(null,null,0,null,"M-Money",BODY,null,7,null,"\ud800",false,"")
++        val s=initial(batch(Contract.MMONEY_LEDGER_V1,parts=listOf(p),mode=InputMode.PROVIDER))
++        val restored=SnapshotCodec.decode(SnapshotCodec.encode(s))
++        yes(restored.batch.originals.single().assembly.input.parts.single()==p)
++        yes(restored.batch.originals.single().evidenceHash==s.batch.originals.single().evidenceHash)
++    }
++    val valid=SnapshotCodec.encode(initial())
++    test("codec/every-truncation-offset") { for(i in valid.indices) rejected(valid.copyOf(i)) }
++    test("codec/every-single-byte-corruption") {
++        for(i in valid.indices) { val copy=valid.copyOf(); copy[i]=(copy[i].toInt() xor 1).toByte(); rejected(copy) }
++    }
++    test("codec/unsupported-version") { val copy=valid.copyOf(); ByteBuffer.wrap(copy).putInt(4,99); rejected(copy,DecodeCode.VERSION) }
++    test("codec/trailing-bytes") { rejected(valid+byteArrayOf(1,2),DecodeCode.SIZE) }
++    test("codec/negative-and-overflow-lengths") {
++        for(n in listOf(-1,Int.MIN_VALUE,Int.MAX_VALUE,SnapshotCodec.MAX_BYTES)) {
++            val copy=valid.copyOf(); ByteBuffer.wrap(copy).putInt(8,n); rejected(copy,DecodeCode.SIZE)
++        }
++    }
++    test("codec/resealed-invalid-string-count") {
++        val copy=valid.copyOf(); ByteBuffer.wrap(copy).putInt(12,Int.MAX_VALUE); rejected(reseal(copy),DecodeCode.SIZE)
++    }
++    test("codec/resealed-unknown-enum") { rejected(replace(valid,"READY","XXXXX"),DecodeCode.STRUCTURE) }
++    test("codec/resealed-derived-evidence-hash") {
++        rejected(replace(valid,initial().batch.originals.single().evidenceHash,"f".repeat(64)),DecodeCode.INVARIANT)
++    }
++    test("codec/resealed-derived-classification-fingerprint") {
++        rejected(replace(valid,initial().batch.originals.single().classification.evidenceFingerprint,"e".repeat(64)),DecodeCode.INVARIANT)
++    }
++    test("codec/deterministic-random-malformed-inputs") {
++        val random=Random(309)
++        repeat(1000) { rejected(random.nextBytes(random.nextInt(0,3000))) }
++    }
++    test("codec/unknown-boolean-tag") {
++        val r=BinaryReader(byteArrayOf(2)); try { r.bool(); error("bad-boolean") } catch(e: SnapshotFormatException) { yes(e.code==DecodeCode.STRUCTURE) }
++    }
++    val (ready,sent)=readyAndSent()
++    val pending=move(sent,QueueAction.Response(sent.activeAttempt!!,ack(sent.batch)),1100)
++    val acknowledged=move(pending,QueueAction.FinalizeAcknowledgement,1200)
++    for((name,s) in listOf(
++        "negative-revision" to stateCopy(ready,revision=-1),
++        "ready-with-attempt" to stateCopy(sent,phase=Phase.READY),
++        "held-without-attempt" to stateCopy(ready,phase=Phase.HELD),
++        "unsafe-diagnostic" to stateCopy(ready,reason=BODY),
++        "ack-with-no-receipt" to stateCopy(sent,phase=Phase.ACKNOWLEDGED),
++        "invalid-conflict-coverage" to stateCopy(acknowledged,phase=Phase.CONFLICT,conflicts=listOf(VerifiedReceipt("wrong",ReceiptOutcome.RETAINED,"x","bad",null))),
++        "identical-conflict-receipts" to stateCopy(acknowledged,phase=Phase.CONFLICT,conflicts=acknowledged.receipts),
++        "attempt-identity" to stateCopy(sent,active=sent.activeAttempt.copy(operationId="wrong")),
++        "clock-order" to stateCopy(sent,observed=0),
++        "counter-reset" to stateCopy(sent,attempts=0)
++    )) test("codec/invariant-$name") { invalid(s) }
++
++    test("journal/missing-is-not-empty-and-never-auto-provisioned") {
++        val x=Setup(); x.port.missing=true; val before=x.port.bytes.copyOf()
++        yes(x.capture().status=="STORAGE_BLOCKED")
++        yes(x.port.bytes.contentEquals(before))
++        yes(x.store.inspect()==JournalInspection.Blocked("JOURNAL_MISSING"))
++    }
++    test("journal/unavailable-read-never-captures") { val x=Setup(); x.port.unavailable=true; yes(x.capture().status=="STORAGE_BLOCKED") }
++    test("journal/wrong-owner-generation-installation-contract") {
++        val bytes=chain(listOf(ready))
++        for(s in listOf(ready.batch.scope.copy(ownerId="other"),ready.batch.scope.copy(generation="other"),
++            ready.batch.scope.copy(installationId="other"),ready.batch.scope.copy(contract=Contract.MMONEY_LEDGER_V1))) {
++            val store=JournalQueueStore(MemoryJournal(bytes),s)
++            yes(store.read(ready.batch.key)==StoreRead.Corrupt)
++            yes((store.inspect() as JournalInspection.Blocked).reason=="JOURNAL_SCOPE")
++        }
++    }
++    test("journal/replay-stable-original-and-ack-tombstone") {
++        val x=Setup(); yes(x.capture().status=="CAPTURE_COMMITTED"); yes(x.capture().status=="CAPTURE_ALREADY_RETAINED")
++        val send=x.step(QueueAction.SendOriginal); val effect=send.effect as QueueEffect.UploadOriginal
++        yes(x.step(QueueAction.Response(effect.attempt,ack(x.b)),1100).snapshot?.phase==Phase.ACK_PENDING)
++        yes(x.step(QueueAction.FinalizeAcknowledgement,1200).snapshot?.phase==Phase.ACKNOWLEDGED)
++        val rebuilt=JournalQueueStore(x.port,x.b.scope)
++        yes((rebuilt.read(x.b.key) as StoreRead.Present).snapshot.batch.payloadHash==x.b.payloadHash)
++        yes(x.capture().status=="CAPTURE_ALREADY_RETAINED")
++        yes(x.step(QueueAction.SendOriginal,1300).effect==QueueEffect.None)
++    }
++    test("journal/mmoney-source-body-duplicate-atomic-admission") {
++        val x=Setup(batch(Contract.MMONEY_LEDGER_V1)); x.capture()
++        val duplicate=batch(Contract.MMONEY_LEDGER_V1,2,source="source-1")
++        val before=x.port.bytes.copyOf(); yes(x.driver.capture(duplicate,1000).status=="ORIGINAL_ALREADY_BOUND")
++        yes(before.contentEquals(x.port.bytes))
++        val rebatch=UploadBatch(uuid(888),x.b.originals)
++        yes(x.driver.capture(rebatch,1000).status=="ORIGINAL_ALREADY_BOUND")
++    }
++    test("journal/mmoney-duplicates-within-new-batch") {
++        val one=batch(Contract.MMONEY_LEDGER_V1,1,source="same").originals.single()
++        val two=batch(Contract.MMONEY_LEDGER_V1,2,source="same").originals.single()
++        val x=Setup(UploadBatch(uuid(950),listOf(one,two)))
++        yes(x.capture().status=="ORIGINAL_ALREADY_BOUND")
++        yes(JournalFormat.replay(x.port.bytes,x.b.scope).snapshots.isEmpty())
++    }
++    test("journal/immutable-classification-cannot-change-on-CAS") {
++        val x=Setup(); x.capture(); val s=x.get(); val o=x.b.originals.single()
++        val changed=Original(o.scope,o.binding,o.captureId,o.sourceId,o.assembly,o.classification.copy(policyVersion="other"))
++        val changedBatch=UploadBatch(x.b.operationId,listOf(changed))
++        val next=move(s,QueueAction.SendOriginal)
++        yes(x.store.compareAndSet(x.b.key,0,stateCopy(next,batch=changedBatch))==StoreWrite.REVISION_CONFLICT)
++        yes(x.get().revision==0L)
++    }
++    test("journal/CAS-refuses-clock-revision-attempt-and-receipt-rollback") {
++        yes(!JournalHistory.follows(ready,stateCopy(sent,revision=2)))
++        yes(!JournalHistory.follows(sent,stateCopy(sent,revision=2)))
++        yes(!JournalHistory.follows(acknowledged,stateCopy(ready,revision=4)))
++        yes(!JournalHistory.follows(pending,stateCopy(acknowledged,receipts=listOf(VerifiedReceipt(ready.batch.originals.single().captureId,ReceiptOutcome.RETAINED,"other",ready.batch.originals.single().bodySha256,null)))))
++    }
++    test("journal/complete-record-reordering-rejected") {
++        val header=JournalFormat.empty(ready.batch.scope)
++        val f1=JournalFormat.record(JournalFormat.replay(header,ready.batch.scope),ready)
++        val f2=JournalFormat.record(JournalFormat.replay(header+f1,ready.batch.scope),sent)
++        val port=MemoryJournal(header+f2+f1); yes(JournalQueueStore(port,ready.batch.scope).read(ready.batch.key)==StoreRead.Corrupt)
++    }
++    test("journal/every-partial-tail-offset-blocks-without-mutation") {
++        val prefix=chain(listOf(ready)); val frame=JournalFormat.record(JournalFormat.replay(prefix,ready.batch.scope),sent)
++        for(i in 1 until frame.size) {
++            val bytes=prefix+frame.copyOf(i); val p=MemoryJournal(bytes); val store=JournalQueueStore(p,ready.batch.scope)
++            yes(store.read(ready.batch.key)==StoreRead.Corrupt)
++            yes(store.compareAndSet(ready.batch.key,0,sent)==StoreWrite.NOT_COMMITTED)
++            yes(p.bytes.contentEquals(bytes))
++        }
++    }
++    test("journal/damaged-committed-record-is-not-skipped") {
++        val bytes=chain(listOf(ready,sent,pending,acknowledged)); bytes[100]=(bytes[100].toInt() xor 1).toByte()
++        val p=MemoryJournal(bytes); val store=JournalQueueStore(p,ready.batch.scope)
++        yes(store.read(ready.batch.key)==StoreRead.Corrupt); yes(p.bytes.contentEquals(bytes))
++    }
++    test("journal/schema-version-is-not-guessed-or-upgraded") {
++        val bytes=chain(listOf(ready)); ByteBuffer.wrap(bytes).putInt(4,99)
++        val p=MemoryJournal(bytes); yes((JournalQueueStore(p,ready.batch.scope).inspect() as JournalInspection.Blocked).reason=="JOURNAL_VERSION")
++        yes(bytes.contentEquals(p.bytes))
++    }
++    for(f in Fault.values().filter { it!=Fault.NONE }) for(stage in listOf("capture","reserve","stage-ack","finalize")) {
++        test("fault/$stage/$f") {
++            val x=Setup()
++            if(stage!="capture") x.capture()
++            if(stage in listOf("stage-ack","finalize")) x.step(QueueAction.SendOriginal)
++            if(stage=="finalize") x.step(QueueAction.Response(x.get().activeAttempt!!,ack(x.b)),1100)
++            val before=x.port.bytes.copyOf()
++            val action=when(stage) {
++                "reserve" -> QueueAction.SendOriginal
++                "stage-ack" -> QueueAction.Response(x.get().activeAttempt!!,ack(x.b))
++                "finalize" -> QueueAction.FinalizeAcknowledgement
++                else -> null
++            }
++            x.port.fault=f
++            val result=if(action==null) x.capture() else x.step(action,1200)
++            yes(result.effect==QueueEffect.None)
++            yes(result.status !in setOf("CAPTURE_COMMITTED","ORIGINAL_RESERVED","ACK_VALIDATED","ACK_COMMITTED"))
++            yes(x.port.bytes.take(before.size)==before.toList())
++            if(f==Fault.PARTIAL) yes(x.store.read(x.b.key)==StoreRead.Corrupt)
++            if(f in setOf(Fault.UNKNOWN_AFTER,Fault.THROW_AFTER)) {
++                val restored=x.get(); yes(restored.batch.payloadHash==x.b.payloadHash)
++                if(stage=="reserve") { val recovery=x.step(QueueAction.Restore,1300); yes(recovery.effect==QueueEffect.None && recovery.snapshot?.outcomeUncertain==true) }
++                if(stage=="stage-ack") yes(restored.phase==Phase.ACK_PENDING)
++                if(stage=="finalize") yes(restored.phase==Phase.ACKNOWLEDGED)
++            }
++        }
++    }
++    test("journal/two-concurrent-reservations-emit-at-most-one-send") {
++        val x=Setup(); x.capture(); val start=CountDownLatch(1); val out=CopyOnWriteArrayList<DriverResult>()
++        val threads=List(2) { Thread { start.await(); val driver=CommitDriver(JournalQueueStore(x.port,x.b.scope),machine(x.b)); out+=driver.advance(x.b.key,QueueAction.SendOriginal,auth(x.b),1000) } }
++        threads.forEach { it.start() }; start.countDown(); threads.forEach { it.join() }
++        yes(out.count { it.effect is QueueEffect.UploadOriginal }==1); yes(x.get().attempts==1)
++    }
++    test("dispatch/lease-and-current-authority-gate") {
++        val b=sent.batch; val machine=machine(b); val effect=QueueEffect.UploadOriginal(sent.activeAttempt!!,b)
++        yes(ReservationGate.permitted(effect,sent,auth(b),1000,machine))
++        yes(!ReservationGate.permitted(effect,sent,auth(b),999,machine))
++        yes(!ReservationGate.permitted(effect,sent,auth(b),1000+machine.limits.leaseMs,machine))
++        yes(!ReservationGate.permitted(effect,sent,auth(b).copy(sessionEpoch=2),1000,machine))
++        yes(!ReservationGate.permitted(effect,sent,auth(b).copy(enabled=false),1000,machine))
++        yes(!ReservationGate.permitted(effect,sent,auth(b).copy(sim=SimState(true,setOf(8))),1000,machine))
++        yes(!ReservationGate.permitted(effect,pending,auth(b),1100,machine))
++    }
++    test("privacy/diagnostics-do-not-print-raw-evidence") {
++        yes(!SnapshotFormatException(DecodeCode.INVARIANT).toString().contains(BODY))
++        yes(!JournalRead.Bytes(valid).toString().contains(BODY))
++        yes(!JournalFormat.replay(chain(listOf(ready)),ready.batch.scope).toString().contains(BODY))
++    }
++    val parent=Files.createTempDirectory("sms-r3-host-")
++    fun dir(name: String): Path=parent.resolve(name)
++    test("host/explicit-fresh-provisioning-and-permissions") {
++        val d=dir("provision"); HostFileJournal.initializeFresh(d,ready.batch.scope)
++        yes(Files.getPosixFilePermissions(d)==PosixFilePermissions.fromString("rwx------"))
++        yes(Files.getPosixFilePermissions(d.resolve("queue.journal"))==PosixFilePermissions.fromString("rw-------"))
++        val before=Files.readAllBytes(d.resolve("queue.journal"))
++        yes(runCatching { HostFileJournal.initializeFresh(d,ready.batch.scope) }.isFailure)
++        yes(before.contentEquals(Files.readAllBytes(d.resolve("queue.journal"))))
++    }
++    test("host/missing-file-is-not-recreated") {
++        val d=dir("missing"); Files.createDirectory(d)
++        val store=JournalQueueStore(HostFileJournal(d),ready.batch.scope)
++        yes(store.read(ready.batch.key)==StoreRead.Unavailable)
++        yes(store.createIfUnbound(ready)==StoreWrite.NOT_COMMITTED)
++        yes(!Files.exists(d.resolve("queue.journal")))
++        yes(runCatching { HostFileJournal.initializeFresh(d,ready.batch.scope) }.isFailure)
++    }
++    test("host/symlink-refusal") {
++        val real=dir("real"); HostFileJournal.initializeFresh(real,ready.batch.scope)
++        val link=dir("link"); Files.createSymbolicLink(link,real)
++        yes(HostFileJournal(link).read()==JournalRead.Unavailable)
++        yes(runCatching { HostFileJournal.initializeFresh(link,ready.batch.scope) }.isFailure)
++        val d=dir("link-file"); Files.createDirectory(d); Files.createSymbolicLink(d.resolve("queue.journal"),real.resolve("queue.journal"))
++        yes(HostFileJournal(d).read()==JournalRead.Unavailable)
++    }
++    for(stage in HostWriteStage.values()) test("host/write-fault-$stage") {
++        val d=dir("fault-$stage"); HostFileJournal.initializeFresh(d,ready.batch.scope)
++        val clean=JournalQueueStore(HostFileJournal(d),ready.batch.scope)
++        yes(clean.createIfUnbound(ready)==StoreWrite.COMMITTED)
++        val before=Files.readAllBytes(d.resolve("queue.journal"))
++        val faulty=HostFileJournal(d,HostWriteFault { if(it==stage) error("injected") })
++        val result=CommitDriver(JournalQueueStore(faulty,ready.batch.scope),machine(ready.batch)).advance(ready.batch.key,QueueAction.SendOriginal,auth(ready.batch),1000)
++        yes(result.effect==QueueEffect.None)
++        val after=Files.readAllBytes(d.resolve("queue.journal")); yes(after.take(before.size)==before.toList())
++        if(stage==HostWriteStage.AFTER_PARTIAL_APPEND) yes(clean.read(ready.batch.key)==StoreRead.Corrupt)
++        if(stage in setOf(HostWriteStage.AFTER_APPEND,HostWriteStage.AFTER_FORCE)) yes((clean.read(ready.batch.key) as StoreRead.Present).snapshot.phase==Phase.IN_FLIGHT)
++    }
++    test("host/separate-process-capture-reservation-restore-and-ack-finalization") {
++        val d=dir("restart"); HostFileJournal.initializeFresh(d,ready.batch.scope)
++        yes(runChild("child-capture",d)=="captured")
++        yes(runChild("child-send",d)=="reserved")
++        yes(runChild("child-inspect",d)=="IN_FLIGHT:1:${ready.batch.payloadHash}")
++        yes(runChild("child-restore",d)=="restored")
++        yes(runChild("child-inspect",d)=="RETRY_WAIT:1:${ready.batch.payloadHash}")
++        yes(runChild("child-stage-ack",d)=="staged")
++        yes(runChild("child-finalize",d)=="finalized")
++        yes(runChild("child-inspect",d)=="ACKNOWLEDGED:1:${ready.batch.payloadHash}")
++    }
++    test("host/separate-process-write-contention") {
++        val d=dir("process-race"); HostFileJournal.initializeFresh(d,ready.batch.scope); runChild("child-capture",d)
++        val start=(System.currentTimeMillis()+900).toString()
++        val one=startChild("child-race",d,start); val two=startChild("child-race",d,start)
++        val outcomes=listOf(finish(one),finish(two)); yes(outcomes.count { it=="send" }==1)
++        yes(runChild("child-inspect",d).startsWith("IN_FLIGHT:1:"))
++    }
++    test("host/abrupt-process-death-during-partial-append") {
++        val d=dir("halt-partial"); HostFileJournal.initializeFresh(d,ready.batch.scope); runChild("child-capture",d)
++        runChild("child-halt-partial",d,71)
++        val before=Files.readAllBytes(d.resolve("queue.journal")); val store=JournalQueueStore(HostFileJournal(d),ready.batch.scope)
++        yes(store.read(ready.batch.key)==StoreRead.Corrupt)
++        yes(store.compareAndSet(ready.batch.key,0,sent)==StoreWrite.NOT_COMMITTED)
++        yes(before.contentEquals(Files.readAllBytes(d.resolve("queue.journal"))))
++    }
++    test("host/abrupt-process-death-after-force-before-result") {
++        val d=dir("halt-forced"); HostFileJournal.initializeFresh(d,ready.batch.scope); runChild("child-capture",d)
++        runChild("child-halt-forced",d,72)
++        yes(runChild("child-inspect",d).startsWith("IN_FLIGHT:1:"))
++        yes(runChild("child-restore",d)=="restored")
++        yes(runChild("child-inspect",d).startsWith("RETRY_WAIT:1:"))
++    }
++    // Temporary synthetic fixture cleanup only. Production storage exposes NO deletion operation.
++    Files.walk(parent).use { paths -> paths.sorted(Comparator.reverseOrder()).forEach { Files.deleteIfExists(it) } }
++    val failed=results.count { it.second=="failed" }
++    val items=results.joinToString(",") { "{\"name\":\"${it.first}\",\"status\":\"${it.second}\"}" }
++    println("{\"status\":\"${if(failed==0) "passed" else "failed"}\",\"tests\":${results.size},\"assertions\":$assertions,\"failed\":$failed,\"malformed_inputs\":$malformedInputs,\"child_processes\":$processRuns,\"cases\":[$items]}")
++    if(failed>0) kotlin.system.exitProcess(1)
++}
+diff --git a/tests/python/test_persistence_delivery.py b/tests/python/test_persistence_delivery.py
+new file mode 100644
+--- /dev/null
++++ b/tests/python/test_persistence_delivery.py
+@@ -0,0 +1,71 @@
++"""R3 is additive over R2: no existing policy or pinned dependency is silently replaced."""
++import hashlib
++import importlib.util
++import json
++from pathlib import Path
++import shutil
++import tempfile
++import unittest
++
++ROOT=Path(__file__).resolve().parents[2]
++spec=importlib.util.spec_from_file_location('r3_install',ROOT/'scripts/install_overlay.py')
++installer=importlib.util.module_from_spec(spec)
++spec.loader.exec_module(installer)
++
++class PersistenceDeliveryTests(unittest.TestCase):
++    def test_r2_sources_dependencies_and_fixtures_unchanged(self):
++        baseline=json.loads((ROOT/'provenance/R2_BASELINE.json').read_text())['files']
++        checked=0
++        for rel,sha in baseline.items():
++            if rel.split('/')[0] not in ('src','vendor','fixtures'):
++                continue
++            self.assertEqual(hashlib.sha256((ROOT/rel).read_bytes()).hexdigest(),sha,rel)
++            checked+=1
++        self.assertGreater(checked,40)
++
++    def test_existing_r2_sources_accept_additive_install_for_both_apps(self):
++        baseline=json.loads((ROOT/'provenance/R2_BASELINE.json').read_text())['files']
++        for app in ('burimunsi','mmoney'):
++            with self.subTest(application=app), tempfile.TemporaryDirectory() as tmp:
++                target=Path(tmp)
++                prefix='rw/ikanisa/burimunsi/core' if app=='burimunsi' else 'com/ikanisa/mmoney/core'
++                vendor='buri' if app=='burimunsi' else 'mmoney'
++                core=target/'core/src/main/kotlin'
++                (core/prefix).mkdir(parents=True)
++                for p in (ROOT/f'vendor/{vendor}/core').glob('*.kt'):
++                    shutil.copy2(p,core/prefix/p.name)
++                for rel in baseline:
++                    if rel.startswith('src/main/kotlin/'):
++                        dst=core/rel.removeprefix('src/main/kotlin/')
++                    elif rel.startswith(f'src/adapters/{app}/'):
++                        dst=core/f'rw/ikanisa/sms/adapters/{app}'/Path(rel).name
++                    else:
++                        continue
++                    dst.parent.mkdir(parents=True,exist_ok=True)
++                    shutil.copy2(ROOT/rel,dst)
++                plan=installer.install(target,app)
++                creates=[x for x in plan['files'] if x['action']=='create']
++                self.assertEqual({Path(x['path']).name for x in creates},
++                    {'SnapshotCodec.kt','JournalFormat.kt','JournalQueueStore.kt'})
++                before={p.relative_to(target):p.read_bytes() for p in target.rglob('*') if p.is_file()}
++                installer.install(target,app,True)
++                self.assertTrue(all((target/p).read_bytes()==content for p,content in before.items()))
++                self.assertNotIn('HostFileJournal.kt',{p.name for p in target.rglob('*')})
++                self.assertTrue(all(x['action']=='already_present' for x in installer.install(target,app,True)['files']))
++
++    def test_host_reference_not_inside_mobile_source_overlay(self):
++        self.assertTrue((ROOT/'host/kotlin/rw/ikanisa/sms/host/HostFileJournal.kt').is_file())
++        self.assertFalse(any('HostFileJournal' in p.name for p in (ROOT/'src').rglob('*')))
++
++    def test_runner_hashes_new_host_and_persistence_inputs(self):
++        spec=importlib.util.spec_from_file_location('r3_verify',ROOT/'scripts/verify.py')
++        verifier=importlib.util.module_from_spec(spec)
++        spec.loader.exec_module(verifier)
++        inputs=verifier.input_hashes()
++        self.assertIn('host/kotlin/rw/ikanisa/sms/host/HostFileJournal.kt',inputs)
++        self.assertIn('tests/persistence/PersistenceChecks.kt',inputs)
++        self.assertIn('provenance/R2_BASELINE.json',inputs)
++        self.assertIn('scripts/verify.py',inputs)
++
++if __name__=='__main__':
++    unittest.main()
+diff --git a/scripts/verify.py b/scripts/verify.py
+--- a/scripts/verify.py
++++ b/scripts/verify.py
+@@ -19,7 +19,7 @@
+     return hashlib.sha256(p.read_bytes()).hexdigest()
+ 
+ def input_hashes() -> dict[str, str]:
+-    files = [p for folder in ("src", "tests", "scripts", "fixtures", "vendor")
++    files = [p for folder in ("src", "host", "tests", "scripts", "fixtures", "vendor", "provenance")
+              for p in (ROOT / folder).rglob("*") if p.is_file() and "__pycache__" not in p.parts]
+     return {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(files)}
+ 
+@@ -40,13 +40,14 @@
+     out = args.output.resolve()
+     out.mkdir(parents=True, exist_ok=False)
+     inputs = input_hashes()
+-    record = {"schema_version": 1, "scope": "SMS policies R2 host source verification",
++    record = {"schema_version": 1, "scope": "SMS policies R3 snapshot/journal host verification",
+         "started_at": dt.datetime.now(dt.timezone.utc).isoformat(), "inputs": inputs,
+         "input_set_sha256": hashlib.sha256(json.dumps(inputs, sort_keys=True, separators=(",", ":")).encode()).hexdigest(),
+         "suites": [], "external_gates": [
+             {"name": n, "status": "blocked", "reason": r} for n, r in [
+-                ("native_runtime_adapter_wiring", "New state machine is not wired into Android workers/storage; no durable port implemented here."),
++                ("native_runtime_adapter_wiring", "Android workers, encrypted durable adapter, lifecycle fence and legacy queue migration are not wired or qualified. The supplied file port is plaintext host-only."),
+                 ("android_compile_instrumentation", "Not executed by this host-only runner."),
++                ("storage_anti_rollback_and_encryption", "No trusted external high-water mark or production encrypted storage implemented; complete-prefix rollback is not detected."),
+                 ("carrier_delivery", "No authorized handset/SIM/live carrier observations supplied."),
+                 ("hosted_ingestion_idempotency", "No deployed service or real database tested."),
+                 ("actual_collect_checkout_import", "Only temporary repository fixtures used.")]]}
+@@ -79,6 +80,8 @@
+         br = ROOT / "vendor/buri/receiver"
+         bt = ROOT / "vendor/buri/tests"
+         suites = [
++            ("persistence_r3", sorted((ROOT / "src").rglob("*.kt")) + sorted((ROOT / "host").rglob("*.kt")) + bc + mc + sorted((ROOT / "tests/persistence").glob("*.kt")),
++             "rw.ikanisa.sms.persistence.tests.PersistenceChecksKt", []),
+             ("policies_r2", sorted((ROOT / "src").rglob("*.kt")) + bc + mc + sorted((ROOT / "tests/kotlin").glob("*.kt")),
+              "rw.ikanisa.sms.policy.tests.PolicyChecksKt", [str(ROOT)]),
+             ("buri_core", bc + [bt / "CoreChecks.kt"], "rw.ikanisa.burimunsi.core.CoreChecks", []),
+@@ -92,6 +95,9 @@
+             for name, sources, main_class, argv in suites:
+                 row = {"name": name, "status": "blocked", "inputs": [p.relative_to(ROOT).as_posix() for p in sources]}
+                 record["suites"].append(row)
++                if name == "persistence_r3" and os.name != "posix":
++                    row["reason"] = "POSIX host filesystem required; Android is not substituted"
++                    continue
+                 if not tools_ready:
+                     row["reason"] = "Kotlin compiler or Java runtime missing"
+                     continue
+@@ -106,7 +112,7 @@
+                     row["status"] = "failed"
+                     continue
+                 row["jar_sha256"] = sha(jar)
+-                executed = run([args.java, "-cp", str(jar), main_class, *argv], out, name)
++                executed = run([args.java, "-Xmx512m", "-cp", str(jar), main_class, *argv], out, name)
+                 row["exit_code"] = executed.returncode
+                 row["status"] = "failed"
+                 if executed.returncode == 0:
+@@ -114,7 +120,7 @@
+                         details = json.loads(executed.stdout)
+                         if details.get("status") == "passed":
+                             row["status"] = "passed"
+-                            row.update({key: details[key] for key in ("tests", "checks", "assertions", "failed", "model_events") if key in details})
++                            row.update({key: details[key] for key in ("tests", "checks", "assertions", "failed", "model_events", "malformed_inputs", "child_processes") if key in details})
+                             (out / (name + ".json")).write_text(json.dumps(details, indent=2) + "\n")
+                     else:
+                         plan = re.findall(r"^1\.\.(\d+)\s*$", executed.stdout, re.M)
+diff --git a/provenance/R2_BASELINE.json b/provenance/R2_BASELINE.json
+new file mode 100644
+--- /dev/null
++++ b/provenance/R2_BASELINE.json
+@@ -0,0 +1,62 @@
++{
++  "archive_sha256": "4175a7cd8508769dc17a005d7c6031198e7821c4ccbeec53cc08bde3c7fbf5d2",
++  "files": {
++    "fixtures/classification.json": "d30e80c042e3dff77c9c0798d99a6a94980212f72fc63212c1f5665e4e9a03a1",
++    "fixtures/classification.tsv": "ca35d6ccfa6c6f190231e236bcfdab406085f14c402ee4fded24687a175c02d8",
++    "fixtures/mmoney-inherited.json": "a195cdcf83586e35530fda22249090334bc7e0933da464c602ec7080f1e3c205",
++    "scripts/install_overlay.py": "a6dd7671a4bade9b26e77b01fdab9df7cfcad24cf10c4f21d01e1b6d96a0d47e",
++    "scripts/verify.py": "15fd4c1e52c16f5b456f8b1bc6a29e356308dd563ae9ee71d41b8589a64797f7",
++    "src/adapters/burimunsi/BuriSmsClassifier.kt": "584a1638d2cb61f2612253e6bbe285e3b64487fb2ccbdf27c11bebf151c79595",
++    "src/adapters/mmoney/MmoneySmsClassifier.kt": "2b924d4c89bac184927016996777306b86a30dddb028d5b3c58c76a102a85b85",
++    "src/main/kotlin/rw/ikanisa/sms/policy/Acknowledgements.kt": "367b0bcf01e151276f399802bcb2f8f5da68e22b67b50b5f4f17d44d025c1759",
++    "src/main/kotlin/rw/ikanisa/sms/policy/CommitDriver.kt": "6236cc48df9673dafff867e1c0d12132732c5ee0561db78ae36dc637201f9248",
++    "src/main/kotlin/rw/ikanisa/sms/policy/Duplicates.kt": "34432e5353a02cfbcf27b7ec356224cbf2d1d1c469dc57f7192105611831b787",
++    "src/main/kotlin/rw/ikanisa/sms/policy/Evidence.kt": "fb36d2997883d0c5ac6f23e9124784090dee6b7b307c4196a033d5726b5d1b4c",
++    "src/main/kotlin/rw/ikanisa/sms/policy/Identity.kt": "c22d39e89e1fe6488dcf55e2beacbf1b1308b5c3e7c9b563a0743f2b04bd7f06",
++    "src/main/kotlin/rw/ikanisa/sms/policy/Queue.kt": "14469ab51eaaf79d3d1e60fe7919f99a133a2a94088768c873a7785d36b17aba",
++    "src/main/kotlin/rw/ikanisa/sms/policy/Retry.kt": "729b177e4bdb5fbfbbccb5fa905e5f064227e2991803a8447ec7148ae629f690",
++    "tests/kotlin/PolicyChecks.kt": "4cefaf6ec28c561e519984a17aa0af8a934f41cc8893e14adef500ad313e5a78",
++    "tests/python/test_delivery.py": "6f050c76cf5856a6eb86079a860fc8227d0196a2988be63f3f47ff9f1862989b",
++    "vendor/PROVENANCE.json": "9004ce1b535f6185392307cdff3670adefbd8959d19c06137766f5426d9ccac1",
++    "vendor/buri/core/Acknowledgement.kt": "b4b00d78f7693459ce7f4114f95ae46998fd747da7bd411aee23e561baa49da1",
++    "vendor/buri/core/GatewayHealth.kt": "a53b6f18c98bea78d7546344948f00f35c0aeb0828c046e8e6344872008a7b1e",
++    "vendor/buri/core/Models.kt": "c400de5f1ae21cffabbab57044a3085320a7e1da2ae41aa4ecb69b174876ec0b",
++    "vendor/buri/core/OperationJournal.kt": "616454470bbbcdbc730795214cac0185b943f19433d3542fe22701a99b812930",
++    "vendor/buri/core/PageIntegrity.kt": "009afeaf91e77f7ef07b3321affa08445b3d72df03315c6a7755a33550030e45",
++    "vendor/buri/core/Presentation.kt": "e37889c26506b54624f1d9a63de478d59a11c3fc8244a1b106685e5405b34c81",
++    "vendor/buri/core/Receipt.kt": "8f5cf76484006305504e4b7755e9355e8479695eeeac4980925da8124cd0fcad",
++    "vendor/buri/core/ScreenGate.kt": "80e66c4a54a6e13e7ab02078e78d348ed528a8c4c29785e25c3cb676d45ec228",
++    "vendor/buri/core/SessionAuthority.kt": "28eb9f8676269ec8c19273949b5043a6402020b3fcd2d8ce331ea536aa6ab676",
++    "vendor/buri/core/SnapshotFreshness.kt": "6ce9ea3048757c86688475adbe1f7e732548f8bf5d835733528b9f571c3cdab3",
++    "vendor/buri/core/Values.kt": "802bc2a66b9ac09429c29d9b0cf2fbc577f5632d43bf74e90452bbe003b26554",
++    "vendor/buri/core/ViewMemory.kt": "e269f8fb772d6742e69b255935e8cd143d83fc078f032282836a77aac08721aa",
++    "vendor/buri/effective/ReceiptAckPolicy.kt": "afda9755d99c42b2a1ba9623228dcc91735ed9988aad849fa3d985d440905131",
++    "vendor/buri/receiver/BuriQueueFile.kt": "d619115477b5fad485d54fe3fc86ac2d32399be9ddefc2dc6880b28f3d98ad53",
++    "vendor/buri/receiver/BuriReceiverReliability.kt": "7db5d53bff8c14d6b0dd767c74014e01e2c446223d2a4c25d02b10884aeafb9d",
++    "vendor/buri/receiver/MomoGatewayPolicy.kt": "d9fbfd5c50e0cc926a214328de946cf08ace5894b94c640ed285cae1934d7a98",
++    "vendor/buri/receiver/MomoGatewayWakeupGate.kt": "3cfd62121a29eab7fe72c67af68135e27637b696864e3e8824a7c49784d4eea6",
++    "vendor/buri/receiver/MomoMultipartPolicy.kt": "e95272ffefe99ff6ba526658f0b72b7069d2aae26cee87abcb5de3cac65c629a",
++    "vendor/buri/receiver/ReceiptAckPolicy.kt": "424850a1eac148a360f99d651b7c6bf661d8bf889e74533ecd4dd2074b11d045",
++    "vendor/buri/receiver/ReceiptCipher.kt": "091aed61fef7890436fee094011fa15e4c9dd36be78e388938a0e3f15c30a165",
++    "vendor/buri/receiver/SmsQueueEventBus.kt": "ea68c61d3a68a408845880398a50b0cd48842023dee4867e4c381f99b561db1a",
++    "vendor/buri/receiver/SmsQueueOwnerPolicy.kt": "c558cb1418ced6bb4dafebab4d5006991c3dac47bb5bb6f8a1db85d7d3f8cd3b",
++    "vendor/buri/recipe/prepare_receiver.py": "31c46c6486df3f1ef146c6365a34a4f98ff8cbbc6e4f79d33b665a62ee9d3390",
++    "vendor/buri/tests/CoreChecks.kt": "89d43849f637ca74f620463c8bdb575187b3dfb60f58717716c76dc348ccd96f",
++    "vendor/buri/tests/ReceiverChecks.kt": "607876c5bb955fbc234fb9db7641608997c0a881cd867dd99fa2f2c343b82a85",
++    "vendor/buri/tests/ReliabilityChecks.kt": "203874042da76efe2c66600134ea309a6cb0be635a74f463a6f295d49dcda670",
++    "vendor/mmoney/core/ExportWriters.kt": "aabdd8cb78ced615878a23fcdd63fa2751a4b6500269866459eac191412e3bd1",
++    "vendor/mmoney/core/LedgerRules.kt": "61d347b52b06abb7d35df9d9eb71543c2907b7088e86b36993f4520dffe5b5dc",
++    "vendor/mmoney/core/Models.kt": "0f146a6b7c91a375d54cc2c76fdcbb4de97b8ad1dbcb95e9a152d0555225cd43",
++    "vendor/mmoney/core/PdfPresentation.kt": "c3bd5140593eb08d4971576035ad4d6db42089d8cf6535112302c7bf6650eb13",
++    "vendor/mmoney/core/ReferenceIdentity.kt": "41a56f1522146ef353b17936c5d1deaf905b69354d127e289cfca32a036362f3",
++    "vendor/mmoney/data/IntakeIdentity.kt": "952364d57efcc476726ac8650afc9a5f94d22e7f26d483a08fe292e49f7f8ecc",
++    "vendor/mmoney/platform/IncomingSms.kt": "14e4d868a50188cca16fabd2461ef7f9fa202f27d170622856f37d8be52b0da3",
++    "vendor/mmoney/platform/SmsBroadcastPolicy.kt": "216a4bac606435778904ab9ffc57b58fe917d6671c39c5366ebe72dd89854ec2",
++    "vendor/mmoney/platform/SmsHistoryQuery.kt": "a0c883a74db45474c259e2daec348bf3eb2f86f7aff812712acee32c281d55e1",
++    "vendor/mmoney/platform/SmsMultipartEnvelope.kt": "3544eb52e89ca1f1bf2ff9b038395390106f0a2f313c92cffd8bb8735fdf82ac",
++    "vendor/mmoney/platform/SmsObservationFactory.kt": "005ebfec83df6693da31d720c3bde47dfba44e5e920e3406fe84982f3d3e018f",
++    "vendor/mmoney/platform/SmsSourceEvidence.kt": "dbce000ae15e4d04b0b56c1d974abfa51206b73709f94d1918de9839f8ab0955",
++    "vendor/mmoney/tests/SmsReliabilityContractCases.kt": "9cbf04dbab7de267286b170ba6863238306a9915667f3fb1e246c3f0f02306fe",
++    "vendor/mmoney/tests/SmsReliabilityProbe.kt": "074402003b9d03a49557cbf761615ff8e1ed64f1bb5f79092d0a427231b55cef"
++  }
++}

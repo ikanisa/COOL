@@ -1,0 +1,45 @@
+TAP version 13
+ok 1 - authorized active subscription accepted
+ok 2 - different known subscription skipped without blocking later rows
+ok 3 - removed or disabled authorized SIM holds capture
+ok 4 - unknown subscription, permissions or telephony service fails closed
+ok 5 - default sentinel and invalid subscription rejected
+ok 6 - unrecognized observed subscription cannot be skipped as a known other SIM
+ok 7 - profile configuration is mandatory
+ok 8 - binding fence accepts identical validated snapshot
+ok 9 - binding fence rejects changed id
+ok 10 - binding fence rejects changed version
+ok 11 - binding fence rejects changed owner_user_id
+ok 12 - binding fence rejects changed collection_id
+ok 13 - binding fence rejects changed receiving_account_id
+ok 14 - binding fence rejects changed subscription_id
+ok 15 - binding fence rejects coerced version and subscription
+ok 16 - binding fence rejects malformed expected binding
+ok 17 - exact durable acknowledgement accepted
+ok 18 - malformed or mismatched acknowledgement rejects contract_version
+ok 19 - malformed or mismatched acknowledgement rejects stored
+ok 20 - malformed or mismatched acknowledgement rejects owner_user_id
+ok 21 - malformed or mismatched acknowledgement rejects client_envelope_id
+ok 22 - malformed or mismatched acknowledgement rejects raw_sms_id
+ok 23 - malformed or mismatched acknowledgement rejects body_sha256
+ok 24 - HTTP success without exact true and receipt is insufficient
+ok 25 - tombstone conflict cannot be hidden by a matching pending body
+ok 26 - replacement rejects pending, corrupt or invalid queue counts
+ok 27 - real AES-GCM file persistence survives fresh store instance
+ok 28 - empty file is corruption, not an empty queue
+ok 29 - unknown first-write stage is preserved and blocks silent reset
+ok 30 - stale staged write never replaces a committed queue during read
+ok 31 - symlink queue and stage paths rejected
+ok 32 - injected before_write failure preserves committed bytes and reports failure
+ok 33 - injected before_file_sync failure preserves committed bytes and reports failure
+ok 34 - injected before_rename failure preserves committed bytes and reports failure
+ok 35 - directory sync failure reports uncertainty; later successful read establishes durability
+ok 36 - persistent directory sync failure cannot produce a false duplicate read
+ok 37 - oversized write cannot replace committed bytes
+ok 38 - actual JVM termination at before_write preserves a complete restart state
+ok 39 - actual JVM termination at before_file_sync preserves a complete restart state
+ok 40 - actual JVM termination at before_rename preserves a complete restart state
+ok 41 - actual JVM termination at before_directory_sync preserves a complete restart state
+ok 42 - first-write process termination preserves stage rather than inventing an empty queue
+1..42
+# Actual Kotlin rules, AES-GCM and host filesystem/process tests; not Android power-loss, Keystore or carrier tests.

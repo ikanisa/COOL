@@ -287,6 +287,15 @@ export function createCollectTransport({frontendOrigin, supabaseOrigin = SUPABAS
       const bytes = await boundedBytes(request.body, maxRequestBytes, controller.signal, 413, 'proxy_request_too_large');
       const headers = new Headers();
       for (const [name, value] of request.headers) if (FORWARD_HEADERS.has(name)) headers.set(name, value);
+      // Only the native device-bound BFF exchange consumes this private proof.
+      // Do not forward it to unrelated Admin/member/provider service routes.
+      if (route.functionName === 'admin-api' && route.logicalPath === '/api/admin/burimunsi/access' && request.method === 'POST') {
+        const device = request.headers.get('x-burimunsi-device');
+        if (device !== null) {
+          if (!/^[a-f0-9]{64}$/.test(device)) refuse(400, 'proxy_device_proof_invalid');
+          headers.set('X-BuriMunsi-Device', device);
+        }
+      }
       if (adminRead && !origin) headers.set('Origin', frontendOrigin);
       headers.set('Cache-Control', 'no-store');
       // Do not rely on Node/Workers sharing automatic decompression behavior.

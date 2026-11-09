@@ -1,0 +1,11 @@
+{
+  "format": "collect.deployment.v1",
+  "id": "collect-production",
+  "mode": "self_hosted",
+  "environment": "production",
+  "supabase_origin": "https://supabase.collect.ikanisa.com",
+  "member_api_origin": "https://api.collect.ikanisa.com",
+  "admin_origin": "https://platform-admin.collect.ikanisa.com",
+  "public_origin": "https://collect.ikanisa.com",
+  "google_callback_origin": "https://platform-admin.collect.ikanisa.com"
+}

@@ -1,0 +1,10 @@
+export const profile={version:'test-en-v1',senders:['M-Money'],offsetMinutes:120};
+export const body='You have received 10000 RWF from EXAMPLE PERSON (*********816) at 2026-10-08 15:15:20. Balance: 10450 RWF. FT Id: 90000000001.';
+export const source={body,sender:'M-Money',complete:true,subscriptionId:4};
+export const fullSource={...source,body:body.replace('*********816','+250780000816')};
+export const policy={groupId:'group-1',approvedVersion:'test-policy-1',fullIdentityEnabled:true};
+export const member={id:'member-1',groupId:'group-1',active:true,eligible:true};
+export const identity={id:'identity-1',groupId:'group-1',memberId:'member-1',phone:'+250780000816',status:'verified',authority:'collect_verified',purpose:'own_contributions',validFrom:'2026-01-01T00:00:00.000Z',validUntil:null};
+export const actor={id:'operator-1',sessionId:'session-1',phone:'+250780000001',groupId:'group-1',role:'staff',active:true,revoked:false,expiresAt:9999999999999,installationId:'staff-device',installationProfile:'staff',capabilities:['records.read','payments.allocate','members.enroll']};
+export const admin={...actor,id:'admin-1',sessionId:'admin-session',role:'admin',installationId:'gateway-device',installationProfile:'internal_receiver',capabilities:[...actor.capabilities,'sms.read','gateway.manage','staff.manage']};
+export const binding={id:'binding-1',groupId:'group-1',version:1,receivingAccountId:'wallet-1',installationId:'gateway-device',subscriptionId:4,active:true,expiresAt:9999999999999};

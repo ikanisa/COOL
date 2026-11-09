@@ -1,0 +1,38 @@
+{
+  "source": "Release_Evidence_Packaging_Safeguards_r4_Source.zip",
+  "archive_sha256": "d6b2e0318510d4511c5356822564061d1482e44d9a3a2c42539348a08aab0553",
+  "changes": [
+    {
+      "path": "scripts/release_guard.py",
+      "before_sha256": "8b3dd9509392e072400c62dcc9c56b4f20dec3ae3c5e5143670d67398e443854",
+      "source_sha256": "3fc4b10117c63368741b4402ca5ba84ea308f7ba60b1120c38cf0bf306952cdd",
+      "decision": "adopt reviewed release-r4 guard and producer provenance code; trust/signers remain unconfigured"
+    },
+    {
+      "path": "scripts/release_guard_adapter.py",
+      "before_sha256": "e2bb391319288ca989425916edf41b247ee9536bbd584d70150402cb93a53f5f",
+      "source_sha256": "b821f8dd096335c5a254aa18c4d2931587a1bebedbe63a3e55b38f3bcf79d0f0",
+      "decision": "adopt reviewed release-r4 guard and producer provenance code; trust/signers remain unconfigured"
+    },
+    {
+      "path": "scripts/release_provenance.py",
+      "before_sha256": null,
+      "source_sha256": "b7777774c586316941295360d6495865aeffb8f267d22e8ddbc506b81241f9ec",
+      "decision": "adopt reviewed release-r4 guard and producer provenance code; trust/signers remain unconfigured"
+    },
+    {
+      "path": "scripts/provenance_exchange.py",
+      "before_sha256": null,
+      "source_sha256": "aef056b9c3774d82efbf7de5e8077fb6522b0adda0048beb830a0422dcf36821",
+      "decision": "adopt reviewed release-r4 guard and producer provenance code; trust/signers remain unconfigured"
+    },
+    {
+      "path": "native/burimunsi/scripts/release_readiness.py",
+      "before_sha256": "8608298635a85587205e02cb740f08a4cd2522080ddf38520c86e059298c6731",
+      "source_sha256": "faed740a59f377b8ab2384f83d389cb12694aba285566a4fed46ebf2851c1692",
+      "decision": "retain all A04.3 task/evidence checks and add r4 guard invocation"
+    }
+  ],
+  "signer_provisioned": false,
+  "production_promotion": "blocked"
+}

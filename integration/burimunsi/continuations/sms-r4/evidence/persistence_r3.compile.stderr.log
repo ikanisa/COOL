@@ -1,0 +1,6 @@
+src/main/kotlin/rw/ikanisa/sms/policy/Queue.kt:41:89: warning: unnecessary safe call on a non-null receiver of type String?
+                    (batch.scope.contract == Contract.MMONEY_LEDGER_V1 && (r.canonicalId?.let(AckPolicy::uuid) != true || r.bodySha256 != null)) ||
+                                                                                        ^
+tests/persistence/PersistenceChecks.kt:377:107: warning: unnecessary non-null assertion (!!) on a non-null receiver of type Attempt
+        val b=sent.batch; val machine=machine(b); val effect=QueueEffect.UploadOriginal(sent.activeAttempt!!,b)
+                                                                                                          ^
