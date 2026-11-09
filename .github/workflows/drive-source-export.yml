@@ -1,0 +1,92 @@
+name: Collect source export for Drive
+
+on:
+  push:
+    branches: [codex/drive-consolidation-20261101]
+    paths: [.github/workflows/drive-source-export.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: collect-drive-source-export-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  export:
+    if: github.ref == 'refs/heads/codex/drive-consolidation-20261101'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out the reviewed source snapshot without persisted credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 6e7bfa7a9848a8b96cc095de1d1cdc19714e8aa9
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Export tracked source and an explicit exclusion manifest
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path, PurePosixPath
+          import stat
+          import subprocess
+          import zipfile
+
+          expected = '6e7bfa7a9848a8b96cc095de1d1cdc19714e8aa9'
+          actual = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          if actual != expected:
+              raise SystemExit('Source commit mismatch')
+          out = Path(os.environ['RUNNER_TEMP']) / 'collect-drive-export'
+          out.mkdir(exist_ok=False)
+          records, excluded = [], []
+          forbidden_parts = {'.git', 'node_modules', '.dart_tool', '__pycache__', '.cache'}
+          forbidden_suffixes = {'.ttf', '.otf', '.woff', '.woff2', '.eot', '.jks', '.keystore', '.p12', '.pfx', '.pem', '.key'}
+          raw_paths = subprocess.check_output(['git', 'ls-files', '-z']).split(b'\0')
+          with zipfile.ZipFile(out / 'COOL-source-6e7bfa7a.zip', 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
+              for raw in sorted(p for p in raw_paths if p):
+                  name = raw.decode('utf-8')
+                  path = Path(name)
+                  logical = PurePosixPath(name)
+                  reason = None
+                  if logical.is_absolute() or '..' in logical.parts:
+                      raise SystemExit('Unsafe repository path')
+                  if forbidden_parts.intersection(logical.parts):
+                      reason = 'generated-or-private-directory'
+                  elif path.suffix.lower() in forbidden_suffixes:
+                      reason = 'font-or-key-material'
+                  elif path.name.startswith('.env') and not any(x in path.name for x in ('.example', '.sample', '.template')):
+                      reason = 'runtime-environment-file'
+                  elif path.is_symlink():
+                      reason = 'symlink-preserved-as-metadata-only'
+                  elif not path.is_file():
+                      reason = 'non-file-or-unmaterialized-submodule'
+                  if reason:
+                      excluded.append({'path': name, 'reason': reason})
+                      continue
+                  data = path.read_bytes()
+                  if b'-----BEGIN PRIVATE KEY-----' in data or b'-----BEGIN RSA PRIVATE KEY-----' in data:
+                      excluded.append({'path': name, 'reason': 'private-key-marker-needs-review'})
+                      continue
+                  mode = stat.S_IMODE(path.stat().st_mode)
+                  info = zipfile.ZipInfo('source/' + name, (2026, 11, 1, 0, 0, 0))
+                  info.compress_type = zipfile.ZIP_DEFLATED
+                  info.external_attr = (stat.S_IFREG | mode) << 16
+                  archive.writestr(info, data)
+                  records.append({'path': name, 'size': len(data), 'sha256': hashlib.sha256(data).hexdigest(), 'mode': oct(mode)})
+              manifest = {'schema': 1, 'repository': 'ikanisa/COOL', 'commit': actual, 'status': 'source-export-not-a-production-certification', 'tracked_paths': len(raw_paths) - 1, 'exported_files': len(records), 'excluded_paths': excluded, 'files': records}
+              archive.writestr('SOURCE_MANIFEST.json', json.dumps(manifest, indent=2, sort_keys=True) + '\n')
+          print(json.dumps({'commit': actual, 'exported_files': len(records), 'excluded_paths': len(excluded)}))
+          PY
+      - name: Store the source export for authenticated download
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: collect-drive-source-6e7bfa7a
+          path: ${{ runner.temp }}/collect-drive-export/COOL-source-6e7bfa7a.zip
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
