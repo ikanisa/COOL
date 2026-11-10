@@ -4,7 +4,7 @@ import {readFile,mkdtemp,mkdir,copyFile,writeFile,rm} from 'node:fs/promises';
 import {join,resolve} from 'node:path';
 import {tmpdir} from 'node:os';
 import {CURRENT_HARNESSES,validateCurrentInvocation,validateHarnessReceipt} from './current-self-hosted-native.mjs';
-import {CURRENT_NATIVE_PROFILE,CURRENT_MIGRATION_NAMES,CURRENT_MIGRATION_COUNT,validateCurrentFixtureDescriptor,reviewedCurrentMigrations,installCurrentFixtureAdditions} from './self-hosted-current-schema.mjs';
+import {CURRENT_NATIVE_PROFILE,CURRENT_MIGRATION_NAMES,CURRENT_MIGRATION_COUNT,validateCurrentFixtureDescriptor,reviewedCurrentMigrations,installCurrentFixtureAdditions,applyCurrentFixtureMigration} from './self-hosted-current-schema.mjs';
 const env={COLLECT_CI_SYNTHETIC:'true',COLLECT_DENO:'/owned/deno',COLLECT_SELFHOST_OUTPUT_DIR:'/owned/new-current',
  COLLECT_FENCE_ADMIN_DATABASE_URL:'postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres'};
 const sourceText=await readFile(new URL('./current-self-hosted-native.mjs',import.meta.url),'utf8');
@@ -107,6 +107,37 @@ test('complete reviewed current source admission rejects any altered or unlisted
   await writeFile(join(temporary,'supabase/migrations/20990101000000_unreviewed.sql'),'SELECT 1;');
   await assert.rejects(()=>reviewedCurrentMigrations(temporary),/UNREVIEWED_CURRENT_MIGRATION_REFUSED/);
  }finally{await rm(temporary,{recursive:true,force:true});}
+});
+
+// Control-flow substitutes only; actual migration and RLS qualification uses PG17.
+function migrationOwner({initialized=true,drained='fenced',ddlFailure=false}={}){
+ const calls=[],item={name:'20261109234517_burimunsi_native_operator_schema.sql',sql:'-- fixture native DDL'};
+ return {calls,item,owner:{unsafe:async(text,args)=>{
+  calls.push({text,args});
+  if(text.startsWith('SELECT mode,'))return initialized?[{mode:'open',epoch:'7',source_sha256:'a'.repeat(64)}]:[];
+  if(text.includes('collect_fence_drain('))return [{state:{mode:drained}}];
+  if(text===item.sql&&ddlFailure)throw Error('synthetic DDL failure');
+  if(text.includes('collect_fence_release('))return [{state:{mode:'open',epoch:8}}];
+  return [];
+ }}};
+}
+test('initialized native fixture must drain before DDL and release the same source afterward',async()=>{
+ const f=migrationOwner();await applyCurrentFixtureMigration(f.owner,f.item);
+ assert.deepEqual(f.calls.map(c=>c.text===f.item.sql?'ddl':c.text.match(/(?:private\.)?(collect_fence_[a-z_]+)/)?.[1]??'control'),
+  ['collect_fence_control','collect_fence_begin_quiesce','collect_fence_drain','ddl','collect_fence_release']);
+ for(const c of f.calls.filter(c=>c.args))assert.deepEqual(c.args.slice(1),['7','a'.repeat(64)]);
+});
+test('unconfirmed drain cannot apply native DDL or reopen a test fixture',async()=>{
+ const f=migrationOwner({drained:'quiescing'});await assert.rejects(applyCurrentFixtureMigration(f.owner,f.item),/DRAIN_UNCONFIRMED/);
+ assert(!f.calls.some(c=>c.text===f.item.sql||c.text.includes('collect_fence_release(')));
+});
+test('native DDL failure keeps the owned fixture closed',async()=>{
+ const f=migrationOwner({ddlFailure:true});await assert.rejects(applyCurrentFixtureMigration(f.owner,f.item),/synthetic DDL failure/);
+ assert(!f.calls.some(c=>c.text.includes('collect_fence_release(')));
+});
+test('fresh uninitialized native fixture applies without inventing a controller or stop proof',async()=>{
+ const f=migrationOwner({initialized:false});await applyCurrentFixtureMigration(f.owner,f.item);
+ assert.equal(f.calls.length,2);assert.equal(f.calls[1].text,f.item.sql);
 });
 
 test('existing additions are refused before any DDL, with no schema reset branch',async()=>{

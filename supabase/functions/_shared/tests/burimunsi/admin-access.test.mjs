@@ -27,7 +27,7 @@ const PROFILE={format:'collect.deployment.v1',id:'native-access-fixture',mode:'s
 
 async function fixture(run){
  const f=principalFixture(),at=Math.floor(Date.now()/1000),hash=await digest(COOKIE),csrf=await digest('collect-admin-csrf:'+COOKIE);
- const state={managed:true,provider:true,authCalls:0,queries:[],nativeReads:0};
+ const state={managed:true,approved:true,provider:true,authCalls:0,queries:[],nativeReads:0,emailVerifiedAt:null,ownerCommand:null};
  const claims={sub:AUTH,session_id:SID,role:'authenticated',aud:'authenticated',aal:'aal1',exp:at+3600,iat:at-10,
   iss:PROJECT+'/auth/v1',amr:[{method:'password',timestamp:at-10}]};
  const token=Buffer.from('{}').toString('base64url')+'.'+Buffer.from(JSON.stringify(claims)).toString('base64url')+'.synthetic-signature';
@@ -58,17 +58,24 @@ async function fixture(run){
  f.sqlite.prepare('INSERT INTO app.admin_account_role_capabilities VALUES(?,?)').run('staff','collections.view');
  f.sqlite.prepare('UPDATE private.burimunsi_device_grants SET token_hash=?').run(await digest(DEVICE));
  f.sqlite.function('fixture_managed_session',(auth,sid)=>Number(state.managed&&auth===AUTH&&sid===SID));
+ f.sqlite.function('fixture_operator_approved',(_group,_principal,_phone,_role,_capabilities)=>Number(state.approved));
  const work=await openApplicationWork({backend:syntheticFenceBackend(),sourceSha256:SOURCE,kind:'http_admin'});
  f.db.applicationWork=work;f.db.setClaims=()=>{};
  const nativeUnsafe=f.sql.unsafe.bind(f.sql);
  f.sql.unsafe=async(q,args)=>{
   state.queries.push(q);if(q.startsWith('SELECT a.id AS operator_id'))state.nativeReads++;
-  return nativeUnsafe(q.replaceAll('private.is_managed_session(','fixture_managed_session('),args);
+  if(q.startsWith('SELECT private.burimunsi_operator_')){
+   if(!state.ownerCommand)throw Error('No owner command substitute configured');
+   return [{result:await state.ownerCommand(q,args)}];
+  }
+  return nativeUnsafe(q.replaceAll('private.is_managed_session(','fixture_managed_session(')
+   .replaceAll('private.burimunsi_operator_is_current(','fixture_operator_approved('),args);
  };
  f.db.prepare=q=>({bind(...args){return {async first(){
   state.queries.push(q);
   if(q.startsWith('SELECT private.is_managed_session('))return {allowed:state.managed};
-  if(q.startsWith('SELECT private.admin_email_status('))return {result:{contract_version:1,public_session_id:PUBLIC,email_verified_at:null,proof_id:null}};
+  if(q.startsWith('SELECT private.admin_email_status('))return {result:{contract_version:1,public_session_id:PUBLIC,
+   email_verified_at:state.emailVerifiedAt,proof_id:state.emailVerifiedAt===null?null:PUBLIC}};
   return f.sqlite.prepare(q.replaceAll('::uuid','')).get(...args)??null;
  },async all(){state.queries.push(q);return {results:f.sqlite.prepare(q).all(...args)};},async run(){throw Error('Fixture does not allow projection or other writes');}};}});
  const raw=canonicalProfile(PROFILE),env={DB:f.db,COLLECT_FENCE_WORK:work,BUILD_SOURCE_ID:SOURCE,
@@ -124,6 +131,9 @@ for(const [name,options,status] of [
 ])test('native access preserves '+name,()=>fixture(async({call})=>{const {response,body}=await call(options);assert.equal(response.status,status,JSON.stringify(body));assert.equal(body.accessToken,undefined);}));
 
 test('provider revocation cannot be hidden by a valid PIN/device',()=>fixture(async({state,call})=>{state.provider=false;const {response}=await call();assert.equal(response.status,401);assert.equal(state.nativeReads,0);}));
+test('revoked owner approval cannot release a shared token to the native device',()=>fixture(async({state,call})=>{
+ state.approved=false;const {response,body}=await call();assert.equal(response.status,403);assert.equal(body.accessToken,undefined);
+}));
 test('changed deployment source is not an admitted token exchange',()=>fixture(async({env,call})=>{env.BUILD_SOURCE_ID='c'.repeat(64);const {response}=await call();assert.equal(response.status,503);}));
 test('managed session denial cannot create a new projection',()=>fixture(async({state,call})=>{state.managed=false;const {response}=await call();assert.equal(response.status,401);assert.equal(state.nativeReads,0);}));
 test('existing unrelated Admin routes keep their dispatcher',()=>fixture(async({call})=>{const {response}=await call({path:'/api/other'});assert.equal(response,null);}));
@@ -147,4 +157,64 @@ test('native admin on its assigned receiving installation can use the managed br
  f.execute("UPDATE private.burimunsi_accounts SET role='admin'");
  f.execute("UPDATE private.burimunsi_device_grants SET profile='internal_receiver',custodian_account_id=?",I.account);
  const {response,body}=await call();assert.equal(response.status,200,JSON.stringify(body));assert.equal(body.profile,'internal_receiver');
+}));
+
+const OPERATORS='/api/admin/burimunsi/operators';
+const OWNER_REQUEST='30000000-0000-4000-8000-000000000001';
+const approval=()=>({requestId:OWNER_REQUEST,collectionId:I.group,adminId:ADMIN,phone:'0780 000 002',role:'staff',
+ capabilities:['records.read','members.enroll'],active:true,expectedVersion:0});
+function ownerFixture(f,state,at){
+ // Explicit owner/email SQL substitutes for route tests; real SQL owner proof
+ // and retained outcome/revocation checks belong to native PG qualification.
+ f.execute("UPDATE app.admin_users SET role='owner',email='info@ikanisa.com'");state.emailVerifiedAt=at;
+ f.execute('INSERT INTO app.admin_grants VALUES(?,?)',PRINCIPAL,'admin_users.manage');
+ f.execute('INSERT INTO app.admin_account_role_capabilities VALUES(?,?)','owner','admin_users.manage');
+}
+test('ordinary shared staff cannot approve BuriMunsi identities',()=>fixture(async({state,call})=>{
+ state.ownerCommand=()=>{throw Error('Must not reach owner SQL');};
+ const {response,body}=await call({path:OPERATORS,body:approval()});
+ assert.equal(response.status,403);assert.equal(body.error.code,'owner_required');
+}));
+test('owner approval retains the existing fresh-email requirement',()=>fixture(async({f,state,at,call})=>{
+ ownerFixture(f,state,at);state.emailVerifiedAt=null;
+ const {response,body}=await call({path:OPERATORS,body:approval()});
+ assert.equal(response.status,403);assert.equal(body.error.code,'recent_email_sign_in_required');
+}));
+test('owner approval binds server scope/cookie and normalizes the explicit login phone',()=>fixture(async({f,state,at,call})=>{
+ ownerFixture(f,state,at);let calls=0;
+ state.ownerCommand=async(q,args)=>{
+  calls++;assert(q.includes('burimunsi_operator_approve('));
+  assert.deepEqual(args,[ADMIN,await digest(COOKIE),ORIGIN,PUBLIC,I.group,OWNER_REQUEST,ADMIN,
+   '+250780000002','staff',['members.enroll','records.read'],true,0]);
+  return {contractVersion:1,requestId:OWNER_REQUEST,principalId:PRINCIPAL,version:1,active:true,applied:true};
+ };
+ const {response,body}=await call({path:OPERATORS,body:approval()});assert.equal(response.status,200,JSON.stringify(body));
+ assert.equal(body.requestId,OWNER_REQUEST);assert.equal(calls,1);assert.equal(body.accessToken,undefined);
+}));
+for(const [name,mutate] of [
+ ['client principal',b=>{b.principalId=PRINCIPAL;}],
+ ['staff escalation',b=>{b.capabilities.push('staff.manage');}],['fractional revision',b=>{b.expectedVersion=0.5;}],
+ ['duplicate capability',b=>{b.capabilities.push('records.read');}],['credential body',b=>{b.pin='1234';}]
+])test('owner approval rejects '+name+' before command SQL',()=>fixture(async({f,state,at,call})=>{
+ ownerFixture(f,state,at);let calls=0;state.ownerCommand=()=>{calls++;};const body=approval();mutate(body);
+ const {response}=await call({path:OPERATORS,body});assert.equal(response.status,400);assert.equal(calls,0);
+}));
+test('a retained owner request cannot be retargeted by a configured group change',()=>fixture(async({f,state,at,call})=>{
+ ownerFixture(f,state,at);let calls=0;state.ownerCommand=()=>{calls++;};
+ const {response,body}=await call({path:OPERATORS,body:{...approval(),collectionId:'other'}});
+ assert.equal(response.status,409);assert.equal(body.error.code,'burimunsi_scope_changed');assert.equal(calls,0);
+}));
+test('unknown approval commit returns the original request without retry or secret text',()=>fixture(async({f,state,at,call})=>{
+ ownerFixture(f,state,at);let calls=0;state.ownerCommand=()=>{calls++;throw Error('sensitive-test-credential');};
+ const {response,body}=await call({path:OPERATORS,body:approval()});assert.equal(response.status,503);
+ assert.equal(body.outcome,'operation_unknown');assert.equal(body.requestId,OWNER_REQUEST);assert.equal(calls,1);
+ assert(!JSON.stringify(body).includes('sensitive-test-credential'));
+}));
+test('owner can read the retained original approval outcome',()=>fixture(async({f,state,at,call})=>{
+ ownerFixture(f,state,at);state.ownerCommand=(q,args)=>{
+  assert(q.includes('burimunsi_operator_directory('));assert.equal(args.at(-1),OWNER_REQUEST);
+  return {contractVersion:1,found:true,receipt:{contractVersion:1,requestId:OWNER_REQUEST,principalId:PRINCIPAL,version:1,active:true,applied:true}};
+ };
+ const {response,body}=await call({path:OPERATORS+'/requests/'+OWNER_REQUEST,method:'GET'});
+ assert.equal(response.status,200);assert.equal(body.receipt.requestId,OWNER_REQUEST);
 }));

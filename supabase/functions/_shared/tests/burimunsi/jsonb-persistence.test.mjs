@@ -25,3 +25,22 @@ test('staff reset supplies a JSONB passcode object',async()=>{
  const f=fixture();await f.store.mutateStaff({groupId:'g',actorSessionId:sid,actorId:id,requestId:rid,fingerprint:'f'.repeat(64),action:'reset',id,expectedVersion:1,pinHash:hash});
  const q=f.calls.find(c=>c.q.startsWith('UPDATE private.burimunsi_accounts SET name'));assert.deepEqual(q.v[3],hash);
 });
+// The principal resolver below is an explicit trusted-port double, not GoTrue
+// or PostgreSQL qualification. The real adapter must carry the login identity
+// needed to select an already approved shared Collect operator.
+test('staff creation can resolve the existing shared principal by its exact phone',async()=>{
+ const f=fixture(),phone='+250780000002',principal='approved-shared-operator';let resolutions=0;
+ f.store.createOperatorPrincipal=async(tx,input)=>{
+  assert.equal(tx,f.sql);resolutions++;
+  return input.groupId==='g'&&input.phone===phone&&input.actorId==='principal-1'?{id:principal}:null;
+ };
+ await f.store.mutateStaff({groupId:'g',actorSessionId:sid,actorId:id,requestId:rid,fingerprint:'f'.repeat(64),action:'create',name:'Example',phone,capabilities:['records.read'],pinHash:hash});
+ const q=f.calls.find(c=>c.q.startsWith('INSERT INTO private.burimunsi_accounts'));
+ assert.equal(q.v[2],principal);assert.equal(q.v[3],phone);assert.equal(resolutions,1);
+ assert.equal(f.calls.some(c=>/INSERT INTO (?:app\.)?users\b/.test(c.q)),false);
+});
+test('unapproved shared identity cannot create a native staff account or receipt',async()=>{
+ const f=fixture();f.store.createOperatorPrincipal=async()=>null;
+ await assert.rejects(f.store.mutateStaff({groupId:'g',actorSessionId:sid,actorId:id,requestId:rid,fingerprint:'f'.repeat(64),action:'create',name:'Example',phone:'+250780000002',capabilities:['records.read'],pinHash:hash}),/principal_unavailable/);
+ assert.equal(f.calls.some(c=>c.q.startsWith('INSERT INTO private.burimunsi_accounts')||c.q.startsWith('INSERT INTO private.burimunsi_command_receipts')),false);
+});

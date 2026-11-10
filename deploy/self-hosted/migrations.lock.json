@@ -126,6 +126,11 @@
       "name": "20261101030502_collect_sms_application_fence.sql",
       "sha256": "94e166bd70669743fe8ad1dc1c4aa504d82549f831c658d582d786049c354515",
       "transaction": "outer"
+    },
+    {
+      "name": "20261109234517_burimunsi_native_operator_schema.sql",
+      "sha256": "c28ec95df7296052d911219c64a8a3d3fbbd60d77cfc222bd2f5de3590dfff2f",
+      "transaction": "outer"
     }
   ]
 }

@@ -38,7 +38,7 @@ export function principalFixture(){
    await state.afterQuery?.(text,result);return result;
  }};
  const db={applicationWork:{assert:async()=>{if(state.workRevoked)throw Error('work_revoked');}},
-   context:async()=>{},readContext:async()=>{},transaction:async fn=>{
+   context:async()=>{state.readOnly=false;},readContext:async()=>{state.readOnly=true;},transaction:async fn=>{
      state.transactions++;sqlite.exec('BEGIN');try{const out=await fn(sql);sqlite.exec('COMMIT');return out;}catch(e){sqlite.exec('ROLLBACK');throw e;}
    }};
  const store=new PostgresNativeAuthStore({db,groupId:I.group,clock:()=>I.now,createOperatorPrincipal:async()=>{throw Error('not used');}});

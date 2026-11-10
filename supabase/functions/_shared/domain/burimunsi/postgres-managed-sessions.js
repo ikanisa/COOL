@@ -2,12 +2,11 @@ import {requirePort,requireThat,BuriError} from './errors.js';
 import {requireId,requireRequestId} from './values.js';
 import {pgInteger} from './postgres-values.js';
 
-// No row locks: native authentication also runs in a READ ONLY snapshot.
-export const MANAGED_SESSION_SQL=`WITH canonical AS MATERIALIZED (
- SELECT private.assert_actor() AS principal_user_id,api.current_session_id() AS principal_session_id,
- floor(extract(epoch FROM clock_timestamp())*1000)::text AS now_ms)
- SELECT c.*,s.user_id AS session_user_id,s.surface,s.expires_at,s.revoked_at
- FROM canonical c JOIN app.auth_sessions s ON s.id=c.principal_session_id`;
+// The current shared assert_actor/Admin email helpers take row locks. Use the
+// reconciled lock-free snapshot helper for READ ONLY native authentication.
+// A write restores the genuine parent BFF context before existing guards run.
+export const MANAGED_SESSION_SQL='SELECT * FROM private.burimunsi_managed_admin_snapshot()';
+export const MANAGED_CONTEXT_SQL='SELECT private.set_admin_email_context($1,$2,$3,$4) AS result';
 const integer=value=>pgInteger(value,{minimum:0,code:'managed_session_required'});
 
 /** Bind successful PIN authentication to an EXISTING verified Collect session.
@@ -32,7 +31,25 @@ export class PostgresManagedSessions {
     requireRequestId(r.principal_session_id);
     requireThat(Number.isSafeInteger(expiresAt)&&r.principal_user_id===principalUserId&&r.session_user_id===principalUserId&&
       r.surface==='admin'&&r.revoked_at===null&&expiresAt>now,'managed_session_required',401);
-    return Object.freeze({principalUserId,principalSessionId:r.principal_session_id,expiresAt,now});
+    requireThat(['on','off'].includes(r.transaction_read_only)&&['owner','admin','staff'].includes(r.shared_role),
+      'managed_session_required',401);
+    requireId(r.admin_id);requireRequestId(r.public_session_id);
+    requireThat(typeof r.cookie_hash==='string'&&/^[a-f0-9]{64}$/.test(r.cookie_hash)&&
+      typeof r.origin==='string'&&r.origin.length<=2048&&new URL(r.origin).protocol==='https:'&&new URL(r.origin).origin===r.origin,
+      'managed_session_required',401);
+    if(r.transaction_read_only==='off'){
+      // This is the actual current BFF tuple selected for the signed GoTrue
+      // session, not a client-supplied cookie or a manufactured AAL/email proof.
+      // The shared setter locks/revalidates that tuple. Sensitive financial
+      // guards still require its independently recorded, fresh email proof.
+      let bound;
+      try{bound=await sql.unsafe(MANAGED_CONTEXT_SQL,[r.admin_id,r.cookie_hash,r.origin,r.public_session_id]);}
+      catch{throw new BuriError('managed_session_required',401);}
+      requireThat(bound.length===1&&bound[0].result?.contract_version===1&&
+        bound[0].result.public_session_id===r.public_session_id,'managed_session_required',401);
+      await this.owned();
+    }
+    return Object.freeze({principalUserId,principalSessionId:r.principal_session_id,expiresAt,now,sharedRole:r.shared_role});
   }
   async prepareInTransaction(sql,input) {
     const s={...input};requireThat(s.groupId===this.groupId,'access_denied',403);

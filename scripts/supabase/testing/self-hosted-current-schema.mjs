@@ -2,7 +2,7 @@
 // newly allocated, private, literal-loopback original16 fixture. No reset path.
 import {readFile,readdir,realpath} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
-import {createHash} from 'node:crypto';
+import {createHash,randomUUID} from 'node:crypto';
 import {EXACT_CURRENT16} from './curated-platform-fixture.mjs';
 import {SELF_HOSTED_ADDITIONS} from './reviewed-self-hosted-migrations.mjs';
 
@@ -58,9 +58,29 @@ export async function installCurrentFixtureAdditions(owner,{root=ROOT}={}){
  // These are native GoTrue columns absent from the immutable historical Auth
  // double. They extend only this fresh synthetic database, never shipping SQL.
  await owner.unsafe('ALTER TABLE auth.users ADD COLUMN email_confirmed_at timestamptz; ALTER TABLE auth.users ADD COLUMN is_anonymous boolean NOT NULL DEFAULT false');
- for(const item of files.slice(16))await owner.unsafe(item.sql);
+ for(const item of files.slice(16))await applyCurrentFixtureMigration(owner,item);
  const [installed]=await owner.unsafe("SELECT to_regclass('private.collect_fence_admission_archive') IS NOT NULL AND to_regclass('private.guest_upgrade_challenges') IS NOT NULL AND to_regclass('app.notification_email_job_dispatches') IS NOT NULL AND to_regclass('collect_sms.messages') IS NOT NULL AND to_regclass('private.collect_deployment_identity') IS NOT NULL AND to_regclass('private.retention_inventory_manifests') IS NOT NULL AND to_regclass('private.retention_row_plans') IS NOT NULL AND to_regclass('private.collect_sms_fence_admissions') IS NOT NULL AS complete");
  need(installed.complete===true,'CURRENT_SCHEMA_INSTALLATION_UNCONFIRMED');
  return {profile:CURRENT_NATIVE_PROFILE,migration_count:CURRENT_MIGRATION_COUNT,migrations:files.map(({name,sha256})=>({name,sha256})),
   synthetic_auth_columns:['email_confirmed_at','is_anonymous'],production_acceptance:false};
+}
+
+/** Existing initialized test fixtures use the real stop/drain/release protocol
+ * before adding the inactive native realm. A fresh uninitialized installer can
+ * apply it directly. Never relax the shipping migration's closed-fence gate.
+ */
+export async function applyCurrentFixtureMigration(owner,item){
+ if(item.name!=='20261109234517_burimunsi_native_operator_schema.sql')return owner.unsafe(item.sql);
+ const rows=await owner.unsafe('SELECT mode,epoch,source_sha256 FROM private.collect_fence_control WHERE singleton');
+ if(rows.length===0)return owner.unsafe(item.sql);
+ need(rows.length===1&&rows[0].mode==='open','FRESH_NATIVE_FIXTURE_OPEN_FENCE_REQUIRED');
+ const control=rows[0],operation=randomUUID();
+ await owner.unsafe('SELECT private.collect_fence_begin_quiesce($1::uuid,$2::bigint,$3::text)',[operation,control.epoch,control.source_sha256]);
+ const drained=await owner.unsafe('SELECT private.collect_fence_drain($1::uuid,$2::bigint,$3::text) AS state',[operation,control.epoch,control.source_sha256]);
+ need(drained.length===1&&drained[0].state?.mode==='fenced','NATIVE_FIXTURE_DRAIN_UNCONFIRMED');
+ // Failure leaves the owned test fixture closed and preserves the diagnostic.
+ await owner.unsafe(item.sql);
+ const released=await owner.unsafe('SELECT private.collect_fence_release($1::uuid,$2::bigint,$3::text) AS state',[randomUUID(),control.epoch,control.source_sha256]);
+ need(released.length===1&&released[0].state?.mode==='open'&&Number(released[0].state.epoch)===Number(control.epoch)+1,
+  'NATIVE_FIXTURE_RELEASE_UNCONFIRMED');
 }

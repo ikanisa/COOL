@@ -56,6 +56,7 @@ export async function adminBuriMunsiAccess(request,env){
   WHERE a.collection_id=$1 AND a.principal_user_id=$2 AND a.active AND NOT a.removed
    AND d.installation_id=$3::uuid AND d.token_hash=$4 AND d.active AND c.enabled
    AND d.profile IN ('staff','internal_receiver') AND a.role IN ('staff','admin')
+   AND private.burimunsi_operator_is_current(a.collection_id,a.principal_user_id,a.phone,a.role,a.capabilities)
    AND (a.role='staff' OR au.role IN ('owner','admin'))
    AND (d.profile='staff' OR (a.role='admin' AND d.custodian_account_id=a.id))
    AND au.id=$5 AND au.status='active' AND au.role=$6 AND au.auth_version=$7

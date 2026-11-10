@@ -15,6 +15,19 @@ test('PIN session insertion atomically binds the existing canonical session',asy
  assert.equal(f.sqlite.prepare('SELECT count(*) n FROM private.burimunsi_session_links').get().n,1);
  assert.equal(f.sqlite.prepare('SELECT count(*) n FROM app.auth_sessions').get().n,1);
 }finally{f.close();}});
+test('native writes restore the actual parent context and readonly checks take no locks',async()=>{const f=fixture();try{
+ await f.issue();assert(f.h.contextBindings>0);const bindings=f.h.contextBindings;
+ await f.read();assert.equal(f.h.contextBindings,bindings);
+}finally{f.close();}});
+test('changed parent BFF tuple cannot issue a native session or audit',async()=>{const f=fixture();try{
+ f.h.parentContextAllowed=false;await assert.rejects(f.issue(),/managed_session_required/);
+ assert.equal(f.sqlite.prepare('SELECT count(*) n FROM private.burimunsi_sessions WHERE id=?').get(I.issued).n,0);
+ assert.equal(f.sqlite.prepare('SELECT count(*) n FROM private.burimunsi_audit').get().n,0);
+}finally{f.close();}});
+for(const [field,value] of [['transaction_read_only','invented'],['shared_role','operator'],['cookie_hash','1234'],['public_session_id','invented']])
+ test('managed snapshot rejects malformed parent '+field,async()=>{const f=fixture();try{
+  f.h.afterCanonical=async(_n,rows)=>{if(rows[0])rows[0][field]=value;};await assert.rejects(f.issue());
+ }finally{f.close();}});
 test('native expiry is capped before INSERT to managed expiry',async()=>{const f=fixture();try{
  const expiry=Math.floor(I.now/1000)+30;f.execute('UPDATE app.auth_sessions SET expires_at=?',expiry);
  assert.equal((await f.issue()).expiresAt,expiry*1000);assert.equal((await f.read()).expiresAt,expiry*1000);

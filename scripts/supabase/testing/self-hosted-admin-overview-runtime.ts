@@ -5,7 +5,7 @@ import {readFile,readdir,writeFile,realpath} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import postgres from 'npm:postgres@3.4.7';
 import {snapshotSelfHostedHistorySources} from './self-hosted-member-history.mjs';
-import {installCurrentFixtureAdditions,validateCurrentFixtureDescriptor} from './self-hosted-current-schema.mjs';
+import {installCurrentFixtureAdditions,validateCurrentFixtureDescriptor,CURRENT_MIGRATION_COUNT} from './self-hosted-current-schema.mjs';
 import {connection,fenceConnection,PostgresDatabase} from '../../../supabase/functions/_shared/postgres.js';
 import {openApplicationWork,sqlFenceBackend} from '../../../supabase/functions/_shared/application-fence.js';
 import {adminRpc} from '../../../supabase/functions/_shared/domain/admin.js';
@@ -27,7 +27,7 @@ const output=Deno.env.get('COLLECT_ADMIN_OVERVIEW_OUTPUT')!;assert.equal(resolve
 const source=await inputs();const owner=postgres(fixture.url,{max:1,prepare:false,ssl:false});const db=connection(fixture.url),control=fenceConnection(fixture.url);let packet:any;
 const originalFetch=globalThis.fetch;globalThis.fetch=()=>{throw new Error('EXTERNAL_FETCH_FORBIDDEN');};
 try{
- const schema=await installCurrentFixtureAdditions(owner);assert.equal(schema.migration_count,25);
+ const schema=await installCurrentFixtureAdditions(owner);assert.equal(schema.migration_count,CURRENT_MIGRATION_COUNT);
  const status=(await owner`SELECT private.collect_fence_owner_status_v3() AS value`)[0].value;assert.equal(status.mode,'open');assert.equal(status.sourceSha256,fixture.source_sha256);
  const actorId=randomUUID(),targetId=randomUUID(),auth=randomUUID(),sid=randomUUID(),at=Math.floor(Date.now()/1000),stamp='2026-10-30T00:00:00.000Z';
  await owner`INSERT INTO auth.users(id,email) VALUES(${auth},'overview-admin@example.invalid')`;
@@ -54,7 +54,7 @@ try{
   assert.equal(denied,true);
  }finally{await work.finish();}
  assert.equal(JSON.stringify(await inputs()),JSON.stringify(source),'SOURCE_CHANGED_DURING_SQL');
- packet={format:'collect.selfhost.admin-overview.synthetic.v1',source,source_sha256:sha(JSON.stringify(source)),schema:{migration_count:25,production_acceptance:false},overview:value,limited,denied,statements,provider_calls:0,synthetic_actor_permissions:true,hosted_acceptance:false};
+ packet={format:'collect.selfhost.admin-overview.synthetic.v1',source,source_sha256:sha(JSON.stringify(source)),schema:{migration_count:CURRENT_MIGRATION_COUNT,production_acceptance:false},overview:value,limited,denied,statements,provider_calls:0,synthetic_actor_permissions:true,hosted_acceptance:false};
  await writeFile(output,JSON.stringify(packet,null,2)+'\n',{flag:'wx',mode:0o600});
  console.log(JSON.stringify({status:'PASS',source_sha256:packet.source_sha256,packet_sha256:sha(await readFile(output)),statements:statements.length,provider_calls:0,hosted_acceptance:false}));
 }finally{globalThis.fetch=originalFetch;await owner.end();await db.end({timeout:5});await control.end({timeout:5});}

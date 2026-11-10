@@ -12,14 +12,16 @@ const account=r=>r?({id:r.id,groupId:r.collection_id,principalUserId:r.principal
  * Uses the existing PostgresDatabase and its application work fence. It never
  * opens its own unrestricted connection or modifies global auth settings.
  * This candidate requires the reviewed additive schema and private-table grants.
- * createOperatorPrincipal is the existing Collect user command, in the SAME tx.
+ * Canonical composition supplies a closed owner-approved shared-identity resolver
+ * in the SAME tx. Legacy source adapters still require an explicit trusted port.
  */
 export class PostgresNativeAuthStore extends PostgresNativeAuthority {
-  constructor({db,groupId,createOperatorPrincipal,clock=()=>Date.now(),sessionBinding=null}){
+  constructor({db,groupId,createOperatorPrincipal,clock=()=>Date.now(),sessionBinding=null,operatorDirectory=null}){
     super({db,groupId});
     requireThat(typeof groupId==='string'&&groupId.length>0&&typeof createOperatorPrincipal==='function','collect_adapter_required',503);
     if(sessionBinding!==null)requirePort(sessionBinding,['prepareInTransaction','bindInTransaction','assertInTransaction']);
-    Object.assign(this,{db,groupId,createOperatorPrincipal,clock,sessionBinding});
+    if(operatorDirectory!==null)requirePort(operatorDirectory,['permits','assertInTransaction']);
+    Object.assign(this,{db,groupId,createOperatorPrincipal,clock,sessionBinding,operatorDirectory});
   }
   checkGroup(group){requireThat(group===this.groupId,'access_denied',403);}
   async session(tx,{id=null,tokenHash=null,installationId=null,now=this.clock()}){
@@ -48,10 +50,14 @@ export class PostgresNativeAuthStore extends PostgresNativeAuthority {
       role:r.role,capabilities:r.capabilities,active:true,revoked:false,expiresAt:pgInteger(r.expires_at,{minimum:now+1,code:'session_unavailable'}),installationId:r.installation_id,installationProfile:r.installation_profile};
     if(this.sessionBinding){const binding=await this.sessionBinding.assertInTransaction(tx,actor);
       actor.expiresAt=binding.expiresAt;actor.principalSessionId=binding.principalSessionId;}
+    if(this.operatorDirectory)await this.operatorDirectory.assertInTransaction(tx,actor);
     return actor;
   }
   async loadSession(tokenHash,installationId,now){return this.read(tx=>this.session(tx,{tokenHash,installationId,now}));}
-  async findAccount(groupId,phone){this.checkGroup(groupId);return this.read(async tx=>account((await tx.unsafe('SELECT * FROM private.burimunsi_accounts WHERE collection_id=$1 AND phone=$2',[groupId,phone]))[0]));}
+  async findAccount(groupId,phone){this.checkGroup(groupId);return this.read(async tx=>{
+    const found=account((await tx.unsafe('SELECT * FROM private.burimunsi_accounts WHERE collection_id=$1 AND phone=$2',[groupId,phone]))[0]);
+    return found&&(!this.operatorDirectory||await this.operatorDirectory.permits(tx,found))?found:null;
+  });}
   async findStaff(groupId,id){this.checkGroup(groupId);return this.read(async tx=>account((await tx.unsafe('SELECT * FROM private.burimunsi_accounts WHERE collection_id=$1 AND id=$2::uuid',[groupId,id]))[0]));}
   async findDeviceGrant(groupId,installationId,tokenHash){
     this.checkGroup(groupId);
@@ -98,6 +104,10 @@ export class PostgresNativeAuthStore extends PostgresNativeAuthority {
           AND d.id=$10::uuid AND d.token_hash=$11 AND a.principal_user_id=$12 AND a.active AND NOT a.removed AND d.active AND c.enabled RETURNING id`,
       [s.id,this.groupId,s.accountId,s.installationId,s.credentialVersion,s.deviceGrantVersion,s.tokenHash,s.createdAt,expiresAt,s.deviceGrantId,s.deviceTokenHash,s.principalUserId]);
       if(result.length!==1)return false;
+      if(this.operatorDirectory){
+        const current=account((await tx.unsafe('SELECT * FROM private.burimunsi_accounts WHERE collection_id=$1 AND id=$2::uuid',[this.groupId,s.accountId]))[0]);
+        await this.operatorDirectory.assertInTransaction(tx,current);
+      }
       if(binding)await this.sessionBinding.bindInTransaction(tx,binding);
       await this.audit(tx,s.accountId,'burimunsi.session.created',s.id,null);
       return binding?{created:true,expiresAt}:true;
@@ -140,8 +150,12 @@ export class PostgresNativeAuthStore extends PostgresNativeAuthority {
       let id=cmd.id,version;
       if(cmd.action==='create'){
         requireThat(cmd.pinHash&&cmd.name&&cmd.phone&&cmd.capabilities,'invalid_staff_command');
-        const principal=await this.createOperatorPrincipal(tx,{groupId:this.groupId,name:cmd.name,actorId:actor.principalUserId,requestId:cmd.requestId});
+        // Carry the exact normalized login identity into the trusted shared
+        // Collect resolver. A name/PIN is not a managed identity assertion.
+        const principal=await this.createOperatorPrincipal(tx,{groupId:this.groupId,name:cmd.name,phone:cmd.phone,actorId:actor.principalUserId,requestId:cmd.requestId});
         requireThat(typeof principal?.id==='string','principal_unavailable',503);
+        if(this.operatorDirectory)await this.operatorDirectory.assertInTransaction(tx,{
+          groupId:this.groupId,principalUserId:principal.id,phone:cmd.phone,role:'staff',capabilities:cmd.capabilities});
         id=crypto.randomUUID();version=1;
         await tx.unsafe(`INSERT INTO private.burimunsi_accounts(id,collection_id,principal_user_id,phone,name,role,capabilities,pin_hash,created_at,updated_at)
           VALUES($1::uuid,$2,$3,$4,$5,'staff',$6::text[],$7::jsonb,$8,$8)`,[id,this.groupId,principal.id,cmd.phone,cmd.name,cmd.capabilities,cmd.pinHash,this.clock()]);
@@ -153,6 +167,8 @@ export class PostgresNativeAuthStore extends PostgresNativeAuthority {
         requireThat(['edit','reset','disable','enable','remove'].includes(cmd.action),'invalid_staff_action');
         if(cmd.action==='reset')requireThat(cmd.pinHash,'invalid_staff_command');
         if(next.phone!==row.phone)requireThat(cmd.pinHash,'new_passcode_required');
+        if(next.active&&!next.removed&&this.operatorDirectory)await this.operatorDirectory.assertInTransaction(tx,{
+          groupId:this.groupId,principalUserId:row.principal_user_id,phone:next.phone,role:row.role,capabilities:next.capabilities});
         version=Number(row.version)+1;
         await tx.unsafe(`UPDATE private.burimunsi_accounts SET name=$1,phone=$2,capabilities=$3::text[],pin_hash=$4::jsonb,active=$5,removed=$6,
           version=version+1,credential_version=credential_version+1,updated_at=$7 WHERE collection_id=$8 AND id=$9::uuid`,

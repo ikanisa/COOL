@@ -19,6 +19,7 @@ import {adminOversightRead} from './admin_oversight.js';
 import {clientDiagnosticsRoute} from './client_diagnostics.js';
 import {handleAdminAccounts,validateAdminOrigin,adminAccountSession,adminCanonicalActor,adminInternalRequest,accountDatabase} from './admin_accounts.js';
 import {adminBuriMunsiAccess} from './admin_burimunsi_access.js';
+import {adminBuriMunsiOperators} from './admin_burimunsi_operators.js';
 
 const keys=(data,allowed)=>{if(Object.keys(data).some(k=>!allowed.includes(k)))fail(400,'invalid_request','Request has unsupported fields.');};
 const optionalText=(v,field,max)=>v==null||v===''?null:text(v,field,max);
@@ -370,7 +371,7 @@ async function bridgeRoute(request,env,ctx){
  * bearer /v1 auth and CORS dispatcher. No ASSETS or second operating DB here. */
 export async function handleAdmin(request,env,ctx){
  const path=new URL(request.url).pathname;if(path!=='/api/admin'&&!path.startsWith('/api/admin/'))return null;
- try{const account=await handleAdminAccounts(request,env,ctx);if(account)return account;return await adminBuriMunsiAccess(request,env)??await notificationOperatorManagementRoute(request,env)??await notificationOperatorRoute(request,env)??await bridgeRoute(request,env,ctx);}
+ try{const account=await handleAdminAccounts(request,env,ctx);if(account)return account;return await adminBuriMunsiAccess(request,env)??await adminBuriMunsiOperators(request,env)??await notificationOperatorManagementRoute(request,env)??await notificationOperatorRoute(request,env)??await bridgeRoute(request,env,ctx);}
  catch(error){if(typeof env.INTERNAL_ERROR_OBSERVER==='function')env.INTERNAL_ERROR_OBSERVER(error);const known=error instanceof ApiError,constraint=/admin_bridge_guards|admin_bridge_state|UNIQUE constraint|FOREIGN KEY constraint/.test(String(error));
   return json({error:{code:known?error.code:constraint?'state_conflict':'service_unavailable',message:known?error.message:constraint?'The record or related state changed. Refresh before continuing.':'The request could not be completed.'}},known?error.status:constraint?409:503);}
 }

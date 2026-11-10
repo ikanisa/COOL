@@ -47,11 +47,11 @@ async function fixture(){
   f.sqlite.prepare('INSERT INTO private.auth_principal_links VALUES(?,?)').run(I.account,I.principal);
   f.sqlite.prepare('INSERT INTO private.burimunsi_session_links VALUES(?,?,?,?,?,?,?)').run(
     I.session,I.group,I.account,I.principal,I.canonical,I.now-1000,I.now+60000);
-  f.sqlite.prepare('INSERT INTO admin_users VALUES(?,?,?,?)').run('fixture-admin','active',1,'operator');
+  f.sqlite.prepare('INSERT INTO admin_users VALUES(?,?,?,?)').run('fixture-admin','active',1,'staff');
   f.sqlite.prepare('INSERT INTO admin_sessions VALUES(?,?,?,?)').run('fixture-admin',I.canonical,1,Math.floor(Date.now()/1000)+3600);
   f.sqlite.prepare('INSERT INTO admin_principal_links VALUES(?,?)').run('fixture-admin',I.principal);
   f.sqlite.prepare('INSERT INTO admin_grants VALUES(?,?)').run(I.principal,'collections.view');
-  f.sqlite.prepare('INSERT INTO admin_account_role_capabilities VALUES(?,?)').run('operator','collections.view');
+  f.sqlite.prepare('INSERT INTO admin_account_role_capabilities VALUES(?,?)').run('staff','collections.view');
   f.sqlite.prepare('UPDATE private.burimunsi_sessions SET token_hash=?').run(await sha256(NATIVE_TOKEN));
   // projectSession's actual read statements run against the same fixture DB.
   // Only the PostgreSQL managed-session function is a labeled test substitute.
@@ -90,7 +90,7 @@ async function fixture(){
       assert.deepEqual(applicationWorkTuple(inputs.work),[I.request,1,SOURCE]);
       const namespace={origin:PROFILE.supabase_origin,bucket:'collect-evidence'};
       return {canonical:{env:inputs.env,validateProviderProfile:unused,applicationWorkTuple},
-        createOperatorPrincipal:unused,commands:{createDirectMember:unused,setMembershipActive:unused,enqueueEligibleRematch:unused},
+        commands:{createDirectMember:unused,setMembershipActive:unused,enqueueEligibleRematch:unused},
         gateway:()=>({withAuthorityTransaction:unused,withReadSnapshot:unused}),
         sourceReader:{revision:unused,page:unused,detail:unused},
         posting:{custody:{namespace,decrypt:unused},preparation:{media:{namespace,put:unused},encrypt:unused,keyId:'fixture-key'}}};

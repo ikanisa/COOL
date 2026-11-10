@@ -15,6 +15,7 @@ import '../shared/components/admin_data_table.dart';
 import '../shared/components/admin_page.dart';
 import '../shared/components/admin_public_account_page.dart';
 import 'admin_account_api.dart';
+import 'admin_burimunsi_api.dart';
 import 'admin_email_otp.dart';
 import 'admin_invitation_recovery.dart';
 import 'admin_pending_attempt_store.dart';
@@ -769,8 +770,13 @@ class _SecurityState extends _RequestState<AdminAccountSecurityPage> {
 }
 
 class AdminAccountTeamPage extends ConsumerStatefulWidget {
-  const AdminAccountTeamPage({this.onVerify, super.key});
+  const AdminAccountTeamPage({
+    this.onVerify,
+    this.onBuriMunsiAccess,
+    super.key,
+  });
   final VoidCallback? onVerify;
+  final VoidCallback? onBuriMunsiAccess;
 
   @override
   ConsumerState<AdminAccountTeamPage> createState() => _TeamState();
@@ -1017,6 +1023,7 @@ class _TeamState extends _RequestState<AdminAccountTeamPage> {
   @override
   Widget build(BuildContext context) {
     final team = _team, recovery = _invitations;
+    final buriApi = ref.watch(adminAccountApiProvider);
     final managed = _managedInvitations != null;
     if (recovery != null) ref.watch(adminPendingAttemptStoreProvider);
     return AdminPage(
@@ -1042,6 +1049,18 @@ class _TeamState extends _RequestState<AdminAccountTeamPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (widget.onBuriMunsiAccess != null &&
+              team?.canManage == true &&
+              buriApi is AdminBuriMunsiApi &&
+              (buriApi as AdminBuriMunsiApi).buriAvailable)
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton.icon(
+                onPressed: busy ? null : widget.onBuriMunsiAccess,
+                icon: const Icon(Icons.phonelink_lock_outlined),
+                label: const Text('BuriMunsi access'),
+              ),
+            ),
           if (busy)
             const LinearProgressIndicator(
               semanticsLabel: 'Updating team access',

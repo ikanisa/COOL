@@ -10,6 +10,7 @@ import 'admin_shell.dart';
 import 'shared/admin_theme.dart';
 import 'core/admin_account_api.dart';
 import 'core/admin_account_pages.dart';
+import 'core/admin_burimunsi_page.dart';
 import 'core/admin_auth_guard.dart';
 import 'core/cloudflare_admin_location.dart';
 import 'core/cloudflare_admin_route_reporting.dart';
@@ -109,6 +110,15 @@ final cloudflareAdminRouterProvider = Provider<GoRouter>((ref) {
       }
       if (path == '/admin/notification-settings' &&
           session.asData!.value!.role != AdminAccountRole.owner) {
+        return '/admin';
+      }
+      if (path == '/admin/burimunsi' &&
+          (session.asData!.value!.role != AdminAccountRole.owner ||
+              session.asData!.value!.email.toLowerCase() !=
+                  'info@ikanisa.com' ||
+              !session.asData!.value!.permissions.contains(
+                'admin_users.manage',
+              ))) {
         return '/admin';
       }
       if (path == '/admin/admin-users' &&
@@ -449,6 +459,7 @@ final cloudflareAdminRouterProvider = Provider<GoRouter>((ref) {
                     user?.permissions.contains('admin_users.manage') == true &&
                     user?.hasRecentSensitiveVerification() != true;
                 return AdminAccountTeamPage(
+                  onBuriMunsiAccess: () => context.go('/admin/burimunsi'),
                   onVerify: verify
                       ? () => context.go(
                           Uri(
@@ -459,6 +470,18 @@ final cloudflareAdminRouterProvider = Provider<GoRouter>((ref) {
                       : null,
                 );
               },
+            ),
+          ),
+          GoRoute(
+            path: '/admin/burimunsi',
+            builder: (context, _) => AdminBuriMunsiPage(
+              onBack: () => context.go('/admin/admin-users'),
+              onVerify: () => context.go(
+                Uri(
+                  path: '/admin/security/verify-email',
+                  queryParameters: {'returnTo': '/admin/burimunsi'},
+                ).toString(),
+              ),
             ),
           ),
           GoRoute(

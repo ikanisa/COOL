@@ -3,7 +3,7 @@
   "goal_status": "active",
   "created_at_utc": "2026-11-09T19:49:15.559562+00:00",
   "authoritative_checkout": "/Volumes/COLLECT-STAGING-20261109/main-source",
-  "baseline": "Existing source import and build007/API36 qualification preserved; new implementation invalidates affected build evidence until refreshed",
+  "baseline": "Local source milestone c1f2b366f preserved. Native build012/API36 device005 unchanged; additive operator approval/Admin/26-migration work qualified locally with separate source-bound records.",
   "task_source": "docs/implementation/burimunsi-android/drive-handover/registers/BuriMunsi_Original_65_Task_Contracts.json",
   "tasks": [
     {
@@ -127,7 +127,11 @@
       "acceptance": "Admin can add/edit/disable/re-enable/remove staff and assign/reset initial passcodes. Staff can change their own passcode with current/new/confirm, but not their phone or rights. Reject duplicate login numbers; revoke affected sessions on reset/removal and retain audit history.",
       "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
       "production_status": "not_yet_proven",
-      "evidence": []
+      "evidence": [
+        "docs/implementation/burimunsi-android/validation-summary.json",
+        "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-006/result.json"
+      ],
+      "implementation_progress": "Existing shared-owner approval API/page now manages scoped phone/role/max-capability ceilings, active/version updates and native session revocation. Original-request recovery, stale/duplicate/ceiling guards and retained audit history tested locally. Initial native Admin/PIN setup and actual staff onboarding/reset acceptance remain open."
     },
     {
       "id": "T011",
@@ -141,7 +145,11 @@
       "acceptance": "Deny out-of-scope list/detail/search/totals/exports/update channels and mutations. Staff cannot read raw SMS, enroll a gateway or manage staff. Enforce enroll/allocate capabilities independently. Negative tests tamper with IDs, group, role and client flags.",
       "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
       "production_status": "not_yet_proven",
-      "evidence": []
+      "evidence": [
+        "docs/implementation/burimunsi-android/validation-summary.json",
+        "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-006/result.json"
+      ],
+      "implementation_progress": "Canonical native principal resolver is closed to arbitrary injected creators. Current existing-owner approval, global role/auth version and scope are rechecked on native account/session/use and edits. Shared financial permissions/fresh-email gates remain. Local Node+native SQL evidence; live runtime bridge still required."
     },
     {
       "id": "T012",
@@ -157,9 +165,11 @@
       "evidence": [
         ".cache/burimunsi-drive-20261109/checks/managed-login-001/burimunsi-backend-final.log",
         "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/build-012/build-result.json",
-        "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/device-api36-005/instrumentation-result.json"
+        "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/device-api36-005/instrumentation-result.json",
+        "docs/implementation/burimunsi-android/validation-summary.json",
+        "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-006/result.json"
       ],
-      "implementation_progress": "Shared BFF broker, native credential form and device-bound access bridge locally implemented and current-source APK/API36/host checks pass. Actual GoTrue/PG/TLS commissioning and independent capture/production acceptance still required."
+      "implementation_progress": "Native process-RAM BFF broker/accessJWT facade remains current at build012/device005. Actual native SQL proves lock-free READ ONLY parent checks and current BFF custody; narrowing approval revokes native sessions while preserving genuine shared Auth and device grant. GoTrue/TLS/native email-code alignment remains open."
     },
     {
       "id": "T013",
@@ -172,7 +182,11 @@
       "acceptance": "Use an atomic server constraint/transaction for the active BuriMunsi gateway and receiving account. Reject concurrent enrollment and second-phone ingestion. Replacing the device revokes its predecessor without creating a new wallet identity.",
       "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
       "production_status": "not_yet_proven",
-      "evidence": []
+      "evidence": [
+        "docs/implementation/burimunsi-android/validation-summary.json",
+        "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-006/result.json"
+      ],
+      "implementation_progress": "Migration enforces one active receiving installation per collection and unique device secrets. No production receiving installation/custodian has been supplied or commissioned."
     },
     {
       "id": "T014",
@@ -909,31 +923,38 @@
     }
   ],
   "current_work": {
-    "backend": "Device-bound access facade implemented. Canonical financial/roster/gateway bridge factory and actual additive migration remain pending.",
-    "native": "Shared native login locally implemented/qualified (build012/API36 device005); actual managed Auth/PG/device/TLS and production release acceptance still open.",
-    "admin": "Existing cookie Admin proxy supports scoped native access; Buri provisioning/management workspace still pending.",
-    "deployment": "Retained native Supabase backup/isolated schema adoption rehearsal, actual public profile/production commissioning"
+    "backend": "Owner-approved existing-principal directory, device-bound access and current-parent session checks implemented. 26-migration chain passes exact native isolated rehearsal; canonical roster/gateway/source/custody runtime bridge factory remains pending.",
+    "native": "Shared broker locally qualified at build012/API36 device005. Align genuine managed sign-in with current Collect email-code flow, then qualify actual GoTrue/PG/device/TLS; signing/physical acceptance open.",
+    "admin": "Existing Collect owner approval API/page and Team entry implemented with exact-request recovery;34 affected tests, scoped analyzer and isolated web release compilation pass. Initial native Admin/PIN/device/receiver provisioning remains pending.",
+    "deployment": "Retained source untouched; native isolated migration/SQL rehearsal passes. Public DNS/tunnel/TLS/SMTP and actual shared production schema/Auth/custody commissioning remain pending."
   },
   "no_production_claim": true,
-  "updated_at_utc": "2026-11-09T23:02:09.391711+00:00",
+  "updated_at_utc": "2026-11-10T00:57:55.626690+00:00",
   "latest_progress": {
     "native_retained_snapshot": "Fresh full snapshot-v3/isolated native restore004 passes. Source owner/settings, ACL name/grantor/privilege sets, native role flags/memberships and checked counts match; clone stopped after verification. Private configuration contains credentials; role dump omits password hashes. No encrypted complete-backup or schema-adoption acceptance.",
-    "isolated_native_rehearsal": "Same native PG17.11image; network none/no published ports; nine maintained Collect foundation migrations committed in clone. Real main source unmigrated.",
-    "platform_review": "Independent SQL10/Auth/Realtime/catalog review requested; no hash substitution accepted yet.",
-    "implementation": "Native process-memory-only Collect BFF broker and device-bound Admin access endpoint implemented, including actual shared proxy integration. Real canonical command bridges and scoped Admin provisioning workspace remain pending.",
+    "isolated_native_rehearsal": "All26 maintained migrations pass exact retained native PG17 clone003; repeat installs0new. Private native helper source/catalog binding reviewed by root for isolated clone only; Realtime off, Auth empty, fence uninitialized. Source remains unmigrated.",
+    "platform_review": "Primary coordinator completed source/catalog technical review bound only to isolated clone003. Two SQL10 literals substituted with its exact fresh catalog hash. Independent security/release review and live native policy/Auth/TLS acceptance remain open.",
+    "implementation": "Owner approvals of existing shared Collect identities now drive canonical native staff creation/session/use. Existing Collect Admin owner API/page supports scoped versioned phone/role/max-capability approvals and recovery of original uncertain requests. Canonical runtime bridge factory and initial native credential/device provisioning remain pending.",
     "pending_user_input": [
-      "T002: actual MoMo receiving identity/network, receiving SIM/Admin login phone and named custodian; requested asynchronously after live empty-custody readback."
+      "T002: actual MoMo receiving identity/network, receiving SIM/Admin login phone and named custodian; requested asynchronously after live empty-custody readback.",
+      "Public-source publication: owner approval requested because ikanisa/COOL is public. No push or PR submitted."
     ],
     "live_commissioning": false,
     "admin_owner": "info@ikanisa.com (explicitly confirmed by owner)",
     "release_guard_linux": "Complete original r4 delivery regression passes in existing managed Linux VM; canonical four adopted guard libraries byte-identical. Current app integration and independent production approvals remain separate.",
-    "managed_login_tests": "Current build012 compiles and inspects8APKs; API36 device005 passes59/59 (staff26,receiver33), all4sandbox packages removed and named task emulator stopped. Backend1597, Admin115, pipeline88, core121, native HTTP20, full host aggregate and denied-permission Deno imports pass within their stated boundaries.",
-    "legacy_cloudflare_state": "SELECT-only: approved email is active owner; one user/one Admin, zero checked business records, zero receiving accounts/gateway bindings/pairings. No routing or business data changed."
+    "managed_login_tests": "Unchanged native build012/eightAPK and API36 device00559/59 remain current. New backend1631+schema13 tests and34 affected Flutter account/Team/widgets pass. Isolated native SQL and release-mode web compile pass with declared synthetic boundaries.",
+    "legacy_cloudflare_state": "SELECT-only: approved email is active owner; one user/one Admin, zero checked business records, zero receiving accounts/gateway bindings/pairings. No routing or business data changed.",
+    "next_identity_gap": "Before live onboarding align native shared email/password broker with current Collect email-code authentication; current SQL Auth fixtures are not GoTrue proof.",
+    "backend_principal_handoff": "Phone forwarded to closed current-owner directory, replacing injectable principal creation in canonical composition. Read-only parent-session snapshot avoids FOR SHARE locks; write path restores the real shared BFF/email context and financial gates.",
+    "operator_approval_evidence": "docs/implementation/burimunsi-android/validation-summary.json#current_operator_approval",
+    "native_sql_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-006/result.json",
+    "admin_web_compile_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-admin/web-build-001/build-result.json"
   },
-  "rehearsal_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-09/retained-native-rehearsal-003/foundation-result.json",
+  "rehearsal_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-09/retained-native-rehearsal-003/native-extension-001/result.json",
   "approved_admin_owner_email": "info@ikanisa.com",
   "pending_user_input": [
-    "T002: actual MoMo receiving identity/network, receiving SIM/Admin login phone and named custodian; requested asynchronously after live empty-custody readback."
+    "T002: actual MoMo receiving identity/network, receiving SIM/Admin login phone and named custodian; requested asynchronously after live empty-custody readback.",
+    "Public-source publication: owner approval requested because ikanisa/COOL is public. No push or PR submitted."
   ],
   "selected_production_profile": {
     "path": "docs/implementation/burimunsi-android/production-profile.proposed.json",
@@ -944,7 +965,13 @@
   "release_guard_evidence": ".cache/burimunsi-drive-20261109/checks/release-r4-linux-complete-38f41c26b99f",
   "orchestration": {
     "state": "Root sole writer; three allocated agents remain pending_init and write ownership has been revoked. Extra worker launch refused by host agent thread limit.",
-    "independent_review": "Not performed; requested SQL10 platform review remains open."
+    "independent_review": "Not performed. Root source/catalog technical review allowed only the exact isolated native schema rehearsal; independent security/release and live platform acceptance remain open."
   },
-  "retained_restore_verification": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/retained-native-rehearsal-004/verification.json"
+  "retained_restore_verification": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/retained-native-rehearsal-004/verification.json",
+  "local_source_milestone": {
+    "commit": "c1f2b366f027793c2c7ac2bbea5db702e1591662",
+    "files": 573,
+    "published": false,
+    "scope": "Imported native/engineering sources and locally qualified shared login. Later backend integration remains active."
+  }
 }

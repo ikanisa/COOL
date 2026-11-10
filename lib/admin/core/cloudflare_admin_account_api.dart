@@ -1,7 +1,9 @@
 import 'admin_account_api.dart';
 import 'cloudflare_admin_session.dart';
+import 'cloudflare_admin_burimunsi_api.dart';
 
 class CloudflareAdminAccountApi
+    with CloudflareAdminBuriMunsiApi
     implements
         AdminAccountApi,
         AdminEmailOtpAccountApi,
@@ -13,6 +15,7 @@ class CloudflareAdminAccountApi
       throw ArgumentError.value(invitationVersion, 'invitationVersion');
     }
   }
+  @override
   final CloudflareAdminSession session;
   // Explicit v1 compatibility is for retained consumers/fixtures; it never
   // rewrites an existing intent's version or switches after an HTTP failure.

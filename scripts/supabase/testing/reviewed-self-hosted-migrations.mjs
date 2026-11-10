@@ -8,5 +8,6 @@ export const SELF_HOSTED_ADDITIONS=Object.freeze({
   "20261101013157_collect_deployment_identity.sql": "916a7b3012135484c74f0a6b4707cdda39c637959f8564233fc8f6a8f5adbdc1",
   "20261101014231_collect_retention_inventory_manifests.sql": "cfe8da08a85db4309abb6eea5c8a8aca4d84171b64addec3733ba5af7aeb67b6",
   "20261101020642_collect_retention_row_executor.sql": "63262c3dbadeae748b87b490460462403101536ede6708b30a88b1ba23893346",
-  "20261101030502_collect_sms_application_fence.sql": "94e166bd70669743fe8ad1dc1c4aa504d82549f831c658d582d786049c354515"
+  "20261101030502_collect_sms_application_fence.sql": "94e166bd70669743fe8ad1dc1c4aa504d82549f831c658d582d786049c354515",
+  "20261109234517_burimunsi_native_operator_schema.sql": "c28ec95df7296052d911219c64a8a3d3fbbd60d77cfc222bd2f5de3590dfff2f"
 });

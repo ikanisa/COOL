@@ -3,7 +3,7 @@
 import {readFile,writeFile,readdir,mkdir} from 'node:fs/promises';
 import {resolve,join} from 'node:path';import {randomUUID,randomBytes,createHash} from 'node:crypto';import {createRequire} from 'node:module';
 import assert from 'node:assert/strict';
-import {CURRENT_MIGRATION_COUNT,reviewedCurrentMigrations} from './self-hosted-current-schema.mjs';
+import {CURRENT_MIGRATION_COUNT,reviewedCurrentMigrations,applyCurrentFixtureMigration} from './self-hosted-current-schema.mjs';
 import {canonicalProfile,validateDeploymentProfile} from '../../../supabase/functions/_shared/deployment-profile.js';
 const require=createRequire(import.meta.url),{Client}=require('pg');
 const ROOT=resolve(import.meta.dirname,'../../..'),sha=value=>createHash('sha256').update(value).digest('hex');
@@ -40,7 +40,9 @@ export async function qualify({clusterFile,templateFile,output,runtimeDescriptor
   // The immutable historical fixture predates these real GoTrue columns.
   // Add them only to this new synthetic database, never to a migration or host.
   await owner.query('ALTER TABLE auth.users ADD COLUMN email_confirmed_at timestamptz;ALTER TABLE auth.users ADD COLUMN is_anonymous boolean NOT NULL DEFAULT false');
-  for(const item of lock.migrations.slice(16))await owner.query(await readFile(join(ROOT,'supabase/migrations',item.name),'utf8'));
+  for(const item of lock.migrations.slice(16))await applyCurrentFixtureMigration(
+   {unsafe:async(text,values)=>(await owner.query(text,values)).rows},
+   {...item,sql:await readFile(join(ROOT,'supabase/migrations',item.name),'utf8')});
   cases.push({name:'all_reviewed_current_migrations_install_under_normal_owner',status:'pass'});
   const ownerFlags=(await owner.query("SELECT rolcanlogin,rolsuper,rolbypassrls,rolinherit,rolcreatedb,rolreplication FROM pg_roles WHERE rolname=current_user")).rows[0];
   assert.equal(ownerFlags.rolcanlogin,true);for(const key of Object.keys(ownerFlags).filter(k=>k!=='rolcanlogin'))assert.equal(ownerFlags[key],false);

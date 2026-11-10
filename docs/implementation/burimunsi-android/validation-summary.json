@@ -238,5 +238,77 @@
     ],
     "production_accepted": false,
     "scope_note": "Earlier checks below remain historical; this continuation qualifies only its stated current source and boundaries."
+  },
+  "current_operator_approval": {
+    "date": "2026-11-10",
+    "status": "PASS within declared local qualification scope",
+    "production_accepted": false,
+    "independent_review": false,
+    "migration": {
+      "path": "supabase/migrations/20261109234517_burimunsi_native_operator_schema.sql",
+      "sha256": "c28ec95df7296052d911219c64a8a3d3fbbd60d77cfc222bd2f5de3590dfff2f",
+      "maintained_chain_count": 26,
+      "isolated_chain_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-09/retained-native-rehearsal-003/native-extension-001/result.json",
+      "production_applied": false
+    },
+    "sql_qualification": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-006/result.json",
+      "scope": "Actual retained native PG17 schemas in a network-none disposable QA database. Auth/users/sessions/OTP proof are explicit SQL fixtures; GoTrue, provider and public TLS are not exercised. Clean 26-migration baseline remains empty/uninitialized.",
+      "sha256": "ed09e61853ea95748c0b5257b53624503cd338a624c320e73d82a96a4075e48d"
+    },
+    "web_compilation": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-admin/web-build-001/build-result.json",
+      "source_files": 870,
+      "source_sha256": "e6e07f613676c34e30cd324e8ab27c1091911bbc1129235b5fef567d45750465",
+      "source_commit": "c1f2b366f027793c2c7ac2bbea5db702e1591662",
+      "source_dirty": true,
+      "profile_sha256": "61474756dc48ea9a5cb092e38de49f3079c66cbf8b701791c341e76710b4cf49",
+      "synthetic_public_key": true,
+      "live_routes": false,
+      "production_acceptance": false,
+      "status": "pass",
+      "scope": "Current-source Flutter release-mode web compilation with local runtime assets; isolated .example deployment profile and synthetic public key/CAPTCHA test key",
+      "main_dart_js_sha256": "4240a1bba0145cd68984cf7e0a4eb873c49ea449bbdb2ec7e2f8b4ab5baf105d",
+      "main_dart_js_bytes": 4285959,
+      "compiled_inputs_match_original_and_build_snapshot": true,
+      "full_hosting_or_pwa_acceptance": false,
+      "provider_calls": 0
+    },
+    "widget_captures": {
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-admin/approval-004",
+      "scope": "Synthetic Flutter widget captures; wide light and narrow dark at 2x text. Viewed final settled images. GWEB-06 historical public utility/settings reference used only as an adaptation, not authenticated browser or parity acceptance."
+    },
+    "checks": [
+      {
+        "name": "Buri backend plus schema consumers",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/backend-admin-approval-current.log",
+        "sha256": "4870ac262e6763b2ec071b42d3306049a4b0ae642eb23869a8a2ebe4a8189ae9",
+        "scope": "1631 domain/route tests with explicit DB/Auth/provider doubles plus 13 current-schema consumer tests; source/harness coverage is not normal-owner live PG acceptance.",
+        "tests": 1644
+      },
+      {
+        "name": "Admin approvals and existing account/Team/invitation consumers",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/admin-approval-and-team-current.log",
+        "sha256": "f911e7bf133edf2b5513b3fa3e4d9a9a7ba95b64538f12c4b964690afdad98d8",
+        "scope": "Controller/widget tests with explicit API fixtures, including original-request recovery, capability/scope ceilings, Team entry guard and enlarged-text layout.",
+        "tests": 34
+      },
+      {
+        "name": "Scoped Dart analysis",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/admin-approval-analyze-final.log",
+        "sha256": "2a20f865790e58d3972de9a7ac93dd627f1cc6373519f8c8cb93c67dbfac8818",
+        "scope": "Seven changed Dart files, no issues."
+      },
+      {
+        "name": "Sole design authority hygiene",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/revolut-authority-admin.log",
+        "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+        "scope": "Repository authority check passes; no fidelity certification."
+      }
+    ]
   }
 }
