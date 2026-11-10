@@ -357,5 +357,50 @@
     },
     "build_location": "Fresh verified physical input copies and heavy Gradle output on PRO-G40. Current canonical195-input fingerprint equals build014.",
     "remaining": "Initial shared/native Admin/PIN/MDM device provisioning; actual canonical bridge factory installation; GoTrue/SMTP/custody/TLS commissioning; physical/API26/SIM; independent review/signing/distribution."
+  },
+  "current_canonical_members": {
+    "date": "2026-11-10",
+    "production_accepted": false,
+    "real_edge_or_gotrue_exercised": false,
+    "independent_review": false,
+    "implementation": "Canonical composition installs the closed native member adapter. Existing Collect Admin and native enrollment share person/public-ID and membership statement builders. Direct beneficiaries receive no Auth/operator identity or ledger credit. Actual shared roles, fresh-email guards, current native approval, scope and version checks remain required.",
+    "backend_checks": {
+      "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/collect-members-current-complete-003.log",
+      "sha256": "73bce93f8cb350e443086d5879d28175be48b767fcc84ac72b8dfa3a7cf537a2",
+      "tests": 1675,
+      "composition": {
+        "burimunsi": 1655,
+        "schema_consumers": 13,
+        "existing_admin_person_membership": 7
+      },
+      "scope": "Actual domain/route/control flow with explicit reduced SQL/Auth/provider boundaries;22 new member command tests include rollback, infrastructure-fence meaning, authority replacement, duplicates and protected targets."
+    },
+    "native_sql": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-009/result.json",
+      "sha256": "8589fce036102e9f51148d2a3a890a183df758b7cb76b4c0a3528f135e9121ab",
+      "fixtures": 4,
+      "scope": "Actual retained native PG17 clone QA database, normal collect_runtime (neither super nor BYPASSRLS), real registered/held application SQL work lease, common statements/guards compiled from current JS. Auth/session/OTP are explicit SQL fixtures, not GoTrue or native HTTP/login. Native owner flags remain unchanged; normal-owner CI still unrun.",
+      "work_close": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-009/member-work-close.json",
+      "clean_baseline_unchanged": true,
+      "provider_calls": 0
+    },
+    "corrected_attempt": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-007",
+      "status": "failed, preserved",
+      "reason": "Initial new member guard unnecessarily required the operator to be a financial group member. Corrected to the existing generic Collect Admin global users/manage and collections/manage guard scope; native approval/collection checks remain additional.",
+      "cleanup": "Failed admission reconciled after verified transaction rollback, absent Direct/member/ledger rows and absent other client backends; no qualification acceptance claimed."
+    },
+    "existing_test_observation": {
+      "baseline_path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/admin-membership-baseline.log",
+      "finding": "The pre-existing membership test helper did not count INSERT INTO statements. Reproduced on original8effd9ed3 bridge (4pass/1fail), then corrected the observer and added App/Direct contact-field regressions. Production SQL was not changed to accommodate the observer."
+    },
+    "remaining_ports": [
+      "gateway status/replacement",
+      "audited retained-source reader",
+      "custody/encryption/media configuration",
+      "trusted runtime factory installation in serve.js"
+    ],
+    "native_artifacts": "No native build inputs changed since milestone8effd9ed3; build014/device007 remain current.",
+    "prior_passing_native_sql": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-008/result.json"
   }
 }

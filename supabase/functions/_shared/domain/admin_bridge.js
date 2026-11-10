@@ -7,6 +7,7 @@ import {marker,permission,lists,list,filters,overview,operatingDetail,exact,iso,
 import {ApiError,json,readJson,first,rows,uuid,text,integer,now,id,digest,stableJson,requireFreshAuth} from './core.js';
 import {mutation,retainedResponse} from './mutations.js';
 import {assertMemberManagementTarget,memberManagementGuard} from './user_access.js';
+import {personInsertStatement,membershipWriteStatement} from './canonical_people.js';
 import {financialRpc} from './payments.js';
 import {evidenceRoute,compensationRpc} from './evidence.js';
 import {encrypt} from './encryption.js';
@@ -132,9 +133,7 @@ async function genericMutation(request,env,account,actor,parts,data,rid,source){
   const code=memberMomoCode(data.momo_pay_code,row?.momo_pay_code??''),status=data.status??row?.access_status??'active';if(!['active','suspended'].includes(status))unavailable();
   if(!create&&(data.phone_e164!==undefined||data.email!==undefined))unavailable(); // Credential changes require their own verified workflow.
   if(resourceId===actor.userId&&status==='suspended')fail(409,'self_suspend','Ask another administrator to suspend this person.');
-  if(create){writes.push(env.DB.prepare(`INSERT INTO users(id,public_id,full_name,phone,email,member_type,momo_provider,momo_number,momo_pay_code,access_status,created_at,updated_at)
-    VALUES(?,(SELECT printf('%06d',min(candidate)) FROM (SELECT 0 AS candidate UNION ALL SELECT CAST(public_id AS INTEGER)+1 FROM users WHERE public_id!='999999') c WHERE candidate<1000000 AND NOT EXISTS(SELECT 1 FROM users WHERE public_id=printf('%06d',candidate))),?,?,?,?,?,?,?,?,?,?)`)
-    .bind(resourceId,fullName,memberType==='app'?phone:null,memberType==='app'?email:null,memberType,provider,momo,code,status,timestamp,timestamp));
+  if(create){writes.push(personInsertStatement(env.DB,{id:resourceId,name:fullName,phone,email,memberType,provider,momo,code,status,timestamp}));
   }else{version=expected(data,row.revision)+1;const guards=memberManagementGuard(env,row,status);
    writes.push(guards[0],env.DB.prepare(`UPDATE users SET full_name=?,momo_provider=?,momo_number=?,momo_pay_code=?,access_status=?,revision=revision+1,updated_at=? WHERE id=?`).bind(fullName,provider,momo,code,status,timestamp,resourceId));
    if(status==='suspended')writes.push(env.DB.prepare(`UPDATE auth_sessions SET revoked_at=?,revocation_reason='account_suspended' WHERE user_id=? AND revoked_at IS NULL`).bind(Math.floor(Date.now()/1000),resourceId));writes.push(guards[1]);}
@@ -149,8 +148,7 @@ async function genericMutation(request,env,account,actor,parts,data,rid,source){
   if(!create){if(!existing)fail(404,'not_found','The membership was not found.');version=expected(data,existing.revision)+1;}
   const guard=domainGuard(env,`EXISTS(SELECT 1 FROM collections WHERE id=? AND status='active') AND EXISTS(SELECT 1 FROM users WHERE id=? AND access_status='active' AND member_type!='operator')
    AND (?=1 OR EXISTS(SELECT 1 FROM memberships WHERE collection_id=? AND user_id=? AND revision=? AND role!='owner'))`,[groupId,userId,Number(create),groupId,userId,existing?.revision??0]);
-  writes.push(guard[0],create?env.DB.prepare(`INSERT INTO memberships(id,collection_id,user_id,role,active,joined_at) VALUES(?,?,?,?,?,?)`).bind(id(),groupId,userId,role,active,timestamp):
-   env.DB.prepare(`UPDATE memberships SET role=?,active=?,revision=revision+1 WHERE collection_id=? AND user_id=?`).bind(role,active,groupId,userId),guard[1]);
+  writes.push(guard[0],membershipWriteStatement(env.DB,{create,id:create?id():null,groupId,userId,role,active,timestamp}),guard[1]);
   const value=receipt(rid,type,`${groupId}/${userId}`,version);return mutation(env,actor,operation,rid,source,value,writes,{...options,entityType:'membership',entityId:groupId});
  }else if(type==='payees'){
   keys(data,['group_id','label','network','momo_number_or_code','status','reason','expected_version']);

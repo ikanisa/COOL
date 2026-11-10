@@ -90,7 +90,7 @@ async function fixture(){
       assert.deepEqual(applicationWorkTuple(inputs.work),[I.request,1,SOURCE]);
       const namespace={origin:PROFILE.supabase_origin,bucket:'collect-evidence'};
       return {canonical:{env:inputs.env,validateProviderProfile:unused,applicationWorkTuple},
-        commands:{createDirectMember:unused,setMembershipActive:unused,enqueueEligibleRematch:unused},
+        commands:{enqueueEligibleRematch:unused},
         gateway:()=>({withAuthorityTransaction:unused,withReadSnapshot:unused}),
         sourceReader:{revision:unused,page:unused,detail:unused},
         posting:{custody:{namespace,decrypt:unused},preparation:{media:{namespace,put:unused},encrypt:unused,keyId:'fixture-key'}}};

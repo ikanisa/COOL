@@ -21,11 +21,13 @@ import {PostgresSharedPosting} from './postgres-shared-posting.js';
 import {PostgresPostingCustody} from './postgres-posting-custody.js';
 import {PostgresPostingAllocation} from './postgres-posting-allocation.js';
 import {PostgresPostingPreparation} from './postgres-posting-preparation.js';
+import {PostgresCollectMemberCommands} from './postgres-collect-members.js';
 
 /** Wire implemented adapters to the current Collect request context.
  * This is called AFTER the existing application admission, never directly from
  * user JSON. All bridges are trusted server modules. No DB I/O during assembly.
- * Missing real writer/identity/source/gateway commands intentionally block startup.
+ * Canonical identity/member commands are closed implementations. Missing real
+ * source/gateway/custody ports intentionally block startup.
  */
 export function createPostgresNativePorts({admission,config,db,bridges,clock=()=>Date.now()}) {
   requireThat(admission?.verified===true&&admission.groupId===config?.groupId,'request_not_admitted',503);
@@ -37,6 +39,8 @@ export function createPostgresNativePorts({admission,config,db,bridges,clock=()=
     requireThat(config.nativePostingAuthorityEnabled===true&&config.postingPreparationEnabled===true,'posting_authority_required',503);
     for(const key of ['identities','receiptAdmission','rematchAdmission','sources','canonicalIngest','createOperatorPrincipal'])
       requireThat(bridges?.[key]===undefined,'canonical_bridge_conflict',503);
+    requireThat(bridges?.commands?.createDirectMember===undefined&&bridges?.commands?.setMembershipActive===undefined,
+      'canonical_bridge_conflict',503);
     requireThat(bridges?.posting?.workerRuntime===undefined&&bridges?.canonical?.env?.DB===db&&
       typeof bridges.canonical.validateProviderProfile==='function'&&typeof bridges.canonical.applicationWorkTuple==='function',
       'collect_adapter_required',503);
@@ -48,12 +52,12 @@ export function createPostgresNativePorts({admission,config,db,bridges,clock=()=
     const receiptAdmission=new PostgresProcessingAdmission({...inputs,env:bridges.canonical.env,validateProviderProfile:bridges.canonical.validateProviderProfile});
     const sources=new PostgresRetainedSources({...inputs,namespace:bridges.posting?.custody?.namespace,decrypt:bridges.posting?.custody?.decrypt});
     const canonicalIngest=new PostgresCanonicalAdoption({...inputs,sources,admission:receiptAdmission});
-    bridges={...bridges,identities,receiptAdmission,rematchAdmission:receiptAdmission,sources,canonicalIngest,
+    bridges={...bridges,commands:{...bridges.commands},identities,receiptAdmission,rematchAdmission:receiptAdmission,sources,canonicalIngest,
       createOperatorPrincipal:(...args)=>operatorDirectory.resolveStaff(...args)};
   }
 
   requireThat(typeof bridges?.createOperatorPrincipal==='function'&&typeof bridges?.gateway==='function','collect_adapter_required',503);
-  requirePort(bridges?.commands,['createDirectMember','setMembershipActive']);
+  if(!integrated)requirePort(bridges?.commands,['createDirectMember','setMembershipActive']);
   requireThat(config.sharedPostingEnabled===undefined||typeof config.sharedPostingEnabled==='boolean','invalid_worker_config',503);
   requireThat(config.journalEvidenceEnabled===undefined||typeof config.journalEvidenceEnabled==='boolean','invalid_worker_config',503);
   requireThat(config.journalEvidenceEnabled!==true||config.sharedPostingEnabled===true,'posting_writer_required',503);
@@ -64,6 +68,10 @@ export function createPostgresNativePorts({admission,config,db,bridges,clock=()=
   requireThat(config.nativePostingAuthorityEnabled===undefined||typeof config.nativePostingAuthorityEnabled==='boolean','invalid_worker_config',503);
   requireThat(config.nativePostingAuthorityEnabled!==true||config.sharedPostingEnabled===true,'posting_writer_required',503);
   const auth=new PostgresNativeAuthStore({db,groupId:config.groupId,createOperatorPrincipal:bridges.createOperatorPrincipal,clock,sessionBinding:managedSessions,operatorDirectory});
+  const memberCommands=integrated?new PostgresCollectMemberCommands({authority:auth}):null;
+  if(memberCommands)bridges={...bridges,commands:{...bridges.commands,
+    createDirectMember:(...args)=>memberCommands.createDirectMember(...args),
+    setMembershipActive:(...args)=>memberCommands.setMembershipActive(...args)}};
   let postingAuthority=null;
   if(config.nativePostingAuthorityEnabled===true){
     requireThat(bridges.posting?.runtime===undefined,'posting_authority_conflict',503);
@@ -123,7 +131,7 @@ export function createPostgresNativePorts({admission,config,db,bridges,clock=()=
   const records=new PostgresRecordsStore({authority:auth,sourceReader:bridges.sourceReader,clock});
   const gateway=bridges.gateway(auth);
   requirePort(gateway,['withAuthorityTransaction','withReadSnapshot']);
-  return Object.freeze({auth,canonical,records,gateway,jobs,...(integrated?{sources:bridges.sources}:{}),...(managedSessions?{managedSessions}:{}),...(scheduler?{scheduler}:{}),...(workerAuthority?{workerAuthority}:{}),...(postingAuthority?{postingAuthority}:{}),...(rematches?{rematches}:{}),...(posting?{posting}:{}),...(custody?{custody}:{}),...(allocation?{allocation}:{}),...(preparation?{preparation}:{})});
+  return Object.freeze({auth,canonical,records,gateway,jobs,...(integrated?{sources:bridges.sources,memberCommands}:{}),...(managedSessions?{managedSessions}:{}),...(scheduler?{scheduler}:{}),...(workerAuthority?{workerAuthority}:{}),...(postingAuthority?{postingAuthority}:{}),...(rematches?{rematches}:{}),...(posting?{posting}:{}),...(custody?{custody}:{}),...(allocation?{allocation}:{}),...(preparation?{preparation}:{})});
 }
 export function composePostgresNativeRequest(options) {
   const ports=createPostgresNativePorts(options);

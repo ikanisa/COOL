@@ -57,7 +57,7 @@ async function call(f,method,body,{key=`synthetic-${++sequence}`,url=path}={}){
  const request=new Request('https://admin.example.invalid'+url,{method,headers:{'Content-Type':'application/json','Idempotency-Key':key},body:JSON.stringify(body)});
  const response=await handleAdmin(request,{DB:f.DB},{});return {status:response.status,body:await response.json()};
 }
-function writes(f,verb){return f.batches.flat().filter(statement=>statement.sql.startsWith(verb+' memberships(')||statement.sql.startsWith(verb+' memberships SET'));}
+function writes(f,verb){return f.batches.flat().filter(statement=>statement.sql.startsWith((verb==='INSERT'?'INSERT INTO':verb)+' memberships(')||statement.sql.startsWith(verb+' memberships SET'));}
 function noMutation(f){assert.equal(writes(f,'INSERT').length,0);assert.equal(writes(f,'UPDATE').length,0);assert.equal(f.receipt,null);}
 
 test('new partial or null membership PATCH cannot demote or reactivate a person',async()=>{
@@ -81,6 +81,24 @@ test('create retains its existing member and active defaults',async()=>{
  assert.equal(reply.status,200);assert.equal(reply.body.version,1);
  const inserts=writes(f,'INSERT');assert.equal(inserts.length,1);
  assert.deepEqual(inserts[0].args.slice(1,5),[ids.group,ids.user,'member',1]);
+});
+
+test('shared person statement preserves App login contact fields',async()=>{
+ const f=fixture(null);f.actor.permissions.add('users.manage');f.account.permissions.push('users.manage');
+ const reply=await call(f,'POST',{display_name:'EXAMPLE APP MEMBER',phone_e164:'+250789444111',email:'member@example.invalid',
+  member_type:'app',reason},{url:'/api/admin/operations/users'});
+ assert.equal(reply.status,200);
+ const insert=f.batches.flat().find(v=>v.sql.startsWith('INSERT INTO users('));assert(insert);
+ assert.deepEqual(insert.args.slice(1,5),['EXAMPLE APP MEMBER','+250789444111','member@example.invalid','app']);
+});
+
+test('shared Direct person statement never turns supplied contact fields into Auth credentials',async()=>{
+ const f=fixture(null);f.actor.permissions.add('users.manage');f.account.permissions.push('users.manage');
+ const reply=await call(f,'POST',{display_name:'EXAMPLE DIRECT MEMBER',phone_e164:'+250789444111',email:'unused@example.invalid',
+  member_type:'direct',momo_number:'0789444111',reason},{url:'/api/admin/operations/users'});
+ assert.equal(reply.status,200);
+ const insert=f.batches.flat().find(v=>v.sql.startsWith('INSERT INTO users('));assert(insert);
+ assert.deepEqual(insert.args.slice(1,7),['EXAMPLE DIRECT MEMBER',null,null,'direct','','0789444111']);
 });
 
 test('a stale full PATCH is refused without constructing a membership write',async()=>{

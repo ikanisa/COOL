@@ -8,12 +8,12 @@ function options(kind='jobs'){
  return {admission:{verified:true,groupId:'group-1'},config:{enabled:true,groupId:'group-1',origin:'https://example.test',
   canonicalIntegrationEnabled:true,sharedPostingEnabled:true,journalEvidenceEnabled:true,journalAllocationEnabled:true,postingPreparationEnabled:true,nativePostingAuthorityEnabled:true,rematchEnabled:true},db,
   bridges:{gateway:authority=>({authority,withAuthorityTransaction:unexpected,withReadSnapshot:unexpected}),
-   commands:{createDirectMember:unexpected,setMembershipActive:unexpected},sourceReader:{revision:unexpected,page:unexpected,detail:unexpected},
+   commands:{},sourceReader:{revision:unexpected,page:unexpected,detail:unexpected},
    canonical:{env:{DB:db,MOMO_PROCESSING_PAUSED:'false'},validateProviderProfile:unexpected,applicationWorkTuple:()=>['10000000-0000-4000-8000-000000000001',1,'a'.repeat(64)]},
    posting:{custody:{namespace:ns,decrypt:unexpected},preparation:{media:{namespace:ns,put:unexpected},encrypt:unexpected,keyId:'test-key'}}},
   secrets:{pinPepper:new Uint8Array(32).fill(1),pinPepperId:'test-only',cursorKey:new Uint8Array(32).fill(2)},networkBucket:unexpected};
 }
-test('all canonical bridges assemble together without I/O',()=>{const p=createPostgresNativePorts(options());assert(p.managedSessions&&p.workerAuthority&&p.scheduler&&p.sources);assert.equal(p.auth.sessionBinding,p.managedSessions);assert.equal(p.canonical.authority,p.auth);});
+test('all canonical bridges assemble together without I/O',()=>{const p=createPostgresNativePorts(options());assert(p.managedSessions&&p.workerAuthority&&p.scheduler&&p.sources&&p.memberCommands);assert.equal(p.memberCommands.authority,p.auth);assert.equal(p.auth.sessionBinding,p.managedSessions);assert.equal(p.canonical.authority,p.auth);});
 test('HTTP receives session binding but no scheduler authority',()=>{const p=createPostgresNativePorts(options('http_admin'));assert(p.managedSessions);assert.equal(p.workerAuthority,undefined);assert.equal(p.scheduler,undefined);});
 test('integrated worker exposes bounded cycle and original-source enqueue',()=>{const w=composePostgresNativeWorkers(options());for(const k of ['runScheduledCycle','enqueueRetainedSource','processReceipts','processRematches'])assert.equal(typeof w[k],'function');});
 for(const key of ['identities','receiptAdmission','rematchAdmission','sources','canonicalIngest','createOperatorPrincipal'])test('competing bridge is rejected: '+key,()=>{const o=options();o.bridges[key]=key==='createOperatorPrincipal'?unexpected:{};assert.throws(()=>createPostgresNativePorts(o),/canonical_bridge_conflict/);});
@@ -22,3 +22,5 @@ test('different DB in canonical environment is rejected',()=>{const o=options();
 test('unbranded work rejection propagates before assembly',()=>{const o=options();o.bridges.canonical.applicationWorkTuple=()=>{throw Error('work_unbranded');};assert.throws(()=>createPostgresNativePorts(o),/work_unbranded/);});
 test('caller-supplied worker bypass is rejected',()=>{const o=options();o.bridges.posting.workerRuntime={assertInTransaction:unexpected};assert.throws(()=>createPostgresNativePorts(o));});
 test('string-valued activation rejected',()=>{const o=options();o.config.canonicalIntegrationEnabled='true';assert.throws(()=>createPostgresNativePorts(o),/invalid_worker_config/);});
+
+for(const key of ['createDirectMember','setMembershipActive'])test('integrated member writer cannot be replaced: '+key,()=>{const o=options();o.bridges.commands[key]=unexpected;assert.throws(()=>createPostgresNativePorts(o),/canonical_bridge_conflict/);});

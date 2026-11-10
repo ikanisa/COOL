@@ -544,7 +544,11 @@
       "acceptance": "Enroll a person/membership with MoMo identity without member-app credentials. Normalize full numbers; detect existing person/member; display MoMo number as the identifier. Do not create an identity solely from an SMS name or suffix.",
       "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
       "production_status": "not_yet_proven",
-      "evidence": []
+      "evidence": [
+        "docs/implementation/burimunsi-android/validation-summary.json",
+        "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-009/result.json"
+      ],
+      "implementation_progress": "Closed canonical member adapter now reuses the existing Collect Admin person/public-ID and membership statements. Existing App contact fields are preserved; Direct onboarding creates no Auth/operator identity or credit. Native and current global shared permissions/fresh email, duplicate/target/version checks and atomic rollback are locally qualified. Gateway/source/custody/runtime wiring and real hosted onboarding remain open."
     },
     {
       "id": "T040",
@@ -557,7 +561,11 @@
       "acceptance": "BuriMunsi actions cannot silently change a shared person in another Collect group. Qualify deactivation, identity changes/number recycling and audit/version rules. Admin/staff capabilities follow the approved scope; historical ledger links survive identity changes.",
       "evidence_required": "Attach source/build identity and the test or operational evidence described in acceptance.",
       "production_status": "not_yet_proven",
-      "evidence": []
+      "evidence": [
+        "docs/implementation/burimunsi-android/validation-summary.json",
+        "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-009/result.json"
+      ],
+      "implementation_progress": "Closed canonical member adapter now reuses the existing Collect Admin person/public-ID and membership statements. Existing App contact fields are preserved; Direct onboarding creates no Auth/operator identity or credit. Native and current global shared permissions/fresh email, duplicate/target/version checks and atomic rollback are locally qualified. Gateway/source/custody/runtime wiring and real hosted onboarding remain open."
     },
     {
       "id": "T041",
@@ -930,13 +938,13 @@
     }
   ],
   "current_work": {
-    "backend": "Owner-approved existing-principal directory, device-bound access and current-parent session checks implemented. 26-migration chain passes exact native isolated rehearsal; canonical roster/gateway/source/custody runtime bridge factory remains pending.",
+    "backend": "Closed canonical member commands now reuse existing Collect Admin person/membership statements;1655 Buri+13schema+7existingAdmin checks and normal-runtime native SQL work-lease qualification pass. Actual gateway/source-reader/custody ports and runtime factory installation remain pending.",
     "native": "Shared native email-code login aligned with current Collect; build014/eightAPK and API36 device00761/61 pass. Current core129/transport29 and source/host checks pass. Real GoTrue/SMTP, initial account/PIN/MDM grant, public HTTPS and physical/release acceptance remain open.",
     "admin": "Existing Collect owner approval API/page and Team entry implemented with exact-request recovery;34 affected tests, scoped analyzer and isolated web release compilation pass. Initial native Admin/PIN/device/receiver provisioning remains pending.",
     "deployment": "Retained source untouched; native isolated migration/SQL rehearsal passes. Public DNS/tunnel/TLS/SMTP and actual shared production schema/Auth/custody commissioning remain pending."
   },
   "no_production_claim": true,
-  "updated_at_utc": "2026-11-10T01:26:36.782842+00:00",
+  "updated_at_utc": "2026-11-10T02:14:04.380211+00:00",
   "latest_progress": {
     "native_retained_snapshot": "Fresh full snapshot-v3/isolated native restore004 passes. Source owner/settings, ACL name/grantor/privilege sets, native role flags/memberships and checked counts match; clone stopped after verification. Private configuration contains credentials; role dump omits password hashes. No encrypted complete-backup or schema-adoption acceptance.",
     "isolated_native_rehearsal": "All26 maintained migrations pass exact retained native PG17 clone003; repeat installs0new. Private native helper source/catalog binding reviewed by root for isolated clone only; Realtime off, Auth empty, fence uninitialized. Source remains unmigrated.",
@@ -949,14 +957,15 @@
     "live_commissioning": false,
     "admin_owner": "info@ikanisa.com (explicitly confirmed by owner)",
     "release_guard_linux": "Complete original r4 delivery regression passes in existing managed Linux VM; canonical four adopted guard libraries byte-identical. Current app integration and independent production approvals remain separate.",
-    "managed_login_tests": "Current build014/eightAPK and API36 device00761/61 pass (Staff27/receiver34); sandbox packages removed and owned emulator stopped. Core129/transport29/pipeline88 pass with explicit doubles. Existing backend1631/schema13/Admin34 results retain their declared scope.",
+    "managed_login_tests": "Native build014/eightAPK and API36 device00761/61 remain current. Current backend1675 checks pass (Buri1655/schema13/existingAdmin7). Actual native SQL4fixtures pass under declared boundaries. Earlier counts and failed attempts are preserved in separate evidence records.",
     "legacy_cloudflare_state": "SELECT-only: approved email is active owner; one user/one Admin, zero checked business records, zero receiving accounts/gateway bindings/pairings. No routing or business data changed.",
     "next_identity_gap": "Trusted first native Admin/PIN and installation-specific MDM grant remain unprovisioned. Native code now aligns with existing email-code endpoints; genuine GoTrue/SMTP/device/TLS acceptance remains open.",
     "backend_principal_handoff": "Phone forwarded to closed current-owner directory, replacing injectable principal creation in canonical composition. Read-only parent-session snapshot avoids FOR SHARE locks; write path restores the real shared BFF/email context and financial gates.",
     "operator_approval_evidence": "docs/implementation/burimunsi-android/validation-summary.json#current_operator_approval",
-    "native_sql_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-006/result.json",
+    "native_sql_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-009/result.json",
     "admin_web_compile_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-admin/web-build-001/build-result.json",
-    "managed_email_code_evidence": "docs/implementation/burimunsi-android/validation-summary.json#current_managed_email_code"
+    "managed_email_code_evidence": "docs/implementation/burimunsi-android/validation-summary.json#current_managed_email_code",
+    "canonical_members": "Source-bound closed member adapter implemented and qualified locally. Scope/version/current native approval plus shared permissions/fresh email are retained. Actual native PG collect_runtime executes compiled common statements under a real work lease; no native HTTP/GoTrue acceptance. See validation-summary.json current_canonical_members."
   },
   "rehearsal_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-09/retained-native-rehearsal-003/native-extension-001/result.json",
   "approved_admin_owner_email": "info@ikanisa.com",
@@ -978,10 +987,10 @@
   },
   "retained_restore_verification": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/retained-native-rehearsal-004/verification.json",
   "local_source_milestone": {
-    "commit": "a9e2c301a",
-    "files": 43,
+    "commit": "8effd9ed3",
+    "files": 19,
     "published": false,
-    "scope": "Existing Collect owner operator approvals, managed parent SQL fix, additive native schema and Admin page; isolated qualification recorded."
+    "scope": "Native shared email-code alignment, build014/API36 device00761/61 and observed Cloudflare wildcard coverage."
   },
   "local_source_milestones": [
     {
@@ -995,6 +1004,12 @@
       "files": 43,
       "published": false,
       "scope": "Existing Collect owner operator approvals, managed parent SQL fix, additive native schema and Admin page; isolated qualification recorded."
+    },
+    {
+      "commit": "8effd9ed3",
+      "files": 19,
+      "published": false,
+      "scope": "Native shared email-code alignment, build014/API36 device00761/61 and observed Cloudflare wildcard coverage."
     }
   ]
 }

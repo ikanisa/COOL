@@ -32,12 +32,13 @@ export function isCollectNativeRoute(request){
  * collection ID, explicit enabled canonical flags, PIN/cursor secrets and the
  * trusted network-bucket resolver. bridgeFactory receives THIS request's DB,
  * branded work and verified existing Admin principal; it must supply the real
- * member/membership commands, gateway, sourceReader,
+ * gateway, sourceReader,
  * canonical provider/fence bindings, custody decrypt and preparation media/
  * encryption ports required by createPostgresNativePorts. Missing ports fail
  * closed there. Canonical composition resolves staff only from explicit owner
- * approvals of existing shared Collect identities; an injected principal creator
- * is rejected. No writer, principal, approval, group or activation is invented.
+ * approvals of existing shared Collect identities and installs the canonical
+ * shared person/membership commands; injected replacements are rejected.
+ * No alternate writer, principal, approval, group or activation is invented.
  *
  * This factory opens no pool, creates no fence, migrates nothing and supplies no
  * separate ledger. The existing shared posting adapters remain the only writer.
