@@ -14,7 +14,7 @@
   "runtime_host_checks": "merged local runtime and shared-prefix checks pass; see source-bound logs",
   "local_backend_state": "Retained source still generic/unmigrated. Exact native PG17 clone003 has all26 reviewed migrations, Realtime off, Auth empty and fence uninitialized. Disposable QA copy passes owner approval/read-only/revocation fixtures; no source modification.",
   "local_backend_changes": "No bootstrap, schema migration, new instance, provider activation or financial write",
-  "shared_backend_route": "Closed existing-owner directory, managed access and canonical member commands implemented. Current1675 checks pass (Buri1655/schema13/existingAdmin7). Native PG normal-runtime SQL with real work lease passes. Gateway/source-reader/custody runtime bridges and actual factory installation still needed; unconfigured native requests stay503.",
+  "shared_backend_route": "Closed operator/session directory and canonical member commands implemented. Canonical phone projection corrected for existing Collect07... storage;1681 checks pass (Buri1661/schema13/existingAdmin7). Native SQL009 remains current for its unchanged consumed inputs. Gateway/audited source-reader/custody/factory installation remain pending; unconfigured native requests stay503.",
   "live_integration": "Not commissioned: reviewed Collect/Buri schema, real canonical command bridges, scoped Admin provisioning, operational custody and public HTTPS/GoTrue acceptance remain open.",
   "emulator": "Task-owned emulator5558 stopped after exact named-AVD/PID and package-cleanup readback; physical device not operated. AVD and evidence retained.",
   "build_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/build-014/build-result.json",
@@ -32,7 +32,7 @@
     "files": 195,
     "scope": "All195 native/upstream build inputs; earlier544-file import inventory remains historical."
   },
-  "updated_at_utc": "2026-11-10T02:14:04.380211+00:00",
+  "updated_at_utc": "2026-11-10T02:27:30.746801+00:00",
   "admin_operator_approval": "Existing owner-only /admin/burimunsi workspace selects existing confirmed shared identities and approves scoped phone/role/max capabilities; no signup, PIN/bootstrap or device provisioning. Exact-request recovery and version/scope checks retained.",
   "admin_web_build": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-admin/web-build-001/build-result.json",
   "managed_auth_gap": "Native broker now aligns with existing Collect email-code sign-in and is locally qualified; genuine GoTrue/SMTP/device/TLS commissioning, initial native credentials and grants remain open.",

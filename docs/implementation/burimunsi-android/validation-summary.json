@@ -402,5 +402,21 @@
     ],
     "native_artifacts": "No native build inputs changed since milestone8effd9ed3; build014/device007 remain current.",
     "prior_passing_native_sql": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-008/result.json"
+  },
+  "current_canonical_phone_projection": {
+    "date": "2026-11-10",
+    "production_accepted": false,
+    "independent_review": false,
+    "backend_tests": 1681,
+    "composition": {
+      "burimunsi": 1661,
+      "schema_consumers": 13,
+      "existing_admin_person_membership": 7
+    },
+    "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/canonical-phone-projection-current-001.log",
+    "sha256": "e653a0a64a605e9dc40eaa3d3c2bb37d5dbf4dff32f3190f71b29ed9e18af995",
+    "change": "Normalize only canonical member MoMo references from existing07... storage to native+250... DTOs. Preserve original payer name/masked payer phone/source time, nullable unallocated references and signed ledger deltas. Reject malformed/masked member identity without using a login-phone fallback.",
+    "scope": "Actual backend code with explicit SQL/Auth/provider fixtures; includes canonical Direct enrollment followed by the real native record mapper over a reduced SQLite schema. PG009 already proves the unchanged canonical stored07... shape and consumedSQL inputs remain identical; no additional native SQL, APK or provider claim.",
+    "native_evidence_unchanged": true
   }
 }

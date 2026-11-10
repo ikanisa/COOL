@@ -1,7 +1,7 @@
 import {readCommandOutcome} from './postgres-command-outcome.js';
-import {requireThat,requirePort} from './errors.js';
+import {requireThat,requirePort,BuriError} from './errors.js';
 import {pgInteger} from './postgres-values.js';
-import {sha256,canonicalJson} from './values.js';
+import {sha256,canonicalJson,normalizePhone} from './values.js';
 
 const PAYMENTS=`SELECT t.id,x.collection_id,t.payer_name,t.payer_identifier,t.amount_minor,t.transaction_datetime_raw,t.provider_transaction_id,
  t.allocation_state,t.has_conflict,t.version,t.created_at,p.member_id,u.momo_number,p.status AS payment_status,
@@ -25,11 +25,18 @@ const LEDGER=`SELECT l.id,l.collection_id,l.member_id,l.amount_minor,l.posted_at
  LEFT JOIN app.momo_financial_links f ON f.payment_id=p.id
  LEFT JOIN app.momo_transactions t ON t.id=f.transaction_id
  WHERE l.collection_id=$1 AND l.member_id=$2`;
+// Collect stores canonical MoMo routes in local 07... form; native DTOs require
+// E.164. Normalize only the authoritative member reference, never payer evidence
+// or the original SMS. Missing/masked member identity has no login-phone fallback.
+const memberPhone=(value,nullable=false)=>{
+ if(nullable&&(value===null||value===undefined||value===''))return null;
+ try{return normalizePhone(value);}catch{throw new BuriError('invalid_member_projection',503);}
+};
 const payment=r=>({id:r.id,groupId:r.collection_id,payerNameRaw:r.payer_name??'',payerPhoneRaw:r.payer_identifier??'',amountRwf:pgInteger(r.amount_minor),atRaw:r.transaction_datetime_raw??'',ftId:r.provider_transaction_id,
  state:pgInteger(r.has_conflict)===1?'conflict':r.payment_status==='reversed'?'reversed':['reconciled','confirmed','corrected'].includes(r.payment_status)?'posted':r.allocation_state==='unallocated'?'unallocated':'processing',
- version:pgInteger(r.version),memberId:r.member_id??null,memberPhone:r.momo_number||null,sourceId:r.source_id??null});
-const member=r=>({id:r.id,groupId:r.collection_id,name:r.full_name,phone:r.momo_number,balanceRwf:pgInteger(r.balance),active:pgInteger(r.active)===1,version:pgInteger(r.revision)});
-const ledger=r=>({id:r.id,groupId:r.collection_id,transactionId:r.transaction_id??null,amountRwf:pgInteger(r.amount_minor),atRaw:r.source_at??'',ftId:r.ft_id??'',payerNameRaw:r.payer_name??'',memberPhone:r.momo_number});
+ version:pgInteger(r.version),memberId:r.member_id??null,memberPhone:memberPhone(r.momo_number,true),sourceId:r.source_id??null});
+const member=r=>({id:r.id,groupId:r.collection_id,name:r.full_name,phone:memberPhone(r.momo_number),balanceRwf:pgInteger(r.balance),active:pgInteger(r.active)===1,version:pgInteger(r.revision)});
+const ledger=r=>({id:r.id,groupId:r.collection_id,transactionId:r.transaction_id??null,amountRwf:pgInteger(r.amount_minor),atRaw:r.source_at??'',ftId:r.ft_id??'',payerNameRaw:r.payer_name??'',memberPhone:memberPhone(r.momo_number)});
 const safeLike=s=>'%'+s.replaceAll('\\','\\\\').replaceAll('%','\\%').replaceAll('_','\\_')+'%';
 
 /** Reuses canonical app tables, never a client or SMS-derived balance.

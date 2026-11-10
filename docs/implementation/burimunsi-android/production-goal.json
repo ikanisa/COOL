@@ -938,13 +938,13 @@
     }
   ],
   "current_work": {
-    "backend": "Closed canonical member commands now reuse existing Collect Admin person/membership statements;1655 Buri+13schema+7existingAdmin checks and normal-runtime native SQL work-lease qualification pass. Actual gateway/source-reader/custody ports and runtime factory installation remain pending.",
+    "backend": "Closed existing-principal/session and canonical member adapters locally implemented. Stored-phone/native DTO mismatch fixed;1681 affected checks pass. Native SQL009 remains valid. Remaining audited source-reader/gateway/custody/runtime factory and first provisioning are active work.",
     "native": "Shared native email-code login aligned with current Collect; build014/eightAPK and API36 device00761/61 pass. Current core129/transport29 and source/host checks pass. Real GoTrue/SMTP, initial account/PIN/MDM grant, public HTTPS and physical/release acceptance remain open.",
     "admin": "Existing Collect owner approval API/page and Team entry implemented with exact-request recovery;34 affected tests, scoped analyzer and isolated web release compilation pass. Initial native Admin/PIN/device/receiver provisioning remains pending.",
     "deployment": "Retained source untouched; native isolated migration/SQL rehearsal passes. Public DNS/tunnel/TLS/SMTP and actual shared production schema/Auth/custody commissioning remain pending."
   },
   "no_production_claim": true,
-  "updated_at_utc": "2026-11-10T02:14:04.380211+00:00",
+  "updated_at_utc": "2026-11-10T02:27:30.746801+00:00",
   "latest_progress": {
     "native_retained_snapshot": "Fresh full snapshot-v3/isolated native restore004 passes. Source owner/settings, ACL name/grantor/privilege sets, native role flags/memberships and checked counts match; clone stopped after verification. Private configuration contains credentials; role dump omits password hashes. No encrypted complete-backup or schema-adoption acceptance.",
     "isolated_native_rehearsal": "All26 maintained migrations pass exact retained native PG17 clone003; repeat installs0new. Private native helper source/catalog binding reviewed by root for isolated clone only; Realtime off, Auth empty, fence uninitialized. Source remains unmigrated.",
@@ -965,7 +965,8 @@
     "native_sql_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-009/result.json",
     "admin_web_compile_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-admin/web-build-001/build-result.json",
     "managed_email_code_evidence": "docs/implementation/burimunsi-android/validation-summary.json#current_managed_email_code",
-    "canonical_members": "Source-bound closed member adapter implemented and qualified locally. Scope/version/current native approval plus shared permissions/fresh email are retained. Actual native PG collect_runtime executes compiled common statements under a real work lease; no native HTTP/GoTrue acceptance. See validation-summary.json current_canonical_members."
+    "canonical_members": "Source-bound closed member adapter implemented and qualified locally. Scope/version/current native approval plus shared permissions/fresh email are retained. Actual native PG collect_runtime executes compiled common statements under a real work lease; no native HTTP/GoTrue acceptance. See validation-summary.json current_canonical_members.",
+    "canonical_phone_projection": "Canonical member/payment/ledger references now normalize stored07... routes to native+250... without changing original payer evidence or signed money. Actual writer-to-reader and projection regressions pass; current total1681 (Buri1661/schema13/Admin7). SQL009/native build014/device007 inputs remain valid within their declared scope."
   },
   "rehearsal_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-09/retained-native-rehearsal-003/native-extension-001/result.json",
   "approved_admin_owner_email": "info@ikanisa.com",
@@ -987,10 +988,10 @@
   },
   "retained_restore_verification": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/retained-native-rehearsal-004/verification.json",
   "local_source_milestone": {
-    "commit": "8effd9ed3",
-    "files": 19,
+    "commit": "cc9505a3d",
+    "files": 20,
     "published": false,
-    "scope": "Native shared email-code alignment, build014/API36 device00761/61 and observed Cloudflare wildcard coverage."
+    "scope": "Closed canonical member commands sharing existing Admin statements and source-bound native SQL009 work-lease qualification."
   },
   "local_source_milestones": [
     {
@@ -1010,6 +1011,12 @@
       "files": 19,
       "published": false,
       "scope": "Native shared email-code alignment, build014/API36 device00761/61 and observed Cloudflare wildcard coverage."
+    },
+    {
+      "commit": "cc9505a3d",
+      "files": 20,
+      "published": false,
+      "scope": "Closed canonical member commands sharing existing Admin statements and source-bound native SQL009 work-lease qualification."
     }
   ]
 }

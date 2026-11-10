@@ -5,13 +5,14 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {principalFixture,I} from './native-principal-fixture.mjs';
 import {installCanonicalHarness} from './posting-authority-fixture.mjs';
 import {PostgresCollectMemberCommands} from '../../domain/burimunsi/postgres-collect-members.js';
+import {PostgresRecordsStore} from '../../domain/burimunsi/postgres-records-store.js';
 
 const memberId='20000000-0000-4000-8000-000000000001';
 function fixture(){
  const f=principalFixture(),h=installCanonicalHarness(f);h.sharedRole='admin';h.permissions=new Set(['users.manage','collections.manage']);
  const s=f.sqlite;
  for(const [column,definition]of Object.entries({public_id:'TEXT',full_name:"TEXT DEFAULT ''",phone:'TEXT',email:'TEXT',member_type:"TEXT DEFAULT 'direct'",
-  momo_provider:"TEXT DEFAULT ''",momo_number:"TEXT DEFAULT ''",momo_pay_code:"TEXT DEFAULT ''",created_at:'TEXT',updated_at:'TEXT'}))
+  momo_provider:"TEXT DEFAULT ''",momo_number:"TEXT DEFAULT ''",momo_pay_code:"TEXT DEFAULT ''",created_at:'TEXT',updated_at:'TEXT',revision:'INTEGER DEFAULT 1'}))
   s.exec('ALTER TABLE app.users ADD COLUMN '+column+' '+definition);
  f.execute("UPDATE app.users SET public_id='999999',member_type='operator'");
  s.exec(`CREATE UNIQUE INDEX app.users_public_id ON users(public_id);
@@ -67,6 +68,13 @@ test('enrollment reuses canonical Direct person/public ID, membership and shared
   [null,'users.manage',2,null,300],[null,'collections.manage',2,null,300],
   [null,'users.manage',2,null,300],[null,'collections.manage',2,null,300]]);
  assert(!f.statements.some(v=>/INSERT INTO (?:auth\.|private\.burimunsi_|payments|ledger_entries)/.test(v.sql)));
+});
+test('new canonical Direct member can be read through the existing native record projection',async t=>{
+ const f=fixture();t.after(f.close);const created=await f.create();
+ const unused=()=>{throw Error('Member detail must not read any SMS source');};
+ const reader=new PostgresRecordsStore({authority:f.store,sourceReader:{revision:unused,page:unused,detail:unused}});
+ const detail=await reader.withReadSnapshot(tx=>tx.readDetail({groupId:I.group,kind:'member',id:created.id}));
+ assert.deepEqual(detail,created);assert.equal(f.count('ledger_entries'),0);
 });
 for(const role of ['staff'])test('native enrollment capability cannot override shared read-only '+role+' role',async t=>{
  const f=fixture();t.after(f.close);f.h.sharedRole=role;
