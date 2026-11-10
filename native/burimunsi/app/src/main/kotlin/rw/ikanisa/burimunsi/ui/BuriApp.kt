@@ -546,7 +546,7 @@ private fun LazyListScope.moreButton(cursor:String?,busy:Boolean,more:()->Unit){
 }
 @Composable private fun Entry(label:String,value:String,change:(String)->Unit,phone:Boolean=false,pin:Boolean=false,enabled:Boolean=true,
     imeAction:ImeAction=ImeAction.Next,onDone:(()->Unit)?=null,
-    fieldFocus:FocusRequester?=null,nextFocus:FocusRequester?=null,errorText:String?=null,password:Boolean=false,email:Boolean=false){
+    fieldFocus:FocusRequester?=null,nextFocus:FocusRequester?=null,errorText:String?=null,password:Boolean=false,email:Boolean=false,numeric:Boolean=false){
     val t=LocalUiText.current
     var visible by remember{mutableStateOf(false)}
     val keyboard=LocalSoftwareKeyboardController.current
@@ -560,7 +560,7 @@ private fun LazyListScope.moreButton(cursor:String?,busy:Boolean,more:()->Unit){
     },label={Text(t(label))},singleLine=true,enabled=enabled,isError=errorText!=null,
         supportingText=if(errorText!=null){{Text(t(errorText))}}else null,
         shape=RoundedCornerShape(18.dp),visualTransformation=if((pin||password)&&!visible)PasswordVisualTransformation()else VisualTransformation.None,
-        keyboardOptions=KeyboardOptions(keyboardType=if(pin)KeyboardType.NumberPassword else if(password)KeyboardType.Password else if(phone)KeyboardType.Phone else if(email)KeyboardType.Email else KeyboardType.Text,
+        keyboardOptions=KeyboardOptions(keyboardType=if(pin)KeyboardType.NumberPassword else if(password)KeyboardType.Password else if(phone)KeyboardType.Phone else if(email)KeyboardType.Email else if(numeric)KeyboardType.Number else KeyboardType.Text,
             autoCorrectEnabled=false,imeAction=imeAction),
         keyboardActions=KeyboardActions(onNext={action()},onDone={action()}),
         trailingIcon=if(pin||password){{IconButton({visible=!visible},enabled=enabled){Glyph(R.drawable.ic_eye,if(password){if(visible)t("Hide password")else t("Show password")}else if(visible)t("Hide passcode") else t("Show passcode"))}}}else null,
@@ -586,30 +586,53 @@ private fun LazyListScope.moreButton(cursor:String?,busy:Boolean,more:()->Unit){
 /** Native staff authentication; reuses the selected Dark/Glow form components.
  * Password is deliberately absent from saved state and cleared on submission.
  */
-@Composable fun CollectSignIn(busy:Boolean,issue:String?,onSignIn:(String,String)->Unit,onSupport:()->Unit){
+@Composable fun CollectSignIn(busy:Boolean,issue:String?,emailState:CollectEmailCodeState=CollectEmailCodeState(),
+    onRequestCode:(String)->Unit,onVerifyCode:(String)->Unit,onCancelCode:()->Unit,onSupport:()->Unit){
     val t=LocalUiText.current
-    var email by remember{mutableStateOf("")};var password by remember{mutableStateOf("")}
-    val passwordFocus=remember{FocusRequester()}
-    val ready=email.trim().isNotEmpty()&&password.isNotEmpty()&&!busy
-    val submit:()->Unit={if(ready){val supplied=password;password="";onSignIn(email,supplied)}}
-    val message=when(issue){
-        null->null
-        "invalid_credentials","invalid_login_credentials"->"Email or password could not be verified."
-        "burimunsi_access_denied","managed_setup_required"->"This account is not approved for this phone. Contact admin."
-        "managed_sign_out_unconfirmed"->"Server sign-out is unconfirmed. Sign in again to check access."
-        "captcha_failed","captcha_required"->"Contact admin for help completing Collect sign-in."
-        "configuration_required"->"Managed setup required."
-        else->"Unable to sign in. Check your connection or contact admin."
+    val challenge=emailState.challenge
+    var email by remember{mutableStateOf(challenge?.email.orEmpty())}
+    var code by remember(challenge?.id){mutableStateOf("")}
+    var time by remember{mutableLongStateOf(System.currentTimeMillis())}
+    LaunchedEffect(challenge?.id,emailState.nextRequestAt){
+        challenge?.let{email=it.email}
+        time=System.currentTimeMillis()
+        while(time<maxOf(emailState.nextRequestAt,challenge?.expiresAt?:0L)){
+            kotlinx.coroutines.delay(1000);time=System.currentTimeMillis()
+        }
+    }
+    val canVerify=challenge!=null&&time<challenge.expiresAt&&!emailState.verificationUnknown
+    val canRequest=!busy&&time>=emailState.nextRequestAt&&runCatching{normalizeCollectEmail(email)}.isSuccess
+    val ready=canVerify&&!busy&&Regex("[0-9]{6}").matches(code)
+    val submit:()->Unit={if(ready){val supplied=code;code="";onVerifyCode(supplied)}}
+    val message=when{
+        emailState.verificationUnknown->"Sign-in is unconfirmed. Request a new code when available."
+        issue in setOf("invalid_credentials","invalid_email_code")->"The email code could not be verified."
+        issue=="invalid_email"->"Enter your approved Collect email."
+        issue in setOf("burimunsi_access_denied","managed_setup_required","admin_access_not_approved")->"This account is not approved for this phone. Contact admin."
+        issue=="managed_sign_out_unconfirmed"->"Server sign-out is unconfirmed. Sign in again to check access."
+        issue in setOf("captcha_failed","captcha_required")->"Contact admin for help completing Collect sign-in."
+        issue=="configuration_required"->"Managed setup required."
+        issue=="auth_rate_limited"->"Wait before requesting another code."
+        issue!=null->"The sign-in request was not confirmed. Check your connection or contact admin."
+        challenge!=null&&time>=challenge.expiresAt->"Code expired. Request a new sign-in code."
+        else->null
     }
     LazyColumn(Modifier.fillMaxSize().background(BuriTheme.wash(Route.LOGIN)).background(Color.Black.copy(alpha=BuriTheme.WashScrimAlpha)).imePadding().testTag("collect-sign-in"),
         contentPadding=PaddingValues(24.dp,56.dp,24.dp,36.dp),verticalArrangement=Arrangement.spacedBy(22.dp)){
         item{Text("BuriMunsi",fontSize=28.sp,fontWeight=FontWeight.SemiBold,lineHeight=36.sp)}
         item{Text(t("Sign in to\nCollect."),fontSize=48.sp,fontWeight=FontWeight.Medium,lineHeight=54.sp)}
         item{Text(t("Use the Collect staff account approved for this phone."),color=BuriTheme.Muted)}
-        item{Entry(t("Email"),email,{email=it.take(254)},enabled=!busy,email=true,nextFocus=passwordFocus)}
-        item{Entry(t("Password"),password,{password=it.take(128)},enabled=!busy,password=true,imeAction=ImeAction.Done,fieldFocus=passwordFocus,onDone=submit)}
+        item{Entry(t("Email"),email,{email=it.take(254)},enabled=!busy&&challenge==null,email=true,
+            imeAction=ImeAction.Done,onDone={if(canRequest&&challenge==null)onRequestCode(email)})}
+        if(canVerify)item{Entry(t("Email code"),code,{code=it.filter{c->c in '0'..'9'}.take(6)},enabled=!busy,numeric=true,
+            imeAction=ImeAction.Done,onDone=submit)}
+        if(challenge?.deliveryUnknown==true)item{Text(t("Code delivery is unconfirmed. If a code arrives, enter it here."),color=BuriTheme.Muted)}
         if(message!=null)item{Text(t(message),color=BuriTheme.Bad,modifier=Modifier.semantics{liveRegion=LiveRegionMode.Polite})}
-        item{Primary(t(if(busy)"Signing in…" else "Continue"),submit,ready)}
+        if(canVerify)item{Primary(t(if(busy)"Signing in…" else "Sign in"),submit,ready)}
+        if(challenge==null)item{Primary(t(if(busy)"Requesting code…" else "Send sign-in code"),{if(canRequest)onRequestCode(email)},canRequest)}
+        else item{TextButton({if(canRequest)onRequestCode(email)},Modifier.fillMaxWidth(),enabled=canRequest){Text(t("Send another code"))}}
+        if(time<emailState.nextRequestAt)item{Text(t("Wait before requesting another code."),color=BuriTheme.Muted)}
+        if(challenge!=null)item{TextButton(onCancelCode,Modifier.fillMaxWidth(),enabled=!busy){Text(t("Use another email"),color=BuriTheme.Blue)}}
         item{TextButton(onSupport,Modifier.fillMaxWidth(),enabled=!busy){Text(t("Contact admin"),color=BuriTheme.Blue)}}
     }
 }

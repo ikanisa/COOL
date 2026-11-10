@@ -34,7 +34,7 @@ class CollectAdminTransport(adminOrigin:String,supabaseOrigin:String,
     private fun exact(keys:Set<String>,expected:Set<String>){if(keys!=expected)invalid()}
     private class Reply(val data:Map<String,Any?>,val headers:Map<out String?,List<String>?>)
     private fun call(path:String,body:JSONObject,session:CollectBffSession?=null,device:String?=null):Reply {
-        require(path in setOf("/api/admin/auth/login","/api/admin/auth/logout","/api/admin/burimunsi/access"))
+        require(path in setOf("/api/admin/auth/otp","/api/admin/auth/verify","/api/admin/auth/logout","/api/admin/burimunsi/access"))
         val target=admin.resolve(path);if(target.origin()!=admin.origin()||target.rawPath!=path)invalid()
         var connection:HttpsURLConnection?=null
         try {
@@ -73,11 +73,19 @@ class CollectAdminTransport(adminOrigin:String,supabaseOrigin:String,
         finally{connection?.disconnect()}
     }
     private fun URI.origin()=scheme+"://"+rawAuthority
-    override fun signIn(email:String,password:String):CollectBffSession {
-        val normalized=email.trim().lowercase(Locale.ROOT)
-        if(normalized.length !in 3..254||!Regex("[^\\s@]+@[^\\s@]+\\.[^\\s@]+").matches(normalized)||
-            password.isEmpty()||password.length>128||password.any{it.code<32||it.code==127})throw ManagedCollectFailure("invalid_credentials",400)
-        val reply=call("/api/admin/auth/login",JSONObject().put("email",normalized).put("password",password))
+    override fun requestEmailCode(email:String):CollectEmailChallenge {
+        val normalized=normalizeCollectEmail(email);val started=clock()
+        val reply=call("/api/admin/auth/otp",JSONObject().put("email",normalized))
+        exact(reply.data.keys,setOf("challenge_id","retry_after","expires_in","channel","delivery_status"))
+        if(reply.data.integer("retry_after")!=60L||reply.data.integer("expires_in")!=300L||
+            reply.data["channel"]!="email"||reply.data["delivery_status"] !in setOf("accepted","unknown"))invalid()
+        return CollectEmailChallenge(normalized,exactId(reply.data.string("challenge_id")),started+300_000,started+60_000,
+            reply.data["delivery_status"]=="unknown")
+    }
+    override fun verifyEmailCode(challenge:CollectEmailChallenge,code:String):CollectBffSession {
+        val normalized=normalizeCollectEmail(challenge.email);exactId(challenge.id)
+        if(!Regex("[0-9]{6}").matches(code)||challenge.expiresAt<=clock())throw ManagedCollectFailure("invalid_email_code",400)
+        val reply=call("/api/admin/auth/verify",JSONObject().put("email",normalized).put("challenge_id",challenge.id).put("code",code))
         exact(reply.data.keys,setOf("user","expiresAt","csrfToken"))
         val user=objectValue(reply.data["user"])
         if(user.string("email")!=normalized||user.string("role") !in setOf("owner","admin","staff"))invalid()

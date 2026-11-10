@@ -64,7 +64,7 @@ class NativePlan(unittest.TestCase):
     def test_all_app_and_test_apks_built(self):
         self.assertEqual(sum(':app:assemble' in v for v in n.build_tasks()), 8)
     def test_union_of_native_and_ui_authored_tests_not_execution(self):
-        self.assertEqual(n.expected_tests(), {'rw.ikanisa.burimunsi.NativeUiContractTest#collectLoginUsesNativeCredentialsAndClearsSubmittedPassword', 'rw.ikanisa.burimunsi.NativeUiContractTest#collectLoginDisposalClearsRememberedCredentials', 'rw.ikanisa.burimunsi.NativeUiContractTest#collectLoginDenialProvidesRecoveryWithoutPrivateRecords', 'rw.ikanisa.burimunsi.StaffPackageIsolationTest#installedPackageEnforcesRoleBoundary', 'rw.ikanisa.burimunsi.NativeUiContractTest#pausedGuardRemovesRecordSemantics', 'rw.ikanisa.burimunsi.NativeUiContractTest#twoHundredPercentTypeKeepsTheFullAmountAccessible', 'rw.ikanisa.burimunsi.NativeUiContractTest#phoneNextFocusesPasscodeAndDoneSubmitsOnlyOnce', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#installedSandboxHasNoInternetBackupOrCleartext', 'rw.ikanisa.burimunsi.NativeUiContractTest#memberLedgerUsesFullPhoneAndSourceReference', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#gatewayCannotBindOrResumeInSandbox', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#installationUsesOnlyDedicatedSandboxIdentity', 'rw.ikanisa.burimunsi.NativeUiContractTest#homeHasNoRemovedLabelsAndPreservesAccessibleName', 'rw.ikanisa.burimunsi.NativeUiContractTest#paymentHistoryShowsRecordedEventsWithoutInventingSuccess', 'rw.ikanisa.burimunsi.NativeUiContractTest#expiredGuardHasRecoveryAndNoFinancialRows', 'rw.ikanisa.burimunsi.NativeUiContractTest#bottomNavigationExposesSelectedTab', 'rw.ikanisa.burimunsi.NativeUiContractTest#pausingDisposesRememberedCredentialInput', 'rw.ikanisa.burimunsi.NativeUiContractTest#invalidPhoneNeverEnablesSignIn', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#launcherActivityBelongsToSandbox', 'rw.ikanisa.burimunsi.NativeUiContractTest#kinyarwandaLabelsDoNotTranslateProviderEvidence', 'rw.ikanisa.burimunsi.NativeUiContractTest#originalSmsRemainsUnalteredInKinyarwanda', 'rw.ikanisa.burimunsi.NativeUiContractTest#confirmingPasscodeImeDoesNotCommitCredentialChange', 'rw.ikanisa.burimunsi.NativeUiContractTest#paymentDetailHasOriginalReferenceAndNoCreditedLabel', 'rw.ikanisa.burimunsi.NativeUiContractTest#searchImeSubmitsTheVisibleQuery', 'rw.ikanisa.burimunsi.NativeUiContractTest#staffHasNoMessagesShortcut', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#compiledConfigurationContainsNoLiveEndpointOrBinding', 'rw.ikanisa.burimunsi.NativeUiContractTest#phoneAndFourDigitFieldsHaveStableAccessibleNames'})
+        self.assertEqual(n.expected_tests(), {'rw.ikanisa.burimunsi.NativeUiContractTest#collectUnknownVerificationCannotReplayCodeOrResendEarly', 'rw.ikanisa.burimunsi.NativeUiContractTest#collectLoginUsesNativeEmailCodeAndClearsSubmittedCode', 'rw.ikanisa.burimunsi.NativeUiContractTest#collectLoginDisposalClearsRememberedCode', 'rw.ikanisa.burimunsi.NativeUiContractTest#collectLoginDenialProvidesRecoveryWithoutPrivateRecords', 'rw.ikanisa.burimunsi.StaffPackageIsolationTest#installedPackageEnforcesRoleBoundary', 'rw.ikanisa.burimunsi.NativeUiContractTest#pausedGuardRemovesRecordSemantics', 'rw.ikanisa.burimunsi.NativeUiContractTest#twoHundredPercentTypeKeepsTheFullAmountAccessible', 'rw.ikanisa.burimunsi.NativeUiContractTest#phoneNextFocusesPasscodeAndDoneSubmitsOnlyOnce', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#installedSandboxHasNoInternetBackupOrCleartext', 'rw.ikanisa.burimunsi.NativeUiContractTest#memberLedgerUsesFullPhoneAndSourceReference', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#gatewayCannotBindOrResumeInSandbox', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#installationUsesOnlyDedicatedSandboxIdentity', 'rw.ikanisa.burimunsi.NativeUiContractTest#homeHasNoRemovedLabelsAndPreservesAccessibleName', 'rw.ikanisa.burimunsi.NativeUiContractTest#paymentHistoryShowsRecordedEventsWithoutInventingSuccess', 'rw.ikanisa.burimunsi.NativeUiContractTest#expiredGuardHasRecoveryAndNoFinancialRows', 'rw.ikanisa.burimunsi.NativeUiContractTest#bottomNavigationExposesSelectedTab', 'rw.ikanisa.burimunsi.NativeUiContractTest#pausingDisposesRememberedCredentialInput', 'rw.ikanisa.burimunsi.NativeUiContractTest#invalidPhoneNeverEnablesSignIn', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#launcherActivityBelongsToSandbox', 'rw.ikanisa.burimunsi.NativeUiContractTest#kinyarwandaLabelsDoNotTranslateProviderEvidence', 'rw.ikanisa.burimunsi.NativeUiContractTest#originalSmsRemainsUnalteredInKinyarwanda', 'rw.ikanisa.burimunsi.NativeUiContractTest#confirmingPasscodeImeDoesNotCommitCredentialChange', 'rw.ikanisa.burimunsi.NativeUiContractTest#paymentDetailHasOriginalReferenceAndNoCreditedLabel', 'rw.ikanisa.burimunsi.NativeUiContractTest#searchImeSubmitsTheVisibleQuery', 'rw.ikanisa.burimunsi.NativeUiContractTest#staffHasNoMessagesShortcut', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#compiledConfigurationContainsNoLiveEndpointOrBinding', 'rw.ikanisa.burimunsi.NativeUiContractTest#phoneAndFourDigitFieldsHaveStableAccessibleNames'})
         self.assertFalse(n.plan()['native_build_executed'])
     def test_plan_never_calls_subprocess(self):
         with patch.object(n.subprocess, 'run', side_effect=AssertionError('Plan executed a tool')):
@@ -321,7 +321,7 @@ class FlavorInstrumentation(unittest.TestCase):
         contracts = n.test_contracts()
         staff = set(contracts['staff'])
         receiver = set(contracts['internal_receiver'])
-        self.assertEqual(len(staff), 26)
+        self.assertEqual(len(staff), 27)
         self.assertTrue(staff < receiver)
         self.assertEqual(receiver - staff, {
             'app.cool.mobile.receiver_sms.GatewayDurabilityTest#' + method
@@ -446,7 +446,7 @@ class FlavorInstrumentation(unittest.TestCase):
         code, report, calls = self.run_synthetic_instrumentation()
         self.assertEqual(code, 0, report)
         self.assertEqual({value['flavor']: value['completed'] for value in report['flavors']},
-                         {'staff': 26, 'internal_receiver': 33})
+                         {'staff': 27, 'internal_receiver': 34})
         selectors = [call[call.index('class') + 1] for call in calls if 'class' in call]
         self.assertEqual(len(selectors), 2)
         self.assertNotIn('GatewayDurabilityTest', selectors[0])
@@ -511,8 +511,8 @@ class FlavorInstrumentation(unittest.TestCase):
         code, report, calls = self.run_synthetic_instrumentation(omit_receiver_method=True)
         self.assertEqual(code, 2)
         self.assertEqual(report['status'], 'FAIL')
-        self.assertEqual(report['flavors'][0]['completed'], 26)
-        self.assertEqual(report['flavors'][1]['completed'], 32)
+        self.assertEqual(report['flavors'][0]['completed'], 27)
+        self.assertEqual(report['flavors'][1]['completed'], 33)
         self.assertFalse(report['flavors'][1]['passed'])
         self.assertTrue(all(value['removed'] for value in report['cleanup']))
 

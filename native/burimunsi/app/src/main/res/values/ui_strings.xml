@@ -16,6 +16,8 @@
     <string name="ui_08cfd0498b2b">This account is not approved for this phone. Contact admin.</string>
     <string name="ui_09144e873a96">Screen transitions only. Android controls keyboard and dialog animations.</string>
     <string name="ui_095c685e1eff">Payment history</string>
+    <string name="ui_09e439cc716f">The email code could not be verified.</string>
+    <string name="ui_0adcdb5d55ec">Email code</string>
     <string name="ui_0d78fc5acd9a">Disable access</string>
     <string name="ui_0da254975297">Statement export cancelled. Open the member and try again.</string>
     <string name="ui_0ddf13a8e515">The subscription number is Android metadata, not the MoMo phone number or proof of wallet ownership.</string>
@@ -52,10 +54,12 @@
     <string name="ui_32016763c8c9">Receipt uploaded; this does not confirm a member credit.</string>
     <string name="ui_353cd62295b0">Unallocated</string>
     <string name="ui_36803e52d911">Managed setup required. Contact your admin.</string>
+    <string name="ui_37966abbf58b">Sign-in is unconfirmed. Request a new code when available.</string>
     <string name="ui_380f07d061ba">More records are available. Use Load more to continue.</string>
     <string name="ui_38da1505ca83">Activity</string>
     <string name="ui_393ce0652446">Original SMS unavailable. Retry loading or go back.</string>
     <string name="ui_3a78695388b3">Home</string>
+    <string name="ui_3b9b97d9a5b1">Send another code</string>
     <string name="ui_3ce7a8f6793e">Deactivate membership</string>
     <string name="ui_3d3f54ccf7ef">Member ledger</string>
     <string name="ui_3e5136fd4b11">Transactions</string>
@@ -67,6 +71,7 @@
     <string name="ui_47a5108e3f48">Ask your administrator to reauthorize this installation. Retained receipts must keep their original source binding.</string>
     <string name="ui_47be65b6a9d3">Registered name: 2–100 characters.</string>
     <string name="ui_47e796b69e13">Authorization required</string>
+    <string name="ui_48d3edf6b2f2">Code expired. Request a new sign-in code.</string>
     <string name="ui_48f0d3d397d4">Sign out</string>
     <string name="ui_49c266baaaa7">Search</string>
     <string name="ui_4b9dd35aa818">Original SMS</string>
@@ -75,6 +80,7 @@
     <string name="ui_52d26f44d33f">Allocated</string>
     <string name="ui_546baed2ff6c">Confirm passcode</string>
     <string name="ui_54ee6a46f284">No members</string>
+    <string name="ui_56b689a4ad7d">Send sign-in code</string>
     <string name="ui_56c371251faf">Passcode</string>
     <string name="ui_57f7fd6c7fc0">Use an identification note of 8–500 characters without control characters.</string>
     <string name="ui_589bca876224">Identification note</string>
@@ -87,12 +93,14 @@
     <string name="ui_5ebb04097d2e">Bound Android subscription</string>
     <string name="ui_60a9d04c03ee">SIM source not verified</string>
     <string name="ui_61372333590f">Review SMS access</string>
+    <string name="ui_616b785a67cd">Enter your approved Collect email.</string>
     <string name="ui_6314b811b607">Add staff</string>
     <string name="ui_632e1c583941">Payments</string>
     <string name="ui_638e249f4a15">Filter</string>
     <string name="ui_63dceb8800b2">Phone</string>
     <string name="ui_661ff40a07e0">Queued</string>
     <string name="ui_681927e34b77">Staff</string>
+    <string name="ui_687da8b89baf">Use another email</string>
     <string name="ui_690dbe9dc099">Recent</string>
     <string name="ui_6a40edf1fc87">WhatsApp</string>
     <string name="ui_6aeaa6a53d09">Show password</string>
@@ -101,6 +109,7 @@
     <string name="ui_6ca1aa5edf13">No transactions</string>
     <string name="ui_6ee657779b6f">Access unavailable.</string>
     <string name="ui_720516990ea1">Refresh the receiving-phone status. No capture, upload or member credit has been verified by this status check.</string>
+    <string name="ui_721d760fb78c">Requesting code…</string>
     <string name="ui_7363bfa0b722">Use phone language</string>
     <string name="ui_737cc799a9ff">Checking session and records</string>
     <string name="ui_7384fae483c5">Today · RWF</string>
@@ -123,6 +132,7 @@
     <string name="ui_7f685527fea7">The bound Android subscription is unavailable. Ask the administrator to verify the business SIM; do not relabel retained receipts.</string>
     <string name="ui_7ffb80d93a5b">Sender or FT Id</string>
     <string name="ui_8305af71c07b">Outcome not confirmed. Check before retrying.</string>
+    <string name="ui_855ea3daaea8">Code delivery is unconfirmed. If a code arrives, enter it here.</string>
     <string name="ui_85fc43ab9dbe">Server sign-out is unconfirmed. Sign in again to check access.</string>
     <string name="ui_86e5df491b39">Repeated receipt observation; no additional credit is implied.</string>
     <string name="ui_88c57decce64">Enroll members</string>
@@ -194,6 +204,7 @@
     <string name="ui_b8fe528f5786">Welcome\nback.</string>
     <string name="ui_ba118bf7fc9c">English</string>
     <string name="ui_bb349bfe6750">Remove access</string>
+    <string name="ui_bc081c521052">The sign-in request was not confirmed. Check your connection or contact admin.</string>
     <string name="ui_bd28bc97d7c3">Passcode change not confirmed. Sign in again.</string>
     <string name="ui_bdfac0a6853f">Use another Collect account</string>
     <string name="ui_bdfdc5781a4c">Received inconsistent records. Refresh or contact support.</string>
@@ -206,6 +217,7 @@
     <string name="ui_c47d6b0ab008">Queue unavailable</string>
     <string name="ui_c5d90430b9b1">Transaction recorded</string>
     <string name="ui_c640fca7c701">Export transactions</string>
+    <string name="ui_c7ff98ec8a83">Wait before requesting another code.</string>
     <string name="ui_c80c036b7c3c">FT Id: %1$s</string>
     <string name="ui_c88914b5d0e8">Assign member</string>
     <string name="ui_c8e3e92a62ec">Processing</string>

@@ -87,6 +87,16 @@
       "rw": "Amateka y’ubwishyu"
     },
     {
+      "key": "ui_09e439cc716f",
+      "en": "The email code could not be verified.",
+      "rw": "Kode yo kuri imeyili ntiyemejwe."
+    },
+    {
+      "key": "ui_0adcdb5d55ec",
+      "en": "Email code",
+      "rw": "Kode yo kuri imeyili"
+    },
+    {
       "key": "ui_0d78fc5acd9a",
       "en": "Disable access",
       "rw": "Hagarika uburenganzira"
@@ -267,6 +277,11 @@
       "rw": "Igenamiterere ry’umuyobozi rirakenewe. Vugana n’umuyobozi wawe."
     },
     {
+      "key": "ui_37966abbf58b",
+      "en": "Sign-in is unconfirmed. Request a new code when available.",
+      "rw": "Kwinjira ntibiremezwa. Saba indi kode igihe byemewe."
+    },
+    {
       "key": "ui_380f07d061ba",
       "en": "More records are available. Use Load more to continue.",
       "rw": "Hari izindi nyandiko. Kanda kuri Erekana ibindi kugira ngo ukomeze."
@@ -285,6 +300,11 @@
       "key": "ui_3a78695388b3",
       "en": "Home",
       "rw": "Ahabanza"
+    },
+    {
+      "key": "ui_3b9b97d9a5b1",
+      "en": "Send another code",
+      "rw": "Ohereza indi kode"
     },
     {
       "key": "ui_3ce7a8f6793e",
@@ -342,6 +362,11 @@
       "rw": "Uburenganzira burakenewe"
     },
     {
+      "key": "ui_48d3edf6b2f2",
+      "en": "Code expired. Request a new sign-in code.",
+      "rw": "Kode yararengeje igihe. Saba indi kode yo kwinjira."
+    },
+    {
       "key": "ui_48f0d3d397d4",
       "en": "Sign out",
       "rw": "Sohoka"
@@ -380,6 +405,11 @@
       "key": "ui_54ee6a46f284",
       "en": "No members",
       "rw": "Nta banyamuryango bahari"
+    },
+    {
+      "key": "ui_56b689a4ad7d",
+      "en": "Send sign-in code",
+      "rw": "Ohereza kode yo kwinjira"
     },
     {
       "key": "ui_56c371251faf",
@@ -442,6 +472,11 @@
       "rw": "Genzura uburenganzira bwa SMS"
     },
     {
+      "key": "ui_616b785a67cd",
+      "en": "Enter your approved Collect email.",
+      "rw": "Andika imeyili yemerewe gukoresha Collect."
+    },
+    {
       "key": "ui_6314b811b607",
       "en": "Add staff",
       "rw": "Ongeramo umukozi"
@@ -470,6 +505,11 @@
       "key": "ui_681927e34b77",
       "en": "Staff",
       "rw": "Abakozi"
+    },
+    {
+      "key": "ui_687da8b89baf",
+      "en": "Use another email",
+      "rw": "Koresha indi imeyili"
     },
     {
       "key": "ui_690dbe9dc099",
@@ -510,6 +550,11 @@
       "key": "ui_720516990ea1",
       "en": "Refresh the receiving-phone status. No capture, upload or member credit has been verified by this status check.",
       "rw": "Vugurura uko telefoni yakira ihagaze. Iri genzura ntiryemeje kwakira, kohereza cyangwa amafaranga y’umunyamuryango."
+    },
+    {
+      "key": "ui_721d760fb78c",
+      "en": "Requesting code…",
+      "rw": "Gusaba kode…"
     },
     {
       "key": "ui_7363bfa0b722",
@@ -620,6 +665,11 @@
       "key": "ui_8305af71c07b",
       "en": "Outcome not confirmed. Check before retrying.",
       "rw": "Icyavuye mu gikorwa ntikiremezwa. Banza ugenzure mbere yo kongera kugerageza."
+    },
+    {
+      "key": "ui_855ea3daaea8",
+      "en": "Code delivery is unconfirmed. If a code arrives, enter it here.",
+      "rw": "Koherezwa kwa kode ntikuremezwa. Nuyibona, yandike hano."
     },
     {
       "key": "ui_85fc43ab9dbe",
@@ -977,6 +1027,11 @@
       "rw": "Kuraho uburenganzira"
     },
     {
+      "key": "ui_bc081c521052",
+      "en": "The sign-in request was not confirmed. Check your connection or contact admin.",
+      "rw": "Gusaba kwinjira ntibyemejwe. Genzura interineti cyangwa uvugane n’umuyobozi."
+    },
+    {
       "key": "ui_bd28bc97d7c3",
       "en": "Passcode change not confirmed. Sign in again.",
       "rw": "Guhindura umubare w’ibanga ntibiremezwa. Ongera winjire."
@@ -1035,6 +1090,11 @@
       "key": "ui_c640fca7c701",
       "en": "Export transactions",
       "rw": "Sohora urutonde rw’ibikorwa"
+    },
+    {
+      "key": "ui_c7ff98ec8a83",
+      "en": "Wait before requesting another code.",
+      "rw": "Tegereza mbere yo gusaba indi kode."
     },
     {
       "key": "ui_c80c036b7c3c",

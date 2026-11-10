@@ -48,20 +48,26 @@ class MainActivity:ComponentActivity(){
             // removes the app's record/form subtree while paused or revalidating.
             LifecycleResumeEffect(model){
                 visible=true
-                model.onForeground()
+                // Reading the email code backgrounds this activity. Reopen
+                // code entry without trying a managed API before sign-in.
+                if(!broker.configured||broker.status.value.signedIn)model.onForeground()else model.onBackground()
                 onPauseOrDispose{visible=false;broker.onBackground();model.onBackground()}
             }
             BuriContent {
                 if(visible&&broker.configured&&!managed.signedIn){
-                    CollectSignIn(signingIn,managed.issue,onSignIn={email,password->
+                    val action:((()->Unit)->Unit)={operation->
                         // Hold the existing record privacy gate before the IO
                         // broker can publish a different managed identity.
                         if(!signingIn){signingIn=true;model.onBackground();scope.launch{
-                            try{withContext(Dispatchers.IO){broker.signIn(email,password)};model.onForeground()}
+                            try{withContext(Dispatchers.IO){operation()};if(broker.status.value.signedIn)model.onForeground()}
                             catch(_:Exception){/* Only sanitized broker codes reach the form. */}
                             finally{signingIn=false}
                         }}
-                    },onSupport=::support)
+                    }
+                    CollectSignIn(signingIn,managed.issue,managed.emailCode,
+                        onRequestCode={email->action{broker.requestEmailCode(email)}},
+                        onVerifyCode={code->action{broker.verifyEmailCode(code)}},
+                        onCancelCode=broker::cancelEmailCode,onSupport=::support)
                 }else if(visible)BuriApp(model,onSupport=::support,
                     onPermissions={permissions.launch(model.gateway.requiredPermissions())},
                     onExport={export.launch("BuriMunsi-transactions.csv")},

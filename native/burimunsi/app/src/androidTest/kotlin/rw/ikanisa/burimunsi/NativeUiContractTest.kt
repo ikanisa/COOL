@@ -20,40 +20,58 @@ import rw.ikanisa.burimunsi.ui.*
 class NativeUiContractTest {
     @get:Rule val ui=createComposeRule()
     private fun show(controller:FakeController,language:String="en"){ui.setContent{BuriContent(languageTag=language,reduceMotion=true){BuriApp(controller,{},{},{},{})}}}
-    @Test fun collectLoginUsesNativeCredentialsAndClearsSubmittedPassword(){
-        var submitted=0
-        ui.setContent{BuriContent(languageTag="en",reduceMotion=true){CollectSignIn(false,null,{email,password->
-            check(email=="operator@example.invalid"&&password=="test-only-password");submitted++
-        },{})}}
-        ui.onNodeWithText("Email").assertExists()
-        val capture=ui.onRoot().captureToImage().asAndroidBitmap()
-        InstrumentationRegistry.getInstrumentation().targetContext.cacheDir.resolve("collect-sign-in.png").outputStream().use{
-            check(capture.compress(Bitmap.CompressFormat.PNG,100,it))
+    private fun emailChallenge()=CollectEmailChallenge("operator@example.invalid","10000000-0000-4000-8000-000000000001",System.currentTimeMillis()+300_000,System.currentTimeMillis()+60_000)
+    private fun captureLogin(name:String){
+        val image=ui.onRoot().captureToImage().asAndroidBitmap()
+        InstrumentationRegistry.getInstrumentation().targetContext.cacheDir.resolve(name).outputStream().use{
+            check(image.compress(Bitmap.CompressFormat.PNG,100,it))
         }
-        ui.onNodeWithText("Email").performTextInput("operator@example.invalid")
-        ui.onNodeWithText("Password").performTextInput("test-only-password")
-        ui.onNodeWithText("Continue").performScrollTo().performClick()
-        ui.runOnIdle{check(submitted==1)}
-        ui.onNodeWithText("Password").assert(SemanticsMatcher.expectValue(androidx.compose.ui.semantics.SemanticsProperties.EditableText,androidx.compose.ui.text.AnnotatedString("")))
-        ui.onNodeWithText("Continue").assertIsNotEnabled()
     }
-    @Test fun collectLoginDisposalClearsRememberedCredentials(){
-        var visible by mutableStateOf(true)
-        ui.setContent{BuriContent(languageTag="en",reduceMotion=true){if(visible)CollectSignIn(false,null,{_,_->},{})}}
+    @Test fun collectLoginUsesNativeEmailCodeAndClearsSubmittedCode(){
+        var requests=0;var verifications=0;var state by mutableStateOf(CollectEmailCodeState())
+        ui.setContent{BuriContent(languageTag="en",reduceMotion=true){CollectSignIn(false,null,state,
+            onRequestCode={email->check(email=="operator@example.invalid");requests++;val pending=emailChallenge();state=CollectEmailCodeState(pending,pending.retryAt)},
+            onVerifyCode={code->check(code=="001234");verifications++},onCancelCode={},onSupport={})}}
+        ui.onNodeWithText("Email").assertExists();ui.onNodeWithText("Password").assertDoesNotExist()
+        captureLogin("collect-sign-in.png")
         ui.onNodeWithText("Email").performTextInput("operator@example.invalid")
-        ui.onNodeWithText("Password").performTextInput("test-only-password")
-        ui.runOnIdle{visible=false}
-        ui.onNodeWithText("Email").assertDoesNotExist()
+        ui.onNodeWithText("Send sign-in code").performScrollTo().performClick()
+        ui.runOnIdle{check(requests==1)}
+        ui.onNodeWithText("Email code").performScrollTo().assertExists()
+        captureLogin("collect-email-code.png")
+        ui.onNodeWithText("Email code").performTextInput("001234")
+        ui.onNodeWithText("Sign in").performScrollTo().performClick()
+        ui.runOnIdle{check(verifications==1&&requests==1)}
+        ui.onNodeWithText("Email code").assert(SemanticsMatcher.expectValue(androidx.compose.ui.semantics.SemanticsProperties.EditableText,androidx.compose.ui.text.AnnotatedString("")))
+        ui.onNodeWithText("Sign in").assertIsNotEnabled()
+    }
+    @Test fun collectLoginDisposalClearsRememberedCode(){
+        var visible by mutableStateOf(true);val pending=emailChallenge()
+        ui.setContent{BuriContent(languageTag="en",reduceMotion=true){if(visible)CollectSignIn(false,null,CollectEmailCodeState(pending,pending.retryAt),{},{},{},{})}}
+        ui.onNodeWithText("Email code").performScrollTo().performTextInput("001234")
+        ui.runOnIdle{visible=false};ui.onNodeWithText("Email code").assertDoesNotExist()
         ui.runOnIdle{visible=true}
-        for(label in listOf("Email","Password"))ui.onNodeWithText(label).assert(SemanticsMatcher.expectValue(androidx.compose.ui.semantics.SemanticsProperties.EditableText,androidx.compose.ui.text.AnnotatedString("")))
+        ui.onNodeWithText("Email code").assert(SemanticsMatcher.expectValue(androidx.compose.ui.semantics.SemanticsProperties.EditableText,androidx.compose.ui.text.AnnotatedString("")))
     }
     @Test fun collectLoginDenialProvidesRecoveryWithoutPrivateRecords(){
         var support=0
-        ui.setContent{BuriContent(languageTag="en",reduceMotion=true){CollectSignIn(false,"burimunsi_access_denied",{_,_->},{support++})}}
+        ui.setContent{BuriContent(languageTag="en",reduceMotion=true){CollectSignIn(false,"burimunsi_access_denied",onRequestCode={},onVerifyCode={},onCancelCode={},onSupport={support++})}}
         ui.onNodeWithText("This account is not approved for this phone. Contact admin.").performScrollTo().assertExists()
         ui.onNodeWithText("Contact admin").performScrollTo().performClick()
         ui.runOnIdle{check(support==1)}
         ui.onNodeWithContentDescription("10,000 RWF").assertDoesNotExist()
+    }
+    @Test fun collectUnknownVerificationCannotReplayCodeOrResendEarly(){
+        val pending=emailChallenge();var requests=0;var verifications=0
+        var state by mutableStateOf(CollectEmailCodeState(pending,pending.retryAt,true))
+        ui.setContent{BuriContent(languageTag="en",reduceMotion=true){CollectSignIn(false,null,state,
+            {requests++},{verifications++},{state=CollectEmailCodeState(nextRequestAt=pending.retryAt)},{})}}
+        ui.onNodeWithText("Sign-in is unconfirmed. Request a new code when available.").performScrollTo().assertExists()
+        ui.onNodeWithText("Email code").assertDoesNotExist()
+        ui.onNodeWithText("Send another code").assertIsNotEnabled()
+        ui.onNodeWithText("Use another email").performScrollTo().performClick()
+        ui.onNodeWithText("Send sign-in code").assertIsNotEnabled()
+        ui.runOnIdle{check(requests==0&&verifications==0)}
     }
     @Test fun pausedGuardRemovesRecordSemantics(){
         val c=FakeController(Route.HOME);show(c)

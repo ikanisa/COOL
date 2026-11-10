@@ -16,6 +16,8 @@
     <string name="ui_08cfd0498b2b">Iyi konti ntiyemerewe iyi telefoni. Vugana n’umuyobozi.</string>
     <string name="ui_09144e873a96">Bireba gusa guhinduranya amadirishya. Android ni yo igenzura imigendere ya clavier n’amadirishya y’ibiganiro.</string>
     <string name="ui_095c685e1eff">Amateka y’ubwishyu</string>
+    <string name="ui_09e439cc716f">Kode yo kuri imeyili ntiyemejwe.</string>
+    <string name="ui_0adcdb5d55ec">Kode yo kuri imeyili</string>
     <string name="ui_0d78fc5acd9a">Hagarika uburenganzira</string>
     <string name="ui_0da254975297">Gusohora urutonde byahagaritswe. Fungura umunyamuryango wongere ugerageze.</string>
     <string name="ui_0ddf13a8e515">Nimero y’umurongo ni amakuru ya Android; si nimero ya MoMo kandi ntihamya nyir’ikofi.</string>
@@ -52,10 +54,12 @@
     <string name="ui_32016763c8c9">Inyemezabwishyu yoherejwe; ntibyemeza ko amafaranga yashyizwe kuri konti y’umunyamuryango.</string>
     <string name="ui_353cd62295b0">Ntibiragenerwa umunyamuryango</string>
     <string name="ui_36803e52d911">Igenamiterere ry’umuyobozi rirakenewe. Vugana n’umuyobozi wawe.</string>
+    <string name="ui_37966abbf58b">Kwinjira ntibiremezwa. Saba indi kode igihe byemewe.</string>
     <string name="ui_380f07d061ba">Hari izindi nyandiko. Kanda kuri Erekana ibindi kugira ngo ukomeze.</string>
     <string name="ui_38da1505ca83">Ibikorwa byakozwe</string>
     <string name="ui_393ce0652446">Ubutumwa bw’umwimerere ntibubonetse. Ongera usabe amakuru cyangwa usubire inyuma.</string>
     <string name="ui_3a78695388b3">Ahabanza</string>
+    <string name="ui_3b9b97d9a5b1">Ohereza indi kode</string>
     <string name="ui_3ce7a8f6793e">Hagarika ubunyamuryango</string>
     <string name="ui_3d3f54ccf7ef">Igitabo cy’umunyamuryango</string>
     <string name="ui_3e5136fd4b11">Ibikorwa</string>
@@ -67,6 +71,7 @@
     <string name="ui_47a5108e3f48">Saba umuyobozi kongera guha iyi porogaramu uburenganzira. Inyemezabwishyu zibitswe zigomba kugumana aho zakomotse.</string>
     <string name="ui_47be65b6a9d3">Izina ryanditswe: inyuguti 2–100.</string>
     <string name="ui_47e796b69e13">Uburenganzira burakenewe</string>
+    <string name="ui_48d3edf6b2f2">Kode yararengeje igihe. Saba indi kode yo kwinjira.</string>
     <string name="ui_48f0d3d397d4">Sohoka</string>
     <string name="ui_49c266baaaa7">Shakisha</string>
     <string name="ui_4b9dd35aa818">Ubutumwa bwa SMS bw’umwimerere</string>
@@ -75,6 +80,7 @@
     <string name="ui_52d26f44d33f">Byagenewe umunyamuryango</string>
     <string name="ui_546baed2ff6c">Emeza umubare w’ibanga</string>
     <string name="ui_54ee6a46f284">Nta banyamuryango bahari</string>
+    <string name="ui_56b689a4ad7d">Ohereza kode yo kwinjira</string>
     <string name="ui_56c371251faf">Umubare w’ibanga</string>
     <string name="ui_57f7fd6c7fc0">Koresha ibisobanuro bifite inyuguti 8–500 bidafite ibimenyetso bigenzura inyandiko.</string>
     <string name="ui_589bca876224">Ibisobanuro biranga umunyamuryango</string>
@@ -87,12 +93,14 @@
     <string name="ui_5ebb04097d2e">Umurongo wa Android wahujwe</string>
     <string name="ui_60a9d04c03ee">SIM yakoreshejwe ntiragenzuwe</string>
     <string name="ui_61372333590f">Genzura uburenganzira bwa SMS</string>
+    <string name="ui_616b785a67cd">Andika imeyili yemerewe gukoresha Collect.</string>
     <string name="ui_6314b811b607">Ongeramo umukozi</string>
     <string name="ui_632e1c583941">Ubwishyu</string>
     <string name="ui_638e249f4a15">Yungurura</string>
     <string name="ui_63dceb8800b2">Telefoni</string>
     <string name="ui_661ff40a07e0">Bitegereje koherezwa</string>
     <string name="ui_681927e34b77">Abakozi</string>
+    <string name="ui_687da8b89baf">Koresha indi imeyili</string>
     <string name="ui_690dbe9dc099">Ibya vuba</string>
     <string name="ui_6a40edf1fc87">WhatsApp</string>
     <string name="ui_6aeaa6a53d09">Erekana ijambo ry’ibanga</string>
@@ -101,6 +109,7 @@
     <string name="ui_6ca1aa5edf13">Nta bikorwa bihari</string>
     <string name="ui_6ee657779b6f">Uburenganzira ntibubonetse.</string>
     <string name="ui_720516990ea1">Vugurura uko telefoni yakira ihagaze. Iri genzura ntiryemeje kwakira, kohereza cyangwa amafaranga y’umunyamuryango.</string>
+    <string name="ui_721d760fb78c">Gusaba kode…</string>
     <string name="ui_7363bfa0b722">Koresha ururimi rwa telefoni</string>
     <string name="ui_737cc799a9ff">Kugenzura uburenganzira n’amakuru</string>
     <string name="ui_7384fae483c5">Uyu munsi · RWF</string>
@@ -123,6 +132,7 @@
     <string name="ui_7f685527fea7">Umurongo wa Android wahujwe ntuboneka. Saba umuyobozi kugenzura SIM y’ubucuruzi; ntuhindure aho inyemezabwishyu zibitswe zakomotse.</string>
     <string name="ui_7ffb80d93a5b">Uwohereje cyangwa FT Id</string>
     <string name="ui_8305af71c07b">Icyavuye mu gikorwa ntikiremezwa. Banza ugenzure mbere yo kongera kugerageza.</string>
+    <string name="ui_855ea3daaea8">Koherezwa kwa kode ntikuremezwa. Nuyibona, yandike hano.</string>
     <string name="ui_85fc43ab9dbe">Gusohoka kuri seriveri ntibyemejwe. Ongera winjire ugenzure uburenganzira.</string>
     <string name="ui_86e5df491b39">Inyemezabwishyu yagaragaye inshuro zirenze imwe; ntibivuga ko hari andi mafaranga yiyongereye.</string>
     <string name="ui_88c57decce64">Andika abanyamuryango</string>
@@ -194,6 +204,7 @@
     <string name="ui_b8fe528f5786">Ikaze\nna none.</string>
     <string name="ui_ba118bf7fc9c">English</string>
     <string name="ui_bb349bfe6750">Kuraho uburenganzira</string>
+    <string name="ui_bc081c521052">Gusaba kwinjira ntibyemejwe. Genzura interineti cyangwa uvugane n’umuyobozi.</string>
     <string name="ui_bd28bc97d7c3">Guhindura umubare w’ibanga ntibiremezwa. Ongera winjire.</string>
     <string name="ui_bdfac0a6853f">Koresha indi konti ya Collect</string>
     <string name="ui_bdfdc5781a4c">Amakuru yakiriwe ntahuye. Vugurura cyangwa usabe ubufasha.</string>
@@ -206,6 +217,7 @@
     <string name="ui_c47d6b0ab008">Urutonde rw’ibitegereje ntiruboneka</string>
     <string name="ui_c5d90430b9b1">Igikorwa cyanditswe</string>
     <string name="ui_c640fca7c701">Sohora urutonde rw’ibikorwa</string>
+    <string name="ui_c7ff98ec8a83">Tegereza mbere yo gusaba indi kode.</string>
     <string name="ui_c80c036b7c3c">FT Id: %1$s</string>
     <string name="ui_c88914b5d0e8">Hitamo umunyamuryango</string>
     <string name="ui_c8e3e92a62ec">Biratunganywa</string>

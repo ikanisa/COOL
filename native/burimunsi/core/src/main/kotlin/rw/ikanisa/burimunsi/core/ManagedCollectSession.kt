@@ -1,5 +1,25 @@
 package rw.ikanisa.burimunsi.core
 
+import java.util.Locale
+
+/** Same existing-account email shape as Collect Admin. No account is created. */
+fun normalizeCollectEmail(value:String):String {
+    val email=value.trim().lowercase(Locale.ROOT);val parts=email.split('@')
+    if(email.length>254||email.any{it.isWhitespace()||it.code<32||it.code==127}||parts.size!=2)
+        throw ManagedCollectFailure("invalid_email",400)
+    val local=parts[0];val domain=parts[1].split('.')
+    if(local.length !in 1..64||local.startsWith('.')||local.endsWith('.')||local.contains("..")||
+        !Regex("[a-z0-9.!#$%&'*+/=?^_`{|}~-]+").matches(local)||domain.size<2||domain.any{
+            it.length !in 1..63||!Regex("[a-z0-9](?:[a-z0-9-]*[a-z0-9])?").matches(it)})
+        throw ManagedCollectFailure("invalid_email",400)
+    return email
+}
+
+class CollectEmailChallenge(val email:String,val id:String,val expiresAt:Long,val retryAt:Long,val deliveryUnknown:Boolean=false) {
+    override fun toString()="CollectEmailChallenge(redacted)"
+}
+data class CollectEmailCodeState(val challenge:CollectEmailChallenge?=null,val nextRequestAt:Long=0,val verificationUnknown:Boolean=false)
+
 /** Volatile custody only. No refresh token, service key or PIN enters this realm. */
 class CollectBffSession(val cookie:String,val csrf:String,val principalId:String,val publicSessionId:String,val expiresAt:Long) {
     override fun toString()="CollectBffSession(redacted)"
@@ -14,7 +34,8 @@ class CollectManagedAccess(val token:String,val expiresAt:Long,val authUserId:St
 }
 class ManagedCollectFailure(val code:String,val status:Int=0):Exception(code)
 interface CollectManagedTransport {
-    fun signIn(email:String,password:String):CollectBffSession
+    fun requestEmailCode(email:String):CollectEmailChallenge
+    fun verifyEmailCode(challenge:CollectEmailChallenge,code:String):CollectBffSession
     fun access(session:CollectBffSession,installationId:String,deviceToken:String):CollectManagedAccess
     fun signOut(session:CollectBffSession)
 }
@@ -31,7 +52,11 @@ class ManagedCollectSession(private val transport:CollectManagedTransport,privat
     private var session:CollectBffSession?=null
     private var identity:CollectManagedAccess?=null
     private var cached:CollectManagedAccess?=null
+    private var challenge:CollectEmailChallenge?=null
+    private var nextRequestAt=0L
+    private var verificationUnknown=false
     val signedIn:Boolean get()=synchronized(stateLock){session!=null&&identity!=null}
+    val emailCodeState:CollectEmailCodeState get()=synchronized(stateLock){CollectEmailCodeState(challenge,nextRequestAt,verificationUnknown)}
     private fun denied():Nothing=throw ManagedCollectFailure("managed_session_required",401)
     private fun accept(value:CollectManagedAccess,bff:CollectBffSession,previous:CollectManagedAccess?) {
         if(value.installationId!=installationId||value.collectionId!=collectionId||value.profile!=profile||
@@ -39,9 +64,41 @@ class ManagedCollectSession(private val transport:CollectManagedTransport,privat
             previous!=null&&(!value.sameIdentity(previous)||value.accountVersion<previous.accountVersion||
             value.credentialVersion<previous.credentialVersion||value.grantVersion<previous.grantVersion||value.scopeVersion<previous.scopeVersion))denied()
     }
-    fun signIn(email:String,password:String)=synchronized(ioLock){
-        val ticket=synchronized(stateLock){if(session!=null)throw ManagedCollectFailure("managed_session_exists",409);++generation}
-        val bff=transport.signIn(email,password)
+    fun requestEmailCode(email:String)=synchronized(ioLock){
+        val normalized=normalizeCollectEmail(email)
+        val ticket=synchronized(stateLock){
+            if(session!=null)throw ManagedCollectFailure("managed_session_exists",409)
+            if(clock()<nextRequestAt)throw ManagedCollectFailure("auth_rate_limited",429)
+            // Reserve the cooldown BEFORE IO, including an uncertain delivery.
+            // Retrying or changing the address never automatically sends mail.
+            nextRequestAt=clock()+60_000;challenge=null;verificationUnknown=false;++generation
+        }
+        val result=transport.requestEmailCode(normalized)
+        if(result.email!=normalized||result.expiresAt<=clock()||result.expiresAt>clock()+300_000||
+            result.retryAt>clock()+60_000||!Regex("[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}").matches(result.id))
+            throw ManagedCollectFailure("invalid_managed_response")
+        synchronized(stateLock){if(ticket!=generation)denied();challenge=result;nextRequestAt=maxOf(nextRequestAt,result.retryAt)}
+    }
+    fun verifyEmailCode(code:String)=synchronized(ioLock){
+        if(!Regex("[0-9]{6}").matches(code))throw ManagedCollectFailure("invalid_email_code",400)
+        val (ticket,pending)=synchronized(stateLock){
+            if(session!=null)throw ManagedCollectFailure("managed_session_exists",409)
+            val current=challenge
+            if(current==null||current.expiresAt<=clock()||verificationUnknown)
+                throw ManagedCollectFailure(if(verificationUnknown)"managed_sign_in_unconfirmed" else "email_code_required",401)
+            verificationUnknown=true;Pair(++generation,current)
+        }
+        val bff=try{transport.verifyEmailCode(pending,code)}catch(error:Exception){
+            // Only a definite invalid-code response permits another manual
+            // attempt. A timeout/invalid response may have consumed this code.
+            if(error is ManagedCollectFailure&&error.code=="invalid_credentials"&&error.status in listOf(400,401))
+                synchronized(stateLock){if(ticket==generation&&challenge===pending)verificationUnknown=false}
+            throw error
+        }
+        synchronized(stateLock){if(ticket==generation){challenge=null;verificationUnknown=false}}
+        install(bff,ticket)
+    }
+    private fun install(bff:CollectBffSession,ticket:Long) {
         var installed=false
         try {
             val value=transport.access(bff,installationId,deviceToken());accept(value,bff,null)
@@ -72,7 +129,9 @@ class ManagedCollectSession(private val transport:CollectManagedTransport,privat
     /** Background invalidates in-flight credentials, retaining only the current
      * in-memory BFF cookie so foreground can recheck the real managed session. */
     fun onBackground(){synchronized(stateLock){generation++;cached=null}}
-    private fun forget():CollectBffSession?=synchronized(stateLock){val old=session;generation++;session=null;identity=null;cached=null;old}
+    /** Cancels local code entry without sending mail or resetting cooldown. */
+    fun cancelEmailCode(){synchronized(stateLock){if(session!=null)throw ManagedCollectFailure("managed_session_exists",409);generation++;challenge=null;verificationUnknown=false}}
+    private fun forget():CollectBffSession?=synchronized(stateLock){val old=session;generation++;session=null;identity=null;cached=null;challenge=null;verificationUnknown=false;old}
     /** Clear locally before dispatch; a failed server logout remains a failure. */
     fun signOut(){val bff=forget();if(bff!=null)synchronized(ioLock){transport.signOut(bff)}}
 }

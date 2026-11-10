@@ -310,5 +310,52 @@
         "scope": "Repository authority check passes; no fidelity certification."
       }
     ]
+  },
+  "current_managed_email_code": {
+    "date": "2026-11-10",
+    "production_accepted": false,
+    "real_gotrue_or_smtp_exercised": false,
+    "independent_review": false,
+    "native_build": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/build-014/build-result.json",
+    "native_source_sha256": "7ae29ea796fb6fd23a870ab5c0127221a4a73cc372fc662af6c305e3c6db63e3",
+    "native_input_files": 195,
+    "artifact_count": 8,
+    "instrumentation": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/device-api36-007/instrumentation-result.json",
+    "native_tests": 61,
+    "role_tests": {
+      "staff": 27,
+      "internal_receiver": 34
+    },
+    "all_sandboxes_removed": true,
+    "emulator_shutdown": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/emulator-api36-resume-002/shutdown.json",
+    "other_devices_untouched": true,
+    "managed_sign_in": "Native existing-account Collect email-code challenge/verify endpoints, then current device-bound access and operator phone/PIN; no password form, WebView, public registration or PIN-to-managed-session conversion.",
+    "uncertainty_controls": "Process-memory-only challenge/session. Pre-IO send cooldown, exact challenge, six ASCII digits including leading zeroes, no automatic verification replay after timeout/invalid response. Backgrounding clears Compose input and fences late responses while preserving current challenge metadata for reading email.",
+    "host_evidence": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/host-email-001/native-host.log",
+      "sha256": "7851d9f8b71128faf40e286acf1989b26097b66d63822f139bf32b7275e9d006",
+      "core_checks": 129,
+      "transport_checks": 29,
+      "scope": "Actual core and transport code with explicit transport/platform doubles. Final UI-only edits were verified by build014/type checking and device007; these core/transport input hashes equal build013.",
+      "verified_unchanged_host_inputs": 24
+    },
+    "pipeline_tests": {
+      "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/email-code-pipeline-tests-001.log",
+      "tests": 88,
+      "sha256": "93ed60fc1bf578b8a211b476ff46e16053241ff38157ed8da4d83a5a69f5aeba",
+      "scope": "Synthetic build/device failure boundaries; does not replace actual APK/device results."
+    },
+    "design_authority": {
+      "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/email-code-revolut-authority-final.log",
+      "status": "PASS",
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "scope": "Sole-authority hygiene, not fidelity acceptance."
+    },
+    "ui_captures": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/email-ui-api36-002/result.json",
+      "scope": "Actual offline Compose instrumentation with synthetic challenge; final initial/code forms visually inspected; corresponding role captures byte-identical. Not live Auth, provider, TalkBack, fluent Kinyarwanda or physical acceptance."
+    },
+    "build_location": "Fresh verified physical input copies and heavy Gradle output on PRO-G40. Current canonical195-input fingerprint equals build014.",
+    "remaining": "Initial shared/native Admin/PIN/MDM device provisioning; actual canonical bridge factory installation; GoTrue/SMTP/custody/TLS commissioning; physical/API26/SIM; independent review/signing/distribution."
   }
 }

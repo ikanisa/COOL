@@ -50,6 +50,8 @@ private class Fixture(vararg replies:Reply){
         Connection(url,pending.removeFirst()).also(connections::add)
     }
 }
+private fun challenge()=CollectEmailChallenge("operator@example.invalid",AUTH,NOW+300_000,NOW+60_000)
+private fun codeReply(delivery:String="accepted")=Reply("""{"challenge_id":"$AUTH","retry_after":60,"expires_in":300,"channel":"email","delivery_status":"$delivery"}""")
 private fun bff()=CollectBffSession(cookie,csrf,PRINCIPAL,SID,NOW+3_000_000)
 private fun loginReply(header:String="$cookie; Path=/; HttpOnly; SameSite=Strict; Max-Age=3000; Secure")=Reply(login,extra=mapOf("Set-Cookie" to listOf(header)))
 
@@ -57,12 +59,43 @@ fun main(){
     var count=0
     fun ok(name:String,run:()->Unit){run();count++;println("ok $count - $name")}
     fun reject(code:String?=null,run:()->Unit){val error=runCatching(run).exceptionOrNull();check(error is ManagedCollectFailure);if(code!=null)check(error.code==code)}
-    ok("real BFF login carries credentials only to the exact configured HTTPS origin"){
-        val f=Fixture(loginReply());val s=f.client.signIn(" Operator@Example.Invalid ","test-only-password")
-        check(s.cookie==cookie&&s.csrf==csrf&&s.principalId==PRINCIPAL)
-        val c=f.connections.single();check(c.url.toString()==ADMIN+"/api/admin/auth/login"&&c.requestMethod=="POST"&&!c.instanceFollowRedirects)
-        check(c.getRequestProperty("Origin")==ADMIN&&c.getRequestProperty("X-Collect-Requested-With")=="collect-admin")
-        check(!c.requestProperties.containsKey("Cookie")&&c.disconnected)
+    ok("email code request and verification use the same actual Collect BFF contract"){
+        val f=Fixture(codeReply(),loginReply());val pending=f.client.requestEmailCode(" Operator@Example.Invalid ")
+        val session=f.client.verifyEmailCode(pending,"001234")
+        check(session.cookie==cookie&&session.csrf==csrf&&session.principalId==PRINCIPAL)
+        check(pending.email=="operator@example.invalid"&&pending.id==AUTH&&!pending.deliveryUnknown)
+        check(pending.retryAt==NOW+60_000&&pending.expiresAt==NOW+300_000)
+        val request=f.connections[0];val verify=f.connections[1]
+        check(request.url.toString()==ADMIN+"/api/admin/auth/otp"&&verify.url.path=="/api/admin/auth/verify")
+        check(request.sent.toString()=="{\"email\":\"operator@example.invalid\"}")
+        check(verify.sent.toString().contains("\"code\":\"001234\"")&&verify.sent.toString().contains("\"challenge_id\":\"$AUTH\""))
+        for(c in f.connections){
+            check(c.requestMethod=="POST"&&!c.instanceFollowRedirects&&c.disconnected)
+            check(c.getRequestProperty("Origin")==ADMIN&&c.getRequestProperty("X-Collect-Requested-With")=="collect-admin")
+            check(!c.requestProperties.containsKey("Cookie")&&!c.sent.toString().contains("password"))
+        }
+    }
+    ok("unknown code delivery keeps the exact challenge without claiming delivery"){
+        val f=Fixture(codeReply("unknown"));val pending=f.client.requestEmailCode("operator@example.invalid")
+        check(pending.deliveryUnknown&&pending.id==AUTH&&f.connections.size==1)
+        check(!pending.toString().contains("operator@example.invalid"))
+    }
+    for((label,body) in listOf(
+        "unsupported channel" to codeReply().text.replace("email","sms"),
+        "rejected delivery" to codeReply("rejected").text,
+        "missing delivery" to codeReply().text.replace(",\"delivery_status\":\"accepted\"",""),
+        "string retry" to codeReply().text.replace("\"retry_after\":60","\"retry_after\":\"60\""),
+        "wrong expiry" to codeReply().text.replace("\"expires_in\":300","\"expires_in\":3600"),
+        "duplicate challenge" to codeReply().text.dropLast(1)+",\"challenge_id\":\"$AUTH\"}",
+        "extra credential" to codeReply().text.dropLast(1)+",\"access_token\":\"forbidden\"}"
+    ))ok("code receipt rejects $label"){
+        val f=Fixture(Reply(body));reject{f.client.requestEmailCode("operator@example.invalid")};check(f.connections.size==1)
+    }
+    ok("invalid local email, expired challenge or non-six-digit code opens no connection"){
+        val f=Fixture();reject("invalid_email"){f.client.requestEmailCode("a..b@example.invalid")}
+        reject("invalid_email_code"){f.client.verifyEmailCode(challenge(),"12345")}
+        reject("invalid_email_code"){f.client.verifyEmailCode(CollectEmailChallenge("operator@example.invalid",AUTH,NOW,NOW),"001234")}
+        check(f.connections.isEmpty())
     }
     ok("access binds real BFF cookie/CSRF and private device proof to the narrow endpoint"){
         val f=Fixture(Reply(access()));val a=f.client.access(bff(),INSTALL,device);check(a.token==token()&&a.principalSessionId==SID)
@@ -87,11 +120,11 @@ fun main(){
     for(header in listOf("$cookie; Path=/; SameSite=Strict; Max-Age=3000; Secure", "$cookie; Path=/; HttpOnly; SameSite=Lax; Max-Age=3000; Secure",
         "$cookie; Path=/; HttpOnly; SameSite=Strict; Max-Age=3000; Secure; Domain=fixture.invalid",
         "$cookie; Path=/; HttpOnly; SameSite=Strict; Max-Age=0; Secure"))ok("BFF cookie rejects unsafe custody attributes"){
-        val f=Fixture(loginReply(header));reject{f.client.signIn("operator@example.invalid","test-only-password")}
+        val f=Fixture(loginReply(header));reject{f.client.verifyEmailCode(challenge(),"001234")}
     }
     ok("credential redirects are refused without dispatch to their destination"){
         val f=Fixture(Reply("redirect",302, mapOf("Location" to listOf("https://foreign.invalid"))))
-        reject("managed_redirect_denied"){f.client.signIn("operator@example.invalid","test-only-password")};check(f.connections.size==1)
+        reject("managed_redirect_denied"){f.client.verifyEmailCode(challenge(),"001234")};check(f.connections.size==1)
     }
     ok("revoked access preserves the real server denial without returning a token"){
         val f=Fixture(Reply("""{"error":{"code":"burimunsi_access_denied","message":"sanitized"}}""",403))
