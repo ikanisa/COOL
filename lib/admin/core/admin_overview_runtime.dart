@@ -347,7 +347,7 @@ class _AttentionQueue extends StatelessWidget {
               title: 'Needs attention',
               count: total,
               subtitle: '',
-              actionLabel: 'View all exceptions',
+              actionLabel: 'View reconciliations',
               onAction: () => context.go('/admin/reconciliations'),
             ),
             Divider(height: 1, color: colors.borderSoft),
@@ -356,7 +356,7 @@ class _AttentionQueue extends StatelessWidget {
                 padding: EdgeInsets.all(24),
                 child: AdminEmptyState(
                   title: 'Queue is clear',
-                  message: 'No payment allocation exceptions require review.',
+                  message: 'No reconciliation items require review.',
                 ),
               )
             else
@@ -386,7 +386,7 @@ class _AttentionQueue extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: IconButton.outlined(
-                    tooltip: 'Open full exceptions queue',
+                    tooltip: 'Open reconciliations',
                     onPressed: () => context.go('/admin/reconciliations'),
                     icon: const Icon(Icons.chevron_right_rounded),
                   ),

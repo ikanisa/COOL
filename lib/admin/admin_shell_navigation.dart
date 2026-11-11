@@ -152,12 +152,13 @@ class _AdminNavDestination {
   }
 }
 
-enum _AdminNavSection { workspace, people, operations, control }
+enum _AdminNavSection { workspace, people, operations, communications, control }
 
 const _sectionLabels = <_AdminNavSection, String>{
   _AdminNavSection.workspace: 'WORKSPACE',
   _AdminNavSection.people: 'PEOPLE',
   _AdminNavSection.operations: 'OPERATIONS',
+  _AdminNavSection.communications: 'COMMUNICATIONS',
   _AdminNavSection.control: 'CONTROL',
 };
 
@@ -271,10 +272,14 @@ _AdminNavSection _sectionForPath(String path) {
       path.startsWith('/admin/transactions') ||
       path.startsWith('/admin/reconciliations') ||
       path.startsWith('/admin/ledgers') ||
-      path.startsWith('/admin/sms-receipts') ||
-      path.startsWith('/admin/sms-metadata') ||
       path.startsWith('/admin/exceptions')) {
     return _AdminNavSection.operations;
+  }
+  if (path.startsWith('/admin/sms-receipts') ||
+      path.startsWith('/admin/sms-metadata') ||
+      path.startsWith('/admin/sms-gateway') ||
+      path.startsWith('/admin/notifications')) {
+    return _AdminNavSection.communications;
   }
   return _AdminNavSection.control;
 }
@@ -296,14 +301,28 @@ void _openMatchingDestination(
 ) {
   final normalized = query.trim().toLowerCase();
   if (normalized.isEmpty) return;
-  for (final destination in destinations) {
-    if (destination.label.toLowerCase().contains(normalized)) {
-      context.go(destination.path);
-      return;
-    }
+  // An ambiguous partial string must never jump to whichever route happens
+  // to be first in a configuration or role-specific navigation list.
+  final exact = destinations.where(
+    (destination) => destination.label.toLowerCase() == normalized,
+  ).toList();
+  final matches = destinations.where(
+    (destination) => destination.label.toLowerCase().contains(normalized),
+  ).toList();
+  final destination = exact.length == 1
+      ? exact.single
+      : matches.length == 1
+          ? matches.single
+          : null;
+  if (destination != null) {
+    context.go(destination.path);
+    return;
   }
+  final message = matches.isEmpty
+      ? 'No admin section matches “${query.trim()}”.'
+      : 'More than one admin section matches “${query.trim()}”. Choose a result.';
   ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text('No admin section matches “${query.trim()}”.')),
+    SnackBar(content: Text(message)),
   );
 }
 

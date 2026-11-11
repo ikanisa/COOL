@@ -6,6 +6,7 @@ import 'package:collect_app/admin/core/cloudflare_admin_session.dart';
 import 'package:collect_app/admin/core/cloudflare_admin_sms_api.dart';
 import 'package:collect_app/admin/core/cloudflare_admin_sms_pages.dart';
 import 'package:collect_app/admin/shared/components/admin_data_table.dart';
+import 'package:collect_app/admin/shared/components/admin_record_facts_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -522,14 +523,21 @@ void main() {
     },
   );
   testWidgets(
-    'Staff sees dedicated fact and duplicate tables without operator controls',
+    'Staff sees structured facts and related duplicates without operator controls',
     (tester) async {
       final fixture = _Fixture(role: 'staff', permissions: ['sms.read']);
       await _mount(tester, fixture, '/admin/sms-receipts/member/$_sourceId');
-      expect(find.byType(AdminDataTable), findsNWidgets(2));
-      expect(find.byType(DataTable), findsNWidgets(2));
-      expect(find.text('Payer name'), findsNWidgets(2));
+      expect(find.byType(AdminRecordFactsPanel), findsOneWidget);
+      // Related duplicate references remain a real table, while the single
+      // source record is a readable fact layout rather than a 36-column row.
+      expect(find.byType(AdminDataTable), findsOneWidget);
+      expect(find.byType(DataTable), findsOneWidget);
+      expect(find.text('Payer name'), findsOneWidget);
       expect(find.text('EVIDENCE PAYER'), findsOneWidget);
+      expect(
+        find.byKey(const Key('admin-record-technical-provenance')),
+        findsOneWidget,
+      );
       expect(find.text('Confirm extraction'), findsNothing);
       expect(find.text('Open audited source'), findsNothing);
       expect(find.byType(TextField), findsNothing);
@@ -537,29 +545,22 @@ void main() {
     },
   );
   testWidgets(
-    '320px listing retains numeric facts and keyboard horizontal scrolling',
+    '320px listing shows a privacy-safe card and opens complete source facts',
     (tester) async {
       await tester.binding.setSurfaceSize(const Size(320, 900));
       addTearDown(() => tester.binding.setSurfaceSize(null));
       final fixture = _Fixture(role: 'staff', permissions: ['sms.read']);
       await _mount(tester, fixture, '/admin/sms-receipts?source=member');
-      expect(find.byType(AdminDataTable), findsOneWidget);
+      expect(find.byType(AdminDataTable), findsNothing);
+      expect(find.byKey(const Key('sms-receipt-$_sourceId')), findsOneWidget);
+      expect(find.text('***321'), findsOneWidget);
+      expect(find.text('RWF 25,000'), findsOneWidget);
+      expect(find.text('Status: Needs Review'), findsOneWidget);
+      expect(find.text('Extraction: Parsed'), findsOneWidget);
+      expect(find.text('008000'), findsNothing);
+      await _tap(tester, find.byKey(const Key('sms-receipt-$_sourceId')));
+      expect(find.byType(AdminRecordFactsPanel), findsOneWidget);
       expect(find.text('008000'), findsOneWidget);
-      final focus = tester
-          .widgetList<Focus>(find.byType(Focus))
-          .firstWhere(
-            (widget) =>
-                widget.focusNode?.debugLabel ==
-                'Admin table horizontal scrolling',
-          );
-      focus.focusNode!.requestFocus();
-      await tester.pump();
-      await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
-      await tester.pump();
-      final horizontal = tester
-          .widgetList<SingleChildScrollView>(find.byType(SingleChildScrollView))
-          .firstWhere((widget) => widget.scrollDirection == Axis.horizontal);
-      expect(horizontal.controller!.offset, greaterThan(0));
       expect(tester.takeException(), isNull);
     },
   );
@@ -799,17 +800,9 @@ void main() {
           mounted.router.routeInformationProvider.value.uri.queryParameters,
           {'search': 'QA', 'extraction': 'not_extracted'},
         );
-        final refreshed = tester.widget<AdminDataTable>(
-          find.byWidgetPredicate(
-            (widget) =>
-                widget is AdminDataTable && widget.tableLabel == 'SMS receipts',
-          ),
-        );
-        expect(refreshed.rows, isEmpty);
-        expect(
-          find.text('No SMS receipts match these filters.'),
-          findsOneWidget,
-        );
+        expect(find.byType(AdminDataTable), findsNothing);
+        expect(find.text('No matching receipts'), findsOneWidget);
+        expect(find.text('Clear search and filters'), findsOneWidget);
         expect(queueQueries, hasLength(2));
         expect(queueQueries.last, queueQueries.first);
         expect(fixture.requests.where((r) => r.method == 'POST'), hasLength(1));
