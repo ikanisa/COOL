@@ -1,4 +1,5 @@
 import 'package:collect_app/admin/core/admin_models.dart';
+import 'package:collect_app/admin/core/admin_receipt_presentation.dart';
 import 'package:collect_app/admin/shared/components/admin_data_table.dart';
 import 'package:collect_app/admin/shared/components/admin_empty_state.dart';
 import 'package:collect_app/admin/shared/components/admin_record_facts_panel.dart';
@@ -21,6 +22,30 @@ const _recordTwo = AdminTableRowData(
 );
 
 void main() {
+  test('contact projection is safe even when the masked field is incorrect', () {
+    expect(AdminReceiptPresentation.maskedContact('0788767816'), '•••• 816');
+    expect(AdminReceiptPresentation.maskedContact('***7816'), '•••• 816');
+    expect(AdminReceiptPresentation.maskedContact('***816'), '•••• 816');
+    expect(AdminReceiptPresentation.maskedContact('7'), '••••');
+    expect(AdminReceiptPresentation.maskedContact(null), '—');
+  });
+
+  test('unknown duplicate counts are not displayed as no conflicts', () {
+    expect(AdminReceiptPresentation.conflicts(null), 'Conflict count unavailable');
+    expect(AdminReceiptPresentation.conflicts('-1'), 'Conflict count unavailable');
+    expect(AdminReceiptPresentation.conflicts('0'), 'No conflicting references');
+    expect(AdminReceiptPresentation.conflicts('1'), '1 conflicting reference');
+    expect(AdminReceiptPresentation.conflicts(2), '2 conflicting references');
+  });
+
+  test('source-only capture does not pretend a parser ran', () {
+    expect(
+      AdminReceiptPresentation.extraction('parsed', sourceMetadata: true),
+      'Source metadata',
+    );
+    expect(AdminReceiptPresentation.extraction(null), 'Extraction not established');
+  });
+
   testWidgets('server-paginated table does not imply page-local searching', (
     tester,
   ) async {

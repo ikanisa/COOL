@@ -98,12 +98,8 @@ const _receiptSupportingLabels = <String>{
   'Duplicate references', 'Conflicting references', 'Payee MoMo code',
 };
 
-String _maskReceiptContact(String value) {
-  if (value.isEmpty || value == '—') return '—';
-  final digits = value.replaceAll(RegExp(r'\D'), '');
-  if (digits.length < 4) return '••••';
-  return '•••• ${digits.substring(digits.length - 4)}';
-}
+String _maskReceiptContact(String value) =>
+    AdminReceiptPresentation.maskedContact(value);
 
 Widget _receiptFacts(SmsReceiptSource source) {
   final row = _row(source.values);
@@ -115,7 +111,8 @@ Widget _receiptFacts(SmsReceiptSource source) {
     // must not become an implicit bypass of the reason-bound audited reveal.
     final sourceValue = column.value(row);
     final displayed = column.label == 'Payer phone' ||
-            column.label == 'Payee MoMo number'
+            column.label == 'Payee MoMo number' ||
+            column.label == 'Source masked phone'
         ? _maskReceiptContact(sourceValue)
         : column.label == 'Amount' && sourceValue != '—'
             ? 'RWF $sourceValue'
@@ -199,8 +196,17 @@ extension _SmsReceiptsUi on _ReceiptsState {
         : 'RWF $amountValue';
     final payer = _value(values['payer_name']);
     final sourceName = payer != '—' ? payer : _value(values['display_name']);
-    final contact = _value(values['payer_masked_phone']);
+    final contact = AdminReceiptPresentation.maskedContact(
+      values['payer_masked_phone'],
+    );
     final status = _label(values['status']);
+    final extraction = AdminReceiptPresentation.extraction(
+      values['extraction_status'],
+      sourceMetadata: source.kind == 'capture',
+    );
+    final conflicts = AdminReceiptPresentation.conflicts(
+      values['conflicting_reference_count'],
+    );
     final shortId = source.id.length > 8
         ? source.id.substring(0, 8)
         : source.id;
@@ -254,6 +260,21 @@ extension _SmsReceiptsUi on _ReceiptsState {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       Text(status, style: Theme.of(context).textTheme.labelLarge),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 5,
+                    children: [
+                      Text(
+                        'Extraction: $extraction',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      Text(
+                        conflicts,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 6),

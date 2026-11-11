@@ -13,6 +13,7 @@ import 'admin_account_api.dart';
 import 'admin_display_formatters.dart';
 import 'admin_models.dart';
 import 'admin_pending_attempt_store.dart';
+import 'admin_receipt_presentation.dart';
 import 'cloudflare_admin_data_refresh.dart';
 import 'cloudflare_admin_session.dart';
 import 'cloudflare_admin_sms_api.dart';
@@ -149,6 +150,8 @@ AdminTableColumn _column(
   value: (row) =>
       field == 'extraction_status' && row.extra['source_kind'] == 'capture'
       ? 'Source metadata'
+      : field == 'payer_masked_phone'
+      ? AdminReceiptPresentation.maskedContact(row.extra[field])
       : amount
       ? adminFormatWholeAmount(row.extra[field])
       : labelValue
@@ -367,7 +370,16 @@ class _ReceiptsState extends ConsumerState<CloudflareAdminSmsReceiptsPage> {
             .when(
               loading: () =>
                   const AdminLoadingState(message: 'Loading SMS receipts…'),
-              error: (error, _) => _Message(_error(error), error: true),
+              error: (error, _) => AdminEmptyState(
+                title: 'Unable to load SMS receipts',
+                message: 'The queue was not refreshed. ${_error(error)}',
+                action: OutlinedButton.icon(
+                  key: const Key('sms-receipt-retry-loading'),
+                  onPressed: () => ref.invalidate(_receiptsProvider(_query)),
+                  icon: const Icon(Icons.refresh_rounded),
+                  label: const Text('Retry loading SMS receipts'),
+                ),
+              ),
               data: (result) {
                 // The successful-fetch timestamp is captured by the provider,
                 // and cannot change merely because Flutter rebuilds a widget.
@@ -841,7 +853,18 @@ class _ReceiptDetailState
               .when(
                 loading: () =>
                     const AdminLoadingState(message: 'Loading SMS receipt…'),
-                error: (error, _) => _Message(_error(error), error: true),
+                error: (error, _) => AdminEmptyState(
+                  title: 'Unable to load receipt details',
+                  message: 'Current receipt evidence was not loaded. ${_error(error)}',
+                  action: OutlinedButton.icon(
+                    key: const Key('sms-receipt-retry-detail'),
+                    onPressed: _busy
+                        ? null
+                        : () => ref.invalidate(_detailProvider(_query)),
+                    icon: const Icon(Icons.refresh_rounded),
+                    label: const Text('Retry loading receipt detail'),
+                  ),
+                ),
                 data: (detail) => !current
                     ? const _Message(
                         'Reopen this receipt with your current account.',
@@ -974,8 +997,7 @@ class _ReceiptDetailState
                           ],
                           if (_receipt != null) ...[
                             const SizedBox(height: 20),
-                            Text(
-                              'Saved extraction receipt',
+                            Text(                              'Saved extraction receipt',
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             const SizedBox(height: 12),
