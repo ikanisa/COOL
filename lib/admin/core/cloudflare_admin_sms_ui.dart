@@ -9,9 +9,11 @@ class _Paging extends StatelessWidget {
     children: [
       Expanded(
         child: Text(
-          page.total == 0
-              ? '0 records'
-              : 'Showing ${page.offset + 1}–${page.offset + page.rows.length} of ${page.total}',
+          AdminReceiptPresentation.pageSummary(
+            total: page.total,
+            offset: page.offset,
+            shown: page.rows.length,
+          ),
         ),
       ),
       IconButton(

@@ -46,6 +46,37 @@ void main() {
     expect(AdminReceiptPresentation.extraction(null), 'Extraction not established');
   });
 
+  test('out-of-range receipt pages preserve truthful totals and recovery', () {
+    expect(
+      AdminReceiptPresentation.pageSummary(total: 13, offset: 25, shown: 0),
+      'No records on this page · 13 matching records',
+    );
+    expect(
+      AdminReceiptPresentation.outOfRangePage(
+        total: 13,
+        offset: 25,
+        shown: 0,
+      ),
+      isTrue,
+    );
+    expect(
+      AdminReceiptPresentation.pageSummary(total: 13, offset: 0, shown: 13),
+      'Showing 1–13 of 13',
+    );
+    expect(
+      AdminReceiptPresentation.pageSummary(total: 0, offset: 0, shown: 0),
+      '0 records',
+    );
+    expect(
+      AdminReceiptPresentation.outOfRangePage(
+        total: 0,
+        offset: 0,
+        shown: 0,
+      ),
+      isFalse,
+    );
+  });
+
   testWidgets('server-paginated table does not imply page-local searching', (
     tester,
   ) async {

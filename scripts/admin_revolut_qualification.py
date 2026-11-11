@@ -57,6 +57,18 @@ def inspect(root: Path, *, sdk: bool = False, artifact_dir: Path | None = None) 
     checks.append(command_check(root, 'B01-B04 source contracts',
         [sys.executable, 'scripts/tests/admin_revolut_uiux_contract_test.py'],
         missing=None if (root / 'scripts/tests/admin_revolut_uiux_contract_test.py').is_file() else 'existing source-contract suite not provided in this patch'))
+    pwa_runner = root / 'scripts/tests/admin_pwa_service_worker_isolated_test.mjs'
+    pwa_template = root / 'scripts/templates/admin_pwa_service_worker.js'
+    node = shutil.which('node')
+    missing_pwa = (
+        'Service-worker source or isolated runner is unavailable'
+        if not (pwa_runner.is_file() and pwa_template.is_file())
+        else 'Node.js is unavailable' if not node else None
+    )
+    checks.append(command_check(
+        root, 'isolated Admin PWA service-worker runtime checks',
+        [node or 'node', str(pwa_runner)], missing=missing_pwa,
+    ))
     checks.append(command_check(root, 'admin build script syntax',
         ['bash', '-n', 'scripts/admin_pwa_release_build.sh'],
         missing=None if (root / 'scripts/admin_pwa_release_build.sh').is_file() else 'Admin build script is in the full repository, not this source patch'))

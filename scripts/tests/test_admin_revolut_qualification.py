@@ -23,6 +23,15 @@ class QualificationTests(unittest.TestCase):
             cases = [c for c in result['checks'] if c['name'] == 'Flutter analyzer']
             self.assertEqual(cases[0]['status'], 'unverified')
 
+    def test_missing_pwa_source_is_blocked_not_a_pass(self):
+        with tempfile.TemporaryDirectory() as folder:
+            result = qualification.inspect(Path(folder))
+            checks = [c for c in result['checks']
+                      if c['name'] == 'isolated Admin PWA service-worker runtime checks']
+            self.assertEqual(len(checks), 1)
+            self.assertEqual(checks[0]['status'], 'blocked')
+            self.assertFalse(result['release_ready'])
+
     def test_no_automated_manual_gate_pass(self):
         with tempfile.TemporaryDirectory() as folder:
             result = qualification.inspect(Path(folder))

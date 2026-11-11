@@ -83,6 +83,13 @@ jobs:
       - name: Collect Admin UI/UX B01–B04 source contracts
         run: python3 scripts/tests/admin_revolut_uiux_contract_test.py
 
+      - name: Collect Admin B05–B12 source contracts and isolated PWA runtime
+        run: |
+          python3 scripts/tests/admin_revolut_b05_b08_contract_test.py
+          python3 scripts/tests/admin_revolut_b09_b12_contract_test.py
+          python3 -m unittest -v scripts.tests.test_admin_revolut_qualification
+          node scripts/tests/admin_pwa_service_worker_isolated_test.mjs
+
       - name: Verify asset manifest and Rwanda runtime inventory
         run: |
           ruby scripts/tests/asset_manifest_integrity_test.rb

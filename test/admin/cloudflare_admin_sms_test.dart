@@ -523,6 +523,49 @@ void main() {
     },
   );
   testWidgets(
+    'shrinking receipt queue recovers an out-of-range page without claiming emptiness',
+    (tester) async {
+      final fixture = _Fixture(role: 'staff', permissions: ['sms.read']);
+      fixture.handler = (request) async {
+        if (request.url.path == '/api/admin/sms/receipts') {
+          final offset = int.parse(request.url.queryParameters['offset']!);
+          if (offset == 25) {
+            return _Fixture._response(_page([], offset: 25, total: 13));
+          }
+          return _Fixture._response(_page([
+            for (var i = 0; i < 13; i++)
+              _source(
+                id: '00000000-0000-4000-8000-${(i + 10).toString().padLeft(12, '0')}',
+              ),
+          ], total: 13));
+        }
+        return _Fixture._response(_detail());
+      };
+      final mounted = await _mount(
+        tester,
+        fixture,
+        '/admin/sms-receipts?page=2',
+      );
+      expect(find.text('This page no longer has records'), findsOneWidget);
+      expect(find.text('No records on this page · 13 matching records'),
+          findsOneWidget);
+      expect(find.text('No SMS receipts yet'), findsNothing);
+      await _tap(tester, find.byKey(const Key('sms-receipt-first-page')));
+      expect(mounted.router.routeInformationProvider.value.uri.path,
+          '/admin/sms-receipts');
+      expect(mounted.router.routeInformationProvider.value.uri.queryParameters
+          .containsKey('page'), isFalse);
+      expect(
+        fixture.requests
+            .where((request) => request.url.path == '/api/admin/sms/receipts')
+            .map((request) => request.url.queryParameters['offset'])
+            .toList(),
+        ['25', '0'],
+      );
+      expect(tester.takeException(), isNull);
+    },
+  );
+  testWidgets(
     'Staff sees structured facts and related duplicates without operator controls',
     (tester) async {
       final fixture = _Fixture(role: 'staff', permissions: ['sms.read']);

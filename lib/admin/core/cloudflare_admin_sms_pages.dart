@@ -396,7 +396,26 @@ class _ReceiptsState extends ConsumerState<CloudflareAdminSmsReceiptsPage> {
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),
-                    if (page.rows.isEmpty)
+                    if (AdminReceiptPresentation.outOfRangePage(
+                      total: page.total,
+                      offset: page.offset,
+                      shown: page.rows.length,
+                    ))
+                      AdminEmptyState(
+                        title: 'This page no longer has records',
+                        message: 'There are still ${page.total} matching receipts. '
+                            'The queue may have changed since you opened this page.',
+                        action: OutlinedButton.icon(
+                          key: const Key('sms-receipt-first-page'),
+                          onPressed: () {
+                            setState(() => _offset = 0);
+                            context.go(_location);
+                          },
+                          icon: const Icon(Icons.first_page_rounded),
+                          label: const Text('Return to first page'),
+                        ),
+                      )
+                    else if (page.rows.isEmpty)
                       AdminEmptyState(
                         title: _hasFilters
                             ? 'No matching receipts'

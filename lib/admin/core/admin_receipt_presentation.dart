@@ -35,6 +35,26 @@ class AdminReceiptPresentation {
     return '$count conflicting ${count == 1 ? 'reference' : 'references'}';
   }
 
+  /// A server-authoritative result can shrink while an operator is on a later
+  /// page. Never present an impossible range or call a nonempty queue empty.
+  static String pageSummary({
+    required int total,
+    required int offset,
+    required int shown,
+  }) {
+    if (total <= 0) return '0 records';
+    if (shown <= 0) return 'No records on this page · $total matching records';
+    final first = offset + 1;
+    final last = offset + shown;
+    return 'Showing $first–$last of $total';
+  }
+
+  static bool outOfRangePage({
+    required int total,
+    required int offset,
+    required int shown,
+  }) => total > 0 && offset > 0 && shown == 0;
+
   static String extraction(Object? value, {bool sourceMetadata = false}) {
     if (sourceMetadata) return 'Source metadata';
     final text = value?.toString().trim() ?? '';
