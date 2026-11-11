@@ -5,10 +5,12 @@ import '../../../app/theme/collect_radius.dart';
 import '../../../app/theme/collect_typography.dart';
 
 class AdminEmptyState extends StatelessWidget {
-  const AdminEmptyState({required this.title, this.message, super.key});
+  const AdminEmptyState({required this.title, this.message, this.action, super.key});
 
   final String title;
   final String? message;
+  /// An optional recovery action, such as clearing active filters.
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +61,10 @@ class AdminEmptyState extends StatelessWidget {
                       color: colors.textSecondary,
                     ),
                   ),
+                ],
+                if (action != null) ...[
+                  const SizedBox(height: 16),
+                  action!,
                 ],
               ],
             ),
