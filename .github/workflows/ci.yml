@@ -80,6 +80,9 @@ jobs:
           make revolut-design-authority
           python3 scripts/tests/revolut_design_authority_test.py
 
+      - name: Collect Admin UI/UX B01–B04 source contracts
+        run: python3 scripts/tests/admin_revolut_uiux_contract_test.py
+
       - name: Verify asset manifest and Rwanda runtime inventory
         run: |
           ruby scripts/tests/asset_manifest_integrity_test.rb

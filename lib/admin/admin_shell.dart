@@ -697,47 +697,88 @@ class _AdminTopbar extends ConsumerWidget {
                       const SizedBox(width: 24),
                       SizedBox(
                         width: 260,
-                        child: TextField(
-                          textInputAction: TextInputAction.search,
-                          onSubmitted: (query) => _openMatchingDestination(
+                        child: Autocomplete<_AdminNavDestination>(
+                          displayStringForOption: (option) => option.label,
+                          optionsBuilder: (value) {
+                            final term = value.text.trim().toLowerCase();
+                            if (term.isEmpty) return const Iterable<_AdminNavDestination>.empty();
+                            return destinations.where((option) =>
+                                option.label.toLowerCase().contains(term));
+                          },
+                          onSelected: (option) => context.go(option.path),
+                          fieldViewBuilder: (
                             context,
-                            destinations,
-                            query,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: 'Find a section',
-                            prefixIcon: const Icon(
-                              Icons.search_rounded,
-                              size: 28,
+                            controller,
+                            focusNode,
+                            onFieldSubmitted,
+                          ) => TextField(
+                            controller: controller,
+                            focusNode: focusNode,
+                            textInputAction: TextInputAction.search,
+                            onSubmitted: (query) => _openMatchingDestination(
+                              context,
+                              destinations,
+                              query,
                             ),
-                            suffixIcon: Tooltip(
-                              message: 'Enter a section name, then press Enter',
-                              child: Icon(
+                            decoration: InputDecoration(
+                              labelText: 'Find an admin section',
+                              prefixIcon: const Icon(
+                                Icons.search_rounded,
+                                size: 28,
+                              ),
+                              suffixIcon: Icon(
                                 Icons.keyboard_return_rounded,
                                 size: 22,
                                 color: colors.textMuted,
                               ),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 18,
-                              vertical: 14,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide(
-                                color: colors.focusRing,
-                                width: 2,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 18,
+                                vertical: 14,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide(
+                                  color: colors.focusRing,
+                                  width: 2,
+                                ),
                               ),
                             ),
                           ),
+                          optionsViewBuilder: (context, onSelected, options) =>
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Material(
+                                  elevation: 5,
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                      maxWidth: 320,
+                                      maxHeight: 320,
+                                    ),
+                                    child: ListView(
+                                      shrinkWrap: true,
+                                      padding: const EdgeInsets.all(6),
+                                      children: [
+                                        for (final option in options)
+                                          ListTile(
+                                            dense: true,
+                                            leading: Icon(option.icon, size: 25),
+                                            title: Text(option.label),
+                                            onTap: () => onSelected(option),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                         ),
                       ),
                     ],

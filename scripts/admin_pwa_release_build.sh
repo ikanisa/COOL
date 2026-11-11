@@ -161,6 +161,29 @@ manifest["start_url"] = "."
 manifest["background_color"] = collect_color_hex.call("publicWhite")
 manifest["theme_color"] = collect_color_hex.call("referenceChromeBlack")
 manifest["orientation"] = "any"
+# Fixed, same-origin installed-app shortcuts. These are navigation entrypoints,
+# not bypasses: each route retains its current server-backed Admin permission.
+# Preserve the existing install identity and start URL for update continuity.
+manifest["shortcuts"] = [
+  {
+    "name" => "Operations overview",
+    "short_name" => "Overview",
+    "description" => "Open the Collect operations overview",
+    "url" => "./#/admin"
+  },
+  {
+    "name" => "SMS receipts",
+    "short_name" => "Receipts",
+    "description" => "Review stored receipt evidence",
+    "url" => "./#/admin/sms-receipts"
+  },
+  {
+    "name" => "Reconciliations",
+    "short_name" => "Reconcile",
+    "description" => "Open reconciliation records",
+    "url" => "./#/admin/reconciliations"
+  }
+]
 manifest["icons"] = [
   {
     "src" => "icons/collect-web-512.png",

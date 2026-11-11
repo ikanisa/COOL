@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/theme/collect_motion.dart';
 import '../shared/components/admin_data_table.dart';
+import '../shared/components/admin_empty_state.dart';
+import '../shared/components/admin_record_facts_panel.dart';
 import '../shared/components/admin_loading_state.dart';
 import '../shared/components/admin_page.dart';
 import 'admin_account_api.dart';
@@ -14,6 +16,8 @@ import 'admin_pending_attempt_store.dart';
 import 'cloudflare_admin_data_refresh.dart';
 import 'cloudflare_admin_session.dart';
 import 'cloudflare_admin_sms_api.dart';
+
+part 'cloudflare_admin_sms_ui.dart';
 
 typedef _ListQuery = ({
   String search,
@@ -25,10 +29,14 @@ typedef _ListQuery = ({
   int limit,
 });
 typedef _DetailQuery = ({String kind, String id, int offset});
+typedef _ReceiptListResponse = ({
+  SmsReceiptPage<SmsReceiptSource> page,
+  DateTime receivedAt,
+});
 final _receiptsProvider = FutureProvider.autoDispose
-    .family<SmsReceiptPage<SmsReceiptSource>, _ListQuery>((ref, query) {
+    .family<_ReceiptListResponse, _ListQuery>((ref, query) async {
       ref.watch(cloudflareAdminDataRevisionProvider);
-      return ref
+      final page = await ref
           .watch(cloudflareAdminSmsApiProvider)
           .receipts(
             search: query.search,
@@ -39,6 +47,7 @@ final _receiptsProvider = FutureProvider.autoDispose
             offset: query.offset,
             limit: query.limit,
           );
+      return (page: page, receivedAt: DateTime.now());
     });
 final _detailProvider = FutureProvider.autoDispose
     .family<SmsReceiptDetail, _DetailQuery>(
@@ -201,59 +210,6 @@ class _Message extends StatelessWidget {
   );
 }
 
-class _Paging extends StatelessWidget {
-  const _Paging(this.page, this.onPage);
-  final SmsReceiptPage<SmsReceiptSource> page;
-  final ValueChanged<int> onPage;
-  @override
-  Widget build(BuildContext context) => Row(
-    children: [
-      Expanded(
-        child: Text(
-          page.total == 0
-              ? '0 records'
-              : 'Showing ${page.offset + 1}–${page.offset + page.rows.length} of ${page.total}',
-        ),
-      ),
-      IconButton(
-        tooltip: 'Previous page',
-        onPressed: page.offset > 0
-            ? () => onPage((page.offset - page.limit).clamp(0, page.offset))
-            : null,
-        icon: const Icon(Icons.chevron_left),
-      ),
-      IconButton(
-        tooltip: 'Next page',
-        onPressed: page.nextOffset == null
-            ? null
-            : () => onPage(page.nextOffset!),
-        icon: const Icon(Icons.chevron_right),
-      ),
-    ],
-  );
-}
-
-Widget _filter(
-  String label,
-  String current,
-  Iterable<String> choices,
-  ValueChanged<String> onChange,
-) => SizedBox(
-  width: 245,
-  child: DropdownButtonFormField<String>(
-    key: ValueKey('$label-$current'),
-    initialValue: current,
-    isExpanded: true,
-    decoration: InputDecoration(labelText: label),
-    items: [
-      DropdownMenuItem(value: '', child: Text('All ${label.toLowerCase()}')),
-      for (final value in choices)
-        DropdownMenuItem(value: value, child: Text(_label(value))),
-    ],
-    onChanged: (value) => onChange(value!),
-  ),
-);
-
 class CloudflareAdminSmsReceiptsPage extends ConsumerStatefulWidget {
   const CloudflareAdminSmsReceiptsPage({super.key});
   @override
@@ -269,6 +225,7 @@ class _ReceiptsState extends ConsumerState<CloudflareAdminSmsReceiptsPage> {
       _extraction = '',
       _duplicates = '';
   String? _last;
+  bool _advancedFiltersOpen = false;
   int _offset = 0, _limit = 25;
   _ListQuery get _query => (
     search: _applied,
@@ -304,6 +261,7 @@ class _ReceiptsState extends ConsumerState<CloudflareAdminSmsReceiptsPage> {
     _source = query['source'] ?? '';
     _extraction = query['extraction'] ?? '';
     _duplicates = query['duplicates'] ?? '';
+    _advancedFiltersOpen = _extraction.isNotEmpty || _duplicates.isNotEmpty;
     _limit = int.parse(query['limit'] ?? '25');
     _offset = (int.parse(query['page'] ?? '1') - 1) * _limit;
   }
@@ -342,19 +300,16 @@ class _ReceiptsState extends ConsumerState<CloudflareAdminSmsReceiptsPage> {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TextField(
-          controller: _search,
-          maxLength: 200,
-          decoration: const InputDecoration(
-            labelText: 'Search SMS receipts',
-            hintText: 'Source name, payer, phone, MoMo transaction or code',
-          ),
-          onSubmitted: (value) => _change(() => _applied = value.trim()),
+        _searchField(),
+        const Padding(
+          padding: EdgeInsets.only(top: 4),
+          child: Text('Searches all matching records, not just this page.'),
         ),
         const SizedBox(height: 12),
         Wrap(
           spacing: 12,
           runSpacing: 12,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             _filter(
               'Sources',
@@ -368,20 +323,44 @@ class _ReceiptsState extends ConsumerState<CloudflareAdminSmsReceiptsPage> {
               smsReceiptStatuses,
               (value) => _change(() => _status = value),
             ),
-            _filter(
-              'Extraction',
-              _extraction,
-              smsExtractionStatuses,
-              (value) => _change(() => _extraction = value),
+            TextButton.icon(
+              key: const Key('sms-receipt-advanced-filter-toggle'),
+              onPressed: () => setState(
+                () => _advancedFiltersOpen = !_advancedFiltersOpen,
+              ),
+              icon: Icon(_advancedFiltersOpen
+                  ? Icons.tune_rounded
+                  : Icons.filter_alt_outlined),
+              label: Text(_advancedFiltersOpen ? 'Fewer filters' : 'More filters'),
             ),
-            _filter(
-              'Duplicate references',
-              _duplicates,
-              const ['all', 'conflicting'],
-              (value) => _change(() => _duplicates = value),
-            ),
+            if (_hasFilters)
+              TextButton(
+                onPressed: _clearFilters,
+                child: const Text('Reset all filters'),
+              ),
           ],
         ),
+        if (_advancedFiltersOpen) ...[
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: [
+              _filter(
+                'Extraction',
+                _extraction,
+                smsExtractionStatuses,
+                (value) => _change(() => _extraction = value),
+              ),
+              _filter(
+                'Duplicate references',
+                _duplicates,
+                const ['all', 'conflicting'],
+                (value) => _change(() => _duplicates = value),
+              ),
+            ],
+          ),
+        ],
         const SizedBox(height: 20),
         ref
             .watch(_receiptsProvider(_query))
@@ -389,23 +368,68 @@ class _ReceiptsState extends ConsumerState<CloudflareAdminSmsReceiptsPage> {
               loading: () =>
                   const AdminLoadingState(message: 'Loading SMS receipts…'),
               error: (error, _) => _Message(_error(error), error: true),
-              data: (page) => Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  if (page.rows.isEmpty)
-                    const _Message('No SMS receipts match these filters.'),
-                  AdminDataTable(
-                    rows: page.rows.map((row) => _row(row.values)).toList(),
-                    columns: _sourceColumns,
-                    tableLabel: 'SMS receipts',
-                    onOpen: _open,
-                  ),
-                  _Paging(page, (offset) {
-                    setState(() => _offset = offset);
-                    context.go(_location);
-                  }),
-                ],
-              ),
+              data: (result) {
+                // The successful-fetch timestamp is captured by the provider,
+                // and cannot change merely because Flutter rebuilds a widget.
+                final page = result.page;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        'Receipt data loaded at '
+                        '${adminKigaliDateTime(result.receivedAt)} · '
+                        '${page.total} matching records',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
+                    if (page.rows.isEmpty)
+                      AdminEmptyState(
+                        title: _hasFilters
+                            ? 'No matching receipts'
+                            : 'No SMS receipts yet',
+                        message: _hasFilters
+                            ? 'No records match the current search and filters.'
+                            : 'Preserved SMS evidence will appear here after it is received.',
+                        action: _hasFilters
+                            ? OutlinedButton.icon(
+                                onPressed: _clearFilters,
+                                icon: const Icon(Icons.filter_alt_off_rounded),
+                                label: const Text('Clear search and filters'),
+                              )
+                            : null,
+                      )
+                    else
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          if (constraints.maxWidth < 720) {
+                            return Column(
+                              children: [
+                                for (final source in page.rows)
+                                  _mobileReceiptCard(source),
+                              ],
+                            );
+                          }
+                          return AdminDataTable(
+                            rows: page.rows
+                                .map((row) => _row(row.values))
+                                .toList(),
+                            columns: _receiptListColumns,
+                            tableLabel: 'SMS receipts',
+                            localToolsEnabled: false,
+                            onOpen: _open,
+                          );
+                        },
+                      ),
+                    if (page.rows.isNotEmpty || page.total > 0)
+                      _Paging(page, (offset) {
+                        setState(() => _offset = offset);
+                        context.go(_location);
+                      }),
+                  ],
+                );
+              },
             ),
       ],
     ),
@@ -825,31 +849,7 @@ class _ReceiptDetailState
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          AdminDataTable(
-                            rows: [_row(detail.source.values)],
-                            columns: [
-                              ..._sourceColumns,
-                              _column('User ID', 'user_id'),
-                              _column('Payee ID', 'payee_id'),
-                              _column('Profile ID', 'public_id', numeric: true),
-                              _column('Linked transaction', 'transaction_id'),
-                              _column(
-                                'Source version',
-                                'version',
-                                numeric: true,
-                              ),
-                              _column('Fact ID', 'source_fact_id'),
-                              _column('Parser', 'parser_version'),
-                              _column('Body SHA-256', 'source_body_sha256'),
-                              _column(
-                                'Payload SHA-256',
-                                'source_payload_sha256',
-                              ),
-                              _column('Extracted', 'parsed_at', time: true),
-                              _column('Created', 'created_at', time: true),
-                            ],
-                            tableLabel: 'SMS source facts',
-                          ),
+                          _receiptFacts(detail.source),
                           const _Message(
                             'A dash means the source did not establish that fact. A source timestamp without a timezone is shown exactly as extracted. Duplicate references require review and do not merge records.',
                           ),
@@ -864,7 +864,8 @@ class _ReceiptDetailState
                             rows: detail.duplicates.rows
                                 .map((row) => _row(row.values))
                                 .toList(),
-                            columns: _sourceColumns,
+                            columns: _receiptListColumns,
+                            localToolsEnabled: false,
                             tableLabel: 'Duplicate SMS references',
                             onOpen: (row) => context.go(
                               Uri(

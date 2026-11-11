@@ -53,6 +53,7 @@ class AdminDataTable extends StatefulWidget {
     this.tableLabel = 'Admin records',
     this.sortBy = '',
     this.onSortChanged,
+    this.localToolsEnabled = true,
     super.key,
   });
 
@@ -65,6 +66,9 @@ class AdminDataTable extends StatefulWidget {
   final String tableLabel;
   final String sortBy;
   final ValueChanged<String>? onSortChanged;
+  /// Only enable page-local search/sort when every record is loaded.
+  /// Server-paginated queues must use their own authoritative controls.
+  final bool localToolsEnabled;
 
   @override
   State<AdminDataTable> createState() => _AdminDataTableState();
@@ -180,7 +184,8 @@ class _AdminDataTableState extends State<AdminDataTable> {
   Widget build(BuildContext context) {
     final colors = context.collectColors;
     final columns = _columns;
-    final localTools = widget.onSortChanged == null && widget.rows.length > 1;
+    final localTools = widget.localToolsEnabled &&
+        widget.onSortChanged == null && widget.rows.length > 1;
     final visibleRows = _visibleRows(columns, localTools);
     final ascending = widget.sortBy.endsWith('_asc');
     final sortKey = widget.sortBy.replaceFirst(RegExp(r'_(?:asc|desc)$'), '');
