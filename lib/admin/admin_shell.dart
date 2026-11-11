@@ -701,9 +701,13 @@ class _AdminTopbar extends ConsumerWidget {
                           displayStringForOption: (option) => option.label,
                           optionsBuilder: (value) {
                             final term = value.text.trim().toLowerCase();
-                            if (term.isEmpty) return const Iterable<_AdminNavDestination>.empty();
-                            return destinations.where((option) =>
-                                option.label.toLowerCase().contains(term));
+                            if (term.isEmpty) {
+                              return const Iterable<_AdminNavDestination>.empty();
+                            }
+                            return destinations.where(
+                              (option) =>
+                                  option.label.toLowerCase().contains(term),
+                            );
                           },
                           onSelected: (option) => context.go(option.path),
                           fieldViewBuilder: (
@@ -715,11 +719,26 @@ class _AdminTopbar extends ConsumerWidget {
                             controller: controller,
                             focusNode: focusNode,
                             textInputAction: TextInputAction.search,
-                            onSubmitted: (query) => _openMatchingDestination(
-                              context,
-                              destinations,
-                              query,
-                            ),
+                            onSubmitted: (query) {
+                              final normalized = query.trim().toLowerCase();
+                              final matches = destinations.where(
+                                (destination) => destination.label
+                                    .toLowerCase()
+                                    .contains(normalized),
+                              );
+                              if (normalized.isEmpty) return;
+                              if (matches.isEmpty) {
+                                _openMatchingDestination(
+                                  context,
+                                  destinations,
+                                  query,
+                                );
+                              } else {
+                                // Enter confirms the visibly highlighted item.
+                                // Never bypass the permission-filtered options.
+                                onFieldSubmitted();
+                              }
+                            },
                             decoration: InputDecoration(
                               labelText: 'Find an admin section',
                               prefixIcon: const Icon(
@@ -767,9 +786,17 @@ class _AdminTopbar extends ConsumerWidget {
                                       shrinkWrap: true,
                                       padding: const EdgeInsets.all(6),
                                       children: [
-                                        for (final option in options)
+                                        for (final (index, option)
+                                            in options.indexed)
                                           ListTile(
                                             dense: true,
+                                            selected:
+                                                AutocompleteHighlightedOption.of(
+                                                  context,
+                                                ) ==
+                                                index,
+                                            selectedTileColor: colors.borderAccent
+                                                .withValues(alpha: 0.12),
                                             leading: Icon(option.icon, size: 25),
                                             title: Text(option.label),
                                             onTap: () => onSelected(option),

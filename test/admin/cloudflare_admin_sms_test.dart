@@ -555,6 +555,8 @@ void main() {
       expect(find.byKey(const Key('sms-receipt-$_sourceId')), findsOneWidget);
       expect(find.text('***321'), findsOneWidget);
       expect(find.text('RWF 25,000'), findsOneWidget);
+      expect(find.text('Status: Needs Review'), findsOneWidget);
+      expect(find.text('Extraction: Parsed'), findsOneWidget);
       expect(find.text('008000'), findsNothing);
       await _tap(tester, find.byKey(const Key('sms-receipt-$_sourceId')));
       expect(find.byType(AdminRecordFactsPanel), findsOneWidget);

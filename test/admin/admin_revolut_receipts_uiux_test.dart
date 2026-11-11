@@ -3,6 +3,7 @@ import 'package:collect_app/admin/shared/components/admin_data_table.dart';
 import 'package:collect_app/admin/shared/components/admin_empty_state.dart';
 import 'package:collect_app/admin/shared/components/admin_record_facts_panel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const _recordOne = AdminTableRowData(
@@ -70,6 +71,42 @@ void main() {
     await tester.tap(find.text('Clear filters'));
     expect(resetCount, 1);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('source facts preserve native selectable value semantics', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    try {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: AdminRecordFactsPanel(
+                title: 'Synthetic source evidence',
+                summary: [
+                  AdminRecordFact(label: 'Amount', value: '25,000'),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final selectable = find.byType(SelectableText);
+      expect(selectable, findsOneWidget);
+      final node = tester.getSemantics(selectable);
+      expect(node.hasAction(SemanticsAction.longPress), isTrue);
+      node.owner!.performAction(node.id, SemanticsAction.longPress);
+      await tester.pumpAndSettle();
+      expect(
+        tester.getSemantics(selectable).hasAction(SemanticsAction.copy),
+        isTrue,
+      );
+      expect(tester.takeException(), isNull);
+    } finally {
+      semantics.dispose();
+    }
   });
 
   testWidgets('detail facts reflow at 320px and reveal provenance explicitly', (

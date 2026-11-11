@@ -201,6 +201,10 @@ extension _SmsReceiptsUi on _ReceiptsState {
     final sourceName = payer != '—' ? payer : _value(values['display_name']);
     final contact = _value(values['payer_masked_phone']);
     final status = _label(values['status']);
+    final extraction = _label(values['extraction_status']);
+    final conflicts = values['conflicting_reference_count'] is int
+        ? values['conflicting_reference_count'] as int
+        : 0;
     final shortId = source.id.length > 8
         ? source.id.substring(0, 8)
         : source.id;
@@ -253,7 +257,22 @@ extension _SmsReceiptsUi on _ReceiptsState {
                         amount,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
-                      Text(status, style: Theme.of(context).textTheme.labelLarge),
+                      Text(
+                        'Status: $status',
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      Text(
+                        'Extraction: $extraction',
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      if (conflicts > 0)
+                        Text(
+                          'Conflicts: $conflicts',
+                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            color: colors.error,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                     ],
                   ),
                   const SizedBox(height: 6),

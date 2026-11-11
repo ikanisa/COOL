@@ -82,6 +82,8 @@ jobs:
 
       - name: Collect Admin UI/UX B01–B04 source contracts
         run: python3 scripts/tests/admin_revolut_uiux_contract_test.py
+      - name: Collect Admin follow-up accessibility, PWA and source checks
+        run: python3 scripts/tests/admin_b01_b04_followup_contract_test.py
 
       - name: Verify asset manifest and Rwanda runtime inventory
         run: |

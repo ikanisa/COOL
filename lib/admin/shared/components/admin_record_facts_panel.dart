@@ -120,16 +120,23 @@ class _FactGroup extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          fact.label,
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: colors.textSecondary,
+                        // The selectable value supplies the full field label
+                        // to assistive technology; avoid a duplicate heading.
+                        ExcludeSemantics(
+                          child: Text(
+                            fact.label,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(color: colors.textSecondary),
                           ),
                         ),
                         const SizedBox(height: 6),
+                        // Preserve SelectableText's native screen-reader,
+                        // focus, long-press and copy actions. Masking decisions
+                        // happen in the owning record's privacy projection.
                         Semantics(
-                          label: '${fact.label}: ${fact.value}',
-                          excludeSemantics: true,
+                          label: '${fact.label}:',
                           child: SelectableText(
                             fact.value,
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
