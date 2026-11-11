@@ -997,7 +997,8 @@ class _ReceiptDetailState
                           ],
                           if (_receipt != null) ...[
                             const SizedBox(height: 20),
-                            Text(                              'Saved extraction receipt',
+                            Text(
+                              'Saved extraction receipt',
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                             const SizedBox(height: 12),
