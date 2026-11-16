@@ -613,7 +613,7 @@ dependencies {
     // dependency only after strict runtime lock constraints are applied. Declare
     // the same pinned compiler version so lock generation observes it as well.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-common:2.4.20")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
     implementation("com.google.android.play:integrity:1.6.0")
     testImplementation("junit:junit:4.13.2")
     // Gateway JVM contracts need real JSON; Android's mockable API throws.
