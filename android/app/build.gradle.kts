@@ -617,7 +617,7 @@ dependencies {
     implementation("com.google.android.play:integrity:1.6.0")
     testImplementation("junit:junit:4.13.2")
     // Gateway JVM contracts need real JSON; Android's mockable API throws.
-    testImplementation("org.json:json:20250517")
+    testImplementation("org.json:json:20260814")
 }
 
 // Firebase is configured only for the store/staging application IDs. Keep
