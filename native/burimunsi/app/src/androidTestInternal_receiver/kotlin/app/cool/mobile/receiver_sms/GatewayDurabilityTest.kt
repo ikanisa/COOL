@@ -125,6 +125,22 @@ class GatewayDurabilityTest {
         assertTrue(ObservationLegacyOwnership.controlTransitionClear(context))
         assertEquals(1, SmsQueueStore(context).readForOwner(owner).length())
     }
+    @Test fun authorizationParkInvalidatesHealthBeforeWake() {
+        val store=MomoGatewayStore(context);store.update{it.put("reason","")}
+        val health=ContinuousSyncHealthState(rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true))
+        val events=mutableListOf<Boolean>()
+        val detach=ObservationAuthorityRevision.observe{wake->
+            health.invalidate();events.add(wake)
+            if(wake)assertEquals("sync_unconfirmed",health.get().problem)
+        }
+        try{
+            store.park("authorization_required")
+            assertEquals("authorization_required",MomoGatewayStore(context).read()!!.getString("reason"))
+            assertEquals("sync_unconfirmed",health.get().problem)
+            assertTrue(events.any{!it});assertEquals(true,events.last())
+            val count=events.size;store.park("authorization_required");assertEquals(count,events.size)
+        }finally{detach();base.deleteSharedPreferences(prefix+"_collect_momo_gateway_identity")}
+    }
     @Test fun legacyMigrationCopiesBeforeDeletingOriginal() {
         val prefs = context.getSharedPreferences(SmsQueueStore.SMS_ACCESS_PREFS, Context.MODE_PRIVATE)
         check(prefs.edit().putString("pending_sms", JSONArray().put(envelope()).toString()).commit())

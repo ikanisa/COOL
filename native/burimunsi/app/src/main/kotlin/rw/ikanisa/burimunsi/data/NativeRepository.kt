@@ -78,6 +78,12 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
          * The callback receives only validated scope identifiers, never a bearer. */
         internal fun observationOwner(context:Context):ObservationSessionOwner? =
             withObservationOwner(context){group,account->ObservationSessionOwner(ObservationOwner(group,account),processSessionAuthority.revision())}
+        /** Public timing bound only; the saved bearer remains repository-owned. */
+        internal fun observationDeadline(context:Context,expected:ObservationSessionOwner):Long? =
+            withObservationOwner(context,expected){_,_->
+                try{JSONObject(SecureStore(context,"session").read()?:return@withObservationOwner null)
+                    .getLong("expiresAt").takeIf{it>System.currentTimeMillis()}}catch(_:Exception){null}
+            }
         internal fun <T> withObservationOwner(context:Context,expected:ObservationSessionOwner?=null,action:(String,String)->T):T? = synchronized(processSessionAuthority){
             val identifiers=try{observationIdentifiers(context,allowExpired=false)}catch(_:Exception){null}?:return@synchronized null
             if(expected!=null&&expected!=ObservationSessionOwner(ObservationOwner(identifiers.first,identifiers.second),processSessionAuthority.revision()))return@synchronized null

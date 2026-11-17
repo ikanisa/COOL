@@ -17,6 +17,7 @@ import app.cool.mobile.receiver_sms.ObservationSyncDiagnostics.Stop
 internal data class ObservationCycleResult(val completed:Boolean,val more:Boolean,val problem:String?=null,val busy:Boolean=false,
     val progress:Boolean=false,val proofStartedAtElapsed:Long?=null,val proofInboxRevision:Long?=null,
     val proofAuthorityRevision:Long?=null,val proofSessionDigest:String?=null,val proofScope:String?=null,
+    val proofSessionExpiresAtWall:Long?=null,val proofObservationIssuedAtWall:Long?=null,val proofObservationExpiresAtWall:Long?=null,
     val proofLegacyIssuedAtWall:Long?=null,val proofLegacyExpiresAtWall:Long?=null,val proofLegacySubscriptionsDigest:String?=null)
 
 /** The existing observation pipeline, executed once with one process-wide finite lease.
@@ -304,11 +305,13 @@ internal object ObservationSyncCycle {
             }
             val authorityRevision=ObservationAuthorityRevision.stable()
             val session=NativeRepository.observationOwner(app)
+            val sessionDeadline=session?.let{NativeRepository.observationDeadline(app,it)}
+            val observationProfile=session?.let{ObservationConfigStore(app).profile(it.owner,System.currentTimeMillis())}
             val legacy=ObservationLegacyOwnership.scope(app)
-            val changed=authorityRevision==null||session==null||legacy==null||ObservationInboxRevision.snapshot()!=inboxRevision||
+            val changed=authorityRevision==null||session==null||sessionDeadline==null||observationProfile==null||legacy==null||ObservationInboxRevision.snapshot()!=inboxRevision||
                 recovery.sweepScope(stopped)!=scope||ObservationAuthorityRevision.stable()!=authorityRevision||
                 NativeRepository.observationOwner(app)!=session||ObservationInboxRevision.snapshot()!=inboxRevision||
-                ObservationLegacyOwnership.scope(app)!=legacy
+                NativeRepository.observationDeadline(app,session)!=sessionDeadline||ObservationLegacyOwnership.scope(app)!=legacy
             val proofStarted=verified?.at
             val confirmed=comparison==Comparison.MATCHED&&!stopped()&&!changed&&
                 ContinuousSyncHealthFreshness.fresh(proofStarted,SystemClock.elapsedRealtime())
@@ -319,6 +322,9 @@ internal object ObservationSyncCycle {
                 proofAuthorityRevision=if(confirmed)authorityRevision else null,
                 proofSessionDigest=if(confirmed&&session!=null)ObservationAuthorityRevision.sessionDigest(session) else null,
                 proofScope=if(confirmed)scope else null,
+                proofSessionExpiresAtWall=if(confirmed)sessionDeadline else null,
+                proofObservationIssuedAtWall=if(confirmed)observationProfile?.issuedAt else null,
+                proofObservationExpiresAtWall=if(confirmed)observationProfile?.expiresAt else null,
                 proofLegacyIssuedAtWall=if(confirmed)legacy?.issuedAt else null,
                 proofLegacyExpiresAtWall=if(confirmed)legacy?.expiresAt else null,
                 proofLegacySubscriptionsDigest=if(confirmed)legacy?.subscriptionsDigest else null))

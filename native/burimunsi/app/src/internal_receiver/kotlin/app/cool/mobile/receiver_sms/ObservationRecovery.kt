@@ -181,10 +181,11 @@ internal class ObservationRecovery(context:Context) {
         val journal=ObservationJournal(ObservationStateStore(app))
         val seen=NativeRepository.withObservationOwner(app,session){_,_->journal.seenSnapshot(owner)}?:return Scan.BLOCKED
         val seenByKey=seen.entries.associateBy{it.sourceKey}
+        val legacy=ObservationLegacyOwnership.scope(app)?:return Scan.BLOCKED
         val revision=ObservationInboxRevision.snapshot();val epoch=ObservationInboxRevision.epoch()
         val scope=Values.sha256(listOf(owner.collectionId,owner.accountId,session.generation.toString(),profile.fingerprint(),
             profile.legacyHold.toString(),consent.revision.enabled.toString(),consent.revision.generation.toString(),
-            consent.confirmed.toString(),control.paused.toString(),control.revision.toString(),Values.sha256(device))
+            consent.confirmed.toString(),control.paused.toString(),control.revision.toString(),Values.sha256(device),legacy.digest)
             .joinToString(""){"${it.length}:$it"})
         val store=rescanStore(owner,profile.legacyHold==true||legacyExists(owner.collectionId));var stored=store.read()
         val last=stored?.let{raw->
@@ -196,7 +197,11 @@ internal class ObservationRecovery(context:Context) {
             if(fields.size==6&&v.getString("scope")==scope&&v.getString("epoch")==epoch&&v.getLong("revision")==revision)
                 v.getLong("lastId") else 0L
         }?:0L
-        fun save(expected:Long,next:Long):Boolean=NativeRepository.withObservationOwner(app,session){group,account->
+        // Every caller already holds the legacy receiver lock. Check its scope
+        // before taking the session lock, preserving the established lock order.
+        fun save(expected:Long,next:Long):Boolean {
+            if(ObservationLegacyOwnership.scope(app)!=legacy)return false
+            return NativeRepository.withObservationOwner(app,session){group,account->
             if(stopped()||!permitted()||owner!=ObservationOwner(group,account)||config.controlState(owner)!=control||
                 config.consent(owner)!=consent||!consent.canCapture(permitted())||config.profile(owner,System.currentTimeMillis())!=profile||
                 deviceId()!=device||ObservationInboxRevision.snapshot()!=revision)false
@@ -208,7 +213,8 @@ internal class ObservationRecovery(context:Context) {
                     store.write(text);if(store.read()!=text)false else{stored=text;true}
                 }
             }
-        }?:false
+            }?:false
+        }
         val base=arrayOf("_id","address","body","date");val uri=Uri.parse("content://sms/inbox")
         val senders=profile.receipt.senders.sorted()
         val filtered=senders.isNotEmpty()&&senders.size<=30&&senders.all{it.isNotEmpty()&&it.all{c->c in ' '..'~'}}

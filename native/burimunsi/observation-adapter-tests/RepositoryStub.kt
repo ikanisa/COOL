@@ -8,8 +8,12 @@ class NativeRepository() {
  fun restore():Any?=Unit
  companion object {
   private val lock=Any();private var generation=0L;private var active:ObservationOwner?=null
+  var sessionDeadline=Long.MAX_VALUE
   fun switch(owner:ObservationOwner?)=synchronized(lock){generation++;active=owner}
   fun observationOwner(context:Context):ObservationSessionOwner?=synchronized(lock){active?.let{ObservationSessionOwner(it,generation)}}
+  fun observationDeadline(context:Context,expected:ObservationSessionOwner):Long?=synchronized(lock){
+   sessionDeadline.takeIf{observationOwner(context)==expected&&it>System.currentTimeMillis()}
+  }
   fun <T> withObservationOwner(context:Context,expected:ObservationSessionOwner?=null,action:(String,String)->T):T?=synchronized(lock){
    val owner=active?:return@synchronized null
    if(expected!=null&&expected!=ObservationSessionOwner(owner,generation))return@synchronized null

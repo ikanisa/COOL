@@ -33,7 +33,7 @@ fun main() {
  }
  data class Env(val context:Context,val repository:NativeRepository,val approved:JSONObject,val observerLease:Any)
  fun setup(owner:ObservationOwner=adminA):Env {
-  android.os.SystemClock.fixed=null;android.os.SystemClock.afterRead=null
+  android.os.SystemClock.fixed=null;android.os.SystemClock.afterRead=null;NativeRepository.sessionDeadline=Long.MAX_VALUE
   app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=false;app.cool.mobile.BuildConfig.CLOUD_HOLD_EXISTING_INBOX=false
   ReceiverFixture.reset();ObservationStateStore.reset();SecureStore.reset();Settings.Secure.testId="1234567890abcdef";NativeRepository.switch(owner)
   val observerLease=ObservationInboxRevision.observerRegistered()
@@ -1055,7 +1055,8 @@ fun main() {
  }
  test("sync health expires on its original monotonic proof and cannot resurrect after clock reversal") {
   val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,proofStartedAtElapsed=1_000L,
-   proofInboxRevision=7L,proofAuthorityRevision=11L,proofSessionDigest="a".repeat(64),proofScope="b".repeat(64))
+   proofInboxRevision=7L,proofAuthorityRevision=11L,proofSessionDigest="a".repeat(64),proofScope="b".repeat(64),
+   proofSessionExpiresAtWall=Long.MAX_VALUE,proofObservationIssuedAtWall=1L,proofObservationExpiresAtWall=Long.MAX_VALUE)
   val state=ContinuousSyncHealthState(health)
   fun checked(s:ContinuousSyncHealthState,now:Long,observer:Boolean=true)=s.health(now,observer,7,11,"a".repeat(64),true,"b".repeat(64),true)
   check(checked(state,300_999L)==health)
@@ -1077,7 +1078,9 @@ fun main() {
     result.proofSessionDigest!=null&&result.proofScope!=null)
    val old=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,
     proofStartedAtElapsed=result.proofStartedAtElapsed,proofInboxRevision=result.proofInboxRevision,
-    proofAuthorityRevision=result.proofAuthorityRevision,proofSessionDigest=result.proofSessionDigest,proofScope=result.proofScope)
+    proofAuthorityRevision=result.proofAuthorityRevision,proofSessionDigest=result.proofSessionDigest,proofScope=result.proofScope,
+    proofSessionExpiresAtWall=result.proofSessionExpiresAtWall,proofObservationIssuedAtWall=result.proofObservationIssuedAtWall,
+    proofObservationExpiresAtWall=result.proofObservationExpiresAtWall)
    when(kind){
     "inbox"->ObservationInboxRevision.changed()
     "owner"->NativeRepository.switch(adminB)
@@ -1104,6 +1107,8 @@ fun main() {
    val old=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,
     proofStartedAtElapsed=result.proofStartedAtElapsed,proofInboxRevision=result.proofInboxRevision,
     proofAuthorityRevision=result.proofAuthorityRevision,proofSessionDigest=result.proofSessionDigest,proofScope=result.proofScope,
+    proofSessionExpiresAtWall=result.proofSessionExpiresAtWall,proofObservationIssuedAtWall=result.proofObservationIssuedAtWall,
+    proofObservationExpiresAtWall=result.proofObservationExpiresAtWall,
     proofLegacyIssuedAtWall=result.proofLegacyIssuedAtWall,proofLegacyExpiresAtWall=result.proofLegacyExpiresAtWall,
     proofLegacySubscriptionsDigest=result.proofLegacySubscriptionsDigest)
    val state=ContinuousSyncHealthState(old);var wakes=0
@@ -1135,6 +1140,55 @@ fun main() {
    check(recovery.auditStartedAt()==null&&e.repository.reconciliationBatches.isEmpty())
   }
  }
+ test("a 401 receiver park invalidates success before wake and interrupts an in-flight audit") {
+  val e=setup();android.os.SystemClock.fixed=1_000L;bindReceiver(e)
+  val result=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false});check(result.completed)
+  val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,
+   proofStartedAtElapsed=result.proofStartedAtElapsed,proofInboxRevision=result.proofInboxRevision,
+   proofAuthorityRevision=result.proofAuthorityRevision,proofSessionDigest=result.proofSessionDigest,proofScope=result.proofScope,
+   proofSessionExpiresAtWall=result.proofSessionExpiresAtWall,proofObservationIssuedAtWall=result.proofObservationIssuedAtWall,
+   proofObservationExpiresAtWall=result.proofObservationExpiresAtWall,proofLegacyIssuedAtWall=result.proofLegacyIssuedAtWall,
+   proofLegacyExpiresAtWall=result.proofLegacyExpiresAtWall,proofLegacySubscriptionsDigest=result.proofLegacySubscriptionsDigest)
+  val state=ContinuousSyncHealthState(health);var wakes=0
+  val stop=ObservationAuthorityRevision.observe{wake->state.invalidate();if(wake){check(state.get().problem=="sync_unconfirmed");wakes++}}
+  MomoGatewayStore(e.context).park("authorization_required")
+  check(wakes==1&&state.get().problem=="sync_unconfirmed"&&ObservationRecovery(e.context).healthScope()==null)
+  MomoGatewayStore(e.context).park("authorization_required");stop();check(wakes==1)
+  check(!ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false}).completed)
+  val race=setup();bindReceiver(race);val recovery=ObservationRecovery(race.context)
+  race.repository.afterStatus={calls->if(calls==1)MomoGatewayStore(race.context).park("authorization_required")}
+  check(recovery.auditPage(race.repository)==ObservationRecovery.Audit.BLOCKED&&recovery.auditStartedAt()==null)
+ }
+ test("a profile change restarts a partially completed receiver scan") {
+  val e=setup();bindReceiver(e);e.context.contentResolver.rows=(1L..101L).map{row(it)}
+  val recovery=ObservationRecovery(e.context)
+  check(recovery.scanStatus()==ObservationRecovery.Scan.MORE)
+  check(JSONObject(cursor(e.context)!!).getLong("lastId")==100L)
+  val now=System.currentTimeMillis()
+  check(BuriReceiverProfile.refresh(e.context,receiverProfileHttp(now,"ALT-SENDER"),now))
+  e.context.contentResolver.queryAfter=null
+  check(recovery.scanStatus()==ObservationRecovery.Scan.MORE)
+  check(e.context.contentResolver.queryAfter==0L&&pending(adminA).isNotEmpty())
+ }
+ test("observation profile and session deadlines expire published health") {
+  val e=setup();android.os.SystemClock.fixed=1_000L;val now=System.currentTimeMillis()
+  val issued=now-86_400_000L+30_000L;val expiry=now+30_000L
+  e.approved.put("issuedAt",issued).put("expiresAt",expiry)
+  ObservationConfigStore(e.context).saveProfile(adminA,e.approved,now)
+  NativeRepository.sessionDeadline=now+60_000L
+  val result=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false});check(result.completed)
+  val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,
+   proofStartedAtElapsed=result.proofStartedAtElapsed,proofInboxRevision=result.proofInboxRevision,
+   proofAuthorityRevision=result.proofAuthorityRevision,proofSessionDigest=result.proofSessionDigest,proofScope=result.proofScope,
+   proofSessionExpiresAtWall=result.proofSessionExpiresAtWall,proofObservationIssuedAtWall=result.proofObservationIssuedAtWall,
+   proofObservationExpiresAtWall=result.proofObservationExpiresAtWall)
+  fun checked(value:rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth,wall:Long)=
+   ContinuousSyncHealthState(value).health(1_000L,true,result.proofInboxRevision,result.proofAuthorityRevision,
+    result.proofSessionDigest,true,result.proofScope,true,wall)
+  check(checked(health,expiry-1).problem==null&&checked(health,expiry).problem=="sync_unconfirmed")
+  val longer=health.copy(proofObservationExpiresAtWall=now+120_000L)
+  check(checked(longer,now+59_999L).problem==null&&checked(longer,now+60_000L).problem=="sync_unconfirmed")
+ }
  test("bound receiver profile expiry invalidates scope and health without a mutation callback") {
   val e=setup();android.os.SystemClock.fixed=1_000L
   val issued=System.currentTimeMillis()-86_400_000L+30_000L;bindReceiver(e,issued)
@@ -1146,6 +1200,8 @@ fun main() {
   val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,
    proofStartedAtElapsed=result.proofStartedAtElapsed,proofInboxRevision=result.proofInboxRevision,
    proofAuthorityRevision=result.proofAuthorityRevision,proofSessionDigest=result.proofSessionDigest,proofScope=result.proofScope,
+   proofSessionExpiresAtWall=result.proofSessionExpiresAtWall,proofObservationIssuedAtWall=result.proofObservationIssuedAtWall,
+   proofObservationExpiresAtWall=result.proofObservationExpiresAtWall,
    proofLegacyIssuedAtWall=issued,proofLegacyExpiresAtWall=expiry,proofLegacySubscriptionsDigest=result.proofLegacySubscriptionsDigest)
   fun read(now:Long)=ContinuousSyncHealthState(health).health(1_000L,true,result.proofInboxRevision,
    result.proofAuthorityRevision,result.proofSessionDigest,true,result.proofScope,true,now,result.proofLegacySubscriptionsDigest)
@@ -1163,6 +1219,8 @@ fun main() {
   val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,
    proofStartedAtElapsed=result.proofStartedAtElapsed,proofInboxRevision=result.proofInboxRevision,
    proofAuthorityRevision=result.proofAuthorityRevision,proofSessionDigest=result.proofSessionDigest,proofScope=result.proofScope,
+   proofSessionExpiresAtWall=result.proofSessionExpiresAtWall,proofObservationIssuedAtWall=result.proofObservationIssuedAtWall,
+   proofObservationExpiresAtWall=result.proofObservationExpiresAtWall,
    proofLegacyIssuedAtWall=result.proofLegacyIssuedAtWall,proofLegacyExpiresAtWall=result.proofLegacyExpiresAtWall,
    proofLegacySubscriptionsDigest=result.proofLegacySubscriptionsDigest)
   val original=ObservationRecovery(e.context).sweepScope()!!

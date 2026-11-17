@@ -25,6 +25,19 @@ internal object ObservationAuthorityRevision {
     private fun announce(wake:Boolean){generation.incrementAndGet();listeners.forEach{runCatching{it(wake)}}}
     fun ownerChanged(){announce(true)}
     fun receiverChanged(){announce(true)}
+    /** Called under the receiver's reentrant lock; callbacks only invalidate
+     * and post work, so a 401/permission park cannot publish old health. */
+    fun park(store:MomoGatewayStore,reason:String){
+        var changed=false
+        try{
+            store.withObservationState{state->
+                if(state?.opt("reason")!=reason){
+                    changed=true
+                    changing{store.update{it.put("reason",reason)}}
+                }
+            }
+        }finally{if(changed)receiverChanged()}
+    }
     fun <T> changing(action:()->T):T {
         changing.incrementAndGet();announce(false)
         try{return action()}finally{announce(false);changing.decrementAndGet();announce(false)}
@@ -45,6 +58,10 @@ internal object ContinuousSyncHealthFreshness {
         issued==null||expires==null||now<=0||issued<=0||expires<=issued->false
         else->now<expires&&(issued<=now||issued-now<=2*60_000L)
     }
+    fun observationFresh(issued:Long?,expires:Long?,now:Long):Boolean =
+        issued!=null&&expires!=null&&now>0&&issued>0&&expires>issued&&now<expires&&
+            (issued<=now||issued-now<=5*60_000L)
+    fun sessionFresh(expires:Long?,now:Long):Boolean=expires!=null&&now>0&&now<expires
     fun legacyRouteFresh(issued:Long?,expected:String?,actual:String?):Boolean =
         if(issued==null)expected==null else expected!=null&&actual==expected
     fun expire(health:ContinuousReceiverHealth,now:Long,observerActive:Boolean,inboxRevision:Long?,authorityRevision:Long?,
@@ -53,11 +70,14 @@ internal object ContinuousSyncHealthFreshness {
             health.proofInboxRevision==null||health.proofInboxRevision!=inboxRevision||health.proofAuthorityRevision==null||
             health.proofAuthorityRevision!=authorityRevision||health.proofSessionDigest==null||health.proofSessionDigest!=sessionDigest||
             health.proofScope==null||requireScope&&health.proofScope!=scope||
+            !sessionFresh(health.proofSessionExpiresAtWall,wallNow)||
+            !observationFresh(health.proofObservationIssuedAtWall,health.proofObservationExpiresAtWall,wallNow)||
             !legacyFresh(health.proofLegacyIssuedAtWall,health.proofLegacyExpiresAtWall,wallNow)||
             !legacyRouteFresh(health.proofLegacyIssuedAtWall,health.proofLegacySubscriptionsDigest,legacyRoute)))
             health.copy(problem="sync_unconfirmed",proofStartedAtElapsed=null,proofInboxRevision=null,
                 proofAuthorityRevision=null,proofSessionDigest=null,proofScope=null,proofLegacyIssuedAtWall=null,
-                proofLegacyExpiresAtWall=null,proofLegacySubscriptionsDigest=null) else health
+                proofLegacyExpiresAtWall=null,proofLegacySubscriptionsDigest=null,proofSessionExpiresAtWall=null,
+                proofObservationIssuedAtWall=null,proofObservationExpiresAtWall=null) else health
 }
 
 /** Expiry is committed atomically so a clock reversal cannot revive old success. */
@@ -72,7 +92,8 @@ internal class ContinuousSyncHealthState(initial:ContinuousReceiverHealth=Contin
             if(!current.running||current.problem!=null)return
             val next=current.copy(problem="sync_unconfirmed",proofStartedAtElapsed=null,proofInboxRevision=null,
                 proofAuthorityRevision=null,proofSessionDigest=null,proofScope=null,proofLegacyIssuedAtWall=null,
-                proofLegacyExpiresAtWall=null,proofLegacySubscriptionsDigest=null)
+                proofLegacyExpiresAtWall=null,proofLegacySubscriptionsDigest=null,proofSessionExpiresAtWall=null,
+                proofObservationIssuedAtWall=null,proofObservationExpiresAtWall=null)
             if(value.compareAndSet(current,next))return
         }
     }

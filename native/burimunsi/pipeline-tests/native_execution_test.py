@@ -403,6 +403,7 @@ class FlavorInstrumentation(unittest.TestCase):
         self.assertEqual(receiver - staff, {
             'app.cool.mobile.receiver_sms.GatewayDurabilityTest#' + method
             for method in (
+                'authorizationParkInvalidatesHealthBeforeWake',
                 'retainedCiphertextReopensInAnotherStoreInstance',
                 'duplicateIdentityCannotHideDifferentEvidence',
                 'durableAcknowledgementAndTombstoneSurviveReopen',
@@ -534,7 +535,7 @@ class FlavorInstrumentation(unittest.TestCase):
         code, report, calls = self.run_synthetic_instrumentation()
         self.assertEqual(code, 0, report)
         self.assertEqual({value['flavor']: value['completed'] for value in report['flavors']},
-                         {'staff': 68, 'internal_receiver': 86})
+                         {'staff': 68, 'internal_receiver': 87})
         selectors = [call[call.index('class') + 1] for call in calls if 'class' in call]
         self.assertEqual(len(selectors), 2)
         self.assertNotIn('GatewayDurabilityTest', selectors[0])
@@ -600,7 +601,7 @@ class FlavorInstrumentation(unittest.TestCase):
         self.assertEqual(code, 2)
         self.assertEqual(report['status'], 'FAIL')
         self.assertEqual(report['flavors'][0]['completed'], 68)
-        self.assertEqual(report['flavors'][1]['completed'], 85)
+        self.assertEqual(report['flavors'][1]['completed'], 86)
         self.assertFalse(report['flavors'][1]['passed'])
         self.assertTrue(all(value['removed'] for value in report['cleanup']))
 

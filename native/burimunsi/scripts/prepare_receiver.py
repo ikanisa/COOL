@@ -135,6 +135,13 @@ def reliability_adapt(name: str, text: str) -> str:
         text = replace_once(text, '''            digest.matches(Regex("^[a-f0-9]{64}$")) &&''', '''            digest.matches(Regex("^[a-f0-9]{64}$")) &&
                 (acknowledged[id] == null || acknowledged[id] == digest) &&''')
     elif name == 'MomoGatewayStore.kt':
+        text = replace_once(text, '''    fun park(reason: String) {
+        update { it.put("reason", reason) }
+        SmsQueueEventBus.notifyQueueChanged()
+    }''', '''    fun park(reason: String) {
+        ObservationAuthorityRevision.park(this, reason)
+        SmsQueueEventBus.notifyQueueChanged()
+    }''')
         text = replace_once(text, '    fun active(): Boolean = read()?.let {\n        it.has("binding") && it.optString("gateway_token").isNotEmpty() &&\n            it.optBoolean("capture_enabled") && it.optString("reason") !in setOf("authorization_required", "permission_required")\n    } == true',
             '    fun active(): Boolean = BuriCapturePolicy.uploadsAdmitted(context)')
         text = replace_once(text, 'internal fun gatewayUploadEligible(row: JSONObject, binding: JSONObject, cases: JSONObject?): Boolean {',

@@ -36,6 +36,7 @@ class MomoGatewayStore(private val context:Context){
  fun read():JSONObject?=synchronized(ReceiverFixture.lock){check(!ReceiverFixture.stateUnavailable){"Synthetic unavailable gateway state"};ReceiverFixture.state}
  fun active()=BuriCapturePolicy.uploadsAdmitted(context)
  fun binding()=read()?.optJSONObject("binding")
+ fun park(reason:String)=ObservationAuthorityRevision.park(this,reason)
  fun owner()=binding()?.getString("owner_user_id")?:""
  fun update(action:(JSONObject)->Unit)=synchronized(ReceiverFixture.lock){
   val current=ReceiverFixture.state?:error("Missing fixture");val before=fixtureCopy(current) as JSONObject;action(current)

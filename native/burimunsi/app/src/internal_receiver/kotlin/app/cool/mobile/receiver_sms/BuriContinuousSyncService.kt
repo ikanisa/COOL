@@ -55,6 +55,7 @@ internal object BuriContinuousSupervisor {
         return try{
             val authority=ObservationAuthorityRevision.stable();val revision=ObservationInboxRevision.snapshot()
             val session=NativeRepository.observationOwner(active)
+            val currentDeadline=session?.let{NativeRepository.observationDeadline(active,it)}
             val permitted=listOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS).all{
                 active.checkSelfPermission(it)==PackageManager.PERMISSION_GRANTED
             }
@@ -62,6 +63,7 @@ internal object BuriContinuousSupervisor {
             val scope=if(requireScope)ObservationRecovery(active).healthScope() else null
             val stable=authority!=null&&ObservationAuthorityRevision.stable()==authority&&
                 ObservationInboxRevision.snapshot()==revision&&NativeRepository.observationOwner(active)==session&&
+                session!=null&&currentDeadline!=null&&NativeRepository.observationDeadline(active,session)==currentDeadline&&
                 listOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS).all{
                     active.checkSelfPermission(it)==PackageManager.PERMISSION_GRANTED
                 }
@@ -74,7 +76,10 @@ internal object BuriContinuousSupervisor {
                 ObservationInboxRevision.snapshot()!=revision||ObservationAuthorityRevision.stable()!=authority||
                 NativeRepository.observationOwner(active)!=session||listOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS).any{
                     active.checkSelfPermission(it)!=PackageManager.PERMISSION_GRANTED
-                }||!ContinuousSyncHealthFreshness.legacyFresh(checked.proofLegacyIssuedAtWall,checked.proofLegacyExpiresAtWall,System.currentTimeMillis())||
+                }||session==null||NativeRepository.observationDeadline(active,session)!=currentDeadline||
+                !ContinuousSyncHealthFreshness.sessionFresh(currentDeadline,System.currentTimeMillis())||
+                !ContinuousSyncHealthFreshness.observationFresh(checked.proofObservationIssuedAtWall,checked.proofObservationExpiresAtWall,System.currentTimeMillis())||
+                !ContinuousSyncHealthFreshness.legacyFresh(checked.proofLegacyIssuedAtWall,checked.proofLegacyExpiresAtWall,System.currentTimeMillis())||
                 (checked.proofLegacyIssuedAtWall!=null&&ObservationLegacyOwnership.subscriptionScope(active)!=legacyRoute)))state.invalidate()
             val latest=state.get()
             if(latest!=checked&&latest.running&&latest.problem==null){state.invalidate();state.get()}else latest
@@ -136,6 +141,9 @@ internal object BuriContinuousSupervisor {
             proofAuthorityRevision=if(problem==null)result?.proofAuthorityRevision else null,
             proofSessionDigest=if(problem==null)result?.proofSessionDigest else null,
             proofScope=if(problem==null)result?.proofScope else null,
+            proofSessionExpiresAtWall=if(problem==null)result?.proofSessionExpiresAtWall else null,
+            proofObservationIssuedAtWall=if(problem==null)result?.proofObservationIssuedAtWall else null,
+            proofObservationExpiresAtWall=if(problem==null)result?.proofObservationExpiresAtWall else null,
             proofLegacyIssuedAtWall=if(problem==null)result?.proofLegacyIssuedAtWall else null,
             proofLegacyExpiresAtWall=if(problem==null)result?.proofLegacyExpiresAtWall else null,
             proofLegacySubscriptionsDigest=if(problem==null)result?.proofLegacySubscriptionsDigest else null))
@@ -340,7 +348,8 @@ class BuriContinuousSyncService:Service(){
         val now=SystemClock.elapsedRealtime()
         var delay=if(ContinuousSyncHealthFreshness.fresh(started,now))
             ContinuousSyncHealthFreshness.MAX_PROOF_AGE_MS-(now-started) else 1L
-        health.proofLegacyExpiresAtWall?.let{delay=minOf(delay,(it-System.currentTimeMillis()).coerceAtLeast(1L))}
+        listOfNotNull(health.proofSessionExpiresAtWall,health.proofObservationExpiresAtWall,health.proofLegacyExpiresAtWall)
+            .forEach{delay=minOf(delay,(it-System.currentTimeMillis()).coerceAtLeast(1L))}
         main.postDelayed(proofExpiry,delay)
     }
     private fun runCycle(){
