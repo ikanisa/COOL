@@ -24,12 +24,16 @@ internal object ObservationSyncCycle {
     private val gate=ContinuousSyncWorkGate()
     private const val RECHECK_AFTER_MS=5*60_000L
     private const val AUDIT_AFTER_MS=24*60*60_000L
-    private data class Verified(val witness:ObservationRecovery.Latest,val at:Long,val inboxRevision:Long)
     private data class SweepProof(val scope:String,val at:Long,val inboxRevision:Long,val cloudRevision:String?=null)
+    private data class Verified(val witness:ObservationRecovery.Latest,val at:Long,val inboxRevision:Long,val audit:SweepProof)
     private var verified:Verified?=null
     private var captureProof:SweepProof?=null
     private var auditProof:SweepProof?=null
-    private enum class Comparison { MATCHED, PENDING, UNCONFIRMED }
+    private enum class ComparisonStep { STATUS, SOURCE, FINAL }
+    private data class ComparisonProgress(val latest:ObservationRecovery.Latest,val inboxRevision:Long,
+        val cloudRevision:String,val startedAt:Long,val step:ComparisonStep,val recordedCount:Int?=null)
+    private var comparisonProgress:ComparisonProgress?=null
+    private enum class Comparison { MATCHED, PENDING, MORE, YIELD, UNCONFIRMED }
     private fun cachedSweep(recovery:ObservationRecovery,stopped:()->Boolean,inboxRevision:Long):Boolean {
         val cached=captureProof?:return false
         val now=SystemClock.elapsedRealtime()
@@ -58,60 +62,75 @@ internal object ObservationSyncCycle {
         return NativeRepository(app,api).takeIf{it.restore()!=null}
     }
     private fun compareLatest(app:Context,recovery:ObservationRecovery,repo:NativeRepository,stopped:()->Boolean,
-        diagnostic:ObservationSyncDiagnostics.Cycle,inboxRevision:Long):Comparison {
+        budgetExpired:()->Boolean,diagnostic:ObservationSyncDiagnostics.Cycle,inboxRevision:Long):Comparison {
+        fun reject(fence:Fence):Comparison {
+            verified=null;comparisonProgress=null;auditProof=null;recovery.resetAudit()
+            diagnostic.reject(fence);return Comparison.UNCONFIRMED
+        }
+        fun interrupted(fence:Fence):Comparison {
+            if(stopped()&&budgetExpired())return Comparison.YIELD
+            return reject(fence)
+        }
         diagnostic.phase(Phase.RECONCILE_PHONE)
         val latest=recovery.latest(stopped)
         if(latest !is ObservationRecovery.Latest.Ready&&latest !is ObservationRecovery.Latest.Empty){
-            verified=null
-            diagnostic.reject(when(latest){ObservationRecovery.Latest.Held->Fence.RECONCILE_HELD
-                else->Fence.RECONCILE_UNAVAILABLE})
-            return Comparison.UNCONFIRMED
+            return if(latest==ObservationRecovery.Latest.Held)reject(Fence.RECONCILE_HELD)
+                else interrupted(Fence.RECONCILE_UNAVAILABLE)
         }
         val session=when(latest){is ObservationRecovery.Latest.Ready->latest.witness.session
             is ObservationRecovery.Latest.Empty->latest.session;else->return Comparison.UNCONFIRMED}
-        if(pending(app,session)!=false){verified=null;diagnostic.reject(Fence.RECONCILE_PENDING);return Comparison.PENDING}
+        if(pending(app,session)!=false){reject(Fence.RECONCILE_PENDING);return Comparison.PENDING}
+        val proof=auditProof?:return reject(Fence.AUDIT_UNCONFIRMED)
+        val expectedRevision=proof.cloudRevision?:return reject(Fence.AUDIT_UNCONFIRMED)
         val now=SystemClock.elapsedRealtime();val cached=verified
-        if(cached!=null&&cached.witness==latest&&cached.inboxRevision==inboxRevision&&ObservationInboxRevision.observerActive()&&
+        if(cached!=null&&cached.audit==proof&&cached.witness==latest&&cached.inboxRevision==inboxRevision&&ObservationInboxRevision.observerActive()&&
             ObservationInboxRevision.snapshot()==inboxRevision&&now>=cached.at&&now-cached.at<RECHECK_AFTER_MS)return Comparison.MATCHED
         verified=null;diagnostic.phase(Phase.RECONCILE_REMOTE)
-        val expectedRevision=auditProof?.cloudRevision?:return Comparison.UNCONFIRMED
-        val initial=repo.observationReconcileStatus()
-        if(initial.hasPending||initial.hasUnmatchedCanonical||initial.revision!=expectedRevision){
-            diagnostic.reject(Fence.AUDIT_UNCONFIRMED);return Comparison.UNCONFIRMED
-        }
-        if(latest is ObservationRecovery.Latest.Ready){
-            if(stopped()||ObservationInboxRevision.snapshot()!=inboxRevision||pending(app,session)!=false||recovery.latest(stopped)!=latest){
-                diagnostic.reject(Fence.RECONCILE_CHANGED);return Comparison.UNCONFIRMED
+        val existing=comparisonProgress?.takeIf{it.latest==latest&&it.inboxRevision==inboxRevision&&
+            it.cloudRevision==expectedRevision&&now>=it.startedAt&&now-it.startedAt<RECHECK_AFTER_MS}
+        val progress=existing?:ComparisonProgress(latest,inboxRevision,expectedRevision,now,ComparisonStep.STATUS)
+        // A completed response can be checked locally after the deadline, but
+        // the deadline still blocks dispatch of another Cloud request.
+        val localStop={stopped()&&!budgetExpired()}
+        fun sameLocal()=!localStop()&&ObservationInboxRevision.observerActive()&&
+            ObservationInboxRevision.snapshot()==inboxRevision&&pending(app,session)==false&&
+            recovery.latest(localStop)==latest&&auditProof?.cloudRevision==expectedRevision
+        if(!sameLocal())return reject(Fence.RECONCILE_CHANGED)
+        if(stopped())return interrupted(Fence.RECONCILE_CHANGED)
+        return when(progress.step){
+            ComparisonStep.STATUS->{
+                val status=repo.observationReconcileStatus()
+                if(!sameLocal())return reject(Fence.RECONCILE_CHANGED)
+                if(status.hasPending||status.hasUnmatchedCanonical||status.revision!=expectedRevision)
+                    return reject(Fence.AUDIT_UNCONFIRMED)
+                if(latest is ObservationRecovery.Latest.Empty&&status.hasRecorded)return reject(Fence.RECONCILE_EMPTY)
+                comparisonProgress=progress.copy(step=if(latest is ObservationRecovery.Latest.Ready)ComparisonStep.SOURCE else ComparisonStep.FINAL,
+                    recordedCount=status.recordedCount)
+                Comparison.MORE
             }
-            val witness=latest.witness
-            val reply=repo.reconcileObservation(witness.request)
-            if(reply.sourceKey!=witness.request.sourceKey||reply.state!="matched"||reply.sourceId==null){
-                diagnostic.reject(Fence.RECONCILE_MISSING);return Comparison.UNCONFIRMED
+            ComparisonStep.SOURCE->{
+                val witness=(latest as? ObservationRecovery.Latest.Ready)?.witness?:return reject(Fence.RECONCILE_CHANGED)
+                val reply=repo.reconcileObservation(witness.request)
+                if(!sameLocal())return reject(Fence.RECONCILE_CHANGED)
+                if(reply.sourceKey!=witness.request.sourceKey||reply.state!="matched"||reply.sourceId==null)
+                    return reject(Fence.RECONCILE_MISSING)
+                // The displayed Cloud list is retention-ordered.
+                if(reply.latestRecordedSourceId!=reply.sourceId)return reject(Fence.RECONCILE_ORDER_UNCERTAIN)
+                comparisonProgress=progress.copy(step=ComparisonStep.FINAL)
+                Comparison.MORE
             }
-            // The SMS screen currently displays server retention order, so a
-            // different newest displayed source cannot be claimed to agree.
-            if(reply.latestRecordedSourceId!=reply.sourceId){
-                diagnostic.reject(Fence.RECONCILE_ORDER_UNCERTAIN);return Comparison.UNCONFIRMED
+            ComparisonStep.FINAL->{
+                diagnostic.phase(Phase.RECONCILE_RECHECK)
+                val status=repo.observationReconcileStatus()
+                if(!sameLocal())return reject(Fence.RECONCILE_CHANGED)
+                if(status.hasPending||status.hasUnmatchedCanonical||status.revision!=expectedRevision||
+                    status.recordedCount!=progress.recordedCount)return reject(Fence.AUDIT_UNCONFIRMED)
+                val checkedAt=SystemClock.elapsedRealtime()
+                if(checkedAt<progress.startedAt||checkedAt-progress.startedAt>=RECHECK_AFTER_MS)
+                    return reject(Fence.RECONCILE_UNAVAILABLE)
+                comparisonProgress=null;verified=Verified(latest,progress.startedAt,inboxRevision,proof);Comparison.MATCHED
             }
-        }else if(initial.hasRecorded){
-            diagnostic.reject(Fence.RECONCILE_EMPTY);return Comparison.UNCONFIRMED
         }
-        // Retention order is not proof of Cloud event chronology; the set
-        // audit and the displayed last source are checked independently.
-        diagnostic.phase(Phase.RECONCILE_RECHECK)
-        val after=recovery.latest(stopped)
-        if(stopped()||ObservationInboxRevision.snapshot()!=inboxRevision||after!=latest||pending(app,session)!=false){
-            diagnostic.reject(Fence.RECONCILE_CHANGED);return Comparison.UNCONFIRMED
-        }
-        val finalStatus=repo.observationReconcileStatus()
-        if(finalStatus.hasPending||finalStatus.hasUnmatchedCanonical||finalStatus.revision!=expectedRevision||finalStatus.recordedCount!=initial.recordedCount||
-            stopped()||ObservationInboxRevision.snapshot()!=inboxRevision||pending(app,session)!=false||recovery.latest(stopped)!=latest){
-            diagnostic.reject(Fence.AUDIT_UNCONFIRMED);return Comparison.UNCONFIRMED
-        }
-        val checkedAt=SystemClock.elapsedRealtime()
-        if(checkedAt<now){diagnostic.reject(Fence.RECONCILE_UNAVAILABLE);return Comparison.UNCONFIRMED}
-        verified=Verified(latest,checkedAt,inboxRevision)
-        return Comparison.MATCHED
     }
     private fun cycle(app:Context,online:Boolean,externalStop:()->Boolean,restore:()->NativeRepository?,
         diagnostic:ObservationSyncDiagnostics.Cycle):ObservationCycleResult {
@@ -126,9 +145,24 @@ internal object ObservationSyncCycle {
                 diagnostic.reject(Fence.STOPPED)
             }}
         }
+        val budgetExpired={diagnostic.snapshot().stop==Stop.ELAPSED_BUDGET&&!cancelled}
         var again=false
         var result=ObservationCycleResult(false,false,"sync_unconfirmed")
+        var preserveContinuation=false
         fun finish(value:ObservationCycleResult):ObservationCycleResult {result=value;return value}
+        fun continueAfterBudget(recovery:ObservationRecovery,scope:String,advanced:Boolean):ObservationCycleResult {
+            // The only reusable evidence is from fully verified prior stages.
+            // Recheck local authority without another network request before
+            // carrying it into the next finite cycle.
+            if(budgetExpired()&&ObservationInboxRevision.observerActive()&&
+                ObservationInboxRevision.snapshot()==inboxRevision&&pending(app)==false&&
+                recovery.sweepScope{false}==scope&&stopped()&&budgetExpired()){
+                preserveContinuation=true
+                return finish(ObservationCycleResult(false,true,"sync_unconfirmed",progress=advanced))
+            }
+            recovery.resetAudit();comparisonProgress=null
+            return finish(ObservationCycleResult(false,false,"sync_unconfirmed"))
+        }
         try{
             if(stopped())return finish(ObservationCycleResult(false,false,"sync_unconfirmed"))
             // A bounded pre-network pass uses ONLY the strict current capture
@@ -159,7 +193,7 @@ internal object ObservationSyncCycle {
             val completed=ObservationCoordinator(app,repo,diagnostic).cycle(stopped)
             // A newly retained earlier SMS can change the server's retention
             // order even while the newest phone witness remains unchanged.
-            if(diagnostic.snapshot().acknowledged>0){verified=null;auditProof=null;recovery.resetAudit()}
+            if(diagnostic.snapshot().acknowledged>0){verified=null;auditProof=null;comparisonProgress=null;recovery.resetAudit()}
             diagnostic.phase(Phase.COORDINATOR_FINISHED)
             var postScan=ObservationRecovery.Scan.BLOCKED
             if(!stopped()){
@@ -206,14 +240,17 @@ internal object ObservationSyncCycle {
             val cachedAudit=auditProof?.let{it.scope==scope&&it.inboxRevision==inboxRevision&&
                 now>=it.at&&now-it.at<AUDIT_AFTER_MS}==true
             if(!cachedAudit){
+                verified=null;comparisonProgress=null
                 diagnostic.phase(Phase.AUDIT_PHONE)
-                var audited=false
+                var audited=false;var advanced=false
                 repeat(5){
                     if(!audited){
+                        if(stopped())return continueAfterBudget(recovery,scope,advanced)
                         diagnostic.phase(Phase.AUDIT_REMOTE)
-                        when(recovery.auditPage(repo,stopped)){
+                        when(recovery.auditPage(repo,stopped,budgetExpired)){
                             ObservationRecovery.Audit.COMPLETE->audited=true
-                            ObservationRecovery.Audit.MORE->Unit
+                            ObservationRecovery.Audit.MORE->advanced=true
+                            ObservationRecovery.Audit.YIELD->return continueAfterBudget(recovery,scope,advanced)
                             ObservationRecovery.Audit.RETRY->{
                                 auditProof=null;diagnostic.reject(Fence.AUDIT_UNCONFIRMED)
                                 return finish(ObservationCycleResult(false,true,"sync_unconfirmed"))
@@ -231,7 +268,7 @@ internal object ObservationSyncCycle {
                 }
                 if(!audited){diagnostic.reject(Fence.AUDIT_IN_PROGRESS)
                     return finish(ObservationCycleResult(false,true,"sync_unconfirmed",progress=true))}
-                if(stopped()||ObservationInboxRevision.snapshot()!=inboxRevision||recovery.sweepScope(stopped)!=scope){
+                if(!ObservationInboxRevision.observerActive()||ObservationInboxRevision.snapshot()!=inboxRevision||recovery.sweepScope{false}!=scope){
                     diagnostic.reject(Fence.RECONCILE_CHANGED);return finish(ObservationCycleResult(false,true,"sync_unconfirmed",progress=true))
                 }
                 val started=recovery.auditStartedAt()
@@ -241,8 +278,24 @@ internal object ObservationSyncCycle {
                     diagnostic.reject(Fence.AUDIT_UNCONFIRMED);return finish(ObservationCycleResult(false,false,"sync_unconfirmed"))
                 }
                 auditProof=SweepProof(scope,started,inboxRevision,revision)
+                if(stopped())return continueAfterBudget(recovery,scope,true)
             }
-            val comparison=compareLatest(app,recovery,repo,stopped,diagnostic,inboxRevision)
+            var comparison=Comparison.MORE;var compareAdvanced=false
+            repeat(3){
+                if(comparison==Comparison.MORE){
+                    if(stopped())return continueAfterBudget(recovery,scope,compareAdvanced)
+                    comparison=compareLatest(app,recovery,repo,stopped,budgetExpired,diagnostic,inboxRevision)
+                    if(comparison==Comparison.MORE)compareAdvanced=true
+                    if(comparison==Comparison.YIELD)return continueAfterBudget(recovery,scope,compareAdvanced)
+                }
+            }
+            if(comparison==Comparison.MORE)
+                return finish(ObservationCycleResult(false,true,"sync_unconfirmed",progress=compareAdvanced))
+            if(comparison==Comparison.UNCONFIRMED){
+                val changed=ObservationInboxRevision.snapshot()!=inboxRevision||recovery.sweepScope{false}!=scope
+                return finish(ObservationCycleResult(false,changed,"sync_unconfirmed",progress=changed))
+            }
+            if(comparison==Comparison.MATCHED&&stopped())return continueAfterBudget(recovery,scope,true)
             if(!ObservationInboxRevision.observerActive()){
                 diagnostic.reject(Fence.OBSERVER_UNAVAILABLE)
                 return finish(ObservationCycleResult(false,false,"sync_unconfirmed"))
@@ -265,8 +318,8 @@ internal object ObservationSyncCycle {
                 if(denied)"authorization_required" else if(connection)"connection_waiting" else "sync_unconfirmed"))
         }finally{
             if(!result.completed){
-                verified=null
-                if(!result.progress){captureProof=null;auditProof=null}
+                if(!preserveContinuation)verified=null
+                if(!result.progress&&!preserveContinuation){captureProof=null;auditProof=null;comparisonProgress=null}
             }
             diagnostic.finish(result)
         }

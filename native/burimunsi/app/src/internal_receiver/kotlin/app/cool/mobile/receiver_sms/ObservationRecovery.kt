@@ -32,20 +32,21 @@ internal class ObservationRecovery(context:Context) {
     private val cursorStore=SecureStore(app,"observation-cursors")
     private val config=ObservationConfigStore(app)
     companion object {
-        private val lock=Any();private const val PAGE=100;private const val MAX_HELD=20_000;private const val MAX_LATEST_SCAN=20_000
+        private val lock=Any();private const val PAGE=100;private const val AUDIT_PAGE=4;private const val MAX_HELD=20_000;private const val MAX_LATEST_SCAN=20_000
         private var auditProgress:AuditProgress?=null
         private var completedAuditStart:Long?=null
         private var completedAuditRevision:String?=null
     }
     internal enum class Backfill { COMPLETE, MORE, BLOCKED }
     internal enum class Scan { COMPLETE, MORE, BLOCKED }
-    internal enum class Audit { COMPLETE, MORE, RETRY, UNCONFIRMED, BLOCKED }
+    internal enum class Audit { COMPLETE, MORE, YIELD, RETRY, UNCONFIRMED, BLOCKED }
     private data class AuditScope(val session:ObservationSessionOwner,val fingerprint:String,val legacyHold:Boolean?,
         val consent:ObservationConsentState,val control:ObservationConfigStore.Control,val deviceScope:String,val heldScope:String,val revision:Long)
     private data class AuditProgress(val scope:AuditScope,val last:Long,val unconfirmed:Boolean,val startedAt:Long,
         val collectionRevision:String,val recordedCount:Int,
         val sourceIds:Set<String> = emptySet(),val phoneComplete:Boolean=false,val cloudCursor:String?=null,
-        val cloudRevision:String?=null,val cloudTotal:Int?=null,val cloudIds:Set<String> = emptySet(),val cursors:Set<String> = emptySet())
+        val cloudRevision:String?=null,val cloudTotal:Int?=null,val cloudIds:Set<String> = emptySet(),val cursors:Set<String> = emptySet(),
+        val cloudComplete:Boolean=false)
     private data class AuditAuthority(val scope:AuditScope,val profile:ObservationProfile,val device:String,val held:Set<String>)
     private class AuditAuthorityChanged:Exception()
     private data class AuditRow(val id:Long,val received:Long,val sender:String,val body:String,val sent:Long?,val sub:Int?){
@@ -473,23 +474,48 @@ internal class ObservationRecovery(context:Context) {
 
     /** One bounded page of read-only source verification; the whole process-local
      * sweep is invalidated by a changed inbox, owner, control or process restart. */
-    fun auditPage(repo:NativeRepository,stopped:()->Boolean={false}):Audit = synchronized(lock){
-        val authority=try{auditAuthority(stopped)}catch(_:Exception){null}?:run{auditProgress=null;return@synchronized Audit.BLOCKED}
+    fun auditPage(repo:NativeRepository,stopped:()->Boolean={false},budgetExpired:()->Boolean={false}):Audit = synchronized(lock){
+        // A deadline never makes an in-flight page valid. Keep only progress
+        // saved before this call; the next cycle revalidates its whole scope.
+        fun interrupted():Audit {
+            if(stopped()&&budgetExpired())return Audit.YIELD
+            auditProgress=null;return Audit.BLOCKED
+        }
+        // A reply received after the deadline may be checkpointed after the
+        // local authority and inbox are rechecked. It cannot start another I/O.
+        val localStop={stopped()&&!budgetExpired()}
+        val authority=try{auditAuthority(stopped)}catch(_:Exception){null}?:return@synchronized interrupted()
         val scope=authority.scope;val owner=scope.session.owner
         val clock=android.os.SystemClock.elapsedRealtime()
         val previous=auditProgress?.takeIf{it.scope==scope&&clock>=it.startedAt&&clock-it.startedAt<24*60*60_000L}
-        var progress:AuditProgress=previous?:run{
+        val progress:AuditProgress=previous?:run{
             completedAuditStart=null;completedAuditRevision=null
+            if(stopped())return@synchronized interrupted()
             val status=repo.observationReconcileStatus()
-            if(try{auditAuthority(stopped)?.scope!=scope}catch(_:Exception){true})return@synchronized Audit.BLOCKED
+            if(try{auditAuthority(localStop)?.scope!=scope}catch(_:Exception){true})return@synchronized interrupted()
             if(status.hasPending)return@synchronized Audit.RETRY
             if(status.hasUnmatchedCanonical)return@synchronized Audit.UNCONFIRMED
             if(status.recordedCount !in 0..16_000||status.hasRecorded!=(status.recordedCount>0))return@synchronized Audit.UNCONFIRMED
-            AuditProgress(scope,0,false,clock,status.revision,status.recordedCount)
+            auditProgress=AuditProgress(scope,0,false,clock,status.revision,status.recordedCount)
+            return@synchronized Audit.MORE
+        }
+        if(progress.cloudComplete){
+            if(stopped())return@synchronized interrupted()
+            val status=repo.observationReconcileStatus()
+            if(try{auditAuthority(localStop)?.scope!=scope}catch(_:Exception){true})return@synchronized interrupted()
+            auditProgress=null
+            if(status.hasPending||status.hasUnmatchedCanonical||status.revision!=progress.collectionRevision||status.recordedCount!=progress.recordedCount)
+                return@synchronized Audit.RETRY
+            if(status.hasRecorded!=(status.recordedCount>0)||progress.cloudTotal!=status.recordedCount||
+                progress.cloudIds.size!=status.recordedCount||progress.cloudIds!=progress.sourceIds)
+                return@synchronized Audit.UNCONFIRMED
+            completedAuditStart=progress.startedAt
+            completedAuditRevision=progress.collectionRevision
+            return@synchronized Audit.COMPLETE
         }
         if(progress.phoneComplete){
             if(stopped()||try{auditAuthority(stopped)?.scope!=scope}catch(_:Exception){true}){
-                auditProgress=null;return@synchronized Audit.BLOCKED
+                return@synchronized interrupted()
             }
             val page=try{repo.observationPage(cursor=progress.cloudCursor,limit=100)}catch(error:ApiFailure){
                 if(error.code in setOf("cursor_scope_changed","cursor_expired","invalid_cursor")){
@@ -497,8 +523,8 @@ internal class ObservationRecovery(context:Context) {
                 }
                 throw error
             }
-            val after=try{auditAuthority(stopped)}catch(_:Exception){null}
-            if(after?.scope!=scope||stopped()){auditProgress=null;return@synchronized Audit.BLOCKED}
+            val after=try{auditAuthority(localStop)}catch(_:Exception){null}
+            if(after?.scope!=scope)return@synchronized interrupted()
             val ids=page.items.map{it.source.id};val total=page.totalCount
             if(total !in 0..16_000||ids.size>100||ids.toSet().size!=ids.size||ids.any{it in progress.cloudIds}||
                 (progress.cloudRevision!=null&&page.revision!=progress.cloudRevision)||
@@ -515,19 +541,8 @@ internal class ObservationRecovery(context:Context) {
                     cursors=progress.cursors+next)
                 return@synchronized Audit.MORE
             }
-            if(stopped()||try{auditAuthority(stopped)?.scope!=scope}catch(_:Exception){true}){
-                auditProgress=null;return@synchronized Audit.BLOCKED
-            }
-            val status=repo.observationReconcileStatus()
-            if(try{auditAuthority(stopped)?.scope!=scope}catch(_:Exception){true}){auditProgress=null;return@synchronized Audit.BLOCKED}
-            auditProgress=null
-            if(status.hasPending||status.hasUnmatchedCanonical||status.revision!=progress.collectionRevision||status.recordedCount!=progress.recordedCount)
-                return@synchronized Audit.RETRY
-            if(status.hasRecorded!=(status.recordedCount>0)||total!=status.recordedCount||collected.size!=total||collected!=progress.sourceIds)
-                return@synchronized Audit.UNCONFIRMED
-            completedAuditStart=progress.startedAt
-            completedAuditRevision=progress.collectionRevision
-            return@synchronized Audit.COMPLETE
+            auditProgress=progress.copy(cloudRevision=page.revision,cloudTotal=total,cloudIds=collected,cloudComplete=true)
+            return@synchronized Audit.MORE
         }
         val base=arrayOf("_id","address","body","date");val uri=Uri.parse("content://sms/inbox")
         val senders=authority.profile.receipt.senders.sorted()
@@ -541,14 +556,14 @@ internal class ObservationRecovery(context:Context) {
                 .firstNotNullOfOrNull{columns->try{app.contentResolver.query(uri,columns,selection,args,"_id ASC")}
                     catch(_:Exception){null}}
         }
-        fun takePage():List<AuditRow>? {
+        fun takePage(checkStop:()->Boolean=stopped):List<AuditRow>? {
             val cursor=open()?:return null;val rows=mutableListOf<AuditRow>();var previous=progress.last
             cursor.use{
                 val id=it.getColumnIndexOrThrow("_id");val date=it.getColumnIndexOrThrow("date")
                 val sender=it.getColumnIndexOrThrow("address");val body=it.getColumnIndexOrThrow("body")
                 val sent=it.getColumnIndex("date_sent");val sub=it.getColumnIndex("sub_id")
-                while(rows.size<20&&it.moveToNext()){
-                    if(stopped()||it.isNull(id)||it.isNull(date))return null
+                while(rows.size<AUDIT_PAGE&&it.moveToNext()){
+                    if(checkStop()||it.isNull(id)||it.isNull(date))return null
                     val rowId=it.getLong(id);val received=it.getLong(date)
                     if(rowId<=previous||received<=0)return null
                     rows.add(AuditRow(rowId,received,if(it.isNull(sender))"" else it.getString(sender),
@@ -558,7 +573,7 @@ internal class ObservationRecovery(context:Context) {
             }
             return rows
         }
-        val rows=try{takePage()}catch(_:Exception){null}?:run{auditProgress=null;return@synchronized Audit.BLOCKED}
+        val rows=try{takePage()}catch(_:Exception){null}?:return@synchronized interrupted()
         var uncertain=progress.unconfirmed;val requests=mutableListOf<ObservationReconcileRequest>()
         val decisions=mutableMapOf<Long,ObservationLegacyOwnership.Decision>()
         for(row in rows){
@@ -573,8 +588,8 @@ internal class ObservationRecovery(context:Context) {
             requests.add(ObservationReconcileRequest(key,Values.sha256(row.body),row.sender,
                 row.sent?.let{Instant.ofEpochMilli(it).toString()},Instant.ofEpochMilli(row.received).toString(),row.sub))
         }
-        // Per-item conflicts/poison witnesses are isolated; authentication and
-        // service-wide outages are retried with the caller's bounded backoff.
+        // One bounded request per page. A poison item leaves the whole page
+        // unconfirmed while later pages can still be checked.
         fun verify(items:List<ObservationReconcileRequest>):List<ObservationReconcileReply?> {
             if(items.isEmpty())return emptyList()
             if(stopped())throw InterruptedException()
@@ -589,13 +604,11 @@ internal class ObservationRecovery(context:Context) {
             catch(error:ApiFailure){
                 val itemFailure=error.code in setOf("observation_item_conflict","observation_item_unavailable")
                 if(!itemFailure)throw error
-                if(items.size==1)listOf(null) else{
-                    val middle=items.size/2;verify(items.subList(0,middle))+verify(items.subList(middle,items.size))
-                }
+                List(items.size){null}
             }
         }
         val states=try{requests.chunked(4).flatMap{verify(it)}}catch(error:Exception){
-            if(stopped()||error is AuditAuthorityChanged){auditProgress=null;return@synchronized Audit.BLOCKED}
+            if(stopped()||error is AuditAuthorityChanged)return@synchronized interrupted()
             throw error
         }
         var sourceIds=progress.sourceIds
@@ -608,10 +621,8 @@ internal class ObservationRecovery(context:Context) {
         }
         // Re-read the exact page and authority after all responses; never
         // advance on a changed provider row, hold, consent, owner or revision.
-        val after=try{auditAuthority(stopped)}catch(_:Exception){null}
-        if(after?.scope!=scope||try{takePage()!=rows}catch(_:Exception){true}){
-            auditProgress=null;return@synchronized Audit.BLOCKED
-        }
+        val after=try{auditAuthority(localStop)}catch(_:Exception){null}
+        if(after?.scope!=scope||try{takePage(localStop)!=rows}catch(_:Exception){true})return@synchronized interrupted()
         for(row in rows){
             if(authority.profile.receipt.senders.none{it.equals(row.sender,ignoreCase=true)}||
                 !ObservationCandidate.accepts(row.sender,row.body,authority.profile.receipt))continue
@@ -619,20 +630,20 @@ internal class ObservationRecovery(context:Context) {
             val before=decisions[row.id]?:run{auditProgress=null;return@synchronized Audit.BLOCKED}
             val now=if(key in after.held)ObservationLegacyOwnership.Decision.HOLD else
                 ObservationLegacyOwnership.classify(app,owner,row.id,row.received,row.sender,row.body,row.sub)
-            if(before!=now||ObservationInboxRevision.snapshot()!=scope.revision||stopped()){
-                auditProgress=null;return@synchronized Audit.BLOCKED
+            if(before!=now||ObservationInboxRevision.snapshot()!=scope.revision||localStop()){
+                return@synchronized interrupted()
             }
         }
-        if(try{auditAuthority(stopped)?.scope!=scope}catch(_:Exception){true}){
-            auditProgress=null;return@synchronized Audit.BLOCKED
+        if(try{auditAuthority(localStop)?.scope!=scope}catch(_:Exception){true}){
+            return@synchronized interrupted()
         }
         val last=rows.lastOrNull()?.id?:progress.last
-        if(rows.size<20){
+        if(rows.size<AUDIT_PAGE){
             if(uncertain){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
             auditProgress=progress.copy(last=last,sourceIds=sourceIds,phoneComplete=true)
             return@synchronized Audit.MORE
         }
-        progress=progress.copy(last=last,unconfirmed=uncertain,sourceIds=sourceIds);auditProgress=progress
+        auditProgress=progress.copy(last=last,unconfirmed=uncertain,sourceIds=sourceIds)
         Audit.MORE
     }
 

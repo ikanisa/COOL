@@ -34,6 +34,7 @@ class NativeRepository() {
  val cloudOnlySources=mutableListOf<String>();var pageRevision="fixture"
  var pendingReservation=false;var unmatchedCanonical=false;var statusFailure:Exception?=null;var statusRevisionOverride:String?=null;var statusCalls=0
  var afterStatus:((Int)->Unit)?=null
+ var statusReplyOverride:((Int,ObservationReconcileStatus)->ObservationReconcileStatus)?=null
  val requests=mutableListOf<SmsObservation>()
  fun observationConsent():ObservationConsentRevision{consentFailure?.let{throw it};val value=consent;val action=afterConsentRead;afterConsentRead=null;action?.invoke();return value}
  fun setObservationConsent(value:ObservationConsentRevision):ObservationConsentRevision{val action=duringConsentSet;duringConsentSet=null;action?.invoke();consent=value;return value}
@@ -69,7 +70,7 @@ class NativeRepository() {
   statusCalls++;statusFailure?.let{throw it};val count=retainedSources.size+cloudOnlySources.size
   val revision=statusRevisionOverride?:Values.sha256((retainedSources.toString()+cloudOnlySources.toString()+pendingReservation+unmatchedCanonical))
   val result=ObservationReconcileStatus(pendingReservation,count>0,count,revision,unmatchedCanonical)
-  afterStatus?.invoke(statusCalls);return result
+  afterStatus?.invoke(statusCalls);return statusReplyOverride?.invoke(statusCalls,result)?:result
  }
  fun observationPage(q:String="",cursor:String?=null,limit:Int?=null):Page<ObservationListRow> {
   pageCalls++;pageCursors.add(cursor);val action=afterPage;afterPage=null;action?.invoke();pageFailure?.let{throw it}
