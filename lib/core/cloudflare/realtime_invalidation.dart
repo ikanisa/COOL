@@ -157,10 +157,7 @@ class CollectSyncInvalidationSubscription {
       );
       if (_disposed || !_ownerCurrent || !_foreground) return;
       final reconcileCurrentMember =
-          _memberRealtime != null ||
-          (_client.auth.surface == 'member' &&
-              _client.supabaseConfiguration?.deploymentProfile?.mode ==
-                  'self_hosted');
+          _memberRealtime != null || _client.auth.surface == 'member';
       // An old JWT reply cannot deny or invalidate a rotated token scope.
       if (reconcileCurrentMember &&
           bearer != _client.auth.currentSession?.accessToken) {

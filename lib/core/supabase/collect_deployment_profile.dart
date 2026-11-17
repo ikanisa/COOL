@@ -65,7 +65,7 @@ final class CollectDeploymentProfile {
               digest ||
           ordered['format'] != 'collect.deployment.v1' ||
           !RegExp(r'^[a-z][a-z0-9-]{0,62}$').hasMatch(ordered['id']!) ||
-          !const {'self_hosted', 'managed'}.contains(ordered['mode']) ||
+          ordered['mode'] != 'managed' ||
           !const {
             'production',
             'qualification',
@@ -87,9 +87,8 @@ final class CollectDeploymentProfile {
           throw const FormatException();
         }
       }
-      if (ordered['mode'] == 'managed' &&
-          ordered['supabase_origin'] !=
-              'https://rrlduytparvsjfmegalh.supabase.co') {
+      if (ordered['supabase_origin'] !=
+          'https://rrlduytparvsjfmegalh.supabase.co') {
         throw const FormatException();
       }
       if (!{

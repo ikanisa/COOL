@@ -9,7 +9,7 @@ bool collectMemberRealtimeOriginAllowed(
   CollectDeploymentProfile? profile,
 ) {
   if (profile == null) return projectOrigin == _managedProject;
-  return profile.supabaseOrigin == projectOrigin &&
-      (profile.mode == 'self_hosted' ||
-          (profile.mode == 'managed' && projectOrigin == _managedProject));
+  return profile.mode == 'managed' &&
+      profile.supabaseOrigin == projectOrigin &&
+      projectOrigin == _managedProject;
 }

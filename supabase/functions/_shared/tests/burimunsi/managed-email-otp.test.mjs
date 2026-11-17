@@ -10,10 +10,10 @@ import {collectNativeRoute,createCollectNativeRoute} from '../../domain/burimuns
 import {canonicalProfile} from '../../deployment-profile.js';
 import {digest} from '../../domain/core.js';
 
-const ORIGIN='https://native-preauth.example.invalid',EMAIL='operator@example.invalid';
+const ORIGIN='https://rrlduytparvsjfmegalh.supabase.co',EMAIL='operator@example.invalid';
 const INSTALL='b1000000-0000-4000-8000-000000000001',AUTH='b2000000-0000-4000-8000-000000000001';
 const SESSION='b3000000-0000-4000-8000-000000000001',DEVICE='a'.repeat(64),NETWORK='b'.repeat(64);
-const profile={format:'collect.deployment.v1',id:'native-preauth-fixture',mode:'self_hosted',environment:'qualification',
+const profile={format:'collect.deployment.v1',id:'native-preauth-fixture',mode:'managed',environment:'qualification',
  supabase_origin:ORIGIN,member_api_origin:'https://api.example.invalid',admin_origin:'https://admin.example.invalid',
  public_origin:'https://public.example.invalid',google_callback_origin:'https://admin.example.invalid'};
 const request=(body={email:EMAIL,profile:'staff'},headers={},path=MANAGED_EMAIL_OTP_PATH)=>new Request(ORIGIN+path,

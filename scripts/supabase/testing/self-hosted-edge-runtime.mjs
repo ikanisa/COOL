@@ -33,7 +33,7 @@ async function run(binary,descriptorFile,directory,resultFile,dependencyCache){
   await cp(join(from,'registry.json'),join(to,'registry.json'),{errorOnExist:true,force:false});
  }
  const dependencyPins=await files(join(directory,'cache/npm/registry.npmjs.org'),['postgres/3.4.7','nodemailer/10.1.7','hono/4.13.13']);
- const inputs=['deploy/self-hosted/edge-main/router.ts','deploy/self-hosted/edge-main/environment.mjs','scripts/supabase/testing/self-hosted-edge-runtime.mjs',
+ const inputs=['scripts/supabase/testing/fixtures/retired-edge/router.ts','scripts/supabase/testing/fixtures/retired-edge/environment.mjs','scripts/supabase/testing/self-hosted-edge-runtime.mjs',
   'supabase/functions/_shared/serve.js','supabase/functions/_shared/postgres.js','supabase/functions/_shared/runtime-env.js',
   'supabase/functions/_shared/deployment-profile.js','supabase/functions/_shared/deployment-database.js'];
  const before=Object.fromEntries(await Promise.all(inputs.map(async name=>[name,sha(await readFile(join(ROOT,name)))])));
@@ -48,7 +48,7 @@ async function run(binary,descriptorFile,directory,resultFile,dependencyCache){
  await writeFile(join(directory,'runtime.private.json'),JSON.stringify(env)+'\n',{flag:'wx',mode:0o600});
  // Native main services bundle relative modules in their service graph. Keep
  // these exact production bytes adjacent, as in the fixed production mount.
- for(const name of ['router.ts','environment.mjs'])await writeFile(join(directory,'main',name),await readFile(join(ROOT,'deploy/self-hosted/edge-main',name)),{flag:'wx',mode:0o600});
+ for(const name of ['router.ts','environment.mjs'])await writeFile(join(directory,'main',name),await readFile(join(ROOT,'scripts/supabase/testing/fixtures/retired-edge',name)),{flag:'wx',mode:0o600});
  // The SQL adapter requires its existing `test` alias for loopback fixtures;
  // the signed hook requires the real profile environment. Supply the two
  // configurations explicitly without changing either production handler.

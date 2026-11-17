@@ -123,7 +123,7 @@ jobs:
       - name: Verify integrated managed native handler
         env:
           COLLECT_HANDLER_CHECKOUT_ROOT: ${{ github.workspace }}
-        run: node --test deploy/managed-native-ingress/handler-integration/handler-integration.test.mjs
+        run: node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs
       - name: Verify managed native replay ledger with a synthetic database
         run: node --test --test-concurrency=1 supabase/managed-native-ingress/nonce-ledger.test.mjs
       - name: Verify managed deployment identity binding with a synthetic database
@@ -143,10 +143,10 @@ jobs:
         run: |-
           node scripts/supabase/testing/pinned-history-stage.mjs --verify58
           node scripts/supabase/testing/pinned-history-stage.mjs --verify65
-      - name: Verify self-hosted deployment and provider separation contracts
+      - name: Verify Cloud deployment profile and provider separation contracts
         run: |
-          node --test deploy/self-hosted/*.test.mjs scripts/self_hosted/*.test.mjs scripts/supabase/deployment-profile.test.mjs
-          python3 -m unittest scripts.self_hosted.test_operations.Configuration
+          node --test scripts/supabase/deployment-profile.test.mjs supabase/functions/send-sms-hook/handler.test.mjs
+          python3 -m unittest scripts.supabase.testing.test_qualification_source_manifest
       - name: Run every shared Node Edge contract through maintained exhaustive discovery
         run: node scripts/supabase/run_edge_node_tests.mjs
       - name: Verify current orchestration and retained historical source-admission guards
@@ -154,7 +154,7 @@ jobs:
       - name: Verify pinned historical source-admission and history contracts
         run: node scripts/supabase/testing/pinned-history-stage.mjs --source58
       - name: Verify scheduler and operator configuration contracts
-        run: node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs scripts/self_hosted/jobs-profile.test.mjs scripts/self_hosted/email-job-contract.test.mjs
+        run: node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs
       - name: Verify actual web hosting to Supabase transport contracts
         run: node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs
       - name: Verify Admin static handoff and recovery
@@ -166,7 +166,7 @@ jobs:
       - name: Verify public transport and human challenge parent contracts
         run: node --test test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs
       - name: Verify private provider and privacy boundary protocols
-        run: node --test deploy/platform-api/test/supabase_privacy_portal.test.mjs deploy/platform-api/test/privacy_email_portal.test.mjs deploy/platform-api/test/supabase_roster_decoder_protocol.test.mjs supabase/functions/_shared/tests/native-storage-semantics.test.mjs supabase/functions/send-sms-hook/handler.test.mjs deploy/self-hosted/auth-phone-proxy.test.mjs
+        run: node --test deploy/platform-api/test/supabase_privacy_portal.test.mjs deploy/platform-api/test/privacy_email_portal.test.mjs deploy/platform-api/test/supabase_roster_decoder_protocol.test.mjs supabase/functions/_shared/tests/native-storage-semantics.test.mjs supabase/functions/send-sms-hook/handler.test.mjs
       - name: Verify synthetic commissioning Edge protocol
         run: |-
           set -eu

@@ -16,11 +16,11 @@ const _profile = <String, String>{
   'environment': 'production',
   'format': 'collect.deployment.v1',
   'google_callback_origin': 'https://admin.collect.example',
-  'id': 'collect-selfhost',
+  'id': 'collect-cloud',
   'member_api_origin': 'https://api.collect.example',
-  'mode': 'self_hosted',
+  'mode': 'managed',
   'public_origin': 'https://collect.example',
-  'supabase_origin': 'https://supabase.collect.example',
+  'supabase_origin': 'https://rrlduytparvsjfmegalh.supabase.co',
 };
 const _user = '11111111-1111-4111-8111-111111111111';
 const _subject = '22222222-2222-4222-8222-222222222222';
@@ -75,16 +75,23 @@ Future<void> _settle(WidgetTester tester) async {
   for (var index = 0; index < 8; index++) {
     await tester.pump();
   }
+  await tester.runAsync(
+    () => Future<void>.delayed(const Duration(milliseconds: 20)),
+  );
   await tester.pump(const Duration(milliseconds: 2));
 }
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('self-hosted web quiet polls reconcile and ignore stale bearers', (
+  testWidgets('Cloud web quiet polls reconcile and ignore stale bearers', (
     tester,
   ) async {
-    expect(kIsWeb, isTrue, reason: 'This test must run in the browser runtime.');
+    expect(
+      kIsWeb,
+      isTrue,
+      reason: 'This test must run in the browser runtime.',
+    );
     final config = _configuration();
     final requests = <http.Request>[];
     Completer<http.Response>? held;
@@ -151,5 +158,7 @@ void main() {
     await tester.pump(const Duration(seconds: 5));
     await _settle(tester);
     expect(reads, 4, reason: 'A successful reconnect reconciles again.');
+    await subscription.dispose();
+    await client.dispose();
   });
 }

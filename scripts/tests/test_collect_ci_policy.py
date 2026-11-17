@@ -320,7 +320,7 @@ class CollectCiPolicyTest(unittest.TestCase):
                               {x['code'] for x in policy.validate_platform_makefile(source.replace(command, replacement, 1))})
         for command in ('python3 supabase/schema-src/generate_baseline.py --check',
                         'node scripts/supabase/run_edge_node_tests.mjs',
-                        'node --test deploy/managed-native-ingress/handler-integration/handler-integration.test.mjs',
+                        'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs',
                         'cd deploy/managed-sms && python3 test/verify_source_tests_test.py && python3 test/verify_source_tests.py',
                         policy.CURRENT_COMMISSIONING_DENO_MAKE_COMMAND,
                         'cd supabase/functions && "$${COLLECT_DENO:-deno}" task check'):
@@ -681,7 +681,7 @@ class CollectCiPolicyTest(unittest.TestCase):
 
     def test_integrated_handler_ci_requires_exact_checkout_binding(self):
         job = self.workflows['supabase.yml']['jobs']['current-source-contracts']
-        command = 'node --test deploy/managed-native-ingress/handler-integration/handler-integration.test.mjs'
+        command = 'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs'
         step = next(step for step in job['steps'] if step.get('run') == command)
         step['env']['COLLECT_HANDLER_CHECKOUT_ROOT'] = '/different/checkout'
         self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())

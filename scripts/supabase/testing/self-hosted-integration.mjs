@@ -4,7 +4,7 @@ import {readFile,writeFile,readdir,mkdir} from 'node:fs/promises';
 import {resolve,join} from 'node:path';import {randomUUID,randomBytes,createHash} from 'node:crypto';import {createRequire} from 'node:module';
 import assert from 'node:assert/strict';
 import {CURRENT_MIGRATION_COUNT,reviewedCurrentMigrations,applyCurrentFixtureMigration} from './self-hosted-current-schema.mjs';
-import {canonicalProfile,validateDeploymentProfile} from '../../../supabase/functions/_shared/deployment-profile.js';
+import {canonicalProfile} from '../../../supabase/functions/_shared/deployment-profile.js';
 const require=createRequire(import.meta.url),{Client}=require('pg');
 const ROOT=resolve(import.meta.dirname,'../../..'),sha=value=>createHash('sha256').update(value).digest('hex');
 const baseline='dfc7a4fafb696f73d207251c9f35cb892528eecd1929552fa575996874adc3e3';
@@ -29,7 +29,10 @@ export async function qualify({clusterFile,templateFile,output,runtimeDescriptor
  await reviewedCurrentMigrations();need(lock.migrations.length===CURRENT_MIGRATION_COUNT&&lock.original_count===16,'Exact reviewed current chain required');
  for(const item of lock.migrations)need(sha(await readFile(join(ROOT,'supabase/migrations',item.name)))===item.sha256,'Migration byte identity changed');
  const example=JSON.parse(await readFile(join(ROOT,'deploy/self-hosted/profile.example.json'),'utf8'));
- const profile=validateDeploymentProfile({...example,environment:'qualification',id:'collect-integration-qualification'}),raw=canonicalProfile(profile),profileSha=sha(raw);
+ // This unmodifiable predecessor migration accepts only the archived historical
+ // identity; the fixture stays synthetic and cannot configure the Cloud runtime.
+ need(example.format==='collect.deployment.v1'&&example.mode==='self_hosted'&&example.supabase_origin==='https://supabase.collect.example','HISTORICAL_PROFILE_FIXTURE_REQUIRED');
+ const profile={...example,environment:'qualification',id:'collect-integration-qualification'},raw=canonicalProfile(profile),profileSha=sha(raw);
  const database='collect_selfhost_integration_'+randomBytes(12).toString('hex')+'_test';
  const admin=new Client({connectionString:cluster.url,statement_timeout:60000}),cases=[];let owner,roleProbe;
  try{

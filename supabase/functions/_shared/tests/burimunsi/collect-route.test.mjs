@@ -17,8 +17,8 @@ await import('../helpers/node-postgres-import.mjs');
 const {default:collectWorker}=await import('../../domain/index.js');
 
 const SOURCE='1'.repeat(64);
-const PROFILE=Object.freeze({format:'collect.deployment.v1',id:'fixture-local',mode:'self_hosted',
-  environment:'qualification',supabase_origin:'https://supabase.example.test',
+const PROFILE=Object.freeze({format:'collect.deployment.v1',id:'fixture-local',mode:'managed',
+  environment:'qualification',supabase_origin:'https://rrlduytparvsjfmegalh.supabase.co',
   member_api_origin:'https://api.example.test',admin_origin:'https://admin.example.test',
   public_origin:'https://public.example.test',google_callback_origin:'https://admin.example.test'});
 const NATIVE_TOKEN='a'.repeat(64);

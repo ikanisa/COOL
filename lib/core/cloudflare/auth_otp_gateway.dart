@@ -11,7 +11,7 @@ final collectWhatsAppAuthEnabledProvider = Provider<bool>((ref) {
   );
 });
 
-/// SMS uses the self-hosted Auth send hook and its independently qualified
+/// SMS uses the configured Supabase Auth send hook and its independently qualified
 /// transport. It never silently falls back to WhatsApp (or vice versa).
 final collectSmsAuthEnabledProvider = Provider<bool>((ref) {
   return const bool.fromEnvironment(

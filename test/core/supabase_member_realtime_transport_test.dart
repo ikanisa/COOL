@@ -21,17 +21,17 @@ const _sid = '99110000-0000-4000-8000-000000000003';
 const _sid2 = '99110000-0000-4000-8000-000000000004';
 const _secret = 'SYNTHETIC_JWT_PRIVATE_MARKER';
 const _project = 'https://rrlduytparvsjfmegalh.supabase.co';
-const _selfHostedProject = 'https://supabase.collect.example';
-const _selfHostedProfile = <String, String>{
+const _cloudProfileProject = 'https://rrlduytparvsjfmegalh.supabase.co';
+const _cloudProfile = <String, String>{
   'admin_origin': 'https://admin.collect.example',
   'environment': 'production',
   'format': 'collect.deployment.v1',
   'google_callback_origin': 'https://admin.collect.example',
-  'id': 'collect-selfhost',
+  'id': 'collect-cloud',
   'member_api_origin': 'https://api.collect.example',
-  'mode': 'self_hosted',
+  'mode': 'managed',
   'public_origin': 'https://collect.example',
-  'supabase_origin': _selfHostedProject,
+  'supabase_origin': _cloudProfileProject,
 };
 
 String _token(
@@ -385,16 +385,16 @@ void main() {
   );
 
   testWidgets(
-    'validated self-host profile joins its exact private socket and refreshes on a hint',
+    'validated Cloud profile joins its exact private socket and refreshes on a hint',
     (tester) async {
       for (final project in [
-        _selfHostedProject,
-        '$_selfHostedProject?',
-        '$_selfHostedProject#',
+        _cloudProfileProject,
+        '$_cloudProfileProject?',
+        '$_cloudProfileProject#',
       ]) {
         final h = _Harness(
           project: project,
-          profile: _selfHostedProfile,
+          profile: _cloudProfile,
           autoJoin: false,
         );
         await h.initialize();
@@ -405,7 +405,7 @@ void main() {
         final socket = h.sockets.single;
         final target = Uri.parse(h.urls.single);
         expect(target.scheme, 'wss');
-        expect(target.host, 'supabase.collect.example');
+        expect(target.host, 'rrlduytparvsjfmegalh.supabase.co');
         expect(target.path, '/realtime/v1/websocket');
         expect(target.hasFragment, false);
         expect(target.queryParametersAll, {
@@ -444,12 +444,9 @@ void main() {
   );
 
   testWidgets(
-    'self-host token renewal and changed session fence departed sockets',
+    'Cloud token renewal and changed session fence departed sockets',
     (tester) async {
-      final h = _Harness(
-        project: _selfHostedProject,
-        profile: _selfHostedProfile,
-      );
+      final h = _Harness(project: _cloudProfileProject, profile: _cloudProfile);
       await h.initialize();
       h.start();
       await _flush(tester);
@@ -460,7 +457,7 @@ void main() {
       await _flush(tester);
       expect(h.sockets, hasLength(2));
       expect(old.incoming.isClosed, true);
-      expect(Uri.parse(h.urls.last).host, 'supabase.collect.example');
+      expect(Uri.parse(h.urls.last).host, 'rrlduytparvsjfmegalh.supabase.co');
       final join = h.sockets.last.sent.singleWhere(
         (m) => m['event'] == 'phx_join',
       );
@@ -485,9 +482,9 @@ void main() {
   );
 
   testWidgets(
-    'self-host origin without a validated profile never opens a socket',
+    'an unapproved origin without a validated profile never opens a socket',
     (tester) async {
-      final h = _Harness(project: _selfHostedProject);
+      final h = _Harness(project: 'https://other.collect.example');
       await h.initialize();
       h.start();
       await _flush(tester);
@@ -498,12 +495,12 @@ void main() {
     },
   );
 
-  testWidgets('self-host Admin session never opens a member socket', (
+  testWidgets('Cloud Admin session never opens a member socket', (
     tester,
   ) async {
     final h = _Harness(
-      project: _selfHostedProject,
-      profile: _selfHostedProfile,
+      project: _cloudProfileProject,
+      profile: _cloudProfile,
       surface: 'admin',
     );
     await h.initialize();
@@ -514,71 +511,74 @@ void main() {
     await _closeHarness(h, tester);
   });
 
-  test(
-    'self-host profile digest, origin and mode are validated before use',
-    () {
-      final managedWrongOrigin = Map<String, String>.of(_selfHostedProfile)
-        ..['mode'] = 'managed';
-      for (final env in [
-        _environment(
-          project: _selfHostedProject,
-          profile: _selfHostedProfile,
-          digest: '0' * 64,
-        ),
-        _environment(project: _project, profile: _selfHostedProfile),
-        _environment(project: _selfHostedProject, profile: managedWrongOrigin),
-      ]) {
-        expect(
-          () => CollectSupabaseConfiguration.fromEnvironment(env),
-          throwsArgumentError,
-        );
-      }
-      final encoded = jsonEncode(_selfHostedProfile);
-      final profile = CollectDeploymentProfile.parse(
-        encoded,
-        sha256.convert(utf8.encode(encoded)).toString(),
+  test('Cloud profile digest, origin and mode are validated before use', () {
+    final nonManaged = Map<String, String>.of(_cloudProfile)
+      ..['mode'] = 'self_hosted';
+    final wrongOrigin = Map<String, String>.of(_cloudProfile)
+      ..['supabase_origin'] = 'https://other.collect.example';
+    for (final env in [
+      _environment(
+        project: _cloudProfileProject,
+        profile: _cloudProfile,
+        digest: '0' * 64,
+      ),
+      _environment(
+        project: 'https://other.collect.example',
+        profile: _cloudProfile,
+      ),
+      _environment(project: _cloudProfileProject, profile: nonManaged),
+      _environment(project: _cloudProfileProject, profile: wrongOrigin),
+    ]) {
+      expect(
+        () => CollectSupabaseConfiguration.fromEnvironment(env),
+        throwsArgumentError,
       );
-      expect(collectMemberRealtimeOriginAllowed(_project, profile), false);
-    },
-  );
+    }
+    final encoded = jsonEncode(_cloudProfile);
+    final profile = CollectDeploymentProfile.parse(
+      encoded,
+      sha256.convert(utf8.encode(encoded)).toString(),
+    );
+    expect(collectMemberRealtimeOriginAllowed(_project, profile), true);
+    expect(
+      collectMemberRealtimeOriginAllowed(
+        'https://other.collect.example',
+        profile,
+      ),
+      false,
+    );
+  });
 
-  testWidgets(
-    'self-host rejects invalid token claims before socket replacement',
-    (tester) async {
-      final h = _Harness(
-        project: _selfHostedProject,
-        profile: _selfHostedProfile,
-      );
-      await h.initialize();
-      h.start();
-      await _flush(tester);
-      final original = h.client.auth.currentSession!.accessToken;
-      final socket = h.sockets.single;
-      for (final attempt in <Future<void> Function()>[
-        () => h.login(issuer: 'https://other.collect.example/auth/v1'),
-        () => h.login(audience: 'other'),
-        () => h.login(role: 'anon'),
-        () => h.login(subject: _app),
-        () => h.login(expiration: 1),
-      ]) {
-        expect(attempt, throwsA(isA<CollectAuthException>()));
-        expect(h.client.auth.currentSession!.accessToken, original);
-      }
-      await _flush(tester);
-      expect(h.sockets, hasLength(1));
-      expect(socket.incoming.isClosed, false);
-      expect(h.adapter!.isConnected, true);
-      await _closeHarness(h, tester);
-    },
-  );
-
-  testWidgets('self-host sign-out retires the socket and its late callbacks', (
+  testWidgets('Cloud rejects invalid token claims before socket replacement', (
     tester,
   ) async {
-    final h = _Harness(
-      project: _selfHostedProject,
-      profile: _selfHostedProfile,
-    );
+    final h = _Harness(project: _cloudProfileProject, profile: _cloudProfile);
+    await h.initialize();
+    h.start();
+    await _flush(tester);
+    final original = h.client.auth.currentSession!.accessToken;
+    final socket = h.sockets.single;
+    for (final attempt in <Future<void> Function()>[
+      () => h.login(issuer: 'https://other.collect.example/auth/v1'),
+      () => h.login(audience: 'other'),
+      () => h.login(role: 'anon'),
+      () => h.login(subject: _app),
+      () => h.login(expiration: 1),
+    ]) {
+      expect(attempt, throwsA(isA<CollectAuthException>()));
+      expect(h.client.auth.currentSession!.accessToken, original);
+    }
+    await _flush(tester);
+    expect(h.sockets, hasLength(1));
+    expect(socket.incoming.isClosed, false);
+    expect(h.adapter!.isConnected, true);
+    await _closeHarness(h, tester);
+  });
+
+  testWidgets('Cloud sign-out retires the socket and its late callbacks', (
+    tester,
+  ) async {
+    final h = _Harness(project: _cloudProfileProject, profile: _cloudProfile);
     await h.initialize();
     h.start();
     await _flush(tester);
@@ -597,18 +597,18 @@ void main() {
   });
 
   testWidgets(
-    'self-host polling reconciles when the private join is not acknowledged',
+    'Cloud polling reconciles when the private join is not acknowledged',
     (tester) async {
       var now = DateTime.utc(2026, 10, 21);
       final h = _Harness(
-        project: _selfHostedProject,
-        profile: _selfHostedProfile,
+        project: _cloudProfileProject,
+        profile: _cloudProfile,
         autoJoin: false,
       );
       await h.initialize();
       h.subscription = CollectSyncInvalidationSubscription(
         client: h.client,
-        topic: 'self-hosted-poll-test',
+        topic: 'cloud-poll-test',
         areas: collectMobileRealtimeAreas,
         realtimeTransport: h.transport,
         observeRealtimeLifecycle: false,

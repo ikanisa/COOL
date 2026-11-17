@@ -16,12 +16,12 @@ import {createAdminWorker} from '../../../../../deploy/platform-admin/src/index.
 await import('../helpers/node-postgres-import.mjs');
 const {logicalRequest}=await import('../../serve.js');
 
-const ORIGIN='https://admin.native-access.example.invalid',PROJECT='https://supabase.native-access.example.invalid';
+const ORIGIN='https://admin.native-access.example.invalid',PROJECT='https://rrlduytparvsjfmegalh.supabase.co';
 const AUTH='20000000-0000-4000-8000-000000000001',SID='20000000-0000-4000-8000-000000000002';
 const ADMIN='20000000-0000-4000-8000-000000000003',PUBLIC='20000000-0000-4000-8000-000000000004';
 const PRINCIPAL='20000000-0000-4000-8000-000000000005';
 const COOKIE='b'.repeat(64),DEVICE='c'.repeat(64),SOURCE='a'.repeat(64),KEY=Buffer.alloc(32,11).toString('base64');
-const PROFILE={format:'collect.deployment.v1',id:'native-access-fixture',mode:'self_hosted',environment:'qualification',
+const PROFILE={format:'collect.deployment.v1',id:'native-access-fixture',mode:'managed',environment:'qualification',
  supabase_origin:PROJECT,admin_origin:ORIGIN,member_api_origin:'https://api.native-access.example.invalid',
  public_origin:'https://collect.native-access.example.invalid',google_callback_origin:ORIGIN};
 

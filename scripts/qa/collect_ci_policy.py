@@ -409,7 +409,7 @@ CURRENT_SOURCE_COMMANDS = (
     'python3 -m unittest scripts.supabase.test_catalogue_reconciliation',
     'python3 -m unittest scripts.supabase.test_catalogue_capture',
     'node --test deploy/managed-native-ingress/worker.test.mjs',
-    'node --test deploy/managed-native-ingress/handler-integration/handler-integration.test.mjs',
+    'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs',
     'node --test --test-concurrency=1 supabase/managed-native-ingress/nonce-ledger.test.mjs',
     'node --test --test-concurrency=1 supabase/managed-deployment-identity/bind-managed.test.mjs',
     'node --test scripts/supabase/testing/buri-isolated-pg/report.test.mjs',
@@ -495,14 +495,14 @@ def validate_current_supabase_qualification(workflows: dict[str, dict]) -> list[
             fail('current-source-contracts')
         elif command == CURRENT_COMMISSIONING_DENO_COMMAND and matches[0].get('working-directory', '.') != '.':
             fail('current-source-contracts')
-        elif command == 'node --test deploy/managed-native-ingress/handler-integration/handler-integration.test.mjs' and matches[0].get('env', {}).get('COLLECT_HANDLER_CHECKOUT_ROOT') != '${{ github.workspace }}':
+        elif command == 'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs' and matches[0].get('env', {}).get('COLLECT_HANDLER_CHECKOUT_ROOT') != '${{ github.workspace }}':
             fail('current-source-contracts')
     source_commands = '\n'.join(step.get('run', '') for step in source_steps)
     for required in ('scripts/supabase/testing/current16-integration.test.mjs',
                      'scripts/supabase/jobs-config-contracts.test.mjs',
                      'scripts/supabase/email_jobs_operator.test.mjs',
-                     'deploy/self-hosted/*.test.mjs',
-                     'scripts.self_hosted.test_operations.Configuration'):
+                     'scripts/supabase/deployment-profile.test.mjs',
+                     'scripts.supabase.testing.test_qualification_source_manifest'):
         matches = [step for step in source_steps if required in step.get('run', '')]
         if (len(matches) != 1 or 'if' in matches[0] or '||' in matches[0].get('run', '')
                 or matches[0].get('continue-on-error', False) is not False):
@@ -647,7 +647,7 @@ def validate_platform_makefile(contents: str) -> list[dict[str, str]]:
         'node scripts/supabase/testing/pinned-history-stage.mjs --verify58',
         'node scripts/supabase/testing/pinned-history-stage.mjs --verify65',
         'node scripts/supabase/testing/pinned-history-stage.mjs --source58',
-        'node --test deploy/managed-native-ingress/handler-integration/handler-integration.test.mjs',
+        'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs',
         'cd deploy/managed-sms && python3 test/verify_source_tests_test.py && python3 test/verify_source_tests.py',
         CURRENT_COMMISSIONING_DENO_MAKE_COMMAND,
         'cd supabase/functions && "$${COLLECT_DENO:-deno}" task check',

@@ -9,8 +9,8 @@ import {openApplicationWork} from '../../application-fence.js';
 import {canonicalProfile} from '../../deployment-profile.js';
 import {sha256} from '../../domain/burimunsi/values.js';
 const SOURCE='a'.repeat(64);
-const PROFILE={format:'collect.deployment.v1',id:'buri-runtime-fixture',mode:'self_hosted',environment:'qualification',
- supabase_origin:'https://supabase.example.test',member_api_origin:'https://member.example.test',
+const PROFILE={format:'collect.deployment.v1',id:'buri-runtime-fixture',mode:'managed',environment:'qualification',
+ supabase_origin:'https://rrlduytparvsjfmegalh.supabase.co',member_api_origin:'https://member.example.test',
  admin_origin:'https://admin.example.test',public_origin:'https://public.example.test',google_callback_origin:'https://admin.example.test'};
 const b64=byte=>Buffer.alloc(32,byte).toString('base64');
 const serverNetwork=()=>{throw Error('This construction test must not resolve a network identity');};

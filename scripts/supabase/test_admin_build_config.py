@@ -35,32 +35,32 @@ class AdminBuildConfigurationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             configuration({}, self.root)
 
-    def self_hosted_environment(self):
-        profile = {"format":"collect.deployment.v1", "id":"collect-local-test", "mode":"self_hosted",
-                   "environment":"production", "supabase_origin":"https://supabase.example.test",
+    def managed_profile_environment(self):
+        profile = {"format":"collect.deployment.v1", "id":"collect-managed-test", "mode":"managed",
+                   "environment":"production", "supabase_origin":PROJECT_ORIGIN,
                    "member_api_origin":"https://api.example.test", "admin_origin":"https://admin.example.test",
                    "public_origin":"https://collect.example.test", "google_callback_origin":"https://admin.example.test"}
         return {"COLLECT_BACKEND":"supabase", "COLLECT_DEPLOYMENT_PROFILE":canonical_profile(profile),
                 "COLLECT_DEPLOYMENT_PROFILE_SHA256":profile_sha256(profile),
                 "SUPABASE_PUBLISHABLE_KEY":"sb_publishable_public_fixture_only"}
 
-    def test_self_hosted_profile_emits_only_public_identity_and_current_migration_chain(self):
-        env = self.self_hosted_environment() | {"SUPABASE_INTERNAL_URL":"http://kong:8000",
+    def test_managed_profile_emits_only_public_identity_and_current_migration_chain(self):
+        env = self.managed_profile_environment() | {"SUPABASE_INTERNAL_URL":"http://kong:8000",
                                                "SUPABASE_SERVICE_ROLE_KEY":"private-fixture"}
         defines, metadata = configuration(env, self.root)
-        self.assertEqual(defines["SUPABASE_URL"], "https://supabase.example.test")
+        self.assertEqual(defines["SUPABASE_URL"], PROJECT_ORIGIN)
         self.assertEqual(defines["SUPABASE_API_URL"], "https://api.example.test")
         self.assertEqual(defines["SUPABASE_ADMIN_API_URL"], "https://admin.example.test")
-        self.assertEqual(defines["SUPABASE_AUTH_ISSUER"], "https://supabase.example.test/auth/v1")
+        self.assertEqual(defines["SUPABASE_AUTH_ISSUER"], PROJECT_ORIGIN + "/auth/v1")
         self.assertEqual(defines["APP_ENVIRONMENT"], "production")
-        self.assertEqual(metadata["supabase_hosting"], "self_hosted")
+        self.assertEqual(metadata["supabase_hosting"], "managed")
         self.assertFalse(metadata["supabase_qualification_complete"])
         for key in ("SUPABASE_INTERNAL_URL", "SUPABASE_SERVICE_ROLE_KEY"):
             self.assertNotIn(key, defines)
             self.assertNotIn(key, metadata)
 
-    def test_exact_post_diagnostic_public_inputs_bind_managed_and_self_hosted_profiles(self):
-        for env in (self.env, self.self_hosted_environment()):
+    def test_exact_post_diagnostic_public_inputs_bind_managed_and_explicit_managed_profiles(self):
+        for env in (self.env, self.managed_profile_environment()):
             with self.subTest(profile=env.get('COLLECT_DEPLOYMENT_PROFILE', 'managed')):
                 defines, metadata = configuration(env, self.root)
                 source, version = 'a' * 64, '1.0.8+65'
@@ -114,14 +114,14 @@ out=Path('build/web/main.dart.js');out.parent.mkdir(parents=True,exist_ok=True);
         self.assertNotEqual(result.returncode,0)
         self.assertFalse((self.root/'build/admin-public-defines.json').exists())
 
-    def test_self_hosted_disagreement_and_missing_or_changed_identity_fail_closed(self):
+    def test_managed_disagreement_and_missing_or_changed_identity_fail_closed(self):
         for changes in ({"COLLECT_DEPLOYMENT_PROFILE_SHA256":"0"*64},
-                        {"SUPABASE_URL":PROJECT_ORIGIN}, {"ADMIN_APP_URL":"https://elsewhere.example.test"},
+                        {"SUPABASE_URL":"https://wrong.example.test"}, {"ADMIN_APP_URL":"https://elsewhere.example.test"},
                         {"SUPABASE_ADMIN_API_URL":"https://api.example.test"},
                         {"SUPABASE_API_URL":"https://admin.example.test"}, {"COLLECT_BACKEND":"cloudflare"},
                         {"APP_ENVIRONMENT":"qualification"}, {"SUPABASE_AUTH_ISSUER":"http://kong:8000/auth/v1"}):
             with self.subTest(changes=changes), self.assertRaises(ValueError):
-                configuration(self.self_hosted_environment() | changes, self.root)
+                configuration(self.managed_profile_environment() | changes, self.root)
 
     def test_legacy_configuration_requires_explicit_backend_selection(self):
         defines, metadata = configuration({"COLLECT_BACKEND": "cloudflare",
@@ -134,7 +134,7 @@ out=Path('build/web/main.dart.js');out.parent.mkdir(parents=True,exist_ok=True);
         for key in ('1x00000000000000000000AA', '2x00000000000000000000AB',
                     '1x00000000000000000000BB', '2x00000000000000000000BB',
                     '3x00000000000000000000FF'):
-            env = self.self_hosted_environment() | {'AUTH_CAPTCHA_ENABLED': 'true',
+            env = self.managed_profile_environment() | {'AUTH_CAPTCHA_ENABLED': 'true',
                                                    'AUTH_CAPTCHA_SITE_KEY': key}
             with self.subTest(key=key), self.assertRaisesRegex(ValueError, 'test key'):
                 configuration(env, self.root)
@@ -235,7 +235,7 @@ out=Path('build/web/main.dart.js');out.parent.mkdir(parents=True,exist_ok=True);
 
     def test_observation_flag_is_bound_to_public_inputs(self):
         name = "BURIMUNSI_ADMIN_OBSERVATIONS_ENABLED"
-        env = self.self_hosted_environment() | {name: "true"}
+        env = self.managed_profile_environment() | {name: "true"}
         defines, metadata = configuration(env, self.root)
         defines.update(COLLECT_BUILD_VERSION="1.0.8+65", COLLECT_BUILD_SOURCE_ID="a" * 64)
         metadata.update(diagnostics_source_revision="a" * 64, diagnostics_build_version="1.0.8+65")
@@ -250,7 +250,7 @@ out=Path('build/web/main.dart.js');out.parent.mkdir(parents=True,exist_ok=True);
         defines, metadata = configuration(self.env, self.root)
         self.assertEqual(defines[name], "false")
         self.assertFalse(metadata["collect_admin_protected_owner_enabled"])
-        env = self.self_hosted_environment() | {name: "true"}
+        env = self.managed_profile_environment() | {name: "true"}
         defines, metadata = configuration(env, self.root)
         self.assertEqual(defines[name], "true")
         self.assertTrue(metadata["collect_admin_protected_owner_enabled"])
@@ -272,7 +272,7 @@ out=Path('build/web/main.dart.js');out.parent.mkdir(parents=True,exist_ok=True);
         hints = "BURIMUNSI_ADMIN_OBSERVATION_HINTS_ENABLED"
         for enabled, hint_enabled in (("false", "false"), ("true", "false"), ("true", "true")):
             with self.subTest(observations=enabled, hints=hint_enabled):
-                env = self.self_hosted_environment() | {observations: enabled, hints: hint_enabled}
+                env = self.managed_profile_environment() | {observations: enabled, hints: hint_enabled}
                 defines, metadata = configuration(env, self.root)
                 self.assertEqual(defines[hints], hint_enabled)
                 self.assertEqual(metadata["burimunsi_admin_observation_hints_enabled"], hint_enabled == "true")
@@ -425,15 +425,15 @@ raise SystemExit(61)
         self.assertNotIn("shipping_candidate", shipping["metadata"])
 
         observation.unlink()
-        self_hosted = {"PATH": os.environ["PATH"], "TMPDIR": str(self.root.resolve()),
-                       "FLUTTER": str(compiler), **self.self_hosted_environment()}
+        managed = {"PATH": os.environ["PATH"], "TMPDIR": str(self.root.resolve()),
+                       "FLUTTER": str(compiler), **self.managed_profile_environment()}
         result = subprocess.run(["bash", str(wrapper)], cwd=self.root.resolve(),
-                                env=self_hosted, capture_output=True, text=True)
+                                env=managed, capture_output=True, text=True)
         self.assertEqual(result.returncode, 61, result.stderr)
         observed = json.loads(observation.read_text())
         self.assertEqual(observed['defines']['ADMIN_APP_URL'], 'https://admin.example.test')
         self.assertEqual(observed['defines']['SUPABASE_API_URL'], 'https://api.example.test')
-        self.assertEqual(observed['metadata']['supabase_hosting'], 'self_hosted')
+        self.assertEqual(observed['metadata']['supabase_hosting'], 'managed')
         self.assertRegex(observed['metadata']['public_build_defines_sha256'], r'^[a-f0-9]{64}$')
 
 if __name__ == "__main__":

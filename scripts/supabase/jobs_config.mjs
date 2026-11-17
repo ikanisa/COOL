@@ -13,10 +13,10 @@ export const previousScheduler={configSha:'b2cede1f2c0eea79f31fcb7e731ec816320f2
 const sha=value=>createHash('sha256').update(value).digest('hex');
 export const stable=value=>Array.isArray(value)?'['+value.map(stable).join(',')+']':value&&typeof value==='object'?'{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+stable(value[k])).join(',')+'}':JSON.stringify(value);
 export function schedulerDeployment(env=process.env){
- if(env.COLLECT_DEPLOYMENT_PROFILE===undefined&&env.COLLECT_DEPLOYMENT_PROFILE_SHA256===undefined)return {endpoint:`https://${projectRef}.supabase.co/functions/v1/collect-jobs`,profileSha:null,selfHosted:false};
+ if(env.COLLECT_DEPLOYMENT_PROFILE===undefined&&env.COLLECT_DEPLOYMENT_PROFILE_SHA256===undefined)return {endpoint:`https://${projectRef}.supabase.co/functions/v1/collect-jobs`,profileSha:null};
  const profile=resolveDeploymentProfile(env);
  if(sha(canonicalProfile(profile))!==env.COLLECT_DEPLOYMENT_PROFILE_SHA256)throw Error('Scheduler deployment digest mismatch');
- return {endpoint:profile.supabase_origin+'/functions/v1/collect-jobs',profileSha:env.COLLECT_DEPLOYMENT_PROFILE_SHA256,selfHosted:profile.mode==='self_hosted'};
+ return {endpoint:profile.supabase_origin+'/functions/v1/collect-jobs',profileSha:env.COLLECT_DEPLOYMENT_PROFILE_SHA256};
 }
 export function validateConfig(c,env=process.env){
  const deployment=schedulerDeployment(env);
@@ -72,8 +72,7 @@ export function validateConnection(value,{localTest=false}={}){
   const synthetic=process.env.COLLECT_CI_SYNTHETIC==='true'&&u.hostname==='127.0.0.1'&&/^[1-9][0-9]{0,4}$/.test(u.port)&&Number(u.port)<=65535;
   if(!owned||(!legacy&&!synthetic))throw Error('Only the owned loopback collect_jobs_test fixture is allowed');
  }
- else if(schedulerDeployment().selfHosted){if(u.hostname!=='db'||!['','5432'].includes(u.port)||decodeURIComponent(u.username)!=='postgres'||!process.env.COLLECT_DB_CA_PEM?.startsWith('-----BEGIN CERTIFICATE-----\n'))throw Error('Verified self-hosted scheduler owner connection required');}
- else if(u.hostname!==`db.${projectRef}.supabase.co`&&!(u.hostname.endsWith('.pooler.supabase.com')&&decodeURIComponent(u.username).endsWith('.'+projectRef)))throw Error('Unexpected scheduler database project');
+ else if((u.hostname!==`db.${projectRef}.supabase.co`&&!(u.hostname.endsWith('.pooler.supabase.com')&&decodeURIComponent(u.username).endsWith('.'+projectRef)))||!['','5432','6543'].includes(u.port)||u.hash)throw Error('Unexpected scheduler database project');
  if([...u.searchParams].some(([key,value])=>key!=='sslmode'||value!=='verify-full'))throw Error('Unreviewed connection options are not allowed');
  u.search='';
  if(!localTest&&u.pathname!=='/postgres')throw Error('Hosted pg_net targets the postgres database');

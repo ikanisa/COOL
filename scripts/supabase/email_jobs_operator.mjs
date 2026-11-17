@@ -4,13 +4,13 @@ import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {createRequire} from 'node:module';
 import {resolveDeploymentProfile,canonicalProfile} from '../../supabase/functions/_shared/deployment-profile.js';
-import {renderSql as renderJobsSql} from './jobs_config.mjs';
+import {renderSql as renderJobsSql,validateConnection} from './jobs_config.mjs';
 import {render as renderGoogleMaintenance} from './sql-maintenance/operator.mjs';
 const sha=value=>createHash('sha256').update(value).digest('hex');
 const stable=value=>Array.isArray(value)?'['+value.map(stable).join(',')+']':value&&typeof value==='object'?'{'+Object.keys(value).sort().map(key=>JSON.stringify(key)+':'+stable(value[key])).join(',')+'}':JSON.stringify(value);
 export function emailDeployment(env=process.env){
  const profile=resolveDeploymentProfile(env);
- if(!env.COLLECT_DEPLOYMENT_PROFILE||profile.mode!=='self_hosted'||sha(canonicalProfile(profile))!==env.COLLECT_DEPLOYMENT_PROFILE_SHA256)throw Error('Verified self-hosted email deployment required');
+ if(!env.COLLECT_DEPLOYMENT_PROFILE||profile.mode!=='managed'||sha(canonicalProfile(profile))!==env.COLLECT_DEPLOYMENT_PROFILE_SHA256)throw Error('Verified Cloud email deployment required');
  return {format:'collect.email.scheduler.v1',profile_sha256:env.COLLECT_DEPLOYMENT_PROFILE_SHA256,endpoint:profile.supabase_origin+'/functions/v1/collect-email-jobs',vault_name:'collect_email_job_token_v1',cron:'*/5 * * * *',install_active:false,max_monthly_budget:10000,batch_limit:1};
 }
 export async function renderEmailSql(env=process.env){
@@ -68,9 +68,9 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
   if(operation==='render'&&arg&&!extra){const rendered=await renderEmailSql();await writeFile(arg,rendered.sql,{flag:'wx',mode:0o600});console.log(JSON.stringify({config_sha256:rendered.configSha,template_sha256:rendered.templateSha,sql_sha256:rendered.sqlSha,active:false}));}
   else if(operation==='new-dispatch-id'&&!arg)console.log(JSON.stringify({dispatch_id:randomUUID(),submitted:false}));
   else{
-   emailDeployment();const value=process.env.COLLECT_EMAIL_JOBS_DATABASE_URL;delete process.env.COLLECT_EMAIL_JOBS_DATABASE_URL;const target=new URL(value);
-   if(!['postgres:','postgresql:'].includes(target.protocol)||target.hostname!=='db'||!['','5432'].includes(target.port)||target.username!=='postgres'||!target.password||target.pathname!=='/postgres'||target.search||target.hash||!process.env.COLLECT_DB_CA_PEM?.startsWith('-----BEGIN CERTIFICATE-----\n'))throw Error('Verified private owner database required');
-   const pg=createRequire(import.meta.url)('pg');const client=new pg.Client({connectionString:value,ssl:{ca:process.env.COLLECT_DB_CA_PEM,rejectUnauthorized:true,servername:'db'},connectionTimeoutMillis:10000,statement_timeout:15000});await client.connect();
+   emailDeployment();const value=process.env.COLLECT_EMAIL_JOBS_DATABASE_URL;delete process.env.COLLECT_EMAIL_JOBS_DATABASE_URL;
+   const target=validateConnection(value);
+   const pg=createRequire(import.meta.url)('pg');const client=new pg.Client({connectionString:target.href,ssl:{rejectUnauthorized:true,servername:target.hostname},connectionTimeoutMillis:10000,statement_timeout:15000});await client.connect();
    const sql={unsafe:async(text,values)=>(await client.query(text,values)).rows};
    try{const readiness=operation==='readiness'?await readEmailReadiness(arg):undefined;console.log(JSON.stringify(await runEmailOperation(operation,{sql,readiness,id:arg,evidence:operation==='review-unknown'?extra:arg})));}finally{await client.end();}
   }

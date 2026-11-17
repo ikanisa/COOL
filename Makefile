@@ -365,10 +365,10 @@ supabase-source-test:
 	@python3 -m unittest scripts.supabase.test_aggregate_inventory_reconcile
 	@python3 -m unittest scripts.supabase.test_catalogue_reconciliation
 	@python3 -m unittest scripts.supabase.test_catalogue_capture
-	@python3 -m unittest scripts.self_hosted.test_operations.Configuration scripts.self_hosted.test_recovery_promotion scripts.self_hosted.test_release_operator scripts.self_hosted.test_scheduler_custody
-	@node --test deploy/self-hosted/*.test.mjs scripts/self_hosted/*.test.mjs scripts/supabase/deployment-profile.test.mjs
+	@node --test scripts/supabase/deployment-profile.test.mjs
+	@python3 -m unittest scripts.supabase.testing.test_qualification_source_manifest
 	@node --test deploy/managed-native-ingress/worker.test.mjs
-	@node --test deploy/managed-native-ingress/handler-integration/handler-integration.test.mjs
+	@node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs
 	@node --test --test-concurrency=1 supabase/managed-native-ingress/nonce-ledger.test.mjs
 	@node --test --test-concurrency=1 supabase/managed-deployment-identity/bind-managed.test.mjs
 	@node --test scripts/supabase/testing/buri-isolated-pg/report.test.mjs
@@ -383,7 +383,7 @@ supabase-source-test:
 	@node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs
 	@node --test scripts/supabase/testing/current16-integration.test.mjs
 	@node scripts/supabase/testing/pinned-history-stage.mjs --source58
-	@node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs scripts/self_hosted/jobs-profile.test.mjs scripts/self_hosted/email-job-contract.test.mjs
+	@node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs
 	@node scripts/supabase/run_edge_node_tests.mjs
 	@node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs
 	@output="$$(mktemp "$${TMPDIR:-/tmp}/collect-commission-deno.XXXXXXXX")" || exit 1; trap 'rm -f -- "$$output"' EXIT; "$${COLLECT_DENO:-deno}" --version | grep -Eq '^deno 2[.]9[.]6 ' || exit 1; "$${COLLECT_DENO:-deno}" test --frozen --lock=supabase/functions/deno.lock --reporter=tap scripts/supabase/device-commissioning/edge-smoke.test.ts > "$$output" 2>&1; result=$$?; cat "$$output"; test "$$result" -eq 0 && grep -Fqx 'ok 1 - synthetic Edge request signs and verifies commissioning receipt and acknowledgement' "$$output" && grep -Fqx '1..1' "$$output"
