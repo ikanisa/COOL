@@ -109,6 +109,7 @@ class NativePlan(unittest.TestCase):
             'rw.ikanisa.burimunsi.NativeUiContractTest#automaticOutgoingTransactionShowsActualFieldsWithoutAllocating',
             'rw.ikanisa.burimunsi.NativeUiContractTest#backgroundPrivacyNeverExposesRawReceipt',
             'rw.ikanisa.burimunsi.NativeUiContractTest#bottomNavigationCoversEverySignedInRouteAndMapsDetailSelection',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#configurationBlockDoesNotPretendSignInIsRunning',
             'rw.ikanisa.burimunsi.NativeUiContractTest#discardPromptRemainsInTheCurrentSheetAndPreservesDraftUntilConfirmed',
             'rw.ikanisa.burimunsi.NativeUiContractTest#freshEntryIsOriginalPhoneAndFourDigitPasscode',
             'rw.ikanisa.burimunsi.NativeUiContractTest#homeOmitsGatewayControlForAllRolesAndSettingsKeepsRecovery',
@@ -117,10 +118,13 @@ class NativePlan(unittest.TestCase):
             'rw.ikanisa.burimunsi.NativeUiContractTest#gatewayShowsOnlyThePairedReceivingCodeSnapshot',
             'rw.ikanisa.burimunsi.NativeUiContractTest#gatewayUsesSmsPermissionWithoutPairingCode',
             'rw.ikanisa.burimunsi.NativeUiContractTest#invalidPhoneNeverEnablesSignIn',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#navigationUsesControllerReadPolicyAndAlwaysHonorsClosedAccessGate',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#observationStatusAndRetryReflectAdminProcessingAuthority',
             'rw.ikanisa.burimunsi.NativeUiContractTest#originalFiltersIncludeProcessingAndApplyOnlyTheSelectedStatus',
             'rw.ikanisa.burimunsi.NativeUiContractTest#originalHeadersExposeFiltersProfileHistoryAndExport',
             'rw.ikanisa.burimunsi.NativeUiContractTest#originalFormPlaceholdersDescribeExpectedInputs',
             'rw.ikanisa.burimunsi.NativeUiContractTest#overviewKeepsAuthoritativeUnallocatedAmountAndAllPaymentsAction',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#parsedSmsUsesExistingScreensWithoutManualVerification',
             'rw.ikanisa.burimunsi.NativeUiContractTest#passcodeConfirmationImeDoesNotChangeCredentialUntilSave',
             'rw.ikanisa.burimunsi.NativeUiContractTest#phoneNextAndPasscodeDoneSubmitOnce',
             'rw.ikanisa.burimunsi.NativeUiContractTest#privacyGateDisposesCredentialsAndRecordsWithinOriginalRoute',
@@ -129,11 +133,11 @@ class NativePlan(unittest.TestCase):
             'rw.ikanisa.burimunsi.NativeUiContractTest#rawReceiptOpensDirectlyAndLinksToItsContribution',
             'rw.ikanisa.burimunsi.NativeUiContractTest#searchIsLiveAndHasNoAddedSubmitControl',
             'rw.ikanisa.burimunsi.NativeUiContractTest#settingsSmsPermissionUsesTheAvailableAndroidAction',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#signInShowsAccessibleProgressAndRetainsThePhoneOnFailure',
             'rw.ikanisa.burimunsi.NativeUiContractTest#smartOnboardingHasKinyarwandaCopy',
             'rw.ikanisa.burimunsi.NativeUiContractTest#smartOnboardingUsesTheExistingAddMemberSheet',
             'rw.ikanisa.burimunsi.NativeUiContractTest#staffViewsHaveNoInventedPreferencesOrAdminGatewayControls',
             'rw.ikanisa.burimunsi.NativeUiContractTest#supportActionsUseOnlyAnAvailableRuntimeContact',
-            'rw.ikanisa.burimunsi.NativeUiContractTest#syncedSmsUsesExistingScreensWithoutManualVerification',
             'rw.ikanisa.burimunsi.NativeUiContractTest#twoHundredPercentTypePreservesCompleteMoneyAndAccessibleIdentity',
             'rw.ikanisa.burimunsi.NativeUiContractTest#unknownFinancialOutcomeNeverShowsAllocationAction',
             'rw.ikanisa.burimunsi.StaffPackageIsolationTest#installedPackageEnforcesRoleBoundary',
@@ -394,7 +398,7 @@ class FlavorInstrumentation(unittest.TestCase):
         contracts = n.test_contracts()
         staff = set(contracts['staff'])
         receiver = set(contracts['internal_receiver'])
-        self.assertEqual(len(staff), 64)
+        self.assertEqual(len(staff), 68)
         self.assertTrue(staff < receiver)
         self.assertEqual(receiver - staff, {
             'app.cool.mobile.receiver_sms.GatewayDurabilityTest#' + method
@@ -530,7 +534,7 @@ class FlavorInstrumentation(unittest.TestCase):
         code, report, calls = self.run_synthetic_instrumentation()
         self.assertEqual(code, 0, report)
         self.assertEqual({value['flavor']: value['completed'] for value in report['flavors']},
-                         {'staff': 64, 'internal_receiver': 82})
+                         {'staff': 68, 'internal_receiver': 86})
         selectors = [call[call.index('class') + 1] for call in calls if 'class' in call]
         self.assertEqual(len(selectors), 2)
         self.assertNotIn('GatewayDurabilityTest', selectors[0])
@@ -595,8 +599,8 @@ class FlavorInstrumentation(unittest.TestCase):
         code, report, calls = self.run_synthetic_instrumentation(omit_receiver_method=True)
         self.assertEqual(code, 2)
         self.assertEqual(report['status'], 'FAIL')
-        self.assertEqual(report['flavors'][0]['completed'], 64)
-        self.assertEqual(report['flavors'][1]['completed'], 81)
+        self.assertEqual(report['flavors'][0]['completed'], 68)
+        self.assertEqual(report['flavors'][1]['completed'], 85)
         self.assertFalse(report['flavors'][1]['passed'])
         self.assertTrue(all(value['removed'] for value in report['cleanup']))
 
