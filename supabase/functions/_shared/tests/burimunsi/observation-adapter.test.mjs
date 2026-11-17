@@ -4,6 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createPhonePinRequestGate,PIN_CONTEXT_SQL} from '../../domain/burimunsi/phone-pin-request.js';
 import {PostgresNativeObservations,OBSERVATION_UNRESOLVED_SQL,observationContentFingerprint} from '../../domain/burimunsi/postgres-observations.js';
+import {PostgresStorageWitnesses} from '../../domain/burimunsi/postgres-storage-witnesses.js';
 import {ObservationUploadUnresolved} from '../../domain/burimunsi/errors.js';
 import {validateProviderProfile} from '../../domain/momo_pipeline.js';
 import {decrypt} from '../../domain/encryption.js';
@@ -316,6 +317,188 @@ async function importedWitness(f,adapter,n,overrides={}){
   serviceCentreAt:item.serviceCentreAt,inboxReceivedAt:item.inboxReceivedAt??'2026-11-11T12:00:00.000Z',subscriptionId:item.subscriptionId};
  return {item,proof,saved};
 }
+
+// Exercise the real in-memory witness capability and AES-GCM with synthetic
+// metadata and a fake object transport. No PostgreSQL or provider is contacted.
+function useActualWitnesses(f,adapter){
+ const trace={writes:0,inTransaction:false,reads:0,seals:0,forgotten:0,bindings:new Set(),now};
+ const write=adapter.authority.write;
+ adapter.authority.write=async fn=>{
+  assert.equal(trace.inTransaction,false);trace.inTransaction=true;trace.writes++;
+  try{return await write(fn);}finally{trace.inTransaction=false;}
+ };
+ adapter.custody.journal=async(_tx,key)=>{
+  const value=f.state.media.get(key);if(!value)throw new Error('synthetic journal missing');
+  const size=new TextEncoder().encode(value.sealed).length;
+  return {reservation:{key_id:'synthetic-key',source_fingerprint:value.fingerprint},
+   put:{object_key:key,size,sha256:await sha256(value.sealed)},
+   metadata:{http_metadata:value.descriptor.httpMetadata,custom_metadata:value.descriptor.customMetadata}};
+ };
+ const media={namespace:structuredClone(adapter.custody.namespace),get:async key=>{
+  assert.equal(trace.inTransaction,false,'Storage cannot be read while holding the database fence');
+  trace.reads++;await f.state.onGet?.();const value=f.state.media.get(key);if(!value)return null;
+  const size=new TextEncoder().encode(value.sealed).length;
+  return {key,size,sha256:await sha256(value.sealed),httpMetadata:value.descriptor.httpMetadata,
+   customMetadata:value.descriptor.customMetadata,text:async()=>value.sealed};
+ }};
+ const witnesses=new PostgresStorageWitnesses({db:adapter.authority.db,groupId:group,namespace:media.namespace,media,
+  applicationWorkTuple:()=>[id(888),1,'a'.repeat(64)],clock:()=>trace.now});
+ adapter.storageWitnesses={
+  stage:async(binding,targets)=>{const plan=await witnesses.stage(binding,targets);trace.bindings.add(canonicalJson(binding));return plan;},
+  prefetch:async plan=>{assert.equal(trace.inTransaction,false);return witnesses.prefetch(plan);},
+  sealed:async(...args)=>{const result=await witnesses.sealed(...args);trace.seals++;await trace.afterSeal?.(trace.seals);return result;},
+  forget:binding=>{trace.forgotten++;trace.bindings.delete(canonicalJson(binding));return witnesses.forget(binding);},
+ };
+ return trace;
+}
+
+test('singleton legacy batch shares its last fence and retains the real sealed witness until verification',async()=>{
+ const f=fixture();await f.run(async adapter=>{
+  const a=await importedWitness(f,adapter,295);
+  const trace=useActualWitnesses(f,adapter),before={puts:f.state.puts,commits:f.state.commits,audits:f.state.audits.length};
+  trace.afterSeal=n=>{assert.equal(trace.inTransaction,n===2,'the final witness check must be fenced');};
+  const result=await adapter.reconcileBatch(actor,{items:[a.proof]});
+  assert.deepEqual(result.items,[{sourceKey:a.proof.sourceKey,state:'matched',sourceId:a.saved.sourceId}]);
+  assert.equal(trace.writes,2);assert.equal(trace.reads,1);assert.equal(trace.seals,2);
+  assert.equal(trace.forgotten,1);assert.equal(trace.bindings.size,0);
+  assert.deepEqual({puts:f.state.puts,commits:f.state.commits,audits:f.state.audits.length},before);
+ });
+});
+
+test('singleton legacy races keep item-level error codes and release their real witness',async()=>{
+ const changes={
+  'candidate-added':{status:409,code:'observation_item_conflict'},
+  'candidate-removed':{status:409,code:'observation_item_conflict'},
+  'journal':{status:503,code:'observation_item_unavailable'},
+  'namespace':{status:503,code:'observation_item_unavailable'},
+  'expired-witness':{status:503,code:'observation_item_unavailable'},
+  'consent':{status:403,code:'access_denied'},
+  'reveal':{status:403,code:'access_denied'},
+  'session':{status:403,code:'access_denied'},
+  'lease':{status:403,code:'access_denied'},
+  'consent-after-final-seal':{status:403,code:'access_denied'},
+ };
+ for(const [change,expected] of Object.entries(changes)){
+  const f=fixture();await f.run(async adapter=>{
+   const a=await importedWitness(f,adapter,296);
+   const other=change==='candidate-added'?await importedWitness(f,adapter,297):null;
+   const added=other?f.state.legacySources.pop():null;
+   const trace=useActualWitnesses(f,adapter);
+   let reads=0,assertions=0;
+   const read=adapter.authority.read,owned=adapter.authority.assertOwned;
+   adapter.authority.read=async fn=>{reads++;return read(fn);};
+   adapter.authority.assertOwned=async()=>{assertions++;return owned();};
+   trace.afterSeal=n=>{
+    if(n===1){
+     if(change==='consent')f.state.enabled=false;
+     if(change==='reveal')f.state.revealGranted=false;
+     if(change==='session')f.state.liveSessionId=id(999);
+     if(change==='lease')f.state.active=false;
+     if(change==='candidate-added')f.state.legacySources.push(added);
+     if(change==='candidate-removed')f.state.legacySources=[];
+     if(change==='journal')f.state.media.get('sms/'+a.saved.sourceId).fingerprint='f'.repeat(64);
+     if(change==='namespace')adapter.custody.namespace={origin:'https://different.invalid',bucket:'collect-evidence'};
+     if(change==='expired-witness')trace.now+=300001;
+    }
+    if(n===2&&change==='consent-after-final-seal')f.state.enabled=false;
+   };
+   await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof]}),expected,change);
+   assert.equal(trace.forgotten,1,change);assert.equal(trace.bindings.size,0,change);
+   assert.equal(trace.inTransaction,false,change);
+   if(expected.code.startsWith('observation_item_')){
+    assert.equal(reads,2,`${change}: current context must be rechecked before reporting an item error`);
+    assert.equal(assertions,2,`${change}: current request ownership must be rechecked before reporting an item error`);
+   }
+   // The enclosing synthetic request gate also checks its lease on exit.
+   if(change==='lease')f.state.active=true;
+  });
+ }
+});
+
+test('singleton item failures cannot mask revocation or a changed context during error recheck',async()=>{
+ for(const change of ['consent','context','lease']){
+  const f=fixture();await f.run(async adapter=>{
+   const a=await importedWitness(f,adapter,289),trace=useActualWitnesses(f,adapter);
+   const read=adapter.authority.read,owned=adapter.authority.assertOwned;let reads=0,assertions=0;
+   adapter.authority.read=async fn=>{
+    if(++reads===2){if(change==='consent')f.state.enabled=false;if(change==='context')f.state.generation++;}
+    return read(fn);
+   };
+   adapter.authority.assertOwned=async()=>{
+    if(++assertions===2&&change==='lease')throw new Error('synthetic revoked lease');
+    return owned();
+   };
+   trace.afterSeal=n=>{if(n===1)f.state.legacySources=[];};
+   const expected=change==='consent'?{status:403,code:'access_denied'}:
+    change==='context'?{status:409,code:'observation_changed'}:{status:503,code:'observation_unavailable'};
+   await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof]}),expected,change);
+   assert.equal(reads,2,change);assert.equal(trace.forgotten,1,change);assert.equal(trace.bindings.size,0,change);
+  });
+ }
+});
+
+test('singleton maps a failed item fence but keeps a later batch-wide database failure generic',async()=>{
+ for(const failure of ['fence-timeout','fence-denied','later-batch-outage']){
+  const f=fixture();await f.run(async adapter=>{
+   const a=await importedWitness(f,adapter,290),trace=useActualWitnesses(f,adapter);
+   const write=adapter.authority.write,context=adapter.context.bind(adapter);let writes=0,contexts=0;
+   adapter.authority.write=async fn=>{
+    if(++writes===2&&failure==='fence-timeout')throw sqlError('55P03');
+    if(writes===2&&failure==='fence-denied')throw sqlError('42501');
+    return write(fn);
+   };
+   adapter.context=async(...args)=>{
+    if(++contexts===4&&failure==='later-batch-outage')throw sqlError('08006');
+    return context(...args);
+   };
+   const expected=failure==='fence-timeout'?{status:503,code:'observation_item_unavailable'}:
+    failure==='fence-denied'?{status:403,code:'access_denied'}:{status:503,code:'observation_unavailable'};
+   await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof]}),expected,failure);
+   assert.equal(trace.forgotten,1,failure);assert.equal(trace.bindings.size,0,failure);
+  });
+ }
+});
+
+test('singleton legacy batch verifies every candidate and denies ambiguous exact matches',async()=>{
+ const f=fixture();await f.run(async adapter=>{
+  const first=await importedWitness(f,adapter,291);
+  await importedWitness(f,adapter,292,{inboxReceivedAt:'2026-11-11T12:00:01.000Z'});
+  const trace=useActualWitnesses(f,adapter);
+  const result=await adapter.reconcileBatch(actor,{items:[first.proof]});
+  assert.equal(result.items[0].sourceId,first.saved.sourceId);
+  assert.equal(trace.writes,2);assert.equal(trace.reads,2);assert.equal(trace.seals,4);
+  assert.equal(trace.forgotten,1);assert.equal(trace.bindings.size,0);
+ });
+ const ambiguous=fixture();await ambiguous.run(async adapter=>{
+  const first=await importedWitness(ambiguous,adapter,293);
+  await importedWitness(ambiguous,adapter,294);
+  const trace=useActualWitnesses(ambiguous,adapter);
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[first.proof]}),
+   e=>e.status===409&&e.code==='observation_item_conflict');
+  assert.equal(trace.reads,2);assert.equal(trace.seals,2);
+  assert.equal(trace.forgotten,1);assert.equal(trace.bindings.size,0);
+ });
+});
+
+test('multiple retained legacy items keep their existing complete per-item fences',async()=>{
+ const f=fixture();await f.run(async adapter=>{
+  const a=await importedWitness(f,adapter,298);
+  const b=await importedWitness(f,adapter,299,{rawBody:'Received 299 RWF. Reference: 1299.'});
+  const trace=useActualWitnesses(f,adapter);
+  const result=await adapter.reconcileBatch(actor,{items:[a.proof,b.proof]});
+  assert.deepEqual(result.items.map(item=>item.sourceId),[a.saved.sourceId,b.saved.sourceId]);
+  assert.equal(trace.writes,5);assert.equal(trace.reads,2);assert.equal(trace.seals,4);
+  assert.equal(trace.forgotten,2);assert.equal(trace.bindings.size,0);
+ });
+ const mixed=fixture();await mixed.run(async adapter=>{
+  const a=await importedWitness(mixed,adapter,300),trace=useActualWitnesses(mixed,adapter);
+  const missing={...a.proof,sourceKey:'f'.repeat(64),bodySha256:'e'.repeat(64)};
+  const result=await adapter.reconcileBatch(actor,{items:[a.proof,missing]});
+  assert.deepEqual(result.items.map(item=>item.state),['matched','missing']);
+  assert.equal(trace.writes,3);assert.equal(trace.reads,1);assert.equal(trace.seals,2);
+  assert.equal(trace.forgotten,1);assert.equal(trace.bindings.size,0);
+ });
+});
 
 test('legacy reconciliation reads exact retained live and catch-up SMS without writing or exposing content',async()=>{
  const f=fixture();await f.run(async adapter=>{

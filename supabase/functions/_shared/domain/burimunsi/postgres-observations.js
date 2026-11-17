@@ -245,7 +245,7 @@ export class PostgresNativeObservations {
    }
    return {ctx,records,candidates};
   };
-  let initial;
+  let initial;const legacy=new Map();
   try{
    initial=await this.authority.read(snapshot);
    check(initial.candidates.reduce((n,items)=>n+items.length,0)<=20,'observation_item_unavailable',503);
@@ -253,7 +253,7 @@ export class PostgresNativeObservations {
    // database mutation lock. Serialize complete item checks within this batch
    // so its own workers cannot exhaust the lock timeout against each other.
    // No transaction or mutation lock is held during network operations.
-   const indexes=initial.records.map((record,i)=>record||initial.candidates[i].length?i:-1).filter(i=>i>=0),legacy=new Map();
+   const indexes=initial.records.map((record,i)=>record||initial.candidates[i].length?i:-1).filter(i=>i>=0);
    let next=0,failure=null;
    let verificationTail=Promise.resolve();
    const serialize=fn=>{
@@ -270,7 +270,7 @@ export class PostgresNativeObservations {
      const i=indexes[next++];
      try{
       if(initial.records[i])await serialize(()=>this.checkDuplicateObject(values[i],hashes[i],values[i].bodySha256,initial.records[i]));
-      else legacy.set(i,await serialize(()=>this.checkLegacyCandidates(actor,values[i],initial.ctx,initial.candidates[i])));
+      else legacy.set(i,await serialize(()=>this.checkLegacyCandidates(actor,values[i],initial.ctx,initial.candidates[i],values.length===1)));
      }
      catch(error){
       if(error instanceof BuriError&&error.code==='observation_changed')error=new BuriError('observation_item_conflict',409);
@@ -286,19 +286,37 @@ export class PostgresNativeObservations {
    if(indexes.length){
     // The normal custody fence serializes journal verification with storage
     // mutation; it does not itself write an observation or financial record.
-    await this.authority.write(async tx=>{
-     const fenced=await snapshot(tx);
-     check(same(fenced.ctx,initial.ctx)&&same(fenced.records,initial.records)&&same(fenced.candidates,initial.candidates),'observation_changed',409);
-     if(legacy.size){const namespace=await this.namespace(tx);
-      for(const proof of legacy.values())check(same(namespace,proof.namespace),'observation_changed',409);}
-     for(const i of indexes){
-      const records=initial.records[i]?[initial.records[i]]:initial.candidates[i];
-      for(let j=0;j<records.length;j++){
-       const prior=records[j],journal=await this.custody.journal(tx,prior.object_key,target(prior));await this.checkJournal(prior,journal);
-       if(!initial.records[i])check(this.custody.sameJournal(journal,legacy.get(i).journals[j]),'observation_changed',409);
+    const singleton=legacy.get(indexes[0]);let itemFinalPending=Boolean(singleton?.binding);
+    try{
+     await this.authority.write(async tx=>{
+      if(itemFinalPending){
+       // Keep the original item validation and its error boundary ahead of the
+       // batch-wide checks. Storage bytes are already prefetched outside SQL.
+       await this.verifyLegacyFinal(tx,actor,values[0],initial.ctx,initial.candidates[0],singleton);
+       itemFinalPending=false;
       }
+      const fenced=await snapshot(tx);
+      check(same(fenced.ctx,initial.ctx)&&same(fenced.records,initial.records)&&same(fenced.candidates,initial.candidates),'observation_changed',409);
+      if(legacy.size){const namespace=await this.namespace(tx);
+       for(const proof of legacy.values())check(same(namespace,proof.namespace),'observation_changed',409);}
+      for(const i of indexes){
+       const records=initial.records[i]?[initial.records[i]]:initial.candidates[i];
+       for(let j=0;j<records.length;j++){
+        const prior=records[j],journal=await this.custody.journal(tx,prior.object_key,target(prior));await this.checkJournal(prior,journal);
+        if(!initial.records[i])check(this.custody.sameJournal(journal,legacy.get(i).journals[j]),'observation_changed',409);
+       }
+      }
+     });
+    }catch(error){
+     if(itemFinalPending){
+      const failure=mapped(error);
+      if(failure.code==='observation_changed')throw new BuriError('observation_item_conflict',409);
+      if(failure.status===403||failure.status===409)throw failure;
+      throw new BuriError('observation_item_unavailable',503);
      }
-    });
+     throw error;
+    }
+    if(singleton?.binding)await this.authority.assertOwned();
    }
    // authority.read is REPEATABLE READ, so the keys and authorization are
    // rechecked together after the network and custody operations.
@@ -320,6 +338,8 @@ export class PostgresNativeObservations {
     }catch(recheckError){throw mapped(recheckError);}
    }
    throw mapped(error);
+  }finally{
+   for(const proof of legacy.values())if(proof.binding)this.storageWitnesses.forget(proof.binding);
   }
  }
  /** Collection-wide metadata only; actor and consent are current in the same
@@ -410,11 +430,23 @@ export class PostgresNativeObservations {
    new Set(records.map(r=>r.id)).size===records.length,'observation_changed',409);
   return records;
  }
+ /** Revalidate only a previously staged, decrypted legacy witness. This runs
+  * inside an authority fence; sealed() checks local ciphertext and ownership
+  * without fetching from Storage. The caller maps errors at its own boundary. */
+ async verifyLegacyFinal(tx,actor,value,expectedCtx,candidates,proof){
+  const {ctx}=await this.context(tx,actor),current=await this.legacyCandidates(tx,actor,value.bodySha256);
+  check(same(ctx,expectedCtx)&&same(current,candidates)&&same(await this.namespace(tx),proof.namespace),'observation_changed',409);
+  for(let i=0;i<current.length;i++){
+   const record=current[i],journal=await this.custody.journal(tx,record.object_key,target(record));
+   await this.checkJournal(record,journal);check(this.custody.sameJournal(journal,proof.journals[i]),'observation_changed',409);
+   await this.storageWitnesses.sealed(proof.binding,record.object_key,journal);
+  }
+ }
  /** Decrypt only after proving the committed ciphertext against its journal.
   * Missing metadata, unavailable objects, multiple exact matches and any
   * changed authority/custody remain unresolved; this method creates no data. */
- async checkLegacyCandidates(actor,value,expectedCtx,candidates){
-  let binding;
+ async checkLegacyCandidates(actor,value,expectedCtx,candidates,deferValidation=false){
+  let binding,release=true;
   try{
    const initial=await this.authority.write(async tx=>{
     const {ctx}=await this.context(tx,actor),current=await this.legacyCandidates(tx,actor,value.bodySha256);
@@ -455,22 +487,21 @@ export class PostgresNativeObservations {
    }
    check(matches.length<=1,'observation_item_conflict',409);
    await this.authority.assertOwned();
-   await this.authority.write(async tx=>{
-    const {ctx}=await this.context(tx,actor),current=await this.legacyCandidates(tx,actor,value.bodySha256);
-    check(same(ctx,expectedCtx)&&same(current,candidates)&&same(await this.namespace(tx),initial.namespace),'observation_changed',409);
-    for(let i=0;i<current.length;i++){
-     const record=current[i],journal=await this.custody.journal(tx,record.object_key,target(record));
-     await this.checkJournal(record,journal);check(this.custody.sameJournal(journal,initial.journals[i]),'observation_changed',409);
-     await this.storageWitnesses.sealed(binding,record.object_key,journal);
-    }
-   });
+   // For the singleton batch only, the caller performs these same final
+   // authorization, candidate, namespace, journal and sealed-witness checks
+   // in its existing batch-wide transaction, then releases the witness.
+   if(deferValidation){
+    release=false;
+    return {match:matches[0]??null,journals:initial.journals,namespace:initial.namespace,binding};
+   }
+   await this.authority.write(tx=>this.verifyLegacyFinal(tx,actor,value,expectedCtx,candidates,{...initial,binding}));
    await this.authority.assertOwned();
    return {match:matches[0]??null,journals:initial.journals,namespace:initial.namespace};
   }catch(error){
    const failure=mapped(error);
    if(failure.status===403||failure.status===409)throw failure;
    throw new BuriError('observation_item_unavailable',503);
-  }finally{if(binding)this.storageWitnesses.forget(binding);}
+  }finally{if(binding&&release)this.storageWitnesses.forget(binding);}
  }
  async checkDuplicate(actor,value,contentSha,bodySha,prior){
   await this.checkDuplicateObject(value,contentSha,bodySha,prior);
