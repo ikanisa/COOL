@@ -95,10 +95,10 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
         return if(terminal(phase))Entry(phase,o.requestId,key,digest,sourceId)
         else Entry(phase,o.requestId,key,digest,null,rowId,o,consentGeneration)
     }
-    private fun generation(consent:ObservationConsentState?):Long? = consent?.takeIf{
+    private fun generation(consent:ObservationConsentState):Long? = consent.takeIf{
         it.confirmed&&it.revision.enabled&&it.revision.generation in 1..MAX_CONSENT_GENERATION
     }?.revision?.generation
-    private fun sameConsent(entry:Entry,consent:ObservationConsentState?):Boolean =
+    private fun sameConsent(entry:Entry,consent:ObservationConsentState):Boolean =
         entry.consentGeneration!=null&&generation(consent)==entry.consentGeneration
     private fun encode(value:Entry):String {
         if(terminal(value.phase))return JSONObject().put("version",2).put("phase",value.phase.name)
@@ -166,13 +166,13 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
     }
     /** A future retry protocol must still separately validate the current
      * actor, grant, installation, permission, inbox row and server guard. */
-    fun consentMatches(entry:Entry,consent:ObservationConsentState?):Boolean=synchronized(lock){
+    fun consentMatches(entry:Entry,consent:ObservationConsentState):Boolean=synchronized(lock){
         read(entry.sourceKey)==entry&&sameConsent(entry,consent)
     }
 
     /** A changed row cannot replace either an uncertain request or its tombstone. */
     fun prepare(rowId:Long,key:String,sender:String,body:String,receivedAt:String,sentAt:String?,subscriptionId:Int?,now:Long,
-        consent:ObservationConsentState?=null):Entry? = synchronized(lock){
+        consent:ObservationConsentState):Entry? = synchronized(lock){
         val existing=read(key)
         if(existing!=null)return@synchronized existing.takeIf{
             it.rowDigest==rowDigest(rowId,key,sender,body,receivedAt,sentAt,subscriptionId)&&
@@ -188,33 +188,30 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
     }
     /** This transition permits only the first dispatch. A persisted ATTEMPTING
      * record is never itself permission to resend, even with unchanged consent. */
-    fun begin(entry:Entry,consent:ObservationConsentState?=null):Entry?=synchronized(lock){
+    fun begin(entry:Entry,consent:ObservationConsentState):Entry?=synchronized(lock){
         val current=read(entry.sourceKey)?:return@synchronized null
         if(current!=entry||!sameConsent(current,consent))return@synchronized null
         if(current.phase!=Phase.PREPARED)return@synchronized null
         val next=current.copy(phase=Phase.ATTEMPTING);store(entry.sourceKey).write(encode(next))
         read(entry.sourceKey)?.takeIf{it==next}
     }
-    fun confirm(entry:Entry,ack:HeldObservationAck,consent:ObservationConsentState?=null):Entry?=synchronized(lock){
+    fun confirm(entry:Entry,ack:HeldObservationAck,consent:ObservationConsentState):Entry?=synchronized(lock){
         val o=entry.observation?:return@synchronized null
         if(entry.phase!=Phase.ATTEMPTING||read(entry.sourceKey)!=entry||!sameConsent(entry,consent)||ack.autoProcessing!="held"||
             !ObservationAcknowledgement.matches(o,ack.observation))return@synchronized null
         val next=entry.copy(phase=Phase.CONFIRMED,sourceId=ack.observation.sourceId,rowId=null,observation=null,consentGeneration=null)
         store(entry.sourceKey).write(encode(next));read(entry.sourceKey)?.takeIf{it==next}
     }
-    /** Legacy v1 attempts have no local consent witness. They may only be
-     * redacted after the caller receives an authenticated exact ACK from the
-     * server route that proves the original held admission and rechecks its
-     * original consent generation against the current consent. This method
-     * does not establish transport provenance or authorize a resend. */
-    fun confirmReadOnly(entry:Entry,ack:HeldRecoveryResolution,consent:ObservationConsentState?=null):Entry?=synchronized(lock){
+    /** The value alone cannot prove transport provenance or the original
+     * generation of a legacy attempt. An unwitnessed v1 attempt stays
+     * unresolved until a separately qualified authenticated proof exists. */
+    fun confirmReadOnly(entry:Entry,ack:HeldRecoveryResolution,consent:ObservationConsentState):Entry?=synchronized(lock){
         val o=entry.observation?:return@synchronized null
-        val consentValid=if(entry.consentGeneration==null)generation(consent)!=null else sameConsent(entry,consent)
-        if(entry.phase!=Phase.ATTEMPTING||read(entry.sourceKey)!=entry||!consentValid||!ack.validFor(o)||ack.state!="acknowledged")return@synchronized null
+        if(entry.phase!=Phase.ATTEMPTING||read(entry.sourceKey)!=entry||!sameConsent(entry,consent)||!ack.validFor(o)||ack.state!="acknowledged")return@synchronized null
         val next=entry.copy(phase=Phase.CONFIRMED,sourceId=ack.sourceId,rowId=null,observation=null,consentGeneration=null)
         store(entry.sourceKey).write(encode(next));read(entry.sourceKey)?.takeIf{it==next}
     }
-    fun markExisting(entry:Entry,sourceId:String,consent:ObservationConsentState?=null):Entry?=synchronized(lock){
+    fun markExisting(entry:Entry,sourceId:String,consent:ObservationConsentState):Entry?=synchronized(lock){
         if(entry.phase!=Phase.PREPARED||read(entry.sourceKey)!=entry||!sameConsent(entry,consent)||!runCatching{Values.id(sourceId)==sourceId}.getOrDefault(false))return@synchronized null
         val next=entry.copy(phase=Phase.MATCHED_EXISTING,sourceId=sourceId,rowId=null,observation=null,consentGeneration=null)
         store(entry.sourceKey).write(encode(next));read(entry.sourceKey)?.takeIf{it==next}

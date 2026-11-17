@@ -22,7 +22,7 @@ fun main(){
     fun consent(generation:Long=7,enabled:Boolean=true,confirmed:Boolean=true)=
         ObservationConsentState(ObservationConsentRevision(enabled,generation),confirmed)
     fun journal()=HeldRecoveryJournal(Context(),owner,install,device)
-    fun prepare(j:HeldRecoveryJournal,c:ObservationConsentState?=consent())=
+    fun prepare(j:HeldRecoveryJournal,c:ObservationConsentState=consent())=
         j.prepare(12,key,"M-Money",body,received,null,3,now,c)
     fun ack(e:HeldRecoveryJournal.Entry)=HeldObservationAck(
         ObservationAck(e.requestId,"synthetic-source-1",Values.sha256(body),"source_unresolved",0),"held")
@@ -40,10 +40,9 @@ fun main(){
     }
     test("new preparation requires an enabled confirmed bounded consent"){
         val j=journal()
-        for(c in listOf(null,consent(enabled=false),consent(confirmed=false),consent(0),consent(9_007_199_254_740_992L)))
+        for(c in listOf(consent(enabled=false),consent(confirmed=false),consent(0),consent(9_007_199_254_740_992L)))
             check(prepare(j,c)==null)
         check(SecureStore.data.isEmpty())
-        check(j.prepare(12,key,"M-Money",body,received,null,3,now)==null)
     }
     test("consent is stored with the immutable request before attempting"){
         val j=journal();val prepared=prepare(j)!!;val saved=JSONObject(SecureStore.data[storedName()]!!)
@@ -61,13 +60,13 @@ fun main(){
     }
     test("revocation or regrant prevents begin and leaves the original bytes intact"){
         val j=journal();val prepared=prepare(j)!!;val name=storedName();val before=SecureStore.data[name]
-        check(j.begin(prepared)==null&&j.begin(prepared,consent(enabled=false))==null)
+        check(j.begin(prepared,consent(enabled=false))==null)
         check(j.begin(prepared,consent(8))==null&&j.begin(prepared,consent(confirmed=false))==null)
         check(SecureStore.data[name]==before&&j.pending(key)==prepared)
     }
     test("confirmation requires matching consent and produces a redacted tombstone"){
         val j=journal();val attempted=j.begin(prepare(j)!!,consent())!!;val name=storedName();val before=SecureStore.data[name]
-        check(j.confirm(attempted,ack(attempted))==null&&j.confirm(attempted,ack(attempted),consent(8))==null)
+        check(j.confirm(attempted,ack(attempted),consent(8))==null)
         check(j.confirm(attempted,ack(attempted).copy(autoProcessing="unknown"),consent())==null)
         check(SecureStore.data[name]==before)
         val done=j.confirm(attempted,ack(attempted),consent())!!;val encoded=SecureStore.data[name]!!
@@ -90,15 +89,14 @@ fun main(){
         check(journal().matches(pending,12,"M-Money",body,received,null,3))
         check(SecureStore.data[name]==original)
     }
-    test("legacy read-only acknowledgement requires current consent and exact server ACK shape"){
+    test("legacy read-only acknowledgement stays unresolved without authenticated provenance"){
         val j=journal();val (name,original)=makeLegacy(j,"ATTEMPTING");val pending=j.pending(key)!!;val proof=resolution(pending)
-        check(j.confirmReadOnly(pending,proof)==null&&j.confirmReadOnly(pending,proof,consent(enabled=false))==null)
+        check(j.confirmReadOnly(pending,proof,consent(enabled=false))==null)
         check(j.confirmReadOnly(pending,proof.copy(state="unconfirmed",sourceId=null,autoProcessing="unknown"),consent())==null)
         check(j.confirmReadOnly(pending,proof.copy(bodySha256=Values.sha256("different")),consent())==null)
-        check(SecureStore.data[name]==original)
-        // The caller is responsible for obtaining this value from the authenticated
-        // server ACK route that proves original admission and current consent.
-        check(j.confirmReadOnly(pending,proof,consent())?.phase==HeldRecoveryJournal.Phase.CONFIRMED)
+        // A valid-shaped value can be locally constructed. Its shape does not
+        // establish that the authenticated server admitted the original request.
+        check(j.confirmReadOnly(pending,proof,consent())==null&&SecureStore.data[name]==original)
     }
     test("legacy prepared can be cleared locally but never upgraded in place"){
         val j=journal();val (_,original)=makeLegacy(j,"PREPARED");val old=j.pending(key)!!
