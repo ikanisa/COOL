@@ -95,6 +95,7 @@ fun main() {
   return result
  }
  fun heldJournal(e:Env)=HeldRecoveryJournal(e.context,adminA,installation,Values.sha256("1234567890abcdef"))
+ val consent1=ObservationConsentState(ObservationConsentRevision(true,1),true)
  fun pendingHeldFixture():Pair<Env,SmsObservation>{
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
   e.repository.recoveryFailureAfterCommit=IllegalStateException("synthetic lost reply")
@@ -106,43 +107,43 @@ fun main() {
   val e=setup();val key=cloudKey(adminA,12);val deviceScope=Values.sha256("synthetic-device")
   val journal=HeldRecoveryJournal(e.context,adminA,installation,deviceScope)
   val received=Instant.ofEpochMilli(time).toString()
-  val prepared=journal.prepare(12,key,"M-Money",body,received,null,3,time)!!
+  val prepared=journal.prepare(12,key,"M-Money",body,received,null,3,time,consent1)!!
   check(prepared.phase==HeldRecoveryJournal.Phase.PREPARED&&!prepared.toString().contains(body))
   val restarted=HeldRecoveryJournal(e.context,adminA,installation,deviceScope)
-  check(restarted.prepare(12,key,"M-Money",body,received,null,3,time+20_000)==prepared)
-  check(restarted.prepare(12,key,"M-Money",body+" changed",received,null,3,time+20_000)==null)
-  val attempted=restarted.begin(prepared)!!
+  check(restarted.prepare(12,key,"M-Money",body,received,null,3,time+20_000,consent1)==prepared)
+  check(restarted.prepare(12,key,"M-Money",body+" changed",received,null,3,time+20_000,consent1)==null)
+  val attempted=restarted.begin(prepared,consent1)!!
   check(attempted.phase==HeldRecoveryJournal.Phase.ATTEMPTING&&attempted.observation==prepared.observation)
-  check(journal.pending(key)==attempted&&journal.begin(attempted)==attempted&&!journal.clear(prepared))
+  check(journal.pending(key)==attempted&&journal.begin(attempted,consent1)==null&&!journal.clear(prepared))
   check(HeldRecoveryJournal(e.context,adminB,installation,deviceScope).pending(key)==null)
   check(HeldRecoveryJournal(e.context,adminA,installation,Values.sha256("another-device")).pending(key)==null)
   check(!journal.clear(attempted))
   val ack=HeldObservationAck(ObservationAck(attempted.observation!!.requestId,"source-1",Values.sha256(body),"source_unresolved",0),"held")
-  val confirmed=journal.confirm(attempted,ack)!!
+  val confirmed=journal.confirm(attempted,ack,consent1)!!
   check(confirmed.phase==HeldRecoveryJournal.Phase.CONFIRMED&&confirmed.sourceId=="source-1"&&confirmed.observation==null)
   val text=SecureStore.data.filterKeys{it.startsWith("observation-held-recovery-")}.values.single()
   check(!text.contains(body)&&!text.contains("M-Money"))
   check(JSONObject(text).keys().asSequence().toSet()==setOf("version","phase","requestId","sourceId","rowDigest"))
-  check(journal.pending(key)==confirmed&&!journal.clear(confirmed)&&journal.begin(confirmed)==null)
-  check(restarted.prepare(12,key,"M-Money",body,received,null,3,time+50_000)==confirmed)
-  check(restarted.prepare(12,key,"M-Money",body+" changed",received,null,3,time+50_000)==null)
+  check(journal.pending(key)==confirmed&&!journal.clear(confirmed)&&journal.begin(confirmed,consent1)==null)
+  check(restarted.prepare(12,key,"M-Money",body,received,null,3,time+50_000,consent1)==confirmed)
+  check(restarted.prepare(12,key,"M-Money",body+" changed",received,null,3,time+50_000,consent1)==null)
  }
  test("a corrupt held recovery journal is not silently replaced") {
   val e=setup();val key=cloudKey(adminA,12);val journal=HeldRecoveryJournal(e.context,adminA,installation,Values.sha256("device"))
   val received=Instant.ofEpochMilli(time).toString()
-  check(journal.prepare(12,key,"M-Money",body,received,null,3,time)!=null)
+  check(journal.prepare(12,key,"M-Money",body,received,null,3,time,consent1)!=null)
   val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
   SecureStore.data[name]="{}"
-  check(runCatching{journal.prepare(12,key,"M-Money",body,received,null,3,time)}.isFailure)
+  check(runCatching{journal.prepare(12,key,"M-Money",body,received,null,3,time,consent1)}.isFailure)
  }
  test("v1 terminal records migrate without session permission or an inbox row; pending records stay exact") {
   val e=setup();val received=Instant.ofEpochMilli(time).toString()
   fun legacy(owner:ObservationOwner,id:Long,phase:String):Pair<String,SmsObservation>{
    val before=SecureStore.data.keys.toSet();val key=cloudKey(owner,id)
    val journal=HeldRecoveryJournal(e.context,owner,installation,Values.sha256("1234567890abcdef"))
-   val prepared=journal.prepare(id,key,"M-Money",body,received,null,3,time)!!
+   val prepared=journal.prepare(id,key,"M-Money",body,received,null,3,time,consent1)!!
    val name=(SecureStore.data.keys-before).single()
-   val old=JSONObject(SecureStore.data[name]!!).put("phase",phase)
+   val old=JSONObject(SecureStore.data[name]!!).put("version",1).put("phase",phase);old.remove("consentGeneration")
    if(phase!="ATTEMPTING")old.put("terminalSourceId","source-$id")
    SecureStore.data[name]=old.toString()
    return name to prepared.observation!!
@@ -168,15 +169,16 @@ fun main() {
   val restarted=HeldRecoveryJournal(e.context,adminA,installation,Values.sha256("1234567890abcdef"))
   val saved=restarted.pending(cloudKey(adminA,12))!!
   check(saved.phase==HeldRecoveryJournal.Phase.CONFIRMED&&saved.requestId==confirmedRequest.requestId&&saved.observation==null)
-  check(restarted.prepare(12,cloudKey(adminA,12),"M-Money",body,received,null,3,time)==saved)
-  check(restarted.prepare(12,cloudKey(adminA,12),"M-Money",body+" altered",received,null,3,time)==null)
-  check(restarted.prepare(12,cloudKey(adminA,12),"M-Money",body,received,null,4,time)==null)
+  check(restarted.prepare(12,cloudKey(adminA,12),"M-Money",body,received,null,3,time,consent1)==saved)
+  check(restarted.prepare(12,cloudKey(adminA,12),"M-Money",body+" altered",received,null,3,time,consent1)==null)
+  check(restarted.prepare(12,cloudKey(adminA,12),"M-Money",body,received,null,4,time,consent1)==null)
  }
  test("failed legacy redaction preserves the old entry for a later safe retry") {
   val e=setup();val key=cloudKey(adminA,12);val journal=heldJournal(e);val received=Instant.ofEpochMilli(time).toString()
-  check(journal.prepare(12,key,"M-Money",body,received,null,3,time)!=null)
+  check(journal.prepare(12,key,"M-Money",body,received,null,3,time,consent1)!=null)
   val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
-  val legacy=JSONObject(SecureStore.data[name]!!).put("phase","CONFIRMED").put("terminalSourceId","source-1").toString()
+  val legacyObject=JSONObject(SecureStore.data[name]!!).put("version",1).put("phase","CONFIRMED").put("terminalSourceId","source-1")
+  legacyObject.remove("consentGeneration");val legacy=legacyObject.toString()
   SecureStore.data[name]=legacy;SecureStore.unwritable.add(name)
   HeldRecoveryJournal.migrateLegacyFiles(e.context,listOf("buri-$name.v1"));check(SecureStore.data[name]==legacy)
   check(runCatching{journal.pending(key)}.isFailure)
@@ -187,9 +189,10 @@ fun main() {
   val e=setup();val received=Instant.ofEpochMilli(time).toString();val journal=heldJournal(e)
   fun terminal(id:Long):String {
    val before=SecureStore.data.keys.toSet()
-   check(journal.prepare(id,cloudKey(adminA,id),"M-Money",body,received,null,3,time)!=null)
+   check(journal.prepare(id,cloudKey(adminA,id),"M-Money",body,received,null,3,time,consent1)!=null)
    val name=(SecureStore.data.keys-before).single()
-   SecureStore.data[name]=JSONObject(SecureStore.data[name]!!).put("phase","CONFIRMED").put("terminalSourceId","source-$id").toString()
+   val legacy=JSONObject(SecureStore.data[name]!!).put("version",1).put("phase","CONFIRMED").put("terminalSourceId","source-$id")
+   legacy.remove("consentGeneration");SecureStore.data[name]=legacy.toString()
    return name
   }
   val transient=terminal(12);val persistent=terminal(13);val retained=SecureStore.data[persistent]
@@ -213,15 +216,15 @@ fun main() {
  }
  test("a corrupt terminal tombstone cannot be replaced with a new request") {
   val e=setup();val key=cloudKey(adminA,12);val journal=heldJournal(e);val received=Instant.ofEpochMilli(time).toString()
-  val prepared=journal.prepare(12,key,"M-Money",body,received,null,3,time)!!
-  val saved=journal.markExisting(prepared,"source-1")!!;check(saved.observation==null)
+  val prepared=journal.prepare(12,key,"M-Money",body,received,null,3,time,consent1)!!
+  val saved=journal.markExisting(prepared,"source-1",consent1)!!;check(saved.observation==null)
   val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
   val bad=JSONObject(SecureStore.data[name]!!).put("rowDigest","corrupt").toString();SecureStore.data[name]=bad
-  check(runCatching{journal.prepare(12,key,"M-Money",body,received,null,3,time)}.isFailure&&SecureStore.data[name]==bad)
+  check(runCatching{journal.prepare(12,key,"M-Money",body,received,null,3,time,consent1)}.isFailure&&SecureStore.data[name]==bad)
  }
  test("invalid recovery input cannot corrupt a fresh journal") {
   val e=setup();val key=cloudKey(adminA,12);val journal=heldJournal(e)
-  check(journal.prepare(12,key,"M-Money","",Instant.ofEpochMilli(time).toString(),null,3,time)==null)
+  check(journal.prepare(12,key,"M-Money","",Instant.ofEpochMilli(time).toString(),null,3,time,consent1)==null)
   check(journal.pending(key)==null)
  }
  test("held recovery is disabled in the normal build") {
@@ -324,6 +327,70 @@ fun main() {
    check(e.repository.recoveryRequests.isEmpty())
   }
  }
+ test("consent or permission changes at a journal write stop dispatch and retain the original generation") {
+  for(phase in listOf("PREPARED","ATTEMPTING"))for(kind in listOf("consent","permission","owner")){
+   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true;var changed=false
+   SecureStore.afterWrite={name,text->
+    if(name.startsWith("observation-held-recovery-")&&JSONObject(text).optString("phase")==phase){
+     SecureStore.afterWrite=null;changed=true
+     when(kind){
+      "consent"->ObservationConfigStore(e.context).saveConsent(adminA,ObservationConsentState(ObservationConsentRevision(true,2),true))
+      "permission"->e.context.denied=setOf(Manifest.permission.RECEIVE_SMS)
+      else->NativeRepository.switch(adminB)
+     }
+    }
+   }
+   check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))
+   check(changed&&e.repository.recoveryRequests.isEmpty())
+   val saved=heldJournal(e).pending(cloudKey(adminA,12))!!
+   check(saved.phase.name==phase&&saved.consentGeneration==1L&&saved.observation!=null)
+   if(kind=="consent"){
+    e.repository.consent=ObservationConsentRevision(true,2)
+    check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))
+    check(e.repository.recoveryRequests.isEmpty()&&heldJournal(e).pending(cloudKey(adminA,12))==saved)
+   }
+  }
+ }
+ test("revocation during a held audit read cannot reach a journal write") {
+  for(stage in listOf("status","batch"))for(kind in listOf("consent","permission")){
+   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+   val revoke={
+    if(kind=="consent")ObservationConfigStore(e.context).saveConsent(adminA,
+     ObservationConsentState(ObservationConsentRevision(true,2),true))
+    else e.context.denied=setOf(Manifest.permission.READ_SMS)
+    Unit
+   }
+   if(stage=="status")e.repository.afterStatus={calls->if(calls==1)revoke()}
+   else e.repository.afterBatch=revoke
+   check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))
+   check(e.repository.recoveryRequests.isEmpty()&&heldJournal(e).pending(cloudKey(adminA,12))==null)
+  }
+ }
+ test("a revocation racing terminal redaction remains unconfirmed and cannot mint another request") {
+  for(phase in listOf("MATCHED_EXISTING","CONFIRMED")){
+   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+   val key=cloudKey(adminA,12);val journal=heldJournal(e)
+   if(phase=="MATCHED_EXISTING"){
+    check(journal.prepare(12,key,"M-Money",body,Instant.ofEpochMilli(time).toString(),null,3,time,consent1)!=null)
+    e.repository.retainedSources[key]="source-1"
+   }
+   var changed=false
+   SecureStore.afterWrite={name,text->
+    if(name.startsWith("observation-held-recovery-")&&JSONObject(text).optString("phase")==phase){
+     SecureStore.afterWrite=null;changed=true;e.context.denied=setOf(Manifest.permission.READ_SMS)
+    }
+   }
+   check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))
+   val terminal=journal.pending(key)!!
+   check(changed&&terminal.phase.name==phase&&terminal.observation==null)
+   val before=e.repository.recoveryRequests.toList()
+   check(before.size==if(phase=="CONFIRMED")1 else 0)
+   e.context.denied=emptySet();val next=ObservationConsentRevision(true,2)
+   ObservationConfigStore(e.context).saveConsent(adminA,ObservationConsentState(next,true));e.repository.consent=next
+   auditUntilSettled(e)
+   check(e.repository.recoveryRequests==before&&journal.pending(key)==terminal)
+  }
+ }
  test("lost response after server commit remains pending without a second upload") {
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
   e.repository.recoveryFailureAfterCommit=IllegalStateException("timeout")
@@ -353,14 +420,28 @@ fun main() {
  test("a crash after the local attempt marker but before dispatch never invents a retry") {
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
   val key=cloudKey(adminA,12);val received=Instant.ofEpochMilli(time).toString();val journal=heldJournal(e)
-  val prepared=journal.prepare(12,key,"M-Money",body,received,null,3,time)!!
-  val attempted=journal.begin(prepared)!!;val original=attempted.observation!!
+  val prepared=journal.prepare(12,key,"M-Money",body,received,null,3,time,consent1)!!
+  val attempted=journal.begin(prepared,consent1)!!;val original=attempted.observation!!
   val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")};val originalBytes=SecureStore.data[name]
   // A restarted process cannot infer from an empty server whether a delayed
   // copy of the original POST is still in flight.
   repeat(3){check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)}
   check(e.repository.heldAckRequests==listOf(original,original,original)&&e.repository.recoveryRequests.isEmpty())
   check(heldJournal(e).pending(key)==attempted&&SecureStore.data[name]==originalBytes)
+ }
+ test("legacy uncertain journals without a consent witness cannot be acknowledged or resent") {
+  for(phase in listOf("PREPARED","ATTEMPTING")){
+   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+   val key=cloudKey(adminA,12);val received=Instant.ofEpochMilli(time).toString();val journal=heldJournal(e)
+   val prepared=journal.prepare(12,key,"M-Money",body,received,null,3,time,consent1)!!
+   if(phase=="ATTEMPTING")check(journal.begin(prepared,consent1)!=null)
+   val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
+   val legacy=JSONObject(SecureStore.data[name]!!).put("version",1);legacy.remove("consentGeneration")
+   val original=legacy.toString();SecureStore.data[name]=original;e.repository.heldAckAcknowledged=true
+   repeat(2){check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))}
+   check(SecureStore.data[name]==original&&journal.pending(key)?.consentGeneration==null&&
+    e.repository.heldAckRequests.isEmpty()&&e.repository.recoveryRequests.isEmpty())
+  }
  }
  test("concurrent unconfirmed ACK checks never generate a recovery POST") {
   val (e,original)=pendingHeldFixture();val recovery=ObservationRecovery(e.context)
@@ -380,7 +461,7 @@ fun main() {
   val (e,original)=pendingHeldFixture();val config=ObservationConfigStore(e.context)
   val renewed=ObservationConsentRevision(true,2);config.saveConsent(adminA,ObservationConsentState(renewed,true));e.repository.consent=renewed
   repeat(2){check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)}
-  check(e.repository.recoveryRequests==listOf(original)&&e.repository.heldAckRequests==listOf(original,original))
+  check(e.repository.recoveryRequests==listOf(original)&&e.repository.heldAckRequests.isEmpty())
   check(heldJournal(e).pending(cloudKey(adminA,12))?.observation==original)
  }
  test("exact read-only held ACK resolves a pending source before a poisoned batch") {
@@ -439,11 +520,12 @@ fun main() {
    heldJournal(e).pending(cloudKey(adminA,12))?.observation==original)
  }
  test("owner consent permission installation and inbox changes after ACK preserve the uncertain request") {
-  for(kind in listOf("owner","consent","pause","permission","installation","inbox","duplicate","revision","device","profile")){
+  for(kind in listOf("owner","consent","regrant","pause","permission","installation","inbox","duplicate","revision","device","profile")){
    val (e,original)=pendingHeldFixture();e.repository.heldAckAcknowledged=true
    e.repository.afterHeldAck={when(kind){
     "owner"->NativeRepository.switch(adminB)
     "consent"->{val c=ObservationConfigStore(e.context);c.saveConsent(adminA,c.consent(adminA)!!.copy(confirmed=false))}
+    "regrant"->{val next=ObservationConsentRevision(true,2);ObservationConfigStore(e.context).saveConsent(adminA,ObservationConsentState(next,true));e.repository.consent=next}
     "pause"->ObservationConfigStore(e.context).setPaused(adminA,true)
     "permission"->e.context.denied=setOf(Manifest.permission.RECEIVE_SMS)
     "installation"->ReceiverFixture.installationId="50000000-0000-4000-8000-000000000002"
@@ -469,10 +551,11 @@ fun main() {
    heldJournal(e).pending(cloudKey(adminA,12))?.observation==first)
  }
  test("post-dispatch permission change or invalid hold acknowledgement preserves uncertainty") {
-  for(kind in listOf("permission","ack","duplicate","missing","owner")){
+  for(kind in listOf("permission","consent","ack","duplicate","missing","owner")){
    val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
    when(kind){
     "permission"->e.repository.afterRecovery={e.context.denied=setOf(Manifest.permission.READ_SMS)}
+    "consent"->e.repository.afterRecovery={val next=ObservationConsentRevision(true,2);ObservationConfigStore(e.context).saveConsent(adminA,ObservationConsentState(next,true));e.repository.consent=next}
     "ack"->e.repository.recoveryAckOverride={it.copy(autoProcessing="released")}
     "duplicate"->e.repository.afterRecovery={e.context.contentResolver.rows=listOf(row(12),row(13))}
     "missing"->e.repository.afterRecovery={e.context.contentResolver.rows=emptyList()}

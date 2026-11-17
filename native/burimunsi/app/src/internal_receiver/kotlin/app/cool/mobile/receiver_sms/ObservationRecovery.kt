@@ -81,6 +81,20 @@ internal class ObservationRecovery(context:Context) {
     private fun stableKey(device:String,collection:String,rowId:Long,received:Long)=
         ObservationSourceIdentity.reinstallStable(device,collection,rowId,Instant.ofEpochMilli(received).toString())
 
+    /** A caller-provided consent snapshot is not authority. Re-read it while
+     * holding receiver then session custody; never perform network I/O here. */
+    private fun <T:Any> withRecoveryConsent(session:ObservationSessionOwner,expected:ObservationConsentState,
+        stopped:()->Boolean,action:(ObservationConsentState)->T?):T? = try{
+        ObservationLegacyOwnership.withoutControlTransition(app){
+            NativeRepository.withObservationOwner(app,session){group,account->
+                val actual=config.consent(session.owner)
+                if(stopped()||ObservationOwner(group,account)!=session.owner||!permitted()||
+                    actual!=expected||actual?.canCapture(permitted())!=true)null
+                else action(actual)
+            }
+        }
+    }catch(_:Exception){null}
+
     /** Different inbox IDs with the same body and received time do not prove
      * distinct messages, even when sender aliases or optional metadata differ.
      * Keep only an opaque digest across audit pages. */
@@ -532,12 +546,25 @@ internal class ObservationRecovery(context:Context) {
         val localStop={stopped()&&!budgetExpired()}
         val authority=try{auditAuthority(stopped)}catch(_:Exception){null}?:return@synchronized interrupted()
         val scope=authority.scope;val owner=scope.session.owner
+        fun auditConsentCurrent():Boolean = !BuildConfig.HELD_RECOVERY_ENABLED||
+            withRecoveryConsent(scope.session,scope.consent,localStop){
+                if(auditAuthority(localStop)?.scope==scope)true else null
+            }==true
+        fun <T> auditNetwork(call:()->T):T {
+            if(!auditConsentCurrent())throw AuditAuthorityChanged()
+            val result=try{call()}catch(error:Exception){
+                if(!auditConsentCurrent())throw AuditAuthorityChanged()
+                throw error
+            }
+            if(!auditConsentCurrent())throw AuditAuthorityChanged()
+            return result
+        }
         val clock=android.os.SystemClock.elapsedRealtime()
         val previous=auditProgress?.takeIf{it.scope==scope&&clock>=it.startedAt&&clock-it.startedAt<24*60*60_000L}
         val progress:AuditProgress=previous?:run{
             completedAuditStart=null;completedAuditRevision=null
             if(stopped())return@synchronized interrupted()
-            val status=repo.observationReconcileStatus()
+            val status=try{auditNetwork{repo.observationReconcileStatus()}}catch(_:AuditAuthorityChanged){return@synchronized interrupted()}
             if(try{auditAuthority(localStop)?.scope!=scope}catch(_:Exception){true})return@synchronized interrupted()
             if(status.hasPending&&!BuildConfig.HELD_RECOVERY_ENABLED)return@synchronized Audit.RETRY
             if(status.hasUnmatchedCanonical&&!BuildConfig.HELD_RECOVERY_ENABLED)return@synchronized Audit.UNCONFIRMED
@@ -549,7 +576,7 @@ internal class ObservationRecovery(context:Context) {
         }
         if(progress.cloudComplete){
             if(stopped())return@synchronized interrupted()
-            val status=repo.observationReconcileStatus()
+            val status=try{auditNetwork{repo.observationReconcileStatus()}}catch(_:AuditAuthorityChanged){return@synchronized interrupted()}
             if(try{auditAuthority(localStop)?.scope!=scope}catch(_:Exception){true})return@synchronized interrupted()
             auditProgress=null
             if(status.hasPending||status.hasUnmatchedCanonical||status.revision!=progress.collectionRevision||status.recordedCount!=progress.recordedCount)
@@ -565,7 +592,9 @@ internal class ObservationRecovery(context:Context) {
             if(stopped()||try{auditAuthority(stopped)?.scope!=scope}catch(_:Exception){true}){
                 return@synchronized interrupted()
             }
-            val page=try{repo.observationPage(cursor=progress.cloudCursor,limit=100)}catch(error:ApiFailure){
+            val page=try{auditNetwork{repo.observationPage(cursor=progress.cloudCursor,limit=100)}}catch(_:AuditAuthorityChanged){
+                return@synchronized interrupted()
+            }catch(error:ApiFailure){
                 if(error.code in setOf("cursor_scope_changed","cursor_expired","invalid_cursor")){
                     auditProgress=null;return@synchronized Audit.RETRY
                 }
@@ -665,20 +694,26 @@ internal class ObservationRecovery(context:Context) {
                         original.sourceKey==request.sourceKey&&original.valid(authority.profile,System.currentTimeMillis())&&
                             journal.matches(pending,row.id,row.sender,row.body,request.inboxReceivedAt,request.serviceCentreAt,row.sub)
                     }catch(_:Exception){false}
-                    if(!current()||!sameAttempt()||!uniqueHeld(row,request,stopped)||!current()||!sameAttempt())
+                    fun authorized():Boolean=withRecoveryConsent(scope.session,scope.consent,stopped){consent->
+                        if(current()&&sameAttempt()&&journal.consentMatches(pending,consent))true else null
+                    }==true
+                    if(!current()||!sameAttempt()||!uniqueHeld(row,request,stopped)||!current())
                         return@synchronized interrupted()
+                    if(!authorized()){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
                     val acknowledgement=try{repo.heldRecoveryAcknowledgement(original)}catch(_:Exception){null}
-                    if(!current()||!sameAttempt()||!uniqueHeld(row,request,stopped)||!current()||!sameAttempt())
+                    if(!current()||!sameAttempt()||!uniqueHeld(row,request,stopped)||!current())
                         return@synchronized interrupted()
+                    if(!authorized()){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
                     if(acknowledgement==null||!acknowledgement.validFor(original)||acknowledgement.state!="acknowledged"){
                         auditProgress=null;return@synchronized Audit.UNCONFIRMED
                     }
-                    val saved=ObservationLegacyOwnership.withoutControlTransition(app){
-                        NativeRepository.withObservationOwner(app,scope.session){group,account->
-                            ObservationOwner(group,account)==owner&&current()&&sameAttempt()&&
-                                journal.confirmReadOnly(pending,acknowledgement)!=null&&current()
-                        }?:false
-                    }?:false
+                    val saved=withRecoveryConsent(scope.session,scope.consent,stopped){consent->
+                        if(!current()||!sameAttempt()||!uniqueHeld(row,request,stopped)||!journal.consentMatches(pending,consent))null else {
+                            val value=journal.confirmReadOnly(pending,acknowledgement,consent)
+                            if(value!=null&&permitted()&&config.consent(owner)==consent&&
+                                uniqueHeld(row,request,stopped)&&current())true else null
+                        }
+                    }==true
                     if(!saved){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
                     // No scoped ACK can certify the wider equality sweep.
                     auditProgress=null;completedAuditStart=null;completedAuditRevision=null
@@ -692,14 +727,21 @@ internal class ObservationRecovery(context:Context) {
             if(items.isEmpty())return emptyList()
             if(stopped())throw InterruptedException()
             if(try{auditAuthority(stopped)?.scope!=scope}catch(_:Exception){true})throw AuditAuthorityChanged()
+            fun heldReadAllowed():Boolean = !BuildConfig.HELD_RECOVERY_ENABLED||items.none{it.sourceKey in authority.held}||
+                withRecoveryConsent(scope.session,scope.consent,stopped){
+                    if(auditAuthority(stopped)?.scope==scope&&takePage(stopped)==rows)true else null
+                }==true
+            if(!heldReadAllowed())throw AuditAuthorityChanged()
             return try{
                 val replies=repo.reconcileObservations(items)
+                if(!heldReadAllowed())throw AuditAuthorityChanged()
                 checkContract(replies.size==items.size&&replies.indices.all{i->replies[i].sourceKey==items[i].sourceKey&&
                     replies[i].state in setOf("matched","missing")&&(replies[i].state=="matched")==(replies[i].sourceId!=null)},
                     "invalid_observation_reconciliation")
                 replies
             }
             catch(error:ApiFailure){
+                if(!heldReadAllowed())throw AuditAuthorityChanged()
                 val itemFailure=error.code in setOf("observation_item_conflict","observation_item_unavailable")
                 if(!itemFailure)throw error
                 List(items.size){null}
@@ -763,39 +805,55 @@ internal class ObservationRecovery(context:Context) {
                         value.scope=="verified_collection"&&!value.status.hasPending&&!value.status.hasUnmatchedCanonical&&
                             value.status.recordedCount in 0..100_000&&
                             value.status.hasRecorded==(value.status.recordedCount>0)&&Regex("[a-f0-9]{64}").matches(value.status.revision)
-                    fun finishJournal(write:()->Boolean):Boolean {
-                        if(!current()||!unique()||!current())return false
+                    var active=existing?.takeIf{it.phase==HeldRecoveryJournal.Phase.PREPARED||it.phase==HeldRecoveryJournal.Phase.ATTEMPTING}
+                    fun authorized():Boolean=withRecoveryConsent(scope.session,scope.consent,stopped){consent->
+                        if(current()&&(active==null||journal.consentMatches(active!!,consent)))true else null
+                    }==true
+                    fun guarded():Boolean=current()&&unique()&&current()&&authorized()
+                    fun <T> checkedNetwork(call:()->T):T {
+                        if(!guarded())throw AuditAuthorityChanged()
+                        val result=try{call()}catch(error:Exception){
+                            if(!guarded())throw AuditAuthorityChanged()
+                            throw error
+                        } // No receiver or session lock crosses network I/O.
+                        if(!guarded())throw AuditAuthorityChanged()
+                        return result
+                    }
+                    fun <T:Any> changeJournal(write:(ObservationConsentState)->T?):T? {
+                        if(!current()||!unique()||!current())return null
                         // Use the receiver/session lock order used for local custody;
                         // the callback only writes local state and never performs network I/O.
-                        return ObservationLegacyOwnership.withoutControlTransition(app){
-                            NativeRepository.withObservationOwner(app,scope.session){group,account->
-                                ObservationOwner(group,account)==owner&&current()&&write()&&current()
-                            }?:false
-                        }?:false
+                        return withRecoveryConsent(scope.session,scope.consent,stopped){consent->
+                            if(!current()||!unique()||active?.let{!journal.consentMatches(it,consent)}==true)null else {
+                                val value=write(consent)
+                                if(value!=null&&permitted()&&config.consent(owner)==consent&&unique()&&current())value else null
+                            }
+                        }
                     }
-                    if(!current()||!unique()||!current())return@synchronized interrupted()
+                    if(!guarded())return@synchronized interrupted()
                     try{
-                        val first=repo.observationReconcileVerifiedStatus()
+                        val first=checkedNetwork{repo.observationReconcileVerifiedStatus()}
                         if(!verified(first)||!current()){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
-                        val reconciled=repo.reconcileObservation(request)
+                        val reconciled=checkedNetwork{repo.reconcileObservation(request)}
                         if(!current()||reconciled.sourceKey!=request.sourceKey||reconciled.state !in setOf("matched","missing")||
                             (reconciled.state=="matched")!=(reconciled.sourceId!=null)){
                             auditProgress=null;return@synchronized Audit.UNCONFIRMED
                         }
-                        val second=repo.observationReconcileVerifiedStatus()
+                        val second=checkedNetwork{repo.observationReconcileVerifiedStatus()}
                         if(!verified(second)||first!=second||!current()){
                             auditProgress=null;return@synchronized Audit.UNCONFIRMED
                         }
                         var restart=initial.state!=reconciled.state||initial.sourceId!=reconciled.sourceId
                         val entry=if(existing==null){
-                            if(reconciled.state=="matched")null else journal.prepare(row.id,request.sourceKey,row.sender,row.body,
-                                request.inboxReceivedAt,request.serviceCentreAt,row.sub,System.currentTimeMillis())
-                        }else journal.prepare(row.id,request.sourceKey,row.sender,row.body,request.inboxReceivedAt,
-                            request.serviceCentreAt,row.sub,System.currentTimeMillis())
+                            if(reconciled.state=="matched")null else changeJournal{consent->journal.prepare(row.id,request.sourceKey,row.sender,row.body,
+                                request.inboxReceivedAt,request.serviceCentreAt,row.sub,System.currentTimeMillis(),consent)}
+                        }else changeJournal{consent->journal.prepare(row.id,request.sourceKey,row.sender,row.body,request.inboxReceivedAt,
+                            request.serviceCentreAt,row.sub,System.currentTimeMillis(),consent)}
                         if(entry==null&&reconciled.state=="missing"||existing!=null&&entry==null){
                             auditProgress=null;return@synchronized Audit.UNCONFIRMED
                         }
                         if(entry!=null){
+                            active=entry.takeIf{it.phase==HeldRecoveryJournal.Phase.PREPARED||it.phase==HeldRecoveryJournal.Phase.ATTEMPTING}
                             if(!current()){auditProgress=null;return@synchronized Audit.BLOCKED}
                             when(entry.phase){
                                 HeldRecoveryJournal.Phase.CONFIRMED,HeldRecoveryJournal.Phase.MATCHED_EXISTING->{
@@ -806,23 +864,24 @@ internal class ObservationRecovery(context:Context) {
                                 HeldRecoveryJournal.Phase.ATTEMPTING->{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
                                 HeldRecoveryJournal.Phase.PREPARED->{
                                     if(reconciled.state=="matched"){
-                                        if(!finishJournal{journal.markExisting(entry,reconciled.sourceId!!)!=null}){
+                                        if(changeJournal{consent->journal.markExisting(entry,reconciled.sourceId!!,consent)}==null){
                                             auditProgress=null;return@synchronized Audit.UNCONFIRMED
                                         }
                                         restart=true
                                     }else{
-                                        val attempting=journal.begin(entry)?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                                        val attempting=changeJournal{consent->journal.begin(entry,consent)}
+                                            ?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                                        active=attempting
                                         val original=attempting.observation?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
-                                        if(!current()||!unique()||!current()){auditProgress=null;return@synchronized Audit.BLOCKED}
-                                        val ack=repo.recoverHeldObservation(original)
-                                        if(!current()||!unique()||!current()){auditProgress=null;return@synchronized Audit.BLOCKED}
-                                        val finalStatus=repo.observationReconcileVerifiedStatus()
+                                        val ack=checkedNetwork{repo.recoverHeldObservation(original)}
+                                        val finalStatus=checkedNetwork{repo.observationReconcileVerifiedStatus()}
                                         if(!verified(finalStatus)||!current()){
                                             auditProgress=null;return@synchronized Audit.UNCONFIRMED
                                         }
-                                        val afterPost=repo.reconcileObservation(request)
+                                        val afterPost=checkedNetwork{repo.reconcileObservation(request)}
                                         if(!current()||afterPost.sourceKey!=request.sourceKey||afterPost.state!="matched"||
-                                            afterPost.sourceId!=ack.observation.sourceId||!finishJournal{journal.confirm(attempting,ack)!=null}){
+                                            afterPost.sourceId!=ack.observation.sourceId||
+                                            changeJournal{consent->journal.confirm(attempting,ack,consent)}==null){
                                             auditProgress=null;return@synchronized Audit.UNCONFIRMED
                                         }
                                         restart=true
