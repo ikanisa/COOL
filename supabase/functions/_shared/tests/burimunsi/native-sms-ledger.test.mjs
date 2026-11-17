@@ -73,6 +73,33 @@ test('retained source facts are recovered without AI while an unmatched receipt 
  assert.equal(f.state.row.posting_facts.counterparty_identifier,'*********456');
  assert.equal(f.state.deferred,1);assert.equal(f.state.writes.length,0);assert.equal(f.state.stored.length,0);
 });
+const fullSender=number=>({sourceBody:body.replace('*********456',number),extractionOutput:{...output,
+ payer_identifier_raw:number,evidence:{...output.evidence,payer:'from Example Person '+number}}});
+
+test('a different complete sender number with the same name and suffix is retained without a credit',async()=>{
+ const f=await fixture(fullSender('0788999456'));
+ assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'});
+ assert.equal(f.state.row.posting_facts.counterparty_identifier,'0788999456');
+ assert.equal(f.state.deferred,1);assert.equal(f.state.row.has_link,false);
+ assert.deepEqual(f.state.writes,[]);assert.deepEqual(f.state.stored,[]);
+});
+test('an exact complete sender number wins over a different member with the same name and suffix',async()=>{
+ const f=await fixture({...fullSender('0788123456'),members:[{...member,id:'member-2',momo_number:'0788999456'},member]});
+ assert.deepEqual(await f.ledger.process(sourceId),{state:'posted'});
+ assert.deepEqual(f.state.writes.slice(0,3),['evidence','payment','link']);
+ assert.equal(f.state.writes.filter(x=>x.includes('INSERT INTO ledger_entries')).length,1);
+});
+test('full-number membership changes are checked again before the financial transaction',async()=>{
+ const f=await fixture(fullSender('0788123456'));let checks=0;
+ f.ledger.worker.verify=async()=>{if(++checks===2)f.state.members[0].momo_number='0788999456';};
+ await assert.rejects(f.ledger.process(sourceId));
+ assert.equal(f.state.row.has_link,false);assert.deepEqual(f.state.writes,[]);
+});
+test('documented masked suffix policy can select a different same-name payer with the same last three digits',async()=>{
+ const f=await fixture({members:[{...member,momo_number:'0788999456'}]});
+ assert.deepEqual(await f.ledger.process(sourceId),{state:'posted'});
+ assert.equal(f.state.row.posting_facts.counterparty_identifier,'*********456');
+});
 test('matched native catch-up uses the existing payment/link/contribution path once',async()=>{
  const f=await fixture();assert.deepEqual(await f.ledger.process(sourceId),{state:'posted'});
  assert.equal(f.state.row.mode,'historical');assert.deepEqual(f.state.writes.slice(0,3),['evidence','payment','link']);

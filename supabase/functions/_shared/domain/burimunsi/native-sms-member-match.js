@@ -17,10 +17,18 @@ export function nativeSmsPayerKey(name,identifier){
 export function matchNativeSmsMember({groupId,payerName,payerIdentifier,members}){
  const key=nativeSmsPayerKey(payerName,payerIdentifier);
  if(typeof groupId!=='string'||!groupId||!key||!Array.isArray(members))return null;
+ // Full unmasked identifiers must match as complete Rwandan phone numbers.
+ // Keep the existing name/suffix rule only for incomplete or masked evidence.
+ // A number long enough to be complete that fails normalization is not a suffix.
+ const number=digits(payerIdentifier),masked=/[*•xX#]/.test(payerIdentifier);
+ let fullPhone=null;
+ if(!masked&&number.length>=9){
+  try{fullPhone=normalizePhone(payerIdentifier.replace(/\./g,''));}catch{return null;}
+ }
  const matches=members.filter(member=>member?.groupId===groupId&&member.active===true&&
   member.eligible===true&&member.memberType!=='operator'&&typeof member.id==='string'&&member.id&&
   (()=>{let phone;try{phone=normalizePhone(member.momoNumber);}catch{return false;}
    const candidate=nativeSmsPayerKey(member.name,phone);return candidate&&
-   candidate.name===key.name&&candidate.last3===key.last3;})());
+   candidate.name===key.name&&(fullPhone!==null?phone===fullPhone:candidate.last3===key.last3);})());
  return matches.length===1?matches[0].id:null;
 }
