@@ -111,6 +111,9 @@ class UiUxContract(unittest.TestCase):
             self.assertEqual(len(data),item['bytes'])
             self.assertEqual(hashlib.sha256(data).hexdigest(),item['sha256'])
         self.assertEqual(hashlib.sha256((PROTOTYPE/'index.html').read_bytes()).hexdigest(),
+            '3f2d159b139f1e39adb96bfafe739d044bb9ebfd836cc9c15d73d009b0744a97')
+        prototype=next(item for item in provenance['files'] if item['path']=='index.html')
+        self.assertEqual(prototype['original_sha256'],
             '644c0ca7dfa38ee184a80be7d0e0d753503fa40dac00ae1814a9359b5e9fba4d')
     def test_original_phone_pin_entry_has_no_added_onboarding_screen(self):
         activity=(NATIVE/'app/src/main/kotlin/rw/ikanisa/burimunsi/MainActivity.kt').read_text()
