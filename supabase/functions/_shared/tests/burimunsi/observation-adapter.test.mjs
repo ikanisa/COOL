@@ -94,6 +94,7 @@ function fixture(){
    state.witnesses.set(key,{mode,key,owner,collection,fingerprint,body,received,storage});return [{result:true}];
   }
   if(query.includes('burimunsi_sms_recovery_ack_snapshot')){
+   if(state.requireAckReadOnly&&state.transactionMode!=='read')throw sqlError('25006','sms_recovery_ack_read_only_required');
    allowed();if(!state.revealGranted)throw sqlError('42501');
    const [sourceId,requestId,fingerprint,sourceKey,content,body,received]=args,key='sms/'+sourceId,
     request=state.requests.get(requestId),w=state.witnesses.get(key),hold=state.recoveryHolds.get(sourceId),
@@ -229,9 +230,10 @@ function fixture(){
    return bytes;
   }};
  env={DB:db,PRIVATE_MEDIA:media,BUILD_SOURCE_ID:'a'.repeat(64),DATA_KEY_ID:'synthetic-key',DATA_ENCRYPTION_KEY:Buffer.alloc(32,7).toString('base64')};
- const authority={db,groupId:group,read:fn=>{state.readTransactions=(state.readTransactions??0)+1;return fn(sql);},write:async fn=>{
+ const inMode=async(mode,fn)=>{const prior=state.transactionMode;state.transactionMode=mode;try{return await fn(sql);}finally{state.transactionMode=prior;}};
+ const authority={db,groupId:group,read:fn=>{state.readTransactions=(state.readTransactions??0)+1;return inMode('read',fn);},write:async fn=>{
    state.writeTransactions=(state.writeTransactions??0)+1;
-   const result=await fn(sql);if(state.lostAudit&&state.audits.length){state.lostAudit=false;throw sqlError('08006');}return result;
+   const result=await inMode('write',fn);if(state.lostAudit&&state.audits.length){state.lostAudit=false;throw sqlError('08006');}return result;
   },session:async()=>state.active?{...structuredClone(actor),sessionId:state.liveSessionId??session}:null,assertOwned:work.assert};
  const custody={namespace:{origin:'https://example.invalid',bucket:'collect-evidence'},
   journal:async(_tx,key)=>{const value=state.media.get(key);if(!value)throw new Error('synthetic journal missing');
@@ -346,6 +348,7 @@ test('v2 rejects the old pinned source after a capability-to-admission deploymen
 test('v2 retains the source-bound generation across exact held admission and ACK',async()=>{
  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,inboxReceivedAt:'2026-11-11T12:00:00.000Z',
   sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
+ f.state.requireAckReadOnly=true;
  await f.run(async adapter=>{
   const cap=await adapter.recoveryV2Capability(actor,1,v2Release);assert.equal(cap.groupId,group);assert.equal(cap.sourceSha256,'a'.repeat(64));
   const saved=await adapter.recoverHeldV2(actor,held,v2Release);assert.equal(saved.protocol,HELD_V2_PROTOCOL);assert.equal(saved.expectedConsentGeneration,1);

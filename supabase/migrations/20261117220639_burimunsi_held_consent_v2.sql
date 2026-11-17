@@ -20,25 +20,40 @@ CREATE FUNCTION private.burimunsi_held_v2_ready(p_source text,p_generation bigin
 DECLARE actor jsonb;consent private.burimunsi_observation_consents%ROWTYPE;
  prior text:=current_setting('burimunsi.observation_frame',true);
  trigger_ok boolean;tables_ok boolean;resume_ok boolean;index_ok boolean;
+ read_mode boolean:=current_setting('transaction_read_only')='on';
 BEGIN
- PERFORM private.burimunsi_setup_fence();
- PERFORM pg_advisory_xact_lock(734636924058501::bigint);
+ IF read_mode THEN
+  IF current_setting('transaction_isolation') IS DISTINCT FROM 'repeatable read' THEN
+   RAISE EXCEPTION 'sms_held_v2_read_snapshot_required' USING ERRCODE='25006';END IF;
+  PERFORM private._collect_fence_require_runtime();
+ ELSE
+  PERFORM private.burimunsi_setup_fence();
+  PERFORM pg_advisory_xact_lock(734636924058501::bigint);
+ END IF;
  IF p_source IS NULL OR p_source !~ '^[a-f0-9]{64}$' OR p_migration_sha IS NULL OR p_migration_sha !~ '^[a-f0-9]{64}$'
   OR p_generation IS NULL OR p_generation NOT BETWEEN 1 AND 9007199254740991
-  OR p_source IS DISTINCT FROM current_setting('collect.fence_source_sha256',true) THEN
+  OR (NOT read_mode AND p_source IS DISTINCT FROM current_setting('collect.fence_source_sha256',true)) THEN
   RAISE EXCEPTION 'sms_held_v2_invalid' USING ERRCODE='22023';END IF;
- PERFORM private.collect_fence_assert_write(NULLIF(current_setting('collect.fence_admission_id',true),'')::uuid,
-  NULLIF(current_setting('collect.fence_epoch',true),'')::bigint,p_source);
+ IF NOT read_mode THEN
+  PERFORM private.collect_fence_assert_write(NULLIF(current_setting('collect.fence_admission_id',true),'')::uuid,
+   NULLIF(current_setting('collect.fence_epoch',true),'')::bigint,p_source);
+ END IF;
  IF NOT EXISTS(SELECT 1 FROM private.collect_fence_control c WHERE c.singleton AND c.mode='open'
-  AND c.source_sha256=p_source AND c.epoch=NULLIF(current_setting('collect.fence_epoch',true),'')::bigint) THEN
+  AND c.source_sha256=p_source AND (read_mode OR c.epoch=NULLIF(current_setting('collect.fence_epoch',true),'')::bigint)) THEN
   RAISE EXCEPTION 'sms_held_v2_source_changed' USING ERRCODE='55000';END IF;
  actor:=private.burimunsi_observation_actor(true);
  IF actor->>'collectionId' IS DISTINCT FROM current_setting('burimunsi.collection_id',true) THEN
   RAISE EXCEPTION 'sms_held_v2_scope_changed' USING ERRCODE='42501';END IF;
  PERFORM set_config('burimunsi.observation_frame','1',true);
- SELECT * INTO consent FROM private.burimunsi_observation_consents c
-  WHERE c.collection_id=actor->>'collectionId' AND c.account_id=(actor->>'accountId')::uuid
-   AND c.installation_id=(actor->>'installationId')::uuid FOR SHARE;
+ IF read_mode THEN
+  SELECT * INTO consent FROM private.burimunsi_observation_consents c
+   WHERE c.collection_id=actor->>'collectionId' AND c.account_id=(actor->>'accountId')::uuid
+    AND c.installation_id=(actor->>'installationId')::uuid;
+ ELSE
+  SELECT * INTO consent FROM private.burimunsi_observation_consents c
+   WHERE c.collection_id=actor->>'collectionId' AND c.account_id=(actor->>'accountId')::uuid
+    AND c.installation_id=(actor->>'installationId')::uuid FOR SHARE;
+ END IF;
  IF NOT FOUND OR consent.enabled IS DISTINCT FROM true OR consent.generation IS DISTINCT FROM p_generation
   OR consent.grant_id IS DISTINCT FROM (actor->>'grantId')::uuid
   OR consent.grant_version IS DISTINCT FROM (actor->>'grantVersion')::bigint THEN
@@ -96,8 +111,26 @@ BEGIN
   OR has_function_privilege('anon',p.oid,'EXECUTE') OR has_function_privilege('authenticated',p.oid,'EXECUTE')
   OR has_function_privilege('service_role',p.oid,'EXECUTE') OR has_function_privilege('collect_importer',p.oid,'EXECUTE')
   OR EXISTS(SELECT 1 FROM aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) x WHERE x.grantee=0)
-  OR EXISTS(SELECT 1 FROM pg_roles r WHERE NOT r.rolsuper AND r.rolname NOT IN('postgres','collect_runtime')
-   AND (has_function_privilege(r.oid,p.oid,'EXECUTE') OR pg_has_role(r.oid,'collect_runtime','MEMBER')))) THEN
+  OR EXISTS(SELECT 1 FROM pg_roles r
+ WHERE NOT r.rolsuper AND r.rolname NOT IN('postgres','collect_runtime')
+ AND (has_function_privilege(r.oid,p.oid,'EXECUTE') OR
+  (pg_has_role(r.oid,'collect_runtime','MEMBER') AND NOT (
+   r.rolname='cli_login_postgres' AND r.rolcanlogin AND NOT r.rolinherit
+   AND NOT r.rolcreaterole AND NOT r.rolcreatedb AND NOT r.rolreplication AND NOT r.rolbypassrls
+   AND EXISTS(SELECT 1 FROM pg_roles owner_role WHERE owner_role.rolname='postgres'
+    AND NOT owner_role.rolsuper AND owner_role.rolcanlogin AND owner_role.rolinherit
+    AND owner_role.rolcreaterole AND owner_role.rolbypassrls)
+   AND (SELECT count(*) FROM pg_auth_members d WHERE d.member=r.oid)=1
+   AND EXISTS(SELECT 1 FROM pg_auth_members d WHERE d.member=r.oid AND d.roleid=to_regrole('postgres')
+    AND d.grantor=to_regrole('supabase_admin') AND NOT d.admin_option AND NOT d.inherit_option AND d.set_option)
+   AND (SELECT count(*) FROM pg_auth_members d WHERE d.member=to_regrole('postgres')
+    AND d.roleid=to_regrole('collect_runtime'))=2
+   AND EXISTS(SELECT 1 FROM pg_auth_members d WHERE d.member=to_regrole('postgres') AND d.roleid=to_regrole('collect_runtime')
+    AND d.grantor=to_regrole('postgres') AND NOT d.admin_option AND NOT d.inherit_option AND d.set_option)
+   AND EXISTS(SELECT 1 FROM pg_auth_members d WHERE d.member=to_regrole('postgres') AND d.roleid=to_regrole('collect_runtime')
+    AND d.grantor=to_regrole('supabase_admin') AND d.admin_option AND NOT d.inherit_option AND NOT d.set_option)
+  )))
+)) THEN
   RAISE EXCEPTION 'sms_held_v2_guard_changed' USING ERRCODE='55000';END IF;
  IF NOT EXISTS(SELECT 1 FROM pg_proc p JOIN pg_language l ON l.oid=p.prolang
   WHERE p.oid=to_regprocedure('private.trg_storage_identity()') AND p.proowner='postgres'::regrole

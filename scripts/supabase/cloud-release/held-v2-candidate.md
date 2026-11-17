@@ -25,12 +25,12 @@ original `expectedConsentGeneration`. The ACK remains read-only and always
 reports `retryAllowed:false`; neither a capability nor an unconfirmed ACK
 authorizes a repeated submission.
 
-The v2 ACK rechecks readiness in the same fenced transaction as each evidence
-snapshot, including after the Storage read. Its transaction acquires locks but
-does not write SMS or Storage state. The final retained-source hold check also
-rechecks readiness in the same transaction. This does not establish protection
-against a database owner bypassing the controlled fence or against unqualified
-concurrent DDL.
+The v2 ACK rechecks readiness in the same repeatable-read, read-only transaction
+as each evidence snapshot, including after the Storage read. Request admission
+is checked separately before and after each transaction. The final
+retained-source hold check rechecks readiness in its fenced write transaction.
+This does not establish protection against a database owner bypassing the
+controlled fence or against unqualified concurrent DDL.
 
 The running-source digest is supplied by the release environment and compared
 with the admitted work tuple and database fence. The migration digest and
@@ -52,5 +52,9 @@ routes remain unavailable through v2 production composition.
 
 Catalog checks require exact function ACLs and volatile attributes and deny
 additional non-superuser roles with effective execute access or membership in
-`collect_runtime`, including NOINHERIT members. Any intended Cloud proxy role
-must be assessed before activation; the candidate otherwise fails closed.
+`collect_runtime`, including NOINHERIT members. The sole exception is the
+observed `cli_login_postgres` administrative login when its attributes, sole
+membership and both `postgres` to `collect_runtime` grantor/options edges
+match exactly and it has no effective execute privilege. This is an explicit
+trusted administrative path, not a low-privilege role. Recheck the complete
+live role graph and effective privileges before activation; drift fails closed.

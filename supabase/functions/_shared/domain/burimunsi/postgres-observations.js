@@ -679,15 +679,13 @@ export class PostgresNativeObservations {
    base={requestId:value.requestId,sourceKey:value.sourceKey,bodySha256:bodySha,financialEffects:0,retryAllowed:false};
   let bytes;
   try{
-   // The v2 catalog and source fence are checked in the same transaction as
-   // each evidence snapshot. This transaction acquires locks but writes no
-   // SMS or storage state; legacy ACK retains its existing read-only path.
+   // The v2 catalog, consent and source fence are checked in the same
+   // repeatable-read, read-only transaction as each evidence snapshot.
    const snapshot=async tx=>{
     if(v2)await this.heldV2Ready(tx,actor,value.expectedConsentGeneration,v2);
     return this.recoveryAckProof(tx,actor,value,fingerprint,id,contentSha,bodySha);
    };
-   const readSnapshot=fn=>v2?this.authority.write(fn):this.authority.read(fn);
-   const initial=await readSnapshot(snapshot);
+   const initial=await this.authority.read(snapshot);
    if(initial.proof===null){await this.authority.assertOwned();return {...base,state:'unconfirmed',sourceId:null,autoProcessing:'unknown'};}
    requirePort(this.env.PRIVATE_MEDIA,['getVerifiedReadOnly']);
    const encrypted=await this.env.PRIVATE_MEDIA.getVerifiedReadOnly('sms/'+id,
@@ -696,7 +694,7 @@ export class PostgresNativeObservations {
    finally{encrypted?.fill?.(0);}
    check(bytes instanceof Uint8Array&&bytes.length===initial.record.size_bytes&&await digest(bytes)===initial.record.object_sha256&&
     same(JSON.parse(DECODER.decode(bytes)),payloadFor(value)),'observation_changed',409);
-   const final=await readSnapshot(snapshot);
+   const final=await this.authority.read(snapshot);
    check(final.proof&&same(final.ctx,initial.ctx)&&same(final.proof,initial.proof),'observation_changed',409);
    await this.authority.assertOwned();
    return {...base,state:'acknowledged',sourceId:id,autoProcessing:'held'};

@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {HELD_V2_MIGRATION_SHA,HELD_V2_READY_SHA,HELD_V2_READY_IDENTITY_SQL} from '../../../supabase/functions/_shared/domain/burimunsi/held-recovery-v2.js';
+import {HELD_V2_MIGRATION_SHA,HELD_V2_READY_SHA,HELD_V2_READY_IDENTITY_SQL,HELD_V2_UNEXPECTED_ROLE_SQL} from '../../../supabase/functions/_shared/domain/burimunsi/held-recovery-v2.js';
 import {HELD_RECOVERY_CATALOG_SQL,HELD_RECOVERY_POLICY,HELD_RESUME_CATALOG_SQL,HELD_SOURCE_INDEX_CATALOG_SQL} from './managed-jobs-operator.mjs';
 const modulePath=process.env.COLLECT_CLOUD_TEST_PGLITE_MODULE;
 const migration=readFileSync(new URL('../../../supabase/migrations/20261117220639_burimunsi_held_consent_v2.sql',import.meta.url),'utf8');
@@ -16,6 +16,7 @@ test('candidate embeds the previously qualified catalog, RLS and trigger queries
  assert.equal(extract('SELECT checks.triggers_ok,checks.tables_ok INTO'),HELD_RECOVERY_CATALOG_SQL.replaceAll('=$1','='+quoted));
  assert.equal(extract('SELECT checks.ok INTO resume_ok'),HELD_RESUME_CATALOG_SQL);
  assert.equal(extract('SELECT checks.ok INTO index_ok'),HELD_SOURCE_INDEX_CATALOG_SQL);
+ assert(migration.includes(HELD_V2_UNEXPECTED_ROLE_SQL),'runtime and database must apply the same role-path test');
 });
 test('candidate migration installs pinned v2 SQL and denies missing migrations and guards',{skip:!modulePath},async()=>{
  assert.equal(hash(migration),HELD_V2_MIGRATION_SHA);
