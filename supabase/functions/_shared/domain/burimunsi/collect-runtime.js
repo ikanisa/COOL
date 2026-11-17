@@ -16,6 +16,17 @@ import {createManagedRequestGate} from './managed-request-gate.js';
 const need=(value,code='native_service_unconfigured')=>requireThat(value,code,503);
 const managedWorkerGate=createManagedRequestGate({verifyToken,projectSession,applicationWorkTuple});
 export const nativeObservationsEnabled=env=>env?.BURIMUNSI_SMS_OBSERVATIONS_ENABLED==='true';
+// Both values are operator-controlled server configuration, never client
+// claims. An omitted pair disables recovery. Any partial or stale source
+// binding fails the entire native runtime closed instead of silently enabling.
+export function heldRecoveryScope(env){
+ const source=env?.BURIMUNSI_HELD_RECOVERY_SOURCE_SHA256,groupId=env?.BURIMUNSI_HELD_RECOVERY_COLLECTION_ID;
+ if((source===undefined||source==='')&&(groupId===undefined||groupId===''))return null;
+ need(typeof source==='string'&&/^[a-f0-9]{64}$/.test(source)&&source===env?.BUILD_SOURCE_ID&&
+  typeof groupId==='string'&&/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/.test(groupId)&&nativeObservationsEnabled(env),
+  'held_recovery_configuration_invalid');
+ return Object.freeze({sourceSha256:source,groupId});
+}
 const sameBytes=(a,b)=>a.length===b.length&&a.every((value,index)=>value===b[index]);
 function base64(value,min=32,max=32){
  need(typeof value==='string'&&value.length>=44&&value.length<=344&&value.length%4===0&&/^[A-Za-z0-9+/]+={0,2}$/.test(value),'authentication_unconfigured');
@@ -45,12 +56,12 @@ function secretsFor(env,{staffDefault=false}={}){
  need(defaultStaffPin===undefined||typeof defaultStaffPin==='string'&&/^[0-9]{4}$/.test(defaultStaffPin),'authentication_unconfigured');
  return Object.freeze({pinPepper:pepper,pinPepperId:hasher.pepperId,cursorKey:cursor,...(defaultStaffPin===undefined?{}:{defaultStaffPin})});
 }
-function configuration(profile,groupId,observationEnabled=false,preserveStaffPinOnPhoneChange=false,smartOnboardingAdvancedEnabled=false){
+function configuration(profile,groupId,observationEnabled=false,preserveStaffPinOnPhoneChange=false,smartOnboardingAdvancedEnabled=false,heldRecovery=null){
  if(groupId!==undefined)requireId(groupId);
  // These select implemented closed adapters. They do not enable processing,
  // approve a worker/policy, resume SMS upload, or install a schedule/provider.
  return Object.freeze({enabled:true,...(groupId===undefined?{}:{groupId}),origin:profile.supabase_origin,canonicalIntegrationEnabled:true,
-  nativeObservationEnabled:observationEnabled,preserveStaffPinOnPhoneChange,smartOnboardingAdvancedEnabled,
+  nativeObservationEnabled:observationEnabled,preserveStaffPinOnPhoneChange,smartOnboardingAdvancedEnabled,heldRecovery,
   nativePostingAuthorityEnabled:true,sharedPostingEnabled:true,journalEvidenceEnabled:true,
   journalAllocationEnabled:true,postingPreparationEnabled:true,rematchEnabled:true});
 }
@@ -107,7 +118,7 @@ export async function createCollectNativeRuntime(env,{trustedNetworkBucket,clock
  need(env.BURIMUNSI_SMART_ONBOARDING_ADVANCED_ENABLED===undefined||env.BURIMUNSI_SMART_ONBOARDING_ADVANCED_ENABLED===''||
   ['true','false'].includes(env.BURIMUNSI_SMART_ONBOARDING_ADVANCED_ENABLED),'native_service_unconfigured');
  const config=configuration(bound.profile,undefined,nativeObservationsEnabled(env),env.BURIMUNSI_STAFF_PIN_PHONE_PRESERVATION_ENABLED==='true',
-  env.BURIMUNSI_SMART_ONBOARDING_ADVANCED_ENABLED==='true'),secrets=secretsFor(env,{staffDefault:true});
+  env.BURIMUNSI_SMART_ONBOARDING_ADVANCED_ENABLED==='true',heldRecoveryScope(env)),secrets=secretsFor(env,{staffDefault:true});
  const networkBucket=async request=>{
   let value;try{value=await trustedNetworkBucket(request);}catch{need(false,'trusted_network_resolver_required');}
   need(typeof value==='string'&&/^[a-f0-9]{64}$/.test(value),'trusted_network_resolver_required');return value;

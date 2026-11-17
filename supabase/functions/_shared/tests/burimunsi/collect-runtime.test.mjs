@@ -3,12 +3,28 @@
  * called. No DB, provider, credentials, scheduler or deployment is activated. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createCollectNativeRuntime,createCollectNativeWorkerRuntime,runCollectNativeScheduledCycle} from '../../domain/burimunsi/collect-runtime.js';
+import {createCollectNativeRuntime,createCollectNativeWorkerRuntime,runCollectNativeScheduledCycle,heldRecoveryScope} from '../../domain/burimunsi/collect-runtime.js';
 import {collectNativeRoute} from '../../domain/burimunsi/collect-route.js';
 import {openApplicationWork} from '../../application-fence.js';
 import {canonicalProfile} from '../../deployment-profile.js';
 import {sha256} from '../../domain/burimunsi/values.js';
 const SOURCE='a'.repeat(64);
+
+test('held recovery requires a matching source and exactly one explicit collection',()=>{
+ const base={BUILD_SOURCE_ID:SOURCE,BURIMUNSI_SMS_OBSERVATIONS_ENABLED:'true'};
+ assert.equal(heldRecoveryScope(base),null);
+ assert.equal(heldRecoveryScope({...base,BURIMUNSI_HELD_RECOVERY_SOURCE_SHA256:'',BURIMUNSI_HELD_RECOVERY_COLLECTION_ID:''}),null);
+ const enabled={...base,BURIMUNSI_HELD_RECOVERY_SOURCE_SHA256:SOURCE,BURIMUNSI_HELD_RECOVERY_COLLECTION_ID:'group-1'};
+ assert.deepEqual(heldRecoveryScope(enabled),{sourceSha256:SOURCE,groupId:'group-1'});
+ for(const invalid of [
+  {...enabled,BURIMUNSI_HELD_RECOVERY_SOURCE_SHA256:undefined},
+  {...enabled,BURIMUNSI_HELD_RECOVERY_COLLECTION_ID:undefined},
+  {...enabled,BURIMUNSI_HELD_RECOVERY_SOURCE_SHA256:'b'.repeat(64)},
+  {...enabled,BUILD_SOURCE_ID:'b'.repeat(64)},
+  {...enabled,BURIMUNSI_HELD_RECOVERY_COLLECTION_ID:'group/other'},
+  {...enabled,BURIMUNSI_SMS_OBSERVATIONS_ENABLED:'false'},
+ ])assert.throws(()=>heldRecoveryScope(invalid),e=>e.code==='held_recovery_configuration_invalid');
+});
 const PROFILE={format:'collect.deployment.v1',id:'buri-runtime-fixture',mode:'self_hosted',environment:'qualification',
  supabase_origin:'https://supabase.example.test',member_api_origin:'https://member.example.test',
  admin_origin:'https://admin.example.test',public_origin:'https://public.example.test',google_callback_origin:'https://admin.example.test'};

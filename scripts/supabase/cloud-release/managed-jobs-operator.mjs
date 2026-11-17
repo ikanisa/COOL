@@ -26,7 +26,7 @@ const GUARDS={
  'private.collect_imported_native_history_ledger_guard()':'828e7dbff6706d23b068836e7d3926810d28aad753a89b3db7acd19acea9e548'};
 // This optional migration is accepted only by exact recorded and local bytes.
 // A changed draft must deliberately update this pin and its SQL qualification.
-const HELD_RECOVERY_SQL_SHA='9be3727d96763f955df3af6333d9faa0c604b239326ddaa91f805635cc6438d4';
+const HELD_RECOVERY_SQL_SHA='ec9a1bb74603237262d66d09f71a1e49b1ac1941ca114e20700b22e8c90bf293';
 const HELD_RECOVERY_GUARDS={
  'private.burimunsi_auto_snapshot(text)':'526606c23ad6d8a3b511136a8eff9e2ddf5f7a775f068b5ce8615c02a7a90dd6',
  'private.burimunsi_auto_candidates(text)':'156a2179d3e2065e9116985f3d1a88b034a8cf8c26a988fd48f9ccccc665192f',
@@ -35,8 +35,14 @@ const HELD_RECOVERY_GUARDS={
  'private.collect_sms_held_source_guard()':'2b3d3452d89fd11525681e3d9d1302e0153c0f441ff44d3b3dd7f3ba2d97dbc6',
  'private.collect_sms_recovery_held(text)':'353a9c76dfe04e60f62ddd005dddcba1f4da423fa48113284f733d134e0ac3ca',
  'private.collect_sms_recovery_work_guard()':'d34eb5497661179bd817c73fb981b2fec215d2ccf773b03cbfba520f5d183b87',
- 'private.collect_sms_recovery_raw_work_guard()':'f706e9e78f164701cee4c2c6e0d453c13a7f30d50072379882800acf32c06dc5',
- 'private.collect_sms_witness_reserve(text,text,text,text,text,text,timestamptz,text)':'6704a892628f4c9efa16644c6ee3f0162994cbfc1cb5d0c247a7c73320e3bebc',
+ 'private.collect_sms_recovery_raw_work_guard()':'339cb3e77b644ddb359e74b6847a1698bbee4c3023caaf3a7118c2a8b8d13b6d',
+ 'private.collect_sms_recovery_transaction_matches(text,text)':'d0eb949bf0e1547abd080e13262df14004e4225a2e50958d014d4f91703650ad',
+ 'private.collect_sms_recovery_scope_guard()':'981338e7866ed560955ad98627f0f2eddb84f0e9e142b57521429740009a4a18',
+ 'private.collect_sms_recovery_financial_guard()':'0bbe97cd0928561597413749053a9e7ef2a5b1c8569e985be0337f38d5347e71',
+ 'private.collect_sms_witness_immutable()':'8002c6a0cb39fc691c5027ece5e1af15458334805ab25ecef9cc67f9ca43cc2c',
+ 'private.collect_sms_request_witness_guard()':'ccf51907a4e2ff6107c925b6cf9a34c2fba58786c48907c5033362cba4d388cc',
+ 'private.collect_sms_payload_witness_guard()':'4d6bac36fc6b05c7f947459cb47d58287a4191080ad07fc091c9663c4b287155',
+ 'private.collect_sms_witness_reserve(text,text,text,text,text,text,timestamptz,text)':'08604196e97299947b1dac9237297d00566959cfce18963c4c4e785ed3a813e1',
  'private.burimunsi_sms_recovery_hold(text,uuid,text,text,timestamptz)':'9d4ab9d548e4d544a918f81f4b0072389de1abee6c070492d4d3609137c6bd8a',
  'private.burimunsi_sms_recovery_ack_snapshot(text,uuid,text,text,text,text,timestamptz)':'573323471c79766de7dbe908aec97bb29eede153cdd066e89308ee75ee8f86c5',
  'private.burimunsi_observation_actor(boolean)':'e6f1bf1db6c84209a8bf00465201e1db997dc8c03a972399af7e6fcb48f4f9e1',
@@ -49,6 +55,52 @@ export function schedulerGuardDigests(recordedDigest,localDigest){
  if(recordedDigest===null)return {...GUARDS};
  if(recordedDigest!==HELD_RECOVERY_SQL_SHA||localDigest!==HELD_RECOVERY_SQL_SHA)throw Error('scheduler_migration_changed');
  return {...GUARDS,...HELD_RECOVERY_GUARDS};
+}
+// Read-only catalog checks for every candidate-specific trigger, including its
+// timing/events and deferred status, plus the effective table privileges and
+// exact RLS policy. A missing relation, role, policy or trigger fails closed.
+export const HELD_RECOVERY_CATALOG_SQL=`WITH expected(relation_name,trigger_name,function_name,trigger_type,deferred) AS (VALUES
+ ('app.sms_receipts','collect_sms_held_source_guard','private.collect_sms_held_source_guard()',23,false),
+ ('private.burimunsi_auto_sms_jobs','collect_sms_recovery_work_guard','private.collect_sms_recovery_work_guard()',31,false),
+ ('private.burimunsi_native_financial_work','collect_sms_recovery_work_guard','private.collect_sms_recovery_work_guard()',31,false),
+ ('app.momo_processing_jobs','collect_sms_recovery_raw_work_guard','private.collect_sms_recovery_raw_work_guard()',31,false),
+ ('app.momo_parse_attempts','collect_sms_recovery_raw_work_guard','private.collect_sms_recovery_raw_work_guard()',31,false),
+ ('app.momo_transaction_sources','collect_sms_recovery_raw_work_guard','private.collect_sms_recovery_raw_work_guard()',31,false),
+ ('private.burimunsi_transaction_scopes','collect_sms_recovery_scope_guard','private.collect_sms_recovery_scope_guard()',23,false),
+ ('app.momo_financial_links','collect_sms_recovery_financial_guard','private.collect_sms_recovery_financial_guard()',23,false),
+ ('app.payments','collect_sms_recovery_financial_guard','private.collect_sms_recovery_financial_guard()',19,false),
+ ('private.burimunsi_observation_requests','collect_sms_request_witness_guard','private.collect_sms_request_witness_guard()',5,true),
+ ('private.storage_payload_reservations','collect_sms_payload_witness_guard','private.collect_sms_payload_witness_guard()',7,false),
+ ('private.collect_sms_witnesses','collect_sms_witness_immutable','private.collect_sms_witness_immutable()',19,false),
+ ('private.burimunsi_recovered_sms_holds','recovered_sms_hold_immutable','private._collect_fence_no_erasure()',18,false),
+ ('private.collect_sms_witnesses','collect_fence_statement_v1','private._collect_fence_statement()',62,false),
+ ('private.burimunsi_recovered_sms_holds','collect_fence_statement_v1','private._collect_fence_statement()',62,false),
+ ('private.collect_sms_witnesses','collect_sms_no_erasure','private._collect_fence_no_erasure()',42,false),
+ ('private.burimunsi_recovered_sms_holds','collect_sms_no_erasure','private._collect_fence_no_erasure()',42,false)
+), checked_triggers AS (
+ SELECT e.*,coalesce(t.tgfoid=to_regprocedure(e.function_name) AND t.tgenabled='A' AND NOT t.tgisinternal
+  AND t.tgtype::int=e.trigger_type AND t.tgdeferrable=e.deferred AND t.tginitdeferred=e.deferred
+  AND (t.tgconstraint<>0)=e.deferred AND t.tgqual IS NULL AND t.tgnargs=0
+  AND CASE WHEN e.relation_name='app.payments' THEN t.tgattr::text=(SELECT a.attnum::text FROM pg_attribute a
+   WHERE a.attrelid=t.tgrelid AND a.attname='collection_id' AND NOT a.attisdropped) ELSE t.tgattr::text='' END,false) ok
+ FROM expected e LEFT JOIN pg_trigger t ON t.tgrelid=to_regclass(e.relation_name) AND t.tgname=e.trigger_name
+), checked_tables AS (
+ SELECT n.relation_name,coalesce(c.relkind='r' AND c.relowner='postgres'::regrole AND c.relrowsecurity AND c.relforcerowsecurity
+  AND NOT EXISTS(SELECT 1 FROM unnest(ARRAY['anon','authenticated','service_role','collect_importer','collect_runtime']) role_name
+   CROSS JOIN unnest(ARRAY['SELECT','INSERT','UPDATE','DELETE','TRUNCATE','REFERENCES','TRIGGER']) privilege_name
+   WHERE has_table_privilege(role_name,c.oid,privilege_name))
+  AND NOT EXISTS(SELECT 1 FROM aclexplode(coalesce(c.relacl,acldefault('r',c.relowner))) acl WHERE acl.grantee=0)
+  AND (SELECT count(*)=1 AND bool_and(p.polname='collect_sms_witness_owner_frame' AND p.polcmd='*'
+    AND p.polpermissive AND p.polroles=ARRAY['postgres'::regrole::oid]
+    AND pg_get_expr(p.polqual,p.polrelid)=$1 AND pg_get_expr(p.polwithcheck,p.polrelid)=$1)
+   FROM pg_policy p WHERE p.polrelid=c.oid),false) ok
+ FROM (VALUES('private.collect_sms_witnesses'),('private.burimunsi_recovered_sms_holds')) n(relation_name)
+ LEFT JOIN pg_class c ON c.oid=to_regclass(n.relation_name)
+) SELECT (SELECT count(*)=17 AND bool_and(ok) FROM checked_triggers) triggers_ok,
+ (SELECT count(*)=2 AND bool_and(ok) FROM checked_tables) tables_ok`;
+export const HELD_RECOVERY_POLICY="((current_setting('role'::text, true) = 'collect_runtime'::text) AND (current_setting('collect.edge_verified'::text, true) = 'true'::text) AND (current_setting('collect.sms_witness_frame'::text, true) = '1'::text))";
+export function verifyHeldRecoveryCatalog(row){
+ if(row?.triggers_ok!==true||row?.tables_ok!==true)throw Error('scheduler_or_history_guard_changed');
 }
 function privateBytes(name){if(!/^[a-z0-9_.-]+\.json$/.test(name))throw Error('invalid_evidence_name');const p=join(ROOT,name),s=lstatSync(p);
  if(!s.isFile()||s.isSymbolicLink()||s.nlink!==1||s.uid!==process.getuid()||(s.mode&0o077)!==0||s.size<2||s.size>1024*1024)throw Error('private_evidence_required');return readFileSync(p);}
@@ -113,6 +165,9 @@ async function inspect(db){
  if(heldHistory){
   const heldPrivate=['private.collect_sms_held_source_guard()','private.collect_sms_recovery_held(text)',
    'private.collect_sms_recovery_work_guard()','private.collect_sms_recovery_raw_work_guard()',
+   'private.collect_sms_recovery_transaction_matches(text,text)','private.collect_sms_recovery_scope_guard()',
+   'private.collect_sms_recovery_financial_guard()',
+   'private.collect_sms_witness_immutable()','private.collect_sms_request_witness_guard()','private.collect_sms_payload_witness_guard()',
    'private.burimunsi_observation_actor(boolean)'];
   const heldRuntime=['private.collect_sms_witness_reserve(text,text,text,text,text,text,timestamptz,text)',
    'private.burimunsi_sms_recovery_hold(text,uuid,text,text,timestamptz)',
@@ -122,16 +177,7 @@ async function inspect(db){
    'private.burimunsi_observation_reconcile_status()','private.burimunsi_observation_reconcile_verified_status()'];
   if(guard.some(x=>heldPrivate.includes(x.signature)&&x.acl!=='{postgres=X/postgres}'||
    heldRuntime.includes(x.signature)&&x.acl!=='{postgres=X/postgres,collect_runtime=X/postgres}'))throw Error('scheduler_or_history_guard_changed');
-  const heldTriggers=(await db.query(`SELECT count(*)::int AS n FROM (VALUES
-   ('app.sms_receipts','collect_sms_held_source_guard','private.collect_sms_held_source_guard()'),
-   ('private.burimunsi_auto_sms_jobs','collect_sms_recovery_work_guard','private.collect_sms_recovery_work_guard()'),
-   ('private.burimunsi_native_financial_work','collect_sms_recovery_work_guard','private.collect_sms_recovery_work_guard()'),
-   ('app.momo_processing_jobs','collect_sms_recovery_raw_work_guard','private.collect_sms_recovery_raw_work_guard()'),
-   ('app.momo_parse_attempts','collect_sms_recovery_raw_work_guard','private.collect_sms_recovery_raw_work_guard()'),
-   ('app.momo_transaction_sources','collect_sms_recovery_raw_work_guard','private.collect_sms_recovery_raw_work_guard()')
-  ) e(relation_name,trigger_name,function_name) JOIN pg_trigger t ON t.tgrelid=to_regclass(e.relation_name)
-   AND t.tgname=e.trigger_name AND t.tgfoid=to_regprocedure(e.function_name) AND t.tgenabled='A' AND NOT t.tgisinternal`)).rows[0];
-  if(heldTriggers?.n!==6)throw Error('scheduler_or_history_guard_changed');
+  verifyHeldRecoveryCatalog((await db.query(HELD_RECOVERY_CATALOG_SQL,[HELD_RECOVERY_POLICY])).rows[0]);
  }
  const expected=expectedSchedulerBodies(scheduler.sql);
  if(scheduleHistory){

@@ -278,6 +278,20 @@ test('held recovery retains one encrypted source and retries the same request wi
  });
 });
 
+test('held recovery preserves submillisecond source times across admission, exact retry and acknowledgement',async()=>{
+ for(let digits=4;digits<=9;digits++){
+  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
+   inboxReceivedAt:`2026-11-11T12:00:00.${'123456789'.slice(0,digits)}Z`,sourceKey:'e'.repeat(64)};
+  await f.run(async adapter=>{
+   const first=await adapter.recoverHeld(actor,held),retry=await adapter.recoverHeld(actor,held);
+   assert.deepEqual(retry,first);assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);
+   const acknowledged=await adapter.recoverHeldAck(actor,held);
+   assert.equal(acknowledged.state,'acknowledged');assert.equal(acknowledged.sourceId,first.sourceId);
+   assert.equal(acknowledged.retryAllowed,false);
+  });
+ }
+});
+
 test('held recovery acknowledgement proves exact retained evidence without writes or uploads',async()=>{
  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
   inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'a'.repeat(64)};

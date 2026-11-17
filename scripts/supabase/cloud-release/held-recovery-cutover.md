@@ -55,3 +55,23 @@ not qualified solely by a passed server JSON test or a simulated clock.
   Verify recovery remains non-financial and a later same-group association
   invalidates the verified-group result. General unscoped receipts remain
   outside that verified-group result until their association is established.
+- The client journals `ATTEMPTING` before sending. If it stops before sending,
+  the current acknowledgement remains `unconfirmed` forever. Do not enable
+  recovery until a separately reviewed, exact-request resume/manual resolution
+  path handles this and unknown, active, accepted and conflicting uploads
+  without a second unsafe PUT. A read-only absence check is not permission to
+  replay an in-flight request.
+- A changed consent generation currently prevents acknowledgement even if
+  consent is subsequently re-enabled. Preserve the pending request until a
+  reviewed same-account/current-consent recovery rule or a manual resolution
+  is available; do not infer that the source was absent.
+- The candidate's production switch is off while both
+  `BURIMUNSI_HELD_RECOVERY_SOURCE_SHA256` and
+  `BURIMUNSI_HELD_RECOVERY_COLLECTION_ID` are absent or empty. Any partial,
+  invalid or stale source binding fails closed. Only after all qualifications
+  and the v47 cache boundary are complete may a controlled release set both:
+  the first must equal the fenced `BUILD_SOURCE_ID` and the second must be the
+  single verified collection ID. The existing observation feature must also be
+  enabled. Confirm a different collection still receives 404 and a revoked
+  admin/grant or disabled consent is denied. Never set these values merely to
+  compensate for an incomplete migration or missing test.

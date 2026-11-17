@@ -21,3 +21,17 @@ test('advanced smart import composition requires an explicit enabled port',()=>{
  o.ports.smartOnboardingImport={preview:noop};assert.equal(typeof composeNativeRequest(o),'function');
  o.config.smartOnboardingAdvancedEnabled=false;assert.throws(()=>composeNativeRequest(o),/smart_import_config_conflict/);
 });
+test('held recovery activates only for its configured collection with complete ports',()=>{
+ const o=options();o.config.nativeObservationEnabled=true;
+ o.config.heldRecovery={sourceSha256:'a'.repeat(64),groupId:'another-group'};
+ // Another group composes without receiving recovery capabilities.
+ assert.equal(typeof composeNativeRequest(o),'function');
+ o.config.heldRecovery={sourceSha256:'a'.repeat(64),groupId:'g'};
+ assert.throws(()=>composeNativeRequest(o),/collect_adapter_required/);
+ o.ports.observations={recoverHeld:noop,recoverHeldAck:noop,reconcileVerifiedStatus:noop};
+ assert.equal(typeof composeNativeRequest(o),'function');
+ o.config.heldRecovery={sourceSha256:'bad',groupId:'g'};
+ assert.throws(()=>composeNativeRequest(o),/held_recovery_configuration_invalid/);
+ o.config.heldRecovery={sourceSha256:'a'.repeat(64),groupId:'g'};o.config.nativeObservationEnabled=false;
+ assert.throws(()=>composeNativeRequest(o),/held_recovery_configuration_invalid/);
+});

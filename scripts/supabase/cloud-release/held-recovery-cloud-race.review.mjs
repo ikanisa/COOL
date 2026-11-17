@@ -15,11 +15,14 @@ import {loadProviderRoot} from '../managed-cloud-migrations/provider-ca.mjs';
 const tableNames=['collect_sms_witnesses','burimunsi_recovered_sms_holds','burimunsi_observation_requests',
  'burimunsi_unresolved_observations','burimunsi_sms_source_scopes','storage_payload_reservations','storage_put_intents',
  'sms_receipts','burimunsi_auto_sms_jobs','burimunsi_native_financial_work','momo_processing_jobs','momo_parse_attempts',
- 'momo_transaction_sources','burimunsi_scopes','momo_gateway_bindings','momo_receiving_accounts'];
+ 'momo_transaction_sources','burimunsi_transaction_scopes','momo_financial_links','payments',
+ 'burimunsi_scopes','momo_gateway_bindings','momo_receiving_accounts'];
 const functions=[['collect_fence_assert_write','uuid,bigint,text'],['burimunsi_observation_actor','boolean'],
  ['burimunsi_observation_consent_current',''],['collect_sms_witness_reserve','text,text,text,text,text,text,timestamptz,text'],
  ['burimunsi_sms_recovery_hold','text,uuid,text,text,timestamptz'],['collect_sms_held_source_guard',''],
- ['collect_sms_recovery_held','text'],['collect_sms_recovery_work_guard',''],['collect_sms_recovery_raw_work_guard','']];
+ ['collect_sms_recovery_held','text'],['collect_sms_recovery_transaction_matches','text,text'],
+ ['collect_sms_recovery_scope_guard',''],['collect_sms_recovery_financial_guard',''],
+ ['collect_sms_recovery_work_guard',''],['collect_sms_recovery_raw_work_guard','']];
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const id=n=>`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`;
 async function connectTest(){
@@ -44,8 +47,8 @@ export async function runHeldRecoveryRace(){
  const fixture=new URL('./generate-held-recovery-temp-fixture.mjs',import.meta.url);
  const migration=new URL('../../../supabase/migrations/20261117210000_burimunsi_held_recovery.sql',import.meta.url);
  const hash=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
- if(hash(fixture)!=='83fe7d0255c91fc787adbc7de495632eb714790e0705f1c523d7dd6e276c67a1'||
-  hash(migration)!=='9be3727d96763f955df3af6333d9faa0c604b239326ddaa91f805635cc6438d4')throw Error('reviewed_fixture_or_migration_changed');
+ if(hash(fixture)!=='506a0dc78e55c919c6e7e4b60ade82b42fb28a20a4709b6d70d0427d55a5cbf4'||
+  hash(migration)!=='ec9a1bb74603237262d66d09f71a1e49b1ac1941ca114e20700b22e8c90bf293')throw Error('reviewed_fixture_or_migration_changed');
  const nonce=randomUUID().replaceAll('-',''),schema=`collect_test_heldrace_${nonce}`,marker=`collect-heldrace:${nonce}`;
  assert(/^collect_test_heldrace_[a-f0-9]{32}$/.test(schema));
  const quoted=`"${schema}"`,lock=(9223372030000000000n-BigInt('0x'+randomBytes(4).toString('hex'))).toString();
@@ -93,8 +96,8 @@ export async function runHeldRecoveryRace(){
   if(!available)throw Error('test_lock_already_held');
   if((await control.query('SELECT pg_advisory_unlock($1::bigint) AS released',[lock])).rows[0]?.released!==true)throw Error('test_lock_release_failed');
   const generated=execFileSync(process.execPath,[fileURLToPath(fixture)],{encoding:'utf8'});
-  if(hash(fixture)!=='83fe7d0255c91fc787adbc7de495632eb714790e0705f1c523d7dd6e276c67a1'||
-   hash(migration)!=='9be3727d96763f955df3af6333d9faa0c604b239326ddaa91f805635cc6438d4')throw Error('reviewed_fixture_or_migration_changed');
+  if(hash(fixture)!=='506a0dc78e55c919c6e7e4b60ade82b42fb28a20a4709b6d70d0427d55a5cbf4'||
+   hash(migration)!=='ec9a1bb74603237262d66d09f71a1e49b1ac1941ca114e20700b22e8c90bf293')throw Error('reviewed_fixture_or_migration_changed');
   const cut=generated.indexOf('DO $test$');if(cut<0||!generated.startsWith('\nBEGIN;'))throw Error('fixture_setup_changed');
   let setup=generated.slice(0,cut).replaceAll('CREATE TEMP TABLE ',`CREATE TABLE ${quoted}.`)
    .replaceAll('pg_temp.',`${quoted}.`).replaceAll('9223372036854773000::bigint',`${lock}::bigint`);
@@ -125,6 +128,44 @@ export async function runHeldRecoveryRace(){
   await b.query(`INSERT INTO ${quoted}.momo_processing_jobs(raw_sms_id,state) VALUES($1,'pending')`,[other]);
   const parked=(await b.query(`SELECT state,last_error FROM ${quoted}.momo_processing_jobs WHERE raw_sms_id=$1`,[other])).rows[0];
   assert.deepEqual(parked,{state:'source_unresolved',last_error:'sms_recovery_financial_hold'});await b.query('COMMIT');
+  // A parsed, previously unscoped source exists BEFORE the recovery request.
+  // Exercise both lock orderings at the final link and scope boundaries.
+  async function seedParsed(number,body,transaction,payment){
+   const raw=id(number);await control.query(`INSERT INTO ${quoted}.sms_receipts VALUES($1,$2,$3)`,[raw,'sms/'+raw,body]);
+   await control.query(`INSERT INTO ${quoted}.momo_transaction_sources(raw_sms_id,transaction_id) VALUES($1,$2)`,[raw,transaction]);
+   if(payment)await control.query(`INSERT INTO ${quoted}.payments VALUES($1,'group-a')`,[payment]);
+  }
+  async function prepareHold(c,number,body){
+   const sourceId=id(number),req=id(number+1000),fingerprint='a'.repeat(64),sourceKey='b'.repeat(64);
+   await c.query(`INSERT INTO ${quoted}.burimunsi_observation_requests VALUES($1,'group-a','10000000-0000-4000-8000-000000000001','owner-a',
+    '20000000-0000-4000-8000-000000000001','30000000-0000-4000-8000-000000000001',1,$2::uuid,$3,$4,$5)`,
+    [sourceId,req,fingerprint,sourceKey,body]);
+   await c.query(`SELECT ${quoted}.collect_sms_witness_reserve('recovery',$1,'owner-a','group-a',$2,$3,$4::timestamptz,NULL)`,
+    ['sms/'+sourceId,fingerprint,body,time]);
+   await c.query(`SELECT ${quoted}.burimunsi_sms_recovery_hold($1,$2::uuid,$3,$4,$5::timestamptz)`,
+    [sourceId,req,fingerprint,body,time]);
+  }
+  await seedParsed(110,'c'.repeat(64),'pre-link','pay-c');await configure(a);await configure(b);
+  await prepareHold(a,111,'c'.repeat(64));
+  const lateLink=b.query(`INSERT INTO ${quoted}.momo_financial_links VALUES('pre-link','pay-c')`);
+  await confirmWaiting(lateLink);await a.query('COMMIT');await assert.rejects(lateLink,e=>e.code==='55000');await rollback(b);
+  await seedParsed(112,'d'.repeat(64),'link-first','pay-d');await configure(a);await configure(b);
+  await b.query(`INSERT INTO ${quoted}.momo_financial_links VALUES('link-first','pay-d')`);
+  const linkFirst=a.query(`SELECT ${quoted}.collect_sms_witness_reserve('recovery',$1,'owner-a','group-a',$2,$3,$4::timestamptz,NULL)`,
+   ['sms/'+id(113),'e'.repeat(64),'d'.repeat(64),time]);
+  await confirmWaiting(linkFirst);await b.query('COMMIT');await assert.rejects(linkFirst,e=>e.code==='55000');await rollback(a);
+  await seedParsed(114,'e'.repeat(64),'pre-scope',null);await configure(a);await configure(b);
+  await prepareHold(a,115,'e'.repeat(64));
+  const lateScope=b.query(`INSERT INTO ${quoted}.burimunsi_transaction_scopes VALUES('pre-scope','group-a')`);
+  await confirmWaiting(lateScope);await a.query('COMMIT');await assert.rejects(lateScope,e=>e.code==='55000');await rollback(b);
+  await seedParsed(116,'f'.repeat(64),'scope-first',null);await configure(a);await configure(b);
+  await b.query(`INSERT INTO ${quoted}.burimunsi_transaction_scopes VALUES('scope-first','group-a')`);
+  const scopeFirst=a.query(`SELECT ${quoted}.collect_sms_witness_reserve('recovery',$1,'owner-a','group-a',$2,$3,$4::timestamptz,NULL)`,
+   ['sms/'+id(117),'f'.repeat(64),'f'.repeat(64),time]);
+  await confirmWaiting(scopeFirst);await b.query('COMMIT');await assert.rejects(scopeFirst,e=>e.code==='55000');await rollback(a);
+  // Equal body in another collection is not a reason to prevent a valid link.
+  await control.query(`INSERT INTO ${quoted}.payments VALUES('pay-other','group-b')`);
+  await control.query(`INSERT INTO ${quoted}.momo_financial_links VALUES('pre-link','pay-other')`);
  }catch(error){originalError=error;}
  finally{
   await rollback(a);await rollback(b);await rollback(control);

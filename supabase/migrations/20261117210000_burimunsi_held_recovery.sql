@@ -171,6 +171,17 @@ BEGIN
     OR EXISTS(SELECT 1 FROM private.burimunsi_sms_source_scopes scope
       JOIN app.sms_receipts s ON s.id=scope.source_id
       WHERE scope.collection_id=p_collection AND s.object_key<>p_key AND s.body_sha256=p_body)
+    -- A parsed source can already be adopted or financially linked even when
+    -- it predates the source-scope table. Its collection is established by
+    -- the transaction scope or by the linked payment, never by body alone.
+    OR EXISTS(SELECT 1 FROM private.burimunsi_transaction_scopes x
+      JOIN app.momo_transaction_sources s ON s.transaction_id=x.transaction_id
+      JOIN app.sms_receipts r ON r.id=s.raw_sms_id
+      WHERE x.collection_id=p_collection AND r.object_key<>p_key AND r.body_sha256=p_body)
+    OR EXISTS(SELECT 1 FROM app.momo_financial_links f JOIN app.payments p ON p.id=f.payment_id
+      JOIN app.momo_transaction_sources s ON s.transaction_id=f.transaction_id
+      JOIN app.sms_receipts r ON r.id=s.raw_sms_id
+      WHERE p.collection_id=p_collection AND r.object_key<>p_key AND r.body_sha256=p_body)
     OR EXISTS(SELECT 1 FROM private.storage_payload_reservations s
       LEFT JOIN private.collect_sms_witnesses x ON x.object_key=s.object_key
       LEFT JOIN private.burimunsi_unresolved_observations r ON r.object_key=s.object_key
@@ -491,6 +502,60 @@ EXCEPTION WHEN OTHERS THEN PERFORM set_config('collect.sms_witness_frame',coales
 END;$fn$;
 REVOKE ALL ON FUNCTION private.collect_sms_recovery_held(text) FROM PUBLIC,anon,authenticated,service_role,collect_importer,collect_runtime;
 
+-- Final association and financial boundaries also cover a source parsed
+-- before the recovery hold, including a source with no source-scope row.
+-- All these checks and recovery admission take the same transaction lock so
+-- either ordering sees the committed competing state before it can proceed.
+CREATE FUNCTION private.collect_sms_recovery_transaction_matches(p_transaction text,p_collection text) RETURNS boolean
+ LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,pg_temp AS $fn$
+DECLARE prior text:=current_setting('collect.sms_witness_frame',true);answer boolean;
+BEGIN
+ PERFORM set_config('collect.sms_witness_frame','1',true);
+ SELECT EXISTS(SELECT 1 FROM app.momo_transaction_sources s JOIN app.sms_receipts r ON r.id=s.raw_sms_id
+  JOIN private.burimunsi_recovered_sms_holds h ON h.collection_id=p_collection AND h.body_sha256=r.body_sha256
+  WHERE s.transaction_id=p_transaction) INTO answer;
+ PERFORM set_config('collect.sms_witness_frame',coalesce(prior,''),true);RETURN answer;
+EXCEPTION WHEN OTHERS THEN PERFORM set_config('collect.sms_witness_frame',coalesce(prior,''),true);RAISE;
+END;$fn$;
+REVOKE ALL ON FUNCTION private.collect_sms_recovery_transaction_matches(text,text) FROM PUBLIC,anon,authenticated,service_role,collect_importer,collect_runtime;
+
+CREATE FUNCTION private.collect_sms_recovery_scope_guard() RETURNS trigger
+ LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,pg_temp AS $fn$
+BEGIN
+ PERFORM pg_advisory_xact_lock(734636924058501::bigint);
+ IF private.collect_sms_recovery_transaction_matches(NEW.transaction_id,NEW.collection_id) THEN
+  RAISE EXCEPTION 'sms_recovery_financial_hold' USING ERRCODE='55000';END IF;
+ RETURN NEW;
+END;$fn$;
+REVOKE ALL ON FUNCTION private.collect_sms_recovery_scope_guard() FROM PUBLIC,anon,authenticated,service_role,collect_importer,collect_runtime;
+CREATE TRIGGER collect_sms_recovery_scope_guard BEFORE INSERT OR UPDATE ON private.burimunsi_transaction_scopes
+ FOR EACH ROW EXECUTE FUNCTION private.collect_sms_recovery_scope_guard();
+ALTER TABLE private.burimunsi_transaction_scopes ENABLE ALWAYS TRIGGER collect_sms_recovery_scope_guard;
+
+CREATE FUNCTION private.collect_sms_recovery_financial_guard() RETURNS trigger
+ LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,pg_temp AS $fn$
+DECLARE collection text;blocked boolean;
+BEGIN
+ PERFORM pg_advisory_xact_lock(734636924058501::bigint);
+ IF TG_TABLE_NAME='momo_financial_links' THEN
+  SELECT p.collection_id INTO collection FROM app.payments p WHERE p.id=NEW.payment_id;
+  IF NOT FOUND THEN RAISE EXCEPTION 'sms_recovery_payment_missing' USING ERRCODE='55000';END IF;
+  blocked:=private.collect_sms_recovery_transaction_matches(NEW.transaction_id,collection);
+ ELSE
+  SELECT EXISTS(SELECT 1 FROM app.momo_financial_links f WHERE f.payment_id=NEW.id
+   AND private.collect_sms_recovery_transaction_matches(f.transaction_id,NEW.collection_id)) INTO blocked;
+ END IF;
+ IF blocked THEN RAISE EXCEPTION 'sms_recovery_financial_hold' USING ERRCODE='55000';END IF;
+ RETURN NEW;
+END;$fn$;
+REVOKE ALL ON FUNCTION private.collect_sms_recovery_financial_guard() FROM PUBLIC,anon,authenticated,service_role,collect_importer,collect_runtime;
+CREATE TRIGGER collect_sms_recovery_financial_guard BEFORE INSERT OR UPDATE ON app.momo_financial_links
+ FOR EACH ROW EXECUTE FUNCTION private.collect_sms_recovery_financial_guard();
+ALTER TABLE app.momo_financial_links ENABLE ALWAYS TRIGGER collect_sms_recovery_financial_guard;
+CREATE TRIGGER collect_sms_recovery_financial_guard BEFORE UPDATE OF collection_id ON app.payments
+ FOR EACH ROW EXECUTE FUNCTION private.collect_sms_recovery_financial_guard();
+ALTER TABLE app.payments ENABLE ALWAYS TRIGGER collect_sms_recovery_financial_guard;
+
 -- Preserve each original function identity and ACL while adding one pinned,
 -- narrowly-scoped hold check. Each predecessor must be the reviewed version.
 DO $patch_processing$
@@ -545,7 +610,19 @@ ALTER TABLE private.burimunsi_native_financial_work ENABLE ALWAYS TRIGGER collec
 -- source must not enter those paths, even through a direct retry or association.
 CREATE FUNCTION private.collect_sms_recovery_raw_work_guard() RETURNS trigger
  LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,pg_temp AS $fn$
+DECLARE prior text:=current_setting('collect.sms_witness_frame',true);blocked boolean;
 BEGIN
+ IF TG_TABLE_NAME='momo_transaction_sources' AND TG_OP<>'DELETE' THEN
+  PERFORM pg_advisory_xact_lock(734636924058501::bigint);
+  PERFORM set_config('collect.sms_witness_frame','1',true);
+  SELECT EXISTS(SELECT 1 FROM app.sms_receipts r JOIN private.burimunsi_recovered_sms_holds h ON h.body_sha256=r.body_sha256
+   WHERE r.id=NEW.raw_sms_id AND (EXISTS(SELECT 1 FROM private.burimunsi_transaction_scopes x
+    WHERE x.transaction_id=NEW.transaction_id AND x.collection_id=h.collection_id)
+    OR EXISTS(SELECT 1 FROM app.momo_financial_links f JOIN app.payments p ON p.id=f.payment_id
+     WHERE f.transaction_id=NEW.transaction_id AND p.collection_id=h.collection_id))) INTO blocked;
+  PERFORM set_config('collect.sms_witness_frame',coalesce(prior,''),true);
+  IF blocked THEN RAISE EXCEPTION 'sms_recovery_financial_hold' USING ERRCODE='55000';END IF;
+ END IF;
  -- Gateway capture creates its processing row in the same transaction as the
  -- receipt. Keep ingestion intact, but park an ambiguous new job so it cannot
  -- be claimed, parsed, resolved or posted without a future reviewed design.
@@ -570,6 +647,7 @@ BEGIN
   OR (TG_OP<>'DELETE' AND private.collect_sms_recovery_held(NEW.raw_sms_id)) THEN
   RAISE EXCEPTION 'sms_recovery_financial_hold' USING ERRCODE='55000';END IF;
  IF TG_OP='DELETE' THEN RETURN OLD;ELSE RETURN NEW;END IF;
+EXCEPTION WHEN OTHERS THEN PERFORM set_config('collect.sms_witness_frame',coalesce(prior,''),true);RAISE;
 END;$fn$;
 REVOKE ALL ON FUNCTION private.collect_sms_recovery_raw_work_guard() FROM PUBLIC,anon,authenticated,service_role,collect_importer,collect_runtime;
 CREATE TRIGGER collect_sms_recovery_raw_work_guard BEFORE INSERT OR UPDATE OR DELETE ON app.momo_processing_jobs

@@ -55,8 +55,12 @@ export class SupabaseObjectBucket {
     !(w.collectionId===null||typeof w.collectionId==='string'&&/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/.test(w.collectionId))||
     !(w.inboxReceivedAt===null||typeof w.inboxReceivedAt==='string'&&Number.isFinite(Date.parse(w.inboxReceivedAt))))
     throw new ApiError(400,'storage_identity_required','A protected source identity is required.');
-   smsWitness={bodySha256:w.bodySha256,collectionId:w.collectionId,
-    inboxReceivedAt:w.inboxReceivedAt===null?null:new Date(Date.parse(w.inboxReceivedAt)).toISOString()};
+   // Send the same source timestamp to PostgreSQL as native admission used.
+   // Date.toISOString() discards digits beyond milliseconds: normalizing here
+   // could conflict with an already committed microsecond-precision witness.
+   // PostgreSQL casts both reservations to timestamptz; the exact input also
+   // remains bound by the request digest and encrypted source payload.
+   smsWitness={bodySha256:w.bodySha256,collectionId:w.collectionId,inboxReceivedAt:w.inboxReceivedAt};
   }
   const reservation=await this.journal.reservePayload(key,descriptor,value,smsWitness);
   if(reservation.sealedBody===null){const intent=await this.journal.getPutByKey(key);if(!intent||intent.customMetadata.source_fingerprint!==reservation.sourceFingerprint)throw unavailable('storage_reservation');return this.protocol.confirmCommitted(intent);}

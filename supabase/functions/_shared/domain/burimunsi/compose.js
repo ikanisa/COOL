@@ -28,13 +28,19 @@ export function composeNativeRequest({admission,config,ports,secrets,networkBuck
   const members=new MemberService({store:ports.canonical,groupId,clock});
   const gateway=new GatewayRegistry({store:ports.gateway,groupId,clock});
   requireThat(config.smartOnboardingAdvancedEnabled===undefined||typeof config.smartOnboardingAdvancedEnabled==='boolean','invalid_worker_config',503);
+  const recovery=config.heldRecovery;
+  requireThat(recovery===undefined||recovery===null||
+    typeof recovery==='object'&&/^[a-f0-9]{64}$/.test(recovery.sourceSha256??'')&&
+    typeof recovery.groupId==='string'&&/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/.test(recovery.groupId)&&
+    config.nativeObservationEnabled===true,'held_recovery_configuration_invalid',503);
+  if(recovery?.groupId===groupId)requirePort(ports.observations,['recoverHeld','recoverHeldAck','reconcileVerifiedStatus']);
   const smartOnboardingImport=config.smartOnboardingAdvancedEnabled===true?ports.smartOnboardingImport:null;
   if(config.smartOnboardingAdvancedEnabled===true)requirePort(smartOnboardingImport,['preview']);
   else requireThat(ports.smartOnboardingImport===undefined,'smart_import_config_conflict',503);
   const cursor=new ScopedCursor(secrets.cursorKey);
   const records=new RecordsService({store:ports.records,groupId,cursor,clock,smartOnboardingImport});
   return createNativeHandler({auth,records,contributions,members,gateway,observations:ports.observations,cursor,
-    origin:config.origin,networkBucket,groupId,strictContract:true});
+    origin:config.origin,networkBucket,groupId,strictContract:true,heldRecoveryEnabled:recovery?.groupId===groupId});
 }
 
 /** Shared request/worker selection. Enabled preparation can never silently fall

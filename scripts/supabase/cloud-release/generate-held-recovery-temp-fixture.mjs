@@ -27,7 +27,10 @@ CREATE TEMP TABLE burimunsi_auto_sms_jobs(source_id text);
 CREATE TEMP TABLE burimunsi_native_financial_work(source_id text);
 CREATE TEMP TABLE momo_processing_jobs(raw_sms_id text,state text DEFAULT 'pending',lease_token text,lease_until bigint,last_error text);
 CREATE TEMP TABLE momo_parse_attempts(raw_sms_id text);
-CREATE TEMP TABLE momo_transaction_sources(raw_sms_id text);
+CREATE TEMP TABLE momo_transaction_sources(raw_sms_id text,transaction_id text);
+CREATE TEMP TABLE burimunsi_transaction_scopes(transaction_id text,collection_id text);
+CREATE TEMP TABLE momo_financial_links(transaction_id text,payment_id text);
+CREATE TEMP TABLE payments(id text,collection_id text);
 CREATE TEMP TABLE burimunsi_scopes(collection_id text,active_binding_id text,binding_version bigint,receiving_account_id text,enabled boolean);
 CREATE TEMP TABLE momo_gateway_bindings(id text,version bigint,receiving_account_id text,owner_user_id text,status text);
 CREATE TEMP TABLE momo_receiving_accounts(id text,status text);
@@ -48,7 +51,8 @@ CREATE FUNCTION pg_temp.burimunsi_observation_consent_current() RETURNS jsonb LA
  $a$SELECT jsonb_build_object('enabled',current_setting('fixture.consent',true)='yes')$a$;
 `);
 for(const name of ['collect_sms_witness_reserve','burimunsi_sms_recovery_hold','collect_sms_held_source_guard',
- 'collect_sms_recovery_held','collect_sms_recovery_work_guard','collect_sms_recovery_raw_work_guard'])console.log(extract(name));
+ 'collect_sms_recovery_held','collect_sms_recovery_transaction_matches','collect_sms_recovery_scope_guard',
+ 'collect_sms_recovery_financial_guard','collect_sms_recovery_work_guard','collect_sms_recovery_raw_work_guard'])console.log(extract(name));
 console.log(String.raw`
 CREATE TRIGGER held_source BEFORE INSERT OR UPDATE ON pg_temp.sms_receipts FOR EACH ROW EXECUTE FUNCTION pg_temp.collect_sms_held_source_guard();
 CREATE TRIGGER held_jobs BEFORE INSERT OR UPDATE OR DELETE ON pg_temp.burimunsi_auto_sms_jobs FOR EACH ROW EXECUTE FUNCTION pg_temp.collect_sms_recovery_work_guard();
@@ -56,6 +60,9 @@ CREATE TRIGGER held_work BEFORE INSERT OR UPDATE OR DELETE ON pg_temp.burimunsi_
 CREATE TRIGGER held_jobs BEFORE INSERT OR UPDATE OR DELETE ON pg_temp.momo_processing_jobs FOR EACH ROW EXECUTE FUNCTION pg_temp.collect_sms_recovery_raw_work_guard();
 CREATE TRIGGER held_attempts BEFORE INSERT OR UPDATE OR DELETE ON pg_temp.momo_parse_attempts FOR EACH ROW EXECUTE FUNCTION pg_temp.collect_sms_recovery_raw_work_guard();
 CREATE TRIGGER held_sources BEFORE INSERT OR UPDATE OR DELETE ON pg_temp.momo_transaction_sources FOR EACH ROW EXECUTE FUNCTION pg_temp.collect_sms_recovery_raw_work_guard();
+CREATE TRIGGER held_scope BEFORE INSERT OR UPDATE ON pg_temp.burimunsi_transaction_scopes FOR EACH ROW EXECUTE FUNCTION pg_temp.collect_sms_recovery_scope_guard();
+CREATE TRIGGER held_financial BEFORE INSERT OR UPDATE ON pg_temp.momo_financial_links FOR EACH ROW EXECUTE FUNCTION pg_temp.collect_sms_recovery_financial_guard();
+CREATE TRIGGER held_payment BEFORE UPDATE OF collection_id ON pg_temp.payments FOR EACH ROW EXECUTE FUNCTION pg_temp.collect_sms_recovery_financial_guard();
 SELECT set_config('fixture.authorized','yes',true),set_config('fixture.consent','yes',true),
  set_config('fixture.collection','group-a',true),set_config('fixture.owner','owner-a',true),
  set_config('collect.fence_admission_id','40000000-0000-4000-8000-000000000001',true),
@@ -65,16 +72,46 @@ DECLARE a text:='00000000-0000-4000-8000-000000000001';b text:='00000000-0000-40
  c text:='00000000-0000-4000-8000-000000000003';d text:='00000000-0000-4000-8000-000000000004';
  e text:='00000000-0000-4000-8000-000000000006';
  f text:='00000000-0000-4000-8000-000000000007';
+ pre text:='00000000-0000-4000-8000-000000000008';
+ other text:='00000000-0000-4000-8000-000000000009';
+ linked text:='00000000-0000-4000-8000-000000000010';
  t timestamptz:='2026-11-11 12:00:00+00';
 BEGIN
  -- An unscoped member receipt is not evidence about any collection.
  PERFORM pg_temp.collect_sms_witness_reserve('storage','sms/'||d,'member-owner',NULL,repeat('d',64),repeat('a',64),NULL,repeat('e',64));
+ -- This transaction was fully parsed while unscoped, before the later hold.
+ INSERT INTO pg_temp.sms_receipts VALUES(pre,'sms/'||pre,repeat('a',64));
+ INSERT INTO pg_temp.momo_transaction_sources(raw_sms_id,transaction_id) VALUES(pre,'parsed-before-hold');
  INSERT INTO pg_temp.burimunsi_observation_requests VALUES(a,'group-a','10000000-0000-4000-8000-000000000001','owner-a',
   '20000000-0000-4000-8000-000000000001','30000000-0000-4000-8000-000000000001',1,
   '40000000-0000-4000-8000-000000000002',repeat('b',64),repeat('c',64),repeat('a',64));
  PERFORM pg_temp.collect_sms_witness_reserve('recovery','sms/'||a,'owner-a','group-a',repeat('b',64),repeat('a',64),t,NULL);
  PERFORM pg_temp.burimunsi_sms_recovery_hold(a,'40000000-0000-4000-8000-000000000002',repeat('b',64),repeat('a',64),t);
  PERFORM pg_temp.burimunsi_sms_recovery_hold(a,'40000000-0000-4000-8000-000000000002',repeat('b',64),repeat('a',64),t);
+ -- Later association cannot make the earlier parsed source post in group A.
+ BEGIN INSERT INTO pg_temp.burimunsi_transaction_scopes VALUES('parsed-before-hold','group-a');
+  RAISE EXCEPTION 'late matching transaction scope accepted';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
+ INSERT INTO pg_temp.burimunsi_transaction_scopes VALUES('parsed-before-hold','group-b');
+ INSERT INTO pg_temp.payments VALUES('payment-a','group-a'),('payment-b','group-b');
+ BEGIN INSERT INTO pg_temp.momo_financial_links VALUES('parsed-before-hold','payment-a');
+  RAISE EXCEPTION 'late matching financial link accepted';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
+ INSERT INTO pg_temp.momo_financial_links VALUES('parsed-before-hold','payment-b');
+ BEGIN UPDATE pg_temp.payments SET collection_id='group-a' WHERE id='payment-b';
+  RAISE EXCEPTION 'linked payment moved into held collection';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
+ -- Association/link before source insertion is blocked too, under the same
+ -- global lock. Distinct bodies and groups remain eligible.
+ INSERT INTO pg_temp.burimunsi_transaction_scopes VALUES('scope-before-source','group-a');
+ BEGIN INSERT INTO pg_temp.momo_transaction_sources VALUES(pre,'scope-before-source');
+  RAISE EXCEPTION 'held body attached after transaction scope';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
+ INSERT INTO pg_temp.momo_financial_links VALUES('link-before-source','payment-a');
+ BEGIN INSERT INTO pg_temp.momo_transaction_sources VALUES(pre,'link-before-source');
+  RAISE EXCEPTION 'held body attached after financial link';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
+ INSERT INTO pg_temp.sms_receipts VALUES(other,'sms/'||other,repeat('9',64));
+ INSERT INTO pg_temp.momo_transaction_sources VALUES(other,'different-body');
+ INSERT INTO pg_temp.burimunsi_transaction_scopes VALUES('different-body','group-a');
+ INSERT INTO pg_temp.momo_financial_links VALUES('different-body','payment-a');
+ BEGIN PERFORM pg_temp.collect_sms_witness_reserve('recovery','sms/'||linked,'owner-a','group-a',repeat('1',64),repeat('9',64),t,NULL);
+  RAISE EXCEPTION 'existing scoped or linked transaction allowed recovery';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
  INSERT INTO pg_temp.burimunsi_unresolved_observations VALUES(a,'group-a','sms/'||a,repeat('a',64));
  BEGIN PERFORM pg_temp.collect_sms_witness_reserve('recovery','sms/'||b,'owner-a','group-a',repeat('2',64),repeat('a',64),t+interval '1 day',NULL);
   RAISE EXCEPTION 'same-group equal-body recovery accepted';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
@@ -95,7 +132,7 @@ BEGIN
  IF NOT EXISTS(SELECT 1 FROM pg_temp.momo_processing_jobs WHERE raw_sms_id=a AND state='source_unresolved') THEN
   RAISE EXCEPTION 'held source was unparked';END IF;
  BEGIN INSERT INTO pg_temp.momo_parse_attempts VALUES(a);RAISE EXCEPTION 'held source entered parse attempts';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
- BEGIN INSERT INTO pg_temp.momo_transaction_sources VALUES(a);RAISE EXCEPTION 'held source entered transaction sources';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
+ BEGIN INSERT INTO pg_temp.momo_transaction_sources(raw_sms_id) VALUES(a);RAISE EXCEPTION 'held source entered transaction sources';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
  BEGIN INSERT INTO pg_temp.burimunsi_auto_sms_jobs VALUES(b);RAISE EXCEPTION 'same-group equal body entered job';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
  INSERT INTO pg_temp.momo_processing_jobs(raw_sms_id,state) VALUES(b,'pending');
  IF NOT EXISTS(SELECT 1 FROM pg_temp.momo_processing_jobs WHERE raw_sms_id=b AND state='source_unresolved') THEN
@@ -118,7 +155,7 @@ BEGIN
  UPDATE pg_temp.momo_processing_jobs SET state='processing',lease_token='lease' WHERE raw_sms_id=d;
  IF NOT EXISTS(SELECT 1 FROM pg_temp.momo_processing_jobs WHERE raw_sms_id=d AND state='source_unresolved' AND lease_token IS NULL)
   THEN RAISE EXCEPTION 'late-associated pending source was not parked';END IF;
- BEGIN INSERT INTO pg_temp.momo_transaction_sources VALUES(d);RAISE EXCEPTION 'newly scoped equal body entered transaction source';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
+ BEGIN INSERT INTO pg_temp.momo_transaction_sources(raw_sms_id) VALUES(d);RAISE EXCEPTION 'newly scoped equal body entered transaction source';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
  PERFORM pg_temp.collect_sms_witness_reserve('storage','sms/'||f,'member-owner',NULL,repeat('7',64),repeat('a',64),NULL,repeat('e',64));
  INSERT INTO pg_temp.sms_receipts VALUES(f,'sms/'||f,repeat('a',64));
  INSERT INTO pg_temp.momo_processing_jobs(raw_sms_id,state,lease_token,lease_until) VALUES(f,'processing','lease',123);
