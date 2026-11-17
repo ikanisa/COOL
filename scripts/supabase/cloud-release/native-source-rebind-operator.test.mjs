@@ -75,6 +75,14 @@ test('unacknowledged native disable is not sent a second time',async()=>{
  await assert.rejects(f.disable(),/lost reply/);await assert.rejects(f.disable(),/rebind_disable_outcome_unknown/);
  assert.equal(f.counters.api,1);
 });
+test('pre-send drift leaves an unsent intent that can be safely resumed',async()=>{
+ const f=fixture(),state=f.io.state;let calls=0;
+ f.io.state=async(...args)=>{const result=await state(...args);if(++calls===2)result.active=true;return result;};
+ await assert.rejects(f.disable(),/rebind_scheduler_not_drained/);
+ assert.equal(f.counters.api,0);assert.equal(f.files.has('native-source-rebind-fixture-revision-disable-intent.json'),true);
+ assert.equal(f.files.has('native-source-rebind-fixture-revision-disable-attempt.json'),false);
+ await f.disable();assert.equal(f.counters.api,1);
+});
 test('acknowledged disable can finish readback only, without resending',async()=>{
  const f=fixture();const api=f.io.api;f.io.api=async(...args)=>{const r=await api(...args);f.state.pending=1;return r;};
  await assert.rejects(f.disable());assert.equal(f.counters.api,1);f.state.pending=0;

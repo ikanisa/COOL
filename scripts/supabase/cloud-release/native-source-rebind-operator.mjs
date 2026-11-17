@@ -113,39 +113,51 @@ async function liveState(db,api,keyEvidence){
 export async function disableNative({label,nextSource,previousApprovalName},io){
  const stem=labelName(label),oldApproval=io.read(previousApprovalName),state=await io.state('old');
  const existing=io.read(stem+'-disable-intent.json',true),complete=io.read(stem+'-disable-complete.json',true);
+ let intent;
  if(existing){
   if(existing.value.newSource!==nextSource||existing.value.previousApprovalDigest!==oldApproval.digest)fail('rebind_intent_changed');
+  const attempted=io.read(stem+'-disable-attempt.json',true),ack=io.read(stem+'-disable-ack.json',true);
+  if((attempted&&(attempted.value.oldSource!==existing.value.oldSource||attempted.value.newSource!==nextSource))||
+   (ack&&(!attempted||!Number.isInteger(ack.value.status)||ack.value.status<200||ack.value.status>=300)))
+   fail('rebind_intent_changed');
+  if(complete&&(!attempted||!ack))fail('rebind_intent_changed');
   if(complete){common(state,existing.value.oldSource);if(Number(state.control.epoch)!==existing.value.epoch||
     !same(budget(state.budget),existing.value.budget)||state.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha('false')||
     NAMES.filter(n=>n!=='BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED').some(n=>state.secrets[n]!==existing.value.secrets[n]))
     fail('rebind_disabled_state_changed');await io.guardStatus(intentGuard(existing.value.oldSource));return complete.value;}
-  if(!io.read(stem+'-disable-ack.json',true))fail('rebind_disable_outcome_unknown');
-  common(state,existing.value.oldSource);
-  if(Number(state.control.epoch)!==existing.value.epoch||state.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha('false')||
-   !same(budget(state.budget),existing.value.budget)||
-   NAMES.filter(n=>n!=='BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED').some(n=>state.secrets[n]!==existing.value.secrets[n]))
-   fail('rebind_disable_outcome_unknown');
-  await io.guardStatus(intentGuard(existing.value.oldSource));
-  const result={oldSource:existing.value.oldSource,newSource:nextSource,at:new Date().toISOString()};
-  io.save(stem+'-disable-complete.json',result);return result;
+  if(attempted){
+   if(!ack)fail('rebind_disable_outcome_unknown');
+   common(state,existing.value.oldSource);
+   if(Number(state.control.epoch)!==existing.value.epoch||state.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha('false')||
+    !same(budget(state.budget),existing.value.budget)||
+    NAMES.filter(n=>n!=='BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED').some(n=>state.secrets[n]!==existing.value.secrets[n]))
+    fail('rebind_disable_outcome_unknown');
+   await io.guardStatus(intentGuard(existing.value.oldSource));
+   const result={oldSource:existing.value.oldSource,newSource:nextSource,at:new Date().toISOString()};
+   io.save(stem+'-disable-complete.json',result);return result;
+  }
+  intent=existing.value;
+ }else{
+  const b=checkOld(state,oldApproval.value,oldApproval.digest,nextSource);
+  await io.guardStatus(intentGuard(state.control.source_sha256));
+  intent={project:PROJECT,oldSource:b.source,newSource:nextSource,epoch:Number(state.control.epoch),budget:b,
+   previousApprovalDigest:oldApproval.digest,functions:state.functions,secrets:state.secrets,keyEvidence:state.keyEvidence,at:new Date().toISOString()};
+  io.save(stem+'-disable-intent.json',intent);
  }
- const b=checkOld(state,oldApproval.value,oldApproval.digest,nextSource);
- await io.guardStatus(intentGuard(state.control.source_sha256));
  const snapshot=io.snapshot();if(snapshot.sourceSha!==nextSource||io.check(snapshot)?.status!=='passed')fail('rebind_snapshot_changed');
- const intent={project:PROJECT,oldSource:b.source,newSource:nextSource,epoch:Number(state.control.epoch),budget:b,
-  previousApprovalDigest:oldApproval.digest,functions:state.functions,secrets:state.secrets,keyEvidence:state.keyEvidence,at:new Date().toISOString()};
- io.save(stem+'-disable-intent.json',intent);
  const beforeCall=await io.state('old');common(beforeCall,intent.oldSource);
  if(Number(beforeCall.control.epoch)!==intent.epoch||!same(budget(beforeCall.budget),intent.budget)||
   NAMES.some(n=>beforeCall.secrets[n]!==intent.secrets[n])||!sameDeployedFunctions(intent.functions,beforeCall.functions))
   fail('rebind_provider_preimage_changed');
  await io.guardStatus(intentGuard(intent.oldSource));
- // An unacknowledged request is never repeated by this operator.
+ // Only an intent without an attempt is retryable. The durable attempt is
+ // written immediately before sending; an unacknowledged call is never resent.
+ io.save(stem+'-disable-attempt.json',{oldSource:intent.oldSource,newSource:nextSource,at:new Date().toISOString()});
  const response=await io.api('secrets',{method:'POST',headers:{'Content-Type':'application/json'},
   body:JSON.stringify([{name:'BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED',value:'false'}])});
  io.save(stem+'-disable-ack.json',{status:response.status,at:new Date().toISOString()});
  const after=await io.state('old');common(after,intent.oldSource);
- if(Number(after.control.epoch)!==intent.epoch||!same(budget(after.budget),b)||
+ if(Number(after.control.epoch)!==intent.epoch||!same(budget(after.budget),intent.budget)||
   after.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha('false')||
   NAMES.filter(n=>n!=='BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED').some(n=>after.secrets[n]!==intent.secrets[n]))
   fail('rebind_disabled_state_changed');
