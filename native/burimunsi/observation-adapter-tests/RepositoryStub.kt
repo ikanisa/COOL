@@ -24,6 +24,7 @@ class NativeRepository() {
  var consentFailure:Exception?=null;var profileFailure:Exception?=null;var submitFailure:Exception?=null
  var reconcileFailure:Exception?=null;var reconcileOverride:ObservationReconcileReply?=null;var afterReconcile:(()->Unit)?=null
  var batchFailure:Exception?=null;var poisonSourceKeys:Set<String> = emptySet();var afterBatch:(()->Unit)?=null
+ var batchReplyOverride:((List<ObservationReconcileRequest>)->List<ObservationReconcileReply>)?=null
  val reconciliationBatches=mutableListOf<List<ObservationReconcileRequest>>()
  var pageFailure:Exception?=null;var pageCountOverride:Int?=null;var afterPage:(()->Unit)?=null;var pageCalls=0
  var cursorFailure:Exception?=null;val pageCursors=mutableListOf<String?>()
@@ -58,6 +59,7 @@ class NativeRepository() {
   reconciliationBatches.add(values.toList());val action=afterBatch;afterBatch=null;action?.invoke()
   batchFailure?.let{throw it}
   if(values.any{it.sourceKey in poisonSourceKeys})throw ApiFailure("observation_item_conflict",409)
+  batchReplyOverride?.let{return it(values)}
   return values.map{value->
    val source=retainedSources[value.sourceKey]
    ObservationReconcileReply(value.sourceKey,if(source==null)"missing" else "matched",source,null)

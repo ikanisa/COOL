@@ -600,10 +600,11 @@ internal class ObservationRecovery(context:Context) {
         }
         var sourceIds=progress.sourceIds
         for(reply in states){
-            if(reply?.state!="matched"||reply.sourceId==null)uncertain=true
-            else if(reply.sourceId in sourceIds)uncertain=true
+            val sourceId=reply?.sourceId
+            if(reply?.state!="matched"||sourceId==null)uncertain=true
+            else if(sourceId in sourceIds)uncertain=true
             else if(sourceIds.size>=16_000){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
-            else sourceIds=sourceIds+reply.sourceId
+            else sourceIds=sourceIds+sourceId
         }
         // Re-read the exact page and authority after all responses; never
         // advance on a changed provider row, hold, consent, owner or revision.

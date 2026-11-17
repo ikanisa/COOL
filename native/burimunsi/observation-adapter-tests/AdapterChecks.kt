@@ -873,6 +873,20 @@ fun main() {
   val audit=ObservationRecovery(e.context).auditPage(e.repository)
   check(audit==ObservationRecovery.Audit.UNCONFIRMED&&e.repository.reconciliationBatches.size>1&&e.repository.requests.isEmpty())
  }
+ test("duplicate or missing source IDs cannot confirm an audit") {
+  for(kind in listOf("duplicate","missing")){
+   val e=setup();e.context.contentResolver.rows=listOf(row(1605),row(1606))
+   e.repository.retainedSources[cloudKey(adminA,1605)]="source-1605"
+   e.repository.retainedSources[cloudKey(adminA,1606)]="source-1606"
+   e.repository.batchReplyOverride={items->items.mapIndexed{index,item->
+    if(kind=="missing"&&index==1)ObservationReconcileReply(item.sourceKey,"missing",null,null)
+    else ObservationReconcileReply(item.sourceKey,"matched","source-same",null)
+   }}
+   ObservationRecovery(e.context).resetAudit()
+   val audit=ObservationRecovery(e.context).auditPage(e.repository)
+   check(audit==ObservationRecovery.Audit.UNCONFIRMED&&e.repository.requests.isEmpty())
+  }
+ }
  test("permission revoked between page read and batch dispatch sends no witness") {
   val e=setup();e.context.contentResolver.rows=listOf(row(1700))
   val key=cloudKey(adminA,1700);e.repository.retainedSources[key]="source-1700"
