@@ -6,7 +6,7 @@ import {inventoryPrivateRetention,privateRetentionCatalogIdentity,privateRetenti
 const HASH='a'.repeat(64),subject='synthetic-subject';
 const smsFenceColumns='admission_id:uuid:true,profile_sha256:text:true,created_at:timestamp with time zone:true';
 const currentProfile='archive_history_v4_guest_upgrade_deployment_manifests_v2_row_executor_v2_sms_fence_local_stopped_v1';
-const additivePrivateRelations=new Set(['collect_fence_working_admissions','collect_fence_admission_archive','collect_fence_admission_totals','member_history_versions','guest_upgrade_challenges','collect_deployment_identity','retention_inventory_manifests','retention_inventory_pages','retention_row_plans','retention_row_claims','retention_row_effects','retention_row_operations','collect_sms_fence_admissions','collect_fence_local_stopped_admissions']);
+const additivePrivateRelations=new Set(['collect_managed_job_tickets','collect_fence_working_admissions','collect_fence_admission_archive','collect_fence_admission_totals','member_history_versions','guest_upgrade_challenges','collect_deployment_identity','retention_inventory_manifests','retention_inventory_pages','retention_row_plans','retention_row_claims','retention_row_effects','retention_row_operations','collect_sms_fence_admissions','collect_fence_local_stopped_admissions']);
 const originalFenceClasses=['private:collect_fence_admissions','private:collect_fence_control','private:collect_fence_operations','private:collect_fence_scheduler_lifecycle','private:collect_fence_source_upgrades','private:collect_fence_stopped_admissions'];
 // SQL responses below are a strict selector/projection fixture only. Root must
 // separately qualify real PG authority/DDL. No global fence rows are read here.
@@ -24,7 +24,7 @@ function fixture({profile='current35',missingFence=false,missingStopped=false,ma
 }
 
 test('original six fence classes and all current additive shared custody remain unmapped and blocked',async()=>{
- const f=fixture(),identity=await privateRetentionCatalogIdentity(f.env),inventory=await inventoryPrivateRetention(f.env,subject);const fence=sharedFenceRetentionClasses.filter(name=>catalog.classes.find(row=>row.name===name).scope==='shared_fence');assert.equal(identity.schema_profile,currentProfile);assert.equal(fence.length,20);assert.deepEqual(fence.slice().sort(),[...originalFenceClasses,...[...additivePrivateRelations].map(name=>'private:'+name)].sort());assert.equal(sharedFenceRetentionClasses.length,21);
+ const f=fixture(),identity=await privateRetentionCatalogIdentity(f.env),inventory=await inventoryPrivateRetention(f.env,subject);const fence=sharedFenceRetentionClasses.filter(name=>catalog.classes.find(row=>row.name===name).scope==='shared_fence');assert.equal(identity.schema_profile,currentProfile);assert.equal(fence.length,21);assert.deepEqual(fence.slice().sort(),[...originalFenceClasses,...[...additivePrivateRelations].map(name=>'private:'+name)].sort());assert.equal(sharedFenceRetentionClasses.length,22);
  for(const name of sharedFenceRetentionClasses){assert.ok(identity.private_schema.some(row=>row.name===name.slice(8)));assert.deepEqual(inventory.classes[name],{status:'unmapped',count:0,sha256:inventory.classes[name].sha256,rows:[]});assert.match(inventory.classes[name].sha256,/^[a-f0-9]{64}$/);assert.equal(privateCopyRetainable(inventory,name),false);assert.ok(['shared_fence','shared_realtime'].includes(catalog.classes.find(row=>row.name===name).scope));}
  assert.equal(f.calls.some(call=>/FROM private\.collect_fence_/.test(call.sql)),false);assert.equal(inventory.external_copy_disposition,'blocked');
 });
@@ -36,19 +36,14 @@ test('missing fence relations and predecessor catalog approvals fail closed; ret
  for(const name of sharedFenceRetentionClasses)for(const action of ['retain','erase'])assert.throws(()=>assertPrivateRetentionPolicy({...policy,rules:{...rules,[name]:{action}}},identity),error=>['privacy_retention_shared_fence_unapproved','privacy_retention_private_disposition_unapproved'].includes(error.code));
 });
 
-test('explicit historical private profiles preserve SQL11/14 stopped-work attribution and refusal of crossed inventory',async()=>{
- const current=fixture({profile:'stopped_admission14'}),legacy=fixture({profile:'admin_email11'});
- const now=await privateRetentionCatalogIdentity(current.env),old=await privateRetentionCatalogIdentity(legacy.env);
- assert.equal(now.schema_profile,'stopped_admission14');assert.equal(old.schema_profile,'admin_email11');
- assert.notEqual(now.schema_sha256,old.schema_sha256);
- assert.equal(old.classes.includes('private:collect_fence_stopped_admissions'),true);
- const oldInventory=await inventoryPrivateRetention(legacy.env,subject),newInventory=await inventoryPrivateRetention(current.env,subject);
- for(const inventory of [oldInventory,newInventory]){
-  assert.equal(inventory.classes['private:collect_fence_stopped_admissions'].status,'unmapped');
-  assert.equal(privateCopyRetainable(inventory,'private:collect_fence_stopped_admissions'),false);
+test('historical private schemas lacking managed job custody fail closed against the current catalog',async()=>{
+ // The archived SQL11/14 predecessors predate the Cloud managed-job ticket.
+ // Their synthetic inventory must not be labelled as current coverage.
+ for(const profile of ['stopped_admission14','admin_email11']){
+  const historical=fixture({profile});
+  await assert.rejects(privateRetentionCatalogIdentity(historical.env),{code:'privacy_retention_unknown_private_class'});
+  assert.equal(historical.calls.some(call=>/FROM private\.collect_fence_/.test(call.sql)),false);
  }
- assert.throws(()=>assertPrivateRetentionSource(oldInventory,newInventory),{code:'privacy_retention_private_scope_changed'});
- assert.equal(legacy.calls.some(call=>/FROM private\.collect_fence_/.test(call.sql)),false);
 });
 
 test('current SMS custody requires its exact columns and the stopped-admission dependency',async()=>{

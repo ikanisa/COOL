@@ -29,6 +29,8 @@ function fixture() {
     admin_api_origin: 'https://platform-admin.collect.ikanisa.com',
     public_build_defines_sha256: 'c'.repeat(64),
     diagnostics_source_revision: 'd'.repeat(64), diagnostics_build_version: '1.0.8+65',
+    burimunsi_admin_observations_enabled: false, burimunsi_admin_observation_hints_enabled: false,
+    collect_admin_protected_owner_enabled: false,
   };
 }
 function refused(value, options) {
@@ -60,7 +62,7 @@ test('accepts the explicit 128-entry bound without truncating the chain', () => 
   assert.equal(validateAdminPwaFixtureMetadata(value).supabase_migrations.length, 128);
 });
 
-for (const mode of ['managed', 'explicit_managed', 'self_hosted']) for (const qualification of [false, true])
+for (const mode of ['managed', 'explicit_managed']) for (const qualification of [false, true])
   test(`accepts exact ${mode} ${qualification ? 'qualification' : 'production'} producer envelope and public input digest`, () => {
   const root = mkdtempSync(join(tmpdir(), 'admin-producer-envelope-'));
   try {
@@ -173,6 +175,9 @@ const malformed = [
   ['wrong data strategy', value => { value.data_strategy = 'replace_source'; }],
   ['import flag false', value => { value.legacy_data_import_required = false; }],
   ['wrong notification state', value => { value.notifications = 'provider_ready'; }],
+  ['observation flag is not boolean', value => { value.burimunsi_admin_observations_enabled = 'true'; }],
+  ['hint without observations', value => { value.burimunsi_admin_observation_hints_enabled = true; }],
+  ['owner flag is not boolean', value => { value.collect_admin_protected_owner_enabled = 1; }],
 ];
 for (const [name, change] of malformed) test(`rejects ${name} without mutating or echoing metadata`, () => {
   const value = fixture(); change(value);
@@ -192,3 +197,14 @@ for (const field of ['supabase_qualification_complete', 'operating_actions_avail
   });
 }
 for (const value of [null, [], 'SYNTHETIC_PRIVATE']) test('rejects a nonobject public metadata envelope', () => refused(value));
+
+test('explicit non-managed deployment is refused by the metadata validator', () => {
+ const value=fixture();value.deployment_profile={format:'collect.deployment.v1',id:'legacy',mode:'self_hosted',environment:'production',supabase_origin:'https://rrlduytparvsjfmegalh.supabase.co',member_api_origin:value.api_origin,admin_origin:value.admin_origin,public_origin:'https://collect.ikanisa.com',google_callback_origin:value.admin_origin};
+ value.deployment_profile_sha256='a'.repeat(64);value.supabase_hosting='self_hosted';value.supabase_auth_issuer=value.deployment_profile.supabase_origin+'/auth/v1';
+ refused(value,{expectedProfileSha256:value.deployment_profile_sha256});
+});
+
+test('truthful enabled Cloud feature flags remain metadata, never proof of operation',()=>{
+ const value=fixture();value.burimunsi_admin_observations_enabled=true;value.burimunsi_admin_observation_hints_enabled=true;value.collect_admin_protected_owner_enabled=true;
+ assert.equal(validateAdminPwaFixtureMetadata(value),value);assert.equal(value.operational_migration_complete,false);
+});

@@ -1,16 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp, mkdir, writeFile, symlink, rm, readFile} from 'node:fs/promises';
+import {mkdtemp, mkdir, writeFile, symlink, rm, readFile, realpath} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
 import {tmpdir} from 'node:os';
 import {join, resolve} from 'node:path';
 import {EventEmitter} from 'node:events';
 import {discoverNodeTests, runNodeTests} from './run_edge_node_tests.mjs';
 
 test('nested Node suites run exactly once and Deno suites remain separately owned', async () => {
-  const directory = await mkdtemp(join(tmpdir(), 'collect-test-discovery-'));
+  const directory = await realpath(await mkdtemp(join(tmpdir(), 'collect-test-discovery-')));
   try {
     await mkdir(join(directory, 'nested'));
-    for (const name of ['b.test.mjs', 'a.test.ts', 'nested/a.test.mjs', 'helper.mjs', '._ignored.test.mjs']) {
+    for (const name of ['b.test.mjs', 'a.test.ts', 'postgres_context_pg_test.js', 'nested/a.test.mjs', 'helper.mjs', '._ignored.test.mjs']) {
       await writeFile(join(directory, name), '');
     }
     assert.deepEqual(await discoverNodeTests(directory), [join(directory, 'b.test.mjs'), join(directory, 'nested/a.test.mjs')]);
@@ -20,7 +21,7 @@ test('nested Node suites run exactly once and Deno suites remain separately owne
 });
 
 test('an empty selection or unassigned test extension fails the gate', async () => {
-  const directory = await mkdtemp(join(tmpdir(), 'collect-test-discovery-'));
+  const directory = await realpath(await mkdtemp(join(tmpdir(), 'collect-test-discovery-')));
   try {
     await assert.rejects(discoverNodeTests(directory), /NODE_TESTS_REQUIRED/);
     await writeFile(join(directory, 'new.test.js'), '');
@@ -57,4 +58,12 @@ test('the maintained gate runs both runtimes and keeps frozen Deno dependencies'
   assert.match(config.tasks['test:deno'], /^deno test --frozen /);
   assert.deepEqual(config.test.exclude, ['_shared/tests/**/*.test.mjs']);
   assert.match(config.tasks.check, /--frozen/);
+});
+
+test('the PostgreSQL transaction integration is owned by Deno and requires its fixture', async()=>{
+ const root=new URL('../../',import.meta.url);
+ const source=await readFile(new URL('supabase/functions/_shared/tests/postgres_context_pg_test.js',root),'utf8');
+ assert.match(source,/Deno\.test\(/);assert.match(source,/COLLECT_POSTGRES_CONTEXT_TEST_DATABASE_URL/);
+ const files=await discoverNodeTests(fileURLToPath(new URL('supabase/functions/_shared/tests/',root)));
+ assert(!files.some(path=>path.endsWith('postgres_context_pg_test.js')));
 });

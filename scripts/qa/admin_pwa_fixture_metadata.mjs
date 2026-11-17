@@ -11,7 +11,8 @@ const FIELDS = ['backend', 'authentication', 'notifications', 'data_strategy', '
   'financial_contract_version', 'provider_settlement_available', 'supabase_project_ref', 'supabase_schema_sha256',
   'admin_transport', 'supabase_qualification_complete', 'supabase_migrations', 'supabase_migration_chain_sha256',
   'admin_origin', 'api_origin', 'admin_api_origin', 'public_build_defines_sha256',
-  'diagnostics_source_revision', 'diagnostics_build_version'].sort();
+  'diagnostics_source_revision', 'diagnostics_build_version', 'burimunsi_admin_observations_enabled',
+  'burimunsi_admin_observation_hints_enabled', 'collect_admin_protected_owner_enabled'].sort();
 const PROFILE_FIELDS = ['format', 'id', 'mode', 'environment', 'supabase_origin', 'member_api_origin',
   'admin_origin', 'public_origin', 'google_callback_origin'].sort();
 const PROFILE_METADATA = ['deployment_profile', 'deployment_profile_sha256', 'supabase_hosting', 'supabase_auth_issuer'];
@@ -42,6 +43,9 @@ export function validateAdminPwaFixtureMetadata(value, { expectedProfileSha256 }
       value.legacy_data_import_required !== true || value.minimum_core_schema_migration !== BASELINE ||
       value.admin_transport !== 'same_origin_static_proxy' ||
       value.financial_model !== 'canonical_evidence_ledger' || value.financial_contract_version !== 2 ||
+      ['burimunsi_admin_observations_enabled', 'burimunsi_admin_observation_hints_enabled',
+        'collect_admin_protected_owner_enabled'].some(key => typeof value[key] !== 'boolean') ||
+      (value.burimunsi_admin_observation_hints_enabled && !value.burimunsi_admin_observations_enabled) ||
       !validOrigin(value.admin_origin) || !validOrigin(value.api_origin) ||
       value.admin_api_origin !== value.admin_origin ||
       typeof value.public_build_defines_sha256 !== 'string' || !SHA256.test(value.public_build_defines_sha256) ||
@@ -58,14 +62,13 @@ export function validateAdminPwaFixtureMetadata(value, { expectedProfileSha256 }
     const p = value.deployment_profile;
     if (!exactKeys(p, PROFILE_FIELDS) || Object.values(p).some(x => typeof x !== 'string') ||
         p.format !== 'collect.deployment.v1' || !/^[a-z][a-z0-9-]{0,62}(?![\s\S])/.test(p.id) ||
-        !['managed', 'self_hosted'].includes(p.mode) ||
+        p.mode !== 'managed' ||
         p.environment !== (qualification ? 'qualification' : 'production') ||
         PROFILE_FIELDS.filter(k => k.endsWith('_origin')).some(k => !validOrigin(p[k])) ||
         ![p.member_api_origin, p.admin_origin].includes(p.google_callback_origin) ||
         value.admin_origin !== p.admin_origin || value.api_origin !== p.member_api_origin ||
         value.supabase_hosting !== p.mode || value.supabase_auth_issuer !== p.supabase_origin + '/auth/v1' ||
-        (p.mode === 'managed' ? (p.supabase_origin !== `https://${PROJECT}.supabase.co` || value.supabase_project_ref !== PROJECT)
-          : value.supabase_project_ref !== null)) fail();
+        (p.supabase_origin !== `https://${PROJECT}.supabase.co` || value.supabase_project_ref !== PROJECT)) fail();
     const canonicalProfile = Object.fromEntries(Object.keys(p).sort().map(k => [k, p[k]]));
     if (typeof expectedProfileSha256 !== 'string' || !SHA256.test(expectedProfileSha256) ||
         expectedProfileSha256 !== value.deployment_profile_sha256 ||
