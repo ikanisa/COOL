@@ -27,15 +27,21 @@ fun main(){
         "2026-11-17T18:00:00Z",null,"2026-11-17T17:59:00Z",3,"a".repeat(64))
     val heldAck=JSONObject().put("requestId",recovery.requestId).put("sourceId","source-1").put("bodySha256",Values.sha256(text))
         .put("status","source_unresolved").put("financialEffects",0).put("autoProcessing","held")
+        .put("protocol","burimunsi.held-recovery.v2").put("expectedConsentGeneration",7)
     val lookup=JSONObject().put("requestId",recovery.requestId).put("sourceKey",recovery.sourceKey).put("bodySha256",Values.sha256(text))
         .put("state","acknowledged").put("sourceId","source-1").put("autoProcessing","held").put("financialEffects",0).put("retryAllowed",false)
+        .put("protocol","burimunsi.held-recovery.v2").put("expectedConsentGeneration",7)
+    val capability=JSONObject().put("protocol","burimunsi.held-recovery.v2").put("groupId","group-1")
+        .put("sourceSha256","a".repeat(64)).put("migrationSha256","b".repeat(64)).put("consentGeneration",7)
+    var afterCapability:(()->Unit)?=null
     val verified=JSONObject().put("groupId","group-1").put("hasPending",false).put("hasRecorded",false).put("recordedCount",0)
         .put("hasUnmatchedCanonical",false).put("revision","a".repeat(64)).put("scope","verified_collection")
     api.handler={request->when {
         request.path.endsWith("/session/login")->session.toString()
         request.path.endsWith("/reveal")->payload.toString()
-        request.path.endsWith("/recover-held")->heldAck.toString()
-        request.path.endsWith("/recover-held-ack")->lookup.toString()
+        request.path.contains("/recovery-v2/capability?")->{afterCapability?.invoke();capability.toString()}
+        request.path.endsWith("/recovery-v2/hold")->heldAck.toString()
+        request.path.endsWith("/recovery-v2/ack")->lookup.toString()
         request.path.endsWith("/reconcile-verified-status")->verified.toString()
         request.path.endsWith("/logout")->JSONObject().put("signedOut",true).toString()
         else->error("Unexpected synthetic request")
@@ -55,14 +61,19 @@ fun main(){
     payload.put("sourceId","other-source")
     check(runCatching{repo.revealObservation(source,"Review original SMS")}.isFailure)
     val originalGeneration=7L
-    check(repo.recoverHeldObservation(recovery,originalGeneration).autoProcessing=="held")
+    check(repo.recoverHeldObservation(recovery,originalGeneration){true}.autoProcessing=="held")
     val written=api.calls.last().body!!
     check(written.getString("requestId")==recovery.requestId&&written.getString("rawBody")==text&&
         written.getString("sourceKey")==recovery.sourceKey&&written.getString("sourceMode")=="catch_up"&&!written.getBoolean("complete")&&
         written.getLong("expectedConsentGeneration")==originalGeneration)
     val originalBody=written.toString()
+    val preflight=api.calls[api.calls.lastIndex-1]
+    check(preflight.method=="GET"&&preflight.path.endsWith("/recovery-v2/capability?expectedConsentGeneration=7")&&
+        preflight.body==null&&preflight.token=="a".repeat(64)&&preflight.contractContext["heldSourceSha256"]=="a".repeat(64)&&
+        preflight.contractContext["heldMigrationSha256"]=="b".repeat(64)&&api.calls.last().path.endsWith("/recovery-v2/hold"))
     val contract=rw.ikanisa.wire.BuriMunsiSchemas.contract
-    for(operation in listOf("observationRecoverHeld.request","observationRecoverHeldAck.request")){
+    for(operation in listOf("observationRecoverHeld.request","observationRecoverHeldAck.request",
+        "observationRecoveryV2Hold.request","observationRecoveryV2Ack.request")){
         check(runCatching{contract.validate(operation,rw.ikanisa.wire.StrictJson.parse(originalBody))}.isSuccess)
         val missing=JSONObject(originalBody);missing.remove("expectedConsentGeneration")
         check(runCatching{contract.validate(operation,rw.ikanisa.wire.StrictJson.parse(missing.toString()))}.isFailure)
@@ -71,23 +82,47 @@ fun main(){
             check(runCatching{contract.validate(operation,rw.ikanisa.wire.StrictJson.parse(changed.toString()))}.isFailure)
         }
     }
-    check(repo.heldRecoveryAcknowledgement(recovery,originalGeneration).state=="acknowledged"&&api.calls.last().body!!.toString()==originalBody)
+    check(repo.heldRecoveryAcknowledgement(recovery,originalGeneration){true}.state=="acknowledged"&&api.calls.last().body!!.toString()==originalBody)
     lookup.put("state","unconfirmed").put("sourceId",JSONObject.NULL).put("autoProcessing","unknown")
-    check(repo.heldRecoveryAcknowledgement(recovery,originalGeneration).state=="unconfirmed")
+    check(repo.heldRecoveryAcknowledgement(recovery,originalGeneration){true}.state=="unconfirmed")
     lookup.put("state","acknowledged").put("sourceId","source-1").put("autoProcessing","held")
     for((field,bad,good) in listOf(Triple("requestId","other",recovery.requestId),Triple("sourceKey","b".repeat(64),recovery.sourceKey),
         Triple("bodySha256","b".repeat(64),Values.sha256(text)),Triple("autoProcessing","unknown","held"),
-        Triple("financialEffects",1,0),Triple("retryAllowed",true,false),Triple("sourceId",JSONObject.NULL,"source-1"))){
-        lookup.put(field,bad);check(runCatching{repo.heldRecoveryAcknowledgement(recovery,originalGeneration)}.isFailure);lookup.put(field,good)
+        Triple("financialEffects",1,0),Triple("retryAllowed",true,false),Triple("sourceId",JSONObject.NULL,"source-1"),
+        Triple("protocol","old","burimunsi.held-recovery.v2"),Triple("expectedConsentGeneration",8,7))){
+        lookup.put(field,bad);check(runCatching{repo.heldRecoveryAcknowledgement(recovery,originalGeneration){true}}.isFailure);lookup.put(field,good)
     }
     for((field,bad,good) in listOf(Triple("requestId","other",recovery.requestId),Triple("bodySha256","b".repeat(64),Values.sha256(text)),
-        Triple("autoProcessing","released","held"),Triple("financialEffects",1,0))){
-        heldAck.put(field,bad);check(runCatching{repo.recoverHeldObservation(recovery,originalGeneration)}.isFailure);heldAck.put(field,good)
+        Triple("autoProcessing","released","held"),Triple("financialEffects",1,0),
+        Triple("protocol","old","burimunsi.held-recovery.v2"),Triple("expectedConsentGeneration",8,7))){
+        heldAck.put(field,bad);check(runCatching{repo.recoverHeldObservation(recovery,originalGeneration){true}}.isFailure);heldAck.put(field,good)
     }
-    val before=api.calls.size;check(runCatching{repo.recoverHeldObservation(recovery.copy(sourceMode="live"),originalGeneration)}.isFailure&&api.calls.size==before)
+    val before=api.calls.size;check(runCatching{repo.recoverHeldObservation(recovery.copy(sourceMode="live"),originalGeneration){true}}.isFailure&&api.calls.size==before)
     for(bad in listOf(0L,-1L,9_007_199_254_740_992L)){
-        check(runCatching{repo.recoverHeldObservation(recovery,bad)}.isFailure&&api.calls.size==before)
-        check(runCatching{repo.heldRecoveryAcknowledgement(recovery,bad)}.isFailure&&api.calls.size==before)
+        check(runCatching{repo.recoverHeldObservation(recovery,bad){true}}.isFailure&&api.calls.size==before)
+        check(runCatching{repo.heldRecoveryAcknowledgement(recovery,bad){true}}.isFailure&&api.calls.size==before)
+    }
+    fun postCount()=api.calls.count{it.path.endsWith("/recovery-v2/hold")||it.path.endsWith("/recovery-v2/ack")}
+    for((field,bad,good) in listOf(Triple("protocol","old","burimunsi.held-recovery.v2"),Triple("groupId","other","group-1"),
+        Triple("sourceSha256","c".repeat(64),"a".repeat(64)),Triple("migrationSha256","c".repeat(64),"b".repeat(64)),
+        Triple("consentGeneration",8,7))){
+        val posts=postCount();capability.put(field,bad)
+        check(runCatching{repo.recoverHeldObservation(recovery,originalGeneration){true}}.isFailure&&postCount()==posts)
+        capability.put(field,good)
+    }
+    for(field in listOf("source","migration")){
+        val calls=api.calls.size
+        if(field=="source")app.cool.mobile.BuildConfig.HELD_RECOVERY_APPROVED_SOURCE_SHA256=""
+        else app.cool.mobile.BuildConfig.HELD_RECOVERY_APPROVED_MIGRATION_SHA256=""
+        check(runCatching{repo.recoverHeldObservation(recovery,originalGeneration){true}}.isFailure&&api.calls.size==calls)
+        app.cool.mobile.BuildConfig.HELD_RECOVERY_APPROVED_SOURCE_SHA256="a".repeat(64)
+        app.cool.mobile.BuildConfig.HELD_RECOVERY_APPROVED_MIGRATION_SHA256="b".repeat(64)
+    }
+    val posts=postCount();check(runCatching{repo.recoverHeldObservation(recovery,originalGeneration){false}}.isFailure&&postCount()==posts)
+    for(later in listOf(0L,31_001L)){
+        android.os.SystemClock.fixed=1_000L;afterCapability={android.os.SystemClock.fixed=later}
+        check(runCatching{repo.recoverHeldObservation(recovery,originalGeneration){true}}.isFailure&&postCount()==posts)
+        android.os.SystemClock.fixed=null;afterCapability=null
     }
     check(repo.observationReconcileVerifiedStatus().scope=="verified_collection")
     for((field,bad,good) in listOf(Triple("scope","all","verified_collection"),Triple("groupId","other","group-1"),

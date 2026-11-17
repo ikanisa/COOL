@@ -441,13 +441,11 @@ fun main() {
    e.repository.recoveryGenerations==listOf(1L)&&e.repository.recoveryRequests==listOf(original)&&
    SecureStore.data[name]==changed&&journal.pending(key)?.phase==HeldRecoveryJournal.Phase.ATTEMPTING)
  }
- test("old-server 400 or disabled-route 404 never authorizes another held POST") {
+ test("a v2 hold rejected after dispatch never authorizes another held POST") {
   for(code in listOf(400,404)){
    val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
-   if(code==400)e.repository.strictLegacyHeldServer=true else {
-    e.repository.recoveryFailureBeforeCommit=rw.ikanisa.burimunsi.data.ApiFailure("not_found",404)
-    e.repository.heldAckFailure=rw.ikanisa.burimunsi.data.ApiFailure("not_found",404)
-   }
+   e.repository.recoveryFailureBeforeCommit=rw.ikanisa.burimunsi.data.ApiFailure("synthetic_rejected",code)
+   e.repository.heldAckFailure=rw.ikanisa.burimunsi.data.ApiFailure("synthetic_rejected",code)
    check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
    val original=e.repository.recoveryRequests.single();val key=cloudKey(adminA,12);val journal=heldJournal(e)
    val saved=journal.pending(key)!!;check(saved.phase==HeldRecoveryJournal.Phase.ATTEMPTING&&saved.consentGeneration==1L)
@@ -457,35 +455,44 @@ fun main() {
     journal.pending(key)==saved&&e.repository.recoveryCommitted.isEmpty())
   }
  }
- test("permissive old 200 responses are an enablement blocker, while the default-off gate sends nothing") {
-  // This synthetic old endpoint accepts the v1 body, ignores the added field,
-  // and returns valid old-shaped 200 responses. The production flag must stay
-  // off until a pre-dispatch authenticated capability or strict v2 route is
-  // qualified. These assertions document today's ambiguity, not safe enablement.
+ test("a permissive old-shaped 200 cannot pass the v2 capability or trigger a held POST") {
+  // A permissive v1 server can return 200 while ignoring the new field, but
+  // its old-shaped response does not satisfy the separate v2 capability.
   val off=heldFixture();off.repository.permissiveLegacyHeldServer=true
   check(!app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED)
   check(auditUntilSettled(off)==ObservationRecovery.Audit.UNCONFIRMED)
-  check(off.repository.recoveryRequests.isEmpty()&&off.repository.heldAckRequests.isEmpty())
-
-  val accepted=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
-  accepted.repository.permissiveLegacyHeldServer=true
-  check(auditUntilSettled(accepted)==ObservationRecovery.Audit.COMPLETE)
-  check(accepted.repository.recoveryRequests.size==1&&accepted.repository.recoveryGenerations==listOf(1L)&&
-   accepted.repository.recoveryCommitted.size==1&&accepted.repository.recoveryCommittedGenerations.isEmpty())
-
+  check(off.repository.capabilityRequests.isEmpty()&&off.repository.recoveryRequests.isEmpty()&&off.repository.heldAckRequests.isEmpty())
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
-  e.repository.permissiveLegacyHeldServer=true;e.repository.recoveryFailureAfterCommit=IllegalStateException("synthetic lost reply")
+  e.repository.permissiveLegacyHeldServer=true
   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
-  val original=e.repository.recoveryRequests.single();val key=cloudKey(adminA,12)
-  check(e.repository.recoveryCommittedGenerations.isEmpty())
-  val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
-  SecureStore.data[name]=JSONObject(SecureStore.data[name]!!).put("consentGeneration",2).toString()
-  val newer=ObservationConsentRevision(true,2)
-  ObservationConfigStore(e.context).saveConsent(adminA,ObservationConsentState(newer,true))
-  e.repository.consent=newer;e.repository.recoveryFailureAfterCommit=null;e.repository.heldAckAcknowledged=true
-  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
-  check(e.repository.heldAckRequests==listOf(original)&&e.repository.heldAckGenerations==listOf(2L)&&
-   e.repository.recoveryRequests==listOf(original)&&heldJournal(e).pending(key)?.phase==HeldRecoveryJournal.Phase.CONFIRMED)
+  val saved=heldJournal(e).pending(cloudKey(adminA,12))!!
+  check(saved.phase==HeldRecoveryJournal.Phase.PREPARED&&saved.consentGeneration==1L&&
+   e.repository.capabilityRequests==listOf(1L)&&e.repository.recoveryRequests.isEmpty()&&e.repository.heldAckRequests.isEmpty())
+ }
+ test("capability failure or a changed owner, permission, consent or inbox prevents held dispatch") {
+  for(kind in listOf("source","migration","group","generation","cache","not_found","owner","permission","consent","inbox")){
+   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+   when(kind){
+    "source"->e.repository.capabilitySource="c".repeat(64)
+    "migration"->e.repository.capabilityMigration="c".repeat(64)
+    "group"->e.repository.capabilityGroup="other"
+    "generation"->e.repository.capabilityGeneration=2
+    "cache"->e.repository.capabilityNoStore=false
+    "not_found"->e.repository.capabilityFailure=rw.ikanisa.burimunsi.data.ApiFailure("not_found",404)
+    "owner"->e.repository.afterCapability={NativeRepository.switch(adminB)}
+    "permission"->e.repository.afterCapability={e.context.denied=setOf(Manifest.permission.READ_SMS)}
+    "consent"->e.repository.afterCapability={
+     val store=ObservationConfigStore(e.context)
+     store.saveConsent(adminA,ObservationConsentState(ObservationConsentRevision(false,2),true))
+     val next=ObservationConsentRevision(true,3)
+     store.saveConsent(adminA,ObservationConsentState(next,true));e.repository.consent=next
+    }
+    "inbox"->e.repository.afterCapability={ObservationInboxRevision.changed()}
+   }
+   check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))
+   check(e.repository.capabilityRequests==listOf(1L)&&e.repository.recoveryRequests.isEmpty()&&e.repository.heldAckRequests.isEmpty())
+   check(heldJournal(e).pending(cloudKey(adminA,12))?.phase==HeldRecoveryJournal.Phase.PREPARED)
+  }
  }
  test("lost response before server commit preserves the exact request without replay") {
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true

@@ -9,7 +9,8 @@ import rw.ikanisa.wire.WireContract
 private data class Reply(val status:Int=200,val type:String="application/json",val body:String?=null,
     val breakWrite:Boolean=false,val bytes:ByteArray?=null,val headers:Map<String,List<String>> = emptyMap(),
     val streamFactory:(()->InputStream)?=null,val transform:(JSONObject)->Unit={},
-    val headerFactory:((Connection)->Map<String,List<String>>)?=null,val headerFailure:IOException?=null)
+    val headerFactory:((Connection)->Map<String,List<String>>)?=null,val headerFailure:IOException?=null,
+    val v2NoStore:Boolean=true)
 private object Wire { var reply=Reply();var opened=0;var last:Connection?=null }
 private class Connection(url:URL):HttpURLConnection(url){
  val written=ByteArrayOutputStream()
@@ -20,7 +21,9 @@ private class Connection(url:URL):HttpURLConnection(url){
  override fun usingProxy()=false
  override fun connect(){}
  override fun getResponseCode():Int {headerReadTimeout=readTimeout;Wire.reply.headerFailure?.let{throw it};return Wire.reply.status}
- override fun getHeaderFields():Map<String,List<String>> = mapOf("Content-Type" to listOf(Wire.reply.type)) + (Wire.reply.headerFactory?.invoke(this)?:emptyMap()) + Wire.reply.headers
+ override fun getHeaderFields():Map<String,List<String>> = mapOf("Content-Type" to listOf(Wire.reply.type)) +
+    (if(url.path.contains("/sms/observations/recovery-v2/")&&Wire.reply.v2NoStore)mapOf("Cache-Control" to listOf("no-store")) else emptyMap()) +
+    (Wire.reply.headerFactory?.invoke(this)?:emptyMap()) + Wire.reply.headers
  override fun getHeaderField(name:String):String?=when(name.lowercase()){"content-type"->Wire.reply.type;"x-burimunsi-contract"->BuriMunsiSchemas.VERSION;else->null}
  private fun envelope():String {
    val binding=JSONObject().put("requestId",getRequestProperty("X-BuriMunsi-Request")).put("generation",getRequestProperty("X-BuriMunsi-Generation"))
@@ -42,6 +45,25 @@ private class Connection(url:URL):HttpURLConnection(url){
         .put("groupId","group-1").put("actorId","actor-1").put("state","committed")
         .put("operation","burimunsi.allocate").put("financialState","posted")
     url.path.endsWith("/allocate")->JSONObject("""{"transactionId":"payment-1","memberId":"member-1","amountRwf":1000,"currency":"RWF","ledgerEntryId":"ledger-1","memberBalanceRwf":1000,"groupBalanceRwf":1000}""")
+    url.path.endsWith("/sms/observations/recovery-v2/capability")->JSONObject().put("protocol","burimunsi.held-recovery.v2")
+        .put("groupId","group-1").put("sourceSha256",getRequestProperty("X-BuriMunsi-Held-Source-Sha256"))
+        .put("migrationSha256",getRequestProperty("X-BuriMunsi-Held-Migration-Sha256"))
+        .put("consentGeneration",url.query.substringAfter("expectedConsentGeneration=").toLong())
+    url.path.endsWith("/sms/observations/recovery-v2/hold")-> {
+        val sent=JSONObject(written.toString("UTF-8"))
+        JSONObject().put("requestId",sent.getString("requestId")).put("sourceId","source-1")
+            .put("bodySha256",rw.ikanisa.burimunsi.core.Values.sha256(sent.getString("rawBody")))
+            .put("status","source_unresolved").put("financialEffects",0).put("autoProcessing","held")
+            .put("protocol","burimunsi.held-recovery.v2").put("expectedConsentGeneration",sent.getLong("expectedConsentGeneration"))
+    }
+    url.path.endsWith("/sms/observations/recovery-v2/ack")-> {
+        val sent=JSONObject(written.toString("UTF-8"))
+        JSONObject().put("requestId",sent.getString("requestId")).put("sourceKey",sent.getString("sourceKey"))
+            .put("bodySha256",rw.ikanisa.burimunsi.core.Values.sha256(sent.getString("rawBody")))
+            .put("state","acknowledged").put("sourceId","source-1").put("autoProcessing","held")
+            .put("financialEffects",0).put("retryAllowed",false).put("protocol","burimunsi.held-recovery.v2")
+            .put("expectedConsentGeneration",sent.getLong("expectedConsentGeneration"))
+    }
     url.path.endsWith("/sms/observations/recover-held")-> {
         val sent=JSONObject(written.toString("UTF-8"))
         JSONObject().put("requestId",sent.getString("requestId")).put("sourceId","source-1")
@@ -171,7 +193,7 @@ fun main(){
  val heldBody=JSONObject().put("requestId",id).put("rawSender","M-Money").put("rawBody","Synthetic receipt")
   .put("sourceMode","catch_up").put("complete",false).put("capturedAt","2026-11-17T18:00:00Z")
   .put("serviceCentreAt",JSONObject.NULL).put("inboxReceivedAt","2026-11-17T17:59:00Z")
-  .put("subscriptionId",JSONObject.NULL).put("sourceKey","a".repeat(64))
+  .put("subscriptionId",JSONObject.NULL).put("sourceKey","a".repeat(64)).put("expectedConsentGeneration",7)
  fun heldCall()=api.call("POST","/v1/burimunsi/sms/observations/recover-held",token="a".repeat(64),body=heldBody,contractContext=scope)
  fun heldLookup()=api.call("POST","/v1/burimunsi/sms/observations/recover-held-ack",token="a".repeat(64),body=heldBody,contractContext=scope)
  fun verifiedCall()=api.call("GET","/v1/burimunsi/sms/observations/reconcile-verified-status",token="a".repeat(64),contractContext=scope)
@@ -195,6 +217,104 @@ fun main(){
  }
  Wire.reply=Reply(transform={it.getJSONObject("data").put("scope","other")})
  ck("real verified-status transport rejects changed scope",runCatching{verifiedCall()}.isFailure)
+ Wire.reply=Reply()
+
+ // Synthetic v2 endpoint: only the transport behavior is exercised; this is
+ // not Android, TLS, an applied migration or an actual server capability.
+ val v2Install="10000000-0000-4000-8000-000000000001"
+ val v2Api=ApiClient.phonePin("https://test.invalid",v2Install,"internal_receiver",""){"d".repeat(64)}
+ val v2Source="c".repeat(64);val v2Migration="e".repeat(64)
+ val v2Scope=scope+mapOf("heldSourceSha256" to v2Source,"heldMigrationSha256" to v2Migration)
+ val v2Base="/v1/burimunsi/sms/observations/recovery-v2/"
+ fun v2Capability(query:String="7",context:Map<String,Any?> = v2Scope,client:ApiClient=v2Api,token:String?="a".repeat(64))=
+  client.call("GET",v2Base+"capability?expectedConsentGeneration="+query,token=token,contractContext=context)
+ fun v2Post(operation:String,context:Map<String,Any?> = v2Scope)=
+  v2Api.call("POST",v2Base+operation,token="a".repeat(64),body=heldBody,contractContext=context)
+ var oldCapability=""
+ Wire.reply=Reply(transform={oldCapability=it.toString()})
+ val cap=JSONObject(v2Capability());val firstRequest=Wire.last!!.getRequestProperty("X-BuriMunsi-Request")
+ ck("v2 capability uses authenticated exact scope and original consent query",cap.getLong("consentGeneration")==7L&&
+  Wire.last!!.url.query=="expectedConsentGeneration=7"&&Wire.last!!.written.size()==0&&
+  Wire.last!!.getRequestProperty("Authorization")=="Bearer "+"a".repeat(64)&&
+  Wire.last!!.getRequestProperty("X-BuriMunsi-Installation")==v2Install&&
+  Wire.last!!.getRequestProperty("X-BuriMunsi-Profile")=="internal_receiver"&&
+  Wire.last!!.getRequestProperty("X-BuriMunsi-Group")=="group-1"&&
+  Wire.last!!.getRequestProperty("X-BuriMunsi-Generation")=="3")
+ ck("v2 capability sends independent release pins and forbids caching or redirect",Wire.last!!.getRequestProperty("X-BuriMunsi-Held-Source-Sha256")==v2Source&&
+  Wire.last!!.getRequestProperty("X-BuriMunsi-Held-Migration-Sha256")==v2Migration&&
+  Wire.last!!.getRequestProperty("Cache-Control")=="no-store"&&!Wire.last!!.useCaches&&!Wire.last!!.instanceFollowRedirects)
+ Wire.reply=Reply();v2Capability()
+ ck("v2 capability uses a fresh UUID on each read",firstRequest!=Wire.last!!.getRequestProperty("X-BuriMunsi-Request")&&
+  Regex("[0-9a-f-]{36}").matches(firstRequest)&&Regex("[0-9a-f-]{36}").matches(Wire.last!!.getRequestProperty("X-BuriMunsi-Request")))
+ Wire.reply=Reply(body=oldCapability)
+ val replayFailure=runCatching{v2Capability()}.exceptionOrNull()
+ ck("v2 capability rejects replay of a prior bound response",replayFailure is ApiFailure&&replayFailure.code=="contract_identity")
+ Wire.reply=Reply(body=oldCapability.replaceFirst("\"protocol\":","\"protocol\":\"burimunsi.held-recovery.v2\",\"protocol\":"))
+ val duplicateFailure=runCatching{v2Capability()}.exceptionOrNull()
+ ck("v2 capability rejects duplicate JSON fields",duplicateFailure is ApiFailure&&duplicateFailure.code=="contract_duplicate_key")
+ for((label,mutate) in listOf<Pair<String,(JSONObject)->Unit>>(
+  "old permissive response" to {it.getJSONObject("data").remove("protocol");Unit},
+  "source" to {it.getJSONObject("data").put("sourceSha256","f".repeat(64));Unit},
+  "migration" to {it.getJSONObject("data").put("migrationSha256","f".repeat(64));Unit},
+  "consent generation" to {it.getJSONObject("data").put("consentGeneration",8);Unit},
+  "data collection" to {it.getJSONObject("data").put("groupId","other");Unit},
+  "binding collection" to {it.getJSONObject("binding").put("groupId","other");Unit},
+  "binding actor" to {it.getJSONObject("binding").put("actorId","other");Unit},
+  "binding installation" to {it.getJSONObject("binding").put("installationId","other");Unit},
+  "binding session generation" to {it.getJSONObject("binding").put("generation","4");Unit},
+  "binding request" to {it.getJSONObject("binding").put("requestId","10000000-0000-4000-8000-000000000009");Unit})){
+  Wire.reply=Reply(transform=mutate)
+  ck("v2 capability rejects $label",runCatching{v2Capability()}.isFailure)
+ }
+ for((label,reply) in listOf(
+  "missing" to Reply(v2NoStore=false),
+  "conflicting" to Reply(headers=mapOf("Cache-Control" to listOf("public"))),
+  "comma-joined" to Reply(headers=mapOf("Cache-Control" to listOf("no-store, max-age=60"))),
+  "multiple values" to Reply(headers=mapOf("Cache-Control" to listOf("no-store","no-store"))),
+  "duplicate casing" to Reply(headers=mapOf("cache-control" to listOf("no-store"))))){
+  Wire.reply=reply;ck("v2 capability rejects $label cache-control",runCatching{v2Capability()}.isFailure)
+ }
+ Wire.reply=Reply(status=302,body="{}")
+ ck("v2 capability rejects redirect without following it",runCatching{v2Capability()}.isFailure&&!Wire.last!!.instanceFollowRedirects)
+ for(query in listOf("","0","01","+1","%37","9007199254740992","1&expectedConsentGeneration=2")){
+  val beforeOpen=Wire.opened;Wire.reply=Reply()
+  ck("v2 capability rejects noncanonical or unsafe query $query before a socket",runCatching{v2Capability(query)}.isFailure&&Wire.opened==beforeOpen)
+ }
+ Wire.reply=Reply();ck("v2 capability accepts the largest safe generation",JSONObject(v2Capability("9007199254740991")).getLong("consentGeneration")==9007199254740991L)
+ val v2Staff=ApiClient.phonePin("https://test.invalid",v2Install,"staff",""){"d".repeat(64)}
+ for((label,call) in listOf<Pair<String,()->Unit>>(
+  "missing bearer" to {v2Capability(token=null);Unit},
+  "invalid bearer" to {v2Capability(token="x");Unit},
+  "staff profile" to {v2Capability(client=v2Staff);Unit},
+  "missing source pin" to {v2Capability(context=v2Scope-"heldSourceSha256");Unit},
+  "uppercase pin" to {v2Capability(context=v2Scope+("heldSourceSha256" to "A".repeat(64)));Unit},
+  "missing migration pin" to {v2Capability(context=v2Scope-"heldMigrationSha256");Unit},
+  "missing actor" to {v2Capability(context=v2Scope-"actorId");Unit},
+  "missing collection" to {v2Capability(context=v2Scope-"groupId");Unit},
+  "missing session generation" to {v2Capability(context=v2Scope-"generation");Unit},
+  "pins on unrelated route" to {v2Api.call("GET","/v1/burimunsi/home",token="a".repeat(64),contractContext=v2Scope);Unit})){
+  val beforeOpen=Wire.opened;ck("v2 rejects $label before a socket",runCatching{call()}.isFailure&&Wire.opened==beforeOpen)
+ }
+ for(op in listOf("hold","ack")){
+  Wire.reply=Reply();val result=JSONObject(v2Post(op))
+  ck("v2 $op binds immutable body, consent, and release pins",result.getLong("expectedConsentGeneration")==7L&&
+   JSONObject(Wire.last!!.written.toString("UTF-8")).toString()==heldBody.toString()&&
+   Wire.last!!.getRequestProperty("X-BuriMunsi-Held-Source-Sha256")==v2Source&&
+   Wire.last!!.getRequestProperty("X-BuriMunsi-Held-Migration-Sha256")==v2Migration&&
+   Wire.last!!.getRequestProperty("Cache-Control")=="no-store")
+  for((field,bad) in listOf("requestId" to "00000000-0000-4000-8000-000000000099",
+   "bodySha256" to "f".repeat(64),"financialEffects" to 1,"autoProcessing" to "released",
+   "expectedConsentGeneration" to 8,"protocol" to "old")){
+   Wire.reply=Reply(transform={it.getJSONObject("data").put(field,bad)})
+   ck("v2 $op rejects forged $field",runCatching{v2Post(op)}.isFailure)
+  }
+  Wire.reply=Reply(v2NoStore=false)
+  ck("v2 $op rejects a response without no-store",runCatching{v2Post(op)}.isFailure)
+ }
+ Wire.reply=Reply(transform={it.getJSONObject("data").put("sourceKey","f".repeat(64))})
+ ck("v2 ACK rejects changed source key",runCatching{v2Post("ack")}.isFailure)
+ Wire.reply=Reply(transform={it.getJSONObject("data").put("retryAllowed",true)})
+ ck("v2 ACK never permits a resend",runCatching{v2Post("ack")}.isFailure)
  Wire.reply=Reply()
  fun command()=JSONObject().put("requestId",id).put("memberId","member-1").put("expectedVersion",1).put("note","Synthetic identification")
  fun request(post:Boolean=false)=api.call(if(post)"POST" else "GET",if(post)"/v1/burimunsi/payments/payment-1/allocate" else "/v1/burimunsi/home",token="a".repeat(64),body=if(post)command()else null,contractContext=scope)

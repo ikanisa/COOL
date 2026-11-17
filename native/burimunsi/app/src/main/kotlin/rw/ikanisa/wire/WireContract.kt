@@ -266,14 +266,24 @@ class WireContract(private val product: String, private val version: String,
             }
             if (operation == "staffUpdate" && d["id"] != expected["staffId"]) reject("CONTRACT_IDENTITY")
             if (operation == "replace" && d["requestId"] != expected["commandRequestId"]) reject("CONTRACT_IDENTITY")
-            if (operation == "observation" || operation == "observationRecoverHeld") {
+            if(operation=="observationRecoveryV2Capability"){
+                if(d["protocol"]!="burimunsi.held-recovery.v2"||
+                    !expected.containsKey("heldSourceSha256")||!expected.containsKey("heldMigrationSha256")||
+                    !expected.containsKey("heldExpectedConsentGeneration")||
+                    d["sourceSha256"]!=expected["heldSourceSha256"]||d["migrationSha256"]!=expected["heldMigrationSha256"]||
+                    d["consentGeneration"]!=expected["heldExpectedConsentGeneration"])reject("CONTRACT_IDENTITY")
+            }
+            if(operation in listOf("observationRecoveryV2Hold","observationRecoveryV2Ack")&&
+                (d["protocol"]!="burimunsi.held-recovery.v2"||!expected.containsKey("heldExpectedConsentGeneration")||
+                    d["expectedConsentGeneration"]!=expected["heldExpectedConsentGeneration"]))reject("CONTRACT_IDENTITY")
+            if (operation == "observation" || operation == "observationRecoverHeld" || operation == "observationRecoveryV2Hold") {
                 if (!expected.containsKey("commandRequestId") || !expected.containsKey("observationBodySha256") ||
                     d["requestId"] != expected["commandRequestId"] || d["bodySha256"] != expected["observationBodySha256"])
                     reject("CONTRACT_IDENTITY")
                 if (d["status"] != "source_unresolved" || (d["financialEffects"] as? Number)?.toLong() != 0L) reject("CONTRACT_STATE")
-                if (operation == "observationRecoverHeld" && d["autoProcessing"] != "held") reject("CONTRACT_STATE")
+                if (operation in listOf("observationRecoverHeld","observationRecoveryV2Hold") && d["autoProcessing"] != "held") reject("CONTRACT_STATE")
             }
-            if(operation=="observationRecoverHeldAck"){
+            if(operation in listOf("observationRecoverHeldAck","observationRecoveryV2Ack")){
                 if(!expected.containsKey("commandRequestId")||!expected.containsKey("sourceKey")||!expected.containsKey("observationBodySha256")||
                     d["requestId"]!=expected["commandRequestId"]||d["sourceKey"]!=expected["sourceKey"]||
                     d["bodySha256"]!=expected["observationBodySha256"])reject("CONTRACT_IDENTITY")

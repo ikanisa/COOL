@@ -1,6 +1,8 @@
 package rw.ikanisa.burimunsi.data
 
 import android.content.Context
+import android.os.SystemClock
+import app.cool.mobile.BuildConfig
 import java.util.Base64
 import org.json.JSONObject
 import org.json.JSONArray
@@ -543,12 +545,14 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         if(remoteProofLost)throw ApiFailure(if(localClearFailed)"logout_local_unconfirmed" else "logout_unconfirmed_no_retry",503,true)
         if(localUnconfirmed||!runCatching{retryPendingSignOuts()}.getOrDefault(false))throw ApiFailure("logout_unconfirmed",503,true)
     }
-    private fun requestOwned(witness:SessionWitness,method:String,path:String,body:JSONObject?=null,csv:Boolean=false,recoveryOrigin:String?=null):String{
+    private fun requestOwned(witness:SessionWitness,method:String,path:String,body:JSONObject?=null,csv:Boolean=false,recoveryOrigin:String?=null,
+        heldPins:Pair<String,String>?=null):String{
         val requestGroup=authority.withCurrent(witness){groupId} // Do not dispatch with an already superseded session.
         try{
             val value=api.call(method,"/v1/burimunsi$path",witness.token,body,csv,recoveryOrigin,
                 mapOf("groupId" to requestGroup,"generation" to witness.generation.toString()) +
-                    (authority.withCurrent(witness){operator?.id}?.let{mapOf("actorId" to it)} ?: emptyMap()))
+                    (authority.withCurrent(witness){operator?.id}?.let{mapOf("actorId" to it)} ?: emptyMap())+
+                    (heldPins?.let{mapOf("heldSourceSha256" to it.first,"heldMigrationSha256" to it.second)}?:emptyMap()))
             return authority.withCurrent(witness){
                 lastReadFromCache=false;lastReadSavedAt=System.currentTimeMillis();value
             }
@@ -716,9 +720,31 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         checkContract(expectedConsentGeneration in 1..9_007_199_254_740_991L,"invalid_consent_generation")
         return observationBody(observation).put("expectedConsentGeneration",expectedConsentGeneration)
     }
-    fun recoverHeldObservation(observation:SmsObservation,expectedConsentGeneration:Long):HeldObservationAck {
+    /** A capability is obtained for this one call only and is never persisted or reused. */
+    private fun heldRecoveryV2(observation:SmsObservation,expectedConsentGeneration:Long,route:String,
+        beforePost:()->Boolean):JSONObject {
         val body=heldObservationBody(observation,expectedConsentGeneration)
-        val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations/recover-held",body))
+        val source=BuildConfig.HELD_RECOVERY_APPROVED_SOURCE_SHA256
+        val migration=BuildConfig.HELD_RECOVERY_APPROVED_MIGRATION_SHA256
+        checkContract(Regex("[a-f0-9]{64}").matches(source)&&Regex("[a-f0-9]{64}").matches(migration),"held_recovery_unapproved")
+        checkContract(route in setOf("hold","ack"),"invalid_observation_source")
+        val pins=source to migration;val witness=observationSession();val started=SystemClock.elapsedRealtime()
+        fun fresh():Boolean=(SystemClock.elapsedRealtime()-started) in 0..30_000L
+        val capability=JSONObject(requestOwned(witness,"GET","/sms/observations/recovery-v2/capability"+
+            query(mapOf("expectedConsentGeneration" to expectedConsentGeneration.toString())),heldPins=pins))
+        checkContract(capability.keys().asSequence().toSet()==setOf("protocol","groupId","sourceSha256","migrationSha256","consentGeneration")&&
+            capability.getString("protocol")=="burimunsi.held-recovery.v2"&&capability.getString("groupId")==groupId&&
+            capability.getString("sourceSha256")==source&&capability.getString("migrationSha256")==migration&&
+            capability.getLong("consentGeneration")==expectedConsentGeneration,"held_recovery_unapproved")
+        // Elapsed realtime includes device sleep; a delayed or reused capability cannot authorize dispatch.
+        checkContract(fresh()&&beforePost()&&fresh(),"held_recovery_unapproved")
+        val result=JSONObject(requestOwned(witness,"POST","/sms/observations/recovery-v2/$route",body,heldPins=pins))
+        checkContract(result.getString("protocol")=="burimunsi.held-recovery.v2"&&
+            result.getLong("expectedConsentGeneration")==expectedConsentGeneration,"invalid_observation_ack")
+        return result
+    }
+    fun recoverHeldObservation(observation:SmsObservation,expectedConsentGeneration:Long,beforePost:()->Boolean):HeldObservationAck {
+        val value=heldRecoveryV2(observation,expectedConsentGeneration,"hold",beforePost)
         val ack=ObservationAck(value.getString("requestId"),value.getString("sourceId"),value.getString("bodySha256"),
             value.getString("status"),value.getInt("financialEffects"))
         val processing=value.getString("autoProcessing")
@@ -726,9 +752,8 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         return HeldObservationAck(ack,processing)
     }
     /** This POST is an exact-request, read-only proof lookup, never an upload retry. */
-    fun heldRecoveryAcknowledgement(observation:SmsObservation,expectedConsentGeneration:Long):HeldRecoveryResolution {
-        val body=heldObservationBody(observation,expectedConsentGeneration)
-        val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations/recover-held-ack",body))
+    fun heldRecoveryAcknowledgement(observation:SmsObservation,expectedConsentGeneration:Long,beforePost:()->Boolean):HeldRecoveryResolution {
+        val value=heldRecoveryV2(observation,expectedConsentGeneration,"ack",beforePost)
         val result=HeldRecoveryResolution(value.getString("requestId"),value.getString("sourceKey"),value.getString("bodySha256"),
             value.getString("state"),if(value.isNull("sourceId"))null else value.getString("sourceId"),
             value.getString("autoProcessing"),value.getInt("financialEffects"),value.getBoolean("retryAllowed"))

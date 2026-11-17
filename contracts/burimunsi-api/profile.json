@@ -221,6 +221,21 @@
       "POST",
       "^/sms/observations/recover-held-ack$",
       "observationRecoverHeldAck"
+    ],
+    [
+      "GET",
+      "^/sms/observations/recovery-v2/capability$",
+      "observationRecoveryV2Capability"
+    ],
+    [
+      "POST",
+      "^/sms/observations/recovery-v2/hold$",
+      "observationRecoveryV2Hold"
+    ],
+    [
+      "POST",
+      "^/sms/observations/recovery-v2/ack$",
+      "observationRecoveryV2Ack"
     ]
   ],
   "operations": [
@@ -267,6 +282,9 @@
     "observationReconcileStatus",
     "observationRecoverHeld",
     "observationReconcileVerifiedStatus",
-    "observationRecoverHeldAck"
+    "observationRecoverHeldAck",
+    "observationRecoveryV2Capability",
+    "observationRecoveryV2Hold",
+    "observationRecoveryV2Ack"
   ]
 }

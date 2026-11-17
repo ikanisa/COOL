@@ -48,6 +48,9 @@ class NativeRepository() {
  var strictLegacyHeldServer=false
  // Synthetic unknown old server: discards the new field rather than rejecting it.
  var permissiveLegacyHeldServer=false
+ var capabilityFailure:Exception?=null;var capabilitySource="a".repeat(64);var capabilityMigration="b".repeat(64)
+ var capabilityGroup="group-1";var capabilityGeneration:Long?=null;var capabilityNoStore=true
+ var afterCapability:(()->Unit)?=null;val capabilityRequests=mutableListOf<Long>()
  var afterRecovery:(()->Unit)?=null;var recoveryAckOverride:((HeldObservationAck)->HeldObservationAck)?=null
  val recoveryRequests=mutableListOf<SmsObservation>();val recoveryCommitted=mutableMapOf<String,Pair<SmsObservation,String>>()
  val recoveryGenerations=mutableListOf<Long>();val recoveryCommittedGenerations=mutableMapOf<String,Long>()
@@ -103,7 +106,20 @@ class NativeRepository() {
   val result=ObservationVerifiedStatus(verifiedScope,ObservationReconcileStatus(pending,count>0,count,revision,unmatched))
   afterVerified?.invoke(verifiedCalls);return result
  }
- fun recoverHeldObservation(value:SmsObservation,expectedConsentGeneration:Long):HeldObservationAck {
+ private fun capability(expectedConsentGeneration:Long){
+  beforeNetwork?.invoke("capability");capabilityRequests.add(expectedConsentGeneration)
+  if(strictLegacyHeldServer)throw ApiFailure("invalid_api_request",400)
+  // A permissive v1-shaped 200 lacks the strictly required v2 capability data.
+  if(permissiveLegacyHeldServer)throw ApiFailure("contract_missing_field",200)
+  capabilityFailure?.let{throw it}
+  if(capabilitySource!="a".repeat(64)||capabilityMigration!="b".repeat(64)||capabilityGroup!="group-1"||
+   (capabilityGeneration?:expectedConsentGeneration)!=expectedConsentGeneration||!capabilityNoStore)
+   throw ApiFailure("held_recovery_unapproved",403)
+  val action=afterCapability;afterCapability=null;action?.invoke()
+ }
+ fun recoverHeldObservation(value:SmsObservation,expectedConsentGeneration:Long,beforePost:()->Boolean):HeldObservationAck {
+  capability(expectedConsentGeneration)
+  if(!beforePost())throw ApiFailure("held_recovery_unapproved",403)
   beforeNetwork?.invoke("recover")
   recoveryRequests.add(value);recoveryGenerations.add(expectedConsentGeneration)
   if(strictLegacyHeldServer)throw ApiFailure("invalid_api_request",400)
@@ -120,7 +136,9 @@ class NativeRepository() {
   val ack=HeldObservationAck(ObservationAck(value.requestId,source,Values.sha256(value.rawBody),"source_unresolved",0),"held")
   return recoveryAckOverride?.invoke(ack)?:ack
  }
- fun heldRecoveryAcknowledgement(value:SmsObservation,expectedConsentGeneration:Long):HeldRecoveryResolution {
+ fun heldRecoveryAcknowledgement(value:SmsObservation,expectedConsentGeneration:Long,beforePost:()->Boolean):HeldRecoveryResolution {
+  capability(expectedConsentGeneration)
+  if(!beforePost())throw ApiFailure("held_recovery_unapproved",403)
   beforeNetwork?.invoke("ack")
   heldAckRequests.add(value);heldAckGenerations.add(expectedConsentGeneration)
   if(strictLegacyHeldServer)throw ApiFailure("invalid_api_request",400)

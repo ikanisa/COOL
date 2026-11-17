@@ -698,13 +698,10 @@ internal class ObservationRecovery(context:Context) {
                     fun authorized():Boolean=withRecoveryConsent(scope.session,scope.consent,stopped){consent->
                         if(current()&&sameAttempt()&&journal.consentMatches(pending,consent))true else null
                     }==true
-                    if(!current()||!sameAttempt()||!uniqueHeld(row,request,stopped)||!current())
-                        return@synchronized interrupted()
-                    if(!authorized()){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
-                    val acknowledgement=try{repo.heldRecoveryAcknowledgement(original,originalConsent)}catch(_:Exception){null}
-                    if(!current()||!sameAttempt()||!uniqueHeld(row,request,stopped)||!current())
-                        return@synchronized interrupted()
-                    if(!authorized()){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                    fun guardedAck():Boolean=current()&&sameAttempt()&&uniqueHeld(row,request,stopped)&&current()&&authorized()
+                    if(!guardedAck()){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                    val acknowledgement=try{repo.heldRecoveryAcknowledgement(original,originalConsent){guardedAck()}}catch(_:Exception){null}
+                    if(!guardedAck()){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
                     if(acknowledgement==null||!acknowledgement.validFor(original)||acknowledgement.state!="acknowledged"){
                         auditProgress=null;return@synchronized Audit.UNCONFIRMED
                     }
@@ -870,12 +867,16 @@ internal class ObservationRecovery(context:Context) {
                                         }
                                         restart=true
                                     }else{
-                                        val attempting=changeJournal{consent->journal.begin(entry,consent)}
-                                            ?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
-                                        active=attempting
-                                        val original=attempting.observation?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
-                                        val originalConsent=attempting.consentGeneration?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
-                                        val ack=checkedNetwork{repo.recoverHeldObservation(original,originalConsent)}
+                                        val original=entry.observation?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                                        val originalConsent=entry.consentGeneration?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                                        var dispatchAttempt:HeldRecoveryJournal.Entry?=null
+                                        val ack=checkedNetwork{repo.recoverHeldObservation(original,originalConsent){
+                                            if(!guarded())false else {
+                                                val saved=changeJournal{consent->journal.begin(entry,consent)}
+                                                if(saved==null)false else {active=saved;dispatchAttempt=saved;guarded()}
+                                            }
+                                        }}
+                                        val attempting=dispatchAttempt?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
                                         val finalStatus=checkedNetwork{repo.observationReconcileVerifiedStatus()}
                                         if(!verified(finalStatus)||!current()){
                                             auditProgress=null;return@synchronized Audit.UNCONFIRMED

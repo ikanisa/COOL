@@ -38,6 +38,18 @@ internal object ObservationUnresolvedProof {
     }
 }
 
+/** A successful v2 response may be used only when the server explicitly
+ * prohibits storage by intermediaries. Ambiguous/coalesced fields fail closed. */
+internal object HeldV2CachePolicy {
+    fun isNoStore(headers:Map<out String?,List<String>?>):Boolean {
+        val entries=headers.entries.filter{it.key?.equals("Cache-Control",ignoreCase=true)==true}
+        if(entries.size!=1||entries.single().value?.size!=1)return false
+        val value=entries.single().value!!.single()
+        return value.length<=128&&value.none{it.isISOControl()&&it!='\t'}&&
+            value.trim(' ','\t').equals("no-store",ignoreCase=true)
+    }
+}
+
 /** Supplies an already authenticated managed access token, never a PIN, refresh
  * token or service key. The installed identity broker owns its lifecycle. */
 class ManagedRequestAccess(val token:String,val collectionId:String){override fun toString()="ManagedRequestAccess(redacted)"}
@@ -98,6 +110,21 @@ class ApiClient private constructor(origin: String, val installationId: String,
         require(path.startsWith("/v1/burimunsi/") && !path.contains("\\") && !path.contains("#"))
         val logicalPath=path.substringBefore('?')
         require(!logicalPath.contains('%') && logicalPath.split('/').none { it == "." || it == ".." })
+        val heldBase="/v1/burimunsi/sms/observations/recovery-v2/"
+        val heldV2=logicalPath in setOf(heldBase+"capability",heldBase+"hold",heldBase+"ack")
+        val heldSource=contractContext["heldSourceSha256"] as? String
+        val heldMigration=contractContext["heldMigrationSha256"] as? String
+        if(heldV2||contractContext.containsKey("heldSourceSha256")||contractContext.containsKey("heldMigrationSha256")){
+            require(heldV2&&!csv&&phonePinProfile=="internal_receiver"&&token!=null&&Regex("[a-f0-9]{64}").matches(token))
+            require(heldSource!=null&&heldMigration!=null&&Regex("[a-f0-9]{64}").matches(heldSource)&&Regex("[a-f0-9]{64}").matches(heldMigration))
+            require(if(logicalPath==heldBase+"capability")method=="GET"&&body==null else method=="POST"&&body!=null)
+            val actor=contractContext["actorId"] as? String;val group=contractContext["groupId"] as? String
+            val sessionGeneration=contractContext["generation"] as? String
+            require(actor!=null&&group!=null&&sessionGeneration!=null)
+            Values.id(actor);Values.id(group)
+            val counter=sessionGeneration.toLongOrNull()
+            require(counter!=null&&counter in 0..9_007_199_254_740_991L&&counter.toString()==sessionGeneration)
+        }
         val requestLimit=if(method=="POST"&&logicalPath=="/v1/burimunsi/members/import/preview") 6_991_532
             else if(method=="POST"&&logicalPath=="/v1/burimunsi/members/import") SmartOnboardingLimits.MAX_BATCH_BYTES else 8192
         if(requestLimit>8192)require(token!=null&&Regex("[a-f0-9]{64}").matches(token))
@@ -131,13 +158,21 @@ class ApiClient private constructor(origin: String, val installationId: String,
             val group=if(bootstrap)null else (contractContext["groupId"] as? String ?:throw ContractViolation("CONTRACT_CONTEXT"))
             if(group!=null)Values.id(group)
             val route=if(csv)null else contract.route(method,path.removePrefix("/v1/burimunsi"))
-            contract.query(if(csv)"csv" else route!!.first, path.substringAfter('?', ""))
+            val query=contract.query(if(csv)"csv" else route!!.first, path.substringAfter('?', ""))
             val requestData=StrictJson.parse(body?.toString() ?: "null",requestLimit)
             if(route!=null)contract.validate(route.first+".request",requestData)
             if(csv)require(method=="GET"&&body==null&&Regex("/v1/burimunsi/members/[A-Za-z0-9_-]+/ledger\\.csv").matches(path))
             val b=requestData as? Map<*, *>
+            val heldGeneration=if(route?.first=="observationRecoveryV2Capability") {
+                val text=query["expectedConsentGeneration"] as? String ?:throw ContractViolation("CONTRACT_QUERY")
+                val value=text.toLongOrNull() ?:throw ContractViolation("CONTRACT_QUERY")
+                if(value !in 1..9_007_199_254_740_991L||value.toString()!=text||
+                    path.substringAfter('?', "")!="expectedConsentGeneration=$text")throw ContractViolation("CONTRACT_QUERY")
+                value
+            } else if(heldV2) b?.get("expectedConsentGeneration") as? Long else null
             val expected=(if(bootstrap)contractContext-"groupId" else contractContext) + mapOf("installationId" to installationId,"generation" to generation,
                 "requestId" to correlation,"recordId" to route?.second,"now" to System.currentTimeMillis()) +
+                (heldGeneration?.let{mapOf("heldExpectedConsentGeneration" to it)} ?: emptyMap()) +
                 (b?.get("phone")?.let{mapOf("phone" to it)} ?: emptyMap()) +
                 (b?.get("memberId")?.let{mapOf("memberId" to it)} ?: emptyMap()) +
                 (b?.get("id")?.let{mapOf("staffId" to it)} ?: emptyMap()) +
@@ -178,6 +213,11 @@ class ApiClient private constructor(origin: String, val installationId: String,
             connection.useCaches=false
             connection.setRequestProperty("Accept",if(csv)"text/csv" else "application/json")
             connection.setRequestProperty("Accept-Encoding","identity")
+            if(heldV2){
+                connection.setRequestProperty("Cache-Control","no-store")
+                connection.setRequestProperty("X-BuriMunsi-Held-Source-Sha256",heldSource!!)
+                connection.setRequestProperty("X-BuriMunsi-Held-Migration-Sha256",heldMigration!!)
+            }
             if(publicKey.isNotEmpty())connection.setRequestProperty("apikey",publicKey)
             connection.setRequestProperty("X-BuriMunsi-Installation",installationId)
             connection.setRequestProperty("X-BuriMunsi-Contract",BuriMunsiSchemas.VERSION)
@@ -205,6 +245,7 @@ class ApiClient private constructor(origin: String, val installationId: String,
             val status=connection.responseCode;receivedStatus=status
             val responseHeaders=connection.headerFields
             val metadata=ResponseTransport.metadata(responseHeaders, 2_000_000)
+            if(heldV2&&status==200&&!HeldV2CachePolicy.isNoStore(responseHeaders))throw ContractViolation("CONTRACT_CACHE_CONTROL")
             val contentType=metadata.contentType.orEmpty()
             val stream=if(status in 200..299)connection.inputStream else connection.errorStream
             val activeConnection=connection

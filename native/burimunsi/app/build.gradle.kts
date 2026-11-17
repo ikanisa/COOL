@@ -77,6 +77,9 @@ android {
         buildConfigField("boolean", "CLOUD_HOLD_EXISTING_INBOX", "true")
         // The draft recovery protocol requires separate server qualification before any release can enable it.
         buildConfigField("boolean", "HELD_RECOVERY_ENABLED", "false")
+        // Blank until a particular server source and migration are independently qualified.
+        buildConfigField("String", "HELD_RECOVERY_APPROVED_SOURCE_SHA256", quoted(""))
+        buildConfigField("String", "HELD_RECOVERY_APPROVED_MIGRATION_SHA256", quoted(""))
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BURI_API_ORIGIN", quoted(apiOrigin.get()))
         buildConfigField("String", "BURI_AUTH_ORIGIN", quoted(authOrigin.get()))
