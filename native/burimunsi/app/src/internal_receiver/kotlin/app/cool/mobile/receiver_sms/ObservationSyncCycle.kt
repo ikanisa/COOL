@@ -15,14 +15,14 @@ import app.cool.mobile.receiver_sms.ObservationSyncDiagnostics.Phase
 import app.cool.mobile.receiver_sms.ObservationSyncDiagnostics.Stop
 
 internal data class ObservationCycleResult(val completed:Boolean,val more:Boolean,val problem:String?=null,val busy:Boolean=false,
-    val progress:Boolean=false)
+    val progress:Boolean=false,val proofStartedAtElapsed:Long?=null)
 
 /** The existing observation pipeline, executed once with one process-wide finite lease.
  * Both JobScheduler and the foreground supervisor use this same runner/journal.
  */
 internal object ObservationSyncCycle {
     private val gate=ContinuousSyncWorkGate()
-    private const val RECHECK_AFTER_MS=5*60_000L
+    private const val RECHECK_AFTER_MS=ContinuousSyncHealthFreshness.MAX_PROOF_AGE_MS
     private const val AUDIT_AFTER_MS=24*60*60_000L
     private data class SweepProof(val scope:String,val at:Long,val inboxRevision:Long,val cloudRevision:String?=null)
     private data class Verified(val witness:ObservationRecovery.Latest,val at:Long,val inboxRevision:Long,val audit:SweepProof)
@@ -301,10 +301,12 @@ internal object ObservationSyncCycle {
                 return finish(ObservationCycleResult(false,false,"sync_unconfirmed"))
             }
             val changed=ObservationInboxRevision.snapshot()!=inboxRevision||recovery.sweepScope(stopped)!=scope
-            val confirmed=comparison==Comparison.MATCHED&&!stopped()&&!changed
+            val proofStarted=verified?.at
+            val confirmed=comparison==Comparison.MATCHED&&!stopped()&&!changed&&
+                ContinuousSyncHealthFreshness.fresh(proofStarted,SystemClock.elapsedRealtime())
             if(changed)diagnostic.reject(Fence.RECONCILE_CHANGED)
             return finish(ObservationCycleResult(confirmed,changed||comparison==Comparison.PENDING,if(confirmed)null else "sync_unconfirmed",
-                progress=changed))
+                progress=changed,proofStartedAtElapsed=if(confirmed)proofStarted else null))
         }catch(error:Exception){
             val snapshot=diagnostic.snapshot()
             val kind=ObservationSyncDiagnostics.errorKind(error)

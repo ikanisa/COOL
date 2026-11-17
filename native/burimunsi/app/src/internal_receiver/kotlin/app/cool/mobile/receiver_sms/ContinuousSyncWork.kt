@@ -2,7 +2,32 @@ package app.cool.mobile.receiver_sms
 
 import java.util.concurrent.Semaphore
 import java.util.concurrent.atomic.AtomicLong
+import java.util.concurrent.atomic.AtomicReference
 import java.util.UUID
+import rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth
+
+/** A cached successful cycle cannot extend the original reconciliation proof. */
+internal object ContinuousSyncHealthFreshness {
+    const val MAX_PROOF_AGE_MS=5*60_000L
+    fun fresh(started:Long?,now:Long):Boolean = started!=null&&started>=0&&now>=started&&now-started<MAX_PROOF_AGE_MS
+    fun expire(health:ContinuousReceiverHealth,now:Long,observerActive:Boolean):ContinuousReceiverHealth =
+        if(health.running&&health.problem==null&&(!observerActive||!fresh(health.proofStartedAtElapsed,now)))
+            health.copy(problem="sync_unconfirmed",proofStartedAtElapsed=null) else health
+}
+
+/** Expiry is committed atomically so a clock reversal cannot revive old success. */
+internal class ContinuousSyncHealthState(initial:ContinuousReceiverHealth=ContinuousReceiverHealth(supported=true)) {
+    private val value=AtomicReference(initial)
+    fun get()=value.get()
+    fun set(health:ContinuousReceiverHealth)=value.set(health)
+    fun compareAndSet(expected:ContinuousReceiverHealth,next:ContinuousReceiverHealth)=value.compareAndSet(expected,next)
+    fun health(now:Long,observerActive:Boolean):ContinuousReceiverHealth {
+        while(true){
+            val current=value.get();val checked=ContinuousSyncHealthFreshness.expire(current,now,observerActive)
+            if(checked==current||value.compareAndSet(current,checked))return checked
+        }
+    }
+}
 
 /** A local change token only; it contains no SMS data or persistent identity. */
 internal object ObservationInboxRevision {

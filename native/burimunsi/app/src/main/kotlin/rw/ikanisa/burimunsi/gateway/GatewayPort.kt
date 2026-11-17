@@ -10,6 +10,8 @@ data class ContinuousReceiverHealth(
     val running:Boolean=false,
     val problem:String?=null,
     val lastCycleAt:Long?=null,
+    /** Process-local monotonic start of the proof, never a wall-clock timestamp. */
+    val proofStartedAtElapsed:Long?=null,
 )
 
 /** Implemented in flavor-specific code. Staff has no receiving implementation. */

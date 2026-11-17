@@ -32,7 +32,8 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
         }
         /** Remove old terminal bodies even if the inbox row, session or SMS permission
          * has gone away. Corrupt, foreign-named and unresolved records are untouched. */
-        internal fun migrateLegacyFiles(context:Context,files:Collection<String>)=synchronized(lock){
+        internal fun migrateLegacyFiles(context:Context,files:Collection<String>):Boolean=synchronized(lock){
+            var complete=true
             for(storeName in files.mapNotNull{fileName.matchEntire(it)?.groupValues?.get(1)}.toSet()){
                 try{
                     val raw=SecureStore(context.applicationContext,storeName).read()?:continue
@@ -41,19 +42,32 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
                     val owner=ObservationOwner(value.getString("collectionId"),value.getString("accountId"))
                     val installation=value.getString("installationId");val device=value.getString("deviceScope")
                     val key=value.getString("sourceKey")
-                    if(name(owner,installation,device,key)!=storeName)continue
+                    if(name(owner,installation,device,key)!=storeName){complete=false;continue}
                     HeldRecoveryJournal(context,owner,installation,device).read(key)
-                }catch(_:Exception){/* Preserve invalid or unavailable records for later inspection. */}
+                }catch(_:Exception){complete=false /* Preserve invalid or unavailable records. */}
             }
+            complete
         }
         /** Local privacy maintenance is independent of capture authority and does
          * not read the inbox, contact the server, or clear an uncertain request. */
-        fun migrateLegacyAsync(context:Context){
+        internal fun migrateLegacyAsync(context:Context,
+            listFiles:()->List<String>?={context.applicationContext.noBackupFilesDir.list()?.toList()},
+            wait:(Long)->Unit={Thread.sleep(it)},finished:(Boolean)->Unit={}){
             if(!migrationStarted.compareAndSet(false,true))return
             val app=context.applicationContext
             try{Thread({
-                try{migrateLegacyFiles(app,app.noBackupFilesDir.list()?.toList()?:throw IllegalStateException("Protected directory unavailable"))}
-                catch(_:Exception){migrationStarted.set(false)}
+                var complete=false
+                try{
+                    for(attempt in 0..2){
+                        complete=try{listFiles()?.let{migrateLegacyFiles(app,it)}==true}catch(_:Exception){false}
+                        if(complete)break
+                        if(attempt<2)wait(200L*(attempt+1))
+                    }
+                }catch(_:Exception){/* Keep incomplete files intact. */}
+                finally{
+                    if(!complete)migrationStarted.set(false)
+                    runCatching{finished(complete)}
+                }
             },"held-recovery-privacy-migration").start()}
             catch(_:Exception){migrationStarted.set(false)}
         }

@@ -19,6 +19,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.os.PowerManager
+import android.os.SystemClock
 import android.provider.Telephony
 import app.cool.mobile.BuildConfig
 import app.cool.mobile.R
@@ -44,13 +45,15 @@ internal object BuriContinuousSupervisor {
     @Volatile private var stoppedGeneration:Long?=null
     @Volatile private var lastGeneration:Long?=null
     @Volatile private var restartPending=false
-    private val state=AtomicReference(ContinuousReceiverHealth(supported=true))
+    private val state=ContinuousSyncHealthState()
 
-    fun health():ContinuousReceiverHealth=state.get()
+    fun health():ContinuousReceiverHealth=state.health(SystemClock.elapsedRealtime(),ObservationInboxRevision.observerActive())
     fun channel(context:Context):String=context.getString(R.string.burimunsi_sync_channel_id)
     fun foregroundChanged(context:Context,resumed:Boolean){
         visible=resumed
         if(resumed){
+            // Re-evaluate elapsed time even when Android suspended the process.
+            service?.refreshDisplayedHealth()
             // A visible task is an Android start opportunity, not an authorization grant.
             manuallyStopped=false
             requestStart(context)
@@ -75,7 +78,7 @@ internal object BuriContinuousSupervisor {
         val active=service
         active?.requestStop(problem)
         runCatching{context.applicationContext.stopService(Intent(context,BuriContinuousSyncService::class.java))}
-        if(active==null)state.set(state.get().copy(running=false,problem=problem))
+        if(active==null)state.set(state.get().copy(running=false,problem=problem,proofStartedAtElapsed=null))
     }
     fun wake(delayMs:Long=0):Boolean {
         val active=service?:return false
@@ -84,13 +87,14 @@ internal object BuriContinuousSupervisor {
     fun attached(value:BuriContinuousSyncService){service=value;state.set(ContinuousReceiverHealth(true,true,"starting"))}
     fun detached(value:BuriContinuousSyncService,problem:String?){
         if(service===value){
-            service=null;state.set(state.get().copy(running=false,problem=problem))
+            service=null;state.set(state.get().copy(running=false,problem=problem,proofStartedAtElapsed=null))
             if(restartPending){restartPending=false;Handler(Looper.getMainLooper()).post{requestStart(value.applicationContext)}}
         }
     }
-    fun update(value:BuriContinuousSyncService,problem:String?,finishedAt:Long?=null){
+    fun update(value:BuriContinuousSyncService,problem:String?,finishedAt:Long?=null,proofStartedAtElapsed:Long?=null){
         if(service!==value)return
-        val old=state.get();state.set(old.copy(running=true,problem=problem,lastCycleAt=finishedAt?:old.lastCycleAt))
+        val old=state.get();state.set(old.copy(running=true,problem=problem,lastCycleAt=finishedAt?:old.lastCycleAt,
+            proofStartedAtElapsed=if(problem==null)proofStartedAtElapsed else null))
         lastGeneration=runCatching{NativeRepository.observationOwner(value)?.generation}.getOrNull()?:lastGeneration
     }
     /** A rejected creation has no attached identity. CAS cannot overwrite a
@@ -99,7 +103,7 @@ internal object BuriContinuousSupervisor {
     private fun publishWhileUnattached(problem:String){
         if(service!=null)return
         val before=state.get()
-        if(service==null)state.compareAndSet(before,before.copy(running=false,problem=problem))
+        if(service==null)state.compareAndSet(before,before.copy(running=false,problem=problem,proofStartedAtElapsed=null))
     }
     fun problem(context:Context):String? {return try{
         if(BuildConfig.IS_QUALIFICATION||!BuildConfig.IS_GATEWAY||manuallyStopped)"authorization_required"
@@ -137,7 +141,7 @@ internal object BuriContinuousSupervisor {
     private fun requestStart(context:Context,bootOrReplacement:Boolean=false){
         val app=context.applicationContext
         if(BuildConfig.IS_QUALIFICATION||!BuildConfig.IS_GATEWAY)return
-        try{ensureChannel(app)}catch(_:Exception){state.set(state.get().copy(running=false,problem="notification_permission_required"));return}
+        try{ensureChannel(app)}catch(_:Exception){state.set(state.get().copy(running=false,problem="notification_permission_required",proofStartedAtElapsed=null));return}
         val reason=problem(app)
         if(reason!=null){
             if(reason=="authorization_required"&&!manuallyStopped&&service?.hasActiveCycle()==true){wake();return}
@@ -146,7 +150,7 @@ internal object BuriContinuousSupervisor {
         if(wake())return
         if(service!=null){restartPending=true;return}
         val exempt=runCatching{app.getSystemService(PowerManager::class.java)?.isIgnoringBatteryOptimizations(app.packageName)==true}.getOrDefault(false)
-        if(!visible&&!bootOrReplacement&&!exempt){state.set(state.get().copy(running=false,problem="start_not_allowed"));return}
+        if(!visible&&!bootOrReplacement&&!exempt){state.set(state.get().copy(running=false,problem="start_not_allowed",proofStartedAtElapsed=null));return}
         // Publish intent before dispatch; a fast onCreate failure/success must
         // never be overwritten by the caller returning from the binder call.
         publishWhileUnattached("starting")
@@ -185,6 +189,7 @@ class BuriContinuousSyncService:Service(){
     private var observer:ContentObserver?=null
     private var observerLease:Any?=null
     private val tick=Runnable{runCycle()}
+    private val proofExpiry=Runnable{publishCurrentHealth()}
     private var notificationsReady=false
 
     override fun onCreate(){
@@ -248,7 +253,7 @@ class BuriContinuousSyncService:Service(){
         terminalProblem=problem;stopped.set(true)
         observerLease?.let{ObservationInboxRevision.observerDetached(it)};observerLease=null
         ObservationSyncDiagnostics.service(ServicePhase.STOPPED,problem)
-        main.removeCallbacks(tick);nextAt=Long.MAX_VALUE
+        main.removeCallbacks(tick);main.removeCallbacks(proofExpiry);nextAt=Long.MAX_VALUE
         releaseWake()
         stopSelf()
     }
@@ -269,6 +274,19 @@ class BuriContinuousSyncService:Service(){
         ObservationSyncDiagnostics.NotificationState.ACTIVE->R.string.burimunsi_sync_notification_active
         ObservationSyncDiagnostics.NotificationState.WAITING->R.string.burimunsi_sync_notification_waiting
         ObservationSyncDiagnostics.NotificationState.UNCONFIRMED->R.string.ui_120e1aa27fc2
+    }
+    /** A foreground refresh also catches time spent in Android deep sleep. */
+    internal fun refreshDisplayedHealth(){main.post{if(!stopped.get())publishCurrentHealth()}}
+    private fun publishCurrentHealth(){
+        val health=BuriContinuousSupervisor.health()
+        if(notificationsReady)runCatching{getSystemService(NotificationManager::class.java)?.notify(BuriContinuousSupervisor.NOTIFICATION,
+            notification(notificationText(health.problem)))}
+        main.removeCallbacks(proofExpiry)
+        val started=health.proofStartedAtElapsed?:return
+        val now=SystemClock.elapsedRealtime()
+        val delay=if(ContinuousSyncHealthFreshness.fresh(started,now))
+            ContinuousSyncHealthFreshness.MAX_PROOF_AGE_MS-(now-started) else 1L
+        main.postDelayed(proofExpiry,delay)
     }
     private fun runCycle(){
         nextAt=Long.MAX_VALUE
@@ -313,9 +331,9 @@ class BuriContinuousSyncService:Service(){
                     if(terminal!=null){requestStop(terminal!!);return@post}
                     val problem=if(result.busy)"starting"else result.problem
                     ObservationSyncDiagnostics.service(ServicePhase.RETRY,problem)
-                    BuriContinuousSupervisor.update(this,problem,if(!result.busy)System.currentTimeMillis()else null)
-                    if(notificationsReady)runCatching{getSystemService(NotificationManager::class.java)?.notify(BuriContinuousSupervisor.NOTIFICATION,
-                        notification(notificationText(problem)))}
+                    BuriContinuousSupervisor.update(this,problem,if(!result.busy)System.currentTimeMillis()else null,
+                        if(result.completed)result.proofStartedAtElapsed else null)
+                    publishCurrentHealth()
                     val delay=if(wakeAgain)0L else if(result.busy)2_000L else retry.next(result.completed,result.more,result.progress)
                     wake(delay)
                 }

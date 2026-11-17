@@ -41,7 +41,10 @@ private class CollectGateway(private val context:Context,private val managedColl
     override fun bound():Boolean=if(BuildConfig.IS_QUALIFICATION)false else try{store.read()?.optBoolean("receiver_retired")!=true&&store.binding()?.let{ReceiverCollectionScope.matches(it.opt("collection_id"),managedCollection())}==true}catch(_:Exception){false}
     override fun queuedObservations(query:String)=ObservationGateway.queued(context,query)
     override fun publishQueued(snapshot:QueuedObservationSnapshot,publish:()->Unit)=ObservationGateway.publishQueued(context,snapshot,publish)
-    override fun foregroundChanged(resumed:Boolean)=BuriContinuousSupervisor.foregroundChanged(context,resumed)
+    override fun foregroundChanged(resumed:Boolean){
+        if(resumed)HeldRecoveryJournal.migrateLegacyAsync(context)
+        BuriContinuousSupervisor.foregroundChanged(context,resumed)
+    }
     override fun continuousHealth()=BuriContinuousSupervisor.health()
     override fun stopContinuous()=BuriContinuousSupervisor.stop(context)
     override fun recoverContinuous(){

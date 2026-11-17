@@ -162,6 +162,34 @@ fun main() {
   SecureStore.unwritable.remove(name);HeldRecoveryJournal.migrateLegacyFiles(e.context,listOf("buri-$name.v1"))
   check(journal.pending(key)?.phase==HeldRecoveryJournal.Phase.CONFIRMED&&!SecureStore.data[name]!!.contains(body))
  }
+ test("asynchronous privacy migration retries transient failures and can be retriggered after its bound") {
+  val e=setup();val received=Instant.ofEpochMilli(time).toString();val journal=heldJournal(e)
+  fun terminal(id:Long):String {
+   val before=SecureStore.data.keys.toSet()
+   check(journal.prepare(id,cloudKey(adminA,id),"M-Money",body,received,null,3,time)!=null)
+   val name=(SecureStore.data.keys-before).single()
+   SecureStore.data[name]=JSONObject(SecureStore.data[name]!!).put("phase","CONFIRMED").put("terminalSourceId","source-$id").toString()
+   return name
+  }
+  val transient=terminal(12);val persistent=terminal(13);val retained=SecureStore.data[persistent]
+  val firstWrites=SecureStore.writeCounts.toMap();SecureStore.unwritable.addAll(listOf(transient,persistent))
+  NativeRepository.switch(null);e.context.denied=setOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS)
+  val names=listOf("buri-$transient.v1","buri-$persistent.v1")
+  val checks=java.util.concurrent.atomic.AtomicInteger();val pauses=java.util.concurrent.atomic.AtomicInteger()
+  val finished=java.util.concurrent.CountDownLatch(1);val result=java.util.concurrent.atomic.AtomicReference<Boolean>()
+  HeldRecoveryJournal.migrateLegacyAsync(e.context,listFiles={checks.incrementAndGet();names},
+   wait={if(pauses.incrementAndGet()==1)SecureStore.unwritable.remove(transient)},finished={result.set(it);finished.countDown()})
+  check(finished.await(5,java.util.concurrent.TimeUnit.SECONDS)&&result.get()==false&&checks.get()==3&&pauses.get()==2)
+  check(JSONObject(SecureStore.data[transient]!!).getInt("version")==2&&!SecureStore.data[transient]!!.contains(body))
+  check(SecureStore.data[persistent]==retained&&SecureStore.writeCounts[persistent]!!-firstWrites.getValue(persistent)==3)
+  SecureStore.unwritable.remove(persistent)
+  val again=java.util.concurrent.CountDownLatch(1);val retryResult=java.util.concurrent.atomic.AtomicReference<Boolean>()
+  HeldRecoveryJournal.migrateLegacyAsync(e.context,listFiles={names},wait={error("Unexpected retry")},
+   finished={retryResult.set(it);again.countDown()})
+  check(again.await(5,java.util.concurrent.TimeUnit.SECONDS)&&retryResult.get()==true)
+  check(JSONObject(SecureStore.data[persistent]!!).getInt("version")==2&&!SecureStore.data[persistent]!!.contains(body))
+  check(e.repository.recoveryRequests.isEmpty()&&e.repository.heldAckRequests.isEmpty())
+ }
  test("a corrupt terminal tombstone cannot be replaced with a new request") {
   val e=setup();val key=cloudKey(adminA,12);val journal=heldJournal(e);val received=Instant.ofEpochMilli(time).toString()
   val prepared=journal.prepare(12,key,"M-Money",body,received,null,3,time)!!
@@ -300,6 +328,39 @@ fun main() {
   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
   check(e.repository.recoveryRequests==listOf(first)&&e.repository.recoveryCommitted.isEmpty())
   check(heldJournal(e).pending(cloudKey(adminA,12))?.observation==first)
+ }
+ test("a crash after the local attempt marker but before dispatch never invents a retry") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  val key=cloudKey(adminA,12);val received=Instant.ofEpochMilli(time).toString();val journal=heldJournal(e)
+  val prepared=journal.prepare(12,key,"M-Money",body,received,null,3,time)!!
+  val attempted=journal.begin(prepared)!!;val original=attempted.observation!!
+  val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")};val originalBytes=SecureStore.data[name]
+  // A restarted process cannot infer from an empty server whether a delayed
+  // copy of the original POST is still in flight.
+  repeat(3){check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)}
+  check(e.repository.heldAckRequests==listOf(original,original,original)&&e.repository.recoveryRequests.isEmpty())
+  check(heldJournal(e).pending(key)==attempted&&SecureStore.data[name]==originalBytes)
+ }
+ test("concurrent unconfirmed ACK checks never generate a recovery POST") {
+  val (e,original)=pendingHeldFixture();val recovery=ObservationRecovery(e.context)
+  check(recovery.auditPage(e.repository)==ObservationRecovery.Audit.MORE)
+  val entered=java.util.concurrent.CountDownLatch(1);val release=java.util.concurrent.CountDownLatch(1)
+  e.repository.afterHeldAck={entered.countDown();check(release.await(5,java.util.concurrent.TimeUnit.SECONDS))}
+  val first=java.util.concurrent.atomic.AtomicReference<ObservationRecovery.Audit>()
+  val second=java.util.concurrent.atomic.AtomicReference<ObservationRecovery.Audit>()
+  val one=Thread{first.set(recovery.auditPage(e.repository))};val two=Thread{second.set(recovery.auditPage(e.repository))}
+  one.start();check(entered.await(5,java.util.concurrent.TimeUnit.SECONDS));two.start();release.countDown()
+  one.join(5_000);two.join(5_000);check(!one.isAlive&&!two.isAlive)
+  check(first.get()==ObservationRecovery.Audit.UNCONFIRMED&&second.get()==ObservationRecovery.Audit.MORE)
+  check(e.repository.recoveryRequests==listOf(original)&&e.repository.heldAckRequests==listOf(original))
+  check(heldJournal(e).pending(cloudKey(adminA,12))?.observation==original)
+ }
+ test("a newer consent generation cannot turn an unconfirmed ACK into a resend") {
+  val (e,original)=pendingHeldFixture();val config=ObservationConfigStore(e.context)
+  val renewed=ObservationConsentRevision(true,2);config.saveConsent(adminA,ObservationConsentState(renewed,true));e.repository.consent=renewed
+  repeat(2){check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)}
+  check(e.repository.recoveryRequests==listOf(original)&&e.repository.heldAckRequests==listOf(original,original))
+  check(heldJournal(e).pending(cloudKey(adminA,12))?.observation==original)
  }
  test("exact read-only held ACK resolves a pending source before a poisoned batch") {
   val (e,original)=pendingHeldFixture();val key=cloudKey(adminA,12)
@@ -971,6 +1032,20 @@ fun main() {
   check(retry.next(true,true)==2000L&&retry.next(true,false)==30000L&&retry.next(false,true)==15000L)
   check(retry.next(false,true,progress=true)==2000L&&retry.next(false,true)==15000L)
  }
+ test("sync health expires on its original monotonic proof and cannot resurrect after clock reversal") {
+  val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,proofStartedAtElapsed=1_000L)
+  val state=ContinuousSyncHealthState(health)
+  check(state.health(300_999L,true)==health)
+  val expired=state.health(301_000L,true)
+  check(expired.problem=="sync_unconfirmed"&&expired.proofStartedAtElapsed==null)
+  check(state.health(2_000L,true)==expired)
+  check(ContinuousSyncHealthFreshness.expire(health,999L,true).problem=="sync_unconfirmed")
+  check(ContinuousSyncHealthFreshness.expire(health,2_000L,false).problem=="sync_unconfirmed")
+  val restarted=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true)
+  check(ContinuousSyncHealthState(restarted).health(2_000L,true).problem=="sync_unconfirmed")
+  val paused=health.copy(problem="paused",proofStartedAtElapsed=null)
+  check(ContinuousSyncHealthFreshness.expire(paused,301_000L,false)==paused)
+ }
  test("an empty phone requires an authoritative empty Cloud reservation status") {
   val e=setup()
   val result=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})
@@ -999,13 +1074,13 @@ fun main() {
  test("the latest exact source is checked after the complete sweep and cached only briefly") {
   val e=setup();android.os.SystemClock.fixed=1_000L;e.context.contentResolver.rows=listOf(row(801))
   val first=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})
-  check(first.completed&&e.repository.requests.size==1&&e.repository.reconciliationRequests.size==1&&pending(adminA).isEmpty())
+  check(first.completed&&first.proofStartedAtElapsed==1_000L&&e.repository.requests.size==1&&e.repository.reconciliationRequests.size==1&&pending(adminA).isEmpty())
   android.os.SystemClock.fixed=300_999L
   val cached=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})
-  check(cached.completed&&e.repository.reconciliationRequests.size==1)
+  check(cached.completed&&cached.proofStartedAtElapsed==first.proofStartedAtElapsed&&e.repository.reconciliationRequests.size==1)
   android.os.SystemClock.fixed=301_000L
   val renewed=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})
-  check(renewed.completed&&e.repository.reconciliationRequests.size==2)
+  check(renewed.completed&&renewed.proofStartedAtElapsed==301_000L&&e.repository.reconciliationRequests.size==2)
  }
  test("legacy pending takes effect on the first cycle after the five-minute proof expires") {
   val e=setup();android.os.SystemClock.fixed=1_000L;e.context.contentResolver.rows=listOf(row(802))
