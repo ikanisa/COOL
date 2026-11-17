@@ -56,7 +56,8 @@ function fixture(){
    return [{result:{...ctx(),profile_tuple_sha256:state.tupleChangedOnPrepare?'e'.repeat(64):ctx().profile_tuple_sha256,
     consentGeneration:state.generation,requestId,fingerprint,sourceId}}];
   }
-  if(query.includes('observation_key_prepare')){
+  if(query.includes('observation_key_prepare')||query.includes('sms_recovery_prepare')){
+   if(query.includes('sms_recovery_prepare')){if(state.onRecoveryPrepare)await state.onRecoveryPrepare();if(!state.revealGranted)throw sqlError('42501');}
    allowed();const [key,content,body,requestId,fingerprint,sourceId,profileVersion,profileHash,generation]=args;
    if(generation!==state.generation||profileVersion!=='synthetic-v1'||profileHash!=='b'.repeat(64))throw sqlError('40001');
    const prior=state.sourceKeys.get(key);
@@ -276,7 +277,7 @@ test('encrypted capture retries reconcile the same request and reject changed co
 
 test('held recovery retains one encrypted source and retries the same request without a new upload',async()=>{
  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
-  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64)};
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
  await f.run(async adapter=>{
   const first=await adapter.recoverHeld(actor,held),retry=await adapter.recoverHeld(actor,held);
   assert.deepEqual(retry,first);assert.equal(first.requestId,held.requestId);
@@ -287,9 +288,38 @@ test('held recovery retains one encrypted source and retries the same request wi
  });
 });
 
+test('first held admission fails if consent is revoked and regranted before or during server admission',async()=>{
+ for(const moment of ['before-context','after-context']){
+  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
+   inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
+  if(moment==='before-context')f.state.generation=3;
+  else f.state.onRecoveryPrepare=async()=>{f.state.generation=3;};
+  await f.run(async adapter=>{
+   const outcomes=await Promise.allSettled([adapter.recoverHeld(actor,held),adapter.recoverHeld(actor,held)]);
+   assert(outcomes.every(x=>x.status==='rejected'&&x.reason.status===409));
+   assert.equal(f.state.requests.size,0);assert.equal(f.state.recoveryHolds.size,0);
+   assert.equal(f.state.puts,0);assert.equal(f.state.commits,0);
+   await assert.rejects(()=>adapter.recoverHeldAck(actor,held),e=>e.status===409);
+  });
+ }
+});
+
+test('held request binds the confirmed generation to its admitted identity',async()=>{
+ const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
+ await f.run(async adapter=>{
+  await adapter.recoverHeld(actor,held);
+  f.state.generation=3;
+  await assert.rejects(()=>adapter.recoverHeld(actor,{...held,expectedConsentGeneration:3}),e=>e.status===409);
+  const proof=await adapter.recoverHeldAck(actor,{...held,expectedConsentGeneration:3});
+  assert.equal(proof.state,'unconfirmed');assert.equal(proof.retryAllowed,false);assert.equal(f.state.readOnlyGets??0,0);
+  assert.equal(f.state.requests.size,1);assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);
+ });
+});
+
 test('exact held request resumes after admission but before the first storage attempt',async()=>{
  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
-  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64)};
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
  await f.run(async adapter=>{
   const put=f.env.PRIVATE_MEDIA.put;let attempted=0;
   f.env.PRIVATE_MEDIA.put=async()=>{attempted++;throw Error('synthetic crash before storage admission');};
@@ -305,12 +335,13 @@ test('exact held request resumes after admission but before the first storage at
 test('a held resume through either capture route rejects changed consent before storage',async()=>{
  for(const route of ['recoverHeld','observe']){
   const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
-   inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64)};
+   inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
   await f.run(async adapter=>{
    const put=f.env.PRIVATE_MEDIA.put;f.env.PRIVATE_MEDIA.put=async()=>{throw Error('synthetic crash before upload');};
    await assert.rejects(()=>adapter.recoverHeld(actor,held));assert.equal(f.state.recoveryHolds.size,1);
    f.env.PRIVATE_MEDIA.put=put;f.state.generation++;
-   await assert.rejects(()=>adapter[route](actor,held),e=>e.status===403);
+   const {expectedConsentGeneration,...ordinaryHeld}=held;
+   await assert.rejects(()=>adapter[route](actor,route==='observe'?ordinaryHeld:held),e=>[403,409].includes(e.status));
    assert.equal(f.state.puts,0);assert.equal(f.state.commits,0);
   });
  }
@@ -318,7 +349,7 @@ test('a held resume through either capture route rejects changed consent before 
 
 test('a retained held request is not acknowledged by replay after the consent generation changes',async()=>{
  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
-  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64)};
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
  await f.run(async adapter=>{
   await adapter.recoverHeld(actor,held);f.state.generation++;
   await assert.rejects(()=>adapter.recoverHeld(actor,held),e=>e.status===403);
@@ -329,7 +360,7 @@ test('a retained held request is not acknowledged by replay after the consent ge
 test('held recovery preserves submillisecond source times across admission, exact retry and acknowledgement',async()=>{
  for(let digits=4;digits<=9;digits++){
   const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
-   inboxReceivedAt:`2026-11-11T12:00:00.${'123456789'.slice(0,digits)}Z`,sourceKey:'e'.repeat(64)};
+   inboxReceivedAt:`2026-11-11T12:00:00.${'123456789'.slice(0,digits)}Z`,sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
   await f.run(async adapter=>{
    const first=await adapter.recoverHeld(actor,held),retry=await adapter.recoverHeld(actor,held);
    assert.deepEqual(retry,first);assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);
@@ -342,7 +373,7 @@ test('held recovery preserves submillisecond source times across admission, exac
 
 test('held recovery acknowledgement proves exact retained evidence without writes or uploads',async()=>{
  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
-  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'a'.repeat(64)};
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'a'.repeat(64),expectedConsentGeneration:1};
  await f.run(async adapter=>{
   const saved=await adapter.recoverHeld(actor,held),before={puts:f.state.puts,commits:f.state.commits,
    writes:f.state.writeTransactions,requests:f.state.requests.size,holds:f.state.recoveryHolds.size};
@@ -358,7 +389,7 @@ test('held recovery acknowledgement proves exact retained evidence without write
 
 test('held acknowledgement never retries or uploads an absent or incomplete intent',async()=>{
  const held={...incoming,sourceMode:'catch_up',complete:false,
-  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'b'.repeat(64)};
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'b'.repeat(64),expectedConsentGeneration:1};
  for(const incomplete of ['absent','failed-upload','missing-hold','missing-witness','foreign-group','foreign-owner',
   'missing-observation','changed-request','changed-source-key','changed-consent-generation']){
   const f=fixture();await f.run(async adapter=>{
@@ -378,9 +409,12 @@ test('held acknowledgement never retries or uploads an absent or incomplete inte
     if(incomplete==='changed-consent-generation')f.state.generation++;
    }
    const before={puts:f.state.puts,commits:f.state.commits,writes:f.state.writeTransactions??0};
-   const result=await adapter.recoverHeldAck(actor,request);
-   assert.equal(result.state,'unconfirmed');assert.equal(result.sourceId,null);
-   assert.equal(result.autoProcessing,'unknown');assert.equal(result.retryAllowed,false);
+   if(incomplete==='changed-consent-generation')await assert.rejects(()=>adapter.recoverHeldAck(actor,request),e=>e.status===409);
+   else {
+    const result=await adapter.recoverHeldAck(actor,request);
+    assert.equal(result.state,'unconfirmed');assert.equal(result.sourceId,null);
+    assert.equal(result.autoProcessing,'unknown');assert.equal(result.retryAllowed,false);
+   }
    assert.deepEqual({puts:f.state.puts,commits:f.state.commits,writes:f.state.writeTransactions??0},before);
    assert.equal(f.state.readOnlyGets??0,0);
   });
@@ -389,7 +423,7 @@ test('held acknowledgement never retries or uploads an absent or incomplete inte
 
 test('held acknowledgement fails closed when custody, consent or authority changes during the read',async()=>{
  const held={...incoming,sourceMode:'catch_up',complete:false,
-  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'c'.repeat(64)};
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'c'.repeat(64),expectedConsentGeneration:1};
  for(const change of ['storage','consent','hold','namespace','metadata']){
   const f=fixture();await f.run(async adapter=>{
    const saved=await adapter.recoverHeld(actor,held),before={puts:f.state.puts,commits:f.state.commits,writes:f.state.writeTransactions};
@@ -408,7 +442,7 @@ test('held acknowledgement fails closed when custody, consent or authority chang
 
 test('held acknowledgement denies staff, revoked authority and disabled consent without probing storage',async()=>{
  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
-  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'d'.repeat(64)};
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'d'.repeat(64),expectedConsentGeneration:1};
  await f.run(async adapter=>{
   await adapter.recoverHeld(actor,held);const session=adapter.authority.session;
   for(const changed of [{role:'staff'},{groupId:'other'},{installationProfile:'staff'},{revoked:true}]){
@@ -428,7 +462,7 @@ test('held recovery refuses equal bodies even when source keys or receipt times 
   inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'1'.repeat(64)};
  await f.run(async adapter=>{
   await adapter.observe(actor,first);
-  const collision={...first,requestId:id(31),sourceKey:'2'.repeat(64),inboxReceivedAt:'2026-11-12T12:00:00.000Z'};
+  const collision={...first,expectedConsentGeneration:1,requestId:id(31),sourceKey:'2'.repeat(64),inboxReceivedAt:'2026-11-12T12:00:00.000Z'};
   await assert.rejects(adapter.recoverHeld(actor,collision),e=>e.status===503);
   assert.equal(f.state.puts,1);assert.equal(f.state.recoveryHolds.size,0);
  });
@@ -439,7 +473,7 @@ test('a foreign or unscoped equal-body witness does not deny recovery for this c
   const f=fixture(),body=await sha256(incoming.rawBody),foreignKey='sms/'+id(999);
   f.state.witnesses.set(foreignKey,{key:foreignKey,collection,body});
   const held={...incoming,sourceMode:'catch_up',complete:false,
-   inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'4'.repeat(64)};
+   inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'4'.repeat(64),expectedConsentGeneration:1};
   await f.run(async adapter=>{
    const result=await adapter.recoverHeld(actor,held);
    assert.equal(result.autoProcessing,'held');assert.equal(f.state.puts,1);
@@ -449,10 +483,10 @@ test('a foreign or unscoped equal-body witness does not deny recovery for this c
 
 test('a held recovery does not block a later ordinary equal-body source',async()=>{
  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
-  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'5'.repeat(64)};
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'5'.repeat(64),expectedConsentGeneration:1};
  await f.run(async adapter=>{
   await adapter.recoverHeld(actor,held);
-  const ordinary={...held,requestId:id(32),sourceKey:'6'.repeat(64),inboxReceivedAt:'2026-11-12T12:00:00.000Z'};
+  const {expectedConsentGeneration,...ordinary}={...held,requestId:id(32),sourceKey:'6'.repeat(64),inboxReceivedAt:'2026-11-12T12:00:00.000Z'};
   const result=await adapter.observe(actor,ordinary);
   assert.equal(result.status,'source_unresolved');assert.equal(f.state.puts,2);
  });
@@ -460,7 +494,7 @@ test('a held recovery does not block a later ordinary equal-body source',async()
 
 test('held recovery requires reveal authority, current consent and an inbox identity',async()=>{
  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
-  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'3'.repeat(64)};
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'3'.repeat(64),expectedConsentGeneration:1};
  await f.run(async adapter=>{
   await assert.rejects(adapter.recoverHeld(actor,{...held,inboxReceivedAt:null}),e=>e.status===400);
   f.state.revealGranted=false;await assert.rejects(adapter.recoverHeld(actor,held),e=>e.status===403);

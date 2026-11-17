@@ -14,10 +14,12 @@ const matched={groupId:'group-1',sourceKey:input.sourceKey,state:'matched',sourc
 test('held recovery wire requires a non-financial acknowledgement bound to the original request',async()=>{
  const request={requestId:actor,rawSender:'Example Money',rawBody:'Received 250 RWF. Reference: 1234.',
   sourceMode:'catch_up',complete:false,capturedAt:'2026-11-11T12:01:00.000Z',
-  serviceCentreAt:null,inboxReceivedAt:input.inboxReceivedAt,subscriptionId:null,sourceKey:input.sourceKey};
+  serviceCentreAt:null,inboxReceivedAt:input.inboxReceivedAt,subscriptionId:null,sourceKey:input.sourceKey,expectedConsentGeneration:1};
  const result={requestId:actor,sourceId:source,bodySha256:input.bodySha256,status:'source_unresolved',financialEffects:0,autoProcessing:'held'};
  assert.doesNotThrow(()=>validateNativeRequest('observationRecoverHeld',request));
  for(const bad of [{...request,inboxReceivedAt:null},{...request,sourceKey:undefined},
+  {...request,expectedConsentGeneration:undefined},{...request,expectedConsentGeneration:0},
+  {...request,expectedConsentGeneration:1.5},{...request,expectedConsentGeneration:9007199254740992},
   {...request,sourceMode:'live',complete:true},{...request,unapproved:true}])
   assert.throws(()=>validateNativeRequest('observationRecoverHeld',bad));
  assert.doesNotThrow(()=>bindNativeResponse({operation:'observationRecoverHeld'},binding,request,result));
@@ -40,16 +42,25 @@ test('held recovery route is unavailable unless the server explicitly enables it
  const handler=createNativeHandler({auth:{login:noop,authenticate:async()=>({id:actor,groupId:'group-1'}),logout:noop,changePasscode:noop,manageStaff:noop},
   records:{home:noop,page:noop,detail:noop,exportLedger:noop,commandStatus:noop},contributions:{allocate:noop},members:{enroll:noop,setActive:noop},gateway:{status:noop,replace:noop},
   observations:{recoverHeld:async()=>{invoked++;return {};}},origin:'https://example.invalid',groupId:'group-1',strictContract:true,networkBucket:noop});
- const response=await handler(new Request('https://example.invalid/v1/burimunsi/sms/observations/recover-held',{method:'POST',headers:{
+ const headers={
   'x-burimunsi-installation':install,'x-burimunsi-contract':'burimunsi.native.v1','x-burimunsi-request':actor,
-  'x-burimunsi-generation':'1',authorization:'Bearer '+'a'.repeat(64),'content-type':'application/json'},body:'{}'}));
- assert.equal(response.status,404);assert.equal(invoked,0);
+  'x-burimunsi-generation':'1',authorization:'Bearer '+'a'.repeat(64),'content-type':'application/json'};
+ const request={requestId:actor,rawSender:'Example Money',rawBody:'Received 250 RWF. Reference: 1234.',
+  sourceMode:'catch_up',complete:false,capturedAt:'2026-11-11T12:01:00.000Z',serviceCentreAt:null,
+  inboxReceivedAt:input.inboxReceivedAt,subscriptionId:null,sourceKey:input.sourceKey,expectedConsentGeneration:1};
+ const {expectedConsentGeneration,...oldClient}=request;
+ for(const body of [{},oldClient,request]){
+  const response=await handler(new Request('https://example.invalid/v1/burimunsi/sms/observations/recover-held',{
+   method:'POST',headers,body:JSON.stringify(body)}));
+  assert.equal(response.status,404);
+ }
+ assert.equal(invoked,0);
 });
 
 test('held acknowledgement wire is request-bound, read-only and disabled by default',async()=>{
  const request={requestId:actor,rawSender:'Example Money',rawBody:'Received 250 RWF. Reference: 1234.',
   sourceMode:'catch_up',complete:false,capturedAt:'2026-11-11T12:01:00.000Z',
-  serviceCentreAt:null,inboxReceivedAt:input.inboxReceivedAt,subscriptionId:null,sourceKey:input.sourceKey};
+  serviceCentreAt:null,inboxReceivedAt:input.inboxReceivedAt,subscriptionId:null,sourceKey:input.sourceKey,expectedConsentGeneration:1};
  const data={requestId:actor,sourceKey:request.sourceKey,bodySha256:await sha256(request.rawBody),
   state:'acknowledged',sourceId:source,autoProcessing:'held',financialEffects:0,retryAllowed:false};
  const pending={...data,state:'unconfirmed',sourceId:null,autoProcessing:'unknown'};
@@ -74,6 +85,9 @@ test('held acknowledgement wire is request-bound, read-only and disabled by defa
  const enabled=createNativeHandler({...options,heldRecoveryEnabled:true});
  const ok=await enabled(req());assert.equal(ok.status,200);assert.deepEqual((await ok.json()).data,data);assert.equal(calls,1);
  assert.equal(JSON.stringify(received),JSON.stringify(request));
+ const {expectedConsentGeneration,...oldClient}=request;
+ const legacy=await enabled(new Request(url,{method:'POST',headers,body:JSON.stringify(oldClient)}));
+ assert.equal(legacy.status,400);assert.equal(calls,1);
  const wrongHash=createNativeHandler({...options,heldRecoveryEnabled:true,
   observations:{recoverHeldAck:async()=>({...data,bodySha256:'0'.repeat(64)})}});
  assert.equal((await wrongHash(req())).status,503);

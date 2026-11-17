@@ -125,12 +125,12 @@ export function createNativeHandler({auth,records,contributions,members,gateway,
       if(route==='/sms/observations/recover-held'&&method==='POST'){
         requireThat(heldRecoveryEnabled===true,'not_found',404);
         requirePort(observations,['recoverHeld']);return json(await observations.recoverHeld(actor,await body(req,
-          ['requestId','rawSender','rawBody','sourceMode','complete','capturedAt','serviceCentreAt','inboxReceivedAt','subscriptionId','sourceKey'])));
+          ['requestId','rawSender','rawBody','sourceMode','complete','capturedAt','serviceCentreAt','inboxReceivedAt','subscriptionId','sourceKey','expectedConsentGeneration'])));
       }
       if(route==='/sms/observations/recover-held-ack'&&method==='POST'){
         requireThat(heldRecoveryEnabled===true,'not_found',404);
         requirePort(observations,['recoverHeldAck']);const input=await body(req,
-          ['requestId','rawSender','rawBody','sourceMode','complete','capturedAt','serviceCentreAt','inboxReceivedAt','subscriptionId','sourceKey']);
+          ['requestId','rawSender','rawBody','sourceMode','complete','capturedAt','serviceCentreAt','inboxReceivedAt','subscriptionId','sourceKey','expectedConsentGeneration']);
         const result=await observations.recoverHeldAck(actor,input);
         requireThat(result?.bodySha256===await sha256(input.rawBody),'contract_invalid_response',503);
         return json(result);

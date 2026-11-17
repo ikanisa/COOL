@@ -19,6 +19,8 @@ const CONTROL=/[\u0000-\u001f\u007f\u202a-\u202e\u2066-\u2069]/;
 const BODY_CONTROL=/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\u202a-\u202e\u2066-\u2069]/;
 const REQUIRED_KEYS=['requestId','rawSender','rawBody','sourceMode','complete','capturedAt','serviceCentreAt','inboxReceivedAt','subscriptionId'];
 const KEYS=[...REQUIRED_KEYS,'sourceKey'];
+const RECOVERY_KEYS=[...KEYS,'expectedConsentGeneration'];
+const RECOVERY_REQUIRED=[...REQUIRED_KEYS,'sourceKey','expectedConsentGeneration'];
 const RECONCILE_KEYS=['sourceKey','bodySha256','rawSender','serviceCentreAt','inboxReceivedAt','subscriptionId'];
 // Metadata-only check of one deterministic key. The ciphertext itself is never
 // returned; PostgreSQL computes its digest solely to validate the reservation.
@@ -53,8 +55,9 @@ function mapped(error){
  if(error?.code==='54000')return new BuriError('observation_limit',429);
  return new BuriError('observation_unavailable',503);
 }
-function validateInput(value){
- exactKeys(value,KEYS,REQUIRED_KEYS);const v=copy(value);v.requestId=requireRequestId(v.requestId);
+function validateInput(value,{recovery=false}={}){
+ exactKeys(value,recovery?RECOVERY_KEYS:KEYS,recovery?RECOVERY_REQUIRED:REQUIRED_KEYS);const v=copy(value);v.requestId=requireRequestId(v.requestId);
+ if(recovery)check(Number.isSafeInteger(v.expectedConsentGeneration)&&v.expectedConsentGeneration>=1,'invalid_request',400);
  check(text(v.rawSender,1,96)&&v.rawSender.trim().length>0&&!CONTROL.test(v.rawSender),'invalid_request',400);
  check(text(v.rawBody,1,3000)&&ENCODER.encode(v.rawBody).length<=3000&&!BODY_CONTROL.test(v.rawBody),'invalid_request',400);
  check(iso(v.capturedAt)&&(v.serviceCentreAt===null||iso(v.serviceCentreAt))&&
@@ -101,7 +104,8 @@ async function observationRequestFingerprint(groupId,actor,value,bodySha){
  return sha256(canonicalJson({groupId,accountId:actor.id,installationId:actor.installationId,
   requestId:value.requestId,bodySha256:bodySha,rawSender:value.rawSender,sourceMode:value.sourceMode,complete:value.complete,
   capturedAt:value.capturedAt,serviceCentreAt:value.serviceCentreAt,inboxReceivedAt:value.inboxReceivedAt,subscriptionId:value.subscriptionId,
-  ...(value.sourceKey?{sourceKey:value.sourceKey}:{})}));
+  ...(value.sourceKey?{sourceKey:value.sourceKey}:{}),
+  ...(value.expectedConsentGeneration!==undefined?{expectedConsentGeneration:value.expectedConsentGeneration}:{})}));
 }
 function validateReconcileInput(input){
  exactKeys(input,RECONCILE_KEYS);const value=copy(input);
@@ -404,8 +408,11 @@ export class PostgresNativeObservations {
  async prepare(actor,value,fingerprint,id,initial,contentSha,bodySha,recovery=false){
   return this.authority.write(async tx=>{
    await this.current(tx,actor);
-   const result=value.sourceKey?await tx.unsafe('SELECT private.burimunsi_observation_key_prepare($1,$2,$3,$4::uuid,$5,$6,$7,$8,$9::bigint) AS result',
-    [value.sourceKey,contentSha,bodySha,value.requestId,fingerprint,id,initial.profile.version,initial.ctx.profile_sha256,initial.ctx.consentGeneration]):
+   const result=value.sourceKey?await tx.unsafe(recovery?
+    'SELECT private.burimunsi_sms_recovery_prepare($1,$2,$3,$4::uuid,$5,$6,$7,$8,$9::bigint) AS result':
+    'SELECT private.burimunsi_observation_key_prepare($1,$2,$3,$4::uuid,$5,$6,$7,$8,$9::bigint) AS result',
+    [value.sourceKey,contentSha,bodySha,value.requestId,fingerprint,id,initial.profile.version,initial.ctx.profile_sha256,
+     recovery?value.expectedConsentGeneration:initial.ctx.consentGeneration]):
     await tx.unsafe('SELECT private.burimunsi_observation_legacy_retry_prepare($1::uuid,$2,$3,$4,$5,$6::bigint) AS result',
      [value.requestId,fingerprint,id,initial.profile.version,initial.ctx.profile_sha256,initial.ctx.consentGeneration]);
    check(result.length===1&&result[0].result);const selected=result[0].result;
@@ -604,6 +611,7 @@ export class PostgresNativeObservations {
  async recoverHeld(actor,input){return this.observe(actor,input,{recovery:true});}
  async recoveryAckProof(tx,actor,value,fingerprint,id,contentSha,bodySha){
   const {ctx}=await this.context(tx,actor);
+  check(ctx.consentGeneration===value.expectedConsentGeneration,'observation_changed',409);
   const rows=await tx.unsafe('SELECT private.burimunsi_sms_recovery_ack_snapshot($1,$2::uuid,$3,$4,$5,$6,$7::timestamptz) AS result',
    [id,value.requestId,fingerprint,value.sourceKey,contentSha,bodySha,value.inboxReceivedAt]);
   check(rows.length===1);const proof=rows[0].result;
@@ -633,7 +641,7 @@ export class PostgresNativeObservations {
  }
  // Acknowledgement only: no prepare, reservation, PUT, commit or financial work.
  async recoverHeldAck(actor,input){
-  const value=validateInput(input),bodySha=await sha256(value.rawBody);
+  const value=validateInput(input,{recovery:true}),bodySha=await sha256(value.rawBody);
   check(value.sourceMode==='catch_up'&&value.complete===false&&HASH.test(value.sourceKey??'')&&value.inboxReceivedAt!==null,'invalid_request',400);
   const fingerprint=await observationRequestFingerprint(this.groupId,actor,value,bodySha),
    contentSha=await observationContentFingerprint(value,bodySha),id=await storageEntity('burimunsi.native.observation.v1',actor.principalUserId,value.requestId),
@@ -664,7 +672,7 @@ export class PostgresNativeObservations {
   });
  }
  async observe(actor,input,{recovery=false}={}){
-  const value=validateInput(input),bodySha=await sha256(value.rawBody),payload=payloadFor(value),
+  const value=validateInput(input,{recovery}),bodySha=await sha256(value.rawBody),payload=payloadFor(value),
    contentSha=value.sourceKey?await observationContentFingerprint(value,bodySha):null;
   if(recovery)check(value.sourceMode==='catch_up'&&value.complete===false&&HASH.test(value.sourceKey??'')&&
    value.inboxReceivedAt!==null,'invalid_request',400);
