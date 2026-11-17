@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {registerHooks} from 'node:module';
 import {canonicalProfile,MANAGED_SUPABASE_ORIGIN} from '../../supabase/functions/_shared/deployment-profile.js';
-import {admitNativeIngress,verifyNativeIngress,claimNativeIngress,MANAGED_PROOF,MANAGED_WORKER_GUARD,NATIVE_INGRESS_HEADER} from '../../supabase/functions/_shared/native-ingress.js';
+import {verifyNativeIngress,claimNativeIngress,MANAGED_PROOF,MANAGED_WORKER_GUARD,NATIVE_INGRESS_HEADER} from '../../supabase/functions/_shared/native-ingress.js';
 import {profile as nativeProfile,defs} from '../../supabase/functions/_shared/domain/burimunsi/wire/burimunsi.generated.mjs';
 import {validateSchema} from '../../supabase/functions/_shared/domain/burimunsi/wire/runtime.mjs';
 import {canonicalManagedClientAddress,createManagedNativeFrontdoor,managedNativeFrontdoorUnavailable} from './worker.js';
@@ -63,12 +63,12 @@ test('managed frontdoor signs the exact request and only the protected backend r
 });
 test('a direct managed backend request or an altered signed request cannot manufacture a network witness',async()=>{
  const env=environment();
- await assert.rejects(admitNativeIngress(new Request(profile.supabase_origin+'/v1/burimunsi/session/login',{
+ await assert.rejects(verifyNativeIngress(new Request(profile.supabase_origin+'/v1/burimunsi/session/login',{
   method:'POST',headers:{'content-type':'application/json','cf-connecting-ip':'192.0.2.1'},body:'{}'}),env,{clock:()=>now}),
   error=>error.code==='native_ingress_denied');
  const frontdoor=await createManagedNativeFrontdoor(env,{clock:()=>now,fetchImpl:async upstream=>{
   const url=new URL(upstream.url);url.pathname='/v1/burimunsi/session/login';url.search='?foo=2';
-  await assert.rejects(admitNativeIngress(new Request(url,{method:'POST',headers:upstream.headers,body:'{}'}),env,{clock:()=>now}),
+  await assert.rejects(verifyNativeIngress(new Request(url,{method:'POST',headers:upstream.headers,body:'{}'}),env,{clock:()=>now}),
    error=>error.code==='native_ingress_denied');
   return Response.json({ok:true,data:{}});
  }});
@@ -79,8 +79,9 @@ test('the existing managed handler remains closed until it can claim a durable n
  const frontdoor=await createManagedNativeFrontdoor(env,{clock:()=>now,fetchImpl:async upstream=>{
   dispatches++;const url=new URL(upstream.url);url.pathname=url.pathname.slice('/functions/v1/collect-api'.length);
   const logical=new Request(url,{method:upstream.method,headers:upstream.headers,body:await upstream.arrayBuffer()});
-  await assert.rejects(admitNativeIngress(logical,env,{clock:()=>now}),
-   e=>e.code==='native_ingress_replay_unconfigured'&&e.status===503);
+  const token=await verifyNativeIngress(logical,env,{clock:()=>now});
+  await assert.rejects(claimNativeIngress(token,undefined),
+   e=>e.code==='native_ingress_unconfigured'&&e.status===503);
   return Response.json({code:'backend_unavailable'},{status:503});
  }});
  assert.equal((await frontdoor(request())).status,503);assert.equal(dispatches,1);
@@ -94,7 +95,7 @@ test('the real managed handler stops a signed request at ingress before database
  try{
   const {createHandler}=await import('../../supabase/functions/_shared/serve.js'),env=environment();let stage,work=0;
   const handler=createHandler('collect-api',()=>env,{reportHealth:value=>{stage=value.runtimeFailure?.stage;},
-   admitNativeIngress:(input,config)=>admitNativeIngress(input,config,{clock:()=>now}),openWork:()=>{work++;throw Error('unexpected fence');}});
+   verifyNativeIngress:(input,config)=>verifyNativeIngress(input,config,{clock:()=>now}),openWork:()=>{work++;throw Error('unexpected fence');}});
   const frontdoor=await createManagedNativeFrontdoor(env,{clock:()=>now,fetchImpl:input=>handler(input)});
   assert.equal((await frontdoor(request())).status,503);assert.equal(stage,'native_ingress');assert.equal(work,0);
   stage=undefined;
