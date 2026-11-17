@@ -11,6 +11,7 @@ import {renderManagedScheduler} from './managed-jobs-scheduler.mjs';
 import {sameDeployedFunctions,keyEvidenceForSource} from './managed-jobs-key-operator.mjs';
 import {renderNativeProviderBudget} from './native-provider-budget-render.mjs';
 import {renderNativeProviderPolicy} from './native-provider-policy-render.mjs';
+import {HELD_V2_MIGRATION_SHA,HELD_V2_READY_SHA,HELD_V2_READY_IDENTITY_SQL} from '../../../supabase/functions/_shared/domain/burimunsi/held-recovery-v2.js';
 
 const HASH=/^[a-f0-9]{64}$/,MODEL=/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/;
 const GUARDS={
@@ -184,10 +185,24 @@ async function inspect(db){
  const heldHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[heldFile.slice(0,14)])).rows[0];
  const resumeFile='20261117220000_burimunsi_held_resume_guard.sql';
  const resumeHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[resumeFile.slice(0,14)])).rows[0];
+ const v2File='20261117220639_burimunsi_held_consent_v2.sql';
+ const v2History=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[v2File.slice(0,14)])).rows[0];
  const indexFile='20261117205959_burimunsi_sms_source_index.sql';
  const indexHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[indexFile.slice(0,14)])).rows[0];
  if(heldHistory&&!indexHistory)throw Error('scheduler_or_history_guard_changed');
  if(heldHistory&&!resumeHistory||resumeHistory&&!heldHistory)throw Error('scheduler_or_history_guard_changed');
+ if(v2History){
+  if(!heldHistory||!resumeHistory||!indexHistory||v2History.digest!==HELD_V2_MIGRATION_SHA||
+   sha(readFileSync(new URL('../../../supabase/migrations/'+v2File,import.meta.url)))!==HELD_V2_MIGRATION_SHA||
+   (await db.query(HELD_V2_READY_IDENTITY_SQL,[HELD_V2_READY_SHA])).rows[0]?.ok!==true)throw Error('scheduler_or_history_guard_changed');
+  const wrapper=(await db.query(`SELECT coalesce(p.proowner='postgres'::regrole AND p.prosecdef AND p.provolatile='v'
+   AND l.lanname='plpgsql' AND p.proconfig=ARRAY['search_path=pg_catalog, pg_temp']::text[]
+   AND p.proacl::text='{postgres=X/postgres,collect_runtime=X/postgres}'
+   AND encode(sha256(convert_to(p.prosrc,'UTF8')),'hex')='96216aa4f5d3107aa08678ead3bf49b1cdc9e60dda2321475176b85f06fe3ce0',false) AS ok
+   FROM pg_proc p JOIN pg_language l ON l.oid=p.prolang
+   WHERE p.oid=to_regprocedure('private.burimunsi_sms_recovery_prepare(text,text,text,uuid,text,text,text,text,bigint,text,text)')`)).rows[0];
+  if(wrapper?.ok!==true)throw Error('scheduler_or_history_guard_changed');
+ }
  if(indexHistory){
   if(indexHistory.digest!==HELD_SOURCE_INDEX_SQL_SHA||sha(readFileSync(new URL('../../../supabase/migrations/'+indexFile,import.meta.url)))!==HELD_SOURCE_INDEX_SQL_SHA||
    (await db.query(HELD_SOURCE_INDEX_CATALOG_SQL)).rows[0]?.ok!==true)throw Error('scheduler_or_history_guard_changed');

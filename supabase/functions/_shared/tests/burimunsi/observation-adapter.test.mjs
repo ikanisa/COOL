@@ -9,6 +9,7 @@ import {ObservationUploadUnresolved} from '../../domain/burimunsi/errors.js';
 import {validateProviderProfile} from '../../domain/momo_pipeline.js';
 import {decrypt} from '../../domain/encryption.js';
 import {canonicalJson,sha256} from '../../domain/burimunsi/values.js';
+import {HELD_V2_PROTOCOL,HELD_V2_MIGRATION_SHA,HELD_V2_READY_IDENTITY_SQL} from '../../domain/burimunsi/held-recovery-v2.js';
 
 const id=n=>`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`;
 const now=Date.now(),group='synthetic-group',principal='synthetic-principal',installation=id(1),account=id(2),session=id(3);
@@ -17,6 +18,7 @@ const pinRow={collection_id:group,principal_user_id:principal,native_session_id:
  profile:'internal_receiver',role:'admin',capabilities:['records.read','sms.read','gateway.manage'],created_at:now-1000,expires_at:now+1800000};
 const actor={id:account,sessionId:session,principalUserId:principal,installationId:installation,groupId:group,
  role:'admin',capabilities:pinRow.capabilities,installationProfile:'internal_receiver',active:true,revoked:false,expiresAt:pinRow.expires_at};
+const v2Release={sourceSha256:'a'.repeat(64),migrationSha256:HELD_V2_MIGRATION_SHA};
 const incoming={requestId:id(5),rawSender:'Example Money',rawBody:'Received 250 RWF. Reference: 1234.',
  sourceMode:'live',complete:true,capturedAt:'2026-11-11T12:00:00.000Z',serviceCentreAt:null,inboxReceivedAt:null,subscriptionId:null};
 const profileJson=JSON.stringify({sender_allowlist:['Example Money'],incoming_prefixes:['Received'],currency_aliases:['RWF'],
@@ -34,6 +36,15 @@ function fixture(){
  const sql={unsafe:async(query,args=[])=>{
   if(query===PIN_CONTEXT_SQL)return [pinRow];
   if(query.startsWith('SET TRANSACTION'))return [];
+  if(query===HELD_V2_READY_IDENTITY_SQL)return state.v2MissingGuard?[]:[{ok:state.v2GuardDrift!==true}];
+  if(query.includes('burimunsi_held_v2_ready')){
+   allowed();if(!state.revealGranted)throw sqlError('42501');
+   if(state.v2MigrationDrift||state.v2SourceDrift||state.v2CatalogDrift)throw sqlError('55000');
+   const [source,generation,migration]=args;
+   if(generation!==state.generation)throw sqlError('40001');
+   if(source!=='a'.repeat(64)||migration!==HELD_V2_MIGRATION_SHA)throw sqlError('55000');
+   return [{result:{groupId:group,sourceSha256:source,migrationSha256:migration,consentGeneration:generation}}];
+  }
   if(query.includes('observation_consent_current'))return [{result:{enabled:state.enabled,generation:state.generation}}];
   if(query.includes('observation_set_consent')){
    const [enabled,generation]=args;if(generation<state.generation||generation===state.generation&&enabled!==state.enabled)throw sqlError('40001');
@@ -58,6 +69,8 @@ function fixture(){
   }
   if(query.includes('observation_key_prepare')||query.includes('sms_recovery_prepare')){
    if(query.includes('sms_recovery_prepare')){if(state.onRecoveryPrepare)await state.onRecoveryPrepare();if(!state.revealGranted)throw sqlError('42501');}
+   if(query.includes('sms_recovery_prepare')&&args.length===11&&
+    (args[9]!=='a'.repeat(64)||args[10]!==HELD_V2_MIGRATION_SHA||state.v2MigrationDrift||state.v2SourceDrift||state.v2CatalogDrift))throw sqlError('55000');
    allowed();const [key,content,body,requestId,fingerprint,sourceId,profileVersion,profileHash,generation]=args;
    if(generation!==state.generation||profileVersion!=='synthetic-v1'||profileHash!=='b'.repeat(64))throw sqlError('40001');
    const prior=state.sourceKeys.get(key);
@@ -214,7 +227,7 @@ function fixture(){
    if(bytes.length!==proof.size||await sha256(value.sealed)!==proof.sha256)throw new Error('synthetic proof mismatch');
    return bytes;
   }};
- env={DB:db,PRIVATE_MEDIA:media,DATA_KEY_ID:'synthetic-key',DATA_ENCRYPTION_KEY:Buffer.alloc(32,7).toString('base64')};
+ env={DB:db,PRIVATE_MEDIA:media,BUILD_SOURCE_ID:'a'.repeat(64),DATA_KEY_ID:'synthetic-key',DATA_ENCRYPTION_KEY:Buffer.alloc(32,7).toString('base64')};
  const authority={db,groupId:group,read:fn=>{state.readTransactions=(state.readTransactions??0)+1;return fn(sql);},write:async fn=>{
    state.writeTransactions=(state.writeTransactions??0)+1;
    const result=await fn(sql);if(state.lostAudit&&state.audits.length){state.lostAudit=false;throw sqlError('08006');}return result;
@@ -285,6 +298,58 @@ test('held recovery retains one encrypted source and retries the same request wi
   assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);assert.equal(f.state.recoveryHolds.size,1);
   assert.equal([...f.state.media.values()][0].sealed.includes(held.rawBody),false);
   await assert.rejects(adapter.recoverHeld(actor,{...held,rawBody:'Received 251 RWF. Reference: 1234.'}),e=>e.status===409);
+ });
+});
+
+test('v2 capability and admission fail closed for source, migration or guard drift',async()=>{
+ const held={...incoming,sourceMode:'catch_up',complete:false,inboxReceivedAt:'2026-11-11T12:00:00.000Z',
+  sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
+ for(const change of ['v2MissingGuard','v2GuardDrift','v2MigrationDrift','v2SourceDrift','v2CatalogDrift']){
+  const f=fixture();f.state[change]=true;
+  await f.run(async adapter=>{
+   await assert.rejects(()=>adapter.recoveryV2Capability(actor,1,v2Release),e=>e.status===503);
+   await assert.rejects(()=>adapter.recoverHeldV2(actor,held,v2Release),e=>e.status===503);
+   assert.equal(f.state.requests.size,0);assert.equal(f.state.puts,0);
+  });
+ }
+});
+
+test('v2 rechecks original consent when it changes after capability or before admission',async()=>{
+ for(const when of ['after-capability','inside-admission']){
+  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,inboxReceivedAt:'2026-11-11T12:00:00.000Z',
+   sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
+  await f.run(async adapter=>{
+   const cap=await adapter.recoveryV2Capability(actor,1,v2Release);assert.equal(cap.protocol,HELD_V2_PROTOCOL);
+   if(when==='after-capability')f.state.generation=3;
+   else f.state.onRecoveryPrepare=async()=>{f.state.generation=3;};
+   await assert.rejects(()=>adapter.recoverHeldV2(actor,held,v2Release),e=>e.status===409);
+   assert.equal(f.state.requests.size,0);assert.equal(f.state.puts,0);assert.equal(f.state.commits,0);
+  });
+ }
+});
+
+test('v2 rejects the old pinned source after a capability-to-admission deployment change',async()=>{
+ for(const when of ['different-runtime','inside-admission']){
+  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,inboxReceivedAt:'2026-11-11T12:00:00.000Z',
+   sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
+  await f.run(async adapter=>{
+   assert.equal((await adapter.recoveryV2Capability(actor,1,v2Release)).sourceSha256,v2Release.sourceSha256);
+   if(when==='different-runtime')f.env.BUILD_SOURCE_ID='b'.repeat(64);
+   else f.state.onRecoveryPrepare=async()=>{f.state.v2SourceDrift=true;};
+   await assert.rejects(()=>adapter.recoverHeldV2(actor,held,v2Release),e=>[403,503].includes(e.status));
+   assert.equal(f.state.requests.size,0);assert.equal(f.state.puts,0);
+  });
+ }
+});
+
+test('v2 retains the source-bound generation across exact held admission and ACK',async()=>{
+ const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,inboxReceivedAt:'2026-11-11T12:00:00.000Z',
+  sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
+ await f.run(async adapter=>{
+  const cap=await adapter.recoveryV2Capability(actor,1,v2Release);assert.equal(cap.groupId,group);assert.equal(cap.sourceSha256,'a'.repeat(64));
+  const saved=await adapter.recoverHeldV2(actor,held,v2Release);assert.equal(saved.protocol,HELD_V2_PROTOCOL);assert.equal(saved.expectedConsentGeneration,1);
+  const ack=await adapter.recoverHeldV2Ack(actor,held,v2Release);assert.equal(ack.protocol,HELD_V2_PROTOCOL);assert.equal(ack.state,'acknowledged');
+  assert.equal(ack.expectedConsentGeneration,1);assert.equal(ack.retryAllowed,false);assert.equal(f.state.puts,1);
  });
 });
 

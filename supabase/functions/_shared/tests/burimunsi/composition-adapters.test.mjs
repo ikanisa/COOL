@@ -28,7 +28,7 @@ test('held recovery activates only for its configured collection with complete p
  assert.equal(typeof composeNativeRequest(o),'function');
  o.config.heldRecovery={sourceSha256:'a'.repeat(64),groupId:'g'};
  assert.throws(()=>composeNativeRequest(o),/collect_adapter_required/);
- o.ports.observations={recoverHeld:noop,recoverHeldAck:noop,reconcileVerifiedStatus:noop};
+ o.ports.observations={recoveryV2Capability:noop,recoverHeldV2:noop,recoverHeldV2Ack:noop,reconcileVerifiedStatus:noop};
  assert.equal(typeof composeNativeRequest(o),'function');
  o.config.heldRecovery={sourceSha256:'bad',groupId:'g'};
  assert.throws(()=>composeNativeRequest(o),/held_recovery_configuration_invalid/);

@@ -9,6 +9,7 @@ import {digest} from '../core.js';
 import {observationDisplayHints} from './observation-display-hints.js';
 import {storageEntity,verifyRetainedObject} from '../../storage-identity.js';
 import {normalizeListingQuery,selectListing,listingFilterIdentity,listingText} from './listing-query.js';
+import {HELD_V2_PROTOCOL,HELD_V2_MIGRATION_SHA,HELD_V2_READY_SHA,HELD_V2_READY_IDENTITY_SQL} from './held-recovery-v2.js';
 
 const ENCODER=new TextEncoder();
 const DECODER=new TextDecoder('utf-8',{fatal:true});
@@ -405,14 +406,44 @@ export class PostgresNativeObservations {
   await this.current(tx,actor);const r=await tx.unsafe('SELECT private.burimunsi_observation_lookup($1::uuid,$2) AS result',[requestId,fingerprint]);
   check(r.length===1);return r[0].result===null?null:row(r[0].result);
  }
- async prepare(actor,value,fingerprint,id,initial,contentSha,bodySha,recovery=false){
+ async heldV2Code(tx,release){
+  const source=this.env?.BUILD_SOURCE_ID;check(HASH.test(source??''),'observation_unavailable',503);
+  check(release&&typeof release==='object'&&same(release,{sourceSha256:source,migrationSha256:HELD_V2_MIGRATION_SHA}),'access_denied',403);
+  const rows=await tx.unsafe(HELD_V2_READY_IDENTITY_SQL,[HELD_V2_READY_SHA]);
+  check(rows.length===1&&rows[0].ok===true,'observation_unavailable',503);return source;
+ }
+ async heldV2Ready(tx,actor,generation,release){
+  await this.current(tx,actor);check(Number.isSafeInteger(generation)&&generation>=1,'invalid_request',400);
+  const source=await this.heldV2Code(tx,release);
+  const rows=await tx.unsafe('SELECT private.burimunsi_held_v2_ready($1,$2::bigint,$3) AS result',
+   [source,generation,HELD_V2_MIGRATION_SHA]);
+  const expected={groupId:this.groupId,sourceSha256:source,migrationSha256:HELD_V2_MIGRATION_SHA,consentGeneration:generation};
+  check(rows.length===1&&same(rows[0].result,expected),'observation_unavailable',503);return expected;
+ }
+ async recoveryV2Capability(actor,generation,release){
+  try{return {protocol:HELD_V2_PROTOCOL,...await this.authority.write(tx=>this.heldV2Ready(tx,actor,generation,release))};}
+  catch(error){throw mapped(error);}
+ }
+ async recoverHeldV2(actor,input,release){
+  await this.recoveryV2Capability(actor,input?.expectedConsentGeneration,release);
+  const result=await this.observe(actor,input,{recovery:true,v2:release});
+  return {...result,protocol:HELD_V2_PROTOCOL,expectedConsentGeneration:input.expectedConsentGeneration};
+ }
+ async recoverHeldV2Ack(actor,input,release){
+  await this.recoveryV2Capability(actor,input?.expectedConsentGeneration,release);
+  const result=await this.recoverHeldAck(actor,input);
+  return {...result,protocol:HELD_V2_PROTOCOL,expectedConsentGeneration:input.expectedConsentGeneration};
+ }
+ async prepare(actor,value,fingerprint,id,initial,contentSha,bodySha,recovery=false,v2=null){
   return this.authority.write(async tx=>{
    await this.current(tx,actor);
+   const v2source=v2?await this.heldV2Code(tx,v2):null;
    const result=value.sourceKey?await tx.unsafe(recovery?
-    'SELECT private.burimunsi_sms_recovery_prepare($1,$2,$3,$4::uuid,$5,$6,$7,$8,$9::bigint) AS result':
+    (v2?'SELECT private.burimunsi_sms_recovery_prepare($1,$2,$3,$4::uuid,$5,$6,$7,$8,$9::bigint,$10,$11) AS result':
+     'SELECT private.burimunsi_sms_recovery_prepare($1,$2,$3,$4::uuid,$5,$6,$7,$8,$9::bigint) AS result'):
     'SELECT private.burimunsi_observation_key_prepare($1,$2,$3,$4::uuid,$5,$6,$7,$8,$9::bigint) AS result',
     [value.sourceKey,contentSha,bodySha,value.requestId,fingerprint,id,initial.profile.version,initial.ctx.profile_sha256,
-     recovery?value.expectedConsentGeneration:initial.ctx.consentGeneration]):
+     recovery?value.expectedConsentGeneration:initial.ctx.consentGeneration,...(v2?[v2source,HELD_V2_MIGRATION_SHA]:[])]):
     await tx.unsafe('SELECT private.burimunsi_observation_legacy_retry_prepare($1::uuid,$2,$3,$4,$5,$6::bigint) AS result',
      [value.requestId,fingerprint,id,initial.profile.version,initial.ctx.profile_sha256,initial.ctx.consentGeneration]);
    check(result.length===1&&result[0].result);const selected=result[0].result;
@@ -671,7 +702,7 @@ export class PostgresNativeObservations {
    check(rows.length===1&&rows[0].result===true,'observation_changed',409);return true;
   });
  }
- async observe(actor,input,{recovery=false}={}){
+ async observe(actor,input,{recovery=false,v2=null}={}){
   const value=validateInput(input,{recovery}),bodySha=await sha256(value.rawBody),payload=payloadFor(value),
    contentSha=value.sourceKey?await observationContentFingerprint(value,bodySha):null;
   if(recovery)check(value.sourceMode==='catch_up'&&value.complete===false&&HASH.test(value.sourceKey??'')&&
@@ -692,7 +723,7 @@ export class PostgresNativeObservations {
    const id=await storageEntity('burimunsi.native.observation.v1',actor.principalUserId,value.requestId);
    // The admission is durable before any object reservation or provider call.
    // A retry reuses the same intent; uncertainty never consumes another slot.
-   const prepared=await this.prepare(actor,value,fingerprint,id,initial,contentSha,bodySha,recovery);
+   const prepared=await this.prepare(actor,value,fingerprint,id,initial,contentSha,bodySha,recovery,v2);
    if(prepared.kind==='duplicate'){
     // A different original source must be reconciled, not converted into a
     // held recovery or acknowledged under a new request.

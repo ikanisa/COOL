@@ -3,20 +3,30 @@ import {ContractViolation,CONTRACT_VERSION,parseWire,contractRoute,requestBindin
 import {BuriError,ObservationUploadUnresolved,requirePort,requireThat} from './errors.js';
 import {exactKeys,requireId,requireRequestId,sha256} from './values.js';
 import {LISTING_QUERY_KEYS} from './listing-query.js';
+import {HELD_V2_PROTOCOL,HELD_V2_MIGRATION_SHA} from './held-recovery-v2.js';
 /** Candidate native API adapter; attach only to an admitted Collect Edge request.
  * Do not replace the current router or bypass its application fence.
  * Origin/networkBucket are server-owned deployment inputs, not forwarded client claims.
  */
-export function createNativeHandler({auth,records,contributions,members,gateway,observations=null,cursor=null,origin,networkBucket,strictContract=false,groupId,requestReadTimeoutMs=15000,heldRecoveryEnabled=false}) {
+export function createNativeHandler({auth,records,contributions,members,gateway,observations=null,cursor=null,origin,networkBucket,strictContract=false,groupId,requestReadTimeoutMs=15000,heldRecoveryEnabled=false,heldRecoveryV2Enabled=false,heldRecoveryV2SourceSha256=null}) {
   requirePort(auth,['login','authenticate','logout','changePasscode','manageStaff']);
   requirePort(records,['home','page','detail','exportLedger','commandStatus']);
   requirePort(contributions,['allocate']);requirePort(members,['enroll','setActive']);
   requirePort(gateway,['status','replace']);
   requireThat(typeof heldRecoveryEnabled==='boolean','held_recovery_configuration_invalid',503);
+  requireThat(typeof heldRecoveryV2Enabled==='boolean'&&(!heldRecoveryV2Enabled||strictContract===true&&
+    typeof heldRecoveryV2SourceSha256==='string'&&/^[a-f0-9]{64}$/.test(heldRecoveryV2SourceSha256)),
+    'held_recovery_configuration_invalid',503);
   requireThat(typeof networkBucket==='function','trusted_network_resolver_required',503);
   const configured=new URL(origin);requireThat(configured.protocol==='https:'&&configured.origin===origin,'tls_origin_required',503);
   if(strictContract)requireId(groupId);
   const headers={...(strictContract?{'X-BuriMunsi-Contract':CONTRACT_VERSION}:{}),'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','Pragma':'no-cache','X-Content-Type-Options':'nosniff'};
+  function heldV2Release(req){
+    const sourceSha256=req.headers.get('x-burimunsi-held-source-sha256');
+    const migrationSha256=req.headers.get('x-burimunsi-held-migration-sha256');
+    requireThat(sourceSha256===heldRecoveryV2SourceSha256&&migrationSha256===HELD_V2_MIGRATION_SHA,'access_denied',403);
+    return Object.freeze({sourceSha256,migrationSha256});
+  }
   async function readBody(req,allowed,required=allowed,maxBytes=MAX_NATIVE_REQUEST_BYTES) {
     requireThat((req.headers.get('content-type')??'').split(';')[0].trim()==='application/json','json_required',415);
     const all=await readNativeBody(req,{timeoutMs:requestReadTimeoutMs,maxBytes});
@@ -135,6 +145,31 @@ export function createNativeHandler({auth,records,contributions,members,gateway,
         requireThat(result?.bodySha256===await sha256(input.rawBody),'contract_invalid_response',503);
         return json(result);
       }
+      if(route==='/sms/observations/recovery-v2/capability'&&method==='GET'){
+        requireThat(heldRecoveryV2Enabled===true,'not_found',404);
+        const release=heldV2Release(req);
+        const generation=Number(wireQuery?.expectedConsentGeneration);
+        requireThat(Number.isSafeInteger(generation)&&generation>=1,'invalid_request',400);
+        requirePort(observations,['recoveryV2Capability']);const result=await observations.recoveryV2Capability(actor,generation,release);
+        requireThat(result?.protocol===HELD_V2_PROTOCOL&&result.groupId===groupId&&result.sourceSha256===heldRecoveryV2SourceSha256&&
+          result.migrationSha256===HELD_V2_MIGRATION_SHA&&result.consentGeneration===generation,'contract_invalid_response',503);
+        return json(result);
+      }
+      if(route==='/sms/observations/recovery-v2/hold'&&method==='POST'){
+        requireThat(heldRecoveryV2Enabled===true,'not_found',404);requirePort(observations,['recoverHeldV2']);
+        const release=heldV2Release(req);
+        const input=await body(req,['requestId','rawSender','rawBody','sourceMode','complete','capturedAt','serviceCentreAt',
+          'inboxReceivedAt','subscriptionId','sourceKey','expectedConsentGeneration']);
+        return json(await observations.recoverHeldV2(actor,input,release));
+      }
+      if(route==='/sms/observations/recovery-v2/ack'&&method==='POST'){
+        requireThat(heldRecoveryV2Enabled===true,'not_found',404);requirePort(observations,['recoverHeldV2Ack']);
+        const release=heldV2Release(req);
+        const input=await body(req,['requestId','rawSender','rawBody','sourceMode','complete','capturedAt','serviceCentreAt',
+          'inboxReceivedAt','subscriptionId','sourceKey','expectedConsentGeneration']);
+        const result=await observations.recoverHeldV2Ack(actor,input,release);
+        requireThat(result?.bodySha256===await sha256(input.rawBody),'contract_invalid_response',503);return json(result);
+      }
       if(route==='/sms/observations'&&method==='GET'){
         requirePort(observations,['page']);
         requireThat([...url.searchParams.keys()].every(k=>['q','filter','limit','cursor','sort','fromAt','untilAt'].includes(k))&&
@@ -163,7 +198,7 @@ export function createNativeHandler({auth,records,contributions,members,gateway,
         return json({...await observations.reconcileStatus(actor),hasPending:true});
       }
       if(route==='/sms/observations/reconcile-verified-status'&&method==='GET'){
-        requireThat(heldRecoveryEnabled===true,'not_found',404);
+        requireThat(heldRecoveryEnabled===true||heldRecoveryV2Enabled===true,'not_found',404);
         requirePort(observations,['reconcileVerifiedStatus']);
         return json(await observations.reconcileVerifiedStatus(actor));
       }

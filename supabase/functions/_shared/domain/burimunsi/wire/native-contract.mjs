@@ -13,7 +13,7 @@ export function requestBinding(request,installationId,groupId){
 }
 export function validateNativeRequest(operation,value){
  validateSchema(defs,operation+'.request',value);
- if(['observation','observationRecoverHeld','observationRecoverHeldAck'].includes(operation)&&(!((value.sourceMode==='live'&&value.complete===true)||
+ if(['observation','observationRecoverHeld','observationRecoverHeldAck','observationRecoveryV2Hold','observationRecoveryV2Ack'].includes(operation)&&(!((value.sourceMode==='live'&&value.complete===true)||
    (value.sourceMode==='catch_up'&&value.complete===false&&value.inboxReceivedAt!==null))||
    new TextEncoder().encode(value.rawBody).length>3000||
    Object.hasOwn(value,'sourceKey')&&value.sourceMode!=='catch_up'))throw new ContractViolation('CONTRACT_STATE');
@@ -24,7 +24,7 @@ export function validateNativeRequest(operation,value){
 export function nativeExpected(binding,route,body,originDigest,handoffFingerprint){
  return {...binding,recordId:route.recordId,memberId:body?.memberId,phone:body?.phone,
   staffId:body?.id,commandRequestId:body?.requestId,staffOperation:body?.operation,
-  consentEnabled:body?.enabled,consentGeneration:body?.generation,displayHintsVersion:body?.displayHintsVersion,
+  consentEnabled:body?.enabled,consentGeneration:body?.generation,expectedConsentGeneration:body?.expectedConsentGeneration,displayHintsVersion:body?.displayHintsVersion,
   importRows:body?.rows?.map(row=>row.row),sourceIds:body?.sourceIds,sourceKey:body?.sourceKey,
   sourceKeys:Array.isArray(body?.items)?body.items.map(item=>item.sourceKey):undefined,originDigest,handoffFingerprint};
 }

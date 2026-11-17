@@ -115,8 +115,9 @@ export function semantics(product,operation,r,expected={}) {
   if(data.recentPayments)rows(data.recentPayments);
   if(data.groupId!==undefined&&data.groupId!==r.binding.groupId)fail('CONTRACT_IDENTITY');
   if(['payment','member','rawSms'].includes(operation)&&data.id!==expected.recordId)fail('CONTRACT_IDENTITY');
-  if(['observation','observationRecoverHeld','observationRecoverHeldAck'].includes(operation)&&data.requestId!==expected.commandRequestId)fail('CONTRACT_IDENTITY');
-  if(operation==='observationRecoverHeldAck'&&(data.sourceKey!==expected.sourceKey||
+  if(['observation','observationRecoverHeld','observationRecoverHeldAck','observationRecoveryV2Hold','observationRecoveryV2Ack'].includes(operation)&&data.requestId!==expected.commandRequestId)fail('CONTRACT_IDENTITY');
+  if(['observationRecoveryV2Hold','observationRecoveryV2Ack'].includes(operation)&&data.expectedConsentGeneration!==expected.expectedConsentGeneration)fail('CONTRACT_IDENTITY');
+  if(['observationRecoverHeldAck','observationRecoveryV2Ack'].includes(operation)&&(data.sourceKey!==expected.sourceKey||
    (data.state==='acknowledged')!==(data.sourceId!==null)||
    (data.state==='acknowledged'?data.autoProcessing!=='held':data.autoProcessing!=='unknown')))fail('CONTRACT_IDENTITY');
   if(operation==='observationConsentSet'&&(data.enabled!==expected.consentEnabled||data.generation!==expected.consentGeneration))fail('CONTRACT_IDENTITY');
