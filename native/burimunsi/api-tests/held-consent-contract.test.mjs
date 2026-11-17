@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import test from 'node:test';
+import {validateSchema} from '../../../supabase/functions/_shared/domain/burimunsi/wire/runtime.mjs';
+import {validateNativeRequest} from '../../../supabase/functions/_shared/domain/burimunsi/wire/native-contract.mjs';
+
+// Captured from the exact strict-server predecessor, not a permissive-server claim.
+const legacy=JSON.parse(await readFile(new URL('./fixtures/legacy-held-request.schema.json',import.meta.url),'utf8'));
+const held={requestId:'00000000-0000-4000-8000-000000000111',rawSender:'M-Money',rawBody:'Synthetic held receipt',
+ sourceMode:'catch_up',complete:false,capturedAt:'2026-11-17T18:00:00Z',serviceCentreAt:null,
+ inboxReceivedAt:'2026-11-17T17:59:00Z',subscriptionId:3,sourceKey:'a'.repeat(64),expectedConsentGeneration:7};
+
+for(const operation of ['observationRecoverHeld','observationRecoverHeldAck']){
+ test(`${operation}: strict old and new request contracts do not silently downgrade`,()=>{
+  assert.equal(legacy.sourceCommit,'42d85017306dddeb733ab2a286c29efb5ec4990e');
+  assert.equal(legacy.sourceSchemaSha256,'15749d6dbe01137160ae3f2361fcd7c0e1bc4d82b3fe388119736369313b4436');
+  assert.doesNotThrow(()=>validateNativeRequest(operation,held));
+  assert.throws(()=>validateSchema(legacy.definitions,`${operation}.request`,held),e=>e.code==='CONTRACT_UNKNOWN_FIELD');
+  const {expectedConsentGeneration,...old}=held;
+  assert.doesNotThrow(()=>validateSchema(legacy.definitions,`${operation}.request`,old));
+  assert.throws(()=>validateNativeRequest(operation,old),e=>e.code==='CONTRACT_MISSING_FIELD');
+  for(const bad of [0,-1,1.5,9007199254740992,'7',null])
+   assert.throws(()=>validateNativeRequest(operation,{...held,expectedConsentGeneration:bad}));
+ });
+}
+
+test('ordinary observation requests do not gain the held-only claim',()=>{
+ const {expectedConsentGeneration,...ordinary}=held;
+ assert.doesNotThrow(()=>validateNativeRequest('observation',ordinary));
+ assert.throws(()=>validateNativeRequest('observation',held),e=>e.code==='CONTRACT_UNKNOWN_FIELD');
+});

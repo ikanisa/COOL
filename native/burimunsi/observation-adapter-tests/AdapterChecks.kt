@@ -421,6 +421,42 @@ fun main() {
   }
   check(e.repository.recoveryCommitted.size==1)
  }
+ test("the persisted original consent generation is identical on held POST and read-only ACK") {
+  val (e,original)=pendingHeldFixture();val journal=heldJournal(e)
+  val saved=journal.pending(cloudKey(adminA,12))!!
+  check(saved.consentGeneration==1L&&e.repository.recoveryGenerations==listOf(1L))
+  e.repository.heldAckAcknowledged=true
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
+  check(e.repository.heldAckRequests==listOf(original)&&e.repository.heldAckGenerations==listOf(saved.consentGeneration)&&
+   e.repository.recoveryRequests==listOf(original))
+ }
+ test("a tampered consent generation cannot resolve an already admitted held request") {
+  val (e,original)=pendingHeldFixture();val key=cloudKey(adminA,12);val journal=heldJournal(e)
+  val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
+  val changed=JSONObject(SecureStore.data[name]!!).put("consentGeneration",2).toString();SecureStore.data[name]=changed
+  val newer=ObservationConsentRevision(true,2);ObservationConfigStore(e.context).saveConsent(adminA,ObservationConsentState(newer,true))
+  e.repository.consent=newer;e.repository.heldAckAcknowledged=true
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  check(e.repository.heldAckRequests==listOf(original)&&e.repository.heldAckGenerations==listOf(2L)&&
+   e.repository.recoveryGenerations==listOf(1L)&&e.repository.recoveryRequests==listOf(original)&&
+   SecureStore.data[name]==changed&&journal.pending(key)?.phase==HeldRecoveryJournal.Phase.ATTEMPTING)
+ }
+ test("old-server 400 or disabled-route 404 never authorizes another held POST") {
+  for(code in listOf(400,404)){
+   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+   if(code==400)e.repository.strictLegacyHeldServer=true else {
+    e.repository.recoveryFailureBeforeCommit=rw.ikanisa.burimunsi.data.ApiFailure("not_found",404)
+    e.repository.heldAckFailure=rw.ikanisa.burimunsi.data.ApiFailure("not_found",404)
+   }
+   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+   val original=e.repository.recoveryRequests.single();val key=cloudKey(adminA,12);val journal=heldJournal(e)
+   val saved=journal.pending(key)!!;check(saved.phase==HeldRecoveryJournal.Phase.ATTEMPTING&&saved.consentGeneration==1L)
+   repeat(2){check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)}
+   check(e.repository.recoveryRequests==listOf(original)&&e.repository.recoveryGenerations==listOf(1L)&&
+    e.repository.heldAckRequests==listOf(original,original)&&e.repository.heldAckGenerations==listOf(1L,1L)&&
+    journal.pending(key)==saved&&e.repository.recoveryCommitted.isEmpty())
+  }
+ }
  test("lost response before server commit preserves the exact request without replay") {
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
   e.repository.recoveryFailureBeforeCommit=IllegalStateException("timeout")

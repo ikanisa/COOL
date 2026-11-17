@@ -711,9 +711,14 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         checkContract(observation.sourceMode=="catch_up"&&!observation.complete&&observation.inboxReceivedAt!=null&&
             observation.sourceKey?.let{Regex("[a-f0-9]{64}").matches(it)}==true,"invalid_observation_source")
     }
-    fun recoverHeldObservation(observation:SmsObservation):HeldObservationAck {
+    private fun heldObservationBody(observation:SmsObservation,expectedConsentGeneration:Long):JSONObject {
         checkHeldObservation(observation)
-        val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations/recover-held",observationBody(observation)))
+        checkContract(expectedConsentGeneration in 1..9_007_199_254_740_991L,"invalid_consent_generation")
+        return observationBody(observation).put("expectedConsentGeneration",expectedConsentGeneration)
+    }
+    fun recoverHeldObservation(observation:SmsObservation,expectedConsentGeneration:Long):HeldObservationAck {
+        val body=heldObservationBody(observation,expectedConsentGeneration)
+        val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations/recover-held",body))
         val ack=ObservationAck(value.getString("requestId"),value.getString("sourceId"),value.getString("bodySha256"),
             value.getString("status"),value.getInt("financialEffects"))
         val processing=value.getString("autoProcessing")
@@ -721,9 +726,9 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         return HeldObservationAck(ack,processing)
     }
     /** This POST is an exact-request, read-only proof lookup, never an upload retry. */
-    fun heldRecoveryAcknowledgement(observation:SmsObservation):HeldRecoveryResolution {
-        checkHeldObservation(observation)
-        val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations/recover-held-ack",observationBody(observation)))
+    fun heldRecoveryAcknowledgement(observation:SmsObservation,expectedConsentGeneration:Long):HeldRecoveryResolution {
+        val body=heldObservationBody(observation,expectedConsentGeneration)
+        val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations/recover-held-ack",body))
         val result=HeldRecoveryResolution(value.getString("requestId"),value.getString("sourceKey"),value.getString("bodySha256"),
             value.getString("state"),if(value.isNull("sourceId"))null else value.getString("sourceId"),
             value.getString("autoProcessing"),value.getInt("financialEffects"),value.getBoolean("retryAllowed"))

@@ -685,6 +685,7 @@ internal class ObservationRecovery(context:Context) {
                 }
                 if(pending?.phase==HeldRecoveryJournal.Phase.ATTEMPTING){
                     val original=pending.observation?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                    val originalConsent=pending.consentGeneration?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
                     fun current():Boolean=try{
                         !stopped()&&MomoGatewayStore(app).existingInstallationId()==installation&&
                             auditAuthority(stopped)?.scope==scope&&takePage(stopped)==rows&&
@@ -700,7 +701,7 @@ internal class ObservationRecovery(context:Context) {
                     if(!current()||!sameAttempt()||!uniqueHeld(row,request,stopped)||!current())
                         return@synchronized interrupted()
                     if(!authorized()){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
-                    val acknowledgement=try{repo.heldRecoveryAcknowledgement(original)}catch(_:Exception){null}
+                    val acknowledgement=try{repo.heldRecoveryAcknowledgement(original,originalConsent)}catch(_:Exception){null}
                     if(!current()||!sameAttempt()||!uniqueHeld(row,request,stopped)||!current())
                         return@synchronized interrupted()
                     if(!authorized()){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
@@ -873,7 +874,8 @@ internal class ObservationRecovery(context:Context) {
                                             ?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
                                         active=attempting
                                         val original=attempting.observation?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
-                                        val ack=checkedNetwork{repo.recoverHeldObservation(original)}
+                                        val originalConsent=attempting.consentGeneration?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                                        val ack=checkedNetwork{repo.recoverHeldObservation(original,originalConsent)}
                                         val finalStatus=checkedNetwork{repo.observationReconcileVerifiedStatus()}
                                         if(!verified(finalStatus)||!current()){
                                             auditProgress=null;return@synchronized Audit.UNCONFIRMED

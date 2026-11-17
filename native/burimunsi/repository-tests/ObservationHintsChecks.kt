@@ -54,25 +54,41 @@ fun main(){
     check(repo.revealObservation(source,"Review original SMS").displayHints==null)
     payload.put("sourceId","other-source")
     check(runCatching{repo.revealObservation(source,"Review original SMS")}.isFailure)
-    check(repo.recoverHeldObservation(recovery).autoProcessing=="held")
+    val originalGeneration=7L
+    check(repo.recoverHeldObservation(recovery,originalGeneration).autoProcessing=="held")
     val written=api.calls.last().body!!
     check(written.getString("requestId")==recovery.requestId&&written.getString("rawBody")==text&&
-        written.getString("sourceKey")==recovery.sourceKey&&written.getString("sourceMode")=="catch_up"&&!written.getBoolean("complete"))
+        written.getString("sourceKey")==recovery.sourceKey&&written.getString("sourceMode")=="catch_up"&&!written.getBoolean("complete")&&
+        written.getLong("expectedConsentGeneration")==originalGeneration)
     val originalBody=written.toString()
-    check(repo.heldRecoveryAcknowledgement(recovery).state=="acknowledged"&&api.calls.last().body!!.toString()==originalBody)
+    val contract=rw.ikanisa.wire.BuriMunsiSchemas.contract
+    for(operation in listOf("observationRecoverHeld.request","observationRecoverHeldAck.request")){
+        check(runCatching{contract.validate(operation,rw.ikanisa.wire.StrictJson.parse(originalBody))}.isSuccess)
+        val missing=JSONObject(originalBody);missing.remove("expectedConsentGeneration")
+        check(runCatching{contract.validate(operation,rw.ikanisa.wire.StrictJson.parse(missing.toString()))}.isFailure)
+        for(bad in listOf<Any>(0L,-1L,9_007_199_254_740_992L,"7",1.5)){
+            val changed=JSONObject(originalBody).put("expectedConsentGeneration",bad)
+            check(runCatching{contract.validate(operation,rw.ikanisa.wire.StrictJson.parse(changed.toString()))}.isFailure)
+        }
+    }
+    check(repo.heldRecoveryAcknowledgement(recovery,originalGeneration).state=="acknowledged"&&api.calls.last().body!!.toString()==originalBody)
     lookup.put("state","unconfirmed").put("sourceId",JSONObject.NULL).put("autoProcessing","unknown")
-    check(repo.heldRecoveryAcknowledgement(recovery).state=="unconfirmed")
+    check(repo.heldRecoveryAcknowledgement(recovery,originalGeneration).state=="unconfirmed")
     lookup.put("state","acknowledged").put("sourceId","source-1").put("autoProcessing","held")
     for((field,bad,good) in listOf(Triple("requestId","other",recovery.requestId),Triple("sourceKey","b".repeat(64),recovery.sourceKey),
         Triple("bodySha256","b".repeat(64),Values.sha256(text)),Triple("autoProcessing","unknown","held"),
         Triple("financialEffects",1,0),Triple("retryAllowed",true,false),Triple("sourceId",JSONObject.NULL,"source-1"))){
-        lookup.put(field,bad);check(runCatching{repo.heldRecoveryAcknowledgement(recovery)}.isFailure);lookup.put(field,good)
+        lookup.put(field,bad);check(runCatching{repo.heldRecoveryAcknowledgement(recovery,originalGeneration)}.isFailure);lookup.put(field,good)
     }
     for((field,bad,good) in listOf(Triple("requestId","other",recovery.requestId),Triple("bodySha256","b".repeat(64),Values.sha256(text)),
         Triple("autoProcessing","released","held"),Triple("financialEffects",1,0))){
-        heldAck.put(field,bad);check(runCatching{repo.recoverHeldObservation(recovery)}.isFailure);heldAck.put(field,good)
+        heldAck.put(field,bad);check(runCatching{repo.recoverHeldObservation(recovery,originalGeneration)}.isFailure);heldAck.put(field,good)
     }
-    val before=api.calls.size;check(runCatching{repo.recoverHeldObservation(recovery.copy(sourceMode="live"))}.isFailure&&api.calls.size==before)
+    val before=api.calls.size;check(runCatching{repo.recoverHeldObservation(recovery.copy(sourceMode="live"),originalGeneration)}.isFailure&&api.calls.size==before)
+    for(bad in listOf(0L,-1L,9_007_199_254_740_992L)){
+        check(runCatching{repo.recoverHeldObservation(recovery,bad)}.isFailure&&api.calls.size==before)
+        check(runCatching{repo.heldRecoveryAcknowledgement(recovery,bad)}.isFailure&&api.calls.size==before)
+    }
     check(repo.observationReconcileVerifiedStatus().scope=="verified_collection")
     for((field,bad,good) in listOf(Triple("scope","all","verified_collection"),Triple("groupId","other","group-1"),
         Triple("hasRecorded",true,false),Triple("revision","bad","a".repeat(64)))){

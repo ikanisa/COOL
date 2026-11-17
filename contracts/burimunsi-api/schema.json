@@ -5502,6 +5502,11 @@
           "minLength": 64,
           "maxLength": 64,
           "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "expectedConsentGeneration": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
         }
       },
       "required": [
@@ -5514,7 +5519,8 @@
         "serviceCentreAt",
         "inboxReceivedAt",
         "subscriptionId",
-        "sourceKey"
+        "sourceKey",
+        "expectedConsentGeneration"
       ],
       "additionalProperties": false
     },
@@ -5750,6 +5756,11 @@
           "minLength": 64,
           "maxLength": 64,
           "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "expectedConsentGeneration": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
         }
       },
       "required": [
@@ -5762,7 +5773,8 @@
         "serviceCentreAt",
         "inboxReceivedAt",
         "subscriptionId",
-        "sourceKey"
+        "sourceKey",
+        "expectedConsentGeneration"
       ],
       "additionalProperties": false
     },
