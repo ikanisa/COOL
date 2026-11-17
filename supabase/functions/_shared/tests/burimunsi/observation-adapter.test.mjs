@@ -43,6 +43,7 @@ function fixture(){
    const [source,generation,migration]=args;
    if(generation!==state.generation)throw sqlError('40001');
    if(source!=='a'.repeat(64)||migration!==HELD_V2_MIGRATION_SHA)throw sqlError('55000');
+   if(state.onV2Ready)await state.onV2Ready();
    return [{result:{groupId:group,sourceSha256:source,migrationSha256:migration,consentGeneration:generation}}];
   }
   if(query.includes('observation_consent_current'))return [{result:{enabled:state.enabled,generation:state.generation}}];
@@ -350,6 +351,34 @@ test('v2 retains the source-bound generation across exact held admission and ACK
   const saved=await adapter.recoverHeldV2(actor,held,v2Release);assert.equal(saved.protocol,HELD_V2_PROTOCOL);assert.equal(saved.expectedConsentGeneration,1);
   const ack=await adapter.recoverHeldV2Ack(actor,held,v2Release);assert.equal(ack.protocol,HELD_V2_PROTOCOL);assert.equal(ack.state,'acknowledged');
   assert.equal(ack.expectedConsentGeneration,1);assert.equal(ack.retryAllowed,false);assert.equal(f.state.puts,1);
+ });
+});
+
+test('v2 final ACK and retained-source proof refuse release or catalog drift during storage read',async()=>{
+ const held={...incoming,sourceMode:'catch_up',complete:false,inboxReceivedAt:'2026-11-11T12:00:00.000Z',
+  sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
+ for(const path of ['ack','retained'])for(const change of ['v2GuardDrift','v2MigrationDrift','v2SourceDrift','v2CatalogDrift']){
+  const f=fixture();await f.run(async adapter=>{
+   await adapter.recoverHeldV2(actor,held,v2Release);const before={puts:f.state.puts,commits:f.state.commits};
+   if(path==='ack')f.state.onReadOnly=async()=>{f.state[change]=true;};
+   else f.state.onGet=async()=>{f.state[change]=true;};
+   await assert.rejects(()=>path==='ack'?adapter.recoverHeldV2Ack(actor,held,v2Release):adapter.recoverHeldV2(actor,held,v2Release),
+    e=>e.status===503);
+   assert.deepEqual({puts:f.state.puts,commits:f.state.commits},before);
+  });
+ }
+});
+
+test('v2 retained-source proof rechecks the exact record with final readiness',async()=>{
+ const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,inboxReceivedAt:'2026-11-11T12:00:00.000Z',
+  sourceKey:'e'.repeat(64),expectedConsentGeneration:1};
+ await f.run(async adapter=>{
+  await adapter.recoverHeldV2(actor,held,v2Release);
+  f.state.onGet=async()=>{f.state.onV2Ready=async()=>{
+   f.state.onV2Ready=null;f.state.row={...f.state.row,size_bytes:f.state.row.size_bytes+1};
+  };};
+  await assert.rejects(()=>adapter.recoverHeldV2(actor,held,v2Release),e=>e.status===409);
+  assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);
  });
 });
 

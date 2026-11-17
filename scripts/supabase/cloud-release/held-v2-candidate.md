@@ -25,6 +25,13 @@ original `expectedConsentGeneration`. The ACK remains read-only and always
 reports `retryAllowed:false`; neither a capability nor an unconfirmed ACK
 authorizes a repeated submission.
 
+The v2 ACK rechecks readiness in the same fenced transaction as each evidence
+snapshot, including after the Storage read. Its transaction acquires locks but
+does not write SMS or Storage state. The final retained-source hold check also
+rechecks readiness in the same transaction. This does not establish protection
+against a database owner bypassing the controlled fence or against unqualified
+concurrent DDL.
+
 The running-source digest is supplied by the release environment and compared
 with the admitted work tuple and database fence. The migration digest and
 guard-function digest are compiled release pins and checked against the actual
@@ -42,3 +49,8 @@ catalog state, true two-connection races, live Edge/proxy behavior, or Android
 interoperability. Legacy ATTEMPTING entries without the saved consent value
 remain unresolved. Existing ordinary SMS requests are unchanged; the old held
 routes remain unavailable through v2 production composition.
+
+Catalog checks require exact function ACLs and volatile attributes and deny
+additional non-superuser roles with effective execute access or membership in
+`collect_runtime`, including NOINHERIT members. Any intended Cloud proxy role
+must be assessed before activation; the candidate otherwise fails closed.

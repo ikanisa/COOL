@@ -198,6 +198,8 @@ async function inspect(db){
   const wrapper=(await db.query(`SELECT coalesce(p.proowner='postgres'::regrole AND p.prosecdef AND p.provolatile='v'
    AND l.lanname='plpgsql' AND p.proconfig=ARRAY['search_path=pg_catalog, pg_temp']::text[]
    AND p.proacl::text='{postgres=X/postgres,collect_runtime=X/postgres}'
+   AND NOT EXISTS(SELECT 1 FROM pg_roles r WHERE NOT r.rolsuper AND r.rolname NOT IN('postgres','collect_runtime')
+    AND (has_function_privilege(r.oid,p.oid,'EXECUTE') OR pg_has_role(r.oid,'collect_runtime','MEMBER')))
    AND encode(sha256(convert_to(p.prosrc,'UTF8')),'hex')='96216aa4f5d3107aa08678ead3bf49b1cdc9e60dda2321475176b85f06fe3ce0',false) AS ok
    FROM pg_proc p JOIN pg_language l ON l.oid=p.prolang
    WHERE p.oid=to_regprocedure('private.burimunsi_sms_recovery_prepare(text,text,text,uuid,text,text,text,text,bigint,text,text)')`)).rows[0];

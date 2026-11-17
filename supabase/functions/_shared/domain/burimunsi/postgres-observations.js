@@ -431,7 +431,7 @@ export class PostgresNativeObservations {
  }
  async recoverHeldV2Ack(actor,input,release){
   await this.recoveryV2Capability(actor,input?.expectedConsentGeneration,release);
-  const result=await this.recoverHeldAck(actor,input);
+  const result=await this.recoverHeldAck(actor,input,{v2:release});
   return {...result,protocol:HELD_V2_PROTOCOL,expectedConsentGeneration:input.expectedConsentGeneration};
  }
  async prepare(actor,value,fingerprint,id,initial,contentSha,bodySha,recovery=false,v2=null){
@@ -671,7 +671,7 @@ export class PostgresNativeObservations {
   return {ctx,proof,record};
  }
  // Acknowledgement only: no prepare, reservation, PUT, commit or financial work.
- async recoverHeldAck(actor,input){
+ async recoverHeldAck(actor,input,{v2=null}={}){
   const value=validateInput(input,{recovery:true}),bodySha=await sha256(value.rawBody);
   check(value.sourceMode==='catch_up'&&value.complete===false&&HASH.test(value.sourceKey??'')&&value.inboxReceivedAt!==null,'invalid_request',400);
   const fingerprint=await observationRequestFingerprint(this.groupId,actor,value,bodySha),
@@ -679,7 +679,15 @@ export class PostgresNativeObservations {
    base={requestId:value.requestId,sourceKey:value.sourceKey,bodySha256:bodySha,financialEffects:0,retryAllowed:false};
   let bytes;
   try{
-   const initial=await this.authority.read(tx=>this.recoveryAckProof(tx,actor,value,fingerprint,id,contentSha,bodySha));
+   // The v2 catalog and source fence are checked in the same transaction as
+   // each evidence snapshot. This transaction acquires locks but writes no
+   // SMS or storage state; legacy ACK retains its existing read-only path.
+   const snapshot=async tx=>{
+    if(v2)await this.heldV2Ready(tx,actor,value.expectedConsentGeneration,v2);
+    return this.recoveryAckProof(tx,actor,value,fingerprint,id,contentSha,bodySha);
+   };
+   const readSnapshot=fn=>v2?this.authority.write(fn):this.authority.read(fn);
+   const initial=await readSnapshot(snapshot);
    if(initial.proof===null){await this.authority.assertOwned();return {...base,state:'unconfirmed',sourceId:null,autoProcessing:'unknown'};}
    requirePort(this.env.PRIVATE_MEDIA,['getVerifiedReadOnly']);
    const encrypted=await this.env.PRIVATE_MEDIA.getVerifiedReadOnly('sms/'+id,
@@ -688,15 +696,20 @@ export class PostgresNativeObservations {
    finally{encrypted?.fill?.(0);}
    check(bytes instanceof Uint8Array&&bytes.length===initial.record.size_bytes&&await digest(bytes)===initial.record.object_sha256&&
     same(JSON.parse(DECODER.decode(bytes)),payloadFor(value)),'observation_changed',409);
-   const final=await this.authority.read(tx=>this.recoveryAckProof(tx,actor,value,fingerprint,id,contentSha,bodySha));
+   const final=await readSnapshot(snapshot);
    check(final.proof&&same(final.ctx,initial.ctx)&&same(final.proof,initial.proof),'observation_changed',409);
    await this.authority.assertOwned();
    return {...base,state:'acknowledged',sourceId:id,autoProcessing:'held'};
   }catch(error){throw mapped(error);}
   finally{bytes?.fill(0);}
  }
- async verifyRecoveryHold(actor,value,fingerprint,id,bodySha){
+ async verifyRecoveryHold(actor,value,fingerprint,id,bodySha,v2=null,expectedRecord=null){
   return this.authority.write(async tx=>{await this.current(tx,actor);
+   if(v2){
+    await this.heldV2Ready(tx,actor,value.expectedConsentGeneration,v2);
+    const retained=await this.find(tx,actor,value.requestId,fingerprint);
+    check(retained&&expectedRecord&&same(retained,expectedRecord),'observation_changed',409);
+   }
    const rows=await tx.unsafe('SELECT private.collect_sms_held_resume_check($1,$2::uuid,$3,$4,$5::timestamptz) AS result',
     [id,value.requestId,fingerprint,bodySha,value.inboxReceivedAt]);
    check(rows.length===1&&rows[0].result===true,'observation_changed',409);return true;
@@ -715,7 +728,7 @@ export class PostgresNativeObservations {
    if(prior){await this.checkRetained(actor,prior,payload,bodySha);
     const final=await this.authority.read(tx=>this.find(tx,actor,value.requestId,fingerprint));
     check(final&&same(final,prior),'observation_changed',409);
-    if(recovery)await this.verifyRecoveryHold(actor,value,fingerprint,prior.id,bodySha);
+    if(recovery)await this.verifyRecoveryHold(actor,value,fingerprint,prior.id,bodySha,v2,prior);
     return {requestId:value.requestId,sourceId:prior.id,bodySha256:bodySha,status:'source_unresolved',financialEffects:0,
      ...(recovery?{autoProcessing:'held'}:{})};}
    const initial=await this.authority.read(tx=>this.context(tx,actor));
@@ -763,7 +776,7 @@ export class PostgresNativeObservations {
    await this.checkRetained(actor,committed,payload,bodySha);
    const final=await this.authority.read(tx=>this.find(tx,actor,value.requestId,fingerprint));
    check(final&&same(final,committed),'observation_changed',409);
-   if(recovery)await this.verifyRecoveryHold(actor,value,fingerprint,committed.id,bodySha);
+   if(recovery)await this.verifyRecoveryHold(actor,value,fingerprint,committed.id,bodySha,v2,committed);
    return {requestId:value.requestId,sourceId:committed.id,bodySha256:bodySha,status:'source_unresolved',financialEffects:0,
     ...(recovery?{autoProcessing:'held'}:{})};
   }catch(error){throw mapped(error);}

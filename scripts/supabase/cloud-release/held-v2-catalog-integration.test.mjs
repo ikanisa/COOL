@@ -51,7 +51,7 @@ test('v2 catalog accepts exact pinned synthetic state and denies trigger, ACL an
  const {PGlite}=await import(modulePath),db=new PGlite();
  try{
   await db.exec(`CREATE SCHEMA private;CREATE SCHEMA app;CREATE SCHEMA supabase_migrations;
-   CREATE ROLE anon;CREATE ROLE authenticated;CREATE ROLE service_role;CREATE ROLE collect_importer;CREATE ROLE collect_runtime;
+   CREATE ROLE anon;CREATE ROLE authenticated;CREATE ROLE service_role;CREATE ROLE collect_importer;CREATE ROLE collect_runtime;CREATE ROLE held_probe;
    CREATE TABLE supabase_migrations.schema_migrations(version text PRIMARY KEY,statements text[]);
    CREATE TABLE private.collect_fence_control(singleton boolean,mode text,source_sha256 text,epoch bigint);
    CREATE TABLE private.burimunsi_observation_consents(collection_id text,account_id uuid,installation_id uuid,
@@ -133,6 +133,22 @@ test('v2 catalog accepts exact pinned synthetic state and denies trigger, ACL an
     set_config('collect.fence_admission_id','40000000-0000-4000-8000-000000000001',false),set_config('burimunsi.collection_id','group-a',false);`);
   assert.equal((await db.query(HELD_V2_READY_IDENTITY_SQL,[HELD_V2_READY_SHA])).rows[0].ok,true);
   const call=()=>db.query('SELECT private.burimunsi_held_v2_ready($1,$2,$3) AS result',['a'.repeat(64),1,HELD_V2_MIGRATION_SHA]);
+  assert.equal((await call()).rows[0].result.groupId,'group-a');
+  for(const sig of ['private.burimunsi_auto_snapshot(text)','private.burimunsi_auto_candidates(text)',
+   'private.burimunsi_native_work_candidates(uuid,integer)','private.burimunsi_native_sms_post_candidates(integer)']){
+   await db.exec(`GRANT EXECUTE ON FUNCTION ${sig} TO held_probe`);
+   await assert.rejects(call,/sms_held_v2_guard_changed/);
+   await db.exec(`REVOKE EXECUTE ON FUNCTION ${sig} FROM held_probe`);
+   await db.exec(`ALTER FUNCTION ${sig} STABLE`);
+   await assert.rejects(call,/sms_held_v2_guard_changed/);
+   await db.exec(`ALTER FUNCTION ${sig} VOLATILE`);
+   assert.equal((await call()).rows[0].result.groupId,'group-a');
+  }
+  // Membership must not silently grant an unrelated role the runtime's
+  // effective execution privileges, including via NOINHERIT + SET ROLE.
+  await db.exec('ALTER ROLE held_probe NOINHERIT;GRANT collect_runtime TO held_probe');
+  await assert.rejects(call,/sms_held_v2_guard_changed/);
+  await db.exec('REVOKE collect_runtime FROM held_probe');
   assert.equal((await call()).rows[0].result.groupId,'group-a');
   await db.exec('ALTER TABLE private.storage_upload_attempts DISABLE TRIGGER collect_sms_held_upload_guard');
   await assert.rejects(call,/sms_held_v2_catalog_changed/);
