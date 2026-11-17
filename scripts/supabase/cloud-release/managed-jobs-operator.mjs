@@ -28,6 +28,10 @@ const GUARDS={
 // A changed draft must deliberately update this pin and its SQL qualification.
 const HELD_RECOVERY_SQL_SHA='1decb00238e969e2ad58b7283741bae10a968e7affbddbaf21dc196667a29651';
 const HELD_SOURCE_INDEX_SQL_SHA='7a03e8d4e35b7be99c9bf072b4f835654809e582aa8e3247f45582dd686f225c';
+const HELD_RESUME_SQL_SHA='47b383aa66af2101a3e23309f4f834a17520eb2749119b59622de289580fd8b4';
+export const HELD_RESUME_GUARDS={
+ 'private.collect_sms_held_upload_guard()':'9e2963205740ac8adc8610b777828ea74980817e2441f415e35bb9af6ea2e403',
+ 'private.collect_sms_held_resume_check(text,uuid,text,text,timestamptz)':'fa97f3f72d863a8fd715cd63889ca65accfc4563e062f3b5e4798ed0a00a6a7a'};
 const HELD_RECOVERY_GUARDS={
  'private.burimunsi_auto_snapshot(text)':'526606c23ad6d8a3b511136a8eff9e2ddf5f7a775f068b5ce8615c02a7a90dd6',
  'private.burimunsi_auto_candidates(text)':'156a2179d3e2065e9116985f3d1a88b034a8cf8c26a988fd48f9ccccc665192f',
@@ -111,6 +115,14 @@ export const HELD_SOURCE_INDEX_CATALOG_SQL=`SELECT count(*)=1 AND bool_and(c.rel
   JOIN pg_attribute a ON a.attrelid=i.indrelid AND a.attnum=k.attnum AND NOT a.attisdropped)=ARRAY['raw_sms_id','transaction_id']) ok
  FROM pg_class c JOIN pg_index i ON i.indexrelid=c.oid JOIN pg_am am ON am.oid=c.relam
  WHERE c.oid=to_regclass('app.burimunsi_momo_sources_raw_lookup')`;
+export const HELD_RESUME_CATALOG_SQL=`WITH expected(relation_name,trigger_name,function_name,trigger_type) AS (VALUES
+ ('private.storage_upload_attempts','collect_sms_held_upload_guard','private.collect_sms_held_upload_guard()',7),
+ ('private.storage_upload_attempts','storage_upload_identity','private.trg_storage_identity()',27),
+ ('private.storage_put_intents','storage_put_identity','private.trg_storage_identity()',27)
+) SELECT count(*)=3 AND bool_and(coalesce(t.tgfoid=to_regprocedure(e.function_name) AND t.tgenabled='A' AND NOT t.tgisinternal
+ AND t.tgtype::int=e.trigger_type AND NOT t.tgdeferrable AND NOT t.tginitdeferred AND t.tgconstraint=0
+ AND t.tgqual IS NULL AND t.tgnargs=0 AND t.tgattr::text='',false)) AS ok
+ FROM expected e LEFT JOIN pg_trigger t ON t.tgrelid=to_regclass(e.relation_name) AND t.tgname=e.trigger_name`;
 function privateBytes(name){if(!/^[a-z0-9_.-]+\.json$/.test(name))throw Error('invalid_evidence_name');const p=join(ROOT,name),s=lstatSync(p);
  if(!s.isFile()||s.isSymbolicLink()||s.nlink!==1||s.uid!==process.getuid()||(s.mode&0o077)!==0||s.size<2||s.size>1024*1024)throw Error('private_evidence_required');return readFileSync(p);}
 const privateJson=name=>JSON.parse(privateBytes(name).toString('utf8'));
@@ -167,33 +179,50 @@ async function inspect(db){
   row.historical!==graph.counts?.sms||row.historical!==37||row.triggers_ok!==true||row.scheduler_coverage!==true)throw Error('scheduler_or_history_guard_changed');
  const heldFile='20261117210000_burimunsi_held_recovery.sql';
  const heldHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[heldFile.slice(0,14)])).rows[0];
+ const resumeFile='20261117220000_burimunsi_held_resume_guard.sql';
+ const resumeHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[resumeFile.slice(0,14)])).rows[0];
  const indexFile='20261117205959_burimunsi_sms_source_index.sql';
  const indexHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[indexFile.slice(0,14)])).rows[0];
  if(heldHistory&&!indexHistory)throw Error('scheduler_or_history_guard_changed');
+ if(heldHistory&&!resumeHistory||resumeHistory&&!heldHistory)throw Error('scheduler_or_history_guard_changed');
  if(indexHistory){
   if(indexHistory.digest!==HELD_SOURCE_INDEX_SQL_SHA||sha(readFileSync(new URL('../../../supabase/migrations/'+indexFile,import.meta.url)))!==HELD_SOURCE_INDEX_SQL_SHA||
    (await db.query(HELD_SOURCE_INDEX_CATALOG_SQL)).rows[0]?.ok!==true)throw Error('scheduler_or_history_guard_changed');
  }
- const expectedGuards=schedulerGuardDigests(heldHistory?.digest??null,heldHistory?sha(readFileSync(new URL('../../../supabase/migrations/'+heldFile,import.meta.url))):null);
- const guard=(await db.query(`SELECT x.signature,p.proowner::regrole::text owner,p.prosecdef,p.proacl::text acl,encode(sha256(convert_to(p.prosrc,'UTF8')),'hex') digest
-  FROM unnest($1::text[]) x(signature) LEFT JOIN pg_proc p ON p.oid=to_regprocedure(x.signature)`,[Object.keys(expectedGuards)])).rows;
+ if(resumeHistory&&(resumeHistory.digest!==HELD_RESUME_SQL_SHA||sha(readFileSync(new URL('../../../supabase/migrations/'+resumeFile,import.meta.url)))!==HELD_RESUME_SQL_SHA))throw Error('scheduler_migration_changed');
+ const expectedGuards={...schedulerGuardDigests(heldHistory?.digest??null,heldHistory?sha(readFileSync(new URL('../../../supabase/migrations/'+heldFile,import.meta.url))):null),
+  ...(resumeHistory?HELD_RESUME_GUARDS:{})};
+ const guard=(await db.query(`SELECT x.signature,p.proowner::regrole::text owner,p.prosecdef,p.proacl::text acl,p.proconfig,p.provolatile,l.lanname,
+  encode(sha256(convert_to(p.prosrc,'UTF8')),'hex') digest
+  FROM unnest($1::text[]) x(signature) LEFT JOIN pg_proc p ON p.oid=to_regprocedure(x.signature)
+  LEFT JOIN pg_language l ON l.oid=p.prolang`,[Object.keys(expectedGuards)])).rows;
  if(guard.length!==Object.keys(expectedGuards).length||guard.some(x=>x.owner!=='postgres'||x.prosecdef!==true||x.digest!==expectedGuards[x.signature]))throw Error('scheduler_or_history_guard_changed');
+ if(resumeHistory&&guard.some(x=>Object.hasOwn(HELD_RESUME_GUARDS,x.signature)&&
+  (x.provolatile!=='v'||x.lanname!=='plpgsql'||JSON.stringify(x.proconfig)!==JSON.stringify(['search_path=pg_catalog, pg_temp']))))throw Error('scheduler_or_history_guard_changed');
  if(heldHistory){
   const heldPrivate=['private.collect_sms_held_source_guard()','private.collect_sms_recovery_held(text)',
    'private.collect_sms_recovery_work_guard()','private.collect_sms_recovery_raw_work_guard()',
    'private.collect_sms_recovery_transaction_matches(text,text)','private.collect_sms_recovery_scope_guard()',
    'private.collect_sms_recovery_financial_guard()',
    'private.collect_sms_witness_immutable()','private.collect_sms_request_witness_guard()','private.collect_sms_payload_witness_guard()',
+   'private.collect_sms_held_upload_guard()',
    'private.burimunsi_observation_actor(boolean)'];
   const heldRuntime=['private.collect_sms_witness_reserve(text,text,text,text,text,text,timestamptz,text)',
    'private.burimunsi_sms_recovery_hold(text,uuid,text,text,timestamptz)',
    'private.burimunsi_sms_recovery_ack_snapshot(text,uuid,text,text,text,text,timestamptz)',
    'private.burimunsi_observation_consent_current()','private.burimunsi_observation_own(text,boolean)',
    'private.burimunsi_observation_lookup(uuid,text)',
-   'private.burimunsi_observation_reconcile_status()','private.burimunsi_observation_reconcile_verified_status()'];
+   'private.burimunsi_observation_reconcile_status()','private.burimunsi_observation_reconcile_verified_status()',
+   'private.collect_sms_held_resume_check(text,uuid,text,text,timestamptz)'];
   if(guard.some(x=>heldPrivate.includes(x.signature)&&x.acl!=='{postgres=X/postgres}'||
    heldRuntime.includes(x.signature)&&x.acl!=='{postgres=X/postgres,collect_runtime=X/postgres}'))throw Error('scheduler_or_history_guard_changed');
   verifyHeldRecoveryCatalog((await db.query(HELD_RECOVERY_CATALOG_SQL,[HELD_RECOVERY_POLICY])).rows[0]);
+  const identity=(await db.query(`SELECT p.proowner::regrole::text owner,p.prosecdef,p.proconfig,p.provolatile,l.lanname,
+   encode(sha256(convert_to(p.prosrc,'UTF8')),'hex') digest FROM pg_proc p
+   JOIN pg_language l ON l.oid=p.prolang WHERE p.oid=to_regprocedure('private.trg_storage_identity()')`)).rows[0];
+  if((await db.query(HELD_RESUME_CATALOG_SQL)).rows[0]?.ok!==true||identity?.owner!=='postgres'||identity.prosecdef!==false||
+   identity.provolatile!=='v'||identity.lanname!=='plpgsql'||JSON.stringify(identity.proconfig)!==JSON.stringify(['search_path=pg_catalog'])||
+   identity.digest!=='2d1816d30d91303bb7f4e4df4a3cae5c3913f0d2a147da8bb057628d2e4ccddf')throw Error('scheduler_or_history_guard_changed');
  }
  const expected=expectedSchedulerBodies(scheduler.sql);
  if(scheduleHistory){

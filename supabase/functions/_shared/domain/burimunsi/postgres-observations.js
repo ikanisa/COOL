@@ -426,6 +426,12 @@ export class PostgresNativeObservations {
     check(witness.length===1&&typeof witness[0].result==='boolean');
     if(recovery){const hold=await tx.unsafe('SELECT private.burimunsi_sms_recovery_hold($1,$2::uuid,$3,$4,$5::timestamptz) AS result',
      [id,value.requestId,fingerprint,bodySha,value.inboxReceivedAt]);check(hold.length===1&&hold[0].result===true);}
+    // All routes revalidate an already-held source before attempting storage.
+    // Exact retries may resume a never-attempted PUT; the database separately
+    // forbids a second durable provider attempt for the same held object.
+    const held=await tx.unsafe('SELECT private.collect_sms_held_resume_check($1,$2::uuid,$3,$4,$5::timestamptz) AS result',
+     [id,value.requestId,fingerprint,bodySha,value.inboxReceivedAt]);
+    check(held.length===1&&typeof held[0].result==='boolean'&&(!recovery||held[0].result===true));
    }
    return {kind:'new'};
   });
@@ -652,7 +658,7 @@ export class PostgresNativeObservations {
  }
  async verifyRecoveryHold(actor,value,fingerprint,id,bodySha){
   return this.authority.write(async tx=>{await this.current(tx,actor);
-   const rows=await tx.unsafe('SELECT private.burimunsi_sms_recovery_hold($1,$2::uuid,$3,$4,$5::timestamptz) AS result',
+   const rows=await tx.unsafe('SELECT private.collect_sms_held_resume_check($1,$2::uuid,$3,$4,$5::timestamptz) AS result',
     [id,value.requestId,fingerprint,bodySha,value.inboxReceivedAt]);
    check(rows.length===1&&rows[0].result===true,'observation_changed',409);return true;
   });

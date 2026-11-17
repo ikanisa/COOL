@@ -109,6 +109,15 @@ function fixture(){
    if(!hold)state.recoveryHolds.set(sourceId,{key,collection:w.collection,fingerprint,body,received,generation:state.generation});
    return [{result:true}];
   }
+  if(query.includes('collect_sms_held_resume_check')){
+   allowed();const [sourceId,requestId,fingerprint,body,received]=args,hold=state.recoveryHolds.get(sourceId);
+   if(!hold)return [{result:false}];
+   if(!state.revealGranted||hold.generation!==state.generation)throw sqlError('42501');
+   const request=state.requests.get(requestId);
+   if(!request||request.sourceId!==sourceId||request.fingerprint!==fingerprint||hold.fingerprint!==fingerprint||
+    hold.body!==body||hold.received!==received)throw sqlError('55000');
+   return [{result:true}];
+  }
   if(query.includes('observation_key_lookup')){
    allowed();const [key,content,body]=args,prior=state.sourceKeys.get(key);
    if(!prior)return [{result:null}];if(prior.content!==content||prior.body!==body)throw sqlError('23505','burimunsi_observation_source_conflict');
@@ -275,6 +284,45 @@ test('held recovery retains one encrypted source and retries the same request wi
   assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);assert.equal(f.state.recoveryHolds.size,1);
   assert.equal([...f.state.media.values()][0].sealed.includes(held.rawBody),false);
   await assert.rejects(adapter.recoverHeld(actor,{...held,rawBody:'Received 251 RWF. Reference: 1234.'}),e=>e.status===409);
+ });
+});
+
+test('exact held request resumes after admission but before the first storage attempt',async()=>{
+ const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64)};
+ await f.run(async adapter=>{
+  const put=f.env.PRIVATE_MEDIA.put;let attempted=0;
+  f.env.PRIVATE_MEDIA.put=async()=>{attempted++;throw Error('synthetic crash before storage admission');};
+  await assert.rejects(()=>adapter.recoverHeld(actor,held));
+  assert.equal(attempted,1);assert.equal(f.state.recoveryHolds.size,1);assert.equal(f.state.media.size,0);
+  f.env.PRIVATE_MEDIA.put=put;
+  const result=await adapter.recoverHeld(actor,held);
+  assert.equal(result.autoProcessing,'held');assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);
+  assert.equal((await adapter.recoverHeldAck(actor,held)).state,'acknowledged');
+ });
+});
+
+test('a held resume through either capture route rejects changed consent before storage',async()=>{
+ for(const route of ['recoverHeld','observe']){
+  const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
+   inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64)};
+  await f.run(async adapter=>{
+   const put=f.env.PRIVATE_MEDIA.put;f.env.PRIVATE_MEDIA.put=async()=>{throw Error('synthetic crash before upload');};
+   await assert.rejects(()=>adapter.recoverHeld(actor,held));assert.equal(f.state.recoveryHolds.size,1);
+   f.env.PRIVATE_MEDIA.put=put;f.state.generation++;
+   await assert.rejects(()=>adapter[route](actor,held),e=>e.status===403);
+   assert.equal(f.state.puts,0);assert.equal(f.state.commits,0);
+  });
+ }
+});
+
+test('a retained held request is not acknowledged by replay after the consent generation changes',async()=>{
+ const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64)};
+ await f.run(async adapter=>{
+  await adapter.recoverHeld(actor,held);f.state.generation++;
+  await assert.rejects(()=>adapter.recoverHeld(actor,held),e=>e.status===403);
+  assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);
  });
 });
 

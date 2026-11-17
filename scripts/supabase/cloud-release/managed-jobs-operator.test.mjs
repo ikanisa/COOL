@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {parseManagedReadiness,verifyNativeBudget,schedulerGuardDigests} from './managed-jobs-operator.mjs';
+import {parseManagedReadiness,verifyNativeBudget,schedulerGuardDigests,HELD_RESUME_GUARDS} from './managed-jobs-operator.mjs';
 const migration=readFileSync(new URL('../../../supabase/migrations/20261117210000_burimunsi_held_recovery.sql',import.meta.url));
 const migrationDigest=createHash('sha256').update(migration).digest('hex');
 const baselineGuards=schedulerGuardDigests(null,null),heldGuards=schedulerGuardDigests(migrationDigest,migrationDigest);
@@ -13,6 +13,7 @@ assert.throws(()=>schedulerGuardDigests(undefined,migrationDigest));
 const digest=body=>createHash('sha256').update(body).digest('hex');
 const loadMigration=name=>readFileSync(new URL('../../../supabase/migrations/'+name,import.meta.url),'utf8');
 const imported=loadMigration('20261117071343_collect_burimunsi_import_lineage_guard.sql'),held=migration.toString('utf8');
+const resume=loadMigration('20261117220000_burimunsi_held_resume_guard.sql');
 const sourceBody=(source,name)=>{
  const start=source.indexOf('CREATE FUNCTION private.'+name+'('),open=source.indexOf('$fn$',start),close=source.indexOf('$fn$;',open+4);
  assert(start>=0&&open>=0&&close>=0);return source.slice(open+4,close);
@@ -47,6 +48,10 @@ for(const [name,signature] of [
  ['burimunsi_sms_recovery_ack_snapshot','private.burimunsi_sms_recovery_ack_snapshot(text,uuid,text,text,text,text,timestamptz)'],
  ['burimunsi_observation_reconcile_verified_status','private.burimunsi_observation_reconcile_verified_status()']
 ])assert.equal(digest(sourceBody(held,name)),heldGuards[signature]);
+for(const [name,signature] of [
+ ['collect_sms_held_upload_guard','private.collect_sms_held_upload_guard()'],
+ ['collect_sms_held_resume_check','private.collect_sms_held_resume_check(text,uuid,text,text,timestamptz)']
+])assert.equal(digest(sourceBody(resume,name)),HELD_RESUME_GUARDS[signature]);
 assert.equal(digest(sourceBody(loadMigration('20261117180000_burimunsi_observation_reconcile_status.sql'),
  'burimunsi_observation_reconcile_status')),heldGuards['private.burimunsi_observation_reconcile_status()']);
 for(const [name,signature] of [

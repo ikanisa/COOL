@@ -65,11 +65,15 @@ not qualified solely by a passed server JSON test or a simulated clock.
   invalidates the verified-group result. General unscoped receipts remain
   outside that verified-group result until their association is established.
 - The client journals `ATTEMPTING` before sending. If it stops before sending,
-  the current acknowledgement remains `unconfirmed` forever. Do not enable
-  recovery until a separately reviewed, exact-request resume/manual resolution
-  path handles this and unknown, active, accepted and conflicting uploads
-  without a second unsafe PUT. A read-only absence check is not permission to
-  replay an in-flight request.
+  the current acknowledgement remains `unconfirmed`. The separate candidate
+  `20261117220000_burimunsi_held_resume_guard.sql` permits a retry of the exact
+  immutable request and enforces at most one durable Storage PUT attempt per
+  held object, across all routes. No retry derives authority from an ACK absence.
+  Do not enable this candidate until its exact migration, role grants, concurrent
+  starts and Android integration pass independent review and Cloud qualification.
+  An attempt marked active or unknown before the network call may remain pending
+  and require a separately reviewed manual resolution; do not clear it by timeout
+  or infer that a Storage 404 makes a second PUT safe.
 - A changed consent generation currently prevents acknowledgement even if
   consent is subsequently re-enabled. Preserve the pending request until a
   reviewed same-account/current-consent recovery rule or a manual resolution
