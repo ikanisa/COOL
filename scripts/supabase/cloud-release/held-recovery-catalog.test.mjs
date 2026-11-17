@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {HELD_RECOVERY_CATALOG_SQL,HELD_RECOVERY_POLICY,verifyHeldRecoveryCatalog} from './managed-jobs-operator.mjs';
+import {HELD_RECOVERY_CATALOG_SQL,HELD_RECOVERY_POLICY,HELD_SOURCE_INDEX_CATALOG_SQL,verifyHeldRecoveryCatalog} from './managed-jobs-operator.mjs';
 
 // A private in-memory PostgreSQL fixture; it opens no network listener and
 // does not inspect or modify a Supabase project. The query is the exact one
@@ -12,7 +12,8 @@ test('held recovery catalog detects trigger, RLS, policy and privilege drift',{s
   await db.exec(`CREATE SCHEMA private; CREATE SCHEMA app;
    CREATE ROLE anon; CREATE ROLE authenticated; CREATE ROLE service_role; CREATE ROLE collect_importer; CREATE ROLE collect_runtime;
    CREATE TABLE app.sms_receipts(id text); CREATE TABLE app.momo_processing_jobs(id text);
-   CREATE TABLE app.momo_parse_attempts(id text); CREATE TABLE app.momo_transaction_sources(id text);
+   CREATE TABLE app.momo_parse_attempts(id text); CREATE TABLE app.momo_transaction_sources(raw_sms_id text,transaction_id text);
+   CREATE INDEX burimunsi_momo_sources_raw_lookup ON app.momo_transaction_sources(raw_sms_id,transaction_id);
    CREATE TABLE app.momo_financial_links(id text); CREATE TABLE app.payments(id text,collection_id text);
    CREATE TABLE private.burimunsi_auto_sms_jobs(id text); CREATE TABLE private.burimunsi_native_financial_work(id text);
    CREATE TABLE private.burimunsi_transaction_scopes(id text);
@@ -47,6 +48,11 @@ test('held recovery catalog detects trigger, RLS, policy and privilege drift',{s
    USING(current_setting('role',true)='collect_runtime' AND current_setting('collect.edge_verified',true)='true' AND current_setting('collect.sms_witness_frame',true)='1')
    WITH CHECK(current_setting('role',true)='collect_runtime' AND current_setting('collect.edge_verified',true)='true' AND current_setting('collect.sms_witness_frame',true)='1');`);
   const check=async()=>verifyHeldRecoveryCatalog((await db.query(HELD_RECOVERY_CATALOG_SQL,[HELD_RECOVERY_POLICY])).rows[0]);
+  assert.equal((await db.query(HELD_SOURCE_INDEX_CATALOG_SQL)).rows[0].ok,true);
+  await db.exec('DROP INDEX app.burimunsi_momo_sources_raw_lookup');
+  assert.equal((await db.query(HELD_SOURCE_INDEX_CATALOG_SQL)).rows[0].ok,false);
+  await db.exec('CREATE INDEX burimunsi_momo_sources_raw_lookup ON app.momo_transaction_sources(transaction_id,raw_sms_id)');
+  assert.equal((await db.query(HELD_SOURCE_INDEX_CATALOG_SQL)).rows[0].ok,false);
   await check();
   await db.exec('ALTER TABLE private.burimunsi_observation_requests DISABLE TRIGGER collect_sms_request_witness_guard');
   await assert.rejects(check,/scheduler_or_history_guard_changed/);

@@ -27,6 +27,7 @@ const GUARDS={
 // This optional migration is accepted only by exact recorded and local bytes.
 // A changed draft must deliberately update this pin and its SQL qualification.
 const HELD_RECOVERY_SQL_SHA='1decb00238e969e2ad58b7283741bae10a968e7affbddbaf21dc196667a29651';
+const HELD_SOURCE_INDEX_SQL_SHA='7a03e8d4e35b7be99c9bf072b4f835654809e582aa8e3247f45582dd686f225c';
 const HELD_RECOVERY_GUARDS={
  'private.burimunsi_auto_snapshot(text)':'526606c23ad6d8a3b511136a8eff9e2ddf5f7a775f068b5ce8615c02a7a90dd6',
  'private.burimunsi_auto_candidates(text)':'156a2179d3e2065e9116985f3d1a88b034a8cf8c26a988fd48f9ccccc665192f',
@@ -102,6 +103,14 @@ export const HELD_RECOVERY_POLICY="((current_setting('role'::text, true) = 'coll
 export function verifyHeldRecoveryCatalog(row){
  if(row?.triggers_ok!==true||row?.tables_ok!==true)throw Error('scheduler_or_history_guard_changed');
 }
+export const HELD_SOURCE_INDEX_CATALOG_SQL=`SELECT count(*)=1 AND bool_and(c.relowner='postgres'::regrole
+ AND i.indrelid=to_regclass('app.momo_transaction_sources') AND c.relkind='i' AND am.amname='btree'
+ AND i.indisvalid AND i.indisready AND i.indislive AND NOT i.indisunique AND NOT i.indisexclusion
+ AND i.indpred IS NULL AND i.indexprs IS NULL AND i.indnkeyatts=2 AND i.indnatts=2
+ AND (SELECT array_agg(a.attname::text ORDER BY k.position) FROM unnest(i.indkey) WITH ORDINALITY k(attnum,position)
+  JOIN pg_attribute a ON a.attrelid=i.indrelid AND a.attnum=k.attnum AND NOT a.attisdropped)=ARRAY['raw_sms_id','transaction_id']) ok
+ FROM pg_class c JOIN pg_index i ON i.indexrelid=c.oid JOIN pg_am am ON am.oid=c.relam
+ WHERE c.oid=to_regclass('app.burimunsi_momo_sources_raw_lookup')`;
 function privateBytes(name){if(!/^[a-z0-9_.-]+\.json$/.test(name))throw Error('invalid_evidence_name');const p=join(ROOT,name),s=lstatSync(p);
  if(!s.isFile()||s.isSymbolicLink()||s.nlink!==1||s.uid!==process.getuid()||(s.mode&0o077)!==0||s.size<2||s.size>1024*1024)throw Error('private_evidence_required');return readFileSync(p);}
 const privateJson=name=>JSON.parse(privateBytes(name).toString('utf8'));
@@ -158,6 +167,13 @@ async function inspect(db){
   row.historical!==graph.counts?.sms||row.historical!==37||row.triggers_ok!==true||row.scheduler_coverage!==true)throw Error('scheduler_or_history_guard_changed');
  const heldFile='20261117210000_burimunsi_held_recovery.sql';
  const heldHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[heldFile.slice(0,14)])).rows[0];
+ const indexFile='20261117205959_burimunsi_sms_source_index.sql';
+ const indexHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[indexFile.slice(0,14)])).rows[0];
+ if(heldHistory&&!indexHistory)throw Error('scheduler_or_history_guard_changed');
+ if(indexHistory){
+  if(indexHistory.digest!==HELD_SOURCE_INDEX_SQL_SHA||sha(readFileSync(new URL('../../../supabase/migrations/'+indexFile,import.meta.url)))!==HELD_SOURCE_INDEX_SQL_SHA||
+   (await db.query(HELD_SOURCE_INDEX_CATALOG_SQL)).rows[0]?.ok!==true)throw Error('scheduler_or_history_guard_changed');
+ }
  const expectedGuards=schedulerGuardDigests(heldHistory?.digest??null,heldHistory?sha(readFileSync(new URL('../../../supabase/migrations/'+heldFile,import.meta.url))):null);
  const guard=(await db.query(`SELECT x.signature,p.proowner::regrole::text owner,p.prosecdef,p.proacl::text acl,encode(sha256(convert_to(p.prosrc,'UTF8')),'hex') digest
   FROM unnest($1::text[]) x(signature) LEFT JOIN pg_proc p ON p.oid=to_regprocedure(x.signature)`,[Object.keys(expectedGuards)])).rows;

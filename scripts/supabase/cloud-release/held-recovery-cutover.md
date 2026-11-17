@@ -49,6 +49,15 @@ not qualified solely by a passed server JSON test or a simulated clock.
   all production financial paths.
 - Reconcile scheduler and retention manifests to the final migration and Edge
   checksums, and test a fenced, coordinated migration/runtime rollout.
+- Before installing the recovery migration, qualify and apply the separate
+  `20261117205959_burimunsi_sms_source_index.sql` predecessor while the
+  application fence is closed and existing writers have drained. Its ordinary
+  index build takes a table write lock; `lock_timeout=5s` and
+  `statement_timeout=60s` bound the attempt. If it times out or its exact
+  catalog/readback checks fail, leave the runtime disabled and investigate;
+  do not silently switch to an untracked concurrent build. Read back the exact
+  valid, ready btree index before the recovery runtime can be enabled. A
+  synthetic planner check is not a measurement of live latency.
 - Confirm the new client handles `unconfirmed`, timeout and every error from
   the read-only `/sms/observations/recover-held-ack` as no authority to resend
   `/recover-held`. Polling that same acknowledgement request is permitted.
