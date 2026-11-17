@@ -297,6 +297,18 @@ class CandidateSigning(unittest.TestCase):
         with self.assertRaises(ValueError): signer.sign(self.args)
         self.assertFalse(self.fake.calls)
 
+    def test_previous_release_signing_profile_is_refused_before_signing(self):
+        self.signing['version_code'] = 47
+        self.doc['signing_profile'] = self.put('signing.json', self.signing); self.refresh()
+        with self.assertRaisesRegex(ValueError, 'signing_profile_wrong'): signer.sign(self.args)
+        self.assertFalse(self.fake.calls)
+
+    def test_previous_release_artifact_evidence_is_refused_before_signing(self):
+        self.doc['artifacts'][0]['version_code'] = 47
+        self.refresh()
+        with self.assertRaisesRegex(ValueError, 'unsigned_artifact_identity_wrong'): signer.sign(self.args)
+        self.assertFalse(self.fake.calls)
+
     def test_actual_keystore_certificate_is_checked_before_alignment_or_signing(self):
         self.fake.certificate = b'other synthetic certificate'
         with self.assertRaisesRegex(ValueError, 'keystore_certificate_mismatch'): signer.sign(self.args)
@@ -329,7 +341,7 @@ class CandidateSigning(unittest.TestCase):
         self.assertFalse(any(Path(argv[0]).name == 'apksigner' for argv, _ in self.fake.calls))
 
     def test_debug_testonly_or_wrong_version_is_refused(self):
-        for field, value in [('debuggable', 'true'), ('testOnly', 'true'), ('versionCode', '24'), ('versionCode', '23')]:
+        for field, value in [('debuggable', 'true'), ('testOnly', 'true'), ('versionCode', '47'), ('versionCode', '24'), ('versionCode', '23')]:
             self.rewrite_apk('staff', apk(xml('staff', **{field: value})))
             with self.assertRaises(ValueError): signer.sign(self.args)
 
