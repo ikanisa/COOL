@@ -50,7 +50,7 @@ class NativeRepository() {
  var permissiveLegacyHeldServer=false
  var capabilityFailure:Exception?=null;var capabilitySource="a".repeat(64);var capabilityMigration="b".repeat(64)
  var capabilityGroup="group-1";var capabilityGeneration:Long?=null;var capabilityNoStore=true
- var afterCapability:(()->Unit)?=null;val capabilityRequests=mutableListOf<Long>()
+ var afterCapability:(()->Unit)?=null;var afterBeforePost:(()->Unit)?=null;val capabilityRequests=mutableListOf<Long>()
  var afterRecovery:(()->Unit)?=null;var recoveryAckOverride:((HeldObservationAck)->HeldObservationAck)?=null
  val recoveryRequests=mutableListOf<SmsObservation>();val recoveryCommitted=mutableMapOf<String,Pair<SmsObservation,String>>()
  val recoveryGenerations=mutableListOf<Long>();val recoveryCommittedGenerations=mutableMapOf<String,Long>()
@@ -117,24 +117,34 @@ class NativeRepository() {
    throw ApiFailure("held_recovery_unapproved",403)
   val action=afterCapability;afterCapability=null;action?.invoke()
  }
- fun recoverHeldObservation(value:SmsObservation,expectedConsentGeneration:Long,beforePost:()->Boolean):HeldObservationAck {
+ fun recoverHeldObservation(value:SmsObservation,expectedConsentGeneration:Long,
+  onNeverDispatched:()->Unit={},beforePost:()->Boolean):HeldObservationAck {
+  val started=android.os.SystemClock.elapsedRealtime()
   capability(expectedConsentGeneration)
-  if(!beforePost())throw ApiFailure("held_recovery_unapproved",403)
-  beforeNetwork?.invoke("recover")
-  recoveryRequests.add(value);recoveryGenerations.add(expectedConsentGeneration)
-  if(strictLegacyHeldServer)throw ApiFailure("invalid_api_request",400)
-  recoveryFailureBeforeCommit?.let{throw it}
-  val prior=recoveryCommitted[value.requestId]
-  if(prior!=null&&(prior.first!=value||(!permissiveLegacyHeldServer&&recoveryCommittedGenerations[value.requestId]!=expectedConsentGeneration)))throw ApiFailure("observation_item_conflict",409)
-  val key=value.sourceKey?:throw ApiFailure("invalid_source",400)
-  if(prior==null&&retainedSources.containsKey(key))throw ApiFailure("observation_item_conflict",409)
-  val source=prior?.second?:"source-${retainedSources.size+1}".also{
-   retainedSources[key]=it;retainedSourceKeys.add(key);recoveryCommitted[value.requestId]=value to it
-   if(!permissiveLegacyHeldServer)recoveryCommittedGenerations[value.requestId]=expectedConsentGeneration
+  var enteredPost=false
+  try{
+   if(android.os.SystemClock.elapsedRealtime()-started !in 0..30_000L)throw ApiFailure("held_recovery_unapproved",403)
+   val permitted=beforePost();val action=afterBeforePost;afterBeforePost=null;action?.invoke()
+   if(!permitted||android.os.SystemClock.elapsedRealtime()-started !in 0..30_000L)throw ApiFailure("held_recovery_unapproved",403)
+   enteredPost=true
+   beforeNetwork?.invoke("recover")
+   recoveryRequests.add(value);recoveryGenerations.add(expectedConsentGeneration)
+   if(strictLegacyHeldServer)throw ApiFailure("invalid_api_request",400)
+   recoveryFailureBeforeCommit?.let{throw it}
+   val prior=recoveryCommitted[value.requestId]
+   if(prior!=null&&(prior.first!=value||(!permissiveLegacyHeldServer&&recoveryCommittedGenerations[value.requestId]!=expectedConsentGeneration)))throw ApiFailure("observation_item_conflict",409)
+   val key=value.sourceKey?:throw ApiFailure("invalid_source",400)
+   if(prior==null&&retainedSources.containsKey(key))throw ApiFailure("observation_item_conflict",409)
+   val source=prior?.second?:"source-${retainedSources.size+1}".also{
+    retainedSources[key]=it;retainedSourceKeys.add(key);recoveryCommitted[value.requestId]=value to it
+    if(!permissiveLegacyHeldServer)recoveryCommittedGenerations[value.requestId]=expectedConsentGeneration
+   }
+   val completed=afterRecovery;afterRecovery=null;completed?.invoke();recoveryFailureAfterCommit?.let{throw it}
+   val ack=HeldObservationAck(ObservationAck(value.requestId,source,Values.sha256(value.rawBody),"source_unresolved",0),"held")
+   return recoveryAckOverride?.invoke(ack)?:ack
+  }finally{
+   if(!enteredPost)runCatching{onNeverDispatched()}
   }
-  val action=afterRecovery;afterRecovery=null;action?.invoke();recoveryFailureAfterCommit?.let{throw it}
-  val ack=HeldObservationAck(ObservationAck(value.requestId,source,Values.sha256(value.rawBody),"source_unresolved",0),"held")
-  return recoveryAckOverride?.invoke(ack)?:ack
  }
  fun heldRecoveryAcknowledgement(value:SmsObservation,expectedConsentGeneration:Long,beforePost:()->Boolean):HeldRecoveryResolution {
   capability(expectedConsentGeneration)

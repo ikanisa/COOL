@@ -195,6 +195,15 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
         val next=current.copy(phase=Phase.ATTEMPTING);store(entry.sourceKey).write(encode(next))
         read(entry.sourceKey)?.takeIf{it==next}
     }
+    /** The caller must hold the audit/receiver/session custody and have proof
+     * from this same synchronous invocation that the POST transport was never
+     * entered. This cannot settle a restarted or remotely uncertain attempt. */
+    fun restoreNeverDispatched(entry:Entry,consent:ObservationConsentState):Entry?=synchronized(lock){
+        val current=read(entry.sourceKey)?:return@synchronized null
+        if(current!=entry||current.phase!=Phase.ATTEMPTING||!sameConsent(current,consent))return@synchronized null
+        val prepared=current.copy(phase=Phase.PREPARED)
+        store(entry.sourceKey).write(encode(prepared));read(entry.sourceKey)?.takeIf{it==prepared}
+    }
     fun confirm(entry:Entry,ack:HeldObservationAck,consent:ObservationConsentState):Entry?=synchronized(lock){
         val o=entry.observation?:return@synchronized null
         if(entry.phase!=Phase.ATTEMPTING||read(entry.sourceKey)!=entry||!sameConsent(entry,consent)||ack.autoProcessing!="held"||

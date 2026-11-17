@@ -64,6 +64,27 @@ fun main(){
         check(j.begin(prepared,consent(8))==null&&j.begin(prepared,consent(confirmed=false))==null)
         check(SecureStore.data[name]==before&&j.pending(key)==prepared)
     }
+    test("same-call never-dispatched restoration keeps the exact request and consent witness"){
+        val j=journal();val prepared=prepare(j)!!;val attempted=j.begin(prepared,consent())!!
+        check(j.restoreNeverDispatched(attempted,consent(8))==null)
+        check(j.restoreNeverDispatched(attempted.copy(requestId="00000000-0000-4000-8000-000000000099"),consent())==null)
+        check(j.pending(key)==attempted)
+        check(j.restoreNeverDispatched(attempted,consent())==prepared&&journal().pending(key)==prepared)
+        check(journal().begin(prepared,consent())==attempted)
+    }
+    test("failed never-dispatched restoration leaves the attempted entry intact"){
+        val j=journal();val attempted=j.begin(prepare(j)!!,consent())!!;val name=storedName();val before=SecureStore.data[name]
+        SecureStore.unwritable.add(name)
+        check(runCatching{j.restoreNeverDispatched(attempted,consent())}.isFailure&&SecureStore.data[name]==before)
+        SecureStore.unwritable.remove(name);check(j.pending(key)==attempted)
+    }
+    test("competing local restorations change one exact attempt at most once"){
+        val j=journal();val prepared=prepare(j)!!;val attempted=j.begin(prepared,consent())!!
+        val start=CountDownLatch(1);val done=CountDownLatch(2)
+        val results=java.util.Collections.synchronizedList(mutableListOf<HeldRecoveryJournal.Entry?>())
+        repeat(2){Thread{start.await();try{results.add(journal().restoreNeverDispatched(attempted,consent()))}finally{done.countDown()}}.start()}
+        start.countDown();done.await();check(results.count{it==prepared}==1&&j.pending(key)==prepared)
+    }
     test("confirmation requires matching consent and produces a redacted tombstone"){
         val j=journal();val attempted=j.begin(prepare(j)!!,consent())!!;val name=storedName();val before=SecureStore.data[name]
         check(j.confirm(attempted,ack(attempted),consent(8))==null)

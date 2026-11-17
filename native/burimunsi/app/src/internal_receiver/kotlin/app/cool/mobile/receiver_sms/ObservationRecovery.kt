@@ -870,10 +870,24 @@ internal class ObservationRecovery(context:Context) {
                                         val original=entry.observation?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
                                         val originalConsent=entry.consentGeneration?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
                                         var dispatchAttempt:HeldRecoveryJournal.Entry?=null
-                                        val ack=checkedNetwork{repo.recoverHeldObservation(original,originalConsent){
+                                        // Process death after begin loses the live no-dispatch proof.
+                                        // On restart ATTEMPTING stays unresolved; it is never replayed.
+                                        fun restoreNeverDispatched(){
+                                            val attempted=dispatchAttempt?:return
+                                            val restored=withRecoveryConsent(scope.session,scope.consent,stopped){consent->
+                                                if(!current()||!unique()||!current()||!journal.consentMatches(attempted,consent))null else {
+                                                    val value=journal.restoreNeverDispatched(attempted,consent)
+                                                    if(value!=null&&permitted()&&config.consent(owner)==consent&&unique()&&current())value else null
+                                                }
+                                            }
+                                            if(restored!=null){active=restored;dispatchAttempt=null}
+                                        }
+                                        val ack=checkedNetwork{repo.recoverHeldObservation(original,originalConsent,::restoreNeverDispatched){
                                             if(!guarded())false else {
-                                                val saved=changeJournal{consent->journal.begin(entry,consent)}
-                                                if(saved==null)false else {active=saved;dispatchAttempt=saved;guarded()}
+                                                val saved=changeJournal{consent->journal.begin(entry,consent)?.also{
+                                                    active=it;dispatchAttempt=it
+                                                }}
+                                                saved!=null&&guarded()
                                             }
                                         }}
                                         val attempting=dispatchAttempt?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}

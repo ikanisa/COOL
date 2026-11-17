@@ -33,14 +33,14 @@ fun main(){
         .put("protocol","burimunsi.held-recovery.v2").put("expectedConsentGeneration",7)
     val capability=JSONObject().put("protocol","burimunsi.held-recovery.v2").put("groupId","group-1")
         .put("sourceSha256","a".repeat(64)).put("migrationSha256","b".repeat(64)).put("consentGeneration",7)
-    var afterCapability:(()->Unit)?=null
+    var afterCapability:(()->Unit)?=null;var onHeldPost:(()->Unit)?=null
     val verified=JSONObject().put("groupId","group-1").put("hasPending",false).put("hasRecorded",false).put("recordedCount",0)
         .put("hasUnmatchedCanonical",false).put("revision","a".repeat(64)).put("scope","verified_collection")
     api.handler={request->when {
         request.path.endsWith("/session/login")->session.toString()
         request.path.endsWith("/reveal")->payload.toString()
         request.path.contains("/recovery-v2/capability?")->{afterCapability?.invoke();capability.toString()}
-        request.path.endsWith("/recovery-v2/hold")->heldAck.toString()
+        request.path.endsWith("/recovery-v2/hold")->{onHeldPost?.invoke();heldAck.toString()}
         request.path.endsWith("/recovery-v2/ack")->lookup.toString()
         request.path.endsWith("/reconcile-verified-status")->verified.toString()
         request.path.endsWith("/logout")->JSONObject().put("signedOut",true).toString()
@@ -124,6 +124,17 @@ fun main(){
         check(runCatching{repo.recoverHeldObservation(recovery,originalGeneration){true}}.isFailure&&postCount()==posts)
         android.os.SystemClock.fixed=null;afterCapability=null
     }
+    var neverDispatched=0;android.os.SystemClock.fixed=1_000L
+    check(runCatching{repo.recoverHeldObservation(recovery,originalGeneration,{neverDispatched++}){
+        android.os.SystemClock.fixed=31_001L;true
+    }}.isFailure&&postCount()==posts&&neverDispatched==1)
+    android.os.SystemClock.fixed=null
+    check(runCatching{repo.recoverHeldObservation(recovery,originalGeneration,{neverDispatched++}){false}}.isFailure&&
+        postCount()==posts&&neverDispatched==2)
+    onHeldPost={throw IllegalStateException("synthetic transport failure")}
+    check(runCatching{repo.recoverHeldObservation(recovery,originalGeneration,{neverDispatched++}){true}}.isFailure&&
+        postCount()==posts+1&&neverDispatched==2)
+    onHeldPost=null
     check(repo.observationReconcileVerifiedStatus().scope=="verified_collection")
     for((field,bad,good) in listOf(Triple("scope","all","verified_collection"),Triple("groupId","other","group-1"),
         Triple("hasRecorded",true,false),Triple("revision","bad","a".repeat(64)))){

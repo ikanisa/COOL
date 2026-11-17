@@ -494,6 +494,74 @@ fun main() {
    check(heldJournal(e).pending(cloudKey(adminA,12))?.phase==HeldRecoveryJournal.Phase.PREPARED)
   }
  }
+ test("freshness expiry after begin restores the exact unsent request for a later first dispatch") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  android.os.SystemClock.fixed=1_000L;val key=cloudKey(adminA,12);val journal=heldJournal(e)
+  var attempted:HeldRecoveryJournal.Entry?=null
+  SecureStore.afterWrite={name,text->if(name.startsWith("observation-held-recovery-")&&JSONObject(text).optString("phase")=="ATTEMPTING"){
+   SecureStore.afterWrite=null;attempted=journal.pending(key);android.os.SystemClock.fixed=31_001L
+  }}
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  val original=attempted!!;val restored=journal.pending(key)!!
+  check(original.phase==HeldRecoveryJournal.Phase.ATTEMPTING&&restored==original.copy(phase=HeldRecoveryJournal.Phase.PREPARED))
+  check(e.repository.recoveryRequests.isEmpty()&&e.repository.heldAckRequests.isEmpty())
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
+  check(e.repository.recoveryRequests.single()==original.observation&&e.repository.recoveryGenerations==listOf(original.consentGeneration))
+ }
+ test("a changed permission or inbox immediately after begin preserves the uncertain attempt") {
+  for(kind in listOf("permission","inbox")){
+   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+   val key=cloudKey(adminA,12);val journal=heldJournal(e)
+   SecureStore.afterWrite={name,text->if(name.startsWith("observation-held-recovery-")&&JSONObject(text).optString("phase")=="ATTEMPTING"){
+    SecureStore.afterWrite=null
+    if(kind=="permission")e.context.denied=setOf(Manifest.permission.READ_SMS) else e.context.contentResolver.rows=emptyList()
+   }}
+   check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))
+   val attempted=journal.pending(key)!!
+   check(attempted.phase==HeldRecoveryJournal.Phase.ATTEMPTING&&e.repository.recoveryRequests.isEmpty())
+   e.context.denied=emptySet();e.context.contentResolver.rows=listOf(row(12))
+   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+   check(journal.pending(key)==attempted&&e.repository.recoveryRequests.isEmpty())
+  }
+ }
+ test("failed local restoration after expiry preserves the attempted request") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  android.os.SystemClock.fixed=1_000L;val key=cloudKey(adminA,12);val journal=heldJournal(e)
+  var name=""
+  e.repository.afterBeforePost={
+   android.os.SystemClock.fixed=31_001L;name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
+   SecureStore.unwritable.add(name)
+  }
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  SecureStore.unwritable.remove(name)
+  check(journal.pending(key)?.phase==HeldRecoveryJournal.Phase.ATTEMPTING&&e.repository.recoveryRequests.isEmpty())
+ }
+ test("a failed restoration readback stays unresolved until the protected store can be read") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  android.os.SystemClock.fixed=1_000L;val key=cloudKey(adminA,12);val journal=heldJournal(e);var name=""
+  e.repository.afterBeforePost={
+   android.os.SystemClock.fixed=31_001L
+   SecureStore.afterWrite={storeName,text->
+    if(storeName.startsWith("observation-held-recovery-")&&JSONObject(text).optString("phase")=="PREPARED"){
+     SecureStore.afterWrite=null;name=storeName;SecureStore.unreadable.add(storeName)
+    }
+   }
+  }
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED&&e.repository.recoveryRequests.isEmpty())
+  check(name.isNotEmpty()&&runCatching{journal.pending(key)}.isFailure)
+  SecureStore.unreadable.remove(name)
+  check(journal.pending(key)?.phase==HeldRecoveryJournal.Phase.PREPARED&&e.repository.recoveryRequests.isEmpty())
+ }
+ test("a transport invocation failure before a simulated socket still keeps ATTEMPTING") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  val key=cloudKey(adminA,12);val journal=heldJournal(e)
+  e.repository.beforeNetwork={name->if(name=="recover")throw IllegalStateException("synthetic transport entry failure")}
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  val attempted=journal.pending(key)!!
+  check(attempted.phase==HeldRecoveryJournal.Phase.ATTEMPTING&&e.repository.recoveryRequests.isEmpty())
+  e.repository.beforeNetwork=null
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED&&journal.pending(key)==attempted&&e.repository.recoveryRequests.isEmpty())
+ }
  test("lost response before server commit preserves the exact request without replay") {
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
   e.repository.recoveryFailureBeforeCommit=IllegalStateException("timeout")

@@ -722,7 +722,7 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
     }
     /** A capability is obtained for this one call only and is never persisted or reused. */
     private fun heldRecoveryV2(observation:SmsObservation,expectedConsentGeneration:Long,route:String,
-        beforePost:()->Boolean):JSONObject {
+        beforePost:()->Boolean,onNeverDispatched:()->Unit):JSONObject {
         val body=heldObservationBody(observation,expectedConsentGeneration)
         val source=BuildConfig.HELD_RECOVERY_APPROVED_SOURCE_SHA256
         val migration=BuildConfig.HELD_RECOVERY_APPROVED_MIGRATION_SHA256
@@ -736,15 +736,24 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
             capability.getString("protocol")=="burimunsi.held-recovery.v2"&&capability.getString("groupId")==groupId&&
             capability.getString("sourceSha256")==source&&capability.getString("migrationSha256")==migration&&
             capability.getLong("consentGeneration")==expectedConsentGeneration,"held_recovery_unapproved")
-        // Elapsed realtime includes device sleep; a delayed or reused capability cannot authorize dispatch.
-        checkContract(fresh()&&beforePost()&&fresh(),"held_recovery_unapproved")
-        val result=JSONObject(requestOwned(witness,"POST","/sms/observations/recovery-v2/$route",body,heldPins=pins))
-        checkContract(result.getString("protocol")=="burimunsi.held-recovery.v2"&&
-            result.getLong("expectedConsentGeneration")==expectedConsentGeneration,"invalid_observation_ack")
-        return result
+        // Set the gate before invoking the POST transport. Any later exception,
+        // including pre-socket failure, must conservatively retain uncertainty.
+        var enteredPost=false
+        try{
+            // Elapsed realtime includes sleep; a delayed capability cannot authorize dispatch.
+            checkContract(fresh()&&beforePost()&&fresh(),"held_recovery_unapproved")
+            enteredPost=true
+            val result=JSONObject(requestOwned(witness,"POST","/sms/observations/recovery-v2/$route",body,heldPins=pins))
+            checkContract(result.getString("protocol")=="burimunsi.held-recovery.v2"&&
+                result.getLong("expectedConsentGeneration")==expectedConsentGeneration,"invalid_observation_ack")
+            return result
+        }finally{
+            if(!enteredPost)runCatching{onNeverDispatched()}
+        }
     }
-    fun recoverHeldObservation(observation:SmsObservation,expectedConsentGeneration:Long,beforePost:()->Boolean):HeldObservationAck {
-        val value=heldRecoveryV2(observation,expectedConsentGeneration,"hold",beforePost)
+    fun recoverHeldObservation(observation:SmsObservation,expectedConsentGeneration:Long,
+        onNeverDispatched:()->Unit={},beforePost:()->Boolean):HeldObservationAck {
+        val value=heldRecoveryV2(observation,expectedConsentGeneration,"hold",beforePost,onNeverDispatched)
         val ack=ObservationAck(value.getString("requestId"),value.getString("sourceId"),value.getString("bodySha256"),
             value.getString("status"),value.getInt("financialEffects"))
         val processing=value.getString("autoProcessing")
@@ -753,7 +762,7 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
     }
     /** This POST is an exact-request, read-only proof lookup, never an upload retry. */
     fun heldRecoveryAcknowledgement(observation:SmsObservation,expectedConsentGeneration:Long,beforePost:()->Boolean):HeldRecoveryResolution {
-        val value=heldRecoveryV2(observation,expectedConsentGeneration,"ack",beforePost)
+        val value=heldRecoveryV2(observation,expectedConsentGeneration,"ack",beforePost,{})
         val result=HeldRecoveryResolution(value.getString("requestId"),value.getString("sourceKey"),value.getString("bodySha256"),
             value.getString("state"),if(value.isNull("sourceId"))null else value.getString("sourceId"),
             value.getString("autoProcessing"),value.getInt("financialEffects"),value.getBoolean("retryAllowed"))
