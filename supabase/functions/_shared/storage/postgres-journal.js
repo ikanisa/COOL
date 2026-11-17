@@ -27,6 +27,10 @@ export class PostgresStorageJournal {
         !(smsWitness.collectionId===null||typeof smsWitness.collectionId==='string'&&/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/.test(smsWitness.collectionId))||
         !(smsWitness.inboxReceivedAt===null||typeof smsWitness.inboxReceivedAt==='string'&&Number.isFinite(Date.parse(smsWitness.inboxReceivedAt))))
         conflict('storage_identity_required');
+       // A held-SMS ciphertext reservation is itself a Cloud write. Rebind
+       // current request proof before the database's consent/authority trigger.
+       if(typeof c.bindPhonePinContext==='function')await c.bindPhonePinContext();
+       await c.query('SELECT private.collect_sms_held_authorize($1,$2::jsonb)',[key,descriptor.scope]);
        await c.query('SELECT private.collect_sms_witness_reserve($1,$2,$3,$4,$5,$6,$7::timestamptz,$8)',
         ['storage',key,descriptor.scope.ownerId,smsWitness.collectionId,descriptor.requestDigest,smsWitness.bodySha256,smsWitness.inboxReceivedAt,sourceFingerprint]);
       }else if(smsWitness!==null)conflict('storage_identity_required');
@@ -58,6 +62,11 @@ export class PostgresStorageJournal {
       if (row.state === 'committed') return {...put(row), started: false};
       if (row.active_attempt || row.upload_unresolved) return {...put(row), started: false, reason: 'storage_upload_unsettled'};
       if (row.attempts >= maximum) return {...put(row), started: false, reason: 'storage_attempt_budget_exhausted'};
+      // The request-owned PIN proof must be rebound in THIS transaction so
+      // held-SMS authorization is rechecked at the actual upload boundary.
+      // The database trigger independently rejects a held source if proof is
+      // missing, revoked, expired, or its consent changed.
+      if (row.scope?.purpose==='sms_receipt' && typeof c.bindPhonePinContext==='function') await c.bindPhonePinContext();
       const attemptId = crypto.randomUUID();
       await c.query('INSERT INTO private.storage_upload_attempts(id,operation_id)VALUES($1,$2)', [attemptId,operationId]);
       const updated = (await c.query('UPDATE private.storage_put_intents SET active_attempt=$2,attempts=attempts+1,last_outcome=\'upload_started\',updated_at=clock_timestamp() WHERE operation_id=$1 RETURNING *', [operationId,attemptId])).rows[0];

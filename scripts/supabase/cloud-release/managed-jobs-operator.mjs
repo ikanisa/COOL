@@ -28,9 +28,11 @@ const GUARDS={
 // A changed draft must deliberately update this pin and its SQL qualification.
 const HELD_RECOVERY_SQL_SHA='1decb00238e969e2ad58b7283741bae10a968e7affbddbaf21dc196667a29651';
 const HELD_SOURCE_INDEX_SQL_SHA='7a03e8d4e35b7be99c9bf072b4f835654809e582aa8e3247f45582dd686f225c';
-const HELD_RESUME_SQL_SHA='47b383aa66af2101a3e23309f4f834a17520eb2749119b59622de289580fd8b4';
+const HELD_RESUME_SQL_SHA='870284f6146cf4c1a5ee428e5883c378cd30036333a5da5f062e97d00deefd46';
 export const HELD_RESUME_GUARDS={
- 'private.collect_sms_held_upload_guard()':'9e2963205740ac8adc8610b777828ea74980817e2441f415e35bb9af6ea2e403',
+ 'private.collect_sms_held_authorize(text,jsonb)':'c5a843a9d22d62ab475608aefeb44ac4c9fde490207dffd2fb5dddb2c3b93ec7',
+ 'private.collect_sms_held_payload_guard()':'7f2acd3cdba5b0b2236cc6c4d8e321477b85e652908adb49c86bb830f4fd54ef',
+ 'private.collect_sms_held_upload_guard()':'297ce148372422ddeb58b29735ec449e63dd61340c8c525a497f2fcc7e646fe1',
  'private.collect_sms_held_resume_check(text,uuid,text,text,timestamptz)':'fa97f3f72d863a8fd715cd63889ca65accfc4563e062f3b5e4798ed0a00a6a7a'};
 const HELD_RECOVERY_GUARDS={
  'private.burimunsi_auto_snapshot(text)':'526606c23ad6d8a3b511136a8eff9e2ddf5f7a775f068b5ce8615c02a7a90dd6',
@@ -116,10 +118,11 @@ export const HELD_SOURCE_INDEX_CATALOG_SQL=`SELECT count(*)=1 AND bool_and(c.rel
  FROM pg_class c JOIN pg_index i ON i.indexrelid=c.oid JOIN pg_am am ON am.oid=c.relam
  WHERE c.oid=to_regclass('app.burimunsi_momo_sources_raw_lookup')`;
 export const HELD_RESUME_CATALOG_SQL=`WITH expected(relation_name,trigger_name,function_name,trigger_type) AS (VALUES
+ ('private.storage_payload_reservations','collect_sms_held_payload_guard','private.collect_sms_held_payload_guard()',7),
  ('private.storage_upload_attempts','collect_sms_held_upload_guard','private.collect_sms_held_upload_guard()',7),
  ('private.storage_upload_attempts','storage_upload_identity','private.trg_storage_identity()',27),
  ('private.storage_put_intents','storage_put_identity','private.trg_storage_identity()',27)
-) SELECT count(*)=3 AND bool_and(coalesce(t.tgfoid=to_regprocedure(e.function_name) AND t.tgenabled='A' AND NOT t.tgisinternal
+) SELECT count(*)=4 AND bool_and(coalesce(t.tgfoid=to_regprocedure(e.function_name) AND t.tgenabled='A' AND NOT t.tgisinternal
  AND t.tgtype::int=e.trigger_type AND NOT t.tgdeferrable AND NOT t.tginitdeferred AND t.tgconstraint=0
  AND t.tgqual IS NULL AND t.tgnargs=0 AND t.tgattr::text='',false)) AS ok
  FROM expected e LEFT JOIN pg_trigger t ON t.tgrelid=to_regclass(e.relation_name) AND t.tgname=e.trigger_name`;
@@ -205,7 +208,7 @@ async function inspect(db){
    'private.collect_sms_recovery_transaction_matches(text,text)','private.collect_sms_recovery_scope_guard()',
    'private.collect_sms_recovery_financial_guard()',
    'private.collect_sms_witness_immutable()','private.collect_sms_request_witness_guard()','private.collect_sms_payload_witness_guard()',
-   'private.collect_sms_held_upload_guard()',
+   'private.collect_sms_held_upload_guard()','private.collect_sms_held_payload_guard()',
    'private.burimunsi_observation_actor(boolean)'];
   const heldRuntime=['private.collect_sms_witness_reserve(text,text,text,text,text,text,timestamptz,text)',
    'private.burimunsi_sms_recovery_hold(text,uuid,text,text,timestamptz)',
@@ -213,7 +216,7 @@ async function inspect(db){
    'private.burimunsi_observation_consent_current()','private.burimunsi_observation_own(text,boolean)',
    'private.burimunsi_observation_lookup(uuid,text)',
    'private.burimunsi_observation_reconcile_status()','private.burimunsi_observation_reconcile_verified_status()',
-   'private.collect_sms_held_resume_check(text,uuid,text,text,timestamptz)'];
+   'private.collect_sms_held_resume_check(text,uuid,text,text,timestamptz)','private.collect_sms_held_authorize(text,jsonb)'];
   if(guard.some(x=>heldPrivate.includes(x.signature)&&x.acl!=='{postgres=X/postgres}'||
    heldRuntime.includes(x.signature)&&x.acl!=='{postgres=X/postgres,collect_runtime=X/postgres}'))throw Error('scheduler_or_history_guard_changed');
   verifyHeldRecoveryCatalog((await db.query(HELD_RECOVERY_CATALOG_SQL,[HELD_RECOVERY_POLICY])).rows[0]);

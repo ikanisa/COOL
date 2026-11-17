@@ -3,7 +3,7 @@
 // qualification fixtures. These checks open no provider or network connection.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createPhonePinRequestGate,hasPhonePinContext,applyPhonePinContext,PIN_CONTEXT_SQL,PIN_SET_CONTEXT_SQL,PIN_RENEW_SQL,PIN_LOGOUT_SQL,RETIREMENT_OUTCOME_SQL} from '../../domain/burimunsi/phone-pin-request.js';
+import {createPhonePinRequestGate,hasPhonePinContext,applyPhonePinContext,applyStoragePhonePinContext,PIN_CONTEXT_SQL,PIN_SET_CONTEXT_SQL,PIN_RENEW_SQL,PIN_LOGOUT_SQL,RETIREMENT_OUTCOME_SQL} from '../../domain/burimunsi/phone-pin-request.js';
 import {PostgresNativeAuthority} from '../../domain/burimunsi/postgres-authority.js';
 import {PostgresPhonePinSessions} from '../../domain/burimunsi/postgres-phone-pin-sessions.js';
 import {PinHasher} from '../../domain/burimunsi/pin.js';
@@ -113,6 +113,22 @@ test('ordinary requests pass raw opaque proof to DB, revalidate every transactio
  });
  const set=f.state.calls.find(x=>x.text===PIN_SET_CONTEXT_SQL);assert.deepEqual(set.args,[data.token,installation,device,'internal_receiver']);
  assert.equal(hasPhonePinContext(f.db),false);assert.deepEqual(f.state.claims,{});
+});
+test('Storage start rebinds only the current request proof and rejects revocation or abort',async()=>{
+ for(const outcome of ['valid','revoked','aborted']){
+  const f=fixture(),data=await f.login(),controller=new AbortController();
+  const req=new Request(f.request({login:false,token:data.token}),{signal:controller.signal});
+  await f.invoke(req,async()=>{
+   if(outcome==='revoked')f.state.revoked=true;
+   if(outcome==='aborted')controller.abort();
+   if(outcome==='valid'){
+    assert.equal(await applyStoragePhonePinContext(f.db,f.sql),true);
+    const set=f.state.calls.find(x=>x.text===PIN_SET_CONTEXT_SQL);
+    assert.deepEqual(set.args,[data.token,installation,device,'internal_receiver']);
+   }else await assert.rejects(()=>applyStoragePhonePinContext(f.db,f.sql));
+  }).catch(error=>{if(outcome!=='aborted')throw error;});
+  assert.equal(await applyStoragePhonePinContext(f.db,f.sql),false);
+ }
 });
 test('database-proven native session accepts only the admitted clock skew without relaxing expiry or authority',async()=>{
  for(const skew of [100,5000,5001])for(const path of ['/home','/session','/session/passcode']){

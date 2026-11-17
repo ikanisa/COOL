@@ -23,7 +23,7 @@ test('held recovery catalog detects trigger, RLS, policy and privilege drift',{s
    CREATE FUNCTION private.noop_trigger() RETURNS trigger LANGUAGE plpgsql AS $$BEGIN RETURN NEW; END$$;`);
   for(const name of ['collect_sms_held_source_guard','collect_sms_recovery_work_guard','collect_sms_recovery_raw_work_guard',
    'collect_sms_request_witness_guard','collect_sms_payload_witness_guard','collect_sms_witness_immutable',
-   'collect_sms_recovery_scope_guard','collect_sms_recovery_financial_guard','collect_sms_held_upload_guard','trg_storage_identity',
+   'collect_sms_recovery_scope_guard','collect_sms_recovery_financial_guard','collect_sms_held_payload_guard','collect_sms_held_upload_guard','trg_storage_identity',
    '_collect_fence_no_erasure','_collect_fence_statement'])
    await db.exec(`CREATE FUNCTION private.${name}() RETURNS trigger LANGUAGE plpgsql AS $$BEGIN RETURN NEW; END$$;`);
   for(const [table,name,events,fn,extra] of [
@@ -33,6 +33,7 @@ test('held recovery catalog detects trigger, RLS, policy and privilege drift',{s
    ['private.burimunsi_transaction_scopes','collect_sms_recovery_scope_guard','BEFORE INSERT OR UPDATE','collect_sms_recovery_scope_guard',''],
    ['app.momo_financial_links','collect_sms_recovery_financial_guard','BEFORE INSERT OR UPDATE','collect_sms_recovery_financial_guard',''],
    ['app.payments','collect_sms_recovery_financial_guard','BEFORE UPDATE OF collection_id','collect_sms_recovery_financial_guard',''],
+   ['private.storage_payload_reservations','collect_sms_held_payload_guard','BEFORE INSERT','collect_sms_held_payload_guard',''],
    ['private.storage_upload_attempts','collect_sms_held_upload_guard','BEFORE INSERT','collect_sms_held_upload_guard',''],
    ['private.storage_upload_attempts','storage_upload_identity','BEFORE UPDATE OR DELETE','trg_storage_identity',''],
    ['private.storage_put_intents','storage_put_identity','BEFORE UPDATE OR DELETE','trg_storage_identity',''],

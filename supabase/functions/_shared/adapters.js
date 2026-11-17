@@ -8,6 +8,7 @@ import {ProtectedStorageProtocol,StorageProtocolError,sha256,canonical} from './
 import {SupabaseNativeTransport} from './storage/supabase-transport.js';
 import {resolveDeploymentProfile} from './deployment-profile.js';
 import {PostgresStorageJournal} from './storage/postgres-journal.js';
+import {applyStoragePhonePinContext} from './domain/burimunsi/phone-pin-request.js';
 import {createTransport} from 'npm:nodemailer@10.1.7';
 import {createWorkspaceSmtpEmail} from './workspace-smtp-email.js';
 import {registerBuiltinEmailBinding} from './email-binding-registry.js';
@@ -19,7 +20,9 @@ const normalize=values=>values;
 function storagePool(db){return{
  connect(){const work=db.applicationWork;if(!work)throw unavailable('application_fence');return work.waitUntil((async()=>{
   await work.assert();const raw=await reserveDatabaseConnection(db.sql);let released=false,inTransaction=false,settle;const ownership=new Promise(resolve=>{settle=resolve;});work.waitUntil(ownership);
-  return{raw,query(text,values=[]){return work.waitUntil((async()=>{
+  return{raw,bindPhonePinContext(){return work.waitUntil((async()=>{
+   await work.assert();return applyStoragePhonePinContext(db,raw);
+  })());},query(text,values=[]){return work.waitUntil((async()=>{
    // Cleanup must still rollback a transaction after a failed lease proof.
    if(!/^ROLLBACK\b/i.test(text))await work.assert();if(/^BEGIN\b/i.test(text))inTransaction=true;let result;try{result=await raw.unsafe(text,normalize(values));}catch(error){if(/^ROLLBACK\b/i.test(text))work.abandon('work_lost');throw error;}if(/^(?:COMMIT|ROLLBACK)\b/i.test(text))inTransaction=false;
    if(/^BEGIN\b/i.test(text)){if(/^BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY$/i.test(text)){await db.readContext(raw);}else{await db.context(raw);await raw`select pg_advisory_xact_lock(734636924058501::bigint)`;}}

@@ -49,6 +49,8 @@ for(const [name,signature] of [
  ['burimunsi_observation_reconcile_verified_status','private.burimunsi_observation_reconcile_verified_status()']
 ])assert.equal(digest(sourceBody(held,name)),heldGuards[signature]);
 for(const [name,signature] of [
+ ['collect_sms_held_authorize','private.collect_sms_held_authorize(text,jsonb)'],
+ ['collect_sms_held_payload_guard','private.collect_sms_held_payload_guard()'],
  ['collect_sms_held_upload_guard','private.collect_sms_held_upload_guard()'],
  ['collect_sms_held_resume_check','private.collect_sms_held_resume_check(text,uuid,text,text,timestamptz)']
 ])assert.equal(digest(sourceBody(resume,name)),HELD_RESUME_GUARDS[signature]);

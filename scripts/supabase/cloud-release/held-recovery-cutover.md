@@ -74,6 +74,18 @@ not qualified solely by a passed server JSON test or a simulated clock.
   An attempt marked active or unknown before the network call may remain pending
   and require a separately reviewed manual resolution; do not clear it by timeout
   or infer that a Storage 404 makes a second PUT safe.
+- Current request credentials, authority and consent are rechecked while the
+  exact consent row is locked at both the encrypted database reservation and
+  the durable provider PUT-start transaction. If revocation commits first, the
+  affected boundary does not start. A reservation already committed while
+  consent was valid remains held; revocation before PUT-start prevents the PUT.
+  If PUT-start committed first, the one authorized network request can still
+  finish after revocation; its outcome must be journaled, and no second PUT or
+  success acknowledgement follows without the applicable current checks.
+- The revised shared Storage journal calls the new resume-guard SQL function
+  for every SMS reservation. Install and verify its exact migration and runtime
+  together under the existing fence: deploying this runtime without that SQL
+  function makes SMS reservations fail closed, including ordinary SMS captures.
 - A changed consent generation currently prevents acknowledgement even if
   consent is subsequently re-enabled. Preserve the pending request until a
   reviewed same-account/current-consent recovery rule or a manual resolution

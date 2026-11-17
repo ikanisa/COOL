@@ -28,6 +28,15 @@ export async function applyPhonePinContext(db,sql,groupId){
   requireThat(rows.length===1&&rows[0].result?.collection_id===groupId,'session_unavailable',401);
   return true;
 }
+// Rebind the request-owned proof at the final Storage start transaction. No
+// caller-supplied group, identity or stored hash can replace the active proof.
+// Non-native Storage work returns false and retains its existing behavior.
+export async function applyStoragePhonePinContext(db,sql){
+  const proof=proofs.get(db);if(!proof)return false;
+  requireActiveNativeRequest(proof.request);
+  const result=await applyPhonePinContext(db,sql,proof.groupId);
+  requireActiveNativeRequest(proof.request);return result;
+}
 const integer=v=>pgInteger(v,{minimum:0,code:'session_unavailable'});
 function current(row,installation,profile,now){
   requireThat(row&&row.installation_id===installation&&row.profile===profile,'session_unavailable',401);
@@ -177,7 +186,7 @@ export function createPhonePinRequestGate({secrets,networkBucket,clock=()=>Date.
         return current(rows[0],installation,profile,clock());
       });}catch(error){if(error?.code==='42501')throw new BuriError('session_unavailable',401);throw error;}
       requireThat(request.headers.get('X-BuriMunsi-Group')===principal.groupId,'native_scope_changed',403);
-      proofs.set(db,Object.freeze({groupId:principal.groupId,values}));
+      proofs.set(db,Object.freeze({groupId:principal.groupId,values,request}));
       const result=await operation(principal,local);await owned();return result;
     }finally{proofs.delete(db);try{db.setClaims({});}finally{active.delete(db);}}
   };

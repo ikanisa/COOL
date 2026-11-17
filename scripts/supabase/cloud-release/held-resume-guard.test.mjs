@@ -12,12 +12,20 @@ function extract(name){
 test('held exact-request guard permits one durable attempt and validates current consent',{skip:!modulePath},async()=>{
  const {PGlite}=await import(modulePath),db=new PGlite();
  try{
-  await db.exec(`CREATE TEMP TABLE storage_put_intents(operation_id text PRIMARY KEY,object_key text,state text,
+  await db.exec(`CREATE TEMP TABLE storage_put_intents(operation_id text PRIMARY KEY,object_key text,state text,scope jsonb,
    attempts integer,active_attempt uuid,upload_unresolved boolean,delete_tombstone boolean);
    CREATE TEMP TABLE storage_upload_attempts(id uuid PRIMARY KEY,operation_id text);
-   CREATE TEMP TABLE burimunsi_recovered_sms_holds(source_id text,object_key text);
-   CREATE TEMP TABLE burimunsi_observation_requests(source_id text,initial_consent_generation bigint);
+   CREATE TEMP TABLE storage_payload_reservations(object_key text,scope jsonb,sealed_body text);
+   CREATE TEMP TABLE burimunsi_recovered_sms_holds(source_id text,object_key text,collection_id text,account_id uuid,owner_id text,body_sha256 text,request_digest text);
+   CREATE TEMP TABLE burimunsi_observation_requests(source_id text,collection_id text,account_id uuid,principal_user_id text,
+    installation_id uuid,grant_id uuid,grant_version bigint,initial_consent_generation bigint,fingerprint text,source_key_body_sha256 text);
+   CREATE TEMP TABLE burimunsi_observation_consents(collection_id text,account_id uuid,installation_id uuid,grant_id uuid,
+    grant_version bigint,generation bigint,enabled boolean);
    CREATE FUNCTION pg_temp.collect_fence_assert_write(uuid,bigint,text) RETURNS void LANGUAGE plpgsql AS $$BEGIN RETURN;END$$;
+   CREATE FUNCTION pg_temp.burimunsi_observation_actor(boolean) RETURNS jsonb LANGUAGE plpgsql AS $$
+    BEGIN IF current_setting('fixture.authorized',true) IS DISTINCT FROM 'yes' THEN RAISE EXCEPTION 'denied' USING ERRCODE='42501';END IF;
+    RETURN jsonb_build_object('collectionId','group-a','accountId',coalesce(nullif(current_setting('fixture.account',true),''),'10000000-0000-4000-8000-000000000001'),'principalUserId','owner-a',
+     'installationId','20000000-0000-4000-8000-000000000001','grantId','30000000-0000-4000-8000-000000000001','grantVersion',1);END$$;
    CREATE FUNCTION pg_temp.burimunsi_observation_consent_current() RETURNS jsonb LANGUAGE sql AS $$
     SELECT jsonb_build_object('enabled',current_setting('fixture.consent',true)='yes',
      'generation',coalesce(nullif(current_setting('fixture.generation',true),''),'1')::bigint)$$;
@@ -26,15 +34,23 @@ test('held exact-request guard permits one durable attempt and validates current
       OR $2<>'00000000-0000-4000-8000-000000000001'::uuid OR $3<>repeat('a',64)
       OR $4<>repeat('b',64) OR $5<>'2026-11-11 12:00:00+00'::timestamptz THEN
       RAISE EXCEPTION 'denied' USING ERRCODE='42501';END IF; RETURN true; END$$;
+   ${extract('collect_sms_held_authorize')}
+   ${extract('collect_sms_held_payload_guard')}
    ${extract('collect_sms_held_upload_guard')}
    ${extract('collect_sms_held_resume_check')}
    CREATE TRIGGER held_upload BEFORE INSERT ON pg_temp.storage_upload_attempts FOR EACH ROW EXECUTE FUNCTION pg_temp.collect_sms_held_upload_guard();
-   INSERT INTO pg_temp.burimunsi_recovered_sms_holds VALUES('source-1','sms/source-1');
-   INSERT INTO pg_temp.burimunsi_observation_requests VALUES('source-1',1);
-   INSERT INTO pg_temp.storage_put_intents VALUES('held','sms/source-1','pending',0,NULL,false,false),
-    ('normal','sms/other','pending',1,NULL,false,false),('unknown','sms/source-1','pending',1,NULL,true,false),
-    ('accepted','sms/source-1','pending',1,NULL,false,false),('conflict','sms/source-1','pending',1,NULL,false,false),
-    ('active','sms/source-1','pending',0,'00000000-0000-4000-8000-000000000020',false,false);
+   CREATE TRIGGER held_payload BEFORE INSERT ON pg_temp.storage_payload_reservations FOR EACH ROW EXECUTE FUNCTION pg_temp.collect_sms_held_payload_guard();
+   INSERT INTO pg_temp.burimunsi_recovered_sms_holds VALUES('source-1','sms/source-1','group-a',
+    '10000000-0000-4000-8000-000000000001','owner-a',repeat('b',64),repeat('a',64));
+   INSERT INTO pg_temp.burimunsi_observation_requests VALUES('source-1','group-a','10000000-0000-4000-8000-000000000001','owner-a',
+    '20000000-0000-4000-8000-000000000001','30000000-0000-4000-8000-000000000001',1,1,repeat('a',64),repeat('b',64));
+   INSERT INTO pg_temp.burimunsi_observation_consents VALUES('group-a','10000000-0000-4000-8000-000000000001',
+    '20000000-0000-4000-8000-000000000001','30000000-0000-4000-8000-000000000001',1,1,true);
+   INSERT INTO pg_temp.storage_put_intents VALUES('held','sms/source-1','pending','{"ownerId":"owner-a","purpose":"sms_receipt","entityId":"source-1"}',0,NULL,false,false),
+    ('normal','sms/other','pending','{}',1,NULL,false,false),('unknown','sms/source-1','pending','{"ownerId":"owner-a","purpose":"sms_receipt","entityId":"source-1"}',1,NULL,true,false),
+    ('accepted','sms/source-1','pending','{"ownerId":"owner-a","purpose":"sms_receipt","entityId":"source-1"}',1,NULL,false,false),
+    ('conflict','sms/source-1','pending','{"ownerId":"owner-a","purpose":"sms_receipt","entityId":"source-1"}',1,NULL,false,false),
+    ('active','sms/source-1','pending','{"ownerId":"owner-a","purpose":"sms_receipt","entityId":"source-1"}',0,'00000000-0000-4000-8000-000000000020',false,false);
    SELECT set_config('fixture.authorized','yes',false),set_config('fixture.consent','yes',false),
     set_config('collect.fence_admission_id','00000000-0000-4000-8000-000000000005',false),
     set_config('collect.fence_epoch','1',false),set_config('collect.fence_source_sha256',repeat('f',64),false);`);
@@ -49,6 +65,17 @@ test('held exact-request guard permits one durable attempt and validates current
   await db.exec("SELECT set_config('fixture.authorized','yes',false)");
   await assert.rejects(()=>db.query('SELECT pg_temp.collect_sms_held_resume_check($1,$2::uuid,$3,$4,$5::timestamptz)',
    [args[0],args[1],'c'.repeat(64),args[3],args[4]]),/denied/);
+  await db.exec("SELECT set_config('fixture.authorized','no',false)");
+  await assert.rejects(()=>db.exec("INSERT INTO pg_temp.storage_upload_attempts VALUES('00000000-0000-4000-8000-000000000018','held')"),/denied/);
+  await db.exec("SELECT set_config('fixture.authorized','yes',false),set_config('fixture.account','10000000-0000-4000-8000-000000000002',false)");
+  await assert.rejects(()=>db.exec("INSERT INTO pg_temp.storage_upload_attempts VALUES('00000000-0000-4000-8000-000000000019','held')"),/sms_held_upload_authority_changed/);
+  await db.exec("SELECT set_config('fixture.account','',false)");
+  await db.exec('UPDATE pg_temp.burimunsi_observation_consents SET enabled=false,generation=2');
+  await assert.rejects(()=>db.exec(`INSERT INTO pg_temp.storage_payload_reservations VALUES('sms/source-1',
+   '{"ownerId":"owner-a","purpose":"sms_receipt","entityId":"source-1"}','synthetic encrypted bytes')`),/sms_held_upload_authority_changed/);
+  assert.equal((await db.query('SELECT count(*)::int n FROM pg_temp.storage_payload_reservations')).rows[0].n,0);
+  // Restore this isolated fixture for the following independent one-attempt cases.
+  await db.exec('UPDATE pg_temp.burimunsi_observation_consents SET enabled=true,generation=1');
   // An aborted database start has not produced a durable attempt and can be
   // retried. Once committed, even stale counters cannot authorize another PUT.
   await db.exec(`BEGIN; SAVEPOINT first_try;
