@@ -13,6 +13,7 @@ kotlinc "${SOURCES[@]}" "$HERE/repository-tests/JsonAdapter.kt" "$HERE/app/src/m
  "$HERE/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriReceiverProfile.kt" \
  "$HERE/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriCapturePolicy.kt" \
  "$HERE/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationLegacyOwnership.kt" \
+ "$HERE/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ContinuousSyncWork.kt" \
  "$HERE/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/HeldRecoveryJournal.kt" "$HERE/observation-adapter-tests/SecureStoreStub.kt" \
  "$TMP/build/receiver/MomoGatewayPolicy.kt" "$TMP/build/receiver/MomoGatewayHttp.kt" \
  "$REPO/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/ReceiptAckPolicy.kt" -include-runtime -d "$TMP/checks.jar"

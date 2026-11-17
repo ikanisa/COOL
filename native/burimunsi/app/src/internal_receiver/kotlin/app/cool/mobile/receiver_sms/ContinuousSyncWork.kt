@@ -3,16 +3,50 @@ package app.cool.mobile.receiver_sms
 import java.util.concurrent.Semaphore
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.CopyOnWriteArraySet
 import java.util.UUID
 import rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth
+import rw.ikanisa.burimunsi.core.ObservationSessionOwner
+import rw.ikanisa.burimunsi.core.Values
+
+/** Invalidates published proof before and after local authority mutations.
+ * Listeners must only perform nonblocking local work; some callers hold the
+ * existing receiver/session locks. */
+internal object ObservationAuthorityRevision {
+    private val generation=AtomicLong()
+    private val changing=AtomicInteger()
+    private val listeners=CopyOnWriteArraySet<(Boolean)->Unit>()
+    fun stable():Long? {
+        if(changing.get()!=0)return null
+        val value=generation.get()
+        return if(changing.get()==0&&generation.get()==value)value else null
+    }
+    private fun announce(wake:Boolean){generation.incrementAndGet();listeners.forEach{runCatching{it(wake)}}}
+    fun ownerChanged(){announce(true)}
+    fun <T> changing(action:()->T):T {
+        changing.incrementAndGet();announce(false)
+        try{return action()}finally{announce(false);changing.decrementAndGet();announce(false)}
+    }
+    fun observe(listener:(Boolean)->Unit):()->Unit {listeners.add(listener);return{listeners.remove(listener)}}
+    fun sessionDigest(session:ObservationSessionOwner):String {
+        val fields=listOf("burimunsi-health-owner-v1",session.owner.collectionId,session.owner.accountId,session.generation.toString())
+        return Values.sha256(fields.joinToString(""){"${it.length}:$it"})
+    }
+}
 
 /** A cached successful cycle cannot extend the original reconciliation proof. */
 internal object ContinuousSyncHealthFreshness {
     const val MAX_PROOF_AGE_MS=5*60_000L
     fun fresh(started:Long?,now:Long):Boolean = started!=null&&started>=0&&now>=started&&now-started<MAX_PROOF_AGE_MS
-    fun expire(health:ContinuousReceiverHealth,now:Long,observerActive:Boolean):ContinuousReceiverHealth =
-        if(health.running&&health.problem==null&&(!observerActive||!fresh(health.proofStartedAtElapsed,now)))
-            health.copy(problem="sync_unconfirmed",proofStartedAtElapsed=null) else health
+    fun expire(health:ContinuousReceiverHealth,now:Long,observerActive:Boolean,inboxRevision:Long?,authorityRevision:Long?,
+        sessionDigest:String?,permissionGranted:Boolean,scope:String?,requireScope:Boolean):ContinuousReceiverHealth =
+        if(health.running&&health.problem==null&&(!observerActive||!fresh(health.proofStartedAtElapsed,now)||!permissionGranted||
+            health.proofInboxRevision==null||health.proofInboxRevision!=inboxRevision||health.proofAuthorityRevision==null||
+            health.proofAuthorityRevision!=authorityRevision||health.proofSessionDigest==null||health.proofSessionDigest!=sessionDigest||
+            health.proofScope==null||requireScope&&health.proofScope!=scope))
+            health.copy(problem="sync_unconfirmed",proofStartedAtElapsed=null,proofInboxRevision=null,
+                proofAuthorityRevision=null,proofSessionDigest=null,proofScope=null) else health
 }
 
 /** Expiry is committed atomically so a clock reversal cannot revive old success. */
@@ -21,9 +55,20 @@ internal class ContinuousSyncHealthState(initial:ContinuousReceiverHealth=Contin
     fun get()=value.get()
     fun set(health:ContinuousReceiverHealth)=value.set(health)
     fun compareAndSet(expected:ContinuousReceiverHealth,next:ContinuousReceiverHealth)=value.compareAndSet(expected,next)
-    fun health(now:Long,observerActive:Boolean):ContinuousReceiverHealth {
+    fun invalidate(){
         while(true){
-            val current=value.get();val checked=ContinuousSyncHealthFreshness.expire(current,now,observerActive)
+            val current=value.get()
+            if(!current.running||current.problem!=null)return
+            val next=current.copy(problem="sync_unconfirmed",proofStartedAtElapsed=null,proofInboxRevision=null,
+                proofAuthorityRevision=null,proofSessionDigest=null,proofScope=null)
+            if(value.compareAndSet(current,next))return
+        }
+    }
+    fun health(now:Long,observerActive:Boolean,inboxRevision:Long?,authorityRevision:Long?,sessionDigest:String?,
+        permissionGranted:Boolean,scope:String?=null,requireScope:Boolean=false):ContinuousReceiverHealth {
+        while(true){
+            val current=value.get();val checked=ContinuousSyncHealthFreshness.expire(current,now,observerActive,inboxRevision,
+                authorityRevision,sessionDigest,permissionGranted,scope,requireScope)
             if(checked==current||value.compareAndSet(current,checked))return checked
         }
     }

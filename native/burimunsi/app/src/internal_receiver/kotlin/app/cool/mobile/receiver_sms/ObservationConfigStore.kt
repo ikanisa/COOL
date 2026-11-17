@@ -34,13 +34,15 @@ internal class ObservationConfigStore(context:Context) {
         val target=control(owner)
         val encoded=JSONObject().put("collectionId",owner.collectionId).put("accountId",owner.accountId)
             .put("paused",paused).put("revision",prior.revision+1).toString()
-        target.write(encoded);checkContract(target.read()==encoded,"observation_store_unavailable")
-        val allowed=!paused&&listOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS).all{
-            app.checkSelfPermission(it)==PackageManager.PERMISSION_GRANTED
-        }
-        consent(owner)?.let{current->
-            val next=ObservationConsent.reconcile(current,null,allowed)?:throw ContractFailure("observation_store_unavailable")
-            if(next!=current)saveConsent(owner,next)
+        ObservationAuthorityRevision.changing {
+            target.write(encoded);checkContract(target.read()==encoded,"observation_store_unavailable")
+            val allowed=!paused&&listOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS).all{
+                app.checkSelfPermission(it)==PackageManager.PERMISSION_GRANTED
+            }
+            consent(owner)?.let{current->
+                val next=ObservationConsent.reconcile(current,null,allowed)?:throw ContractFailure("observation_store_unavailable")
+                if(next!=current)saveConsent(owner,next)
+            }
         }
     }
     private fun sameOwner(value:JSONObject,owner:ObservationOwner)=
@@ -64,7 +66,9 @@ internal class ObservationConfigStore(context:Context) {
     fun saveProfile(owner:ObservationOwner,data:JSONObject,now:Long) {
         checkContract(owner.valid()&&decodeProfile(data).current(now),"invalid_observation_profile")
         val encoded=JSONObject().put("collectionId",owner.collectionId).put("accountId",owner.accountId).put("profile",data).toString()
-        profiles.write(encoded);checkContract(profiles.read()==encoded,"observation_store_unavailable")
+        if(profiles.read()!=encoded)ObservationAuthorityRevision.changing{
+            profiles.write(encoded);checkContract(profiles.read()==encoded,"observation_store_unavailable")
+        }
     }
     fun profile(owner:ObservationOwner,now:Long):ObservationProfile? {
         val raw=profiles.read()?:return null;val value=JSONObject(raw);exact(value,setOf("collectionId","accountId","profile"))
@@ -82,6 +86,8 @@ internal class ObservationConfigStore(context:Context) {
         checkContract(owner.valid()&&state.revision.generation in 1..9_007_199_254_740_991L,"invalid_consent_generation")
         val encoded=JSONObject().put("collectionId",owner.collectionId).put("accountId",owner.accountId)
             .put("enabled",state.revision.enabled).put("generation",state.revision.generation).put("confirmed",state.confirmed).toString()
-        consents.write(encoded);checkContract(consents.read()==encoded,"observation_store_unavailable")
+        if(consents.read()!=encoded)ObservationAuthorityRevision.changing{
+            consents.write(encoded);checkContract(consents.read()==encoded,"observation_store_unavailable")
+        }
     }
 }

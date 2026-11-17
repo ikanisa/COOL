@@ -132,13 +132,15 @@ private class CollectGateway(private val context:Context,private val managedColl
         check(store.read()?.optBoolean("receiver_retired")==true&&store.read()?.optBoolean("capture_enabled")==false)
         return true
     }
-    override fun recoverRetirement():ReceiverRetirementAck? {
+    override fun recoverRetirement():ReceiverRetirementAck? = ObservationAuthorityRevision.changing{recoverRetirementCurrent()}
+    private fun recoverRetirementCurrent():ReceiverRetirementAck? {
         if(BuildConfig.IS_QUALIFICATION)return null
         val value=readRetirement()?:return null
         val ack=acknowledgement(value)
         return if(applyRetirement(ack))ack else null
     }
-    override fun replace(code:String):ReceiverRetirementAck {
+    override fun replace(code:String):ReceiverRetirementAck = ObservationAuthorityRevision.changing{replaceCurrent(code)}
+    private fun replaceCurrent(code:String):ReceiverRetirementAck {
         check(!BuildConfig.IS_QUALIFICATION) { "Offline qualification only" }
         if(retirementPending())return recoverRetirement()?:throw ApiFailure("gateway_retirement_unconfirmed",503,true)
         check(store.read()?.has("control_transition")!=true){"Resolve receiving control first"}
@@ -172,7 +174,8 @@ private class CollectGateway(private val context:Context,private val managedColl
             marker.getString("accountId")==owner.accountId&&marker.getString("bindingId")==binding.getString("id")&&
             marker.getInt("bindingVersion")==binding.getInt("version")
     }catch(_:Exception){false}
-    override fun setPaused(paused:Boolean){
+    override fun setPaused(paused:Boolean)=ObservationAuthorityRevision.changing{setPausedCurrent(paused)}
+    private fun setPausedCurrent(paused:Boolean){
         check(!BuildConfig.IS_QUALIFICATION) { "Offline qualification only" }
         check(!retirementPending()&&store.read()?.optBoolean("receiver_retired")!=true){"Receiving authorization unavailable"}
         if(!bound()){
@@ -232,7 +235,9 @@ private class CollectGateway(private val context:Context,private val managedColl
         check(complete==true){"Receiving control unavailable"}
         if(!paused)start()else BuriContinuousSupervisor.halt(context,"paused")
     }
-    override fun pair(code:String){pairAuthorized(code);try{start()}catch(_:Exception){/* Pairing already succeeded; status remains available for recovery. */}}
+    override fun pair(code:String)=ObservationAuthorityRevision.changing{
+        pairAuthorized(code);try{start()}catch(_:Exception){/* Pairing already succeeded; status remains available for recovery. */}
+    }
     private fun pairAuthorized(code:String){
         check(!BuildConfig.IS_QUALIFICATION) { "Offline qualification only" }
         check(!retirementPending()) { "Check the original receiver retirement outcome" }

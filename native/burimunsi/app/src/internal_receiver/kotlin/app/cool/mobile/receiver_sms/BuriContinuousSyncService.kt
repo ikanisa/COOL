@@ -47,7 +47,42 @@ internal object BuriContinuousSupervisor {
     @Volatile private var restartPending=false
     private val state=ContinuousSyncHealthState()
 
-    fun health():ContinuousReceiverHealth=state.health(SystemClock.elapsedRealtime(),ObservationInboxRevision.observerActive())
+    private fun validatedHealth(requireScope:Boolean):ContinuousReceiverHealth {
+        val current=state.get()
+        if(!current.running||current.problem!=null)return current
+        val active=service
+        if(active==null||!active.authorityWatched()){state.invalidate();return state.get()}
+        return try{
+            val authority=ObservationAuthorityRevision.stable();val revision=ObservationInboxRevision.snapshot()
+            val session=NativeRepository.observationOwner(active)
+            val permitted=listOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS).all{
+                active.checkSelfPermission(it)==PackageManager.PERMISSION_GRANTED
+            }
+            val scope=if(requireScope)ObservationRecovery(active).healthScope() else null
+            val stable=authority!=null&&ObservationAuthorityRevision.stable()==authority&&
+                ObservationInboxRevision.snapshot()==revision&&NativeRepository.observationOwner(active)==session&&
+                listOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS).all{
+                    active.checkSelfPermission(it)==PackageManager.PERMISSION_GRANTED
+                }
+            val checked=state.health(SystemClock.elapsedRealtime(),ObservationInboxRevision.observerActive(),
+                if(stable)revision else null,if(stable)authority else null,session?.let(ObservationAuthorityRevision::sessionDigest),
+                permitted&&stable,scope,requireScope)
+            // An owner or inbox callback may arrive while validation is in
+            // progress. Do not return the previously checked success afterward.
+            if(checked.running&&checked.problem==null&&(!ObservationInboxRevision.observerActive()||
+                ObservationInboxRevision.snapshot()!=revision||ObservationAuthorityRevision.stable()!=authority||
+                NativeRepository.observationOwner(active)!=session||listOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS).any{
+                    active.checkSelfPermission(it)!=PackageManager.PERMISSION_GRANTED
+                }))state.invalidate()
+            val latest=state.get()
+            if(latest!=checked&&latest.running&&latest.problem==null){state.invalidate();state.get()}else latest
+        }catch(_:Exception){state.invalidate();state.get()}
+    }
+    /** UI calls this off-main: verify the full protected authority scope. */
+    fun health():ContinuousReceiverHealth=validatedHealth(true)
+    /** Main-thread publication checks only bounded local tokens and permission. */
+    fun healthFast():ContinuousReceiverHealth=validatedHealth(false)
+    fun invalidateProof()=state.invalidate()
     fun channel(context:Context):String=context.getString(R.string.burimunsi_sync_channel_id)
     fun foregroundChanged(context:Context,resumed:Boolean){
         visible=resumed
@@ -91,10 +126,14 @@ internal object BuriContinuousSupervisor {
             if(restartPending){restartPending=false;Handler(Looper.getMainLooper()).post{requestStart(value.applicationContext)}}
         }
     }
-    fun update(value:BuriContinuousSyncService,problem:String?,finishedAt:Long?=null,proofStartedAtElapsed:Long?=null){
+    fun update(value:BuriContinuousSyncService,problem:String?,finishedAt:Long?=null,result:ObservationCycleResult?=null){
         if(service!==value)return
         val old=state.get();state.set(old.copy(running=true,problem=problem,lastCycleAt=finishedAt?:old.lastCycleAt,
-            proofStartedAtElapsed=if(problem==null)proofStartedAtElapsed else null))
+            proofStartedAtElapsed=if(problem==null)result?.proofStartedAtElapsed else null,
+            proofInboxRevision=if(problem==null)result?.proofInboxRevision else null,
+            proofAuthorityRevision=if(problem==null)result?.proofAuthorityRevision else null,
+            proofSessionDigest=if(problem==null)result?.proofSessionDigest else null,
+            proofScope=if(problem==null)result?.proofScope else null))
         lastGeneration=runCatching{NativeRepository.observationOwner(value)?.generation}.getOrNull()?:lastGeneration
     }
     /** A rejected creation has no attached identity. CAS cannot overwrite a
@@ -184,7 +223,8 @@ class BuriContinuousSyncService:Service(){
     private var nextAt=Long.MAX_VALUE
     private var wakeAgain=false
     private var terminalProblem:String?=null
-    private var detachSession:(()->Unit)?=null
+    @Volatile private var detachSession:(()->Unit)?=null
+    @Volatile private var detachAuthority:(()->Unit)?=null
     private var networkCallback:ConnectivityManager.NetworkCallback?=null
     private var observer:ContentObserver?=null
     private var observerLease:Any?=null
@@ -209,12 +249,20 @@ class BuriContinuousSyncService:Service(){
         }
         BuriContinuousSupervisor.attached(this)
         try{
+            detachAuthority=ObservationAuthorityRevision.observe{shouldWake->
+                // This callback can run while native session or receiver locks
+                // are held. Only atomic invalidation and posting are allowed.
+                BuriContinuousSupervisor.invalidateProof()
+                main.post{if(!stopped.get()){publishCurrentHealth();if(shouldWake)wake(0)}}
+            }
             val install=DeviceProvisioning(this,GatewayFactory.installationId(this))
             val api=ApiClient.phonePin(BuildConfig.BURI_API_ORIGIN,install.installationId,"internal_receiver",BuildConfig.BURI_API_PATH_PREFIX,BuildConfig.COLLECT_PUBLISHABLE_KEY){install.registrationToken()}
             // Attachment can precede an online renewal. Only wake here; do not
             // misclassify its temporarily unconfirmed generation as a logout.
-            detachSession=NativeRepository(this,api).observeProcessSession{main.post{wake(0)}}
-            observer=object:ContentObserver(main){override fun onChange(selfChange:Boolean){ObservationInboxRevision.changed();wake(400)}}.also{
+            detachSession=NativeRepository(this,api).observeProcessSession{ObservationAuthorityRevision.ownerChanged()}
+            observer=object:ContentObserver(main){override fun onChange(selfChange:Boolean){
+                ObservationInboxRevision.changed();BuriContinuousSupervisor.invalidateProof();publishCurrentHealth();wake(400)
+            }}.also{
                 contentResolver.registerContentObserver(Telephony.Sms.CONTENT_URI,true,it)
             }
             observerLease=ObservationInboxRevision.observerRegistered()
@@ -258,6 +306,7 @@ class BuriContinuousSyncService:Service(){
         stopSelf()
     }
     internal fun hasActiveCycle():Boolean=inCycle.get()
+    internal fun authorityWatched():Boolean=detachSession!=null&&detachAuthority!=null
     private fun notification(text:Int):Notification {
         val pending=PendingIntent.getActivity(this,0,Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP),PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val builder=Notification.Builder(this,BuriContinuousSupervisor.channel(this))
@@ -278,7 +327,7 @@ class BuriContinuousSyncService:Service(){
     /** A foreground refresh also catches time spent in Android deep sleep. */
     internal fun refreshDisplayedHealth(){main.post{if(!stopped.get())publishCurrentHealth()}}
     private fun publishCurrentHealth(){
-        val health=BuriContinuousSupervisor.health()
+        val health=BuriContinuousSupervisor.healthFast()
         if(notificationsReady)runCatching{getSystemService(NotificationManager::class.java)?.notify(BuriContinuousSupervisor.NOTIFICATION,
             notification(notificationText(health.problem)))}
         main.removeCallbacks(proofExpiry)
@@ -332,7 +381,7 @@ class BuriContinuousSyncService:Service(){
                     val problem=if(result.busy)"starting"else result.problem
                     ObservationSyncDiagnostics.service(ServicePhase.RETRY,problem)
                     BuriContinuousSupervisor.update(this,problem,if(!result.busy)System.currentTimeMillis()else null,
-                        if(result.completed)result.proofStartedAtElapsed else null)
+                        if(result.completed)result else null)
                     publishCurrentHealth()
                     val delay=if(wakeAgain)0L else if(result.busy)2_000L else retry.next(result.completed,result.more,result.progress)
                     wake(delay)
@@ -347,6 +396,7 @@ class BuriContinuousSyncService:Service(){
         stopped.set(true);main.removeCallbacksAndMessages(null);releaseWake()
         ObservationSyncDiagnostics.service(ServicePhase.DESTROYED,terminalProblem)
         runCatching{detachSession?.invoke()};detachSession=null
+        runCatching{detachAuthority?.invoke()};detachAuthority=null
         observerLease?.let{ObservationInboxRevision.observerDetached(it)};observerLease=null
         observer?.let{runCatching{contentResolver.unregisterContentObserver(it)}};observer=null
         networkCallback?.let{callback->runCatching{getSystemService(ConnectivityManager::class.java)?.unregisterNetworkCallback(callback)}};networkCallback=null

@@ -1033,18 +1033,60 @@ fun main() {
   check(retry.next(false,true,progress=true)==2000L&&retry.next(false,true)==15000L)
  }
  test("sync health expires on its original monotonic proof and cannot resurrect after clock reversal") {
-  val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,proofStartedAtElapsed=1_000L)
+  val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,proofStartedAtElapsed=1_000L,
+   proofInboxRevision=7L,proofAuthorityRevision=11L,proofSessionDigest="a".repeat(64),proofScope="b".repeat(64))
   val state=ContinuousSyncHealthState(health)
-  check(state.health(300_999L,true)==health)
-  val expired=state.health(301_000L,true)
+  fun checked(s:ContinuousSyncHealthState,now:Long,observer:Boolean=true)=s.health(now,observer,7,11,"a".repeat(64),true,"b".repeat(64),true)
+  check(checked(state,300_999L)==health)
+  val expired=checked(state,301_000L)
   check(expired.problem=="sync_unconfirmed"&&expired.proofStartedAtElapsed==null)
-  check(state.health(2_000L,true)==expired)
-  check(ContinuousSyncHealthFreshness.expire(health,999L,true).problem=="sync_unconfirmed")
-  check(ContinuousSyncHealthFreshness.expire(health,2_000L,false).problem=="sync_unconfirmed")
+  check(checked(state,2_000L)==expired)
+  check(checked(ContinuousSyncHealthState(health),999L).problem=="sync_unconfirmed")
+  check(checked(ContinuousSyncHealthState(health),2_000L,false).problem=="sync_unconfirmed")
   val restarted=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true)
-  check(ContinuousSyncHealthState(restarted).health(2_000L,true).problem=="sync_unconfirmed")
+  check(checked(ContinuousSyncHealthState(restarted),2_000L).problem=="sync_unconfirmed")
   val paused=health.copy(problem="paused",proofStartedAtElapsed=null)
-  check(ContinuousSyncHealthFreshness.expire(paused,301_000L,false)==paused)
+  check(checked(ContinuousSyncHealthState(paused),301_000L,false)==paused)
+ }
+ test("inbox or authority changes after cycle completion cannot publish its old success") {
+  for(kind in listOf("inbox","owner","consent","permission","pause","profile","scope")){
+   val e=setup();android.os.SystemClock.fixed=1_000L;e.context.contentResolver.rows=listOf(row(802))
+   val result=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})
+   check(result.completed&&result.proofInboxRevision!=null&&result.proofAuthorityRevision!=null&&
+    result.proofSessionDigest!=null&&result.proofScope!=null)
+   val old=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,
+    proofStartedAtElapsed=result.proofStartedAtElapsed,proofInboxRevision=result.proofInboxRevision,
+    proofAuthorityRevision=result.proofAuthorityRevision,proofSessionDigest=result.proofSessionDigest,proofScope=result.proofScope)
+   when(kind){
+    "inbox"->ObservationInboxRevision.changed()
+    "owner"->NativeRepository.switch(adminB)
+    "consent"->{val c=ObservationConfigStore(e.context);c.saveConsent(adminA,c.consent(adminA)!!.copy(confirmed=false))}
+    "permission"->e.context.denied=setOf(Manifest.permission.READ_SMS)
+    "pause"->ObservationConfigStore(e.context).setPaused(adminA,true)
+    "profile"->{e.approved.put("profileVersion","changed-v2");ObservationConfigStore(e.context).saveProfile(adminA,e.approved,System.currentTimeMillis())}
+    "scope"->Settings.Secure.testId="1111111111111111"
+   }
+   // Model the main-thread callback arriving after the worker's final check.
+   val state=ContinuousSyncHealthState();state.set(old)
+   val session=NativeRepository.observationOwner(e.context)
+   val permission=e.context.denied.isEmpty();val scope=ObservationRecovery(e.context).healthScope()
+   val checked=state.health(1_000L,ObservationInboxRevision.observerActive(),ObservationInboxRevision.snapshot(),
+    ObservationAuthorityRevision.stable(),session?.let(ObservationAuthorityRevision::sessionDigest),permission,scope,true)
+   check(checked.problem=="sync_unconfirmed"&&checked.proofStartedAtElapsed==null)
+  }
+ }
+ test("authority transitions invalidate immediately without waiting for the wake callback") {
+  val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,proofStartedAtElapsed=1_000L,
+   proofInboxRevision=7L,proofAuthorityRevision=ObservationAuthorityRevision.stable(),proofSessionDigest="a".repeat(64),proofScope="b".repeat(64))
+  val state=ContinuousSyncHealthState(health);var wakes=0
+  val stop=ObservationAuthorityRevision.observe{wake->state.invalidate();if(wake)wakes++}
+  ObservationAuthorityRevision.ownerChanged()
+  check(state.get().problem=="sync_unconfirmed"&&wakes==1)
+  state.set(health)
+  ObservationAuthorityRevision.changing{
+   check(ObservationAuthorityRevision.stable()==null&&state.get().problem=="sync_unconfirmed")
+  }
+  stop();check(ObservationAuthorityRevision.stable()!=null)
  }
  test("an empty phone requires an authoritative empty Cloud reservation status") {
   val e=setup()

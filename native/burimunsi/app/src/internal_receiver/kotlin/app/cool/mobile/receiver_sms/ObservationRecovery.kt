@@ -116,7 +116,7 @@ internal class ObservationRecovery(context:Context) {
     /** The original inbox is held as opaque exact identities. The snapshot is
      * encrypted and never deletes, uploads, or claims a legacy message. */
     private fun held(session:ObservationSessionOwner,profile:ObservationProfile,consent:ObservationConsentState,
-        control:ObservationConfigStore.Control,stopped:()->Boolean):Pair<String,Set<String>>? {
+        control:ObservationConfigStore.Control,stopped:()->Boolean,allowCreate:Boolean=true):Pair<String,Set<String>>? {
         val owner=session.owner;val device=deviceId()?:return null
         val deviceScope=Values.sha256(listOf("burimunsi-held-device-v1",owner.collectionId,device.lowercase()).joinToString(""){"${it.length}:$it"})
         // Validate even for an empty inbox: a broken ID must not establish a false baseline.
@@ -136,6 +136,7 @@ internal class ObservationRecovery(context:Context) {
             checkContract(keys.toSet().size==keys.size&&keys.all{Regex("[a-f0-9]{64}").matches(it)},"observation_cursor_unavailable")
             return device to keys.toSet()
         }
+        if(!allowCreate)return null
         if(profile.legacyHold==null)return null
         val prior=if(legacy)null else read(owner,profile.fingerprint()).second
         val ambiguous=if(legacy)emptySet() else ObservationStateStore(app).read().seen
@@ -475,7 +476,7 @@ internal class ObservationRecovery(context:Context) {
     /** Compatibility for callers that only need to know whether another pass is needed. */
     fun scan(stopped:()->Boolean={false}):Boolean = scanStatus(stopped)==Scan.MORE
 
-    private fun auditAuthority(stopped:()->Boolean):AuditAuthority? {
+    private fun auditAuthority(stopped:()->Boolean,allowBaselineCreation:Boolean=true):AuditAuthority? {
         if(stopped()||!ObservationInboxRevision.observerActive()||!permitted()||!ObservationLegacyOwnership.controlTransitionClear(app))return null
         val session=NativeRepository.observationOwner(app)?:return null
         val initial=NativeRepository.withObservationOwner(app,session){group,account->
@@ -485,7 +486,7 @@ internal class ObservationRecovery(context:Context) {
             else Triple(profile,consent,control)
         }?:return null
         val (profile,consent,control)=initial
-        val (device,keys)=held(session,profile,consent,control,stopped)?:return null
+        val (device,keys)=held(session,profile,consent,control,stopped,allowBaselineCreation)?:return null
         val heldScope=Values.sha256(keys.sorted().joinToString(""){"${it.length}:$it"})
         val scope=AuditScope(session,profile.fingerprint(),profile.legacyHold,consent,control,Values.sha256(device),heldScope,
             ObservationInboxRevision.snapshot())
@@ -493,15 +494,17 @@ internal class ObservationRecovery(context:Context) {
         return AuditAuthority(scope,profile,device,keys)
     }
     /** A completed local sweep is reusable only for this exact authority and inbox revision. */
-    fun sweepScope(stopped:()->Boolean={false}):String? = synchronized(lock){
-        try{auditAuthority(stopped)?.scope?.let{scope->
-            Values.sha256(listOf(scope.session.owner.collectionId,scope.session.owner.accountId,scope.session.generation.toString(),
+    private fun scopeDigest(scope:AuditScope):String =
+        Values.sha256(listOf(scope.session.owner.collectionId,scope.session.owner.accountId,scope.session.generation.toString(),
                 scope.fingerprint,scope.legacyHold.toString(),scope.consent.revision.enabled.toString(),
                 scope.consent.revision.generation.toString(),scope.consent.confirmed.toString(),scope.control.paused.toString(),
                 scope.control.revision.toString(),scope.deviceScope,scope.heldScope,scope.revision.toString())
                 .joinToString(""){"${it.length}:$it"})
-        }}catch(_:Exception){null}
+    fun sweepScope(stopped:()->Boolean={false}):String? = synchronized(lock){
+        try{auditAuthority(stopped)?.scope?.let(::scopeDigest)}catch(_:Exception){null}
     }
+    /** Health reads never create a baseline or wait for the audit's network lock. */
+    fun healthScope():String? = try{auditAuthority({false},allowBaselineCreation=false)?.scope?.let(::scopeDigest)}catch(_:Exception){null}
     fun resetAudit()=synchronized(lock){auditProgress=null;completedAuditStart=null;completedAuditRevision=null}
     fun auditStartedAt():Long?=synchronized(lock){completedAuditStart}
     fun auditRevision():String?=synchronized(lock){completedAuditRevision}

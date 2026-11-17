@@ -15,7 +15,8 @@ import app.cool.mobile.receiver_sms.ObservationSyncDiagnostics.Phase
 import app.cool.mobile.receiver_sms.ObservationSyncDiagnostics.Stop
 
 internal data class ObservationCycleResult(val completed:Boolean,val more:Boolean,val problem:String?=null,val busy:Boolean=false,
-    val progress:Boolean=false,val proofStartedAtElapsed:Long?=null)
+    val progress:Boolean=false,val proofStartedAtElapsed:Long?=null,val proofInboxRevision:Long?=null,
+    val proofAuthorityRevision:Long?=null,val proofSessionDigest:String?=null,val proofScope:String?=null)
 
 /** The existing observation pipeline, executed once with one process-wide finite lease.
  * Both JobScheduler and the foreground supervisor use this same runner/journal.
@@ -300,13 +301,21 @@ internal object ObservationSyncCycle {
                 diagnostic.reject(Fence.OBSERVER_UNAVAILABLE)
                 return finish(ObservationCycleResult(false,false,"sync_unconfirmed"))
             }
-            val changed=ObservationInboxRevision.snapshot()!=inboxRevision||recovery.sweepScope(stopped)!=scope
+            val authorityRevision=ObservationAuthorityRevision.stable()
+            val session=NativeRepository.observationOwner(app)
+            val changed=authorityRevision==null||session==null||ObservationInboxRevision.snapshot()!=inboxRevision||
+                recovery.sweepScope(stopped)!=scope||ObservationAuthorityRevision.stable()!=authorityRevision||
+                NativeRepository.observationOwner(app)!=session||ObservationInboxRevision.snapshot()!=inboxRevision
             val proofStarted=verified?.at
             val confirmed=comparison==Comparison.MATCHED&&!stopped()&&!changed&&
                 ContinuousSyncHealthFreshness.fresh(proofStarted,SystemClock.elapsedRealtime())
             if(changed)diagnostic.reject(Fence.RECONCILE_CHANGED)
             return finish(ObservationCycleResult(confirmed,changed||comparison==Comparison.PENDING,if(confirmed)null else "sync_unconfirmed",
-                progress=changed,proofStartedAtElapsed=if(confirmed)proofStarted else null))
+                progress=changed,proofStartedAtElapsed=if(confirmed)proofStarted else null,
+                proofInboxRevision=if(confirmed)inboxRevision else null,
+                proofAuthorityRevision=if(confirmed)authorityRevision else null,
+                proofSessionDigest=if(confirmed&&session!=null)ObservationAuthorityRevision.sessionDigest(session) else null,
+                proofScope=if(confirmed)scope else null))
         }catch(error:Exception){
             val snapshot=diagnostic.snapshot()
             val kind=ObservationSyncDiagnostics.errorKind(error)
