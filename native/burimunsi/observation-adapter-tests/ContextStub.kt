@@ -5,6 +5,7 @@ import android.telephony.SubscriptionManager
 /** In-memory provider and permission double. It has no phone or Android storage access. */
 class Context {
  val applicationContext:Context get()=this
+ val noBackupFilesDir=java.io.File("/nonexistent-burimunsi-fake")
  var denied=emptySet<String>()
  val contentResolver=ContentResolver()
  fun checkSelfPermission(value:String)=if(value in denied)-1 else 0

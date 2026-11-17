@@ -2,115 +2,165 @@ package app.cool.mobile.receiver_sms
 
 import android.content.Context
 import org.json.JSONObject
-import rw.ikanisa.burimunsi.core.ObservationOwner
 import rw.ikanisa.burimunsi.core.HeldObservationAck
 import rw.ikanisa.burimunsi.core.ObservationAcknowledgement
+import rw.ikanisa.burimunsi.core.ObservationOwner
 import rw.ikanisa.burimunsi.core.SmsObservation
 import rw.ikanisa.burimunsi.core.Values
 import rw.ikanisa.burimunsi.core.checkContract
 import rw.ikanisa.burimunsi.storage.SecureStore
 import java.time.Instant
 import java.util.UUID
+import java.util.concurrent.atomic.AtomicBoolean
 
-/** One encrypted, durable request per held inbox identity. This journal does
- * not grant capture authority: its caller must recheck the current owner,
- * permission, consent, inbox row and Cloud reconciliation before dispatch. */
+/** The store name and its authenticated encryption bind every record to its
+ * owner, installation, device and source. Only uncertain requests retain SMS
+ * text; terminal records retain an opaque row digest and source identity. */
 internal class HeldRecoveryJournal(context:Context,private val owner:ObservationOwner,
     private val installation:String,private val deviceScope:String) {
-    companion object { private val lock=Any() }
+    companion object {
+        private val lock=Any()
+        private val migrationStarted=AtomicBoolean(false)
+        private val fileName=Regex("^buri-(observation-held-recovery-[a-f0-9]{64})\\.v1(?:\\.bak)?$")
+        private val hash=Regex("[a-f0-9]{64}")
+        private fun name(owner:ObservationOwner,installation:String,deviceScope:String,key:String):String {
+            checkContract(owner.valid()&&runCatching{Values.requestId(installation)==installation}.getOrDefault(false)&&
+                hash.matches(deviceScope)&&hash.matches(key),"observation_store_unavailable")
+            return "observation-held-recovery-"+Values.sha256(listOf("held-recovery-v1",owner.collectionId,owner.accountId,
+                installation,deviceScope,key).joinToString(""){"${it.length}:$it"})
+        }
+        /** Remove old terminal bodies even if the inbox row, session or SMS permission
+         * has gone away. Corrupt, foreign-named and unresolved records are untouched. */
+        internal fun migrateLegacyFiles(context:Context,files:Collection<String>)=synchronized(lock){
+            for(storeName in files.mapNotNull{fileName.matchEntire(it)?.groupValues?.get(1)}.toSet()){
+                try{
+                    val raw=SecureStore(context.applicationContext,storeName).read()?:continue
+                    val value=JSONObject(raw)
+                    if(value.optInt("version",-1)!=1||value.optString("phase") !in setOf("CONFIRMED","MATCHED_EXISTING"))continue
+                    val owner=ObservationOwner(value.getString("collectionId"),value.getString("accountId"))
+                    val installation=value.getString("installationId");val device=value.getString("deviceScope")
+                    val key=value.getString("sourceKey")
+                    if(name(owner,installation,device,key)!=storeName)continue
+                    HeldRecoveryJournal(context,owner,installation,device).read(key)
+                }catch(_:Exception){/* Preserve invalid or unavailable records for later inspection. */}
+            }
+        }
+        /** Local privacy maintenance is independent of capture authority and does
+         * not read the inbox, contact the server, or clear an uncertain request. */
+        fun migrateLegacyAsync(context:Context){
+            if(!migrationStarted.compareAndSet(false,true))return
+            val app=context.applicationContext
+            try{Thread({
+                try{migrateLegacyFiles(app,app.noBackupFilesDir.list()?.toList()?:throw IllegalStateException("Protected directory unavailable"))}
+                catch(_:Exception){migrationStarted.set(false)}
+            },"held-recovery-privacy-migration").start()}
+            catch(_:Exception){migrationStarted.set(false)}
+        }
+    }
     internal enum class Phase { PREPARED, ATTEMPTING, CONFIRMED, MATCHED_EXISTING }
-    internal data class Entry(val rowId:Long,val observation:SmsObservation,val phase:Phase,val sourceId:String?=null) {
+    internal data class Entry(val phase:Phase,val requestId:String,val sourceKey:String,val rowDigest:String,
+        val sourceId:String?=null,val rowId:Long?=null,val observation:SmsObservation?=null) {
         override fun toString()="HeldRecoveryJournal.Entry(redacted)"
     }
     private val app=context.applicationContext
-    private fun exact(value:JSONObject,keys:Set<String>)=checkContract(value.keys().asSequence().toSet()==keys,"observation_store_unavailable")
-    private fun store(key:String):SecureStore {
-        checkContract(owner.valid()&&runCatching{Values.requestId(installation)==installation}.getOrDefault(false)&&
-            Regex("[a-f0-9]{64}").matches(deviceScope)&&Regex("[a-f0-9]{64}").matches(key),"observation_store_unavailable")
-        val name=Values.sha256(listOf("held-recovery-v1",owner.collectionId,owner.accountId,installation,deviceScope,key)
-            .joinToString(""){"${it.length}:$it"})
-        return SecureStore(app,"observation-held-recovery-$name")
+    private fun store(key:String)=SecureStore(app,name(owner,installation,deviceScope,key))
+    private fun terminal(phase:Phase)=phase==Phase.CONFIRMED||phase==Phase.MATCHED_EXISTING
+    private fun rowDigest(rowId:Long,key:String,sender:String,body:String,received:String,sent:String?,sub:Int?):String {
+        val fields=listOf("burimunsi-held-row-v2",rowId.toString(),key,sender,Values.sha256(body),received,
+            if(sent==null)"0" else "1$sent",if(sub==null)"0" else "1$sub")
+        return Values.sha256(fields.joinToString(""){"${it.length}:$it"})
     }
-    private fun encode(entry:Entry):String {
-        val o=entry.observation
+    private fun entry(rowId:Long,o:SmsObservation,phase:Phase,sourceId:String?=null):Entry {
+        val key=o.sourceKey?:throw IllegalArgumentException("Missing source key")
+        val digest=rowDigest(rowId,key,o.rawSender,o.rawBody,o.inboxReceivedAt?:throw IllegalArgumentException("Missing receipt time"),
+            o.serviceCentreAt,o.subscriptionId)
+        return if(terminal(phase))Entry(phase,o.requestId,key,digest,sourceId)
+        else Entry(phase,o.requestId,key,digest,null,rowId,o)
+    }
+    private fun encode(value:Entry):String {
+        if(terminal(value.phase))return JSONObject().put("version",2).put("phase",value.phase.name)
+            .put("requestId",value.requestId).put("sourceId",value.sourceId).put("rowDigest",value.rowDigest).toString()
+        val o=value.observation?:throw IllegalArgumentException("Missing uncertain request")
         return JSONObject().put("version",1).put("collectionId",owner.collectionId).put("accountId",owner.accountId)
-            .put("installationId",installation).put("deviceScope",deviceScope).put("rowId",entry.rowId)
-            .put("phase",entry.phase.name).put("requestId",o.requestId).put("rawSender",o.rawSender).put("rawBody",o.rawBody)
+            .put("installationId",installation).put("deviceScope",deviceScope).put("rowId",value.rowId)
+            .put("phase",value.phase.name).put("requestId",o.requestId).put("rawSender",o.rawSender).put("rawBody",o.rawBody)
             .put("sourceMode",o.sourceMode).put("complete",o.complete).put("capturedAt",o.capturedAt)
             .put("serviceCentreAt",o.serviceCentreAt?:JSONObject.NULL).put("inboxReceivedAt",o.inboxReceivedAt?:JSONObject.NULL)
-            .put("subscriptionId",o.subscriptionId?:JSONObject.NULL).put("sourceKey",o.sourceKey?:JSONObject.NULL)
-            .also{if(entry.sourceId!=null)it.put("terminalSourceId",entry.sourceId)}.toString()
+            .put("subscriptionId",o.subscriptionId?:JSONObject.NULL).put("sourceKey",o.sourceKey?:JSONObject.NULL).toString()
     }
-    private fun decode(text:String,key:String):Entry {
-        val v=JSONObject(text)
+    /** The boolean marks a valid v1 terminal that must be atomically redacted. */
+    private fun decode(text:String,key:String):Pair<Entry,Boolean> {
+        val v=JSONObject(text);val fields=v.keys().asSequence().toSet();val version=v.getInt("version")
+        val phase=runCatching{Phase.valueOf(v.getString("phase"))}.getOrNull()
+            ?:throw IllegalArgumentException("Invalid protected journal phase")
+        val request=v.getString("requestId")
+        checkContract(runCatching{Values.requestId(request)==request}.getOrDefault(false),"observation_store_unavailable")
+        if(version==2){
+            checkContract(fields==setOf("version","phase","requestId","sourceId","rowDigest")&&terminal(phase),"observation_store_unavailable")
+            val source=v.getString("sourceId");val digest=v.getString("rowDigest")
+            checkContract(runCatching{Values.id(source)==source}.getOrDefault(false)&&hash.matches(digest),"observation_store_unavailable")
+            return Entry(phase,request,key,digest,source) to false
+        }
         val base=setOf("version","collectionId","accountId","installationId","deviceScope","rowId","phase","requestId",
             "rawSender","rawBody","sourceMode","complete","capturedAt","serviceCentreAt","inboxReceivedAt","subscriptionId","sourceKey")
-        checkContract(v.keys().asSequence().toSet() in setOf(base,base+"terminalSourceId"),"observation_store_unavailable")
-        checkContract(v.getInt("version")==1&&v.getString("collectionId")==owner.collectionId&&v.getString("accountId")==owner.accountId&&
-            v.getString("installationId")==installation&&v.getString("deviceScope")==deviceScope&&v.getString("sourceKey")==key,
-            "observation_store_unavailable")
-        val phase=runCatching{Phase.valueOf(v.getString("phase"))}.getOrNull()
-        val value=SmsObservation(v.getString("requestId"),v.getString("rawSender"),v.getString("rawBody"),v.getString("sourceMode"),
+        checkContract(version==1&&fields in setOf(base,base+"terminalSourceId")&&v.getString("collectionId")==owner.collectionId&&
+            v.getString("accountId")==owner.accountId&&v.getString("installationId")==installation&&
+            v.getString("deviceScope")==deviceScope&&v.getString("sourceKey")==key,"observation_store_unavailable")
+        val o=SmsObservation(request,v.getString("rawSender"),v.getString("rawBody"),v.getString("sourceMode"),
             v.getBoolean("complete"),v.getString("capturedAt"),if(v.isNull("serviceCentreAt"))null else v.getString("serviceCentreAt"),
             if(v.isNull("inboxReceivedAt"))null else v.getString("inboxReceivedAt"),
             if(v.isNull("subscriptionId"))null else v.getInt("subscriptionId"),v.getString("sourceKey"))
         val source=if(v.has("terminalSourceId"))v.getString("terminalSourceId")else null
-        checkContract(phase!=null&&(phase in setOf(Phase.CONFIRMED,Phase.MATCHED_EXISTING))==(source!=null)&&
-            (source==null||runCatching{Values.id(source)==source}.getOrDefault(false))&&v.getLong("rowId")>0&&runCatching{Values.requestId(value.requestId)==value.requestId}.getOrDefault(false)&&
-            value.sourceMode=="catch_up"&&!value.complete&&value.rawSender.length in 1..96&&value.rawSender==value.rawSender.trim()&&
-            value.rawBody.toByteArray(Charsets.UTF_8).size in 1..3000&&value.inboxReceivedAt!=null&&
-            (value.subscriptionId?.let{it>=0}!=false)&&listOf(value.capturedAt,value.serviceCentreAt,value.inboxReceivedAt)
-                .filterNotNull().all{runCatching{Instant.parse(it);true}.getOrDefault(false)},"observation_store_unavailable")
-        return Entry(v.getLong("rowId"),value,phase!!,source)
+        checkContract(terminal(phase)==(source!=null)&&(source==null||runCatching{Values.id(source)==source}.getOrDefault(false))&&
+            v.getLong("rowId")>0&&o.sourceMode=="catch_up"&&!o.complete&&o.rawSender.length in 1..96&&o.rawSender==o.rawSender.trim()&&
+            o.rawBody.toByteArray(Charsets.UTF_8).size in 1..3000&&o.inboxReceivedAt!=null&&
+            (o.subscriptionId?.let{it>=0}!=false)&&listOf(o.capturedAt,o.serviceCentreAt,o.inboxReceivedAt).filterNotNull()
+                .all{runCatching{Instant.parse(it);true}.getOrDefault(false)},"observation_store_unavailable")
+        return entry(v.getLong("rowId"),o,phase,source) to terminal(phase)
     }
-    private fun read(key:String):Entry?=store(key).read()?.let{decode(it,key)}
+    private fun read(key:String):Entry? {
+        val target=store(key);val raw=target.read()?:return null;val (value,migrate)=decode(raw,key)
+        if(migrate){
+            val redacted=encode(value);target.write(redacted)
+            checkContract(target.read()?.let{decode(it,key)}==(value to false),"observation_store_unavailable")
+        }
+        return value
+    }
     fun pending(key:String):Entry?=synchronized(lock){read(key)}
 
-    /** Returns the original immutable request on every retry. A changed inbox
-     * row cannot overwrite a request whose network outcome may be unknown. */
+    /** A changed row cannot replace either an uncertain request or its tombstone. */
     fun prepare(rowId:Long,key:String,sender:String,body:String,receivedAt:String,sentAt:String?,subscriptionId:Int?,now:Long):Entry? = synchronized(lock){
         val existing=read(key)
-        if(existing!=null){val o=existing.observation
-            return@synchronized existing.takeIf{it.rowId==rowId&&o.sourceKey==key&&o.rawSender==sender&&o.rawBody==body&&
-                o.inboxReceivedAt==receivedAt&&o.serviceCentreAt==sentAt&&o.subscriptionId==subscriptionId}
-        }
+        if(existing!=null)return@synchronized existing.takeIf{it.rowDigest==rowDigest(rowId,key,sender,body,receivedAt,sentAt,subscriptionId)}
         if(rowId<=0||now<=0)return@synchronized null
-        val value=SmsObservation(UUID.randomUUID().toString(),sender,body,"catch_up",false,Instant.ofEpochMilli(now).toString(),
+        val o=SmsObservation(UUID.randomUUID().toString(),sender,body,"catch_up",false,Instant.ofEpochMilli(now).toString(),
             sentAt,receivedAt,subscriptionId,key)
-        val proposed=Entry(rowId,value,Phase.PREPARED)
-        val encoded=encode(proposed)
-        if(runCatching{decode(encoded,key)}.getOrNull()!=proposed)return@synchronized null
-        val target=store(key);target.write(encoded)
-        read(key)?.takeIf{it==proposed}
+        val proposed=entry(rowId,o,Phase.PREPARED);val encoded=encode(proposed)
+        if(runCatching{decode(encoded,key)}.getOrNull()!=(proposed to false))return@synchronized null
+        store(key).write(encoded);read(key)?.takeIf{it==proposed}
     }
-    /** Persist uncertainty before starting the remote call. */
     fun begin(entry:Entry):Entry?=synchronized(lock){
-        val key=entry.observation.sourceKey?:return@synchronized null
-        val current=read(key)?:return@synchronized null
+        val current=read(entry.sourceKey)?:return@synchronized null
         if(current!=entry)return@synchronized null
         if(current.phase==Phase.ATTEMPTING)return@synchronized current
         if(current.phase!=Phase.PREPARED)return@synchronized null
-        val next=current.copy(phase=Phase.ATTEMPTING);store(key).write(encode(next))
-        read(key)?.takeIf{it==next}
+        val next=current.copy(phase=Phase.ATTEMPTING);store(entry.sourceKey).write(encode(next))
+        read(entry.sourceKey)?.takeIf{it==next}
     }
-    /** Keep terminal evidence: a later stale/missing read must never mint a new request. */
     fun confirm(entry:Entry,ack:HeldObservationAck):Entry?=synchronized(lock){
-        val key=entry.observation.sourceKey?:return@synchronized null
-        if(entry.phase!=Phase.ATTEMPTING||read(key)!=entry||ack.autoProcessing!="held"||
-            !ObservationAcknowledgement.matches(entry.observation,ack.observation))return@synchronized null
-        val next=entry.copy(phase=Phase.CONFIRMED,sourceId=ack.observation.sourceId)
-        store(key).write(encode(next));read(key)?.takeIf{it==next}
+        val o=entry.observation?:return@synchronized null
+        if(entry.phase!=Phase.ATTEMPTING||read(entry.sourceKey)!=entry||ack.autoProcessing!="held"||
+            !ObservationAcknowledgement.matches(o,ack.observation))return@synchronized null
+        val next=entry.copy(phase=Phase.CONFIRMED,sourceId=ack.observation.sourceId,rowId=null,observation=null)
+        store(entry.sourceKey).write(encode(next));read(entry.sourceKey)?.takeIf{it==next}
     }
     fun markExisting(entry:Entry,sourceId:String):Entry?=synchronized(lock){
-        val key=entry.observation.sourceKey?:return@synchronized null
-        if(entry.phase!=Phase.PREPARED||read(key)!=entry||!runCatching{Values.id(sourceId)==sourceId}.getOrDefault(false))return@synchronized null
-        val next=entry.copy(phase=Phase.MATCHED_EXISTING,sourceId=sourceId)
-        store(key).write(encode(next));read(key)?.takeIf{it==next}
+        if(entry.phase!=Phase.PREPARED||read(entry.sourceKey)!=entry||!runCatching{Values.id(sourceId)==sourceId}.getOrDefault(false))return@synchronized null
+        val next=entry.copy(phase=Phase.MATCHED_EXISTING,sourceId=sourceId,rowId=null,observation=null)
+        store(entry.sourceKey).write(encode(next));read(entry.sourceKey)?.takeIf{it==next}
     }
-    /** A never-dispatched request can be cleared only by an explicitly validated caller. */
     fun clear(entry:Entry):Boolean=synchronized(lock){
-        val key=entry.observation.sourceKey?:return@synchronized false
-        if(entry.phase!=Phase.PREPARED||read(key)!=entry)return@synchronized false
-        val target=store(key);target.clear();target.read()==null
+        if(entry.phase!=Phase.PREPARED||read(entry.sourceKey)!=entry)return@synchronized false
+        val target=store(entry.sourceKey);target.clear();target.read()==null
     }
 }

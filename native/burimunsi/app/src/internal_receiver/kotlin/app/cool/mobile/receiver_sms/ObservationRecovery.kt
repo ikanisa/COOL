@@ -663,6 +663,13 @@ internal class ObservationRecovery(context:Context) {
                 val existing=try{journal.pending(request.sourceKey)}catch(_:Exception){
                     auditProgress=null;return@synchronized Audit.UNCONFIRMED
                 }
+                // The current POST is capable of starting a Storage upload.
+                // A prior dispatch therefore cannot be used as an ACK-only
+                // probe, even when this collection's status appears clear.
+                // Keep its exact request until an authorized read-only proof exists.
+                if(existing?.phase==HeldRecoveryJournal.Phase.ATTEMPTING){
+                    auditProgress=null;return@synchronized Audit.UNCONFIRMED
+                }
                 // A matched row with no uncertain request remains a read-only match.
                 if(initial.state=="missing"||existing!=null){
                     fun current():Boolean=try{
@@ -735,16 +742,18 @@ internal class ObservationRecovery(context:Context) {
                                         auditProgress=null;return@synchronized Audit.UNCONFIRMED
                                     }
                                 }
-                                HeldRecoveryJournal.Phase.PREPARED,HeldRecoveryJournal.Phase.ATTEMPTING->{
-                                    if(reconciled.state=="matched"&&entry.phase==HeldRecoveryJournal.Phase.PREPARED){
+                                HeldRecoveryJournal.Phase.ATTEMPTING->{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                                HeldRecoveryJournal.Phase.PREPARED->{
+                                    if(reconciled.state=="matched"){
                                         if(!finishJournal{journal.markExisting(entry,reconciled.sourceId!!)!=null}){
                                             auditProgress=null;return@synchronized Audit.UNCONFIRMED
                                         }
                                         restart=true
                                     }else{
                                         val attempting=journal.begin(entry)?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                                        val original=attempting.observation?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
                                         if(!current()||!unique()||!current()){auditProgress=null;return@synchronized Audit.BLOCKED}
-                                        val ack=repo.recoverHeldObservation(attempting.observation)
+                                        val ack=repo.recoverHeldObservation(original)
                                         if(!current()||!unique()||!current()){auditProgress=null;return@synchronized Audit.BLOCKED}
                                         val finalStatus=repo.observationReconcileVerifiedStatus()
                                         if(!verified(finalStatus)||!current()){

@@ -1,6 +1,7 @@
 package android.content
 class Context {
  val applicationContext:Context get()=this
+ val noBackupFilesDir=java.io.File("/nonexistent-burimunsi-fake")
  var denied=emptySet<String>()
  fun checkSelfPermission(value:String)=if(value in denied)-1 else 0
  @Suppress("UNCHECKED_CAST") fun <T> getSystemService(type:Class<T>):T?=

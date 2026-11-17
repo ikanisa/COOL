@@ -89,10 +89,15 @@ fun main() {
   check(HeldRecoveryJournal(e.context,adminB,installation,deviceScope).pending(key)==null)
   check(HeldRecoveryJournal(e.context,adminA,installation,Values.sha256("another-device")).pending(key)==null)
   check(!journal.clear(attempted))
-  val ack=HeldObservationAck(ObservationAck(attempted.observation.requestId,"source-1",Values.sha256(body),"source_unresolved",0),"held")
+  val ack=HeldObservationAck(ObservationAck(attempted.observation!!.requestId,"source-1",Values.sha256(body),"source_unresolved",0),"held")
   val confirmed=journal.confirm(attempted,ack)!!
-  check(confirmed.phase==HeldRecoveryJournal.Phase.CONFIRMED&&confirmed.sourceId=="source-1")
+  check(confirmed.phase==HeldRecoveryJournal.Phase.CONFIRMED&&confirmed.sourceId=="source-1"&&confirmed.observation==null)
+  val text=SecureStore.data.filterKeys{it.startsWith("observation-held-recovery-")}.values.single()
+  check(!text.contains(body)&&!text.contains("M-Money"))
+  check(JSONObject(text).keys().asSequence().toSet()==setOf("version","phase","requestId","sourceId","rowDigest"))
   check(journal.pending(key)==confirmed&&!journal.clear(confirmed)&&journal.begin(confirmed)==null)
+  check(restarted.prepare(12,key,"M-Money",body,received,null,3,time+50_000)==confirmed)
+  check(restarted.prepare(12,key,"M-Money",body+" changed",received,null,3,time+50_000)==null)
  }
  test("a corrupt held recovery journal is not silently replaced") {
   val e=setup();val key=cloudKey(adminA,12);val journal=HeldRecoveryJournal(e.context,adminA,installation,Values.sha256("device"))
@@ -101,6 +106,62 @@ fun main() {
   val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
   SecureStore.data[name]="{}"
   check(runCatching{journal.prepare(12,key,"M-Money",body,received,null,3,time)}.isFailure)
+ }
+ test("v1 terminal records migrate without session permission or an inbox row; pending records stay exact") {
+  val e=setup();val received=Instant.ofEpochMilli(time).toString()
+  fun legacy(owner:ObservationOwner,id:Long,phase:String):Pair<String,SmsObservation>{
+   val before=SecureStore.data.keys.toSet();val key=cloudKey(owner,id)
+   val journal=HeldRecoveryJournal(e.context,owner,installation,Values.sha256("1234567890abcdef"))
+   val prepared=journal.prepare(id,key,"M-Money",body,received,null,3,time)!!
+   val name=(SecureStore.data.keys-before).single()
+   val old=JSONObject(SecureStore.data[name]!!).put("phase",phase)
+   if(phase!="ATTEMPTING")old.put("terminalSourceId","source-$id")
+   SecureStore.data[name]=old.toString()
+   return name to prepared.observation!!
+  }
+  val (confirmedName,confirmedRequest)=legacy(adminA,12,"CONFIRMED")
+  val (matchedName,matchedRequest)=legacy(adminB,13,"MATCHED_EXISTING")
+  val (pendingName,pendingRequest)=legacy(adminA,14,"ATTEMPTING")
+  val pendingBefore=SecureStore.data[pendingName]!!
+  val foreignName="observation-held-recovery-"+"f".repeat(64);val foreign=SecureStore.data[confirmedName]!!
+  SecureStore.data[foreignName]=foreign
+  NativeRepository.switch(null);e.context.denied=setOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS)
+  e.context.contentResolver.rows=emptyList()
+  val names=listOf(confirmedName,matchedName,pendingName,foreignName).map{"buri-$it.v1"}
+  HeldRecoveryJournal.migrateLegacyFiles(e.context,names+"buri-$confirmedName.v1.bak")
+  for((name,request) in listOf(confirmedName to confirmedRequest,matchedName to matchedRequest)){
+   val saved=JSONObject(SecureStore.data[name]!!)
+   check(saved.getInt("version")==2&&saved.getString("requestId")==request.requestId)
+   check(saved.keys().asSequence().toSet()==setOf("version","phase","requestId","sourceId","rowDigest"))
+   check(!SecureStore.data[name]!!.contains(body)&&!SecureStore.data[name]!!.contains("M-Money"))
+  }
+  check(SecureStore.data[pendingName]==pendingBefore&&SecureStore.data[foreignName]==foreign)
+  check(heldJournal(e).pending(cloudKey(adminA,14))?.observation==pendingRequest)
+  val restarted=HeldRecoveryJournal(e.context,adminA,installation,Values.sha256("1234567890abcdef"))
+  val saved=restarted.pending(cloudKey(adminA,12))!!
+  check(saved.phase==HeldRecoveryJournal.Phase.CONFIRMED&&saved.requestId==confirmedRequest.requestId&&saved.observation==null)
+  check(restarted.prepare(12,cloudKey(adminA,12),"M-Money",body,received,null,3,time)==saved)
+  check(restarted.prepare(12,cloudKey(adminA,12),"M-Money",body+" altered",received,null,3,time)==null)
+  check(restarted.prepare(12,cloudKey(adminA,12),"M-Money",body,received,null,4,time)==null)
+ }
+ test("failed legacy redaction preserves the old entry for a later safe retry") {
+  val e=setup();val key=cloudKey(adminA,12);val journal=heldJournal(e);val received=Instant.ofEpochMilli(time).toString()
+  check(journal.prepare(12,key,"M-Money",body,received,null,3,time)!=null)
+  val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
+  val legacy=JSONObject(SecureStore.data[name]!!).put("phase","CONFIRMED").put("terminalSourceId","source-1").toString()
+  SecureStore.data[name]=legacy;SecureStore.unwritable.add(name)
+  HeldRecoveryJournal.migrateLegacyFiles(e.context,listOf("buri-$name.v1"));check(SecureStore.data[name]==legacy)
+  check(runCatching{journal.pending(key)}.isFailure)
+  SecureStore.unwritable.remove(name);HeldRecoveryJournal.migrateLegacyFiles(e.context,listOf("buri-$name.v1"))
+  check(journal.pending(key)?.phase==HeldRecoveryJournal.Phase.CONFIRMED&&!SecureStore.data[name]!!.contains(body))
+ }
+ test("a corrupt terminal tombstone cannot be replaced with a new request") {
+  val e=setup();val key=cloudKey(adminA,12);val journal=heldJournal(e);val received=Instant.ofEpochMilli(time).toString()
+  val prepared=journal.prepare(12,key,"M-Money",body,received,null,3,time)!!
+  val saved=journal.markExisting(prepared,"source-1")!!;check(saved.observation==null)
+  val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
+  val bad=JSONObject(SecureStore.data[name]!!).put("rowDigest","corrupt").toString();SecureStore.data[name]=bad
+  check(runCatching{journal.prepare(12,key,"M-Money",body,received,null,3,time)}.isFailure&&SecureStore.data[name]==bad)
  }
  test("invalid recovery input cannot corrupt a fresh journal") {
   val e=setup();val key=cloudKey(adminA,12);val journal=heldJournal(e)
@@ -123,7 +184,7 @@ fun main() {
   check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
   val request=e.repository.recoveryRequests.single();val saved=heldJournal(e).pending(cloudKey(adminA,12))!!
   check(request.sourceMode=="catch_up"&&!request.complete&&request.sourceKey==cloudKey(adminA,12))
-  check(saved.phase==HeldRecoveryJournal.Phase.CONFIRMED&&saved.observation==request&&saved.sourceId!=null)
+  check(saved.phase==HeldRecoveryJournal.Phase.CONFIRMED&&saved.observation==null&&saved.requestId==request.requestId&&saved.sourceId!=null)
   check(e.repository.recoveryCommitted.size==1&&pending(adminA).isEmpty())
   ObservationRecovery(e.context).scan();check(pending(adminA).isEmpty())
   check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE&&e.repository.recoveryRequests.size==1)
@@ -207,25 +268,31 @@ fun main() {
    check(e.repository.recoveryRequests.isEmpty())
   }
  }
- test("lost response after server commit is retried with the identical durable request") {
+ test("lost response after server commit remains pending without a second upload") {
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
   e.repository.recoveryFailureAfterCommit=IllegalStateException("timeout")
   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
   val first=e.repository.recoveryRequests.single();val key=cloudKey(adminA,12)
   check(heldJournal(e).pending(key)?.phase==HeldRecoveryJournal.Phase.ATTEMPTING&&e.repository.recoveryCommitted.size==1)
+  val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")};val stored=SecureStore.data[name]
   e.repository.recoveryFailureAfterCommit=null
-  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
-  check(e.repository.recoveryRequests==listOf(first,first)&&e.repository.recoveryCommitted.size==1)
-  check(heldJournal(e).pending(key)?.phase==HeldRecoveryJournal.Phase.CONFIRMED)
+  for(isPending in listOf(true,false)){
+   e.repository.verifiedPending=isPending
+   e.repository.statusReplyOverride={_,status->status.copy(hasPending=isPending)}
+   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+   check(e.repository.recoveryRequests==listOf(first)&&heldJournal(e).pending(key)?.observation==first&&SecureStore.data[name]==stored)
+  }
+  check(e.repository.recoveryCommitted.size==1)
  }
- test("lost response before server commit retries the original request") {
+ test("lost response before server commit preserves the exact request without replay") {
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
   e.repository.recoveryFailureBeforeCommit=IllegalStateException("timeout")
   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
   val first=e.repository.recoveryRequests.single();check(e.repository.recoveryCommitted.isEmpty())
   e.repository.recoveryFailureBeforeCommit=null
-  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
-  check(e.repository.recoveryRequests==listOf(first,first)&&e.repository.recoveryCommitted.size==1)
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  check(e.repository.recoveryRequests==listOf(first)&&e.repository.recoveryCommitted.isEmpty())
+  check(heldJournal(e).pending(cloudKey(adminA,12))?.observation==first)
  }
  test("changed inbox content after an unknown outcome cannot replace its request") {
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
@@ -250,8 +317,9 @@ fun main() {
    val first=e.repository.recoveryRequests.single();check(heldJournal(e).pending(cloudKey(adminA,12))?.phase==HeldRecoveryJournal.Phase.ATTEMPTING)
    e.context.denied=emptySet();e.context.contentResolver.rows=listOf(row(12));e.repository.recoveryAckOverride=null
    if(kind=="owner")NativeRepository.switch(adminA)
-   check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
-   check(e.repository.recoveryRequests==listOf(first,first)&&e.repository.recoveryCommitted.size==1)
+   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+   check(e.repository.recoveryRequests==listOf(first)&&e.repository.recoveryCommitted.size==1)
+   check(heldJournal(e).pending(cloudKey(adminA,12))?.observation==first)
   }
  }
  test("missing device identity keeps the inbox row unacknowledged for later recovery") {
