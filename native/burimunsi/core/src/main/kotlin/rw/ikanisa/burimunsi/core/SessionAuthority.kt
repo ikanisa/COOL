@@ -11,22 +11,36 @@ class SessionAuthority {
     // reattaching that saved bearer must not reopen local SMS custody.
     private var observationBlocked = false
     private val listeners = mutableSetOf<() -> Unit>()
+    private var observationMetadataRevision=0L
+    private val observationListeners=mutableSetOf<(Boolean)->Unit>()
     @Synchronized fun observe(listener: () -> Unit): () -> Unit {
         listeners.add(listener)
         return { synchronized(this) { listeners.remove(listener) } }
     }
     private fun changed() { listeners.toList().forEach { listener -> runCatching { listener() } } }
+    private fun observationChanged(wake:Boolean){observationListeners.toList().forEach{listener->runCatching{listener(wake)}}}
+    @Synchronized fun observeObservation(listener:(Boolean)->Unit):()->Unit {
+        observationListeners.add(listener)
+        return {synchronized(this){observationListeners.remove(listener)}}
+    }
+    @Synchronized fun observationRevision():Long=observationMetadataRevision
+    /** The caller holds the session lock; listeners may only invalidate/post. */
+    @Synchronized fun <T> withObservationChange(witness:SessionWitness,wakeAfter:Boolean,action:()->T):T = withCurrent(witness){
+        observationMetadataRevision=Math.addExact(observationMetadataRevision,1L)
+        observationChanged(false)
+        try{action()}finally{observationChanged(wakeAfter)}
+    }
     @Synchronized fun revision():Long=generation
     @Synchronized fun hasActive():Boolean=bearer!=null
     @Synchronized fun observationAdmitted():Boolean=!observationBlocked
     @Synchronized fun blockObservationIfCurrent(witness:SessionWitness):Boolean {
         if(witness.generation!=generation||witness.token!=bearer)return false
-        if(!observationBlocked){observationBlocked=true;changed()}
+        if(!observationBlocked){observationBlocked=true;observationMetadataRevision=Math.addExact(observationMetadataRevision,1L);changed()}
         return true
     }
     /** Call only after a current server profile has been saved durably. */
     @Synchronized fun confirmObservationCurrent(witness:SessionWitness) {
-        withCurrent(witness){if(observationBlocked){observationBlocked=false;changed()}}
+        withCurrent(witness){if(observationBlocked){observationBlocked=false;observationMetadataRevision=Math.addExact(observationMetadataRevision,1L);changed()}}
     }
     /** Join an identical protected session without disturbing another activity. */
     @Synchronized fun attach(token:String,persist:(SessionWitness)->Unit):SessionWitness {

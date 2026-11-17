@@ -5,7 +5,7 @@ data class ObservationOwner(val collectionId:String,val accountId:String) {
     fun valid()=runCatching{Values.id(collectionId);Values.id(accountId);true}.getOrDefault(false)
 }
 /** Process-local fence; no bearer or personal data is stored in a queued item. */
-data class ObservationSessionOwner(val owner:ObservationOwner,val generation:Long)
+data class ObservationSessionOwner(val owner:ObservationOwner,val generation:Long,val metadataRevision:Long=0L)
 data class ObservationEntry(val owner:ObservationOwner,val sourceKey:String,val observation:SmsObservation) {
     override fun toString()="ObservationEntry(redacted)"
 }

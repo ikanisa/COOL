@@ -1254,6 +1254,15 @@ fun main() {
   }
   stop();check(ObservationAuthorityRevision.stable()!=null)
  }
+ test("pending passcode holds the supervisor across ticks and rejection wakes retry") {
+  val state=ContinuousSyncHealthState(rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true))
+  var wakes=0;val detach=ObservationAuthorityRevision.observe{wake->state.invalidate();if(wake)wakes++}
+  ObservationAuthorityRevision.sessionMetadataChanged(false)
+  repeat(3){check(ContinuousSyncPreflight.waiting("passcode_pending")&&state.get().running&&state.get().problem=="sync_unconfirmed")}
+  check(wakes==0&&!ContinuousSyncPreflight.waiting("authorization_required"))
+  ObservationAuthorityRevision.sessionMetadataChanged(true)
+  check(wakes==1&&!ContinuousSyncPreflight.waiting(null));detach()
+ }
  test("an empty phone requires an authoritative empty Cloud reservation status") {
   val e=setup()
   val result=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})

@@ -25,6 +25,7 @@ internal object ObservationAuthorityRevision {
     private fun announce(wake:Boolean){generation.incrementAndGet();listeners.forEach{runCatching{it(wake)}}}
     fun ownerChanged(){announce(true)}
     fun receiverChanged(){announce(true)}
+    fun sessionMetadataChanged(wake:Boolean){announce(wake)}
     /** Called under the receiver's reentrant lock; callbacks only invalidate
      * and post work, so a 401/permission park cannot publish old health. */
     fun park(store:MomoGatewayStore,reason:String){
@@ -44,9 +45,15 @@ internal object ObservationAuthorityRevision {
     }
     fun observe(listener:(Boolean)->Unit):()->Unit {listeners.add(listener);return{listeners.remove(listener)}}
     fun sessionDigest(session:ObservationSessionOwner):String {
-        val fields=listOf("burimunsi-health-owner-v1",session.owner.collectionId,session.owner.accountId,session.generation.toString())
+        val fields=listOf("burimunsi-health-owner-v1",session.owner.collectionId,session.owner.accountId,session.generation.toString(),session.metadataRevision.toString())
         return Values.sha256(fields.joinToString(""){"${it.length}:$it"})
     }
+}
+
+/** An in-flight passcode mutation holds custody but must not detach the
+ * supervisor before a definite rejection can wake it again. */
+internal object ContinuousSyncPreflight {
+    fun waiting(reason:String?):Boolean=reason=="passcode_pending"
 }
 
 /** A cached successful cycle cannot extend the original reconciliation proof. */

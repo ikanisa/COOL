@@ -43,7 +43,7 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
 
         /** Caller holds processSessionAuthority. Expired metadata may authorize
          * a visible renewal attempt, never observation capture or upload. */
-        private fun observationIdentifiers(context:Context,allowExpired:Boolean):Pair<String,String>? {
+        private fun observationIdentifiers(context:Context,allowExpired:Boolean,allowInflight:Boolean=false):Pair<String,String>? {
             if(SecureStore(context,"signed-out").read()!=null||!processSessionAuthority.observationAdmitted())return null
             val saved=JSONObject(SecureStore(context,"session").read()?:return null)
             val deadline=saved.getLong("expiresAt")
@@ -54,7 +54,8 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
                 if(processSessionAuthority.capture().token!=token)return null
             }else if(processSessionAuthority.revision()!=0L)return null
             val pending=saved.optJSONObject("pendingPasscode")
-            if(saved.has("pendingPasscode")&&(pending==null||pending.getString("state")!="prepared"||
+            if(saved.has("pendingPasscode")&&(pending==null||pending.getString("state")!="prepared"&&
+                !(allowInflight&&pending.getString("state")=="inflight")||
                 !Regex("[a-f0-9]{64}").matches(pending.getString("token"))||pending.getString("token")==token))return null
             if(synchronized(signOutLock){pendingSignOut(saved,SecureStore(context,"session-revocations").read())})return null
             val profile=saved.getJSONObject("profile")
@@ -73,11 +74,19 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         internal fun restorableObservationOwner(context:Context):ObservationOwner?=synchronized(processSessionAuthority){
             try{observationIdentifiers(context,allowExpired=true)?.let{ObservationOwner(it.first,it.second)}}catch(_:Exception){null}
         }
+        /** A pending PIN change permits only a waiting service, never SMS custody. */
+        internal fun pendingObservationOwner(context:Context):ObservationOwner?=synchronized(processSessionAuthority){
+            try{
+                val saved=JSONObject(SecureStore(context,"session").read()?:return@synchronized null)
+                if(saved.optJSONObject("pendingPasscode")?.optString("state")!="inflight")return@synchronized null
+                observationIdentifiers(context,allowExpired=true,allowInflight=true)?.let{ObservationOwner(it.first,it.second)}
+            }catch(_:Exception){null}
+        }
 
         /** Serialize local observation custody with login/logout on the same process.
          * The callback receives only validated scope identifiers, never a bearer. */
         internal fun observationOwner(context:Context):ObservationSessionOwner? =
-            withObservationOwner(context){group,account->ObservationSessionOwner(ObservationOwner(group,account),processSessionAuthority.revision())}
+            withObservationOwner(context){group,account->ObservationSessionOwner(ObservationOwner(group,account),processSessionAuthority.revision(),processSessionAuthority.observationRevision())}
         /** Public timing bound only; the saved bearer remains repository-owned. */
         internal fun observationDeadline(context:Context,expected:ObservationSessionOwner):Long? =
             withObservationOwner(context,expected){_,_->
@@ -86,7 +95,7 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
             }
         internal fun <T> withObservationOwner(context:Context,expected:ObservationSessionOwner?=null,action:(String,String)->T):T? = synchronized(processSessionAuthority){
             val identifiers=try{observationIdentifiers(context,allowExpired=false)}catch(_:Exception){null}?:return@synchronized null
-            if(expected!=null&&expected!=ObservationSessionOwner(ObservationOwner(identifiers.first,identifiers.second),processSessionAuthority.revision()))return@synchronized null
+            if(expected!=null&&expected!=ObservationSessionOwner(ObservationOwner(identifiers.first,identifiers.second),processSessionAuthority.revision(),processSessionAuthority.observationRevision()))return@synchronized null
             action(identifiers.first,identifiers.second)
         }
     }
@@ -257,8 +266,20 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
             }
             // Preserve any exact in-flight passcode candidate while persisting a
             // delayed refresh of this same predecessor session.
+            fun observationAccess(value:JSONObject):Triple<String,Boolean,Boolean>{
+                val capabilities=value.getJSONArray("capabilities")
+                val values=(0 until capabilities.length()).map{capabilities.getString(it)}.toSet()
+                return Triple(value.getString("role"),"sms.read" in values,"gateway.manage" in values)
+            }
+            val previousAccess=runCatching{observationAccess(saved.getJSONObject("profile"))}.getOrNull()
+            val nextAccess=observationAccess(j.getJSONObject("profile"))
+            val accessChanged=previousAccess!=nextAccess
+            val shorterDeadline=runCatching{profile.expiresAt<saved.getLong("expiresAt")}.getOrDefault(true)
             saved.put("expiresAt",profile.expiresAt).put("profile",j.getJSONObject("profile"))
-            try{saveSession(saved)}catch(e:Exception){authority.blockObservationIfCurrent(witness);throw e}
+            try{
+                if(accessChanged||shorterDeadline)authority.withObservationChange(witness,accessChanged){saveSession(saved)}
+                else saveSession(saved) // Extending a deadline cannot extend an existing proof.
+            }catch(e:Exception){authority.blockObservationIfCurrent(witness);throw e}
             lastReadFromCache=false;lastReadSavedAt=System.currentTimeMillis()
             operator=profile
             authority.confirmObservationCurrent(witness)
@@ -328,6 +349,7 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         }
     }
     fun observeProcessSession(listener:()->Unit):()->Unit=authority.observe(listener)
+    fun observeObservationAuthority(listener:(Boolean)->Unit):()->Unit=authority.observeObservation(listener)
     fun hasPendingPasscode():Boolean = try{
         signedOutStore.read()==null&&sessionStore.read()?.let(::JSONObject)?.optJSONObject("pendingPasscode")?.optString("state")=="inflight"
     }catch(_:Exception){true}
@@ -877,13 +899,16 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         }
         authority.withCurrent(witness){
             val saved=pendingSession(witness,candidate)
-            saved.getJSONObject("pendingPasscode").put("state","inflight");saveSession(saved)
+            authority.withObservationChange(witness,false){
+                saved.getJSONObject("pendingPasscode").put("state","inflight");saveSession(saved)
+            }
         }
         val body=JSONObject().put("current",currentPin).put("newPin",newPin).put("confirm",confirm).put("replacementToken",candidate)
         val reply=try{requestOwned(witness,"POST","/session/passcode",body)}catch(e:ApiFailure){
             if(!e.uncertain&&(e.status==0||e.status in 400..499&&e.status !in setOf(408,425,429))){
                 // A definite rejection cannot have changed the PIN.
-                runCatching{authority.withCurrent(witness){val saved=pendingSession(witness,candidate);saved.remove("pendingPasscode");saveSession(saved)}}
+                runCatching{authority.withCurrent(witness){val saved=pendingSession(witness,candidate)
+                    authority.withObservationChange(witness,true){saved.remove("pendingPasscode");saveSession(saved)}}}
                 throw e
             }
             // Preserve the candidate durably and disable old in-memory authority.

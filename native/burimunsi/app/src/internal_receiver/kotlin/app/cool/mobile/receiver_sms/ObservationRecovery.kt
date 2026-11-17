@@ -183,7 +183,7 @@ internal class ObservationRecovery(context:Context) {
         val seenByKey=seen.entries.associateBy{it.sourceKey}
         val legacy=ObservationLegacyOwnership.scope(app)?:return Scan.BLOCKED
         val revision=ObservationInboxRevision.snapshot();val epoch=ObservationInboxRevision.epoch()
-        val scope=Values.sha256(listOf(owner.collectionId,owner.accountId,session.generation.toString(),profile.fingerprint(),
+        val scope=Values.sha256(listOf(owner.collectionId,owner.accountId,session.generation.toString(),session.metadataRevision.toString(),profile.fingerprint(),
             profile.legacyHold.toString(),consent.revision.enabled.toString(),consent.revision.generation.toString(),
             consent.confirmed.toString(),control.paused.toString(),control.revision.toString(),Values.sha256(device),legacy.digest)
             .joinToString(""){"${it.length}:$it"})
@@ -505,7 +505,7 @@ internal class ObservationRecovery(context:Context) {
     /** A completed local sweep is reusable only for this exact authority and inbox revision. */
     private fun scopeDigest(scope:AuditScope):String =
         Values.sha256(listOf(scope.session.owner.collectionId,scope.session.owner.accountId,scope.session.generation.toString(),
-                scope.fingerprint,scope.legacyHold.toString(),scope.consent.revision.enabled.toString(),
+                scope.session.metadataRevision.toString(),scope.fingerprint,scope.legacyHold.toString(),scope.consent.revision.enabled.toString(),
                 scope.consent.revision.generation.toString(),scope.consent.confirmed.toString(),scope.control.paused.toString(),
                 scope.control.revision.toString(),scope.deviceScope,scope.heldScope,scope.revision.toString(),scope.legacy.digest)
                 .joinToString(""){"${it.length}:$it"})

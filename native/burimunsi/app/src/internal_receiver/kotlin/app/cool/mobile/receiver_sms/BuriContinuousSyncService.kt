@@ -164,7 +164,9 @@ internal object BuriContinuousSupervisor {
         else {
             // This expired-deadline-compatible scope is ONLY for controls/startup.
             // Capture itself continues to require observationOwner's validated witness.
-            val owner=NativeRepository.restorableObservationOwner(context)?:return "authorization_required"
+            val restorable=NativeRepository.restorableObservationOwner(context)
+            val waiting=if(restorable==null)NativeRepository.pendingObservationOwner(context) else null
+            val owner=restorable?:waiting?:return "authorization_required"
             val legacy=MomoGatewayStore(context).read()
             when {
                 legacy?.opt("receiver_retired")==true||legacy?.opt("retirement_pending")==true->"receiver_retired"
@@ -173,6 +175,7 @@ internal object BuriContinuousSupervisor {
                 legacy?.has("binding")==true&&legacy.opt("capture_enabled")!=true->"paused"
                 ObservationConfigStore(context).paused(owner)->"paused"
                 !notificationsAllowed(context)->"notification_permission_required"
+                waiting!=null->"passcode_pending"
                 else->null
             }
         }
@@ -196,6 +199,10 @@ internal object BuriContinuousSupervisor {
         try{ensureChannel(app)}catch(_:Exception){state.set(state.get().copy(running=false,problem="notification_permission_required",proofStartedAtElapsed=null));return}
         val reason=problem(app)
         if(reason!=null){
+            if(ContinuousSyncPreflight.waiting(reason)){
+                if(!wake())publishWhileUnattached("sync_unconfirmed")
+                return
+            }
             if(reason=="authorization_required"&&!manuallyStopped&&service?.hasActiveCycle()==true){wake();return}
             halt(app,reason);return
         }
@@ -237,6 +244,7 @@ class BuriContinuousSyncService:Service(){
     private var wakeAgain=false
     private var terminalProblem:String?=null
     @Volatile private var detachSession:(()->Unit)?=null
+    @Volatile private var detachObservationSession:(()->Unit)?=null
     @Volatile private var detachAuthority:(()->Unit)?=null
     private var networkCallback:ConnectivityManager.NetworkCallback?=null
     private var observer:ContentObserver?=null
@@ -273,6 +281,7 @@ class BuriContinuousSyncService:Service(){
             // Attachment can precede an online renewal. Only wake here; do not
             // misclassify its temporarily unconfirmed generation as a logout.
             detachSession=NativeRepository(this,api).observeProcessSession{ObservationAuthorityRevision.ownerChanged()}
+            detachObservationSession=NativeRepository(this,api).observeObservationAuthority{wake->ObservationAuthorityRevision.sessionMetadataChanged(wake)}
             observer=object:ContentObserver(main){override fun onChange(selfChange:Boolean){
                 ObservationInboxRevision.changed();BuriContinuousSupervisor.invalidateProof();publishCurrentHealth();wake(400)
             }}.also{
@@ -319,7 +328,7 @@ class BuriContinuousSyncService:Service(){
         stopSelf()
     }
     internal fun hasActiveCycle():Boolean=inCycle.get()
-    internal fun authorityWatched():Boolean=detachSession!=null&&detachAuthority!=null
+    internal fun authorityWatched():Boolean=detachSession!=null&&detachObservationSession!=null&&detachAuthority!=null
     private fun notification(text:Int):Notification {
         val pending=PendingIntent.getActivity(this,0,Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP),PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val builder=Notification.Builder(this,BuriContinuousSupervisor.channel(this))
@@ -363,6 +372,9 @@ class BuriContinuousSyncService:Service(){
             try{
                 ObservationSyncDiagnostics.service(ServicePhase.PREFLIGHT)
                 terminal=BuriContinuousSupervisor.problem(applicationContext)
+                if(ContinuousSyncPreflight.waiting(terminal)){
+                    terminal=null;result=ObservationCycleResult(false,true,"sync_unconfirmed")
+                } else
                 if(terminal==null){
                     ownsGate=ObservationBackground.begin()
                     if(!ownsGate){
@@ -380,6 +392,9 @@ class BuriContinuousSyncService:Service(){
                         // Actual scope loss is evaluated after restore's proof,
                         // never from its transient attach notification.
                         terminal=BuriContinuousSupervisor.problem(applicationContext)
+                        if(ContinuousSyncPreflight.waiting(terminal)){
+                            terminal=null;result=ObservationCycleResult(false,true,"sync_unconfirmed")
+                        }
                     }
                 }
             }catch(error:Exception){
@@ -411,6 +426,7 @@ class BuriContinuousSyncService:Service(){
         stopped.set(true);main.removeCallbacksAndMessages(null);releaseWake()
         ObservationSyncDiagnostics.service(ServicePhase.DESTROYED,terminalProblem)
         runCatching{detachSession?.invoke()};detachSession=null
+        runCatching{detachObservationSession?.invoke()};detachObservationSession=null
         runCatching{detachAuthority?.invoke()};detachAuthority=null
         observerLease?.let{ObservationInboxRevision.observerDetached(it)};observerLease=null
         observer?.let{runCatching{contentResolver.unregisterContentObserver(it)}};observer=null

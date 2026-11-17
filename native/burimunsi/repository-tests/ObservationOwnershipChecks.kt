@@ -41,7 +41,47 @@ fun main(){
     val repo=NativeRepository(context,api,"group-1")
     repo.login("0780000001","2468");val first=NativeRepository.observationOwner(context)?:error("Missing first session")
     check(NativeRepository.withObservationOwner(context,first){_,_->true}==true)
+    val metadataEvents=mutableListOf<Boolean>();var identityEvents=0
+    val detachMetadata=repo.observeObservationAuthority{metadataEvents.add(it)}
+    val detachIdentity=repo.observeProcessSession{identityEvents++}
+    var refreshDeadline=JSONObject(SecureStore.records.getValue("session")).getLong("expiresAt")
+    var allowSms=true;var allowGateway=true
+    fun refreshed():String {
+        val response=JSONObject(session()).put("expiresAt",refreshDeadline)
+        val caps=JSONArray().put("records.read")
+        if(allowSms)caps.put("sms.read");if(allowGateway)caps.put("gateway.manage")
+        response.getJSONObject("profile").put("capabilities",caps)
+        return response.toString()
+    }
+    api.handler={request->if(request.path.endsWith("/logout"))JSONObject().put("signedOut",true).toString()else refreshed()}
+    repo.refreshSession();check(metadataEvents.isEmpty()&&NativeRepository.observationOwner(context)==first)
+    repeat(3){refreshDeadline+=60_000;repo.refreshSession()}
+    check(metadataEvents.isEmpty()&&identityEvents==0&&NativeRepository.observationOwner(context)==first)
+    refreshDeadline-=30_000;repo.refreshSession()
+    check(metadataEvents==listOf(false,false)&&identityEvents==0)
+    val shortened=NativeRepository.observationOwner(context)!!
+    check(shortened.metadataRevision>first.metadataRevision&&NativeRepository.withObservationOwner(context,first){_,_->true}==null)
+    metadataEvents.clear();allowGateway=false;repo.refreshSession()
+    check(metadataEvents==listOf(false,true)&&identityEvents==0&&NativeRepository.observationOwner(context)==null)
+    metadataEvents.clear();allowGateway=true;repo.refreshSession()
+    check(metadataEvents==listOf(false,true)&&NativeRepository.observationOwner(context)!!.metadataRevision>shortened.metadataRevision)
+    metadataEvents.clear();role="staff";repo.refreshSession()
+    check(metadataEvents==listOf(false,true)&&identityEvents==0&&NativeRepository.observationOwner(context)==null)
+    metadataEvents.clear();role="admin";repo.refreshSession()
+    check(metadataEvents==listOf(false,true)&&NativeRepository.observationOwner(context)!=null)
+    metadataEvents.clear();var blockedDuringPin=false
+    api.handler={request->if(request.path.endsWith("/passcode")){
+        blockedDuringPin=NativeRepository.observationOwner(context)==null&&
+            NativeRepository.pendingObservationOwner(context)?.accountId==actor
+        throw ApiFailure("synthetic_rejected",400,false)
+    }else refreshed()}
+    check(runCatching{repo.changePin("2468","1357","1357")}.isFailure)
+    check(blockedDuringPin&&NativeRepository.observationOwner(context)!=null&&
+        NativeRepository.pendingObservationOwner(context)==null&&metadataEvents==listOf(false,false,false,true)&&identityEvents==0)
+    detachMetadata();detachIdentity()
+    println("PASS same-token observation access and passcode transitions invalidate before protected writes without renewal wake loops")
     val savedBeforeFailure=SecureStore.records.getValue("session")
+    val beforeQuarantine=NativeRepository.observationOwner(context)!!
     val renewedDeadline=System.currentTimeMillis()+7_200_000
     api.handler={request->if(request.path.endsWith("/logout"))JSONObject().put("signedOut",true).toString()
         else JSONObject(session()).put("expiresAt",renewedDeadline).toString()}
@@ -51,6 +91,8 @@ fun main(){
         NativeRepository.observationOwner(context)==null&&!NativeRepository.canRestoreObservationOwner(context))
     SecureStore.dropWrite=null
     check(repo.restore()?.id==actor&&NativeRepository.observationOwner(context)!=null&&NativeRepository.canRestoreObservationOwner(context))
+    check(NativeRepository.observationOwner(context)!!.metadataRevision>beforeQuarantine.metadataRevision&&
+        NativeRepository.withObservationOwner(context,beforeQuarantine){_,_->true}==null)
     api.handler={request->if(request.path.endsWith("/logout"))JSONObject().put("signedOut",true).toString()else session()}
     println("PASS a failed durable server-profile save quarantines retained future proof until confirmed revalidation")
     fun revocation(group:String,proof:String)=JSONObject().put("entries",JSONArray().put(JSONObject()
