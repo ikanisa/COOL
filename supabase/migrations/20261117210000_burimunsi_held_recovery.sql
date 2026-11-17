@@ -398,9 +398,16 @@ CREATE FUNCTION private.collect_sms_held_source_guard() RETURNS trigger
  LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,pg_temp AS $fn$
 DECLARE prior text:=current_setting('collect.sms_witness_frame',true);blocked boolean;
 BEGIN
+ PERFORM pg_advisory_xact_lock(734636924058501::bigint);
  PERFORM set_config('collect.sms_witness_frame','1',true);
  SELECT EXISTS(SELECT 1 FROM private.burimunsi_recovered_sms_holds h
-  WHERE h.object_key=NEW.object_key OR h.source_id=NEW.id) INTO blocked;
+  WHERE h.object_key=NEW.object_key OR h.source_id=NEW.id)
+  OR EXISTS(SELECT 1 FROM app.momo_transaction_sources s JOIN private.burimunsi_recovered_sms_holds h
+   ON h.body_sha256=NEW.body_sha256 WHERE s.raw_sms_id=NEW.id
+   AND (EXISTS(SELECT 1 FROM private.burimunsi_transaction_scopes x
+     WHERE x.transaction_id=s.transaction_id AND x.collection_id=h.collection_id)
+    OR EXISTS(SELECT 1 FROM app.momo_financial_links f JOIN app.payments p ON p.id=f.payment_id
+     WHERE f.transaction_id=s.transaction_id AND p.collection_id=h.collection_id))) INTO blocked;
  PERFORM set_config('collect.sms_witness_frame',coalesce(prior,''),true);
  IF blocked THEN RAISE EXCEPTION 'sms_witness_ambiguous' USING ERRCODE='55000';END IF;
  RETURN NEW;

@@ -47,8 +47,8 @@ export async function runHeldRecoveryRace(){
  const fixture=new URL('./generate-held-recovery-temp-fixture.mjs',import.meta.url);
  const migration=new URL('../../../supabase/migrations/20261117210000_burimunsi_held_recovery.sql',import.meta.url);
  const hash=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
- if(hash(fixture)!=='506a0dc78e55c919c6e7e4b60ade82b42fb28a20a4709b6d70d0427d55a5cbf4'||
-  hash(migration)!=='ec9a1bb74603237262d66d09f71a1e49b1ac1941ca114e20700b22e8c90bf293')throw Error('reviewed_fixture_or_migration_changed');
+ if(hash(fixture)!=='e273c0073f42e29a09e74e004c2bab1a3a2ccd92b74a0c42fa572d93211b6e95'||
+  hash(migration)!=='1decb00238e969e2ad58b7283741bae10a968e7affbddbaf21dc196667a29651')throw Error('reviewed_fixture_or_migration_changed');
  const nonce=randomUUID().replaceAll('-',''),schema=`collect_test_heldrace_${nonce}`,marker=`collect-heldrace:${nonce}`;
  assert(/^collect_test_heldrace_[a-f0-9]{32}$/.test(schema));
  const quoted=`"${schema}"`,lock=(9223372030000000000n-BigInt('0x'+randomBytes(4).toString('hex'))).toString();
@@ -96,8 +96,8 @@ export async function runHeldRecoveryRace(){
   if(!available)throw Error('test_lock_already_held');
   if((await control.query('SELECT pg_advisory_unlock($1::bigint) AS released',[lock])).rows[0]?.released!==true)throw Error('test_lock_release_failed');
   const generated=execFileSync(process.execPath,[fileURLToPath(fixture)],{encoding:'utf8'});
-  if(hash(fixture)!=='506a0dc78e55c919c6e7e4b60ade82b42fb28a20a4709b6d70d0427d55a5cbf4'||
-   hash(migration)!=='ec9a1bb74603237262d66d09f71a1e49b1ac1941ca114e20700b22e8c90bf293')throw Error('reviewed_fixture_or_migration_changed');
+  if(hash(fixture)!=='e273c0073f42e29a09e74e004c2bab1a3a2ccd92b74a0c42fa572d93211b6e95'||
+   hash(migration)!=='1decb00238e969e2ad58b7283741bae10a968e7affbddbaf21dc196667a29651')throw Error('reviewed_fixture_or_migration_changed');
   const cut=generated.indexOf('DO $test$');if(cut<0||!generated.startsWith('\nBEGIN;'))throw Error('fixture_setup_changed');
   let setup=generated.slice(0,cut).replaceAll('CREATE TEMP TABLE ',`CREATE TABLE ${quoted}.`)
    .replaceAll('pg_temp.',`${quoted}.`).replaceAll('9223372036854773000::bigint',`${lock}::bigint`);
@@ -163,6 +163,21 @@ export async function runHeldRecoveryRace(){
   const scopeFirst=a.query(`SELECT ${quoted}.collect_sms_witness_reserve('recovery',$1,'owner-a','group-a',$2,$3,$4::timestamptz,NULL)`,
    ['sms/'+id(117),'f'.repeat(64),'f'.repeat(64),time]);
   await confirmWaiting(scopeFirst);await b.query('COMMIT');await assert.rejects(scopeFirst,e=>e.code==='55000');await rollback(a);
+  // Also guard an out-of-order source/link created before the receipt row.
+  await control.query(`INSERT INTO ${quoted}.momo_transaction_sources VALUES($1,'receipt-last')`,[id(118)]);
+  await control.query(`INSERT INTO ${quoted}.payments VALUES('pay-last','group-a')`);
+  await control.query(`INSERT INTO ${quoted}.momo_financial_links VALUES('receipt-last','pay-last')`);
+  await configure(a);await configure(b);await prepareHold(a,119,'1'.repeat(64));
+  const lateReceipt=b.query(`INSERT INTO ${quoted}.sms_receipts VALUES($1,$2,$3)`,[id(118),'sms/'+id(118),'1'.repeat(64)]);
+  await confirmWaiting(lateReceipt);await a.query('COMMIT');await assert.rejects(lateReceipt,e=>e.code==='55000');await rollback(b);
+  await control.query(`INSERT INTO ${quoted}.momo_transaction_sources VALUES($1,'receipt-first')`,[id(120)]);
+  await control.query(`INSERT INTO ${quoted}.payments VALUES('pay-first','group-a')`);
+  await control.query(`INSERT INTO ${quoted}.momo_financial_links VALUES('receipt-first','pay-first')`);
+  await configure(a);await configure(b);
+  await b.query(`INSERT INTO ${quoted}.sms_receipts VALUES($1,$2,$3)`,[id(120),'sms/'+id(120),'2'.repeat(64)]);
+  const receiptFirst=a.query(`SELECT ${quoted}.collect_sms_witness_reserve('recovery',$1,'owner-a','group-a',$2,$3,$4::timestamptz,NULL)`,
+   ['sms/'+id(121),'3'.repeat(64),'2'.repeat(64),time]);
+  await confirmWaiting(receiptFirst);await b.query('COMMIT');await assert.rejects(receiptFirst,e=>e.code==='55000');await rollback(a);
   // Equal body in another collection is not a reason to prevent a valid link.
   await control.query(`INSERT INTO ${quoted}.payments VALUES('pay-other','group-b')`);
   await control.query(`INSERT INTO ${quoted}.momo_financial_links VALUES('pre-link','pay-other')`);

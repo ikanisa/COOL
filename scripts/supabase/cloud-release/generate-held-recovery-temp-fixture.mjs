@@ -106,6 +106,12 @@ BEGIN
  INSERT INTO pg_temp.momo_financial_links VALUES('link-before-source','payment-a');
  BEGIN INSERT INTO pg_temp.momo_transaction_sources VALUES(pre,'link-before-source');
   RAISE EXCEPTION 'held body attached after financial link';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
+ -- Even an out-of-order SQL writer that inserts source and link before the
+ -- raw receipt cannot later attach equal-body evidence to the held group.
+ INSERT INTO pg_temp.momo_transaction_sources VALUES(linked,'source-before-receipt');
+ INSERT INTO pg_temp.momo_financial_links VALUES('source-before-receipt','payment-a');
+ BEGIN INSERT INTO pg_temp.sms_receipts VALUES(linked,'sms/'||linked,repeat('a',64));
+  RAISE EXCEPTION 'held body inserted after source and financial link';EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
  INSERT INTO pg_temp.sms_receipts VALUES(other,'sms/'||other,repeat('9',64));
  INSERT INTO pg_temp.momo_transaction_sources VALUES(other,'different-body');
  INSERT INTO pg_temp.burimunsi_transaction_scopes VALUES('different-body','group-a');

@@ -26,13 +26,13 @@ const GUARDS={
  'private.collect_imported_native_history_ledger_guard()':'828e7dbff6706d23b068836e7d3926810d28aad753a89b3db7acd19acea9e548'};
 // This optional migration is accepted only by exact recorded and local bytes.
 // A changed draft must deliberately update this pin and its SQL qualification.
-const HELD_RECOVERY_SQL_SHA='ec9a1bb74603237262d66d09f71a1e49b1ac1941ca114e20700b22e8c90bf293';
+const HELD_RECOVERY_SQL_SHA='1decb00238e969e2ad58b7283741bae10a968e7affbddbaf21dc196667a29651';
 const HELD_RECOVERY_GUARDS={
  'private.burimunsi_auto_snapshot(text)':'526606c23ad6d8a3b511136a8eff9e2ddf5f7a775f068b5ce8615c02a7a90dd6',
  'private.burimunsi_auto_candidates(text)':'156a2179d3e2065e9116985f3d1a88b034a8cf8c26a988fd48f9ccccc665192f',
  'private.burimunsi_native_work_candidates(uuid,integer)':'d218510947003efd8721305b84afb16b60b69a93308bbef4c85b69095a1514ea',
  'private.burimunsi_native_sms_post_candidates(integer)':'0b0778810e6e86f83dc7cbc950b2aa9b258a7e6ee2d1a3c85c48e8ce41e4521e',
- 'private.collect_sms_held_source_guard()':'2b3d3452d89fd11525681e3d9d1302e0153c0f441ff44d3b3dd7f3ba2d97dbc6',
+ 'private.collect_sms_held_source_guard()':'a3029d9460cc7f515aed5096cde699ee120e95537a3e5261893a5e09b52f9cc0',
  'private.collect_sms_recovery_held(text)':'353a9c76dfe04e60f62ddd005dddcba1f4da423fa48113284f733d134e0ac3ca',
  'private.collect_sms_recovery_work_guard()':'d34eb5497661179bd817c73fb981b2fec215d2ccf773b03cbfba520f5d183b87',
  'private.collect_sms_recovery_raw_work_guard()':'339cb3e77b644ddb359e74b6847a1698bbee4c3023caaf3a7118c2a8b8d13b6d',
