@@ -455,7 +455,7 @@ test('a batch fails closed for per-item conflicts, reservations, storage failure
  });
 });
 
-test('a full batch of retained sources bounds parallel storage reads',async()=>{
+test('a full batch serializes retained storage reads',async()=>{
  const f=fixture(),witnesses=await Promise.all(Array.from({length:20},(_,i)=>batchWitness(20+i)));
  await f.run(async adapter=>{
   for(const witness of witnesses)await adapter.observe(actor,witness.item);
@@ -463,7 +463,30 @@ test('a full batch of retained sources bounds parallel storage reads',async()=>{
   f.state.onGet=async()=>{active++;high=Math.max(high,active);await new Promise(resolve=>setTimeout(resolve,5));active--;};
   const result=await adapter.reconcileBatch(actor,{items:witnesses.map(w=>w.proof)});
   assert.equal(result.items.length,20);assert(result.items.every(x=>x.state==='matched'));
-  assert.equal(high,3);assert.equal(f.state.puts,20);assert.equal(f.state.commits,20);
+  assert.equal(high,1);assert.equal(f.state.puts,20);assert.equal(f.state.commits,20);
+ });
+});
+
+test('mixed keyed and legacy witnesses do not contend with their own custody and storage locks',async()=>{
+ const f=fixture(),keyedA=await batchWitness(71),keyedB=await batchWitness(72);
+ await f.run(async adapter=>{
+  const legacyA=await importedWitness(f,adapter,301,{rawBody:'Received 301 RWF. Reference: 1301.'});
+  const legacyB=await importedWitness(f,adapter,302,{rawBody:'Received 302 RWF. Reference: 1302.'});
+  const savedA=await adapter.observe(actor,keyedA.item),savedB=await adapter.observe(actor,keyedB.item);
+  const before={puts:f.state.puts,commits:f.state.commits,requests:f.state.requests.size,audits:f.state.audits.length};
+  let busy=false,collisions=0,operations=0;
+  const locked=async fn=>{
+   if(busy){collisions++;throw sqlError('55P03','synthetic mutation lock timeout');}
+   busy=true;operations++;
+   try{await new Promise(resolve=>setTimeout(resolve,3));return await fn();}finally{busy=false;}
+  };
+  const originalWrite=adapter.authority.write;
+  adapter.authority.write=fn=>locked(()=>originalWrite(fn));
+  f.state.onGet=()=>locked(async()=>{});
+  const result=await adapter.reconcileBatch(actor,{items:[legacyA.proof,keyedA.proof,legacyB.proof,keyedB.proof]});
+  assert.deepEqual(result.items.map(x=>x.sourceId),[legacyA.saved.sourceId,savedA.sourceId,legacyB.saved.sourceId,savedB.sourceId]);
+  assert(result.items.every(x=>x.state==='matched'));assert.equal(collisions,0);assert(operations>=9);assert.equal(busy,false);
+  assert.deepEqual({puts:f.state.puts,commits:f.state.commits,requests:f.state.requests.size,audits:f.state.audits.length},before);
  });
 });
 

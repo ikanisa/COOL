@@ -249,18 +249,28 @@ export class PostgresNativeObservations {
   try{
    initial=await this.authority.read(snapshot);
    check(initial.candidates.reduce((n,items)=>n+items.length,0)<=20,'observation_item_unavailable',503);
-   // Bound concurrent Storage reads and drain all workers on failure: no
-   // transaction or mutation lock is held during network operations.
+   // Both the custody checks and Storage's journal reads acquire the same
+   // database mutation lock. Serialize complete item checks within this batch
+   // so its own workers cannot exhaust the lock timeout against each other.
+   // No transaction or mutation lock is held during network operations.
    const indexes=initial.records.map((record,i)=>record||initial.candidates[i].length?i:-1).filter(i=>i>=0),legacy=new Map();
    let next=0,failure=null;
+   let verificationTail=Promise.resolve();
+   const serialize=fn=>{
+    const task=verificationTail.then(fn);
+    // Drain already-started workers even if one item fails; that prevents an
+    // item-specific conflict from hiding an independently observed outage.
+    verificationTail=task.then(()=>{},()=>{});
+    return task;
+   };
    const itemFailure=error=>error instanceof BuriError&&
     ['observation_item_conflict','observation_item_unavailable'].includes(error.code);
    const worker=async()=>{
     while(!failure&&next<indexes.length){
      const i=indexes[next++];
      try{
-      if(initial.records[i])await this.checkDuplicateObject(values[i],hashes[i],values[i].bodySha256,initial.records[i]);
-      else legacy.set(i,await this.checkLegacyCandidates(actor,values[i],initial.ctx,initial.candidates[i]));
+      if(initial.records[i])await serialize(()=>this.checkDuplicateObject(values[i],hashes[i],values[i].bodySha256,initial.records[i]));
+      else legacy.set(i,await serialize(()=>this.checkLegacyCandidates(actor,values[i],initial.ctx,initial.candidates[i])));
      }
      catch(error){
       if(error instanceof BuriError&&error.code==='observation_changed')error=new BuriError('observation_item_conflict',409);
