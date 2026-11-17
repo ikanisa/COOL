@@ -26,7 +26,7 @@ const ctx=()=>({collectionId:group,accountId:account,principalUserId:principal,s
 const sqlError=(code,message='synthetic database refusal')=>Object.assign(new Error(message),{code});
 
 function fixture(){
- const state={enabled:true,generation:1,row:null,rows:new Map(),sourceKeys:new Map(),requests:new Map(),media:new Map(),puts:0,commits:0,audits:[],revealGranted:true,active:true,allowLegacyFixture:true};
+ const state={enabled:true,generation:1,row:null,rows:new Map(),sourceKeys:new Map(),requests:new Map(),media:new Map(),legacySources:[],puts:0,commits:0,audits:[],revealGranted:true,active:true,allowLegacyFixture:true};
  const work={assert:async()=>{if(!state.active)throw new Error('synthetic lease revoked');}};
  let env;
  const allowed=()=>{if(!state.active||!state.enabled)throw sqlError('42501');};
@@ -72,6 +72,15 @@ function fixture(){
    // The real SQL key lookup returns the current actor's session, not the
    // historical observation's original session.
    return [{result:{...structuredClone(record),sessionId:state.liveSessionId??session,consentGeneration:state.generation}}];
+  }
+  if(query.includes('observation_legacy_candidates')){
+   allowed();if(!state.revealGranted)throw sqlError('42501');
+   const candidates=state.legacySources.filter(x=>x.collectionId===group&&x.accountId===account&&x.lineage===principal&&x.bodySha256===args[0]);
+   if(candidates.length>4)throw sqlError('55000');
+   return [{result:candidates.map(x=>{
+    const record=state.rows.get(x.sourceId);if(!record)throw sqlError('55000');
+    return {...structuredClone(record),sessionId:state.liveSessionId??session,consentGeneration:state.generation};
+   }).sort((a,b)=>a.id.localeCompare(b.id))}];
   }
   if(query.includes('observation_prepare')){
    allowed();const [requestId,fingerprint,sourceId,profileVersion,profileHash,generation]=args;
@@ -152,8 +161,10 @@ function fixture(){
   journal:async(_tx,key)=>{const value=state.media.get(key);if(!value)throw new Error('synthetic journal missing');
    return {reservation:{key_id:'synthetic-key',source_fingerprint:value.fingerprint},put:{object_key:key}};},
   sameJournal:(a,b)=>canonicalJson(a)===canonicalJson(b),decrypt:(sealed,aad)=>decrypt(env,sealed,aad)};
- const witnesses={stage:async(_binding,targets)=>targets[0],prefetch:async()=>{if(state.onPrefetch)await state.onPrefetch();},
-  sealed:async(_binding,key)=>state.media.get(key).sealed,forget:()=>{}};
+ const witnesses={stage:async(_binding,targets)=>targets,prefetch:async targets=>{
+   if(state.onPrefetch)await state.onPrefetch();
+   for(const target of targets){if(state.onGet)await state.onGet();if(!state.media.has(target.key))throw new Error('synthetic missing object');}
+  },sealed:async(_binding,key)=>{const value=state.media.get(key);if(!value)throw new Error('synthetic missing object');return value.sealed;},forget:()=>{}};
  return {state,env,run:fn=>gate({request,env},async()=>fn(new PostgresNativeObservations({authority,env,
   validateProviderProfile,custody,storageWitnesses:witnesses,clock:()=>now})))};
 }
@@ -297,11 +308,115 @@ async function batchWitness(n){
   serviceCentreAt:item.serviceCentreAt,inboxReceivedAt:item.inboxReceivedAt,subscriptionId:item.subscriptionId}};
 }
 
+async function importedWitness(f,adapter,n,overrides={}){
+ const item={...incoming,requestId:id(1000+n),inboxReceivedAt:'2026-11-11T12:00:00.000Z',...overrides};
+ const saved=await adapter.observe(actor,item);
+ f.state.legacySources.push({sourceId:saved.sourceId,collectionId:group,accountId:account,lineage:principal,bodySha256:await sha256(item.rawBody)});
+ const proof={sourceKey:n.toString(16).padStart(64,'0'),bodySha256:await sha256(item.rawBody),rawSender:item.rawSender,
+  serviceCentreAt:item.serviceCentreAt,inboxReceivedAt:item.inboxReceivedAt??'2026-11-11T12:00:00.000Z',subscriptionId:item.subscriptionId};
+ return {item,proof,saved};
+}
+
+test('legacy reconciliation reads exact retained live and catch-up SMS without writing or exposing content',async()=>{
+ const f=fixture();await f.run(async adapter=>{
+  const live=await importedWitness(f,adapter,201,{serviceCentreAt:'2026-11-11T11:59:59.000Z',subscriptionId:3});
+  const catchup=await importedWitness(f,adapter,202,{sourceMode:'catch_up',complete:false,
+   rawBody:'Received 251 RWF. Reference: 1235.'});
+  f.state.pageRows=[{id:live.saved.sourceId,createdAt:now}];
+  const before={puts:f.state.puts,commits:f.state.commits,requests:f.state.requests.size,audits:f.state.audits.length};
+  const one=await adapter.reconcile(actor,{...live.proof,inboxReceivedAt:'2026-11-11T12:00:00Z'});
+  assert.equal(one.state,'matched');assert.equal(one.sourceId,live.saved.sourceId);
+  const batch=await adapter.reconcileBatch(actor,{items:[catchup.proof,live.proof]});
+  assert.deepEqual(batch.items.map(x=>x.sourceId),[catchup.saved.sourceId,live.saved.sourceId]);
+  assert(batch.items.every(x=>x.state==='matched'));
+  assert.doesNotMatch(JSON.stringify({one,batch}),/rawBody|raw_sender|object_key|principal|Received/);
+  assert.deepEqual({puts:f.state.puts,commits:f.state.commits,requests:f.state.requests.size,audits:f.state.audits.length},before);
+ });
+});
+
+test('legacy reconciliation rejects ambiguous, missing and imprecise receipt evidence',async()=>{
+ const f=fixture();await f.run(async adapter=>{
+  const a=await importedWitness(f,adapter,203);
+  const wrongTime=await adapter.reconcileBatch(actor,{items:[{...a.proof,inboxReceivedAt:'2026-11-11T12:00:01.000Z'}]});
+  assert.equal(wrongTime.items[0].state,'missing');
+  const fractional=await adapter.reconcileBatch(actor,{items:[{...a.proof,inboxReceivedAt:'2026-11-11T12:00:00.0001Z'}]});
+  assert.equal(fractional.items[0].state,'missing');
+  const wrongSender=await adapter.reconcileBatch(actor,{items:[{...a.proof,rawSender:'example money'}]});
+  assert.equal(wrongSender.items[0].state,'missing');
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[{...a.proof,inboxReceivedAt:null}]}),e=>e.status===400);
+  await importedWitness(f,adapter,204);
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof]}),e=>e.status===409&&e.code==='observation_item_conflict');
+ });
+ const missing=fixture();await missing.run(async adapter=>{
+  const a=await importedWitness(missing,adapter,205,{inboxReceivedAt:null});
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof]}),e=>e.status===503&&e.code==='observation_item_unavailable');
+ });
+});
+
+test('legacy lookup enforces account, reveal, consent and one-to-one source matching',async()=>{
+ const f=fixture();await f.run(async adapter=>{
+  const a=await importedWitness(f,adapter,206);
+  f.state.legacySources[0].accountId=id(999);
+  assert.equal((await adapter.reconcileBatch(actor,{items:[a.proof]})).items[0].state,'missing');
+  f.state.legacySources[0].accountId=account;f.state.legacySources[0].collectionId='foreign';
+  assert.equal((await adapter.reconcileBatch(actor,{items:[a.proof]})).items[0].state,'missing');
+  f.state.legacySources[0].collectionId=group;f.state.revealGranted=false;
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof]}),e=>e.status===403);
+  f.state.revealGranted=true;
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof,{...a.proof,sourceKey:'f'.repeat(64)}]}),
+   e=>e.status===409&&e.code==='observation_item_conflict');
+  f.state.enabled=false;await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof]}),e=>e.status===403);
+ });
+});
+
+test('legacy reconciliation fails closed on object, custody and post-read authority changes',async()=>{
+ for(const change of ['object','ciphertext','key','custody','reveal','consent','generation','candidate','candidate-added']){
+  const f=fixture();await f.run(async adapter=>{
+   const a=await importedWitness(f,adapter,207);
+   const added=change==='candidate-added'?await importedWitness(f,adapter,208):null;
+   const addedSource=added?f.state.legacySources.pop():null;
+   const before={puts:f.state.puts,commits:f.state.commits,requests:f.state.requests.size,audits:f.state.audits.length};
+   f.state.onGet=async()=>{
+    if(change==='object')f.state.media.delete('sms/'+a.saved.sourceId);
+    if(change==='ciphertext')f.state.media.get('sms/'+a.saved.sourceId).sealed='invalid ciphertext';
+    if(change==='key'){
+     const media=f.state.media.get('sms/'+a.saved.sourceId),envelope=JSON.parse(media.sealed);
+     media.sealed=JSON.stringify({...envelope,kid:'unavailable-key'});
+    }
+    if(change==='custody')f.state.media.get('sms/'+a.saved.sourceId).fingerprint='f'.repeat(64);
+    if(change==='reveal')f.state.revealGranted=false;
+    if(change==='consent')f.state.enabled=false;
+    if(change==='generation')f.state.generation++;
+    if(change==='candidate')f.state.legacySources=[];
+    if(change==='candidate-added')f.state.legacySources.push(addedSource);
+   };
+   await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof]}),e=>[403,409,503].includes(e.status));
+   assert.deepEqual({puts:f.state.puts,commits:f.state.commits,requests:f.state.requests.size,audits:f.state.audits.length},before);
+  });
+ }
+});
+
+test('legacy candidate and request bounds fail closed before unbounded reads',async()=>{
+ const f=fixture();await f.run(async adapter=>{
+  const sources=[];for(let n=210;n<215;n++)sources.push(await importedWitness(f,adapter,n));
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[sources[0].proof]}),
+   e=>e.status===503&&e.code==='observation_item_unavailable');
+  f.state.legacySources.pop();let reads=0;f.state.onGet=async()=>{reads++;};
+  const items=Array.from({length:6},(_,i)=>({...sources[0].proof,sourceKey:(300+i).toString(16).padStart(64,'0')}));
+  await assert.rejects(adapter.reconcileBatch(actor,{items}),e=>e.status===503&&e.code==='observation_item_unavailable');
+  assert.equal(reads,0);
+ });
+});
+
 test('batch reconciliation verifies encrypted objects in request order without page or writes',async()=>{
  const f=fixture(),a=await batchWitness(1),b=await batchWitness(2),c=await batchWitness(3);
  await f.run(async adapter=>{
   const first=await adapter.observe(actor,a.item),third=await adapter.observe(actor,c.item);
   f.state.revealGranted=false;
+  const keyed=await adapter.reconcileBatch(actor,{items:[c.proof,a.proof]});
+  assert(keyed.items.every(item=>item.state==='matched'));
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[b.proof]}),e=>e.status===403);
+  f.state.revealGranted=true;
   const result=await adapter.reconcileBatch(actor,{items:[c.proof,b.proof,a.proof]});
   assert.deepEqual(result,{groupId:group,items:[{sourceKey:c.proof.sourceKey,state:'matched',sourceId:third.sourceId},
    {sourceKey:b.proof.sourceKey,state:'missing',sourceId:null},{sourceKey:a.proof.sourceKey,state:'matched',sourceId:first.sourceId}]});

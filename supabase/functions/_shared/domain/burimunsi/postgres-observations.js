@@ -42,6 +42,9 @@ const int=(v,min=0,max=Number.MAX_SAFE_INTEGER)=>pgInteger(v,{minimum:min,maximu
 const text=(v,min,max)=>typeof v==='string'&&v.length>=min&&v.length<=max;
 const iso=v=>typeof v==='string'&&/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{1,9})?Z$/.test(v)&&
   Number.isFinite(Date.parse(v))&&new Date(Date.parse(v)).toISOString().slice(0,19)===v.slice(0,19);
+// Preserve all fractional precision while treating equivalent ISO spellings
+// (for example .000Z and Z) as the same instant.
+const instant=v=>{const [seconds,fraction='']=v.slice(0,-1).split('.');return seconds+'.'+fraction.replace(/0+$/,'')+'Z';};
 function mapped(error){
  if(error instanceof BuriError)return error;
  if(error?.code==='23505'||error?.code==='40001')return new BuriError('observation_changed',409);
@@ -174,27 +177,39 @@ export class PostgresNativeObservations {
     [value.sourceKey,contentSha,value.bodySha256]);
    check(found.length===1);const record=found[0].result===null?null:row(found[0].result);
    if(record)check(record.bodySha256===value.bodySha256&&record.sessionId===actor.sessionId,'observation_changed',409);
+   const candidates=record?[]:await this.legacyCandidates(tx,actor,value.bodySha256);
    const latestRecordedSourceId=includeLatest?await latest(tx):null;
-   return {ctx,record,latestRecordedSourceId};
+   return {ctx,record,candidates,latestRecordedSourceId};
   };
   try{
    // Repeatable-read snapshots keep the key and latest retained page in one
    // view. A pending reservation or changed storage raises; neither is absence.
    const initial=await this.authority.read(async tx=>{
     const first=await snapshot(tx,false);
-    return first.record?first:{...first,latestRecordedSourceId:await latest(tx)};
+    return first.record||first.candidates.length?first:{...first,latestRecordedSourceId:await latest(tx)};
    });
-   if(!initial.record){
+   if(!initial.record&&!initial.candidates.length){
     await this.authority.assertOwned();
     return {groupId:this.groupId,sourceKey:value.sourceKey,state:'missing',sourceId:null,
      latestRecordedSourceId:initial.latestRecordedSourceId};
    }
    // Verify actual retained bytes and custody, not a local "seen" marker.
-   await this.checkDuplicate(actor,value,contentSha,value.bodySha256,initial.record);
+   const legacy=initial.record?null:await this.checkLegacyCandidates(actor,value,initial.ctx,initial.candidates);
+   if(initial.record)await this.checkDuplicate(actor,value,contentSha,value.bodySha256,initial.record);
+   if(legacy)await this.authority.write(async tx=>{
+    const fenced=await snapshot(tx,false);
+    check(same(fenced.ctx,initial.ctx)&&same(fenced.record,initial.record)&&same(fenced.candidates,initial.candidates),'observation_changed',409);
+    check(same(await this.namespace(tx),legacy.namespace),'observation_changed',409);
+    for(let i=0;i<initial.candidates.length;i++){
+     const prior=initial.candidates[i],journal=await this.custody.journal(tx,prior.object_key,target(prior));
+     await this.checkJournal(prior,journal);check(this.custody.sameJournal(journal,legacy.journals[i]),'observation_changed',409);
+    }
+   });
    const final=await this.authority.read(tx=>snapshot(tx,true));
-   check(final.record&&same(final.record,initial.record)&&same(final.ctx,initial.ctx),'observation_changed',409);
+   check(same(final.record,initial.record)&&same(final.candidates,initial.candidates)&&same(final.ctx,initial.ctx),'observation_changed',409);
    await this.authority.assertOwned();
-   return {groupId:this.groupId,sourceKey:value.sourceKey,state:'matched',sourceId:final.record.id,
+   const matched=final.record??legacy?.match??null;
+   return {groupId:this.groupId,sourceKey:value.sourceKey,state:matched?'matched':'missing',sourceId:matched?.id??null,
     latestRecordedSourceId:final.latestRecordedSourceId};
   }catch(error){throw mapped(error);}
  }
@@ -207,7 +222,7 @@ export class PostgresNativeObservations {
   check(new Set(values.map(v=>v.sourceKey)).size===values.length,'invalid_request',400);
   const hashes=await Promise.all(values.map(v=>observationContentFingerprint(v,v.bodySha256)));
   const snapshot=async tx=>{
-   const {ctx,profile}=await this.context(tx,actor),records=[];
+   const {ctx,profile}=await this.context(tx,actor),records=[],candidates=[];
    for(let i=0;i<values.length;i++){
     const v=values[i];
     check(isObservationCandidate({rawSender:v.rawSender,rawBody:'x'},profile),'unsupported_receipt',422);
@@ -226,22 +241,27 @@ export class PostgresNativeObservations {
     check(found.length===1);const record=found[0].result===null?null:row(found[0].result);
     if(record)check(record.bodySha256===v.bodySha256&&record.sessionId===actor.sessionId,'observation_changed',409);
     records.push(record);
+    candidates.push(record?[]:await this.legacyCandidates(tx,actor,v.bodySha256));
    }
-   return {ctx,records};
+   return {ctx,records,candidates};
   };
   let initial;
   try{
    initial=await this.authority.read(snapshot);
+   check(initial.candidates.reduce((n,items)=>n+items.length,0)<=20,'observation_item_unavailable',503);
    // Bound concurrent Storage reads and drain all workers on failure: no
    // transaction or mutation lock is held during network operations.
-   const indexes=initial.records.map((record,i)=>record?i:-1).filter(i=>i>=0);
+   const indexes=initial.records.map((record,i)=>record||initial.candidates[i].length?i:-1).filter(i=>i>=0),legacy=new Map();
    let next=0,failure=null;
    const itemFailure=error=>error instanceof BuriError&&
     ['observation_item_conflict','observation_item_unavailable'].includes(error.code);
    const worker=async()=>{
     while(!failure&&next<indexes.length){
      const i=indexes[next++];
-     try{await this.checkDuplicateObject(values[i],hashes[i],values[i].bodySha256,initial.records[i]);}
+     try{
+      if(initial.records[i])await this.checkDuplicateObject(values[i],hashes[i],values[i].bodySha256,initial.records[i]);
+      else legacy.set(i,await this.checkLegacyCandidates(actor,values[i],initial.ctx,initial.candidates[i]));
+     }
      catch(error){
       if(error instanceof BuriError&&error.code==='observation_changed')error=new BuriError('observation_item_conflict',409);
       else if(['receipt_unavailable','receipt_integrity_failed'].includes(error?.code))error=new BuriError('observation_item_unavailable',503);
@@ -258,20 +278,27 @@ export class PostgresNativeObservations {
     // mutation; it does not itself write an observation or financial record.
     await this.authority.write(async tx=>{
      const fenced=await snapshot(tx);
-     check(same(fenced.ctx,initial.ctx)&&same(fenced.records,initial.records),'observation_changed',409);
+     check(same(fenced.ctx,initial.ctx)&&same(fenced.records,initial.records)&&same(fenced.candidates,initial.candidates),'observation_changed',409);
+     if(legacy.size){const namespace=await this.namespace(tx);
+      for(const proof of legacy.values())check(same(namespace,proof.namespace),'observation_changed',409);}
      for(const i of indexes){
-      const prior=initial.records[i];
-      const journal=await this.custody.journal(tx,prior.object_key,target(prior));await this.checkJournal(prior,journal);
+      const records=initial.records[i]?[initial.records[i]]:initial.candidates[i];
+      for(let j=0;j<records.length;j++){
+       const prior=records[j],journal=await this.custody.journal(tx,prior.object_key,target(prior));await this.checkJournal(prior,journal);
+       if(!initial.records[i])check(this.custody.sameJournal(journal,legacy.get(i).journals[j]),'observation_changed',409);
+      }
      }
     });
    }
    // authority.read is REPEATABLE READ, so the keys and authorization are
    // rechecked together after the network and custody operations.
    const final=await this.authority.read(snapshot);
-   check(same(final.ctx,initial.ctx)&&same(final.records,initial.records),'observation_changed',409);
+   check(same(final.ctx,initial.ctx)&&same(final.records,initial.records)&&same(final.candidates,initial.candidates),'observation_changed',409);
+   const matches=final.records.map((r,i)=>r??legacy.get(i)?.match??null),ids=matches.filter(Boolean).map(r=>r.id);
+   check(new Set(ids).size===ids.length,'observation_item_conflict',409);
    await this.authority.assertOwned();
    return {groupId:this.groupId,items:values.map((v,i)=>({sourceKey:v.sourceKey,
-    state:final.records[i]?'matched':'missing',sourceId:final.records[i]?.id??null}))};
+    state:matches[i]?'matched':'missing',sourceId:matches[i]?.id??null}))};
   }catch(error){
    if(error instanceof BuriError&&['observation_item_conflict','observation_item_unavailable'].includes(error.code)){
     // The error itself reveals no key or content. Still recheck current
@@ -359,6 +386,81 @@ export class PostgresNativeObservations {
     await observationContentFingerprint({rawSender:p.raw_sender,serviceCentreAt:p.service_centre_at,
      inboxReceivedAt:p.inbox_received_at,subscriptionId:p.subscription_id},bodySha)===contentSha,'observation_changed',409);
   }finally{bytes?.fill(0);}
+ }
+ /** Internal candidate descriptors never leave the Edge runtime. The SQL
+  * lookup requires reveal-authorized current Admin and consent, constrains the
+  * imported lineage to this account/collection, and caps the complete set. */
+ async legacyCandidates(tx,actor,bodySha){
+  let found;
+  try{found=await tx.unsafe('SELECT private.burimunsi_observation_legacy_candidates($1) AS result',[bodySha]);}
+  catch(error){if(error?.code==='55000')throw new BuriError('observation_item_unavailable',503);throw error;}
+  check(found.length===1&&Array.isArray(found[0].result)&&found[0].result.length<=4);
+  const records=found[0].result.map(row);
+  check(records.every(r=>r.bodySha256===bodySha&&r.sessionId===actor.sessionId)&&
+   new Set(records.map(r=>r.id)).size===records.length,'observation_changed',409);
+  return records;
+ }
+ /** Decrypt only after proving the committed ciphertext against its journal.
+  * Missing metadata, unavailable objects, multiple exact matches and any
+  * changed authority/custody remain unresolved; this method creates no data. */
+ async checkLegacyCandidates(actor,value,expectedCtx,candidates){
+  let binding;
+  try{
+   const initial=await this.authority.write(async tx=>{
+    const {ctx}=await this.context(tx,actor),current=await this.legacyCandidates(tx,actor,value.bodySha256);
+    check(same(ctx,expectedCtx)&&same(current,candidates),'observation_changed',409);
+    const namespace=await this.namespace(tx),journals=[];
+    for(const record of current){
+     const journal=await this.custody.journal(tx,record.object_key,target(record));await this.checkJournal(record,journal);journals.push(journal);
+    }
+    binding={kind:'legacy_reconcile',groupId:this.groupId,identity:this.identity(actor),sourceKey:value.sourceKey,sources:current};
+    const plan=await this.storageWitnesses.stage(binding,current.map((record,i)=>({key:record.object_key,journal:journals[i]})));
+    return {namespace,journals,plan};
+   });
+   await this.storageWitnesses.prefetch(initial.plan);
+   const matches=[];
+   for(let i=0;i<candidates.length;i++){
+    const record=candidates[i];let bytes;
+    try{
+     const sealed=await this.storageWitnesses.sealed(binding,record.object_key,initial.journals[i]);
+     bytes=await this.custody.decrypt(sealed,target(record).aad);
+     check(bytes instanceof Uint8Array&&bytes.length===record.size_bytes&&await digest(bytes)===record.object_sha256,
+      'observation_item_unavailable',503);
+     const p=JSON.parse(DECODER.decode(bytes));
+     check(p&&p.provenance==='native_observation_unverified'&&
+      (p.source_mode==='live'&&p.complete===true||p.source_mode==='catch_up'&&p.complete===false)&&
+      text(p.raw_sender,1,96)&&!CONTROL.test(p.raw_sender)&&text(p.raw_body,1,3000)&&
+      ENCODER.encode(p.raw_body).length<=3000&&!BODY_CONTROL.test(p.raw_body)&&await sha256(p.raw_body)===value.bodySha256&&
+      iso(p.inbox_received_at)&&Object.hasOwn(p,'service_centre_at')&&
+      (p.service_centre_at===null||iso(p.service_centre_at))&&Object.hasOwn(p,'subscription_id')&&
+      (p.subscription_id===null||Number.isInteger(p.subscription_id)&&p.subscription_id>=0&&p.subscription_id<=2147483647),
+      'observation_item_unavailable',503);
+     // Null and present optional metadata cannot be safely compared.
+     if((p.service_centre_at===null)!==(value.serviceCentreAt===null)||
+      (p.subscription_id===null)!==(value.subscriptionId===null))throw new BuriError('observation_item_unavailable',503);
+     if(p.raw_sender===value.rawSender&&instant(p.inbox_received_at)===instant(value.inboxReceivedAt)&&
+      (p.service_centre_at===null||instant(p.service_centre_at)===instant(value.serviceCentreAt))&&
+      p.subscription_id===value.subscriptionId)matches.push(record);
+    }finally{bytes?.fill(0);}
+   }
+   check(matches.length<=1,'observation_item_conflict',409);
+   await this.authority.assertOwned();
+   await this.authority.write(async tx=>{
+    const {ctx}=await this.context(tx,actor),current=await this.legacyCandidates(tx,actor,value.bodySha256);
+    check(same(ctx,expectedCtx)&&same(current,candidates)&&same(await this.namespace(tx),initial.namespace),'observation_changed',409);
+    for(let i=0;i<current.length;i++){
+     const record=current[i],journal=await this.custody.journal(tx,record.object_key,target(record));
+     await this.checkJournal(record,journal);check(this.custody.sameJournal(journal,initial.journals[i]),'observation_changed',409);
+     await this.storageWitnesses.sealed(binding,record.object_key,journal);
+    }
+   });
+   await this.authority.assertOwned();
+   return {match:matches[0]??null,journals:initial.journals,namespace:initial.namespace};
+  }catch(error){
+   const failure=mapped(error);
+   if(failure.status===403||failure.status===409)throw failure;
+   throw new BuriError('observation_item_unavailable',503);
+  }finally{if(binding)this.storageWitnesses.forget(binding);}
  }
  async checkDuplicate(actor,value,contentSha,bodySha,prior){
   await this.checkDuplicateObject(value,contentSha,bodySha,prior);
