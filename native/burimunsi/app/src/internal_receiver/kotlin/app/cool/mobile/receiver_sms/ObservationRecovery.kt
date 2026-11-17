@@ -44,7 +44,8 @@ internal class ObservationRecovery(context:Context) {
         val consent:ObservationConsentState,val control:ObservationConfigStore.Control,val deviceScope:String,val heldScope:String,val revision:Long)
     private data class AuditProgress(val scope:AuditScope,val last:Long,val unconfirmed:Boolean,val startedAt:Long,
         val collectionRevision:String,val recordedCount:Int,
-        val sourceIds:Set<String> = emptySet(),val phoneComplete:Boolean=false,val cloudCursor:String?=null,
+        val sourceIds:Set<String> = emptySet(),val witnesses:Set<String> = emptySet(),
+        val phoneComplete:Boolean=false,val cloudCursor:String?=null,
         val cloudRevision:String?=null,val cloudTotal:Int?=null,val cloudIds:Set<String> = emptySet(),val cursors:Set<String> = emptySet(),
         val cloudComplete:Boolean=false)
     private data class AuditAuthority(val scope:AuditScope,val profile:ObservationProfile,val device:String,val held:Set<String>)
@@ -78,6 +79,14 @@ internal class ObservationRecovery(context:Context) {
     private fun deviceId():String?=Settings.Secure.getString(app.contentResolver,Settings.Secure.ANDROID_ID)
     private fun stableKey(device:String,collection:String,rowId:Long,received:Long)=
         ObservationSourceIdentity.reinstallStable(device,collection,rowId,Instant.ofEpochMilli(received).toString())
+
+    /** Different inbox IDs with the same body and received time do not prove
+     * distinct messages, even when sender aliases or optional metadata differ.
+     * Keep only an opaque digest across audit pages. */
+    private fun auditWitness(request:ObservationReconcileRequest):String {
+        val fields=listOf("burimunsi-audit-witness-v1",request.bodySha256,request.inboxReceivedAt)
+        return Values.sha256(fields.joinToString(""){"${it.length}:$it"})
+    }
 
     /** The original inbox is held as opaque exact identities. The snapshot is
      * encrypted and never deletes, uploads, or claims a legacy message. */
@@ -575,6 +584,7 @@ internal class ObservationRecovery(context:Context) {
         }
         val rows=try{takePage()}catch(_:Exception){null}?:return@synchronized interrupted()
         var uncertain=progress.unconfirmed;val requests=mutableListOf<ObservationReconcileRequest>()
+        val witnesses=progress.witnesses.toMutableSet()
         val decisions=mutableMapOf<Long,ObservationLegacyOwnership.Decision>()
         for(row in rows){
             if(authority.profile.receipt.senders.none{it.equals(row.sender,ignoreCase=true)})continue
@@ -585,8 +595,13 @@ internal class ObservationRecovery(context:Context) {
             decisions[row.id]=decision
             // A held identity may be checked, but this never releases the hold
             // or creates a source when the read-only lookup is missing.
-            requests.add(ObservationReconcileRequest(key,Values.sha256(row.body),row.sender,
-                row.sent?.let{Instant.ofEpochMilli(it).toString()},Instant.ofEpochMilli(row.received).toString(),row.sub))
+            val request=ObservationReconcileRequest(key,Values.sha256(row.body),row.sender,
+                row.sent?.let{Instant.ofEpochMilli(it).toString()},Instant.ofEpochMilli(row.received).toString(),row.sub)
+            val witness=auditWitness(request)
+            if(witness in witnesses)uncertain=true
+            else if(witnesses.size>=16_000){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+            else witnesses.add(witness)
+            requests.add(request)
         }
         // One bounded request per page. A poison item leaves the whole page
         // unconfirmed while later pages can still be checked.
@@ -640,10 +655,10 @@ internal class ObservationRecovery(context:Context) {
         val last=rows.lastOrNull()?.id?:progress.last
         if(rows.size<AUDIT_PAGE){
             if(uncertain){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
-            auditProgress=progress.copy(last=last,sourceIds=sourceIds,phoneComplete=true)
+            auditProgress=progress.copy(last=last,sourceIds=sourceIds,witnesses=witnesses,phoneComplete=true)
             return@synchronized Audit.MORE
         }
-        auditProgress=progress.copy(last=last,unconfirmed=uncertain,sourceIds=sourceIds)
+        auditProgress=progress.copy(last=last,unconfirmed=uncertain,sourceIds=sourceIds,witnesses=witnesses)
         Audit.MORE
     }
 
