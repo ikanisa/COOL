@@ -7,12 +7,57 @@ import android.provider.Settings
 import app.cool.mobile.BuildConfig
 import rw.ikanisa.burimunsi.core.*
 import rw.ikanisa.burimunsi.data.NativeRepository
+import rw.ikanisa.burimunsi.storage.SecureStore
+import org.json.JSONObject
 import java.time.Instant
 import java.util.UUID
 
+/** An encrypted replay fence for identities evicted by a bounded journal. */
+internal object ObservationReplayGuard {
+    private val lock=Any()
+    private fun store(app:Context,owner:ObservationOwner):SecureStore=SecureStore(app,"observation-replay-collection-"+Values.sha256(owner.collectionId))
+    private fun device(app:Context):String {
+        val id=Settings.Secure.getString(app.contentResolver,Settings.Secure.ANDROID_ID)?:error("device unavailable")
+        ObservationSourceIdentity.reinstallStable(id,"scope",1,Instant.ofEpochMilli(1).toString())
+        return Values.sha256(id.lowercase(java.util.Locale.ROOT))
+    }
+    private fun read(app:Context,owner:ObservationOwner):Long {
+        val target=store(app,owner);val scope=device(app);val raw=target.read();val seen=ObservationStateStore(app).read().seen
+        val otherOwner=seen.filter{it.owner.collectionId==owner.collectionId&&it.owner!=owner}.maxOfOrNull{it.inboxRowId}?:0L
+        if(raw!=null){
+            val v=JSONObject(raw);checkContract(v.keys().asSequence().toSet()==setOf("collectionId","deviceScope","horizon")&&
+                v.getString("collectionId")==owner.collectionId&&
+                v.getString("deviceScope")==scope&&v.getLong("horizon")>=0,"observation_store_unavailable")
+            val horizon=maxOf(v.getLong("horizon"),otherOwner)
+            if(horizon!=v.getLong("horizon")){
+                val encoded=JSONObject().put("collectionId",owner.collectionId).put("deviceScope",scope).put("horizon",horizon).toString()
+                target.write(encoded);checkContract(target.read()==encoded,"observation_store_unavailable")
+            }
+            return horizon
+        }
+        val own=seen.filter{it.owner==owner};val newest=own.maxOfOrNull{it.inboxRowId}?:0L
+        // Old versions trimmed at 1,024 per owner and 16,000 globally.
+        val possibleEviction=own.size>=1024||seen.size>=16_000
+        val oldHorizon=if(possibleEviction)(newest-501L).coerceAtLeast(0) else 0L
+        val horizon=maxOf(oldHorizon,otherOwner)
+        val encoded=JSONObject().put("collectionId",owner.collectionId).put("deviceScope",scope).put("horizon",horizon).toString()
+        target.write(encoded);checkContract(target.read()==encoded,"observation_store_unavailable")
+        return horizon
+    }
+    fun ambiguous(app:Context,owner:ObservationOwner,rowId:Long):Boolean = synchronized(lock){rowId<=read(app,owner)}
+    fun protect(app:Context,owner:ObservationOwner,rowId:Long):Boolean = synchronized(lock){
+        try{
+            val current=read(app,owner);if(rowId<=current)return@synchronized true
+            val target=store(app,owner);val scope=device(app)
+            val encoded=JSONObject().put("collectionId",owner.collectionId).put("deviceScope",scope).put("horizon",rowId).toString()
+            target.write(encoded);target.read()==encoded
+        }catch(_:Exception){false}
+    }
+}
+
 /** Stores locally filtered inbox candidates; no wallet or completeness is inferred. */
 internal object ObservationCapture {
-    enum class Result { STORED, DUPLICATE, FILTERED, FULL, UNAVAILABLE }
+    enum class Result { STORED, DUPLICATE, FILTERED, FULL, UNAVAILABLE, AMBIGUOUS }
     private fun permitted(context:Context)=context.checkSelfPermission(Manifest.permission.READ_SMS)==PackageManager.PERMISSION_GRANTED&&
         context.checkSelfPermission(Manifest.permission.RECEIVE_SMS)==PackageManager.PERMISSION_GRANTED
     fun candidate(context:Context,session:ObservationSessionOwner,profileFingerprint:String,sender:String,body:String):Boolean? {
@@ -48,6 +93,8 @@ internal object ObservationCapture {
             if(!ObservationCandidate.accepts(sender,body,profile.receipt))return@withObservationOwner Result.FILTERED
             if(!item.valid(profile,now))return@withObservationOwner Result.UNAVAILABLE
             val journal=ObservationJournal(ObservationStateStore(app))
+            val prior=journal.seen(owner,sourceKey,rowId,Values.sha256(body))
+            if(prior==null&&ObservationReplayGuard.ambiguous(app,owner,rowId))return@withObservationOwner Result.AMBIGUOUS
             val stored=ObservationConsent.whilePermitted(consent,{permitted(app)&&!config.paused(owner)}){
                 journal.append(owner,sourceKey,rowId,item,profile,now)
             }?:return@withObservationOwner Result.UNAVAILABLE

@@ -17,6 +17,7 @@ class ObservationSmsReceiver:BroadcastReceiver() {
     }
     override fun onReceive(context:Context,intent:Intent){
         if(BuildConfig.IS_QUALIFICATION||!BuildConfig.IS_GATEWAY||intent.action!=Telephony.Sms.Intents.SMS_RECEIVED_ACTION)return
+        ObservationInboxRevision.changed()
         // SMS itself is not assumed to grant foreground-start permission. The
         // supervisor starts only from a visible task or an OS/user exemption.
         runCatching{BuriContinuousSupervisor.start(context.applicationContext)}

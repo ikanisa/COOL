@@ -183,6 +183,7 @@ class BuriContinuousSyncService:Service(){
     private var detachSession:(()->Unit)?=null
     private var networkCallback:ConnectivityManager.NetworkCallback?=null
     private var observer:ContentObserver?=null
+    private var observerLease:Any?=null
     private val tick=Runnable{runCycle()}
     private var notificationsReady=false
 
@@ -208,9 +209,10 @@ class BuriContinuousSyncService:Service(){
             // Attachment can precede an online renewal. Only wake here; do not
             // misclassify its temporarily unconfirmed generation as a logout.
             detachSession=NativeRepository(this,api).observeProcessSession{main.post{wake(0)}}
-            observer=object:ContentObserver(main){override fun onChange(selfChange:Boolean){wake(400)}}.also{
+            observer=object:ContentObserver(main){override fun onChange(selfChange:Boolean){ObservationInboxRevision.changed();wake(400)}}.also{
                 contentResolver.registerContentObserver(Telephony.Sms.CONTENT_URI,true,it)
             }
+            observerLease=ObservationInboxRevision.observerRegistered()
             val manager=getSystemService(ConnectivityManager::class.java)
             networkCallback=object:ConnectivityManager.NetworkCallback(){
                 override fun onAvailable(network:Network){main.post{wake(0)}}
@@ -244,6 +246,7 @@ class BuriContinuousSyncService:Service(){
     }
     internal fun requestStop(problem:String){
         terminalProblem=problem;stopped.set(true)
+        observerLease?.let{ObservationInboxRevision.observerDetached(it)};observerLease=null
         ObservationSyncDiagnostics.service(ServicePhase.STOPPED,problem)
         main.removeCallbacks(tick);nextAt=Long.MAX_VALUE
         releaseWake()
@@ -313,7 +316,7 @@ class BuriContinuousSyncService:Service(){
                     BuriContinuousSupervisor.update(this,problem,if(!result.busy)System.currentTimeMillis()else null)
                     if(notificationsReady)runCatching{getSystemService(NotificationManager::class.java)?.notify(BuriContinuousSupervisor.NOTIFICATION,
                         notification(notificationText(problem)))}
-                    val delay=if(wakeAgain)0L else if(result.busy)2_000L else retry.next(result.completed,result.more)
+                    val delay=if(wakeAgain)0L else if(result.busy)2_000L else retry.next(result.completed,result.more,result.progress)
                     wake(delay)
                 }
             }
@@ -326,6 +329,7 @@ class BuriContinuousSyncService:Service(){
         stopped.set(true);main.removeCallbacksAndMessages(null);releaseWake()
         ObservationSyncDiagnostics.service(ServicePhase.DESTROYED,terminalProblem)
         runCatching{detachSession?.invoke()};detachSession=null
+        observerLease?.let{ObservationInboxRevision.observerDetached(it)};observerLease=null
         observer?.let{runCatching{contentResolver.unregisterContentObserver(it)}};observer=null
         networkCallback?.let{callback->runCatching{getSystemService(ConnectivityManager::class.java)?.unregisterNetworkCallback(callback)}};networkCallback=null
         worker.shutdown()

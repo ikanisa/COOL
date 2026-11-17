@@ -17,13 +17,16 @@ export function validateNativeRequest(operation,value){
    (value.sourceMode==='catch_up'&&value.complete===false&&value.inboxReceivedAt!==null))||
    new TextEncoder().encode(value.rawBody).length>3000||
    Object.hasOwn(value,'sourceKey')&&value.sourceMode!=='catch_up'))throw new ContractViolation('CONTRACT_STATE');
+ if(operation==='observationReconcileBatch'&&new Set(value.items.map(item=>item.sourceKey)).size!==value.items.length)
+  throw new ContractViolation('CONTRACT_DUPLICATE');
  return value;
 }
 export function nativeExpected(binding,route,body,originDigest,handoffFingerprint){
  return {...binding,recordId:route.recordId,memberId:body?.memberId,phone:body?.phone,
   staffId:body?.id,commandRequestId:body?.requestId,staffOperation:body?.operation,
   consentEnabled:body?.enabled,consentGeneration:body?.generation,displayHintsVersion:body?.displayHintsVersion,
-  importRows:body?.rows?.map(row=>row.row),sourceIds:body?.sourceIds,originDigest,handoffFingerprint};
+  importRows:body?.rows?.map(row=>row.row),sourceIds:body?.sourceIds,sourceKey:body?.sourceKey,
+  sourceKeys:Array.isArray(body?.items)?body.items.map(item=>item.sourceKey):undefined,originDigest,handoffFingerprint};
 }
 export function bindNativeResponse(route,binding,body,data,originDigest,handoffFingerprint){
  // Project only the public acknowledgement fields promised by canonical bridge ports.

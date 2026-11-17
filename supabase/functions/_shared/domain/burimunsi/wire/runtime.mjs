@@ -111,7 +111,7 @@ export function semantics(product,operation,r,expected={}) {
   }
  }else{
   function rows(list){const ids=new Set();for(const row of list){if(row.groupId!==r.binding.groupId)fail('CONTRACT_IDENTITY');if(ids.has(row.id))fail('CONTRACT_DUPLICATE');ids.add(row.id);}}
-  if(data.items){rows(data.items);if(data.totalCount<data.items.length||(data.nextCursor!==null&&!data.items.length))fail('CONTRACT_PAGE');}
+  if(data.items&&operation!=='observationReconcileBatch'){rows(data.items);if(data.totalCount<data.items.length||(data.nextCursor!==null&&!data.items.length))fail('CONTRACT_PAGE');}
   if(data.recentPayments)rows(data.recentPayments);
   if(data.groupId!==undefined&&data.groupId!==r.binding.groupId)fail('CONTRACT_IDENTITY');
   if(['payment','member','rawSms'].includes(operation)&&data.id!==expected.recordId)fail('CONTRACT_IDENTITY');
@@ -124,6 +124,14 @@ export function semantics(product,operation,r,expected={}) {
     data.statuses.some((row,i)=>row.sourceId!==expected.sourceIds[i]||row.canRetry&&!['retrying','needs_review'].includes(row.status)))fail('CONTRACT_IDENTITY');
   }
   if(operation==='observationProcessingRetry'&&(data.sourceId!==expected.recordId||data.requestId!==expected.commandRequestId))fail('CONTRACT_IDENTITY');
+  if(operation==='observationReconcile'&&(data.sourceKey!==expected.sourceKey||
+   (data.state==='matched')!==(data.sourceId!==null)))fail('CONTRACT_IDENTITY');
+  if(operation==='observationReconcileBatch'){
+   if(!Array.isArray(expected.sourceKeys)||new Set(expected.sourceKeys).size!==expected.sourceKeys.length||
+    data.items.length!==expected.sourceKeys.length||data.items.some((item,i)=>item.sourceKey!==expected.sourceKeys[i]||
+     (item.state==='matched')!==(item.sourceId!==null)))fail('CONTRACT_IDENTITY');
+  }
+  if(operation==='observationReconcileStatus'&&data.hasRecorded!==(data.recordedCount>0))fail('CONTRACT_STATE');
   if(operation==='observationReveal'){
    if(data.sourceId!==expected.recordId||Object.hasOwn(data,'displayHints')!==(expected.displayHintsVersion===1))fail('CONTRACT_IDENTITY');
    if(data.displayHints!==undefined&&data.displayHints!==null){const seen=new Set();

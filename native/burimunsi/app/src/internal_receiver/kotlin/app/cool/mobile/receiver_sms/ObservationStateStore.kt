@@ -18,6 +18,8 @@ import javax.crypto.SecretKey
 /** Independent of the existing gateway queue. Keystore-backed and excluded from backup. */
 internal class ObservationStateStore(context:Context):ObservationJournalStore {
     private val app=context.applicationContext
+    override fun protectSeenEviction(value:ObservationSeen):Boolean =
+        ObservationReplayGuard.protect(app,value.owner,value.inboxRowId)
     private val file=BuriQueueFile(File(app.noBackupFilesDir,"buri-observation-journal.v1"),{directory->
         val fd=Os.open(directory.absolutePath,OsConstants.O_RDONLY,0)
         try{check(OsConstants.S_ISDIR(Os.fstat(fd).st_mode));Os.fsync(fd)}finally{Os.close(fd)}
