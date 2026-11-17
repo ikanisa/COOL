@@ -34,6 +34,7 @@ fun main() {
  data class Env(val context:Context,val repository:NativeRepository,val approved:JSONObject,val observerLease:Any)
  fun setup(owner:ObservationOwner=adminA):Env {
   android.os.SystemClock.fixed=null;android.os.SystemClock.afterRead=null
+  app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=false;app.cool.mobile.BuildConfig.CLOUD_HOLD_EXISTING_INBOX=false
   ReceiverFixture.reset();ObservationStateStore.reset();SecureStore.reset();Settings.Secure.testId="1234567890abcdef";NativeRepository.switch(owner)
   val observerLease=ObservationInboxRevision.observerRegistered()
   val context=Context();val approved=profile();val config=ObservationConfigStore(context)
@@ -61,6 +62,197 @@ fun main() {
   var result=ObservationCycleResult(false,true)
   repeat(maxCycles){if(!result.completed&&result.more)result=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})}
   return result
+ }
+ fun heldFixture(rows:List<Map<String,Any?>> = listOf(row(12))):Env {
+  val e=setup();app.cool.mobile.BuildConfig.CLOUD_HOLD_EXISTING_INBOX=true;e.context.contentResolver.rows=rows
+  ObservationRecovery(e.context).scan();check(pending(adminA).isEmpty())
+  return e
+ }
+ fun auditUntilSettled(e:Env,limit:Int=30):ObservationRecovery.Audit {
+  val recovery=ObservationRecovery(e.context);var result=ObservationRecovery.Audit.MORE
+  repeat(limit){if(result==ObservationRecovery.Audit.MORE||result==ObservationRecovery.Audit.RETRY)result=recovery.auditPage(e.repository)}
+  return result
+ }
+ fun heldJournal(e:Env)=HeldRecoveryJournal(e.context,adminA,installation,Values.sha256("1234567890abcdef"))
+ test("held recovery retains an exact request and marks an attempted call before dispatch") {
+  val e=setup();val key=cloudKey(adminA,12);val deviceScope=Values.sha256("synthetic-device")
+  val journal=HeldRecoveryJournal(e.context,adminA,installation,deviceScope)
+  val received=Instant.ofEpochMilli(time).toString()
+  val prepared=journal.prepare(12,key,"M-Money",body,received,null,3,time)!!
+  check(prepared.phase==HeldRecoveryJournal.Phase.PREPARED&&!prepared.toString().contains(body))
+  val restarted=HeldRecoveryJournal(e.context,adminA,installation,deviceScope)
+  check(restarted.prepare(12,key,"M-Money",body,received,null,3,time+20_000)==prepared)
+  check(restarted.prepare(12,key,"M-Money",body+" changed",received,null,3,time+20_000)==null)
+  val attempted=restarted.begin(prepared)!!
+  check(attempted.phase==HeldRecoveryJournal.Phase.ATTEMPTING&&attempted.observation==prepared.observation)
+  check(journal.pending(key)==attempted&&journal.begin(attempted)==attempted&&!journal.clear(prepared))
+  check(HeldRecoveryJournal(e.context,adminB,installation,deviceScope).pending(key)==null)
+  check(HeldRecoveryJournal(e.context,adminA,installation,Values.sha256("another-device")).pending(key)==null)
+  check(!journal.clear(attempted))
+  val ack=HeldObservationAck(ObservationAck(attempted.observation.requestId,"source-1",Values.sha256(body),"source_unresolved",0),"held")
+  val confirmed=journal.confirm(attempted,ack)!!
+  check(confirmed.phase==HeldRecoveryJournal.Phase.CONFIRMED&&confirmed.sourceId=="source-1")
+  check(journal.pending(key)==confirmed&&!journal.clear(confirmed)&&journal.begin(confirmed)==null)
+ }
+ test("a corrupt held recovery journal is not silently replaced") {
+  val e=setup();val key=cloudKey(adminA,12);val journal=HeldRecoveryJournal(e.context,adminA,installation,Values.sha256("device"))
+  val received=Instant.ofEpochMilli(time).toString()
+  check(journal.prepare(12,key,"M-Money",body,received,null,3,time)!=null)
+  val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
+  SecureStore.data[name]="{}"
+  check(runCatching{journal.prepare(12,key,"M-Money",body,received,null,3,time)}.isFailure)
+ }
+ test("invalid recovery input cannot corrupt a fresh journal") {
+  val e=setup();val key=cloudKey(adminA,12);val journal=heldJournal(e)
+  check(journal.prepare(12,key,"M-Money","",Instant.ofEpochMilli(time).toString(),null,3,time)==null)
+  check(journal.pending(key)==null)
+ }
+ test("held recovery is disabled in the normal build") {
+  val e=heldFixture();check(!app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED)
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  check(e.repository.recoveryRequests.isEmpty()&&e.repository.verifiedCalls==0&&pending(adminA).isEmpty())
+ }
+ test("default-off client treats the draft legacy pending status as unconfirmed") {
+  val e=heldFixture();e.repository.statusReplyOverride={_,status->status.copy(hasPending=true)}
+  val result=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})
+  check(!result.completed&&result.problem=="sync_unconfirmed")
+  check(e.repository.recoveryRequests.isEmpty()&&e.repository.verifiedCalls==0&&ObservationRecovery(e.context).auditStartedAt()==null)
+ }
+ test("enabled recovery retains a missing held source without releasing it or queuing financial work") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
+  val request=e.repository.recoveryRequests.single();val saved=heldJournal(e).pending(cloudKey(adminA,12))!!
+  check(request.sourceMode=="catch_up"&&!request.complete&&request.sourceKey==cloudKey(adminA,12))
+  check(saved.phase==HeldRecoveryJournal.Phase.CONFIRMED&&saved.observation==request&&saved.sourceId!=null)
+  check(e.repository.recoveryCommitted.size==1&&pending(adminA).isEmpty())
+  ObservationRecovery(e.context).scan();check(pending(adminA).isEmpty())
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE&&e.repository.recoveryRequests.size==1)
+ }
+ test("an already matched held source stays read-only") {
+  val e=heldFixture();e.repository.retainedSources[cloudKey(adminA,12)]="source-1"
+  app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true;e.repository.verifiedFailure=IllegalStateException("unavailable")
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
+  check(e.repository.recoveryRequests.isEmpty()&&e.repository.verifiedCalls==0)
+ }
+ test("a confirmed recovery whose Cloud source disappears cannot mint a second request") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
+  val first=e.repository.recoveryRequests.single();e.repository.retainedSources.clear()
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  check(e.repository.recoveryRequests==listOf(first)&&heldJournal(e).pending(cloudKey(adminA,12))?.phase==HeldRecoveryJournal.Phase.CONFIRMED)
+ }
+ test("an ambiguous server reconciliation never becomes a recovery request") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  e.repository.poisonSourceKeys=setOf(cloudKey(adminA,12))
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  check(e.repository.recoveryRequests.isEmpty()&&e.repository.verifiedCalls==0)
+ }
+ test("verified scope unavailable changed pending or stale never dispatches recovery") {
+  for(kind in listOf("unavailable","scope","changed_scope","pending","unmatched","stale")){
+   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+   when(kind){
+    "unavailable"->e.repository.verifiedFailure=IllegalStateException("unavailable")
+    "scope"->e.repository.verifiedScope="other"
+    "changed_scope"->e.repository.afterVerified={if(it==1)e.repository.verifiedScope="other"}
+    "pending"->e.repository.verifiedPending=true
+    "unmatched"->e.repository.verifiedUnmatched=true
+    "stale"->e.repository.afterVerified={if(it==1)e.repository.verifiedRevisionOverride="a".repeat(64)}
+   }
+   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+   check(e.repository.recoveryRequests.isEmpty()&&heldJournal(e).pending(cloudKey(adminA,12))==null)
+  }
+ }
+ test("unscoped legacy pending or canonical receipts allow held-only recovery but never full equality") {
+  for(kind in listOf("pending","unmatched")){
+   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+   e.repository.statusReplyOverride={_,status->if(kind=="pending")status.copy(hasPending=true)else status.copy(hasUnmatchedCanonical=true)}
+   e.repository.verifiedPending=false;e.repository.verifiedUnmatched=false
+   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+   check(e.repository.recoveryRequests.size==1&&e.repository.recoveryCommitted.size==1)
+   check(ObservationRecovery(e.context).auditStartedAt()==null&&pending(adminA).isEmpty())
+  }
+ }
+ test("the real sync cycle runs scoped held recovery but remains unconfirmed for legacy pending") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  e.repository.statusReplyOverride={_,status->status.copy(hasPending=true)};e.repository.verifiedPending=false
+  val result=runUntilSettled(e)
+  check(!result.completed&&result.problem=="sync_unconfirmed")
+  check(e.repository.recoveryRequests.size==1&&e.repository.recoveryCommitted.size==1&&pending(adminA).isEmpty())
+  check(ObservationRecovery(e.context).auditStartedAt()==null)
+ }
+ test("an unconfirmed legacy status advances past several independently recovered held rows") {
+  val e=heldFixture(listOf(row(12),row(13)+("date" to (time+1))))
+  app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  e.repository.statusReplyOverride={_,status->status.copy(hasPending=true)};e.repository.verifiedPending=false
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  check(e.repository.recoveryRequests.size==2&&e.repository.recoveryCommitted.size==2&&e.repository.statusCalls==1)
+  check(ObservationRecovery(e.context).auditStartedAt()==null&&pending(adminA).isEmpty())
+ }
+ test("duplicate phone witnesses even after the selected row cannot be recovered") {
+  val e=heldFixture(listOf(row(12),row(13)+("address" to "m-money")));app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.BLOCKED)
+  check(e.repository.recoveryRequests.isEmpty()&&e.repository.recoveryCommitted.isEmpty())
+ }
+ test("owner permission consent and inbox revision changes stop dispatch") {
+  for(kind in listOf("owner","permission","consent","pause","revision")){
+   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+   e.repository.afterVerified={if(it==1)when(kind){
+    "owner"->NativeRepository.switch(adminB)
+    "permission"->e.context.denied=setOf(Manifest.permission.READ_SMS)
+    "consent"->{val c=ObservationConfigStore(e.context);c.saveConsent(adminA,c.consent(adminA)!!.copy(confirmed=false))}
+    "pause"->ObservationConfigStore(e.context).setPaused(adminA,true)
+    "revision"->ObservationInboxRevision.changed()
+   }}
+   check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))
+   check(e.repository.recoveryRequests.isEmpty())
+  }
+ }
+ test("lost response after server commit is retried with the identical durable request") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  e.repository.recoveryFailureAfterCommit=IllegalStateException("timeout")
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  val first=e.repository.recoveryRequests.single();val key=cloudKey(adminA,12)
+  check(heldJournal(e).pending(key)?.phase==HeldRecoveryJournal.Phase.ATTEMPTING&&e.repository.recoveryCommitted.size==1)
+  e.repository.recoveryFailureAfterCommit=null
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
+  check(e.repository.recoveryRequests==listOf(first,first)&&e.repository.recoveryCommitted.size==1)
+  check(heldJournal(e).pending(key)?.phase==HeldRecoveryJournal.Phase.CONFIRMED)
+ }
+ test("lost response before server commit retries the original request") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  e.repository.recoveryFailureBeforeCommit=IllegalStateException("timeout")
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  val first=e.repository.recoveryRequests.single();check(e.repository.recoveryCommitted.isEmpty())
+  e.repository.recoveryFailureBeforeCommit=null
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
+  check(e.repository.recoveryRequests==listOf(first,first)&&e.repository.recoveryCommitted.size==1)
+ }
+ test("changed inbox content after an unknown outcome cannot replace its request") {
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  e.repository.recoveryFailureBeforeCommit=IllegalStateException("timeout")
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  val first=e.repository.recoveryRequests.single();e.repository.recoveryFailureBeforeCommit=null
+  e.context.contentResolver.rows=listOf(row(12,body+" changed"))
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  check(e.repository.recoveryRequests==listOf(first)&&heldJournal(e).pending(cloudKey(adminA,12))?.observation==first)
+ }
+ test("post-dispatch permission change or invalid hold acknowledgement preserves uncertainty") {
+  for(kind in listOf("permission","ack","duplicate","missing","owner")){
+   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+   when(kind){
+    "permission"->e.repository.afterRecovery={e.context.denied=setOf(Manifest.permission.READ_SMS)}
+    "ack"->e.repository.recoveryAckOverride={it.copy(autoProcessing="released")}
+    "duplicate"->e.repository.afterRecovery={e.context.contentResolver.rows=listOf(row(12),row(13))}
+    "missing"->e.repository.afterRecovery={e.context.contentResolver.rows=emptyList()}
+    "owner"->e.repository.afterRecovery={NativeRepository.switch(adminB)}
+   }
+   check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))
+   val first=e.repository.recoveryRequests.single();check(heldJournal(e).pending(cloudKey(adminA,12))?.phase==HeldRecoveryJournal.Phase.ATTEMPTING)
+   e.context.denied=emptySet();e.context.contentResolver.rows=listOf(row(12));e.repository.recoveryAckOverride=null
+   if(kind=="owner")NativeRepository.switch(adminA)
+   check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
+   check(e.repository.recoveryRequests==listOf(first,first)&&e.repository.recoveryCommitted.size==1)
+  }
  }
  test("missing device identity keeps the inbox row unacknowledged for later recovery") {
   val e=setup();e.context.contentResolver.rows=listOf(row(1));Settings.Secure.testId=null
@@ -663,6 +855,18 @@ fun main() {
   android.os.SystemClock.fixed=301_000L
   val renewed=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})
   check(renewed.completed&&e.repository.reconciliationRequests.size==2)
+ }
+ test("legacy pending takes effect on the first cycle after the five-minute proof expires") {
+  val e=setup();android.os.SystemClock.fixed=1_000L;e.context.contentResolver.rows=listOf(row(802))
+  check(ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false}).completed)
+  val reads=e.repository.statusCalls
+  e.repository.statusReplyOverride={_,status->status.copy(hasPending=true)}
+  android.os.SystemClock.fixed=300_999L
+  check(ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false}).completed)
+  check(e.repository.statusCalls==reads)
+  android.os.SystemClock.fixed=301_000L
+  val expired=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})
+  check(!expired.completed&&expired.problem=="sync_unconfirmed"&&e.repository.statusCalls>reads)
  }
  test("a newer SMS arriving during the Cloud check invalidates the match") {
   val e=setup();e.context.contentResolver.rows=listOf(row(810))

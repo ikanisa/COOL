@@ -71,6 +71,7 @@ data class UnverifiedObservationFacts(val amountRwf:Long,val payerName:String,va
 }
 
 data class ObservationAck(val requestId:String,val sourceId:String,val bodySha256:String,val status:String,val financialEffects:Int)
+data class HeldObservationAck(val observation:ObservationAck,val autoProcessing:String)
 
 /** Metadata used to compare one phone inbox source with its retained Cloud source. */
 data class ObservationReconcileRequest(
@@ -85,6 +86,7 @@ data class ObservationReconcileReply(val sourceKey:String,val state:String,val s
 }
 data class ObservationReconcileStatus(val hasPending:Boolean,val hasRecorded:Boolean,val recordedCount:Int,val revision:String,
     val hasUnmatchedCanonical:Boolean)
+data class ObservationVerifiedStatus(val scope:String,val status:ObservationReconcileStatus)
 
 /** Queue removal requires the server's durable unresolved-source acknowledgment. */
 object ObservationAcknowledgement {

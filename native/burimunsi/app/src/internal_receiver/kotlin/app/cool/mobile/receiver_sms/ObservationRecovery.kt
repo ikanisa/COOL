@@ -481,8 +481,8 @@ internal class ObservationRecovery(context:Context) {
     fun auditStartedAt():Long?=synchronized(lock){completedAuditStart}
     fun auditRevision():String?=synchronized(lock){completedAuditRevision}
 
-    /** One bounded page of read-only source verification; the whole process-local
-     * sweep is invalidated by a changed inbox, owner, control or process restart. */
+    /** One bounded page of source verification. The optional held recovery path
+     * is separately gated and never changes the held inbox snapshot. */
     fun auditPage(repo:NativeRepository,stopped:()->Boolean={false},budgetExpired:()->Boolean={false}):Audit = synchronized(lock){
         // A deadline never makes an in-flight page valid. Keep only progress
         // saved before this call; the next cycle revalidates its whole scope.
@@ -502,10 +502,12 @@ internal class ObservationRecovery(context:Context) {
             if(stopped())return@synchronized interrupted()
             val status=repo.observationReconcileStatus()
             if(try{auditAuthority(localStop)?.scope!=scope}catch(_:Exception){true})return@synchronized interrupted()
-            if(status.hasPending)return@synchronized Audit.RETRY
-            if(status.hasUnmatchedCanonical)return@synchronized Audit.UNCONFIRMED
+            if(status.hasPending&&!BuildConfig.HELD_RECOVERY_ENABLED)return@synchronized Audit.RETRY
+            if(status.hasUnmatchedCanonical&&!BuildConfig.HELD_RECOVERY_ENABLED)return@synchronized Audit.UNCONFIRMED
             if(status.recordedCount !in 0..16_000||status.hasRecorded!=(status.recordedCount>0))return@synchronized Audit.UNCONFIRMED
-            auditProgress=AuditProgress(scope,0,false,clock,status.revision,status.recordedCount)
+            // Unscoped canonical receipts keep the wider audit unconfirmed even
+            // if the separately verified recovery path can inspect held rows.
+            auditProgress=AuditProgress(scope,0,status.hasPending||status.hasUnmatchedCanonical,clock,status.revision,status.recordedCount)
             return@synchronized Audit.MORE
         }
         if(progress.cloudComplete){
@@ -651,6 +653,129 @@ internal class ObservationRecovery(context:Context) {
         }
         if(try{auditAuthority(localStop)?.scope!=scope}catch(_:Exception){true}){
             return@synchronized interrupted()
+        }
+        if(BuildConfig.HELD_RECOVERY_ENABLED&&rows.size==1&&requests.size==1&&states.size==1){
+            val row=rows.single();val request=requests.single();val initial=states.single()
+            if(request.sourceKey in authority.held&&initial!=null){
+                val installation=try{MomoGatewayStore(app).existingInstallationId()}catch(_:Exception){null}
+                    ?:return@synchronized interrupted()
+                val journal=HeldRecoveryJournal(app,owner,installation,scope.deviceScope)
+                val existing=try{journal.pending(request.sourceKey)}catch(_:Exception){
+                    auditProgress=null;return@synchronized Audit.UNCONFIRMED
+                }
+                // A matched row with no uncertain request remains a read-only match.
+                if(initial.state=="missing"||existing!=null){
+                    fun current():Boolean=try{
+                        !stopped()&&MomoGatewayStore(app).existingInstallationId()==installation&&
+                            auditAuthority(stopped)?.scope==scope&&takePage(stopped)==rows&&
+                            ObservationInboxRevision.snapshot()==scope.revision
+                    }catch(_:Exception){false}
+                    fun unique():Boolean { return try{
+                        val cursor=app.contentResolver.query(uri,arrayOf("_id","date","body"),"_id > ?",arrayOf("0"),"_id ASC")
+                            ?:return false
+                        var previousId=0L;var count=0;var found=false;var valid=true
+                        cursor.use{
+                            val id=it.getColumnIndexOrThrow("_id");val date=it.getColumnIndexOrThrow("date")
+                            val body=it.getColumnIndexOrThrow("body")
+                            while(valid&&it.moveToNext()){
+                                if(stopped()||++count>MAX_LATEST_SCAN||it.isNull(id)||it.isNull(date)){valid=false;break}
+                                val candidateId=it.getLong(id);val received=it.getLong(date)
+                                if(candidateId<=previousId||received<=0){valid=false;break};previousId=candidateId
+                                if(received==row.received){
+                                    if(it.isNull(body)){valid=false;break}
+                                    val same=Values.sha256(it.getString(body))==request.bodySha256
+                                    if(candidateId==row.id){if(!same){valid=false;break};found=true}
+                                    else if(same){valid=false;break}
+                                }
+                            }
+                        }
+                        valid&&found
+                    }catch(_:Exception){false} }
+                    fun verified(value:rw.ikanisa.burimunsi.core.ObservationVerifiedStatus):Boolean =
+                        value.scope=="verified_collection"&&!value.status.hasPending&&!value.status.hasUnmatchedCanonical&&
+                            value.status.recordedCount in 0..100_000&&
+                            value.status.hasRecorded==(value.status.recordedCount>0)&&Regex("[a-f0-9]{64}").matches(value.status.revision)
+                    fun finishJournal(write:()->Boolean):Boolean {
+                        if(!current()||!unique()||!current())return false
+                        // Use the receiver/session lock order used for local custody;
+                        // the callback only writes local state and never performs network I/O.
+                        return ObservationLegacyOwnership.withoutControlTransition(app){
+                            NativeRepository.withObservationOwner(app,scope.session){group,account->
+                                ObservationOwner(group,account)==owner&&current()&&write()&&current()
+                            }?:false
+                        }?:false
+                    }
+                    if(!current()||!unique()||!current())return@synchronized interrupted()
+                    try{
+                        val first=repo.observationReconcileVerifiedStatus()
+                        if(!verified(first)||!current()){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                        val reconciled=repo.reconcileObservation(request)
+                        if(!current()||reconciled.sourceKey!=request.sourceKey||reconciled.state !in setOf("matched","missing")||
+                            (reconciled.state=="matched")!=(reconciled.sourceId!=null)){
+                            auditProgress=null;return@synchronized Audit.UNCONFIRMED
+                        }
+                        val second=repo.observationReconcileVerifiedStatus()
+                        if(!verified(second)||first!=second||!current()){
+                            auditProgress=null;return@synchronized Audit.UNCONFIRMED
+                        }
+                        var restart=initial.state!=reconciled.state||initial.sourceId!=reconciled.sourceId
+                        val entry=if(existing==null){
+                            if(reconciled.state=="matched")null else journal.prepare(row.id,request.sourceKey,row.sender,row.body,
+                                request.inboxReceivedAt,request.serviceCentreAt,row.sub,System.currentTimeMillis())
+                        }else journal.prepare(row.id,request.sourceKey,row.sender,row.body,request.inboxReceivedAt,
+                            request.serviceCentreAt,row.sub,System.currentTimeMillis())
+                        if(entry==null&&reconciled.state=="missing"||existing!=null&&entry==null){
+                            auditProgress=null;return@synchronized Audit.UNCONFIRMED
+                        }
+                        if(entry!=null){
+                            if(!current()){auditProgress=null;return@synchronized Audit.BLOCKED}
+                            when(entry.phase){
+                                HeldRecoveryJournal.Phase.CONFIRMED,HeldRecoveryJournal.Phase.MATCHED_EXISTING->{
+                                    if(reconciled.state!="matched"||entry.sourceId!=reconciled.sourceId){
+                                        auditProgress=null;return@synchronized Audit.UNCONFIRMED
+                                    }
+                                }
+                                HeldRecoveryJournal.Phase.PREPARED,HeldRecoveryJournal.Phase.ATTEMPTING->{
+                                    if(reconciled.state=="matched"&&entry.phase==HeldRecoveryJournal.Phase.PREPARED){
+                                        if(!finishJournal{journal.markExisting(entry,reconciled.sourceId!!)!=null}){
+                                            auditProgress=null;return@synchronized Audit.UNCONFIRMED
+                                        }
+                                        restart=true
+                                    }else{
+                                        val attempting=journal.begin(entry)?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                                        if(!current()||!unique()||!current()){auditProgress=null;return@synchronized Audit.BLOCKED}
+                                        val ack=repo.recoverHeldObservation(attempting.observation)
+                                        if(!current()||!unique()||!current()){auditProgress=null;return@synchronized Audit.BLOCKED}
+                                        val finalStatus=repo.observationReconcileVerifiedStatus()
+                                        if(!verified(finalStatus)||!current()){
+                                            auditProgress=null;return@synchronized Audit.UNCONFIRMED
+                                        }
+                                        val afterPost=repo.reconcileObservation(request)
+                                        if(!current()||afterPost.sourceKey!=request.sourceKey||afterPost.state!="matched"||
+                                            afterPost.sourceId!=ack.observation.sourceId||!finishJournal{journal.confirm(attempting,ack)!=null}){
+                                            auditProgress=null;return@synchronized Audit.UNCONFIRMED
+                                        }
+                                        restart=true
+                                    }
+                                }
+                            }
+                        }
+                        if(restart){
+                            // Changed Cloud state invalidates the old wider proof.
+                            completedAuditStart=null;completedAuditRevision=null
+                            if(progress.unconfirmed){
+                                // The wider audit is already incapable of confirming.
+                                // Continue its held-only pass without repeatedly
+                                // restarting at the first recovered inbox row.
+                                auditProgress=progress.copy(last=row.id,unconfirmed=true,sourceIds=sourceIds,witnesses=witnesses)
+                                return@synchronized Audit.MORE
+                            }
+                            auditProgress=null
+                            return@synchronized Audit.RETRY
+                        }
+                    }catch(_:Exception){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                }
+            }
         }
         val last=rows.lastOrNull()?.id?:progress.last
         if(rows.size<AUDIT_PAGE){

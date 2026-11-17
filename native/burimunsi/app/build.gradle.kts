@@ -75,6 +75,8 @@ android {
         // The new Cloud identity snapshots the existing inbox before catch-up.
         // It does not import or replay another installation's local queue.
         buildConfigField("boolean", "CLOUD_HOLD_EXISTING_INBOX", "true")
+        // The draft recovery protocol requires separate server qualification before any release can enable it.
+        buildConfigField("boolean", "HELD_RECOVERY_ENABLED", "false")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BURI_API_ORIGIN", quoted(apiOrigin.get()))
         buildConfigField("String", "BURI_AUTH_ORIGIN", quoted(authOrigin.get()))

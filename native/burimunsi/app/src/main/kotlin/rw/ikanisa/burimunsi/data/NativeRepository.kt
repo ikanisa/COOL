@@ -662,17 +662,32 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         checkContract(result==revision,"invalid_consent_response")
         return result
     }
-    fun submitObservation(observation:SmsObservation):ObservationAck {
+    private fun observationBody(observation:SmsObservation):JSONObject {
         val body=JSONObject().put("requestId",observation.requestId).put("rawSender",observation.rawSender)
             .put("rawBody",observation.rawBody).put("sourceMode",observation.sourceMode).put("complete",observation.complete)
             .put("capturedAt",observation.capturedAt).put("serviceCentreAt",observation.serviceCentreAt?:JSONObject.NULL)
             .put("inboxReceivedAt",observation.inboxReceivedAt?:JSONObject.NULL).put("subscriptionId",observation.subscriptionId?:JSONObject.NULL)
         observation.sourceKey?.let{body.put("sourceKey",it)}
+        return body
+    }
+    fun submitObservation(observation:SmsObservation):ObservationAck {
+        val body=observationBody(observation)
         val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations",body))
         val ack=ObservationAck(value.getString("requestId"),value.getString("sourceId"),value.getString("bodySha256"),
             value.getString("status"),value.getInt("financialEffects"))
         checkContract(ObservationAcknowledgement.matches(observation,ack),"invalid_observation_ack")
         return ack
+    }
+    /** Recovery retains a source on hold; it must not authorize processing or money movement. */
+    fun recoverHeldObservation(observation:SmsObservation):HeldObservationAck {
+        checkContract(observation.sourceMode=="catch_up"&&!observation.complete&&observation.inboxReceivedAt!=null&&
+            observation.sourceKey?.let{Regex("[a-f0-9]{64}").matches(it)}==true,"invalid_observation_source")
+        val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations/recover-held",observationBody(observation)))
+        val ack=ObservationAck(value.getString("requestId"),value.getString("sourceId"),value.getString("bodySha256"),
+            value.getString("status"),value.getInt("financialEffects"))
+        val processing=value.getString("autoProcessing")
+        checkContract(processing=="held"&&ObservationAcknowledgement.matches(observation,ack),"invalid_observation_ack")
+        return HeldObservationAck(ack,processing)
     }
     /** Compare only opaque identity and hashed SMS content; never disclose the body. */
     fun reconcileObservation(request:ObservationReconcileRequest):ObservationReconcileReply {
@@ -722,6 +737,16 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         checkContract(value.getString("groupId")==groupId&&count in 0..100_000&&recorded==(count>0)&&
             Regex("[a-f0-9]{64}").matches(revision),"invalid_observation_reconciliation")
         return ObservationReconcileStatus(value.getBoolean("hasPending"),recorded,count,revision,value.getBoolean("hasUnmatchedCanonical"))
+    }
+    /** This narrower status can gate recovery but cannot establish all-Cloud equality. */
+    fun observationReconcileVerifiedStatus():ObservationVerifiedStatus {
+        val value=JSONObject(requestOwned(observationSession(),"GET","/sms/observations/reconcile-verified-status"))
+        val count=value.getInt("recordedCount");val recorded=value.getBoolean("hasRecorded");val revision=value.getString("revision")
+        val scope=value.getString("scope")
+        checkContract(value.getString("groupId")==groupId&&scope=="verified_collection"&&count in 0..100_000&&
+            recorded==(count>0)&&Regex("[a-f0-9]{64}").matches(revision),"invalid_observation_reconciliation")
+        return ObservationVerifiedStatus(scope,ObservationReconcileStatus(value.getBoolean("hasPending"),recorded,count,revision,
+            value.getBoolean("hasUnmatchedCanonical")))
     }
     /** A quarantine page is a distinct source stream, never a canonical SMS/payment page. */
     fun observationPage(q:String="",cursor:String?=null,limit:Int?=null):Page<ObservationListRow> {

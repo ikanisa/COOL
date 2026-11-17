@@ -36,6 +36,12 @@ class NativeRepository() {
  var afterStatus:((Int)->Unit)?=null
  var statusReplyOverride:((Int,ObservationReconcileStatus)->ObservationReconcileStatus)?=null
  val requests=mutableListOf<SmsObservation>()
+ var verifiedScope="verified_collection";var verifiedFailure:Exception?=null;var verifiedPending:Boolean?=null
+ var verifiedUnmatched:Boolean?=null;var verifiedRevisionOverride:String?=null;var verifiedCalls=0
+ var afterVerified:((Int)->Unit)?=null
+ var recoveryFailureBeforeCommit:Exception?=null;var recoveryFailureAfterCommit:Exception?=null
+ var afterRecovery:(()->Unit)?=null;var recoveryAckOverride:((HeldObservationAck)->HeldObservationAck)?=null
+ val recoveryRequests=mutableListOf<SmsObservation>();val recoveryCommitted=mutableMapOf<String,Pair<SmsObservation,String>>()
  fun observationConsent():ObservationConsentRevision{consentFailure?.let{throw it};val value=consent;val action=afterConsentRead;afterConsentRead=null;action?.invoke();return value}
  fun setObservationConsent(value:ObservationConsentRevision):ObservationConsentRevision{val action=duringConsentSet;duringConsentSet=null;action?.invoke();consent=value;return value}
  fun observationProfile():JSONObject {profileFailure?.let{throw it};val action=afterProfileRead;afterProfileRead=null;action?.invoke();return profile}
@@ -71,6 +77,26 @@ class NativeRepository() {
   val revision=statusRevisionOverride?:Values.sha256((retainedSources.toString()+cloudOnlySources.toString()+pendingReservation+unmatchedCanonical))
   val result=ObservationReconcileStatus(pendingReservation,count>0,count,revision,unmatchedCanonical)
   afterStatus?.invoke(statusCalls);return statusReplyOverride?.invoke(statusCalls,result)?:result
+ }
+ fun observationReconcileVerifiedStatus():ObservationVerifiedStatus {
+  verifiedCalls++;verifiedFailure?.let{throw it};val count=retainedSources.size+cloudOnlySources.size
+  val pending=verifiedPending?:pendingReservation;val unmatched=verifiedUnmatched?:unmatchedCanonical
+  val revision=verifiedRevisionOverride?:Values.sha256(retainedSources.toString()+cloudOnlySources.toString()+pending+unmatched)
+  val result=ObservationVerifiedStatus(verifiedScope,ObservationReconcileStatus(pending,count>0,count,revision,unmatched))
+  afterVerified?.invoke(verifiedCalls);return result
+ }
+ fun recoverHeldObservation(value:SmsObservation):HeldObservationAck {
+  recoveryRequests.add(value);recoveryFailureBeforeCommit?.let{throw it}
+  val prior=recoveryCommitted[value.requestId]
+  if(prior!=null&&prior.first!=value)throw ApiFailure("observation_item_conflict",409)
+  val key=value.sourceKey?:throw ApiFailure("invalid_source",400)
+  if(prior==null&&retainedSources.containsKey(key))throw ApiFailure("observation_item_conflict",409)
+  val source=prior?.second?:"source-${retainedSources.size+1}".also{
+   retainedSources[key]=it;retainedSourceKeys.add(key);recoveryCommitted[value.requestId]=value to it
+  }
+  val action=afterRecovery;afterRecovery=null;action?.invoke();recoveryFailureAfterCommit?.let{throw it}
+  val ack=HeldObservationAck(ObservationAck(value.requestId,source,Values.sha256(value.rawBody),"source_unresolved",0),"held")
+  return recoveryAckOverride?.invoke(ack)?:ack
  }
  fun observationPage(q:String="",cursor:String?=null,limit:Int?=null):Page<ObservationListRow> {
   pageCalls++;pageCursors.add(cursor);val action=afterPage;afterPage=null;action?.invoke();pageFailure?.let{throw it}

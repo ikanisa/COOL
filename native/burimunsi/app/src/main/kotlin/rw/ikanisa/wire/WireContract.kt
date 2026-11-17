@@ -266,11 +266,12 @@ class WireContract(private val product: String, private val version: String,
             }
             if (operation == "staffUpdate" && d["id"] != expected["staffId"]) reject("CONTRACT_IDENTITY")
             if (operation == "replace" && d["requestId"] != expected["commandRequestId"]) reject("CONTRACT_IDENTITY")
-            if (operation == "observation") {
+            if (operation == "observation" || operation == "observationRecoverHeld") {
                 if (!expected.containsKey("commandRequestId") || !expected.containsKey("observationBodySha256") ||
                     d["requestId"] != expected["commandRequestId"] || d["bodySha256"] != expected["observationBodySha256"])
                     reject("CONTRACT_IDENTITY")
                 if (d["status"] != "source_unresolved" || (d["financialEffects"] as? Number)?.toLong() != 0L) reject("CONTRACT_STATE")
+                if (operation == "observationRecoverHeld" && d["autoProcessing"] != "held") reject("CONTRACT_STATE")
             }
             if (operation == "observationConsentSet" &&
                 (!expected.containsKey("consentEnabled") || !expected.containsKey("consentGeneration") ||
@@ -304,8 +305,9 @@ class WireContract(private val product: String, private val version: String,
                     items[i]["sourceKey"]!=requested[i]||(items[i]["state"]=="matched")!=(items[i]["sourceId"]!=null)
                 })reject("CONTRACT_IDENTITY")
             }
-            if(operation=="observationReconcileStatus"&&
+            if(operation in setOf("observationReconcileStatus","observationReconcileVerifiedStatus")&&
                 (d["hasRecorded"]==true)!=((d["recordedCount"] as Number).toLong()>0L))reject("CONTRACT_STATE")
+            if(operation=="observationReconcileVerifiedStatus"&&d["scope"]!="verified_collection")reject("CONTRACT_STATE")
             if (operation == "observationReveal") {
                 if(d["sourceKind"]!="observation"||d["sourceId"]!=expected["recordId"]||
                     d["status"]!="source_unresolved"||(d["financialEffects"] as? Number)?.toLong()!=0L)reject("CONTRACT_IDENTITY")
