@@ -44,7 +44,21 @@ export class SupabaseObjectBucket {
    if(!prior||prior.sourceFingerprint===await sha256(canonical(descriptorFor(enriched))))custom=enriched;
   }
   const descriptor=descriptorFor(custom);
-  const reservation=await this.journal.reservePayload(key,descriptor,value);
+  // Every SMS writer supplies a digest of the actual source body. Only an
+  // original Android inbox time qualifies as an inbox witness; other receipt
+  // times deliberately remain unknown. The private journal binds this before
+  // any Storage network call and preserves the original ciphertext on retry.
+  let smsWitness=null;
+  if(options.scope.purpose==='sms_receipt'){
+   const w=options.smsWitness;
+   if(!w||!/^[a-f0-9]{64}$/.test(w.bodySha256??'')||
+    !(w.collectionId===null||typeof w.collectionId==='string'&&/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/.test(w.collectionId))||
+    !(w.inboxReceivedAt===null||typeof w.inboxReceivedAt==='string'&&Number.isFinite(Date.parse(w.inboxReceivedAt))))
+    throw new ApiError(400,'storage_identity_required','A protected source identity is required.');
+   smsWitness={bodySha256:w.bodySha256,collectionId:w.collectionId,
+    inboxReceivedAt:w.inboxReceivedAt===null?null:new Date(Date.parse(w.inboxReceivedAt)).toISOString()};
+  }
+  const reservation=await this.journal.reservePayload(key,descriptor,value,smsWitness);
   if(reservation.sealedBody===null){const intent=await this.journal.getPutByKey(key);if(!intent||intent.customMetadata.source_fingerprint!==reservation.sourceFingerprint)throw unavailable('storage_reservation');return this.protocol.confirmCommitted(intent);}
   const retainedPlaintext=await decrypt(this.env,reservation.sealedBody,options.aad);if(await digest(retainedPlaintext)!==plain)throw unavailable('storage_plaintext_integrity');
   return this.protocol.put(key,reservation.sealedBody,{scope:options.scope,httpMetadata:options.httpMetadata??{},customMetadata:{...custom,source_fingerprint:reservation.sourceFingerprint}});
@@ -53,6 +67,23 @@ export class SupabaseObjectBucket {
  describe(read){const{meta,observed}=read;return{key:meta.key,size:meta.size,version:observed.etag??meta.sha256,etag:observed.etag??meta.sha256,sha256:meta.sha256,httpMetadata:meta.httpMetadata,customMetadata:meta.customMetadata};}
  async head(key){const r=await this.read(key);return r?this.describe(r):null;}
  async get(key){const r=await this.read(key);if(!r)return null;const bytes=r.observed.bytes;return{...this.describe(r),body:new Blob([bytes]).stream(),text:async()=>new TextDecoder().decode(bytes),arrayBuffer:async()=>bytes.buffer};}
+ // A read-only acknowledgement has already checked its own fenced journal
+ // snapshot. Probe the exact encrypted bytes without namespace INSERTs,
+ // upload reconciliation, or recording a conflict in the durable journal.
+ async getVerifiedReadOnly(key,{sha256:expectedSha,size}={}){return this.checked(async()=>{
+  if(typeof key!=='string'||!/^sms\/[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(key)||
+   !/^[a-f0-9]{64}$/.test(expectedSha??'')||!Number.isSafeInteger(size)||size<1||size>524288)
+   throw new ApiError(400,'storage_identity_required','A protected source identity is required.');
+  if(this.transport?.url!==this.namespace?.origin||this.transport?.bucket!==this.namespace?.bucket)
+   throw unavailable('storage_readonly_namespace');
+  const observed=await this.transport.probe(key,{maxBytes:524288});
+  try{
+   if(observed?.headStatus!==200||observed?.getStatus!==200||observed.bucketVerified!==true||
+    !(observed.bytes instanceof Uint8Array)||observed.bytes.length!==size||await sha256(observed.bytes)!==expectedSha)
+    throw unavailable('storage_readonly_proof');
+   return new Uint8Array(observed.bytes);
+  }finally{observed?.bytes?.fill?.(0);}
+ });}
  // Retention sees a distinct pending-absence observation, never a successful
  // download or an erasure receipt. Ordinary get/head remain strict and unchanged.
  async observeRetention(key){return this.checked(async()=>{

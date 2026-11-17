@@ -1,17 +1,18 @@
 import {readNativeBody,discardNativeBody,requireActiveNativeRequest,nativeRequestErrorStatus,MAX_NATIVE_REQUEST_BYTES,MAX_NATIVE_BATCH_REQUEST_BYTES,MAX_NATIVE_PREVIEW_REQUEST_BYTES} from './wire/request-boundary.mjs';
 import {ContractViolation,CONTRACT_VERSION,parseWire,contractRoute,requestBinding,validateNativeRequest,bindNativeResponse,validateNativeQuery} from './wire/native-contract.mjs';
 import {BuriError,ObservationUploadUnresolved,requirePort,requireThat} from './errors.js';
-import {exactKeys,requireId,requireRequestId} from './values.js';
+import {exactKeys,requireId,requireRequestId,sha256} from './values.js';
 import {LISTING_QUERY_KEYS} from './listing-query.js';
 /** Candidate native API adapter; attach only to an admitted Collect Edge request.
  * Do not replace the current router or bypass its application fence.
  * Origin/networkBucket are server-owned deployment inputs, not forwarded client claims.
  */
-export function createNativeHandler({auth,records,contributions,members,gateway,observations=null,cursor=null,origin,networkBucket,strictContract=false,groupId,requestReadTimeoutMs=15000}) {
+export function createNativeHandler({auth,records,contributions,members,gateway,observations=null,cursor=null,origin,networkBucket,strictContract=false,groupId,requestReadTimeoutMs=15000,heldRecoveryEnabled=false}) {
   requirePort(auth,['login','authenticate','logout','changePasscode','manageStaff']);
   requirePort(records,['home','page','detail','exportLedger','commandStatus']);
   requirePort(contributions,['allocate']);requirePort(members,['enroll','setActive']);
   requirePort(gateway,['status','replace']);
+  requireThat(typeof heldRecoveryEnabled==='boolean','held_recovery_configuration_invalid',503);
   requireThat(typeof networkBucket==='function','trusted_network_resolver_required',503);
   const configured=new URL(origin);requireThat(configured.protocol==='https:'&&configured.origin===origin,'tls_origin_required',503);
   if(strictContract)requireId(groupId);
@@ -121,6 +122,19 @@ export function createNativeHandler({auth,records,contributions,members,gateway,
         requirePort(observations,['observe']);return json(await observations.observe(actor,await body(req,
           ['requestId','rawSender','rawBody','sourceMode','complete','capturedAt','serviceCentreAt','inboxReceivedAt','subscriptionId'])));
       }
+      if(route==='/sms/observations/recover-held'&&method==='POST'){
+        requireThat(heldRecoveryEnabled===true,'not_found',404);
+        requirePort(observations,['recoverHeld']);return json(await observations.recoverHeld(actor,await body(req,
+          ['requestId','rawSender','rawBody','sourceMode','complete','capturedAt','serviceCentreAt','inboxReceivedAt','subscriptionId','sourceKey'])));
+      }
+      if(route==='/sms/observations/recover-held-ack'&&method==='POST'){
+        requireThat(heldRecoveryEnabled===true,'not_found',404);
+        requirePort(observations,['recoverHeldAck']);const input=await body(req,
+          ['requestId','rawSender','rawBody','sourceMode','complete','capturedAt','serviceCentreAt','inboxReceivedAt','subscriptionId','sourceKey']);
+        const result=await observations.recoverHeldAck(actor,input);
+        requireThat(result?.bodySha256===await sha256(input.rawBody),'contract_invalid_response',503);
+        return json(result);
+      }
       if(route==='/sms/observations'&&method==='GET'){
         requirePort(observations,['page']);
         requireThat([...url.searchParams.keys()].every(k=>['q','filter','limit','cursor','sort','fromAt','untilAt'].includes(k))&&
@@ -144,7 +158,14 @@ export function createNativeHandler({auth,records,contributions,members,gateway,
       }
       if(route==='/sms/observations/reconcile-status'&&method==='GET'){
         requirePort(observations,['reconcileStatus']);
-        return json(await observations.reconcileStatus(actor));
+        // v47 cannot express verified-collection scope. Keep its established
+        // response shape while withholding a universal confirmation.
+        return json({...await observations.reconcileStatus(actor),hasPending:true});
+      }
+      if(route==='/sms/observations/reconcile-verified-status'&&method==='GET'){
+        requireThat(heldRecoveryEnabled===true,'not_found',404);
+        requirePort(observations,['reconcileVerifiedStatus']);
+        return json(await observations.reconcileVerifiedStatus(actor));
       }
       const observedRetry=/^\/sms\/observations\/([A-Za-z0-9_-]+)\/retry$/.exec(route);
       if(observedRetry&&method==='POST'){

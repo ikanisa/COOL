@@ -1,5 +1,54 @@
 import assert from 'node:assert/strict';
-import {parseManagedReadiness,verifyNativeBudget} from './managed-jobs-operator.mjs';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {parseManagedReadiness,verifyNativeBudget,schedulerGuardDigests} from './managed-jobs-operator.mjs';
+const migration=readFileSync(new URL('../../../supabase/migrations/20261117210000_burimunsi_held_recovery.sql',import.meta.url));
+const migrationDigest=createHash('sha256').update(migration).digest('hex');
+const baselineGuards=schedulerGuardDigests(null,null),heldGuards=schedulerGuardDigests(migrationDigest,migrationDigest);
+assert.notEqual(heldGuards['private.burimunsi_auto_snapshot(text)'],baselineGuards['private.burimunsi_auto_snapshot(text)']);
+assert(heldGuards['private.collect_sms_recovery_held(text)']);
+assert.throws(()=>schedulerGuardDigests(migrationDigest,'0'.repeat(64)));
+assert.throws(()=>schedulerGuardDigests('0'.repeat(64),migrationDigest));
+assert.throws(()=>schedulerGuardDigests(undefined,migrationDigest));
+const digest=body=>createHash('sha256').update(body).digest('hex');
+const loadMigration=name=>readFileSync(new URL('../../../supabase/migrations/'+name,import.meta.url),'utf8');
+const imported=loadMigration('20261117071343_collect_burimunsi_import_lineage_guard.sql'),held=migration.toString('utf8');
+const sourceBody=(source,name)=>{
+ const start=source.indexOf('CREATE FUNCTION private.'+name+'('),open=source.indexOf('$fn$',start),close=source.indexOf('$fn$;',open+4);
+ assert(start>=0&&open>=0&&close>=0);return source.slice(open+4,close);
+};
+for(const [name,file,signature] of [
+ ['burimunsi_auto_snapshot','20261112200100_burimunsi_native_auto_transactions.sql','private.burimunsi_auto_snapshot(text)'],
+ ['burimunsi_auto_candidates','20261112200100_burimunsi_native_auto_transactions.sql','private.burimunsi_auto_candidates(text)'],
+ ['burimunsi_native_work_candidates','20261113130300_burimunsi_native_financial_work.sql','private.burimunsi_native_work_candidates(uuid,integer)'],
+ ['burimunsi_native_sms_post_candidates','20261113130900_burimunsi_native_sms_posting.sql','private.burimunsi_native_sms_post_candidates(integer)']
+]){
+ let body=sourceBody(loadMigration(file),name);
+ const pre=new RegExp(`\\('private\\.${name}\\([^']*\\)',\\s*\\$old\\$([\\s\\S]*?)\\$old\\$,\\s*\\$new\\$([\\s\\S]*?)\\$new\\$\\)`).exec(imported);
+ const post=new RegExp(`\\('private\\.${name}\\([^']*\\)','([a-f0-9]+)',\\s*\\$old\\$([\\s\\S]*?)\\$old\\$,\\s*\\$new\\$([\\s\\S]*?)\\$new\\$\\)`).exec(held);
+ assert(pre&&post);assert.equal(body.split(pre[1]).length,2);body=body.replace(pre[1],pre[2]);
+ assert.equal(digest(body),baselineGuards[signature]);assert.equal(digest(body),post[1]);
+ assert.equal(body.split(post[2]).length,2);body=body.replace(post[2],post[3]);
+ assert.equal(digest(body),heldGuards[signature]);
+}
+for(const [name,signature] of [
+ ['collect_sms_held_source_guard','private.collect_sms_held_source_guard()'],
+ ['collect_sms_recovery_held','private.collect_sms_recovery_held(text)'],
+ ['collect_sms_recovery_work_guard','private.collect_sms_recovery_work_guard()'],
+ ['collect_sms_recovery_raw_work_guard','private.collect_sms_recovery_raw_work_guard()'],
+ ['collect_sms_witness_reserve','private.collect_sms_witness_reserve(text,text,text,text,text,text,timestamptz,text)'],
+ ['burimunsi_sms_recovery_hold','private.burimunsi_sms_recovery_hold(text,uuid,text,text,timestamptz)'],
+ ['burimunsi_sms_recovery_ack_snapshot','private.burimunsi_sms_recovery_ack_snapshot(text,uuid,text,text,text,text,timestamptz)'],
+ ['burimunsi_observation_reconcile_verified_status','private.burimunsi_observation_reconcile_verified_status()']
+])assert.equal(digest(sourceBody(held,name)),heldGuards[signature]);
+assert.equal(digest(sourceBody(loadMigration('20261117180000_burimunsi_observation_reconcile_status.sql'),
+ 'burimunsi_observation_reconcile_status')),heldGuards['private.burimunsi_observation_reconcile_status()']);
+for(const [name,signature] of [
+ ['burimunsi_observation_actor','private.burimunsi_observation_actor(boolean)'],
+ ['burimunsi_observation_consent_current','private.burimunsi_observation_consent_current()'],
+ ['burimunsi_observation_own','private.burimunsi_observation_own(text,boolean)'],
+ ['burimunsi_observation_lookup','private.burimunsi_observation_lookup(uuid,text)']
+])assert.equal(digest(sourceBody(loadMigration('20261111121000_burimunsi_private_observations.sql'),name)),heldGuards[signature]);
 const now=Date.now(),base={format:'collect.jobs.readiness.v1',project_ref:'rrlduytparvsjfmegalh',endpoint:'https://rrlduytparvsjfmegalh.supabase.co/functions/v1/collect-jobs',
  deployment_sha256:'1'.repeat(64),runtime_evidence_sha256:'2'.repeat(64),token_custody_evidence_sha256:'3'.repeat(64),copy_inventory_evidence_sha256:'4'.repeat(64),quota_evidence_sha256:'5'.repeat(64),
  verified_at:new Date(now).toISOString(),momo_processing_paused:true,remaining_invocations:50000};

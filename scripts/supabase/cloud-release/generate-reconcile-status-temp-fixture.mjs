@@ -2,12 +2,22 @@
 // synthetic rows; it neither reads nor locks application tables. Run in a
 // disposable session. This checks PostgreSQL execution, not production RLS.
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 const migration=new URL('../../../supabase/migrations/20261117180000_burimunsi_observation_reconcile_status.sql',import.meta.url);
 const text=readFileSync(migration,'utf8');
 const start=text.indexOf('CREATE FUNCTION private.burimunsi_observation_reconcile_status()');
 const end=text.indexOf('$fn$;',text.indexOf('$fn$',start)+4);
 if(start<0||end<0)throw Error('fixture_source_not_found');
-const fn=text.slice(start,end+5).replaceAll('private.','pg_temp.').replaceAll('app.sms_receipts','pg_temp.sms_receipts');
+const recovery=readFileSync(new URL('../../../supabase/migrations/20261117210000_burimunsi_held_recovery.sql',import.meta.url),'utf8');
+const vstart=recovery.indexOf('CREATE FUNCTION private.burimunsi_observation_reconcile_verified_status()');
+const vend=recovery.indexOf('$fn$;',recovery.indexOf('$fn$',vstart)+4);
+if(vstart<0||vend<0||recovery.includes('CREATE OR REPLACE FUNCTION private.burimunsi_observation_reconcile_status()')||
+ recovery.includes('DO $patch_status$'))throw Error('fixture_status_separation_changed');
+const body=text.slice(text.indexOf('$fn$',start)+4,end);
+if(createHash('sha256').update(body).digest('hex')!=='dbc081cd16057fb2bf07da3514aab3b3afe4e7d35427651bd8187da0e809c30e')throw Error('fixture_legacy_predecessor_changed');
+const rewrite=s=>s.replaceAll('private.','pg_temp.').replaceAll('app.sms_receipts','pg_temp.sms_receipts');
+const fn=rewrite(text.slice(start,end+5));
+const verified=rewrite(recovery.slice(vstart,vend+5));
 const limited=fn.replace('pg_temp.burimunsi_observation_reconcile_status()',
  'pg_temp.burimunsi_observation_reconcile_status_small()').replaceAll('LIMIT 100001','LIMIT 3').replaceAll('>100000','>2');
 console.log(String.raw`
@@ -24,6 +34,7 @@ CREATE TEMP TABLE storage_payload_reservations(object_key text PRIMARY KEY,scope
 CREATE TEMP TABLE storage_delete_intents(object_key text PRIMARY KEY,state text);
 CREATE TEMP TABLE burimunsi_sms_source_scopes(source_id text PRIMARY KEY,collection_id text,owner_user_id text,source_body_sha256 text,object_sha256 text);
 CREATE TEMP TABLE sms_receipts(id text PRIMARY KEY,owner_user_id text,body_sha256 text,object_sha256 text,object_key text);
+CREATE TEMP TABLE collect_sms_witnesses(object_key text PRIMARY KEY,collection_id text,owner_id text,body_sha256 text);
 CREATE FUNCTION pg_temp.burimunsi_observation_actor(boolean) RETURNS jsonb LANGUAGE plpgsql AS $a$
 BEGIN
  IF current_setting('fixture.authorized',true) IS DISTINCT FROM 'yes' THEN RAISE EXCEPTION 'denied' USING ERRCODE='42501';END IF;
@@ -42,14 +53,14 @@ CREATE FUNCTION pg_temp.burimunsi_observation_storage_matches(p_key text,p_scope
    AND NOT EXISTS(SELECT 1 FROM pg_temp.storage_delete_intents d WHERE d.object_key=r.object_key))
 $a$;
 `);
-console.log(fn);console.log(limited);
+console.log(fn);console.log(verified);console.log(limited);
 console.log(String.raw`
 SELECT set_config('fixture.authorized','yes',true),set_config('fixture.consent','yes',true),
  set_config('fixture.collection','group-a',true),set_config('burimunsi.collection_id','group-a',true);
 DO $test$
-DECLARE v jsonb;base text;prior text;
+DECLARE v jsonb;legacy jsonb;base text;prior text;
 BEGIN
- v:=pg_temp.burimunsi_observation_reconcile_status();
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
  IF v->>'groupId'<>'group-a' OR (v->>'hasPending')::boolean OR (v->>'hasRecorded')::boolean
   OR (v->>'recordedCount')::integer<>0 OR (v->>'hasUnmatchedCanonical')::boolean OR length(v->>'revision')<>64
   THEN RAISE EXCEPTION 'empty status incorrect';END IF;
@@ -57,11 +68,11 @@ BEGIN
  INSERT INTO pg_temp.burimunsi_observation_requests VALUES('other','group-b','00000000-0000-4000-8000-000000000001','other-user',
   '00000000-0000-4000-8000-000000000002','00000000-0000-4000-8000-000000000003',1,
   '00000000-0000-4000-8000-000000000004',repeat('f',64),NULL);
- IF pg_temp.burimunsi_observation_reconcile_status()->>'revision'<>base THEN RAISE EXCEPTION 'foreign collection leaked';END IF;
+ IF pg_temp.burimunsi_observation_reconcile_verified_status()->>'revision'<>base THEN RAISE EXCEPTION 'foreign collection leaked';END IF;
  INSERT INTO pg_temp.burimunsi_observation_requests VALUES('source-a','group-a','10000000-0000-4000-8000-000000000001','synthetic-owner',
   '20000000-0000-4000-8000-000000000001','30000000-0000-4000-8000-000000000001',1,
   '40000000-0000-4000-8000-000000000001',repeat('f',64),NULL);
- v:=pg_temp.burimunsi_observation_reconcile_status();
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
  IF NOT (v->>'hasPending')::boolean OR (v->>'recordedCount')::integer<>0 OR v->>'revision'=base
   THEN RAISE EXCEPTION 'pending source omitted';END IF;
  INSERT INTO pg_temp.burimunsi_unresolved_observations SELECT source_id,collection_id,account_id,principal_user_id,
@@ -74,32 +85,74 @@ BEGIN
  INSERT INTO pg_temp.storage_objects SELECT object_key,operation_id,scope,sha256,size,http_metadata,custom_metadata FROM pg_temp.storage_put_intents;
  INSERT INTO pg_temp.storage_payload_reservations SELECT object_key,scope,'sms:source-a:'||repeat('c',64),repeat('c',64),
   'synthetic-key',repeat('e',64),NULL,clock_timestamp() FROM pg_temp.storage_put_intents;
- v:=pg_temp.burimunsi_observation_reconcile_status();
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
  IF (v->>'hasPending')::boolean OR NOT (v->>'hasRecorded')::boolean OR (v->>'recordedCount')::integer<>1
   THEN RAISE EXCEPTION 'retained source omitted';END IF;
+ -- The deployed legacy SQL must remain byte-for-byte unchanged and must not
+ -- silently acquire the verified endpoint's witness-only semantics.
+ legacy:=pg_temp.burimunsi_observation_reconcile_status();
+ INSERT INTO pg_temp.collect_sms_witnesses VALUES('sms/same-group-pending','group-a','synthetic-owner',repeat('4',64));
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
+ IF NOT (v->>'hasPending')::boolean OR pg_temp.burimunsi_observation_reconcile_status() IS DISTINCT FROM legacy
+  THEN RAISE EXCEPTION 'verified witness affected deployed legacy function';END IF;
+ DELETE FROM pg_temp.collect_sms_witnesses WHERE object_key='sms/same-group-pending';
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
  prior:=v->>'revision';
  UPDATE pg_temp.storage_payload_reservations SET key_id='changed';
- BEGIN PERFORM pg_temp.burimunsi_observation_reconcile_status();RAISE EXCEPTION 'invalid custody accepted';
+ BEGIN PERFORM pg_temp.burimunsi_observation_reconcile_verified_status();RAISE EXCEPTION 'invalid custody accepted';
  EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
  UPDATE pg_temp.storage_payload_reservations SET key_id='synthetic-key',cleared_at=clock_timestamp();
- v:=pg_temp.burimunsi_observation_reconcile_status();IF v->>'revision'=prior THEN RAISE EXCEPTION 'custody revision unchanged';END IF;
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();IF v->>'revision'=prior THEN RAISE EXCEPTION 'custody revision unchanged';END IF;
  UPDATE pg_temp.burimunsi_unresolved_observations SET collection_id='group-b';
- BEGIN PERFORM pg_temp.burimunsi_observation_reconcile_status();RAISE EXCEPTION 'cross-scope source accepted';
+ BEGIN PERFORM pg_temp.burimunsi_observation_reconcile_verified_status();RAISE EXCEPTION 'cross-scope source accepted';
  EXCEPTION WHEN SQLSTATE '55000' THEN NULL;END;
  UPDATE pg_temp.burimunsi_unresolved_observations SET collection_id='group-a';
  INSERT INTO pg_temp.sms_receipts VALUES('source-a','synthetic-owner',repeat('b',64),repeat('c',64),'sms/source-a');
  INSERT INTO pg_temp.burimunsi_sms_source_scopes VALUES('source-a','group-a','synthetic-owner',repeat('b',64),repeat('c',64));
- v:=pg_temp.burimunsi_observation_reconcile_status();
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
  IF (v->>'hasUnmatchedCanonical')::boolean OR (v->>'recordedCount')::integer<>1
   THEN RAISE EXCEPTION 'same-source canonical counted separately';END IF;
+ -- A receipt in another group, even with the same body digest, must not
+ -- change this group's status or reveal its existence. A newly verified
+ -- separate source in this group must change the revision and remain unmatched.
+ prior:=v->>'revision';
+ INSERT INTO pg_temp.collect_sms_witnesses VALUES('sms/foreign-witness','group-b','other-owner',repeat('b',64));
+ INSERT INTO pg_temp.collect_sms_witnesses VALUES('sms/unscoped-witness',NULL,'other-owner',repeat('b',64));
+ INSERT INTO pg_temp.sms_receipts VALUES('unscoped-source','other-owner',repeat('b',64),repeat('8',64),'sms/unscoped-source');
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
+ IF (v->>'hasUnmatchedCanonical')::boolean OR v->>'revision'<>prior
+  THEN RAISE EXCEPTION 'foreign witness or unscoped source affected group';END IF;
+ INSERT INTO pg_temp.burimunsi_sms_source_scopes VALUES('unscoped-source','group-a','other-owner',repeat('b',64),repeat('8',64));
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
+ IF NOT (v->>'hasUnmatchedCanonical')::boolean OR v->>'revision'=prior
+  THEN RAISE EXCEPTION 'later verified association did not invalidate reconciliation';END IF;
+ DELETE FROM pg_temp.burimunsi_sms_source_scopes WHERE source_id='unscoped-source';
+ DELETE FROM pg_temp.sms_receipts WHERE id='unscoped-source';
+ INSERT INTO pg_temp.sms_receipts VALUES('foreign-same-body','other-owner',repeat('b',64),repeat('8',64),'sms/foreign-same-body');
+ INSERT INTO pg_temp.burimunsi_sms_source_scopes VALUES('foreign-same-body','group-b','other-owner',repeat('b',64),repeat('8',64));
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
+ IF (v->>'hasUnmatchedCanonical')::boolean OR v->>'revision'<>prior
+  THEN RAISE EXCEPTION 'foreign same-body association affected group';END IF;
+ INSERT INTO pg_temp.sms_receipts VALUES('new-scoped-source','synthetic-owner',repeat('b',64),repeat('7',64),'sms/new-scoped-source');
+ INSERT INTO pg_temp.burimunsi_sms_source_scopes VALUES('new-scoped-source','group-a','synthetic-owner',repeat('b',64),repeat('7',64));
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
+ IF NOT (v->>'hasUnmatchedCanonical')::boolean OR v->>'revision'=prior
+  THEN RAISE EXCEPTION 'new same-group association was not detected';END IF;
+ DELETE FROM pg_temp.burimunsi_sms_source_scopes WHERE source_id='new-scoped-source';
+ DELETE FROM pg_temp.sms_receipts WHERE id='new-scoped-source';
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
+ IF (v->>'hasUnmatchedCanonical')::boolean OR v->>'revision'<>prior
+  THEN RAISE EXCEPTION 'association fixture state not restored';END IF;
  prior:=v->>'revision';UPDATE pg_temp.sms_receipts SET body_sha256=repeat('9',64) WHERE id='source-a';
- v:=pg_temp.burimunsi_observation_reconcile_status();
+ v:=pg_temp.burimunsi_observation_reconcile_verified_status();
  IF NOT (v->>'hasUnmatchedCanonical')::boolean OR v->>'revision'=prior THEN RAISE EXCEPTION 'unmatched canonical missed';END IF;
  PERFORM set_config('fixture.consent','no',true);
- BEGIN PERFORM pg_temp.burimunsi_observation_reconcile_status();RAISE EXCEPTION 'disabled consent accepted';
+ BEGIN PERFORM pg_temp.burimunsi_observation_reconcile_verified_status();RAISE EXCEPTION 'disabled consent accepted';
+ EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+ BEGIN PERFORM pg_temp.burimunsi_observation_reconcile_status();RAISE EXCEPTION 'legacy disabled consent accepted';
  EXCEPTION WHEN insufficient_privilege THEN NULL;END;
  PERFORM set_config('fixture.consent','yes',true);PERFORM set_config('fixture.authorized','no',true);
- BEGIN PERFORM pg_temp.burimunsi_observation_reconcile_status();RAISE EXCEPTION 'unauthorized actor accepted';
+ BEGIN PERFORM pg_temp.burimunsi_observation_reconcile_verified_status();RAISE EXCEPTION 'unauthorized actor accepted';
  EXCEPTION WHEN insufficient_privilege THEN NULL;END;
  PERFORM set_config('fixture.authorized','yes',true);
  INSERT INTO pg_temp.burimunsi_observation_requests SELECT 'pending-'||n,'group-a',account_id,principal_user_id,
@@ -134,7 +187,7 @@ INSERT INTO pg_temp.storage_payload_reservations
 DO $bench$
 DECLARE at_time timestamptz;value jsonb;elapsed_ms numeric;
 BEGIN
- at_time:=clock_timestamp();value:=pg_temp.burimunsi_observation_reconcile_status();
+ at_time:=clock_timestamp();value:=pg_temp.burimunsi_observation_reconcile_verified_status();
  elapsed_ms:=extract(epoch FROM (clock_timestamp()-at_time))*1000;
  IF (value->>'recordedCount')::integer<>1001 THEN RAISE EXCEPTION 'synthetic benchmark source count incorrect';END IF;
  RAISE NOTICE 'synthetic 1001 retained sources: database function % ms',round(elapsed_ms,2);

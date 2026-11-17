@@ -97,6 +97,12 @@ export async function observationContentFingerprint(value,bodySha){
  return sha256(canonicalJson({rawSender:value.rawSender,bodySha256:bodySha,serviceCentreAt:value.serviceCentreAt,
   inboxReceivedAt:value.inboxReceivedAt,subscriptionId:value.subscriptionId}));
 }
+async function observationRequestFingerprint(groupId,actor,value,bodySha){
+ return sha256(canonicalJson({groupId,accountId:actor.id,installationId:actor.installationId,
+  requestId:value.requestId,bodySha256:bodySha,rawSender:value.rawSender,sourceMode:value.sourceMode,complete:value.complete,
+  capturedAt:value.capturedAt,serviceCentreAt:value.serviceCentreAt,inboxReceivedAt:value.inboxReceivedAt,subscriptionId:value.subscriptionId,
+  ...(value.sourceKey?{sourceKey:value.sourceKey}:{})}));
+}
 function validateReconcileInput(input){
  exactKeys(input,RECONCILE_KEYS);const value=copy(input);
  check(HASH.test(value.sourceKey??'')&&HASH.test(value.bodySha256??'')&&
@@ -342,23 +348,31 @@ export class PostgresNativeObservations {
    for(const proof of legacy.values())if(proof.binding)this.storageWitnesses.forget(proof.binding);
   }
  }
- /** Collection-wide metadata only; actor and consent are current in the same
-  * repeatable-read transaction as the underlying reservation snapshot. */
- async reconcileStatus(actor){
+ /** Actor and consent are checked in the same repeatable-read snapshot. */
+ async statusSnapshot(actor,verified){
   try{
    const result=await this.authority.read(async tx=>{
     await this.context(tx,actor);
-    const rows=await tx.unsafe('SELECT private.burimunsi_observation_reconcile_status() AS result');
+    const query=verified?'SELECT private.burimunsi_observation_reconcile_verified_status() AS result':
+     'SELECT private.burimunsi_observation_reconcile_status() AS result';
+    const rows=await tx.unsafe(query);
     check(rows.length===1);const value=rows[0].result;
     check(value&&value.groupId===this.groupId&&typeof value.hasPending==='boolean'&&
      typeof value.hasRecorded==='boolean'&&typeof value.hasUnmatchedCanonical==='boolean'&&
      Number.isSafeInteger(value.recordedCount)&&value.recordedCount>=0&&value.recordedCount<=100000&&
      value.hasRecorded===(value.recordedCount>0)&&HASH.test(value.revision??''));
-    return {groupId:this.groupId,hasPending:value.hasPending,hasRecorded:value.hasRecorded,
+    // v47 has no scope field and cannot distinguish unscoped receipt evidence.
+    // Keep its strict wire shape but never signal universal confirmation.
+    return {groupId:this.groupId,hasPending:verified?value.hasPending:true,hasRecorded:value.hasRecorded,
      recordedCount:value.recordedCount,hasUnmatchedCanonical:value.hasUnmatchedCanonical,revision:value.revision};
    });
    await this.authority.assertOwned();return result;
   }catch(error){throw mapped(error);}
+ }
+ async reconcileStatus(actor){return this.statusSnapshot(actor,false);}
+ // This opt-in status only covers verified collection records.
+ async reconcileVerifiedStatus(actor){
+  return {...await this.statusSnapshot(actor,true),scope:'verified_collection'};
  }
  async setConsent(actor,value){
   exactKeys(value,['enabled','generation']);check(typeof value.enabled==='boolean'&&Number.isSafeInteger(value.generation)&&value.generation>=1,'invalid_request',400);
@@ -387,7 +401,7 @@ export class PostgresNativeObservations {
   await this.current(tx,actor);const r=await tx.unsafe('SELECT private.burimunsi_observation_lookup($1::uuid,$2) AS result',[requestId,fingerprint]);
   check(r.length===1);return r[0].result===null?null:row(r[0].result);
  }
- async prepare(actor,value,fingerprint,id,initial,contentSha,bodySha){
+ async prepare(actor,value,fingerprint,id,initial,contentSha,bodySha,recovery=false){
   return this.authority.write(async tx=>{
    await this.current(tx,actor);
    const result=value.sourceKey?await tx.unsafe('SELECT private.burimunsi_observation_key_prepare($1,$2,$3,$4::uuid,$5,$6,$7,$8,$9::bigint) AS result',
@@ -404,6 +418,15 @@ export class PostgresNativeObservations {
     prepared.profile_sha256===initial.ctx.profile_sha256&&prepared.profile_tuple_sha256===initial.ctx.profile_tuple_sha256&&
     int(prepared.consentGeneration,1)===initial.ctx.consentGeneration&&
     same(approvedProfile(prepared,this.validateProviderProfile),initial.profile),'observation_changed',409);
+   {
+    // This reservation shares the exact transaction with the native request;
+    // a Storage or gateway collision rolls both back without a pending orphan.
+    const witness=await tx.unsafe('SELECT private.collect_sms_witness_reserve($1,$2,$3,$4,$5,$6,$7::timestamptz,$8) AS result',
+     [recovery?'recovery':'native','sms/'+id,actor.principalUserId,this.groupId,fingerprint,bodySha,value.inboxReceivedAt,null]);
+    check(witness.length===1&&typeof witness[0].result==='boolean');
+    if(recovery){const hold=await tx.unsafe('SELECT private.burimunsi_sms_recovery_hold($1,$2::uuid,$3,$4,$5::timestamptz) AS result',
+     [id,value.requestId,fingerprint,bodySha,value.inboxReceivedAt]);check(hold.length===1&&hold[0].result===true);}
+   }
    return {kind:'new'};
   });
  }
@@ -572,27 +595,94 @@ export class PostgresNativeObservations {
    throw new BuriError('observation_unavailable',503);
   throw original;
  }
- async observe(actor,input){
+ async recoverHeld(actor,input){return this.observe(actor,input,{recovery:true});}
+ async recoveryAckProof(tx,actor,value,fingerprint,id,contentSha,bodySha){
+  const {ctx}=await this.context(tx,actor);
+  const rows=await tx.unsafe('SELECT private.burimunsi_sms_recovery_ack_snapshot($1,$2::uuid,$3,$4,$5,$6,$7::timestamptz) AS result',
+   [id,value.requestId,fingerprint,value.sourceKey,contentSha,bodySha,value.inboxReceivedAt]);
+  check(rows.length===1);const proof=rows[0].result;
+  if(proof===null)return {ctx,proof:null};
+  const record=row(proof.record),p=proof.put,m=proof.metadata,r=proof.reservation;
+  check(record.id===id&&record.requestId===value.requestId&&record.fingerprint===fingerprint&&record.bodySha256===bodySha&&
+   record.principalUserId===actor.principalUserId&&record.sessionId===actor.sessionId&&record.consentGeneration===ctx.consentGeneration&&
+   proof.namespace&&same(proof.namespace,this.custody.namespace)&&same(proof.namespace,this.env.PRIVATE_MEDIA.namespace));
+  const key='sms/'+id,scope={ownerId:actor.principalUserId,purpose:'sms_receipt',entityId:id},
+   aad=`sms:${id}:${record.object_sha256}`,keyId=r?.key_id;
+  check(p&&m&&r&&p.object_key===key&&m.object_key===key&&r.object_key===key&&
+   p.state==='committed'&&p.active_attempt===null&&p.upload_unresolved===false&&p.delete_tombstone===false&&
+   p.operation_id===m.operation_id&&p.fingerprint===m.fingerprint&&p.sha256===m.sha256&&HASH.test(p.sha256??'')&&
+   int(p.size,1,524288)===int(m.size,1,524288)&&same(p.scope,scope)&&same(m.scope,scope)&&same(r.scope,scope)&&
+   same(p.http_metadata,m.http_metadata)&&same(p.custom_metadata,m.custom_metadata)&&
+   typeof keyId==='string'&&/^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/.test(keyId)&&r.aad===aad&&
+   r.plaintext_sha256===record.object_sha256&&HASH.test(r.source_fingerprint??''));
+  const descriptor={scope,aad,keyId,plaintextSha256:record.object_sha256,requestDigest:fingerprint,
+   httpMetadata:{contentType:'application/octet-stream'},customMetadata:{sha256:record.object_sha256,key_id:keyId}};
+  const sourceFingerprint=await sha256(canonicalJson(descriptor)),customMetadata={...descriptor.customMetadata,source_fingerprint:sourceFingerprint},
+   objectDescriptor={key,size:int(p.size,1,524288),sha256:p.sha256,scope,httpMetadata:descriptor.httpMetadata,customMetadata};
+  check(r.source_fingerprint===sourceFingerprint&&same(p.http_metadata,descriptor.httpMetadata)&&same(p.custom_metadata,customMetadata)&&
+   p.operation_id===await sha256('collect.storage.put.v1\n'+key)&&p.fingerprint===await sha256(canonicalJson(objectDescriptor))&&
+   ((proof.reservationCipherSha256===null&&proof.reservationCipherSize===null)||
+    (proof.reservationCipherSha256===p.sha256&&int(proof.reservationCipherSize,1,524288)===int(p.size,1,524288))));
+  return {ctx,proof,record};
+ }
+ // Acknowledgement only: no prepare, reservation, PUT, commit or financial work.
+ async recoverHeldAck(actor,input){
+  const value=validateInput(input),bodySha=await sha256(value.rawBody);
+  check(value.sourceMode==='catch_up'&&value.complete===false&&HASH.test(value.sourceKey??'')&&value.inboxReceivedAt!==null,'invalid_request',400);
+  const fingerprint=await observationRequestFingerprint(this.groupId,actor,value,bodySha),
+   contentSha=await observationContentFingerprint(value,bodySha),id=await storageEntity('burimunsi.native.observation.v1',actor.principalUserId,value.requestId),
+   base={requestId:value.requestId,sourceKey:value.sourceKey,bodySha256:bodySha,financialEffects:0,retryAllowed:false};
+  let bytes;
+  try{
+   const initial=await this.authority.read(tx=>this.recoveryAckProof(tx,actor,value,fingerprint,id,contentSha,bodySha));
+   if(initial.proof===null){await this.authority.assertOwned();return {...base,state:'unconfirmed',sourceId:null,autoProcessing:'unknown'};}
+   requirePort(this.env.PRIVATE_MEDIA,['getVerifiedReadOnly']);
+   const encrypted=await this.env.PRIVATE_MEDIA.getVerifiedReadOnly('sms/'+id,
+    {sha256:initial.proof.put.sha256,size:int(initial.proof.put.size,1,524288)});
+   try{await this.authority.assertOwned();bytes=await this.custody.decrypt(new TextDecoder('utf-8',{fatal:true}).decode(encrypted),target(initial.record).aad);}
+   finally{encrypted?.fill?.(0);}
+   check(bytes instanceof Uint8Array&&bytes.length===initial.record.size_bytes&&await digest(bytes)===initial.record.object_sha256&&
+    same(JSON.parse(DECODER.decode(bytes)),payloadFor(value)),'observation_changed',409);
+   const final=await this.authority.read(tx=>this.recoveryAckProof(tx,actor,value,fingerprint,id,contentSha,bodySha));
+   check(final.proof&&same(final.ctx,initial.ctx)&&same(final.proof,initial.proof),'observation_changed',409);
+   await this.authority.assertOwned();
+   return {...base,state:'acknowledged',sourceId:id,autoProcessing:'held'};
+  }catch(error){throw mapped(error);}
+  finally{bytes?.fill(0);}
+ }
+ async verifyRecoveryHold(actor,value,fingerprint,id,bodySha){
+  return this.authority.write(async tx=>{await this.current(tx,actor);
+   const rows=await tx.unsafe('SELECT private.burimunsi_sms_recovery_hold($1,$2::uuid,$3,$4,$5::timestamptz) AS result',
+    [id,value.requestId,fingerprint,bodySha,value.inboxReceivedAt]);
+   check(rows.length===1&&rows[0].result===true,'observation_changed',409);return true;
+  });
+ }
+ async observe(actor,input,{recovery=false}={}){
   const value=validateInput(input),bodySha=await sha256(value.rawBody),payload=payloadFor(value),
    contentSha=value.sourceKey?await observationContentFingerprint(value,bodySha):null;
+  if(recovery)check(value.sourceMode==='catch_up'&&value.complete===false&&HASH.test(value.sourceKey??'')&&
+   value.inboxReceivedAt!==null,'invalid_request',400);
   // This identity is stable across a short-lease renewal, but cannot move to a
   // different native account, installation, group, source, or SMS bytes.
-  const fingerprint=await sha256(canonicalJson({groupId:this.groupId,accountId:actor.id,installationId:actor.installationId,
-   requestId:value.requestId,bodySha256:bodySha,rawSender:value.rawSender,sourceMode:value.sourceMode,complete:value.complete,
-   capturedAt:value.capturedAt,serviceCentreAt:value.serviceCentreAt,inboxReceivedAt:value.inboxReceivedAt,subscriptionId:value.subscriptionId,
-   ...(value.sourceKey?{sourceKey:value.sourceKey}: {})}));
+  const fingerprint=await observationRequestFingerprint(this.groupId,actor,value,bodySha);
   try{
    let prior=await this.authority.read(tx=>this.find(tx,actor,value.requestId,fingerprint));
    if(prior){await this.checkRetained(actor,prior,payload,bodySha);
     const final=await this.authority.read(tx=>this.find(tx,actor,value.requestId,fingerprint));
-    check(final&&same(final,prior),'observation_changed',409);return {requestId:value.requestId,sourceId:prior.id,bodySha256:bodySha,status:'source_unresolved',financialEffects:0};}
+    check(final&&same(final,prior),'observation_changed',409);
+    if(recovery)await this.verifyRecoveryHold(actor,value,fingerprint,prior.id,bodySha);
+    return {requestId:value.requestId,sourceId:prior.id,bodySha256:bodySha,status:'source_unresolved',financialEffects:0,
+     ...(recovery?{autoProcessing:'held'}:{})};}
    const initial=await this.authority.read(tx=>this.context(tx,actor));
    check(isObservationCandidate(value,initial.profile),'unsupported_receipt',422);
    const id=await storageEntity('burimunsi.native.observation.v1',actor.principalUserId,value.requestId);
    // The admission is durable before any object reservation or provider call.
    // A retry reuses the same intent; uncertainty never consumes another slot.
-   const prepared=await this.prepare(actor,value,fingerprint,id,initial,contentSha,bodySha);
+   const prepared=await this.prepare(actor,value,fingerprint,id,initial,contentSha,bodySha,recovery);
    if(prepared.kind==='duplicate'){
+    // A different original source must be reconciled, not converted into a
+    // held recovery or acknowledged under a new request.
+    check(!recovery,'observation_changed',409);
     await this.checkDuplicate(actor,value,contentSha,bodySha,prepared.record);
     return {requestId:value.requestId,sourceId:prepared.record.id,bodySha256:bodySha,status:'source_unresolved',financialEffects:0};
    }
@@ -601,7 +691,7 @@ export class PostgresNativeObservations {
     if(await this.uploadUnresolved(actor,value,fingerprint,id,initial,objectSha))throw new ObservationUploadUnresolved(value.requestId);
     const sealed=await encrypt(this.env,bytes,`sms:${id}:${objectSha}`);await this.authority.assertOwned();
     try{await this.env.PRIVATE_MEDIA.put(objectKey,sealed,{scope:{ownerId:actor.principalUserId,purpose:'sms_receipt',entityId:id},
-      aad:`sms:${id}:${objectSha}`,sourceDigest:fingerprint,httpMetadata:{contentType:'application/octet-stream'},
+      aad:`sms:${id}:${objectSha}`,sourceDigest:fingerprint,smsWitness:{bodySha256:bodySha,collectionId:this.groupId,inboxReceivedAt:value.inboxReceivedAt},httpMetadata:{contentType:'application/octet-stream'},
       customMetadata:{sha256:objectSha,key_id:this.env.DATA_KEY_ID}});
     }catch(error){await this.unresolvedAfterFailure(actor,value,fingerprint,id,initial,objectSha,error);}
    }finally{bytes.fill(0);}
@@ -628,7 +718,9 @@ export class PostgresNativeObservations {
    await this.checkRetained(actor,committed,payload,bodySha);
    const final=await this.authority.read(tx=>this.find(tx,actor,value.requestId,fingerprint));
    check(final&&same(final,committed),'observation_changed',409);
-   return {requestId:value.requestId,sourceId:committed.id,bodySha256:bodySha,status:'source_unresolved',financialEffects:0};
+   if(recovery)await this.verifyRecoveryHold(actor,value,fingerprint,committed.id,bodySha);
+   return {requestId:value.requestId,sourceId:committed.id,bodySha256:bodySha,status:'source_unresolved',financialEffects:0,
+    ...(recovery?{autoProcessing:'held'}:{})};
   }catch(error){throw mapped(error);}
  }
  async page(actor,query,cursor){

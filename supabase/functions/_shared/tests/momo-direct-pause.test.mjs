@@ -19,3 +19,16 @@ test('the explicit unpaused direct entry reaches the existing claim and does not
  assert.deepEqual(await processMomoJob(env,'synthetic-id'),{state:'not_claimed'});
  assert.equal(claims,1);assert.equal(calls,0);
 });
+
+test('a source parked by a database guard is not read or sent to the provider',async()=>{
+ for(const returned of [{state:'source_unresolved',lease_token:null},{state:'needs_review',lease_token:null},
+  {state:'processing',lease_token:'different-lease'}]){
+  let claims=0,calls=0;
+  const env={MOMO_PROCESSING_PAUSED:'false',DB:{prepare(sql){
+   assert.match(sql,/^UPDATE momo_processing_jobs SET state='processing'/);
+   return {bind(){return {async first(){claims++;return returned;}};}};
+  }},AI:{async run(){calls++;}}};
+  assert.deepEqual(await processMomoJob(env,'synthetic-id'),{state:'not_claimed'});
+  assert.equal(claims,1);assert.equal(calls,0);
+ }
+});

@@ -335,7 +335,9 @@ export async function processMomoJob(env,rawId) {
  env={...env,DB:env.DB.withSession?env.DB.withSession('first-primary'):env.DB};
  const token=id(),stamp=now();
  const claimed=await q(env,`UPDATE momo_processing_jobs SET state='processing',lease_token=?,lease_until=${LEASE_CLOCK}+?,attempt_count=attempt_count+1,last_error=?,updated_at=? WHERE raw_sms_id=? AND attempt_count<max_attempts AND ${CLAIMABLE} RETURNING *`,token,LEASE_SECONDS,MOMO_JOB_CHECKPOINT.preflight,stamp,rawId).first();
- if(!claimed)return {state:'not_claimed'};
+ // A database guard may park a formerly eligible source during the claim.
+ // Never read its SMS or call the provider unless this exact lease was won.
+ if(!claimed||claimed.state!=='processing'||claimed.lease_token!==token)return {state:'not_claimed'};
  const raw=await first(env,'SELECT * FROM sms_receipts WHERE id=?',rawId),job={...claimed,body_sha256:raw.body_sha256};
  const account=await first(env,'SELECT * FROM momo_receiving_accounts WHERE id=?',job.receiving_account_id),profile=account&&validateProviderProfile(account);
  if(!profile)return finish(env,job,account,{validation:[issue('provider_profile_unverified')],outcome:'needs_review',state:'needs_review'});

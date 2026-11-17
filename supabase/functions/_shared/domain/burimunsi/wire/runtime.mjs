@@ -115,7 +115,10 @@ export function semantics(product,operation,r,expected={}) {
   if(data.recentPayments)rows(data.recentPayments);
   if(data.groupId!==undefined&&data.groupId!==r.binding.groupId)fail('CONTRACT_IDENTITY');
   if(['payment','member','rawSms'].includes(operation)&&data.id!==expected.recordId)fail('CONTRACT_IDENTITY');
-  if(operation==='observation'&&data.requestId!==expected.commandRequestId)fail('CONTRACT_IDENTITY');
+  if(['observation','observationRecoverHeld','observationRecoverHeldAck'].includes(operation)&&data.requestId!==expected.commandRequestId)fail('CONTRACT_IDENTITY');
+  if(operation==='observationRecoverHeldAck'&&(data.sourceKey!==expected.sourceKey||
+   (data.state==='acknowledged')!==(data.sourceId!==null)||
+   (data.state==='acknowledged'?data.autoProcessing!=='held':data.autoProcessing!=='unknown')))fail('CONTRACT_IDENTITY');
   if(operation==='observationConsentSet'&&(data.enabled!==expected.consentEnabled||data.generation!==expected.consentGeneration))fail('CONTRACT_IDENTITY');
   if(operation==='observationProfile'&&data.expiresAt-data.issuedAt!==86400000)fail('CONTRACT_STATE');
   if(operation==='observationPage')for(const item of data.items)if(item.id!==item.sourceId)fail('CONTRACT_IDENTITY');
@@ -131,7 +134,7 @@ export function semantics(product,operation,r,expected={}) {
     data.items.length!==expected.sourceKeys.length||data.items.some((item,i)=>item.sourceKey!==expected.sourceKeys[i]||
      (item.state==='matched')!==(item.sourceId!==null)))fail('CONTRACT_IDENTITY');
   }
-  if(operation==='observationReconcileStatus'&&data.hasRecorded!==(data.recordedCount>0))fail('CONTRACT_STATE');
+  if(['observationReconcileStatus','observationReconcileVerifiedStatus'].includes(operation)&&data.hasRecorded!==(data.recordedCount>0))fail('CONTRACT_STATE');
   if(operation==='observationReveal'){
    if(data.sourceId!==expected.recordId||Object.hasOwn(data,'displayHints')!==(expected.displayHintsVersion===1))fail('CONTRACT_IDENTITY');
    if(data.displayHints!==undefined&&data.displayHints!==null){const seen=new Set();

@@ -24,6 +24,32 @@ const GUARDS={
  'private.collect_imported_native_history_write_guard()':'899374fa5c194daa82a75e16159dbc36811591af55f533c83cafae9fce95e840',
  'private.collect_imported_native_history_link_guard()':'7091ccc5139d763829e9443ad94b8c5ac936fb1677281bb6017f865e92bee24a',
  'private.collect_imported_native_history_ledger_guard()':'828e7dbff6706d23b068836e7d3926810d28aad753a89b3db7acd19acea9e548'};
+// This optional migration is accepted only by exact recorded and local bytes.
+// A changed draft must deliberately update this pin and its SQL qualification.
+const HELD_RECOVERY_SQL_SHA='9be3727d96763f955df3af6333d9faa0c604b239326ddaa91f805635cc6438d4';
+const HELD_RECOVERY_GUARDS={
+ 'private.burimunsi_auto_snapshot(text)':'526606c23ad6d8a3b511136a8eff9e2ddf5f7a775f068b5ce8615c02a7a90dd6',
+ 'private.burimunsi_auto_candidates(text)':'156a2179d3e2065e9116985f3d1a88b034a8cf8c26a988fd48f9ccccc665192f',
+ 'private.burimunsi_native_work_candidates(uuid,integer)':'d218510947003efd8721305b84afb16b60b69a93308bbef4c85b69095a1514ea',
+ 'private.burimunsi_native_sms_post_candidates(integer)':'0b0778810e6e86f83dc7cbc950b2aa9b258a7e6ee2d1a3c85c48e8ce41e4521e',
+ 'private.collect_sms_held_source_guard()':'2b3d3452d89fd11525681e3d9d1302e0153c0f441ff44d3b3dd7f3ba2d97dbc6',
+ 'private.collect_sms_recovery_held(text)':'353a9c76dfe04e60f62ddd005dddcba1f4da423fa48113284f733d134e0ac3ca',
+ 'private.collect_sms_recovery_work_guard()':'d34eb5497661179bd817c73fb981b2fec215d2ccf773b03cbfba520f5d183b87',
+ 'private.collect_sms_recovery_raw_work_guard()':'f706e9e78f164701cee4c2c6e0d453c13a7f30d50072379882800acf32c06dc5',
+ 'private.collect_sms_witness_reserve(text,text,text,text,text,text,timestamptz,text)':'6704a892628f4c9efa16644c6ee3f0162994cbfc1cb5d0c247a7c73320e3bebc',
+ 'private.burimunsi_sms_recovery_hold(text,uuid,text,text,timestamptz)':'9d4ab9d548e4d544a918f81f4b0072389de1abee6c070492d4d3609137c6bd8a',
+ 'private.burimunsi_sms_recovery_ack_snapshot(text,uuid,text,text,text,text,timestamptz)':'573323471c79766de7dbe908aec97bb29eede153cdd066e89308ee75ee8f86c5',
+ 'private.burimunsi_observation_actor(boolean)':'e6f1bf1db6c84209a8bf00465201e1db997dc8c03a972399af7e6fcb48f4f9e1',
+ 'private.burimunsi_observation_consent_current()':'4c7f0cea13f47ef0a040c36e3059ded889f42932f0696a554513bf470fa060f9',
+ 'private.burimunsi_observation_own(text,boolean)':'f306b9c50fafa238f64816bf7a242a21d9f828ad9df5a8c565ada001b15aa7d1',
+ 'private.burimunsi_observation_lookup(uuid,text)':'bda49fee71b6944325a1fa9d7d884016a00691f4a9a4a0b0f7212a4fb50c71ae',
+ 'private.burimunsi_observation_reconcile_status()':'dbc081cd16057fb2bf07da3514aab3b3afe4e7d35427651bd8187da0e809c30e',
+ 'private.burimunsi_observation_reconcile_verified_status()':'9a8ed9eed540ff7eac74a85ae3765fb10e8eb1b81d3017046eccc62f0d46f4b0'};
+export function schedulerGuardDigests(recordedDigest,localDigest){
+ if(recordedDigest===null)return {...GUARDS};
+ if(recordedDigest!==HELD_RECOVERY_SQL_SHA||localDigest!==HELD_RECOVERY_SQL_SHA)throw Error('scheduler_migration_changed');
+ return {...GUARDS,...HELD_RECOVERY_GUARDS};
+}
 function privateBytes(name){if(!/^[a-z0-9_.-]+\.json$/.test(name))throw Error('invalid_evidence_name');const p=join(ROOT,name),s=lstatSync(p);
  if(!s.isFile()||s.isSymbolicLink()||s.nlink!==1||s.uid!==process.getuid()||(s.mode&0o077)!==0||s.size<2||s.size>1024*1024)throw Error('private_evidence_required');return readFileSync(p);}
 const privateJson=name=>JSON.parse(privateBytes(name).toString('utf8'));
@@ -78,9 +104,35 @@ async function inspect(db){
  if(!row||row.config_sha256!==scheduler.configSha||row.template_sha256!==scheduler.templateSha||row.migration_sha!==scheduler.sqlSha||row.keys!==1||row.key_sha!==key.keySha256||
   row.jobname!=='collect-jobs-maintenance-v1'||row.schedule!==(scheduleHistory?'* * * * *':'*/5 * * * *')||row.command!=='SELECT collect_ops.tick_jobs();'||row.database!=='postgres'||row.username!=='postgres'||
   row.historical!==graph.counts?.sms||row.historical!==37||row.triggers_ok!==true||row.scheduler_coverage!==true)throw Error('scheduler_or_history_guard_changed');
- const guard=(await db.query(`SELECT x.signature,p.proowner::regrole::text owner,p.prosecdef,encode(sha256(convert_to(p.prosrc,'UTF8')),'hex') digest
-  FROM unnest($1::text[]) x(signature) LEFT JOIN pg_proc p ON p.oid=to_regprocedure(x.signature)`,[Object.keys(GUARDS)])).rows;
- if(guard.length!==Object.keys(GUARDS).length||guard.some(x=>x.owner!=='postgres'||x.prosecdef!==true||x.digest!==GUARDS[x.signature]))throw Error('scheduler_or_history_guard_changed');
+ const heldFile='20261117210000_burimunsi_held_recovery.sql';
+ const heldHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[heldFile.slice(0,14)])).rows[0];
+ const expectedGuards=schedulerGuardDigests(heldHistory?.digest??null,heldHistory?sha(readFileSync(new URL('../../../supabase/migrations/'+heldFile,import.meta.url))):null);
+ const guard=(await db.query(`SELECT x.signature,p.proowner::regrole::text owner,p.prosecdef,p.proacl::text acl,encode(sha256(convert_to(p.prosrc,'UTF8')),'hex') digest
+  FROM unnest($1::text[]) x(signature) LEFT JOIN pg_proc p ON p.oid=to_regprocedure(x.signature)`,[Object.keys(expectedGuards)])).rows;
+ if(guard.length!==Object.keys(expectedGuards).length||guard.some(x=>x.owner!=='postgres'||x.prosecdef!==true||x.digest!==expectedGuards[x.signature]))throw Error('scheduler_or_history_guard_changed');
+ if(heldHistory){
+  const heldPrivate=['private.collect_sms_held_source_guard()','private.collect_sms_recovery_held(text)',
+   'private.collect_sms_recovery_work_guard()','private.collect_sms_recovery_raw_work_guard()',
+   'private.burimunsi_observation_actor(boolean)'];
+  const heldRuntime=['private.collect_sms_witness_reserve(text,text,text,text,text,text,timestamptz,text)',
+   'private.burimunsi_sms_recovery_hold(text,uuid,text,text,timestamptz)',
+   'private.burimunsi_sms_recovery_ack_snapshot(text,uuid,text,text,text,text,timestamptz)',
+   'private.burimunsi_observation_consent_current()','private.burimunsi_observation_own(text,boolean)',
+   'private.burimunsi_observation_lookup(uuid,text)',
+   'private.burimunsi_observation_reconcile_status()','private.burimunsi_observation_reconcile_verified_status()'];
+  if(guard.some(x=>heldPrivate.includes(x.signature)&&x.acl!=='{postgres=X/postgres}'||
+   heldRuntime.includes(x.signature)&&x.acl!=='{postgres=X/postgres,collect_runtime=X/postgres}'))throw Error('scheduler_or_history_guard_changed');
+  const heldTriggers=(await db.query(`SELECT count(*)::int AS n FROM (VALUES
+   ('app.sms_receipts','collect_sms_held_source_guard','private.collect_sms_held_source_guard()'),
+   ('private.burimunsi_auto_sms_jobs','collect_sms_recovery_work_guard','private.collect_sms_recovery_work_guard()'),
+   ('private.burimunsi_native_financial_work','collect_sms_recovery_work_guard','private.collect_sms_recovery_work_guard()'),
+   ('app.momo_processing_jobs','collect_sms_recovery_raw_work_guard','private.collect_sms_recovery_raw_work_guard()'),
+   ('app.momo_parse_attempts','collect_sms_recovery_raw_work_guard','private.collect_sms_recovery_raw_work_guard()'),
+   ('app.momo_transaction_sources','collect_sms_recovery_raw_work_guard','private.collect_sms_recovery_raw_work_guard()')
+  ) e(relation_name,trigger_name,function_name) JOIN pg_trigger t ON t.tgrelid=to_regclass(e.relation_name)
+   AND t.tgname=e.trigger_name AND t.tgfoid=to_regprocedure(e.function_name) AND t.tgenabled='A' AND NOT t.tgisinternal`)).rows[0];
+  if(heldTriggers?.n!==6)throw Error('scheduler_or_history_guard_changed');
+ }
  const expected=expectedSchedulerBodies(scheduler.sql);
  if(scheduleHistory){
   expected.ops.dispatch_jobs='00e49b5d9603cd8564555252cc62b23d667fd9f611c558c46459e4b7580d9f72';

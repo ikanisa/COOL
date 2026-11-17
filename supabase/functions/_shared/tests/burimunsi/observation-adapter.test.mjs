@@ -27,7 +27,7 @@ const ctx=()=>({collectionId:group,accountId:account,principalUserId:principal,s
 const sqlError=(code,message='synthetic database refusal')=>Object.assign(new Error(message),{code});
 
 function fixture(){
- const state={enabled:true,generation:1,row:null,rows:new Map(),sourceKeys:new Map(),requests:new Map(),media:new Map(),legacySources:[],puts:0,commits:0,audits:[],revealGranted:true,active:true,allowLegacyFixture:true};
+ const state={enabled:true,generation:1,row:null,rows:new Map(),sourceKeys:new Map(),requests:new Map(),media:new Map(),legacySources:[],witnesses:new Map(),recoveryHolds:new Map(),puts:0,commits:0,audits:[],revealGranted:true,active:true,allowLegacyFixture:true};
  const work={assert:async()=>{if(!state.active)throw new Error('synthetic lease revoked');}};
  let env;
  const allowed=()=>{if(!state.active||!state.enabled)throw sqlError('42501');};
@@ -40,7 +40,9 @@ function fixture(){
    state.enabled=enabled;state.generation=generation;return [{result:{enabled:state.badEcho?!enabled:enabled,generation}}];
   }
   if(query.includes('observation_context')){allowed();return [{result:{...ctx(),sessionId:state.liveSessionId??session,consentGeneration:state.generation}}];}
-  if(query.includes('observation_reconcile_status')){allowed();return [{result:state.reconcileStatus??{groupId:group,hasPending:false,
+  if(query.includes('observation_reconcile_verified_status')){allowed();(state.statusCalls??=[]).push('verified');return [{result:state.reconcileStatus??{groupId:group,hasPending:false,
+   hasRecorded:false,recordedCount:0,hasUnmatchedCanonical:false,revision:'f'.repeat(64)}}];}
+  if(query.includes('observation_reconcile_status')){allowed();(state.statusCalls??=[]).push('legacy');return [{result:state.reconcileStatus??{groupId:group,hasPending:false,
    hasRecorded:false,recordedCount:0,hasUnmatchedCanonical:false,revision:'f'.repeat(64)}}];}
   if(query.includes('observation_legacy_present')){allowed();return [{result:state.legacyPresent===true}];}
   if(query.includes('observation_legacy_retry_prepare')){
@@ -65,6 +67,47 @@ function fixture(){
    else if(state.requests.get(requestId)?.fingerprint!==fingerprint)throw sqlError('23505');
    return [{result:{kind:'new',context:{...ctx(),profile_tuple_sha256:state.tupleChangedOnPrepare?'e'.repeat(64):ctx().profile_tuple_sha256,
     consentGeneration:state.generation,requestId,fingerprint,sourceId}}}];
+  }
+  if(query.includes('collect_sms_witness_reserve')){
+   allowed();const [mode,key,owner,collection,fingerprint,body,received,storage]=args;
+   if(mode==='recovery'&&!state.revealGranted)throw sqlError('42501');
+   const prior=state.witnesses.get(key);
+   if(prior){if(prior.owner!==owner||prior.collection!==collection||prior.fingerprint!==fingerprint||prior.body!==body||prior.received!==received)throw sqlError('23505');
+    return [{result:false}];}
+   if(mode==='recovery'&&[...state.witnesses.values()].some(w=>
+    w.collection===collection&&w.body===body&&w.key!==key))throw sqlError('55000');
+   state.witnesses.set(key,{mode,key,owner,collection,fingerprint,body,received,storage});return [{result:true}];
+  }
+  if(query.includes('burimunsi_sms_recovery_ack_snapshot')){
+   allowed();if(!state.revealGranted)throw sqlError('42501');
+   const [sourceId,requestId,fingerprint,sourceKey,content,body,received]=args,key='sms/'+sourceId,
+    request=state.requests.get(requestId),w=state.witnesses.get(key),hold=state.recoveryHolds.get(sourceId),
+    source=state.sourceKeys.get(sourceKey),record=state.rows.get(sourceId),item=state.media.get(key);
+   if(!request||request.sourceId!==sourceId||request.fingerprint!==fingerprint||!w||w.collection!==group||w.owner!==principal||
+    w.fingerprint!==fingerprint||w.body!==body||w.received!==received||!hold||hold.fingerprint!==fingerprint||hold.generation!==state.generation||
+    !source||source.sourceId!==sourceId||source.content!==content||source.body!==body||!record||!item||state.ackIncomplete)
+    return [{result:null}];
+   const descriptor=item.descriptor,size=new TextEncoder().encode(item.sealed).length,cipherSha=await sha256(item.sealed),
+    custom={...descriptor.customMetadata,source_fingerprint:item.fingerprint},
+    objectDescriptor={key,size,sha256:cipherSha,scope:descriptor.scope,httpMetadata:descriptor.httpMetadata,customMetadata:custom};
+   const put={object_key:key,operation_id:await sha256('collect.storage.put.v1\n'+key),fingerprint:await sha256(canonicalJson(objectDescriptor)),
+    sha256:cipherSha,size,scope:descriptor.scope,http_metadata:descriptor.httpMetadata,custom_metadata:custom,
+    state:'committed',active_attempt:null,upload_unresolved:false,delete_tombstone:false};
+   const metadata={...structuredClone(put)},reservation={object_key:key,source_fingerprint:item.fingerprint,scope:descriptor.scope,
+    aad:descriptor.aad,key_id:descriptor.keyId,plaintext_sha256:descriptor.plaintextSha256};
+   const proof={record:structuredClone(record),namespace:{origin:'https://example.invalid',bucket:'collect-evidence'},
+    put,metadata,reservation,reservationCipherSha256:null,reservationCipherSize:null};
+   if(state.tamperAckProof)state.tamperAckProof(proof);return [{result:proof}];
+  }
+  if(query.includes('burimunsi_sms_recovery_hold')){
+   allowed();if(!state.revealGranted)throw sqlError('42501');
+   const [sourceId,requestId,fingerprint,body,received]=args,key='sms/'+sourceId;
+   const request=state.requests.get(requestId),w=state.witnesses.get(key),hold=state.recoveryHolds.get(sourceId);
+   if(!request||request.sourceId!==sourceId||request.fingerprint!==fingerprint||!w||w.fingerprint!==fingerprint||w.body!==body||w.received!==received)
+    throw sqlError('55000');
+   if(hold&&(hold.fingerprint!==fingerprint||hold.body!==body||hold.received!==received))throw sqlError('55000');
+   if(!hold)state.recoveryHolds.set(sourceId,{key,collection:w.collection,fingerprint,body,received,generation:state.generation});
+   return [{result:true}];
   }
   if(query.includes('observation_key_lookup')){
    allowed();const [key,content,body]=args,prior=state.sourceKeys.get(key);
@@ -146,16 +189,24 @@ function fixture(){
  const request=new Request('https://example.invalid/v1/burimunsi/home',{headers:{'X-BuriMunsi-Auth':'phone_pin',
   'X-BuriMunsi-Profile':'internal_receiver','X-BuriMunsi-Installation':installation,'X-BuriMunsi-Device':device,
   'X-BuriMunsi-Group':group,authorization:'Bearer '+token}});
- const media={put:async(key,sealed,options)=>{
+ const media={namespace:{origin:'https://example.invalid',bucket:'collect-evidence'},put:async(key,sealed,options)=>{
    state.puts++;const descriptor={scope:options.scope,aad:options.aad,keyId:'synthetic-key',plaintextSha256:options.customMetadata.sha256,
     requestDigest:options.sourceDigest,httpMetadata:options.httpMetadata,customMetadata:options.customMetadata};
    const fingerprint=await sha256(canonicalJson(descriptor)),prior=state.media.get(key);
    if(prior&&prior.fingerprint!==fingerprint)throw new Error('synthetic storage conflict');
    if(!prior)state.media.set(key,{sealed,fingerprint,descriptor});
    if(state.onPut)await state.onPut();
-  },get:async key=>{if(state.onGet)await state.onGet();const x=state.media.get(key);return x?{text:async()=>x.sealed}:null;}};
+  },get:async key=>{if(state.onGet)await state.onGet();const x=state.media.get(key);return x?{text:async()=>x.sealed}:null;},
+  getVerifiedReadOnly:async(key,proof)=>{
+   state.readOnlyGets=(state.readOnlyGets??0)+1;if(state.onReadOnly)await state.onReadOnly();
+   const value=state.media.get(key);if(!value)throw new Error('synthetic missing object');
+   const bytes=new TextEncoder().encode(value.sealed);
+   if(bytes.length!==proof.size||await sha256(value.sealed)!==proof.sha256)throw new Error('synthetic proof mismatch');
+   return bytes;
+  }};
  env={DB:db,PRIVATE_MEDIA:media,DATA_KEY_ID:'synthetic-key',DATA_ENCRYPTION_KEY:Buffer.alloc(32,7).toString('base64')};
- const authority={db,groupId:group,read:fn=>fn(sql),write:async fn=>{
+ const authority={db,groupId:group,read:fn=>{state.readTransactions=(state.readTransactions??0)+1;return fn(sql);},write:async fn=>{
+   state.writeTransactions=(state.writeTransactions??0)+1;
    const result=await fn(sql);if(state.lostAudit&&state.audits.length){state.lostAudit=false;throw sqlError('08006');}return result;
   },session:async()=>state.active?{...structuredClone(actor),sessionId:state.liveSessionId??session}:null,assertOwned:work.assert};
  const custody={namespace:{origin:'https://example.invalid',bucket:'collect-evidence'},
@@ -211,6 +262,150 @@ test('encrypted capture retries reconcile the same request and reject changed co
   assert.equal(first.bodySha256,await sha256(incoming.rawBody));assert.equal(f.state.commits,1);assert.equal(f.state.puts,1);
   assert.equal([...f.state.media.values()][0].sealed.includes(incoming.rawBody),false);
   await assert.rejects(adapter.observe(actor,{...incoming,rawBody:'Received 251 RWF. Reference: 1234.'}),e=>e.status===409);
+ });
+});
+
+test('held recovery retains one encrypted source and retries the same request without a new upload',async()=>{
+ const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64)};
+ await f.run(async adapter=>{
+  const first=await adapter.recoverHeld(actor,held),retry=await adapter.recoverHeld(actor,held);
+  assert.deepEqual(retry,first);assert.equal(first.requestId,held.requestId);
+  assert.equal(first.status,'source_unresolved');assert.equal(first.financialEffects,0);assert.equal(first.autoProcessing,'held');
+  assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);assert.equal(f.state.recoveryHolds.size,1);
+  assert.equal([...f.state.media.values()][0].sealed.includes(held.rawBody),false);
+  await assert.rejects(adapter.recoverHeld(actor,{...held,rawBody:'Received 251 RWF. Reference: 1234.'}),e=>e.status===409);
+ });
+});
+
+test('held recovery acknowledgement proves exact retained evidence without writes or uploads',async()=>{
+ const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'a'.repeat(64)};
+ await f.run(async adapter=>{
+  const saved=await adapter.recoverHeld(actor,held),before={puts:f.state.puts,commits:f.state.commits,
+   writes:f.state.writeTransactions,requests:f.state.requests.size,holds:f.state.recoveryHolds.size};
+  const first=await adapter.recoverHeldAck(actor,held),again=await adapter.recoverHeldAck(actor,held);
+  assert.deepEqual(first,{requestId:held.requestId,sourceKey:held.sourceKey,bodySha256:await sha256(held.rawBody),
+   financialEffects:0,retryAllowed:false,state:'acknowledged',sourceId:saved.sourceId,autoProcessing:'held'});
+  assert.deepEqual(again,first);assert.equal(f.state.readOnlyGets,2);
+  assert.deepEqual({puts:f.state.puts,commits:f.state.commits,writes:f.state.writeTransactions,
+   requests:f.state.requests.size,holds:f.state.recoveryHolds.size},before);
+  assert(!JSON.stringify(first).includes(held.rawBody));
+ });
+});
+
+test('held acknowledgement never retries or uploads an absent or incomplete intent',async()=>{
+ const held={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'b'.repeat(64)};
+ for(const incomplete of ['absent','failed-upload','missing-hold','missing-witness','foreign-group','foreign-owner',
+  'missing-observation','changed-request','changed-source-key','changed-consent-generation']){
+  const f=fixture();await f.run(async adapter=>{
+   let request=held;
+   if(incomplete==='failed-upload'){
+    f.state.onPut=async()=>{throw new Error('synthetic unknown upload outcome');};
+    await assert.rejects(adapter.recoverHeld(actor,held));f.state.onPut=null;
+   }else if(incomplete!=='absent'){
+    const saved=await adapter.recoverHeld(actor,held);
+    if(incomplete==='missing-hold')f.state.recoveryHolds.delete(saved.sourceId);
+    if(incomplete==='missing-witness')f.state.witnesses.delete('sms/'+saved.sourceId);
+    if(incomplete==='foreign-group')f.state.witnesses.get('sms/'+saved.sourceId).collection='other-group';
+    if(incomplete==='foreign-owner')f.state.witnesses.get('sms/'+saved.sourceId).owner='other-owner';
+    if(incomplete==='missing-observation')f.state.rows.delete(saved.sourceId);
+    if(incomplete==='changed-request')request={...held,rawBody:'Received 251 RWF. Reference: 1234.'};
+    if(incomplete==='changed-source-key')request={...held,sourceKey:'e'.repeat(64)};
+    if(incomplete==='changed-consent-generation')f.state.generation++;
+   }
+   const before={puts:f.state.puts,commits:f.state.commits,writes:f.state.writeTransactions??0};
+   const result=await adapter.recoverHeldAck(actor,request);
+   assert.equal(result.state,'unconfirmed');assert.equal(result.sourceId,null);
+   assert.equal(result.autoProcessing,'unknown');assert.equal(result.retryAllowed,false);
+   assert.deepEqual({puts:f.state.puts,commits:f.state.commits,writes:f.state.writeTransactions??0},before);
+   assert.equal(f.state.readOnlyGets??0,0);
+  });
+ }
+});
+
+test('held acknowledgement fails closed when custody, consent or authority changes during the read',async()=>{
+ const held={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'c'.repeat(64)};
+ for(const change of ['storage','consent','hold','namespace','metadata']){
+  const f=fixture();await f.run(async adapter=>{
+   const saved=await adapter.recoverHeld(actor,held),before={puts:f.state.puts,commits:f.state.commits,writes:f.state.writeTransactions};
+   if(change==='metadata')f.state.tamperAckProof=proof=>{proof.put.custom_metadata.sha256='0'.repeat(64);};
+   else f.state.onReadOnly=async()=>{
+    if(change==='storage')throw new Error('synthetic storage outage');
+    if(change==='consent')f.state.enabled=false;
+    if(change==='hold')f.state.recoveryHolds.delete(saved.sourceId);
+    if(change==='namespace')adapter.custody.namespace={origin:'https://other.invalid',bucket:'other'};
+   };
+   await assert.rejects(adapter.recoverHeldAck(actor,held),e=>[403,409,503].includes(e.status));
+   assert.deepEqual({puts:f.state.puts,commits:f.state.commits,writes:f.state.writeTransactions},before);
+  });
+ }
+});
+
+test('held acknowledgement denies staff, revoked authority and disabled consent without probing storage',async()=>{
+ const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'d'.repeat(64)};
+ await f.run(async adapter=>{
+  await adapter.recoverHeld(actor,held);const session=adapter.authority.session;
+  for(const changed of [{role:'staff'},{groupId:'other'},{installationProfile:'staff'},{revoked:true}]){
+   adapter.authority.session=async()=>({...actor,...changed});
+   await assert.rejects(adapter.recoverHeldAck(actor,held),e=>e.status===403);
+  }
+  adapter.authority.session=session;f.state.revealGranted=false;
+  await assert.rejects(adapter.recoverHeldAck(actor,held),e=>e.status===403);
+  f.state.revealGranted=true;f.state.enabled=false;
+  await assert.rejects(adapter.recoverHeldAck(actor,held),e=>e.status===403);
+  assert.equal(f.state.readOnlyGets??0,0);
+ });
+});
+
+test('held recovery refuses equal bodies even when source keys or receipt times differ',async()=>{
+ const f=fixture(),first={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'1'.repeat(64)};
+ await f.run(async adapter=>{
+  await adapter.observe(actor,first);
+  const collision={...first,requestId:id(31),sourceKey:'2'.repeat(64),inboxReceivedAt:'2026-11-12T12:00:00.000Z'};
+  await assert.rejects(adapter.recoverHeld(actor,collision),e=>e.status===503);
+  assert.equal(f.state.puts,1);assert.equal(f.state.recoveryHolds.size,0);
+ });
+});
+
+test('a foreign or unscoped equal-body witness does not deny recovery for this collection',async()=>{
+ for(const collection of ['other-collection',null]){
+  const f=fixture(),body=await sha256(incoming.rawBody),foreignKey='sms/'+id(999);
+  f.state.witnesses.set(foreignKey,{key:foreignKey,collection,body});
+  const held={...incoming,sourceMode:'catch_up',complete:false,
+   inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'4'.repeat(64)};
+  await f.run(async adapter=>{
+   const result=await adapter.recoverHeld(actor,held);
+   assert.equal(result.autoProcessing,'held');assert.equal(f.state.puts,1);
+  });
+ }
+});
+
+test('a held recovery does not block a later ordinary equal-body source',async()=>{
+ const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'5'.repeat(64)};
+ await f.run(async adapter=>{
+  await adapter.recoverHeld(actor,held);
+  const ordinary={...held,requestId:id(32),sourceKey:'6'.repeat(64),inboxReceivedAt:'2026-11-12T12:00:00.000Z'};
+  const result=await adapter.observe(actor,ordinary);
+  assert.equal(result.status,'source_unresolved');assert.equal(f.state.puts,2);
+ });
+});
+
+test('held recovery requires reveal authority, current consent and an inbox identity',async()=>{
+ const f=fixture(),held={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'3'.repeat(64)};
+ await f.run(async adapter=>{
+  await assert.rejects(adapter.recoverHeld(actor,{...held,inboxReceivedAt:null}),e=>e.status===400);
+  f.state.revealGranted=false;await assert.rejects(adapter.recoverHeld(actor,held),e=>e.status===403);
+  assert.equal(f.state.puts,0);assert.equal(f.state.recoveryHolds.size,0);
+  f.state.revealGranted=true;f.state.enabled=false;
+  await assert.rejects(adapter.recoverHeld(actor,{...held,requestId:id(32)}),e=>e.status===403);
+  assert.equal(f.state.puts,0);
  });
 });
 
@@ -698,18 +893,37 @@ test('batch can verify the same retained source after a legitimate session rotat
 
 test('collection status validates scope, count, custody uncertainty and authority',async()=>{
  const f=fixture();await f.run(async adapter=>{
-  assert.deepEqual(await adapter.reconcileStatus(actor),{groupId:group,hasPending:false,hasRecorded:false,
+  assert.deepEqual(await adapter.reconcileStatus(actor),{groupId:group,hasPending:true,hasRecorded:false,
    recordedCount:0,hasUnmatchedCanonical:false,revision:'f'.repeat(64)});
+  assert.deepEqual(await adapter.reconcileVerifiedStatus(actor),{groupId:group,hasPending:false,hasRecorded:false,
+   recordedCount:0,hasUnmatchedCanonical:false,revision:'f'.repeat(64),scope:'verified_collection'});
+  assert.deepEqual(f.state.statusCalls,['legacy','verified']);
   f.state.reconcileStatus={groupId:group,hasPending:true,hasRecorded:true,recordedCount:2,
    hasUnmatchedCanonical:true,revision:'e'.repeat(64),privateValue:'not returned'};
   const actual=await adapter.reconcileStatus(actor);assert.equal(actual.hasPending,true);
   assert.equal(actual.hasUnmatchedCanonical,true);assert.equal(actual.recordedCount,2);assert(!Object.hasOwn(actual,'privateValue'));
+  assert.deepEqual(await adapter.reconcileVerifiedStatus(actor),{...actual,scope:'verified_collection'});
   for(const changed of [{groupId:'other'},{revision:'bad'},{recordedCount:100001},{hasRecorded:false}]){
    const previous=f.state.reconcileStatus;f.state.reconcileStatus={...previous,...changed};
    await assert.rejects(adapter.reconcileStatus(actor),e=>e.status===503);f.state.reconcileStatus=previous;
   }
   f.state.enabled=false;await assert.rejects(adapter.reconcileStatus(actor),e=>e.status===403);
+  await assert.rejects(adapter.reconcileVerifiedStatus(actor),e=>e.status===403);
   assert.equal(f.state.puts,0);assert.equal(f.state.commits,0);
+ });
+});
+
+test('verified collection status denies staff, changed group and revoked or disabled consent',async()=>{
+ const f=fixture();await f.run(async adapter=>{
+  const session=adapter.authority.session;
+  for(const changed of [{role:'staff'},{installationProfile:'staff'},{groupId:'other'},{revoked:true},{active:false}]){
+   adapter.authority.session=async()=>({...actor,...changed});
+   await assert.rejects(adapter.reconcileVerifiedStatus(actor),e=>e.status===403);
+  }
+  assert.deepEqual(f.state.statusCalls??[],[]);
+  adapter.authority.session=session;f.state.enabled=false;
+  await assert.rejects(adapter.reconcileVerifiedStatus(actor),e=>e.status===403);
+  assert.deepEqual(f.state.statusCalls??[],[]);
  });
 });
 

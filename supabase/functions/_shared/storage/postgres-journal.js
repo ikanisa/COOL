@@ -17,11 +17,19 @@ export class PostgresStorageJournal {
     finally { client.release(); }
   }
   async getPayloadBinding(key){return this.transaction(key,async c=>{const row=(await c.query('SELECT key_id,source_fingerprint FROM private.storage_payload_reservations WHERE object_key=$1',[key])).rows[0];return row?{keyId:row.key_id,sourceFingerprint:row.source_fingerprint}:null;});}
-  async reservePayload(key,descriptor,sealedBody){
+  async reservePayload(key,descriptor,sealedBody,smsWitness=null){
     const sourceFingerprint=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(canonical(descriptor))).then(b=>Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,'0')).join(''));
     if(typeof sealedBody!=='string'||!sealedBody.length||new TextEncoder().encode(sealedBody).length>10_700_000)conflict('storage_payload_size_invalid');
     return this.transaction(key,async c=>{
       await c.query('SELECT pg_advisory_xact_lock(hashtextextended($1,7346370))',[descriptor.scope.ownerId]);
+      if(descriptor.scope.purpose==='sms_receipt'){
+       if(!smsWitness||!/^[a-f0-9]{64}$/.test(smsWitness.bodySha256??'')||
+        !(smsWitness.collectionId===null||typeof smsWitness.collectionId==='string'&&/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/.test(smsWitness.collectionId))||
+        !(smsWitness.inboxReceivedAt===null||typeof smsWitness.inboxReceivedAt==='string'&&Number.isFinite(Date.parse(smsWitness.inboxReceivedAt))))
+        conflict('storage_identity_required');
+       await c.query('SELECT private.collect_sms_witness_reserve($1,$2,$3,$4,$5,$6,$7::timestamptz,$8)',
+        ['storage',key,descriptor.scope.ownerId,smsWitness.collectionId,descriptor.requestDigest,smsWitness.bodySha256,smsWitness.inboxReceivedAt,sourceFingerprint]);
+      }else if(smsWitness!==null)conflict('storage_identity_required');
       const old=(await c.query('SELECT * FROM private.storage_payload_reservations WHERE object_key=$1 FOR UPDATE',[key])).rows[0];
       if(old){if(old.source_fingerprint!==sourceFingerprint)conflict('storage_source_conflict');return {sealedBody:old.sealed_body,sourceFingerprint};}
       if((await c.query('SELECT 1 FROM app.privacy_retention_barriers WHERE subject_id=$1',[descriptor.scope.ownerId])).rows.length)conflict('storage_retention_barrier_active');

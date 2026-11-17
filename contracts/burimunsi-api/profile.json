@@ -194,6 +194,11 @@
     ],
     [
       "POST",
+      "^/sms/observations/recover-held$",
+      "observationRecoverHeld"
+    ],
+    [
+      "POST",
       "^/sms/observations/reconcile$",
       "observationReconcile"
     ],
@@ -206,6 +211,16 @@
       "GET",
       "^/sms/observations/reconcile-status$",
       "observationReconcileStatus"
+    ],
+    [
+      "GET",
+      "^/sms/observations/reconcile-verified-status$",
+      "observationReconcileVerifiedStatus"
+    ],
+    [
+      "POST",
+      "^/sms/observations/recover-held-ack$",
+      "observationRecoverHeldAck"
     ]
   ],
   "operations": [
@@ -249,6 +264,9 @@
     "observationProcessingRetry",
     "observationReconcile",
     "observationReconcileBatch",
-    "observationReconcileStatus"
+    "observationReconcileStatus",
+    "observationRecoverHeld",
+    "observationReconcileVerifiedStatus",
+    "observationRecoverHeldAck"
   ]
 }

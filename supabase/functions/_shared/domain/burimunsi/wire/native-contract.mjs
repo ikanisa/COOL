@@ -13,7 +13,7 @@ export function requestBinding(request,installationId,groupId){
 }
 export function validateNativeRequest(operation,value){
  validateSchema(defs,operation+'.request',value);
- if(operation==='observation'&&(!((value.sourceMode==='live'&&value.complete===true)||
+ if(['observation','observationRecoverHeld','observationRecoverHeldAck'].includes(operation)&&(!((value.sourceMode==='live'&&value.complete===true)||
    (value.sourceMode==='catch_up'&&value.complete===false&&value.inboxReceivedAt!==null))||
    new TextEncoder().encode(value.rawBody).length>3000||
    Object.hasOwn(value,'sourceKey')&&value.sourceMode!=='catch_up'))throw new ContractViolation('CONTRACT_STATE');
