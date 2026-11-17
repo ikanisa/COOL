@@ -165,6 +165,43 @@ function exactQuotedToken(body,evidence,raw){
  }
  return false;
 }
+// Payer identifiers must be the maximal phone-like token in the actual SMS,
+// not a substring selected by the model. Separators join adjacent digits or
+// masks even when they are not accepted as a phone by the matcher; this makes
+// unfamiliar formatting fail closed rather than turning its suffix into an
+// independent masked identity. Parentheses enclosing the whole token are
+// decorative, but internal punctuation remains part of the token.
+const PAYER_IDENTIFIER_TOKEN=/(?<![\p{L}\p{N}_])\+?[0-9*•#xX](?:[0-9*•#xX]|[\s()./,_:+\-\u2010-\u2015]+(?=[0-9*•#xX]))*(?![\p{L}\p{N}_])/gu;
+function sourceBoundPayerIdentifier(body,quote,raw){
+ if(typeof body!=='string'||typeof quote!=='string'||!quote||typeof raw!=='string'||!raw||raw.trim()!==raw)return false;
+ const quoteAt=body.indexOf(quote),rawAt=body.indexOf(raw);
+ if(quoteAt<0||quoteAt!==body.lastIndexOf(quote)||rawAt<quoteAt||rawAt!==body.lastIndexOf(raw)||
+  rawAt+raw.length>quoteAt+quote.length)return false;
+ const leading=raw.match(/^\(+/u)?.[0].length??0,trailing=raw.match(/\)+$/u)?.[0].length??0;
+ const core=raw.slice(leading,raw.length-trailing);if(!core)return false;
+ const tokens=[...body.matchAll(PAYER_IDENTIFIER_TOKEN)].filter(m=>m.index<quoteAt+quote.length&&
+  m.index+m[0].length>quoteAt&&m[0].replace(/[^0-9]/gu,'').length>=3);
+ return tokens.length===1&&tokens[0].index===rawAt+leading&&tokens[0][0]===core;
+}
+// A name used for allocation must be the entire source span between one
+// unambiguous direction marker and the already-validated payer identifier.
+// Unknown or ambiguous wording remains parsed but cannot identify a member.
+const PAYER_DIRECTION=/(?<![\p{L}\p{N}_])(?:from|to|by|par|de|du|kwa|kutoka|kuri|kuva|na|avuye)(?![\p{L}\p{N}_])/giu;
+function sourceBoundPayerName(body,quote,name,identifier,principal){
+ if(typeof name!=='string'||!name||name.trim()!==name||typeof identifier!=='string'||!identifier||
+  typeof quote!=='string'||!quote||typeof principal!=='string'||!principal)return false;
+ const quoteAt=body.indexOf(quote),nameAt=body.indexOf(name),idAt=body.indexOf(identifier),amountAt=body.indexOf(principal);
+ if(quoteAt<0||nameAt<quoteAt||nameAt!==body.lastIndexOf(name)||idAt<nameAt+name.length||
+  amountAt<0||amountAt!==body.lastIndexOf(principal)||amountAt+principal.length>nameAt||
+  nameAt+name.length>quoteAt+quote.length||idAt+identifier.length>quoteAt+quote.length)return false;
+ const word=c=>Boolean(c)&&/[\p{L}\p{N}\p{M}_]/u.test(c);
+ if(word(Array.from(body.slice(0,nameAt)).at(-1))||word(String.fromCodePoint(body.codePointAt(nameAt+name.length)??0)))return false;
+ if(!/^[\s().:/+\-\u2010-\u2015]*$/u.test(body.slice(nameAt+name.length,idAt)))return false;
+ const markers=[...body.matchAll(PAYER_DIRECTION)].filter(m=>m.index>=amountAt+principal.length&&
+  (m.index<nameAt||m.index+m[0].length>nameAt+name.length));
+ if(markers.length!==1||markers[0].index+markers[0][0].length>nameAt)return false;
+ return /^[\s:()\-\u2010-\u2015]*$/u.test(body.slice(markers[0].index+markers[0][0].length,nameAt));
+}
 function contextualQuote(body,quote,profile){
  if(!present(body,quote))return false;
  let context=quote;
@@ -319,6 +356,125 @@ function contradictoryOutcome(body,value,profile){
  }
  return false;
 }
+
+// A literal quote and mutually consistent model fields do not prove that the
+// addressed wallet was credited. Automatic incoming classification requires a
+// conservative, independently checked source cue in the principal's clause.
+// The supported forms below are deliberately narrow; an unfamiliar or mixed
+// message cannot become an automatically credited contribution. Retrying and
+// display status depend on the worker path. These checks do not certify settlement.
+const INCOMING_SOURCE_PREFIX=/^\s*["'“‘]?(?<cue>(?:you\s+(?:(?:have|have\s+been)\s+)?received)|(?:you\s+(?:have\s+been|were)\s+credited)|(?:your\s+(?:wallet|account)\s+(?:(?:has\s+been|was|is)\s+)?(?:credited|received))|received|votre\s+(?:portefeuille|compte)\s+(?:est|a\s+[eé]t[eé]|a\s+ete)\s+cr[eé]dit[eé]|wakiriye|umepokea)(?![\p{L}\p{N}_])[^\p{N}]{0,96}$/iu;
+const OUTGOING_SOURCE=/(?<![\p{L}\p{N}_])(?:you\s+(?:have\s+)?(?:sent|paid|withdrawn|cashed\s+(?:in|out))|your\s+(?:(?:mobile[- ]money\s+)?wallet|account)\s+(?:(?:has\s+been|was|is)\s+)?debit(?:ed)?|cash|cash[- ]?out|withdraw(?:al|n|ing)?|from\s+your\s+wallet|(?:transferred|transfer)\s+to|your\s+payment\s+of|outgoing\s+(?:payment|transfer|transaction)|vous\s+avez\s+(?:envoy[eé]|transf[eé]r[eé]|retir[eé]|remis|pay[eé])|votre\s+(?:portefeuille|compte)\s+(?:est|a\s+[eé]t[eé])\s+d[eé]bit[eé]|retrait|wohereje|wishyuye|wabikuje|wabikuye|umetuma|umelipa|umetoa)(?![\p{L}\p{N}_])/iu;
+// Receiving an instruction, request or notice is not the same as receiving
+// wallet value. Unknown wording around the number is not accepted as proof.
+const NON_CREDIT_CONTEXT=/(?<![\p{L}\p{N}_])(?:not|never|no|request|requested|requesting|message|sms|notification|notice|instruction|invitation|demand|invoice|send|sending|pay|paying|withdraw|withdrawing|cash|demande|requ[eê]te|invitation|ubusabe|gusaba)(?![\p{L}\p{N}_])/iu;
+const ANCILLARY_LABEL=/^\s*(?:(?:(?:remaining|wallet)\s+)?(?:balance|solde|asigaye|salio|fees?|charges?|frais|komisiyo|ada)(?:\s+(?:remaining|restant|restante))?|your\s+(?:wallet\s+)?balance\s+is|balance\s+after\s+this\s+transaction\s+is)\s*[:=]?\s*$/iu;
+// These are only the narrow source forms exercised below, not an assertion
+// about every carrier message or a proof of actual provider settlement. Bare
+// "Received" does not identify a wallet; treating it as a wallet receipt is
+// the selected product inference, not verification of settlement.
+const RECEIPT_CLAUSES=[
+ {lead:/^(?:you\s+(?:have\s+)?received|received)\s*$/iu,connector:/^from\s+/iu},
+ {lead:/^your\s+(?:wallet|account)\s+(?:has\s+been|was|is)\s+credited(?:\s+(?:with|by))?\s*$/iu,connector:/^from\s+/iu},
+ {lead:/^votre\s+(?:portefeuille|compte)\s+(?:est|a\s+[eé]t[eé]|a\s+ete)\s+cr[eé]dit[eé]\s+de\s*$/iu,connector:/^par\s+/iu},
+ {lead:/^wakiriye\s*$/iu,connector:/^uhawe\s+na\s+/iu},
+ {lead:/^umepokea\s*$/iu,connector:/^kutoka\s+/iu},
+];
+const RECEIPT_PARTY_NAME=/^\p{Lu}[\p{L}\p{M}'’\-]*(?:\s+(?:(?:de(?:\s+la)?|van(?:\s+der)?|der)\s+)?\p{Lu}[\p{L}\p{M}'’\-]*){0,3}(?:\s+&\s+Sons)?$/u;
+const RECEIPT_PARTY_ID=/^[+0-9*•xX# .\-]{3,32}$/u;
+// The model may omit a later sentence entirely. Reject explicit denials,
+// addressed-wallet debits and reversals in the whole source, in the limited
+// language forms we can independently recognize. Unrecognized statements are
+// also held below; these markers are not a universal language classifier.
+const CONTRADICTS_CREDIT=/(?<![\p{L}\p{N}_])(?:(?:not|never|no|without|wasn['’]t|isn['’]t|hasn['’]t|haven['’]t)[^.!?;\r\n]{0,80}(?:credit(?:ed)?|deposit(?:ed)?|receiv(?:ed|e)|funds|money)|(?:credit|deposit|receipt|funds)[^.!?;\r\n]{0,80}(?:was\s+not|were\s+not|not\s+(?:been\s+)?(?:credited|received|applied)|never\s+(?:been\s+)?(?:credited|received|applied))|(?:wallet|account|balance)[^.!?;\r\n]{0,80}(?:debit(?:ed)?|deducted|withdrawn)|reversal|reversed|chargeback|refunded|pas[^.!?;\r\n]{0,80}cr[eé]dit[eé]|(?:portefeuille|compte|solde)[^.!?;\r\n]{0,80}d[eé]bit[eé]|annulation|ntiyashyizwemo|ntiyinjijwemo|ntiwakiriye|ntiyageze|yakuwe\s+kuri\s+konti|yabikujwe|cyarasubijwe|yarasubijwe|haikuongezewa|haijaongezewa|haijapokelewa|limekatwa|imetolewa|imerejeshwa)(?![\p{L}\p{N}_])/iu;
+const META_REFERENCE=/^\s*(?:(?:transaction|transfer|transfert|op[eé]ration|igikorwa|muamala|shughuli|txn|tx|ft)\s*(?:id|no|n[°º]|number|num[eé]ro|nimero|nambari|namba|reference|r[eé]f(?:\.|[eé]rence)?|code|#)|(?:id|reference|r[eé]f(?:\.|[eé]rence)?|num[eé]ro\s+d['’]op[eé]ration|n[°º]\s*op[eé]ration|nimero\s+y['’]igikorwa|kumbukumbu))\s*[:#=\-]?\s*(?=[a-z0-9/\-]*[0-9])[a-z0-9]{1,32}(?:[/-][0-9]{1,32})?\s*$/iu;
+const META_DATE=/^\s*(?:at|date|time|on)\s+\d{2,4}[-/]\d{2}[-/]\d{2,4}(?:[ T]\d{2}:\d{2}(?::\d{2})?)?\s*$/iu;
+function sourceStatements(body){
+ const parts=[];const separator=/(?:(?<!r[eé]f)(?:\.(?!\d)|(?<!\d)\.)|[!?;\r\n])+/giu;
+ let start=0;for(const m of body.matchAll(separator)){parts.push({start,end:m.index,text:body.slice(start,m.index)});start=m.index+m[0].length;}
+ parts.push({start,end:body.length,text:body.slice(start)});return parts;
+}
+function otherStatementsSupported(body,principalAt,profile){
+ const seen=new Set();
+ for(const part of sourceStatements(body)){
+  const text=part.text.trim();if(!text)continue;
+  const amounts=monetaryTokens(text,profile);
+  if(CONTRADICTS_CREDIT.test(text))return false;
+  if(principalAt>=part.start&&principalAt<part.end){
+   if(/\b(?:but|however|instead|except|although|yet|and|also|while)\b/iu.test(text))return false;
+   continue;
+  }
+  if(amounts.length===1){
+   const token=amounts[0],label=text.slice(0,token.at);
+   if(ANCILLARY_LABEL.test(label)&&/^\s*$/u.test(text.slice(token.end))){
+    const role=/\b(?:balance|solde|asigaye|salio)\b/iu.test(label)?'balance':'fee';
+    if(seen.has(role))return false;seen.add(role);continue;
+   }
+  }
+  const role=META_REFERENCE.test(text)?'reference':META_DATE.test(text)?'date':null;
+  if(role){if(seen.has(role))return false;seen.add(role);continue;}
+  return false;
+ }
+ return true;
+}
+function conflictingOutgoing(body,profile){
+ // Any outgoing source language is unsupported in the incoming grammar,
+ // including text that purports to describe a different transaction.
+ for(const part of body.split(/(?:\.(?!\d)|(?<!\d)\.|[!?;\r\n])+/u)){
+  const configured=(profile.outgoing_markers??[]).filter(s=>typeof s==='string'&&s.trim().length>=5);
+  if(OUTGOING_SOURCE.test(part)||containsAny(part,configured))return true;
+ }
+ return false;
+}
+function supportedReceiptClause(body,value,token){
+ const statement=sourceStatements(body).find(part=>token.at>=part.start&&token.at<part.end);
+ if(!statement||token.end>statement.end)return false;
+ const lead=body.slice(statement.start,token.at).trim(),tail=body.slice(token.end,statement.end).trim();
+ const form=RECEIPT_CLAUSES.find(item=>item.lead.test(lead));if(!form)return false;
+ const connection=form.connector.exec(tail);if(!connection)return false;
+ const name=value.payer_name_raw,id=value.payer_identifier_raw;
+ if(typeof name!=='string'||!RECEIPT_PARTY_NAME.test(name)||name!==name.trim()||
+  id!==null&&(typeof id!=='string'||!RECEIPT_PARTY_ID.test(id)||id!==id.trim()))return false;
+ const party=tail.slice(connection[0].length);
+ if(id===null?party!==name:party!==`${name} ${id}`&&party!==`${name} (${id})`)return false;
+ const phrase=connection[0]+party,phraseAt=body.indexOf(phrase,token.end);
+ if(phraseAt<token.end||phraseAt+phrase.length>statement.end)return false;
+ // The quoted payer must cover the complete source party, so an initial model
+ // fragment cannot stand in for an omitted qualifier after a name/number.
+ return quotePositions(body,value.evidence.payer).some(span=>span.at<=phraseAt&&span.end>=phraseAt+phrase.length);
+}
+function supportedIncomingSource(body,value,profile){
+ const raw=value.principal_amount_raw,quote=value.evidence.principal,direction=value.evidence.incoming_success;
+ const amount=quotedMinor(raw,profile);
+ if(amount===null||amount<=0||!present(body,quote)||!present(body,direction)||conflictingOutgoing(body,profile))return false;
+ for(const principal of quotePositions(body,quote)){
+  for(let i=quote.indexOf(raw);i!==-1;i=quote.indexOf(raw,i+1)){
+   const at=principal.at+i;if(!exactTokenAt(quote,i,raw)||!exactTokenAt(body,at,raw))continue;
+   const clause=clauseAt(body,at),before=body.slice(clause.start,at);
+   const match=INCOMING_SOURCE_PREFIX.exec(before);if(!match||NON_CREDIT_CONTEXT.test(before.slice(before.indexOf(match.groups.cue)+match.groups.cue.length)))continue;
+   if(!otherStatementsSupported(body,at,profile))continue;
+   // A second unlabelled amount may be a separate transaction or an
+   // adversarial quote in another language. Do not guess which event the AI
+   // meant. Only standalone labeled fee/balance fields are ancillary.
+   const sourceAmounts=monetaryTokens(body,profile);
+   const current=sourceAmounts.find(token=>token.at<=at&&token.end>=at+raw.length&&token.value===amount);
+   if(!current||!supportedReceiptClause(body,value,current))continue;
+   if(sourceAmounts.some(token=>{
+    if(token.at===current.at&&token.end===current.end)return false;
+    const other=clauseAt(body,token.at),before=body.slice(other.start,token.at),after=body.slice(token.end,other.end);
+    // An arbitrary clause containing the word "balance" or "fee" is not
+    // enough: only a standalone labelled value is an ancillary amount.
+    if(ANCILLARY_LABEL.test(before)&&/^\s*$/u.test(after))return false;
+    return true;
+   }))continue;
+   // The direction quote must actually cover the source prefix in the same
+   // clause, not just repeat a similarly worded earlier or later event.
+   const cueAt=clause.start+before.indexOf(match.groups.cue);
+   if(quotePositions(body,direction).some(span=>span.at<=cueAt&&span.end>=cueAt+match.groups.cue.length))return true;
+  }
+ }
+ return false;
+}
 function supportedKind(value,body,profile){
  const kind=value.event_kind,outcome=value.payment_outcome;
  const expected={incoming_receipt:'successful',outgoing:'successful',reversal:'successful',failed:'failed',pending:'pending'};
@@ -326,12 +482,14 @@ function supportedKind(value,body,profile){
   const effect=value.wallet_effect,required={incoming_receipt:['credit'],outgoing:['debit'],reversal:['credit','debit'],failed:['none'],pending:['none']};
   if(!own(expected,kind))return {event_kind:kind==='other'?'other':'unknown',payment_outcome:'unknown'};
   if(outcome!==expected[kind]||!required[kind].includes(effect)||!contextualQuote(body,value.evidence.incoming_success,profile)||
+   kind==='incoming_receipt'&&!supportedIncomingSource(body,value,profile)||
    ['incoming_receipt','outgoing'].includes(kind)&&contradictoryOutcome(body,value,profile))
    return {event_kind:'unknown',payment_outcome:'unknown'};
   return {event_kind:kind,payment_outcome:outcome};
  }
  if(own(expected,kind)){
   if(outcome!==expected[kind]||!containsAny(body,markers(profile,kind)))return {event_kind:'unknown',payment_outcome:'unknown'};
+  if(kind==='incoming_receipt'&&!supportedIncomingSource(body,value,profile))return {event_kind:'unknown',payment_outcome:'unknown'};
   // Bind a contradictory status to this transaction, not an unrelated prior
   // failure or conditional provider advice elsewhere in the SMS.
   if(['incoming_receipt','outgoing'].includes(kind)&&contradictoryOutcome(body,value,profile))
@@ -481,8 +639,11 @@ export function validateNativeAutoExtraction(source,account,output){
   fallback&&referenceInEvidence(body,fallback,profile.transaction_id_prefixes)?fallback:null;
  const otherId=output.original_transaction_id_raw&&output.original_transaction_id_raw.length<=160&&
   !/\s/u.test(output.original_transaction_id_raw)?output.original_transaction_id_raw:null;
- const name=output.payer_name_raw&&present(output.evidence.payer,output.payer_name_raw)?output.payer_name_raw:null;
- const counterparty=output.payer_identifier_raw&&present(output.evidence.payer,output.payer_identifier_raw)?output.payer_identifier_raw:null;
+ const counterparty=output.payer_identifier_raw&&sourceBoundPayerIdentifier(body,output.evidence.payer,output.payer_identifier_raw)&&
+  sourceBoundPayerIdentifier(source.raw_body,output.evidence.payer,output.payer_identifier_raw)?output.payer_identifier_raw:null;
+ const name=output.payer_name_raw&&present(output.evidence.payer,output.payer_name_raw)&&(!counterparty||
+  sourceBoundPayerName(body,output.evidence.payer,output.payer_name_raw,counterparty,principal)&&
+  sourceBoundPayerName(source.raw_body,output.evidence.payer,output.payer_name_raw,counterparty,principal))?output.payer_name_raw:null;
  const rawDate=output.transaction_datetime_raw&&present(output.evidence.transaction_datetime,output.transaction_datetime_raw)?output.transaction_datetime_raw:null;
  const fee=output.fee_amount_raw!==null&&quotedMinor(output.fee_amount_raw,profile)!==null&&present(body,output.evidence.fee)&&
   (semantic?semanticAmountHasRole(body,output,profile,'fee'):amountHasRole(body,output.evidence.fee,output.fee_amount_raw,profile,'fee',identity.event_kind))?quotedMinor(output.fee_amount_raw,profile):null;

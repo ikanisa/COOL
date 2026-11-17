@@ -32,7 +32,7 @@ async function fixture({members=[member],failOnStatement=0,wrongGroup=false,sour
   amount_minor:canonicalAmount,currency:'RWF',payer_name:'Example Person',payer_identifier:'*********456',wallet_balance_after_minor:null,
   mode:'historical',allocation_state:'not_applicable',has_conflict:0,version:1,transaction_at:null,created_at:'2026-01-01T00:00:00.000Z',
   output_json:JSON.stringify(extractionOutput),posting_facts:null,posting_output:null,public_code:'12345',receiver_display_label:'Example',has_link:false,link_posted:false};
- let backoffCalls=0,state={row,members,writes:[],stored:[],deferred:0,statements:0,failureDeferred:0,failureCount:0,nextAttemptAt:0,lastError:null};
+ let backoffCalls=0,state={row,members:structuredClone(members),writes:[],stored:[],deferred:0,statements:0,failureDeferred:0,failureCount:0,nextAttemptAt:0,lastError:null};
  const tx={async unsafe(query,values){
   if(query.includes('native_sms_post_snapshot'))return [{result:structuredClone(state.row)}];
   if(query.includes('native_sms_post_facts')){state.row.posting_output=structuredClone(values[2]);state.row.posting_facts=structuredClone(values[3]);return [{result:true}];}
@@ -76,6 +76,84 @@ test('retained source facts are recovered without AI while an unmatched receipt 
 const fullSender=number=>({sourceBody:body.replace('*********456',number),extractionOutput:{...output,
  payer_identifier_raw:number,evidence:{...output.evidence,payer:'from Example Person '+number}}});
 
+test('a truncated AI payer identity from a different full phone never posts a credit',async()=>{
+ for(const [full,raw] of [['0788999456','456'],['0788 999 456','999 456'],['0788-999-456','456'],['xxx456','456']]){
+  const original=fullSender(full),extractionOutput={...original.extractionOutput,payer_identifier_raw:raw};
+  const f=await fixture({...original,extractionOutput});
+  f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(extractionOutput)})};
+  assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'},`${full} / ${raw}`);
+  assert.equal(f.state.row.posting_facts,null);
+  assert.equal(f.state.row.has_link,false);assert.deepEqual(f.state.writes,[]);assert.deepEqual(f.state.stored,[]);
+ }
+});
+test('a truncated or cropped payer name with a genuine mask never posts to a shorter-name member',async()=>{
+ for(const [actual,name,quoted] of [['Example Person','Example','Example Person'],['Example Person','Exam','Example Person'],
+  ['Example Person','Person','Person'],['Alice Marie Mukamana','Marie Mukamana','Marie Mukamana']]){
+  const original=fullSender('*****456'),sourceBody=original.sourceBody.replace('Example Person',actual);
+  const extractionOutput={...original.extractionOutput,payer_name_raw:name,
+   evidence:{...original.extractionOutput.evidence,payer:`${quoted} *****456`}};
+  const f=await fixture({sourceBody,extractionOutput,members:[{...member,full_name:name}]});
+  f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(extractionOutput)})};
+  assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'},`${actual} / ${name}`);
+  assert.equal(f.state.row.posting_facts,null);
+  assert.equal(f.state.row.has_link,false);assert.deepEqual(f.state.writes,[]);assert.deepEqual(f.state.stored,[]);
+ }
+});
+test('a changed payer-name order cannot create a financial link',async()=>{
+ const original=fullSender('*****456'),extractionOutput={...original.extractionOutput,payer_name_raw:'Person Example'};
+ const f=await fixture({...original,extractionOutput,members:[{...member,full_name:'Person Example'}]});
+ f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(extractionOutput)})};
+ assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'});
+ assert.equal(f.state.row.has_link,false);assert.deepEqual(f.state.writes,[]);assert.deepEqual(f.state.stored,[]);
+});
+test('a complete Unicode payer name with a genuine mask can follow the approved policy',async()=>{
+ const original=fullSender('xxx456'),sourceBody=original.sourceBody.replace('Example Person','Élodie Mukamana');
+ const extractionOutput={...original.extractionOutput,payer_name_raw:'Élodie Mukamana',
+  evidence:{...original.extractionOutput.evidence,payer:'from Élodie Mukamana xxx456'}};
+ const f=await fixture({sourceBody,extractionOutput,members:[{...member,full_name:'Élodie Mukamana'}]});
+ assert.deepEqual(await f.ledger.process(sourceId),{state:'posted'});
+ assert.deepEqual(f.state.writes.slice(0,3),['evidence','payment','link']);
+});
+test('a saved legacy suffix interpretation is not reused after its complete source token fails validation',async()=>{
+ const original=fullSender('0788999456'),bad={...original.extractionOutput,payer_identifier_raw:'456'};
+ const f=await fixture({...original,extractionOutput:bad});
+ const parsed=validateNativeAutoExtraction({raw_sender:'Example Money',raw_body:original.sourceBody,source_mode:'catch_up'},profile,bad);
+ f.state.row.posting_facts={...parsed.facts,counterparty_identifier:'456',transaction_time_source:null,transaction_timezone:null};
+ f.state.row.posting_output=bad;
+ f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(bad)})};
+ assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'});
+ assert.equal(f.state.row.has_link,false);assert.deepEqual(f.state.writes,[]);assert.deepEqual(f.state.stored,[]);
+});
+test('genuine complete masked payer tokens retain the approved unique-name matching behavior',async()=>{
+ for(const payer of ['*****456','xxx456']){
+  const f=await fixture(fullSender(payer));
+  assert.deepEqual(await f.ledger.process(sourceId),{state:'posted'},payer);
+  assert.equal(f.state.row.posting_facts.counterparty_identifier,payer);
+  assert.deepEqual(f.state.writes.slice(0,3),['evidence','payment','link']);
+ }
+});
+test('synthetic supported incoming clauses post genuine masked matches in four languages',async()=>{
+ for(const [lead,connector] of [['You have received','from'],['Wakiriye','uhawe na'],
+  ['Votre portefeuille est crédité de','par'],['Umepokea','kutoka']]){
+  const principal=`${lead} 1,250 RWF ${connector} Example Person *****456`,sourceBody=`${principal}. Balance 9,000 RWF.`;
+  const extractionOutput={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',payer_identifier_raw:'*****456',
+   evidence:{...output.evidence,incoming_success:principal,principal,payer:`${connector} Example Person *****456`}};
+  const f=await fixture({sourceBody,extractionOutput});
+  assert.deepEqual(await f.ledger.process(sourceId),{state:'posted'},lead);
+  assert.deepEqual(f.state.writes.slice(0,3),['evidence','payment','link'],lead);
+ }
+});
+test('changed masked payer member identity is rechecked before posting',async()=>{
+ for(const change of ['name','phone']){
+  const f=await fixture(fullSender('*****456'));let checks=0;
+  f.ledger.worker.verify=async()=>{if(++checks===2){
+   if(change==='name')f.state.members[0].full_name='Different Person';
+   if(change==='phone')f.state.members[0].momo_number='0788123789';
+  }};
+  await assert.rejects(f.ledger.process(sourceId));
+  assert.equal(f.state.row.has_link,false);assert.deepEqual(f.state.writes,[]);
+ }
+});
 test('a different complete sender number with the same name and suffix is retained without a credit',async()=>{
  const f=await fixture(fullSender('0788999456'));
  assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'});
@@ -108,6 +186,116 @@ test('matched native catch-up uses the existing payment/link/contribution path o
  assert.equal(f.state.stored.length,1);
  const count=f.state.writes.length;assert.deepEqual(await f.ledger.process(sourceId),{state:'already_posted'});assert.equal(f.state.writes.length,count);
 });
+
+test('a self-consistent wrong AI direction for an outgoing SMS creates no financial writes',async()=>{
+ const sourceBody='You have cashed in 1,250 RWF to Example Person *********456. Balance 9,000 RWF.';
+ const principal='You have cashed in 1,250 RWF to Example Person *********456';
+ const bad={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',
+  evidence:{...output.evidence,incoming_success:principal,principal,payer:'to Example Person *********456',wallet_balance_after:'Balance 9,000 RWF'}};
+ const f=await fixture({sourceBody,extractionOutput:bad});
+ f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(bad)})};
+ assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'});
+ assert.equal(f.state.deferred,1);assert.equal(f.state.deferDelay,86400000);
+ assert.deepEqual(f.state.writes,[]);assert.equal(f.state.stored.length,0);
+});
+
+test('a later denial, debit or reversal prevents posting a selectively quoted receipt',async()=>{
+ const principal='You have received 1,250 RWF from Example Person *********456';
+ const value={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',
+  evidence:{...output.evidence,incoming_success:principal,principal,payer:'from Example Person *********456',wallet_balance_after:'Balance 9,000 RWF'}};
+ for(const tail of ['Your account was not credited.','Your balance was debited by that amount.',
+  'This is a reversal of the previous credit.',"Votre compte n'a pas été crédité.",
+  'Votre solde a été débité de ce montant.','Konti yawe ntiyashyizwemo amafaranga.',
+  'Amafaranga yakuwe kuri konti yawe.','Akaunti yako haikuongezewa fedha.']){
+  const sourceBody=`${principal}. ${tail} Balance 9,000 RWF.`;
+  const f=await fixture({sourceBody,extractionOutput:value});
+  f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(value)})};
+  assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'},tail);
+  assert.equal(f.state.deferred,1,tail);assert.equal(f.state.deferDelay,86400000,tail);
+  assert.deepEqual(f.state.writes,[],tail);assert.equal(f.state.stored.length,0,tail);
+ }
+});
+
+test('a same-clause qualification hidden from the model quote cannot be posted',async()=>{
+ const principal='You have received 1,250 RWF from Example Person *********456';
+ const value={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',
+  evidence:{...output.evidence,incoming_success:principal,principal,payer:'from Example Person *********456',wallet_balance_after:'Balance 9,000 RWF'}};
+ for(const suffix of [' in your linked savings group, not in your wallet',' before it was taken back']){
+  const sourceBody=`${principal}${suffix}. Balance 9,000 RWF.`;
+  const f=await fixture({sourceBody,extractionOutput:value});
+  f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(value)})};
+  assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'},suffix);
+  assert.equal(f.state.deferred,1,suffix);assert.equal(f.state.deferDelay,86400000,suffix);
+  assert.deepEqual(f.state.writes,[],suffix);assert.equal(f.state.stored.length,0,suffix);
+ }
+});
+
+test('previous transaction statements cannot cause a selectively quoted receipt to post',async()=>{
+ const principal='You have received 1,250 RWF from Example Person (***456)';
+ const value={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',payer_identifier_raw:'***456',
+  evidence:{...output.evidence,incoming_success:principal,principal,payer:'from Example Person (***456)',wallet_balance_after:'Balance 9,000 RWF'}};
+ const clean=`${principal}. Reference: ABC123. Balance 9,000 RWF.`;
+ const good=await fixture({sourceBody:clean,extractionOutput:value});
+ assert.deepEqual(await good.ledger.process(sourceId),{state:'posted'});
+ for(const tail of [
+  'Previous transaction of 500 RWF means the receipt is not credited.',
+  'Previous transaction of 500 RWF caused the credit to be reversed.',
+  'Previous transaction of 500 RWF means the amount was taken back.',
+  'Previous transaction of 500 RWF applies to this receipt.',
+  'A previous unrelated outgoing payment of 500 RWF was sent to Example Shop.',
+  'Your previous transfer failed.',
+ ]){
+  const sourceBody=`${principal}. ${tail} Reference: ABC123. Balance 9,000 RWF.`;
+  for(const quote of [principal,`${principal}. ${tail}`,sourceBody]){
+   const selected={...value,evidence:{...value.evidence,incoming_success:quote}};
+   const f=await fixture({sourceBody,extractionOutput:selected});
+   f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(selected)})};
+   assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'},tail);
+   assert.equal(f.state.deferred,1,tail);assert.equal(f.state.deferDelay,86400000,tail);
+   assert.deepEqual(f.state.writes,[],tail);assert.equal(f.state.stored.length,0,tail);
+  }
+ }
+});
+
+test('a supported name particle and masked last-three identifier still match and post',async()=>{
+ const principal='You have received 1,250 RWF from Marie de Vries (***456)';
+ const value={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',
+  payer_name_raw:'Marie de Vries',payer_identifier_raw:'***456',
+  evidence:{...output.evidence,incoming_success:principal,principal,payer:'from Marie de Vries (***456)',wallet_balance_after:'Balance 9,000 RWF'}};
+ const sourceBody=`${principal}. Reference: ABC123. Balance 9,000 RWF.`;
+ const f=await fixture({sourceBody,extractionOutput:value,members:[{...member,full_name:'Marie de Vries'}]});
+ assert.deepEqual(await f.ledger.process(sourceId),{state:'posted'});
+ assert.deepEqual(f.state.writes.slice(0,3),['evidence','payment','link']);
+});
+
+test('constrained balances and supported names preserve masked incoming posting',async()=>{
+ for(const [name,balance] of [
+  ['Jean de la Croix','Your balance is 9,000 RWF'],
+  ['Jean de la Croix','Balance after this transaction is 9,000 RWF'],
+  ['Example & Sons','Your wallet balance is 9,000 RWF'],
+ ]){
+  const principal=`You have received 1,250 RWF from ${name} (***456)`;
+  const value={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',
+   payer_name_raw:name,payer_identifier_raw:'***456',wallet_balance_after_raw:'9,000',
+   evidence:{...output.evidence,incoming_success:principal,principal,payer:`from ${name} (***456)`,wallet_balance_after:balance}};
+  const sourceBody=`${principal}. Reference: ABC123. ${balance}.`;
+  const options={sourceBody,extractionOutput:value,members:[{...member,full_name:name}]};
+  const good=await fixture(options);
+  assert.deepEqual(await good.ledger.process(sourceId),{state:'posted'},balance);
+  for(const sourceBody of [
+   `${principal}. Previous transaction of 500 RWF means the receipt is not credited. Reference: ABC123. ${balance}.`,
+   `${principal}. Previous transaction of 500 RWF caused the credit to be reversed. Reference: ABC123. ${balance}.`,
+   `${principal}. Reference: ABC123. ${balance} before it was taken back.`,
+  ]){
+   const bad=await fixture({...options,sourceBody});
+   bad.ledger.env.MOMO_AI_ENABLED='true';bad.ledger.env.AI={run:async()=>({response:JSON.stringify(value)})};
+   assert.deepEqual(await bad.ledger.process(sourceId),{state:'unmatched'},sourceBody);
+   assert.equal(bad.state.deferred,1);assert.equal(bad.state.deferDelay,86400000);
+   assert.deepEqual(bad.state.writes,[]);assert.equal(bad.state.stored.length,0);
+  }
+ }
+});
+
 test('a matched source-grounded receipt with a canonical provider ID may post once without a balance',async()=>{
  const noBalanceBody='You have received 1,250 RWF from Example Person *********456. FT Id: TX-123.';
  const result={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',transaction_id_raw:'TX-123',wallet_balance_after_raw:null,
@@ -232,8 +420,12 @@ test('misclassified incoming status and balance-only principal cannot reach the 
   assert.equal((await f.ledger.process(sourceId)).state,'unmatched',tail);
   assert.equal(f.state.writes.length,0,tail);assert.equal(f.state.stored.length,0,tail);assert.equal(f.state.deferred,1,tail);assert.equal(f.state.deferDelay,86400000,tail);
  }
- const valid=await fixture({sourceBody:body+' A different, earlier transfer failed.'});
- assert.equal((await valid.ledger.process(sourceId)).state,'posted');
+ const unsupported=await fixture({sourceBody:body+' A different, earlier transfer failed.'});
+ unsupported.ledger.env.MOMO_AI_ENABLED='true';
+ unsupported.ledger.env.AI={run:async()=>({response:JSON.stringify(output)})};
+ assert.equal((await unsupported.ledger.process(sourceId)).state,'unmatched');
+ assert.equal(unsupported.state.writes.length,0);assert.equal(unsupported.state.stored.length,0);
+ assert.equal(unsupported.state.deferred,1);assert.equal(unsupported.state.deferDelay,86400000);
 });
 test('a link without a matching posted contribution is not reported as posted',async()=>{
  const f=await fixture();f.state.row.has_link=true;f.state.row.link_posted=false;

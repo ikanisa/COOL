@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {NATIVE_AUTO_EXTRACTION_SCHEMA,NATIVE_AUTO_SCHEMA_VERSION,prepareNativeAutoExtraction,validateNativeAutoExtraction} from '../../domain/burimunsi/native-auto-parser.js';
 import {MOMO_SCHEMA_VERSION} from '../../domain/momo_pipeline.js';
+import {matchNativeSmsMember} from '../../domain/burimunsi/native-sms-member-match.js';
 
 const account={provider:'mtn_momo',status:'active',profile_status:'approved',profile_version:'synthetic-1',currency:'RWF',timezone:'Africa/Kigali',
  profile_json:JSON.stringify({sender_allowlist:['Example Money'],currency_aliases:['RWF'],incoming_prefixes:['You have received'],
@@ -24,6 +25,112 @@ test('incoming transaction preserves supported source values without creating fi
  assert.deepEqual(result.facts,{source_mode:'catch_up',event_kind:'incoming_receipt',payment_outcome:'successful',provider_transaction_id:'ABC123',
   original_transaction_id:null,amount_minor:1250,currency:'RWF',counterparty_name:'Example Person',counterparty_identifier:null,
   transaction_at:null,transaction_datetime_raw:null,fee_minor:10,wallet_balance_after_minor:9000});
+});
+
+test('payer identity must be the complete source token, even when AI quotes only a suffix',()=>{
+ for(const [full,fragments] of [
+  ['0788999456',['456','99456','0788999']],
+  ['0788 999 456',['456','999 456','0788']],
+  ['0788-999-456',['456','999-456']],
+  ['+250.788.999.456',['456','788.999.456']],
+  ['(0788) 999 456',['456','999 456']],
+  ['0788/999/456',['456','999/456']],
+ ]){
+  const body=incoming.replace('from Example Person.',`from Example Person ${full}.`);
+  for(const raw of fragments){
+   for(const quote of [`from Example Person ${full}`,raw]){
+    const value={...incomingOutput,payer_identifier_raw:raw,evidence:{...incomingOutput.evidence,payer:quote}};
+    const result=validateNativeAutoExtraction(source(body),account,value);
+    assert.equal(result.kind,'parsed',`${full}: ${quote}`);
+    assert.equal(result.facts.counterparty_identifier,null,`${full}: ${raw} / ${quote}`);
+   }
+  }
+ }
+});
+
+test('complete formatted and genuine masked payer tokens retain source-bound identity',()=>{
+ const member={id:'member-1',groupId:'group-1',name:'Example Person',momoNumber:'0788123456',
+  active:true,eligible:true,memberType:'direct'};
+ for(const token of ['0788123456','0788 123 456','0788-123-456','+250 788 123 456','+250.788.123.456',
+  '(0788) 123 456','*****456','xxx456']){
+  const body=incoming.replace('from Example Person.',`from Example Person ${token}.`);
+  const value={...incomingOutput,payer_identifier_raw:token,evidence:{...incomingOutput.evidence,payer:`from Example Person ${token}`}};
+  const result=validateNativeAutoExtraction(source(body),account,value);
+  assert.equal(result.kind,'parsed',token);assert.equal(result.facts.counterparty_identifier,token,token);
+  assert.equal(matchNativeSmsMember({groupId:'group-1',payerName:result.facts.counterparty_name,
+   payerIdentifier:result.facts.counterparty_identifier,members:[member]}),'member-1',token);
+  if(/[*x]/i.test(token)){
+   const partial={...value,payer_identifier_raw:'456'};
+   assert.equal(validateNativeAutoExtraction(source(body),account,partial).facts.counterparty_identifier,null,token);
+  }
+ }
+});
+
+test('changed, repeated or competing payer identity evidence cannot select a member',()=>{
+ const payer='from Example Person *****456',body=incoming.replace('from Example Person.',payer+'.');
+ const value={...incomingOutput,payer_identifier_raw:'*****456',evidence:{...incomingOutput.evidence,payer}};
+ assert.deepEqual(validateNativeAutoExtraction(source(body.replace('*****456','*****789')),account,value),{kind:'invalid_output'});
+ for(const changed of [body+' Repeated *****456.',body+' '+payer+'.',
+  body.replace(payer,payer+' and 0788999456')]){
+  const revised=changed.includes(' and ')?{...value,evidence:{...value.evidence,payer:payer+' and 0788999456'}}:value;
+  assert.equal(validateNativeAutoExtraction(source(changed),account,revised).facts.counterparty_identifier,null,changed);
+ }
+});
+
+test('a cropped or truncated payer name cannot identify a member for a genuine masked token',()=>{
+ for(const [actual,name,quoteName] of [
+  ['Example Person','Example','Example Person'],['Example Person','Exam','Example Person'],
+  ['Example Person','Person','Person'],['Alice Marie Mukamana','Marie Mukamana','Marie Mukamana'],
+  ['Alice Marie Mukamana','Alice Marie','Alice Marie Mukamana'],
+ ]){
+  const payer=`from ${actual} *****456`,body=incoming.replace('from Example Person.',payer+'.');
+  const value={...incomingOutput,payer_name_raw:name,payer_identifier_raw:'*****456',
+   evidence:{...incomingOutput.evidence,payer:`${quoteName} *****456`}};
+  const result=validateNativeAutoExtraction(source(body),account,value);
+  assert.equal(result.kind,'parsed',`${actual} / ${name}`);
+  assert.equal(result.facts.counterparty_name,null,`${actual} / ${name}`);
+  assert.equal(result.facts.counterparty_identifier,'*****456');
+  const member={id:'shorter',groupId:'group-1',name,momoNumber:'0788123456',active:true,eligible:true,memberType:'direct'};
+  assert.equal(matchNativeSmsMember({groupId:'group-1',payerName:result.facts.counterparty_name,
+   payerIdentifier:result.facts.counterparty_identifier,members:[member]}),null);
+ }
+});
+
+test('complete Unicode and punctuated names match only with unambiguous source context',()=>{
+ for(const [marker,name] of [['from','Élodie Mukamana'],['par',"Marie O’Neill"],['par','Marie de Souza'],
+  ['kwa','Alex Niyonsaba'],['from','Jean M. Bosco']]){
+  const payer=`${marker} ${name} (xxx456)`,body=incoming.replace('from Example Person.',payer+'.');
+  const value={...incomingOutput,payer_name_raw:name,payer_identifier_raw:'xxx456',evidence:{...incomingOutput.evidence,payer}};
+  const result=validateNativeAutoExtraction(source(body),account,value);
+  assert.equal(result.kind,'parsed',payer);assert.equal(result.facts.counterparty_name,name,payer);
+  assert.equal(result.facts.counterparty_identifier,'xxx456',payer);
+ }
+ for(const payer of ['via Example Person *****456','from Alice from Example Person *****456',
+  'from Alice. from Example Person *****456',
+  'from *****456 Example Person']){
+  const body=incoming.replace('from Example Person.',payer+'.');
+  const value={...incomingOutput,payer_name_raw:'Example Person',payer_identifier_raw:'*****456',
+   evidence:{...incomingOutput.evidence,payer}};
+  const result=validateNativeAutoExtraction(source(body),account,value);
+  assert.equal(result.kind,'parsed',payer);assert.equal(result.facts.counterparty_name,null,payer);
+ }
+});
+
+test('synthetic supported incoming clauses retain genuine masked matching in four languages',()=>{
+ const member={id:'member-1',groupId:'group-1',name:'Example Person',momoNumber:'0788123456',
+  active:true,eligible:true,memberType:'direct'};
+ for(const [lead,connector] of [['You have received','from'],['Wakiriye','uhawe na'],
+  ['Votre portefeuille est crédité de','par'],['Umepokea','kutoka']]){
+  const principal=`${lead} 1,250 RWF ${connector} Example Person *****456`,body=`${principal}. Balance 9,000 RWF.`;
+  const value={...incomingOutput,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',transaction_id_raw:null,
+   payer_identifier_raw:'*****456',fee_amount_raw:null,evidence:{incoming_success:principal,principal,
+    transaction_id:null,transaction_datetime:null,payer:`${connector} Example Person *****456`,fee:null,wallet_balance_after:'Balance 9,000 RWF'}};
+  const result=validateNativeAutoExtraction(source(body),account,value);
+  assert.equal(result.kind,'parsed',lead);assert.equal(result.facts.event_kind,'incoming_receipt',lead);
+  assert.equal(result.facts.counterparty_name,'Example Person',lead);
+  assert.equal(matchNativeSmsMember({groupId:'group-1',payerName:result.facts.counterparty_name,
+   payerIdentifier:result.facts.counterparty_identifier,members:[member]}),'member-1',lead);
+ }
 });
 test('balance and fee accept a single exact currency-qualified quote',()=>{
  for(const [raw,evidence,body] of [
@@ -227,21 +334,21 @@ test('a contradictory outcome for this incoming transfer cannot become a credit'
  assert.equal(validateNativeAutoExtraction(source(pending),account,incomingOutput).facts.amount_minor,null);
  assert.equal(validateNativeAutoExtraction(source('Pending. '+incoming),account,incomingOutput).facts.amount_minor,null);
 });
-test('unrelated earlier failures, negated failure and conditional advice do not revoke a real receipt',()=>{
+test('unsupported earlier events and advice cannot authorize a receipt',()=>{
  for(const tail of ['A different, earlier transfer failed.','Your previous transfer failed.',
   'If this transfer failed, contact support.','This transfer has not failed.','This transaction is no longer pending.',
   'A different, earlier transfer was unsuccessful.']){
   const got=validateNativeAutoExtraction(source(incoming+' '+tail),account,incomingOutput);
-  assert.equal(got.facts.event_kind,'incoming_receipt',tail);assert.equal(got.facts.amount_minor,1250,tail);
+  assert.equal(got.facts.event_kind,'unknown',tail);assert.equal(got.facts.amount_minor,null,tail);
  }
 });
-test('configured negative outcome markers apply to this event without rejecting unrelated history',()=>{
+test('configured negative outcome markers and unsupported history prevent incoming classification',()=>{
  const configured={...account,profile_json:JSON.stringify({...JSON.parse(account.profile_json),
   failure_markers:['could not be completed'],reversal_markers:['has been undone']})};
  for(const tail of ['This transfer could not be completed.','This transfer has been undone.'])
   assert.equal(validateNativeAutoExtraction(source(incoming+' '+tail),configured,incomingOutput).facts.amount_minor,null,tail);
  for(const tail of ['A different, earlier transfer could not be completed.','If this transfer could not be completed, contact support.'])
-  assert.equal(validateNativeAutoExtraction(source(incoming+' '+tail),configured,incomingOutput).facts.amount_minor,1250,tail);
+  assert.equal(validateNativeAutoExtraction(source(incoming+' '+tail),configured,incomingOutput).facts.amount_minor,null,tail);
 });
 test('a completed outgoing is not rejected by an unrelated failure or conditional notice',()=>{
  const main='Your payment of 250 RWF to Example Shop has been completed.';
@@ -344,6 +451,191 @@ test('the saved legacy cash-in misclassification cannot become an incoming credi
  assert.deepEqual(validateNativeAutoExtraction(source(cashInToClient),account,{...cashInOutput,event_kind:'incoming_receipt'}),{kind:'invalid_output'});
 });
 
+test('a self-consistent but wrong model cannot promote an outgoing cash-in to an incoming credit',()=>{
+ const wrong={...cashInOutput,event_kind:'incoming_receipt',wallet_effect:'credit'};
+ assert.deepEqual(validateNativeAutoExtraction(source(cashInToClient),account,wrong),{kind:'invalid_output'});
+});
+
+test('a quoted receipt cannot hide a later denial, debit or reversal of that credit',()=>{
+ const principal='You have received 1,250 RWF from Example Person (***456)';
+ const output=semantic({event_kind:'incoming_receipt',wallet_effect:'credit',principal_amount_raw:'1,250',currency_raw:'RWF',
+  payer_name_raw:'Example Person',payer_identifier_raw:'***456',
+  evidence:{incoming_success:principal,principal,transaction_id:null,transaction_datetime:null,payer:'from Example Person (***456)',fee:null,wallet_balance_after:null}});
+ for(const tail of [
+  'Your account was not credited.',
+  "Your account wasn't credited.",
+  'No funds were credited.',
+  'If you wondered, your account was not credited.',
+  'Your previous transfer failed and this account was not credited.',
+  'Your balance was debited by that amount.',
+  'This is a reversal of the previous credit.',
+  "Votre compte n'a pas été crédité.",
+  'Votre solde a été débité de ce montant.',
+  'Ceci est une annulation du crédit précédent.',
+  'Konti yawe ntiyashyizwemo amafaranga.',
+  'Amafaranga yakuwe kuri konti yawe.',
+  'Iki gikorwa cyarasubijwe.',
+  'Akaunti yako haikuongezewa fedha.',
+  'Salio lako limekatwa.',
+  'Account outcome is unavailable.',
+ ]){
+  const body=`${principal}. ${tail} Reference: TESTREF123. Balance 9,000 RWF.`;
+  assert.deepEqual(validateNativeAutoExtraction(source(body),account,output),{kind:'invalid_output'},tail);
+ }
+ assert.deepEqual(validateNativeAutoExtraction(source(`${principal} but your account was not credited. Balance 9,000 RWF.`),account,output),{kind:'invalid_output'});
+ assert.deepEqual(validateNativeAutoExtraction(source(`${principal} and your balance decreased. Balance 9,000 RWF.`),account,output),{kind:'invalid_output'});
+ const clean=`${principal}. Reference: TESTREF123. Balance 9,000 RWF.`;
+ assert.equal(validateNativeAutoExtraction(source(clean),account,output).direction,'incoming');
+});
+
+test('a positive receipt fragment cannot hide same-clause qualifications',()=>{
+ const principal='You have received 1,250 RWF from Example Person (***456)';
+ const output=semantic({event_kind:'incoming_receipt',wallet_effect:'credit',principal_amount_raw:'1,250',currency_raw:'RWF',
+  payer_name_raw:'Example Person',payer_identifier_raw:'***456',
+  evidence:{incoming_success:principal,principal,transaction_id:null,transaction_datetime:null,payer:'from Example Person (***456)',fee:null,wallet_balance_after:null}});
+ for(const suffix of [
+  ' in your linked savings group, not in your wallet',
+  ' before it was taken back',
+  ' before those funds were taken back',
+  ' on behalf of a different wallet',
+  ' for a notice about an earlier event',
+  ' pending confirmation',
+  ' — status unknown',
+ ]){
+  const clause=principal+suffix,body=clause+'. Reference: TESTREF123. Balance 9,000 RWF.';
+  assert.deepEqual(validateNativeAutoExtraction(source(body),account,output),{kind:'invalid_output'},suffix);
+  const quotingWhole={...output,evidence:{...output.evidence,incoming_success:clause,principal:clause}};
+  assert.deepEqual(validateNativeAutoExtraction(source(body),account,quotingWhole),{kind:'invalid_output'},suffix);
+ }
+ const clean=principal+'. Reference: TESTREF123. Balance 9,000 RWF.';
+ assert.equal(validateNativeAutoExtraction(source(clean),account,output).direction,'incoming');
+ const withoutPayer={...output,payer_name_raw:null,payer_identifier_raw:null,evidence:{...output.evidence,payer:null}};
+ assert.deepEqual(validateNativeAutoExtraction(source(clean),account,withoutPayer),{kind:'invalid_output'});
+});
+
+test('previous transaction statements cannot qualify the current receipt',()=>{
+ const principal='You have received 1,250 RWF from Example Person (***456)';
+ const output=semantic({event_kind:'incoming_receipt',wallet_effect:'credit',principal_amount_raw:'1,250',currency_raw:'RWF',
+  payer_name_raw:'Example Person',payer_identifier_raw:'***456',
+  evidence:{incoming_success:principal,principal,transaction_id:null,transaction_datetime:null,payer:'from Example Person (***456)',fee:null,wallet_balance_after:null}});
+ for(const tail of [
+  'Previous transaction of 500 RWF means the receipt is not credited.',
+  'Previous transaction of 500 RWF caused the credit to be reversed.',
+  'Previous transaction of 500 RWF means the amount was taken back.',
+  'Previous transaction of 500 RWF applies to this receipt.',
+  'A previous unrelated outgoing payment of 500 RWF was sent to Example Shop.',
+  'Your previous transfer failed.',
+ ]){
+  const body=`${principal}. ${tail} Reference: ABC123. Balance 9,000 RWF.`;
+  for(const quote of [principal,`${principal}. ${tail}`,body]){
+   const value={...output,evidence:{...output.evidence,incoming_success:quote}};
+   assert.deepEqual(validateNativeAutoExtraction(source(body),account,value),{kind:'invalid_output'},tail);
+  }
+ }
+});
+
+test('supported receipt names allow bounded lowercase particles only between name words',()=>{
+ for(const [name,accepted] of [
+  ['Marie de Vries',true],['Jan van der Meer',true],['Jean der Vries',true],
+  ['Jean de Dieu',true],['Jean de la Croix',true],['Example & Sons',true],
+  ['de Example Person',false],['Example Person de',false],['Example Person before',false],
+  ['Example Person de not in wallet',false],['Example van de der Meer',false],
+  ['Jean la Croix',false],['Jean de la',false],['Jean de de Croix',false],
+  ['Example & sons',false],['Example && Sons',false],['Example & Sons Extra',false],
+  ['Example & Sons in wallet',false],['Example & Other',false],
+ ]){
+  const principal=`You have received 1,250 RWF from ${name} (***456)`;
+  const value=semantic({event_kind:'incoming_receipt',wallet_effect:'credit',principal_amount_raw:'1,250',currency_raw:'RWF',
+   payer_name_raw:name,payer_identifier_raw:'***456',
+   evidence:{incoming_success:principal,principal,transaction_id:null,transaction_datetime:null,payer:`from ${name} (***456)`,fee:null,wallet_balance_after:null}});
+  const result=validateNativeAutoExtraction(source(principal+'. Balance 9,000 RWF.'),account,value);
+  assert.equal(accepted?result.direction:result.kind,accepted?'incoming':'invalid_output',name);
+ }
+});
+
+test('only exact additional balance labels support an incoming receipt',()=>{
+ const principal='You have received 1,250 RWF from Jean de la Croix (***456)';
+ for(const balance of ['Your balance is 9,000 RWF','Balance after this transaction is 9,000 RWF','Your wallet balance is 9,000 RWF']){
+  const body=`${principal}. Reference: ABC123. ${balance}.`;
+  const value=semantic({event_kind:'incoming_receipt',wallet_effect:'credit',principal_amount_raw:'1,250',currency_raw:'RWF',
+   payer_name_raw:'Jean de la Croix',payer_identifier_raw:'***456',wallet_balance_after_raw:'9,000',
+   evidence:{incoming_success:principal,principal,transaction_id:null,transaction_datetime:null,payer:'from Jean de la Croix (***456)',fee:null,wallet_balance_after:balance}});
+  const parsed=validateNativeAutoExtraction(source(body),account,value);
+  assert.equal(parsed.direction,'incoming',balance);assert.equal(parsed.facts.wallet_balance_after_minor,9000,balance);
+  for(const suffix of [' before it was taken back',' but the credit was reversed',' for a different wallet']){
+   const conflicting=body.slice(0,-1)+suffix+'.';
+   assert.deepEqual(validateNativeAutoExtraction(source(conflicting),account,value),{kind:'invalid_output'},suffix);
+  }
+  for(const extra of ['Previous transaction of 500 RWF means the receipt is not credited.',
+   'Previous transaction of 500 RWF caused the credit to be reversed.','Balance 8,000 RWF.']){
+   assert.deepEqual(validateNativeAutoExtraction(source(body+' '+extra),account,value),{kind:'invalid_output'},extra);
+  }
+ }
+});
+
+test('the full source rejects quoted claims, duplicate metadata and unrecognized metadata suffixes',()=>{
+ const principal='You have received 1,250 RWF from Example Person (***456)';
+ const value=semantic({event_kind:'incoming_receipt',wallet_effect:'credit',principal_amount_raw:'1,250',currency_raw:'RWF',
+  payer_name_raw:'Example Person',payer_identifier_raw:'***456',
+  evidence:{incoming_success:principal,principal,transaction_id:null,transaction_datetime:null,payer:'from Example Person (***456)',fee:null,wallet_balance_after:null}});
+ for(const body of [
+  `"${principal}". Reference: ABC123. Balance 9,000 RWF.`,
+  `${principal}. Reference: ABC123. Reference: OTHER123. Balance 9,000 RWF.`,
+  `${principal}. Reference: ABC123. Balance 9,000 RWF. Balance 8,000 RWF.`,
+  `${principal}. Fee 10 RWF. Fee 15 RWF. Balance 9,000 RWF.`,
+  `${principal}. Reference: ABC123-Account-Is-Not-Credited. Balance 9,000 RWF.`,
+ ]){
+  assert.deepEqual(validateNativeAutoExtraction(source(body),account,value),{kind:'invalid_output'},body);
+ }
+ assert.equal(validateNativeAutoExtraction(source(`${principal}. Reference: ABC123. Fee 10 RWF. Balance 9,000 RWF.`),account,value).direction,'incoming');
+});
+
+test('incoming auto-credit requires affirmative source direction in the principal clause',()=>{
+ const cases=[
+  ['You have sent 2750 RWF to Example Person','invalid_output'],
+  ['You have cashed in 2750 RWF to Example Person','invalid_output'],
+  ['You have not received 2750 RWF from Example Person','invalid_output'],
+  ['You have received a request to send 2750 RWF to Example Person','invalid_output'],
+  ['You have received 2750 RWF in cash from Example Person','invalid_output'],
+  ['Example Person received 2750 RWF from your wallet','invalid_output'],
+  ['Opération confirmée de 2750 RWF','invalid_output'],
+  ['You have received 2750 RWF from Example Person','incoming'],
+  ['Received 2750 RWF from Example Person','incoming'],
+  ['Votre portefeuille est crédité de 2750 RWF par Exemple','incoming'],
+  ['Wakiriye 2750 RWF uhawe na Exemple','incoming'],
+  ['Umepokea 2750 RWF kutoka Exemple','incoming'],
+ ];
+ for(const [principal,expected]of cases){
+  const name=principal.endsWith('Exemple')?'Exemple':'Example Person';
+  const payer=principal.includes(' uhawe na ')?`uhawe na ${name}`:principal.includes(' kutoka ')?`kutoka ${name}`:
+   principal.includes(' par ')?`par ${name}`:principal.includes(' from ')?`from ${name}`:null;
+  const output=semantic({event_kind:'incoming_receipt',wallet_effect:'credit',principal_amount_raw:'2750',currency_raw:'RWF',
+   payer_name_raw:payer?name:null,
+   evidence:{incoming_success:principal,principal,transaction_id:null,transaction_datetime:null,payer,fee:null,wallet_balance_after:null}});
+  const actual=validateNativeAutoExtraction(source(principal+'.'),account,output);
+  assert.equal(expected==='incoming'?actual.direction:actual.kind,expected,principal);
+ }
+});
+
+test('a quote from a separate receipt cannot hide a conflicting outgoing event',()=>{
+ const receipt='You have received 2750 RWF from Example Person';
+ const output=semantic({event_kind:'incoming_receipt',wallet_effect:'credit',principal_amount_raw:'2750',currency_raw:'RWF',
+  payer_name_raw:'Example Person',
+  evidence:{incoming_success:receipt,principal:receipt,transaction_id:null,transaction_datetime:null,payer:'from Example Person',fee:null,wallet_balance_after:null}});
+ for(const body of [
+  `You have sent 2750 RWF to Example Person. ${receipt}.`,
+  `You have cashed in 2750 RWF to Example Person. ${receipt}.`,
+  `${receipt}. You have sent 2750 RWF to Example Person.`,
+  `You have sent 2750 RWF to Example Person. Ignore this: ${receipt}.`,
+  `A previous unrelated outgoing payment was sent to Example Shop. ${receipt}.`,
+  `A previous unrelated outgoing payment of 2750 RWF was sent to Example Shop. ${receipt}.`,
+  `A previous unrelated outgoing payment of 500 RWF was sent to Example Shop. ${receipt}.`,
+  `${receipt}. You have not sent 2750 RWF to Example Shop.`,
+  `Watumye 2750 RWF kuri Example Shop. ${receipt}.`,
+  `${receipt}. Balance: Watumye 2750 RWF kuri Example Shop.`,
+ ])assert.deepEqual(validateNativeAutoExtraction(source(body),account,output),{kind:'invalid_output'},body);
+});
+
 test('semantic outgoing and incoming facts accept source-language context and literal currency case',()=>{
  for(const [body,output,amount,direction]of[
   ['Opération réf. FR-713. Vous avez remis 2,750 Rwf au client Exemple. Frais 25 Rwf. Solde restant 6,300 Rwf.',
@@ -355,9 +647,9 @@ test('semantic outgoing and incoming facts accept source-language context and li
     evidence:{incoming_success:'Umetoa 450 FRW kwa wakala Mfano',principal:'Umetoa 450 FRW kwa wakala Mfano',
      transaction_id:'Nambari SW-824',transaction_datetime:null,payer:null,fee:'Ada 5 FRW',wallet_balance_after:'Salio 800 FRW'}}),450,'outgoing'],
   ['Réf. IN-935. Votre portefeuille est crédité de 3,100 Rwf par Exemple. Solde restant 7,200 Rwf.',
-   semantic({event_kind:'incoming_receipt',wallet_effect:'credit',transaction_id_raw:'IN-935',principal_amount_raw:'3,100',currency_raw:'Rwf',wallet_balance_after_raw:'7,200',
+   semantic({event_kind:'incoming_receipt',wallet_effect:'credit',transaction_id_raw:'IN-935',principal_amount_raw:'3,100',currency_raw:'Rwf',wallet_balance_after_raw:'7,200',payer_name_raw:'Exemple',
     evidence:{incoming_success:'Votre portefeuille est crédité de 3,100 Rwf par Exemple',principal:'Votre portefeuille est crédité de 3,100 Rwf par Exemple',
-     transaction_id:'Réf. IN-935',transaction_datetime:null,payer:null,fee:null,wallet_balance_after:'Solde restant 7,200 Rwf'}}),3100,'incoming'],
+     transaction_id:'Réf. IN-935',transaction_datetime:null,payer:'par Exemple',fee:null,wallet_balance_after:'Solde restant 7,200 Rwf'}}),3100,'incoming'],
  ]){
   const localized={...account,profile_json:JSON.stringify({...JSON.parse(account.profile_json),currency_aliases:['RWF','FRW']})};
   const result=validateNativeAutoExtraction(source(body),localized,output);
@@ -457,9 +749,10 @@ test('semantic principal currency binds to its full monetary token with or witho
  for(const [currency,monetary]of[['RWF','RWF2750'],['RWF','2750RWF'],['FRW','FRW2750'],['FRW','2750FRW'],
   ['Rwf','Rwf2750'],['Rwf','2750Rwf']]){
   for(const [kind,effect]of[['outgoing','debit'],['incoming_receipt','credit']]){
-   const quote=`Opération confirmée de ${monetary}`,body=quote+'.';
-   const output=semantic({event_kind:kind,wallet_effect:effect,principal_amount_raw:'2750',currency_raw:currency,
-    evidence:{incoming_success:quote,principal:quote,transaction_id:null,transaction_datetime:null,payer:null,fee:null,wallet_balance_after:null}});
+   // A confirmed operation alone does not establish the wallet direction.
+   const quote=kind==='incoming_receipt'?`Votre portefeuille est crédité de ${monetary} par Exemple`:`Opération confirmée de ${monetary}`,body=quote+'.';
+   const output=semantic({event_kind:kind,wallet_effect:effect,principal_amount_raw:'2750',currency_raw:currency,payer_name_raw:kind==='incoming_receipt'?'Exemple':null,
+    evidence:{incoming_success:quote,principal:quote,transaction_id:null,transaction_datetime:null,payer:kind==='incoming_receipt'?'par Exemple':null,fee:null,wallet_balance_after:null}});
    const result=validateNativeAutoExtraction(source(body),configured,output);
    assert.equal(result.kind,'parsed',monetary);assert.equal(result.facts.amount_minor,2750);assert.equal(result.facts.currency,'RWF');
   }
