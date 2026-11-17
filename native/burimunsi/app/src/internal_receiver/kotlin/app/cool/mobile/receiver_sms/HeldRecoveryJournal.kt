@@ -3,6 +3,7 @@ package app.cool.mobile.receiver_sms
 import android.content.Context
 import org.json.JSONObject
 import rw.ikanisa.burimunsi.core.HeldObservationAck
+import rw.ikanisa.burimunsi.core.HeldRecoveryResolution
 import rw.ikanisa.burimunsi.core.ObservationAcknowledgement
 import rw.ikanisa.burimunsi.core.ObservationOwner
 import rw.ikanisa.burimunsi.core.SmsObservation
@@ -127,6 +128,10 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
         return value
     }
     fun pending(key:String):Entry?=synchronized(lock){read(key)}
+    /** Check a saved entry without ever creating or replacing a request. */
+    fun matches(entry:Entry,rowId:Long,sender:String,body:String,receivedAt:String,sentAt:String?,subscriptionId:Int?):Boolean=synchronized(lock){
+        read(entry.sourceKey)==entry&&entry.rowDigest==rowDigest(rowId,entry.sourceKey,sender,body,receivedAt,sentAt,subscriptionId)
+    }
 
     /** A changed row cannot replace either an uncertain request or its tombstone. */
     fun prepare(rowId:Long,key:String,sender:String,body:String,receivedAt:String,sentAt:String?,subscriptionId:Int?,now:Long):Entry? = synchronized(lock){
@@ -152,6 +157,12 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
         if(entry.phase!=Phase.ATTEMPTING||read(entry.sourceKey)!=entry||ack.autoProcessing!="held"||
             !ObservationAcknowledgement.matches(o,ack.observation))return@synchronized null
         val next=entry.copy(phase=Phase.CONFIRMED,sourceId=ack.observation.sourceId,rowId=null,observation=null)
+        store(entry.sourceKey).write(encode(next));read(entry.sourceKey)?.takeIf{it==next}
+    }
+    fun confirmReadOnly(entry:Entry,ack:HeldRecoveryResolution):Entry?=synchronized(lock){
+        val o=entry.observation?:return@synchronized null
+        if(entry.phase!=Phase.ATTEMPTING||read(entry.sourceKey)!=entry||!ack.validFor(o)||ack.state!="acknowledged")return@synchronized null
+        val next=entry.copy(phase=Phase.CONFIRMED,sourceId=ack.sourceId,rowId=null,observation=null)
         store(entry.sourceKey).write(encode(next));read(entry.sourceKey)?.takeIf{it==next}
     }
     fun markExisting(entry:Entry,sourceId:String):Entry?=synchronized(lock){

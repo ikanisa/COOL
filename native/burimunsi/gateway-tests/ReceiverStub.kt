@@ -5,6 +5,7 @@ import org.json.JSONObject
 /** Explicit platform/queue/capture doubles. Actual GatewayFactory and pure
  * BuriReceiverReliability execute; this is not Android/SMS storage proof. */
 object ReceiverFixture{
+ var installationId="50000000-0000-4000-8000-000000000001"
  val lock=Any();var state:JSONObject?=null;var stateUnavailable=false;var queued=0;var unreadable=false;var queueEnabled=true;var jobs=0;var subscriptions:Set<Int>?=setOf(3);var inboxLatest:Long?=null
  var retainedCaptureId:String?=null;var retainedBodyHash:String?=null
  val ownerLock=Any();var observationAccount="operator-1";var observationPaused=true
@@ -12,7 +13,7 @@ object ReceiverFixture{
  var failObservationWrite=false;var failObservationAfterWrite=false
  var afterObservationControl:((Boolean)->Unit)?=null
  var afterSourceLookup:(()->Unit)?=null
- fun reset(){state=null;stateUnavailable=false;queued=0;unreadable=false;queueEnabled=true;jobs=0;subscriptions=setOf(3);inboxLatest=null;retainedCaptureId=null;retainedBodyHash=null;afterSourceLookup=null
+ fun reset(){installationId="50000000-0000-4000-8000-000000000001";state=null;stateUnavailable=false;queued=0;unreadable=false;queueEnabled=true;jobs=0;subscriptions=setOf(3);inboxLatest=null;retainedCaptureId=null;retainedBodyHash=null;afterSourceLookup=null
   observationAccount="operator-1";observationPaused=true;failMarkerWrite=false;failMarkerClear=false;failQueueEnable=false;failQueueDisable=false;failObservationWrite=false;failObservationAfterWrite=false;afterObservationControl=null}
 }
 private fun fixtureCopy(value:Any?):Any?=when(value){
@@ -21,7 +22,7 @@ private fun fixtureCopy(value:Any?):Any?=when(value){
  else->value
 }
 class MomoGatewayStore(private val context:Context){
- fun installationId()="50000000-0000-4000-8000-000000000001"
+ fun installationId()=ReceiverFixture.installationId
  fun existingInstallationId()=installationId()
  fun <T> withReceiverState(action:(JSONObject)->T):T?=synchronized(ReceiverFixture.lock){read()?.let(action)}
  fun <T> withObservationState(action:(JSONObject?)->T):T=synchronized(ReceiverFixture.lock){action(read())}

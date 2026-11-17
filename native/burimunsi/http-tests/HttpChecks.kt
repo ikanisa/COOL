@@ -48,6 +48,13 @@ private class Connection(url:URL):HttpURLConnection(url){
             .put("bodySha256",rw.ikanisa.burimunsi.core.Values.sha256(sent.getString("rawBody")))
             .put("status","source_unresolved").put("financialEffects",0).put("autoProcessing","held")
     }
+    url.path.endsWith("/sms/observations/recover-held-ack")-> {
+        val sent=JSONObject(written.toString("UTF-8"))
+        JSONObject().put("requestId",sent.getString("requestId")).put("sourceKey",sent.getString("sourceKey"))
+            .put("bodySha256",rw.ikanisa.burimunsi.core.Values.sha256(sent.getString("rawBody")))
+            .put("state","acknowledged").put("sourceId","source-1").put("autoProcessing","held")
+            .put("financialEffects",0).put("retryAllowed",false)
+    }
     url.path.endsWith("/sms/observations/reconcile-verified-status")->JSONObject()
         .put("groupId","group-1").put("hasPending",false).put("hasRecorded",false).put("recordedCount",0)
         .put("hasUnmatchedCanonical",false).put("revision","a".repeat(64)).put("scope","verified_collection")
@@ -87,6 +94,15 @@ fun main(){
  ck("held ACK binds the original request and body",runCatching{observationWire.semantics("observationRecoverHeld",envelope(heldData),observationExpected)}.isSuccess)
  for((key,bad) in listOf("requestId" to "other","bodySha256" to "b".repeat(64),"financialEffects" to 1L,"autoProcessing" to "released"))
   ck("held ACK rejects $key",runCatching{observationWire.semantics("observationRecoverHeld",envelope(heldData+(key to bad)),observationExpected)}.isFailure)
+ val lookupExpected=observationExpected+("sourceKey" to "c".repeat(64))
+ val lookupData=mapOf<String,Any?>("requestId" to "request-1","sourceKey" to "c".repeat(64),"bodySha256" to "a".repeat(64),
+  "state" to "acknowledged","sourceId" to "source-1","autoProcessing" to "held","financialEffects" to 0L,"retryAllowed" to false)
+ ck("read-only held ACK binds the original request and source",runCatching{observationWire.semantics("observationRecoverHeldAck",envelope(lookupData),lookupExpected)}.isSuccess)
+ for((key,bad) in listOf("requestId" to "other","sourceKey" to "d".repeat(64),"bodySha256" to "b".repeat(64),
+  "sourceId" to null,"autoProcessing" to "unknown","financialEffects" to 1L,"retryAllowed" to true,"state" to "unconfirmed"))
+  ck("read-only held ACK rejects $key",runCatching{observationWire.semantics("observationRecoverHeldAck",envelope(lookupData+(key to bad)),lookupExpected)}.isFailure)
+ val unknown=lookupData+mapOf("state" to "unconfirmed","sourceId" to null,"autoProcessing" to "unknown")
+ ck("unconfirmed held lookup never allows resend",runCatching{observationWire.semantics("observationRecoverHeldAck",envelope(unknown),lookupExpected)}.isSuccess)
  ck("verified status rejects a changed scope",runCatching{observationWire.semantics("observationReconcileVerifiedStatus",
   envelope(mapOf("scope" to "all","hasRecorded" to false,"recordedCount" to 0L)),emptyMap())}.isFailure)
  val reconcileExpected=mapOf<String,Any?>("sourceKey" to "a".repeat(64))
@@ -157,9 +173,20 @@ fun main(){
   .put("serviceCentreAt",JSONObject.NULL).put("inboxReceivedAt","2026-11-17T17:59:00Z")
   .put("subscriptionId",JSONObject.NULL).put("sourceKey","a".repeat(64))
  fun heldCall()=api.call("POST","/v1/burimunsi/sms/observations/recover-held",token="a".repeat(64),body=heldBody,contractContext=scope)
+ fun heldLookup()=api.call("POST","/v1/burimunsi/sms/observations/recover-held-ack",token="a".repeat(64),body=heldBody,contractContext=scope)
  fun verifiedCall()=api.call("GET","/v1/burimunsi/sms/observations/reconcile-verified-status",token="a".repeat(64),contractContext=scope)
  ck("real transport sends exact held request and accepts zero-effect held acknowledgement",JSONObject(heldCall()).getString("autoProcessing")=="held"&&
   JSONObject(Wire.last!!.written.toString("UTF-8")).toString()==heldBody.toString())
+ ck("real transport sends exact original body for the read-only ACK lookup",JSONObject(heldLookup()).getString("state")=="acknowledged"&&
+  JSONObject(Wire.last!!.written.toString("UTF-8")).toString()==heldBody.toString())
+ Wire.reply=Reply(transform={val d=it.getJSONObject("data");d.put("state","unconfirmed").put("sourceId",JSONObject.NULL).put("autoProcessing","unknown")})
+ ck("real transport accepts an explicitly unconfirmed ACK",JSONObject(heldLookup()).getString("state")=="unconfirmed")
+ for((field,value) in listOf("requestId" to "00000000-0000-4000-8000-000000000099","sourceKey" to "b".repeat(64),
+  "bodySha256" to "b".repeat(64),"autoProcessing" to "unknown","financialEffects" to 1,"retryAllowed" to true,"sourceId" to JSONObject.NULL)){
+  Wire.reply=Reply(transform={it.getJSONObject("data").put(field,value)})
+  ck("real read-only ACK transport rejects forged $field",runCatching{heldLookup()}.isFailure)
+ }
+ Wire.reply=Reply()
  ck("real transport accepts the exact verified scope",JSONObject(verifiedCall()).getString("scope")=="verified_collection")
  for((field,value) in listOf("requestId" to "00000000-0000-4000-8000-000000000099","bodySha256" to "b".repeat(64),
   "autoProcessing" to "released","financialEffects" to 1)){

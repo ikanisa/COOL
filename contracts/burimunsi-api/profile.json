@@ -216,6 +216,11 @@
       "GET",
       "^/sms/observations/reconcile-verified-status$",
       "observationReconcileVerifiedStatus"
+    ],
+    [
+      "POST",
+      "^/sms/observations/recover-held-ack$",
+      "observationRecoverHeldAck"
     ]
   ],
   "operations": [
@@ -261,6 +266,7 @@
     "observationReconcileBatch",
     "observationReconcileStatus",
     "observationRecoverHeld",
-    "observationReconcileVerifiedStatus"
+    "observationReconcileVerifiedStatus",
+    "observationRecoverHeldAck"
   ]
 }

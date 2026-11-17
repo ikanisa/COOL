@@ -87,6 +87,31 @@ internal class ObservationRecovery(context:Context) {
         val fields=listOf("burimunsi-audit-witness-v1",request.bodySha256,request.inboxReceivedAt)
         return Values.sha256(fields.joinToString(""){"${it.length}:$it"})
     }
+    /** Another phone row with the same body and receipt time cannot be safely
+     * treated as distinct. Check the whole bounded provider before and after I/O. */
+    private fun uniqueHeld(row:AuditRow,request:ObservationReconcileRequest,stopped:()->Boolean):Boolean {
+        return try{
+            val cursor=app.contentResolver.query(Uri.parse("content://sms/inbox"),arrayOf("_id","date","body"),
+                "_id > ?",arrayOf("0"),"_id ASC")?:return false
+            var previousId=0L;var count=0;var found=false;var valid=true
+            cursor.use{
+                val id=it.getColumnIndexOrThrow("_id");val date=it.getColumnIndexOrThrow("date")
+                val body=it.getColumnIndexOrThrow("body")
+                while(valid&&it.moveToNext()){
+                    if(stopped()||++count>MAX_LATEST_SCAN||it.isNull(id)||it.isNull(date)){valid=false;break}
+                    val candidateId=it.getLong(id);val received=it.getLong(date)
+                    if(candidateId<=previousId||received<=0){valid=false;break};previousId=candidateId
+                    if(received==row.received){
+                        if(it.isNull(body)){valid=false;break}
+                        val same=Values.sha256(it.getString(body))==request.bodySha256
+                        if(candidateId==row.id){if(!same){valid=false;break};found=true}
+                        else if(same){valid=false;break}
+                    }
+                }
+            }
+            valid&&found
+        }catch(_:Exception){false}
+    }
 
     /** The original inbox is held as opaque exact identities. The snapshot is
      * encrypted and never deletes, uploads, or claims a legacy message. */
@@ -605,6 +630,50 @@ internal class ObservationRecovery(context:Context) {
             else witnesses.add(witness)
             requests.add(request)
         }
+        // A pending item can make reconcile-batch unavailable, so look for its
+        // original journal before dispatching that batch. The ACK lookup is
+        // read-only and cannot authorize another /recover-held submission.
+        if(BuildConfig.HELD_RECOVERY_ENABLED&&rows.size==1&&requests.size==1){
+            val row=rows.single();val request=requests.single()
+            if(request.sourceKey in authority.held){
+                val installation=try{MomoGatewayStore(app).existingInstallationId()}catch(_:Exception){null}
+                    ?:return@synchronized interrupted()
+                val journal=HeldRecoveryJournal(app,owner,installation,scope.deviceScope)
+                val pending=try{journal.pending(request.sourceKey)}catch(_:Exception){
+                    auditProgress=null;return@synchronized Audit.UNCONFIRMED
+                }
+                if(pending?.phase==HeldRecoveryJournal.Phase.ATTEMPTING){
+                    val original=pending.observation?:run{auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                    fun current():Boolean=try{
+                        !stopped()&&MomoGatewayStore(app).existingInstallationId()==installation&&
+                            auditAuthority(stopped)?.scope==scope&&takePage(stopped)==rows&&
+                            ObservationInboxRevision.snapshot()==scope.revision
+                    }catch(_:Exception){false}
+                    fun sameAttempt():Boolean=try{
+                        original.sourceKey==request.sourceKey&&original.valid(authority.profile,System.currentTimeMillis())&&
+                            journal.matches(pending,row.id,row.sender,row.body,request.inboxReceivedAt,request.serviceCentreAt,row.sub)
+                    }catch(_:Exception){false}
+                    if(!current()||!sameAttempt()||!uniqueHeld(row,request,stopped)||!current()||!sameAttempt())
+                        return@synchronized interrupted()
+                    val acknowledgement=try{repo.heldRecoveryAcknowledgement(original)}catch(_:Exception){null}
+                    if(!current()||!sameAttempt()||!uniqueHeld(row,request,stopped)||!current()||!sameAttempt())
+                        return@synchronized interrupted()
+                    if(acknowledgement==null||!acknowledgement.validFor(original)||acknowledgement.state!="acknowledged"){
+                        auditProgress=null;return@synchronized Audit.UNCONFIRMED
+                    }
+                    val saved=ObservationLegacyOwnership.withoutControlTransition(app){
+                        NativeRepository.withObservationOwner(app,scope.session){group,account->
+                            ObservationOwner(group,account)==owner&&current()&&sameAttempt()&&
+                                journal.confirmReadOnly(pending,acknowledgement)!=null&&current()
+                        }?:false
+                    }?:false
+                    if(!saved){auditProgress=null;return@synchronized Audit.UNCONFIRMED}
+                    // No scoped ACK can certify the wider equality sweep.
+                    auditProgress=null;completedAuditStart=null;completedAuditRevision=null
+                    return@synchronized Audit.RETRY
+                }
+            }
+        }
         // One bounded request per page. A poison item leaves the whole page
         // unconfirmed while later pages can still be checked.
         fun verify(items:List<ObservationReconcileRequest>):List<ObservationReconcileReply?> {
@@ -677,27 +746,7 @@ internal class ObservationRecovery(context:Context) {
                             auditAuthority(stopped)?.scope==scope&&takePage(stopped)==rows&&
                             ObservationInboxRevision.snapshot()==scope.revision
                     }catch(_:Exception){false}
-                    fun unique():Boolean { return try{
-                        val cursor=app.contentResolver.query(uri,arrayOf("_id","date","body"),"_id > ?",arrayOf("0"),"_id ASC")
-                            ?:return false
-                        var previousId=0L;var count=0;var found=false;var valid=true
-                        cursor.use{
-                            val id=it.getColumnIndexOrThrow("_id");val date=it.getColumnIndexOrThrow("date")
-                            val body=it.getColumnIndexOrThrow("body")
-                            while(valid&&it.moveToNext()){
-                                if(stopped()||++count>MAX_LATEST_SCAN||it.isNull(id)||it.isNull(date)){valid=false;break}
-                                val candidateId=it.getLong(id);val received=it.getLong(date)
-                                if(candidateId<=previousId||received<=0){valid=false;break};previousId=candidateId
-                                if(received==row.received){
-                                    if(it.isNull(body)){valid=false;break}
-                                    val same=Values.sha256(it.getString(body))==request.bodySha256
-                                    if(candidateId==row.id){if(!same){valid=false;break};found=true}
-                                    else if(same){valid=false;break}
-                                }
-                            }
-                        }
-                        valid&&found
-                    }catch(_:Exception){false} }
+                    fun unique()=uniqueHeld(row,request,stopped)
                     fun verified(value:rw.ikanisa.burimunsi.core.ObservationVerifiedStatus):Boolean =
                         value.scope=="verified_collection"&&!value.status.hasPending&&!value.status.hasUnmatchedCanonical&&
                             value.status.recordedCount in 0..100_000&&

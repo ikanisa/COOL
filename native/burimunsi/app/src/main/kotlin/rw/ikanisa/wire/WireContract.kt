@@ -273,6 +273,15 @@ class WireContract(private val product: String, private val version: String,
                 if (d["status"] != "source_unresolved" || (d["financialEffects"] as? Number)?.toLong() != 0L) reject("CONTRACT_STATE")
                 if (operation == "observationRecoverHeld" && d["autoProcessing"] != "held") reject("CONTRACT_STATE")
             }
+            if(operation=="observationRecoverHeldAck"){
+                if(!expected.containsKey("commandRequestId")||!expected.containsKey("sourceKey")||!expected.containsKey("observationBodySha256")||
+                    d["requestId"]!=expected["commandRequestId"]||d["sourceKey"]!=expected["sourceKey"]||
+                    d["bodySha256"]!=expected["observationBodySha256"])reject("CONTRACT_IDENTITY")
+                val acknowledged=d["state"]=="acknowledged"
+                if((acknowledged&& (d["sourceId"]==null||d["autoProcessing"]!="held"))||
+                    (!acknowledged&&(d["state"]!="unconfirmed"||d["sourceId"]!=null||d["autoProcessing"]!="unknown"))||
+                    (d["financialEffects"] as? Number)?.toLong()!=0L||d["retryAllowed"]!=false)reject("CONTRACT_STATE")
+            }
             if (operation == "observationConsentSet" &&
                 (!expected.containsKey("consentEnabled") || !expected.containsKey("consentGeneration") ||
                  d["enabled"] != expected["consentEnabled"] || d["generation"] != expected["consentGeneration"])) reject("CONTRACT_IDENTITY")

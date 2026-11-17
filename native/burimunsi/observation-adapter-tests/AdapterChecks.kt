@@ -74,6 +74,13 @@ fun main() {
   return result
  }
  fun heldJournal(e:Env)=HeldRecoveryJournal(e.context,adminA,installation,Values.sha256("1234567890abcdef"))
+ fun pendingHeldFixture():Pair<Env,SmsObservation>{
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  e.repository.recoveryFailureAfterCommit=IllegalStateException("synthetic lost reply")
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  e.repository.recoveryFailureAfterCommit=null
+  return e to e.repository.recoveryRequests.single()
+ }
  test("held recovery retains an exact request and marks an attempted call before dispatch") {
   val e=setup();val key=cloudKey(adminA,12);val deviceScope=Values.sha256("synthetic-device")
   val journal=HeldRecoveryJournal(e.context,adminA,installation,deviceScope)
@@ -294,14 +301,90 @@ fun main() {
   check(e.repository.recoveryRequests==listOf(first)&&e.repository.recoveryCommitted.isEmpty())
   check(heldJournal(e).pending(cloudKey(adminA,12))?.observation==first)
  }
+ test("exact read-only held ACK resolves a pending source before a poisoned batch") {
+  val (e,original)=pendingHeldFixture();val key=cloudKey(adminA,12)
+  e.repository.heldAckAcknowledged=true;e.repository.poisonSourceKeys=setOf(key)
+  e.repository.statusReplyOverride={_,status->status.copy(hasPending=true)};e.repository.verifiedPending=true
+  val batches=e.repository.reconciliationBatches.size;val recovery=ObservationRecovery(e.context)
+  check(recovery.auditPage(e.repository)==ObservationRecovery.Audit.MORE)
+  check(recovery.auditPage(e.repository)==ObservationRecovery.Audit.RETRY)
+  val entry=heldJournal(e).pending(key)!!
+  check(entry.phase==HeldRecoveryJournal.Phase.CONFIRMED&&entry.requestId==original.requestId&&entry.observation==null)
+  check(e.repository.heldAckRequests==listOf(original)&&e.repository.recoveryRequests==listOf(original)&&
+   e.repository.reconciliationBatches.size==batches)
+  val saved=SecureStore.data.filterKeys{it.startsWith("observation-held-recovery-")}.values.single()
+  check(!saved.contains(body)&&!saved.contains("M-Money"))
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED&&recovery.auditStartedAt()==null)
+ }
+ test("unconfirmed or unavailable ACK lookups keep exact bytes and can be polled without resending") {
+  for(kind in listOf("unconfirmed","404","403","409","503","timeout")){
+   val (e,original)=pendingHeldFixture();val key=cloudKey(adminA,12)
+   val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")};val before=SecureStore.data[name]
+   if(kind!="unconfirmed")e.repository.heldAckFailure=if(kind=="timeout")java.net.SocketTimeoutException() else
+    rw.ikanisa.burimunsi.data.ApiFailure("synthetic",kind.toInt(),true)
+   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+   check(e.repository.heldAckRequests==listOf(original)&&e.repository.recoveryRequests==listOf(original)&&
+    heldJournal(e).pending(key)?.observation==original&&SecureStore.data[name]==before)
+   e.repository.heldAckFailure=null;e.repository.heldAckAcknowledged=true
+   check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
+   check(e.repository.heldAckRequests==listOf(original,original)&&e.repository.recoveryRequests==listOf(original)&&
+    heldJournal(e).pending(key)?.phase==HeldRecoveryJournal.Phase.CONFIRMED)
+  }
+ }
+ test("forged read-only ACK never changes a pending request") {
+  for(kind in listOf("request","source_key","digest","source","state","processing","financial","retry")){
+   val (e,original)=pendingHeldFixture();e.repository.heldAckAcknowledged=true
+   e.repository.heldAckOverride={a->when(kind){
+    "request"->a.copy(requestId="00000000-0000-4000-8000-000000000099")
+    "source_key"->a.copy(sourceKey="b".repeat(64))
+    "digest"->a.copy(bodySha256="b".repeat(64))
+    "source"->a.copy(sourceId=null)
+    "state"->a.copy(state="unconfirmed")
+    "processing"->a.copy(autoProcessing="unknown")
+    "financial"->a.copy(financialEffects=1)
+    else->a.copy(retryAllowed=true)
+   }}
+   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+   check(e.repository.recoveryRequests==listOf(original)&&e.repository.heldAckRequests==listOf(original)&&
+    heldJournal(e).pending(cloudKey(adminA,12))?.observation==original)
+  }
+ }
+ test("a changed source row cannot issue an ACK lookup or create a replacement ID") {
+  val (e,original)=pendingHeldFixture();e.repository.heldAckAcknowledged=true
+  e.context.contentResolver.rows=listOf(row(12,body+" modified"))
+  check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))
+  check(e.repository.heldAckRequests.isEmpty()&&e.repository.recoveryRequests==listOf(original)&&
+   heldJournal(e).pending(cloudKey(adminA,12))?.observation==original)
+ }
+ test("owner consent permission installation and inbox changes after ACK preserve the uncertain request") {
+  for(kind in listOf("owner","consent","pause","permission","installation","inbox","duplicate","revision","device","profile")){
+   val (e,original)=pendingHeldFixture();e.repository.heldAckAcknowledged=true
+   e.repository.afterHeldAck={when(kind){
+    "owner"->NativeRepository.switch(adminB)
+    "consent"->{val c=ObservationConfigStore(e.context);c.saveConsent(adminA,c.consent(adminA)!!.copy(confirmed=false))}
+    "pause"->ObservationConfigStore(e.context).setPaused(adminA,true)
+    "permission"->e.context.denied=setOf(Manifest.permission.RECEIVE_SMS)
+    "installation"->ReceiverFixture.installationId="50000000-0000-4000-8000-000000000002"
+    "inbox"->e.context.contentResolver.rows=emptyList()
+    "duplicate"->e.context.contentResolver.rows=listOf(row(12),row(13))
+    "revision"->ObservationInboxRevision.changed()
+    "device"->Settings.Secure.testId="1111111111111111"
+    "profile"->{e.approved.put("profileVersion","other-v2");ObservationConfigStore(e.context).saveProfile(adminA,e.approved,System.currentTimeMillis())}
+   }}
+   check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))
+   check(e.repository.heldAckRequests==listOf(original)&&e.repository.recoveryRequests==listOf(original)&&
+    heldJournal(e).pending(cloudKey(adminA,12))?.observation==original)
+  }
+ }
  test("changed inbox content after an unknown outcome cannot replace its request") {
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
   e.repository.recoveryFailureBeforeCommit=IllegalStateException("timeout")
   check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
   val first=e.repository.recoveryRequests.single();e.repository.recoveryFailureBeforeCommit=null
   e.context.contentResolver.rows=listOf(row(12,body+" changed"))
-  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
-  check(e.repository.recoveryRequests==listOf(first)&&heldJournal(e).pending(cloudKey(adminA,12))?.observation==first)
+  check(auditUntilSettled(e) in setOf(ObservationRecovery.Audit.BLOCKED,ObservationRecovery.Audit.UNCONFIRMED))
+  check(e.repository.recoveryRequests==listOf(first)&&e.repository.heldAckRequests.isEmpty()&&
+   heldJournal(e).pending(cloudKey(adminA,12))?.observation==first)
  }
  test("post-dispatch permission change or invalid hold acknowledgement preserves uncertainty") {
   for(kind in listOf("permission","ack","duplicate","missing","owner")){

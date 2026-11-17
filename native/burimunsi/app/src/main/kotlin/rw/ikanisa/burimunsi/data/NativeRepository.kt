@@ -679,15 +679,28 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         return ack
     }
     /** Recovery retains a source on hold; it must not authorize processing or money movement. */
-    fun recoverHeldObservation(observation:SmsObservation):HeldObservationAck {
+    private fun checkHeldObservation(observation:SmsObservation) {
         checkContract(observation.sourceMode=="catch_up"&&!observation.complete&&observation.inboxReceivedAt!=null&&
             observation.sourceKey?.let{Regex("[a-f0-9]{64}").matches(it)}==true,"invalid_observation_source")
+    }
+    fun recoverHeldObservation(observation:SmsObservation):HeldObservationAck {
+        checkHeldObservation(observation)
         val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations/recover-held",observationBody(observation)))
         val ack=ObservationAck(value.getString("requestId"),value.getString("sourceId"),value.getString("bodySha256"),
             value.getString("status"),value.getInt("financialEffects"))
         val processing=value.getString("autoProcessing")
         checkContract(processing=="held"&&ObservationAcknowledgement.matches(observation,ack),"invalid_observation_ack")
         return HeldObservationAck(ack,processing)
+    }
+    /** This POST is an exact-request, read-only proof lookup, never an upload retry. */
+    fun heldRecoveryAcknowledgement(observation:SmsObservation):HeldRecoveryResolution {
+        checkHeldObservation(observation)
+        val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations/recover-held-ack",observationBody(observation)))
+        val result=HeldRecoveryResolution(value.getString("requestId"),value.getString("sourceKey"),value.getString("bodySha256"),
+            value.getString("state"),if(value.isNull("sourceId"))null else value.getString("sourceId"),
+            value.getString("autoProcessing"),value.getInt("financialEffects"),value.getBoolean("retryAllowed"))
+        checkContract(result.validFor(observation),"invalid_observation_ack")
+        return result
     }
     /** Compare only opaque identity and hashed SMS content; never disclose the body. */
     fun reconcileObservation(request:ObservationReconcileRequest):ObservationReconcileReply {

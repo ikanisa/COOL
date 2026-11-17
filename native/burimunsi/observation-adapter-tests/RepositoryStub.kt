@@ -42,6 +42,9 @@ class NativeRepository() {
  var recoveryFailureBeforeCommit:Exception?=null;var recoveryFailureAfterCommit:Exception?=null
  var afterRecovery:(()->Unit)?=null;var recoveryAckOverride:((HeldObservationAck)->HeldObservationAck)?=null
  val recoveryRequests=mutableListOf<SmsObservation>();val recoveryCommitted=mutableMapOf<String,Pair<SmsObservation,String>>()
+ val heldAckRequests=mutableListOf<SmsObservation>();var heldAckFailure:Exception?=null
+ var heldAckAcknowledged=false;var afterHeldAck:(()->Unit)?=null
+ var heldAckOverride:((HeldRecoveryResolution)->HeldRecoveryResolution)?=null
  fun observationConsent():ObservationConsentRevision{consentFailure?.let{throw it};val value=consent;val action=afterConsentRead;afterConsentRead=null;action?.invoke();return value}
  fun setObservationConsent(value:ObservationConsentRevision):ObservationConsentRevision{val action=duringConsentSet;duringConsentSet=null;action?.invoke();consent=value;return value}
  fun observationProfile():JSONObject {profileFailure?.let{throw it};val action=afterProfileRead;afterProfileRead=null;action?.invoke();return profile}
@@ -97,6 +100,16 @@ class NativeRepository() {
   val action=afterRecovery;afterRecovery=null;action?.invoke();recoveryFailureAfterCommit?.let{throw it}
   val ack=HeldObservationAck(ObservationAck(value.requestId,source,Values.sha256(value.rawBody),"source_unresolved",0),"held")
   return recoveryAckOverride?.invoke(ack)?:ack
+ }
+ fun heldRecoveryAcknowledgement(value:SmsObservation):HeldRecoveryResolution {
+  heldAckRequests.add(value);heldAckFailure?.let{throw it}
+  val committed=recoveryCommitted[value.requestId]?.takeIf{it.first==value}
+  val acknowledged=heldAckAcknowledged&&committed!=null
+  val result=HeldRecoveryResolution(value.requestId,value.sourceKey!!,Values.sha256(value.rawBody),
+   if(acknowledged)"acknowledged" else "unconfirmed",if(acknowledged)committed!!.second else null,
+   if(acknowledged)"held" else "unknown",0,false)
+  val action=afterHeldAck;afterHeldAck=null;action?.invoke()
+  return heldAckOverride?.invoke(result)?:result
  }
  fun observationPage(q:String="",cursor:String?=null,limit:Int?=null):Page<ObservationListRow> {
   pageCalls++;pageCursors.add(cursor);val action=afterPage;afterPage=null;action?.invoke();pageFailure?.let{throw it}

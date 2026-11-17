@@ -27,12 +27,15 @@ fun main(){
         "2026-11-17T18:00:00Z",null,"2026-11-17T17:59:00Z",3,"a".repeat(64))
     val heldAck=JSONObject().put("requestId",recovery.requestId).put("sourceId","source-1").put("bodySha256",Values.sha256(text))
         .put("status","source_unresolved").put("financialEffects",0).put("autoProcessing","held")
+    val lookup=JSONObject().put("requestId",recovery.requestId).put("sourceKey",recovery.sourceKey).put("bodySha256",Values.sha256(text))
+        .put("state","acknowledged").put("sourceId","source-1").put("autoProcessing","held").put("financialEffects",0).put("retryAllowed",false)
     val verified=JSONObject().put("groupId","group-1").put("hasPending",false).put("hasRecorded",false).put("recordedCount",0)
         .put("hasUnmatchedCanonical",false).put("revision","a".repeat(64)).put("scope","verified_collection")
     api.handler={request->when {
         request.path.endsWith("/session/login")->session.toString()
         request.path.endsWith("/reveal")->payload.toString()
         request.path.endsWith("/recover-held")->heldAck.toString()
+        request.path.endsWith("/recover-held-ack")->lookup.toString()
         request.path.endsWith("/reconcile-verified-status")->verified.toString()
         request.path.endsWith("/logout")->JSONObject().put("signedOut",true).toString()
         else->error("Unexpected synthetic request")
@@ -55,6 +58,16 @@ fun main(){
     val written=api.calls.last().body!!
     check(written.getString("requestId")==recovery.requestId&&written.getString("rawBody")==text&&
         written.getString("sourceKey")==recovery.sourceKey&&written.getString("sourceMode")=="catch_up"&&!written.getBoolean("complete"))
+    val originalBody=written.toString()
+    check(repo.heldRecoveryAcknowledgement(recovery).state=="acknowledged"&&api.calls.last().body!!.toString()==originalBody)
+    lookup.put("state","unconfirmed").put("sourceId",JSONObject.NULL).put("autoProcessing","unknown")
+    check(repo.heldRecoveryAcknowledgement(recovery).state=="unconfirmed")
+    lookup.put("state","acknowledged").put("sourceId","source-1").put("autoProcessing","held")
+    for((field,bad,good) in listOf(Triple("requestId","other",recovery.requestId),Triple("sourceKey","b".repeat(64),recovery.sourceKey),
+        Triple("bodySha256","b".repeat(64),Values.sha256(text)),Triple("autoProcessing","unknown","held"),
+        Triple("financialEffects",1,0),Triple("retryAllowed",true,false),Triple("sourceId",JSONObject.NULL,"source-1"))){
+        lookup.put(field,bad);check(runCatching{repo.heldRecoveryAcknowledgement(recovery)}.isFailure);lookup.put(field,good)
+    }
     for((field,bad,good) in listOf(Triple("requestId","other",recovery.requestId),Triple("bodySha256","b".repeat(64),Values.sha256(text)),
         Triple("autoProcessing","released","held"),Triple("financialEffects",1,0))){
         heldAck.put(field,bad);check(runCatching{repo.recoverHeldObservation(recovery)}.isFailure);heldAck.put(field,good)
