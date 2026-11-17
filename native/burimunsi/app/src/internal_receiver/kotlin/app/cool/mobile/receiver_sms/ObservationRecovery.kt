@@ -32,7 +32,7 @@ internal class ObservationRecovery(context:Context) {
     private val cursorStore=SecureStore(app,"observation-cursors")
     private val config=ObservationConfigStore(app)
     companion object {
-        private val lock=Any();private const val PAGE=100;private const val AUDIT_PAGE=4;private const val MAX_HELD=20_000;private const val MAX_LATEST_SCAN=20_000
+        private val lock=Any();private const val PAGE=100;private const val AUDIT_PAGE=1;private const val MAX_HELD=20_000;private const val MAX_LATEST_SCAN=20_000
         private var auditProgress:AuditProgress?=null
         private var completedAuditStart:Long?=null
         private var completedAuditRevision:String?=null
