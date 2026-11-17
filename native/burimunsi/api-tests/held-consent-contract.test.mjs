@@ -6,6 +6,7 @@ import {validateNativeRequest} from '../../../supabase/functions/_shared/domain/
 
 // Captured from the exact strict-server predecessor, not a permissive-server claim.
 const legacy=JSON.parse(await readFile(new URL('./fixtures/legacy-held-request.schema.json',import.meta.url),'utf8'));
+const buildConfig=await readFile(new URL('../app/build.gradle.kts',import.meta.url),'utf8');
 const held={requestId:'00000000-0000-4000-8000-000000000111',rawSender:'M-Money',rawBody:'Synthetic held receipt',
  sourceMode:'catch_up',complete:false,capturedAt:'2026-11-17T18:00:00Z',serviceCentreAt:null,
  inboxReceivedAt:'2026-11-17T17:59:00Z',subscriptionId:3,sourceKey:'a'.repeat(64),expectedConsentGeneration:7};
@@ -28,4 +29,10 @@ test('ordinary observation requests do not gain the held-only claim',()=>{
  const {expectedConsentGeneration,...ordinary}=held;
  assert.doesNotThrow(()=>validateNativeRequest('observation',ordinary));
  assert.throws(()=>validateNativeRequest('observation',held),e=>e.code==='CONTRACT_UNKNOWN_FIELD');
+});
+
+test('held recovery stays hard-disabled until the old-server ambiguity is resolved',()=>{
+ // Guard the actual Gradle source as well as the adapter's synthetic default.
+ assert.equal((buildConfig.match(/\bHELD_RECOVERY_ENABLED\b/g)??[]).length,1);
+ assert.match(buildConfig,/buildConfigField\(\s*"boolean"\s*,\s*"HELD_RECOVERY_ENABLED"\s*,\s*"false"\s*\)/);
 });

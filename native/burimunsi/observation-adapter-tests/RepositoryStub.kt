@@ -46,6 +46,8 @@ class NativeRepository() {
  var afterVerified:((Int)->Unit)?=null
  var recoveryFailureBeforeCommit:Exception?=null;var recoveryFailureAfterCommit:Exception?=null
  var strictLegacyHeldServer=false
+ // Synthetic unknown old server: discards the new field rather than rejecting it.
+ var permissiveLegacyHeldServer=false
  var afterRecovery:(()->Unit)?=null;var recoveryAckOverride:((HeldObservationAck)->HeldObservationAck)?=null
  val recoveryRequests=mutableListOf<SmsObservation>();val recoveryCommitted=mutableMapOf<String,Pair<SmsObservation,String>>()
  val recoveryGenerations=mutableListOf<Long>();val recoveryCommittedGenerations=mutableMapOf<String,Long>()
@@ -107,12 +109,12 @@ class NativeRepository() {
   if(strictLegacyHeldServer)throw ApiFailure("invalid_api_request",400)
   recoveryFailureBeforeCommit?.let{throw it}
   val prior=recoveryCommitted[value.requestId]
-  if(prior!=null&&(prior.first!=value||recoveryCommittedGenerations[value.requestId]!=expectedConsentGeneration))throw ApiFailure("observation_item_conflict",409)
+  if(prior!=null&&(prior.first!=value||(!permissiveLegacyHeldServer&&recoveryCommittedGenerations[value.requestId]!=expectedConsentGeneration)))throw ApiFailure("observation_item_conflict",409)
   val key=value.sourceKey?:throw ApiFailure("invalid_source",400)
   if(prior==null&&retainedSources.containsKey(key))throw ApiFailure("observation_item_conflict",409)
   val source=prior?.second?:"source-${retainedSources.size+1}".also{
    retainedSources[key]=it;retainedSourceKeys.add(key);recoveryCommitted[value.requestId]=value to it
-   recoveryCommittedGenerations[value.requestId]=expectedConsentGeneration
+   if(!permissiveLegacyHeldServer)recoveryCommittedGenerations[value.requestId]=expectedConsentGeneration
   }
   val action=afterRecovery;afterRecovery=null;action?.invoke();recoveryFailureAfterCommit?.let{throw it}
   val ack=HeldObservationAck(ObservationAck(value.requestId,source,Values.sha256(value.rawBody),"source_unresolved",0),"held")
@@ -124,7 +126,8 @@ class NativeRepository() {
   if(strictLegacyHeldServer)throw ApiFailure("invalid_api_request",400)
   heldAckFailure?.let{throw it}
   val committed=recoveryCommitted[value.requestId]?.takeIf{it.first==value}
-  val acknowledged=heldAckAcknowledged&&committed!=null&&recoveryCommittedGenerations[value.requestId]==expectedConsentGeneration
+  val acknowledged=heldAckAcknowledged&&committed!=null&&
+   (permissiveLegacyHeldServer||recoveryCommittedGenerations[value.requestId]==expectedConsentGeneration)
   val result=HeldRecoveryResolution(value.requestId,value.sourceKey!!,Values.sha256(value.rawBody),
    if(acknowledged)"acknowledged" else "unconfirmed",if(acknowledged)committed!!.second else null,
    if(acknowledged)"held" else "unknown",0,false)

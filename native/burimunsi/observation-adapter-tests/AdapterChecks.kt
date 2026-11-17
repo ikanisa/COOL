@@ -457,6 +457,36 @@ fun main() {
     journal.pending(key)==saved&&e.repository.recoveryCommitted.isEmpty())
   }
  }
+ test("permissive old 200 responses are an enablement blocker, while the default-off gate sends nothing") {
+  // This synthetic old endpoint accepts the v1 body, ignores the added field,
+  // and returns valid old-shaped 200 responses. The production flag must stay
+  // off until a pre-dispatch authenticated capability or strict v2 route is
+  // qualified. These assertions document today's ambiguity, not safe enablement.
+  val off=heldFixture();off.repository.permissiveLegacyHeldServer=true
+  check(!app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED)
+  check(auditUntilSettled(off)==ObservationRecovery.Audit.UNCONFIRMED)
+  check(off.repository.recoveryRequests.isEmpty()&&off.repository.heldAckRequests.isEmpty())
+
+  val accepted=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  accepted.repository.permissiveLegacyHeldServer=true
+  check(auditUntilSettled(accepted)==ObservationRecovery.Audit.COMPLETE)
+  check(accepted.repository.recoveryRequests.size==1&&accepted.repository.recoveryGenerations==listOf(1L)&&
+   accepted.repository.recoveryCommitted.size==1&&accepted.repository.recoveryCommittedGenerations.isEmpty())
+
+  val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
+  e.repository.permissiveLegacyHeldServer=true;e.repository.recoveryFailureAfterCommit=IllegalStateException("synthetic lost reply")
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.UNCONFIRMED)
+  val original=e.repository.recoveryRequests.single();val key=cloudKey(adminA,12)
+  check(e.repository.recoveryCommittedGenerations.isEmpty())
+  val name=SecureStore.data.keys.single{it.startsWith("observation-held-recovery-")}
+  SecureStore.data[name]=JSONObject(SecureStore.data[name]!!).put("consentGeneration",2).toString()
+  val newer=ObservationConsentRevision(true,2)
+  ObservationConfigStore(e.context).saveConsent(adminA,ObservationConsentState(newer,true))
+  e.repository.consent=newer;e.repository.recoveryFailureAfterCommit=null;e.repository.heldAckAcknowledged=true
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
+  check(e.repository.heldAckRequests==listOf(original)&&e.repository.heldAckGenerations==listOf(2L)&&
+   e.repository.recoveryRequests==listOf(original)&&heldJournal(e).pending(key)?.phase==HeldRecoveryJournal.Phase.CONFIRMED)
+ }
  test("lost response before server commit preserves the exact request without replay") {
   val e=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true
   e.repository.recoveryFailureBeforeCommit=IllegalStateException("timeout")
