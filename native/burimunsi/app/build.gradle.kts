@@ -68,8 +68,8 @@ android {
         applicationId = "rw.ikanisa.burimunsi"
         minSdk = 26
         targetSdk = 36
-        versionCode = 40
-        versionName = "0.23.0-collect.18"
+        versionCode = 43
+        versionName = "0.23.0-collect.21"
         resValue("string", "app_name", "BuriMunsi")
         buildConfigField("boolean", "IS_QUALIFICATION", "false")
         // The new Cloud identity snapshots the existing inbox before catch-up.
@@ -95,6 +95,8 @@ android {
         create("staff") { dimension = "device"; applicationIdSuffix = ".staff.cloud"; resValue("string", "app_name", "BuriMunsi Staff"); buildConfigField("boolean", "IS_GATEWAY", "false") }
     }
     buildFeatures { compose = true; buildConfig = true; resValues = true }
+    // The product supports English and Kinyarwanda; discard unused library translations.
+    androidResources { localeFilters += listOf("en", "rw") }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
     buildTypes {
         debug { applicationIdSuffix = ".debug" }

@@ -38,8 +38,7 @@ function fixture(options={}){
  const tx=async(strings,...values)=>{calls.push({text:String.raw({raw:strings},...values.map(()=>'?')),values});return [];};
  tx.unsafe=async(text,values=[])=>{
   calls.push({text,values});
-  if(text==='SHOW transaction_read_only')return [{transaction_read_only:options.readOnly??'on'}];
-  if(text==='SHOW transaction_isolation')return [{transaction_isolation:options.isolation??'read committed'}];
+  if(text.startsWith("SELECT pg_catalog.current_setting('transaction_read_only')"))return [{transaction_read_only:options.readOnly??'on',transaction_isolation:options.isolation??'read committed'}];
   if(text==='COMMIT'&&options.commitFailure)throw Error('SYNTHETIC_PRIVATE_COMMIT_DETAIL');
   if(text==='ROLLBACK'&&options.rollbackFailure)throw Error('SYNTHETIC_PRIVATE_ROLLBACK_DETAIL');
   if(text.startsWith('WITH authority')){
@@ -224,7 +223,7 @@ test('session query accepts exactly its supported version field',async()=>{
 });
 test('readContext default remains read-only repeatable-read',async()=>{
  const f=fixture({isolation:'repeatable read'});await f.env.DB.readContext(f.tx);
- assert.equal(f.calls.find(c=>c.text==='SHOW transaction_read_only')!==undefined,true);assert.equal(f.calls.find(c=>c.text==='SHOW transaction_isolation')!==undefined,true);
+ assert.equal(f.calls.filter(c=>c.text.includes("current_setting('transaction_read_only')")).length,1);
 });
 test('readContext explicitly admits read-committed read-only and refuses an isolation mismatch',async()=>{
  const f=fixture();await f.env.DB.readContext(f.tx,{isolation:'read committed'});

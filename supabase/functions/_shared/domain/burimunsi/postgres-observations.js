@@ -19,6 +19,7 @@ const CONTROL=/[\u0000-\u001f\u007f\u202a-\u202e\u2066-\u2069]/;
 const BODY_CONTROL=/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\u202a-\u202e\u2066-\u2069]/;
 const REQUIRED_KEYS=['requestId','rawSender','rawBody','sourceMode','complete','capturedAt','serviceCentreAt','inboxReceivedAt','subscriptionId'];
 const KEYS=[...REQUIRED_KEYS,'sourceKey'];
+const RECONCILE_KEYS=['sourceKey','bodySha256','rawSender','serviceCentreAt','inboxReceivedAt','subscriptionId'];
 // Metadata-only check of one deterministic key. The ciphertext itself is never
 // returned; PostgreSQL computes its digest solely to validate the reservation.
 export const OBSERVATION_UNRESOLVED_SQL=`SELECT i.object_key,i.operation_id,i.fingerprint,i.sha256,i.size,i.scope,
@@ -93,6 +94,15 @@ export async function observationContentFingerprint(value,bodySha){
  return sha256(canonicalJson({rawSender:value.rawSender,bodySha256:bodySha,serviceCentreAt:value.serviceCentreAt,
   inboxReceivedAt:value.inboxReceivedAt,subscriptionId:value.subscriptionId}));
 }
+function validateReconcileInput(input){
+ exactKeys(input,RECONCILE_KEYS);const value=copy(input);
+ check(HASH.test(value.sourceKey??'')&&HASH.test(value.bodySha256??'')&&
+  text(value.rawSender,1,96)&&value.rawSender.trim().length>0&&!CONTROL.test(value.rawSender)&&
+  iso(value.inboxReceivedAt)&&(value.serviceCentreAt===null||iso(value.serviceCentreAt))&&
+  (value.subscriptionId===null||Number.isInteger(value.subscriptionId)&&value.subscriptionId>=0&&value.subscriptionId<=2147483647),
+  'invalid_request',400);
+ return value;
+}
 
 /** All authority derives from the existing phone/PIN and installation proof.
  * The SQL functions revalidate and lock it at each write/disclosure boundary. */
@@ -141,6 +151,158 @@ export class PostgresNativeObservations {
     ['scheduled','not_eligible'].includes(value.result));return value;
   });}catch(error){throw mapped(error);}
  }
+ /** Compare only a phone-supplied, opaque inbox identity and content digest.
+  * latestRecordedSourceId is current-actor retention order; it is not proof of
+  * phone chronology, and a missing key never starts an upload or financial work. */
+ async reconcile(actor,input){
+  const value=validateReconcileInput(input);
+  const contentSha=await observationContentFingerprint(value,value.bodySha256);
+  const latest=async tx=>{
+   // The page's existing SECURITY DEFINER scopes to the active account and
+   // authorized historical grants. It orders by retention time, not SMS time.
+   const page=await tx.unsafe('SELECT private.burimunsi_observation_page($1,$2,$3,$4) AS result',['','all',1,0]);
+   check(page.length===1&&HASH.test(page[0].result?.revision??''));
+   const result=page[0].result,total=int(result.totalCount,0,100000);
+   check(Array.isArray(result.items)&&result.items.length===Math.min(total,1));
+   return result.items.length?requireRequestId(result.items[0].id):null;
+  };
+  const snapshot=async(tx,includeLatest)=>{
+   const {ctx,profile}=await this.context(tx,actor);
+   // Retain the existing dynamic sender admission. No SMS body is sent to this endpoint.
+   check(isObservationCandidate({rawSender:value.rawSender,rawBody:'x'},profile),'unsupported_receipt',422);
+   const found=await tx.unsafe('SELECT private.burimunsi_observation_key_lookup($1,$2,$3) AS result',
+    [value.sourceKey,contentSha,value.bodySha256]);
+   check(found.length===1);const record=found[0].result===null?null:row(found[0].result);
+   if(record)check(record.bodySha256===value.bodySha256&&record.sessionId===actor.sessionId,'observation_changed',409);
+   const latestRecordedSourceId=includeLatest?await latest(tx):null;
+   return {ctx,record,latestRecordedSourceId};
+  };
+  try{
+   // Repeatable-read snapshots keep the key and latest retained page in one
+   // view. A pending reservation or changed storage raises; neither is absence.
+   const initial=await this.authority.read(async tx=>{
+    const first=await snapshot(tx,false);
+    return first.record?first:{...first,latestRecordedSourceId:await latest(tx)};
+   });
+   if(!initial.record){
+    await this.authority.assertOwned();
+    return {groupId:this.groupId,sourceKey:value.sourceKey,state:'missing',sourceId:null,
+     latestRecordedSourceId:initial.latestRecordedSourceId};
+   }
+   // Verify actual retained bytes and custody, not a local "seen" marker.
+   await this.checkDuplicate(actor,value,contentSha,value.bodySha256,initial.record);
+   const final=await this.authority.read(tx=>snapshot(tx,true));
+   check(final.record&&same(final.record,initial.record)&&same(final.ctx,initial.ctx),'observation_changed',409);
+   await this.authority.assertOwned();
+   return {groupId:this.groupId,sourceKey:value.sourceKey,state:'matched',sourceId:final.record.id,
+    latestRecordedSourceId:final.latestRecordedSourceId};
+  }catch(error){throw mapped(error);}
+ }
+ /** Verify a bounded set of phone witnesses. Each result describes the final
+  * authorized snapshot; this never writes observations or financial state. */
+ async reconcileBatch(actor,input){
+  exactKeys(input,['items']);
+  check(Array.isArray(input.items)&&input.items.length>=1&&input.items.length<=20,'invalid_request',400);
+  const values=input.items.map(validateReconcileInput);
+  check(new Set(values.map(v=>v.sourceKey)).size===values.length,'invalid_request',400);
+  const hashes=await Promise.all(values.map(v=>observationContentFingerprint(v,v.bodySha256)));
+  const snapshot=async tx=>{
+   const {ctx,profile}=await this.context(tx,actor),records=[];
+   for(let i=0;i<values.length;i++){
+    const v=values[i];
+    check(isObservationCandidate({rawSender:v.rawSender,rawBody:'x'},profile),'unsupported_receipt',422);
+    let found;
+    try{found=await tx.unsafe('SELECT private.burimunsi_observation_key_lookup($1,$2,$3) AS result',
+     [v.sourceKey,hashes[i],v.bodySha256]);}
+    catch(error){
+     // SQL gives a definite per-key conflict or an outstanding/invalid
+     // reservation. Other database failures remain generic.
+     if(error?.code==='23505'&&error.message==='burimunsi_observation_source_conflict')
+      throw new BuriError('observation_item_conflict',409);
+     if(error?.code==='55000'&&['burimunsi_observation_source_pending','burimunsi_observation_storage_changed'].includes(error.message))
+      throw new BuriError('observation_item_unavailable',503);
+     throw error;
+    }
+    check(found.length===1);const record=found[0].result===null?null:row(found[0].result);
+    if(record)check(record.bodySha256===v.bodySha256&&record.sessionId===actor.sessionId,'observation_changed',409);
+    records.push(record);
+   }
+   return {ctx,records};
+  };
+  let initial;
+  try{
+   initial=await this.authority.read(snapshot);
+   // Bound concurrent Storage reads and drain all workers on failure: no
+   // transaction or mutation lock is held during network operations.
+   const indexes=initial.records.map((record,i)=>record?i:-1).filter(i=>i>=0);
+   let next=0,failure=null;
+   const itemFailure=error=>error instanceof BuriError&&
+    ['observation_item_conflict','observation_item_unavailable'].includes(error.code);
+   const worker=async()=>{
+    while(!failure&&next<indexes.length){
+     const i=indexes[next++];
+     try{await this.checkDuplicateObject(values[i],hashes[i],values[i].bodySha256,initial.records[i]);}
+     catch(error){
+      if(error instanceof BuriError&&error.code==='observation_changed')error=new BuriError('observation_item_conflict',409);
+      else if(['receipt_unavailable','receipt_integrity_failed'].includes(error?.code))error=new BuriError('observation_item_unavailable',503);
+      // Do not let an item issue mask an independently observed outage or
+      // revoked request while other bounded reads are still settling.
+      if(!failure||itemFailure(failure)&&!itemFailure(error))failure=error;
+     }
+    }
+   };
+   await Promise.all(Array.from({length:Math.min(3,indexes.length)},worker));
+   if(failure)throw failure;
+   if(indexes.length){
+    // The normal custody fence serializes journal verification with storage
+    // mutation; it does not itself write an observation or financial record.
+    await this.authority.write(async tx=>{
+     const fenced=await snapshot(tx);
+     check(same(fenced.ctx,initial.ctx)&&same(fenced.records,initial.records),'observation_changed',409);
+     for(const i of indexes){
+      const prior=initial.records[i];
+      const journal=await this.custody.journal(tx,prior.object_key,target(prior));await this.checkJournal(prior,journal);
+     }
+    });
+   }
+   // authority.read is REPEATABLE READ, so the keys and authorization are
+   // rechecked together after the network and custody operations.
+   const final=await this.authority.read(snapshot);
+   check(same(final.ctx,initial.ctx)&&same(final.records,initial.records),'observation_changed',409);
+   await this.authority.assertOwned();
+   return {groupId:this.groupId,items:values.map((v,i)=>({sourceKey:v.sourceKey,
+    state:final.records[i]?'matched':'missing',sourceId:final.records[i]?.id??null}))};
+  }catch(error){
+   if(error instanceof BuriError&&['observation_item_conflict','observation_item_unavailable'].includes(error.code)){
+    // The error itself reveals no key or content. Still recheck current
+    // authority and context after any asynchronous read before releasing it.
+    try{
+     const current=await this.authority.read(tx=>this.context(tx,actor));
+     if(initial)check(same(current.ctx,initial.ctx),'observation_changed',409);
+     await this.authority.assertOwned();
+    }catch(recheckError){throw mapped(recheckError);}
+   }
+   throw mapped(error);
+  }
+ }
+ /** Collection-wide metadata only; actor and consent are current in the same
+  * repeatable-read transaction as the underlying reservation snapshot. */
+ async reconcileStatus(actor){
+  try{
+   const result=await this.authority.read(async tx=>{
+    await this.context(tx,actor);
+    const rows=await tx.unsafe('SELECT private.burimunsi_observation_reconcile_status() AS result');
+    check(rows.length===1);const value=rows[0].result;
+    check(value&&value.groupId===this.groupId&&typeof value.hasPending==='boolean'&&
+     typeof value.hasRecorded==='boolean'&&typeof value.hasUnmatchedCanonical==='boolean'&&
+     Number.isSafeInteger(value.recordedCount)&&value.recordedCount>=0&&value.recordedCount<=100000&&
+     value.hasRecorded===(value.recordedCount>0)&&HASH.test(value.revision??''));
+    return {groupId:this.groupId,hasPending:value.hasPending,hasRecorded:value.hasRecorded,
+     recordedCount:value.recordedCount,hasUnmatchedCanonical:value.hasUnmatchedCanonical,revision:value.revision};
+   });
+   await this.authority.assertOwned();return result;
+  }catch(error){throw mapped(error);}
+ }
  async setConsent(actor,value){
   exactKeys(value,['enabled','generation']);check(typeof value.enabled==='boolean'&&Number.isSafeInteger(value.generation)&&value.generation>=1,'invalid_request',400);
   try{return await this.authority.write(async tx=>{await this.current(tx,actor);
@@ -188,7 +350,7 @@ export class PostgresNativeObservations {
    return {kind:'new'};
   });
  }
- async checkDuplicate(actor,value,contentSha,bodySha,prior){
+ async checkDuplicateObject(value,contentSha,bodySha,prior){
   let bytes;try{
    await this.authority.assertOwned();bytes=await verifyRetainedObject(this.env,prior);await this.authority.assertOwned();
    const p=JSON.parse(DECODER.decode(bytes));
@@ -196,14 +358,17 @@ export class PostgresNativeObservations {
     typeof p.raw_body==='string'&&await sha256(p.raw_body)===bodySha&&
     await observationContentFingerprint({rawSender:p.raw_sender,serviceCentreAt:p.service_centre_at,
      inboxReceivedAt:p.inbox_received_at,subscriptionId:p.subscription_id},bodySha)===contentSha,'observation_changed',409);
-   await this.authority.write(async tx=>{
+  }finally{bytes?.fill(0);}
+ }
+ async checkDuplicate(actor,value,contentSha,bodySha,prior){
+  await this.checkDuplicateObject(value,contentSha,bodySha,prior);
+  await this.authority.write(async tx=>{
     await this.current(tx,actor);
     const rows=await tx.unsafe('SELECT private.burimunsi_observation_key_lookup($1,$2,$3) AS result',[value.sourceKey,contentSha,bodySha]);
     check(rows.length===1&&rows[0].result&&same(row(rows[0].result),prior),'observation_changed',409);
     const journal=await this.custody.journal(tx,prior.object_key,target(prior));await this.checkJournal(prior,journal);
-   });
-   await this.authority.assertOwned();
-  }finally{bytes?.fill(0);}
+  });
+  await this.authority.assertOwned();
  }
  async checkJournal(r,journal){
   const keyId=journal?.reservation?.key_id;

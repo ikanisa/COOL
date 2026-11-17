@@ -191,6 +191,21 @@
       "POST",
       "^/sms/observations/([A-Za-z0-9_-]+)/retry$",
       "observationProcessingRetry"
+    ],
+    [
+      "POST",
+      "^/sms/observations/reconcile$",
+      "observationReconcile"
+    ],
+    [
+      "POST",
+      "^/sms/observations/reconcile-batch$",
+      "observationReconcileBatch"
+    ],
+    [
+      "GET",
+      "^/sms/observations/reconcile-status$",
+      "observationReconcileStatus"
     ]
   ],
   "operations": [
@@ -231,6 +246,9 @@
     "observationPage",
     "observationReveal",
     "observationProcessingStatus",
-    "observationProcessingRetry"
+    "observationProcessingRetry",
+    "observationReconcile",
+    "observationReconcileBatch",
+    "observationReconcileStatus"
   ]
 }

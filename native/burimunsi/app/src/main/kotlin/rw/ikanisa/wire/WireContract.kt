@@ -236,7 +236,7 @@ class WireContract(private val product: String, private val version: String,
                     if (row["groupId"] != b["groupId"]) reject("CONTRACT_IDENTITY")
                     if (!seen.add(row["id"])) reject("CONTRACT_DUPLICATE") }
             }
-            if (d.containsKey("items")) {
+            if (d.containsKey("items") && operation != "observationReconcileBatch") {
                 rows(d["items"]); val items = arrayValue(d["items"])
                 if ((d["totalCount"] as Number).toLong() < items.size || (d["nextCursor"] != null && items.isEmpty())) reject("CONTRACT_PAGE")
             }
@@ -295,6 +295,17 @@ class WireContract(private val product: String, private val version: String,
             }
             if(operation=="observationProcessingRetry"&&
                 (d["sourceId"]!=expected["recordId"]||d["requestId"]!=expected["commandRequestId"]))reject("CONTRACT_IDENTITY")
+            if(operation=="observationReconcile"&&
+                (d["sourceKey"]!=expected["sourceKey"]||(d["state"]=="matched")!=(d["sourceId"]!=null)))reject("CONTRACT_IDENTITY")
+            if(operation=="observationReconcileBatch"){
+                val requested=arrayValue(expected["sourceKeys"])
+                val items=arrayValue(d["items"]).map(::objectValue)
+                if(requested.toSet().size!=requested.size||items.size!=requested.size||items.indices.any{i->
+                    items[i]["sourceKey"]!=requested[i]||(items[i]["state"]=="matched")!=(items[i]["sourceId"]!=null)
+                })reject("CONTRACT_IDENTITY")
+            }
+            if(operation=="observationReconcileStatus"&&
+                (d["hasRecorded"]==true)!=((d["recordedCount"] as Number).toLong()>0L))reject("CONTRACT_STATE")
             if (operation == "observationReveal") {
                 if(d["sourceKind"]!="observation"||d["sourceId"]!=expected["recordId"]||
                     d["status"]!="source_unresolved"||(d["financialEffects"] as? Number)?.toLong()!=0L)reject("CONTRACT_IDENTITY")

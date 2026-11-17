@@ -22,6 +22,9 @@ interface BuriController {
     val continuousSyncProblem:String? get()=null
     val operation:UiOperation get()=UiOperation.NONE
     val operationLabel:String? get()=null
+    /** Quiet reads may accept a navigation request without accepting a command. */
+    val navigationBlocked:Boolean get()=state.busy||screenGate!=ScreenGate.OPEN
+    val requestedRoute:Route? get()=null
     val exportFeedback:UiExportFeedback? get()=null
     val listingTarget:ListingTarget? get()=null
     val listingQuery:ListingQuery get()=ListingQuery()

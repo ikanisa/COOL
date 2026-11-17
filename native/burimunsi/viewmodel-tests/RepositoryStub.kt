@@ -25,6 +25,10 @@ object Fixture{
  val repositoryCollections=java.util.concurrent.CopyOnWriteArrayList<String>()
  val enrollmentCollections=java.util.concurrent.CopyOnWriteArrayList<String>()
  var loginCalls=0;val loginCollections=java.util.concurrent.CopyOnWriteArrayList<String>();var gatewayPairCalls=0
+ @Volatile var loginEntered:java.util.concurrent.CountDownLatch?=null
+ @Volatile var loginBarrier:java.util.concurrent.CountDownLatch?=null
+ @Volatile var sessionEntered:java.util.concurrent.CountDownLatch?=null
+ @Volatile var sessionBarrier:java.util.concurrent.CountDownLatch?=null
  var onboardingPreviews=0;var onboardingImports=0;var lastOnboardingConsent:Boolean?=null;var lastOnboardingMimeType:String?=null
  var gatewayPairFailure:ApiFailure?=null;var gatewayCredentialsInstalled=0
  var retirementPendingFlag=false;var retirementRecordPresent=false;var retirementUnknown=false;var retirementAckReady=false
@@ -35,6 +39,9 @@ object Fixture{
  @Volatile var enrollResponseId:String?="member-1"
  @Volatile var enrollResponseGroup:String?=null
  @Volatile var memberReadFailure:ApiFailure?=null
+ @Volatile var membersFailure:ApiFailure?=null
+ @Volatile var membersCachedOverride:Boolean?=null
+ @Volatile var membersSavedAtOverride:Long?=null
  var financialState="posted"
  @Volatile var currentOwnerOverride:String?=null
  @Volatile var processSessionInvalidated=false
@@ -102,7 +109,7 @@ class NativeRepository(app:Application,api:ApiClient,group:String?=null){
   check(Fixture.restoreBarrier?.await(5,java.util.concurrent.TimeUnit.SECONDS)!=false)
   Fixture.restoreFailure?.let{throw it};return operator}
  fun current()=operator?.takeUnless{Fixture.processSessionInvalidated}?.let{it.copy(id=Fixture.currentOwnerOverride?:it.id)}
- fun login(phone:String,pin:String):Operator{Fixture.loginCalls++;val selected=Fixture.managedCollection?:throw ApiFailure("invalid_credentials",401);bound=selected;Fixture.loginCollections.add(selected);readScopeRevision++;operator=Fixture.operator();return operator!!}
+ fun login(phone:String,pin:String):Operator{Fixture.loginCalls++;Fixture.loginEntered?.countDown();check(Fixture.loginBarrier?.await(5,java.util.concurrent.TimeUnit.SECONDS)!=false);val selected=Fixture.managedCollection?:throw ApiFailure("invalid_credentials",401);bound=selected;Fixture.loginCollections.add(selected);readScopeRevision++;operator=Fixture.operator();return operator!!}
  fun pairGateway(code:String,replace:Boolean):JSONObject{
   if(operator==null)throw ApiFailure("session_unavailable",401);Fixture.gatewayPairCalls++
   Fixture.gatewayPairFailure?.let{if(it.status==401)operator=null;throw it}
@@ -117,7 +124,7 @@ class NativeRepository(app:Application,api:ApiClient,group:String?=null){
  fun hasPendingReceiverRetirement()=Fixture.retirementPendingFlag
  fun hasReceiverRetirementRecord()=Fixture.retirementRecordPresent||Fixture.retirementPendingFlag
  fun recoverReceiverRetirement():JSONObject?{Fixture.retirementRecoveryReads++;if(!Fixture.retirementAckReady)return null;Fixture.retirementPendingFlag=false;return retirementAck()}
- fun logout(){Fixture.logoutCalls++;readScopeRevision++;operator=null;Fixture.logoutFailure?.let{throw it}};fun clearOperator(){Fixture.clearOperatorCalls++;readScopeRevision++;operator=null};fun refreshSession():Operator{Fixture.sessionReads++;Fixture.sessionFailure?.let{if(it.status==401){readScopeRevision++;operator=null};throw it};operator=operator!!.copy(role=Fixture.refreshedRole?:operator!!.role,capabilities=Fixture.refreshedCaps?:operator!!.capabilities,expiresAt=Fixture.renewedExpiry?:operator!!.expiresAt);return operator!!}
+ fun logout(){Fixture.logoutCalls++;readScopeRevision++;operator=null;Fixture.logoutFailure?.let{throw it}};fun clearOperator(){Fixture.clearOperatorCalls++;readScopeRevision++;operator=null};fun refreshSession():Operator{Fixture.sessionReads++;Fixture.sessionEntered?.countDown();check(Fixture.sessionBarrier?.await(5,java.util.concurrent.TimeUnit.SECONDS)!=false);Fixture.sessionFailure?.let{if(it.status==401){readScopeRevision++;operator=null};throw it};operator=operator!!.copy(role=Fixture.refreshedRole?:operator!!.role,capabilities=Fixture.refreshedCaps?:operator!!.capabilities,expiresAt=Fixture.renewedExpiry?:operator!!.expiresAt);return operator!!}
  fun retryPendingSignOuts():Boolean=true
  fun observeProcessSession(listener:()->Unit):()->Unit{Fixture.processSessionObservers.add(listener);return {Fixture.processSessionObservers.remove(listener)}}
  fun hasPendingPasscode():Boolean=Fixture.pinUncertain
@@ -164,12 +171,18 @@ class NativeRepository(app:Application,api:ApiClient,group:String?=null){
  fun paymentHistory(id:String,listing:ListingQuery,cursor:String?=null,scope:RecordReadScope?=null):Page<PaymentEvent> =
   typedListing(ListingTarget.HISTORY,listing,cursor,id,scope){paymentHistory(id,cursor)}
  fun payments(q:String="",filter:String="all",cursor:String?=null,memberId:String?=null):Page<Payment>{Fixture.paymentsEntered?.countDown();check(Fixture.paymentsBarrier?.await(5,java.util.concurrent.TimeUnit.SECONDS)!=false);Fixture.readFailure?.let{throw it};if(memberId!=null&&cursor!=null&&Fixture.memberPaymentScopeFailureOnCursor)throw ContractFailure("invalid_member_payment_scope");provenance();Fixture.lastFilter=filter;Fixture.paged?.let{handler->val p=handler(if(memberId==null)"PAYMENTS"else "MEMBER",cursor,memberId?:q,filter);provenance();return Page(p.items.map{Fixture.payment(it).copy(memberId=memberId)},p.nextCursor,p.totalCount,p.revision,p.asOf)};if(Fixture.readEmpty)return Page(emptyList(),null,0,"empty","2026-11-09T00:00:00Z");return Fixture.page(listOf(Fixture.payment(if(cursor==null)"tx-1" else "tx-2").copy(memberId=memberId)),if(memberId==null&&cursor==null)"more" else null)}
- fun members(q:String="",cursor:String?=null):Page<Member>{provenance();Fixture.paged?.let{handler->val p=handler("MEMBERS",cursor,q,"all");provenance();return Page(p.items.map{Fixture.member.copy(id=it)},p.nextCursor,p.totalCount,p.revision,p.asOf)};return Fixture.page(listOf(Fixture.member.copy(id=if(cursor==null)"member-1" else "member-2")),if(cursor==null)"more" else null)}
+ fun members(q:String="",cursor:String?=null):Page<Member>{
+  Fixture.membersFailure?.let{if(it.status==401)operator=null;throw it}
+  fun memberProvenance(){provenance(Fixture.membersCachedOverride?:Fixture.cached);Fixture.membersSavedAtOverride?.let{lastReadSavedAt=it}}
+  memberProvenance();Fixture.paged?.let{handler->val p=handler("MEMBERS",cursor,q,"all");memberProvenance();return Page(p.items.map{Fixture.member.copy(id=it)},p.nextCursor,p.totalCount,p.revision,p.asOf)};return Fixture.page(listOf(Fixture.member.copy(id=if(cursor==null)"member-1" else "member-2")),if(cursor==null)"more" else null)
+ }
  fun payment(id:String):Payment{Fixture.paymentReads++;if(Fixture.paymentFailure)throw ApiFailure("connection_unavailable",0);provenance();return Fixture.payment(id)}
  fun member(id:String):Member{Fixture.memberReadFailure?.let{throw it};provenance(Fixture.memberCached||Fixture.cached);return Fixture.member.copy(id=id)}
  fun ledger(id:String,cursor:String?=null):Page<LedgerRow>{provenance();Fixture.paged?.let{handler->val p=handler("MEMBER",cursor,id,"all");provenance();return Page(p.items.map{LedgerRow(it,"tx-1",10000,"at","90001","Payer")},p.nextCursor,p.totalCount,p.revision,p.asOf)};return Fixture.page(listOf(LedgerRow("l-1","tx-1",10000,"at","90001","Payer")))}
  fun sms(q:String="",cursor:String?=null,filter:String="all",limit:Int?=null):Page<SmsRow>{Fixture.smsQueries.add(q);Fixture.lastFilter=filter;Fixture.paged?.let{handler->val p=handler("SMS",cursor,q,filter);return Page(p.items.map{SmsRow(it,"M-Money","at","synthetic",filter,null)},p.nextCursor,p.totalCount,p.revision,p.asOf)};return Fixture.page(listOf(SmsRow("s-1","M-Money","at","synthetic",filter,null)))}
  fun observationPage(q:String="",cursor:String?=null,limit:Int?=null):Page<ObservationListRow> {Fixture.observationQueries.add(q);Fixture.observationReads++;Fixture.observationFailure?.let{throw it};Fixture.observationPaged?.let{return it(q,cursor)};return Page(Fixture.observationRows,null,Fixture.observationRows.size,"observations-v1","2026-11-09T00:00:00Z")}
+ fun observationProcessing(sources:List<SmsSourceRef.Observation>):Map<SmsSourceRef.Observation,ObservationProcessing> = emptyMap()
+ fun retryObservation(source:SmsSourceRef.Observation,requestId:String):String = "scheduled"
  fun revealObservation(source:SmsSourceRef.Observation,reason:String):ObservationDisclosure{
   if(reason=="Automatic SMS list preview"){Fixture.observationListRevealReads++;Fixture.listRevealReasons.add(reason);Fixture.listRevealSources.add("observation:"+source.id);Fixture.listRevealEntered?.countDown();check(Fixture.listRevealRelease?.await(5,java.util.concurrent.TimeUnit.SECONDS)!=false);Fixture.listRevealFailure?.let{throw it};return ObservationDisclosure(source,"2026-11-09T00:00:00Z","SyntheticSender",Fixture.listBodies[source.id]?:Fixture.observationBody)}
   Fixture.observationRevealReads++;return ObservationDisclosure(source,"2026-11-09T00:00:00Z","M-Money",Fixture.observationBody,Fixture.observationHints)

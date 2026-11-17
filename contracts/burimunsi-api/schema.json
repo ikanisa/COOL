@@ -5084,6 +5084,351 @@
         "data"
       ],
       "additionalProperties": false
+    },
+    "observationReconcile.request": {
+      "type": "object",
+      "properties": {
+        "sourceKey": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "bodySha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "rawSender": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96
+        },
+        "serviceCentreAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 35,
+              "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z(?![\\s\\S])",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inboxReceivedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 35,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "subscriptionId": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sourceKey",
+        "bodySha256",
+        "rawSender",
+        "serviceCentreAt",
+        "inboxReceivedAt",
+        "subscriptionId"
+      ],
+      "additionalProperties": false
+    },
+    "observationReconcile.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "observationReconcile.data": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "sourceKey": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "matched",
+            "missing"
+          ]
+        },
+        "sourceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 36,
+              "maxLength": 36,
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latestRecordedSourceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 36,
+              "maxLength": 36,
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "groupId",
+        "sourceKey",
+        "state",
+        "sourceId",
+        "latestRecordedSourceId"
+      ],
+      "additionalProperties": false
+    },
+    "observationReconcile.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/observationReconcile.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "observationReconcileBatch.request": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/observationReconcile.request"
+          },
+          "minItems": 1,
+          "maxItems": 20
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "observationReconcileBatch.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "observationReconcileBatchItem": {
+      "type": "object",
+      "properties": {
+        "sourceKey": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "matched",
+            "missing"
+          ]
+        },
+        "sourceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 36,
+              "maxLength": 36,
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sourceKey",
+        "state",
+        "sourceId"
+      ],
+      "additionalProperties": false
+    },
+    "observationReconcileBatch.data": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/observationReconcileBatchItem"
+          },
+          "minItems": 1,
+          "maxItems": 20
+        }
+      },
+      "required": [
+        "groupId",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "observationReconcileBatch.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/observationReconcileBatch.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "observationReconcileStatus.request": {
+      "type": "null"
+    },
+    "observationReconcileStatus.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "observationReconcileStatus.data": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "hasPending": {
+          "type": "boolean"
+        },
+        "hasRecorded": {
+          "type": "boolean"
+        },
+        "recordedCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "hasUnmatchedCanonical": {
+          "type": "boolean"
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "groupId",
+        "hasPending",
+        "hasRecorded",
+        "recordedCount",
+        "hasUnmatchedCanonical",
+        "revision"
+      ],
+      "additionalProperties": false
+    },
+    "observationReconcileStatus.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/observationReconcileStatus.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
     }
   }
 }

@@ -87,7 +87,7 @@ internal val LocalBuriMotionAllowed=staticCompositionLocalOf{false}
     if(operation==UiOperation.NONE||operation==UiOperation.LOAD_MORE)return
     val text=label?:when(operation){
         UiOperation.INITIAL_READ->"Loading records";UiOperation.REFRESH->"Updating records"
-        UiOperation.COMMAND->"Applying changes";UiOperation.EXPORT->"Preparing export";else->"Working"
+        UiOperation.SIGN_IN->"Signing in…";UiOperation.COMMAND->"Applying changes";UiOperation.EXPORT->"Preparing export";else->"Working"
     }
     val t=LocalUiText.current
     Row(Modifier.fillMaxWidth().padding(horizontal=20.dp,vertical=6.dp)

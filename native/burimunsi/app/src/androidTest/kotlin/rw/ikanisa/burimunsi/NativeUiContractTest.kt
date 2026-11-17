@@ -67,9 +67,10 @@ class NativeUiContractTest {
         field("Passcode").assert(SemanticsMatcher.expectValue(androidx.compose.ui.semantics.SemanticsProperties.EditableText,androidx.compose.ui.text.AnnotatedString("")))
     }
     @Test fun startupShowsBlackBrandedSplashBeforeOriginalLogin(){
-        val c=FakeController(Route.LOGIN);c.state=c.state.copy(starting=true,busy=true);show(c)
+        val c=FakeController(Route.LOGIN);c.state=c.state.copy(starting=true,busy=true);c.operation=UiOperation.INITIAL_READ;c.operationLabel="Checking access";show(c)
         ui.onNodeWithTag("burimunsi-splash").assertIsDisplayed()
         ui.onNodeWithContentDescription("BuriMunsi").assertIsDisplayed()
+        ui.onNodeWithText("Checking access").assertIsDisplayed()
         ui.onNodeWithText("Welcome\nback.").assertDoesNotExist()
         ui.onNodeWithContentDescription("Phone number").assertDoesNotExist()
         val bitmap=ui.onRoot().captureToImage().asAndroidBitmap()
@@ -102,6 +103,40 @@ class NativeUiContractTest {
         field("Passcode").performImeAction()
         ui.onNode(hasScrollToIndexAction()).performScrollToNode(hasText("Sign in") and hasClickAction())
         button("Sign in").assertIsNotEnabled();ui.runOnIdle{check(c.loginCalls==0)}
+    }
+    @Test fun signInShowsAccessibleProgressAndRetainsThePhoneOnFailure(){
+        val c=FakeController(Route.LOGIN);c.simulatePendingSignIn=true;show(c)
+        field("Phone number").performScrollTo().performTextInput("0780000001")
+        field("Passcode").performScrollTo().performTextInput("2468")
+        ui.onNode(hasScrollToIndexAction()).performScrollToNode(hasText("Sign in") and hasClickAction())
+        button("Sign in").performClick()
+        ui.onNodeWithTag("active-operation:SIGN_IN").assertExists()
+        ui.onNode(hasScrollToIndexAction()).performScrollToNode(hasText("Signing in…") and hasClickAction())
+        button("Signing in…").assertIsNotEnabled().assert(SemanticsMatcher.expectValue(
+            androidx.compose.ui.semantics.SemanticsProperties.ProgressBarRangeInfo,androidx.compose.ui.semantics.ProgressBarRangeInfo.Indeterminate))
+        ui.runOnIdle{check(c.loginCalls==1);c.operation=UiOperation.NONE;c.state=c.state.copy(busy=false,error="Unable to sign in.")}
+        ui.onNodeWithText("Unable to sign in.").assertExists()
+        field("Phone number").performScrollTo().assert(SemanticsMatcher.expectValue(
+            androidx.compose.ui.semantics.SemanticsProperties.EditableText,androidx.compose.ui.text.AnnotatedString("0780000001")))
+        field("Passcode").performScrollTo().assert(SemanticsMatcher.expectValue(
+            androidx.compose.ui.semantics.SemanticsProperties.EditableText,androidx.compose.ui.text.AnnotatedString("")))
+    }
+    @Test fun configurationBlockDoesNotPretendSignInIsRunning(){
+        val c=FakeController(Route.LOGIN);c.state=c.state.copy(configurationRequired=true);show(c)
+        ui.onNode(hasScrollToIndexAction()).performScrollToNode(hasText("Sign in") and hasClickAction())
+        button("Sign in").assertIsNotEnabled()
+        ui.onNodeWithText("Signing in…").assertDoesNotExist()
+        ui.onNodeWithTag("active-operation:SIGN_IN").assertDoesNotExist()
+    }
+    @Test fun navigationUsesControllerReadPolicyAndAlwaysHonorsClosedAccessGate(){
+        val c=FakeController(Route.HOME);c.state=c.state.copy(busy=true);c.operation=UiOperation.REFRESH;c.navigationOpenWhileBusy=true;c.simulateQueuedNavigation=true;show(c)
+        ui.onNodeWithContentDescription("Members").assertIsEnabled().performClick()
+        ui.onNodeWithContentDescription("Members").assertIsSelected()
+        ui.onNodeWithTag("loading-skeleton").assertExists()
+        ui.runOnIdle{check(c.state.route==Route.HOME&&c.requestedRoute==Route.MEMBERS);c.screenGate=ScreenGate.CHECKING}
+        ui.onNodeWithContentDescription("Payments").assertIsNotEnabled()
+        ui.onNodeWithText("Checking access").assertExists()
+        ui.runOnIdle{check(c.state.route==Route.HOME)}
     }
     @Test fun smartOnboardingUsesTheExistingAddMemberSheet(){
         val c=FakeController(Route.MEMBERS);c.state=c.state.copy(sheet=Sheet.ENROLL);var picks=0;var captures=0;var photos=0
@@ -688,6 +723,12 @@ private class FakeController(route:Route,role:Role=Role.ADMIN):BuriController{
     override val receivingPermissionsRequired get()=permissionsRequired
     override var smsAccessGranted by mutableStateOf(false)
     override var operation by mutableStateOf(UiOperation.NONE)
+    override var operationLabel:String? by mutableStateOf(null)
+    var navigationOpenWhileBusy by mutableStateOf(false)
+    override val navigationBlocked get()=(state.busy&&!navigationOpenWhileBusy)||screenGate!=ScreenGate.OPEN
+    override var requestedRoute:Route? by mutableStateOf(null)
+    var simulateQueuedNavigation=false
+    var simulatePendingSignIn=false
     override var exportFeedback:UiExportFeedback? by mutableStateOf(null)
     var cancelExportCalls=0
     override fun cancelExport(){cancelExportCalls++}
@@ -724,9 +765,9 @@ private class FakeController(route:Route,role:Role=Role.ADMIN):BuriController{
         home=Home(10000,10000,1,0,listOf(pay),"2026-11-06T10:00:00Z",0),payments=Page(listOf(pay),null,1,"v1","now"),members=Page(listOf(person),null,1,"v1","now"),member=person,payment=pay,memberTransactions=Page(listOf(pay),null,1,"v1","now"),
         gateway=if(role==Role.ADMIN)GatewayStatus(true,true,1,0,null,"09:42","09:42",null)else null,messages=Page(listOf(SmsRow("sms-1","M-Money",pay.atRaw,"Synthetic preview","synced","tx-1","SIM 1")),null,1,"v1","now"),staff=Page(emptyList(),null,0,"staff-v1","now"),audit=Page(emptyList(),null,0,"audit-v1","now"),history=Page(emptyList(),null,0,"history-v1","now")))
     override fun allows(capability:Capability)=screenGate==ScreenGate.OPEN&&Access.allows(state.operator,capability,System.currentTimeMillis(),BuildConfig.IS_GATEWAY,state.gateway?.authorized==true)
-    override fun login(phone:String,pin:String){loginCalls++;lastPhone=phone;lastPin=pin}
+    override fun login(phone:String,pin:String){loginCalls++;lastPhone=phone;lastPin=pin;if(simulatePendingSignIn){operation=UiOperation.SIGN_IN;state=state.copy(busy=true)}}
     override fun logout(){state=UiState()}
-    override fun navigate(route:Route,id:String?){lastNavigationId=id;state=state.copy(route=route,routeId=id,sheet=null)}
+    override fun navigate(route:Route,id:String?){lastNavigationId=id;if(simulateQueuedNavigation){requestedRoute=route}else state=state.copy(route=route,routeId=id,sheet=null)}
     override fun back(){state=state.copy(route=Route.HOME,sheet=null)}
     override fun openUnallocated(){state=state.copy(route=Route.PAYMENTS,filter="unallocated")}
     override fun search(value:String){state=if(state.route==Route.SMS&&state.filter=="queued")state.copy(queuedSearch=value)else if(state.route==Route.SMS)state.copy(smsListSearch=value)else state.copy(search=value)}

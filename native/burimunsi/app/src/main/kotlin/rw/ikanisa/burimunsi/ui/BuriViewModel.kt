@@ -78,6 +78,10 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     constructor(app:Application,clock:()->Long):this(app,AndroidNavigationCheckpointStore(app),clock)
     override var operation:UiOperation by mutableStateOf(UiOperation.NONE);private set
     override var operationLabel:String? by mutableStateOf(null);private set
+    private var quietRefreshInFlight by mutableStateOf(false)
+    private var queuedNavigation by mutableStateOf<Pair<Route,String?>?>(null)
+    override val navigationBlocked:Boolean get()=screenGate!=ScreenGate.OPEN||(state.busy&&(!quietRefreshInFlight||state.draftDirty))
+    override val requestedRoute:Route? get()=queuedNavigation?.first
     override var exportFeedback:UiExportFeedback? by mutableStateOf(null);private set
     data class DownloadRequest(val id:Long,val fileName:String,val format:ExportFormat)
     var downloadRequest:DownloadRequest? by mutableStateOf(null);private set
@@ -397,6 +401,8 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     }
     /** Called by LifecycleResumeEffect. Does not cancel a dispatched operation. */
     fun onBackground(){
+        queuedNavigation=null
+        homeGatewayStatusJob?.cancel();homeGatewayStatusJob=null
         checkpointNavigation()
         if(!downloadPickerInFlight)clearDownload(exportFeedback?.phase in setOf(UiExportPhase.PREPARING,UiExportPhase.WRITING))
         clearRawDisclosure()
@@ -413,7 +419,12 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         val sameTransition=!lifecycleObserved||foreground
         val coalesceInitialRestore=sameTransition&&initialRestoreInFlight
         lifecycleObserved=true;foreground=true;needsSessionCheck=true
-        if(coalesceInitialRestore)initialForegroundCoalesced=true else resumeQueued=true
+        if(coalesceInitialRestore){
+            initialForegroundCoalesced=true
+            // If restoration has already validated the owner, this first
+            // foreground callback is the same transition, not another resume.
+            if(state.operator!=null&&!state.starting&&!resumeQueued)needsSessionCheck=false
+        }else resumeQueued=true
         gateway.foregroundChanged(true)
         permissionsChanged()
         refreshSupport()
@@ -541,7 +552,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         state=withoutRecords(state)
     }
     private fun key(route:Route=state.route,id:String?=state.routeId)=route.name+":"+(id?:"")
-    private fun clearViews(){observationStatusJob?.cancel();observationStatusJob=null;observationRetryRequests.clear();clearDownload(false);queries=emptyMap();filterOrigin=null;filterDraftReset=null;clearRawDisclosure();views.clear();clearPanels();pendingExport=null;pendingMemberDocument=null;forgetCheckpoint()}
+    private fun clearViews(){queuedNavigation=null;homeGatewayStatusJob?.cancel();homeGatewayStatusJob=null;observationStatusJob?.cancel();observationStatusJob=null;observationRetryRequests.clear();clearDownload(false);queries=emptyMap();filterOrigin=null;filterDraftReset=null;clearRawDisclosure();views.clear();clearPanels();pendingExport=null;pendingMemberDocument=null;forgetCheckpoint()}
     private fun rememberedContext(value:UiState)=UiState(operator=state.operator,route=value.route,routeId=value.routeId,
         search=value.search,filter=value.filter,listIndex=value.listIndex,listOffset=value.listOffset,
         pending=state.pending,busy=true,readbackRequired=value.readbackRequired)
@@ -560,7 +571,9 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     }}}
     override fun keepDraft(){afterDiscard=null;state=state.copy(discardRequested=false)}
     private var generation=0
+    private var workSerial=0L
     private var actionJob:Job?=null
+    private var homeGatewayStatusJob:Job?=null
     private var repository:NativeRepository?=null
     val gateway=GatewayFactory.create(app,{repository?.boundCollectionId},
         {code,replace->(repository?:throw ApiFailure("session_unavailable",401)).pairGateway(code,replace)},
@@ -643,6 +656,14 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         }
         restoreRetryPending=false
         state=(if(o==null)UiState(busy=true,pending=io{journalKnowledge()!=JournalKnowledge.CLEAR}) else restoredContext(o)).copy(starting=starting)
+        // A server-validated operator can see the authenticated loading shell;
+        // no restored financial records are carried into that shell. A real
+        // background/foreground transition remains covered until revalidation.
+        if(state.operator!=null){
+            if(!resumeQueued)needsSessionCheck=false
+            state=state.copy(starting=false)
+            operationLabel="Loading records"
+        }
         if(o!=null&&BuildConfig.IS_GATEWAY)try{io{gateway.start()}}catch(e:CancellationException){throw e}catch(_:Exception){}
         if(state.operator!=null)try{refreshNow()}catch(e:ApiFailure){
             if(retryableSessionFailure(e)){needsSessionCheck=true;sessionRetryPending=true;lastSessionRecoveryAttemptAt=clock()}
@@ -702,7 +723,8 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
             // Phone/PIN login discovers scope on the server. A fresh installation
             // renders the original login immediately; no account/group is invented.
             initialRestoreInFlight=true
-            work(bypassGate=true){
+            work(bypassGate=true,kind=UiOperation.INITIAL_READ){
+                operationLabel="Checking access"
                 var completed=false
                 try{
                     if(recoverReceiverRetirement())return@work
@@ -752,13 +774,15 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         if(r==null)JournalKnowledge.UNAVAILABLE else if(r.pending()==null)JournalKnowledge.CLEAR else JournalKnowledge.UNRESOLVED
     }catch(_:Exception){JournalKnowledge.UNAVAILABLE}
     override fun allows(capability:Capability)=screenGate==ScreenGate.OPEN&&hasAccess(capability)
-    private fun work(bypassGate:Boolean=false,preservePresentation:Boolean=false,kind:UiOperation?=null,action:suspend ()->Unit){
+    private fun work(bypassGate:Boolean=false,preservePresentation:Boolean=false,kind:UiOperation?=null,quietRefresh:Boolean=false,action:suspend ()->Unit){
         checkVisibleFreshness()
         if(state.busy||(!bypassGate&&screenGate!=ScreenGate.OPEN))return
         state=if(preservePresentation)state.copy(busy=true) else state.copy(busy=true,error=null,failure=DisplayFailure.NONE)
+        quietRefreshInFlight=quietRefresh
         operation=kind?:UiOperation.COMMAND
-        operationLabel=when(operation){UiOperation.INITIAL_READ->"Loading records";UiOperation.REFRESH->"Refreshing records";UiOperation.LOAD_MORE->"Loading more records";UiOperation.EXPORT->"Preparing download";UiOperation.COMMAND->"Saving changes";else->null}
+        operationLabel=when(operation){UiOperation.INITIAL_READ->"Loading records";UiOperation.SIGN_IN->"Signing in…";UiOperation.REFRESH->"Refreshing records";UiOperation.LOAD_MORE->"Loading more records";UiOperation.EXPORT->"Preparing download";UiOperation.COMMAND->"Saving changes";else->null}
         val started=generation
+        val serial=++workSerial
         actionJob=viewModelScope.launch{
             try{action()}
             catch(e:CancellationException){throw e}
@@ -767,7 +791,10 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
                 if(e.code=="passcode_change_unconfirmed"){
                     clearViews();restoreRetryPending=true;lastRestoreAttemptAt=0L
                     state=UiState(error=message(e.code,true),busy=true,passcodeChangePending=true,failure=DisplayFailure.UNCERTAIN,pending=state.pending)
-                }else if(e.status==401){restoreRetryPending=false;sessionRetryPending=false;clearViews();state=UiState(error="Sign in again.",busy=true,pending=state.pending||e.uncertain,failure=PresentationState.failure(e.code,e.uncertain))}
+                }else if(e.status==401){
+                    val error=if(kind==UiOperation.SIGN_IN&&state.operator==null&&e.code=="invalid_credentials")message(e.code,e.uncertain) else "Sign in again."
+                    restoreRetryPending=false;sessionRetryPending=false;clearViews();state=UiState(error=error,busy=true,pending=state.pending||e.uncertain,failure=PresentationState.failure(e.code,e.uncertain))
+                }
                 else {
                     state=state.copy(error=message(e.code,e.uncertain),offline=e.status==0,failure=PresentationState.failure(e.code,e.uncertain))
                     if(state.failure==DisplayFailure.CONFLICT)quarantineRecords()
@@ -786,11 +813,14 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
                 // Never construct a UiState copy before an IO suspension: expiry
                 // during the journal read must not restore a signed-out screen.
                 val pending=withContext(NonCancellable+Dispatchers.IO){journalKnowledge()!=JournalKnowledge.CLEAR}
-                if(started==generation){
+                if(serial==workSerial)quietRefreshInFlight=false
+                if(started==generation&&serial==workSerial){
                     state=state.copy(busy=false,pending=pending,starting=false)
                     operation=UiOperation.NONE;operationLabel=null
+                    val requested=queuedNavigation;queuedNavigation=null
                     checkVisibleFreshness()
                     drainResumeCheck()
+                    if(requested!=null&&!state.busy&&screenGate==ScreenGate.OPEN&&state.operator!=null)navigate(requested.first,requested.second)
                     drainExport()
                     drainDownload()
                     drainMemberDocument()
@@ -930,7 +960,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
             }
         }
     }
-    override fun login(phone:String,pin:String)=work{
+    override fun login(phone:String,pin:String)=work(kind=UiOperation.SIGN_IN){
         if(state.passcodeChangePending)throw ApiFailure("passcode_change_unconfirmed",503,true)
         if(state.savedSessionPending)throw ApiFailure("session_already_active",409)
         val o=io{repo().login(phone,pin)};restoreRetryPending=false;clearViews();state=UiState(operator=o,route=Route.HOME,busy=true,pending=state.pending)
@@ -965,7 +995,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         if(!quiet)needsSessionCheck=true
         if(state.busy){resumeQueued=true;return}
         if(!foreground)return
-        work(bypassGate=true,kind=UiOperation.REFRESH){
+        work(bypassGate=true,kind=UiOperation.REFRESH,quietRefresh=quiet){
             sessionChecking=!quiet
             // Saved parent screens must be re-read too, not restored behind a child panel.
             views.invalidateRecords()
@@ -1002,8 +1032,15 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     override fun navigate(route:Route,id:String?){
         checkVisibleFreshness()
         if(screenGate!=ScreenGate.OPEN)return
-        if(state.busy||!Access.routeAllowed(state.operator,route,clock(),BuildConfig.IS_GATEWAY,gateway.bound()))return
+        if(!Access.routeAllowed(state.operator,route,clock(),BuildConfig.IS_GATEWAY,gateway.bound()))return
         if(route in setOf(Route.PAYMENT,Route.MEMBER)&&id==null)return
+        if(state.busy){
+            // Preserve single-owner repository reads and do not interrupt a
+            // financial command. The last requested route opens after the
+            // current quiet refresh and only after its auth result is known.
+            if(quietRefreshInFlight&&!state.draftDirty){queuedNavigation=route to id;operationLabel="Loading records"}
+            return
+        }
         clearRawDisclosure()
         if(state.draftDirty){afterDiscard={navigate(route,id)};state=state.copy(discardRequested=true);return}
         work(kind=UiOperation.INITIAL_READ){
@@ -1165,22 +1202,41 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
             saved=SnapshotFreshness.oldest(clock(),saved,if(cacheable)repo().lastReadSavedAt else clock())
         }
     }
+    /** Home records do not depend on receiver diagnostics. Keep this separate
+     * read owner-bound, and never publish it into a later route or session. */
+    private fun refreshHomeGatewayStatus(){
+        homeGatewayStatusJob?.cancel();homeGatewayStatusJob=null
+        val owner=state.operator?:return
+        if(!BuildConfig.IS_GATEWAY||owner.role!=Role.ADMIN)return
+        val started=generation;val collection=repository?.boundCollectionId
+        homeGatewayStatusJob=viewModelScope.launch{
+            val status=try{withContext(Dispatchers.IO){gateway.status()}}
+                catch(e:CancellationException){throw e}
+                catch(_:Exception){GatewayStatus(false,false,null,-1,null,null,null,"queue_unavailable")}
+            val live=runCatching{repository?.current()}.getOrNull()
+            if(started==generation&&foreground&&state.route==Route.HOME&&state.sheet==null&&
+                state.operator?.id==owner.id&&state.operator?.role==owner.role&&state.operator?.capabilities==owner.capabilities&&
+                live?.id==owner.id&&live.role==owner.role&&live.capabilities==owner.capabilities&&
+                repository?.boundCollectionId==collection&&clock()<owner.expiresAt&&clock()<live.expiresAt)
+                state=state.copy(gateway=status)
+        }
+    }
     private suspend fun refreshNow(){
         when(state.route){
             Route.HOME->{val h=io{repo().home()};val cached=repo().lastReadFromCache;val saved=repo().lastReadSavedAt
-                val g=if(BuildConfig.IS_GATEWAY&&state.operator?.role==Role.ADMIN)io{try{gateway.status()}catch(_:Exception){GatewayStatus(false,false,null,-1,null,null,null,"queue_unavailable")}}else null
-                state=state.copy(home=h,gateway=g,offline=cached,savedAt=saved,readbackRequired=state.readbackRequired&&cached)}
+                state=state.copy(home=h,gateway=null,offline=cached,savedAt=saved,readbackRequired=state.readbackRequired&&cached)
+                if(state.sheet==null)refreshHomeGatewayStatus()}
             Route.PAYMENTS->{val v=io{repo().payments(queryFor(ListingTarget.PAYMENTS))}
                 val r=restorePages(v,{it.id}){cursor->repo().payments(queryFor(ListingTarget.PAYMENTS),cursor)}
                 state=state.copy(payments=r.page,offline=r.offline,savedAt=r.savedAt,readbackRequired=state.readbackRequired&&r.offline,
                     listIndex=r.decision.index,listOffset=r.decision.offset,listRestoration=r.decision.stop)}
             Route.MEMBERS->{
-                // The prototype's active-member count is a collection aggregate,
-                // never inferred from a filtered or partial member page.
-                val overview=io{repo().home()};val overviewOffline=repo().lastReadFromCache;val overviewSaved=repo().lastReadSavedAt
+                // This screen displays the matching list's own total, not the
+                // independent Home aggregate. Its freshness is likewise owned
+                // by the member pages that are actually displayed.
                 val v=io{repo().members(queryFor(ListingTarget.MEMBERS))}
                 val r=restorePages(v,{it.id}){cursor->repo().members(queryFor(ListingTarget.MEMBERS),cursor)}
-                state=state.copy(home=overview,members=r.page,offline=r.offline||overviewOffline,savedAt=SnapshotFreshness.oldest(clock(),r.savedAt,overviewSaved),readbackRequired=state.readbackRequired&&(r.offline||overviewOffline),
+                state=state.copy(home=null,members=r.page,offline=r.offline,savedAt=r.savedAt,readbackRequired=state.readbackRequired&&r.offline,
                     listIndex=r.decision.index,listOffset=r.decision.offset,listRestoration=r.decision.stop)}
             Route.SMS->{
                 if(!hasAccess(Capability.SMS))throw ApiFailure("access_denied",403)

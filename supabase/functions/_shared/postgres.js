@@ -194,21 +194,18 @@ export class PostgresDatabase {
     // before role/claims setup. Existing callers retain repeatable-read.
     if(!['repeatable read','read committed'].includes(isolation))throw fenceFailure(null);
     const work=this.applicationWork;if(!work)throw fenceFailure(null);await work.assert();
-    const mode=await tx.unsafe('SHOW transaction_read_only'),observedIsolation=await tx.unsafe('SHOW transaction_isolation');
-    if(mode[0]?.transaction_read_only!=='on'||observedIsolation[0]?.transaction_isolation!==isolation)throw fenceFailure(null);
+    const mode=await tx.unsafe("SELECT pg_catalog.current_setting('transaction_read_only') AS transaction_read_only,pg_catalog.current_setting('transaction_isolation') AS transaction_isolation");
+    if(mode[0]?.transaction_read_only!=='on'||mode[0]?.transaction_isolation!==isolation)throw fenceFailure(null);
     await tx`set local role collect_runtime`;
-    await tx`select set_config('search_path','app,public,pg_catalog',true),set_config('request.jwt.claims',${JSON.stringify(this.claims)},true),set_config('collect.edge_verified','true',true)`;
-    await tx`set local statement_timeout='15s'`;
-    await tx`set local lock_timeout='5s'`;
+    await tx`select pg_catalog.set_config('search_path','app,public,pg_catalog',true),pg_catalog.set_config('request.jwt.claims',${JSON.stringify(this.claims)},true),pg_catalog.set_config('collect.edge_verified','true',true)`;
+    await tx`select pg_catalog.set_config('statement_timeout','15s',true),pg_catalog.set_config('lock_timeout','5s',true)`;
   }
   async context(tx) {
     const work=this.applicationWork;if(!work)throw fenceFailure(null);await work.assert();const tuple=applicationWorkTuple(work);
     await tx`set local role collect_runtime`;
-    await tx`select set_config('search_path','app,public,pg_catalog',true), set_config('request.jwt.claims',${JSON.stringify(this.claims)},true), set_config('collect.edge_verified','true',true)`;
-    await tx`select set_config('collect.fence_admission_id',${tuple[0]},true),set_config('collect.fence_epoch',${String(tuple[1])},true),set_config('collect.fence_source_sha256',${tuple[2]},true)`;
+    await tx`select pg_catalog.set_config('search_path','app,public,pg_catalog',true),pg_catalog.set_config('request.jwt.claims',${JSON.stringify(this.claims)},true),pg_catalog.set_config('collect.edge_verified','true',true),pg_catalog.set_config('collect.fence_admission_id',${tuple[0]},true),pg_catalog.set_config('collect.fence_epoch',${String(tuple[1])},true),pg_catalog.set_config('collect.fence_source_sha256',${tuple[2]},true)`;
     try {const rows=await tx`select private.collect_fence_assert_write(${tuple[0]}::uuid,${tuple[1]}::bigint,${tuple[2]}::text) as result`;const result=rows[0]?.result;if(result?.contractVersion!==1||result.epoch!==tuple[1]||!['open','quiescing'].includes(result.mode))throw new Error('collect_fence_unavailable');}catch(error){throw fenceFailure(error);}
-    await tx`set local statement_timeout='15s'`;
-    await tx`set local lock_timeout='5s'`;
+    await tx`select pg_catalog.set_config('statement_timeout','15s',true),pg_catalog.set_config('lock_timeout','5s',true)`;
   }
   async statement(tx, statement) {
     const q=compileSql(statement.sql,statement.values);

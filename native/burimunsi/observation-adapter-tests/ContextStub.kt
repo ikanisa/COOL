@@ -25,6 +25,7 @@ class ContentResolver {
  var queryAfter:Long?=null
  var querySelection:String?=null
  var rejectFilteredSelection=false
+ var ignoreDescendingOrder=false
  fun query(uri:Uri,columns:Array<String>,selection:String,args:Array<String>,order:String):FakeCursor {
   queries++
   val after=args.first().toLong();queryAfter=after;querySelection=selection
@@ -33,11 +34,14 @@ class ContentResolver {
   val bounded=selection.contains("_id <= ?")
   val end=if(bounded)args[1].toLong() else Long.MAX_VALUE
   val senders=args.drop(if(bounded)2 else 1)
-  return FakeCursor(rows.filter{row->
+  val selected=rows.filter{row->
    val address=row["address"] as? String
    (row["_id"] as Long)>after&&(row["_id"] as Long)<=end&&(!filtered||address!=null&&
     (address.any{it !in ' '..'~'}||senders.any{it.equals(address,ignoreCase=true)}))
-  }.sortedBy{it["_id"] as Long},columns,this)
+  }
+  val ordered=if(order=="date DESC, _id DESC"&&ignoreDescendingOrder)selected else if(order=="date DESC, _id DESC")selected.sortedWith(compareByDescending<Map<String,Any?>>{(it["date"] as? Number)?.toLong()?:Long.MIN_VALUE}
+   .thenByDescending{(it["_id"] as Number).toLong()}) else selected.sortedBy{it["_id"] as Long}
+  return FakeCursor(ordered,columns,this)
  }
 }
 class FakeCursor(private val rows:List<Map<String,Any?>>,private val columns:Array<String>,private val resolver:ContentResolver):java.io.Closeable {

@@ -87,12 +87,15 @@ fun BuriApp(model:BuriController,onSupport:()->Unit,onPermissions:()->Unit,onExp
     val s=model.state
     if(s.starting||s.savedSessionPending){
         BuriSplash(s.error,if(s.savedSessionPending&&!s.busy)model::refresh else null,
-            if(s.savedSessionPending&&!s.busy)model::logout else null,loading=s.busy||s.starting)
+            if(s.savedSessionPending&&!s.busy)model::logout else null,loading=s.busy||s.starting,
+            loadingLabel=model.operationLabel?:"Getting things ready")
         return
     }
     val gate=model.screenGate
     val presentation=model.presentation
     val read=s.operator!=null
+    val requestedRoute=model.requestedRoute?.takeIf{read&&gate==ScreenGate.OPEN}
+    val displayedRoute=requestedRoute?:s.route
     val keyboard=LocalSoftwareKeyboardController.current
     var exportVisible by remember(s.operator?.id,s.route,s.routeId,s.sheet,s.sheetId){mutableStateOf(false)}
     val openExport:()->Unit={if(model.canExportListing&&!s.busy&&!s.offline&&gate==ScreenGate.OPEN){keyboard?.hide();exportVisible=true}}
@@ -102,12 +105,12 @@ fun BuriApp(model:BuriController,onSupport:()->Unit,onPermissions:()->Unit,onExp
     val canBack=read&&(s.route!=Route.HOME||s.sheet!=null)
     val back:()->Unit={if(imeVisible){keyboard?.hide();focus.clearFocus()}else if(canBack)model.back()}
     BackHandler(enabled=imeVisible||canBack,onBack=back)
-    Box(Modifier.fillMaxSize().background(BuriTheme.wash(s.route)).onPreviewKeyEvent{
+    Box(Modifier.fillMaxSize().background(BuriTheme.wash(displayedRoute)).onPreviewKeyEvent{
         if(it.key==Key.Escape&&(imeVisible||canBack)){if(it.type==KeyEventType.KeyUp)back();true}else false
     }){
         Box(Modifier.matchParentSize().background(Color.Black.copy(alpha=BuriTheme.WashScrimAlpha)))
         Column(Modifier.fillMaxSize().safeDrawingPadding().imePadding()){
-            Header(if(gate==ScreenGate.OPEN)s else s.copy(operator=null),model,openExport,onSupport)
+            Header(if(gate==ScreenGate.OPEN)s.copy(route=displayedRoute) else s.copy(operator=null),model,openExport,onSupport)
                 if(model.operation!=UiOperation.NONE&&!(model.operation==UiOperation.EXPORT&&model.exportFeedback!=null))BuriWorkingStrip(model.operation,model.operationLabel)
                 else if(model.operation==UiOperation.NONE&&s.busy)BuriInlineLoading("Working",Modifier.padding(horizontal=20.dp))
                 s.commandNotice?.takeIf{read}?.let{notice->
@@ -138,7 +141,9 @@ fun BuriApp(model:BuriController,onSupport:()->Unit,onPermissions:()->Unit,onExp
                         if(read)RoundAction(R.drawable.ic_sync,t("Check previous action"),model::retry,enabled=presentation.mayCheckOutcome,size=48)
                     }
                 }
-                Box(Modifier.weight(1f).fillMaxWidth().padding(bottom=if(read)BottomNavClearance else 0.dp).semantics{stateDescription=t(PresentationState.label(presentation.state))}){
+                Box(Modifier.weight(1f).fillMaxWidth().padding(bottom=if(read)BottomNavClearance else 0.dp).semantics{
+                    stateDescription=t(if(requestedRoute!=null&&requestedRoute!=s.route)"Loading records"else PresentationState.label(presentation.state))
+                }){
                     if(gate!=ScreenGate.OPEN){
                         // Preserve the existing route shell while disposing all private records/forms.
                         if(gate in setOf(ScreenGate.CHECKING,ScreenGate.STALE)&&(s.busy||model.operation!=UiOperation.NONE))BuriLoadingPanel(if(gate==ScreenGate.CHECKING)"Checking access"else "Updating records")
@@ -146,6 +151,8 @@ fun BuriApp(model:BuriController,onSupport:()->Unit,onPermissions:()->Unit,onExp
                             Text(t(when(gate){ScreenGate.BACKGROUND->"App paused";ScreenGate.CHECKING->"Checking access";ScreenGate.STALE->"Updating records";else->"Check your connection"}),fontSize=17.sp,lineHeight=25.sp)
                             if(gate!=ScreenGate.BACKGROUND&&!s.busy)Primary(t("Refresh"),model::refresh)
                         }
+                    }else if(requestedRoute!=null&&requestedRoute!=s.route){
+                        BuriLoadingPanel("Loading records")
                     }else if(read&&!presentation.showRecords){
                         if(s.busy||model.operation in setOf(UiOperation.INITIAL_READ,UiOperation.REFRESH))BuriLoadingPanel("Loading records")
                         else Column(Modifier.fillMaxWidth().padding(24.dp)){
@@ -153,7 +160,8 @@ fun BuriApp(model:BuriController,onSupport:()->Unit,onPermissions:()->Unit,onExp
                             if(presentation.mayRetryRead){Spacer(Modifier.height(16.dp));Primary(t("Refresh"),model::refresh)}
                         }
                     }else key(s.route,s.routeId){RouteEntrance(t(titleFor(s.route))){when(s.route){
-                        Route.LOGIN->Login(s.busy||s.configurationRequired||s.passcodeChangePending||s.savedSessionPending,model::login,onSupport,model.supportPhone!=null)
+                        Route.LOGIN->Login(s.busy||s.configurationRequired||s.passcodeChangePending||s.savedSessionPending,
+                            s.busy&&model.operation==UiOperation.SIGN_IN,model::login,onSupport,model.supportPhone!=null)
                         Route.HOME->HomeScreen(s,model)
                         Route.PAYMENTS->PaymentsScreen(s,model,openExport)
                         Route.PAYMENT->PaymentScreen(s,model)
@@ -164,7 +172,7 @@ fun BuriApp(model:BuriController,onSupport:()->Unit,onPermissions:()->Unit,onExp
                     }}}
                 }
         }
-        if(read)BottomNav(s.route,model::navigate,s.busy||gate!=ScreenGate.OPEN,
+        if(read)BottomNav(displayedRoute,model::navigate,model.navigationBlocked||gate!=ScreenGate.OPEN,
             Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom=BottomNavBottomGap))
     }
     if(s.sheet!=null&&((gate==ScreenGate.OPEN&&presentation.showRecords)||
@@ -176,12 +184,12 @@ fun BuriApp(model:BuriController,onSupport:()->Unit,onPermissions:()->Unit,onExp
 
 /** Initial restoration is an opaque branded surface, never a disabled login
  * form or private records. The real signed-out login renders after resolution. */
-@Composable internal fun BuriSplash(error:String?=null,retry:(()->Unit)?=null,signOut:(()->Unit)?=null,loading:Boolean=false){
+@Composable internal fun BuriSplash(error:String?=null,retry:(()->Unit)?=null,signOut:(()->Unit)?=null,loading:Boolean=false,loadingLabel:String="Getting things ready"){
     val t=LocalUiText.current
     Box(Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding().testTag("burimunsi-splash"),contentAlignment=Alignment.Center){
         Column(Modifier.fillMaxWidth().padding(32.dp),horizontalAlignment=Alignment.CenterHorizontally){
             Image(painterResource(R.drawable.burimunsi_brand_logo),"BuriMunsi",Modifier.widthIn(max=280.dp).fillMaxWidth().aspectRatio(3f))
-            if(loading){Spacer(Modifier.height(24.dp));BuriInlineLoading("Getting things ready",Modifier.widthIn(max=280.dp))}
+            if(loading){Spacer(Modifier.height(24.dp));BuriInlineLoading(loadingLabel,Modifier.widthIn(max=280.dp))}
             if(error!=null){Spacer(Modifier.height(28.dp));Text(t(error),color=BuriTheme.Muted,fontSize=16.sp,textAlign=TextAlign.Center)}
             if(retry!=null){Spacer(Modifier.height(18.dp));TextButton(retry){Text(t("Retry"))}}
             if(signOut!=null)TextButton(signOut){Text(t("Sign out"))}
@@ -692,7 +700,7 @@ private fun rowShape(first:Boolean,last:Boolean)=RoundedCornerShape(topStart=if(
             colors=OutlinedTextFieldDefaults.colors(focusedContainerColor=BuriTheme.Input,unfocusedContainerColor=BuriTheme.Input,focusedBorderColor=BuriTheme.Blue,unfocusedBorderColor=Color.Transparent))
     }
 }
-@Composable private fun Login(busy:Boolean,login:(String,String)->Unit,support:()->Unit,supportAvailable:Boolean){
+@Composable private fun Login(busy:Boolean,signingIn:Boolean,login:(String,String)->Unit,support:()->Unit,supportAvailable:Boolean){
     val t=LocalUiText.current
     var phone by remember{mutableStateOf("")};var pin by remember{mutableStateOf("")}
     val pinFocus=remember{FocusRequester()}
@@ -706,7 +714,7 @@ private fun rowShape(first:Boolean,last:Boolean)=RoundedCornerShape(topStart=if(
                 errorText=if(phone.isNotEmpty()&&runCatching{Values.phone(phone)}.isFailure)"Enter a valid phone number." else null);Spacer(Modifier.height(20.dp))
             Entry(t("Passcode"),pin,{pin=it.filter{ch->ch in '0'..'9'}.take(4)},pin=true,revealPin=true,enabled=!busy,imeAction=ImeAction.Done,fieldFocus=pinFocus,onDone={if(ready&&!busy){login(phone,pin);pin=""}});Spacer(Modifier.height(29.dp))
         }
-        item{Primary(t("Sign in"),{login(phone,pin);pin=""},ready&&!busy,icon=R.drawable.ic_arrow,iconTrailing=true,working=busy)}
+        item{Primary(t(if(signingIn)"Signing in…" else "Sign in"),{login(phone,pin);pin=""},ready&&!busy,icon=R.drawable.ic_arrow,iconTrailing=true,working=signingIn)}
         item{TextButton(support,Modifier.fillMaxWidth().heightIn(min=48.dp).padding(top=12.dp),enabled=supportAvailable&&!busy){Text(t("Contact admin"),color=if(supportAvailable&&!busy)BuriTheme.Blue else BuriTheme.Muted,fontSize=15.sp)}}
     }
 }

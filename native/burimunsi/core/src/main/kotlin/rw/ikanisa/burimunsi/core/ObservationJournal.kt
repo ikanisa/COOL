@@ -31,9 +31,14 @@ object QueuedObservationPreview {
 data class ObservationPendingSnapshot(val revision:Long,val entries:List<ObservationEntry>) {
     override fun toString()="ObservationPendingSnapshot(redacted)"
 }
+data class ObservationSeenSnapshot(val revision:Long,val entries:List<ObservationSeen>) {
+    override fun toString()="ObservationSeenSnapshot(redacted)"
+}
 interface ObservationJournalStore {
     fun read():ObservationJournalState
     fun write(value:ObservationJournalState)
+    /** Persist a conservative replay hold before a seen identity is evicted. */
+    fun protectSeenEviction(value:ObservationSeen):Boolean = false
 }
 enum class ObservationAppend { STORED, DUPLICATE, FULL }
 
@@ -70,7 +75,7 @@ object ObservationSourceIdentity {
 
 /** The Android adapter provides encrypted, no-backup storage. Never log source bodies. */
 class ObservationJournal(private val storage:ObservationJournalStore) {
-    companion object { private val lock=Any(); private var revision=0L; private const val MAX_PENDING=256; private const val MAX_OWNER_SEEN=1024; private const val MAX_SEEN=16_000 }
+    companion object { private val lock=Any(); private var revision=0L; private const val MAX_PENDING=256; private const val MAX_OWNER_SEEN=16_000; private const val MAX_SEEN=16_000 }
     // Even an uncertain write invalidates an earlier UI snapshot.
     private fun save(state:ObservationJournalState){try{storage.write(state);checkContract(storage.read()==state,"observation_store_unavailable")}finally{revision++}}
     fun append(owner:ObservationOwner, sourceKey:String, inboxRowId:Long, observation:SmsObservation, profile:ObservationProfile, now:Long):ObservationAppend = synchronized(lock){
@@ -92,13 +97,17 @@ class ObservationJournal(private val storage:ObservationJournalStore) {
         val pending=state.pending+entry
         val pendingIds=pending.map{it.observation.requestId}.toSet()
         val trim=seen.toMutableList()
+        val latestByOwner=trim.groupBy{it.owner}.mapValues{(_,items)->items.maxOf{it.inboxRowId}}
         fun evictable(item:ObservationSeen):Boolean {
-            val latest=trim.filter{it.owner==item.owner}.maxOfOrNull{it.inboxRowId}?:return false
+            val latest=latestByOwner[item.owner]?:return false
             return item.requestId !in pendingIds&&item.inboxRowId<(latest-500L).coerceAtLeast(0L)
         }
         while(trim.count{it.owner==owner}>MAX_OWNER_SEEN||trim.size>MAX_SEEN){
-            val index=trim.indexOfFirst{it.owner==owner&&evictable(it)}
+            val index=trim.indexOfFirst{evictable(it)}
             if(index<0)return@synchronized ObservationAppend.FULL
+            // A durable hold must survive a crash before the journal drops the
+            // identity; an absent marker must never become a new receipt.
+            if(!storage.protectSeenEviction(trim[index]))return@synchronized ObservationAppend.FULL
             trim.removeAt(index)
         }
         save(ObservationJournalState(pending,trim));ObservationAppend.STORED
@@ -116,6 +125,10 @@ class ObservationJournal(private val storage:ObservationJournalStore) {
     fun pendingSnapshot(owner:ObservationOwner):ObservationPendingSnapshot = synchronized(lock){
         checkContract(owner.valid(),"invalid_observation_owner")
         ObservationPendingSnapshot(revision,storage.read().pending.filter{it.owner==owner})
+    }
+    fun seenSnapshot(owner:ObservationOwner):ObservationSeenSnapshot = synchronized(lock){
+        checkContract(owner.valid(),"invalid_observation_owner")
+        ObservationSeenSnapshot(revision,storage.read().seen.filter{it.owner==owner})
     }
     /** The callback is short and must not do I/O; callers hold their owner/session fence first. */
     fun <T> ifRevision(expected:Long,action:()->T):T? = synchronized(lock){if(revision==expected)action()else null}

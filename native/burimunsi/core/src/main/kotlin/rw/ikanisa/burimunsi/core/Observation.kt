@@ -72,6 +72,20 @@ data class UnverifiedObservationFacts(val amountRwf:Long,val payerName:String,va
 
 data class ObservationAck(val requestId:String,val sourceId:String,val bodySha256:String,val status:String,val financialEffects:Int)
 
+/** Metadata used to compare one phone inbox source with its retained Cloud source. */
+data class ObservationReconcileRequest(
+    val sourceKey:String,val bodySha256:String,val rawSender:String,val serviceCentreAt:String?,
+    val inboxReceivedAt:String,val subscriptionId:Int?,
+) {
+    override fun toString()="ObservationReconcileRequest(redacted)"
+}
+
+data class ObservationReconcileReply(val sourceKey:String,val state:String,val sourceId:String?,val latestRecordedSourceId:String?) {
+    override fun toString()="ObservationReconcileReply(redacted)"
+}
+data class ObservationReconcileStatus(val hasPending:Boolean,val hasRecorded:Boolean,val recordedCount:Int,val revision:String,
+    val hasUnmatchedCanonical:Boolean)
+
 /** Queue removal requires the server's durable unresolved-source acknowledgment. */
 object ObservationAcknowledgement {
     fun matches(observation:SmsObservation, ack:ObservationAck):Boolean =

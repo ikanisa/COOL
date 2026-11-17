@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createPhonePinRequestGate,PIN_CONTEXT_SQL} from '../../domain/burimunsi/phone-pin-request.js';
-import {PostgresNativeObservations,OBSERVATION_UNRESOLVED_SQL} from '../../domain/burimunsi/postgres-observations.js';
+import {PostgresNativeObservations,OBSERVATION_UNRESOLVED_SQL,observationContentFingerprint} from '../../domain/burimunsi/postgres-observations.js';
 import {ObservationUploadUnresolved} from '../../domain/burimunsi/errors.js';
 import {validateProviderProfile} from '../../domain/momo_pipeline.js';
 import {decrypt} from '../../domain/encryption.js';
@@ -23,7 +23,7 @@ const profileJson=JSON.stringify({sender_allowlist:['Example Money'],incoming_pr
 const ctx=()=>({collectionId:group,accountId:account,principalUserId:principal,sessionId:session,installationId:installation,
  grantId:id(4),grantVersion:1,consentGeneration:1,status:'active',profile_status:'approved',profile_version:'synthetic-v1',
  profile_json:profileJson,currency:'RWF',timezone:'Africa/Kigali',profile_sha256:'b'.repeat(64),profile_tuple_sha256:'c'.repeat(64)});
-const sqlError=code=>Object.assign(new Error('synthetic database refusal'),{code});
+const sqlError=(code,message='synthetic database refusal')=>Object.assign(new Error(message),{code});
 
 function fixture(){
  const state={enabled:true,generation:1,row:null,rows:new Map(),sourceKeys:new Map(),requests:new Map(),media:new Map(),puts:0,commits:0,audits:[],revealGranted:true,active:true,allowLegacyFixture:true};
@@ -38,7 +38,9 @@ function fixture(){
    const [enabled,generation]=args;if(generation<state.generation||generation===state.generation&&enabled!==state.enabled)throw sqlError('40001');
    state.enabled=enabled;state.generation=generation;return [{result:{enabled:state.badEcho?!enabled:enabled,generation}}];
   }
-  if(query.includes('observation_context')){allowed();return [{result:{...ctx(),consentGeneration:state.generation}}];}
+  if(query.includes('observation_context')){allowed();return [{result:{...ctx(),sessionId:state.liveSessionId??session,consentGeneration:state.generation}}];}
+  if(query.includes('observation_reconcile_status')){allowed();return [{result:state.reconcileStatus??{groupId:group,hasPending:false,
+   hasRecorded:false,recordedCount:0,hasUnmatchedCanonical:false,revision:'f'.repeat(64)}}];}
   if(query.includes('observation_legacy_present')){allowed();return [{result:state.legacyPresent===true}];}
   if(query.includes('observation_legacy_retry_prepare')){
    allowed();const [requestId,fingerprint,sourceId]=args;
@@ -65,8 +67,11 @@ function fixture(){
   }
   if(query.includes('observation_key_lookup')){
    allowed();const [key,content,body]=args,prior=state.sourceKeys.get(key);
-   if(!prior)return [{result:null}];if(prior.content!==content||prior.body!==body)throw sqlError('23505');
-   const record=state.rows.get(prior.sourceId);if(!record)throw sqlError('55000');return [{result:structuredClone(record)}];
+   if(!prior)return [{result:null}];if(prior.content!==content||prior.body!==body)throw sqlError('23505','burimunsi_observation_source_conflict');
+   const record=state.rows.get(prior.sourceId);if(!record)throw sqlError('55000','burimunsi_observation_source_pending');
+   // The real SQL key lookup returns the current actor's session, not the
+   // historical observation's original session.
+   return [{result:{...structuredClone(record),sessionId:state.liveSessionId??session,consentGeneration:state.generation}}];
   }
   if(query.includes('observation_prepare')){
    allowed();const [requestId,fingerprint,sourceId,profileVersion,profileHash,generation]=args;
@@ -138,11 +143,11 @@ function fixture(){
    if(prior&&prior.fingerprint!==fingerprint)throw new Error('synthetic storage conflict');
    if(!prior)state.media.set(key,{sealed,fingerprint,descriptor});
    if(state.onPut)await state.onPut();
-  },get:async key=>{const x=state.media.get(key);return x?{text:async()=>x.sealed}:null;}};
+  },get:async key=>{if(state.onGet)await state.onGet();const x=state.media.get(key);return x?{text:async()=>x.sealed}:null;}};
  env={DB:db,PRIVATE_MEDIA:media,DATA_KEY_ID:'synthetic-key',DATA_ENCRYPTION_KEY:Buffer.alloc(32,7).toString('base64')};
  const authority={db,groupId:group,read:fn=>fn(sql),write:async fn=>{
    const result=await fn(sql);if(state.lostAudit&&state.audits.length){state.lostAudit=false;throw sqlError('08006');}return result;
-  },session:async()=>state.active?structuredClone(actor):null,assertOwned:work.assert};
+  },session:async()=>state.active?{...structuredClone(actor),sessionId:state.liveSessionId??session}:null,assertOwned:work.assert};
  const custody={namespace:{origin:'https://example.invalid',bucket:'collect-evidence'},
   journal:async(_tx,key)=>{const value=state.media.get(key);if(!value)throw new Error('synthetic journal missing');
    return {reservation:{key_id:'synthetic-key',source_fingerprint:value.fingerprint},put:{object_key:key}};},
@@ -219,6 +224,190 @@ test('an unavailable original encrypted object never produces a duplicate acknow
   await assert.rejects(adapter.observe(actor,{...catchup,requestId:id(6)}),e=>e.status===503);
   assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);
  });
+});
+
+test('reconciliation checks the exact retained source without creating or returning SMS content',async()=>{
+ const f=fixture(),item={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'d'.repeat(64)};
+ const proof={sourceKey:item.sourceKey,bodySha256:await sha256(item.rawBody),rawSender:item.rawSender,
+  serviceCentreAt:item.serviceCentreAt,inboxReceivedAt:item.inboxReceivedAt,subscriptionId:item.subscriptionId};
+ await f.run(async adapter=>{
+  const absent=await adapter.reconcile(actor,proof);
+  assert.deepEqual(absent,{groupId:group,sourceKey:item.sourceKey,state:'missing',sourceId:null,latestRecordedSourceId:null});
+  assert.equal(f.state.puts,0);assert.equal(f.state.commits,0);
+  const saved=await adapter.observe(actor,item);
+  // Server retention order is scoped and informational: another retained ID
+  // may be latest even though this exact phone item is already durable.
+  f.state.pageRows=[{id:id(80),createdAt:now},{id:saved.sourceId,createdAt:now-1}];
+  const matched=await adapter.reconcile(actor,proof);
+  assert.deepEqual(matched,{groupId:group,sourceKey:item.sourceKey,state:'matched',sourceId:saved.sourceId,latestRecordedSourceId:id(80)});
+  assert.equal(Object.hasOwn(matched,'rawBody'),false);assert.equal(Object.hasOwn(matched,'object_key'),false);
+  assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);
+  await assert.rejects(adapter.reconcile(actor,{...proof,bodySha256:'e'.repeat(64)}),e=>e.status===409);
+  await assert.rejects(adapter.reconcile(actor,{...proof,rawSender:'Not an approved sender'}),e=>e.status===422);
+  await assert.rejects(adapter.reconcile(actor,{...proof,sourceKey:'no'}),e=>e.status===400);
+  f.state.media.delete('sms/'+saved.sourceId);
+  await assert.rejects(adapter.reconcile(actor,proof),e=>e.status===503);
+  assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);
+ });
+});
+
+test('reconciliation fails closed for staff, disabled consent and unresolved reservations',async()=>{
+ const f=fixture(),item={...incoming,sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64)};
+ const proof={sourceKey:item.sourceKey,bodySha256:await sha256(item.rawBody),rawSender:item.rawSender,
+  serviceCentreAt:item.serviceCentreAt,inboxReceivedAt:item.inboxReceivedAt,subscriptionId:item.subscriptionId};
+ await f.run(async adapter=>{
+  const session=adapter.authority.session;
+  for(const changed of [{role:'staff'},{installationProfile:'staff'},{groupId:'other'},{revoked:true}]){
+   adapter.authority.session=async()=>({...actor,...changed});
+   await assert.rejects(adapter.reconcile(actor,proof),e=>e.status===403);
+  }
+  adapter.authority.session=session;
+  f.state.enabled=false;await assert.rejects(adapter.reconcile(actor,proof),e=>e.status===403);f.state.enabled=true;
+  const saved=await adapter.observe(actor,item);f.state.rows.delete(saved.sourceId);
+  await assert.rejects(adapter.reconcile(actor,proof),e=>e.status===503);
+  assert.equal(f.state.commits,1);assert.equal(f.state.puts,1);
+ });
+});
+
+test('reconciliation rechecks consent and the exact source after reading retained storage',async()=>{
+ for(const change of ['consent','generation','source']){
+  const f=fixture(),item={...incoming,sourceMode:'catch_up',complete:false,
+   inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:'e'.repeat(64)};
+  const proof={sourceKey:item.sourceKey,bodySha256:await sha256(item.rawBody),rawSender:item.rawSender,
+   serviceCentreAt:item.serviceCentreAt,inboxReceivedAt:item.inboxReceivedAt,subscriptionId:item.subscriptionId};
+  await f.run(async adapter=>{
+   const saved=await adapter.observe(actor,item);f.state.pageRows=[{id:saved.sourceId,createdAt:now}];
+   f.state.onGet=async()=>{
+    if(change==='consent')f.state.enabled=false;
+    if(change==='generation')f.state.generation++;
+    if(change==='source')f.state.rows.delete(saved.sourceId);
+   };
+   await assert.rejects(adapter.reconcile(actor,proof),e=>[403,409,503].includes(e.status));
+   assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);
+  });
+ }
+});
+
+async function batchWitness(n){
+ const item={...incoming,requestId:id(100+n),sourceMode:'catch_up',complete:false,
+  inboxReceivedAt:'2026-11-11T12:00:00.000Z',sourceKey:n.toString(16).padStart(64,'0')};
+ return {item,proof:{sourceKey:item.sourceKey,bodySha256:await sha256(item.rawBody),rawSender:item.rawSender,
+  serviceCentreAt:item.serviceCentreAt,inboxReceivedAt:item.inboxReceivedAt,subscriptionId:item.subscriptionId}};
+}
+
+test('batch reconciliation verifies encrypted objects in request order without page or writes',async()=>{
+ const f=fixture(),a=await batchWitness(1),b=await batchWitness(2),c=await batchWitness(3);
+ await f.run(async adapter=>{
+  const first=await adapter.observe(actor,a.item),third=await adapter.observe(actor,c.item);
+  f.state.revealGranted=false;
+  const result=await adapter.reconcileBatch(actor,{items:[c.proof,b.proof,a.proof]});
+  assert.deepEqual(result,{groupId:group,items:[{sourceKey:c.proof.sourceKey,state:'matched',sourceId:third.sourceId},
+   {sourceKey:b.proof.sourceKey,state:'missing',sourceId:null},{sourceKey:a.proof.sourceKey,state:'matched',sourceId:first.sourceId}]});
+  assert.equal(f.state.puts,2);assert.equal(f.state.commits,2);assert.equal(f.state.pageReadCount,undefined);
+  assert.doesNotMatch(JSON.stringify(result),/rawBody|object_key|principal|Received/);
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof,a.proof]}),e=>e.status===400);
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[]}),e=>e.status===400);
+ });
+});
+
+test('a batch fails closed for per-item conflicts, reservations, storage failure and unauthorized actors',async()=>{
+ const f=fixture(),a=await batchWitness(4),b=await batchWitness(5),missing=await batchWitness(6);
+ await f.run(async adapter=>{
+  const savedA=await adapter.observe(actor,a.item),savedB=await adapter.observe(actor,b.item);
+  const proofs={items:[a.proof,b.proof,missing.proof]};
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof,{...b.proof,bodySha256:'f'.repeat(64)}]}),e=>e.status===409&&e.code==='observation_item_conflict');
+  f.state.rows.delete(savedB.sourceId);
+  await assert.rejects(adapter.reconcileBatch(actor,proofs),e=>e.status===503&&e.code==='observation_item_unavailable');
+  f.state.rows.set(savedB.sourceId,f.state.row);
+  const encrypted=f.state.media.get('sms/'+savedA.sourceId);f.state.media.delete('sms/'+savedA.sourceId);
+  await assert.rejects(adapter.reconcileBatch(actor,proofs),e=>e.status===503&&e.code==='observation_item_unavailable');
+  f.state.media.set('sms/'+savedA.sourceId,{...encrypted,sealed:'invalid ciphertext'});
+  await assert.rejects(adapter.reconcileBatch(actor,proofs),e=>e.status===503&&e.code==='observation_unavailable');
+  f.state.media.set('sms/'+savedA.sourceId,encrypted);
+  f.state.onGet=async()=>{throw new Error('synthetic transport outage');};
+  await assert.rejects(adapter.reconcileBatch(actor,proofs),e=>e.status===503&&e.code==='observation_unavailable');
+  f.state.onGet=null;
+  const session=adapter.authority.session;
+  for(const changed of [{role:'staff'},{installationProfile:'staff'},{groupId:'other'},{revoked:true}]){
+   adapter.authority.session=async()=>({...actor,...changed});
+   await assert.rejects(adapter.reconcileBatch(actor,proofs),e=>e.status===403);
+  }
+  adapter.authority.session=session;f.state.enabled=false;
+  await assert.rejects(adapter.reconcileBatch(actor,proofs),e=>e.status===403);
+  assert.equal(f.state.puts,2);assert.equal(f.state.commits,2);
+ });
+});
+
+test('a full batch of retained sources bounds parallel storage reads',async()=>{
+ const f=fixture(),witnesses=await Promise.all(Array.from({length:20},(_,i)=>batchWitness(20+i)));
+ await f.run(async adapter=>{
+  for(const witness of witnesses)await adapter.observe(actor,witness.item);
+  let active=0,high=0;
+  f.state.onGet=async()=>{active++;high=Math.max(high,active);await new Promise(resolve=>setTimeout(resolve,5));active--;};
+  const result=await adapter.reconcileBatch(actor,{items:witnesses.map(w=>w.proof)});
+  assert.equal(result.items.length,20);assert(result.items.every(x=>x.state==='matched'));
+  assert.equal(high,3);assert.equal(f.state.puts,20);assert.equal(f.state.commits,20);
+ });
+});
+
+test('a concurrent storage outage cannot be masked by an item-specific failure',async()=>{
+ const f=fixture(),a=await batchWitness(50),b=await batchWitness(51);
+ await f.run(async adapter=>{
+  const first=await adapter.observe(actor,a.item);await adapter.observe(actor,b.item);
+  f.state.media.delete('sms/'+first.sourceId);let calls=0;
+  f.state.onGet=async()=>{if(++calls===2){await new Promise(resolve=>setTimeout(resolve,5));throw new Error('network outage');}};
+  await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof,b.proof]}),
+   e=>e.status===503&&e.code==='observation_unavailable');
+ });
+});
+
+test('batch can verify the same retained source after a legitimate session rotation',async()=>{
+ const f=fixture(),w=await batchWitness(42);
+ await f.run(async adapter=>{
+  const saved=await adapter.observe(actor,w.item);
+  assert.equal(f.state.row.sessionId,session);
+  const rotated={...actor,sessionId:id(777)};f.state.liveSessionId=rotated.sessionId;
+  const result=await adapter.reconcileBatch(rotated,{items:[w.proof]});
+  assert.deepEqual(result,{groupId:group,items:[{sourceKey:w.proof.sourceKey,state:'matched',sourceId:saved.sourceId}]});
+  assert.equal(f.state.row.sessionId,session); // Historic stored row is unchanged.
+ });
+});
+
+test('collection status validates scope, count, custody uncertainty and authority',async()=>{
+ const f=fixture();await f.run(async adapter=>{
+  assert.deepEqual(await adapter.reconcileStatus(actor),{groupId:group,hasPending:false,hasRecorded:false,
+   recordedCount:0,hasUnmatchedCanonical:false,revision:'f'.repeat(64)});
+  f.state.reconcileStatus={groupId:group,hasPending:true,hasRecorded:true,recordedCount:2,
+   hasUnmatchedCanonical:true,revision:'e'.repeat(64),privateValue:'not returned'};
+  const actual=await adapter.reconcileStatus(actor);assert.equal(actual.hasPending,true);
+  assert.equal(actual.hasUnmatchedCanonical,true);assert.equal(actual.recordedCount,2);assert(!Object.hasOwn(actual,'privateValue'));
+  for(const changed of [{groupId:'other'},{revision:'bad'},{recordedCount:100001},{hasRecorded:false}]){
+   const previous=f.state.reconcileStatus;f.state.reconcileStatus={...previous,...changed};
+   await assert.rejects(adapter.reconcileStatus(actor),e=>e.status===503);f.state.reconcileStatus=previous;
+  }
+  f.state.enabled=false;await assert.rejects(adapter.reconcileStatus(actor),e=>e.status===403);
+  assert.equal(f.state.puts,0);assert.equal(f.state.commits,0);
+ });
+});
+
+test('batch rechecks consent and every key after storage reads before publishing',async()=>{
+ for(const change of ['consent','generation','missing-becomes-pending','matched-disappears']){
+  const f=fixture(),a=await batchWitness(7),b=await batchWitness(8);
+  await f.run(async adapter=>{
+   const saved=await adapter.observe(actor,a.item);
+   const content=await observationContentFingerprint(b.proof,b.proof.bodySha256);
+   f.state.onGet=async()=>{
+    if(change==='consent')f.state.enabled=false;
+    if(change==='generation')f.state.generation++;
+    if(change==='missing-becomes-pending')f.state.sourceKeys.set(b.proof.sourceKey,{content,body:b.proof.bodySha256,sourceId:id(900)});
+    if(change==='matched-disappears')f.state.rows.delete(saved.sourceId);
+   };
+   await assert.rejects(adapter.reconcileBatch(actor,{items:[a.proof,b.proof]}),e=>[403,409,503].includes(e.status));
+   assert.equal(f.state.puts,1);assert.equal(f.state.commits,1);
+  });
+ }
 });
 
 test('new unkeyed native catch-up stays pending instead of bypassing deduplication',async()=>{

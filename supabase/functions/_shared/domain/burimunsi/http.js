@@ -133,6 +133,19 @@ export function createNativeHandler({auth,records,contributions,members,gateway,
         requirePort(observations,['processingStatus']);
         return json(await observations.processingStatus(actor,await body(req,['sourceIds'])));
       }
+      if(route==='/sms/observations/reconcile'&&method==='POST'){
+        requirePort(observations,['reconcile']);
+        return json(await observations.reconcile(actor,await body(req,
+          ['sourceKey','bodySha256','rawSender','serviceCentreAt','inboxReceivedAt','subscriptionId'])));
+      }
+      if(route==='/sms/observations/reconcile-batch'&&method==='POST'){
+        requirePort(observations,['reconcileBatch']);
+        return json(await observations.reconcileBatch(actor,await body(req,['items'])));
+      }
+      if(route==='/sms/observations/reconcile-status'&&method==='GET'){
+        requirePort(observations,['reconcileStatus']);
+        return json(await observations.reconcileStatus(actor));
+      }
       const observedRetry=/^\/sms\/observations\/([A-Za-z0-9_-]+)\/retry$/.exec(route);
       if(observedRetry&&method==='POST'){
         requirePort(observations,['processingRetry']);
