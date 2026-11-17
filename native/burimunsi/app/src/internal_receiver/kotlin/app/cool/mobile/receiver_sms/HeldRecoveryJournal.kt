@@ -5,6 +5,7 @@ import org.json.JSONObject
 import rw.ikanisa.burimunsi.core.HeldObservationAck
 import rw.ikanisa.burimunsi.core.HeldRecoveryResolution
 import rw.ikanisa.burimunsi.core.ObservationAcknowledgement
+import rw.ikanisa.burimunsi.core.ObservationConsentState
 import rw.ikanisa.burimunsi.core.ObservationOwner
 import rw.ikanisa.burimunsi.core.SmsObservation
 import rw.ikanisa.burimunsi.core.Values
@@ -24,6 +25,7 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
         private val migrationStarted=AtomicBoolean(false)
         private val fileName=Regex("^buri-(observation-held-recovery-[a-f0-9]{64})\\.v1(?:\\.bak)?$")
         private val hash=Regex("[a-f0-9]{64}")
+        private const val MAX_CONSENT_GENERATION=9_007_199_254_740_991L
         private fun name(owner:ObservationOwner,installation:String,deviceScope:String,key:String):String {
             checkContract(owner.valid()&&runCatching{Values.requestId(installation)==installation}.getOrDefault(false)&&
                 hash.matches(deviceScope)&&hash.matches(key),"observation_store_unavailable")
@@ -74,7 +76,8 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
     }
     internal enum class Phase { PREPARED, ATTEMPTING, CONFIRMED, MATCHED_EXISTING }
     internal data class Entry(val phase:Phase,val requestId:String,val sourceKey:String,val rowDigest:String,
-        val sourceId:String?=null,val rowId:Long?=null,val observation:SmsObservation?=null) {
+        val sourceId:String?=null,val rowId:Long?=null,val observation:SmsObservation?=null,
+        val consentGeneration:Long?=null) {
         override fun toString()="HeldRecoveryJournal.Entry(redacted)"
     }
     private val app=context.applicationContext
@@ -85,23 +88,31 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
             if(sent==null)"0" else "1$sent",if(sub==null)"0" else "1$sub")
         return Values.sha256(fields.joinToString(""){"${it.length}:$it"})
     }
-    private fun entry(rowId:Long,o:SmsObservation,phase:Phase,sourceId:String?=null):Entry {
+    private fun entry(rowId:Long,o:SmsObservation,phase:Phase,sourceId:String?=null,consentGeneration:Long?=null):Entry {
         val key=o.sourceKey?:throw IllegalArgumentException("Missing source key")
         val digest=rowDigest(rowId,key,o.rawSender,o.rawBody,o.inboxReceivedAt?:throw IllegalArgumentException("Missing receipt time"),
             o.serviceCentreAt,o.subscriptionId)
         return if(terminal(phase))Entry(phase,o.requestId,key,digest,sourceId)
-        else Entry(phase,o.requestId,key,digest,null,rowId,o)
+        else Entry(phase,o.requestId,key,digest,null,rowId,o,consentGeneration)
     }
+    private fun generation(consent:ObservationConsentState?):Long? = consent?.takeIf{
+        it.confirmed&&it.revision.enabled&&it.revision.generation in 1..MAX_CONSENT_GENERATION
+    }?.revision?.generation
+    private fun sameConsent(entry:Entry,consent:ObservationConsentState?):Boolean =
+        entry.consentGeneration!=null&&generation(consent)==entry.consentGeneration
     private fun encode(value:Entry):String {
         if(terminal(value.phase))return JSONObject().put("version",2).put("phase",value.phase.name)
             .put("requestId",value.requestId).put("sourceId",value.sourceId).put("rowDigest",value.rowDigest).toString()
         val o=value.observation?:throw IllegalArgumentException("Missing uncertain request")
-        return JSONObject().put("version",1).put("collectionId",owner.collectionId).put("accountId",owner.accountId)
+        val consentGeneration=value.consentGeneration?:throw IllegalArgumentException("Missing consent witness")
+        checkContract(consentGeneration in 1..MAX_CONSENT_GENERATION,"observation_store_unavailable")
+        return JSONObject().put("version",3).put("collectionId",owner.collectionId).put("accountId",owner.accountId)
             .put("installationId",installation).put("deviceScope",deviceScope).put("rowId",value.rowId)
             .put("phase",value.phase.name).put("requestId",o.requestId).put("rawSender",o.rawSender).put("rawBody",o.rawBody)
             .put("sourceMode",o.sourceMode).put("complete",o.complete).put("capturedAt",o.capturedAt)
             .put("serviceCentreAt",o.serviceCentreAt?:JSONObject.NULL).put("inboxReceivedAt",o.inboxReceivedAt?:JSONObject.NULL)
-            .put("subscriptionId",o.subscriptionId?:JSONObject.NULL).put("sourceKey",o.sourceKey?:JSONObject.NULL).toString()
+            .put("subscriptionId",o.subscriptionId?:JSONObject.NULL).put("sourceKey",o.sourceKey?:JSONObject.NULL)
+            .put("consentGeneration",consentGeneration).toString()
     }
     /** The boolean marks a valid v1 terminal that must be atomically redacted. */
     private fun decode(text:String,key:String):Pair<Entry,Boolean> {
@@ -118,7 +129,8 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
         }
         val base=setOf("version","collectionId","accountId","installationId","deviceScope","rowId","phase","requestId",
             "rawSender","rawBody","sourceMode","complete","capturedAt","serviceCentreAt","inboxReceivedAt","subscriptionId","sourceKey")
-        checkContract(version==1&&fields in setOf(base,base+"terminalSourceId")&&v.getString("collectionId")==owner.collectionId&&
+        checkContract((version==1&&fields in setOf(base,base+"terminalSourceId")||
+            version==3&&fields==base+"consentGeneration"&&!terminal(phase))&&v.getString("collectionId")==owner.collectionId&&
             v.getString("accountId")==owner.accountId&&v.getString("installationId")==installation&&
             v.getString("deviceScope")==deviceScope&&v.getString("sourceKey")==key,"observation_store_unavailable")
         val o=SmsObservation(request,v.getString("rawSender"),v.getString("rawBody"),v.getString("sourceMode"),
@@ -131,7 +143,13 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
             o.rawBody.toByteArray(Charsets.UTF_8).size in 1..3000&&o.inboxReceivedAt!=null&&
             (o.subscriptionId?.let{it>=0}!=false)&&listOf(o.capturedAt,o.serviceCentreAt,o.inboxReceivedAt).filterNotNull()
                 .all{runCatching{Instant.parse(it);true}.getOrDefault(false)},"observation_store_unavailable")
-        return entry(v.getLong("rowId"),o,phase,source) to terminal(phase)
+        val consentGeneration=if(version==3){
+            val value=v.get("consentGeneration")
+            val number=when(value){is Int->value.toLong();is Long->value;else->null}
+            checkContract(number!=null&&number in 1..MAX_CONSENT_GENERATION,"observation_store_unavailable")
+            number
+        }else null
+        return entry(v.getLong("rowId"),o,phase,source,consentGeneration) to terminal(phase)
     }
     private fun read(key:String):Entry? {
         val target=store(key);val raw=target.read()?:return null;val (value,migrate)=decode(raw,key)
@@ -142,46 +160,63 @@ internal class HeldRecoveryJournal(context:Context,private val owner:Observation
         return value
     }
     fun pending(key:String):Entry?=synchronized(lock){read(key)}
-    /** Check a saved entry without ever creating or replacing a request. */
+    /** A row match is identity evidence only, never permission to dispatch. */
     fun matches(entry:Entry,rowId:Long,sender:String,body:String,receivedAt:String,sentAt:String?,subscriptionId:Int?):Boolean=synchronized(lock){
         read(entry.sourceKey)==entry&&entry.rowDigest==rowDigest(rowId,entry.sourceKey,sender,body,receivedAt,sentAt,subscriptionId)
     }
+    /** A future retry protocol must still separately validate the current
+     * actor, grant, installation, permission, inbox row and server guard. */
+    fun consentMatches(entry:Entry,consent:ObservationConsentState?):Boolean=synchronized(lock){
+        read(entry.sourceKey)==entry&&sameConsent(entry,consent)
+    }
 
     /** A changed row cannot replace either an uncertain request or its tombstone. */
-    fun prepare(rowId:Long,key:String,sender:String,body:String,receivedAt:String,sentAt:String?,subscriptionId:Int?,now:Long):Entry? = synchronized(lock){
+    fun prepare(rowId:Long,key:String,sender:String,body:String,receivedAt:String,sentAt:String?,subscriptionId:Int?,now:Long,
+        consent:ObservationConsentState?=null):Entry? = synchronized(lock){
         val existing=read(key)
-        if(existing!=null)return@synchronized existing.takeIf{it.rowDigest==rowDigest(rowId,key,sender,body,receivedAt,sentAt,subscriptionId)}
+        if(existing!=null)return@synchronized existing.takeIf{
+            it.rowDigest==rowDigest(rowId,key,sender,body,receivedAt,sentAt,subscriptionId)&&
+                (terminal(it.phase)||sameConsent(it,consent))
+        }
+        val consentGeneration=generation(consent)?:return@synchronized null
         if(rowId<=0||now<=0)return@synchronized null
         val o=SmsObservation(UUID.randomUUID().toString(),sender,body,"catch_up",false,Instant.ofEpochMilli(now).toString(),
             sentAt,receivedAt,subscriptionId,key)
-        val proposed=entry(rowId,o,Phase.PREPARED);val encoded=encode(proposed)
+        val proposed=entry(rowId,o,Phase.PREPARED,consentGeneration=consentGeneration);val encoded=encode(proposed)
         if(runCatching{decode(encoded,key)}.getOrNull()!=(proposed to false))return@synchronized null
         store(key).write(encoded);read(key)?.takeIf{it==proposed}
     }
-    fun begin(entry:Entry):Entry?=synchronized(lock){
+    /** This transition permits only the first dispatch. A persisted ATTEMPTING
+     * record is never itself permission to resend, even with unchanged consent. */
+    fun begin(entry:Entry,consent:ObservationConsentState?=null):Entry?=synchronized(lock){
         val current=read(entry.sourceKey)?:return@synchronized null
-        if(current!=entry)return@synchronized null
-        if(current.phase==Phase.ATTEMPTING)return@synchronized current
+        if(current!=entry||!sameConsent(current,consent))return@synchronized null
         if(current.phase!=Phase.PREPARED)return@synchronized null
         val next=current.copy(phase=Phase.ATTEMPTING);store(entry.sourceKey).write(encode(next))
         read(entry.sourceKey)?.takeIf{it==next}
     }
-    fun confirm(entry:Entry,ack:HeldObservationAck):Entry?=synchronized(lock){
+    fun confirm(entry:Entry,ack:HeldObservationAck,consent:ObservationConsentState?=null):Entry?=synchronized(lock){
         val o=entry.observation?:return@synchronized null
-        if(entry.phase!=Phase.ATTEMPTING||read(entry.sourceKey)!=entry||ack.autoProcessing!="held"||
+        if(entry.phase!=Phase.ATTEMPTING||read(entry.sourceKey)!=entry||!sameConsent(entry,consent)||ack.autoProcessing!="held"||
             !ObservationAcknowledgement.matches(o,ack.observation))return@synchronized null
-        val next=entry.copy(phase=Phase.CONFIRMED,sourceId=ack.observation.sourceId,rowId=null,observation=null)
+        val next=entry.copy(phase=Phase.CONFIRMED,sourceId=ack.observation.sourceId,rowId=null,observation=null,consentGeneration=null)
         store(entry.sourceKey).write(encode(next));read(entry.sourceKey)?.takeIf{it==next}
     }
-    fun confirmReadOnly(entry:Entry,ack:HeldRecoveryResolution):Entry?=synchronized(lock){
+    /** Legacy v1 attempts have no local consent witness. They may only be
+     * redacted after the caller receives an authenticated exact ACK from the
+     * server route that proves the original held admission and rechecks its
+     * original consent generation against the current consent. This method
+     * does not establish transport provenance or authorize a resend. */
+    fun confirmReadOnly(entry:Entry,ack:HeldRecoveryResolution,consent:ObservationConsentState?=null):Entry?=synchronized(lock){
         val o=entry.observation?:return@synchronized null
-        if(entry.phase!=Phase.ATTEMPTING||read(entry.sourceKey)!=entry||!ack.validFor(o)||ack.state!="acknowledged")return@synchronized null
-        val next=entry.copy(phase=Phase.CONFIRMED,sourceId=ack.sourceId,rowId=null,observation=null)
+        val consentValid=if(entry.consentGeneration==null)generation(consent)!=null else sameConsent(entry,consent)
+        if(entry.phase!=Phase.ATTEMPTING||read(entry.sourceKey)!=entry||!consentValid||!ack.validFor(o)||ack.state!="acknowledged")return@synchronized null
+        val next=entry.copy(phase=Phase.CONFIRMED,sourceId=ack.sourceId,rowId=null,observation=null,consentGeneration=null)
         store(entry.sourceKey).write(encode(next));read(entry.sourceKey)?.takeIf{it==next}
     }
-    fun markExisting(entry:Entry,sourceId:String):Entry?=synchronized(lock){
-        if(entry.phase!=Phase.PREPARED||read(entry.sourceKey)!=entry||!runCatching{Values.id(sourceId)==sourceId}.getOrDefault(false))return@synchronized null
-        val next=entry.copy(phase=Phase.MATCHED_EXISTING,sourceId=sourceId,rowId=null,observation=null)
+    fun markExisting(entry:Entry,sourceId:String,consent:ObservationConsentState?=null):Entry?=synchronized(lock){
+        if(entry.phase!=Phase.PREPARED||read(entry.sourceKey)!=entry||!sameConsent(entry,consent)||!runCatching{Values.id(sourceId)==sourceId}.getOrDefault(false))return@synchronized null
+        val next=entry.copy(phase=Phase.MATCHED_EXISTING,sourceId=sourceId,rowId=null,observation=null,consentGeneration=null)
         store(entry.sourceKey).write(encode(next));read(entry.sourceKey)?.takeIf{it==next}
     }
     fun clear(entry:Entry):Boolean=synchronized(lock){
