@@ -320,6 +320,7 @@ class CollectCiPolicyTest(unittest.TestCase):
                               {x['code'] for x in policy.validate_platform_makefile(source.replace(command, replacement, 1))})
         for command in ('python3 supabase/schema-src/generate_baseline.py --check',
                         'node scripts/supabase/run_edge_node_tests.mjs',
+                        'node --test --test-concurrency=1 scripts/supabase/testing/cloud-binder-fixture.test.mjs',
                         'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs',
                         'cd deploy/managed-sms && python3 test/verify_source_tests_test.py && python3 test/verify_source_tests.py',
                         policy.CURRENT_COMMISSIONING_DENO_MAKE_COMMAND,

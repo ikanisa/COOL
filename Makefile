@@ -366,6 +366,7 @@ supabase-source-test:
 	@python3 -m unittest scripts.supabase.test_catalogue_reconciliation
 	@python3 -m unittest scripts.supabase.test_catalogue_capture
 	@node --test scripts/supabase/deployment-profile.test.mjs
+	@node --test --test-concurrency=1 scripts/supabase/testing/cloud-binder-fixture.test.mjs
 	@python3 -m unittest scripts.supabase.testing.test_qualification_source_manifest
 	@node --test deploy/managed-native-ingress/worker.test.mjs
 	@node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs

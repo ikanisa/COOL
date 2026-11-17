@@ -118,6 +118,8 @@ jobs:
         env:
           COLLECT_CATALOGUE_SYNTHETIC_PGLITE_MODULE: file://${{ github.workspace }}/scripts/supabase/node_modules/@electric-sql/pglite/dist/index.js
         run: python3 -m unittest scripts.supabase.test_catalogue_capture
+      - name: Verify in-memory managed Cloud identity and fence gates
+        run: node --test --test-concurrency=1 scripts/supabase/testing/cloud-binder-fixture.test.mjs
       - name: Verify managed native ingress candidate
         run: node --test deploy/managed-native-ingress/worker.test.mjs
       - name: Verify integrated managed native handler

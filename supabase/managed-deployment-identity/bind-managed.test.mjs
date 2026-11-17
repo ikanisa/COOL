@@ -142,10 +142,14 @@ test('binding rechecks identity and assertion drift after installation',async()=
   }finally{await db.close();}
  }
 });
-test('installing the managed binder preserves the existing self-hosted binder',async()=>{
+test('historical binder bytes remain intact but runtime configuration rejects that retired profile',async()=>{
  const db=await fixture();try{
   const self={...profile(),id:'collect-local',mode:'self_hosted',supabase_origin:'https://supabase.collect.example'};
-  assert.deepEqual(validateDeploymentProfile(self),self);const p=raw(self);
-  assert.equal((await db.query('SELECT private.collect_bind_deployment($1::uuid,$2,$3) AS result',[randomUUID(),p,hash(p)])).rows[0].result,true);
+  assert.throws(()=>validateDeploymentProfile(self),/Invalid public deployment profile/);
+  const historical=original.match(/CREATE FUNCTION private\.collect_bind_deployment\(p_operation uuid,p_profile text,p_sha256 text\) RETURNS boolean[\s\S]*?AS \$\$([\s\S]*?)\$\$;/)?.[1];
+  assert(historical,'Historical SQL binder preimage must exist');
+  const actual=(await db.query("SELECT prosrc FROM pg_proc WHERE oid='private.collect_bind_deployment(uuid,text,text)'::regprocedure")).rows[0].prosrc;
+  assert.equal(actual,historical);
+  assert.equal(Number((await db.query('SELECT count(*) AS n FROM private.collect_deployment_identity')).rows[0].n),0);
  }finally{await db.close();}
 });
