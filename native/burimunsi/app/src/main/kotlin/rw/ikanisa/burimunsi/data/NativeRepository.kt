@@ -688,6 +688,26 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
                 row.getString("groupId")==groupId&&row.getString("status")=="source_unresolved"&&row.counter("financialEffects")==0L,"invalid_observation_source")
             ObservationListRow(SmsSourceRef.Observation(Values.id(row.getString("sourceId"))),groupId,row.getString("at"))
         }
+    fun observationProcessing(sources:List<SmsSourceRef.Observation>):Map<SmsSourceRef.Observation,ObservationProcessing>{
+        checkContract(sources.isNotEmpty()&&sources.size<=100&&sources.distinct().size==sources.size,"invalid_observation_source")
+        val ids=JSONArray();sources.forEach{ids.put(Values.id(it.id))}
+        val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations/processing-status",JSONObject().put("sourceIds",ids)))
+        val rows=value.getJSONArray("statuses")
+        checkContract(value.getString("groupId")==groupId&&rows.length()==sources.size,"invalid_observation_source")
+        return sources.mapIndexed{index,source->
+            val row=rows.getJSONObject(index);val status=row.getString("status");val retry=row.getBoolean("canRetry")
+            checkContract(row.getString("sourceId")==source.id&&status in setOf("pending","retrying","parsed","needs_review","conflict","duplicate","security","historical","unknown")&&
+                (!retry||status in setOf("retrying","needs_review")),"invalid_observation_source")
+            source to ObservationProcessing(status,retry)
+        }.toMap()
+    }
+    fun retryObservation(source:SmsSourceRef.Observation,requestId:String):String{
+        val id=Values.id(source.id)
+        val value=JSONObject(requestOwned(observationSession(),"POST","/sms/observations/$id/retry",JSONObject().put("requestId",requestId)))
+        checkContract(value.getString("groupId")==groupId&&value.getString("sourceId")==id&&value.getString("requestId")==requestId&&
+            value.getString("result") in setOf("scheduled","not_eligible"),"invalid_observation_source")
+        return value.getString("result")
+    }
     /** Only an explicitly typed observation can use this audited disclosure path. */
     fun revealObservation(source:SmsSourceRef.Observation,reason:String):ObservationDisclosure {
         val normalized=RawDisclosureInput.reason(reason)?:throw ApiFailure("reason_required",400)

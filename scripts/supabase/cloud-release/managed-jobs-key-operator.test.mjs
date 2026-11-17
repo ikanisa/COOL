@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {sha,PROJECT} from './access.mjs';
 import {renderManagedJobsHandler} from './managed-jobs-handler-patch.mjs';
-import {verifyDeploymentEvidence} from './managed-jobs-key-operator.mjs';
+import {verifyDeploymentEvidence,qualifiedSchedule} from './managed-jobs-key-operator.mjs';
 const handler=await renderManagedJobsHandler();
 const manifest={format:'collect.cloud-runtime-source.v1',project:PROJECT,files:[
  {path:'functions/_shared/serve.js',sha256:handler.hashes.serve},
@@ -23,4 +23,9 @@ for(const change of [
  {...evidence,handler:{hashes:{...handler.hashes,auth:'b'.repeat(64)}}},
  {...evidence,intent:{...evidence.intent,snapshot:{manifest:{...manifest,project:'wrong'}}}},
 ])assert.throws(()=>verifyDeploymentEvidence(change));
-console.log(JSON.stringify({suite:'managed-jobs-key-evidence',checks:10,network_calls:0}));
+const scheduleSha='df5ff3ec33e8e8d02c182072abd99e0c24705fb74f1f85514b46f9da9149300c';
+assert.equal(qualifiedSchedule(undefined,undefined),'*/5 * * * *');
+assert.equal(qualifiedSchedule(scheduleSha,scheduleSha),'* * * * *');
+assert.throws(()=>qualifiedSchedule('0'.repeat(64),scheduleSha));
+assert.throws(()=>qualifiedSchedule(scheduleSha,'0'.repeat(64)));
+console.log(JSON.stringify({suite:'managed-jobs-key-evidence',checks:14,network_calls:0}));

@@ -410,11 +410,12 @@ class NativeUiContractTest {
             ui.runOnIdle{check(requests==0&&settings==0)}
         }
     }
-    @Test fun syncedSmsUsesExistingScreensWithoutManualVerification(){
+    @Test fun parsedSmsUsesExistingScreensWithoutManualVerification(){
         if(!BuildConfig.IS_GATEWAY)return
-        val c=FakeController(Route.SMS);val source=SmsSourceRef.Observation("synthetic-source")
-        c.state=c.state.copy(messages=null,observations=Page(listOf(ObservationListRow(source,"synthetic-group","2026-11-09T00:00:00Z")),null,1,"v1","2026-11-09T00:00:00Z"))
-        show(c);ui.onNodeWithText("Synced").assertExists();ui.onNodeWithText("Not verified").assertDoesNotExist()
+        val c=FakeController(Route.SMS);c.smsAccessGranted=true;val source=SmsSourceRef.Observation("synthetic-source")
+        c.state=c.state.copy(messages=null,observations=Page(listOf(ObservationListRow(source,"synthetic-group","2026-11-09T00:00:00Z")),null,1,"v1","2026-11-09T00:00:00Z"),
+            observationProcessing=mapOf(source to ObservationProcessing("parsed",false)))
+        show(c);ui.onNodeWithText("Parsed").assertExists();ui.onNodeWithText("Not verified").assertDoesNotExist()
         ui.onNodeWithText("SMS receipt · Unavailable").assertExists()
         ui.runOnIdle{c.state=c.state.copy(gateway=c.state.gateway!!.copy(approvedSenders=listOf("Example provider")))}
         ui.onNodeWithText("Example provider · Unavailable").assertExists()
@@ -477,7 +478,8 @@ class NativeUiContractTest {
         ui.onNodeWithContentDescription("Local sender").assertExists()
         ui.onNode(hasScrollToIndexAction()).performScrollToNode(hasContentDescription("Remote sender"))
         ui.onNodeWithContentDescription("Remote sender").assertExists()
-        ui.onNodeWithText("Not verified").assertDoesNotExist();ui.onNodeWithText("Synced").assertExists()
+        ui.onNodeWithText("Not verified").assertDoesNotExist();ui.onNodeWithText("Status unavailable").assertExists()
+        ui.onNodeWithText("Parsed").assertDoesNotExist()
         ui.runOnIdle{c.smsAccessGranted=false};ui.onNodeWithTag("queued-observation:same-id").assertDoesNotExist()
         ui.onNodeWithContentDescription("Remote sender").assertDoesNotExist();ui.onNodeWithText("Remote preview").assertDoesNotExist()
         ui.runOnIdle{c.state=c.state.copy(smsListSearch="Remote preview")}
@@ -485,6 +487,28 @@ class NativeUiContractTest {
         ui.onNodeWithText("Search incomplete for this account and phone.").assertExists()
         ui.runOnIdle{c.smsAccessGranted=true;c.state=c.state.copy(operator=c.operator.copy(role=Role.STAFF))}
         ui.onNodeWithTag("queued-observation:same-id").assertDoesNotExist()
+    }
+    @Test fun observationStatusAndRetryReflectAdminProcessingAuthority(){
+        if(!BuildConfig.IS_GATEWAY)return
+        val c=FakeController(Route.SMS);c.smsAccessGranted=true
+        val source=SmsSourceRef.Observation("synthetic-source")
+        c.state=c.state.copy(messages=null,queuedObservations=emptyList(),
+            observations=Page(listOf(ObservationListRow(source,"synthetic-group","2026-11-09T00:00:00Z")),null,1,"v1","2026-11-09T00:00:00Z"))
+        show(c)
+        ui.onNode(hasScrollToIndexAction()).performScrollToNode(hasText("Status unavailable"))
+        ui.onNodeWithText("Status unavailable").assertExists();ui.onNodeWithText("Parsed").assertDoesNotExist()
+        for((status,label) in listOf("pending" to "Pending","parsed" to "Parsed","retrying" to "Retrying","needs_review" to "Needs review")){
+            ui.runOnIdle{c.state=c.state.copy(observationProcessing=mapOf(source to ObservationProcessing(status,status=="needs_review")))}
+            ui.onNode(hasScrollToIndexAction()).performScrollToNode(hasText(label));ui.onNodeWithText(label).assertExists()
+        }
+        ui.runOnIdle{c.openSms(source)}
+        panelList("M-Money").performScrollToNode(hasText("This status does not confirm a payment."))
+        ui.onNodeWithText("This status does not confirm a payment.").assertExists()
+        panelButton("M-Money","Retry").assertIsEnabled().performClick()
+        ui.runOnIdle{check(c.observationRetryCalls==1)}
+        ui.onNodeWithText("Retry scheduled.").assertExists();panelButton("M-Money","Retry").assertDoesNotExist()
+        ui.runOnIdle{c.closeSheet();c.state=c.state.copy(operator=c.operator.copy(role=Role.STAFF,capabilities=setOf(Capability.READ.key)));c.openSms(source)}
+        ui.runOnIdle{check(c.state.sheet==null&&c.deniedSheetRequests==1&&c.observationRetryCalls==1)}
     }
     @Test fun allSmsDoesNotClaimEmptyWhileTheLocalQueueIsUnknown(){
         if(!BuildConfig.IS_GATEWAY)return
@@ -694,7 +718,7 @@ private class FakeController(route:Route,role:Role=Role.ADMIN):BuriController{
     override fun dismissExportFeedback(){exportFeedback=null}
     var retirementUnconfirmed=false;var retirementChecks=0
     var loginCalls=0;var lastPhone="";var lastPin="";var searchCalls=0;var filterCalls=0;var pinChangeCalls=0;var rawCalls=0;var pairCalls=0;var replaceCalls=0;var syncCalls=0;var lastPairCode="";var lastNavigationId:String?=null
-    var staffSaveCalls=0;var lastStaffPhone="";var lastStaffPin="";var moreCalls=0;var moreObservationCalls=0
+    var staffSaveCalls=0;var lastStaffPhone="";var lastStaffPin="";var moreCalls=0;var moreObservationCalls=0;var observationRetryCalls=0
     var deniedSheetRequests=0;var lastSheetRequest:Sheet?=null
     override var state by mutableStateOf(UiState(operator=if(route==Route.LOGIN)null else operator,route=route,savedAt=snapshotAt,panelSavedAt=snapshotAt,historySavedAt=snapshotAt,
         home=Home(10000,10000,1,0,listOf(pay),"2026-11-06T10:00:00Z",0),payments=Page(listOf(pay),null,1,"v1","now"),members=Page(listOf(person),null,1,"v1","now"),member=person,payment=pay,memberTransactions=Page(listOf(pay),null,1,"v1","now"),
@@ -711,6 +735,12 @@ private class FakeController(route:Route,role:Role=Role.ADMIN):BuriController{
     override fun refresh(){}
     override fun more(){moreCalls++}
     override fun moreObservations(){moreObservationCalls++}
+    override fun retryObservation(){
+        val source=state.rawSource as? SmsSourceRef.Observation?:return
+        if(state.sheet!=Sheet.RAW||!smsAccessGranted||!allows(Capability.SMS)||!allows(Capability.GATEWAY)||state.observationProcessing[source]?.canRetry!=true)return
+        observationRetryCalls++
+        state=state.copy(observationProcessing=state.observationProcessing+(source to ObservationProcessing("retrying",false)),observationRetryNotice="Retry scheduled.")
+    }
     override fun openSms(source:SmsSourceRef){
         if(source is SmsSourceRef.Observation&&allows(Capability.SMS))state=state.copy(sheet=Sheet.RAW,sheetId=source.id,rawSource=source,
             raw=RawSms(source.id,"M-Money","2026-11-09T00:00:00Z",receiptBody,null),

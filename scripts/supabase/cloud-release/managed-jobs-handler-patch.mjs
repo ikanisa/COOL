@@ -7,7 +7,7 @@ const pins={serve:'0c1305540340c19a058ce5f5510c67a586b82eeacb98e45f226ebe4b1499b
 const integrated={serve:'766cc5b6ea5e4c4acbffe2a631f4691b48f93e50fdb6d5898ad5594f8f5ee280',
  processing:'64a161f7aef2d4e113d3a88c0f2063cbaf70219416ed6d031b873c8aec4f8d2b',
  auth:'5cac35234d8fce99056705a7e002c078970366a007e4a572b00485a9502ad463',
- budget:'194c7c4407e0e498d659054943494137667ef1a6e2244f0c1cee5facb14eaeaf'};
+ budget:'8c212ad319d820374a33abcaeb405ee643010cc86b0e107790d39b7020fe9962'};
 function once(text,from,to){const i=text.indexOf(from);if(i<0||text.indexOf(from,i+from.length)>=0)throw Error('jobs_handler_base_changed');return text.slice(0,i)+to+text.slice(i+from.length);}
 export async function renderManagedJobsHandler(){
  let serve=await readFile(new URL('../../../supabase/functions/_shared/serve.js',import.meta.url),'utf8');

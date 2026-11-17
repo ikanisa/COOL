@@ -129,6 +129,15 @@ export function createNativeHandler({auth,records,contributions,members,gateway,
         if(!strictContract&&query.limit!==undefined)query.limit=Number(query.limit);
         return json(await observations.page(actor,query,cursor));
       }
+      if(route==='/sms/observations/processing-status'&&method==='POST'){
+        requirePort(observations,['processingStatus']);
+        return json(await observations.processingStatus(actor,await body(req,['sourceIds'])));
+      }
+      const observedRetry=/^\/sms\/observations\/([A-Za-z0-9_-]+)\/retry$/.exec(route);
+      if(observedRetry&&method==='POST'){
+        requirePort(observations,['processingRetry']);
+        return json(await observations.processingRetry(actor,observedRetry[1],await body(req,['requestId'])));
+      }
       const observedReveal=/^\/sms\/observations\/([A-Za-z0-9_-]+)\/reveal$/.exec(route);
       if(observedReveal&&method==='POST'){
         requirePort(observations,['reveal']);const input=await body(req,['reason','displayHintsVersion'],['reason']);

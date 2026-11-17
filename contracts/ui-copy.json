@@ -2995,6 +2995,41 @@
       "key": "ui_337cb2a41182",
       "en": "This photo is too large. Choose a smaller photo.",
       "rw": "Iyi foto ni nini cyane. Hitamo ifoto nto."
+    },
+    {
+      "key": "ui_sms_retrying",
+      "en": "Retrying",
+      "rw": "Birimo gusubirwamo"
+    },
+    {
+      "key": "ui_sms_parsed",
+      "en": "Parsed",
+      "rw": "Ibyo ubutumwa burimo byasesenguwe"
+    },
+    {
+      "key": "ui_sms_security_message",
+      "en": "Security message",
+      "rw": "Ubutumwa bw’umutekano"
+    },
+    {
+      "key": "ui_sms_historical_record",
+      "en": "Historical record",
+      "rw": "Amakuru ya kera"
+    },
+    {
+      "key": "ui_sms_not_payment_confirmation",
+      "en": "This status does not confirm a payment.",
+      "rw": "Iyi mimerere ntiyemeza ko ubwishyu bwakozwe."
+    },
+    {
+      "key": "ui_sms_retry_scheduled",
+      "en": "Retry scheduled.",
+      "rw": "Gusubiramo byateguwe."
+    },
+    {
+      "key": "ui_sms_retry_not_eligible",
+      "en": "This SMS cannot be retried.",
+      "rw": "Ubu butumwa ntibushobora gusubirwamo."
     }
   ]
 }

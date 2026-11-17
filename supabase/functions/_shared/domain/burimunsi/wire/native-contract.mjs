@@ -23,7 +23,7 @@ export function nativeExpected(binding,route,body,originDigest,handoffFingerprin
  return {...binding,recordId:route.recordId,memberId:body?.memberId,phone:body?.phone,
   staffId:body?.id,commandRequestId:body?.requestId,staffOperation:body?.operation,
   consentEnabled:body?.enabled,consentGeneration:body?.generation,displayHintsVersion:body?.displayHintsVersion,
-  importRows:body?.rows?.map(row=>row.row),originDigest,handoffFingerprint};
+  importRows:body?.rows?.map(row=>row.row),sourceIds:body?.sourceIds,originDigest,handoffFingerprint};
 }
 export function bindNativeResponse(route,binding,body,data,originDigest,handoffFingerprint){
  // Project only the public acknowledgement fields promised by canonical bridge ports.

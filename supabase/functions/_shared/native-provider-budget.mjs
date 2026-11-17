@@ -10,7 +10,7 @@ export function withNativeProviderBudget(env,payload){
   const work=env.DB?.applicationWork;
   if(env.COLLECT_JOB_AUTH_MODE!=='supabase_dispatch_hmac_v1'||work?.kind!=='jobs'||work!==env.COLLECT_FENCE_WORK||
    typeof work.assert!=='function'||env.BUILD_SOURCE_ID!==source||env.MOMO_AI_MODEL!==model||
-   env.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256!==approval||model!=='gpt-5.4-mini-2026-03-17'||
+   env.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256!==approval||typeof model!=='string'||!/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/.test(model)||
    !Number.isSafeInteger(options?.max_tokens)||options.max_tokens<1||options.max_tokens>1400||
    options.response_format?.json_schema?.properties?.schema_version?.enum?.[0]!=='momo-native-extraction.v2')throw unavailable();
   await work.assert();

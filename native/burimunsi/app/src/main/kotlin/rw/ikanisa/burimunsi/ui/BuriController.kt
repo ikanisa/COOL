@@ -50,6 +50,7 @@ interface BuriController {
     fun openSheet(sheet:Sheet,id:String?=null)
     fun openSms(source:SmsSourceRef){openSheet(Sheet.RAW,source.id)}
     fun moreObservations() {}
+    fun retryObservation() {}
     fun closeSheet()
     fun revealRaw(reason:String)
     fun selectMember(member:Member)

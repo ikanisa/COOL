@@ -10,6 +10,7 @@ import {validateReadiness} from '../jobs_config.mjs';
 import {renderManagedScheduler} from './managed-jobs-scheduler.mjs';
 import {sameDeployedFunctions,keyEvidenceForSource} from './managed-jobs-key-operator.mjs';
 import {renderNativeProviderBudget} from './native-provider-budget-render.mjs';
+import {renderNativeProviderPolicy} from './native-provider-policy-render.mjs';
 
 const HASH=/^[a-f0-9]{64}$/,MODEL=/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/;
 const GUARDS={
@@ -30,11 +31,13 @@ export function parseManagedReadiness(bytes,now=Date.now()){
  const r=JSON.parse(bytes.toString('utf8')),native=Object.hasOwn(r,'native_sms_admission'),base={...r};
  for(const k of ['native_sms_admission','native_provider_evidence_sha256','native_guard_evidence_sha256','remaining_native_provider_requests'])delete base[k];
  if(base.format!=='collect.jobs.readiness.v1')throw Error('maintenance_readiness_required');validateReadiness(base,now);
+ if(base.remaining_invocations<50000)throw Error('native_readiness_invalid');
  const optional=['native_sms_admission','native_provider_evidence_sha256','native_guard_evidence_sha256','remaining_native_provider_requests'];
  if(native){const a=r.native_sms_admission,keys=['contract','source_sha256','approval_sha256','model_id','batch_limit'];
   if(optional.some(k=>!Object.hasOwn(r,k))||!a||typeof a!=='object'||Array.isArray(a)||Object.keys(a).length!==keys.length||Object.keys(a).some(k=>!keys.includes(k))||
    a.contract!=='collect.native-sms-automation.v1'||!HASH.test(a.source_sha256??'')||!HASH.test(a.approval_sha256??'')||!MODEL.test(a.model_id??'')||a.batch_limit!==1||
-   !HASH.test(r.native_provider_evidence_sha256??'')||!HASH.test(r.native_guard_evidence_sha256??'')||!Number.isSafeInteger(r.remaining_native_provider_requests)||r.remaining_native_provider_requests<2||r.remaining_native_provider_requests>400)throw Error('native_readiness_invalid');
+   !HASH.test(r.native_provider_evidence_sha256??'')||!HASH.test(r.native_guard_evidence_sha256??'')||
+   !(r.remaining_native_provider_requests===null||Number.isSafeInteger(r.remaining_native_provider_requests)&&r.remaining_native_provider_requests>=2))throw Error('native_readiness_invalid');
  }else if(optional.some(k=>Object.hasOwn(r,k)))throw Error('native_readiness_invalid');
  return {readiness:{...r,evidence_file_sha256:sha(bytes)},native};
 }
@@ -58,6 +61,9 @@ async function inspect(db){
  const secrets=new Map(secretResult.json().map(x=>[x.name,x.value]));
  if(secrets.get('BUILD_SOURCE_ID')!==sha(f.source_sha256)||secrets.get('COLLECT_JOB_AUTH_MODE')!==sha('supabase_dispatch_hmac_v1')||secrets.get('COLLECT_JOB_SIGNING_KEY')!==key.keySha256||
   secrets.get('MOMO_PROCESSING_PAUSED')!==sha('true'))throw Error('runtime_or_key_changed');
+ const scheduleFile='20261117135049_collect_sms_schedule_one_minute.sql',scheduleSha='df5ff3ec33e8e8d02c182072abd99e0c24705fb74f1f85514b46f9da9149300c';
+ const scheduleHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[scheduleFile.slice(0,14)])).rows[0];
+ if(scheduleHistory&&(scheduleHistory.digest!==scheduleSha||sha(readFileSync(new URL('../../../supabase/migrations/'+scheduleFile,import.meta.url)))!==scheduleSha))throw Error('scheduler_migration_changed');
  const row=(await db.query(`SELECT c.enabled,c.config_sha256,c.template_sha256,c.readiness,c.last_probe_id,
   c.native_provider_source_sha256,c.native_provider_model_id,c.native_provider_approval_sha256,c.native_provider_expires_at,c.native_provider_limit,c.native_provider_used,
   j.jobname,j.schedule,j.command,j.database,j.username,j.active,
@@ -70,12 +76,16 @@ async function inspect(db){
   private._collect_fence_scheduler_status()->'coverageVerified' AS scheduler_coverage
   FROM collect_ops.jobs_config c JOIN cron.job j ON j.jobid=c.cron_job_id WHERE c.singleton`,[key.vaultId])).rows[0];
  if(!row||row.config_sha256!==scheduler.configSha||row.template_sha256!==scheduler.templateSha||row.migration_sha!==scheduler.sqlSha||row.keys!==1||row.key_sha!==key.keySha256||
-  row.jobname!=='collect-jobs-maintenance-v1'||row.schedule!=='*/5 * * * *'||row.command!=='SELECT collect_ops.tick_jobs();'||row.database!=='postgres'||row.username!=='postgres'||
+  row.jobname!=='collect-jobs-maintenance-v1'||row.schedule!==(scheduleHistory?'* * * * *':'*/5 * * * *')||row.command!=='SELECT collect_ops.tick_jobs();'||row.database!=='postgres'||row.username!=='postgres'||
   row.historical!==graph.counts?.sms||row.historical!==37||row.triggers_ok!==true||row.scheduler_coverage!==true)throw Error('scheduler_or_history_guard_changed');
  const guard=(await db.query(`SELECT x.signature,p.proowner::regrole::text owner,p.prosecdef,encode(sha256(convert_to(p.prosrc,'UTF8')),'hex') digest
   FROM unnest($1::text[]) x(signature) LEFT JOIN pg_proc p ON p.oid=to_regprocedure(x.signature)`,[Object.keys(GUARDS)])).rows;
  if(guard.length!==Object.keys(GUARDS).length||guard.some(x=>x.owner!=='postgres'||x.prosecdef!==true||x.digest!==GUARDS[x.signature]))throw Error('scheduler_or_history_guard_changed');
  const expected=expectedSchedulerBodies(scheduler.sql);
+ if(scheduleHistory){
+  expected.ops.dispatch_jobs='00e49b5d9603cd8564555252cc62b23d667fd9f611c558c46459e4b7580d9f72';
+  expected.ops.activate_jobs='18fb407a536fa422aa539a15b161c75af638a295159f020eebc5af1692c188d3';
+ }
  // The parser migration is optional until the source-bound cutover is recorded.
  const reviewMigration='20261117090952_burimunsi_native_parse_review.sql';
  const review=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[reviewMigration.slice(0,14)])).rows[0];
@@ -95,10 +105,19 @@ async function inspect(db){
  const budgetFile='20261117081411_collect_native_provider_budget.sql';
  if(sha(readFileSync(new URL('../../../supabase/migrations/'+budgetFile,import.meta.url)))!==budget.sqlSha256)throw Error('scheduler_migration_changed');
  const budgetHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[budgetFile.slice(0,14)])).rows[0];
- const readiness=/CREATE OR REPLACE FUNCTION collect_ops\.record_jobs_readiness\([^]*? AS \$\$([^]*?)\$\$;/.exec(budget.sql);
- const setup=/CREATE FUNCTION collect_ops\.configure_native_provider_budget\([^]*? AS \$budget_setup\$([^]*?)\$budget_setup\$;/.exec(budget.sql);
- const reserve=/CREATE FUNCTION private\.collect_native_provider_reserve\([^]*? AS \$budget_reserve\$([^]*?)\$budget_reserve\$;/.exec(budget.sql);
+ let readiness=/CREATE OR REPLACE FUNCTION collect_ops\.record_jobs_readiness\([^]*? AS \$\$([^]*?)\$\$;/.exec(budget.sql);
+ let setup=/CREATE FUNCTION collect_ops\.configure_native_provider_budget\([^]*? AS \$budget_setup\$([^]*?)\$budget_setup\$;/.exec(budget.sql);
+ let reserve=/CREATE FUNCTION private\.collect_native_provider_reserve\([^]*? AS \$budget_reserve\$([^]*?)\$budget_reserve\$;/.exec(budget.sql);
  if(budgetHistory?.digest!==budget.sqlSha256||!readiness||!setup||!reserve)throw Error('scheduler_source_shape_changed');
+ const policy=await renderNativeProviderPolicy(),policyFile='20261117134926_collect_native_provider_policy.sql';
+ const policyHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[policyFile.slice(0,14)])).rows[0];
+ if(policyHistory){
+  if(policyHistory.digest!==policy.sqlSha256||sha(readFileSync(new URL('../../../supabase/migrations/'+policyFile,import.meta.url)))!==policy.sqlSha256)throw Error('scheduler_migration_changed');
+  readiness=/ AS \$\$([^]*?)\$\$;/.exec(policy.readiness);
+  setup=/ AS \$budget_setup\$([^]*?)\$budget_setup\$;/.exec(policy.setup);
+  reserve=/ AS \$budget_reserve\$([^]*?)\$budget_reserve\$;/.exec(policy.reserve);
+  if(!readiness||!setup||!reserve)throw Error('scheduler_source_shape_changed');
+ }
  const schedulerBody=/AS \$fn\$([^]*?)\$fn\$;/.exec(budget.schedulerStatus);
  const schedulerStatus=(await db.query("SELECT encode(sha256(convert_to(prosrc,'UTF8')),'hex') digest FROM pg_proc WHERE oid='private._collect_fence_scheduler_status()'::regprocedure")).rows[0];
  if(!schedulerBody||schedulerStatus?.digest!==sha(schedulerBody[1]))throw Error('scheduler_source_shape_changed');
@@ -124,11 +143,16 @@ async function inspect(db){
   !ticket||ticket.owner!=='postgres'||!ticket.relrowsecurity||!ticket.relforcerowsecurity||ticket.runtime_access||!ticket.guarded)throw Error('scheduler_source_shape_changed');
  return {row,secrets,source:f.source_sha256};
 }
-function verifyNativeBudget(pre,r){
+export function verifyNativeBudget(pre,r,now=Date.now()){
  const a=r.native_sms_admission,c=pre.row;
+ const safeInt=v=>typeof v==='number'?Number.isSafeInteger(v)?v:null:typeof v==='string'&&/^(0|[1-9][0-9]{0,15})$/.test(v)&&Number.isSafeInteger(Number(v))?Number(v):null;
+ const used=safeInt(c.native_provider_used),limit=c.native_provider_limit===null?null:safeInt(c.native_provider_limit);
+ const expiry=c.native_provider_expires_at===null?null:Date.parse(c.native_provider_expires_at);
  if(c.native_provider_source_sha256!==pre.source||c.native_provider_model_id!==a.model_id||c.native_provider_approval_sha256!==a.approval_sha256||
-  c.native_provider_limit!==400||!Number.isSafeInteger(c.native_provider_used)||c.native_provider_used<0||c.native_provider_used>398||
-  Date.parse(c.native_provider_expires_at)<=Date.now()||r.remaining_native_provider_requests>400-c.native_provider_used)throw Error('native_readiness_invalid');
+  used===null||used<0||(c.native_provider_limit!==null&&(limit===null||limit<0))||
+  (expiry!==null&&(!Number.isFinite(expiry)||expiry<=now))||
+  (limit===null?r.remaining_native_provider_requests!==null:
+   !Number.isSafeInteger(r.remaining_native_provider_requests)||r.remaining_native_provider_requests<2||r.remaining_native_provider_requests>limit-used))throw Error('native_readiness_invalid');
 }
 function verifyMode(pre,r,native){
  if(r.project_ref!==PROJECT||r.endpoint!==`https://${PROJECT}.supabase.co/functions/v1/collect-jobs`)throw Error('readiness_project_changed');

@@ -119,6 +119,11 @@ export function semantics(product,operation,r,expected={}) {
   if(operation==='observationConsentSet'&&(data.enabled!==expected.consentEnabled||data.generation!==expected.consentGeneration))fail('CONTRACT_IDENTITY');
   if(operation==='observationProfile'&&data.expiresAt-data.issuedAt!==86400000)fail('CONTRACT_STATE');
   if(operation==='observationPage')for(const item of data.items)if(item.id!==item.sourceId)fail('CONTRACT_IDENTITY');
+  if(operation==='observationProcessingStatus'){
+   if(!Array.isArray(expected.sourceIds)||data.statuses.length!==expected.sourceIds.length||
+    data.statuses.some((row,i)=>row.sourceId!==expected.sourceIds[i]||row.canRetry&&!['retrying','needs_review'].includes(row.status)))fail('CONTRACT_IDENTITY');
+  }
+  if(operation==='observationProcessingRetry'&&(data.sourceId!==expected.recordId||data.requestId!==expected.commandRequestId))fail('CONTRACT_IDENTITY');
   if(operation==='observationReveal'){
    if(data.sourceId!==expected.recordId||Object.hasOwn(data,'displayHints')!==(expected.displayHintsVersion===1))fail('CONTRACT_IDENTITY');
    if(data.displayHints!==undefined&&data.displayHints!==null){const seen=new Set();

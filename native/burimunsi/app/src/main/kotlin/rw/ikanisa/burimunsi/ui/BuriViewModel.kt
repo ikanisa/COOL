@@ -26,6 +26,7 @@ data class UiState(
     val home:Home?=null,val payments:Page<Payment>?=null,val members:Page<Member>?=null,val ledger:Page<LedgerRow>?=null,val memberTransactions:Page<Payment>?=null,
     val payment:Payment?=null,val member:Member?=null,val messages:Page<SmsRow>?=null,val observations:Page<ObservationListRow>?=null,
     val queuedObservations:List<QueuedObservationRow>?=null,val queuedUnavailable:Boolean=false,
+    val observationProcessing:Map<SmsSourceRef.Observation,ObservationProcessing> = emptyMap(),val observationRetryNotice:String?=null,
     val smsListContent:Map<SmsSourceRef,SmsListContent> = emptyMap(),val smsListSearch:String="",val smsScanRunning:Boolean=false,val smsScanError:Boolean=false,
     val observationUnavailable:Boolean=false,val raw:RawSms?=null,val rawSource:SmsSourceRef?=null,val observationHints:ObservationHintSet?=null,
     val rawDisclosure:RawDisclosureState=RawDisclosureState.AWAITING_REASON,val rawError:String?=null,val rawExposure:Long=0,
@@ -302,6 +303,8 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     private enum class SmsStream { CANONICAL, OBSERVATION }
     private data class SmsScanRequest(val search:Boolean=false,val manual:Boolean=false,val target:SmsStream?=null)
     private var smsScanJob:Job?=null
+    private var observationStatusJob:Job?=null
+    private val observationRetryRequests=mutableMapOf<String,String>()
     private var smsScanEpoch=0L
     private var smsSearchRevision=0L
     private var smsSearchBudgetEpoch=-1L
@@ -538,7 +541,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         state=withoutRecords(state)
     }
     private fun key(route:Route=state.route,id:String?=state.routeId)=route.name+":"+(id?:"")
-    private fun clearViews(){clearDownload(false);queries=emptyMap();filterOrigin=null;filterDraftReset=null;clearRawDisclosure();views.clear();clearPanels();pendingExport=null;pendingMemberDocument=null;forgetCheckpoint()}
+    private fun clearViews(){observationStatusJob?.cancel();observationStatusJob=null;observationRetryRequests.clear();clearDownload(false);queries=emptyMap();filterOrigin=null;filterDraftReset=null;clearRawDisclosure();views.clear();clearPanels();pendingExport=null;pendingMemberDocument=null;forgetCheckpoint()}
     private fun rememberedContext(value:UiState)=UiState(operator=state.operator,route=value.route,routeId=value.routeId,
         search=value.search,filter=value.filter,listIndex=value.listIndex,listOffset=value.listOffset,
         pending=state.pending,busy=true,readbackRequired=value.readbackRequired)
@@ -889,7 +892,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
                         val old=state.observations?:break;val cursor=observation?:break
                         val next=io{repo().observationPage(queryFor(ListingTarget.SMS).copy(filter="all"),cursor=cursor,limit=5)}
                         if(!current())break
-                        state=state.copy(observations=PageIntegrity.append(old,next){it.source.id});preferObservation=false
+                        state=state.copy(observations=PageIntegrity.append(old,next){it.source.id});requestObservationProcessing();preferObservation=false
                     }else{
                         val old=state.messages?:break;val cursor=canonical?:break
                         val next=io{repo().sms(queryFor(ListingTarget.SMS),cursor=cursor,limit=5)}
@@ -908,6 +911,22 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
                 smsScanJob=null
                 val pending=smsPendingScan;smsPendingScan=null
                 if((!failed||epoch!=smsScanEpoch)&&pending!=null)requestSmsScan(pending)
+            }
+        }
+    }
+    /** One bounded metadata-only request for the currently loaded page(s). */
+    private fun requestObservationProcessing(){
+        val sources=state.observations?.items.orEmpty().map{it.source}.distinct().take(100)
+        if(sources.isEmpty()||!BuildConfig.IS_GATEWAY||state.operator?.role!=Role.ADMIN||!smsAccessGranted)return
+        val started=generation;val operatorId=state.operator?.id
+        observationStatusJob?.cancel()
+        observationStatusJob=viewModelScope.launch{
+            val result=try{io{repo().observationProcessing(sources)}}
+                catch(e:CancellationException){throw e}catch(_:Exception){emptyMap()}
+            if(started==generation&&foreground&&state.route==Route.SMS&&state.filter=="all"&&
+                state.operator?.id==operatorId&&state.operator?.role==Role.ADMIN&&smsAccessGranted&&hasAccess(Capability.SMS)){
+                val live=state.observations?.items.orEmpty().map{it.source}.toSet()
+                state=state.copy(observationProcessing=(state.observationProcessing-sources.toSet())+result.filterKeys{it in live})
             }
         }
     }
@@ -1190,10 +1209,11 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
                         unavailable=true;disconnected=disconnected||e.status==0;null
                     }
                     else if(canonical==null)Page(emptyList(),null,0,"filtered",java.time.Instant.ofEpochMilli(clock()).toString()) else null
-                state=state.copy(messages=canonical?.page,observations=observed,queuedObservations=null,queuedUnavailable=false,observationUnavailable=unavailable,
+                state=state.copy(messages=canonical?.page,observations=observed,observationProcessing=emptyMap(),observationRetryNotice=null,queuedObservations=null,queuedUnavailable=false,observationUnavailable=unavailable,
                     offline=disconnected||(canonical?.offline?:false),savedAt=canonical?.savedAt?:clock(),readbackRequired=false,
                     listIndex=canonical?.decision?.index?:0,listOffset=canonical?.decision?.offset?:0,listRestoration=canonical?.decision?.stop)
                 if(state.filter=="all")refreshQueuedNow()
+                requestObservationProcessing()
                 requestSmsScan(SmsScanRequest(search=state.smsListSearch.isNotBlank()))
             }
             Route.PAYMENT->{val id=state.routeId?:state.payment?.id?:return;val v=io{repo().payment(id)};state=state.copy(payment=v,offline=repo().lastReadFromCache,savedAt=repo().lastReadSavedAt,readbackRequired=state.readbackRequired&&repo().lastReadFromCache)}
@@ -1242,6 +1262,21 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     override fun moreObservations(){
         if(state.route==Route.SMS&&state.sheet==null&&state.filter!="queued"&&state.smsListSearch.isBlank())requestSmsScan(SmsScanRequest(manual=true,target=SmsStream.OBSERVATION))
     }
+    override fun retryObservation(){
+        val source=state.rawSource as? SmsSourceRef.Observation?:return
+        if(state.sheet!=Sheet.RAW||state.observationProcessing[source]?.canRetry!=true||
+            !BuildConfig.IS_GATEWAY||state.operator?.role!=Role.ADMIN||!smsAccessGranted||!hasAccess(Capability.GATEWAY))return
+        val requestId=observationRetryRequests.getOrPut(source.id){java.util.UUID.randomUUID().toString()}
+        work{
+            state=state.copy(observationRetryNotice=null)
+            val result=io{repo().retryObservation(source,requestId)}
+            observationRetryRequests.remove(source.id)
+            val status=if(result=="scheduled")ObservationProcessing("retrying",false) else ObservationProcessing("unknown",false)
+            state=state.copy(observationProcessing=state.observationProcessing+(source to status),
+                observationRetryNotice=if(result=="scheduled")"Retry scheduled." else "This SMS cannot be retried.")
+            requestObservationProcessing()
+        }
+    }
     override fun openSms(source:SmsSourceRef)=openSheetWithSource(Sheet.RAW,source.id,source)
     override fun openSheet(sheet:Sheet,id:String?)=openSheetWithSource(sheet,id,if(sheet==Sheet.RAW&&id!=null)SmsSourceRef.Canonical(id)else null)
     private fun openSheetWithSource(sheet:Sheet,id:String?,source:SmsSourceRef?){
@@ -1264,7 +1299,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         work(kind=UiOperation.INITIAL_READ){
             // The prototype replaces the current sheet; Close returns to the route.
             clearPanels()
-            state=state.copy(sheet=sheet,sheetId=if(sheet==Sheet.HISTORY)id?:state.payment?.id else id,rawSource=source,
+            state=state.copy(sheet=sheet,sheetId=if(sheet==Sheet.HISTORY)id?:state.payment?.id else id,rawSource=source,observationRetryNotice=null,
                 panelDepth=0,error=null,selectedMember=null,raw=null,panelSavedAt=state.panelSavedAt,
                 history=null,historyPaymentId=null,historyOffline=false,historySavedAt=null,
                 allocationQuery="",draft=emptyMap(),draftDirty=false,discardRequested=false,onboarding=SmartOnboardingState())

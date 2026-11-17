@@ -598,4 +598,11 @@
     <string name="ui_60bb4e34cee2">Suggested from transaction payments</string>
     <string name="ui_a36550807455">Camera unavailable. Choose a photo or file instead.</string>
     <string name="ui_337cb2a41182">This photo is too large. Choose a smaller photo.</string>
+    <string name="ui_sms_retrying">Retrying</string>
+    <string name="ui_sms_parsed">Parsed</string>
+    <string name="ui_sms_security_message">Security message</string>
+    <string name="ui_sms_historical_record">Historical record</string>
+    <string name="ui_sms_not_payment_confirmation">This status does not confirm a payment.</string>
+    <string name="ui_sms_retry_scheduled">Retry scheduled.</string>
+    <string name="ui_sms_retry_not_eligible">This SMS cannot be retried.</string>
 </resources>

@@ -6,6 +6,8 @@ sealed class SmsSourceRef(open val id:String) {
     data class Observation(override val id:String):SmsSourceRef(id)
 }
 data class ObservationListRow(val source:SmsSourceRef.Observation,val groupId:String,val retainedAt:String)
+/** Processing state is distinct from receipt sync and never implies a payment. */
+data class ObservationProcessing(val status:String,val canRetry:Boolean)
 /** Audited list content lives only in the active screen's memory. */
 data class SmsListContent(val sender:String,val body:String) {
     override fun toString()="SmsListContent(redacted)"

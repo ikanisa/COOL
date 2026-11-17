@@ -181,6 +181,16 @@
       "POST",
       "^/sms/observations/([A-Za-z0-9_-]+)/reveal$",
       "observationReveal"
+    ],
+    [
+      "POST",
+      "^/sms/observations/processing-status$",
+      "observationProcessingStatus"
+    ],
+    [
+      "POST",
+      "^/sms/observations/([A-Za-z0-9_-]+)/retry$",
+      "observationProcessingRetry"
     ]
   ],
   "operations": [
@@ -219,6 +229,8 @@
     "observationProfile",
     "observation",
     "observationPage",
-    "observationReveal"
+    "observationReveal",
+    "observationProcessingStatus",
+    "observationProcessingRetry"
   ]
 }

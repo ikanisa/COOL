@@ -598,4 +598,11 @@
     <string name="ui_60bb4e34cee2">Abasabwa hashingiwe ku bwishyu</string>
     <string name="ui_a36550807455">Kamera ntibonetse. Hitamo ifoto cyangwa dosiye.</string>
     <string name="ui_337cb2a41182">Iyi foto ni nini cyane. Hitamo ifoto nto.</string>
+    <string name="ui_sms_retrying">Birimo gusubirwamo</string>
+    <string name="ui_sms_parsed">Ibyo ubutumwa burimo byasesenguwe</string>
+    <string name="ui_sms_security_message">Ubutumwa bw’umutekano</string>
+    <string name="ui_sms_historical_record">Amakuru ya kera</string>
+    <string name="ui_sms_not_payment_confirmation">Iyi mimerere ntiyemeza ko ubwishyu bwakozwe.</string>
+    <string name="ui_sms_retry_scheduled">Gusubiramo byateguwe.</string>
+    <string name="ui_sms_retry_not_eligible">Ubu butumwa ntibushobora gusubirwamo.</string>
 </resources>

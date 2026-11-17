@@ -142,6 +142,7 @@ class ApiClient private constructor(origin: String, val installationId: String,
                 (b?.get("memberId")?.let{mapOf("memberId" to it)} ?: emptyMap()) +
                 (b?.get("id")?.let{mapOf("staffId" to it)} ?: emptyMap()) +
                 (b?.get("requestId")?.let{mapOf("commandRequestId" to it)} ?: emptyMap()) +
+                (b?.get("sourceIds")?.let{mapOf("sourceIds" to it)} ?: emptyMap()) +
                 ((b?.get("rows") as? List<*>)?.map{(it as? Map<*,*>)?.get("row")}?.let{mapOf("importRows" to it)} ?: emptyMap()) +
                 (b?.get("enabled")?.let{mapOf("consentEnabled" to it)} ?: emptyMap()) +
                 (b?.get("generation")?.let{mapOf("consentGeneration" to it)} ?: emptyMap()) +

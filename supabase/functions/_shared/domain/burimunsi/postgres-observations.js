@@ -118,6 +118,29 @@ export class PostgresNativeObservations {
    check(r.length===1);return consent(r[0].result);
   });}catch(error){throw mapped(error);}
  }
+ async processingStatus(actor,input){
+  exactKeys(input,['sourceIds']);
+  check(Array.isArray(input.sourceIds)&&input.sourceIds.length>0&&input.sourceIds.length<=100&&
+   new Set(input.sourceIds).size===input.sourceIds.length,'invalid_request',400);
+  input.sourceIds.forEach(requireRequestId);
+  try{return await this.authority.read(async tx=>{await this.current(tx,actor);
+   const r=await tx.unsafe('SELECT private.burimunsi_observation_processing_status($1::jsonb) AS result',[JSON.stringify(input.sourceIds)]);
+   const value=r[0]?.result,allowed=new Set(['pending','retrying','parsed','needs_review','conflict','duplicate','security','historical','unknown']);
+   check(r.length===1&&value?.groupId===this.groupId&&Array.isArray(value.statuses)&&value.statuses.length===input.sourceIds.length);
+   value.statuses.forEach((item,i)=>check(item?.sourceId===input.sourceIds[i]&&allowed.has(item.status)&&typeof item.canRetry==='boolean'&&
+    (!item.canRetry||['retrying','needs_review'].includes(item.status))));
+   return value;
+  });}catch(error){throw mapped(error);}
+ }
+ async processingRetry(actor,sourceId,input){
+  requireRequestId(sourceId);exactKeys(input,['requestId']);requireRequestId(input.requestId);
+  try{return await this.authority.write(async tx=>{await this.current(tx,actor);
+   const r=await tx.unsafe('SELECT private.burimunsi_observation_processing_retry($1,$2::uuid) AS result',[sourceId,input.requestId]);
+   const value=r[0]?.result;
+   check(r.length===1&&value?.groupId===this.groupId&&value.sourceId===sourceId&&value.requestId===input.requestId&&
+    ['scheduled','not_eligible'].includes(value.result));return value;
+  });}catch(error){throw mapped(error);}
+ }
  async setConsent(actor,value){
   exactKeys(value,['enabled','generation']);check(typeof value.enabled==='boolean'&&Number.isSafeInteger(value.generation)&&value.generation>=1,'invalid_request',400);
   try{return await this.authority.write(async tx=>{await this.current(tx,actor);

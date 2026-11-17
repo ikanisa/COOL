@@ -9,7 +9,13 @@ import {renderManagedJobsHandler} from './managed-jobs-handler-patch.mjs';
 import {renderManagedScheduler} from './managed-jobs-scheduler.mjs';
 
 const KEY='collect_job_signing_key_v1',MODE='supabase_dispatch_hmac_v1',HASH=/^[a-f0-9]{64}$/,UUID=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
+const SCHEDULE_FILE='20261117135049_collect_sms_schedule_one_minute.sql',SCHEDULE_SHA='df5ff3ec33e8e8d02c182072abd99e0c24705fb74f1f85514b46f9da9149300c';
 const slugs=['collect-api','admin-api','collect-jobs'];
+export function qualifiedSchedule(historyDigest,fileDigest){
+ if(historyDigest===undefined)return '*/5 * * * *';
+ if(historyDigest!==SCHEDULE_SHA||fileDigest!==SCHEDULE_SHA)throw Error('scheduler_migration_changed');
+ return '* * * * *';
+}
 function privateJson(name){
  if(!/^[a-z0-9_.-]+\.json$/.test(name))throw Error('invalid_evidence_name');
  const p=join(ROOT,name),s=lstatSync(p);if(!s.isFile()||s.isSymbolicLink()||s.nlink!==1||s.uid!==process.getuid()||(s.mode&0o077)!==0||s.size>5*1024*1024)throw Error('private_evidence_required');
@@ -54,6 +60,8 @@ async function preflight(db,intent,deployment,{rebind=false}={}){
  if(sha(readFileSync(new URL('../../../supabase/migrations/20261117073850_collect_managed_jobs_hmac.sql',import.meta.url)))!==scheduler.sqlSha)throw Error('scheduler_migration_changed');
  const exists=(await db.query("SELECT to_regclass('collect_ops.jobs_config') IS NOT NULL AS installed")).rows[0].installed;
  if(!exists)throw Error('inactive_scheduler_required');
+ const scheduleHistory=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[SCHEDULE_FILE.slice(0,14)])).rows[0];
+ const expectedSchedule=qualifiedSchedule(scheduleHistory?.digest,scheduleHistory?sha(readFileSync(new URL('../../../supabase/migrations/'+SCHEDULE_FILE,import.meta.url))):undefined);
  const status=(await db.query(`SELECT c.enabled,c.config_sha256,c.template_sha256,j.jobname,j.schedule,j.command,j.database,j.username,j.active,
   (SELECT count(*)::int FROM collect_ops.jobs_dispatches) AS dispatches,
   (SELECT count(*)::int FROM private.collect_managed_job_tickets) AS tickets,
@@ -62,7 +70,7 @@ async function preflight(db,intent,deployment,{rebind=false}={}){
   (SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') FROM supabase_migrations.schema_migrations WHERE version='20261117073850') AS migration_sha
   FROM collect_ops.jobs_config c JOIN cron.job j ON j.jobid=c.cron_job_id WHERE c.singleton`,[KEY])).rows[0];
  if(!status||status.enabled||status.active||status.config_sha256!==scheduler.configSha||status.template_sha256!==scheduler.templateSha||
-  status.jobname!=='collect-jobs-maintenance-v1'||status.schedule!=='*/5 * * * *'||status.command!=='SELECT collect_ops.tick_jobs();'||
+  status.jobname!=='collect-jobs-maintenance-v1'||status.schedule!==expectedSchedule||status.command!=='SELECT collect_ops.tick_jobs();'||
   status.database!=='postgres'||status.username!=='postgres'||(rebind?status.pending!==0:status.dispatches!==0||status.tickets!==0)||status.migration_sha!==scheduler.sqlSha)throw Error('inactive_scheduler_identity_changed');
  return {source,secrets,vaultCount:status.vault_count,functions:f.json().map(summary)};
 }

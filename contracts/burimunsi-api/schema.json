@@ -4888,6 +4888,202 @@
         "data"
       ],
       "additionalProperties": false
+    },
+    "observationProcessingStatus.request": {
+      "type": "object",
+      "properties": {
+        "sourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 36,
+            "maxLength": 36,
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+          },
+          "minItems": 1,
+          "maxItems": 100,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "sourceIds"
+      ],
+      "additionalProperties": false
+    },
+    "observationProcessingStatus.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "observationProcessingStatus.data": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "statuses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sourceId": {
+                "type": "string",
+                "minLength": 36,
+                "maxLength": 36,
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "pending",
+                  "retrying",
+                  "parsed",
+                  "needs_review",
+                  "conflict",
+                  "duplicate",
+                  "security",
+                  "historical",
+                  "unknown"
+                ]
+              },
+              "canRetry": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "sourceId",
+              "status",
+              "canRetry"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "groupId",
+        "statuses"
+      ],
+      "additionalProperties": false
+    },
+    "observationProcessingRetry.request": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "requestId"
+      ],
+      "additionalProperties": false
+    },
+    "observationProcessingRetry.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "observationProcessingRetry.data": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "sourceId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+        },
+        "result": {
+          "type": "string",
+          "enum": [
+            "scheduled",
+            "not_eligible"
+          ]
+        }
+      },
+      "required": [
+        "groupId",
+        "sourceId",
+        "requestId",
+        "result"
+      ],
+      "additionalProperties": false
+    },
+    "observationProcessingStatus.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/observationProcessingStatus.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "observationProcessingRetry.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/observationProcessingRetry.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
     }
   }
 }

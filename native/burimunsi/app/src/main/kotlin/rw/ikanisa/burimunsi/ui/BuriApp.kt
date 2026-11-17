@@ -612,7 +612,9 @@ private fun rowShape(first:Boolean,last:Boolean)=RoundedCornerShape(topStart=if(
                     Column(Modifier.weight(1f)){
                         Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically){SingleLineName(content?.sender?.ifBlank{t("SMS receipt")}?:t("SMS receipt"),Modifier.weight(1f));Spacer(Modifier.width(8.dp));Text(row.retainedAt,fontSize=12.sp,color=BuriTheme.Muted)}
                         content?.body?.takeIf{it.isNotEmpty()}?.let{Spacer(Modifier.height(6.dp));Text(QueuedObservationPreview.from(it),fontSize=16.sp,color=BuriTheme.Muted,maxLines=2,overflow=TextOverflow.Ellipsis,lineHeight=24.sp)}
-                        Text(t("Synced"),Modifier.padding(top=6.dp),fontSize=13.sp,color=BuriTheme.Muted)
+                        val processing=s.observationProcessing[row.source]
+                        Text(t(observationProcessingLabel(processing)),Modifier.padding(top=6.dp),fontSize=13.sp,
+                            color=if(processing?.status in setOf("needs_review","conflict"))BuriTheme.Warn else BuriTheme.Muted)
                     }
                 }
             }
@@ -835,9 +837,24 @@ private fun rowShape(first:Boolean,last:Boolean)=RoundedCornerShape(topStart=if(
 }
 
 /** Server-authorized plaintext exists only while this explicitly opened panel is visible. */
+private fun observationProcessingLabel(value:ObservationProcessing?):String=when(value?.status){
+    "pending"->"Pending";"retrying"->"Retrying";"parsed"->"Parsed";"needs_review"->"Needs review"
+    "conflict"->"Conflict";"duplicate"->"Duplicate";"security"->"Security message";"historical"->"Historical record"
+    else->"Status unavailable"
+}
 @Composable private fun RawPanel(s:UiState,m:BuriController){
     val t=LocalUiText.current;val raw=s.raw
+    val source=s.rawSource as? SmsSourceRef.Observation
+    val processing=source?.let{s.observationProcessing[it]}
     Panel(footer=if(raw?.transactionId!=null&&s.rawDisclosure==RawDisclosureState.REVEALED){{Primary(t("Open contribution"),{m.navigate(Route.PAYMENT,raw.transactionId)},!s.busy)}}else null){
+        if(source!=null){
+            item{Column(verticalArrangement=Arrangement.spacedBy(8.dp)){
+                Text(t(observationProcessingLabel(processing)),fontSize=16.sp,color=if(processing?.status in setOf("needs_review","conflict"))BuriTheme.Warn else BuriTheme.Text)
+                Text(t("This status does not confirm a payment."),fontSize=13.sp,color=BuriTheme.Muted)
+                s.observationRetryNotice?.let{Text(t(it),fontSize=14.sp,color=BuriTheme.Muted)}
+                if(processing?.canRetry==true)Primary(t("Retry"),m::retryObservation,!s.busy)
+            }}
+        }
         if(raw!=null&&s.rawDisclosure==RawDisclosureState.REVEALED){
             item{CountLine(raw.at,raw.simLabel?:t("Unavailable"))}
             if(s.rawSource is SmsSourceRef.Observation&&s.observationHints?.hints?.isNotEmpty()==true){

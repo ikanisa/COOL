@@ -286,6 +286,15 @@ class WireContract(private val product: String, private val version: String,
                 if(row["sourceKind"]!="observation"||row["id"]!=row["sourceId"]||row["status"]!="source_unresolved"||
                     (row["financialEffects"] as? Number)?.toLong()!=0L)reject("CONTRACT_IDENTITY")
             }
+            if(operation=="observationProcessingStatus"){
+                val requested=arrayValue(expected["sourceIds"])
+                val statuses=arrayValue(d["statuses"]).map(::objectValue)
+                if(statuses.size!=requested.size||statuses.indices.any{i->
+                    statuses[i]["sourceId"]!=requested[i]||statuses[i]["canRetry"]==true&&statuses[i]["status"] !in listOf("retrying","needs_review")
+                })reject("CONTRACT_IDENTITY")
+            }
+            if(operation=="observationProcessingRetry"&&
+                (d["sourceId"]!=expected["recordId"]||d["requestId"]!=expected["commandRequestId"]))reject("CONTRACT_IDENTITY")
             if (operation == "observationReveal") {
                 if(d["sourceKind"]!="observation"||d["sourceId"]!=expected["recordId"]||
                     d["status"]!="source_unresolved"||(d["financialEffects"] as? Number)?.toLong()!=0L)reject("CONTRACT_IDENTITY")

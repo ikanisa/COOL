@@ -602,4 +602,11 @@ internal val UiStringIds:Map<String,Int> = mapOf(
     "Suggested from transaction payments" to R.string.ui_60bb4e34cee2,
     "Camera unavailable. Choose a photo or file instead." to R.string.ui_a36550807455,
     "This photo is too large. Choose a smaller photo." to R.string.ui_337cb2a41182,
+    "Retrying" to R.string.ui_sms_retrying,
+    "Parsed" to R.string.ui_sms_parsed,
+    "Security message" to R.string.ui_sms_security_message,
+    "Historical record" to R.string.ui_sms_historical_record,
+    "This status does not confirm a payment." to R.string.ui_sms_not_payment_confirmation,
+    "Retry scheduled." to R.string.ui_sms_retry_scheduled,
+    "This SMS cannot be retried." to R.string.ui_sms_retry_not_eligible,
 )
