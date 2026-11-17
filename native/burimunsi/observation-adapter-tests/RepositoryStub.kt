@@ -9,6 +9,7 @@ class NativeRepository() {
  companion object {
   private val lock=Any();private var generation=0L;private var active:ObservationOwner?=null
   var sessionDeadline=Long.MAX_VALUE
+  fun custodyHeld()=Thread.holdsLock(lock)
   fun switch(owner:ObservationOwner?)=synchronized(lock){generation++;active=owner}
   fun observationOwner(context:Context):ObservationSessionOwner?=synchronized(lock){active?.let{ObservationSessionOwner(it,generation)}}
   fun observationDeadline(context:Context,expected:ObservationSessionOwner):Long?=synchronized(lock){
@@ -49,6 +50,7 @@ class NativeRepository() {
  val heldAckRequests=mutableListOf<SmsObservation>();var heldAckFailure:Exception?=null
  var heldAckAcknowledged=false;var afterHeldAck:(()->Unit)?=null
  var heldAckOverride:((HeldRecoveryResolution)->HeldRecoveryResolution)?=null
+ var beforeNetwork:((String)->Unit)?=null
  fun observationConsent():ObservationConsentRevision{consentFailure?.let{throw it};val value=consent;val action=afterConsentRead;afterConsentRead=null;action?.invoke();return value}
  fun setObservationConsent(value:ObservationConsentRevision):ObservationConsentRevision{val action=duringConsentSet;duringConsentSet=null;action?.invoke();consent=value;return value}
  fun observationProfile():JSONObject {profileFailure?.let{throw it};val action=afterProfileRead;afterProfileRead=null;action?.invoke();return profile}
@@ -63,6 +65,7 @@ class NativeRepository() {
   return ObservationAck(value.requestId,source,if(invalidAck)"0".repeat(64)else Values.sha256(value.rawBody),"source_unresolved",0)
  }
  fun reconcileObservation(value:ObservationReconcileRequest):ObservationReconcileReply {
+  beforeNetwork?.invoke("reconcile")
   reconciliationRequests.add(value);val action=afterReconcile;afterReconcile=null;action?.invoke()
   reconcileFailure?.let{throw it}
   val existing=retainedSources[value.sourceKey];val newest=retainedSources.values.lastOrNull()
@@ -70,6 +73,7 @@ class NativeRepository() {
    else ObservationReconcileReply(value.sourceKey,"missing",null,newest)
  }
  fun reconcileObservations(values:List<ObservationReconcileRequest>):List<ObservationReconcileReply> {
+  beforeNetwork?.invoke("batch")
   reconciliationBatches.add(values.toList());val action=afterBatch;afterBatch=null;action?.invoke()
   batchFailure?.let{throw it}
   if(values.any{it.sourceKey in poisonSourceKeys})throw ApiFailure("observation_item_conflict",409)
@@ -80,12 +84,14 @@ class NativeRepository() {
   }
  }
  fun observationReconcileStatus():ObservationReconcileStatus {
+  beforeNetwork?.invoke("status")
   statusCalls++;statusFailure?.let{throw it};val count=retainedSources.size+cloudOnlySources.size
   val revision=statusRevisionOverride?:Values.sha256((retainedSources.toString()+cloudOnlySources.toString()+pendingReservation+unmatchedCanonical))
   val result=ObservationReconcileStatus(pendingReservation,count>0,count,revision,unmatchedCanonical)
   afterStatus?.invoke(statusCalls);return statusReplyOverride?.invoke(statusCalls,result)?:result
  }
  fun observationReconcileVerifiedStatus():ObservationVerifiedStatus {
+  beforeNetwork?.invoke("verified")
   verifiedCalls++;verifiedFailure?.let{throw it};val count=retainedSources.size+cloudOnlySources.size
   val pending=verifiedPending?:pendingReservation;val unmatched=verifiedUnmatched?:unmatchedCanonical
   val revision=verifiedRevisionOverride?:Values.sha256(retainedSources.toString()+cloudOnlySources.toString()+pending+unmatched)
@@ -93,6 +99,7 @@ class NativeRepository() {
   afterVerified?.invoke(verifiedCalls);return result
  }
  fun recoverHeldObservation(value:SmsObservation):HeldObservationAck {
+  beforeNetwork?.invoke("recover")
   recoveryRequests.add(value);recoveryFailureBeforeCommit?.let{throw it}
   val prior=recoveryCommitted[value.requestId]
   if(prior!=null&&prior.first!=value)throw ApiFailure("observation_item_conflict",409)
@@ -106,6 +113,7 @@ class NativeRepository() {
   return recoveryAckOverride?.invoke(ack)?:ack
  }
  fun heldRecoveryAcknowledgement(value:SmsObservation):HeldRecoveryResolution {
+  beforeNetwork?.invoke("ack")
   heldAckRequests.add(value);heldAckFailure?.let{throw it}
   val committed=recoveryCommitted[value.requestId]?.takeIf{it.first==value}
   val acknowledged=heldAckAcknowledged&&committed!=null
@@ -116,6 +124,7 @@ class NativeRepository() {
   return heldAckOverride?.invoke(result)?:result
  }
  fun observationPage(q:String="",cursor:String?=null,limit:Int?=null):Page<ObservationListRow> {
+  beforeNetwork?.invoke("page")
   pageCalls++;pageCursors.add(cursor);val action=afterPage;afterPage=null;action?.invoke();pageFailure?.let{throw it}
   if(cursor!=null)cursorFailure?.let{throw it}
   val all=retainedSources.values.toList()+cloudOnlySources

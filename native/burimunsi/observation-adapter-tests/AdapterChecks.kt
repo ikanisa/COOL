@@ -248,6 +248,20 @@ fun main() {
   ObservationRecovery(e.context).scan();check(pending(adminA).isEmpty())
   check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE&&e.repository.recoveryRequests.size==1)
  }
+ test("held recovery and ACK network calls never hold receiver or session custody") {
+  val (e,original)=pendingHeldFixture();val calls=mutableListOf<String>()
+  e.repository.beforeNetwork={name->
+   check(!Thread.holdsLock(ReceiverFixture.lock)&&!NativeRepository.custodyHeld());calls.add(name)
+  }
+  e.repository.heldAckAcknowledged=true
+  check(auditUntilSettled(e)==ObservationRecovery.Audit.COMPLETE)
+  check("ack" in calls&&"status" in calls&&e.repository.recoveryRequests==listOf(original))
+  val fresh=heldFixture();app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true;val next=mutableListOf<String>()
+  fresh.repository.beforeNetwork={name->
+   check(!Thread.holdsLock(ReceiverFixture.lock)&&!NativeRepository.custodyHeld());next.add(name)
+  }
+  check(auditUntilSettled(fresh)==ObservationRecovery.Audit.COMPLETE&&"recover" in next&&"verified" in next)
+ }
  test("an already matched held source stays read-only") {
   val e=heldFixture();e.repository.retainedSources[cloudKey(adminA,12)]="source-1"
   app.cool.mobile.BuildConfig.HELD_RECOVERY_ENABLED=true;e.repository.verifiedFailure=IllegalStateException("unavailable")
