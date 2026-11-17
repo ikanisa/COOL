@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {HELD_RESUME_CATALOG_SQL} from './managed-jobs-operator.mjs';
+import {PostgresStorageJournal} from '../../../supabase/functions/_shared/storage/postgres-journal.js';
+import {ProtectedStorageProtocol} from '../../../supabase/functions/_shared/storage/protocol.js';
 
 const modulePath=process.env.COLLECT_CLOUD_TEST_PGLITE_MODULE;
 const prior=readFileSync(new URL('../../../supabase/migrations/20261117210000_burimunsi_held_recovery.sql',import.meta.url),'utf8');
@@ -29,9 +31,13 @@ test('exact resume migration installs its guard against pinned predecessor funct
    CREATE TABLE private.collect_sms_witnesses(object_key text,owner_id text,collection_id text,body_sha256 text,inbox_received_at timestamptz,request_digest text);
    CREATE TABLE private.burimunsi_unresolved_observations(source_id text);CREATE TABLE private.burimunsi_auto_sms_jobs(source_id text);
    CREATE TABLE private.burimunsi_native_financial_work(source_id text);CREATE TABLE app.sms_receipts(id text);
-   CREATE TABLE private.storage_put_intents(operation_id text PRIMARY KEY,object_key text,state text,attempts integer,active_attempt uuid,
-    upload_unresolved boolean,delete_tombstone boolean,last_outcome text,updated_at timestamptz);
-   CREATE TABLE private.storage_upload_attempts(id uuid PRIMARY KEY,operation_id text,outcome text,completed_at timestamptz);
+   CREATE TABLE private.storage_namespace(singleton boolean PRIMARY KEY,origin text,bucket text);
+   CREATE TABLE private.storage_put_intents(operation_id text PRIMARY KEY,object_key text UNIQUE,fingerprint text,sha256 text,size bigint,
+    scope jsonb,http_metadata jsonb,custom_metadata jsonb,state text DEFAULT 'pending',attempts integer DEFAULT 0,active_attempt uuid,
+    upload_unresolved boolean DEFAULT false,delete_tombstone boolean DEFAULT false,last_outcome text,
+    created_at timestamptz DEFAULT clock_timestamp(),updated_at timestamptz DEFAULT clock_timestamp());
+   CREATE TABLE private.storage_upload_attempts(id uuid PRIMARY KEY,operation_id text,outcome text DEFAULT 'started',
+    started_at timestamptz DEFAULT clock_timestamp(),completed_at timestamptz);
    ${extract(base,'CREATE OR REPLACE FUNCTION private.trg_storage_identity()','$storage_identity$')}
    CREATE TRIGGER storage_put_identity BEFORE UPDATE OR DELETE ON private.storage_put_intents FOR EACH ROW EXECUTE FUNCTION private.trg_storage_identity();
    CREATE TRIGGER storage_upload_identity BEFORE UPDATE OR DELETE ON private.storage_upload_attempts FOR EACH ROW EXECUTE FUNCTION private.trg_storage_identity();
@@ -49,11 +55,37 @@ test('exact resume migration installs its guard against pinned predecessor funct
   assert.equal((await db.query('SELECT private.collect_sms_held_resume_check($1,$2,$3,$4,$5) AS ok',[source,req,fingerprint,body,time])).rows[0].ok,true);
   await db.exec("SELECT set_config('fixture.generation','2',false)");
   await assert.rejects(()=>db.query('SELECT private.collect_sms_held_resume_check($1,$2,$3,$4,$5)',[source,req,fingerprint,body,time]),/sms_held_resume_consent_changed/);
-  await db.query("INSERT INTO private.storage_put_intents VALUES('operation',$1,'pending',0,NULL,false,false,NULL,clock_timestamp())",['sms/'+source]);
-  await db.exec("INSERT INTO private.storage_upload_attempts VALUES('00000000-0000-4000-8000-000000000010','operation','started',NULL)");
-  await assert.rejects(()=>db.exec("INSERT INTO private.storage_upload_attempts VALUES('00000000-0000-4000-8000-000000000011','operation','started',NULL)"),/sms_held_upload_already_attempted/);
+  await db.query("INSERT INTO private.storage_put_intents(operation_id,object_key) VALUES('operation',$1)",['sms/'+source]);
+  await db.exec("INSERT INTO private.storage_upload_attempts(id,operation_id) VALUES('00000000-0000-4000-8000-000000000010','operation')");
+  await assert.rejects(()=>db.exec("INSERT INTO private.storage_upload_attempts(id,operation_id) VALUES('00000000-0000-4000-8000-000000000011','operation')"),/sms_held_upload_already_attempted/);
   await assert.rejects(()=>db.exec('DELETE FROM private.storage_upload_attempts'),/retain_storage_control_identity/);
   await db.exec("UPDATE private.storage_put_intents SET attempts=1 WHERE operation_id='operation'");
   await assert.rejects(()=>db.exec("UPDATE private.storage_put_intents SET attempts=0 WHERE operation_id='operation'"),/storage_state_regression/);
+  // Exercise the real journal and protected-storage protocol: even a known
+  // accepted PUT followed by a 404 probe cannot produce a second PUT.
+  const source2='00000000-0000-4000-8000-000000000002',key='sms/'+source2;
+  await db.query(`INSERT INTO private.burimunsi_recovered_sms_holds VALUES($1,$2,'group-a','10000000-0000-4000-8000-000000000001','owner-a',$3,$4,$5)`,
+   [source2,key,body,time,fingerprint]);
+  const pool={async connect(){return {query:(text,values=[])=>db.query(text,values),release(){}};}};
+  const journal=new PostgresStorageJournal(pool,{namespace:{origin:'https://synthetic.invalid',bucket:'synthetic'}});
+  let uploads=0,probes=0;
+  const protocol=new ProtectedStorageProtocol({journal,transport:{
+   async uploadImmutable(){uploads++;return {status:200};},
+   async probe(){probes++;return {absent:true,headStatus:404,getStatus:404,bucketVerified:true};}}});
+  const opts={scope:{ownerId:'owner-a',purpose:'sms_receipt',entityId:source2}};
+  await assert.rejects(()=>protocol.put(key,'synthetic ciphertext',opts),/storage_object_not_retained/);
+  await assert.rejects(()=>protocol.put(key,'synthetic ciphertext',opts),/sms_held_upload_already_attempted/);
+  assert.equal(uploads,1);assert.equal(probes,2);
+  const source3='00000000-0000-4000-8000-000000000003',key3='sms/'+source3;
+  await db.query(`INSERT INTO private.burimunsi_recovered_sms_holds VALUES($1,$2,'group-a','10000000-0000-4000-8000-000000000001','owner-a',$3,$4,$5)`,
+   [source3,key3,body,time,fingerprint]);
+  let unknownUploads=0;
+  const unknownProtocol=new ProtectedStorageProtocol({journal,transport:{
+   async uploadImmutable(){unknownUploads++;throw Error('synthetic provider outcome unknown');},
+   async probe(){return {absent:true,headStatus:404,getStatus:404,bucketVerified:true};}}});
+  const opts3={scope:{ownerId:'owner-a',purpose:'sms_receipt',entityId:source3}};
+  await assert.rejects(()=>unknownProtocol.put(key3,'synthetic ciphertext',opts3),/storage_upload_outcome_unknown/);
+  await assert.rejects(()=>unknownProtocol.put(key3,'synthetic ciphertext',opts3),/storage_upload_unsettled/);
+  assert.equal(unknownUploads,1);
  }finally{await db.close();}
 });
