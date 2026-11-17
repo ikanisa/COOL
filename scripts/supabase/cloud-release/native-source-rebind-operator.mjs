@@ -59,6 +59,13 @@ function common(state,source,checkKeyFunctions=true){
   state.secrets.COLLECT_JOB_SIGNING_KEY!==state.keyEvidence.keySha256)fail('rebind_key_changed');
  if(checkKeyFunctions&&!sameDeployedFunctions(state.keyEvidence.functions,state.functions))fail('rebind_functions_changed');
 }
+function capturedKey(state,intent){
+ const key=intent?.keyEvidence;
+ if(!key||state.keyCount!==1||state.key?.id!==key.vaultId||state.key?.digest!==key.keySha256||
+  state.key?.description!=='collect.jobs.key.v1:'+key.operation||state.keyEvidence?.vaultId!==key.vaultId||
+  state.keyEvidence?.keySha256!==key.keySha256||state.keyEvidence?.operation!==key.operation||
+  state.secrets.COLLECT_JOB_SIGNING_KEY!==key.keySha256)fail('rebind_key_changed');
+}
 function approvalEvidence(approval,source,previous,model,b,qualificationDigest){
  if(approval?.format!=='collect.native-sms.owner-approval.v1'||approval.project!==PROJECT||approval.sourceSha256!==source||
   approval.previousSourceSha256!==previous||approval.model!==model||String(approval.providerUsedPreserved)!==b.used||
@@ -82,7 +89,7 @@ function checkOld(state,prior,previousApprovalDigest,next){
 
 /** Compare all fields that can authorize or spend, including nullable limits. */
 function checkTransition(state,intent,approvalDigest,disabled=true){
- const source=intent.newSource;common(state,source,false);
+ const source=intent.newSource;common(state,source,false);capturedKey(state,intent);
  if(Number(state.control.epoch)!==Number(intent.epoch)+2||!same(budget(state.budget),{...intent.budget,source,approval:approvalDigest})||
   state.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha(disabled?'false':'true')||
   state.secrets.MOMO_AI_MODEL!==intent.secrets.MOMO_AI_MODEL||state.secrets.MOMO_AI_ENABLED!==intent.secrets.MOMO_AI_ENABLED||
@@ -121,13 +128,13 @@ export async function disableNative({label,nextSource,previousApprovalName},io){
    (ack&&(!attempted||!Number.isInteger(ack.value.status)||ack.value.status<200||ack.value.status>=300)))
    fail('rebind_intent_changed');
   if(complete&&(!attempted||!ack))fail('rebind_intent_changed');
-  if(complete){common(state,existing.value.oldSource);if(Number(state.control.epoch)!==existing.value.epoch||
+  if(complete){common(state,existing.value.oldSource);capturedKey(state,existing.value);if(Number(state.control.epoch)!==existing.value.epoch||
     !same(budget(state.budget),existing.value.budget)||state.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha('false')||
     NAMES.filter(n=>n!=='BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED').some(n=>state.secrets[n]!==existing.value.secrets[n]))
     fail('rebind_disabled_state_changed');await io.guardStatus(intentGuard(existing.value.oldSource));return complete.value;}
   if(attempted){
    if(!ack)fail('rebind_disable_outcome_unknown');
-   common(state,existing.value.oldSource);
+   common(state,existing.value.oldSource);capturedKey(state,existing.value);
    if(Number(state.control.epoch)!==existing.value.epoch||state.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha('false')||
     !same(budget(state.budget),existing.value.budget)||
     NAMES.filter(n=>n!=='BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED').some(n=>state.secrets[n]!==existing.value.secrets[n]))
@@ -145,7 +152,7 @@ export async function disableNative({label,nextSource,previousApprovalName},io){
   io.save(stem+'-disable-intent.json',intent);
  }
  const snapshot=io.snapshot();if(snapshot.sourceSha!==nextSource||io.check(snapshot)?.status!=='passed')fail('rebind_snapshot_changed');
- const beforeCall=await io.state('old');common(beforeCall,intent.oldSource);
+ const beforeCall=await io.state('old');common(beforeCall,intent.oldSource);capturedKey(beforeCall,intent);
  if(Number(beforeCall.control.epoch)!==intent.epoch||!same(budget(beforeCall.budget),intent.budget)||
   NAMES.some(n=>beforeCall.secrets[n]!==intent.secrets[n])||!sameDeployedFunctions(intent.functions,beforeCall.functions))
   fail('rebind_provider_preimage_changed');
@@ -156,7 +163,7 @@ export async function disableNative({label,nextSource,previousApprovalName},io){
  const response=await io.api('secrets',{method:'POST',headers:{'Content-Type':'application/json'},
   body:JSON.stringify([{name:'BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED',value:'false'}])});
  io.save(stem+'-disable-ack.json',{status:response.status,at:new Date().toISOString()});
- const after=await io.state('old');common(after,intent.oldSource);
+ const after=await io.state('old');common(after,intent.oldSource);capturedKey(after,intent);
  if(Number(after.control.epoch)!==intent.epoch||!same(budget(after.budget),intent.budget)||
   after.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha('false')||
   NAMES.filter(n=>n!=='BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED').some(n=>after.secrets[n]!==intent.secrets[n]))
@@ -188,7 +195,7 @@ export async function rebindProvider({label,approvalName,qualificationName,revis
   fail('rebind_intent_changed');
  if(started&&!completed)fail('rebind_provider_outcome_unknown');
  if(!started){
-  common(state,intent.newSource,false);
+  common(state,intent.newSource,false);capturedKey(state,intent);
   if(Number(state.control.epoch)!==intent.epoch+2||!same(budget(state.budget),intent.budget)||
    state.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha('false')||
    state.secrets.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256!==sha(intent.budget.approval)||
@@ -249,19 +256,22 @@ export async function bindExistingKey({label,revisionIntentName,revisionComplete
 
 function intentGuard(source){return {project:PROJECT,sourceSha256:source,enabled:false,cronActive:false,pending:0,historicalProtected:37};}
 
-async function updateBudget(db,intent,approval){
+export async function updateBudget(db,intent,approval){
  let commit=false;await db.query('BEGIN ISOLATION LEVEL READ COMMITTED');
  try{
-  // Match application lock order: the shared fence lock precedes the common
-  // mutation lock, and scheduler config is locked before its cron row.
-  await db.query("SET LOCAL lock_timeout='5s'; SET LOCAL statement_timeout='15s'; SELECT private._collect_fence_require_operator(); SELECT private.collect_fence_assert_write(NULL,NULL,NULL); SELECT pg_advisory_xact_lock(734636924058501::bigint)");
+  // Dispatch/activation acquire the fence, scheduler advisory lock, then the
+  // jobs_config row. pause_jobs uses that same row lock. The runtime mutation
+  // lock is taken before the config row, as with native financial writers.
+  await db.query("SET LOCAL lock_timeout='5s'; SET LOCAL statement_timeout='15s'; SELECT private._collect_fence_require_operator(); SELECT private.collect_fence_assert_write(NULL,NULL,NULL); SELECT pg_advisory_xact_lock(hashtextextended('collect.scheduler.rrlduytparvsjfmegalh',0)); SELECT pg_advisory_xact_lock(734636924058501::bigint)");
   const c=(await db.query('SELECT mode,epoch,source_sha256 FROM private.collect_fence_control WHERE singleton')).rows[0];
   const x=(await db.query(`SELECT c.*,private._collect_fence_scheduler_status() AS scheduler,
    (SELECT count(*)::int FROM collect_ops.jobs_dispatches WHERE state IN('awaiting','unconfirmed')) AS pending,
    (SELECT count(*)::int FROM private.collect_fence_admissions a WHERE state IN('active','unresolved')
     AND NOT private._collect_stopped_matches(a.admission_id,a.epoch,a.source_sha256,a.kind)) AS active_admissions
    FROM collect_ops.jobs_config c WHERE c.singleton FOR UPDATE OF c`)).rows[0];
-  const job=x?(await db.query('SELECT active,schedule,command FROM cron.job WHERE jobid=$1 FOR UPDATE',[x.cron_job_id])).rows[0]:null;
+  // Managed postgres has SELECT, but not UPDATE, on cron.job. The config row
+  // and scheduler advisory lock remain held across this read and the CAS.
+  const job=x?(await db.query('SELECT active,schedule,command FROM cron.job WHERE jobid=$1',[x.cron_job_id])).rows[0]:null;
   if(!c||c.mode!=='open'||c.source_sha256!==intent.newSource||Number(c.epoch)!==intent.epoch+2||!x||!job||x.enabled||job.active||
    x.pending!==0||x.active_admissions!==0||job.schedule!=='* * * * *'||job.command!=='SELECT collect_ops.tick_jobs();'||
    !same(budget(x),intent.budget))fail('rebind_provider_preimage_changed');

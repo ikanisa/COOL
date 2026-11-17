@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {disableNative,rebindProvider,bindExistingKey,functions as qualifiedFunctions} from './native-source-rebind-operator.mjs';
+import {disableNative,rebindProvider,bindExistingKey,updateBudget,functions as qualifiedFunctions} from './native-source-rebind-operator.mjs';
 const hash=x=>createHash('sha256').update(x).digest('hex');
 const OLD='1'.repeat(64),NEW='2'.repeat(64),OLD_APPROVAL='3'.repeat(64),NEW_APPROVAL='4'.repeat(64),QUAL='5'.repeat(64);
 const MODEL='synthetic-model',PROJECT='rrlduytparvsjfmegalh',KEY='6'.repeat(64),APIKEY='7'.repeat(64),USED='137';
@@ -83,6 +83,24 @@ test('pre-send drift leaves an unsent intent that can be safely resumed',async()
  assert.equal(f.files.has('native-source-rebind-fixture-revision-disable-attempt.json'),false);
  await f.disable();assert.equal(f.counters.api,1);
 });
+test('an equal key recreated with a different Vault ID or operation cannot replace captured custody',async()=>{
+ const change=s=>{s.key.id='00000000-0000-4000-8000-000000000099';s.key.description='collect.jobs.key.v1:replacement';
+  s.keyEvidence.vaultId=s.key.id;s.keyEvidence.operation='replacement';};
+ for(const phase of ['before-send','after-send','resume-complete']){
+  const f=fixture();
+  if(phase==='before-send'){
+   const state=f.io.state;let calls=0;f.io.state=async(...args)=>{if(++calls===2)change(f.state);return state(...args);};
+   await assert.rejects(f.disable(),/rebind_key_changed/);assert.equal(f.counters.api,0);
+  }else if(phase==='after-send'){
+   const api=f.io.api;f.io.api=async(...args)=>{const response=await api(...args);change(f.state);return response;};
+   await assert.rejects(f.disable(),/rebind_key_changed/);assert.equal(f.counters.api,1);
+   await assert.rejects(f.disable(),/rebind_key_changed/);assert.equal(f.counters.api,1);
+  }else{
+   await f.disable();change(f.state);await assert.rejects(f.disable(),/rebind_key_changed/);
+  }
+  assert.equal(f.files.has('native-source-rebind-fixture-revision-disable-complete.json'),phase==='resume-complete');
+ }
+});
 test('acknowledged disable can finish readback only, without resending',async()=>{
  const f=fixture();const api=f.io.api;f.io.api=async(...args)=>{const r=await api(...args);f.state.pending=1;return r;};
  await assert.rejects(f.disable());assert.equal(f.counters.api,1);f.state.pending=0;
@@ -136,4 +154,25 @@ test('key binding rechecks the complete provider budget and approval before and 
   if(kind.startsWith('before-'))assert.equal(f.counters.binds,0);
   assert.equal(f.files.has('native-source-rebind-fixture-revision-key-complete.json'),false);
  }
+});
+
+test('CAS locks fence, scheduler and configuration in order without locking cron.job',async()=>{
+ const queries=[],intent={epoch:28,oldSource:OLD,newSource:NEW,budget:{source:OLD,model:MODEL,approval:OLD_APPROVAL,
+  used:USED,limit:'400',expires:null}};
+ const base={singleton:true,enabled:false,cron_job_id:'42',native_provider_source_sha256:OLD,native_provider_model_id:MODEL,
+  native_provider_approval_sha256:OLD_APPROVAL,native_provider_used:USED,native_provider_limit:'400',native_provider_expires_at:null,
+  pending:0,active_admissions:0,scheduler:{checked:true,coverageVerified:true,blocking:false}};
+ const db={query:async(sql)=>{queries.push(sql);
+  if(sql.startsWith('SELECT mode,epoch'))return {rows:[{mode:'open',epoch:30,source_sha256:NEW}]};
+  if(sql.includes('FROM collect_ops.jobs_config c WHERE'))return {rows:[base]};
+  if(sql.startsWith('SELECT active,schedule,command FROM cron.job'))return {rows:[{active:false,schedule:'* * * * *',command:'SELECT collect_ops.tick_jobs();'}]};
+  if(sql.startsWith('UPDATE collect_ops.jobs_config'))return {rows:[{...base,native_provider_source_sha256:NEW,native_provider_approval_sha256:NEW_APPROVAL}]};
+  return {rows:[]};}};
+ await updateBudget(db,intent,NEW_APPROVAL);
+ const locks=queries.find(q=>q.includes('hashtextextended'));
+ assert(locks.indexOf('collect_fence_assert_write')<locks.indexOf('collect.scheduler.'));
+ assert(locks.indexOf('collect.scheduler.')<locks.indexOf('734636924058501'));
+ assert(queries.findIndex(q=>q.includes('FOR UPDATE OF c'))<queries.findIndex(q=>q.includes('FROM cron.job')));
+ assert(!queries.find(q=>q.includes('FROM cron.job')).includes('FOR UPDATE'));
+ assert.equal(queries.at(-1),'COMMIT');
 });
