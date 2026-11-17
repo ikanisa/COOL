@@ -24,6 +24,7 @@ internal object ObservationAuthorityRevision {
     }
     private fun announce(wake:Boolean){generation.incrementAndGet();listeners.forEach{runCatching{it(wake)}}}
     fun ownerChanged(){announce(true)}
+    fun receiverChanged(){announce(true)}
     fun <T> changing(action:()->T):T {
         changing.incrementAndGet();announce(false)
         try{return action()}finally{announce(false);changing.decrementAndGet();announce(false)}
@@ -39,14 +40,24 @@ internal object ObservationAuthorityRevision {
 internal object ContinuousSyncHealthFreshness {
     const val MAX_PROOF_AGE_MS=5*60_000L
     fun fresh(started:Long?,now:Long):Boolean = started!=null&&started>=0&&now>=started&&now-started<MAX_PROOF_AGE_MS
+    fun legacyFresh(issued:Long?,expires:Long?,now:Long):Boolean = when {
+        issued==null&&expires==null->true
+        issued==null||expires==null||now<=0||issued<=0||expires<=issued->false
+        else->now<expires&&(issued<=now||issued-now<=2*60_000L)
+    }
+    fun legacyRouteFresh(issued:Long?,expected:String?,actual:String?):Boolean =
+        if(issued==null)expected==null else expected!=null&&actual==expected
     fun expire(health:ContinuousReceiverHealth,now:Long,observerActive:Boolean,inboxRevision:Long?,authorityRevision:Long?,
-        sessionDigest:String?,permissionGranted:Boolean,scope:String?,requireScope:Boolean):ContinuousReceiverHealth =
+        sessionDigest:String?,permissionGranted:Boolean,scope:String?,requireScope:Boolean,wallNow:Long,legacyRoute:String?):ContinuousReceiverHealth =
         if(health.running&&health.problem==null&&(!observerActive||!fresh(health.proofStartedAtElapsed,now)||!permissionGranted||
             health.proofInboxRevision==null||health.proofInboxRevision!=inboxRevision||health.proofAuthorityRevision==null||
             health.proofAuthorityRevision!=authorityRevision||health.proofSessionDigest==null||health.proofSessionDigest!=sessionDigest||
-            health.proofScope==null||requireScope&&health.proofScope!=scope))
+            health.proofScope==null||requireScope&&health.proofScope!=scope||
+            !legacyFresh(health.proofLegacyIssuedAtWall,health.proofLegacyExpiresAtWall,wallNow)||
+            !legacyRouteFresh(health.proofLegacyIssuedAtWall,health.proofLegacySubscriptionsDigest,legacyRoute)))
             health.copy(problem="sync_unconfirmed",proofStartedAtElapsed=null,proofInboxRevision=null,
-                proofAuthorityRevision=null,proofSessionDigest=null,proofScope=null) else health
+                proofAuthorityRevision=null,proofSessionDigest=null,proofScope=null,proofLegacyIssuedAtWall=null,
+                proofLegacyExpiresAtWall=null,proofLegacySubscriptionsDigest=null) else health
 }
 
 /** Expiry is committed atomically so a clock reversal cannot revive old success. */
@@ -60,15 +71,17 @@ internal class ContinuousSyncHealthState(initial:ContinuousReceiverHealth=Contin
             val current=value.get()
             if(!current.running||current.problem!=null)return
             val next=current.copy(problem="sync_unconfirmed",proofStartedAtElapsed=null,proofInboxRevision=null,
-                proofAuthorityRevision=null,proofSessionDigest=null,proofScope=null)
+                proofAuthorityRevision=null,proofSessionDigest=null,proofScope=null,proofLegacyIssuedAtWall=null,
+                proofLegacyExpiresAtWall=null,proofLegacySubscriptionsDigest=null)
             if(value.compareAndSet(current,next))return
         }
     }
     fun health(now:Long,observerActive:Boolean,inboxRevision:Long?,authorityRevision:Long?,sessionDigest:String?,
-        permissionGranted:Boolean,scope:String?=null,requireScope:Boolean=false):ContinuousReceiverHealth {
+        permissionGranted:Boolean,scope:String?=null,requireScope:Boolean=false,wallNow:Long=System.currentTimeMillis(),
+        legacyRoute:String?=null):ContinuousReceiverHealth {
         while(true){
             val current=value.get();val checked=ContinuousSyncHealthFreshness.expire(current,now,observerActive,inboxRevision,
-                authorityRevision,sessionDigest,permissionGranted,scope,requireScope)
+                authorityRevision,sessionDigest,permissionGranted,scope,requireScope,wallNow,legacyRoute)
             if(checked==current||value.compareAndSet(current,checked))return checked
         }
     }

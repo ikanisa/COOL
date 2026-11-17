@@ -58,6 +58,7 @@ internal object BuriContinuousSupervisor {
             val permitted=listOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS).all{
                 active.checkSelfPermission(it)==PackageManager.PERMISSION_GRANTED
             }
+            val legacyRoute=if(current.proofLegacyIssuedAtWall!=null)ObservationLegacyOwnership.subscriptionScope(active) else null
             val scope=if(requireScope)ObservationRecovery(active).healthScope() else null
             val stable=authority!=null&&ObservationAuthorityRevision.stable()==authority&&
                 ObservationInboxRevision.snapshot()==revision&&NativeRepository.observationOwner(active)==session&&
@@ -66,14 +67,15 @@ internal object BuriContinuousSupervisor {
                 }
             val checked=state.health(SystemClock.elapsedRealtime(),ObservationInboxRevision.observerActive(),
                 if(stable)revision else null,if(stable)authority else null,session?.let(ObservationAuthorityRevision::sessionDigest),
-                permitted&&stable,scope,requireScope)
+                permitted&&stable,scope,requireScope,System.currentTimeMillis(),legacyRoute)
             // An owner or inbox callback may arrive while validation is in
             // progress. Do not return the previously checked success afterward.
             if(checked.running&&checked.problem==null&&(!ObservationInboxRevision.observerActive()||
                 ObservationInboxRevision.snapshot()!=revision||ObservationAuthorityRevision.stable()!=authority||
                 NativeRepository.observationOwner(active)!=session||listOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS).any{
                     active.checkSelfPermission(it)!=PackageManager.PERMISSION_GRANTED
-                }))state.invalidate()
+                }||!ContinuousSyncHealthFreshness.legacyFresh(checked.proofLegacyIssuedAtWall,checked.proofLegacyExpiresAtWall,System.currentTimeMillis())||
+                (checked.proofLegacyIssuedAtWall!=null&&ObservationLegacyOwnership.subscriptionScope(active)!=legacyRoute)))state.invalidate()
             val latest=state.get()
             if(latest!=checked&&latest.running&&latest.problem==null){state.invalidate();state.get()}else latest
         }catch(_:Exception){state.invalidate();state.get()}
@@ -133,7 +135,10 @@ internal object BuriContinuousSupervisor {
             proofInboxRevision=if(problem==null)result?.proofInboxRevision else null,
             proofAuthorityRevision=if(problem==null)result?.proofAuthorityRevision else null,
             proofSessionDigest=if(problem==null)result?.proofSessionDigest else null,
-            proofScope=if(problem==null)result?.proofScope else null))
+            proofScope=if(problem==null)result?.proofScope else null,
+            proofLegacyIssuedAtWall=if(problem==null)result?.proofLegacyIssuedAtWall else null,
+            proofLegacyExpiresAtWall=if(problem==null)result?.proofLegacyExpiresAtWall else null,
+            proofLegacySubscriptionsDigest=if(problem==null)result?.proofLegacySubscriptionsDigest else null))
         lastGeneration=runCatching{NativeRepository.observationOwner(value)?.generation}.getOrNull()?:lastGeneration
     }
     /** A rejected creation has no attached identity. CAS cannot overwrite a
@@ -229,7 +234,7 @@ class BuriContinuousSyncService:Service(){
     private var observer:ContentObserver?=null
     private var observerLease:Any?=null
     private val tick=Runnable{runCycle()}
-    private val proofExpiry=Runnable{publishCurrentHealth()}
+    private val proofExpiry=Runnable{publishCurrentHealth();wake(0)}
     private var notificationsReady=false
 
     override fun onCreate(){
@@ -333,8 +338,9 @@ class BuriContinuousSyncService:Service(){
         main.removeCallbacks(proofExpiry)
         val started=health.proofStartedAtElapsed?:return
         val now=SystemClock.elapsedRealtime()
-        val delay=if(ContinuousSyncHealthFreshness.fresh(started,now))
+        var delay=if(ContinuousSyncHealthFreshness.fresh(started,now))
             ContinuousSyncHealthFreshness.MAX_PROOF_AGE_MS-(now-started) else 1L
+        health.proofLegacyExpiresAtWall?.let{delay=minOf(delay,(it-System.currentTimeMillis()).coerceAtLeast(1L))}
         main.postDelayed(proofExpiry,delay)
     }
     private fun runCycle(){

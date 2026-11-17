@@ -16,7 +16,8 @@ import app.cool.mobile.receiver_sms.ObservationSyncDiagnostics.Stop
 
 internal data class ObservationCycleResult(val completed:Boolean,val more:Boolean,val problem:String?=null,val busy:Boolean=false,
     val progress:Boolean=false,val proofStartedAtElapsed:Long?=null,val proofInboxRevision:Long?=null,
-    val proofAuthorityRevision:Long?=null,val proofSessionDigest:String?=null,val proofScope:String?=null)
+    val proofAuthorityRevision:Long?=null,val proofSessionDigest:String?=null,val proofScope:String?=null,
+    val proofLegacyIssuedAtWall:Long?=null,val proofLegacyExpiresAtWall:Long?=null,val proofLegacySubscriptionsDigest:String?=null)
 
 /** The existing observation pipeline, executed once with one process-wide finite lease.
  * Both JobScheduler and the foreground supervisor use this same runner/journal.
@@ -303,9 +304,11 @@ internal object ObservationSyncCycle {
             }
             val authorityRevision=ObservationAuthorityRevision.stable()
             val session=NativeRepository.observationOwner(app)
-            val changed=authorityRevision==null||session==null||ObservationInboxRevision.snapshot()!=inboxRevision||
+            val legacy=ObservationLegacyOwnership.scope(app)
+            val changed=authorityRevision==null||session==null||legacy==null||ObservationInboxRevision.snapshot()!=inboxRevision||
                 recovery.sweepScope(stopped)!=scope||ObservationAuthorityRevision.stable()!=authorityRevision||
-                NativeRepository.observationOwner(app)!=session||ObservationInboxRevision.snapshot()!=inboxRevision
+                NativeRepository.observationOwner(app)!=session||ObservationInboxRevision.snapshot()!=inboxRevision||
+                ObservationLegacyOwnership.scope(app)!=legacy
             val proofStarted=verified?.at
             val confirmed=comparison==Comparison.MATCHED&&!stopped()&&!changed&&
                 ContinuousSyncHealthFreshness.fresh(proofStarted,SystemClock.elapsedRealtime())
@@ -315,7 +318,10 @@ internal object ObservationSyncCycle {
                 proofInboxRevision=if(confirmed)inboxRevision else null,
                 proofAuthorityRevision=if(confirmed)authorityRevision else null,
                 proofSessionDigest=if(confirmed&&session!=null)ObservationAuthorityRevision.sessionDigest(session) else null,
-                proofScope=if(confirmed)scope else null))
+                proofScope=if(confirmed)scope else null,
+                proofLegacyIssuedAtWall=if(confirmed)legacy?.issuedAt else null,
+                proofLegacyExpiresAtWall=if(confirmed)legacy?.expiresAt else null,
+                proofLegacySubscriptionsDigest=if(confirmed)legacy?.subscriptionsDigest else null))
         }catch(error:Exception){
             val snapshot=diagnostic.snapshot()
             val kind=ObservationSyncDiagnostics.errorKind(error)

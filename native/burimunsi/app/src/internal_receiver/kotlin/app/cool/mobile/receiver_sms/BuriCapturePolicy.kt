@@ -23,7 +23,7 @@ internal object BuriCapturePolicy {
     fun routeConfigured(binding: JSONObject?, subscription: Int?): Boolean =
         binding != null && profileReady(binding) && binding.optionalInt("subscription_id") != null &&
         subscription != null && binding.optionalInt("subscription_id") == subscription
-    private fun activeSubscriptions(context: Context): Set<Int>? = try {
+    internal fun activeSubscriptions(context: Context): Set<Int>? = try {
         if (context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) null
         else context.getSystemService(SubscriptionManager::class.java)?.activeSubscriptionInfoList
             ?.map { it.subscriptionId }?.toSet()

@@ -77,6 +77,39 @@ internal object BuriReceiverProfile {
     fun senderAllowed(binding:JSONObject?,sender:String,now:Long=System.currentTimeMillis()):Boolean =
         current(binding,now)?.senders?.any{it.lowercase(Locale.ROOT)==sender.lowercase(Locale.ROOT)}==true
 
+    /** The receiver lock precedes session/store locks. Announce only a real
+     * profile change, before its protected write, and wake after the lock. */
+    private fun updateProfile(store:MomoGatewayStore,binding:JSONObject,token:String,
+        profile:JSONObject?,marker:String?):Boolean {
+        var changed=false;var applied=false
+        try{
+            store.withObservationState{state->
+                val selected=state?.optJSONObject("binding")
+                if(state?.opt("gateway_token")==token&&selected!=null&&
+                    BuriReceiverReliability.bindingMatches(binding::opt,selected::opt)){
+                    val old=selected.optJSONObject("receipt_profile")
+                    val same=if(profile==null)!selected.has("receipt_profile")&&!selected.has("receipt_profile_revision")
+                        else old?.toString()==profile.toString()&&selected.opt("receipt_profile_revision")==marker
+                    if(same)applied=true else {
+                        changed=true
+                        ObservationAuthorityRevision.changing{
+                            store.update{current->
+                                val currentBinding=current.optJSONObject("binding")
+                                if(current.opt("gateway_token")==token&&currentBinding!=null&&
+                                    BuriReceiverReliability.bindingMatches(binding::opt,currentBinding::opt)){
+                                    if(profile==null){currentBinding.remove("receipt_profile");currentBinding.remove("receipt_profile_revision")}
+                                    else currentBinding.put("receipt_profile",profile).put("receipt_profile_revision",marker)
+                                    applied=true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }finally{if(changed)ObservationAuthorityRevision.receiverChanged()}
+        return applied
+    }
+
     /** Refresh only outside the gateway-state lock; install a response only if
      * the original token and binding still own the same receiving route. */
     fun refresh(context:Context,http:MomoGatewayHttp=MomoGatewayHttp(),now:Long=System.currentTimeMillis()):Boolean {
@@ -88,14 +121,7 @@ internal object BuriReceiverProfile {
         val existing=binding.optJSONObject("receipt_profile")
         val issued=existing?.let{whole(it.opt("issuedAt"))}
         if(current(binding,now)!=null&&installation(binding)==installation&&issued!=null&&now>=issued&&now-issued<REFRESH_MS)return true
-        fun discard(){
-            store.update{state->
-                val selected=state.optJSONObject("binding")
-                if(state.opt("gateway_token")==token&&selected!=null&&BuriReceiverReliability.bindingMatches(binding::opt,selected::opt)){
-                    selected.remove("receipt_profile");selected.remove("receipt_profile_revision")
-                }
-            }
-        }
+        fun discard(){updateProfile(store,binding,token,null,null)}
         val response=try{http.request("profile",token)}catch(e:MomoGatewayHttp.ResponseFailure){
             if(e.status in setOf(401,403,404))runCatching{discard()}
             return current(store.binding(),now)!=null&&installation(store.binding())==installation
@@ -103,15 +129,6 @@ internal object BuriReceiverProfile {
         val approved=projection(binding,response,now)
         if(approved==null||response.opt("installationId")!=installation){runCatching{discard()};return false}
         val marker=revision(response,approved)
-        return try{
-            var applied=false
-            store.update{state->
-                val selected=state.optJSONObject("binding")
-                if(state.opt("gateway_token")==token&&selected!=null&&BuriReceiverReliability.bindingMatches(binding::opt,selected::opt)){
-                    selected.put("receipt_profile",response).put("receipt_profile_revision",marker);applied=true
-                }
-            }
-            applied
-        }catch(_:Exception){false}
+        return try{updateProfile(store,binding,token,response,marker)}catch(_:Exception){false}
     }
 }

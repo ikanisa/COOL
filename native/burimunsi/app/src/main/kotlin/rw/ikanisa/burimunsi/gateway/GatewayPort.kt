@@ -16,6 +16,9 @@ data class ContinuousReceiverHealth(
     val proofAuthorityRevision:Long?=null,
     val proofSessionDigest:String?=null,
     val proofScope:String?=null,
+    val proofLegacyIssuedAtWall:Long?=null,
+    val proofLegacyExpiresAtWall:Long?=null,
+    val proofLegacySubscriptionsDigest:String?=null,
 )
 
 /** Implemented in flavor-specific code. Staff has no receiving implementation. */

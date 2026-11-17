@@ -43,6 +43,27 @@ fun main() {
   val repo=NativeRepository();repo.profile=approved;repo.consent=ObservationConsentRevision(true,1)
   return Env(context,repo,approved,observerLease)
  }
+ fun receiverProfileHttp(issued:Long,sender:String="M-Money",httpStatus:Int=200):MomoGatewayHttp {
+  val response=JSONObject().put("contractVersion",1).put("collectionId","group-1").put("installationId",installation)
+   .put("bindingId","binding-1").put("bindingVersion",1).put("receivingAccountId","wallet-1")
+   .put("profileVersion","approved-v1").put("offsetMinutes",120).put("senders",JSONArray().put(sender))
+   .put("incomingPrefixes",JSONArray().put("You have received")).put("currencyAliases",JSONArray().put("RWF"))
+   .put("transactionIdPrefixes",JSONArray().put("FT Id:")).put("issuedAt",issued).put("expiresAt",issued+86_400_000L)
+  return MomoGatewayHttp(openConnection={target->object:HttpURLConnection(URL(target)){
+   override fun connect(){};override fun disconnect(){};override fun usingProxy()=false
+   override fun getResponseCode()=httpStatus
+   override fun getHeaderField(name:String)=if(name.equals("Content-Type",true))"application/json" else null
+   override fun getInputStream()=response.toString().byteInputStream()
+  }})
+ }
+ fun bindReceiver(e:Env,issued:Long=System.currentTimeMillis()-16*60_000L){
+  val binding=JSONObject().put("id","binding-1").put("owner_user_id","owner-1")
+   .put("collection_id","group-1").put("receiving_account_id","wallet-1").put("version",1).put("subscription_id",3)
+   .put("created_at",Instant.ofEpochMilli(time-60_000).toString())
+  ReceiverFixture.state=JSONObject().put("binding",binding).put("gateway_token","a".repeat(64))
+   .put("capture_enabled",true).put("installation_id",installation)
+  check(BuriReceiverProfile.refresh(e.context,receiverProfileHttp(issued)))
+ }
  fun witness(e:Env,text:String=body,sent:Long=time-1_000,at:Long=System.currentTimeMillis(),reference:Int=7):PduEvidence {
   val left=text.substring(0,55);val right=text.substring(55)
   check(ObservationPduCapture.record(e.context,NativeRepository.observationOwner(e.context)!!,at,3,"3gpp",
@@ -1074,6 +1095,93 @@ fun main() {
     ObservationAuthorityRevision.stable(),session?.let(ObservationAuthorityRevision::sessionDigest),permission,scope,true)
    check(checked.problem=="sync_unconfirmed"&&checked.proofStartedAtElapsed==null)
   }
+ }
+ test("a changed or rejected bound receiver profile invalidates success before wake and cannot reuse its audit") {
+  for(kind in listOf("change","remove")){
+   val e=setup();android.os.SystemClock.fixed=1_000L;bindReceiver(e)
+   val result=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})
+   check(result.completed&&result.proofLegacyIssuedAtWall!=null&&result.proofLegacyExpiresAtWall!=null)
+   val old=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,
+    proofStartedAtElapsed=result.proofStartedAtElapsed,proofInboxRevision=result.proofInboxRevision,
+    proofAuthorityRevision=result.proofAuthorityRevision,proofSessionDigest=result.proofSessionDigest,proofScope=result.proofScope,
+    proofLegacyIssuedAtWall=result.proofLegacyIssuedAtWall,proofLegacyExpiresAtWall=result.proofLegacyExpiresAtWall,
+    proofLegacySubscriptionsDigest=result.proofLegacySubscriptionsDigest)
+   val state=ContinuousSyncHealthState(old);var wakes=0
+   val stop=ObservationAuthorityRevision.observe{wake->state.invalidate();if(wake){check(state.get().problem=="sync_unconfirmed");wakes++}}
+   val now=System.currentTimeMillis()
+   if(kind=="change")check(BuriReceiverProfile.refresh(e.context,receiverProfileHttp(now,"ALT-SENDER"),now))
+   else check(!BuriReceiverProfile.refresh(e.context,receiverProfileHttp(now,httpStatus=403),now))
+   stop();check(wakes==1&&state.get().problem=="sync_unconfirmed")
+   val session=NativeRepository.observationOwner(e.context)
+   val rechecked=ContinuousSyncHealthState(old).health(1_000L,true,ObservationInboxRevision.snapshot(),
+    ObservationAuthorityRevision.stable(),session?.let(ObservationAuthorityRevision::sessionDigest),true,
+    ObservationRecovery(e.context).healthScope(),true,System.currentTimeMillis(),ObservationLegacyOwnership.subscriptionScope(e.context))
+   check(rechecked.problem=="sync_unconfirmed")
+   val statusCalls=e.repository.statusCalls;e.repository.statusFailure=rw.ikanisa.burimunsi.data.ApiFailure("unavailable",503,true)
+   val next=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false})
+   check(!next.completed)
+   if(kind=="change")check(e.repository.statusCalls>statusCalls) // old cached equality was not reused
+  }
+ }
+ test("a bound receiver profile change during an audit page rejects that page") {
+  for(kind in listOf("change","remove")){
+   val e=setup();bindReceiver(e);val recovery=ObservationRecovery(e.context)
+   e.repository.afterStatus={calls->if(calls==1){
+    val now=System.currentTimeMillis()
+    BuriReceiverProfile.refresh(e.context,receiverProfileHttp(now,if(kind=="change")"ALT-SENDER" else "M-Money",
+     if(kind=="change")200 else 403),now)
+   }}
+   check(recovery.auditPage(e.repository)==ObservationRecovery.Audit.BLOCKED)
+   check(recovery.auditStartedAt()==null&&e.repository.reconciliationBatches.isEmpty())
+  }
+ }
+ test("bound receiver profile expiry invalidates scope and health without a mutation callback") {
+  val e=setup();android.os.SystemClock.fixed=1_000L
+  val issued=System.currentTimeMillis()-86_400_000L+30_000L;bindReceiver(e,issued)
+  val legacy=ObservationLegacyOwnership.scope(e.context)!!;val expiry=legacy.expiresAt!!
+  check(ObservationLegacyOwnership.scope(e.context,expiry-1)==legacy)
+  check(ObservationLegacyOwnership.scope(e.context,expiry)==null)
+  val result=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false});check(result.completed)
+  check(result.proofLegacyIssuedAtWall==issued&&result.proofLegacyExpiresAtWall==expiry)
+  val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,
+   proofStartedAtElapsed=result.proofStartedAtElapsed,proofInboxRevision=result.proofInboxRevision,
+   proofAuthorityRevision=result.proofAuthorityRevision,proofSessionDigest=result.proofSessionDigest,proofScope=result.proofScope,
+   proofLegacyIssuedAtWall=issued,proofLegacyExpiresAtWall=expiry,proofLegacySubscriptionsDigest=result.proofLegacySubscriptionsDigest)
+  fun read(now:Long)=ContinuousSyncHealthState(health).health(1_000L,true,result.proofInboxRevision,
+   result.proofAuthorityRevision,result.proofSessionDigest,true,result.proofScope,true,now,result.proofLegacySubscriptionsDigest)
+  check(read(expiry-1).problem==null&&read(expiry).problem=="sync_unconfirmed")
+  check(read(issued-120_001L).problem=="sync_unconfirmed")
+  val expired=ContinuousSyncHealthState(health)
+  check(expired.health(1_000L,true,result.proofInboxRevision,result.proofAuthorityRevision,result.proofSessionDigest,
+   true,result.proofScope,true,expiry,result.proofLegacySubscriptionsDigest).problem=="sync_unconfirmed")
+  check(expired.health(1_000L,true,result.proofInboxRevision,result.proofAuthorityRevision,result.proofSessionDigest,
+   true,result.proofScope,true,expiry-1,result.proofLegacySubscriptionsDigest).problem=="sync_unconfirmed")
+ }
+ test("bound receiver scope changes with SIM routing and fails closed when the route is unavailable") {
+  val e=setup();android.os.SystemClock.fixed=1_000L;bindReceiver(e)
+  val result=ObservationSyncCycle.run(e.context,true,restore={e.repository},stopped={false});check(result.completed)
+  val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,
+   proofStartedAtElapsed=result.proofStartedAtElapsed,proofInboxRevision=result.proofInboxRevision,
+   proofAuthorityRevision=result.proofAuthorityRevision,proofSessionDigest=result.proofSessionDigest,proofScope=result.proofScope,
+   proofLegacyIssuedAtWall=result.proofLegacyIssuedAtWall,proofLegacyExpiresAtWall=result.proofLegacyExpiresAtWall,
+   proofLegacySubscriptionsDigest=result.proofLegacySubscriptionsDigest)
+  val original=ObservationRecovery(e.context).sweepScope()!!
+  ReceiverFixture.subscriptions=setOf(3,4)
+  check(ObservationRecovery(e.context).sweepScope()!=original)
+  check(ContinuousSyncHealthState(health).health(1_000L,true,result.proofInboxRevision,result.proofAuthorityRevision,
+   result.proofSessionDigest,true,result.proofScope,false,System.currentTimeMillis(),
+   ObservationLegacyOwnership.subscriptionScope(e.context)).problem=="sync_unconfirmed")
+  ReceiverFixture.subscriptions=setOf(4)
+  check(ObservationRecovery(e.context).sweepScope()==null)
+  ReceiverFixture.subscriptions=setOf(3);e.context.denied=setOf(Manifest.permission.READ_PHONE_STATE)
+  check(ObservationRecovery(e.context).healthScope()==null)
+ }
+ test("an unchanged fetched receiver profile neither invalidates nor wakes") {
+  val e=setup();val issued=System.currentTimeMillis()-16*60_000L;bindReceiver(e,issued)
+  val before=ObservationAuthorityRevision.stable();var events=0
+  val stop=ObservationAuthorityRevision.observe{events++}
+  check(BuriReceiverProfile.refresh(e.context,receiverProfileHttp(issued)))
+  stop();check(events==0&&ObservationAuthorityRevision.stable()==before)
  }
  test("authority transitions invalidate immediately without waiting for the wake callback") {
   val health=rw.ikanisa.burimunsi.gateway.ContinuousReceiverHealth(supported=true,running=true,proofStartedAtElapsed=1_000L,

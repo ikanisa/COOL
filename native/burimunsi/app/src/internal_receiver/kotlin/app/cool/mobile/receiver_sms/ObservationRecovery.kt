@@ -41,7 +41,8 @@ internal class ObservationRecovery(context:Context) {
     internal enum class Scan { COMPLETE, MORE, BLOCKED }
     internal enum class Audit { COMPLETE, MORE, YIELD, RETRY, UNCONFIRMED, BLOCKED }
     private data class AuditScope(val session:ObservationSessionOwner,val fingerprint:String,val legacyHold:Boolean?,
-        val consent:ObservationConsentState,val control:ObservationConfigStore.Control,val deviceScope:String,val heldScope:String,val revision:Long)
+        val consent:ObservationConsentState,val control:ObservationConfigStore.Control,val deviceScope:String,val heldScope:String,val revision:Long,
+        val legacy:ObservationLegacyOwnership.Scope)
     private data class AuditProgress(val scope:AuditScope,val last:Long,val unconfirmed:Boolean,val startedAt:Long,
         val collectionRevision:String,val recordedCount:Int,
         val sourceIds:Set<String> = emptySet(),val witnesses:Set<String> = emptySet(),
@@ -478,6 +479,7 @@ internal class ObservationRecovery(context:Context) {
 
     private fun auditAuthority(stopped:()->Boolean,allowBaselineCreation:Boolean=true):AuditAuthority? {
         if(stopped()||!ObservationInboxRevision.observerActive()||!permitted()||!ObservationLegacyOwnership.controlTransitionClear(app))return null
+        val legacy=ObservationLegacyOwnership.scope(app)?:return null
         val session=NativeRepository.observationOwner(app)?:return null
         val initial=NativeRepository.withObservationOwner(app,session){group,account->
             val owner=ObservationOwner(group,account);val profile=config.profile(owner,System.currentTimeMillis())
@@ -489,8 +491,9 @@ internal class ObservationRecovery(context:Context) {
         val (device,keys)=held(session,profile,consent,control,stopped,allowBaselineCreation)?:return null
         val heldScope=Values.sha256(keys.sorted().joinToString(""){"${it.length}:$it"})
         val scope=AuditScope(session,profile.fingerprint(),profile.legacyHold,consent,control,Values.sha256(device),heldScope,
-            ObservationInboxRevision.snapshot())
-        if(stopped()||!ObservationInboxRevision.observerActive()||!permitted()||NativeRepository.observationOwner(app)!=session)return null
+            ObservationInboxRevision.snapshot(),legacy)
+        if(stopped()||!ObservationInboxRevision.observerActive()||!permitted()||NativeRepository.observationOwner(app)!=session||
+            ObservationLegacyOwnership.scope(app)!=legacy)return null
         return AuditAuthority(scope,profile,device,keys)
     }
     /** A completed local sweep is reusable only for this exact authority and inbox revision. */
@@ -498,7 +501,7 @@ internal class ObservationRecovery(context:Context) {
         Values.sha256(listOf(scope.session.owner.collectionId,scope.session.owner.accountId,scope.session.generation.toString(),
                 scope.fingerprint,scope.legacyHold.toString(),scope.consent.revision.enabled.toString(),
                 scope.consent.revision.generation.toString(),scope.consent.confirmed.toString(),scope.control.paused.toString(),
-                scope.control.revision.toString(),scope.deviceScope,scope.heldScope,scope.revision.toString())
+                scope.control.revision.toString(),scope.deviceScope,scope.heldScope,scope.revision.toString(),scope.legacy.digest)
                 .joinToString(""){"${it.length}:$it"})
     fun sweepScope(stopped:()->Boolean={false}):String? = synchronized(lock){
         try{auditAuthority(stopped)?.scope?.let(::scopeDigest)}catch(_:Exception){null}

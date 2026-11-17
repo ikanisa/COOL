@@ -10,6 +10,41 @@ import java.time.Instant
 /** Unknown or paused legacy ownership never becomes authority for a new source. */
 internal object ObservationLegacyOwnership {
     enum class Decision { OWNED, UNOWNED, HOLD }
+    internal data class Scope(val digest:String,val issuedAt:Long?=null,val expiresAt:Long?=null,val subscriptionsDigest:String?=null)
+    private fun subscriptionDigest(values:Set<Int>):String =
+        Values.sha256(values.sorted().joinToString(""){value->val text=value.toString();"${text.length}:$text"})
+    fun subscriptionScope(context:Context):String? = BuriCapturePolicy.activeSubscriptions(context)?.let(::subscriptionDigest)
+
+    /** The same routing inputs used by classifyLocked. Never expose receiver
+     * credentials or receipt data, and hold no session/network lock here. */
+    fun scope(context:Context,now:Long=System.currentTimeMillis()):Scope? = try {
+        val app=context.applicationContext;val store=MomoGatewayStore(app)
+        store.withObservationState{state->
+            if(state?.has("control_transition")==true)return@withObservationState null
+            if(state==null||!state.has("binding")){
+                if(state?.opt("receiver_retired")==true||state?.opt("retirement_pending")==true)return@withObservationState null
+                return@withObservationState Scope(Values.sha256("burimunsi-legacy-unbound-v1"))
+            }
+            val binding=state.optJSONObject("binding")?:return@withObservationState null
+            val snapshot=binding.optJSONObject("receipt_profile")?:return@withObservationState null
+            if(BuriReceiverProfile.current(binding,now)==null||!BuriCapturePolicy.uploadsAdmitted(app))return@withObservationState null
+            val subscriptions=BuriCapturePolicy.activeSubscriptions(app)?:return@withObservationState null
+            val created=runCatching{Instant.parse(binding.getString("created_at")).toEpochMilli()}.getOrNull()
+                ?:return@withObservationState null
+            if(created<=0)return@withObservationState null
+            fun whole(value:Any?):Long?=when(value){is Int->value.toLong();is Long->value;else->null}
+            val issued=whole(snapshot.opt("issuedAt"))?:return@withObservationState null
+            val expires=whole(snapshot.opt("expiresAt"))?:return@withObservationState null
+            val baseline=if(state.has("inbox_binding_baseline"))
+                whole(state.opt("inbox_binding_baseline"))?.takeIf{it>=0}?:return@withObservationState null else null
+            val fields=listOf("burimunsi-legacy-bound-v1",binding.getString("id"),binding.getString("owner_user_id"),
+                binding.getString("collection_id"),binding.getString("receiving_account_id"),
+                binding.getInt("version").toString(),binding.getInt("subscription_id").toString(),created.toString(),
+                binding.getString("receipt_profile_revision"),issued.toString(),expires.toString(),baseline?.toString()?:"none")+
+                subscriptions.sorted().map{it.toString()}
+            Scope(Values.sha256(fields.joinToString(""){"${it.length}:$it"}),issued,expires,subscriptionDigest(subscriptions))
+        }
+    }catch(_:Exception){null}
     private fun classifyLocked(context:Context,store:MomoGatewayStore,state:JSONObject?,owner:ObservationOwner,id:Long,
         receivedAt:Long?,sender:String,body:String,subscription:Int?):Decision {
         if(state?.has("control_transition")==true)return Decision.HOLD
