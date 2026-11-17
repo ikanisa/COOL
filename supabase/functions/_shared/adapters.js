@@ -6,7 +6,6 @@ import {decrypt} from './domain/encryption.js';
 import {compileSql} from './postgres.js';
 import {ProtectedStorageProtocol,StorageProtocolError,sha256,canonical} from './storage/protocol.js';
 import {SupabaseNativeTransport} from './storage/supabase-transport.js';
-import {resolveDeploymentProfile} from './deployment-profile.js';
 import {PostgresStorageJournal} from './storage/postgres-journal.js';
 import {createTransport} from 'npm:nodemailer@10.1.7';
 import {createWorkspaceSmtpEmail} from './workspace-smtp-email.js';
@@ -29,7 +28,7 @@ function storagePool(db){return{
  async query(text,values=[]){const c=await this.connect();try{await c.query('BEGIN');const r=await c.query(text,values);await c.query('COMMIT');return r;}catch(error){await c.query('ROLLBACK').catch(()=>{});throw error;}finally{c.release();}}
 };}
 export class SupabaseObjectBucket {
- constructor(env){this.env=env;this.bucket=env.COLLECT_PRIVATE_BUCKET??'collect-evidence';this.pool=storagePool(env.DB);this.namespace={origin:new URL(env.SUPABASE_URL).origin,bucket:this.bucket};this.journal=new PostgresStorageJournal(this.pool,{namespace:this.namespace});this.transport=new SupabaseNativeTransport({url:env.SUPABASE_INTERNAL_URL??env.SUPABASE_URL,secretKey:env.SUPABASE_SECRET_KEY??env.SUPABASE_SERVICE_ROLE_KEY,bucket:this.bucket,allowInsecureLoopback:env.APP_ENVIRONMENT==='test',allowPrivateGateway:env.COLLECT_DEPLOYMENT_PROFILE!==undefined&&resolveDeploymentProfile(env).mode==='self_hosted'&&['http://api-gw:8000','http://kong:8000'].includes(env.SUPABASE_INTERNAL_URL),authorizeMutation:()=>applicationWork(env).assert(),fetchImpl:(url,options)=>guardedFetch(env,'storage',url,options)});this.protocol=new ProtectedStorageProtocol({transport:this.transport,journal:this.journal});}
+ constructor(env){this.env=env;this.bucket=env.COLLECT_PRIVATE_BUCKET??'collect-evidence';this.pool=storagePool(env.DB);this.namespace={origin:new URL(env.SUPABASE_URL).origin,bucket:this.bucket};this.journal=new PostgresStorageJournal(this.pool,{namespace:this.namespace});this.transport=new SupabaseNativeTransport({url:env.SUPABASE_INTERNAL_URL??env.SUPABASE_URL,secretKey:env.SUPABASE_SECRET_KEY??env.SUPABASE_SERVICE_ROLE_KEY,bucket:this.bucket,allowInsecureLoopback:env.APP_ENVIRONMENT==='test',authorizeMutation:()=>applicationWork(env).assert(),fetchImpl:(url,options)=>guardedFetch(env,'storage',url,options)});this.protocol=new ProtectedStorageProtocol({transport:this.transport,journal:this.journal});}
  async checked(fn){try{return await fn();}catch(error){if(error instanceof StorageProtocolError){const wrapped=new ApiError(error.status,error.code,'Protected storage could not be confirmed. Keep the request pending.');wrapped.cause=error;throw wrapped;}throw error;}}
  async put(key,value,options={}){return this.checked(async()=>{
   if(typeof value!=='string'||!options.scope||typeof options.aad!=='string'||!/^[a-f0-9]{64}$/.test(options.sourceDigest??''))throw new ApiError(400,'storage_identity_required','A protected source identity is required.');

@@ -8,13 +8,13 @@ import {canonicalProfile} from '../deployment-profile.js';
 // In-memory DB and intercepted fetch only. No PostgreSQL or provider delivery.
 // GoTrue's wire validator is independent of Collect's internal channel label:
 // email plus a nonempty channel is rejected before any delivery is accepted.
-const PROJECT = 'https://collect-auth.invalid';
+const PROJECT = 'https://rrlduytparvsjfmegalh.supabase.co';
 const PUBLISHABLE_KEY = 'sb_publishable_synthetic_otp_wire_only';
 const PRINCIPAL_ID = '11111111-1111-4111-8111-111111111111';
 const EMAIL = 'synthetic.staff@example.invalid';
 const PHONE = '+250788000001';
 const CAPTCHA = 'synthetic-captcha-proof';
-const PROFILE = {format:'collect.deployment.v1',id:'otp-redirect-fixture',mode:'self_hosted',environment:'qualification',
+const PROFILE = {format:'collect.deployment.v1',id:'otp-redirect-fixture',mode:'managed',environment:'qualification',
   supabase_origin:PROJECT,member_api_origin:'https://member.example.invalid',admin_origin:'https://admin.example.invalid',
   public_origin:'https://public.example.invalid',google_callback_origin:'https://admin.example.invalid'};
 type Json = Record<string, unknown>;

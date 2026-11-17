@@ -13,7 +13,7 @@ const {loadAdminEmailAccount,requestAdminEmail,verifyAdminEmail,recordInitialAdm
 const {attestAdminEmailAccount,bindAdminEmailActor,adminEmailState,requireFreshAdminEmail,requestedAdminEmail,hasFreshAdminEmail}=await actual('domain/admin_email_policy.js');
 const {ApiError,digest}=await actual('domain/core.js');
 const {canonicalProfile}=await actual('deployment-profile.js');
-const NOW=1792497600,PROJECT='https://admin-email.synthetic.invalid',ORIGIN='https://admin-supabase-qa.collect.ikanisa.com';
+const NOW=1792497600,PROJECT='https://rrlduytparvsjfmegalh.supabase.co',ORIGIN='https://admin-supabase-qa.collect.ikanisa.com';
 const ADMIN='11111111-1111-4111-8111-111111111111',PRINCIPAL='22222222-2222-4222-8222-222222222222';
 const AUTH='33333333-3333-4333-8333-333333333333',SID='44444444-4444-4444-8444-444444444444';
 const CANDIDATE='55555555-5555-4555-8555-555555555555',PUBLIC='66666666-6666-4666-8666-666666666666';
@@ -92,7 +92,7 @@ async function fixture(options,run){
  const originalClaims=claims(SID,options.originalClaims??{}),candidateClaims=claims(options.candidateSid??CANDIDATE,options.candidateClaims??{});
  const originalToken=jwt(originalClaims),candidateToken=jwt(candidateClaims);
  const account={id:ADMIN,principal_id:PRINCIPAL,auth_user_id:AUTH,auth_session_id:SID,token_hash:'a'.repeat(64),public_id:PUBLIC,origin:ORIGIN,auth_version:1,email:EMAIL,role:'owner',issued_assurance_level:1,issued_mfa_at:null,issued_mfa_factor_id:null,supabaseTokens:{access_token:originalToken,refresh_token:'original-refresh'}};
- const adminOrigin=options.adminOrigin??ORIGIN,profile=canonicalProfile({format:'collect.deployment.v1',id:'admin-email-fixture',mode:'self_hosted',environment:'qualification',
+ const adminOrigin=options.adminOrigin??ORIGIN,profile=canonicalProfile({format:'collect.deployment.v1',id:'admin-email-fixture',mode:'managed',environment:'qualification',
   supabase_origin:PROJECT,member_api_origin:'https://member.example.invalid',admin_origin:adminOrigin,public_origin:'https://public.example.invalid',google_callback_origin:adminOrigin});
  const trace=[],db=new Database({...options,trace}),env=fixtureEnvironment({DB:db,SUPABASE_URL:PROJECT,SUPABASE_PUBLISHABLE_KEY:KEY,
   COLLECT_DEPLOYMENT_PROFILE:profile,COLLECT_DEPLOYMENT_PROFILE_SHA256:await digest(profile),

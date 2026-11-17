@@ -29,36 +29,26 @@ function databaseTarget(env){
  // enforces certificate verification for every non-loopback connection.
  const injected=field(env,'COLLECT_DATABASE_URL')===null;
  if(options.length>1||options.some(([name,value])=>name!=='sslmode'||!(value==='verify-full'||injected&&['require','prefer'].includes(value))))throw new Error('Database connection overrides are not permitted');
- const profile=resolveDeploymentProfile(env),explicit=env.COLLECT_DEPLOYMENT_PROFILE!==undefined,selfHosted=explicit&&profile.mode==='self_hosted';
+ const profile=resolveDeploymentProfile(env),explicit=env.COLLECT_DEPLOYMENT_PROFILE!==undefined;
  if(explicit&&url!==profile.supabase_origin)throw new Error('Unexpected Supabase project');
  if(!fixture){
-  if(selfHosted){
-   // The private Compose DNS name and least-privilege login are intentional.
-   // Operator migrations/recovery use separate credentials, never this runtime.
-   if(db.hostname!=='db'||db.pathname!=='/postgres'||!['','5432'].includes(db.port)||decodeURIComponent(db.username)!=='collect_edge')throw new Error('Database deployment identity mismatch');
-   const ca=field(env,'COLLECT_DB_CA_PEM');
-   if(!ca||ca.length>32768||!/^-----BEGIN CERTIFICATE-----\n[A-Za-z0-9+/=\n]+\n-----END CERTIFICATE-----$/.test(ca))throw new Error('Verified database CA required');
-  }else{
-   if(url!==COLLECT_SUPABASE_ORIGIN)throw new Error('Unexpected Supabase project');
-   const direct=db.hostname==='db.'+COLLECT_PROJECT_REF+'.supabase.co',pooler=db.hostname.endsWith('.pooler.supabase.com')&&decodeURIComponent(db.username).endsWith('.'+COLLECT_PROJECT_REF);
-   if((!direct&&!pooler)||db.pathname!=='/postgres'||!['','5432','6543'].includes(db.port))throw new Error('Database project identity mismatch');
-  }
+  if(url!==COLLECT_SUPABASE_ORIGIN)throw new Error('Unexpected Supabase project');
+  const direct=db.hostname==='db.'+COLLECT_PROJECT_REF+'.supabase.co',pooler=db.hostname.endsWith('.pooler.supabase.com')&&decodeURIComponent(db.username).endsWith('.'+COLLECT_PROJECT_REF);
+  if((!direct&&!pooler)||db.pathname!=='/postgres'||!['','5432','6543'].includes(db.port))throw new Error('Database project identity mismatch');
  }
  db.search='';
- return {url,db,fixture,selfHosted};
+ return {url,db,fixture};
 }
 export function normalizeDatabaseTarget(input){
  return databaseTarget(configurePublicRuntimeEnv(input)).db.href;
 }
 export function normalizeRuntimeEnv(input){
- const env=configurePublicRuntimeEnv(input),{url,db,fixture,selfHosted}=databaseTarget(env);
+ const env=configurePublicRuntimeEnv(input),{url,db,fixture}=databaseTarget(env);
  const issuer=field(env,'SUPABASE_AUTH_ISSUER');
  if(issuer!==null&&issuer!==url+'/auth/v1')throw new Error('Auth issuer must use the public Supabase origin');
  env.SUPABASE_AUTH_ISSUER=url+'/auth/v1';
  const internal=field(env,'SUPABASE_INTERNAL_URL');
- // Fresh Compose uses api-gw; the retained shared CLI installation already
- // exposes the same private Kong service as kong. Neither is a public origin.
- if(internal!==null&&internal!==url&&!(selfHosted&&['http://api-gw:8000','http://kong:8000'].includes(internal))&&!(fixture&&/^http:\/\/(?:127\.0\.0\.1|localhost):\d{1,5}$/.test(internal)))throw new Error('Unapproved internal Supabase origin');
+ if(internal!==null&&internal!==url&&!(fixture&&/^http:\/\/(?:127\.0\.0\.1|localhost):\d{1,5}$/.test(internal)))throw new Error('Unapproved internal Supabase origin');
  env.SUPABASE_INTERNAL_URL=internal??url;
  for(const name of ['AUTH_ANONYMOUS_ENABLED','AUTH_SMS_ENABLED','AUTH_WHATSAPP_ENABLED']){
   if(env[name]!==undefined&&!['true','false'].includes(env[name]))throw new Error('Invalid '+name);

@@ -9,11 +9,11 @@ const store=()=>{
  const used=new Set();
  return async ({nonce})=>{if(used.has(nonce))return false;used.add(nonce);return true;};
 };
-test('the self-hosted signer retains its existing header digest with extra request headers',async()=>{
+test('the managed signer binds additional authority headers',async()=>{
  const signer=await createNativeIngressSigner(environment(),{clock:()=>now});
  const output=await signer(request({headers:{'idempotency-key':'idempotent','x-request-id':'request','x-collect-admin':'admin'}}),'192.0.2.1');
  const parts=JSON.parse(Buffer.from(output.headers.get('x-collect-native-ingress'),'base64url')),signature=parts.pop();
- const names=['authorization','cookie','apikey','origin','content-type','x-collect-csrf','x-collect-requested-with','x-collect-review-reason'];
+ const names=['authorization','cookie','apikey','origin','content-type','x-collect-csrf','x-collect-requested-with','x-collect-review-reason','idempotency-key','x-request-id','x-collect-admin'];
  const fields=[...output.headers].filter(([name])=>name.startsWith('x-burimunsi-')||names.includes(name)).sort(([a],[b])=>a.localeCompare(b));
  assert.equal(parts[8],sha(JSON.stringify(fields)));
  const signing=createHmac('sha256',Buffer.from(key(5),'base64')).update('collect.native-ingress.signing-key.v1').digest();
@@ -83,7 +83,7 @@ test('a clock shift during body verification cannot create a dispatchable token'
  const env=environment(),input=await signed(env);let reads=0;
  await assert.rejects(verifyNativeIngress(input,env,{clock:()=>++reads<3?now:now-2001}),denied);
 });
-test('self-hosted authority header changes cannot reach the nonce store',async()=>{
+test('managed authority header changes cannot reach the nonce store',async()=>{
  for(const name of ['authorization','cookie','origin','x-burimunsi-group']){
   const env=environment(),input=await signed(env),headers=new Headers(input.headers),body=await input.arrayBuffer();let calls=0;
   headers.set(name,'synthetic-altered-value');

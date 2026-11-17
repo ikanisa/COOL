@@ -38,7 +38,6 @@ export function logicalRequest(request,functionName,env={}) {
  // scheme; never infer it from caller-supplied forwarding headers or hosts.
  const profile=resolveDeploymentProfile(env),publicUrl=new URL(profile.supabase_origin);
  if(url.protocol==='http:'&&url.hostname===publicUrl.hostname&&!url.port)url.protocol='https:';
- if(env.COLLECT_DEPLOYMENT_PROFILE!==undefined&&profile.mode==='self_hosted'&&['http://api-gw:8000','http://functions:9000','http://127.0.0.1:9000','http://supabase_edge_runtime_local-app:8081'].includes(url.origin)){url.protocol=publicUrl.protocol;url.hostname=publicUrl.hostname;url.port='';}
  if(url.pathname===prefix)url.pathname='/';else if(url.pathname.startsWith(prefix+'/'))url.pathname=url.pathname.slice(prefix.length);
  else if(url.pathname==='/'+functionName)url.pathname='/';else if(url.pathname.startsWith('/'+functionName+'/'))url.pathname=url.pathname.slice(functionName.length+1);
  else throw new Error('Wrong function prefix.');
@@ -54,15 +53,14 @@ export function logicalRequest(request,functionName,env={}) {
  * @param {typeof openApplicationWork} [options.openWork]
  * @param {typeof recordPlatformHealth} [options.reportHealth]
  * @param {(request:Request)=>Promise<string>|string} [options.trustedNativeNetworkBucket]
- * @param {(request:Request,env:Record<string,unknown>)=>Promise<{request:Request,networkBucket:(request:Request)=>Promise<string>|string}>} [options.admitNativeIngress]
  * @param {(request:Request,env:Record<string,unknown>)=>Promise<{request:Request,networkBucket:(request:Request)=>Promise<string>|string}>} [options.admitDirectSupabaseNativeIngress]
  * @param {(request:Request,env:Record<string,unknown>)=>Promise<object>} [options.verifyNativeIngress]
  * @param {(token:object,consume:Function)=>Promise<{request:Request,networkBucket:Function}>} [options.claimNativeIngress]
  * @param {(db:object,work:object,values:object)=>Promise<boolean>} [options.consumeNativeIngressNonce]
  */
-export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{openWork=openApplicationWork,reportHealth=recordPlatformHealth,trustedNativeNetworkBucket,admitNativeIngress,admitDirectSupabaseNativeIngress,verifyNativeIngress,claimNativeIngress,consumeNativeIngressNonce}={}) {
+export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{openWork=openApplicationWork,reportHealth=recordPlatformHealth,trustedNativeNetworkBucket,admitDirectSupabaseNativeIngress,verifyNativeIngress,claimNativeIngress,consumeNativeIngressNonce}={}) {
  return async request=>{
-  const started=performance.now();let env,work,cors={},stage='environment';try {env=configurePublicRuntimeEnv(envReader());const deploymentProfile=await verifyDeploymentProfile(env);env.ALLOWED_ORIGINS=[...new Set([...(env.ALLOWED_ORIGINS??'').split(','),...(env.ADMIN_ORIGINS??env.ADMIN_ORIGIN??'').split(',')].map(v=>v.trim()).filter(Boolean))].join(',');let logical=logicalRequest(request,functionName,env);const path=new URL(logical.url).pathname;
+  const started=performance.now();let env,work,cors={},stage='environment';try {env=configurePublicRuntimeEnv(envReader());await verifyDeploymentProfile(env);env.ALLOWED_ORIGINS=[...new Set([...(env.ALLOWED_ORIGINS??'').split(','),...(env.ADMIN_ORIGINS??env.ADMIN_ORIGIN??'').split(',')].map(v=>v.trim()).filter(Boolean))].join(',');let logical=logicalRequest(request,functionName,env);const path=new URL(logical.url).pathname;
    const admin=functionName==='admin-api',origin=request.headers.get('Origin');
    if(admin&&!path.startsWith('/api/admin/'))return json({code:'not_found'},404);
    if(!admin&&path.startsWith('/api/admin'))return json({code:'not_found'},404);
@@ -77,26 +75,20 @@ export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{op
    if(functionName!=='collect-api'&&isCollectNativeRoute(logical))return json({code:'not_found'},404,cors);
    if(functionName==='collect-api'&&isCollectNativeRoute(logical)){
     if(env.BURIMUNSI_NATIVE_ENABLED!=='true'){
-     // A disabled managed native route must not reach database or provider setup.
-     if(deploymentProfile.mode==='managed'){stage='native_ingress';throw new Error('native_ingress_unconfigured');}
-    }else if(deploymentProfile.mode==='managed'&&env.COLLECT_NATIVE_INGRESS_MODE==='supabase_direct_v1'){
+     // A disabled native route must not reach database or provider setup.
+     stage='native_ingress';throw new Error('native_ingress_unconfigured');
+    }else if(env.COLLECT_NATIVE_INGRESS_MODE==='supabase_direct_v1'){
      stage='native_ingress';
      if(typeof admitDirectSupabaseNativeIngress!=='function')throw new Error('native_ingress_unconfigured');
      const admitted=await admitDirectSupabaseNativeIngress(logical,env);
      if(!(admitted?.request instanceof Request)||typeof admitted.networkBucket!=='function')throw new Error('native_ingress_unconfigured');
      logical=admitted.request;nativeNetworkBucket=admitted.networkBucket;
-    }else if(deploymentProfile.mode==='managed'){
+    }else{
      stage='native_ingress';
      if(env.COLLECT_NATIVE_INGRESS_MODE!==undefined&&env.COLLECT_NATIVE_INGRESS_MODE!==''&&env.COLLECT_NATIVE_INGRESS_MODE!=='signed_frontdoor_v1')throw new Error('native_ingress_unconfigured');
      if(typeof verifyNativeIngress!=='function'||typeof claimNativeIngress!=='function'||typeof consumeNativeIngressNonce!=='function')throw new Error('native_ingress_unconfigured');
      pendingNativeIngress=await verifyNativeIngress(logical,env);
      if(!pendingNativeIngress||typeof pendingNativeIngress!=='object')throw new Error('native_ingress_unconfigured');
-    }else{
-     // Preserve the retained self-hosted witness and its existing wire signature.
-     stage='native_ingress';if(typeof admitNativeIngress!=='function')throw new Error('native_ingress_unconfigured');
-     const admitted=await admitNativeIngress(logical,env);
-     if(!(admitted?.request instanceof Request)||typeof admitted.networkBucket!=='function')throw new Error('native_ingress_unconfigured');
-     logical=admitted.request;nativeNetworkBucket=admitted.networkBucket;
     }
    }
    stage='normalization';env=normalizeRuntimeEnv(env);env.MOMO_PROCESSING_PAUSED=env.MOMO_PROCESSING_PAUSED??'true';env.AUTH_MEMBER_REGISTRATION_ENABLED=env.AUTH_MEMBER_REGISTRATION_ENABLED??'false';

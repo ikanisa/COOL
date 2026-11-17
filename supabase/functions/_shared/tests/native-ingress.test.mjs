@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {registerHooks} from 'node:module';
-import {admitNativeIngress,createNativeIngressSigner,NATIVE_INGRESS_HEADER} from '../native-ingress.js';
-import {environment,now,key,request,signed,canonical,sha,profile} from './native-ingress-fixture.mjs';
+import {createNativeIngressSigner,NATIVE_INGRESS_HEADER} from '../native-ingress.js';
+import {admitNativeIngress,environment,now,key,request,signed,canonical,sha,profile} from './native-ingress-fixture.mjs';
 const denied=error=>error?.code==='native_ingress_denied';
 
 test('signed actual body/authority is admitted once and resolver survives body consumption without reading it',async()=>{
@@ -62,31 +62,21 @@ test('request attestations expire, cannot be future-dated, and are not valid aft
  await assert.rejects(admitted.networkBucket(admitted.request),denied);
 });
 for(const change of [
- {status:'observed'}, {nativeWorkerGuard:'allow all'}, {directTunnelOnly:false}, {protectedUnixSocket:false},
- {pseudoIpv4:'overwrite'}, {profileSha256:'d'.repeat(64)}, {supabaseOrigin:'https://another.example'},
- {nativeWorkerGuardRuleId:''}, {tunnelId:''}, {evidenceSha256:''}, {expiresAt:now}, {reviewedAt:now+1},
-])test('uncertified edge configuration fails closed '+Object.keys(change)[0],async()=>{
+ {status:'observed'}, {workerGuard:'allow all'}, {frontdoorOrigin:'https://unapproved.example'},
+ {networkSource:'x-forwarded-for'}, {pseudoIpv4:'overwrite'}, {profileSha256:'d'.repeat(64)},
+ {supabaseOrigin:'https://another.example'}, {evidenceSha256:''}, {reviewedAt:now+1},
+ {format:'collect.native-ingress.edge-proof.v1'},
+])test('uncertified managed edge configuration fails closed '+Object.keys(change)[0],async()=>{
  await assert.rejects(createNativeIngressSigner(environment({},change),{clock:()=>now}),error=>error.code==='native_ingress_edge_unqualified');
 });
-test('v2 review records require the origin guard and no WAF rule or renewal expiry',async()=>{
+test('managed review record is not an expiring credential; each request still expires',async()=>{
  const env=environment({}, {reviewedAt:now-366*86400000}),record=JSON.parse(env.COLLECT_NATIVE_INGRESS_EDGE_PROOF_JSON);
- assert.equal(record.nativeWorkerGuard,'origin_cf_worker_presence_reject');
- for(const field of ['expiresAt','nativeWorkerGuardExpression','nativeWorkerGuardRuleId'])assert.equal(Object.hasOwn(record,field),false);
+ assert.equal(record.workerGuard,'cloudflare_worker_presence_reject');
  let time=now;const signer=await createNativeIngressSigner(env,{clock:()=>time});time+=8*86400000;
  const output=await signer(request(),'192.0.2.1'),url=new URL(output.url);url.pathname=url.pathname.slice('/functions/v1/collect-api'.length);
  const admitted=await admitNativeIngress(new Request(url,{method:'POST',headers:output.headers,body:await output.arrayBuffer()}),env,{clock:()=>time});
  assert.match(await admitted.networkBucket(admitted.request),/^[a-f0-9]{64}$/);
  time+=30001;await assert.rejects(admitted.networkBucket(admitted.request),denied);
-});
-test('legacy v1 review metadata stays compatible after historical expiry without extending HMAC TTL',async()=>{
- const env=environment({}, {format:'collect.native-ingress.edge-proof.v1'}),old=JSON.parse(env.COLLECT_NATIVE_INGRESS_EDGE_PROOF_JSON);
- const time=now+8*86400000;assert(old.expiresAt<time);
- const input=await signed(env),body=await input.text();
- await assert.rejects(admitNativeIngress(new Request(input.url,{method:'POST',headers:input.headers,body}),env,{clock:()=>time}),denied);
- const signer=await createNativeIngressSigner(env,{clock:()=>time}),fresh=await signer(request(),'192.0.2.1');
- const url=new URL(fresh.url);url.pathname=url.pathname.slice('/functions/v1/collect-api'.length);
- const admitted=await admitNativeIngress(new Request(url,{method:'POST',headers:fresh.headers,body:await fresh.arrayBuffer()}),env,{clock:()=>time});
- assert.match(await admitted.networkBucket(admitted.request),/^[a-f0-9]{64}$/);
 });
 test('signer rejects any CF-Worker marker before body consumption and never endorses changed Worker client IP',async()=>{
  const signer=await createNativeIngressSigner(environment(),{clock:()=>now});
@@ -132,11 +122,11 @@ test('real serve boundary invokes ingress before any DB admission; disabled nati
  try{
   const {createHandler}=await import('../serve.js');let called=0,stage;
   const input=request(),handler=createHandler('collect-api',()=>environment(),{reportHealth:value=>{stage=value.runtimeFailure?.stage;},
-   admitNativeIngress:async()=>{called++;throw Error('synthetic denial before DB');},openWork:()=>{throw Error('unexpected fence operation');}});
+   verifyNativeIngress:async()=>{called++;throw Error('synthetic denial before DB');},claimNativeIngress:()=>{},consumeNativeIngressNonce:()=>{},openWork:()=>{throw Error('unexpected fence operation');}});
   assert.equal((await handler(input)).status,503);assert.equal(called,1);assert.equal(stage,'native_ingress');
   const preflight=new Request(profile.supabase_origin+'/functions/v1/collect-api/v1/burimunsi/session/login',{method:'OPTIONS'});
   assert.equal((await handler(preflight)).status,204);assert.equal(called,1);
-  const disabled=createHandler('collect-api',()=>environment({BURIMUNSI_NATIVE_ENABLED:'false'}),{reportHealth:()=>{},admitNativeIngress:()=>{called++;throw Error();}});
+  const disabled=createHandler('collect-api',()=>environment({BURIMUNSI_NATIVE_ENABLED:'false'}),{reportHealth:()=>{},verifyNativeIngress:()=>{called++;throw Error();}});
   await disabled(request());assert.equal(called,1);
   // The entrypoint's actual verifier and nonce wiring is exercised by handler-integration.test.mjs.
  }finally{hooks.deregister();}

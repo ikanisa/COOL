@@ -3,10 +3,9 @@ import {readNativeBody,requireActiveNativeRequest,nativeRequestBodyLimit} from '
 import {parseWire} from './domain/burimunsi/wire/runtime.mjs';
 
 export const NATIVE_INGRESS_HEADER='X-Collect-Native-Ingress';
-const FORMAT='collect.native-ingress.v1',PROOF='collect.native-ingress.edge-proof.v2',LEGACY_PROOF='collect.native-ingress.edge-proof.v1';
+const FORMAT='collect.native-ingress.v1';
 export const MANAGED_PROOF='collect.native-ingress.managed-edge-proof.v1';
 export const MANAGED_WORKER_GUARD='cloudflare_worker_presence_reject';
-export const NATIVE_WORKER_GUARD='origin_cf_worker_presence_reject';
 const PREFIX='/functions/v1/collect-api',MAX_AGE=30000;
 const pendingIngress=new WeakMap();
 const encoder=new TextEncoder(),hex=bytes=>Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
@@ -25,14 +24,8 @@ async function sha(value){return hex(new Uint8Array(await crypto.subtle.digest('
 async function hmac(key,value){return new Uint8Array(await crypto.subtle.sign('HMAC',key,encoder.encode(value)));}
 const importKey=bytes=>crypto.subtle.importKey('raw',bytes,{name:'HMAC',hash:'SHA-256'},false,['sign','verify']);
 
-export function nativeWorkerGuardExpression(origin){
- const host=new URL(origin).hostname;
- return '(http.host eq "'+host+'" and starts_with(http.request.uri.path, "/functions/v1/collect-api/v1/burimunsi") and cf.worker.upstream_zone ne "")';
-}
-/** Protected operational review provenance, not a cryptographic Cloudflare
- * attestation. The deployment owner records actual Tunnel/socket readback;
- * a CF header alone cannot commission a zone. Runtime socket admission and the
- * independently protected short-lived request HMAC remain required. */
+// The edge review record is provenance, not provider attestation. Requests
+// still require a short-lived signature and a committed single-use claim.
 async function configuration(env,clock){
  const profile=await verifyDeploymentProfile(env),now=clock();
  need(env.COLLECT_DEPLOYMENT_PROFILE!==undefined&&
@@ -40,35 +33,18 @@ async function configuration(env,clock){
   'native_ingress_unconfigured',503);
  const raw=env.COLLECT_NATIVE_INGRESS_EDGE_PROOF_JSON,hash=env.COLLECT_NATIVE_INGRESS_EDGE_PROOF_SHA256;
  let proof;try{if(typeof raw==='string'&&raw.length<=8192)proof=JSON.parse(raw);}catch{}
- const legacy=proof?.format===LEGACY_PROOF;
- const fields=profile.mode==='managed'?['evidenceSha256','format','frontdoorOrigin','networkSource','profileSha256','pseudoIpv4',
-  'reviewedAt','status','supabaseOrigin','workerGuard']:(legacy?['directTunnelOnly','evidenceSha256','expiresAt','format','nativeWorkerGuardExpression','nativeWorkerGuardRuleId',
-  'profileSha256','protectedUnixSocket','pseudoIpv4','reviewedAt','status','supabaseOrigin','tunnelId']:
-  ['directTunnelOnly','evidenceSha256','format','nativeWorkerGuard','profileSha256','protectedUnixSocket','pseudoIpv4',
-   'reviewedAt','status','supabaseOrigin','tunnelId']);
+ const fields=['evidenceSha256','format','frontdoorOrigin','networkSource','profileSha256','pseudoIpv4',
+  'reviewedAt','status','supabaseOrigin','workerGuard'];
  need(proof&&typeof proof==='object'&&!Array.isArray(proof)&&Object.keys(proof).sort().join('|')===fields.join('|')&&
   canonical(proof)===raw&&digest(hash)&&await sha(encoder.encode(raw))===hash&&proof.status==='reviewed'&&
   proof.profileSha256===env.COLLECT_DEPLOYMENT_PROFILE_SHA256&&proof.supabaseOrigin===profile.supabase_origin&&
   digest(proof.evidenceSha256)&&Number.isSafeInteger(proof.reviewedAt)&&proof.reviewedAt>0&&proof.reviewedAt<=now,
   'native_ingress_edge_unqualified',503);
- if(profile.mode==='managed'){
-  // The record binds a reviewed deployment identity; it is not provider
-  // attestation. The frontdoor must verify the actual Cloudflare route and
-  // request provenance before signing a network identity.
-  need(proof.format===MANAGED_PROOF&&proof.frontdoorOrigin===profile.member_api_origin&&
-   proof.frontdoorOrigin!==profile.supabase_origin&&proof.networkSource==='cf-connecting-ip'&&
-   proof.workerGuard===MANAGED_WORKER_GUARD&&proof.pseudoIpv4==='off',
-   'native_ingress_edge_unqualified',503);
- }else{
-  need([PROOF,LEGACY_PROOF].includes(proof.format)&&
-  /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(proof.tunnelId)&&
-  (legacy?typeof proof.nativeWorkerGuardRuleId==='string'&&/^[a-f0-9]{32}$/.test(proof.nativeWorkerGuardRuleId)&&
-   proof.nativeWorkerGuardExpression===nativeWorkerGuardExpression(profile.supabase_origin)&&
-   Number.isSafeInteger(proof.expiresAt)&&proof.expiresAt>proof.reviewedAt&&proof.expiresAt-proof.reviewedAt<=7*86400000:
-   proof.nativeWorkerGuard===NATIVE_WORKER_GUARD)&&
-  proof.directTunnelOnly===true&&proof.protectedUnixSocket===true&&proof.pseudoIpv4==='off',
+ // This review binds the managed frontdoor to the selected Cloud project.
+ need(proof.format===MANAGED_PROOF&&proof.frontdoorOrigin===profile.member_api_origin&&
+  proof.frontdoorOrigin!==profile.supabase_origin&&proof.networkSource==='cf-connecting-ip'&&
+  proof.workerGuard===MANAGED_WORKER_GUARD&&proof.pseudoIpv4==='off',
   'native_ingress_edge_unqualified',503);
- }
  const id=env.COLLECT_NATIVE_INGRESS_KEY_ID,rawKey=env.COLLECT_NATIVE_INGRESS_KEY_BASE64,bytes=keyBytes(rawKey);
  need(identifier(id),'native_ingress_unconfigured',503);
  // Retained current and prior payload/session/native secrets must keep their
@@ -83,9 +59,8 @@ async function configuration(env,clock){
  const root=await importKey(bytes);
  const signing=await importKey(await hmac(root,'collect.native-ingress.signing-key.v1'));
  const network=await importKey(await hmac(root,'collect.native-ingress.network-key.v1'));
- // Review provenance is not an expiring authorization credential. Retain the
- // old v1 expiry field as historical metadata only. Each request still has its
- // own independently checked, short HMAC lifetime below.
+ // Review provenance is not an authorization credential; each request has
+ // an independently checked, short HMAC lifetime below.
  return {profile,id,hash,signing,network,clock};
 }
 function target(request,physical){
@@ -122,9 +97,8 @@ function unpacked(value){
  }catch{}
  need(Array.isArray(parts)&&parts.length===10&&packed(parts)===value);return parts;
 }
-/** Trusted frontdoor only. For self-hosting clientAddress comes from the
- * protected direct-Tunnel socket; for managed hosting it must come from the
- * separately qualified Cloudflare frontdoor. Both reject Worker subrequests.
+/** Trusted frontdoor only. clientAddress comes from the separately qualified
+ * Cloudflare frontdoor, which rejects Worker subrequests.
  * Cloudflare adds that marker to all Worker fetch subrequests after WAF evaluation:
  * https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-worker */
 export async function createNativeIngressSigner(env,{clock=()=>Date.now()}={}){
@@ -180,14 +154,5 @@ export async function claimNativeIngress(token,consume){
  catch{throw new NativeIngressError('native_ingress_store_unavailable',503);}
  need(claimed===true);requireActiveNativeRequest(state.request);
  const after=state.clock();need(Number.isSafeInteger(after)&&state.at<=after+2000&&after-state.at<=MAX_AGE);
- return releaseNativeIngress(state);
-}
-
-/** Legacy self-hosted entrypoint. Managed admission stays closed until its
- * real handler verifies first and claims through the fence-bound store. */
-export async function admitNativeIngress(request,env,options={}){
- const token=await verifyNativeIngress(request,env,options),state=pendingIngress.get(token);
- pendingIngress.delete(token);
- need(state?.mode==='self_hosted','native_ingress_replay_unconfigured',503);
  return releaseNativeIngress(state);
 }

@@ -6,9 +6,9 @@ import { createHandler } from './handler.mjs';
 const NOW = 1793448000000;
 const secretBytes = randomBytes(32);
 const env = {
-  APP_ENVIRONMENT: 'local', AUTH_PROJECT_ID: 'local-app',
+  APP_ENVIRONMENT: 'qualification', AUTH_PROJECT_ID: 'cloud-fixture',
   AUTH_SEND_SMS_SECRET: `v1,whsec_${secretBytes.toString('base64')}`,
-  OPENSMS_BASE_URL: 'http://127.0.0.1:8787', OPENSMS_ALLOW_LOCAL_HTTP: 'true',
+  OPENSMS_BASE_URL: 'https://sms.example.net',
   OPENSMS_APPLICATION_ID: 'app_example',
   OPENSMS_APPLICATION_TOKEN: `app_${randomBytes(32).toString('base64url')}`,
   OPENSMS_SENDER_LABEL: 'Example App', OPENSMS_DISPATCH_TTL_SECONDS: '120',
@@ -256,15 +256,12 @@ test('enabled OpenSMS namespace, credential, label and TTL boundaries match prep
   }
 });
 
-test('HTTP requires local environment, explicit opt-in and a local/private host', async () => {
+test('HTTP endpoints and local environment are refused, including private addresses', async () => {
   for (const overrides of [
-    { OPENSMS_ALLOW_LOCAL_HTTP: '' }, { APP_ENVIRONMENT: 'production' },
-    { APP_ENVIRONMENT: 'staging' }, { OPENSMS_BASE_URL: 'http://203.0.113.3:8787' },
+    { APP_ENVIRONMENT: 'local' }, { OPENSMS_BASE_URL: 'http://203.0.113.3:8787' },
     { OPENSMS_BASE_URL: 'http://sms.example.net' },
+    ...['host.docker.internal', 'localhost', '10.1.2.3', '192.168.1.2', '172.16.3.4', '[::1]'].map(host=>({OPENSMS_BASE_URL:`http://${host}:8787`}))
   ]) assert.equal((await handler(service(), overrides)(signed())).status, 503);
-  for (const host of ['host.docker.internal', 'localhost', '10.1.2.3', '192.168.1.2', '172.16.3.4', '[::1]']) {
-    assert.equal((await handler(service(), { OPENSMS_BASE_URL: `http://${host}:8787` })(signed())).status, 200);
-  }
   assert.equal((await handler(service(), { APP_ENVIRONMENT: 'production', OPENSMS_BASE_URL: 'https://sms.example.net' })(signed())).status, 200);
 });
 

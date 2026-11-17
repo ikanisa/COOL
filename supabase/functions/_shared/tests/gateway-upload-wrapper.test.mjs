@@ -9,8 +9,8 @@ const {canonicalProfile} = await import('../deployment-profile.js');
 const {createHandler,logicalRequest} = await import('../serve.js');
 
 const profile = {
- format: 'collect.deployment.v1', id: 'gateway-wrapper-fixture', mode: 'self_hosted',
- environment: 'qualification', supabase_origin: 'https://supabase.example.invalid',
+ format: 'collect.deployment.v1', id: 'gateway-wrapper-fixture', mode: 'managed',
+ environment: 'qualification', supabase_origin: 'https://rrlduytparvsjfmegalh.supabase.co',
  member_api_origin: 'https://member.example.invalid', admin_origin: 'https://admin.example.invalid',
  public_origin: 'https://public.example.invalid', google_callback_origin: 'https://member.example.invalid',
 };
@@ -68,7 +68,7 @@ function assertNoEffects(f) {
  assert.equal(JSON.stringify(f.observations).includes(syntheticMessage), false);
 }
 
-test('both self-hosted function prefixes refuse gateway uploads before runtime admission', async t => {
+test('both Cloud function prefixes refuse gateway uploads before runtime admission', async t => {
  const f = fixture(t);
  for (const pause of [undefined, 'true', 'false']) {
   f.setPause(pause);
@@ -87,17 +87,15 @@ test('both self-hosted function prefixes refuse gateway uploads before runtime a
  assertNoEffects(f);
 });
 
-test('exact retained Edge origin normalizes only under explicit self-hosted profile',()=>{
+test('only the Cloud project Edge origin is restored to HTTPS',()=>{
  const logical=origin=>logicalRequest(new Request(origin+'/collect-api/v1/momo/gateway/status',{
   headers:{'X-Forwarded-Host':'attacker.invalid','X-Forwarded-Proto':'https'}}),'collect-api',
   {COLLECT_DEPLOYMENT_PROFILE:rawProfile,COLLECT_DEPLOYMENT_PROFILE_SHA256:profileHash});
- const accepted=logical('http://supabase_edge_runtime_local-app:8081');
+ const accepted=logical('http://'+new URL(profile.supabase_origin).host);
  assert.equal(new URL(accepted.url).origin,profile.supabase_origin);
  assert.equal(new URL(accepted.url).pathname,'/v1/momo/gateway/status');
- for(const origin of ['http://supabase_edge_runtime_local-app:8082','http://supabase_edge_runtime_other:8081','http://unknown.invalid:8081'])
-  assert.equal(new URL(logical(origin).url).origin,origin,'Unknown hosts/ports cannot acquire the public profile origin');
- const hosted=logicalRequest(new Request('http://supabase_edge_runtime_local-app:8081/collect-api/v1/momo/gateway/status'),'collect-api');
- assert.equal(new URL(hosted.url).origin,'http://supabase_edge_runtime_local-app:8081');
+ for(const origin of ['http://supabase_edge_runtime_local-app:8081','http://api-gw:8000','http://unknown.invalid:8081'])
+  assert.equal(new URL(logical(origin).url).origin,origin);
 });
 
 test('both explicit flags release only the runtime hold and still require normal database admission',async t=>{

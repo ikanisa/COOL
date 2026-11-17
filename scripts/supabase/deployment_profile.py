@@ -1,4 +1,4 @@
-"""One public deployment identity shared by Collect releases and self-host services.
+"""One public deployment identity shared by Collect cloud releases.
 
 This contains no credentials. A SHA256 binds the canonical public configuration;
 it is an integrity identifier, not an approval or an authentication credential.
@@ -58,7 +58,7 @@ def validate_profile(profile: object) -> dict[str, str]:
             or any(not isinstance(value, str) for value in profile.values())
             or profile["format"] != FORMAT
             or not re.fullmatch(r"[a-z][a-z0-9-]{0,62}", profile["id"])
-            or profile["mode"] not in ("managed", "self_hosted")
+            or profile["mode"] != "managed"
             or profile["environment"] not in ("production", "qualification")):
         raise ValueError("Invalid public deployment profile")
     for key in FIELDS:
@@ -66,7 +66,7 @@ def validate_profile(profile: object) -> dict[str, str]:
             raise ValueError("Deployment profile origins must be canonical")
     if profile["google_callback_origin"] not in (profile["member_api_origin"], profile["admin_origin"]):
         raise ValueError("Google callback must use an approved application origin")
-    if profile["mode"] == "managed" and profile["supabase_origin"] != MANAGED_ORIGIN:
+    if profile["supabase_origin"] != MANAGED_ORIGIN:
         raise ValueError("Managed deployment must preserve its nominated project")
     return dict(profile)
 
