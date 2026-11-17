@@ -16,7 +16,7 @@ const response={schema_version:MOMO_SCHEMA_VERSION,event_kind:'outgoing',payment
  evidence:{incoming_success:'You have sent',principal:'You have sent 250 RWF',transaction_id:'Reference: TX123',
   transaction_datetime:null,payer:'to Example shop',fee:null,wallet_balance_after:null},issues:[]};
 
-async function fixture({body='You have sent 250 RWF to Example shop. Reference: TX123.',begun=true,dispatchFail=false,eventConflict=false,providerFail=false,invalid=false,retryAttempt=1,providerResponse=response,notice=false}={}){
+async function fixture({body='You have sent 250 RWF to Example shop. Reference: TX123.',begun=true,dispatchFail=false,eventConflict=false,providerFail=false,invalid=false,retryAttempt=1,retryState='retry',providerResponse=response,notice=false}={}){
  const events=[],source={provenance:'native_observation_unverified',source_mode:'catch_up',complete:false,
   raw_sender:'Example Money',raw_body:body};
  const bytes=new TextEncoder().encode(JSON.stringify(source));
@@ -30,7 +30,8 @@ async function fixture({body='You have sent 250 RWF to Example shop. Reference: 
   if(query.includes('auto_dispatch')){events.push('dispatch');if(dispatchFail)throw Error('lost commit acknowledgement');return [{result:true}];}
   if(query.includes('auto_skip_security')){events.push('skip');return [{result:{sourceId,state:'security_message'}}];}
   if(query.includes('auto_retry')){events.push('retry');assert.ok(['provider_unavailable','invalid_output'].includes(values[4]));
-   return [{result:{sourceId,state:'retry',attemptCount:retryAttempt,nextAttemptAt:123456789}}];}
+   assert.equal(values[4],invalid?'invalid_output':'provider_unavailable');
+   return [{result:{sourceId,state:retryState,attemptCount:retryAttempt,nextAttemptAt:retryState==='failed'?null:123456789}}];}
   if(query.includes('auto_event_bind')){events.push('event');assert.equal(values[0],sourceId);assert.equal(values[2],proof.fingerprint);
    assert.match(values[3].identity,/^[a-f0-9]{64}$/);assert.equal(typeof values[3].serviceTimePresent,'boolean');
    if(eventConflict)throw Object.assign(Error('event changed'),{code:'40001'});return [{result:true}];}
@@ -72,6 +73,18 @@ test('a provider failure or invalid output schedules an automatic retry without 
   assert.equal(r.state,'retry');assert.equal(f.events.includes('retry'),true);
   assert.equal(f.events.includes('finish'),false);assert.equal(f.events.filter(x=>x==='provider').length,1);
  }
+});
+test('repeated invalid model output retains the message for retry without finishing a transaction',async()=>{
+ const f=await fixture({invalid:true,retryAttempt:5});
+ assert.deepEqual(await f.worker.process(sourceId),{state:'retry'});
+ assert.equal(f.events.filter(x=>x==='provider').length,1);
+ assert.equal(f.events.includes('retry'),true);assert.equal(f.events.includes('event'),false);assert.equal(f.events.includes('finish'),false);
+ assert.equal(f.bytes.every(value=>value===0),true);
+});
+test('a temporary provider outage continues to request retry without finishing a transaction',async()=>{
+ const f=await fixture({providerFail:true,retryAttempt:50});
+ assert.deepEqual(await f.worker.process(sourceId),{state:'retry'});
+ assert.equal(f.events.filter(x=>x==='provider').length,1);assert.equal(f.events.includes('finish'),false);
 });
 test('security-code SMS is retained without sending it to the model',async()=>{
  const f=await fixture({body:'Your one-time code is 123456.'});

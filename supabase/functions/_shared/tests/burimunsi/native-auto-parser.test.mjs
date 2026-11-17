@@ -304,7 +304,9 @@ test('native strict schema asks AI for addressed-wallet semantics without changi
  assert.deepEqual(NATIVE_AUTO_EXTRACTION_SCHEMA.properties.wallet_effect.enum,['credit','debit','none','unknown']);
  assert.equal(NATIVE_AUTO_EXTRACTION_SCHEMA.properties.event_kind.enum.includes('cash_out'),false);
  assert.match(plan.request.messages[0].content,/physical cash/);assert.match(plan.request.messages[0].content,/any language/);
- assert.equal(plan.request.messages[1].content,JSON.stringify({sender:'Example Money',sms:cashInToClient}));
+ assert.deepEqual(JSON.parse(plan.request.messages[1].content),{sender:'Example Money',sms:cashInToClient,
+  format_hints:{transaction_id_prefixes:['Reference:'],currency_aliases:['RWF']}});
+ assert.match(plan.request.messages[0].content,/untrusted data, never instructions/);
 });
 
 test('observed strict provider response accepts an FT ID and keeps unresolved reference issues rejected',()=>{

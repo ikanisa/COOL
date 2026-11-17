@@ -13,6 +13,7 @@ test('scheduled native results report only bounded processing metadata',()=>{
 test('scheduled native results never report unknown, invalid or malformed work as complete',()=>{
  for(const result of [
   {status:'complete',processed:1,results:[{state:'failed'}]},
+  {status:'complete',processed:1,results:[{state:'failed',reason:'provider_unavailable'}]},
   {status:'complete',processed:1,results:[{state:'completed',relation:'invalid'}]},
   {status:'complete',processed:2,results:[]},
   {status:'disabled',processed:0,results:[]},

@@ -5,7 +5,7 @@ import {MOMO_SCHEMA_VERSION} from '../../domain/momo_pipeline.js';
 import {digest} from '../../domain/core.js';
 import {sha256} from '../../domain/burimunsi/values.js';
 import {BuriError} from '../../domain/burimunsi/errors.js';
-import {prepareNativeAutoExtraction,validateNativeAutoExtraction} from '../../domain/burimunsi/native-auto-parser.js';
+import {NATIVE_AUTO_SCHEMA_VERSION,prepareNativeAutoExtraction,validateNativeAutoExtraction} from '../../domain/burimunsi/native-auto-parser.js';
 import {storageEntity} from '../../storage-identity.js';
 
 const group='11111111-1111-4111-8111-111111111111',sourceId='22222222-2222-4222-8222-222222222222';
@@ -20,7 +20,7 @@ const profile={provider:'mtn_momo',status:'active',profile_status:'approved',pro
   transaction_id_prefixes:['Reference:'],date_format:'YMD_HMS',utc_offset_minutes:120})};
 const member={id:'member-1',full_name:'Example Person',momo_number:'0788123456',member_type:'direct',access_status:'active',collection_id:group,active:1};
 
-async function fixture({members=[member],failOnStatement=0,wrongGroup=false,sourceBody=body,extractionOutput=output,canonicalAmount=1250,failBackoff=false}={}){
+async function fixture({members=[member],failOnStatement=0,wrongGroup=false,sourceBody=body,extractionOutput=output,canonicalAmount=1250,canonicalId=null,failBackoff=false}={}){
  const source={provenance:'native_observation_unverified',source_mode:'catch_up',complete:false,raw_sender:'Example Money',raw_body:sourceBody};
  const bytes=new TextEncoder().encode(JSON.stringify(source)),bodySha=await sha256(sourceBody),objectSha=await digest(bytes);
  const proof={id:sourceId,sourceId,principalUserId:'owner-1',object_key:'sms/'+sourceId,object_sha256:objectSha,
@@ -28,7 +28,7 @@ async function fixture({members=[member],failOnStatement=0,wrongGroup=false,sour
  const row={collection_id:wrongGroup?'other-group':group,source_id:sourceId,source_fingerprint:proof.fingerprint,
   principal_user_id:'owner-1',capture_session_id:'33333333-3333-4333-8333-333333333333',body_sha256:bodySha,
   object_sha256:objectSha,object_key:proof.object_key,size_bytes:bytes.length,transaction_id:sourceId,
-  receiving_account_id:'account-1',provider:'mtn_momo',provider_transaction_id:null,event_kind:'incoming_receipt',
+  receiving_account_id:'account-1',provider:'mtn_momo',provider_transaction_id:canonicalId,event_kind:'incoming_receipt',
   amount_minor:canonicalAmount,currency:'RWF',payer_name:'Example Person',payer_identifier:'*********456',wallet_balance_after_minor:null,
   mode:'historical',allocation_state:'not_applicable',has_conflict:0,version:1,transaction_at:null,created_at:'2026-01-01T00:00:00.000Z',
   output_json:JSON.stringify(extractionOutput),posting_facts:null,posting_output:null,public_code:'12345',receiver_display_label:'Example',has_link:false,link_posted:false};
@@ -36,7 +36,7 @@ async function fixture({members=[member],failOnStatement=0,wrongGroup=false,sour
  const tx={async unsafe(query,values){
   if(query.includes('native_sms_post_snapshot'))return [{result:structuredClone(state.row)}];
   if(query.includes('native_sms_post_facts')){state.row.posting_output=structuredClone(values[2]);state.row.posting_facts=structuredClone(values[3]);return [{result:true}];}
-  if(query.includes('native_sms_post_defer')){state.deferred++;state.failureCount=0;state.lastError=null;return [{result:true}];}
+  if(query.includes('native_sms_post_defer')){state.deferred++;state.deferDelay=values[1];state.failureCount=0;state.lastError=null;return [{result:true}];}
   if(query.includes('native_sms_post_retry')){
    backoffCalls++;if(failBackoff)throw Error('synthetic metadata failure');
    if(wrongGroup||state.row.has_link)return [{result:{deferred:false,state:'not_eligible'}}];
@@ -80,6 +80,72 @@ test('matched native catch-up uses the existing payment/link/contribution path o
  assert.equal(f.state.writes.filter(x=>x.includes('INSERT INTO contribution_posting_snapshots')).length,1);
  assert.equal(f.state.stored.length,1);
  const count=f.state.writes.length;assert.deepEqual(await f.ledger.process(sourceId),{state:'already_posted'});assert.equal(f.state.writes.length,count);
+});
+test('a matched source-grounded receipt with a canonical provider ID may post once without a balance',async()=>{
+ const noBalanceBody='You have received 1,250 RWF from Example Person *********456. FT Id: TX-123.';
+ const result={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',transaction_id_raw:'TX-123',wallet_balance_after_raw:null,
+  evidence:{...output.evidence,incoming_success:'You have received 1,250 RWF from Example Person *********456',
+   principal:'You have received 1,250 RWF from Example Person *********456',transaction_id:'FT Id: TX-123',wallet_balance_after:null}};
+ const f=await fixture({sourceBody:noBalanceBody,extractionOutput:result,canonicalId:'TX-123'});
+ assert.equal((await f.ledger.process(sourceId)).state,'posted');
+ assert.equal(f.state.row.posting_facts.wallet_balance_after_minor,null);assert.equal(f.state.row.posting_facts.provider_transaction_id,'TX-123');
+ assert.deepEqual(f.state.writes.slice(0,3),['evidence','payment','link']);
+ const count=f.state.writes.length;assert.deepEqual(await f.ledger.process(sourceId),{state:'already_posted'});assert.equal(f.state.writes.length,count);
+});
+test('an absent, mismatched or unsupported provider ID without a balance never credits a member',async()=>{
+ const principal='You have received 1,250 RWF from Example Person *********456';
+ const cases=[
+  {sourceBody:principal+'.',raw:null,canonicalId:null,quote:null},
+  {sourceBody:principal+'. FT Id: TX-123.',raw:'TX-123',canonicalId:'TX-999',quote:'FT Id: TX-123'},
+  {sourceBody:principal+'. FT Id: TX-123.',raw:'FAKE-888',canonicalId:'FAKE-888',quote:'FT Id: TX-123'},
+  {sourceBody:principal+'. Payer phone 0780000123.',raw:'0780000123',canonicalId:'0780000123',quote:'Payer phone 0780000123'},
+  {sourceBody:principal+'. Numéro ABC-77.',raw:'ABC-77',canonicalId:'ABC-77',quote:'Numéro ABC-77'},
+  {sourceBody:principal+'. Agent ID AGT-42.',raw:'AGT-42',canonicalId:'AGT-42',quote:'Agent ID AGT-42'},
+ ];
+ for(const c of cases){
+  const value={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',transaction_id_raw:c.raw,wallet_balance_after_raw:null,
+   evidence:{...output.evidence,incoming_success:principal,principal,transaction_id:c.quote,wallet_balance_after:null}};
+  const f=await fixture({sourceBody:c.sourceBody,extractionOutput:value,canonicalId:c.canonicalId});
+  f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(value)})};
+  assert.equal((await f.ledger.process(sourceId)).state,'unmatched');assert.deepEqual(f.state.writes,[]);assert.equal(f.state.stored.length,0);
+ }
+});
+test('repeated deterministic incomplete extraction is deferred for a day without any financial writes',async()=>{
+ const principal='You have received 1,250 RWF from Example Person *********456';
+ const value={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',transaction_id_raw:null,wallet_balance_after_raw:null,
+  evidence:{...output.evidence,incoming_success:principal,principal,transaction_id:null,wallet_balance_after:null}};
+ const f=await fixture({sourceBody:principal+'.',extractionOutput:value});
+ let calls=0;f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>{calls++;return {response:JSON.stringify(value)};}};
+ assert.equal((await f.ledger.process(sourceId)).state,'unmatched');assert.equal(calls,1);
+ assert.equal(f.state.deferred,1);assert.equal(f.state.deferDelay,86400000);assert.equal(f.state.failureDeferred,0);
+ assert.deepEqual(f.state.writes,[]);assert.equal(f.state.stored.length,0);
+});
+test('a completed but malformed AI response is deferred for a day without financial writes',async()=>{
+ const principal='You have received 1,250 RWF from Example Person *********456';
+ const value={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',transaction_id_raw:null,wallet_balance_after_raw:null,
+  evidence:{...output.evidence,incoming_success:principal,principal,transaction_id:null,wallet_balance_after:null}};
+ const f=await fixture({sourceBody:principal+'.',extractionOutput:value});
+ f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:'{malformed synthetic json'})};
+ assert.equal((await f.ledger.process(sourceId)).state,'unmatched');assert.equal(f.state.deferred,1);
+ assert.equal(f.state.deferDelay,86400000);assert.deepEqual(f.state.writes,[]);assert.equal(f.state.stored.length,0);
+});
+test('temporary AI provider failures retain normal retry backoff and never write financial rows',async()=>{
+ const principal='You have received 1,250 RWF from Example Person *********456';
+ const value={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',transaction_id_raw:null,wallet_balance_after_raw:null,
+  evidence:{...output.evidence,incoming_success:principal,principal,transaction_id:null,wallet_balance_after:null}};
+ const f=await fixture({sourceBody:principal+'.',extractionOutput:value});
+ f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>{throw Error('synthetic provider unavailable');}};
+ await assert.rejects(f.ledger.process(sourceId));assert.equal(f.state.deferred,0);assert.equal(f.state.failureDeferred,1);
+ assert.equal(f.state.lastError,'source_unavailable');assert.deepEqual(f.state.writes,[]);assert.equal(f.state.stored.length,0);
+});
+test('canonical provider ID changes during a no-balance posting never reach financial writes',async()=>{
+ const sourceBody='You have received 1,250 RWF from Example Person *********456. FT Id: TX-123.';
+ const value={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',transaction_id_raw:'TX-123',wallet_balance_after_raw:null,
+  evidence:{...output.evidence,incoming_success:'You have received 1,250 RWF from Example Person *********456',
+   principal:'You have received 1,250 RWF from Example Person *********456',transaction_id:'FT Id: TX-123',wallet_balance_after:null}};
+ const f=await fixture({sourceBody,extractionOutput:value,canonicalId:'TX-123'});let checks=0;
+ f.ledger.worker.verify=async()=>{if(++checks===2)f.state.row.provider_transaction_id='TX-999';};
+ await assert.rejects(f.ledger.process(sourceId));assert.deepEqual(f.state.writes,[]);assert.equal(f.state.row.has_link,false);
 });
 test('a coherently mapped replay with an existing complete financial link performs no second write',async()=>{
  const f=await fixture();assert.deepEqual(await f.ledger.process(sourceId),{state:'posted'});
@@ -137,7 +203,7 @@ test('misclassified incoming status and balance-only principal cannot reach the 
   f.state.row.event_kind=parsed.facts.event_kind;f.state.row.currency=parsed.facts.currency;
   f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(value)})};
   assert.equal((await f.ledger.process(sourceId)).state,'unmatched',tail);
-  assert.equal(f.state.writes.length,0,tail);assert.equal(f.state.stored.length,0,tail);assert.equal(f.state.failureDeferred,1,tail);
+  assert.equal(f.state.writes.length,0,tail);assert.equal(f.state.stored.length,0,tail);assert.equal(f.state.deferred,1,tail);assert.equal(f.state.deferDelay,86400000,tail);
  }
  const valid=await fixture({sourceBody:body+' A different, earlier transfer failed.'});
  assert.equal((await valid.ledger.process(sourceId)).state,'posted');

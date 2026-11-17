@@ -76,6 +76,21 @@ async function inspect(db){
   FROM unnest($1::text[]) x(signature) LEFT JOIN pg_proc p ON p.oid=to_regprocedure(x.signature)`,[Object.keys(GUARDS)])).rows;
  if(guard.length!==Object.keys(GUARDS).length||guard.some(x=>x.owner!=='postgres'||x.prosecdef!==true||x.digest!==GUARDS[x.signature]))throw Error('scheduler_or_history_guard_changed');
  const expected=expectedSchedulerBodies(scheduler.sql);
+ // The parser migration is optional until the source-bound cutover is recorded.
+ const reviewMigration='20261117090952_burimunsi_native_parse_review.sql';
+ const review=(await db.query("SELECT encode(sha256(convert_to(statements[1],'UTF8')),'hex') digest FROM supabase_migrations.schema_migrations WHERE version=$1",[reviewMigration.slice(0,14)])).rows[0];
+ if(review){
+  const reviewedSha='6c9d990e607b0ca5470992c39a4b82101f1fe86407a0f64a7e18c400ac653d24';
+  if(review.digest!==reviewedSha||sha(readFileSync(new URL('../../../supabase/migrations/'+reviewMigration,import.meta.url)))!==reviewedSha)throw Error('scheduler_migration_changed');
+  const reviewedFunctions={
+   'private.burimunsi_auto_retry(text,uuid,text,text,text)':'e459ea6c476b0e294692f0cdfff6df84aa547061ffe0ee94e99422eda9c88b23',
+   'private.burimunsi_auto_finish(text,uuid,text,text,uuid,text,jsonb,jsonb)':'696e8861aabee891836369f3c5243efd5403791503a0be9f7e29831d967a22c7',
+   'private.burimunsi_native_sms_post_facts(text,text,jsonb,jsonb)':'943d9979691711175a2e6bc1ebfa3b0dc96a093e9f280fc55904a67641850a22'};
+  const reviewed=(await db.query(`SELECT x.signature,p.proowner::regrole::text owner,p.prosecdef,
+   encode(sha256(convert_to(p.prosrc,'UTF8')),'hex') digest,p.proacl::text acl
+   FROM unnest($1::text[]) x(signature) LEFT JOIN pg_proc p ON p.oid=to_regprocedure(x.signature)`,[Object.keys(reviewedFunctions)])).rows;
+  if(reviewed.length!==3||reviewed.some(x=>x.owner!=='postgres'||x.prosecdef!==true||x.acl!=='{postgres=X/postgres,collect_runtime=X/postgres}'||x.digest!==reviewedFunctions[x.signature]))throw Error('scheduler_source_shape_changed');
+ }
  const budget=await renderNativeProviderBudget();
  const budgetFile='20261117081411_collect_native_provider_budget.sql';
  if(sha(readFileSync(new URL('../../../supabase/migrations/'+budgetFile,import.meta.url)))!==budget.sqlSha256)throw Error('scheduler_migration_changed');
@@ -134,7 +149,7 @@ async function main(){
   if(action==='--configure-native'||action==='--recover-native-config'){
    if(!input.native||input.readiness.native_sms_admission.source_sha256!==pre.source||!pre.secrets.has('OPENAI_API_KEY'))throw Error('native_readiness_invalid');
    verifyNativeBudget(pre,input.readiness);
-   const configName='managed-jobs-native-config-intent.json',a=input.readiness.native_sms_admission;
+   const configName='managed-jobs-native-config-'+pre.source.slice(0,16)+'-intent.json',a=input.readiness.native_sms_admission;
    if(action==='--configure-native'){
     if(existsSync(join(ROOT,configName))||pre.secrets.get('BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED')!==sha('false'))throw Error('native_config_requires_reconciliation');
     if(!pre.row.last_probe_id||!pre.row.enabled||!pre.row.active||pre.row.pending!==0)throw Error('confirmed_maintenance_activation_required');
@@ -147,7 +162,7 @@ async function main(){
    if(changes.some(x=>pre.secrets.has(x.name)&&![sha(x.value),...(['BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED','MOMO_AI_ENABLED'].includes(x.name)?[sha('false')]:[])].includes(pre.secrets.get(x.name))))throw Error('native_config_preimage_changed');
    try{await management('secrets',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(changes)});}catch{}
    pre=await inspect(db);verifyMode(pre,input.readiness,true);
-   if(!existsSync(join(ROOT,'managed-jobs-native-config-complete.json')))record('managed-jobs-native-config-complete.json',{project:PROJECT,sourceSha256:pre.source,evidenceSha256:input.readiness.evidence_file_sha256,cronActive:false,at:new Date().toISOString()});
+   record('managed-jobs-native-config-'+pre.source.slice(0,16)+'-complete.json',{project:PROJECT,sourceSha256:pre.source,evidenceSha256:input.readiness.evidence_file_sha256,cronActive:false,at:new Date().toISOString()});
    console.log(JSON.stringify({status:'native_config_verified',cronActive:false}));return;
   }
   verifyMode(pre,input?.readiness,input?.native);
@@ -166,7 +181,7 @@ async function main(){
    const d=(await db.query('SELECT state FROM collect_ops.jobs_dispatches WHERE id=$1::uuid',[intent.dispatchId])).rows[0];if(d?.state!=='confirmed')throw Error('confirmed_probe_required');
    const state=(await db.query('SELECT collect_ops.activate_jobs($1) AS state',[input.readiness.evidence_file_sha256])).rows[0].state;
    if(!state.enabled||!state.cron_active)throw Error('activation_unconfirmed');
-   record('managed-jobs-'+kind+'-activated.json',{project:PROJECT,sourceSha256:pre.source,dispatchId:intent.dispatchId,evidenceSha256:intent.evidenceSha256,at:new Date().toISOString()});
+   record('managed-jobs-'+kind+'-'+pre.source.slice(0,16)+'-activated.json',{project:PROJECT,sourceSha256:pre.source,dispatchId:intent.dispatchId,evidenceSha256:intent.evidenceSha256,at:new Date().toISOString()});
    console.log(JSON.stringify({status:'scheduler_active',kind,sourceSha256:pre.source}));
   }
  }finally{await db.end();}

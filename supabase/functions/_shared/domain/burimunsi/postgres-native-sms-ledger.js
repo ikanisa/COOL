@@ -8,7 +8,7 @@ import {appendContributionCollision,appendContributionEntry,appendContributionSn
 import {BuriError,requireThat} from './errors.js';
 import {canonicalJson,requireId,requireRequestId,sha256} from './values.js';
 import {PostgresNativeAutoWorker} from './postgres-native-auto-worker.js';
-import {prepareNativeAutoExtraction,validateNativeAutoExtraction} from './native-auto-parser.js';
+import {prepareNativeAutoExtraction,validateNativeAutoExtraction,hasStrongNativeTransactionIdentity} from './native-auto-parser.js';
 import {matchNativeSmsMember} from './native-sms-member-match.js';
 
 const check=(ok,code='native_sms_posting_unavailable',status=503)=>requireThat(ok,code,status);
@@ -20,17 +20,21 @@ const exact=v=>{const n=typeof v==='string'&&/^[0-9]+$/.test(v)?Number(v):v;chec
 const sourceTarget=r=>({ownerId:r.principalUserId,purpose:'sms_receipt',entityId:r.id,
  plaintextSha256:r.object_sha256,aad:`sms:${r.id}:${r.object_sha256}`});
 const safeStates=new Set(['posted','unmatched','already_posted','not_financial']);
+const invalidOutputDelayMs=24*60*60*1000;
 
-function factsComplete(f,row,source){
+function factsComplete(f,row,source,profile,output){
  return ['incoming_receipt','outgoing'].includes(f?.event_kind)&&f.payment_outcome==='successful'&&f.currency==='RWF'&&
   Number.isSafeInteger(f.amount_minor)&&f.amount_minor>0&&(row.amount_minor===null||f.amount_minor===exact(row.amount_minor))&&
   (row.event_kind==='unknown'||row.event_kind===f.event_kind)&&
-  (f.event_kind!=='incoming_receipt'||Number.isSafeInteger(f.wallet_balance_after_minor)&&f.wallet_balance_after_minor>=0)&&
+  (f.event_kind!=='incoming_receipt'||Number.isSafeInteger(f.wallet_balance_after_minor)&&f.wallet_balance_after_minor>=0||
+   f.wallet_balance_after_minor===null&&typeof f.provider_transaction_id==='string'&&f.provider_transaction_id.length>0&&
+    f.provider_transaction_id.length<=160&&!/\s/u.test(f.provider_transaction_id)&&
+    f.provider_transaction_id===row.provider_transaction_id&&hasStrongNativeTransactionIdentity(source,profile,output))&&
   f.source_mode===source.source_mode;
 }
 function sameSource(a,b){
  return ['collection_id','source_id','source_fingerprint','principal_user_id','capture_session_id','body_sha256',
-  'object_sha256','object_key','size_bytes','transaction_id','receiving_account_id','provider','amount_minor','currency',
+  'object_sha256','object_key','size_bytes','transaction_id','receiving_account_id','provider','provider_transaction_id','amount_minor','currency',
   'event_kind','mode','version','has_conflict','allocation_state','public_code'].every(k=>same(a[k],b[k]));
 }
 async function rowsForMembers(tx,groupId){
@@ -48,9 +52,9 @@ export class PostgresNativeSmsLedger {
   this.authority=this.worker.authority;this.db=env.DB;
  }
  async snapshot(tx,sourceId){return one(await tx.unsafe('SELECT private.burimunsi_native_sms_post_snapshot($1) AS result',[sourceId]));}
- async defer(sourceId){
+ async defer(sourceId,delayMs=60000){
   return this.authority.write(async tx=>{
-   const rows=await tx.unsafe('SELECT private.burimunsi_native_sms_post_defer($1,$2) AS result',[sourceId,60000]);
+   const rows=await tx.unsafe('SELECT private.burimunsi_native_sms_post_defer($1,$2) AS result',[sourceId,delayMs]);
    check(rows.length===1&&rows[0].result===true);return {state:'unmatched'};
   });
  }
@@ -99,14 +103,14 @@ export class PostgresNativeSmsLedger {
    const profile=initial.plan.snapshot.profile.profile;
    let output=initial.row.posting_output??(typeof initial.row.output_json==='string'?JSON.parse(initial.row.output_json):initial.row.output_json);
    let extracted=validateNativeAutoExtraction(source,profile,output);
-   if(!factsComplete(extracted?.facts,initial.row,source)){
+   if(!factsComplete(extracted?.facts,initial.row,source,profile,output)){
     const planned=prepareNativeAutoExtraction(source,profile);
     if(planned.kind!=='provider')return await this.unresolved(sourceId);
     check(this.env.MOMO_AI_ENABLED==='true'&&typeof this.env.AI?.run==='function');
     const response=await this.env.AI.run(MOMO_MODEL,{...planned.request,provider_timeout_ms:8000});
-    try{output=typeof response?.response==='string'?JSON.parse(response.response):response?.response;}catch{return await this.unresolved(sourceId);}
+    try{output=typeof response?.response==='string'?JSON.parse(response.response):response?.response;}catch{return await this.defer(sourceId,invalidOutputDelayMs);}
     extracted=validateNativeAutoExtraction(source,profile,output);
-    if(!factsComplete(extracted?.facts,initial.row,source))return await this.unresolved(sourceId);
+    if(!factsComplete(extracted?.facts,initial.row,source,profile,output))return await this.defer(sourceId,invalidOutputDelayMs);
    }
    const facts={...extracted.facts,transaction_time_source:extracted.facts.transaction_at?'sms_body_and_provider_profile':null,
     transaction_timezone:extracted.facts.transaction_at?profile.timezone:null};
