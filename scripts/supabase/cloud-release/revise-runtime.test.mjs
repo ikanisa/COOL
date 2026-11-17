@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {requireRevisionFunctions,requireRevisionPreimage,requireRevisionSchedulerReady,reviseRuntime} from './revise-runtime.mjs';
+import {requireRevisionFunctions,requireRevisionPreimage,requireRevisionSchedulerReady,reviseRuntime,verifyFencedRevisionPreimage} from './revise-runtime.mjs';
+import {createHash} from 'node:crypto';
 
 const source='a'.repeat(64),next='b'.repeat(64);
 const ready={checked:true,coverageVerified:true,blocking:false,namedActiveJobs:0,
@@ -99,4 +100,16 @@ test('a revision rejects changed deployed functions before fencing',()=>{
   before.map((x,i)=>i===1?{...x,ezbr_sha256:next}:x),
   before.map((x,i)=>i===2?{...x,verify_jwt:true}:x)])
   assert.throws(()=>requireRevisionFunctions(before,changed),/runtime_revision_functions_changed/);
+});
+
+test('the fenced preimage detects management drift before migration',async()=>{
+ const before=['admin-api','collect-api','collect-jobs'].map((slug,i)=>({slug,status:'ACTIVE',verify_jwt:false,
+  version:i+1,id:`00000000-0000-4000-8000-00000000000${i}`,ezbr_sha256:source}));
+ const expected={mode:'open',epoch:25,source_sha256:source};
+ const digest=createHash('sha256').update(source).digest('hex');
+ const api=(functions,secret)=>async path=>({json:()=>path==='functions'?functions:[{name:'BUILD_SOURCE_ID',value:secret}]});
+ assert.equal((await verifyFencedRevisionPreimage(expected,before,api(before,digest))).length,3);
+ await assert.rejects(verifyFencedRevisionPreimage(expected,before,api(before,next)),/runtime_revision_source_secret_changed/);
+ await assert.rejects(verifyFencedRevisionPreimage(expected,before,api(before.map((x,i)=>i?x:{...x,version:99}),digest)),
+  /runtime_revision_functions_changed/);
 });

@@ -44,6 +44,15 @@ export function requireRevisionFunctions(expected,actual){
  if(JSON.stringify(summary(expected))!==JSON.stringify(summary(actual)))throw Error('runtime_revision_functions_changed');
  return actual;
 }
+export async function verifyFencedRevisionPreimage(expectedBefore,expectedFunctions,api){
+ if(!expectedBefore||!expectedFunctions)throw Error('runtime_revision_preimage_changed');
+ const current=(await api('functions')).json();requireRevisionFunctions(expectedFunctions,current);
+ const metadata=(await api('secrets')).json();
+ if(!Array.isArray(metadata)||metadata.filter(x=>x?.name==='BUILD_SOURCE_ID').length!==1||
+    metadata.find(x=>x.name==='BUILD_SOURCE_ID')?.value!==sha(expectedBefore.source_sha256))
+  throw Error('runtime_revision_source_secret_changed');
+ return current;
+}
 
 export async function reviseRuntime({label,testEvidence,migrations=[],resumeFencedRevision=null,expectedBefore=null,expectedFunctions=null},{
  captureSnapshot=captureRuntimeSnapshot,check=checkSnapshot,open=connect,api=management,save=record,
@@ -89,6 +98,9 @@ export async function reviseRuntime({label,testEvidence,migrations=[],resumeFenc
   const drained=(await c.query('SELECT private.collect_fence_drain_v3($1,$2,$3) v',[fenceId,f.epoch,f.source_sha256])).rows[0].v;
   if(drained.mode!=='fenced')throw Error('revision_drain_unconfirmed');
   save(name+'-fenced.json',{fenceId,epoch:f.epoch,at:new Date().toISOString()});
+  // The database fence cannot lock Supabase's management API. Recheck the
+  // provider preimage immediately before any migration or source mutation.
+  if(expectedFunctions!==null)await verifyFencedRevisionPreimage(expectedBefore,expectedFunctions,api);
   let applied=migrationHistory;
   for(const entry of entries){
    save(name+'-migration-'+entry.version+'-intent.json',{file:entry.file,sha256:entry.sha256,before:applied,at:new Date().toISOString()});
