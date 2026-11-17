@@ -13,5 +13,5 @@
     "archive:current": "node current-archive/operator.mjs"
   },
   "dependencies": {"pg": "8.16.3"},
-  "devDependencies": {"deno": "2.9.6", "supabase": "2.121.0"}
+  "devDependencies": {"@electric-sql/pglite": "0.3.16", "deno": "2.9.6", "supabase": "2.121.0"}
 }

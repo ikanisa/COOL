@@ -28,6 +28,7 @@ const SQL = {
   finish: 'SELECT private.admin_invitation_finish(?,?,?,?,?::uuid,?::uuid,?,?) AS result',
   recover: 'SELECT private.admin_invitation_recover(?,?,?,?,?) AS result',
 };
+const OWNER_CHECK_SQL = 'SELECT private.collect_owner_is(?,?,?) AS result';
 const phaseFor = text => Object.keys(SQL).find(phase => SQL[phase] === text);
 const apiError = (status, code) => error => error instanceof ApiError && error.status === status && error.code === code;
 const resultOf = (row, extra = {}) => ({requestId: row.requestId, id: row.id,
@@ -41,16 +42,21 @@ class Statement {
   first() { return this.db.transition(this.sql, this.values); }
 }
 class Database {
-  trace = []; records = new Map(); keys = new Map(); subjects = new Map(); claimed = 0;
+  trace = []; ownerChecks = []; records = new Map(); keys = new Map(); subjects = new Map(); claimed = 0;
   constructor(options) {
     this.options = options;
     if (options.subject) this.subjects.set(options.subject.id, {...options.subject});
   }
   prepare(sql) {
-    assert.ok(phaseFor(sql), 'Only the four private invitation protocol functions may be called');
+    assert.ok(phaseFor(sql) || sql===OWNER_CHECK_SQL, 'Only the protected-owner check and invitation protocol may be called');
     return new Statement(this, sql);
   }
   async transition(sql, args) {
+    if (sql===OWNER_CHECK_SQL) {
+      this.ownerChecks.push([...args]);
+      if (this.options.ownerCheckError) throw new Error('synthetic owner query unavailable');
+      return {result: this.options.ownerAllowed === true};
+    }
     const phase = phaseFor(sql);
     this.trace.push({phase, args: [...args]});
     assert.deepEqual(args.slice(0, 4), [OWNER.id, OWNER.token_hash, OWNER.origin, OWNER.public_id]);
@@ -127,7 +133,8 @@ async function decoded(response) {
 }
 async function fixture(options, check) {
   const db = new Database(options), calls = [];
-  const env = {DB: db, SUPABASE_URL: PROJECT, SUPABASE_SERVICE_ROLE_KEY: SERVICE_KEY};
+  const env = {DB: db, SUPABASE_URL: PROJECT, SUPABASE_SERVICE_ROLE_KEY: SERVICE_KEY,
+    ...(options.dynamicOwner ? {COLLECT_ADMIN_DYNAMIC_OWNER_AUTH_ENABLED:'true'} : {})};
   const previousFetch = globalThis.fetch, previousNow = Date.now;
   Date.now = () => NOW * 1000;
   globalThis.fetch = async (input, init) => {
@@ -173,6 +180,22 @@ function safe(reply) {
 }
 
 test('managed Admin invitation controller preserves durable attempts and one-send claims', {concurrency: false}, async t => {
+  await t.test('a protected alternate owner uses the database binding and the existing invitation protocol',async()=>fixture({dynamicOwner:true,ownerAllowed:true},async({db,calls,invoke})=>{
+    const account={...OWNER,email:'owner@example.invalid'};
+    assert.equal((await decoded(await invoke('/team/invite',{account}))).status,200);
+    assert.deepEqual(db.ownerChecks,[[account.id,account.principal_id,account.email]]);
+    assert.deepEqual(phases(db),['prepare','claim','finish']);assert.equal(calls.length,1);
+  }));
+  for(const option of [{ownerAllowed:false},{ownerCheckError:true}])await t.test('a missing or unavailable protected owner denies before invitation/provider work',async()=>fixture({dynamicOwner:true,...option},async({db,calls,invoke})=>{
+    await assert.rejects(invoke('/team/invite',{account:{...OWNER,email:'owner@example.invalid'}}),
+      option.ownerCheckError?apiError(503,'owner_identity_unavailable'):apiError(403,'owner_required'));
+    assert.equal(db.ownerChecks.length,1);assert.deepEqual(phases(db),[]);assert.equal(calls.length,0);
+  }));
+  await t.test('the alternate protected owner email is refused as an invitation target',async()=>fixture({dynamicOwner:true,ownerAllowed:true},async({db,calls,invoke})=>{
+    const account={...OWNER,email:'owner@example.invalid'};
+    await assert.rejects(invoke('/team/invite',{account,body:{email:account.email,role:'staff'}}),apiError(400,'invalid_invitation'));
+    assert.deepEqual(phases(db),[]);assert.equal(calls.length,0);
+  }));
   for (const [name, patch] of [
     ['non-owner role', {role: 'admin'}], ['different owner email', {email: EMAIL}], ['missing permission', {permissions: []}],
     ['missing Admin ID', {id: undefined}],

@@ -101,9 +101,15 @@ fun main() {
         check(!SmsQueueOwnerPolicy.canDisable("owner-A", "owner-B"))
         check(!SmsQueueOwnerPolicy.canDisable("", ""))
     }
-    test("Gateway upload hold remains closed even for otherwise eligible receipt") {
+    test("Gateway default stays closed and runtime admission does not bypass source policy") {
         check(!MomoGatewayPolicy.gatewayUploadsAdmitted())
         check(!MomoGatewayPolicy.uploadEligible("binding", 1, "binding", 1, false, false, "live", true, "M-Money", "Received 1000 RWF"))
+        check(!MomoGatewayPolicy.uploadEligible("binding", 1, "binding", 1, false, false, "live", true, "M-Money", "Received 1000 RWF", true))
+        check(MomoGatewayPolicy.uploadEligible("binding", 1, "binding", 1, false, false, "live", true, "M-Money", "Received 1000 RWF", true, true))
+        check(!MomoGatewayPolicy.uploadEligible("binding", 1, "other", 1, false, false, "live", true, "M-Money", "Received 1000 RWF", true, true))
+        check(MomoGatewayPolicy.uploadEligible("binding", 1, "binding", 1, false, false, "catch_up", false, "M-Money", "Received 1000 RWF", true, true))
+        check(!MomoGatewayPolicy.uploadEligible("binding", 1, "binding", 1, true, false, "catch_up", false, "M-Money", "Received 1000 RWF", true, true))
+        check(!MomoGatewayPolicy.uploadEligible("binding", 1, "binding", 1, false, false, "catch_up", true, "M-Money", "Received 1000 RWF", true, true))
     }
     test("Queue reserve protects live capture capacity") {
         check(MomoGatewayPolicy.queueAdmission(899, 1000, 100) == MomoGatewayPolicy.QueueAdmission.AVAILABLE)

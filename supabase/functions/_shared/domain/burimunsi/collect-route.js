@@ -1,8 +1,11 @@
 import {verifyToken} from '../../auth-http.js';
-import {projectSession} from '../auth.js';
+import {projectSession,startOtp} from '../auth.js';
+import {ApiError} from '../core.js';
+import {MANAGED_EMAIL_OTP_PATH,admitManagedEmailOtp} from './managed-email-otp.js';
 import {applicationWork,applicationWorkTuple} from '../../application-fence.js';
 import {canonicalProfile,validateDeploymentProfile,verifyDeploymentProfile} from '../../deployment-profile.js';
 import {createManagedRequestGate} from './managed-request-gate.js';
+import {createPhonePinRequestGate} from './phone-pin-request.js';
 import {composePostgresNativeRequest} from './compose-postgres.js';
 import {BuriError,requireThat} from './errors.js';
 import {requireId} from './values.js';
@@ -13,7 +16,7 @@ const compositions=new WeakSet();
 const HEADERS={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',
   'Pragma':'no-cache','X-Content-Type-Options':'nosniff','X-BuriMunsi-Contract':CONTRACT_VERSION};
 function failure(error){
-  const native=error instanceof BuriError,contract=error instanceof ContractViolation;
+  const native=error instanceof BuriError||error instanceof ApiError,contract=error instanceof ContractViolation;
   const fenced=['application_fenced','application_fence_unavailable'].includes(error?.code);
   const code=contract?error.code.toLowerCase():native||fenced?error.code:'native_service_unavailable';
   const status=contract?nativeRequestErrorStatus(error):native?error.status:503;
@@ -45,9 +48,10 @@ export function isCollectNativeRoute(request){
  * A generic Supabase installation without Collect's reviewed business schema
  * and BuriMunsi extensions is not a commissioned target for this composition.
  */
-export function createCollectNativeRoute({profile,config,bridgeFactory,secrets,networkBucket,clock=()=>Date.now()}={}){
+export function createCollectNativeRoute({profile,config,bridgeFactory,secrets,networkBucket,resolveGroup,clock=()=>Date.now()}={}){
   const selected=validateDeploymentProfile(profile),identity=canonicalProfile(selected);
-  requireId(config?.groupId);
+  if(resolveGroup===undefined)requireId(config?.groupId);
+  else requireThat(typeof resolveGroup==='function'&&config?.groupId===undefined,'collect_adapter_required',503);
   requireThat(config?.enabled===true&&config.canonicalIntegrationEnabled===true,
     'native_service_unconfigured',503);
   requireThat(config.origin===selected.supabase_origin,'native_profile_mismatch',503);
@@ -58,6 +62,7 @@ export function createCollectNativeRoute({profile,config,bridgeFactory,secrets,n
   const settings=Object.freeze({...config});
   const keys=Object.freeze({...secrets,pinPepper:new Uint8Array(secrets.pinPepper),cursorKey:new Uint8Array(secrets.cursorKey)});
   const withManagedRequest=createManagedRequestGate({verifyToken,projectSession,applicationWorkTuple,clock});
+  const withPhonePinRequest=createPhonePinRequestGate({secrets:keys,networkBucket,clock,sessionTtlMs:settings.sessionTtlMs??1800000});
   const handler=async(request,env)=>{
     requireActiveNativeRequest(request);
     const current=await verifyDeploymentProfile(env);
@@ -68,18 +73,31 @@ export function createCollectNativeRoute({profile,config,bridgeFactory,secrets,n
     const db=env?.DB,work=applicationWork(env),tuple=applicationWorkTuple(work);
     requireThat(db?.applicationWork===work&&work.kind==='http_collect'&&tuple[2]===env.BUILD_SOURCE_ID,
       'request_not_admitted',503);
-    return withManagedRequest({request,env,groupId:settings.groupId},async(principal,local)=>{
+    // Only this exact route precedes managed session verification. Its separate
+    // device/identity proof and durable budgets precede any privileged OTP send.
+    if(new URL(request.url).pathname===MANAGED_EMAIL_OTP_PATH){
+      const {admission,email}=await admitManagedEmailOtp(request,env,{profile:selected,networkBucket});
+      const data=await startOtp(env,{email,surface:'admin'},{nativeAdmission:admission});
+      requireActiveNativeRequest(request);await work.assert();
+      return new Response(JSON.stringify(data),{status:200,headers:HEADERS});
+    }
+    const compose=async(principal,local)=>{
       requireActiveNativeRequest(request);
       requireThat(local.DB===db&&db.applicationWork===work,'request_not_admitted',503);
       const admission=Object.freeze({verified:true,...principal});
       const bridges=await bridgeFactory(Object.freeze({env:local,db,work,profile:selected,
-        groupId:settings.groupId,admission}));
+        groupId:principal.groupId,admission}));
       requireActiveNativeRequest(request);
       await work.assert();
       requireThat(local.DB===db&&db.applicationWork===work,'request_not_admitted',503);
-      const native=composePostgresNativeRequest({admission,config:settings,db,bridges,secrets:keys,networkBucket,clock});
+      const native=composePostgresNativeRequest({admission,config:{...settings,groupId:principal.groupId},db,bridges,secrets:keys,networkBucket,clock});
       return native(request);
-    });
+    };
+    // Explicit protocol selection; a missing/invalid managed token never falls
+    // back to PIN authority. Both modes retain the same application fence,
+    // shared principal checks, collection scope and canonical ledger adapters.
+    if(request.headers.get('X-BuriMunsi-Auth')==='phone_pin')return withPhonePinRequest({request,env},compose);
+    return withManagedRequest({request,env,groupId:settings.groupId,resolveGroup,requireGroupAssertion:true},compose);
   };
   compositions.add(handler);
   return handler;

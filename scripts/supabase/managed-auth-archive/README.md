@@ -4,6 +4,8 @@ This separate module captures and restores managed Auth **data** without widenin
 
 The qualified private predecessor has actual accepted evidence for 27 Auth tables, 271 table columns, nine enums and a separate sequence: an encrypted 115-row capture with authenticated readback, an exact local PG17 inert data roundtrip, and a matching ciphertext-only offsite download. Those receipts remain bound to the original private implementation. This repository normalization has not yet been executed or qualified. Seventeen focused predecessor tests and eight synthetic native cases previously passed; this copy retains them and adds one checkout-output refusal test for Root's focused 18-test verification.
 
+On 13 November 2026, the repository Auth decryptor and shared archive helper were subsequently changed to clear intermediate plaintext buffers and bound private-file reads. `NORMALIZED-DELTA.json` is preserved as historical provenance for the earlier normalization; its output and helper hashes no longer describe the current working tree. The current focused synthetic suite includes an additional buffer-cleanup regression. These changes do not retroactively qualify a production restore or alter the earlier captures.
+
 Operational GoTrue/session recovery, independent key custody, complete Storage/config recovery, cross-service consistency and measured whole-system RPO/RTO remain open. Stored sequence endpoints are not an MVCC or Auth-quiescence guarantee. The observed 115 rows describe that archive; future captures measure their own counts and bytes in their own read-only transaction.
 
 ## API
@@ -36,7 +38,7 @@ Root runs the focused suite once under its reviewed network-denied process custo
 node --test scripts/supabase/managed-auth-archive/auth.test.mjs
 ```
 
-The original 17 tests use synthetic values and fake transport. One deliberately failed synthetic capture leaves safe intent evidence in that controlled temporary area. The added 18th test verifies `AUTH_OUTPUT_PATH_INVALID`, zero transport calls, and absence of both output children when archive output is inside the checkout.
+The original 17 tests use synthetic values and fake transport. One deliberately failed synthetic capture leaves safe intent evidence in that controlled temporary area. The added 18th test verifies `AUTH_OUTPUT_PATH_INVALID`, zero transport calls, and absence of both output children when archive output is inside the checkout. The current 19th test checks that intermediate GCM plaintext buffers are cleared after successful readback and failed authentication.
 
 `native-definition.mjs` exports `runNativeDefinition({adminUrl, makeClient, onMetadata})`; it has no CLI or bootstrap. The optional callback receives synthetic catalogue metadata only. A caller supplies the independently owned loopback PG17 factory and process/cluster custody. The eight existing cases cover catalogue parity, capture output settings overriding hostile session settings, same-transaction capture, authenticated fixture/refusal behavior, native enum/materialized-value roundtrip, cell budget refusal, enum drift EXPLAIN with all 28 Auth relation/sequence scans at zero loops, and extra-relation refusal. There is no need to repeat the unchanged native qualification merely to make this import/path-binding delta reviewable.
 

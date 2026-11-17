@@ -8,7 +8,8 @@ class CloudflareAdminAccountApi
         AdminAccountApi,
         AdminEmailOtpAccountApi,
         AdminGoogleAccountApi,
-        AdminInvitationV2AccountApi {
+        AdminInvitationV2AccountApi,
+        AdminOwnerTargetProtection {
   CloudflareAdminAccountApi(this.session, {int invitationVersion = 2})
     : _invitationVersion = invitationVersion {
     if (!const {1, 2}.contains(invitationVersion)) {
@@ -34,11 +35,25 @@ class CloudflareAdminAccountApi
     final user = session.user, now = DateTime.now();
     return invitationRecoveryAvailable &&
         user != null &&
-        user.role == AdminAccountRole.owner &&
-        user.email.toLowerCase() == 'info@ikanisa.com' &&
+        !session.sensitiveEmailVerificationUnconfirmed &&
+        user.isCurrentOwner &&
         user.permissions.contains('admin_users.manage') &&
         user.expiresAt.isAfter(now) &&
         user.hasRecentSensitiveVerification(now: now);
+  }
+
+  @override
+  bool isProtectedOwnerTarget({String? adminId, String? email}) {
+    final user = session.user;
+    if (user == null) return true;
+    if (user.usesProtectedOwner) {
+      final owner = user.ownerIdentity;
+      if (owner == null) return true;
+      return adminId == owner.adminId ||
+          email != null && email.trim().toLowerCase() == owner.email;
+    }
+    return adminId != null && user.isCurrentOwner && adminId == user.id ||
+        email?.trim().toLowerCase() == 'info@ikanisa.com';
   }
 
   void _invitationAuthority(Object fence) {
@@ -74,6 +89,12 @@ class CloudflareAdminAccountApi
     required Object authorityFence,
   }) async {
     _invitationAuthority(authorityFence);
+    if (isProtectedOwnerTarget(
+      adminId: intent.staffId,
+      email: intent.body['email'] as String?,
+    )) {
+      throw const AdminAccountException('The owner account is protected.');
+    }
     try {
       final value = await session.request(
         intent.path,
@@ -274,7 +295,6 @@ class CloudflareAdminAccountApi
         'The password result is not confirmed. Sign in with your new password. If it does not work, try your previous password. Request a reset email if neither works.',
       );
     }
-    session.clear();
   }
 
   @override
@@ -301,7 +321,9 @@ class CloudflareAdminAccountApi
       }
       return AdminAccountTeam(
         currentEmail: body['currentEmail'] as String,
-        canManage: body['canManage'] as bool,
+        canManage:
+            (body['canManage'] as bool) &&
+            (!session.usesProtectedOwner || invitationManagementAuthorized),
         permissionsByRole: {
           for (final entry in (body['permissionsByRole'] as Map? ?? {}).entries)
             entry.key as String:
@@ -424,9 +446,19 @@ class CloudflareAdminAccountApi
   }
 
   @override
-  Future<void> revokeMember(String id) => _mutation(
-    'team/${Uri.encodeComponent(id)}/revoke',
-    const {},
-    authenticated: true,
-  );
+  Future<void> revokeMember(String id) {
+    if (session.usesProtectedOwner && !invitationManagementAuthorized) {
+      throw const AdminAccountException(
+        'Verify your current owner sign-in before managing team access.',
+      );
+    }
+    if (session.user != null && isProtectedOwnerTarget(adminId: id)) {
+      throw const AdminAccountException('The owner account is protected.');
+    }
+    return _mutation(
+      'team/${Uri.encodeComponent(id)}/revoke',
+      const {},
+      authenticated: true,
+    );
+  }
 }

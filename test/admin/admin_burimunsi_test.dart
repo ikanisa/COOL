@@ -73,7 +73,9 @@ class FakeBuriApi implements AdminAccountApi, AdminBuriMunsiApi {
     canManage: canManageTeam,
   );
   @override
-  Future<BuriOperatorDirectory> loadBuriDirectory() async {
+  Future<BuriOperatorDirectory> loadBuriDirectory({
+    String? collectionId,
+  }) async {
     loads++;
     return directory;
   }
@@ -228,6 +230,7 @@ void main() {
     'phone normalization and approval capability ceiling preserve leading digits',
     () {
       expect(intent().phone, '+250780000002');
+      expect(intent().body['principalId'], staff.principalId);
       expect(
         () => BuriApprovalIntent(
           collectionId: group,

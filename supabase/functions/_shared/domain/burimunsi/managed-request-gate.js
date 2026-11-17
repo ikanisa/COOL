@@ -7,8 +7,10 @@ const activeDatabases=new WeakSet();
  */
 export function createManagedRequestGate({verifyToken,projectSession,applicationWorkTuple,clock=()=>Date.now()}) {
   requireThat([verifyToken,projectSession,applicationWorkTuple,clock].every(f=>typeof f==='function'),'collect_adapter_required',503);
-  return async function withManagedRequest({request,env,groupId},operation) {
-    requireId(groupId);requireThat(typeof operation==='function','collect_adapter_required',503);
+  return async function withManagedRequest({request,env,groupId,resolveGroup,requireGroupAssertion=false},operation) {
+    if(groupId!==undefined)requireId(groupId);
+    requireThat(typeof operation==='function'&&(groupId!==undefined||typeof resolveGroup==='function')&&
+      !(groupId!==undefined&&resolveGroup!==undefined),'collect_adapter_required',503);
     const db=env?.DB,work=db?.applicationWork;
     requirePort(db,['setClaims']);requirePort(work,['assert']);
     requireThat(!activeDatabases.has(db),'managed_context_busy',503);
@@ -34,7 +36,13 @@ export function createManagedRequestGate({verifyToken,projectSession,application
       catch{throw new BuriError('managed_session_required',401);}
       await owned();requireId(actor?.userId);
       requireThat(actor.sessionId===claims.session_id&&actor.surface==='admin','managed_session_required',401);
-      const result=await operation(Object.freeze({groupId,principalUserId:actor.userId,principalSessionId:actor.sessionId}),local);
+      // A group header is an intent assertion, never a scope selector. Discovery
+      // happens only after genuine managed verification, from the exact current
+      // principal + installation/device grant in this request's existing DB.
+      const selected=groupId??await resolveGroup(Object.freeze({request,env:local,principalUserId:actor.userId,principalSessionId:actor.sessionId}));
+      requireId(selected);await owned();
+      if(requireGroupAssertion)requireThat(request.headers.get('X-BuriMunsi-Group')===selected,'managed_scope_changed',403);
+      const result=await operation(Object.freeze({groupId:selected,principalUserId:actor.userId,principalSessionId:actor.sessionId}),local);
       await owned();return result;
     } finally {
       try{db.setClaims({});}finally{delete local.AUTH_ACTOR;delete local.AUTH_VERIFIED;activeDatabases.delete(db);}

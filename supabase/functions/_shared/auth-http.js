@@ -1,5 +1,8 @@
 import {guardedFetch,noteUnknownEffect} from './application-fence.js';
 import {ApiError} from './domain/core.js';
+/** @param {Record<string,any>} env
+ * @param {string} path
+ * @param {{method?:string,token?:string|null,body?:unknown,admin?:boolean}} options */
 export async function authRequest(env, path, {method='POST',token=null,body=null,admin=false}={}) {
  const key=admin?env.SUPABASE_SERVICE_ROLE_KEY:env.SUPABASE_PUBLISHABLE_KEY;
  if(!env.SUPABASE_URL||!key)throw new ApiError(503,'auth_unavailable','Sign-in is not configured.');

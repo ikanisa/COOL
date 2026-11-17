@@ -51,13 +51,14 @@ export class PostgresCanonicalAdoption {
     const rows=await sql.unsafe(`SELECT t.id,t.has_conflict,t.allocation_state,t.amount_minor AS transaction_amount,t.currency AS transaction_currency,
       p.status,p.collection_id AS payment_group,p.amount_minor AS payment_amount,p.currency AS payment_currency,
       p.member_id,f.beneficiary_member_id,l.id AS ledger_entry_id,l.amount_minor AS ledger_amount,l.currency AS ledger_currency,
-      EXISTS(SELECT 1 FROM app.ledger_entries c WHERE c.reverses_entry_id=l.id) AS compensated
+      EXISTS(SELECT 1 FROM app.ledger_entries c WHERE c.reverses_entry_id=l.id) AS compensated,
+      EXISTS(SELECT 1 FROM app.momo_transaction_sources bad WHERE bad.transaction_id=t.id AND bad.relation='conflict') AS source_conflict
       FROM private.burimunsi_transaction_scopes x JOIN app.momo_transactions t ON t.id=x.transaction_id AND t.receiving_account_id=x.receiving_account_id
       LEFT JOIN app.momo_financial_links f ON f.transaction_id=t.id LEFT JOIN app.payments p ON p.id=f.payment_id
       LEFT JOIN app.ledger_entries l ON l.payment_id=p.id AND l.collection_id=x.collection_id AND l.member_id=p.member_id AND l.kind='contribution'
       WHERE x.collection_id=$1 AND t.id=$2`,[groupId,transactionId]);
     await this.owned();requireThat(rows.length===1,'canonical_posting_outcome_missing',503);const r=rows[0];
-    requireThat(pgInteger(r.has_conflict,{minimum:0})===0&&r.compensated===false,'transaction_conflict',409);
+    requireThat(pgInteger(r.has_conflict,{minimum:0})===0&&r.compensated===false&&r.source_conflict===false,'transaction_conflict',409);
     if(r.allocation_state==='unallocated'&&r.ledger_entry_id===null&&r.status===null)
       return Object.freeze({groupId,transactionId,state:'unallocated',hasConflict:false});
     requireThat(r.allocation_state==='linked'&&r.payment_group===groupId&&['confirmed','reconciled'].includes(r.status)&&

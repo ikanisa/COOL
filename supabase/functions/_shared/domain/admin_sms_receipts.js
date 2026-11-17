@@ -9,9 +9,12 @@ import {assertMutationAdmission} from './mutations.js';
 const sourceKinds=new Set(['capture','member','receiver']);
 const statuses=new Set(['received','under_review','rejected','linked','pending','parsed','parse_failed','needs_review','reviewed']);
 const extractionStatuses=new Set(['not_extracted','parsed','needs_review']);
+// Native-origin receipts have a null managed-session ID and retain their own
+// collection-scoped observation reader. The legacy global reader must not make
+// those sources visible across collection approvals.
 const sourceSql=`SELECT s.id,s.owner_user_id,s.body_sha256,s.status,s.evidence_level,
  s.received_at_device,s.created_at,u.public_id,u.full_name
- FROM sms_receipts s JOIN users u ON u.id=s.owner_user_id`;
+ FROM sms_receipts s JOIN users u ON u.id=s.owner_user_id AND s.originating_session_id IS NOT NULL`;
 const fail=(status,code,message)=>{throw new ApiError(status,code,message);};
 const invalid=()=>fail(400,'invalid_filter','This SMS receipt filter is unavailable.');
 const badSource=()=>fail(503,'invalid_source_data','SMS receipt metadata is unavailable.');
@@ -79,7 +82,7 @@ export async function captureContent(request,env,account,actor,parts,url,auditAc
  const reason=text(request.headers.get('X-Collect-Review-Reason'),'review reason',1000);
  if(reason.length<8||/[\u0000-\u001f\u007f]/.test(reason))fail(400,'reason_required','Record a review reason of 8 to 1000 characters.');
  const receiptId=uuid(parts[2],'receipt_id'),scoped=accountDatabase(accountDatabase(env,account,'sms.read',{mfa:true,fresh:true}),account,'sms.reveal',{mfa:true,fresh:true});
- const [selected]=await scoped.DB.batch([scoped.DB.prepare(`SELECT s.*,o.scope AS retained_scope FROM sms_receipts s LEFT JOIN private.storage_objects o ON o.object_key=s.object_key WHERE s.id=?`).bind(receiptId)]);
+ const [selected]=await scoped.DB.batch([scoped.DB.prepare(`SELECT s.*,o.scope AS retained_scope FROM sms_receipts s LEFT JOIN private.storage_objects o ON o.object_key=s.object_key WHERE s.id=? AND s.originating_session_id IS NOT NULL`).bind(receiptId)]);
  if(selected.results.length!==1)fail(404,'not_found','This capture was not found.');
  const {retained_scope:scope,...raw}=selected.results[0];
  const integrity=()=>fail(503,'source_integrity_failed','The retained SMS could not be verified.');
@@ -134,7 +137,7 @@ export async function adminSmsMetadataRead(request,env,account,actor,parts,url){
  if(f.search){conditions.push('(instr(lower(s.id),lower(?))>0 OR instr(u.public_id,?)>0 OR instr(lower(u.full_name),lower(?))>0)');args.push(f.search,f.search,f.search);}
  const where=conditions.length?' WHERE '+conditions.join(' AND '):'';
  const [count,result]=await scoped.DB.batch([
-  scoped.DB.prepare('SELECT count(*) AS total FROM sms_receipts s JOIN users u ON u.id=s.owner_user_id'+where).bind(...args),
+  scoped.DB.prepare('SELECT count(*) AS total FROM sms_receipts s JOIN users u ON u.id=s.owner_user_id AND s.originating_session_id IS NOT NULL'+where).bind(...args),
   scoped.DB.prepare(sourceSql+where+' ORDER BY s.created_at DESC,s.id ASC LIMIT ? OFFSET ?').bind(...args,f.limit,f.offset)]);
  const total=count.results[0].total,rows=result.results.map(sourceRow);
  if(!Number.isSafeInteger(total)||total<0||rows.length!==Math.max(0,Math.min(f.limit,total-f.offset)))badSource();

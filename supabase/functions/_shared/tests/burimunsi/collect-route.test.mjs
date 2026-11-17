@@ -68,7 +68,8 @@ async function fixture(){
   const raw=canonicalProfile(PROFILE);
   const env={DB:f.db,COLLECT_FENCE_WORK:work,BUILD_SOURCE_ID:SOURCE,COLLECT_DEPLOYMENT_PROFILE:raw,
     COLLECT_DEPLOYMENT_PROFILE_SHA256:await sha256(raw),SUPABASE_URL:PROFILE.supabase_origin,
-    SUPABASE_PUBLISHABLE_KEY:'fixture-public-only'};
+    SUPABASE_PUBLISHABLE_KEY:'fixture-public-only',PRIVATE_MEDIA:{
+      namespace:{origin:PROFILE.supabase_origin,bucket:'collect-evidence'},get:unused,put:unused}};
   const claims={sub:I.account,session_id:I.canonical,role:'authenticated',aud:'authenticated',
     iss:PROFILE.supabase_origin+'/auth/v1',exp:Math.floor(Date.now()/1000)+3600,
     amr:[{method:'otp',timestamp:Math.floor(I.now/1000)}]};
@@ -91,13 +92,11 @@ async function fixture(){
       const namespace={origin:PROFILE.supabase_origin,bucket:'collect-evidence'};
       return {canonical:{env:inputs.env,validateProviderProfile:unused,applicationWorkTuple},
         commands:{enqueueEligibleRematch:unused},
-        gateway:()=>({withAuthorityTransaction:unused,withReadSnapshot:unused}),
-        sourceReader:{revision:unused,page:unused,detail:unused},
-        posting:{custody:{namespace,decrypt:unused},preparation:{media:{namespace,put:unused},encrypt:unused,keyId:'fixture-key'}}};
+        posting:{custody:{namespace,decrypt:unused},preparation:{media:inputs.env.PRIVATE_MEDIA,encrypt:unused,keyId:'fixture-key'}}};
     }};
   const request=(path='/session',overrides={})=>new Request(PROFILE.supabase_origin+'/v1/burimunsi'+path,{headers:{
     'X-BuriMunsi-Collect-Session':token(),'X-BuriMunsi-Contract':CONTRACT_VERSION,
-    'X-BuriMunsi-Installation':I.installation,'X-BuriMunsi-Request':I.request,'X-BuriMunsi-Generation':'1',
+    'X-BuriMunsi-Installation':I.installation,'X-BuriMunsi-Request':I.request,'X-BuriMunsi-Generation':'1','X-BuriMunsi-Group':I.group,
     Authorization:'Bearer '+NATIVE_TOKEN,...overrides}});
   const mount=()=>{env.BURIMUNSI_NATIVE_ROUTE=createCollectNativeRoute(options);};
   return {...f,h,work,env,state,nativeState:f.state,options,claims,request,mount,close:async()=>{
@@ -181,10 +180,27 @@ test('client group selectors fail closed rather than selecting another collectio
 test('a configured different collection cannot authenticate this native account',async()=>{
   const f=await fixture();try{
     f.options.config=settings('different-group');f.mount();
-    const response=await collectNativeRoute(f.request(),f.env);
+    const response=await collectNativeRoute(f.request('/session',{'X-BuriMunsi-Group':'different-group'}),f.env);
     assert.equal(response.status,401);assert.equal(f.state.bridgeInputs.groupId,'different-group');
     assert.equal(f.state.writes,0);assert.deepEqual(f.state.claims,{});
   }finally{await f.close();}
+});
+for(const intent of ['', 'other-group'])test('native group assertion cannot retarget authenticated repository intent: '+intent,async()=>{
+ const f=await fixture();try{f.mount();const response=await collectNativeRoute(f.request('/session',{'X-BuriMunsi-Group':intent}),f.env);
+  assert.equal(response.status,403);assert.equal((await response.json()).error.code,'managed_scope_changed');
+  assert.equal(f.state.bridgeCalls,0);assert.equal(f.nativeState.transactions,0);assert.equal(f.state.writes,0);assert.deepEqual(f.state.claims,{});
+ }finally{await f.close();}
+});
+test('dynamic scope is resolved only after real managed projection and never from the group assertion',async()=>{
+ const f=await fixture();try{
+  delete f.options.config.groupId;let resolved=0;
+  f.options.resolveGroup=async({request,env,principalUserId,principalSessionId})=>{
+   resolved++;assert.equal(f.state.providerCalls,1);assert.equal(principalUserId,I.principal);assert.equal(principalSessionId,I.canonical);
+   assert.equal(env.DB,f.db);assert.equal(request.headers.get('X-BuriMunsi-Group'),I.group);return I.group;
+  };
+  f.mount();const response=await collectNativeRoute(f.request(),f.env);assert.equal(response.status,200);assert.equal(resolved,1);
+  assert.equal(f.state.bridgeInputs.groupId,I.group);
+ }finally{await f.close();}
 });
 test('wrong current deployment profile is denied before provider or DB work',async()=>{
   const f=await fixture();try{

@@ -22,12 +22,19 @@ export function composeNativeRequest({admission,config,ports,secrets,networkBuck
   requirePort(ports?.canonical,['inCanonicalTransaction']);
   requirePort(ports?.gateway,['withAuthorityTransaction','withReadSnapshot']);
   const groupId=config.groupId;
-  const auth=new NativeAuthService({store:ports.auth,hasher:new PinHasher({pepper:secrets.pinPepper,pepperId:secrets.pinPepperId}),groupId,clock,sessionTtlMs:config.sessionTtlMs??1800000});
+  const auth=new NativeAuthService({store:ports.auth,hasher:new PinHasher({pepper:secrets.pinPepper,pepperId:secrets.pinPepperId}),groupId,clock,sessionTtlMs:config.sessionTtlMs??1800000,
+    preserveStaffPinOnPhoneChange:config.preserveStaffPinOnPhoneChange===true,defaultStaffPin:secrets.defaultStaffPin});
   const contributions=composeNativeContributions({config,ports,clock});
   const members=new MemberService({store:ports.canonical,groupId,clock});
   const gateway=new GatewayRegistry({store:ports.gateway,groupId,clock});
-  const records=new RecordsService({store:ports.records,groupId,cursor:new ScopedCursor(secrets.cursorKey),clock});
-  return createNativeHandler({auth,records,contributions,members,gateway,origin:config.origin,networkBucket,groupId,strictContract:true});
+  requireThat(config.smartOnboardingAdvancedEnabled===undefined||typeof config.smartOnboardingAdvancedEnabled==='boolean','invalid_worker_config',503);
+  const smartOnboardingImport=config.smartOnboardingAdvancedEnabled===true?ports.smartOnboardingImport:null;
+  if(config.smartOnboardingAdvancedEnabled===true)requirePort(smartOnboardingImport,['preview']);
+  else requireThat(ports.smartOnboardingImport===undefined,'smart_import_config_conflict',503);
+  const cursor=new ScopedCursor(secrets.cursorKey);
+  const records=new RecordsService({store:ports.records,groupId,cursor,clock,smartOnboardingImport});
+  return createNativeHandler({auth,records,contributions,members,gateway,observations:ports.observations,cursor,
+    origin:config.origin,networkBucket,groupId,strictContract:true});
 }
 
 /** Shared request/worker selection. Enabled preparation can never silently fall

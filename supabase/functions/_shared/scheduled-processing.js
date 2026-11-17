@@ -19,7 +19,7 @@ export function parseScheduledDispatch(payload){
  if(!object(payload))invalid();
  const names=Object.keys(payload);
  if(names.length===0)return {dispatchId:null,processing:null,notifications:null}; // Legacy maintenance probe only.
- if(!names.includes('dispatch_id')||names.some(key=>!['dispatch_id','processing_admission','notification_admission'].includes(key)))invalid();
+ if(!names.includes('dispatch_id')||names.some(key=>!['dispatch_id','dispatch_expires_at','native_sms_admission','processing_admission','notification_admission'].includes(key)))invalid();
  const dispatchId=uuid(payload.dispatch_id,'dispatch_id'),processing=payload.processing_admission??null,notifications=payload.notification_admission??null;
  if(Object.hasOwn(payload,'processing_admission')&&(!keys(processing,fields)||processing.contract!==RECEIPT_PROCESSING_CONTRACT||
   !sha(processing.source_sha256)||!sha(processing.approval_sha256)||!model(processing.model_id)||processing.batch_limit!==RECEIPT_PROCESSING_LIMIT))invalid();

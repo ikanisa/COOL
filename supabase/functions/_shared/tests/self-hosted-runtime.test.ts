@@ -13,6 +13,13 @@ Deno.test('private Edge origins restore only the configured public HTTPS host',a
  const other=logicalRequest(new Request('http://other.example/functions/v1/admin-api/api/admin/auth/session'),'admin-api',env);
  assertEquals(new URL(other.url).protocol,'http:');
 });
+Deno.test('receiver profile public function path normalizes to the scoped gateway route',async()=>{
+ const env=await environment(),path='/v1/momo/gateway/profile';
+ for(const origin of [profile.supabase_origin,'http://api-gw:8000']){
+  const result=logicalRequest(new Request(origin+'/functions/v1/collect-api'+path),'collect-api',env);
+  assertEquals(result.url,profile.supabase_origin+path);
+ }
+});
 Deno.test('profile hashes and exact CORS bind preflight before any database work',async()=>{
  const env=await environment(),handler=createHandler('admin-api',()=>env);
  const request=new Request(profile.supabase_origin+'/functions/v1/admin-api/api/admin/auth/session',{method:'OPTIONS',headers:{Origin:profile.admin_origin}});

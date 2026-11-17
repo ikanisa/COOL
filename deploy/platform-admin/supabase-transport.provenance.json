@@ -1,6 +1,6 @@
 {
   "source": "deploy/platform-admin/src/supabase-transport.js",
-  "source_sha256": "1694c1674850dc69c79aa8478354e02a1d412703b6f46931e7f3f3eefdde88d8",
+  "source_sha256": "ab42075cc85c24de9aa5bf43ff58dc82fc9fcb759669a09b901604d6f66584c9",
   "integration": "Retained Cloudflare same-origin Supabase transport; index.js owns host selection/static fallback. Originless Admin GET/HEAD binds configured origin, explicit Origin remains required for mutations, dispatched Admin outcomes are not replayed, and qualified native Google errors remain token-free.",
   "deployed": false,
   "base_source_sha256": "643a76d0a38e1023cc0edf38e5514e97e4eec565037c43d66b08648f351ba16c",
@@ -177,6 +177,23 @@
       "log_sha256": "815b5b8398e19dbf73a93436dab45461c9f6d789267f9cd5e240dbd780554ab4",
       "scope": "Actual Admin transport and dispatch sources with synthetic streams/HTTP; no hosted or independent release acceptance",
       "test_fixture_correction": "Wait for actual fetch dispatch before upstream abort; keep oversized stream open to test cancellation rather than relying on prefetch timing."
+    }
+  },
+  "owner_identity_header_successor": {
+    "previous_source_sha256": "1694c1674850dc69c79aa8478354e02a1d412703b6f46931e7f3f3eefdde88d8",
+    "source_sha256": "ab42075cc85c24de9aa5bf43ff58dc82fc9fcb759669a09b901604d6f66584c9",
+    "change": "Forward version 1 owner-identity opt-in only to GET /api/admin/auth/session; preserve existing access checks and all other header boundaries.",
+    "focused_test_sha256": "8234e6c86471840d80197d6d4eb64bfc6125527cea67b6caced40ef66a79c3e1",
+    "review_status": "Local Worker suite passed; independent integration and release review pending",
+    "deployed": false,
+    "production_acceptance": false,
+    "local_verification": {
+      "tests": 116,
+      "passed": 116,
+      "failed": 0,
+      "skipped": 0,
+      "log_sha256": "b0d610f03a56ddb45774b94c8a02d9fa714b88591388da5f8a6f744eef8110ac",
+      "scope": "Local synthetic Worker tests only; no deployment or provider acceptance"
     }
   }
 }

@@ -16,6 +16,9 @@ SCRIPTS = ROOT / 'native/burimunsi/scripts'
 sys.path.insert(0, str(SCRIPTS))
 import native_pipeline as n
 import build_preflight as pre
+import release_readiness as readiness
+import datetime as dt
+import hashlib
 
 
 def manifest(spec, extra='', app_extra='', app_body='', root_extra=''):
@@ -29,15 +32,20 @@ def manifest(spec, extra='', app_extra='', app_body='', root_extra=''):
 
 
 def receiver_manifest(spec):
-    permissions = ''.join(f'<uses-permission android:name="android.permission.{p}"/>' for p in ('READ_SMS', 'RECEIVE_SMS'))
+    permissions = ''.join(f'<uses-permission android:name="android.permission.{p}"/>' for p in (
+        'READ_SMS','RECEIVE_SMS','FOREGROUND_SERVICE','FOREGROUND_SERVICE_SPECIAL_USE','POST_NOTIFICATIONS','WAKE_LOCK','REQUEST_IGNORE_BATTERY_OPTIMIZATIONS'))
     parts = [('CollectSmsReceiver', 'receiver', 'android.permission.BROADCAST_SMS', 'true'),
              ('MomoGatewayRecoveryReceiver', 'receiver', None, 'false'),
              ('MomoGatewayJobService', 'service', 'android.permission.BIND_JOB_SERVICE', 'true'),
-             ('MomoGatewayLocalRecoveryService', 'service', 'android.permission.BIND_JOB_SERVICE', 'true')]
+             ('MomoGatewayLocalRecoveryService', 'service', 'android.permission.BIND_JOB_SERVICE', 'true'),
+             ('ObservationSmsReceiver', 'receiver', 'android.permission.BROADCAST_SMS', 'true'),
+             ('ObservationBootReceiver', 'receiver', None, 'false'),
+             ('ObservationJobService', 'service', 'android.permission.BIND_JOB_SERVICE', 'true')]
     body = ''
     for name, tag, permission, exported in parts:
         guard = f'android:permission="{permission}"' if permission else ''
         body += f'<{tag} android:name="app.cool.mobile.receiver_sms.{name}" android:exported="{exported}" {guard}/>'
+    body += '<service android:name="app.cool.mobile.receiver_sms.BuriContinuousSyncService" android:exported="false" android:stopWithTask="false" android:foregroundServiceType="specialUse"><property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="Internal receiving-phone SMS monitoring with local inbox observation and bounded authenticated synchronization, controlled by the current authorized administrator and a visible ongoing notification."/></service>'
     return manifest(spec, permissions, app_body=body)
 
 
@@ -64,7 +72,72 @@ class NativePlan(unittest.TestCase):
     def test_all_app_and_test_apks_built(self):
         self.assertEqual(sum(':app:assemble' in v for v in n.build_tasks()), 8)
     def test_union_of_native_and_ui_authored_tests_not_execution(self):
-        self.assertEqual(n.expected_tests(), {'rw.ikanisa.burimunsi.NativeUiContractTest#collectUnknownVerificationCannotReplayCodeOrResendEarly', 'rw.ikanisa.burimunsi.NativeUiContractTest#collectLoginUsesNativeEmailCodeAndClearsSubmittedCode', 'rw.ikanisa.burimunsi.NativeUiContractTest#collectLoginDisposalClearsRememberedCode', 'rw.ikanisa.burimunsi.NativeUiContractTest#collectLoginDenialProvidesRecoveryWithoutPrivateRecords', 'rw.ikanisa.burimunsi.StaffPackageIsolationTest#installedPackageEnforcesRoleBoundary', 'rw.ikanisa.burimunsi.NativeUiContractTest#pausedGuardRemovesRecordSemantics', 'rw.ikanisa.burimunsi.NativeUiContractTest#twoHundredPercentTypeKeepsTheFullAmountAccessible', 'rw.ikanisa.burimunsi.NativeUiContractTest#phoneNextFocusesPasscodeAndDoneSubmitsOnlyOnce', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#installedSandboxHasNoInternetBackupOrCleartext', 'rw.ikanisa.burimunsi.NativeUiContractTest#memberLedgerUsesFullPhoneAndSourceReference', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#gatewayCannotBindOrResumeInSandbox', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#installationUsesOnlyDedicatedSandboxIdentity', 'rw.ikanisa.burimunsi.NativeUiContractTest#homeHasNoRemovedLabelsAndPreservesAccessibleName', 'rw.ikanisa.burimunsi.NativeUiContractTest#paymentHistoryShowsRecordedEventsWithoutInventingSuccess', 'rw.ikanisa.burimunsi.NativeUiContractTest#expiredGuardHasRecoveryAndNoFinancialRows', 'rw.ikanisa.burimunsi.NativeUiContractTest#bottomNavigationExposesSelectedTab', 'rw.ikanisa.burimunsi.NativeUiContractTest#pausingDisposesRememberedCredentialInput', 'rw.ikanisa.burimunsi.NativeUiContractTest#invalidPhoneNeverEnablesSignIn', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#launcherActivityBelongsToSandbox', 'rw.ikanisa.burimunsi.NativeUiContractTest#kinyarwandaLabelsDoNotTranslateProviderEvidence', 'rw.ikanisa.burimunsi.NativeUiContractTest#originalSmsRemainsUnalteredInKinyarwanda', 'rw.ikanisa.burimunsi.NativeUiContractTest#confirmingPasscodeImeDoesNotCommitCredentialChange', 'rw.ikanisa.burimunsi.NativeUiContractTest#paymentDetailHasOriginalReferenceAndNoCreditedLabel', 'rw.ikanisa.burimunsi.NativeUiContractTest#searchImeSubmitsTheVisibleQuery', 'rw.ikanisa.burimunsi.NativeUiContractTest#staffHasNoMessagesShortcut', 'rw.ikanisa.burimunsi.NativeSandboxContractTest#compiledConfigurationContainsNoLiveEndpointOrBinding', 'rw.ikanisa.burimunsi.NativeUiContractTest#phoneAndFourDigitFieldsHaveStableAccessibleNames'})
+        self.assertEqual(n.expected_tests(), {
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#brokerLocalSetupDoesNotCreateSessionOrReplaceInstallation',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#compiledConfigurationContainsNoLiveEndpointOrBinding',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#concurrentSecureStoreInstancesShareOneAtomicFileSafely',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#gatewayCannotBindOrResumeInSandbox',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#installationUsesOnlyDedicatedSandboxIdentity',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#installedSandboxHasNoInternetBackupOrCleartext',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#launcherActivityBelongsToSandbox',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#memberPhotoCaptureUsesOnlyPrivateProviderAndSystemGrants',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#memberPhotoPreparationResizesRotatesAndWipesInput',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#localSetupIsEncryptedOutsideBackupAndClearPreservesOtherCustody',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#localSetupRejectsAnotherInstallationAndAllowsOnlyExplicitFileRecovery',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#setupUsesTheExistingPersistedInstallationIdentity',
+            'rw.ikanisa.burimunsi.NativeSandboxContractTest#savedSessionCanBeReopenedAndExplicitlyCleared',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#startupShowsBlackBrandedSplashBeforeOriginalLogin',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#exportFormatsDispatchOnlyAfterAnExplicitContextualChoice',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#refreshAndExportFeedbackNeverReplaceValidRecordsWithFakeSuccess',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#initialLoadingSkeletonDoesNotClaimAnEmptyResult',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#reducedMotionKeepsLoadingMeaningWithStaticRendering',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#typedFiltersValidateAmountsAndPreserveInclusiveKigaliDates',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#typedFilterOverlayReturnsToItsPanelAndShowsActualSort',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#smsDownloadsStayMetadataOnlyAndRequireClearingBodySearch',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#paginationFailureRequiresExplicitRetryInsteadOfAnAutomaticLoop',
+            'rw.ikanisa.burimunsi.export.ExportRenderingTest#nativePdfOpensAndRendersEveryPageWithoutLosingTheSuppliedRowCount',
+            'rw.ikanisa.burimunsi.export.ExportRenderingTest#zeroRecordPdfStillOpensAsOneCompletePage',
+            'rw.ikanisa.burimunsi.export.ExportRenderingTest#nativePdfPageBudgetFailsBeforeAnyFileBytesInsteadOfDroppingRows',
+            'rw.ikanisa.burimunsi.export.ExportRenderingTest#nativePdfCancellationAndOutputFailureNeverCloseTheCallerOrReturnSuccess',
+            'rw.ikanisa.burimunsi.export.ExportRenderingTest#nativeWorkbookContainsReadableXmlAndLiteralFormulaLookingText',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#syncPolicySettingsStayInTheReceiverAdminRole',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#allocationActionStaysAboveNavigationAndHonorsAccessAndOfflineState',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#allOriginalFifteenPanelTitlesRemainReachable',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#allSmsDoesNotClaimEmptyWhileTheLocalQueueIsUnknown',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#allSmsIncludesOwnQueuedRowsWithoutMergingUncertainSources',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#auditedSmsPreviewsSearchBothTypedStreamsAndMarkPartial',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#automaticOutgoingTransactionShowsActualFieldsWithoutAllocating',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#backgroundPrivacyNeverExposesRawReceipt',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#bottomNavigationCoversEverySignedInRouteAndMapsDetailSelection',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#discardPromptRemainsInTheCurrentSheetAndPreservesDraftUntilConfirmed',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#freshEntryIsOriginalPhoneAndFourDigitPasscode',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#homeOmitsGatewayControlForAllRolesAndSettingsKeepsRecovery',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#gatewayObservationsCanSyncAndResumeButCannotPauseWithoutPairing',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#pairedReceiverCanRequestMissingSmsPermissionWithoutPausing',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#gatewayShowsOnlyThePairedReceivingCodeSnapshot',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#gatewayUsesSmsPermissionWithoutPairingCode',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#invalidPhoneNeverEnablesSignIn',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#originalFiltersIncludeProcessingAndApplyOnlyTheSelectedStatus',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#originalHeadersExposeFiltersProfileHistoryAndExport',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#originalFormPlaceholdersDescribeExpectedInputs',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#overviewKeepsAuthoritativeUnallocatedAmountAndAllPaymentsAction',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#passcodeConfirmationImeDoesNotChangeCredentialUntilSave',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#phoneNextAndPasscodeDoneSubmitOnce',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#privacyGateDisposesCredentialsAndRecordsWithinOriginalRoute',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#profileToPasscodeReplacesSheetAndCloseReturnsToRoute',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#queuedSmsMetadataShowsQueuedAndIsPermissionGated',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#rawReceiptOpensDirectlyAndLinksToItsContribution',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#searchIsLiveAndHasNoAddedSubmitControl',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#settingsSmsPermissionUsesTheAvailableAndroidAction',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#smartOnboardingHasKinyarwandaCopy',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#smartOnboardingUsesTheExistingAddMemberSheet',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#staffViewsHaveNoInventedPreferencesOrAdminGatewayControls',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#supportActionsUseOnlyAnAvailableRuntimeContact',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#syncedSmsUsesExistingScreensWithoutManualVerification',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#twoHundredPercentTypePreservesCompleteMoneyAndAccessibleIdentity',
+            'rw.ikanisa.burimunsi.NativeUiContractTest#unknownFinancialOutcomeNeverShowsAllocationAction',
+            'rw.ikanisa.burimunsi.StaffPackageIsolationTest#installedPackageEnforcesRoleBoundary',
+        })
         self.assertFalse(n.plan()['native_build_executed'])
     def test_plan_never_calls_subprocess(self):
         with patch.object(n.subprocess, 'run', side_effect=AssertionError('Plan executed a tool')):
@@ -153,7 +226,7 @@ class ApkManifestContract(unittest.TestCase):
     def test_test_apk_target_matches(self):
         a=n.Artifact('staff','nativeTest',True);self.assertEqual(n.inspect_xml(manifest(a),a),[])
     def test_wrong_test_target(self):
-        a=n.Artifact('staff','nativeTest',True);self.assertTrue(n.inspect_xml(manifest(a).replace('android:targetPackage="rw.ikanisa.burimunsi.staff.nativeTest"','android:targetPackage="rw.ikanisa.burimunsi.staff"'),a))
+        a=n.Artifact('staff','nativeTest',True);self.assertTrue(n.inspect_xml(manifest(a).replace('android:targetPackage="rw.ikanisa.burimunsi.staff.cloud.nativeTest"','android:targetPackage="rw.ikanisa.burimunsi.staff"'),a))
     def test_wrong_runner(self):
         a=n.Artifact('staff','nativeTest',True);self.assertTrue(n.inspect_xml(manifest(a).replace(n.RUNNER,'other.Runner'),a))
 
@@ -254,7 +327,7 @@ class CommandLogging(unittest.TestCase):
 
 
 class StartupUiReadiness(unittest.TestCase):
-    package = 'rw.ikanisa.burimunsi.staff.nativeTest'
+    package = 'rw.ikanisa.burimunsi.staff.cloud.nativeTest'
 
     def wait_with(self, xml, *, dump='UI hierchary dumped', dump_error=None):
         calls = []
@@ -272,7 +345,7 @@ class StartupUiReadiness(unittest.TestCase):
         return call, calls
 
     def test_app_content_is_required_and_only_the_unique_dump_is_removed(self):
-        xml = f'<hierarchy><node package="com.android.systemui" text="9:21"/><node package="{self.package}" text="Managed setup required"/></hierarchy>'
+        xml = f'<hierarchy><node package="com.android.systemui" text="9:21"/><node package="{self.package}" text="Phone number"/></hierarchy>'
         call, calls = self.wait_with(xml)
         n.wait_for_startup_ui(call, self.package, 'staff')
         remote = calls[0][0][-1]
@@ -321,7 +394,7 @@ class FlavorInstrumentation(unittest.TestCase):
         contracts = n.test_contracts()
         staff = set(contracts['staff'])
         receiver = set(contracts['internal_receiver'])
-        self.assertEqual(len(staff), 27)
+        self.assertEqual(len(staff), 64)
         self.assertTrue(staff < receiver)
         self.assertEqual(receiver - staff, {
             'app.cool.mobile.receiver_sms.GatewayDurabilityTest#' + method
@@ -331,8 +404,19 @@ class FlavorInstrumentation(unittest.TestCase):
                 'durableAcknowledgementAndTombstoneSurviveReopen',
                 'capacityPreservesExistingEvidenceAndLiveReserve',
                 'pauseAndOwnerChangeNeverDiscardPendingEvidence',
+                'legacyControlTransitionReopensEncryptedAndHoldsObservation',
                 'legacyMigrationCopiesBeforeDeletingOriginal',
                 'corruptCiphertextBlocksOwnerResetAndPreservesBytes',
+                'unresolvedObservationsStayEncryptedAndScopedAcrossReopen',
+                'corruptObservationCiphertextDoesNotResetTheQueue',
+                'observationProfileAndConsentAreEncryptedAndAccountScoped',
+                'observationPauseIsEncryptedAndSurvivesAnotherAccount',
+                'pduCorrelationEvidenceIsEncryptedAndNeverPosts',
+                'offlineSandboxCannotCaptureObservations',
+                'offlineSandboxCannotScanSmsInbox',
+                'continuousSupervisorRemainsOfflineInQualificationSandbox',
+                'continuousExecutionLeaseSurvivesAnInterruptedCallerUntilItsActualExit',
+                'continuousCycleBudgetAndFailureRetryRemainBounded',
             )
         })
         self.assertNotIn('app.cool.mobile.receiver_sms.GatewayDurabilityTest', n.instrumentation_classes('staff'))
@@ -412,7 +496,7 @@ class FlavorInstrumentation(unittest.TestCase):
                 if action[:2] == ['shell', 'cat']:
                     self.assertEqual(action[-1], remote_dump)
                     package = 'com.android.launcher' if foreign_startup else foreground
-                    return f'<hierarchy><node package="{package}" text="Managed setup required"/></hierarchy>'
+                    return f'<hierarchy><node package="{package}" text="Phone number"/></hierarchy>'
                 if action[:3] == ['shell', 'rm', '-f']:
                     self.assertEqual(action[-1], remote_dump)
                     return ''
@@ -426,8 +510,8 @@ class FlavorInstrumentation(unittest.TestCase):
                 action = argv[3:]
                 if action != ['exec-out', 'screencap', '-p']:
                     self.assertEqual(action[:2], ['exec-out', 'run-as'])
-                    self.assertIn(action[2], {'rw.ikanisa.burimunsi.staff.nativeTest', 'rw.ikanisa.burimunsi.gateway.nativeTest'})
-                    self.assertEqual(action[3:], ['cat', 'cache/collect-sign-in.png'])
+                    self.assertIn(action[2], {'rw.ikanisa.burimunsi.staff.cloud.nativeTest', 'rw.ikanisa.burimunsi.gateway.cloud.nativeTest'})
+                    self.assertEqual(action[3:], ['cat', 'cache/prototype-sign-in.png'])
                     if invalid_login_capture:
                         return argparse.Namespace(stdout=b'not an image')
                 return argparse.Namespace(stdout=b'\x89PNG\r\n\x1a\nsynthetic')
@@ -446,7 +530,7 @@ class FlavorInstrumentation(unittest.TestCase):
         code, report, calls = self.run_synthetic_instrumentation()
         self.assertEqual(code, 0, report)
         self.assertEqual({value['flavor']: value['completed'] for value in report['flavors']},
-                         {'staff': 27, 'internal_receiver': 34})
+                         {'staff': 64, 'internal_receiver': 82})
         selectors = [call[call.index('class') + 1] for call in calls if 'class' in call]
         self.assertEqual(len(selectors), 2)
         self.assertNotIn('GatewayDurabilityTest', selectors[0])
@@ -469,7 +553,7 @@ class FlavorInstrumentation(unittest.TestCase):
     def test_invalid_login_capture_refuses_visual_proof_and_cleans_sandboxes(self):
         code, report, calls = self.run_synthetic_instrumentation(invalid_login_capture=True)
         self.assertEqual(code, 2)
-        self.assertIn('Invalid native Collect sign-in screenshot', report['error'])
+        self.assertIn('Invalid native prototype sign-in screenshot', report['error'])
         self.assertTrue(all(value['removed'] for value in report['cleanup']))
         self.assertNotIn('ui_artifacts', report)
 
@@ -511,8 +595,8 @@ class FlavorInstrumentation(unittest.TestCase):
         code, report, calls = self.run_synthetic_instrumentation(omit_receiver_method=True)
         self.assertEqual(code, 2)
         self.assertEqual(report['status'], 'FAIL')
-        self.assertEqual(report['flavors'][0]['completed'], 27)
-        self.assertEqual(report['flavors'][1]['completed'], 33)
+        self.assertEqual(report['flavors'][0]['completed'], 64)
+        self.assertEqual(report['flavors'][1]['completed'], 81)
         self.assertFalse(report['flavors'][1]['passed'])
         self.assertTrue(all(value['removed'] for value in report['cleanup']))
 
@@ -533,7 +617,8 @@ class DeviceSafety(unittest.TestCase):
             else:
                 with self.assertRaises(n.PipelineError):n.validated_sandbox_package(a.package)
     def test_live_package_refused(self):
-        for p in ('rw.ikanisa.burimunsi.staff','rw.ikanisa.burimunsi.gateway','com.other.app'):
+        for p in ('rw.ikanisa.burimunsi.staff','rw.ikanisa.burimunsi.gateway',
+                  'rw.ikanisa.burimunsi.staff.cloud','rw.ikanisa.burimunsi.gateway.cloud','com.other.app'):
             with self.assertRaises(n.PipelineError):n.validated_sandbox_package(p)
     def test_plan_does_not_install(self):
         args=argparse.Namespace(execute=False,serial='emulator-5554')
@@ -565,5 +650,124 @@ class DeviceSafety(unittest.TestCase):
             report=json.loads((args.output/'build-result.json').read_text())
             self.assertFalse(report['native_build_executed']);self.assertEqual(report['status'],'BLOCKED')
 
+
+class TestingCandidateReadiness(unittest.TestCase):
+    """Synthetic host receipts only; not native build or signing evidence."""
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
+        self.base=pathlib.Path(self.tmp.name).resolve();self.overlay=self.base/'source'
+        native=self.overlay/'native/burimunsi';native.mkdir(parents=True)
+        (native/'source.txt').write_text('qualification source')
+        upstream=self.overlay/'upstream/collect';upstream.mkdir(parents=True);(upstream/'receiver.kt').write_text('qualified receiver')
+        self.root=native;self.evidence=self.base/'evidence';self.evidence.mkdir()
+        for name,value in [('ROOT',native),('OVERLAY',self.overlay)]:
+            p=patch.object(n,name,value);p.start();self.addCleanup(p.stop)
+        self.contracts={'staff':['Fixture#staff'],'internal_receiver':['Fixture#receiver']}
+        p=patch.object(n,'test_contracts',return_value=self.contracts);p.start();self.addCleanup(p.stop)
+        self.now=dt.datetime(2026,11,10,tzinfo=dt.timezone.utc);timestamp=self.now.isoformat()
+        cloud='https://rrlduytparvsjfmegalh.supabase.co'
+        self.profile={'format':'collect.deployment.v1','id':'candidate-fixture','mode':'managed','environment':'qualification',
+          'supabase_origin':cloud,'admin_origin':cloud,
+          'member_api_origin':cloud,'public_origin':'https://collect.example','google_callback_origin':cloud}
+        self.properties={'collectSupabaseOrigin':self.profile['supabase_origin'],'collectAdminOrigin':self.profile['admin_origin'],
+          'burimunsiApiOrigin':self.profile['supabase_origin'],'burimunsiApiPathPrefix':'/functions/v1/collect-api',
+          'collectGatewayOrigin':self.profile['supabase_origin']+'/functions/v1/collect-api',
+          'collectPublishableKey':'sb_publishable_fixture_opaque_public_value'}
+        current=n.source_fingerprint();rows=[];inspections=[];cleanup=[]
+        for spec in n.artifacts():
+            ref=self.put('build/apks/'+spec.filename,b'SYNTHETIC HOST APK BYTES '+spec.filename.encode())
+            row={'spec':dataclasses.asdict(spec),'package':spec.package,'bytes':(self.evidence/ref['path']).stat().st_size,
+              'sha256':ref['sha256'],'path':'apks/'+spec.filename,'ok':True,'failures':[],
+              'certificate_sha256':None if spec.kind=='qualification' else 'a'*64,'signature_verified':spec.kind!='qualification',
+              'optimized_unsigned_qualification':spec.kind=='qualification'}
+            rows.append(row)
+            if spec.kind=='nativeTest':
+                inspections.append(self.put('device/inspection-'+spec.filename+'.json',row));cleanup.append({'package':spec.package,'removed':True})
+        flavors=[];logs={}
+        for flavor,expected in self.contracts.items():
+            raw=stream(set(expected));logs[flavor]=self.put('device/'+flavor+'.txt',raw.encode())
+            flavors.append({'flavor':flavor,**n.parse_instrumentation(raw,set(expected))})
+        self.manifest={'format':'collect.burimunsi.testing-candidate.v1','purpose':'testing-candidate-build','created_at':timestamp,
+          'source_sha256':current['sha256'],'profile_sha256':readiness._configuration(self.profile,self.properties),
+          'properties':copy.deepcopy(self.properties),'qualification':{
+            'build_result':self.put('build/build-result.json',{'status':'PASS','native_build_executed':True,'apk_inspection_passed':True,
+                'artifact_count':8,'production_deployment':False,'finished_at':timestamp}),
+            'source_fingerprint':self.put('build/source-fingerprint.json',current),
+            'artifacts':self.put('build/artifacts.json',{'source_sha256':current['sha256'],'artifacts':rows,'expected_tests_per_flavor':self.contracts}),
+            'instrumentation_result':self.put('device/result.json',{'status':'PASS','installation_executed':True,'instrumentation_executed':True,
+                'device_api':36,'production_deployment':False,'finished_at':timestamp,'flavors':flavors,'cleanup':cleanup}),
+            'device_inspections':inspections,'instrumentation_logs':logs}}
+        self.profile_path=self.evidence/'profile.json';self.profile_path.write_text(json.dumps(self.profile))
+        self.manifest_path=self.evidence/'candidate.json'
+    def put(self,name,value):
+        path=self.evidence/name;path.parent.mkdir(parents=True,exist_ok=True)
+        raw=value if isinstance(value,bytes) else json.dumps(value).encode();path.write_bytes(raw)
+        return {'path':name,'sha256':hashlib.sha256(raw).hexdigest()}
+    def run_gate(self):
+        self.manifest_path.write_text(json.dumps(self.manifest))
+        return readiness.evaluate_candidate(self.manifest_path,self.profile_path,self.properties,pipeline=n,now=self.now)
+    def test_current_candidate_requires_neither_signed_release_nor_carrier_pilot_and_never_promotes(self):
+        result=self.run_gate();self.assertTrue(result['ready'],result)
+        for key in ['production_authorized','signing_authorized','distribution_authorized']:self.assertFalse(result[key])
+        self.assertFalse(readiness.evaluate(self.manifest,{},self.evidence,'promotion')['ready'])
+    def test_current_source_change_invalidates_previous_qualification(self):
+        (self.root/'source.txt').write_text('changed source')
+        self.assertIn('CANDIDATE_SOURCE_CHANGED',self.run_gate()['errors'])
+    def test_stale_manifest_cannot_admit_a_new_build(self):
+        self.manifest['created_at']=(self.now-dt.timedelta(days=2)).isoformat()
+        self.assertIn('CANDIDATE_EVIDENCE_STALE',self.run_gate()['errors'])
+    def test_fresh_manifest_does_not_refresh_stale_native_build_evidence(self):
+        ref=self.manifest['qualification']['build_result'];doc=json.loads((self.evidence/ref['path']).read_text())
+        doc['finished_at']=(self.now-dt.timedelta(days=2)).isoformat()
+        self.manifest['qualification']['build_result']=self.put(ref['path'],doc)
+        self.assertIn('CANDIDATE_EVIDENCE_STALE',self.run_gate()['errors'])
+    def test_tampered_apk_bytes_fail_even_with_pass_receipts(self):
+        (self.evidence/'build/apks/staff-nativeTest.apk').write_bytes(b'changed')
+        self.assertIn('CANDIDATE_ARTIFACT_CHANGED',self.run_gate()['errors'])
+    def test_missing_evidence_fails_closed(self):
+        (self.evidence/'build/build-result.json').unlink();self.assertFalse(self.run_gate()['ready'])
+    def test_wrong_gradle_selected_origin_is_not_retarged_by_manifest(self):
+        self.properties['collectAdminOrigin']='https://different.collect.example'
+        self.assertIn('CANDIDATE_PUBLIC_PROPERTIES_MISMATCH',self.run_gate()['errors'])
+    def test_profile_mismatch_cannot_point_to_a_second_backend(self):
+        self.profile['supabase_origin']='https://different.collect.example';self.profile_path.write_text(json.dumps(self.profile))
+        self.assertIn('CANDIDATE_PROFILE_MISMATCH',self.run_gate()['errors'])
+    def test_non_cloud_profile_cannot_qualify_a_configured_candidate(self):
+        self.profile['mode']='self_hosted';self.profile_path.write_text(json.dumps(self.profile))
+        self.assertIn('CANDIDATE_PROFILE_WRONG',self.run_gate()['errors'])
+    def test_every_public_origin_is_canonical_https_without_private_url_fields(self):
+        for origin in ['http://collect.example','https://user:password@collect.example','https://a..example','https://collect.example/path','https://127.0.0.1']:
+            with self.subTest(kind=origin.split(':')[0]):
+                self.profile['public_origin']=origin;self.profile_path.write_text(json.dumps(self.profile))
+                result=self.run_gate();self.assertIn('CANDIDATE_ORIGIN_WRONG',result['errors']);self.assertNotIn(origin,json.dumps(result))
+    def test_secret_jwt_and_jwk_cannot_be_public_compiler_inputs(self):
+        for value in ['sb_secret_private_fixture','eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIn0.signature','{"kty":"RSA","d":"private"}']:
+            with self.subTest(kind=value.split('_')[0]):
+                self.properties['collectPublishableKey']=value;self.manifest['properties']=copy.deepcopy(self.properties)
+                result=self.run_gate();self.assertIn('CANDIDATE_PUBLIC_KEY_WRONG',result['errors']);self.assertNotIn(value,json.dumps(result))
+    def test_business_group_is_not_a_public_build_property(self):
+        self.properties['collectionId']='business-group';self.manifest['properties']=copy.deepcopy(self.properties)
+        self.assertIn('CANDIDATE_FIELDS_WRONG',self.run_gate()['errors'])
+    def test_candidate_cannot_claim_promotion_purpose(self):
+        self.manifest['purpose']='production-promotion';self.assertIn('CANDIDATE_PURPOSE_WRONG',self.run_gate()['errors'])
+    def test_device_inspection_must_match_actual_retained_apk_identity(self):
+        ref=self.manifest['qualification']['device_inspections'][0];doc=json.loads((self.evidence/ref['path']).read_text());doc['sha256']='b'*64
+        self.manifest['qualification']['device_inspections'][0]=self.put(ref['path'],doc)
+        self.assertIn('CANDIDATE_DEVICE_INSPECTIONS_WRONG',self.run_gate()['errors'])
+    def test_raw_instrumentation_is_reparsed_instead_of_trusting_pass_flag(self):
+        self.manifest['qualification']['instrumentation_logs']['staff']=self.put('device/staff.txt',b'INSTRUMENTATION_CODE: 0\n')
+        self.assertFalse(self.run_gate()['ready'])
+    def test_changed_current_test_inventory_invalidates_prior_test_counts(self):
+        self.contracts['staff'].append('Fixture#new');self.assertFalse(self.run_gate()['ready'])
+    def test_linked_receipts_are_refused(self):
+        original=self.evidence/'build/build-result.json';copy_path=self.evidence/'saved.json';original.rename(copy_path);original.symlink_to(copy_path)
+        self.assertIn('CANDIDATE_LINK_REFUSED',self.run_gate()['errors'])
+    def test_duplicate_body_fields_are_refused_without_echoing_values(self):
+        self.manifest_path.write_text('{"purpose":"first","purpose":"second"}')
+        result=readiness.evaluate_candidate(self.manifest_path,self.profile_path,self.properties,pipeline=n,now=self.now)
+        self.assertIn('CANDIDATE_DUPLICATE_FIELD',result['errors'])
+    def test_legacy_build_still_requires_historical_tasks_and_evidence(self):
+        result=readiness.evaluate({'tasks':[]},{},self.evidence,'build')
+        self.assertFalse(result['ready']);self.assertTrue(any('65-task' in e for e in result['errors']))
 
 if __name__ == '__main__':unittest.main()

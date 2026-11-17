@@ -83,8 +83,41 @@ function quotedEnd(sql, i) {
   while (i < sql.length) { if (sql[i++] === quote) { if (sql[i] === quote) { i++; continue; } return i; } }
   throw new Error('Unclosed SQL literal.');
 }
+function sqlTriviaEnd(sql, i) {
+  while(i<sql.length){
+    if(/\s/.test(sql[i])){i++;continue;}
+    if(sql.startsWith('--',i)){const end=sql.indexOf('\n',i);i=end<0?sql.length:end+1;continue;}
+    if(!sql.startsWith('/*',i))break;
+    i+=2;let depth=1;
+    while(i<sql.length&&depth){if(sql.startsWith('/*',i)){depth++;i+=2;}else if(sql.startsWith('*/',i)){depth--;i+=2;}else i++;}
+    if(depth)throw new Error('Unclosed SQL comment.');
+  }
+  return i;
+}
+function compileTextFunctions(sql) {
+  // Current SQLite instr calls have TEXT operands. Rewrite only the unquoted,
+  // unqualified builtin spelling, never text, comments or qualified functions.
+  let i=0,previous='',copied=0,out='';
+  while(i<sql.length){
+    const next=sqlTriviaEnd(sql,i);if(next!==i){i=next;continue;}
+    if(sql[i]==="'"||sql[i]==='"'||sql[i]==='`'){i=quotedEnd(sql,i);previous='quoted';continue;}
+    if(sql[i]==='$'){
+      const tag=/^\$(?:[A-Za-z_\u0080-\uffff][A-Za-z_0-9\u0080-\uffff]*)?\$/.exec(sql.slice(i))?.[0];
+      if(tag){const end=sql.indexOf(tag,i+tag.length);if(end<0)throw new Error('Unclosed SQL literal.');i=end+tag.length;previous='quoted';continue;}
+    }
+    if(/[A-Za-z_\u0080-\uffff]/.test(sql[i])){
+      const start=i++;while(i<sql.length&&/[A-Za-z_0-9$\u0080-\uffff]/.test(sql[i]))i++;
+      const token=sql.slice(start,i);
+      if(token.toLowerCase()==='instr'&&previous!=='.'&&sql[sqlTriviaEnd(sql,i)]==='('){out+=sql.slice(copied,start)+'pg_catalog.strpos';copied=i;}
+      previous=token;continue;
+    }
+    previous=sql[i++];
+  }
+  return out+sql.slice(copied);
+}
 export function compileSql(input, values = []) {
   if (typeof input !== 'string' || !input.trim()) throw new Error('Invalid server SQL.');
+  input=compileTextFunctions(input);
   let out = '', index = 0;
   // The explicitly marked MoMo lease clock remains ordinary unixepoch() on
   // SQLite. PostgreSQL's app.unixepoch() is transaction-stable, so just this

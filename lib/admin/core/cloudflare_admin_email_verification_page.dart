@@ -63,6 +63,8 @@ class _EmailVerificationTaskState extends State<_EmailVerificationTask>
   DateTime? _unknownUntil;
   bool _effectInFlight = false;
   DateTime? _effectDeadline;
+  bool _ownedChallengeFocus = false;
+  Completer<void>? _foregroundReturn;
   int _operation = 0;
 
   @override
@@ -76,7 +78,21 @@ class _EmailVerificationTaskState extends State<_EmailVerificationTask>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) return;
+    if (state == AppLifecycleState.resumed) {
+      final foregroundReturn = _foregroundReturn;
+      _foregroundReturn = null;
+      foregroundReturn?.complete();
+      return;
+    }
+    if (state == AppLifecycleState.inactive &&
+        widget.session.sensitiveEmailChallengeOwnsFocus) {
+      _ownedChallengeFocus = true;
+      return;
+    }
+    _ownedChallengeFocus = false;
+    final foregroundReturn = _foregroundReturn;
+    _foregroundReturn = null;
+    foregroundReturn?.complete();
     final uncertain = _unknown || _effectInFlight;
     ++_operation;
     widget.session.cancelSensitiveEmailVerification();
@@ -103,6 +119,9 @@ class _EmailVerificationTaskState extends State<_EmailVerificationTask>
   void dispose() {
     ++_operation;
     widget.session.cancelSensitiveEmailVerification();
+    final foregroundReturn = _foregroundReturn;
+    _foregroundReturn = null;
+    foregroundReturn?.complete();
     WidgetsBinding.instance.removeObserver(this);
     _clock?.cancel();
     _code.dispose();
@@ -110,9 +129,8 @@ class _EmailVerificationTaskState extends State<_EmailVerificationTask>
   }
 
   Future<void> _run(
-    Future<void> Function(bool Function() current) action, {
-    bool effect = false,
-  }) async {
+    Future<void> Function(bool Function() current) action,
+  ) async {
     if (_busy) return;
     final operation = ++_operation;
     final fence = widget.session.authorityFence;
@@ -123,7 +141,8 @@ class _EmailVerificationTaskState extends State<_EmailVerificationTask>
         ModalRoute.of(context)?.isCurrent == true;
     setState(() {
       _busy = true;
-      _effectInFlight = effect;
+      _effectInFlight = false;
+      _effectDeadline = null;
       _message = null;
     });
     try {
@@ -158,6 +177,43 @@ class _EmailVerificationTaskState extends State<_EmailVerificationTask>
     }
   }
 
+  Future<void> _beforeDispatch(bool Function() current) async {
+    bool foreground() =>
+        WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed &&
+        widget.session.sensitiveEmailHasForeground;
+    if (!current() || !widget.session.sensitiveEmailHasForeground) {
+      throw const AdminAccountException(
+        'Return to this page before requesting verification.',
+      );
+    }
+    if (!foreground() &&
+        _ownedChallengeFocus &&
+        WidgetsBinding.instance.lifecycleState == AppLifecycleState.inactive) {
+      // Only the positively identified security dialog can retain this focus
+      // transition. No HTTP request starts until the original task is resumed.
+      final returned = _foregroundReturn ??= Completer<void>();
+      await returned.future.timeout(const Duration(seconds: 2));
+    }
+    if (!current() || !foreground()) {
+      throw const AdminAccountException(
+        'Return to this page before requesting verification.',
+      );
+    }
+    _ownedChallengeFocus = false;
+  }
+
+  void _onDispatch(bool Function() current, DateTime deadline) {
+    if (!current() ||
+        WidgetsBinding.instance.lifecycleState != AppLifecycleState.resumed ||
+        !widget.session.sensitiveEmailHasForeground) {
+      throw const AdminAccountException(
+        'Return to this page before requesting verification.',
+      );
+    }
+    _effectDeadline = deadline;
+    _effectInFlight = true;
+  }
+
   void _acceptReceipt(AdminEmailOtpReceipt receipt) {
     _receipt = receipt;
     final now = widget.now();
@@ -181,24 +237,28 @@ class _EmailVerificationTaskState extends State<_EmailVerificationTask>
     _expiresAt = null;
     _unknownUntil = null;
     _unknownChecked = false;
-    _effectDeadline = widget.now().add(const Duration(minutes: 5));
-    final receipt = await widget.session.requestSensitiveEmailVerification();
+    final receipt = await widget.session.requestSensitiveEmailVerification(
+      beforeDispatch: () => _beforeDispatch(current),
+      onDispatch: () =>
+          _onDispatch(current, widget.now().add(const Duration(minutes: 5))),
+    );
     if (!current()) return;
     setState(() {
       _acceptReceipt(receipt);
       _message = 'Code requested. Check your email.';
     });
-  }, effect: true);
+  });
 
   Future<void> _verify() => _run((current) async {
     final receipt = _receipt;
     if (receipt == null) return;
     final code = _code.text;
     _code.clear();
-    _effectDeadline = _expiresAt;
     await widget.session.verifySensitiveEmailVerification(
       challengeId: receipt.challengeId,
       code: code,
+      beforeDispatch: () => _beforeDispatch(current),
+      onDispatch: () => _onDispatch(current, _expiresAt!),
     );
     if (current()) {
       setState(() {
@@ -206,7 +266,7 @@ class _EmailVerificationTaskState extends State<_EmailVerificationTask>
         _unknown = false;
       });
     }
-  }, effect: true);
+  });
 
   Future<void> _check() => _run((current) async {
     final verified = await widget.session.recheckSensitiveEmailVerification();
@@ -229,7 +289,11 @@ class _EmailVerificationTaskState extends State<_EmailVerificationTask>
     final user = widget.session.user;
     final available = widget.session.usesEmailVerification && user != null;
     final verified =
-        available && user.hasRecentSensitiveVerification(now: widget.now());
+        available && user.hasRecentEmailVerification(now: widget.now());
+    final needsAuthenticator =
+        available &&
+        user.mfaRequired &&
+        !user.hasRecentAuthenticatorVerification(now: widget.now());
     final retry = _retryAt?.difference(widget.now()).inSeconds ?? 0;
     final expired = _expiresAt?.isAfter(widget.now()) == false;
     final canRequest =
@@ -269,9 +333,19 @@ class _EmailVerificationTaskState extends State<_EmailVerificationTask>
                 const SizedBox(height: 20),
                 if (verified) ...[
                   FilledButton.icon(
-                    onPressed: _busy ? null : () => context.go(widget.returnTo),
+                    onPressed: _busy
+                        ? null
+                        : () => context.go(
+                            needsAuthenticator
+                                ? '/admin/security/authenticator'
+                                : widget.returnTo,
+                          ),
                     icon: const Icon(Icons.arrow_forward),
-                    label: const Text('Continue'),
+                    label: Text(
+                      needsAuthenticator
+                          ? 'Continue to authenticator'
+                          : 'Continue',
+                    ),
                   ),
                   const SizedBox(height: 8),
                   const Text(

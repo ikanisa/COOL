@@ -1,18 +1,19 @@
 import {requireFreshAdminEmail} from './admin_email_policy.js';
 import {ApiError,json,first,id,digest,stableJson,uuid} from './core.js';
 import {authRequest} from '../auth-http.js';
+import {preliminaryCurrentOwner} from './admin_owner_precheck.js';
 
-const OWNER='info@ikanisa.com';
 const internalStates=new Set(['reserved','dispatching','accepted','rejected','unknown','already_registered']);
 const isObject=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
 const email=value=>typeof value==='string'&&value.length<=254&&/^\S+@[^\s@]+\.[^\s@]+$/.test(value);
 const validId=value=>typeof value==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 const reject=(status,code,message)=>{throw new ApiError(status,code,message);};
 
-function actorArguments(account) {
- if(account?.role!=='owner'||account.email!==OWNER||!account.permissions?.includes('admin_users.manage')||
+async function actorArguments(env,account) {
+ if(!account?.permissions?.includes('admin_users.manage')||
   !validId(account.id)||!validId(account.public_id)||typeof account.token_hash!=='string'||!/^[a-f0-9]{64}$/.test(account.token_hash)||
   typeof account.origin!=='string'||!account.origin.startsWith('https://'))reject(403,'owner_required','Verify the owner sign-in before managing team invitations.');
+ if(!await preliminaryCurrentOwner(env,account))reject(403,'owner_required','Verify the owner sign-in before managing team invitations.');
  requireFreshAdminEmail(account);
  return [account.id,account.token_hash,account.origin,account.public_id];
 }
@@ -76,7 +77,7 @@ export async function handleAdminInvitation(request,env,account,body,path) {
  const recover=path==='/team/invitation-status';
  if(path!=='/team/invite'&&!resend&&!recover)return null;
  if(request.method!==(recover?'GET':'POST'))reject(405,'method_not_allowed',recover?'Use GET.':'Use POST.');
- const actor=actorArguments(account),key=keyOf(request);
+ const actor=await actorArguments(env,account),key=keyOf(request);
  if(recover){
   try{
    const retained=checked(await transition(env,'recover',[...actor,key]),{missing:true});
@@ -88,7 +89,7 @@ export async function handleAdminInvitation(request,env,account,body,path) {
  if(!resend){
   targetEmail=typeof body?.email==='string'?body.email.trim().toLowerCase():'';
   role=body?.role;display=typeof body?.displayName==='string'?body.displayName.trim():'';
-  if(!email(targetEmail)||targetEmail===OWNER||!['admin','staff'].includes(role)||display.length>120||/[\u0000-\u001f\u007f]/.test(display))reject(400,'invalid_invitation','The invitation request is invalid.');
+  if(!email(targetEmail)||targetEmail===account.email||!['admin','staff'].includes(role)||display.length>120||/[\u0000-\u001f\u007f]/.test(display))reject(400,'invalid_invitation','The invitation request is invalid.');
  }
  const bodyHash=await digest(stableJson(resend?{kind,subjectId:subject}:{kind,email:targetEmail,role,displayName:display}));
  let prepared;

@@ -1,6 +1,7 @@
 import {requirePort,requireThat} from './errors.js';
 import {requireId,requireRequestId,canonicalJson} from './values.js';
 import {pgInteger} from './postgres-values.js';
+import {PostgresStorageWitnesses,immutableStorageJournal} from './postgres-storage-witnesses.js';
 
 const HASH=/^[a-f0-9]{64}$/;
 const encoder=new TextEncoder();
@@ -60,11 +61,13 @@ export const POSTING_CUSTODY_LINEAGE_SQL=`SELECT
  * It uses the EXISTING committed Collect storage journal, with no bucket read,
  * upload, nested transaction, ledger write, new table or bypass role.
  * The executor/canonical adapter owns the admitted transaction and global lock.
- * A scrubbed sealed_body is deliberately unsupported: a separately qualified
- * preflight is needed; a digest or a pending upload is not used as a fallback.
+ * Production requires an admission-bound storage preflight. Scrubbed reservation
+ * bytes are supported only through its privately retained verified ciphertext.
+ * The explicit qualification mode exercises the older local-journal fixtures.
  */
 export class PostgresPostingCustody {
-  constructor({db,groupId,namespace,decrypt}){
+  #proofs=new WeakMap();
+  constructor({db,groupId,namespace,decrypt,storageWitnesses=null,qualificationOnly=false}){
     requireId(groupId);requirePort(db.applicationWork,['assert']);
     requireThat(typeof decrypt==='function','collect_adapter_required',503);
     let origin;try{origin=new URL(namespace?.origin);}catch{fail();}
@@ -72,6 +75,10 @@ export class PostgresPostingCustody {
       typeof namespace.bucket==='string'&&/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,99}$/.test(namespace.bucket));
     this.db=db;this.groupId=groupId;this.namespace=Object.freeze({origin:origin.origin,bucket:namespace.bucket});
     this.decrypt=decrypt;this.work=db.applicationWork;
+    check(typeof qualificationOnly==='boolean'&&(qualificationOnly?storageWitnesses===null:
+      storageWitnesses instanceof PostgresStorageWitnesses&&storageWitnesses.db===db&&
+      storageWitnesses.groupId===groupId&&same(storageWitnesses.namespace,this.namespace)));
+    Object.defineProperties(this,{storageWitnesses:{value:storageWitnesses},qualificationOnly:{value:qualificationOnly}});
   }
   async owned(){
     check(this.db.applicationWork===this.work);await this.work.assert();check(this.db.applicationWork===this.work);
@@ -80,6 +87,29 @@ export class PostgresPostingCustody {
     await this.owned();const rows=await sql.unsafe(text,values);await this.owned();check(Array.isArray(rows));return rows;
   }
   async one(sql,text,values=[]){const rows=await this.query(sql,text,values);check(rows.length===1);return snapshot(rows[0]);}
+  async sourceScope(sql,{sourceId,ownerId,bodySha256,objectSha256,bindingId,bindingVersion,receivingAccountId,credentialId}){
+    if(this.qualificationOnly)return null;
+    // The capture-time association is immutable. Today's receiving-wallet join
+    // cannot move an old SMS into a newly assigned group. The original approved
+    // custodian/installation is checked independently of operator PIN/session.
+    const x=await this.one(sql,`SELECT x.source_id,x.collection_id,x.receiving_account_id,x.owner_user_id,
+      x.source_body_sha256,x.object_sha256,x.binding_id,x.binding_version,x.credential_id,x.installation_id,
+      x.custodian_account_id,x.grant_id,x.grant_version,x.provenance,x.proof_id,x.proof_sha256,
+      x.associated_at::text AS associated_at FROM private.burimunsi_sms_source_scopes x
+      JOIN app.momo_gateway_credentials k ON k.id=x.credential_id AND k.binding_id=x.binding_id
+        AND k.installation_id::text=x.installation_id::text
+      JOIN private.burimunsi_accounts a ON a.id=x.custodian_account_id AND a.collection_id=x.collection_id
+        AND a.principal_user_id=x.owner_user_id
+      WHERE x.source_id=$1 AND x.collection_id=$2 FOR UPDATE OF k,a`,[sourceId,this.groupId]);
+    check(x.source_id===sourceId&&x.collection_id===this.groupId&&x.owner_user_id===ownerId&&
+      x.source_body_sha256===bodySha256&&x.object_sha256===objectSha256&&x.binding_id===bindingId&&
+      integer(x.binding_version)===bindingVersion&&x.receiving_account_id===receivingAccountId&&
+      x.credential_id===credentialId&&typeof x.installation_id==='string'&&x.installation_id.length>0&&
+      typeof x.custodian_account_id==='string'&&x.custodian_account_id.length>0&&
+      typeof x.grant_id==='string'&&x.grant_id.length>0&&integer(x.grant_version)>0&&
+      typeof x.provenance==='string'&&x.provenance.length>0&&typeof x.proof_id==='string'&&x.proof_id.length>0&&HASH.test(x.proof_sha256));
+    return x;
+  }
   async lineage(sql,d){
     const r=await this.one(sql,POSTING_CUSTODY_LINEAGE_SQL,[this.groupId,d.transactionId,d.paymentId,d.evidenceId]);
     const cmd=d.command,receipt=cmd.receipt;
@@ -110,6 +140,9 @@ export class PostgresPostingCustody {
       route(r.public_code)!==null&&route(r.public_code)===route(r.receiver_momo_number));
     check(integer(r.raw_size)>0&&integer(r.raw_size)<=262144&&d.sizeBytes>0&&d.sizeBytes<=16384);
     if(cmd.mode==='automatic')check(r.policy_version===cmd.policyVersion);
+    r.source_scope=await this.sourceScope(sql,{sourceId:r.raw_sms_id,ownerId:r.raw_owner,bodySha256:r.body_sha256,
+      objectSha256:r.raw_sha256,bindingId:r.job_binding,bindingVersion:integer(r.job_binding_version),
+      receivingAccountId:r.job_account,credentialId:r.credential_id});
     return r;
   }
   async journal(sql,key,{ownerId,purpose,entityId,plaintextSha256,aad}){
@@ -135,12 +168,19 @@ export class PostgresPostingCustody {
       p.custom_metadata.sha256===plaintextSha256&&p.custom_metadata.key_id===r.key_id&&
       p.custom_metadata.source_fingerprint===r.source_fingerprint&&
       object(p.http_metadata)&&same(p.http_metadata,m.http_metadata)&&p.http_metadata.contentType==='application/octet-stream'&&
-      typeof r.sealed_body==='string'&&encoder.encode(r.sealed_body).length===integer(p.size));
-    check(await sha(encoder.encode(r.sealed_body))===p.sha256);await this.owned();
-    // Compare key IDs too. Do not confuse ciphertext SHA/size with plaintext SHA/size.
-    const sealed=JSON.parse(r.sealed_body);check(sealed?.v===1&&sealed.kid===r.key_id);
+      (r.sealed_body===null||typeof r.sealed_body==='string'));
+    if(r.sealed_body!==null){
+      check(encoder.encode(r.sealed_body).length===integer(p.size)&&await sha(encoder.encode(r.sealed_body))===p.sha256);
+      const sealed=JSON.parse(r.sealed_body);check(sealed?.v===1&&sealed.kid===r.key_id);
+    }else check(!this.qualificationOnly);
+    await this.owned();
     return {put:p,metadata:m,reservation:r};
   }
+  postingBinding(command,principal){return {kind:'posting',groupId:this.groupId,command:snapshot(command),principal:snapshot(principal)};}
+  async sealed(binding,key,journal){
+    return this.qualificationOnly?journal.reservation.sealed_body:this.storageWitnesses.sealed(binding,key,journal);
+  }
+  sameJournal(a,b){return same(immutableStorageJournal(a),immutableStorageJournal(b));}
   async assertInTransaction(sql,input){
     try{
       requirePort(sql,['unsafe']);const d=snapshot(input),cmd=d.command;
@@ -159,8 +199,11 @@ export class PostgresPostingCustody {
         {key:r.evidence_key,expect:{ownerId:r.evidence_owner,purpose:'payment_evidence',entityId:d.evidenceId,plaintextSha256:r.evidence_sha256,aad:`evidence:${d.evidenceId}:${r.evidence_sha256}`}}].sort((a,b)=>a.key.localeCompare(b.key));
       const saved=new Map();
       for(const target of targets)saved.set(target.key,await this.journal(sql,target.key,target.expect));
+      const principal=d.principal;
+      if(!this.qualificationOnly)check(principal&&principal.groupId===this.groupId);
+      const binding=this.qualificationOnly?null:this.postingBinding(cmd,principal);
       const decrypt=async target=>{
-        const returned=await this.decrypt(saved.get(target.key).reservation.sealed_body,target.expect.aad);
+        const returned=await this.decrypt(await this.sealed(binding,target.key,saved.get(target.key)),target.expect.aad);
         check(returned instanceof Uint8Array&&returned.length>0&&returned.length<=262144);
         const bytes=new Uint8Array(returned); // Own bytes before the next awaited admission check.
         await this.owned();
@@ -185,8 +228,28 @@ export class PostgresPostingCustody {
       // Awaited local decryption must not allow a changed journal, source or admission
       // to inherit the old result. Locks persist until the caller commits/rolls back.
       check(same(await this.lineage(sql,d),r));
-      for(const target of targets)check(same(await this.journal(sql,target.key,target.expect),saved.get(target.key)));
+      for(const target of targets){
+        const current=await this.journal(sql,target.key,target.expect);
+        check(this.sameJournal(current,saved.get(target.key)));
+        if(!this.qualificationOnly)await this.sealed(binding,target.key,current);
+      }
       check(same(await this.one(sql,'SELECT origin,bucket FROM private.storage_namespace WHERE singleton=true FOR SHARE'),ns));
+      await this.owned();
+      const proof=Object.freeze({verified:true});
+      this.#proofs.set(proof,{descriptor:d,binding,lineage:r,namespace:ns,targets,saved});
+      return proof;
+    }catch{fail();}
+  }
+  async revalidateInTransaction(sql,proof){
+    try{
+      const saved=this.#proofs.get(proof);check(saved);await this.owned();
+      check(same(await this.lineage(sql,saved.descriptor),saved.lineage));
+      for(const target of saved.targets){
+        const journal=await this.journal(sql,target.key,target.expect);
+        check(this.sameJournal(journal,saved.saved.get(target.key)));
+        if(!this.qualificationOnly)await this.sealed(saved.binding,target.key,journal);
+      }
+      check(same(await this.one(sql,'SELECT origin,bucket FROM private.storage_namespace WHERE singleton=true FOR SHARE'),saved.namespace));
       await this.owned();return {verified:true};
     }catch{fail();}
   }

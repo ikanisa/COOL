@@ -9,8 +9,8 @@ import {PostgresNativeAuthority} from '../../domain/burimunsi/postgres-authority
 import {PostgresPostingPreparation} from '../../domain/burimunsi/postgres-posting-preparation.js';
 import {canonicalJson,sha256} from '../../domain/burimunsi/values.js';
 export {ids,connectAllocationFlow};
-export async function preparationFixture(mode='automatic'){
-  const f=await allocationFixture(mode),s=f.sqlite,{env}=await custodyFixture();
+export async function preparationFixture(mode='automatic',sourceBody=undefined){
+  const f=await allocationFixture(mode,sourceBody),s=f.sqlite,{env}=await custodyFixture();
   for(const t of ['storage_put_intents','storage_objects','storage_payload_reservations'])s.prepare(`DELETE FROM private.${t} WHERE object_key LIKE 'evidence/%'`).run();
   Object.assign(f.state,{inTransaction:false,puts:0,encrypts:0,onPut:null,afterPut:null,onEncrypt:null,commitLost:false});
   const unsafe=f.sql.unsafe;

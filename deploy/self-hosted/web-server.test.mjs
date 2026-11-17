@@ -22,6 +22,25 @@ test('static serving isolates files, preserves association files and blocks arbi
   assert.equal((await assets.fetch(new Request('https://collect.example/',{method:'HEAD'}))).body,null);
  }finally{await rm(folder,{recursive:true,force:true});}
 });
+test('static assets work through a symlinked directory and keep containment checks',async()=>{
+ const folder=await mkdtemp(join(tmpdir(),'collect-web-linked-'));
+ try{
+  const actual=join(folder,'actual'),alias=join(folder,'alias'),outside=join(folder,'outside');
+  await mkdir(actual);await mkdir(outside);await symlink(actual,alias);await writeFile(join(actual,'index.html'),'LINKED-ROOT');
+  await mkdir(join(actual,'.well-known'));await writeFile(join(actual,'.well-known/assetlinks.json'),'LINKED-ASSOCIATION');
+  await mkdir(join(actual,'privacy'));await writeFile(join(actual,'privacy/index.html'),'LINKED-PRIVACY');
+  await writeFile(join(outside,'secret'),'OUTSIDE');await symlink(join(outside,'secret'),join(actual,'escape'));
+  await writeFile(join(actual,'.hidden'),'HIDDEN');await symlink(join(actual,'.hidden'),join(actual,'hidden-alias'));
+  for(const directoryIndex of [false,true])for(const base of [actual,alias]){
+   const assets=staticAssets(base,{directoryIndex});
+   const request=path=>assets.fetch(new Request('https://collect.example'+path));
+   assert.equal(await (await request('/')).text(),'LINKED-ROOT');
+   if(directoryIndex)assert.equal(await (await request('/privacy')).text(),'LINKED-PRIVACY');
+   assert.equal(await (await request('/.well-known/assetlinks.json')).text(),'LINKED-ASSOCIATION');
+   for(const path of ['/escape','/.hidden','/hidden-alias'])assert.equal((await request(path)).status,404,path);
+  }
+ }finally{await rm(folder,{recursive:true,force:true});}
+});
 test('public directory indexes are isolated from Admin and retain static-file protections',async()=>{
  const folder=await mkdtemp(join(tmpdir(),'collect-web-directory-'));
  try{

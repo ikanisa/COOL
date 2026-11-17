@@ -1,0 +1,17 @@
+{
+  "format": "collect.synthetic-edge-capture.review-pins.v1",
+  "managed_capture_enabled": false,
+  "files": {
+    "scripts/supabase/managed-edge-capture/capture.mjs": "e653e8bf461516ec06052de4e5b6359e008bdb37eb41acac6b6a4771608afe7b",
+    "scripts/supabase/managed-edge-capture/seal.mjs": "f4a755d31e02930b54f1842700a454a1f77dce52c3d9bd20c01b9bf06adfeb91",
+    "scripts/supabase/managed-edge-capture/capture.test.mjs": "436e40d56e953102307e96ef0d75be073a372c4f9772ce09fb002cef293d23cc",
+    "scripts/supabase/managed-edge-capture/README.md": "7d6596f4590b1eca6f0920cc368a22a650e88fbc44acc30281b78f4b08494d61",
+    "scripts/supabase/current-archive/bundle.mjs": "a78f686a7fda1f3fad280d290daf49b061d0695779cec0918160d83b2cfcdd73",
+    "scripts/supabase/current-archive/codec.mjs": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192",
+    "scripts/supabase/managed-component-refresh/capture-json.mjs": "f32b1ede44363eba9ed78f380efd6709bc7b3691c47f27962a6cbd89b324d730"
+  },
+  "binaries": {
+    "/Volumes/PRO-G40/Development/Node/bin/node": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef"
+  },
+  "limitations": "Synthetic-only; provider body representation, same-user custody, managed launcher, OS, shared libraries and pre-start code remain outside proof."
+}

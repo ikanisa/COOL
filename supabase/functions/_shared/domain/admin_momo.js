@@ -7,34 +7,92 @@ import {gatewayToken,momoGuard} from './momo_gateway.js';
 import {validateProviderProfile,prepareMomoSourceReview,momoOutcomeUnresolved,MOMO_JOB_CHECKPOINT,MOMO_UNCERTAIN_ERRORS} from './momo_pipeline.js';
 import {receiptFactColumns,receiptFactJoins,withReceiptFacts} from './receipt_facts.js';
 import {captureContent} from './admin_sms_receipts.js';
+import {adminBuriMunsiSetup} from './admin_burimunsi_setup.js';
+import {adminBuriMunsiObservationRoute} from './admin_burimunsi_observations.js';
 
 const enc=new TextEncoder(),dec=new TextDecoder(),fail=(s,c,m)=>{throw new ApiError(s,c,m);};
 const keys=(body,allowed)=>{if(Object.keys(body).some(k=>!allowed.includes(k)))fail(400,'invalid_request','This action contains unsupported fields.');};
 const exact=value=>{if(!Number.isSafeInteger(value))fail(503,'invalid_source_data','Transaction measurements are unavailable.');return value;};
 const requestId=async(account,key)=>{if(typeof key!=='string'||!/^[a-zA-Z0-9_.-]{8,200}$/.test(key))fail(400,'idempotency_required','Supply an Idempotency-Key.');const sha=await digest(`collect-momo:${account.principal_id}:${key}`);return `${sha.slice(0,8)}-${sha.slice(8,12)}-4${sha.slice(13,16)}-8${sha.slice(17,20)}-${sha.slice(20,32)}`;};
-const transactionSql=`SELECT t.*,${receiptFactColumns},a.public_code,a.recipient_name,l.payment_id,l.beneficiary_member_id,p.collection_id AS group_id,g.title AS group_name,u.full_name AS member_name,
+// The legacy assignment workflow accepts only its original managed receipt.
+// A native observation deliberately has no managed session or receiver hash:
+// its configured capture scope is not evidence of the receiving account.
+export const MANAGED_MOMO_SOURCE_SQL=`EXISTS(SELECT 1 FROM momo_transaction_sources managed_source
+ JOIN sms_receipts managed_raw ON managed_raw.id=managed_source.raw_sms_id
+ JOIN momo_parse_attempts managed_attempt ON managed_attempt.id=managed_source.parse_attempt_id
+  AND managed_attempt.raw_sms_id=managed_source.raw_sms_id AND managed_attempt.outcome='accepted'
+  AND managed_attempt.source_body_sha256=managed_raw.body_sha256
+ WHERE managed_source.transaction_id=t.id AND managed_source.parse_attempt_id=t.parse_attempt_id
+ AND managed_source.relation='accepted' AND managed_raw.originating_session_id IS NOT NULL
+ AND managed_raw.receiver_hash IS NOT NULL)`;
+// The native scope lookup is installed by the additive auto-transaction
+// migration. Keep the existing managed query usable until that feature is
+// explicitly enabled on a deployment containing the lookup.
+export function momoTransactionSql(env){
+ const native=env?.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED==='true';
+ // Enrichment is source-bound and separately retained: immutable first parse
+ // rows remain intact. Project the same validated native facts as the app.
+ const transactionSource=native?`momo_transactions original
+ LEFT JOIN LATERAL (SELECT private.burimunsi_admin_sms_facts(original.id) AS facts) native_facts ON true
+ CROSS JOIN LATERAL jsonb_populate_record(NULL::app.momo_transactions,to_jsonb(original) ||
+  jsonb_strip_nulls(jsonb_build_object(
+   'event_kind',native_facts.facts->'event_kind','amount_minor',native_facts.facts->'amount_minor',
+   'currency',native_facts.facts->'currency','currency_scale',CASE WHEN native_facts.facts->>'currency'='RWF' THEN 0 ELSE NULL END,
+   'payer_name',native_facts.facts->'counterparty_name','payer_identifier',native_facts.facts->'counterparty_identifier',
+   'payer_last3',CASE WHEN native_facts.facts->>'counterparty_identifier' ~ '^[*xX•+0-9 ()-]*[0-9]{3}$' THEN right(native_facts.facts->>'counterparty_identifier',3) ELSE NULL END,
+   'fee_minor',native_facts.facts->'fee_minor','wallet_balance_after_minor',native_facts.facts->'wallet_balance_after_minor',
+   'transaction_at',native_facts.facts->'transaction_at','transaction_datetime_raw',native_facts.facts->'transaction_datetime_raw',
+   'transaction_time_source',native_facts.facts->'transaction_time_source','transaction_timezone',native_facts.facts->'transaction_timezone',
+   'provider_transaction_id',native_facts.facts->'provider_transaction_id','original_transaction_id',native_facts.facts->'original_transaction_id'
+  ))) AS t`:'momo_transactions t';
+ const nativeGroup=native?"CASE WHEN native_access.scope->>'kind'='visible' THEN native_access.scope->>'groupId' ELSE NULL END":'NULL';
+ const nativeJoin=native?'LEFT JOIN LATERAL (SELECT private.burimunsi_admin_transaction_visibility(t.id) AS scope) native_access ON true':'';
+ const nativeFilter=native?"WHERE native_access.scope->>'kind' IN ('managed','visible') AND (rf_capture.id IS NULL OR rf_capture.originating_session_id IS NOT NULL OR native_access.scope->>'kind'='visible')":
+  'WHERE (rf_capture.id IS NULL OR rf_capture.originating_session_id IS NOT NULL)';
+ return `SELECT t.*,${receiptFactColumns},a.public_code,a.recipient_name,l.payment_id,l.beneficiary_member_id,${nativeGroup} AS native_group_id,coalesce(p.collection_id,${nativeGroup}) AS group_id,g.title AS group_name,u.full_name AS member_name,
  p.revision AS payment_version,p.intent_id,coalesce((SELECT sum(e.amount_minor) FROM ledger_entries e WHERE e.payment_id=p.id),0) AS credited_amount_minor,
  CASE WHEN p.status='reversed' THEN 'reversed' WHEN p.status IN('reconciled','confirmed') THEN 'credited'
+ WHEN ${nativeGroup} IS NOT NULL OR t.event_kind NOT IN ('incoming_receipt','reversal') THEN 'recorded'
  WHEN t.has_conflict=1 OR t.allocation_state='needs_review' THEN 'needs_review' WHEN l.payment_id IS NOT NULL THEN 'awaiting_review' ELSE 'needs_allocation' END AS status
- FROM momo_transactions t JOIN momo_receiving_accounts a ON a.id=t.receiving_account_id ${receiptFactJoins}
+ FROM ${transactionSource} JOIN momo_receiving_accounts a ON a.id=t.receiving_account_id ${receiptFactJoins} ${nativeJoin}
  LEFT JOIN momo_financial_links l ON l.transaction_id=t.id LEFT JOIN payments p ON p.id=l.payment_id
- LEFT JOIN collections g ON g.id=p.collection_id LEFT JOIN users u ON u.id=l.beneficiary_member_id`;
+ LEFT JOIN collections g ON g.id=coalesce(p.collection_id,${nativeGroup}) LEFT JOIN users u ON u.id=l.beneficiary_member_id ${nativeFilter}`;
+}
 function query(url,allowed){for(const key of url.searchParams.keys())if(!allowed.includes(key)||url.searchParams.getAll(key).length!==1)fail(400,'invalid_filter','This MoMo filter is unavailable.');
  const offset=Number(url.searchParams.get('offset')??0),limit=Number(url.searchParams.get('limit')??25),search=url.searchParams.get('search')??'',status=url.searchParams.get('status')??'';
  if(!Number.isInteger(offset)||offset<0||offset>2147483647||!Number.isInteger(limit)||limit<1||limit>100||search.length>200||/[\x00-\x1f\x7f]/.test(search))fail(400,'invalid_filter','Choose a valid transaction filter.');
  return {offset,limit,search,status};}
-function predicates(url,f){const where=[],args=[];
+export function momoTransactionPredicates(url,f){const where=[],args=[];
+ if(url.searchParams.has('receiving_account_id')&&url.searchParams.has('account_scope_id'))
+  fail(400,'invalid_filter','Choose only one account filter.');
  if(f.search){where.push('(provider_transaction_id LIKE ? OR payer_name LIKE ?)');args.push('%'+f.search+'%','%'+f.search+'%');}
  if(f.status==='needs_attention')where.push("(status IN('needs_allocation','awaiting_review','needs_review') OR has_conflict=1)");
- else if(f.status){if(!['needs_allocation','awaiting_review','credited','reversed','needs_review'].includes(f.status))fail(400,'invalid_filter','Choose a supported payment state.');where.push(f.status==='needs_review'?'(status=? OR has_conflict=1)':'status=?');args.push(f.status);}
- for(const key of ['receiving_account_id','group_id'])if(url.searchParams.has(key)){where.push(`${key}=?`);args.push(uuid(url.searchParams.get(key),key));}
+ else if(f.status){if(!['recorded','needs_allocation','awaiting_review','credited','reversed','needs_review'].includes(f.status))fail(400,'invalid_filter','Choose a supported payment state.');where.push(f.status==='needs_review'?'(status=? OR has_conflict=1)':'status=?');args.push(f.status);}
+ for(const key of ['receiving_account_id','group_id'])if(url.searchParams.has(key)){
+  where.push(key==='receiving_account_id'?`(${key}=? AND native_group_id IS NULL)`:`${key}=?`);
+  args.push(uuid(url.searchParams.get(key),key));}
+ // Opt-in contract: the account is the configured native capture scope or the
+ // recorded managed receiving account, not proof of an SMS destination. Keep
+ // the older receiving-account filter unchanged for already-installed clients.
+ if(url.searchParams.has('account_scope_id')){
+  where.push('receiving_account_id=?');args.push(uuid(url.searchParams.get('account_scope_id'),'account_scope_id'));
+ }
  for(const [key,op]of [['from','>='],['to','<=']])if(url.searchParams.has(key)){const value=url.searchParams.get(key);if(!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{3})?Z$/.test(value)||!Number.isFinite(Date.parse(value)))fail(400,'invalid_filter','Use an exact UTC transaction date.');where.push(`transaction_at ${op} ?`);args.push(value);}
  return {where:where.length?' WHERE '+where.join(' AND '):'',args};}
-async function transactionPage(env,url){const f=query(url,['limit','offset','search','status','receiving_account_id','group_id','from','to']),filter=predicates(url,f),cte=`WITH records AS (${transactionSql})`;
- const result=await env.DB.batch([env.DB.prepare(`${cte} SELECT count(*) AS total,coalesce(sum(amount_minor),0) AS received,coalesce(sum(credited_amount_minor),0) AS credited,
- coalesce(sum(CASE WHEN credited_amount_minor=0 AND status!='reversed' THEN amount_minor ELSE 0 END),0) AS unallocated FROM records${filter.where}`).bind(...filter.args),
+export function momoTransactionPageRow(row,accountScope){
+ const facts=withReceiptFacts(row);
+ if(accountScope!==null&&row.receiving_account_id!==accountScope)
+  fail(503,'invalid_source_data','Transaction account scope changed. Refresh to check again.');
+ // Only the explicit new filter discloses this scoped identifier. The legacy
+ // receiving-account fields remain null for native observations.
+ return accountScope!==null&&row.native_group_id!=null
+  ?{...facts,capture_scope_account_id:row.receiving_account_id}:facts;
+}
+async function transactionPage(env,url){const f=query(url,['limit','offset','search','status','receiving_account_id','account_scope_id','group_id','from','to']),filter=momoTransactionPredicates(url,f),cte=`WITH records AS (${momoTransactionSql(env)})`;
+ const result=await env.DB.batch([env.DB.prepare(`${cte} SELECT count(*) AS total,coalesce(sum(CASE WHEN event_kind='incoming_receipt' THEN amount_minor ELSE 0 END),0) AS received,coalesce(sum(credited_amount_minor),0) AS credited,
+ coalesce(sum(CASE WHEN event_kind='incoming_receipt' AND credited_amount_minor=0 AND status!='reversed' THEN amount_minor ELSE 0 END),0) AS unallocated FROM records${filter.where}`).bind(...filter.args),
  env.DB.prepare(`${cte} SELECT * FROM records${filter.where} ORDER BY coalesce(transaction_at,created_at) DESC,id LIMIT ? OFFSET ?`).bind(...filter.args,f.limit,f.offset)]);
- const total=result[0].results[0];return {contract_version:1,rows:result[1].results.map(withReceiptFacts),total:exact(total.total),limit:f.limit,offset:f.offset,
+ const total=result[0].results[0],scope=url.searchParams.has('account_scope_id')?uuid(url.searchParams.get('account_scope_id'),'account_scope_id'):null;return {contract_version:1,rows:result[1].results.map(row=>momoTransactionPageRow(row,scope)),total:exact(total.total),limit:f.limit,offset:f.offset,
  totals:{received_minor:exact(total.received),credited_minor:exact(total.credited),unallocated_minor:exact(total.unallocated)},currency:'RWF',date_basis:'provider_transaction_time',as_of:now()};}
 async function paymentChecks(env,url){
  const f=query(url,['limit','offset']),cte=`WITH typed AS (
@@ -66,7 +124,7 @@ async function rawPayload(env,rawId){
 async function assign(env,actor,txId,body,rid,source){
  keys(body,['group_id','member_id','intent_id','expected_version','reason']);const options={permission:'payments.write',minimumAssurance:2,freshSeconds:300};
  const prior=await retainedResponse(env,actor,'momo.assign',rid,source,options);if(prior.found)return prior.value;
- const tx=await first(env,'SELECT * FROM momo_transactions WHERE id=?',txId);if(!tx)fail(404,'not_found','This payment was not found.');
+ const tx=await first(env,`SELECT t.* FROM momo_transactions t WHERE t.id=? AND ${MANAGED_MOMO_SOURCE_SQL}`,txId);if(!tx)fail(404,'not_found','This payment was not found.');
  if(tx.version!==integer(body.expected_version,'expected_version',1)||tx.has_conflict||tx.event_kind!=='incoming_receipt'||tx.allocation_state!=='unallocated')fail(409,'payment_changed','Review the current payment before assigning it.');
  const groupId=uuid(body.group_id,'group_id'),memberId=uuid(body.member_id,'member_id'),reason=text(body.reason,'reason',500);if(reason.length<8)fail(400,'reason_required','Record the evidence supporting this destination.');
  const destination=await first(env,`SELECT g.*,m.revision AS membership_revision,u.revision AS member_revision,u.full_name AS member_name
@@ -88,7 +146,7 @@ async function assign(env,actor,txId,body,rid,source){
  const sourceRow=await first(env,`SELECT raw_sms_id FROM momo_transaction_sources WHERE transaction_id=? AND relation='accepted' ORDER BY created_at LIMIT 1`,tx.id);if(!sourceRow)fail(409,'source_unavailable','Review the original source first.');
  const {payload}=await rawPayload(env,sourceRow.raw_sms_id);let bytes,sha;
  if(!existing.length){bytes=enc.encode(payload.raw_body);sha=await digest(bytes);await env.PRIVATE_MEDIA.put(key,await encrypt(env,bytes,`evidence:${evidenceId}:${sha}`),{scope:{ownerId:actor.userId,purpose:'payment_evidence',entityId:evidenceId},aad:`evidence:${evidenceId}:${sha}`,sourceDigest:await digest(stableJson(source)),httpMetadata:{contentType:'application/octet-stream'},customMetadata:{sha256:sha,key_id:env.DATA_KEY_ID}});}
- const gate=momoGuard(env,`EXISTS(SELECT 1 FROM momo_transactions WHERE id=? AND version=? AND has_conflict=0 AND allocation_state='unallocated')
+ const gate=momoGuard(env,`EXISTS(SELECT 1 FROM momo_transactions t WHERE t.id=? AND t.version=? AND t.has_conflict=0 AND t.allocation_state='unallocated' AND ${MANAGED_MOMO_SOURCE_SQL})
  AND EXISTS(SELECT 1 FROM collections g JOIN memberships m ON m.collection_id=g.id JOIN users u ON u.id=m.user_id
  WHERE g.id=? AND g.revision=? AND g.status='active' AND u.id=? AND u.revision=? AND u.access_status='active' AND m.active=1 AND m.revision=?)`,[tx.id,tx.version,groupId,destination.revision,memberId,destination.member_revision,destination.membership_revision]);
  const overlapGate=momoGuard(env,existing.length?`EXISTS(SELECT 1 FROM payments p JOIN payment_evidence e ON e.id=p.evidence_id
@@ -117,10 +175,10 @@ async function reviewConflict(env,actor,txId,body,rid,source){
  if(evidence.length<8)fail(400,'evidence_required','Record supporting evidence for the conflict decision.');
  const options={permission:'payments.write',minimumAssurance:2,freshSeconds:300},operation='momo.conflict.reviewed';
  const prior=await retainedResponse(env,actor,operation,rid,source,options);if(prior.found)return prior.value;
- const tx=await first(env,'SELECT * FROM momo_transactions WHERE id=?',txId),conflicts=await rows(env,"SELECT DISTINCT parse_attempt_id FROM momo_transaction_sources WHERE transaction_id=? AND relation='conflict' ORDER BY parse_attempt_id LIMIT 101",txId);
+ const tx=await first(env,`SELECT t.* FROM momo_transactions t WHERE t.id=? AND ${MANAGED_MOMO_SOURCE_SQL}`,txId),conflicts=await rows(env,"SELECT DISTINCT parse_attempt_id FROM momo_transaction_sources WHERE transaction_id=? AND relation='conflict' ORDER BY parse_attempt_id LIMIT 101",txId);
  if(!tx||tx.version!==version||!tx.has_conflict||tx.allocation_state!=='needs_review'||stableJson(conflicts.map(row=>row.parse_attempt_id))!==stableJson(expected)||
   await first(env,'SELECT 1 AS found FROM momo_financial_links WHERE transaction_id=?',txId))fail(409,'conflict_changed','Refresh the unlinked payment and its complete conflict set.');
- const slots=expected.map(()=>'?').join(','),guard=momoGuard(env,`EXISTS(SELECT 1 FROM momo_transactions WHERE id=? AND version=? AND has_conflict=1 AND allocation_state='needs_review')
+ const slots=expected.map(()=>'?').join(','),guard=momoGuard(env,`EXISTS(SELECT 1 FROM momo_transactions t WHERE t.id=? AND t.version=? AND t.has_conflict=1 AND t.allocation_state='needs_review' AND ${MANAGED_MOMO_SOURCE_SQL})
   AND NOT EXISTS(SELECT 1 FROM momo_financial_links WHERE transaction_id=?)
   AND (SELECT count(DISTINCT parse_attempt_id) FROM momo_transaction_sources WHERE transaction_id=? AND relation='conflict')=?
   AND NOT EXISTS(SELECT 1 FROM momo_transaction_sources WHERE transaction_id=? AND relation='conflict' AND parse_attempt_id NOT IN(${slots}))`,[txId,version,txId,txId,expected.length,txId,...expected]);
@@ -133,6 +191,8 @@ async function reviewConflict(env,actor,txId,body,rid,source){
   {...options,entityType:'payment',entityId:txId,auditDetails:{decision:'retain_original',reason:body.reason,evidence_reference:evidence,dismissed_parse_attempt_ids:expected}});
 }
 export async function adminMomoRoute(request,env,account,actor,parts,url){
+ if(parts[0]==='native-setup')return adminBuriMunsiSetup(request,env,account,actor,parts,url);
+ if(parts[0]==='observations')return adminBuriMunsiObservationRoute(request,env,account,actor,parts,url);
  const area=parts[0];if(!['accounts','bindings','transactions','sources'].includes(area))fail(404,'not_found','This MoMo view does not exist.');
  const readPermission=['accounts','bindings'].includes(area)?'receivers.read':area==='sources'?'sms.read':'payments.read';requirePermission(actor,readPermission);
  if(request.method==='GET'){
@@ -147,7 +207,7 @@ export async function adminMomoRoute(request,env,account,actor,parts,url){
   if(area==='transactions'&&parts.length===3&&parts[2]==='candidates'){
    requirePermission(actor,'users.read');requirePermission(actor,'collections.read');
    const f=query(url,['limit','offset','search']),txId=uuid(parts[1]),lookup=accountDatabase(accountDatabase(scoped,account,'users.read'),account,'collections.read');
-   const condition=`t.id=? AND t.has_conflict=0 AND t.allocation_state='unallocated' AND g.status='active' AND m.active=1 AND u.access_status='active' AND u.member_type!='operator'
+   const condition=`t.id=? AND ${MANAGED_MOMO_SOURCE_SQL} AND t.has_conflict=0 AND t.allocation_state='unallocated' AND g.status='active' AND m.active=1 AND u.access_status='active' AND u.member_type!='operator'
     AND g.receiver_network=a.provider AND
     (CASE WHEN g.receiver_momo_number GLOB '07*' AND length(g.receiver_momo_number)=10 THEN '250'||substr(g.receiver_momo_number,2) ELSE replace(g.receiver_momo_number,'+','') END)=
     (CASE WHEN a.public_code GLOB '07*' AND length(a.public_code)=10 THEN '250'||substr(a.public_code,2) ELSE replace(a.public_code,'+','') END)
@@ -155,12 +215,12 @@ export async function adminMomoRoute(request,env,account,actor,parts,url){
     JOIN collections g JOIN memberships m ON m.collection_id=g.id JOIN users u ON u.id=m.user_id WHERE ${condition}`;
    const result=await lookup.DB.batch([lookup.DB.prepare(`SELECT count(*) AS n ${from}`).bind(...args),lookup.DB.prepare(`SELECT g.id AS group_id,g.title AS group_name,u.id AS member_id,u.full_name AS member_name,u.public_id AS member_public_id ${from} ORDER BY u.full_name,g.title,u.id,g.id LIMIT ? OFFSET ?`).bind(...args,f.limit,f.offset)]);
    return json({rows:result[1].results,total:exact(result[0].results[0].n),limit:f.limit,offset:f.offset});}
-  if(area==='transactions'&&parts.length===2){query(url,[]);const txId=uuid(parts[1]),result=await scoped.DB.batch([scoped.DB.prepare(`SELECT * FROM (${transactionSql}) WHERE id=?`).bind(txId),scoped.DB.prepare(`SELECT s.raw_sms_id,s.relation,s.created_at,a.id AS attempt_id,a.outcome,a.model_id,a.schema_version,a.parser_version,a.validation_json FROM momo_transaction_sources s JOIN momo_parse_attempts a ON a.id=s.parse_attempt_id WHERE s.transaction_id=? ORDER BY a.created_at DESC LIMIT 100`).bind(txId),scoped.DB.prepare("SELECT DISTINCT parse_attempt_id FROM momo_transaction_sources WHERE transaction_id=? AND relation='conflict' ORDER BY parse_attempt_id LIMIT 101").bind(txId),scoped.DB.prepare("SELECT actor_user_id,details_json,created_at FROM audit_log WHERE action='momo.conflict.reviewed' AND entity_id=? ORDER BY id DESC LIMIT 25").bind(txId)]);if(!result[0].results.length)fail(404,'not_found','This transaction is unavailable.');return json({transaction:withReceiptFacts(result[0].results[0]),sources:result[1].results,conflicting_attempt_ids:result[2].results.map(row=>row.parse_attempt_id),conflict_reviews:result[3].results});}
+  if(area==='transactions'&&parts.length===2){query(url,[]);const txId=uuid(parts[1]),result=await scoped.DB.batch([scoped.DB.prepare(`SELECT * FROM (${momoTransactionSql(env)}) WHERE id=?`).bind(txId),scoped.DB.prepare(`SELECT s.raw_sms_id,s.relation,s.created_at,a.id AS attempt_id,a.outcome,a.model_id,a.schema_version,a.parser_version,a.validation_json FROM momo_transaction_sources s JOIN momo_parse_attempts a ON a.id=s.parse_attempt_id WHERE s.transaction_id=? ORDER BY a.created_at DESC LIMIT 100`).bind(txId),scoped.DB.prepare("SELECT DISTINCT parse_attempt_id FROM momo_transaction_sources WHERE transaction_id=? AND relation='conflict' ORDER BY parse_attempt_id LIMIT 101").bind(txId),scoped.DB.prepare("SELECT actor_user_id,details_json,created_at FROM audit_log WHERE action='momo.conflict.reviewed' AND entity_id=? ORDER BY id DESC LIMIT 25").bind(txId)]);if(!result[0].results.length)fail(404,'not_found','This transaction is unavailable.');return json({transaction:withReceiptFacts(result[0].results[0]),sources:result[1].results,conflicting_attempt_ids:result[2].results.map(row=>row.parse_attempt_id),conflict_reviews:result[3].results});}
   if(area==='sources'&&parts.length===1){const f=query(url,['limit','offset','status']);if(f.status&&!['pending','processing','retry','completed','needs_review','source_unresolved'].includes(f.status))fail(400,'invalid_filter','Choose a valid processing state.');
-   const condition=f.status?' WHERE j.state=?':'',args=f.status?[f.status]:[],result=await scoped.DB.batch([scoped.DB.prepare(`SELECT count(*) AS total FROM momo_processing_jobs j${condition}`).bind(...args),scoped.DB.prepare(`SELECT j.*,s.body_sha256,s.received_at_device,s.created_at AS received_at,
+   const condition=f.status?' WHERE j.state=?':'',args=f.status?[f.status]:[],result=await scoped.DB.batch([scoped.DB.prepare(`SELECT count(*) AS total FROM momo_processing_jobs j JOIN sms_receipts s ON s.id=j.raw_sms_id AND s.originating_session_id IS NOT NULL${condition}`).bind(...args),scoped.DB.prepare(`SELECT j.*,s.body_sha256,s.received_at_device,s.created_at AS received_at,
     (SELECT id FROM momo_parse_attempts a WHERE a.raw_sms_id=j.raw_sms_id ORDER BY attempt_number DESC LIMIT 1) AS latest_attempt_id,
     (SELECT outcome FROM momo_parse_attempts a WHERE a.raw_sms_id=j.raw_sms_id ORDER BY attempt_number DESC LIMIT 1) AS latest_attempt_outcome
-    FROM momo_processing_jobs j JOIN sms_receipts s ON s.id=j.raw_sms_id${condition} ORDER BY j.created_at DESC,j.raw_sms_id LIMIT ? OFFSET ?`).bind(...args,f.limit,f.offset)]);return json({rows:result[1].results,total:result[0].results[0].total,limit:f.limit,offset:f.offset});}
+    FROM momo_processing_jobs j JOIN sms_receipts s ON s.id=j.raw_sms_id AND s.originating_session_id IS NOT NULL${condition} ORDER BY j.created_at DESC,j.raw_sms_id LIMIT ? OFFSET ?`).bind(...args,f.limit,f.offset)]);return json({rows:result[1].results,total:result[0].results[0].total,limit:f.limit,offset:f.offset});}
   if(area==='sources'&&parts.length===3&&parts[2]==='content'){
    const rawId=uuid(parts[1]),content=await captureContent(request,env,account,actor,['receipts','capture',rawId,'content'],url,'momo.source.revealed');
    const reveal=accountDatabase(accountDatabase(env,account,'sms.read',{mfa:true,fresh:true}),account,'sms.reveal',{mfa:true,fresh:true});
@@ -209,7 +269,7 @@ export async function adminMomoRoute(request,env,account,actor,parts,url){
   keys(body,['reason','cursor','limit']);const limit=integer(body.limit??50,'limit',1,100),cursor=body.cursor??null,asOf=cursor?.as_of??now(),after=cursor?.after_id??'';
   if(cursor&&(Object.keys(cursor).sort().join(',')!=='after_id,as_of'||typeof asOf!=='string'||!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(asOf)||!Number.isFinite(Date.parse(asOf))))fail(400,'invalid_cursor','Use the returned historical cursor.');
   if(after)uuid(after,'after_id');
-  const selected=await rows(scoped,`SELECT s.id FROM sms_receipts s WHERE s.created_at<=? AND s.id>? AND NOT EXISTS(SELECT 1 FROM momo_processing_jobs j WHERE j.raw_sms_id=s.id) ORDER BY s.id LIMIT ?`,asOf,after,limit+1),page=selected.slice(0,limit);
+  const selected=await rows(scoped,`SELECT s.id FROM sms_receipts s WHERE s.originating_session_id IS NOT NULL AND s.created_at<=? AND s.id>? AND NOT EXISTS(SELECT 1 FROM momo_processing_jobs j WHERE j.raw_sms_id=s.id) ORDER BY s.id LIMIT ?`,asOf,after,limit+1),page=selected.slice(0,limit);
   for(const raw of page)writes.push(scoped.DB.prepare(`INSERT INTO momo_processing_jobs(raw_sms_id,binding_id,binding_version,receiving_account_id,mode,state,available_at,created_at,updated_at)
    VALUES(?,NULL,NULL,NULL,'historical','source_unresolved',unixepoch(),?,?) ON CONFLICT(raw_sms_id) DO NOTHING`).bind(raw.id,now(),now()));
   value={inventoried:page.length,next_cursor:selected.length>limit?{as_of:asOf,after_id:page.at(-1).id}:null,status:'source_review_required',financial_effects:0};

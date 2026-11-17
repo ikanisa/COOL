@@ -36,11 +36,15 @@ export function providerTime(raw, offsetMinutes) {
   requireThat(Number.isFinite(ms) && new Date(ms).toISOString().slice(0,19) === iso, 'invalid_timestamp');
   return new Date(ms - offsetMinutes * 60000).toISOString();
 }
+// The strict wire parser deliberately uses null-prototype JSON objects to
+// prevent inherited keys and prototype pollution. They are plain JSON data.
+const jsonObject=value=>value!==null&&typeof value==='object'&&!Array.isArray(value)&&
+  (Object.getPrototypeOf(value)===Object.prototype||Object.getPrototypeOf(value)===null);
 export function canonicalJson(v) {
   if (v === null || typeof v === 'string' || typeof v === 'boolean') return JSON.stringify(v);
   if (typeof v === 'number') { requireThat(Number.isFinite(v), 'invalid_json'); return JSON.stringify(v); }
   if (Array.isArray(v)) return '[' + v.map(canonicalJson).join(',') + ']';
-  requireThat(v && Object.getPrototypeOf(v) === Object.prototype, 'invalid_json');
+  requireThat(jsonObject(v), 'invalid_json');
   return '{' + Object.keys(v).sort().map(k => JSON.stringify(k) + ':' + canonicalJson(v[k])).join(',') + '}';
 }
 export async function sha256(value) {
@@ -48,7 +52,7 @@ export async function sha256(value) {
   return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), x => x.toString(16).padStart(2,'0')).join('');
 }
 export function exactKeys(body, allowed, required = allowed) {
-  requireThat(body && Object.getPrototypeOf(body) === Object.prototype && Object.keys(body).every(k => allowed.includes(k)) && required.every(k => Object.hasOwn(body,k)), 'invalid_request');
+  requireThat(jsonObject(body) && Object.keys(body).every(k => allowed.includes(k)) && required.every(k => Object.hasOwn(body,k)), 'invalid_request');
   return body;
 }
 

@@ -52,7 +52,7 @@ data class FocusAction(val modifier:Modifier,val click:()->Unit)
 }
 /** Entry-only motion: outgoing financial records are disposed, never cross-faded underneath. */
 @Composable fun RouteEntrance(title:String,content:@Composable ()->Unit){
-    val reduced=LocalUiPreferences.current.reduceMotion
+    val reduced=!LocalBuriMotionAllowed.current
     val progress=remember{Animatable(if(reduced)1f else 0f)}
     val distance=with(LocalDensity.current){6.dp.toPx()}
     LaunchedEffect(reduced){

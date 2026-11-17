@@ -4,6 +4,17 @@ fun main(){
  var n=0
  fun ck(label:String,v:Boolean){check(v){label};println("PASS $label");n++}
  for(v in listOf("posted","credited"))ck("confirmed $v",Presentation.payment(v).confirmedCredit&&!Presentation.payment(v).canAllocate)
+ ck("corrected remains explicitly non-credit and cannot be allocated",PaymentPresentation.payment("corrected").let{it.label=="Corrected"&&!it.confirmedCredit&&!it.canAllocate})
+ val automatic=Payment("tx-auto","","",null,"",null,"recorded",1,direction="outgoing",outcome="pending",sourceKind="observation")
+ ck("automatic outgoing record does not invent values",automatic.amountRwf==null&&automatic.ftId==null&&
+   PaymentPresentation.directionLabel(automatic.direction)=="Outgoing"&&PaymentPresentation.outcomeLabel(automatic.outcome)=="Pending")
+ ck("pending automatic transaction is not displayed as a successful one",PaymentPresentation.payment(automatic).label=="Pending"&&
+   !PaymentPresentation.payment(automatic).confirmedCredit)
+ ck("outgoing and absent fields do not allow allocation",!PaymentPresentation.canAllocate(automatic.copy(state="unallocated")))
+ ck("incoming successful known amount and reference can allocate",PaymentPresentation.canAllocate(
+   automatic.copy(state="unallocated",direction="incoming",outcome="successful",amountRwf=1000,ftId="reference")))
+ ck("failed incoming does not allow allocation",!PaymentPresentation.canAllocate(
+   automatic.copy(state="unallocated",direction="incoming",outcome="failed",amountRwf=1000,ftId="reference")))
  for(v in listOf("processing","reversed","conflict","rejected","failed","unknown","allocated","__proto__","toString","",null))ck("no false success $v",!Presentation.payment(v).confirmedCredit&&!Presentation.payment(v).canAllocate)
  ck("only unallocated permits action",Presentation.payment("unallocated").canAllocate)
  for(v in listOf("queued","duplicate","synced","rejected","missing"))ck("receipt not financial success $v",Presentation.receipt(v).icon!="check")

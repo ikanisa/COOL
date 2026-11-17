@@ -278,7 +278,8 @@ class AuthPublicationGate(unittest.TestCase):
         (self.root/'private'/'configuration.json').write_text('synthetic seal')
         self.operator=object.__new__(Operator)
         self.operator.root=self.root;self.operator.docker='synthetic-docker';self.operator.project='collect-test'
-        self.operator.profile={'environment':'qualification','admin_origin':'https://admin.example',
+        self.operator.profile={'format':'collect.deployment.v1','id':'synthetic-auth','mode':'self_hosted',
+            'environment':'qualification','member_api_origin':'https://member.example','admin_origin':'https://admin.example',
             'public_origin':'https://public.example','supabase_origin':'https://supabase.example',
             'google_callback_origin':'https://admin.example'}
         self.operator.meta={'profile_sha256':'a'*64,'source_sha256':'b'*64}
@@ -300,11 +301,11 @@ class AuthPublicationGate(unittest.TestCase):
                     'CAPTCHA_SECRET':'synthetic-captcha-secret','SMTP_HOST':'smtp.example',
                     'SMTP_USER':'synthetic-user','SMTP_PASS':'synthetic$password',
                     'SMTP_PORT':'587','SMTP_ADMIN_EMAIL':'sender@example.com','SMTP_SENDER_NAME':'Collect',
-                    'HOOK_SECRET':'synthetic-hook-secret'}
+                    'HOOK_SECRET':'synthetic-hook-secret','COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS':'1800'}
         self.template={'GOTRUE_DB_DRIVER':'postgres',
             'GOTRUE_DB_DATABASE_URL':'postgres://supabase_auth_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}',
             'API_EXTERNAL_URL':'https://supabase.example/auth/v1','GOTRUE_SITE_URL':'https://public.example',
-            'GOTRUE_URI_ALLOW_LIST':'https://admin.example/functions/v1/collect-api/v1/auth/google/callback',
+            'GOTRUE_URI_ALLOW_LIST':'https://admin.example,https://admin.example/functions/v1/collect-api/v1/auth/google/callback,https://public.example',
             'GOTRUE_DISABLE_SIGNUP':'false','GOTRUE_EXTERNAL_EMAIL_ENABLED':'true',
             'GOTRUE_MAILER_SECURE_EMAIL_CHANGE_ENABLED':'true',
             **{'GOTRUE_MAILER_URLPATHS_'+suffix:'/auth/v1/verify' for suffix in ('INVITE','CONFIRMATION','RECOVERY','EMAIL_CHANGE')},
@@ -324,6 +325,7 @@ class AuthPublicationGate(unittest.TestCase):
             'GOTRUE_HOOK_SEND_SMS_URI':'http://functions:9000/send-sms-hook',
             'GOTRUE_HOOK_SEND_SMS_SECRETS':'v1,whsec_${HOOK_SECRET}',
             'GOTRUE_SMS_PROVIDER':'twilio','GOTRUE_SMS_OTP_LENGTH':'6','GOTRUE_SMS_OTP_EXP':'300',
+            'GOTRUE_MAILER_OTP_LENGTH':'6','GOTRUE_MAILER_OTP_EXP':'${COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS}',
             'GOTRUE_SMS_AUTOCONFIRM':'false','GOTRUE_MAILER_AUTOCONFIRM':'false',
             'GOTRUE_SECURITY_CAPTCHA_ENABLED':'${CAPTCHA_ENABLED}',
             'GOTRUE_SECURITY_CAPTCHA_PROVIDER':'turnstile',
@@ -335,7 +337,7 @@ class AuthPublicationGate(unittest.TestCase):
         self.expected={'GOTRUE_DB_DRIVER':'postgres',
             'GOTRUE_DB_DATABASE_URL':'postgres://supabase_auth_admin:'+self.postgres_password+'@db:5432/postgres',
             'API_EXTERNAL_URL':'https://supabase.example/auth/v1','GOTRUE_SITE_URL':'https://public.example',
-            'GOTRUE_URI_ALLOW_LIST':'https://admin.example/functions/v1/collect-api/v1/auth/google/callback',
+            'GOTRUE_URI_ALLOW_LIST':'https://admin.example,https://admin.example/functions/v1/collect-api/v1/auth/google/callback,https://public.example',
             'GOTRUE_DISABLE_SIGNUP':'false','GOTRUE_EXTERNAL_EMAIL_ENABLED':'true',
             'GOTRUE_MAILER_SECURE_EMAIL_CHANGE_ENABLED':'true',
             **{'GOTRUE_MAILER_URLPATHS_'+suffix:'/auth/v1/verify' for suffix in ('INVITE','CONFIRMATION','RECOVERY','EMAIL_CHANGE')},
@@ -353,6 +355,7 @@ class AuthPublicationGate(unittest.TestCase):
             'GOTRUE_HOOK_SEND_SMS_URI':'http://functions:9000/send-sms-hook',
             'GOTRUE_HOOK_SEND_SMS_SECRETS':'v1,whsec_synthetic-hook-secret',
             'GOTRUE_SMS_PROVIDER':'twilio','GOTRUE_SMS_OTP_LENGTH':'6','GOTRUE_SMS_OTP_EXP':'300',
+            'GOTRUE_MAILER_OTP_LENGTH':'6','GOTRUE_MAILER_OTP_EXP':'1800',
             'GOTRUE_SMS_AUTOCONFIRM':'false','GOTRUE_MAILER_AUTOCONFIRM':'false',
             'GOTRUE_SECURITY_CAPTCHA_ENABLED':'true','GOTRUE_SECURITY_CAPTCHA_SECRET':'synthetic-captcha-secret',
             'GOTRUE_SECURITY_CAPTCHA_PROVIDER':'turnstile',
@@ -463,6 +466,8 @@ class AuthPublicationGate(unittest.TestCase):
                  ('api_url','API_EXTERNAL_URL','https://other.example/auth/v1'),
                  ('site_url','GOTRUE_SITE_URL','https://other.example'),
                  ('redirect_allowlist','GOTRUE_URI_ALLOW_LIST','https://other.example/callback'),
+                 ('email_code_lifetime','GOTRUE_MAILER_OTP_EXP','300'),
+                 ('email_code_length','GOTRUE_MAILER_OTP_LENGTH','8'),
                  ('signup_disabled','GOTRUE_DISABLE_SIGNUP','true'),
                  ('email_disabled','GOTRUE_EXTERNAL_EMAIL_ENABLED','false'),
                  ('secure_email_disabled','GOTRUE_MAILER_SECURE_EMAIL_CHANGE_ENABLED','false'),

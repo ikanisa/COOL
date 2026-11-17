@@ -96,6 +96,58 @@ Future<ProviderContainer> pumpCore(
 
 void main() {
   testWidgets(
+    'Transactions area opens automatic MoMo records and returns to Collect payments',
+    (tester) async {
+      final requests = <String>[];
+      final container = await pumpCore(tester, (request) async {
+        requests.add(request.url.path);
+        if (request.url.path.endsWith('/momo/transactions')) {
+          return response(
+            jsonEncode({
+              'contract_version': 1,
+              'currency': 'RWF',
+              'date_basis': 'provider_transaction_time',
+              'rows': [],
+              'total': 0,
+              'offset': 0,
+              'limit': 25,
+              'totals': {
+                'received_minor': 0,
+                'credited_minor': 0,
+                'unallocated_minor': 0,
+              },
+              'as_of': '2026-10-18T08:02:00.000Z',
+            }),
+            200,
+          );
+        }
+        return response('{"rows":[],"total":0}', 200);
+      });
+      container.read(cloudflareAdminRouterProvider).go('/admin/transactions');
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(const ValueKey('cloudflare-core-empty-transactions')),
+        findsOneWidget,
+      );
+      await tester.tap(find.text('MoMo transactions'));
+      await tester.pumpAndSettle();
+      expect(requests, contains('/api/admin/momo/transactions'));
+      expect(
+        find.text('Automatically recorded MoMo transactions.'),
+        findsOneWidget,
+      );
+      await tester.tap(find.text('Collect payments'));
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(const ValueKey('cloudflare-core-empty-transactions')),
+        findsOneWidget,
+      );
+      container.read(cloudflareAdminSessionProvider.notifier).clear();
+      await tester.pumpWidget(const SizedBox.shrink());
+    },
+  );
+
+  testWidgets(
     'live reads retain submitted filters, sort and the current table page',
     (tester) async {
       final queries = <Map<String, String>>[];

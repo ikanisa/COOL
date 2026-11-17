@@ -46,6 +46,7 @@ const SQL = {
   recover: 'SELECT private.admin_invitation_v2_recover(?,?,?,?,?) AS result',
   list: 'SELECT private.admin_invitation_v2_list(?,?,?,?) AS result',
 };
+const OWNER_CHECK_SQL='SELECT private.collect_owner_is(?,?,?) AS result';
 const smtpAccepted = extra => ({messageId: MIME_ID, response: '250 2.0.0 accepted',
   accepted: [EMAIL], rejected: [], rejectedErrors: [], envelope: {from: SENDER, to: [EMAIL]}, ...extra});
 
@@ -55,12 +56,13 @@ class Statement {
   first() {return this.db.transition(this.sql, this.args);}
 }
 class Database {
-  constructor(options) {this.options = options; this.trace = []; this.violations = []; this.keys = new Map(); this.row = null; this.claims = 0;}
+  constructor(options) {this.options = options; this.trace = []; this.ownerChecks=[]; this.violations = []; this.keys = new Map(); this.row = null; this.claims = 0;}
   must(condition, message) {if (!condition) {this.violations.push(message); throw new Error(message);}}
   equal(value, expected, message) {try {assert.deepEqual(value, expected);} catch {this.must(false, message);}}
-  prepare(sql) {this.must(Object.values(SQL).includes(sql), 'Only the five closed v2 helper functions are allowed'); return new Statement(this, sql);}
+  prepare(sql) {this.must(Object.values(SQL).includes(sql)||sql===OWNER_CHECK_SQL, 'Only the protected-owner check and five closed v2 helpers are allowed'); return new Statement(this, sql);}
   result(extra = {}) {return {result: {...clone(this.row), ...extra}};}
   async transition(sql, args) {
+    if(sql===OWNER_CHECK_SQL){this.ownerChecks.push(clone(args));if(this.options.ownerCheckError)throw new Error('synthetic owner query unavailable');return {result:this.options.ownerAllowed===true};}
     const phase = Object.keys(SQL).find(key => SQL[key] === sql);
     this.trace.push({phase, args: clone(args)});
     this.equal(args.slice(0, 4), [OWNER_ID, OWNER.token_hash, ORIGIN, PUBLIC_ID], 'Actual captured actor tuple must reach every helper');
@@ -133,7 +135,8 @@ async function decoded(response) {assert.ok(response instanceof Response); retur
 async function fixture(options, check) {
   const db = new Database(options), http = [], smtp = [], constructions = [], completions = [], deadlines = [];
   let sentReady; const sendReady = new Promise(resolve => {sentReady = resolve;});
-  const env = {DB: db, SUPABASE_URL: PROJECT, SUPABASE_SERVICE_ROLE_KEY: SECRET_KEY};
+  const env = {DB: db, SUPABASE_URL: PROJECT, SUPABASE_SERVICE_ROLE_KEY: SECRET_KEY,
+    ...(options.dynamicOwner ? {COLLECT_ADMIN_DYNAMIC_OWNER_AUTH_ENABLED:'true'} : {})};
   const enableNotice = () => {
     const binding = createWorkspaceSmtpEmail({COLLECT_NOTICE_SMTP_PASSWORD: PASSWORD}, {createTransport(config) {
       constructions.push(config);
@@ -189,6 +192,22 @@ function failure(reply, status, code, outcome) {
 }
 
 test('actual versioned staff invitation controller', {concurrency: false}, async t => {
+  await t.test('an alternate protected owner keeps the independently configured notice sender',async()=>fixture({dynamicOwner:true,ownerAllowed:true},async f=>{
+    const account={...OWNER,email:'owner@example.invalid'};
+    assert.equal((await decoded(await f.invoke('/team/v2/invite',{account}))).status,200);
+    assert.deepEqual(f.db.ownerChecks,[[account.id,account.principal_id,account.email]]);
+    assert.deepEqual(phases(f.db),['prepare','claim','finish']);assert.equal(f.smtp.length,1);assert.equal(f.http.length,0);
+  }));
+  for(const option of [{ownerAllowed:false},{ownerCheckError:true}])await t.test('unavailable protected owner blocks v2 before a durable or provider action',async()=>fixture({dynamicOwner:true,...option},async f=>{
+    await assert.rejects(f.invoke('/team/v2/invite',{account:{...OWNER,email:'owner@example.invalid'}}),
+      option.ownerCheckError?error(503,'owner_identity_unavailable'):error(403,'owner_required'));
+    assert.equal(f.db.ownerChecks.length,1);assert.deepEqual(phases(f.db),[]);assert.equal(f.http.length+f.smtp.length,0);
+  }));
+  await t.test('alternate protected owner cannot be the v2 invitation target',async()=>fixture({dynamicOwner:true,ownerAllowed:true},async f=>{
+    const account={...OWNER,email:'owner@example.invalid'};
+    await assert.rejects(f.invoke('/team/v2/invite',{account,body:{email:account.email,role:'staff'}}),error(400,'invalid_invitation'));
+    assert.deepEqual(phases(f.db),[]);assert.equal(f.http.length+f.smtp.length,0);
+  }));
   await t.test('frozen v1 routes are never intercepted', async () => fixture({}, async f => {
     for (const path of ['/team/invite', '/team/invitation-status', '/team/' + STAFF + '/resend', '/team'])
       assert.equal(await f.invoke(path, {account: null}), null);

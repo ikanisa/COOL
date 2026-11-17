@@ -106,6 +106,8 @@ class _IncomingSmsPanelState extends ConsumerState<_IncomingSmsPanel>
   Widget build(BuildContext context) {
     final query = _query;
     final result = ref.watch(_incomingSms(query));
+    final observationsEnabled = ref.watch(burimunsiObservationEnabledProvider);
+    if (observationsEnabled) ref.watch(cloudflareAdminSessionProvider);
     if (result.asData case final confirmed?) {
       _last = confirmed.value;
       _lastQuery = query;
@@ -229,6 +231,14 @@ class _IncomingSmsPanelState extends ConsumerState<_IncomingSmsPanel>
               _offset = offset;
               _last = null;
             }),
+          ),
+        ],
+        if (observationsEnabled) ...[
+          const SizedBox(height: 24),
+          _ObservationAdmissions(
+            key: ValueKey(
+              ref.read(cloudflareAdminSessionProvider.notifier).authorityFence,
+            ),
           ),
         ],
       ],

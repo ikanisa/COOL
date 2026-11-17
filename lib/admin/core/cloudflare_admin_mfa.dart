@@ -113,12 +113,12 @@ class CloudflareAdminMfaApi {
   final CloudflareAdminSession session;
 
   CloudflareAdminUser _actor() {
-    if (session.usesEmailVerification) {
+    final user = session.user;
+    if (session.usesEmailVerification && user?.mfaAvailable != true) {
       throw const AdminAccountException(
         'Verify your email to confirm sensitive changes.',
       );
     }
-    final user = session.user;
     if (user == null || user.principalId == null) {
       throw const AdminAccountException(
         'Sign in again to use your authenticator.',
@@ -129,7 +129,10 @@ class CloudflareAdminMfaApi {
 
   Future<List<CloudflareAdminMfaFactor>> factors() async {
     final user = _actor();
-    final value = await session.request('auth/user', authenticated: true);
+    final value = await session.request(
+      user.mfaAvailable ? 'auth/mfa/factors' : 'auth/user',
+      authenticated: true,
+    );
     final factors = value['factors'];
     if (value['id'] != user.principalId ||
         factors is! List ||
@@ -145,7 +148,7 @@ class CloudflareAdminMfaApi {
 
   Future<CloudflareAdminMfaSetup> enroll() async {
     final user = _actor();
-    if (!user.permissions.contains('auth.mfa.enroll')) {
+    if (!user.mfaAvailable && !user.permissions.contains('auth.mfa.enroll')) {
       throw const AdminAccountException(
         'Ask the owner to enable authenticator setup.',
       );
@@ -199,7 +202,7 @@ class CloudflareAdminMfaApi {
     final user = _actor();
     if (factor.verified ||
         !_factorIdPattern.hasMatch(factor.id) ||
-        !user.permissions.contains('auth.mfa.enroll')) {
+        (!user.mfaAvailable && !user.permissions.contains('auth.mfa.enroll'))) {
       throw const AdminAccountException(
         'Only an owned pending setup can be cancelled.',
       );
@@ -234,6 +237,9 @@ class CloudflareAdminSecurityPage extends ConsumerWidget {
             ?.value
             ?.usesEmailVerification ==
         true;
+    final mfaAvailable =
+        ref.watch(cloudflareAdminSessionProvider).asData?.value?.mfaAvailable ==
+        true;
     return Material(
       color: context.collectColors.canvas,
       child: Column(
@@ -261,6 +267,19 @@ class CloudflareAdminSecurityPage extends ConsumerWidget {
             ),
           ),
           const Divider(height: 1),
+          if (email && mfaAvailable) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: ListTile(
+                leading: const Icon(Icons.phonelink_lock_outlined),
+                title: const Text('Authenticator'),
+                subtitle: const Text('Set up or verify two-step access.'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.go('/admin/security/authenticator'),
+              ),
+            ),
+            const Divider(height: 1),
+          ],
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             child: ListTile(
@@ -292,7 +311,7 @@ class CloudflareAdminMfaPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(cloudflareAdminSessionProvider);
     final session = ref.read(cloudflareAdminSessionProvider.notifier);
-    if (session.usesEmailVerification) {
+    if (session.usesEmailVerification && session.user?.mfaAvailable != true) {
       return const CloudflareAdminEmailVerificationPage();
     }
     return AdminPage(
@@ -481,18 +500,26 @@ class _AuthenticatorTaskState extends State<_AuthenticatorTask> {
     final colors = context.collectColors;
     final user = widget.session.user;
     final factor = _factor;
-    final canEnroll = user?.permissions.contains('auth.mfa.enroll') == true;
+    final canEnroll =
+        user?.mfaAvailable == true ||
+        user?.permissions.contains('auth.mfa.enroll') == true;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (_loading) const LinearProgressIndicator(),
         if (user?.assuranceLevel == 2) ...[
-          const Text('Two-step verification is complete for this session.'),
+          Text(
+            user?.mfaAvailable == true
+                ? 'Authenticator verified for this session.'
+                : 'Two-step verification is complete for this session.',
+          ),
           const SizedBox(height: 16),
         ],
         if (!_loading && factor == null && _error == null)
-          const Text(
-            'Connect an authenticator to verify protected account actions.',
+          Text(
+            user?.mfaAvailable == true
+                ? 'Connect an authenticator for your account.'
+                : 'Connect an authenticator to verify protected account actions.',
           ),
         if (_setup != null) ...[
           const Text(
@@ -621,6 +648,7 @@ String _authenticatorError(Object failure) {
         'This setup can no longer be verified. Cancel it after signing in again.',
       'mfa_verification_failed' =>
         'The code was not verified. Enter a new authenticator code.',
+      'mfa_code_already_used' => 'Wait for a new authenticator code.',
       _ => failure.message,
     };
   }

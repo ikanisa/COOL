@@ -3,8 +3,10 @@ import {ApiError,json,first,id,digest,stableJson,uuid} from './core.js';
 import {authRequest} from '../auth-http.js';
 import {sendTransactionalEmail,transactionalEmailAvailable} from './email_delivery.js';
 import {renderAdminAccessNotice} from './admin_access_notice_email.js';
+import {preliminaryCurrentOwner} from './admin_owner_precheck.js';
 
-const OWNER='info@ikanisa.com';
+// This is the existing Workspace SMTP sender, independent of owner identity.
+const LEGACY_WORKSPACE_SENDER='info@ikanisa.com';
 const states=new Set(['reserved','dispatching','accepted','rejected','unknown','already_registered']);
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
 const controls=/[\u0000-\u001f\u007f-\u009f]/;
@@ -20,10 +22,11 @@ const email=value=>{
 const origin=value=>{try{return typeof value==='string'&&!controls.test(value)&&new URL(value).protocol==='https:'&&new URL(value).origin===value;}catch{return false;}};
 const reject=(status,code,message)=>{throw new ApiError(status,code,message);};
 
-function actorArguments(account) {
- if(account?.role!=='owner'||account.email!==OWNER||!account.permissions?.includes('admin_users.manage')||
+async function actorArguments(env,account) {
+ if(!account?.permissions?.includes('admin_users.manage')||
   !validId(account.id)||!validId(account.public_id)||typeof account.token_hash!=='string'||!/^[a-f0-9]{64}$/.test(account.token_hash)||!origin(account.origin))
   reject(403,'owner_required','Verify the owner sign-in before managing team invitations.');
+ if(!await preliminaryCurrentOwner(env,account))reject(403,'owner_required','Verify the owner sign-in before managing team invitations.');
  requireFreshAdminEmail(account);
  return [account.id,account.token_hash,account.origin,account.public_id];
 }
@@ -89,7 +92,7 @@ function acceptedInvite(data,target) {
   typeof data.invited_at==='string'&&data.invited_at.length<=64&&Number.isFinite(Date.parse(data.invited_at));
 }
 function noticeAvailable(env) {
- return env.AUTH_EMAIL?.provider==='workspace_smtp_v1'&&typeof env.AUTH_EMAIL.send==='function'&&env.AUTH_EMAIL_FROM===OWNER&&transactionalEmailAvailable(env);
+ return env.AUTH_EMAIL?.provider==='workspace_smtp_v1'&&typeof env.AUTH_EMAIL.send==='function'&&env.AUTH_EMAIL_FROM===LEGACY_WORKSPACE_SENDER&&transactionalEmailAvailable(env);
 }
 function closedBody(body,keys) {
  if(!object(body)||Object.keys(body).some(key=>!keys.includes(key)))reject(400,'invalid_invitation','The invitation request is invalid.');
@@ -124,7 +127,7 @@ export async function handleAdminInvitationV2(request,env,account,body,path) {
  const recover=path==='/team/v2/invitation-status',list=path==='/team/v2';
  if(path!=='/team/v2/invite'&&!resend&&!repair&&!recover&&!list)return null;
  if(request.method!==((recover||list)?'GET':'POST'))reject(405,'method_not_allowed',(recover||list)?'Use GET.':'Use POST.');
- const actor=actorArguments(account);
+ const actor=await actorArguments(env,account);
  if(list){try{return listReceipt((await transition(env,'list',actor))?.result,account);}catch(error){knownDatabaseFailure(error);return failure(503,'invitation_list_unknown','Team invitation status could not be confirmed.');}}
  const key=keyOf(request);
  if(recover){
@@ -137,7 +140,7 @@ export async function handleAdminInvitationV2(request,env,account,body,path) {
   closedBody(body,['email','role','displayName']);
   targetEmail=typeof body.email==='string'?body.email.trim().toLowerCase():'';
   role=body.role;display=typeof body.displayName==='string'?body.displayName.trim():'';
-  if(!email(targetEmail)||targetEmail===OWNER||!['admin','staff'].includes(role)||display.length>120||controls.test(display)||body.displayName!==undefined&&typeof body.displayName!=='string')reject(400,'invalid_invitation','The invitation request is invalid.');
+  if(!email(targetEmail)||targetEmail===account.email||!['admin','staff'].includes(role)||display.length>120||controls.test(display)||body.displayName!==undefined&&typeof body.displayName!=='string')reject(400,'invalid_invitation','The invitation request is invalid.');
  }else if(repair){closedBody(body,['sourceRequestId']);if(!validId(body.sourceRequestId))reject(400,'invalid_invitation','Use the original registered-account invitation reference.');sourceRequestId=body.sourceRequestId;}
  else closedBody(body,[]);
  const bodyHash=await digest(stableJson(kind==='invite'?{contractVersion:2,kind,email:targetEmail,role,displayName:display}:{contractVersion:2,kind,subjectId:subject,sourceRequestId}));

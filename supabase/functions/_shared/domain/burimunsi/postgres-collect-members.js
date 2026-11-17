@@ -8,6 +8,9 @@ import {pgInteger} from './postgres-values.js';
 
 const copy=value=>JSON.parse(canonicalJson(value));
 const integer=value=>pgInteger(value,{minimum:1,code:'member_contract_violation'});
+// Match the same presentation characters accepted by normalizePhone; a
+// differently formatted existing MoMo route must not create a second member.
+const compactRoute=value=>`replace(replace(replace(replace(coalesce(${value},''),' ',''),'(',''),')',''),'-','')`;
 
 /** The caller owns the admitted transaction and Collect mutation lock. Reuses
  * exactly the person/public-ID and membership statements used by Collect Admin.
@@ -48,7 +51,8 @@ export class PostgresCollectMemberCommands {
   // active collection are independently checked before these statements.
   const insert=this.db.prepare(`INSERT INTO app.mutation_guards
    (id,user_id,session_id,now_seconds,collection_id,permission,minimum_assurance,expected_mfa_at,fresh_seconds)
-   VALUES(?,?,?,?,?,?,?,?,?)`).bind(id,canonical.userId,canonical.sessionId,canonical.now,null,permission,2,canonical.mfa,300);
+   VALUES(?,?,?,?,?,?,?,?,?)`).bind(id,canonical.userId,canonical.sessionId,canonical.now,
+    canonical.authMethod==='phone_pin'?this.groupId:null,permission,canonical.authMethod==='phone_pin'?null:2,canonical.mfa,300);
   try{
    await this.statement(sql,insert);
    await this.statement(sql,this.db.prepare('DELETE FROM app.mutation_guards WHERE id=?').bind(id));
@@ -79,12 +83,28 @@ export class PostgresCollectMemberCommands {
   requireThat(normalizePhone(cmd.phone)===cmd.phone,'invalid_phone');
   const initial=await this.current(sql,cmd);await this.group(sql);
   await this.guard(sql,initial.canonical,'users.manage');await this.guard(sql,initial.canonical,'collections.manage');
-  const local='0'+cmd.phone.slice(4),digits=cmd.phone.slice(1);
-  // Existing or removed membership must be reviewed/reactivated; a new request
-  // must not create another beneficiary for the same complete login/MoMo route.
-  const duplicate=await sql.unsafe(`SELECT u.id FROM app.memberships m JOIN app.users u ON u.id=m.user_id
-   WHERE m.collection_id=$1 AND (u.momo_number IN($2,$3,$4) OR u.phone IN($2,$3,$4)) LIMIT 1`,[this.groupId,local,cmd.phone,digits]);
-  await this.owned();requireThat(duplicate.length===0,'duplicate_phone',409);
+  const local='0'+cmd.phone.slice(4),digits=cmd.phone.slice(1),national=cmd.phone.slice(4);
+  // Open the existing member only when the canonical MoMo route identifies one
+  // unambiguous member. Never create a second beneficiary or reactivate it here.
+  const duplicate=await sql.unsafe(`SELECT u.id,u.full_name,u.momo_number,m.active,m.revision,
+   coalesce((SELECT sum(l.amount_minor) FROM app.ledger_entries l WHERE l.collection_id=m.collection_id AND l.member_id=u.id),0) AS balance
+   FROM app.memberships m JOIN app.users u ON u.id=m.user_id
+   WHERE m.collection_id=$1 AND (${compactRoute('u.momo_number')} IN($2,$3,$4,$5,$6) OR
+    ${compactRoute('u.phone')} IN($2,$3,$4,$5,$6)) LIMIT 2`,[this.groupId,local,cmd.phone,digits,'00'+digits,national]);
+  await this.owned();
+  if(duplicate.length){
+   requireThat(duplicate.length===1,'duplicate_phone',409);
+   const row=duplicate[0];let matched=false;
+   try{matched=normalizePhone(row.momo_number)===cmd.phone}catch{/* A login route is not a MoMo identity. */}
+   requireThat(matched&&typeof row.full_name==='string'&&row.full_name.length>=1&&row.full_name.length<=100,
+    'duplicate_phone',409);
+   const active=pgInteger(row.active);requireThat(active===0||active===1,'member_contract_violation',503);
+   const response={id:row.id,groupId:this.groupId,name:row.full_name,phone:cmd.phone,
+    active:active===1,version:integer(row.revision),balanceRwf:pgInteger(row.balance),existing:true};
+   const final=await this.finish(sql,cmd,initial);
+   await this.guard(sql,final.canonical,'users.manage');await this.guard(sql,final.canonical,'collections.manage');
+   return response;
+  }
   const id=crypto.randomUUID(),timestamp=new Date(initial.canonical.nowMs).toISOString();
   await this.statement(sql,personInsertStatement(this.db,{id,name:cmd.name,phone:null,email:null,memberType:'direct',
    provider:'',momo:local,code:'',status:'active',timestamp}));

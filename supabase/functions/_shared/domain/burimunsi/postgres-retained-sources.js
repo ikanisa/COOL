@@ -32,8 +32,9 @@ export const RETAINED_SOURCE_SQL=`SELECT r.id,r.owner_user_id,r.object_key,r.obj
  * is eligible. Caller owns the existing financial transaction/global lock.
  */
 export class PostgresRetainedSources {
-  constructor({db,groupId,namespace,decrypt}) {
-    this.custody=new PostgresPostingCustody({db,groupId,namespace,decrypt});this.groupId=groupId;
+  constructor({db,groupId,namespace,decrypt,storageWitnesses=null,qualificationOnly=false}) {
+    this.custody=new PostgresPostingCustody({db,groupId,namespace,decrypt,storageWitnesses,qualificationOnly});this.groupId=groupId;
+    this.requiresPreflight=!qualificationOnly;
   }
   async lineage(sql,sourceId) {
     requireId(sourceId);const r=await this.custody.one(sql,RETAINED_SOURCE_SQL,[this.groupId,sourceId]);
@@ -46,7 +47,11 @@ export class PostgresRetainedSources {
       HASH.test(r.object_sha256)&&HASH.test(r.body_sha256)&&HASH.test(r.identity_sha256)&&
       HASH.test(r.receiver_hash)&&r.receiver_hash===r.wallet_hash&&integer(r.size_bytes)>0&&integer(r.size_bytes)<=262144,
       'source_unavailable',503);
-    requireId(r.owner_user_id);requireId(r.binding_id);requireId(r.receiving_account_id);return r;
+    requireId(r.owner_user_id);requireId(r.binding_id);requireId(r.receiving_account_id);
+    r.source_scope=await this.custody.sourceScope(sql,{sourceId:r.id,ownerId:r.owner_user_id,bodySha256:r.body_sha256,
+      objectSha256:r.object_sha256,bindingId:r.binding_id,bindingVersion:integer(r.binding_version),
+      receivingAccountId:r.receiving_account_id,credentialId:r.credential_id});
+    return r;
   }
   descriptor(r) {
     return Object.freeze({groupId:this.groupId,sourceId:r.id,sourceSha256:r.body_sha256,bindingId:r.binding_id,
@@ -58,6 +63,27 @@ export class PostgresRetainedSources {
     const actual=this.descriptor(await this.lineage(sql,expected.sourceId));
     requireThat(Object.keys(actual).every(k=>actual[k]===expected[k]),'source_scope_changed',409);return true;
   }
+  binding(job,lineage){
+    requireThat(typeof job.id==='string'&&typeof job.owner==='string'&&job.owner.length>0&&
+      Number.isSafeInteger(job.leaseVersion)&&job.leaseVersion>0,'source_scope_changed',409);
+    return {kind:'source',groupId:this.groupId,source:this.descriptor(lineage),lineage:copy(lineage),
+      work:{jobId:job.id,owner:job.owner,leaseVersion:job.leaseVersion}};
+  }
+  async planInTransaction(sql,job){
+    requireThat(this.requiresPreflight,'source_preflight_required',503);
+    const expected=copy(job);requireThat(expected.groupId===this.groupId,'source_scope_changed',409);
+    const r=await this.lineage(sql,expected.sourceId),actual=this.descriptor(r);
+    requireThat(Object.keys(actual).every(k=>actual[k]===expected[k]),'source_scope_changed',409);
+    const ns=await this.custody.one(sql,'SELECT origin,bucket FROM private.storage_namespace WHERE singleton=true FOR SHARE');
+    requireThat(same(ns,this.custody.namespace),'source_unavailable',503);
+    const journal=await this.custody.journal(sql,r.object_key,{ownerId:r.owner_user_id,purpose:'sms_receipt',entityId:r.id,
+      plaintextSha256:r.object_sha256,aad:`sms:${r.id}:${r.object_sha256}`});
+    // Caller has already locked and admitted the exact worker lease. This plan
+    // cannot be serialized or reused after application admission replacement.
+    return this.custody.storageWitnesses.stage(this.binding(expected,r),[{key:r.object_key,journal}]);
+  }
+  prefetch(plan){return this.custody.storageWitnesses.prefetch(plan);}
+  releaseSource(job){this.custody.storageWitnesses?.releaseSource(job);}
   async load(sql,job) {
     const expected=copy(job);requireThat(expected.groupId===this.groupId,'source_scope_changed',409);
     try {
@@ -68,7 +94,8 @@ export class PostgresRetainedSources {
       const target={ownerId:r.owner_user_id,purpose:'sms_receipt',entityId:r.id,
         plaintextSha256:r.object_sha256,aad:`sms:${r.id}:${r.object_sha256}`};
       const journal=await this.custody.journal(sql,r.object_key,target);
-      const plaintext=await this.custody.decrypt(journal.reservation.sealed_body,target.aad);
+      const binding=this.requiresPreflight?this.binding(expected,r):null;
+      const plaintext=await this.custody.decrypt(await this.custody.sealed(binding,r.object_key,journal),target.aad);
       requireThat(plaintext instanceof Uint8Array&&plaintext.length===integer(r.size_bytes),'source_unavailable',503);
       const bytes=new Uint8Array(plaintext);await this.custody.owned();
       const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),v=>v.toString(16).padStart(2,'0')).join('');
@@ -85,9 +112,11 @@ export class PostgresRetainedSources {
         'source_unavailable',503);
       const sim=typeof r.subscription_evidence==='string'?JSON.parse(r.subscription_evidence):null;
       requireThat(sim&&sim.subscription_id===payload.subscription_id,'source_unavailable',503);
-      requireThat(same(await this.lineage(sql,r.id),r)&&same(await this.custody.journal(sql,r.object_key,target),journal)&&
+      const currentJournal=await this.custody.journal(sql,r.object_key,target);
+      requireThat(same(await this.lineage(sql,r.id),r)&&this.custody.sameJournal(currentJournal,journal)&&
         same(await this.custody.one(sql,'SELECT origin,bucket FROM private.storage_namespace WHERE singleton=true FOR SHARE'),ns),
         'source_scope_changed',409);
+      if(this.requiresPreflight)await this.custody.sealed(binding,r.object_key,currentJournal);
       await this.custody.owned();return Object.freeze({id:r.id,groupId:this.groupId,receivingAccountId:r.receiving_account_id,
         bindingId:r.binding_id,bindingVersion:integer(r.binding_version),body:payload.raw_body,sender:payload.raw_sender,
         complete:true,subscriptionId:payload.subscription_id});

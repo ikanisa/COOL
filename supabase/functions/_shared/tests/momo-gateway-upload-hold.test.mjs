@@ -72,6 +72,7 @@ function gatewayFixture() {
  };
  const calls = [], batches = [];
  const DB = {
+  applicationWork: {async assert() {}},
   prepare(sql) {
    return {bind(...values) {
     const statement = {sql, values, async first() {
@@ -85,6 +86,8 @@ function gatewayFixture() {
   },
   async batch(statements) {
    batches.push(statements.map(statement => statement.sql));
+   if (statements[0].sql === 'SELECT private.burimunsi_gateway_pair_classify(?) AS classification')
+    return [{success: true, results: [{classification: {kind: 'blocked'}}]}];
    return statements.map(statement => ({results: statement.sql.includes('SELECT count(*) AS n') ? [{n: 3}] : []}));
   },
  };
@@ -112,8 +115,9 @@ test('pairing, status and heartbeat retain their existing route behavior', async
  assert.equal(pair.status, 401);
  assert.equal((await pair.json()).code, 'pairing_unavailable');
  assert.equal(f.calls.filter(sql => sql.includes('FROM momo_gateway_credentials c JOIN momo_gateway_bindings')).length, 2);
- assert.equal(f.calls.some(sql => sql.includes('FROM momo_gateway_pairings p')), true);
- assert.equal(f.batches.length, 2);
+ assert.equal(f.calls.some(sql => sql.includes('FROM momo_gateway_pairings p')), false, 'Unissued code cannot fall through the authoritative classifier');
+ assert.equal(f.batches.length, 3);
+ assert.match(f.batches[2][0], /burimunsi_gateway_pair_classify/);
  assert.equal(f.batches.some(batch => batch.some(sql => /(?:INSERT INTO|UPDATE)\s+(?:sms_receipts|momo_processing_jobs)\b/i.test(sql))), false);
  noNetwork();
 });

@@ -3,6 +3,9 @@ package app.cool.mobile.receiver_sms
 /** Android-independent decisions wired into actual capture and acknowledgement boundaries. */
 internal object BuriReceiverReliability {
     enum class Route { ACCEPT, OTHER_SIM, HOLD_SIM, HOLD_PROFILE }
+    /** Inbox-only evidence is reviewable only after the server created this binding. */
+    fun inboxAfterBinding(id:Long,baseline:Long?,received:Long,created:Long?):Boolean =
+        id>0 && created!=null && created>0 && received>=created && (baseline==null || id>baseline)
     fun route(bound: Int?, observed: Int?, active: Set<Int>?, profileReady: Boolean): Route {
         if (!profileReady) return Route.HOLD_PROFILE
         if (bound == null || bound < 0 || bound == Int.MAX_VALUE || active == null || bound !in active)
@@ -16,7 +19,8 @@ internal object BuriReceiverReliability {
         val version = expected("version") as? Int ?: return false
         val subscription = expected("subscription_id") as? Int ?: return false
         return version > 0 && subscription >= 0 && subscription != Int.MAX_VALUE &&
-            version == current("version") && subscription == current("subscription_id")
+            version == current("version") && subscription == current("subscription_id") &&
+            expected("receipt_profile_revision") == current("receipt_profile_revision")
     }
     /** Collect v2 receipt: no string-to-Boolean or number-to-Int coercion. */
     fun receiptMatches(result: (String) -> Any?, receipt: (String) -> Any?,

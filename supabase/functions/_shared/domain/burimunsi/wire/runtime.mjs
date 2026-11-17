@@ -68,7 +68,8 @@ export function validateSchema(defs,name,v,path='$') {
    x.forEach((item,index)=>visit(s.items,item,`${p}[${index}]`));
   }
   if(s.type==='string'){
-   const length=Array.from(x).length;
+   // Avoid allocating a second multi-megabyte array for bounded import data.
+   let length=0;for(const ignored of x)length++;
    if(length<s.minLength||length>s.maxLength||x.includes('\0'))fail(code??'CONTRACT_STRING',p);
    if(s.pattern&&!new RegExp(s.pattern).test(x))fail(code??'CONTRACT_STRING',p);
    if(s.format==='date-time'&&!timestamp(x))fail('CONTRACT_TIMESTAMP',p);
@@ -114,12 +115,38 @@ export function semantics(product,operation,r,expected={}) {
   if(data.recentPayments)rows(data.recentPayments);
   if(data.groupId!==undefined&&data.groupId!==r.binding.groupId)fail('CONTRACT_IDENTITY');
   if(['payment','member','rawSms'].includes(operation)&&data.id!==expected.recordId)fail('CONTRACT_IDENTITY');
+  if(operation==='observation'&&data.requestId!==expected.commandRequestId)fail('CONTRACT_IDENTITY');
+  if(operation==='observationConsentSet'&&(data.enabled!==expected.consentEnabled||data.generation!==expected.consentGeneration))fail('CONTRACT_IDENTITY');
+  if(operation==='observationProfile'&&data.expiresAt-data.issuedAt!==86400000)fail('CONTRACT_STATE');
+  if(operation==='observationPage')for(const item of data.items)if(item.id!==item.sourceId)fail('CONTRACT_IDENTITY');
+  if(operation==='observationReveal'){
+   if(data.sourceId!==expected.recordId||Object.hasOwn(data,'displayHints')!==(expected.displayHintsVersion===1))fail('CONTRACT_IDENTITY');
+   if(data.displayHints!==undefined&&data.displayHints!==null){const seen=new Set();
+    for(const hint of data.displayHints.hints){
+     if(seen.has(hint.kind)||hint.start>=hint.end||hint.end>data.rawBody.length||data.rawBody.slice(hint.start,hint.end)!==hint.text||
+      hint.start>0&&/[\uDC00-\uDFFF]/.test(data.rawBody[hint.start])||hint.end<data.rawBody.length&&/[\uDC00-\uDFFF]/.test(data.rawBody[hint.end]))fail('CONTRACT_IDENTITY');
+     seen.add(hint.kind);
+    }
+   }
+  }
   if(data.profile){if(data.profile.id!==r.binding.actorId)fail('CONTRACT_IDENTITY');if(expected.phone!==undefined&&data.profile.phone!==expected.phone)fail('CONTRACT_IDENTITY');if(expected.now!==undefined&&data.expiresAt<=expected.now)fail('CONTRACT_EXPIRED');}
   if(operation==='allocate'&&(data.transactionId!==expected.recordId||data.memberId!==expected.memberId))fail('CONTRACT_IDENTITY');
   if(operation==='enroll'&&data.phone!==expected.phone)fail('CONTRACT_IDENTITY');
+  if(operation==='onboardingSuggestions')for(const row of data.items)if(row.id!==row.candidateId)fail('CONTRACT_IDENTITY');
+  if(operation==='membersImport'){
+   const seen=new Set(data.results.map(row=>row.row));
+   if(data.requestId!==expected.commandRequestId||!Array.isArray(expected.importRows)||
+    seen.size!==data.results.length||seen.size!==expected.importRows.length||
+    expected.importRows.some(row=>!seen.has(row))||data.created!==data.results.filter(row=>row.status==='created').length||
+    data.results.some(row=>(['created','already_registered'].includes(row.status))!==(row.memberId!==null)))fail('CONTRACT_IDENTITY');
+  }
   if(operation==='staffUpdate'&&data.id!==expected.staffId)fail('CONTRACT_IDENTITY');
-  if(operation==='replace'&&data.installationId!==expected.replacementInstallationId)fail('CONTRACT_IDENTITY');
-  if(['operation','recovery'].includes(operation)&&data.requestId!==expected.recordId)fail('CONTRACT_IDENTITY');
+  if(operation==='replace'&&data.requestId!==expected.commandRequestId)fail('CONTRACT_IDENTITY');
+  if(operation==='retirementOutcome'){
+   if(data.requestId!==expected.recordId||data.fingerprint!==expected.handoffFingerprint)fail('CONTRACT_IDENTITY');
+   if(data.state==='retired'?(data.ack===null||data.ack.requestId!==data.requestId):data.ack!==null)fail('CONTRACT_STATE');
+  }
+  if(['operation','recovery','staffResolution'].includes(operation)&&data.requestId!==expected.recordId)fail('CONTRACT_IDENTITY');
   if(operation==='operation'){
    if(data.actorId!==r.binding.actorId)fail('CONTRACT_IDENTITY');
    if(data.state==='pending'){
@@ -129,7 +156,11 @@ export function semantics(product,operation,r,expected={}) {
        (data.operation==='burimunsi.allocate')===(data.financialState==='not_applicable'))fail('CONTRACT_STATE');
    }
   }
-  if(operation==='recovery'&&(data.originDigest!==expected.originDigest||data.actorId!==r.binding.actorId||data.installationId!==r.binding.installationId))fail('CONTRACT_IDENTITY');
+  if(['recovery','staffResolution'].includes(operation)){
+   if(data.originDigest!==expected.originDigest||data.actorId!==r.binding.actorId||data.installationId!==r.binding.installationId)fail('CONTRACT_IDENTITY');
+   if((data.state==='cancelled')!==Object.hasOwn(data,'operation'))fail('CONTRACT_STATE');
+   if(operation==='staffResolution'&&(data.state==='pending'||(data.state==='cancelled'&&data.operation!==expected.staffOperation)))fail('CONTRACT_STATE');
+  }
   if(operation==='history')for(const row of data.items){
    if(row.transactionId!==expected.recordId)fail('CONTRACT_IDENTITY');
    if(row.kind==='transaction_recorded'?(row.id!=='transaction:'+row.transactionId||row.amountRwf!==null||row.memberId!==null):(!row.id.startsWith('ledger:')||row.amountRwf===null||row.amountRwf===0||row.memberId===null))fail('CONTRACT_STATE');

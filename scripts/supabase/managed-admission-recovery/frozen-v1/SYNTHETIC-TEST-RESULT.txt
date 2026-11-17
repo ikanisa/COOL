@@ -1,0 +1,21 @@
+source_manifest_sha256 2824669808effc63527ac4a83e905f67a8de08f6a25c075eaa60cfc153ea74e0
+pre_and_post_inputs_match true
+exit_code 0
+✔ fixture rejects managed options and the installer refuses another database (1159.317416ms)
+✔ committed quiescence, exact preimage and immutable unknown obligation (1176.507583ms)
+✔ a prior assertion acknowledgement cannot be revoked by a later tombstone (1147.508791ms)
+✔ a snapshot taken before the tombstone cannot authorize stale work (1135.791084ms)
+✔ every modeled state-reading lifecycle entry point rejects non-read-committed transactions (1208.169459ms)
+✔ ambiguous dispatch remains unknown and cannot be repeated with a new operation ID (1011.204416ms)
+✔ WORK precedes WRITE and blocked assertions recheck the committed quiescence (1036.984875ms)
+✔ concurrent effect preparations cannot both pass an unknown-effect barrier (993.500417ms)
+✔ concurrent tombstone attempts preserve one obligation and roll back the loser ID (994.892ms)
+✔ null, stale, duplicate and capacity inputs fail closed without consuming IDs (1060.913375ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10973.454709

@@ -28,6 +28,21 @@ Deno.test('gateway reconstruction retains browser origin and token admission',as
  assert.equal((await fetch(new Request('http://functions:9000/collect-sms/v1/messages',{method:'POST',body:'{}',headers:{'Content-Type':'application/json'}}))).status,401);
  assert.equal((await fetch(new Request('http://functions:9000/collect-sms/internal/maintenance',{method:'POST'}))).status,404);
 });
+Deno.test('gateway refuses a request outside its exact function prefix before fence admission',async()=>{
+ const backend=admissionDouble();let admissions=0;
+ const fetch=createSmsGatewayHandler(settings,{database:databaseDouble,fenceBackend:{...backend,register:async(...args:Parameters<typeof backend.register>)=>{admissions++;return backend.register(...args);}}} as any);
+ for(const path of ['/health','/v1/messages','/collect-sms-other/health','/functions/v1/collect-sms-other/health']){
+  assert.equal((await fetch(new Request('https://db.example.invalid'+path))).status,404,path);
+ }
+ assert.equal(admissions,0);
+});
+Deno.test('managed gateway remains closed until its deployment boundary is qualified',async()=>{
+ const managed={...profile,id:'synthetic-managed',mode:'managed',supabase_origin:'https://rrlduytparvsjfmegalh.supabase.co'};
+ const raw=JSON.stringify(Object.fromEntries(Object.keys(managed).sort().map(k=>[k,(managed as any)[k]])));
+ const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(raw))),b=>b.toString(16).padStart(2,'0')).join('');
+ const fetch=createSmsGatewayHandler({...settings,COLLECT_DEPLOYMENT_PROFILE:raw,COLLECT_DEPLOYMENT_PROFILE_SHA256:digest},{database:databaseDouble,fenceBackend:admissionDouble()} as any);
+ assert.equal((await fetch(new Request(managed.supabase_origin+'/functions/v1/collect-sms/health'))).status,503);
+});
 Deno.test('gateway remains unavailable without explicit deployment enablement',async()=>{
  assert.equal((await createSmsGatewayHandler({...settings,COLLECT_SMS_ENABLED:'false'})(new Request('https://db.example.invalid/collect-sms/health'))).status,503);
 });

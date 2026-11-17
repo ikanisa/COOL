@@ -1,5 +1,7 @@
 import {ApiError,first,id,json,readJson,uuid} from './core.js';
 import {authRequest,verifyToken} from '../auth-http.js';
+import {resolveDeploymentProfile} from '../deployment-profile.js';
+import {adminEmailCodeTtlSeconds,ADMIN_EMAIL_CODE_MAX_SECONDS} from './admin_email_code_policy.js';
 import {attestAdminEmailAccount,adminEmailArguments,adminEmailState} from './admin_email_policy.js';
 
 const epoch=()=>Math.floor(Date.now()/1000);
@@ -11,7 +13,7 @@ const unknown=()=>new ApiError(503,'admin_email_operation_unknown','The email ve
 const adminEmailDenialCodes=new Set(['admin_email_candidate_denied','admin_email_denied','admin_email_authority','admin_email_binding','admin_email_binding_changed','admin_email_session_changed']);
 export function isAdminEmailDenialError(error){return String(error?.message??'').split(/[^A-Za-z0-9_]+/).some(token=>adminEmailDenialCodes.has(token));}
 const prefix='?::text,?::text,?::text,?::text';
-const signatures={status:'',prepare:',?::text',send_claim:',?::text,?::uuid',send_finish:',?::text,?::uuid,?::text',
+const signatures={status:'',prepare:',?::text,?::integer',send_claim:',?::text,?::uuid',send_finish:',?::text,?::uuid,?::text',
  verify_claim:',?::text,?::uuid',record:',?::text,?::uuid',verify_finish:',?::text,?::uuid,?::text',
  cleanup_claim:',?::text,?::uuid,?::uuid',cleanup_finish:',?::text,?::uuid,?::uuid,?::text',record_initial:',?::text'};
 function mapped(error){
@@ -31,7 +33,7 @@ function challenge(result,account,challengeId){
  const c=result?.challenge,now=epoch();
  if(!object(c)||c.id!==challengeId||typeof c.identity_value!=='string'||c.identity_value!==account.email||
   c.original_auth_user_id!==account.auth_user_id||c.original_session_id!==account.auth_session_id||c.principal_id!==account.principal_id||
-  !Number.isSafeInteger(c.created_at)||c.created_at<=0||c.created_at>now||!Number.isSafeInteger(c.expires_at)||c.expires_at<=c.created_at||c.expires_at>c.created_at+300||
+  !Number.isSafeInteger(c.created_at)||c.created_at<=0||c.created_at>now||!Number.isSafeInteger(c.expires_at)||c.expires_at<=c.created_at||c.expires_at>c.created_at+ADMIN_EMAIL_CODE_MAX_SECONDS||
   !['reserved','accepted','rejected','unknown'].includes(c.delivery_status)||
   !['not_started','verifying','rejected','unconfirmed','verified'].includes(c.verification_state)||
   !['not_started','claimed','confirmed','unconfirmed','not_required'].includes(c.cleanup_state))throw unknown();
@@ -75,13 +77,13 @@ async function finishVerify(env,account,challengeId,operation,outcome){
  catch{throw unknown();}
 }
 export async function requestAdminEmail(env,account,input){
- const body=parse(input),verified=await original(env,account),challengeId=id();
- const prepared=await helper(env,account,'prepare',challengeId),c=challenge(prepared,account,challengeId);
+ const body=parse(input),ttl=adminEmailCodeTtlSeconds(env),otpPath='/otp?redirect_to='+encodeURIComponent(resolveDeploymentProfile(env).admin_origin),verified=await original(env,account),challengeId=id();
+ const prepared=await helper(env,account,'prepare',challengeId,ttl),c=challenge(prepared,account,challengeId);
  if(prepared.created!==true)throw unknown();
  const claim=id(),admission=await helper(env,account,'send_claim',challengeId,claim);challenge(admission,account,challengeId);
  if(admission.claimed!==true)throw unknown();
  let outcome='accepted';
- try{await authRequest(env,'/otp',{body:{email:c.identity_value,create_user:false,gotrue_meta_security:{captcha_token:body.captcha_token}}});}
+ try{await authRequest(env,otpPath,{body:{email:c.identity_value,create_user:false,gotrue_meta_security:{captcha_token:body.captcha_token}}});}
  catch(error){outcome=rejected(error)?'rejected':'unknown';}
  env.DB.setClaims(verified.claims);
  const completed=challenge(await helper(env,account,'send_finish',challengeId,claim,outcome),account,challengeId);

@@ -107,6 +107,7 @@ export async function executeRetentionTask(env,actor,input){
  await checkRetentionSource(env,plan,tasks,current,{resume:task});
  const decision=taskAction(approved.policy.rules[task.class_name]);
  const stop=reason=>commit(env,actor,plan,task,claim,operation,fingerprint,blocked(reason));
+ if(current.summary.private_inventory.object_custody==='unverified')return stop('burimunsi_object_custody_unverified');
  if(decision.blocked)return stop(decision.blocked);
  if(task.class_name.startsWith('external:')){
   // No deployed backup/export/processor disposition adapter exists. A policy

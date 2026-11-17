@@ -24,6 +24,11 @@ export function generateDeploymentKeys(){
   // Existing encrypted business payloads require their ORIGINAL key. A fresh
   // deployment key never authorizes importing ciphertext from another source.
   DATA_KEY_ID:'collect-data-v1',DATA_ENCRYPTION_KEY:randomBytes(32).toString('base64'),SESSION_KEY_ID:'collect-session-v1',SESSION_ENCRYPTION_KEY:randomBytes(32).toString('base64'),
+  // Fresh deployment only. Existing releases retain their original key file;
+  // configuring providers never invokes this generator or rotates a pepper.
+  BURIMUNSI_PIN_PEPPER_ID:'burimunsi-pin-v1',BURIMUNSI_PIN_PEPPER_BASE64:randomBytes(32).toString('base64'),
+  BURIMUNSI_CURSOR_KEY_BASE64:randomBytes(32).toString('base64'),
+  COLLECT_NATIVE_INGRESS_KEY_ID:'collect-native-ingress-v1',COLLECT_NATIVE_INGRESS_KEY_BASE64:randomBytes(32).toString('base64'),
   LOGFLARE_PUBLIC_ACCESS_TOKEN:randomBytes(32).toString('base64url'),LOGFLARE_PRIVATE_ACCESS_TOKEN:randomBytes(32).toString('base64url')};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){

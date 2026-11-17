@@ -22,16 +22,32 @@ export async function postingPreparationIdentity(input,principalInput){
   const c=snapshot(input),p=snapshot(principalInput),r=c.receipt;
   check(['automatic','exception'].includes(c.mode)&&r&&c.groupId===r.groupId&&c.receiptId===r.id&&
     c.expectedVersion===r.version&&Number.isSafeInteger(c.expectedVersion)&&c.expectedVersion>=1&&c.expectedVersion<Number.MAX_SAFE_INTEGER&&
-    r.currency==='RWF'&&Number.isSafeInteger(r.sourceBindingVersion)&&r.sourceBindingVersion>=1);
-  for(const id of [c.groupId,c.receiptId,c.memberId,r.receivingAccountId,r.sourceBindingId,p.principalUserId])requireId(id);
+    r.currency==='RWF');
+  const native=r.nativeOrigin??null;
+  if(native===null){
+    check(Number.isSafeInteger(r.sourceBindingVersion)&&r.sourceBindingVersion>=1);
+    requireId(r.sourceBindingId);
+  }else{
+    // This calculates an identity only; it does not prove native source
+    // integrity, recipient, worker authority, payer, or a payment. In
+    // particular, historical/catch-up mode is recorded without relabelling.
+    check(c.mode==='automatic'&&r.sourceBindingId===null&&r.sourceBindingVersion===null&&
+      native&&typeof native==='object'&&!Array.isArray(native)&&
+      Object.keys(native).sort().join(',')==='kind,sourceId,sourceTag,transactionMode'&&
+      native.kind==='native_observation'&&native.sourceTag==='native.auto.v1'&&
+      ['live','historical'].includes(native.transactionMode));
+    requireId(native.sourceId);
+  }
+  for(const id of [c.groupId,c.receiptId,c.memberId,r.receivingAccountId,p.principalUserId])requireId(id);
   requireRequestId(c.requestId);requireRequestId(p.principalSessionId);requireRequestId(p.sessionId);requireId(p.actorId);
   check(p.groupId===c.groupId&&p.receiptId===c.receiptId&&p.requestId===c.requestId&&p.mode===c.mode);
   requireAmount(r.amountRwf);
   check(typeof r.providerTransactionId==='string'&&r.providerTransactionId.length>0&&r.providerTransactionId.length<=160&&!/[\u0000-\u001f\u007f]/.test(r.providerTransactionId));
   const target={contractVersion:1,groupId:c.groupId,transactionId:c.receiptId,memberId:c.memberId,requestId:c.requestId,
     expectedVersion:c.expectedVersion,mode:c.mode,principalUserId:p.principalUserId,principalSessionId:p.principalSessionId,
-    actorId:p.actorId,sessionId:p.sessionId,receivingAccountId:r.receivingAccountId,sourceBindingId:r.sourceBindingId,
-    sourceBindingVersion:r.sourceBindingVersion,providerTransactionId:r.providerTransactionId,amountRwf:r.amountRwf,currency:r.currency};
+    actorId:p.actorId,sessionId:p.sessionId,receivingAccountId:r.receivingAccountId,
+    ...(native===null?{sourceBindingId:r.sourceBindingId,sourceBindingVersion:r.sourceBindingVersion}:{nativeOrigin:native}),
+    providerTransactionId:r.providerTransactionId,amountRwf:r.amountRwf,currency:r.currency};
   if(c.mode==='automatic'){
     check(p.kind==='admitted_worker'&&typeof c.policyVersion==='string'&&c.policyVersion.length>0&&c.policyVersion.length<=128&&
       !/[\u0000-\u001f\u007f]/.test(c.policyVersion)&&p.policyVersion===c.policyVersion&&

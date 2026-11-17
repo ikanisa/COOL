@@ -113,7 +113,8 @@ class CloudflareAdminRetentionInspection {
   });
   final String requestId, subjectId, sourceId, schemaSha256, snapshotSha256;
   final Map<String, int> tableCounts;
-  final int objectCount, activeHoldCount;
+  final int? objectCount;
+  final int activeHoldCount;
   final bool inFlightUnresolved;
 
   factory CloudflareAdminRetentionInspection.parse(
@@ -121,7 +122,7 @@ class CloudflareAdminRetentionInspection {
     required String requestId,
     required String sourceId,
   }) {
-    final row = _exact(value, const {
+    const requiredFields = {
       'contract_version',
       'request_id',
       'subject_id',
@@ -134,12 +135,52 @@ class CloudflareAdminRetentionInspection {
       'in_flight_unresolved',
       'approval_granted',
       'erasure_completed',
+    };
+    // Current server responses include a bounded private-class summary. Keep
+    // accepting the earlier compact DTO, but never accept a partial summary.
+    const privateFields = {
+      'private_catalog_sha256',
+      'private_schema_sha256',
+      'private_copy_inventory',
+    };
+    if (value is! Map) privacyReviewInvalid();
+    final hasPrivate = privateFields.any(value.containsKey);
+    final row = _exact(value, {
+      ...requiredFields,
+      if (hasPrivate) ...privateFields,
     });
+    if (hasPrivate) {
+      _sha(row['private_catalog_sha256']);
+      _sha(row['private_schema_sha256']);
+      final inventory = row['private_copy_inventory'];
+      if (inventory is! Map ||
+          inventory.isEmpty ||
+          inventory.length > 512 ||
+          inventory.keys.any(
+            (key) =>
+                key is! String ||
+                !RegExp(
+                  r'^(private|managed):[a-z][a-z0-9_]{0,127}$',
+                ).hasMatch(key),
+          )) {
+        privacyReviewInvalid();
+      }
+      for (final value in inventory.values) {
+        final item = _exact(value, const {'count', 'status'});
+        final status = item['status'], count = item['count'];
+        if (!const {'observed', 'unmapped', 'unavailable'}.contains(status) ||
+            status == 'observed' && count == null) {
+          privacyReviewInvalid();
+        }
+        if (count != null) _count(count);
+      }
+    }
     if (row['contract_version'] is! int ||
         row['contract_version'] != 1 ||
         privacyReviewUuid(row['request_id']) != requestId ||
         _sha(row['source_id']) != sourceId ||
         row['in_flight_unresolved'] is! bool ||
+        row['object_count'] == null && row['in_flight_unresolved'] != true ||
         row['approval_granted'] != false ||
         row['erasure_completed'] != false) {
       privacyReviewInvalid();
@@ -165,7 +206,9 @@ class CloudflareAdminRetentionInspection {
         for (final key in (counts.keys.cast<String>().toList()..sort()))
           key: _count(counts[key]),
       }),
-      objectCount: _count(row['object_count']),
+      objectCount: row['object_count'] == null
+          ? null
+          : _count(row['object_count']),
       activeHoldCount: _count(row['active_hold_count']),
       inFlightUnresolved: row['in_flight_unresolved'] as bool,
     );
@@ -306,7 +349,12 @@ class _InspectionPanelState
               tableLabel: 'Observed retention inventory',
               rows: [
                 for (final entry in <(String, String, Object)>[
-                  ('Inventory', 'Stored objects', observed.objectCount),
+                  (
+                    'Inventory',
+                    'Stored objects',
+                    observed.objectCount ??
+                        'Unknown — additional copies may exist',
+                  ),
                   ('Inventory', 'Active legal holds', observed.activeHoldCount),
                   (
                     'Inventory',

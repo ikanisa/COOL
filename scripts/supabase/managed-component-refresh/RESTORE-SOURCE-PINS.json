@@ -1,0 +1,16 @@
+{
+  "format": "collect.managed-component-refresh.restore.sources.v1",
+  "files": {
+    "scripts/supabase/managed-component-refresh/restore-successor.py": "0f94d1b8b5ec79a1ff2e0609a8e8e6b5e93188f3263824d92f6dbaebd7428004",
+    "scripts/supabase/managed-component-refresh/restore-successor.test.py": "7a4a2af35b60599b7d258fe7555a0418b90bb5d22c87fdad0e196edfdeb43cb6",
+    "scripts/supabase/managed-component-refresh/RESTORE-SUCCESSOR.md": "502c9598d0062212629ed4f8851c054b0d30776a16c26f1c5c538c44544f059c",
+    "scripts/supabase/current-pg-transfer/encrypted-inert-restore/managed-supervisor.py": "b6a76174ad4af587150f2428d41957280881a4b26e50c05233a950ea7dd088f8",
+    "scripts/supabase/current-pg-transfer/encrypted-inert-restore/managed-capture.mjs": "8b859c83a948fd7d55cae4cc887e520f017feeb4a5a608a929d33d553c2c5559",
+    "scripts/supabase/current-pg-transfer/encrypted-inert-restore/AUTH-SOURCE-PINS.json": "59749471b55e30e62e9ab1ed65bc7621bac12da36fdf3d5b3416e4107b75b0e2",
+    "scripts/supabase/current-pg-transfer/encrypted-inert-restore/STORAGE-SOURCE-PINS.json": "fed3d9911c17cb794099ebaa45fae1115558fa014da88f969b27af2abf693c3f"
+  },
+  "python": {
+    "path": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/bin/python3.9",
+    "sha256": "bdea59019a38eb6600cc9e71e984a97fedadc406448431281e7657030f54987e"
+  }
+}

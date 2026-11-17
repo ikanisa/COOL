@@ -9,6 +9,12 @@ for(const [field,value] of [['member_id','other'],['receiving_account_id','other
 for(const [field,value] of [['memberActive',0],['access','suspended'],['member','other']])
  test('enqueue rejects ineligible current membership '+field,async()=>{const f=sqlFixture();f.state[field]=value;await assert.rejects(f.store.enqueueInTransaction(f.sql,event),/member_unavailable/);assert(!f.calls.some(c=>c.text?.startsWith('INSERT')));});
 test('held processing still permits durable member-transaction enqueue',async()=>{const f=sqlFixture();f.state.hold=true;assert((await f.store.enqueueInTransaction(f.sql,event)).durable);});
+test('unpaired prepared scope retains member rematch intent but cannot claim financial work',async()=>{
+ const f=sqlFixture();f.state.enabled=false;
+ assert((await f.store.enqueueInTransaction(f.sql,event)).durable);
+ await assert.rejects(f.store.claimNext({groupId:'group-1',owner:'worker-1'}),/scope_unavailable/);
+ assert(!f.calls.some(c=>c.text?.startsWith('WITH candidate')));
+});
 test('held processing blocks claims',async()=>{const f=sqlFixture();f.state.hold=true;await assert.rejects(f.store.claimNext({groupId:'group-1',owner:'worker-1'}),/processing_on_hold/);assert(!f.calls.some(c=>c.text?.startsWith('WITH candidate')));});
 test('claim uses skip-locked bounded selection and renews policy snapshot',async()=>{const f=sqlFixture();await f.store.claimNext({groupId:'group-1',owner:'worker-1'});const q=f.calls.find(c=>c.text?.startsWith('WITH candidate'));assert(q.text.includes('LIMIT 1 FOR UPDATE SKIP LOCKED'));assert(q.text.includes('lease_start_count=j.processed_count'));assert.equal(q.values[4],'identity-v1');});
 test('expired final-attempt events enter dead letter without deleting targets',async()=>{const f=sqlFixture();await f.store.claimNext({groupId:'group-1',owner:'worker-1'});const q=f.calls.find(c=>c.text?.startsWith('WITH exhausted'));assert(q.text.includes('FOR UPDATE SKIP LOCKED'));assert(q.text.includes("state='dead_letter'"));assert(!q.text.includes('target_transaction_id='));});

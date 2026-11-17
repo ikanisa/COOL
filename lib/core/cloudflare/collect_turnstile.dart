@@ -11,11 +11,28 @@ import 'collect_turnstile_platform_stub.dart'
 
 /// One fresh, bounded browser challenge for each OTP send or verification.
 /// Closing the owning authentication flow cancels only its current attempt.
-final class CollectTurnstileChallenge {
+abstract interface class CollectAuthChallenge {
+  Future<String> acquire();
+  void cancel();
+  bool get ownsInactiveFocus;
+  bool get hasForeground;
+}
+
+final class CollectTurnstileChallenge implements CollectAuthChallenge {
   CollectTurnstileChallenge({this.endpoint});
   final Uri? endpoint;
   String? _attemptId;
 
+  @override
+  bool get ownsInactiveFocus {
+    final attempt = _attemptId;
+    return attempt != null && platform.challengeOwnsInactiveFocus(attempt);
+  }
+
+  @override
+  bool get hasForeground => platform.challengeHasForeground();
+
+  @override
   Future<String> acquire() async {
     if (_attemptId != null) {
       throw const CollectAuthException(
@@ -49,6 +66,7 @@ final class CollectTurnstileChallenge {
     }
   }
 
+  @override
   void cancel() {
     final attempt = _attemptId;
     _attemptId = null;

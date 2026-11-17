@@ -1,6 +1,7 @@
 import catalog from '../../retention-inventory.json' with {type:'json'};
 import {ApiError,digest,stableJson,id} from './domain/core.js';
 import {MEMBER_REALTIME_CLASS,memberRealtimeRetentionIdentity,inventoryMemberRealtime,memberRealtimeRetentionGuards} from './member-realtime-retention.js';
+import {burimunsiBaseRelations,burimunsiObservationRelations,burimunsiDetectionRelations,burimunsiNativeAutoRelations,burimunsiNativeFinancialRelations,burimunsiNativeFinancialKnownLinks,burimunsiNativeLeaseHistoryRelations,burimunsiNativeLeaseHistoryKnownLinks,burimunsiUnmappedStorageClasses,burimunsiInspectionCatalog} from './burimunsi-retention-inspection.js';
 
 const fail=code=>{throw new ApiError(409,code,'Retention inventory or approval changed. Obtain a current reviewed decision.');};
 export const privateRetentionClasses=Object.freeze(catalog.classes.map(entry=>entry.name));
@@ -69,7 +70,33 @@ const privateSchemaSql=`SELECT c.relname::text AS name,c.relkind::text AS kind,
   (SELECT string_agg(pg_get_constraintdef(x.oid),';' ORDER BY x.conname) FROM pg_constraint x WHERE x.conrelid=c.oid) AS constraints,
   (SELECT string_agg(pg_get_triggerdef(t.oid),';' ORDER BY t.tgname) FROM pg_trigger t WHERE t.tgrelid=c.oid AND NOT t.tgisinternal) AS triggers
   FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='private' AND c.relkind IN('r','p','v') ORDER BY c.relname`;
+// Managed replay nonces are shared operational records with no approved
+// subject selector. Their presence must never imply an empty personal inventory.
+const nativeNonceRelation='collect_native_ingress_nonce_uses';
+const nativeNonceClass='private:'+nativeNonceRelation;
+const nativeNonceColumns='nonce:uuid:true,profile_sha256:text:true,policy_sha256:text:true,signed_at:timestamp with time zone:true,expires_at:timestamp with time zone:true,consumed_at:timestamp with time zone:true';
+const nativeNonceConstraints="CHECK ((expires_at = (signed_at + '00:00:30'::interval)));PRIMARY KEY (nonce);CHECK ((policy_sha256 ~ '^[a-f0-9]{64}$'::text));CHECK ((profile_sha256 ~ '^[a-f0-9]{64}$'::text))";
+export const nativeNonceAuthoritySql=`SELECT (
+ c.relrowsecurity AND NOT c.relforcerowsecurity AND pg_catalog.pg_get_userbyid(c.relowner)='postgres'
+ AND p.prosecdef AND p.provolatile='v' AND pg_catalog.pg_get_userbyid(p.proowner)='postgres'
+ AND p.proconfig=ARRAY['search_path=pg_catalog, pg_temp']::text[]
+ AND pg_catalog.encode(pg_catalog.sha256(pg_catalog.convert_to(p.prosrc,'UTF8')),'hex')='3fa7f9fba7c86b275d0562ab30e8fb28d1a90ae1d6517badca047ad0118932f3'
+ AND pg_catalog.has_function_privilege('collect_runtime',p.oid,'EXECUTE')
+ AND NOT pg_catalog.has_function_privilege('anon',p.oid,'EXECUTE')
+ AND NOT pg_catalog.has_function_privilege('authenticated',p.oid,'EXECUTE')
+ AND NOT pg_catalog.has_function_privilege('service_role',p.oid,'EXECUTE')
+ AND NOT EXISTS(SELECT 1 FROM pg_catalog.pg_roles r CROSS JOIN pg_catalog.unnest(ARRAY['SELECT','INSERT','UPDATE','DELETE','TRUNCATE','REFERENCES','TRIGGER']::text[]) v(privilege)
+  WHERE r.rolname IN ('anon','authenticated','service_role','collect_runtime') AND pg_catalog.has_table_privilege(r.oid,c.oid,v.privilege))
+ AND NOT EXISTS(SELECT 1 FROM pg_catalog.aclexplode(coalesce(c.relacl,pg_catalog.acldefault('r',c.relowner))) a WHERE a.grantee<>c.relowner)
+ AND NOT EXISTS(SELECT 1 FROM pg_catalog.pg_attribute a WHERE a.attrelid=c.oid AND a.attnum>0 AND NOT a.attisdropped AND a.attacl IS NOT NULL)
+ AND NOT EXISTS(SELECT 1 FROM pg_catalog.aclexplode(coalesce(p.proacl,pg_catalog.acldefault('f',p.proowner))) a
+  WHERE a.grantee<>p.proowner AND (a.grantee<>(SELECT oid FROM pg_catalog.pg_roles WHERE rolname='collect_runtime') OR a.is_grantable))
+ ) AS verified FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace
+ JOIN pg_catalog.pg_proc p ON p.oid=pg_catalog.to_regprocedure('private.collect_native_ingress_consume(uuid,text,text,bigint)')
+ WHERE n.nspname='private' AND c.relname='collect_native_ingress_nonce_uses'`;
 const stoppedClass='private:collect_fence_stopped_admissions';
+const localStoppedClass='private:collect_fence_local_stopped_admissions';
+const localStoppedColumns='recovery_operation_id:uuid:true,admission_id:uuid:true,project_ref:text:true,source_sha256:text:true,epoch:bigint:true,kind:text:true,fence_operation_id:uuid:true,evidence_bundle_sha256:text:true,executor_evidence:jsonb:true,original_admission_snapshot:jsonb:true,original_counters_unavailable:boolean:true,recovered_external_dispatches:integer:false,recovered_uncertain_dispatches:integer:false,retained_unknown_obligation_id:uuid:true,obligation_evidence_sha256:text:true,recorded_at:timestamp with time zone:true,recorded_transaction:text:true,recorded_by:text:true';
 const archiveHistoryRelations=new Set(['collect_fence_working_admissions','collect_fence_admission_archive','collect_fence_admission_totals','member_history_versions']);
 const manifestRelations=new Set(['retention_inventory_manifests','retention_inventory_pages']);
 const rowExecutorRelations=new Set(['retention_row_plans','retention_row_claims','retention_row_effects','retention_row_operations']);
@@ -77,10 +104,35 @@ export async function privateRetentionCatalogIdentity(env){
  const observed=await all(env,privateSchemaSql);
  const expected=catalog.classes.filter(x=>x.relation.startsWith('private.')).map(x=>x.relation.slice(8)).sort();
  const actualNames=observed.map(x=>x.name),actual=new Set(actualNames);
+ const inspection=env.BURIMUNSI_RETENTION_INSPECTION_ENABLED==='true';
+ const baseCount=burimunsiBaseRelations.filter(name=>actual.has(name)).length;
+ const observationCount=burimunsiObservationRelations.filter(name=>actual.has(name)).length;
+ const detectionCount=burimunsiDetectionRelations.filter(name=>actual.has(name)).length;
+ const nativeAutoCount=burimunsiNativeAutoRelations.filter(name=>actual.has(name)).length;
+ const nativeFinancialCount=burimunsiNativeFinancialRelations.filter(name=>actual.has(name)).length;
+ const nativeLeaseHistoryCount=burimunsiNativeLeaseHistoryRelations.filter(name=>actual.has(name)).length;
+ // Unrecognized names still fail below when the extension is disabled.
+ // Once enabled, a partial cohort is never accepted as an empty inventory.
+ if(inspection&&((baseCount!==0&&baseCount!==burimunsiBaseRelations.length)||
+   (observationCount!==0&&observationCount!==burimunsiObservationRelations.length)||
+   (observationCount>0&&baseCount!==burimunsiBaseRelations.length)||
+   (detectionCount>0&&(baseCount!==burimunsiBaseRelations.length||observationCount!==burimunsiObservationRelations.length))||
+   (nativeAutoCount!==0&&nativeAutoCount!==burimunsiNativeAutoRelations.length)||
+   (nativeAutoCount>0&&(baseCount!==burimunsiBaseRelations.length||observationCount!==burimunsiObservationRelations.length||detectionCount!==burimunsiDetectionRelations.length))||
+   (nativeFinancialCount!==0&&nativeFinancialCount!==burimunsiNativeFinancialRelations.length)||
+   (nativeFinancialCount>0&&nativeAutoCount!==burimunsiNativeAutoRelations.length)||
+   (nativeLeaseHistoryCount>0&&nativeFinancialCount!==burimunsiNativeFinancialRelations.length)))fail('privacy_retention_unknown_private_class');
+ const extension=inspection&&baseCount===burimunsiBaseRelations.length?
+  [...burimunsiBaseRelations,...(observationCount?burimunsiObservationRelations:[]),...(detectionCount?burimunsiDetectionRelations:[]),
+   ...(nativeAutoCount?burimunsiNativeAutoRelations:[]),...(nativeFinancialCount?burimunsiNativeFinancialRelations:[]),
+   ...(nativeLeaseHistoryCount?burimunsiNativeLeaseHistoryRelations:[])]:[];
+ if(extension.some(name=>observed.find(row=>row.name===name)?.kind!=='r'))fail('privacy_retention_unknown_private_class');
  const archiveCount=[...archiveHistoryRelations].filter(name=>actual.has(name)).length;
  const manifestCount=[...manifestRelations].filter(name=>actual.has(name)).length;
  const rowExecutorCount=[...rowExecutorRelations].filter(name=>actual.has(name)).length;
  const smsFence=actual.has('collect_sms_fence_admissions');
+ const localStopped=actual.has(localStoppedClass.slice(8));
+ const nativeNonce=actual.has(nativeNonceRelation);
  // Each additive capability is explicit. An incomplete archive group or any
  // other unknown relation is refused; historical fixture prefixes stay exact.
  if(archiveCount!==0&&archiveCount!==archiveHistoryRelations.size)fail('privacy_retention_unknown_private_class');
@@ -89,10 +141,21 @@ export async function privateRetentionCatalogIdentity(env){
  if(smsFence&&(archiveCount!==archiveHistoryRelations.size||manifestCount!==manifestRelations.size||rowExecutorCount!==rowExecutorRelations.size||!actual.has('collect_deployment_identity')||
   observed.find(row=>row.name==='collect_sms_fence_admissions')?.kind!=='r'||
   observed.find(row=>row.name==='collect_sms_fence_admissions')?.columns!=='admission_id:uuid:true,profile_sha256:text:true,created_at:timestamp with time zone:true'))fail('privacy_retention_unknown_private_class');
+ if(nativeNonce){
+  const row=observed.find(item=>item.name===nativeNonceRelation);
+  if(manifestCount!==manifestRelations.size||rowExecutorCount!==rowExecutorRelations.size||!actual.has('collect_deployment_identity')||
+   row?.kind!=='r'||row.columns!==nativeNonceColumns||row.constraints!==nativeNonceConstraints||row.triggers!==null)
+   fail('privacy_retention_unknown_private_class');
+  const authority=await all(env,nativeNonceAuthoritySql);
+  if(authority.length!==1||authority[0]?.verified!==true)fail('privacy_retention_unknown_private_class');
+ }
+ if(localStopped&&(!smsFence||!actual.has(stoppedClass.slice(8))||
+  observed.find(row=>row.name===localStoppedClass.slice(8))?.kind!=='r'||
+  observed.find(row=>row.name===localStoppedClass.slice(8))?.columns!==localStoppedColumns))fail('privacy_retention_unknown_private_class');
  if((archiveCount||manifestCount||actual.has('guest_upgrade_challenges')||actual.has('collect_deployment_identity'))&&!actual.has(stoppedClass.slice(8)))
   fail('privacy_retention_unknown_private_class');
- const optional=new Set([...archiveHistoryRelations,...manifestRelations,...rowExecutorRelations,'guest_upgrade_challenges','collect_deployment_identity','collect_sms_fence_admissions',stoppedClass.slice(8)]);
- const admitted=expected.filter(name=>!optional.has(name)||actual.has(name));
+ const optional=new Set([...archiveHistoryRelations,...manifestRelations,...rowExecutorRelations,'guest_upgrade_challenges','collect_deployment_identity','collect_sms_fence_admissions',stoppedClass.slice(8),localStoppedClass.slice(8)]);
+ const admitted=[...expected.filter(name=>!optional.has(name)||actual.has(name)),...extension,...(nativeNonce?[nativeNonceRelation]:[])].sort();
  if(stableJson(actualNames)!==stableJson(admitted))fail('privacy_retention_unknown_private_class');
  let profile=archiveCount?'archive_history_v4':actual.has(stoppedClass.slice(8))?'stopped_admission14':'admin_email11';
  if(actual.has('guest_upgrade_challenges'))profile+='_guest_upgrade';
@@ -100,12 +163,25 @@ export async function privateRetentionCatalogIdentity(env){
  if(manifestCount)profile+='_manifests_v2';
  if(rowExecutorCount)profile+='_row_executor_v2';
  if(smsFence)profile+='_sms_fence';
+ if(localStopped)profile+='_local_stopped_v1';
+ if(nativeNonce)profile+='_native_nonce_blocked_v1';
+ if(extension.length)profile+='_burimunsi_inspection_v1';
+ if(detectionCount&&extension.length)profile+='_detection_v1';
+ if(nativeAutoCount&&extension.length)profile+='_native_auto_v1';
+ if(nativeFinancialCount&&extension.length)profile+='_native_financial_blocked_v1';
+ if(nativeLeaseHistoryCount&&extension.length)profile+='_native_lease_history_blocked_v1';
  const managed=await all(env,'SELECT private.retention_managed_inventory(?) AS inventory',[null]);
  const schema=managed[0]?.inventory?.schema;
  if(!schema||managed[0].inventory.contract_version!==1)fail('privacy_retention_managed_inventory_unavailable');
  const memberRealtimeIdentity=await memberRealtimeRetentionIdentity(env);
  const definition=(await all(env,"SELECT encode(sha256(convert_to(pg_get_functiondef('private.retention_managed_inventory(text)'::regprocedure),'UTF8')),'hex') AS sha256"))[0].sha256;
- return {contract_version:1,schema_profile:profile,catalog_sha256:await digest(stableJson(catalog)),schema_sha256:await digest(stableJson({private:observed,managed:schema,managed_helper:definition,member_realtime:memberRealtimeIdentity})),private_schema:observed,managed_schema:schema,managed_helper_sha256:definition,member_realtime_identity:memberRealtimeIdentity,classes:privateRetentionClasses};
+ const catalogIdentity=extension.length||nativeNonce?{base:catalog,...(nativeNonce?{native_nonce:{name:nativeNonceClass,scope:'unmapped_private',disposition:'blocked'}}:{}),...(extension.length?{extension:{...burimunsiInspectionCatalog,
+  ...(detectionCount?{detection:burimunsiDetectionRelations}:{}),
+  ...(nativeAutoCount?{native_auto:burimunsiNativeAutoRelations}:{}),
+  ...(nativeFinancialCount?{native_financial:burimunsiNativeFinancialRelations,known_links:burimunsiNativeFinancialKnownLinks}:{}),
+  ...(nativeLeaseHistoryCount?{native_lease_history:burimunsiNativeLeaseHistoryRelations,lease_history_known_links:burimunsiNativeLeaseHistoryKnownLinks}:{}),
+ }}:{})}:catalog;
+ return {contract_version:1,schema_profile:profile,catalog_sha256:await digest(stableJson(catalogIdentity)),schema_sha256:await digest(stableJson({private:observed,managed:schema,managed_helper:definition,member_realtime:memberRealtimeIdentity})),private_schema:observed,managed_schema:schema,managed_helper_sha256:definition,member_realtime_identity:memberRealtimeIdentity,classes:[...privateRetentionClasses,...extension.map(name=>'private:'+name),...(nativeNonce?[nativeNonceClass]:[])],...(extension.length?{burimunsi_mapping:'unreviewed',object_custody:'unverified'}:{})};
 }
 export async function inventoryPrivateRetention(env,subject){
  if(typeof subject!=='string'||!subject.length||subject.length>200)fail('privacy_retention_subject_invalid');
@@ -120,6 +196,7 @@ export async function inventoryPrivateRetention(env,subject){
  // global-empty claim or volatile all-admissions hash belongs in a personal
  // snapshot. These explicit unmapped classes always require blocked disposition.
  for(const name of sharedFenceRetentionClasses)classes[name]={status:'unmapped',count:0,sha256:await digest(stableJson([])),rows:[]};
+ if(identity.classes.includes(nativeNonceClass))classes[nativeNonceClass]={status:'unmapped',count:null,sha256:null,rows:null,erasure:'blocked'};
  const managed=(await all(env,'SELECT private.retention_managed_inventory(?) AS inventory',[subject]))[0]?.inventory;
  if(!managed||managed.contract_version!==1||stableJson(managed.schema)!==stableJson(identity.managed_schema))fail('privacy_retention_managed_inventory_changed');
  for(const name of ['managed:auth','managed:storage']){
@@ -128,8 +205,16 @@ export async function inventoryPrivateRetention(env,subject){
   classes[name]={...value,sha256:await digest(stableJson(value.rows))};
  }
  classes[MEMBER_REALTIME_CLASS]=await inventoryMemberRealtime(env,subject,identity.member_realtime_identity);
- const unresolved=classes['private:supabase_otp_challenges'].rows.some(r=>r.lifecycle.active||r.lifecycle.unresolved)||classes['private:admin_email_operations'].rows.some(r=>r.lifecycle.active||r.lifecycle.unresolved)||classes['private:admin_invitation_attempts'].rows.some(r=>r.lifecycle.active)||classes['private:storage_put_intents'].rows.some(r=>r.lifecycle.unresolved||r.lifecycle.active||r.lifecycle.state==='pending');
- const result={contract_version:1,catalog_sha256:identity.catalog_sha256,schema_sha256:identity.schema_sha256,private_schema:identity.private_schema,managed_schema:identity.managed_schema,managed_helper_sha256:identity.managed_helper_sha256,member_realtime_identity:identity.member_realtime_identity,classes,unlinked_identifiers:'unverified',external_copy_disposition:'blocked',in_flight_unresolved:unresolved};
+ const unresolved=classes['private:supabase_otp_challenges'].rows.some(r=>r.lifecycle.active||r.lifecycle.unresolved)||classes['private:admin_email_operations'].rows.some(r=>r.lifecycle.active||r.lifecycle.unresolved)||classes['private:admin_invitation_attempts'].rows.some(r=>r.lifecycle.active)||classes['private:storage_put_intents'].rows.some(r=>r.lifecycle.unresolved||r.lifecycle.active||r.lifecycle.state==='pending')||identity.object_custody==='unverified'||identity.classes.includes(nativeNonceClass);
+ if(identity.object_custody==='unverified'){
+  // Existing selectors omit unassigned observation object keys and possible
+  // third-party SMS subjects. Never present their subtotal as a complete count.
+  for(const name of identity.classes.filter(name=>name.startsWith('private:burimunsi_')))
+   classes[name]={status:'unmapped',count:null,sha256:null,rows:null,erasure:'blocked'};
+  for(const name of burimunsiUnmappedStorageClasses)
+   classes[name]={status:'unmapped',count:null,sha256:null,rows:null,erasure:'blocked'};
+ }
+ const result={contract_version:1,catalog_sha256:identity.catalog_sha256,schema_sha256:identity.schema_sha256,private_schema:identity.private_schema,managed_schema:identity.managed_schema,managed_helper_sha256:identity.managed_helper_sha256,member_realtime_identity:identity.member_realtime_identity,classes,unlinked_identifiers:'unverified',external_copy_disposition:'blocked',in_flight_unresolved:unresolved,...(identity.object_custody==='unverified'?{burimunsi_mapping:'unreviewed',object_custody:'unverified'}:{})};
  if(new TextEncoder().encode(stableJson(result)).length>catalog.limits.inventory_bytes)fail('privacy_retention_private_inventory_limit');
  return result;
 }
@@ -137,7 +222,10 @@ export async function inventoryPrivateRetention(env,subject){
 export function assertPrivateRetentionPolicy(policy,identity){
  const decision=policy?.copy_inventory;
  if(!decision||Object.keys(decision).sort().join(',')!=='bff_access_revocation,catalog_sha256,contract_version,unmapped_copies'||decision.contract_version!==1||decision.catalog_sha256!==identity.catalog_sha256||decision.unmapped_copies!=='blocked'||!['allow','block'].includes(decision.bff_access_revocation))fail('privacy_retention_private_policy_unapproved');
- for(const name of privateRetentionClasses)if(!catalog.policy_actions.includes(policy.rules?.[name]?.action))fail('privacy_retention_private_disposition_unapproved');
+ for(const name of identity.classes)if(!catalog.policy_actions.includes(policy.rules?.[name]?.action))fail('privacy_retention_private_disposition_unapproved');
+ if(identity.object_custody==='unverified')for(const name of [...identity.classes.filter(name=>name.startsWith('private:burimunsi_')),...burimunsiUnmappedStorageClasses])
+  if(policy.rules?.[name]?.action!=='blocked')fail('privacy_retention_burimunsi_unmapped');
+ if(identity.classes.includes(nativeNonceClass)&&policy.rules?.[nativeNonceClass]?.action!=='blocked')fail('privacy_retention_shared_fence_unapproved');
  if(policy.rules?.[MEMBER_REALTIME_CLASS]?.action!=='blocked')fail('privacy_retention_realtime_unapproved');
  for(const name of ['private:admin_email_operations','private:admin_sensitive_email_proofs'])if(policy.rules?.[name]?.action!=='blocked')fail('privacy_retention_admin_email_unapproved');
  for(const name of sharedFenceRetentionClasses)if(policy.rules?.[name]?.action!=='blocked')fail('privacy_retention_shared_fence_unapproved');
@@ -150,6 +238,7 @@ export function assertPrivateRetentionPolicy(policy,identity){
  * @param {{erasureObjects?:Array<{key:string,key_sha256:string}>}} options */
 export function privateRetentionGuards(env,plan,snapshot,className,{erasureObjects=[]}={}){
  const inventory=snapshot.summary.private_inventory;if(!inventory)fail('privacy_retention_private_inventory_missing');
+ if(inventory.object_custody==='unverified')fail('privacy_retention_burimunsi_unmapped');
  for(const object of erasureObjects)if(!/^[a-f0-9]{64}$/.test(object.key_sha256??'')||!snapshot.summary.objects.some(x=>x.key===object.key&&x.class_name==='r2:upload_objects'&&x.owner_user_id===plan.subject_id))fail('privacy_retention_private_effect_unapproved');
  const excluded=erasureObjects.map(x=>x.key_sha256),placeholders=excluded.map(()=>'?').join(','),effectClasses=new Set(['private:storage_put_intents','private:storage_payload_reservations','private:storage_delete_intents','private:storage_objects','private:object_metadata']);
  const statements=[...memberRealtimeRetentionGuards(env,plan,className,inventory.classes[MEMBER_REALTIME_CLASS],inventory.member_realtime_identity)];
@@ -175,12 +264,12 @@ export function privateRetentionGuards(env,plan,snapshot,className,{erasureObjec
 export function assertPrivateRetentionSource(original,current,{approvedErasureObjects=[],allowBffRevocation=false}={}){
  if(!original||!current||original.catalog_sha256!==current.catalog_sha256||original.schema_sha256!==current.schema_sha256||stableJson(Object.keys(original.classes).sort())!==stableJson(Object.keys(current.classes).sort()))fail('privacy_retention_private_scope_changed');
  const erased=new Map(approvedErasureObjects.map(x=>[x.key_sha256,x]));
- for(const name of privateRetentionClasses){
+ for(const name of Object.keys(original.classes)){
   const before=original.classes[name],after=current.classes[name];
   if(stableJson(before)===stableJson(after))continue;
   if(name==='private:bff_sessions'&&allowBffRevocation&&after.status==='observed'&&after.count===0)continue;
   const mutableStorage=['private:storage_put_intents','private:storage_payload_reservations','private:storage_delete_intents','private:storage_objects','private:object_metadata','managed:storage'];
-  if(!mutableStorage.includes(name)||before.status!==after.status)fail('privacy_retention_private_scope_changed');
+  if(!mutableStorage.includes(name)||before.status!=='observed'||after.status!=='observed')fail('privacy_retention_private_scope_changed');
   const oldRows=new Map(before.rows.map(r=>[r.key_sha256,r])),newRows=new Map(after.rows.map(r=>[r.key_sha256,r]));
   for(const key of new Set([...oldRows.keys(),...newRows.keys()])){
    const old=oldRows.get(key),now=newRows.get(key);if(stableJson(old)===stableJson(now))continue;

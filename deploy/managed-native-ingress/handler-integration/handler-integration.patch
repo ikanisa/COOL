@@ -1,0 +1,67 @@
+--- a/supabase/functions/_shared/serve.js
++++ b/supabase/functions/_shared/serve.js
+@@ -51,10 +51,13 @@
+  * @param {typeof recordPlatformHealth} [options.reportHealth]
+  * @param {(request:Request)=>Promise<string>|string} [options.trustedNativeNetworkBucket]
+  * @param {(request:Request,env:Record<string,unknown>)=>Promise<{request:Request,networkBucket:(request:Request)=>Promise<string>|string}>} [options.admitNativeIngress]
++ * @param {(request:Request,env:Record<string,unknown>)=>Promise<object>} [options.verifyNativeIngress]
++ * @param {(token:object,consume:Function)=>Promise<{request:Request,networkBucket:Function}>} [options.claimNativeIngress]
++ * @param {(db:object,work:object,values:object)=>Promise<boolean>} [options.consumeNativeIngressNonce]
+  */
+-export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{openWork=openApplicationWork,reportHealth=recordPlatformHealth,trustedNativeNetworkBucket,admitNativeIngress}={}) {
++export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{openWork=openApplicationWork,reportHealth=recordPlatformHealth,trustedNativeNetworkBucket,admitNativeIngress,verifyNativeIngress,claimNativeIngress,consumeNativeIngressNonce}={}) {
+  return async request=>{
+-  const started=performance.now();let env,work,cors={},stage='environment';try {env=configurePublicRuntimeEnv(envReader());await verifyDeploymentProfile(env);env.ALLOWED_ORIGINS=[...new Set([...(env.ALLOWED_ORIGINS??'').split(','),...(env.ADMIN_ORIGINS??env.ADMIN_ORIGIN??'').split(',')].map(v=>v.trim()).filter(Boolean))].join(',');let logical=logicalRequest(request,functionName,env);const path=new URL(logical.url).pathname;
++  const started=performance.now();let env,work,cors={},stage='environment';try {env=configurePublicRuntimeEnv(envReader());const deploymentProfile=await verifyDeploymentProfile(env);env.ALLOWED_ORIGINS=[...new Set([...(env.ALLOWED_ORIGINS??'').split(','),...(env.ADMIN_ORIGINS??env.ADMIN_ORIGIN??'').split(',')].map(v=>v.trim()).filter(Boolean))].join(',');let logical=logicalRequest(request,functionName,env);const path=new URL(logical.url).pathname;
+    const admin=functionName==='admin-api',origin=request.headers.get('Origin');
+    if(admin&&!path.startsWith('/api/admin/'))return json({code:'not_found'},404);
+    if(!admin&&path.startsWith('/api/admin'))return json({code:'not_found'},404);
+@@ -65,15 +68,35 @@
+    if(functionName==='collect-api'&&isGatewayIngest(request.method,path)&&!nativeGatewayUploadsEnabled(env)){
+     const held=gatewayUploadHeld();return json({code:held.code,message:held.message},held.status,cors);
+    }
+-   let nativeNetworkBucket=trustedNativeNetworkBucket;
+-   if(functionName==='collect-api'&&isCollectNativeRoute(logical)&&env.BURIMUNSI_NATIVE_ENABLED==='true'&&admitNativeIngress!==undefined){
+-    stage='native_ingress';const admitted=await admitNativeIngress(logical,env);
+-    logical=admitted.request;nativeNetworkBucket=admitted.networkBucket;
++   let nativeNetworkBucket=trustedNativeNetworkBucket,pendingNativeIngress;
++   if(functionName!=='collect-api'&&isCollectNativeRoute(logical))return json({code:'not_found'},404,cors);
++   if(functionName==='collect-api'&&isCollectNativeRoute(logical)){
++    if(env.BURIMUNSI_NATIVE_ENABLED!=='true'){
++     // A disabled managed native route must not reach database or provider setup.
++     if(deploymentProfile.mode==='managed'){stage='native_ingress';throw new Error('native_ingress_unconfigured');}
++    }else if(deploymentProfile.mode==='managed'){
++     stage='native_ingress';
++     if(typeof verifyNativeIngress!=='function'||typeof claimNativeIngress!=='function'||typeof consumeNativeIngressNonce!=='function')throw new Error('native_ingress_unconfigured');
++     pendingNativeIngress=await verifyNativeIngress(logical,env);
++     if(!pendingNativeIngress||typeof pendingNativeIngress!=='object')throw new Error('native_ingress_unconfigured');
++    }else{
++     // Preserve the retained self-hosted witness and its existing wire signature.
++     stage='native_ingress';if(typeof admitNativeIngress!=='function')throw new Error('native_ingress_unconfigured');
++     const admitted=await admitNativeIngress(logical,env);
++     if(!(admitted?.request instanceof Request)||typeof admitted.networkBucket!=='function')throw new Error('native_ingress_unconfigured');
++     logical=admitted.request;nativeNetworkBucket=admitted.networkBucket;
++    }
+    }
+    stage='normalization';env=normalizeRuntimeEnv(env);env.MOMO_PROCESSING_PAUSED=env.MOMO_PROCESSING_PAUSED??'true';env.AUTH_MEMBER_REGISTRATION_ENABLED=env.AUTH_MEMBER_REGISTRATION_ENABLED??'false';
+    stage='database_initialization';env.DB=new PostgresDatabase(connection(env.COLLECT_DATABASE_URL,env));await assertRuntimeDeployment(env.DB.sql,env);
+    stage='fence_admission';work=await openWork({backend:sqlFenceBackend(env.DB.sql,fenceConnection(env.COLLECT_DATABASE_URL,env)),sourceSha256:env.BUILD_SOURCE_ID,kind:admin?'http_admin':'http_collect',signal:request.signal});env.COLLECT_FENCE_WORK=work;env.DB.setApplicationWork(work);
+    if(request.signal.aborted)throw new Error('request_cancelled_before_dispatch');
++   if(pendingNativeIngress){
++    stage='native_nonce_claim';
++    const admitted=await claimNativeIngress(pendingNativeIngress,values=>consumeNativeIngressNonce(env.DB,work,values));
++    if(!(admitted?.request instanceof Request)||typeof admitted.networkBucket!=='function'||request.signal.aborted)throw new Error('native_ingress_unconfigured');
++    logical=admitted.request;nativeNetworkBucket=admitted.networkBucket;
++   }
+    stage='storage_initialization';env.PRIVATE_MEDIA=new SupabaseObjectBucket(env);stage='provider_initialization';Object.assign(env,providerAdapters(env));
+    if(functionName==='collect-api'&&isCollectNativeRoute(logical)){
+     stage='native_initialization';
+--- a/supabase/functions/collect-api/index.ts
++++ b/supabase/functions/collect-api/index.ts
+@@ -1,3 +1,4 @@
+ import {createHandler} from '../_shared/serve.js';
+-import {admitNativeIngress} from '../_shared/native-ingress.js';
+-Deno.serve(createHandler('collect-api',undefined,{admitNativeIngress}));
++import {admitNativeIngress,verifyNativeIngress,claimNativeIngress} from '../_shared/native-ingress.js';
++import {consumeNativeIngressNonce} from '../_shared/native-ingress-nonce.js';
++Deno.serve(createHandler('collect-api',undefined,{admitNativeIngress,verifyNativeIngress,claimNativeIngress,consumeNativeIngressNonce}));

@@ -1,4 +1,6 @@
 import {PostgresManagedSessions} from './postgres-managed-sessions.js';
+import {PostgresPhonePinSessions} from './postgres-phone-pin-sessions.js';
+import {hasPhonePinContext} from './phone-pin-request.js';
 import {PostgresOperatorDirectory} from './postgres-operator-directory.js';
 import {PostgresIdentityDirectory} from './postgres-identity-directory.js';
 import {PostgresProcessingAdmission} from './postgres-processing-admission.js';
@@ -22,6 +24,13 @@ import {PostgresPostingCustody} from './postgres-posting-custody.js';
 import {PostgresPostingAllocation} from './postgres-posting-allocation.js';
 import {PostgresPostingPreparation} from './postgres-posting-preparation.js';
 import {PostgresCollectMemberCommands} from './postgres-collect-members.js';
+import {PostgresStorageWitnesses} from './postgres-storage-witnesses.js';
+import {PostgresCollectSourceReader} from './postgres-source-reader.js';
+import {PostgresCollectGateway} from './postgres-collect-gateway.js';
+import {PostgresNativeObservations} from './postgres-observations.js';
+import {PostgresSmartOnboardingJournal} from './smart-onboarding-journal.js';
+import {createSmartOnboardingPolicy} from './smart-onboarding-policy.js';
+import {createGuardedSmartOnboardingImport} from './smart-onboarding-dispatch.js';
 
 /** Wire implemented adapters to the current Collect request context.
  * This is called AFTER the existing application admission, never directly from
@@ -33,11 +42,23 @@ export function createPostgresNativePorts({admission,config,db,bridges,clock=()=
   requireThat(admission?.verified===true&&admission.groupId===config?.groupId,'request_not_admitted',503);
   requireThat(config?.enabled===true,'native_service_disabled',503);
   requireThat(config.canonicalIntegrationEnabled===undefined||typeof config.canonicalIntegrationEnabled==='boolean','invalid_worker_config',503);
+  requireThat(config.nativeObservationEnabled===undefined||typeof config.nativeObservationEnabled==='boolean','invalid_worker_config',503);
   const integrated=config.canonicalIntegrationEnabled===true;
-  let managedSessions=null,operatorDirectory=null,workerAuthority=null;
+  requireThat(config.smartOnboardingAdvancedEnabled===undefined||typeof config.smartOnboardingAdvancedEnabled==='boolean','invalid_worker_config',503);
+  let smartOnboardingImport=null;
+  if(config.smartOnboardingAdvancedEnabled===true&&!integrated){
+    smartOnboardingImport=bridges?.smartOnboardingImport;requirePort(smartOnboardingImport,['preview']);
+  }else requireThat(bridges?.smartOnboardingImport===undefined,'smart_import_config_conflict',503);
+  requireThat(config.nativeObservationEnabled!==true||integrated,'collect_adapter_required',503);
+  let managedSessions=null,operatorDirectory=null,workerAuthority=null,storageWitnesses=null;
+  const createWitnesses=()=>new PostgresStorageWitnesses({db,groupId:config.groupId,
+    namespace:bridges.posting?.custody?.namespace,
+    media:integrated?bridges.canonical?.env?.PRIVATE_MEDIA:
+      bridges.posting?.preparation?.media??bridges.posting?.custody?.media,
+    applicationWorkTuple:bridges.canonical?.applicationWorkTuple??bridges.posting?.custody?.applicationWorkTuple,clock});
   if(integrated){
     requireThat(config.nativePostingAuthorityEnabled===true&&config.postingPreparationEnabled===true,'posting_authority_required',503);
-    for(const key of ['identities','receiptAdmission','rematchAdmission','sources','canonicalIngest','createOperatorPrincipal'])
+    for(const key of ['identities','receiptAdmission','rematchAdmission','sources','canonicalIngest','createOperatorPrincipal','sourceReader','gateway'])
       requireThat(bridges?.[key]===undefined,'canonical_bridge_conflict',503);
     requireThat(bridges?.commands?.createDirectMember===undefined&&bridges?.commands?.setMembershipActive===undefined,
       'canonical_bridge_conflict',503);
@@ -45,18 +66,21 @@ export function createPostgresNativePorts({admission,config,db,bridges,clock=()=
       typeof bridges.canonical.validateProviderProfile==='function'&&typeof bridges.canonical.applicationWorkTuple==='function',
       'collect_adapter_required',503);
     bridges.canonical.applicationWorkTuple(db.applicationWork);
+    requireThat(bridges.posting?.custody?.storageWitnesses===undefined,'canonical_bridge_conflict',503);
+    storageWitnesses=createWitnesses();
     const inputs={db,groupId:config.groupId};
-    managedSessions=new PostgresManagedSessions(inputs);
+    managedSessions=hasPhonePinContext(db)?new PostgresPhonePinSessions(inputs):new PostgresManagedSessions(inputs);
     operatorDirectory=new PostgresOperatorDirectory({...inputs,managedSessions});
     const identities=new PostgresIdentityDirectory(inputs);
     const receiptAdmission=new PostgresProcessingAdmission({...inputs,env:bridges.canonical.env,validateProviderProfile:bridges.canonical.validateProviderProfile});
-    const sources=new PostgresRetainedSources({...inputs,namespace:bridges.posting?.custody?.namespace,decrypt:bridges.posting?.custody?.decrypt});
+    const sources=new PostgresRetainedSources({...inputs,namespace:bridges.posting?.custody?.namespace,
+      decrypt:bridges.posting?.custody?.decrypt,storageWitnesses});
     const canonicalIngest=new PostgresCanonicalAdoption({...inputs,sources,admission:receiptAdmission});
     bridges={...bridges,commands:{...bridges.commands},identities,receiptAdmission,rematchAdmission:receiptAdmission,sources,canonicalIngest,
       createOperatorPrincipal:(...args)=>operatorDirectory.resolveStaff(...args)};
   }
 
-  requireThat(typeof bridges?.createOperatorPrincipal==='function'&&typeof bridges?.gateway==='function','collect_adapter_required',503);
+  requireThat(typeof bridges?.createOperatorPrincipal==='function'&&(integrated||typeof bridges?.gateway==='function'),'collect_adapter_required',503);
   if(!integrated)requirePort(bridges?.commands,['createDirectMember','setMembershipActive']);
   requireThat(config.sharedPostingEnabled===undefined||typeof config.sharedPostingEnabled==='boolean','invalid_worker_config',503);
   requireThat(config.journalEvidenceEnabled===undefined||typeof config.journalEvidenceEnabled==='boolean','invalid_worker_config',503);
@@ -68,6 +92,12 @@ export function createPostgresNativePorts({admission,config,db,bridges,clock=()=
   requireThat(config.nativePostingAuthorityEnabled===undefined||typeof config.nativePostingAuthorityEnabled==='boolean','invalid_worker_config',503);
   requireThat(config.nativePostingAuthorityEnabled!==true||config.sharedPostingEnabled===true,'posting_writer_required',503);
   const auth=new PostgresNativeAuthStore({db,groupId:config.groupId,createOperatorPrincipal:bridges.createOperatorPrincipal,clock,sessionBinding:managedSessions,operatorDirectory});
+  if(config.smartOnboardingAdvancedEnabled===true&&integrated){
+    const env=bridges.canonical.env;
+    const policy=createSmartOnboardingPolicy({env,clock});
+    const journal=new PostgresSmartOnboardingJournal({authority:auth,env,clock});
+    smartOnboardingImport=createGuardedSmartOnboardingImport({env,groupId:config.groupId,policy,journal});
+  }
   const memberCommands=integrated?new PostgresCollectMemberCommands({authority:auth}):null;
   if(memberCommands)bridges={...bridges,commands:{...bridges.commands,
     createDirectMember:(...args)=>memberCommands.createDirectMember(...args),
@@ -84,8 +114,9 @@ export function createPostgresNativePorts({admission,config,db,bridges,clock=()=
     requireThat(bridges.commands.postContribution===undefined,'posting_writer_conflict',503);
     if(config.journalEvidenceEnabled===true){
       requireThat(bridges.posting?.evidence===undefined,'posting_evidence_conflict',503);
+      storageWitnesses??=createWitnesses();
       custody=new PostgresPostingCustody({db,groupId:config.groupId,namespace:bridges.posting?.custody?.namespace,
-        decrypt:bridges.posting?.custody?.decrypt});
+        decrypt:bridges.posting?.custody?.decrypt,storageWitnesses});
     }
     if(config.journalAllocationEnabled===true){
       requireThat(bridges.posting?.allocation===undefined,'posting_allocation_conflict',503);
@@ -107,7 +138,8 @@ export function createPostgresNativePorts({admission,config,db,bridges,clock=()=
   requirePort(bridges?.receiptAdmission,['assertInTransaction']);
   requirePort(bridges?.sources,['assertLineage','load']);
   requirePort(bridges?.canonicalIngest,['ingest','outcome']);
-  requirePort(bridges?.sourceReader,['revision','page','detail']);
+  const sourceReader=integrated?new PostgresCollectSourceReader({authority:auth,custody,storageWitnesses,clock}):bridges?.sourceReader;
+  requirePort(sourceReader,['revision','page','detail']);
   const preparation=config.postingPreparationEnabled===true?new PostgresPostingPreparation({authority:auth,posting,allocation,
     media:bridges.posting?.preparation?.media,encrypt:bridges.posting?.preparation?.encrypt,keyId:bridges.posting?.preparation?.keyId}):null;
   const jobs=new PostgresReceiptJobStore({authority:auth,admission:bridges.receiptAdmission,sources:bridges.sources,canonical:bridges.canonicalIngest,maxAttempts:config.maxReceiptAttempts??4});
@@ -128,10 +160,14 @@ export function createPostgresNativePorts({admission,config,db,bridges,clock=()=
     scheduler=new PostgresSchedulerStore({authority:auth,admission:bridges.receiptAdmission,applicationWorkTuple:bridges.canonical.applicationWorkTuple});
   }
   const canonical=new PostgresCanonicalStore({authority:auth,commands,identities:bridges.identities,jobs:automaticJobs,clock});
-  const records=new PostgresRecordsStore({authority:auth,sourceReader:bridges.sourceReader,clock});
-  const gateway=bridges.gateway(auth);
+  const records=new PostgresRecordsStore({authority:auth,sourceReader,clock,
+    nativeAutoRecordsEnabled:integrated&&bridges.canonical.env.BURIMUNSI_NATIVE_AUTO_RECORDS_ENABLED==='true'});
+  const gateway=integrated?new PostgresCollectGateway({authority:auth,env:bridges.canonical.env,clock}):bridges.gateway(auth);
+  const observations=integrated&&config.nativeObservationEnabled===true&&hasPhonePinContext(db)?
+    new PostgresNativeObservations({authority:auth,env:bridges.canonical.env,
+      validateProviderProfile:bridges.canonical.validateProviderProfile,custody,storageWitnesses,clock}):null;
   requirePort(gateway,['withAuthorityTransaction','withReadSnapshot']);
-  return Object.freeze({auth,canonical,records,gateway,jobs,...(integrated?{sources:bridges.sources,memberCommands}:{}),...(managedSessions?{managedSessions}:{}),...(scheduler?{scheduler}:{}),...(workerAuthority?{workerAuthority}:{}),...(postingAuthority?{postingAuthority}:{}),...(rematches?{rematches}:{}),...(posting?{posting}:{}),...(custody?{custody}:{}),...(allocation?{allocation}:{}),...(preparation?{preparation}:{})});
+  return Object.freeze({auth,canonical,records,gateway,jobs,...(smartOnboardingImport?{smartOnboardingImport}:{}),...(observations?{observations}:{}),...(storageWitnesses?{storageWitnesses}:{}),...(integrated?{sources:bridges.sources,memberCommands,sourceReader}:{}),...(managedSessions?{managedSessions}:{}),...(scheduler?{scheduler}:{}),...(workerAuthority?{workerAuthority}:{}),...(postingAuthority?{postingAuthority}:{}),...(rematches?{rematches}:{}),...(posting?{posting}:{}),...(custody?{custody}:{}),...(allocation?{allocation}:{}),...(preparation?{preparation}:{})});
 }
 export function composePostgresNativeRequest(options) {
   const ports=createPostgresNativePorts(options);

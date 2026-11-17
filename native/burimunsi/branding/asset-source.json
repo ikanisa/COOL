@@ -1,0 +1,65 @@
+{
+  "format": "burimunsi.owner-logo.v2",
+  "sources": [
+    {
+      "source_filename": "BuriMunsi Logo with Curved Swoosh.png",
+      "repository_master": "branding/owner-masters/curved-swoosh.png",
+      "sha256": "43a2d934d31424bc600ec9456433ff250d6a6409c517d4e01850d4228f732aad",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "owner_supplied": true
+    },
+    {
+      "source_filename": "BuriMunsi Logo with Orange Arc (1).png",
+      "repository_master": "branding/owner-masters/orange-arc-wordmark.png",
+      "sha256": "3416d40211b63130c5b076b34e069bc1d85d78c8b17fe78dfa80e2dca4ab1637",
+      "dimensions_px": [
+        2172,
+        724
+      ],
+      "owner_supplied": true
+    },
+    {
+      "source_filename": "BuriMunsi Logo with Orange Swoosh (1).png",
+      "repository_master": "branding/owner-masters/orange-swoosh-square.png",
+      "sha256": "6fe6af670022991e0e6bb8836c694be47aba36977e6381dfcfd2cd3b4a920fb1",
+      "dimensions_px": [
+        1254,
+        1254
+      ],
+      "owner_supplied": true
+    }
+  ],
+  "runtime_wordmark": {
+    "source": "orange-arc-wordmark.png",
+    "resource": "app/src/main/res/drawable-nodpi/burimunsi_brand_logo.png",
+    "dimensions_px": [
+      1086,
+      362
+    ],
+    "sha256": "7fc9bc9b98f27d9fdd81da5354d5d5e6c0508a8bc3cc9c2c3b44fa0a40e21ef3"
+  },
+  "adaptive_launcher_foreground": {
+    "source": "orange-swoosh-square.png",
+    "resource": "app/src/main/res/drawable-nodpi/burimunsi_launcher_asset.png",
+    "dimensions_px": [
+      432,
+      432
+    ],
+    "sha256": "caacdf4b66350cd2664e09fac28b6fee884188ea22841d478752c7d6331fd836",
+    "safe_inset_dp": 18,
+    "background": "white"
+  },
+  "legacy_launcher_sizes_px": {
+    "mdpi": 48,
+    "hdpi": 72,
+    "xhdpi": 96,
+    "xxhdpi": 144,
+    "xxxhdpi": 192
+  },
+  "source_masters_modified": false,
+  "transformations": "proportional resampling only; transparent source artwork preserved",
+  "use": "BuriMunsi launcher and existing prototype wordmark placements"
+}

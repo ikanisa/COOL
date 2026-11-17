@@ -38,6 +38,10 @@ test('duplicate event IDs fail instead of being hidden',()=>assert.throws(()=>pr
 test('empty history does not invent a transaction event',()=>assert.throws(()=>project([]),/history_observation_required/));
 test('bounded history fails explicitly instead of silently truncating',()=>assert.throws(()=>project([observation(),...Array.from({length:HISTORY_LIMIT},(_,i)=>entry(i))]),/history_limit/));
 test('history list supports paginated access without SMS permission',async()=>{const{svc}=fixture();const p=await svc.paymentHistory(actor,'tx-1',{limit:2});assert.equal(p.totalCount,3);assert(p.nextCursor);const last=await svc.paymentHistory(actor,'tx-1',{limit:2,cursor:p.nextCursor});assert.equal(last.items[0].amountRwf,-10000);assert.equal(last.nextCursor,null)});
+test('advanced history filters the whole validated stream and preserves signed ledger facts',async()=>{
+ const{svc}=fixture();const p=await svc.paymentHistory(actor,'tx-1',{sort:'amount_asc',filter:'ledger_entry',maxRwf:'0',limit:1});
+ assert.equal(p.totalCount,1);assert.equal(p.items[0].amountRwf,-10000);assert.equal(p.nextCursor,null);
+});
 test('rechecking fresh authority blocks revoked readers',async()=>{const{svc,data}=fixture();data.actor.revoked=true;await assert.rejects(svc.paymentHistory(actor,'tx-1'),/session_unavailable/);assert.equal(data.calls,0)});
 test('record read capability is mandatory',async()=>{const{svc,data}=fixture();data.actor.capabilities=[];await assert.rejects(svc.paymentHistory(actor,'tx-1'),/access_denied/)});
 test('missing payment is a scoped 404 before querying its ledger',async()=>{const{svc,data}=fixture();data.missing=true;await assert.rejects(svc.paymentHistory(actor,'tx-1'),e=>e.status===404);assert.equal(data.calls,0)});
@@ -55,7 +59,8 @@ function handler(){const{svc}=fixture();return createNativeHandler({
  origin:'https://example.test',networkBucket:async()=>''});}
 function req(path){return new Request('https://example.test/v1/burimunsi'+path,{headers:{'x-burimunsi-installation':'device-1',authorization:'Bearer '+'a'.repeat(64)}})}
 test('history HTTP route returns no-store envelope',async()=>{const r=await handler()(req('/payments/tx-1/history?limit=1'));assert.equal(r.status,200);assert.equal(r.headers.get('Cache-Control'),'no-store');assert.equal((await r.json()).data.items[0].kind,'transaction_recorded')});
-for(const q of ['?limit=1&limit=2','?groupId=other','?memberId=member-1','?filter=all'])test('history HTTP query rejects '+q,async()=>assert.equal((await handler()(req('/payments/tx-1/history'+q))).status,400));
+for(const q of ['?limit=1&limit=2','?groupId=other','?memberId=member-1','?filter=made_up'])test('history HTTP query rejects '+q,async()=>assert.equal((await handler()(req('/payments/tx-1/history'+q))).status,400));
+test('history HTTP accepts the additive all filter',async()=>assert.equal((await handler()(req('/payments/tx-1/history?filter=all'))).status,200));
 test('Postgres history adapter uses same-snapshot scoped canonical SQL and no mutation',async()=>{
  const calls=[];const sql={unsafe:async(query,args)=>{calls.push({query,args});return [{canonical_record_id:'tx-1',collection_id:'group-1',transaction_id:'tx-1',kind:'transaction_recorded',recorded_at:new Date('2026-11-08T08:00:00Z'),amount_minor:null,member_id:null}]}};
  const store=new PostgresRecordsStore({authority:{groupId:'group-1',read:fn=>fn(sql),session:async()=>actor},sourceReader:{revision:async()=>'',page:async()=>{},detail:async()=>{}},clock:()=>NOW});

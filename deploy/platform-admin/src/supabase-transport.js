@@ -287,6 +287,12 @@ export function createCollectTransport({frontendOrigin, supabaseOrigin = SUPABAS
       const bytes = await boundedBytes(request.body, maxRequestBytes, controller.signal, 413, 'proxy_request_too_large');
       const headers = new Headers();
       for (const [name, value] of request.headers) if (FORWARD_HEADERS.has(name)) headers.set(name, value);
+      // The versioned owner metadata opt-in is meaningful only on the exact
+      // Admin session read. It is never an authority or a general proxy header.
+      if (route.functionName === 'admin-api' && route.logicalPath === '/api/admin/auth/session' && request.method === 'GET' &&
+          request.headers.get('x-collect-owner-identity-version') === '1') {
+        headers.set('X-Collect-Owner-Identity-Version', '1');
+      }
       // Only the native device-bound BFF exchange consumes this private proof.
       // Do not forward it to unrelated Admin/member/provider service routes.
       if (route.functionName === 'admin-api' && route.logicalPath === '/api/admin/burimunsi/access' && request.method === 'POST') {

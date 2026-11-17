@@ -21,6 +21,8 @@ import {clientDiagnosticsRoute} from './client_diagnostics.js';
 import {handleAdminAccounts,validateAdminOrigin,adminAccountSession,adminCanonicalActor,adminInternalRequest,accountDatabase} from './admin_accounts.js';
 import {adminBuriMunsiAccess} from './admin_burimunsi_access.js';
 import {adminBuriMunsiOperators} from './admin_burimunsi_operators.js';
+import {adminBuriMunsiNativeWork} from './admin_burimunsi_native_work.js';
+import {adminBuriMunsiProvisioning} from './admin_burimunsi_provisioning.js';
 
 const keys=(data,allowed)=>{if(Object.keys(data).some(k=>!allowed.includes(k)))fail(400,'invalid_request','Request has unsupported fields.');};
 const optionalText=(v,field,max)=>v==null||v===''?null:text(v,field,max);
@@ -75,33 +77,44 @@ async function genericMutation(request,env,account,actor,parts,data,rid,source){
  const capability=type==='groups'&&create?'collections.create':`${permission[type]??(type==='memberships'?'collections':'')}.manage`;
  if(!actor.permissions.has(capability))fail(403,'permission_required','This operating action is unavailable.');
  const publicCreate=type==='groups'&&create&&(data.visibility==='public_approved'||data.is_platform_sponsored===true);
+ // An owner-less public submission is the existing platform-sponsored form,
+ // not a customer creation or permission to select an arbitrary operator.
+ const platformCreate=publicCreate&&!Object.hasOwn(data,'owner_user_id');
  const publicationRequest=publicCreate||(type==='groups'&&patch&&(data.visibility!==undefined||data.is_platform_sponsored!==undefined));
  if(publicationRequest){
   if(!['owner','admin'].includes(account.role)||!actor.permissions.has('collections.manage')||!actor.permissions.has('receivers.manage'))fail(403,'permission_required','Only an administrator can publish a public group.');
   // Every publication permission and the current cookie/MFA proof are checked
   // in the same D1 batch as the alias, receipt, group, owner membership and audit.
-  env=accountDatabase(accountDatabase(env,account,'collections.manage',{mfa:true,fresh:true}),account,'receivers.manage',{mfa:true,fresh:true});
+  if(platformCreate&&account.role!=='owner')fail(403,'owner_required','The current Collect owner creates platform-sponsored groups.');
+  env=accountDatabase(accountDatabase(env,account,'collections.manage',{owner:platformCreate,mfa:true,fresh:true}),account,'receivers.manage',{owner:platformCreate,mfa:true,fresh:true});
  }
  const options={permission:capability,minimumAssurance:2,freshSeconds:300,auditDetails:{reason:text(data.reason,'reason',500)}};
  const replay=await retainedResponse(env,actor,operation,rid,source,options);if(replay.found)return replay.value;
  if(!['groups','users','memberships','payees'].includes(type)||!create&&!patch)unavailable();text(data.reason??request.headers.get('X-Collect-Review-Reason'),'reason',500);
  const writes=[],resourceId=create?id():uuid(parts[1]),timestamp=now();let version=1;
  if(type==='groups'){
-  keys(data,['title','slug','description','collection_type','purpose_label','status','visibility','is_platform_sponsored','owner_user_id','receiver','reason','expected_version']);
+  keys(data,['title','slug','description','collection_type','purpose_label','status','visibility','is_platform_sponsored','owner_user_id','receiver','reason','expected_version',...(platformCreate?['category_subtype']:[])]);
   if(create){if(data.expected_version!==undefined)fail(400,'invalid_request','New groups do not accept an expected version.');
    const visibility=data.visibility??'private',sponsored=data.is_platform_sponsored??false;
     if(!['private','public_approved'].includes(visibility)||typeof sponsored!=='boolean'||(visibility==='public_approved')!==sponsored)fail(400,'invalid_publication','Choose a private group or a public Collect-sponsored group.');
-    const title=text(data.title,'title',160),slug=text(data.slug,'slug',100),owner=uuid(data.owner_user_id,'owner_user_id'),receiver=validReceiver(data.receiver,{allowCode:publicCreate}),kind=text(data.collection_type,'collection_type',64);
+    const title=text(data.title,'title',160),slug=text(data.slug??(platformCreate?`collect-${resourceId}`:undefined),'slug',100),owner=platformCreate?actor.userId:uuid(data.owner_user_id,'owner_user_id'),receiver=validReceiver(data.receiver,{allowCode:publicCreate}),kind=text(data.collection_type,'collection_type',64);
    // users.id is text: normalizing a different spelling could select another
    // row. Exact retained responses have already been checked above.
-   if(data.owner_user_id!==owner)fail(400,'invalid_owner','The selected owner cannot be verified. Refresh the member record.');
+   if(!platformCreate&&data.owner_user_id!==owner)fail(400,'invalid_owner','The selected owner cannot be verified. Refresh the member record.');
    if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)||!['ikimina','sport','church','wedding','other'].includes(kind))fail(400,'invalid_group','Choose a supported group type and slug.');
    if(data.status&&data.status!=='active')unavailable();
    const description=data.description??'';if(typeof description!=='string'||description.length>2000)fail(400,'invalid_group','The group description is too long.');
-   const guard=domainGuard(env,"EXISTS(SELECT 1 FROM users WHERE id=? AND access_status='active' AND member_type!='operator')",[owner]);
+   const guard=domainGuard(env,platformCreate?
+    "EXISTS(SELECT 1 FROM users u JOIN admin_principal_links l ON l.user_id=u.id JOIN admin_users a ON a.id=l.admin_user_id WHERE u.id=? AND u.access_status='active' AND a.id=? AND a.role='owner' AND a.status='active')":
+    "EXISTS(SELECT 1 FROM users WHERE id=? AND access_status='active' AND member_type!='operator')",platformCreate?[owner,account.id]:[owner]);
    const code=id(),cipher=await encrypt(env,new TextEncoder().encode(code),`group-invite:${resourceId}`);
-   writes.push(guard[0],env.DB.prepare(`INSERT INTO collections(id,slug,creator_user_id,title,description,collection_type,receiver_momo_number,receiver_network,receiver_display_label,visibility_status,is_platform_sponsored,share_code_hash,share_code_ciphertext,data_json,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(resourceId,slug,owner,title,description,kind,receiver.number,receiver.network,receiver.label,visibility,Number(sponsored),await digest(code),cipher,JSON.stringify({purpose_label:optionalText(data.purpose_label,'purpose label',120)}),timestamp,timestamp),
-    env.DB.prepare(`INSERT INTO memberships(id,collection_id,user_id,role,active,joined_at) VALUES(?,?,?,'owner',1,?)`).bind(id(),resourceId,owner,timestamp),guard[1]);
+   const stored={purpose_label:optionalText(data.purpose_label,'purpose label',120)};
+   if(platformCreate)stored.category_subtype=optionalText(data.category_subtype,'category key',120);
+   writes.push(guard[0],env.DB.prepare(`INSERT INTO collections(id,slug,creator_user_id,title,description,collection_type,receiver_momo_number,receiver_network,receiver_display_label,visibility_status,is_platform_sponsored,share_code_hash,share_code_ciphertext,data_json,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(resourceId,slug,owner,title,description,kind,receiver.number,receiver.network,receiver.label,visibility,Number(sponsored),await digest(code),cipher,JSON.stringify(stored),timestamp,timestamp));
+   // A sponsor's accountable creator is not a financial member/beneficiary.
+   // Ordinary private/person-owned groups retain their existing owner member.
+   if(!platformCreate)writes.push(env.DB.prepare(`INSERT INTO memberships(id,collection_id,user_id,role,active,joined_at) VALUES(?,?,?,'owner',1,?)`).bind(id(),resourceId,owner,timestamp));
+   writes.push(guard[1]);
   }else{
    const row=await first(env,'SELECT * FROM collections WHERE id=?',resourceId);if(!row)fail(404,'not_found','The group was not found.');version=expected(data,row.revision)+1;
    if(row.status==='archived')fail(409,'group_archived','Archived groups cannot be changed.');
@@ -162,6 +175,9 @@ async function genericMutation(request,env,account,actor,parts,data,rid,source){
  }else unavailable();
  return mutation(env,actor,operation,rid,source,receipt(rid,type,resourceId,version),writes,{...options,entityType:type==='groups'?'collection':'user',entityId:resourceId});
 }
+
+// Internal command/compiler boundary; no additional HTTP or SQL surface.
+export {genericMutation,requestEnvironment,requestId,operatingRead};
 
 function historyReceipt(row){
  const value=JSON.parse(row.response_json);if(value.resource_type)return value;
@@ -369,7 +385,7 @@ async function bridgeRoute(request,env,ctx){
  * bearer /v1 auth and CORS dispatcher. No ASSETS or second operating DB here. */
 export async function handleAdmin(request,env,ctx){
  const path=new URL(request.url).pathname;if(path!=='/api/admin'&&!path.startsWith('/api/admin/'))return null;
- try{const account=await handleAdminAccounts(request,env,ctx);if(account)return account;return await adminBuriMunsiAccess(request,env)??await adminBuriMunsiOperators(request,env)??await notificationOperatorManagementRoute(request,env)??await notificationOperatorRoute(request,env)??await bridgeRoute(request,env,ctx);}
+ try{const account=await handleAdminAccounts(request,env,ctx);if(account)return account;return await adminBuriMunsiAccess(request,env)??await adminBuriMunsiOperators(request,env)??await adminBuriMunsiNativeWork(request,env)??await adminBuriMunsiProvisioning(request,env)??await notificationOperatorManagementRoute(request,env)??await notificationOperatorRoute(request,env)??await bridgeRoute(request,env,ctx);}
  catch(error){if(typeof env.INTERNAL_ERROR_OBSERVER==='function')env.INTERNAL_ERROR_OBSERVER(error);const known=error instanceof ApiError,constraint=/admin_bridge_guards|admin_bridge_state|UNIQUE constraint|FOREIGN KEY constraint/.test(String(error));
   return json({error:{code:known?error.code:constraint?'state_conflict':'service_unavailable',message:known?error.message:constraint?'The record or related state changed. Refresh before continuing.':'The request could not be completed.'}},known?error.status:constraint?409:503);}
 }

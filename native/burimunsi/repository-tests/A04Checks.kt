@@ -13,6 +13,7 @@ private class Scenario {
  val api=ApiClient("phone-1")
  var owner="operator-1";var bearer="a".repeat(64)
  var proofState="committed";var statusState="committed";var effect="posted";var operation="burimunsi.allocate"
+ var enrollmentAckGroup="group-1";var enrollmentAckId="member-1"
  var postFailure=true;var proofFailure:ApiFailure?=null;var statusFailure:ApiFailure?=null
  var editProof:((JSONObject)->Unit)?=null;var editStatus:((JSONObject)->Unit)?=null
  var statusEntered:CountDownLatch?=null;var releaseStatus:CountDownLatch?=null
@@ -25,7 +26,7 @@ private class Scenario {
    r.path.endsWith("/session/login")||r.path.endsWith("/session")->JSONObject().put("token",bearer).put("expiresAt",System.currentTimeMillis()+3600000)
     .put("profile",JSONObject().put("id",owner).put("name","Example Operator").put("phone","+250780000001").put("role","admin")
       .put("capabilities",JSONArray().put("records.read").put("payments.allocate").put("members.enroll").put("staff.manage"))).toString()
-   r.method!="GET"->{if(postFailure)throw ApiFailure("connection_unavailable",0,true);"{}"}
+   r.method!="GET"->{if(postFailure)throw ApiFailure("connection_unavailable",0,true);if(operation=="burimunsi.enroll")JSONObject().put("id",enrollmentAckId).put("groupId",enrollmentAckGroup).toString()else "{}"}
    r.path.endsWith("/recovery")->{proofFailure?.let{throw it};val j=JSONObject().put("protocol","burimunsi.operation-recovery.v1")
     .put("requestId",r.path.substringBeforeLast('/').substringAfterLast('/')).put("state",proofState)
     .put("originDigest",r.recoveryOrigin).put("groupId","group-1").put("actorId",owner).put("installationId","phone-1")
@@ -38,7 +39,7 @@ private class Scenario {
   }}
   repo=NativeRepository(Context(),api,"group-1");login()
  }
- fun login(){repo.login("0780000001","2468")}
+ fun login(){if(repo.current()!=null)repo.clearOperator();repo.login("0780000001","2468")}
  fun submit()=repo.allocate(payment,member,"Explicit verified identity note")
  fun unknown(){postFailure=true;runCatching{submit()};check(repo.pending()?.state==OperationState.UNKNOWN)}
  fun posts()=api.calls.count{it.method!="GET"&&!it.path.endsWith("/session/login")}
@@ -102,6 +103,12 @@ fun main(){
   val s=Scenario();s.postFailure=false;s.operation=op;s.effect="not_applicable"
   val out=when(op){"burimunsi.enroll"->s.repo.enroll("Example Member","0780000816");"burimunsi.membership"->s.repo.setMemberActive(s.member,false);else->s.repo.staffAction(JSONObject().put("action",op.substringAfterLast('.')))}
   ck("$op keeps exact nonfinancial status contract",out.getString("operation")==op&&out.getString("financialState")=="not_applicable"&&s.repo.pending()==null&&s.posts()==1)
+  if(op=="burimunsi.enroll")ck("enrollment exposes same-scope acknowledged ID only after outcome readback",out.getString("createdMemberId")=="member-1"&&s.statusReads()==1)
  }
+ run{val s=Scenario();s.postFailure=false;s.operation="burimunsi.enroll";s.effect="not_applicable";s.enrollmentAckGroup="other-group"
+  val out=s.repo.enroll("Example Member","0780000816")
+  ck("foreign-scope enrollment ACK cannot supply a member ID after verified commit",out.getString("createdMemberId")==""&&out.getString("operation")=="burimunsi.enroll"&&s.repo.pending()==null&&s.posts()==1)}
+ run{val s=Scenario();s.postFailure=false;s.operation="burimunsi.enroll";s.effect="not_applicable";s.statusFailure=ApiFailure("fixture_status_failure",503)
+  ck("enrollment ACK cannot escape before authoritative confirmation",runCatching{s.repo.enroll("Example Member","0780000816")}.isFailure&&s.repo.pending()!=null&&s.posts()==1)}
  println("RESULT: $checks A04 cross-workstream repository checks passed; not Android/Keystore/PostgreSQL acceptance.")
 }

@@ -19,14 +19,26 @@ import 'admin_pending_attempt_store.dart';
 import 'admin_repository_base.dart' show adminRealtimeTickProvider;
 import 'cloudflare_admin_session.dart';
 import 'cloudflare_admin_repository.dart';
+import 'cloudflare_admin_observation_api.dart';
 import 'cloudflare_admin_sms_api.dart';
 
 part 'cloudflare_admin_momo_transaction_dialogs.dart';
 part 'cloudflare_admin_momo_source_review.dart';
 part 'cloudflare_admin_momo_gateway_setup.dart';
 part 'cloudflare_admin_momo_incoming_sms.dart';
+part 'cloudflare_admin_momo_observations.dart';
+
+Future<void> showMomoGatewaySetup(
+  BuildContext context, {
+  String? collectionId,
+}) => showDialog<void>(
+  context: context,
+  animationStyle: CollectMotion.animationStyle(context),
+  builder: (_) => _GatewaySetupDialog(initialCollectionId: collectionId),
+);
 
 const momoStatusLabels = {
+  'recorded': 'Recorded',
   'needs_allocation': 'Needs allocation',
   'awaiting_review': 'Awaiting independent review',
   'credited': 'Credited',
@@ -60,10 +72,28 @@ class MomoTransaction {
   String get id => values['id'] as String;
   String get status => values['status'] as String;
   String get label => momoStatusLabels[status]!;
-  int get amount => values['amount_minor'] as int;
+  int? get amount => values['amount_minor'] as int?;
   int get version => values['version'] as int;
   String? get paymentId => values['payment_id'] as String?;
   bool get hasConflict => values['has_conflict'] == 1;
+  bool get isNativeCapture => values['native_group_id'] != null;
+  String get groupLabel => isNativeCapture
+      ? '${values['group_name'] ?? 'Unassigned'} (capture scope)'
+      : '${values['group_name'] ?? 'Unassigned'}';
+  String get receivingAccountLabel => isNativeCapture
+      ? 'Not established from message'
+      : '${values['recipient_name']}';
+  String get receivingCodeLabel =>
+      isNativeCapture ? '—' : '${values['public_code']}';
+  String get direction => switch (values['event_kind']) {
+    'outgoing' => 'Outgoing',
+    'reversal' => 'Reversal',
+    'failed' => 'Failed',
+    'pending' => 'Pending',
+    'other' => 'Message',
+    'unknown' => 'Unknown',
+    _ => 'Incoming',
+  };
   String get payer =>
       '${values['payer_name'] ?? 'Unknown payer'}'
       '${values['payer_last3'] == null ? '' : ' · …${values['payer_last3']}'}';
@@ -72,10 +102,31 @@ class MomoTransaction {
       : adminKigaliDateTime(DateTime.parse(values['transaction_at'] as String));
   factory MomoTransaction.parse(Map<String, dynamic> values) {
     _identifier(values['id']);
-    _identifier(values['receiving_account_id']);
-    _text(values['provider_transaction_id']);
-    _text(values['recipient_name']);
-    _text(values['public_code']);
+    final isNative = values['native_group_id'] != null;
+    if (isNative) {
+      // During a rolling deployment an older backend may still return its
+      // configured capture-scope fields. Validate them but never present them
+      // as a receiving account or allow the legacy allocation action.
+      if (values['receiving_account_id'] != null) {
+        _identifier(values['receiving_account_id']);
+      }
+      if (values['capture_scope_account_id'] != null) {
+        _identifier(values['capture_scope_account_id']);
+      }
+      _text(values['recipient_name'], nullable: true);
+      _text(values['public_code'], nullable: true);
+      if (values['status'] == 'needs_allocation') _invalid();
+    } else {
+      if (values['capture_scope_account_id'] != null) _invalid();
+      _identifier(values['receiving_account_id']);
+      _text(values['recipient_name']);
+      _text(values['public_code']);
+    }
+    if (values['provider_transaction_id'] == null) {
+      if (!isNative && values['status'] != 'recorded') _invalid();
+    } else {
+      _text(values['provider_transaction_id']);
+    }
     for (final field in [
       'payer_name',
       'payer_last3',
@@ -88,14 +139,22 @@ class MomoTransaction {
         !RegExp(r'^[0-9]{3}$').hasMatch(values['payer_last3'] as String)) {
       _invalid();
     }
-    for (final field in ['payment_id', 'beneficiary_member_id', 'group_id']) {
+    for (final field in [
+      'payment_id',
+      'beneficiary_member_id',
+      'group_id',
+      'native_group_id',
+    ]) {
       if (values[field] != null) _identifier(values[field]);
     }
-    final amount = exactJsonInteger(
-      values['amount_minor'],
-      field: 'MoMo amount',
-      minimum: 1,
-    );
+    final amount = values['amount_minor'] == null
+        ? null
+        : exactJsonInteger(
+            values['amount_minor'],
+            field: 'MoMo amount',
+            minimum: 1,
+          );
+    if (amount == null && values['status'] != 'recorded') _invalid();
     final credited = exactJsonInteger(
       values['credited_amount_minor'],
       field: 'MoMo credited amount',
@@ -106,17 +165,43 @@ class MomoTransaction {
     if (values['transaction_at'] != null) {
       exactJsonTimestamp(values['transaction_at'], field: 'MoMo provider time');
     }
-    if (values['currency'] != 'RWF' ||
+    if ((values['currency'] != 'RWF' &&
+            !(values['currency'] == null && amount == null)) ||
+        (values['event_kind'] != null &&
+            !const {
+              'incoming_receipt',
+              'outgoing',
+              'reversal',
+              'failed',
+              'pending',
+              'other',
+              'unknown',
+            }.contains(values['event_kind'])) ||
         !const {0, 1}.contains(values['has_conflict']) ||
         !momoStatusLabels.containsKey(values['status']) ||
-        credited > amount ||
+        (amount == null ? credited != 0 : credited > amount) ||
         (values['status'] == 'credited' &&
             (values['payment_id'] == null || credited == 0)) ||
         (values['status'] == 'awaiting_review' &&
             values['payment_id'] == null)) {
       _invalid();
     }
-    return MomoTransaction._(Map.unmodifiable(values));
+    final publicValues = Map<String, dynamic>.of(values);
+    if (isNative) {
+      publicValues['receiving_account_id'] = null;
+      publicValues['recipient_name'] = null;
+      publicValues['public_code'] = null;
+      if (publicValues.containsKey('receiving_context')) {
+        publicValues['receiving_context'] = const {
+          'account_id': null,
+          'identifier_raw': null,
+          'identifier_kind': null,
+          'recipient_name': null,
+          'basis': 'unestablished',
+        };
+      }
+    }
+    return MomoTransaction._(Map.unmodifiable(publicValues));
   }
 }
 
@@ -244,8 +329,7 @@ class MomoAdminApi {
         'status': status,
         'limit': '25',
         'offset': '$offset',
-        if (receivingAccount.isNotEmpty)
-          'receiving_account_id': receivingAccount,
+        if (receivingAccount.isNotEmpty) 'account_scope_id': receivingAccount,
         if (group.isNotEmpty) 'group_id': group,
         if (from.isNotEmpty) 'from': from,
         if (to.isNotEmpty) 'to': to,
@@ -271,7 +355,10 @@ class MomoAdminApi {
           ? null
           : DateTime.parse(row.values['transaction_at'] as String);
       return (receivingAccount.isEmpty ||
-              row.values['receiving_account_id'] == receivingAccount) &&
+              (row.isNativeCapture
+                      ? row.values['capture_scope_account_id']
+                      : row.values['receiving_account_id']) ==
+                  receivingAccount) &&
           (group.isEmpty || row.values['group_id'] == group) &&
           (fromDate == null || time != null && !time.isBefore(fromDate)) &&
           (toDate == null || time != null && !time.isAfter(toDate));
@@ -515,12 +602,15 @@ class _MomoFilterControlState extends ConsumerState<_MomoFilterControls> {
                           'filter-account-$_account:${_accounts.length}',
                         ),
                         decoration: const InputDecoration(
-                          labelText: 'Receiving account',
+                          labelText: 'Account or capture scope',
+                          helperText:
+                              'Native SMS uses the configured capture scope; the message may not establish the receiving account.',
+                          helperMaxLines: 3,
                         ),
                         items: [
                           const DropdownMenuItem(
                             value: '',
-                            child: Text('All receiving accounts'),
+                            child: Text('All account scopes'),
                           ),
                           for (final account in _accounts)
                             DropdownMenuItem(
@@ -665,7 +755,8 @@ final _transactions = FutureProvider.autoDispose
     });
 
 class CloudflareAdminMomoPage extends ConsumerStatefulWidget {
-  const CloudflareAdminMomoPage({super.key});
+  const CloudflareAdminMomoPage({this.transactionsOnly = false, super.key});
+  final bool transactionsOnly;
   @override
   ConsumerState<CloudflareAdminMomoPage> createState() => _MomoPageState();
 }
@@ -679,6 +770,12 @@ class _MomoPageState extends ConsumerState<CloudflareAdminMomoPage> {
   MomoTransactionPage? _last;
   _Query? _lastQuery;
   Object? _authority;
+  @override
+  void initState() {
+    super.initState();
+    _incoming = !widget.transactionsOnly;
+  }
+
   @override
   void dispose() {
     _search.dispose();
@@ -748,7 +845,7 @@ class _MomoPageState extends ConsumerState<CloudflareAdminMomoPage> {
     if (_authority != user?.authorityKey) {
       _last = null;
       _filters = const MomoTransactionFilters();
-      _incoming = true;
+      _incoming = !widget.transactionsOnly;
       _authority = user?.authorityKey;
     }
     final permissions = user?.permissions ?? <String>[];
@@ -782,8 +879,8 @@ class _MomoPageState extends ConsumerState<CloudflareAdminMomoPage> {
     }
     final page = result.asData?.value ?? (_lastQuery == query ? _last : null);
     return AdminPage(
-      title: 'MoMo receipts',
-      subtitle: 'Validated payments and their allocation status.',
+      title: widget.transactionsOnly ? 'MoMo transactions' : 'MoMo receipts',
+      subtitle: 'Automatically recorded MoMo transactions.',
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -798,7 +895,7 @@ class _MomoPageState extends ConsumerState<CloudflareAdminMomoPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _views(permissions),
+          if (!widget.transactionsOnly) _views(permissions),
           if (user?.permissions.contains('payments.read') == true &&
               user?.permissions.contains('users.read') == true &&
               user?.permissions.contains('collections.read') == true)
@@ -917,9 +1014,9 @@ class _MomoPageState extends ConsumerState<CloudflareAdminMomoPage> {
             ),
           if (page != null) ...[
             Text(
-              'Received ${adminFormatWholeAmount(page.totals['received_minor'])} RWF · '
+              'Recorded incoming ${adminFormatWholeAmount(page.totals['received_minor'])} RWF · '
               'Credited ${adminFormatWholeAmount(page.totals['credited_minor'])} RWF · '
-              'Unallocated ${adminFormatWholeAmount(page.totals['unallocated_minor'])} RWF',
+              'Not credited ${adminFormatWholeAmount(page.totals['unallocated_minor'])} RWF',
             ),
             const SizedBox(height: 6),
             Text(
@@ -928,7 +1025,7 @@ class _MomoPageState extends ConsumerState<CloudflareAdminMomoPage> {
             ),
             const SizedBox(height: 12),
             if (page.rows.isEmpty)
-              const _Note('No matching validated payments.')
+              const _Note('No matching transactions.')
             else
               AdminDataTable(
                 tableLabel: 'MoMo transactions',
@@ -936,7 +1033,9 @@ class _MomoPageState extends ConsumerState<CloudflareAdminMomoPage> {
                   for (final row in page.rows)
                     AdminTableRowData(
                       id: row.id,
-                      title: row.values['provider_transaction_id'] as String,
+                      title:
+                          row.values['provider_transaction_id'] as String? ??
+                          'MoMo message',
                       subtitle: '',
                       status: '',
                       amount: '',
@@ -945,6 +1044,10 @@ class _MomoPageState extends ConsumerState<CloudflareAdminMomoPage> {
                 ],
                 columns: [
                   AdminTableColumn(
+                    label: 'Type',
+                    value: (row) => MomoTransaction.parse(row.extra).direction,
+                  ),
+                  AdminTableColumn(
                     label: 'Transaction time · Kigali',
                     value: (row) =>
                         MomoTransaction.parse(row.extra).transactionTime,
@@ -952,8 +1055,9 @@ class _MomoPageState extends ConsumerState<CloudflareAdminMomoPage> {
                   AdminTableColumn(
                     label: 'Amount · RWF',
                     numeric: true,
-                    value: (row) =>
-                        adminFormatWholeAmount(row.extra['amount_minor']),
+                    value: (row) => row.extra['amount_minor'] == null
+                        ? '—'
+                        : adminFormatWholeAmount(row.extra['amount_minor']),
                   ),
                   AdminTableColumn(
                     label: 'Payer',
@@ -962,7 +1066,8 @@ class _MomoPageState extends ConsumerState<CloudflareAdminMomoPage> {
                   AdminTableColumn(
                     label: 'MoMo TX ID',
                     selectable: true,
-                    value: (row) => '${row.extra['provider_transaction_id']}',
+                    value: (row) =>
+                        '${row.extra['provider_transaction_id'] ?? '—'}',
                   ),
                   AdminTableColumn(
                     label: 'Beneficiary',
@@ -971,17 +1076,19 @@ class _MomoPageState extends ConsumerState<CloudflareAdminMomoPage> {
                   ),
                   AdminTableColumn(
                     label: 'Group',
-                    value: (row) =>
-                        '${row.extra['group_name'] ?? 'Unassigned'}',
+                    value: (row) => MomoTransaction.parse(row.extra).groupLabel,
                   ),
                   AdminTableColumn(
                     label: 'Status',
                     value: (row) => momoStatusLabels[row.extra['status']]!,
                   ),
                   AdminTableColumn(
-                    label: 'Review issue',
-                    value: (row) =>
-                        row.extra['has_conflict'] == 1 ? 'Needs review' : '—',
+                    label: 'Data issue',
+                    value: (row) => row.extra['has_conflict'] == 1
+                        ? (row.extra['native_group_id'] == null
+                              ? 'Needs review'
+                              : 'Conflicting details')
+                        : '—',
                   ),
                 ],
                 onOpen: (row) => _open(MomoTransaction.parse(row.extra)),

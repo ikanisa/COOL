@@ -1,7 +1,7 @@
 import {requireThat} from './errors.js';
 import {requireId,requireRequestId} from './values.js';
 
-export const COMMAND_OPERATIONS=Object.freeze(['burimunsi.allocate','burimunsi.enroll','burimunsi.membership',
+export const COMMAND_OPERATIONS=Object.freeze(['burimunsi.allocate','burimunsi.enroll','burimunsi.membership','burimunsi.members_import',
   'burimunsi.staff.create','burimunsi.staff.edit','burimunsi.staff.reset','burimunsi.staff.disable',
   'burimunsi.staff.enable','burimunsi.staff.remove']);
 
@@ -16,6 +16,7 @@ export const COMMAND_OUTCOME_SQL=`SELECT r.collection_id,r.actor_id,r.request_id
    CASE WHEN jsonb_typeof(r.response)='object' THEN 'not_applicable' ELSE 'inconsistent' END
  WHEN jsonb_typeof(r.response)='object'
    AND t.event_kind='incoming_receipt' AND t.has_conflict=0 AND t.allocation_state='linked'
+   AND NOT EXISTS(SELECT 1 FROM app.momo_transaction_sources bad WHERE bad.transaction_id=t.id AND bad.relation='conflict')
    AND t.currency='RWF' AND p.currency='RWF' AND l.currency='RWF' AND p.rail='rwanda_momo'
    AND t.amount_minor>0 AND p.amount_minor=t.amount_minor AND l.amount_minor=t.amount_minor
    AND r.response->'amountRwf'=to_jsonb(t.amount_minor)

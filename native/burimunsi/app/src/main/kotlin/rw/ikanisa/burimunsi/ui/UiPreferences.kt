@@ -80,7 +80,7 @@ internal val LocalUiPreferences=staticCompositionLocalOf<UiPreferences>{error("B
             Text(t("Reduce screen motion"),Modifier.weight(1f));Spacer(Modifier.width(12.dp))
             Switch(preferences.reduceMotion,onCheckedChange=null)
         }
-        Text(t("Screen transitions only. Android controls keyboard and dialog animations."),
+        Text(t("Reduce screen transitions and loading motion. Android controls keyboard and dialog animations."),
             style=MaterialTheme.typography.bodySmall,color=BuriTheme.Muted)
     }
 }

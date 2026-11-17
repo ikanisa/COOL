@@ -40,6 +40,10 @@ export class ContributionService {
       const replay=await step('replay',null);
       if(replay.kind==='result')return replay.value;
       throw error;
+    } finally {
+      // Clears only process-local encrypted preflight bytes. Durable command
+      // receipts, protected objects and uncertain outcomes remain unchanged.
+      this.preparation.release?.(command);
     }
   }
   async #plan(tx,command) {

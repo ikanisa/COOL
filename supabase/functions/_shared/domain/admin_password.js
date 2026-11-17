@@ -1,7 +1,7 @@
 import {ApiError,json,readJson} from './core.js';
 import {authRequest} from '../auth-http.js';
 import {requireFreshAdminEmail} from './admin_email_policy.js';
-import {accountDatabase,adminCookie} from './admin_accounts_legacy.js';
+import {accountDatabase} from './admin_accounts_legacy.js';
 
 export async function changeAdminPassword(request,env,account){
  const body=await readJson(request,4096);
@@ -26,8 +26,7 @@ export async function changeAdminPassword(request,env,account){
  // actual current password for this normal account. No password grant is made.
  await authRequest(env,'/user',{method:'PUT',token:account.supabaseTokens.access_token,
   body:{password:body.newPassword,current_password:body.currentPassword}});
- // Preserve the existing password-change sign-out scope, explicitly.
- await authRequest(env,'/logout?scope=global',{token:account.supabaseTokens.access_token});
- await env.DB.prepare('DELETE FROM admin_sessions WHERE token_hash=?').bind(account.token_hash).run();
- return json({ok:true},200,{'Set-Cookie':adminCookie()});
+ // GoTrue keeps this authenticated session while revoking the user's other
+ // sessions. Preserve its existing cookie and do not manufacture fresh proof.
+ return json({ok:true});
 }

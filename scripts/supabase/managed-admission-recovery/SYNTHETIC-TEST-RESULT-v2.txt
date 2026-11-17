@@ -1,0 +1,24 @@
+source_manifest_sha256 0997dd8a84473591eb5d469f975744c68a9ebd5c7dad10412ddca4da8893d708
+pre_and_post_inputs_match true
+exit_code 0
+✔ fixture rejects managed options and the installer refuses another database (1060.785208ms)
+✔ binary verification detects wrapped executable changes as well as launcher changes (4.692833ms)
+✔ committed quiescence, exact preimage and immutable unknown obligation (960.013125ms)
+✔ a prior assertion acknowledgement cannot be revoked by a later tombstone (999.081042ms)
+✔ a snapshot taken before the tombstone cannot authorize stale work (978.867792ms)
+✔ every modeled state-reading lifecycle entry point rejects non-read-committed transactions (1026.290917ms)
+✔ ambiguous dispatch remains unknown and cannot be repeated with a new operation ID (950.103416ms)
+✔ WORK precedes WRITE and blocked assertions recheck the committed quiescence (1027.603541ms)
+✔ a VOLATILE assertion refreshes its read after proven waits behind quiescence and tombstone (1026.728542ms)
+✔ negative control: changing assertion to STABLE can accept stale work and fails the catalog contract (976.983917ms)
+✔ concurrent effect preparations cannot both pass an unknown-effect barrier (916.729042ms)
+✔ concurrent tombstone attempts preserve one obligation and roll back the loser ID (988.684041ms)
+✔ null, stale, duplicate and capacity inputs fail closed without consuming IDs (1000.027292ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11962.203042

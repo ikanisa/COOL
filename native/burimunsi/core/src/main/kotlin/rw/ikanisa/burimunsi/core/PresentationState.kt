@@ -19,9 +19,9 @@ object PresentationState {
             "operation_recovery_unavailable", "operation_recovery_denied", "invalid_recovery_response",
             "invalid_recovery_proof", "invalid_recovery_receipt", "operation_store_unavailable") -> DisplayFailure.UNCERTAIN
         code in setOf("operation_rejected", "access_denied", "invalid_name", "invalid_note", "invalid_phone",
-            "invalid_passcode", "passcodes_do_not_match", "invalid_credentials", "try_again_later") -> DisplayFailure.REJECTED
+            "invalid_passcode", "passcodes_do_not_match", "passcode_unchanged", "invalid_current_pin", "invalid_credentials", "try_again_later") -> DisplayFailure.REJECTED
         code.contains("changed") || code == "cursor_stale" || code.startsWith("invalid_history") ||
-            code in setOf("invalid_page", "invalid_api_response", "conflict") -> DisplayFailure.CONFLICT
+            code in setOf("invalid_page", "invalid_api_response", "invalid_member_payment_scope", "conflict") -> DisplayFailure.CONFLICT
         else -> DisplayFailure.UNAVAILABLE
     }
     fun reduce(i: DisplayInput): ScreenPresentation {

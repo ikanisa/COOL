@@ -19,10 +19,12 @@ import 'package:http/testing.dart';
 
 import 'cloudflare_core_fixtures.dart' show coreRow;
 import '../support/legacy_backend_fixture.dart';
+import '../core/supabase_backend_test.dart' as configuration;
 
 part 'cloudflare_admin_momo_page_cases/layout_source.dart';
 part 'cloudflare_admin_momo_page_cases/gateway.dart';
 part 'cloudflare_admin_momo_page_cases/source_review.dart';
+part 'cloudflare_admin_momo_page_cases/native_setup.dart';
 
 const txId = '11111111-1111-4111-8111-111111111111';
 const accountId = '22222222-2222-4222-8222-222222222222';
@@ -105,6 +107,7 @@ pump(
   bool reduceMotion = false,
   List<String>? permissions,
   bool incoming = false,
+  bool nativeOwner = false,
   Map<String, dynamic>? records,
   Map<String, dynamic>? detailRecord,
   List<String> conflictingAttempts = const [],
@@ -139,18 +142,31 @@ pump(
         return jsonResponse({
           'user': {
             'id': memberId,
-            'email': 'operator@example.test',
-            'role': 'admin',
-            'sessionId': 'synthetic-momo-session',
+            'email': nativeOwner ? 'info@ikanisa.com' : 'operator@example.test',
+            'role': nativeOwner ? 'owner' : 'admin',
+            'sessionId': nativeOwner
+                ? 'c1000000-0000-4000-8000-000000000001'
+                : 'synthetic-momo-session',
             'permissions': grants,
             'assuranceLevel': 2,
             'mfaAt': DateTime.now().toUtc().toIso8601String(),
             'principalId': memberId,
+            if (nativeOwner) 'financialModel': 'canonical_evidence_ledger',
           },
           'expiresAt': DateTime.now()
               .add(const Duration(hours: 1))
               .toUtc()
               .toIso8601String(),
+          if (nativeOwner) 'csrfToken': 'a' * 64,
+          if (nativeOwner) 'ownerEmail': 'info@ikanisa.com',
+        });
+      }
+      if (nativeOwner &&
+          request.url.path.endsWith('/auth/email-verification')) {
+        return jsonResponse({
+          'contractVersion': 1,
+          'sessionId': 'c1000000-0000-4000-8000-000000000001',
+          'emailVerifiedAt': DateTime.now().toUtc().toIso8601String(),
         });
       }
       if (request.url.path.endsWith('/sms/receipts')) {
@@ -243,8 +259,14 @@ pump(
       if (respond != null) return respond(request);
       return http.Response('{}', 404);
     }),
-    origin: Uri.parse('https://admin.example.test'),
-    environment: legacyBackendFixtureEnvironment,
+    origin: Uri.parse(
+      nativeOwner
+          ? 'https://admin.collect.ikanisa.com'
+          : 'https://admin.example.test',
+    ),
+    environment: nativeOwner
+        ? configuration.environment()
+        : legacyBackendFixtureEnvironment,
   );
   await session.refresh();
   final container = ProviderContainer(
@@ -295,6 +317,8 @@ pump(
 }
 
 Future<void> openGatewayTools(WidgetTester tester) async {
+  tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+  await tester.pump();
   await tester.tap(find.byTooltip('More MoMo tools'));
   await tester.pumpAndSettle();
   await tester.tap(find.text('Dedicated gateway (optional)'));
@@ -488,4 +512,5 @@ void main() {
   _registerMomoLayoutSourceCases();
   _registerMomoGatewayCases();
   _registerMomoSourceReviewCases();
+  _registerNativeSetupCases();
 }

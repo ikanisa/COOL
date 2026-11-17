@@ -14,7 +14,9 @@ class AdminBuildConfigurationTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name)
+        # The build binder requires physical paths; macOS may expose its default
+        # temporary directory through the /var -> /private/var symlink.
+        self.root = Path(self.temp.name).resolve()
         self.migration = self.root / "supabase/migrations" / BASELINE
         self.migration.parent.mkdir(parents=True)
         self.migration.write_text("-- synthetic build fixture\nselect 1;\n")
@@ -213,6 +215,80 @@ out=Path('build/web/main.dart.js');out.parent.mkdir(parents=True,exist_ok=True);
         self.assertEqual(defines["GOOGLE_AUTH_ENABLED"], "true")
         with self.assertRaises(ValueError):
             configuration(self.env | {"GOOGLE_AUTH_ENABLED":"enabled"}, self.root)
+
+    def test_observation_public_flag_is_explicit_validated_and_default_off(self):
+        name = "BURIMUNSI_ADMIN_OBSERVATIONS_ENABLED"
+        defines, metadata = configuration(self.env, self.root)
+        self.assertEqual(defines[name], "false")
+        self.assertFalse(metadata["burimunsi_admin_observations_enabled"])
+        enabled = self.env | {name: "true", "SUPABASE_SERVICE_ROLE_KEY": "private-fixture"}
+        defines, metadata = configuration(enabled, self.root)
+        self.assertEqual(defines[name], "true")
+        self.assertTrue(metadata["burimunsi_admin_observations_enabled"])
+        self.assertNotIn("SUPABASE_SERVICE_ROLE_KEY", defines)
+        self.assertNotIn("SUPABASE_SERVICE_ROLE_KEY", metadata)
+        for value in ("", "yes", "TRUE", "1"):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                configuration(self.env | {name: value}, self.root)
+        with self.assertRaises(ValueError):
+            configuration({"COLLECT_BACKEND": "cloudflare", name: "true"}, self.root)
+
+    def test_observation_flag_is_bound_to_public_inputs(self):
+        name = "BURIMUNSI_ADMIN_OBSERVATIONS_ENABLED"
+        env = self.self_hosted_environment() | {name: "true"}
+        defines, metadata = configuration(env, self.root)
+        defines.update(COLLECT_BUILD_VERSION="1.0.8+65", COLLECT_BUILD_SOURCE_ID="a" * 64)
+        metadata.update(diagnostics_source_revision="a" * 64, diagnostics_build_version="1.0.8+65")
+        encode = lambda value: (json.dumps(value, indent=2) + "\n").encode()
+        sealed = verify_public_inputs(encode(defines), encode(metadata), env, self.root, binding=True)
+        verify_public_inputs(encode(defines), encode(sealed), env, self.root)
+        with self.assertRaises(ValueError):
+            verify_public_inputs(encode(dict(defines, **{name: "false"})), encode(sealed), env, self.root)
+
+    def test_protected_owner_flag_is_explicit_and_bound_to_public_inputs(self):
+        name = "COLLECT_ADMIN_PROTECTED_OWNER_ENABLED"
+        defines, metadata = configuration(self.env, self.root)
+        self.assertEqual(defines[name], "false")
+        self.assertFalse(metadata["collect_admin_protected_owner_enabled"])
+        env = self.self_hosted_environment() | {name: "true"}
+        defines, metadata = configuration(env, self.root)
+        self.assertEqual(defines[name], "true")
+        self.assertTrue(metadata["collect_admin_protected_owner_enabled"])
+        defines.update(COLLECT_BUILD_VERSION="1.0.8+65", COLLECT_BUILD_SOURCE_ID="a" * 64)
+        metadata.update(diagnostics_source_revision="a" * 64, diagnostics_build_version="1.0.8+65")
+        encode = lambda value: (json.dumps(value, indent=2) + "\n").encode()
+        sealed = verify_public_inputs(encode(defines), encode(metadata), env, self.root, binding=True)
+        verify_public_inputs(encode(defines), encode(sealed), env, self.root)
+        with self.assertRaises(ValueError):
+            verify_public_inputs(encode(dict(defines, **{name: "false"})), encode(sealed), env, self.root)
+        for value in ("", "yes", "TRUE", "1"):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                configuration(self.env | {name: value}, self.root)
+        with self.assertRaises(ValueError):
+            configuration({"COLLECT_BACKEND": "cloudflare", name: "true"}, self.root)
+
+    def test_observation_hints_flag_combinations_and_public_binding(self):
+        observations = "BURIMUNSI_ADMIN_OBSERVATIONS_ENABLED"
+        hints = "BURIMUNSI_ADMIN_OBSERVATION_HINTS_ENABLED"
+        for enabled, hint_enabled in (("false", "false"), ("true", "false"), ("true", "true")):
+            with self.subTest(observations=enabled, hints=hint_enabled):
+                env = self.self_hosted_environment() | {observations: enabled, hints: hint_enabled}
+                defines, metadata = configuration(env, self.root)
+                self.assertEqual(defines[hints], hint_enabled)
+                self.assertEqual(metadata["burimunsi_admin_observation_hints_enabled"], hint_enabled == "true")
+                defines.update(COLLECT_BUILD_VERSION="1.0.8+65", COLLECT_BUILD_SOURCE_ID="a" * 64)
+                metadata.update(diagnostics_source_revision="a" * 64, diagnostics_build_version="1.0.8+65")
+                encode = lambda value: (json.dumps(value, indent=2) + "\n").encode()
+                sealed = verify_public_inputs(encode(defines), encode(metadata), env, self.root, binding=True)
+                verify_public_inputs(encode(defines), encode(sealed), env, self.root)
+                tampered = "false" if hint_enabled == "true" else "true"
+                with self.assertRaises(ValueError):
+                    verify_public_inputs(encode(dict(defines, **{hints: tampered})), encode(sealed), env, self.root)
+        with self.assertRaises(ValueError):
+            configuration(self.env | {observations: "false", hints: "true"}, self.root)
+        for value in ("", "yes", "TRUE", "1"):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                configuration(self.env | {observations: "true", hints: value}, self.root)
 
     def qualification_environment(self):
         return self.env | {"ADMIN_APP_URL": QUALIFICATION_ORIGIN,

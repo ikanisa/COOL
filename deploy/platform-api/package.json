@@ -9,11 +9,7 @@
   "scripts": {
     "test": "node --test test/*.test.mjs",
     "inventory:check": "node scripts/operation_inventory.mjs --check",
-    "inventory:write": "node scripts/operation_inventory.mjs --write",
-    "dev": "wrangler dev --var APP_ENVIRONMENT:local --var ENVIRONMENT:local",
-    "deploy": "\"$npm_node_execpath\" ../../scripts/cloudflare/approved_toolchain.mjs deploy",
-    "migrate:local": "wrangler d1 migrations apply collect-platform --local",
-    "migrate:remote": "\"$npm_node_execpath\" ../../scripts/cloudflare/approved_toolchain.mjs migrate:remote"
+    "inventory:write": "node scripts/operation_inventory.mjs --write"
   },
   "devDependencies": {
     "wrangler": "4.151.0",

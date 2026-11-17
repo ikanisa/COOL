@@ -1,7 +1,7 @@
 import {requireFreshAdminEmail} from './admin_email_policy.js';
 import {ApiError,json,readJson,uuid,integer,id,digest,stableJson,now} from './core.js';
 import {adminAccountSession,adminCanonicalActor,accountDatabase,validateAdminOrigin} from './admin_accounts.js';
-import {OWNER_EMAIL} from './admin_account_support/security.js';
+import {preliminaryCurrentOwner} from './admin_owner_precheck.js';
 import {mutation,retainedResponse} from './mutations.js';
 import {enqueueAssistedSms,assistedSmsSourceCapabilities,assistedSmsLivePaymentSql} from './notification_operator.js';
 const template='collect.recorded_contribution.v1';
@@ -11,7 +11,7 @@ function fields(body,allowed){if(!body||Array.isArray(body)||Object.keys(body).s
 async function owner(request,base,permission='assisted_sms.manage'){
  base={...base,DB:base.DB.withSession?base.DB.withSession('first-primary'):base.DB};
  validateAdminOrigin(request,base);const account=await adminAccountSession(request,base);
- if(account.role!=='owner'||account.email!==OWNER_EMAIL)throw new ApiError(403,'owner_required','Only the main administrator can configure receipt SMS.');
+ if(!await preliminaryCurrentOwner(base,account))throw new ApiError(403,'owner_required','Only the main administrator can configure receipt SMS.');
  if(!account.permissions.includes(permission))throw new ApiError(403,'permission_required','Receipt SMS configuration is unavailable.');
  requireFreshAdminEmail(account);
  const env=accountDatabase(base,account,permission,{owner:true,mfa:true,fresh:true}),actor=await adminCanonicalActor(request,env,account,permission);return {env,actor,account};

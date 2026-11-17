@@ -46,7 +46,7 @@ export class PostgresPostingAuthority {
     const insert=this.db.prepare(`INSERT INTO app.mutation_guards
       (id,user_id,session_id,now_seconds,collection_id,permission,minimum_assurance,expected_mfa_at,fresh_seconds,recipient_user_id,recipient_collection_id)
       VALUES(?,?,?,?,?,?,?,?,?,?,?)`).bind(guardId,canonical.userId,canonical.sessionId,canonical.now,
-        this.groupId,'payments.reconcile',2,canonical.mfa,300,cmd.memberId,this.groupId);
+        this.groupId,'payments.reconcile',canonical.authMethod==='phone_pin'?null:2,canonical.mfa,300,cmd.memberId,this.groupId);
     const remove=this.db.prepare('DELETE FROM app.mutation_guards WHERE id=?').bind(guardId);
     for(const statement of [insert,remove]){
       await this.owned();let result;

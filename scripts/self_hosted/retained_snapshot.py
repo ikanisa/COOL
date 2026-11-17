@@ -21,6 +21,7 @@ import uuid
 
 SOURCE_NAME = 'supabase_db_local-app'
 LABEL = 'io.collect.retained-rehearsal'
+SNAPSHOT_FORMAT = 'collect.retained.pg17.snapshot.v4'
 DATABASE_PROPERTIES_SQL = """SELECT json_build_object('owner',pg_get_userbyid(d.datdba),
 'acl',(SELECT json_agg(json_build_object('grantor',pg_get_userbyid(a.grantor),
 'grantee',CASE WHEN a.grantee=0 THEN 'PUBLIC' ELSE pg_get_userbyid(a.grantee) END,
@@ -28,6 +29,111 @@ DATABASE_PROPERTIES_SQL = """SELECT json_build_object('owner',pg_get_userbyid(d.
 FROM aclexplode(coalesce(d.datacl,acldefault('d',d.datdba))) a),
 'settings',(SELECT setconfig FROM pg_db_role_setting WHERE setdatabase=d.oid AND setrole=0))
 FROM pg_database d WHERE datname='postgres'"""
+DATABASE_LOCALE_SQL = """SELECT json_build_object('encoding',pg_encoding_to_char(d.encoding),
+'provider',d.datlocprovider,'collate',d.datcollate,'ctype',d.datctype,
+'locale',d.datlocale,'icu_rules',d.daticurules,'version',d.datcollversion)
+FROM pg_database d WHERE datname='postgres'"""
+
+
+def database_locale_arguments(value):
+    """Preserve the actual PG17 locale, including ICU, before restoring indexes."""
+    fields = {'encoding', 'provider', 'collate', 'ctype', 'locale', 'icu_rules', 'version'}
+    if not isinstance(value, dict) or set(value) != fields or value['encoding'] != 'UTF8':
+        raise ValueError('Exact native UTF8 database locale observation required')
+    if value['provider'] not in ('c', 'i'):
+        raise ValueError('Reviewed libc or ICU database locale provider required')
+    for name in ('collate', 'ctype'):
+        if not isinstance(value[name], str) or not re.fullmatch(r'[A-Za-z0-9_.@+\-]{1,128}', value[name]):
+            raise ValueError('Native database locale name required')
+    version = value['version']
+    if version is not None and (not isinstance(version, str) or not 1 <= len(version) <= 128 or '\0' in version):
+        raise ValueError('Native database collation version required')
+    args = ['--encoding=UTF8', '--locale-provider=' + ('icu' if value['provider'] == 'i' else 'libc'),
+            '--lc-collate=' + value['collate'], '--lc-ctype=' + value['ctype']]
+    if value['provider'] == 'i':
+        locale, rules = value['locale'], value['icu_rules']
+        if not isinstance(locale, str) or not re.fullmatch(r'[A-Za-z0-9_.@=;+\-]{1,256}', locale) or version is None:
+            raise ValueError('Native ICU locale and version required')
+        if rules is not None and (not isinstance(rules, str) or len(rules) > 8192 or '\0' in rules):
+            raise ValueError('Native ICU collation rules required')
+        args.append('--icu-locale=' + locale)
+        if rules is not None:
+            args.append('--icu-rules=' + rules)
+    elif value['locale'] is not None or value['icu_rules'] is not None:
+        raise ValueError('libc observation cannot contain ICU settings')
+    return args
+
+
+def require_database_locale(observed, expected):
+    database_locale_arguments(expected)
+    if observed != expected:
+        raise ValueError('Restored database locale differs from retained source')
+
+
+def snapshot_database_locale(directory, receipt):
+    # Older receipts retain their existing read-only custody/qualification use,
+    # but cannot authorize another restore with an invented default locale.
+    if receipt.get('format') != SNAPSHOT_FORMAT:
+        raise ValueError('Snapshot with observed native database locale required')
+    value = json.loads((directory / 'database-locale.private.json').read_text())
+    database_locale_arguments(value)
+    return value
+
+
+# Measured initdb state from the prior strict single-transaction failed restore:
+# no custom schemas, only plpgsql and zero public relations. Check a superset of
+# that absence before restoring forward; never infer freshness from a name alone.
+FRESH_RESTORE_SQL = """SELECT json_build_object(
+'major',current_setting('server_version_num')::int/10000,
+'database',current_database(),'current_user',current_user,'session_user',session_user,
+'bootstrap_role',(SELECT rolname FROM pg_roles WHERE oid=10),
+'custom_schemas',(SELECT coalesce(json_agg(nspname ORDER BY nspname),'[]'::json) FROM pg_namespace
+ WHERE nspname NOT IN ('pg_catalog','information_schema','public','pg_toast') AND nspname !~ '^pg_(temp_[0-9]+|toast_temp_[0-9]+)$'),
+'user_relations',(SELECT count(*) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
+ WHERE n.nspname NOT IN ('pg_catalog','information_schema','pg_toast') AND n.nspname !~ '^pg_(temp_[0-9]+|toast_temp_[0-9]+)$'),
+'user_functions',(SELECT count(*) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
+ WHERE n.nspname NOT IN ('pg_catalog','information_schema','pg_toast') AND n.nspname !~ '^pg_(temp_[0-9]+|toast_temp_[0-9]+)$'),
+'extensions',(SELECT json_agg(extname ORDER BY extname) FROM pg_extension),
+'foreign_servers',(SELECT count(*) FROM pg_foreign_server),
+'event_triggers',(SELECT count(*) FROM pg_event_trigger),
+'publications',(SELECT count(*) FROM pg_publication))"""
+
+
+def require_owned_fresh_clone(actual, receipt, identity, volume):
+    """Prove this exact newly created UUID-labelled isolated volume/container."""
+    mounts = actual.get('Mounts', [])
+    ports = actual.get('NetworkSettings', {}).get('Ports') or {}
+    if (not re.fullmatch(r'[a-f0-9]{64}', identity or '')
+            or identity == receipt['source_container_id']
+            or actual.get('Id') != identity or actual.get('Image') != receipt['image_id']
+            or actual.get('Name') != '/collect-buri-rehearsal-' + receipt['operation_id'][:8]
+            or actual.get('State', {}).get('Running') is not True
+            or actual.get('Config', {}).get('Labels', {}).get(LABEL) != receipt['operation_id']
+            or actual.get('HostConfig', {}).get('NetworkMode') != 'none'
+            or actual.get('HostConfig', {}).get('PortBindings') or any(ports.values())
+            or len(mounts) != 1 or mounts[0].get('Type') != 'volume'
+            or mounts[0].get('Name') != volume or mounts[0].get('Destination') != '/var/lib/postgresql'
+            or mounts[0].get('RW') is not True):
+        raise ValueError('Exact owned fresh isolated clone required')
+
+
+def require_fresh_restore_target(observed, bootstrap_role):
+    expected = {'major': 17, 'database': 'postgres', 'current_user': bootstrap_role,
+                'session_user': bootstrap_role, 'bootstrap_role': bootstrap_role,
+                'custom_schemas': [], 'user_relations': 0, 'user_functions': 0,
+                'extensions': ['plpgsql'], 'foreign_servers': 0, 'event_triggers': 0,
+                'publications': 0}
+    if bootstrap_role != 'supabase_admin' or observed != expected:
+        raise ValueError('Measured empty initdb restore target required')
+    return {'fresh_target_verified': True, 'restore_method': 'forward_only',
+            'strict_single_transaction': True}
+
+
+def forward_restore_arguments(identity, bootstrap_role):
+    if not re.fullmatch(r'[a-f0-9]{64}', identity or '') or bootstrap_role != 'supabase_admin':
+        raise ValueError('Exact native restore identity required')
+    return ['exec', '-i', identity, 'pg_restore', '-h', '/tmp', '-U', bootstrap_role,
+            '-d', 'postgres', '--single-transaction', '--exit-on-error', '--no-password']
 
 
 def digest(path):
@@ -161,6 +267,12 @@ def snapshot(args):
         raise ValueError('Reviewed PG17 single-data-directory source required')
     if shutil.disk_usage(out).free < 2 * 1024 ** 3:
         raise ValueError('At least 2GiB private snapshot space required')
+    raw_locale = docker.run(['exec', source['Id'], 'psql', '-U', 'postgres', '-d', 'postgres',
+                            '-XAtq', '-v', 'ON_ERROR_STOP=1', '-c', DATABASE_LOCALE_SQL])
+    locale_value = json.loads(raw_locale)
+    database_locale_arguments(locale_value)
+    locale_path = out / 'database-locale.private.json'
+    private_json(locale_path, locale_value)
     env = source['Config']['Env']
     if any('\n' in value or '\r' in value for value in env):
         raise ValueError('Multiline environment requires an explicit private custody adapter')
@@ -182,11 +294,11 @@ def snapshot(args):
     docker.run(['exec', source['Id'], 'tar', '-C', '/etc/postgresql', '-cf', '-', '.'], output=config)
     inventory = {path.name: {'bytes': path.stat().st_size, 'sha256': digest(path),
                  **({'members': validate_tar(path)} if path.suffix == '.tar' else {})}
-                 for path in (base, roles, properties, config, env_path)}
+                 for path in (base, roles, properties, config, env_path, locale_path)}
     after = docker.inspect(source['Id'])
     if after['Image'] != source['Image'] or not after['State']['Running']:
         raise ValueError('Source identity/state changed during snapshot')
-    receipt = {'format': 'collect.retained.pg17.snapshot.v3', 'operation_id': str(uuid.uuid4()),
+    receipt = {'format': SNAPSHOT_FORMAT, 'operation_id': str(uuid.uuid4()),
                'docker_host': args.docker_host, 'source_container_id': source['Id'],
                'source_name': SOURCE_NAME, 'image_id': source['Image'], 'files': inventory,
                'source_running': True, 'source_migrated': False,
@@ -202,14 +314,17 @@ def snapshot(args):
 
 def verify_snapshot(directory):
     receipt = json.loads((directory / 'snapshot.json').read_text())
-    if receipt.get('format') != 'collect.retained.pg17.snapshot.v3':
+    if receipt.get('format') not in ('collect.retained.pg17.snapshot.v3', SNAPSHOT_FORMAT):
         raise ValueError('Snapshot receipt required')
     uuid.UUID(receipt['operation_id'])
     if receipt.get('bootstrap_role') != 'supabase_admin':
         raise ValueError('Native bootstrap identity observation required')
     if not re.fullmatch(r'sha256:[a-f0-9]{64}', receipt['image_id']):
         raise ValueError('Exact local image identity required')
-    if set(receipt['files']) != {'database.private.dump', 'roles.private.sql', 'database-properties.private.json', 'configuration.private.tar', 'source.private.env'}:
+    files = {'database.private.dump', 'roles.private.sql', 'database-properties.private.json', 'configuration.private.tar', 'source.private.env'}
+    if receipt['format'] == SNAPSHOT_FORMAT:
+        files.add('database-locale.private.json')
+    if set(receipt['files']) != files:
         raise ValueError('Exact private snapshot file set required')
     for name, expected in receipt['files'].items():
         path = directory / name
@@ -223,6 +338,7 @@ def verify_snapshot(directory):
 def clone(args):
     directory = physical_directory(args.directory)
     receipt = verify_snapshot(directory)
+    locale_value = snapshot_database_locale(directory, receipt)
     if (directory / 'clone.json').exists():
         raise ValueError('Reconcile existing clone receipt; never restart an unknown operation')
     docker = Docker(receipt['docker_host'], directory)
@@ -264,7 +380,7 @@ def clone(args):
     docker.run(['exec', helper, 'chown', '-R', 'postgres:postgres', '/var/lib/postgresql/data', '/var/lib/postgresql/collect-config'])
     docker.run(['exec', '--user', 'postgres', helper, 'initdb', '-D', '/var/lib/postgresql/data',
                 '-U', receipt['bootstrap_role'], '--auth-local=trust', '--auth-host=reject',
-                '--encoding=UTF8', '--locale=C.UTF-8', '--no-instructions'])
+                *database_locale_arguments(locale_value), '--no-instructions'])
     docker.run(['stop', '--time', '5', helper])
     identity = docker.run(['create', '--pull', 'never', '--name', name, '--label', LABEL + '=' + op,
                            '--network', 'none', '--memory', '2g', '--cpus', '2', '--user', 'postgres',
@@ -285,20 +401,30 @@ def clone(args):
     else:
         docker.run(['logs', identity], output=directory / 'clone-startup.private.log')
         raise RuntimeError('Owned clone did not become ready; preserve diagnostics and UUID')
-    actual = docker.inspect(identity)
-    if actual['HostConfig']['NetworkMode'] != 'none' or actual['HostConfig'].get('PortBindings'):
-        raise ValueError('Clone network isolation changed')
+    require_owned_fresh_clone(docker.inspect(identity), receipt, identity, volume)
+    observed_locale = json.loads(docker.run(['exec', identity, 'psql', '-h', '/tmp', '-U', receipt['bootstrap_role'],
+                                            '-d', 'postgres', '-XAtq', '-v', 'ON_ERROR_STOP=1', '-c', DATABASE_LOCALE_SQL]))
+    private_json(directory / 'fresh-database-locale.private.json', observed_locale)
+    require_database_locale(observed_locale, locale_value)
     # Restore only inside this newly created, labelled, network-isolated cluster.
     # Native roles/ownership are preserved; role passwords are deliberately absent.
     docker.run(['exec', '-i', identity, 'psql', '-h', '/tmp', '-U', receipt['bootstrap_role'],
                 '-d', 'postgres', '-Xq', '-v', 'ON_ERROR_STOP=1'],
                input=restore_roles_sql((directory / 'roles.private.sql').read_text(), receipt['bootstrap_role']).encode())
+    # --clean references schemas that do not exist in initdb (including native
+    # collect_sms), and can fail before restoring anything. Forward restore is
+    # allowed only after proving both newly owned custody and actual empty catalog.
+    require_owned_fresh_clone(docker.inspect(identity), receipt, identity, volume)
+    observed = json.loads(docker.run(['exec', identity, 'psql', '-h', '/tmp', '-U', receipt['bootstrap_role'],
+                                     '-d', 'postgres', '-XAtq', '-v', 'ON_ERROR_STOP=1', '-c', FRESH_RESTORE_SQL]))
+    fresh = require_fresh_restore_target(observed, receipt['bootstrap_role'])
+    private_json(directory / 'fresh-restore-target.private.json', observed)
+    state.update(fresh, status='restoring_verified_fresh_target'); save()
+    require_owned_fresh_clone(docker.inspect(identity), receipt, identity, volume)
     error = directory / 'restore.private.stderr'
     with error.open('xb') as stderr, (directory / 'database.private.dump').open('rb') as stream:
         os.chmod(error, 0o600)
-        restored = subprocess.run(docker.argv + ['exec', '-i', identity, 'pg_restore',
-                                  '-h', '/tmp', '-U', receipt['bootstrap_role'], '-d', 'postgres',
-                                  '--clean', '--if-exists', '--single-transaction', '--exit-on-error'],
+        restored = subprocess.run(docker.argv + forward_restore_arguments(identity, receipt['bootstrap_role']),
                                   stdin=stream, stdout=subprocess.DEVNULL, stderr=stderr, timeout=180)
     if restored.returncode:
         state['status'] = 'restore_failed'; save()
@@ -306,6 +432,11 @@ def clone(args):
     docker.run(['exec', '-i', identity, 'psql', '-h', '/tmp', '-U', receipt['bootstrap_role'],
                 '-d', 'postgres', '-Xq', '-v', 'ON_ERROR_STOP=1'],
                input=restore_database_properties(json.loads((directory / 'database-properties.private.json').read_text())).encode())
+    restored_locale = json.loads(docker.run(['exec', identity, 'psql', '-h', '/tmp', '-U', receipt['bootstrap_role'],
+                                            '-d', 'postgres', '-XAtq', '-v', 'ON_ERROR_STOP=1', '-c', DATABASE_LOCALE_SQL]))
+    private_json(directory / 'restored-database-locale.private.json', restored_locale)
+    require_database_locale(restored_locale, locale_value)
+    state['source_database_locale_preserved'] = True
     state['status'] = 'ready_for_schema_rehearsal'; save()
     return {'status': state['status'], 'container_id': identity, 'source_migrated': False,
             'network': 'none', 'published_ports': []}

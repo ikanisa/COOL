@@ -46,6 +46,16 @@ Map<String, dynamic> _inspection() => {
   'schema_sha256': _schema,
   'snapshot_sha256': _snapshot,
   'table_counts': {'users': 1, 'deletion_requests': 1, 'sessions': 0},
+  'private_catalog_sha256': _schema,
+  'private_schema_sha256': _snapshot,
+  'private_copy_inventory': {
+    'private:auth_principal_links': {'status': 'observed', 'count': 1},
+    'private:burimunsi_unresolved_observations': {
+      'status': 'unmapped',
+      'count': null,
+    },
+    'managed:storage': {'status': 'unmapped', 'count': null},
+  },
   'object_count': 2,
   'active_hold_count': 1,
   'in_flight_unresolved': true,
@@ -348,6 +358,21 @@ void main() {
         'users',
       ]);
       expect(value.activeHoldCount, 1);
+      expect(value.objectCount, 2);
+      expect(parse({..._inspection(), 'object_count': 0}).objectCount, 0);
+      expect(
+        parse({..._inspection(), 'object_count': null}).objectCount,
+        isNull,
+      );
+      final compact = Map<String, dynamic>.from(_inspection())
+        ..remove('private_catalog_sha256')
+        ..remove('private_schema_sha256')
+        ..remove('private_copy_inventory');
+      expect(parse(compact).objectCount, 2);
+      expect(
+        () => parse({...compact, 'private_catalog_sha256': _schema}),
+        throwsFormatException,
+      );
       expect(() => value.tableCounts['users'] = 0, throwsUnsupportedError);
       for (final change in <Map<String, dynamic>>[
         {'request_id': privacyOperation},
@@ -372,6 +397,31 @@ void main() {
           'table_counts': {'users': []},
         },
         {'object_count': -1},
+        {'object_count': 'unknown'},
+        {'object_count': null, 'in_flight_unresolved': false},
+        {'private_catalog_sha256': 'short'},
+        {'private_schema_sha256': 'short'},
+        {'private_copy_inventory': <String, Object>{}},
+        {
+          'private_copy_inventory': {
+            'private:source': {'status': 'observed', 'count': null},
+          },
+        },
+        {
+          'private_copy_inventory': {
+            'private:source': {'status': 'unmapped', 'count': -1},
+          },
+        },
+        {
+          'private_copy_inventory': {
+            'private:source': {'status': 'invented', 'count': null},
+          },
+        },
+        {
+          'private_copy_inventory': {
+            'private:source': {'status': 'unmapped', 'count': null, 'rows': []},
+          },
+        },
         {'active_hold_count': false},
         {'in_flight_unresolved': 'false'},
         {'approval_granted': true},

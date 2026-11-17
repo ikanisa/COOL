@@ -1,5 +1,25 @@
 # BuriMunsi Android integration
 
+**15 November 2026 checkpoint:** signed native **v36 /
+0.22.0-collect.14** Admin/Sync and Staff APKs are installed on the Pixel 4a.
+The shared backend is `production-20261115-001`, **OPEN epoch 49 / 61
+migrations**, with the existing hosted Collect Admin verified compatible.
+Actual Excel/PDF/CSV downloads, picker cancellation, Staff role and cold-process
+saved login, and automatic recovery after a bounded network outage passed.
+The same 138 offline contracts passed on the Pixel and Android 16 4 KB/16 KB
+emulators; these are separate from live carrier and reboot acceptance.
+[Private v36 staff release and guide](https://drive.google.com/drive/folders/1Pn43Yv8ICuteFHM70oxL-Ys832r2Ifws).
+See the latest checkpoint in [the implementation plan](implementation-plan.md).
+Remaining Owner MFA/credential custody, independent host recovery, retention
+authority, new-carrier/reboot/device coverage and independent recipient
+acceptance prevent a blanket production-readiness claim. Earlier descriptions
+below remain dated import and validation evidence.
+
+**11 November update:** This document records the original import and earlier
+validation. Some version, runtime and receiving-setup descriptions below are
+historical. See [MVP testing readiness](mvp-testing-readiness-2026-11-11.md)
+for the current checkpoint and the later user instructions.
+
 BuriMunsi is a native Kotlin/Compose Android application for staff and admins. It shares Collect's existing local Supabase instance, Collect Admin, authorization, collections, receiving accounts, payments and canonical ledger. There is no BuriMunsi website or separate business backend in this integration.
 
 The Android project is `native/burimunsi/`, version `0.21.0-collect.1` / versionCode 23. Work is on `codex/burimunsi-android-integration-20261109`, based on `940bbb39e`. Use the consolidated checkout, not the preserved outer T7 repository.
@@ -44,7 +64,7 @@ The delivered Gradle launcher verifies its distribution before execution. The bu
 python3 native/burimunsi/scripts/native_pipeline.py build --output /absolute/new/evidence-directory
 ```
 
-Use a new evidence directory. This command does not build/promote a production release or enable the backend. `current-status.json` records the actual latest outcome; failed attempts and their logs remain preserved.
+Use a new evidence directory. This command does not build/promote a production release or enable the backend. `current-status.json` records its dated checkpoint; use the readiness note above for later work. Failed attempts and their logs remain preserved.
 
 ## Historical import validation — 9 November 2026
 
@@ -80,7 +100,7 @@ The sole UI/UX authority is `revolut-design@jean-bosco-skills`, loaded from its 
 
 ## Shared login continuation — 10 November 2026
 
-The proposed public profile selects `https://supabase.collect.ikanisa.com`, `https://api.collect.ikanisa.com` and the existing `https://platform-admin.collect.ikanisa.com`; the confirmed owner is `info@ikanisa.com`. Cloudflare still serves its existing Workers, and the Supabase hostname/tunnel is not commissioned. SELECT-only legacy checks found one user and one Admin matching that email, with no records in the checked group/payment/ledger/MoMo/SMS tables. Other stores and provider state were not covered. No production route or financial state was changed.
+The proposed public profile selects `https://supabase.collect.ikanisa.com`, `https://api.collect.ikanisa.com` and the existing `https://platform-admin.collect.ikanisa.com`; the owner was confirmed against the configured Admin account. Cloudflare still serves its existing Workers, and the Supabase hostname/tunnel is not commissioned. SELECT-only legacy checks found one user and one Admin matching that email, with no records in the checked group/payment/ledger/MoMo/SMS tables. Other stores and provider state were not covered. No production route or financial state was changed.
 
 The actual Admin proxy forwards the device secret only to the exact native access endpoint. Source integration covers the proxy, Edge logical URL projection, encrypted BFF custody and existing managed principal. At the shared-login checkpoint, 1,597 Buri backend tests and 115 Admin proxy tests passed locally with their declared synthetic boundaries. Core 121 and managed HTTP transport 20 checks pass, including identity mismatch, revoked access, late-response fencing and unconfirmed sign-out. The native host aggregate passes, with physical temporary paths for receiver checks on macOS. Current `build-012` compiles/inspects all eight APKs; API36 `device-api36-005` passes 59/59 (Staff 26, receiver 33), including the native credential form, disposal, denial and seven receiver durability cases. All four sandbox apps were removed and only the task-owned emulator was stopped. Captured empty credential forms were visually inspected; the two role captures are byte-identical. Production claims remain open.
 

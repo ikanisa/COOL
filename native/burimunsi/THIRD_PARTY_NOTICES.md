@@ -1,6 +1,6 @@
 # Asset and dependency scope
 
-No font binary, brand-reference image, production credential, signing key, compiled Android artifact or dependency tree is bundled.
+The BuriMunsi branding directory contains the owner's supplied logo masters and the app includes resized derivatives. No font binary, production credential, signing key, compiled Android artifact or dependency tree is bundled.
 
 Native vector geometry is adapted from the owner's frozen `source/icons.json`. That frozen package explicitly did not establish independent icon-license provenance. Confirm T006 before distribution. System-native font fallback is used; no licensed font file is supplied. Exact native font and screenshot equivalence remain unverified.
 

@@ -240,6 +240,7 @@ class BuriApprovalIntent {
     'requestId': requestId,
     'collectionId': collectionId,
     'adminId': operator.adminId,
+    'principalId': operator.principalId,
     'phone': phone,
     'role': role,
     'capabilities': capabilities,
@@ -291,7 +292,7 @@ abstract interface class AdminBuriMunsiApi {
   bool get buriAvailable;
   bool get buriAuthorized;
   Object get buriAuthorityFence;
-  Future<BuriOperatorDirectory> loadBuriDirectory();
+  Future<BuriOperatorDirectory> loadBuriDirectory({String? collectionId});
   Future<Map<String, dynamic>> submitBuriApproval(
     BuriApprovalIntent intent,
     Object fence,
@@ -300,6 +301,16 @@ abstract interface class AdminBuriMunsiApi {
     BuriApprovalIntent intent,
     Object fence,
   );
+}
+
+class BuriScopeChoice {
+  const BuriScopeChoice(this.id, this.title);
+  final String id, title;
+}
+
+abstract interface class AdminBuriMunsiScopeApi
+    implements AdminBuriMunsiProvisioningApi {
+  Future<List<BuriScopeChoice>> loadBuriScopes();
 }
 
 /// Reuses Collect's bounded, same-account/session tab checkpoint. Only explicit
@@ -318,12 +329,12 @@ class BuriApprovalCoordinator {
     )) {
       final intent = BuriApprovalIntent.restore(entry.intent);
       if (entry.resourceId != intent.resourceId ||
-          entry.requestKey != intent.requestId ||
-          intent.collectionId != collectionId) {
+          entry.requestKey != intent.requestId) {
         throw const FormatException(
           'Check retained BuriMunsi requests before continuing.',
         );
       }
+      if (intent.collectionId != collectionId) continue;
       _pending[intent.resourceId] = intent;
     }
   }
@@ -411,5 +422,575 @@ class BuriApprovalCoordinator {
   void _complete(BuriApprovalIntent intent) {
     store.clear(family: family, resourceId: intent.resourceId);
     _pending.remove(intent.resourceId);
+  }
+}
+
+int _nativeVersion(dynamic value, {bool zero = false}) {
+  if (value is! int || value < (zero ? 0 : 1) || value > 9007199254740991) {
+    throw const FormatException(
+      'The current native access version is invalid.',
+    );
+  }
+  return value;
+}
+
+void _nativeFields(Map<String, dynamic> value, Set<String> fields) {
+  if (value.length != fields.length || !fields.every(value.containsKey)) {
+    throw const FormatException('The native provisioning contract changed.');
+  }
+}
+
+class BuriNativeAccount {
+  BuriNativeAccount.parse(Map<String, dynamic> value)
+    : principalId = _id(value['principalId']),
+      accountId = value['accountId'] == null ? null : _id(value['accountId']),
+      phone = buriLoginPhone(_text(value['phone'])),
+      name = _text(value['name'], max: 100),
+      role = _role(value['role']),
+      capabilities = _capabilities(value['capabilities'], _role(value['role'])),
+      approvalVersion = _nativeVersion(value['approvalVersion']),
+      version = _nativeVersion(value['version'], zero: true),
+      credentialVersion = _nativeVersion(
+        value['credentialVersion'],
+        zero: true,
+      ) {
+    _nativeFields(value, {
+      'principalId',
+      'accountId',
+      'phone',
+      'name',
+      'role',
+      'capabilities',
+      'approvalVersion',
+      'version',
+      'credentialVersion',
+      'approved',
+      'active',
+      'removed',
+    });
+    if (value['approved'] is! bool ||
+        value['active'] is! bool ||
+        value['removed'] is! bool ||
+        (accountId == null) != (version == 0) ||
+        (accountId == null) != (credentialVersion == 0)) {
+      throw const FormatException('The approved native account is invalid.');
+    }
+    approved = value['approved'] as bool;
+    active = value['active'] as bool;
+    removed = value['removed'] as bool;
+  }
+  final String principalId, phone, name, role;
+  final String? accountId;
+  final List<String> capabilities;
+  final int approvalVersion, version, credentialVersion;
+  late final bool approved, active, removed;
+}
+
+class BuriNativeGrant {
+  BuriNativeGrant.parse(Map<String, dynamic> value)
+    : id = _id(value['id']),
+      accountId = value['accountId'] == null ? null : _id(value['accountId']),
+      installationId = _id(value['installationId']),
+      profile = _text(value['profile']),
+      version = _nativeVersion(value['version']) {
+    _nativeFields(value, {
+      'id',
+      'accountId',
+      'installationId',
+      'profile',
+      'version',
+      'active',
+    });
+    if (!const {'staff', 'internal_receiver'}.contains(profile) ||
+        value['active'] is! bool) {
+      throw const FormatException('The native installation grant is invalid.');
+    }
+    active = value['active'] as bool;
+  }
+  final String id, installationId, profile;
+  final String? accountId;
+  final int version;
+  late final bool active;
+}
+
+class BuriProvisioningDirectory {
+  BuriProvisioningDirectory.parse(Map<String, dynamic> value)
+    : collectionId = _text(value['collectionId'], max: 128),
+      scopeVersion = value['scopeVersion'] == null
+          ? null
+          : _nativeVersion(value['scopeVersion']) {
+    _nativeFields(value, {
+      'contractVersion',
+      'collectionId',
+      'configured',
+      'scopeVersion',
+      'scopeEnabled',
+      'accounts',
+      'grants',
+    });
+    if (value['contractVersion'] != 1 ||
+        !_group.hasMatch(collectionId) ||
+        value['configured'] is! bool ||
+        value['scopeEnabled'] is! bool ||
+        value['accounts'] is! List ||
+        value['grants'] is! List ||
+        (value['accounts'] as List).length > 500 ||
+        (value['grants'] as List).length > 500) {
+      throw const FormatException('Native provisioning could not be verified.');
+    }
+    configured = value['configured'] as bool;
+    scopeEnabled = value['scopeEnabled'] as bool;
+    accounts = List.unmodifiable(
+      (value['accounts'] as List).map(
+        (v) => BuriNativeAccount.parse(Map<String, dynamic>.from(v as Map)),
+      ),
+    );
+    grants = List.unmodifiable(
+      (value['grants'] as List).map(
+        (v) => BuriNativeGrant.parse(Map<String, dynamic>.from(v as Map)),
+      ),
+    );
+    if (configured && scopeVersion == null ||
+        accounts.map((a) => a.principalId).toSet().length != accounts.length ||
+        grants.map((g) => g.installationId).toSet().length != grants.length ||
+        grants.map((g) => g.id).toSet().length != grants.length) {
+      throw const FormatException(
+        'Native installation selection is ambiguous.',
+      );
+    }
+  }
+  final String collectionId;
+  final int? scopeVersion;
+  late final bool configured, scopeEnabled;
+  late final List<BuriNativeAccount> accounts;
+  late final List<BuriNativeGrant> grants;
+}
+
+/// Immutable NONSECRET intent. A PIN is a transient submit argument only.
+/// Restored requests can be checked or cancelled, never automatically replayed.
+class BuriProvisioningIntent {
+  BuriProvisioningIntent({
+    required this.collectionId,
+    required this.principalId,
+    required this.scopeVersion,
+    required this.approvalVersion,
+    required this.expectedAccountVersion,
+    required this.operation,
+    required this.reason,
+    this.accountId,
+    this.grantId,
+    this.installationId,
+    this.profile,
+    this.expectedGrantVersion,
+    String? requestId,
+  }) : requestId = requestId ?? const Uuid().v4() {
+    if (!_group.hasMatch(collectionId) ||
+        !_uuid.hasMatch(principalId) ||
+        !_uuid.hasMatch(this.requestId) ||
+        !const {
+          'set_pin',
+          'grant_installation',
+          'revoke_installation',
+        }.contains(operation) ||
+        reason.trim() != reason ||
+        reason.length < 8 ||
+        reason.length > 300 ||
+        RegExp(r'[\x00-\x1f\x7f]').hasMatch(reason) ||
+        RegExp(r'[a-f0-9]{64}', caseSensitive: false).hasMatch(reason)) {
+      throw const FormatException('Check the native provisioning request.');
+    }
+    _nativeVersion(scopeVersion);
+    _nativeVersion(approvalVersion);
+    _nativeVersion(expectedAccountVersion, zero: true);
+    if (operation == 'set_pin') {
+      if (grantId != null ||
+          installationId != null ||
+          profile != null ||
+          expectedGrantVersion != null ||
+          (accountId == null) != (expectedAccountVersion == 0)) {
+        throw const FormatException('Check the current native account.');
+      }
+      if (accountId != null) _id(accountId);
+    } else {
+      _id(accountId);
+      _id(installationId);
+      if (expectedAccountVersion < 1 ||
+          !const {'staff', 'internal_receiver'}.contains(profile) ||
+          expectedGrantVersion == null ||
+          expectedGrantVersion! < 0 ||
+          (grantId == null) != (expectedGrantVersion == 0) ||
+          operation == 'revoke_installation' && expectedGrantVersion == 0) {
+        throw const FormatException(
+          'Check the exact native installation grant.',
+        );
+      }
+      _nativeVersion(expectedGrantVersion, zero: true);
+      if (grantId != null) _id(grantId);
+    }
+  }
+  final String collectionId, principalId, operation, reason, requestId;
+  final int scopeVersion, approvalVersion, expectedAccountVersion;
+  final String? accountId, grantId, installationId, profile;
+  final int? expectedGrantVersion;
+  String get resourceId => '$collectionId:$principalId';
+  Map<String, dynamic> get checkpoint => {
+    'collectionId': collectionId,
+    'principalId': principalId,
+    'scopeVersion': scopeVersion,
+    'approvalVersion': approvalVersion,
+    'expectedAccountVersion': expectedAccountVersion,
+    'operation': operation,
+    'reason': reason,
+    'requestId': requestId,
+    'accountId': accountId,
+    'grantId': grantId,
+    'installationId': installationId,
+    'profile': profile,
+    'expectedGrantVersion': expectedGrantVersion,
+  };
+  Map<String, dynamic> body({String? pin}) {
+    if (operation == 'set_pin' &&
+        (pin == null ||
+            !RegExp(r'^\d{4}$').hasMatch(pin) ||
+            reason.contains(pin))) {
+      throw const FormatException(
+        'Enter a four-digit PIN; keep it out of the reason.',
+      );
+    }
+    return {
+      'collectionId': collectionId,
+      'principalId': principalId,
+      'scopeVersion': scopeVersion,
+      'approvalVersion': approvalVersion,
+      'expectedAccountVersion': expectedAccountVersion,
+      'operation': operation,
+      'reason': reason,
+      'requestId': requestId,
+      if (operation == 'set_pin')
+        'pin': pin
+      else ...{
+        'accountId': accountId,
+        'grantId': grantId,
+        'installationId': installationId,
+        'profile': profile,
+        'expectedGrantVersion': expectedGrantVersion,
+      },
+    };
+  }
+
+  factory BuriProvisioningIntent.restore(Map<String, dynamic> value) {
+    _nativeFields(value, BuriProvisioningCoordinator.schema.fields);
+    return BuriProvisioningIntent(
+      collectionId: _text(value['collectionId']),
+      principalId: _id(value['principalId']),
+      scopeVersion: _nativeVersion(value['scopeVersion']),
+      approvalVersion: _nativeVersion(value['approvalVersion']),
+      expectedAccountVersion: _nativeVersion(
+        value['expectedAccountVersion'],
+        zero: true,
+      ),
+      operation: _text(value['operation']),
+      reason: _text(value['reason'], max: 300),
+      requestId: _id(value['requestId']),
+      accountId: value['accountId'] == null ? null : _id(value['accountId']),
+      grantId: value['grantId'] == null ? null : _id(value['grantId']),
+      installationId: value['installationId'] == null
+          ? null
+          : _id(value['installationId']),
+      profile: value['profile'] == null ? null : _text(value['profile']),
+      expectedGrantVersion: value['expectedGrantVersion'] == null
+          ? null
+          : _nativeVersion(value['expectedGrantVersion'], zero: true),
+    );
+  }
+  void verify(Map<String, dynamic> value) {
+    if (value['contractVersion'] != 1 ||
+        value['collectionId'] != collectionId ||
+        value['requestId'] != requestId) {
+      throw const FormatException(
+        'The original native request could not be verified.',
+      );
+    }
+    if (value['operation'] == 'cancelled') {
+      _nativeFields(value, {
+        'contractVersion',
+        'collectionId',
+        'requestId',
+        'operation',
+        'applied',
+      });
+      if (value['applied'] != false) {
+        throw const FormatException('Invalid native cancellation.');
+      }
+      return;
+    }
+    _nativeFields(value, {
+      'contractVersion',
+      'collectionId',
+      'requestId',
+      'operation',
+      'principalId',
+      'accountId',
+      'accountVersion',
+      'credentialVersion',
+      'approvalVersion',
+      'scopeVersion',
+      'applied',
+      if (operation != 'set_pin') ...{
+        'grantId',
+        'installationId',
+        'profile',
+        'grantVersion',
+        'active',
+        'deliveryExpiresAt',
+      },
+    });
+    _id(value['accountId']);
+    _nativeVersion(value['credentialVersion']);
+    if (value['operation'] != operation ||
+        value['principalId'] != principalId ||
+        value['applied'] != true ||
+        value['approvalVersion'] != approvalVersion ||
+        value['scopeVersion'] != scopeVersion ||
+        value['accountVersion'] !=
+            expectedAccountVersion + (operation == 'set_pin' ? 1 : 0) ||
+        accountId != null && value['accountId'] != accountId) {
+      throw const FormatException(
+        'The native request does not match the original intent.',
+      );
+    }
+    if (operation != 'set_pin') {
+      _id(value['grantId']);
+      if (grantId != null && value['grantId'] != grantId ||
+          value['installationId'] != installationId ||
+          value['profile'] != profile ||
+          value['grantVersion'] != expectedGrantVersion! + 1 ||
+          value['active'] != (operation == 'grant_installation') ||
+          !(operation == 'grant_installation'
+              ? value['deliveryExpiresAt'] is int &&
+                    (value['deliveryExpiresAt'] as int) > 0
+              : value['deliveryExpiresAt'] == null)) {
+        throw const FormatException(
+          'The original installation grant could not be verified.',
+        );
+      }
+    }
+  }
+}
+
+class BuriNativeDelivery {
+  BuriNativeDelivery.parse(
+    Map<String, dynamic> value,
+    BuriProvisioningIntent intent,
+  ) {
+    _nativeFields(value, {
+      'contractVersion',
+      'collectionId',
+      'requestId',
+      'installationId',
+      'profile',
+      'grantVersion',
+      'expiresAt',
+      'installationToken',
+    });
+    if (value['contractVersion'] != 1 ||
+        value['collectionId'] != intent.collectionId ||
+        value['requestId'] != intent.requestId ||
+        value['installationId'] != intent.installationId ||
+        value['profile'] != intent.profile ||
+        value['grantVersion'] != intent.expectedGrantVersion! + 1 ||
+        value['expiresAt'] is! int ||
+        (value['expiresAt'] as int) <= DateTime.now().millisecondsSinceEpoch ||
+        value['installationToken'] is! String ||
+        !RegExp(
+          r'^[a-f0-9]{64}$',
+        ).hasMatch(value['installationToken'] as String)) {
+      throw const FormatException('The native delivery could not be verified.');
+    }
+    installationToken = value['installationToken'] as String;
+    expiresAt = DateTime.fromMillisecondsSinceEpoch(
+      value['expiresAt'] as int,
+      isUtc: true,
+    );
+  }
+  late final String installationToken;
+  late final DateTime expiresAt;
+  @override
+  String toString() => 'BuriNativeDelivery(protected)';
+}
+
+abstract interface class AdminBuriMunsiProvisioningApi
+    implements AdminBuriMunsiApi {
+  Future<BuriProvisioningDirectory> loadBuriProvisioning({
+    String? collectionId,
+  });
+  Future<Map<String, dynamic>> submitBuriProvisioning(
+    BuriProvisioningIntent intent,
+    Object fence, {
+    String? pin,
+  });
+  Future<Map<String, dynamic>?> lookupBuriProvisioning(
+    BuriProvisioningIntent intent,
+    Object fence,
+  );
+  Future<Map<String, dynamic>> cancelBuriProvisioning(
+    BuriProvisioningIntent intent,
+    Object fence,
+  );
+  Future<BuriNativeDelivery> loadBuriDelivery(
+    BuriProvisioningIntent intent,
+    Object fence,
+  );
+}
+
+class BuriProvisioningCoordinator {
+  BuriProvisioningCoordinator({
+    required this.api,
+    required this.store,
+    required this.collectionId,
+  }) : fence = api.buriAuthorityFence {
+    _owned();
+    for (final entry in store.restoreFamily(
+      family: family,
+      permission: permission,
+      schema: schema,
+    )) {
+      final intent = BuriProvisioningIntent.restore(entry.intent);
+      if (entry.resourceId != intent.resourceId ||
+          entry.requestKey != intent.requestId) {
+        throw const FormatException(
+          'Check retained native setup requests before continuing.',
+        );
+      }
+      if (intent.collectionId != collectionId) continue;
+      _pending[intent.resourceId] = intent;
+    }
+  }
+  static const family = 'burimunsi.provisioning',
+      permission = 'admin_users.manage';
+  static const schema = AdminPendingAttemptSchema(
+    fields: {
+      'collectionId',
+      'principalId',
+      'scopeVersion',
+      'approvalVersion',
+      'expectedAccountVersion',
+      'operation',
+      'reason',
+      'requestId',
+      'accountId',
+      'grantId',
+      'installationId',
+      'profile',
+      'expectedGrantVersion',
+    },
+  );
+  final AdminBuriMunsiProvisioningApi api;
+  final AdminPendingAttemptStore store;
+  final String collectionId;
+  final Object fence;
+  final _pending = <String, BuriProvisioningIntent>{};
+  final _receipts = <String, Map<String, dynamic>>{};
+  bool get current => api.buriAuthorized && api.buriAuthorityFence == fence;
+  List<BuriProvisioningIntent> get pending =>
+      current ? List.unmodifiable(_pending.values) : const [];
+  Map<String, dynamic>? receipt(BuriProvisioningIntent intent) =>
+      current ? _receipts[intent.requestId] : null;
+  void _owned() {
+    if (!api.buriAvailable || !current) {
+      throw const AdminAccountException(
+        'Verify your current owner email before provisioning native access.',
+      );
+    }
+  }
+
+  Future<void> submit(BuriProvisioningIntent intent, {String? pin}) async {
+    _owned();
+    intent.body(
+      pin: pin,
+    ); // Validate before persisting the NONSECRET checkpoint.
+    if (_pending.isNotEmpty ||
+        intent.collectionId != collectionId ||
+        !store.storageAvailable) {
+      throw const AdminAccountException(
+        'Resolve the original native setup request first.',
+      );
+    }
+    store.retain(
+      family: family,
+      resourceId: intent.resourceId,
+      requestKey: intent.requestId,
+      permission: permission,
+      intent: intent.checkpoint,
+      schema: schema,
+    );
+    if (!store.storageAvailable) {
+      throw AdminAccountException(store.storageMessage);
+    }
+    _pending[intent.resourceId] = intent;
+    _owned();
+    final value = await api.submitBuriProvisioning(intent, fence, pin: pin);
+    _owned();
+    _resolve(intent, value);
+  }
+
+  Future<bool> check(BuriProvisioningIntent intent) async {
+    _original(intent);
+    final value = await api.lookupBuriProvisioning(intent, fence);
+    _owned();
+    if (value == null) return false;
+    _resolve(intent, value);
+    return true;
+  }
+
+  Future<void> cancel(BuriProvisioningIntent intent) async {
+    _original(intent);
+    final value = await api.cancelBuriProvisioning(intent, fence);
+    _owned();
+    _resolve(intent, value);
+  }
+
+  Future<BuriNativeDelivery> delivery(BuriProvisioningIntent intent) async {
+    _original(intent);
+    if (receipt(intent)?['operation'] != 'grant_installation') {
+      throw const AdminAccountException(
+        'Confirm the original grant before opening delivery.',
+      );
+    }
+    final value = await api.loadBuriDelivery(intent, fence);
+    _owned();
+    return value;
+  }
+
+  void closeDelivery(BuriProvisioningIntent intent) {
+    _original(intent);
+    if (receipt(intent)?['operation'] != 'grant_installation') {
+      throw const AdminAccountException('Confirm the original grant first.');
+    }
+    _complete(intent);
+  }
+
+  void _original(BuriProvisioningIntent intent) {
+    _owned();
+    if (_pending[intent.resourceId] != intent) {
+      throw const AdminAccountException(
+        'Reopen the unchanged original native request.',
+      );
+    }
+  }
+
+  void _resolve(BuriProvisioningIntent intent, Map<String, dynamic> value) {
+    intent.verify(value);
+    if (value['operation'] == 'grant_installation') {
+      _receipts[intent.requestId] = Map.unmodifiable(value);
+    } else {
+      _complete(intent);
+    }
+  }
+
+  void _complete(BuriProvisioningIntent intent) {
+    store.clear(family: family, resourceId: intent.resourceId);
+    _pending.remove(intent.resourceId);
+    _receipts.remove(intent.requestId);
   }
 }

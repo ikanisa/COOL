@@ -14,3 +14,18 @@ test('generated keys satisfy the pinned upstream opaque and JWT contracts',()=>{
   else assert.equal(sig,createHmac('sha256',a.JWT_SECRET).update(head+'.'+body).digest('base64url'));
  }
 });
+test('fresh native key purposes are private, canonical32-byte and independent across releases',()=>{
+ const first=generateDeploymentKeys(),second=generateDeploymentKeys();
+ const purposes=['DATA_ENCRYPTION_KEY','SESSION_ENCRYPTION_KEY','BURIMUNSI_PIN_PEPPER_BASE64','BURIMUNSI_CURSOR_KEY_BASE64','COLLECT_NATIVE_INGRESS_KEY_BASE64'];
+ for(const keys of [first,second]){
+  const material=purposes.map(name=>{
+   const bytes=Buffer.from(keys[name],'base64');assert.equal(bytes.length,32);assert.equal(bytes.toString('base64'),keys[name]);return bytes.toString('hex');
+  });
+  assert.equal(new Set(material).size,purposes.length);
+  assert.match(keys.BURIMUNSI_PIN_PEPPER_ID,/^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/);
+  assert.match(keys.COLLECT_NATIVE_INGRESS_KEY_ID,/^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/);
+  assert.equal(keys.COLLECT_NATIVE_INGRESS_EDGE_PROOF_JSON,undefined);
+  assert.equal(keys.BURIMUNSI_NATIVE_ENABLED,undefined);assert.equal(keys.BURIMUNSI_COLLECTION_ID,undefined);
+ }
+ for(const name of purposes)assert.notEqual(first[name],second[name]);
+});

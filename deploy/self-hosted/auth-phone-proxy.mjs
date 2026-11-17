@@ -77,14 +77,18 @@ function canonicalAuthPath(path){
  * Collect's trusted API uses the private api-gw directly; no client header can
  * authorize a bypass here. Token/OAuth/email semantics remain GoTrue-owned.
  */
-export function createAuthPhoneProxy(env,{fetchImpl=fetch}={}){
+export function createAuthPhoneProxy(env,{fetchImpl=fetch,retainedLocal=false}={}){
+ // A server-imported option admits the one retained Mac gateway. Neither a
+ // client header nor an arbitrary private URL can select the Auth upstream.
+ if(typeof retainedLocal!=='boolean')throw Error('configuration');
+ const upstream=retainedLocal?'http://127.0.0.1:55101':UPSTREAM;
  let validated;
  async function configuration(){
   validated??=(async()=>{
    const profile=await verifyDeploymentProfile(env);
    if(env.COLLECT_DEPLOYMENT_PROFILE===undefined||profile.mode!=='self_hosted'||
     env.SUPABASE_URL!==profile.supabase_origin||env.APP_ENVIRONMENT!==profile.environment||
-    env.SUPABASE_INTERNAL_URL!==UPSTREAM||!modes.has(env.AUTH_PHONE_DELIVERY_MODE))throw Error('configuration');
+    env.SUPABASE_INTERNAL_URL!==upstream||!modes.has(env.AUTH_PHONE_DELIVERY_MODE))throw Error('configuration');
    if(env.AUTH_PHONE_DELIVERY_MODE==='opensms_hook'&&env.AUTH_WHATSAPP_ENABLED==='true')throw Error('configuration');
    return profile;
   })();
@@ -109,7 +113,7 @@ export function createAuthPhoneProxy(env,{fetchImpl=fetch}={}){
   const smsOnly=env.AUTH_PHONE_DELIVERY_MODE==='opensms_hook';
   const headers=forwardedHeaders(request.headers);
   const signal=AbortSignal.any([request.signal,AbortSignal.timeout(15000)]);
-  const fetchUpstream=(path,options={})=>fetchImpl(UPSTREAM+'/auth/v1'+path,{method:request.method,headers,signal,redirect:'manual',...options});
+  const fetchUpstream=(path,options={})=>fetchImpl(upstream+'/auth/v1'+path,{method:request.method,headers,signal,redirect:'manual',...options});
   let bytes,upstreamStarted=false;
   try{
    const length=request.headers.get('Content-Length');

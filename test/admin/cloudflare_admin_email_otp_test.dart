@@ -41,6 +41,61 @@ CloudflareAdminSession _client(
 );
 
 void main() {
+  for (final expires in [1, 59, 300, 1800]) {
+    test('initial email receipt accepts $expires remaining seconds', () async {
+      final requests = <http.Request>[];
+      final client = _client((request) {
+        requests.add(request);
+        return request.url.path.endsWith('/auth/otp')
+            ? _json({..._receipt(), 'expires_in': expires}, 202)
+            : _json(_session());
+      });
+      addTearDown(client.dispose);
+      final receipt = await client.requestEmailOtp(_email);
+      expect(receipt.expiresInSeconds, expires);
+      expect(client.user, isNull);
+      await client.verifyEmailOtp(
+        email: _email,
+        challengeId: receipt.challengeId,
+        code: '123456',
+      );
+      expect(client.user?.email, _email);
+      expect(
+        requests.where((r) => r.url.path.endsWith('/auth/otp')),
+        hasLength(1),
+      );
+      expect(
+        requests.where((r) => r.url.path.endsWith('/auth/verify')),
+        hasLength(1),
+      );
+    });
+  }
+
+  for (final expires in [0, 1801, 3600, 1.5, '1800', null]) {
+    test('initial email receipt rejects invalid lifetime $expires', () async {
+      var requests = 0;
+      final client = _client((_) {
+        requests++;
+        return _json({..._receipt(), 'expires_in': expires}, 202);
+      });
+      addTearDown(client.dispose);
+      await expectLater(
+        client.requestEmailOtp(_email),
+        throwsA(isA<AdminAccountException>()),
+      );
+      await expectLater(
+        client.verifyEmailOtp(
+          email: _email,
+          challengeId: _challenge,
+          code: '123456',
+        ),
+        throwsA(isA<AdminAccountException>()),
+      );
+      expect(client.user, isNull);
+      expect(requests, 1);
+    });
+  }
+
   test(
     'approved email uses Admin cookie endpoints and retains owner MFA requirement',
     () async {

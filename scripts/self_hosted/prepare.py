@@ -6,8 +6,10 @@ No managed Supabase project, Docker daemon or provider is contacted by prepare.
 """
 from __future__ import annotations
 import argparse
+import base64
 import hashlib
 import json
+import math
 import os
 from pathlib import Path, PurePosixPath
 import re
@@ -15,6 +17,7 @@ import shutil
 import stat
 import subprocess
 import sys
+import time
 sys.dont_write_bytecode=True
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -26,12 +29,22 @@ class FrontendOriginsMustDiffer(ValueError):
     """The self-hosted Admin and public sites need distinct origins."""
 
 
+def auth_redirect_allowlist(profile):
+    """The public site, Admin, and existing Google callback, exactly scoped."""
+    profile = validate_profile(profile)
+    return ','.join(sorted({
+        profile['public_origin'],
+        profile['admin_origin'],
+        profile['google_callback_origin'] + '/functions/v1/collect-api/v1/auth/google/callback',
+    }))
+
+
 DEPLOY = ROOT / 'deploy/self-hosted'
 BLOCKED_PARTS = {'node_modules', '.git', '.dart_tool', '__pycache__', 'tests', '.temp'}
 SOURCE_ROOTS = ('supabase/functions', 'supabase/migrations', 'supabase/jobs',
                 'supabase/retention-inventory.json', 'deploy/platform-admin/src',
                 'deploy/platform-supabase-free/local-challenge.mjs', 'deploy/collect-sms',
-                'deploy/self-hosted/web-server.mjs', 'deploy/self-hosted/auth-phone-proxy.mjs',
+                'deploy/self-hosted/web-server.mjs', 'deploy/self-hosted/auth-phone-proxy.mjs', 'deploy/self-hosted/native-ingress.mjs',
                 'deploy/self-hosted/edge-main', 'scripts/self_hosted',
                 'scripts/supabase/deployment_profile.py', 'deploy/self-hosted/migrations.lock.json',
                 'deploy/self-hosted/images.lock.json', 'scripts/supabase/testing/member-realtime-metadata.sql',
@@ -41,14 +54,64 @@ SOURCE_ROOTS = ('supabase/functions', 'supabase/migrations', 'supabase/jobs',
                 'scripts/supabase/package-lock.json')
 SOURCE_ROOTS+=('deploy/self-hosted/upstream','deploy/self-hosted/upstream.lock.json','deploy/self-hosted/generate-keys.mjs')
 PRIVATE_KEYS = ('DATA_KEY_ID', 'DATA_ENCRYPTION_KEY', 'SESSION_KEY_ID', 'SESSION_ENCRYPTION_KEY',
+                'BURIMUNSI_PIN_PEPPER_BASE64', 'BURIMUNSI_PIN_PEPPER_ID', 'BURIMUNSI_CURSOR_KEY_BASE64',
+                'COLLECT_NATIVE_INGRESS_KEY_BASE64', 'COLLECT_NATIVE_INGRESS_KEY_ID',
                 'COLLECT_JOB_TOKEN', 'COLLECT_EMAIL_JOB_TOKEN', 'ROOT_ADMIN_TOKEN', 'OTP_HMAC_KEY',
                 'CALLBACK_ENCRYPTION_KEY', 'COLLECT_SMS_MAINTENANCE_TOKEN', 'COLLECT_SMS_HOOK_SECRET')
+RETAINED_KEY_FIELDS = frozenset(('format', *PRIVATE_KEYS,
+    'POSTGRES_PASSWORD', 'COLLECT_EDGE_PASSWORD', 'COLLECT_SMS_EDGE_PASSWORD', 'JWT_SECRET',
+    'ANON_KEY', 'SERVICE_ROLE_KEY', 'ANON_KEY_ASYMMETRIC', 'SERVICE_ROLE_KEY_ASYMMETRIC',
+    'JWT_KEYS', 'JWT_JWKS', 'SUPABASE_PUBLISHABLE_KEY', 'SUPABASE_SECRET_KEY',
+    'SECRET_KEY_BASE', 'REALTIME_DB_ENC_KEY', 'VAULT_ENC_KEY', 'PG_META_CRYPTO_KEY',
+    'DASHBOARD_USERNAME', 'DASHBOARD_PASSWORD', 'S3_PROTOCOL_ACCESS_KEY_ID', 'S3_PROTOCOL_ACCESS_KEY_SECRET',
+    'LOGFLARE_PUBLIC_ACCESS_TOKEN', 'LOGFLARE_PRIVATE_ACCESS_TOKEN'))
+MAX_RETAINED_KEYS_BYTES = 131072
+_RETAINED_CRYPTO_CHECK = r"""
+import {createECDH,createPublicKey,verify} from 'node:crypto';
+try {
+ let raw='';for await(const chunk of process.stdin)raw+=chunk;
+ const {privateJwk,publicJwk,tokens}=JSON.parse(raw);
+ const curve=createECDH('prime256v1');curve.setPrivateKey(Buffer.from(privateJwk.d,'base64url'));
+ const point=curve.getPublicKey(undefined,'uncompressed');
+ if(point.subarray(1,33).toString('base64url')!==publicJwk.x||point.subarray(33).toString('base64url')!==publicJwk.y)throw Error();
+ const key=createPublicKey({key:publicJwk,format:'jwk'});
+ for(const token of tokens){const [head,body,signature]=token.split('.');
+  const bytes=Buffer.from(signature,'base64url');
+  if(bytes.length!==64||!verify('SHA256',Buffer.from(head+'.'+body),{key,dsaEncoding:'ieee-p1363'},bytes))throw Error();
+ }
+ process.stdout.write('retained-keys-valid\n');
+} catch {process.exitCode=2;}
+"""
+AUTH_PRIVATE_PROVIDER_FIELDS = frozenset(('GOOGLE_SECRET', 'GOOGLE_CLIENT_ID', 'TURNSTILE_SECRET_KEY'))
+PRIVATE_FEATURE_CONTROLS = {
+    'BURIMUNSI_SMS_OBSERVATIONS_ENABLED': 'false',
+    'BURIMUNSI_ADMIN_SMS_OBSERVATIONS_ENABLED': 'false',
+    'BURIMUNSI_OBSERVATION_HINTS_ENABLED': 'false',
+    'BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED': 'false',
+    'BURIMUNSI_NATIVE_FINANCIAL_QUEUE_ENABLED': 'false',
+    'BURIMUNSI_NATIVE_AUTO_RECORDS_ENABLED': 'false',
+    'BURIMUNSI_STAFF_PIN_PHONE_PRESERVATION_ENABLED': 'false',
+    'BURIMUNSI_RETENTION_INSPECTION_ENABLED': 'false',
+    'BURIMUNSI_SMART_ONBOARDING_ADVANCED_ENABLED': 'false',
+    'COLLECT_ADMIN_OWNER_IDENTITY_ENABLED': 'false',
+    'COLLECT_ADMIN_DYNAMIC_OWNER_AUTH_ENABLED': 'false',
+}
+
+CANONICAL_SCHEDULER_CONTROLS = {
+    'BURIMUNSI_CANONICAL_SCHEDULER_ENABLED': 'false',
+    'BURIMUNSI_CANONICAL_SCHEDULER_COLLECTION_ID': '',
+    'BURIMUNSI_CANONICAL_SCHEDULER_OWNER': '',
+    'BURIMUNSI_CANONICAL_SCHEDULER_MANAGED_ACCESS_TOKEN': '',
+    'BURIMUNSI_CANONICAL_SCHEDULER_APPROVAL_SHA256': '',
+}
+
 PROVIDER_SETTINGS = {
     'SMTP_HOST': '', 'SMTP_PORT': '587', 'SMTP_USER': '', 'SMTP_PASS': '', 'SMTP_ADMIN_EMAIL': '',
     'SMTP_SENDER_NAME': 'Collect', 'GOOGLE_CLIENT_ID': '', 'GOOGLE_SECRET': '',
     'GOTRUE_EXTERNAL_GOOGLE_ENABLED': 'false', 'GOOGLE_AUTH_ENABLED': 'false',
     'AUTH_MEMBER_REGISTRATION_ENABLED': 'false', 'AUTH_ANONYMOUS_ENABLED': 'false',
     'AUTH_SMS_ENABLED': 'false', 'AUTH_WHATSAPP_ENABLED': 'false',
+    'COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS': '1800',
     'AUTH_PHONE_DELIVERY_MODE': 'opensms_hook',
     'GOTRUE_SMS_TWILIO_ACCOUNT_SID': '', 'GOTRUE_SMS_TWILIO_AUTH_TOKEN': '',
     'GOTRUE_SMS_TWILIO_MESSAGE_SERVICE_SID': '', 'GOTRUE_SMS_TWILIO_CONTENT_SID': '',
@@ -70,6 +133,11 @@ PROVIDER_SETTINGS = {
     'COLLECT_PUSH_ENABLED': 'false', 'FCM_PROJECT_ID': '', 'FCM_ANDROID_PACKAGE': 'app.cool.mobile',
     'FCM_SERVICE_ACCOUNT_JSON': '', 'COLLECT_JOBS_PUSH_APPROVAL_SHA256': '', 'COLLECT_PUSH_ADMITTED_FROM': '',
     'MOMO_PROCESSING_PAUSED': 'true', 'MOMO_AI_ENABLED': 'false', 'MOMO_AI_MODEL': '', 'OPENAI_API_KEY': '',
+    'BURIMUNSI_NATIVE_ENABLED': 'false', 'BURIMUNSI_NATIVE_WORKERS_ENABLED': 'false',
+    'BURIMUNSI_NATIVE_UPLOADS_ENABLED': 'false', 'BURIMUNSI_COLLECTION_ID': '',
+    **PRIVATE_FEATURE_CONTROLS,
+    **CANONICAL_SCHEDULER_CONTROLS,
+    'COLLECT_NATIVE_INGRESS_EDGE_PROOF_JSON': '', 'COLLECT_NATIVE_INGRESS_EDGE_PROOF_SHA256': '',
     'COLLECT_JOBS_MODE': 'maintenance_only', 'COLLECT_JOBS_PROCESSING_APPROVAL_SHA256': '',
     'ROSTER_DECODER_PROTOCOL': '', 'ROSTER_DECODER_URL': '', 'ROSTER_DECODER_SECRET': '', 'ROSTER_DECODER_BUILD_SHA256': '',
     'ROSTER_AI_APPROVAL_JSON': '', 'ROSTER_AI_APPROVAL_SHA256': '', 'ROSTER_AI_MODEL': '',
@@ -381,6 +449,8 @@ def build_compose(profile,images,*,upstream_compose=None):
                  'GOTRUE_EXTERNAL_GOOGLE_REDIRECT_URI':profile['supabase_origin']+'/auth/v1/callback',
                  'GOTRUE_EXTERNAL_PHONE_ENABLED':'${ENABLE_PHONE_SIGNUP}', 'GOTRUE_SMS_AUTOCONFIRM':'false',
                  'GOTRUE_SMS_OTP_LENGTH':'6','GOTRUE_SMS_OTP_EXP':'300',
+                 'GOTRUE_MAILER_OTP_EXP':'${COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS}',
+                 'GOTRUE_MAILER_OTP_LENGTH':'6',
                  'GOTRUE_MAILER_AUTOCONFIRM':'false','GOTRUE_MAILER_SECURE_EMAIL_CHANGE_ENABLED':'true',
                  'GOTRUE_SECURITY_CAPTCHA_ENABLED':'${GOTRUE_SECURITY_CAPTCHA_ENABLED}',
                  'GOTRUE_SECURITY_CAPTCHA_PROVIDER':'turnstile','GOTRUE_SECURITY_CAPTCHA_SECRET':'${TURNSTILE_SECRET_KEY}',
@@ -451,7 +521,225 @@ def caddyfile(profile,tls_mode,acme_email,*,_qualify_device_alias=False):
         sites.append(api+' {\n'+tls+' request_body {\n  max_size 16MB\n }\n header Strict-Transport-Security "max-age=31536000"\n @auth path /auth/v1/*\n handle @auth {\n  request_body {\n   max_size 16KB\n  }\n  reverse_proxy web:8080\n }\n @api path /rest/v1/* /storage/v1/* /realtime/v1/* /functions/v1/* /graphql/v1\n handle @api {\n  reverse_proxy api-gw:8000\n }\n handle {\n  respond 404\n }\n}\n')
     return header+'\n'.join(sites)
 
-def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None):
+def _retained_unique_pairs(pairs):
+    result={}
+    for name,value in pairs:
+        if name in result:raise ValueError('Duplicate retained key field')
+        result[name]=value
+    return result
+
+def _retained_json(raw):
+    def invalid_constant(_):raise ValueError('Invalid retained key JSON')
+    try:return json.loads(raw,object_pairs_hook=_retained_unique_pairs,parse_constant=invalid_constant)
+    except (ValueError,UnicodeError,RecursionError):pass
+    raise ValueError('Invalid retained key JSON')
+
+def _retained_base64(value,*,url=False,minimum=32,maximum=32):
+    decoded=None
+    try:
+        if url:
+            if re.fullmatch(r'[A-Za-z0-9_-]+',value):
+                candidate=base64.b64decode(value+'='*(-len(value)%4),altchars=b'-_',validate=True)
+                if base64.urlsafe_b64encode(candidate).decode().rstrip('=')==value:decoded=candidate
+        else:
+            candidate=base64.b64decode(value,validate=True)
+            if base64.b64encode(candidate).decode()==value:decoded=candidate
+    except (ValueError,TypeError):pass
+    if decoded is None or not minimum<=len(decoded)<=maximum:raise ValueError('Invalid retained key encoding')
+    return decoded
+
+def _retained_numeric(value):
+    return type(value) in (int,float) and abs(value)<=9007199254740991 and math.isfinite(value)
+
+def _validate_retained_keys(keys):
+    if (not isinstance(keys,dict) or set(keys)!=RETAINED_KEY_FIELDS or
+            keys.get('format')!='collect.selfhost.private-keys.v1'):
+        raise ValueError('Complete retained private-key contract required')
+    if any(not isinstance(value,str) or not 1<=len(value)<=32768 or
+           any(ord(c)<32 or 127<=ord(c)<160 or 0xd800<=ord(c)<=0xdfff for c in value)
+           for value in keys.values()):raise ValueError('Invalid retained private-key value')
+    # Internal retained passwords may predate the fresh generator. Preserve them
+    # exactly; format validation never substitutes or upgrades a credential.
+    dotenv({name:value for name,value in keys.items() if name!='format'})
+    for name in ('DATA_KEY_ID','SESSION_KEY_ID','BURIMUNSI_PIN_PEPPER_ID','COLLECT_NATIVE_INGRESS_KEY_ID'):
+        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._:-]{0,127}',keys[name]):raise ValueError('Invalid retained key identity')
+    for name,prefix in (('SUPABASE_PUBLISHABLE_KEY','sb_publishable_'),('SUPABASE_SECRET_KEY','sb_secret_')):
+        if not re.fullmatch(re.escape(prefix)+r'[A-Za-z0-9_-]{16,200}',keys[name]):raise ValueError('Invalid retained opaque API key')
+    purposes=[_retained_base64(keys[name],maximum=256 if name=='BURIMUNSI_PIN_PEPPER_BASE64' else 32)
+              for name in ('DATA_ENCRYPTION_KEY','SESSION_ENCRYPTION_KEY','BURIMUNSI_PIN_PEPPER_BASE64',
+                           'BURIMUNSI_CURSOR_KEY_BASE64','COLLECT_NATIVE_INGRESS_KEY_BASE64')]
+    if len(set(purposes))!=len(purposes):raise ValueError('Retained protected key purposes must be independent')
+    private=_retained_json(keys['JWT_KEYS']);public=_retained_json(keys['JWT_JWKS'])
+    if (not isinstance(private,list) or len(private)!=1 or not isinstance(private[0],dict) or
+            not isinstance(public,dict) or set(public)!={'keys'} or not isinstance(public['keys'],list) or
+            len(public['keys'])!=1 or not isinstance(public['keys'][0],dict)):
+        raise ValueError('One retained ES256 signing authority required')
+    private,public=private[0],public['keys'][0]
+    required={'kty','kid','alg','crv','x','y'};optional={'use','key_ops','ext'}
+    for jwk,is_private in ((private,True),(public,False)):
+        expected=required|({'d'} if is_private else set())
+        if not expected<=set(jwk)<=expected|optional:raise ValueError('Invalid retained signing-key shape')
+        if any(jwk.get(k)!=v for k,v in {'kty':'EC','alg':'ES256','crv':'P-256'}.items()):
+            raise ValueError('Retained signing authority must be ES256 only')
+        if (not isinstance(jwk['kid'],str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._:-]{0,127}',jwk['kid']) or
+                jwk.get('use','sig')!='sig' or jwk.get('ext',True) is not True):raise ValueError('Invalid retained signing-key identity')
+        if 'key_ops' in jwk:
+            ops=jwk['key_ops']
+            if (not isinstance(ops,list) or not all(isinstance(op,str) for op in ops) or len(set(ops))!=len(ops) or
+                    (not set(ops)<={'sign','verify'} or 'sign' not in ops if is_private else ops!=['verify'])):
+                raise ValueError('Invalid retained signing-key operations')
+        for name in ('x','y',*(['d'] if is_private else [])):_retained_base64(jwk[name],url=True)
+    if any(private[name]!=public[name] for name in required):raise ValueError('Retained public and private signing keys differ')
+    if _retained_base64(private['d'],url=True) in purposes:raise ValueError('Retained signing and protected key purposes must be independent')
+    tokens=[];now=time.time()
+    for name,role in (('ANON_KEY','anon'),('SERVICE_ROLE_KEY','service_role'),
+                      ('ANON_KEY_ASYMMETRIC','anon'),('SERVICE_ROLE_KEY_ASYMMETRIC','service_role')):
+        token=keys[name];parts=token.split('.')
+        if len(parts)!=3:raise ValueError('Invalid retained API JWT')
+        head=_retained_json(_retained_base64(parts[0],url=True,minimum=1,maximum=2048))
+        body=_retained_json(_retained_base64(parts[1],url=True,minimum=1,maximum=8192))
+        _retained_base64(parts[2],url=True,minimum=64,maximum=64)
+        if (not isinstance(head,dict) or not {'alg','kid'}<=set(head)<={'alg','kid','typ'} or
+                head.get('alg')!='ES256' or head.get('kid')!=private['kid'] or head.get('typ','JWT')!='JWT' or
+                not isinstance(body,dict) or body.get('role')!=role or
+                not isinstance(body.get('iss'),str) or not body['iss']):raise ValueError('Retained API JWT identity mismatch')
+        expiry=body.get('exp')
+        if not _retained_numeric(expiry) or expiry<=now+300:
+            raise ValueError('Retained API JWT is expired or expiring')
+        for field in ('iat','nbf'):
+            if field in body and (not _retained_numeric(body[field]) or body[field]>now+60):
+                raise ValueError('Retained API JWT is not currently valid')
+        tokens.append(token)
+    request=json.dumps({'privateJwk':private,'publicJwk':public,'tokens':tokens}).encode()
+    checked=None
+    try:
+        checked=subprocess.run(['node','--input-type=module','-e',_RETAINED_CRYPTO_CHECK],input=request,
+            stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30,
+            env={'PATH':os.environ.get('PATH','/usr/bin:/bin'),'HOME':str(Path.home())})
+    except (OSError,subprocess.SubprocessError):pass
+    if checked is None or checked.returncode!=0 or checked.stdout!=b'retained-keys-valid\n':
+        raise ValueError('Retained signing-key and JWT proof failed')
+
+def read_retained_keys(path):
+    """Capture one bounded owned0600 input through physical directory descriptors."""
+    path=Path(path).absolute()
+    if '..' in path.parts:raise ValueError('Physical retained key path required')
+    parent=_open_physical_root(path.parent)
+    try:
+        directory=os.fstat(parent)
+        if directory.st_uid!=os.geteuid() or stat.S_IMODE(directory.st_mode)!=0o700:
+            raise ValueError('Retained key parent must be owned0700')
+        before=os.stat(path.name,dir_fd=parent,follow_symlinks=False)
+        if (not stat.S_ISREG(before.st_mode) or before.st_uid!=os.geteuid() or
+                stat.S_IMODE(before.st_mode)!=0o600 or before.st_nlink!=1 or
+                not 1<=before.st_size<=MAX_RETAINED_KEYS_BYTES):raise ValueError('Retained keys must be one bounded owned0600 file')
+        fd=os.open(path.name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=parent)
+        try:
+            actual=os.fstat(fd)
+            if not _same_inode(before,actual):raise ValueError('Retained key input changed')
+            raw=b''
+            while len(raw)<=MAX_RETAINED_KEYS_BYTES:
+                chunk=os.read(fd,min(65536,MAX_RETAINED_KEYS_BYTES+1-len(raw)))
+                if not chunk:break
+                raw+=chunk
+            after=os.fstat(fd);named=os.stat(path.name,dir_fd=parent,follow_symlinks=False)
+            if (len(raw)!=before.st_size or len(raw)>MAX_RETAINED_KEYS_BYTES or not _same_inode(after,named) or
+                    any(getattr(before,k)!=getattr(after,k) for k in ('st_size','st_mtime_ns','st_ctime_ns'))):
+                raise ValueError('Retained key input changed')
+        finally:os.close(fd)
+    finally:os.close(parent)
+    keys=_retained_json(raw)
+    _validate_retained_keys(keys)
+    return raw,keys
+
+class RetainedDatabaseTLS:
+    """Captured inputs; crypto is checked against the new private projection."""
+    def __init__(self,directory,files):
+        self.directory=directory
+        self._files=files
+        self.hashes={name:digest(raw) for name,raw in files.items()}
+        self._validated=False
+
+    def __repr__(self):
+        return 'RetainedDatabaseTLS(leaf_private_key=redacted)'
+
+    def stage(self,destination):
+        self._validated=False
+        destination.mkdir(mode=0o700)
+        parent=_open_physical_root(destination)
+        try:
+            for name,raw in self._files.items():
+                fd=os.open(name,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600,dir_fd=parent)
+                with os.fdopen(fd,'wb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
+        finally:os.close(parent)
+
+    def validate_projection(self,release):
+        # Lazy import avoids prepare -> configure -> prepare during module load.
+        # Certificates never constructs Operator or contacts a runtime. Its
+        # existing OpenSSL stdin proof checks chain/purpose/time, exact DNS:db
+        # SAN and leaf-key matching against these staged captured bytes.
+        from types import SimpleNamespace
+        from scripts.self_hosted.retained_database_tls import Certificates
+        self._validated=False
+        checked=None
+        try:checked=Certificates(SimpleNamespace(root=release))
+        except Exception:pass
+        if checked is None or checked.hashes!=self.hashes:
+            raise ValueError('Retained database TLS validation failed')
+        if read_retained_db_tls(self.directory).hashes!=self.hashes:
+            raise ValueError('Retained database TLS source changed')
+        self._validated=True
+
+    def receipt(self):
+        return {'source_directory':str(self.directory),'source_directory_sha256':digest(str(self.directory).encode()),
+                'files_sha256':self.hashes,'ca_private_key_copied':False,'generated':False,
+                'validated_chain_time_db_san_and_key':self._validated}
+
+def read_retained_db_tls(directory):
+    """Read only owned0600 CA/leaf/key, without following links or special files.
+
+    The returned object is a capture, not a crypto acceptance receipt. Chain,
+    time, SAN and key proof is required before the new release can be sealed.
+    """
+    directory=Path(directory).absolute()
+    if '..' in directory.parts:raise ValueError('Physical retained database TLS directory required')
+    parent=_open_physical_root(directory)
+    files={}
+    try:
+        info=os.fstat(parent);outer=directory.parent.stat()
+        if any(item.st_uid!=os.geteuid() or stat.S_IMODE(item.st_mode)!=0o700 for item in (info,outer)):
+            raise ValueError('Retained database TLS directories must be owned0700')
+        with os.scandir(parent) as entries:names=list(entries)
+        if len(names)>64 or any(not stat.S_ISREG(entry.stat(follow_symlinks=False).st_mode) for entry in names):
+            raise ValueError('Unsafe retained database TLS directory')
+        if any(entry.name=='ca.key' for entry in names):raise ValueError('Retained CA private key must stay outside runtime TLS inputs')
+        for name in ('ca.crt','server.crt','server.key'):
+            before=os.stat(name,dir_fd=parent,follow_symlinks=False)
+            if (not stat.S_ISREG(before.st_mode) or before.st_uid!=os.geteuid() or
+                    stat.S_IMODE(before.st_mode)!=0o600 or before.st_nlink!=1 or not 0<before.st_size<=65536):
+                raise ValueError('Retained database TLS files must be bounded owned0600')
+            fd=os.open(name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=parent)
+            try:
+                opened=os.fstat(fd)
+                if not _same_inode(before,opened):raise ValueError('Retained database TLS input changed')
+                chunks=[];remaining=65537
+                while remaining:
+                    chunk=os.read(fd,min(remaining,65536))
+                    if not chunk:break
+                    chunks.append(chunk);remaining-=len(chunk)
+                raw=b''.join(chunks);after=os.fstat(fd);named=os.stat(name,dir_fd=parent,follow_symlinks=False)
+                if (len(raw)!=before.st_size or len(raw)>65536 or not _same_inode(after,named) or
+                        any(getattr(before,k)!=getattr(after,k) for k in ('st_size','st_mtime_ns','st_ctime_ns'))):
+                    raise ValueError('Retained database TLS input changed')
+                files[name]=raw
+            finally:os.close(fd)
+        after=os.fstat(parent)
+        if not _same_inode(info,directory.lstat()) or any(getattr(info,k)!=getattr(after,k) for k in ('st_mtime_ns','st_ctime_ns')):
+            raise ValueError('Retained database TLS directory changed')
+    finally:os.close(parent)
+    return RetainedDatabaseTLS(directory,files)
+
+def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None,retained_keys_file=None,retained_db_tls_directory=None):
     profile=validate_profile(json.loads(profile_path.read_text()))
     if profile['mode']!='self_hosted':raise ValueError('Self-hosted profile required')
     if profile['admin_origin']==profile['public_origin']:raise FrontendOriginsMustDiffer('Self-hosted Admin and public origins must differ')
@@ -460,7 +748,18 @@ def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None):
     # creating a release directory, generating keys, or exporting source.
     dotenv({'COLLECT_RELEASE_ROOT':str(output)})
     if output.exists() or output.parent.resolve()!=output.parent:raise ValueError('Fresh physical release directory required')
+    retained=read_retained_keys(retained_keys_file) if retained_keys_file is not None else None
+    retained_tls=read_retained_db_tls(retained_db_tls_directory) if retained_db_tls_directory is not None else None
     snapshot=_capture_inputs(ROOT,SOURCE_ROOTS);images=verify_vendor(snapshot=snapshot)
+    if retained_keys_file is not None:
+        path=Path(retained_keys_file).absolute()
+        if path.is_relative_to(ROOT) and path.relative_to(ROOT).as_posix() in snapshot['content']:
+            raise ValueError('Retained keys cannot be exported as release source')
+    if retained_tls is not None:
+        for name in retained_tls._files:
+            path=retained_tls.directory/name
+            if path.is_relative_to(ROOT) and path.relative_to(ROOT).as_posix() in snapshot['content']:
+                raise ValueError('Retained database TLS inputs cannot be exported as release source')
     manifest=snapshot['manifest'];frontend=frontend_inventory(ROOT)
     caddy=caddyfile(profile,tls_mode,acme_email)
     os.umask(0o077);output.mkdir(mode=0o700)
@@ -468,8 +767,18 @@ def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None):
     _assert_source_unchanged(ROOT,snapshot)
     compose=build_compose(profile,images,upstream_compose=snapshot['content'][_VENDOR_ROOT+'/compose.json'])
     private=output/'private';private.mkdir(mode=0o700)
-    subprocess.run(['node',str(output/'source/deploy/self-hosted/generate-keys.mjs'),str(private/'keys.json')],check=True,timeout=30)
-    keys=json.loads((private/'keys.json').read_text());tls_keys(private/'db-tls')
+    if retained is None:
+        subprocess.run(['node',str(output/'source/deploy/self-hosted/generate-keys.mjs'),str(private/'keys.json')],check=True,timeout=30)
+        keys=json.loads((private/'keys.json').read_text())
+    else:
+        raw,keys=retained
+        parent=_open_physical_root(private)
+        try:
+            fd=os.open('keys.json',os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600,dir_fd=parent)
+            with os.fdopen(fd,'wb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
+        finally:os.close(parent)
+    if retained_tls is None:tls_keys(private/'db-tls')
+    else:retained_tls.stage(private/'db-tls')
     for name in ('admin','public'):(output/'assets'/name).mkdir(parents=True);(output/'assets'/name).chmod(0o755)
     (output/'assets').chmod(0o755)
     (output/'data').mkdir()
@@ -492,7 +801,7 @@ def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None):
     stack.update(PROVIDER_SETTINGS)
     stack.update({'POSTGRES_HOST':'db','POSTGRES_DB':'postgres','POSTGRES_PORT':'5432','JWT_EXPIRY':'3600',
         'SUPABASE_PUBLIC_URL':profile['supabase_origin'],'API_EXTERNAL_URL':profile['supabase_origin']+'/auth/v1',
-        'SITE_URL':profile['public_origin'],'ADDITIONAL_REDIRECT_URLS':profile['google_callback_origin']+'/functions/v1/collect-api/v1/auth/google/callback',
+        'SITE_URL':profile['public_origin'],'ADDITIONAL_REDIRECT_URLS':auth_redirect_allowlist(profile),
         'DISABLE_SIGNUP':'false','ENABLE_EMAIL_SIGNUP':'true','ENABLE_EMAIL_AUTOCONFIRM':'false','ENABLE_ANONYMOUS_USERS':'false',
         'ENABLE_PHONE_SIGNUP':'false','ENABLE_PHONE_AUTOCONFIRM':'false','FUNCTIONS_VERIFY_JWT':'false',
         'GOTRUE_SMS_PROVIDER':'twilio','GOTRUE_HOOK_SEND_SMS_ENABLED':'false',
@@ -506,36 +815,44 @@ def prepare(profile_path: Path,output: Path,*,tls_mode='acme',acme_email=None):
     required=set(re.findall(r'\$\{([A-Z][A-Z0-9_]*)\}',json.dumps(compose)))
     if required-set(stack):raise ValueError('Compose requires explicit values for every interpolation variable')
     (private/'stack.env').write_text(dotenv(stack),encoding='utf8');(private/'stack.env').chmod(0o600)
-    function_settings={k:v for k,v in PROVIDER_SETTINGS.items() if not k.startswith(('SMTP_','GOTRUE_')) and k not in ('GOOGLE_SECRET','GOOGLE_CLIENT_ID')}
+    function_settings={k:v for k,v in PROVIDER_SETTINGS.items() if not k.startswith(('SMTP_','GOTRUE_','COLLECT_AUTH_')) and k not in AUTH_PRIVATE_PROVIDER_FIELDS}
     functions={**public,**function_settings,**{k:keys[k] for k in PRIVATE_KEYS},
         'SUPABASE_INTERNAL_URL':'http://api-gw:8000','SUPABASE_SECRET_KEY':keys['SUPABASE_SECRET_KEY'],
         'COLLECT_DATABASE_URL':'postgres://collect_edge:'+keys['COLLECT_EDGE_PASSWORD']+'@db:5432/postgres',
         'COLLECT_SMS_DATABASE_URL':'postgres://collect_sms_edge:'+keys['COLLECT_SMS_EDGE_PASSWORD']+'@db:5432/postgres',
-        'COLLECT_DB_CA_PEM':(private/'db-tls/ca.crt').read_text().strip(),
+        'COLLECT_DB_CA_PEM':(retained_tls._files['ca.crt'].decode('ascii') if retained_tls is not None else (private/'db-tls/ca.crt').read_text()).strip(),
         'COLLECT_GOOGLE_CALLBACK_URL':profile['google_callback_origin']+'/functions/v1/collect-api/v1/auth/google/callback',
         'GOOGLE_WEB_ORIGINS':profile['public_origin']+','+profile['member_api_origin'],
         'AUTH_SEND_SMS_SECRET':'v1,whsec_'+keys['COLLECT_SMS_HOOK_SECRET'],'AUTH_PROJECT_ID':profile['id'],
         'COLLECT_PRIVATE_BUCKET':'collect-evidence'}
     (private/'functions.env').write_text(dotenv(functions),encoding='utf8');(private/'functions.env').chmod(0o600)
+    if retained_tls is not None:retained_tls.validate_projection(output)
     write_json(private/'provider-settings.json',PROVIDER_SETTINGS,private=True)
     write_json(output/'source-manifest.json',manifest)
     write_json(output/'frontend-source-manifest.json',frontend)
     write_json(output/'images.lock.json',images)
     write_json(output/'compose.json',compose)
     (output/'Caddyfile').write_text(caddy)
-    write_json(output/'release.json',{'format':'collect.selfhost.release.v1','profile':profile,'profile_sha256':profile_sha256(profile),
+    metadata={'format':'collect.selfhost.release.v1','profile':profile,'profile_sha256':profile_sha256(profile),
         'source_sha256':manifest['sha256'],'upstream_commit':images['upstream_commit'],'tls_mode':tls_mode,
         'frontend_source_sha256':frontend['sha256'],'frontend_source_complete':frontend['complete'],
-        'state':'prepared_not_started','providers_enabled':False,'database_initialized':False,'assets_installed':False})
+        'state':'prepared_not_started','providers_enabled':False,'database_initialized':False,'assets_installed':False}
+    if retained_tls is not None:metadata['retained_db_tls']=retained_tls.receipt()
+    write_json(output/'release.json',metadata)
     seal_configuration(output)
-    return {'format':'collect.selfhost.prepared.v1','profile_sha256':profile_sha256(profile),'source_sha256':manifest['sha256'],
+    result={'format':'collect.selfhost.prepared.v1','profile_sha256':profile_sha256(profile),'source_sha256':manifest['sha256'],
             'services':len(compose['services']),'started':False,'providers_enabled':False}
+    if retained_tls is not None:result['retained_db_tls']=retained_tls.receipt()
+    return result
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--profile',type=Path,required=True);parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--tls',choices=['acme','internal'],default='acme');parser.add_argument('--acme-email')
+    parser.add_argument('--retained-keys-file',type=Path,help='Complete protected retained ES256 key contract; skips fresh key generation')
+    parser.add_argument('--retained-db-tls-directory',type=Path,help='Protected existing CA/leaf/key directory; skips TLS key and certificate generation')
     args=parser.parse_args()
-    try:print(json.dumps(prepare(args.profile,args.output,tls_mode=args.tls,acme_email=args.acme_email),sort_keys=True))
+    try:print(json.dumps(prepare(args.profile,args.output,tls_mode=args.tls,acme_email=args.acme_email,
+        retained_keys_file=args.retained_keys_file,retained_db_tls_directory=args.retained_db_tls_directory),sort_keys=True))
     except (ValueError,OSError,subprocess.SubprocessError) as error:
         print('Preparation refused: '+type(error).__name__+'. Private values were not printed.',file=sys.stderr);sys.exit(1)

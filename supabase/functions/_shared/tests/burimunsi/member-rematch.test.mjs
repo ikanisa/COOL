@@ -4,12 +4,12 @@ import {actor} from './fixtures.mjs';
 const requestId='91919191-9191-4191-8191-919191919191';
 /** Transaction-state fixture, not a PostgreSQL or real person-command test. */
 function fixture(){
- const f={state:{members:[],events:[],receipts:[]},actor:{...structuredClone(actor),role:"admin"},failEnqueue:false,failReceipt:false,afterEnqueue:null,commits:0,rollbacks:0};
- f.store={inCanonicalTransaction:async fn=>{
+ const f={state:{members:[],events:[],receipts:[]},actor:{...structuredClone(actor),role:"admin"},existingMember:false,failEnqueue:false,failReceipt:false,afterEnqueue:null,commits:0,rollbacks:0};
+ f.store={inMemberTransaction:async fn=>{
   const next=structuredClone(f.state);
   const tx={reloadActor:async()=>f.actor,retainedCommand:async(_g,_a,r)=>next.receipts.find(c=>c.requestId===r),
    retainCommand:async c=>{if(f.failReceipt)throw Error('receipt write failed');next.receipts.push(c)},
-   createDirectMember:async c=>{next.members.push({id:'member-1',groupId:c.groupId,phone:c.phone,active:true});return next.members.at(-1)},
+   createDirectMember:async c=>{if(f.existingMember)return {...next.members[0],existing:true};next.members.push({id:'member-1',groupId:c.groupId,phone:c.phone,active:true});return next.members.at(-1)},
    setMembershipActive:async c=>{next.members.push({id:c.memberId,active:c.active});return {applied:true}},
    enqueueEligibleRematch:async c=>{if(f.failEnqueue)throw Error('rematch enqueue failed');next.events.push(c);f.afterEnqueue?.();return {durable:true}}};
   try{const out=await fn(tx);f.state=next;f.commits++;return out}catch(e){f.rollbacks++;throw e}
@@ -31,6 +31,12 @@ for(const operation of ['enroll','reactivate']){
  test(operation+' revocation during enqueue rolls back the event',async()=>{const f=fixture();f.afterEnqueue=()=>{f.actor.revoked=true};await assert.rejects(run(f),/session_unavailable/);assert.equal(f.state.events.length,0)});
 }
 test('deactivation never queues a rematch',async()=>{const f=fixture();await f.setActive(false);assert.equal(f.state.members[0].active,false);assert.equal(f.state.events.length,0)});
+test('opening an existing member retains a replayable result without a rematch or an extra member',async()=>{
+ const f=fixture();f.existingMember=true;f.state.members.push({id:'member-1',groupId:'group-1',phone:'+250780000816',active:false});
+ const first=await f.enroll(),replay=await f.enroll();assert.deepEqual(replay,first);assert.equal(first.id,'member-1');
+ assert.equal(first.active,false);assert.equal('existing' in first,false);assert.equal(f.state.members.length,1);
+ assert.equal(f.state.events.length,0);assert.equal(f.state.receipts.length,1);assert.deepEqual(f.state.receipts[0].response,first);
+});
 test('different lifecycle body cannot reuse a retained request',async()=>{const f=fixture();await f.setActive(true);await assert.rejects(f.setActive(false),/idempotency_conflict/);assert.equal(f.state.events.length,1)});
 
 // Membership lifecycle is Admin-only under the frozen UI policy. Enrollment remains delegated.

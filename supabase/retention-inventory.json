@@ -125,6 +125,12 @@
       "purpose": "Owner-only original scheduler dispatch local-lifecycle evidence; original provider unknowns remain unchanged; blocked shared operational copy, never a subject-empty or erasure assertion"
     },
     {
+      "name": "private:collect_managed_job_tickets",
+      "relation": "private.collect_managed_job_tickets",
+      "scope": "shared_fence",
+      "purpose": "One-use scheduled job identity, source and bounded payload with claim and completion digests; blocked shared operational copy, no subject selector or erasure assertion"
+    },
+    {
       "name": "private:collect_fence_source_upgrades",
       "relation": "private.collect_fence_source_upgrades",
       "scope": "shared_fence",
@@ -133,6 +139,12 @@
     {
       "name": "private:collect_fence_stopped_admissions",
       "relation": "private.collect_fence_stopped_admissions",
+      "scope": "shared_fence",
+      "purpose": "Immutable owner proof of stopped local work, original admission snapshot and unquantified unknown obligation; blocked shared operational copy, no recovered counters, provider settlement or subject-empty assertion"
+    },
+    {
+      "name": "private:collect_fence_local_stopped_admissions",
+      "relation": "private.collect_fence_local_stopped_admissions",
       "scope": "shared_fence",
       "purpose": "Immutable owner proof of stopped local work, original admission snapshot and unquantified unknown obligation; blocked shared operational copy, no recovered counters, provider settlement or subject-empty assertion"
     },
@@ -310,9 +322,11 @@
     "private:collect_fence_admissions",
     "private:collect_fence_operations",
     "private:collect_fence_scheduler_lifecycle",
+    "private:collect_managed_job_tickets",
     "private:member_realtime_control",
     "private:collect_fence_source_upgrades",
     "private:collect_fence_stopped_admissions",
+    "private:collect_fence_local_stopped_admissions",
     "private:collect_fence_working_admissions",
     "private:collect_fence_admission_archive",
     "private:collect_fence_admission_totals",

@@ -10,19 +10,20 @@ import {createAuthPhoneProxy} from './auth-phone-proxy.mjs';
 const types={'.html':'text/html; charset=utf-8','.js':'application/javascript','.json':'application/json','.wasm':'application/wasm','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.ico':'image/x-icon','.webp':'image/webp','.woff2':'font/woff2','.ttf':'font/ttf','.otf':'font/otf','.webmanifest':'application/manifest+json'};
 const safeHeaders={'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Cache-Control':'no-store, no-transform'};
 export function staticAssets(directory,{directoryIndex=false}={}){
- const base=resolve(directory);
- const invitationRoots=['c','group-link'].map(name=>resolve(base,name));
+ const configuredBase=resolve(directory);
  return {async fetch(request){
   if(!['GET','HEAD'].includes(request.method))return new Response(null,{status:405,headers:safeHeaders});
   let path,url;try{url=new URL(request.url);path=decodeURIComponent(url.pathname);}catch{return new Response(null,{status:400,headers:safeHeaders});}
   const wellKnown=['/.well-known/assetlinks.json','/.well-known/apple-app-site-association'].includes(path);
   if(path.includes('\\')||path.includes('\0')||path.split('/').some(p=>p.startsWith('.')&&!(wellKnown&&p==='.well-known'))||path.endsWith('.map'))return new Response(null,{status:404,headers:safeHeaders});
-  const hidden=real=>relative(base,real).split(sep).some(part=>part.startsWith('.'));
   const locate=async name=>{
+   const base=await realpath(configuredBase);
+   const invitationRoots=['c','group-link'].map(root=>resolve(base,root));
+   const hidden=real=>relative(base,real).split(sep).some(part=>part.startsWith('.'));
    const candidate=resolve(base,'.'+name);if(candidate!==base&&!candidate.startsWith(base+sep))throw Error('invalid');
    const real=await realpath(candidate);if(!real.startsWith(base+sep))throw Error('invalid');
    const info=await stat(real);if(info.isFile()){
-    if(directoryIndex&&hidden(real)&&!(wellKnown&&real===candidate))throw Error('invalid');
+    if(hidden(real)&&!(wellKnown&&real===candidate))throw Error('invalid');
     return real;
    }
    // Invitation directories retain their existing fallback until that route is qualified.

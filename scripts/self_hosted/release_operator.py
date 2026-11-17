@@ -20,7 +20,7 @@ ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT))
 from scripts.supabase.deployment_profile import validate_profile,profile_sha256
 from scripts.self_hosted.configure import private_file,read_env,read_provider_settings,validated_settings,verify_configuration
-from scripts.self_hosted.prepare import FrontendOriginsMustDiffer
+from scripts.self_hosted.prepare import FrontendOriginsMustDiffer,auth_redirect_allowlist
 
 _MAX_SOURCE_MANIFEST_BYTES=128*1024*1024
 _MAX_SOURCE_DIRECTORIES=65536
@@ -353,7 +353,7 @@ psql --no-psqlrc --no-password --host=db --port=5432 --username=collect_sms_edge
             'GOTRUE_DB_DATABASE_URL':'postgres://supabase_auth_admin:'+postgres_password+'@db:5432/postgres',
             'API_EXTERNAL_URL':self.profile['supabase_origin']+'/auth/v1',
             'GOTRUE_SITE_URL':self.profile['public_origin'],
-            'GOTRUE_URI_ALLOW_LIST':self.profile['google_callback_origin']+'/functions/v1/collect-api/v1/auth/google/callback',
+            'GOTRUE_URI_ALLOW_LIST':auth_redirect_allowlist(self.profile),
             'GOTRUE_DISABLE_SIGNUP':'false','GOTRUE_EXTERNAL_EMAIL_ENABLED':'true',
             'GOTRUE_MAILER_SECURE_EMAIL_CHANGE_ENABLED':'true',
             **{'GOTRUE_MAILER_URLPATHS_'+suffix:'/auth/v1/verify'
@@ -375,6 +375,7 @@ psql --no-psqlrc --no-password --host=db --port=5432 --username=collect_sms_edge
             'GOTRUE_HOOK_SEND_SMS_SECRETS':'v1,whsec_'+hook_secret,
             'GOTRUE_SMS_PROVIDER':'twilio' if mode=='opensms_hook' else mode,
             'GOTRUE_SMS_OTP_LENGTH':'6','GOTRUE_SMS_OTP_EXP':'300',
+            'GOTRUE_MAILER_OTP_LENGTH':'6','GOTRUE_MAILER_OTP_EXP':settings['COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS'],
             'GOTRUE_SMS_AUTOCONFIRM':'false','GOTRUE_MAILER_AUTOCONFIRM':'false',
             'GOTRUE_SECURITY_CAPTCHA_ENABLED':'true' if self.profile['environment']=='production' or settings['TURNSTILE_SITE_KEY'] else 'false',
             'GOTRUE_SECURITY_CAPTCHA_PROVIDER':'turnstile',

@@ -22,8 +22,22 @@ for(const [name,change] of [
  ['future unsupported fee variant',s=>({...s,body:s.body.replace('Balance:','Fee: 0 RWF. Balance:')})]
 ])test('receipt fails closed: '+name,()=>assert.throws(()=>parseReceipt(change(source),profile)));
 test('profile mandatory; no invented default timezone',()=>assert.throws(()=>parseReceipt(source,{senders:['M-Money'],version:'v'}),/profile/));
-test('privacy filter rejects OTP without returning message contents',()=>{const r=classifyCapture({...source,body:'Your OTP is 9999'},profile,binding);assert.equal(r.retain,false);assert(!JSON.stringify(r).includes('9999'));});
-test('privacy filter requires exact SIM route and complete financial format',()=>{assert.equal(classifyCapture(source,profile,binding).retain,true);for(const sub of [null,undefined,-1,5])assert.equal(classifyCapture({...source,subscriptionId:sub},profile,binding).retain,false);});
+const intakeProfile={...profile,incomingPrefixes:['You have received'],currencyAliases:['RWF'],transactionIdPrefixes:['FT Id:']};
+test('privacy filter rejects OTP without returning message contents',()=>{const r=classifyCapture({...source,body:'Your OTP is 9999'},intakeProfile,binding);assert.equal(r.retain,false);assert(!JSON.stringify(r).includes('9999'));});
+test('privacy filter requires exact SIM route and approved financial markers',()=>{assert.equal(classifyCapture(source,intakeProfile,binding).retain,true);for(const sub of [null,undefined,-1,5])assert.equal(classifyCapture({...source,subscriptionId:sub},intakeProfile,binding).retain,false);});
+test('different approved message formats enter extraction without becoming ledger evidence',()=>{
+ const other={...intakeProfile,senders:['ALT-SENDER'],incomingPrefixes:['Payment received'],transactionIdPrefixes:['Reference:']};
+ const candidate={...source,sender:'ALT-SENDER',body:'Payment received: RWF 1500 from EXAMPLE. Reference: 123456.'};
+ assert.equal(classifyCapture(candidate,other,binding).retain,true);
+ assert.throws(()=>parseReceipt(candidate,other));
+ assert.equal(classifyCapture({...candidate,body:candidate.body+' OTP 1234'},other,binding).retain,false);
+ assert.equal(classifyCapture({...candidate,sender:'unapproved'},other,binding).retain,false);
+});
+test('approved sender folding does not equate dotted-I and ordinary i',()=>{
+ const allowed={...intakeProfile,senders:['i']};
+ assert.equal(classifyCapture({...source,sender:'I'},allowed,binding).retain,true);
+ assert.equal(classifyCapture({...source,sender:'İ'},allowed,binding).retain,false);
+});
 test('canonical event key includes wallet and event kind',()=>{const r=parseReceipt(source,profile);assert.notEqual(transactionKey('a',r),transactionKey('b',r));assert.notEqual(transactionKey('a',r),transactionKey('a',{...r,eventKind:'reversal'}));});
 test('fingerprint flags differing payer and amount under same reference',async()=>{const r=parseReceipt(source,profile);assert.notEqual(await receiptFingerprint(r),await receiptFingerprint({...r,amountRwf:10001}));assert.notEqual(await receiptFingerprint(r),await receiptFingerprint({...r,payerNameRaw:'OTHER'}));});
 test('stable JSON independent of object insertion order',()=>assert.equal(canonicalJson({b:2,a:1}),canonicalJson({a:1,b:2})));

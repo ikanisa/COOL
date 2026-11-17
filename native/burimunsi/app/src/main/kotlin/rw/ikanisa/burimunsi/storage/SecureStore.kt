@@ -15,6 +15,9 @@ import javax.crypto.spec.GCMParameterSpec
  * Operator files are separate from Collect's independent receiving queue.
  */
 class SecureStore(context: Context, private val name: String) {
+    // Distinct repository instances share files and one Keystore alias.
+    // AtomicFile and first-use key creation require process-wide exclusion.
+    companion object { private val processLock=Any() }
     private val file = AtomicFile(File(context.noBackupFilesDir, "buri-$name.v1"))
     private val alias = context.packageName + ".burimunsi.operator.v1"
     private val aad = ("burimunsi:" + name + ":1").toByteArray(Charsets.UTF_8)
@@ -27,8 +30,8 @@ class SecureStore(context: Context, private val name: String) {
                 .setRandomizedEncryptionRequired(true).build())
         }.generateKey()
     }
-    @Synchronized fun read(): String? {
-        if (!file.baseFile.exists() && !File(file.baseFile.path + ".bak").exists()) return null
+    fun read(): String? = synchronized(processLock) {
+        if (!file.baseFile.exists() && !File(file.baseFile.path + ".bak").exists()) return@synchronized null
         val bytes = file.openRead().use { input ->
             val limit = 2_097_152
             val out = java.io.ByteArrayOutputStream()
@@ -40,9 +43,9 @@ class SecureStore(context: Context, private val name: String) {
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
         cipher.init(Cipher.DECRYPT_MODE, key(), GCMParameterSpec(128, bytes.copyOfRange(1, 13)))
         cipher.updateAAD(aad)
-        return cipher.doFinal(bytes.copyOfRange(13, bytes.size)).toString(Charsets.UTF_8)
+        cipher.doFinal(bytes.copyOfRange(13, bytes.size)).toString(Charsets.UTF_8)
     }
-    @Synchronized fun write(value: String) {
+    fun write(value: String) = synchronized(processLock) {
         val body = value.toByteArray(Charsets.UTF_8)
         require(body.size <= 2_000_000)
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
@@ -53,5 +56,5 @@ class SecureStore(context: Context, private val name: String) {
         try { output = file.startWrite(); output.write(bytes); output.fd.sync(); file.finishWrite(output) }
         catch (e: Exception) { if (output != null) file.failWrite(output); throw e }
     }
-    @Synchronized fun clear() { file.delete() }
+    fun clear() = synchronized(processLock) { file.delete() }
 }

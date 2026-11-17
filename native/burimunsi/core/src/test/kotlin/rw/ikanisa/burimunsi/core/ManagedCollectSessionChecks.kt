@@ -6,8 +6,8 @@ import java.util.concurrent.atomic.AtomicReference
 object ManagedCollectSessionChecks {
     fun run(ok:(String,()->Unit)->Unit){
         val now=1794045600000L
-        fun value(token:String="fixture.jwt.signature",principal:String="principal",scope:Long=1)=CollectManagedAccess(
-            token,now+120_000,"auth","$principal","managed-session","operator","group","install","staff",1,1,1,scope)
+        fun value(token:String="fixture.jwt.signature",principal:String="principal",scope:Long=1,group:String="group")=CollectManagedAccess(
+            token,now+120_000,"auth","$principal","managed-session","operator",group,"install","staff",1,1,1,scope)
         class Transport:CollectManagedTransport {
             var count=0;var logouts=0;var action:()->CollectManagedAccess={value()};var logoutFailure=false
             var requests=0;var verifications=0;var suppliedCode=""
@@ -18,7 +18,7 @@ object ManagedCollectSessionChecks {
             override fun access(session:CollectBffSession,installationId:String,deviceToken:String):CollectManagedAccess{count++;check(deviceToken=="managed-device");return action()}
             override fun signOut(session:CollectBffSession){logouts++;if(logoutFailure)throw ManagedCollectFailure("connection_unavailable")}
         }
-        fun broker(t:Transport)=ManagedCollectSession(t,"install","group","staff",{"managed-device"},{now})
+        fun broker(t:Transport)=ManagedCollectSession(t,"install","staff",{"managed-device"},{now})
         fun login(b:ManagedCollectSession){b.requestEmailCode("operator@example.invalid");b.verifyEmailCode("001234")}
         fun rejects(block:()->Unit){check(runCatching(block).exceptionOrNull() is ManagedCollectFailure)}
         ok("managed login obtains BFF and device-bound access without persisting credentials"){
@@ -28,6 +28,23 @@ object ManagedCollectSessionChecks {
         }
         ok("background forces current managed/device revalidation before another API request"){
             val t=Transport();val b=broker(t);login(b);b.onBackground();b.currentAccessToken();check(t.count==2)
+        }
+        ok("collection is absent before OTP and derived only from successful device-approved access"){
+            val t=Transport();val b=broker(t);t.action={value(group="live-selected-group")}
+            check(b.currentCollectionId==null);b.requestEmailCode("operator@example.invalid")
+            check(b.currentCollectionId==null&&t.count==0);b.verifyEmailCode("001234")
+            val access=b.currentAccess();check(b.currentCollectionId=="live-selected-group"&&access.collectionId=="live-selected-group")
+            b.signOut();check(b.currentCollectionId==null)
+        }
+        ok("current device grant cannot retarget an existing managed identity into another collection"){
+            val t=Transport();val b=broker(t);login(b);b.onBackground();t.action={value(group="another-group")}
+            rejects{b.currentAccess()};check(!b.signedIn&&b.currentCollectionId==null)
+        }
+        ok("malformed returned collection cannot establish managed or PIN authority"){
+            for(group in listOf("","../group"," group","group/other")){
+                val t=Transport();val b=broker(t);t.action={value(group=group)};rejects{login(b)}
+                check(!b.signedIn&&b.currentCollectionId==null&&t.logouts==1)
+            }
         }
         ok("changed principal cannot replace the current managed identity during refresh"){
             val t=Transport();val b=broker(t);login(b);b.onBackground();t.action={value(principal="other")}
@@ -83,7 +100,7 @@ object ManagedCollectSessionChecks {
             b.verifyEmailCode("001234");check(b.signedIn&&t.requests==1&&t.verifications==1)
         }
         ok("uncertain send reserves cooldown before IO; cancellation and address changes cannot resend"){
-            val t=Transport();var time=now;val b=ManagedCollectSession(t,"install","group","staff",{"managed-device"},{time})
+            val t=Transport();var time=now;val b=ManagedCollectSession(t,"install","staff",{"managed-device"},{time})
             t.requestAction={throw ManagedCollectFailure("managed_connection_unavailable")}
             rejects{b.requestEmailCode("operator@example.invalid")};check(t.requests==1&&b.emailCodeState.challenge==null)
             b.cancelEmailCode();rejects{b.requestEmailCode("other@example.invalid")};check(t.requests==1)
@@ -105,7 +122,7 @@ object ManagedCollectSessionChecks {
             b.verifyEmailCode("001235");check(b.signedIn&&t.requests==1&&t.verifications==2)
         }
         ok("expired original challenge cannot dispatch verification"){
-            val t=Transport();var time=now;val b=ManagedCollectSession(t,"install","group","staff",{"managed-device"},{time})
+            val t=Transport();var time=now;val b=ManagedCollectSession(t,"install","staff",{"managed-device"},{time})
             b.requestEmailCode("operator@example.invalid");time+=300_001;rejects{b.verifyEmailCode("001234")};check(t.verifications==0)
         }
         ok("background rejects delayed challenge publication and preserves the send cooldown"){

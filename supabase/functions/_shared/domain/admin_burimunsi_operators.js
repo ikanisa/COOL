@@ -6,14 +6,18 @@ import {verifyDeploymentProfile} from '../deployment-profile.js';
 import {PostgresNativeAuthority} from './burimunsi/postgres-authority.js';
 import {CAPABILITIES} from './burimunsi/policy.js';
 import {normalizePhone} from './burimunsi/values.js';
+import {selectAdminCollection} from './burimunsi/admin-scope-selection.js';
+import {preliminaryCurrentOwner} from './admin_owner_precheck.js';
 
 const BASE='/api/admin/burimunsi/operators';
 const fail=(status,code,message)=>{throw new ApiError(status,code,message);};
-function checkedReceipt(value,requestId){
+function checkedReceipt(value,requestId,expectedPrincipal=null){
  if(!value||value.contractVersion!==1||value.requestId!==requestId||value.applied!==true||
    typeof value.active!=='boolean'||!Number.isSafeInteger(value.version)||value.version<1||
    typeof value.principalId!=='string')throw Error('Invalid BuriMunsi approval receipt');
- uuid(value.principalId);return value;
+ uuid(value.principalId);
+ if(expectedPrincipal!==null&&value.principalId!==expectedPrincipal)throw Error('BuriMunsi approval principal changed');
+ return value;
 }
 function knownFailure(error){
  const code=error?.message;
@@ -36,19 +40,18 @@ export async function adminBuriMunsiOperators(request,env){
  if(path!==BASE&&!path.startsWith(BASE+'/'))return null;
  const recovery=path.match(/^\/api\/admin\/burimunsi\/operators\/requests\/([^/]+)$/);
  if(path!==BASE&&!recovery)fail(404,'not_found','This BuriMunsi view does not exist.');
- if(url.search)fail(400,'invalid_request','This view does not accept filters.');
+ for(const key of url.searchParams.keys())if(key!=='collectionId'||url.searchParams.getAll(key).length!==1)fail(400,'invalid_request','Choose one collection.');
  if(request.method!=='GET'&&!(request.method==='POST'&&path===BASE))fail(405,'method_not_allowed','Use the operator view or approval action.');
  const account=await adminAccountSession(request,env);
- if(account.role!=='owner'||account.email!=='info@ikanisa.com'||!account.permissions.includes('admin_users.manage'))
+ if(!await preliminaryCurrentOwner(env,account)||!account.permissions.includes('admin_users.manage'))
   fail(403,'owner_required','The Collect owner manages BuriMunsi access.');
  requireFreshAdminEmail(account);
  const work=applicationWork(env),tuple=applicationWorkTuple(work),profile=await verifyDeploymentProfile(env);
  if(work.kind!=='http_admin'||env.DB?.applicationWork!==work||tuple[2]!==env.BUILD_SOURCE_ID||
    account.origin!==profile.admin_origin||request.headers.get('Origin')!==profile.admin_origin)
   fail(503,'burimunsi_unavailable','BuriMunsi is not configured for this deployment.');
- const group=env.BURIMUNSI_COLLECTION_ID;
- if(typeof group!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/.test(group))
-  fail(503,'burimunsi_unavailable','Select the existing BuriMunsi group before provisioning access.');
+ const body=request.method==='POST'?await readJson(request,4096):null;
+ const group=await selectAdminCollection({env,account,requested:body?.collectionId??url.searchParams.get('collectionId')});
  const authority=new PostgresNativeAuthority({db:env.DB,groupId:group}),actor=adminEmailArguments(account);
  if(request.method==='GET'){
   const requestId=recovery?uuid(recovery[1]):null;
@@ -68,10 +71,10 @@ export async function adminBuriMunsiOperators(request,env){
    return json({...value,collectionId:group},200,{'Pragma':'no-cache'});
   }catch(error){knownFailure(error);fail(503,'burimunsi_unavailable','The current BuriMunsi access could not be confirmed.');}
  }
- const body=await readJson(request,4096),allowed=['requestId','collectionId','adminId','phone','role','capabilities','active','expectedVersion'];
+ const allowed=['requestId','collectionId','adminId','principalId','phone','role','capabilities','active','expectedVersion'];
  if(Object.keys(body).length!==allowed.length||!allowed.every(k=>Object.hasOwn(body,k)))
   fail(400,'invalid_request','Supply the selected Collect account and exact approval fields.');
- const requestId=uuid(body.requestId),adminId=uuid(body.adminId);
+ const requestId=uuid(body.requestId),adminId=uuid(body.adminId),principalId=uuid(body.principalId);
  // An expected scope is a concurrency assertion, never a client selector.
  // A deployment/group switch must not retarget a retained owner request.
  if(body.collectionId!==group)fail(409,'burimunsi_scope_changed','The BuriMunsi group changed. Refresh this workspace before continuing.');
@@ -84,9 +87,9 @@ export async function adminBuriMunsiOperators(request,env){
   fail(400,'invalid_approval','Choose the exact BuriMunsi role and access.');
  try{
   const receipt=await authority.write(async sql=>(await sql.unsafe(
-   'SELECT private.burimunsi_operator_approve($1,$2,$3,$4,$5,$6::uuid,$7,$8,$9,$10::text[],$11,$12) AS result',
-   [...actor,group,requestId,adminId,phone,body.role,[...body.capabilities].sort(),body.active,body.expectedVersion]))[0]?.result);
-  return json(checkedReceipt(receipt,requestId),200,{'Pragma':'no-cache'});
+   'SELECT private.burimunsi_operator_approve_v2($1,$2,$3,$4,$5,$6::uuid,$7,$8,$9,$10::text[],$11,$12,$13) AS result',
+   [...actor,group,requestId,adminId,phone,body.role,[...body.capabilities].sort(),body.active,body.expectedVersion,principalId]))[0]?.result);
+  return json(checkedReceipt(receipt,requestId,principalId),200,{'Pragma':'no-cache'});
  }catch(error){
   knownFailure(error);
   // COMMIT may have succeeded. Retain the exact request ID, check its outcome,

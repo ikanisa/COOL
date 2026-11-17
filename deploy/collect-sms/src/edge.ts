@@ -38,11 +38,15 @@ export function createSmsGatewayHandler(settings:Settings,options:{database?:Gat
     ['http://api-gw:8000','http://functions:9000','http://127.0.0.1:9000'].includes(url.origin))){
    url.protocol='https:';url.hostname=authority.hostname;url.port='';
   }
-  for(const prefix of ['/functions/v1/collect-sms','/collect-sms']){
-   if(url.pathname===prefix){url.pathname='/';break;}
-   if(url.pathname.startsWith(prefix+'/')){url.pathname=url.pathname.slice(prefix.length);break;}
-  }
   if(url.origin!==publicOrigin)return new Response(null,{status:403,headers:{'cache-control':'no-store'}});
+  // The physical function route is part of the admission boundary. Do not
+  // dispatch a bare or similarly named path if a proxy forwards it here.
+  let recognized=false;
+  for(const prefix of ['/functions/v1/collect-sms','/collect-sms']){
+   if(url.pathname===prefix){url.pathname='/';recognized=true;break;}
+   if(url.pathname.startsWith(prefix+'/')){url.pathname=url.pathname.slice(prefix.length);recognized=true;break;}
+  }
+  if(!recognized)return new Response(null,{status:404,headers:{'cache-control':'no-store'}});
   // Scheduled maintenance is never exposed through an application/device token.
   if(url.pathname==='/internal/maintenance'){
    if(request.method!=='POST'||!settings.COLLECT_SMS_MAINTENANCE_TOKEN||settings.COLLECT_SMS_MAINTENANCE_TOKEN.length<32||

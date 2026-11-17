@@ -49,7 +49,9 @@ for(const k of ['runtime','allocation','evidence'])test('shared executor cannot 
 test('persistent rematch and shared writer compose together without I/O',()=>{const o=sharedOptions();o.config.rematchEnabled=true;o.bridges.rematchAdmission={assertInTransaction:unexpected};delete o.bridges.commands.enqueueEligibleRematch;const ports=createPostgresNativePorts(o);assert(ports.posting&&ports.rematches);assert.equal(typeof ports.canonical.commands.postContribution,'function');});
 
 function journalOptions(){const o=sharedOptions();o.config.journalEvidenceEnabled=true;delete o.bridges.posting.evidence;
- o.bridges.posting.custody={namespace:{origin:'https://example.test',bucket:'collect-evidence'},decrypt:unexpected};return o;}
+ const namespace={origin:'https://example.test',bucket:'collect-evidence'};
+ o.bridges.posting.custody={namespace,decrypt:unexpected,media:{namespace,get:unexpected},
+  applicationWorkTuple:()=>['11111111-1111-4111-8111-111111111111',1,'a'.repeat(64)]};return o;}
 test('concrete journal custody composes with shared posting without I/O',()=>{
  const p=createPostgresNativePorts(journalOptions());assert(p.custody);assert.equal(p.posting.evidence,p.custody);
 });
@@ -73,7 +75,7 @@ test('concrete allocation does not replace the missing runtime authorization bri
 test('concrete allocator, custody and persistent rematch compose jointly without effects',()=>{const o=allocationOptions();o.config.rematchEnabled=true;o.bridges.rematchAdmission={assertInTransaction:unexpected};delete o.bridges.commands.enqueueEligibleRematch;const p=createPostgresNativePorts(o);assert(p.allocation&&p.custody&&p.rematches&&p.posting);});
 
 function preparationOptions(){const o=allocationOptions();o.config.postingPreparationEnabled=true;
- o.bridges.posting.preparation={media:{namespace:o.bridges.posting.custody.namespace,put:unexpected},encrypt:unexpected,keyId:'test-key'};return o;}
+ o.bridges.posting.preparation={media:{namespace:o.bridges.posting.custody.namespace,put:unexpected,get:unexpected},encrypt:unexpected,keyId:'test-key'};return o;}
 test('preparation, allocation, custody and posting assemble without I/O',()=>{
  const p=createPostgresNativePorts(preparationOptions());assert(p.preparation);assert.equal(p.preparation.authority,p.auth);
  assert.equal(p.preparation.posting,p.posting);assert.equal(p.preparation.allocation,p.allocation);assert.equal(p.preparation.custody,p.custody);
@@ -121,3 +123,12 @@ test('worker-only adapter without the explicit proof selector is ambiguous',()=>
 test('native proof cannot start an automatic worker without genuine worker authority',()=>assert.throws(()=>composePostgresNativeWorkers(nativeAuthorityOptions()),/collect_adapter_required/));
 test('native and explicitly supplied worker authority compose without I/O',()=>{const o=nativeAuthorityOptions();o.bridges.posting.workerRuntime={assertInTransaction:unexpected};assert.equal(typeof composePostgresNativeWorkers(o).processReceipts,'function');});
 test('native proof composes with the complete prepared writer',()=>{const o=preparationOptions();o.config.nativePostingAuthorityEnabled=true;delete o.bridges.posting.runtime;const p=createPostgresNativePorts(o);assert(p.preparation&&p.postingAuthority);assert.equal(p.preparation.posting.runtime,p.postingAuthority);});
+
+test('advanced smart import is explicit and passes the same trusted port through postgres composition',()=>{
+ const o=options();assert.equal(createPostgresNativePorts(o).smartOnboardingImport,undefined);
+ o.config.smartOnboardingAdvancedEnabled=true;assert.throws(()=>createPostgresNativePorts(o),/collect_adapter_required/);
+ const port={preview:unexpected};o.bridges.smartOnboardingImport=port;
+ assert.equal(createPostgresNativePorts(o).smartOnboardingImport,port);
+ assert.equal(typeof composePostgresNativeRequest(o),'function');
+ o.config.smartOnboardingAdvancedEnabled=false;assert.throws(()=>createPostgresNativePorts(o),/smart_import_config_conflict/);
+});

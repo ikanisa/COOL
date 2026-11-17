@@ -84,10 +84,17 @@
           "maxLength": 128
         },
         "amountRwf": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 9007199254740991,
-          "x-code": "CONTRACT_AMOUNT"
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991,
+              "x-code": "CONTRACT_AMOUNT"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "atRaw": {
           "type": "string",
@@ -95,9 +102,16 @@
           "maxLength": 128
         },
         "ftId": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "state": {
           "type": "string",
@@ -106,7 +120,9 @@
             "processing",
             "posted",
             "reversed",
-            "conflict"
+            "corrected",
+            "conflict",
+            "recorded"
           ],
           "x-code": "CONTRACT_STATUS"
         },
@@ -148,6 +164,55 @@
               "minLength": 1,
               "maxLength": 128,
               "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "incoming",
+            "outgoing",
+            "reversal",
+            "other"
+          ]
+        },
+        "outcome": {
+          "type": "string",
+          "enum": [
+            "successful",
+            "failed",
+            "pending",
+            "unknown"
+          ]
+        },
+        "sourceKind": {
+          "type": "string",
+          "enum": [
+            "canonical",
+            "observation"
+          ]
+        },
+        "feeRwf": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "walletBalanceAfterRwf": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
             },
             {
               "type": "null"
@@ -277,6 +342,25 @@
           "minLength": 13,
           "maxLength": 13,
           "pattern": "^\\+2507[2389][0-9]{7}(?![\\s\\S])"
+        },
+        "state": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "unallocated",
+                "processing",
+                "posted",
+                "reversed",
+                "corrected",
+                "conflict"
+              ],
+              "x-code": "CONTRACT_STATUS"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -345,6 +429,18 @@
               "type": "null"
             }
           ]
+        },
+        "simLabel": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -388,7 +484,7 @@
         "rawBody": {
           "type": "string",
           "minLength": 0,
-          "maxLength": 8192
+          "maxLength": 16384
         },
         "transactionId": {
           "anyOf": [
@@ -397,6 +493,18 @@
               "minLength": 1,
               "maxLength": 128,
               "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "simLabel": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
             },
             {
               "type": "null"
@@ -647,6 +755,12 @@
         },
         "profile": {
           "$ref": "#/$defs/profile"
+        },
+        "groupId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
         }
       },
       "required": [
@@ -716,6 +830,12 @@
         },
         "profile": {
           "$ref": "#/$defs/profile"
+        },
+        "groupId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
         }
       },
       "required": [
@@ -771,7 +891,14 @@
     },
     "logout.request": {
       "type": "object",
-      "properties": {},
+      "properties": {
+        "replacementToken": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        }
+      },
       "required": [],
       "additionalProperties": false
     },
@@ -808,12 +935,18 @@
       "properties": {
         "reauthenticationRequired": {
           "type": "boolean",
-          "const": true,
+          "const": false,
           "x-code": "CONTRACT_VALUE"
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
         }
       },
       "required": [
-        "reauthenticationRequired"
+        "reauthenticationRequired",
+        "expiresAt"
       ],
       "additionalProperties": false
     },
@@ -837,12 +970,19 @@
           "minLength": 4,
           "maxLength": 4,
           "pattern": "^[0-9]{4}(?![\\s\\S])"
+        },
+        "replacementToken": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
         }
       },
       "required": [
         "current",
         "newPin",
-        "confirm"
+        "confirm",
+        "replacementToken"
       ],
       "additionalProperties": false
     },
@@ -913,6 +1053,12 @@
           },
           "minItems": 0,
           "maxItems": 100
+        },
+        "unallocatedAmountRwf": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991,
+          "x-code": "CONTRACT_AMOUNT"
         }
       },
       "required": [
@@ -1028,7 +1174,19 @@
       "$ref": "#/$defs/rawSms"
     },
     "rawSms.request": {
-      "type": "null"
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 1000,
+          "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f]+(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "additionalProperties": false
     },
     "rawSms.response": {
       "type": "object",
@@ -1183,7 +1341,8 @@
             "burimunsi.staff.reset",
             "burimunsi.staff.disable",
             "burimunsi.staff.enable",
-            "burimunsi.staff.remove"
+            "burimunsi.staff.remove",
+            "burimunsi.members_import"
           ],
           "x-code": "CONTRACT_STATUS"
         },
@@ -1258,7 +1417,8 @@
           "type": "string",
           "enum": [
             "committed",
-            "pending"
+            "pending",
+            "cancelled"
           ],
           "x-code": "CONTRACT_STATUS"
         },
@@ -1285,6 +1445,18 @@
           "minLength": 1,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "operation": {
+          "type": "string",
+          "enum": [
+            "burimunsi.staff.create",
+            "burimunsi.staff.edit",
+            "burimunsi.staff.reset",
+            "burimunsi.staff.disable",
+            "burimunsi.staff.enable",
+            "burimunsi.staff.remove"
+          ],
+          "x-code": "CONTRACT_VALUE"
         }
       },
       "required": [
@@ -1679,7 +1851,6 @@
       "required": [
         "action",
         "phone",
-        "pin",
         "name",
         "capabilities",
         "requestId"
@@ -1965,51 +2136,43 @@
     "replace.data": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        "retired": {
+          "type": "boolean",
+          "const": true
         },
-        "installationId": {
+        "handoffId": {
           "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
         },
-        "receivingAccountId": {
+        "requestId": {
           "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+        },
+        "reauthenticationRequired": {
+          "type": "boolean",
+          "const": true
         }
       },
       "required": [
-        "id",
-        "installationId",
-        "receivingAccountId"
+        "retired",
+        "handoffId",
+        "requestId",
+        "reauthenticationRequired"
       ],
       "additionalProperties": false
     },
     "replace.request": {
       "type": "object",
       "properties": {
-        "installationId": {
+        "replacementCode": {
           "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
-        },
-        "expectedBindingId": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
-        },
-        "expectedVersion": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 9007199254740991
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
         },
         "requestId": {
           "type": "string",
@@ -2019,9 +2182,7 @@
         }
       },
       "required": [
-        "installationId",
-        "expectedBindingId",
-        "expectedVersion",
+        "replacementCode",
         "requestId"
       ],
       "additionalProperties": false
@@ -2638,6 +2799,54 @@
           "minLength": 1,
           "maxLength": 2048,
           "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+(?![\\s\\S])"
+        },
+        "sort": {
+          "type": "string",
+          "enum": [
+            "newest",
+            "oldest",
+            "amount_asc",
+            "amount_desc"
+          ]
+        },
+        "fromAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "untilAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "minRwf": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 17,
+          "pattern": "^-?(?:0|[1-9][0-9]{0,15})(?![\\s\\S])"
+        },
+        "maxRwf": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 17,
+          "pattern": "^-?(?:0|[1-9][0-9]{0,15})(?![\\s\\S])"
+        },
+        "q": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 80
+        },
+        "filter": {
+          "type": "string",
+          "enum": [
+            "all",
+            "transaction_recorded",
+            "ledger_entry"
+          ]
         }
       },
       "required": [],
@@ -2722,7 +2931,13 @@
           "enum": [
             "all",
             "unallocated",
-            "allocated"
+            "allocated",
+            "processing",
+            "recorded",
+            "posted",
+            "reversed",
+            "corrected",
+            "conflict"
           ]
         },
         "memberId": {
@@ -2730,6 +2945,71 @@
           "minLength": 1,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9_-]+(?![\\s\\S])"
+        },
+        "sort": {
+          "type": "string",
+          "enum": [
+            "newest",
+            "oldest",
+            "amount_asc",
+            "amount_desc"
+          ]
+        },
+        "fromAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "untilAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "minRwf": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 17,
+          "pattern": "^-?(?:0|[1-9][0-9]{0,15})(?![\\s\\S])"
+        },
+        "maxRwf": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 17,
+          "pattern": "^-?(?:0|[1-9][0-9]{0,15})(?![\\s\\S])"
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "all",
+            "incoming",
+            "outgoing",
+            "reversal",
+            "other"
+          ]
+        },
+        "outcome": {
+          "type": "string",
+          "enum": [
+            "all",
+            "successful",
+            "failed",
+            "pending",
+            "unknown"
+          ]
+        },
+        "credit": {
+          "type": "string",
+          "enum": [
+            "all",
+            "credited",
+            "uncredited",
+            "reversed",
+            "corrected"
+          ]
         }
       },
       "required": [],
@@ -2768,6 +3048,39 @@
           "minLength": 1,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9_-]+(?![\\s\\S])"
+        },
+        "sort": {
+          "type": "string",
+          "enum": [
+            "newest",
+            "oldest",
+            "name_asc",
+            "name_desc",
+            "phone_asc",
+            "phone_desc",
+            "balance_asc",
+            "balance_desc"
+          ]
+        },
+        "minRwf": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 17,
+          "pattern": "^-?(?:0|[1-9][0-9]{0,15})(?![\\s\\S])"
+        },
+        "maxRwf": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 17,
+          "pattern": "^-?(?:0|[1-9][0-9]{0,15})(?![\\s\\S])"
+        },
+        "active": {
+          "type": "string",
+          "enum": [
+            "all",
+            "active",
+            "inactive"
+          ]
         }
       },
       "required": [],
@@ -2806,6 +3119,41 @@
           "minLength": 1,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9_-]+(?![\\s\\S])"
+        },
+        "sort": {
+          "type": "string",
+          "enum": [
+            "newest",
+            "oldest",
+            "amount_asc",
+            "amount_desc"
+          ]
+        },
+        "fromAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "untilAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "minRwf": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 17,
+          "pattern": "^-?(?:0|[1-9][0-9]{0,15})(?![\\s\\S])"
+        },
+        "maxRwf": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 17,
+          "pattern": "^-?(?:0|[1-9][0-9]{0,15})(?![\\s\\S])"
         }
       },
       "required": [],
@@ -2846,6 +3194,27 @@
           "minLength": 1,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9_-]+(?![\\s\\S])"
+        },
+        "sort": {
+          "type": "string",
+          "enum": [
+            "newest",
+            "oldest"
+          ]
+        },
+        "fromAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "untilAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
         }
       },
       "required": [],
@@ -2884,6 +3253,25 @@
           "minLength": 1,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9_-]+(?![\\s\\S])"
+        },
+        "sort": {
+          "type": "string",
+          "enum": [
+            "newest",
+            "oldest",
+            "name_asc",
+            "name_desc",
+            "phone_asc",
+            "phone_desc"
+          ]
+        },
+        "active": {
+          "type": "string",
+          "enum": [
+            "all",
+            "active",
+            "inactive"
+          ]
         }
       },
       "required": [],
@@ -2922,6 +3310,29 @@
           "minLength": 1,
           "maxLength": 128,
           "pattern": "^[A-Za-z0-9_-]+(?![\\s\\S])"
+        },
+        "sort": {
+          "type": "string",
+          "enum": [
+            "newest",
+            "oldest",
+            "action_asc",
+            "action_desc"
+          ]
+        },
+        "fromAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "untilAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
         }
       },
       "required": [],
@@ -2931,6 +3342,1551 @@
       "type": "object",
       "properties": {},
       "required": [],
+      "additionalProperties": false
+    },
+    "pair.request": {
+      "type": "object",
+      "properties": {
+        "pairingCode": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "replace": {
+          "type": "boolean",
+          "const": false,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "pairingCode",
+        "replace",
+        "requestId"
+      ],
+      "additionalProperties": false
+    },
+    "pairedBinding": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "owner_user_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "receiving_account_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "collection_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "public_code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "recipient_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "currency": {
+          "type": "string",
+          "const": "RWF"
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "subscription_id": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483646
+        },
+        "created_at": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,6})?(Z|[+-][0-9]{2}:[0-9]{2})(?![\\s\\S])",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "owner_user_id",
+        "receiving_account_id",
+        "collection_id",
+        "version",
+        "provider",
+        "public_code",
+        "recipient_name",
+        "currency",
+        "timezone",
+        "subscription_id",
+        "created_at"
+      ],
+      "additionalProperties": false
+    },
+    "pair.data": {
+      "type": "object",
+      "properties": {
+        "binding": {
+          "$ref": "#/$defs/pairedBinding"
+        },
+        "gateway_token": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "binding",
+        "gateway_token"
+      ],
+      "additionalProperties": false
+    },
+    "pair.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/pair.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "pair.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "retirementOutcome.data": {
+      "type": "object",
+      "properties": {
+        "protocol": {
+          "type": "string",
+          "const": "burimunsi.receiver-retirement.v1",
+          "x-code": "CONTRACT_VALUE"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+        },
+        "fingerprint": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "retired",
+            "unknown"
+          ],
+          "x-code": "CONTRACT_STATUS"
+        },
+        "ack": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/replace.data"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "protocol",
+        "requestId",
+        "fingerprint",
+        "state",
+        "ack"
+      ],
+      "additionalProperties": false
+    },
+    "retirementOutcome.request": {
+      "type": "null"
+    },
+    "retirementOutcome.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "retirementOutcome.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/retirementOutcome.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "staffResolution.request": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "type": "string",
+          "enum": [
+            "burimunsi.staff.create",
+            "burimunsi.staff.edit",
+            "burimunsi.staff.reset",
+            "burimunsi.staff.disable",
+            "burimunsi.staff.enable",
+            "burimunsi.staff.remove"
+          ],
+          "x-code": "CONTRACT_VALUE"
+        }
+      },
+      "required": [
+        "operation"
+      ],
+      "additionalProperties": false
+    },
+    "staffResolution.response": {
+      "$ref": "#/$defs/recovery.response"
+    },
+    "staffResolution.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "observationConsent.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "observationConsent.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/observationConsent.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "observationConsentSet.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "observationConsentSet.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/observationConsentSet.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "observationProfile.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "observationProfile.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/observationProfile.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "observation.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "observation.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/observation.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "observationConsent.request": {
+      "type": "null"
+    },
+    "observationConsent.data": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "enabled",
+        "generation"
+      ],
+      "additionalProperties": false
+    },
+    "observationConsentSet.request": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "enabled",
+        "generation"
+      ],
+      "additionalProperties": false
+    },
+    "observationConsentSet.data": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "enabled",
+        "generation"
+      ],
+      "additionalProperties": false
+    },
+    "observationProfile.request": {
+      "type": "null"
+    },
+    "observationProfile.data": {
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "offsetMinutes": {
+          "type": "integer",
+          "minimum": -840,
+          "maximum": 840
+        },
+        "senders": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 30,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "incomingPrefixes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 30,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "currencyAliases": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 30,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "transactionIdPrefixes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 30,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "issuedAt": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "legacyHold": {
+          "type": "boolean"
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "profileVersion",
+        "offsetMinutes",
+        "senders",
+        "incomingPrefixes",
+        "currencyAliases",
+        "transactionIdPrefixes",
+        "issuedAt",
+        "expiresAt"
+      ],
+      "additionalProperties": false
+    },
+    "observation.request": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+        },
+        "rawSender": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96
+        },
+        "rawBody": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3000
+        },
+        "sourceMode": {
+          "type": "string",
+          "enum": [
+            "live",
+            "catch_up"
+          ]
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "capturedAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 35,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "serviceCentreAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 35,
+              "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z(?![\\s\\S])",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inboxReceivedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 35,
+              "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z(?![\\s\\S])",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "subscriptionId": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceKey": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "requestId",
+        "rawSender",
+        "rawBody",
+        "sourceMode",
+        "complete",
+        "capturedAt",
+        "serviceCentreAt",
+        "inboxReceivedAt",
+        "subscriptionId"
+      ],
+      "additionalProperties": false
+    },
+    "observation.data": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+        },
+        "sourceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "bodySha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "status": {
+          "type": "string",
+          "const": "source_unresolved"
+        },
+        "financialEffects": {
+          "type": "integer",
+          "const": 0
+        }
+      },
+      "required": [
+        "requestId",
+        "sourceId",
+        "bodySha256",
+        "status",
+        "financialEffects"
+      ],
+      "additionalProperties": false
+    },
+    "observationPageItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "groupId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "sourceKind": {
+          "type": "string",
+          "const": "observation"
+        },
+        "sourceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "status": {
+          "type": "string",
+          "const": "source_unresolved"
+        },
+        "at": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,6})?(Z|[+-][0-9]{2}:[0-9]{2})(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "financialEffects": {
+          "type": "integer",
+          "const": 0
+        }
+      },
+      "required": [
+        "id",
+        "groupId",
+        "sourceKind",
+        "sourceId",
+        "status",
+        "at",
+        "financialEffects"
+      ],
+      "additionalProperties": false
+    },
+    "observationPage.query": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3,
+          "pattern": "^(?:[1-9][0-9]?|100)(?![\\s\\S])"
+        },
+        "cursor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+(?![\\s\\S])"
+        },
+        "q": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 80
+        },
+        "sort": {
+          "type": "string",
+          "enum": [
+            "newest",
+            "oldest"
+          ]
+        },
+        "fromAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "untilAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 24,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "filter": {
+          "type": "string",
+          "enum": [
+            "all"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "observationPage.request": {
+      "type": "null"
+    },
+    "observationPage.data": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/observationPageItem"
+          },
+          "minItems": 0,
+          "maxItems": 100
+        },
+        "totalCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8192
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "asOf": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,6})?(Z|[+-][0-9]{2}:[0-9]{2})(?![\\s\\S])",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "items",
+        "totalCount",
+        "nextCursor",
+        "revision",
+        "asOf"
+      ],
+      "additionalProperties": false
+    },
+    "observationPage.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/observationPage.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "observationReveal.request": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 1000,
+          "pattern": "^[^\\u0000-\\u001f\\u007f-\\u009f]+(?![\\s\\S])"
+        },
+        "displayHintsVersion": {
+          "type": "integer",
+          "const": 1
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "observationReveal.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "observationReveal.data": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "sourceKind": {
+          "type": "string",
+          "const": "observation"
+        },
+        "sourceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "status": {
+          "type": "string",
+          "const": "source_unresolved"
+        },
+        "at": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,6})?(Z|[+-][0-9]{2}:[0-9]{2})(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "sender": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96
+        },
+        "rawBody": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3000
+        },
+        "financialEffects": {
+          "type": "integer",
+          "const": 0
+        },
+        "displayHints": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/observationDisplayHints"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "groupId",
+        "sourceKind",
+        "sourceId",
+        "status",
+        "at",
+        "sender",
+        "rawBody",
+        "financialEffects"
+      ],
+      "additionalProperties": false
+    },
+    "observationReveal.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/observationReveal.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "observationDisplayHint": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "quoted_incoming_amount",
+            "quoted_reference"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3000
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3000
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3000
+        }
+      },
+      "required": [
+        "kind",
+        "text",
+        "start",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "observationDisplayHints": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "const": 1
+        },
+        "kind": {
+          "type": "string",
+          "const": "partial_inbox_display_only"
+        },
+        "profileVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "profileSha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "bodySha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/observationDisplayHint"
+          },
+          "minItems": 1,
+          "maxItems": 2
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "kind",
+        "profileVersion",
+        "profileSha256",
+        "bodySha256",
+        "hints"
+      ],
+      "additionalProperties": false
+    },
+    "onboardingCandidate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "groupId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "candidateId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+        },
+        "momoName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "last3": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 3,
+          "pattern": "^[0-9]{3}(?![\\s\\S])"
+        },
+        "latestSeenAt": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,6})?(Z|[+-][0-9]{2}:[0-9]{2})(?![\\s\\S])",
+          "format": "date-time"
+        },
+        "sourceCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        }
+      },
+      "required": [
+        "id",
+        "groupId",
+        "candidateId",
+        "momoName",
+        "last3",
+        "latestSeenAt",
+        "sourceCount"
+      ],
+      "additionalProperties": false
+    },
+    "onboardingSuggestions.data": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/onboardingCandidate"
+          },
+          "minItems": 0,
+          "maxItems": 100
+        },
+        "totalCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8192
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "asOf": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 40,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,6})?(Z|[+-][0-9]{2}:[0-9]{2})(?![\\s\\S])",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "items",
+        "totalCount",
+        "nextCursor",
+        "revision",
+        "asOf"
+      ],
+      "additionalProperties": false
+    },
+    "onboardingSuggestions.request": {
+      "type": "null"
+    },
+    "onboardingSuggestions.query": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3,
+          "pattern": "^(?:[1-9][0-9]?|100)(?![\\s\\S])"
+        },
+        "cursor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+(?![\\s\\S])"
+        },
+        "q": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 80
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "onboardingPreview.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "membersImport.query": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "onboardingPreview.request": {
+      "type": "object",
+      "properties": {
+        "mimeType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "fileBytes": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 6990508,
+          "pattern": "^[A-Za-z0-9+/]*={0,2}(?![\\s\\S])"
+        },
+        "externalOcrConsent": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "mimeType",
+        "fileBytes",
+        "externalOcrConsent"
+      ],
+      "additionalProperties": false
+    },
+    "onboardingPreview.data": {
+      "type": "object",
+      "properties": {
+        "sourceKind": {
+          "type": "string",
+          "enum": [
+            "csv",
+            "image",
+            "pdf",
+            "xlsx"
+          ]
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "row": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 500
+              },
+              "momoName": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 1024
+              },
+              "momoNumber": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 1024
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ready",
+                  "invalid",
+                  "duplicate_in_file"
+                ]
+              },
+              "issue": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "selected": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "row",
+              "momoName",
+              "momoNumber",
+              "status",
+              "issue",
+              "selected"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "maxItems": 500
+        }
+      },
+      "required": [
+        "sourceKind",
+        "rows"
+      ],
+      "additionalProperties": false
+    },
+    "membersImport.request": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "row": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 500
+              },
+              "name": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 1024
+              },
+              "phone": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 1024
+              },
+              "verifiedOwnership": {
+                "type": "boolean"
+              },
+              "acceptedTerms": {
+                "type": "boolean"
+              },
+              "consentRecorded": {
+                "type": "boolean"
+              },
+              "candidateId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128,
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "row",
+              "name",
+              "phone",
+              "verifiedOwnership",
+              "acceptedTerms",
+              "consentRecorded"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 500
+        }
+      },
+      "required": [
+        "requestId",
+        "rows"
+      ],
+      "additionalProperties": false
+    },
+    "membersImport.data": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}(?![\\s\\S])"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "row": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 500
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "invalid",
+                  "needs_verification",
+                  "duplicate_in_batch",
+                  "candidate_changed",
+                  "already_registered",
+                  "created"
+                ]
+              },
+              "memberId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128,
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,127}(?![\\s\\S])"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "row",
+              "status",
+              "memberId"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 500
+        },
+        "created": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 500
+        }
+      },
+      "required": [
+        "requestId",
+        "results",
+        "created"
+      ],
+      "additionalProperties": false
+    },
+    "onboardingSuggestions.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/onboardingSuggestions.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "onboardingPreview.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/onboardingPreview.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "membersImport.response": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "string",
+          "const": "burimunsi.native.v1",
+          "x-code": "CONTRACT_VERSION"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true,
+          "x-code": "CONTRACT_VALUE"
+        },
+        "binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "data": {
+          "$ref": "#/$defs/membersImport.data"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "ok",
+        "binding",
+        "data"
+      ],
       "additionalProperties": false
     }
   }

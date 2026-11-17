@@ -81,7 +81,7 @@ async function fixture(options, check) {
     AUTH_PHONE_ENABLED: 'true', ...(options.smsEnabled === undefined ? {} : {AUTH_SMS_ENABLED: options.smsEnabled}),
   }) : baseEnv;
   if (options.selfHosted) assert.deepEqual(await verifyDeploymentProfile(env), SELF_HOSTED_PROFILE);
-  const originalFetch = globalThis.fetch;
+  const originalFetch = globalThis.fetch,originalNow=Date.now;Date.now=()=>1792497600000;
   globalThis.fetch = async (input, init) => {
     const request = new Request(input, init), body = await request.json();
     calls.push({url: request.url, method: request.method, redirect: request.redirect, headers: request.headers, body});
@@ -103,10 +103,12 @@ async function fixture(options, check) {
   };
   try { await check({db, env, calls, provider, start: body => startOtp(env, {captcha_token: CAPTCHA, ...body})}); }
   finally {
-    globalThis.fetch = originalFetch;
+    globalThis.fetch = originalFetch;Date.now=originalNow;
     // Run after restoration so even a failed assertion never leaves a fetch stub.
-    for (const call of calls) {
-      assert.equal(call.url, (env.SUPABASE_INTERNAL_URL ?? PROJECT) + '/auth/v1/otp'); assert.equal(call.method, 'POST');
+    for (const [index,call] of calls.entries()) {
+      const admin=db.reservations[index]?.surface==='admin';
+      const adminOrigin=options.selfHosted?SELF_HOSTED_PROFILE.admin_origin:'https://platform-admin.collect.ikanisa.com';
+      assert.equal(call.url, (env.SUPABASE_INTERNAL_URL ?? PROJECT) + '/auth/v1/otp'+(admin?'?redirect_to='+encodeURIComponent(adminOrigin):'')); assert.equal(call.method, 'POST');
       assert.equal(call.redirect, 'error'); assert.equal(call.headers.get('Content-Type'), 'application/json');
       assert.equal(call.headers.get('apikey'), PUBLIC_KEY); assert.equal(call.headers.has('Authorization'), false);
     }
@@ -124,8 +126,9 @@ function challenge(result, db, item, {registration = false, surface = 'member', 
   const row = db.reservations[0];
   assert.equal(row.id, result.challenge_id); assert.equal(row.type, item.type); assert.equal(row.identity, item.identity);
   assert.equal(row.surface, surface); assert.equal(row.registrationAllowed, Number(registration));
-  assert.equal(row.expiresAt - row.createdAt, 300); assert.equal(row.delivery, delivery);
-  assert.deepEqual(result, {challenge_id: row.id, retry_after: 60, expires_in: 300, channel: item.channel, delivery_status: delivery});
+  const ttl=surface==='admin'?1800:300;
+  assert.equal(row.expiresAt - row.createdAt, ttl); assert.equal(row.delivery, delivery);
+  assert.deepEqual(result, {challenge_id: row.id, retry_after: 60, expires_in: ttl, channel: item.channel, delivery_status: delivery});
   assert.deepEqual(db.updates, [{id: row.id, status: delivery}]);
 }
 function denied(db, calls) {
@@ -189,11 +192,12 @@ test('eligible local member managed-Auth bootstrap preserves registration and de
       });
     }
   }
-  for (const optOut of OPT_OUTS) {
-    await t.test('approved Admin keeps the existing preapproval bootstrap policy despite member opt-out: ' + JSON.stringify(optOut), async () => {
-      await fixture({}, async ({start, db, calls, provider}) => {
-        const result = await start({email: EMAIL, surface: 'admin', ...optOut});
+  for (const selfHosted of [false,true]) for (const optOut of OPT_OUTS) {
+    await t.test('approved Admin keeps preapproval bootstrap and trusted redirect, self-hosted='+selfHosted+' despite member opt-out: ' + JSON.stringify(optOut), async () => {
+      await fixture({selfHosted}, async ({start, db, calls, provider}) => {
+        const result = await start({email: EMAIL, surface: 'admin', ...optOut,redirect_to:'https://foreign.invalid',emailRedirectTo:'https://foreign.invalid'});
         assert.equal(calls.length, 1); wire(calls[0], CASES[0], true);
+        assert.equal(new URL(calls[0].url).searchParams.get('redirect_to'),selfHosted?SELF_HOSTED_PROFILE.admin_origin:'https://platform-admin.collect.ikanisa.com');
         challenge(result, db, CASES[0], {surface: 'admin'}); assert.equal(provider.created, 1);
       });
     });

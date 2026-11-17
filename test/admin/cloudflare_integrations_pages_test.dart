@@ -548,6 +548,13 @@ void main() {
         expect(find.text('Revoke device'), findsNothing);
         expect(find.text('Run queued batch'), findsNothing);
         if (!gateway) {
+          expect(
+            find.text(
+              'Track Collect notifications sent through the configured Cloudflare sender.',
+            ),
+            findsOneWidget,
+          );
+          expect(find.textContaining('info@ikanisa.com'), findsNothing);
           expect(find.text('Provider accepted'), findsNWidgets(2));
           expect(
             find.bySemanticsLabel('Delivery recorded: Not recorded'),

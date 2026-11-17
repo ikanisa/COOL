@@ -1,5 +1,6 @@
 import {requirePort,requireThat} from './errors.js';
 import {requireId,normalizePhone} from './values.js';
+import {hasPhonePinContext} from './phone-pin-request.js';
 
 const CURRENT='SELECT private.burimunsi_operator_is_current($1,$2,$3,$4,$5::text[]) AS allowed';
 
@@ -32,6 +33,13 @@ export class PostgresOperatorDirectory {
     requirePort(sql,['unsafe']);requireThat(input?.groupId===this.groupId,'access_denied',403);
     requireId(input.actorId);requireThat(normalizePhone(input.phone)===input.phone,'invalid_phone');
     await this.owned();const parent=await this.managedSessions.current(sql,input.actorId);
+    if(hasPhonePinContext(this.db)){
+      requireThat(parent.authMethod==='phone_pin'&&parent.principalSessionId===input.actorNativeSessionId,'access_denied',403);
+      const rows=await sql.unsafe('SELECT private.burimunsi_pin_resolve_staff($1,$2::uuid,$3,$4,$5,$6::text[],$7::uuid) AS result',
+        [this.groupId,input.actorNativeSessionId,input.actorId,input.name,input.phone,input.capabilities,input.requestId]);
+      await this.owned();requireThat(rows.length===1,'access_denied',403);requireId(rows[0].result?.id);
+      return Object.freeze({id:rows[0].result.id});
+    }
     requireThat(['owner','admin'].includes(parent.sharedRole),'access_denied',403);
     const rows=await sql.unsafe(`SELECT o.principal_user_id FROM private.burimunsi_operator_approvals o
       WHERE o.collection_id=$1 AND o.phone=$2 AND o.active AND o.role='staff'

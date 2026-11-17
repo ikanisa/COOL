@@ -150,7 +150,7 @@ class _EmailPageState extends ConsumerState<CloudflareEmailPage> {
     return AdminPage(
       title: 'Email notifications',
       subtitle:
-          'Track Collect notifications sent through Cloudflare from info@ikanisa.com.',
+          'Track Collect notifications sent through the configured Cloudflare sender.',
       trailing: manage
           ? FilledButton.icon(
               onPressed: _dispatch,

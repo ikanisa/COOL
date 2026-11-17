@@ -110,6 +110,8 @@ async function health(env,account){
   source_revision:/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test(env.BUILD_SOURCE_ID??'')?env.BUILD_SOURCE_ID:'unknown',
   checked_at:new Date(at*1000).toISOString(),external_services_checked:false,
   configuration:{momo_processing:env.MOMO_PROCESSING_PAUSED==='false'?'enabled':'paused',
+   native_auto_processing:env.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED==='true'?'enabled':'disabled',
+   native_sms_ledger:env.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED==='true'?'enabled':'disabled',
    momo_extractor:env.MOMO_AI_ENABLED!=='true'?'disabled':typeof env.AI?.run==='function'?'configured':'missing',
    transactional_email:typeof env.AUTH_EMAIL?.send==='function'?'configured':'missing'},
   metrics_scope:'all_retained_rows',worker_heartbeat:'not_recorded',

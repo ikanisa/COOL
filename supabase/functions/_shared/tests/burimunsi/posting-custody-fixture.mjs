@@ -57,6 +57,6 @@ export async function custodyFixture({body='You have received 12,500 RWF from EX
    return [structuredClone(journals.get(values[0])[name])];
  }};
  const decrypt=async(document,aad)=>{state.decrypts++;await state.onDecrypt?.(document,aad);return encryption.decrypt(env,document,aad);};
- const verifier=new PostgresPostingCustody({db,groupId:'group-1',namespace,decrypt});
+ const verifier=new PostgresPostingCustody({qualificationOnly:true,db,groupId:'group-1',namespace,decrypt});
  return {state,env,db,sql,descriptor,verifier,work,run:()=>verifier.assertInTransaction(sql,descriptor)};
 }

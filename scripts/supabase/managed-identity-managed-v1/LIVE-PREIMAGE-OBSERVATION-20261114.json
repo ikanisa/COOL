@@ -1,0 +1,26 @@
+{
+  "format": "collect.managed-provider-identity.catalog-observation.v1",
+  "project": "rrlduytparvsjfmegalh",
+  "method": "authenticated Supabase connector; aggregate catalogue SELECT only",
+  "querySha256": "51529e61c427b459c2f9456f8f257cab4dcace434f207c47d370f6cc87b5989f",
+  "observation": {
+    "observedAt": "2026-11-14T14:25:32.157Z",
+    "suggestedValidUntil": "2026-11-14T14:35:32.157Z",
+    "database": "postgres",
+    "serverVersion": 170011,
+    "sessionUser": "postgres",
+    "currentUser": "postgres",
+    "role": "none",
+    "history": {
+      "count": 14,
+      "sha256": "de8e8f1643ffdfaa5aeab3b51e216111eef606ec582ef8e6f2e00b14b89064a3",
+      "fence": true,
+      "archive": false,
+      "identity": false
+    },
+    "roleOids": {"owner": 16384, "provider": 10, "cli": 28576, "membership": 28577},
+    "roleChecks": {"owner": true, "provider": true, "cli": true, "ownerPaths": true, "superuserPaths": true, "directMembershipCount": 1},
+    "scheduler": {"sha256": "5dc44f65fb52562bc6a0391a7f7b7d050c333c2276f98097943d9c1e340d926d", "metadataOk": true}
+  },
+  "qualification": "Point-in-time observation only. Two required predecessors are absent. This is not a usable deployment preimage, not proof of actor absence, and not an execution receipt."
+}

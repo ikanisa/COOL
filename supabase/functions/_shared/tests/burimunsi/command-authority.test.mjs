@@ -18,7 +18,7 @@ function store(afterCommand){
    postCanonicalContribution:async()=>{afterCommand?.(f);return {transactionId:'tx-1',memberId:'member-1',amountRwf:10000,currency:'RWF',ledgerEntryId:'l-1',memberBalanceRwf:10000,groupBalanceRwf:10000}},
    retainCommand:async c=>{f.retained=c}};
   const result=await fn(tx);f.committed=true;return result;
- };return f;
+ };f.inMemberTransaction=f.inCanonicalTransaction;return f;
 }
 for(const op of ['enroll','membership','allocate']){
  const execute=f=>{

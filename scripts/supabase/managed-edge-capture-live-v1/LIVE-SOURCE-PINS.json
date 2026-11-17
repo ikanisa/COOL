@@ -1,0 +1,23 @@
+{
+  "format": "collect.edge-live-source-pins.v1",
+  "files": {
+    "scripts/supabase/managed-edge-capture-live-v1/core.mjs": "f7185803750c7ed97bc56cd63d910eb50e27c2468f74ef1a356dc80ac228e2ed",
+    "scripts/supabase/managed-edge-capture-live-v1/seal.mjs": "d220b18b4e9ff3f82d2b8960663093c556ed2e12e323a66ae313dc64b69be3fd",
+    "scripts/supabase/managed-edge-capture-live-v1/multipart.mjs": "98600709b60653edae21b9e448e1eda3a28df2de68ade6e05dcaa50dd4a51ff5",
+    "scripts/supabase/managed-edge-capture-live-v1/source-pins.mjs": "37a32cbade8df483fe21abacd2d35d5fe9e5e00d49ef2113e397eb225deaa760",
+    "scripts/supabase/managed-edge-capture-live-v1/worker.mjs": "5ae100a19c40eb2ab4b7e36e0b5a3679be7bceee49527d6be99a9bdf50f32e45",
+    "scripts/supabase/managed-edge-capture-live-v1/supervisor.mjs": "70e2aab929538e809f684a2a6d5f77e49bce67250b94abeada899cb2011c58d9",
+    "scripts/supabase/managed-edge-capture-live-v1/fixture.mjs": "332f1ceafe5e06fc4d54b8209b271ff72b4ba029aef6728ee779af9dccaeeed1",
+    "scripts/supabase/managed-edge-capture-live-v1/transport-mock-fixture.mjs": "8a9b077a59d0b49c03803bba69045981c9ad8b6b356fb3e7af7520ae12cf3cac",
+    "scripts/supabase/managed-edge-capture-live-v1/core.test.mjs": "d71d1fb1681e93ed8d45418c04d44263ba5adce44fffcda71c072ad0a6292d05",
+    "scripts/supabase/managed-edge-capture-live-v1/multipart.test.mjs": "e0c2617cd46ec7bef32117fe806110a349544eee61327d530c53c45ce5db393e",
+    "scripts/supabase/managed-edge-capture-live-v1/supervisor.test.mjs": "f8ae47deadc602236b87be8ee11df968fcd327c12721f16a1ff766ae833b8385",
+    "scripts/supabase/managed-edge-capture-live-v1/README.md": "fbed074bd10798a68fd319c3da95fa45995539be81c61c01e75935b327c5c6a5",
+    "scripts/supabase/current-archive/bundle.mjs": "a78f686a7fda1f3fad280d290daf49b061d0695779cec0918160d83b2cfcdd73",
+    "scripts/supabase/current-archive/codec.mjs": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192",
+    "scripts/supabase/managed-component-refresh/capture-json.mjs": "f32b1ede44363eba9ed78f380efd6709bc7b3691c47f27962a6cbd89b324d730"
+  },
+  "binaries": {
+    "/Volumes/PRO-G40/Development/Node/bin/node": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef"
+  }
+}

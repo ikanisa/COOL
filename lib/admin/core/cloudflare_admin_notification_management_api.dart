@@ -504,8 +504,7 @@ class CloudflareAdminNotificationManagementApi {
     return authorityCurrent &&
         !session.logoutUnconfirmed &&
         user != null &&
-        user.role == AdminAccountRole.owner &&
-        user.email == 'info@ikanisa.com' &&
+        user.isCurrentOwner &&
         user.principalId != null &&
         _uuid.hasMatch(user.principalId!) &&
         user.permissions.contains(permission) &&

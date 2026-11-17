@@ -891,8 +891,7 @@ class _ManagementState
               ),
             if (!current &&
                 _session.user?.usesEmailVerification == true &&
-                _session.user?.role == AdminAccountRole.owner &&
-                _session.user?.email == 'info@ikanisa.com' &&
+                _session.user?.isCurrentOwner == true &&
                 _session.user?.permissions.contains('admin_users.manage') ==
                     true)
               TextButton.icon(

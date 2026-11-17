@@ -92,12 +92,27 @@ def configuration(env: dict[str, str], root: Path, *, qualification: bool = Fals
     if assisted_sms not in ("true", "false") or assisted_sms == "true" and backend != "supabase":
         raise ValueError("Assisted SMS requires an explicit Supabase public enable flag")
     defines["COLLECT_ASSISTED_SMS_ENABLED"] = assisted_sms
+    observations = env.get("BURIMUNSI_ADMIN_OBSERVATIONS_ENABLED", "false")
+    if observations not in ("true", "false") or observations == "true" and backend != "supabase":
+        raise ValueError("BuriMunsi Admin observations require an explicit Supabase public enable flag")
+    defines["BURIMUNSI_ADMIN_OBSERVATIONS_ENABLED"] = observations
+    hints = env.get("BURIMUNSI_ADMIN_OBSERVATION_HINTS_ENABLED", "false")
+    if hints not in ("true", "false") or hints == "true" and observations != "true":
+        raise ValueError("BuriMunsi Admin observation hints require enabled Admin observations")
+    defines["BURIMUNSI_ADMIN_OBSERVATION_HINTS_ENABLED"] = hints
+    protected_owner = env.get("COLLECT_ADMIN_PROTECTED_OWNER_ENABLED", "false")
+    if protected_owner not in ("true", "false") or protected_owner == "true" and backend != "supabase":
+        raise ValueError("Protected Admin owner identity requires an explicit Supabase public enable flag")
+    defines["COLLECT_ADMIN_PROTECTED_OWNER_ENABLED"] = protected_owner
     metadata = {"backend": backend, "authentication": "email_otp_cookie_with_totp",
                 "notifications": "provider_configuration_required", "data_strategy": "fresh_cloudflare",
                 "legacy_data_import_required": False, "minimum_core_schema_migration": "0017_admin_email_otp.sql",
                 "operating_actions_available": False, "operational_migration_complete": False,
                 "financial_model": "canonical_evidence_ledger", "financial_contract_version": 2,
-                "provider_settlement_available": False}
+                "provider_settlement_available": False,
+                "burimunsi_admin_observations_enabled": observations == "true",
+                "burimunsi_admin_observation_hints_enabled": hints == "true",
+                "collect_admin_protected_owner_enabled": protected_owner == "true"}
     if backend == "supabase":
         allowed_admin_origins = {profile["admin_origin"]} if explicit_profile else ({QUALIFICATION_ORIGIN} if qualification else ADMIN_ORIGINS)
         if public != profile["public_origin"] or admin not in allowed_admin_origins:

@@ -251,9 +251,61 @@ class WireContract(private val product: String, private val version: String,
             }
             if (operation == "allocate" && (d["transactionId"] != expected["recordId"] || d["memberId"] != expected["memberId"])) reject("CONTRACT_IDENTITY")
             if (operation == "enroll" && d["phone"] != expected["phone"]) reject("CONTRACT_IDENTITY")
+            if (operation == "onboardingSuggestions") for (v in arrayValue(d["items"])) {
+                val item=objectValue(v);if(item["id"]!=item["candidateId"])reject("CONTRACT_IDENTITY")
+            }
+            if (operation == "membersImport") {
+                val items=arrayValue(d["results"]).map(::objectValue)
+                val requested=expected["importRows"] as? List<*> ?: reject("CONTRACT_CONTEXT")
+                val returned=items.map{it["row"]}
+                if(d["requestId"]!=expected["commandRequestId"]||returned.toSet().size!=returned.size||
+                    returned.toSet()!=requested.toSet()||returned.size!=requested.size||
+                    (d["created"] as Number).toInt()!=items.count{it["status"]=="created"}||
+                    items.any{(it["status"] in listOf("created","already_registered"))!=(it["memberId"]!=null)})
+                    reject("CONTRACT_IDENTITY")
+            }
             if (operation == "staffUpdate" && d["id"] != expected["staffId"]) reject("CONTRACT_IDENTITY")
-            if (operation == "replace" && d["installationId"] != expected["replacementInstallationId"]) reject("CONTRACT_IDENTITY")
-            if (operation in listOf("operation", "recovery") && d["requestId"] != expected["recordId"]) reject("CONTRACT_IDENTITY")
+            if (operation == "replace" && d["requestId"] != expected["commandRequestId"]) reject("CONTRACT_IDENTITY")
+            if (operation == "observation") {
+                if (!expected.containsKey("commandRequestId") || !expected.containsKey("observationBodySha256") ||
+                    d["requestId"] != expected["commandRequestId"] || d["bodySha256"] != expected["observationBodySha256"])
+                    reject("CONTRACT_IDENTITY")
+                if (d["status"] != "source_unresolved" || (d["financialEffects"] as? Number)?.toLong() != 0L) reject("CONTRACT_STATE")
+            }
+            if (operation == "observationConsentSet" &&
+                (!expected.containsKey("consentEnabled") || !expected.containsKey("consentGeneration") ||
+                 d["enabled"] != expected["consentEnabled"] || d["generation"] != expected["consentGeneration"])) reject("CONTRACT_IDENTITY")
+            if (operation == "observationProfile") {
+                val now=(expected["now"] as? Number)?.toLong() ?: reject("CONTRACT_CONTEXT")
+                val issued=(d["issuedAt"] as? Number)?.toLong() ?: reject("CONTRACT_TIMESTAMP")
+                val expires=(d["expiresAt"] as? Number)?.toLong() ?: reject("CONTRACT_TIMESTAMP")
+                if (issued<=0 || issued>now+300_000 || expires<=now || expires-issued!=86_400_000L) reject("CONTRACT_EXPIRED")
+            }
+            if (operation == "observationPage") for (item in arrayValue(d["items"])) {
+                val row=objectValue(item)
+                if(row["sourceKind"]!="observation"||row["id"]!=row["sourceId"]||row["status"]!="source_unresolved"||
+                    (row["financialEffects"] as? Number)?.toLong()!=0L)reject("CONTRACT_IDENTITY")
+            }
+            if (operation == "observationReveal") {
+                if(d["sourceKind"]!="observation"||d["sourceId"]!=expected["recordId"]||
+                    d["status"]!="source_unresolved"||(d["financialEffects"] as? Number)?.toLong()!=0L)reject("CONTRACT_IDENTITY")
+                val requested=(expected["displayHintsVersion"] as? Number)?.toInt()==1
+                if(requested!=d.containsKey("displayHints"))reject("CONTRACT_IDENTITY")
+                if(d["displayHints"]!=null){
+                    val h=objectValue(d["displayHints"])
+                    val hints=arrayValue(h["hints"]).map{item->val v=objectValue(item)
+                        rw.ikanisa.burimunsi.core.ObservationHint(v["kind"] as String,v["text"] as String,
+                            (v["start"] as Number).toInt(),(v["end"] as Number).toInt())}
+                    val value=rw.ikanisa.burimunsi.core.ObservationHintSet((h["schemaVersion"] as Number).toInt(),
+                        h["kind"] as String,h["profileVersion"] as String,h["profileSha256"] as String,h["bodySha256"] as String,hints)
+                    if(!rw.ikanisa.burimunsi.core.ObservationHintValidation.valid(d["rawBody"] as String,value))reject("CONTRACT_IDENTITY")
+                }
+            }
+            if (operation == "retirementOutcome") {
+                if (d["requestId"] != expected["recordId"] || d["fingerprint"] != expected["handoffFingerprint"]) reject("CONTRACT_IDENTITY")
+                if (if(d["state"] == "retired") d["ack"] == null || objectValue(d["ack"])["requestId"] != d["requestId"] else d["ack"] != null) reject("CONTRACT_STATE")
+            }
+            if (operation in listOf("operation", "recovery", "staffResolution") && d["requestId"] != expected["recordId"]) reject("CONTRACT_IDENTITY")
             if (operation == "operation") {
                 if(d["actorId"] != b["actorId"]) reject("CONTRACT_IDENTITY")
                 if(d["state"] == "pending") {
@@ -261,7 +313,12 @@ class WireContract(private val product: String, private val version: String,
                 } else if(d["operation"] !is String || d["financialState"] == "unresolved" ||
                     (d["operation"] == "burimunsi.allocate") == (d["financialState"] == "not_applicable")) reject("CONTRACT_STATE")
             }
-            if (operation == "recovery" && (d["originDigest"] != expected["originDigest"] || d["actorId"] != b["actorId"] || d["installationId"] != b["installationId"])) reject("CONTRACT_IDENTITY")
+            if (operation in listOf("recovery", "staffResolution")) {
+                if (d["originDigest"] != expected["originDigest"] || d["actorId"] != b["actorId"] || d["installationId"] != b["installationId"]) reject("CONTRACT_IDENTITY")
+                if ((d["state"] == "cancelled") != d.containsKey("operation")) reject("CONTRACT_STATE")
+                if (operation == "staffResolution" && (d["state"] == "pending" ||
+                    (d["state"] == "cancelled" && d["operation"] != expected["staffOperation"]))) reject("CONTRACT_STATE")
+            }
             if (operation == "history") for (v in arrayValue(d["items"])) {
                 val row = objectValue(v)
                 if (row["transactionId"] != expected["recordId"]) reject("CONTRACT_IDENTITY")

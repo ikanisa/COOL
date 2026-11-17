@@ -32,7 +32,7 @@ private class Scenario {
  init {
   SecureStore.reset();Transport.calls.clear()
   Transport.handler={r->when {
-   r.path.endsWith("/session/login")||r.path.endsWith("/session")->JSONObject().put("token",token).put("expiresAt",System.currentTimeMillis()+3600000)
+   r.path.endsWith("/session/login")||r.path.endsWith("/session")->JSONObject().put("token",token).put("groupId","synthetic-group").put("expiresAt",System.currentTimeMillis()+3600000)
     .put("profile",JSONObject().put("id",owner).put("name","Synthetic Operator").put("phone","+250780000001").put("role","admin")
      .put("capabilities",JSONArray().also{a->Capability.entries.forEach{a.put(it.key)}})).toString()
    r.path.endsWith("/session/logout")->"{}"
@@ -62,6 +62,9 @@ private class Scenario {
      r.path.contains("/payments/payment-1")->payment().toString()
      r.path.contains("/members/member-1")->member().toString()
      r.path.contains("/members?")->page(member())
+     // The synthetic payment is unallocated, so it cannot appear in a
+     // member-scoped payment listing.
+     r.path.contains("/payments?")&&r.path.contains("memberId=")->page()
      r.path.contains("/payments?")->page(payment())
      r.path.contains("/ledger?")->page(JSONObject().put("id","ledger-1").put("groupId","synthetic-group").put("memberPhone","+250780000816").put("transactionId","payment-1").put("amountRwf",10000).put("atRaw","2026-11-09").put("ftId","ft-1").put("payerNameRaw","Synthetic Payer"))
      r.path.contains("/staff?")->page(staff())
@@ -158,7 +161,7 @@ fun main()=runBlocking {
    "enroll"->{s.model.openSheet(Sheet.ENROLL);s.idle();s.model.editDraft("name","Synthetic New Member")}
    "staff.create"->{s.model.openSheet(Sheet.STAFF);s.idle();s.model.openSheet(Sheet.STAFF_EDIT);s.idle();s.model.editDraft("name","Synthetic New Staff")}
    "staff.disable"->{s.model.openSheet(Sheet.STAFF);s.idle();s.model.openSheet(Sheet.STAFF_EDIT,"staff-1");s.idle()}
-   else->{s.model.navigate(Route.MEMBER,"member-1");s.idle()}
+   else->{s.model.navigate(Route.MEMBER,"member-1");s.idle();check(s.model.state.member?.id=="member-1")}
   }
   s.failureAfterPost=true
   when(kind){"enroll"->s.model.enroll("Synthetic New Member","0780000816");"staff.create"->s.model.saveStaff("Synthetic New Staff","0780000002","2468",true,true);"staff.disable"->s.model.staffAction("disable");else->s.model.setMemberActive(false)}
@@ -171,12 +174,12 @@ fun main()=runBlocking {
   ck("transport rejection retains original command without a commit claim",s.journal()!=null&&s.model.state.pending&&s.model.state.commandNotice==null)
   ck("transport rejection cannot revive actionable selection",s.model.state.sheet==null&&s.model.state.selectedMember==null&&s.posts()==1)
  }
- scenario{s->s.allocation();s.statusEntered=CountDownLatch(1);s.releaseStatus=CountDownLatch(1)
+ scenario{s->s.allocation();s.statusState="pending";s.statusEntered=CountDownLatch(1);s.releaseStatus=CountDownLatch(1)
   s.model.allocate("Verified original identity");check(withContext(Dispatchers.IO){s.statusEntered!!.await(10,TimeUnit.SECONDS)})
   val original=JSONObject(s.journal()!!);s.uiClockOffset=7200000;s.model.onForeground()
-  withTimeout(10000){while(s.model.state.operator!=null)delay(20)}
+  withTimeout(10000){while(s.model.screenGate==ScreenGate.OPEN)delay(20)}
   s.releaseStatus!!.countDown();s.idle();delay(50)
-  ck("expired generation cannot resurrect command views",s.model.state.operator==null&&s.model.state.payment==null&&s.model.state.commandNotice==null)
+  ck("expired session cannot expose command views while revalidation is pending",!s.model.presentation.showRecords&&s.model.state.commandNotice==null)
   ck("expiry during financial read retains original identity",JSONObject(s.journal()!!).getString("requestId")==original.getString("requestId")&&s.posts()==1)
  }
  println("RESULT: $checks cross-layer controller/repository checks; ${failures.size} failed. Synthetic platform/transport/storage; not Android or PostgreSQL acceptance.")

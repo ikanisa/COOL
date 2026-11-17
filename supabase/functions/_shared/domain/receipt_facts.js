@@ -28,8 +28,53 @@ const digest=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
 const number=value=>typeof value==='string'&&/^(?:\+?2507[2389]\d{7}|07[2389]\d{7})$/.test(value);
 const code=value=>typeof value==='string'&&/^\d{4,9}$/.test(value);
 
+// Native transactions retain the same immutable first-source chain as the
+// managed gateway, but support outgoing events and source fields that are not
+// present in the message. Their collection is the configured capture scope;
+// it is not presented as a provider-confirmed destination.
+function withAutomaticNativeFacts(row){
+ if(typeof row.native_group_id!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/.test(row.native_group_id)||
+  !id(row.id)||!id(row.receiving_account_id)||!id(row.parse_attempt_id)||
+  row.rf_attempt_id!==row.parse_attempt_id||!id(row.rf_capture_id)||row.rf_attempt_source!==row.rf_capture_id||
+  row.rf_link_source!==row.rf_capture_id||row.rf_link_attempt!==row.parse_attempt_id||
+  row.rf_link_transaction!==row.id||row.rf_relation!=='accepted'||row.rf_attempt_outcome!=='accepted'||
+  !digest(row.rf_capture_digest)||row.rf_attempt_digest!==row.rf_capture_digest||
+  !text(row.rf_parser_version,200)||!text(row.rf_profile_version,200)||!instant(row.rf_parsed_at)||
+  !['mtn_momo','airtel_money'].includes(row.provider)||
+  !['incoming_receipt','outgoing','reversal','failed','pending','other','unknown'].includes(row.event_kind)||
+  !(row.provider_transaction_id===null||text(row.provider_transaction_id,160)&&!(/\s/.test(row.provider_transaction_id)))||
+  !(row.amount_minor===null||exact(row.amount_minor,1))||
+  !((row.currency==='RWF'&&row.currency_scale===0)||(row.currency===null&&row.currency_scale===null))||
+  !nullableText(row.payer_name)||!nullableText(row.payer_identifier)||
+  !(row.payer_last3===null||typeof row.payer_last3==='string'&&/^[0-9]{3}$/.test(row.payer_last3))||
+  ![row.fee_minor,row.wallet_balance_after_minor].every(value=>value===null||exact(value))||
+  !nullableText(row.transaction_datetime_raw)||!text(row.transaction_timezone,200)||
+  !text(row.recipient_name,160)||!number(row.public_code)&&!code(row.public_code))fail();
+ try{new Intl.DateTimeFormat('en',{timeZone:row.transaction_timezone}).format(0);}catch{fail();}
+ if(row.transaction_at===null){
+  if(row.transaction_time_source!=='missing_provider_time')fail();
+ }else if(row.transaction_datetime_raw===null||!instant(row.transaction_at)||!['sms_body_and_provider_profile','sms_body_explicit_offset_and_provider_profile'].includes(row.transaction_time_source))fail();
+ const receipt_facts={contract_version:1,kind:'automatic_momo_extraction',transaction_id:row.id,
+  capture_id:row.rf_capture_id,parse_attempt_id:row.parse_attempt_id,source_body_sha256:row.rf_capture_digest,
+  parser_version:row.rf_parser_version,profile_version:row.rf_profile_version,parsed_at:row.rf_parsed_at,
+  provider:row.provider,provider_transaction_id:row.provider_transaction_id,event_kind:row.event_kind,
+  payer_name:row.payer_name,payer_identifier_raw:row.payer_identifier,payer_last3:row.payer_last3,
+  amount_minor:row.amount_minor,currency:row.currency,currency_scale:row.currency_scale,
+  fee_minor:row.fee_minor,wallet_balance_after_minor:row.wallet_balance_after_minor,
+  transaction_datetime_raw:row.transaction_datetime_raw,transaction_at:row.transaction_at,
+  normalization_timezone:row.transaction_timezone,transaction_time_source:row.transaction_time_source,
+  public_reference:null,provider_confirmation:false,settlement_status:'not_asserted'};
+ const receiving_context={account_id:null,identifier_raw:null,identifier_kind:null,recipient_name:null,basis:'unestablished'};
+ const publicRow=Object.fromEntries(Object.entries(row).filter(([key])=>!Object.hasOwn(fields,key)));
+ // These fields identify the configured capture scope internally, not a wallet
+ // established by the message. Do not return them as receiving-account facts.
+ return {...publicRow,receiving_account_id:null,public_code:null,recipient_name:null,
+  receipt_facts,receiving_context,provider_confirmation:false,settlement_status:'not_asserted'};
+}
+
 /** Read-only, versioned facts. No original text, inferred identity or finality. */
 export function withReceiptFacts(row){
+ if(row.native_group_id!==null&&row.native_group_id!==undefined)return withAutomaticNativeFacts(row);
  if(!id(row.id)||!id(row.receiving_account_id)||!id(row.parse_attempt_id)||
   row.rf_attempt_id!==row.parse_attempt_id||!id(row.rf_capture_id)||
   row.rf_attempt_source!==row.rf_capture_id||row.rf_link_source!==row.rf_capture_id||

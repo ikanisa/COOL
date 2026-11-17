@@ -28,6 +28,7 @@ class JSONObject{
  companion object {val NULL=Any()}
  fun put(k:String,v:Any?):JSONObject{fields[k]=v?:NULL;return this}
  fun get(k:String):Any=fields[k]?:error("Missing $k")
+ fun opt(k:String):Any?=fields[k]
  fun has(k:String)=fields.containsKey(k)
  fun isNull(k:String)=!has(k)||fields[k]===NULL
  fun getString(k:String)=get(k) as String
@@ -48,6 +49,8 @@ class JSONObject{
 }
 class JSONArray{
  internal val items=mutableListOf<Any?>()
+ constructor()
+ constructor(text:String){items.addAll((Parser(text).parse() as JSONArray).items)}
  fun put(v:Any?):JSONArray{items.add(v?:JSONObject.NULL);return this}
  fun length()=items.size
  fun get(i:Int):Any=items[i]?:JSONObject.NULL

@@ -36,6 +36,18 @@ def health_codes(fence):
         {'free_bytes':20*1024**3,'free_ratio':.5},90,'a'*64,{'db'})
 
 class Configuration(unittest.TestCase):
+    def test_combined_local_and_cf_proofs_share_existing_health_headroom(self):
+        candidate=healthy_capacity_fence()
+        candidate.update(stoppedCfProofs=3999,stoppedLocalVmProofs=4001,stoppedLifecycleProofs=8000)
+        self.assertIn({'code':'finite_capacity_near_limit','resource':'stoppedLifecycleProofs','used':8000,'limit':10000},health_codes(candidate))
+        detail=capacity_detail(candidate,'a'*64)
+        self.assertEqual(next(row['remaining'] for row in detail['resources'] if row['resource']=='stoppedLifecycleProofs'),2000)
+        candidate.update(stoppedLocalVmProofs=6001,stoppedLifecycleProofs=10000)
+        alarms=health_codes(candidate)
+        self.assertIn({'code':'finite_capacity_blocked','resource':'stoppedLifecycleProofs'},alarms)
+        self.assertNotIn('capacity_unconfirmed',{row['code'] for row in alarms})
+        self.assertFalse(candidate['resourceLimits']['capacityBlocked'])
+
     def test_service_health_requires_confirmed_docker_health(self):
         fence=healthy_capacity_fence();disk={'free_bytes':20*1024**3,'free_ratio':.5}
         cases=[({'service':'db','state':'running','health':'healthy'},None),

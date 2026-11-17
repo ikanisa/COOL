@@ -3,6 +3,7 @@ import test from 'node:test';
 import {createNativeHandler} from '../../../supabase/functions/_shared/domain/burimunsi/http.js';
 import {profile, defs} from '../../../supabase/functions/_shared/domain/burimunsi/wire/burimunsi.generated.mjs';
 import {decodeResponse} from '../../../supabase/functions/_shared/domain/burimunsi/wire/runtime.mjs';
+import {contractRoute, validateNativeRequest} from '../../../supabase/functions/_shared/domain/burimunsi/wire/native-contract.mjs';
 
 const origin = 'https://burimunsi.invalid';
 const requestId = '00000000-0000-4000-8000-000000000123';
@@ -15,7 +16,7 @@ function handler(status) {
   return createNativeHandler({
     strictContract: true, groupId: 'group-1', origin, networkBucket: async () => 'fixture',
     auth: {login: unused, authenticate: async () => ({id: 'operator-1', groupId: 'group-1'}), logout: unused, changePasscode: unused, manageStaff: unused},
-    records: {home: unused, page: unused, detail: unused, exportLedger: unused, commandStatus: async () => structuredClone(status)},
+    records: {home: unused, page: unused, detail: unused, revealSms: unused, exportLedger: unused, commandStatus: async () => structuredClone(status)},
     contributions: {allocate: unused}, members: {enroll: unused, setActive: unused}, gateway: {status: unused, replace: unused},
   });
 }
@@ -44,6 +45,26 @@ test('pending v2 status is explicitly unresolved and has no invented operation',
   const response = await handler(status)(request());
   assert.equal(response.status, 200);
   assert.deepEqual({...decode(await response.json()).data}, status);
+});
+
+test('raw SMS is a reason-bearing POST with the original response identity', () => {
+  assert.deepEqual(contractRoute('POST', '/sms/sms-1/reveal'), {operation: 'rawSms', recordId: 'sms-1'});
+  assert.throws(() => contractRoute('GET', '/sms/sms-1'), /CONTRACT_OPERATION/);
+  const reason = 'Gusuzuma inyemezabwishyu y’umunyamuryango 🧾';
+  validateNativeRequest('rawSms', {reason});
+  validateNativeRequest('rawSms', {reason: '🧾'.repeat(1000)});
+  for (const body of [null, {}, {reason: 'short'}, {reason: 'x'.repeat(1001)},
+    {reason: 'valid reason\n'}, {reason: 'valid reason\u0085'}, {reason, requestId}]) {
+    assert.throws(() => validateNativeRequest('rawSms', body));
+  }
+  const data = {id: 'sms-1', groupId: 'group-1', sender: '', at: '2026-11-10T08:00:00Z', rawBody: 'SMS y’umwimerere 🧾', transactionId: null};
+  const envelope = {contractVersion: profile.contractVersion, ok: true, binding, data};
+  const decodeRaw = value => decodeResponse(profile, defs, 'rawSms', 200, 'application/json; charset=utf-8', JSON.stringify(value), {...binding, recordId: 'sms-1'});
+  assert.equal(decodeRaw(envelope).data.rawBody, data.rawBody);
+  assert.equal(decodeRaw({...envelope,data:{...data,rawBody:'A'.repeat(16384)}}).data.rawBody.length,16384);
+  assert.throws(()=>decodeRaw({...envelope,data:{...data,rawBody:'A'.repeat(16385)}}));
+  assert.throws(() => decodeRaw({...envelope, data: {...data, id: 'sms-2'}}), /CONTRACT_IDENTITY/);
+  assert.throws(() => decodeRaw({...envelope, data: {...data, groupId: 'other'}}), /CONTRACT_IDENTITY/);
 });
 for (const operation of ['burimunsi.enroll', 'burimunsi.membership', ...['create', 'edit', 'reset', 'disable', 'enable', 'remove'].map(action => `burimunsi.staff.${action}`)]) {
   test(`strict API retains nonfinancial ${operation} status`, async () => {

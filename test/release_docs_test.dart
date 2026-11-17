@@ -46,10 +46,7 @@ void main() {
     expect(example, contains('PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER='));
     expect(environment, contains('no `READ_SMS`, `SEND_SMS`'));
     expect(environment, isNot(contains('STRIPE_SECRET_KEY')));
-    expect(
-      environment,
-      contains('COLLECT_API_URL=https://platform-admin.collect.ikanisa.com'),
-    );
+    expect(environment, contains('direct Supabase Cloud routes are qualified'));
     expect(example, contains('COLLECT_BACKEND=supabase'));
     expect(
       example,
@@ -57,8 +54,11 @@ void main() {
     );
     expect(
       example,
-      contains('COLLECT_API_URL=https://platform-admin.collect.ikanisa.com'),
+      contains('COLLECT_API_URL=\n'),
     );
+    expect(example, contains('SUPABASE_API_URL=\n'));
+    expect(example, contains('SUPABASE_ADMIN_API_URL=\n'));
+    expect(example, contains('ADMIN_APP_URL=\n'));
     expect(example, contains('SUPABASE_PUBLISHABLE_KEY=\n'));
   });
 

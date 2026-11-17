@@ -12,3 +12,4 @@ java -Xmx512m -cp "$TMP/recovery.jar" rw.ikanisa.burimunsi.commandrecoverytests.
 java -Xmx512m -cp "$TMP/recovery.jar" rw.ikanisa.burimunsi.commandidentitytests.CommandIdentityChecksKt
 
 java -Xmx512m -cp "$TMP/recovery.jar" rw.ikanisa.burimunsi.recoveryretrytests.RecoveryRetryChecksKt
+java -Xmx512m -cp "$TMP/recovery.jar" rw.ikanisa.burimunsi.receiverretirementtests.ReceiverRetirementChecksKt

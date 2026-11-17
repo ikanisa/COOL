@@ -85,6 +85,7 @@ import 'admin_sender_picker.dart';
 import 'admin_existing_member_allocation.dart';
 import 'admin_transaction_details.dart';
 import 'admin_member_allocation_dialog.dart';
+import 'cloudflare_admin_session.dart';
 
 export 'admin_live_updates.dart';
 
@@ -396,16 +397,25 @@ class _AdminActionScope {
 }
 
 class _AdminSessionDialog extends ConsumerWidget {
-  const _AdminSessionDialog({required this.scope, required this.child});
-  final _AdminActionScope scope;
+  const _AdminSessionDialog({
+    required this.scope,
+    required this.child,
+    this.currentAuthority,
+  }) : assert(scope != null || currentAuthority != null);
+  final _AdminActionScope? scope;
   final Widget child;
+  final bool Function()? currentAuthority;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(adminAuthSessionScopeProvider);
-    ref.watch(adminRepositoryProvider);
-    ref.watch(adminIdentityProvider);
-    ref.watch(_adminIdentityRevisionProvider);
-    final current = scope.isCurrent;
+    if (currentAuthority != null) {
+      ref.watch(cloudflareAdminSessionProvider);
+    } else {
+      ref.watch(adminAuthSessionScopeProvider);
+      ref.watch(adminRepositoryProvider);
+      ref.watch(adminIdentityProvider);
+      ref.watch(_adminIdentityRevisionProvider);
+    }
+    final current = currentAuthority?.call() ?? scope!.isCurrent;
     if (!current) {
       final route = ModalRoute.of(context);
       WidgetsBinding.instance.addPostFrameCallback((_) {

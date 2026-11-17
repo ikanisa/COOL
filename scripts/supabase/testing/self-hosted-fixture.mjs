@@ -59,6 +59,9 @@ export async function prepareSelfHostedFixture({adminUrl,purpose,output,initiali
   else {need(process.env.COLLECT_SELFHOST_FIXTURE_OWNER_FILE,'EXISTING_OWNER_DESCRIPTOR_REQUIRED');const prior=JSON.parse(await readFile(process.env.COLLECT_SELFHOST_FIXTURE_OWNER_FILE,'utf8'));const priorUrl=new URL(prior.url);need(priorUrl.hostname===target.hostname&&priorUrl.port===target.port&&priorUrl.username==='postgres','SAME_CLUSTER_OWNER_REQUIRED');password=decodeURIComponent(priorUrl.password);}
   const ownerUrl=new URL(setupUrl);ownerUrl.username='postgres';ownerUrl.password=password;owner=await connect(ownerUrl.href);
   await owner.query(fixture.stoppedAdmissionLifecycle.sql);await owner.query(fixture.clientDiagnostics.sql);await owner.query(fixture.notificationDelivery.sql);
+  // Add the reviewed Storage catalog only after the historical realtime
+  // metadata proof: the extra test-only role changes that older census.
+  await setup.query(await readFile(join(ROOT,'scripts/supabase/testing/synthetic-iceberg-storage.sql'),'utf8'));
   const sourceSha256=sha(JSON.stringify(fixture.rawMigrations.map(m=>({name:m.name,sha256:m.sha256})))+fixture.clientDiagnostics.sha256+fixture.notificationDelivery.sha256);
   if(initialize)await owner.query('SELECT private.collect_fence_initialize($1,$2,$3)',[crypto.randomUUID(),sourceSha256,'dfc7a4fafb696f73d207251c9f35cb892528eecd1929552fa575996874adc3e3']);
   await writeFile(output,JSON.stringify({format:'collect.selfhost.fixture.v1',url:ownerUrl.href,database,purpose,migration_count:16,source_sha256:sourceSha256,controller_initialized:initialize,synthetic:true,public_acceptance:false})+'\n',{flag:'wx',mode:0o600});

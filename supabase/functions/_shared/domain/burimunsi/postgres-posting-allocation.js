@@ -97,7 +97,7 @@ export class PostgresPostingAllocation {
     check(previous.length===0);
     check((await this.query(sql,'SELECT id FROM app.payments WHERE id=$1 LIMIT 1 FOR UPDATE',[identity.paymentId])).length===0);
   }
-  async prepared(sql,r,identity){
+  async prepared(sql,r,identity,binding=null){
     const ns=await this.query(sql,'SELECT origin,bucket FROM private.storage_namespace WHERE singleton=true FOR SHARE');
     check(ns.length===1&&same(ns[0],this.custody.namespace));
     const scope={ownerId:identity.ownerId,purpose:'payment_evidence',entityId:identity.evidenceId};
@@ -109,12 +109,14 @@ export class PostgresPostingAllocation {
     check(await sha256(canonicalJson(descriptor))===journal.reservation.source_fingerprint);await this.owned();
     const expectedMetadata={...descriptor.customMetadata,source_fingerprint:journal.reservation.source_fingerprint};
     check(same(journal.put.custom_metadata,expectedMetadata)&&same(journal.put.http_metadata,descriptor.httpMetadata));
-    const returned=await this.custody.decrypt(journal.reservation.sealed_body,aad);
+    const returned=await this.custody.decrypt(await this.custody.sealed(binding,identity.objectKey,journal),aad);
     check(returned instanceof Uint8Array&&returned.length>0&&returned.length<=16384);
     const bytes=new Uint8Array(returned);await this.owned();const body=decoder.decode(bytes);
     check(!body.includes('\0')&&sameBytes(encoder.encode(body),bytes)&&await sha256(body)===r.body_sha256);await this.owned();
     // A changed journal or source cannot inherit an earlier asynchronous proof.
-    check(same(await this.custody.journal(sql,identity.objectKey,{...scope,plaintextSha256:r.body_sha256,aad}),journal));
+    const current=await this.custody.journal(sql,identity.objectKey,{...scope,plaintextSha256:r.body_sha256,aad});
+    check(this.custody.sameJournal(current,journal));
+    if(!this.custody.qualificationOnly)await this.custody.sealed(binding,identity.objectKey,current);
     await this.owned();return {sizeBytes:bytes.length,journal};
   }
   async prepareInTransaction(sql,input,principalInput){
@@ -125,7 +127,7 @@ export class PostgresPostingAllocation {
         Number.isSafeInteger(c.member.version)&&c.member.version>=1&&c.intentId==null);
       const identity=await postingPreparationIdentity(c,p);await this.owned();
       const r=await this.source(sql,c);await this.noOverlap(sql,r,identity);
-      const protectedEvidence=await this.prepared(sql,r,identity);
+      const protectedEvidence=await this.prepared(sql,r,identity,this.custody.postingBinding(c,p));
       check(same(await this.source(sql,c),r));await this.noOverlap(sql,r,identity);
       const clock=await this.query(sql,'SELECT clock_timestamp() AS allocation_at');
       check(clock.length===1);const at=timestamp(clock[0].allocation_at);

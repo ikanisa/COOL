@@ -8,6 +8,15 @@ import 'package:http/http.dart' as http;
 
 import 'admin_account_api.dart';
 import 'admin_email_otp.dart';
+import 'admin_logout_intent_storage.dart';
+import 'admin_mfa_intent_storage.dart';
+import 'admin_owner_identity.dart';
+import 'admin_logout_intent_storage_stub.dart'
+    if (dart.library.js_interop) 'admin_logout_intent_storage_web.dart'
+    as logout_storage;
+import 'admin_mfa_intent_storage_stub.dart'
+    if (dart.library.js_interop) 'admin_mfa_intent_storage_web.dart'
+    as mfa_storage;
 import 'cloudflare_admin_transport.dart';
 import 'cloudflare_admin_response.dart';
 import '../../app/env/app_env.dart';
@@ -18,6 +27,15 @@ import '../../core/supabase/collect_supabase_configuration.dart';
 import '../../core/cloudflare/collect_turnstile.dart';
 import '../../core/cloudflare/collect_cloudflare_client.dart'
     show collectGoogleAuthorizationUrlAllowed;
+
+/// Browser timers use a signed 32-bit millisecond delay. Long-lived sessions
+/// must be checked in bounded intervals instead of overflowing that delay.
+Duration cloudflareAdminExpiryDelay(DateTime expiresAt, {DateTime? now}) {
+  final remaining = expiresAt.difference(now ?? DateTime.now());
+  if (remaining <= Duration.zero) return Duration.zero;
+  const maximum = Duration(days: 1);
+  return remaining > maximum ? maximum : remaining;
+}
 
 class CloudflareAdminRequestException extends AdminAccountException {
   const CloudflareAdminRequestException(
@@ -66,11 +84,19 @@ void requireRetainedEvidenceReviewAccess(CloudflareAdminUser? user) {
     );
   }
   if (!user.hasRecentSensitiveVerification()) {
+    final needsAuthenticator =
+        user.mfaRequired &&
+        user.hasRecentEmailVerification() &&
+        !user.hasRecentAuthenticatorVerification();
     throw CloudflareAdminRequestException(
-      user.usesEmailVerification
+      needsAuthenticator
+          ? 'Verify your authenticator before revealing SMS-source evidence.'
+          : user.usesEmailVerification
           ? 'Verify your email before revealing SMS-source evidence.'
           : 'Complete a current authenticator check before revealing SMS-source evidence.',
-      code: user.usesEmailVerification
+      code: needsAuthenticator
+          ? 'mfa_required'
+          : user.usesEmailVerification
           ? 'recent_email_sign_in_required'
           : 'recent_verification_required',
     );
@@ -94,6 +120,7 @@ CloudflareAdminRequestException _retainedEvidenceFailure(
         'permission_required',
         '42501',
         'recent_email_sign_in_required',
+        'mfa_required',
         'reason_required',
         'admin_session_required',
         'evidence_integrity_failed',
@@ -113,6 +140,8 @@ CloudflareAdminRequestException _retainedEvidenceFailure(
     '42501' => 'This account does not have permission to read this evidence.',
     'recent_email_sign_in_required' =>
       'Verify your email before revealing SMS-source evidence.',
+    'mfa_required' =>
+      'Verify your authenticator before revealing SMS-source evidence.',
     'reason_required' =>
       'Enter a review reason of 8 to 1000 printable characters.',
     'admin_session_required' =>
@@ -149,8 +178,8 @@ AdminEmailOtpReceipt _parseAdminEmailOtpReceipt(Map<String, dynamic> body) {
       retry < 60 ||
       retry > 3600 ||
       expires is! int ||
-      expires < 60 ||
-      expires > 3600 ||
+      expires < 1 ||
+      expires > 1800 ||
       (body.containsKey('emailStatus') && body['emailStatus'] != 'accepted') ||
       (body.containsKey('delivery_status') &&
           body['delivery_status'] != 'accepted' &&
@@ -182,6 +211,10 @@ class CloudflareAdminUser {
     this.usesEmailVerification = false,
     this.principalId,
     this.financialModel = 'transaction_journals',
+    this.mfaAvailable = false,
+    this.mfaRequired = false,
+    this.usesProtectedOwner = false,
+    this.ownerIdentity,
   });
 
   final String id;
@@ -199,14 +232,55 @@ class CloudflareAdminUser {
   final bool usesEmailVerification;
   final String? principalId;
   final String financialModel;
+
+  /// Advertised only by the authenticated Admin server after scoped checks.
+  final bool mfaAvailable;
+  final bool mfaRequired;
+  final bool usesProtectedOwner;
+  final AdminOwnerIdentity? ownerIdentity;
+  bool get isCurrentOwner =>
+      role == AdminAccountRole.owner &&
+      (usesProtectedOwner
+          ? ownerIdentity?.matchesActor(id, principalId, email) == true
+          : email.toLowerCase() == 'info@ikanisa.com');
   bool get usesCanonicalEvidence =>
       financialModel == 'canonical_evidence_ledger';
 
-  DateTime? get sensitiveVerificationAt => usesEmailVerification
-      ? emailVerifiedAt
-      : assuranceLevel == 2
-      ? mfaAt
-      : null;
+  DateTime? get sensitiveVerificationAt {
+    if (!usesEmailVerification) return assuranceLevel == 2 ? mfaAt : null;
+    if (!mfaRequired) return emailVerifiedAt;
+    final email = emailVerifiedAt, authenticator = mfaAt;
+    if (assuranceLevel != 2 || email == null || authenticator == null) {
+      return null;
+    }
+    return email.isBefore(authenticator) ? email : authenticator;
+  }
+
+  bool hasRecentEmailVerification({
+    DateTime? now,
+    Duration maxAge = const Duration(minutes: 5),
+  }) {
+    final clock = now ?? DateTime.now(), proof = emailVerifiedAt;
+    return maxAge > Duration.zero &&
+        expiresAt.isAfter(clock) &&
+        proof != null &&
+        proof.isUtc &&
+        !proof.isAfter(clock) &&
+        clock.difference(proof) <= maxAge;
+  }
+
+  bool hasRecentAuthenticatorVerification({
+    DateTime? now,
+    Duration maxAge = const Duration(minutes: 5),
+  }) {
+    final clock = now ?? DateTime.now(), proof = mfaAt;
+    return maxAge > Duration.zero &&
+        expiresAt.isAfter(clock) &&
+        assuranceLevel == 2 &&
+        proof != null &&
+        !proof.isAfter(clock.add(const Duration(minutes: 1))) &&
+        clock.difference(proof) <= maxAge;
+  }
 
   bool hasRecentSensitiveVerification({
     DateTime? now,
@@ -240,6 +314,30 @@ class CloudflareAdminUser {
         usesEmailVerification: true,
         principalId: principalId,
         financialModel: financialModel,
+        mfaAvailable: mfaAvailable,
+        mfaRequired: mfaRequired,
+        usesProtectedOwner: usesProtectedOwner,
+        ownerIdentity: ownerIdentity,
+      );
+
+  CloudflareAdminUser withProtectedOwner(AdminOwnerIdentity? identity) =>
+      CloudflareAdminUser(
+        id: id,
+        email: email,
+        role: role,
+        sessionId: sessionId,
+        expiresAt: expiresAt,
+        permissions: permissions,
+        assuranceLevel: assuranceLevel,
+        mfaAt: mfaAt,
+        emailVerifiedAt: emailVerifiedAt,
+        usesEmailVerification: usesEmailVerification,
+        principalId: principalId,
+        financialModel: financialModel,
+        mfaAvailable: mfaAvailable,
+        mfaRequired: mfaRequired,
+        usesProtectedOwner: true,
+        ownerIdentity: identity,
       );
 
   /// Cookie expiry checks may refresh without changing the operator's access.
@@ -255,6 +353,9 @@ class CloudflareAdminUser {
     DateTime? mfaAt,
     String? principalId,
     String financialModel,
+    bool mfaAvailable,
+    bool mfaRequired,
+    Object? ownerIdentity,
   })
   get authorityKey {
     // Renewing a same-session email proof is not an actor or access change.
@@ -270,10 +371,32 @@ class CloudflareAdminUser {
       mfaAt: mfaAt,
       principalId: principalId,
       financialModel: financialModel,
+      mfaAvailable: mfaAvailable,
+      mfaRequired: mfaRequired,
+      ownerIdentity: usesProtectedOwner ? ownerIdentity?.authorityKey : null,
     );
   }
 
-  factory CloudflareAdminUser.parse(Map<String, dynamic> body) {
+  /// Google exchange responses do not contain the separately read owner proof.
+  /// Compare the original session identity before installing that proof.
+  Object get loginIdentityKey => (
+    id,
+    sessionId,
+    email,
+    role,
+    authorityKey.permissions,
+    assuranceLevel,
+    mfaAt,
+    principalId,
+    financialModel,
+    mfaAvailable,
+    mfaRequired,
+  );
+
+  factory CloudflareAdminUser.parse(
+    Map<String, dynamic> body, {
+    bool allowOpaquePrincipal = false,
+  }) {
     final user = body['user'];
     if (user is! Map ||
         user['id'] is! String ||
@@ -295,6 +418,8 @@ class CloudflareAdminUser {
     final mfaAt = rawMfaAt is String ? DateTime.tryParse(rawMfaAt) : null;
     final principalId = user['principalId'];
     final financialModel = user['financialModel'] ?? 'transaction_journals';
+    final mfaAvailable = user['mfaAvailable'] ?? false;
+    final mfaRequired = user['mfaRequired'] ?? false;
     if (assuranceLevel is! int ||
         !const {1, 2}.contains(assuranceLevel) ||
         (rawMfaAt != null && mfaAt == null) ||
@@ -302,15 +427,19 @@ class CloudflareAdminUser {
         (assuranceLevel == 1 && mfaAt != null) ||
         (mfaAt != null &&
             mfaAt.isAfter(DateTime.now().add(const Duration(minutes: 1)))) ||
+        mfaAvailable is! bool ||
+        mfaRequired is! bool ||
         !const {
           'transaction_journals',
           'canonical_evidence_ledger',
         }.contains(financialModel) ||
         (principalId != null &&
             (principalId is! String ||
-                !RegExp(
-                  r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
-                ).hasMatch(principalId)))) {
+                !(allowOpaquePrincipal
+                    ? AdminOwnerIdentity.validOpaqueId(principalId)
+                    : RegExp(
+                        r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
+                      ).hasMatch(principalId))))) {
       throw const FormatException('Invalid account verification.');
     }
     return CloudflareAdminUser(
@@ -324,6 +453,8 @@ class CloudflareAdminUser {
       mfaAt: mfaAt,
       principalId: principalId as String?,
       financialModel: financialModel as String,
+      mfaAvailable: mfaAvailable,
+      mfaRequired: mfaRequired,
     );
   }
 }
@@ -347,16 +478,33 @@ class CloudflareAdminSession
     this._http, {
     Uri? origin,
     AppEnv? environment,
+    AdminLogoutIntentStorage? logoutIntentStorage,
+    AdminMfaIntentStorage? mfaIntentStorage,
+    Future<void> Function(Duration)? mfaRecoveryDelay,
+    CollectAuthChallenge? authChallenge,
     this._googleAuthEnabled = const bool.fromEnvironment('GOOGLE_AUTH_ENABLED'),
+    this._protectedOwnerEnabled = const bool.fromEnvironment(
+      'COLLECT_ADMIN_PROTECTED_OWNER_ENABLED',
+    ),
   }) : _origin = origin ?? Uri.base,
        _supabase = _configuration(environment ?? AppEnv.fromEnvironment()),
+       _logoutIntents =
+           logoutIntentStorage ??
+           logout_storage.createAdminLogoutIntentStorage(),
+       _mfaIntents =
+           mfaIntentStorage ?? mfa_storage.createAdminMfaIntentStorage(),
+       _mfaRecoveryDelay = mfaRecoveryDelay ?? Future<void>.delayed,
        super(const AsyncLoading()) {
     _supabase?.adminRequest('auth/session', browserOrigin: _origin);
     _authChallenge =
-        _supabase != null &&
-            (environment ?? AppEnv.fromEnvironment()).authCaptchaEnabled
-        ? CollectTurnstileChallenge(endpoint: _supabase.challengeEndpoint)
-        : null;
+        authChallenge ??
+        (_supabase != null &&
+                (environment ?? AppEnv.fromEnvironment()).authCaptchaEnabled
+            ? CollectTurnstileChallenge(
+                endpoint: _supabase.adminChallengeEndpoint,
+              )
+            : null);
+    _fencePendingLogout();
   }
 
   static CollectSupabaseConfiguration? _configuration(AppEnv env) {
@@ -371,16 +519,24 @@ class CloudflareAdminSession
   final http.Client _http;
   final Uri _origin;
   final CollectSupabaseConfiguration? _supabase;
+  final AdminLogoutIntentStorage _logoutIntents;
+  final AdminMfaIntentStorage _mfaIntents;
+  final Future<void> Function(Duration) _mfaRecoveryDelay;
   final bool _googleAuthEnabled;
+  final bool _protectedOwnerEnabled;
+  bool get usesProtectedOwner => _supabase != null && _protectedOwnerEnabled;
   String? _csrfToken;
-  late final CollectTurnstileChallenge? _authChallenge;
+  late final CollectAuthChallenge? _authChallenge;
   Timer? _recheck;
   Timer? _expiry;
+  int _transientRefreshFailures = 0;
   int _epoch = 0;
   int _refreshSequence = 0;
   bool _logoutUnconfirmed = false;
+  bool _logoutInFlight = false;
   int _emailOtpAttempt = 0;
   int _sensitiveEmailAttempt = 0;
+  String? _mfaRecoveredIntent;
   bool _sensitiveEmailBusy = false;
   bool _sensitiveEmailUnknown = false;
   ({Object key, DateTime? baseline})? _ambiguousEmailVerification;
@@ -393,9 +549,45 @@ class CloudflareAdminSession
   bool get logoutUnconfirmed => _logoutUnconfirmed;
   bool get managedInvitationProtocolAvailable => _supabase != null;
   bool get usesEmailVerification => _supabase != null;
+  bool get sensitiveEmailChallengeOwnsFocus =>
+      _sensitiveEmailBusy && _authChallenge?.ownsInactiveFocus == true;
+  bool get sensitiveEmailHasForeground => _authChallenge?.hasForeground ?? true;
   bool get sensitiveEmailVerificationUnconfirmed {
     final value = _ambiguousEmailVerification;
     return value != null && value.key == user?.authorityKey;
+  }
+
+  String _logoutFingerprint(String sessionId) => sha256
+      .convert(utf8.encode('collect.admin.logout.v1:$sessionId'))
+      .toString();
+
+  Set<String>? _pendingLogoutIntents() {
+    try {
+      return _logoutIntents.readPending();
+    } on Object {
+      return null;
+    }
+  }
+
+  /// Another tab's pending sign-out also fences this controller before reads
+  /// can install fresh authority or authenticated requests can proceed.
+  bool _fencePendingLogout() {
+    if (_supabase == null) return _logoutUnconfirmed;
+    if (_logoutUnconfirmed) return true;
+    final pending = _pendingLogoutIntents();
+    if (pending != null && pending.isEmpty) return false;
+    _logoutUnconfirmed = true;
+    _epoch++;
+    _refreshSequence++;
+    _expiry?.cancel();
+    _recheck?.cancel();
+    if (mounted) {
+      state = AsyncError(
+        const AdminAccountException('Sign-out was not confirmed. Try again.'),
+        StackTrace.current,
+      );
+    }
+    return true;
   }
 
   bool get googleSignInAvailable =>
@@ -420,9 +612,16 @@ class CloudflareAdminSession
     String? reviewReason,
     int? expectedStatus,
     bool Function()? responseCurrent,
+    FutureOr<void> Function()? beforeDispatch,
+    void Function()? onDispatch,
   }) async {
     if (responseCurrent?.call() == false) {
       throw const AdminAccountException('Your sign-in changed. Try again.');
+    }
+    if (path != 'auth/session' &&
+        path != 'auth/logout' &&
+        _fencePendingLogout()) {
+      throw const AdminAccountException('Complete sign-out before continuing.');
     }
     final before = user?.authorityKey;
     final epoch = _epoch;
@@ -486,7 +685,8 @@ class CloudflareAdminSession
           'Security verification could not finish. Try again.',
         );
       }
-      if (!mounted ||
+      if (_fencePendingLogout() ||
+          !mounted ||
           epoch != _epoch ||
           before != user?.authorityKey ||
           responseCurrent?.call() == false) {
@@ -504,11 +704,27 @@ class CloudflareAdminSession
         'X-Collect-Requested-With': 'collect-admin',
       if (_supabase != null && mutation && _csrfToken != null)
         'X-Collect-CSRF': _csrfToken!,
+      if (usesProtectedOwner && path == 'auth/session' && verb == 'GET')
+        'X-Collect-Owner-Identity-Version': '1',
       'Idempotency-Key': ?idempotencyKey,
       'X-Collect-Review-Reason': ?reviewReason?.trim(),
     };
+    // CAPTCHA focus is not an HTTP effect. The owning task may wait for its
+    // foreground return; then authority/route validity is checked again at
+    // the actual dispatch boundary, without reusing a stale pre-challenge check.
+    if (beforeDispatch != null) await beforeDispatch();
+    if ((path != 'auth/session' &&
+            path != 'auth/logout' &&
+            _fencePendingLogout()) ||
+        !mounted ||
+        epoch != _epoch ||
+        responseCurrent?.call() == false ||
+        (authenticated && before != user?.authorityKey)) {
+      throw const AdminAccountException('Your sign-in changed. Try again.');
+    }
     late http.Response response;
     try {
+      onDispatch?.call();
       response = await boundedAdminResponse(
         _http,
         uri,
@@ -531,7 +747,10 @@ class CloudflareAdminSession
         outcomeUnknown: mutation,
       );
     }
-    if (!mounted ||
+    if ((path != 'auth/session' &&
+            path != 'auth/logout' &&
+            _fencePendingLogout()) ||
+        !mounted ||
         epoch != _epoch ||
         responseCurrent?.call() == false ||
         (authenticated && before != user?.authorityKey)) {
@@ -565,7 +784,12 @@ class CloudflareAdminSession
               : value is Map
               ? value['code']
               : null;
-          if (code == 'session_refresh_pending') refreshCode = code as String;
+          if (const {
+            'session_refresh_pending',
+            'mfa_recovery_pending',
+          }.contains(code)) {
+            refreshCode = code as String;
+          }
         } on Object {
           // An unparseable/nonmatching denial never becomes a retry signal.
         }
@@ -622,6 +846,12 @@ class CloudflareAdminSession
           'Email sign-in is unavailable right now. Try again later.',
         'recent_email_sign_in_required' =>
           'Verify your email before making this change.',
+        'mfa_required' =>
+          'Verify your authenticator before making this change.',
+        'mfa_recovery_unavailable' =>
+          'The authenticator result could not be recovered automatically. Sign in again to continue.',
+        'mfa_recovery_pending' =>
+          'The authenticator check is still finishing. Try again shortly.',
         'password_recovery_required' when path == 'auth/change-password' =>
           'Use Set or reset password by email to change the password for this sign-in.',
         _ => switch (response.statusCode) {
@@ -698,6 +928,7 @@ class CloudflareAdminSession
     Map<String, Object?> body, {
     required bool Function() current,
   }) async {
+    if (_fencePendingLogout()) return CollectDiagnosticDelivery.retry;
     final before = authorityFence,
         configuration = _supabase,
         token = _csrfToken;
@@ -724,7 +955,10 @@ class CloudflareAdminSession
           'X-Collect-CSRF': token,
         },
       );
-      if (!mounted || !current() || before != authorityFence) {
+      if (_fencePendingLogout() ||
+          !mounted ||
+          !current() ||
+          before != authorityFence) {
         return CollectDiagnosticDelivery.retry;
       }
       Object? value;
@@ -744,6 +978,9 @@ class CloudflareAdminSession
     Object? sourceSensitivity,
     String? reviewReason,
   }) async {
+    if (_fencePendingLogout()) {
+      throw const AdminAccountException('Complete sign-out before continuing.');
+    }
     final before = authorityFence,
         user = this.user,
         protectedSource = retainedEvidenceRequiresReview(sourceSensitivity);
@@ -788,7 +1025,8 @@ class CloudflareAdminSession
       );
     }
     final current = this.user;
-    if (!mounted ||
+    if (_fencePendingLogout() ||
+        !mounted ||
         before != authorityFence ||
         current == null ||
         !current.expiresAt.isAfter(DateTime.now()) ||
@@ -840,8 +1078,60 @@ class CloudflareAdminSession
     return confirmed;
   }
 
+  void _scheduleSessionChecks(CloudflareAdminUser current) {
+    _transientRefreshFailures = 0;
+    _expiry?.cancel();
+    _recheck?.cancel();
+    final epoch = _epoch;
+    _expiry = Timer(cloudflareAdminExpiryDelay(current.expiresAt), () {
+      if (!mounted ||
+          _logoutUnconfirmed ||
+          epoch != _epoch ||
+          user?.authorityKey != current.authorityKey ||
+          user?.expiresAt != current.expiresAt) {
+        return;
+      }
+      if (current.expiresAt.isAfter(DateTime.now())) {
+        _scheduleSessionChecks(current);
+        return;
+      }
+      // Never keep stale authority on screen. Re-read the cookie so a renewed
+      // server session can restore it without asking for a new sign-in.
+      _epoch++;
+      _refreshSequence++;
+      _recheck?.cancel();
+      state = const AsyncLoading();
+      unawaited(refresh());
+    });
+    _recheck = Timer(const Duration(seconds: 60), () => unawaited(refresh()));
+  }
+
+  bool _isTransientSessionFailure(Object error) {
+    if (error is! CloudflareAdminRequestException) return false;
+    final status = error.statusCode;
+    return status == null ||
+        status == 429 ||
+        (status == 409 &&
+            const {
+              'session_refresh_pending',
+              'mfa_recovery_pending',
+            }.contains(error.code)) ||
+        status >= 500;
+  }
+
+  void _scheduleTransientRefresh() {
+    final seconds = min(60, 5 * (1 << min(_transientRefreshFailures, 4)));
+    _transientRefreshFailures++;
+    final epoch = _epoch;
+    _recheck = Timer(Duration(seconds: seconds), () {
+      if (mounted && !_logoutUnconfirmed && epoch == _epoch) {
+        unawaited(refresh());
+      }
+    });
+  }
+
   Future<bool?> _refresh({bool requireConfirmation = false}) async {
-    if (_logoutUnconfirmed) {
+    if (_fencePendingLogout()) {
       if (requireConfirmation) {
         throw const AdminAccountSecurityOutcomeUnknown(
           'Sign-out is not confirmed. Complete sign-out before signing in again.',
@@ -849,6 +1139,8 @@ class CloudflareAdminSession
       }
       return null;
     }
+    // A manual recheck and the automatic retry must not race each other.
+    _recheck?.cancel();
     final epoch = _epoch;
     final sequence = ++_refreshSequence;
     try {
@@ -858,7 +1150,10 @@ class CloudflareAdminSession
         current: () =>
             mounted && epoch == _epoch && sequence == _refreshSequence,
       );
-      if (!mounted || epoch != _epoch || sequence != _refreshSequence) {
+      if (_fencePendingLogout() ||
+          !mounted ||
+          epoch != _epoch ||
+          sequence != _refreshSequence) {
         return null;
       }
       if (requireConfirmation) {
@@ -868,9 +1163,13 @@ class CloudflareAdminSession
           'ownerEmail',
           if (_supabase != null) 'csrfToken',
         };
-        if (body.length != fields.length ||
+        final allowed = {
+          ...fields,
+          if (usesProtectedOwner && body['user'] != null) 'ownerIdentity',
+        };
+        if (body.keys.any((key) => !allowed.contains(key)) ||
             !fields.every(body.containsKey) ||
-            body['ownerEmail'] != 'info@ikanisa.com' ||
+            (!usesProtectedOwner && body['ownerEmail'] != 'info@ikanisa.com') ||
             (body['user'] == null &&
                 (body['expiresAt'] != null || body['csrfToken'] != null)) ||
             (body['user'] != null &&
@@ -883,7 +1182,15 @@ class CloudflareAdminSession
           throw const FormatException('Invalid session confirmation envelope.');
         }
       }
-      var value = body['user'] == null ? null : CloudflareAdminUser.parse(body);
+      var value = body['user'] == null
+          ? null
+          : _bindProtectedOwner(
+              CloudflareAdminUser.parse(
+                body,
+                allowOpaquePrincipal: usesProtectedOwner,
+              ),
+              body,
+            );
       if (value == null) {
         clear();
         return false;
@@ -893,8 +1200,30 @@ class CloudflareAdminSession
         current: () =>
             mounted && epoch == _epoch && sequence == _refreshSequence,
       );
-      if (!mounted || epoch != _epoch || sequence != _refreshSequence) {
+      if (_fencePendingLogout() ||
+          !mounted ||
+          epoch != _epoch ||
+          sequence != _refreshSequence) {
         return null;
+      }
+      // A reload can arrive after the replacement cookie was installed. Only
+      // clear it after the same public session has a new AAL2 result, or after
+      // its exact intent-bound recovery succeeded.
+      final retained = _mfaIntents.read();
+      if (retained != null &&
+          value.id == retained.userId &&
+          value.sessionId == retained.sessionId &&
+          value.assuranceLevel == 2 &&
+          value.mfaAt != null &&
+          value.mfaAt!.millisecondsSinceEpoch >=
+              retained.createdAtMillis - 1000 &&
+          (retained.startingAssuranceLevel == 1 ||
+              (retained.startingMfaAtMillis != null &&
+                  value.mfaAt!.millisecondsSinceEpoch >
+                      retained.startingMfaAtMillis!)) &&
+          (_mfaRecoveredIntent == retained.verificationId || user == null)) {
+        _mfaIntents.clear();
+        _mfaRecoveredIntent = null;
       }
       if (user != null && user!.authorityKey != value.authorityKey) {
         // A role/capability change is a real fence even if the public session ID
@@ -902,10 +1231,7 @@ class CloudflareAdminSession
         _epoch++;
       }
       state = AsyncData(value);
-      _expiry?.cancel();
-      _recheck?.cancel();
-      _expiry = Timer(value.expiresAt.difference(DateTime.now()), clear);
-      _recheck = Timer(const Duration(seconds: 60), () => unawaited(refresh()));
+      _scheduleSessionChecks(value);
       return true;
     } catch (error, stack) {
       if (mounted && epoch == _epoch && sequence == _refreshSequence) {
@@ -915,6 +1241,7 @@ class CloudflareAdminSession
         _expiry?.cancel();
         _recheck?.cancel();
         state = AsyncError(error, stack);
+        if (_isTransientSessionFailure(error)) _scheduleTransientRefresh();
       }
       if (requireConfirmation) {
         throw const AdminAccountSecurityOutcomeUnknown(
@@ -923,6 +1250,17 @@ class CloudflareAdminSession
       }
       return null;
     }
+  }
+
+  CloudflareAdminUser _bindProtectedOwner(
+    CloudflareAdminUser user,
+    Map<String, dynamic> session,
+  ) {
+    if (!usesProtectedOwner) return user;
+    final proof = AdminOwnerIdentity.parse(session['ownerIdentity']);
+    return user.withProtectedOwner(
+      proof != null && session['ownerEmail'] == proof.email ? proof : null,
+    );
   }
 
   /// Only dedicated refresh-lease contention is retried, and only on these
@@ -949,6 +1287,49 @@ class CloudflareAdminSession
         // confirmation additionally validates its exact existing envelope.
         return result;
       } on CloudflareAdminRequestException catch (failure) {
+        if (path == 'auth/session' &&
+            failure.statusCode == 409 &&
+            failure.code == 'mfa_recovery_pending' &&
+            attempt == 0 &&
+            current()) {
+          final intent = _mfaIntents.read();
+          final age = intent == null
+              ? -1
+              : DateTime.now().millisecondsSinceEpoch - intent.createdAtMillis;
+          if (intent == null || age < -60000 || age > 300000) {
+            throw const CloudflareAdminRequestException(
+              'The authenticator result could not be recovered automatically. Sign in again to continue.',
+              statusCode: 409,
+              code: 'mfa_recovery_unavailable',
+            );
+          }
+          if (age < 26000) {
+            await _mfaRecoveryDelay(
+              Duration(milliseconds: 26000 - max(age, 0)),
+            );
+          }
+          if (!current()) {
+            throw const AdminAccountException(
+              'Your sign-in changed. Try again.',
+            );
+          }
+          await request(
+            'auth/mfa/recover',
+            body: {
+              'factor_id': intent.factorId,
+              'challenge_id': intent.challengeId,
+              'verification_id': intent.verificationId,
+            },
+            responseCurrent: current,
+          );
+          if (!current()) {
+            throw const AdminAccountException(
+              'Your sign-in changed. Try again.',
+            );
+          }
+          _mfaRecoveredIntent = intent.verificationId;
+          continue;
+        }
         if (failure.statusCode != 409 ||
             failure.code != 'session_refresh_pending' ||
             attempt >= 2 ||
@@ -1058,12 +1439,16 @@ class CloudflareAdminSession
 
   bool _sensitiveEmailCurrent(int attempt, Object fence) =>
       mounted &&
+      !_fencePendingLogout() &&
       attempt == _sensitiveEmailAttempt &&
       fence == authorityFence &&
       user != null &&
       user!.expiresAt.isAfter(DateTime.now());
 
-  Future<AdminEmailOtpReceipt> requestSensitiveEmailVerification() async {
+  Future<AdminEmailOtpReceipt> requestSensitiveEmailVerification({
+    FutureOr<void> Function()? beforeDispatch,
+    void Function()? onDispatch,
+  }) async {
     _sensitiveEmailActor();
     if (_sensitiveEmailBusy ||
         _sensitiveEmailUnknown ||
@@ -1083,6 +1468,8 @@ class CloudflareAdminSession
         authenticated: true,
         expectedStatus: 202,
         responseCurrent: () => _sensitiveEmailCurrent(attempt, fence),
+        beforeDispatch: beforeDispatch,
+        onDispatch: onDispatch,
       );
       if (!_sensitiveEmailCurrent(attempt, fence)) {
         throw const AdminAccountException('Your sign-in changed. Try again.');
@@ -1098,8 +1485,8 @@ class CloudflareAdminSession
           retry != 60 ||
           retry is! int ||
           expires is! int ||
-          expires < 0 ||
-          expires > 300 ||
+          expires < 1 ||
+          expires > 1800 ||
           !const {'accepted', 'unknown'}.contains(body['delivery_status'])) {
         throw const CloudflareAdminRequestException(
           'The code request could not be confirmed. Check verification before requesting another code.',
@@ -1134,6 +1521,8 @@ class CloudflareAdminSession
   Future<void> verifySensitiveEmailVerification({
     required String challengeId,
     required String code,
+    FutureOr<void> Function()? beforeDispatch,
+    void Function()? onDispatch,
   }) async {
     final actor = _sensitiveEmailActor();
     final pending = _sensitiveEmail;
@@ -1164,6 +1553,8 @@ class CloudflareAdminSession
         expectedStatus: 200,
         responseCurrent: () =>
             _sensitiveEmailCurrent(pending.attempt, pending.fence),
+        beforeDispatch: beforeDispatch,
+        onDispatch: onDispatch,
       );
       if (!_sensitiveEmailCurrent(pending.attempt, pending.fence)) {
         throw const AdminAccountException('Your sign-in changed. Try again.');
@@ -1173,9 +1564,7 @@ class CloudflareAdminSession
         proof = _parseEmailVerification(body, actor);
         if (proof == null ||
             ambiguity.baseline != null && !proof.isAfter(ambiguity.baseline!) ||
-            !actor
-                .withEmailVerification(proof)
-                .hasRecentSensitiveVerification()) {
+            !actor.withEmailVerification(proof).hasRecentEmailVerification()) {
           throw const FormatException('Missing new email proof.');
         }
       } on Object {
@@ -1242,7 +1631,7 @@ class CloudflareAdminSession
       }
       ++_refreshSequence;
       state = AsyncData(user!.withEmailVerification(proof));
-      if (user!.hasRecentSensitiveVerification()) {
+      if (user!.hasRecentEmailVerification()) {
         _sensitiveEmail = null;
         _sensitiveEmailUnknown = false;
         return true;
@@ -1260,6 +1649,7 @@ class CloudflareAdminSession
   }
 
   void cancelSensitiveEmailVerification() {
+    if (_sensitiveEmailBusy) _authChallenge?.cancel();
     ++_sensitiveEmailAttempt;
     _sensitiveEmail = null;
     _sensitiveEmailBusy = false;
@@ -1367,7 +1757,10 @@ class CloudflareAdminSession
     checkCurrent();
     final CloudflareAdminUser verified;
     try {
-      verified = CloudflareAdminUser.parse(response);
+      verified = CloudflareAdminUser.parse(
+        response,
+        allowOpaquePrincipal: usesProtectedOwner,
+      );
     } on Object {
       await refresh();
       throw const AdminAccountSecurityOutcomeUnknown(
@@ -1376,7 +1769,7 @@ class CloudflareAdminSession
     }
     await refresh();
     checkCurrent();
-    if (user == null || user!.authorityKey != verified.authorityKey) {
+    if (user == null || user!.loginIdentityKey != verified.loginIdentityKey) {
       clear();
       throw const AdminAccountException(
         'Google sign-in could not be confirmed.',
@@ -1453,7 +1846,10 @@ class CloudflareAdminSession
     }
     CloudflareAdminUser verified;
     try {
-      verified = CloudflareAdminUser.parse(body);
+      verified = CloudflareAdminUser.parse(
+        body,
+        allowOpaquePrincipal: usesProtectedOwner,
+      );
     } on Object {
       if (await _confirmEmailOtpSession(pending)) return;
       throw const AdminAccountSecurityOutcomeUnknown(
@@ -1486,14 +1882,21 @@ class CloudflareAdminSession
             _epoch == pending.epoch &&
             _refreshSequence == sequence,
       );
-      if (!mounted ||
+      if (_fencePendingLogout() ||
+          !mounted ||
           _epoch != pending.epoch ||
           _refreshSequence != sequence ||
           _emailOtp != pending ||
           body['user'] == null) {
         return false;
       }
-      var current = CloudflareAdminUser.parse(body);
+      var current = _bindProtectedOwner(
+        CloudflareAdminUser.parse(
+          body,
+          allowOpaquePrincipal: usesProtectedOwner,
+        ),
+        body,
+      );
       if (current.email.toLowerCase() != pending.email ||
           (expected != null &&
               (current.id != expected.id ||
@@ -1508,7 +1911,8 @@ class CloudflareAdminSession
             _refreshSequence == sequence &&
             _emailOtp == pending,
       );
-      if (!mounted ||
+      if (_fencePendingLogout() ||
+          !mounted ||
           _epoch != pending.epoch ||
           _refreshSequence != sequence ||
           _emailOtp != pending) {
@@ -1518,10 +1922,7 @@ class CloudflareAdminSession
       // to the email being verified. A different cookie must not redirect UI.
       _emailOtp = null;
       state = AsyncData(current);
-      _expiry?.cancel();
-      _recheck?.cancel();
-      _expiry = Timer(current.expiresAt.difference(DateTime.now()), clear);
-      _recheck = Timer(const Duration(seconds: 60), () => unawaited(refresh()));
+      _scheduleSessionChecks(current);
       return true;
     } on Object {
       return false;
@@ -1537,11 +1938,107 @@ class CloudflareAdminSession
     if (before == null || before.principalId == null) {
       throw const AdminAccountException('Sign in again to continue.');
     }
-    final result = await request(
-      'auth/mfa/verify',
-      authenticated: true,
-      body: {'factor_id': factorId, 'challenge_id': challengeId, 'code': code},
-    );
+    final random = Random.secure();
+    final verificationId = before.mfaAvailable
+        ? List<int>.generate(
+            32,
+            (_) => random.nextInt(256),
+          ).map((value) => value.toRadixString(16).padLeft(2, '0')).join()
+        : null;
+    if (verificationId != null) {
+      try {
+        final retained = _mfaIntents.read();
+        if (retained != null &&
+            DateTime.now().millisecondsSinceEpoch - retained.createdAtMillis <=
+                300000) {
+          throw const AdminAccountException(
+            'An authenticator check is still being recovered. Recheck your session.',
+          );
+        }
+        _mfaIntents.write(
+          AdminMfaRecoveryIntent(
+            factorId: factorId,
+            challengeId: challengeId,
+            verificationId: verificationId,
+            sessionId: before.sessionId,
+            userId: before.id,
+            startingAssuranceLevel: before.assuranceLevel,
+            startingMfaAtMillis: before.mfaAt?.millisecondsSinceEpoch,
+            createdAtMillis: DateTime.now().millisecondsSinceEpoch,
+          ),
+        );
+      } on AdminAccountException {
+        rethrow;
+      } on Object {
+        throw const AdminAccountException(
+          'Authenticator recovery could not be prepared. Try again.',
+        );
+      }
+    }
+    final epoch = _epoch;
+    late Map<String, dynamic> result;
+    try {
+      result = await request(
+        'auth/mfa/verify',
+        authenticated: true,
+        body: {
+          'factor_id': factorId,
+          'challenge_id': challengeId,
+          'code': code,
+          'verification_id': ?verificationId,
+        },
+      );
+    } on CloudflareAdminRequestException catch (failure) {
+      if (verificationId == null || !failure.outcomeUnknown) {
+        if (verificationId != null) _mfaIntents.clear();
+        rethrow;
+      }
+      await _mfaRecoveryDelay(const Duration(seconds: 26));
+      if (!mounted ||
+          _logoutUnconfirmed ||
+          _epoch != epoch ||
+          user?.authorityKey != before.authorityKey) {
+        throw const CloudflareAdminRequestException(
+          'Your session changed. Reopen this page.',
+          outcomeUnknown: true,
+        );
+      }
+      // The browser may have accepted the replacement cookie even when the
+      // response body was lost. Read its authority before using the original
+      // cookie's CSRF proof; the final refresh below still checks identity.
+      var candidateAccepted = false;
+      try {
+        final observed = CloudflareAdminUser.parse(
+          await request('auth/session'),
+        );
+        candidateAccepted =
+            observed.id == before.id &&
+            observed.email == before.email &&
+            observed.sessionId == before.sessionId &&
+            observed.principalId == before.principalId &&
+            observed.assuranceLevel == 2 &&
+            (before.assuranceLevel == 1 ||
+                (before.mfaAt != null &&
+                    observed.mfaAt != null &&
+                    observed.mfaAt!.isAfter(before.mfaAt!)));
+      } on CloudflareAdminRequestException catch (readFailure) {
+        if (readFailure.statusCode != 409 ||
+            readFailure.code != 'mfa_recovery_pending') {
+          rethrow;
+        }
+      }
+      result = candidateAccepted
+          ? {'ok': true}
+          : await request(
+              'auth/mfa/recover',
+              authenticated: true,
+              body: {
+                'factor_id': factorId,
+                'challenge_id': challengeId,
+                'verification_id': verificationId,
+              },
+            );
+    }
     if (result['ok'] != true) {
       throw const CloudflareAdminRequestException(
         'Verification could not be confirmed. Recheck your session.',
@@ -1574,8 +2071,12 @@ class CloudflareAdminSession
         current.principalId != before.principalId ||
         current.role != before.role ||
         current.authorityKey.permissions != before.authorityKey.permissions ||
+        current.mfaAvailable != before.mfaAvailable ||
+        current.mfaRequired != before.mfaRequired ||
         current.assuranceLevel != 2 ||
         current.mfaAt == null ||
+        (before.assuranceLevel == 2 &&
+            (before.mfaAt == null || !current.mfaAt!.isAfter(before.mfaAt!))) ||
         current.mfaAt!.isBefore(now.subtract(const Duration(minutes: 5))) ||
         current.mfaAt!.isAfter(now.add(const Duration(minutes: 1)))) {
       throw const CloudflareAdminRequestException(
@@ -1583,9 +2084,14 @@ class CloudflareAdminSession
         outcomeUnknown: true,
       );
     }
+    if (verificationId != null &&
+        _mfaIntents.read()?.verificationId == verificationId) {
+      _mfaIntents.clear();
+    }
   }
 
   Future<void> signOut() async {
+    if (_supabase != null) return _signOutWithStoredIntent();
     _epoch++;
     _refreshSequence++;
     _logoutUnconfirmed = true;
@@ -1610,8 +2116,136 @@ class CloudflareAdminSession
     }
   }
 
+  Future<void> _signOutWithStoredIntent() async {
+    if (_logoutInFlight) {
+      throw const AdminAccountException('Sign-out is already in progress.');
+    }
+    _logoutInFlight = true;
+    final original = user;
+    _epoch++;
+    _refreshSequence++;
+    _logoutUnconfirmed = true;
+    _expiry?.cancel();
+    _recheck?.cancel();
+    state = const AsyncLoading();
+    try {
+      final pending = _pendingLogoutIntents();
+      if (pending == null) {
+        throw const AdminAccountException('Sign-out could not be retained.');
+      }
+      final mfaIntent = _csrfToken == null ? _mfaIntents.read() : null;
+      if (original == null && mfaIntent != null) {
+        final fingerprint = _logoutFingerprint(mfaIntent.sessionId);
+        if (pending.isNotEmpty && !pending.contains(fingerprint)) {
+          throw const AdminAccountSecurityOutcomeUnknown(
+            'Another sign-out is unresolved. Check the original session.',
+          );
+        }
+        _logoutIntents.add(fingerprint);
+        if (_pendingLogoutIntents()?.contains(fingerprint) != true) {
+          throw const AdminAccountException('Sign-out could not be retained.');
+        }
+        final result = await request(
+          'auth/logout',
+          body: {
+            'factor_id': mfaIntent.factorId,
+            'challenge_id': mfaIntent.challengeId,
+            'verification_id': mfaIntent.verificationId,
+          },
+        );
+        if (result['ok'] != true) {
+          throw const AdminAccountException('Sign-out was not confirmed.');
+        }
+        _logoutIntents.remove(fingerprint);
+        clear();
+        return;
+      }
+      String? fingerprint;
+      if (original != null) {
+        fingerprint = _logoutFingerprint(original.sessionId);
+        if (pending.isNotEmpty && !pending.contains(fingerprint)) {
+          throw const AdminAccountSecurityOutcomeUnknown(
+            'Another sign-out is unresolved. Check the original session.',
+          );
+        }
+        // This marker is a one-way public-session fingerprint, never a secret.
+        // It must be durable before dispatching the logout request.
+        _logoutIntents.add(fingerprint);
+        if (_pendingLogoutIntents()?.contains(fingerprint) != true) {
+          throw const AdminAccountException('Sign-out could not be retained.');
+        }
+      } else {
+        // A restarted or temporarily unavailable controller has no active
+        // actor. Read the cookie without installing it and bind any unresolved
+        // intent to that exact session. The BFF binds CSRF to the same cookie.
+        final body = await request('auth/session', expectedStatus: 200);
+        if (!body.containsKey('user') ||
+            !body.containsKey('expiresAt') ||
+            !body.containsKey('csrfToken') ||
+            !body.containsKey('ownerEmail')) {
+          throw const FormatException('Invalid sign-out session response.');
+        }
+        if (body['user'] == null) {
+          if (body['expiresAt'] != null || body['csrfToken'] != null) {
+            throw const FormatException('Invalid signed-out session response.');
+          }
+          // A confirmed absence of a current browser session resolves only
+          // this browser's local sign-out; no provider revocation is inferred.
+          for (final value in pending) {
+            _logoutIntents.remove(value);
+          }
+          clear();
+          return;
+        }
+        final current = CloudflareAdminUser.parse(
+          body,
+          allowOpaquePrincipal: usesProtectedOwner,
+        );
+        fingerprint = _logoutFingerprint(current.sessionId);
+        if ((pending.isNotEmpty && !pending.contains(fingerprint)) ||
+            body['csrfToken'] is! String ||
+            !RegExp(r'^[a-f0-9]{64}$').hasMatch(body['csrfToken'] as String)) {
+          throw const AdminAccountSecurityOutcomeUnknown(
+            'The current session differs from the original sign-out.',
+          );
+        }
+        if (pending.isEmpty) {
+          _logoutIntents.add(fingerprint);
+          if (_pendingLogoutIntents()?.contains(fingerprint) != true) {
+            throw const AdminAccountException(
+              'Sign-out could not be retained.',
+            );
+          }
+        }
+      }
+      final result = await request('auth/logout', body: const {});
+      if (result['ok'] != true) {
+        throw const AdminAccountException('Sign-out was not confirmed.');
+      }
+      _logoutIntents.remove(fingerprint);
+      clear();
+    } catch (error, stack) {
+      if (mounted) {
+        _logoutUnconfirmed = true;
+        state = AsyncError(
+          const AdminAccountException('Sign-out was not confirmed. Try again.'),
+          stack,
+        );
+      }
+      rethrow;
+    } finally {
+      _logoutInFlight = false;
+    }
+  }
+
   void clear() {
     _authChallenge?.cancel();
+    try {
+      _mfaIntents.clear();
+    } on Object {
+      // A revoked cookie cannot use any retained recovery intent.
+    }
+    _mfaRecoveredIntent = null;
     _csrfToken = null;
     _epoch++;
     _refreshSequence++;
@@ -1620,10 +2254,21 @@ class CloudflareAdminSession
     cancelSensitiveEmailVerification();
     _googleAttempt++;
     _emailOtp = null;
-    _logoutUnconfirmed = false;
+    final pending = _supabase == null ? <String>{} : _pendingLogoutIntents();
+    _logoutUnconfirmed = pending == null || pending.isNotEmpty;
+    _transientRefreshFailures = 0;
     _expiry?.cancel();
     _recheck?.cancel();
-    if (mounted) state = const AsyncData(null);
+    if (mounted) {
+      state = _logoutUnconfirmed
+          ? AsyncError(
+              const AdminAccountException(
+                'Sign-out was not confirmed. Try again.',
+              ),
+              StackTrace.current,
+            )
+          : const AsyncData(null);
+    }
   }
 
   @override

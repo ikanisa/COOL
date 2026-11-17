@@ -139,8 +139,19 @@ Future<void> createAdminPublicGroup(
   BuildContext context,
   WidgetRef ref, {
   required VoidCallback onDone,
+  Future<void> Function(Map<String, dynamic>)? submit,
+  bool Function()? canSubmit,
 }) async {
-  final scope = _AdminActionScope(ref);
+  if ((submit == null) != (canSubmit == null)) {
+    throw ArgumentError(
+      'A canonical submitter requires its current authority guard.',
+    );
+  }
+  // Canonical Admin already supplies its genuine current session fence. Its
+  // form must not initialize the unrelated legacy/member backend client.
+  final scope = submit == null ? _AdminActionScope(ref) : null;
+  bool current() => canSubmit?.call() ?? scope!.isCurrent;
+  if (!current()) return;
   final formKey = GlobalKey<FormState>();
   final title = TextEditingController();
   final description = TextEditingController();
@@ -156,6 +167,7 @@ Future<void> createAdminPublicGroup(
     context: context,
     builder: (dialogContext) => _AdminSessionDialog(
       scope: scope,
+      currentAuthority: canSubmit,
       child: StatefulBuilder(
         builder: (dialogContext, setDialogState) => AlertDialog(
           scrollable: true,
@@ -326,7 +338,7 @@ Future<void> createAdminPublicGroup(
     ),
   );
 
-  if (submitted != true || !context.mounted || !scope.isCurrent) {
+  if (submitted != true || !context.mounted || !current()) {
     _disposeGroupCreationControllers([
       title,
       description,
@@ -340,7 +352,7 @@ Future<void> createAdminPublicGroup(
   }
 
   try {
-    await scope.repository.action('admin_create_platform_public_group', {
+    final draft = <String, dynamic>{
       'p_title': title.text.trim(),
       'p_description': description.text.trim(),
       'p_collection_type': collectionType,
@@ -350,16 +362,24 @@ Future<void> createAdminPublicGroup(
       'p_momo_code': momoCode.text.trim(),
       'p_network': network,
       'p_reason': reason.text.trim(),
-    });
-    if (!context.mounted || !scope.isCurrent) return;
+    };
+    if (submit != null) {
+      await submit(draft);
+    } else {
+      await scope!.repository.action(
+        'admin_create_platform_public_group',
+        draft,
+      );
+    }
+    if (!context.mounted || !current()) return;
     onDone();
     ref.read(adminRealtimeTickProvider.notifier).state += 1;
-    if (!context.mounted || !scope.isCurrent) return;
+    if (!context.mounted || !current()) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Public group created and activated')),
     );
   } catch (error) {
-    if (!context.mounted || !scope.isCurrent) return;
+    if (!context.mounted || !current()) return;
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(_adminActionErrorMessage(error))));

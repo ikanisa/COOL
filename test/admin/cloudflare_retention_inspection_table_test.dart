@@ -30,6 +30,16 @@ Map<String, dynamic> _inventory() => {
   'source_id': _source,
   'schema_sha256': _schema,
   'snapshot_sha256': _snapshot,
+  'private_catalog_sha256': _schema,
+  'private_schema_sha256': _snapshot,
+  'private_copy_inventory': {
+    'private:auth_principal_links': {'status': 'observed', 'count': 1},
+    'private:burimunsi_unresolved_observations': {
+      'status': 'unmapped',
+      'count': null,
+    },
+    'managed:storage': {'status': 'unmapped', 'count': null},
+  },
   'table_counts': {
     _longTableName: 9007199254740991,
     'sessions': 12,
@@ -83,6 +93,39 @@ Future<void> _host(
 }
 
 void main() {
+  testWidgets('unknown object count never appears as zero or completed', (
+    tester,
+  ) async {
+    await _host(
+      tester,
+      api: CloudflareAdminRetentionInspectionApi(
+        rpc: (_, _) async => {..._inventory(), 'object_count': null},
+        context: _context(),
+        actorId: privacyActor,
+        isCurrent: () => true,
+        now: () => privacyNow,
+      ),
+    );
+    expect(
+      find.widgetWithText(SelectableText, 'Stored objects'),
+      findsOneWidget,
+    );
+    expect(
+      find.widgetWithText(
+        SelectableText,
+        'Unknown — additional copies may exist',
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.text('Unresolved work is present in this scope.'),
+      findsOneWidget,
+    );
+    expect(find.text('0'), findsNothing);
+    expect(find.textContaining('erasure completed'), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
   for (final variant in [
     (width: 320.0, scale: 1.0),
     (width: 320.0, scale: 3.2),

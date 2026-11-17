@@ -17,7 +17,7 @@ async function fixture(){const f=await custodyFixture({body}),r=f.state.row;
  wallet_status:r.wallet_status,profile_status:r.profile_status,profile_version:r.profile_version,collection_id:r.collection_id,
  active_binding_id:r.job_binding,scope_binding_version:r.binding_version};
  const original=f.sql.unsafe;f.sql.unsafe=async(q,v)=>{if(q===RETAINED_SOURCE_SQL){f.state.queries.push({text:q,values:v});return [structuredClone(lineage)];}return original(q,v);};
- const sources=new PostgresRetainedSources({db:f.db,groupId:'group-1',namespace,decrypt:f.verifier.decrypt});
+ const sources=new PostgresRetainedSources({qualificationOnly:true,db:f.db,groupId:'group-1',namespace,decrypt:f.verifier.decrypt});
  const job=await sources.sourceForEnqueue(f.sql,'raw-1');
  return {...f,lineage,sources,job,load:()=>sources.load(f.sql,job)};
 }
@@ -69,15 +69,15 @@ for(const [field,value]of [['parse_outcome','needs_review'],['source_conflict',t
 for(const count of [0,2])test('adoption refuses '+count+' accepted rows',async()=>{const f=await adoptionFixture();f.state.canonical=count===0?[]:[f.canonical,{...f.canonical}];await assert.rejects(f.adopt(),/canonical_source_not_accepted/);});
 test('cross-group preexisting scope cannot be relabelled',async()=>{const f=await adoptionFixture();await f.adopt();f.state.scope.collection_id='another';await assert.rejects(f.adopt(),/source_scope_changed/);assert.equal(f.state.scope.collection_id,'another');});
 test('fabricated in-memory parse cannot override source truth',async()=>{const f=await adoptionFixture();f.input.receipt={...f.input.receipt,amountRwf:999};assert.equal((await f.adopt()).transactionId,'transaction-1');});
-test('unallocated outcome does not fabricate a credit',async()=>{const f=await adoptionFixture();f.state.outcome=[{id:'transaction-1',has_conflict:0,allocation_state:'unallocated',status:null,ledger_entry_id:null,compensated:false}];
+test('unallocated outcome does not fabricate a credit',async()=>{const f=await adoptionFixture();f.state.outcome=[{id:'transaction-1',has_conflict:0,source_conflict:false,allocation_state:'unallocated',status:null,ledger_entry_id:null,compensated:false}];
  const o=await f.adopter.outcome(f.sql,{groupId:'group-1',transactionId:'transaction-1'});assert.equal(o.state,'unallocated');assert.equal(o.ledgerEntryId,undefined);
 });
-const posted=()=>({id:'transaction-1',has_conflict:0,allocation_state:'linked',payment_group:'group-1',status:'confirmed',ledger_entry_id:'ledger-1',compensated:false,
+const posted=()=>({id:'transaction-1',has_conflict:0,source_conflict:false,allocation_state:'linked',payment_group:'group-1',status:'confirmed',ledger_entry_id:'ledger-1',compensated:false,
  transaction_currency:'RWF',payment_currency:'RWF',ledger_currency:'RWF',transaction_amount:12500,payment_amount:12500,ledger_amount:12500,member_id:'member-1',beneficiary_member_id:'member-1'});
 test('posted observation requires matching canonical ledger amount and member',async()=>{const f=await adoptionFixture();f.state.outcome=[posted()];
  assert.equal((await f.adopter.outcome(f.sql,{groupId:'group-1',transactionId:'transaction-1'})).ledgerEntryId,'ledger-1');
 });
-for(const [field,value]of [['status','reversed'],['compensated',true],['ledger_amount',12501],['member_id','other'],['payment_currency','USD']])test('outcome rejects '+field,async()=>{const f=await adoptionFixture();
+for(const [field,value]of [['status','reversed'],['compensated',true],['source_conflict',true],['ledger_amount',12501],['member_id','other'],['payment_currency','USD']])test('outcome rejects '+field,async()=>{const f=await adoptionFixture();
  f.state.outcome=[{...posted(),[field]:value}];await assert.rejects(f.adopter.outcome(f.sql,{groupId:'group-1',transactionId:'transaction-1'}));
 });
 test('multiple ledger observations cannot be called posted',async()=>{const f=await adoptionFixture();f.state.outcome=[posted(),posted()];await assert.rejects(f.adopter.outcome(f.sql,{groupId:'group-1',transactionId:'transaction-1'}));});

@@ -172,6 +172,12 @@ abstract interface class AdminInvitationAccountApi {
   });
 }
 
+/// Optional current-owner target protection for invitation/revoke UI flows.
+/// The backend independently rechecks the protected target in its transaction.
+abstract interface class AdminOwnerTargetProtection {
+  bool isProtectedOwnerTarget({String? adminId, String? email});
+}
+
 abstract interface class AdminInvitationV2AccountApi
     implements AdminInvitationAccountApi {
   bool get invitationV2Available;
@@ -294,8 +300,7 @@ class AdminInvitationIntent {
     int contractVersion = 1,
   }) {
     final target = normalizeAdminEmail(email), name = displayName.trim();
-    if (target == 'info@ikanisa.com' ||
-        role == AdminAccountRole.owner ||
+    if (role == AdminAccountRole.owner ||
         name.length > 120 ||
         RegExp(r'[\x00-\x1f\x7f]').hasMatch(name)) {
       throw const FormatException('Check the invitation details.');

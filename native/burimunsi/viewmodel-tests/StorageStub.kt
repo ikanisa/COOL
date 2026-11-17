@@ -1,6 +1,6 @@
 package rw.ikanisa.burimunsi.storage
 import android.app.Application
-class DeviceProvisioning(app:Application,id:String){val installationId=id;fun token():String?=null}
+class DeviceProvisioning(app:Application,id:String){val installationId=id;fun token():String?=null;fun registrationToken()="fixture-registration-token"}
 
 // Isolated store: no disk, keychain or prior-session state in controller fixtures.
 class AndroidNavigationCheckpointStore(app:Application):rw.ikanisa.burimunsi.core.NavigationCheckpointStore {

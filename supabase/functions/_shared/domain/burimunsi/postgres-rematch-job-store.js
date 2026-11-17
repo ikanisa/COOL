@@ -40,9 +40,9 @@ export class PostgresRematchJobStore {
   }
   group(g){requireThat(g===this.groupId,'access_denied',403);}
   async time(tx){return n((await tx.unsafe('SELECT floor(extract(epoch FROM clock_timestamp())*1000)::text AS now_ms'))[0]?.now_ms);}
-  async scope(tx) {
+  async scope(tx,{allowDisabled=false}={}) {
     const rows=await tx.unsafe(`SELECT collection_id,receiving_account_id,enabled FROM private.burimunsi_scopes WHERE collection_id=$1 FOR UPDATE`,[this.groupId]);
-    requireThat(rows.length===1&&rows[0].collection_id===this.groupId&&rows[0].enabled===true,'scope_unavailable',503);
+    requireThat(rows.length===1&&rows[0].collection_id===this.groupId&&(allowDisabled||rows[0].enabled===true),'scope_unavailable',503);
     requireId(rows[0].receiving_account_id);return rows[0];
   }
   async admitted(tx,job=null) {
@@ -58,7 +58,7 @@ export class PostgresRematchJobStore {
   async enqueueInTransaction(tx,{groupId,memberId,requestId,cause='enrollment'}) {
     requirePort(tx,['unsafe']);this.group(groupId);requireId(memberId);requireRequestId(requestId);
     requireThat(['enrollment','reactivation','verified_identity'].includes(cause),'invalid_rematch_event',503);
-    const scope=await this.scope(tx);
+    const scope=await this.scope(tx,{allowDisabled:true});
     const members=await tx.unsafe(`SELECT m.user_id,m.active,u.access_status FROM app.memberships m JOIN app.users u ON u.id=m.user_id
       WHERE m.collection_id=$1 AND m.user_id=$2 FOR UPDATE OF m,u`,[groupId,memberId]);
     requireThat(members.length===1&&members[0].user_id===memberId&&n(members[0].active)===1&&members[0].access_status==='active','member_unavailable',409);

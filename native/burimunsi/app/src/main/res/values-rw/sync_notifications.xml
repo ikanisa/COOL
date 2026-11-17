@@ -1,0 +1,8 @@
+<resources>
+    <string name="burimunsi_sync_channel_name">Guhuza SMS</string>
+    <string name="burimunsi_sync_channel_description">Guhuza SMS bikomeza porogaramu idafunguye</string>
+    <string name="burimunsi_sync_notification_title">Guhuza SMS za BuriMunsi</string>
+    <string name="burimunsi_sync_notification_active">Guhuza birakora</string>
+    <string name="burimunsi_sync_notification_waiting">Gutegereza umuyoboro</string>
+    <string name="burimunsi_sync_notification_starting">Gutangira guhuza</string>
+</resources>

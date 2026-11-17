@@ -15,6 +15,7 @@ import 'admin_repository_base.dart';
 import 'cloudflare_admin_data_refresh.dart';
 import 'cloudflare_admin_repository.dart';
 import 'cloudflare_admin_session.dart';
+import 'cloudflare_admin_public_group.dart';
 
 typedef _CoreQuery = ({
   CloudflareCoreArea area,
@@ -261,9 +262,19 @@ class _CoreListState extends ConsumerState<CloudflareCoreListPage> {
               ],
             )
           : user?.permissions.contains(createPermission) == true
-          ? canonical &&
-                    (area == CloudflareCoreArea.ledgers ||
-                        area == CloudflareCoreArea.payees)
+          ? canonical && area == CloudflareCoreArea.groups
+                ? CloudflarePublicGroupCreateButton(
+                    onCreatePrivate: () => context.go(
+                      Uri(
+                        path: '${area.path}/new',
+                        queryParameters: {'returnTo': _listLocation},
+                      ).toString(),
+                    ),
+                    onDone: _refresh,
+                  )
+                : canonical &&
+                      (area == CloudflareCoreArea.ledgers ||
+                          area == CloudflareCoreArea.payees)
                 ? FilledButton(
                     onPressed:
                         area == CloudflareCoreArea.payees &&

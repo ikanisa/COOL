@@ -4,6 +4,7 @@ import {adminAccountSession,adminCanonicalActor} from './admin_accounts.js';
 import {applicationWork,applicationWorkTuple} from '../application-fence.js';
 import {verifyDeploymentProfile} from '../deployment-profile.js';
 import {PostgresNativeAuthority} from './burimunsi/postgres-authority.js';
+import {resolveNativeCollection} from './burimunsi/postgres-scope-discovery.js';
 
 const PATH='/api/admin/burimunsi/access';
 const denied=()=>{throw new ApiError(403,'burimunsi_access_denied','This Collect account or receiving phone no longer has BuriMunsi access.');};
@@ -27,8 +28,6 @@ export async function adminBuriMunsiAccess(request,env){
  const tuple=JSON.stringify(applicationWorkTuple(work));
  const owned=async()=>{await work.assert();if(env.DB?.applicationWork!==work||JSON.stringify(applicationWorkTuple(work))!==tuple)unavailable();};
  await owned();
- const group=env.BURIMUNSI_COLLECTION_ID;
- if(typeof group!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/.test(group))unavailable();
  const body=await readJson(request,256);
  if(Object.keys(body).length!==1||!Object.hasOwn(body,'installationId'))throw new ApiError(400,'invalid_request','Supply the managed installation identity.');
  const installation=uuid(body.installationId,'installationId');
@@ -39,6 +38,7 @@ export async function adminBuriMunsiAccess(request,env){
  const token=account.supabaseTokens?.access_token,claims=claimsOf(token);
  if(actor.surface!=='admin'||actor.userId!==account.principal_id||actor.sessionId!==account.auth_session_id||
     claims.sub!==account.auth_user_id||claims.session_id!==actor.sessionId)denied();
+ let group;try{group=await resolveNativeCollection({env,installationId:installation,deviceToken});}catch{denied();}
  const at=Math.floor(Date.now()/1000),deviceHash=await digest(deviceToken),authority=new PostgresNativeAuthority({db:env.DB,groupId:group});
  const records=await authority.read(tx=>tx.unsafe(`SELECT a.id AS operator_id,a.role AS operator_role,
    a.version AS account_version,a.credential_version,d.profile AS device_profile,d.version AS grant_version,

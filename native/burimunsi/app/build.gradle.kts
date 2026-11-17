@@ -12,32 +12,51 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 fun quoted(v: String) = "\"" + v.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "") + "\""
+fun publicUri(value: String): URI = try { URI(value) } catch (_: Exception) {
+    // URI constructor errors can echo their input. Compiler diagnostics must
+    // never expose a credential accidentally supplied in a public URL field.
+    throw GradleException("Malformed public deployment URL")
+}
+// Configured app builds target the owner's existing Supabase Cloud project.
+// Distinct application IDs below establish a new Android custody boundary;
+// they cannot access the old applications' private credentials or queues.
+fun requireCollectCloud(uri: URI) {
+    require(uri.scheme == "https" && uri.rawAuthority == "rrlduytparvsjfmegalh.supabase.co") {
+        "BuriMunsi permits the Collect Supabase Cloud project only"
+    }
+}
 // Both native roles use the existing Collect Supabase instance and collect-api.
 val sharedOrigin = providers.gradleProperty("collectSupabaseOrigin").orElse("")
 val adminOrigin = providers.gradleProperty("collectAdminOrigin").orElse("")
 if (adminOrigin.get().isNotBlank()) {
-    val uri = URI(adminOrigin.get())
+    val uri = publicUri(adminOrigin.get())
     require(uri.scheme == "https" && uri.host != null && uri.userInfo == null && uri.query == null && uri.fragment == null && uri.path.isNullOrEmpty()) { "Invalid shared Collect Admin origin" }
+    requireCollectCloud(uri)
 }
 val apiOrigin = providers.gradleProperty("burimunsiApiOrigin").orElse(sharedOrigin)
 val apiPathPrefix = providers.gradleProperty("burimunsiApiPathPrefix").orElse("/functions/v1/collect-api")
 require(apiPathPrefix.get() in setOf("", "/functions/v1/collect-api")) { "Invalid fixed Collect API path prefix" }
 val gatewayOrigin = providers.gradleProperty("collectGatewayOrigin").orElse(sharedOrigin.map { if (it.isBlank()) "" else it + apiPathPrefix.get() })
-val gatewayUri = gatewayOrigin.get().takeIf { it.isNotBlank() }?.let { URI(it) }
-if (gatewayUri != null) require(gatewayUri.scheme == "https" && gatewayUri.host != null && gatewayUri.userInfo == null && gatewayUri.query == null && gatewayUri.fragment == null) { "Invalid fixed gateway origin" }
+val gatewayUri = gatewayOrigin.get().takeIf { it.isNotBlank() }?.let { publicUri(it) }
+if (gatewayUri != null) {
+    require(gatewayUri.scheme == "https" && gatewayUri.host != null && gatewayUri.userInfo == null && gatewayUri.query == null && gatewayUri.fragment == null) { "Invalid fixed gateway origin" }
+    requireCollectCloud(gatewayUri)
+}
 if (apiOrigin.get().isNotBlank()) {
-    val uri=URI(apiOrigin.get())
+    val uri=publicUri(apiOrigin.get())
     require(uri.scheme == "https" && uri.host != null && uri.userInfo == null && uri.query == null && uri.fragment == null && uri.path.isNullOrEmpty()) { "Invalid native API origin" }
+    requireCollectCloud(uri)
 }
 if (sharedOrigin.get().isNotBlank()) {
-    val shared = URI(sharedOrigin.get())
+    val shared = publicUri(sharedOrigin.get())
     require(shared.scheme == "https" && shared.host != null && shared.userInfo == null && shared.query == null && shared.fragment == null && shared.path.isNullOrEmpty()) { "Invalid shared Collect Supabase origin" }
+    requireCollectCloud(shared)
     require(apiOrigin.get() == sharedOrigin.get()) { "BuriMunsi must use the shared Collect backend origin" }
     require(gatewayOrigin.get().isEmpty() || gatewayOrigin.get() == sharedOrigin.get() + apiPathPrefix.get()) { "Receiver must use the shared Collect API" }
 }
-val receiptProfileVersion = providers.gradleProperty("receiptProfileVersion").orElse("")
-val receiptOffset = providers.gradleProperty("receiptUtcOffsetMinutes").orElse("2147483647")
-val bindingScope = providers.gradleProperty("burimunsiGroupId").orElse("")
+val authOrigin = sharedOrigin.map { if (it.isBlank()) apiOrigin.get() else it }
+val publicKey = providers.gradleProperty("collectPublishableKey").orElse("")
+require(publicKey.get().isBlank() || Regex("sb_publishable_[A-Za-z0-9_-]{10,300}").matches(publicKey.get())) { "Only a public Supabase publishable key may enter native configuration" }
 val collectRoot = providers.gradleProperty("collectRoot").orElse(rootProject.projectDir.resolve("../../upstream/collect").absolutePath)
 
 android {
@@ -49,31 +68,31 @@ android {
         applicationId = "rw.ikanisa.burimunsi"
         minSdk = 26
         targetSdk = 36
-        versionCode = 23
-        versionName = "0.21.0-collect.1"
+        versionCode = 39
+        versionName = "0.23.0-collect.17"
         resValue("string", "app_name", "BuriMunsi")
         buildConfigField("boolean", "IS_QUALIFICATION", "false")
+        // The new Cloud identity snapshots the existing inbox before catch-up.
+        // It does not import or replay another installation's local queue.
+        buildConfigField("boolean", "CLOUD_HOLD_EXISTING_INBOX", "true")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BURI_API_ORIGIN", quoted(apiOrigin.get()))
+        buildConfigField("String", "BURI_AUTH_ORIGIN", quoted(authOrigin.get()))
         buildConfigField("String", "BURI_ADMIN_ORIGIN", quoted(adminOrigin.get()))
         buildConfigField("String", "BURI_API_PATH_PREFIX", quoted(apiPathPrefix.get()))
         buildConfigField("String", "COLLECT_API_HOST", quoted(gatewayUri?.rawAuthority ?: ""))
         buildConfigField("String", "COLLECT_API_PATH_PREFIX", quoted(gatewayUri?.path?.trimEnd('/') ?: ""))
         buildConfigField("String", "COLLECT_AUTH_SESSION_OWNER", quoted("burimunsi"))
-        buildConfigField("String", "COLLECT_PUBLISHABLE_KEY", quoted(providers.gradleProperty("collectPublishableKey").orElse("").get()))
+        buildConfigField("String", "COLLECT_PUBLISHABLE_KEY", quoted(publicKey.get()))
         buildConfigField("String", "RECEIVER_API_BASE_URL", quoted(gatewayOrigin.get()))
         buildConfigField("String", "COLLECT_RECEIVER_API_BASE_URL", quoted(gatewayOrigin.get()))
-        buildConfigField("String", "BURI_GROUP_ID", quoted(bindingScope.get()))
-        buildConfigField("String", "RECEIPT_PROFILE_VERSION", quoted(receiptProfileVersion.get()))
-        buildConfigField("int", "RECEIPT_UTC_OFFSET", receiptOffset.get())
-        buildConfigField("String", "SUPPORT_PHONE", quoted("+250780025501"))
     }
     // Instrumentation always targets a separate offline/testOnly sandbox, never a live debug/release app.
     testBuildType = "nativeTest"
     flavorDimensions += "device"
     productFlavors {
-        create("internal_receiver") { dimension = "device"; applicationIdSuffix = ".gateway"; buildConfigField("boolean", "IS_GATEWAY", "true") }
-        create("staff") { dimension = "device"; applicationIdSuffix = ".staff"; buildConfigField("boolean", "IS_GATEWAY", "false") }
+        create("internal_receiver") { dimension = "device"; applicationIdSuffix = ".gateway.cloud"; resValue("string", "app_name", "BuriMunsi Admin"); buildConfigField("boolean", "IS_GATEWAY", "true") }
+        create("staff") { dimension = "device"; applicationIdSuffix = ".staff.cloud"; resValue("string", "app_name", "BuriMunsi Staff"); buildConfigField("boolean", "IS_GATEWAY", "false") }
     }
     buildFeatures { compose = true; buildConfig = true; resValues = true }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
@@ -92,10 +111,8 @@ android {
             resValue("string", "app_name", "BuriMunsi Qualification")
             buildConfigField("boolean", "IS_QUALIFICATION", "true")
             // The offline candidate can never inherit production identifiers/endpoints.
-            for (field in listOf("BURI_API_ORIGIN", "BURI_ADMIN_ORIGIN", "BURI_API_PATH_PREFIX", "COLLECT_API_HOST", "COLLECT_API_PATH_PREFIX",
-                "COLLECT_PUBLISHABLE_KEY", "RECEIVER_API_BASE_URL", "COLLECT_RECEIVER_API_BASE_URL",
-                "BURI_GROUP_ID", "RECEIPT_PROFILE_VERSION")) buildConfigField("String", field, quoted(""))
-            buildConfigField("int", "RECEIPT_UTC_OFFSET", "2147483647")
+            for (field in listOf("BURI_API_ORIGIN", "BURI_AUTH_ORIGIN", "BURI_ADMIN_ORIGIN", "BURI_API_PATH_PREFIX", "COLLECT_API_HOST", "COLLECT_API_PATH_PREFIX",
+                "COLLECT_PUBLISHABLE_KEY", "RECEIVER_API_BASE_URL", "COLLECT_RECEIVER_API_BASE_URL")) buildConfigField("String", field, quoted(""))
         }
         create("nativeTest") {
             initWith(getByName("debug"))
@@ -107,10 +124,8 @@ android {
             resValue("string", "app_name", "BuriMunsi Native Test")
             // Same runtime hold as qualification, but debuggable for AndroidJUnitRunner.
             buildConfigField("boolean", "IS_QUALIFICATION", "true")
-            for (field in listOf("BURI_API_ORIGIN", "BURI_ADMIN_ORIGIN", "BURI_API_PATH_PREFIX", "COLLECT_API_HOST", "COLLECT_API_PATH_PREFIX",
-                "COLLECT_PUBLISHABLE_KEY", "RECEIVER_API_BASE_URL", "COLLECT_RECEIVER_API_BASE_URL",
-                "BURI_GROUP_ID", "RECEIPT_PROFILE_VERSION")) buildConfigField("String", field, quoted(""))
-            buildConfigField("int", "RECEIPT_UTC_OFFSET", "2147483647")
+            for (field in listOf("BURI_API_ORIGIN", "BURI_AUTH_ORIGIN", "BURI_ADMIN_ORIGIN", "BURI_API_PATH_PREFIX", "COLLECT_API_HOST", "COLLECT_API_PATH_PREFIX",
+                "COLLECT_PUBLISHABLE_KEY", "RECEIVER_API_BASE_URL", "COLLECT_RECEIVER_API_BASE_URL")) buildConfigField("String", field, quoted(""))
         }
     }
     lint { abortOnError = true; checkReleaseBuilds = true }
@@ -138,18 +153,32 @@ androidComponents {
 val verifyReleaseEvidence by tasks.registering(Exec::class) {
     // No default evidence or "tests passed" boolean substitutes for real artifacts.
     doFirst {
+        val phase = providers.gradleProperty("burimunsiReleasePhase").orElse("build").get()
+        check(phase in setOf("build", "testing-candidate")) { "Select the existing build gate or explicit testing-candidate compilation gate" }
         val status = providers.gradleProperty("burimunsiReleaseStatus").orNull
         val evidence = providers.gradleProperty("burimunsiReleaseEvidence").orNull
-        check(!status.isNullOrBlank() && !evidence.isNullOrBlank()) { "Executed build-prerequisite evidence is required; production promotion is a separate stricter gate." }
-        commandLine("python3", rootProject.file("scripts/release_readiness.py"),
-            "--status", rootProject.file(status!!), "--evidence", rootProject.file(evidence!!), "--phase", "build")
+        check(!evidence.isNullOrBlank()) { "Executed build-prerequisite evidence is required" }
+        if (phase == "testing-candidate") {
+            val profile = providers.gradleProperty("burimunsiReleaseProfile").orNull
+            check(!profile.isNullOrBlank() && status.isNullOrBlank()) { "Testing candidate requires its public deployment profile and current qualification evidence, without legacy task closure" }
+            environment("BURI_BUILD_PUBLIC_PROPERTIES", groovy.json.JsonOutput.toJson(mapOf(
+                "collectSupabaseOrigin" to sharedOrigin.get(), "collectAdminOrigin" to adminOrigin.get(),
+                "burimunsiApiOrigin" to apiOrigin.get(), "burimunsiApiPathPrefix" to apiPathPrefix.get(),
+                "collectGatewayOrigin" to gatewayOrigin.get(), "collectPublishableKey" to publicKey.get())))
+            commandLine("python3", rootProject.file("scripts/release_readiness.py"), "--phase", phase,
+                "--evidence", rootProject.file(evidence!!), "--profile", rootProject.file(profile!!))
+        } else {
+            check(!status.isNullOrBlank()) { "Legacy build evidence requires its existing task register" }
+            commandLine("python3", rootProject.file("scripts/release_readiness.py"),
+                "--status", rootProject.file(status!!), "--evidence", rootProject.file(evidence!!), "--phase", "build")
+        }
     }
 }
 tasks.configureEach {
     if (name.startsWith("pre") && name.contains("Release") && name.endsWith("Build")) dependsOn(verifyReleaseEvidence)
     if (name.startsWith("preInternal_receiver", ignoreCase = true) && name.endsWith("Build")) dependsOn(prepareReceiver)
     if (name.contains("Release") && (name.startsWith("assemble") || name.startsWith("bundle"))) doFirst {
-        check(apiOrigin.get().startsWith("https://") && adminOrigin.get().startsWith("https://") && bindingScope.get().isNotBlank()) { "Shared Collect API, Admin and group configuration is required; no demo defaults are supplied." }
+        check(apiOrigin.get().startsWith("https://") && adminOrigin.get().startsWith("https://")) { "Shared Collect API and Admin configuration is required; collection authority comes from authenticated device approval." }
         check(providers.gradleProperty("nativeReleaseQualified").orElse("false").get() == "true") { "Native tests, manifest gate and release approval remain required." }
     }
 }

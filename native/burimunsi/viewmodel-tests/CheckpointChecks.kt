@@ -22,7 +22,7 @@ fun main()=runBlocking{
     var checks=0
     fun ck(label:String,value:Boolean){check(value){label};println("PASS $label");checks++}
     val now=System.currentTimeMillis()
-    val base=NavigationCheckpoint("operator",BuildConfig.BURI_GROUP_ID,now,Route.PAYMENTS,query="Example",filter="unallocated",index=2,offset=18)
+    val base=NavigationCheckpoint("operator",Fixture.managedCollection!!,now,Route.PAYMENTS,query="Example",filter="unallocated",index=2,offset=18)
     ck("checkpoint round trip preserves allowed navigation only",NavigationCheckpoint.decode(base.encode())==base)
     ck("owner and group must match",!base.validFor("other",base.groupId,now)&&!base.validFor(base.ownerId,"other",now))
     ck("checkpoint expires after fifteen minutes",base.validFor(base.ownerId,base.groupId,now+NavigationCheckpoint.TTL_MS)&&!base.validFor(base.ownerId,base.groupId,now+NavigationCheckpoint.TTL_MS+1))

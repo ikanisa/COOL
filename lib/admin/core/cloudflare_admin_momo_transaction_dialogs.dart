@@ -96,18 +96,35 @@ class _TransactionDialogState extends ConsumerState<_TransactionDialog> {
                     fields: [
                       (
                         'Amount · RWF',
-                        adminFormatWholeAmount(transaction.amount),
+                        transaction.amount == null
+                            ? '—'
+                            : adminFormatWholeAmount(transaction.amount),
                       ),
+                      ('Type', transaction.direction),
                       ('Status', transaction.label),
                       (
                         'MoMo TX ID',
-                        '${transaction.values['provider_transaction_id']}',
+                        '${transaction.values['provider_transaction_id'] ?? '—'}',
                       ),
                       (
-                        'Receiving account',
-                        '${transaction.values['recipient_name']}',
+                        'Fee · RWF',
+                        transaction.values['fee_minor'] == null
+                            ? '—'
+                            : adminFormatWholeAmount(
+                                transaction.values['fee_minor'],
+                              ),
                       ),
-                      ('MoMo code', '${transaction.values['public_code']}'),
+                      (
+                        'Balance after · RWF',
+                        transaction.values['wallet_balance_after_minor'] == null
+                            ? '—'
+                            : adminFormatWholeAmount(
+                                transaction
+                                    .values['wallet_balance_after_minor'],
+                              ),
+                      ),
+                      ('Receiving account', transaction.receivingAccountLabel),
+                      ('MoMo code', transaction.receivingCodeLabel),
                       (
                         'Payer name',
                         '${transaction.values['payer_name'] ?? 'Unknown payer'}',
@@ -120,22 +137,21 @@ class _TransactionDialogState extends ConsumerState<_TransactionDialog> {
                         'Beneficiary',
                         '${transaction.values['member_name'] ?? 'Unassigned'}',
                       ),
-                      (
-                        'Group',
-                        '${transaction.values['group_name'] ?? 'Unassigned'}',
-                      ),
+                      ('Group', transaction.groupLabel),
                       (
                         'Transaction time · Kigali',
                         transaction.transactionTime,
                       ),
                     ],
                   ),
-                  if (transaction.hasConflict)
+                  if (transaction.hasConflict &&
+                      transaction.values['native_group_id'] == null)
                     const _Note(
                       'Needs review · Conflicting payment evidence requires resolution. The recorded financial status is preserved.',
                       error: true,
                     ),
                   if (transaction.hasConflict &&
+                      transaction.values['native_group_id'] == null &&
                       transaction.paymentId == null &&
                       user?.permissions.contains('payments.write') == true &&
                       user?.permissions.contains('sms.extract') == true &&
@@ -162,20 +178,21 @@ class _TransactionDialogState extends ConsumerState<_TransactionDialog> {
                         if (mounted) _load();
                       },
                     ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      tooltip: 'Copy MoMo TX ID',
-                      icon: const Icon(Icons.copy_rounded),
-                      onPressed: () => Clipboard.setData(
-                        ClipboardData(
-                          text:
-                              transaction.values['provider_transaction_id']
-                                  as String,
+                  if (transaction.values['provider_transaction_id'] != null)
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        tooltip: 'Copy MoMo TX ID',
+                        icon: const Icon(Icons.copy_rounded),
+                        onPressed: () => Clipboard.setData(
+                          ClipboardData(
+                            text:
+                                transaction.values['provider_transaction_id']
+                                    as String,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   if (transaction.status == 'needs_allocation' &&
                       user?.permissions.contains('payments.write') == true &&
                       user?.permissions.contains('users.read') == true &&
@@ -209,7 +226,7 @@ class _TransactionDialogState extends ConsumerState<_TransactionDialog> {
                   ExpansionTile(
                     title: const Text('Source and processing history'),
                     subtitle: const Text(
-                      'MoMo notification captured by the enrolled gateway. Parsing does not confirm provider API settlement.',
+                      'Original message and automatic processing history.',
                     ),
                     expansionAnimationStyle: CollectMotion.animationStyle(
                       context,

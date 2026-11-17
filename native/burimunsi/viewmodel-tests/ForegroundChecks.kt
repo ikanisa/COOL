@@ -19,6 +19,12 @@ fun main()=runBlocking {
     suspend fun idle(){withTimeout(10000){while(m.state.busy)delay(2)};delay(20);withTimeout(10000){while(m.state.busy)delay(2)}}
     idle();m.onForeground();idle()
     ck("initial foreground revalidates session",Fixture.sessionReads==1&&m.screenGate==ScreenGate.OPEN)
+    Fixture.supportFetch={"+250780000001"};m.onBackground();m.onForeground()
+    withTimeout(2000){while(m.supportPhone==null)delay(2)}
+    ck("foreground support comes from current runtime config",m.supportPhone=="+250780000001")
+    m.onBackground();ck("background clears displayed support contact",m.supportPhone==null)
+    Fixture.supportFetch={null};m.onForeground();idle()
+    ck("offline or missing support config never invents a phone",m.supportPhone==null)
     m.navigate(Route.PAYMENTS);idle();m.search("payer");m.searchSubmit();idle();m.listPosition(Route.PAYMENTS,null,3,11)
     val reads=Fixture.sessionReads
     m.onBackground()
@@ -43,6 +49,19 @@ fun main()=runBlocking {
     ck("profile success alone cannot renew expired data",m.screenGate==ScreenGate.REVALIDATE&&m.state.error?.contains("expired")==true)
     Fixture.recordSavedAt=now;m.refresh();idle()
     ck("fresh read unlocks expired screen",m.screenGate==ScreenGate.OPEN)
+    val cadenceSessions=Fixture.sessionReads
+    now+=30_001L;Fixture.recordSavedAt=now
+    withTimeout(4000){while(Fixture.sessionReads==cadenceSessions||m.state.busy)delay(10)}
+    ck("visible records refresh on a bounded cadence before the five-minute expiry",Fixture.sessionReads==cadenceSessions+1&&m.state.savedAt==now&&m.screenGate==ScreenGate.OPEN)
+    val automaticSessions=Fixture.sessionReads;val automaticMutations=Fixture.mutations;val automaticChecks=Fixture.reconciles
+    now+=SnapshotFreshness.TTL_MS+1;Fixture.recordSavedAt=now;m.checkVisibleFreshness()
+    withTimeout(4000){while(m.screenGate!=ScreenGate.OPEN||Fixture.sessionReads==automaticSessions)delay(10)}
+    ck("expired visible records re-fetch automatically without manual Refresh",Fixture.sessionReads==automaticSessions+1&&m.state.savedAt==now)
+    ck("automatic refresh never submits or reconciles a financial command",Fixture.mutations==automaticMutations&&Fixture.reconciles==automaticChecks)
+    m.onBackground();val backgroundReads=Fixture.sessionReads
+    now+=SnapshotFreshness.TTL_MS+1;Fixture.recordSavedAt=now;delay(1100)
+    ck("automatic reads stop while the app is backgrounded",Fixture.sessionReads==backgroundReads)
+    m.onForeground();idle()
     now-=1;m.checkVisibleFreshness()
     ck("clock rollback closes active screen",m.screenGate==ScreenGate.STALE)
     Fixture.recordSavedAt=now;m.refresh();idle()
@@ -116,11 +135,19 @@ fun main()=runBlocking {
     m.setPaused(false);idle()
     ck("local capture resume does not clear upload hold",GatewayFixture.changes==1&&m.state.gateway?.captureEnabled==true&&m.state.gateway?.problem=="uploads_on_hold")
     m.setPaused(true);idle()
-    ck("capture pause is available without deleting queue",GatewayFixture.changes==2&&m.state.gateway?.captureEnabled==false)
+    ck("administrator cannot pause locked-on sync or erase the queue",GatewayFixture.changes==1&&m.state.gateway?.captureEnabled==true&&m.state.error!=null)
     m.closeSheet();m.refresh();idle();m.navigate(Route.MEMBER,"member-1");idle();m.onBackground();m.export{exported++}
     m.onBackground();m.logout();idle();m.onForeground();idle()
     ck("signout retains no guarded operator",m.state.operator==null&&m.screenGate==ScreenGate.OPEN)
     ck("signout drops pending export without writing",exported==1&&Fixture.exportReads==1)
     m.viewModelScope.cancel()
+    Fixture.restoreEntered=CountDownLatch(1);Fixture.restoreBarrier=CountDownLatch(1);Fixture.restoreSignedOut=true
+    val signedOut=BuriViewModel(Application()){now}
+    withContext(Dispatchers.IO){check(Fixture.restoreEntered!!.await(2,java.util.concurrent.TimeUnit.SECONDS))}
+    ck("initial restore retains branded splash state before signed-out decision",signedOut.state.starting&&signedOut.state.operator==null)
+    Fixture.restoreBarrier!!.countDown()
+    withTimeout(4000){while(signedOut.state.busy||signedOut.state.starting)delay(10)}
+    ck("completed signed-out restore returns the original login",signedOut.state.route==Route.LOGIN&&!signedOut.state.savedSessionPending)
+    signedOut.viewModelScope.cancel();Fixture.restoreBarrier=null;Fixture.restoreEntered=null;Fixture.restoreSignedOut=false
     println("RESULT: $checks foreground-controller checks passed; synthetic provider/platform, not Android lifecycle execution.")
 }

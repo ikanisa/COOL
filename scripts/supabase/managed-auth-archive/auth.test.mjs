@@ -1,7 +1,9 @@
 // Focused synthetic definitions only. Root owns all future test execution.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,readdir,readFile,stat} from 'node:fs/promises';
+import crypto from 'node:crypto';
+import {syncBuiltinESMExports} from 'node:module';
+import {mkdtemp,readdir,readFile,realpath,stat} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -49,6 +51,22 @@ test('AESGCM roundtrip binds Auth AAD and refuses header tamper wrong key and ol
 test('ciphertext or tag tampering and fixture envelope in live path are refused',()=>{
  const key=Buffer.alloc(32,9);try{const encrypted=encryptAuthSnapshot(syntheticSnapshot(),key,{allowFixture:true}),x=JSON.parse(encrypted);assert.throws(()=>decryptAuthSnapshot(encrypted,key));x.tag=(x.tag[0]==='A'?'B':'A')+x.tag.slice(1);assert.throws(()=>decryptAuthSnapshot(Buffer.from(canonical(x)),key,{allowFixture:true}));}finally{key.fill(0);}
 });
+test('Auth decrypt wipes intermediate buffers on success and failed authentication',()=>{
+ const snapshot=syntheticSnapshot(),key=Buffer.alloc(32,9),encrypted=encryptAuthSnapshot(snapshot,key,{allowFixture:true});
+ const envelope=JSON.parse(encrypted),tag=Buffer.from(envelope.tag,'base64url');tag[0]^=1;envelope.tag=tag.toString('base64url');tag.fill(0);
+ const tampered=Buffer.from(canonical(envelope)),original=crypto.createDecipheriv,observed=[];
+ crypto.createDecipheriv=(...args)=>{const decipher=original(...args),update=decipher.update.bind(decipher),final=decipher.final.bind(decipher);
+  decipher.update=(...values)=>{const value=update(...values);if(Buffer.isBuffer(value))observed.push({phase:'update',value});return value;};
+  decipher.final=(...values)=>{const value=final(...values);if(Buffer.isBuffer(value))observed.push({phase:'final',value});return value;};return decipher;};
+ syncBuiltinESMExports();
+ try{
+  assert.equal(canonical(decryptAuthSnapshot(encrypted,key,{allowFixture:true}).snapshot),canonical(snapshot));
+  const success=observed.splice(0);assert.ok(success.some(x=>x.phase==='update'&&x.value.length>0));assert.ok(success.some(x=>x.phase==='final'));
+  assert.throws(()=>decryptAuthSnapshot(tampered,key,{allowFixture:true}),e=>e.code==='AUTH_AUTHENTICATION_FAILED');
+  const failure=observed.splice(0);assert.ok(failure.some(x=>x.phase==='update'&&x.value.length>0));
+  for(const {value} of [...success,...failure])assert.ok(value.every(byte=>byte===0));
+ }finally{crypto.createDecipheriv=original;syncBuiltinESMExports();key.fill(0);tampered.fill(0);encrypted.fill(0);}
+});
 test('counts-only SQL has no sequence state or native Auth-cell output',()=>{
  const request=compileCountsRequest(REAL,requestId);assert.equal(request.kind,'metadata');for(const word of ['last_value','is_called','log_cnt','enum_out(','array_out(','inet_out('])assert.equal(request.body.query.includes(word),false);assert.equal(request.body.query.includes('collect_fence_control'),false);
 });
@@ -71,7 +89,7 @@ test('unreviewed capture refuses before transport or private output creation',as
  let calls=0;const transport={readProject:async()=>{calls++;return project;},query:async()=>{calls++;throw Error('unexpected');}};await assert.rejects(captureAuth({transport,reference:REAL,counts:proof(REAL),expectedCountsSha256:'0'.repeat(64),requestId,archiveDirectory:'/not-used-auth',keyDirectory:'/not-used-key',executeReviewedReadOnly:true}),e=>e.code==='AUTH_CAPTURE_REVIEW_REQUIRED');assert.equal(calls,0);
 });
 test('failed simulated capture wipes returned buffer and leaves only safe intent evidence',async()=>{
- const parent=await mkdtemp(join(tmpdir(),'collect-auth-synthetic-')),archiveDirectory=join(parent,'archive'),keyDirectory=join(parent,'key'),counts=proof(REAL),body=Buffer.from('SYNTHETIC_INVALID_RESPONSE_NEVER_PERSIST');let queries=0;const transport={readProject:async()=>project,query:async()=>{queries++;return {status:201,body};}};
+ const parent=await realpath(await mkdtemp(join(tmpdir(),'collect-auth-synthetic-'))),archiveDirectory=join(parent,'archive'),keyDirectory=join(parent,'key'),counts=proof(REAL),body=Buffer.from('SYNTHETIC_INVALID_RESPONSE_NEVER_PERSIST');let queries=0;const transport={readProject:async()=>project,query:async()=>{queries++;return {status:201,body};}};
  await assert.rejects(captureAuth({transport,reference:REAL,counts,expectedCountsSha256:sha(canonical(counts)),requestId,archiveDirectory,keyDirectory,executeReviewedReadOnly:true}));assert.equal(queries,1);assert.ok(body.every(b=>b===0));assert.deepEqual(await readdir(archiveDirectory),['INTENT.json']);assert.deepEqual(await readdir(keyDirectory),[]);const intent=await readFile(join(archiveDirectory,'INTENT.json'),'utf8');assert.equal(intent.includes('SYNTHETIC_INVALID_RESPONSE'),false);assert.equal((await stat(join(archiveDirectory,'INTENT.json'))).mode&0o777,0o600);
  // Preserve this controlled synthetic failed attempt; Root owns its custody/cleanup.
 });

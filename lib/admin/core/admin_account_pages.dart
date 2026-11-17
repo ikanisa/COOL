@@ -1024,12 +1024,16 @@ class _TeamState extends _RequestState<AdminAccountTeamPage> {
   Widget build(BuildContext context) {
     final team = _team, recovery = _invitations;
     final buriApi = ref.watch(adminAccountApiProvider);
-    final managed = _managedInvitations != null;
+    final managedApi = _managedInvitations;
+    final managed = managedApi != null;
+    final canManage =
+        team?.canManage == true &&
+        (managedApi == null || managedApi.invitationManagementAuthorized);
     if (recovery != null) ref.watch(adminPendingAttemptStoreProvider);
     return AdminPage(
       title: 'Team access',
       subtitle: 'Admins and staff who can use the Collect workspace.',
-      trailing: team?.canManage == true
+      trailing: canManage
           ? FilledButton.icon(
               onPressed:
                   busy ||
@@ -1050,9 +1054,10 @@ class _TeamState extends _RequestState<AdminAccountTeamPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (widget.onBuriMunsiAccess != null &&
-              team?.canManage == true &&
+              canManage &&
               buriApi is AdminBuriMunsiApi &&
-              (buriApi as AdminBuriMunsiApi).buriAvailable)
+              (buriApi as AdminBuriMunsiApi).buriAvailable &&
+              (buriApi as AdminBuriMunsiApi).buriAuthorized)
             Align(
               alignment: Alignment.centerRight,
               child: TextButton.icon(
@@ -1072,9 +1077,7 @@ class _TeamState extends _RequestState<AdminAccountTeamPage> {
               icon: const Icon(Icons.mark_email_read_outlined),
               label: const Text('Verify email to manage team access'),
             ),
-          if (managed &&
-              team?.canManage == true &&
-              recovery?.authorized != true)
+          if (managed && canManage && recovery?.authorized != true)
             const Text(
               'Verify your current owner sign-in to manage invitations.',
             ),
@@ -1159,7 +1162,7 @@ class _TeamState extends _RequestState<AdminAccountTeamPage> {
               _AccessPolicyTable(policy: team.permissionsByRole),
               const SizedBox(height: 24),
             ],
-            if (!team.canManage)
+            if (!canManage)
               const Padding(
                 padding: EdgeInsets.only(bottom: 16),
                 child: Text(
@@ -1228,10 +1231,18 @@ class _TeamState extends _RequestState<AdminAccountTeamPage> {
                   return _TeamActions(
                     member: member,
                     canManage:
-                        team.canManage &&
+                        canManage &&
                         member.role != AdminAccountRole.owner &&
                         member.email.toLowerCase() !=
-                            team.currentEmail.toLowerCase(),
+                            team.currentEmail.toLowerCase() &&
+                        (ref.read(adminAccountApiProvider)
+                                is! AdminOwnerTargetProtection ||
+                            !(ref.read(adminAccountApiProvider)
+                                    as AdminOwnerTargetProtection)
+                                .isProtectedOwnerTarget(
+                                  adminId: member.id,
+                                  email: member.email,
+                                )),
                     busy: busy,
                     resendAllowed:
                         !managed || recovery?.canResend(member) == true,

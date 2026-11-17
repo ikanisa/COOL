@@ -32,6 +32,9 @@ class _Workspace {
           if (pendingRestore != null) return pendingRestore!.future;
           return _json(sessionBody());
         }
+        if (request.url.path.endsWith('/auth/logout') && failLogout) {
+          return http.Response('{"error":"unavailable"}', 503);
+        }
         if (request.url.path.endsWith('/auth/otp')) {
           expect(request.method, 'POST');
           expect(jsonDecode(request.body), {'email': 'operator@example.test'});
@@ -103,6 +106,7 @@ class _Workspace {
   }
 
   bool signedIn;
+  bool failLogout = false;
   Duration expiry = const Duration(hours: 1);
   Completer<http.Response>? pendingRestore;
   late final CloudflareAdminSession session;
@@ -395,6 +399,9 @@ void main() {
     );
     workspace.expiry = const Duration(seconds: 1);
     await workspace.session.refresh();
+    // At the next check the server denies the expired cookie. A separately
+    // renewed valid cookie is covered by the session restoration tests.
+    workspace.signedIn = false;
     await tester.pump(const Duration(seconds: 2));
     await tester.pumpAndSettle();
     expect(workspace.session.user, isNull);
@@ -451,6 +458,92 @@ void main() {
     await tester.pumpAndSettle();
     expect(_location(container), '/admin/groups/new?draft=from-reload');
     expect(find.widgetWithText(TextFormField, 'Group name'), findsOneWidget);
+    await workspace.close(tester);
+  });
+
+  testWidgets('reopening the login URL restores the existing cookie session', (
+    tester,
+  ) async {
+    final pending = Completer<http.Response>();
+    final workspace = _Workspace(pendingRestore: pending);
+    final restoring = workspace.session.refresh();
+    final container = await workspace.pump(
+      tester,
+      initialLocation: '/admin/login?returnTo=%2Fadmin%2Fgroups%2Fnew',
+      restoreBeforeMount: false,
+    );
+    await tester.pump();
+    final checking = Uri.parse(_location(container));
+    expect(checking.path, '/admin/session');
+    expect(checking.queryParameters['returnTo'], '/admin/groups/new');
+    pending.complete(_json(workspace.sessionBody()));
+    await restoring;
+    await tester.pumpAndSettle();
+    expect(_location(container), '/admin/groups/new');
+    expect(find.byType(AdminShell), findsOneWidget);
+    expect(workspace.authMutations, isEmpty);
+    await workspace.close(tester);
+  });
+
+  testWidgets('a missing cookie still returns to the original login URL', (
+    tester,
+  ) async {
+    final pending = Completer<http.Response>();
+    final workspace = _Workspace(signedIn: false, pendingRestore: pending);
+    final restoring = workspace.session.refresh();
+    final container = await workspace.pump(
+      tester,
+      initialLocation: '/admin/login?returnTo=%2Fadmin%2Fgroups%2Fnew',
+      restoreBeforeMount: false,
+    );
+    await tester.pump();
+    expect(Uri.parse(_location(container)).path, '/admin/session');
+    pending.complete(_json(workspace.sessionBody()));
+    await restoring;
+    await tester.pumpAndSettle();
+    final login = Uri.parse(_location(container));
+    expect(login.path, '/admin/login');
+    expect(login.queryParameters['returnTo'], '/admin/groups/new');
+    expect(workspace.authMutations, isEmpty);
+    await workspace.close(tester);
+  });
+
+  testWidgets('failed restore still permits an explicit fresh sign-in', (
+    tester,
+  ) async {
+    final pending = Completer<http.Response>();
+    final workspace = _Workspace(pendingRestore: pending);
+    final restoring = workspace.session.refresh();
+    final container = await workspace.pump(
+      tester,
+      initialLocation: '/admin/login?returnTo=%2Fadmin%2Fgroups%2Fnew',
+      restoreBeforeMount: false,
+    );
+    await tester.pump();
+    pending.completeError(http.ClientException('offline'));
+    await restoring;
+    await tester.pumpAndSettle();
+    expect(Uri.parse(_location(container)).path, '/admin/session');
+    await tester.tap(find.text('Go to sign in'));
+    await tester.pumpAndSettle();
+    final login = Uri.parse(_location(container));
+    expect(login.path, '/admin/login');
+    expect(login.queryParameters['returnTo'], '/admin/groups/new');
+    await workspace.close(tester);
+  });
+
+  testWidgets('an unconfirmed logout cannot be bypassed via the login URL', (
+    tester,
+  ) async {
+    final workspace = _Workspace()..failLogout = true;
+    final container = await workspace.pump(tester);
+    await expectLater(workspace.session.signOut(), throwsA(isA<Exception>()));
+    await tester.pumpAndSettle();
+    container.read(cloudflareAdminRouterProvider).go('/admin/login');
+    await tester.pumpAndSettle();
+    expect(workspace.session.logoutUnconfirmed, isTrue);
+    expect(Uri.parse(_location(container)).path, '/admin/session');
+    expect(find.text('Retry sign out'), findsOneWidget);
     await workspace.close(tester);
   });
 

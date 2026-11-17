@@ -91,6 +91,7 @@ node_modules/
 .agent/
 .tools/
 .cache/
+supabase/.temp/
 release-evidence/
 evidence-packs/
 

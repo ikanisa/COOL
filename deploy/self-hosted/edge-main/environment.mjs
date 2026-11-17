@@ -8,7 +8,10 @@ export function workerEnvironment(name,source){
  if(!names.has(name))throw Error('Unknown function');
  const result={};
  for(const [key,value]of Object.entries(source)){
-  if(reserved.has(key)||key.startsWith('SMTP_')||key.startsWith('GOTRUE_')||['GOOGLE_SECRET','GOOGLE_CLIENT_ID'].includes(key))continue;
+  if(reserved.has(key)||key.startsWith('SMTP_')||key.startsWith('GOTRUE_')||key.startsWith('COLLECT_AUTH_')||['GOOGLE_SECRET','GOOGLE_CLIENT_ID','TURNSTILE_SECRET_KEY'].includes(key))continue;
+  if(key.startsWith('COLLECT_NATIVE_INGRESS_')&&name!=='collect-api')continue;
+  if(key.startsWith('BURIMUNSI_CANONICAL_SCHEDULER_')&&name!=='collect-jobs')continue;
+  if(key.startsWith('BURIMUNSI_')&&!['collect-api','admin-api','collect-jobs'].includes(name))continue;
   if(name==='collect-sms'&&!gatewayNames.has(key))continue;
   if(name==='send-sms-hook'&&!hookNames.has(key))continue;
   if(gatewayOnly.has(key)&&name!=='collect-sms')continue;

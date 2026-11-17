@@ -57,6 +57,49 @@ class CloudflareAdminApp extends ConsumerWidget {
   );
 }
 
+/// Both automatic mobile-money records and existing Collect payments remain
+/// accessible from the Transactions area.
+class _AdminTransactionsPage extends StatelessWidget {
+  const _AdminTransactionsPage({required this.momo});
+  final bool momo;
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+        child: Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ChoiceChip(
+              label: const Text('MoMo transactions'),
+              selected: momo,
+              onSelected: (_) => context.go('/admin/transactions?view=momo'),
+            ),
+            ChoiceChip(
+              label: const Text('Collect payments'),
+              selected: !momo,
+              onSelected: (_) => context.go('/admin/transactions'),
+            ),
+          ],
+        ),
+      ),
+      Expanded(
+        child: momo
+            ? const Material(
+                type: MaterialType.transparency,
+                child: CloudflareAdminMomoPage(transactionsOnly: true),
+              )
+            : const CloudflareCoreListPage(
+                area: CloudflareCoreArea.transactions,
+              ),
+      ),
+    ],
+  );
+}
+
 final cloudflareAdminRouterConfigProvider = Provider<RouterConfig<Object>>((
   ref,
 ) {
@@ -79,22 +122,32 @@ final cloudflareAdminRouterProvider = Provider<GoRouter>((ref) {
     refreshListenable: refresh,
     redirect: (context, route) {
       final path = route.uri.path;
-      if (const {
-        '/admin/login',
-        '/admin/forgot-password',
-        '/admin/setup',
-      }.contains(path)) {
+      final session = ref.read(cloudflareAdminSessionProvider);
+      final returnTo = cloudflareAdminReturnLocation(
+        route.uri.queryParameters['returnTo'],
+      );
+      // A restored HttpOnly session should also work when the browser reopens
+      // the saved login URL. Wait for its server check before offering login.
+      if (path == '/admin/login') {
+        if (session.isLoading ||
+            session.hasError &&
+                ref
+                    .read(cloudflareAdminSessionProvider.notifier)
+                    .logoutUnconfirmed) {
+          return _accountLocation('/admin/session', returnTo);
+        }
+        // A deliberate fresh sign-in remains available after a failed read.
+        if (session.hasError) return null;
+        return session.asData?.value == null ? null : returnTo ?? '/admin';
+      }
+      if (const {'/admin/forgot-password', '/admin/setup'}.contains(path)) {
         return null;
       }
-      final session = ref.read(cloudflareAdminSessionProvider);
       if (session.isLoading || session.hasError) {
         return path == '/admin/session'
             ? null
             : _accountLocation('/admin/session', route.uri.toString());
       }
-      final returnTo = cloudflareAdminReturnLocation(
-        route.uri.queryParameters['returnTo'],
-      );
       if (session.asData?.value == null) {
         return _accountLocation(
           '/admin/login',
@@ -105,7 +158,8 @@ final cloudflareAdminRouterProvider = Provider<GoRouter>((ref) {
       if (path == '/admin/security/authenticator' &&
           ref
               .read(cloudflareAdminSessionProvider.notifier)
-              .usesEmailVerification) {
+              .usesEmailVerification &&
+          session.asData?.value?.mfaAvailable != true) {
         return '/admin/security/verify-email';
       }
       if (path == '/admin/notification-settings' &&
@@ -113,9 +167,7 @@ final cloudflareAdminRouterProvider = Provider<GoRouter>((ref) {
         return '/admin';
       }
       if (path == '/admin/burimunsi' &&
-          (session.asData!.value!.role != AdminAccountRole.owner ||
-              session.asData!.value!.email.toLowerCase() !=
-                  'info@ikanisa.com' ||
+          (!session.asData!.value!.isCurrentOwner ||
               !session.asData!.value!.permissions.contains(
                 'admin_users.manage',
               ))) {
@@ -375,7 +427,11 @@ final cloudflareAdminRouterProvider = Provider<GoRouter>((ref) {
           for (final area in CloudflareCoreArea.values)
             GoRoute(
               path: area.path,
-              builder: (_, _) => CloudflareCoreListPage(area: area),
+              builder: (_, route) => area == CloudflareCoreArea.transactions
+                  ? _AdminTransactionsPage(
+                      momo: route.uri.queryParameters['view'] == 'momo',
+                    )
+                  : CloudflareCoreListPage(area: area),
               routes: [
                 GoRoute(
                   path: 'new',
@@ -454,8 +510,7 @@ final cloudflareAdminRouterProvider = Provider<GoRouter>((ref) {
                     ?.value;
                 final verify =
                     user?.usesEmailVerification == true &&
-                    user?.role == AdminAccountRole.owner &&
-                    user?.email.toLowerCase() == 'info@ikanisa.com' &&
+                    user?.isCurrentOwner == true &&
                     user?.permissions.contains('admin_users.manage') == true &&
                     user?.hasRecentSensitiveVerification() != true;
                 return AdminAccountTeamPage(

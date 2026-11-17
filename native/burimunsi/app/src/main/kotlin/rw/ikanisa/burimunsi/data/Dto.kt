@@ -14,16 +14,26 @@ internal fun JSONObject.nullString(name:String):String? {
     if(isNull(name))return null
     val value=get(name);checkContract(value is String,"contract_type");return value as String
 }
+internal fun JSONObject.optionalNullString(name:String):String?=if(has(name))nullString(name)else null
 internal fun JSONObject.capabilities():Set<String> {
     checkContract(has("capabilities")&&!isNull("capabilities"),"contract_missing_field")
     val a=getJSONArray("capabilities");val values=(0 until a.length()).map{val v=a.get(it);checkContract(v is String,"contract_type");v as String}
     checkContract(values.toSet().size==values.size,"contract_duplicate");return values.toSet()
 }
 internal fun operator(j:JSONObject,expiry:Long):Operator { checkedDto("profile",j);return Operator(j.getString("id"),j.getString("name"),Values.phone(j.getString("phone")),when(j.getString("role")){"admin"->Role.ADMIN;"staff"->Role.STAFF;else->error("Invalid role")},j.capabilities(),expiry) }
-internal fun decodePayment(j:JSONObject):Payment { checkedDto("payment",j);return Payment(j.getString("id"),j.getString("payerNameRaw"),j.getString("payerPhoneRaw"),j.amount("amountRwf"),j.getString("atRaw"),j.getString("ftId"),j.getString("state"),j.getLong("version"),j.nullString("memberId"),j.nullString("memberPhone"),j.nullString("sourceId")) }
+internal fun decodePayment(j:JSONObject):Payment {
+    checkedDto("payment",j)
+    return Payment(j.getString("id"),j.getString("payerNameRaw"),j.getString("payerPhoneRaw"),
+        if(j.isNull("amountRwf"))null else j.amount("amountRwf",positive=true),j.getString("atRaw"),j.nullString("ftId"),
+        j.getString("state"),j.getLong("version"),j.nullString("memberId"),j.nullString("memberPhone"),j.nullString("sourceId"),
+        if(j.has("direction"))j.getString("direction")else "incoming",if(j.has("outcome"))j.getString("outcome")else "successful",
+        if(j.has("sourceKind"))j.getString("sourceKind")else "canonical",
+        if(!j.has("feeRwf")||j.isNull("feeRwf"))null else j.counter("feeRwf",Values.MAX_RWF),
+        if(!j.has("walletBalanceAfterRwf")||j.isNull("walletBalanceAfterRwf"))null else j.counter("walletBalanceAfterRwf",Values.MAX_RWF))
+}
 internal fun decodeMember(j:JSONObject):Member { checkedDto("member",j);return Member(j.getString("id"),j.getString("name"),Values.phone(j.getString("phone")),j.amount("balanceRwf"),j.getBoolean("active"),j.getLong("version")) }
-internal fun decodeLedger(j:JSONObject):LedgerRow { checkedDto("ledgerRow",j);return LedgerRow(j.getString("id"),j.nullString("transactionId"),j.amount("amountRwf"),j.getString("atRaw"),j.getString("ftId"),j.getString("payerNameRaw")) }
-internal fun decodeSms(j:JSONObject):SmsRow { checkedDto("smsRow",j);return SmsRow(j.getString("id"),j.getString("sender"),j.getString("at"),j.getString("preview"),j.getString("state"),j.nullString("transactionId")) }
+internal fun decodeLedger(j:JSONObject):LedgerRow { checkedDto("ledgerRow",j);return LedgerRow(j.getString("id"),j.nullString("transactionId"),j.amount("amountRwf"),j.getString("atRaw"),j.getString("ftId"),j.getString("payerNameRaw"),j.optionalNullString("state")) }
+internal fun decodeSms(j:JSONObject):SmsRow { checkedDto("smsRow",j);return SmsRow(j.getString("id"),j.getString("sender"),j.getString("at"),j.getString("preview"),j.getString("state"),j.nullString("transactionId"),j.optionalNullString("simLabel")) }
 internal fun decodeStaff(j:JSONObject):StaffAccount { checkedDto("staffRow",j);return StaffAccount(j.getString("id"),j.getString("name"),Values.phone(j.getString("phone")),j.getBoolean("active"),j.getLong("version"),j.capabilities()) }
 /** Exact nonnegative integers; Android getInt/getLong can coerce or truncate. */
 internal fun JSONObject.counter(name:String,max:Long=Long.MAX_VALUE):Long {
@@ -61,12 +71,13 @@ internal fun decodePaymentHistory(json:String,groupId:String,transactionId:Strin
 /** Recovery fields must be actual strings, not Android JSON primitive coercions. */
 internal fun decodeRecoveryOutcome(json:String,requestId:String,originDigest:String,groupId:String,actorId:String,installationId:String):JSONObject {
     val value=try{JSONObject(json)}catch(_:Exception){throw ContractFailure("invalid_recovery_response")}
-    val fields=setOf("protocol","requestId","state","originDigest","groupId","actorId","installationId")
+    val fields=setOf("protocol","requestId","state","originDigest","groupId","actorId","installationId")+
+        (if(value.optString("state")=="cancelled")setOf("operation")else emptySet())
     checkContract(value.keys().asSequence().toSet()==fields,"invalid_recovery_response")
     for(field in fields)checkContract(value.get(field) is String,"invalid_recovery_response")
     checkContract(value.getString("protocol")=="burimunsi.operation-recovery.v1","invalid_recovery_response")
     checkContract(value.getString("requestId")==requestId&&value.getString("originDigest")==originDigest,"invalid_recovery_response")
     checkContract(value.getString("groupId")==groupId&&value.getString("actorId")==actorId&&value.getString("installationId")==installationId,"invalid_recovery_response")
-    checkContract(value.getString("state") in setOf("committed","pending"),"invalid_recovery_response")
+    checkContract(value.getString("state") in setOf("committed","pending","cancelled"),"invalid_recovery_response")
     return value
 }

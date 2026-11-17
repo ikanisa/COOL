@@ -146,7 +146,7 @@ export class PostgresSharedPosting {
     requireId(prepared?.paymentId);const paymentId=prepared.paymentId;
     await this.authority(sql,cmd,'after_allocation',principal);
     let p=await this.record(sql,cmd,paymentId);
-    const proof=await this.evidence.assertInTransaction(sql,{command:cmd,paymentId,evidenceId:p.evidence_id,
+    const proof=await this.evidence.assertInTransaction(sql,{command:cmd,principal,paymentId,evidenceId:p.evidence_id,
       transactionId:p.transaction_id,receivingAccountId:p.receiving_account_id,sourceBindingId:p.source_binding_id,
       sourceBindingVersion:exact(p.source_binding_version),objectKey:p.object_key,objectSha256:p.object_sha256,sizeBytes:exact(p.size_bytes)});
     requireThat(proof?.verified===true,'posting_evidence_required',503);
@@ -169,6 +169,11 @@ export class PostgresSharedPosting {
     appendContributionCollision(writes,args);appendContributionEntry(writes,args);appendContributionSnapshots(writes,args);
     for(const statement of writes){await this.owned();await this.db.statement(sql,statement);}
     await this.authority(sql,cmd,'after_posting',principal);
+    // The original transaction still owns financial/custody locks. Recheck the
+    // private preflight and exact source after all awaited writer/authority work
+    // and before its caller can retain an outcome or commit. No Storage I/O.
+    if(typeof this.evidence.revalidateInTransaction==='function')
+      requireThat((await this.evidence.revalidateInTransaction(sql,proof))?.verified===true,'posting_evidence_required',503);
     // No commit or public result here: the outer canonical store MUST verify
     // ledger/snapshot readback and retain the command/rematch outcome atomically.
   }

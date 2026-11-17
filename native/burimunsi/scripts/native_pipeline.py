@@ -30,12 +30,12 @@ OVERLAY = ROOT.parents[1]
 RUNNER = 'androidx.test.runner.AndroidJUnitRunner'
 ROLES = {'staff': 'staff', 'internal_receiver': 'gateway'}
 TYPES = ('debug', 'qualification', 'nativeTest')
-TEST_CLASSES = ('NativeUiContractTest', 'StaffPackageIsolationTest', 'NativeSandboxContractTest')
+TEST_CLASSES = ('NativeUiContractTest', 'StaffPackageIsolationTest', 'NativeSandboxContractTest', 'export.ExportRenderingTest')
 RECEIVER_TEST_CLASSES = ('app.cool.mobile.receiver_sms.GatewayDurabilityTest',)
 # CarrierFixtureReplayTest requires an approved private corpus and a disposable
 # .debug package. It cannot run in the offline nativeTest sandbox or contribute
 # a skipped/assumed pass to this synthetic instrumentation contract.
-SAFE_PACKAGE = re.compile(r'^rw\.ikanisa\.burimunsi\.(staff|gateway)\.nativeTest(?:\.test)?$')
+SAFE_PACKAGE = re.compile(r'^rw\.ikanisa\.burimunsi\.(staff|gateway)\.cloud\.nativeTest(?:\.test)?$')
 
 class PipelineError(ValueError):
     """An execution gate failed; no success attestation is permitted."""
@@ -92,7 +92,7 @@ class Artifact:
     @property
     def package(self) -> str:
         suffix = 'debug' if self.kind == 'debug' else self.kind
-        return f'rw.ikanisa.burimunsi.{ROLES[self.flavor]}.{suffix}' + ('.test' if self.test else '')
+        return f'rw.ikanisa.burimunsi.{ROLES[self.flavor]}.cloud.{suffix}' + ('.test' if self.test else '')
 
     @property
     def filename(self) -> str:
@@ -323,9 +323,8 @@ def build(args: argparse.Namespace) -> int:
         result['native_build_executed'] = True
         # Never permit locally configured endpoints in this evidence build. Optimized and
         # nativeTest variants also hard-override every endpoint and binding in their DSL.
-        config = ['-P' + k + '=' for k in ('collectSupabaseOrigin', 'collectAdminOrigin', 'burimunsiApiOrigin', 'burimunsiApiPathPrefix', 'collectGatewayOrigin', 'burimunsiGroupId',
-                  'collectPublishableKey', 'receiptProfileVersion')]
-        config.append('-PreceiptUtcOffsetMinutes=2147483647')
+        config = ['-P' + k + '=' for k in ('collectSupabaseOrigin', 'collectAdminOrigin', 'burimunsiApiOrigin', 'burimunsiApiPathPrefix', 'collectGatewayOrigin',
+                  'collectPublishableKey')]
         env = os.environ.copy()
         env['ANDROID_HOME'] = str(sdk)
         env['ANDROID_SDK_ROOT'] = str(sdk)
@@ -551,11 +550,11 @@ def instrument(args: argparse.Namespace) -> int:
                 # Exact offline nativeTest form, captured before any synthetic
                 # credentials. Read only the UID installed by this invocation.
                 image = subprocess.run([str(adb), '-s', serial, 'exec-out', 'run-as',
-                    validated_sandbox_package(app_spec.package), 'cat', 'cache/collect-sign-in.png'],
+                    validated_sandbox_package(app_spec.package), 'cat', 'cache/prototype-sign-in.png'],
                     capture_output=True, timeout=30, check=True).stdout
                 if not image.startswith(b'\x89PNG\r\n\x1a\n') or len(image) > 10_000_000:
-                    raise PipelineError('Invalid native Collect sign-in screenshot')
-                destination = out / (flavor + '-collect-sign-in.png')
+                    raise PipelineError('Invalid native prototype sign-in screenshot')
+                destination = out / (flavor + '-prototype-sign-in.png')
                 destination.write_bytes(image)
                 result.setdefault('ui_artifacts', []).append({'flavor': flavor, 'path': destination.name,
                     'sha256': sha(destination), 'scope': 'offline synthetic Compose root; no live identity or TLS proof'})

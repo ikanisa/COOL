@@ -12,8 +12,8 @@ import java.util.Base64
 import javax.net.ssl.HttpsURLConnection
 
 private const val NOW=1794045600000L
-private const val ADMIN="https://admin.fixture.invalid"
-private const val SUPABASE="https://supabase.fixture.invalid"
+private const val SUPABASE="https://rrlduytparvsjfmegalh.supabase.co"
+private const val ADMIN=SUPABASE
 private const val PRINCIPAL="10000000-0000-4000-8000-000000000001"
 private const val AUTH="10000000-0000-4000-8000-000000000002"
 private const val SID="10000000-0000-4000-8000-000000000003"
@@ -43,10 +43,10 @@ private class Connection(url:URL,private val reply:Reply):HttpsURLConnection(url
     override fun getLocalCertificates():Array<Certificate>?=null
     override fun getServerCertificates():Array<Certificate> = emptyArray()
 }
-private class Fixture(vararg replies:Reply){
+private class Fixture(vararg replies:Reply,installation:String=INSTALL,profile:String="staff",provisionedToken:String=device){
     val pending=ArrayDeque(replies.toList());val connections=mutableListOf<Connection>()
-    val client=CollectAdminTransport(ADMIN,SUPABASE,{NOW}){url->
-        check(url.protocol=="https"&&url.host=="admin.fixture.invalid");check(pending.isNotEmpty())
+    val client=CollectAdminTransport(ADMIN,SUPABASE,installation,profile,{provisionedToken},{NOW}){url->
+        check(url.protocol=="https"&&url.host=="rrlduytparvsjfmegalh.supabase.co");check(pending.isNotEmpty())
         Connection(url,pending.removeFirst()).also(connections::add)
     }
 }
@@ -59,21 +59,32 @@ fun main(){
     var count=0
     fun ok(name:String,run:()->Unit){run();count++;println("ok $count - $name")}
     fun reject(code:String?=null,run:()->Unit){val error=runCatching(run).exceptionOrNull();check(error is ManagedCollectFailure);if(code!=null)check(error.code==code)}
-    ok("email code request and verification use the same actual Collect BFF contract"){
+    ok("approved-device request and verification use the cloud function routes"){
         val f=Fixture(codeReply(),loginReply());val pending=f.client.requestEmailCode(" Operator@Example.Invalid ")
         val session=f.client.verifyEmailCode(pending,"001234")
         check(session.cookie==cookie&&session.csrf==csrf&&session.principalId==PRINCIPAL)
         check(pending.email=="operator@example.invalid"&&pending.id==AUTH&&!pending.deliveryUnknown)
         check(pending.retryAt==NOW+60_000&&pending.expiresAt==NOW+300_000)
         val request=f.connections[0];val verify=f.connections[1]
-        check(request.url.toString()==ADMIN+"/api/admin/auth/otp"&&verify.url.path=="/api/admin/auth/verify")
-        check(request.sent.toString()=="{\"email\":\"operator@example.invalid\"}")
+        check(request.url.toString()==SUPABASE+"/functions/v1/collect-api/v1/burimunsi/managed/email-otp"&&verify.url.toString()==ADMIN+"/functions/v1/admin-api/api/admin/auth/verify")
+        check(request.sent.toString()=="{\"email\":\"operator@example.invalid\",\"profile\":\"staff\"}")
+        check(request.getRequestProperty("X-BuriMunsi-Installation")==INSTALL&&request.getRequestProperty("X-BuriMunsi-Device")==device)
+        check(request.getRequestProperty("Origin")==SUPABASE&&request.getRequestProperty("X-Collect-Requested-With")==null)
+        check(!request.sent.toString().contains(device)&&!verify.requestProperties.containsKey("X-BuriMunsi-Device"))
         check(verify.sent.toString().contains("\"code\":\"001234\"")&&verify.sent.toString().contains("\"challenge_id\":\"$AUTH\""))
         for(c in f.connections){
             check(c.requestMethod=="POST"&&!c.instanceFollowRedirects&&c.disconnected)
-            check(c.getRequestProperty("Origin")==ADMIN&&c.getRequestProperty("X-Collect-Requested-With")=="collect-admin")
             check(!c.requestProperties.containsKey("Cookie")&&!c.sent.toString().contains("password"))
         }
+        check(verify.getRequestProperty("Origin")==ADMIN&&verify.getRequestProperty("X-Collect-Requested-With")=="collect-admin")
+    }
+    ok("unprovisioned phone cannot request email and never falls back to public Admin OTP"){
+        val f=Fixture(provisionedToken="");reject("managed_setup_required"){f.client.requestEmailCode("operator@example.invalid")}
+        check(f.connections.isEmpty())
+    }
+    ok("actual receiving-phone profile is sent without a client group or principal selector"){
+        val f=Fixture(codeReply(),profile="internal_receiver");f.client.requestEmailCode("operator@example.invalid")
+        check(f.connections.single().sent.toString()=="{\"email\":\"operator@example.invalid\",\"profile\":\"internal_receiver\"}")
     }
     ok("unknown code delivery keeps the exact challenge without claiming delivery"){
         val f=Fixture(codeReply("unknown"));val pending=f.client.requestEmailCode("operator@example.invalid")
@@ -99,7 +110,7 @@ fun main(){
     }
     ok("access binds real BFF cookie/CSRF and private device proof to the narrow endpoint"){
         val f=Fixture(Reply(access()));val a=f.client.access(bff(),INSTALL,device);check(a.token==token()&&a.principalSessionId==SID)
-        val c=f.connections.single();check(c.url.path=="/api/admin/burimunsi/access"&&c.getRequestProperty("Cookie")==cookie)
+        val c=f.connections.single();check(c.url.path=="/functions/v1/admin-api/api/admin/burimunsi/access"&&c.getRequestProperty("Cookie")==cookie)
         check(c.getRequestProperty("X-Collect-CSRF")==csrf&&c.getRequestProperty("X-BuriMunsi-Device")==device)
         check(!c.sent.toString().contains(device)&&c.disconnected)
     }
@@ -135,6 +146,36 @@ fun main(){
     }
     ok("missing device provisioning fails before opening a connection"){
         val f=Fixture();reject("managed_setup_required"){f.client.access(bff(),INSTALL,"1234")};check(f.connections.isEmpty())
+    }
+    ok("managed native OTP and Admin access use the same cloud project and issuer") {
+        val managedSupabase="https://rrlduytparvsjfmegalh.supabase.co"
+        val replies=ArrayDeque(listOf(codeReply(),Reply(access(jwt=token(issuer=managedSupabase+"/auth/v1")))))
+        val calls=mutableListOf<Connection>()
+        val client=CollectAdminTransport(managedSupabase,managedSupabase,INSTALL,"staff",{device},{NOW},nativeApiOrigin=managedSupabase){url->
+            check(replies.isNotEmpty());Connection(url,replies.removeFirst()).also(calls::add)
+        }
+        client.requestEmailCode("operator@example.invalid")
+        check(calls[0].url.toString()==managedSupabase+"/functions/v1/collect-api/v1/burimunsi/managed/email-otp")
+        check(calls[0].getRequestProperty("Origin")==managedSupabase && calls[0].getRequestProperty("X-BuriMunsi-Device")==device)
+        client.access(bff(),INSTALL,device)
+        check(calls[1].url.toString()==managedSupabase+"/functions/v1/admin-api/api/admin/burimunsi/access")
+        check(calls[1].getRequestProperty("Origin")==managedSupabase && calls[1].getRequestProperty("Cookie")==cookie && calls[1].getRequestProperty("X-Collect-CSRF")==csrf)
+    }
+    ok("managed issuer must be a canonical lowercase host without trailing dot or explicit port") {
+        val admin="https://rrlduytparvsjfmegalh.supabase.co"
+        for(host in listOf("https://RRlduytparvsjfmegalh.supabase.co", "https://rrlduytparvsjfmegalh.supabase.co.",
+            "https://rrlduytparvsjfmegalh.supabase.co:443"))
+            reject("configuration_required"){CollectAdminTransport(admin,host,INSTALL,"staff",{device},{NOW},nativeApiOrigin=admin)}
+    }
+    ok("managed requests cannot change the cloud project or Auth issuer") {
+        val s="https://rrlduytparvsjfmegalh.supabase.co";val a=s
+        val client=CollectAdminTransport(a,s,INSTALL,"staff",{device},{NOW},nativeApiOrigin=a){url->
+            Connection(url,Reply(access(jwt=token(issuer="https://wrong.example/auth/v1"))))
+        }
+        reject{client.access(bff(),INSTALL,device)}
+        reject("configuration_required"){CollectAdminTransport(a,s,INSTALL,"staff",{device},{NOW},nativeApiOrigin="https://wrong.example")}
+        reject("configuration_required"){CollectAdminTransport("https://platform-admin.collect.ikanisa.com",s,INSTALL,"staff",{device},{NOW})}
+        reject("configuration_required"){CollectAdminTransport(a,"https://different.supabase.co",INSTALL,"staff",{device},{NOW})}
     }
     println("1..$count")
 }

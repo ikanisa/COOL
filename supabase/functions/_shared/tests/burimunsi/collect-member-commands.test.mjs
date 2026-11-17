@@ -84,13 +84,37 @@ for(const permission of ['users.manage','collections.manage'])test('missing curr
  const f=fixture();t.after(f.close);f.h.permissions.delete(permission);
  await assert.rejects(f.create(),/access_denied/);assert.equal(f.count('users'),1);assert.equal(f.count('audit_log'),0);
 });
-test('existing complete phone route, including removed membership, cannot create another beneficiary',async t=>{
+test('existing complete MoMo route opens the inactive member without reactivation or another beneficiary',async t=>{
  const f=fixture();t.after(f.close);f.seedMember({active:0});
- await assert.rejects(f.create(),/duplicate_phone/);assert.equal(f.count('users'),2);assert.equal(f.count('memberships'),1);
+ const result=await f.create();assert.equal(result.id,memberId);assert.equal(result.existing,true);assert.equal(result.active,false);
+ assert.equal(result.name,'EXAMPLE EXISTING MEMBER');assert.equal(f.count('users'),2);assert.equal(f.count('memberships'),1);assert.equal(f.count('audit_log'),0);
 });
-test('second new request cannot create the same phone after successful enrollment',async t=>{
- const f=fixture();t.after(f.close);await f.create();f.enrollment.requestId=crypto.randomUUID();
- await assert.rejects(f.create(),/duplicate_phone/);assert.equal(f.count('users'),2);assert.equal(f.count('memberships'),1);assert.equal(f.count('audit_log'),1);
+test('second new request opens the same member without another beneficiary',async t=>{
+ const f=fixture();t.after(f.close);const created=await f.create();f.enrollment.requestId=crypto.randomUUID();
+ const existing=await f.create();assert.equal(existing.id,created.id);assert.equal(existing.existing,true);assert.equal(existing.active,true);
+ assert.equal(f.count('users'),2);assert.equal(f.count('memberships'),1);assert.equal(f.count('audit_log'),1);
+});
+test('ambiguous MoMo routes do not select an arbitrary existing member',async t=>{
+ const f=fixture();t.after(f.close);f.seedMember();
+ f.execute('INSERT INTO app.users(id,public_id,full_name,momo_number,member_type,access_status) VALUES(?,?,?,?,?,?)','member-2','000005','SECOND SYNTHETIC MEMBER','0789444111','direct','active');
+ f.execute('INSERT INTO app.memberships(id,collection_id,user_id,role,active,revision) VALUES(?,?,?,?,?,?)','membership-2',I.group,'member-2','member',1,1);
+ await assert.rejects(f.create(),/duplicate_phone/);assert.equal(f.count('users'),3);assert.equal(f.count('memberships'),2);assert.equal(f.count('audit_log'),0);
+});
+test('a matching login phone alone is not treated as an existing MoMo identity',async t=>{
+ const f=fixture();t.after(f.close);f.seedMember();
+ f.execute('UPDATE app.users SET phone=?,momo_number=? WHERE id=?','0789444111','0789444112',memberId);
+ await assert.rejects(f.create(),/duplicate_phone/);assert.equal(f.count('users'),2);assert.equal(f.count('memberships'),1);assert.equal(f.count('audit_log'),0);
+});
+test('formatted national and international MoMo routes reuse the existing member',async t=>{
+ for(const route of ['+250 789 444 111','00250 (789) 444-111','789444111']){
+  const f=fixture();t.after(f.close);f.seedMember();f.execute('UPDATE app.users SET momo_number=? WHERE id=?',route,memberId);
+  const result=await f.create();assert.equal(result.id,memberId);assert.equal(result.existing,true);assert.equal(f.count('memberships'),1);
+ }
+});
+test('revoking enrollment during duplicate lookup does not return the existing record',async t=>{
+ const f=fixture();t.after(f.close);f.seedMember();
+ f.state.afterQuery=async text=>{if(text.includes('FROM app.memberships m JOIN app.users u')&&text.includes('LIMIT 2')){f.state.afterQuery=null;f.execute('UPDATE private.burimunsi_accounts SET capabilities=?','["records.read"]');}};
+ await assert.rejects(f.create(),/access_denied/);assert.equal(f.count('users'),2);assert.equal(f.count('memberships'),1);assert.equal(f.count('audit_log'),0);
 });
 test('captured request cannot be retargeted by caller mutation during an awaited canonical read',async t=>{
  const f=fixture();t.after(f.close);f.h.afterCanonical=()=>{f.enrollment.phone='+250780000099';f.enrollment.actor.principalUserId='forged';};

@@ -1,5 +1,9 @@
 part of 'cloudflare_admin_operating_pages.dart';
 
+AdminPendingAttemptSchema operatingRecoverySchema(
+  CloudflareOperation operation,
+) => _operatingRecoverySchema(operation);
+
 // The form and an existing-record recovery entry point must accept the same
 // retained intent. Recovery never reconstructs a newer version or write body.
 AdminPendingAttemptSchema _operatingRecoverySchema(
@@ -10,6 +14,7 @@ AdminPendingAttemptSchema _operatingRecoverySchema(
     'expected_version',
     for (final field in _fieldsFor(operation)) field.key,
     if (operation == CloudflareOperation.createGroup) ...{
+      'category_subtype',
       'owner_user_id',
       'receiver_label',
       'receiver_network',

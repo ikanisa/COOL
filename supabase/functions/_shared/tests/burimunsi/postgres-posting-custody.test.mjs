@@ -58,10 +58,10 @@ test('snapshots caller descriptor before the first await',async()=>{
 });
 test('constructor requires local decrypt and performs no I/O',()=>{
  let calls=0;const db={applicationWork:{assert:async()=>{calls++;}}};
- assert.throws(()=>new PostgresPostingCustody({db,groupId:'group-1',namespace}));
- new PostgresPostingCustody({db,groupId:'group-1',namespace,decrypt:async()=>{calls++;}});assert.equal(calls,0);
+ assert.throws(()=>new PostgresPostingCustody({qualificationOnly:true,db,groupId:'group-1',namespace}));
+ new PostgresPostingCustody({qualificationOnly:true,db,groupId:'group-1',namespace,decrypt:async()=>{calls++;}});assert.equal(calls,0);
 });
-for(const origin of ['http://example.test','https://user:pass@example.test','https://example.test/path','not-a-url'])test('rejects ambiguous namespace origin '+origin,()=>assert.throws(()=>new PostgresPostingCustody({db:{applicationWork:{assert:async()=>{}}},groupId:'group-1',namespace:{...namespace,origin},decrypt:async()=>{}})));
+for(const origin of ['http://example.test','https://user:pass@example.test','https://example.test/path','not-a-url'])test('rejects ambiguous namespace origin '+origin,()=>assert.throws(()=>new PostgresPostingCustody({qualificationOnly:true,db:{applicationWork:{assert:async()=>{}}},groupId:'group-1',namespace:{...namespace,origin},decrypt:async()=>{}})));
 
 test('AES-GCM rejects altered ciphertext even when corrupt journal hashes agree',async()=>{
  const f=await custodyFixture(),j=f.state.journals.get('sms/raw-1');

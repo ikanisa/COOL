@@ -1,5 +1,6 @@
 import {requirePort,requireThat} from './errors.js';
 import {requireId} from './values.js';
+import {applyPhonePinContext} from './phone-pin-request.js';
 
 // This is the lock used by Collect PostgresDatabase.batch at the pinned source.
 // Keep it until a reviewed change covers ALL financial and authority writers.
@@ -34,6 +35,7 @@ export class PostgresNativeAuthority {
         await tx.unsafe(`SELECT pg_advisory_xact_lock(${COLLECT_MUTATION_LOCK}::bigint)`);
       }
       await tx.unsafe("SELECT set_config('burimunsi.collection_id',$1,true)",[this.groupId]);
+      await applyPhonePinContext(this.db,tx,this.groupId);
       await this.assertOwned();
       const result=await fn(tx);
       // A revoked/replaced admission must roll back, not publish callback success.

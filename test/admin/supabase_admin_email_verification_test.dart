@@ -40,7 +40,7 @@ Map<String, dynamic> _proof(Object? at) => {
   'emailVerifiedAt': at,
 };
 Map<String, dynamic> _receipt({
-  int expires = 300,
+  Object? expires = 300,
   String delivery = 'accepted',
 }) => {
   'challenge_id': _challenge,
@@ -344,7 +344,7 @@ void main() {
     },
   );
 
-  for (final expiry in [0, 1, 300]) {
+  for (final expiry in [1, 59, 300, 1800]) {
     test(
       'sensitive receipt accepts remaining expiry $expiry independently of normal sign-in',
       () async {
@@ -364,6 +364,44 @@ void main() {
           (await client.requestSensitiveEmailVerification()).expiresInSeconds,
           expiry,
         );
+      },
+    );
+  }
+
+  for (final expiry in [0, 1801, 3600, 1.5, '1800', null]) {
+    test(
+      'sensitive receipt rejects invalid lifetime $expiry without resend',
+      () async {
+        var sends = 0;
+        final client = _client((r) {
+          if (r.url.path.endsWith('/auth/session')) return _json(_account());
+          if (r.url.path.endsWith('/auth/email/request')) {
+            sends++;
+            return _json(_receipt(expires: expiry), 202);
+          }
+          return _json(_proof(null));
+        });
+        addTearDown(client.dispose);
+        await client.refresh();
+        final fence = client.authorityFence;
+        await expectLater(
+          client.requestSensitiveEmailVerification(),
+          throwsA(
+            isA<CloudflareAdminRequestException>().having(
+              (failure) => failure.outcomeUnknown,
+              'unconfirmed send',
+              isTrue,
+            ),
+          ),
+        );
+        await expectLater(
+          client.requestSensitiveEmailVerification(),
+          throwsA(isA<AdminAccountException>()),
+        );
+        expect(client.user?.sessionId, _sid);
+        expect(client.authorityFence, fence);
+        expect(client.user!.hasRecentSensitiveVerification(), isFalse);
+        expect(sends, 1);
       },
     );
   }

@@ -8,6 +8,10 @@ A='{http://schemas.android.com/apk/res/android}'
 T='{http://schemas.android.com/tools}'
 FORBIDDEN={'android.permission.READ_SMS','android.permission.RECEIVE_SMS','android.permission.SEND_SMS','android.permission.RECEIVE_MMS','android.permission.RECEIVE_WAP_PUSH','android.permission.BIND_NOTIFICATION_LISTENER_SERVICE'}
 SMS_NAMES=('receiver_sms','CollectSmsReceiver','MomoGatewayJob','MomoGatewayRecovery','MemberSmsJob','NotificationListenerService')
+CONTINUOUS_PERMISSIONS={'android.permission.FOREGROUND_SERVICE','android.permission.FOREGROUND_SERVICE_SPECIAL_USE',
+    'android.permission.POST_NOTIFICATIONS','android.permission.WAKE_LOCK','android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS'}
+CONTINUOUS_SERVICE='app.cool.mobile.receiver_sms.BuriContinuousSyncService'
+CONTINUOUS_SUBTYPE='Internal receiving-phone SMS monitoring with local inbox observation and bounded authenticated synchronization, controlled by the current authorized administrator and a visible ongoing notification.'
 
 def manifest_failures(xml,variant,*,release=False,qualification=False,native_test=False,strict_components=False):
  root=ET.fromstring(xml);app=root.find('application');errors=[]
@@ -15,6 +19,7 @@ def manifest_failures(xml,variant,*,release=False,qualification=False,native_tes
  permissions={p.get(A+'name') for tag in ('uses-permission','uses-permission-sdk-23') for p in root.findall(tag) if p.get(T+'node')!='remove'}
  if variant=='staff':
   if permissions&FORBIDDEN:errors.append('Staff requests forbidden permissions: '+','.join(sorted(permissions&FORBIDDEN)))
+  if permissions&CONTINUOUS_PERMISSIONS:errors.append('Staff requests receiver-only foreground/notification/power permissions')
   for tag in ('receiver','service','provider','activity'):
    for e in app.findall(tag):
     if any(n in e.get(A+'name','') for n in SMS_NAMES) or e.get(A+'permission')=='android.permission.BIND_NOTIFICATION_LISTENER_SERVICE':errors.append('Staff packages SMS/listener component')
@@ -22,31 +27,49 @@ def manifest_failures(xml,variant,*,release=False,qualification=False,native_tes
   if not {'android.permission.READ_SMS','android.permission.RECEIVE_SMS'}<=permissions:errors.append('Receiver permissions missing')
   if 'android.permission.SEND_SMS' in permissions:errors.append('Unapproved outbound SMS permission')
   for rec in app.findall('receiver'):
-   if rec.get(A+'name','').endswith('CollectSmsReceiver') and rec.get(A+'permission')!='android.permission.BROADCAST_SMS':errors.append('Incoming receiver missing system broadcast guard')
+   if rec.get(A+'name','').endswith(('CollectSmsReceiver','ObservationSmsReceiver')) and rec.get(A+'permission')!='android.permission.BROADCAST_SMS':errors.append('Incoming receiver missing system broadcast guard')
  if app.get(A+'usesCleartextTraffic')!='false':errors.append('Cleartext not explicitly disabled')
  if app.get(A+'allowBackup')!='false':errors.append('Application backup not explicitly disabled')
  if (release or qualification) and app.get(A+'debuggable','false')!='false':errors.append('Optimized artifact is debuggable')
  if release and app.get(A+'testOnly','false')!='false':errors.append('Production artifact must not be testOnly')
+ if release:
+  suffix='.staff.cloud' if variant=='staff' else '.gateway.cloud'
+  if root.get('package')!='rw.ikanisa.burimunsi'+suffix:errors.append('Cloud release package identity mismatch')
  if root.get(A+'sharedUserId'):errors.append('App must not use a shared UID')
  if native_test:
-  suffix='.gateway.nativeTest' if variant=='internal_receiver' else '.staff.nativeTest'
+  suffix='.gateway.cloud.nativeTest' if variant=='internal_receiver' else '.staff.cloud.nativeTest'
   if root.get('package')!='rw.ikanisa.burimunsi'+suffix:errors.append('Native-test package identity mismatch')
   if app.get(A+'testOnly')!='true':errors.append('Native-test artifact is not testOnly')
   if app.get(A+'debuggable')!='true':errors.append('Native-test artifact must allow instrumentation debugging')
   if 'android.permission.INTERNET' in permissions:errors.append('Offline native-test artifact requests INTERNET')
  if strict_components and variant=='internal_receiver':
-  components={e.get(A+'name'):e for e in app if e.tag in ('receiver','service')}
+  if not CONTINUOUS_PERMISSIONS<=permissions:errors.append('Continuous receiver permissions missing')
+  if any(name.startswith('android.permission.FOREGROUND_SERVICE') and name not in CONTINUOUS_PERMISSIONS for name in permissions):errors.append('Unapproved foreground service type permission')
   for name,tag,guard,exported in (
    ('CollectSmsReceiver','receiver','android.permission.BROADCAST_SMS','true'),
    ('MomoGatewayRecoveryReceiver','receiver',None,'false'),
    ('MomoGatewayJobService','service','android.permission.BIND_JOB_SERVICE','true'),
-   ('MomoGatewayLocalRecoveryService','service','android.permission.BIND_JOB_SERVICE','true')):
-   component=components.get('app.cool.mobile.receiver_sms.'+name)
-   if component is None or component.tag!=tag:errors.append('Receiver component absent: '+name);continue
+   ('MomoGatewayLocalRecoveryService','service','android.permission.BIND_JOB_SERVICE','true'),
+   ('ObservationSmsReceiver','receiver','android.permission.BROADCAST_SMS','true'),
+   ('ObservationBootReceiver','receiver',None,'false'),
+   ('ObservationJobService','service','android.permission.BIND_JOB_SERVICE','true'),
+   ('BuriContinuousSyncService','service',None,'false')):
+   matches=[e for e in app if e.tag in ('receiver','service') and e.get(A+'name')=='app.cool.mobile.receiver_sms.'+name]
+   if len(matches)!=1 or matches[0].tag!=tag:errors.append('Receiver component absent or duplicated: '+name);continue
+   component=matches[0]
    if component.get(A+'exported')!=exported:errors.append('Unexpected exported setting: '+name)
-   if guard and component.get(A+'permission')!=guard:errors.append('Component guard missing: '+name)
+   if component.get(A+'permission')!=guard:errors.append('Unexpected component permission: '+name)
+  services=[e for e in app.findall('service') if e.get(A+'name')==CONTINUOUS_SERVICE]
+  if len(services)==1:
+   service=services[0]
+   # apkanalyzer renders compiled flag enums numerically; accept only the exact
+   # specialUse value, never a bitmask containing another foreground type.
+   if service.get(A+'foregroundServiceType') not in ('specialUse','0x40000000','1073741824') or service.get(A+'stopWithTask')!='false':errors.append('Continuous receiver foreground lifecycle/type wrong')
+   properties=service.findall('property')
+   if len(properties)!=1 or properties[0].get(A+'name')!='android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE' or properties[0].get(A+'value')!=CONTINUOUS_SUBTYPE:errors.append('Continuous receiver use case property wrong')
+  if any(e.get(A+'foregroundServiceType') is not None and e.get(A+'name')!=CONTINUOUS_SERVICE for e in app.findall('service')):errors.append('Unapproved foreground service component')
  if qualification:
-  suffix='.staff.qualification' if variant=='staff' else '.gateway.qualification'
+  suffix='.staff.cloud.qualification' if variant=='staff' else '.gateway.cloud.qualification'
   if root.get('package')!='rw.ikanisa.burimunsi'+suffix:errors.append('Qualification package identity mismatch')
   if app.get(A+'testOnly')!='true':errors.append('Qualification artifact is not testOnly')
   if 'android.permission.INTERNET' in permissions:errors.append('Offline qualification artifact requests INTERNET')

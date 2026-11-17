@@ -23,13 +23,13 @@ fun main()=runBlocking{
   Fixture.recordSavedAt=null;Fixture.missingReadTimestamp=false;Fixture.ownerId="operator"
   Fixture.restoreSignedOut=false;Fixture.role=Role.ADMIN;Fixture.readFailure=null
   Fixture.mutations=0;Fixture.reconciles=0;Fixture.enrollMutations=0;Fixture.staffMutations=0
-  Fixture.memberCached=false;now=realNow+2000
+  Fixture.memberCached=false;Fixture.memberPaymentScopeFailureOnCursor=false;now=realNow+2000
  }
  suspend fun idle(vm:BuriViewModel){withTimeout(10000){while(vm.state.busy)delay(2)};delay(20)}
  fun start(route:Route=Route.PAYMENTS,index:Int=12):Pair<BuriViewModel,MemoryCheckpoint>{
-  val cp=NavigationCheckpoint("operator",BuildConfig.BURI_GROUP_ID,realNow,route,
+  val cp=NavigationCheckpoint("operator",Fixture.managedCollection!!,realNow,route,
    routeId=if(route==Route.MEMBER)"member-1" else null,query="needle",
-   filter=when(route){Route.PAYMENTS->"unallocated";Route.SMS->"queued";else->"all"},index=index,offset=27)
+   filter=when(route){Route.PAYMENTS->"unallocated";else->"all"},index=index,offset=27)
   val store=MemoryCheckpoint(cp.encode());return BuriViewModel(Application(),store){now} to store
  }
  fun page(cursor:String?,total:Int=40,size:Int=4):Page<String>{
@@ -38,19 +38,19 @@ fun main()=runBlocking{
  }
  fun count(vm:BuriViewModel)=when(vm.state.route){
   Route.PAYMENTS->vm.state.payments!!.items.size;Route.MEMBERS->vm.state.members!!.items.size
-  Route.MEMBER->vm.state.ledger!!.items.size;Route.SMS->vm.state.messages!!.items.size;else->0
+  Route.MEMBER->vm.state.memberTransactions!!.items.size;Route.SMS->vm.state.messages!!.items.size;else->0
  }
  for(route in listOf(Route.PAYMENTS,Route.MEMBERS,Route.MEMBER,Route.SMS)){
   reset();val requests=mutableListOf<String?>();val contexts=mutableListOf<Pair<String,String>>()
   Fixture.paged={r,c,q,f->check(r==route.name);requests.add(c);contexts.add(q to f);page(c)}
   val target=PagedRestoration.headerItems(route)+10;val (vm,store)=start(route,target);idle(vm)
-  ck("$route loads enough pages from fresh first cursor",requests==listOf(null,"4","8")&&count(vm)==12)
-  ck("$route retains index and offset",vm.state.listIndex==target&&vm.state.listOffset==27)
-  ck("$route preserves query or member scope",contexts.all{it.first==if(route==Route.MEMBER)"member-1" else "needle"})
-  ck("$route preserves filter",contexts.all{it.second==when(route){Route.PAYMENTS->"unallocated";Route.SMS->"queued";else->"all"}})
+  ck("$route loads the appropriate pages from a fresh cursor",if(route==Route.SMS)requests==listOf(null)&&count(vm)==4 else requests==listOf(null,"4","8")&&count(vm)==12)
+  ck("$route retains safe position",if(route==Route.SMS)vm.state.listIndex==0&&vm.state.listOffset==0 else vm.state.listIndex==target&&vm.state.listOffset==27)
+  ck("$route preserves permitted query or member scope",contexts.all{it.first==when(route){Route.MEMBER->"member-1";Route.SMS->"";else->"needle"}})
+  ck("$route preserves filter",contexts.all{it.second==when(route){Route.PAYMENTS->"unallocated";else->"all"}})
   ck("$route keeps journal without replay",vm.state.pending&&Fixture.mutations==0&&Fixture.reconciles==0&&Fixture.enrollMutations==0&&Fixture.staffMutations==0)
   ck("$route no panel draft or beneficiary restored",vm.state.sheet==null&&vm.state.draft.isEmpty()&&vm.state.selectedMember==null)
-  ck("$route saves navigation only",NavigationCheckpoint.decode(store.value)?.index==target&&vm.state.listRestoration==ListRestoreStop.POSITION_READY)
+  ck("$route saves navigation only",NavigationCheckpoint.decode(store.value)?.index==(if(route==Route.SMS)0 else target)&&vm.state.listRestoration==ListRestoreStop.POSITION_READY)
   vm.viewModelScope.cancel()
  }
  reset();var reads=0;Fixture.paged={_,c,_,_->reads++;page(c,total=5)}
@@ -114,6 +114,10 @@ fun main()=runBlocking{
  reset();reads=0;Fixture.memberCached=true;Fixture.paged={_,c,_,_->reads++;page(c)}
  val (memberOffline,_)=start(Route.MEMBER,index=30);idle(memberOffline)
  ck("cached member blocks automatic fresh-ledger crawl",reads==1&&memberOffline.state.offline&&memberOffline.state.listRestoration==ListRestoreStop.OFFLINE);memberOffline.viewModelScope.cancel()
+ reset();Fixture.pendingFlag=false;Fixture.memberPaymentScopeFailureOnCursor=true;Fixture.paged={_,c,_,_->page(c)}
+ val (wrongMember,_)=start(Route.MEMBER,index=30);idle(wrongMember)
+ ck("mismatched later member page is quarantined instead of displayed",wrongMember.state.memberTransactions==null&&wrongMember.state.readbackRequired&&!wrongMember.presentation.showRecords)
+ wrongMember.viewModelScope.cancel()
  reset();val entered=CountDownLatch(1);val release=CountDownLatch(1)
  Fixture.paged={_,c,_,_->if(c!=null){entered.countDown();check(release.await(5,TimeUnit.SECONDS))};page(c)}
  val (racing,_)=start(index=12)

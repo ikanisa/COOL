@@ -9,7 +9,7 @@ import sys
 PROJECT = 'rrlduytparvsjfmegalh'
 REQUIRED = ('schema', 'handlers', 'data', 'objects', 'authentication', 'authorization',
             'financial', 'providers', 'native', 'ai', 'privacy', 'recovery', 'operations', 'clients')
-SOURCE_PATHS = ('supabase', 'scripts', 'tools', 'lib', 'deploy', 'android', 'ios', 'web', 'test',
+SOURCE_PATHS = ('supabase', 'scripts', 'tools', 'lib', 'deploy', 'android', 'ios', 'native/burimunsi', 'web', 'test',
                 'integration_test', 'third_party', '.github', 'pubspec.yaml', 'pubspec.lock',
                 'Makefile', '.fvmrc', '.env.example', 'AGENTS.md')
 IGNORED = {'node_modules', '.cache', 'build', '.dart_tool', '.gradle', 'Pods', '.symlinks', '__pycache__', '.wrangler'}

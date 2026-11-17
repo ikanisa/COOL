@@ -85,6 +85,18 @@ class AdminInvitationCoordinator {
         );
   bool get hasPending => pending.isNotEmpty;
 
+  bool _protectedTarget({String? adminId, String? email}) {
+    final current = api;
+    if (current is AdminOwnerTargetProtection) {
+      return (current as AdminOwnerTargetProtection).isProtectedOwnerTarget(
+        adminId: adminId,
+        email: email,
+      );
+    }
+    // Retained providers without the optional interface keep their old rule.
+    return email?.trim().toLowerCase() == 'info@ikanisa.com';
+  }
+
   void _owned(AdminInvitationPending? attempt) {
     if (!authorized ||
         attempt != null &&
@@ -100,7 +112,7 @@ class AdminInvitationCoordinator {
       authorized &&
       !hasPending &&
       member.role != AdminAccountRole.owner &&
-      member.email.toLowerCase() != 'info@ikanisa.com' &&
+      !_protectedTarget(adminId: member.id, email: member.email) &&
       member.status == AdminAccountStatus.invited &&
       (member.invitation != null
           ? member.invitation!.message.accepted ||
@@ -116,7 +128,7 @@ class AdminInvitationCoordinator {
       authorized &&
       !hasPending &&
       member.role != AdminAccountRole.owner &&
-      member.email.toLowerCase() != 'info@ikanisa.com' &&
+      !_protectedTarget(adminId: member.id, email: member.email) &&
       member.status != AdminAccountStatus.revoked &&
       (member.invitation?.emailStatus ==
               AdminInvitationEmailStatus.alreadyRegistered ||
@@ -140,6 +152,9 @@ class AdminInvitationCoordinator {
       throw const AdminAccountException(
         'Check the original invitation before starting another.',
       );
+    }
+    if (_protectedTarget(email: email)) {
+      throw const AdminAccountException('The owner account is protected.');
     }
     final intent = AdminInvitationIntent.invite(
       requestKey: _key(),
@@ -336,6 +351,12 @@ class AdminInvitationCoordinator {
     bool confirmedSameIntentRetry = false,
   }) async {
     _owned(attempt);
+    if (_protectedTarget(
+      adminId: attempt.intent.staffId,
+      email: attempt.intent.body['email'] as String?,
+    )) {
+      throw const AdminAccountException('The owner account is protected.');
+    }
     if (attempt._busy ||
         attempt._submitted &&
             (!attempt.canRetry || !confirmedSameIntentRetry)) {

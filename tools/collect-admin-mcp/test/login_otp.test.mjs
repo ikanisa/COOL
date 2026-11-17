@@ -47,6 +47,50 @@ async function unchangedCredential(f) {
   return readFile(f.config.credentialFile);
 }
 
+for (const mode of ['legacy', 'managed']) for (const seconds of [1, 59, 300, 1800]) {
+  test(`${mode} email challenge uses its validated ${seconds}-second remaining lifetime`, async t => {
+    const body = mode === 'managed'
+      ? { challenge_id: CHALLENGE, retry_after: 60, expires_in: seconds, channel: 'email', delivery_status: 'accepted' }
+      : { ...challenge(), expires_in: seconds };
+    const f = await harness(t, () => response(body, mode === 'managed' ? 200 : 202));
+    const started = Date.now(), originalNow = Date.now;
+    Date.now = () => started;
+    try {
+      const receipt = await requestEmailCode(f.config, EMAIL);
+      assert.equal(Date.parse(receipt.expiresAt), started + seconds * 1000);
+      Date.now = () => started + seconds * 1000;
+      await assert.rejects(verifyEmailCode(f.config, receipt, CODE), { code: 'invalid_login' });
+      assert.equal(f.requests.length, 1);
+    } finally { Date.now = originalNow; }
+  });
+}
+
+test('a 30-minute original email challenge verifies once after five minutes without resend', async t => {
+  const payload = session();
+  const f = await harness(t, r => r.path.endsWith('/otp')
+    ? response({ challenge_id: CHALLENGE, retry_after: 60, expires_in: 1800, channel: 'email', delivery_status: 'accepted' })
+    : r.path.endsWith('/verify') ? response(payload, 200, secure) : response(payload));
+  const started = Date.now(), originalNow = Date.now;
+  Date.now = () => started;
+  try {
+    const receipt = await requestEmailCode(f.config, EMAIL);
+    Date.now = () => started + 1_799_000;
+    assert.equal((await verifyEmailCode(f.config, receipt, CODE)).role, 'staff');
+    await assert.rejects(verifyEmailCode(f.config, receipt, CODE), { code: 'invalid_login' });
+    assert.deepEqual(f.requests.map(r => r.path), ['/api/admin/auth/otp', '/api/admin/auth/verify', '/api/admin/auth/session']);
+  } finally { Date.now = originalNow; }
+});
+
+for (const seconds of [0, 1801, 3600, 1.5, '1800', null]) {
+  test(`email challenge rejects invalid remaining lifetime ${JSON.stringify(seconds)} without adopting credentials`, async t => {
+    const f = await harness(t, () => response({ ...challenge(), expires_in: seconds }, 202));
+    const before = await unchangedCredential(f);
+    await assert.rejects(requestEmailCode(f.config, EMAIL), { code: 'invalid_login_response' });
+    assert.deepEqual(await readFile(f.config.credentialFile), before);
+    assert.equal(f.requests.length, 1);
+  });
+}
+
 test('OTP-only Staff creates one independent verified AAL1 private MCP session with no password', async t => {
   const payload = session();
   const f = await harness(t, r => r.path.endsWith('/otp') ? response(challenge(), 202)

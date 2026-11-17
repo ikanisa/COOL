@@ -70,6 +70,7 @@ const _shippingPaths = <String>{
   '/admin/ledger-accounts/:id/edit',
   '/admin/requests',
   '/admin/admin-users',
+  '/admin/burimunsi',
   '/admin/privacy-requests',
   '/admin/security',
   '/admin/security/authenticator',
@@ -316,7 +317,7 @@ void main() {
   test('shipping inventory covers every expanded Cloudflare route', () {
     final actual = _declaredRoutes(router.configuration.routes);
     expect(actual.keys.toSet(), _shippingPaths);
-    expect(actual.length, 53);
+    expect(actual.length, 54);
     final paths = actual.keys.toList()..sort();
     if (Platform.environment['COLLECT_EXPORT_CLOUDFLARE_ROUTES'] == '1') {
       // The controller retains this generated result beside the exact source

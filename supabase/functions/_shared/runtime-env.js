@@ -56,7 +56,9 @@ export function normalizeRuntimeEnv(input){
  if(issuer!==null&&issuer!==url+'/auth/v1')throw new Error('Auth issuer must use the public Supabase origin');
  env.SUPABASE_AUTH_ISSUER=url+'/auth/v1';
  const internal=field(env,'SUPABASE_INTERNAL_URL');
- if(internal!==null&&internal!==url&&!(selfHosted&&internal==='http://api-gw:8000')&&!(fixture&&/^http:\/\/(?:127\.0\.0\.1|localhost):\d{1,5}$/.test(internal)))throw new Error('Unapproved internal Supabase origin');
+ // Fresh Compose uses api-gw; the retained shared CLI installation already
+ // exposes the same private Kong service as kong. Neither is a public origin.
+ if(internal!==null&&internal!==url&&!(selfHosted&&['http://api-gw:8000','http://kong:8000'].includes(internal))&&!(fixture&&/^http:\/\/(?:127\.0\.0\.1|localhost):\d{1,5}$/.test(internal)))throw new Error('Unapproved internal Supabase origin');
  env.SUPABASE_INTERNAL_URL=internal??url;
  for(const name of ['AUTH_ANONYMOUS_ENABLED','AUTH_SMS_ENABLED','AUTH_WHATSAPP_ENABLED']){
   if(env[name]!==undefined&&!['true','false'].includes(env[name]))throw new Error('Invalid '+name);

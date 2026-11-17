@@ -5,13 +5,16 @@ import {requireId,requireRequestId,canonicalJson,sha256,normalizePhone} from './
 import {ledgerCsv} from './csv.js';
 import {projectRecoveredOutcome,requireOriginDigest} from './operation-recovery.js';
 import {projectPaymentHistory,HISTORY_LIMIT} from './payment-history.js';
+import {previewSmartOnboardingImport} from './smart-onboarding-import.js';
+import {normalizeListingQuery,selectListing,canonicalListingInstant,listingText,listingFilterIdentity} from './listing-query.js';
 /** Readers must use the existing ledger snapshot, not SUM(received SMS).
  * Session, membership scope, total and page use the same read snapshot.
  */
 export class RecordsService {
-  constructor({store,groupId,cursor,clock=()=>Date.now()}) {
+  constructor({store,groupId,cursor,clock=()=>Date.now(),smartOnboardingImport=null}) {
     requirePort(store,['withReadSnapshot']);requirePort(cursor,['create','read']);
-    Object.assign(this,{store,groupId,cursor,clock});
+    if(smartOnboardingImport!==null)requirePort(smartOnboardingImport,['preview']);
+    Object.assign(this,{store,groupId,cursor,clock,smartOnboardingImport});
   }
   async within(actor,capability,fn,command=false) {
     const method=command?'withCommandSnapshot':'withReadSnapshot';
@@ -19,7 +22,7 @@ export class RecordsService {
     return this.store[method](async tx=>{
       requirePort(tx,['reloadActor','loadBinding']);
       const current=await tx.reloadActor(actor.sessionId);
-      authorize(current,this.groupId,capability,{now:this.clock(),binding:await tx.loadBinding(this.groupId)});
+      authorize(current,this.groupId,capability,{now:this.clock(),binding:await tx.loadBinding(this.groupId,current?.installationId)});
       requireThat(current.id===actor.id&&current.sessionId===actor.sessionId,'session_unavailable',401);
       return fn(tx,current);
     });
@@ -56,18 +59,62 @@ export class RecordsService {
       requirePort(tx,['canonicalHome']);
       const value=await tx.canonicalHome(this.groupId);
       requireThat(value && Number.isSafeInteger(value.groupBalanceRwf)&&Number.isSafeInteger(value.todayRwf)&&Number.isSafeInteger(value.memberCount)&&Number.isSafeInteger(value.unallocatedCount)&&typeof value.asOf==='string','invalid_snapshot',503);
-      return {groupBalanceRwf:value.groupBalanceRwf,todayRwf:value.todayRwf,memberCount:value.memberCount,unallocatedCount:value.unallocatedCount,asOf:value.asOf,recentPayments:this.projectRows(value.recentPayments??[],'payments')};
+      if(value.unallocatedAmountRwf!==undefined)requireThat(Number.isSafeInteger(value.unallocatedAmountRwf),'invalid_snapshot',503);
+      return {groupBalanceRwf:value.groupBalanceRwf,todayRwf:value.todayRwf,memberCount:value.memberCount,unallocatedCount:value.unallocatedCount,
+        ...(value.unallocatedAmountRwf===undefined?{}:{unallocatedAmountRwf:value.unallocatedAmountRwf}),asOf:value.asOf,recentPayments:this.projectRows(value.recentPayments??[],'payments')};
     });
+  }
+  async onboardingSuggestions(actor,query={}) {
+    const q=query.q??'',limit=query.limit??40;
+    requireThat(typeof q==='string'&&q.length<=80&&Number.isSafeInteger(limit)&&limit>=1&&limit<=100,'invalid_query');
+    return this.within(actor,'members.enroll',async(tx,current)=>{
+      requirePort(tx,['listRevision','onboardingSuggestions']);
+      const revision=await sha256(canonicalJson({payments:await tx.listRevision(this.groupId,'payments',null),
+        members:await tx.listRevision(this.groupId,'members',null)}));
+      const scope={groupId:this.groupId,actorId:current.id,snapshot:revision,
+        filterHash:await sha256(canonicalJson({kind:'onboarding_suggestions',q,limit})),sort:'newest'};
+      const after=query.cursor?await this.cursor.read(query.cursor,scope,this.clock()):null;
+      const result=await tx.onboardingSuggestions({groupId:this.groupId,q,limit,after});
+      requireThat(result&&Array.isArray(result.items)&&result.items.length<=limit&&Number.isSafeInteger(result.totalCount),
+        'invalid_page',503);
+      const items=result.items.map(value=>({...value,id:value.candidateId,groupId:this.groupId}));
+      const nextCursor=result.after?await this.cursor.create({...scope,after:result.after,expiresAt:this.clock()+15*60*1000}):null;
+      return {items,totalCount:result.totalCount,nextCursor,revision,asOf:new Date(this.clock()).toISOString()};
+    });
+  }
+  async onboardingPreview(actor,{bytes,mimeType,externalOcrConsent}) {
+    // The default has no external dependencies and remains CSV-only.
+    if(!this.smartOnboardingImport)return this.within(actor,'members.enroll',async()=>
+      previewSmartOnboardingImport({bytes,mimeType,ocr:{consent:externalOcrConsent}}));
+    // Close the database snapshot before any decoder or provider I/O. The
+    // importer rechecks current authority at each durable dispatch boundary.
+    const authorize=()=>this.within(actor,'members.enroll',async(_tx,current)=>current);
+    await authorize();
+    return this.smartOnboardingImport.preview({actor,groupId:this.groupId,bytes,mimeType,
+      externalOcrConsent,authorize});
   }
   async page(actor,kind,query={}) {
     requireThat(['payments','members','ledger','sms','staff','audit'].includes(kind),'invalid_list');
     const capability=kind==='sms'?'sms.read':['staff','audit'].includes(kind)?'staff.manage':'records.read';
-    const q=query.q??'',filter=query.filter??'all',limit=query.limit??40,memberId=query.memberId??null;
-    requireThat(typeof q==='string'&&q.length<=80&&Number.isInteger(limit)&&limit>=1&&limit<=100,'invalid_query');
-    requireThat((kind==='sms'?['all','queued','duplicate','synced','rejected']:['all','unallocated','allocated']).includes(filter),'invalid_filter');
+    const listing=normalizeListingQuery(kind,query),{q,filter,limit}=listing,memberId=query.memberId??null;
     if(memberId!==null)requireId(memberId);
-    const filterHash=await sha256(canonicalJson({q,filter,memberId,kind}));
+    const filterHash=await sha256(canonicalJson(listing.advanced?{...listingFilterIdentity(listing),memberId,kind}:{q,filter,memberId,kind}));
     return this.within(actor,capability,async(tx,current)=>{
+      if(listing.advanced){
+        requirePort(tx,['readListingSnapshot']);
+        const full=await tx.readListingSnapshot({groupId:this.groupId,kind,memberId});
+        requireThat(full&&Array.isArray(full.entries)&&full.entries.length<=100000&&typeof full.asOf==='string','invalid_snapshot',503);
+        this.checkRows(full.entries.map(entry=>entry.item),kind);
+        // Bind every projected/sort/search value, so a renamed member or
+        // changed financial projection cannot be mixed into an earlier page.
+        const revision=await sha256(canonicalJson(full.entries));
+        const scope={groupId:this.groupId,actorId:current.id,snapshot:revision,filterHash,sort:listing.sort};
+        const after=query.cursor?await this.cursor.read(query.cursor,scope,this.clock()):null;
+        const result=selectListing(full.entries,kind,listing,after,full.asOf);
+        const items=this.projectRows(result.items,kind);
+        const nextCursor=result.after?await this.cursor.create({...scope,after:result.after,expiresAt:this.clock()+15*60*1000}):null;
+        return {items,totalCount:result.totalCount,nextCursor,revision,asOf:result.asOf};
+      }
       requirePort(tx,['listRevision','readPage']);
       const revision=await tx.listRevision(this.groupId,kind,memberId);
       requireThat(typeof revision==='string'&&revision.length>0,'snapshot_unavailable',503);
@@ -84,16 +131,32 @@ export class RecordsService {
   async detail(actor,kind,id) {
     requireId(id);requireThat(['payment','member','sms'].includes(kind),'invalid_record');
     return this.within(actor,kind==='sms'?'sms.read':'records.read',async tx=>{
+      // Original content is an explicit audited disclosure, never an ordinary
+      // read, background refresh or cache-backed GET.
+      requireThat(kind!=='sms','review_reason_required',400);
       requirePort(tx,['readDetail']);const row=await tx.readDetail({groupId:this.groupId,kind,id});
       requireThat(row && row.groupId===this.groupId,'record_unavailable',404);
       return this.projectRows([row],kind==='member'?'members':kind==='sms'?'rawSms':'payments')[0];
     });
   }
+  async revealSms(actor,id,input){
+    requireId(id);requireRequestId(actor?.id);requireRequestId(actor?.sessionId);
+    requireThat(actor?.groupId===this.groupId,'access_denied',403);
+    const reason=typeof input?.reason==='string'?input.reason.trim():'';
+    requireThat([...reason].length>=8&&[...reason].length<=1000&&!/[\u0000-\u001f\u007f-\u009f]/.test(reason),
+      'review_reason_required',400);
+    const requestId=requireRequestId(input?.requestId);
+    // The closed source adapter owns both short authority phases around IO;
+    // do not nest a READ ONLY transaction around its guarded audit mutation.
+    requirePort(this.store,['revealSms']);
+    const row=await this.store.revealSms({id:actor.id,sessionId:actor.sessionId},
+      {groupId:this.groupId,id,reason,requestId});
+    requireThat(row?.id===id&&row.groupId===this.groupId,'reader_scope_violation',503);
+    return this.projectRows([row],'rawSms')[0];
+  }
   async paymentHistory(actor,transactionId,query={}) {
     requireId(transactionId);
-    requireThat(query&&Object.keys(query).every(k=>['limit','cursor'].includes(k)),'invalid_query');
-    const limit=query.limit??40;
-    requireThat(Number.isInteger(limit)&&limit>=1&&limit<=100,'invalid_query');
+    const listing=normalizeListingQuery('history',query),limit=listing.limit;
     requireThat(query.cursor===undefined||(typeof query.cursor==='string'&&query.cursor.length>0),'invalid_cursor');
     return this.within(actor,'records.read',async(tx,current)=>{
       requirePort(tx,['readDetail','readPaymentHistory']);
@@ -103,8 +166,15 @@ export class RecordsService {
       const events=projectPaymentHistory(await tx.readPaymentHistory(this.groupId,transactionId,HISTORY_LIMIT+1),this.groupId,transactionId);
       const revision=await sha256(canonicalJson({version:payment.version,state:payment.state,events}));
       const scope={groupId:this.groupId,actorId:current.id,snapshot:revision,
-        filterHash:await sha256(canonicalJson({kind:'payment_history',transactionId,limit})),sort:'oldest'};
+        filterHash:await sha256(canonicalJson(listing.advanced?{kind:'payment_history',transactionId,...listingFilterIdentity(listing)}:{kind:'payment_history',transactionId,limit})),sort:listing.sort};
       const after=query.cursor?await this.cursor.read(query.cursor,scope,this.clock()):null;
+      if(listing.advanced){
+        const entries=events.map(item=>({item,at:canonicalListingInstant(item.recordedAt),amount:item.amountRwf,
+          search:listingText([item.id,item.kind,item.recordedAt,item.amountRwf,item.memberId].join(' '))}));
+        const selected=selectListing(entries,'history',listing,after,new Date(this.clock()).toISOString());
+        const nextCursor=selected.after?await this.cursor.create({...scope,after:selected.after,expiresAt:this.clock()+15*60*1000}):null;
+        return {items:selected.items,totalCount:selected.totalCount,nextCursor,revision,asOf:selected.asOf};
+      }
       const offset=after?.offset??0;
       requireThat(Number.isSafeInteger(offset)&&offset>=0&&(offset===0||offset<events.length),'invalid_cursor');
       const items=events.slice(offset,offset+limit),next=offset+items.length;
@@ -125,7 +195,8 @@ export class RecordsService {
   projectRows(rows,kind) {
     this.checkRows(rows,kind);
     const fields={
-      payments:['id','groupId','payerNameRaw','payerPhoneRaw','amountRwf','atRaw','ftId','state','version','memberId','memberPhone','sourceId'],
+      payments:['id','groupId','payerNameRaw','payerPhoneRaw','amountRwf','atRaw','ftId','state','version','memberId','memberPhone','sourceId',
+        'direction','outcome','sourceKind','feeRwf','walletBalanceAfterRwf'],
       members:['id','groupId','name','phone','balanceRwf','active','version'],
       ledger:['id','groupId','transactionId','amountRwf','atRaw','ftId','payerNameRaw','memberPhone'],
       sms:['id','groupId','sender','at','preview','state','transactionId'],
@@ -140,7 +211,26 @@ export class RecordsService {
     requireThat(Array.isArray(rows),'invalid_snapshot',503);
     for(const row of rows){
       requireThat(row && row.groupId===this.groupId,'reader_scope_violation',503);
-      if(['payments','ledger'].includes(kind))requireThat(Number.isSafeInteger(row.amountRwf)&&row.amountRwf!==0&&typeof row.ftId==='string'&&row.ftId.length>0&&typeof row.atRaw==='string'&&typeof row.payerNameRaw==='string','invalid_transaction_projection',503);
+      if(['payments','ledger'].includes(kind)){
+        const native=kind==='payments'&&row.sourceKind==='observation';
+        const amount=native&&row.amountRwf===null||Number.isSafeInteger(row.amountRwf)&&row.amountRwf!==0;
+        const reference=native&&row.ftId===null||typeof row.ftId==='string'&&row.ftId.length>0;
+        requireThat(amount&&reference&&typeof row.atRaw==='string'&&typeof row.payerNameRaw==='string','invalid_transaction_projection',503);
+        if(native){
+          // The canonical adapter owns financial state and adjustment history.
+          // Reversed/corrected receipts remain readable without presenting a
+          // new credit. Unposted observations carry no member identity.
+          const recorded=row.state==='recorded'&&row.memberId==null&&row.memberPhone==null;
+          const linked=['posted','reversed','corrected'].includes(row.state)&&row.direction==='incoming'&&row.outcome==='successful'&&
+            Number.isSafeInteger(row.amountRwf)&&row.amountRwf>0&&typeof row.memberId==='string'&&
+            /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/.test(row.memberId)&&
+            (row.memberPhone===null||typeof row.memberPhone==='string'&&/^\+2507[2389][0-9]{7}$/.test(row.memberPhone));
+          requireThat(['incoming','outgoing','reversal','other'].includes(row.direction)&&
+            ['successful','failed','pending','unknown'].includes(row.outcome)&&(recorded||linked)&&
+            [row.feeRwf,row.walletBalanceAfterRwf].every(v=>v===null||Number.isSafeInteger(v)&&v>=0),
+            'invalid_transaction_projection',503);
+        }
+      }
       if(kind==='members')requireThat(normalizePhone(row.phone)===row.phone&&Number.isSafeInteger(row.balanceRwf),'invalid_member_projection',503);
       // Staff/ordinary readers may never carry retained raw body or secret credential material.
       if(!['sms','rawSms'].includes(kind))requireThat(!['rawBody','raw_body','pinHash','tokenHash','gateway_token'].some(k=>Object.hasOwn(row,k)),'sensitive_projection_violation',503);

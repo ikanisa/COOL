@@ -12,10 +12,17 @@ import 'cloudflare_admin_session.dart';
 
 /// A bounded view of persisted assisted-SMS records, not delivery or uptime.
 class CloudflareSmsOversight {
-  const CloudflareSmsOversight._(this.checkedAt, this.counts);
+  const CloudflareSmsOversight._(
+    this.checkedAt,
+    this.counts,
+    this.managedProcessing,
+    this.nativeAutoProcessing,
+    this.nativeSmsLedger,
+  );
 
   final DateTime checkedAt;
   final Map<String, int> counts;
+  final String managedProcessing, nativeAutoProcessing, nativeSmsLedger;
 
   bool isFresh(DateTime now) =>
       !now.toUtc().isBefore(checkedAt.subtract(const Duration(seconds: 5))) &&
@@ -61,9 +68,22 @@ class CloudflareSmsOversight {
       if (count is! int || count < 0 || count > 9007199254740991) invalid();
       counts[key] = count;
     }
+    final rawConfiguration = value['configuration'];
+    if (rawConfiguration != null && rawConfiguration is! Map) invalid();
+    final configuration = rawConfiguration as Map?;
+    String configured(String key, Set<String> allowed) {
+      final result = configuration?[key];
+      if (result == null) return 'unknown'; // Older backend during rollout.
+      if (result is! String || !allowed.contains(result)) invalid();
+      return result;
+    }
+
     return CloudflareSmsOversight._(
       checkedAt.toUtc(),
       Map.unmodifiable(counts),
+      configured('momo_processing', const {'enabled', 'paused'}),
+      configured('native_auto_processing', const {'enabled', 'disabled'}),
+      configured('native_sms_ledger', const {'enabled', 'disabled'}),
     );
   }
 }
@@ -173,9 +193,16 @@ class _CloudflareSmsOversightPanelState
               Text('Checked ${adminKigaliDateTime(value.checkedAt)}'),
               if (!value.isFresh(DateTime.now()))
                 const Text('Sample expired. Refresh for current counts.')
-              else
+              else ...[
+                Text('Managed MoMo processing: ${value.managedProcessing}'),
+                Text('Native SMS parsing: ${value.nativeAutoProcessing}'),
+                Text('Native SMS ledger: ${value.nativeSmsLedger}'),
+                const Text(
+                  'These are configuration settings; worker activity and provider availability are not verified.',
+                ),
                 for (final entry in CloudflareSmsOversight.labels.entries)
                   Text('${entry.value}: ${value.counts[entry.key]}'),
+              ],
               const Text(
                 'Operator heartbeat and receipt gate status are not recorded.',
               ),

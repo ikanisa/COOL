@@ -2,8 +2,14 @@ import {requireThat} from './errors.js';
 import {requireId,requireRequestId} from './values.js';
 
 export const OPERATION_RECOVERY_PROTOCOL='burimunsi.operation-recovery.v1';
+export const STAFF_OPERATIONS=Object.freeze(['create','edit','reset','disable','enable','remove'].map(action=>'burimunsi.staff.'+action));
+export const cancelledStaffOperation=operation=>{
+  requireThat(STAFF_OPERATIONS.includes(operation),'invalid_staff_operation',400);
+  return operation.replace('burimunsi.staff.','burimunsi.staff.cancelled.');
+};
+export const originalStaffOperation=operation=>STAFF_OPERATIONS.find(value=>cancelledStaffOperation(value)===operation)??null;
 const allowedOperations=new Set([
-  'burimunsi.allocate','burimunsi.enroll','burimunsi.membership',
+  'burimunsi.allocate','burimunsi.enroll','burimunsi.membership','burimunsi.members_import',
   'burimunsi.staff.create','burimunsi.staff.edit','burimunsi.staff.reset',
   'burimunsi.staff.disable','burimunsi.staff.enable','burimunsi.staff.remove'
 ]);
@@ -34,11 +40,15 @@ export function projectRecoveredOutcome({proof,actor,groupId,requestId,originDig
     'invalid_recovery_proof',503);
   let state='pending';
   if(receipt!==null){
+    const cancelled=originalStaffOperation(receipt?.operation);
     requireThat(receipt&&receipt.groupId===groupId&&receipt.actorId===current.actorId&&
-      receipt.requestId===requestId&&receipt.sessionId===origin.sessionId&&allowedOperations.has(receipt.operation)&&
+      receipt.requestId===requestId&&receipt.sessionId===origin.sessionId&&
+      (allowedOperations.has(receipt.operation)||(cancelled!==null&&receipt.cancellationMarkerValid===true))&&
       Number.isSafeInteger(receipt.createdAt)&&receipt.createdAt>=origin.createdAt&&receipt.createdAt<=now,
       'invalid_recovery_receipt',503);
-    state='committed';
+    state=cancelled?'cancelled':'committed';
+    if(cancelled)return {protocol:OPERATION_RECOVERY_PROTOCOL,requestId,state,originDigest,
+      groupId,actorId:current.actorId,installationId:current.installationId,operation:cancelled};
   }
   // Absence is not proof of no effect. No invented rejection or command payload.
   return {protocol:OPERATION_RECOVERY_PROTOCOL,requestId,state,originDigest,

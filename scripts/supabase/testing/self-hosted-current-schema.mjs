@@ -59,7 +59,7 @@ export async function installCurrentFixtureAdditions(owner,{root=ROOT}={}){
  // double. They extend only this fresh synthetic database, never shipping SQL.
  await owner.unsafe('ALTER TABLE auth.users ADD COLUMN email_confirmed_at timestamptz; ALTER TABLE auth.users ADD COLUMN is_anonymous boolean NOT NULL DEFAULT false');
  for(const item of files.slice(16))await applyCurrentFixtureMigration(owner,item);
- const [installed]=await owner.unsafe("SELECT to_regclass('private.collect_fence_admission_archive') IS NOT NULL AND to_regclass('private.guest_upgrade_challenges') IS NOT NULL AND to_regclass('app.notification_email_job_dispatches') IS NOT NULL AND to_regclass('collect_sms.messages') IS NOT NULL AND to_regclass('private.collect_deployment_identity') IS NOT NULL AND to_regclass('private.retention_inventory_manifests') IS NOT NULL AND to_regclass('private.retention_row_plans') IS NOT NULL AND to_regclass('private.collect_sms_fence_admissions') IS NOT NULL AS complete");
+ const [installed]=await owner.unsafe("SELECT to_regclass('private.collect_fence_admission_archive') IS NOT NULL AND to_regclass('private.guest_upgrade_challenges') IS NOT NULL AND to_regclass('app.notification_email_job_dispatches') IS NOT NULL AND to_regclass('collect_sms.messages') IS NOT NULL AND to_regclass('private.collect_deployment_identity') IS NOT NULL AND to_regclass('private.retention_inventory_manifests') IS NOT NULL AND to_regclass('private.retention_row_plans') IS NOT NULL AND to_regclass('private.collect_sms_fence_admissions') IS NOT NULL AND to_regclass('private.burimunsi_pin_session_links') IS NOT NULL AND to_regclass('private.burimunsi_gateway_handoffs') IS NOT NULL AS complete");
  need(installed.complete===true,'CURRENT_SCHEMA_INSTALLATION_UNCONFIRMED');
  return {profile:CURRENT_NATIVE_PROFILE,migration_count:CURRENT_MIGRATION_COUNT,migrations:files.map(({name,sha256})=>({name,sha256})),
   synthetic_auth_columns:['email_confirmed_at','is_anonymous'],production_acceptance:false};
@@ -70,9 +70,60 @@ export async function installCurrentFixtureAdditions(owner,{root=ROOT}={}){
  * apply it directly. Never relax the shipping migration's closed-fence gate.
  */
 export async function applyCurrentFixtureMigration(owner,item){
- if(item.name!=='20261109234517_burimunsi_native_operator_schema.sql')return owner.unsafe(item.sql);
+ if(!['20261109234517_burimunsi_native_operator_schema.sql',
+  '20261110030800_burimunsi_sms_source_scope.sql',
+  '20261110032620_burimunsi_native_provisioning.sql',
+  '20261110040728_burimunsi_gateway_classification.sql',
+  '20261110052756_burimunsi_dynamic_scope_setup.sql',
+  '20261110093218_burimunsi_managed_email_preauth.sql',
+  '20261110143000_burimunsi_native_phone_pin.sql',
+  '20261110181002_collect_local_stopped_admission.sql',
+  '20261110181003_burimunsi_gateway_handoff.sql',
+  '20261110193000_burimunsi_canonical_receipt_adoption.sql',
+  '20261111043455_collect_admin_email_otp_lifetime.sql',
+  '20261111120000_collect_admin_persistent_sessions.sql',
+  '20261111120200_burimunsi_native_session_renewal.sql',
+  '20261111120400_burimunsi_passcode_session_rotation.sql',
+  '20261111120500_burimunsi_native_logout_barrier.sql',
+  '20261111121000_burimunsi_private_observations.sql',
+  '20261111121100_burimunsi_admin_observations.sql',
+  '20261111121200_burimunsi_retention_inspection.sql','20261111121300_burimunsi_pin_clock_skew.sql',
+  '20261111121400_collect_protected_owner_identity.sql',
+  '20261111121500_burimunsi_pin_bound_clock.sql',
+  '20261111121600_burimunsi_pin_rotation_expiry.sql',
+  '20261111121700_burimunsi_staff_phone_preservation.sql',
+  '20261112200100_burimunsi_native_auto_transactions.sql',
+  '20261113130000_burimunsi_native_observation_dedup.sql',
+  '20261113130100_burimunsi_smart_onboarding_journal.sql',
+  '20261113130200_burimunsi_account_sms_history.sql',
+  '20261113130300_burimunsi_native_financial_work.sql',
+  '20261113130400_burimunsi_native_financial_custody.sql',
+  '20261113130500_burimunsi_native_work_discovery.sql',
+  '20261113130600_burimunsi_native_work_retention_inspection.sql',
+  '20261113130700_storage_iceberg_retention_inspection.sql',
+  '20261113130800_burimunsi_native_lease_history.sql'].includes(item.name))return owner.unsafe(item.sql);
  const rows=await owner.unsafe('SELECT mode,epoch,source_sha256 FROM private.collect_fence_control WHERE singleton');
- if(rows.length===0)return owner.unsafe(item.sql);
+ if(rows.length===0){
+  need(!['20261110193000_burimunsi_canonical_receipt_adoption.sql','20261111043455_collect_admin_email_otp_lifetime.sql',
+   '20261111121000_burimunsi_private_observations.sql','20261111121100_burimunsi_admin_observations.sql',
+   '20261111121200_burimunsi_retention_inspection.sql','20261111121300_burimunsi_pin_clock_skew.sql',
+   '20261111121400_collect_protected_owner_identity.sql',
+  '20261111121500_burimunsi_pin_bound_clock.sql',
+  '20261111121600_burimunsi_pin_rotation_expiry.sql',
+  '20261111121700_burimunsi_staff_phone_preservation.sql',
+  '20261112200100_burimunsi_native_auto_transactions.sql',
+  '20261113130000_burimunsi_native_observation_dedup.sql',
+  '20261113130100_burimunsi_smart_onboarding_journal.sql',
+  '20261113130200_burimunsi_account_sms_history.sql',
+  '20261113130300_burimunsi_native_financial_work.sql',
+  '20261113130400_burimunsi_native_financial_custody.sql',
+  '20261113130500_burimunsi_native_work_discovery.sql',
+  '20261113130600_burimunsi_native_work_retention_inspection.sql',
+  '20261113130700_storage_iceberg_retention_inspection.sql',
+  '20261113130800_burimunsi_native_lease_history.sql'].includes(item.name),
+   'INITIALIZED_FENCE_REQUIRED_FOR_REVIEWED_MIGRATION');
+  return owner.unsafe(item.sql);
+ }
  need(rows.length===1&&rows[0].mode==='open','FRESH_NATIVE_FIXTURE_OPEN_FENCE_REQUIRED');
  const control=rows[0],operation=randomUUID();
  await owner.unsafe('SELECT private.collect_fence_begin_quiesce($1::uuid,$2::bigint,$3::text)',[operation,control.epoch,control.source_sha256]);

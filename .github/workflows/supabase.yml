@@ -24,6 +24,8 @@ on:
       - 'test/self_hosted_member_history_sql_receipts_test.dart'
       - 'deploy/self-hosted/**'
       - 'deploy/collect-sms/**'
+      - 'deploy/managed-native-ingress/**'
+      - 'deploy/managed-sms/**'
       - 'scripts/self_hosted/**'
       - 'pubspec.yaml'
       - 'pubspec.lock'
@@ -53,6 +55,8 @@ on:
       - 'test/self_hosted_member_history_sql_receipts_test.dart'
       - 'deploy/self-hosted/**'
       - 'deploy/collect-sms/**'
+      - 'deploy/managed-native-ingress/**'
+      - 'deploy/managed-sms/**'
       - 'scripts/self_hosted/**'
       - 'pubspec.yaml'
       - 'pubspec.lock'
@@ -63,8 +67,8 @@ on:
       qualification_profile:
         description: Current candidate or an explicitly reviewed historical source
         type: choice
-        default: current-self-hosted
-        options: [current-self-hosted, historical-standard, historical-current14, historical-current16]
+        default: current-managed-cloud
+        options: [current-managed-cloud, historical-standard, historical-current14, historical-current16]
       reviewed_historical_commit:
         description: Exact reviewed 40-character historical commit; required only for a historical profile
         type: string
@@ -78,7 +82,7 @@ jobs:
   current-source-contracts:
     name: Current source, safety, transport and frozen Edge contracts
     needs: select-profile
-    if: needs.select-profile.outputs.profile == 'current-self-hosted'
+    if: needs.select-profile.outputs.profile == 'current-managed-cloud'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -104,6 +108,41 @@ jobs:
         run: node --test scripts/supabase/data-contracts.test.mjs
       - name: Verify public build, cutover and diagnostic identity guards
         run: python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test
+      - name: Verify read-only cloud migration preflight
+        run: python3 -m unittest scripts.supabase.test_cloud_migration_preflight
+      - name: Verify aggregate migration inventory reconciliation
+        run: python3 -m unittest scripts.supabase.test_aggregate_inventory_reconcile
+      - name: Verify offline catalogue reconciliation
+        run: python3 -m unittest scripts.supabase.test_catalogue_reconciliation
+      - name: Verify bounded catalogue capture
+        env:
+          COLLECT_CATALOGUE_SYNTHETIC_PGLITE_MODULE: file://${{ github.workspace }}/scripts/supabase/node_modules/@electric-sql/pglite/dist/index.js
+        run: python3 -m unittest scripts.supabase.test_catalogue_capture
+      - name: Verify managed native ingress candidate
+        run: node --test deploy/managed-native-ingress/worker.test.mjs
+      - name: Verify integrated managed native handler
+        env:
+          COLLECT_HANDLER_CHECKOUT_ROOT: ${{ github.workspace }}
+        run: node --test deploy/managed-native-ingress/handler-integration/handler-integration.test.mjs
+      - name: Verify managed native replay ledger with a synthetic database
+        run: node --test --test-concurrency=1 supabase/managed-native-ingress/nonce-ledger.test.mjs
+      - name: Verify managed deployment identity binding with a synthetic database
+        run: node --test --test-concurrency=1 supabase/managed-deployment-identity/bind-managed.test.mjs
+      - name: Verify required BuriMunsi native test reporting
+        run: node --test scripts/supabase/testing/buri-isolated-pg/report.test.mjs
+      - name: Verify the closed managed SMS source boundary
+        working-directory: deploy/managed-sms
+        run: python3 test/verify_source_tests_test.py && python3 test/verify_source_tests.py
+      - name: Verify atomic cloud migration primitive with synthetic PostgreSQL
+        run: node --test scripts/supabase/atomic_cloud_migration.test.mjs
+      - name: Verify current Storage metadata recovery candidate
+        run: node --test scripts/supabase/managed-storage-archive-v2/*.test.mjs
+      - name: Verify managed Cloud import and existing journal boundaries
+        run: node --test scripts/supabase/cloud-data-transfer/compile.test.mjs scripts/supabase/cloud-data-transfer/existing-storage.test.mjs
+      - name: Verify pinned historical fixture inventories without changing the Cloud tree
+        run: |-
+          node scripts/supabase/testing/pinned-history-stage.mjs --verify58
+          node scripts/supabase/testing/pinned-history-stage.mjs --verify65
       - name: Verify self-hosted deployment and provider separation contracts
         run: |
           node --test deploy/self-hosted/*.test.mjs scripts/self_hosted/*.test.mjs scripts/supabase/deployment-profile.test.mjs
@@ -111,7 +150,9 @@ jobs:
       - name: Run every shared Node Edge contract through maintained exhaustive discovery
         run: node scripts/supabase/run_edge_node_tests.mjs
       - name: Verify current orchestration and retained historical source-admission guards
-        run: node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs scripts/supabase/testing/current16-integration.test.mjs scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs scripts/supabase/testing/admit-self-hosted-history.test.mjs
+        run: node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs scripts/supabase/testing/current16-integration.test.mjs
+      - name: Verify pinned historical source-admission and history contracts
+        run: node scripts/supabase/testing/pinned-history-stage.mjs --source58
       - name: Verify scheduler and operator configuration contracts
         run: node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs scripts/self_hosted/jobs-profile.test.mjs scripts/self_hosted/email-job-contract.test.mjs
       - name: Verify actual web hosting to Supabase transport contracts
@@ -126,14 +167,24 @@ jobs:
         run: node --test test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs
       - name: Verify private provider and privacy boundary protocols
         run: node --test deploy/platform-api/test/supabase_privacy_portal.test.mjs deploy/platform-api/test/privacy_email_portal.test.mjs deploy/platform-api/test/supabase_roster_decoder_protocol.test.mjs supabase/functions/_shared/tests/native-storage-semantics.test.mjs supabase/functions/send-sms-hook/handler.test.mjs deploy/self-hosted/auth-phone-proxy.test.mjs
+      - name: Verify synthetic commissioning Edge protocol
+        run: |-
+          set -eu
+          "$COLLECT_DENO" --version | grep -Eq '^deno 2[.]9[.]6 '
+          output="$(mktemp /tmp/collect-commission-deno.XXXXXXXX)"
+          trap 'rm -f -- "$output"' EXIT
+          if ! "$COLLECT_DENO" test --frozen --lock=supabase/functions/deno.lock --reporter=tap scripts/supabase/device-commissioning/edge-smoke.test.ts > "$output" 2>&1; then cat "$output"; exit 1; fi
+          cat "$output"
+          grep -Fqx 'ok 1 - synthetic Edge request signs and verifies commissioning receipt and acknowledgement' "$output"
+          grep -Fqx '1..1' "$output"
       - name: Check all six current Edge entrypoints with the exact frozen lock
         working-directory: supabase/functions
         run: '"$COLLECT_DENO" task check'
 
   current-self-hosted-native:
-    name: Current migration-chain native security, control, Auth, retention and delivery
+    name: Pinned historical migration-chain native security and delivery fixtures
     needs: select-profile
-    if: needs.select-profile.outputs.profile == 'current-self-hosted'
+    if: needs.select-profile.outputs.profile == 'current-managed-cloud'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     container:
@@ -153,11 +204,12 @@ jobs:
           test "$(id -u)" -eq 0
           export DEBIAN_FRONTEND=noninteractive
           timeout --signal=TERM --kill-after=5s 150s apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
-          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils
+          timeout --signal=TERM --kill-after=5s 150s apt-get -o Dpkg::Use-Pty=0 --yes --no-install-recommends --no-upgrade install ca-certificates git python3 tar gzip xz-utils openssl
           command -v gosu >/dev/null
           command -v initdb >/dev/null
           command -v pg_ctl >/dev/null
           command -v psql >/dev/null
+          command -v openssl >/dev/null
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
@@ -170,6 +222,92 @@ jobs:
       - name: Install exact tooling without dependency lifecycle scripts
         working-directory: scripts/supabase
         run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Qualify HTTP admission with a separate synthetic PostgreSQL cluster
+        run: |
+          set -eu
+          pg_bin_dir="$(dirname "$(realpath "$(command -v postgres)")")"
+          node_bin="$(command -v node)"
+          gosu postgres test -x "$node_bin"
+          gosu postgres test -r scripts/supabase/testing/http-admission-pg/qualify.mjs
+          "$node_bin" --test scripts/supabase/testing/managed-nonce-pg/report.test.mjs
+          timeout --signal=TERM --kill-after=120s 300s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+            COLLECT_HTTP_ADMISSION_PG_QUALIFY=true \
+            COLLECT_HTTP_ADMISSION_PG_BIN_DIR="$pg_bin_dir" \
+            COLLECT_HTTP_ADMISSION_PG_TMP_ROOT=/tmp \
+            "$node_bin" scripts/supabase/testing/http-admission-pg/qualify.mjs
+      - name: Qualify BuriMunsi queries and observation boundaries on synthetic PostgreSQL
+        run: |
+          set -eu
+          pg_bin_dir="$(dirname "$(realpath "$(command -v postgres)")")"
+          node_bin="$(command -v node)"
+          gosu postgres test -x "$node_bin"
+          gosu postgres test -r scripts/supabase/testing/buri-isolated-pg/qualify.mjs
+          timeout --signal=TERM --kill-after=120s 180s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+            COLLECT_BURI_TEST_PG_QUALIFY=true \
+            COLLECT_BURI_TEST_PG_BIN_DIR="$pg_bin_dir" \
+            COLLECT_BURI_TEST_TMP_ROOT=/tmp \
+            "$node_bin" scripts/supabase/testing/buri-isolated-pg/qualify.mjs
+          timeout --signal=TERM --kill-after=120s 75s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+            COLLECT_BURI_TEST_PG_QUALIFY=true \
+            COLLECT_BURI_TEST_PG_BIN_DIR="$pg_bin_dir" \
+            COLLECT_BURI_TEST_TMP_ROOT=/tmp \
+            "$node_bin" --test-reporter=tap scripts/supabase/testing/buri-isolated-pg/interrupt.test.mjs
+      - name: Qualify managed native nonce ledger on synthetic PostgreSQL
+        run: |
+          set -eu
+          pg_bin_dir="$(dirname "$(realpath "$(command -v postgres)")")"
+          node_bin="$(command -v node)"
+          gosu postgres test -x "$node_bin"
+          gosu postgres test -r scripts/supabase/testing/managed-nonce-pg/qualify.mjs
+          "$node_bin" --test scripts/supabase/testing/managed-nonce-pg/report.test.mjs
+          timeout --signal=TERM --kill-after=120s 300s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+            COLLECT_INGRESS_TEST_PG_BIN_DIR="$pg_bin_dir" \
+            "$node_bin" scripts/supabase/testing/managed-nonce-pg/qualify.mjs
+      - name: Qualify managed migration portability inventory on synthetic PostgreSQL
+        run: |
+          set -eu
+          pg_bin_dir="$(dirname "$(realpath "$(command -v postgres)")")"
+          gosu postgres test -r scripts/supabase/managed-migration-portability/test_portability.py
+          timeout --signal=TERM --kill-after=5s 120s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+            COLLECT_PORTABILITY_PG_BIN="$pg_bin_dir" PYTHONDONTWRITEBYTECODE=1 \
+            python3 scripts/supabase/managed-migration-portability/test_portability.py
+      - name: Qualify current transfer and commissioning on synthetic PostgreSQL
+        run: |
+          set -eu
+          pg_bin_dir="$(dirname "$(realpath "$(command -v postgres)")")"
+          node_bin="$(command -v node)"
+          gosu postgres test -x "$node_bin"
+          gosu postgres test -x /usr/bin/openssl
+          for test_file in scripts/supabase/current-pg-transfer/reconcile.test.mjs scripts/supabase/current-pg-transfer/identity-mapping/identity.test.mjs scripts/supabase/managed-cloud-migrations/provider-ca.test.mjs scripts/supabase/managed-cloud-migrations/operator.test.mjs scripts/supabase/managed-cloud-migrations/operator-pg.test.mjs scripts/supabase/managed-cloud-migrations/event-trigger-preimage.test.mjs scripts/supabase/managed-cloud-migrations/migration-postconditions.test.mjs scripts/supabase/current-pg-transfer/batch-transfer/quarantine.test.mjs scripts/supabase/current-pg-transfer/test-support/lifecycle.test.mjs scripts/supabase/device-commissioning/fixture.test.mjs scripts/supabase/current-pg-transfer/object-transfer/transfer.test.mjs scripts/supabase/current-pg-transfer/object-transfer/scope-rebind.test.mjs scripts/supabase/current-pg-transfer/object-transfer/supabase-adapter.test.mjs scripts/supabase/current-pg-transfer/business-import/import.test.mjs scripts/supabase/current-pg-transfer/financial-inventory/inventory.test.mjs scripts/supabase/current-pg-transfer/financial-consistency/consistency.test.mjs scripts/supabase/current-pg-transfer/financial-consistency/native-readiness-v3/diagnostic.test.mjs scripts/supabase/current-pg-transfer/financial-import/import.test.mjs scripts/supabase/current-pg-transfer/native-sms-import/import.test.mjs scripts/supabase/retention-convergence/user-id-forward.test.mjs scripts/supabase/retention-convergence/ordered-chain-fixture.test.mjs scripts/supabase/retention-convergence/history-plan.test.mjs scripts/supabase/retention-convergence/deferred-mfa/ordered-deferred-fixture.test.mjs scripts/supabase/retention-convergence/deferred-mfa/history-proposal.test.mjs supabase/functions/_shared/tests/burimunsi/native-sms-ledger.test.mjs supabase/managed-deployment-identity/bind-managed-pg17.test.mjs scripts/supabase/device-commissioning/synthetic-transport.test.mjs supabase/managed-cloud-stopped-recovery/evidence.test.mjs; do gosu postgres test -r "$test_file"; done
+          output="$(mktemp /tmp/collect-current-transfer.XXXXXXXX)"
+          trap 'rm -f -- "$output"' EXIT
+          if ! timeout --signal=TERM --kill-after=120s 600s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin TMPDIR=/tmp COLLECT_SYNTHETIC_PG_BIN="$pg_bin_dir" \
+            "$node_bin" --test --test-concurrency=1 --test-timeout=180000 --test-reporter=tap scripts/supabase/current-pg-transfer/reconcile.test.mjs scripts/supabase/current-pg-transfer/identity-mapping/identity.test.mjs scripts/supabase/managed-cloud-migrations/provider-ca.test.mjs scripts/supabase/managed-cloud-migrations/operator.test.mjs scripts/supabase/managed-cloud-migrations/operator-pg.test.mjs scripts/supabase/managed-cloud-migrations/event-trigger-preimage.test.mjs scripts/supabase/managed-cloud-migrations/migration-postconditions.test.mjs scripts/supabase/current-pg-transfer/batch-transfer/quarantine.test.mjs scripts/supabase/current-pg-transfer/test-support/lifecycle.test.mjs scripts/supabase/device-commissioning/fixture.test.mjs scripts/supabase/current-pg-transfer/object-transfer/transfer.test.mjs scripts/supabase/current-pg-transfer/object-transfer/scope-rebind.test.mjs scripts/supabase/current-pg-transfer/object-transfer/supabase-adapter.test.mjs scripts/supabase/current-pg-transfer/business-import/import.test.mjs scripts/supabase/current-pg-transfer/financial-inventory/inventory.test.mjs scripts/supabase/current-pg-transfer/financial-consistency/consistency.test.mjs scripts/supabase/current-pg-transfer/financial-consistency/native-readiness-v3/diagnostic.test.mjs scripts/supabase/current-pg-transfer/financial-import/import.test.mjs scripts/supabase/current-pg-transfer/native-sms-import/import.test.mjs scripts/supabase/retention-convergence/user-id-forward.test.mjs scripts/supabase/retention-convergence/ordered-chain-fixture.test.mjs scripts/supabase/retention-convergence/history-plan.test.mjs scripts/supabase/retention-convergence/deferred-mfa/ordered-deferred-fixture.test.mjs scripts/supabase/retention-convergence/deferred-mfa/history-proposal.test.mjs supabase/functions/_shared/tests/burimunsi/native-sms-ledger.test.mjs supabase/managed-deployment-identity/bind-managed-pg17.test.mjs scripts/supabase/device-commissioning/synthetic-transport.test.mjs supabase/managed-cloud-stopped-recovery/evidence.test.mjs > "$output" 2>&1; then cat "$output"; exit 1; fi
+          cat "$output"
+          grep -qx '# tests [1-9][0-9]*' "$output"
+          grep -qx '# fail 0' "$output"
+          grep -qx '# cancelled 0' "$output"
+          grep -qx '# skipped 0' "$output"
+          grep -qx '# todo 0' "$output"
+          for expected in 'isolated PostgreSQL reconciliation' 'managed reconciliation admits only the pinned target, TLS root and verified peer' 'connected clients with startup options are refused' 'owner-approved identity mapping holds both existing principals' 'encrypted quarantine on disposable PostgreSQL 17' 'SIGTERM stops a confirmed server before removing its fixture' 'provider database CA is a valid self-signed root with the pinned DER fingerprint' 'canonical input, exact project and clean environment are required before connecting' 'CLI reports or reconciles commit with closed-stdout' 'commissioning receipt transaction fixture' 'exact immutable ciphertext is copied once with encrypted durable intent and receipt' 'synthetic owner rebind reproduces Storage fingerprints while preserving ciphertext identity' 'actual adapter reads, creates once and verifies synthetic protected bytes' 'HTTPS client rejects a self-signed loopback server' 'mutating an approved plan cannot redirect import or lost-ack reconciliation' 'count-only financial graph inventory on owned PostgreSQL 17' 'financial consistency is aggregate-only and read-only on owned PostgreSQL 17' 'selected native source prerequisites are aggregate-only on owned PostgreSQL 17' 'synthetic posted financial graphs transfer atomically with cloud-primary mapping' 'synthetic accepted native SMS history and posted financial graph' 'forward-only retention user ID correction on owned PostgreSQL 17' 'synthetic full chain refuses divergent originals and runs pinned candidates without writing history' 'history candidate keeps divergent originals unrecorded and uses distinct ordered versions' 'all pinned non-WIP predecessors execute in order while both MFA sources remain absent' 'deferred proposal keeps every non-WIP source action without inventing history' 'a coherently mapped replay with an existing complete financial link performs no second write' 'managed candidate on native PostgreSQL 17 without a postgres superuser' 'a correctly serialized v2-style digest cannot authorize the v3 executor' 'diagnostics rechecks after history insertion' 'notification rechecks after history insertion' 'signed commissioning transport with durable synthetic PostgreSQL receipts' 'managed stopped-work evidence remains non-authorizing with synthetic PG snapshots'; do grep -Eq "^[[:space:]]*ok [0-9]+ - $expected$" "$output" || exit 1; done
+      - name: Qualify managed SMS transactions and cleanup on synthetic PostgreSQL
+        working-directory: deploy/managed-sms
+        run: |
+          set -eu
+          pg_bin_dir="$(dirname "$(realpath "$(command -v postgres)")")"
+          gosu postgres test -x "$COLLECT_DENO"
+          gosu postgres test -r test/local-postgres-fixture.ts
+          sms_deno_cache="$(mktemp -d /tmp/collect-sms-ci-deno-XXXXXXXX)"
+          trap 'rm -rf -- "$sms_deno_cache"' EXIT
+          chown postgres "$sms_deno_cache"
+          timeout --signal=TERM --kill-after=30s 120s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+            DENO_DIR="$sms_deno_cache" DENO_TLS_CA_STORE=system \
+            "$COLLECT_DENO" cache --frozen-lockfile --lock=deno.lock --node-modules-dir=none test/local-postgres-fixture.ts
+          timeout --signal=TERM --kill-after=120s 180s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+            COLLECT_SMS_TEST_PG_BIN="$pg_bin_dir" COLLECT_SMS_TEST_DENO_BIN="$COLLECT_DENO" \
+            COLLECT_SMS_TEST_DENO_DIR="$sms_deno_cache" ./test/run-local-postgres.sh
+          timeout --signal=TERM --kill-after=120s 180s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+            COLLECT_SMS_TEST_PG_BIN="$pg_bin_dir" python3 test/signal-cleanup.test.py
       - name: Verify current-only target, source, migration and receipt guards
         run: node --test scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/admit-self-hosted-history.test.mjs
       - name: Warm and check every current native harness with frozen dependencies
@@ -185,7 +323,7 @@ jobs:
         env:
           DENO_DIR: ${{ runner.temp }}/collect-current-selfhost-deno-cache
           COLLECT_SELFHOST_OUTPUT_DIR: ${{ runner.temp }}/collect-current-selfhost-native
-        run: timeout --signal=TERM --kill-after=10s 900s node scripts/supabase/testing/current-self-hosted-native.mjs
+        run: timeout --signal=TERM --kill-after=10s 900s node scripts/supabase/testing/pinned-history-stage.mjs --native
       - name: Always stop only the job-owned native cluster
         if: always()
         run: |
@@ -237,9 +375,9 @@ jobs:
             ${{ runner.temp }}/collect-current-selfhost-native/data-stage/TYPED.sqlite
 
   current-self-hosted-history-dart:
-    name: Decode actual current migration-chain history SQL with the matching Dart source
+    name: Decode pinned historical migration-chain SQL with the matching Dart source
     needs: [select-profile, current-self-hosted-native]
-    if: needs.select-profile.outputs.profile == 'current-self-hosted'
+    if: needs.select-profile.outputs.profile == 'current-managed-cloud'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -264,7 +402,7 @@ jobs:
           name: current-selfhost-native-${{ github.sha }}
           path: ${{ runner.temp }}/collect-current-selfhost-native
       - name: Verify exact current packet, all source bytes and relative define paths
-        run: node scripts/supabase/testing/admit-self-hosted-history.mjs "$RUNNER_TEMP/collect-current-selfhost-native/history" "$RUNNER_TEMP/collect-current-selfhost-history-defines.json"
+        run: node scripts/supabase/testing/pinned-history-stage.mjs --history-admit "$RUNNER_TEMP/collect-current-selfhost-native/history" "$RUNNER_TEMP/collect-current-selfhost-history-defines.json"
       - name: Decode real pages, exact totals, dates and refusals
         run: flutter test --no-pub --concurrency=1 --tags=integration --dart-define-from-file="$RUNNER_TEMP/collect-current-selfhost-history-defines.json" test/self_hosted_member_history_sql_receipts_test.dart
 
@@ -279,14 +417,14 @@ jobs:
       - name: Refuse an implicit historical source or mutable ref
         id: source
         env:
-          PROFILE: ${{ inputs.qualification_profile || 'current-self-hosted' }}
+          PROFILE: ${{ inputs.qualification_profile || 'current-managed-cloud' }}
           REVIEWED_SHA: ${{ inputs.reviewed_historical_commit }}
         run: |
           python3 - <<'PYCODE'
           import os, re
           profile = os.environ['PROFILE']
           historical = profile in ('historical-standard', 'historical-current14', 'historical-current16')
-          assert historical or profile == 'current-self-hosted'
+          assert historical or profile == 'current-managed-cloud'
           source = os.environ.get('REVIEWED_SHA', '') if historical else os.environ['GITHUB_SHA']
           assert re.fullmatch(r'[a-f0-9]{40}', source)
           assert not historical or os.environ['GITHUB_EVENT_NAME'] == 'workflow_dispatch'

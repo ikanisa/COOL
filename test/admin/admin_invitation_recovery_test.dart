@@ -73,6 +73,7 @@ Future<Harness> harness(
   AdminPendingAttemptStorage? storage,
   Map<String, dynamic> Function()? account,
   Duration? proofAge = const Duration(seconds: 1),
+  bool protectedOwnerEnabled = false,
 }) async {
   final session = CloudflareAdminSession(
     MockClient((request) async {
@@ -94,6 +95,7 @@ Future<Harness> harness(
     }),
     origin: Uri.parse(origin),
     environment: fixtures.environment(api: origin, admin: origin),
+    protectedOwnerEnabled: protectedOwnerEnabled,
   );
   addTearDown(session.dispose);
   await session.refresh();
@@ -110,6 +112,123 @@ Future<Harness> harness(
 }
 
 void main() {
+  test(
+    'owner proof loss fences an in-flight invitation without losing its checkpoint',
+    () async {
+      final storage = MemoryAdminPendingAttemptStorage();
+      final started = Completer<void>();
+      final response = Completer<http.Response>();
+      var proofAvailable = true;
+      final expiresAt = DateTime.now()
+          .add(const Duration(minutes: 20))
+          .toIso8601String();
+      Map<String, dynamic> dynamicOwner() {
+        final body = owner(), user = body['user'] as Map<String, dynamic>;
+        user['email'] = 'configured.owner@example.invalid';
+        body['expiresAt'] = expiresAt;
+        body['ownerEmail'] = proofAvailable ? user['email'] : null;
+        body['ownerIdentity'] = proofAvailable
+            ? {
+                'schemaVersion': 1,
+                'adminId': user['id'],
+                'principalId': user['principalId'],
+                'email': user['email'],
+              }
+            : null;
+        return body;
+      }
+
+      final h = await harness(
+        (_) {
+          started.complete();
+          return response.future;
+        },
+        storage: storage,
+        account: dynamicOwner,
+        protectedOwnerEnabled: true,
+      );
+      final coordinator = h.coordinator(
+        key: () => 'inflight-unknown-request-001',
+      );
+      final attempt = coordinator.prepareInvite(
+        'staff@example.invalid',
+        AdminAccountRole.staff,
+      );
+      final pending = coordinator.submit(attempt);
+      await started.future;
+      final before = Map<String, String>.from(storage.values);
+      proofAvailable = false;
+      await h.session.refresh();
+      h.store.bind(h.session.user);
+      response.complete(
+        reply({'ok': true, ...receipt(), 'outcome': 'accepted'}),
+      );
+      await expectLater(pending, throwsA(isA<AdminAccountException>()));
+      expect(storage.values, before);
+      expect(h.api.invitationManagementAuthorized, isFalse);
+    },
+  );
+
+  test(
+    'owner proof changes preserve the original unknown invitation checkpoint',
+    () async {
+      final storage = MemoryAdminPendingAttemptStorage();
+      var proofAvailable = true;
+      final expiresAt = DateTime.now()
+          .add(const Duration(minutes: 20))
+          .toIso8601String();
+      Map<String, dynamic> dynamicOwner() {
+        final body = owner();
+        final user = body['user'] as Map<String, dynamic>;
+        user['email'] = 'configured.owner@example.invalid';
+        body['expiresAt'] = expiresAt;
+        body['ownerEmail'] = proofAvailable ? user['email'] : null;
+        body['ownerIdentity'] = proofAvailable
+            ? {
+                'schemaVersion': 1,
+                'adminId': user['id'],
+                'principalId': user['principalId'],
+                'email': user['email'],
+              }
+            : null;
+        return body;
+      }
+
+      final h = await harness(
+        (_) async => throw http.ClientException('synthetic lost response'),
+        storage: storage,
+        account: dynamicOwner,
+        protectedOwnerEnabled: true,
+      );
+      final original = h.coordinator(key: () => 'original-unknown-request-001');
+      final pending = original.prepareInvite(
+        'staff@example.invalid',
+        AdminAccountRole.staff,
+      );
+      await expectLater(
+        original.submit(pending),
+        throwsA(isA<AdminInvitationFailure>()),
+      );
+      final before = Map<String, String>.from(storage.values);
+      expect(before, isNotEmpty);
+      proofAvailable = false;
+      await h.session.refresh();
+      h.store.bind(h.session.user);
+      expect(h.api.invitationManagementAuthorized, isFalse);
+      expect(storage.values, before);
+      proofAvailable = true;
+      await h.session.refresh();
+      h.store.bind(h.session.user);
+      final restored = h.coordinator();
+      expect(restored.pending, hasLength(1));
+      expect(
+        restored.pending.single.intent.requestKey,
+        'original-unknown-request-001',
+      );
+      expect(storage.values, before);
+    },
+  );
+
   test(
     'lost POST restores original body and only exact found:false enables confirmed replay',
     () async {

@@ -12,8 +12,8 @@ import {canonicalJson,sha256} from '../../domain/burimunsi/values.js';
 import {PostgresCanonicalStore} from '../../domain/burimunsi/postgres-canonical-store.js';
 import {ContributionService} from '../../domain/burimunsi/contribution-service.js';
 export {ids};
-export async function allocationFixture(mode='automatic'){
- const f=await custodySqliteFixture(mode),s=f.sqlite;
+export async function allocationFixture(mode='automatic',sourceBody=undefined){
+ const f=await custodySqliteFixture(mode,sourceBody),s=f.sqlite;
  s.exec(`ALTER TABLE private.burimunsi_scopes ADD COLUMN version INTEGER DEFAULT 1;
  ALTER TABLE app.collections ADD COLUMN revision INTEGER DEFAULT 1;
  ALTER TABLE app.collections ADD COLUMN receiver_display_label TEXT DEFAULT 'EXAMPLE WALLET';

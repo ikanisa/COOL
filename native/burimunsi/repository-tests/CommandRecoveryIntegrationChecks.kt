@@ -47,7 +47,7 @@ internal class Fixture {
         }}
         login()
     }
-    fun login(){repo.login("0780000001","2468")}
+    fun login(){if(repo.current()!=null)repo.clearOperator();repo.login("0780000001","2468")}
     fun unknown():PendingOperation {
         runCatching { repo.allocate(payment,member,"Synthetic verified identity") }
         return repo.pending()!!.also{check(it.state==OperationState.UNKNOWN)}
@@ -119,7 +119,7 @@ fun main(){
         check(runCatching{f.repo.reconcilePending()}.isFailure)
         check(f.repo.pending()?.state==OperationState.COMMITTED)
         val restarted=NativeRepository(Context(),f.api,"group-1")
-        SecureStore.retainClear=null;restarted.login("0780000001","2468")
+        SecureStore.retainClear=null;check(restarted.restore()!=null)
         f.state="pending"
         errorCode("conflicting_reconciliation"){restarted.reconcilePending()}
         check(restarted.pending()?.requestId==p.requestId&&restarted.pending()?.state==OperationState.COMMITTED)
@@ -149,15 +149,16 @@ fun main(){
         check(f.repo.pending()?.state==OperationState.SENT)
         errorCode("pending_operation_requires_resolution"){f.repo.retryPending()};check(f.posts.get()==0)
     }
-    test("two repository instances cannot both dispatch one PREPARED operation") {
+    test("a newer repository owns the PREPARED operation; the older instance cannot dispatch") {
         val f=Fixture();val p=f.prepared();val other=NativeRepository(Context(),f.api,"group-1")
+        f.repo.clearOperator() // Explicit local sign-out for this synthetic fixture.
         other.login("0780000001","2468")
         val entered=CountDownLatch(1);val release=CountDownLatch(1)
         f.beforePost={entered.countDown();check(release.await(5,TimeUnit.SECONDS))}
         val failure=AtomicReference<Throwable?>()
-        val worker=thread{try{f.repo.retryPending()}catch(e:Throwable){failure.set(e)}}
+        val worker=thread{try{other.retryPending()}catch(e:Throwable){failure.set(e)}}
         check(entered.await(5,TimeUnit.SECONDS))
-        try { errorCode("pending_operation_requires_resolution"){other.retryPending()} }
+        try { errorCode("pending_operation_requires_resolution"){f.repo.retryPending()} }
         finally { release.countDown();worker.join(6000) }
         check(!worker.isAlive&&failure.get() is ApiFailure&&f.posts.get()==1&&f.repo.pending()?.requestId==p.requestId)
     }

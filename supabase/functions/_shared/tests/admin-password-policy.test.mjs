@@ -135,14 +135,14 @@ for(const [name,guard]of [
  assert.equal(f.batches.length,1);noBusinessEffect(f);
 }));
 
-test('eligible password change sends exact current_password once then explicit global logout then deletes old BFF/cookie',{concurrency:false},()=>fixture({},async f=>{
+test('eligible password change sends the current password once and retains the current BFF/cookie',{concurrency:false},()=>fixture({},async f=>{
  const response=await f.invoke();assert.equal(response.status,200);assert.deepEqual(await response.json(),{ok:true});
- assert.equal(response.headers.get('Set-Cookie'),'__Host-collect_admin=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0; Secure');
- assert.equal(response.headers.get('Cache-Control'),'no-store');assert.equal(f.calls.length,2);
- assert.deepEqual(f.calls.map(c=>[c.method,c.url]),[['PUT',PROJECT+'/auth/v1/user'],['POST',PROJECT+'/auth/v1/logout?scope=global']]);
- assert.deepEqual(f.calls[0].body,{password:NEXT,current_password:CURRENT});assert.equal(f.calls[1].body,null);
- assert.deepEqual(f.events,['sql_current_context_and_password_guard','provider_password_put','provider_explicit_global_logout','delete_old_bff']);
- assert.equal(f.deletes.length,1);assert.deepEqual(f.deletes[0],{sql:DELETE_SQL,values:[COOKIE_HASH]});assert.equal(f.state.currentBffPresent,false);
+ assert.equal(response.headers.get('Set-Cookie'),null);
+ assert.equal(response.headers.get('Cache-Control'),'no-store');assert.equal(f.calls.length,1);
+ assert.deepEqual(f.calls.map(c=>[c.method,c.url]),[['PUT',PROJECT+'/auth/v1/user']]);
+ assert.deepEqual(f.calls[0].body,{password:NEXT,current_password:CURRENT});
+ assert.deepEqual(f.events,['sql_current_context_and_password_guard','provider_password_put']);
+ oldBffPreserved(f);
  assert.equal(f.account.auth_session_id,SID);assert.equal(f.account.public_id,PUBLIC);assert.equal(f.account.issued_assurance_level,1);assert.equal(f.account.issued_mfa_at,null);
 }));
 
@@ -160,21 +160,5 @@ test('PUT transport ambiguity is not retried and never clears the current BFF',{
  await fixture({put:()=>{throw unknown;}},async f=>{
   await assert.rejects(f.invoke(),error=>error===unknown);assert.equal(f.calls.length,1);oldBffPreserved(f);
   assert.deepEqual(f.events,['sql_current_context_and_password_guard','provider_password_put']);
- });
-});
-for(const [name,logout,status,code]of [
- ['unavailable/unknown',()=>Response.json({error_code:'synthetic_logout_unavailable'},{status:503}),503,'synthetic_logout_unavailable'],
- ['rejected',()=>Response.json({error_code:'synthetic_logout_rejected'},{status:401}),401,'synthetic_logout_rejected'],
- ['unconfirmed non-JSON success',()=>new Response('not JSON',{status:200}),503,'auth_unavailable'],
-])test('post-PUT logout failure preserves local old BFF without another mutation: '+name,{concurrency:false},()=>fixture({logout},async f=>{
- await assert.rejects(f.invoke(),failure(status,code));assert.equal(f.calls.length,2);oldBffPreserved(f);
- assert.deepEqual(f.calls.map(c=>c.method),['PUT','POST']);
- assert.deepEqual(f.events,['sql_current_context_and_password_guard','provider_password_put','provider_explicit_global_logout']);
-}));
-test('post-PUT logout transport ambiguity does not retry PUT/logout or delete the current BFF',{concurrency:false},async()=>{
- const unknown=new Error('synthetic unconfirmed logout transport');
- await fixture({logout:()=>{throw unknown;}},async f=>{
-  await assert.rejects(f.invoke(),error=>error===unknown);assert.equal(f.calls.length,2);oldBffPreserved(f);
-  assert.deepEqual(f.events,['sql_current_context_and_password_guard','provider_password_put','provider_explicit_global_logout']);
  });
 });

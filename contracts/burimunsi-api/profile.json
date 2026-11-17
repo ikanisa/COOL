@@ -44,6 +44,21 @@
     ],
     [
       "GET",
+      "^/members/suggestions$",
+      "onboardingSuggestions"
+    ],
+    [
+      "POST",
+      "^/members/import/preview$",
+      "onboardingPreview"
+    ],
+    [
+      "POST",
+      "^/members/import$",
+      "membersImport"
+    ],
+    [
+      "GET",
       "^/members/([A-Za-z0-9_-]+)$",
       "member"
     ],
@@ -53,8 +68,8 @@
       "membership"
     ],
     [
-      "GET",
-      "^/sms/([A-Za-z0-9_-]+)$",
+      "POST",
+      "^/sms/([A-Za-z0-9_-]+)/reveal$",
       "rawSms"
     ],
     [
@@ -73,6 +88,11 @@
       "staffUpdate"
     ],
     [
+      "POST",
+      "^/operations/([0-9a-f-]+)/staff-resolution$",
+      "staffResolution"
+    ],
+    [
       "GET",
       "^/operations/([0-9a-f-]+)/recovery$",
       "recovery"
@@ -83,6 +103,11 @@
       "operation"
     ],
     [
+      "POST",
+      "^/gateway/pair$",
+      "pair"
+    ],
+    [
       "GET",
       "^/gateway$",
       "gateway"
@@ -91,6 +116,11 @@
       "POST",
       "^/gateway/replace$",
       "replace"
+    ],
+    [
+      "GET",
+      "^/gateway/replacements/([0-9a-f-]+)/outcome$",
+      "retirementOutcome"
     ],
     [
       "GET",
@@ -121,6 +151,36 @@
       "GET",
       "^/audit$",
       "audit"
+    ],
+    [
+      "GET",
+      "^/sms/observation-consent$",
+      "observationConsent"
+    ],
+    [
+      "POST",
+      "^/sms/observation-consent$",
+      "observationConsentSet"
+    ],
+    [
+      "GET",
+      "^/sms/observation-profile$",
+      "observationProfile"
+    ],
+    [
+      "POST",
+      "^/sms/observations$",
+      "observation"
+    ],
+    [
+      "GET",
+      "^/sms/observations$",
+      "observationPage"
+    ],
+    [
+      "POST",
+      "^/sms/observations/([A-Za-z0-9_-]+)/reveal$",
+      "observationReveal"
     ]
   ],
   "operations": [
@@ -135,8 +195,12 @@
     "history",
     "operation",
     "recovery",
+    "staffResolution",
     "allocate",
     "enroll",
+    "onboardingSuggestions",
+    "onboardingPreview",
+    "membersImport",
     "membership",
     "staffCreate",
     "staffUpdate",
@@ -147,6 +211,14 @@
     "ledger",
     "sms",
     "staff",
-    "audit"
+    "audit",
+    "pair",
+    "retirementOutcome",
+    "observationConsent",
+    "observationConsentSet",
+    "observationProfile",
+    "observation",
+    "observationPage",
+    "observationReveal"
   ]
 }

@@ -106,7 +106,7 @@ fun main()=runBlocking {
     Fixture.recordSavedAt=now;memberVm.setMemberActive(false);idle(memberVm)
     // A04 invalidates consumed financial views before optional readback. There is
     // no retained ledger whose old clock can be renewed by this member-only read.
-    ck("membership update discards old ledger before publishing fresh member",memberVm.state.ledger==null&&memberVm.state.savedAt==now&&memberVm.state.member?.id=="member-1")
+    ck("membership update discards old transactions before publishing fresh member",memberVm.state.memberTransactions==null&&memberVm.state.savedAt==now&&memberVm.state.member?.id=="member-1")
     memberVm.viewModelScope.cancel()
     println("RESULT: $checks retry/freshness actual ViewModel checks passed; isolated repository and platform doubles only.")
 }

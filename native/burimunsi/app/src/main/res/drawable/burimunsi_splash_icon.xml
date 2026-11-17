@@ -1,0 +1,6 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item><shape><size android:width="288dp" android:height="288dp"/><solid android:color="#000000"/></shape></item>
+    <item android:width="176dp" android:height="59dp" android:gravity="center">
+        <bitmap android:src="@drawable/burimunsi_brand_logo" android:gravity="fill" android:filter="true"/>
+    </item>
+</layer-list>

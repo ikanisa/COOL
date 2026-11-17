@@ -99,6 +99,6 @@ fun main() {
     ck("revoked read permission cannot restore Home",ScreenRestoration.decide(saved,operator.copy(capabilities=emptySet()),"group",now,true,true,JournalKnowledge.UNRESOLVED).route==Route.LOGIN)
     val sms=saved.copy(route=Route.SMS,filter="all")
     ck("Staff does not restore privileged SMS",ScreenRestoration.decide(sms,operator.copy(role=Role.STAFF),"group",now,true,true,JournalKnowledge.CLEAR).route==Route.HOME)
-    ck("unbound receiver does not restore SMS",ScreenRestoration.decide(sms,operator,"group",now,true,false,JournalKnowledge.CLEAR).route==Route.HOME)
+    ck("authorized unpaired receiver may restore SMS without manual pairing",ScreenRestoration.decide(sms,operator,"group",now,true,false,JournalKnowledge.CLEAR).route==Route.SMS)
     println("RESULT: $checks state/format/restoration checks passed; $combinations state combinations exercised; no Android execution.")
 }

@@ -45,7 +45,7 @@ interface CollectManagedTransport {
  * NativeRepository and are never cleared by a managed identity replacement.
  */
 class ManagedCollectSession(private val transport:CollectManagedTransport,private val installationId:String,
-    private val collectionId:String,private val profile:String,private val deviceToken:()->String,
+    private val profile:String,private val deviceToken:()->String,
     private val clock:()->Long=System::currentTimeMillis) {
     private val stateLock=Any();private val ioLock=Any()
     private var generation=0L
@@ -56,11 +56,15 @@ class ManagedCollectSession(private val transport:CollectManagedTransport,privat
     private var nextRequestAt=0L
     private var verificationUnknown=false
     val signedIn:Boolean get()=synchronized(stateLock){session!=null&&identity!=null}
+    /** Only successful shared login + current installation approval establishes
+     * this scope. It is neither a build setting nor an unauthenticated selector. */
+    val currentCollectionId:String? get()=synchronized(stateLock){if(session==null)null else identity?.collectionId}
     val emailCodeState:CollectEmailCodeState get()=synchronized(stateLock){CollectEmailCodeState(challenge,nextRequestAt,verificationUnknown)}
     private fun denied():Nothing=throw ManagedCollectFailure("managed_session_required",401)
     private fun accept(value:CollectManagedAccess,bff:CollectBffSession,previous:CollectManagedAccess?) {
-        if(value.installationId!=installationId||value.collectionId!=collectionId||value.profile!=profile||
+        if(value.installationId!=installationId||!Regex("[A-Za-z0-9][A-Za-z0-9_-]{0,127}").matches(value.collectionId)||value.profile!=profile||
             value.principalId!=bff.principalId||value.expiresAt<=clock()+30_000||value.expiresAt>bff.expiresAt||
+            listOf(value.accountVersion,value.credentialVersion,value.grantVersion,value.scopeVersion).any{it<1}||
             previous!=null&&(!value.sameIdentity(previous)||value.accountVersion<previous.accountVersion||
             value.credentialVersion<previous.credentialVersion||value.grantVersion<previous.grantVersion||value.scopeVersion<previous.scopeVersion))denied()
     }
@@ -109,23 +113,24 @@ class ManagedCollectSession(private val transport:CollectManagedTransport,privat
             if(!installed)try{transport.signOut(bff)}catch(_:Exception){/* Remote revocation is unconfirmed; no success is reported. */}
         }
     }
-    fun currentAccessToken():String=synchronized(ioLock){
+    fun currentAccess():CollectManagedAccess=synchronized(ioLock){
         val (ticket,bff,prior)=synchronized(stateLock){
             cached?.let{if(it.expiresAt>clock()+45_000)return@synchronized Triple(-1L,null,it)}
             Triple(generation,session,identity)
         }
-        if(ticket==-1L)return@synchronized prior!!.token
+        if(ticket==-1L)return@synchronized prior!!
         if(bff==null||prior==null)denied()
         if(bff.expiresAt<=clock()+30_000){forget();denied()}
         try {
             val value=transport.access(bff,installationId,deviceToken());accept(value,bff,prior)
             synchronized(stateLock){if(generation!=ticket||session!==bff)denied();cached=value;identity=value}
-            value.token
+            value
         } catch(e:ManagedCollectFailure){
             if(e.status in listOf(401,403))synchronized(stateLock){if(generation==ticket&&session===bff){generation++;session=null;identity=null;cached=null}}
             throw e
         }
     }
+    fun currentAccessToken():String=currentAccess().token
     /** Background invalidates in-flight credentials, retaining only the current
      * in-memory BFF cookie so foreground can recheck the real managed session. */
     fun onBackground(){synchronized(stateLock){generation++;cached=null}}

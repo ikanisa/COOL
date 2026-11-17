@@ -7,7 +7,21 @@ const separated=(a,b)=>{const contains=(x,y)=>{const r=relative(x,y);return r===
 const MAX_ENVELOPE=Math.ceil(HARD_CAPS.serializedBytes*4/3)+65536;
 const uid=()=>process.getuid?.();
 export async function privateDirectory(path){const p=resolve(path),s=await lstat(p);need(s.isDirectory()&&!s.isSymbolicLink()&&s.uid===uid()&&(s.mode&0o777)===0o700&&await realpath(p)===p,'PRIVATE_DIRECTORY_REQUIRED');return p;}
-export async function readPrivateFile(path,maximum){const p=resolve(path);await privateDirectory(dirname(p));const fd=await open(p,fsConstants.O_RDONLY|fsConstants.O_NOFOLLOW);try{const s=await fd.stat();need(s.isFile()&&s.nlink===1&&s.uid===uid()&&(s.mode&0o777)===0o600&&s.size<=maximum,'PRIVATE_FILE_REQUIRED');const data=await fd.readFile();const after=await fd.stat();need(data.length===s.size&&s.ino===after.ino&&s.size===after.size&&s.mtimeMs===after.mtimeMs&&after.nlink===1&&after.uid===uid()&&(after.mode&0o777)===0o600,'FILE_CHANGED');return data;}finally{await fd.close();}}
+export async function readPrivateFile(path,maximum){
+ need(Number.isSafeInteger(maximum)&&maximum>=0,'PRIVATE_FILE_REQUIRED');
+ const p=resolve(path);await privateDirectory(dirname(p));const fd=await open(p,fsConstants.O_RDONLY|fsConstants.O_NOFOLLOW|fsConstants.O_NONBLOCK);let data,probe;
+ try{
+  const s=await fd.stat();need(s.isFile()&&s.nlink===1&&s.uid===uid()&&(s.mode&0o777)===0o600&&Number.isSafeInteger(s.size)&&s.size>=0&&s.size<=maximum,'PRIVATE_FILE_REQUIRED');
+  // Read at most the originally observed size plus a single byte of lookahead,
+  // regardless of later growth; never use readFile() on a mutable file.
+  data=Buffer.alloc(s.size);let offset=0;
+  while(offset<s.size){const {bytesRead}=await fd.read(data,offset,s.size-offset,offset);if(!bytesRead)break;offset+=bytesRead;}
+  probe=Buffer.alloc(1);const {bytesRead:extra}=await fd.read(probe,0,1,s.size);const after=await fd.stat();
+  await privateDirectory(dirname(p));let pathStat;try{pathStat=await lstat(p);}catch{need(false,'FILE_CHANGED');}
+  const matches=t=>t.isFile()&&t.dev===s.dev&&t.ino===s.ino&&t.size===s.size&&t.mtimeMs===s.mtimeMs&&t.ctimeMs===s.ctimeMs&&t.nlink===1&&t.uid===uid()&&(t.mode&0o777)===0o600;
+  need(offset===s.size&&extra===0&&matches(after)&&matches(pathStat),'FILE_CHANGED');return data;
+ }catch(e){data?.fill(0);throw e;}finally{probe?.fill(0);try{await fd.close();}catch(e){data?.fill(0);throw e;}}
+}
 async function writeNew(path,bytes){const fd=await open(path,fsConstants.O_WRONLY|fsConstants.O_CREAT|fsConstants.O_EXCL|fsConstants.O_NOFOLLOW,0o600);try{await fd.writeFile(bytes);await fd.sync();}finally{await fd.close();}}
 async function syncDirectory(path){const d=await open(path,fsConstants.O_RDONLY);try{await d.sync();}finally{await d.close();}}
 function b64(text,n){need(typeof text==='string'&&/^[A-Za-z0-9_-]*$/.test(text)&&text.length%4!==1,'BASE64_INVALID');const b=Buffer.from(text,'base64url');need(b.toString('base64url')===text&&(n===undefined||b.length===n),'BASE64_INVALID');return b;}
@@ -19,8 +33,8 @@ export function encryptSnapshot(snapshot,key,{archiveId=randomUUID(),keyId=rando
 export function decryptSnapshot(bytes,key){
  need(Buffer.isBuffer(key)&&key.length===32,'KEY_LENGTH_INVALID');const x=decodeJson(bytes,MAX_ENVELOPE);exact(x,['header','iv','tag','ciphertext']);exact(x.header,['format','scope','project_ref','archive_id','key_id','runtime_source_sha256','plaintext_bytes','cipher','auth_tag_bytes']);
  need(x.header.format===FORMAT&&x.header.scope==='sql-app-private-inert-recovery-data-only'&&x.header.project_ref===PROJECT&&x.header.cipher==='AES-256-GCM'&&x.header.auth_tag_bytes===16&&/^[a-f0-9-]{36}$/.test(x.header.archive_id??'')&&/^[a-f0-9-]{36}$/.test(x.header.key_id??'')&&HASH.test(x.header.runtime_source_sha256??'')&&Number.isSafeInteger(x.header.plaintext_bytes)&&x.header.plaintext_bytes>0&&x.header.plaintext_bytes<=HARD_CAPS.serializedBytes,'HEADER_INVALID');
- const iv=b64(x.iv,12),tag=b64(x.tag,16),ciphertext=b64(x.ciphertext);need(ciphertext.length===x.header.plaintext_bytes,'CIPHERTEXT_LENGTH_INVALID');let raw;
- try{const decipher=createDecipheriv('aes-256-gcm',key,iv,{authTagLength:16});decipher.setAAD(Buffer.from(canonical(x.header)));decipher.setAuthTag(tag);raw=Buffer.concat([decipher.update(ciphertext),decipher.final()]);const snapshot=validateSnapshot(decodeJson(raw,HARD_CAPS.serializedBytes));need(snapshot.runtime_source_sha256===x.header.runtime_source_sha256,'HEADER_SNAPSHOT_MISMATCH');return {header:x.header,snapshot};}catch(e){if(e instanceof ArchiveError)throw e;throw new ArchiveError('AUTHENTICATION_FAILED');}finally{raw?.fill(0);}
+ const iv=b64(x.iv,12),tag=b64(x.tag,16),ciphertext=b64(x.ciphertext);need(ciphertext.length===x.header.plaintext_bytes,'CIPHERTEXT_LENGTH_INVALID');let update,final,raw;
+ try{const decipher=createDecipheriv('aes-256-gcm',key,iv,{authTagLength:16});decipher.setAAD(Buffer.from(canonical(x.header)));decipher.setAuthTag(tag);update=decipher.update(ciphertext);final=decipher.final();raw=Buffer.concat([update,final]);const snapshot=validateSnapshot(decodeJson(raw,HARD_CAPS.serializedBytes));need(snapshot.runtime_source_sha256===x.header.runtime_source_sha256,'HEADER_SNAPSHOT_MISMATCH');return {header:x.header,snapshot};}catch(e){if(e instanceof ArchiveError)throw e;throw new ArchiveError('AUTHENTICATION_FAILED');}finally{update?.fill(0);final?.fill(0);raw?.fill(0);}
 }
 export async function writeEncryptedBundle(snapshot,{archiveDirectory,keyDirectory}={}){
  const a=await privateDirectory(archiveDirectory),k=await privateDirectory(keyDirectory);need(separated(a,k),'KEY_CUSTODY_SEPARATION_REQUIRED');

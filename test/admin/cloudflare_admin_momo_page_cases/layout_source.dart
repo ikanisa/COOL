@@ -2,6 +2,83 @@ part of '../cloudflare_admin_momo_page_test.dart';
 
 void _registerMomoLayoutSourceCases() {
   test(
+    'automatic transaction display preserves outgoing direction and missing facts',
+    () {
+      final row = MomoTransaction.parse({
+        ...transaction(status: 'recorded'),
+        'event_kind': 'outgoing',
+        'provider_transaction_id': null,
+        'amount_minor': null,
+        'currency': null,
+      });
+      expect(row.direction, 'Outgoing');
+      expect(row.label, 'Recorded');
+      expect(row.amount, isNull);
+      expect(
+        () =>
+            MomoTransaction.parse({...row.values, 'credited_amount_minor': 1}),
+        throwsFormatException,
+      );
+    },
+  );
+  test('old and new native response shapes never claim an account', () {
+    final oldBackend = {
+      ...transaction(status: 'recorded'),
+      'native_group_id': groupId,
+      'group_id': groupId,
+      'group_name': 'Synthetic capture group',
+      'receiving_context': {
+        'account_id': 'synthetic configured account',
+        'identifier_raw': '123456',
+        'identifier_kind': 'code',
+        'recipient_name': 'Synthetic receiver',
+        'basis': 'configured_collection_scope',
+      },
+    };
+    final newBackend = {
+      ...oldBackend,
+      'receiving_account_id': null,
+      'recipient_name': null,
+      'public_code': null,
+      'receiving_context': {
+        'account_id': null,
+        'identifier_raw': null,
+        'identifier_kind': null,
+        'recipient_name': null,
+        'basis': 'unestablished',
+      },
+    };
+    for (final response in [oldBackend, newBackend]) {
+      final row = MomoTransaction.parse(response);
+      expect(row.groupLabel, 'Synthetic capture group (capture scope)');
+      expect(row.receivingAccountLabel, 'Not established from message');
+      expect(row.receivingCodeLabel, '—');
+      expect(row.values['receiving_account_id'], isNull);
+      expect(row.values['recipient_name'], isNull);
+      expect(row.values['public_code'], isNull);
+      expect((row.values['receiving_context'] as Map)['account_id'], isNull);
+      expect(
+        () =>
+            MomoTransaction.parse({...response, 'status': 'needs_allocation'}),
+        throwsFormatException,
+      );
+    }
+    final managed = MomoTransaction.parse(transaction());
+    expect(managed.receivingAccountLabel, 'Collect synthetic receiver');
+    expect(managed.receivingCodeLabel, '123456');
+    final credited = MomoTransaction.parse({
+      ...newBackend,
+      'capture_scope_account_id': accountId,
+      'provider_transaction_id': null,
+      'status': 'credited',
+      'payment_id': paymentId,
+      'credited_amount_minor': 5000,
+    });
+    expect(credited.label, 'Credited');
+    expect(credited.receivingAccountLabel, 'Not established from message');
+    expect(credited.values['capture_scope_account_id'], accountId);
+  });
+  test(
     'financial label requires committed association and payer remains separate',
     () {
       final row = MomoTransaction.parse(transaction());
@@ -53,7 +130,7 @@ void _registerMomoLayoutSourceCases() {
         expect(find.text('Group'), findsOneWidget);
         expect(find.text('Unassigned'), findsNWidgets(2));
         expect(find.text('Credited'), findsNothing);
-        expect(find.textContaining('Unallocated 5,000 RWF'), findsOneWidget);
+        expect(find.textContaining('Not credited 5,000 RWF'), findsOneWidget);
         expect(tester.takeException(), isNull);
         await capture(tester, result.key, 'admin-momo-${width.toInt()}');
         await tester.pumpWidget(const SizedBox.shrink());
@@ -308,7 +385,7 @@ void _registerMomoLayoutSourceCases() {
           final query = request.url.queryParameters;
           queries.add(query);
           final filtered =
-              query.containsKey('receiving_account_id') ||
+              query.containsKey('account_scope_id') ||
               query.containsKey('group_id') ||
               query.containsKey('from');
           final offset = int.parse(query['offset']!);
@@ -375,9 +452,12 @@ void _registerMomoLayoutSourceCases() {
       await tester.tap(find.text('Apply filters'));
       await tester.pumpAndSettle();
       expect(queries.last['offset'], '0');
-      expect(queries.last['receiving_account_id'], accountId);
+      expect(queries.last['account_scope_id'], accountId);
       expect(queries.last['group_id'], groupId);
-      expect(find.textContaining('Received 5,000 RWF'), findsOneWidget);
+      expect(
+        find.textContaining('Recorded incoming 5,000 RWF'),
+        findsOneWidget,
+      );
       tester
           .state<ScrollableState>(find.byType(Scrollable).first)
           .position
@@ -404,7 +484,7 @@ void _registerMomoLayoutSourceCases() {
       await tester.tap(find.text('Clear filters'));
       await tester.pumpAndSettle();
       expect(queries.last['offset'], '0');
-      expect(queries.last.containsKey('receiving_account_id'), isFalse);
+      expect(queries.last.containsKey('account_scope_id'), isFalse);
       expect(queries.last.containsKey('group_id'), isFalse);
       expect(queries.last.containsKey('from'), isFalse);
       expect(tester.takeException(), isNull);
@@ -413,6 +493,54 @@ void _registerMomoLayoutSourceCases() {
       await tester.pumpAndSettle();
     },
   );
+
+  testWidgets('native account scope is checked without asserting a recipient', (
+    tester,
+  ) async {
+    var returnedScope = accountId;
+    final result = await pump(
+      tester,
+      transactionRecords: (request) => {
+        ...page(),
+        'rows': [
+          {
+            ...transaction(status: 'credited'),
+            'native_group_id': groupId,
+            'group_id': groupId,
+            'group_name': 'Synthetic capture group',
+            'receiving_account_id': null,
+            'recipient_name': null,
+            'public_code': null,
+            'provider_transaction_id': null,
+            'payment_id': paymentId,
+            'credited_amount_minor': 5000,
+            if (request.url.queryParameters.containsKey('account_scope_id'))
+              'capture_scope_account_id': returnedScope,
+          },
+        ],
+      },
+    );
+    final api = MomoAdminApi(result.session);
+    final scoped = await api.transactions(
+      '',
+      '',
+      0,
+      receivingAccount: accountId,
+    );
+    expect(scoped.rows.single.values['capture_scope_account_id'], accountId);
+    expect(
+      scoped.rows.single.receivingAccountLabel,
+      'Not established from message',
+    );
+    returnedScope = groupId;
+    await expectLater(
+      api.transactions('', '', 0, receivingAccount: accountId),
+      throwsFormatException,
+    );
+    await tester.pumpWidget(const SizedBox.shrink());
+    result.dispose();
+    await tester.pumpAndSettle();
+  });
 
   testWidgets('attention keeps the credited outcome alongside a review issue', (
     tester,

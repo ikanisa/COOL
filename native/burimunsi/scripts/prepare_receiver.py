@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract pinned receiver sources without modifying upstream files or upload holds.
+"""Extract pinned receiver sources with a closed, paired Buri runtime upload gate.
 
 Use the bundled exact Collect snapshot by default, or an explicit checkout (never
 mix missing checkout files with the bundle). Output is a dedicated build directory.
@@ -77,7 +77,21 @@ def queue_disposition(source: str) -> str:
 
 def reliability_adapt(name: str, text: str) -> str:
     # Exact-match local R1 adaptations, applied only after verification of upstream pins.
-    if name == 'SmsQueueStore.kt':
+    if name == 'MomoGatewayPolicy.kt':
+        text = replace_once(text, '''    /** Inbox text lacks the PDU evidence required to prove multipart completeness.
+     * Retain uncertain or non-financial sources locally; never transport them merely
+     * because their SIM binding was resolved. This is not provider authentication. */''', '''    /** Current-binding inbox observations may be synced as incomplete for review.
+     * They never claim PDU completeness or become automatic posting authority. */''')
+        text = replace_once(text, '    fun gatewayUploadsAdmitted(): Boolean = false',
+            '    fun gatewayUploadsAdmitted(runtimeAdmission: Boolean = false): Boolean = runtimeAdmission')
+        text = replace_once(text, 'complete: Boolean, sender: String, body: String): Boolean =',
+            'complete: Boolean, sender: String, body: String, runtimeAdmission: Boolean = false, sourceAdmission: Boolean = false): Boolean =')
+        text = replace_once(text, '        gatewayUploadsAdmitted() && !sourceUnresolved',
+            '        gatewayUploadsAdmitted(runtimeAdmission) && !sourceUnresolved')
+        text = replace_once(text, 'sourceMode == "live" && complete && memberSource(sender, body) &&',
+            '((sourceMode == "live" && complete) || (sourceMode == "catch_up" && !complete)) && sourceAdmission &&')
+        text = replace_once(text, '(?:code|password|passcode|otp)', '(?:password|passcode|otp)')
+    elif name == 'SmsQueueStore.kt':
         text = replace_once(text, '            val envelopeId = envelope.optString("id", "")', '''            val envelopeId = envelope.optString("id", "")
             if (envelopeId.isBlank() || envelope.opt("raw_body") !is String || envelope.optString("raw_body").isBlank())
                 return@synchronized AppendResult.FAILED''')
@@ -100,13 +114,40 @@ def reliability_adapt(name: str, text: str) -> str:
         // Cleanup is secondary. The committed no-backup ciphertext is authoritative.
         preferences().commitReceiptState { remove(ENCRYPTED_QUEUE_KEY); remove(LEGACY_QUEUE_KEY) }
         return true''')
+        marker = '    internal fun readForGateway(ownerUserId: String): JSONArray = synchronized(lock) {'
+        text = replace_once(text, marker, '''    /** Proof for the observation scanner: canonical source remains queued or durably acknowledged. */
+    internal fun hasGatewaySource(owner: String, captureId: String, bindingId: String,
+                                  bindingVersion: Int, bodyHash: String): Boolean = synchronized(lock) {
+        val queue = readForGateway(owner)
+        for (index in 0 until queue.length()) {
+            val row = queue.getJSONObject(index)
+            if (row.opt("id") == captureId) return@synchronized row.opt("owner_user_id") == owner &&
+                row.opt("gateway_binding_id") == bindingId && row.optInt("gateway_binding_version", -1) == bindingVersion &&
+                row.opt("raw_body") is String && ReceiptAckPolicy.sha256(row.getString("raw_body")) == bodyHash
+        }
+        val journalFile = java.io.File(context.noBackupFilesDir, "collect_sms_capture_journal.db")
+        if (!journalFile.isFile) return@synchronized false
+        SmsCaptureJournal(context).use { it.acknowledgedHash(captureId) == bodyHash }
+    }
+
+''' + marker)
     elif name == 'ReceiptAckPolicy.kt':
         text = replace_once(text, '''            digest.matches(Regex("^[a-f0-9]{64}$")) &&''', '''            digest.matches(Regex("^[a-f0-9]{64}$")) &&
                 (acknowledged[id] == null || acknowledged[id] == digest) &&''')
     elif name == 'MomoGatewayStore.kt':
+        text = replace_once(text, '    fun active(): Boolean = read()?.let {\n        it.has("binding") && it.optString("gateway_token").isNotEmpty() &&\n            it.optBoolean("capture_enabled") && it.optString("reason") !in setOf("authorization_required", "permission_required")\n    } == true',
+            '    fun active(): Boolean = BuriCapturePolicy.uploadsAdmitted(context)')
+        text = replace_once(text, 'internal fun gatewayUploadEligible(row: JSONObject, binding: JSONObject, cases: JSONObject?): Boolean {',
+            'internal fun gatewayUploadEligible(row: JSONObject, binding: JSONObject, cases: JSONObject?, runtimeAdmission: Boolean = false): Boolean {')
+        text = replace_once(text, '        row.opt("complete") == true, sender, body)',
+            '        row.opt("complete") == true, sender, body, runtimeAdmission, BuriCapturePolicy.sourceAllowed(binding, sender, body))')
         marker = '    fun binding(): JSONObject? = read()?.optJSONObject("binding")'
         text = replace_once(text, marker, '''    /** Serialize local binding changes with capture/ack custody, never network I/O. */
+    internal fun existingInstallationId(): String? = synchronized(lock) { identityPrefs.getString("installation_id", null) }
+    internal fun <T> withReceiverState(action: (JSONObject) -> T): T? = synchronized(lock) { read()?.let(action) }
+    internal fun <T> withObservationState(action: (JSONObject?) -> T): T = synchronized(lock) { action(read()) }
     internal fun <T> withCurrentBinding(expected: JSONObject, action: () -> T): T? = synchronized(lock) {
+        if (!BuriCapturePolicy.uploadsAdmitted(context)) return@synchronized null
         val current = read() ?: return@synchronized null
         val binding = current.optJSONObject("binding") ?: return@synchronized null
         if (!current.optBoolean("capture_enabled") || current.optString("reason") in
@@ -126,6 +167,8 @@ def reliability_adapt(name: str, text: str) -> str:
 
 ''' + marker)
     elif name == 'CollectSmsReceiver.kt':
+        text = replace_once(text, '                    if (!MomoGatewayPolicy.providerSource(sender)) return@executeCapture',
+            '                    if (!BuriCapturePolicy.senderAllowed(binding, sender)) return@executeCapture')
         text = replace_once(text, '''                    if (!BuriCapturePolicy.retain(context, binding, sender, body, subscription)) return@executeCapture''', '''                    when (BuriCapturePolicy.route(context, binding, subscription)) {
                         BuriReceiverReliability.Route.ACCEPT -> Unit
                         BuriReceiverReliability.Route.OTHER_SIM -> return@executeCapture
@@ -139,10 +182,52 @@ def reliability_adapt(name: str, text: str) -> str:
                         queue.appendIfCapacity(envelope, MomoGatewayPolicy.MAX_PENDING)
                     } ?: SmsQueueStore.AppendResult.DISABLED
                     else SmsQueueStore.AppendResult.DISABLED''')
-        text = replace_once(text, '''                            gateway?.update { it.put("last_sms_at", capturedAt) }''', '''                            gateway?.withCurrentBinding(binding!!) {
-                                gateway.update { it.put("last_sms_at", capturedAt) }
-                            }''')
+        text = replace_once(text, '''                            gateway?.update { it.put("last_sms_at", capturedAt) }''', '''                            try {
+                                gateway?.withCurrentBinding(binding!!) {
+                                    gateway.update { it.put("last_sms_at", capturedAt) }
+                                }
+                            } catch (_: Exception) { /* The encrypted queue remains authoritative. */ }
+                            try {
+                                // The existing JobScheduler identity and wake gate coalesce work.
+                                // Its network constraint waits for connectivity after an offline capture.
+                                MomoGatewayJobs.signal(context.applicationContext)
+                            } catch (_: Exception) { /* Periodic/startup recovery retains the queued source. */ }''')
     elif name == 'MomoGatewayRecovery.kt':
+        text = replace_once(text, '                if (MomoGatewayPolicy.providerSource(sender) && body.isNotEmpty()) {',
+            '                if (BuriCapturePolicy.senderAllowed(binding, sender) && body.isNotEmpty()) {')
+        text = replace_once(text, '            while (cursor.moveToNext()) {\n                scanned++',
+            '            while (cursor.moveToNext()) {\n                if (state.withCurrentBinding(binding) { true } != true) return false\n                scanned++')
+        text = replace_once(text, '''                    val received = cursor.getLong(receivedColumn)
+                    val sent = if (sentColumn >= 0) cursor.getLong(sentColumn).takeIf { it > 0L } ?: received else received''', '''                    val received = cursor.getLong(receivedColumn)
+                    val bindingCreated = try { Instant.parse(binding.optString("created_at")).toEpochMilli() } catch (_: Exception) { null }
+                    if (bindingCreated == null) return false
+                    if (!BuriReceiverReliability.inboxAfterBinding(id, baseline, received, bindingCreated)) {
+                        // Earlier sources stay in the Android inbox; they do not fill this binding's queue.
+                        advanced = maxOf(advanced, id)
+                        continue
+                    }
+                    val sent = if (sentColumn >= 0) cursor.getLong(sentColumn).takeIf { it > 0L } ?: received else received''')
+        text = replace_once(text, '''                    val bindingCreated = try { Instant.parse(binding.optString("created_at")).toEpochMilli() } catch (_: Exception) { null }
+                    val resolved = bindingCreated != null && received >= bindingCreated &&
+                        MomoGatewayPolicy.historicalSourceResolved(id, baseline, selected, subscription, multipleSims())''', '''                    val resolved = BuriReceiverReliability.inboxAfterBinding(id, baseline, received, bindingCreated) &&
+                        MomoGatewayPolicy.sourceResolved(selected, subscription, multipleSims())''')
+        text = replace_once(text, '''        state.update {
+            val current = it.getJSONObject("binding")
+            check(current.getString("id") == binding.getString("id") && current.getInt("version") == binding.getInt("version"))
+            it.put("inbox_checkpoint", maxOf(it.optLong("inbox_checkpoint"), advanced))
+                .put("historical_backlog_paused", false).put("catch_up_pending", scanned == MomoGatewayPolicy.MAX_SCAN_ROWS)
+        }
+        SmsQueueEventBus.notifyQueueChanged()''', '''        val checkpointSaved = state.withCurrentBinding(binding) {
+            state.update {
+                val current = it.getJSONObject("binding")
+                check(BuriReceiverReliability.bindingMatches(binding::opt, current::opt))
+                it.put("inbox_checkpoint", maxOf(it.optLong("inbox_checkpoint"), advanced))
+                    .put("historical_backlog_paused", false).put("catch_up_pending", scanned == MomoGatewayPolicy.MAX_SCAN_ROWS)
+            }
+            true
+        } ?: false
+        if (!checkpointSaved) return false
+        SmsQueueEventBus.notifyQueueChanged()''')
         old = '''                    if (!BuriCapturePolicy.retain(context, binding, sender, body, subscription)) {
                         // Uncertain SIM/profile stops before checkpointing relevant evidence.
                         if (!BuriCapturePolicy.routeConfigured(binding, subscription)) {
@@ -184,6 +269,14 @@ def reliability_adapt(name: str, text: str) -> str:
         // A restored periodic job must not suppress the offline pass after reboot,
         // package replacement or reopening. Existing continuation jobs are preserved.''')
     elif name == 'MomoGatewayJobs.kt':
+        text = replace_once(text, 'private val http: MomoGatewayHttp = MomoGatewayHttp()',
+            'private val http: MomoGatewayHttp = MomoGatewayHttp(uploadAdmission = { token, body -> BuriCapturePolicy.uploadRequestAdmitted(context, token, body) })')
+        if text.count('gatewayUploadEligible(row, binding, cases)') != 2:
+            raise ValueError('Expected both exact receiver eligibility call sites.')
+        text = text.replace('gatewayUploadEligible(row, binding, cases)',
+            'gatewayUploadEligible(row, binding, cases, BuriCapturePolicy.uploadsAdmitted(context))')
+        text = replace_once(text, '        if (!state.active() || stopped.get()) return false',
+            '        if (stopped.get()) return false\n        BuriReceiverProfile.refresh(context, http)\n        if (!state.active()) return false')
         text = replace_once(text, '''            try {
                 val result = http.request("ingest", token, body)''', '''            try {
                 if (state.withCurrentUpload(snapshot) { !stopped.get() } != true) return false
@@ -232,6 +325,13 @@ def reliability_adapt(name: str, text: str) -> str:
                 }''')
         text = replace_once(text, '''                if (error.status in setOf(401, 403)) state.park("authorization_required")''', '''                if (error.status in setOf(401, 403)) state.withCurrentUpload(snapshot) { state.park("authorization_required") }''')
         text = replace_once(text, '''setOf(Intent.ACTION_BOOT_COMPLETED, Intent.ACTION_USER_UNLOCKED)''', '''setOf(Intent.ACTION_BOOT_COMPLETED, Intent.ACTION_USER_UNLOCKED, Intent.ACTION_MY_PACKAGE_REPLACED)''')
+    elif name == 'MomoGatewayHttp.kt':
+        text = replace_once(text, 'setOf("pair", "ingest", "status", "heartbeat")',
+            'setOf("pair", "ingest", "status", "heartbeat", "profile")')
+        text = replace_once(text, '    URL(it).openConnection() as HttpURLConnection\n}) {',
+            '    URL(it).openConnection() as HttpURLConnection\n}, private val uploadAdmission: (String?, JSONObject?) -> Boolean = { _, _ -> false }) {')
+        text = replace_once(text, 'MomoGatewayPolicy.gatewayUploadsAdmitted())',
+            'MomoGatewayPolicy.gatewayUploadsAdmitted(uploadAdmission(token, body)))')
     return text
 
 
@@ -282,8 +382,8 @@ def prepare(collect_root: Path, manifest_path: Path = MANIFEST) -> tuple[dict[st
             hook = 'if (status !in 200..299) throw ResponseFailure(status)'
             text = replace_once(text, hook, hook + '\n            check(connection.getHeaderField("Content-Type").orEmpty().substringBefore(\';\').trim().equals("application/json", ignoreCase = true)) { "Gateway returned a non-JSON response" }')
         text = reliability_adapt(name, text)
-        if name == 'MomoGatewayPolicy.kt' and 'fun gatewayUploadsAdmitted(): Boolean = false' not in text:
-            raise ValueError('Existing upload hold was not preserved.')
+        if name == 'MomoGatewayPolicy.kt' and 'fun gatewayUploadsAdmitted(runtimeAdmission: Boolean = false): Boolean = runtimeAdmission' not in text:
+            raise ValueError('Closed runtime upload admission was not installed.')
         for forbidden in ('MemberSmsJobs.', 'class MemberSmsJobService', 'class MemberSmsUploader', 'ProtectedSnapshotStore', 'access_token'):
             if forbidden in text:
                 raise ValueError(f'Unexpected member-session implementation in {output_name}')
@@ -297,8 +397,18 @@ def prepare(collect_root: Path, manifest_path: Path = MANIFEST) -> tuple[dict[st
                          'changed': generated != raw})
     if 'SmsQueueStore.kt' in prepared and 'MemberSmsUploadPolicy.kt' not in prepared:
         raise ValueError('Missing queue-disposition dependency; extraction cannot compile.')
+    required_admission = {
+        'MomoGatewayPolicy.kt': 'gatewayUploadsAdmitted(runtimeAdmission: Boolean = false)',
+        'MomoGatewayStore.kt': 'fun active(): Boolean = BuriCapturePolicy.uploadsAdmitted(context)',
+        'MomoGatewayHttp.kt': 'gatewayUploadsAdmitted(uploadAdmission(token, body))',
+        'MomoGatewayJobs.kt': 'uploadAdmission = { token, body -> BuriCapturePolicy.uploadRequestAdmitted(context, token, body) }',
+    }
+    for name, fragment in required_admission.items():
+        if fragment not in prepared.get(name, b'').decode('utf-8'):
+            raise ValueError('Incomplete closed receiver transport admission; no output written.')
     provenance = {'contractVersion': 2, 'sourceRepository': manifest['repository'],
-                  'sourceCommit': manifest['commit'], 'uploadHoldPreserved': True,
+                  'sourceCommit': manifest['commit'], 'uploadHoldPreserved': False, 'upstreamUploadHoldPreserved': True,
+                  'runtimeUploadAdmission': 'paired_resumed_receiver_v1', 'defaultUploadAdmission': False,
                   'memberSessionImplementationIncluded': False, 'reliabilityRevision': 'sms-r1', 'files': evidence}
     prepared[PROVENANCE] = (json.dumps(provenance, indent=2) + '\n').encode()
     return prepared, provenance
@@ -390,7 +500,8 @@ def main() -> None:
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     result = extract(args.collect_root, args.output)
-    print(json.dumps({**result, 'uploadHoldPreserved': True, 'upstreamModified': False,
+    print(json.dumps({**result, 'uploadHoldPreserved': False, 'upstreamUploadHoldPreserved': True,
+                      'runtimeUploadAdmission': 'paired_resumed_receiver_v1', 'defaultUploadAdmission': False, 'upstreamModified': False,
                       'scope': 'Deterministic source extraction only; not an Android build.'}, indent=2))
 
 

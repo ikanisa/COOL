@@ -92,6 +92,9 @@ export class PostgresPostingPreparation {
       typeof r.profile_version==='string'&&r.profile_version.length>0&&r.parse_profile===r.profile_version&&
       typeof r.parse_profile_json==='string'&&r.parse_profile_json.length>0&&r.parse_profile_json.length<=65536&&
       r.parse_profile_json===r.wallet_profile_json&&route(r.public_code)!==null);
+    r.source_scope=await this.custody.sourceScope(sql,{sourceId:r.raw_sms_id,ownerId:r.raw_owner,bodySha256:r.body_sha256,
+      objectSha256:r.raw_sha256,bindingId:r.job_binding,bindingVersion:integer(r.job_binding_version),
+      receivingAccountId:r.job_account,credentialId:r.credential_id});
     return r;
   }
   async source(sql,c,prior=null){
@@ -112,7 +115,8 @@ export class PostgresPostingPreparation {
   }
   async body(sql,c,proof){
     const r=proof.raw,aad=proof.journal.reservation.aad;
-    const value=await this.custody.decrypt(proof.journal.reservation.sealed_body,aad);
+    const binding=this.custody.postingBinding(c,proof.principal);
+    const value=await this.custody.decrypt(await this.custody.sealed(binding,r.raw_key,proof.journal),aad);
     check(value instanceof Uint8Array&&value.length===integer(r.raw_size));
     const bytes=new Uint8Array(value);let body;
     try{
@@ -134,15 +138,26 @@ export class PostgresPostingPreparation {
     }catch(e){body?.fill(0);throw e;}finally{bytes.fill(0);}
   }
   async prepare(input){
-    let body;
+    let body,c,completed=false;
     try{
       // Copy before the first await. Never trust a client principal/key/body.
-      const c=freeze(snapshot(input));
+      c=freeze(snapshot(input));
       check(c.groupId===this.authority.groupId&&c.intentId==null&&c.receipt?.state==='unallocated'&&
         c.receipt.hasConflict===false&&c.member?.id===c.memberId&&c.member.groupId===c.groupId&&
         c.member.active===true&&c.member.eligible===true&&Number.isSafeInteger(c.member.version)&&c.member.version>=1);
-      const proof=await this.authority.write(async sql=>{
-        const proof=await this.source(sql,c);body=await this.body(sql,c,proof);return proof;
+      const proof=await this.authority.write(sql=>this.source(sql,c));
+      const binding=this.custody.postingBinding(c,proof.principal);
+      if(!this.custody.qualificationOnly){
+        const plan=await this.authority.write(async sql=>{
+          await this.source(sql,c,proof);
+          return this.custody.storageWitnesses.stage(binding,[{key:proof.raw.raw_key,journal:proof.journal}]);
+        });
+        // Real committed Storage read, outside every SQL transaction. A sealed
+        // reservation in SQL is never substituted for this production proof.
+        await this.custody.storageWitnesses.prefetch(plan);
+      }
+      body=await this.authority.write(async sql=>{
+        await this.source(sql,c,proof);return this.body(sql,c,proof);
       });
       // Provider I/O is never performed while these SQL locks are held.
       await this.owned();
@@ -163,10 +178,26 @@ export class PostgresPostingPreparation {
       await this.owned();
       check(ack?.stored===true&&ack.metadataCommitted===true&&ack.key===proof.identity.objectKey&&
         typeof ack.operationId==='string'&&ack.operationId.length>0&&hash.test(ack.sha256)&&Number.isSafeInteger(ack.size)&&ack.size>0);
+      if(!this.custody.qualificationOnly){
+        const plan=await this.authority.write(async sql=>{
+          await this.source(sql,c,proof);
+          const journal=await this.custody.journal(sql,proof.identity.objectKey,{
+            ownerId:proof.identity.ownerId,purpose:'payment_evidence',entityId:proof.identity.evidenceId,
+            plaintextSha256:proof.raw.body_sha256,aad:descriptor.aad});
+          check(journal.put.operation_id===ack.operationId&&journal.put.sha256===ack.sha256&&integer(journal.put.size)===ack.size);
+          await this.posting.authority(sql,c,'after_preparation_storage',proof.principal);
+          return this.custody.storageWitnesses.stage(binding,[
+            {key:proof.raw.raw_key,journal:proof.journal},{key:proof.identity.objectKey,journal}]);
+        });
+        // Pin both original and prepared encrypted objects before BEGIN of the
+        // financial command. payment_evidence INSERT may now scrub its own
+        // reservation without discarding this privately verified ciphertext.
+        await this.custody.storageWitnesses.prefetch(plan);
+      }
       // Do not promote a provider response to proof. Read the real journal again.
       const prepared=await this.authority.write(async sql=>{
         await this.source(sql,c,proof);
-        const prepared=await this.allocation.prepared(sql,proof.source,proof.identity);
+        const prepared=await this.allocation.prepared(sql,proof.source,proof.identity,binding);
         check(prepared.sizeBytes===body.length&&prepared.journal.put.operation_id===ack.operationId&&
           prepared.journal.put.sha256===ack.sha256&&integer(prepared.journal.put.size)===ack.size);
         await this.source(sql,c,proof);
@@ -175,8 +206,9 @@ export class PostgresPostingPreparation {
           paymentId:proof.identity.paymentId,evidenceId:proof.identity.evidenceId,
           objectKey:proof.identity.objectKey,bodySha256:proof.raw.body_sha256,sizeBytes:prepared.sizeBytes};
       });
-      await this.owned();return freeze(prepared);
+      await this.owned();completed=true;return freeze(prepared);
     }catch{check(false);} // Redact raw messages, keys, SQL and provider details.
-    finally{body?.fill(0);} // Best effort: JS strings/runtime copies cannot be guaranteed erased.
+    finally{body?.fill(0);if(!completed&&c)this.release(c);} // Owned bytes only; JS copies cannot be guaranteed erased.
   }
+  release(command){this.custody.storageWitnesses?.releaseCommand(command);}
 }

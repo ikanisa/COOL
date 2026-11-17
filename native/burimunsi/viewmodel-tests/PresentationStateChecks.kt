@@ -18,13 +18,14 @@ fun main()=runBlocking {
     suspend fun idle(vm:BuriViewModel){withTimeout(10_000){while(vm.state.busy)delay(2)}}
     val now=System.currentTimeMillis()
     fun reset(){
-        Fixture.pendingFlag=false;Fixture.journalFailure=false;Fixture.restoreSignedOut=false;Fixture.ownerId="operator"
-        Fixture.readFailure=null;Fixture.readEmpty=false;Fixture.pinUncertain=false;Fixture.recoveryFailure=null;Fixture.resolveOnCheck=false
+        Fixture.pendingFlag=false;Fixture.journalFailure=false;Fixture.restoreSignedOut=false;Fixture.ownerId="operator";Fixture.processSessionInvalidated=false
+        Fixture.reattachAllowed=false;Fixture.reattachEntered=null;Fixture.reattachRelease=null
+        Fixture.readFailure=null;Fixture.readEmpty=false;Fixture.pinUncertain=false;Fixture.pinFailure=null;Fixture.logoutFailure=null;Fixture.recoveryFailure=null;Fixture.resolveOnCheck=false
         Fixture.cached=false;Fixture.role=Role.ADMIN;Fixture.recordSavedAt=now;Fixture.sessionFailure=null
         Fixture.refreshedRole=null;Fixture.refreshedCaps=null;Fixture.homeBarrier=null;Fixture.outcomeState="committed"
     }
     reset()
-    val bookmark=NavigationCheckpoint("operator",BuildConfig.BURI_GROUP_ID,now,Route.PAYMENTS,query="old",filter="unallocated",index=3)
+    val bookmark=NavigationCheckpoint("operator",Fixture.managedCollection!!,now,Route.PAYMENTS,query="old",filter="unallocated",index=3)
     Fixture.pendingFlag=true
     val restored=BuriViewModel(Application(),MemoryStore(bookmark.encode())){now};idle(restored)
     ck("restoration retains original unresolved command",restored.state.pending&&Fixture.pendingFlag&&Fixture.reconciles==0&&Fixture.mutations==0)
@@ -52,13 +53,52 @@ fun main()=runBlocking {
     ck("failed journal survives sign-out",failedStore.state.pending&&failedStore.state.operator==null)
     failedStore.viewModelScope.cancel()
 
+    reset();Fixture.pinFailure=ApiFailure("invalid_current_pin",400)
+    val wrongPin=BuriViewModel(Application(),MemoryStore()){now};idle(wrongPin)
+    wrongPin.openSheet(Sheet.PIN);idle(wrongPin);wrongPin.changePin("1357","8642","8642");idle(wrongPin)
+    ck("wrong current PIN retains the operator and existing PIN sheet",wrongPin.state.operator!=null&&wrongPin.state.sheet==Sheet.PIN&&wrongPin.state.failure==DisplayFailure.REJECTED)
+    wrongPin.viewModelScope.cancel()
+
     reset();Fixture.pinUncertain=true
     val pin=BuriViewModel(Application(),MemoryStore()){now};idle(pin)
     pin.changePin("2468","8642","8642");idle(pin)
-    ck("lost PIN response preserves pending across generation change",pin.state.pending&&pin.state.operator==null&&pin.state.failure==DisplayFailure.UNCERTAIN&&Fixture.pendingFlag)
+    ck("lost PIN response shows the unresolved change on the existing sign-in state",pin.state.passcodeChangePending&&pin.state.pending&&pin.state.operator==null&&pin.state.failure==DisplayFailure.UNCERTAIN&&Fixture.pendingFlag)
+    val oldLoginCount=Fixture.loginCalls
     pin.login("0780000001","8642");idle(pin)
-    ck("relogin cannot clear uncertain PIN operation",pin.state.pending&&pin.presentation.state==DisplayState.UNCERTAIN)
+    ck("login cannot replace an uncertain PIN candidate",Fixture.loginCalls==oldLoginCount&&pin.state.passcodeChangePending&&pin.state.pending)
+    val oldSignouts=Fixture.logoutCalls;pin.logout();idle(pin)
+    ck("the pending state allows manual sign out",Fixture.logoutCalls==oldSignouts+1&&!pin.state.passcodeChangePending&&pin.state.operator==null)
     pin.viewModelScope.cancel()
+
+    reset();Fixture.restoreFailure=ApiFailure("passcode_change_unconfirmed",503,true)
+    val resumedPin=BuriViewModel(Application(),MemoryStore()){now};idle(resumedPin)
+    ck("restart exposes the existing pending state and its sign out action",resumedPin.state.passcodeChangePending&&resumedPin.state.operator==null)
+    val resumedSignouts=Fixture.logoutCalls;resumedPin.logout();idle(resumedPin)
+    ck("sign out remains available after a pending restart",Fixture.logoutCalls==resumedSignouts+1&&!resumedPin.state.passcodeChangePending)
+    resumedPin.viewModelScope.cancel();Fixture.restoreFailure=null
+
+    reset();Fixture.restoreFailure=ApiFailure("connection_unavailable",0)
+    val offlineSaved=BuriViewModel(Application(),MemoryStore()){now};idle(offlineSaved)
+    ck("unavailable saved session exposes sign out on the existing login state",offlineSaved.state.savedSessionPending&&offlineSaved.state.operator==null)
+    val offlineSignouts=Fixture.logoutCalls;offlineSaved.logout();idle(offlineSaved)
+    ck("manual sign out remains available for an unverified saved session",Fixture.logoutCalls==offlineSignouts+1&&!offlineSaved.state.savedSessionPending)
+    offlineSaved.viewModelScope.cancel();Fixture.restoreFailure=null
+
+    reset();Fixture.restoreFailure=ApiFailure("session_revalidation_unavailable",503,false)
+    val malformedRestore=BuriViewModel(Application(),MemoryStore()){now};idle(malformedRestore)
+    ck("untrusted 401/403 response keeps saved-session retry and sign out",malformedRestore.state.savedSessionPending&&malformedRestore.state.operator==null)
+    val malformedSignouts=Fixture.logoutCalls;malformedRestore.logout();idle(malformedRestore)
+    ck("manual sign out remains available after malformed denial",Fixture.logoutCalls==malformedSignouts+1)
+    malformedRestore.viewModelScope.cancel();Fixture.restoreFailure=null
+
+    reset();Fixture.logoutFailure=ApiFailure("logout_unconfirmed",503,true)
+    val signOutRetry=BuriViewModel(Application(),MemoryStore()){now};idle(signOutRetry);signOutRetry.logout();idle(signOutRetry)
+    ck("retained logout proof is reported as retryable",signOutRetry.state.operator==null&&signOutRetry.state.error?.contains("will retry")==true)
+    signOutRetry.viewModelScope.cancel()
+    reset();Fixture.logoutFailure=ApiFailure("logout_unconfirmed_no_retry",503,true)
+    val signOutLost=BuriViewModel(Application(),MemoryStore()){now};idle(signOutLost);signOutLost.logout();idle(signOutLost)
+    ck("lost logout proof never claims a retry",signOutLost.state.operator==null&&signOutLost.state.error?.contains("could not be confirmed")==true&&signOutLost.state.error?.contains("will retry")!=true)
+    signOutLost.viewModelScope.cancel()
 
     reset();Fixture.pendingFlag=true
     val denied=BuriViewModel(Application(),MemoryStore()){now};idle(denied)
@@ -82,6 +122,29 @@ fun main()=runBlocking {
     ck("successful refresh removes old failure",view.presentation.state==DisplayState.CONTENT&&view.state.failure==DisplayFailure.NONE)
     view.viewModelScope.cancel()
 
+    reset()
+    val oldActivity=BuriViewModel(Application(),MemoryStore()){now};idle(oldActivity)
+    ck("first activity has visible records before another sign out",oldActivity.state.operator!=null&&oldActivity.state.home!=null)
+    Fixture.invalidateProcessSession()
+    withTimeout(5_000){while(oldActivity.state.operator!=null)delay(2)}
+    ck("process-wide logout invalidates another activity's operator and records",oldActivity.state.route==Route.LOGIN&&oldActivity.state.home==null&&oldActivity.state.payments==null)
+    oldActivity.viewModelScope.cancel()
+
+    reset();Fixture.reattachAllowed=true;Fixture.reattachEntered=java.util.concurrent.CountDownLatch(1);Fixture.reattachRelease=java.util.concurrent.CountDownLatch(1)
+    val secondActivity=BuriViewModel(Application(),MemoryStore()){now};idle(secondActivity);Fixture.invalidateProcessSession()
+    check(withContext(Dispatchers.IO){Fixture.reattachEntered!!.await(5,java.util.concurrent.TimeUnit.SECONDS)})
+    ck("replacement hides old records before attempting same-owner reattachment",secondActivity.state.operator==null&&secondActivity.state.home==null&&secondActivity.state.savedSessionPending)
+    Fixture.reattachRelease!!.countDown();withTimeout(5_000){while(secondActivity.state.operator==null||secondActivity.state.busy)delay(2)}
+    ck("same-owner replacement restores the second activity",secondActivity.state.operator!=null&&secondActivity.state.route==Route.HOME)
+    secondActivity.viewModelScope.cancel()
+
+    reset();Fixture.reattachAllowed=true;Fixture.reattachEntered=java.util.concurrent.CountDownLatch(1);Fixture.reattachRelease=java.util.concurrent.CountDownLatch(1)
+    val signingOut=BuriViewModel(Application(),MemoryStore()){now};idle(signingOut);Fixture.invalidateProcessSession()
+    check(withContext(Dispatchers.IO){Fixture.reattachEntered!!.await(5,java.util.concurrent.TimeUnit.SECONDS)})
+    signingOut.logout();idle(signingOut);Fixture.reattachRelease!!.countDown();delay(50)
+    ck("logout prevents an in-flight activity reattachment",signingOut.state.operator==null&&!signingOut.state.savedSessionPending)
+    signingOut.viewModelScope.cancel()
+
     reset();Fixture.homeBarrier=java.util.concurrent.CountDownLatch(1)
     val loading=BuriViewModel(Application(),MemoryStore()){now}
     withTimeout(10_000){while(loading.state.operator==null)delay(2)}
@@ -92,7 +155,7 @@ fun main()=runBlocking {
     fun project(route:Route,requested:DisplayState):ScreenPresentation {
         val base=UiState(operator=if(route==Route.LOGIN)null else who,route=route,savedAt=now,
             home=Home(1,1,1,0,emptyList(),"at"),payments=page,payment=Fixture.payment(),members=Fixture.page(listOf(Fixture.member)),
-            member=Fixture.member,ledger=Page(emptyList(),null,0,"r","at"),messages=Fixture.page(listOf(SmsRow("s-1","M-Money","at","unchanged","queued",null))))
+            member=Fixture.member,memberTransactions=Page(emptyList(),null,0,"r","at"),messages=Fixture.page(listOf(SmsRow("s-1","M-Money","at","unchanged","queued",null))))
         val sample=when(requested){
             DisplayState.SIGN_IN->base.copy(operator=null)
             DisplayState.LOADING->base.copy(busy=true)

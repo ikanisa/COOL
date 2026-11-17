@@ -1,10 +1,12 @@
 import {applicationWork,guardedFetch,noteUnknownEffect,reserveDatabaseConnection} from './application-fence.js';
 import {ApiError,digest} from './domain/core.js';
 import {createRosterDecoderBridge} from './roster_decoder_bridge.mjs';
+import {createNativeRosterJpegDecoder,NATIVE_JPEG_PROTOCOL} from './roster_native_jpeg_decoder.mjs';
 import {decrypt} from './domain/encryption.js';
 import {compileSql} from './postgres.js';
 import {ProtectedStorageProtocol,StorageProtocolError,sha256,canonical} from './storage/protocol.js';
 import {SupabaseNativeTransport} from './storage/supabase-transport.js';
+import {resolveDeploymentProfile} from './deployment-profile.js';
 import {PostgresStorageJournal} from './storage/postgres-journal.js';
 import {createTransport} from 'npm:nodemailer@10.1.7';
 import {createWorkspaceSmtpEmail} from './workspace-smtp-email.js';
@@ -27,7 +29,7 @@ function storagePool(db){return{
  async query(text,values=[]){const c=await this.connect();try{await c.query('BEGIN');const r=await c.query(text,values);await c.query('COMMIT');return r;}catch(error){await c.query('ROLLBACK').catch(()=>{});throw error;}finally{c.release();}}
 };}
 export class SupabaseObjectBucket {
- constructor(env){this.env=env;this.bucket=env.COLLECT_PRIVATE_BUCKET??'collect-evidence';this.pool=storagePool(env.DB);this.namespace={origin:new URL(env.SUPABASE_URL).origin,bucket:this.bucket};this.journal=new PostgresStorageJournal(this.pool,{namespace:this.namespace});this.transport=new SupabaseNativeTransport({url:env.SUPABASE_INTERNAL_URL??env.SUPABASE_URL,secretKey:env.SUPABASE_SECRET_KEY??env.SUPABASE_SERVICE_ROLE_KEY,bucket:this.bucket,allowInsecureLoopback:env.APP_ENVIRONMENT==='test',allowPrivateGateway:env.COLLECT_DEPLOYMENT_PROFILE!==undefined&&env.SUPABASE_INTERNAL_URL==='http://api-gw:8000',authorizeMutation:()=>applicationWork(env).assert(),fetchImpl:(url,options)=>guardedFetch(env,'storage',url,options)});this.protocol=new ProtectedStorageProtocol({transport:this.transport,journal:this.journal});}
+ constructor(env){this.env=env;this.bucket=env.COLLECT_PRIVATE_BUCKET??'collect-evidence';this.pool=storagePool(env.DB);this.namespace={origin:new URL(env.SUPABASE_URL).origin,bucket:this.bucket};this.journal=new PostgresStorageJournal(this.pool,{namespace:this.namespace});this.transport=new SupabaseNativeTransport({url:env.SUPABASE_INTERNAL_URL??env.SUPABASE_URL,secretKey:env.SUPABASE_SECRET_KEY??env.SUPABASE_SERVICE_ROLE_KEY,bucket:this.bucket,allowInsecureLoopback:env.APP_ENVIRONMENT==='test',allowPrivateGateway:env.COLLECT_DEPLOYMENT_PROFILE!==undefined&&resolveDeploymentProfile(env).mode==='self_hosted'&&['http://api-gw:8000','http://kong:8000'].includes(env.SUPABASE_INTERNAL_URL),authorizeMutation:()=>applicationWork(env).assert(),fetchImpl:(url,options)=>guardedFetch(env,'storage',url,options)});this.protocol=new ProtectedStorageProtocol({transport:this.transport,journal:this.journal});}
  async checked(fn){try{return await fn();}catch(error){if(error instanceof StorageProtocolError){const wrapped=new ApiError(error.status,error.code,'Protected storage could not be confirmed. Keep the request pending.');wrapped.cause=error;throw wrapped;}throw error;}}
  async put(key,value,options={}){return this.checked(async()=>{
   if(typeof value!=='string'||!options.scope||typeof options.aad!=='string'||!/^[a-f0-9]{64}$/.test(options.sourceDigest??''))throw new ApiError(400,'storage_identity_required','A protected source identity is required.');
@@ -108,12 +110,17 @@ export function providerAdapters(env){
  }
  if(env.OPENAI_API_KEY&&env.MOMO_AI_MODEL)adapters.AI={async run(_legacy,options){
   if(env.MOMO_AI_ENABLED!=='true')throw unavailable('ai');
-  const reply=await guardedFetch(env,'ai','https://api.openai.com/v1/chat/completions',{method:'POST',redirect:'error',signal:AbortSignal.timeout(45000),headers:{'Content-Type':'application/json',Authorization:'Bearer '+env.OPENAI_API_KEY},body:JSON.stringify({model:env.MOMO_AI_MODEL,messages:options.messages,temperature:0,max_completion_tokens:options.max_tokens,store:false,response_format:{type:'json_schema',json_schema:{name:'collect_momo_extraction',strict:true,schema:options.response_format.json_schema}}})});
+  const timeout=options.provider_timeout_ms??45000;
+  if(!Number.isSafeInteger(timeout)||(timeout!==45000&&(timeout<1000||timeout>8000)))throw unavailable('ai');
+  const reply=await guardedFetch(env,'ai','https://api.openai.com/v1/chat/completions',{method:'POST',redirect:'error',signal:AbortSignal.timeout(timeout),headers:{'Content-Type':'application/json',Authorization:'Bearer '+env.OPENAI_API_KEY},body:JSON.stringify({model:env.MOMO_AI_MODEL,messages:options.messages,temperature:0,max_completion_tokens:options.max_tokens,store:false,response_format:{type:'json_schema',json_schema:{name:'collect_momo_extraction',strict:true,schema:options.response_format.json_schema}}})});
   if(!reply.ok)throw unavailable('ai');const result=await boundedMomoResponse(env,reply),content=result.choices?.[0]?.message?.content;if(typeof content!=='string'||content.length>65536)throw unavailable('ai_response');return {response:content};
  }};
- // Select only the signed supervisor protocol; a missing/invalid configuration
- // remains unavailable and never falls back to a Bearer or injected binding.
- try{adapters.ROSTER_DECODER=createRosterDecoderBridge({protocol:env.ROSTER_DECODER_PROTOCOL,endpoint:env.ROSTER_DECODER_URL,secret:env.ROSTER_DECODER_SECRET,approvedBuildSha256:env.ROSTER_DECODER_BUILD_SHA256,fetchImpl:(input,options)=>guardedFetch(env,'decoder',input,options),trackPromise:promise=>applicationWork(env).waitUntil(promise),onUncertain:()=>noteUnknownEffect(env,'decoder')});}
+ // Select the explicit local JPEG protocol or the existing signed supervisor.
+ // Missing/invalid configuration never falls back to an ambient network binding.
+ try{adapters.ROSTER_DECODER=env.ROSTER_DECODER_PROTOCOL===NATIVE_JPEG_PROTOCOL?
+  createNativeRosterJpegDecoder({protocol:env.ROSTER_DECODER_PROTOCOL,identity:env.ROSTER_DECODER_URL,
+   secret:env.ROSTER_DECODER_SECRET,approvedBuildSha256:env.ROSTER_DECODER_BUILD_SHA256}):
+  createRosterDecoderBridge({protocol:env.ROSTER_DECODER_PROTOCOL,endpoint:env.ROSTER_DECODER_URL,secret:env.ROSTER_DECODER_SECRET,approvedBuildSha256:env.ROSTER_DECODER_BUILD_SHA256,fetchImpl:(input,options)=>guardedFetch(env,'decoder',input,options),trackPromise:promise=>applicationWork(env).waitUntil(promise),onUncertain:()=>noteUnknownEffect(env,'decoder')});}
  catch{adapters.ROSTER_DECODER=Object.freeze({async fetch(){throw unavailable('decoder');}});}
  if(env.COLLECT_NOTICE_SMTP_PASSWORD!==undefined&&env.COLLECT_NOTICE_SMTP_PASSWORD!==null&&env.COLLECT_NOTICE_SMTP_PASSWORD!==''){
   try{adapters.AUTH_EMAIL=createWorkspaceSmtpEmail(env,{createTransport});adapters.AUTH_EMAIL_FROM='info@ikanisa.com';}

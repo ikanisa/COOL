@@ -3,8 +3,9 @@ import {automaticWork} from './automatic-work.js';
 import {requireId,requireRequestId,requireAmount,canonicalJson,normalizePhone} from './values.js';
 import {authorize,matchExistingMember} from './policy.js';
 import {pgInteger} from './postgres-values.js';
+import {findOnboardingCandidate} from './smart-onboarding-suggestions.js';
 
-const OPS=new Set(['burimunsi.allocate','burimunsi.enroll','burimunsi.membership']);
+const OPS=new Set(['burimunsi.allocate','burimunsi.enroll','burimunsi.membership','burimunsi.members_import']);
 const HASH=/^[a-f0-9]{64}$/;
 const exact=(v,min=0)=>pgInteger(v,{minimum:min,code:'canonical_record_invalid'});
 const clone=v=>JSON.parse(canonicalJson(v));
@@ -23,21 +24,31 @@ export class PostgresCanonicalStore {
     Object.assign(this,{authority,commands,identities,jobs,clock});this.groupId=authority.groupId;
   }
   inCanonicalTransaction(fn) {
+    return this.inScopedTransaction(fn,false);
+  }
+  // Member commands have their own capability-limited transaction surface.
+  // A prepared native collection need not have a managed gateway binding.
+  inMemberTransaction(fn) {
+    return this.inScopedTransaction(fn,true);
+  }
+  inScopedTransaction(fn,memberOnly) {
+    requireThat(typeof fn==='function'&&typeof memberOnly==='boolean','collect_adapter_required',503);
     return this.authority.write(async sql=>{
       requirePort(sql,['unsafe']);const group=this.groupId;
       const scope=g=>requireThat(g===group,'access_denied',403);
       // Private scope is locked BEFORE jobs, receipts, identities or memberships.
       const s=(await sql.unsafe(`SELECT collection_id,receiving_account_id,enabled,version
         FROM private.burimunsi_scopes WHERE collection_id=$1 FOR UPDATE`,[group]))[0];
-      requireThat(s?.enabled===true&&s.collection_id===group,'scope_unavailable',503);
+      requireThat(s?.collection_id===group&&(memberOnly||s.enabled===true),'scope_unavailable',503);
       requireId(s.receiving_account_id);exact(s.version,1);
       let open=true;
       const ensure=()=>requireThat(open,'transaction_closed',503);
       const actors=new Map(),authorizations=new Map();
       const loadReceipt=async(id,g)=>{
         ensure();scope(g);requireId(id);
-        const rows=await sql.unsafe(`SELECT t.*,x.collection_id,x.source_binding_id,x.source_binding_version,
-          x.policy_version AS scope_policy_version,p.member_id,p.status AS payment_status
+        const rows=await sql.unsafe(`SELECT t.*,x.collection_id,x.source_binding_id,x.source_binding_version,x.native_source_id,
+          x.policy_version AS scope_policy_version,p.member_id,p.status AS payment_status,
+          EXISTS(SELECT 1 FROM app.momo_transaction_sources bad WHERE bad.transaction_id=t.id AND bad.relation='conflict') AS source_conflict
           FROM private.burimunsi_transaction_scopes x
           JOIN app.momo_transactions t ON t.id=x.transaction_id AND t.receiving_account_id=x.receiving_account_id
           LEFT JOIN app.momo_financial_links f ON f.transaction_id=t.id
@@ -45,14 +56,31 @@ export class PostgresCanonicalStore {
           WHERE x.collection_id=$1 AND x.receiving_account_id=$2 AND t.id=$3 FOR UPDATE OF x,t`,[group,s.receiving_account_id,id]);
         requireThat(rows.length<=1,'canonical_record_invalid',503);if(!rows.length)return null;
         const r=rows[0];requireThat(r.id===id&&r.collection_id===group&&r.receiving_account_id===s.receiving_account_id&&r.currency==='RWF'&&r.event_kind==='incoming_receipt','canonical_record_invalid',503);
-        const conflict=exact(r.has_conflict);requireThat(conflict===0||conflict===1,'canonical_record_invalid',503);
-        const state=conflict?'conflict':r.payment_status==='reversed'?'reversed':
+        const conflict=exact(r.has_conflict);requireThat((conflict===0||conflict===1)&&typeof r.source_conflict==='boolean','canonical_record_invalid',503);
+        const hasConflict=conflict===1||r.source_conflict;
+        const state=hasConflict?'conflict':r.payment_status==='reversed'?'reversed':
           ['reconciled','confirmed','corrected'].includes(r.payment_status)?'posted':r.allocation_state==='unallocated'?'unallocated':'processing';
+        // Native observations already have a distinct source key in 033.  Do
+        // not turn it into a gateway binding, or reinterpret the native source
+        // tag as an approved member-matching policy. A historical transaction
+        // stays historical; a future proof may permit reconsideration without
+        // changing that source fact.
+        const nativeId=r.native_source_id??null;
+        if(nativeId!==null){
+          requireId(nativeId);
+          requireThat(r.source_binding_id==null&&r.source_binding_version==null&&
+            r.scope_policy_version==='native.auto.v1'&&['live','historical'].includes(r.mode),
+            'canonical_record_invalid',503);
+        }else{
+          requireId(r.source_binding_id);exact(r.source_binding_version,1);
+        }
         const receipt={id:r.id,groupId:group,receivingAccountId:r.receiving_account_id,version:exact(r.version,1),
-          amountRwf:requireAmount(exact(r.amount_minor,1)),currency:'RWF',state,hasConflict:conflict===1,
+          amountRwf:requireAmount(exact(r.amount_minor,1)),currency:'RWF',state,hasConflict,
           memberId:r.member_id??null,at:r.transaction_at,fullPayerPhone:fullPhone(r.payer_identifier),
           originalPayerName:r.payer_name??null,providerTransactionId:r.provider_transaction_id??null,
-          sourceBindingId:r.source_binding_id,sourceBindingVersion:exact(r.source_binding_version,1)};
+          sourceBindingId:r.source_binding_id??null,sourceBindingVersion:nativeId===null?exact(r.source_binding_version,1):null,
+          ...(nativeId===null?{}:{nativeOrigin:{kind:'native_observation',sourceId:nativeId,
+            transactionMode:r.mode,sourceTag:r.scope_policy_version}})};
         return clone(receipt);
       };
       const loadMember=async(id,g)=>{
@@ -80,6 +108,7 @@ export class PostgresCanonicalStore {
         const rows=await sql.unsafe(`SELECT t.id AS transaction_id,t.amount_minor AS source_amount,t.currency AS source_currency,t.has_conflict,
           t.event_kind,t.allocation_state,p.evidence_id AS payment_evidence_id,l.evidence_id AS entry_evidence_id,
           EXISTS(SELECT 1 FROM app.ledger_entries compensation WHERE compensation.reverses_entry_id=l.id) AS has_compensation,
+          EXISTS(SELECT 1 FROM app.momo_transaction_sources bad WHERE bad.transaction_id=t.id AND bad.relation='conflict') AS source_conflict,
           p.id AS payment_id,p.member_id,p.amount_minor,p.currency,p.status,
           f.beneficiary_member_id AS link_member_id,p.rail,
           l.id AS ledger_entry_id,l.amount_minor AS entry_amount,l.currency AS entry_currency,
@@ -93,7 +122,7 @@ export class PostgresCanonicalStore {
           WHERE x.collection_id=$1 AND x.receiving_account_id=$2 AND t.receiving_account_id=x.receiving_account_id AND t.id=$3`,[group,s.receiving_account_id,transactionId]);
         requireThat(rows.length===1,'canonical_writer_contract_violation',503);const r=rows[0];
         const amount=exact(r.source_amount,1);
-        requireThat(r.transaction_id===transactionId&&exact(r.has_conflict)===0&&
+        requireThat(r.transaction_id===transactionId&&exact(r.has_conflict)===0&&r.source_conflict===false&&
           ['reconciled','confirmed'].includes(r.status)&&r.event_kind==='incoming_receipt'&&r.allocation_state==='linked'&&
           r.has_compensation===false&&r.payment_evidence_id===r.entry_evidence_id&&r.link_member_id===r.member_id&&r.rail==='rwanda_momo'&&r.source_currency==='RWF'&&r.currency==='RWF'&&r.entry_currency==='RWF'&&
           exact(r.amount_minor,1)===amount&&exact(r.entry_amount,1)===amount,'canonical_writer_contract_violation',503);
@@ -110,6 +139,10 @@ export class PostgresCanonicalStore {
           // Re-read instead of trusting mutated objects returned to callers.
           const receipt=await loadReceipt(cmd.receiptId,group);
           requireThat(receipt&&!receipt.hasConflict&&receipt.state==='unallocated'&&receipt.version===cmd.expectedVersion,'transaction_changed',409);
+          // 033's financial custody and admitted lease are gateway-only. Until
+          // a separately authorized native lease and source evidence bridge
+          // exist, native sources may be matched but cannot reach that writer.
+          requireThat(!receipt.nativeOrigin,'native_posting_authority_required',503);
           const member=await loadMember(cmd.memberId,group);
           requireThat(member?.active&&member.eligible,'member_unavailable',409);
           let actor=null;
@@ -144,9 +177,10 @@ export class PostgresCanonicalStore {
         },
         retainCommand:async cmd=>{
           ensure();scope(cmd.groupId);requireRequestId(cmd.actorId);requireRequestId(cmd.sessionId);requireRequestId(cmd.requestId);
-          requireThat(OPS.has(cmd.operation)&&HASH.test(cmd.fingerprint)&&actors.get(cmd.actorId)?.sessionId===cmd.sessionId,'invalid_command_receipt',503);
+          requireThat(OPS.has(cmd.operation)&&(!memberOnly||cmd.operation!=='burimunsi.allocate')&&HASH.test(cmd.fingerprint)&&actors.get(cmd.actorId)?.sessionId===cmd.sessionId,'invalid_command_receipt',503);
           const response=clone(cmd.response);
-          requireThat(response&&typeof response==='object'&&!Array.isArray(response)&&new TextEncoder().encode(canonicalJson(response)).length<=65536,'invalid_command_receipt',503);
+          const responseLimit=cmd.operation==='burimunsi.members_import'?131072:65536;
+          requireThat(response&&typeof response==='object'&&!Array.isArray(response)&&new TextEncoder().encode(canonicalJson(response)).length<=responseLimit,'invalid_command_receipt',503);
           await checkActor(cmd,cmd.operation==='burimunsi.allocate'?'payments.allocate':'members.enroll');
           // Plain INSERT: an unexpected duplicate aborts the entire transaction.
           // postgres.js infers JSONB; pass the object, never a pre-stringified JSON string.
@@ -194,6 +228,23 @@ export class PostgresCanonicalStore {
           const result=await this.commands.createDirectMember(sql,{...clone(cmd),actor});
           await checkActor(cmd,'members.enroll');return result;
         },
+        onboardingCandidate:async cmd=>{
+          ensure();scope(cmd.groupId);await checkActor(cmd,'members.enroll');
+          const result=await findOnboardingCandidate(sql,{groupId:group,candidateId:cmd.candidateId,phone:cmd.phone});
+          await checkActor(cmd,'members.enroll');return result;
+        },
+        recordMemberImportAttestation:async cmd=>{
+          ensure();scope(cmd.groupId);requireId(cmd.memberId);requireRequestId(cmd.requestId);
+          await checkActor(cmd,'members.enroll');
+          const member=await sql.unsafe('SELECT 1 FROM app.memberships WHERE collection_id=$1 AND user_id=$2 FOR SHARE',[group,cmd.memberId]);
+          requireThat(member.length===1,'member_contract_violation',503);
+          // This is the operator's attestation, not independent identity proof.
+          await sql.unsafe(`INSERT INTO private.burimunsi_audit
+            (id,collection_id,actor_id,action,entity_id,request_id,at_ms)
+            VALUES($1::uuid,$2,$3::uuid,'burimunsi.members_import.attested',$4,$5::uuid,$6)`,
+            [crypto.randomUUID(),group,cmd.actorId,cmd.memberId,cmd.requestId,this.clock()]);
+          await checkActor(cmd,'members.enroll');
+        },
         setMembershipActive:async cmd=>{
           ensure();scope(cmd.groupId);const actor=await checkActor(cmd,'members.enroll');
           const result=await this.commands.setMembershipActive(sql,{...clone(cmd),actor});
@@ -201,7 +252,10 @@ export class PostgresCanonicalStore {
         },
         enqueueEligibleRematch:async cmd=>{ensure();scope(cmd.groupId);return this.commands.enqueueEligibleRematch(sql,clone(cmd));}
       };
-      try{return await fn(Object.freeze(ops));}finally{open=false;}
+      const memberOperations=['reloadActor','retainedCommand','retainCommand','createDirectMember',
+        'onboardingCandidate','recordMemberImportAttestation','setMembershipActive','enqueueEligibleRematch'];
+      const surface=memberOnly?Object.fromEntries(memberOperations.map(name=>[name,ops[name]])):ops;
+      try{return await fn(Object.freeze(surface));}finally{open=false;}
     });
   }
 }

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:collect_app/admin/core/cloudflare_admin_session.dart';
+import 'package:collect_app/app/env/app_env.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +13,99 @@ import '../core/supabase_backend_test.dart' as fixtures;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  test(
+    'self-hosted Admin CAPTCHA stays on its approved cookie origin',
+    () async {
+      const profile = <String, String>{
+        'admin_origin': 'https://platform-admin.collect.ikanisa.com',
+        'environment': 'production',
+        'format': 'collect.deployment.v1',
+        'google_callback_origin': 'https://platform-admin.collect.ikanisa.com',
+        'id': 'collect-production',
+        'member_api_origin': 'https://api.collect.ikanisa.com',
+        'mode': 'self_hosted',
+        'public_origin': 'https://collect.ikanisa.com',
+        'supabase_origin': 'https://supabase.collect.ikanisa.com',
+      };
+      final encoded = jsonEncode(profile);
+      final environment = AppEnv(
+        environmentName: 'production',
+        apiUrl: profile['member_api_origin']!,
+        publicUrl: profile['public_origin']!,
+        adminAppUrl: profile['admin_origin']!,
+        enableSmsReader: false,
+        enableAndroidSmsAccess: false,
+        enableAdminPanel: true,
+        enableAdminDevTools: false,
+        authCaptchaEnabled: true,
+        authCaptchaProvider: 'turnstile',
+        authCaptchaSiteKey: 'synthetic-public-site-key',
+        supabaseUrl: profile['supabase_origin']!,
+        supabaseApiUrl: profile['member_api_origin']!,
+        supabaseAdminApiUrl: profile['admin_origin']!,
+        supabasePublishableKey: fixtures.publishable,
+        deploymentProfile: encoded,
+        deploymentProfileSha256: sha256
+            .convert(utf8.encode(encoded))
+            .toString(),
+        supabaseAuthIssuer: '${profile['supabase_origin']}/auth/v1',
+      );
+      const channel = MethodChannel('collect/turnstile');
+      final messenger =
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+      var challenges = 0;
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        if (call.method != 'acquire') return null;
+        challenges++;
+        final args = call.arguments as Map;
+        expect(args['backend_origin'], profile['admin_origin']);
+        expect(
+          args['backend_path'],
+          '/functions/v1/collect-api/v1/security/challenge',
+        );
+        return jsonEncode({
+          'type': 'collect.turnstile.v1',
+          'attempt_id': args['attempt_id'],
+          'token': 'synthetic-candidate',
+        });
+      });
+      addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
+      final calls = <http.Request>[];
+      final controller = CloudflareAdminSession(
+        MockClient((request) async {
+          calls.add(request);
+          return http.Response('{}', 200);
+        }),
+        origin: Uri.parse(profile['admin_origin']!),
+        environment: environment,
+      );
+      addTearDown(controller.dispose);
+      await controller.request(
+        'auth/otp',
+        body: const {'email': 'synthetic@example.invalid'},
+      );
+      expect(challenges, 1);
+      expect(calls.single.url.origin, profile['admin_origin']);
+      expect(
+        calls.single.url.path,
+        '/functions/v1/admin-api/api/admin/auth/otp',
+      );
+      expect(
+        (jsonDecode(calls.single.body) as Map)['captcha_token'],
+        'synthetic-candidate',
+      );
+      expect(
+        () => CloudflareAdminSession(
+          MockClient(
+            (_) async => throw StateError('Foreign origin must not dispatch'),
+          ),
+          origin: Uri.parse(profile['member_api_origin']!),
+          environment: environment,
+        ),
+        throwsArgumentError,
+      );
+    },
+  );
   test(
     'Supabase Admin challenges send, resend, password and recovery, not code verify',
     () async {

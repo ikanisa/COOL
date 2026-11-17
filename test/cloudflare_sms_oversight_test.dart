@@ -60,9 +60,33 @@ void main() {
       'uncertain': 1,
     });
     expect(sample.isFresh(DateTime.now()), isTrue);
+    expect(sample.managedProcessing, 'unknown');
+    expect(sample.nativeAutoProcessing, 'unknown');
+    expect(sample.nativeSmsLedger, 'unknown');
     expect(
       sample.isFresh(DateTime.now().add(const Duration(minutes: 2))),
       isFalse,
+    );
+  });
+
+  test('reports the managed and native settings separately', () {
+    final sample = CloudflareSmsOversight.parse({
+      ...receipt(),
+      'configuration': {
+        'momo_processing': 'paused',
+        'native_auto_processing': 'enabled',
+        'native_sms_ledger': 'enabled',
+      },
+    });
+    expect(sample.managedProcessing, 'paused');
+    expect(sample.nativeAutoProcessing, 'enabled');
+    expect(sample.nativeSmsLedger, 'enabled');
+    expect(
+      () => CloudflareSmsOversight.parse({
+        ...receipt(),
+        'configuration': {'native_sms_ledger': 'running'},
+      }),
+      throwsFormatException,
     );
   });
 
@@ -248,7 +272,17 @@ void main() {
       MockClient(
         (request) async => request.url.path.endsWith('/auth/session')
             ? http.Response(jsonEncode(sessionBody()), 200)
-            : http.Response(jsonEncode(receipt()), 200),
+            : http.Response(
+                jsonEncode({
+                  ...receipt(),
+                  'configuration': {
+                    'momo_processing': 'paused',
+                    'native_auto_processing': 'enabled',
+                    'native_sms_ledger': 'enabled',
+                  },
+                }),
+                200,
+              ),
       ),
       origin: Uri.parse('https://admin.example.test/'),
       environment: legacyBackendFixtureEnvironment,
@@ -267,6 +301,15 @@ void main() {
     await tester.pump();
     await tester.pump();
     expect(find.text('Queued receipts: 3'), findsOneWidget);
+    expect(find.text('Managed MoMo processing: paused'), findsOneWidget);
+    expect(find.text('Native SMS parsing: enabled'), findsOneWidget);
+    expect(find.text('Native SMS ledger: enabled'), findsOneWidget);
+    expect(
+      find.text(
+        'These are configuration settings; worker activity and provider availability are not verified.',
+      ),
+      findsOneWidget,
+    );
     expect(
       find.text('Operator heartbeat and receipt gate status are not recorded.'),
       findsOneWidget,
@@ -312,6 +355,7 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Queued receipts: 3'), findsNothing);
+    expect(find.textContaining('Native SMS ledger:'), findsNothing);
     await tester.pumpWidget(const SizedBox.shrink());
   });
 }

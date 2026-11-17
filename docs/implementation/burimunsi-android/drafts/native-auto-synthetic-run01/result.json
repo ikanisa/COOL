@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "stage": "native auto installation evidence",
+  "chain_count": 48,
+  "draft_sha256": "0232a1d102e10da052add0832945e0008ee8a7cb05ab093c8fcd559a46a1e38e",
+  "synthetic_only": true,
+  "network": "none",
+  "production_acceptance": false
+}

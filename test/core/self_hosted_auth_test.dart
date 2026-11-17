@@ -109,6 +109,15 @@ void main() {
       );
       expect(config.authIssuer, 'https://supabase.collect.example/auth/v1');
       expect(config.googleCallbackOrigin, 'https://admin.collect.example');
+      expect(config.challengeEndpoint.origin, 'https://api.collect.example');
+      expect(
+        config.adminChallengeEndpoint.origin,
+        'https://admin.collect.example',
+      );
+      expect(
+        config.adminChallengeEndpoint.path,
+        '/functions/v1/collect-api/v1/security/challenge',
+      );
       expect(
         config
             .adminRequest(

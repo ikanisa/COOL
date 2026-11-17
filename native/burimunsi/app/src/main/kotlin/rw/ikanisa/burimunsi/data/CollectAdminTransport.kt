@@ -13,20 +13,31 @@ import java.util.Base64
 import java.util.Locale
 import javax.net.ssl.HttpsURLConnection
 
-/** Native transport to the existing Collect Admin BFF, including its real
+/** Native transport to Collect's Supabase Cloud Admin function, including its
  * cookie/CSRF/GoTrue policies. TLS trust is the Android default. No WebView,
  * custom trust manager, redirect, refresh token or shared cookie jar is used.
  */
 class CollectAdminTransport(adminOrigin:String,supabaseOrigin:String,
+    private val installationId:String,private val profile:String,private val deviceToken:()->String,
     private val clock:()->Long=System::currentTimeMillis,
+    nativeApiOrigin:String=supabaseOrigin,
     private val connect:(URL)->HttpsURLConnection={it.openConnection() as HttpsURLConnection}):CollectManagedTransport {
     private fun origin(value:String):URI {
         val parsed=Values.apiOrigin(value)
-        if(parsed.toString()!=value||parsed.port!=-1||!parsed.host.contains('.'))throw ManagedCollectFailure("configuration_required")
+        if(parsed.toString()!=value||parsed.port!=-1||!parsed.host.contains('.')||
+            parsed.host!=parsed.host.lowercase(Locale.ROOT)||parsed.host.endsWith('.'))throw ManagedCollectFailure("configuration_required")
         return parsed
     }
     private val admin=origin(adminOrigin)
-    private val issuer=origin(supabaseOrigin).toString()+"/auth/v1"
+    private val supabase=origin(supabaseOrigin)
+    private val nativeApi=origin(nativeApiOrigin)
+    init {
+        val cloud="https://rrlduytparvsjfmegalh.supabase.co"
+        if(supabase.toString()!=cloud || admin!=supabase || nativeApi!=supabase)
+            throw ManagedCollectFailure("configuration_required")
+    }
+    private val issuer=supabase.toString()+"/auth/v1"
+    private val nativeOtpPath="/functions/v1/collect-api/v1/burimunsi/managed/email-otp"
     private fun invalid():Nothing=throw ManagedCollectFailure("invalid_managed_response")
     private fun Map<String,Any?>.string(key:String)=this[key] as? String ?: invalid()
     private fun Map<String,Any?>.integer(key:String)=this[key] as? Long ?: invalid()
@@ -34,16 +45,21 @@ class CollectAdminTransport(adminOrigin:String,supabaseOrigin:String,
     private fun exact(keys:Set<String>,expected:Set<String>){if(keys!=expected)invalid()}
     private class Reply(val data:Map<String,Any?>,val headers:Map<out String?,List<String>?>)
     private fun call(path:String,body:JSONObject,session:CollectBffSession?=null,device:String?=null):Reply {
-        require(path in setOf("/api/admin/auth/otp","/api/admin/auth/verify","/api/admin/auth/logout","/api/admin/burimunsi/access"))
-        val target=admin.resolve(path);if(target.origin()!=admin.origin()||target.rawPath!=path)invalid()
+        require(path in setOf(nativeOtpPath,"/api/admin/auth/verify","/api/admin/auth/logout","/api/admin/burimunsi/access"))
+        val preauth=path==nativeOtpPath;val base=if(preauth)nativeApi else admin
+        if(preauth&&session!=null)invalid()
+        val physicalPath=if(preauth)path else "/functions/v1/admin-api"+path
+        val target=base.resolve(physicalPath);if(target.origin()!=base.origin()||target.rawPath!=physicalPath)invalid()
         var connection:HttpsURLConnection?=null
         try {
             val bytes=body.toString().toByteArray(Charsets.UTF_8);if(bytes.size>8192)invalid()
             connection=connect(target.toURL())
             connection.requestMethod="POST";connection.instanceFollowRedirects=false
             connection.connectTimeout=15_000;connection.readTimeout=20_000;connection.useCaches=false
-            connection.setRequestProperty("Origin",admin.toString())
-            connection.setRequestProperty("X-Collect-Requested-With","collect-admin")
+            // All requests use the one configured cloud origin.
+            connection.setRequestProperty("Origin",base.toString())
+            if(preauth)connection.setRequestProperty("X-BuriMunsi-Installation",installationId)
+            else connection.setRequestProperty("X-Collect-Requested-With","collect-admin")
             connection.setRequestProperty("Accept","application/json")
             connection.setRequestProperty("Accept-Encoding","identity")
             connection.setRequestProperty("Content-Type","application/json; charset=utf-8")
@@ -75,7 +91,11 @@ class CollectAdminTransport(adminOrigin:String,supabaseOrigin:String,
     private fun URI.origin()=scheme+"://"+rawAuthority
     override fun requestEmailCode(email:String):CollectEmailChallenge {
         val normalized=normalizeCollectEmail(email);val started=clock()
-        val reply=call("/api/admin/auth/otp",JSONObject().put("email",normalized))
+        exactId(installationId)
+        val token=deviceToken()
+        if(profile !in setOf("staff","internal_receiver")||!Regex("[a-f0-9]{64}").matches(token))
+            throw ManagedCollectFailure("managed_setup_required",403)
+        val reply=call(nativeOtpPath,JSONObject().put("email",normalized).put("profile",profile),device=token)
         exact(reply.data.keys,setOf("challenge_id","retry_after","expires_in","channel","delivery_status"))
         if(reply.data.integer("retry_after")!=60L||reply.data.integer("expires_in")!=300L||
             reply.data["channel"]!="email"||reply.data["delivery_status"] !in setOf("accepted","unknown"))invalid()

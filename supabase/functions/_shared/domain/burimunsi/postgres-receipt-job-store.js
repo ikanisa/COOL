@@ -109,10 +109,20 @@ export class PostgresReceiptJobStore {
     return source;
   }
   async loadSource({job,owner,leaseVersion}){
-    return this.authority.write(async tx=>{const current=await this.lease(tx,this.witness(job,owner,leaseVersion));return this.readSource(tx,current.job);});
+    try{
+      if(this.sources.requiresPreflight===true){
+        requirePort(this.sources,['planInTransaction','prefetch']);
+        const plan=await this.authority.write(async tx=>{
+          const current=await this.lease(tx,this.witness(job,owner,leaseVersion));
+          return this.sources.planInTransaction(tx,current.job);
+        });
+        await this.sources.prefetch(plan); // No SQL transaction is open here.
+      }
+      return await this.authority.write(async tx=>{const current=await this.lease(tx,this.witness(job,owner,leaseVersion));return this.readSource(tx,current.job);});
+    }catch(error){this.sources.releaseSource?.({...job,owner,leaseVersion});throw error;}
   }
   async commitCanonicalReceipt({job,owner,leaseVersion,key,fingerprint}){
-    return this.authority.write(async tx=>{
+    try{return await this.authority.write(async tx=>{
       const current=await this.lease(tx,this.witness(job,owner,leaseVersion));
       const source=await this.readSource(tx,current.job);
       // Reparse the retained source under the server-selected profile. An in-memory
@@ -131,7 +141,7 @@ export class PostgresReceiptJobStore {
         [this.groupId,current.job.id,owner,at,canonical.transactionId,leaseVersion]);
       requireThat(updated.length===1,'lease_unavailable',409);
       return {durable:true,transactionId:canonical.transactionId,hasConflict:canonical.hasConflict===true};
-    });
+    });}finally{this.sources.releaseSource?.({...job,owner,leaseVersion});}
   }
   /** Bind this method to tx.assertAutomaticAdmission on the canonical adapter.
    * It MUST receive the writer's existing SQL transaction, not start a new one. */
@@ -160,6 +170,7 @@ export class PostgresReceiptJobStore {
     requireRequestId(jobId);requireId(owner);requireThat(Number.isSafeInteger(leaseVersion)&&leaseVersion>0,'lease_unavailable',409);
     // This cleanup deliberately does not require processing to remain enabled.
     // It may schedule a retry under a hold, but never dispatches held work.
+    this.sources.releaseSource?.({id:jobId,owner,leaseVersion});
     return this.authority.write(async tx=>{
       let current;
       try{current=await this.locked(tx,{jobId,owner,leaseVersion});}

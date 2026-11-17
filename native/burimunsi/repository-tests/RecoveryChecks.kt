@@ -37,7 +37,7 @@ fun main(){
  SecureStore.reset();val repo=NativeRepository(Context(),api,"group-1")
  val payment=Payment("payment-1","Payer","+250780000816",10000,"at","ft-1","unallocated",1)
  val member=Member("member-1","Member","+250780000816",10000,true,1)
- fun login(){repo.login("0780000001","2468")}
+ fun login(){if(repo.current()!=null)repo.clearOperator();repo.login("0780000001","2468")}
  fun createUnknown(){outcome="pending";mutateFailure=true;edit=null;deny=false;unsupported=false;login();runCatching{repo.allocate(payment,member,"Verified identity note")};check(repo.pending()?.state==OperationState.UNKNOWN)}
  createUnknown();val original=repo.pending()!!;val originalBytes=SecureStore.records["pending-command"]
  repo.clearOperator();bearer=tokenB;login();val before=posts

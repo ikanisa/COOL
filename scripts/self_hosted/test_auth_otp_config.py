@@ -4,8 +4,8 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from scripts.self_hosted.prepare import PROVIDER_SETTINGS, build_compose, verify_vendor
-from scripts.self_hosted.configure import configure, validated_settings
+from scripts.self_hosted.prepare import PROVIDER_SETTINGS, auth_redirect_allowlist, build_compose, verify_vendor
+from scripts.self_hosted.configure import configure, validated_settings, native_defaults
 
 
 PROFILE = {
@@ -22,6 +22,38 @@ PROFILE = {
 
 
 class AuthOtpConfiguration(unittest.TestCase):
+    def test_redirects_are_exact_profile_origins_and_preserve_google_callback(self):
+        self.assertEqual(auth_redirect_allowlist(PROFILE).split(','), sorted([
+            PROFILE['admin_origin'], PROFILE['public_origin'],
+            PROFILE['google_callback_origin'] + '/functions/v1/collect-api/v1/auth/google/callback',
+        ]))
+        for invalid in ('https://*.collect.example', 'https://admin.collect.example,https://evil.example',
+                        'https://admin.collect.example/path', 'http://admin.collect.example'):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                auth_redirect_allowlist({**PROFILE, 'admin_origin': invalid})
+
+    def test_email_lifetime_is_configurable_and_projected_to_gotrue(self):
+        auth = build_compose(PROFILE, verify_vendor())['services']['auth']['environment']
+        self.assertEqual(auth['GOTRUE_MAILER_OTP_EXP'], '${COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS}')
+        self.assertEqual(auth['GOTRUE_MAILER_OTP_LENGTH'], '6')
+        self.assertEqual(PROVIDER_SETTINGS['COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS'], '1800')
+        for seconds in ('60', '600', '1800'):
+            with self.subTest(seconds=seconds):
+                validated_settings({**PROVIDER_SETTINGS, 'COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS': seconds}, PROFILE, 'b' * 64)
+        for value in ('', '0', '59', '1801', '3600', '0600', '1e3', '1800\n'):
+            with self.subTest(value=repr(value)), self.assertRaisesRegex(ValueError, 'email OTP lifetime'):
+                validated_settings({**PROVIDER_SETTINGS, 'COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS': value}, PROFILE, 'b' * 64)
+
+    def test_exact_previous_provider_contract_gains_only_the_email_default(self):
+        previous = {key: value for key, value in PROVIDER_SETTINGS.items()
+                    if key != 'COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS'}
+        normalized = native_defaults(previous)
+        self.assertEqual(normalized, PROVIDER_SETTINGS)
+        self.assertNotIn('COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS', previous)
+        incomplete = {key: value for key, value in previous.items() if key != 'SMTP_HOST'}
+        with self.assertRaisesRegex(ValueError, 'Exact provider settings'):
+            validated_settings(incomplete, PROFILE, 'b' * 64)
+
     def test_generated_auth_pins_sms_timing_without_enabling_admission(self):
         images = verify_vendor()
         expected = {
@@ -101,7 +133,9 @@ class AuthOtpConfiguration(unittest.TestCase):
             'OPENSMS_RECEIPT_APPLICATION_ID': 'otp-app',
         }
         captcha = {**PROVIDER_SETTINGS, 'TURNSTILE_SITE_KEY': '!', 'TURNSTILE_SECRET_KEY': 'synthetic-private'}
-        for case, settings, error in (('sms', sms, 'distinct'), ('captcha', captcha, 'site key')):
+        timeout = {**PROVIDER_SETTINGS, 'COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS': '1801'}
+        for case, settings, error in (('sms', sms, 'distinct'), ('captcha', captcha, 'site key'),
+                                      ('email_lifetime', timeout, 'email OTP lifetime')):
             with self.subTest(case=case), tempfile.TemporaryDirectory() as directory:
                 release = Path(directory)
                 private = release / 'private'

@@ -1,5 +1,18 @@
 import {ContractViolation} from './runtime.mjs';
 export const MAX_NATIVE_REQUEST_BYTES=8192;
+// Larger payloads are admitted only by authenticated, specifically named import
+// routes. Every existing caller retains the original 8 KiB default.
+export const MAX_NATIVE_BATCH_REQUEST_BYTES=524288;
+export const MAX_NATIVE_PREVIEW_REQUEST_BYTES=6991532;
+/** Exact logical request target, including any raw query. No aliases, query,
+ * other method or client-supplied limit can receive the import allowance. */
+export function nativeRequestBodyLimit(method,logicalTarget){
+ if(method==='POST'){
+  if(logicalTarget==='/v1/burimunsi/members/import/preview')return MAX_NATIVE_PREVIEW_REQUEST_BYTES;
+  if(logicalTarget==='/v1/burimunsi/members/import')return MAX_NATIVE_BATCH_REQUEST_BYTES;
+ }
+ return MAX_NATIVE_REQUEST_BYTES;
+}
 export const MAX_NATIVE_READ_MS=15000;
 const fail=code=>{throw new ContractViolation(code);};
 export function requireActiveNativeRequest(request){if(request.signal?.aborted)fail('CONTRACT_REQUEST_ABORTED');}
@@ -12,17 +25,18 @@ export function nativeRequestErrorStatus(error){
 }
 /** Absolute deadline, fixed memory bound, fatal decoding left to the wire parser.
  * The timeout is a trusted server option, never a client header/query value. */
-export async function readNativeBody(request,{timeoutMs=MAX_NATIVE_READ_MS}={}){
+export async function readNativeBody(request,{timeoutMs=MAX_NATIVE_READ_MS,maxBytes=MAX_NATIVE_REQUEST_BYTES}={}){
  if(!Number.isSafeInteger(timeoutMs)||timeoutMs<1||timeoutMs>MAX_NATIVE_READ_MS)fail('CONTRACT_CONTEXT');
+ if(!Number.isSafeInteger(maxBytes)||![MAX_NATIVE_REQUEST_BYTES,MAX_NATIVE_BATCH_REQUEST_BYTES,MAX_NATIVE_PREVIEW_REQUEST_BYTES].includes(maxBytes))fail('CONTRACT_CONTEXT');
  requireActiveNativeRequest(request);
  const declared=request.headers.get('content-length');
  if(declared!==null){
   if(!/^(0|[1-9][0-9]{0,7})(?![\s\S])/.test(declared))fail('CONTRACT_CONTENT_LENGTH');
-  if(Number(declared)>MAX_NATIVE_REQUEST_BYTES)fail('CONTRACT_REQUEST_SIZE');
+  if(Number(declared)>maxBytes)fail('CONTRACT_REQUEST_SIZE');
  }
  if(!request.body)fail('CONTRACT_JSON');
  const reader=request.body.getReader();
- const bytes=new Uint8Array(MAX_NATIVE_REQUEST_BYTES);let size=0,reads=0,completed=false,stopped=null,pendingReject=null;
+ const bytes=new Uint8Array(maxBytes);let size=0,reads=0,completed=false,stopped=null,pendingReject=null;
  const deadline=performance.now()+timeoutMs;
  const stop=code=>{if(stopped)return;stopped=new ContractViolation(code);pendingReject?.(stopped);};
  const onAbort=()=>stop('CONTRACT_REQUEST_ABORTED');

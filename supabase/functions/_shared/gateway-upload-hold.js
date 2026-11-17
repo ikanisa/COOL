@@ -1,7 +1,10 @@
 import {ApiError} from './domain/core.js';
 
-// This hold is an owner-selected release boundary, not a parser pause or a
-// credential flag. Existing queued captures retain their original identity.
+// Independent, explicit admission for the approved Buri receiving installation.
+// Processing flags, a legacy gateway credential or a member claim cannot opt in.
+export function nativeGatewayUploadsEnabled(env){
+ return env?.BURIMUNSI_NATIVE_ENABLED==='true'&&env.BURIMUNSI_NATIVE_UPLOADS_ENABLED==='true';
+}
 export function isGatewayIngest(method,path){
  return method==='POST'&&path==='/v1/momo/gateway/ingest';
 }

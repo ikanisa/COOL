@@ -31,7 +31,7 @@ export function postingFixture(mode='automatic'){
  CREATE TABLE app.users(id TEXT PRIMARY KEY,access_status TEXT);
  CREATE TABLE private.burimunsi_scopes(collection_id TEXT PRIMARY KEY,receiving_account_id TEXT,enabled BOOLEAN);
  CREATE TABLE private.burimunsi_transaction_scopes(transaction_id TEXT PRIMARY KEY,collection_id TEXT,receiving_account_id TEXT,
-   source_binding_id TEXT,source_binding_version INTEGER,policy_version TEXT);`);
+   source_binding_id TEXT,source_binding_version INTEGER,policy_version TEXT,native_source_id TEXT);`);
  sqlite.prepare('INSERT INTO app.collections(id,title) VALUES(?,?)').run(ids.group,'EXAMPLE GROUP');
  sqlite.prepare('INSERT INTO app.users VALUES(?,?)').run(ids.member,'active');
  sqlite.prepare('INSERT INTO app.memberships VALUES(?,?,?)').run(ids.group,ids.member,1);
@@ -41,7 +41,7 @@ export function postingFixture(mode='automatic'){
  sqlite.prepare('INSERT INTO app.momo_transactions VALUES(?,?,?,?,?,?,?,?,?,?,?,?)').run('transaction-1','wallet-1','incoming_receipt','mtn_momo','RWF','FT100',0,'unallocated','live',12500,3,'2026-11-07T00:00:00.000Z');
  sqlite.prepare('INSERT INTO app.payment_intents VALUES(?,?,?)').run(ids.intent,ids.member,'pending');
  sqlite.prepare('INSERT INTO private.burimunsi_scopes VALUES(?,?,?)').run(ids.group,'wallet-1',1);
- sqlite.prepare('INSERT INTO private.burimunsi_transaction_scopes VALUES(?,?,?,?,?,?)').run('transaction-1',ids.group,'wallet-1','binding-1',2,'verified-test-v1');
+ sqlite.prepare('INSERT INTO private.burimunsi_transaction_scopes VALUES(?,?,?,?,?,?,?)').run('transaction-1',ids.group,'wallet-1','binding-1',2,'verified-test-v1',null);
  const command={groupId:ids.group,receiptId:'transaction-1',memberId:ids.member,requestId:ids.request,expectedVersion:3,mode,
   receipt:{id:'transaction-1',groupId:ids.group,receivingAccountId:'wallet-1',sourceBindingId:'binding-1',sourceBindingVersion:2,
     state:'unallocated',hasConflict:false,version:3,amountRwf:12500,currency:'RWF',providerTransactionId:'FT100'},

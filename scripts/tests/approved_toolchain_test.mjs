@@ -14,6 +14,10 @@ const acceptance=process.env.COLLECT_TOOLCHAIN_ACCEPTANCE==='1';
 if(acceptance){assert.equal(process.platform,approvedProfile.platform,'Run this explicit profile qualification on its reviewed platform');assert.equal(process.arch,approvedProfile.arch,'Run this explicit profile qualification on its reviewed architecture');assert.equal(process.version,approvedProfile.node_version,'Start qualification with the reviewed Node');}
 const sha=raw=>createHash('sha256').update(raw).digest('hex');
 const repo=fileURLToPath(new URL('../../',import.meta.url));
+await test('retained legacy package has no production deploy or local-hosting shortcuts',async()=>{
+ const pkg=JSON.parse(await readFile(join(repo,'deploy/platform-api/package.json'),'utf8'));
+ for(const name of ['deploy','migrate:remote','dev','migrate:local'])assert.equal(Object.hasOwn(pkg.scripts,name),false);
+});
 const guard=join(repo,'scripts/cloudflare/approved_toolchain.mjs');
 const runtimeRoot=process.env.COLLECT_APPROVED_DEPENDENCY_ROOT,manifest=process.env.COLLECT_APPROVED_RUNTIME_MANIFEST;
 const bundleFixture=process.env.COLLECT_TOOLCHAIN_TEST_BUNDLE,configFixture=process.env.COLLECT_TOOLCHAIN_TEST_CONFIG;
@@ -95,9 +99,6 @@ for(const action of ['deploy','migrate:remote'])await test('clean HOME/PATH/cach
  const f=await fixture('clean-'+action.replace(':','-')),result=await run(f,['check',action]);assert.equal(result.status,0);const p=admission(result);
  assert.equal(p.node.path,process.execPath);assert.equal(p.node.sha256,approvedProfile.node_sha256);assert.equal(p.wrangler.version,'4.151.0');assert.equal(p.runtime.manifest_sha256,approvedProfile.runtime_manifest_sha256);assert.equal(p.runtime.entries,1653);assert.equal(p.check_only,true);assert.equal(p.provider_actions_executed,false);assert.equal(p.source_artifact_target_approval_supplied_by_guard,false);assert.ok(p.wrangler.path.startsWith(runtimeRoot+'/node_modules/wrangler/'));
  assert.deepEqual(p.command.argv.slice(1,action==='deploy'?5:6),action==='deploy'?['deploy',bundleFixture,'--no-bundle','--strict']:['d1','migrations','apply','collect-platform','--remote']);if(action==='deploy'){assert.equal(p.bundle.sha256,'0d0194e10db454dd375928ce1905e015d321cd700b108f3a8815fc937999c568');assert.equal(p.bundle.bytes,513240);assert.equal(p.bundle.unresolved_imports,0);}assert.deepEqual(result.home_entries,[]);assert.deepEqual(result.cache_entries,[]);
-});
-for(const action of ['deploy','migrate:remote'])await test('actual npm '+action+' shortcut ignores hostile PATH and stays check-only',async()=>{
- const f=await fixture('npm-'+action.replace(':','-'));const result=await run(f,['--check'],{npmAction:action});assert.equal(result.status,0);assert.equal(admission(result).node.path,process.execPath);assert.equal(admission(result).check_only,true);
 });
 await test('dry-run plan permits only paired private empty local output and no provider action',async()=>{const f=await fixture('dry-run'),out=join(f.dir,'out');await mkdir(out,{mode:0o700});const result=await run(f,['deploy','--check','--dry-run','--outdir',out]);assert.equal(result.status,0);const p=admission(result);assert.deepEqual(p.command.argv.slice(-3),['--dry-run','--outdir',out]);assert.deepEqual(await readdir(out),[]);});
 for(const [name,value,pattern]of [['missing-root',{COLLECT_APPROVED_DEPENDENCY_ROOT:''},/Approved dependency root/],['missing-manifest',{COLLECT_APPROVED_RUNTIME_MANIFEST:''},/Approved runtime manifest/]])await test(name+' denies without PATH/provider fallback',async()=>{const f=await fixture(name);denied(await run(f,['check','deploy'],{env:value}),pattern);});

@@ -121,20 +121,21 @@ fun main(){
         check(f.posts.get()==1&&f.reads.get()==2)
     }
     test("shared status lease spans repository wrappers and busy denial costs no retry slot"){
-        val f=Fixture();val op=f.unknown();val other=NativeRepository(Context(),f.api,"group-1");other.login("0780000001","2468")
+        val f=Fixture();val op=f.unknown();val other=NativeRepository(Context(),f.api,"group-1");f.repo.clearOperator();other.login("0780000001","2468")
         val retry=ReadOnlyRecoveryRetry(op);val entered=CountDownLatch(1);val release=CountDownLatch(1)
         val failure=AtomicReference<Throwable?>()
         f.beforeResponse={entered.countDown();check(release.await(5,TimeUnit.SECONDS))}
-        val worker=thread{try{f.repo.reconcilePending()}catch(e:Throwable){failure.set(e)}}
+        val worker=thread{try{other.reconcilePending()}catch(e:Throwable){failure.set(e)}}
         try{
             check(entered.await(5,TimeUnit.SECONDS))
             refusal("recovery_check_in_progress"){other.reconcilePending(retry,0)}
             check(retry.snapshot().checksStarted==0&&f.reads.get()==1&&other.pending()==op)
+            refusal("session_unavailable"){f.repo.reconcilePending()}
             // Re-login does not steal an outstanding lease.
-            other.login("0780000001","2468")
+            other.clearOperator();other.login("0780000001","2468")
             refusal("recovery_check_in_progress"){other.reconcilePending()}
         }finally{f.beforeResponse=null;release.countDown();worker.join(6000)}
-        check(!worker.isAlive&&failure.get()==null)
+        check(!worker.isAlive&&failure.get() is ContractFailure)
         other.reconcilePending(retry,0);check(f.reads.get()==2&&f.posts.get()==1)
     }
     test("status lease remains held throughout terminal cleanup"){

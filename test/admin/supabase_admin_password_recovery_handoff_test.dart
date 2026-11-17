@@ -16,6 +16,61 @@ import 'package:http/testing.dart';
 import '../core/supabase_backend_test.dart' as fixtures;
 
 void main() {
+  test('confirmed password change keeps the current Admin session', () async {
+    const sid = '00000000-0000-4000-8000-000000000001';
+    var passwordChanges = 0;
+    final session = CloudflareAdminSession(
+      MockClient((request) async {
+        if (request.url.path.endsWith('/auth/session')) {
+          return http.Response(
+            jsonEncode({
+              'user': {
+                'id': sid,
+                'email': 'info@ikanisa.com',
+                'role': 'owner',
+                'sessionId': sid,
+                'permissions': ['account.manage'],
+                'assuranceLevel': 1,
+                'mfaAt': null,
+              },
+              'expiresAt': DateTime.now()
+                  .toUtc()
+                  .add(const Duration(hours: 1))
+                  .toIso8601String(),
+              'ownerEmail': 'info@ikanisa.com',
+              'csrfToken': 'a' * 64,
+            }),
+            200,
+          );
+        }
+        if (request.url.path.endsWith('/auth/email-verification')) {
+          return http.Response(
+            jsonEncode({
+              'contractVersion': 1,
+              'sessionId': sid,
+              'emailVerifiedAt': DateTime.now().toUtc().toIso8601String(),
+            }),
+            200,
+          );
+        }
+        expect(request.url.path.endsWith('/auth/change-password'), isTrue);
+        passwordChanges++;
+        return http.Response(jsonEncode({'ok': true}), 200);
+      }),
+      origin: Uri.parse('https://admin.collect.ikanisa.com'),
+      environment: fixtures.environment(),
+    );
+    addTearDown(session.dispose);
+    await session.refresh();
+    final original = session.authorityFence;
+    await CloudflareAdminAccountApi(
+      session,
+    ).changePassword('CurrentFixture123!', 'NewFixturePassword456!');
+    expect(passwordChanges, 1);
+    expect(session.user?.sessionId, sid);
+    expect(session.authorityFence, original);
+  });
+
   testWidgets(
     'password recovery denial keeps AAL1 and requires explicit recovery email action',
     (tester) async {

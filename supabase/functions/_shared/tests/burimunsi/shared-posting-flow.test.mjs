@@ -10,6 +10,7 @@ function flow(){
  ALTER TABLE app.momo_transactions ADD COLUMN payer_identifier TEXT DEFAULT '+250780000001';
  ALTER TABLE app.momo_transactions ADD COLUMN payer_name TEXT DEFAULT 'EXAMPLE PERSON';
  ALTER TABLE app.memberships ADD COLUMN revision INTEGER DEFAULT 1;
+ CREATE TABLE app.momo_transaction_sources(transaction_id TEXT,relation TEXT);
  CREATE TABLE private.burimunsi_command_receipts(collection_id TEXT,actor_id TEXT,request_id TEXT,session_id TEXT,
   operation TEXT,fingerprint TEXT,response TEXT,created_at INTEGER,PRIMARY KEY(collection_id,actor_id,request_id));`);
  Object.assign(f.state,{failCommandReceipt:false,commitReplyLost:false,leaseLost:false});
@@ -17,7 +18,7 @@ function flow(){
   if(f.state.failCommandReceipt&&text.includes('INSERT INTO private.burimunsi_command_receipts'))throw Error('command receipt failure');
   const params=[];const compiled=text.replace(/ FOR UPDATE(?: OF [a-z,]+)?\s*$/,'').replace(/\$(\d+)(?:::uuid|::jsonb)?/g,(_s,n)=>{const v=values[Number(n)-1];params.push(v&&typeof v==='object'?JSON.stringify(v):v);return '?';});
   return f.sqlite.prepare(compiled).all(...params).map(r=>{
-   const row={...r};for(const k of ['has_entries','has_snapshot','has_other_reference','has_compensation','enabled'])if(k in row)row[k]=Boolean(row[k]);
+   const row={...r};for(const k of ['has_entries','has_snapshot','has_other_reference','has_compensation','source_conflict','enabled'])if(k in row)row[k]=Boolean(row[k]);
    if('response'in row)row.response=JSON.parse(row.response);return row;
   });
  };
@@ -42,6 +43,21 @@ function flow(){
 }
 test('automatic orchestration executes real shared SQL and returns canonical snapshot',async()=>{
  const f=flow();try{const r=await f.auto();assert.equal(r.memberId,ids.member);assert.equal(r.amountRwf,12500);assert.equal(r.memberBalanceRwf,12500);assert.equal(r.groupBalanceRwf,12500);assert.equal(f.state.allocationCalls,1);}finally{f.close();}
+});
+test('conflicting source prevents automatic posting without changing the ledger',async()=>{
+ const f=flow();try{
+  f.sqlite.prepare('INSERT INTO app.momo_transaction_sources(transaction_id,relation) VALUES(?,?)').run(f.command.receiptId,'conflict');
+  await assert.rejects(f.auto(),/transaction_unavailable/);assert.equal(f.state.allocationCalls,0);
+  assert.equal(f.sqlite.prepare('SELECT count(*) AS n FROM app.ledger_entries').get().n,0);
+ }finally{f.close();}
+});
+test('a conflict arriving after posting prevents an automatic replay from reporting clean success',async()=>{
+ const f=flow();try{
+  await f.auto();const before=f.sqlite.prepare('SELECT count(*) AS n FROM app.ledger_entries').get().n;
+  f.sqlite.prepare('INSERT INTO app.momo_transaction_sources(transaction_id,relation) VALUES(?,?)').run(f.command.receiptId,'conflict');
+  await assert.rejects(f.auto(),/transaction_unavailable/);
+  assert.equal(f.state.allocationCalls,1);assert.equal(f.sqlite.prepare('SELECT count(*) AS n FROM app.ledger_entries').get().n,before);
+ }finally{f.close();}
 });
 test('automatic retry reads the original result without invoking allocation/posting twice',async()=>{
  const f=flow();try{const a=await f.auto(),before=f.snapshot(),b=await f.auto();assert.deepEqual(a,b);assert.deepEqual(f.snapshot(),before);assert.equal(f.state.allocationCalls,1);}finally{f.close();}

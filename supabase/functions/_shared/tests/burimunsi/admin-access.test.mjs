@@ -64,7 +64,7 @@ async function fixture(run){
  const nativeUnsafe=f.sql.unsafe.bind(f.sql);
  f.sql.unsafe=async(q,args)=>{
   state.queries.push(q);if(q.startsWith('SELECT a.id AS operator_id'))state.nativeReads++;
-  if(q.startsWith('SELECT private.burimunsi_operator_')){
+  if(q.startsWith('SELECT private.burimunsi_operator_')||q.startsWith('SELECT private.burimunsi_native_grant_')){
    if(!state.ownerCommand)throw Error('No owner command substitute configured');
    return [{result:await state.ownerCommand(q,args)}];
   }
@@ -78,6 +78,25 @@ async function fixture(run){
    email_verified_at:state.emailVerifiedAt,proof_id:state.emailVerifiedAt===null?null:PUBLIC}};
   return f.sqlite.prepare(q.replaceAll('::uuid','')).get(...args)??null;
  },async all(){state.queries.push(q);return {results:f.sqlite.prepare(q).all(...args)};},async run(){throw Error('Fixture does not allow projection or other writes');}};}});
+ f.db.batch=async statements=>{
+  assert.equal(statements.length,1);const statement=statements[0];
+  // The reduced SQLite fixture substitutes this owner-only PG resolver; the
+  // actual function/RLS/fence is separately qualified by scope-setup-contract.
+  assert.equal(statement.sql,'SELECT private.burimunsi_resolve_installation_scope(?::uuid,?::text) AS scope');
+  const rows=f.sqlite.prepare(`SELECT DISTINCT d.collection_id FROM private.burimunsi_device_grants d
+   JOIN private.burimunsi_scopes s ON s.collection_id=d.collection_id AND s.enabled
+   JOIN app.collections c ON c.id=s.collection_id AND c.status='active'
+   JOIN private.burimunsi_device_accounts da ON da.grant_id=d.id AND da.collection_id=d.collection_id
+   JOIN private.burimunsi_accounts a ON a.id=da.account_id AND a.collection_id=d.collection_id
+   WHERE d.installation_id=? AND d.token_hash=? AND d.active AND a.active AND NOT a.removed AND a.principal_user_id=?
+    AND (d.profile='staff' OR(d.profile='internal_receiver' AND a.role='admin' AND d.custodian_account_id=a.id))`).all(...statement.values,PRINCIPAL);
+  if(!state.approved||rows.length!==1)throw Error('managed_scope_required');
+  return [{success:true,results:[{scope:{collectionId:rows[0].collection_id}}]}];
+ };
+ const prepared=f.db.prepare;f.db.prepare=q=>{const wrapped=prepared(q);return {bind(...values){
+  if(q.startsWith('SELECT private.burimunsi_resolve_installation_scope('))return {sql:q,values};
+  return wrapped.bind(...values);
+ }};};
  const raw=canonicalProfile(PROFILE),env={DB:f.db,COLLECT_FENCE_WORK:work,BUILD_SOURCE_ID:SOURCE,
   COLLECT_DEPLOYMENT_PROFILE:raw,COLLECT_DEPLOYMENT_PROFILE_SHA256:await digest(raw),SUPABASE_URL:PROJECT,
   SUPABASE_PUBLISHABLE_KEY:'sb_publishable_fixture',ADMIN_ORIGIN:ORIGIN,BURIMUNSI_COLLECTION_ID:I.group,
@@ -86,7 +105,7 @@ async function fixture(run){
  globalThis.fetch=async(input,options)=>{
   state.authCalls++;assert.equal(String(input),PROJECT+'/auth/v1/user');assert.equal(options.method,'GET');
   assert.equal(options.headers.Authorization,'Bearer '+token);
-  return state.provider?Response.json({id:AUTH,email:'operator@example.invalid',email_confirmed_at:'2026-01-01T00:00:00Z'}):Response.json({error_code:'invalid_session'},{status:401});
+  return state.provider?Response.json({id:AUTH,email:f.sqlite.prepare('SELECT email FROM app.admin_users WHERE id=?').get(ADMIN).email,email_confirmed_at:'2026-01-01T00:00:00Z'}):Response.json({error_code:'invalid_session'},{status:401});
  };
  const request=({method='POST',headers={},body={installationId:I.installation},path='/api/admin/burimunsi/access'}={})=>new Request(ORIGIN+path,{method,
   headers:{Origin:ORIGIN,Cookie:'__Host-collect_admin='+COOKIE,'X-Collect-Requested-With':'collect-admin','Content-Type':'application/json',
@@ -161,7 +180,7 @@ test('native admin on its assigned receiving installation can use the managed br
 
 const OPERATORS='/api/admin/burimunsi/operators';
 const OWNER_REQUEST='30000000-0000-4000-8000-000000000001';
-const approval=()=>({requestId:OWNER_REQUEST,collectionId:I.group,adminId:ADMIN,phone:'0780 000 002',role:'staff',
+const approval=()=>({requestId:OWNER_REQUEST,collectionId:I.group,adminId:ADMIN,principalId:PRINCIPAL,phone:'0780 000 002',role:'staff',
  capabilities:['records.read','members.enroll'],active:true,expectedVersion:0});
 function ownerFixture(f,state,at){
  // Explicit owner/email SQL substitutes for route tests; real SQL owner proof
@@ -183,16 +202,27 @@ test('owner approval retains the existing fresh-email requirement',()=>fixture(a
 test('owner approval binds server scope/cookie and normalizes the explicit login phone',()=>fixture(async({f,state,at,call})=>{
  ownerFixture(f,state,at);let calls=0;
  state.ownerCommand=async(q,args)=>{
-  calls++;assert(q.includes('burimunsi_operator_approve('));
+  calls++;assert(q.includes('burimunsi_operator_approve_v2('));
   assert.deepEqual(args,[ADMIN,await digest(COOKIE),ORIGIN,PUBLIC,I.group,OWNER_REQUEST,ADMIN,
-   '+250780000002','staff',['members.enroll','records.read'],true,0]);
+   '+250780000002','staff',['members.enroll','records.read'],true,0,PRINCIPAL]);
   return {contractVersion:1,requestId:OWNER_REQUEST,principalId:PRINCIPAL,version:1,active:true,applied:true};
  };
  const {response,body}=await call({path:OPERATORS,body:approval()});assert.equal(response.status,200,JSON.stringify(body));
  assert.equal(body.requestId,OWNER_REQUEST);assert.equal(calls,1);assert.equal(body.accessToken,undefined);
 }));
+test('a changed principal is reported as a conflict and is not retried',()=>fixture(async({f,state,at,call})=>{
+ ownerFixture(f,state,at);let calls=0;state.ownerCommand=()=>{calls++;throw Error('burimunsi_approval_changed');};
+ const {response,body}=await call({path:OPERATORS,body:approval()});
+ assert.equal(response.status,409);assert.equal(body.error.code,'burimunsi_approval_changed');assert.equal(calls,1);
+}));
+test('a mismatched approval receipt is never reported as success',()=>fixture(async({f,state,at,call})=>{
+ ownerFixture(f,state,at);state.ownerCommand=()=>({contractVersion:1,requestId:OWNER_REQUEST,
+  principalId:'20000000-0000-4000-8000-000000000006',version:1,active:true,applied:true});
+ const {response,body}=await call({path:OPERATORS,body:approval()});
+ assert.equal(response.status,503);assert.equal(body.outcome,'operation_unknown');assert.equal(body.requestId,OWNER_REQUEST);
+}));
 for(const [name,mutate] of [
- ['client principal',b=>{b.principalId=PRINCIPAL;}],
+ ['missing principal',b=>{delete b.principalId;}],['malformed principal',b=>{b.principalId='not-a-principal';}],
  ['staff escalation',b=>{b.capabilities.push('staff.manage');}],['fractional revision',b=>{b.expectedVersion=0.5;}],
  ['duplicate capability',b=>{b.capabilities.push('records.read');}],['credential body',b=>{b.pin='1234';}]
 ])test('owner approval rejects '+name+' before command SQL',()=>fixture(async({f,state,at,call})=>{
@@ -217,4 +247,65 @@ test('owner can read the retained original approval outcome',()=>fixture(async({
  };
  const {response,body}=await call({path:OPERATORS+'/requests/'+OWNER_REQUEST,method:'GET'});
  assert.equal(response.status,200);assert.equal(body.receipt.requestId,OWNER_REQUEST);
+}));
+
+const NATIVE_WORK='/api/admin/burimunsi/native-work-grants';
+const WORK_ID='30000000-0000-4000-8000-000000000002';
+const workIssue=()=>({operation:'issue',collectionId:I.group,requestId:OWNER_REQUEST,grantId:WORK_ID,
+ owner:'synthetic-worker',version:1,policyVersion:'policy-v1',expiresAt:1900000000000});
+function workOwner(f,state,at,financial=true){
+ ownerFixture(f,state,at);
+ for(const permission of ['receivers.manage',...(financial?['payments.reconcile']:[])]){
+  f.execute('INSERT INTO app.admin_grants VALUES(?,?)',PRINCIPAL,permission);
+  f.execute('INSERT INTO app.admin_account_role_capabilities VALUES(?,?)','owner',permission);
+ }
+}
+test('native worker route refuses non-owner and requires owner financial permission for issue',()=>fixture(async({f,state,at,call})=>{
+ state.ownerCommand=()=>{throw Error('must not reach SQL');};
+ let r=await call({path:NATIVE_WORK,body:workIssue(),headers:{'Idempotency-Key':OWNER_REQUEST}});assert.equal(r.response.status,403);
+ workOwner(f,state,at,false);r=await call({path:NATIVE_WORK,body:workIssue(),headers:{'Idempotency-Key':OWNER_REQUEST}});
+ assert.equal(r.response.status,403);assert.equal(r.body.error.code,'financial_permission_required');
+}));
+test('native worker issue uses existing owner BFF and defaults to disabled',()=>fixture(async({f,state,at,call})=>{
+ workOwner(f,state,at);let calls=0;state.ownerCommand=async(q,args)=>{
+  calls++;assert(q.includes('burimunsi_native_grant_issue('));
+  assert.deepEqual(args,[ADMIN,await digest(COOKIE),ORIGIN,PUBLIC,I.group,OWNER_REQUEST,WORK_ID,'synthetic-worker',1,'policy-v1',1900000000000,false]);
+  return {grantId:WORK_ID,groupId:I.group,owner:'synthetic-worker',version:1,enabled:false,expiresAt:1900000000000};};
+ const r=await call({path:NATIVE_WORK,body:workIssue(),headers:{'Idempotency-Key':OWNER_REQUEST}});
+ assert.equal(r.response.status,200,JSON.stringify(r.body));assert.equal(r.body.enabled,false);assert.equal(calls,1);
+}));
+test('native worker route refuses stale email, absent CSRF, scope change and absent idempotency key',()=>fixture(async({f,state,at,call})=>{
+ workOwner(f,state,at);let calls=0;state.ownerCommand=()=>{calls++;};state.emailVerifiedAt=null;
+ let r=await call({path:NATIVE_WORK,body:workIssue(),headers:{'Idempotency-Key':OWNER_REQUEST}});assert.equal(r.response.status,403);
+ state.emailVerifiedAt=at;r=await call({path:NATIVE_WORK,body:workIssue(),headers:{'X-Collect-CSRF':'','Idempotency-Key':OWNER_REQUEST}});assert.equal(r.response.status,403);
+ r=await call({path:NATIVE_WORK,body:{...workIssue(),collectionId:'other'},headers:{'Idempotency-Key':OWNER_REQUEST}});assert.equal(r.response.status,409);
+ r=await call({path:NATIVE_WORK,body:workIssue()});assert.equal(r.response.status,400);assert.equal(calls,0);
+}));
+test('native worker route rejects cross-origin and malformed grant data before SQL',()=>fixture(async({f,state,at,call})=>{
+ workOwner(f,state,at);let calls=0;state.ownerCommand=()=>{calls++;};
+ let r=await call({path:NATIVE_WORK,body:workIssue(),headers:{Origin:'https://elsewhere.example.invalid','Idempotency-Key':OWNER_REQUEST}});
+ assert.equal(r.response.status,403);
+ r=await call({path:NATIVE_WORK,body:{...workIssue(),owner:42},headers:{'Idempotency-Key':OWNER_REQUEST}});
+ assert.equal(r.response.status,400);assert.equal(calls,0);
+}));
+test('owner can revoke a worker after losing financial permission',()=>fixture(async({f,state,at,call})=>{
+ workOwner(f,state,at,false);state.ownerCommand=(q,args)=>{assert(q.includes('burimunsi_native_grant_revoke('));assert.equal(args.at(-1),WORK_ID);
+  return {grantId:WORK_ID,groupId:I.group,revoked:true,applied:true};};
+ const r=await call({path:NATIVE_WORK,body:{operation:'revoke',collectionId:I.group,requestId:OWNER_REQUEST,grantId:WORK_ID},headers:{'Idempotency-Key':OWNER_REQUEST}});
+ assert.equal(r.response.status,200,JSON.stringify(r.body));assert.equal(r.body.revoked,true);
+}));
+test('native worker route reports an idempotency payload conflict without retry',()=>fixture(async({f,state,at,call})=>{
+ workOwner(f,state,at);let calls=0;state.ownerCommand=()=>{calls++;const e=new Error('private detail');e.code='23505';throw e;};
+ const r=await call({path:NATIVE_WORK,body:workIssue(),headers:{'Idempotency-Key':OWNER_REQUEST}});
+ assert.equal(r.response.status,409);assert.equal(r.body.error.code,'native_work_request_conflict');assert.equal(calls,1);
+ assert(!JSON.stringify(r.body).includes('private detail'));
+}));
+test('unknown native worker commit is not retried and original request can be recovered',()=>fixture(async({f,state,at,call})=>{
+ workOwner(f,state,at);let calls=0;state.ownerCommand=q=>{calls++;if(q.includes('grant_issue'))throw Error('private synthetic error');
+  assert(q.includes('grant_command'));return {found:true,operation:'issue',receipt:{grantId:WORK_ID,groupId:I.group,
+   owner:'synthetic-worker',version:1,enabled:false,expiresAt:1900000000000}};};
+ let r=await call({path:NATIVE_WORK,body:workIssue(),headers:{'Idempotency-Key':OWNER_REQUEST}});
+ assert.equal(r.response.status,503);assert.equal(r.body.outcome,'operation_unknown');assert.equal(calls,1);assert(!JSON.stringify(r.body).includes('private'));
+ r=await call({path:NATIVE_WORK+'/requests/'+OWNER_REQUEST+'?collectionId='+I.group,method:'GET'});
+ assert.equal(r.response.status,200,JSON.stringify(r.body));assert.equal(r.body.receipt.grantId,WORK_ID);assert.equal(calls,2);
 }));

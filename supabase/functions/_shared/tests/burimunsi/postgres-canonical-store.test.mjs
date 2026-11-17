@@ -9,7 +9,7 @@ const work={kind:'receipt',jobId:'44444444-4444-4444-8444-444444444444',owner:'w
 /** SQL recorder and transaction fixture, NOT PostgreSQL execution. */
 function fixture(){
  const f={queries:[],claims:0,writes:0,commits:0,rollbacks:0,receipts:[],result:null,session:structuredClone(actor),enabled:true,
- row:{id:'tx-1',collection_id:'group-1',receiving_account_id:'wallet-1',currency:'RWF',event_kind:'incoming_receipt',has_conflict:0,version:1,amount_minor:10000,
+ row:{id:'tx-1',collection_id:'group-1',receiving_account_id:'wallet-1',currency:'RWF',event_kind:'incoming_receipt',has_conflict:0,source_conflict:false,version:1,amount_minor:10000,
  allocation_state:'unallocated',transaction_at:'2026-10-08T13:15:20.000Z',payer_identifier:'+250780000816',payer_name:'EXAMPLE PERSON',provider_transaction_id:'90000000001',source_binding_id:'binding-1',source_binding_version:1}};
  const sql={unsafe:async(q,v=[])=>{
   f.queries.push({q,v});
@@ -29,7 +29,7 @@ function fixture(){
  }};
  const commands={postContribution:async(tx,cmd)=>{
   assert.equal(tx,sql);assert.equal(cmd.receipt.id,'tx-1');assert.equal(cmd.member.id,'member-1');f.writes++;
-  f.result={transaction_id:'tx-1',source_amount:10000,source_currency:'RWF',has_conflict:0,event_kind:'incoming_receipt',allocation_state:'linked',payment_evidence_id:'evidence-1',entry_evidence_id:'evidence-1',has_compensation:false,payment_id:'p-1',member_id:cmd.memberId,link_member_id:cmd.memberId,rail:'rwanda_momo',amount_minor:10000,currency:'RWF',status:'reconciled',ledger_entry_id:'ledger-1',entry_amount:10000,entry_currency:'RWF',member_balance_after_minor:10000,group_balance_after_minor:10000};
+  f.result={transaction_id:'tx-1',source_amount:10000,source_currency:'RWF',has_conflict:0,source_conflict:false,event_kind:'incoming_receipt',allocation_state:'linked',payment_evidence_id:'evidence-1',entry_evidence_id:'evidence-1',has_compensation:false,payment_id:'p-1',member_id:cmd.memberId,link_member_id:cmd.memberId,rail:'rwanda_momo',amount_minor:10000,currency:'RWF',status:'reconciled',ledger_entry_id:'ledger-1',entry_amount:10000,entry_currency:'RWF',member_balance_after_minor:10000,group_balance_after_minor:10000};
   if(f.corruptResult)Object.assign(f.result,f.corruptResult);
   if(f.revokeAfterWrite)f.session={...f.session,active:false};
   if(f.expireLeaseAfterWrite)f.hold=true;
@@ -70,7 +70,7 @@ test('masked phone remains unallocated',async()=>{
 test('deactivated competing owner still prevents automatic credit',async()=>{
  const f=fixture();f.identities=[identity,{...identity,id:'other-proof',memberId:'inactive-member'}];assert.equal((await f.service.automaticallyAllocate('tx-1',rid,work)).reason,'ambiguous_identity');assert.equal(f.writes,0);
 });
-for(const patch of [{member_id:'wrong-member'},{link_member_id:'wrong-member'},{link_member_id:null},{rail:'cash'},{entry_amount:9999},{entry_currency:'USD'},{source_currency:'USD'},{has_conflict:1},{status:'reversed'},
+for(const patch of [{member_id:'wrong-member'},{link_member_id:'wrong-member'},{link_member_id:null},{rail:'cash'},{entry_amount:9999},{entry_currency:'USD'},{source_currency:'USD'},{has_conflict:1},{source_conflict:true},{status:'reversed'},
  {member_balance_after_minor:'9007199254740992'},{group_balance_after_minor:null},{group_balance_after_minor:''},{group_balance_after_minor:-1}]){
  test('invalid canonical readback rolls back '+JSON.stringify(patch),async()=>{
   const f=fixture();f.corruptResult=patch;await assert.rejects(f.service.allocate(actor,command));assert.equal(f.writes,0);assert.equal(f.receipts.length,0);
@@ -88,11 +88,43 @@ test('duplicate ledger results are not acknowledged',async()=>{
 test('disabled scope stops before financial work',async()=>{
  const f=fixture();f.enabled=false;await assert.rejects(f.service.allocate(actor,command),/scope_unavailable/);assert.equal(f.writes,0);
 });
+test('prepared native scope permits only the member transaction surface',async()=>{
+ const f=fixture();f.enabled=false;
+ await f.store.inMemberTransaction(async tx=>{
+  assert.equal(tx.postCanonicalContribution,undefined);assert.equal(tx.planCanonicalContribution,undefined);
+  assert.equal(tx.lockReceipt,undefined);assert.equal(tx.assertAutomaticAdmission,undefined);
+  assert.equal((await tx.reloadActor(sid)).id,aid);
+  const created=await tx.createDirectMember({groupId:'group-1',name:'Synthetic member',phone:'+250780000816',requestId:rid,actorId:aid,sessionId:sid});
+  assert.equal(created.groupId,'group-1');
+  await assert.rejects(tx.retainCommand({groupId:'group-1',actorId:aid,sessionId:sid,requestId:rid,operation:'burimunsi.allocate',fingerprint:'a'.repeat(64),response:{}}),/invalid_command_receipt/);
+ });
+ assert.equal(f.writes,0);
+});
+test('unpaired member scope still requires exact group and active authorized actor',async()=>{
+ const f=fixture();f.enabled=false;
+ await assert.rejects(f.store.inMemberTransaction(async tx=>{await tx.reloadActor(sid);return tx.createDirectMember({groupId:'other',actorId:aid,sessionId:sid})}),/access_denied/);
+ f.session={...actor,active:false};
+ await assert.rejects(f.store.inMemberTransaction(async tx=>{await tx.reloadActor(sid);return tx.createDirectMember({groupId:'group-1',actorId:aid,sessionId:sid})}),/session_unavailable/);
+ assert.equal(f.writes,0);
+});
 test('suspended member cannot receive a credit',async()=>{
  const f=fixture();f.memberStatus='suspended';await assert.rejects(f.service.allocate(actor,command),/member_unavailable/);assert.equal(f.writes,0);
 });
+test('a conflicting source blocks a new canonical allocation before the transaction flag changes',async()=>{
+ const f=fixture();f.row.source_conflict=true;await assert.rejects(f.service.allocate(actor,command),/transaction_changed/);assert.equal(f.writes,0);
+});
 test('escaped transaction interface cannot be reused after callback closes',async()=>{
  const f=fixture();let escaped;await f.store.inCanonicalTransaction(tx=>{escaped=tx});const n=f.queries.length;await assert.rejects(escaped.lockReceipt('tx-1','group-1'),/transaction_closed/);assert.equal(f.queries.length,n);
+});
+test('a complete 500-row import receipt fits while ordinary command limits stay unchanged',async()=>{
+ const f=fixture(),response={requestId:rid,results:Array.from({length:500},(_,i)=>({row:i+1,status:'created',memberId:'m'.repeat(128)})),created:500};
+ assert.ok(Buffer.byteLength(JSON.stringify(response))>65536);
+ const retain=operation=>f.store.inCanonicalTransaction(async tx=>{
+  await tx.reloadActor(sid);
+  await tx.retainCommand({operation,groupId:'group-1',actorId:aid,sessionId:sid,requestId:rid,fingerprint:'a'.repeat(64),response});
+ });
+ await retain('burimunsi.members_import');assert.equal(f.receipts[0].response.results.length,500);
+ await assert.rejects(retain('burimunsi.enroll'),/invalid_command_receipt/);
 });
 test('cross-group direct adapter use fails closed',async()=>{
  const f=fixture();await assert.rejects(f.store.inCanonicalTransaction(tx=>tx.lockReceipt('tx-1','other-group')),/access_denied/);
@@ -147,3 +179,57 @@ for(const patch of [{status:'corrected'},{event_kind:'outgoing'},{allocation_sta
   assert.equal(f.writes,0);assert.equal(f.receipts.length,0);assert.equal(f.rollbacks,1);
  });
 }
+
+const nativeSource='55555555-5555-4555-8555-555555555555';
+function useNative(f,mode='historical'){
+ Object.assign(f.row,{native_source_id:nativeSource,source_binding_id:null,source_binding_version:null,
+   scope_policy_version:'native.auto.v1',mode});
+}
+test('native source is projected with its real origin and preserved catch-up transaction mode',async()=>{
+ const f=fixture();useNative(f);const receipt=await f.store.inCanonicalTransaction(tx=>tx.lockReceipt('tx-1','group-1'));
+ assert.deepEqual(receipt.nativeOrigin,{kind:'native_observation',sourceId:nativeSource,transactionMode:'historical',sourceTag:'native.auto.v1'});
+ assert.equal(receipt.sourceBindingId,null);assert.equal(receipt.sourceBindingVersion,null);assert.equal(f.writes,0);
+});
+test('native future live mode is retained without claiming provider authentication',async()=>{
+ const f=fixture();useNative(f,'live');const receipt=await f.store.inCanonicalTransaction(tx=>tx.lockReceipt('tx-1','group-1'));
+ assert.equal(receipt.nativeOrigin.transactionMode,'live');assert.equal('providerAuthenticated' in receipt.nativeOrigin,false);assert.equal(f.writes,0);
+});
+test('a native masked identity stays unallocated rather than reaching a writer',async()=>{
+ const f=fixture();useNative(f);f.row.payer_identifier='*********816';const r=await f.service.automaticallyAllocate('tx-1',rid,work);
+ assert.equal(r.state,'unallocated');assert.equal(r.reason,'masked_identity');assert.equal(f.writes,0);
+});
+test('native full member match still requires native custody and worker authority before writing',async()=>{
+ const f=fixture();useNative(f);await assert.rejects(f.service.automaticallyAllocate('tx-1',rid,work),/native_posting_authority_required/);
+ assert.equal(f.writes,0);assert.equal(f.result,null);assert.equal(f.row.allocation_state,'unallocated');assert.equal(f.rollbacks,1);
+});
+test('manual gateway-shaped posting cannot bypass native custody guard',async()=>{
+ const f=fixture();useNative(f);await assert.rejects(f.service.allocate(actor,command),/native_posting_authority_required/);
+ assert.equal(f.writes,0);assert.equal(f.receipts.length,0);assert.equal(f.rollbacks,1);
+});
+for(const patch of [
+ {source_binding_id:'forged-binding'}, {source_binding_version:1}, {scope_policy_version:'approved-policy-not-source-tag'},
+ {mode:'invented'}, {native_source_id:'/'}, {source_binding_id:null,source_binding_version:null,native_source_id:null}
+])test('native origin ambiguity or malformed identity is rejected '+JSON.stringify(patch),async()=>{
+ const f=fixture();useNative(f);Object.assign(f.row,patch);
+ await assert.rejects(f.store.inCanonicalTransaction(tx=>tx.lockReceipt('tx-1','group-1')));assert.equal(f.writes,0);
+});
+test('conflicting native duplicate never reaches a writer',async()=>{
+ const f=fixture();useNative(f);f.row.source_conflict=true;
+ await assert.rejects(f.service.automaticallyAllocate('tx-1',rid,work),/transaction_unavailable/);assert.equal(f.writes,0);
+});
+test('a native source cannot inherit another collection scope',async()=>{
+ const f=fixture();useNative(f);f.row.collection_id='other-group';
+ await assert.rejects(f.store.inCanonicalTransaction(tx=>tx.lockReceipt('tx-1','group-1')));assert.equal(f.writes,0);
+});
+test('native rematch retains an unallocated result for a missing verified identity',async()=>{
+ const f=fixture();useNative(f);f.identities=[];let captured;
+ f.options.jobs.retainAutomaticOutcome=async(_tx,cmd)=>{captured=cmd;return {durable:true}};
+ const r=await f.service.automaticallyAllocate('tx-1',rid,rematchWork);
+ assert.equal(r.state,'unallocated');assert.equal(r.reason,'no_verified_identity');assert.deepEqual(captured.result,r);assert.equal(f.writes,0);
+});
+test('a catch-up source can be reconsidered after a verified identity arrives, without an unsafe credit',async()=>{
+ const f=fixture();useNative(f);f.identities=[];
+ assert.equal((await f.service.automaticallyAllocate('tx-1',rid,work)).reason,'no_verified_identity');
+ f.identities=[identity];await assert.rejects(f.service.automaticallyAllocate('tx-1',rid,work),/native_posting_authority_required/);
+ assert.equal(f.row.mode,'historical');assert.equal(f.writes,0);assert.equal(f.result,null);
+});

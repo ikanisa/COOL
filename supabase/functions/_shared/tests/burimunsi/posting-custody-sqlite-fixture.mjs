@@ -7,8 +7,8 @@ import {postingFixture,ids} from './posting-executor-fixture.mjs';
 import {custodyFixture,encryption,namespace} from './posting-custody-fixture.mjs';
 import {PostgresPostingCustody} from '../../domain/burimunsi/postgres-posting-custody.js';
 import {sha256} from '../../domain/burimunsi/values.js';
-export async function custodySqliteFixture(mode='automatic'){
- const f=postingFixture(mode),c=await custodyFixture(),s=f.sqlite,r=c.state.row;
+export async function custodySqliteFixture(mode='automatic',sourceBody=undefined){
+ const f=postingFixture(mode),c=await custodyFixture({body:sourceBody}),s=f.sqlite,r=c.state.row;
  s.exec(`ALTER TABLE app.momo_transactions ADD COLUMN parse_attempt_id TEXT;
  ALTER TABLE app.payment_evidence ADD COLUMN owner_user_id TEXT;
  ALTER TABLE app.momo_receiving_accounts ADD COLUMN receiver_hash TEXT;
@@ -64,7 +64,7 @@ export async function custodySqliteFixture(mode='automatic'){
      for(const key of jsons)if(key in out&&typeof out[key]==='string')out[key]=JSON.parse(out[key]);return out;
    });
  };
- let decryptCount=0;const custody=new PostgresPostingCustody({db:f.db,groupId:ids.group,namespace,
+ let decryptCount=0;const custody=new PostgresPostingCustody({qualificationOnly:true,db:f.db,groupId:ids.group,namespace,
    decrypt:async(document,context)=>{decryptCount++;return encryption.decrypt(c.env,document,context);}});
  f.writer.evidence=custody;
  return {...f,custody,decryptCount:()=>decryptCount};

@@ -1,0 +1,11 @@
+# Native PIN session and staff-phone status
+
+The source migration chain contains the reviewed PIN-bound clock, rotation-expiry and optional staff-phone migrations at `20261111121500`, `20261111121600` and `20261111121700`. The last migration retains the exact previously reviewed draft bytes, including its historical draft header; its presence in the migration lock is its current source-registration status. No live migration or feature activation is implied.
+
+The native PIN path permits at most 5,000 ms creation-time skew only after its exact database-backed session/device/authority proof; expiry and revocation remain checked. Managed-email session creation checks stay strict. The gateway registration snapshot, historical retirement recovery and operation-recovery projection retain strict creation-time checks; a short clock setback may require a safe retry there.
+
+In the synthetic environment, the original rotation 401 was reproduced with the database session creation 13 ms ahead of the JavaScript clock. A separate attempt returned no SQL session while the stored creation was 149 ms ahead of PostgreSQL's `clock_timestamp()`. Tests inject the database boundary without changing the host clock, including observation consent, wrong bearer/device and revoked-proof denial. The earlier observation-consent denial may have had the same cause, but its original failing predicate was not captured.
+
+The optional blank-PIN edit feature remains default off. When enabled with the registered helper, only an authorized delegated staff record may retain its PIN while changing its phone. It revokes old staff sessions; the next login uses the current phone and retained PIN. Direct shared-Admin-approved staff remain under the existing approval boundary.
+
+Qualification evidence is in `/Users/jeanbosco/Documents/Supabase/collect-native-staff-registered-20261111-01/`, including the original result, its chain-count correction, exact source hashes, four phone races and the native HTTP/PG log. It uses a disposable, network-isolated database and synthetic records, not live data. An earlier independent run of the same three SQL draft hashes is in `/Users/jeanbosco/Documents/Supabase/collect-native-staff-dual-clock-20261111-01/`.

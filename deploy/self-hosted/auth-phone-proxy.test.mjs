@@ -9,6 +9,15 @@ const request=(path,body,options={})=>new Request(profile.supabase_origin+'/auth
 function fixture(overrides={},reply=()=>Response.json({ok:true})){
  const calls=[];return {calls,handle:createAuthPhoneProxy({...env,...overrides},{fetchImpl:async(url,options)=>{calls.push({url,options});return reply(url,options);}})};
 }
+test('retained loopback is an explicit server-only choice, never arbitrary upstream authority',async()=>{
+ for(const value of ['http://127.0.0.1:55101','http://127.0.0.1:55102','http://localhost:55101','http://evil.example']){
+  let calls=0;const configured={...env,SUPABASE_INTERNAL_URL:value};
+  const ordinary=createAuthPhoneProxy(configured,{fetchImpl:async()=>{calls++;return Response.json({ok:true});}});
+  assert.equal((await ordinary(request('/user'))).status,503);assert.equal(calls,0);
+  const retained=createAuthPhoneProxy(configured,{retainedLocal:true,fetchImpl:async url=>{calls++;assert.equal(url,'http://127.0.0.1:55101/auth/v1/user');return Response.json({ok:true});}});
+  assert.equal((await retained(request('/user'))).status,value==='http://127.0.0.1:55101'?200:503);assert.equal(calls,value==='http://127.0.0.1:55101'?1:0);
+ }
+});
 for(const [path,body] of [
  ['/otp',{phone:'+250788123456',channel:'whatsapp'}],['/signup',{Phone:'+250788123456'}],
  ['/user',{PHONE:null}],['/verify',{TYPE:'phone_change'}],['/resend',{type:'sms',phone:'+250788123456'}],

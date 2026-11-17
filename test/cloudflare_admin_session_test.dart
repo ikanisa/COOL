@@ -136,6 +136,170 @@ void main() {
   });
 
   test(
+    'a browser restart restores the cookie session until explicit logout',
+    () async {
+      var cookieAuthenticated = true;
+      var loginPosts = 0;
+      CloudflareAdminSession open() => CloudflareAdminSession(
+        MockClient((request) async {
+          expect(request.headers.containsKey('Authorization'), isFalse);
+          if (request.url.path.endsWith('/auth/session')) {
+            expect(request.method, 'GET');
+            expect(request.body, isEmpty);
+            return http.Response(
+              jsonEncode(cookieAuthenticated ? sessionBody() : {'user': null}),
+              200,
+            );
+          }
+          if (request.url.path.endsWith('/auth/logout')) {
+            cookieAuthenticated = false;
+            return http.Response('{"ok":true}', 200);
+          }
+          loginPosts++;
+          throw StateError('Unexpected sign-in');
+        }),
+        origin: Uri.parse('https://admin.example.test/'),
+        environment: legacyBackendFixtureEnvironment,
+      );
+      final first = open();
+      await first.refresh();
+      expect(first.user?.sessionId, 'public-session-one');
+      first.dispose();
+      final reopened = open();
+      await reopened.refresh();
+      expect(reopened.user?.sessionId, 'public-session-one');
+      await reopened.signOut();
+      expect(reopened.user, isNull);
+      reopened.dispose();
+      final afterLogout = open();
+      addTearDown(afterLogout.dispose);
+      await afterLogout.refresh();
+      expect(afterLogout.user, isNull);
+      expect(loginPosts, 0);
+    },
+  );
+
+  testWidgets(
+    'temporary session outage retries without granting stale access',
+    (tester) async {
+      var reads = 0;
+      final service = CloudflareAdminSession(
+        MockClient((request) async {
+          if (++reads == 1) throw http.ClientException('offline');
+          return http.Response(jsonEncode(sessionBody()), 200);
+        }),
+        origin: Uri.parse('https://admin.example.test/'),
+        environment: legacyBackendFixtureEnvironment,
+      );
+      addTearDown(() {
+        if (service.mounted) service.dispose();
+      });
+      await service.refresh();
+      expect(service.state.hasError, isTrue);
+      expect(service.user, isNull);
+      await tester.pump(const Duration(seconds: 5));
+      await tester.pump();
+      expect(reads, 2);
+      expect(service.user?.sessionId, 'public-session-one');
+      service.dispose();
+    },
+  );
+
+  testWidgets('expiry rechecks the cookie without exposing expired authority', (
+    tester,
+  ) async {
+    final renewed = Completer<http.Response>();
+    final data = Completer<http.Response>();
+    var reads = 0;
+    final service = CloudflareAdminSession(
+      MockClient((request) async {
+        if (!request.url.path.endsWith('/auth/session')) return data.future;
+        if (++reads > 1) return renewed.future;
+        return http.Response(
+          jsonEncode({
+            ...sessionBody(),
+            'expiresAt': DateTime.now()
+                .add(const Duration(seconds: 2))
+                .toIso8601String(),
+          }),
+          200,
+        );
+      }),
+      origin: Uri.parse('https://admin.example.test/'),
+      environment: legacyBackendFixtureEnvironment,
+    );
+    addTearDown(() {
+      if (service.mounted) service.dispose();
+    });
+    await service.refresh();
+    final stale = service.request('team', authenticated: true);
+    final rejected = expectLater(
+      stale,
+      throwsA(isA<CloudflareAdminRequestException>()),
+    );
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+    expect(reads, 2);
+    expect(service.user, isNull);
+    expect(service.state.isLoading, isTrue);
+    data.complete(http.Response('{"members":[]}', 200));
+    await rejected;
+    renewed.complete(http.Response(jsonEncode(sessionBody()), 200));
+    await tester.pump();
+    expect(service.user?.sessionId, 'public-session-one');
+    service.dispose();
+  });
+
+  testWidgets('a manual recheck cancels the scheduled retry', (tester) async {
+    final pending = Completer<http.Response>();
+    var reads = 0;
+    final service = CloudflareAdminSession(
+      MockClient((request) async {
+        if (++reads == 1) throw http.ClientException('offline');
+        return pending.future;
+      }),
+      origin: Uri.parse('https://admin.example.test/'),
+      environment: legacyBackendFixtureEnvironment,
+    );
+    addTearDown(() {
+      if (service.mounted) service.dispose();
+    });
+    await service.refresh();
+    final manual = service.refresh();
+    await tester.pump(const Duration(seconds: 5));
+    expect(reads, 2);
+    pending.complete(http.Response(jsonEncode(sessionBody()), 200));
+    await manual;
+    expect(service.user?.sessionId, 'public-session-one');
+    service.dispose();
+  });
+
+  testWidgets('manual logout cancels a pending automatic retry', (
+    tester,
+  ) async {
+    var reads = 0;
+    final service = CloudflareAdminSession(
+      MockClient((request) async {
+        if (request.url.path.endsWith('/auth/logout')) {
+          return http.Response('{"ok":true}', 200);
+        }
+        reads++;
+        throw http.ClientException('offline');
+      }),
+      origin: Uri.parse('https://admin.example.test/'),
+      environment: legacyBackendFixtureEnvironment,
+    );
+    addTearDown(service.dispose);
+    await service.refresh();
+    expect(service.state.hasError, isTrue);
+    await service.signOut();
+    await tester.pump(const Duration(seconds: 20));
+    expect(reads, 1);
+    expect(service.user, isNull);
+    expect(service.logoutUnconfirmed, isFalse);
+  });
+
+  test(
     'receipt review reason is bounded and confined to its audit header',
     () async {
       var sends = 0;
