@@ -9,16 +9,17 @@ import rw.ikanisa.wire.WireContract
 private data class Reply(val status:Int=200,val type:String="application/json",val body:String?=null,
     val breakWrite:Boolean=false,val bytes:ByteArray?=null,val headers:Map<String,List<String>> = emptyMap(),
     val streamFactory:(()->InputStream)?=null,val transform:(JSONObject)->Unit={},
-    val headerFactory:((Connection)->Map<String,List<String>>)?=null)
+    val headerFactory:((Connection)->Map<String,List<String>>)?=null,val headerFailure:IOException?=null)
 private object Wire { var reply=Reply();var opened=0;var last:Connection?=null }
 private class Connection(url:URL):HttpURLConnection(url){
  val written=ByteArrayOutputStream()
  val declaredBodyLength get()=fixedContentLength
+ var headerReadTimeout:Int?=null
  init{Wire.last=this;Wire.opened++}
  override fun disconnect(){}
  override fun usingProxy()=false
  override fun connect(){}
- override fun getResponseCode()=Wire.reply.status
+ override fun getResponseCode():Int {headerReadTimeout=readTimeout;Wire.reply.headerFailure?.let{throw it};return Wire.reply.status}
  override fun getHeaderFields():Map<String,List<String>> = mapOf("Content-Type" to listOf(Wire.reply.type)) + (Wire.reply.headerFactory?.invoke(this)?:emptyMap()) + Wire.reply.headers
  override fun getHeaderField(name:String):String?=when(name.lowercase()){"content-type"->Wire.reply.type;"x-burimunsi-contract"->BuriMunsiSchemas.VERSION;else->null}
  private fun envelope():String {
@@ -142,6 +143,34 @@ fun main(){
  ck("valid strict JSON response decoded",JSONObject(request()).getLong("groupBalanceRwf")==17000L)
  ck("redirects disabled",Wire.last?.instanceFollowRedirects==false)
  ck("bounded timeouts",Wire.last?.connectTimeout==15000&&Wire.last?.readTimeout in 1..20000)
+ ck("ordinary request uses a 20-second response-header timeout",Wire.last?.headerReadTimeout==20_000)
+ request(true)
+ ck("financial mutation keeps the 20-second response-header timeout",Wire.last?.headerReadTimeout==20_000)
+ val witness=JSONObject().put("sourceKey","a".repeat(64)).put("bodySha256","b".repeat(64)).put("rawSender","M-Money")
+  .put("serviceCentreAt",JSONObject.NULL).put("inboxReceivedAt","2026-11-17T18:00:00.000Z").put("subscriptionId",JSONObject.NULL)
+ Wire.reply=Reply(status=503,body="{}")
+ for((path,payload) in listOf(
+  "/v1/burimunsi/sms/observations/reconcile" to witness,
+  "/v1/burimunsi/sms/observations/reconcile-batch" to JSONObject().put("items",org.json.JSONArray().put(witness)))){
+  val opened=Wire.opened
+  val result=runCatching{api.call("POST",path,token="a".repeat(64),body=payload,contractContext=scope)}
+  ck("$path uses a 45-second response-header timeout",Wire.opened==opened+1&&result.exceptionOrNull() is ApiFailure&&
+   Wire.last?.url?.path==path&&Wire.last?.headerReadTimeout==45_000)
+  Wire.reply=Reply(headerFailure=SocketTimeoutException("synthetic header timeout"))
+  val beforeTimeout=Wire.opened
+  val timeout=runCatching{api.call("POST",path,token="a".repeat(64),body=payload,contractContext=scope)}.exceptionOrNull()
+  ck("$path header timeout fails without a successful response or automatic retry",
+   Wire.opened==beforeTimeout+1&&Wire.last?.headerReadTimeout==45_000&&timeout is ApiFailure&&
+    timeout.code=="connection_unavailable"&&timeout.status==0&&timeout.uncertain)
+  Wire.reply=Reply(status=503,body="{}")
+ }
+ val beforeStatus=Wire.opened
+ runCatching{api.call("POST","/v1/burimunsi/sms/observations/processing-status",token="a".repeat(64),
+  body=JSONObject().put("sourceIds",org.json.JSONArray().put(id)),contractContext=scope)}
+ ck("adjacent observation processing route keeps the 20-second header timeout",
+  Wire.opened==beforeStatus+1&&Wire.last?.headerReadTimeout==20_000)
+ Wire.reply=Reply()
+ request()
  ck("operator bearer attached",Wire.last?.getRequestProperty("Authorization")=="Bearer "+"a".repeat(64))
  ck("product version is explicit",Wire.last?.getRequestProperty("X-BuriMunsi-Contract")==BuriMunsiSchemas.VERSION)
  ck("generation sent",Wire.last?.getRequestProperty("X-BuriMunsi-Generation")=="3")

@@ -27,7 +27,7 @@ import xml.etree.ElementTree as ET
 
 PACKAGES = {'staff': 'rw.ikanisa.burimunsi.staff.cloud', 'internal_receiver': 'rw.ikanisa.burimunsi.gateway.cloud'}
 TASKS = [':app:assembleStaffRelease', ':app:assembleInternal_receiverRelease']
-VERSION_CODE = 46
+VERSION_CODE = 47
 
 
 class SigningRejected(ValueError):

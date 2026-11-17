@@ -168,7 +168,13 @@ class ApiClient private constructor(origin: String, val installationId: String,
             connection.requestMethod=method
             connection.instanceFollowRedirects=false
             connection.connectTimeout=15_000
-            connection.readTimeout=20_000
+            // Historical reconciliation verifies encrypted Cloud evidence and
+            // can take longer than an ordinary API response. Only these
+            // read-only POST routes get the longer response-header window;
+            // the separately bounded response-body reader remains unchanged.
+            connection.readTimeout=if(method=="POST"&&logicalPath in setOf(
+                "/v1/burimunsi/sms/observations/reconcile",
+                "/v1/burimunsi/sms/observations/reconcile-batch"))45_000 else 20_000
             connection.useCaches=false
             connection.setRequestProperty("Accept",if(csv)"text/csv" else "application/json")
             connection.setRequestProperty("Accept-Encoding","identity")
