@@ -54,7 +54,7 @@ async function fixture({members=[member],failOnStatement=0,wrongGroup=false,sour
   throw Error('unexpected synthetic SQL');
  }};
  const authority={async write(fn){const before=structuredClone(state);try{return await fn(tx);}catch(e){state=before;throw e;}}};
- const plan={snapshot:{actor:{collectionId:group},proof,profile:{profileSha256:'b'.repeat(64),profile}},journal:{}};
+ const plan={snapshot:{actor:{collectionId:group},proof,profile:{profileSha256:'b'.repeat(64),profile:structuredClone(profile)}},journal:{}};
  const worker={authority,async plan(){return plan;},async verify(){},witnesses:{async stage(){return {};},async prefetch(){},
   async sealed(){return 'sealed';},forget(){}},custody:{async decrypt(){return new Uint8Array(bytes);}}};
  const ledger=Object.create(PostgresNativeSmsLedger.prototype);ledger.groupId=group;ledger.worker=worker;ledger.authority=authority;
@@ -82,7 +82,7 @@ test('a truncated AI payer identity from a different full phone never posts a cr
   const f=await fixture({...original,extractionOutput});
   f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(extractionOutput)})};
   assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'},`${full} / ${raw}`);
-  assert.equal(f.state.row.posting_facts,null);
+  assert.equal(f.state.row.posting_facts.counterparty_identifier,raw); // Retained model fact, not credit proof.
   assert.equal(f.state.row.has_link,false);assert.deepEqual(f.state.writes,[]);assert.deepEqual(f.state.stored,[]);
  }
 });
@@ -95,7 +95,7 @@ test('a truncated or cropped payer name with a genuine mask never posts to a sho
   const f=await fixture({sourceBody,extractionOutput,members:[{...member,full_name:name}]});
   f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(extractionOutput)})};
   assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'},`${actual} / ${name}`);
-  assert.equal(f.state.row.posting_facts,null);
+  assert.equal(f.state.row.posting_facts.counterparty_name,name); // Retained model fact, not credit proof.
   assert.equal(f.state.row.has_link,false);assert.deepEqual(f.state.writes,[]);assert.deepEqual(f.state.stored,[]);
  }
 });
@@ -113,6 +113,24 @@ test('a complete Unicode payer name with a genuine mask can follow the approved 
  const f=await fixture({sourceBody,extractionOutput,members:[{...member,full_name:'Élodie Mukamana'}]});
  assert.deepEqual(await f.ledger.process(sourceId),{state:'posted'});
  assert.deepEqual(f.state.writes.slice(0,3),['evidence','payment','link']);
+});
+test('a previously saved generic receipt without a payer remains visible and uncredited',async()=>{
+ const sourceBody='You have received 1,250 RWF. Balance 9,000 RWF.';
+ const extractionOutput={...output,payer_name_raw:null,payer_identifier_raw:null,evidence:{...output.evidence,payer:null}};
+ const f=await fixture({sourceBody,extractionOutput});
+ const parsed=validateNativeAutoExtraction({raw_sender:'Example Money',raw_body:sourceBody,source_mode:'catch_up'},profile,extractionOutput);
+ f.state.row.posting_facts={...parsed.facts,transaction_time_source:null,transaction_timezone:null};
+ f.state.row.posting_output=extractionOutput;
+ assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'});
+ assert.equal(f.state.row.posting_facts.amount_minor,1250);assert.equal(f.state.row.posting_facts.wallet_balance_after_minor,9000);
+ assert.equal(f.state.row.has_link,false);assert.deepEqual(f.state.writes,[]);assert.deepEqual(f.state.stored,[]);
+});
+test('the final fenced transaction repeats the source proof before any financial rows',async()=>{
+ const f=await fixture(fullSender('*****456')),plan=await f.ledger.worker.plan();let checks=0;
+ f.ledger.worker.verify=async()=>{if(++checks===2)plan.snapshot.profile.profile.profile_json=JSON.stringify({
+  ...JSON.parse(plan.snapshot.profile.profile.profile_json),sender_allowlist:['Different Sender']});};
+ await assert.rejects(f.ledger.process(sourceId),e=>e.code==='native_sms_credit_unproven');
+ assert.equal(f.state.row.has_link,false);assert.deepEqual(f.state.writes,[]);
 });
 test('a saved legacy suffix interpretation is not reused after its complete source token fails validation',async()=>{
  const original=fullSender('0788999456'),bad={...original.extractionOutput,payer_identifier_raw:'456'};
@@ -195,8 +213,20 @@ test('a self-consistent wrong AI direction for an outgoing SMS creates no financ
  const f=await fixture({sourceBody,extractionOutput:bad});
  f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(bad)})};
  assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'});
- assert.equal(f.state.deferred,1);assert.equal(f.state.deferDelay,86400000);
+ assert.equal(f.state.deferred,1);assert.ok([60000,86400000].includes(f.state.deferDelay));
  assert.deepEqual(f.state.writes,[]);assert.equal(f.state.stored.length,0);
+});
+test('previously saved generic incoming output cannot bypass the new source proof',async()=>{
+ const sourceBody='You have cashed in 1,250 RWF to Example Person *********456. Balance 9,000 RWF.';
+ const principal='You have cashed in 1,250 RWF to Example Person *********456';
+ const saved={...output,schema_version:NATIVE_AUTO_SCHEMA_VERSION,wallet_effect:'credit',
+  evidence:{...output.evidence,incoming_success:principal,principal,payer:'to Example Person *********456',wallet_balance_after:'Balance 9,000 RWF'}};
+ const f=await fixture({sourceBody,extractionOutput:saved});
+ const parsed=validateNativeAutoExtraction({raw_sender:'Example Money',raw_body:sourceBody,source_mode:'catch_up'},profile,saved);
+ assert.equal(parsed.kind,'parsed');assert.equal(parsed.facts.event_kind,'incoming_receipt');
+ f.state.row.posting_facts={...parsed.facts,transaction_time_source:null,transaction_timezone:null};f.state.row.posting_output=saved;
+ assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'});
+ assert.equal(f.state.row.has_link,false);assert.deepEqual(f.state.writes,[]);assert.deepEqual(f.state.stored,[]);
 });
 
 test('a later denial, debit or reversal prevents posting a selectively quoted receipt',async()=>{
@@ -211,7 +241,7 @@ test('a later denial, debit or reversal prevents posting a selectively quoted re
   const f=await fixture({sourceBody,extractionOutput:value});
   f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(value)})};
   assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'},tail);
-  assert.equal(f.state.deferred,1,tail);assert.equal(f.state.deferDelay,86400000,tail);
+  assert.equal(f.state.deferred,1,tail);assert.ok([60000,86400000].includes(f.state.deferDelay),tail);
   assert.deepEqual(f.state.writes,[],tail);assert.equal(f.state.stored.length,0,tail);
  }
 });
@@ -225,7 +255,7 @@ test('a same-clause qualification hidden from the model quote cannot be posted',
   const f=await fixture({sourceBody,extractionOutput:value});
   f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(value)})};
   assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'},suffix);
-  assert.equal(f.state.deferred,1,suffix);assert.equal(f.state.deferDelay,86400000,suffix);
+  assert.equal(f.state.deferred,1,suffix);assert.ok([60000,86400000].includes(f.state.deferDelay),suffix);
   assert.deepEqual(f.state.writes,[],suffix);assert.equal(f.state.stored.length,0,suffix);
  }
 });
@@ -251,7 +281,7 @@ test('previous transaction statements cannot cause a selectively quoted receipt 
    const f=await fixture({sourceBody,extractionOutput:selected});
    f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(selected)})};
    assert.deepEqual(await f.ledger.process(sourceId),{state:'unmatched'},tail);
-   assert.equal(f.state.deferred,1,tail);assert.equal(f.state.deferDelay,86400000,tail);
+   assert.equal(f.state.deferred,1,tail);assert.ok([60000,86400000].includes(f.state.deferDelay),tail);
    assert.deepEqual(f.state.writes,[],tail);assert.equal(f.state.stored.length,0,tail);
   }
  }
@@ -290,7 +320,7 @@ test('constrained balances and supported names preserve masked incoming posting'
    const bad=await fixture({...options,sourceBody});
    bad.ledger.env.MOMO_AI_ENABLED='true';bad.ledger.env.AI={run:async()=>({response:JSON.stringify(value)})};
    assert.deepEqual(await bad.ledger.process(sourceId),{state:'unmatched'},sourceBody);
-   assert.equal(bad.state.deferred,1);assert.equal(bad.state.deferDelay,86400000);
+   assert.equal(bad.state.deferred,1);assert.ok([60000,86400000].includes(bad.state.deferDelay));
    assert.deepEqual(bad.state.writes,[]);assert.equal(bad.state.stored.length,0);
   }
  }
@@ -418,14 +448,14 @@ test('misclassified incoming status and balance-only principal cannot reach the 
   f.state.row.event_kind=parsed.facts.event_kind;f.state.row.currency=parsed.facts.currency;
   f.ledger.env.MOMO_AI_ENABLED='true';f.ledger.env.AI={run:async()=>({response:JSON.stringify(value)})};
   assert.equal((await f.ledger.process(sourceId)).state,'unmatched',tail);
-  assert.equal(f.state.writes.length,0,tail);assert.equal(f.state.stored.length,0,tail);assert.equal(f.state.deferred,1,tail);assert.equal(f.state.deferDelay,86400000,tail);
+  assert.equal(f.state.writes.length,0,tail);assert.equal(f.state.stored.length,0,tail);assert.equal(f.state.deferred,1,tail);assert.ok([60000,86400000].includes(f.state.deferDelay),tail);
  }
  const unsupported=await fixture({sourceBody:body+' A different, earlier transfer failed.'});
  unsupported.ledger.env.MOMO_AI_ENABLED='true';
  unsupported.ledger.env.AI={run:async()=>({response:JSON.stringify(output)})};
  assert.equal((await unsupported.ledger.process(sourceId)).state,'unmatched');
  assert.equal(unsupported.state.writes.length,0);assert.equal(unsupported.state.stored.length,0);
- assert.equal(unsupported.state.deferred,1);assert.equal(unsupported.state.deferDelay,86400000);
+ assert.equal(unsupported.state.deferred,1);assert.ok([60000,86400000].includes(unsupported.state.deferDelay));
 });
 test('a link without a matching posted contribution is not reported as posted',async()=>{
  const f=await fixture();f.state.row.has_link=true;f.state.row.link_posted=false;

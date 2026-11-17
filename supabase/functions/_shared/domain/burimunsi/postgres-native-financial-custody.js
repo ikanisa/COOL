@@ -11,7 +11,7 @@ import {PostgresNativeAuthority} from './postgres-authority.js';
 import {PostgresPostingCustody} from './postgres-posting-custody.js';
 import {PostgresStorageWitnesses} from './postgres-storage-witnesses.js';
 import {observationContentFingerprint} from './postgres-observations.js';
-import {prepareNativeAutoExtraction,validateNativeAutoExtraction} from './native-auto-parser.js';
+import {prepareNativeAutoExtraction,validateNativeAutoExtraction,proveNativeAutoCredit} from './native-auto-parser.js';
 import {matchesPartialInboxFinancialQuotes,parseNativeRecipientQuote,parsePartialInboxEvidence,parseUnresolvedEvidence} from './unresolved-evidence.js';
 
 const hash=/^[a-f0-9]{64}$/;
@@ -101,7 +101,7 @@ async function verifyPayload(source,receipt,work){
   inboxReceivedAt:source.inbox_received_at,subscriptionId:source.subscription_id},work.bodySha256);
  check(content===work.sourceKeyContentSha256);
  const parsed=validateNativeAutoExtraction(source,account,t.parseOutput);
- check(parsed.kind==='parsed'&&parsed.facts.source_mode===source.source_mode&&parsed.facts.event_kind===t.eventKind&&
+ check(proveNativeAutoCredit(source,account,t.parseOutput)&&parsed.kind==='parsed'&&parsed.facts.source_mode===source.source_mode&&parsed.facts.event_kind===t.eventKind&&
   parsed.facts.payment_outcome===t.paymentOutcome&&parsed.facts.provider_transaction_id===t.providerTransactionId&&
   parsed.facts.amount_minor===t.amountMinor&&parsed.facts.currency===t.currency&&
   parsed.facts.counterparty_identifier===t.payerIdentifier&&

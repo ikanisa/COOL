@@ -8,7 +8,7 @@ import {appendContributionCollision,appendContributionEntry,appendContributionSn
 import {BuriError,requireThat} from './errors.js';
 import {canonicalJson,requireId,requireRequestId,sha256} from './values.js';
 import {PostgresNativeAutoWorker} from './postgres-native-auto-worker.js';
-import {prepareNativeAutoExtraction,validateNativeAutoExtraction,hasStrongNativeTransactionIdentity} from './native-auto-parser.js';
+import {prepareNativeAutoExtraction,validateNativeAutoExtraction,hasStrongNativeTransactionIdentity,proveNativeAutoCredit} from './native-auto-parser.js';
 import {matchNativeSmsMember} from './native-sms-member-match.js';
 
 const check=(ok,code='native_sms_posting_unavailable',status=503)=>requireThat(ok,code,status);
@@ -115,12 +115,13 @@ export class PostgresNativeSmsLedger {
    const facts={...extracted.facts,transaction_time_source:extracted.facts.transaction_at?'sms_body_and_provider_profile':null,
     transaction_timezone:extracted.facts.transaction_at?profile.timezone:null};
    if(initial.row.posting_facts!==null)check(same(initial.row.posting_facts,facts)&&same(initial.row.posting_output,output));
+   const creditProven=proveNativeAutoCredit(source,profile,output);
    const memberId=await this.authority.write(async tx=>{
     await this.worker.verify(tx,sourceId,initial.plan,binding);
     const row=await this.snapshot(tx,sourceId);check(sameSource(initial.row,row));
     const saved=await tx.unsafe('SELECT private.burimunsi_native_sms_post_facts($1,$2,$3::jsonb,$4::jsonb) AS result',
      [sourceId,row.source_fingerprint,output,facts]);check(saved.length===1&&saved[0].result===true);
-    if(facts.event_kind!=='incoming_receipt')return null;
+    if(facts.event_kind!=='incoming_receipt'||!creditProven)return null;
     const members=await rowsForMembers(tx,this.groupId);
     return matchNativeSmsMember({groupId:this.groupId,payerName:facts.counterparty_name,payerIdentifier:facts.counterparty_identifier,members});
    });
@@ -145,6 +146,7 @@ export class PostgresNativeSmsLedger {
     if(row.has_link===true){check(row.link_posted===true);return {state:'already_posted'};}
     check(sameSource(initial.row,row)&&same(row.posting_facts,facts)&&same(row.posting_output,output)&&
      ['unallocated','not_applicable'].includes(row.allocation_state));
+    check(proveNativeAutoCredit(source,profile,row.posting_output),'native_sms_credit_unproven',409);
     const members=await rowsForMembers(tx,this.groupId);
     check(matchNativeSmsMember({groupId:this.groupId,payerName:facts.counterparty_name,payerIdentifier:facts.counterparty_identifier,members})===memberId,
      'native_sms_member_changed',409);

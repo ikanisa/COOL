@@ -381,7 +381,7 @@ const RECEIPT_CLAUSES=[
  {lead:/^umepokea\s*$/iu,connector:/^kutoka\s+/iu},
 ];
 const RECEIPT_PARTY_NAME=/^\p{Lu}[\p{L}\p{M}'’\-]*(?:\s+(?:(?:de(?:\s+la)?|van(?:\s+der)?|der)\s+)?\p{Lu}[\p{L}\p{M}'’\-]*){0,3}(?:\s+&\s+Sons)?$/u;
-const RECEIPT_PARTY_ID=/^[+0-9*•xX# .\-]{3,32}$/u;
+const RECEIPT_PARTY_ID=/^[+0-9*•xX# ().\-]{3,32}$/u;
 // The model may omit a later sentence entirely. Reject explicit denials,
 // addressed-wallet debits and reversals in the whole source, in the limited
 // language forms we can independently recognize. Unrecognized statements are
@@ -482,14 +482,12 @@ function supportedKind(value,body,profile){
   const effect=value.wallet_effect,required={incoming_receipt:['credit'],outgoing:['debit'],reversal:['credit','debit'],failed:['none'],pending:['none']};
   if(!own(expected,kind))return {event_kind:kind==='other'?'other':'unknown',payment_outcome:'unknown'};
   if(outcome!==expected[kind]||!required[kind].includes(effect)||!contextualQuote(body,value.evidence.incoming_success,profile)||
-   kind==='incoming_receipt'&&!supportedIncomingSource(body,value,profile)||
    ['incoming_receipt','outgoing'].includes(kind)&&contradictoryOutcome(body,value,profile))
    return {event_kind:'unknown',payment_outcome:'unknown'};
   return {event_kind:kind,payment_outcome:outcome};
  }
  if(own(expected,kind)){
   if(outcome!==expected[kind]||!containsAny(body,markers(profile,kind)))return {event_kind:'unknown',payment_outcome:'unknown'};
-  if(kind==='incoming_receipt'&&!supportedIncomingSource(body,value,profile))return {event_kind:'unknown',payment_outcome:'unknown'};
   // Bind a contradictory status to this transaction, not an unrelated prior
   // failure or conditional provider advice elsewhere in the SMS.
   if(['incoming_receipt','outgoing'].includes(kind)&&contradictoryOutcome(body,value,profile))
@@ -639,11 +637,8 @@ export function validateNativeAutoExtraction(source,account,output){
   fallback&&referenceInEvidence(body,fallback,profile.transaction_id_prefixes)?fallback:null;
  const otherId=output.original_transaction_id_raw&&output.original_transaction_id_raw.length<=160&&
   !/\s/u.test(output.original_transaction_id_raw)?output.original_transaction_id_raw:null;
- const counterparty=output.payer_identifier_raw&&sourceBoundPayerIdentifier(body,output.evidence.payer,output.payer_identifier_raw)&&
-  sourceBoundPayerIdentifier(source.raw_body,output.evidence.payer,output.payer_identifier_raw)?output.payer_identifier_raw:null;
- const name=output.payer_name_raw&&present(output.evidence.payer,output.payer_name_raw)&&(!counterparty||
-  sourceBoundPayerName(body,output.evidence.payer,output.payer_name_raw,counterparty,principal)&&
-  sourceBoundPayerName(source.raw_body,output.evidence.payer,output.payer_name_raw,counterparty,principal))?output.payer_name_raw:null;
+ const name=output.payer_name_raw&&present(output.evidence.payer,output.payer_name_raw)?output.payer_name_raw:null;
+ const counterparty=output.payer_identifier_raw&&present(output.evidence.payer,output.payer_identifier_raw)?output.payer_identifier_raw:null;
  const rawDate=output.transaction_datetime_raw&&present(output.evidence.transaction_datetime,output.transaction_datetime_raw)?output.transaction_datetime_raw:null;
  const fee=output.fee_amount_raw!==null&&quotedMinor(output.fee_amount_raw,profile)!==null&&present(body,output.evidence.fee)&&
   (semantic?semanticAmountHasRole(body,output,profile,'fee'):amountHasRole(body,output.evidence.fee,output.fee_amount_raw,profile,'fee',identity.event_kind))?quotedMinor(output.fee_amount_raw,profile):null;
@@ -661,6 +656,25 @@ export function validateNativeAutoExtraction(source,account,output){
  const facts={source_mode:source.source_mode,...identity,provider_transaction_id:id,original_transaction_id:otherId,amount_minor:amount,currency,
   counterparty_name:name,counterparty_identifier:counterparty,transaction_at:sourceTime(rawDate,account,profile),transaction_datetime_raw:rawDate,fee_minor:fee,wallet_balance_after_minor:balance};
  return {kind:'parsed',direction:direction(identity.event_kind),facts,...(normalizedOutput?{normalizedOutput}: {})};
+}
+
+/** A parsed fact is not authorization to post. This conservative, pure check
+ * proves only the supported source grammar and complete payer spans, not
+ * provider settlement or the hidden digits of a masked identifier. */
+export function proveNativeAutoCredit(source,account,output){
+ try{
+  const parsed=validateNativeAutoExtraction(source,account,output),planned=prepareNativeAutoExtraction(source,account);
+  if(parsed.kind!=='parsed'||planned.kind!=='provider'||parsed.facts.event_kind!=='incoming_receipt'||
+   parsed.facts.payment_outcome!=='successful'||parsed.facts.currency!=='RWF'||
+   !Number.isSafeInteger(parsed.facts.amount_minor)||parsed.facts.amount_minor<=0)return false;
+  const value=parsed.normalizedOutput??output,profile=validateProviderProfile(account);
+  const name=value?.payer_name_raw,identifier=value?.payer_identifier_raw,quote=value?.evidence?.payer;
+  if(!profile||!name||!identifier||parsed.facts.counterparty_name!==name||parsed.facts.counterparty_identifier!==identifier)return false;
+  return supportedIncomingSource(planned.body,value,profile)&&
+   sourceBoundPayerIdentifier(planned.body,quote,identifier)&&sourceBoundPayerIdentifier(source.raw_body,quote,identifier)&&
+   sourceBoundPayerName(planned.body,quote,name,identifier,value.principal_amount_raw)&&
+   sourceBoundPayerName(source.raw_body,quote,name,identifier,value.principal_amount_raw);
+ }catch{return false;}
 }
 
 /** Qualify a provider identity for the narrower no-balance financial path.

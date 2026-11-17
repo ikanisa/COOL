@@ -14,15 +14,15 @@ const group='fixture-group',sourceId='11111111-1111-4111-8111-111111111111';
 const jobId='22222222-2222-4222-8222-222222222222',leaseToken='33333333-3333-4333-8333-333333333333';
 const owner='fixture-owner',accountId='fixture-wallet',transactionId='fixture-transaction';
 const clone=v=>structuredClone(v),bytes=s=>new TextEncoder().encode(s);
-const body='You have received RWF 1,500 from +250788111222. TxId: TX-556677. Receiver code: 48271.';
+const body='You have received RWF 1,500 from Example Person +250788111222. TxId: TX-556677. Balance 9,000 RWF.';
 const profile={sender_allowlist:['SYNTHETIC-MOMO'],currency_aliases:['RWF'],incoming_prefixes:['You have received'],
  transaction_id_prefixes:['TxId:'],date_format:'YMD_HMS',utc_offset_minutes:120,
  recipient_rules:[{role:'recipient',kind:'public_code',prefix:'Receiver code: ',suffix:'.',digit_count:5,format:'digits'}]};
 const output={schema_version:'momo-extraction.v1',event_kind:'incoming_receipt',payment_outcome:'successful',
  transaction_id_raw:'TX-556677',original_transaction_id_raw:null,transaction_datetime_raw:null,principal_amount_raw:'1,500',currency_raw:'RWF',
- payer_name_raw:null,payer_identifier_raw:'+250788111222',payment_reference_raw:null,fee_amount_raw:null,wallet_balance_after_raw:null,
+ payer_name_raw:'Example Person',payer_identifier_raw:'+250788111222',payment_reference_raw:null,fee_amount_raw:null,wallet_balance_after_raw:null,
  evidence:{incoming_success:'You have received RWF 1,500',principal:'You have received RWF 1,500',transaction_id:'TxId: TX-556677',
- transaction_datetime:null,payer:'from +250788111222',fee:null,wallet_balance_after:null},issues:[]};
+ transaction_datetime:null,payer:'from Example Person +250788111222',fee:null,wallet_balance_after:null},issues:[]};
 async function fixture(t,{withoutConfirmation=false,sourceBody=body}={}){
  let row;const backend={async register(id,source,kind){row={contractVersion:1,admissionId:id,epoch:1,sourceSha256:source,state:'active',mode:'open',kind};return row;},
  async lease(){return{row,async assert(){return row;},async release(){}};},async close(_id,_epoch,_source,state,reason,externalDispatches,uncertainDispatches){row={...row,state,reason,externalDispatches,uncertainDispatches};return row;},async status(){return {...row,found:true};}};
@@ -83,18 +83,22 @@ async function fixture(t,{withoutConfirmation=false,sourceBody=body}={}){
 test('a keyed catch-up source keeps its mode and needs independent settled-recipient evidence',async t=>{
  const f=await fixture(t),out=await f.port.prepare(f.cmd);assert.equal(out.state,'ready');
  const proof=await f.port.assertInTransaction(f.tx,out.proof);assert.equal(proof.sourceMode,'catch_up');assert.equal(proof.sourceComplete,false);
- assert.equal(proof.recipientEvidence,'provider_and_quote');assert.equal(f.state.mediaGets,1);assert.equal(Object.keys(out.proof).length,0);
+ assert.equal(proof.recipientEvidence,'provider');assert.equal(f.state.mediaGets,1);assert.equal(Object.keys(out.proof).length,0);
  f.port.release(out.proof);await assert.rejects(()=>f.port.assertInTransaction(f.tx,out.proof));
 });
 test('independent provider recipient supports a source without recipient grammar',async t=>{
- const f=await fixture(t,{sourceBody:body.replace(' Receiver code: 48271.',' Thank you.')});
+ const f=await fixture(t);
  const value={...profile};delete value.recipient_rules;f.state.snapshot.receipt.account.profile_json=JSON.stringify(value);
  const out=await f.port.prepare(f.cmd);assert.equal(out.state,'ready');
  const proof=await f.port.assertInTransaction(f.tx,out.proof);assert.equal(proof.recipientEvidence,'provider');f.port.release(out.proof);
 });
-test('the same digits under a different recipient type cannot impersonate the configured code',async t=>{
- const f=await fixture(t);f.state.snapshot.receipt.account.profile_json=JSON.stringify({...profile,
+test('an unqualified recipient statement cannot impersonate the configured code',async t=>{
+ const f=await fixture(t,{sourceBody:body+' Receiver code: 48271.'});f.state.snapshot.receipt.account.profile_json=JSON.stringify({...profile,
   recipient_rules:[{...profile.recipient_rules[0],kind:'account_number'}]});
+ await assert.rejects(()=>f.port.prepare(f.cmd));
+});
+test('recipient metadata outside the strict credit grammar remains unqualified',async t=>{
+ const f=await fixture(t,{sourceBody:body+' Receiver code: 48271.'});
  await assert.rejects(()=>f.port.prepare(f.cmd));
 });
 test('standard PIN safety advice remains usable without upgrading the retained source',async t=>{
@@ -104,6 +108,15 @@ test('standard PIN safety advice remains usable without upgrading the retained s
 });
 test('without a source-bound independent provider confirmation it does not fetch or admit',async t=>{
  const f=await fixture(t,{withoutConfirmation:true});assert.deepEqual(await f.port.prepare(f.cmd),{state:'unavailable'});assert.equal(f.state.mediaGets,0);
+});
+test('future custody requires complete payer name and number even with provider confirmation',async t=>{
+ for(const change of ['cropped-name','cropped-number','missing-name']){
+  const f=await fixture(t),tx=f.state.snapshot.receipt.transaction;
+  if(change==='cropped-name')tx.parseOutput.payer_name_raw='Example';
+  if(change==='missing-name')tx.parseOutput.payer_name_raw=null;
+  if(change==='cropped-number'){tx.payerIdentifier='222';tx.parseOutput.payer_identifier_raw='222';}
+  await assert.rejects(()=>f.port.prepare(f.cmd),change);
+ }
 });
 test('provider lookup receives only a scoped immutable identity',async t=>{
  const f=await fixture(t),out=await f.port.prepare(f.cmd);assert.equal(out.state,'ready');
@@ -149,12 +162,12 @@ test('partial financial quotes require whole bounded reference and amount tokens
   source:{raw_sender:'SYNTHETIC-MOMO',raw_body:raw,source_mode:'catch_up',complete:false},
   providerProfile:tuple,reference,amountMinor,currency});
  assert.equal(check(body),true);
- assert.equal(check(body.replace('TX-556677. Receiver','TX-556677, Receiver')),true);
- assert.equal(check(body.replace('TX-556677. Receiver','TX-556677; Receiver')),true);
+ assert.equal(check(body.replace('TX-556677. Balance','TX-556677, Balance')),true);
+ assert.equal(check(body.replace('TX-556677. Balance','TX-556677; Balance')),true);
  assert.equal(check(body,'TX-5566'),false);
  assert.equal(check(body,'556677'),false);
  assert.equal(check(body,'tx-556677'),false);
- assert.equal(check(body.replace('TX-556677. Receiver','TX-556677.EXTRA Receiver')),false);
+ assert.equal(check(body.replace('TX-556677. Balance','TX-556677.EXTRA Balance')),false);
  assert.equal(check(body+' TxId: TX-556677.'),false);
  assert.equal(check(body,'TX-556677',1),false);
  assert.equal(check(body.replace('RWF 1,500','RWF 1,50')),false);
@@ -195,6 +208,11 @@ test('revoked native lease after preflight cannot reuse an otherwise valid proof
 });
 test('a changed provider record after preflight cannot authorize the original proof',async t=>{
  const f=await fixture(t),out=await f.port.prepare(f.cmd);assert.equal(out.state,'ready');f.state.confirmation.version++;
+ await assert.rejects(()=>f.port.assertInTransaction(f.tx,out.proof));f.port.release(out.proof);
+});
+test('changed payer evidence after preflight cannot reuse the custody proof',async t=>{
+ const f=await fixture(t),out=await f.port.prepare(f.cmd);assert.equal(out.state,'ready');
+ f.state.snapshot.receipt.transaction.parseOutput.payer_name_raw='Example';
  await assert.rejects(()=>f.port.assertInTransaction(f.tx,out.proof));f.port.release(out.proof);
 });
 test('a caller-created object cannot impersonate a custody proof',async t=>{
