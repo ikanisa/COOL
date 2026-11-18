@@ -1,4 +1,4 @@
-# OpenSMS on self-hosted Supabase
+# OpenSMS on managed Supabase Cloud
 
 This is the PostgreSQL and Supabase Edge port of the owner's OpenSMS v0.3 source. It retains the inspected application, device, staff, OTP, campaign, template, schedule, callback, metrics, history and content-redaction APIs. It contains no D1 database, Cloudflare deployment binding or second business backend.
 
@@ -12,9 +12,9 @@ The port changes imports, storage, SQL compatibility and runtime hosting. Device
 
 The private `collect_sms` schema contains 29 tables and the `attempt_evidence` view. All 25 distinct upstream trigger definitions are preserved, including multipart evidence, no suppression after handoff/unknown, OTP limits, callback outbox generation, immutable source facts and no content rehydration. The evidence view uses `security_invoker=true` so forced RLS does not silently hide delivery evidence.
 
-`collect_sms_runtime` is a non-login, non-superuser role without RLS bypass. REST roles and `collect_runtime` receive no schema access. The installer provisions a distinct login that can set this role, represented by `COLLECT_SMS_DATABASE_URL`. No HTTP route accepts SQL or credentials. The adapter bounds queued transactions, parameters, statement size and timeouts. It acquires one PostgreSQL advisory transaction lock before its first query, preserving the source's serial write ordering for limits, device assignment, campaign budgets and multi-statement guards. Statement triggers also serialize direct internal writes. A future scalability change must preserve these ordering guarantees and rerun concurrency qualification.
+`collect_sms_runtime` is a non-login, non-superuser role without RLS bypass. REST roles and `collect_runtime` receive no schema access. The Edge function connects as `collect_sms_edge_login`, which can explicitly set the runtime role and has no inherited runtime privileges. No HTTP route accepts SQL or database credentials. The adapter bounds queued transactions, parameters, statement size and timeouts. It acquires one PostgreSQL advisory transaction lock before its first query, preserving the source's serial write ordering for limits, device assignment, campaign budgets and multi-statement guards. Statement triggers also serialize direct internal writes.
 
-Database TLS requires certificate verification and the exact database hostname. `COLLECT_DB_CA_PEM` supplies the private CA. Plain loopback transport is accepted only by the explicit synthetic fixture constructor. Production does not disable certificate verification.
+The dedicated DSN accepts the production project's exact direct database host or its pinned session-pooler host on port 5432. The pooler username carries the project reference. The PostgreSQL driver verifies the TLS certificate and server name. `COLLECT_SMS_DATABASE_CA_PEM` accepts the gateway's pinned CA. When unset, the gateway can use the shared `COLLECT_DB_CA_PEM` or the driver's trusted roots.
 
 ## Source, epoch and work admission
 
@@ -22,25 +22,28 @@ Database TLS requires certificate verification and the exact database hostname. 
 
 The gateway login receives no general application/runtime/owner privilege. Its functions cannot inspect or close another lane's admission. Original admitted work may finish in quiescing mode; new health, API and maintenance work is refused. Callback/FCM fetches and deferred work remain attached to the original admission, and uncertain outcomes retain their counters. Lost registration or close acknowledgements do not cause a replacement registration or blind close replay.
 
-These controls establish local process and database admission. A physical phone can still hold an already acknowledged job, and external callbacks or FCM can have an unknown result. Local completion does not settle those obligations. An operator must pause device dispatch and reconcile the retained phone/provider evidence as part of cutover and recovery; the gateway does not infer physical settlement from a stopped process or elapsed timeout.
+These controls establish application and database admission. A phone can still hold an acknowledged job, and callbacks or FCM can have an unknown result. During cutover or recovery, pause new dispatch and reconcile the original phone and provider evidence. The gateway never replays a message to resolve an uncertain outcome.
 
 ## Runtime and dormant defaults
 
-`supabase/functions/collect-sms/index.ts` starts the dedicated Edge handler. Requests under `/functions/v1/collect-sms/` retain their original `/v1/…` paths. `src/edge.ts` exports an importable factory for host integration.
+`supabase/functions/collect-sms/index.ts` starts the dedicated Supabase Edge handler. The function accepts its exact project authority and routes under `/functions/v1/collect-sms/` or `/collect-sms/`. Supabase JWT verification is disabled for this function so the gateway can verify its own scoped application, device and operator credentials. Browser calls also undergo the gateway's configured origin check.
 
-Production defaults are `COLLECT_SMS_ENABLED=false`, `DISPATCH_PAUSED=true`, `FCM_ENABLED=false` and `RETENTION_AUTO_PURGE=false`. Enabling requires the verified self-hosted profile, a build source hash, an explicit gateway approval digest, a distinct database URL and strong root/HMAC secrets. The optional maintenance endpoint requires a separate maintenance token; an application or device token cannot invoke it. Actual activation and device/provider qualification are operator actions outside local implementation tests.
+The default settings keep the gateway disabled and device dispatch paused. FCM and automatic content purging default to off. Enabling the gateway requires the canonical managed profile, reviewed core and gateway release digests, explicit approval and dedicated PostgreSQL and gateway credentials.
 
 | Setting | Purpose |
 | --- | --- |
-| `COLLECT_SMS_DATABASE_URL`, `COLLECT_DB_CA_PEM` | Gateway-only PostgreSQL login and verified TLS CA |
-| `COLLECT_SMS_ENABLED`, `COLLECT_SMS_APPROVAL_SHA256`, `BUILD_SOURCE_ID` | Explicit deployment enablement and reviewed source/approval identity |
-| `COLLECT_DEPLOYMENT_PROFILE`, `COLLECT_DEPLOYMENT_PROFILE_SHA256` | Canonical public deployment identity |
-| `ROOT_ADMIN_TOKEN`, `OTP_HMAC_KEY` | High-entropy bootstrap capability and OTP verifier HMAC secret |
-| `DISPATCH_PAUSED`, `OTP_REQUIRE_READY_GATEWAY`, `OTP_SEGMENT_INTERVAL_MS`, `REQUIRE_ACTUAL_PARTS` | Dispatch admission and device evidence requirements |
-| `FCM_ENABLED`, `FCM_PROJECT_ID`, `FCM_CLIENT_EMAIL`, `FCM_PRIVATE_KEY` | Optional payload-free Android wake transport |
+| `COLLECT_SMS_DATABASE_URL`, `COLLECT_SMS_DATABASE_CA_PEM` | Gateway-only PostgreSQL login and trusted TLS CA |
+| `COLLECT_SMS_ENABLED`, `COLLECT_SMS_APPROVAL_SHA256` | Explicit enablement and separate release approval digest |
+| `BUILD_SOURCE_ID`, `COLLECT_SMS_CORE_SOURCE_SHA256`, `COLLECT_SMS_RELEASE_SHA256` | Active core source, its required exact match and reviewed gateway release |
+| `SUPABASE_URL`, `APP_ENVIRONMENT`, `COLLECT_DEPLOYMENT_PROFILE`, `COLLECT_DEPLOYMENT_PROFILE_SHA256` | Canonical managed project and environment |
+| `COLLECT_SMS_ROOT_ADMIN_TOKEN`, `COLLECT_SMS_OTP_HMAC_KEY` | Distinct high-entropy bootstrap and OTP verifier secrets |
+| `COLLECT_SMS_DISPATCH_PAUSED`, `OTP_REQUIRE_READY_GATEWAY`, `OTP_SEGMENT_INTERVAL_MS`, `REQUIRE_ACTUAL_PARTS` | Dispatch admission and device evidence requirements |
+| `COLLECT_SMS_FCM_ENABLED`, `FCM_PROJECT_ID`, `FCM_CLIENT_EMAIL`, `FCM_PRIVATE_KEY` | Optional payload-free Android wake transport |
 | `CALLBACK_ENCRYPTION_KEY`, `CALLBACK_ALLOWED_HOSTS` | Dedicated **64-hex-character** encryption key and explicit HTTPS callback hosts |
-| `MESSAGE_RETENTION_DAYS`, `RETENTION_AUTO_PURGE` | Optional bounded content minimization; retained identity/evidence is preserved |
+| `MESSAGE_RETENTION_DAYS`, `COLLECT_SMS_RETENTION_AUTO_PURGE` | Optional bounded content minimization with retained identity and evidence |
 | `COLLECT_SMS_MAINTENANCE_TOKEN` | Separate protected maintenance admission |
+
+Once enabled, `GET /health` exposes basic liveness. Operators can use the bootstrap bearer token with `GET /internal/readiness` to verify the active profile/source admission, restricted role, relation grants and transport settings without reading gateway records or contacting a device. `POST /internal/maintenance` requires the separate maintenance token and is optional. Readiness leaves dispatch settings as configured.
 
 The browser never receives these secrets. OTP and contribution receipts require separate application identities, allowed kinds and tokens. OTP accepts only `otp`; the receipt application accepts only `receipt`. Both need `messages:write` and `messages:read` for immutable submission and readback. Permission to administer applications does not establish recipient consent or authorize a Collect receipt.
 
@@ -56,13 +59,14 @@ The Admin gateway adapter uses a short-lived one-use grant returned only with th
 
 Encrypted backups and restore rehearsals must include `collect_sms` tables, the invoker view, indexes, trigger functions, RLS policies, least-privilege grants and the private gateway work-ownership map. That map is an explicit blocked shared operational copy. Content minimization preserves uncertain jobs and immutable replay identities. A redacted body cannot be silently recreated or sent to a new recipient through an old source event.
 
-## Local verification
+## Verification
 
-The focused receipt-guard regression uses Node 24's TypeScript transformation and a
-fake database. Run `node --experimental-transform-types --test --test-isolation=none deploy/collect-sms/test/ledger_snapshot_receipt_guard.test.mjs`
-from the repository root. It covers replay conflicts and zero-valued new
-contribution receipts; it does not establish PostgreSQL concurrency or SMS delivery.
+Run the frozen Deno Edge tests from the repository root.
 
-The ported original API/Android suite plus six added PostgreSQL cases passes 34 tests on the isolated PostgreSQL 17 fixture. The added cases cover private schema access, template version immutability, schedule eligibility/concurrency, staff rotation, retention/no rehydration, immutable ledger snapshots and callback generations. No real phones, carrier submissions, FCM credentials or callback destinations are used.
+```sh
+deno test --cached-only --frozen --allow-env --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock deploy/collect-sms/test/edge.test.ts
+```
 
-The maintained test runner requires `COLLECT_CI_SYNTHETIC=true`, `COLLECT_SELFHOST_NATIVE_PROFILE=reviewed_current_self_hosted` and `COLLECT_SMS_FIXTURE_FILE` naming the expressly provisioned fresh original16 fixture. It installs the reviewed current additions exactly once, verifies the loopback host/database/normal owner, reaches the real inactive fence before binding its qualification profile, and runs under an actual gateway work admission. There is no schema-drop or reset path. The separate `scripts/supabase/testing/gateway-fence.ts` uses another fresh database and an actual restricted login to test source/profile refusal, mutation guards, held work, quiesce, unknown callback/FCM results, source upgrade and original-acknowledgement recovery. Its provider boundaries are explicit doubles and its evidence states the exact source/migration scope. Never point these runners at a deployment. These checks do not replace an actual device, reverse-proxy, native scheduler-extension or restore rehearsal.
+The suite exercises routed HTTP admission, scoped authentication, paused dispatch and readiness using synthetic database and fence responses. Run the receipt-guard regression with `node --experimental-transform-types --test --test-isolation=none deploy/collect-sms/test/ledger_snapshot_receipt_guard.test.mjs` to verify replay conflicts and rejection of new zero-valued contribution receipts.
+
+The retained original API and Android parity evidence covers 34 historical isolated PostgreSQL tests, including schema grants, staff rotation, retention, scheduling and callback transitions. Live commissioning additionally requires the deployed readiness check and separately authorized phone and provider verification.
