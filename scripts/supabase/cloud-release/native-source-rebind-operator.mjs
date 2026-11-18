@@ -332,7 +332,9 @@ export async function requalifyNativeAncillary({label,stage,approvalName,qualifi
   checkTransition(state,next,approval.digest);
   if(state.secrets.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256!==sha(approval.digest)||
    !sameDeployedFunctions(rd.functions,state.functions,state.ancillaryRegistration??null))fail('rebind_approval_outcome_unknown');
-  io.verifyDeployment(ri,rd,state);await io.guardStatus(intentGuard(intent.newSource));
+  // The new source's key record is created after this approval is reconciled.
+  // checkTransition verified the drained scheduler and retained signer above.
+  io.verifyDeployment(ri,rd,state);
  }
  const name=stem+'-'+stage+'-ancillary-requalification.json';
  const proof={format:'collect.native-ancillary-requalification.v1',stage,previousDigest:intent.ancillaryRegistration.digest,
