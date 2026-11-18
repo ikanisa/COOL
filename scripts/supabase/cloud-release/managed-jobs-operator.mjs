@@ -9,10 +9,15 @@ import {connect,management,record,ROOT,PROJECT,sha} from './access.mjs';
 import {validateReadiness} from '../jobs_config.mjs';
 import {renderManagedScheduler} from './managed-jobs-scheduler.mjs';
 import {sameDeployedFunctions,keyEvidenceForSource} from './managed-jobs-key-operator.mjs';
+import {readAncillaryRegistration,requireSameRegistration} from './ancillary-inventory.mjs';
 import {renderNativeProviderBudget} from './native-provider-budget-render.mjs';
 import {renderNativeProviderPolicy} from './native-provider-policy-render.mjs';
 
 const HASH=/^[a-f0-9]{64}$/,MODEL=/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/;
+export function requireSchedulerInventory(keyFunctions,providerFunctions,registration=null){
+ if(!sameDeployedFunctions(keyFunctions,providerFunctions,registration))throw Error('deployed_function_changed');
+ return providerFunctions;
+}
 const GUARDS={
  'private.collect_imported_native_source(text)':'3de5a1c984b9cf3d3e00f0ae8930a85b89cdc9f74f6e70c4744df96717ba2cde',
  'private.collect_imported_native_transaction(text)':'78d4c3a94b6bb10afe1fd7156e3ee6c0499eda4ba6787395ebcc2aea41d8ad0a',
@@ -51,13 +56,14 @@ export function expectedSchedulerBodies(sql){
  return {ops:Object.fromEntries(expected),private:{collect_managed_job_claim:sha(claim[1]),collect_managed_job_complete:sha(complete[1])}};
 }
 async function inspect(db){
+ const ancillaryRegistration=readAncillaryRegistration();
  const [scheduler,graph]=await Promise.all([renderManagedScheduler(),Promise.resolve(privateJson('graph-import-attempt-002-result.json'))]);
  if(sha(readFileSync(new URL('../../../supabase/migrations/20261117073850_collect_managed_jobs_hmac.sql',import.meta.url)))!==scheduler.sqlSha)throw Error('scheduler_migration_changed');
  const f=(await db.query('SELECT mode,source_sha256 FROM private.collect_fence_control WHERE singleton')).rows[0];
  const key=keyEvidenceForSource(f?.source_sha256);
  if(f?.mode!=='open'||f.source_sha256!==key.sourceSha256||key.project!==PROJECT||!HASH.test(key.keySha256??'')||!Array.isArray(key.functions))throw Error('runtime_or_key_changed');
  const [functionResult,secretResult]=await Promise.all([management('functions'),management('secrets')]);
- const funcs=functionResult.json();if(!sameDeployedFunctions(key.functions,funcs))throw Error('deployed_function_changed');
+ const funcs=requireSchedulerInventory(key.functions,functionResult.json(),ancillaryRegistration);
  const secrets=new Map(secretResult.json().map(x=>[x.name,x.value]));
  if(secrets.get('BUILD_SOURCE_ID')!==sha(f.source_sha256)||secrets.get('COLLECT_JOB_AUTH_MODE')!==sha('supabase_dispatch_hmac_v1')||secrets.get('COLLECT_JOB_SIGNING_KEY')!==key.keySha256||
   secrets.get('MOMO_PROCESSING_PAUSED')!==sha('true'))throw Error('runtime_or_key_changed');
@@ -141,7 +147,18 @@ async function inspect(db){
   FROM pg_class c WHERE c.oid='private.collect_managed_job_tickets'::regclass`)).rows[0];
  if(claims.length!==2||claims.some(x=>x.owner!=='postgres'||x.prosecdef!==true||x.digest!==expected.private[x.proname]||!x.runtime_execute||x.anon_execute||x.authenticated_execute||x.service_execute)||
   !ticket||ticket.owner!=='postgres'||!ticket.relrowsecurity||!ticket.relforcerowsecurity||ticket.runtime_access||!ticket.guarded)throw Error('scheduler_source_shape_changed');
- return {row,secrets,source:f.source_sha256};
+ requireSameRegistration(ancillaryRegistration,readAncillaryRegistration());
+ return {row,secrets,source:f.source_sha256,functions:funcs,ancillaryRegistration};
+}
+
+export function requireInventoryCheckpoint(pre,current,registration){
+ requireSameRegistration(pre.ancillaryRegistration??null,registration);
+ if(!sameDeployedFunctions(pre.functions,current,registration))throw Error('deployed_function_changed');
+}
+async function verifyInventoryCheckpoint(pre){
+ const registration=readAncillaryRegistration(),current=(await management('functions')).json();
+ requireInventoryCheckpoint(pre,current,registration);
+ requireSameRegistration(registration,readAncillaryRegistration());
 }
 export function verifyNativeBudget(pre,r,now=Date.now()){
  const a=r.native_sms_admission,c=pre.row;
@@ -168,6 +185,7 @@ async function main(){
  try{
   let pre=await inspect(db);
   if(action==='--status'){console.log(JSON.stringify({project:PROJECT,sourceSha256:pre.source,enabled:pre.row.enabled,cronActive:pre.row.active,pending:pre.row.pending,historicalProtected:pre.row.historical}));return;}
+  await verifyInventoryCheckpoint(pre);
   if(action==='--pause'){const s=(await db.query('SELECT collect_ops.pause_jobs() AS state')).rows[0].state;console.log(JSON.stringify({enabled:s.enabled,cronActive:s.cron_active}));return;}
   if(action==='--reconcile'){const r=(await db.query('SELECT collect_ops.reconcile_jobs() AS result')).rows[0].result;const s=(await db.query('SELECT collect_ops.jobs_state() AS state')).rows[0].state;console.log(JSON.stringify({reconciliation:r,enabled:s.enabled,cronActive:s.cron_active,awaiting:s.awaiting,unconfirmed:s.unconfirmed}));return;}
   if(action==='--configure-native'||action==='--recover-native-config'){
@@ -181,6 +199,7 @@ async function main(){
     await db.query('SELECT collect_ops.pause_jobs()');await db.query('SELECT collect_ops.reconcile_jobs()');
     pre=await inspect(db);if(pre.row.enabled||pre.row.active||pre.row.pending!==0)throw Error('scheduler_not_drained');
    }else{const previous=privateJson(configName);if(previous.project!==PROJECT||previous.sourceSha256!==pre.source||previous.evidenceSha256!==input.readiness.evidence_file_sha256||pre.row.enabled||pre.row.active||pre.row.pending!==0)throw Error('native_config_requires_reconciliation');}
+   await verifyInventoryCheckpoint(pre);
    const changes=[{name:'MOMO_AI_ENABLED',value:'true'},{name:'MOMO_AI_MODEL',value:a.model_id},
     {name:'COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256',value:a.approval_sha256},{name:'BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED',value:'true'}];
    if(changes.some(x=>pre.secrets.has(x.name)&&![sha(x.value),...(['BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED','MOMO_AI_ENABLED'].includes(x.name)?[sha('false')]:[])].includes(pre.secrets.get(x.name))))throw Error('native_config_preimage_changed');
@@ -212,4 +231,5 @@ async function main(){
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)main().catch(e=>{
  const safe=new Set(['explicit_action_required','evidence_argument_required','invalid_evidence_name','private_evidence_required','maintenance_readiness_required','native_readiness_invalid','scheduler_migration_changed','runtime_or_key_changed','deployed_function_changed','scheduler_or_history_guard_changed','scheduler_source_shape_changed','readiness_project_changed','native_config_not_qualified','maintenance_requires_native_disabled','native_config_requires_reconciliation','confirmed_maintenance_activation_required','scheduler_not_drained','native_config_preimage_changed','disabled_fresh_probe_required','probe_not_dispatched','confirmed_probe_required','activation_unconfirmed']);
+ safe.add('ancillary_proof_invalid');safe.add('ancillary_proof_changed');
  console.error(JSON.stringify({outcome:'unconfirmed',reason:safe.has(e.message)?e.message:'provider_or_database_unavailable',detail:'Use status and reconcile the original recorded dispatch before retrying.'}));process.exitCode=1;});

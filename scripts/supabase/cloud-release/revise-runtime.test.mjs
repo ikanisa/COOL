@@ -3,8 +3,15 @@ import assert from 'node:assert/strict';
 import {reconcileResumeFunctions,reconcileResumeHistory,requireRevisionFunctions,requireRevisionPreimage,requireRevisionSchedulerReady,requireSecretPreimages,reviseRuntime,verifyFencedRevisionPreimage} from './revise-runtime.mjs';
 import {createHash} from 'node:crypto';
 import {identity} from './migrations.mjs';
+import {decodeAncillaryRegistration,registrationSnapshot} from './ancillary-inventory.mjs';
+import {PROJECT} from './access.mjs';
 
 const source='a'.repeat(64),next='b'.repeat(64);
+const ancillary={slug:'collect-sms',id:'00000000-0000-4000-8000-000000000088',status:'ACTIVE',version:5,
+ verify_jwt:false,ezbr_sha256:'d'.repeat(64),sourceSha256:source};
+const proofFor=item=>{const bytes=Buffer.from(JSON.stringify({format:'collect.cloud-ancillary-inventory.v1',project:PROJECT,
+ reviewedEvidenceSha256:'e'.repeat(64),functions:[item]}));return decodeAncillaryRegistration(bytes,createHash('sha256').update(bytes).digest('hex'));};
+const providerSidecar=({sourceSha256,...row})=>row;
 const ready={checked:true,coverageVerified:true,blocking:false,namedActiveJobs:0,
  pendingNativeRequests:0,lifecycleUnproven:0,reviewedUnknownDispatches:1};
 
@@ -27,7 +34,8 @@ function fixture(scheduler){
   captureSnapshot:()=>({sourceSha:next,summary:()=>({sourceSha256:next})}),
   check:()=>({status:'passed',sourceSha256:next}),
   open:async()=>db,
-  api:async(path)=>{calls.push('api:'+path);return {json:()=>[{}, {}, {}]};},
+  api:async(path)=>{calls.push('api:'+path);return {json:()=>['collect-api','admin-api','collect-jobs'].map((slug,i)=>({slug,status:'ACTIVE',verify_jwt:false,
+   version:1,id:`00000000-0000-4000-8000-00000000000${i}`,ezbr_sha256:source}))};},
   readHistory:async()=>[],
   save:(name,plan)=>{saved.push({name,plan});throw Error('test_stops_before_intent_write');}
  };
@@ -472,4 +480,101 @@ test('native secret drift stops both pre-upgrade and pre-release',async()=>{
   assert.equal(f.queries.some(x=>x.startsWith('SELECT private.collect_fence_upgrade_source_v3')),readNumber===5);
   assert.equal(f.queries.some(x=>x.startsWith('SELECT private.collect_fence_release_v3')),false);
  }
+});
+
+test('a reviewed sidecar is pinned while only the three core functions deploy',async()=>{
+ const f=freshDriftFixture(),proof=proofFor(ancillary),base=f.deps.api;
+ f.deps.readRegistration=()=>proof;
+ f.deps.api=async(path,options)=>{const r=await base(path,options);
+  return path==='functions'?{json:()=>[...r.json(),providerSidecar(ancillary)]}:r;};
+ const result=await reviseRuntime(f.args,f.deps);
+ assert.equal(result.status,'revision_deployed_live');
+ assert.deepEqual(f.deploys,['collect-api','admin-api','collect-jobs']);
+ assert.deepEqual(f.saved.find(x=>x.n==='revision-drift-release-intent.json').v.ancillaryRegistration,registrationSnapshot(proof));
+});
+
+test('a sidecar version bump after the source write remains fenced and never dispatches a core deploy',async()=>{
+ const f=freshDriftFixture(),proof=proofFor(ancillary),base=f.deps.api;let side={...providerSidecar(ancillary)};
+ f.deps.readRegistration=()=>proof;
+ f.deps.api=async(path,options)=>{const r=await base(path,options);if(path==='secrets'&&options)side={...side,version:side.version+1};
+  return path==='functions'?{json:()=>[...r.json(),side]}:r;};
+ await assert.rejects(reviseRuntime(f.args,f.deps),/runtime_revision_functions_changed/);
+ assert.deepEqual(f.deploys,[]);
+ assert.equal(f.queries.some(x=>x.startsWith('SELECT private.collect_fence_upgrade_source_v3')),false);
+ assert.equal(f.queries.some(x=>x.startsWith('SELECT private.collect_fence_release_v3')),false);
+ assert.equal(f.saved.some(x=>x.n==='revision-drift-release-fenced.json'),true);
+});
+
+test('a fenced resume preserves the exact reviewed sidecar proof',async()=>{
+ const f=upgradedFixture(),proof=proofFor(ancillary),base=f.deps.api;
+ f.prior.ancillaryRegistration=registrationSnapshot(proof);f.deps.readRegistration=()=>proof;
+ f.deps.api=async(path,options)=>{const r=await base(path,options);
+  return path==='functions'?{json:()=>[...r.json(),providerSidecar(ancillary)]}:r;};
+ const result=await reviseRuntime({label:'sidecar-resume',resumeFencedRevision:'old-release',
+  testEvidence:{passed:true,sourceSha256:next},migrations:[migration]},f.deps);
+ assert.equal(result.status,'revision_deployed_live');
+ assert.equal(f.queries.filter(x=>x.sql.startsWith('SELECT private.collect_fence_release_v3')).length,1);
+ const changed=upgradedFixture();changed.prior.ancillaryRegistration=registrationSnapshot(proof);
+ changed.deps.readRegistration=()=>proofFor({...ancillary,version:6});
+ await assert.rejects(reviseRuntime({label:'sidecar-changed',resumeFencedRevision:'old-release',
+  testEvidence:{passed:true,sourceSha256:next},migrations:[migration]},changed.deps),/fenced_revision_ancillary_proof_changed/);
+ assert.equal(changed.queries.length,0);
+});
+
+test('a fresh reviewed version-only proof may resume an acknowledged source update while fenced',async()=>{
+ const oldProof=proofFor(ancillary),nextSide={...ancillary,version:6},newProof=proofFor(nextSide),{records,readRecord}=resumeRecords();
+ const prior={...resumePrior,ancillaryRegistration:registrationSnapshot(oldProof)};
+ records.set('revision-old-release-intent.json',prior);completedSecret(records);
+ const saved=[];let control={mode:'fenced',epoch:'25',operation_id:prior.fenceId,source_sha256:source};
+ const db={async query(sql){
+  if(sql.startsWith('SELECT mode,epoch,operation_id,source_sha256'))return {rows:[control]};
+  if(sql.startsWith('SELECT count(*)::int n FROM private.collect_fence_admissions'))return {rows:[{n:0}]};
+  if(sql==='SELECT private._collect_fence_scheduler_status() AS status')return {rows:[{status:ready}]};
+  throw Error('unexpected_database_operation');},async end(){}};
+ const deps={captureSnapshot:()=>({sourceSha:next,summary:()=>({sourceSha256:next})}),check:()=>({status:'passed'}),
+  readRegistration:()=>newProof,open:async()=>db,readRecord,readHistory:async()=>appliedHistory,
+  api:async(path)=>({json:()=>path==='functions'?[...functions,providerSidecar(nextSide)]:[{name:'BUILD_SOURCE_ID',value:createHash('sha256').update(next).digest('hex')}]}),
+  save:(n,v)=>{saved.push({n,v});throw Error('stop_after_reviewed_intent');}};
+ const args={label:'sidecar-requalified',resumeFencedRevision:'old-release',acceptAncillaryRequalification:true,
+  testEvidence:{passed:true,sourceSha256:next},migrations:[migration]};
+ await assert.rejects(reviseRuntime(args,deps),/stop_after_reviewed_intent/);
+ assert.equal(saved[0].v.ancillaryRequalification.previousDigest,oldProof.digest);
+ assert.equal(saved[0].v.ancillaryRequalification.newDigest,newProof.digest);
+ records.delete('revision-old-release-source-secret-complete.json');
+ await assert.rejects(reviseRuntime(args,deps),/fenced_revision_ancillary_requalification_unconfirmed/);
+ completedSecret(records);deps.readRegistration=()=>proofFor({...nextSide,ezbr_sha256:'f'.repeat(64)});
+ await assert.rejects(reviseRuntime(args,deps),/fenced_revision_ancillary_proof_changed/);
+ deps.readRegistration=()=>newProof;control={...control,mode:'open'};
+ await assert.rejects(reviseRuntime(args,deps),/fenced_revision_ancillary_requalification_unconfirmed/);
+});
+
+test('a requalified fenced revision completes without repeating its acknowledged source write',async()=>{
+ const oldProof=proofFor(ancillary),side={...ancillary,version:6},proof=proofFor(side),{records,readRecord}=resumeRecords();
+ const prior={...resumePrior,ancillaryRegistration:registrationSnapshot(oldProof)};
+ records.set('revision-old-release-intent.json',prior);completedSecret(records);
+ let control={mode:'fenced',epoch:'25',operation_id:prior.fenceId,source_sha256:source};
+ const current=functions.map(x=>({...x,version:x.version+1})),saved=[],deploys=[];let secretWrites=0;
+ const db={async query(sql,args){
+  if(sql.startsWith('SELECT mode,epoch,operation_id,source_sha256'))return {rows:[control]};
+  if(sql.startsWith('SELECT count(*)::int n FROM private.collect_fence_admissions'))return {rows:[{n:0}]};
+  if(sql==='SELECT private._collect_fence_scheduler_status() AS status')return {rows:[{status:ready}]};
+  if(sql.startsWith('SELECT private.collect_fence_drain_v3'))return {rows:[{v:{mode:'fenced'}}]};
+  if(sql.startsWith('SELECT private.collect_fence_upgrade_source_v3')){control={mode:'fenced',epoch:'26',source_sha256:next,operation_id:args[0]};return {rows:[]};}
+  if(sql.startsWith('SELECT private.collect_fence_release_v3')){control={mode:'open',epoch:'27',source_sha256:next,operation_id:args[0]};return {rows:[]};}
+  throw Error('unexpected_database_operation');},async end(){}};
+ const api=async(path,options)=>{
+  if(path==='functions')return {json:()=>[...structuredClone(current),providerSidecar(side)]};
+  if(path==='secrets'&&!options)return {json:()=>[{name:'BUILD_SOURCE_ID',value:createHash('sha256').update(next).digest('hex')}]};
+  if(path==='secrets'){secretWrites++;throw Error('source_secret_replayed');}
+  if(path.startsWith('functions/deploy?slug=')){const slug=path.split('=')[1],row=current.find(x=>x.slug===slug);deploys.push(slug);
+   row.version++;row.ezbr_sha256=next;return {json:()=>({version:row.version})};}
+  throw Error('unexpected_api');};
+ const result=await reviseRuntime({label:'sidecar-fenced-resume',resumeFencedRevision:'old-release',acceptAncillaryRequalification:true,
+  testEvidence:{passed:true,sourceSha256:next},migrations:[migration]},
+ {captureSnapshot:()=>({sourceSha:next,summary:()=>({sourceSha256:next}),makeForm:()=>({})}),check:()=>({status:'passed'}),
+  readRegistration:()=>proof,open:async()=>db,readRecord,readHistory:async()=>appliedHistory,api,
+  save:(n,v)=>saved.push({n,v}),applyMigration:async()=>{throw Error('migration_replayed');}});
+ assert.equal(result.status,'revision_deployed_live');assert.equal(secretWrites,0);
+ assert.deepEqual(deploys,['collect-api','admin-api','collect-jobs']);
+ assert.equal(saved.find(x=>x.n==='revision-sidecar-fenced-resume-intent.json').v.ancillaryRequalification.newDigest,proof.digest);
 });

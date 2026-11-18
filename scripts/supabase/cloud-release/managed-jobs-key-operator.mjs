@@ -7,6 +7,7 @@ import {pathToFileURL} from 'node:url';
 import {connect,management,record,ROOT,PROJECT,sha} from './access.mjs';
 import {renderManagedJobsHandler} from './managed-jobs-handler-patch.mjs';
 import {renderManagedScheduler} from './managed-jobs-scheduler.mjs';
+import {readAncillaryRegistration,requireSameRegistration,scopedInventory,evidenceCore} from './ancillary-inventory.mjs';
 
 const KEY='collect_job_signing_key_v1',MODE='supabase_dispatch_hmac_v1',HASH=/^[a-f0-9]{64}$/,UUID=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 const SCHEDULE_FILE='20261117135049_collect_sms_schedule_one_minute.sql',SCHEDULE_SHA='df5ff3ec33e8e8d02c182072abd99e0c24705fb74f1f85514b46f9da9149300c';
@@ -27,9 +28,9 @@ export function keyEvidenceForSource(source){
  const original=privateJson('managed-jobs-key-complete.json');
  return original.sourceSha256===source?original:privateJson('managed-jobs-key-source-'+source+'.json');
 }
-export function sameDeployedFunctions(expected,current){
- if(!Array.isArray(expected)||!Array.isArray(current)||expected.length!==3||current.length!==3)return false;
- return slugs.every(slug=>{const a=expected.filter(x=>x.slug===slug),b=current.filter(x=>x.slug===slug);
+export function sameDeployedFunctions(expected,current,registration=null){
+ let expectedCore,currentCore;try{expectedCore=evidenceCore(expected,registration);currentCore=scopedInventory(current,registration).core;}catch{return false;}
+ return slugs.every(slug=>{const a=expectedCore.filter(x=>x.slug===slug),b=currentCore.filter(x=>x.slug===slug);
   if(a.length!==1||b.length!==1)return false;const old=a[0],now=b[0];
   // Supabase secret updates create a new version of the unchanged bundle.
   // Bind executable identity and configuration, while rejecting rollbacks.
@@ -38,7 +39,7 @@ export function sameDeployedFunctions(expected,current){
    JSON.stringify({...summary(old),version:now.version})===JSON.stringify(summary(now));
  });
 }
-export function verifyDeploymentEvidence({intent,deployment,currentFunctions,currentSource,handler}){
+export function verifyDeploymentEvidence({intent,deployment,currentFunctions,currentSource,handler,ancillaryRegistration=null}){
  const manifest=intent?.snapshot?.manifest,source=intent?.sourceSha256??intent?.snapshot?.sourceSha256;
  if(!HASH.test(source??'')||source!==currentSource||source!==deployment?.sourceSha256||!manifest||manifest.project!==PROJECT||
   sha(JSON.stringify(manifest))!==source||!Array.isArray(manifest.files)||!Array.isArray(deployment.functions)||!Array.isArray(currentFunctions))throw Error('deployment_evidence_invalid');
@@ -47,14 +48,15 @@ export function verifyDeploymentEvidence({intent,deployment,currentFunctions,cur
   'functions/_shared/scheduled-processing.js':handler.hashes.processing,'functions/_shared/managed-jobs-dispatch-auth.mjs':handler.hashes.auth,
   'functions/_shared/native-provider-budget.mjs':handler.hashes.budget}))
   if(files.get(path)!==digest)throw Error('managed_handler_not_deployed');
- if(!sameDeployedFunctions(deployment.functions,currentFunctions))throw Error('deployed_function_changed');
+ if(!sameDeployedFunctions(deployment.functions,currentFunctions,ancillaryRegistration))throw Error('deployed_function_changed');
  return source;
 }
 async function preflight(db,intent,deployment,{rebind=false}={}){
+ const ancillaryRegistration=readAncillaryRegistration();
  const fence=(await db.query('SELECT mode,source_sha256 FROM private.collect_fence_control WHERE singleton')).rows[0];
  if(fence?.mode!=='open')throw Error('open_qualified_runtime_required');
  const [f,s,h,scheduler]=await Promise.all([management('functions'),management('secrets'),renderManagedJobsHandler(),renderManagedScheduler()]);
- const source=verifyDeploymentEvidence({intent,deployment,currentFunctions:f.json(),currentSource:fence.source_sha256,handler:h});
+ const source=verifyDeploymentEvidence({intent,deployment,currentFunctions:f.json(),currentSource:fence.source_sha256,handler:h,ancillaryRegistration});
  const secrets=new Map();for(const row of s.json()){if(secrets.has(row.name)||!HASH.test(row.value??''))throw Error('invalid_cloud_secret_metadata');secrets.set(row.name,row.value);}
  if(secrets.get('BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED')!==sha('false')||secrets.get('BUILD_SOURCE_ID')!==sha(source))throw Error('native_automation_must_remain_disabled');
  if(sha(readFileSync(new URL('../../../supabase/migrations/20261117073850_collect_managed_jobs_hmac.sql',import.meta.url)))!==scheduler.sqlSha)throw Error('scheduler_migration_changed');
@@ -72,7 +74,18 @@ async function preflight(db,intent,deployment,{rebind=false}={}){
  if(!status||status.enabled||status.active||status.config_sha256!==scheduler.configSha||status.template_sha256!==scheduler.templateSha||
   status.jobname!=='collect-jobs-maintenance-v1'||status.schedule!==expectedSchedule||status.command!=='SELECT collect_ops.tick_jobs();'||
   status.database!=='postgres'||status.username!=='postgres'||(rebind?status.pending!==0:status.dispatches!==0||status.tickets!==0)||status.migration_sha!==scheduler.sqlSha)throw Error('inactive_scheduler_identity_changed');
- return {source,secrets,vaultCount:status.vault_count,functions:f.json().map(summary)};
+ requireSameRegistration(ancillaryRegistration,readAncillaryRegistration());
+ // Key custody remains bound to the core; ancillary identities are qualified
+ // independently by their digest-addressed registration.
+ return {source,secrets,vaultCount:status.vault_count,functions:scopedInventory(f.json(),ancillaryRegistration).core,ancillaryRegistration};
+}
+export function requireKeyInventoryCheckpoint(pre,current,registration){
+ requireSameRegistration(pre.ancillaryRegistration??null,registration);
+ if(!sameDeployedFunctions(pre.functions,current,registration))throw Error('deployed_function_changed');
+}
+async function verifyKeyInventoryCheckpoint(pre){
+ const registration=readAncillaryRegistration(),current=(await management('functions')).json();
+ requireKeyInventoryCheckpoint(pre,current,registration);requireSameRegistration(registration,readAncillaryRegistration());
 }
 async function confirmSecrets(key){
  const metadata=(await management('secrets')).json(),map=new Map(metadata.map(x=>[x.name,x.value]));
@@ -85,11 +98,13 @@ async function main(){
  const intent=privateJson(intentName),deployment=privateJson(deploymentName),db=await connect();
  try{
   const pre=await preflight(db,intent,deployment,{rebind:action==='--bind-source'});let key,operation,keySha,vaultId;
+  await verifyKeyInventoryCheckpoint(pre);
   if(action==='--bind-source'){
    const original=privateJson('managed-jobs-key-complete.json');
    const rows=(await db.query("SELECT id,encode(sha256(convert_to(decrypted_secret,'UTF8')),'hex') digest,description FROM vault.decrypted_secrets WHERE name=$1",[KEY])).rows;
    if(pre.vaultCount!==1||rows.length!==1||rows[0].id!==original.vaultId||rows[0].digest!==original.keySha256||rows[0].description!=='collect.jobs.key.v1:'+original.operation||
     pre.secrets.get('COLLECT_JOB_SIGNING_KEY')!==original.keySha256||pre.secrets.get('COLLECT_JOB_AUTH_MODE')!==sha(MODE))throw Error('cloud_key_recovery_mismatch');
+   await verifyKeyInventoryCheckpoint(pre);
    record('managed-jobs-key-source-'+pre.source+'.json',{...original,sourceSha256:pre.source,functions:pre.functions,at:new Date().toISOString(),sourceRevisionEvidence:deploymentName,keyChanged:false});
    console.log(JSON.stringify({status:'existing_key_bound_to_verified_source',sourceSha256:pre.source}));return;
   }
@@ -114,6 +129,7 @@ async function main(){
     {name:'COLLECT_JOB_SIGNING_KEY',value:key},{name:'COLLECT_JOB_AUTH_MODE',value:MODE}])});}catch{if(!(await confirmSecrets(key)))throw Error('secret_mutation_unconfirmed');}
   }
   if(!(await confirmSecrets(key)))throw Error('secret_readback_unconfirmed');
+  await verifyKeyInventoryCheckpoint(pre);
   record('managed-jobs-key-complete.json',{format:'collect.jobs.key.v1',project:PROJECT,sourceSha256:pre.source,operation,vaultId,keySha256:keySha,functions:pre.functions,at:new Date().toISOString(),nativeAutomationEnabled:false});
   console.log(JSON.stringify({status:'signing_key_verified',project:PROJECT,sourceSha256:pre.source,nativeAutomationEnabled:false}));
  }finally{await db.end();}

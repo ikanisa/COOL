@@ -3,12 +3,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {disableNative,rebindProvider,bindExistingKey,updateBudget,functions as qualifiedFunctions} from './native-source-rebind-operator.mjs';
+import {decodeAncillaryRegistration,registrationSnapshot} from './ancillary-inventory.mjs';
 const hash=x=>createHash('sha256').update(x).digest('hex');
 const OLD='1'.repeat(64),NEW='2'.repeat(64),OLD_APPROVAL='3'.repeat(64),NEW_APPROVAL='4'.repeat(64),QUAL='5'.repeat(64);
 const MODEL='synthetic-model',PROJECT='rrlduytparvsjfmegalh',KEY='6'.repeat(64),APIKEY='7'.repeat(64),USED='137';
 const slugs=['collect-api','admin-api','collect-jobs'];
 const functions=(bundle,version)=>slugs.map((slug,i)=>({slug,id:`00000000-0000-4000-8000-00000000000${i+1}`,
  status:'ACTIVE',version,verify_jwt:false,ezbr_sha256:bundle.repeat(64)}));
+const sidecar={slug:'collect-sms',id:'00000000-0000-4000-8000-000000000008',status:'ACTIVE',version:2,verify_jwt:false,
+ ezbr_sha256:'c'.repeat(64),sourceSha256:OLD};
+const registrationFor=value=>{const bytes=Buffer.from(JSON.stringify({format:'collect.cloud-ancillary-inventory.v1',project:PROJECT,
+ reviewedEvidenceSha256:'d'.repeat(64),functions:[value]}));return decodeAncillaryRegistration(bytes,hash(bytes));};
+const sidecarRow=({sourceSha256,...rest})=>rest;
 function fixture(){
  const files=new Map(),oldFunctions=functions('a',3),newFunctions=functions('b',4);
  const prior={format:'collect.native-sms.owner-approval.v1',project:PROJECT,sourceSha256:OLD,model:MODEL,
@@ -58,6 +64,37 @@ test('staged source revision preserves lifetime provider policy and binds the ex
  assert.equal(f.state.secrets.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256,hash(NEW_APPROVAL));
  await f.rebind();assert.equal(f.counters.updates,1);assert.equal(f.counters.api,2);
  await f.bind();await f.bind();assert.equal(f.counters.binds,1);assert.equal(f.state.enabled,false);assert.equal(f.state.active,false);
+});
+
+test('registered sidecar coexists with previous core-only key evidence across rebind',async()=>{
+ const f=fixture(),registration=registrationFor(sidecar);
+ f.state.ancillaryRegistration=registration;f.state.functions.push(sidecarRow(sidecar));
+ await f.disable();
+ assert.equal(f.files.get('native-source-rebind-fixture-revision-disable-intent.json').value.ancillaryRegistration.digest,registration.digest);
+ f.revise();f.state.functions.push(sidecarRow(sidecar));f.files.get('revision-intent.json').value.ancillaryRegistration=registrationSnapshot(registration);
+ assert.equal((await f.rebind()).status,'provider_rebound_scheduler_inactive');
+ assert.equal((await f.bind()).status,'existing_key_bound_scheduler_inactive');
+});
+
+test('sidecar proof changes stop a rebind before updating the budget',async()=>{
+ const f=fixture(),registration=registrationFor(sidecar);f.state.ancillaryRegistration=registration;f.state.functions.push(sidecarRow(sidecar));
+ await f.disable();f.revise();f.files.get('revision-intent.json').value.ancillaryRegistration=registrationSnapshot(registration);const changed={...sidecar,version:3};
+ f.state.ancillaryRegistration=registrationFor(changed);f.state.functions.push(sidecarRow(changed));
+ await assert.rejects(f.rebind(),/rebind_functions_changed/);assert.equal(f.counters.updates,0);
+});
+
+test('rebind accepts only the revision journaled version-only proof advance',async()=>{
+ const f=fixture(),original=registrationFor(sidecar);f.state.ancillaryRegistration=original;f.state.functions.push(sidecarRow(sidecar));
+ await f.disable();f.revise();const changed={...sidecar,version:3},fresh=registrationFor(changed);
+ f.state.ancillaryRegistration=fresh;f.state.functions.push(sidecarRow(changed));
+ const revision=f.files.get('revision-intent.json').value;revision.ancillaryRegistration=registrationSnapshot(fresh);
+ await assert.rejects(f.rebind(),/rebind_functions_changed/);assert.equal(f.counters.updates,0);
+ revision.ancillaryRequalification={previousDigest:original.digest,newDigest:fresh.digest,sourceSecretAcknowledgedBy:'old-release'};
+ await assert.rejects(f.rebind(),/rebind_functions_changed/);assert.equal(f.counters.updates,0);
+ f.put('revision-old-release-source-secret-attempt.json',{previousSourceSha256:OLD,sourceSha256:NEW});
+ f.put('revision-old-release-source-secret-complete.json',{sourceSha256:NEW,secretSha256:hash(NEW)});
+ assert.equal((await f.rebind()).status,'provider_rebound_scheduler_inactive');
+ assert.equal((await f.bind()).status,'existing_key_bound_scheduler_inactive');
 });
 
 for(const [name,change] of [

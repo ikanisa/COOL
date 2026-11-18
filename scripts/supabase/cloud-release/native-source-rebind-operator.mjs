@@ -9,9 +9,9 @@ import {captureRuntimeSnapshot,checkSnapshot} from './runtime-plan.mjs';
 import {renderManagedJobsHandler} from './managed-jobs-handler-patch.mjs';
 import {keyEvidenceForSource,sameDeployedFunctions,verifyDeploymentEvidence} from './managed-jobs-key-operator.mjs';
 import {requireRevisionSchedulerReady} from './revise-runtime.mjs';
+import {readAncillaryRegistration,requireSameRegistration,requireVersionOnlyRequalification,registrationSnapshot,scopedInventory} from './ancillary-inventory.mjs';
 
 const HASH=/^[a-f0-9]{64}$/;
-const SLUGS=['collect-api','admin-api','collect-jobs'];
 const NAMES=['BUILD_SOURCE_ID','BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED','MOMO_AI_ENABLED','MOMO_AI_MODEL',
  'COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256','COLLECT_JOB_AUTH_MODE','COLLECT_JOB_SIGNING_KEY','OPENAI_API_KEY'];
 const fail=message=>{throw Error(message);};
@@ -38,13 +38,9 @@ const budget=row=>({source:row.native_provider_source_sha256,model:row.native_pr
  approval:row.native_provider_approval_sha256,used:integer(row.native_provider_used),
  limit:row.native_provider_limit===null?null:integer(row.native_provider_limit),
  expires:row.native_provider_expires_at===null?null:new Date(row.native_provider_expires_at).toISOString()});
-export const functions=rows=>{
- if(!Array.isArray(rows)||rows.length!==SLUGS.length||new Set(rows.map(x=>x?.slug)).size!==SLUGS.length||
-  rows.some(x=>!SLUGS.includes(x?.slug)))fail('rebind_functions_changed');
- return SLUGS.map(slug=>{
-  const found=rows.filter(x=>x?.slug===slug);if(found.length!==1)fail('rebind_functions_changed');
-  const {id,status,version,verify_jwt,ezbr_sha256}=found[0];return {slug,id,status,version,verify_jwt,ezbr_sha256};
- });
+export const functions=(rows,registration=null)=>{
+ try{const scoped=scopedInventory(rows,registration);return [...scoped.core,...scoped.ancillary];}
+ catch{fail('rebind_functions_changed');}
 };
 function common(state,source,checkKeyFunctions=true){
  if(state?.control?.mode!=='open'||state.control.source_sha256!==source||!Number.isSafeInteger(Number(state.control.epoch))||
@@ -57,14 +53,29 @@ function common(state,source,checkKeyFunctions=true){
  if(state.keyCount!==1||state.key?.id!==state.keyEvidence.vaultId||state.key?.digest!==state.keyEvidence.keySha256||
   state.key?.description!=='collect.jobs.key.v1:'+state.keyEvidence.operation||
   state.secrets.COLLECT_JOB_SIGNING_KEY!==state.keyEvidence.keySha256)fail('rebind_key_changed');
- if(checkKeyFunctions&&!sameDeployedFunctions(state.keyEvidence.functions,state.functions))fail('rebind_functions_changed');
+ try{scopedInventory(state.functions,state.ancillaryRegistration??null);}catch{fail('rebind_functions_changed');}
+ if(checkKeyFunctions&&!sameDeployedFunctions(state.keyEvidence.functions,state.functions,state.ancillaryRegistration??null))fail('rebind_functions_changed');
 }
 function capturedKey(state,intent){
+ try{requireSameRegistration(intent.ancillaryRegistration??null,state.ancillaryRegistration??null);}catch{fail('rebind_functions_changed');}
  const key=intent?.keyEvidence;
  if(!key||state.keyCount!==1||state.key?.id!==key.vaultId||state.key?.digest!==key.keySha256||
   state.key?.description!=='collect.jobs.key.v1:'+key.operation||state.keyEvidence?.vaultId!==key.vaultId||
   state.keyEvidence?.keySha256!==key.keySha256||state.keyEvidence?.operation!==key.operation||
   state.secrets.COLLECT_JOB_SIGNING_KEY!==key.keySha256)fail('rebind_key_changed');
+}
+function revisionBoundIntent(intent,revision,io){
+ const previous=intent.ancillaryRegistration??null,current=revision.ancillaryRegistration??null;
+ if(same(previous,current))return intent;
+ const q=revision.ancillaryRequalification;
+ if(!previous||!current||!q||q.previousDigest!==previous.digest||q.newDigest!==current.digest||
+  !/^[a-z][a-z0-9-]{3,60}$/.test(q.sourceSecretAcknowledgedBy??''))fail('rebind_functions_changed');
+ try{requireVersionOnlyRequalification(previous,current);}catch{fail('rebind_functions_changed');}
+ const attempt=io.read('revision-'+q.sourceSecretAcknowledgedBy+'-source-secret-attempt.json',true)?.value,
+  done=io.read('revision-'+q.sourceSecretAcknowledgedBy+'-source-secret-complete.json',true)?.value;
+ if(attempt?.previousSourceSha256!==intent.oldSource||attempt?.sourceSha256!==intent.newSource||
+  done?.sourceSha256!==intent.newSource||done?.secretSha256!==sha(intent.newSource))fail('rebind_functions_changed');
+ return {...intent,ancillaryRegistration:current};
 }
 function approvalEvidence(approval,source,previous,model,b,qualificationDigest){
  if(approval?.format!=='collect.native-sms.owner-approval.v1'||approval.project!==PROJECT||approval.sourceSha256!==source||
@@ -99,6 +110,7 @@ function checkTransition(state,intent,approvalDigest,disabled=true){
 }
 
 async function liveState(db,api,keyEvidence){
+ const ancillaryRegistration=readAncillaryRegistration();
  const control=(await db.query('SELECT mode,epoch,source_sha256 FROM private.collect_fence_control WHERE singleton')).rows[0];
  const x=(await db.query(`SELECT c.enabled,j.active,j.schedule,j.command,c.native_provider_source_sha256,c.native_provider_model_id,
   c.native_provider_approval_sha256,c.native_provider_used,c.native_provider_limit,c.native_provider_expires_at,
@@ -111,9 +123,10 @@ async function liveState(db,api,keyEvidence){
  const keys=(await db.query("SELECT id::text,encode(sha256(convert_to(decrypted_secret,'UTF8')),'hex') digest,description FROM vault.decrypted_secrets WHERE name='collect_job_signing_key_v1'")).rows;
  if(!control||!x)fail('rebind_scheduler_not_drained');
  const [f,s]=await Promise.all([api('functions'),api('secrets')]);
+ requireSameRegistration(ancillaryRegistration,readAncillaryRegistration());
  return {control,enabled:x.enabled,active:x.active,schedule:x.schedule,command:x.command,pending:x.pending,imported:x.imported,
   activeAdmissions:x.active_admissions,scheduler:x.scheduler,operator:x.operator,budget:x,keyCount:keys.length,key:keys[0]??null,
-  keyEvidence,functions:functions(f.json()),secrets:secretMap(s.json())};
+  keyEvidence,functions:functions(f.json(),ancillaryRegistration),ancillaryRegistration,secrets:secretMap(s.json())};
 }
 
 /** Existing evidence/adapter objects are injected for deterministic tests. */
@@ -148,13 +161,14 @@ export async function disableNative({label,nextSource,previousApprovalName},io){
   const b=checkOld(state,oldApproval.value,oldApproval.digest,nextSource);
   await io.guardStatus(intentGuard(state.control.source_sha256));
   intent={project:PROJECT,oldSource:b.source,newSource:nextSource,epoch:Number(state.control.epoch),budget:b,
-   previousApprovalDigest:oldApproval.digest,functions:state.functions,secrets:state.secrets,keyEvidence:state.keyEvidence,at:new Date().toISOString()};
+   previousApprovalDigest:oldApproval.digest,functions:scopedInventory(state.functions,state.ancillaryRegistration??null).core,secrets:state.secrets,keyEvidence:state.keyEvidence,
+   ...(state.ancillaryRegistration?{ancillaryRegistration:registrationSnapshot(state.ancillaryRegistration)}:{}),at:new Date().toISOString()};
   io.save(stem+'-disable-intent.json',intent);
  }
  const snapshot=io.snapshot();if(snapshot.sourceSha!==nextSource||io.check(snapshot)?.status!=='passed')fail('rebind_snapshot_changed');
  const beforeCall=await io.state('old');common(beforeCall,intent.oldSource);capturedKey(beforeCall,intent);
  if(Number(beforeCall.control.epoch)!==intent.epoch||!same(budget(beforeCall.budget),intent.budget)||
-  NAMES.some(n=>beforeCall.secrets[n]!==intent.secrets[n])||!sameDeployedFunctions(intent.functions,beforeCall.functions))
+  NAMES.some(n=>beforeCall.secrets[n]!==intent.secrets[n])||!sameDeployedFunctions(intent.functions,beforeCall.functions,beforeCall.ancillaryRegistration??null))
   fail('rebind_provider_preimage_changed');
  await io.guardStatus(intentGuard(intent.oldSource));
  // Only an intent without an attempt is retryable. The durable attempt is
@@ -174,10 +188,11 @@ export async function disableNative({label,nextSource,previousApprovalName},io){
 }
 
 export async function rebindProvider({label,approvalName,qualificationName,revisionIntentName,revisionCompleteName},io){
- const stem=labelName(label),intent=io.read(stem+'-disable-intent.json').value;
+ const stem=labelName(label),baseIntent=io.read(stem+'-disable-intent.json').value;
  if(!io.read(stem+'-disable-complete.json',true))fail('rebind_disable_required');
  const approval=io.read(approvalName),qualification=io.read(qualificationName),ri=io.read(revisionIntentName).value,
   rd=io.read(revisionCompleteName).value;
+ const intent=revisionBoundIntent(baseIntent,ri,io);
  if(qualification.value.project!==PROJECT||qualification.value.sourceSha256!==intent.newSource||
   qualification.value.checked?.status!=='passed'||qualification.value.checked.sourceSha256!==intent.newSource)
   fail('rebind_qualification_changed');
@@ -188,7 +203,7 @@ export async function rebindProvider({label,approvalName,qualificationName,revis
   rd.sourceSha256!==intent.newSource||Number(rd.epoch)!==intent.epoch+2)
   fail('rebind_revision_changed');
  const state=await io.state('new',intent.keyEvidence);
- if(!sameDeployedFunctions(rd.functions,state.functions))fail('rebind_functions_changed');
+ if(!sameDeployedFunctions(rd.functions,state.functions,state.ancillaryRegistration??null))fail('rebind_functions_changed');
  io.verifyDeployment(ri,rd,state);
  const started=io.read(stem+'-provider-intent.json',true),completed=io.read(stem+'-provider-complete.json',true);
  if(started&&(!same(started.value.before,intent.budget)||started.value.approval!==approval.digest||started.value.newSource!==intent.newSource))
@@ -215,7 +230,7 @@ export async function rebindProvider({label,approvalName,qualificationName,revis
  if(!secretIntent){
   const current=await io.state('new',intent.keyEvidence);checkTransition(current,intent,approval.digest);
   if(current.secrets.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256!==sha(intent.budget.approval)||
-   !sameDeployedFunctions(rd.functions,current.functions))fail('rebind_secret_preimage_changed');
+   !sameDeployedFunctions(rd.functions,current.functions,current.ancillaryRegistration??null))fail('rebind_secret_preimage_changed');
   io.verifyDeployment(ri,rd,current);
   io.save(stem+'-approval-secret-intent.json',{newSource:intent.newSource,approval:approval.digest,at:new Date().toISOString()});
   const response=await io.api('secrets',{method:'POST',headers:{'Content-Type':'application/json'},
@@ -223,7 +238,7 @@ export async function rebindProvider({label,approvalName,qualificationName,revis
   io.save(stem+'-approval-secret-ack.json',{status:response.status,at:new Date().toISOString()});
  }
  const final=await io.state('new',intent.keyEvidence);checkTransition(final,intent,approval.digest);
- if(final.secrets.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256!==sha(approval.digest)||!sameDeployedFunctions(rd.functions,final.functions))
+ if(final.secrets.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256!==sha(approval.digest)||!sameDeployedFunctions(rd.functions,final.functions,final.ancillaryRegistration??null))
   fail('rebind_approval_outcome_unknown');
  io.verifyDeployment(ri,rd,final);
  if(!secretDone)io.save(stem+'-approval-secret-complete.json',{newSource:intent.newSource,approval:approval.digest,at:new Date().toISOString()});
@@ -231,13 +246,14 @@ export async function rebindProvider({label,approvalName,qualificationName,revis
 }
 
 export async function bindExistingKey({label,revisionIntentName,revisionCompleteName},io){
- const stem=labelName(label),intent=io.read(stem+'-disable-intent.json').value;
+ const stem=labelName(label),baseIntent=io.read(stem+'-disable-intent.json').value;
  const approval=io.read(stem+'-approval-secret-complete.json',true)?.value,
   provider=io.read(stem+'-provider-complete.json',true)?.value;
+ const ri=io.read(revisionIntentName).value,rd=io.read(revisionCompleteName).value,intent=revisionBoundIntent(baseIntent,ri,io);
  if(!approval||!provider||approval.newSource!==intent.newSource||provider.newSource!==intent.newSource||
   !HASH.test(approval.approval??'')||provider.approval!==approval.approval)fail('rebind_approval_required');
- const state=await io.state('new',intent.keyEvidence),ri=io.read(revisionIntentName).value,rd=io.read(revisionCompleteName).value;
- if(rd.sourceSha256!==intent.newSource||!sameDeployedFunctions(rd.functions,state.functions))fail('rebind_revision_changed');
+ const state=await io.state('new',intent.keyEvidence);
+ if(rd.sourceSha256!==intent.newSource||!sameDeployedFunctions(rd.functions,state.functions,state.ancillaryRegistration??null))fail('rebind_revision_changed');
  io.verifyDeployment(ri,rd,state);checkTransition(state,intent,approval.approval);
  if(state.secrets.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256!==sha(approval.approval))fail('rebind_secret_preimage_changed');
  const name='managed-jobs-key-source-'+intent.newSource+'.json';
@@ -245,10 +261,10 @@ export async function bindExistingKey({label,revisionIntentName,revisionComplete
  const bound=io.read(name).value;
  const after=await io.state('new',intent.keyEvidence);checkTransition(after,intent,approval.approval);
  if(after.secrets.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256!==sha(approval.approval)||
-  !sameDeployedFunctions(rd.functions,after.functions))fail('rebind_secret_preimage_changed');
+  !sameDeployedFunctions(rd.functions,after.functions,after.ancillaryRegistration??null))fail('rebind_secret_preimage_changed');
  io.verifyDeployment(ri,rd,after);
  if(bound.sourceSha256!==intent.newSource||bound.vaultId!==intent.keyEvidence.vaultId||bound.keySha256!==intent.keyEvidence.keySha256||
-  bound.keyChanged!==false||!sameDeployedFunctions(bound.functions,after.functions))fail('rebind_key_changed');
+  bound.keyChanged!==false||!sameDeployedFunctions(bound.functions,after.functions,after.ancillaryRegistration??null))fail('rebind_key_changed');
  await io.guardStatus(intentGuard(intent.newSource));
  if(!io.read(stem+'-key-complete.json',true))io.save(stem+'-key-complete.json',{sourceSha256:intent.newSource,at:new Date().toISOString()});
  return {status:'existing_key_bound_scheduler_inactive',sourceSha256:intent.newSource};
@@ -297,7 +313,7 @@ async function main(){
     const key=existingKey??keyEvidenceForSource(f?.source_sha256);return liveState(db,management,key);
    },
    verifyDeployment:(intent,deployment,state)=>verifyDeploymentEvidence({intent,deployment,currentFunctions:state.functions,
-    currentSource:state.control.source_sha256,handler:io.handler}),handler:await renderManagedJobsHandler(),
+    currentSource:state.control.source_sha256,handler:io.handler,ancillaryRegistration:state.ancillaryRegistration??null}),handler:await renderManagedJobsHandler(),
    updateBudget:(intent,approval)=>updateBudget(db,intent,approval),
    bindKey:async(intentName,completeName)=>{execFileSync(process.execPath,[fileURLToPath(new URL('./managed-jobs-key-operator.mjs',import.meta.url)),
     '--bind-source',intentName,completeName],{stdio:'pipe',encoding:'utf8'});},

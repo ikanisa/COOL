@@ -5,6 +5,7 @@ import {readFileSync,lstatSync} from 'node:fs';
 import {connect,management,record,sha,ROOT} from './access.mjs';
 import {captureRuntimeSnapshot,checkSnapshot} from './runtime-plan.mjs';
 import {applyEntry,history,identity} from './migrations.mjs';
+import {readAncillaryRegistration,requireSameRegistration,requireVersionOnlyRequalification,registrationSnapshot,scopedInventory,evidenceCore} from './ancillary-inventory.mjs';
 
 // A checked, complete scheduler inventory is required before closing admission.
 // In particular, an active cron or a dispatch without local lifecycle proof
@@ -214,13 +215,13 @@ async function requireUpgradeReceipt(c,prior,sourceSha,readback,current){
 }
 
 export async function reviseRuntime({label,testEvidence,migrations=[],resumeFencedRevision=null,expectedBefore=null,expectedFunctions=null,
- requireChangedBundles=false,expectedSecretPreimages=null},{
+ requireChangedBundles=false,expectedSecretPreimages=null,acceptAncillaryRequalification=false},{
  captureSnapshot=captureRuntimeSnapshot,check=checkSnapshot,open=connect,api=management,save=record,
- readHistory=history,applyMigration=applyEntry,readRecord=readRevisionRecord
+ readHistory=history,applyMigration=applyEntry,readRecord=readRevisionRecord,readRegistration=readAncillaryRegistration
 }={}){
  if(!/^[a-z][a-z0-9-]{3,60}$/.test(label)||!testEvidence||testEvidence.passed!==true)throw Error('reviewed_revision_required');
  if(!Array.isArray(migrations)||migrations.length>5)throw Error('reviewed_migrations_required');
- if(typeof requireChangedBundles!=='boolean')throw Error('reviewed_revision_required');
+ if(typeof requireChangedBundles!=='boolean'||typeof acceptAncillaryRequalification!=='boolean')throw Error('reviewed_revision_required');
  const expectedSecrets=secretPreimages(expectedSecretPreimages);
  if(expectedFunctions!==null&&expectedBefore===null)throw Error('runtime_revision_preimage_changed');
  const entries=migrations.map(x=>{const e=identity(x.file,x.sql);if(e.sha256!==x.sha256)throw Error('reviewed_migration_changed');return e;});
@@ -229,6 +230,33 @@ export async function reviseRuntime({label,testEvidence,migrations=[],resumeFenc
  if(resumeFencedRevision===label)throw Error('reviewed_revision_required');
  const prior=resumeFencedRevision===null?null:readRecord('revision-'+resumeFencedRevision+'-intent.json');
  if(resumeFencedRevision!==null&&!prior)throw Error('revision_record_invalid');
+ const registration=readRegistration(),registrationEvidence=registrationSnapshot(registration),providerApi=api;
+ let ancillaryRequalification=null;
+ if(prior&&JSON.stringify(prior.ancillaryRegistration??null)!==JSON.stringify(registrationEvidence)){
+  if(!acceptAncillaryRequalification)throw Error('fenced_revision_ancillary_proof_changed');
+  try{requireVersionOnlyRequalification(prior.ancillaryRegistration??null,registrationEvidence);}catch{throw Error('fenced_revision_ancillary_proof_changed');}
+  const labels=[...(prior.evidenceLabels??[]),resumeFencedRevision];
+  const acknowledged=labels.find(item=>{
+   if(!/^[a-z][a-z0-9-]{3,60}$/.test(item))return false;
+   const attempt=readRecord('revision-'+item+'-source-secret-attempt.json'),done=readRecord('revision-'+item+'-source-secret-complete.json');
+   return attempt?.previousSourceSha256===prior.before?.source_sha256&&attempt?.sourceSha256===prior.snapshot?.sourceSha256&&
+    done?.sourceSha256===prior.snapshot?.sourceSha256&&done?.secretSha256===sha(prior.snapshot.sourceSha256);
+  });
+  if(!acknowledged)throw Error('fenced_revision_ancillary_requalification_unconfirmed');
+  ancillaryRequalification={previousDigest:prior.ancillaryRegistration.digest,newDigest:registrationEvidence.digest,
+   sourceSecretAcknowledgedBy:acknowledged};
+ }else if(acceptAncillaryRequalification)throw Error('fenced_revision_ancillary_requalification_unconfirmed');
+ if(expectedFunctions!==null){try{expectedFunctions=evidenceCore(expectedFunctions,registration);}catch{throw Error('runtime_revision_functions_changed');}}
+ // The core deploy loop remains exactly three functions. Every provider
+ // inventory is fully classified and sidecars are checked before extracting
+ // that core. The proof is re-read at each provider readback.
+ api=async(path,options)=>{
+  const result=await providerApi(path,options);
+  if(path!=='functions'||options!==undefined)return result;
+  requireSameRegistration(registration,readRegistration());
+  let core;try{core=scopedInventory(result.json(),registration).core;}catch{throw Error('runtime_revision_functions_changed');}
+  return {...result,json:()=>core};
+ };
  const snapshot=captureSnapshot(),checked=check(snapshot),c=await open();
  const name='revision-'+label;
  try{
@@ -243,6 +271,7 @@ export async function reviseRuntime({label,testEvidence,migrations=[],resumeFenc
   const beforeUpgrade=!!prior&&f.mode==='fenced'&&f.operation_id===prior.fenceId&&Number(f.epoch)===oldEpoch&&f.source_sha256===oldSource;
   const upgraded=!!prior&&f.mode==='fenced'&&f.operation_id===prior.upgradeId&&Number(f.epoch)===oldEpoch+1&&f.source_sha256===snapshot.sourceSha;
   const released=!!prior&&f.mode==='open'&&f.operation_id===prior.releaseId&&Number(f.epoch)===oldEpoch+2&&f.source_sha256===snapshot.sourceSha;
+  if(ancillaryRequalification&&!beforeUpgrade)throw Error('fenced_revision_ancillary_requalification_unconfirmed');
   if(prior&&(!(beforeUpgrade||upgraded||released)||(!released&&active!==0)||snapshot.sourceSha!==prior.snapshot?.sourceSha256||
       prior.testEvidence?.passed!==true||prior.testEvidence?.sourceSha256!==snapshot.sourceSha||
       testEvidence.sourceSha256!==snapshot.sourceSha||(prior.requireChangedBundles??false)!==requireChangedBundles||
@@ -301,6 +330,8 @@ export async function reviseRuntime({label,testEvidence,migrations=[],resumeFenc
   const plan={before:f,activeBeforeQuiesce:active,schedulerPreflight:scheduler,functions:prior?prior.functions:before,snapshot:snapshot.summary(),checked,testEvidence,
    migrations:entries.map(({file,sha256})=>({file,sha256})),migrationHistory:prior?prior.migrationHistory:migrationHistory,
    fenceId,upgradeId,releaseId,requireChangedBundles,expectedSecretPreimages:expectedSecrets,evidenceLabels:labels,
+   ...(registrationEvidence?{ancillaryRegistration:registrationEvidence}:{}),
+   ...(ancillaryRequalification?{ancillaryRequalification}:{}),
    resumes:prior?{label:resumeFencedRevision,intentSha256:sha(JSON.stringify(prior))}:null,at:new Date().toISOString()};
   save(name+'-intent.json',plan);
   if(!prior){const quiesce=(await c.query('SELECT private.collect_fence_begin_quiesce($1,$2,$3) v',[fenceId,f.epoch,f.source_sha256])).rows[0].v;
@@ -325,16 +356,19 @@ export async function reviseRuntime({label,testEvidence,migrations=[],resumeFenc
    const secret=sourceSecret(metadata,oldSource,snapshot.sourceSha,resumedFunctions.attempted);
    if(secret!==resumedSecret||!sameHistory(await readHistory(c),migrationHistory))throw Error('fenced_revision_preimage_changed');
   }else if(expectedFunctions!==null)await verifyFencedRevisionPreimage(expectedBefore,expectedFunctions,api);
+  else if(registration)requireRevisionFunctions(before,(await api('functions')).json());
   if(!prior&&expectedSecrets!==null)requireSecretPreimages(expectedSecrets,(await api('secrets')).json());
   let applied=migrationHistory;
   for(const [index,entry] of entries.entries()){
    if(prior&&index<resumedHistory.applied)continue;
+   if(registration)requireRevisionFunctions(before,(await api('functions')).json());
    save(name+'-migration-'+entry.version+'-intent.json',{file:entry.file,sha256:entry.sha256,before:applied,at:new Date().toISOString()});
    applied=await applyMigration(c,entry,{before:applied});
    save(name+'-migration-'+entry.version+'-complete.json',{file:entry.file,sha256:entry.sha256,migrationCount:applied.length,at:new Date().toISOString()});
   }
   const changingSecret=!prior||resumedSecret==='old';
   if(changingSecret){
+   if(registration)requireRevisionFunctions(before,(await api('functions')).json());
    save(name+'-source-secret-attempt.json',{previousSourceSha256:prior?oldSource:f.source_sha256,sourceSha256:snapshot.sourceSha,at:new Date().toISOString()});
    await api('secrets',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify([{name:'BUILD_SOURCE_ID',value:snapshot.sourceSha}])});
   }
