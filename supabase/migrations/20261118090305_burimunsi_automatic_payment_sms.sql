@@ -146,11 +146,12 @@ $fn$;
 
 CREATE FUNCTION private.burimunsi_claim_payment_sms(p_collection_id text,p_enabled_at timestamptz,p_application_id text,p_limit integer)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,pg_temp
- SET burimunsi.payment_sms_frame='1' SET burimunsi.native_receipt_frame='1'
- SET burimunsi.collection_id='' AS $fn$
+ AS $fn$
 DECLARE j private.burimunsi_payment_sms_deliveries%ROWTYPE;k text;src record;at timestamptz;
 BEGIN
  PERFORM private.burimunsi_auto_jobs_guard();
+ PERFORM set_config('burimunsi.payment_sms_frame','1',true);
+ PERFORM set_config('burimunsi.native_receipt_frame','1',true);
  IF p_collection_id IS NULL OR p_collection_id !~ '^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$'
   OR p_application_id IS NULL OR p_application_id !~ '^app_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$'
   OR p_enabled_at IS NULL OR NOT isfinite(p_enabled_at) OR p_limit IS DISTINCT FROM 1 THEN
@@ -198,11 +199,12 @@ END;$fn$;
 
 CREATE FUNCTION private.burimunsi_prepare_payment_sms(p_collection_id text,p_attempt_id uuid,p_claim_token uuid,p_body_sha256 text)
  RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,pg_temp
- SET burimunsi.payment_sms_frame='1' SET burimunsi.native_receipt_frame='1'
- SET burimunsi.collection_id='' AS $fn$
+ AS $fn$
 DECLARE j private.burimunsi_payment_sms_deliveries%ROWTYPE;at timestamptz;
 BEGIN
  PERFORM private.burimunsi_auto_jobs_guard();
+ PERFORM set_config('burimunsi.payment_sms_frame','1',true);
+ PERFORM set_config('burimunsi.native_receipt_frame','1',true);
  IF p_body_sha256 IS NULL OR p_body_sha256 !~ '^[a-f0-9]{64}$' THEN RETURN false;END IF;
  PERFORM pg_advisory_xact_lock(734636924058501::bigint);
  PERFORM set_config('burimunsi.collection_id',p_collection_id,true);
@@ -224,9 +226,11 @@ END;$fn$;
 CREATE FUNCTION private.burimunsi_finish_payment_sms(p_collection_id text,p_attempt_id uuid,p_claim_token uuid,
  p_state text,p_provider_state text,p_evidence_sha256 text)
  RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,pg_temp
- SET burimunsi.payment_sms_frame='1' AS $fn$
+ AS $fn$
 BEGIN
  PERFORM private.burimunsi_auto_jobs_guard();
+ PERFORM set_config('burimunsi.payment_sms_frame','1',true);
+ PERFORM set_config('burimunsi.native_receipt_frame','1',true);
  IF p_state IS NULL OR p_state NOT IN ('accepted','unknown','suppressed')
   OR p_evidence_sha256 IS NOT NULL AND p_evidence_sha256 !~ '^[a-f0-9]{64}$'
   OR p_state='accepted' AND (p_evidence_sha256 IS NULL OR p_provider_state IS NULL
@@ -247,11 +251,12 @@ END;$fn$;
 
 CREATE FUNCTION private.burimunsi_payment_sms_readiness(p_collection_id text,p_enabled_at timestamptz,p_application_id text)
  RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog,pg_temp
- SET burimunsi.payment_sms_frame='1' SET burimunsi.native_receipt_frame='1'
- SET burimunsi.collection_id='' AS $fn$
+ AS $fn$
 DECLARE at timestamptz:=clock_timestamp();
 BEGIN
  PERFORM private.burimunsi_auto_jobs_guard();
+ PERFORM set_config('burimunsi.payment_sms_frame','1',true);
+ PERFORM set_config('burimunsi.native_receipt_frame','1',true);
  PERFORM set_config('burimunsi.collection_id',p_collection_id,true);
  RETURN jsonb_build_object('contract_version',1,'eligible_count',
   (SELECT count(*) FROM private._burimunsi_payment_sms_sources(p_collection_id,p_enabled_at,at) src

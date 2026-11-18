@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { PGlite } from '@electric-sql/pglite';
 
-const migration = await readFile(new URL('../../../supabase/migrations/20261118083850_burimunsi_automatic_payment_sms.sql', import.meta.url), 'utf8');
+const migration = await readFile(new URL('../../../supabase/migrations/20261118090305_burimunsi_automatic_payment_sms.sql', import.meta.url), 'utf8');
 const id = (n) => `10000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
 const group = id(1), member = id(2), app = 'app_' + id(3);
 const phone = '+250788000001', hash = 'a'.repeat(64);
