@@ -202,10 +202,18 @@ async function main(){
     {name:'COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256',value:a.approval_sha256},{name:'BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED',value:'true'}];
    let intent,attempt,ack;
    if(action==='--configure-native'){
-    if(existsSync(join(ROOT,configName))||pre.secrets.get('BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED')!==sha('false'))throw Error('native_config_requires_reconciliation');
-    if(!pre.row.last_probe_id||!pre.row.enabled||!pre.row.active||pre.row.pending!==0)throw Error('confirmed_maintenance_activation_required');
+    const existing=existsSync(join(ROOT,configName));
+    if(pre.secrets.get('BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED')!==sha('false')||
+     [attemptName,ackName,bridgeName,completeName].some(name=>existsSync(join(ROOT,name))))throw Error('native_config_requires_reconciliation');
+    if(!existing&&(!pre.row.last_probe_id||!pre.row.enabled||!pre.row.active||pre.row.pending!==0))throw Error('confirmed_maintenance_activation_required');
     if(changes.some(x=>pre.secrets.has(x.name)&&![sha(x.value),...(['BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED','MOMO_AI_ENABLED'].includes(x.name)?[sha('false')]:[])].includes(pre.secrets.get(x.name))))throw Error('native_config_preimage_changed');
-    intent=createNativeConfigIntent(pre,evidence,changes);record(configName,intent);
+    const inspected=createNativeConfigIntent(pre,evidence,changes);
+    if(existing){
+     intent=privateJson(configName);
+     if(sha(JSON.stringify(intent))!==sha(JSON.stringify(inspected)))throw Error('native_config_preimage_changed');
+    }else{
+     intent=inspected;record(configName,intent);
+    }
     await db.query('SELECT collect_ops.pause_jobs()');await db.query('SELECT collect_ops.reconcile_jobs()');
     pre=await inspect(db);if(pre.row.enabled||pre.row.active||pre.row.pending!==0)throw Error('scheduler_not_drained');
     await verifyInventoryCheckpoint(pre);verifyNativeBudget(pre,input.readiness);requireNativeConfigPreimage(intent,pre);
