@@ -97,6 +97,24 @@ test('rebind accepts only the revision journaled version-only proof advance',asy
  assert.equal((await f.bind()).status,'existing_key_bound_scheduler_inactive');
 });
 
+test('rebind follows the digest-bound fenced-resume intent to the original open revision',async()=>{
+ const f=fixture(),oldProof=registrationFor(sidecar);f.state.ancillaryRegistration=oldProof;f.state.functions.push(sidecarRow(sidecar));
+ await f.disable();f.revise();const changed={...sidecar,version:3},fresh=registrationFor(changed);
+ f.state.ancillaryRegistration=fresh;f.state.functions.push(sidecarRow(changed));
+ const origin=structuredClone(f.files.get('revision-intent.json').value);origin.ancillaryRegistration=registrationSnapshot(oldProof);
+ f.put('revision-old-release-intent.json',origin);
+ f.put('revision-old-release-source-secret-attempt.json',{previousSourceSha256:OLD,sourceSha256:NEW});
+ f.put('revision-old-release-source-secret-complete.json',{sourceSha256:NEW,secretSha256:hash(NEW)});
+ const resumed={...origin,before:{mode:'fenced',source_sha256:OLD,epoch:28},ancillaryRegistration:registrationSnapshot(fresh),
+  ancillaryRequalification:{previousDigest:oldProof.digest,newDigest:fresh.digest,sourceSecretAcknowledgedBy:'old-release'},
+  resumes:{label:'old-release',intentSha256:hash(JSON.stringify(origin))}};
+ f.files.get('revision-intent.json').value=resumed;
+ assert.equal((await f.rebind()).status,'provider_rebound_scheduler_inactive');
+ assert.equal((await f.bind()).status,'existing_key_bound_scheduler_inactive');
+ f.files.get('revision-old-release-intent.json').value.before.epoch=29;
+ await assert.rejects(f.rebind(),/rebind_revision_changed/);
+});
+
 for(const [name,change] of [
  ['active scheduler',s=>s.active=true],['enabled scheduler',s=>s.enabled=true],['pending dispatch',s=>s.pending=1],
  ['active work',s=>s.activeAdmissions=1],['uncovered scheduler',s=>s.scheduler.coverageVerified=false],

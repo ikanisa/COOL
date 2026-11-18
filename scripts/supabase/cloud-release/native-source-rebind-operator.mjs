@@ -64,18 +64,35 @@ function capturedKey(state,intent){
   state.keyEvidence?.keySha256!==key.keySha256||state.keyEvidence?.operation!==key.operation||
   state.secrets.COLLECT_JOB_SIGNING_KEY!==key.keySha256)fail('rebind_key_changed');
 }
-function revisionBoundIntent(intent,revision,io){
- const previous=intent.ancillaryRegistration??null,current=revision.ancillaryRegistration??null;
- if(same(previous,current))return intent;
- const q=revision.ancillaryRequalification;
- if(!previous||!current||!q||q.previousDigest!==previous.digest||q.newDigest!==current.digest||
-  !/^[a-z][a-z0-9-]{3,60}$/.test(q.sourceSecretAcknowledgedBy??''))fail('rebind_functions_changed');
- try{requireVersionOnlyRequalification(previous,current);}catch{fail('rebind_functions_changed');}
- const attempt=io.read('revision-'+q.sourceSecretAcknowledgedBy+'-source-secret-attempt.json',true)?.value,
-  done=io.read('revision-'+q.sourceSecretAcknowledgedBy+'-source-secret-complete.json',true)?.value;
- if(attempt?.previousSourceSha256!==intent.oldSource||attempt?.sourceSha256!==intent.newSource||
-  done?.sourceSha256!==intent.newSource||done?.secretSha256!==sha(intent.newSource))fail('rebind_functions_changed');
- return {...intent,ancillaryRegistration:current};
+function revisionLineage(revision,io){
+ const reversed=[revision],seen=new Set();let current=revision;
+ while(current.before?.mode!=='open'){
+  const link=current.resumes,label=link?.label;
+  if(!/^[a-z][a-z0-9-]{3,60}$/.test(label??'')||!HASH.test(link?.intentSha256??'')||seen.has(label)||seen.size>=16)
+   fail('rebind_revision_changed');
+  seen.add(label);const prior=io.read('revision-'+label+'-intent.json',true)?.value;
+  if(!prior||sha(JSON.stringify(prior))!==link.intentSha256||prior.snapshot?.sourceSha256!==revision.snapshot?.sourceSha256)
+   fail('rebind_revision_changed');
+  reversed.push(prior);current=prior;
+ }
+ return reversed.reverse();
+}
+function revisionBoundIntent(intent,lineage,io){
+ let result=intent;
+ for(const revision of lineage){
+  const previous=result.ancillaryRegistration??null,current=revision.ancillaryRegistration??null;
+  if(same(previous,current))continue;
+  const q=revision.ancillaryRequalification;
+  if(!previous||!current||!q||q.previousDigest!==previous.digest||q.newDigest!==current.digest||
+   !/^[a-z][a-z0-9-]{3,60}$/.test(q.sourceSecretAcknowledgedBy??''))fail('rebind_functions_changed');
+  try{requireVersionOnlyRequalification(previous,current);}catch{fail('rebind_functions_changed');}
+  const attempt=io.read('revision-'+q.sourceSecretAcknowledgedBy+'-source-secret-attempt.json',true)?.value,
+   done=io.read('revision-'+q.sourceSecretAcknowledgedBy+'-source-secret-complete.json',true)?.value;
+  if(attempt?.previousSourceSha256!==intent.oldSource||attempt?.sourceSha256!==intent.newSource||
+   done?.sourceSha256!==intent.newSource||done?.secretSha256!==sha(intent.newSource))fail('rebind_functions_changed');
+  result={...result,ancillaryRegistration:current};
+ }
+ return result;
 }
 function approvalEvidence(approval,source,previous,model,b,qualificationDigest){
  if(approval?.format!=='collect.native-sms.owner-approval.v1'||approval.project!==PROJECT||approval.sourceSha256!==source||
@@ -192,12 +209,12 @@ export async function rebindProvider({label,approvalName,qualificationName,revis
  if(!io.read(stem+'-disable-complete.json',true))fail('rebind_disable_required');
  const approval=io.read(approvalName),qualification=io.read(qualificationName),ri=io.read(revisionIntentName).value,
   rd=io.read(revisionCompleteName).value;
- const intent=revisionBoundIntent(baseIntent,ri,io);
+ const lineage=revisionLineage(ri,io),origin=lineage[0],intent=revisionBoundIntent(baseIntent,lineage,io);
  if(qualification.value.project!==PROJECT||qualification.value.sourceSha256!==intent.newSource||
   qualification.value.checked?.status!=='passed'||qualification.value.checked.sourceSha256!==intent.newSource)
   fail('rebind_qualification_changed');
  approvalEvidence(approval.value,intent.newSource,intent.oldSource,intent.budget.model,intent.budget,qualification.digest);
- if(ri.before?.mode!=='open'||ri.before?.source_sha256!==intent.oldSource||Number(ri.before?.epoch)!==intent.epoch||
+ if(origin.before?.mode!=='open'||origin.before?.source_sha256!==intent.oldSource||Number(origin.before?.epoch)!==intent.epoch||
   ri.snapshot?.sourceSha256!==intent.newSource||ri.checked?.status!=='passed'||ri.checked?.sourceSha256!==intent.newSource||
   ri.testEvidence?.passed!==true||ri.testEvidence?.sourceSha256!==intent.newSource||ri.testEvidence?.evidenceSha256!==qualification.digest||
   rd.sourceSha256!==intent.newSource||Number(rd.epoch)!==intent.epoch+2)
@@ -249,7 +266,8 @@ export async function bindExistingKey({label,revisionIntentName,revisionComplete
  const stem=labelName(label),baseIntent=io.read(stem+'-disable-intent.json').value;
  const approval=io.read(stem+'-approval-secret-complete.json',true)?.value,
   provider=io.read(stem+'-provider-complete.json',true)?.value;
- const ri=io.read(revisionIntentName).value,rd=io.read(revisionCompleteName).value,intent=revisionBoundIntent(baseIntent,ri,io);
+ const ri=io.read(revisionIntentName).value,rd=io.read(revisionCompleteName).value,
+  intent=revisionBoundIntent(baseIntent,revisionLineage(ri,io),io);
  if(!approval||!provider||approval.newSource!==intent.newSource||provider.newSource!==intent.newSource||
   !HASH.test(approval.approval??'')||provider.approval!==approval.approval)fail('rebind_approval_required');
  const state=await io.state('new',intent.keyEvidence);
