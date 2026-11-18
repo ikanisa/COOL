@@ -4,7 +4,7 @@ import {createHash} from 'node:crypto';
 const sha=x=>createHash('sha256').update(x).digest('hex');
 const pins={serve:'0c1305540340c19a058ce5f5510c67a586b82eeacb98e45f226ebe4b1499b1da',
  processing:'08571899e08aa0e9b01b2cf8aa8807e099061de29725e54f8719c37ed5fd8270'};
-const integrated={serve:'766cc5b6ea5e4c4acbffe2a631f4691b48f93e50fdb6d5898ad5594f8f5ee280',
+const integrated={serve:'45862b8c5442041157bc2274dfd5c7aa19fa31c25570da0e146ab02a5f1f2ac1',
  processing:'64a161f7aef2d4e113d3a88c0f2063cbaf70219416ed6d031b873c8aec4f8d2b',
  auth:'5cac35234d8fce99056705a7e002c078970366a007e4a572b00485a9502ad463',
  budget:'8c212ad319d820374a33abcaeb405ee643010cc86b0e107790d39b7020fe9962'};
