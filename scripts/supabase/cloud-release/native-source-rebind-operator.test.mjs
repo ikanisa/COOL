@@ -22,7 +22,7 @@ function fixture(){
  const previous={sourceSha256:OLD,keySha256:KEY,vaultId:'00000000-0000-4000-8000-000000000004',operation:'synthetic-key-operation',functions:oldFunctions};
  const oldBudget={native_provider_source_sha256:OLD,native_provider_model_id:MODEL,native_provider_approval_sha256:OLD_APPROVAL,
   native_provider_used:USED,native_provider_limit:'400',native_provider_expires_at:null};
- const state={control:{mode:'open',epoch:28,source_sha256:OLD},enabled:false,active:false,pending:0,activeAdmissions:0,imported:37,
+ const state={control:{mode:'open',epoch:28,source_sha256:OLD},enabled:false,active:false,pending:0,activeJobAdmissions:0,imported:37,
   schedule:'* * * * *',command:'SELECT collect_ops.tick_jobs();',operator:true,
   scheduler:{checked:true,coverageVerified:true,blocking:false},budget:{...oldBudget},keyCount:1,
   key:{id:previous.vaultId,digest:KEY,description:'collect.jobs.key.v1:'+previous.operation},keyEvidence:previous,functions:structuredClone(oldFunctions),
@@ -118,7 +118,7 @@ test('rebind follows the digest-bound fenced-resume intent to the original open 
 
 for(const [name,change] of [
  ['active scheduler',s=>s.active=true],['enabled scheduler',s=>s.enabled=true],['pending dispatch',s=>s.pending=1],
- ['active work',s=>s.activeAdmissions=1],['uncovered scheduler',s=>s.scheduler.coverageVerified=false],
+ ['active scheduled work',s=>s.activeJobAdmissions=1],['uncovered scheduler',s=>s.scheduler.coverageVerified=false],
  ['changed model',s=>s.budget.native_provider_model_id='changed'],['changed approval',s=>s.budget.native_provider_approval_sha256='9'.repeat(64)],
  ['changed limit',s=>s.budget.native_provider_limit='399'],['changed key',s=>s.key.digest='9'.repeat(64)],
  ['changed original bundle',s=>s.functions[0].ezbr_sha256='9'.repeat(64)],
@@ -217,7 +217,7 @@ test('CAS locks fence, scheduler and configuration in order without locking cron
   used:USED,limit:'400',expires:null}};
  const base={singleton:true,enabled:false,cron_job_id:'42',native_provider_source_sha256:OLD,native_provider_model_id:MODEL,
   native_provider_approval_sha256:OLD_APPROVAL,native_provider_used:USED,native_provider_limit:'400',native_provider_expires_at:null,
-  pending:0,active_admissions:0,scheduler:{checked:true,coverageVerified:true,blocking:false}};
+  pending:0,active_job_admissions:0,scheduler:{checked:true,coverageVerified:true,blocking:false}};
  const db={query:async(sql)=>{queries.push(sql);
   if(sql.startsWith('SELECT mode,epoch'))return {rows:[{mode:'open',epoch:30,source_sha256:NEW}]};
   if(sql.includes('FROM collect_ops.jobs_config c WHERE'))return {rows:[base]};
