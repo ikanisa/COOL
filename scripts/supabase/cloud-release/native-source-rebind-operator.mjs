@@ -13,7 +13,8 @@ import {readAncillaryRegistration,requireSameRegistration,requireVersionOnlyRequ
 
 const HASH=/^[a-f0-9]{64}$/;
 const NAMES=['BUILD_SOURCE_ID','BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED','MOMO_AI_ENABLED','MOMO_AI_MODEL',
- 'COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256','COLLECT_JOB_AUTH_MODE','COLLECT_JOB_SIGNING_KEY','OPENAI_API_KEY'];
+ 'COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256','COLLECT_JOB_AUTH_MODE','COLLECT_JOB_SIGNING_KEY','OPENAI_API_KEY',
+ 'COLLECT_SMS_ENABLED','COLLECT_SMS_DISPATCH_PAUSED','COLLECT_SMS_CORE_SOURCE_SHA256','COLLECT_SMS_RELEASE_SHA256'];
 const fail=message=>{throw Error(message);};
 const copy=x=>JSON.parse(JSON.stringify(x));
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
@@ -54,6 +55,10 @@ function common(state,source,checkKeyFunctions=true){
   state.key?.description!=='collect.jobs.key.v1:'+state.keyEvidence.operation||
   state.secrets.COLLECT_JOB_SIGNING_KEY!==state.keyEvidence.keySha256)fail('rebind_key_changed');
  try{scopedInventory(state.functions,state.ancillaryRegistration??null);}catch{fail('rebind_functions_changed');}
+ if(state.ancillaryRegistration?.entries?.some(row=>row.slug==='collect-sms')&&
+  (state.secrets.COLLECT_SMS_ENABLED!==sha('true')||state.secrets.COLLECT_SMS_DISPATCH_PAUSED!==sha('false')||
+   state.secrets.COLLECT_SMS_CORE_SOURCE_SHA256!==sha(source)||!HASH.test(state.secrets.COLLECT_SMS_RELEASE_SHA256??'')))
+  fail('rebind_sms_gateway_changed');
  if(checkKeyFunctions&&!sameDeployedFunctions(state.keyEvidence.functions,state.functions,state.ancillaryRegistration??null))fail('rebind_functions_changed');
 }
 function capturedKey(state,intent){
@@ -94,6 +99,30 @@ function revisionBoundIntent(intent,lineage,io){
  }
  return result;
 }
+// Only explicitly journaled, provider-acknowledged secret updates can advance
+// the independently registered sidecar version. The original intent and all
+// prior proofs remain immutable; each consumer rechecks the bridge and live proof.
+function stageRecords(stem,stage,io){
+ const prefix=stage==='disable'?stem+'-disable':stem+'-approval-secret';
+ const attempt=io.read(prefix+(stage==='disable'?'-attempt.json':'-intent.json'),true)?.value;
+ const ack=io.read(prefix+'-ack.json',true)?.value;
+ if(!attempt||!ack||!Number.isInteger(ack.status)||ack.status<200||ack.status>=300)fail('rebind_ancillary_ack_required');
+ return {attempt,ack};
+}
+function bridgedIntent(intent,stem,stage,io){
+ const proof=io.read(stem+'-'+stage+'-ancillary-requalification.json',true)?.value;
+ if(!proof)return intent;
+ const {attempt,ack}=stageRecords(stem,stage,io);
+ if(proof.format!=='collect.native-ancillary-requalification.v1'||proof.stage!==stage||
+  proof.previousDigest!==intent.ancillaryRegistration?.digest||proof.attemptSha256!==sha(JSON.stringify(attempt))||
+  proof.ackSha256!==sha(JSON.stringify(ack)))fail('rebind_ancillary_requalification_changed');
+ if(stage==='disable'&&(attempt.oldSource!==intent.oldSource||attempt.newSource!==intent.newSource)||
+  stage==='approval'&&(attempt.newSource!==intent.newSource||!HASH.test(attempt.approval??'')))
+  fail('rebind_ancillary_requalification_changed');
+ try{requireVersionOnlyRequalification(intent.ancillaryRegistration??null,proof.registration);}catch{fail('rebind_ancillary_requalification_changed');}
+ return {...intent,ancillaryRegistration:proof.registration};
+}
+
 function approvalEvidence(approval,source,previous,model,b,qualificationDigest){
  if(approval?.format!=='collect.native-sms.owner-approval.v1'||approval.project!==PROJECT||approval.sourceSha256!==source||
   approval.previousSourceSha256!==previous||approval.model!==model||String(approval.providerUsedPreserved)!==b.used||
@@ -122,7 +151,8 @@ function checkTransition(state,intent,approvalDigest,disabled=true){
   state.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha(disabled?'false':'true')||
   state.secrets.MOMO_AI_MODEL!==intent.secrets.MOMO_AI_MODEL||state.secrets.MOMO_AI_ENABLED!==intent.secrets.MOMO_AI_ENABLED||
   state.secrets.OPENAI_API_KEY!==intent.secrets.OPENAI_API_KEY||state.secrets.COLLECT_JOB_AUTH_MODE!==intent.secrets.COLLECT_JOB_AUTH_MODE||
-  state.secrets.COLLECT_JOB_SIGNING_KEY!==intent.secrets.COLLECT_JOB_SIGNING_KEY)
+  state.secrets.COLLECT_JOB_SIGNING_KEY!==intent.secrets.COLLECT_JOB_SIGNING_KEY||
+  state.secrets.COLLECT_SMS_RELEASE_SHA256!==intent.secrets.COLLECT_SMS_RELEASE_SHA256)
   fail('rebind_provider_preimage_changed');
 }
 
@@ -149,7 +179,8 @@ async function liveState(db,api,keyEvidence){
 /** Existing evidence/adapter objects are injected for deterministic tests. */
 export async function disableNative({label,nextSource,previousApprovalName},io){
  const stem=labelName(label),oldApproval=io.read(previousApprovalName),state=await io.state('old');
- const existing=io.read(stem+'-disable-intent.json',true),complete=io.read(stem+'-disable-complete.json',true);
+ const original=io.read(stem+'-disable-intent.json',true),complete=io.read(stem+'-disable-complete.json',true);
+ const existing=original?{...original,value:bridgedIntent(original.value,stem,'disable',io)}:null;
  let intent;
  if(existing){
   if(existing.value.newSource!==nextSource||existing.value.previousApprovalDigest!==oldApproval.digest)fail('rebind_intent_changed');
@@ -205,11 +236,11 @@ export async function disableNative({label,nextSource,previousApprovalName},io){
 }
 
 export async function rebindProvider({label,approvalName,qualificationName,revisionIntentName,revisionCompleteName},io){
- const stem=labelName(label),baseIntent=io.read(stem+'-disable-intent.json').value;
+ const stem=labelName(label),baseIntent=bridgedIntent(io.read(stem+'-disable-intent.json').value,stem,'disable',io);
  if(!io.read(stem+'-disable-complete.json',true))fail('rebind_disable_required');
  const approval=io.read(approvalName),qualification=io.read(qualificationName),ri=io.read(revisionIntentName).value,
   rd=io.read(revisionCompleteName).value;
- const lineage=revisionLineage(ri,io),origin=lineage[0],intent=revisionBoundIntent(baseIntent,lineage,io);
+ const lineage=revisionLineage(ri,io),origin=lineage[0],intent=bridgedIntent(revisionBoundIntent(baseIntent,lineage,io),stem,'approval',io);
  if(qualification.value.project!==PROJECT||qualification.value.sourceSha256!==intent.newSource||
   qualification.value.checked?.status!=='passed'||qualification.value.checked.sourceSha256!==intent.newSource)
   fail('rebind_qualification_changed');
@@ -231,7 +262,7 @@ export async function rebindProvider({label,approvalName,qualificationName,revis
   if(Number(state.control.epoch)!==intent.epoch+2||!same(budget(state.budget),intent.budget)||
    state.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha('false')||
    state.secrets.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256!==sha(intent.budget.approval)||
-   NAMES.filter(n=>!['BUILD_SOURCE_ID','BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED'].includes(n)).some(n=>state.secrets[n]!==intent.secrets[n]))
+   NAMES.filter(n=>!['BUILD_SOURCE_ID','BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED','COLLECT_SMS_CORE_SOURCE_SHA256'].includes(n)).some(n=>state.secrets[n]!==intent.secrets[n]))
    fail('rebind_provider_preimage_changed');
   io.save(stem+'-provider-intent.json',{before:intent.budget,newSource:intent.newSource,approval:approval.digest,at:new Date().toISOString()});
   // The adapter locks and rechecks the current fence, scheduler, all budget
@@ -262,12 +293,60 @@ export async function rebindProvider({label,approvalName,qualificationName,revis
  return {status:'provider_rebound_scheduler_inactive',sourceSha256:intent.newSource,used:intent.budget.used};
 }
 
+/** Explicit, readback-only version proof after an acknowledged secret write. */
+export async function requalifyNativeAncillary({label,stage,approvalName,qualificationName,revisionIntentName,revisionCompleteName},io){
+ const stem=labelName(label);
+ if(!['disable','approval'].includes(stage))fail('rebind_ancillary_stage_invalid');
+ const raw=io.read(stem+'-disable-intent.json').value;
+ let intent=stage==='disable'?raw:bridgedIntent(raw,stem,'disable',io),approval,ri,rd;
+ if(stage==='approval'){
+  if(!io.read(stem+'-disable-complete.json',true)||!io.read(stem+'-provider-complete.json',true))fail('rebind_ancillary_ack_required');
+  approval=io.read(approvalName);const qualification=io.read(qualificationName);
+  ri=io.read(revisionIntentName).value;rd=io.read(revisionCompleteName).value;
+  const lineage=revisionLineage(ri,io),origin=lineage[0];intent=revisionBoundIntent(intent,lineage,io);
+  if(qualification.value.project!==PROJECT||qualification.value.sourceSha256!==intent.newSource||
+   qualification.value.checked?.status!=='passed'||qualification.value.checked.sourceSha256!==intent.newSource||
+   origin.before?.mode!=='open'||origin.before?.source_sha256!==intent.oldSource||Number(origin.before?.epoch)!==intent.epoch||
+   ri.snapshot?.sourceSha256!==intent.newSource||ri.checked?.status!=='passed'||ri.checked?.sourceSha256!==intent.newSource||
+   ri.testEvidence?.passed!==true||ri.testEvidence?.sourceSha256!==intent.newSource||ri.testEvidence?.evidenceSha256!==qualification.digest||
+   rd.sourceSha256!==intent.newSource||Number(rd.epoch)!==intent.epoch+2)fail('rebind_revision_changed');
+  approvalEvidence(approval.value,intent.newSource,intent.oldSource,intent.budget.model,intent.budget,qualification.digest);
+ }
+ const {attempt,ack}=stageRecords(stem,stage,io);
+ if(stage==='disable'&&(attempt.oldSource!==intent.oldSource||attempt.newSource!==intent.newSource)||
+  stage==='approval'&&(attempt.newSource!==intent.newSource||attempt.approval!==approval.digest))fail('rebind_intent_changed');
+ const state=await io.state(stage==='disable'?'old':'new',intent.keyEvidence);
+ const candidate=registrationSnapshot(state.ancillaryRegistration??null);
+ try{requireVersionOnlyRequalification(intent.ancillaryRegistration??null,candidate);}catch{fail('rebind_ancillary_requalification_changed');}
+ const next={...intent,ancillaryRegistration:candidate};
+ if(stage==='disable'){
+  common(state,intent.oldSource);capturedKey(state,next);
+  if(Number(state.control.epoch)!==intent.epoch||!same(budget(state.budget),intent.budget)||
+   state.secrets.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED!==sha('false')||
+   NAMES.filter(n=>n!=='BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED').some(n=>state.secrets[n]!==intent.secrets[n]))
+   fail('rebind_disabled_state_changed');
+  await io.guardStatus(intentGuard(intent.oldSource));
+ }else{
+  const done=io.read(stem+'-provider-complete.json').value;
+  if(done.newSource!==intent.newSource||done.approval!==approval.digest)fail('rebind_intent_changed');
+  checkTransition(state,next,approval.digest);
+  if(state.secrets.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256!==sha(approval.digest)||
+   !sameDeployedFunctions(rd.functions,state.functions,state.ancillaryRegistration??null))fail('rebind_approval_outcome_unknown');
+  io.verifyDeployment(ri,rd,state);await io.guardStatus(intentGuard(intent.newSource));
+ }
+ const name=stem+'-'+stage+'-ancillary-requalification.json';
+ const proof={format:'collect.native-ancillary-requalification.v1',stage,previousDigest:intent.ancillaryRegistration.digest,
+  registration:candidate,attemptSha256:sha(JSON.stringify(attempt)),ackSha256:sha(JSON.stringify(ack)),at:new Date().toISOString()};
+ if(io.read(name,true))fail('rebind_ancillary_requalification_exists');
+ io.save(name,proof);return {status:'native_ancillary_requalified',stage,previousDigest:proof.previousDigest,newDigest:candidate.digest};
+}
+
 export async function bindExistingKey({label,revisionIntentName,revisionCompleteName},io){
- const stem=labelName(label),baseIntent=io.read(stem+'-disable-intent.json').value;
+ const stem=labelName(label),baseIntent=bridgedIntent(io.read(stem+'-disable-intent.json').value,stem,'disable',io);
  const approval=io.read(stem+'-approval-secret-complete.json',true)?.value,
   provider=io.read(stem+'-provider-complete.json',true)?.value;
  const ri=io.read(revisionIntentName).value,rd=io.read(revisionCompleteName).value,
-  intent=revisionBoundIntent(baseIntent,revisionLineage(ri,io),io);
+  intent=bridgedIntent(revisionBoundIntent(baseIntent,revisionLineage(ri,io),io),stem,'approval',io);
  if(!approval||!provider||approval.newSource!==intent.newSource||provider.newSource!==intent.newSource||
   !HASH.test(approval.approval??'')||provider.approval!==approval.approval)fail('rebind_approval_required');
  const state=await io.state('new',intent.keyEvidence);
@@ -321,8 +400,9 @@ export async function updateBudget(db,intent,approval){
 }
 
 async function main(){
- const [action,label,...args]=process.argv.slice(2);if(!['--disable','--rebind','--bind-key'].includes(action))fail('rebind_action_required');
- if(action==='--disable'&&args.length!==2||action==='--rebind'&&args.length!==4||action==='--bind-key'&&args.length!==2)
+ const [action,label,...args]=process.argv.slice(2);if(!['--disable','--rebind','--bind-key','--requalify-disable','--requalify-approval'].includes(action))fail('rebind_action_required');
+ if(action==='--disable'&&args.length!==2||action==='--rebind'&&args.length!==4||action==='--bind-key'&&args.length!==2||
+  action==='--requalify-disable'&&args.length!==0||action==='--requalify-approval'&&args.length!==4)
   fail('rebind_arguments_required');
  const db=await connect();try{
   const io={read:privateFile,save:record,api:management,snapshot:captureRuntimeSnapshot,check:checkSnapshot,
@@ -339,7 +419,9 @@ async function main(){
     '--status'],{stdio:'pipe',encoding:'utf8'});if(!same(JSON.parse(out),expected))fail('rebind_history_guard_changed');}};
   const result=action==='--disable'?await disableNative({label,nextSource:args[0],previousApprovalName:args[1]},io):
    action==='--rebind'?await rebindProvider({label,approvalName:args[0],qualificationName:args[1],revisionIntentName:args[2],revisionCompleteName:args[3]},io):
-   await bindExistingKey({label,revisionIntentName:args[0],revisionCompleteName:args[1]},io);
+   action==='--bind-key'?await bindExistingKey({label,revisionIntentName:args[0],revisionCompleteName:args[1]},io):
+   action==='--requalify-disable'?await requalifyNativeAncillary({label,stage:'disable'},io):
+   await requalifyNativeAncillary({label,stage:'approval',approvalName:args[0],qualificationName:args[1],revisionIntentName:args[2],revisionCompleteName:args[3]},io);
   console.log(JSON.stringify(result));
  }finally{await db.end();}
 }

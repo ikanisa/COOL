@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {disableNative,rebindProvider,bindExistingKey,updateBudget,functions as qualifiedFunctions} from './native-source-rebind-operator.mjs';
+import {disableNative,rebindProvider,bindExistingKey,requalifyNativeAncillary,updateBudget,functions as qualifiedFunctions} from './native-source-rebind-operator.mjs';
 import {decodeAncillaryRegistration,registrationSnapshot} from './ancillary-inventory.mjs';
 const hash=x=>createHash('sha256').update(x).digest('hex');
 const OLD='1'.repeat(64),NEW='2'.repeat(64),OLD_APPROVAL='3'.repeat(64),NEW_APPROVAL='4'.repeat(64),QUAL='5'.repeat(64);
@@ -28,7 +28,8 @@ function fixture(){
   key:{id:previous.vaultId,digest:KEY,description:'collect.jobs.key.v1:'+previous.operation},keyEvidence:previous,functions:structuredClone(oldFunctions),
   secrets:{BUILD_SOURCE_ID:hash(OLD),BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED:hash('true'),MOMO_AI_ENABLED:hash('true'),
    MOMO_AI_MODEL:hash(MODEL),COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256:hash(OLD_APPROVAL),
-   COLLECT_JOB_AUTH_MODE:hash('supabase_dispatch_hmac_v1'),COLLECT_JOB_SIGNING_KEY:KEY,OPENAI_API_KEY:APIKEY}};
+   COLLECT_JOB_AUTH_MODE:hash('supabase_dispatch_hmac_v1'),COLLECT_JOB_SIGNING_KEY:KEY,OPENAI_API_KEY:APIKEY,
+   COLLECT_SMS_ENABLED:hash('true'),COLLECT_SMS_DISPATCH_PAUSED:hash('false'),COLLECT_SMS_CORE_SOURCE_SHA256:hash(OLD),COLLECT_SMS_RELEASE_SHA256:hash('8'.repeat(64))}};
  const counters={api:0,updates:0,binds:0};
  const put=(name,value,digest='f'.repeat(64))=>files.set(name,{value:structuredClone(value),digest});
  put('previous.json',prior,OLD_APPROVAL);
@@ -50,7 +51,7 @@ function fixture(){
  const rebind=()=>rebindProvider({label:'fixture-revision',approvalName:'approval.json',qualificationName:'qualification.json',
   revisionIntentName:'revision-intent.json',revisionCompleteName:'revision-complete.json'},io);
  const bind=()=>bindExistingKey({label:'fixture-revision',revisionIntentName:'revision-intent.json',revisionCompleteName:'revision-complete.json'},io);
- const revise=()=>{state.control={mode:'open',epoch:30,source_sha256:NEW};state.functions=newFunctions;state.secrets.BUILD_SOURCE_ID=hash(NEW);};
+ const revise=()=>{state.control={mode:'open',epoch:30,source_sha256:NEW};state.functions=newFunctions;state.secrets.BUILD_SOURCE_ID=hash(NEW);state.secrets.COLLECT_SMS_CORE_SOURCE_SHA256=hash(NEW);};
  return {state,io,files,counters,disable,rebind,bind,revise,put};
 }
 
@@ -231,3 +232,101 @@ test('CAS locks fence, scheduler and configuration in order without locking cron
  assert(!queries.find(q=>q.includes('FROM cron.job')).includes('FOR UPDATE'));
  assert.equal(queries.at(-1),'COMMIT');
 });
+
+
+function installedSidecar(f){
+ const original=registrationFor(sidecar);
+ f.state.ancillaryRegistration=original;f.state.functions.push(sidecarRow(sidecar));
+ return original;
+}
+function bumpSidecar(f,mutate=x=>x){
+ const old=f.state.ancillaryRegistration.entries.find(x=>x.slug==='collect-sms');
+ const next=mutate({...old,version:old.version+1});f.state.ancillaryRegistration=registrationFor(next);
+ f.state.functions=f.state.functions.map(row=>row.slug==='collect-sms'?sidecarRow(next):row);
+ return next;
+}
+function bumpAfterWrite(f){
+ const write=f.io.api;
+ f.io.api=async(...args)=>{const result=await write(...args);const row=f.state.functions.find(x=>x.slug==='collect-sms');row.version++;return result;};
+}
+
+test('acknowledged disable can explicitly bridge a version-only bump without resending',async()=>{
+ const f=fixture(),previous=installedSidecar(f);bumpAfterWrite(f);
+ await assert.rejects(f.disable(),/rebind_functions_changed/);
+ assert.equal(f.counters.api,1);assert(f.files.has('native-source-rebind-fixture-revision-disable-ack.json'));
+ bumpSidecar(f);const bridge=await requalifyNativeAncillary({label:'fixture-revision',stage:'disable'},f.io);
+ assert.equal(bridge.previousDigest,previous.digest);await f.disable();assert.equal(f.counters.api,1);
+ assert(f.files.has('native-source-rebind-fixture-revision-disable-complete.json'));
+});
+
+test('disable bridge rejects unknown response, missing journal, bundle or authority drift',async()=>{
+ for(const mutation of ['missing-ack','invalid-ack','bundle','id','jwt','source','counter','secret','key','sms-pause','sms-source','sms-release']){
+  const f=fixture();installedSidecar(f);bumpAfterWrite(f);await assert.rejects(f.disable());
+  if(mutation==='missing-ack')f.files.delete('native-source-rebind-fixture-revision-disable-ack.json');
+  if(mutation==='invalid-ack')f.files.get('native-source-rebind-fixture-revision-disable-ack.json').value.status=500;
+  bumpSidecar(f,x=>{if(mutation==='bundle')x.ezbr_sha256='b'.repeat(64);if(mutation==='id')x.id='00000000-0000-4000-8000-000000000011';
+   if(mutation==='jwt')x.verify_jwt=true;if(mutation==='status')x.status='INACTIVE';if(mutation==='source')x.sourceSha256='a'.repeat(64);return x;});
+  if(mutation==='counter')f.state.budget.native_provider_used='138';
+  if(mutation==='secret')f.state.secrets.MOMO_AI_MODEL=hash('different');
+  if(mutation==='key')f.state.key.id='00000000-0000-4000-8000-000000000010';
+  if(mutation==='sms-pause')f.state.secrets.COLLECT_SMS_DISPATCH_PAUSED=hash('true');
+  if(mutation==='sms-source')f.state.secrets.COLLECT_SMS_CORE_SOURCE_SHA256=hash('wrong');
+  if(mutation==='sms-release')f.state.secrets.COLLECT_SMS_RELEASE_SHA256=hash('wrong');
+  await assert.rejects(requalifyNativeAncillary({label:'fixture-revision',stage:'disable'},f.io));
+  assert.equal(f.counters.api,1);assert(!f.files.has('native-source-rebind-fixture-revision-disable-ancillary-requalification.json'));
+ }
+});
+
+test('acknowledged approval bridge restores existing key without reissuing either provider secret',async()=>{
+ const f=fixture();installedSidecar(f);await f.disable();f.revise();f.state.functions.push(sidecarRow(sidecar));
+ f.files.get('revision-intent.json').value.ancillaryRegistration=registrationSnapshot(f.state.ancillaryRegistration);
+ bumpAfterWrite(f);await assert.rejects(f.rebind(),/rebind_functions_changed/);assert.equal(f.counters.api,2);
+ assert(f.files.has('native-source-rebind-fixture-revision-approval-secret-ack.json'));
+ bumpSidecar(f);
+ await requalifyNativeAncillary({label:'fixture-revision',stage:'approval',approvalName:'approval.json',qualificationName:'qualification.json',
+  revisionIntentName:'revision-intent.json',revisionCompleteName:'revision-complete.json'},f.io);
+ assert.equal((await f.rebind()).status,'provider_rebound_scheduler_inactive');await f.bind();
+ assert.equal(f.counters.api,2);assert.equal(f.counters.updates,1);assert.equal(f.counters.binds,1);
+});
+
+test('approval bridge cannot bless an unacknowledged or altered operation',async()=>{
+ for(const mutation of ['missing-ack','bundle','approval','counter']){
+  const f=fixture();installedSidecar(f);await f.disable();f.revise();f.state.functions.push(sidecarRow(sidecar));
+  f.files.get('revision-intent.json').value.ancillaryRegistration=registrationSnapshot(f.state.ancillaryRegistration);
+  bumpAfterWrite(f);await assert.rejects(f.rebind());
+  if(mutation==='missing-ack')f.files.delete('native-source-rebind-fixture-revision-approval-secret-ack.json');
+  if(mutation==='approval')f.state.secrets.COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256=hash('wrong');
+  if(mutation==='counter')f.state.budget.native_provider_used='138';
+  bumpSidecar(f,x=>{if(mutation==='bundle')x.ezbr_sha256='b'.repeat(64);return x;});
+  await assert.rejects(requalifyNativeAncillary({label:'fixture-revision',stage:'approval',approvalName:'approval.json',qualificationName:'qualification.json',
+   revisionIntentName:'revision-intent.json',revisionCompleteName:'revision-complete.json'},f.io));
+  assert.equal(f.counters.api,2);
+ }
+});
+
+test('disable, fenced core revision, approval and key retain an exact proof lineage through three bumps',async()=>{
+ const f=fixture(),first=installedSidecar(f);bumpAfterWrite(f);
+ await assert.rejects(f.disable());bumpSidecar(f);
+ await requalifyNativeAncillary({label:'fixture-revision',stage:'disable'},f.io);await f.disable();
+ const afterDisable=registrationSnapshot(f.state.ancillaryRegistration);
+ const original=structuredClone(f.files.get('revision-intent.json').value);original.ancillaryRegistration=afterDisable;
+ f.put('revision-original-intent.json',original);
+ f.put('revision-original-source-secret-attempt.json',{previousSourceSha256:OLD,sourceSha256:NEW});
+ f.put('revision-original-source-secret-complete.json',{sourceSha256:NEW,secretSha256:hash(NEW)});
+ f.revise();f.state.functions.push(providerSidecarFor(f.state.ancillaryRegistration));bumpSidecar(f);
+ const afterCore=registrationSnapshot(f.state.ancillaryRegistration);
+ const resumed={...original,before:{mode:'fenced',source_sha256:OLD,epoch:28},ancillaryRegistration:afterCore,
+  ancillaryRequalification:{previousDigest:afterDisable.digest,newDigest:afterCore.digest,sourceSecretAcknowledgedBy:'original'},
+  resumes:{label:'original',intentSha256:hash(JSON.stringify(original))}};
+ f.put('revision-intent.json',resumed);
+ await assert.rejects(f.rebind());bumpSidecar(f);
+ await requalifyNativeAncillary({label:'fixture-revision',stage:'approval',approvalName:'approval.json',qualificationName:'qualification.json',
+  revisionIntentName:'revision-intent.json',revisionCompleteName:'revision-complete.json'},f.io);
+ await f.rebind();
+ f.io.bindKey=async()=>{f.counters.binds++;f.put('managed-jobs-key-source-'+NEW+'.json',
+  {...f.state.keyEvidence,sourceSha256:NEW,keyChanged:false,functions:f.state.functions.filter(row=>row.slug!=='collect-sms')});};
+ await f.bind();
+ assert.equal(f.counters.api,2);assert.equal(f.counters.updates,1);assert.equal(f.counters.binds,1);
+ assert.notEqual(first.digest,f.state.ancillaryRegistration.digest);
+});
+function providerSidecarFor(registration){return sidecarRow(registration.entries.find(x=>x.slug==='collect-sms'));}

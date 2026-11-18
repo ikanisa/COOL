@@ -12,6 +12,7 @@ import {sameDeployedFunctions,keyEvidenceForSource} from './managed-jobs-key-ope
 import {readAncillaryRegistration,requireSameRegistration} from './ancillary-inventory.mjs';
 import {renderNativeProviderBudget} from './native-provider-budget-render.mjs';
 import {renderNativeProviderPolicy} from './native-provider-policy-render.mjs';
+import {createNativeConfigIntent,requireNativeConfigPreimage,createNativeConfigBridge,requireNativeConfigReadback} from './native-config-proof.mjs';
 
 const HASH=/^[a-f0-9]{64}$/,MODEL=/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/;
 export function requireSchedulerInventory(keyFunctions,providerFunctions,registration=null){
@@ -64,7 +65,10 @@ async function inspect(db){
  if(f?.mode!=='open'||f.source_sha256!==key.sourceSha256||key.project!==PROJECT||!HASH.test(key.keySha256??'')||!Array.isArray(key.functions))throw Error('runtime_or_key_changed');
  const [functionResult,secretResult]=await Promise.all([management('functions'),management('secrets')]);
  const funcs=requireSchedulerInventory(key.functions,functionResult.json(),ancillaryRegistration);
- const secrets=new Map(secretResult.json().map(x=>[x.name,x.value]));
+ const secretRows=secretResult.json();
+ if(!Array.isArray(secretRows)||secretRows.some(x=>typeof x?.name!=='string'||!HASH.test(x.value??''))||
+  new Set(secretRows.map(x=>x.name)).size!==secretRows.length)throw Error('runtime_or_key_changed');
+ const secrets=new Map(secretRows.map(x=>[x.name,x.value]));
  if(secrets.get('BUILD_SOURCE_ID')!==sha(f.source_sha256)||secrets.get('COLLECT_JOB_AUTH_MODE')!==sha('supabase_dispatch_hmac_v1')||secrets.get('COLLECT_JOB_SIGNING_KEY')!==key.keySha256||
   secrets.get('MOMO_PROCESSING_PAUSED')!==sha('true'))throw Error('runtime_or_key_changed');
  const scheduleFile='20261117135049_collect_sms_schedule_one_minute.sql',scheduleSha='df5ff3ec33e8e8d02c182072abd99e0c24705fb74f1f85514b46f9da9149300c';
@@ -179,8 +183,8 @@ function verifyMode(pre,r,native){
  }else if(pre.secrets.get('BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED')!==sha('false'))throw Error('maintenance_requires_native_disabled');
 }
 async function main(){
- const [action,evidenceName]=process.argv.slice(2);if(!['--status','--pause','--configure-native','--recover-native-config','--probe','--reconcile','--activate'].includes(action))throw Error('explicit_action_required');
- if(['--configure-native','--recover-native-config','--probe','--activate'].includes(action)!==Boolean(evidenceName)||process.argv.length!==(evidenceName?4:3))throw Error('evidence_argument_required');
+ const [action,evidenceName]=process.argv.slice(2);if(!['--status','--pause','--configure-native','--recover-native-config','--requalify-native-config','--probe','--reconcile','--activate'].includes(action))throw Error('explicit_action_required');
+ if(['--configure-native','--recover-native-config','--requalify-native-config','--probe','--activate'].includes(action)!==Boolean(evidenceName)||process.argv.length!==(evidenceName?4:3))throw Error('evidence_argument_required');
  const input=evidenceName?parseManagedReadiness(privateBytes(evidenceName)):null,db=await connect();
  try{
   let pre=await inspect(db);
@@ -188,24 +192,42 @@ async function main(){
   await verifyInventoryCheckpoint(pre);
   if(action==='--pause'){const s=(await db.query('SELECT collect_ops.pause_jobs() AS state')).rows[0].state;console.log(JSON.stringify({enabled:s.enabled,cronActive:s.cron_active}));return;}
   if(action==='--reconcile'){const r=(await db.query('SELECT collect_ops.reconcile_jobs() AS result')).rows[0].result;const s=(await db.query('SELECT collect_ops.jobs_state() AS state')).rows[0].state;console.log(JSON.stringify({reconciliation:r,enabled:s.enabled,cronActive:s.cron_active,awaiting:s.awaiting,unconfirmed:s.unconfirmed}));return;}
-  if(action==='--configure-native'||action==='--recover-native-config'){
+  if(['--configure-native','--recover-native-config','--requalify-native-config'].includes(action)){
    if(!input.native||input.readiness.native_sms_admission.source_sha256!==pre.source||!pre.secrets.has('OPENAI_API_KEY'))throw Error('native_readiness_invalid');
    verifyNativeBudget(pre,input.readiness);
-   const configName='managed-jobs-native-config-'+pre.source.slice(0,16)+'-intent.json',a=input.readiness.native_sms_admission;
+   const prefix='managed-jobs-native-config-'+pre.source.slice(0,16),configName=prefix+'-intent.json',
+    attemptName=prefix+'-attempt.json',ackName=prefix+'-ack.json',bridgeName=prefix+'-ancillary-requalification.json',
+    completeName=prefix+'-complete.json',a=input.readiness.native_sms_admission,evidence=input.readiness.evidence_file_sha256;
+   const changes=[{name:'MOMO_AI_ENABLED',value:'true'},{name:'MOMO_AI_MODEL',value:a.model_id},
+    {name:'COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256',value:a.approval_sha256},{name:'BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED',value:'true'}];
+   let intent,attempt,ack;
    if(action==='--configure-native'){
     if(existsSync(join(ROOT,configName))||pre.secrets.get('BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED')!==sha('false'))throw Error('native_config_requires_reconciliation');
     if(!pre.row.last_probe_id||!pre.row.enabled||!pre.row.active||pre.row.pending!==0)throw Error('confirmed_maintenance_activation_required');
-    record(configName,{project:PROJECT,sourceSha256:pre.source,evidenceSha256:input.readiness.evidence_file_sha256,at:new Date().toISOString()});
+    if(changes.some(x=>pre.secrets.has(x.name)&&![sha(x.value),...(['BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED','MOMO_AI_ENABLED'].includes(x.name)?[sha('false')]:[])].includes(pre.secrets.get(x.name))))throw Error('native_config_preimage_changed');
+    intent=createNativeConfigIntent(pre,evidence,changes);record(configName,intent);
     await db.query('SELECT collect_ops.pause_jobs()');await db.query('SELECT collect_ops.reconcile_jobs()');
     pre=await inspect(db);if(pre.row.enabled||pre.row.active||pre.row.pending!==0)throw Error('scheduler_not_drained');
-   }else{const previous=privateJson(configName);if(previous.project!==PROJECT||previous.sourceSha256!==pre.source||previous.evidenceSha256!==input.readiness.evidence_file_sha256||pre.row.enabled||pre.row.active||pre.row.pending!==0)throw Error('native_config_requires_reconciliation');}
-   await verifyInventoryCheckpoint(pre);
-   const changes=[{name:'MOMO_AI_ENABLED',value:'true'},{name:'MOMO_AI_MODEL',value:a.model_id},
-    {name:'COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256',value:a.approval_sha256},{name:'BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED',value:'true'}];
-   if(changes.some(x=>pre.secrets.has(x.name)&&![sha(x.value),...(['BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED','MOMO_AI_ENABLED'].includes(x.name)?[sha('false')]:[])].includes(pre.secrets.get(x.name))))throw Error('native_config_preimage_changed');
-   try{await management('secrets',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(changes)});}catch{}
-   pre=await inspect(db);verifyMode(pre,input.readiness,true);
-   record('managed-jobs-native-config-'+pre.source.slice(0,16)+'-complete.json',{project:PROJECT,sourceSha256:pre.source,evidenceSha256:input.readiness.evidence_file_sha256,cronActive:false,at:new Date().toISOString()});
+    await verifyInventoryCheckpoint(pre);verifyNativeBudget(pre,input.readiness);requireNativeConfigPreimage(intent,pre);
+    attempt={intentSha256:sha(JSON.stringify(intent)),at:new Date().toISOString()};record(attemptName,attempt);
+    // A lost response remains unknown: never automatically repeat the POST.
+    const response=await management('secrets',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(changes)});
+    ack={attemptSha256:sha(JSON.stringify(attempt)),status:response.status,at:new Date().toISOString()};record(ackName,ack);
+    pre=await inspect(db); // An ancillary version bump deliberately stops here.
+   }else{
+    intent=privateJson(configName);
+    if(!existsSync(join(ROOT,attemptName))||!existsSync(join(ROOT,ackName)))throw Error('native_config_outcome_unknown');
+    attempt=privateJson(attemptName);ack=privateJson(ackName);
+    if(pre.row.enabled||pre.row.active||pre.row.pending!==0)throw Error('scheduler_not_drained');
+   }
+   if(action==='--requalify-native-config'){
+    const bridge=createNativeConfigBridge(intent,attempt,ack,pre,evidence);verifyMode(pre,input.readiness,true);
+    if(existsSync(join(ROOT,bridgeName)))throw Error('native_config_requires_reconciliation');
+    record(bridgeName,bridge);console.log(JSON.stringify({status:'native_config_ancillary_requalified',cronActive:false}));return;
+   }
+   const bridge=existsSync(join(ROOT,bridgeName))?privateJson(bridgeName):null;
+   requireNativeConfigReadback(intent,attempt,ack,pre,evidence,bridge);verifyMode(pre,input.readiness,true);
+   if(!existsSync(join(ROOT,completeName)))record(completeName,{project:PROJECT,sourceSha256:pre.source,evidenceSha256:evidence,cronActive:false,at:new Date().toISOString()});
    console.log(JSON.stringify({status:'native_config_verified',cronActive:false}));return;
   }
   verifyMode(pre,input?.readiness,input?.native);
@@ -231,5 +253,5 @@ async function main(){
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)main().catch(e=>{
  const safe=new Set(['explicit_action_required','evidence_argument_required','invalid_evidence_name','private_evidence_required','maintenance_readiness_required','native_readiness_invalid','scheduler_migration_changed','runtime_or_key_changed','deployed_function_changed','scheduler_or_history_guard_changed','scheduler_source_shape_changed','readiness_project_changed','native_config_not_qualified','maintenance_requires_native_disabled','native_config_requires_reconciliation','confirmed_maintenance_activation_required','scheduler_not_drained','native_config_preimage_changed','disabled_fresh_probe_required','probe_not_dispatched','confirmed_probe_required','activation_unconfirmed']);
- safe.add('ancillary_proof_invalid');safe.add('ancillary_proof_changed');
+ safe.add('ancillary_proof_invalid');safe.add('ancillary_proof_changed');safe.add('native_config_reconciliation_unconfirmed');safe.add('native_config_outcome_unknown');
  console.error(JSON.stringify({outcome:'unconfirmed',reason:safe.has(e.message)?e.message:'provider_or_database_unavailable',detail:'Use status and reconcile the original recorded dispatch before retrying.'}));process.exitCode=1;});
