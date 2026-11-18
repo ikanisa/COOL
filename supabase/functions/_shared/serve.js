@@ -20,6 +20,7 @@ import {createCollectNativeRuntime,runCollectNativeScheduledCycle} from './domai
 import {drainNativeAutoTransactions} from './domain/burimunsi/postgres-native-auto-worker.js';
 import {nativeAutoProcessingResult} from './scheduled-native-auto.js';
 import {drainNativeSmsLedger} from './domain/burimunsi/postgres-native-sms-ledger.js';
+import {drainBuriMunsiPaymentSms} from './domain/burimunsi/payment-sms-delivery.mjs';
 import {nativeSmsLedgerResult} from './scheduled-native-sms-ledger.js';
 import {scheduledCanonicalDrain} from './scheduled-canonical.js';
 import {scheduledNativeFinancialWork} from './scheduled-native-financial-work.js';
@@ -122,7 +123,7 @@ export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{op
  };
 }
 /** @param {()=>Record<string, unknown>} [envReader] */
-export function createScheduledHandler(envReader=()=>Deno.env.toObject(),cleanup=cleanupExpiredGoogleFlows,processReceipts=drainMomoJobs,{openWork=openApplicationWork,reportHealth=recordPlatformHealth,cleanupDiagnostics=cleanupClientDiagnostics,processNotifications=drainNotificationDeliveries,processNativeAuto=drainNativeAutoTransactions,processNativeSmsLedger=drainNativeSmsLedger,processCanonical=runCollectNativeScheduledCycle,processNativeFinancialWork=scheduledNativeFinancialWork}={}){
+export function createScheduledHandler(envReader=()=>Deno.env.toObject(),cleanup=cleanupExpiredGoogleFlows,processReceipts=drainMomoJobs,{openWork=openApplicationWork,reportHealth=recordPlatformHealth,cleanupDiagnostics=cleanupClientDiagnostics,processNotifications=drainNotificationDeliveries,processNativeAuto=drainNativeAutoTransactions,processNativeSmsLedger=drainNativeSmsLedger,processPaymentSms=drainBuriMunsiPaymentSms,processCanonical=runCollectNativeScheduledCycle,processNativeFinancialWork=scheduledNativeFinancialWork}={}){
  return async request=>{
   const started=performance.now();let work,env,dispatchId=null,dispatch={dispatchId:null,processing:null,notifications:null},stage='environment';try{env=envReader();const input=env,token=request.headers.get('Authorization');
    const managed=input.COLLECT_JOB_AUTH_MODE==='supabase_dispatch_hmac_v1';
@@ -173,6 +174,12 @@ export function createScheduledHandler(envReader=()=>Deno.env.toObject(),cleanup
     else try{nativeLedger=nativeSmsLedgerResult(await processNativeSmsLedger(nativeEnv,{limit:1}));}
      catch{nativeLedger={status:'unconfirmed',code:'native_sms_ledger_unconfirmed'};}
    }
+   let paymentSms=null;
+   if(env.BURIMUNSI_PAYMENT_SMS_ENABLED==='true'){
+    if(!nativeGate.enabled||!admission.allowed)paymentSms={status:'held',processed:0};
+    else try{paymentSms=await processPaymentSms(env);}
+     catch{paymentSms={status:'unconfirmed',processed:0};}
+   }
    // Canonical scheduling is an independently configured, default-off lane.
    // It does not promote native SMS or bypass any posting authority/evidence.
    const canonical=await scheduledCanonicalDrain(env,admission,{runCycle:processCanonical});
@@ -185,7 +192,7 @@ export function createScheduledHandler(envReader=()=>Deno.env.toObject(),cleanup
    }catch{diagnostics={status:'unconfirmed'};try{console.error(JSON.stringify({service:'collect_platform_api',event:'diagnostics_cleanup_unconfirmed'}));}catch{}}
    const status=maintenance.status==='complete'&&processing.status!=='unconfirmed'&&notifications.status!=='unconfirmed'&&nativeAuto?.status!=='unconfirmed'&&nativeLedger?.status!=='unconfirmed'&&canonical?.status!=='unconfirmed'&&nativeFinancial?.status!=='unconfirmed'?200:503;
    if(status===503)observeFailure(reportHealth,{status,component:'operations',requestId:null,dispatchId,sourceId:env.BUILD_SOURCE_ID,elapsedMs:performance.now()-started});
-   const response=json({...(dispatchId?{dispatch_id:dispatchId}:{}),...(nativeGate.enabled?{native_sms_admission:nativeGate.admission}:{}),...(admission.processing?{processing_admission:admission.processing}:{}),...(admission.notifications?{notification_admission:admission.notifications}:{}),maintenance,processing,notifications,...(nativeAuto?{native_auto_processing:nativeAuto}:{}),...(nativeLedger?{native_sms_ledger:nativeLedger}:{}),...(canonical?{canonical_processing:canonical}:{}),...(nativeFinancial?{native_financial_work:nativeFinancial}:{}),realtime,diagnostics},status);if(managed&&status===200&&!(await completeManagedJobDispatch(env.DB,input,dispatchId,response)))return json({code:'job_completion_unconfirmed'},503);return response;
+   const response=json({...(dispatchId?{dispatch_id:dispatchId}:{}),...(nativeGate.enabled?{native_sms_admission:nativeGate.admission}:{}),...(admission.processing?{processing_admission:admission.processing}:{}),...(admission.notifications?{notification_admission:admission.notifications}:{}),maintenance,processing,notifications,...(nativeAuto?{native_auto_processing:nativeAuto}:{}),...(nativeLedger?{native_sms_ledger:nativeLedger}:{}),...(paymentSms?{payment_receipt_sms:paymentSms}:{}),...(canonical?{canonical_processing:canonical}:{}),...(nativeFinancial?{native_financial_work:nativeFinancial}:{}),realtime,diagnostics},status);if(managed&&status===200&&!(await completeManagedJobDispatch(env.DB,input,dispatchId,response)))return json({code:'job_completion_unconfirmed'},503);return response;
   }catch(error){
    const fenced=error?.code==='application_fenced'||error?.code==='application_fence_unavailable';
    observeFailure(reportHealth,{status:503,component:'operations',requestId:null,dispatchId,sourceId:env?.BUILD_SOURCE_ID,elapsedMs:performance.now()-started,...(fenced?{}:{runtimeFailure:{error,stage,env}})});
