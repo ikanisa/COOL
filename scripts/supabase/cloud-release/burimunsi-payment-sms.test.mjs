@@ -102,6 +102,9 @@ async function fixture(t) {
 
 test('one canonical payment allows one armed body and GET-only reconciliation', async (t) => {
   const f = await fixture(t);
+  const retention = (await f.db.query('SELECT private._retention_manifest_catalog_v2() AS catalog')).rows[0].catalog;
+  assert.deepEqual(retention.private_classes.map(({relation, blocked}) => ({relation, blocked})),
+    [{relation: 'private.burimunsi_payment_sms_deliveries', blocked: true}]);
   const {pay, entry, posted} = await f.record(20);
   assert.deepEqual(await f.readiness(), {contract_version: 1, eligible_count: 1, unresolved_count: 0});
   const [row] = await f.claim();

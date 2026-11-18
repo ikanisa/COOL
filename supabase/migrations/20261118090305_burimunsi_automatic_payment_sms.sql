@@ -291,10 +291,10 @@ BEGIN
  SELECT prosrc INTO STRICT body FROM pg_proc WHERE oid='private._retention_manifest_catalog_v2()'::regprocedure
   AND pg_get_userbyid(proowner)='postgres' AND NOT prosecdef AND provolatile='i'
   AND proconfig=ARRAY['search_path=pg_catalog, pg_temp'] AND proacl::text='{postgres=X/postgres}';
- IF EXISTS(SELECT 1 FROM jsonb_array_elements(private._retention_manifest_catalog_v2()->'private_classes') e
-  WHERE e->>'relation'='private.burimunsi_payment_sms_deliveries') THEN
+ -- A source check avoids evaluating the layered catalog during DDL.
+ IF strpos(body,'private:burimunsi_payment_sms_deliveries')>0 THEN
   RAISE EXCEPTION 'payment_sms_retention_changed' USING ERRCODE='55000';END IF;
- next_body:=format('SELECT jsonb_set(base,''{private_classes}'',(base->''private_classes'')||%L::jsonb) FROM (%s) prior(base)',jsonb_build_array(entry)::text,body);
+ next_body:=format('WITH prior(base) AS MATERIALIZED (%s) SELECT jsonb_set(base,''{private_classes}'',(base->''private_classes'')||%L::jsonb) FROM prior',body,jsonb_build_array(entry)::text);
  EXECUTE 'CREATE OR REPLACE FUNCTION private._retention_manifest_catalog_v2() RETURNS jsonb LANGUAGE sql IMMUTABLE SET search_path=pg_catalog,pg_temp AS '||quote_literal(next_body);
  SELECT prosrc INTO STRICT body FROM pg_proc WHERE oid='private.retention_capture_inventory_v2(uuid,text,bigint,text,integer)'::regprocedure
   AND pg_get_userbyid(proowner)='postgres' AND prosecdef AND provolatile='v'
