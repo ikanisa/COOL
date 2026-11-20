@@ -16,10 +16,10 @@
     "docs/PRODUCT.md": "6f065e32578d9ebb33b1e07d848c575a382d7578d033e2eb2e4d8da92641aaa9",
     "lib/features/collections/group_creation_platform.dart": "b572bd76e392221dd461d66a16bd8a32b3a0702072ea6ecab7d8d02f70911c64",
     "lib/core/payments/momo_ussd_launcher.dart": "c54f43916c983c78550a266113894a653d82eef0ed5b8a63db4dc4131ba3187d",
-    "lib/core/security/sms_access_channel.dart": "5a87a0ddb9bfe1e0c34ef5f11c033a552df3bdee57712fe32e3437c0fb69af19",
+    "lib/core/security/sms_access_channel.dart": "e1cfb44d1cc11cfe8411322d785a7bba5c9a1e7a37be64523b8bfe7bca19fcf1",
     "lib/features/auth/auth_screen.dart": "c1a7e4d26c209069dbc95af0cbf98ab1677ed3adcce96b333b6926fc93e8b5a4",
     "lib/core/cloudflare/auth_otp_gateway.dart": "ecb51a7d7910a5399168fced9eaa55f3f1f3cbe738d4dfcf38b10eacb6dabfb5",
-    "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt": "94604ae2b0d784b4302bd5169709e6f7cbcc480c6b68e3c74cfa9b36f438ee7c",
+    "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt": "de09a2a059ee56236f6e5691d8c02b373ab791a1576be9a23bda022cf11272aa",
     "ios/Runner/AppDelegate.swift": "e5310fae00dcf132677624509b9a82f5c211c419b4dc79dba586325fdf23b1af",
     "lib/features/settings/settings_screen.dart": "520e1aa94c49dc66ba5c51a0cc19b17e72dbfaed1888b7a696960ae7c17bf9a9",
     "lib/features/settings/settings_subscreens.dart": "4ea7b0b50dc93fdab392b8b3b230865f9090e043aea9c7c1e53e87d7edea6bc2",
@@ -34,7 +34,7 @@
     "lib/features/privacy/privacy_request_controller.dart": "c856c958bd48f52ccc039d3be6605ae6da7a444d9928fbe86d66a0a053070761",
     "lib/features/privacy/privacy_providers.dart": "9c316e1e359e3f8375d97e451b2573698c5d7a3bcf1ded70a4aab558a37ee5c5",
     "lib/features/privacy/privacy_request_screen.dart": "7f902521f86202b49e5e00439c42c7078957f446279e78558e0610a32324df01",
-    "lib/shared/repositories/collect_repository.dart": "603387fd764c2b795c61ec90d5bfb23267f7657da118f33cad7ea4e5e6b0c435",
+    "lib/shared/repositories/collect_repository.dart": "ce658918d3eb0a325d65bcd7be87276823280c6ed3892c5119224e4563eb6489",
     "lib/shared/repositories/collect_repository_providers.dart": "624b634114de927090b17026393796bee69323e8f3468651db31de9e627a68fd",
     "lib/shared/repositories/collect_repository_record_reads.dart": "38fd53148292b1d2ecaea4ba2f339fce16bbba144e7784820feb82ee6ac64248",
     "lib/shared/repositories/collect_repository_session_identity.dart": "648eed1c422590e9cdfaefac65e71c63f90049daac154d4e048eb5dd2361e94c",
@@ -46,9 +46,11 @@
     "supabase/functions/_shared/domain/momo_pipeline.js": "b091e49ae98d174e4e308d33ca341cded3fa94c5fd149be376483423de5d1604",
     "supabase/functions/_shared/domain/groups.js": "9129947daf0a7cdf0b2714dd5e20a8f26ee1cd1abf9489fcd0d7a955f6f94ba9",
     "supabase/functions/_shared/domain/operations.js": "ce8473f957699336707d94d36fe2c9f72a6e9986424f94c95b2df862e696a7dc",
-    "lib/shared/repositories/collect_repository_contribution_actions.dart": "0616b2cfcdd51f634462b0ab586e8fbd1a11a6d0f4dab1b4b22e6d1144b33674",
+    "lib/shared/repositories/collect_repository_contribution_actions.dart": "0abe3bbf88195ff15789f37e99245d86d1826ca02debe086c269b06d619704b5",
     "lib/features/payments/contribution_flow_screen.dart": "9809619266f574f23cf99355a44a65a8d84984ad793fb936a72cd284bd40af90",
-    "lib/shared/models/collect_payment_models.dart": "0b856548bf763542b1bc997b632aaa2fcd864c8e24e4dc3fd13ce6460609eb23"
+    "lib/shared/models/collect_payment_models.dart": "0b856548bf763542b1bc997b632aaa2fcd864c8e24e4dc3fd13ce6460609eb23",
+    "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueOwnerPolicy.kt": "080719a69ddd9bafcd0bbcc4c1ff5031dd206d9559100552f73ad6ad415ee8be",
+    "lib/shared/repositories/collect_repository_sms_intake.dart": "f739b6d8cd7ee2e24886aab91840272c04630974bbff0c4e18569992813b738e"
   },
   "capabilities": [
     {
@@ -179,7 +181,9 @@
         "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoMultipartPolicy.kt",
         "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MemberSmsJobs.kt",
         "supabase/functions/_shared/domain/receipts.js",
-        "supabase/functions/_shared/domain/momo_pipeline.js"
+        "supabase/functions/_shared/domain/momo_pipeline.js",
+        "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueOwnerPolicy.kt",
+        "lib/shared/repositories/collect_repository_sms_intake.dart"
       ],
       "eligibility": [
         "Signed-in Android app user",

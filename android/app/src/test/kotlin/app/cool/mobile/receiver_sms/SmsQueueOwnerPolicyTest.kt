@@ -5,6 +5,14 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class SmsQueueOwnerPolicyTest {
+    @Test fun captureStatusDisclosesReceiptFlagsOnlyToTheCurrentRequestedOwner() {
+        assertTrue(SmsQueueOwnerPolicy.canSeeCaptureStatus("account-a", "account-a"))
+        assertFalse(SmsQueueOwnerPolicy.canSeeCaptureStatus("account-a", "account-b"))
+        assertFalse(SmsQueueOwnerPolicy.canSeeCaptureStatus("account-a", ""))
+        assertFalse(SmsQueueOwnerPolicy.canSeeCaptureStatus("", ""))
+        assertTrue(SmsQueueOwnerPolicy.canSeeCaptureStatus("account-a", null))
+    }
+
     @Test
     fun disableRequiresTheBoundOwnerAndNeverAcceptsAnEmptyCaller() {
         assertTrue(SmsQueueOwnerPolicy.canDisable("account-a", "account-a"))

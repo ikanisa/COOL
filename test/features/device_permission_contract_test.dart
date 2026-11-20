@@ -232,6 +232,36 @@ void main() {
   );
 
   testWidgets(
+    'same-member replacement session cannot approve the previous permissions dialog',
+    (tester) async {
+      final repository = _PermissionSmsFixture();
+      final router = createAppRouter(initialLocation: '/settings/permissions');
+      addTearDown(router.dispose);
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            collectBackendClientProvider.overrideWithValue(null),
+            appRouterProvider.overrideWithValue(router),
+            collectRepositoryProvider.overrideWith((ref) => repository),
+          ],
+          child: const CollectApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Allow').first);
+      await tester.pumpAndSettle();
+      repository.replaceSameOwnerSession();
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text('Allow SMS access'));
+      await tester.tap(find.text('Allow SMS access'));
+      await tester.pumpAndSettle();
+      expect(repository.enableCalls, isEmpty);
+      expect(tester.takeException(), isNull);
+    },
+    variant: TargetPlatformVariant.only(TargetPlatform.android),
+  );
+
+  testWidgets(
     'permanently denied SMS access offers phone settings',
     (tester) async {
       final repository = _PermissionSmsFixture(permanentlyDenied: true);
@@ -431,6 +461,15 @@ class _PermissionSmsFixture extends FixtureCollectRepository {
   final enableCalls = <String?>[];
   final retryOwners = <String?>[];
   bool enabled;
+  int _testGeneration = 0;
+
+  @override
+  int get sessionGeneration => _testGeneration;
+
+  void replaceSameOwnerSession() {
+    ++_testGeneration;
+    state = state.copyWith();
+  }
 
   @override
   Future<SmsAccessStatus> refreshSmsAccessStatus() async => SmsAccessStatus(

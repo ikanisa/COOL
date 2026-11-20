@@ -61,17 +61,25 @@ class PublicationTest(unittest.TestCase):
         return {**{path.name: path.read_bytes() for path in self.media.iterdir() if path.is_file()},
                 "approved": self.approved.read_bytes()}
 
-    def run_publication(self, final_failure=False):
+    def run_publication(self, final_failure=False, review=None):
         args = ["publication", "--capture-report", str(self.report_path),
                 "--visual-review", str(self.review_path), "--packet", str(self.packet)]
         with patch.object(PUBLICATION, "ROOT", self.root), patch.object(PUBLICATION, "MEDIA", self.media), \
                 patch.object(sys, "argv", args), \
                 patch.object(PUBLICATION.subprocess, "check_output", return_value=self.runtime), \
-                patch.object(PUBLICATION, "validate_capture", return_value=(self.report, {}, self.captures, {})), \
+                patch.object(PUBLICATION, "validate_capture", return_value=(self.report, review or {}, self.captures, {})), \
                 patch.object(PUBLICATION.subprocess, "run", side_effect=
                              subprocess.CalledProcessError(1, ["synthetic-final-validation"])
                              if final_failure else None):
             PUBLICATION.main()
+
+    def test_review_can_correct_a_changed_screens_description(self):
+        self.run_publication(review={"screens": [{"id": "home", "alt": "Recorded total and activity"}]})
+        manifest = json.loads((self.media / "manifest.json").read_text())
+        descriptions = {screen["id"]: screen["alt"] for screen in manifest["screens"]}
+        self.assertEqual("Recorded total and activity", descriptions["home"])
+        self.assertEqual("privacy", descriptions["privacy"])
+        self.assertEqual(self.old, json.loads((self.packet / "previous-browser-media/manifest.json").read_text()))
 
     def test_forced_final_validation_failure_restores_all_owned_original_bytes(self):
         with self.assertRaises(subprocess.CalledProcessError):

@@ -1,16 +1,72 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
+import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
+
 import '../support/synthetic_jwt.dart';
+
+class _DelayedSmsStatusChannel extends SmsAccessChannel {
+  final statusRequested = Completer<void>();
+  final statusResult = Completer<SmsAccessStatus>();
+  bool _firstOwnerCheck = true;
+
+  @override
+  Future<bool> suspendUnlessOwner(String? currentUserId) async {
+    final acknowledged = !_firstOwnerCheck;
+    _firstOwnerCheck = false;
+    return acknowledged;
+  }
+
+  @override
+  Future<SmsAccessStatus> status({String? ownerUserId}) {
+    statusRequested.complete();
+    return statusResult.future;
+  }
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUp(() => SharedPreferences.setMockInitialValues({}));
+
+  test('superseded refresh cannot publish delayed native SMS status', () async {
+    final client = CollectCloudflareClient(
+      'http://127.0.0.1:1',
+      httpClient: MockClient((request) async {
+        expect(request.url.path, '/v1/query/public-collections');
+        return http.Response(
+          '[]',
+          200,
+          request: request,
+          headers: {'content-type': 'application/json'},
+        );
+      }),
+    );
+    addTearDown(client.dispose);
+    final sms = _DelayedSmsStatusChannel();
+    final repository = CollectRepository(
+      backend: client,
+      smsAccessChannel: sms,
+    );
+    addTearDown(repository.dispose);
+
+    final superseded = repository.loadInitial();
+    await sms.statusRequested.future;
+    await repository.loadInitial();
+    expect(repository.state.lastError, isNull);
+    expect(repository.state.smsSyncNeedsAttention, isFalse);
+
+    sms.statusResult.complete(
+      SmsAccessStatus.fromMap({'consent_enabled': true}),
+    );
+    await superseded;
+    expect(repository.state.smsSyncNeedsAttention, isFalse);
+  });
 
   for (final payload in [
     null,

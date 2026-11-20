@@ -12,17 +12,28 @@ import '../../shared/providers/collect_app_state.dart';
 import '../../shared/widgets/collect_components.dart';
 import '../../shared/widgets/screen_scaffold.dart';
 
-class AppPermissionsScreen extends ConsumerStatefulWidget {
+class AppPermissionsScreen extends ConsumerWidget {
   const AppPermissionsScreen({super.key});
 
   @override
-  ConsumerState<AppPermissionsScreen> createState() =>
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scope = ref.watch(memberSmsIntakeSessionProvider);
+    return _DevicePermissions(key: ValueKey(scope));
+  }
+}
+
+class _DevicePermissions extends ConsumerStatefulWidget {
+  const _DevicePermissions({super.key});
+
+  @override
+  ConsumerState<_DevicePermissions> createState() =>
       _AppPermissionsScreenState();
 }
 
-class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
+class _AppPermissionsScreenState extends ConsumerState<_DevicePermissions>
     with WidgetsBindingObserver {
   bool _loading = true;
+  int _refreshRequest = 0;
   bool _requestingSms = false;
   SmsAccessStatus _momoSmsStatus = const SmsAccessStatus.unavailable();
   permissions.PermissionStatus _cameraStatus =
@@ -171,15 +182,20 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
   }
 
   Future<void> _refresh() async {
-    if (mounted) setState(() => _loading = true);
+    if (!mounted) return;
+    final request = ++_refreshRequest;
+    setState(() => _loading = true);
     final service = ref.read(collectNotificationServiceProvider);
     final captureAvailable = ref.read(momoReceiptCaptureAvailableProvider);
     final results = await Future.wait<Object>([
       permissions.Permission.camera.status,
       if (captureAvailable)
-        ref.read(collectRepositoryProvider.notifier).refreshSmsAccessStatus(),
+        ref
+            .read(memberSmsIntakeSessionProvider)
+            .intake
+            .refreshSmsAccessStatus(),
     ]);
-    if (!mounted) return;
+    if (!mounted || request != _refreshRequest) return;
     setState(() {
       _cameraStatus = results[0] as permissions.PermissionStatus;
       _momoSmsStatus = captureAvailable
@@ -282,7 +298,8 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
       }
       try {
         final enabled = await ref
-            .read(collectRepositoryProvider.notifier)
+            .read(memberSmsIntakeSessionProvider)
+            .intake
             .setSmsAccess(true, expectedOwnerUserId: expectedOwner);
         if (!enabled &&
             mounted &&
@@ -312,8 +329,29 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
   }
 
   Future<void> _disableMomoSms() async {
-    await ref.read(collectRepositoryProvider.notifier).setSmsAccess(false);
-    await _refresh();
+    if (_requestingSms) return;
+    final owner = ref.read(collectRepositoryProvider).currentProfile?.id;
+    if (owner == null) return;
+    setState(() => _requestingSms = true);
+    try {
+      await ref
+          .read(memberSmsIntakeSessionProvider)
+          .intake
+          .setSmsAccess(false, expectedOwnerUserId: owner);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('M-Money SMS access could not be turned off.'),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        await _refresh();
+        if (mounted) setState(() => _requestingSms = false);
+      }
+    }
   }
 
   Future<void> _retryMomoSms() async {
@@ -325,7 +363,8 @@ class _AppPermissionsScreenState extends ConsumerState<AppPermissionsScreen>
     setState(() => _requestingSms = true);
     try {
       await ref
-          .read(collectRepositoryProvider.notifier)
+          .read(memberSmsIntakeSessionProvider)
+          .intake
           .retryRejectedSmsAccess(expectedOwnerUserId: owner);
     } catch (_) {
       if (mounted &&

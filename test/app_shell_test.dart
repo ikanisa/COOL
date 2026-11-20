@@ -323,6 +323,44 @@ void main() {
     },
   );
 
+  testWidgets(
+    'a replacement session for the same member starts a fresh SMS drain before the old completion',
+    (tester) async {
+      final repository = _LifecycleCollectRepository(
+        blockFirstSync: true,
+        failSyncs: 1,
+      );
+      final router = createAppRouter(initialLocation: '/home');
+      final container = ProviderContainer(
+        overrides: [
+          appRouterProvider.overrideWithValue(router),
+          appEnvProvider.overrideWithValue(_smsAccessEnv),
+          collectRepositoryProvider.overrideWith((ref) => repository),
+          collectNotificationServiceProvider.overrideWithValue(
+            _LifecycleNotificationService(enabled: false),
+          ),
+        ],
+      );
+      addTearDown(router.dispose);
+      addTearDown(container.dispose);
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const CollectApp(),
+        ),
+      );
+      await tester.pump();
+      expect(repository.syncCalls, 1);
+      repository.replaceSameMemberSession();
+      await tester.pump();
+      expect(repository.syncCalls, 2);
+      repository.releaseFirstSync();
+      await tester.pump();
+      await tester.pump(const Duration(minutes: 15));
+      expect(repository.syncCalls, 2);
+    },
+  );
+
   testWidgets('failed SMS drain retries with capped foreground backoff', (
     tester,
   ) async {
@@ -1016,14 +1054,23 @@ class _LifecycleCollectRepository extends FixtureCollectRepository {
   final int failSyncs;
   final _firstSyncCompleter = Completer<void>();
   int syncCalls = 0;
+  int _testSessionGeneration = 0;
+
+  @override
+  int get sessionGeneration => _testSessionGeneration;
+
+  void replaceSameMemberSession() {
+    ++_testSessionGeneration;
+    state = state.copyWith();
+  }
 
   @override
   Future<int> syncPendingSmsAccess() async {
-    syncCalls += 1;
-    if (blockFirstSync && syncCalls == 1) {
+    final call = ++syncCalls;
+    if (blockFirstSync && call == 1) {
       await _firstSyncCompleter.future;
     }
-    if (syncCalls <= failSyncs) throw StateError('Offline SMS retry fixture');
+    if (call <= failSyncs) throw StateError('Offline SMS retry fixture');
     return 0;
   }
 

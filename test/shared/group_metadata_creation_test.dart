@@ -39,7 +39,7 @@ class NoSms extends SmsAccessChannel {
   Future<bool> suspendUnlessOwner(String? currentUserId) async => true;
 
   @override
-  Future<SmsAccessStatus> status() async =>
+  Future<SmsAccessStatus> status({String? ownerUserId}) async =>
       throw StateError('Group metadata must not read SMS');
 
   @override

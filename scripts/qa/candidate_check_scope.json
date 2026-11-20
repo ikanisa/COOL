@@ -2,6 +2,9 @@
   "schema_version": 1,
   "description": "Explicit cumulative delivered Dart scope. Analysis covers the full checkout; tests below cover the delivered suites, not the entire product.",
   "format_targets": [
+    "lib/app/app.dart",
+    "lib/features/settings/app_permissions_screen.dart",
+    "test/app_shell_test.dart",
     "lib/app/theme/collect_component_tokens.dart",
     "lib/features/activity/activity_screen.dart",
     "lib/features/payments/contribute_entry_screen.dart",
@@ -38,8 +41,12 @@
     "lib/core/security/durable_sms_receipt.dart",
     "lib/core/security/sms_access_channel.dart",
     "lib/shared/repositories/collect_repository_contribution_actions.dart",
+    "lib/shared/repositories/collect_repository_sms_intake.dart",
     "lib/shared/repositories/collect_repository_providers.dart",
     "test/hardening/durable_sms_receipt_test.dart",
+    "test/hardening/member_sms_upload_test.dart",
+    "test/hardening/sms_queue_status_recovery_test.dart",
+    "test/features/device_permission_contract_test.dart",
     "lib/core/security/protected_snapshot_store.dart",
     "lib/features/home/home_screen.dart",
     "lib/features/home/home_public_groups_section.dart",
@@ -49,6 +56,7 @@
     "test/hardening/editorial_summary_availability_test.dart"
   ],
   "widget_tests": [
+    "test/app_shell_test.dart",
     "test/collect_disabled_action_regression_test.dart",
     "test/collect_form_viewport_test.dart",
     "test/collect_lazy_group_list_test.dart",
@@ -65,6 +73,9 @@
     "test/payment_intent_decoding_test.dart",
     "test/payment_intent_cache_boundary_test.dart",
     "test/hardening/durable_sms_receipt_test.dart",
+    "test/hardening/member_sms_upload_test.dart",
+    "test/hardening/sms_queue_status_recovery_test.dart",
+    "test/features/device_permission_contract_test.dart",
     "test/hardening/protected_snapshot_store_test.dart",
     "test/hardening/editorial_summary_availability_test.dart"
   ]
