@@ -1,5 +1,6 @@
 """Host-only fixture regressions for native execution infrastructure; never APK evidence."""
 import argparse
+import base64
 import copy
 import dataclasses
 import importlib.util
@@ -741,8 +742,15 @@ class TestingCandidateReadiness(unittest.TestCase):
                 self.profile['public_origin']=origin;self.profile_path.write_text(json.dumps(self.profile))
                 result=self.run_gate();self.assertIn('CANDIDATE_ORIGIN_WRONG',result['errors']);self.assertNotIn(origin,json.dumps(result))
     def test_secret_jwt_and_jwk_cannot_be_public_compiler_inputs(self):
-        for value in ['sb_secret_private_fixture','eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIn0.signature','{"kty":"RSA","d":"private"}']:
-            with self.subTest(kind=value.split('_')[0]):
+        header = base64.urlsafe_b64encode(b'{"alg":"HS256"}').decode('ascii').rstrip('=')
+        claims = base64.urlsafe_b64encode(b'{"role":"service_role"}').decode('ascii').rstrip('=')
+        synthetic_jwt = f'{header}.{claims}.synthetic-fixture-signature'
+        for kind, value in (
+            ('secret key', 'sb_secret_private_fixture'),
+            ('service role JWT', synthetic_jwt),
+            ('private JWK', '{"kty":"RSA","d":"private"}'),
+        ):
+            with self.subTest(kind=kind):
                 self.properties['collectPublishableKey']=value;self.manifest['properties']=copy.deepcopy(self.properties)
                 result=self.run_gate();self.assertIn('CANDIDATE_PUBLIC_KEY_WRONG',result['errors']);self.assertNotIn(value,json.dumps(result))
     def test_business_group_is_not_a_public_build_property(self):
