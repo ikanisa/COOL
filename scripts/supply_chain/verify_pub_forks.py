@@ -23,7 +23,7 @@ PACKAGES = {"firebase_messaging": "16.5.0"}
 # Trust roots are reviewed together with the exact-byte delta manifests. There is
 # intentionally no command that learns/accepts a new delta from the current tree.
 REVIEWED_MANIFEST_SHA256 = {
-    "firebase_messaging": "c9eb98078e89ab37a3341f930c38e0b7f81da4ce21082fd50f2ffd93ed414c09",
+    "firebase_messaging": "50eef6a321bbfdcf3a216d90a269e90ca17bb80cfb2b79eb586dbc2f704a5327",
 }
 MAX_METADATA = 1_000_000
 MAX_ARCHIVE = 25_000_000

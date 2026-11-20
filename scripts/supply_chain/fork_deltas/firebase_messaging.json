@@ -4,8 +4,8 @@
   "delta": {
     "added": {
       "COLLECT_FORK.md": {
-        "fork_sha256": "a93e5159c489ee1aeb3a92f45cf88c60139739466212c91aa8ca59672d8808da",
-        "rationale": "Retain bounded fork limitations; replace the removed upstream-evidence path with current official comparison and dated external custody index. No runtime, licence or upstream-manifest change."
+        "fork_sha256": "bfb4f1a9b7e49e55e9817faae638f55780c187da216381d11b5eb40b300e0f49",
+        "rationale": "Document the retained callback change and the iOS and macOS SDK pins used with firebase_core 4.15.2. Link to the published-archive verifier and recorded differences."
       },
       "UPSTREAM-SHA256.json": {
         "fork_sha256": "63d0c40315c29b4224148ec9d3725d21b38133e5e32158a43bb95337a41f7e40",
@@ -17,10 +17,20 @@
       }
     },
     "changed": {
+      "ios/firebase_messaging/Package.swift": {
+        "fork_sha256": "b40ef35d0887f532a281606954e6ca10feb643dd872779bc5a81fad6ed576342",
+        "rationale": "Match the exact Apple SDK version required by firebase_core 4.15.2 so SwiftPM can resolve Firebase Messaging and Firebase Core together.",
+        "upstream_sha256": "44e23ebffc1c49d040dc6046a991dfb7621f10acb6674abf09a43a4226663eca"
+      },
       "ios/firebase_messaging/Sources/firebase_messaging/FLTFirebaseMessagingPlugin.m": {
         "fork_sha256": "e787bc3ea94db2205f497b95e80beebdafefb46aa62cd0d157f4c6aeaefb2c72",
         "rationale": "Return BOOL from scene:willConnectToSession:options: to match the pinned Flutter scene delegate; return true only for existing FCM gcm.message_id handling. Preserve the notification setup body and allow empty/non-FCM connection options to reach subsequent plugins and Flutter deep links.",
         "upstream_sha256": "516812ae674cdb5dec462e74f3da4830fcc62cf5ff99c0cd83099ec32307ee0c"
+      },
+      "macos/firebase_messaging/Package.swift": {
+        "fork_sha256": "216ac8224b920e86db256d418670352335f2eece118cdc2fd2fc91cf24c25a7b",
+        "rationale": "Match the exact Apple SDK version required by firebase_core 4.15.2 so SwiftPM can resolve Firebase Messaging and Firebase Core together.",
+        "upstream_sha256": "9a3f2eb8a0f7b8bd366fa640d0a07395938318a01697c7c9d3dc7b2c28d0b680"
       },
       "pubspec.yaml": {
         "fork_sha256": "5b0c017b4d2b96d860848a92c629fd96c5046bab703acb9f02c89ffb87cd5f88",
