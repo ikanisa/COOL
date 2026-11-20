@@ -116,7 +116,7 @@ void main() {
                 return false;
             }
           });
-      final repository = FixtureCollectRepository();
+      final repository = _PermissionSmsFixture();
       final router = createAppRouter(initialLocation: '/settings/permissions');
       addTearDown(router.dispose);
       await tester.pumpWidget(
@@ -138,10 +138,10 @@ void main() {
 
       final cameraCard = find
           .ancestor(
-            of: find.text('Camera'),
+            of: find.byKey(const ValueKey('permission_status_Camera')),
             matching: find.byType(LayoutBuilder),
           )
-          .last;
+          .first;
       Finder cameraAction(String label) => find.descendant(
         of: cameraCard,
         matching: find.widgetWithText(TextButton, label),
@@ -155,6 +155,10 @@ void main() {
         await tester.pumpAndSettle();
       }
 
+      expect(
+        tester.widget<TextButton>(cameraAction('Allow')).onPressed,
+        isNotNull,
+      );
       await tester.tap(cameraAction('Allow'));
       await tester.pumpAndSettle();
       await resume();
