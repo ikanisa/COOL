@@ -1,2 +1,5 @@
 import {createHandler} from '../_shared/serve.js';
-Deno.serve(createHandler('collect-api'));
+import {verifyNativeIngress,claimNativeIngress} from '../_shared/native-ingress.js';
+import {consumeNativeIngressNonce} from '../_shared/native-ingress-nonce.js';
+import {admitDirectSupabaseNativeIngress} from '../_shared/native-direct-supabase-ingress.js';
+Deno.serve(createHandler('collect-api',undefined,{admitDirectSupabaseNativeIngress,verifyNativeIngress,claimNativeIngress,consumeNativeIngressNonce}));

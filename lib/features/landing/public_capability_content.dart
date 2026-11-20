@@ -1,10 +1,10 @@
 // Generated from content/product/collect_capabilities.json.
-// Registry SHA-256: 92be34da0d984f60983f56813ef37b413b3b17cc856545e8cd395271f570032c
+// Registry SHA-256: 6c0986d3369036f81f0c326212ae1d5539cff75e67b071d49c92636b80cbb9a4
 // Source observations only; no publication or provider approval.
 part of 'public_content.dart';
 
 const collectPublicCapabilityRegistrySha256 =
-    '92be34da0d984f60983f56813ef37b413b3b17cc856545e8cd395271f570032c';
+    '6c0986d3369036f81f0c326212ae1d5539cff75e67b071d49c92636b80cbb9a4';
 const collectPublicHomeCopy = <String, String>{
   'title': 'Rwanda MoMo contributions, clearly recorded.',
   'intro':

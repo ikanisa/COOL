@@ -1,0 +1,30 @@
+{
+  "observed_at_utc": "2026-11-10T01:13:11.976480+00:00",
+  "method": "Read-only existing authenticated Cloudflare dashboard via CUA",
+  "account_id": "2209b915a85b1c11cee79b7806c6e73b",
+  "zone_id": "d622ef0cdd2d6705f2cd47aa24b7d87f",
+  "zone": "ikanisa.com",
+  "zone_status": "Active",
+  "zone_plan": "Free",
+  "dns_setup": "Full",
+  "source_url": "https://dash.cloudflare.com/2209b915a85b1c11cee79b7806c6e73b/ikanisa.com/ssl-tls/edge-certificates",
+  "observed_certificate": {
+    "hosts": [
+      "*.collect.ikanisa.com",
+      "collect.ikanisa.com",
+      "ikanisa.com"
+    ],
+    "type": "Advanced",
+    "status": "Active",
+    "expires_on": "2027-01-05",
+    "managed": true
+  },
+  "selected_supabase_origin": "https://supabase.collect.ikanisa.com",
+  "inference": "The observed active Collect wildcard includes the proposed Supabase hostname; no alternative hostname is needed solely to fit certificate coverage.",
+  "total_tls_enabled": false,
+  "live_supabase_dns_tunnel_or_handshake_accepted": false,
+  "settings_changed": false,
+  "purchases_or_paid_activations": false,
+  "reference": "https://developers.cloudflare.com/ssl/edge-certificates/universal-ssl/limitations/",
+  "scope": "Dashboard certificate availability only. Supabase DNS/tunnel route and real HTTPS/Auth acceptance still pending. Existing other certificates and services were not changed."
+}

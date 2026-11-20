@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:collect_app/admin/admin_router.dart';
-import 'package:collect_app/admin/core/admin_auth_guard.dart';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
@@ -191,28 +189,6 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
   });
-
-  test(
-    'Admin QA catalogue includes helper-generated list and detail routes',
-    () {
-      final container = ProviderContainer(
-        overrides: [
-          adminAuthGuardProvider.overrideWithValue(
-            const AdminAuthGuard(isAuthorized: true),
-          ),
-        ],
-      );
-      addTearDown(container.dispose);
-      final router = container.read(adminRouterProvider);
-      addTearDown(router.dispose);
-
-      final registered = _registeredPaths(
-        router.configuration.routes,
-      ).where((path) => path == '/admin' || path.startsWith('/admin/')).toSet();
-      expect(adminRoutePaths.toSet(), registered);
-      expect(adminRoutePaths.toSet().length, adminRoutePaths.length);
-    },
-  );
 
   testWidgets('native privacy route explains review when policy is unavailable', (
     tester,

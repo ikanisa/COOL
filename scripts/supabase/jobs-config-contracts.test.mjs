@@ -74,3 +74,14 @@ test('local fixture port exception is explicit, literal-loopback and exact-user/
   assert.throws(()=>validateConnection('postgres://collect_test:synthetic@127.0.0.1:55441/collect_jobs_test'));
  }finally{if(previous===undefined)delete process.env.COLLECT_CI_SYNTHETIC;else process.env.COLLECT_CI_SYNTHETIC=previous;}
 });
+
+test('production scheduler connection is bound to the Cloud project and TLS ports',()=>{
+ const project='rrlduytparvsjfmegalh';
+ assert.equal(validateConnection(`postgres://postgres:synthetic@db.${project}.supabase.co:5432/postgres`).hostname,`db.${project}.supabase.co`);
+ assert.equal(validateConnection(`postgres://postgres.${project}:synthetic@aws-0-eu.pooler.supabase.com:6543/postgres`).port,'6543');
+ for(const target of ['postgres://postgres:synthetic@db:5432/postgres',
+  'postgres://postgres:synthetic@127.0.0.1:5432/postgres',
+  `postgres://postgres:synthetic@db.${project}.supabase.co:1234/postgres`,
+  'postgres://postgres.wrong:synthetic@aws-0-eu.pooler.supabase.com:6543/postgres',
+  `postgres://postgres:synthetic@db.${project}.supabase.co:5432/postgres#unexpected`])assert.throws(()=>validateConnection(target));
+});

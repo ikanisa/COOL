@@ -20,8 +20,6 @@ CollectSupabaseConfiguration smsSupabaseConfiguration() =>
         adminAppUrl: '',
         enableSmsReader: false,
         enableAndroidSmsAccess: true,
-        enableAdminPanel: false,
-        enableAdminDevTools: false,
         authCaptchaEnabled: false,
         authCaptchaProvider: 'turnstile',
         authCaptchaSiteKey: '',

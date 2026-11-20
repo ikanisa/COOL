@@ -272,7 +272,7 @@ try{
   assert.equal(sha(body),report.profile_assertion_body_sha256);
  });
  const drift=await verifySource(sourceManifest);report.source_drift=drift;
- const current=await new Deno.Command('python3',{cwd:root,args:['-c','import json;from scripts.self_hosted.prepare import source_manifest;print(json.dumps(source_manifest()))'],stdout:'piped',stderr:'piped'}).output();
+ const current=await new Deno.Command('python3',{cwd:root,args:['scripts/supabase/testing/qualification_source_manifest.py'],stdout:'piped',stderr:'piped'}).output();
  assert.equal(current.success,true);const finalManifest=JSON.parse(new TextDecoder().decode(current.stdout));
  report.final_source_sha256=finalManifest.sha256;
  await step('exact recorded runtime source remained unchanged throughout qualification',async()=>{

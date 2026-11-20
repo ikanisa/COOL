@@ -1,0 +1,3 @@
+src/main/kotlin/rw/ikanisa/sms/policy/Queue.kt:41:89: warning: unnecessary safe call on a non-null receiver of type String?
+                    (batch.scope.contract == Contract.MMONEY_LEDGER_V1 && (r.canonicalId?.let(AckPolicy::uuid) != true || r.bodySha256 != null)) ||
+                                                                                        ^

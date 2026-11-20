@@ -70,7 +70,6 @@ jobs:
         run: |
           python3 scripts/qa/collect_ci_policy.py
           python3 scripts/tests/test_collect_ci_policy.py
-          python3 scripts/tests/test_admin_platform_candidate.py
 
       - name: Source integrity
         run: make source-integrity
@@ -245,6 +244,9 @@ jobs:
       - name: Run unit + widget tests
         run: flutter test --concurrency=4 --exclude-tags=integration --test-randomize-ordering-seed=random --file-reporter json:test-results.json --coverage
 
+      - name: Run managed member sync in Chrome
+        run: flutter test --no-pub --platform chrome test/core/managed_web_sync_test.dart
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -266,46 +268,35 @@ jobs:
           ruby scripts/qa/lcov_coverage.rb coverage/lcov.info 40
           python3 scripts/qa/coverage_gate.py coverage/lcov.info --threshold 40
 
-  # ── 2b. Shipping platform Admin web compilation (all branches) ────────────────
   admin-web-build:
-    name: Admin Web Build
+    name: React Admin Build
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [analyze]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-
-      - name: Read pinned Flutter version
-        id: flutter-version
-        run: |
-          python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
-
-          with open(".fvmrc", "r", encoding="utf-8") as handle:
-              config = json.load(handle)
-
-          print(f"version={config['flutter']}")
-          PY
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
-        with:
-          channel: stable
-          flutter-version: ${{ steps.flutter-version.outputs.version }}
-          cache: true
-
-      - run: flutter pub get --enforce-lockfile
-
-      - name: Set up pinned Node for shipping PWA verification
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '24.19.0'
-
-      - name: Build and verify the explicitly selected platform Admin PWA
+          cache: npm
+          cache-dependency-path: admin-web/package-lock.json
+      - name: Install locked React Admin dependencies
+        run: npm ci --prefix admin-web --no-audit --no-fund
+      - name: Check React Admin and the PWA package
+        run: |
+          npm --prefix admin-web run typecheck
+          npm --prefix admin-web run lint
+          npm --prefix admin-web test
+          node --test admin-web/tests/pwa/package-pwa.test.mjs
+          node scripts/tests/admin_pwa_worker_cache_test.mjs
+      - name: Exercise the compiled Admin entry and session recovery in Chromium
+        run: |
+          admin-web/node_modules/.bin/playwright-core install --with-deps --no-shell chromium
+          node admin-web/scripts/build-admin.mjs fixture
+          node admin-web/tests/browser/smoke.mjs build/admin-web-fixture
+      - name: Build and bind the Supabase Admin candidate
         env:
-          FLUTTER: flutter
           ADMIN_APP_URL: https://platform-admin.collect.ikanisa.com
           COLLECT_BACKEND: supabase
           SUPABASE_URL: https://rrlduytparvsjfmegalh.supabase.co
@@ -318,216 +309,54 @@ jobs:
           GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
         run: |
           bash scripts/admin_pwa_release_build.sh
-          bash scripts/admin_pwa_manifest_gate.sh
-          bash scripts/admin_pwa_hosting_gate.sh --json > build/admin-platform-pwa-hosting.json
-          node scripts/tests/admin_pwa_worker_cache_test.mjs
-          ruby scripts/tests/admin_pwa_bundle_gate_test.rb
-
-      - name: Bind shipping PWA artifact to the clean workflow commit
-        env:
-          COLLECT_BACKEND: supabase
-        run: |
-          python3 -B - <<'PY_PLATFORM_IDENTITY'
-          import hashlib
-          import importlib.util
-          import json
-          import os
-          from pathlib import Path
-          import re
-          import subprocess
-          spec = importlib.util.spec_from_file_location('shipping_platform_identity', 'scripts/admin_platform_candidate.py')
-          platform_identity = importlib.util.module_from_spec(spec)
-          spec.loader.exec_module(platform_identity)
-          root = Path('build/web')
-          version = json.loads((root / 'version.json').read_text())
-          commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
-          dirty = subprocess.check_output(['git', 'status', '--porcelain'], text=True)
-          if commit != os.environ['GITHUB_SHA'] or dirty or version.get('source_commit') != commit or version.get('source_dirty') is not False:
-              raise SystemExit('Shipping PWA does not identify the clean workflow commit')
-          backend = os.environ.get('COLLECT_BACKEND', 'supabase')
-          if (backend not in ('cloudflare', 'supabase') or version.get('backend') != backend or
-              version.get('financial_model') != 'canonical_evidence_ledger' or type(version.get('financial_contract_version')) is not int or version.get('financial_contract_version') != 2):
-              raise SystemExit('Shipping PWA does not use the canonical account transport')
-          if backend == 'cloudflare':
-              if version.get('authentication') != 'email_otp_cookie_with_totp' or version.get('minimum_core_schema_migration') != '0017_admin_email_otp.sql':
-                  raise SystemExit('Shipping PWA does not use the current account transport')
-          else:
-              migration = Path('supabase/migrations/20261020134444_collect_curated_platform_baseline.sql')
-              migration_paths = platform_identity.migration_paths(Path.cwd())
-              chain = [{'name':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()} for path in migration_paths]
-              if (not chain or any(path.is_symlink() or not path.read_bytes().strip() for path in migration_paths) or version.get('supabase_migrations') != chain or version.get('supabase_migration_chain_sha256') != hashlib.sha256(json.dumps(chain,sort_keys=True,separators=(',',':')).encode()).hexdigest()):
-                  raise SystemExit('Supabase candidate does not bind the complete migration chain')
-              if (not migration.is_file() or not migration.read_bytes().strip() or
-                  version.get('authentication') != 'supabase_auth_cookie_with_email_verification' or
-                  version.get('minimum_core_schema_migration') != migration.name or
-                  version.get('supabase_project_ref') != 'rrlduytparvsjfmegalh' or
-                  version.get('supabase_schema_sha256') != hashlib.sha256(migration.read_bytes()).hexdigest() or
-                  version.get('admin_transport') != 'same_origin_static_proxy' or
-                  version.get('legacy_data_import_required') is not True or version.get('supabase_qualification_complete') is not False):
-                  raise SystemExit('Supabase candidate lacks exact project, migration and qualification identity')
-          digest = lambda data: hashlib.sha256(data).hexdigest()
-          canonical = lambda value: json.dumps(value, sort_keys=True, separators=(',', ':')).encode()
-          files = {}
-          for path in sorted(root.rglob('*')):
-              if any(part.startswith('._') or part == '.DS_Store' for part in path.relative_to(root).parts):
-                  continue
-              if path.is_symlink():
-                  raise SystemExit('Shipping PWA artifact contains a symbolic path')
-              if path.is_file():
-                  data = path.read_bytes()
-                  files[path.relative_to(root).as_posix()] = {'sha256': digest(data), 'bytes': len(data)}
-          for required in ['main.dart.js', 'index.html', 'flutter_bootstrap.js', 'custom-sw.js', 'manifest.json', '_headers', 'version.json', '.well-known/assetlinks.json', '.well-known/apple-app-site-association']:
-              if not files.get(required, {}).get('bytes'):
-                  raise SystemExit('Shipping PWA is missing a required artifact role: ' + required)
-          worker = (root / 'custom-sw.js').read_text()
-          constants = {}
-          for name in ['CACHE_NAME', 'CACHE_URLS', 'CACHE_HASHES']:
-              match = re.search(r'^const ' + name + r' = (.*?);$', worker, re.M | re.S)
-              if not match:
-                  raise SystemExit('Shipping PWA worker is missing ' + name)
-              constants[name] = json.loads(match.group(1))
-          inputs = platform_identity.source_inputs(Path.cwd(), backend)
-          receipt = {'source_commit': commit, 'source_dirty': False, 'source_binding': 'Exact clean workflow commit, including tracked lib/web/assets and declared local dependencies', 'build_root': str(root), 'files': files, 'artifact_manifest_sha256': digest(canonical(files)), 'main_dart_js_sha256': files['main.dart.js']['sha256'], 'worker_sha256': files['custom-sw.js']['sha256'], 'worker_cache_name': constants['CACHE_NAME'], 'cache_urls_sha256': digest(canonical(constants['CACHE_URLS'])), 'cache_hashes_sha256': digest(canonical(constants['CACHE_HASHES'])), 'input_sha256': {name: digest(Path(name).read_bytes()) for name in inputs}, 'hosted_deployment_verified': False}
-          receipt['backend'] = backend
-          receipt['hosting'] = platform_identity.hosting_profile(backend)
-          if backend == 'supabase':
-              receipt.update(platform_identity.public_build_identity(
-                  platform_identity.read_public_defines(Path('build/admin-public-defines.json')), version))
-          Path('build/admin-platform-pwa-artifact.json').write_text(json.dumps(receipt, indent=2) + '\n')
-          PY_PLATFORM_IDENTITY
-
-      - name: Retain shipping platform PWA and exact artifact identity
+          node admin-web/scripts/build-admin.mjs verify-ci
+          bash scripts/admin_pwa_hosting_gate.sh --json
+      - name: Retain the React Admin artifact and its source receipt
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: admin-platform-pwa-candidate
           path: |
-            build/web/
-            !build/web/**/._*
-            !build/web/**/._*/**
-            !build/web/**/.DS_Store
-            build/admin-platform-pwa-artifact.json
-            build/admin-platform-pwa-hosting.json
-            build/admin-public-defines.json
+            build/admin-web/
+            build/admin-web.json
           include-hidden-files: true
           retention-days: 14
           if-no-files-found: error
 
-  # ── 2b. Retained legacy preview compatibility compilation ────────────────
-  admin-legacy-preview-build:
-    if: ${{ false }} # Retained legacy history; no automatic backend execution.
-    name: Legacy Admin Preview Compatibility Build
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    needs: [analyze]
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-
-      - name: Read pinned Flutter version
-        id: flutter-version
-        run: |
-          python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
-
-          with open(".fvmrc", "r", encoding="utf-8") as handle:
-              config = json.load(handle)
-
-          print(f"version={config['flutter']}")
-          PY
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
-        with:
-          channel: stable
-          flutter-version: ${{ steps.flutter-version.outputs.version }}
-          cache: true
-
-      - run: flutter pub get --enforce-lockfile
-
-      - name: Build retained legacy preview compatibility artifact
-        env:
-          FLUTTER: flutter
-        run: bash scripts/admin_cloudflare_build.sh
-
-      - name: Retain legacy preview artifact and working-input identity
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: admin-cloudflare-candidate
-          path: |
-            build/admin-cloudflare/
-            build/admin-cloudflare-source.json
-            build/admin-cloudflare-artifact.json
-            build/admin-cloudflare-preflight.json
-          retention-days: 14
-          if-no-files-found: error
-
-  # Retain the earlier preview contract as compatibility evidence only.
-  # It does not establish current platform or production acceptance.
-  admin-cloudflare-candidate:
-    name: Legacy Admin Preview Compatibility Identity
-    if: ${{ false }} # Retained legacy history; no automatic preview execution.
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    needs: [repo-hygiene, admin-legacy-preview-build, cloudflare-backend]
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          persist-credentials: false
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: admin-cloudflare-candidate
-          path: build
-      - name: Verify actual candidate matches the clean workflow commit
-        run: |
-          python3 scripts/admin_cloudflare_artifact.py verify build/admin-cloudflare build/admin-cloudflare-source.json build/admin-cloudflare-artifact.json
-          python3 scripts/admin_cloudflare_preflight.py --build-root build/admin-cloudflare --source-manifest build/admin-cloudflare-source.json --artifact-manifest build/admin-cloudflare-artifact.json --config deploy/admin.cloudflare.wrangler.jsonc --target-origin https://admin-preview.collect.ikanisa.com --output build/admin-cloudflare-preflight.json
-          python3 - <<'PY_IDENTITY'
-          import hashlib
-          import json
-          import os
-          from pathlib import Path
-          root = Path('build/admin-cloudflare')
-          version = json.loads((root / 'version.json').read_text())
-          source = json.loads(Path('build/admin-cloudflare-source.json').read_text())
-          for record in (version, source):
-              if record.get('source_commit') != os.environ['GITHUB_SHA'] or record.get('source_dirty') is not False:
-                  raise SystemExit('Admin candidate does not match the clean workflow commit')
-          if version.get('source_manifest_sha256') != source['source_manifest_sha256']:
-              raise SystemExit('Admin source identity differs from candidate metadata')
-          if version.get('main_dart_js_sha256') != hashlib.sha256((root / 'main.dart.js').read_bytes()).hexdigest():
-              raise SystemExit('Admin asset bytes differ from candidate metadata')
-          if version.get('backend') != 'cloudflare' or version.get('minimum_core_schema_migration') != '0012_gateway_receiver_ingress.sql':
-              raise SystemExit('Admin candidate targets an outdated runtime/schema')
-          PY_IDENTITY
-          echo 'Legacy preview compatibility build and backend CI pass; current platform shipping acceptance is evaluated separately.' >> "$GITHUB_STEP_SUMMARY"
-
-  # Current shipping identity requires independent Supabase qualification and
-  # current host/operator consumers. No CI job deploys this artifact.
+  # Artifact identity is verified independently of the build job.
   admin-platform-candidate:
     name: Platform Admin Candidate Identity
     if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [repo-hygiene, admin-web-build, supabase-platform, supabase-admin-consumers]
-    env:
-      COLLECT_BACKEND: supabase
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: admin-platform-pwa-candidate
           path: build
-      - name: Verify shipping platform artifact and clean commit identity
-        run: |
-          python3 scripts/admin_platform_candidate.py --build-root build/web --receipt build/admin-platform-pwa-artifact.json --commit "$GITHUB_SHA" --backend "$COLLECT_BACKEND"
-          echo 'Platform Admin PWA identity and canonical backend CI pass; hosted roles, provider behavior, recovery, devices and production release remain separate.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Verify the React Admin artifact against the workflow commit
+        env:
+          ADMIN_APP_URL: https://platform-admin.collect.ikanisa.com
+          COLLECT_BACKEND: supabase
+          SUPABASE_URL: https://rrlduytparvsjfmegalh.supabase.co
+          SUPABASE_API_URL: https://platform-admin.collect.ikanisa.com
+          SUPABASE_ADMIN_API_URL: https://platform-admin.collect.ikanisa.com
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.COLLECT_SUPABASE_PUBLISHABLE_KEY }}
+          AUTH_CAPTCHA_ENABLED: ${{ vars.COLLECT_AUTH_CAPTCHA_ENABLED || 'false' }}
+          AUTH_CAPTCHA_PROVIDER: ${{ vars.COLLECT_AUTH_CAPTCHA_PROVIDER || '' }}
+          AUTH_CAPTCHA_SITE_KEY: ${{ vars.COLLECT_AUTH_CAPTCHA_SITE_KEY || '' }}
+          GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
+        run: node admin-web/scripts/build-admin.mjs verify-ci
 
   # ── 3. Fixture journey smoke (native device UAT runs separately) ────
   integration-test:
-    name: Member and Admin journey smoke
+    name: Member journey smoke
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -556,17 +385,12 @@ jobs:
 
       - run: flutter pub get --enforce-lockfile
 
-      - name: Run member and Admin fixture journeys
+      - name: Run member fixture journeys
         run: >-
           flutter test --no-pub --concurrency=4
           test/persona_uat_smoke_test.dart
           test/features/auth_error_recovery_test.dart
           test/features/mobile_review_navigation_test.dart
-          test/admin_login_recovery_test.dart
-          test/admin_data_sync_test.dart
-          test/admin_list_models_test.dart
-          test/admin_list_paging_test.dart
-          test/admin_repository_paging_test.dart
           --file-reporter json:test-results.json
 
       - name: Upload integration test results
@@ -812,11 +636,12 @@ jobs:
       - name: Verify canonical Admin source, artifact and release boundaries
         working-directory: ${{ github.workspace }}
         run: |
-          python3 -m unittest scripts.tests.test_admin_cloudflare_source scripts.tests.test_admin_cloudflare_artifact scripts.tests.test_admin_cloudflare_assets scripts.tests.test_admin_cloudflare_preflight -v
+          python3 -m unittest scripts.tests.test_admin_cloudflare_assets -v
           node --test scripts/tests/admin_cloudflare_retirement_worker_test.mjs
+          node --test scripts/tests/admin_entry_test.mjs deploy/admin-entry/pages/test.mjs
 
   supabase-platform:
-    name: Current self-hosted Supabase qualification
+    name: Current managed Supabase qualification
     # The called workflow is resolved from this exact candidate commit. Its
     # current source, native and Dart receipt jobs retain their own deadlines.
     uses: ./.github/workflows/supabase.yml

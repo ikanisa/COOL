@@ -1,9 +1,6 @@
 import '../fixtures/collect_repository_fixture.dart';
 
 import 'dart:io';
-import 'package:collect_app/admin/admin_shell.dart';
-import 'package:collect_app/admin/core/admin_auth_guard.dart';
-import 'package:collect_app/admin/core/admin_repository_base.dart';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/app_theme.dart';
@@ -149,9 +146,7 @@ void main() {
       }
     });
 
-    testWidgets('public and compact Admin surfaces preserve target floors', (
-      tester,
-    ) async {
+    testWidgets('public surfaces preserve target floors', (tester) async {
       tester.view.physicalSize = const Size(390, 844);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.resetPhysicalSize);
@@ -180,38 +175,11 @@ void main() {
           );
         }
 
-        await tester.pumpWidget(const SizedBox.shrink());
-        tester.view.physicalSize = const Size(390, 844);
-        await tester.pumpWidget(
-          ProviderScope(
-            overrides: [
-              collectBackendClientProvider.overrideWithValue(null),
-              adminAuthGuardProvider.overrideWithValue(
-                const AdminAuthGuard(isAuthorized: true),
-              ),
-              adminIdentityProvider.overrideWith((ref) async => _adminIdentity),
-            ],
-            child: MaterialApp(
-              theme: AppTheme.light(),
-              home: const AdminShell(
-                location: '/admin',
-                child: Text('Admin overview'),
-              ),
-            ),
-          ),
-        );
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull);
-        failures.addAll(
-          _visibleTargetFailures(
-            tester,
-          ).map((failure) => 'compact Admin: $failure'),
-        );
         expect(
           failures,
           isEmpty,
           reason:
-              'Public/Admin surfaces have subminimum interactive targets:\n'
+              'Public surfaces have subminimum interactive targets:\n'
               '${failures.join('\n')}',
         );
       } finally {
@@ -405,24 +373,3 @@ const _memberRoutes = <String>[
   '/settings/legal/privacy',
   '/settings/legal/terms',
 ];
-
-const _adminIdentity = AdminIdentity(
-  userId: 'target-contract-admin',
-  displayName: 'Target contract admin',
-  roles: ['platform_owner'],
-  permissions: [
-    'overview.read',
-    'collections.read',
-    'members.read',
-    'payment_intents.read',
-    'payment_events.read',
-    'ledger.read',
-    'receivers.read',
-    'sms.metadata.read',
-    'audit.read',
-    'settings.read',
-    'feature_flags.read',
-    'system_health.read',
-    'admin_users.read',
-  ],
-);

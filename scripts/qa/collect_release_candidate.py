@@ -24,11 +24,12 @@ import time
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ".collect-release-candidate.json"
-SOURCE_ROOTS = (
+LEGACY_SOURCE_ROOTS = (
     ".github", "lib", "assets", "licenses", "android", "ios", "web", "content",
     "third_party", "deploy", "tools", "scripts", "test",
     "integration_test", "test_driver", "tool", "contracts", "fastlane", "supabase",
 )
+SOURCE_ROOTS = (*LEGACY_SOURCE_ROOTS, "admin-web")
 ROOT_FILES = {
     "AGENTS.md", "README.md", "Makefile", "pubspec.yaml", "pubspec.lock",
     "analysis_options.yaml", ".metadata", ".fvmrc", ".gitignore",
@@ -42,18 +43,19 @@ PRIVATE_NAMES = {
 BLOCKED_PARTS = {
     "node_modules", "Pods", ".symlinks", ".gradle", ".kotlin", ".dart_tool",
     ".pub-cache", ".pub", ".swiftpm", ".build", ".git", ".cache", ".wrangler",
-    "build", "coverage", "output", "failures", "__pycache__", "DerivedData", ".temp",
+    "build", "dist", ".vite", "test-results", "coverage", "output", "failures", "__pycache__", "DerivedData", ".temp",
 }
 BLOCKED_SUFFIXES = {
     ".jks", ".keystore", ".p12", ".pfx", ".p8", ".pem", ".key", ".mobileprovision",
     ".apk", ".aab", ".ipa", ".dSYM", ".class", ".pyc", ".log", ".dump", ".sql.gz",
     ".csv", ".tsv", ".xlsx", ".xls", ".pdf", ".zip", ".tar", ".gz", ".bak", ".old",
 }
-LOCKS = (
+LEGACY_LOCKS = (
     "pubspec.lock", "Gemfile.lock", "android/app/gradle.lockfile", "ios/Podfile.lock",
     "deploy/platform-api/package-lock.json",
 )
-REQUIRED = frozenset(LOCKS) | {
+LOCKS = (*LEGACY_LOCKS, "admin-web/package-lock.json")
+LEGACY_REQUIRED = frozenset(LEGACY_LOCKS) | {
     ".fvmrc", "pubspec.yaml", "lib/main.dart", "lib/main_admin.dart",
     "deploy/platform-api/src/index.js", "deploy/platform-api/wrangler.jsonc",
     "android/app/build.gradle.kts", "android/gradle/wrapper/gradle-wrapper.properties",
@@ -64,6 +66,9 @@ REQUIRED = frozenset(LOCKS) | {
     "supabase/functions/_shared/postgres.js", "supabase/functions/_shared/domain/index.js",
     "supabase/functions/_shared/domain/operations.js", "supabase/functions/_shared/domain/notifications.js",
     "supabase/migrations/20261020134444_collect_curated_platform_baseline.sql",
+}
+REQUIRED = (LEGACY_REQUIRED - {"lib/main_admin.dart"}) | frozenset(LOCKS) | {
+    "admin-web/src/main.tsx", "admin-web/scripts/build-admin.mjs",
 }
 PUBLIC_CONFIG_PREREQUISITES = (
     "android/app/google-services.json", "ios/Runner/GoogleService-Info.plist",
@@ -280,10 +285,12 @@ def screen_credentials(data: bytes, name: str) -> None:
                 pending.extend(child for child in item if isinstance(child, (list, dict)))
 
 
-def source_snapshot(root: Path, copy_into: Path | None = None) -> tuple[dict, dict, list[str], dict]:
+def source_snapshot(root: Path, copy_into: Path | None = None, *, required=REQUIRED, historical=False) -> tuple[dict, dict, list[str], dict]:
     files, excluded, absent, excluded_fixtures = {}, {}, [], {}
     for name in git_names(root):
         reason = exclusion(name)
+        if historical and name.startswith("admin-web/"):
+            reason = "outside_declared_source_scope"
         if reason:
             excluded[reason] = excluded.get(reason, 0) + 1
             if reason == "upstream_qa_fixture_source":
@@ -307,7 +314,7 @@ def source_snapshot(root: Path, copy_into: Path | None = None) -> tuple[dict, di
             copied, copied_mode = regular_bytes(copy_into, name)
             if {"sha256": sha(copied), "bytes": len(copied), "mode": copied_mode} != files[name]:
                 raise ReleaseError("CANDIDATE_COPY_INVALID", [name])
-    missing = sorted(REQUIRED - files.keys())
+    missing = sorted(required - files.keys())
     if missing:
         raise ReleaseError("CANDIDATE_PREREQUISITE_MISSING", missing)
     migration_versions(files)
@@ -520,11 +527,16 @@ def verify_candidate(candidate: Path, source: Path | None = None, expected_manif
         if manifest["schema_version"] != 1 or manifest["kind"] != "unapproved_collect_source_export" or manifest["approvals"] != NO_APPROVAL:
             raise ValueError()
         files = manifest["source_files"]
-        if not isinstance(files, dict) or len(files) != manifest["file_count"] or not REQUIRED <= files.keys() or sha(canonical(files)) != manifest["source_manifest_sha256"]:
+        roots = tuple(manifest["policy"]["source_roots"])
+        if roots not in (LEGACY_SOURCE_ROOTS, SOURCE_ROOTS):
+            raise ValueError()
+        historical = roots == LEGACY_SOURCE_ROOTS
+        locks, required = (LEGACY_LOCKS, LEGACY_REQUIRED) if historical else (LOCKS, REQUIRED)
+        if not isinstance(files, dict) or len(files) != manifest["file_count"] or not required <= files.keys() or sha(canonical(files)) != manifest["source_manifest_sha256"]:
             raise ValueError()
         if manifest["migration_versions"] != migration_versions(files):
             raise ValueError()
-        if manifest["toolchain"]["lock_sha256"] != {name: files[name]["sha256"] for name in LOCKS}:
+        if manifest["toolchain"]["lock_sha256"] != {name: files[name]["sha256"] for name in locks}:
             raise ValueError()
         if manifest.get("retain_source_drift") is True and (manifest.get("capture_classification") != "unapproved_non_atomic_implementation_checkpoint" or manifest.get("source_current_tree_accepted") is not False):
             raise ValueError()
@@ -549,7 +561,7 @@ def verify_candidate(candidate: Path, source: Path | None = None, expected_manif
             observed.add((Path(parent) / name).relative_to(candidate).as_posix())
     for name, entry in files.items():
         safe_relative(name)
-        if exclusion(name):
+        if exclusion(name) or (historical and name.startswith("admin-web/")):
             raise ReleaseError("CANDIDATE_MANIFEST_INVALID")
         try:
             data, mode = regular_bytes(candidate, name)
@@ -561,7 +573,7 @@ def verify_candidate(candidate: Path, source: Path | None = None, expected_manif
     for name in sorted(observed - set(files) - {MANIFEST}):
         changes.append({"path": name, "reason": "candidate_unlisted_file"})
     if source is not None:
-        current, _, absent, now_excluded_fixtures = source_snapshot(source.resolve())
+        current, _, absent, now_excluded_fixtures = source_snapshot(source.resolve(), required=required, historical=historical)
         changes.extend(source_changes(files, current))
         changes.extend({"path": item["path"], "reason": "excluded_" + item["reason"]}
                        for item in source_changes(excluded_fixtures, now_excluded_fixtures))

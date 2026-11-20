@@ -6,7 +6,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {emailDeployment,renderEmailSql,validateEmailReadiness,readEmailReadiness,runEmailOperation} from './email_jobs_operator.mjs';
 const sha=value=>createHash('sha256').update(value).digest('hex');
-const profile={format:'collect.deployment.v1',id:'email-test',mode:'self_hosted',environment:'qualification',supabase_origin:'https://db.example.invalid',member_api_origin:'https://api.example.invalid',admin_origin:'https://admin.example.invalid',public_origin:'https://www.example.invalid',google_callback_origin:'https://admin.example.invalid'};
+const profile={format:'collect.deployment.v1',id:'email-test',mode:'managed',environment:'qualification',supabase_origin:'https://rrlduytparvsjfmegalh.supabase.co',member_api_origin:'https://api.example.invalid',admin_origin:'https://admin.example.invalid',public_origin:'https://www.example.invalid',google_callback_origin:'https://admin.example.invalid'};
 const raw=JSON.stringify(Object.fromEntries(Object.keys(profile).sort().map(k=>[k,profile[k]])));
 const env={COLLECT_DEPLOYMENT_PROFILE:raw,COLLECT_DEPLOYMENT_PROFILE_SHA256:sha(raw)};
 const readiness=()=>({format:'collect.email.readiness.v1',profile_sha256:sha(raw),endpoint:profile.supabase_origin+'/functions/v1/collect-email-jobs',
@@ -14,7 +14,7 @@ const readiness=()=>({format:'collect.email.readiness.v1',profile_sha256:sha(raw
  token_custody_evidence_sha256:'e'.repeat(64),copy_inventory_evidence_sha256:'f'.repeat(64),quota_evidence_sha256:'a'.repeat(64),verified_at:new Date().toISOString(),monthly_budget:100,
  email_admission:{contract:'collect.contribution-email.v1',source_sha256:'a'.repeat(64),approval_sha256:'b'.repeat(64),admitted_from:1793480000,batch_limit:1}});
 
-test('renderer requires a canonical hashed self-hosted profile and installs no active/provider work',async()=>{
+test('renderer requires a canonical hashed managed Cloud profile and installs no active/provider work',async()=>{
  assert.throws(()=>emailDeployment({}));
  assert.throws(()=>emailDeployment({...env,COLLECT_DEPLOYMENT_PROFILE_SHA256:'0'.repeat(64)}));
  assert.throws(()=>emailDeployment({...env,COLLECT_DEPLOYMENT_PROFILE:JSON.stringify(profile)}));

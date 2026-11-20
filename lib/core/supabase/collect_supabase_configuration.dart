@@ -95,6 +95,14 @@ final class CollectSupabaseConfiguration {
   Uri get challengeEndpoint =>
       api.replace(path: '${memberPrefix}v1/security/challenge');
 
+  Uri get adminChallengeEndpoint {
+    final target = adminApi;
+    if (target == null) {
+      throw ArgumentError('Supabase Admin requires its configured API origin.');
+    }
+    return target.replace(path: '${memberPrefix}v1/security/challenge');
+  }
+
   /// Every project receives a different protected native namespace. Switching
   /// provider/project cannot import an old session or replay its refresh token.
   String get storageOwner {

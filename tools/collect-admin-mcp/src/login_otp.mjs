@@ -94,12 +94,14 @@ export async function requestEmailCode(config, email, options = {}) {
   const deliveryUnknown = managedEmail ? value.delivery_status === 'unknown'
     : reply.status === 503 && value.error?.code === 'email_delivery_unknown';
   if (!accepted && !deliveryUnknown) throw responseError(reply);
-  if (!UUID.test(value.challenge_id) || value.expires_in !== 300 || value.retry_after !== 60 ||
+  if (!UUID.test(value.challenge_id) || !Number.isInteger(value.expires_in) ||
+      value.expires_in < 1 || value.expires_in > 1800 || value.retry_after !== 60 ||
       (reply.headers.getSetCookie?.() ?? []).some(value => /^__Host-collect_admin=/.test(value))) {
     throw new SafeError('invalid_login_response', 'The code request could not be verified. No code was resent.');
   }
-  const challenge = Object.freeze({ challengeId: value.challenge_id, expiresAt: new Date(started + 300_000).toISOString(), retryAfter: 60, delivery: deliveryUnknown ? 'unknown' : 'accepted' });
-  challenges.set(challenge, { config, email, expires: started + 300_000, attempted: false,
+  const expires = started + value.expires_in * 1000;
+  const challenge = Object.freeze({ challengeId: value.challenge_id, expiresAt: new Date(expires).toISOString(), retryAfter: 60, delivery: deliveryUnknown ? 'unknown' : 'accepted' });
+  challenges.set(challenge, { config, email, expires, attempted: false,
     codePattern: managedEmail ? /^[0-9]{6,10}$/ : /^[0-9]{6}$/ });
   return challenge;
 }

@@ -1,0 +1,7 @@
+.privacy-panel { padding: 24px; margin-bottom: 20px; }
+.privacy-panel h2 { margin: 0 0 16px; }
+.privacy-panel p { line-height: 1.5; }
+.privacy-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.privacy-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.privacy-details dt { color: var(--admin-muted, #566070); font-size: .875rem; }
+.privacy-details dd { margin: 6px 0 0; overflow-wrap: anywhere; }

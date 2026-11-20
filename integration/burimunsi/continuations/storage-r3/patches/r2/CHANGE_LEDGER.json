@@ -1,0 +1,134 @@
+{
+  "schema_version": 2,
+  "base_archive_name": "Storage_Policies_Complete_Source_2026-11-09.zip",
+  "base_archive_sha256": "95ecdd339d62ae38ad209fcaef1dae8209460e0aab8704d6ea9871f7ac848af3",
+  "source_tree_digest": "791d202b9199685009ae383ee38857bdd3ad2d86add3e5d5f9a7d18bf07ae20d",
+  "changes": [
+    {
+      "path": "policy/DurableStorageCoordinator.kt",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "9a178a38dd49c47c44f758fb57696834845b262fcdc4fa5f51dfdd84701c1efe"
+    },
+    {
+      "path": "policy/LifecycleSnapshotCodec.kt",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "33f3ea0993dc982ce1369d2b6f563f9fa5318a31b0df662f12a709b58fe5666d"
+    },
+    {
+      "path": "policy/StorageLifecyclePolicy.kt",
+      "decision": "modify",
+      "before_sha256": "a132eb610ba0fefda033a4b2ec90f60f75e252bded138a17606e07489b2a64a9",
+      "after_sha256": "a473dce561fe1362385ef58d27f422bb4d55a1d23436a3ee82086991b3871c1b"
+    },
+    {
+      "path": "policy/VerifiedEvidenceArchive.kt",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "3b49bd20aadc5185f2cdd09d6ce81c4428a11e70e5be47a52b23aba02a8db023"
+    },
+    {
+      "path": "adapters/jvm/AppendOnlyLifecycleJournal.kt",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "498397f160001484c914157aaee20d16a85897a264db1e5c8157a33494da132f"
+    },
+    {
+      "path": "tests/durable/DurableLifecycleChecks.kt",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "0eec047923267deddc0cd13a6ba2b5a106c578af14bc7a2f7f272e7a489d4863"
+    },
+    {
+      "path": "tests/test_process_restart.py",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "dd3700906bd8289aaae8de2b9d8254bf37777e3f9ff38e1cf84ddb99a7e861fa"
+    },
+    {
+      "path": "tools/run_storage_checks.py",
+      "decision": "modify",
+      "before_sha256": "90b3b893d5b8c6ab07fe5d072d772b7122732ae45e5e4e0b4e2dde52ae56390f",
+      "after_sha256": "25d9741e1a58a2d78033b92db47cf36f0146085386477e69c01881a1af75d71a"
+    },
+    {
+      "path": "sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/DurableStorageCoordinator.kt",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "9a178a38dd49c47c44f758fb57696834845b262fcdc4fa5f51dfdd84701c1efe"
+    },
+    {
+      "path": "sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/LifecycleSnapshotCodec.kt",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "33f3ea0993dc982ce1369d2b6f563f9fa5318a31b0df662f12a709b58fe5666d"
+    },
+    {
+      "path": "sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/StorageLifecyclePolicy.kt",
+      "decision": "modify",
+      "before_sha256": "a132eb610ba0fefda033a4b2ec90f60f75e252bded138a17606e07489b2a64a9",
+      "after_sha256": "a473dce561fe1362385ef58d27f422bb4d55a1d23436a3ee82086991b3871c1b"
+    },
+    {
+      "path": "sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/VerifiedEvidenceArchive.kt",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "3b49bd20aadc5185f2cdd09d6ce81c4428a11e70e5be47a52b23aba02a8db023"
+    },
+    {
+      "path": "sources/mmoney/core/src/main/kotlin/rw/ikanisa/storagepolicy/DurableStorageCoordinator.kt",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "9a178a38dd49c47c44f758fb57696834845b262fcdc4fa5f51dfdd84701c1efe"
+    },
+    {
+      "path": "sources/mmoney/core/src/main/kotlin/rw/ikanisa/storagepolicy/LifecycleSnapshotCodec.kt",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "33f3ea0993dc982ce1369d2b6f563f9fa5318a31b0df662f12a709b58fe5666d"
+    },
+    {
+      "path": "sources/mmoney/core/src/main/kotlin/rw/ikanisa/storagepolicy/StorageLifecyclePolicy.kt",
+      "decision": "modify",
+      "before_sha256": "a132eb610ba0fefda033a4b2ec90f60f75e252bded138a17606e07489b2a64a9",
+      "after_sha256": "a473dce561fe1362385ef58d27f422bb4d55a1d23436a3ee82086991b3871c1b"
+    },
+    {
+      "path": "sources/mmoney/core/src/main/kotlin/rw/ikanisa/storagepolicy/VerifiedEvidenceArchive.kt",
+      "decision": "add",
+      "before_sha256": null,
+      "after_sha256": "3b49bd20aadc5185f2cdd09d6ce81c4428a11e70e5be47a52b23aba02a8db023"
+    }
+  ],
+  "patch_verification": [
+    {
+      "patch": "patches/r2/burimunsi-storage-r2.patch",
+      "status": "passed",
+      "git_apply_check_exit_code": 0,
+      "git_apply_exit_code": 0,
+      "byte_exact_reconstruction": true,
+      "changed_files": 4,
+      "sha256": "678abc6f912ab1cb24731c444ea219ed372978a6dbe2cfb3c96bef3eab97786e"
+    },
+    {
+      "patch": "patches/r2/mmoney-storage-r2.patch",
+      "status": "passed",
+      "git_apply_check_exit_code": 0,
+      "git_apply_exit_code": 0,
+      "byte_exact_reconstruction": true,
+      "changed_files": 4,
+      "sha256": "5eeb699954ab5cd4c641bcc686d87d41f558d3ebcfc9b5d13de9d925d81454ca"
+    },
+    {
+      "patch": "patches/r2/shared-and-harness-storage-r2.patch",
+      "status": "passed",
+      "git_apply_check_exit_code": 0,
+      "git_apply_exit_code": 0,
+      "byte_exact_reconstruction": true,
+      "changed_files": 8,
+      "sha256": "da80a1d01e36249b2f8ddfcd33beca227097f6e484bf4ecd9435178d37c49b18"
+    }
+  ],
+  "no_baseline_application_file_removed": true
+}

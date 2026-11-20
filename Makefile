@@ -4,24 +4,23 @@ DART ?= dart
 # Keep command-line/environment overrides available to the script entry points.
 export FLUTTER DART
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan
 
 help:
 	@echo "Collect workspace commands"
 	@echo "  make cloudflare-platform-test Manually test retained legacy Worker/D1/R2 history"
-	@echo "  make cloudflare-platform-dev  Run retained legacy backend locally (manual only)"
 	@echo "  make flutter-clean     Run flutter clean"
 	@echo "  make flutter-pub-get   Run flutter pub get"
 	@echo "  make format            Format Dart sources"
 	@echo "  make analyze           Run Flutter analyzer"
 	@echo "  make test              Run unit/widget tests (SQL receipts require their explicit integration target)"
 	@echo "  make test-history-current14 DEFINES='...' Run historical current14 SQL receipt consumer"
-	@echo "  make test-history-selfhost DEFINES='...' Run current additive self-hosted SQL receipt consumer"
+	@echo "  make test-history-selfhost DEFINES='...' Run the retained synthetic SQL receipt consumer"
 	@echo "  make admin-web-build   Build the Collect admin web console"
 	@echo "  make admin-pwa-gate    Validate generated Admin PWA metadata and secret hygiene"
 	@echo "  make admin-pwa-hosting-gate Validate Admin PWA static hosting headers and robots policy"
 	@echo "  make admin-pwa-live-gate Validate deployed Admin PWA URL headers and PWA files"
-	@echo "  make admin-pwa-render-smoke Capture rendered desktop/mobile Admin PWA evidence"
+	@echo "  make admin-pwa-smoke   Test the compiled React Admin PWA on loopback"
 	@echo "  make mobile-route-render-smoke Capture representative mobile route screenshots"
 	@echo "  make mobile-route-artifact-gate MOBILE_ROUTE_RENDER_EVIDENCE_DIR='...' Validate a completed mobile route capture"
 	@echo "  make android-device-uat Run guarded Pixel 4a integration UAT"
@@ -79,7 +78,7 @@ test-history-current14:
 	"$(FLUTTER)" test --no-pub --tags=integration --dart-define-from-file="$(DEFINES)" test/current14_member_history_sql_receipts_test.dart
 
 test-history-selfhost:
-	@test -n "$(DEFINES)" && test -f "$(DEFINES)" || { echo "DEFINES must name the reviewed current additive self-hosted packet defines file." >&2; exit 2; }
+	@test -n "$(DEFINES)" && test -f "$(DEFINES)" || { echo "DEFINES must name the reviewed synthetic receipt packet defines file." >&2; exit 2; }
 	"$(FLUTTER)" test --no-pub --tags=integration --dart-define-from-file="$(DEFINES)" test/self_hosted_member_history_sql_receipts_test.dart
 
 admin-web-build:
@@ -100,8 +99,8 @@ admin-pwa-live-gate:
 admin-pwa-live-gate-json:
 	@./scripts/admin_pwa_live_gate.sh --json
 
-admin-pwa-render-smoke:
-	@./scripts/admin_pwa_render_smoke.sh
+admin-pwa-smoke:
+	@node admin-web/tests/browser/smoke.mjs
 
 mobile-route-render-smoke:
 	@./scripts/mobile_route_render_smoke.sh
@@ -252,7 +251,6 @@ source-integrity-json:
 qa-tooling-test:
 	@python3 scripts/tests/release_evidence_test.py
 	@python3 scripts/hardening/release_gate_test.py
-	@python3 scripts/hardening/admin_headers_test.py
 	@python3 scripts/hardening/v2_source_test.py
 	@python3 scripts/tests/test_collect_release_candidate.py
 	@python3 scripts/tests/test_collect_ci_policy.py
@@ -268,11 +266,10 @@ qa-tooling-test:
 	@python3 scripts/tests/payment_intent_source_test.py
 	@python3 scripts/tests/android_backup_policy_test.py
 	@python3 scripts/tests/export_public_configuration_test.py
+	@node --test admin-web/tests/pwa/package-pwa.test.mjs
 	@node scripts/tests/admin_pwa_worker_cache_test.mjs
-	@node --test scripts/tests/admin_pwa_fixture_metadata_test.mjs scripts/tests/admin_pwa_fixture_input_test.mjs
 	@ruby scripts/tests/public_configuration_payload_test.rb
 	@ruby scripts/tests/policy_configuration_payload_test.rb
-	@ruby scripts/tests/admin_pwa_bundle_gate_test.rb
 	@ruby scripts/tests/asset_hygiene_integration_test.rb
 	@ruby scripts/tests/public_static_routes_test.rb
 	@ruby scripts/tests/public_website_links_test.rb
@@ -297,16 +294,6 @@ cover-catalog-test:
 public-photography-check:
 	@NODE_PATH="$${NODE_PATH:-$(CURDIR)/tools/public-photography/node_modules}" node scripts/assets/build_public_photography.mjs --check
 
-.PHONY: admin-pwa-lifecycle-qa
-ADMIN_PWA_LIFECYCLE_MODE ?= browser
-admin-pwa-lifecycle-qa:
-	@test -n "$(ADMIN_PWA_FIXTURE_REPORT)" -a -n "$(ADMIN_PWA_LIFECYCLE_EVIDENCE)" || (echo 'Set ADMIN_PWA_FIXTURE_REPORT and a new ADMIN_PWA_LIFECYCLE_EVIDENCE directory'; exit 1)
-	@case "$(ADMIN_PWA_LIFECYCLE_MODE)" in \
-	  browser) node scripts/qa/admin_pwa_lifecycle_qa.mjs "$(ADMIN_PWA_FIXTURE_REPORT)" "$(ADMIN_PWA_LIFECYCLE_EVIDENCE)" ;; \
-	  installed) node scripts/qa/admin_pwa_lifecycle_qa.mjs "$(ADMIN_PWA_FIXTURE_REPORT)" "$(ADMIN_PWA_LIFECYCLE_EVIDENCE)" --installed ;; \
-	  *) echo 'ADMIN_PWA_LIFECYCLE_MODE must be browser or installed'; exit 1 ;; \
-	esac
-
 repo-wide-qa-uat:
 	@./scripts/repo_wide_qa_uat.sh
 
@@ -325,7 +312,7 @@ release-secret-scan:
 	@./scripts/release_secret_scan.sh
 
 
-.PHONY: cloudflare-platform-test cloudflare-platform-dev cloudflare-platform-migrate-local
+.PHONY: cloudflare-platform-test
 cloudflare-platform-test:
 	@cd deploy/platform-api && npm test
 	@node scripts/qa/recovery17_ci.mjs
@@ -338,13 +325,7 @@ cloudflare-platform-test:
 	@node --test scripts/tests/momo_release_candidate_test.mjs
 	@node --test scripts/tests/approved_toolchain_test.mjs scripts/tests/approved_toolchain_snapshot_test.mjs
 
-cloudflare-platform-dev:
-	@cd deploy/platform-api && npm run dev
-
-cloudflare-platform-migrate-local:
-	@cd deploy/platform-api && npm run migrate:local
-
-.PHONY: supabase-inventory supabase-test supabase-source-test supabase-current-native supabase-schema-test supabase-historical-schema-test supabase-data-test supabase-admin-consumers-test supabase-current16-integration-native
+.PHONY: supabase-inventory supabase-test supabase-source-test supabase-current-native supabase-current-transfer-test supabase-schema-test supabase-historical-schema-test supabase-data-test supabase-admin-consumers-test supabase-current16-integration-native
 supabase-inventory:
 	@node scripts/supabase/inventory.mjs .
 
@@ -361,28 +342,56 @@ supabase-data-test:
 supabase-test:
 	@$(MAKE) supabase-source-test
 	@$(MAKE) supabase-current-native
+	@$(MAKE) supabase-current-transfer-test
 	@$(MAKE) supabase-admin-consumers-test
 
 # No database/provider claim: these are current source and transport contracts.
 supabase-source-test:
 	@python3 supabase/schema-src/generate_baseline.py --check
 	@python3 -m unittest scripts.supabase.test_cutover_gate scripts.supabase.test_admin_build_config scripts.tests.client_diagnostic_identity_test
-	@python3 -m unittest scripts.self_hosted.test_operations.Configuration scripts.self_hosted.test_recovery_promotion scripts.self_hosted.test_release_operator scripts.self_hosted.test_scheduler_custody
-	@node --test deploy/self-hosted/*.test.mjs scripts/self_hosted/*.test.mjs scripts/supabase/deployment-profile.test.mjs
+	@python3 -m unittest scripts.supabase.test_cloud_migration_preflight
+	@python3 -m unittest scripts.supabase.test_aggregate_inventory_reconcile
+	@python3 -m unittest scripts.supabase.test_catalogue_reconciliation
+	@python3 -m unittest scripts.supabase.test_catalogue_capture
+	@node --test scripts/supabase/deployment-profile.test.mjs
+	@node --test --test-concurrency=1 scripts/supabase/testing/cloud-binder-fixture.test.mjs
+	@python3 -m unittest scripts.supabase.testing.test_qualification_source_manifest
+	@node --test deploy/managed-native-ingress/worker.test.mjs
+	@node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs
+	@node --test --test-concurrency=1 supabase/managed-native-ingress/nonce-ledger.test.mjs
+	@node --test --test-concurrency=1 supabase/managed-deployment-identity/bind-managed.test.mjs
+	@node --test scripts/supabase/testing/buri-isolated-pg/report.test.mjs
+	@cd deploy/managed-sms && python3 test/verify_source_tests_test.py && python3 test/verify_source_tests.py
+	@node --test scripts/supabase/atomic_cloud_migration.test.mjs
+	@node --test scripts/supabase/managed-storage-archive-v2/*.test.mjs
+	@node --test scripts/supabase/cloud-data-transfer/compile.test.mjs scripts/supabase/cloud-data-transfer/existing-storage.test.mjs
+	@node scripts/supabase/testing/pinned-history-stage.mjs --verify58
+	@node scripts/supabase/testing/pinned-history-stage.mjs --verify65
 	@node --test scripts/supabase/data-contracts.test.mjs
 	@node scripts/tests/payment_evidence_reveal_test.mjs
 	@node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs
 	@node --test scripts/supabase/testing/current16-integration.test.mjs
-	@node --test scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs scripts/supabase/testing/admit-self-hosted-history.test.mjs
-	@node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs scripts/self_hosted/jobs-profile.test.mjs scripts/self_hosted/email-job-contract.test.mjs
+	@node scripts/supabase/testing/pinned-history-stage.mjs --source58
+	@node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs
 	@node scripts/supabase/run_edge_node_tests.mjs
 	@node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs
+	@output="$$(mktemp "$${TMPDIR:-/tmp}/collect-commission-deno.XXXXXXXX")" || exit 1; trap 'rm -f -- "$$output"' EXIT; "$${COLLECT_DENO:-deno}" --version | grep -Eq '^deno 2[.]9[.]6 ' || exit 1; "$${COLLECT_DENO:-deno}" test --frozen --lock=supabase/functions/deno.lock --reporter=tap scripts/supabase/device-commissioning/edge-smoke.test.ts > "$$output" 2>&1; result=$$?; cat "$$output"; test "$$result" -eq 0 && grep -Fqx 'ok 1 - synthetic Edge request signs and verifies commissioning receipt and acknowledgement' "$$output" && grep -Fqx '1..1' "$$output"
 	@cd supabase/functions && "$${COLLECT_DENO:-deno}" task check
 
 # Mandatory private fixture inputs are validated before allocating a new DB.
 # Missing inputs fail this target; a no-DB source pass never satisfies it.
 supabase-current-native:
-	@node scripts/supabase/testing/current-self-hosted-native.mjs
+	@node scripts/supabase/testing/pinned-history-stage.mjs --native
+
+# Synthetic, socket-only PostgreSQL fixtures. The selected PG17 binary path
+# must be physical and tests must run as a non-root user. Fixtures require the
+# physical /private/tmp (macOS) or /tmp (Linux) and remove only owned clusters.
+supabase-current-transfer-test:
+	@test "$$(id -u)" -ne 0
+	@test -n "$${COLLECT_SYNTHETIC_PG_BIN:-}"
+	@test "$$(cd "$$COLLECT_SYNTHETIC_PG_BIN" && pwd -P)" = "$$COLLECT_SYNTHETIC_PG_BIN"
+	@command -v openssl >/dev/null
+	@output="$$(mktemp "$${TMPDIR:-/tmp}/collect-current-transfer.XXXXXXXX")" || exit 1; trap 'rm -f -- "$$output"' EXIT; node --test --test-concurrency=1 --test-timeout=180000 --test-reporter=tap scripts/supabase/current-pg-transfer/reconcile.test.mjs scripts/supabase/current-pg-transfer/identity-mapping/identity.test.mjs scripts/supabase/managed-cloud-migrations/provider-ca.test.mjs scripts/supabase/managed-cloud-migrations/operator.test.mjs scripts/supabase/managed-cloud-migrations/operator-pg.test.mjs scripts/supabase/managed-cloud-migrations/event-trigger-preimage.test.mjs scripts/supabase/managed-cloud-migrations/migration-postconditions.test.mjs scripts/supabase/current-pg-transfer/batch-transfer/quarantine.test.mjs scripts/supabase/current-pg-transfer/test-support/lifecycle.test.mjs scripts/supabase/device-commissioning/fixture.test.mjs scripts/supabase/current-pg-transfer/object-transfer/transfer.test.mjs scripts/supabase/current-pg-transfer/object-transfer/scope-rebind.test.mjs scripts/supabase/current-pg-transfer/object-transfer/supabase-adapter.test.mjs scripts/supabase/current-pg-transfer/business-import/import.test.mjs scripts/supabase/current-pg-transfer/financial-inventory/inventory.test.mjs scripts/supabase/current-pg-transfer/financial-consistency/consistency.test.mjs scripts/supabase/current-pg-transfer/financial-consistency/native-readiness-v3/diagnostic.test.mjs scripts/supabase/current-pg-transfer/financial-import/import.test.mjs scripts/supabase/current-pg-transfer/native-sms-import/import.test.mjs scripts/supabase/retention-convergence/user-id-forward.test.mjs scripts/supabase/retention-convergence/ordered-chain-fixture.test.mjs scripts/supabase/retention-convergence/history-plan.test.mjs scripts/supabase/retention-convergence/deferred-mfa/ordered-deferred-fixture.test.mjs scripts/supabase/retention-convergence/deferred-mfa/history-proposal.test.mjs supabase/functions/_shared/tests/burimunsi/native-sms-ledger.test.mjs supabase/managed-deployment-identity/bind-managed-pg17.test.mjs scripts/supabase/device-commissioning/synthetic-transport.test.mjs supabase/managed-cloud-stopped-recovery/evidence.test.mjs > "$$output" 2>&1; result=$$?; cat "$$output"; test "$$result" -eq 0 && grep -qx '# tests [1-9][0-9]*' "$$output" && grep -qx '# fail 0' "$$output" && grep -qx '# cancelled 0' "$$output" && grep -qx '# skipped 0' "$$output" && grep -qx '# todo 0' "$$output" && for expected in 'isolated PostgreSQL reconciliation' 'managed reconciliation admits only the pinned target, TLS root and verified peer' 'connected clients with startup options are refused' 'owner-approved identity mapping holds both existing principals' 'encrypted quarantine on disposable PostgreSQL 17' 'SIGTERM stops a confirmed server before removing its fixture' 'provider database CA is a valid self-signed root with the pinned DER fingerprint' 'canonical input, exact project and clean environment are required before connecting' 'CLI reports or reconciles commit with closed-stdout' 'commissioning receipt transaction fixture' 'exact immutable ciphertext is copied once with encrypted durable intent and receipt' 'synthetic owner rebind reproduces Storage fingerprints while preserving ciphertext identity' 'actual adapter reads, creates once and verifies synthetic protected bytes' 'HTTPS client rejects a self-signed loopback server' 'mutating an approved plan cannot redirect import or lost-ack reconciliation' 'count-only financial graph inventory on owned PostgreSQL 17' 'financial consistency is aggregate-only and read-only on owned PostgreSQL 17' 'selected native source prerequisites are aggregate-only on owned PostgreSQL 17' 'synthetic posted financial graphs transfer atomically with cloud-primary mapping' 'synthetic accepted native SMS history and posted financial graph' 'forward-only retention user ID correction on owned PostgreSQL 17' 'synthetic full chain refuses divergent originals and runs pinned candidates without writing history' 'history candidate keeps divergent originals unrecorded and uses distinct ordered versions' 'all pinned non-WIP predecessors execute in order while both MFA sources remain absent' 'deferred proposal keeps every non-WIP source action without inventing history' 'a coherently mapped replay with an existing complete financial link performs no second write' 'managed candidate on native PostgreSQL 17 without a postgres superuser' 'a correctly serialized v2-style digest cannot authorize the v3 executor' 'diagnostics rechecks after history insertion' 'notification rechecks after history insertion' 'signed commissioning transport with durable synthetic PostgreSQL receipts' 'managed stopped-work evidence remains non-authorizing with synthetic PG snapshots'; do grep -Eq "^[[:space:]]*ok [0-9]+ - $$expected$$" "$$output" || exit 1; done
 
 # Historical original16 only. Requires its reviewed checkout, owned cluster and
 # fresh output path documented in scripts/supabase/testing/current16-integration.md.

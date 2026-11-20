@@ -148,9 +148,8 @@ void main() {
     expect(source, isNot(contains('screenGradient')));
   });
 
-  test('member and admin source rejects retired decorative chrome', () {
+  test('member source rejects retired decorative chrome', () {
     const roots = <String>[
-      'lib/admin',
       'lib/core/widgets',
       'lib/features/auth',
       'lib/features/collections',
@@ -175,11 +174,7 @@ void main() {
                   !file.path.endsWith('collect_group_card_metrics.dart') &&
                   // The selected native Security header uses a gradient only
                   // as its dotted-wave illustration shader, not page chrome.
-                  !file.path.endsWith('security_hub_header.dart') &&
-                  // The observed signed-out Business entry uses a dark
-                  // gradient. It is separate from quiet operator workspace
-                  // chrome (Revolut state/lifecycle capture, 5 September).
-                  !file.path.endsWith('admin_public_account_page.dart'),
+                  !file.path.endsWith('security_hub_header.dart'),
             ),
       );
     }

@@ -14,6 +14,7 @@ import {dispatchOperation,publicRpcNames} from './operations.js';
 import {recordPlatformHealth,platformHealthComponent} from './observability.js';
 import {momoGatewayRoute} from './momo_gateway.js';
 import {clientDiagnosticsRoute} from './client_diagnostics.js';
+import {collectNativeRoute} from './burimunsi/collect-route.js';
 const PUBLIC_OPERATIONS=new Set(publicRpcNames);
 function cors(request,env) {
  const origin=request.headers.get('Origin');
@@ -43,6 +44,8 @@ export default {
    const admin=await handleAdmin(request,env,ctx);if(admin)return observeResponse(admin);
    headers=cors(request,env);const url=new URL(request.url);
    if(request.method==='OPTIONS')return new Response(null,{status:204,headers});
+   const native=await collectNativeRoute(request,env);
+   if(native)return observeResponse(withHeaders(native,headers));
    const gateway=await momoGatewayRoute(request,env);
    // Ingestion records a durable job; processing is admitted separately.
    if(gateway)return observeResponse(withHeaders(gateway,headers));

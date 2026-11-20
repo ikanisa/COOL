@@ -1,0 +1,116 @@
+{
+  "baseline": "Storage_Policies_R2_Complete_Source_2026-11-09.zip",
+  "baseline_sha256": "3f20a9537c9bd0f3cd85ade01c9d252b405995812c650d569d53c2a224a73bd3",
+  "source_input_scope": [
+    "sources",
+    "policy",
+    "adapters",
+    "tests",
+    "tools"
+  ],
+  "changes": [
+    {
+      "path": "adapters/android/AndroidLifecycleStorage.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "cfe6cd5d44c45174a390a9d0865c2accb9f218b493d7013a5f62887e932f6e6a"
+    },
+    {
+      "path": "adapters/jvm/AppendOnlyLifecycleJournal.kt",
+      "action": "modify",
+      "before_sha256": "498397f160001484c914157aaee20d16a85897a264db1e5c8157a33494da132f",
+      "after_sha256": "067adc04412e4b3b7863bc99eb1a5c908a1c9f1b9eedbeac36680b8c14c3a219"
+    },
+    {
+      "path": "adapters/jvm/JournalRecordProtection.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "f740f9cc90aeaee23623601ad9622f0503fd1648e77d74c0f4a9d8566562193e"
+    },
+    {
+      "path": "policy/LegacyLifecycleMigration.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "fead8a83c740dd133caf08612b0c002c6f86a5864bfe54c08662c0bf62e42478"
+    },
+    {
+      "path": "sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/LegacyLifecycleMigration.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "fead8a83c740dd133caf08612b0c002c6f86a5864bfe54c08662c0bf62e42478"
+    },
+    {
+      "path": "sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/AndroidLifecycleStorage.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "cfe6cd5d44c45174a390a9d0865c2accb9f218b493d7013a5f62887e932f6e6a"
+    },
+    {
+      "path": "sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/BuriMunsiLifecycleStorage.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "be2df79fcae34dc1b1da94c7243340bc53f23e1e0d995e3e8a166791f6c5d691"
+    },
+    {
+      "path": "sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/jvm/AppendOnlyLifecycleJournal.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "067adc04412e4b3b7863bc99eb1a5c908a1c9f1b9eedbeac36680b8c14c3a219"
+    },
+    {
+      "path": "sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/jvm/JournalRecordProtection.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "f740f9cc90aeaee23623601ad9622f0503fd1648e77d74c0f4a9d8566562193e"
+    },
+    {
+      "path": "sources/mmoney/core/src/main/kotlin/rw/ikanisa/storagepolicy/LegacyLifecycleMigration.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "fead8a83c740dd133caf08612b0c002c6f86a5864bfe54c08662c0bf62e42478"
+    },
+    {
+      "path": "sources/mmoney/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/AndroidLifecycleStorage.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "cfe6cd5d44c45174a390a9d0865c2accb9f218b493d7013a5f62887e932f6e6a"
+    },
+    {
+      "path": "sources/mmoney/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/MMoneyLifecycleStorage.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "165222a88d5f0642ef00ccb7f5a274820c193ea86b6f51d263d8dc46c2ee2a5f"
+    },
+    {
+      "path": "sources/mmoney/core/src/main/kotlin/rw/ikanisa/storagepolicy/jvm/AppendOnlyLifecycleJournal.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "067adc04412e4b3b7863bc99eb1a5c908a1c9f1b9eedbeac36680b8c14c3a219"
+    },
+    {
+      "path": "sources/mmoney/core/src/main/kotlin/rw/ikanisa/storagepolicy/jvm/JournalRecordProtection.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "f740f9cc90aeaee23623601ad9622f0503fd1648e77d74c0f4a9d8566562193e"
+    },
+    {
+      "path": "tests/authenticated/AuthenticatedMigrationChecks.kt",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "79be2c59490d1146a17f631e5ac8b4023092534d29eaeabb367e0014d26fe8c1"
+    },
+    {
+      "path": "tests/test_authenticated_restart.py",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "8ceb7fd256f026979ac19c878d42caa0a5fde6d8104005b5bc00bb2cafbbd9b8"
+    },
+    {
+      "path": "tools/run_storage_checks.py",
+      "action": "modify",
+      "before_sha256": "25d9741e1a58a2d78033b92db47cf36f0146085386477e69c01881a1af75d71a",
+      "after_sha256": "e1696a6ef019ee2af1c1a715273e04b6a7ea31235b56471abb56777eb673beda"
+    }
+  ],
+  "verification": "PATCH_VERIFICATION.json"
+}

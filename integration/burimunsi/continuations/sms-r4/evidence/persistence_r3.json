@@ -1,0 +1,390 @@
+{
+  "status": "passed",
+  "tests": 95,
+  "assertions": 11505,
+  "failed": 0,
+  "malformed_inputs": 4540,
+  "child_processes": 19,
+  "cases": [
+    {
+      "name": "codec/BURI_COLLECT_V2/READY",
+      "status": "passed"
+    },
+    {
+      "name": "codec/BURI_COLLECT_V2/IN_FLIGHT",
+      "status": "passed"
+    },
+    {
+      "name": "codec/BURI_COLLECT_V2/ACK_PENDING",
+      "status": "passed"
+    },
+    {
+      "name": "codec/BURI_COLLECT_V2/ACKNOWLEDGED",
+      "status": "passed"
+    },
+    {
+      "name": "codec/BURI_COLLECT_V2/CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "codec/BURI_COLLECT_V2/RETRY_WAIT",
+      "status": "passed"
+    },
+    {
+      "name": "codec/BURI_COLLECT_V2/HELD",
+      "status": "passed"
+    },
+    {
+      "name": "journal/BURI_COLLECT_V2/full-acknowledgement-history",
+      "status": "passed"
+    },
+    {
+      "name": "codec/MMONEY_LEDGER_V1/READY",
+      "status": "passed"
+    },
+    {
+      "name": "codec/MMONEY_LEDGER_V1/IN_FLIGHT",
+      "status": "passed"
+    },
+    {
+      "name": "codec/MMONEY_LEDGER_V1/ACK_PENDING",
+      "status": "passed"
+    },
+    {
+      "name": "codec/MMONEY_LEDGER_V1/ACKNOWLEDGED",
+      "status": "passed"
+    },
+    {
+      "name": "codec/MMONEY_LEDGER_V1/CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "codec/MMONEY_LEDGER_V1/RETRY_WAIT",
+      "status": "passed"
+    },
+    {
+      "name": "codec/MMONEY_LEDGER_V1/HELD",
+      "status": "passed"
+    },
+    {
+      "name": "codec/MMONEY_LEDGER_V1/REJECTED",
+      "status": "passed"
+    },
+    {
+      "name": "journal/MMONEY_LEDGER_V1/full-acknowledgement-history",
+      "status": "passed"
+    },
+    {
+      "name": "codec/multipart-observation-order-and-PDU-case",
+      "status": "passed"
+    },
+    {
+      "name": "codec/provider-body-never-gains-PDU-completeness",
+      "status": "passed"
+    },
+    {
+      "name": "codec/raw-null-empty-and-invalid-code-unit-metadata",
+      "status": "passed"
+    },
+    {
+      "name": "codec/every-truncation-offset",
+      "status": "passed"
+    },
+    {
+      "name": "codec/every-single-byte-corruption",
+      "status": "passed"
+    },
+    {
+      "name": "codec/unsupported-version",
+      "status": "passed"
+    },
+    {
+      "name": "codec/trailing-bytes",
+      "status": "passed"
+    },
+    {
+      "name": "codec/negative-and-overflow-lengths",
+      "status": "passed"
+    },
+    {
+      "name": "codec/resealed-invalid-string-count",
+      "status": "passed"
+    },
+    {
+      "name": "codec/resealed-unknown-enum",
+      "status": "passed"
+    },
+    {
+      "name": "codec/resealed-derived-evidence-hash",
+      "status": "passed"
+    },
+    {
+      "name": "codec/resealed-derived-classification-fingerprint",
+      "status": "passed"
+    },
+    {
+      "name": "codec/deterministic-random-malformed-inputs",
+      "status": "passed"
+    },
+    {
+      "name": "codec/unknown-boolean-tag",
+      "status": "passed"
+    },
+    {
+      "name": "codec/invariant-negative-revision",
+      "status": "passed"
+    },
+    {
+      "name": "codec/invariant-ready-with-attempt",
+      "status": "passed"
+    },
+    {
+      "name": "codec/invariant-held-without-attempt",
+      "status": "passed"
+    },
+    {
+      "name": "codec/invariant-unsafe-diagnostic",
+      "status": "passed"
+    },
+    {
+      "name": "codec/invariant-ack-with-no-receipt",
+      "status": "passed"
+    },
+    {
+      "name": "codec/invariant-invalid-conflict-coverage",
+      "status": "passed"
+    },
+    {
+      "name": "codec/invariant-identical-conflict-receipts",
+      "status": "passed"
+    },
+    {
+      "name": "codec/invariant-attempt-identity",
+      "status": "passed"
+    },
+    {
+      "name": "codec/invariant-clock-order",
+      "status": "passed"
+    },
+    {
+      "name": "codec/invariant-counter-reset",
+      "status": "passed"
+    },
+    {
+      "name": "journal/missing-is-not-empty-and-never-auto-provisioned",
+      "status": "passed"
+    },
+    {
+      "name": "journal/unavailable-read-never-captures",
+      "status": "passed"
+    },
+    {
+      "name": "journal/wrong-owner-generation-installation-contract",
+      "status": "passed"
+    },
+    {
+      "name": "journal/replay-stable-original-and-ack-tombstone",
+      "status": "passed"
+    },
+    {
+      "name": "journal/mmoney-source-body-duplicate-atomic-admission",
+      "status": "passed"
+    },
+    {
+      "name": "journal/mmoney-duplicates-within-new-batch",
+      "status": "passed"
+    },
+    {
+      "name": "journal/immutable-classification-cannot-change-on-CAS",
+      "status": "passed"
+    },
+    {
+      "name": "journal/CAS-refuses-clock-revision-attempt-and-receipt-rollback",
+      "status": "passed"
+    },
+    {
+      "name": "journal/complete-record-reordering-rejected",
+      "status": "passed"
+    },
+    {
+      "name": "journal/every-partial-tail-offset-blocks-without-mutation",
+      "status": "passed"
+    },
+    {
+      "name": "journal/damaged-committed-record-is-not-skipped",
+      "status": "passed"
+    },
+    {
+      "name": "journal/schema-version-is-not-guessed-or-upgraded",
+      "status": "passed"
+    },
+    {
+      "name": "fault/capture/BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/reserve/BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/stage-ack/BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/finalize/BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/capture/UNKNOWN_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/reserve/UNKNOWN_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/stage-ack/UNKNOWN_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/finalize/UNKNOWN_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/capture/UNKNOWN_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/reserve/UNKNOWN_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/stage-ack/UNKNOWN_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/finalize/UNKNOWN_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/capture/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/reserve/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/stage-ack/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/finalize/THROW_BEFORE",
+      "status": "passed"
+    },
+    {
+      "name": "fault/capture/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/reserve/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/stage-ack/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/finalize/THROW_AFTER",
+      "status": "passed"
+    },
+    {
+      "name": "fault/capture/PARTIAL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/reserve/PARTIAL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/stage-ack/PARTIAL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/finalize/PARTIAL",
+      "status": "passed"
+    },
+    {
+      "name": "fault/capture/CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "fault/reserve/CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "fault/stage-ack/CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "fault/finalize/CONFLICT",
+      "status": "passed"
+    },
+    {
+      "name": "journal/two-concurrent-reservations-emit-at-most-one-send",
+      "status": "passed"
+    },
+    {
+      "name": "dispatch/lease-and-current-authority-gate",
+      "status": "passed"
+    },
+    {
+      "name": "privacy/diagnostics-do-not-print-raw-evidence",
+      "status": "passed"
+    },
+    {
+      "name": "host/explicit-fresh-provisioning-and-permissions",
+      "status": "passed"
+    },
+    {
+      "name": "host/missing-file-is-not-recreated",
+      "status": "passed"
+    },
+    {
+      "name": "host/symlink-refusal",
+      "status": "passed"
+    },
+    {
+      "name": "host/write-fault-BEFORE_APPEND",
+      "status": "passed"
+    },
+    {
+      "name": "host/write-fault-AFTER_PARTIAL_APPEND",
+      "status": "passed"
+    },
+    {
+      "name": "host/write-fault-AFTER_APPEND",
+      "status": "passed"
+    },
+    {
+      "name": "host/write-fault-AFTER_FORCE",
+      "status": "passed"
+    },
+    {
+      "name": "host/separate-process-capture-reservation-restore-and-ack-finalization",
+      "status": "passed"
+    },
+    {
+      "name": "host/separate-process-write-contention",
+      "status": "passed"
+    },
+    {
+      "name": "host/abrupt-process-death-during-partial-append",
+      "status": "passed"
+    },
+    {
+      "name": "host/abrupt-process-death-after-force-before-result",
+      "status": "passed"
+    }
+  ]
+}

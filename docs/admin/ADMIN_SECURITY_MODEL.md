@@ -8,8 +8,8 @@ that providers are configured, or that a release is approved.
 
 The active Admin workspace uses a server-backed, cookie-authenticated account
 and session; member bearer authentication is a separate admission path. The
-Admin frontend's transport can use a selected managed or self-hosted Supabase
-profile. Frontend route guards are conveniences: protected reads and mutations
+Admin frontend's transport uses the nominated managed Supabase
+project. Frontend route guards are conveniences: protected reads and mutations
 must enforce current server-side account, session and capability authority.
 Configuration and permission checks must fail closed; do not substitute a
 legacy fallback for an authorization or transient service failure.
@@ -37,7 +37,7 @@ themselves establish current deployed behavior or actual PostgreSQL coverage.
 
 ## Secrets, recovery and verification
 
-Flutter-visible configuration must contain only public client values. Service
+The React Admin build accepts only validated public client configuration. Service
 role keys, provider credentials, authentication secrets and encryption keys
 belong in the appropriate server-side secret store, not the app bundle or source
 control. Public URL or key configuration is not proof that the corresponding

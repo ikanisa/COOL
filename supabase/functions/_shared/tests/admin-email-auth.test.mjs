@@ -11,8 +11,9 @@ assert.ok(typeof root==='string'&&isAbsolute(root),'Use the coherent actual _sha
 const actual=name=>import(pathToFileURL(join(root,name)).href);
 const {loadAdminEmailAccount,requestAdminEmail,verifyAdminEmail,recordInitialAdminEmail,handleAdminEmail,isAdminEmailDenialError}=await actual('domain/admin_email_auth.js');
 const {attestAdminEmailAccount,bindAdminEmailActor,adminEmailState,requireFreshAdminEmail,requestedAdminEmail,hasFreshAdminEmail}=await actual('domain/admin_email_policy.js');
-const {ApiError}=await actual('domain/core.js');
-const NOW=1792497600,PROJECT='https://admin-email.synthetic.invalid',ORIGIN='https://admin-supabase-qa.collect.ikanisa.com';
+const {ApiError,digest}=await actual('domain/core.js');
+const {canonicalProfile}=await actual('deployment-profile.js');
+const NOW=1792497600,PROJECT='https://rrlduytparvsjfmegalh.supabase.co',ORIGIN='https://admin-supabase-qa.collect.ikanisa.com';
 const ADMIN='11111111-1111-4111-8111-111111111111',PRINCIPAL='22222222-2222-4222-8222-222222222222';
 const AUTH='33333333-3333-4333-8333-333333333333',SID='44444444-4444-4444-8444-444444444444';
 const CANDIDATE='55555555-5555-4555-8555-555555555555',PUBLIC='66666666-6666-4666-8666-666666666666';
@@ -25,7 +26,7 @@ const jwt=value=>[Buffer.from('{"alg":"synthetic-only"}').toString('base64url'),
 const baseUser=()=>({id:AUTH,email:EMAIL,email_confirmed_at:'2026-10-20T12:00:00Z'});
 const isError=(status,code)=>error=>error instanceof ApiError&&error.status===status&&error.code===code;
 const prefix='?::text,?::text,?::text,?::text';
-const suffix={status:'',prepare:',?::text',send_claim:',?::text,?::uuid',send_finish:',?::text,?::uuid,?::text',verify_claim:',?::text,?::uuid',record:',?::text,?::uuid',verify_finish:',?::text,?::uuid,?::text',cleanup_claim:',?::text,?::uuid,?::uuid',cleanup_finish:',?::text,?::uuid,?::uuid,?::text',record_initial:',?::text'};
+const suffix={status:'',prepare:',?::text,?::integer',send_claim:',?::text,?::uuid',send_finish:',?::text,?::uuid,?::text',verify_claim:',?::text,?::uuid',record:',?::text,?::uuid',verify_finish:',?::text,?::uuid,?::text',cleanup_claim:',?::text,?::uuid,?::uuid',cleanup_finish:',?::text,?::uuid,?::uuid,?::text',record_initial:',?::text'};
 const queries=Object.fromEntries(Object.entries(suffix).map(([name,s])=>[`SELECT private.admin_email_${name}(${prefix}${s}) AS result`,name]));
 class Statement{
  constructor(db,sql){this.db=db;this.sql=sql;this.args=[];}
@@ -44,7 +45,8 @@ class Database{
   if(this.options.denied||this.options.failBefore===name)throw new Error(this.options.failureMessage??'admin_email_denied '+DETAIL);
   if(name==='status')return {result:{contract_version:1,public_session_id:PUBLIC,email_verified_at:this.proof?.at??null,proof_id:this.proof?.id??null}};
   if(name==='prepare'){
-   this.c={id:args[4],identity_value:EMAIL,created_at:this.options.createdAt??NOW,expires_at:(this.options.createdAt??NOW)+300,delivery_status:'reserved',verification_state:'not_started',cleanup_state:'not_started',original_auth_user_id:AUTH,original_session_id:SID,principal_id:PRINCIPAL,verified_session_id:null,verified_amr_at:null};
+   assert.equal(args.length,6);assert.ok(Number.isSafeInteger(args[5])&&args[5]>=60&&args[5]<=1800);
+   this.c={id:args[4],identity_value:EMAIL,created_at:this.options.createdAt??NOW,expires_at:(this.options.createdAt??NOW)+args[5],delivery_status:'reserved',verification_state:'not_started',cleanup_state:'not_started',original_auth_user_id:AUTH,original_session_id:SID,principal_id:PRINCIPAL,verified_session_id:null,verified_amr_at:null};
    return this.result({created:true});
   }
   if(name==='record_initial'){
@@ -90,8 +92,12 @@ async function fixture(options,run){
  const originalClaims=claims(SID,options.originalClaims??{}),candidateClaims=claims(options.candidateSid??CANDIDATE,options.candidateClaims??{});
  const originalToken=jwt(originalClaims),candidateToken=jwt(candidateClaims);
  const account={id:ADMIN,principal_id:PRINCIPAL,auth_user_id:AUTH,auth_session_id:SID,token_hash:'a'.repeat(64),public_id:PUBLIC,origin:ORIGIN,auth_version:1,email:EMAIL,role:'owner',issued_assurance_level:1,issued_mfa_at:null,issued_mfa_factor_id:null,supabaseTokens:{access_token:originalToken,refresh_token:'original-refresh'}};
- const trace=[],db=new Database({...options,trace}),env=fixtureEnvironment({DB:db,SUPABASE_URL:PROJECT,SUPABASE_PUBLISHABLE_KEY:KEY}),calls=[];
- const oldNow=Date.now,oldFetch=globalThis.fetch;Date.now=()=>NOW*1000;
+ const adminOrigin=options.adminOrigin??ORIGIN,profile=canonicalProfile({format:'collect.deployment.v1',id:'admin-email-fixture',mode:'managed',environment:'qualification',
+  supabase_origin:PROJECT,member_api_origin:'https://member.example.invalid',admin_origin:adminOrigin,public_origin:'https://public.example.invalid',google_callback_origin:adminOrigin});
+ const trace=[],db=new Database({...options,trace}),env=fixtureEnvironment({DB:db,SUPABASE_URL:PROJECT,SUPABASE_PUBLISHABLE_KEY:KEY,
+  COLLECT_DEPLOYMENT_PROFILE:profile,COLLECT_DEPLOYMENT_PROFILE_SHA256:await digest(profile),
+  ...(Object.hasOwn(options,'adminTtl')?{COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS:options.adminTtl}:{})}),calls=[];
+ const oldNow=Date.now,oldFetch=globalThis.fetch;let elapsed=0;Date.now=()=>(NOW+elapsed)*1000;
  globalThis.fetch=async(input,init)=>{
   const r=new Request(input,init),path=new URL(r.url).pathname,body=init.body===undefined?null:JSON.parse(init.body),token=r.headers.get('Authorization');
   const call={url:r.url,method:r.method,redirect:r.redirect,body,token};calls.push(call);trace.push('auth:'+new URL(r.url).pathname);
@@ -100,6 +106,8 @@ async function fixture(options,run){
    assert.equal(token,'Bearer '+candidateToken);return Response.json({...baseUser(),...options.candidateUser});
   }
   if(path==='/auth/v1/otp'){
+   elapsed+=options.sendDelay??0;
+   assert.equal(r.url,PROJECT+'/auth/v1/otp?redirect_to='+encodeURIComponent(adminOrigin));
    assert.deepEqual(body,{email:EMAIL,create_user:false,gotrue_meta_security:options.captcha?{captcha_token:options.captcha}:{}});
    if(options.sendUnknown)throw new Error(DETAIL);if(options.sendRejected)return Response.json({error_code:'captcha_failed',msg:DETAIL},{status:400});
    return Response.json({});
@@ -127,7 +135,7 @@ test('Admin EMAIL OTP proof keeps original AAL1 session and truthfully gates sen
  await t.test('real-shaped OTP exchange cleans distinct candidate once, preserves original SID/cookie and returns sidecar only',()=>fixture({},async f=>{
   assert.deepEqual(adminEmailState(f.account),{contractVersion:1,sessionId:PUBLIC,emailVerifiedAt:null});
   assert.throws(()=>requireFreshAdminEmail(f.account),isError(403,'recent_email_sign_in_required'));
-  const original=clone(f.account.supabaseTokens),sent=await f.send(),receipt=await sent.json();assert.equal(sent.status,202);assert.equal(receipt.delivery_status,'accepted');assert.equal(receipt.retry_after,60);assert.equal(receipt.expires_in,300);assert.deepEqual(Object.keys(receipt).sort(),['challenge_id','delivery_status','expires_in','retry_after']);publicSafe(receipt);
+  const original=clone(f.account.supabaseTokens),sent=await f.send(),receipt=await sent.json();assert.equal(sent.status,202);assert.equal(receipt.delivery_status,'accepted');assert.equal(receipt.retry_after,60);assert.equal(receipt.expires_in,1800);assert.deepEqual(Object.keys(receipt).sort(),['challenge_id','delivery_status','expires_in','retry_after']);publicSafe(receipt);
   const reply=await f.verify(),state=await reply.json();assert.equal(reply.status,200);assert.equal(reply.headers.has('Set-Cookie'),false);
   assert.deepEqual(state,{contractVersion:1,sessionId:PUBLIC,emailVerifiedAt:new Date(NOW*1000).toISOString()});publicSafe(state);
   assert.deepEqual(f.account.supabaseTokens,original);assert.equal(f.account.auth_session_id,SID);assert.equal(f.account.issued_assurance_level,1);assert.equal(f.account.issued_mfa_at,null);requireFreshAdminEmail(f.account);
@@ -137,13 +145,34 @@ test('Admin EMAIL OTP proof keeps original AAL1 session and truthfully gates sen
  }));
  for(const amr of [[{method:'otp',timestamp:NOW-1}],[{method:'otp',timestamp:NOW+1}],[{method:'otp',timestamp:NOW-5},{method:'otp',timestamp:NOW}]])await t.test('SQL-authoritative OTP event matches explicit signed-event tolerance: '+JSON.stringify(amr),()=>fixture({createdAt:NOW-10,candidateClaims:{amr}},async f=>{await f.send();const reply=await f.verify();assert.equal(reply.status,200);requireFreshAdminEmail(f.account);assert.equal(f.db.c.cleanup_state,'confirmed');}));
  await t.test('SEND preserves human CAPTCHA and current server-resolved email',()=>fixture({captcha:'human-public-proof'},async f=>{const reply=await f.send({captcha_token:'human-public-proof'});assert.equal(reply.status,202);}));
- for(const body of [{email:'other@example.invalid'},{should_create_user:true},{surface:'member'},{session_id:CANDIDATE},{code:CODE},{captcha_token:''}])await t.test('SEND caller cannot select identity/session/registration: '+Object.keys(body)[0],()=>fixture({},async f=>{
+ await t.test('SEND chooses the trusted deployment Admin origin rather than the account origin',()=>fixture({adminOrigin:'https://selected-admin.example.invalid'},async f=>{
+  await f.send();assert.equal(new URL(f.calls.find(x=>new URL(x.url).pathname==='/auth/v1/otp').url).searchParams.get('redirect_to'),'https://selected-admin.example.invalid');
+ }));
+ for(const ttl of ['60','300','600','1800'])await t.test('server-configured code window '+ttl+' uses saved SQL deadline and actual remaining time',()=>fixture({adminTtl:ttl,sendDelay:ttl==='60'?1:0},async f=>{
+  const reply=await f.send(),receipt=await reply.json();assert.equal(receipt.expires_in,Number(ttl)-(ttl==='60'?1:0));
+  assert.equal(f.db.c.expires_at-f.db.c.created_at,Number(ttl));assert.equal(f.db.calls.find(x=>x.name==='prepare').args[5],Number(ttl));
+ }));
+ for(const adminTtl of ['',null,1800,'59','1801','01800','1800.0',' 1800','1e3'])await t.test('invalid server code lifetime fails before reservation/provider: '+JSON.stringify(adminTtl),()=>fixture({adminTtl},async f=>{
+  await assert.rejects(f.send(),isError(503,'admin_email_otp_unconfigured'));assert.equal(f.calls.length,0);assert.equal(f.db.c,null);
+ }));
+ await t.test('an aged pending30-minute code accepts a current OTP event without changing consumed-proof freshness',()=>fixture({createdAt:NOW-1200},async f=>{
+  const receipt=await(await f.send()).json();assert.equal(receipt.expires_in,600);
+  await f.verify();assert.equal(adminEmailState(f.account).emailVerifiedAt,new Date(NOW*1000).toISOString());requireFreshAdminEmail(f.account);
+ }));
+ await t.test('an aged code never makes an old OTP event fresh',()=>fixture({createdAt:NOW-1200,candidateClaims:{amr:[{method:'otp',timestamp:NOW-1200}]}},async f=>{
+  await f.send();await assert.rejects(f.verify(),isError(503,'admin_email_operation_unknown'));assert.equal(f.db.proof,null);
+ }));
+ await t.test('a saved code window above1800seconds is refused before verify dispatch',()=>fixture({},async f=>{
+  await f.send();f.db.c.expires_at=f.db.c.created_at+1801;
+  await assert.rejects(f.verify(),isError(503,'admin_email_operation_unknown'));assert.equal(f.calls.filter(x=>x.url.endsWith('/verify')).length,0);
+ }));
+ for(const body of [{email:'other@example.invalid'},{should_create_user:true},{surface:'member'},{session_id:CANDIDATE},{code:CODE},{captcha_token:''},{redirect_to:'https://foreign.invalid'},{emailRedirectTo:'https://foreign.invalid'},{ttl_seconds:1800},{expires_in:1800}])await t.test('SEND caller cannot select identity/session/registration/code lifetime: '+Object.keys(body)[0],()=>fixture({},async f=>{
   const before=f.calls.length;await assert.rejects(f.send(body),isError(400,'admin_email_invalid'));assert.equal(f.calls.length,before);assert.equal(f.db.c,null);
  }));
  for(const code of ['', '12345', '1234567', '12345x', 184275])await t.test('dedicated configured six-digit OTP parser rejects: '+JSON.stringify(code),()=>fixture({},async f=>{await f.send();const before=f.calls.length;await assert.rejects(verifyAdminEmail(f.env,f.account,{challenge_id:f.db.c.id,code}),isError(400,'admin_email_invalid'));assert.equal(f.calls.length,before);}));
  await t.test('expired local challenge is400 without a new verify dispatch',()=>fixture({},async f=>{await f.send();f.db.c.created_at=NOW-301;f.db.c.expires_at=NOW-1;await assert.rejects(f.verify(),isError(400,'invalid_credentials'));assert.equal(f.calls.filter(x=>x.url.endsWith('/verify')).length,0);}));
  await t.test('winning original authority change blocks verification before provider action',()=>fixture({},async f=>{await f.send();f.db.options.denied=true;await assert.rejects(f.verify(),isError(403,'admin_email_denied'));assert.equal(f.calls.filter(x=>x.url.endsWith('/verify')).length,0);}));
- await t.test('unknown SEND is recorded without automatic resend',()=>fixture({sendUnknown:true},async f=>{const reply=await f.send();assert.equal(reply.status,202);assert.equal((await reply.json()).delivery_status,'unknown');assert.equal(f.calls.filter(x=>x.url.endsWith('/otp')).length,1);assert.equal(f.db.c.delivery_status,'unknown');assert.equal(adminEmailState(f.account).emailVerifiedAt,null);}));
+ await t.test('unknown SEND is recorded without automatic resend',()=>fixture({sendUnknown:true},async f=>{const reply=await f.send();assert.equal(reply.status,202);assert.equal((await reply.json()).delivery_status,'unknown');assert.equal(f.calls.filter(x=>new URL(x.url).pathname==='/auth/v1/otp').length,1);assert.equal(f.db.c.delivery_status,'unknown');assert.equal(adminEmailState(f.account).emailVerifiedAt,null);}));
  await t.test('known SEND rejection is distinct from BFF expiry',()=>fixture({sendRejected:true},async f=>{await assert.rejects(f.send(),isError(400,'admin_email_send_rejected'));assert.equal(f.db.c.delivery_status,'rejected');}));
  await t.test('wrong code is400, permits only bounded explicit attempts, and never logs out',()=>fixture({wrongCode:true},async f=>{await f.send();for(let n=0;n<5;n++)await assert.rejects(f.verify(),isError(400,'invalid_credentials'));await assert.rejects(f.verify(),isError(503,'admin_email_operation_unknown'));assert.equal(f.calls.filter(x=>x.url.endsWith('/verify')).length,5);assert.equal(f.calls.filter(x=>x.url.includes('/logout')).length,0);assert.equal(f.db.proof,null);}));
  for(const options of [{verifyUnknown:true},{candidateSid:SID},{candidateSid:''},{candidateSid:'00000000-0000-0000-0000-000000000000'},{candidateSid:'not-a-uuid'},{candidateUser:{id:ADMIN}},{candidateUser:{email:'other@example.invalid'}},{candidateUser:{email_confirmed_at:null}},{candidateClaims:{amr:[{method:'oauth',timestamp:NOW}]}},{candidateClaims:{amr:[{method:'otp',timestamp:NOW-301}]}},{candidateClaims:{amr:[{method:'otp',timestamp:NOW+2}]}}])await t.test('candidate identity/OTP evidence fails closed: '+JSON.stringify(options),()=>fixture(options,async f=>{

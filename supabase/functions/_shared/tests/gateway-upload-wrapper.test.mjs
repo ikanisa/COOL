@@ -6,11 +6,11 @@ import {createHash} from 'node:crypto';
 // Synthetic Request objects never leave this process.
 await import('./helpers/node-postgres-import.mjs');
 const {canonicalProfile} = await import('../deployment-profile.js');
-const {createHandler} = await import('../serve.js');
+const {createHandler,logicalRequest} = await import('../serve.js');
 
 const profile = {
- format: 'collect.deployment.v1', id: 'gateway-wrapper-fixture', mode: 'self_hosted',
- environment: 'qualification', supabase_origin: 'https://supabase.example.invalid',
+ format: 'collect.deployment.v1', id: 'gateway-wrapper-fixture', mode: 'managed',
+ environment: 'qualification', supabase_origin: 'https://rrlduytparvsjfmegalh.supabase.co',
  member_api_origin: 'https://member.example.invalid', admin_origin: 'https://admin.example.invalid',
  public_origin: 'https://public.example.invalid', google_callback_origin: 'https://member.example.invalid',
 };
@@ -68,7 +68,7 @@ function assertNoEffects(f) {
  assert.equal(JSON.stringify(f.observations).includes(syntheticMessage), false);
 }
 
-test('both self-hosted function prefixes refuse gateway uploads before runtime admission', async t => {
+test('both Cloud function prefixes refuse gateway uploads before runtime admission', async t => {
  const f = fixture(t);
  for (const pause of [undefined, 'true', 'false']) {
   f.setPause(pause);
@@ -85,6 +85,24 @@ test('both self-hosted function prefixes refuse gateway uploads before runtime a
   }
  }
  assertNoEffects(f);
+});
+
+test('only the Cloud project Edge origin is restored to HTTPS',()=>{
+ const logical=origin=>logicalRequest(new Request(origin+'/collect-api/v1/momo/gateway/status',{
+  headers:{'X-Forwarded-Host':'attacker.invalid','X-Forwarded-Proto':'https'}}),'collect-api',
+  {COLLECT_DEPLOYMENT_PROFILE:rawProfile,COLLECT_DEPLOYMENT_PROFILE_SHA256:profileHash});
+ const accepted=logical('http://'+new URL(profile.supabase_origin).host);
+ assert.equal(new URL(accepted.url).origin,profile.supabase_origin);
+ assert.equal(new URL(accepted.url).pathname,'/v1/momo/gateway/status');
+ for(const origin of ['http://supabase_edge_runtime_local-app:8081','http://api-gw:8000','http://unknown.invalid:8081'])
+  assert.equal(new URL(logical(origin).url).origin,origin);
+});
+
+test('both explicit flags release only the runtime hold and still require normal database admission',async t=>{
+ const f=fixture(t,{changes:{BURIMUNSI_NATIVE_ENABLED:'true',BURIMUNSI_NATIVE_UPLOADS_ENABLED:'true'}});
+ const input=makeRequest('/collect-api'+gatewayPath,{origin:profile.member_api_origin});
+ const response=await f.handler(input);assert.equal(response.status,503);assert.equal((await response.json()).code,'backend_unavailable');
+ assert.equal(input.bodyUsed,false);assert.equal(f.counts.construct,1);assert.equal(f.counts.begin,1);assert.equal(f.counts.admission,0);assert.equal(f.counts.network,0);
 });
 
 test('allowed preflight remains available and a denied origin wins before the hold', async t => {
@@ -121,6 +139,20 @@ test('the Admin function still rejects the member gateway path', async t => {
   assert.equal((await response.json()).code, 'not_found');
  }
  assertNoEffects(f);
+});
+
+test('only the Admin preflight allows the versioned owner identity header', async t => {
+ const admin = fixture(t, {functionName: 'admin-api'});
+ const allowed = await admin.handler(makeRequest('/functions/v1/admin-api/api/admin/auth/session', {origin: profile.admin_origin, method: 'OPTIONS'}));
+ assert.equal(allowed.status, 204);
+ assert.match(allowed.headers.get('access-control-allow-headers'), /(?:^|,)X-Collect-Owner-Identity-Version(?:,|$)/);
+ assert.equal(allowed.headers.get('access-control-allow-credentials'), 'true');
+ assertNoEffects(admin);
+ const member = fixture(t);
+ const other = await member.handler(makeRequest('/functions/v1/collect-api/v1/profile', {origin: profile.member_api_origin, method: 'OPTIONS'}));
+ assert.equal(other.status, 204);
+ assert.doesNotMatch(other.headers.get('access-control-allow-headers'), /X-Collect-Owner-Identity-Version/);
+ assertNoEffects(member);
 });
 
 test('near-miss and member routes continue to the normal runtime boundary', async t => {

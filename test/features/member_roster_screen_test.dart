@@ -24,41 +24,43 @@ class _RosterRepository extends FixtureCollectRepository {
   final List<CollectMember>? members;
   int reads = 0;
 
-  void markScopeUncertain() => state = state.copyWith(memberScopeUncertain: true);
+  void markScopeUncertain() =>
+      state = state.copyWith(memberScopeUncertain: true);
 
   @override
   Future<List<CollectMember>> membersForCollection(String collectionId) async {
     reads++;
-    return members ?? [
-        CollectMember(
-          publicId: '123456',
-          role: 'owner',
-          status: 'active',
-          joinedAt: DateTime.utc(2026, 9, 1),
-          amountScope: 'shared',
-          contributionTotals: const {'RWF': 500},
-        ),
-        CollectMember(
-          publicId: '038491',
-          role: 'admin',
-          status: 'active',
-          joinedAt: DateTime.utc(2026, 9, 2),
-          amountScope: 'own',
-          contributionTotals: const {'RWF': 3000},
-        ),
-        CollectMember(
-          publicId: '234567',
-          role: 'receiver',
-          status: 'active',
-          joinedAt: DateTime.utc(2026, 9, 1),
-        ),
-        CollectMember(
-          publicId: '345678',
-          role: 'viewer',
-          status: 'invited',
-          joinedAt: DateTime.utc(2026, 9, 2),
-        ),
-    ];
+    return members ??
+        [
+          CollectMember(
+            publicId: '123456',
+            role: 'owner',
+            status: 'active',
+            joinedAt: DateTime.utc(2026, 9, 1),
+            amountScope: 'shared',
+            contributionTotals: const {'RWF': 500},
+          ),
+          CollectMember(
+            publicId: '038491',
+            role: 'admin',
+            status: 'active',
+            joinedAt: DateTime.utc(2026, 9, 2),
+            amountScope: 'own',
+            contributionTotals: const {'RWF': 3000},
+          ),
+          CollectMember(
+            publicId: '234567',
+            role: 'receiver',
+            status: 'active',
+            joinedAt: DateTime.utc(2026, 9, 1),
+          ),
+          CollectMember(
+            publicId: '345678',
+            role: 'viewer',
+            status: 'invited',
+            joinedAt: DateTime.utc(2026, 9, 2),
+          ),
+        ];
   }
 }
 
@@ -245,8 +247,6 @@ void main() {
   testWidgets('an empty owner filter remains visible and can be cleared', (
     tester,
   ) async {
-    final semantics = tester.ensureSemantics();
-    addTearDown(semantics.dispose);
     await pumpRoster(
       tester,
       members: [
@@ -358,8 +358,6 @@ void main() {
   testWidgets('empty combined search and filter can be cleared at large text', (
     tester,
   ) async {
-    final semantics = tester.ensureSemantics();
-    addTearDown(semantics.dispose);
     await pumpRoster(tester, width: 320, scale: 2);
     await tester.enterText(find.byType(TextField), '038491');
     await tester.pumpAndSettle();
@@ -387,6 +385,12 @@ void main() {
     await tester.tap(clear);
     await tester.pumpAndSettle();
 
+    await tester.scrollUntilVisible(
+      find.byType(TextField),
+      -180,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
     expect(
       tester.widget<TextField>(find.byType(TextField)).controller!.text,
       '',

@@ -155,8 +155,8 @@ class WorkflowTest(unittest.TestCase):
 
     def candidate_public_values(self):
         public = self.workflow["env"]
-        profile = {"format": "collect.deployment.v1", "id": "synthetic-selfhost", "mode": "self_hosted",
-                   "environment": "production", "supabase_origin": "https://supabase.collect.example",
+        profile = {"format": "collect.deployment.v1", "id": "synthetic-managed", "mode": "managed",
+                   "environment": "production", "supabase_origin": "https://rrlduytparvsjfmegalh.supabase.co",
                    "member_api_origin": public["SUPABASE_API_URL"], "admin_origin": public["SUPABASE_ADMIN_API_URL"],
                    "public_origin": public["APP_PUBLIC_URL"], "google_callback_origin": public["ADMIN_APP_URL"]}
         raw = json.dumps(profile, sort_keys=True, separators=(",", ":"))

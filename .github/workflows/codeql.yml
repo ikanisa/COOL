@@ -7,18 +7,24 @@ on:
       - develop
     paths:
       - '.github/workflows/codeql.yml'
+      - 'admin-web/**'
       - 'deploy/platform-api/**/*.js'
       - 'deploy/platform-admin/**/*.js'
+      - 'deploy/managed-sms/**'
       - 'supabase/functions/**/*.js'
+      - 'supabase/functions/**/*.mjs'
       - 'supabase/functions/**/*.ts'
       - 'deploy/platform-supabase-free/**/*.js'
       - 'deploy/platform-supabase-free/**/*.mjs'
   pull_request:
     paths:
       - '.github/workflows/codeql.yml'
+      - 'admin-web/**'
       - 'deploy/platform-api/**/*.js'
       - 'deploy/platform-admin/**/*.js'
+      - 'deploy/managed-sms/**'
       - 'supabase/functions/**/*.js'
+      - 'supabase/functions/**/*.mjs'
       - 'supabase/functions/**/*.ts'
       - 'deploy/platform-supabase-free/**/*.js'
       - 'deploy/platform-supabase-free/**/*.mjs'
@@ -34,7 +40,7 @@ permissions:
 
 jobs:
   analyze:
-    name: Analyze backend services
+    name: Analyze React Admin and backend services
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

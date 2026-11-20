@@ -27,7 +27,7 @@ KEY = "sb_publishable_syntheticPublicKey1234"
 SITE_KEY = "synthetic_public_site_key"
 PUBLIC = "https://collect.ikanisa.com"
 ADMIN = "https://platform-admin.collect.ikanisa.com"
-NATIVE_PROJECT = "https://supabase.native.example"
+NATIVE_PROJECT = PROJECT
 NATIVE_API = "https://api.native.example"
 NATIVE_PUBLIC = "https://www.native.example"
 NATIVE_ADMIN = "https://admin.native.example"
@@ -37,7 +37,7 @@ class NativeConfigurationTest(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix="collect-native-config-")
         self.addCleanup(temporary.cleanup)
-        self.root = Path(temporary.name)
+        self.root = Path(temporary.name).resolve(strict=True)
         for relative in ("scripts/qa", "scripts/audits", "scripts/supabase", "android", "fastlane", "tmp", "lib"):
             (self.root / relative).mkdir(parents=True)
         for relative in ("scripts/android_play_store_build.sh", "scripts/ios_app_store_build.sh",
@@ -90,7 +90,7 @@ with zipfile.ZipFile(artifact,'w',compression=zipfile.ZIP_STORED) as archive:
                     "PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER": "123456789012",
                     # Retired provider input must never enter compiled defines.
                     "COLLECT_PRIVATE_TEST_KEY": "synthetic-private-value"}
-        self.env.update(self.self_hosted_configuration())
+        self.env.update(self.managed_configuration())
         self.env["COLLECT_SMS_AUTH_ENABLED"] = "true"
 
     def run_wrapper(self, platform, *args, _unset=(), **extra):
@@ -106,9 +106,9 @@ with zipfile.ZipFile(artifact,'w',compression=zipfile.ZIP_STORED) as archive:
         path = self.root / "compiler-observations.jsonl"
         return [json.loads(line) for line in path.read_text().splitlines()] if path.exists() else []
 
-    def self_hosted_configuration(self, environment="production"):
+    def managed_configuration(self, environment="production"):
         profile = {"format": "collect.deployment.v1", "id": "native-wrapper-fixture",
-                   "mode": "self_hosted", "environment": environment,
+                   "mode": "managed", "environment": environment,
                    "supabase_origin": NATIVE_PROJECT, "member_api_origin": NATIVE_API,
                    "admin_origin": NATIVE_ADMIN, "public_origin": NATIVE_PUBLIC,
                    "google_callback_origin": NATIVE_ADMIN}
@@ -121,8 +121,8 @@ with zipfile.ZipFile(artifact,'w',compression=zipfile.ZIP_STORED) as archive:
                 "SUPABASE_ADMIN_API_URL": profile["admin_origin"],
                 "SUPABASE_AUTH_ISSUER": profile["supabase_origin"] + "/auth/v1"}
 
-    def test_store_wrappers_use_reviewed_self_hosted_origins_without_managed_aliases(self):
-        values = self.self_hosted_configuration()
+    def test_store_wrappers_use_reviewed_managed_profile_and_explicit_app_origins(self):
+        values = self.managed_configuration()
         for platform in ("android", "ios"):
             result = self.run_wrapper(platform, **values)
             self.assertEqual(result.returncode, 0, result.stderr)
@@ -138,13 +138,13 @@ with zipfile.ZipFile(artifact,'w',compression=zipfile.ZIP_STORED) as archive:
             self.assertEqual(defines["APP_ENVIRONMENT"], "production")
             self.assertFalse(Path(record["temporary_path"]).exists())
 
-    def test_self_hosted_store_wrappers_keep_alias_hash_captcha_and_environment_guards(self):
-        values = self.self_hosted_configuration()
+    def test_managed_store_wrappers_keep_alias_hash_captcha_and_environment_guards(self):
+        values = self.managed_configuration()
         for platform in ("android", "ios"):
             for changes in ({"APP_PUBLIC_URL": PUBLIC}, {"ADMIN_APP_URL": ADMIN},
                             {"COLLECT_DEPLOYMENT_PROFILE_SHA256": "0" * 64},
                             {"AUTH_CAPTCHA_SITE_KEY": "1x00000000000000000000AA"},
-                            self.self_hosted_configuration("qualification")):
+                            self.managed_configuration("qualification")):
                 with self.subTest(platform=platform, changes=changes):
                     result = self.run_wrapper(platform, **(values | changes))
                     self.assertEqual(result.returncode, 2, result.stderr)
@@ -245,7 +245,6 @@ end
         self.assertEqual(defines["AUTH_CAPTCHA_ENABLED"], "true")
         self.assertEqual(defines["AUTH_CAPTCHA_PROVIDER"], "turnstile")
         self.assertEqual(defines["APP_ENVIRONMENT"], "production")
-        self.assertEqual(defines["ENABLE_ADMIN_PANEL"], "false")
         self.assertEqual(defines["COLLECT_MOBILE_EVIDENCE_MODE"], "false")
         self.assertEqual("APNS_ENVIRONMENT" in defines, apns)
         if apns:
@@ -273,11 +272,11 @@ end
                     self.assertEqual(result.returncode, 2, result.stderr)
                     self.assertEqual(self.observations(), [])
 
-    def test_store_wrappers_refuse_missing_or_managed_candidate_before_compilation(self):
+    def test_store_wrappers_refuse_missing_or_retired_candidate_before_compilation(self):
         profile_fields = ("COLLECT_DEPLOYMENT_PROFILE", "COLLECT_DEPLOYMENT_PROFILE_SHA256")
-        managed = json.loads(self.env[profile_fields[0]])
-        managed.update(mode="managed", supabase_origin=PROJECT)
-        raw = json.dumps(managed, sort_keys=True, separators=(",", ":"))
+        retired = json.loads(self.env[profile_fields[0]])
+        retired.update(mode="self_hosted", supabase_origin="https://retired.example.invalid")
+        raw = json.dumps(retired, sort_keys=True, separators=(",", ":"))
         cases = [((profile_fields[0],), {}), ((profile_fields[1],), {}),
                  (("COLLECT_SMS_AUTH_ENABLED",), {}), ((), {"COLLECT_SMS_AUTH_ENABLED": "false"}),
                  (profile_fields, {"SUPABASE_URL": PROJECT, "SUPABASE_API_URL": API}),
@@ -291,11 +290,9 @@ end
                     self.assertEqual(self.observations(), [])
                     self.assertFalse((self.root / "gradle-observations.jsonl").exists())
 
-    def test_native_and_shared_google_flags_are_forwarded_to_both_consumers(self):
-        for source, key in (("lib/core/cloudflare/auth_alternative_gateway.dart", "COLLECT_GOOGLE_AUTH_ENABLED"),
-                            ("lib/admin/core/cloudflare_admin_session.dart", "GOOGLE_AUTH_ENABLED"),
-                            ("lib/admin/core/admin_account_pages.dart", "GOOGLE_AUTH_ENABLED")):
-            self.assertRegex((ROOT/source).read_text(),r"bool\.fromEnvironment\(\s*'"+re.escape(key)+"'")
+    def test_native_google_flags_are_forwarded_to_both_platforms(self):
+        member = (ROOT / "lib/core/cloudflare/auth_alternative_gateway.dart").read_text()
+        self.assertRegex(member, r"bool\.fromEnvironment\(\s*'COLLECT_GOOGLE_AUTH_ENABLED'")
         for platform in ("android", "ios"):
             result = self.run_wrapper(platform, COLLECT_GOOGLE_AUTH_ENABLED="true")
             self.assertEqual(result.returncode, 0, result.stderr)
@@ -585,7 +582,7 @@ actual_aab_sha256=Digest::SHA256.file(aab['path']).hexdigest
                 self.assertEqual(json.loads(result.stdout)["SUPABASE_API_URL"], API)
                 self.assertEqual(json.loads(result.stdout)["COLLECT_BACKEND"], "supabase")
 
-    def test_mobile_interactive_adapter_passes_exact_self_hosted_profile_to_wrappers(self):
+    def test_mobile_interactive_adapter_passes_exact_managed_profile_to_wrappers(self):
         valid = {"deployment_profile": self.env["COLLECT_DEPLOYMENT_PROFILE"],
                  "deployment_profile_sha256": self.env["COLLECT_DEPLOYMENT_PROFILE_SHA256"],
                  "supabase_publishable_key": KEY, "auth_captcha_site_key": SITE_KEY,

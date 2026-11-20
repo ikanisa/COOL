@@ -1,0 +1,8 @@
+.licenses-card { padding: 22px; }
+.licenses-card > .admin-field { max-width: 360px; }
+.licenses-list { margin-top: 20px; }
+.licenses-list details { border-top: 1px solid var(--admin-line); }
+.licenses-list summary { display: flex; justify-content: space-between; gap: 20px; align-items: center; padding: 16px 2px; cursor: pointer; }
+.licenses-list summary span { color: var(--admin-muted); font-size: .8125rem; }
+.licenses-list h2 { font-size: .875rem; }
+.licenses-list pre { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; color: var(--admin-muted); }

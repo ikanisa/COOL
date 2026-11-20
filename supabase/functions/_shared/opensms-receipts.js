@@ -38,9 +38,7 @@ export function createOpenSmsReceiptTransport(configuration,{fetchImpl=(request,
    typeof message.notAfter!=='string'||!Number.isFinite(Date.parse(message.notAfter)))throw safeError();
   return {message_id:message.messageId,kind:'receipt',to:message.to,text:message.text,not_after:message.notAfter,priority:80,metadata:{}};
  }
- async function inspect(message){
-  payload(message);
-  const result=await request('/v1/messages/'+encodeURIComponent(message.messageId)),row=result.message;
+ async function observe(message,row){
   if(!row||row.message_id!==message.messageId||row.application_id!==config.applicationId||row.kind!=='receipt'||
    row.to!==message.to||row.text!==message.text||row.priority!==80||row.not_after!==message.notAfter||
    typeof row.available_at!=='string'||!Number.isFinite(Date.parse(row.available_at))||
@@ -53,6 +51,11 @@ export function createOpenSmsReceiptTransport(configuration,{fetchImpl=(request,
   const evidence=await sha(JSON.stringify({message_id:row.message_id,payload_digest:digest,state:row.state,updated_at:row.updated_at??null}));
   return {state:row.state,providerAccepted:true,observation,evidenceSha256:evidence};
  }
+ async function inspect(message){
+  payload(message);
+  const result=await request('/v1/messages/'+encodeURIComponent(message.messageId));
+  return observe(message,result.message);
+ }
  return Object.freeze({
   async submit(message){
    const body=payload(message);
@@ -64,5 +67,14 @@ export function createOpenSmsReceiptTransport(configuration,{fetchImpl=(request,
    if(result.message_id!==message.messageId||!states.has(result.state))throw safeError();
    return inspect(message);
   },inspect,
+  async inspectRecorded(message){
+   if(typeof message?.messageId!=='string'||!message.messageId.startsWith(config.applicationId+':')||message.messageId.length>200||
+    !/^[a-f0-9]{64}$/.test(message.destinationSha256??''))throw safeError();
+   const result=await request('/v1/messages/'+encodeURIComponent(message.messageId)),to=result.message?.to;
+   if(typeof to!=='string'||await sha(to)!==message.destinationSha256)throw safeError();
+   const original={messageId:message.messageId,to,text:message.text,notAfter:message.notAfter};
+   payload(original);
+   return observe(original,result.message);
+  },
  });
 }

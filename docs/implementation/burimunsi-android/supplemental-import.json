@@ -1,0 +1,2034 @@
+{
+  "format": "collect.burimunsi.supplemental-import.v2",
+  "reconciliation": {
+    "date": "2026-11-09",
+    "initial_record_preserved": {
+      "path": ".cache/burimunsi-drive-20261109/manifest-reconciliation/before/supplemental-import.474af1280e4e33231a79660979fbfd0d6bfd6ed6fe995dd23553432fd55f5dbc.json",
+      "sha256": "474af1280e4e33231a79660979fbfd0d6bfd6ed6fe995dd23553432fd55f5dbc",
+      "bytes": 35129
+    },
+    "initial_file_count": 96,
+    "initial_sms_file_count": 28,
+    "initial_storage_file_count": 30,
+    "missing_original_source_pins": [],
+    "archive_verification_record": "docs/implementation/burimunsi-android/archive-verification.json",
+    "verified_archive_identity_count": 9,
+    "scope": "Exact source/test/provenance intake plus one authored host-only harness. No production ports or writer adoption inferred.",
+    "current_file_count": 223,
+    "current_sms_original_count": 135,
+    "current_storage_original_count": 37,
+    "locally_authored_harness_count": 1
+  },
+  "files": [
+    {
+      "path": "docs/implementation/burimunsi-android/archive-verification.json",
+      "source": "docs/implementation/burimunsi-android/archive-verification.json",
+      "sha256": "df28c3905c62523962b55debee172c4e9c0993430bc0eca6b8b3c9f1e11d7410",
+      "role": "current nine-archive verification metadata; archive identities remain separate from candidate source",
+      "previous_recorded_sha256": "132a4676703469262ba7db74906748a3c64a8abc034b55fe661275591eecf9c2",
+      "bytes": 1600,
+      "source_kind": "local_archive_verification_record"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/registers/BuriMunsi_Original_65_Task_Contracts.json",
+      "source": "extracted/handover/BuriMunsi_Final_Handover_2026-11-09/registers/BuriMunsi_Original_65_Task_Contracts.json",
+      "sha256": "26dcf078cfb9aa01c5c6876bea1cb760fea880e3b85102f7c849c31dfbdd9eb0",
+      "role": "unchanged handover contract/register; not current completion",
+      "bytes": 627318,
+      "source_sha256": "26dcf078cfb9aa01c5c6876bea1cb760fea880e3b85102f7c849c31dfbdd9eb0",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/registers/Engineering_r3_Original_36_Actions.json",
+      "source": "extracted/handover/BuriMunsi_Final_Handover_2026-11-09/registers/Engineering_r3_Original_36_Actions.json",
+      "sha256": "c0c8dd46c1855f325b8e6db7cda2ee448f65a64313387b36552590a77395aa92",
+      "role": "unchanged handover contract/register; not current completion",
+      "bytes": 76447,
+      "source_sha256": "c0c8dd46c1855f325b8e6db7cda2ee448f65a64313387b36552590a77395aa92",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/registers/Handover_Action_Register.json",
+      "source": "extracted/handover/BuriMunsi_Final_Handover_2026-11-09/registers/Handover_Action_Register.json",
+      "sha256": "312499ba07d2a0c815b33675d56e951ca6926714bd29d70be98b750fb9a8dd2f",
+      "role": "unchanged handover contract/register; not current completion",
+      "bytes": 122785,
+      "source_sha256": "312499ba07d2a0c815b33675d56e951ca6926714bd29d70be98b750fb9a8dd2f",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/registers/Integration_and_Business_Detail.csv",
+      "source": "extracted/handover/BuriMunsi_Final_Handover_2026-11-09/registers/Integration_and_Business_Detail.csv",
+      "sha256": "39e03c125fd77f9bf82a59d8802e786ce876a01cf20b1cb7446867fb3365264b",
+      "role": "unchanged handover contract/register; not current completion",
+      "bytes": 9171,
+      "source_sha256": "39e03c125fd77f9bf82a59d8802e786ce876a01cf20b1cb7446867fb3365264b",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/registers/Master_Actions.csv",
+      "source": "extracted/handover/BuriMunsi_Final_Handover_2026-11-09/registers/Master_Actions.csv",
+      "sha256": "1f0de24eca99cf96cb1816c112d3d64475cd1ec4c4cc410f18b50223ec24d8d4",
+      "role": "unchanged handover contract/register; not current completion",
+      "bytes": 65338,
+      "source_sha256": "1f0de24eca99cf96cb1816c112d3d64475cd1ec4c4cc410f18b50223ec24d8d4",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/registers/Sources.csv",
+      "source": "extracted/handover/BuriMunsi_Final_Handover_2026-11-09/registers/Sources.csv",
+      "sha256": "de3319a0af3c602a033dca7f507c413756c9346060c70a15f1215685d4672a3f",
+      "role": "unchanged handover contract/register; not current completion",
+      "bytes": 4791,
+      "source_sha256": "de3319a0af3c602a033dca7f507c413756c9346060c70a15f1215685d4672a3f",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/source-reviews/00_Supplied_Remaining_Tasks.md",
+      "source": "extracted/a043/BuriMunsi_Consolidated_0.20.0-a04.3/docs/00_Supplied_Remaining_Tasks.md",
+      "sha256": "8e586f7c26790507692c3d8291fb19402adf5b65add85f1fcff074b064b0f528",
+      "role": "historical source review; current import status is separate",
+      "bytes": 33276,
+      "source_sha256": "8e586f7c26790507692c3d8291fb19402adf5b65add85f1fcff074b064b0f528",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/source-reviews/02_Collect_Integration.md",
+      "source": "extracted/a043/BuriMunsi_Consolidated_0.20.0-a04.3/docs/02_Collect_Integration.md",
+      "sha256": "2926581bad73081f5363aa9df3749b7b023d1a21f1121f6c36cb6cdbeb43a385",
+      "role": "historical source review; current import status is separate",
+      "bytes": 10197,
+      "source_sha256": "2926581bad73081f5363aa9df3749b7b023d1a21f1121f6c36cb6cdbeb43a385",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/source-reviews/11_Receiver_Source_Closure.md",
+      "source": "extracted/a043/BuriMunsi_Consolidated_0.20.0-a04.3/docs/11_Receiver_Source_Closure.md",
+      "sha256": "d92ed303b77b692f9f2e903483453899698a01079bdc1d6cf1d6eb5c9d9e8161",
+      "role": "historical source review; current import status is separate",
+      "bytes": 4074,
+      "source_sha256": "d92ed303b77b692f9f2e903483453899698a01079bdc1d6cf1d6eb5c9d9e8161",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/source-reviews/49_Remaining_Tasks_v0.17.0.md",
+      "source": "extracted/a043/BuriMunsi_Consolidated_0.20.0-a04.3/docs/49_Remaining_Tasks_v0.17.0.md",
+      "sha256": "558f7c278424ec5acf6da994c23602d5538db2881ecd161ae46ea1bd1cd2e452",
+      "role": "historical source review; current import status is separate",
+      "bytes": 78619,
+      "source_sha256": "558f7c278424ec5acf6da994c23602d5538db2881ecd161ae46ea1bd1cd2e452",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/source-reviews/52_Remaining_Tasks_v0.18.0.md",
+      "source": "extracted/a043/BuriMunsi_Consolidated_0.20.0-a04.3/docs/52_Remaining_Tasks_v0.18.0.md",
+      "sha256": "62086c97be73a612b8bd6a6485425780b8d29dd423205a104c61e1ee05c3b79e",
+      "role": "historical source review; current import status is separate",
+      "bytes": 77395,
+      "source_sha256": "62086c97be73a612b8bd6a6485425780b8d29dd423205a104c61e1ee05c3b79e",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/source-reviews/53_Canonical_Integration_v0.19.0-canonical.1.md",
+      "source": "extracted/a043/BuriMunsi_Consolidated_0.20.0-a04.3/docs/53_Canonical_Integration_v0.19.0-canonical.1.md",
+      "sha256": "cc9b901a59244871967594596c09171f987c8970400e021deb16fae32f923afc",
+      "role": "historical source review; current import status is separate",
+      "bytes": 15087,
+      "source_sha256": "cc9b901a59244871967594596c09171f987c8970400e021deb16fae32f923afc",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/source-reviews/54_A04_Consolidation.md",
+      "source": "extracted/a043/BuriMunsi_Consolidated_0.20.0-a04.3/docs/54_A04_Consolidation.md",
+      "sha256": "cfe394eaa56e50192f06d3a6e687fa27e1c78be661c7c5487da906fbfdcbb28a",
+      "role": "historical source review; current import status is separate",
+      "bytes": 12067,
+      "source_sha256": "cfe394eaa56e50192f06d3a6e687fa27e1c78be661c7c5487da906fbfdcbb28a",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/source-reviews/55_A04_Post_Command_Integration.md",
+      "source": "extracted/a043/BuriMunsi_Consolidated_0.20.0-a04.3/docs/55_A04_Post_Command_Integration.md",
+      "sha256": "0f9c67a5fbd81e85bdf9a16650edc271bc934f947bbc559c50592722d2846af7",
+      "role": "historical source review; current import status is separate",
+      "bytes": 6666,
+      "source_sha256": "0f9c67a5fbd81e85bdf9a16650edc271bc934f947bbc559c50592722d2846af7",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "docs/implementation/burimunsi-android/drive-handover/source-reviews/56_A04_Reviewed_Collect_Intake.md",
+      "source": "extracted/a043/BuriMunsi_Consolidated_0.20.0-a04.3/docs/56_A04_Reviewed_Collect_Intake.md",
+      "sha256": "23af14ab1676e8b2522f00d661052376cfe51ab066a965de40e5adc3df6ce344",
+      "role": "historical source review; current import status is separate",
+      "bytes": 7282,
+      "source_sha256": "23af14ab1676e8b2522f00d661052376cfe51ab066a965de40e5adc3df6ce344",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/README.md",
+      "source_sha256": "ea999187a513247d3b746f18624ea46cf7715c07eb653bbaf9c3884cada32b42",
+      "source": "extracted/release4/source/README.md",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "ea999187a513247d3b746f18624ea46cf7715c07eb653bbaf9c3884cada32b42",
+      "bytes": 7135,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/docs/INTEGRATION.md",
+      "source_sha256": "9d28ccb8cc963c5878b6a197401bab8b27c10886fefca92d1579dd02d6b095ec",
+      "source": "extracted/release4/source/docs/INTEGRATION.md",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "9d28ccb8cc963c5878b6a197401bab8b27c10886fefca92d1579dd02d6b095ec",
+      "bytes": 4877,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/docs/PROVENANCE_SETUP.md",
+      "source_sha256": "7ab2dc4b0c2d3c56361221aaba527b7016e7a37bb0a6c534f9729c99376d0340",
+      "source": "extracted/release4/source/docs/PROVENANCE_SETUP.md",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "7ab2dc4b0c2d3c56361221aaba527b7016e7a37bb0a6c534f9729c99376d0340",
+      "bytes": 9788,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/docs/SECURITY_BOUNDARIES.md",
+      "source_sha256": "b3b300129f744daa442b8459eac30427e84f082376b2991246d4c5f3b7504417",
+      "source": "extracted/release4/source/docs/SECURITY_BOUNDARIES.md",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "b3b300129f744daa442b8459eac30427e84f082376b2991246d4c5f3b7504417",
+      "bytes": 6196,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/docs/action-register.json",
+      "source_sha256": "5f3cc41359ed3dedd87ebf7fa8d548fb5a0251915d7c139ea868ebc0357b1b6f",
+      "source": "extracted/release4/source/docs/action-register.json",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "5f3cc41359ed3dedd87ebf7fa8d548fb5a0251915d7c139ea868ebc0357b1b6f",
+      "bytes": 3026,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/examples/BuriMunsi-build-UNEXECUTED.example.json",
+      "source_sha256": "f9c9ebe5e7458c12e32f4e71fec2f75add145b4a805ce173d0ae21b186cd3a62",
+      "source": "extracted/release4/source/examples/BuriMunsi-build-UNEXECUTED.example.json",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "f9c9ebe5e7458c12e32f4e71fec2f75add145b4a805ce173d0ae21b186cd3a62",
+      "bytes": 744,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/examples/BuriMunsi-promotion-UNEXECUTED.example.json",
+      "source_sha256": "874da9e1627baec125ebb489867145f560cbd1f1e1d7f7669592638466aac0ab",
+      "source": "extracted/release4/source/examples/BuriMunsi-promotion-UNEXECUTED.example.json",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "874da9e1627baec125ebb489867145f560cbd1f1e1d7f7669592638466aac0ab",
+      "bytes": 749,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/examples/BuriMunsi-source-UNEXECUTED.example.json",
+      "source_sha256": "0374fddbaf7b91d49dca77e584ce07e2f24b3bd9eb5b99698d5c5dc37187a267",
+      "source": "extracted/release4/source/examples/BuriMunsi-source-UNEXECUTED.example.json",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "0374fddbaf7b91d49dca77e584ce07e2f24b3bd9eb5b99698d5c5dc37187a267",
+      "bytes": 747,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/examples/M-Money-build-UNEXECUTED.example.json",
+      "source_sha256": "d0f91a6af8bc9e2375d94c308eccb187da4c293396861dc54a81e6530a82b941",
+      "source": "extracted/release4/source/examples/M-Money-build-UNEXECUTED.example.json",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "d0f91a6af8bc9e2375d94c308eccb187da4c293396861dc54a81e6530a82b941",
+      "bytes": 742,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/examples/M-Money-promotion-UNEXECUTED.example.json",
+      "source_sha256": "37bc1e2efc8d060bfab4c9b02ebc6538066f04205b09748a4a13dd0fd0381058",
+      "source": "extracted/release4/source/examples/M-Money-promotion-UNEXECUTED.example.json",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "37bc1e2efc8d060bfab4c9b02ebc6538066f04205b09748a4a13dd0fd0381058",
+      "bytes": 747,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/examples/M-Money-source-UNEXECUTED.example.json",
+      "source_sha256": "d1c7decd6b76fc436c809895d88105d7d54179990822f06f33ecdde60040dbab",
+      "source": "extracted/release4/source/examples/M-Money-source-UNEXECUTED.example.json",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "d1c7decd6b76fc436c809895d88105d7d54179990822f06f33ecdde60040dbab",
+      "bytes": 745,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/examples/README.md",
+      "source_sha256": "31766339a47732199a680e8aab2f44e3a519c6999c8806237dc5665b54e8f2a8",
+      "source": "extracted/release4/source/examples/README.md",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "31766339a47732199a680e8aab2f44e3a519c6999c8806237dc5665b54e8f2a8",
+      "bytes": 1915,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/examples/provenance-UNSIGNED.example.json",
+      "source_sha256": "f3c36a859f656792a5108d321b3e254d6cfb1c274dbe4fad2b1e5f8d88e9dfda",
+      "source": "extracted/release4/source/examples/provenance-UNSIGNED.example.json",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "f3c36a859f656792a5108d321b3e254d6cfb1c274dbe4fad2b1e5f8d88e9dfda",
+      "bytes": 400,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/examples/trust-policy-UNCONFIGURED.example.json",
+      "source_sha256": "559eab0fde073127cc22085f8dc7900c08bced7feb0cdc934e69742b11a16e1a",
+      "source": "extracted/release4/source/examples/trust-policy-UNCONFIGURED.example.json",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "559eab0fde073127cc22085f8dc7900c08bced7feb0cdc934e69742b11a16e1a",
+      "bytes": 212,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/pyproject.toml",
+      "source": "extracted/release4/source/pyproject.toml",
+      "sha256": "6154f4158db9135bd921dc9bda06de8ec6b3e4e729f9a9fecee304c4e252ab1b",
+      "source_sha256": "6154f4158db9135bd921dc9bda06de8ec6b3e4e729f9a9fecee304c4e252ab1b",
+      "bytes": 190,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/run_checks.py",
+      "source": "extracted/release4/source/run_checks.py",
+      "sha256": "78399847f0d1269edf10da7e53a19527027b659a6c082885e941c8f86092e31e",
+      "source_sha256": "78399847f0d1269edf10da7e53a19527027b659a6c082885e941c8f86092e31e",
+      "bytes": 5478,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/src/provenance_exchange.py",
+      "source_sha256": "aef056b9c3774d82efbf7de5e8077fb6522b0adda0048beb830a0422dcf36821",
+      "source": "extracted/release4/source/src/provenance_exchange.py",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "aef056b9c3774d82efbf7de5e8077fb6522b0adda0048beb830a0422dcf36821",
+      "bytes": 6694,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/src/release_guard.py",
+      "source_sha256": "3fc4b10117c63368741b4402ca5ba84ea308f7ba60b1120c38cf0bf306952cdd",
+      "source": "extracted/release4/source/src/release_guard.py",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "3fc4b10117c63368741b4402ca5ba84ea308f7ba60b1120c38cf0bf306952cdd",
+      "bytes": 36461,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/src/release_guard_adapter.py",
+      "source_sha256": "b821f8dd096335c5a254aa18c4d2931587a1bebedbe63a3e55b38f3bcf79d0f0",
+      "source": "extracted/release4/source/src/release_guard_adapter.py",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "b821f8dd096335c5a254aa18c4d2931587a1bebedbe63a3e55b38f3bcf79d0f0",
+      "bytes": 3291,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/src/release_provenance.py",
+      "source_sha256": "b7777774c586316941295360d6495865aeffb8f267d22e8ddbc506b81241f9ec",
+      "source": "extracted/release4/source/src/release_provenance.py",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "b7777774c586316941295360d6495865aeffb8f267d22e8ddbc506b81241f9ec",
+      "bytes": 9912,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/src/triage_credentials.py",
+      "source_sha256": "f7425a32280b873d8f91714d12cb072afef441c133860eeb06a5b5aab2dcd273",
+      "source": "extracted/release4/source/src/triage_credentials.py",
+      "role": "supplemental release source/contract; not active release evidence",
+      "sha256": "f7425a32280b873d8f91714d12cb072afef441c133860eeb06a5b5aab2dcd273",
+      "bytes": 4646,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/tests/fixtures.py",
+      "source": "extracted/release4/source/tests/fixtures.py",
+      "sha256": "92c0d14047c849a4f3330cb5553db7213897fd18d7d8362fe3b3d0618cb4d90d",
+      "source_sha256": "92c0d14047c849a4f3330cb5553db7213897fd18d7d8362fe3b3d0618cb4d90d",
+      "bytes": 3736,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/tests/provenance_fixtures.py",
+      "source": "extracted/release4/source/tests/provenance_fixtures.py",
+      "sha256": "9486009e396acdeac41a48a0ce09165a093c983236b1af6155e0216f3fad6113",
+      "source_sha256": "9486009e396acdeac41a48a0ce09165a093c983236b1af6155e0216f3fad6113",
+      "bytes": 3425,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/tests/run_unittest.py",
+      "source": "extracted/release4/source/tests/run_unittest.py",
+      "sha256": "b3e3a908b2f05bda63c1c0354d0d86bba7dc7e3c697ade884f0863bb745ca02e",
+      "source_sha256": "b3e3a908b2f05bda63c1c0354d0d86bba7dc7e3c697ade884f0863bb745ca02e",
+      "bytes": 1162,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/tests/test_integration.py",
+      "source": "extracted/release4/source/tests/test_integration.py",
+      "sha256": "94e92023ea29b37fadfbb98b1edbbe91401431600231478b756af8f853da2e24",
+      "source_sha256": "94e92023ea29b37fadfbb98b1edbbe91401431600231478b756af8f853da2e24",
+      "bytes": 4612,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/tests/test_r3_delivery.py",
+      "source": "extracted/release4/source/tests/test_r3_delivery.py",
+      "sha256": "2406dcb83ad1768972c2affe36480269e899888d3ade702312724a3cd79c39c4",
+      "source_sha256": "2406dcb83ad1768972c2affe36480269e899888d3ade702312724a3cd79c39c4",
+      "bytes": 6835,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/tests/test_r3_hardening.py",
+      "source": "extracted/release4/source/tests/test_r3_hardening.py",
+      "sha256": "b468f0c2e93b5510046236f43f6abae63063c1b2650258c4a875924f1b96b195",
+      "source_sha256": "b468f0c2e93b5510046236f43f6abae63063c1b2650258c4a875924f1b96b195",
+      "bytes": 13288,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/tests/test_r4_exchange.py",
+      "source": "extracted/release4/source/tests/test_r4_exchange.py",
+      "sha256": "04e62f74c1ef0a9551ea86e1c200d2b29b004460e83d001009be498937612627",
+      "source_sha256": "04e62f74c1ef0a9551ea86e1c200d2b29b004460e83d001009be498937612627",
+      "bytes": 6424,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/tests/test_r4_provenance.py",
+      "source": "extracted/release4/source/tests/test_r4_provenance.py",
+      "sha256": "f258b36bcef663cd413da3d2fd6b636d7a67a3e18dcf6bfbb6f0ca1c9d8a6b21",
+      "source_sha256": "f258b36bcef663cd413da3d2fd6b636d7a67a3e18dcf6bfbb6f0ca1c9d8a6b21",
+      "bytes": 15172,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/tests/test_release_guard.py",
+      "source": "extracted/release4/source/tests/test_release_guard.py",
+      "sha256": "97e39b4ddca658cb81000a4d21e8493e72439bcce6ebbfdc2ddfaa6085be97de",
+      "source_sha256": "97e39b4ddca658cb81000a4d21e8493e72439bcce6ebbfdc2ddfaa6085be97de",
+      "bytes": 17041,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/release-r4/toolchain-requirements.json",
+      "source": "extracted/release4/source/toolchain-requirements.json",
+      "sha256": "9bc48d1a078b2cc15cac39cb0c70f039005a5aa03bf14db49adbdf7176795884",
+      "source_sha256": "9bc48d1a078b2cc15cac39cb0c70f039005a5aa03bf14db49adbdf7176795884",
+      "bytes": 405,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental release source/contract; not active release evidence"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/.gitignore",
+      "source": "extracted/sms-r4/SMS_Policies_R4/.gitignore",
+      "sha256": "4eab7cd8922b791bd186fa9d6e56556f05a4011d3c5da4a674987f4c2e8d27fd",
+      "source_sha256": "4eab7cd8922b791bd186fa9d6e56556f05a4011d3c5da4a674987f4c2e8d27fd",
+      "bytes": 54,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/R2_to_R3_Source.patch",
+      "source": "extracted/sms-r4/SMS_Policies_R4/R2_to_R3_Source.patch",
+      "sha256": "2018e4c4f39f259bd7740283640b38937cdb42a1df22d6598a036e5750056a1b",
+      "source_sha256": "2018e4c4f39f259bd7740283640b38937cdb42a1df22d6598a036e5750056a1b",
+      "bytes": 75490,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/R3_to_R4_Source.patch",
+      "source": "extracted/sms-r4/SMS_Policies_R4/R3_to_R4_Source.patch",
+      "sha256": "4e41fcc8e5f575d1dcc1104919e4ffe5c6487e0c359f27ae99248ea540bfa325",
+      "source_sha256": "4e41fcc8e5f575d1dcc1104919e4ffe5c6487e0c359f27ae99248ea540bfa325",
+      "bytes": 129878,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/README.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/README.md",
+      "sha256": "e0489a24cb48300e8b3d246d6c8850927e30cb6e29894f3fd4b2ef1f9cb7fc51",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "e0489a24cb48300e8b3d246d6c8850927e30cb6e29894f3fd4b2ef1f9cb7fc51",
+      "bytes": 9672,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/SHA256SUMS.txt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/SHA256SUMS.txt",
+      "sha256": "25d7f40c7d3aca02fc20ce20b2bde057cea7f637ccf95b9e51dcdc834d89c33e",
+      "source_sha256": "25d7f40c7d3aca02fc20ce20b2bde057cea7f637ccf95b9e51dcdc834d89c33e",
+      "bytes": 13615,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/SOURCE_MANIFEST.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/SOURCE_MANIFEST.json",
+      "sha256": "a7d5ce98d7de1b744aaaef2daa3a980dd6e1974b9550baf1ee89fa80af94471e",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "a7d5ce98d7de1b744aaaef2daa3a980dd6e1974b9550baf1ee89fa80af94471e",
+      "bytes": 22706,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/TASK_STATUS.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/TASK_STATUS.json",
+      "sha256": "4bbac3121a27f8661f20dddf71a33d3efa32a9e8d379b29115b954f6d2a7744a",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "4bbac3121a27f8661f20dddf71a33d3efa32a9e8d379b29115b954f6d2a7744a",
+      "bytes": 5968,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/VERIFICATION.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/VERIFICATION.md",
+      "sha256": "2e2a0ba1de0ed7df8f310c97252753ff3dd785162045b78688f3566bd80e3f0b",
+      "source_sha256": "2e2a0ba1de0ed7df8f310c97252753ff3dd785162045b78688f3566bd80e3f0b",
+      "bytes": 4088,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/docs/INTEGRATION.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/docs/INTEGRATION.md",
+      "sha256": "859c41fc68246662267355b6f7bd6422f8b107cef2260e8201ec81ebd5b01bd8",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "859c41fc68246662267355b6f7bd6422f8b107cef2260e8201ec81ebd5b01bd8",
+      "bytes": 5500,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/docs/MERGE_DECISIONS.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/docs/MERGE_DECISIONS.md",
+      "sha256": "db04ca108e7750ec552b0ff2ea23e787175c1adc73945daf8ca5af8a82385f4a",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "db04ca108e7750ec552b0ff2ea23e787175c1adc73945daf8ca5af8a82385f4a",
+      "bytes": 2031,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/docs/PERSISTENCE_FORMAT.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/docs/PERSISTENCE_FORMAT.md",
+      "sha256": "69e82f42116621d896e81f9789ad33bc5dc5940f88699434166510e2b628a418",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "69e82f42116621d896e81f9789ad33bc5dc5940f88699434166510e2b628a418",
+      "bytes": 4150,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/docs/POLICY_COVERAGE.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/docs/POLICY_COVERAGE.md",
+      "sha256": "6e8cbdd7788da652b84f653fa69f6f7cc6264d92d275818d4194197cc4d1efa0",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "6e8cbdd7788da652b84f653fa69f6f7cc6264d92d275818d4194197cc4d1efa0",
+      "bytes": 2111,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/docs/R2_INTEGRATION.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/docs/R2_INTEGRATION.md",
+      "sha256": "ee92bda8327d26fcb621e3e91c0a97b1069de15d4c0c45b01c37cb0e1f6b6986",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "ee92bda8327d26fcb621e3e91c0a97b1069de15d4c0c45b01c37cb0e1f6b6986",
+      "bytes": 8691,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/docs/R2_MERGE_DECISIONS.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/docs/R2_MERGE_DECISIONS.md",
+      "sha256": "63a372d4e5ea88e92b06eed47852139050c3ad8ddb87f2c0a44c07c34018a04c",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "63a372d4e5ea88e92b06eed47852139050c3ad8ddb87f2c0a44c07c34018a04c",
+      "bytes": 3525,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/docs/R2_POLICY_COVERAGE.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/docs/R2_POLICY_COVERAGE.md",
+      "sha256": "39385126284b66b8a9da30f0462c130f777d1665a7d1a7d78d4934c7dbf0061a",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "39385126284b66b8a9da30f0462c130f777d1665a7d1a7d78d4934c7dbf0061a",
+      "bytes": 2570,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/docs/R2_README.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/docs/R2_README.md",
+      "sha256": "4296400668a3efd5a961aff4c1062daa3fefc3446c35c377c144764925bb4772",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "4296400668a3efd5a961aff4c1062daa3fefc3446c35c377c144764925bb4772",
+      "bytes": 7080,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/docs/R4_INTEGRATION.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/docs/R4_INTEGRATION.md",
+      "sha256": "1a5ce710dfb3e550e16a646bbd09d342d4f0fcacb34ce30ed8a0d86fd2fd9e5f",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "1a5ce710dfb3e550e16a646bbd09d342d4f0fcacb34ce30ed8a0d86fd2fd9e5f",
+      "bytes": 5640,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/docs/R4_MERGE_DECISIONS.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/docs/R4_MERGE_DECISIONS.md",
+      "sha256": "db19076b921612ab7251e3b92f5770d3e4faf78ba1019fa437b5c240c73ce3ae",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "db19076b921612ab7251e3b92f5770d3e4faf78ba1019fa437b5c240c73ce3ae",
+      "bytes": 1686,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/PATCH_VERIFICATION.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/PATCH_VERIFICATION.json",
+      "sha256": "5aa1d413c656c8a60f81de1d764ff2ec3d487438e6398be2d05193ff357af231",
+      "source_sha256": "5aa1d413c656c8a60f81de1d764ff2ec3d487438e6398be2d05193ff357af231",
+      "bytes": 996,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/RUN_NOTES.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/RUN_NOTES.md",
+      "sha256": "c4661e31f8769a83d046e2128497cbaa896f08cc3b009076c14836e554728765",
+      "source_sha256": "c4661e31f8769a83d046e2128497cbaa896f08cc3b009076c14836e554728765",
+      "bytes": 996,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_core.compile.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_core.compile.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_core.compile.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_core.compile.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_core.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_core.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_core.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_core.stdout.log",
+      "sha256": "ac63521a613f45b319cfdca12fb9bdc301621a3fbe0ee9d8475c92c3a16934a6",
+      "source_sha256": "ac63521a613f45b319cfdca12fb9bdc301621a3fbe0ee9d8475c92c3a16934a6",
+      "bytes": 4175,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_receiver.compile.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_receiver.compile.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_receiver.compile.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_receiver.compile.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_receiver.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_receiver.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_receiver.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_receiver.stdout.log",
+      "sha256": "4063289ce23677919eef49606a8011fd0b106d67cf64b5458485894dbf7d67b6",
+      "source_sha256": "4063289ce23677919eef49606a8011fd0b106d67cf64b5458485894dbf7d67b6",
+      "bytes": 2293,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_reliability.compile.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_reliability.compile.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_reliability.compile.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_reliability.compile.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_reliability.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_reliability.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/buri_reliability.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/buri_reliability.stdout.log",
+      "sha256": "4d3f436c4dc1066cbd6cdb614a8e077e8bb3139e08a2ddbc75070bbb12e06e15",
+      "source_sha256": "4d3f436c4dc1066cbd6cdb614a8e077e8bb3139e08a2ddbc75070bbb12e06e15",
+      "bytes": 2956,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/missing_prerequisite_verification.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/missing_prerequisite_verification.json",
+      "sha256": "84cab5d8d023b316c28c4f3ae89cadc0cc848667ac130b3a1b13ed4f6ef47561",
+      "source_sha256": "84cab5d8d023b316c28c4f3ae89cadc0cc848667ac130b3a1b13ed4f6ef47561",
+      "bytes": 18988,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/mmoney_sms.compile.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/mmoney_sms.compile.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/mmoney_sms.compile.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/mmoney_sms.compile.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/mmoney_sms.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/mmoney_sms.json",
+      "sha256": "26e25bd8643c7d8f1cd57dbfe4d61da4850c948d1e07d211efafb78c67631eb2",
+      "source_sha256": "26e25bd8643c7d8f1cd57dbfe4d61da4850c948d1e07d211efafb78c67631eb2",
+      "bytes": 1715,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/mmoney_sms.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/mmoney_sms.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/mmoney_sms.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/mmoney_sms.stdout.log",
+      "sha256": "07eb088567726f09282b5695255432d962d15c419aa2091e3c696006f9b93c21",
+      "source_sha256": "07eb088567726f09282b5695255432d962d15c419aa2091e3c696006f9b93c21",
+      "bytes": 1474,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/persistence_r3.compile.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/persistence_r3.compile.stderr.log",
+      "sha256": "de91a2db15720871af4c19e69bbe1f7175a63e8193898745c73abab0e968ac0b",
+      "source_sha256": "de91a2db15720871af4c19e69bbe1f7175a63e8193898745c73abab0e968ac0b",
+      "bytes": 714,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/persistence_r3.compile.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/persistence_r3.compile.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/persistence_r3.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/persistence_r3.json",
+      "sha256": "6aaa86c3db92469528893a0a171d655241ed4e5a3c42814cea19a62a9c67b62a",
+      "source_sha256": "6aaa86c3db92469528893a0a171d655241ed4e5a3c42814cea19a62a9c67b62a",
+      "bytes": 8756,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/persistence_r3.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/persistence_r3.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/persistence_r3.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/persistence_r3.stdout.log",
+      "sha256": "5d43e5e68049ab3e0a661d7a73d71f367d4dad5b687f1e9e270e890710881051",
+      "source_sha256": "5d43e5e68049ab3e0a661d7a73d71f367d4dad5b687f1e9e270e890710881051",
+      "bytes": 6254,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/policies_r2.compile.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/policies_r2.compile.stderr.log",
+      "sha256": "eeb5e629c7acbedfe3b7b8369d2b2db09c0a179609032bf64162c867f98897eb",
+      "source_sha256": "eeb5e629c7acbedfe3b7b8369d2b2db09c0a179609032bf64162c867f98897eb",
+      "bytes": 1058,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/policies_r2.compile.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/policies_r2.compile.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/policies_r2.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/policies_r2.json",
+      "sha256": "8346b6770e5670cf613a7ec1eecc01c85501b7791914049cd56221c5707e4013",
+      "source_sha256": "8346b6770e5670cf613a7ec1eecc01c85501b7791914049cd56221c5707e4013",
+      "bytes": 18605,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/policies_r2.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/policies_r2.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/policies_r2.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/policies_r2.stdout.log",
+      "sha256": "445657d61c7f924b7e58e0bb2cc56595810d9aa1c94754841c5c50145c88c341",
+      "source_sha256": "445657d61c7f924b7e58e0bb2cc56595810d9aa1c94754841c5c50145c88c341",
+      "bytes": 13117,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/protected_r4.compile.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/protected_r4.compile.stderr.log",
+      "sha256": "3e322040280d28cbac514ac767797992b9b0247ccb98ef15895978130061473d",
+      "source_sha256": "3e322040280d28cbac514ac767797992b9b0247ccb98ef15895978130061473d",
+      "bytes": 362,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/protected_r4.compile.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/protected_r4.compile.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/protected_r4.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/protected_r4.json",
+      "sha256": "dc7384543eaaf85a8948a12ba97038026a5e6e3b4839ece1c1dae74a76e090dc",
+      "source_sha256": "dc7384543eaaf85a8948a12ba97038026a5e6e3b4839ece1c1dae74a76e090dc",
+      "bytes": 9619,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/protected_r4.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/protected_r4.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/protected_r4.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/protected_r4.stdout.log",
+      "sha256": "dcc62877bd31819dc13e38c1b47708d91efae51f33560dc0671be348ce522581",
+      "source_sha256": "dcc62877bd31819dc13e38c1b47708d91efae51f33560dc0671be348ce522581",
+      "bytes": 6935,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/python.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/python.stderr.log",
+      "sha256": "2b623e607396562aa63a36e8eec7c0008d854539f1d55c10ab77a8ac873204e4",
+      "source_sha256": "2b623e607396562aa63a36e8eec7c0008d854539f1d55c10ab77a8ac873204e4",
+      "bytes": 3085,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/python.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/python.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/tool-java.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/tool-java.stderr.log",
+      "sha256": "bf61371a588e139353579c26bedbc9693004380fe8e053aa012cb6f7d2c43f20",
+      "source_sha256": "bf61371a588e139353579c26bedbc9693004380fe8e053aa012cb6f7d2c43f20",
+      "bytes": 187,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/tool-java.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/tool-java.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/tool-kotlinc.stderr.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/tool-kotlinc.stderr.log",
+      "sha256": "65b4839e17382aaeb3b8c4d6c87ac1865d0e1b6d14c6255482af61c84d1f4004",
+      "source_sha256": "65b4839e17382aaeb3b8c4d6c87ac1865d0e1b6d14c6255482af61c84d1f4004",
+      "bytes": 59,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/tool-kotlinc.stdout.log",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/tool-kotlinc.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/evidence/verification.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/evidence/verification.json",
+      "sha256": "0b017f9b0cd4d9e506e577a1e5c90917d0b14e40ed3f20516eb33bbbddd21899",
+      "source_sha256": "0b017f9b0cd4d9e506e577a1e5c90917d0b14e40ed3f20516eb33bbbddd21899",
+      "bytes": 20125,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "immutable supplier historical host QA evidence; not current validation"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/fixtures/classification.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/fixtures/classification.json",
+      "sha256": "d30e80c042e3dff77c9c0798d99a6a94980212f72fc63212c1f5665e4e9a03a1",
+      "source_sha256": "d30e80c042e3dff77c9c0798d99a6a94980212f72fc63212c1f5665e4e9a03a1",
+      "bytes": 12573,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/fixtures/classification.tsv",
+      "source": "extracted/sms-r4/SMS_Policies_R4/fixtures/classification.tsv",
+      "sha256": "ca35d6ccfa6c6f190231e236bcfdab406085f14c402ee4fded24687a175c02d8",
+      "source_sha256": "ca35d6ccfa6c6f190231e236bcfdab406085f14c402ee4fded24687a175c02d8",
+      "bytes": 7711,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/fixtures/mmoney-inherited.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/fixtures/mmoney-inherited.json",
+      "sha256": "a195cdcf83586e35530fda22249090334bc7e0933da464c602ec7080f1e3c205",
+      "source_sha256": "a195cdcf83586e35530fda22249090334bc7e0933da464c602ec7080f1e3c205",
+      "bytes": 3853,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/host/kotlin/rw/ikanisa/sms/host/HostFileJournal.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/host/kotlin/rw/ikanisa/sms/host/HostFileJournal.kt",
+      "sha256": "a34897c327c125dc3acbf1a2ec4f6c51f19d09202471badedde7dfc6702eee21",
+      "source_sha256": "a34897c327c125dc3acbf1a2ec4f6c51f19d09202471badedde7dfc6702eee21",
+      "bytes": 5116,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "plaintext POSIX host test adapter only; not shipping Android storage"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/provenance/R2_BASELINE.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/provenance/R2_BASELINE.json",
+      "sha256": "37a10c2fa551a3b2e0950e6c48c6873cd4c9aee129606a578bdc6eb101ecb55e",
+      "source_sha256": "37a10c2fa551a3b2e0950e6c48c6873cd4c9aee129606a578bdc6eb101ecb55e",
+      "bytes": 6578,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/provenance/R3_BASELINE.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/provenance/R3_BASELINE.json",
+      "sha256": "4237e35f89f8a25e5999e7224f7ca1f9cadcb912dc9a44c6f8ebeb68c482a785",
+      "source_sha256": "4237e35f89f8a25e5999e7224f7ca1f9cadcb912dc9a44c6f8ebeb68c482a785",
+      "bytes": 12916,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/provenance/R3_README.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/provenance/R3_README.md",
+      "sha256": "13646211d0ae8c5a2a4bef14bc731d579613cbff8eca775039ae7001b587fc70",
+      "source_sha256": "13646211d0ae8c5a2a4bef14bc731d579613cbff8eca775039ae7001b587fc70",
+      "bytes": 7014,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/provenance/R3_SHA256SUMS.txt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/provenance/R3_SHA256SUMS.txt",
+      "sha256": "12d2c0c3f75a358cb5e511aa8796584938bc385717bea39373a49eebb2731f93",
+      "source_sha256": "12d2c0c3f75a358cb5e511aa8796584938bc385717bea39373a49eebb2731f93",
+      "bytes": 11683,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/provenance/R3_SOURCE_MANIFEST.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/provenance/R3_SOURCE_MANIFEST.json",
+      "sha256": "806f58993608b411670deb107f407042175bdb171a2fa90e62380146db7a49cb",
+      "source_sha256": "806f58993608b411670deb107f407042175bdb171a2fa90e62380146db7a49cb",
+      "bytes": 19533,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/provenance/R3_TASK_STATUS.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/provenance/R3_TASK_STATUS.json",
+      "sha256": "79077f869e9da078b7039dc7418e45c2b3f6176ae3545a29443e8d3a4b7e6099",
+      "source_sha256": "79077f869e9da078b7039dc7418e45c2b3f6176ae3545a29443e8d3a4b7e6099",
+      "bytes": 4930,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/provenance/R3_VERIFICATION.md",
+      "source": "extracted/sms-r4/SMS_Policies_R4/provenance/R3_VERIFICATION.md",
+      "sha256": "92d30a1e25e426234e5c6fc65c06826d49b7c15886c25eb8ee87121757b3ab17",
+      "source_sha256": "92d30a1e25e426234e5c6fc65c06826d49b7c15886c25eb8ee87121757b3ab17",
+      "bytes": 3467,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/scripts/install_overlay.py",
+      "source": "extracted/sms-r4/SMS_Policies_R4/scripts/install_overlay.py",
+      "sha256": "a6dd7671a4bade9b26e77b01fdab9df7cfcad24cf10c4f21d01e1b6d96a0d47e",
+      "source_sha256": "a6dd7671a4bade9b26e77b01fdab9df7cfcad24cf10c4f21d01e1b6d96a0d47e",
+      "bytes": 4944,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/scripts/verify.py",
+      "source": "extracted/sms-r4/SMS_Policies_R4/scripts/verify.py",
+      "sha256": "1f3032535345354819e2a68a447c4866cdd68b54b15f826d7c57ccac90d88ec5",
+      "source_sha256": "1f3032535345354819e2a68a447c4866cdd68b54b15f826d7c57ccac90d88ec5",
+      "bytes": 10033,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/adapters/burimunsi/BuriSmsClassifier.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/adapters/burimunsi/BuriSmsClassifier.kt",
+      "sha256": "584a1638d2cb61f2612253e6bbe285e3b64487fb2ccbdf27c11bebf151c79595",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "584a1638d2cb61f2612253e6bbe285e3b64487fb2ccbdf27c11bebf151c79595",
+      "bytes": 1709,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/adapters/mmoney/MmoneySmsClassifier.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/adapters/mmoney/MmoneySmsClassifier.kt",
+      "sha256": "2b924d4c89bac184927016996777306b86a30dddb028d5b3c58c76a102a85b85",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "2b924d4c89bac184927016996777306b86a30dddb028d5b3c58c76a102a85b85",
+      "bytes": 2678,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Acknowledgements.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/Acknowledgements.kt",
+      "sha256": "367b0bcf01e151276f399802bcb2f8f5da68e22b67b50b5f4f17d44d025c1759",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "367b0bcf01e151276f399802bcb2f8f5da68e22b67b50b5f4f17d44d025c1759",
+      "bytes": 4255,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/CommitDriver.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/CommitDriver.kt",
+      "sha256": "6236cc48df9673dafff867e1c0d12132732c5ee0561db78ae36dc637201f9248",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "6236cc48df9673dafff867e1c0d12132732c5ee0561db78ae36dc637201f9248",
+      "bytes": 5528,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Duplicates.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/Duplicates.kt",
+      "sha256": "34432e5353a02cfbcf27b7ec356224cbf2d1d1c469dc57f7192105611831b787",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "34432e5353a02cfbcf27b7ec356224cbf2d1d1c469dc57f7192105611831b787",
+      "bytes": 1987,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/EncryptedJournal.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/EncryptedJournal.kt",
+      "sha256": "f5c7a834ebcf010883bf371b8ff066aae2281f9bb44d6290fb22d8f9018f70d7",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "f5c7a834ebcf010883bf371b8ff066aae2281f9bb44d6290fb22d8f9018f70d7",
+      "bytes": 5461,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Evidence.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/Evidence.kt",
+      "sha256": "fb36d2997883d0c5ac6f23e9124784090dee6b7b307c4196a033d5726b5d1b4c",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "fb36d2997883d0c5ac6f23e9124784090dee6b7b307c4196a033d5726b5d1b4c",
+      "bytes": 6686,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Identity.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/Identity.kt",
+      "sha256": "c22d39e89e1fe6488dcf55e2beacbf1b1308b5c3e7c9b563a0743f2b04bd7f06",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "c22d39e89e1fe6488dcf55e2beacbf1b1308b5c3e7c9b563a0743f2b04bd7f06",
+      "bytes": 4752,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/JournalFormat.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/JournalFormat.kt",
+      "sha256": "e1dd8b3b38790b4b248fc024a00cacecf9da18433444a762543ec51b922fb661",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "e1dd8b3b38790b4b248fc024a00cacecf9da18433444a762543ec51b922fb661",
+      "bytes": 6676,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/JournalQueueStore.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/JournalQueueStore.kt",
+      "sha256": "ea7077f63a31999cf7794b936ef57d5057d7528bb913bdd3c590a06de4cf9808",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "ea7077f63a31999cf7794b936ef57d5057d7528bb913bdd3c590a06de4cf9808",
+      "bytes": 4436,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/ProtectedJournalPort.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/ProtectedJournalPort.kt",
+      "sha256": "d71a57c4e7039b4a040802c482a48d782fd25d8706d8bb2f4346a086043e4a70",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "d71a57c4e7039b4a040802c482a48d782fd25d8706d8bb2f4346a086043e4a70",
+      "bytes": 6388,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Queue.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/Queue.kt",
+      "sha256": "14469ab51eaaf79d3d1e60fe7919f99a133a2a94088768c873a7785d36b17aba",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "14469ab51eaaf79d3d1e60fe7919f99a133a2a94088768c873a7785d36b17aba",
+      "bytes": 12230,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Retry.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/Retry.kt",
+      "sha256": "729b177e4bdb5fbfbbccb5fa905e5f064227e2991803a8447ec7148ae629f690",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "729b177e4bdb5fbfbbccb5fa905e5f064227e2991803a8447ec7148ae629f690",
+      "bytes": 1771,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/SnapshotCodec.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/SnapshotCodec.kt",
+      "sha256": "55686e6f5fd6ed12a3b01687b148fe4c87aa551964f0d7897e5a02e67f00bc2d",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "55686e6f5fd6ed12a3b01687b148fe4c87aa551964f0d7897e5a02e67f00bc2d",
+      "bytes": 10705,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/TrustedCheckpoint.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/src/main/kotlin/rw/ikanisa/sms/policy/TrustedCheckpoint.kt",
+      "sha256": "6aea381e33bdad896cf23aa9079330b9977e61d1f670f537925ef121e0eea3f8",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted",
+      "source_sha256": "6aea381e33bdad896cf23aa9079330b9977e61d1f670f537925ef121e0eea3f8",
+      "bytes": 2555,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/tests/kotlin/PolicyChecks.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/tests/kotlin/PolicyChecks.kt",
+      "sha256": "4cefaf6ec28c561e519984a17aa0af8a934f41cc8893e14adef500ad313e5a78",
+      "source_sha256": "4cefaf6ec28c561e519984a17aa0af8a934f41cc8893e14adef500ad313e5a78",
+      "bytes": 34755,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/tests/persistence/PersistenceChecks.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/tests/persistence/PersistenceChecks.kt",
+      "sha256": "4f51f1b512f687cc9e3f2aaa024736bb6db9f5081eb88d7ae1ef8e098de01137",
+      "source_sha256": "4f51f1b512f687cc9e3f2aaa024736bb6db9f5081eb88d7ae1ef8e098de01137",
+      "bytes": 31012,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/tests/protected/ProtectedChecks.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/tests/protected/ProtectedChecks.kt",
+      "sha256": "41de585b826f02d95fd671e5074378d9e9283d96d40a3b7325a0f5a0482687ce",
+      "source_sha256": "41de585b826f02d95fd671e5074378d9e9283d96d40a3b7325a0f5a0482687ce",
+      "bytes": 22027,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/tests/python/test_delivery.py",
+      "source": "extracted/sms-r4/SMS_Policies_R4/tests/python/test_delivery.py",
+      "sha256": "6f050c76cf5856a6eb86079a860fc8227d0196a2988be63f3f47ff9f1862989b",
+      "source_sha256": "6f050c76cf5856a6eb86079a860fc8227d0196a2988be63f3f47ff9f1862989b",
+      "bytes": 7901,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/tests/python/test_persistence_delivery.py",
+      "source": "extracted/sms-r4/SMS_Policies_R4/tests/python/test_persistence_delivery.py",
+      "sha256": "4c2db88597b856efe97dfed7b97f4f322fc16b73c0a709a85b9174cf4905f0f0",
+      "source_sha256": "4c2db88597b856efe97dfed7b97f4f322fc16b73c0a709a85b9174cf4905f0f0",
+      "bytes": 3851,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/tests/python/test_protected_delivery.py",
+      "source": "extracted/sms-r4/SMS_Policies_R4/tests/python/test_protected_delivery.py",
+      "sha256": "3ddf07e19a21c7ef932f59fdd1746e6827ee8bebf59763354dfa5c094c5c63d5",
+      "source_sha256": "3ddf07e19a21c7ef932f59fdd1746e6827ee8bebf59763354dfa5c094c5c63d5",
+      "bytes": 3675,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/PROVENANCE.json",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/PROVENANCE.json",
+      "sha256": "9004ce1b535f6185392307cdff3670adefbd8959d19c06137766f5426d9ccac1",
+      "source_sha256": "9004ce1b535f6185392307cdff3670adefbd8959d19c06137766f5426d9ccac1",
+      "bytes": 14400,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/Acknowledgement.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/Acknowledgement.kt",
+      "sha256": "b4b00d78f7693459ce7f4114f95ae46998fd747da7bd411aee23e561baa49da1",
+      "source_sha256": "b4b00d78f7693459ce7f4114f95ae46998fd747da7bd411aee23e561baa49da1",
+      "bytes": 755,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/GatewayHealth.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/GatewayHealth.kt",
+      "sha256": "a53b6f18c98bea78d7546344948f00f35c0aeb0828c046e8e6344872008a7b1e",
+      "source_sha256": "a53b6f18c98bea78d7546344948f00f35c0aeb0828c046e8e6344872008a7b1e",
+      "bytes": 3460,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/Models.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/Models.kt",
+      "sha256": "c400de5f1ae21cffabbab57044a3085320a7e1da2ae41aa4ecb69b174876ec0b",
+      "source_sha256": "c400de5f1ae21cffabbab57044a3085320a7e1da2ae41aa4ecb69b174876ec0b",
+      "bytes": 3039,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/OperationJournal.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/OperationJournal.kt",
+      "sha256": "616454470bbbcdbc730795214cac0185b943f19433d3542fe22701a99b812930",
+      "source_sha256": "616454470bbbcdbc730795214cac0185b943f19433d3542fe22701a99b812930",
+      "bytes": 4892,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/PageIntegrity.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/PageIntegrity.kt",
+      "sha256": "009afeaf91e77f7ef07b3321affa08445b3d72df03315c6a7755a33550030e45",
+      "source_sha256": "009afeaf91e77f7ef07b3321affa08445b3d72df03315c6a7755a33550030e45",
+      "bytes": 954,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/Presentation.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/Presentation.kt",
+      "sha256": "e37889c26506b54624f1d9a63de478d59a11c3fc8244a1b106685e5405b34c81",
+      "source_sha256": "e37889c26506b54624f1d9a63de478d59a11c3fc8244a1b106685e5405b34c81",
+      "bytes": 2354,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/Receipt.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/Receipt.kt",
+      "sha256": "8f5cf76484006305504e4b7755e9355e8479695eeeac4980925da8124cd0fcad",
+      "source_sha256": "8f5cf76484006305504e4b7755e9355e8479695eeeac4980925da8124cd0fcad",
+      "bytes": 2985,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/ScreenGate.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/ScreenGate.kt",
+      "sha256": "80e66c4a54a6e13e7ab02078e78d348ed528a8c4c29785e25c3cb676d45ec228",
+      "source_sha256": "80e66c4a54a6e13e7ab02078e78d348ed528a8c4c29785e25c3cb676d45ec228",
+      "bytes": 628,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/SessionAuthority.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/SessionAuthority.kt",
+      "sha256": "28eb9f8676269ec8c19273949b5043a6402020b3fcd2d8ce331ea536aa6ab676",
+      "source_sha256": "28eb9f8676269ec8c19273949b5043a6402020b3fcd2d8ce331ea536aa6ab676",
+      "bytes": 1513,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/SnapshotFreshness.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/SnapshotFreshness.kt",
+      "sha256": "6ce9ea3048757c86688475adbe1f7e732548f8bf5d835733528b9f571c3cdab3",
+      "source_sha256": "6ce9ea3048757c86688475adbe1f7e732548f8bf5d835733528b9f571c3cdab3",
+      "bytes": 391,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/Values.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/Values.kt",
+      "sha256": "802bc2a66b9ac09429c29d9b0cf2fbc577f5632d43bf74e90452bbe003b26554",
+      "source_sha256": "802bc2a66b9ac09429c29d9b0cf2fbc577f5632d43bf74e90452bbe003b26554",
+      "bytes": 3237,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/core/ViewMemory.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/core/ViewMemory.kt",
+      "sha256": "e269f8fb772d6742e69b255935e8cd143d83fc078f032282836a77aac08721aa",
+      "source_sha256": "e269f8fb772d6742e69b255935e8cd143d83fc078f032282836a77aac08721aa",
+      "bytes": 1249,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/effective/ReceiptAckPolicy.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/effective/ReceiptAckPolicy.kt",
+      "sha256": "afda9755d99c42b2a1ba9623228dcc91735ed9988aad849fa3d985d440905131",
+      "source_sha256": "afda9755d99c42b2a1ba9623228dcc91735ed9988aad849fa3d985d440905131",
+      "bytes": 1356,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/BuriQueueFile.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/receiver/BuriQueueFile.kt",
+      "sha256": "d619115477b5fad485d54fe3fc86ac2d32399be9ddefc2dc6880b28f3d98ad53",
+      "source_sha256": "d619115477b5fad485d54fe3fc86ac2d32399be9ddefc2dc6880b28f3d98ad53",
+      "bytes": 3329,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/BuriReceiverReliability.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/receiver/BuriReceiverReliability.kt",
+      "sha256": "7db5d53bff8c14d6b0dd767c74014e01e2c446223d2a4c25d02b10884aeafb9d",
+      "source_sha256": "7db5d53bff8c14d6b0dd767c74014e01e2c446223d2a4c25d02b10884aeafb9d",
+      "bytes": 2079,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/MomoGatewayPolicy.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/receiver/MomoGatewayPolicy.kt",
+      "sha256": "d9fbfd5c50e0cc926a214328de946cf08ace5894b94c640ed285cae1934d7a98",
+      "source_sha256": "d9fbfd5c50e0cc926a214328de946cf08ace5894b94c640ed285cae1934d7a98",
+      "bytes": 4957,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/MomoGatewayWakeupGate.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/receiver/MomoGatewayWakeupGate.kt",
+      "sha256": "3cfd62121a29eab7fe72c67af68135e27637b696864e3e8824a7c49784d4eea6",
+      "source_sha256": "3cfd62121a29eab7fe72c67af68135e27637b696864e3e8824a7c49784d4eea6",
+      "bytes": 583,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/MomoMultipartPolicy.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/receiver/MomoMultipartPolicy.kt",
+      "sha256": "e95272ffefe99ff6ba526658f0b72b7069d2aae26cee87abcb5de3cac65c629a",
+      "source_sha256": "e95272ffefe99ff6ba526658f0b72b7069d2aae26cee87abcb5de3cac65c629a",
+      "bytes": 15242,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/ReceiptAckPolicy.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/receiver/ReceiptAckPolicy.kt",
+      "sha256": "424850a1eac148a360f99d651b7c6bf661d8bf889e74533ecd4dd2074b11d045",
+      "source_sha256": "424850a1eac148a360f99d651b7c6bf661d8bf889e74533ecd4dd2074b11d045",
+      "bytes": 1280,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/ReceiptCipher.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/receiver/ReceiptCipher.kt",
+      "sha256": "091aed61fef7890436fee094011fa15e4c9dd36be78e388938a0e3f15c30a165",
+      "source_sha256": "091aed61fef7890436fee094011fa15e4c9dd36be78e388938a0e3f15c30a165",
+      "bytes": 1229,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/SmsQueueEventBus.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/receiver/SmsQueueEventBus.kt",
+      "sha256": "ea68c61d3a68a408845880398a50b0cd48842023dee4867e4c381f99b561db1a",
+      "source_sha256": "ea68c61d3a68a408845880398a50b0cd48842023dee4867e4c381f99b561db1a",
+      "bytes": 1080,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/SmsQueueOwnerPolicy.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/receiver/SmsQueueOwnerPolicy.kt",
+      "sha256": "c558cb1418ced6bb4dafebab4d5006991c3dac47bb5bb6f8a1db85d7d3f8cd3b",
+      "source_sha256": "c558cb1418ced6bb4dafebab4d5006991c3dac47bb5bb6f8a1db85d7d3f8cd3b",
+      "bytes": 599,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/recipe/prepare_receiver.py",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/recipe/prepare_receiver.py",
+      "sha256": "31c46c6486df3f1ef146c6365a34a4f98ff8cbbc6e4f79d33b665a62ee9d3390",
+      "source_sha256": "31c46c6486df3f1ef146c6365a34a4f98ff8cbbc6e4f79d33b665a62ee9d3390",
+      "bytes": 24799,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/tests/CoreChecks.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/tests/CoreChecks.kt",
+      "sha256": "89d43849f637ca74f620463c8bdb575187b3dfb60f58717716c76dc348ccd96f",
+      "source_sha256": "89d43849f637ca74f620463c8bdb575187b3dfb60f58717716c76dc348ccd96f",
+      "bytes": 11815,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/tests/ReceiverChecks.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/tests/ReceiverChecks.kt",
+      "sha256": "607876c5bb955fbc234fb9db7641608997c0a881cd867dd99fa2f2c343b82a85",
+      "source_sha256": "607876c5bb955fbc234fb9db7641608997c0a881cd867dd99fa2f2c343b82a85",
+      "bytes": 13756,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/buri/tests/ReliabilityChecks.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/buri/tests/ReliabilityChecks.kt",
+      "sha256": "203874042da76efe2c66600134ea309a6cb0be635a74f463a6f295d49dcda670",
+      "source_sha256": "203874042da76efe2c66600134ea309a6cb0be635a74f463a6f295d49dcda670",
+      "bytes": 9958,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/core/ExportWriters.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/core/ExportWriters.kt",
+      "sha256": "aabdd8cb78ced615878a23fcdd63fa2751a4b6500269866459eac191412e3bd1",
+      "source_sha256": "aabdd8cb78ced615878a23fcdd63fa2751a4b6500269866459eac191412e3bd1",
+      "bytes": 13720,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/core/LedgerRules.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/core/LedgerRules.kt",
+      "sha256": "61d347b52b06abb7d35df9d9eb71543c2907b7088e86b36993f4520dffe5b5dc",
+      "source_sha256": "61d347b52b06abb7d35df9d9eb71543c2907b7088e86b36993f4520dffe5b5dc",
+      "bytes": 9856,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/core/Models.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/core/Models.kt",
+      "sha256": "0f146a6b7c91a375d54cc2c76fdcbb4de97b8ad1dbcb95e9a152d0555225cd43",
+      "source_sha256": "0f146a6b7c91a375d54cc2c76fdcbb4de97b8ad1dbcb95e9a152d0555225cd43",
+      "bytes": 5062,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/core/PdfPresentation.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/core/PdfPresentation.kt",
+      "sha256": "c3bd5140593eb08d4971576035ad4d6db42089d8cf6535112302c7bf6650eb13",
+      "source_sha256": "c3bd5140593eb08d4971576035ad4d6db42089d8cf6535112302c7bf6650eb13",
+      "bytes": 5318,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/core/ReferenceIdentity.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/core/ReferenceIdentity.kt",
+      "sha256": "41a56f1522146ef353b17936c5d1deaf905b69354d127e289cfca32a036362f3",
+      "source_sha256": "41a56f1522146ef353b17936c5d1deaf905b69354d127e289cfca32a036362f3",
+      "bytes": 2409,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/data/IntakeIdentity.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/data/IntakeIdentity.kt",
+      "sha256": "952364d57efcc476726ac8650afc9a5f94d22e7f26d483a08fe292e49f7f8ecc",
+      "source_sha256": "952364d57efcc476726ac8650afc9a5f94d22e7f26d483a08fe292e49f7f8ecc",
+      "bytes": 683,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/IncomingSms.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/platform/IncomingSms.kt",
+      "sha256": "14e4d868a50188cca16fabd2461ef7f9fa202f27d170622856f37d8be52b0da3",
+      "source_sha256": "14e4d868a50188cca16fabd2461ef7f9fa202f27d170622856f37d8be52b0da3",
+      "bytes": 354,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/SmsBroadcastPolicy.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/platform/SmsBroadcastPolicy.kt",
+      "sha256": "216a4bac606435778904ab9ffc57b58fe917d6671c39c5366ebe72dd89854ec2",
+      "source_sha256": "216a4bac606435778904ab9ffc57b58fe917d6671c39c5366ebe72dd89854ec2",
+      "bytes": 1773,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/SmsHistoryQuery.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/platform/SmsHistoryQuery.kt",
+      "sha256": "a0c883a74db45474c259e2daec348bf3eb2f86f7aff812712acee32c281d55e1",
+      "source_sha256": "a0c883a74db45474c259e2daec348bf3eb2f86f7aff812712acee32c281d55e1",
+      "bytes": 953,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/SmsMultipartEnvelope.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/platform/SmsMultipartEnvelope.kt",
+      "sha256": "3544eb52e89ca1f1bf2ff9b038395390106f0a2f313c92cffd8bb8735fdf82ac",
+      "source_sha256": "3544eb52e89ca1f1bf2ff9b038395390106f0a2f313c92cffd8bb8735fdf82ac",
+      "bytes": 3749,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/SmsObservationFactory.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/platform/SmsObservationFactory.kt",
+      "sha256": "005ebfec83df6693da31d720c3bde47dfba44e5e920e3406fe84982f3d3e018f",
+      "source_sha256": "005ebfec83df6693da31d720c3bde47dfba44e5e920e3406fe84982f3d3e018f",
+      "bytes": 664,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/SmsSourceEvidence.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/platform/SmsSourceEvidence.kt",
+      "sha256": "dbce000ae15e4d04b0b56c1d974abfa51206b73709f94d1918de9839f8ab0955",
+      "source_sha256": "dbce000ae15e4d04b0b56c1d974abfa51206b73709f94d1918de9839f8ab0955",
+      "bytes": 1519,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/tests/SmsReliabilityContractCases.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/tests/SmsReliabilityContractCases.kt",
+      "sha256": "9cbf04dbab7de267286b170ba6863238306a9915667f3fb1e246c3f0f02306fe",
+      "source_sha256": "9cbf04dbab7de267286b170ba6863238306a9915667f3fb1e246c3f0f02306fe",
+      "bytes": 8324,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/sms-r4/vendor/mmoney/tests/SmsReliabilityProbe.kt",
+      "source": "extracted/sms-r4/SMS_Policies_R4/vendor/mmoney/tests/SmsReliabilityProbe.kt",
+      "sha256": "074402003b9d03a49557cbf761615ff8e1ed64f1bb5f79092d0a427231b55cef",
+      "source_sha256": "074402003b9d03a49557cbf761615ff8e1ed64f1bb5f79092d0a427231b55cef",
+      "bytes": 320,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental SMS source/test/provenance; production ports not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/ACTION_REGISTER.json",
+      "source": "extracted/storage3/storage-policy-delivery/ACTION_REGISTER.json",
+      "sha256": "66c486196d525dd81a3838ef9a529d249b014cba704bf13b53a83c882d84f7ee",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "66c486196d525dd81a3838ef9a529d249b014cba704bf13b53a83c882d84f7ee",
+      "bytes": 5646,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/ORIGIN.json",
+      "source": "extracted/storage3/storage-policy-delivery/ORIGIN.json",
+      "sha256": "52dfaa58a471e8372fc807646a8ed3e37870beed0ea4f2fa72d7b3aa143b2800",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "52dfaa58a471e8372fc807646a8ed3e37870beed0ea4f2fa72d7b3aa143b2800",
+      "bytes": 884,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/README.md",
+      "source": "extracted/storage3/storage-policy-delivery/README.md",
+      "sha256": "d6cc632300f7e7093297d3beef5b7ab2ac52cf019d8453b71da46a18eaa80bcc",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "d6cc632300f7e7093297d3beef5b7ab2ac52cf019d8453b71da46a18eaa80bcc",
+      "bytes": 1690,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/adapters/android/AndroidLifecycleStorage.kt",
+      "source": "extracted/storage3/storage-policy-delivery/adapters/android/AndroidLifecycleStorage.kt",
+      "sha256": "cfe6cd5d44c45174a390a9d0865c2accb9f218b493d7013a5f62887e932f6e6a",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "cfe6cd5d44c45174a390a9d0865c2accb9f218b493d7013a5f62887e932f6e6a",
+      "bytes": 1991,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/adapters/jvm/AppendOnlyLifecycleJournal.kt",
+      "source": "extracted/storage3/storage-policy-delivery/adapters/jvm/AppendOnlyLifecycleJournal.kt",
+      "sha256": "067adc04412e4b3b7863bc99eb1a5c908a1c9f1b9eedbeac36680b8c14c3a219",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "067adc04412e4b3b7863bc99eb1a5c908a1c9f1b9eedbeac36680b8c14c3a219",
+      "bytes": 17112,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/adapters/jvm/JournalRecordProtection.kt",
+      "source": "extracted/storage3/storage-policy-delivery/adapters/jvm/JournalRecordProtection.kt",
+      "sha256": "f740f9cc90aeaee23623601ad9622f0503fd1648e77d74c0f4a9d8566562193e",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "f740f9cc90aeaee23623601ad9622f0503fd1648e77d74c0f4a9d8566562193e",
+      "bytes": 5453,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/DurableOperationStore.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/DurableOperationStore.kt",
+      "sha256": "3f3ebe3265df80fc7659504f2a305884fbfc27844586dc616772846b06f6af0f",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "3f3ebe3265df80fc7659504f2a305884fbfc27844586dc616772846b06f6af0f",
+      "bytes": 6790,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/OperationJournal.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/OperationJournal.kt",
+      "sha256": "cc264d1661fe7b569af913d876ab0129005c7521206dda36b84f4f59540d45e0",
+      "source_sha256": "cc264d1661fe7b569af913d876ab0129005c7521206dda36b84f4f59540d45e0",
+      "bytes": 5072,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "historical ownerless retry-permitting test dependency; incompatible with active command journal"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Values.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Values.kt",
+      "sha256": "802bc2a66b9ac09429c29d9b0cf2fbc577f5632d43bf74e90452bbe003b26554",
+      "source_sha256": "802bc2a66b9ac09429c29d9b0cf2fbc577f5632d43bf74e90452bbe003b26554",
+      "bytes": 3237,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental storage source/test; writer cutover not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/DurableStorageCoordinator.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/DurableStorageCoordinator.kt",
+      "sha256": "9a178a38dd49c47c44f758fb57696834845b262fcdc4fa5f51dfdd84701c1efe",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "9a178a38dd49c47c44f758fb57696834845b262fcdc4fa5f51dfdd84701c1efe",
+      "bytes": 9137,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/LegacyLifecycleMigration.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/LegacyLifecycleMigration.kt",
+      "sha256": "fead8a83c740dd133caf08612b0c002c6f86a5864bfe54c08662c0bf62e42478",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "fead8a83c740dd133caf08612b0c002c6f86a5864bfe54c08662c0bf62e42478",
+      "bytes": 3517,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/LifecycleSnapshotCodec.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/LifecycleSnapshotCodec.kt",
+      "sha256": "33f3ea0993dc982ce1369d2b6f563f9fa5318a31b0df662f12a709b58fe5666d",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "33f3ea0993dc982ce1369d2b6f563f9fa5318a31b0df662f12a709b58fe5666d",
+      "bytes": 6635,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/ProtectedFileAccess.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/ProtectedFileAccess.kt",
+      "sha256": "a2b1361cf4b5fb709348df38cbb22421d1dab6263d89dae9ff93cef760a5f3e6",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "a2b1361cf4b5fb709348df38cbb22421d1dab6263d89dae9ff93cef760a5f3e6",
+      "bytes": 3281,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/StorageFailureClassifier.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/StorageFailureClassifier.kt",
+      "sha256": "a71b07a16b088295316a39d6c6e316b66d46b98513c8d55ce14e9f83dc1e8e8b",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "a71b07a16b088295316a39d6c6e316b66d46b98513c8d55ce14e9f83dc1e8e8b",
+      "bytes": 2868,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/StorageLifecyclePolicy.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/StorageLifecyclePolicy.kt",
+      "sha256": "a473dce561fe1362385ef58d27f422bb4d55a1d23436a3ee82086991b3871c1b",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "a473dce561fe1362385ef58d27f422bb4d55a1d23436a3ee82086991b3871c1b",
+      "bytes": 15985,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/VerifiedEvidenceArchive.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/VerifiedEvidenceArchive.kt",
+      "sha256": "3b49bd20aadc5185f2cdd09d6ce81c4428a11e70e5be47a52b23aba02a8db023",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "3b49bd20aadc5185f2cdd09d6ce81c4428a11e70e5be47a52b23aba02a8db023",
+      "bytes": 2390,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/AndroidLifecycleStorage.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/AndroidLifecycleStorage.kt",
+      "sha256": "cfe6cd5d44c45174a390a9d0865c2accb9f218b493d7013a5f62887e932f6e6a",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "cfe6cd5d44c45174a390a9d0865c2accb9f218b493d7013a5f62887e932f6e6a",
+      "bytes": 1991,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/BuriMunsiLifecycleStorage.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/BuriMunsiLifecycleStorage.kt",
+      "sha256": "be2df79fcae34dc1b1da94c7243340bc53f23e1e0d995e3e8a166791f6c5d691",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "be2df79fcae34dc1b1da94c7243340bc53f23e1e0d995e3e8a166791f6c5d691",
+      "bytes": 677,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/jvm/AppendOnlyLifecycleJournal.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/jvm/AppendOnlyLifecycleJournal.kt",
+      "sha256": "067adc04412e4b3b7863bc99eb1a5c908a1c9f1b9eedbeac36680b8c14c3a219",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "067adc04412e4b3b7863bc99eb1a5c908a1c9f1b9eedbeac36680b8c14c3a219",
+      "bytes": 17112,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/jvm/JournalRecordProtection.kt",
+      "source": "extracted/storage3/storage-policy-delivery/sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/jvm/JournalRecordProtection.kt",
+      "sha256": "f740f9cc90aeaee23623601ad9622f0503fd1648e77d74c0f4a9d8566562193e",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "f740f9cc90aeaee23623601ad9622f0503fd1648e77d74c0f4a9d8566562193e",
+      "bytes": 5453,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/docs/DURABLE_LIFECYCLE_CONTRACT.md",
+      "source": "extracted/storage3/storage-policy-delivery/docs/DURABLE_LIFECYCLE_CONTRACT.md",
+      "sha256": "935ef0247fab0d397834b027c35d0efb1e7b26c9cb4caee7e311632cd54cfa86",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "935ef0247fab0d397834b027c35d0efb1e7b26c9cb4caee7e311632cd54cfa86",
+      "bytes": 11022,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/docs/IMPLEMENTATION_AND_VERIFICATION.md",
+      "source": "extracted/storage3/storage-policy-delivery/docs/IMPLEMENTATION_AND_VERIFICATION.md",
+      "sha256": "fc1984cfaceb68c18bf05c956a793f8cdbc2580f1a1b7550bb9c01433dc55f38",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "fc1984cfaceb68c18bf05c956a793f8cdbc2580f1a1b7550bb9c01433dc55f38",
+      "bytes": 11937,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/docs/STORAGE_POLICY.md",
+      "source": "extracted/storage3/storage-policy-delivery/docs/STORAGE_POLICY.md",
+      "sha256": "b9e8e0985d443411028f2f7a53d3e14be6938125610824a05854e9d5a0948eec",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "b9e8e0985d443411028f2f7a53d3e14be6938125610824a05854e9d5a0948eec",
+      "bytes": 10414,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/patches/r2/CHANGE_LEDGER.json",
+      "source": "extracted/storage3/storage-policy-delivery/patches/r2/CHANGE_LEDGER.json",
+      "sha256": "0eca2de4aca7e3606b16f7d3d2aa3fb86d24f5fffe6a33f720f47dad410f6a12",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "0eca2de4aca7e3606b16f7d3d2aa3fb86d24f5fffe6a33f720f47dad410f6a12",
+      "bytes": 5422,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/patches/r3/CHANGE_LEDGER.json",
+      "source": "extracted/storage3/storage-policy-delivery/patches/r3/CHANGE_LEDGER.json",
+      "sha256": "72a0fc0189e2549465ede8f30c8a6fd3a103d719899d9652c7b24baacaffbe09",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "72a0fc0189e2549465ede8f30c8a6fd3a103d719899d9652c7b24baacaffbe09",
+      "bytes": 4677,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/policy/DurableStorageCoordinator.kt",
+      "source": "extracted/storage3/storage-policy-delivery/policy/DurableStorageCoordinator.kt",
+      "sha256": "9a178a38dd49c47c44f758fb57696834845b262fcdc4fa5f51dfdd84701c1efe",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "9a178a38dd49c47c44f758fb57696834845b262fcdc4fa5f51dfdd84701c1efe",
+      "bytes": 9137,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/policy/LegacyLifecycleMigration.kt",
+      "source": "extracted/storage3/storage-policy-delivery/policy/LegacyLifecycleMigration.kt",
+      "sha256": "fead8a83c740dd133caf08612b0c002c6f86a5864bfe54c08662c0bf62e42478",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "fead8a83c740dd133caf08612b0c002c6f86a5864bfe54c08662c0bf62e42478",
+      "bytes": 3517,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/policy/LifecycleSnapshotCodec.kt",
+      "source": "extracted/storage3/storage-policy-delivery/policy/LifecycleSnapshotCodec.kt",
+      "sha256": "33f3ea0993dc982ce1369d2b6f563f9fa5318a31b0df662f12a709b58fe5666d",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "33f3ea0993dc982ce1369d2b6f563f9fa5318a31b0df662f12a709b58fe5666d",
+      "bytes": 6635,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/policy/ProtectedFileAccess.kt",
+      "source": "extracted/storage3/storage-policy-delivery/policy/ProtectedFileAccess.kt",
+      "sha256": "a2b1361cf4b5fb709348df38cbb22421d1dab6263d89dae9ff93cef760a5f3e6",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "a2b1361cf4b5fb709348df38cbb22421d1dab6263d89dae9ff93cef760a5f3e6",
+      "bytes": 3281,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/policy/StorageFailureClassifier.kt",
+      "source": "extracted/storage3/storage-policy-delivery/policy/StorageFailureClassifier.kt",
+      "sha256": "a71b07a16b088295316a39d6c6e316b66d46b98513c8d55ce14e9f83dc1e8e8b",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "a71b07a16b088295316a39d6c6e316b66d46b98513c8d55ce14e9f83dc1e8e8b",
+      "bytes": 2868,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/policy/StorageLifecyclePolicy.kt",
+      "source": "extracted/storage3/storage-policy-delivery/policy/StorageLifecyclePolicy.kt",
+      "sha256": "a473dce561fe1362385ef58d27f422bb4d55a1d23436a3ee82086991b3871c1b",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "a473dce561fe1362385ef58d27f422bb4d55a1d23436a3ee82086991b3871c1b",
+      "bytes": 15985,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/policy/VerifiedEvidenceArchive.kt",
+      "source": "extracted/storage3/storage-policy-delivery/policy/VerifiedEvidenceArchive.kt",
+      "sha256": "3b49bd20aadc5185f2cdd09d6ce81c4428a11e70e5be47a52b23aba02a8db023",
+      "role": "supplemental storage source/test; writer cutover not adopted",
+      "source_sha256": "3b49bd20aadc5185f2cdd09d6ce81c4428a11e70e5be47a52b23aba02a8db023",
+      "bytes": 2390,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/tests/StoragePolicyChecks.kt",
+      "source": "extracted/storage3/storage-policy-delivery/tests/StoragePolicyChecks.kt",
+      "sha256": "c18a79b727aab0649abfba3dad8bb7c4f6a84cc93b0ed9d21a73f97f88fd2185",
+      "source_sha256": "c18a79b727aab0649abfba3dad8bb7c4f6a84cc93b0ed9d21a73f97f88fd2185",
+      "bytes": 24123,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental storage source/test; writer cutover not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/tests/authenticated/AuthenticatedMigrationChecks.kt",
+      "source": "extracted/storage3/storage-policy-delivery/tests/authenticated/AuthenticatedMigrationChecks.kt",
+      "sha256": "79be2c59490d1146a17f631e5ac8b4023092534d29eaeabb367e0014d26fe8c1",
+      "source_sha256": "79be2c59490d1146a17f631e5ac8b4023092534d29eaeabb367e0014d26fe8c1",
+      "bytes": 15739,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental storage source/test; writer cutover not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/tests/durable/DurableLifecycleChecks.kt",
+      "source": "extracted/storage3/storage-policy-delivery/tests/durable/DurableLifecycleChecks.kt",
+      "sha256": "0eec047923267deddc0cd13a6ba2b5a106c578af14bc7a2f7f272e7a489d4863",
+      "source_sha256": "0eec047923267deddc0cd13a6ba2b5a106c578af14bc7a2f7f272e7a489d4863",
+      "bytes": 28134,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental storage source/test; writer cutover not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/tests/test_authenticated_restart.py",
+      "source": "extracted/storage3/storage-policy-delivery/tests/test_authenticated_restart.py",
+      "sha256": "8ceb7fd256f026979ac19c878d42caa0a5fde6d8104005b5bc00bb2cafbbd9b8",
+      "source_sha256": "8ceb7fd256f026979ac19c878d42caa0a5fde6d8104005b5bc00bb2cafbbd9b8",
+      "bytes": 3483,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental storage source/test; writer cutover not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/tests/test_process_restart.py",
+      "source": "extracted/storage3/storage-policy-delivery/tests/test_process_restart.py",
+      "sha256": "dd3700906bd8289aaae8de2b9d8254bf37777e3f9ff38e1cf84ddb99a7e861fa",
+      "source_sha256": "dd3700906bd8289aaae8de2b9d8254bf37777e3f9ff38e1cf84ddb99a7e861fa",
+      "bytes": 3690,
+      "source_kind": "exact_extracted_archive_bytes",
+      "role": "supplemental storage source/test; writer cutover not adopted"
+    },
+    {
+      "path": "integration/burimunsi/continuations/storage-r3/tools/verify_imported.py",
+      "sha256": "90296d776cb36d94388466dcc6313c490617863af3bee1d4b2067a11b3103fc8",
+      "bytes": 8046,
+      "source_kind": "locally_authored_host_verification_harness",
+      "source": null,
+      "role": "bounded supplied-policy host verification only; no Android/runtime adoption"
+    },
+    {
+      "path": "native/burimunsi/THIRD_PARTY_NOTICES.md",
+      "source": "extracted/a043/BuriMunsi_Consolidated_0.20.0-a04.3/THIRD_PARTY_NOTICES.md",
+      "sha256": "503e9206aa311451392eeb9a334c52f4a93abfd3fb7f77e1b76701579cc4cce6",
+      "role": "upstream notices",
+      "bytes": 1016,
+      "source_sha256": "503e9206aa311451392eeb9a334c52f4a93abfd3fb7f77e1b76701579cc4cce6",
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "scripts/release_guard.py",
+      "source_sha256": "3fc4b10117c63368741b4402ca5ba84ea308f7ba60b1120c38cf0bf306952cdd",
+      "source": "extracted/release4/source/integration/BuriMunsi/files/scripts/release_guard.py",
+      "role": "reviewed release-r4 runtime dependency; signing/trust configuration remains separate",
+      "previous_intake_source_sha256": "8b3dd9509392e072400c62dcc9c56b4f20dec3ae3c5e5143670d67398e443854",
+      "previous_intake_source": "engineering-r3 release slice",
+      "sha256": "3fc4b10117c63368741b4402ca5ba84ea308f7ba60b1120c38cf0bf306952cdd",
+      "bytes": 36461,
+      "source_kind": "exact_extracted_archive_bytes"
+    },
+    {
+      "path": "scripts/release_guard_adapter.py",
+      "source_sha256": "b821f8dd096335c5a254aa18c4d2931587a1bebedbe63a3e55b38f3bcf79d0f0",
+      "source": "extracted/release4/source/integration/BuriMunsi/files/scripts/release_guard_adapter.py",
+      "role": "reviewed release-r4 runtime dependency; signing/trust configuration remains separate",
+      "previous_intake_source_sha256": "e2bb391319288ca989425916edf41b247ee9536bbd584d70150402cb93a53f5f",
+      "previous_intake_source": "engineering-r3 release slice",
+      "sha256": "b821f8dd096335c5a254aa18c4d2931587a1bebedbe63a3e55b38f3bcf79d0f0",
+      "bytes": 3291,
+      "source_kind": "exact_extracted_archive_bytes"
+    }
+  ]
+}

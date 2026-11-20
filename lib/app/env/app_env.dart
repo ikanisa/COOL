@@ -12,8 +12,6 @@ class AppEnv {
     required this.adminAppUrl,
     required this.enableSmsReader,
     required this.enableAndroidSmsAccess,
-    required this.enableAdminPanel,
-    required this.enableAdminDevTools,
     required this.authCaptchaEnabled,
     required this.authCaptchaProvider,
     required this.authCaptchaSiteKey,
@@ -39,8 +37,6 @@ class AppEnv {
         'ENABLE_ANDROID_SMS_ACCESS',
         defaultValue: true,
       ),
-      enableAdminPanel: bool.fromEnvironment('ENABLE_ADMIN_PANEL'),
-      enableAdminDevTools: bool.fromEnvironment('ENABLE_ADMIN_DEV_TOOLS'),
       authCaptchaEnabled: bool.fromEnvironment('AUTH_CAPTCHA_ENABLED'),
       authCaptchaProvider: String.fromEnvironment('AUTH_CAPTCHA_PROVIDER'),
       authCaptchaSiteKey: String.fromEnvironment('AUTH_CAPTCHA_SITE_KEY'),
@@ -74,8 +70,6 @@ class AppEnv {
   final String adminAppUrl;
   final bool enableSmsReader;
   final bool enableAndroidSmsAccess;
-  final bool enableAdminPanel;
-  final bool enableAdminDevTools;
   final bool authCaptchaEnabled;
   final String authCaptchaProvider;
   final String authCaptchaSiteKey;

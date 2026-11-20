@@ -957,7 +957,7 @@ final class CollectAuthClient {
       return;
     }
     final restoredSession = session;
-    if (!ownsRestore() || restoredSession == null) return;
+    if (!ownsRestore()) return;
     if (restoredSession.isExpired && restoredUpgrade?.unconfirmed != true) {
       // Keep an expired restore private until its refresh succeeds. While a
       // retained guest is refreshing, its upgrade must not become ordinary OTP.
@@ -1705,7 +1705,7 @@ final class CollectAuthClient {
             .catchError((Object _) {})
             .then((_) => _storage.clear());
         _storageTail = clear;
-        if (ownsInitialization && initialization != null) {
+        if (ownsInitialization) {
           initialization.failedPersistClear = clear;
           initialization.retirementGeneration = _generation + 1;
           initialization.otpGeneration = _otpGeneration + 1;

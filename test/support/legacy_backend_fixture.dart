@@ -8,8 +8,6 @@ const legacyBackendFixtureEnvironment = AppEnv(
   adminAppUrl: '',
   enableSmsReader: false,
   enableAndroidSmsAccess: true,
-  enableAdminPanel: false,
-  enableAdminDevTools: false,
   authCaptchaEnabled: false,
   authCaptchaProvider: '',
   authCaptchaSiteKey: '',

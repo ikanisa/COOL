@@ -1,0 +1,23 @@
+{
+  "artifacts": [],
+  "created_at": "1970-01-01T00:00:00Z",
+  "dependency_inventory": {
+    "path": "missing-dependency-inventory.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "size": 0
+  },
+  "designation": "source-only",
+  "kind": "release-evidence",
+  "phase": "source",
+  "policy_sha256": "fdce23db8a1d1555ba1ee0cfe593b0b7bce0eb8cc6454ee766218fe5b1ff7e9c",
+  "product": "M-Money",
+  "qualifications": [],
+  "run_id": "unexecuted-example-0001",
+  "schema_version": 1,
+  "source_manifest": {
+    "path": "missing-source-manifest.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "size": 0
+  },
+  "source_version": "REPLACE_WITH_EXACT_SOURCE_VERSION"
+}

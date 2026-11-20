@@ -1,20 +1,23 @@
 # Collect
 
-Collect is a Rwanda group-contribution system with a Flutter member app, Admin PWA and public website. Contributions use whole RWF through MTN MoMo or Airtel Money USSD; payment authorization remains with the network provider.
+Collect is a Rwanda group-contribution system with a Flutter member app, React Admin PWA, public website and BuriMunsi native Android app for staff and admins. Contributions use whole RWF through MTN MoMo or Airtel Money USSD; payment authorization remains with the network provider.
+
+BuriMunsi's Kotlin/Compose project is `native/burimunsi/`. Its production backend is the Collect Supabase Cloud project `rrlduytparvsjfmegalh`, shared with Collect Admin and the canonical ledger. The selected BuriMunsi account and historical business graph have been imported, and Admin and Staff sign-in has been exercised on the connected Android device. Those checks do not establish acceptance of every workflow or a final production release.
 
 ## Current release profile
 
-The [26 October production execution addendum](docs/plans/supabase-return-2026-10-20/REMAINING_PRODUCTION_EXECUTION_2026-10-26.md) defines an update to the already-live Android app, Supabase as the sole production business writer, and Cloudflare hosting for the matching Admin frontend. This is the intended release profile; repository defaults, local tests and QA deployments do not establish that production cutover has completed.
+The owner selected Supabase Cloud as the production destination for the database, APIs, application services and Admin panel. The managed database, API functions and selected history have been deployed; Admin-panel hosting, complete workflow acceptance and final cutover evidence remain to be reconciled. Earlier deployment addenda and frontend hosting are historical evidence.
 
 | Component | Current source and configuration |
 | --- | --- |
 | Business API, Admin API and jobs | `supabase/functions/collect-api/`, `supabase/functions/admin-api/` and `supabase/functions/collect-jobs/`, sharing `supabase/functions/_shared/`. |
 | PostgreSQL schema and storage | `supabase/migrations/`, generated from the curated inputs documented in `supabase/schema-src/README.md`; Supabase object storage through the current adapters. |
 | Android member app | `lib/main.dart`; the native release configuration in `scripts/qa/native_build_config.py` requires the Supabase profile. |
-| Cookie-authenticated Admin PWA | `lib/main_admin_cloudflare.dart`, selected by `scripts/admin_pwa_release_build.sh`; `deploy/platform-admin/` hosts the frontend and forwards its same-origin API traffic. The entrypoint's Cloudflare name does not select D1 as the business database. |
+| BuriMunsi staff/admin Android | `native/burimunsi/`, with separate Staff and receiving-device variants; its public configuration targets the selected Supabase Cloud project. Sign-in has been exercised on a connected device; release signing, complete workflows and installation acceptance remain separate checks. |
+| Cookie-authenticated React Admin | [React entrypoint](admin-web/src/main.tsx) and [build and verification](admin-web/README.md). Production and QA use the managed Supabase transport in [deploy/platform-admin](deploy/platform-admin/README.md). |
 | Prior Cloudflare business backend | `deploy/platform-api/` and its D1/R2 recovery tooling are retained for legacy compatibility and the controlled transition. They are not the selected Supabase release backend. |
 
-Use `.env.example` as the public configuration template. It selects `COLLECT_BACKEND=supabase`, project `rrlduytparvsjfmegalh`, and the intended Admin/proxy origin `https://platform-admin.collect.ikanisa.com`. Verify the final app, Admin artifact, proxy and deployed functions against one accepted source/configuration mapping before release; an origin in this template is not evidence that the corresponding production route is live.
+`.env.example` contains public configuration only. The API and Admin route values remain blank until the Supabase Cloud routes are qualified; the template is not a production build configuration. A configured origin does not establish that the corresponding route or application is live.
 
 Admin sessions use same-origin HttpOnly cookies. Sensitive operations require the applicable current grant and recent email verification; mandatory authenticator enrollment is retired. Member clients use the `/v1` protocol and their own protected session storage. Google sign-in and Realtime remain conditional. iOS/APNs/Apple distribution and optional pgvector are outside the current release goal.
 

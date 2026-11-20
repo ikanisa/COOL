@@ -83,8 +83,41 @@ function quotedEnd(sql, i) {
   while (i < sql.length) { if (sql[i++] === quote) { if (sql[i] === quote) { i++; continue; } return i; } }
   throw new Error('Unclosed SQL literal.');
 }
+function sqlTriviaEnd(sql, i) {
+  while(i<sql.length){
+    if(/\s/.test(sql[i])){i++;continue;}
+    if(sql.startsWith('--',i)){const end=sql.indexOf('\n',i);i=end<0?sql.length:end+1;continue;}
+    if(!sql.startsWith('/*',i))break;
+    i+=2;let depth=1;
+    while(i<sql.length&&depth){if(sql.startsWith('/*',i)){depth++;i+=2;}else if(sql.startsWith('*/',i)){depth--;i+=2;}else i++;}
+    if(depth)throw new Error('Unclosed SQL comment.');
+  }
+  return i;
+}
+function compileTextFunctions(sql) {
+  // Current SQLite instr calls have TEXT operands. Rewrite only the unquoted,
+  // unqualified builtin spelling, never text, comments or qualified functions.
+  let i=0,previous='',copied=0,out='';
+  while(i<sql.length){
+    const next=sqlTriviaEnd(sql,i);if(next!==i){i=next;continue;}
+    if(sql[i]==="'"||sql[i]==='"'||sql[i]==='`'){i=quotedEnd(sql,i);previous='quoted';continue;}
+    if(sql[i]==='$'){
+      const tag=/^\$(?:[A-Za-z_\u0080-\uffff][A-Za-z_0-9\u0080-\uffff]*)?\$/.exec(sql.slice(i))?.[0];
+      if(tag){const end=sql.indexOf(tag,i+tag.length);if(end<0)throw new Error('Unclosed SQL literal.');i=end+tag.length;previous='quoted';continue;}
+    }
+    if(/[A-Za-z_\u0080-\uffff]/.test(sql[i])){
+      const start=i++;while(i<sql.length&&/[A-Za-z_0-9$\u0080-\uffff]/.test(sql[i]))i++;
+      const token=sql.slice(start,i);
+      if(token.toLowerCase()==='instr'&&previous!=='.'&&sql[sqlTriviaEnd(sql,i)]==='('){out+=sql.slice(copied,start)+'pg_catalog.strpos';copied=i;}
+      previous=token;continue;
+    }
+    previous=sql[i++];
+  }
+  return out+sql.slice(copied);
+}
 export function compileSql(input, values = []) {
   if (typeof input !== 'string' || !input.trim()) throw new Error('Invalid server SQL.');
+  input=compileTextFunctions(input);
   let out = '', index = 0;
   // The explicitly marked MoMo lease clock remains ordinary unixepoch() on
   // SQLite. PostgreSQL's app.unixepoch() is transaction-stable, so just this
@@ -161,21 +194,18 @@ export class PostgresDatabase {
     // before role/claims setup. Existing callers retain repeatable-read.
     if(!['repeatable read','read committed'].includes(isolation))throw fenceFailure(null);
     const work=this.applicationWork;if(!work)throw fenceFailure(null);await work.assert();
-    const mode=await tx.unsafe('SHOW transaction_read_only'),observedIsolation=await tx.unsafe('SHOW transaction_isolation');
-    if(mode[0]?.transaction_read_only!=='on'||observedIsolation[0]?.transaction_isolation!==isolation)throw fenceFailure(null);
+    const mode=await tx.unsafe("SELECT pg_catalog.current_setting('transaction_read_only') AS transaction_read_only,pg_catalog.current_setting('transaction_isolation') AS transaction_isolation");
+    if(mode[0]?.transaction_read_only!=='on'||mode[0]?.transaction_isolation!==isolation)throw fenceFailure(null);
     await tx`set local role collect_runtime`;
-    await tx`select set_config('search_path','app,public,pg_catalog',true),set_config('request.jwt.claims',${JSON.stringify(this.claims)},true),set_config('collect.edge_verified','true',true)`;
-    await tx`set local statement_timeout='15s'`;
-    await tx`set local lock_timeout='5s'`;
+    await tx`select pg_catalog.set_config('search_path','app,public,pg_catalog',true),pg_catalog.set_config('request.jwt.claims',${JSON.stringify(this.claims)},true),pg_catalog.set_config('collect.edge_verified','true',true)`;
+    await tx`select pg_catalog.set_config('statement_timeout','15s',true),pg_catalog.set_config('lock_timeout','5s',true)`;
   }
   async context(tx) {
     const work=this.applicationWork;if(!work)throw fenceFailure(null);await work.assert();const tuple=applicationWorkTuple(work);
     await tx`set local role collect_runtime`;
-    await tx`select set_config('search_path','app,public,pg_catalog',true), set_config('request.jwt.claims',${JSON.stringify(this.claims)},true), set_config('collect.edge_verified','true',true)`;
-    await tx`select set_config('collect.fence_admission_id',${tuple[0]},true),set_config('collect.fence_epoch',${String(tuple[1])},true),set_config('collect.fence_source_sha256',${tuple[2]},true)`;
+    await tx`select pg_catalog.set_config('search_path','app,public,pg_catalog',true),pg_catalog.set_config('request.jwt.claims',${JSON.stringify(this.claims)},true),pg_catalog.set_config('collect.edge_verified','true',true),pg_catalog.set_config('collect.fence_admission_id',${tuple[0]},true),pg_catalog.set_config('collect.fence_epoch',${String(tuple[1])},true),pg_catalog.set_config('collect.fence_source_sha256',${tuple[2]},true)`;
     try {const rows=await tx`select private.collect_fence_assert_write(${tuple[0]}::uuid,${tuple[1]}::bigint,${tuple[2]}::text) as result`;const result=rows[0]?.result;if(result?.contractVersion!==1||result.epoch!==tuple[1]||!['open','quiescing'].includes(result.mode))throw new Error('collect_fence_unavailable');}catch(error){throw fenceFailure(error);}
-    await tx`set local statement_timeout='15s'`;
-    await tx`set local lock_timeout='5s'`;
+    await tx`select pg_catalog.set_config('statement_timeout','15s',true),pg_catalog.set_config('lock_timeout','5s',true)`;
   }
   async statement(tx, statement) {
     const q=compileSql(statement.sql,statement.values);

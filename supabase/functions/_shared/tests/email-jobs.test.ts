@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {createContributionEmailJobsHandler} from '../email-jobs.js';
 import {canonicalProfile} from '../deployment-profile.js';
 import {parseEmailJobDispatch,emailJobResult} from '../email-job-contract.js';
-const profile={format:'collect.deployment.v1',id:'email-handler',mode:'self_hosted',environment:'qualification',supabase_origin:'https://db.example.invalid',member_api_origin:'https://api.example.invalid',admin_origin:'https://admin.example.invalid',public_origin:'https://www.example.invalid',google_callback_origin:'https://admin.example.invalid'};
+const profile={format:'collect.deployment.v1',id:'email-handler',mode:'managed',environment:'qualification',supabase_origin:'https://rrlduytparvsjfmegalh.supabase.co',member_api_origin:'https://api.example.invalid',admin_origin:'https://admin.example.invalid',public_origin:'https://www.example.invalid',google_callback_origin:'https://admin.example.invalid'};
 const raw=canonicalProfile(profile);
 const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(raw))),b=>b.toString(16).padStart(2,'0')).join('');
 const admission={contract:'collect.contribution-email.v1',source_sha256:'a'.repeat(64),approval_sha256:'b'.repeat(64),admitted_from:1793480000,batch_limit:1};

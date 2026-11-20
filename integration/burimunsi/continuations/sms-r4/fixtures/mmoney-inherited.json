@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "notice": "Synthetic contract fixtures; never bundled into the production app database.",
+  "cases": [
+    {
+      "id": "received-null-fee",
+      "sender": "M-Money",
+      "body": "You have received 10000 RWF from Test Person (*****007) at 2026-11-06 12:00:00. Balance: 12000 RWF. FT Id: TEST-001.",
+      "eligibleSender": true,
+      "cloudEligible": true,
+      "expected": {
+        "kind": "received",
+        "amount": "10000",
+        "fee": null,
+        "balance": "12000",
+        "phoneLast3": "007",
+        "reference": "TEST-001",
+        "eventAt": "2026-11-06T10:00:00.000Z"
+      }
+    },
+    {
+      "id": "merchant-leading-zero",
+      "sender": " M-MONEY ",
+      "body": "Your payment of 4550 RWF to TEST MERCHANT (merchant code 028415) at 2026-11-06 10:00:00 was completed. Balance: 450 RWF. FT Id: TEST-002.",
+      "eligibleSender": true,
+      "cloudEligible": true,
+      "expected": {
+        "kind": "payment",
+        "amount": "4550",
+        "payeeCode": "028415",
+        "fee": null
+      }
+    },
+    {
+      "id": "balance-only",
+      "sender": "M-Money",
+      "body": "Your MoMo balance at 2026-11-06 09:00:00 is 5000 RWF.",
+      "eligibleSender": true,
+      "cloudEligible": true,
+      "expected": {
+        "kind": "balance",
+        "amount": null,
+        "balance": "5000"
+      }
+    },
+    {
+      "id": "explicit-zero-fee-balance",
+      "sender": "M-Money",
+      "body": "You have received 100 RWF from Test Person at 2026-11-06 09:00:00. Fee: 0 RWF. Balance: 0 RWF. FT Id: ZERO-01.",
+      "eligibleSender": true,
+      "cloudEligible": true,
+      "expected": {
+        "kind": "received",
+        "amount": "100",
+        "fee": "0",
+        "balance": "0"
+      }
+    },
+    {
+      "id": "unrelated-sender",
+      "sender": "0780000000",
+      "body": "You have received 10000 RWF from Test Person.",
+      "eligibleSender": false,
+      "cloudEligible": false
+    },
+    {
+      "id": "missing-sender",
+      "sender": null,
+      "body": "You have received 10000 RWF from Test Person.",
+      "eligibleSender": false,
+      "cloudEligible": false
+    },
+    {
+      "id": "otp",
+      "sender": "M-Money",
+      "body": "Your OTP is 123456. You have received 10000 RWF.",
+      "eligibleSender": true,
+      "cloudEligible": false
+    },
+    {
+      "id": "promotion",
+      "sender": "M-Money",
+      "body": "You have received 10000 RWF prize. Claim your offer.",
+      "eligibleSender": true,
+      "cloudEligible": false
+    },
+    {
+      "id": "service-notice",
+      "sender": "M-Money",
+      "body": "MoMo service notice: scheduled maintenance is complete.",
+      "eligibleSender": true,
+      "cloudEligible": false
+    },
+    {
+      "id": "uncertain-confirmation",
+      "sender": "M-Money",
+      "body": "MoMo transaction confirmation. Reference: TEST-003.",
+      "eligibleSender": true,
+      "cloudEligible": false
+    },
+    {
+      "id": "url-injection",
+      "sender": "M-Money",
+      "body": "You have received 10000 RWF. See https://example.test/receive.",
+      "eligibleSender": true,
+      "cloudEligible": false
+    },
+    {
+      "id": "whitespace-original",
+      "sender": "M-Money",
+      "body": "You have received 100 RWF from École TEST (*****006) at 2026-11-06 09:00:00.\r\nBalance: 100 RWF.  FT Id: EXACT-01.\n",
+      "eligibleSender": true,
+      "cloudEligible": true,
+      "expected": {
+        "kind": "received",
+        "amount": "100",
+        "phoneLast3": "006",
+        "balance": "100"
+      }
+    },
+    {
+      "id": "zero-movement",
+      "sender": "M-Money",
+      "body": "You have received 0 RWF from Test Person at 2026-11-06 09:00:00. FT Id: ZERO-MOVEMENT.",
+      "eligibleSender": true,
+      "cloudEligible": true,
+      "expected": {
+        "kind": "other",
+        "amount": null
+      }
+    }
+  ]
+}

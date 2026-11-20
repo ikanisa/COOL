@@ -19,11 +19,11 @@ const _profile = <String, String>{
   'environment': 'production',
   'format': 'collect.deployment.v1',
   'google_callback_origin': 'https://admin.collect.example',
-  'id': 'collect-selfhost',
+  'id': 'collect-cloud',
   'member_api_origin': 'https://api.collect.example',
-  'mode': 'self_hosted',
+  'mode': 'managed',
   'public_origin': 'https://collect.example',
-  'supabase_origin': 'https://supabase.collect.example',
+  'supabase_origin': 'https://rrlduytparvsjfmegalh.supabase.co',
 };
 
 AppEnv _environment({
@@ -40,8 +40,6 @@ AppEnv _environment({
     adminAppUrl: _profile['admin_origin']!,
     enableSmsReader: false,
     enableAndroidSmsAccess: false,
-    enableAdminPanel: false,
-    enableAdminDevTools: false,
     authCaptchaEnabled: false,
     authCaptchaProvider: 'turnstile',
     authCaptchaSiteKey: '',
@@ -102,13 +100,25 @@ CollectCloudflareClient _client(
 
 void main() {
   test(
-    'canonical self-host profile pins public issuer, callback and every application origin',
+    'canonical Cloud profile pins public issuer, callback and every application origin',
     () {
       final config = CollectSupabaseConfiguration.fromEnvironment(
         _environment(),
       );
-      expect(config.authIssuer, 'https://supabase.collect.example/auth/v1');
+      expect(
+        config.authIssuer,
+        'https://rrlduytparvsjfmegalh.supabase.co/auth/v1',
+      );
       expect(config.googleCallbackOrigin, 'https://admin.collect.example');
+      expect(config.challengeEndpoint.origin, 'https://api.collect.example');
+      expect(
+        config.adminChallengeEndpoint.origin,
+        'https://admin.collect.example',
+      );
+      expect(
+        config.adminChallengeEndpoint.path,
+        '/functions/v1/collect-api/v1/security/challenge',
+      );
       expect(
         config
             .adminRequest(
@@ -146,7 +156,7 @@ void main() {
   );
 
   test(
-    'self-host Google authorization is pinned to the configured public project and callback',
+    'Cloud Google authorization is pinned to the configured public project and callback',
     () {
       final config = CollectSupabaseConfiguration.fromEnvironment(
         _environment(),
@@ -172,10 +182,7 @@ void main() {
         supabaseConfiguration: config,
       );
       expect(allowed(valid), isTrue);
-      expect(
-        allowed(valid.replace(host: 'rrlduytparvsjfmegalh.supabase.co')),
-        isFalse,
-      );
+      expect(allowed(valid.replace(host: 'other.collect.example')), isFalse);
       expect(
         allowed(
           valid.replace(

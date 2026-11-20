@@ -64,3 +64,22 @@ export async function decrypt(env,document,context) {
     return new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM',iv,additionalData:encoder.encode(context)},key,data));
   }catch(error){if(error instanceof ApiError&&error.code==='key_unavailable')throw error;throw unavailable();}
 }
+
+// Derive non-reversible, purpose-separated replay keys for Admin TOTP. Include
+// retained decryption keys so a session-key rotation does not immediately
+// forget attempts admitted under the previous key. Never return key material.
+export async function adminMfaReplayHashes(env,authUserId,factorId,code) {
+  try {
+    const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if(!uuid.test(authUserId??'')||!uuid.test(factorId??'')||typeof code!=='string'||!/^\d{6}$/.test(code))throw unavailable();
+    const config=configuration(env),message=encoder.encode(`${authUserId.toLowerCase()}:${factorId.toLowerCase()}:${code}`),results=[];
+    for(const bytes of config.keys.values()){
+      const material=await crypto.subtle.importKey('raw',bytes,'HKDF',false,['deriveKey']);
+      const key=await crypto.subtle.deriveKey({name:'HKDF',hash:'SHA-256',salt:encoder.encode('collect-admin-mfa-replay-v1'),
+        info:encoder.encode('TOTP verification replay fence')},material,{name:'HMAC',hash:'SHA-256',length:256},false,['sign']);
+      const signature=new Uint8Array(await crypto.subtle.sign('HMAC',key,message));
+      results.push(Array.from(signature,v=>v.toString(16).padStart(2,'0')).join(''));
+    }
+    return results;
+  }catch{throw unavailable();}
+}

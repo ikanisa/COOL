@@ -23,22 +23,15 @@ function base64Bytes(value) {
   return Uint8Array.from(decoded, c => c.charCodeAt(0));
 }
 
-function localHttpHost(host) {
-  if (['localhost', '127.0.0.1', '[::1]', 'host.docker.internal'].includes(host)) return true;
-  const fields = host.split('.').map(Number);
-  if (fields.length !== 4 || fields.some(x => !Number.isInteger(x) || x < 0 || x > 255)) return false;
-  return fields[0] === 10 || fields[0] === 192 && fields[1] === 168 || fields[0] === 172 && fields[1] >= 16 && fields[1] <= 31;
-}
-
 function configuration(env) {
-  if (!['local', 'staging', 'qualification', 'production'].includes(env.APP_ENVIRONMENT)) throw new Error('environment');
+  if (!['staging', 'qualification', 'production'].includes(env.APP_ENVIRONMENT)) throw new Error('environment');
   const endpoint = new URL(env.OPENSMS_BASE_URL);
   if (endpoint.username || endpoint.password || endpoint.search || endpoint.hash || !['', '/', '/functions/v1/collect-sms'].includes(endpoint.pathname)) throw new Error('origin');
-  // The self-hosted gateway preserves /v1 behind its exact Functions prefix.
+  // The managed Functions endpoint preserves /v1 behind its exact prefix.
   // A leading-slash URL resolution would silently drop that required prefix.
   const prefix = endpoint.pathname === '/functions/v1/collect-sms' ? endpoint.pathname : '';
   if (endpoint.hostname.endsWith('.invalid') || endpoint.hostname === 'example.com') throw new Error('placeholder');
-  if (endpoint.protocol !== 'https:' && !(endpoint.protocol === 'http:' && env.APP_ENVIRONMENT === 'local' && env.OPENSMS_ALLOW_LOCAL_HTTP === 'true' && localHttpHost(endpoint.hostname))) throw new Error('scheme');
+  if (endpoint.protocol !== 'https:') throw new Error('scheme');
   const appId = env.OPENSMS_APPLICATION_ID;
   const projectId = env.AUTH_PROJECT_ID;
   if (!/^[A-Za-z0-9][A-Za-z0-9_-]{0,79}$/.test(appId || '') || !/^[A-Za-z0-9][A-Za-z0-9_-]{0,79}$/.test(projectId || '')) throw new Error('namespace');

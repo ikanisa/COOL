@@ -16,6 +16,8 @@ export async function discoverNodeTests(directory) {
       if (entry.isSymbolicLink()) throw Error('EDGE_TEST_SYMLINK_REFUSED');
       if (entry.isDirectory()) await visit(path);
       else if (entry.isFile() && entry.name.endsWith('.test.mjs')) files.push(path);
+      // Deno owns *_test.js and *.test.ts. Never execute either through Node.
+      else if (entry.isFile() && entry.name.endsWith('_test.js')) continue;
       else if (entry.isFile() && /(?:^test|[._]test)\.(?:js|cjs|mts|cts|jsx|tsx)$/.test(entry.name)) {
         throw Error('EDGE_TEST_RUNTIME_OWNERSHIP_REQUIRED: ' + relative(root, path));
       }

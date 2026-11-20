@@ -69,6 +69,20 @@ test('email verification scope cannot invoke privacy or arbitrary endpoints and 
  assert.equal(f.requests.some(r=>r.path.includes('/login')||r.path.includes('/auth/otp')),false);
 });
 
+for(const seconds of [1,59,300,1800])test(`sensitive email request accepts ${seconds} remaining seconds without changing session authority`,async t=>{
+ const f=await fixture(t,{onEmail:()=>({challenge_id:id(10),delivery_status:'accepted',expires_in:seconds,retry_after:60})});
+ const receipt=await f.api.requestVerification('synthetic-token');assert.equal(receipt.expires_in,seconds);
+ assert.equal(f.requests.filter(r=>r.path==='/api/admin/auth/email/request').length,1);
+ assert.equal(f.requests.some(r=>r.path.startsWith('/api/admin/privacy/')||r.path.includes('/auth/otp')),false);
+});
+
+for(const seconds of [0,1801,3600,1.5,'1800',null])test(`sensitive email request rejects invalid remaining lifetime ${JSON.stringify(seconds)} without replay`,async t=>{
+ const f=await fixture(t,{onEmail:()=>({challenge_id:id(10),delivery_status:'accepted',expires_in:seconds,retry_after:60})});
+ await assert.rejects(()=>f.api.requestVerification('synthetic-token'),{code:'service_unavailable'});
+ assert.equal(f.requests.filter(r=>r.path==='/api/admin/auth/email/request').length,1);
+ assert.equal(f.requests.some(r=>r.path.startsWith('/api/admin/privacy/')),false);
+});
+
 test('uncertain verification reads proof once without replaying a code; no stdin or argument secrets accepted',async()=>{
  let calls=0,reads=0;const api={async verifyEmail(){calls++;throw new SafeError('service_unavailable','unconfirmed');},async verificationStatus(){reads++;return proof();}};
  assert.equal((await verifyCurrentEmail(api,id(9),'123456')).sessionId,id(3));assert.equal(calls,1);assert.equal(reads,1);

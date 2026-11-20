@@ -1,7 +1,7 @@
 // Synthetic definitions only. Root owns actual execution and private TMPDIR.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {randomBytes} from 'node:crypto';
+import {createDecipheriv,randomBytes} from 'node:crypto';
 import {mkdtemp,mkdir,writeFile,readdir,readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,resolve,dirname} from 'node:path';
@@ -55,6 +55,20 @@ test('object payload refuses hash/size drift and cannot promote operational or a
 });
 test('separate AEAD format authenticates metadata and rejects wrong keys and ciphertext/header tamper',()=>{
  const key=randomBytes(32),wrong=randomBytes(32);try{const p=payload(),bytes=encryptObjects(p,key);assert.deepEqual(decryptObjects(bytes,key).payload,p);assert.throws(()=>decryptObjects(bytes,wrong));for(const f of [e=>e.header.project_ref='otherproject',e=>e.header.format='collect.managed-storage.metadata-inert-snapshot.v1',e=>{const b=Buffer.from(e.ciphertext,'base64url');b[0]^=1;e.ciphertext=b.toString('base64url');}]){const e=JSON.parse(bytes);f(e);assert.throws(()=>decryptObjects(Buffer.from(JSON.stringify(e)),key));}}finally{key.fill(0);wrong.fill(0);}
+});
+test('object decryption wipes plaintext chunks after successful and rejected authentication',()=>{
+ const key=Buffer.alloc(32,7),wrong=Buffer.alloc(32,8),iv=Buffer.alloc(12);
+ const prototype=Object.getPrototypeOf(createDecipheriv('aes-256-gcm',key,iv)),update=prototype.update,observed=[];
+ prototype.update=function(...args){const chunk=update.apply(this,args);if(Buffer.isBuffer(chunk)&&chunk.length)observed.push({chunk,hadData:chunk.some(byte=>byte!==0)});return chunk;};
+ try{
+  const value=payload(),encoded=encryptObjects(value,key);
+  assert.deepEqual(decryptObjects(encoded,key).payload,value);const afterSuccess=observed.length;
+  const envelope=JSON.parse(encoded),tag=Buffer.from(envelope.tag,'base64url');tag[0]^=1;envelope.tag=tag.toString('base64url');tag.fill(0);
+  assert.throws(()=>decryptObjects(Buffer.from(canonical(envelope)),key),e=>e.code==='OBJECT_ARCHIVE_AUTHENTICATION_FAILED');const afterTag=observed.length;
+  assert.throws(()=>decryptObjects(encoded,wrong),e=>e.code==='OBJECT_ARCHIVE_AUTHENTICATION_FAILED');
+  assert.ok(afterSuccess>0&&afterTag>afterSuccess&&observed.length>afterTag);
+  for(const {chunk,hadData} of observed){assert.equal(hadData,true);assert.ok(chunk.every(byte=>byte===0));}
+ }finally{prototype.update=update;key.fill(0);wrong.fill(0);iv.fill(0);}
 });
 test('offline anonymous ordinal restore proves exact bytes and refuses existing output',async()=>{
  const base=await mkdtemp(join(tmpdir(),'collect-object-bytes-')),archive=join(base,'archive'),keys=join(base,'keys'),restore=join(base,'restore');await mkdir(archive,{mode:0o700});await mkdir(keys,{mode:0o700});const key=randomBytes(32);try{const bytes=encryptObjects(payload(),key),a=join(archive,'objects.archive'),k=join(keys,'key');await writeFile(a,bytes,{mode:0o600,flag:'wx'});await writeFile(k,key,{mode:0o600,flag:'wx'});const r=await restoreObjectsOffline({archivePath:a,keyPath:k,expectedArchiveSha256:sha(bytes),restoreDirectory:restore});assert.equal(r.all_bytes_exact,true);assert.equal(r.objects,5);assert.equal(r.provider_requests,0);assert.deepEqual((await readdir(restore)).sort(),['001.opaque','002.opaque','003.opaque','004.opaque','005.opaque','MANIFEST.json']);for(let i=0;i<5;i++)assert.equal((await readFile(join(restore,String(i+1).padStart(3,'0')+'.opaque'))).toString(),'v'+i);await assert.rejects(restoreObjectsOffline({archivePath:a,keyPath:k,expectedArchiveSha256:sha(bytes),restoreDirectory:restore}));}finally{key.fill(0);}

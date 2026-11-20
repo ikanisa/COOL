@@ -1,0 +1,31 @@
+{
+  "attempts": [
+    {
+      "exit_code": 1,
+      "invocation": "relative physical-checkout path",
+      "output": {
+        "observation": null,
+        "sourceFrozen": false,
+        "status": "refused_or_unconfirmed"
+      },
+      "pre_dispatch_reason": "Python made __file__ absolute while argv[0] was relative, so the first wrapper argument guard refused before run() and before Docker or database access; behavior reproduced using a disposable synthetic script."
+    },
+    {
+      "exit_code": 0,
+      "invocation": "absolute physical wrapper path",
+      "observed_at_utc": "2026-11-14T15:59:03.401793Z",
+      "observed_file_mode": "0700",
+      "source_receipt": "/Volumes/T7/01 Projects/COLLECT/outputs/cloud-supabase-assessment-2026-11-14/unlinked-sms-classification-source-20261114.json",
+      "source_receipt_sha256": "6c35a9d4b9d0ce24008fb3e60f79d9adcfea011f8394d0cfdcdbe523f06e8149",
+      "status": "completed"
+    }
+  ],
+  "format": "collect.unlinked-local-observation-attempts.v1",
+  "limits": [
+    "configured local service only",
+    "point in time; source not frozen",
+    "not bound to independently retained prior database identity",
+    "aggregate only; no Storage, provider, credential or complete graph proof",
+    "does not authorize transfer"
+  ]
+}

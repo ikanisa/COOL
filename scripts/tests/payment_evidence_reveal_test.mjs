@@ -20,7 +20,7 @@ const failure=(code,status)=>error=>error instanceof ApiError&&(!code||error.cod
 
 async function fixture({kind='raw_sms',grants=required,emailAge=1,bodyText=null}={}){
  const at=Math.floor(Date.now()/1000),origin='https://admin.synthetic.invalid',cookie='a'.repeat(64),tokenHash=await digest(cookie);
- const state={grants:new Set(grants),emailAt:emailAge===null?null:at-emailAge,active:true,role:'admin',authVersion:1,objectReads:0,audits:[],batches:[],networkCalls:0,providerModelCalls:0,committed:true,tombstone:false};
+ const state={grants:new Set(grants),emailAt:emailAge===null?null:at-emailAge,active:true,role:'admin',authVersion:1,adminEmail:'synthetic@example.invalid',providerEmail:'synthetic@example.invalid',objectReads:0,audits:[],batches:[],networkCalls:0,providerModelCalls:0,committed:true,tombstone:false};
  const sql=new DatabaseSync(':memory:');
  sql.exec(`CREATE TABLE payment_evidence(id TEXT PRIMARY KEY,collection_id TEXT,owner_user_id TEXT,object_key TEXT,object_sha256 TEXT,size_bytes INTEGER,content_type TEXT,authenticity TEXT,amount_minor INTEGER,currency TEXT,external_reference TEXT,observed_at TEXT,created_at TEXT,retained_until TEXT,legal_hold INTEGER);
  CREATE TABLE payments(id TEXT PRIMARY KEY,collection_id TEXT,evidence_id TEXT,amount_minor INTEGER);
@@ -51,11 +51,11 @@ async function fixture({kind='raw_sms',grants=required,emailAge=1,bodyText=null}
   const request=new Request(input,init);
   assert.equal(request.url,env.SUPABASE_URL+'/auth/v1/user','No network/provider call beyond the in-process Auth model');
   assert.equal(request.headers.get('Authorization'),'Bearer '+token);state.providerModelCalls++;
-  return state.active?Response.json(user):Response.json({error_code:'access_revoked'},{status:401});
+  return state.active?Response.json({...user,email:state.providerEmail}):Response.json({error_code:'access_revoked'},{status:401});
  };
  const db={setClaims(){},prepare(query){return {sql:query,values:[],bind(...values){this.values=values;return this;},async first(){
   if(query.startsWith('SELECT e.*,o.scope'))return {...currentRow(),retained_scope:structuredClone(state.scope),source_sensitivity:classify()};
-  if(query.startsWith('SELECT b.*,s.expires_at'))return state.active?{auth_user_id:IDS.managed,auth_session_id:IDS.session,token_ciphertext:bffCipher,version:1,expires_at:at+3600}:null;
+  if(query.startsWith('SELECT b.*,s.expires_at'))return state.active?{auth_user_id:IDS.managed,auth_session_id:IDS.session,token_ciphertext:bffCipher,version:1,expires_at:at+3600,admin_email:state.adminEmail}:null;
   if(query.startsWith('SELECT private.is_managed_session'))return {allowed:state.active};
   if(query.startsWith('SELECT user_id FROM private.auth_principal_links'))return {user_id:IDS.principal};
   if(query.startsWith('SELECT * FROM users'))return {id:IDS.principal,access_status:state.active?'active':'deleted',full_name:'Synthetic',public_id:'000001'};
@@ -120,6 +120,9 @@ test('payment evidence sensitivity is inherited and fails closed for legacy prov
 
 test('actual retained-evidence handler enforces fresh email, both SMS grants, reason and audit before plaintext', {concurrency:false},async t=>{
  async function run(options,fn){const f=await fixture(options);try{await fn(f);}finally{f.close();}}
+ await t.test('a changed provider email is refused before object access or audit',async()=>{
+  await run({},async f=>{f.state.providerEmail='other@example.invalid';await assert.rejects(f.call(),failure('session_changed',401));assert.equal(f.state.objectReads,0);assert.equal(f.state.audits.length,0);});
+ });
  await t.test('raw and unclassified legacy evidence return after exactly one source-bound audit',async()=>{
   for(const kind of ['raw_sms','unclassified'])await run({kind},async f=>{
    const reply=await f.call({reason:'  Review the original retained receipt  '});

@@ -8,7 +8,7 @@
   "properties": {
     "format": {"const": "collect.deployment.v1"},
     "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,62}$"},
-    "mode": {"enum": ["managed", "self_hosted"]},
+    "mode": {"const": "managed"},
     "environment": {"enum": ["production", "qualification"]},
     "supabase_origin": {"type": "string", "format": "uri", "pattern": "^https://[^/]+$"},
     "member_api_origin": {"type": "string", "format": "uri", "pattern": "^https://[^/]+$"},

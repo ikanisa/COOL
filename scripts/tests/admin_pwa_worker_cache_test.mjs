@@ -320,6 +320,7 @@ await cache.delete(origin + 'main.dart.js');
 const networkBefore = normal.requests.length;
 const evicted = await normal.request('/main.dart.js');
 assert.equal(evicted.status, 503);
+assert.match(await evicted.text(), /about:blank.*When all are blank, return to Admin online in the same tabs/);
 assert.equal(normal.requests.length, networkBefore);
 assert.equal(evicted.headers.get('Cache-Control'), 'no-store');
 console.log('Admin PWA worker service-document pass-through, cache boundary, integrity and failed-cache cleanup: PASS');

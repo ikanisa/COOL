@@ -1,87 +1,19 @@
-# Collect Admin Architecture
+# Collect Admin architecture
 
-Date: 2026-08-15
+Updated 20 November 2026.
 
-## Runtime
+Collect operates one React web Admin. The panel serves operators and owners. Collect members use the Flutter app. Field staff and receiver operators use the native BuriMunsi Staff and Admin Sync apps.
 
-- Entrypoint: `lib/main_admin.dart`
-- App: `lib/admin/admin_app.dart`
-- Router: `lib/admin/admin_router.dart`
-- Shell: `lib/admin/admin_shell.dart`
-- Runtime repository/pages: `lib/admin/core/admin_runtime.dart`
-- Models: `lib/admin/core/admin_models.dart`
-- Shared components: `lib/admin/shared/components/`
+## Browser and server
 
-The main Collect app does not register `/admin`. The admin surface is a
-separate Flutter web entrypoint that authenticates with Supabase Auth and reads
-or mutates admin data only through server-authorized RPCs.
+| Responsibility | Implementation |
+| --- | --- |
+| Startup and navigation | The React entrypoint restores the session and opens the hash router. Existing path-style Admin bookmarks resolve to their corresponding route. The app shell builds navigation from the operator's current permissions. [Entrypoint](../../admin-web/src/main.tsx) · [Routes and navigation](../../admin-web/src/app/App.tsx) |
+| API and session | The browser sends same-origin requests to the Admin transport. Supabase validates the account, cookie session and current grants. Sensitive routes also require their specified owner or recent verification proof. [API client](../../admin-web/src/api/client.ts) · [Transport](../../deploy/platform-admin/README.md) · [Security model](ADMIN_SECURITY_MODEL.md) |
+| Data and recovery | Groups, Members, Transactions, Ledgers, Reconciliations and Request history use feature-specific routes. An uncertain operation keeps its original request key so its outcome can be checked before another write. [Feature implementations](../../admin-web/src/features) |
+| BuriMunsi access | The BuriMunsi access route manages scoped operator approvals and device provisioning. The backend rechecks the shared principal and the permitted operation. Protected installation delivery requires qualification on the selected host and receiving device. [React feature](../../admin-web/src/features/burimunsi) · [Provisioning service](../../supabase/functions/_shared/domain/burimunsi/admin-provisioning.js) |
+| Installation and updates | Production, qualification and fixture builds use the same React source. The service worker caches the versioned static shell. The release receipt pairs the artifact with its source and public configuration. [Build and verification](../../admin-web/README.md) |
 
-## Capabilities
+## Verification
 
-- WhatsApp OTP admin login.
-- Admin identity and permission loading.
-- Overview metrics from `admin_overview`.
-- Group, member, payment-intent, posted-transaction, SMS parsing, allocation,
-  exception, receiver, SMS, notification, audit-log, settings, feature-flag,
-  system-health, and admin-user list/detail pages.
-- Payment-event reparse and exception investigation flows.
-- Audited raw-SMS reveal through a sensitive-data gate.
-- Reason-gated notification retry and admin-role grant/revoke workflows.
-- Database-backed navigation/queue metadata and realtime invalidation for every
-  operational domain, including notification events and deliveries.
-
-## Route Map
-
-- `/admin/login`
-- `/admin/denied`
-- `/admin`
-- `/admin/groups`
-- `/admin/groups/:id`
-- `/admin/members`
-- `/admin/members/:id`
-- `/admin/payment-intents`
-- `/admin/payment-intents/:id`
-- `/admin/transactions`
-- `/admin/transactions/:id`
-- `/admin/payment-events`
-- `/admin/payment-events/:id`
-- `/admin/allocations`
-- `/admin/exceptions`
-- `/admin/ledger`
-- `/admin/receivers`
-- `/admin/receivers/:id`
-- `/admin/sms`
-- `/admin/sms/:id`
-- `/admin/notifications`
-- `/admin/notifications/:id`
-- `/admin/audit-logs`
-- `/admin/settings`
-- `/admin/feature-flags`
-- `/admin/system-health`
-- `/admin/admin-users`
-- `/admin/admin-users/:id`
-
-## Security Rules
-
-- Client guards are not authoritative.
-- Admin data access must stay behind RLS, security-definer RPCs, and
-  role/permission checks.
-- Flutter must never ship service-role, OpenAI, WhatsApp, or SMS hook secrets.
-- Raw SMS reveal requires permission, reason, and audit.
-- Admin role mutation and notification retry require explicit permissions,
-  reasons, audit records, and server-side state validation.
-- The final effective platform owner cannot be revoked; self-revocation of the
-  platform-owner role is also blocked.
-- Public collection helper functions fail closed when a browser caller supplies
-  another user's UUID.
-- Payment allocation and ledger-affecting actions must be deterministic,
-  idempotent, automated from MoMo SMS/payment intents, and audited
-  server-side.
-
-## Remaining Work
-
-- Apply the pending migrations through an approved production change, then run
-  live role-by-role UAT against the linked project.
-- Operational runbooks for admin escalation, SMS support, and payment review.
-- Optional cleanup of disconnected legacy admin feature-folder files after route
-  coverage is verified.
+The Admin package documents the locked tests, compiled browser smoke check and artifact verification commands. [Build and verification](../../admin-web/README.md)

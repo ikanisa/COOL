@@ -1,5 +1,7 @@
 # Collect Admin Panel Production Readiness Report
 
+This report records the Admin implementation reviewed on its original date. The current browser application is documented in the [React Admin architecture](ADMIN_ARCHITECTURE_PLAN.md).
+
 Date: 2026-06-12
 Scope: Flutter web Admin PWA in `/Volumes/PRO-G40/COOL`, including `lib/admin`, admin Supabase RPC migrations, PWA build/deployment gates, and current local/live runtime evidence.
 

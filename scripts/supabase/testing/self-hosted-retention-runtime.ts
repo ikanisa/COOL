@@ -53,16 +53,18 @@ try{
   await owner`SELECT private._retention_manifest_schema_v2()`;
  });
  await step('seed genuine local email authority and large isolated scoped metadata',async()=>{
+  // Create the protected owner through the same fresh-install operator path.
+  // This is a synthetic fixture identity and cannot replace a live binding.
+  await owner`SELECT private.collect_initialize_owner(${randomUUID()},${admin.account},${admin.id},${admin.email},
+   ${'pbkdf2-sha256$600000$synthetic-fixture'},'Synthetic Owner','synthetic-retention-fixture')`;
   for(const [i,p]of [admin,subject,other].entries()){
    const email=i===0?admin.email:'retention-'+p.id+'@example.invalid';
    await owner`INSERT INTO auth.users(id,email,email_confirmed_at)VALUES(${p.auth},${email},now())`;
    await owner`INSERT INTO auth.sessions(id,user_id,aal,not_after)VALUES(${p.sid},${p.auth},'aal1',now()+interval '1 hour')`;
-   await owner`INSERT INTO app.users(id,email,public_id,created_at,updated_at)VALUES(${p.id},${email},${String(950000+i)},${stamp},${stamp})`;
+   if(i!==0)await owner`INSERT INTO app.users(id,email,public_id,created_at,updated_at)VALUES(${p.id},${email},${String(950000+i)},${stamp},${stamp})`;
    await owner`INSERT INTO private.auth_principal_links(auth_user_id,user_id,proof_reference)VALUES(${p.auth},${p.id},'synthetic-manifest-qualification')`;
    await owner`INSERT INTO app.auth_sessions(id,user_id,surface,auth_at,created_at,expires_at)VALUES(${p.sid},${p.id},${i===0?'admin':'member'},${at},${at},${at+3600})`;
   }
-  await owner`INSERT INTO app.admin_users(id,email,role,status,password_hash,display_name,created_at,updated_at)VALUES(${admin.account},${admin.email},'owner','active','!managed-supabase!','Synthetic Owner',${at},${at})`;
-  await owner`INSERT INTO app.admin_principal_links(admin_user_id,user_id,approved_by,approved_at)VALUES(${admin.account},${admin.id},'synthetic-fixture',${stamp})`;
   await owner`INSERT INTO app.admin_sessions(token_hash,public_id,user_id,auth_version,auth_session_id,origin,created_at,expires_at)SELECT ${admin.token},${admin.public},id,auth_version,${admin.sid},${admin.origin},${at},${at+3600} FROM app.admin_users WHERE id=${admin.account}`;
   await owner`INSERT INTO private.bff_sessions(token_hash,auth_user_id,auth_session_id,token_ciphertext)VALUES(${admin.token},${admin.auth},${admin.sid},'{}')`;
   await owner`INSERT INTO auth.mfa_amr_claims(session_id,authentication_method,updated_at)VALUES(${admin.sid},'otp',to_timestamp(${at}))`;
@@ -80,7 +82,7 @@ try{
   await owner`CREATE TABLE auth.refresh_tokens(id bigint PRIMARY KEY,user_id text,session_id uuid,token text)`;
   await owner`INSERT INTO auth.refresh_tokens SELECT n,${subject.auth},${subject.sid},'SYNTHETIC_SECRET_'||n FROM generate_series(1,1005)n`;
   await owner`INSERT INTO auth.refresh_tokens VALUES(2001,${other.auth},${other.sid},'SYNTHETIC_OTHER_SECRET')`;
-  await owner`CREATE SCHEMA storage`;
+  await owner`CREATE SCHEMA IF NOT EXISTS storage`;
   await owner`CREATE TABLE storage.buckets(id text PRIMARY KEY,name text,public boolean)`;
   await owner`CREATE TABLE storage.objects(id uuid PRIMARY KEY,bucket_id text,name text,owner_id text,metadata jsonb)`;
   await owner`CREATE TABLE storage.s3_multipart_uploads_parts(id uuid PRIMARY KEY,bucket_id text,key text,owner_id text,upload_id text,etag text)`;
@@ -98,19 +100,21 @@ try{
   await owner`INSERT INTO app.privacy_holds(id,user_id,category,reason_code,active,created_at)VALUES(${randomUUID()},${subject.id},'financial_evidence','synthetic_review',1,${stamp})`;
  });
  let captured:any;const operation=randomUUID();
- await step('native v1 bound refuses while v2 captures complete larger metadata without effects',async()=>{
-  await assert.rejects(work(async env=>(await env.DB.batch([env.DB.prepare('SELECT private.retention_managed_inventory(?)').bind(subject.id)]))),/retention_managed_inventory_limit/);
+ await step('native v1 rejects unknown managed metadata while v2 captures without effects',async()=>{
+  await assert.rejects(work(async env=>(await env.DB.batch([env.DB.prepare('SELECT private.retention_managed_inventory(?)').bind(subject.id)]))),/retention_unknown_managed_relation/);
   captured=await work(env=>captureRetentionInventory(env,actor,{operation_id:operation,request_id:request,expected_review_revision:0,expected_source_id:source}));
-  assert(captured.page_count>50);assert(captured.descriptor_count>5500);assert.equal(captured.active_hold_count,1);
+  assert(captured.page_count>40);assert(captured.descriptor_count>4500);assert.equal(captured.active_hold_count,1);
   assert.equal(captured.class_counts['notification_events'].rows,2505);
   assert.equal(captured.class_counts['managed:auth'].rows,1007);
-  assert.equal(captured.class_counts['managed:storage'].rows,1006);
+  assert.equal(captured.class_counts['managed:storage'].rows,null);
+  assert.equal(captured.class_counts['managed:storage_iceberg'].rows,null);
+  assert.equal(captured.class_counts['managed:storage_iceberg'].status,'unverified');
   assert.equal(captured.class_counts['managed:realtime_messages'].rows,1001);
   assert(captured.class_counts['private:supabase_otp_challenges'].unresolved_count>=1);
   for(const name of ['private:guest_upgrade_challenges','private:collect_fence_admission_archive','private:collect_sms_fence_admissions'])assert.equal(captured.class_counts[name].status,'unmapped');
   for(const name of ['external:collect_sms','external:collect_ops','external:vault','external:net'])assert.equal(captured.class_counts[name].status,'unverified');
   assert.equal(captured.erasure_completed,false);assert.equal(captured.approval_granted,false);assert.equal(captured.physical_objects_verified,false);
-  observed.capture={descriptor_count:captured.descriptor_count,page_count:captured.page_count,auth_rows:1007,storage_rows:1006,realtime_rows:1001,application_notification_rows:2505,active_holds:1};
+  observed.capture={descriptor_count:captured.descriptor_count,page_count:captured.page_count,auth_rows:1007,storage_rows:null,iceberg_rows:null,realtime_rows:1001,application_notification_rows:2505,active_holds:1};
  });
  const read=(page:number,verify=false,sha=captured.manifest_sha256)=>work(env=>readRetentionInventoryPage(env,actor,{manifest_id:operation,manifest_sha256:sha,page_number:page,verify_current:verify}));
  await step('resumable pages are immutable, exact, secret-free and independently currentness checked',async()=>{

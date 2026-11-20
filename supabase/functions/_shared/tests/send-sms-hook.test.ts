@@ -6,8 +6,8 @@ import {openApplicationWork} from '../application-fence.js';
 import {syntheticFenceBackend} from './helpers/fenced-unit.js';
 
 const NOW=1793448000000,secret=Buffer.alloc(32,7);
-const profile={format:'collect.deployment.v1',id:'collect-hook-test',mode:'self_hosted',environment:'qualification',
- supabase_origin:'https://supabase.collect.example',member_api_origin:'https://api.collect.example',admin_origin:'https://admin.collect.example',
+const profile={format:'collect.deployment.v1',id:'collect-hook-test',mode:'managed',environment:'qualification',
+ supabase_origin:'https://rrlduytparvsjfmegalh.supabase.co',member_api_origin:'https://api.collect.example',admin_origin:'https://admin.collect.example',
  public_origin:'https://collect.example',google_callback_origin:'https://admin.collect.example'};
 const encoded=canonicalProfile(profile),sha=(value:string)=>createHash('sha256').update(value).digest('hex');
 const env={COLLECT_DEPLOYMENT_PROFILE:encoded,COLLECT_DEPLOYMENT_PROFILE_SHA256:sha(encoded),BUILD_SOURCE_ID:'a'.repeat(64),

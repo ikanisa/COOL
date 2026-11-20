@@ -30,7 +30,7 @@ export const STATIC_RECOVERY_SCRIPT = String.raw`(function collectStaticRecovery
     title.textContent = "Collect couldn't load this page";
     title.style.cssText = 'font-size:clamp(24px,5vw,32px);font-weight:500;line-height:1.15;margin:0 0 16px;';
     const guidance = document.createElement('p');
-    guidance.textContent = 'Finish any work in other Collect tabs, then close them and reopen this page online.';
+    guidance.textContent = 'Finish any open work. Open about:blank in each Admin tab. When all are blank, return to Admin online in the same tabs.';
     guidance.style.cssText = 'margin:0 0 24px;';
     const reopen = document.createElement('button');
     reopen.type = 'button';
@@ -51,7 +51,7 @@ function unavailable(request, main, status = 404) {
   const headers = new Headers(NO_STORE);
   headers.set('Content-Type', main ? 'text/javascript; charset=utf-8' : 'text/plain; charset=utf-8');
   headers.set('X-Collect-Static-Recovery', '1');
-  const body = main ? STATIC_RECOVERY_SCRIPT : 'Admin static build is unavailable. Close all Admin tabs and reopen online.';
+  const body = main ? STATIC_RECOVERY_SCRIPT : 'Admin could not load. Finish any open work. Open about:blank in each Admin tab. When all are blank, return to Admin online in the same tabs.';
   // A script load must execute this explicit recovery controller. Returning an
   // HTML error or a non-2xx script response cannot show it in an old bootstrap.
   return new Response(request.method === 'HEAD' ? null : body, {status: main ? 200 : status, headers});

@@ -1,5 +1,7 @@
 # Collect Admin panel UAT and QA status
 
+This report records the Admin implementation reviewed on its original date. The current browser application is documented in the [React Admin architecture](ADMIN_ARCHITECTURE_PLAN.md).
+
 Date: 2026-08-31
 
 ## Verdict

@@ -5,7 +5,7 @@ import {readFile,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import postgres from 'npm:postgres@3.4.7';
 import {snapshotSelfHostedHistorySources} from './self-hosted-member-history.mjs';
-import {installCurrentFixtureAdditions,validateCurrentFixtureDescriptor} from './self-hosted-current-schema.mjs';
+import {installCurrentFixtureAdditions,validateCurrentFixtureDescriptor,CURRENT_MIGRATION_COUNT} from './self-hosted-current-schema.mjs';
 import {connection,fenceConnection,PostgresDatabase} from '../../../supabase/functions/_shared/postgres.js';
 import {openApplicationWork,sqlFenceBackend} from '../../../supabase/functions/_shared/application-fence.js';
 import {accountDatabase} from '../../../supabase/functions/_shared/domain/admin_accounts.js';
@@ -24,7 +24,7 @@ const source=await inputs(),owner=postgres(target.href,{max:1,prepare:false,ssl:
 const originalFetch=globalThis.fetch;globalThis.fetch=()=>{throw Error('EXTERNAL_FETCH_FORBIDDEN');};
 const cases:string[]=[];
 try{
- const schema=await installCurrentFixtureAdditions(owner);assert.equal(schema.migration_count,25);
+ const schema=await installCurrentFixtureAdditions(owner);assert.equal(schema.migration_count,CURRENT_MIGRATION_COUNT);
  const sourceId=descriptor.source_sha256,at=Math.floor(Date.now()/1000)-2,stamp=new Date().toISOString();
  const a={uid:randomUUID(),auth:randomUUID(),sid:randomUUID(),aid:randomUUID(),public:randomUUID()},origin='https://roster-test.example.invalid',cookieHash=await digest('synthetic-roster-authority-cookie');
  await owner`INSERT INTO auth.users(id,email,email_confirmed_at) VALUES(${a.auth},'info@ikanisa.com',now())`;

@@ -1,0 +1,44 @@
+{
+  "version": "0.19.0-recovery.3",
+  "financial_invariant": "Uncertain outcome never permits replacement or replay of a financial command.",
+  "wire_protocol": "burimunsi.operation-recovery.v1 (unchanged)",
+  "default_policy": {
+    "max_checks_per_controller": 5,
+    "base_delay_ms": 1000,
+    "max_delay_ms": 30000,
+    "schedule_with_immediate_completions_ms": [
+      0,
+      1000,
+      3000,
+      7000,
+      15000
+    ]
+  },
+  "time": "Nonnegative monotonic caller-supplied tick. Repository overload uses admission-to-admission deadlines; pure finish can use completion time.",
+  "retryable": [
+    "pending",
+    "transient transport failure",
+    "429",
+    "5xx unless invalid_api_response",
+    "classified cleanup failure",
+    "InterruptedException"
+  ],
+  "authentication": "401 or changed/unavailable session requires a new scope; no budget reset; original identity retained.",
+  "stop": [
+    "403",
+    "other unexpected status",
+    "malformed/identity-mismatched response",
+    "conflict",
+    "unknown exception",
+    "unrepresentable clock deadline"
+  ],
+  "single_flight": "One read/apply/cleanup scope per shared storage lock within one process. No timer steals a live lease. Released in finally.",
+  "budget_scope": "Opt-in local controller; not durable or global; manual GET recovery remains possible. No automatic scheduler is enabled.",
+  "not_proven": [
+    "PostgreSQL commit atomicity",
+    "cross-process exclusion",
+    "physical durability",
+    "hosted authority",
+    "Android lifecycle scheduling"
+  ]
+}

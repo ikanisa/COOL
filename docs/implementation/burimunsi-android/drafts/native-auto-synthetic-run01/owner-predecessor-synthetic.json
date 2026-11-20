@@ -1,0 +1,177 @@
+{
+  "synthetic_only": true,
+  "functions": [
+    {
+      "signature": "private.admin_invitation_actor(text,text,text,text)",
+      "body": "\nDECLARE actor jsonb;principal text;\nBEGIN\n BEGIN\n  PERFORM private.set_admin_email_context(p_actor_id,p_cookie_hash,p_origin,p_public_session_id);\n  principal:=private.assert_actor('admin_users.manage',NULL,NULL,2,300);\n  actor:=private._admin_email_context();\n  IF actor->>'principal_id' IS DISTINCT FROM principal OR actor->>'role' IS DISTINCT FROM 'owner'\n   OR actor->>'identity_value' IS DISTINCT FROM 'info@ikanisa.com'\n  THEN RAISE EXCEPTION 'admin_invitation_authority';END IF;\n EXCEPTION WHEN OTHERS THEN\n  IF SQLSTATE='42501' AND SQLERRM='recent_email_sign_in_required' THEN RAISE;END IF;\n  RAISE EXCEPTION 'admin_invitation_authority' USING ERRCODE='42501';\n END;\n RETURN (actor->>'session_id')::uuid;\nEND",
+      "sha256": "9653b09543cc24c9c310b058ecdc99c7e044577ad343afa53ef8d37d77853c10",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "definer": true,
+      "parallel": "u",
+      "volatility": "v",
+      "config": [
+        "search_path=pg_catalog"
+      ],
+      "acl": "{postgres=X/postgres}"
+    },
+    {
+      "signature": "private.admin_invitation_v1_prepare_legacy(text,text,text,text,text,text,text,text,text,text,text,text)",
+      "body": "\nDECLARE session_uuid uuid; actor_principal text; attempt private.admin_invitation_attempts%ROWTYPE; prior private.admin_invitation_attempts%ROWTYPE;\n subject app.admin_users%ROWTYPE; principal text; managed jsonb; initial_state text; allocated_public_id text; duplicate_subject boolean:=false;\n current_epoch bigint:=app.unixepoch(); timestamp_text text:=app.strftime('%Y-%m-%dT%H:%M:%fZ','now'); attempt_created timestamptz:=clock_timestamp();\nBEGIN\n -- Same lock order as PostgresDatabase.batch, before any authority row locks.\n PERFORM pg_advisory_xact_lock(734636924058501::bigint);\n session_uuid:=private.admin_invitation_actor(p_actor_id,p_cookie_hash,p_origin,p_public_session_id);\n actor_principal:=api.current_principal_id();\n IF actor_principal IS NULL THEN RAISE EXCEPTION 'admin_invitation_authority' USING ERRCODE='42501';END IF;\n IF p_idempotency_key IS NULL OR p_idempotency_key !~ '^[A-Za-z0-9._:-]{8,200}$'\n    OR p_kind IS NULL OR p_kind NOT IN('invite','resend') OR p_body_sha256 IS NULL OR p_body_sha256 !~ '^[0-9a-f]{64}$'\n    OR p_subject_id IS NULL OR p_subject_id !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'\n THEN RAISE EXCEPTION 'admin_invitation_invalid' USING ERRCODE='22023';END IF;\n SELECT * INTO attempt FROM private.admin_invitation_attempts r WHERE r.actor_id=p_actor_id AND r.idempotency_key=p_idempotency_key FOR UPDATE;\n IF FOUND THEN\n  IF attempt.kind<>p_kind OR attempt.body_sha256<>p_body_sha256 OR (p_kind='resend' AND attempt.subject_id<>p_subject_id)\n  THEN RAISE EXCEPTION 'admin_invitation_idempotency_conflict' USING ERRCODE='22023';END IF;\n  IF p_kind='invite' AND NOT EXISTS(SELECT 1 FROM app.admin_users a WHERE a.id=attempt.subject_id AND a.email=p_email AND a.role=p_role AND a.display_name=p_display_name)\n  THEN RAISE EXCEPTION 'admin_invitation_idempotency_conflict' USING ERRCODE='22023';END IF;\n  RETURN private.admin_invitation_result(attempt,true);\n END IF;\n IF p_kind='invite' THEN\n  IF p_email IS NULL OR p_email<>lower(btrim(p_email)) OR length(p_email) NOT BETWEEN 3 AND 254\n     OR p_email !~ '^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$' OR p_email ~ '[[:cntrl:]]'\n     OR p_email='info@ikanisa.com' OR p_role IS NULL OR p_role NOT IN('admin','staff')\n     OR p_display_name IS NULL OR p_display_name<>btrim(p_display_name) OR length(p_display_name)>120 OR p_display_name ~ '[[:cntrl:]]'\n     OR p_new_principal_id IS NULL OR p_new_principal_id !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'\n  THEN RAISE EXCEPTION 'admin_invitation_invalid' USING ERRCODE='22023';END IF;\n  SELECT * INTO subject FROM app.admin_users a WHERE lower(a.email)=p_email FOR UPDATE;\n  duplicate_subject:=FOUND;\n  IF duplicate_subject AND (subject.role<>p_role OR subject.display_name<>p_display_name)\n  THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n ELSE\n  SELECT * INTO subject FROM app.admin_users a WHERE a.id=p_subject_id FOR UPDATE;\n  IF NOT FOUND THEN RAISE EXCEPTION 'admin_invitation_subject_unavailable' USING ERRCODE='22023';END IF;\n  duplicate_subject:=true;\n END IF;\n IF duplicate_subject THEN\n  IF subject.role='owner' OR subject.status='revoked' OR (p_kind='resend' AND subject.status<>'invited')\n  THEN RAISE EXCEPTION 'admin_invitation_subject_unavailable' USING ERRCODE='42501';END IF;\n  SELECT l.user_id INTO principal FROM app.admin_principal_links l JOIN app.users u ON u.id=l.user_id\n   WHERE l.admin_user_id=subject.id AND u.access_status='active' FOR SHARE OF l,u;\n  IF principal IS NULL THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n  SELECT * INTO prior FROM private.admin_invitation_attempts r WHERE r.subject_id=subject.id AND r.replayed_request_id IS NULL ORDER BY r.attempt_sequence DESC LIMIT 1 FOR UPDATE;\n  IF FOUND THEN\n   PERFORM private.admin_invitation_result(prior,true);\n   -- Only explicit resend following a known accepted/rejected outcome may\n   -- reserve another dispatch. Unknown and dispatching retain their history.\n   IF p_kind='invite' OR prior.state NOT IN('accepted','rejected') THEN\n    INSERT INTO private.admin_invitation_attempts(actor_id,actor_principal_id,idempotency_key,subject_id,principal_id,body_sha256,kind,replayed_request_id,\n      original_session_id,subject_identity_sha256,state,created_at,finished_at,safe_error_code)\n     VALUES(p_actor_id,actor_principal,p_idempotency_key,subject.id,principal,p_body_sha256,p_kind,prior.request_id,\n      session_uuid,prior.subject_identity_sha256,'unknown',attempt_created,attempt_created,'invitation_existing_request') RETURNING * INTO attempt;\n    RETURN private.admin_invitation_result(attempt,true);\n   END IF;\n  ELSE\n   initial_state:='unknown';\n  END IF;\n  IF initial_state IS NULL THEN\n   managed:=private.admin_invitation_target(subject.email,principal);\n   initial_state:=CASE WHEN (managed->>'confirmed')::boolean THEN 'already_registered' ELSE 'reserved' END;\n  END IF;\n ELSE\n  IF EXISTS(SELECT 1 FROM app.admin_users a WHERE a.id=p_subject_id)\n  THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n  managed:=private.admin_invitation_target(p_email,NULL);\n  principal:=managed->>'principalId';\n  IF principal IS NOT NULL AND EXISTS(SELECT 1 FROM app.admin_principal_links l WHERE l.user_id=principal)\n  THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n  IF principal IS NULL THEN\n   principal:=p_new_principal_id;\n   IF EXISTS(SELECT 1 FROM app.users u WHERE u.id=principal)\n   THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n   SELECT app.printf('%06d',min(candidate)) INTO allocated_public_id\n    FROM (SELECT 0::bigint AS candidate UNION ALL SELECT u.public_id::bigint+1 FROM app.users u WHERE u.public_id<>'999999') c\n    WHERE candidate<1000000 AND NOT EXISTS(SELECT 1 FROM app.users u WHERE u.public_id=app.printf('%06d',candidate));\n   IF allocated_public_id IS NULL THEN RAISE EXCEPTION 'admin_invitation_subject_unavailable' USING ERRCODE='54000';END IF;\n   INSERT INTO app.users(id,public_id,full_name,member_type,created_at,updated_at)\n    VALUES(principal,allocated_public_id,p_display_name,'operator',timestamp_text,timestamp_text);\n  END IF;\n  INSERT INTO app.admin_users(id,email,role,status,display_name,created_at,invited_at,updated_at)\n   VALUES(p_subject_id,p_email,p_role,'invited',p_display_name,current_epoch,current_epoch,current_epoch) RETURNING * INTO subject;\n  INSERT INTO app.admin_principal_links(admin_user_id,user_id,approved_by,approved_at) VALUES(subject.id,principal,p_actor_id,timestamp_text);\n  initial_state:=CASE WHEN (managed->>'confirmed')::boolean THEN 'already_registered' ELSE 'reserved' END;\n END IF;\n INSERT INTO private.admin_invitation_attempts(actor_id,actor_principal_id,idempotency_key,subject_id,principal_id,body_sha256,kind,original_session_id,\n   subject_identity_sha256,state,created_at,finished_at,safe_error_code)\n VALUES(p_actor_id,actor_principal,p_idempotency_key,subject.id,principal,p_body_sha256,p_kind,session_uuid,\n   private.admin_invitation_fingerprint(subject.id),initial_state,attempt_created,\n   CASE WHEN initial_state IN('unknown','already_registered') THEN attempt_created END,\n   CASE initial_state WHEN 'unknown' THEN 'invitation_history_unknown' WHEN 'already_registered' THEN 'email_exists' END)\n RETURNING * INTO attempt;\n RETURN private.admin_invitation_result(attempt,false);\nEND",
+      "sha256": "9278b1b5260cbccfd87a37001e761bda33f7a654de5da4eefbbd5489628b4ccf",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "definer": true,
+      "parallel": "u",
+      "volatility": "v",
+      "config": [
+        "search_path=pg_catalog"
+      ],
+      "acl": "{postgres=X/postgres}"
+    },
+    {
+      "signature": "private.admin_invitation_v2_prepare(text,text,text,text,text,text,text,text,text,text,text,text,uuid)",
+      "body": "\nDECLARE session_uuid uuid; actor_principal text; attempt private.admin_invitation_attempts%ROWTYPE; prior private.admin_invitation_attempts%ROWTYPE;\n source private.admin_invitation_attempts%ROWTYPE; subject app.admin_users%ROWTYPE; principal text; target jsonb;\n selected_kind text:='auth_invite'; selected_template text:='managed_invite_v1'; selected_auth uuid; lineage uuid; selected_origin text;\n initial_state text:='reserved'; allocated_public_id text; duplicate_subject boolean:=false; alias_source uuid;\n current_epoch bigint:=app.unixepoch(); stamp text:=app.strftime('%Y-%m-%dT%H:%M:%fZ','now'); created timestamptz:=clock_timestamp();\nBEGIN\n PERFORM pg_advisory_xact_lock(734636924058501::bigint);\n session_uuid:=private.admin_invitation_actor(p_actor_id,p_cookie_hash,p_origin,p_public_session_id);actor_principal:=api.current_principal_id();\n IF actor_principal IS NULL THEN RAISE EXCEPTION 'admin_invitation_authority' USING ERRCODE='42501';END IF;\n IF p_idempotency_key IS NULL OR p_idempotency_key !~ '^[A-Za-z0-9._:-]{8,200}$' OR p_kind IS NULL OR p_kind NOT IN('invite','resend','notice_repair')\n  OR p_body_sha256 IS NULL OR p_body_sha256 !~ '^[0-9a-f]{64}$' OR p_subject_id IS NULL\n  OR p_subject_id !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'\n  OR (p_kind='notice_repair' AND p_source_request_id IS NULL) OR (p_kind<>'notice_repair' AND p_source_request_id IS NOT NULL)\n THEN RAISE EXCEPTION 'admin_invitation_invalid' USING ERRCODE='22023';END IF;\n SELECT * INTO attempt FROM private.admin_invitation_attempts r WHERE r.actor_id=p_actor_id AND r.idempotency_key=p_idempotency_key FOR UPDATE;\n IF FOUND THEN\n  IF attempt.contract_version<>2 THEN RAISE EXCEPTION 'admin_invitation_version_conflict' USING ERRCODE='22023';END IF;\n  IF attempt.kind<>p_kind OR attempt.body_sha256<>p_body_sha256 OR (p_kind<>'invite' AND attempt.subject_id<>p_subject_id)\n   OR (p_kind='notice_repair' AND attempt.source_request_id IS DISTINCT FROM p_source_request_id)\n  THEN RAISE EXCEPTION 'admin_invitation_idempotency_conflict' USING ERRCODE='22023';END IF;\n  IF p_kind='invite' AND NOT EXISTS(SELECT 1 FROM app.admin_users a WHERE a.id=attempt.subject_id AND a.email=p_email AND a.role=p_role AND a.display_name=p_display_name)\n  THEN RAISE EXCEPTION 'admin_invitation_idempotency_conflict' USING ERRCODE='22023';END IF;\n  RETURN private.admin_invitation_v2_result(attempt,true);\n END IF;\n IF p_kind='invite' THEN\n  IF p_email IS NULL OR p_email<>lower(btrim(p_email)) OR length(p_email) NOT BETWEEN 3 AND 254\n   OR p_email !~ '^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$' OR p_email ~ '[[:cntrl:]]' OR p_email='info@ikanisa.com'\n   OR p_role IS NULL OR p_role NOT IN('admin','staff') OR p_display_name IS NULL OR p_display_name<>btrim(p_display_name)\n   OR length(p_display_name)>120 OR p_display_name ~ '[[:cntrl:]]' OR p_new_principal_id IS NULL\n   OR p_new_principal_id !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'\n  THEN RAISE EXCEPTION 'admin_invitation_invalid' USING ERRCODE='22023';END IF;\n  SELECT * INTO subject FROM app.admin_users a WHERE lower(a.email)=p_email FOR UPDATE;duplicate_subject:=FOUND;\n  IF duplicate_subject AND (subject.role<>p_role OR subject.display_name<>p_display_name)\n  THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n ELSE\n  SELECT * INTO subject FROM app.admin_users a WHERE a.id=p_subject_id FOR UPDATE;\n  IF NOT FOUND THEN RAISE EXCEPTION 'admin_invitation_subject_unavailable' USING ERRCODE='42501';END IF;duplicate_subject:=true;\n END IF;\n IF duplicate_subject THEN\n  IF subject.role='owner' OR subject.status='revoked' OR (p_kind='resend' AND subject.status<>'invited')\n  THEN RAISE EXCEPTION 'admin_invitation_subject_unavailable' USING ERRCODE='42501';END IF;\n  SELECT l.user_id INTO principal FROM app.admin_principal_links l JOIN app.users u ON u.id=l.user_id\n   WHERE l.admin_user_id=subject.id AND u.access_status='active' FOR SHARE OF l,u;\n  IF principal IS NULL THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n  SELECT * INTO prior FROM private.admin_invitation_attempts r WHERE r.subject_id=subject.id AND r.replayed_request_id IS NULL ORDER BY r.attempt_sequence DESC LIMIT 1 FOR UPDATE;\n  IF p_kind='notice_repair' THEN\n   SELECT * INTO source FROM private.admin_invitation_attempts r WHERE r.request_id=p_source_request_id AND r.replayed_request_id IS NULL\n    AND r.subject_id=subject.id AND r.principal_id=principal AND r.state='already_registered' FOR UPDATE;\n   IF NOT FOUND OR source.subject_identity_sha256 IS DISTINCT FROM private.admin_invitation_fingerprint(subject.id)\n   THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n   lineage:=source.request_id;\n   SELECT r.request_id INTO alias_source FROM private.admin_invitation_attempts r WHERE r.contract_version=2 AND r.kind='notice_repair'\n    AND r.source_request_id=source.request_id AND r.replayed_request_id IS NULL ORDER BY r.attempt_sequence LIMIT 1 FOR UPDATE;\n   -- Unknown native work never falls through to a notice, even when some\n   -- older registered receipt is supplied to the explicit repair route.\n   IF alias_source IS NULL AND prior.request_id IS NOT NULL AND prior.state IN('reserved','dispatching','unknown') THEN alias_source:=prior.request_id;END IF;\n  ELSIF prior.request_id IS NOT NULL THEN\n   PERFORM private.admin_invitation_v2_result(prior,true);\n   IF p_kind='invite' OR prior.state NOT IN('accepted','rejected') THEN alias_source:=prior.request_id;\n   ELSE lineage:=prior.request_id;END IF;\n  ELSE initial_state:='unknown';\n  END IF;\n  IF alias_source IS NOT NULL THEN\n   SELECT * INTO source FROM private.admin_invitation_attempts r WHERE r.request_id=alias_source AND r.replayed_request_id IS NULL;\n   PERFORM private.admin_invitation_v2_result(source,true);\n   INSERT INTO private.admin_invitation_attempts(actor_id,actor_principal_id,idempotency_key,subject_id,principal_id,body_sha256,kind,\n    replayed_request_id,original_session_id,subject_identity_sha256,state,created_at,finished_at,safe_error_code,\n    contract_version,message_kind,template_version,managed_auth_user_id,notice_origin,source_request_id)\n   VALUES(p_actor_id,actor_principal,p_idempotency_key,subject.id,principal,p_body_sha256,p_kind,source.request_id,session_uuid,\n    source.subject_identity_sha256,'unknown',created,created,'invitation_existing_request',2,source.message_kind,source.template_version,\n    source.managed_auth_user_id,source.notice_origin,CASE WHEN p_kind='notice_repair' THEN p_source_request_id ELSE source.source_request_id END)\n   RETURNING * INTO attempt;\n   RETURN private.admin_invitation_v2_result(attempt,true);\n  END IF;\n  IF initial_state='reserved' THEN target:=private.admin_invitation_v2_target(subject.email,principal);END IF;\n ELSE\n  IF EXISTS(SELECT 1 FROM app.admin_users a WHERE a.id=p_subject_id) THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n  target:=private.admin_invitation_v2_target(p_email,NULL);principal:=target->>'principalId';\n  IF principal IS NOT NULL AND EXISTS(SELECT 1 FROM app.admin_principal_links l WHERE l.user_id=principal)\n  THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n  IF principal IS NULL THEN\n   principal:=p_new_principal_id;\n   IF EXISTS(SELECT 1 FROM app.users u WHERE u.id=principal) THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n   SELECT app.printf('%06d',min(candidate)) INTO allocated_public_id FROM\n    (SELECT 0::bigint AS candidate UNION ALL SELECT u.public_id::bigint+1 FROM app.users u WHERE u.public_id<>'999999') c\n    WHERE candidate<1000000 AND NOT EXISTS(SELECT 1 FROM app.users u WHERE u.public_id=app.printf('%06d',candidate));\n   IF allocated_public_id IS NULL THEN RAISE EXCEPTION 'admin_invitation_subject_unavailable' USING ERRCODE='54000';END IF;\n   INSERT INTO app.users(id,public_id,full_name,member_type,created_at,updated_at) VALUES(principal,allocated_public_id,p_display_name,'operator',stamp,stamp);\n  END IF;\n  INSERT INTO app.admin_users(id,email,role,status,display_name,created_at,invited_at,updated_at)\n   VALUES(p_subject_id,p_email,p_role,'invited',p_display_name,current_epoch,current_epoch,current_epoch) RETURNING * INTO subject;\n  INSERT INTO app.admin_principal_links(admin_user_id,user_id,approved_by,approved_at) VALUES(subject.id,principal,p_actor_id,stamp);\n END IF;\n IF initial_state='reserved' THEN\n  selected_auth:=(target->>'managedAuthUserId')::uuid;\n  IF (target->>'confirmed')::boolean THEN selected_kind:='access_notice';selected_template:='access_notice_v1';selected_origin:=p_origin;END IF;\n  IF p_kind='notice_repair' AND selected_kind<>'access_notice' THEN RAISE EXCEPTION 'admin_invitation_identity_conflict' USING ERRCODE='42501';END IF;\n END IF;\n INSERT INTO private.admin_invitation_attempts(actor_id,actor_principal_id,idempotency_key,subject_id,principal_id,body_sha256,kind,original_session_id,\n  subject_identity_sha256,state,created_at,finished_at,safe_error_code,contract_version,message_kind,template_version,managed_auth_user_id,notice_origin,source_request_id)\n VALUES(p_actor_id,actor_principal,p_idempotency_key,subject.id,principal,p_body_sha256,p_kind,session_uuid,private.admin_invitation_fingerprint(subject.id),\n  initial_state,created,CASE WHEN initial_state='unknown' THEN created END,CASE WHEN initial_state='unknown' THEN 'invitation_history_unknown' END,\n  2,selected_kind,selected_template,selected_auth,selected_origin,lineage) RETURNING * INTO attempt;\n RETURN private.admin_invitation_v2_result(attempt,false);\nEND",
+      "sha256": "5b9c211fc17417045d641bdc837de5d9b1aef1dea9f3363c7ade9f4b2ea4030f",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "definer": true,
+      "parallel": "u",
+      "volatility": "v",
+      "config": [
+        "search_path=pg_catalog"
+      ],
+      "acl": "{postgres=X/postgres,collect_runtime=X/postgres}"
+    },
+    {
+      "signature": "private.trg_admin_owner_bootstrap_apply()",
+      "body": "\nBEGIN\n  INSERT INTO users ( id , public_id , full_name , member_type , created_at , updated_at ) VALUES ( NEW . principal_user_id , ( SELECT printf ( '%06d' , min ( candidate ) ) FROM ( SELECT 0 AS candidate UNION ALL SELECT CAST ( public_id AS BIGINT ) + 1 FROM users WHERE public_id != '999999' ) c WHERE candidate < 1000000 AND NOT EXISTS ( SELECT 1 FROM users WHERE public_id = printf ( '%06d' , candidate ) ) ) , NEW . display_name , 'operator' , NEW . created_at , NEW . created_at );\n  INSERT INTO admin_users ( id , email , role , status , password_hash , display_name , created_at , accepted_at , updated_at ) VALUES ( NEW . admin_user_id , 'info@ikanisa.com' , 'owner' , 'active' , NEW . password_hash , NEW . display_name , NEW . created_seconds , NEW . created_seconds , NEW . created_seconds );\n  INSERT INTO admin_principal_links ( admin_user_id , user_id , approved_by , approved_at ) VALUES ( NEW . admin_user_id , NEW . principal_user_id , NEW . approval_reference , NEW . created_at );\n  INSERT INTO admin_account_audit ( id , actor_id , subject_id , action , occurred_at ) VALUES ( NEW . operation_id , NEW . admin_user_id , NEW . admin_user_id , 'explicit_owner_bootstrapped' , NEW . created_seconds );\n  RETURN NEW;\nEND;\n",
+      "sha256": "a55867eb3070740430e6111051a8bb639186da02d57a12d2c716eb74fa3bbfdc",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "definer": false,
+      "parallel": "u",
+      "volatility": "v",
+      "config": [
+        "search_path=app, pg_catalog"
+      ],
+      "acl": "{postgres=X/postgres,collect_runtime=X/postgres}"
+    },
+    {
+      "signature": "private.trg_assisted_sms_grant_explicit()",
+      "body": "\nBEGIN\n  IF NOT coalesce((NEW . permission IN ( 'assisted_sms.read' , 'assisted_sms.manage' )), false) THEN RETURN NEW; END IF;\n  IF NOT EXISTS ( SELECT 1 FROM request_receipts r JOIN assisted_sms_current_sessions s ON s . auth_session_id = r . session_id AND s . user_id = r . user_id JOIN admin_users a ON a . id = s . admin_id WHERE s . permission = 'admin_users.manage' AND s . role = 'owner' AND a . email = 'info@ikanisa.com' AND r . operation = 'assisted_sms.access.set' AND r . user_id = NEW . user_id AND NEW . granted_by = 'admin-account:' || s . admin_id AND json_extract ( r . response_json , '$.kind' ) = 'authenticated_owner_receipt_sms_access' AND json_extract ( r . response_json , '$.scope' ) = 'owner_receipt_sms_access' AND json_numeric ( r . response_json , '$.enabled' ) = 1 AND json_extract ( r . response_json , '$.current_admin_id' ) = s . admin_id AND json_extract ( r . response_json , '$.current_principal_id' ) = s . user_id AND json_extract ( r . response_json , '$.originating_session_id' ) = s . auth_session_id AND json_extract ( r . response_json , '$.public_session_id' ) = s . public_id AND json_extract ( r . response_json , '$.request_id' ) = r . request_id AND EXISTS ( SELECT 1 FROM admin_bridge_guards transaction_guard WHERE transaction_guard . id = json_extract ( r . response_json , '$.grant_transaction_id' ) AND transaction_guard . passed = 1 ) AND json_array_length ( r . response_json , '$.permissions' ) = 2 AND json_extract ( r . response_json , '$.permissions[0]' ) = 'assisted_sms.read' AND json_extract ( r . response_json , '$.permissions[1]' ) = 'assisted_sms.manage' ) THEN RETURN NULL; END IF;\n  RETURN NEW;\nEND;\n",
+      "sha256": "094c0935dac23ecd455e8cb057678dc833522453df1b298e4b0236f5c027a492",
+      "owner": "postgres",
+      "language": "plpgsql",
+      "definer": false,
+      "parallel": "u",
+      "volatility": "v",
+      "config": [
+        "search_path=app, pg_catalog"
+      ],
+      "acl": "{postgres=X/postgres,collect_runtime=X/postgres}"
+    }
+  ],
+  "constraints": [
+    {
+      "name": "admin_users_auth_version_check",
+      "definition": "CHECK ((auth_version >= 1))"
+    },
+    {
+      "name": "admin_users_challenge_version_check",
+      "definition": "CHECK ((challenge_version >= 0))"
+    },
+    {
+      "name": "admin_users_check",
+      "definition": "CHECK ((((role = 'owner'::text) AND (email = 'info@ikanisa.com'::text)) OR ((role <> 'owner'::text) AND (email <> 'info@ikanisa.com'::text))))"
+    },
+    {
+      "name": "admin_users_check1",
+      "definition": "CHECK (((status <> 'active'::text) OR (password_hash IS NOT NULL)))"
+    },
+    {
+      "name": "admin_users_email_key",
+      "definition": "UNIQUE (email)"
+    },
+    {
+      "name": "admin_users_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "admin_users_role_check",
+      "definition": "CHECK ((role = ANY (ARRAY['owner'::text, 'admin'::text, 'staff'::text])))"
+    },
+    {
+      "name": "admin_users_status_check",
+      "definition": "CHECK ((status = ANY (ARRAY['invited'::text, 'active'::text, 'revoked'::text])))"
+    }
+  ],
+  "triggers": [
+    {
+      "relation": "app.admin_owner_bootstrap_claims",
+      "name": "admin_owner_bootstrap_admission",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER admin_owner_bootstrap_admission BEFORE INSERT ON app.admin_owner_bootstrap_claims FOR EACH ROW EXECUTE FUNCTION private.trg_admin_owner_bootstrap_admission()"
+    },
+    {
+      "relation": "app.admin_owner_bootstrap_claims",
+      "name": "admin_owner_bootstrap_apply",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER admin_owner_bootstrap_apply AFTER INSERT ON app.admin_owner_bootstrap_claims FOR EACH ROW EXECUTE FUNCTION private.trg_admin_owner_bootstrap_apply()"
+    },
+    {
+      "relation": "app.admin_owner_bootstrap_claims",
+      "name": "admin_owner_bootstrap_no_delete",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER admin_owner_bootstrap_no_delete BEFORE DELETE ON app.admin_owner_bootstrap_claims FOR EACH ROW EXECUTE FUNCTION private.trg_admin_owner_bootstrap_no_delete()"
+    },
+    {
+      "relation": "app.admin_owner_bootstrap_claims",
+      "name": "admin_owner_bootstrap_no_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER admin_owner_bootstrap_no_update BEFORE UPDATE ON app.admin_owner_bootstrap_claims FOR EACH ROW EXECUTE FUNCTION private.trg_admin_owner_bootstrap_no_update()"
+    },
+    {
+      "relation": "app.admin_owner_bootstrap_claims",
+      "name": "collect_fence_statement_v1",
+      "enabled": "A",
+      "definition": "CREATE TRIGGER collect_fence_statement_v1 BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON app.admin_owner_bootstrap_claims FOR EACH STATEMENT EXECUTE FUNCTION private._collect_fence_statement()"
+    },
+    {
+      "relation": "app.admin_principal_links",
+      "name": "admin_link_grants",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER admin_link_grants AFTER INSERT ON app.admin_principal_links FOR EACH ROW EXECUTE FUNCTION private.trg_admin_link_grants()"
+    },
+    {
+      "relation": "app.admin_principal_links",
+      "name": "admin_principal_link_immutable",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER admin_principal_link_immutable BEFORE UPDATE ON app.admin_principal_links FOR EACH ROW EXECUTE FUNCTION private.trg_admin_principal_link_immutable()"
+    },
+    {
+      "relation": "app.admin_principal_links",
+      "name": "admin_principal_link_revoked",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER admin_principal_link_revoked BEFORE DELETE ON app.admin_principal_links FOR EACH ROW EXECUTE FUNCTION private.trg_admin_principal_link_revoked()"
+    },
+    {
+      "relation": "app.admin_principal_links",
+      "name": "collect_fence_statement_v1",
+      "enabled": "A",
+      "definition": "CREATE TRIGGER collect_fence_statement_v1 BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON app.admin_principal_links FOR EACH STATEMENT EXECUTE FUNCTION private._collect_fence_statement()"
+    },
+    {
+      "relation": "app.admin_users",
+      "name": "admin_account_authority_changed",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER admin_account_authority_changed AFTER UPDATE OF status, role, auth_version ON app.admin_users FOR EACH ROW EXECUTE FUNCTION private.trg_admin_account_authority_changed()"
+    },
+    {
+      "relation": "app.admin_users",
+      "name": "collect_fence_statement_v1",
+      "enabled": "A",
+      "definition": "CREATE TRIGGER collect_fence_statement_v1 BEFORE INSERT OR DELETE OR UPDATE OR TRUNCATE ON app.admin_users FOR EACH STATEMENT EXECUTE FUNCTION private._collect_fence_statement()"
+    }
+  ]
+}

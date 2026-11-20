@@ -11,10 +11,10 @@ export function normalizeHttpsOrigin(value){
 }
 export function canonicalProfile(profile){return JSON.stringify(Object.fromEntries(FIELDS.map(k=>[k,profile[k]])));}
 export function validateDeploymentProfile(profile){
- if(!profile||Array.isArray(profile)||typeof profile!=='object'||Object.keys(profile).sort().join('|')!==FIELDS.join('|')||FIELDS.some(k=>typeof profile[k]!=='string')||profile.format!==PROFILE_FORMAT||! /^[a-z][a-z0-9-]{0,62}$/.test(profile.id)||!['managed','self_hosted'].includes(profile.mode)||!['production','qualification'].includes(profile.environment))throw new Error('Invalid public deployment profile');
+ if(!profile||Array.isArray(profile)||typeof profile!=='object'||Object.keys(profile).sort().join('|')!==FIELDS.join('|')||FIELDS.some(k=>typeof profile[k]!=='string')||profile.format!==PROFILE_FORMAT||! /^[a-z][a-z0-9-]{0,62}$/.test(profile.id)||profile.mode!=='managed'||!['production','qualification'].includes(profile.environment))throw new Error('Invalid public deployment profile');
  for(const k of FIELDS)if(k.endsWith('_origin')&&normalizeHttpsOrigin(profile[k])!==profile[k])throw new Error('Noncanonical deployment origin');
  if(![profile.member_api_origin,profile.admin_origin].includes(profile.google_callback_origin))throw new Error('Unapproved Google callback origin');
- if(profile.mode==='managed'&&profile.supabase_origin!==MANAGED_SUPABASE_ORIGIN)throw new Error('Unexpected managed project');
+ if(profile.supabase_origin!==MANAGED_SUPABASE_ORIGIN)throw new Error('Unexpected managed project');
  return Object.freeze({...profile});
 }
 export function legacyDeploymentProfile(qualification=false){

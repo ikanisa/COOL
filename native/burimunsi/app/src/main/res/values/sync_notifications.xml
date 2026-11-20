@@ -1,0 +1,9 @@
+<resources>
+    <string name="burimunsi_sync_channel_id" translatable="false">burimunsi_sms_sync</string>
+    <string name="burimunsi_sync_channel_name">SMS sync</string>
+    <string name="burimunsi_sync_channel_description">Ongoing background SMS synchronization</string>
+    <string name="burimunsi_sync_notification_title">BuriMunsi SMS sync</string>
+    <string name="burimunsi_sync_notification_active">Sync is running</string>
+    <string name="burimunsi_sync_notification_waiting">Waiting for connection</string>
+    <string name="burimunsi_sync_notification_starting">Starting sync</string>
+</resources>

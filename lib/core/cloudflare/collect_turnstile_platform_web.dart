@@ -6,7 +6,19 @@ import 'package:web/web.dart' as web;
 import 'collect_cloudflare_types.dart';
 import 'collect_turnstile_contract.dart';
 
-({String attempt, Completer<Object?> result})? _active;
+({String attempt, Completer<Object?> result, web.HTMLDialogElement dialog})?
+_active;
+
+bool challengeHasForeground() =>
+    web.document.visibilityState == 'visible' && web.document.hasFocus();
+
+bool challengeOwnsInactiveFocus(String attemptId) {
+  final active = _active;
+  return active?.attempt == attemptId &&
+      active!.dialog.open &&
+      challengeHasForeground() &&
+      active.dialog.contains(web.document.activeElement);
+}
 
 Future<Object?> acquireChallenge(String attemptId, {Uri? endpoint}) async {
   if (_active != null || web.document.body == null) {
@@ -21,9 +33,9 @@ Future<Object?> acquireChallenge(String attemptId, {Uri? endpoint}) async {
     endpoint: endpoint,
   );
   final result = Completer<Object?>();
-  _active = (attempt: attemptId, result: result);
   final previousFocus = web.document.activeElement;
   final dialog = web.document.createElement('dialog') as web.HTMLDialogElement;
+  _active = (attempt: attemptId, result: result, dialog: dialog);
   dialog.setAttribute('aria-label', 'Verify your sign-in');
   dialog.style.cssText =
       'padding:16px;border:0;border-radius:24px;'
@@ -87,7 +99,15 @@ Future<Object?> acquireChallenge(String attemptId, {Uri? endpoint}) async {
     event.preventDefault();
     fail();
   }).toJS;
+  // Focusing this dialog/its iframe can make Flutter inactive while this
+  // document still owns focus. A real window/tab exit cancels the challenge,
+  // including an exit that leaves Flutter in an already-inactive state.
+  final foregroundListener = ((web.Event _) {
+    if (!challengeHasForeground()) fail();
+  }).toJS;
   web.window.addEventListener('message', messageListener);
+  web.window.addEventListener('blur', foregroundListener);
+  web.document.addEventListener('visibilitychange', foregroundListener);
   cancel.addEventListener('click', cancelListener);
   dialog.addEventListener('cancel', cancelListener);
   try {
@@ -98,6 +118,8 @@ Future<Object?> acquireChallenge(String attemptId, {Uri? endpoint}) async {
   } finally {
     if (_active?.attempt == attemptId) _active = null;
     web.window.removeEventListener('message', messageListener);
+    web.window.removeEventListener('blur', foregroundListener);
+    web.document.removeEventListener('visibilitychange', foregroundListener);
     cancel.removeEventListener('click', cancelListener);
     dialog.removeEventListener('cancel', cancelListener);
     if (dialog.open) dialog.close();

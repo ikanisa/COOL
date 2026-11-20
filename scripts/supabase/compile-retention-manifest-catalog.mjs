@@ -10,7 +10,10 @@ const columns={...app.retentionColumns,...app.momoPipelineRetentionColumns,...ap
  ...app.diagnosticRetentionColumns,...app.notificationDeliveryRetentionColumns,...app.notificationChannelRetentionColumns};
 const native=sql=>sql.replaceAll('?','$1');
 const application=Object.fromEntries(Object.keys(columns).sort().map(name=>[name,{columns:columns[name],where:native(app.retentionSelection(name,'subject',columns).sql)}]));
-const privateClasses=inventory.classes.filter(c=>c.relation.startsWith('private.')).map(entry=>{
+// This class was installed later by 20261110181002 using an additive, guarded
+// function replacement. Excluding it here preserves SQL23/SQL25 byte-for-byte.
+const laterAdditivePrivate=new Set(['private:collect_fence_local_stopped_admissions']);
+const privateClasses=inventory.classes.filter(c=>c.relation.startsWith('private.')&&!laterAdditivePrivate.has(c.name)).map(entry=>{
  if(['shared_fence','shared_realtime'].includes(entry.scope))return {...entry,blocked:true};
  return {...entry,where:native(privateRetentionSelection(entry,'subject').where),...privateRetentionExpressions(entry)};
 });

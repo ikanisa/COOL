@@ -90,12 +90,12 @@ class NativeBuildProvenanceTest < Minitest::Test
     assert_includes error, 'Required client diagnostic identity helper is absent'
   end
 
-  def test_admin_compilation_source_addition_and_mutation_change_fingerprint
+  def test_member_compilation_source_addition_and_mutation_change_fingerprint
     initial = fingerprint
-    write('lib/admin/core/admin_runtime.dart', 'synthetic Admin source v1')
+    write('lib/features/collections/synthetic_runtime.dart', 'synthetic member source v1')
     added = fingerprint
     refute_equal initial, added
-    write('lib/admin/core/admin_runtime.dart', 'synthetic Admin source v2')
+    write('lib/features/collections/synthetic_runtime.dart', 'synthetic member source v2')
     refute_equal added, fingerprint
   end
 
@@ -145,9 +145,9 @@ class NativeBuildProvenanceTest < Minitest::Test
   end
 
   def test_finish_refuses_a_changed_admin_source_before_writing_manifest
-    write('lib/admin/route.dart', 'synthetic original')
+    write('lib/features/collections/synthetic_route.dart', 'synthetic original')
     before = fingerprint
-    write('lib/admin/route.dart', 'synthetic changed')
+    write('lib/features/collections/synthetic_route.dart', 'synthetic changed')
     _, error, status = invoke('finish', 'android', before, '1.0.0+1', Time.now.to_i.to_s)
     refute status.success?
     assert_includes error, 'Source changed during native build'
@@ -155,7 +155,7 @@ class NativeBuildProvenanceTest < Minitest::Test
   end
 
   def test_finish_records_an_inspectable_exact_source_inventory
-    write('lib/admin/route.dart')
+    write('lib/features/collections/synthetic_route.dart')
     write('third_party/synthetic_fork/lib/entry.dart')
     before = fingerprint
     build_artifacts
@@ -165,7 +165,7 @@ class NativeBuildProvenanceTest < Minitest::Test
     assert_equal 3, manifest.fetch('schema_version')
     assert_equal before, manifest.fetch('source_sha256')
     assert_equal manifest.fetch('source_files').length, manifest.fetch('source_file_count')
-    assert manifest.fetch('source_files').key?('lib/admin/route.dart')
+    assert manifest.fetch('source_files').key?('lib/features/collections/synthetic_route.dart')
     assert manifest.fetch('source_files').key?('third_party/synthetic_fork/lib/entry.dart')
     assert_equal false, manifest.fetch('release_approval')
     assert_equal manifest.fetch('source_files').fetch('scripts/qa/native_build_config.py'), manifest.fetch('public_configuration_helper_sha256')

@@ -46,6 +46,24 @@ async function inconclusive(options) {
   return {observed, calls};
 }
 
+test('changing only an object owner changes its durable intent and cannot replay an old journal entry', async () => {
+  const bytes = new TextEncoder().encode('synthetic retained ciphertext');
+  const originalScope = {ownerId:'synthetic-local-owner', entityId:'synthetic-entity', purpose:'sms_receipt'};
+  const mappedScope = {...originalScope, ownerId:'synthetic-cloud-owner'};
+  const calls = [];
+  let originalIntent;
+  const storage = protocol({async uploadImmutable() { calls.push('upload'); }}, {
+    async beginPut(intent) { calls.push('begin'); return originalIntent ?? intent; },
+  });
+  originalIntent = (await storage.describe(key, bytes, {scope:originalScope})).intent;
+  const mappedIntent = (await storage.describe(key, bytes, {scope:mappedScope})).intent;
+  assert.equal(mappedIntent.operationId, originalIntent.operationId);
+  assert.equal(mappedIntent.sha256, originalIntent.sha256);
+  assert.notEqual(mappedIntent.fingerprint, originalIntent.fingerprint);
+  await assert.rejects(() => storage.put(key, bytes, {scope:mappedScope}), {code:'storage_request_conflict'});
+  assert.deepEqual(calls, ['begin']);
+});
+
 test('retained actual HTTP400 typed404 response qualifies only with explicit wire status evidence', async () => {
   assert.equal(captured.readOnly, true); assert.equal(head.bodyBytes, 0);
   assert.equal(get.bodyBytes, 88); assert.equal(new TextEncoder().encode(get.body).length, get.bodyBytes);

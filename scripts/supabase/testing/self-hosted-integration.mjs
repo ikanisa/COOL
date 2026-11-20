@@ -3,8 +3,8 @@
 import {readFile,writeFile,readdir,mkdir} from 'node:fs/promises';
 import {resolve,join} from 'node:path';import {randomUUID,randomBytes,createHash} from 'node:crypto';import {createRequire} from 'node:module';
 import assert from 'node:assert/strict';
-import {CURRENT_MIGRATION_COUNT,reviewedCurrentMigrations} from './self-hosted-current-schema.mjs';
-import {canonicalProfile,validateDeploymentProfile} from '../../../supabase/functions/_shared/deployment-profile.js';
+import {CURRENT_MIGRATION_COUNT,reviewedCurrentMigrations,applyCurrentFixtureMigration} from './self-hosted-current-schema.mjs';
+import {canonicalProfile} from '../../../supabase/functions/_shared/deployment-profile.js';
 const require=createRequire(import.meta.url),{Client}=require('pg');
 const ROOT=resolve(import.meta.dirname,'../../..'),sha=value=>createHash('sha256').update(value).digest('hex');
 const baseline='dfc7a4fafb696f73d207251c9f35cb892528eecd1929552fa575996874adc3e3';
@@ -29,7 +29,10 @@ export async function qualify({clusterFile,templateFile,output,runtimeDescriptor
  await reviewedCurrentMigrations();need(lock.migrations.length===CURRENT_MIGRATION_COUNT&&lock.original_count===16,'Exact reviewed current chain required');
  for(const item of lock.migrations)need(sha(await readFile(join(ROOT,'supabase/migrations',item.name)))===item.sha256,'Migration byte identity changed');
  const example=JSON.parse(await readFile(join(ROOT,'deploy/self-hosted/profile.example.json'),'utf8'));
- const profile=validateDeploymentProfile({...example,environment:'qualification',id:'collect-integration-qualification'}),raw=canonicalProfile(profile),profileSha=sha(raw);
+ // This unmodifiable predecessor migration accepts only the archived historical
+ // identity; the fixture stays synthetic and cannot configure the Cloud runtime.
+ need(example.format==='collect.deployment.v1'&&example.mode==='self_hosted'&&example.supabase_origin==='https://supabase.collect.example','HISTORICAL_PROFILE_FIXTURE_REQUIRED');
+ const profile={...example,environment:'qualification',id:'collect-integration-qualification'},raw=canonicalProfile(profile),profileSha=sha(raw);
  const database='collect_selfhost_integration_'+randomBytes(12).toString('hex')+'_test';
  const admin=new Client({connectionString:cluster.url,statement_timeout:60000}),cases=[];let owner,roleProbe;
  try{
@@ -40,16 +43,26 @@ export async function qualify({clusterFile,templateFile,output,runtimeDescriptor
   // The immutable historical fixture predates these real GoTrue columns.
   // Add them only to this new synthetic database, never to a migration or host.
   await owner.query('ALTER TABLE auth.users ADD COLUMN email_confirmed_at timestamptz;ALTER TABLE auth.users ADD COLUMN is_anonymous boolean NOT NULL DEFAULT false');
-  for(const item of lock.migrations.slice(16))await owner.query(await readFile(join(ROOT,'supabase/migrations',item.name),'utf8'));
+  const operation=randomUUID();let initialized=false;
+  for(const item of lock.migrations.slice(16)){
+   // Later retained-install migrations require an actual fenced controller.
+   // Initialize this fresh synthetic fixture with its real reviewed profile,
+   // then use the same stop/drain/release protocol as initialized fixtures.
+   if(item.name==='20261110193000_burimunsi_canonical_receipt_adoption.sql'){
+    await assert.rejects(owner.query('SELECT private.collect_bind_deployment($1,$2,$3)',[operation,raw,'0'.repeat(64)]),error=>error.code==='42501');
+    const invalid=JSON.stringify({...profile,id:null});await assert.rejects(owner.query('SELECT private.collect_bind_deployment($1,$2,$3)',[randomUUID(),invalid,sha(invalid)]),error=>error.code==='22023');
+    await assert.rejects(owner.query('SELECT private.collect_bind_deployment($1,$2,$3)',[randomUUID(),JSON.stringify(profile),sha(JSON.stringify(profile))]),error=>error.code==='22023');
+    cases.push({name:'wrong_hash_null_profile_and_noncanonical_binding_refused',status:'pass'});
+    await owner.query('BEGIN');await owner.query('SELECT private.collect_bind_deployment($1,$2,$3)',[operation,raw,profileSha]);
+    await owner.query('SELECT private.collect_fence_initialize($1,$2,$3)',[operation,source.sha256,baseline]);await owner.query('COMMIT');initialized=true;
+   }
+   await applyCurrentFixtureMigration({unsafe:async(text,values)=>(await owner.query(text,values)).rows},
+    {...item,sql:await readFile(join(ROOT,'supabase/migrations',item.name),'utf8')});
+  }
+  need(initialized,'REVIEWED_FENCED_MIGRATION_INITIALIZATION_REQUIRED');
   cases.push({name:'all_reviewed_current_migrations_install_under_normal_owner',status:'pass'});
   const ownerFlags=(await owner.query("SELECT rolcanlogin,rolsuper,rolbypassrls,rolinherit,rolcreatedb,rolreplication FROM pg_roles WHERE rolname=current_user")).rows[0];
   assert.equal(ownerFlags.rolcanlogin,true);for(const key of Object.keys(ownerFlags).filter(k=>k!=='rolcanlogin'))assert.equal(ownerFlags[key],false);
-  const operation=randomUUID();
-  await assert.rejects(owner.query('SELECT private.collect_bind_deployment($1,$2,$3)',[operation,raw,'0'.repeat(64)]),error=>error.code==='42501');
-  const invalid=JSON.stringify({...profile,id:null});await assert.rejects(owner.query('SELECT private.collect_bind_deployment($1,$2,$3)',[randomUUID(),invalid,sha(invalid)]),error=>error.code==='22023');
-  await assert.rejects(owner.query('SELECT private.collect_bind_deployment($1,$2,$3)',[randomUUID(),JSON.stringify(profile),sha(JSON.stringify(profile))]),error=>error.code==='22023');
-  cases.push({name:'wrong_hash_null_profile_and_noncanonical_binding_refused',status:'pass'});
-  await owner.query('BEGIN');await owner.query('SELECT private.collect_bind_deployment($1,$2,$3)',[operation,raw,profileSha]);await owner.query('SELECT private.collect_fence_initialize($1,$2,$3)',[operation,source.sha256,baseline]);await owner.query('COMMIT');
   assert.equal((await owner.query('SELECT private.collect_bind_deployment($1,$2,$3) AS bound',[operation,raw,profileSha])).rows[0].bound,true);
   await assert.rejects(owner.query('SELECT private.collect_bind_deployment($1,$2,$3)',[randomUUID(),raw,profileSha]),error=>error.code==='55000');
   await assert.rejects(owner.query('UPDATE private.collect_deployment_identity SET profile_raw=profile_raw'),error=>error.code==='42501');

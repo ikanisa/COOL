@@ -5,9 +5,10 @@ import {captureDeviceSeconds} from './admin_sms_receipts.js';
 // The canonical capture is a client observation, not a reviewed submission or
 // a payment. This explicit variant preserves the recorded source state without
 // manufacturing review history, a payment association, or provider finality.
+// Native observations remain in their independently scoped SMS workflow.
 const sourceSql=`SELECT s.id,s.owner_user_id,s.body_sha256,s.status,s.evidence_level,
  s.received_at_device,s.created_at,u.public_id,u.full_name
- FROM sms_receipts s JOIN users u ON u.id=s.owner_user_id`;
+ FROM sms_receipts s JOIN users u ON u.id=s.owner_user_id AND s.originating_session_id IS NOT NULL`;
 const statuses=new Set(['received','under_review','rejected','linked','needs_review','reviewed']);
 const fail=(status,code,message)=>{throw new ApiError(status,code,message);};
 const invalid=()=>fail(400,'invalid_filter','This receipt filter is unavailable.');
@@ -49,7 +50,7 @@ export async function adminMemberReceiptRead(request,env,account,actor,parts,url
  }
  const where=f.status?' WHERE s.status=?':'',args=f.status?[f.status]:[];
  const [count,result]=await scoped.DB.batch([
-  scoped.DB.prepare('SELECT count(*) AS total FROM sms_receipts s JOIN users u ON u.id=s.owner_user_id'+where).bind(...args),
+  scoped.DB.prepare('SELECT count(*) AS total FROM sms_receipts s JOIN users u ON u.id=s.owner_user_id AND s.originating_session_id IS NOT NULL'+where).bind(...args),
   scoped.DB.prepare(sourceSql+where+' ORDER BY s.created_at DESC,s.id ASC LIMIT ? OFFSET ?').bind(...args,f.limit,f.offset)]);
  const total=count.results[0].total,rows=result.results.map(sourceRow);
  if(!Number.isSafeInteger(total)||total<0||rows.length!==Math.max(0,Math.min(f.limit,total-f.offset)))badSource();

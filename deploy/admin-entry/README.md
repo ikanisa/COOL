@@ -1,143 +1,34 @@
-# Legacy Admin entry candidate
+# Legacy Collect Admin entry
 
-This directory is a **prepared source candidate**, not proof of a particular
-published source identity. It targets only the existing `collect-admin` Worker.
-The current API and `collect-platform-admin` Worker are independent release
-parents; this source does not deploy either.
+The `collect-admin` Worker hands the original and former preview browser addresses to Collect’s React Admin at `https://platform-admin.collect.ikanisa.com`. The former Admin16 security-stage browser address goes to the qualification deployment of the same React application at `https://admin-supabase-qa.collect.ikanisa.com`. Each destination owns its sign-in, permissions and application requests. This entry has no asset, service, email or data bindings.
 
-Historical evidence described `admin.collect.ikanisa.com` as an assets-only
-host serving a previous Admin build. A read-only public check on 1 November 2026
-instead observed an HTML-accepting root request return a 302 to the platform
-Admin host, and `/admin/users?sort=fixture` return a 302 whose Location contains
-`/#/admin/users?sort=fixture`. `/custom-sw.js` returned the natural-unregister
-script shown below. Read-only provider metadata on the same date identified
-deployment `10f8f485-ed1a-462c-8ae9-f23aff19c726` as 100% on version 42,
-`ef67525c-163c-4929-a288-3409c7e5abf3`, created on 16 October 2026. The
-previous listed deployment was 100% version 41,
-`2dce5a15-6902-40ee-96eb-added7ae52f8`, annotated as a build of `f0b8b37a`
-on 6 September 2026. The annotation and current matching responses do not prove
-the shipped assets match that Git source or establish independent rollback
-custody. An older cache-first service worker can keep an existing tab on its
-previous build. The prepared `deploy/admin.wrangler.jsonc` proxy is not an
-observed rollback preimage.
+The standalone Cloudflare Pages project at `cool-admin-212.pages.dev` uses [the Pages entrypoint](pages/entry.mjs) to open the same production console.
 
-Wrangler's version metadata reported `has_preview: true` for version 41 but did
-not provide its version URL or an asset manifest in the readback used here. The
-Cloudflare dashboard sign-in required authenticator verification, which was
-pending in this continuation. The documented [version-detail
-API](https://developers.cloudflare.com/api/resources/workers/subresources/beta/subresources/workers/subresources/versions/methods/get/)
-can list version-specific URLs, but that API result was not available in this
-session. `has_preview` alone does not prove that a version URL remains routable.
-No v41 asset bytes or immutable manifest were obtained. The annotated Git
-revision tracks `web/flutter_bootstrap.js`, but not the generated `build/web`
-bundle; source binding also needs retained build provenance or a reproducible
-build, as appropriate. No OAuth credentials were extracted.
+## Browser handoff
 
-This candidate redirects GET/HEAD document entries at `/`, `/index.html`,
-`/admin` and `/admin/*` to `https://platform-admin.collect.ikanisa.com`.
-For `/` and `/index.html`, it keeps the exact path/query and browsers inherit the
-original fragment because Location supplies none. Path-based `/admin` entries
-become `/#` followed by their exact requested path/query for the destination's
-hash router, subject to its login and verification rules. Mixed path-plus-fragment URLs are
-ambiguous: the explicit path takes priority and the original fragment is not
-preserved, because it is invisible to the HTTP handler. Other origins, unsafe
-methods, API/auth/function aliases, stale assets, ambiguous path encodings and
-fetch/XHR/subresource and Authorization-bearing requests receive a non-HTML denial.
-Older browsers without Fetch Metadata must positively accept HTML; metadata-free
-HEAD tools may omit Accept or use `*/*`. Partial or contradictory metadata fails
-closed. No upstream fetch,
-request body read, service/data binding, session transfer or cookie is involved.
-The destination requires its own normal login.
+GET and HEAD document requests for `/`, `/index.html`, `/admin` and `/admin/*` receive the small original-origin handoff document. It reads the browser’s complete address, including the fragment. It opens a clean path or hash bookmark through React’s hash router, keeping the route’s encoded query. Ordinary requests for other origins, subresources, API-like paths and writes are denied by this Worker.
 
-Both historical service-worker script names return a minimal same-origin
-retirement script. It waits naturally and unregisters only when activated.
-There is no skipWaiting, clients.claim, navigation, cache deletion, storage
-clearing, message handler or fetch handler. Existing tabs must finish their work
-and close before the old controller can retire. Offline old clients may remain
-old indefinitely. The server redirect alone cannot override an old cache-first
-controller. The candidate does not clear old-origin browser storage, but it
-does not make stored drafts or request history available at the new origin.
-Same-tab session storage can be lost when the tab closes; in-memory drafts can
-be lost on navigation, reload or tab closure. The presence and recoverability
-of real user data have not been verified.
+A legacy cookie, browser history state, an active controller, existing web storage, cache or discoverable IndexedDB database, unavailable storage or an ambiguous address keeps the original tab open. The handoff checks for the presence of a cache without opening any stored response. A separate-tab link starts React with its own account. If the fragment and the path identify different Admin tasks, both choices are available. If the fragment is only a section marker, the original address stays intact and the compatible task can be opened separately. Credentials issued by the old host and keys for old pending requests stay there. The handoff never reads stored values, transfers a session, submits an action or assigns a replacement request ID. The static separate-tab link also works with JavaScript disabled.
 
-The current source and the observed path redirect do **not** satisfy the
-fragment and recovery requirement. A local two-origin browser fixture using the
-same entry source showed that `/admin/users?sort=name#synthetic-section` arrived
-as `/#/admin/users?sort=name`: the original fragment was lost. Synthetic old-
-origin local and same-tab session entries remained on their original origin but
-were not available at the destination. This result did not exercise an installed
-worker, real accounts or actual predecessor data. The source candidate's 11
-local entry tests cover its existing path-priority behavior, not the missing
-handoff. The current public response makes that behavior a potential live risk;
-it is not an observed real-user data-loss incident.
+The exact `/custom-sw.js`, `/flutter_service_worker.js` and `/admin-shell-sw.js` URLs serve JavaScript on their original origin, including requests with a version query. The replacement waits for controlled tabs and unregisters on natural activation. Old tabs can keep their in-memory work. Closing a tab can lose its in-memory form or same-tab storage. Keep it open while recovering earlier work and use its original identity and authoritative request status before retrying. Offline clients can continue running their already-installed bundle. An installation under the immutable workers.dev hostname has its own browser origin. Disabling that version URL withdraws future network delivery; a cached copy there cannot receive the custom domains’ replacement worker.
 
-An isolated decision-only probe compared six ordinary routes with this local
-Worker and returned a preserve-original decision for a synthetic conflicting
-path and fragment. It did not run as a Worker or browser adapter and did not
-navigate a real client. A deployable bridge would need to inspect the fragment in the
-browser before navigation, preserve ambiguous cases, and respect the existing
-destination guard. The guard rejects a return location with a fragment, while
-the email-verification return rule deliberately strips most query parameters;
-placing the extra fragment in a query is not a proven preservation protocol.
-Holding an address cannot recover an in-memory form already lost to navigation.
+## Preview routes
 
-A separate synthetic browser fixture carried an allowlisted route and fragment
-across two loopback origins through a fake login and reload. Its missing-receiver
-case also showed that browser Back can return to a blank page instead of the
-original entry. A revised fixture retains a bounded synthetic old-origin backup
-and provides a static recovery link; eight local script/HTTP checks passed, but
-that revision has not been browser-tested. Neither fixture used actual Admin
-authentication, predecessor storage, drafts or an installed service worker.
+The four backend patterns in [preview-backend-routes.json](preview-backend-routes.json) keep the existing preview and qualification API owners in place. The broader routes on those hosts serve the React handoff. The preview backend also owns its scheduled jobs. Record the current domain owners, routes and schedules before changing them. Verify the handoff and each retained backend route after the change.
 
-Before replacing or accepting this entry, refresh the provider version and
-reconcile the retained predecessor/rollback artifact, then bind the actual
-predecessor's route, storage-key and record schemas to its served bytes. The
-current source's `AdminPendingAttemptStore`, for example, binds retained
-operations to actor, session, email, role and permissions, and removes records
-on a mismatched binding. Do not copy those records into a new session or remove
-the old copy merely to make the new origin appear populated.
+## Local verification
 
-A qualified successor must preserve the original route/fragment according to
-the verified predecessor contract and the destination's authenticated return
-rules. It also needs a reviewed, explicit old-to-new identity and operation
-reconciliation path: read only the supported bounded record formats, retain the
-old originals, validate current actor and permissions, and check each original
-request's authoritative status before allowing a retry. Unknown, conflicting,
-expired or unresolvable records must remain recoverable and must not trigger a
-new effect. Prove the protocol with the actual predecessor and destination
-artifacts, synthetic old-origin storage, lost responses, cross-user/session and
-concurrent-tab cases, old controlled/offline clients, natural worker retirement
-and rollback. No session transfer, automatic data copying or status inference
-is implemented by this candidate.
-
-The annotated historical Git revision includes an assisted-group form whose
-draft values and roster preview are held in widget memory before submission.
-That is source-level evidence only: the v41 asset bytes have not been bound to
-the revision, and no actual open editor was inspected. If that implementation
-was shipped, a storage-only handoff could not recover an already-closed tab's
-unsaved form. The rehearsal must therefore include an open predecessor tab and
-an explicit safe finish or preservation path, not only browser-storage checks.
-
-Before further publication or acceptance, review the sealed observed
-Worker/version/domain and asset evidence, candidate source/config hashes, local
-tests and real-browser fixture results. Verify the observed legacy version is
-still current and retained for rollback. Do not rebuild either application or
-alter routes, secrets, permissions, credentials or databases as a side effect.
-A successful source-bound provider readback, fresh hosted redirect checks, actual
-legacy waiting-worker lifecycle, intended account login and business acceptance
-remain separate release steps.
-
-The configuration preserves the observed compatibility date, custom domain and
-workers.dev/preview enablement. The entry code refuses other origins, including
-the workers.dev alias. It has no assets binding, SPA fallback or services. This
-deliberately prevents the old host from serving mixed application bundles after
-cutover. Provider rollback to the retained old version restores the assets-only
-server; it does not recreate a worker registration that a client has already
-retired or undo any browser navigation.
-
-Run the dependency-free route/lifecycle contract tests with:
+Run the route, storage-preservation and lifecycle contracts from the repository root.
 
 ```sh
-node --test scripts/tests/admin_entry_test.mjs
+node --test scripts/tests/admin_entry_test.mjs deploy/admin-entry/pages/test.mjs
+```
+
+The dedicated Chromium checks take production- and qualification-origin React builds with their adjacent receipts, or a retained predecessor directory. Set `CHROME_PATH` to a local Chromium executable when needed. The React test fulfills all network requests inside the browser and exercises anonymous, permitted and denied routes with synthetic accounts. The service-worker test uses a loopback server, two controlled tabs and a synthetic open editor.
+
+```sh
+node deploy/admin-entry/test/browser.mjs "$REACT_ADMIN_PACKAGE" "$REACT_ADMIN_QA_PACKAGE"
+node deploy/admin-entry/test/worker-lifecycle.mjs "$ORIGINAL_V41_RESTORE" "$ORIGINAL_V41_RECEIPT"
+node deploy/admin-entry/test/worker-lifecycle.mjs "$ARCHIVED_PREVIEW_SHELL"
+node deploy/admin-entry/test/worker-lifecycle.mjs "$SECURITY_STAGE_RESTORE" "$SECURITY_STAGE_RECEIPT"
 ```

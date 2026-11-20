@@ -1,18 +1,22 @@
 import {fencedTest} from './helpers/fenced-unit.js';
 import {assert, assertEquals} from 'jsr:@std/assert@1.0.14';
 import {startOtp} from './helpers/module-domain-auth.js';
-import {ApiError} from '../domain/core.js';
+import {ApiError,digest} from '../domain/core.js';
+import {canonicalProfile} from '../deployment-profile.js';
 
 // Intended location: supabase/functions/_shared/tests/otp_wire.test.ts.
 // In-memory DB and intercepted fetch only. No PostgreSQL or provider delivery.
 // GoTrue's wire validator is independent of Collect's internal channel label:
 // email plus a nonempty channel is rejected before any delivery is accepted.
-const PROJECT = 'https://collect-auth.invalid';
+const PROJECT = 'https://rrlduytparvsjfmegalh.supabase.co';
 const PUBLISHABLE_KEY = 'sb_publishable_synthetic_otp_wire_only';
 const PRINCIPAL_ID = '11111111-1111-4111-8111-111111111111';
 const EMAIL = 'synthetic.staff@example.invalid';
 const PHONE = '+250788000001';
 const CAPTCHA = 'synthetic-captcha-proof';
+const PROFILE = {format:'collect.deployment.v1',id:'otp-redirect-fixture',mode:'managed',environment:'qualification',
+  supabase_origin:PROJECT,member_api_origin:'https://member.example.invalid',admin_origin:'https://admin.example.invalid',
+  public_origin:'https://public.example.invalid',google_callback_origin:'https://admin.example.invalid'};
 type Json = Record<string, unknown>;
 type Captured = {url: string; method: string; headers: Headers; redirect: RequestRedirect; body: Json};
 type Mode = 'accept' | 'network' | 'malformed' | 400 | 401 | 403 | 422 | 429 | 503;
@@ -56,18 +60,22 @@ class FakeDB {
 }
 
 async function withProvider(
-  options: {eligible?: boolean; registration?: boolean; mode?: Mode},
+  options: {eligible?: boolean; registration?: boolean; mode?: Mode; profile?: boolean; adminTtl?: unknown; elapsed?: number},
   check: (fixture: {env: {DB: FakeDB; SUPABASE_URL: string; SUPABASE_PUBLISHABLE_KEY: string;
     AUTH_MEMBER_REGISTRATION_ENABLED: string}; db: FakeDB; calls: Captured[]}) => Promise<void>,
 ) {
   const db = new FakeDB(options.eligible ?? true), calls: Captured[] = [];
+  const rawProfile=canonicalProfile(PROFILE);
   const env = {DB: db, SUPABASE_URL: PROJECT, SUPABASE_PUBLISHABLE_KEY: PUBLISHABLE_KEY,
-    AUTH_MEMBER_REGISTRATION_ENABLED: options.registration ? 'true' : 'false'};
-  const originalFetch = globalThis.fetch;
+    AUTH_MEMBER_REGISTRATION_ENABLED: options.registration ? 'true' : 'false',
+    ...(options.profile?{COLLECT_DEPLOYMENT_PROFILE:rawProfile,COLLECT_DEPLOYMENT_PROFILE_SHA256:await digest(rawProfile)}:{}),
+    ...(Object.hasOwn(options,'adminTtl')?{COLLECT_ADMIN_EMAIL_OTP_TTL_SECONDS:options.adminTtl}:{})};
+  const originalFetch = globalThis.fetch,originalNow=Date.now;let elapsed=0;Date.now=()=>1792497600000+elapsed*1000;
   globalThis.fetch = async (input: Request | string | URL, init?: RequestInit) => {
     const request = new Request(input, init);
     const body = await request.json() as Json;
     calls.push({url: request.url, method: request.method, headers: request.headers, redirect: request.redirect, body});
+    elapsed+=options.elapsed??0;
     // Model the provider contract, rather than unconditional mocked success.
     if (typeof body.email === 'string' && typeof body.channel === 'string' && body.channel.length > 0) {
       return Response.json({error_code: 'validation_failed', msg: 'Email requests cannot specify a channel'}, {status: 400});
@@ -82,11 +90,14 @@ async function withProvider(
   };
   try { await check({env, db, calls}); }
   finally {
-    globalThis.fetch = originalFetch;
+    globalThis.fetch = originalFetch;Date.now=originalNow;
     // These checks also run after expected provider errors; authRequest cannot
     // swallow a stub assertion and accidentally satisfy an unknown-outcome test.
-    for (const call of calls) {
-      assertEquals(call.url, PROJECT + '/auth/v1/otp', 'Every provider request was intercepted at the exact OTP endpoint');
+    for (const [index,call] of calls.entries()) {
+      const admin=db.reservations[index]?.surface==='admin';
+      const redirect=options.profile?PROFILE.admin_origin:'https://platform-admin.collect.ikanisa.com';
+      assertEquals(call.url, PROJECT + '/auth/v1/otp'+(admin?'?redirect_to='+encodeURIComponent(redirect):''),
+        'Only Admin email targets the trusted deployment Admin origin; member/phone endpoints remain unchanged');
       assertEquals(call.method, 'POST');
       assertEquals(call.redirect, 'error');
       assertEquals(call.headers.get('Content-Type'), 'application/json');
@@ -106,15 +117,15 @@ async function apiError(action: () => Promise<unknown>, status: number, code: st
   throw new Error('Expected OTP admission or delivery to reject');
 }
 
-function accepted(result: any, db: FakeDB, identityType: string, identity: string, surface: string, registration: boolean, channel: string) {
+function accepted(result: any, db: FakeDB, identityType: string, identity: string, surface: string, registration: boolean, channel: string,ttl=surface==='admin'?1800:300,elapsed=0) {
   assertEquals(result.delivery_status, 'accepted'); assertEquals(result.channel, channel);
-  assertEquals(result.retry_after, 60); assertEquals(result.expires_in, 300);
+  assertEquals(result.retry_after, 60); assertEquals(result.expires_in, ttl-elapsed);
   assertEquals(db.reservations.length, 1); assertEquals(db.batches.length, 1);
   const reserved = db.reservations[0];
   assertEquals(reserved.id, result.challenge_id); assertEquals(reserved.identityType, identityType);
   assertEquals(reserved.identity, identity); assertEquals(reserved.surface, surface);
   assertEquals(reserved.registrationAllowed, Number(registration));
-  assertEquals(Number(reserved.expiresAt) - Number(reserved.createdAt), 300);
+  assertEquals(Number(reserved.expiresAt) - Number(reserved.createdAt), ttl);
   assertEquals(reserved.delivery, 'accepted');
   assertEquals(db.deliveryUpdates, [{status: 'accepted', challengeId: result.challenge_id}]);
   assertEquals(Object.hasOwn(result, 'access_token'), false);
@@ -125,22 +136,40 @@ function accepted(result: any, db: FakeDB, identityType: string, identity: strin
 // restores it in finally, including assertions and expected provider failures.
 fencedTest('OTP provider wire contract preserves admission, phone channels and delivery outcomes', async t => {
   await t.step('approved Admin email omits channel, keeps captcha and permits managed Auth creation', async () => {
-    await withProvider({}, async ({env, db, calls}) => {
+    await withProvider({profile:true}, async ({env, db, calls}) => {
       const result = await startOtp(env, {email: '  Synthetic.Staff@Example.Invalid  ', surface: 'admin',
-        should_create_user: false, captcha_token: CAPTCHA});
+        should_create_user: false, captcha_token: CAPTCHA,redirect_to:'https://foreign.invalid',emailRedirectTo:'https://foreign.invalid',ttl_seconds:60,expires_in:60});
       assertEquals(calls.length, 1);
+      assertEquals(new URL(calls[0].url).searchParams.get('redirect_to'),PROFILE.admin_origin);
       assertEquals(calls[0].body, {email: EMAIL, create_user: true, gotrue_meta_security: {captcha_token: CAPTCHA}});
       assertEquals(Object.hasOwn(calls[0].body, 'channel'), false);
       accepted(result, db, 'email', EMAIL, 'admin', false, 'email');
     });
   });
   await t.step('existing member email bootstraps managed identity while public registration stays disabled', async () => {
-    await withProvider({}, async ({env, db, calls}) => {
+    await withProvider({profile:true}, async ({env, db, calls}) => {
       const result = await startOtp(env, {email: EMAIL, surface: 'member', captcha_token: CAPTCHA});
       assertEquals(calls.length, 1);
       assertEquals(calls[0].body, {email: EMAIL, create_user: true, gotrue_meta_security: {captcha_token: CAPTCHA}});
       assertEquals(Object.hasOwn(calls[0].body, 'channel'), false);
       accepted(result, db, 'email', EMAIL, 'member', false, 'email');
+    });
+  });
+  for(const ttl of ['60','300','600','1800'])await t.step('Admin configured lifetime '+ttl+' persists the actual window and remaining time',async()=>{
+    const elapsed=ttl==='60'?1:0;
+    await withProvider({adminTtl:ttl,elapsed},async({env,db,calls})=>{
+      const result=await startOtp(env,{email:EMAIL,surface:'admin',ttl_seconds:999999});
+      accepted(result,db,'email',EMAIL,'admin',false,'email',Number(ttl),elapsed);assertEquals(calls.length,1);
+    });
+  });
+  for(const adminTtl of ['',null,1800,'59','1801','01800','1800.0',' 1800','1e3'])await t.step('invalid Admin lifetime refuses before reservation or delivery: '+JSON.stringify(adminTtl),async()=>{
+    await withProvider({adminTtl},async({env,db,calls})=>{
+      await apiError(()=>startOtp(env,{email:EMAIL,surface:'admin'}),503,'admin_email_otp_unconfigured');assertEquals(db.batches.length,0);assertEquals(calls.length,0);
+    });
+  });
+  await t.step('member email keeps300seconds even if the unused Admin setting is invalid',async()=>{
+    await withProvider({adminTtl:'not-an-integer'},async({env,db})=>{
+      const result=await startOtp(env,{email:EMAIL,surface:'member',ttl_seconds:1800});accepted(result,db,'email',EMAIL,'member',false,'email');
     });
   });
   await t.step('explicit member creation opt-out is preserved even when registration is enabled', async () => {
@@ -193,7 +222,7 @@ fencedTest('OTP provider wire contract preserves admission, phone channels and d
         const result = await startOtp(env, {email: EMAIL, surface: 'admin', captcha_token: CAPTCHA});
         assertEquals(calls.length, 1); assertEquals(Object.hasOwn(calls[0].body, 'channel'), false);
         assertEquals(result.delivery_status, 'unknown'); assertEquals(result.channel, 'email');
-        assertEquals(result.challenge_id, db.reservations[0].id); assertEquals(result.retry_after, 60); assertEquals(result.expires_in, 300);
+        assertEquals(result.challenge_id, db.reservations[0].id); assertEquals(result.retry_after, 60); assertEquals(result.expires_in, 1800);
         assertEquals(db.reservations[0].delivery, 'unknown');
         assertEquals(db.deliveryUpdates, [{status: 'unknown', challengeId: result.challenge_id}]);
         assertEquals(Object.hasOwn(result, 'access_token'), false);

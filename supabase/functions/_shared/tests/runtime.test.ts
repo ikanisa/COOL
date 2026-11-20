@@ -47,9 +47,9 @@ fencedTest('transport rejection profiles expose only closed request transport cl
  const secret='synthetic-credential-never-log',request=new Request('http://'+COLLECT_PROJECT_REF+'.supabase.co/functions/v1/admin-api/api/admin/auth/session?'+secret+'='+secret,{headers:{Authorization:'Bearer '+secret,Origin:'https://'+secret+'.example','Sec-Fetch-Site':secret}});
  const profile=requestTransportProfile(request);assertEquals(profile,{protocol:'http:',host:'project',port:'',sec_fetch_site:'other',origin_present:true});assertEquals(JSON.stringify(profile).includes(secret),false);
 });
-fencedTest('operation dispatch keeps all 103 registered current product operations',()=>{
- assertEquals(operationInventory.length,103);assertEquals(new Set(operationInventory.map(v=>v.path)).size,103);
- for(const name of ['get_current_member_contribution_session_v1','get_current_member_contribution_command_v1','review_current_member_contribution_intent_v1']){
+fencedTest('operation dispatch keeps all 104 registered current product operations',()=>{
+ assertEquals(operationInventory.length,104);assertEquals(new Set(operationInventory.map(v=>v.path)).size,104);
+ for(const name of ['join_public_group','get_current_member_contribution_session_v1','get_current_member_contribution_command_v1','review_current_member_contribution_intent_v1']){
   const operation=operationInventory.find(value=>value.name===name);
   assertEquals(operation?.path,`/v1/rpc/${name}`);
   assertEquals(operation?.authentication,'bearer_session');

@@ -203,7 +203,7 @@ export async function qualifyCurrentSelfHosted(env=process.env){
   }
   // The dual-lane scheduler proof uses real deployment identity and normal SQL
   // ownership. Cron, Vault and pg_net remain explicitly synthetic interfaces.
-  const manifestChild=await boundedChild('python3',['-c','import json;from scripts.self_hosted.prepare import source_manifest;print(json.dumps(source_manifest()))'],childBase,{deadlineMs:30000});
+  const manifestChild=await boundedChild('python3',['scripts/supabase/testing/qualification_source_manifest.py'],childBase,{deadlineMs:30000});
   need(manifestChild.metadata.code===0,'SCHEDULER_SOURCE_MANIFEST_UNCONFIRMED');
   const sourceManifest=JSON.parse(manifestChild.stdout.toString('utf8'));
   const cache=join(ROOT,'.cache');await mkdir(cache,{recursive:true});need(await realpath(cache)===cache,'PHYSICAL_CURRENT_CACHE_REQUIRED');

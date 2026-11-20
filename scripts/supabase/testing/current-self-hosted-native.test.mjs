@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile,mkdtemp,mkdir,copyFile,writeFile,rm} from 'node:fs/promises';
+import {readFile,mkdtemp,mkdir,copyFile,writeFile,rm,realpath} from 'node:fs/promises';
 import {join,resolve} from 'node:path';
 import {tmpdir} from 'node:os';
 import {CURRENT_HARNESSES,validateCurrentInvocation,validateHarnessReceipt} from './current-self-hosted-native.mjs';
-import {CURRENT_NATIVE_PROFILE,CURRENT_MIGRATION_NAMES,CURRENT_MIGRATION_COUNT,validateCurrentFixtureDescriptor,reviewedCurrentMigrations,installCurrentFixtureAdditions} from './self-hosted-current-schema.mjs';
+import {CURRENT_NATIVE_PROFILE,CURRENT_MIGRATION_NAMES,CURRENT_MIGRATION_COUNT,validateCurrentFixtureDescriptor,reviewedCurrentMigrations,installCurrentFixtureAdditions,applyCurrentFixtureMigration} from './self-hosted-current-schema.mjs';
 const env={COLLECT_CI_SYNTHETIC:'true',COLLECT_DENO:'/owned/deno',COLLECT_SELFHOST_OUTPUT_DIR:'/owned/new-current',
  COLLECT_FENCE_ADMIN_DATABASE_URL:'postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres'};
 const sourceText=await readFile(new URL('./current-self-hosted-native.mjs',import.meta.url),'utf8');
@@ -95,7 +95,7 @@ test('historical or partial runtime evidence cannot pass current receipt admissi
 });
 
 test('complete reviewed current source admission rejects any altered or unlisted migration',async()=>{
- const root=resolve(import.meta.dirname,'../../..'),temporary=await mkdtemp(join(tmpdir(),'collect-current-schema-'));
+ const root=resolve(import.meta.dirname,'../../..'),temporary=await realpath(await mkdtemp(join(tmpdir(),'collect-current-schema-')));
  try{
   await mkdir(join(temporary,'supabase/migrations'),{recursive:true});await mkdir(join(temporary,'deploy/self-hosted'),{recursive:true});
   await copyFile(join(root,'deploy/self-hosted/migrations.lock.json'),join(temporary,'deploy/self-hosted/migrations.lock.json'));
@@ -109,9 +109,113 @@ test('complete reviewed current source admission rejects any altered or unlisted
  }finally{await rm(temporary,{recursive:true,force:true});}
 });
 
+// Control-flow substitutes only; actual migration and RLS qualification uses PG17.
+function migrationOwner({initialized=true,drained='fenced',ddlFailure=false,name='20261109234517_burimunsi_native_operator_schema.sql'}={}){
+ const calls=[],item={name,sql:'-- fixture native DDL'};
+ return {calls,item,owner:{unsafe:async(text,args)=>{
+  calls.push({text,args});
+  if(text.startsWith('SELECT mode,'))return initialized?[{mode:'open',epoch:'7',source_sha256:'a'.repeat(64)}]:[];
+  if(text.includes('collect_fence_drain('))return [{state:{mode:drained}}];
+  if(text===item.sql&&ddlFailure)throw Error('synthetic DDL failure');
+  if(text.includes('collect_fence_release('))return [{state:{mode:'open',epoch:8}}];
+  return [];
+ }}};
+}
+test('initialized native fixture must drain before DDL and release the same source afterward',async()=>{
+ const f=migrationOwner();await applyCurrentFixtureMigration(f.owner,f.item);
+ assert.deepEqual(f.calls.map(c=>c.text===f.item.sql?'ddl':c.text.match(/(?:private\.)?(collect_fence_[a-z_]+)/)?.[1]??'control'),
+  ['collect_fence_control','collect_fence_begin_quiesce','collect_fence_drain','ddl','collect_fence_release']);
+ for(const c of f.calls.filter(c=>c.args))assert.deepEqual(c.args.slice(1),['7','a'.repeat(64)]);
+});
+test('unconfirmed drain cannot apply native DDL or reopen a test fixture',async()=>{
+ const f=migrationOwner({drained:'quiescing'});await assert.rejects(applyCurrentFixtureMigration(f.owner,f.item),/DRAIN_UNCONFIRMED/);
+ assert(!f.calls.some(c=>c.text===f.item.sql||c.text.includes('collect_fence_release(')));
+});
+test('native DDL failure keeps the owned fixture closed',async()=>{
+ const f=migrationOwner({ddlFailure:true});await assert.rejects(applyCurrentFixtureMigration(f.owner,f.item),/synthetic DDL failure/);
+ assert(!f.calls.some(c=>c.text.includes('collect_fence_release(')));
+});
+test('fresh uninitialized native fixture applies without inventing a controller or stop proof',async()=>{
+ const f=migrationOwner({initialized:false});await applyCurrentFixtureMigration(f.owner,f.item);
+ assert.equal(f.calls.length,2);assert.equal(f.calls[1].text,f.item.sql);
+});
+
 test('existing additions are refused before any DDL, with no schema reset branch',async()=>{
  const calls=[];const owner={unsafe:async sql=>{calls.push(sql);return calls.length===1?[{owner:'postgres',session:'postgres',database:'collect_selfhost_backend_'+ 'a'.repeat(24)+'_test',host:'127.0.0.1',port:55439,major:17,privileged:false}]:[{archive:'already_exists',guest:null,gateway:null,retention:null}];}};
  await assert.rejects(()=>installCurrentFixtureAdditions(owner),/FRESH_CURRENT_ADDITIONS_REQUIRED/);
  assert.equal(calls.length,2);assert(calls.every(sql=>sql.startsWith('SELECT')));
  assert(!sourceText.includes('DROP DATABASE')&&!sourceText.includes('DROP SCHEMA'));
+});
+
+
+test('additive phone/PIN32 preserves the reviewed31 prefix and the closed-fence fixture gate',async()=>{
+ const name='20261110143000_burimunsi_native_phone_pin.sql';
+ assert(CURRENT_MIGRATION_COUNT>=48);
+ const index=CURRENT_MIGRATION_NAMES.indexOf(name);
+ assert.equal(CURRENT_MIGRATION_NAMES[index-1],'20261110093218_burimunsi_managed_email_preauth.sql');
+ assert.equal(CURRENT_MIGRATION_NAMES[index+1],'20261110181002_collect_local_stopped_admission.sql');
+ const valid=migrationOwner({name});await applyCurrentFixtureMigration(valid.owner,valid.item);
+ assert.deepEqual(valid.calls.map(c=>c.text===valid.item.sql?'ddl':c.text.match(/(?:private\.)?(collect_fence_[a-z_]+)/)?.[1]??'control'),
+  ['collect_fence_control','collect_fence_begin_quiesce','collect_fence_drain','ddl','collect_fence_release']);
+ const blocked=migrationOwner({name,drained:'quiescing'});
+ await assert.rejects(applyCurrentFixtureMigration(blocked.owner,blocked.item),/DRAIN_UNCONFIRMED/);
+ assert(!blocked.calls.some(c=>c.text===blocked.item.sql||c.text.includes('collect_fence_release(')));
+ const failed=migrationOwner({name,ddlFailure:true});
+ await assert.rejects(applyCurrentFixtureMigration(failed.owner,failed.item),/synthetic DDL failure/);
+ assert(!failed.calls.some(c=>c.text.includes('collect_fence_release(')));
+});
+
+
+test('additive handoff33 preserves32 and cannot skip closed-fence or release after unconfirmed DDL',async()=>{
+ const name='20261110181003_burimunsi_gateway_handoff.sql';
+ assert.equal(CURRENT_MIGRATION_NAMES[CURRENT_MIGRATION_NAMES.indexOf(name)-1],'20261110181002_collect_local_stopped_admission.sql');
+ const valid=migrationOwner({name});await applyCurrentFixtureMigration(valid.owner,valid.item);
+ assert.deepEqual(valid.calls.map(c=>c.text===valid.item.sql?'ddl':c.text.match(/(?:private\.)?(collect_fence_[a-z_]+)/)?.[1]??'control'),
+  ['collect_fence_control','collect_fence_begin_quiesce','collect_fence_drain','ddl','collect_fence_release']);
+ for(const options of [{drained:'quiescing'},{ddlFailure:true}]){
+  const blocked=migrationOwner({name,...options});
+  await assert.rejects(()=>applyCurrentFixtureMigration(blocked.owner,blocked.item));
+  assert(!blocked.calls.some(c=>c.text.includes('collect_fence_release(')));
+ }
+});
+
+for(const name of ['20261111120000_collect_admin_persistent_sessions.sql','20261111120200_burimunsi_native_session_renewal.sql','20261111120400_burimunsi_passcode_session_rotation.sql','20261111120500_burimunsi_native_logout_barrier.sql','20261111121000_burimunsi_private_observations.sql','20261111121100_burimunsi_admin_observations.sql','20261111121200_burimunsi_retention_inspection.sql','20261111121300_burimunsi_pin_clock_skew.sql','20261111121400_collect_protected_owner_identity.sql','20261111121500_burimunsi_pin_bound_clock.sql','20261111121600_burimunsi_pin_rotation_expiry.sql','20261111121700_burimunsi_staff_phone_preservation.sql'])
+ test('persistent session migration uses the real fixture fence: '+name,async()=>{
+  const valid=migrationOwner({name});await applyCurrentFixtureMigration(valid.owner,valid.item);
+  assert.deepEqual(valid.calls.map(c=>c.text===valid.item.sql?'ddl':c.text.match(/(?:private\.)?(collect_fence_[a-z_]+)/)?.[1]??'control'),
+   ['collect_fence_control','collect_fence_begin_quiesce','collect_fence_drain','ddl','collect_fence_release']);
+  const failed=migrationOwner({name,ddlFailure:true});await assert.rejects(()=>applyCurrentFixtureMigration(failed.owner,failed.item));
+  assert(!failed.calls.some(c=>c.text.includes('collect_fence_release(')));
+ });
+
+for(const name of ['20261110193000_burimunsi_canonical_receipt_adoption.sql','20261111043455_collect_admin_email_otp_lifetime.sql','20261111121000_burimunsi_private_observations.sql','20261111121100_burimunsi_admin_observations.sql','20261111121200_burimunsi_retention_inspection.sql','20261111121300_burimunsi_pin_clock_skew.sql','20261111121400_collect_protected_owner_identity.sql','20261111121500_burimunsi_pin_bound_clock.sql','20261111121600_burimunsi_pin_rotation_expiry.sql','20261111121700_burimunsi_staff_phone_preservation.sql'])
+ test('migration requiring a real controller refuses an uninitialized fixture: '+name,async()=>{
+  const f=migrationOwner({name,initialized:false});await assert.rejects(()=>applyCurrentFixtureMigration(f.owner,f.item),/INITIALIZED_FENCE_REQUIRED/);
+  assert(!f.calls.some(c=>c.text===f.item.sql));
+ });
+
+test('Iceberg retention inspection follows 306 and requires a drained initialized fence',async()=>{
+ const name='20261113130700_storage_iceberg_retention_inspection.sql';
+ assert.equal(CURRENT_MIGRATION_NAMES[CURRENT_MIGRATION_NAMES.indexOf(name)-1],
+  '20261113130600_burimunsi_native_work_retention_inspection.sql');
+ const valid=migrationOwner({name});await applyCurrentFixtureMigration(valid.owner,valid.item);
+ assert.deepEqual(valid.calls.map(c=>c.text===valid.item.sql?'ddl':c.text.match(/(?:private\.)?(collect_fence_[a-z_]+)/)?.[1]??'control'),
+  ['collect_fence_control','collect_fence_begin_quiesce','collect_fence_drain','ddl','collect_fence_release']);
+ for(const options of [{initialized:false},{drained:'quiescing'},{ddlFailure:true}]){
+  const blocked=migrationOwner({name,...options});await assert.rejects(applyCurrentFixtureMigration(blocked.owner,blocked.item));
+  assert(!blocked.calls.some(c=>c.text.includes('collect_fence_release(')));
+ }
+});
+
+test('native lease history follows 307 and requires a drained initialized fence',async()=>{
+ const name='20261113130800_burimunsi_native_lease_history.sql';
+ assert.equal(CURRENT_MIGRATION_NAMES[CURRENT_MIGRATION_NAMES.indexOf(name)-1],
+  '20261113130700_storage_iceberg_retention_inspection.sql');
+ const valid=migrationOwner({name});await applyCurrentFixtureMigration(valid.owner,valid.item);
+ assert.deepEqual(valid.calls.map(c=>c.text===valid.item.sql?'ddl':c.text.match(/(?:private\.)?(collect_fence_[a-z_]+)/)?.[1]??'control'),
+  ['collect_fence_control','collect_fence_begin_quiesce','collect_fence_drain','ddl','collect_fence_release']);
+ for(const options of [{initialized:false},{drained:'quiescing'},{ddlFailure:true}]){
+  const blocked=migrationOwner({name,...options});await assert.rejects(applyCurrentFixtureMigration(blocked.owner,blocked.item));
+  assert(!blocked.calls.some(c=>c.text.includes('collect_fence_release(')));
+ }
 });

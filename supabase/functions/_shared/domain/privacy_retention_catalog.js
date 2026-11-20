@@ -1,6 +1,6 @@
 import {ApiError,digest,stableJson} from './core.js';
 import {erasableTables,ownRowInventory,rowPages,SQL_OWN_ROW_LIMIT} from './privacy_retention_chunks.js';
-import {privateRetentionCatalogIdentity,privateRetentionClasses,inventoryPrivateRetention,privateRetentionGuards} from '../private-retention.js';
+import {privateRetentionCatalogIdentity,inventoryPrivateRetention,privateRetentionGuards} from '../private-retention.js';
 export {erasableTables} from './privacy_retention_chunks.js';
 
 // Exact predecessor catalog. Additive MoMo profiles below are admitted as whole
@@ -254,7 +254,7 @@ export async function retentionSchema(env){
  const privateInventory=await privateRetentionCatalogIdentity(env);
  const currentPrivate=['private:admin_email_operations','private:admin_sensitive_email_proofs','private:collect_fence_source_upgrades'];
  if(['admin_email11','diagnostics15','notifications16','notification_channels17'].includes(profile[0])?!currentPrivate.every(name=>privateInventory.classes.includes(name)):currentPrivate.some(name=>privateInventory.classes.includes(name)))fail('privacy_retention_schema_changed');
- return {sha256:await digest(stableJson({application:schema,private_inventory:privateInventory})),privateInventory,tables:names,catalog:observed,profile:profile[0],columns:profile[1],classes:['access',...Object.keys(profile[1]),...engineTables,...copyClasses,...privateRetentionClasses]};
+ return {sha256:await digest(stableJson({application:schema,private_inventory:privateInventory})),privateInventory,tables:names,catalog:observed,profile:profile[0],columns:profile[1],classes:['access',...Object.keys(profile[1]),...engineTables,...copyClasses,...privateInventory.classes]};
 }
 export async function retentionSnapshot(env,subject,{limit=500}={}){
  const schema=await retentionSchema(env),tables={},rows={};let contextRows=0,ownRowsCount=0,totalBytes=0;

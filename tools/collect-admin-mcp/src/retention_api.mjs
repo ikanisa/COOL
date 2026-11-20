@@ -40,7 +40,7 @@ export class RetentionApi {
   if(typeof captchaToken!=='string'||captchaToken.length<1||captchaToken.length>2048||/[\u0000-\u0020\u007f]/.test(captchaToken))unavailable();
   return this.withSession(async({email})=>{
    const value=await email('request',{captcha_token:captchaToken});
-   if(!object(value)||Object.keys(value).sort().join(',')!=='challenge_id,delivery_status,expires_in,retry_after'||!UUID.test(value.challenge_id??'')||!['accepted','unknown'].includes(value.delivery_status)||value.retry_after!==60||!Number.isInteger(value.expires_in)||value.expires_in<1||value.expires_in>300)unavailable();return value;
+   if(!object(value)||Object.keys(value).sort().join(',')!=='challenge_id,delivery_status,expires_in,retry_after'||!UUID.test(value.challenge_id??'')||!['accepted','unknown'].includes(value.delivery_status)||value.retry_after!==60||!Number.isInteger(value.expires_in)||value.expires_in<1||value.expires_in>1800)unavailable();return value;
   },{fresh:false,privacy:false});
  }
  async verifyEmail(challengeId,code){

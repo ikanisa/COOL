@@ -1,5 +1,7 @@
 # Collect Admin Runtime Report
 
+This report records the Admin implementation reviewed on its original date. The current browser application is documented in the [React Admin architecture](ADMIN_ARCHITECTURE_PLAN.md).
+
 Date: 2026-05-31
 
 ## Scope

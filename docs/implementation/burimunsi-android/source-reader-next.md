@@ -1,0 +1,23 @@
+# Audited SMS source reader: implementation checkpoint
+
+Status: reviewed dependency and next work, not implemented/commissioned. Sole product visual authority remains `revolut-design@jean-bosco-skills`. This file records technical/security integration decisions, not a design reference.
+
+The retained source, public routes and native activation remain unchanged. Native build014/device007 remains current. Local milestones are `c1f2b366f` (import/shared broker), `a9e2c301a` (owner approvals/schema/Admin), `8effd9ed3` (native email-code alignment) and `cc9505a3d` (closed canonical member adapter). The latest phone projection fix is a later continuation; use git log/current status for its identity.
+
+Observed current consumers:
+
+- `admin_sms_receipts.js:captureContent` requires global `sms.read` and `sms.reveal`, current managed Admin/fresh email, an explicit review reason of8–1000 characters, verified retained source integrity and a final guarded audit before it returns plaintext. It reads/decrypts between two short authority checks and validates committed, non-tombstoned storage custody afterward.
+- `PostgresRecordsStore` delegates SMS revision/page/detail to an unimplemented source reader. Ordinary reads use READ ONLY repeatable-read snapshots, so an audited plaintext reveal cannot be inserted into that transaction unchanged.
+- `RecordsService.detail` and native HTTP currently call raw SMS through `GET /sms/{id}` with no review reason. `NativeRepository.raw(id)` and `BuriViewModel.refreshPanelNow(Sheet.RAW)` automatically fetch it. Those paths remain uncommissioned because the trusted composition is not installed.
+- Native raw SMS has no persisted/cache fallback. The current `smsRow.preview` schema permits an empty string. Preserve original SMS/provider strings; never create a preview from inferred identities or turn capture/upload state into financial posting evidence.
+
+Next implementation:
+
+1. Build the closed group-scoped source reader using the original receiving-account/binding/capture lineage and committed storage journal. Metadata paging/revision must be consistent, bounded and source-derived, including rejected/incomplete captures needed for operational review. Do not use the posting-only `PostgresRetainedSources.lineage` unchanged: it takes row locks and requires completed processing, which would prevent reviewing failed captures.
+2. Keep metadata paging separate from plaintext disclosure. No unaudited raw body should appear through a list preview. Decide the exact metadata-only representation and record any resulting product difference plainly.
+3. Add an explicit audited disclosure operation using the existing Collect permission, fresh-email, reason, integrity and audit requirements. Prefer a bounded JSON POST for the reason so native Kinyarwanda/Unicode input does not depend on HTTP header encoding, and so an ordinary automatic GET retry cannot repeat a disclosure. Update the versioned wire registry/schema/generators and affected consumers together. No alternate login or invented email/MFA proof.
+4. Use two short admitted authority phases around decryption/storage I/O. Revalidate the same current native/shared identity, permissions, scope/binding and immutable source/storage tuple before the audit commit and before returning plaintext. Preserve the existing application work lease; never hold the global financial transaction during network storage I/O. An uncertain audit/response must not publish stale plaintext or automatically replay disclosure.
+5. Update the existing native raw sheet to collect an explicit review reason and wait for a user action. Represent awaiting-reason/loading/revealed/failure distinctly from financial snapshot readiness. Backgrounding, refresh, navigation restoration, scope/principal replacement and late callbacks must clear/protect prior raw data and must not automatically reveal it again. Reuse selected Revolut form patterns and current BuriMunsi identity; no new appearance authority.
+6. Verify backend source lineage, actual storage/encryption integrity, role/freshness/audit rollback, metadata revision/cursor consistency, native request/controller privacy and installed UI. Refresh affected APK/device evidence after native edits. Real GoTrue/SMTP, physical/SIM and production acceptance remain separate.
+
+The other remaining runtime dependencies are the real gateway status/replacement adapter, custody/encryption/media configuration and trusted factory installation in `serve.js`. Initial native Admin/PIN/MDM grant provisioning and actual receiving-wallet/SIM/custodian values are still open. Public source publication remains pending; no push/PR has been made.

@@ -83,6 +83,7 @@ analysis_output*.txt
 analyze_out.txt
 update_profile.dart
 package-lock.json
+!/admin-web/package-lock.json
 !tools/public-photography/package-lock.json
 !deploy/admin-api/package-lock.json
 !deploy/platform-api/package-lock.json
@@ -91,6 +92,7 @@ node_modules/
 .agent/
 .tools/
 .cache/
+supabase/.temp/
 release-evidence/
 evidence-packs/
 

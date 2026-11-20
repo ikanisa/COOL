@@ -37,9 +37,9 @@ The guarded native production configuration nominates:
 | --- | --- |
 | `COLLECT_BACKEND` | `supabase` |
 | `SUPABASE_URL` | `https://rrlduytparvsjfmegalh.supabase.co` |
-| `SUPABASE_API_URL`, `SUPABASE_ADMIN_API_URL` | `https://platform-admin.collect.ikanisa.com` |
+| `SUPABASE_API_URL`, `SUPABASE_ADMIN_API_URL` | Blank until their direct Supabase Cloud routes are qualified |
 | `APP_PUBLIC_URL` | `https://collect.ikanisa.com` |
-| `ADMIN_APP_URL` | `https://platform-admin.collect.ikanisa.com` |
+| `ADMIN_APP_URL` | Blank until the Supabase Cloud Admin hosting route is qualified |
 | `SUPABASE_PUBLISHABLE_KEY` | Separately verified public client configuration |
 | `AUTH_CAPTCHA_ENABLED`, `AUTH_CAPTCHA_PROVIDER` | `true`, `turnstile` |
 | `AUTH_CAPTCHA_SITE_KEY` | Separately verified public site configuration |
@@ -50,10 +50,10 @@ reviewed Supabase API origin. Nominating these production origins does not prove
 their current proxy routing, Auth destinations or production cutover. Keep the
 distinct QA profile and its origin explicit.
 
-For the intended production profile, the compatibility value is
-`COLLECT_API_URL=https://platform-admin.collect.ikanisa.com`. The public
-`.env.example` names the same Supabase project and origins; its empty public key
-and Play project fields still require verified configuration before a build.
+The public `.env.example` names the selected Supabase project and leaves
+`COLLECT_API_URL`, the API and Admin routes, the public key and Play project
+fields blank until the production configuration is qualified. Do not use the
+template as an executable production configuration.
 
 Client files contain public configuration only. Database credentials, service
 credentials, signing material and encryption keys remain outside source exports,

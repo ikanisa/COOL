@@ -10,15 +10,15 @@ const {COLLECT_PROJECT_REF,COLLECT_SUPABASE_ORIGIN,normalizeDatabaseTarget,norma
 const {createCollectSendSmsHandler}=await import('../send-sms-hook.js');
 
 const NOW=1793448000000,secret=Buffer.alloc(32,7),source='a'.repeat(64);
-const profile={format:'collect.deployment.v1',id:'sms-hook-target-test',mode:'self_hosted',environment:'qualification',
- supabase_origin:'https://supabase.collect.example',member_api_origin:'https://api.collect.example',
+const profile={format:'collect.deployment.v1',id:'sms-hook-target-test',mode:'managed',environment:'qualification',
+ supabase_origin:COLLECT_SUPABASE_ORIGIN,member_api_origin:'https://api.collect.example',
  admin_origin:'https://admin.collect.example',public_origin:'https://collect.example',google_callback_origin:'https://admin.collect.example'};
 const raw=canonicalProfile(profile),profileHash=createHash('sha256').update(raw).digest('hex');
 const ca='-----BEGIN CERTIFICATE-----\nAA==\n-----END CERTIFICATE-----';
 const publicKey='sb_publishable_synthetic',serviceKey='sb_secret_synthetic';
 let instance=0;
 function settings(){
- const database=`postgres://collect_edge:synthetic_${++instance}@db:5432/postgres`;
+ const database=`postgres://postgres:synthetic_${++instance}@db.${COLLECT_PROJECT_REF}.supabase.co:5432/postgres`;
  return {COLLECT_DEPLOYMENT_PROFILE:raw,COLLECT_DEPLOYMENT_PROFILE_SHA256:profileHash,BUILD_SOURCE_ID:source,
   APP_ENVIRONMENT:profile.environment,SUPABASE_URL:profile.supabase_origin,COLLECT_DATABASE_URL:database,COLLECT_DB_CA_PEM:ca,
   AUTH_PROJECT_ID:profile.id,AUTH_SMS_ENABLED:'true',AUTH_WHATSAPP_ENABLED:'false',AUTH_PHONE_DELIVERY_MODE:'opensms_hook',
@@ -81,7 +81,7 @@ function fakeEffects(t,{deploymentAllowed=true}={}){
 }
 function handler(env){return createCollectSendSmsHandler(()=>({...env}),{handlerOptions:{now:()=>NOW}});}
 
-test('database-only normalization preserves managed and self-hosted runtime behavior without service keys',()=>{
+test('database-only normalization preserves managed Cloud behavior without service keys',()=>{
  const local=settings(),plain=local.COLLECT_DATABASE_URL;
  assert.equal(normalizeDatabaseTarget({...local,COLLECT_DATABASE_URL:plain+'?sslmode=verify-full'}),plain);
  for(const mode of ['require','prefer','disable'])assert.throws(()=>normalizeDatabaseTarget({...local,COLLECT_DATABASE_URL:plain+'?sslmode='+mode}));
@@ -108,16 +108,15 @@ test('database-only normalization preserves managed and self-hosted runtime beha
 test('the real hook refuses invalid database targets before connector or provider construction',async t=>{
  const effects=fakeEffects(t),env=settings(),base=env.COLLECT_DATABASE_URL;
  const cases=[
-  {COLLECT_DATABASE_URL:undefined},{COLLECT_DATABASE_URL:undefined,SUPABASE_DB_URL:base},{COLLECT_DATABASE_URL:''},
-  {COLLECT_DATABASE_URL:base.replace('@db:','@external.example:')},
-  {COLLECT_DATABASE_URL:base.replace('@db:','@127.0.0.1:')},
-  {COLLECT_DATABASE_URL:base.replace('collect_edge:','postgres:')},
+  {COLLECT_DATABASE_URL:undefined},{COLLECT_DATABASE_URL:''},
+  {COLLECT_DATABASE_URL:base.replace('@db.'+COLLECT_PROJECT_REF+'.supabase.co:','@external.example:')},
+  {COLLECT_DATABASE_URL:base.replace('@db.'+COLLECT_PROJECT_REF+'.supabase.co:','@127.0.0.1:')},
   {COLLECT_DATABASE_URL:base.replace(/:synthetic_\d+@/,'@')},{COLLECT_DATABASE_URL:base.replace('postgres:','http:')},
-  {COLLECT_DATABASE_URL:base.replace(':5432/',':6543/')},{COLLECT_DATABASE_URL:base.replace('/postgres','/other')},
+  {COLLECT_DATABASE_URL:base.replace(':5432/',':1234/')},{COLLECT_DATABASE_URL:base.replace(/\/postgres$/,'/other')},
   {COLLECT_DATABASE_URL:base+'?sslmode=disable'},{COLLECT_DATABASE_URL:base+'?sslmode=require'},
   {COLLECT_DATABASE_URL:base+'?sslmode=prefer'},{COLLECT_DATABASE_URL:base+'?host=other.example'},
   {COLLECT_DATABASE_URL:base+'?sslmode=verify-full&sslmode=verify-full'},{COLLECT_DATABASE_URL:base+'?sslrootcert=/tmp/ca'},
-  {COLLECT_DB_CA_PEM:undefined},{COLLECT_DB_CA_PEM:''},{COLLECT_DB_CA_PEM:'-----BEGIN CERTIFICATE-----\nnot-valid!\n-----END CERTIFICATE-----'},
+  {COLLECT_DB_CA_PEM:''},
   {COLLECT_DEPLOYMENT_PROFILE_SHA256:'0'.repeat(64)},
   {APP_ENVIRONMENT:'test',COLLECT_DATABASE_URL:'postgres://fixture:synthetic@127.0.0.1:55439/collect_edge_test'},
  ];
@@ -127,7 +126,7 @@ test('the real hook refuses invalid database targets before connector or provide
   const body=await response.text();assert(!body.includes('synthetic_'));assert(!body.includes('app_'));
   assert.deepEqual(effects.constructors,[]);assert.deepEqual(effects.trace,[]);assert.deepEqual(effects.outbound,[]);
  }
- const unsigned=await handler({...env,COLLECT_DATABASE_URL:base.replace('@db:','@external.example:')})(request({signed:false}));
+ const unsigned=await handler({...env,COLLECT_DATABASE_URL:base.replace('@db.'+COLLECT_PROJECT_REF+'.supabase.co:','@external.example:')})(request({signed:false}));
  assert.equal(unsigned.status,401);assert.deepEqual(effects.constructors,[]);assert.deepEqual(effects.outbound,[]);
 });
 
@@ -138,7 +137,7 @@ test('a valid hook target is normalized, verified and fenced before synthetic tr
  await effects.released;
  assert.equal(effects.constructors.length,2);
  for(const entry of effects.constructors){
-  assert.equal(entry.target,target);assert.deepEqual(entry.options.ssl,{rejectUnauthorized:true,ca,servername:'db'});
+  assert.equal(entry.target,target);assert.deepEqual(entry.options.ssl,{rejectUnauthorized:true,ca,servername:'db.'+COLLECT_PROJECT_REF+'.supabase.co'});
  }
  assert.deepEqual(effects.outbound,['GET','POST']);
  for(const event of ['deployment_check','register','assert'])assert(effects.trace.includes(event),event);

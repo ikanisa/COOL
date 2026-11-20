@@ -42,30 +42,6 @@ String readCollectRepositoryLibrary() {
   ].map((path) => File(path).readAsStringSync()).join('\n');
 }
 
-bool unchangedPinnedPublicPlaceholder(
-  String relativePath,
-  List<int> bytes,
-  Object? lock,
-) {
-  const reviewedSha =
-      'd27fb4516702358ac5965fb06d207736abeb3c26c7d949f19b90e88b25e694ef';
-  if (relativePath != 'deploy/self-hosted/upstream/.env.example' ||
-      lock is! Map ||
-      lock['format'] != 'collect.selfhost.upstream.v1' ||
-      lock['repository'] != 'https://github.com/supabase/supabase' ||
-      lock['tag'] != 'self-hosted/v0.8.3' ||
-      lock['commit'] != 'bc27d2661edd09a5d0b8d76ce33da6d4071a756e' ||
-      lock['files'] is! List ||
-      sha256.convert(bytes).toString() != reviewedSha) {
-    return false;
-  }
-  final entries = (lock['files'] as List).where(
-    (entry) => entry is Map && entry['path'] == '.env.example',
-  );
-  return entries.length == 1 &&
-      (entries.single as Map)['sha256'] == reviewedSha;
-}
-
 void main() {
   test('strict dotenv loader treats configuration as guarded data', () {
     final tempDir = Directory.systemTemp.createTempSync('collect_dotenv_');
@@ -122,8 +98,6 @@ void main() {
     final environment = File('docs/ENVIRONMENT.md').readAsStringSync();
     final makefile = File('Makefile').readAsStringSync();
     final governedScripts = <String>[
-      'scripts/admin_pwa_authenticated_render_smoke.sh',
-      'scripts/admin_pwa_release_build.sh',
       'scripts/android_device_uat.sh',
       'scripts/mobile_native_performance_profile.sh',
       'scripts/mobile_route_render_smoke.sh',
@@ -534,9 +508,6 @@ void main() {
       'evidence-packs',
     };
     final root = repositoryCustodyRoot();
-    final upstreamLock = jsonDecode(
-      File('$root/deploy/self-hosted/upstream.lock.json').readAsStringSync(),
-    );
     final inventory = Process.runSync('git', [
       'ls-files',
       '-z',
@@ -584,61 +555,29 @@ void main() {
             }.contains(sha256.convert(file.readAsBytesSync()).toString())) {
           continue;
         }
-        // Unchanged pinned upstream public placeholder configuration; never
-        // consumed by prepare. Exact path, lock entry, commit and bytes must
-        // all match. Other credential rules still apply to this same file.
-        if (pattern.pattern.startsWith('eyJ') &&
-            unchangedPinnedPublicPlaceholder(
-              file.path.substring(root.length + 1),
-              file.readAsBytesSync(),
-              upstreamLock,
-            )) {
-          continue;
-        }
         expect(pattern.hasMatch(text), isFalse, reason: file.path);
       }
     }
   });
 
-  test(
-    'public placeholder exception rejects edited bytes, paths or provenance',
-    () {
-      const path = 'deploy/self-hosted/upstream/.env.example';
-      final bytes = File(path).readAsBytesSync();
-      final lock =
-          jsonDecode(
-                File(
-                  'deploy/self-hosted/upstream.lock.json',
-                ).readAsStringSync(),
-              )
-              as Map<String, dynamic>;
-      expect(unchangedPinnedPublicPlaceholder(path, bytes, lock), isTrue);
-      expect(
-        unchangedPinnedPublicPlaceholder(path, [...bytes, 10], lock),
-        isFalse,
-      );
-      expect(
-        unchangedPinnedPublicPlaceholder('.env.example', bytes, lock),
-        isFalse,
-      );
-      expect(
-        unchangedPinnedPublicPlaceholder(path, bytes, {
-          ...lock,
-          'commit': '0' * 40,
-        }),
-        isFalse,
-      );
-      expect(
-        unchangedPinnedPublicPlaceholder(path, bytes, {
-          ...lock,
-          'files': [
-            {'path': '.env.example', 'sha256': '0' * 64},
-          ],
-        }),
-        isFalse,
-      );
-    },
-  );
+  test('retired deployment source is preserved as non-executable evidence', () {
+    final archive = File(
+      'docs/retired-evidence/2026-11-17/source-archive.tar.gz',
+    );
+    expect(archive.existsSync(), isTrue);
+    expect(
+      sha256.convert(archive.readAsBytesSync()).toString(),
+      'bacc67b8e0ed94eb6f38251e579cefa5b00302efdba22bf475258af221995bc1',
+    );
+    expect(
+      File('deploy/self-hosted/upstream/.env.example').existsSync(),
+      isFalse,
+    );
+    expect(
+      File('deploy/self-hosted/migrations.lock.json').existsSync(),
+      isTrue,
+    );
+  });
 
   test('Play Integrity group attestation is present without credentials', () {
     final mainActivity = File(

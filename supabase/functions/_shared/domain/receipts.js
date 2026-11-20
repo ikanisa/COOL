@@ -12,8 +12,8 @@ const captureConsent=`EXISTS(SELECT 1 FROM native_consents c JOIN auth_sessions 
  WHERE c.user_id=? AND c.session_id=? AND c.id=(SELECT max(id) FROM native_consents WHERE user_id=c.user_id AND session_id=c.session_id)
  AND c.enabled=1 AND c.build_channel GLOB 'android_*' AND s.surface='member' AND s.revoked_at IS NULL AND s.expires_at>unixepoch() AND u.access_status='active'
  AND NOT EXISTS(SELECT 1 FROM native_consents disabled WHERE disabled.user_id=c.user_id AND disabled.id>c.id AND disabled.enabled=0))`;
-const captureBudget=`(SELECT count(*) FROM sms_receipts WHERE owner_user_id=? AND created_at>=strftime('%Y-%m-%dT%H:%M:%fZ','now','-60 seconds'))<60
- AND (SELECT count(*) FROM sms_receipts WHERE owner_user_id=? AND created_at>=strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 day'))<1000`;
+const captureBudget=`(SELECT count(*) FROM sms_receipts WHERE owner_user_id=? AND originating_session_id IS NOT NULL AND created_at>=strftime('%Y-%m-%dT%H:%M:%fZ','now','-60 seconds'))<60
+ AND (SELECT count(*) FROM sms_receipts WHERE owner_user_id=? AND originating_session_id IS NOT NULL AND created_at>=strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 day'))<1000`;
 async function captureAccess(env,actor,{budget=false}={}) {
  if(actor.surface!=='member'||!(await first(env,'SELECT '+captureConsent+' AS allowed',actor.userId,actor.sessionId))?.allowed)
   throw new ApiError(403,'sms_access_required','Enable Android SMS access for this sign-in before uploading.');

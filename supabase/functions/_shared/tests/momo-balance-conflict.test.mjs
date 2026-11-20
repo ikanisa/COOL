@@ -47,7 +47,7 @@ function scenario(){
  function account(id,provider='mtn_momo'){
   sqlite.prepare('INSERT INTO momo_receiving_accounts VALUES(?,?,?,?,?,?,?,?)').run(id,provider,'active','approved','synthetic.v1',JSON.stringify(fixture.profile),'RWF','Africa/Kigali');
  }
- async function capture({accountId='account-a',balance='125,000',reference='001234567890',rawBalanceWhenOmitted=false}={}){
+ async function capture({accountId='account-a',balance='125,000',reference='001234567890',rawBalanceWhenOmitted=false,completeness='complete',sourceMode='live'}={}){
   const rawId=crypto.randomUUID(),key='sms/'+rawId;
   let body=fixture.body.replaceAll('001234567890',reference);
   const output=structuredClone(fixture.output);output.transaction_id_raw=reference;output.evidence.transaction_id=`Transaction ID: ${reference}`;
@@ -56,7 +56,7 @@ function scenario(){
    output.wallet_balance_after_raw=null;output.evidence.wallet_balance_after=null;
   }
   else{body=body.replace('Balance: RWF 125,000',`Balance: RWF ${balance}`);output.wallet_balance_after_raw=balance;output.evidence.wallet_balance_after=`Balance: RWF ${balance}`;}
-  const bytes=new TextEncoder().encode(JSON.stringify({raw_sender:fixture.sender,raw_body:body,completeness:'complete'}));
+  const bytes=new TextEncoder().encode(JSON.stringify({raw_sender:fixture.sender,raw_body:body,completeness,source_mode:sourceMode}));
   const objectSha=await digest(bytes),cipher=await encrypt(env,bytes,`sms:${rawId}:${objectSha}`);objects.set(key,cipher);
   sqlite.prepare('INSERT INTO sms_receipts VALUES(?,?,?,?,?)').run(rawId,await digest(body),key,objectSha,bytes.length);
   sqlite.prepare('INSERT INTO momo_processing_jobs(raw_sms_id,receiving_account_id,mode,state,available_at,created_at,updated_at) VALUES(?,?,?, ?,0,?,?)').run(rawId,accountId,'live','pending',stamp,stamp);
@@ -66,6 +66,25 @@ function scenario(){
  const all=(sql,...values)=>sqlite.prepare(sql).all(...values);
  return {sqlite,account,capture,process,all,get calls(){return calls;},close(){sqlite.close();}};
 }
+
+test('an incomplete inbox observation is extracted for review without financial records',async()=>{
+ const h=scenario();h.account('account-a');
+ try{
+  const source=await h.capture({completeness:'incomplete',sourceMode:'catch_up'});const result=await h.process(source);
+  assert.equal(result.state,'needs_review');assert.equal(h.calls,1);
+  assert.equal(h.all('SELECT * FROM momo_transactions').length,0);
+  assert.equal(h.all('SELECT * FROM momo_transaction_sources').length,0);
+  assert.equal(h.all('SELECT amount FROM ledger_entries')[0].amount,17);
+  const [attempt]=h.all('SELECT validation_json,outcome,output_json FROM momo_parse_attempts');
+  assert.equal(attempt.outcome,'needs_review');assert(attempt.output_json);assert(JSON.parse(attempt.validation_json).some(e=>e.code==='incomplete_source'));
+ }finally{h.close();}
+});
+test('other incomplete sources are held without invoking the model',async()=>{
+ const h=scenario();h.account('account-a');
+ try{const source=await h.capture({completeness:'incomplete',sourceMode:'live'});const result=await h.process(source);
+  assert.equal(result.state,'needs_review');assert.equal(h.calls,0);assert.equal(h.all('SELECT * FROM momo_transactions').length,0);
+ }finally{h.close();}
+});
 
 async function pair(firstBalance,secondBalance){
  const h=scenario();h.account('account-a');

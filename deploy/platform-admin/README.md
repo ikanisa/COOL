@@ -1,8 +1,8 @@
 # Collect Admin frontend transport
 
-The default `wrangler.jsonc` keeps `COLLECT_BACKEND=cloudflare`: the existing Worker serves the Admin PWA and forwards `/api/admin/*` to the canonical `collect-platform-api` service. It forwards the original Request, preserving URL, Origin, cookie and response Set-Cookie. Existing static assets and the exact-byte HTML/no-transform behavior are preserved.
+The selected backend is the Supabase Cloud project at `https://rrlduytparvsjfmegalh.supabase.co`. BuriMunsi also has separate Android Staff and Admin Sync applications. Admin Sync owns SMS capture permissions. This directory contains the existing web Admin transport and its source checks.
 
-The separate **undeployed** `wrangler.supabase.jsonc` is an explicit Supabase opt-in. It selects `COLLECT_BACKEND=supabase`, the fixed project `https://rrlduytparvsjfmegalh.supabase.co`, removes the Cloudflare API service binding, and sends the API, challenge and privacy paths through the Worker before static-asset handling. A variable-only change to the default configuration is insufficient: its default asset-first paths deliberately remain unchanged. Unknown backend values and a mismatched Supabase project fail closed without falling back to Cloudflare.
+This package has no production deployment command. The production and qualification Wrangler files serve separate outputs of the same React package. Both require verification against the intended Supabase profile. Unknown backend values and mismatched deployment profiles fail closed without falling back to Cloudflare.
 
 In Supabase mode, `src/supabase-transport.js` forwards only the fixed `collect-api` and `admin-api` protocols. Authentication, authorization, managed sessions, database operations, objects, financial logic and AI remain in the Supabase backend and its configured providers. The frontend Worker has no business database or authentication state. It stores no token, mints no credential and retries no upstream operation. This arrangement uses the existing frontend host without requiring a paid Supabase custom domain. Existing frontend-host quotas and costs still apply.
 
@@ -15,7 +15,7 @@ In Supabase mode, `src/supabase-transport.js` forwards only the fixed `collect-a
 
 Other function paths and invalid API roots return JSON errors rather than an application shell. The proxy preserves method, exact body bytes, query representation, Idempotency-Key, cookie, required CSRF/Admin markers, and the allowed gateway signature headers. It rejects caller-supplied authority, foreign origins, path confusion, redirects and unqualified compressed responses. Its upstream request requires identity encoding; responses are private/no-store. Ordinary static requests continue through the existing ASSETS binding without being parsed as proxy protocols.
 
-The opaque Admin cookie is `__Host-collect_admin`, with `Path=/`, `Secure`, `HttpOnly`, one Strict/Lax SameSite attribute and no Domain. Duplicate attributes and extra cookies are refused. A valid backend cookie is preserved and belongs to the frontend response host. `X-Collect-Admin`, `X-Collect-Requested-With` and `X-Collect-CSRF` retain their existing backend contracts. The owner/sender remains `info@ikanisa.com` in backend/client configuration; no account data belongs in this transport.
+The opaque Admin cookie is `__Host-collect_admin`, with `Path=/`, `Secure`, `HttpOnly`, one Strict/Lax SameSite attribute and no Domain. Duplicate attributes and extra cookies are refused. A valid backend cookie is preserved and belongs to the frontend response host. `X-Collect-Admin`, `X-Collect-Requested-With` and `X-Collect-CSRF` retain their existing backend contracts. The Admin owner and sender are configured privately; no account data belongs in this transport.
 
 ## HTML renderer contract
 
@@ -28,11 +28,11 @@ GET bodies must be valid UTF-8 HTML; HEAD requires the same marker and CSP and r
 
 ## Build and local checks
 
-Build the cookie entrypoint with the existing `scripts/admin_pwa_release_build.sh`, selecting consistent Supabase client settings when preparing a Supabase candidate. Root-owned release scripts and gates define that build contract. Copy the complete reviewed output into this folder's ignored `assets/` directory and verify source/artifact identities. The isolated custom domain remains `platform-admin.collect.ikanisa.com`; this source change does not deploy or change its routing.
+[React Admin](../../admin-web/README.md) is packaged by `make admin-web-build`. The production Worker configuration serves `build/admin-web/`, and the QA configuration serves `build/admin-web-qualification/`. Verify the paired source receipt before preparing an artifact for the host. Hosted sign-in and workflow qualification remain open.
 
-Run the actual host-entrypoint regressions with `npm test` from this directory, using the existing pinned toolchain. Wrangler is pinned to 4.151.0. A compile-only check may use `wrangler deploy --dry-run --config wrangler.supabase.jsonc --assets <private-fixture-directory> --outdir <private-output-directory>`; fixture assets prove bundling only and never replace an actual production PWA build.
+Run the host-entrypoint regressions with `npm test` from this directory. Mocked transport checks do not establish backend, hosted or physical-device acceptance.
 
-The integrated transport is an exact copy of the independently tested APFS draft. Its provenance and SHA256 are recorded in `supabase-transport.provenance.json`. Entrypoint tests exercise backend selection, default forwarding, static-byte preservation, target refusal, cookies/headers/body/query, qualified HTML and uncertain mutation handling. These are local mocked transport checks, not backend, hosted or physical-device acceptance.
+The current adapter digest is recorded in `supabase-transport.provenance.json`. Entrypoint tests exercise backend selection, default forwarding, static-byte preservation, target refusal, cookies/headers/body/query, qualified HTML and uncertain mutation handling. These are local mocked transport checks, not backend, hosted or physical-device acceptance.
 
 ## Remaining integration gates
 

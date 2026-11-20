@@ -1,7 +1,13 @@
 // A separate, reviewable replacement for the legacy assets-only Admin entry.
 // No service/data bindings, upstream fetches, session migration or account logic.
-const LEGACY_ORIGIN = 'https://admin.collect.ikanisa.com';
-const ADMIN_ORIGIN = 'https://platform-admin.collect.ikanisa.com';
+import {handoffDocument, handoffScript, SCRIPT_PATH} from './handoff.mjs';
+
+const PRODUCTION_ADMIN = 'https://platform-admin.collect.ikanisa.com';
+const RETIRED_ORIGINS = new Map([
+  ['https://admin.collect.ikanisa.com', PRODUCTION_ADMIN],
+  ['https://admin-preview.collect.ikanisa.com', PRODUCTION_ADMIN],
+  ['https://admin16-security-stage.collect.ikanisa.com', 'https://admin-supabase-qa.collect.ikanisa.com'],
+]);
 
 // Natural activation waits for the previous worker's controlled clients to close.
 // Leave caches, localStorage, IndexedDB, open forms and request journals untouched.
@@ -44,7 +50,8 @@ function acceptsHtml(value) {
 export default {
   fetch(request) {
     const url = new URL(request.url);
-    if (url.origin !== LEGACY_ORIGIN) return denied(request, 403, 'origin_denied');
+    const destinationOrigin = RETIRED_ORIGINS.get(url.origin);
+    if (!destinationOrigin) return denied(request, 403, 'origin_denied');
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       const response = denied(request, 405, 'legacy_write_denied');
       response.headers.set('Allow', 'GET, HEAD');
@@ -60,13 +67,19 @@ export default {
     if (/[\\\u0000-\u0020\u007f%]/.test(decoded) || /%2f/i.test(url.pathname)) {
       return denied(request, 400, 'invalid_path');
     }
-    // Historical bootstraps register both names, sometimes with a version query.
+    // Historical bootstraps register these names, sometimes with a version query.
     // These exact JS resources must never redirect to another origin or to HTML.
-    if (url.pathname === '/custom-sw.js' || url.pathname === '/flutter_service_worker.js') {
+    if (url.pathname === '/custom-sw.js' || url.pathname === '/flutter_service_worker.js' ||
+        url.pathname === '/admin-shell-sw.js') {
       const output = headers();
       output.set('Content-Type', 'text/javascript; charset=utf-8');
       output.set('Service-Worker-Allowed', '/');
       return new Response(request.method === 'HEAD' ? null : RETIREMENT_WORKER, {headers: output});
+    }
+    if (url.pathname === SCRIPT_PATH) {
+      const output = headers();
+      output.set('Content-Type', 'text/javascript; charset=utf-8');
+      return new Response(request.method === 'HEAD' ? null : handoffScript(destinationOrigin), {headers: output});
     }
     // A fetch/XHR or stale subresource must not acquire the new application's
     // code or credentials through the entry redirect. No request is forwarded.
@@ -80,7 +93,7 @@ export default {
     if (!documentMetadata && !legacyDocument) {
       return denied(request, 410, 'legacy_resource_retired');
     }
-    // Only documented UI entry paths are redirected. All API/auth/function and
+    // Only documented UI entry paths receive the handoff. API/auth/function and
     // asset aliases fall through to a non-HTML denial, including encoded aliases.
     if (!(url.pathname === '/' || url.pathname === '/index.html' ||
         url.pathname === '/admin' || url.pathname.startsWith('/admin/'))) {
@@ -92,15 +105,11 @@ export default {
       return denied(request, 410, 'legacy_resource_retired');
     }
     const output = headers();
-    // Concatenation to a fixed origin cannot interpret a query as another host.
-    // The destination uses hash routing. A path entry must become its canonical
-    // fragment so login retains the task/query. For mixed path+hash URLs the
-    // explicit path takes priority; an HTTP handler cannot see the original hash.
-    // Root/index entries leave Location's fragment absent, preserving old hashes.
-    const pathEntry = url.pathname === '/admin' || url.pathname.startsWith('/admin/');
-    output.set('Location', pathEntry
-      ? ADMIN_ORIGIN + '/#' + url.pathname + url.search
-      : ADMIN_ORIGIN + url.pathname + url.search);
-    return new Response(null, {status: 302, headers: output});
+    output.set('Content-Type', 'text/html; charset=utf-8');
+    output.set('Content-Security-Policy', "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'");
+    // The HTTP layer can only signal that an old-origin cookie exists. Its
+    // value never enters the document, the script or a destination request.
+    const page = handoffDocument(destinationOrigin, request.headers.has('Cookie'));
+    return new Response(request.method === 'HEAD' ? null : page, {headers: output});
   },
 };

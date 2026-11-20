@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "workstream": "SMS queue authenticated storage and recovery R4",
+  "date": "2026-11-09",
+  "source_completion": "implemented_for_documented_shared_scope",
+  "local_verification": "passed",
+  "external_acceptance": "blocked",
+  "production_ready": false,
+  "actual_collect_checkout_modified": false,
+  "android_workers_modified": false,
+  "live_upload_enabled": false,
+  "baseline_archive_sha256": "706857f6d08c006d83caad1aa3d71e839207371362650497580d6509fc8c0e69",
+  "input_set_sha256": "1f636b84a400a803f013640e86643faa11ccf8aab48e56945b422a1c740cdbde",
+  "executed_test_check_cases": 649,
+  "tasks": [
+    {
+      "id": "SMS-R4-01",
+      "task": "Authenticated owner/install/contract/store/key-bound journal envelope",
+      "source_completion": "implemented",
+      "local_verification": "passed_jca_jvm",
+      "external_acceptance": "blocked_android_key_provider",
+      "files": [
+        "src/main/kotlin/rw/ikanisa/sms/policy/EncryptedJournal.kt"
+      ],
+      "tests": [
+        "encrypted/*",
+        "crypto/*",
+        "key/*"
+      ]
+    },
+    {
+      "id": "SMS-R4-02",
+      "task": "Independent trusted checkpoint protocol and transition rules",
+      "source_completion": "controller_and_contract_implemented_backend_not_provided",
+      "local_verification": "passed_synthetic_checkpoint_ports",
+      "external_acceptance": "blocked_trusted_backend",
+      "files": [
+        "src/main/kotlin/rw/ikanisa/sms/policy/TrustedCheckpoint.kt"
+      ],
+      "tests": [
+        "checkpoint/*",
+        "rollback/*",
+        "documented-boundary/*"
+      ]
+    },
+    {
+      "id": "SMS-R4-03",
+      "task": "Protected append port and interruption recovery",
+      "source_completion": "implemented_over_required_ports",
+      "local_verification": "passed_fault_injection_and_threads",
+      "external_acceptance": "blocked_native_ciphertext_transaction",
+      "files": [
+        "src/main/kotlin/rw/ikanisa/sms/policy/ProtectedJournalPort.kt"
+      ],
+      "tests": [
+        "fault/*",
+        "recovery/*",
+        "append/*",
+        "concurrency/*"
+      ]
+    },
+    {
+      "id": "SMS-R4-04",
+      "task": "Existing Android Keystore lookup without creation",
+      "source_completion": "implemented",
+      "local_verification": "compiled_only_android_provider_not_executed",
+      "external_acceptance": "blocked_android_device",
+      "files": [
+        "src/main/kotlin/rw/ikanisa/sms/policy/EncryptedJournal.kt"
+      ],
+      "tests": [
+        "ProtectedDeliveryTests.test_existing_android_key_lookup_has_no_key_creation_or_export"
+      ]
+    },
+    {
+      "id": "SMS-R4-05",
+      "task": "R3 preservation and additive installer",
+      "source_completion": "implemented",
+      "local_verification": "passed_temporary_checkouts",
+      "external_acceptance": "blocked_actual_checkout",
+      "files": [
+        "scripts/install_overlay.py",
+        "tests/python/test_protected_delivery.py"
+      ],
+      "tests": [
+        "ProtectedDeliveryTests",
+        "PersistenceDeliveryTests"
+      ]
+    },
+    {
+      "id": "SMS-R4-06",
+      "task": "Fresh complete regression and evidence package",
+      "source_completion": "implemented",
+      "local_verification": "passed",
+      "external_acceptance": "not_native_or_service_qualification",
+      "files": [
+        "scripts/verify.py",
+        "evidence/verification.json"
+      ],
+      "tests": [
+        "pinned_dependency_hashes",
+        "python_tooling",
+        "protected_r4",
+        "persistence_r3",
+        "policies_r2",
+        "buri_core",
+        "buri_receiver",
+        "buri_reliability",
+        "mmoney_sms"
+      ]
+    }
+  ],
+  "remaining_external_requirements": [
+    {
+      "name": "native_runtime_adapter_wiring",
+      "status": "blocked",
+      "reason": "Shared encrypted-journal adapter is implemented; Android ciphertext transactions, checkpoint service, worker wiring, lifecycle fence and legacy migration are not wired or qualified."
+    },
+    {
+      "name": "android_compile_instrumentation",
+      "status": "blocked",
+      "reason": "Not executed by this host-only runner."
+    },
+    {
+      "name": "storage_anti_rollback_and_encryption",
+      "status": "blocked",
+      "reason": "AES-GCM and checkpoint coordination pass host tests. No independently rollback-resistant checkpoint backend or Android durable ciphertext port is deployed; joint local rollback remains undetectable."
+    },
+    {
+      "name": "carrier_delivery",
+      "status": "blocked",
+      "reason": "No authorized handset/SIM/live carrier observations supplied."
+    },
+    {
+      "name": "hosted_ingestion_idempotency",
+      "status": "blocked",
+      "reason": "No deployed service or real database tested."
+    },
+    {
+      "name": "actual_collect_checkout_import",
+      "status": "blocked",
+      "reason": "Only temporary repository fixtures used."
+    }
+  ],
+  "additional_remaining": [
+    "Production encrypted intake/quarantine/checkpoint transaction; retain unsupported/conflicting/offline observations",
+    "Authorized fresh provisioning and legacy queue migration; no automatic adoption of existing bytes",
+    "Real trusted checkpoint authorization, independent rollback resistance and durable linearizable CAS",
+    "Native ciphertext atomic transaction with process/power loss and directory durability qualification",
+    "Keystore AES-256 provisioning, provider/security-level validation, locked/invalidated key and rotation procedures",
+    "Native lifecycle/owner/SIM fence across final validation and submission",
+    "Full A03/A04 consolidated source reconciliation and actual Collect integration",
+    "Whole-journal rewrite memory/throughput/capacity qualification and authorized recovery/compaction"
+  ],
+  "local_skill": {
+    "path": "/Volumes/PRO-G40/Agents/Codex/Operational-Installation/.agents/skills/efficient-codex/SKILL.md",
+    "used": false,
+    "reason": "Not mounted in this environment"
+  }
+}

@@ -153,7 +153,7 @@ void main() {
     expect(controller.value.loading, isFalse);
   });
   test(
-    'changed aggregates clear old page and require refresh before more',
+    'changed aggregates hide history until current member scope is accepted',
     () async {
       final repo = _Repository()..onFetch = (_) async => _page([1], total: 21);
       final controller = _Controller(repo, const MemberHistoryQuery());
@@ -165,6 +165,10 @@ void main() {
       await controller.loadMore();
       expect(repo.requests.length, 1);
       repo.onFetch = (_) async => _page([0, 1]);
+      await controller.refresh();
+      expect(controller.value.page, isNull);
+      expect(repo.snapshot.memberScopeUncertain, isTrue);
+      repo.acceptSyntheticFreshSnapshot();
       await controller.refresh();
       expect(controller.value.page!.items.length, 2);
       expect(controller.value.error, isNull);
@@ -211,6 +215,8 @@ void main() {
         );
         await controller.loadMore();
         expect(repo.requests.length, 1);
+        expect(repo.snapshot.memberScopeUncertain, isTrue);
+        repo.acceptSyntheticFreshSnapshot();
         repo.onFetch = (_) async => _page([0, 1]);
         await controller.refresh();
         expect(controller.value.page!.items.length, 2);
@@ -237,6 +243,7 @@ void main() {
       controller.value.error,
       'History access changed. Refresh to continue.',
     );
+    repo.acceptSyntheticFreshSnapshot();
     repo.onFetch = (_) async => _page([0, 1], total: 25);
     await controller.refresh();
     expect(controller.value.page!.totals['RWF'], 25);
@@ -274,6 +281,7 @@ void main() {
     fresh.complete(_page([0, 1], total: 25));
     await refresh;
     expect(controller.value.page, isNull);
+    repo.acceptSyntheticFreshSnapshot();
     repo.onFetch = (_) async => _page([0, 1], total: 25);
     await controller.refresh();
     expect(controller.value.page!.totals['RWF'], 25);

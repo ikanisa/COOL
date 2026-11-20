@@ -27,6 +27,24 @@ test('health exposes exact guarded bounded aggregate states and ages without inf
  for(const sql of oversightHealthSql)assert.doesNotMatch(sql,/SELECT\s+\*|details_json|destination_ciphertext|body_ciphertext|provider_message_id/i);
 });
 
+test('health reports managed pause and native configuration independently',async()=>{
+ const f=fixture({selects:healthRows()});
+ f.env.MOMO_PROCESSING_PAUSED='true';f.env.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED='true';
+ let value=await f.read('health');
+ assert.equal(value.configuration.momo_processing,'paused');
+ assert.equal(value.configuration.native_auto_processing,'enabled');
+ assert.equal(value.configuration.native_sms_ledger,'enabled');
+ assert.equal(value.worker_heartbeat,'not_recorded');
+ f.env.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED='false';
+ value=await f.read('health');
+ assert.equal(value.configuration.native_auto_processing,'disabled');
+ assert.equal(value.configuration.native_sms_ledger,'disabled');
+ delete f.env.BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED;
+ value=await f.read('health');
+ assert.equal(value.configuration.native_auto_processing,'disabled');
+ assert.equal(value.configuration.native_sms_ledger,'disabled');
+});
+
 test('missing or changed grant and malformed health results fail closed',async()=>{
  const f=fixture({selects:healthRows()});f.actor.permissions.clear();await assert.rejects(()=>f.read('health'),{code:'permission_required'});assert.equal(f.calls.length,0);
  await assert.rejects(()=>fixture({denied:true}).read('health'),{code:'admin_access_changed'});

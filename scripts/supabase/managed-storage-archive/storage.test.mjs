@@ -1,6 +1,7 @@
 // Synthetic definitions only; Root owns all runtime, network denial and private TMPDIR.
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {createDecipheriv} from 'node:crypto';
 import {mkdtemp,readdir,readFile,stat} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,resolve,dirname} from 'node:path';
@@ -37,6 +38,20 @@ test('mandatory NULL row width cell and digest bounds fail without echoing sensi
 });
 test('AESGCM binds Storage metadata AAD and rejects Auth legacy readers wrong key and tamper',()=>{
  const s=syntheticSnapshot(),key=Buffer.alloc(32,7),wrong=Buffer.alloc(32,8);try{const bytes=encryptStorageMetadataSnapshot(s,key,{allowFixture:true});assert.equal(canonical(decryptStorageMetadataSnapshot(bytes,key,{allowFixture:true}).snapshot),canonical(s));assert.throws(()=>decryptStorageMetadataSnapshot(bytes,wrong,{allowFixture:true}));assert.throws(()=>decryptStorageMetadataSnapshot(bytes,key));assert.throws(()=>decryptAuthSnapshot(bytes,key,{allowFixture:true}));assert.throws(()=>legacyDecrypt(bytes,key));const x=JSON.parse(bytes);x.header.archive_id='2d51745d-88bd-465e-a523-a8c74177cf89';assert.throws(()=>decryptStorageMetadataSnapshot(Buffer.from(canonical(x)),key,{allowFixture:true}));}finally{key.fill(0);wrong.fill(0);}
+});
+test('metadata decryption wipes plaintext chunks after successful and rejected authentication',()=>{
+ const key=Buffer.alloc(32,7),wrong=Buffer.alloc(32,8),iv=Buffer.alloc(12);
+ const prototype=Object.getPrototypeOf(createDecipheriv('aes-256-gcm',key,iv)),update=prototype.update,observed=[];
+ prototype.update=function(...args){const chunk=update.apply(this,args);if(Buffer.isBuffer(chunk)&&chunk.length)observed.push({chunk,hadData:chunk.some(byte=>byte!==0)});return chunk;};
+ try{
+  const snapshot=syntheticSnapshot(),encoded=encryptStorageMetadataSnapshot(snapshot,key,{allowFixture:true});
+  assert.equal(canonical(decryptStorageMetadataSnapshot(encoded,key,{allowFixture:true}).snapshot),canonical(snapshot));const afterSuccess=observed.length;
+  const envelope=JSON.parse(encoded),tag=Buffer.from(envelope.tag,'base64url');tag[0]^=1;envelope.tag=tag.toString('base64url');tag.fill(0);
+  assert.throws(()=>decryptStorageMetadataSnapshot(Buffer.from(canonical(envelope)),key,{allowFixture:true}),e=>e.code==='STORAGE_METADATA_AUTHENTICATION_FAILED');const afterTag=observed.length;
+  assert.throws(()=>decryptStorageMetadataSnapshot(encoded,wrong,{allowFixture:true}),e=>e.code==='STORAGE_METADATA_AUTHENTICATION_FAILED');
+  assert.ok(afterSuccess>0&&afterTag>afterSuccess&&observed.length>afterTag);
+  for(const {chunk,hadData} of observed){assert.equal(hadData,true);assert.ok(chunk.every(byte=>byte===0));}
+ }finally{prototype.update=update;key.fill(0);wrong.fill(0);iv.fill(0);}
 });
 test('sameRR capture guards all eight measure scans and budget before native cells without sequences',()=>{
  const q=compileCaptureRequest(REAL,proof(REAL),requestId).body.query;assert.ok(q.startsWith('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY;'));assert.ok(q.endsWith('ROLLBACK;'));assert.equal((q.match(/WHERE \(SELECT valid FROM approved\) IS TRUE/g)||[]).length,8);assert.ok(q.includes('CASE WHEN (SELECT valid FROM storage_budget) IS TRUE THEN'));for(const word of ['last_value','is_called','pg_sequence','collect_fence_control'])assert.equal(q.includes(word),false);for(const field of ['DateStyle','bytea_output','extra_float_digits','IntervalStyle','standard_conforming_strings'])assert.ok(q.includes("current_setting('"+field+"')"));

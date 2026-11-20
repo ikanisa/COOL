@@ -1,5 +1,4 @@
 import importlib.util
-import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -31,7 +30,7 @@ class DiagnosticSourceIdentityTests(unittest.TestCase):
 
     def invoke(self, action, *extra):
         return subprocess.run([sys.executable, str(HELPER), action, "--root", str(self.root),
-                               "--surface", "admin", "--defines", str(self.defines),
+                               "--surface", "member", "--defines", str(self.defines),
                                "--manifest", str(self.manifest), "--metadata", str(self.metadata), *extra],
                               capture_output=True, text=True)
 
@@ -79,71 +78,8 @@ class DiagnosticSourceIdentityTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertNotIn("PRIVATE_CALLER_TEXT", result.stdout + result.stderr)
 
-    def test_compiled_javascript_has_exact_labels_and_reports_only_presence_evidence(self):
-        self.assertEqual(self.invoke("bind").returncode, 0)
-        manifest = json.loads(self.manifest.read_text())
-        path = self.root / "main.dart.js"
-        for quote in ('"', "'"):
-            data = (f"const source={quote}{manifest['source_revision']}{quote};"
-                    f"const version={quote}{manifest['build_version']}{quote};").encode()
-            path.write_bytes(data)
-            original = {item: item.read_bytes() for item in
-                        (path, self.manifest, self.defines, self.metadata)}
-            result = self.invoke("verify", "--javascript", str(path))
-            self.assertEqual(result.returncode, 0, result.stderr)
-            proof = json.loads(result.stdout)
-            self.assertEqual(proof["sha256"], hashlib.sha256(data).hexdigest())
-            self.assertEqual(proof["bytes"], len(data))
-            self.assertEqual(proof["source_revision"], manifest["source_revision"])
-            self.assertEqual(proof["build_version"], "1.2.4+23")
-            self.assertEqual(proof["verification_scope"], "quoted_label_bytes_present")
-            self.assertIs(proof["signing_or_deployment_acceptance"], False)
-            self.assertEqual(original, {item: item.read_bytes() for item in original})
-
-    def test_missing_wrong_or_partial_compiled_labels_are_refused(self):
-        path = self.root / "main.dart.js"
-        source, version = "a" * 64, "1.2.4+23"
-        for actual_source, actual_version in (
-                (None, version), (source, None), ("b" * 64, version),
-                (source, "1.2.4+24"), ("prefix" + source, version),
-                (source, version + "suffix")):
-            path.write_text("const labels=" + json.dumps([actual_source, actual_version]) + ";")
-            with self.subTest(source=actual_source, version=actual_version), self.assertRaises(ValueError):
-                identity.javascript_identity(path, source, version)
-
-    def test_compiled_inspection_refuses_empty_oversized_linked_and_invalid_expectations(self):
-        path = self.root / "main.dart.js"
-        source, version = "a" * 64, "1.2.4+23"
-        path.write_bytes(b"")
-        with self.assertRaises(ValueError):
-            identity.javascript_identity(path, source, version)
-        with path.open("wb") as handle:
-            handle.truncate(identity.MAX_JAVASCRIPT_BYTES + 1)
-        with self.assertRaises(ValueError):
-            identity.javascript_identity(path, source, version)
-        path.unlink()
-        path.symlink_to(self.metadata)
-        with self.assertRaises(ValueError):
-            identity.javascript_identity(path, source, version)
-        path.unlink()
-        path.write_text(json.dumps([source, version]))
-        directory = self.root / "linked-output"
-        directory.symlink_to(self.root, target_is_directory=True)
-        with self.assertRaises(ValueError):
-            identity.javascript_identity(directory / "main.dart.js", source, version)
-        for expected_source, expected_version in ((None, version), (source, None),
-                                                  (source, "unknown"), ("a" * 40, version)):
-            with self.subTest(source=expected_source, version=expected_version), self.assertRaises(ValueError):
-                identity.javascript_identity(path, expected_source, expected_version)
-
-    def test_compiled_inspection_is_verification_only_and_admin_only(self):
-        path = self.root / "main.dart.js"
-        path.write_text('const labels="fixture";')
-        result = self.invoke("bind", "--javascript", str(path))
-        self.assertNotEqual(result.returncode, 0)
-        self.assertFalse(self.manifest.exists())
-        self.assertEqual(self.invoke("bind").returncode, 0)
-        result = self.invoke("verify", "--surface", "member", "--javascript", str(path))
+    def test_retired_admin_surface_is_refused(self):
+        result = self.invoke("bind", "--surface", "admin")
         self.assertNotEqual(result.returncode, 0)
 
 

@@ -1,0 +1,132 @@
+{
+  "scope": "Frozen route contract; panels inherit server capability and device restrictions. Admin alone is not enough for raw SMS: registered gateway required.",
+  "primary_navigation": [
+    "home",
+    "payments",
+    "members",
+    "settings"
+  ],
+  "screens": [
+    {
+      "route": "home",
+      "title": "Home",
+      "roles": [
+        "admin",
+        "staff"
+      ],
+      "theme": "home",
+      "source_function": "home",
+      "required_data": "Canonical group total, today aggregate, member count, named unallocated count, recent server transactions",
+      "panels": [
+        "gateway",
+        "add-member"
+      ]
+    },
+    {
+      "route": "payments",
+      "title": "Payments",
+      "roles": [
+        "admin",
+        "staff"
+      ],
+      "theme": "payments",
+      "source_function": "payments",
+      "required_data": "Scoped transactions, source payer name/time/amount/FT Id; filters and search",
+      "panels": [
+        "filters"
+      ]
+    },
+    {
+      "route": "payment",
+      "title": "Payment detail",
+      "roles": [
+        "admin",
+        "staff"
+      ],
+      "theme": "utility",
+      "source_function": "payment",
+      "required_data": "Original payer facts, full known member number distinctly labeled, source FT Id and timestamp",
+      "panels": [
+        "allocate",
+        "raw",
+        "history-payment"
+      ]
+    },
+    {
+      "route": "members",
+      "title": "Members",
+      "roles": [
+        "admin",
+        "staff"
+      ],
+      "theme": "members",
+      "source_function": "members",
+      "required_data": "Scoped roster with full member MoMo identifiers and authoritative balances",
+      "panels": [
+        "add-member"
+      ]
+    },
+    {
+      "route": "member",
+      "title": "Member ledger",
+      "roles": [
+        "admin",
+        "staff"
+      ],
+      "theme": "utility",
+      "source_function": "memberPage",
+      "required_data": "All canonical transactions and balance; full MoMo number; export",
+      "panels": [
+        "member-details"
+      ]
+    },
+    {
+      "route": "sms",
+      "title": "SMS inbox",
+      "roles": [
+        "admin"
+      ],
+      "theme": "sms",
+      "source_function": "smsPage",
+      "required_data": "Original eligible business-SIM receipts, sync states and link to canonical transaction",
+      "panels": [
+        "raw",
+        "gateway"
+      ]
+    },
+    {
+      "route": "settings",
+      "title": "Settings",
+      "roles": [
+        "admin",
+        "staff"
+      ],
+      "theme": "utility",
+      "source_function": "settings",
+      "required_data": "Signed-in operator, own passcode and support; Admin-only staff/gateway/activity",
+      "panels": [
+        "profile",
+        "change-passcode",
+        "staff-list",
+        "staff-edit",
+        "confirm-remove",
+        "gateway",
+        "replace-device",
+        "audit",
+        "help"
+      ]
+    },
+    {
+      "route": "login",
+      "title": "Sign in",
+      "roles": [
+        "admin",
+        "staff"
+      ],
+      "theme": "login",
+      "source_function": "login",
+      "required_data": "Phone number and four-digit passcode; WhatsApp support",
+      "panels": []
+    }
+  ]
+}

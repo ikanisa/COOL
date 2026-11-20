@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import copy
 import importlib.util
-import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -34,6 +34,16 @@ class CollectCiPolicyTest(unittest.TestCase):
 
     def test_current_declared_boundary_is_valid(self):
         self.assertEqual(policy.validate_workflows(self.workflows), [])
+
+
+
+    def test_managed_cloud_is_the_only_current_qualification_profile(self):
+        workflow = self.workflows['supabase.yml']
+        events = workflow.get('on', workflow.get('true', {}))
+        profile = events['workflow_dispatch']['inputs']['qualification_profile']
+        self.assertEqual(profile['default'], 'current-managed-cloud')
+        profile['default'] = 'current-self-hosted'
+        self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
 
     def test_historical_current16_keeps_owned_cluster_and_safe_receipts_at_exact_source(self):
         job = self.workflows['supabase.yml']['jobs']['current16-integration-native']
@@ -295,7 +305,7 @@ class CollectCiPolicyTest(unittest.TestCase):
 
     def test_current_make_cannot_substitute_source_checks_for_native_evidence(self):
         source = (ROOT / 'Makefile').read_text()
-        for command in ('$(MAKE) supabase-source-test', '$(MAKE) supabase-current-native'):
+        for command in ('$(MAKE) supabase-source-test', '$(MAKE) supabase-current-native', '$(MAKE) supabase-current-transfer-test'):
             line = '\t@' + command + '\n'
             for replacement in ('', line + line, line.rstrip() + ' || true\n', '\t@true\n'):
                 with self.subTest(command=command, replacement=replacement):
@@ -304,7 +314,7 @@ class CollectCiPolicyTest(unittest.TestCase):
                     changed = before + 'supabase-test:\n' + rest.replace(line, replacement, 1)
                     self.assertIn('CI_CURRENT_MAKE_QUALIFICATION_REQUIRED',
                                   {x['code'] for x in policy.validate_platform_makefile(changed)})
-        command = '\t@node scripts/supabase/testing/current-self-hosted-native.mjs\n'
+        command = '\t@node scripts/supabase/testing/pinned-history-stage.mjs --native\n'
         for replacement in ('', command + command, command.replace('@node', '-@node'),
                             command.rstrip() + ' || true\n', '\t@node scripts/supabase/testing/current16-integration.mjs\n'):
             with self.subTest(native=replacement):
@@ -312,11 +322,154 @@ class CollectCiPolicyTest(unittest.TestCase):
                               {x['code'] for x in policy.validate_platform_makefile(source.replace(command, replacement, 1))})
         for command in ('python3 supabase/schema-src/generate_baseline.py --check',
                         'node scripts/supabase/run_edge_node_tests.mjs',
+                        'node --test --test-concurrency=1 scripts/supabase/testing/cloud-binder-fixture.test.mjs',
+                        'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs',
+                        'cd deploy/managed-sms && python3 test/verify_source_tests_test.py && python3 test/verify_source_tests.py',
+                        policy.CURRENT_COMMISSIONING_DENO_MAKE_COMMAND,
                         'cd supabase/functions && "$${COLLECT_DENO:-deno}" task check'):
             before, rest = source.split('supabase-source-test:\n', 1)
             changed = before + 'supabase-source-test:\n' + rest.replace('\t@' + command + '\n', '\t@true\n', 1)
             self.assertIn('CI_CURRENT_MAKE_SOURCE_REQUIRED',
                           {x['code'] for x in policy.validate_platform_makefile(changed)})
+
+    def test_current_transfer_make_requires_owned_fixture_and_no_skips(self):
+        source = (ROOT / 'Makefile').read_text()
+        before, rest = source.split('supabase-current-transfer-test:\n', 1)
+        for command in ('test "$$(id -u)" -ne 0',
+                        'test -n "$${COLLECT_SYNTHETIC_PG_BIN:-}"',
+                        'test "$$(cd "$$COLLECT_SYNTHETIC_PG_BIN" && pwd -P)" = "$$COLLECT_SYNTHETIC_PG_BIN"',
+                        'command -v openssl >/dev/null',
+                        policy.CURRENT_TRANSFER_MAKE_COMMAND):
+            for replacement in ('', '\t@true\n', '\t@' + command + ' || true\n'):
+                with self.subTest(command=command[:60], replacement=replacement[:60]):
+                    changed = before + 'supabase-current-transfer-test:\n' + rest.replace('\t@' + command + '\n', replacement, 1)
+                    self.assertIn('CI_CURRENT_MAKE_NATIVE_REQUIRED',
+                                  {x['code'] for x in policy.validate_platform_makefile(changed)})
+
+    def test_current_transfer_requires_every_fixture_and_named_result(self):
+        source = (ROOT / 'Makefile').read_text()
+        original = copy.deepcopy(self.workflows)
+        required = (
+            'scripts/supabase/current-pg-transfer/batch-transfer/quarantine.test.mjs',
+            'scripts/supabase/current-pg-transfer/test-support/lifecycle.test.mjs',
+            'scripts/supabase/current-pg-transfer/object-transfer/transfer.test.mjs',
+            'scripts/supabase/current-pg-transfer/object-transfer/scope-rebind.test.mjs',
+            'scripts/supabase/current-pg-transfer/object-transfer/supabase-adapter.test.mjs',
+            'scripts/supabase/current-pg-transfer/business-import/import.test.mjs',
+            'scripts/supabase/current-pg-transfer/financial-inventory/inventory.test.mjs',
+            'scripts/supabase/retention-convergence/user-id-forward.test.mjs',
+            'scripts/supabase/retention-convergence/ordered-chain-fixture.test.mjs',
+            'scripts/supabase/retention-convergence/history-plan.test.mjs',
+            'supabase/functions/_shared/tests/burimunsi/native-sms-ledger.test.mjs',
+            'supabase/managed-deployment-identity/bind-managed-pg17.test.mjs',
+            'scripts/supabase/managed-cloud-migrations/event-trigger-preimage.test.mjs',
+            'scripts/supabase/managed-cloud-migrations/migration-postconditions.test.mjs',
+            'scripts/supabase/device-commissioning/synthetic-transport.test.mjs',
+            'supabase/managed-cloud-stopped-recovery/evidence.test.mjs',
+            'isolated PostgreSQL reconciliation',
+            'managed reconciliation admits only the pinned target, TLS root and verified peer',
+            'connected clients with startup options are refused',
+            'owner-approved identity mapping holds both existing principals',
+            'encrypted quarantine on disposable PostgreSQL 17',
+            'SIGTERM stops a confirmed server before removing its fixture',
+            'provider database CA is a valid self-signed root with the pinned DER fingerprint',
+            'canonical input, exact project and clean environment are required before connecting',
+            'CLI reports or reconciles commit with closed-stdout',
+            'commissioning receipt transaction fixture',
+            'exact immutable ciphertext is copied once with encrypted durable intent and receipt',
+            'synthetic owner rebind reproduces Storage fingerprints while preserving ciphertext identity',
+            'actual adapter reads, creates once and verifies synthetic protected bytes',
+            'HTTPS client rejects a self-signed loopback server',
+            'mutating an approved plan cannot redirect import or lost-ack reconciliation',
+            'count-only financial graph inventory on owned PostgreSQL 17',
+            'financial consistency is aggregate-only and read-only on owned PostgreSQL 17',
+            'selected native source prerequisites are aggregate-only on owned PostgreSQL 17',
+            'synthetic posted financial graphs transfer atomically with cloud-primary mapping',
+            'synthetic accepted native SMS history and posted financial graph',
+            'forward-only retention user ID correction on owned PostgreSQL 17',
+            'synthetic full chain refuses divergent originals and runs pinned candidates without writing history',
+            'history candidate keeps divergent originals unrecorded and uses distinct ordered versions',
+            'all pinned non-WIP predecessors execute in order while both MFA sources remain absent',
+            'deferred proposal keeps every non-WIP source action without inventing history',
+            'a coherently mapped replay with an existing complete financial link performs no second write',
+            'managed candidate on native PostgreSQL 17 without a postgres superuser',
+            'a correctly serialized v2-style digest cannot authorize the v3 executor',
+            'diagnostics rechecks after history insertion',
+            'notification rechecks after history insertion',
+            'signed commissioning transport with durable synthetic PostgreSQL receipts',
+            'managed stopped-work evidence remains non-authorizing with synthetic PG snapshots',
+        )
+        for required_input in required:
+            with self.subTest(required_input=required_input):
+                self.assertIn(required_input, policy.CURRENT_TRANSFER_MAKE_COMMAND)
+                self.assertIn(required_input, policy.CURRENT_TRANSFER_NATIVE_COMMAND)
+                changed = source.replace(required_input, 'removed-required-transfer-input', 1)
+                self.assertIn('CI_CURRENT_MAKE_NATIVE_REQUIRED',
+                              {x['code'] for x in policy.validate_platform_makefile(changed)})
+                offset = -1
+                for occurrence in range(policy.CURRENT_TRANSFER_NATIVE_COMMAND.count(required_input)):
+                    with self.subTest(occurrence=occurrence):
+                        self.workflows = copy.deepcopy(original)
+                        job = self.workflows['supabase.yml']['jobs']['current-self-hosted-native']
+                        step = next(step for step in job['steps'] if step.get('run', '').strip() == policy.CURRENT_TRANSFER_NATIVE_COMMAND)
+                        offset = step['run'].find(required_input, offset + 1)
+                        self.assertNotEqual(offset, -1)
+                        step['run'] = step['run'][:offset] + 'removed-required-transfer-input' + step['run'][offset + len(required_input):]
+                        self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+        self.workflows = original
+
+    def test_transfer_ci_requires_openssl_install_before_suite(self):
+        original = copy.deepcopy(self.workflows)
+        for mutation in ('omit', 'skip', 'ignore', 'remove-package', 'remove-check', 'after-suite'):
+            self.workflows = copy.deepcopy(original)
+            job = self.workflows['supabase.yml']['jobs']['current-self-hosted-native']
+            steps = job['steps']
+            step = next(step for step in steps if step.get('run', '').strip() == policy.CURRENT_NATIVE_CONTAINER_PREREQ)
+            if mutation == 'omit': steps.remove(step)
+            elif mutation == 'skip': step['if'] = '${{ false }}'
+            elif mutation == 'ignore': step['continue-on-error'] = True
+            elif mutation == 'remove-package': step['run'] = step['run'].replace('xz-utils openssl', 'xz-utils')
+            elif mutation == 'remove-check': step['run'] = step['run'].replace('command -v openssl >/dev/null', 'true')
+            else:
+                steps.remove(step)
+                transfer = next(item for item in steps if item.get('run', '').strip() == policy.CURRENT_TRANSFER_NATIVE_COMMAND)
+                steps.insert(steps.index(transfer) + 1, step)
+            with self.subTest(mutation=mutation):
+                self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+        self.workflows = original
+
+    def test_commissioning_deno_gate_pins_runtime_lock_and_named_pass(self):
+        original = copy.deepcopy(self.workflows)
+        source = (ROOT / 'Makefile').read_text()
+        for required in ('--lock=supabase/functions/deno.lock', '--frozen',
+                         'scripts/supabase/device-commissioning/edge-smoke.test.ts',
+                         'synthetic Edge request signs and verifies commissioning receipt and acknowledgement',
+                         "'^deno 2[.]9[.]6 '"):
+            with self.subTest(required=required):
+                self.assertIn(required, policy.CURRENT_COMMISSIONING_DENO_MAKE_COMMAND)
+                self.assertIn(required, policy.CURRENT_COMMISSIONING_DENO_COMMAND)
+                changed = source.replace(required, 'removed-required-deno-input', 1)
+                self.assertIn('CI_CURRENT_MAKE_SOURCE_REQUIRED',
+                              {x['code'] for x in policy.validate_platform_makefile(changed)})
+                self.workflows = copy.deepcopy(original)
+                job = self.workflows['supabase.yml']['jobs']['current-source-contracts']
+                step = next(step for step in job['steps'] if step.get('run') == policy.CURRENT_COMMISSIONING_DENO_COMMAND)
+                step['run'] = step['run'].replace(required, 'removed-required-deno-input', 1)
+                self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+        self.workflows = copy.deepcopy(original)
+        self.workflows['supabase.yml']['jobs']['current-source-contracts']['env']['COLLECT_DENO'] = '/unreviewed/deno'
+        self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+        self.workflows = copy.deepcopy(original)
+        job = self.workflows['supabase.yml']['jobs']['current-source-contracts']
+        step = next(step for step in job['steps'] if step.get('run') == policy.CURRENT_COMMISSIONING_DENO_COMMAND)
+        step['working-directory'] = '/unreviewed/checkout'
+        self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+        self.workflows = copy.deepcopy(original)
+        job = self.workflows['supabase.yml']['jobs']['current-source-contracts']
+        step = next(step for step in job['steps'] if step.get('run') == policy.CURRENT_COMMISSIONING_DENO_COMMAND)
+        step['run'] += ' || true'
+        self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+        self.workflows = original
 
     def test_recovery13_make_hook_cannot_be_conditional_ignored_or_duplicated(self):
         source = (ROOT / "Makefile").read_text()
@@ -499,6 +652,20 @@ class CollectCiPolicyTest(unittest.TestCase):
                         checkout['with']['ref'] = 'main'
                     self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
 
+    def test_http_admission_native_qualification_cannot_be_omitted_or_masked(self):
+        original = copy.deepcopy(self.workflows)
+        for command in (policy.CURRENT_HTTP_NATIVE_COMMAND, policy.CURRENT_BURI_NATIVE_COMMAND, policy.CURRENT_NONCE_NATIVE_COMMAND, policy.CURRENT_PORTABILITY_NATIVE_COMMAND, policy.CURRENT_TRANSFER_NATIVE_COMMAND, policy.CURRENT_SMS_NATIVE_COMMAND):
+            for mutation in ('omit', 'skip', 'ignore', 'different-command'):
+                self.workflows = copy.deepcopy(original)
+                job = self.workflows['supabase.yml']['jobs']['current-self-hosted-native']
+                step = next(step for step in job['steps'] if step.get('run', '').strip() == command)
+                if mutation == 'omit': job['steps'].remove(step)
+                elif mutation == 'skip': step['if'] = '${{ false }}'
+                elif mutation == 'ignore': step['continue-on-error'] = True
+                else: step['run'] += ' || true'
+                with self.subTest(command=command, mutation=mutation):
+                    self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+
     def test_supabase_source_contracts_and_synthetic_target_cannot_drift(self):
         original = copy.deepcopy(self.workflows)
         for command in policy.CURRENT_SOURCE_COMMANDS:
@@ -513,6 +680,13 @@ class CollectCiPolicyTest(unittest.TestCase):
                     self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
         self.workflows = copy.deepcopy(original)
         self.workflows['supabase.yml']['jobs']['current-self-hosted-native']['env']['COLLECT_FENCE_ADMIN_DATABASE_URL'] = 'postgres://hosted.invalid/production'
+        self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+
+    def test_integrated_handler_ci_requires_exact_checkout_binding(self):
+        job = self.workflows['supabase.yml']['jobs']['current-source-contracts']
+        command = 'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs'
+        step = next(step for step in job['steps'] if step.get('run') == command)
+        step['env']['COLLECT_HANDLER_CHECKOUT_ROOT'] = '/different/checkout'
         self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
 
     def test_reusable_current_gate_cannot_select_history_or_be_hidden(self):
@@ -558,16 +732,13 @@ class CollectCiPolicyTest(unittest.TestCase):
 
     def test_supabase_candidate_cannot_fall_back_to_another_backend(self):
         original = copy.deepcopy(self.workflows)
-        for boundary in ('build', 'receipt', 'consumer'):
+        for boundary in ('build', 'consumer'):
             with self.subTest(boundary=boundary):
                 self.workflows = copy.deepcopy(original)
                 jobs = self.workflows['ci.yml']['jobs']
-                if boundary == 'consumer':
-                    jobs['admin-platform-candidate']['env']['COLLECT_BACKEND'] = 'cloudflare'
-                else:
-                    key = 'bash scripts/admin_pwa_release_build.sh' if boundary == 'build' else 'PY_PLATFORM_IDENTITY'
-                    step = next(s for s in jobs['admin-web-build']['steps'] if key in s.get('run', ''))
-                    step['env']['COLLECT_BACKEND'] = "${{ vars.COLLECT_BACKEND || 'cloudflare' }}"
+                job = jobs['admin-web-build' if boundary == 'build' else 'admin-platform-candidate']
+                step = next(s for s in job['steps'] if 'build-admin.mjs verify-ci' in s.get('run', ''))
+                step['env']['COLLECT_BACKEND'] = 'cloudflare'
                 self.assertIn('CI_SUPABASE_CANDIDATE_SELECTION_REQUIRED', self.codes())
 
     def test_shipping_identity_cannot_download_the_legacy_preview_artifact(self):
@@ -576,12 +747,19 @@ class CollectCiPolicyTest(unittest.TestCase):
         step['with']['name'] = 'admin-cloudflare-candidate'
         self.assertIn('CI_SHIPPING_PLATFORM_ARTIFACT_REQUIRED', self.codes())
 
-    def test_shipping_identity_requires_retained_compiler_input(self):
+    def test_shipping_identity_requires_retained_react_receipt(self):
         job = self.workflows['ci.yml']['jobs']['admin-web-build']
         step = next(s for s in job['steps'] if s.get('with', {}).get('name') == 'admin-platform-pwa-candidate')
         step['with']['path'] = '\n'.join(line for line in step['with']['path'].splitlines()
-                                         if line.strip() != 'build/admin-public-defines.json')
+                                         if line.strip() != 'build/admin-web.json')
         self.assertIn('CI_SHIPPING_PLATFORM_INPUT_REQUIRED', self.codes())
+
+    def test_shipping_build_requires_the_compiled_browser_session_checks(self):
+        steps = self.workflows['ci.yml']['jobs']['admin-web-build']['steps']
+        step = next(s for s in steps if 'admin-web/tests/browser/smoke.mjs' in s.get('run', ''))
+        step['continue-on-error'] = True
+        self.assertIn('CI_COMPILED_ADMIN_BROWSER_REQUIRED', self.codes())
+
 
     def test_legacy_preview_compilation_cannot_gate_the_shipping_build(self):
         job = self.workflows['ci.yml']['jobs']['admin-web-build']
@@ -630,80 +808,17 @@ class CollectCiPolicyTest(unittest.TestCase):
                 policy.read_workflow(root / "._ci.yml")
 
 
-    def test_shipping_pwa_identity_binds_real_clean_commit_and_rejects_invalid_inputs(self):
-        steps = self.workflows["ci.yml"]["jobs"]["admin-web-build"]["steps"]
-        identity = next(s for s in steps if s.get("name") == "Bind shipping PWA artifact to the clean workflow commit")
-        with tempfile.TemporaryDirectory() as folder:
-            root = Path(folder).resolve()
-            # Tiny local artifact files exercise the actual receipt gate. They
-            # are not Flutter, hosted, browser or release acceptance evidence.
-            inputs = [
-                'scripts/admin_pwa_release_build.sh', 'scripts/supabase/admin_build_config.py',
-                'scripts/supabase/deployment_profile.py', 'scripts/admin_pwa_manifest_gate.sh',
-                'scripts/admin_pwa_hosting_gate.sh', 'scripts/admin_cloudflare_assets.py',
-                'scripts/templates/admin_pwa_service_worker.js', 'deploy/platform-admin/src/index.js', 'deploy/platform-admin/src/supabase-transport.js',
-                'deploy/admin.wrangler.jsonc', 'deploy/platform-admin/wrangler.jsonc',
-                '.github/workflows/ci.yml', '.fvmrc', 'pubspec.yaml', 'pubspec.lock',
-                'scripts/admin_platform_candidate.py',
-                'scripts/qa/client_diagnostic_identity.py',
-            ]
-            for name in inputs:
-                path = root / name
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text('isolated receipt gate source fixture\n')
-            # The real producer delegates source selection to the consumer.
-            (root / 'scripts/admin_platform_candidate.py').write_bytes(
-                (ROOT / 'scripts/admin_platform_candidate.py').read_bytes())
-            (root / '.gitignore').write_text('build/\n')
-            for args in [['init', '--quiet'], ['add', '.'],
-                         ['-c', 'user.name=Receipt fixture', '-c', 'user.email=fixture@example.invalid',
-                          '-c', 'commit.gpgsign=false', 'commit', '--quiet', '-m', 'isolated receipt gate fixture']]:
-                subprocess.run(['git', '-C', str(root), *args], check=True, capture_output=True, text=True)
-            commit = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
-            build = root / 'build/web'
-            build.mkdir(parents=True)
-            for name in ['main.dart.js', 'index.html', 'flutter_bootstrap.js', 'manifest.json', '_headers', '.well-known/assetlinks.json', '.well-known/apple-app-site-association']:
-                output = build / name
-                output.parent.mkdir(parents=True,exist_ok=True)
-                output.write_text('isolated output role: ' + name)
-            (build / 'custom-sw.js').write_text(
-                'const CACHE_NAME = "collect-admin-fixture";\n'
-                'const CACHE_URLS = ["./"];\nconst CACHE_HASHES = {"./":"fixture-hash"};\n')
-            version = {'source_commit': commit, 'source_dirty': False,
-                       'backend': 'cloudflare', 'authentication': 'email_otp_cookie_with_totp',
-                       'minimum_core_schema_migration': '0017_admin_email_otp.sql',
-                       'financial_model': 'canonical_evidence_ledger', 'financial_contract_version': 2}
-            version_path = build / 'version.json'
-            def run(changes=None, sha=commit):
-                version_path.write_text(json.dumps({**version, **(changes or {})}))
-                return subprocess.run(['bash', '-e', '-c', identity['run']], cwd=root,
-                                      env={**os.environ, 'GITHUB_SHA': sha, 'COLLECT_BACKEND':'cloudflare'}, capture_output=True, text=True)
-            result = run()
-            self.assertEqual(result.returncode, 0, result.stderr)
-            receipt_path = root / 'build/admin-platform-pwa-artifact.json'
-            receipt = json.loads(receipt_path.read_text())
-            self.assertEqual(receipt['source_commit'], commit)
-            self.assertIs(receipt['source_dirty'], False)
-            self.assertIs(receipt['hosted_deployment_verified'], False)
-            self.assertEqual(receipt['main_dart_js_sha256'], hashlib.sha256((build / 'main.dart.js').read_bytes()).hexdigest())
-            self.assertEqual(receipt['worker_sha256'], hashlib.sha256((build / 'custom-sw.js').read_bytes()).hexdigest())
-            self.assertEqual(set(receipt['input_sha256']), set(inputs))
-            for changes, sha in [({'source_dirty': True}, commit), ({'source_commit': '0' * 40}, commit),
-                                 ({}, '0' * 40), ({'backend': 'unknown'}, commit),
-                                 ({'authentication': 'email'}, commit), ({'financial_model': 'legacy_core'}, commit),
-                                 ({'financial_contract_version': 1}, commit)]:
-                with self.subTest(changes=changes, sha=sha):
-                    receipt_path.unlink(missing_ok=True)
-                    self.assertNotEqual(run(changes, sha).returncode, 0)
-                    self.assertFalse(receipt_path.exists())
-            (build / 'main.dart.js').unlink()
-            receipt_path.unlink(missing_ok=True)
-            self.assertNotEqual(run().returncode, 0)
-            self.assertFalse(receipt_path.exists())
-            (build / 'main.dart.js').write_text('restored isolated output')
-            (root / 'pubspec.yaml').write_text('changed tracked fixture source\n')
-            self.assertNotEqual(run().returncode, 0)
-            self.assertFalse(receipt_path.exists())
+    def test_shipping_identity_cannot_skip_the_clean_commit_and_profile_verifier(self):
+        for job_name in ('admin-web-build', 'admin-platform-candidate'):
+            with self.subTest(job_name=job_name):
+                job = self.workflows['ci.yml']['jobs'][job_name]
+                step = next(s for s in job['steps'] if 'build-admin.mjs verify-ci' in s.get('run', ''))
+                original = step['run']
+                step['run'] = original.replace('verify-ci', 'verify')
+                expected = ('CI_SHIPPING_PLATFORM_BUILD_REQUIRED' if job_name == 'admin-web-build'
+                            else 'CI_SHIPPING_PLATFORM_ARTIFACT_REQUIRED')
+                self.assertIn(expected, self.codes())
+                step['run'] = original
 
     def test_local_pass_cannot_attest_hosted_security_or_mutation(self):
         report = policy.inspect(ROOT)

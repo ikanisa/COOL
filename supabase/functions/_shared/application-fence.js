@@ -5,6 +5,9 @@ export const FENCE_IO_TIMEOUT_MS=5000;
 const KINDS=new Set(['http_collect','http_admin','jobs']);
 const contexts=new WeakSet();
 const reservedDispatches=new WeakMap();
+// Keep the original registration COMMIT acknowledgement available after the
+// bounded caller observation times out. This is not a second registration.
+const registrationCompletions=new WeakMap();
 const unavailable=()=>new ApiError(503,'application_fence_unavailable','The service is temporarily unavailable. Keep the original request pending.');
 const closed=()=>new ApiError(503,'application_fenced','The service is temporarily paused. Keep the original request pending.');
 const need=(value)=>{if(!value)throw unavailable();};
@@ -30,8 +33,10 @@ async function runtimeRole(tx){await tx.unsafe('SET LOCAL ROLE collect_runtime')
 async function result(tx,name,values){const rows=await tx.unsafe('SELECT '+signatures[name]+' AS result',values);need(rows.length===1&&rows[0].result&&typeof rows[0].result==='object');return rows[0].result;}
 export function sqlFenceBackend(businessSql,controlSql){
  need(typeof businessSql?.begin==='function'&&typeof controlSql?.reserve==='function');
- const call=(name,values)=>bounded(businessSql.begin('ISOLATION LEVEL READ COMMITTED',async tx=>{await runtimeRole(tx);return result(tx,name,values);}));
- return Object.freeze({register:(id,source,kind)=>call('register',[id,source,kind]),close:(id,epoch,source,outcome,reason,dispatches,uncertain)=>call('close',[id,epoch,source,outcome,reason,dispatches,uncertain]),status:id=>call('status',[id]),
+ const rawCall=(name,values)=>businessSql.begin('ISOLATION LEVEL READ COMMITTED',async tx=>{await runtimeRole(tx);return result(tx,name,values);});
+ const call=(name,values)=>bounded(rawCall(name,values));
+ const register=(id,source,kind)=>{const original=Promise.resolve(rawCall('register',[id,source,kind])),observation=bounded(original);registrationCompletions.set(observation,original);return observation;};
+ return Object.freeze({register,close:(id,epoch,source,outcome,reason,dispatches,uncertain)=>call('close',[id,epoch,source,outcome,reason,dispatches,uncertain]),status:id=>call('status',[id]),
   async lease(id,epoch,source){
    const tx=await reserveDatabaseConnection(controlSql);let beginDispatched=false,released=false,cleanup=null;
    const releaseReservation=()=>{if(released)return;released=true;tx.release();};
@@ -56,18 +61,49 @@ export function sqlFenceBackend(businessSql,controlSql){
  });
 }
 
-export async function openApplicationWork({backend,sourceSha256,kind,id=crypto.randomUUID()}={}){
+function registration(row,id,source,kind){base(row,id,source);need(row.mode==='open'&&row.state==='active'&&row.kind===kind);return row;}
+async function closeBeforeWork(backend,row,id,source){
+ const verify=value=>{base(value,id,source,row.epoch);need(value.state==='settled'&&value.reason==='cancelled_before_work'&&value.externalDispatches===0&&value.uncertainDispatches===0);return value;};
+ try{return verify(await backend.close(id,row.epoch,source,'settled','cancelled_before_work',0,0));}
+ catch{const known=await backend.status(id).catch(()=>null);need(known?.found===true);return verify(known);}
+}
+function retainLateRegistration(backend,original,id,source,kind){
+ // The original success proves this call committed. A rejected or still
+ // pending registration is never inferred to have succeeded or retried.
+ let accepting=true;const deadline=performance.now()+FENCE_IO_TIMEOUT_MS;
+ const recovery=Promise.resolve(original).then(async value=>{
+  // Timer delivery can lag the elapsed window during an isolate pause. Check
+  // monotonic time before dispatching any cleanup from the original ACK.
+  if(!accepting||performance.now()>=deadline)return;
+  const row=registration(value,id,source,kind);await closeBeforeWork(backend,row,id,source);
+ },()=>{});
+ // Once the bounded ownership window ends, a still-unacknowledged original
+ // remains unresolved; an idle isolate cannot silently begin cleanup later.
+ const observed=bounded(recovery).catch(()=>{accepting=false;});
+ if(typeof EdgeRuntime!=='undefined'&&typeof EdgeRuntime.waitUntil==='function'){
+  try{EdgeRuntime.waitUntil(observed);return;}catch{/* Keep the bounded observer attached. */}
+ }
+}
+
+export async function openApplicationWork({backend,sourceSha256,kind,id=crypto.randomUUID(),signal}={}){
  need(backend&&['register','lease','close','status'].every(name=>typeof backend[name]==='function')&&SHA.test(sourceSha256)&&KINDS.has(kind)&&UUID.test(id));
- let row,lease;
- try{row=base(await backend.register(id,sourceSha256,kind),id,sourceSha256);need(row.mode==='open'&&row.state==='active'&&row.kind===kind);}
- catch(error){throw fenceFailure(error);} // Unknown register is not retried or replaced.
+ need(signal===undefined||typeof signal.aborted==='boolean');
+ if(signal?.aborted)throw unavailable();
+ let row,lease,observation;
+ try{observation=backend.register(id,sourceSha256,kind);row=registration(await observation,id,sourceSha256,kind);}
+ catch(error){
+  const original=observation&&registrationCompletions.get(observation);
+  if(original)retainLateRegistration(backend,original,id,sourceSha256,kind);
+  throw fenceFailure(error); // Rejected/unknown registration is never retried.
+ }
+ if(signal?.aborted){try{await closeBeforeWork(backend,row,id,sourceSha256);}catch{}throw unavailable();}
  try{const pending=Promise.resolve().then(()=>backend.lease(id,row.epoch,sourceSha256));
   try{lease=await bounded(pending);}catch(error){void pending.then(late=>late?.release().catch(()=>{}),()=>{});throw error;}
-  const proof=active(lease.row,id,sourceSha256,row.epoch);if(proof.mode!=='open')throw closed();}
+  const proof=active(lease.row,id,sourceSha256,row.epoch);if(proof.mode!=='open')throw closed();if(signal?.aborted)throw unavailable();}
  catch(error){
   // No handler/provider/business work has begun. This exact registration can
   // close as cancelled even if owner begin_quiesce won the race after register.
-  try{await backend.close(id,row.epoch,sourceSha256,'settled','cancelled_before_work',0,0);}catch{}
+  try{await closeBeforeWork(backend,row,id,sourceSha256);}catch{}
   await lease?.release().catch(()=>{});throw fenceFailure(error);
  }
  const work=new ApplicationWork(backend,lease,id,row.epoch,sourceSha256,kind);contexts.add(work);return work;

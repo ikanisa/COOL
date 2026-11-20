@@ -1,5 +1,5 @@
 import {renderLocalChallengeDocument} from '../../platform-supabase-free/local-challenge.mjs';
-import {createCollectTransport} from './supabase-transport.js';
+import {createCollectTransport, SUPABASE_ORIGIN} from './supabase-transport.js';
 import {verifyDeploymentProfile} from '../../../supabase/functions/_shared/deployment-profile.js';
 import {versionedStatic} from './static-recovery.js';
 
@@ -30,10 +30,11 @@ export function createAdminWorker({fetchImpl = (request, init) => globalThis.fet
         if (env.SUPABASE_URL !== profile.supabase_origin ||
             explicitProfile && (env.ADMIN_ORIGIN !== profile.admin_origin ||
               env.APP_ENVIRONMENT !== undefined && env.APP_ENVIRONMENT !== profile.environment) ||
-            !explicitProfile && env.SUPABASE_INTERNAL_URL !== undefined) throw new Error('Backend profile mismatch');
+            env.SUPABASE_INTERNAL_URL !== undefined) throw new Error('Backend profile mismatch');
         transport = createCollectTransport({frontendOrigin: env.ADMIN_ORIGIN,
+          isolateAdminSession: env.ADMIN_ORIGIN === 'https://platform-admin.collect.ikanisa.com' &&
+            profile.supabase_origin === SUPABASE_ORIGIN,
           supabaseOrigin: profile.supabase_origin,
-          upstreamOrigin: env.SUPABASE_INTERNAL_URL ?? profile.supabase_origin,
           ...(explicitProfile ? {allowedFrontendOrigins: [profile.public_origin, profile.member_api_origin, profile.admin_origin]} : {}),
           fetchImpl});
       } catch {
@@ -75,7 +76,11 @@ export function createAdminWorker({fetchImpl = (request, init) => globalThis.fet
     if (backend === 'supabase' && url.pathname.startsWith('/_build/')) {
       return versionedStatic(request, env.ASSETS);
     }
-    const response = await env.ASSETS.fetch(request);
+    // Fetch a physical shell for both typed deep links and worker install requests.
+    // Static routing otherwise redirects index.html and treats raw deep links differently.
+    const shell = backend === 'supabase' && ['GET', 'HEAD'].includes(request.method) &&
+      (url.pathname === '/' || url.pathname === '/admin' || url.pathname.startsWith('/admin/'));
+    const response = await env.ASSETS.fetch(shell ? new Request(new URL('/index.html', url), request) : request);
     if (response.headers.get('Content-Type')?.split(';', 1)[0].trim().toLowerCase() === 'text/html') {
       // Static HTML participates in the service worker's exact-byte manifest.
       // Preserve it through intermediaries, including on SPA fallback routes.

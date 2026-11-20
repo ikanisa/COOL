@@ -26,10 +26,10 @@ class ReleaseWorktreeReviewGateTest < Minitest::Test
     @script = File.join(@root, 'scripts/release_worktree_review_gate.sh')
     FileUtils.cp(File.join(ROOT, 'scripts/release_worktree_review_gate.sh'), @script)
     @git = executable('git')
-    @environment = ENV.keys.grep(/\AGIT_/).to_h { |key| [key, nil] }.merge(
+    isolated_keys = ENV.keys.grep(/\AGIT_/) + REVIEW.keys
+    @environment = isolated_keys.to_h { |key| [key, nil] }.merge(
       'GIT_CONFIG_NOSYSTEM' => '1', 'GIT_CONFIG_GLOBAL' => File::NULL,
-      'GIT_TERMINAL_PROMPT' => '0', 'GIT_ALLOW_PROTOCOL' => '',
-      **REVIEW.keys.to_h { |key| [key, nil] }
+      'GIT_TERMINAL_PROMPT' => '0', 'GIT_ALLOW_PROTOCOL' => ''
     )
     git('init', '--quiet', '--initial-branch=main')
     git('config', 'user.name', 'Synthetic Fixture')
@@ -162,7 +162,8 @@ class ReleaseWorktreeReviewGateTest < Minitest::Test
 
   def test_missing_git_returns_a_sanitized_machine_readable_failure
     FileUtils.ln_s(RbConfig.ruby, File.join(@bin, 'ruby'))
-    FileUtils.ln_s(executable('dirname'), File.join(@bin, 'dirname'))
+    # macOS system Ruby calls uname while loading its platform configuration.
+    %w[dirname uname].each { |name| FileUtils.ln_s(executable(name), File.join(@bin, name)) }
     result, error, status = gate('PATH' => @bin)
     refute status.success?
     assert_equal 'fail', result.fetch('status')

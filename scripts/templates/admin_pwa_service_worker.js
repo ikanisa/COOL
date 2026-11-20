@@ -65,7 +65,7 @@ self.addEventListener('install', (event) => {
       const failed = results.find((result) => result.status === 'rejected');
       if (failed) throw failed.reason;
       // Use the browser's waiting phase. Open operator tabs keep their entire
-      // installed build until all controlled tabs/windows have been closed.
+      // installed build until every controlled document has been left.
       // Do not activate an update over an unfinished operator action.
     } catch (error) {
       if (!preserveAdmittedCache) await caches.delete(CACHE_NAME);
@@ -81,7 +81,7 @@ self.addEventListener('activate', (event) => {
       (key.startsWith('collect-admin-') && key !== CACHE_NAME) ||
       LEGACY_FLUTTER_CACHES.has(key))
       .map((key) => caches.delete(key)));
-    // Natural activation happens after previous controlled clients close.
+    // Natural activation happens after every previous controlled document is left.
     // Do not take over a page which loaded an earlier build from the network.
   })());
 });
@@ -94,8 +94,8 @@ async function cacheFirst(request) {
   const cached = await cache.match(key, { ignoreSearch: true });
   if (cached) return cached;
   // An evicted static entry must not fetch newer, unversioned build bytes into
-  // an old running app. Close all Admin tabs and reopen online to recover.
-  return new Response('Admin static build is unavailable. Close all Admin tabs and reopen online.', {
+  // an old running app. Keeping the same tabs preserves per-tab recovery data.
+  return new Response('Admin could not load. Finish any open work. Open about:blank in each Admin tab. When all are blank, return to Admin online in the same tabs.', {
     status: 503,
     headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
   });

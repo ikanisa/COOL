@@ -1,0 +1,6 @@
+[project]
+name = "burimunsi-release-safeguards"
+version = "4.0.0"
+requires-python = ">=3.11"
+dependencies = []
+description = "Source-bound release evidence and fail-closed packaging checks"

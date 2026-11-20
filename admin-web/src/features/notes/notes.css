@@ -1,0 +1,12 @@
+.notes-card { margin-top: 18px; padding: 22px; }
+.notes-heading, .notes-pagination { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.notes-heading h2 { margin: 0; font-size: 1rem; }
+.notes-heading p, .notes-unavailable, .notes-meta, .notes-pagination { color: var(--admin-muted); font-size: .8125rem; }
+.notes-heading p { margin: 5px 0 0; }
+.notes-editor, .notes-attempt { margin: 16px 0; }
+.notes-editor textarea { resize: vertical; }
+.notes-list { list-style: none; margin: 0; padding: 0; }
+.notes-list li { border-top: 1px solid var(--admin-line); padding: 14px 0; }
+.notes-body { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+.notes-meta { margin: 7px 0 0; }
+.notes-pagination { padding-top: 8px; }

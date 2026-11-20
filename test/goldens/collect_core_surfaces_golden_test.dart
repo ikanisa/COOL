@@ -3,10 +3,6 @@ import '../fixtures/contribution_layout_repository_fixture.dart';
 
 import 'dart:io';
 
-import 'package:collect_app/admin/admin_app.dart';
-import 'package:collect_app/admin/core/admin_auth_guard.dart';
-import 'package:collect_app/admin/core/admin_repository_base.dart';
-import 'package:collect_app/admin/core/admin_evidence_mode.dart';
 import 'package:collect_app/app/app.dart';
 import 'package:collect_app/app/router.dart';
 import 'package:collect_app/app/theme/collect_runtime_assets.dart';
@@ -89,6 +85,7 @@ void main() {
         await _setViewport(tester, const Size(390, 844));
         final goldenKey = ValueKey<String>('golden-member-${surface.key}');
         final router = createAppRouter(initialLocation: surface.value);
+        final fixtureNow = DateTime(2026, 7, 24, 23);
         final messenger =
             TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
         const smsEvents = EventChannel('collect/sms_access/events');
@@ -118,13 +115,12 @@ void main() {
               appRouterProvider.overrideWithValue(router),
               collectRepositoryProvider.overrideWith(
                 (ref) => surface.key == 'contribution_review'
-                    ? ContributionLayoutRepository(
-                        // Pin baseline wall-clock labels across runner timezones.
-                        fixtureNow: DateTime(2026, 7, 24, 23),
-                      )
+                    ? ContributionLayoutRepository(fixtureNow: fixtureNow)
                     : FixtureCollectRepository(
-                        // Pin baseline wall-clock labels across runner timezones.
-                        fixtureNow: DateTime(2026, 7, 24, 23),
+                        fixtureNow: fixtureNow,
+                        lastSuccessfulSyncAt: surface.key == 'groups'
+                            ? fixtureNow.toUtc()
+                            : null,
                       ),
               ),
               collectThemeModeProvider.overrideWith(
@@ -195,75 +191,6 @@ void main() {
       await expectLater(
         find.byKey(goldenKey),
         matchesGoldenFile('current/public_home_desktop.png'),
-      );
-    },
-    variant: TargetPlatformVariant.only(TargetPlatform.android),
-  );
-
-  testWidgets(
-    'legacy Admin adapter overview compares its reviewed desktop regression baseline',
-    (tester) async {
-      await _setViewport(tester, const Size(1440, 900));
-      const goldenKey = ValueKey<String>('golden-admin-overview');
-      const identity = AdminIdentity(
-        userId: '00000000-0000-0000-0000-00000000e001',
-        displayName: 'Collect evidence admin',
-        phoneMasked: '+250***6816',
-        roles: ['platform_owner'],
-        permissions: [
-          'overview.read',
-          'public_requests.read',
-          'collections.read',
-          'users.read',
-          'audit.read',
-          'feature_flags.read',
-          'settings.read',
-          'system_health.read',
-          'admin_users.read',
-          'payments.read',
-          'payment_events.read',
-          'ledger.read',
-          'receivers.read',
-          'sms.metadata.read',
-        ],
-      );
-
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            collectBackendClientProvider.overrideWithValue(null),
-            adminAuthGuardProvider.overrideWithValue(
-              const AdminAuthGuard(isAuthorized: true),
-            ),
-            adminIdentityProvider.overrideWith((ref) async => identity),
-            adminRepositoryProvider.overrideWithValue(
-              const AdminEvidenceRepository(),
-            ),
-            adminClockProvider.overrideWithValue(
-              () => DateTime.parse('2026-08-20T21:04:00+02:00'),
-            ),
-            collectThemeModeProvider.overrideWith(
-              (ref) => CollectThemeModeController(
-                initialMode: ThemeMode.dark,
-                loadPersistedMode: false,
-              ),
-            ),
-          ],
-          child: const RepaintBoundary(
-            key: goldenKey,
-            // This retained adapter is distinct from the shipping cookie-based
-            // CloudflareAdminApp. Hosted evidence covers that entrypoint.
-            child: CollectAdminApp(),
-          ),
-        ),
-      );
-      await _precacheOfficialLogo(tester);
-      await _pumpStableFrames(tester);
-
-      expect(tester.takeException(), isNull);
-      await expectLater(
-        find.byKey(goldenKey),
-        matchesGoldenFile('current/admin_overview_desktop.png'),
       );
     },
     variant: TargetPlatformVariant.only(TargetPlatform.android),

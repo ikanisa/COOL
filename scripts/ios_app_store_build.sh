@@ -16,7 +16,7 @@ BUILD_NAME="${COLLECT_IOS_BUILD_NAME:-$DEFAULT_BUILD_NAME}"
 BUILD_NUMBER="${COLLECT_IOS_BUILD_NUMBER:-$DEFAULT_BUILD_NUMBER}"
 BUILD_STARTED_EPOCH="$(date +%s)"
 NATIVE_SOURCE_BEFORE="$(ruby scripts/qa/native_build_provenance.rb begin ios)"
-# Require the explicit self-hosted, SMS-enabled candidate profile and check
+# Require the explicit managed, SMS-enabled candidate profile and check
 # public/Admin aliases before compilation.
 
 if [[ $# -ne 0 ]]; then

@@ -1,0 +1,11 @@
+{
+  "kind": "release-provenance",
+  "manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "phase": "build",
+  "product": "M-Money",
+  "run_id": "unexecuted-example-0001",
+  "schema_version": 1,
+  "signatures": [],
+  "source_version": "REPLACE_WITH_EXACT_SOURCE_VERSION",
+  "trust_policy_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+}

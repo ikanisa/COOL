@@ -273,12 +273,12 @@ void main() {
     (tester) async {
       final semantics = tester.ensureSemantics();
       try {
-        var launches = 0;
+        final channelCalls = <String>[];
         const channel = MethodChannel('collect/momo_ussd');
         final messenger =
             TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
-        messenger.setMockMethodCallHandler(channel, (_) async {
-          launches++;
+        messenger.setMockMethodCallHandler(channel, (call) async {
+          channelCalls.add(call.method);
           return true;
         });
         addTearDown(() => messenger.setMockMethodCallHandler(channel, null));
@@ -313,7 +313,7 @@ void main() {
         );
         expect(statusLabel, isNot(contains('confirmed')));
         expect(statusLabel, isNot(contains('parsed and allocated')));
-        expect(launches, 1);
+        expect(channelCalls, ['ensurePermission', 'launch']);
         expect(repository.preparations, 1);
         expect(repository.reviewCalls, 1);
         expect(repository.handoffCalls, 1);

@@ -74,5 +74,39 @@ class CutoverGateTest(unittest.TestCase):
         operator.write_text('changed synthetic client')
         self.assertNotEqual(before, source_identity(self.root))
 
+    def test_native_changes_invalidate_acceptance_but_build_outputs_do_not(self):
+        subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
+        migration = self.root / 'supabase/migrations/baseline.sql'
+        migration.parent.mkdir(parents=True)
+        migration.write_text('synthetic fixture baseline')
+        native = self.root / 'native/burimunsi/app/src/main/Buri.kt'
+        native.parent.mkdir(parents=True)
+        native.write_text('original synthetic native source')
+        subprocess.run(['git', '-C', str(self.root), 'add', str(native.relative_to(self.root))], check=True)
+
+        before = source_identity(self.root)
+        self.record['source_sha256'] = before
+        self.record['release_owner']['source_sha256'] = before
+        self.path.write_text(json.dumps(self.record))
+        self.assertEqual(acceptance(self.path, before)['decision'], 'GO')
+
+        generated = self.root / 'native/burimunsi/app/build/generated.txt'
+        generated.parent.mkdir(parents=True)
+        generated.write_text('synthetic generated output')
+        self.assertEqual(before, source_identity(self.root))
+        generated.write_text('changed synthetic generated output')
+        self.assertEqual(before, source_identity(self.root))
+
+        native.write_text('changed synthetic native source')
+        changed = source_identity(self.root)
+        self.assertNotEqual(before, changed)
+        self.assertIn('source_changed', acceptance(self.path, changed)['blockers'])
+
+        native.write_text('original synthetic native source')
+        self.assertEqual(before, source_identity(self.root))
+        untracked = self.root / 'native/burimunsi/app/src/main/Added.kt'
+        untracked.write_text('new synthetic native source')
+        self.assertNotEqual(before, source_identity(self.root))
+
 if __name__ == '__main__':
     unittest.main()

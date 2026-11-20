@@ -26,6 +26,10 @@ export async function retentionContext(env,actor){
   approval_granted:false,erasure_completed:false};
 }
 
+export function retentionObjectCount(snapshot){
+ return snapshot.summary.private_inventory.object_custody==='unverified'?null:snapshot.summary.objects.length;
+}
+
 /** Reuses an existing authenticated intake. A review-only outcome never
  * becomes an erasure authorization without the separately bound policy. */
 export async function inspectRetentionScope(env,actor,input){
@@ -40,7 +44,7 @@ export async function inspectRetentionScope(env,actor,input){
  return {contract_version:1,request_id:requestId,subject_id:request.user_id,source_id:env.BUILD_SOURCE_ID,schema_sha256:snapshot.summary.schema_sha256,
   snapshot_sha256:await retentionApprovalScope(snapshot),table_counts:Object.fromEntries(Object.entries(snapshot.summary.tables).map(([name,row])=>[name,row.count])),
   private_catalog_sha256:snapshot.summary.private_inventory.catalog_sha256,private_schema_sha256:snapshot.summary.private_inventory.schema_sha256,private_copy_inventory:Object.fromEntries(Object.entries(snapshot.summary.private_inventory.classes).map(([name,row])=>[name,{count:row.count,status:row.status}])),
-  object_count:snapshot.summary.objects.length,active_hold_count:snapshot.summary.holds.length,in_flight_unresolved:snapshot.summary.in_flight_unresolved,
+  object_count:retentionObjectCount(snapshot),active_hold_count:snapshot.summary.holds.length,in_flight_unresolved:snapshot.summary.in_flight_unresolved,
   approval_granted:false,erasure_completed:false};
 }
 export async function inspectQuarantineContinuation(env,actor,input){
@@ -66,6 +70,7 @@ export async function planRetention(env,actor,input){
  if(!request||request.user_id===actor.userId)retentionFail('privacy_retention_independent_review_required');
  if(request.review_revision!==reviewRevision)retentionFail('privacy_retention_review_changed');
  const snapshot=await retentionSnapshot(env,request.user_id);
+ if(snapshot.summary.private_inventory.object_custody==='unverified')retentionFail('privacy_retention_burimunsi_unmapped');
  if(snapshot.summary.schema_sha256!==approved.policy.schema_sha256)retentionFail('privacy_retention_schema_changed');
  if(approved.policy.scope.request_id!==requestId||approved.policy.scope.subject_id!==request.user_id||approved.policy.scope.snapshot_sha256!==await retentionApprovalScope(snapshot))retentionFail('privacy_retention_scope_unapproved');
  const planId=id(),guard=actorGuard(env,actor),at=seconds();

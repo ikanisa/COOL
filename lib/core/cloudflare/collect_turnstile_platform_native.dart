@@ -1,6 +1,12 @@
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 const _channel = MethodChannel('collect/turnstile');
+
+// Native challenge activities keep the existing strict lifecycle behavior.
+bool challengeOwnsInactiveFocus(String attemptId) => false;
+bool challengeHasForeground() =>
+    WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
 
 Future<Object?> acquireChallenge(String attemptId, {Uri? endpoint}) =>
     _channel.invokeMethod<String>('acquire', {

@@ -4,13 +4,17 @@ import {ApiError} from './core.js';
 // Neither an AAL value nor a caller-supplied actor timestamp is email evidence.
 const attestations=new WeakMap();
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+// Collect account and principal keys are SQL text; GoTrue and session keys are UUIDs.
+const collectId=value=>typeof value==='string'&&value.length>0&&value.length<=200&&
+ value===value.trim()&&!/[\x00-\x1f\x7f-\x9f\uD800-\uDFFF]/u.test(value);
 const epoch=()=>Math.floor(Date.now()/1000);
 const fields=['id','principal_id','auth_user_id','auth_session_id','token_hash','public_id','origin','auth_version'];
 const denied=()=>new ApiError(403,'recent_email_sign_in_required','Verify your current Admin email before continuing.');
 const unavailable=()=>new ApiError(503,'admin_email_verification_unavailable','Your email verification could not be confirmed.');
 function binding(account){
  if(!account||!fields.every(key=>Object.hasOwn(account,key))||
-  !['id','principal_id','auth_user_id','auth_session_id','public_id'].every(key=>uuid.test(account[key]??''))||
+  !['id','principal_id'].every(key=>collectId(account[key]))||
+  !['auth_user_id','auth_session_id','public_id'].every(key=>uuid.test(account[key]??''))||
   !/^[a-f0-9]{64}$/.test(account.token_hash??'')||!Number.isSafeInteger(account.auth_version)||account.auth_version<1||
   typeof account.origin!=='string'||!account.origin)throw unavailable();
  return Object.fromEntries(fields.map(key=>[key,account[key]]));

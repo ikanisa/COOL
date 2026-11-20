@@ -163,8 +163,8 @@ inventory = {
   },
   "mobile_route_contract" => route_constant_rows("lib/app/router.dart", "collectRoutePaths"),
   "mobile_route_entries" => route_rows("lib/app/router.dart"),
-  "admin_route_contract" => route_constant_rows("lib/admin/admin_router.dart", "adminRoutePaths"),
-  "admin_route_entries" => route_rows("lib/admin/admin_router.dart"),
+  "admin_route_source" => "admin-web/src/app/App.tsx",
+  "admin_route_entries" => route_rows("admin-web/src/app/App.tsx"),
   "cloudflare" => {
     "functions" => platform_sources,
     "migrations" => platform_migrations
@@ -213,13 +213,7 @@ inventory.fetch("mobile_route_entries").each do |row|
   puts "- `#{row.fetch("path")}` at `#{row.fetch("file")}:#{row.fetch("line")}`"
 end
 puts
-puts "## Admin Route Contract"
-puts
-inventory.fetch("admin_route_contract").each do |row|
-  puts "- `#{row.fetch("path")}` at `#{row.fetch("file")}:#{row.fetch("line")}`"
-end
-puts
-puts "## Admin GoRoute Entries"
+puts "## React Admin route declarations"
 puts
 inventory.fetch("admin_route_entries").each do |row|
   puts "- `#{row.fetch("path")}` at `#{row.fetch("file")}:#{row.fetch("line")}`"

@@ -1,0 +1,27 @@
+{
+  "format": "collect.edge-live-source-pins.v1",
+  "files": {
+    "scripts/supabase/managed-edge-capture-live-v3/core.mjs": "2c3cce7a19ed01e3faa93f6b1f67723f4818560b40198f9e6aaadab2643fdb9b",
+    "scripts/supabase/managed-edge-capture-live-v3/seal.mjs": "766db60d4267b9c9772aaf6b321e34d2707292034df5827d3a7972cbe1f0fc91",
+    "scripts/supabase/managed-edge-capture-live-v3/multipart.mjs": "f01d804833f6e3569adb8bec8b353e31d52c0d2cca662eb8a5f4ae58d0720091",
+    "scripts/supabase/managed-edge-capture-live-v3/diagnostics.mjs": "7825ed5e6a4148bc7d7b26b16e1ea0cac4054994174262f50b1b3e3ddc0370bd",
+    "scripts/supabase/managed-edge-capture-live-v3/source-pins.mjs": "0e4f9b4578c4e7bc0a9e911a026271d808863f4dc82244450d3f84b258870baa",
+    "scripts/supabase/managed-edge-capture-live-v3/offline.mjs": "a2f8cc2435ef448db72f7cc88d286b1cb834f431346f46d8778b3f0ed49137ed",
+    "scripts/supabase/managed-edge-capture-live-v3/worker.mjs": "60dfd109ba642ff834404cdfdd17717c8b486cf52c080d93bb5b19236d4c5b7a",
+    "scripts/supabase/managed-edge-capture-live-v3/supervisor.mjs": "512d22588998c82bf8f58be9b33c00dd831ec12b47dee3c62a8640ab38af1452",
+    "scripts/supabase/managed-edge-capture-live-v3/fixture.mjs": "332f1ceafe5e06fc4d54b8209b271ff72b4ba029aef6728ee779af9dccaeeed1",
+    "scripts/supabase/managed-edge-capture-live-v3/transport-mock-fixture.mjs": "9e69e6b8a95d8453fbd7535adfd3f8f69785dab2562be6e4591e786519baa7c3",
+    "scripts/supabase/managed-edge-capture-live-v3/core.test.mjs": "d71d1fb1681e93ed8d45418c04d44263ba5adce44fffcda71c072ad0a6292d05",
+    "scripts/supabase/managed-edge-capture-live-v3/multipart.test.mjs": "3a75543d9e334b0f82fe4636bed9784b505e7c15faa956f38986337a186ee9c6",
+    "scripts/supabase/managed-edge-capture-live-v3/diagnostics.test.mjs": "a36b27d082eb9fd1c8225a4f58d41652a9e1bb88211394b3e3dc5cdcdba67159",
+    "scripts/supabase/managed-edge-capture-live-v3/offline.test.mjs": "1101b39a0ee0707e86e64cf4616474316d08859ad43507c00c98a9d0fb602b40",
+    "scripts/supabase/managed-edge-capture-live-v3/supervisor.test.mjs": "4af030f2cef31de5df7ee4bdafc67b5d244635af9fa117d6977651aa2c4c7be7",
+    "scripts/supabase/managed-edge-capture-live-v3/README.md": "245b75f32b8c8f86aa5a73657afb920547dd6b15333e3454bc79006c160a55f3",
+    "scripts/supabase/current-archive/bundle.mjs": "a78f686a7fda1f3fad280d290daf49b061d0695779cec0918160d83b2cfcdd73",
+    "scripts/supabase/current-archive/codec.mjs": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192",
+    "scripts/supabase/managed-component-refresh/capture-json.mjs": "f32b1ede44363eba9ed78f380efd6709bc7b3691c47f27962a6cbd89b324d730"
+  },
+  "binaries": {
+    "/Volumes/PRO-G40/Development/Node/bin/node": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef"
+  }
+}

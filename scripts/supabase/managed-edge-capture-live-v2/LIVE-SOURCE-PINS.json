@@ -1,0 +1,25 @@
+{
+  "format": "collect.edge-live-source-pins.v1",
+  "files": {
+    "scripts/supabase/managed-edge-capture-live-v2/core.mjs": "f7185803750c7ed97bc56cd63d910eb50e27c2468f74ef1a356dc80ac228e2ed",
+    "scripts/supabase/managed-edge-capture-live-v2/seal.mjs": "766db60d4267b9c9772aaf6b321e34d2707292034df5827d3a7972cbe1f0fc91",
+    "scripts/supabase/managed-edge-capture-live-v2/multipart.mjs": "b802a09de4b072d8305786ca45972f3b29172956262a0b9dfeb3861092c730dc",
+    "scripts/supabase/managed-edge-capture-live-v2/source-pins.mjs": "29e7adf796d5cffc9ae86c9253a21f0ed64ebe9ec46973d1c18005ae491b14bf",
+    "scripts/supabase/managed-edge-capture-live-v2/offline.mjs": "a2f8cc2435ef448db72f7cc88d286b1cb834f431346f46d8778b3f0ed49137ed",
+    "scripts/supabase/managed-edge-capture-live-v2/worker.mjs": "60dfd109ba642ff834404cdfdd17717c8b486cf52c080d93bb5b19236d4c5b7a",
+    "scripts/supabase/managed-edge-capture-live-v2/supervisor.mjs": "512d22588998c82bf8f58be9b33c00dd831ec12b47dee3c62a8640ab38af1452",
+    "scripts/supabase/managed-edge-capture-live-v2/fixture.mjs": "332f1ceafe5e06fc4d54b8209b271ff72b4ba029aef6728ee779af9dccaeeed1",
+    "scripts/supabase/managed-edge-capture-live-v2/transport-mock-fixture.mjs": "a45c874139748dfea688481099502e0e5b26db2ad80823e04b5b6864377bf4f5",
+    "scripts/supabase/managed-edge-capture-live-v2/core.test.mjs": "d71d1fb1681e93ed8d45418c04d44263ba5adce44fffcda71c072ad0a6292d05",
+    "scripts/supabase/managed-edge-capture-live-v2/multipart.test.mjs": "3a75543d9e334b0f82fe4636bed9784b505e7c15faa956f38986337a186ee9c6",
+    "scripts/supabase/managed-edge-capture-live-v2/offline.test.mjs": "1101b39a0ee0707e86e64cf4616474316d08859ad43507c00c98a9d0fb602b40",
+    "scripts/supabase/managed-edge-capture-live-v2/supervisor.test.mjs": "40688604aa67e070021d2ad594f571fd17bdf8e15315743364963e0d289aca70",
+    "scripts/supabase/managed-edge-capture-live-v2/README.md": "050a8f744f11f811f68fc83cfb67390b3c0bb5ffdd253a83a76926a864c5fbbf",
+    "scripts/supabase/current-archive/bundle.mjs": "a78f686a7fda1f3fad280d290daf49b061d0695779cec0918160d83b2cfcdd73",
+    "scripts/supabase/current-archive/codec.mjs": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192",
+    "scripts/supabase/managed-component-refresh/capture-json.mjs": "f32b1ede44363eba9ed78f380efd6709bc7b3691c47f27962a6cbd89b324d730"
+  },
+  "binaries": {
+    "/Volumes/PRO-G40/Development/Node/bin/node": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef"
+  }
+}

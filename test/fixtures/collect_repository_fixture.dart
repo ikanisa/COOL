@@ -11,6 +11,7 @@ class FixtureCollectRepository extends CollectRepository {
     super.smsAccessChannel,
     bool seeded = true,
     DateTime? fixtureNow,
+    DateTime? lastSuccessfulSyncAt,
     int fixtureCollectionCount = 2,
     int fixtureContributionCount = 2,
     CollectProfile? profileOverride,
@@ -20,6 +21,7 @@ class FixtureCollectRepository extends CollectRepository {
          initialState: seeded
              ? _fixtureCollectState(
                  fixtureNow: fixtureNow,
+                 lastSuccessfulSyncAt: lastSuccessfulSyncAt,
                  collectionCount: fixtureCollectionCount,
                  contributionCount: fixtureContributionCount,
                  profileOverride: profileOverride,
@@ -35,6 +37,7 @@ class FixtureCollectRepository extends CollectRepository {
 
 CollectState _fixtureCollectState({
   DateTime? fixtureNow,
+  DateTime? lastSuccessfulSyncAt,
   int collectionCount = 2,
   int contributionCount = 2,
   CollectProfile? profileOverride,
@@ -168,6 +171,7 @@ CollectState _fixtureCollectState({
   ];
   return CollectState(
     currentProfile: user,
+    lastSuccessfulSyncAt: lastSuccessfulSyncAt,
     collections: collections,
     paymentIntents: [
       PaymentIntentModel(

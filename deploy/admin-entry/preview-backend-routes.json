@@ -1,0 +1,13 @@
+{
+  "zone": "ikanisa.com",
+  "custom_domain_owners": {
+    "admin-preview.collect.ikanisa.com": "collect-admin-cloudflare",
+    "admin16-security-stage.collect.ikanisa.com": "collect-admin16-security-stage-20261016"
+  },
+  "routes": [
+    {"pattern": "admin-preview.collect.ikanisa.com/api/admin/*", "script": null},
+    {"pattern": "admin-preview.collect.ikanisa.com/api/gateway", "script": null},
+    {"pattern": "admin-preview.collect.ikanisa.com/api/gateway/*", "script": null},
+    {"pattern": "admin16-security-stage.collect.ikanisa.com/api/admin/*", "script": null}
+  ]
+}

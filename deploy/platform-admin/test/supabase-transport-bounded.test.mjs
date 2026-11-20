@@ -5,13 +5,14 @@ import {createCollectTransport as createNetlify} from '../../platform-supabase-f
 
 const origin = 'https://admin.collect.ikanisa.com';
 const encoded = new TextEncoder();
-function fragmented(text, {empty = 4096, cancel = () => {}} = {}) {
+function fragmented(text, {empty = 4096, cancel = () => {}, keepOpen = false} = {}) {
   const bytes = encoded.encode(text); let position = -empty;
   return new ReadableStream({
     pull(controller) {
       if (position < 0) { position++; controller.enqueue(new Uint8Array()); }
       else if (position < bytes.length) controller.enqueue(bytes.subarray(position, ++position));
-      else controller.close();
+      else if(!keepOpen)controller.close();
+      else return new Promise(() => {});
     },
     cancel,
   });
@@ -42,7 +43,7 @@ for (const [name, create] of [['admin', createAdmin], ['netlify', createNetlify]
   test(name + ' keeps oversized post-dispatch response outcome unknown', async () => {
     let calls = 0; let cancelled = 0;
     const handle = create({frontendOrigin: origin, maxResponseBytes: 4,
-      fetchImpl: async () => { calls++; return new Response(fragmented('abcde', {cancel() { cancelled++; }})); }});
+      fetchImpl: async () => { calls++; return new Response(fragmented('abcde', {keepOpen:true,cancel() { cancelled++; }})); }});
     const result = await handle(request('/v1/query/public-collections', {method: 'POST', body: fragmented('a')}));
     assert.equal(result.status, 502);
     assert.deepEqual(await result.json(), {code: 'proxy_outcome_unknown', reason: 'proxy_response_too_large'});
@@ -85,10 +86,14 @@ for (const [name, create] of [['admin', createAdmin], ['netlify', createNetlify]
         pull() { started(); return new Promise((_, reject) => { rejectPull = reject; }); },
         cancel() { cancelled++; return outcome === 'stall' ? new Promise(() => {}) : Promise.reject(Error('synthetic cancel')); },
       });
-      const handle = create({frontendOrigin: origin, fetchImpl: async () => { calls++; return new Response(body); }});
+      // ReadableStream may prefetch before fetchImpl has been called. Wait for
+      // actual dispatch as well as the upstream read before testing its abort.
+      let dispatched;
+      const dispatchStarted=new Promise(resolve=>{dispatched=resolve;});
+      const handle = create({frontendOrigin: origin, fetchImpl: async () => { calls++;dispatched(); return new Response(body); }});
       const controller = new AbortController();
       const pending = handle(request('/v1/query/public-collections', {method: 'POST', body: fragmented('a'), signal: controller.signal}));
-      await waiting; controller.abort();
+      await dispatchStarted;await waiting; controller.abort();
       const result = await pending;
       assert.equal(result.status, 504);
       assert.deepEqual(await result.json(), {code: 'proxy_outcome_unknown', reason: 'proxy_deadline'});

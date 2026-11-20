@@ -20,6 +20,32 @@ test('complete amounts and sentence punctuation retain valid synthetic evidence'
  assert.equal(validateMomoExtraction(output,source(fixture.body),account).accepted,true);
 });
 
+test('currency-prefixed raw amount fields remain invalid despite literal source evidence',()=>{
+ const output=extract();
+ for(const field of ['principal_amount_raw','fee_amount_raw','wallet_balance_after_raw'])output[field]=`${output.currency_raw} ${output[field]}`;
+ const result=validateMomoExtraction(output,source(fixture.body),account);
+ assert.equal(result.accepted,false);
+ assert.deepEqual(result.errors.map(error=>error.code),[
+  'invalid_principal','principal_role_unverified','fee_role_unverified','balance_role_unverified',
+ ]);
+});
+
+test('numeric-only raw amounts retain separate contextual principal, fee and wallet evidence',()=>{
+ const output=extract(),incoming=fixture.body.slice(0,fixture.body.indexOf(fixture.profile.transaction_id_prefixes[0])).trimEnd();
+ output.evidence.incoming_success=incoming;
+ output.evidence.principal=incoming;
+ output.evidence.fee=fixture.output.evidence.fee+'.';
+ output.evidence.wallet_balance_after=fixture.output.evidence.wallet_balance_after+'.';
+ const result=validateMomoExtraction(output,source(fixture.body),account);
+ assert.equal(result.accepted,true,JSON.stringify(result.errors));
+ assert.equal(result.facts.amount_minor,Number(fixture.output.principal_amount_raw.replaceAll(',','')));
+ assert.equal(result.facts.fee_minor,Number(fixture.output.fee_amount_raw.replaceAll(',','')));
+ assert.equal(result.facts.wallet_balance_after_minor,Number(fixture.output.wallet_balance_after_raw.replaceAll(',','')));
+ assert.equal(result.facts.provider_transaction_id,fixture.output.transaction_id_raw);
+ assert.equal(output.original_transaction_id_raw,null);
+ assert.equal(output.payment_reference_raw,null);
+});
+
 test('a balance cannot be a prefix or suffix of another source amount',()=>{
  for(const partial of ['125','5,000']){
   const output=extract();output.wallet_balance_after_raw=partial;

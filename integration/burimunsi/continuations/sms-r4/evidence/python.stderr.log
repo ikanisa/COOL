@@ -1,0 +1,27 @@
+test_apply_and_repeat_both_applications (test_delivery.DeliveryTests.test_apply_and_repeat_both_applications) ... ok
+test_dry_run_writes_nothing (test_delivery.DeliveryTests.test_dry_run_writes_nothing) ... ok
+test_fixture_transport_preserves_exact_originals (test_delivery.DeliveryTests.test_fixture_transport_preserves_exact_originals) ... ok
+test_inherited_fixture_originals_unchanged (test_delivery.DeliveryTests.test_inherited_fixture_originals_unchanged) ... ok
+test_local_edit_is_refused_without_writes (test_delivery.DeliveryTests.test_local_edit_is_refused_without_writes) ... ok
+test_missing_baseline_is_refused (test_delivery.DeliveryTests.test_missing_baseline_is_refused) ... ok
+test_pinned_sources_match_provenance (test_delivery.DeliveryTests.test_pinned_sources_match_provenance) ... ok
+test_preexisting_collision_blocks_entire_plan (test_delivery.DeliveryTests.test_preexisting_collision_blocks_entire_plan) ... ok
+test_r1_effective_acknowledgement_matches_pinned_generation (test_delivery.DeliveryTests.test_r1_effective_acknowledgement_matches_pinned_generation) ... ok
+test_symlink_destination_is_refused (test_delivery.DeliveryTests.test_symlink_destination_is_refused) ... ok
+test_symlink_root_is_refused (test_delivery.DeliveryTests.test_symlink_root_is_refused) ... ok
+test_traversal_and_absolute_paths_are_refused (test_delivery.DeliveryTests.test_traversal_and_absolute_paths_are_refused) ... ok
+test_unknown_application_is_refused (test_delivery.DeliveryTests.test_unknown_application_is_refused) ... ok
+test_unknown_baseline_is_refused (test_delivery.DeliveryTests.test_unknown_baseline_is_refused) ... ok
+test_existing_r2_sources_accept_additive_install_for_both_apps (test_persistence_delivery.PersistenceDeliveryTests.test_existing_r2_sources_accept_additive_install_for_both_apps) ... ok
+test_host_reference_not_inside_mobile_source_overlay (test_persistence_delivery.PersistenceDeliveryTests.test_host_reference_not_inside_mobile_source_overlay) ... ok
+test_r2_sources_dependencies_and_fixtures_unchanged (test_persistence_delivery.PersistenceDeliveryTests.test_r2_sources_dependencies_and_fixtures_unchanged) ... ok
+test_runner_hashes_new_host_and_persistence_inputs (test_persistence_delivery.PersistenceDeliveryTests.test_runner_hashes_new_host_and_persistence_inputs) ... ok
+test_additive_r3_to_r4_install_both_apps_and_repeat (test_protected_delivery.ProtectedDeliveryTests.test_additive_r3_to_r4_install_both_apps_and_repeat) ... ok
+test_existing_android_key_lookup_has_no_key_creation_or_export (test_protected_delivery.ProtectedDeliveryTests.test_existing_android_key_lookup_has_no_key_creation_or_export) ... ok
+test_r3_sources_adapters_host_dependencies_and_fixtures_unchanged (test_protected_delivery.ProtectedDeliveryTests.test_r3_sources_adapters_host_dependencies_and_fixtures_unchanged) ... ok
+test_runner_binds_security_source_and_tests (test_protected_delivery.ProtectedDeliveryTests.test_runner_binds_security_source_and_tests) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 1.035s
+
+OK

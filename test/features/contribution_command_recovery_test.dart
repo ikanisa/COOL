@@ -179,14 +179,25 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  Future<void> tap(WidgetTester tester, String text) async {
+  Future<void> reveal(WidgetTester tester, Finder action) async {
     await tester.scrollUntilVisible(
-      find.widgetWithText(FilledButton, text),
+      action,
       100,
       scrollable: find.byType(Scrollable).first,
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(FilledButton, text));
+    expect(action.hitTestable(), findsOneWidget);
+  }
+
+  Future<Finder> enabledPrimary(WidgetTester tester, String text) async {
+    final action = find.widgetWithText(FilledButton, text);
+    await reveal(tester, action);
+    expect(tester.widget<FilledButton>(action).onPressed, isNotNull);
+    return action;
+  }
+
+  Future<void> tap(WidgetTester tester, String text) async {
+    await tester.tap(await enabledPrimary(tester, text));
     await tester.pumpAndSettle();
   }
 
@@ -305,7 +316,7 @@ void main() {
       await tester.enterText(find.byType(TextField).first, '5000');
       await tester.pumpAndSettle();
       await tap(tester, 'Continue to MoMo');
-      expect(find.text('Open MoMo USSD'), findsOneWidget);
+      await enabledPrimary(tester, 'Open MoMo USSD');
       repo.denyScope();
       await tester.pumpAndSettle();
       expect(find.textContaining(commandRequestId), findsOneWidget);
@@ -339,7 +350,7 @@ void main() {
     await tester.enterText(find.byType(TextField).first, '5000');
     await tester.pumpAndSettle();
     await tap(tester, 'Continue to MoMo');
-    expect(find.text('Open MoMo USSD'), findsOneWidget);
+    await enabledPrimary(tester, 'Open MoMo USSD');
     repo.changeReceiver();
     await tester.pumpAndSettle();
     expect(find.textContaining(commandRequestId), findsOneWidget);
@@ -416,7 +427,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(repo.reads, nested ? 3 : 2);
         expect(find.textContaining(commandRequestId), findsOneWidget);
-        expect(find.text('Check request'), findsOneWidget);
+        await enabledPrimary(tester, 'Check request');
         expect(find.text('Checking request'), findsNothing);
         expect(find.text('Open MoMo USSD'), findsNothing);
         expect(repo.prepares, 1);
@@ -444,16 +455,17 @@ void main() {
         await tester.enterText(find.byType(TextField).first, '5000');
         await tester.pumpAndSettle();
         await tap(tester, 'Continue to MoMo');
-        final check = find.text('Check payment');
-        await tester.ensureVisible(check);
+        final check = find.widgetWithText(TextButton, 'Check payment');
+        await reveal(tester, check);
         await tester.tap(check);
         await tester.pump();
+        expect(repo.statusReads, 1);
         repo.invalidateObservation(changed);
         await tester.pump();
         repo.status.complete(repo.preparedIntent!);
         await tester.pumpAndSettle();
         expect(find.textContaining(commandRequestId), findsOneWidget);
-        expect(find.text('Check request'), findsOneWidget);
+        await enabledPrimary(tester, 'Check request');
         expect(find.text('Checking request'), findsNothing);
         expect(find.text('Open MoMo USSD'), findsNothing);
         expect(find.text('Copy payment code'), findsNothing);
@@ -673,6 +685,7 @@ class _HeldScopeRecoveryRepository extends ContributionFixtureRepository {
 
 class _HeldIntentRepository extends _RouteRefreshRepository {
   final status = Completer<PaymentIntentModel>();
+  int statusReads = 0;
   PaymentIntentModel? preparedIntent;
   @override
   Future<PaymentIntentModel> prepareContributionIntent(
@@ -684,7 +697,12 @@ class _HeldIntentRepository extends _RouteRefreshRepository {
   }
 
   @override
-  Future<PaymentIntentModel> refreshPaymentIntent(String id) => status.future;
+  Future<PaymentIntentModel> refreshPaymentIntent(String id) {
+    expect(id, contributionFixtureIntent);
+    statusReads++;
+    return status.future;
+  }
+
   void invalidateObservation(String change) {
     if (change == 'stale cache') {
       state = state.copyWith(usingStaleCache: true);

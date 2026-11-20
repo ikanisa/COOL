@@ -1,0 +1,3 @@
+<resources>    <string name="installation_id">Managed installation ID</string>
+    <string name="installation_grant">Managed device grant</string>
+</resources>
