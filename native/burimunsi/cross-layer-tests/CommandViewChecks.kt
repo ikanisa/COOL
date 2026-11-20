@@ -16,13 +16,15 @@ private class Scenario {
  var owner="operator-1";var token="a".repeat(64);var operation="burimunsi.allocate"
  var recordFailure=false;var failureAfterPost=false;var deniedProof=false;var badStatus=false
  var recordReads=0;var committed=false;var uiClockOffset=0L
+ var memberListed=true;var memberActive=true;var memberVersion=1
+ var postReadPaymentId="payment-1"
  var statusEntered:CountDownLatch?=null;var releaseStatus:CountDownLatch?=null
  lateinit var model:BuriViewModel
  private fun page(vararg values:JSONObject)=JSONObject().put("items",JSONArray().also{a->values.forEach{a.put(it)}})
   .put("totalCount",values.size).put("revision","fixture-v1").put("asOf","2026-11-09T10:00:00Z").put("nextCursor",JSONObject.NULL).toString()
  private fun member()=JSONObject().put("id","member-1").put("groupId","synthetic-group").put("name","Synthetic Member").put("phone","+250780000816")
-  .put("balanceRwf",10000).put("active",true).put("version",1)
- private fun payment()=JSONObject().put("id","payment-1").put("groupId","synthetic-group")
+  .put("balanceRwf",10000).put("active",memberActive).put("version",memberVersion)
+ private fun payment()=JSONObject().put("id",if(committed)postReadPaymentId else "payment-1").put("groupId","synthetic-group")
   .put("memberId",JSONObject.NULL).put("memberPhone",JSONObject.NULL).put("sourceId",JSONObject.NULL)
   .put("payerNameRaw","Synthetic Payer").put("payerPhoneRaw","+250780000816")
   .put("amountRwf",10000).put("atRaw","2026-11-09 10:00:00").put("ftId","ft-1")
@@ -61,7 +63,7 @@ private class Scenario {
       .put("recentPayments",JSONArray().put(payment())).put("asOf","2026-11-09T10:00:00Z").toString()
      r.path.contains("/payments/payment-1")->payment().toString()
      r.path.contains("/members/member-1")->member().toString()
-     r.path.contains("/members?")->page(member())
+     r.path.contains("/members?")->if(memberListed)page(member())else page()
      // The synthetic payment is unallocated, so it cannot appear in a
      // member-scoped payment listing.
      r.path.contains("/payments?")&&r.path.contains("memberId=")->page()
@@ -85,6 +87,27 @@ fun main()=runBlocking {
  var checks=0;val failures=mutableListOf<String>()
  fun ck(label:String,ok:Boolean){checks++;println((if(ok)"PASS " else "FAIL ")+label);if(!ok)failures.add(label)}
  suspend fun scenario(block:suspend (Scenario)->Unit){val s=Scenario();try{s.start();block(s)}finally{s.close()}}
+ scenario{s->
+  s.allocation();s.postReadPaymentId="other-payment";s.submit()
+  ck("a different detail cannot replace the acknowledged payment",s.model.state.payment==null&&s.model.state.commandNotice?.startsWith("The original action committed.")==true&&s.posts()==1&&s.journal()==null)
+  s.postReadPaymentId="payment-1";s.model.refresh();s.idle()
+  ck("the original payment detail recovers without a second post",s.model.state.payment?.id=="payment-1"&&s.model.state.payment?.version==2L&&s.posts()==1)
+ }
+ for(reason in listOf("search no longer includes member","inactive member","new member version"))scenario{s->
+  s.allocation()
+  val original=s.model.state.selectedMember!!
+  when(reason){"inactive member"->s.memberActive=false;"new member version"->s.memberVersion++;else->s.memberListed=false}
+  s.model.allocationSearch("refreshed results");s.idle()
+  ck("$reason removes the old allocation selection and retains the note",s.model.state.selectedMember==null&&s.model.state.draft["note"]=="Verified original identity")
+  s.model.selectMember(original)
+  ck("$reason ignores a delayed click from the previous member list",s.model.state.selectedMember==null)
+  s.submit()
+  ck("$reason cannot create a journal or dispatch a payment",s.posts()==0&&s.journal()==null)
+  s.memberListed=true;s.memberActive=true;s.model.allocationSearch("fresh result");s.idle()
+  s.model.selectMember(s.model.state.members!!.items.single());s.submit()
+  val requests=Transport.calls.filter{it.method=="POST"&&it.path.endsWith("/allocate")}
+  ck("$reason recovers after an explicit new selection with one original post",requests.size==1&&requests.single().body?.getString("memberId")=="member-1"&&requests.single().body?.getInt("expectedVersion")==1&&s.journal()==null)
+ }
  scenario{s->s.allocation();s.failureAfterPost=true;s.submit()
   ck("committed command clears durable journal",s.journal()==null&&!s.model.state.pending)
   ck("failed post-commit refresh cannot display old payment",s.model.state.payment==null&&s.model.state.savedAt==null)

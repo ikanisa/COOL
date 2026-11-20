@@ -575,6 +575,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     private var actionJob:Job?=null
     private var homeGatewayStatusJob:Job?=null
     private var repository:NativeRepository?=null
+    private val collectionPosting by lazy { NativeCollectionPosting(repo()) }
     val gateway=GatewayFactory.create(app,{repository?.boundCollectionId},
         {code,replace->(repository?:throw ApiFailure("session_unavailable",401)).pairGateway(code,replace)},
         retirementPending={repository?.hasReceiverRetirementRecord()?:false},
@@ -1134,12 +1135,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     private suspend fun refreshPanelNow(){
         if(!panelAllowed(state.sheet))throw ApiFailure("access_denied",403)
         when(state.sheet){
-            Sheet.ALLOCATE->{
-                val v=io{repo().members(state.allocationQuery)}
-                state=state.copy(members=v,offline=state.offline||repo().lastReadFromCache,panelSavedAt=repo().lastReadSavedAt)
-                // Never silently carry a previously selected beneficiary across revalidation.
-                if(sessionChecking)state=state.copy(selectedMember=null)
-            }
+            Sheet.ALLOCATE->refreshAllocationMembers(state.allocationQuery)
             Sheet.STAFF->{val v=io{repo().staff(queryFor(ListingTarget.STAFF))};state=state.copy(staff=v,panelSavedAt=clock())}
             Sheet.AUDIT->{val v=io{repo().audit(queryFor(ListingTarget.AUDIT))};state=state.copy(audit=v,panelSavedAt=clock())}
             Sheet.GATEWAY,Sheet.REPLACE_DEVICE->{state=state.copy(gateway=null,panelSavedAt=null);val v=io{gateway.status()};state=state.copy(gateway=v,panelSavedAt=clock())}
@@ -1418,8 +1414,17 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
             })
         }
     }
-    override fun selectMember(member:Member){checkVisibleFreshness();if(screenGate==ScreenGate.OPEN&&member.active&&!state.busy)state=state.copy(selectedMember=member,draftDirty=true)}
-    override fun allocationSearch(q:String)=work{val v=io{repo().members(q)};state=state.copy(members=v,allocationQuery=q,offline=state.offline||repo().lastReadFromCache,panelSavedAt=repo().lastReadSavedAt)}
+    override fun selectMember(member:Member){
+        checkVisibleFreshness()
+        if(!state.busy&&state.sheet==Sheet.ALLOCATE&&allows(Capability.ALLOCATE))state=collectionPosting.select(state,member)
+    }
+    override fun allocationSearch(q:String){
+        if(state.sheet==Sheet.ALLOCATE)work{refreshAllocationMembers(q)}
+    }
+    private suspend fun refreshAllocationMembers(query:String){
+        val result=io{collectionPosting.candidates(query)}
+        state=collectionPosting.showCandidates(state,query,result,sessionChecking)
+    }
     /** Drop records and consumed form state before any post-command read can fail.
      * The durable journal is owned by the repository and is never edited here. */
     private fun invalidateCommandViews(notice:String?=null){
@@ -1433,29 +1438,29 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
      * Invalidate presentation without interpreting uncertainty as rejection. */
     private suspend fun command(action:()->JSONObject):JSONObject {
         state=state.copy(commandNotice=null)
-        try{
-            val result=io(action)
-            invalidateCommandViews("The original action committed. Refresh the records before starting another action; do not repeat it.")
-            return result
-        }catch(e:CancellationException){throw e}
-        catch(e:Exception){
-            val changed=e is ApiFailure&&e.code=="operation_financially_changed"
-            val unresolved=try{io{repo().pending()!=null}}catch(cancel:CancellationException){throw cancel}catch(_:Exception){true}
-            if(changed||unresolved)invalidateCommandViews(if(changed)
-                "The original action committed, but its financial effect was reversed or corrected. Review the current ledger; do not repeat the original action."
-                else null)
-            throw e
+        return when(val submission=io{collectionPosting.submit(action)}){
+            is NativeCollectionPosting.Submission.Committed->{
+                invalidateCommandViews(NativeCollectionPosting.Outcome.COMMITTED.notice)
+                submission.receipt
+            }
+            is NativeCollectionPosting.Submission.Failed->{
+                if(submission.invalidate)invalidateCommandViews(submission.outcome?.notice)
+                throw submission.error
+            }
         }
     }
-    private fun requireNoUnresolvedCommand(){
-        if(state.pending||repository?.pending()!=null)throw ApiFailure("pending_operation_requires_resolution",409)
+    private suspend fun requireNoUnresolvedCommand(){
+        if(state.pending||io{repository?.pending()!=null})throw ApiFailure("pending_operation_requires_resolution",409)
         if(state.readbackRequired||!state.presentation(screenGate,clock()).showRecords)throw ApiFailure("fresh_records_required",409)
     }
     override fun allocate(note:String)=work{
         requireNoUnresolvedCommand()
         if(!allows(Capability.ALLOCATE)||state.offline)throw ApiFailure("access_denied",403)
-        val p=state.payment?:throw ApiFailure("record_unavailable");val m=state.selectedMember?:throw ApiFailure("member_unavailable")
-        command{repo().allocate(p,m,note)};val v=io{repo().payment(p.id)};state=state.copy(sheet=null,sheetId=null,panelDepth=0,selectedMember=null,payment=v,home=null,draft=emptyMap(),draftDirty=false,offline=repo().lastReadFromCache,savedAt=repo().lastReadSavedAt)
+        val selection=collectionPosting.allocation(state)
+        command{collectionPosting.post(selection,note)}
+        val refreshed=io{collectionPosting.readPosted(selection)}
+        state=state.copy(sheet=null,sheetId=null,panelDepth=0,selectedMember=null,payment=refreshed.payment,home=null,
+            draft=emptyMap(),draftDirty=false,offline=refreshed.cached,savedAt=refreshed.savedAt)
     }
     override fun enroll(name:String,phone:String)=work{
         requireNoUnresolvedCommand()
@@ -1726,22 +1731,14 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         val updated=io{gateway.status()};state=state.copy(gateway=updated,panelSavedAt=clock())
     }
     override fun retry()=work{
-        val outcome=io{repo().reconcilePending()}
-        if(outcome.getString("state")=="pending"){
-            state=state.copy(error="Still awaiting an authoritative outcome. Do not repeat this action; contact the administrator if it remains unresolved.",failure=DisplayFailure.UNCERTAIN)
+        val outcome=io{collectionPosting.reconcile()}
+        if(outcome==NativeCollectionPosting.Outcome.PENDING){
+            state=state.copy(error=outcome.notice,failure=DisplayFailure.UNCERTAIN)
         }else{
-            // Capture the verified outcome before a separate record refresh can fail.
-            // Clearing panel bookkeeping alone does not clear the visible draft/selection.
-            val notice=when {
-                outcome.getString("state")=="cancelled"->"The previous action was cancelled before it was applied. Review the records before starting another action."
-                outcome.getString("state")=="rejected"->"The previous action was rejected. Review the records before starting a different action."
-                outcome.optString("financialState") in setOf("reversed","corrected")->"The original action committed, but its financial effect was reversed or corrected. Review the current ledger; do not repeat the original action."
-                else->"The original action committed. Refresh the records before starting another action; do not repeat it."
-            }
-            invalidateCommandViews(notice);refreshNow()
+            invalidateCommandViews(outcome.notice);refreshNow()
             // Retain the historical error text for rejection consumers; the independent
             // notice remains visible even when readback fails or a later action clears error.
-            if(outcome.getString("state")=="rejected")state=state.copy(error=notice,failure=DisplayFailure.REJECTED)
+            if(outcome==NativeCollectionPosting.Outcome.REJECTED)state=state.copy(error=outcome.notice,failure=DisplayFailure.REJECTED)
         }
     }
     fun export(write:(String)->Unit){
