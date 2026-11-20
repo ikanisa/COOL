@@ -22,7 +22,7 @@ class MissingGroupStateScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(collectRepositoryProvider);
+    final state = ref.watch(memberGroupDirectoryStateProvider);
     if (state.memberScopeUncertain) {
       return ScreenScaffold(
         title: title,
@@ -39,7 +39,7 @@ class MissingGroupStateScreen extends ConsumerWidget {
             CollectDataLoadFailure(
               message: 'Refresh to verify this group.',
               onRetry: () =>
-                  ref.read(collectRepositoryProvider.notifier).loadInitial(),
+                  ref.read(memberGroupRepositoryProvider).loadInitial(),
             ),
         ],
       );

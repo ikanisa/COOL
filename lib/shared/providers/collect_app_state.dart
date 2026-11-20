@@ -273,18 +273,28 @@ final smsPermissionStatusProvider = Provider<SmsPermissionStatus>((ref) {
 
 final paymentUiStatusProvider =
     Provider.family<PaymentUiStatus, PaymentStatusKey>((ref, key) {
-      final repo = ref.watch(collectRepositoryProvider.notifier);
+      final payments = ref.watch(memberPaymentRepositoryProvider);
+      ref.watch(
+        memberPaymentStateProvider.select((state) => state.paymentIntents),
+      );
       try {
-        final intent = repo.intentById(key.intentId);
-        if (intent.status == 'pending' &&
-            DateTime.now().isAfter(intent.expiresAt)) {
-          return PaymentUiStatus.expired;
+        final intent = payments.maybeIntentById(key.intentId);
+        if (intent == null || intent.collectionId != key.collectionId) {
+          return PaymentUiStatus.needsReview;
         }
-        return switch (intent.status) {
-          'matched' || 'confirmed' || 'paid' => PaymentUiStatus.confirmed,
-          'needs_review' || 'review' => PaymentUiStatus.needsReview,
-          'expired' || 'failed' => PaymentUiStatus.expired,
-          _ => PaymentUiStatus.pending,
+        return switch ((intent.confirmationStatus, intent.status)) {
+          ('credited', _) when intent.hasCommittedContribution =>
+            PaymentUiStatus.confirmed,
+          ('reversed', _) when intent.hasCommittedContribution =>
+            PaymentUiStatus.reversed,
+          ('payment_received', _) when intent.paymentId != null =>
+            PaymentUiStatus.paymentLinked,
+          ('awaiting_confirmation', 'pending') when intent.isRwandaMomo =>
+            intent.isAwaitingTransfer
+                ? PaymentUiStatus.pending
+                : PaymentUiStatus.expired,
+          ('awaiting_confirmation', 'expired') => PaymentUiStatus.expired,
+          _ => PaymentUiStatus.needsReview,
         };
       } catch (_) {
         return PaymentUiStatus.needsReview;
@@ -359,7 +369,14 @@ enum RealtimeSyncStatus { current, syncing, needsAttention }
 
 enum SmsPermissionStatus { unavailable, notRequested, granted, denied }
 
-enum PaymentUiStatus { pending, confirmed, expired, needsReview }
+enum PaymentUiStatus {
+  pending,
+  confirmed,
+  expired,
+  needsReview,
+  paymentLinked,
+  reversed,
+}
 
 enum CollectDevicePermissionStatus { notRequested, granted, denied }
 

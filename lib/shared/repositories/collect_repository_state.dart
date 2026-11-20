@@ -11,7 +11,7 @@ CollectState _emptyCollectState() {
 
 const _unsetDateTimeField = Object();
 
-class CollectState {
+class CollectState implements MemberPaymentState, MemberGroupDirectoryState {
   // Public named parameters are kept while masked backing fields stay private.
   const CollectState({
     required this.currentProfile,
@@ -49,6 +49,7 @@ class CollectState {
        // ignore: prefer_initializing_formals
        _financialObservationUncertain = financialObservationUncertain;
 
+  @override
   final CollectProfile? currentProfile;
   final List<CollectCollection> _collections;
   final List<PaymentIntentModel> _paymentIntents;
@@ -60,13 +61,17 @@ class CollectState {
   // A history denial can reflect changed membership, but does not revoke the
   // account or its SMS consent. Hide the previous member snapshot until one
   // complete current-session read replaces it; never present it as zero.
+  @override
   final bool memberScopeUncertain;
+  @override
   List<CollectCollection> get collections =>
       memberScopeUncertain ? const [] : _collections;
+  @override
   List<PaymentIntentModel> get paymentIntents =>
       memberScopeUncertain ? const [] : _paymentIntents;
   List<Contribution> get contributions =>
       memberScopeUncertain ? const [] : _contributions;
+  @override
   Map<String, CollectionSummary> get collectionSummaries =>
       memberScopeUncertain ? const {} : _collectionSummaries;
   MemberHistoryPage? get historyPage =>
@@ -79,16 +84,30 @@ class CollectState {
   final bool smsAccessDenied;
   final bool smsSyncNeedsAttention;
   final bool smsQueueOverflowed;
+  @override
   final bool isLoading;
+  @override
   final bool usingStaleCache;
+  @override
   final bool publicDiscoveryLoading;
+  @override
   final bool publicDiscoveryUnavailable;
   final bool _financialObservationUncertain;
+  @override
   bool get financialObservationUncertain =>
       memberScopeUncertain || _financialObservationUncertain;
+  @override
   final DateTime? lastSuccessfulSyncAt;
+  @override
   final String? lastError;
 
+  @override
+  bool get hasRecentMemberActivity =>
+      contributions.isNotEmpty || paymentIntents.isNotEmpty;
+  @override
+  bool get hasMemberHistory => historyPage != null;
+
+  @override
   bool get hasInitialLoadFailure =>
       !isLoading &&
       (memberScopeUncertain ||

@@ -85,6 +85,51 @@ void main() {
       expect(h.repo.receiptSmsConsentFor(smsGroup).consent!.effective, isTrue);
     },
   );
+  for (final change in [
+    'membership removed',
+    'scope uncertain',
+    'cached groups',
+  ]) {
+    test(
+      '$change during a journal claim holds the original receipt SMS request',
+      () async {
+        final h = await harness();
+        await h.repo.refreshReceiptSmsConsent(smsGroup);
+        h.store.claimGate = Completer<void>();
+        final saving = h.repo.setReceiptSmsConsent(smsGroup, optIn: true);
+        await _ticks();
+        switch (change) {
+          case 'membership removed':
+            h.repo.replaceGroups([smsCollection(smsGroupB, 'Other group')]);
+          case 'scope uncertain':
+            h.repo.markScopeUncertain();
+          case 'cached groups':
+            h.repo.offline();
+        }
+        final result = expectLater(saving, throwsStateError);
+        h.store.claimGate!.complete();
+        await result;
+        expect(h.writes, isEmpty);
+        final held = await h.store.read(
+          userId: smsUser,
+          collectionId: smsGroup,
+        );
+        final original = held.pending.single;
+        if (change != 'cached groups') {
+          expect(h.repo.receiptSmsConsentFor(smsGroup).consent, isNull);
+        }
+        await h.repo.loadInitial();
+        await h.repo.refreshReceiptSmsConsent(smsGroup);
+        expect(h.writes, isEmpty);
+        expect(
+          h.repo.receiptSmsCurrentPending(smsGroup)?.requestId,
+          original.requestId,
+        );
+        await h.repo.retryReceiptSmsConsent(smsGroup);
+        expect(h.writes.single['p_request_id'], original.requestId);
+      },
+    );
+  }
   test(
     'repository reconstruction retains a committed unknown write; matching GET never resolves it',
     () async {
@@ -431,6 +476,26 @@ void main() {
       expect(h.repo.receiptSmsConsentFor(smsGroup).consent!.optIn, isFalse);
     },
   );
+  test(
+    'a delayed receipt consent read cannot publish after membership is removed',
+    () async {
+      final h = await harness();
+      h.readGates[smsGroup] = Completer<http.Response>();
+      final loading = h.repo.refreshReceiptSmsConsent(smsGroup);
+      await _until(() => h.reads.contains(smsGroup));
+      h.repo.replaceGroups([smsCollection(smsGroupB, 'Other group')]);
+      final result = expectLater(loading, throwsStateError);
+      h.readGates[smsGroup]!.complete(
+        http.Response(jsonEncode(smsRead(smsGroup, optIn: true)), 200),
+      );
+      await result;
+      expect(h.repo.receiptSmsConsentFor(smsGroup).consent, isNull);
+      await h.repo.loadInitial();
+      expect(h.repo.receiptSmsConsentFor(smsGroup).consent, isNull);
+      expect(h.writes, isEmpty);
+    },
+  );
+
   test(
     'late status from a previous same-user auth session is rejected',
     () async {

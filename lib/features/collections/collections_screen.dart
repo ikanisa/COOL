@@ -32,13 +32,12 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(collectRepositoryProvider);
+    final state = ref.watch(memberGroupDirectoryStateProvider);
     final collections = ref.watch(activeCollectionsProvider);
     final isInitialLoading =
         state.isLoading &&
         collections.isEmpty &&
-        state.contributions.isEmpty &&
-        state.paymentIntents.isEmpty;
+        !state.hasRecentMemberActivity;
     final summaries = ref.watch(collectionSummariesProvider);
     final contributedCollectionIds = ref.watch(
       contributedCollectionIdsProvider,
@@ -47,7 +46,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
     final showContributedOnly =
         routeUri.queryParameters['filter'] == 'contributed';
     final supportedGroupsUnknown =
-        showContributedOnly && state.historyPage == null;
+        showContributedOnly && !state.hasMemberHistory;
     final showMembersOnly = routeUri.queryParameters['filter'] == 'member';
     final showFeaturedOnly = routeUri.queryParameters['filter'] == 'featured';
     final includesPublicDiscovery = !showMembersOnly && !showContributedOnly;
@@ -86,7 +85,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
                 label: publicDiscoveryUnavailable ? 'Retry' : 'Refresh groups',
                 icon: CollectIcons.sync,
                 onPressed: () =>
-                    ref.read(collectRepositoryProvider.notifier).loadInitial(),
+                    ref.read(memberGroupRepositoryProvider).loadInitial(),
                 expand: true,
               ),
       ),
@@ -99,8 +98,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
       tone: CollectStatusTone.warning,
       primaryAction: CollectButton(
         label: 'Refresh groups',
-        onPressed: () =>
-            ref.read(collectRepositoryProvider.notifier).loadInitial(),
+        onPressed: () => ref.read(memberGroupRepositoryProvider).loadInitial(),
       ),
     );
     final memberCollectionIds = ref
@@ -134,8 +132,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           onAvatarTap: () => context.go('/settings'),
           onSearchTap: _beginSearch,
         ),
-        onRefresh: () =>
-            ref.read(collectRepositoryProvider.notifier).loadInitial(),
+        onRefresh: () => ref.read(memberGroupRepositoryProvider).loadInitial(),
         children: const [
           CollectScreenLoadingState(
             title: 'Loading groups',
@@ -164,8 +161,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
               ),
           ],
         ),
-        onRefresh: () =>
-            ref.read(collectRepositoryProvider.notifier).loadInitial(),
+        onRefresh: () => ref.read(memberGroupRepositoryProvider).loadInitial(),
         children: [
           if (_searching)
             SearchWithClearField(
@@ -179,7 +175,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           else if (state.hasInitialLoadFailure || publicDiscoveryUnavailable)
             CollectDataLoadFailure(
               onRetry: () =>
-                  ref.read(collectRepositoryProvider.notifier).loadInitial(),
+                  ref.read(memberGroupRepositoryProvider).loadInitial(),
             )
           else if (supportedGroupsUnknown)
             supportedGroupsUnavailable()
@@ -228,8 +224,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           ),
         ],
       ),
-      onRefresh: () =>
-          ref.read(collectRepositoryProvider.notifier).loadInitial(),
+      onRefresh: () => ref.read(memberGroupRepositoryProvider).loadInitial(),
       children: [
         SectionHeader(title: pageTitle),
         if (publicDiscoveryUnavailable && state.usingStaleCache)
@@ -237,7 +232,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
         else if (publicDiscoveryUnavailable)
           CollectDataLoadFailure(
             onRetry: () =>
-                ref.read(collectRepositoryProvider.notifier).loadInitial(),
+                ref.read(memberGroupRepositoryProvider).loadInitial(),
           )
         else if (publicDiscoveryUncertain)
           publicResultsUncertain(),

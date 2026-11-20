@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../shared/member_signed_history_test.dart' as fixture;
 
 class _HistoryRepository extends CollectRepository {
-  _HistoryRepository(this.page)
+  _HistoryRepository(this.page, {this.searchPage})
     : super.fixture(
         initialState: CollectState(
           currentProfile: const CollectProfile(
@@ -50,6 +50,8 @@ class _HistoryRepository extends CollectRepository {
         ),
       );
   final MemberHistoryPage page;
+  final MemberHistoryPage? searchPage;
+  final queries = <MemberHistoryQuery>[];
   void markScopeUncertain() =>
       state = state.copyWith(memberScopeUncertain: true);
   @override
@@ -60,10 +62,61 @@ class _HistoryRepository extends CollectRepository {
   Future<MemberHistoryPage> fetchHistoryPage(
     MemberHistoryQuery query, {
     Map<String, dynamic>? cursor,
-  }) async => page;
+  }) async {
+    queries.add(query);
+    return query.search.isEmpty ? page : searchPage ?? page;
+  }
 }
 
 void main() {
+  for (final sameGroup in [true, false]) {
+    testWidgets(
+      'ledger payment link enforces its group (same group: $sameGroup)',
+      (tester) async {
+        SharedPreferences.setMockInitialValues({});
+        final groupId = fixture.uuid(200);
+        final paymentId = fixture.uuid(100);
+        final row = fixture.event(1);
+        if (!sameGroup) row['collection_id'] = fixture.uuid(201);
+        final repository = _HistoryRepository(
+          fixture.decode(fixture.wire([fixture.event(1)])),
+          searchPage: fixture.decode(fixture.wire([row])),
+        );
+        final router = createAppRouter(
+          initialLocation: '/groups/$groupId/ledger?payment_id=$paymentId',
+        );
+        addTearDown(router.dispose);
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              collectBackendClientProvider.overrideWithValue(null),
+              appRouterProvider.overrideWithValue(router),
+              collectRepositoryProvider.overrideWith((ref) => repository),
+            ],
+            child: const CollectApp(),
+          ),
+        );
+        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 350));
+        await tester.pumpAndSettle();
+
+        final queries = repository.queries.where(
+          (query) => query.search == paymentId,
+        );
+        expect(queries, isNotEmpty);
+        expect(queries.every((query) => query.collectionId == groupId), isTrue);
+        expect(
+          find.byType(FinancialListRow),
+          sameGroup ? findsOneWidget : findsNothing,
+        );
+        if (!sameGroup) expect(repository.state.memberScopeUncertain, isTrue);
+        expect(tester.takeException(), isNull);
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pump();
+      },
+    );
+  }
+
   for (final route in ['/activity', '/groups/${fixture.uuid(200)}/ledger']) {
     testWidgets('$route open group filter masks stale groups', (tester) async {
       SharedPreferences.setMockInitialValues({});

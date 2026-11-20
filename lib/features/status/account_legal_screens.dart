@@ -147,7 +147,7 @@ class AccountSessionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(
-      collectRepositoryProvider.select((state) => state.currentProfile),
+      memberAccountStateProvider.select((state) => state.currentProfile),
     );
     return ScreenScaffold(
       title: 'Account',
@@ -193,7 +193,7 @@ class AccountSessionScreen extends ConsumerWidget {
     );
     if (confirmed != true || !context.mounted) return;
     try {
-      await ref.read(collectRepositoryProvider.notifier).signOut();
+      await ref.read(memberAccountRepositoryProvider).signOut();
     } catch (_) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

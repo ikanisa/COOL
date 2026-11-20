@@ -371,7 +371,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
       }
       if (!mounted) return;
       await ref
-          .read(collectRepositoryProvider.notifier)
+          .read(memberAccountRepositoryProvider)
           .signInWithOtp(
             phone: phone,
             otp: _otp.text,

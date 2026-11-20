@@ -20,8 +20,8 @@ class _ReceiptSmsConsentSectionState
   int _operation = 0;
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(collectRepositoryProvider),
-        repository = ref.read(collectRepositoryProvider.notifier);
+    final state = ref.watch(memberGroupAccessStateProvider),
+        repository = ref.read(memberReceiptSmsRepositoryProvider);
     final groups = state.collections
         .where((g) => g.isCurrentUserMember && !g.isArchived)
         .toList(growable: false);
@@ -31,7 +31,7 @@ class _ReceiptSmsConsentSectionState
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted &&
             _group == removed &&
-            !ref.read(collectRepositoryProvider).memberScopeUncertain) {
+            !ref.read(memberGroupAccessStateProvider).memberScopeUncertain) {
           setState(() {
             _group = null;
             _operation++;
@@ -65,9 +65,7 @@ class _ReceiptSmsConsentSectionState
         view.recovery.pending.any(
           (r) => r.expectedDecisionRevision < consent.decisionRevision,
         );
-    final sameSession =
-        selected != null &&
-        repository.receiptSmsPendingBelongsToCurrentSession(selected.id);
+    final sameSession = currentPending != null;
     final canEdit =
         selected != null &&
         !view.busy &&
@@ -300,18 +298,18 @@ class _ReceiptSmsConsentSectionState
   }
 
   Future<void> _select() async {
-    final repository = ref.read(collectRepositoryProvider.notifier),
+    final repository = ref.read(memberReceiptSmsRepositoryProvider),
         generation = repository.sessionGeneration;
-    final user = ref.read(collectRepositoryProvider).currentProfile?.id;
+    final user = ref.read(memberGroupAccessStateProvider).currentProfile?.id;
     final selected = await showModalBottomSheet<String>(
       context: context,
       sheetAnimationStyle: CollectMotion.animationStyle(context),
       isScrollControlled: true,
       builder: (context) => Consumer(
         builder: (context, sheetRef, _) {
-          final sheetState = sheetRef.watch(collectRepositoryProvider);
+          final sheetState = sheetRef.watch(memberGroupAccessStateProvider);
           final sheetRepository = sheetRef.watch(
-            collectRepositoryProvider.notifier,
+            memberReceiptSmsRepositoryProvider,
           );
           final current =
               identical(sheetRepository, repository) &&
@@ -362,13 +360,15 @@ class _ReceiptSmsConsentSectionState
                         onTap: () {
                           if (!mounted ||
                               !identical(
-                                ref.read(collectRepositoryProvider.notifier),
+                                ref.read(memberReceiptSmsRepositoryProvider),
                                 repository,
                               ) ||
                               repository.sessionGeneration != generation) {
                             return;
                           }
-                          final latest = ref.read(collectRepositoryProvider);
+                          final latest = ref.read(
+                            memberGroupAccessStateProvider,
+                          );
                           if (latest.memberScopeUncertain ||
                               latest.currentProfile?.id != user ||
                               !latest.collections.any(
@@ -391,12 +391,12 @@ class _ReceiptSmsConsentSectionState
     );
     if (!mounted ||
         selected == null ||
-        !identical(ref.read(collectRepositoryProvider.notifier), repository) ||
+        !identical(ref.read(memberReceiptSmsRepositoryProvider), repository) ||
         repository.sessionGeneration != generation ||
-        ref.read(collectRepositoryProvider).currentProfile?.id != user) {
+        ref.read(memberGroupAccessStateProvider).currentProfile?.id != user) {
       return;
     }
-    if (ref.read(collectRepositoryProvider).memberScopeUncertain) {
+    if (ref.read(memberGroupAccessStateProvider).memberScopeUncertain) {
       setState(
         () => _selectionError =
             'Group information is unavailable. Refresh and try again.',
@@ -404,7 +404,7 @@ class _ReceiptSmsConsentSectionState
       return;
     }
     final current = ref
-        .read(collectRepositoryProvider)
+        .read(memberGroupAccessStateProvider)
         .collections
         .any((g) => g.id == selected && g.isCurrentUserMember && !g.isArchived);
     if (!current) {
@@ -424,10 +424,10 @@ class _ReceiptSmsConsentSectionState
 
   Future<void> _run(
     String group,
-    Future<void> Function(CollectRepository) operation,
+    Future<void> Function(MemberReceiptSmsRepository) operation,
   ) async {
     final epoch = ++_operation;
-    final repository = ref.read(collectRepositoryProvider.notifier);
+    final repository = ref.read(memberReceiptSmsRepositoryProvider);
     setState(() => _selectionError = null);
     try {
       await operation(repository);

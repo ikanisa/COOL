@@ -16,7 +16,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(collectRepositoryProvider);
+    final state = ref.watch(memberAccountStateProvider);
     final profile = state.currentProfile;
     final isInitialLoading = state.isLoading && profile == null;
     final settingsEntries = <Widget>[
@@ -70,8 +70,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       title: 'Settings',
       showHeader: false,
       compact: true,
-      onRefresh: () =>
-          ref.read(collectRepositoryProvider.notifier).loadInitial(),
+      onRefresh: () => ref.read(memberAccountRepositoryProvider).loadInitial(),
       children: isInitialLoading
           ? const [
               CollectScreenLoadingState(

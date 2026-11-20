@@ -33,7 +33,7 @@ class _CollectionDetailScreenState
   int _routeGeneration = 0;
   String? _joiningGroupId, _joiningProfileId;
   int? _joiningSession;
-  CollectRepository? _joiningRepository;
+  MemberGroupRepository? _joiningRepository;
 
   @override
   void didUpdateWidget(covariant CollectionDetailScreen oldWidget) {
@@ -49,7 +49,7 @@ class _CollectionDetailScreenState
   }
 
   bool _isJoining(
-    CollectRepository repository,
+    MemberGroupRepository repository,
     String groupId,
     String? profileId,
     int session,
@@ -61,7 +61,7 @@ class _CollectionDetailScreenState
 
   bool _matchesActionScope(
     CollectCollection collection,
-    CollectRepository repository,
+    MemberGroupRepository repository,
     String? profileId,
     int session,
     int routeGeneration,
@@ -70,16 +70,17 @@ class _CollectionDetailScreenState
       mounted &&
       widget.collectionId == collection.id &&
       routeGeneration == _routeGeneration &&
-      identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+      identical(ref.read(memberGroupRepositoryProvider), repository) &&
       repository.sessionGeneration == session &&
       repository.isLive == isLive &&
-      ref.read(collectRepositoryProvider).currentProfile?.id == profileId &&
+      ref.read(memberGroupDirectoryStateProvider).currentProfile?.id ==
+          profileId &&
       identical(repository.maybeCollectionById(collection.id), collection);
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(collectRepositoryProvider);
-    final repo = ref.read(collectRepositoryProvider.notifier);
+    final state = ref.watch(memberGroupDirectoryStateProvider);
+    final repo = ref.read(memberGroupRepositoryProvider);
     final collection = repo.maybeCollectionById(widget.collectionId);
     if (collection == null &&
         (state.isLoading || state.publicDiscoveryLoading)) {
@@ -107,7 +108,7 @@ class _CollectionDetailScreenState
         children: [
           CollectDataLoadFailure(
             onRetry: () =>
-                ref.read(collectRepositoryProvider.notifier).loadInitial(),
+                ref.read(memberGroupRepositoryProvider).loadInitial(),
           ),
         ],
       );
@@ -243,8 +244,7 @@ class _CollectionDetailScreenState
             ),
         ],
       ),
-      onRefresh: () =>
-          ref.read(collectRepositoryProvider.notifier).loadInitial(),
+      onRefresh: () => ref.read(memberGroupRepositoryProvider).loadInitial(),
       bottomAction: collection.isPublic && !isMember
           ? CollectButton(
               key: const ValueKey('join-public-group'),
@@ -359,7 +359,7 @@ class _CollectionDetailScreenState
 
   Future<void> _joinGroup(
     CollectCollection collection,
-    CollectRepository repository,
+    MemberGroupRepository repository,
     String? profileId,
     int session,
     int routeGeneration,
@@ -402,10 +402,11 @@ class _CollectionDetailScreenState
         operation == _joinOperation &&
         routeGeneration == _routeGeneration &&
         widget.collectionId == collection.id &&
-        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        identical(ref.read(memberGroupRepositoryProvider), repository) &&
         repository.sessionGeneration == session &&
         repository.isLive == isLive &&
-        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
+        ref.read(memberGroupDirectoryStateProvider).currentProfile?.id ==
+            profileId;
     try {
       requireMemberGroupProfileReady(ref);
       if (!current()) return;
