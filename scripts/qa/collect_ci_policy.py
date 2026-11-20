@@ -340,8 +340,19 @@ def validate_workflows(workflows: dict[str, dict]) -> list[dict[str, str]]:
 CURRENT_TRANSFER_MAKE_COMMAND = 'output="$$(mktemp "$${TMPDIR:-/tmp}/collect-current-transfer.XXXXXXXX")" || exit 1; trap \'rm -f -- "$$output"\' EXIT; node --test --test-concurrency=1 --test-timeout=180000 --test-reporter=tap scripts/supabase/current-pg-transfer/reconcile.test.mjs scripts/supabase/current-pg-transfer/identity-mapping/identity.test.mjs scripts/supabase/managed-cloud-migrations/provider-ca.test.mjs scripts/supabase/managed-cloud-migrations/operator.test.mjs scripts/supabase/managed-cloud-migrations/operator-pg.test.mjs scripts/supabase/managed-cloud-migrations/event-trigger-preimage.test.mjs scripts/supabase/managed-cloud-migrations/migration-postconditions.test.mjs scripts/supabase/current-pg-transfer/batch-transfer/quarantine.test.mjs scripts/supabase/current-pg-transfer/test-support/lifecycle.test.mjs scripts/supabase/device-commissioning/fixture.test.mjs scripts/supabase/current-pg-transfer/object-transfer/transfer.test.mjs scripts/supabase/current-pg-transfer/object-transfer/scope-rebind.test.mjs scripts/supabase/current-pg-transfer/object-transfer/supabase-adapter.test.mjs scripts/supabase/current-pg-transfer/business-import/import.test.mjs scripts/supabase/current-pg-transfer/financial-inventory/inventory.test.mjs scripts/supabase/current-pg-transfer/financial-consistency/consistency.test.mjs scripts/supabase/current-pg-transfer/financial-consistency/native-readiness-v3/diagnostic.test.mjs scripts/supabase/current-pg-transfer/financial-import/import.test.mjs scripts/supabase/current-pg-transfer/native-sms-import/import.test.mjs scripts/supabase/retention-convergence/user-id-forward.test.mjs scripts/supabase/retention-convergence/ordered-chain-fixture.test.mjs scripts/supabase/retention-convergence/history-plan.test.mjs scripts/supabase/retention-convergence/deferred-mfa/ordered-deferred-fixture.test.mjs scripts/supabase/retention-convergence/deferred-mfa/history-proposal.test.mjs supabase/functions/_shared/tests/burimunsi/native-sms-ledger.test.mjs supabase/managed-deployment-identity/bind-managed-pg17.test.mjs scripts/supabase/device-commissioning/synthetic-transport.test.mjs supabase/managed-cloud-stopped-recovery/evidence.test.mjs > "$$output" 2>&1; result=$$?; cat "$$output"; test "$$result" -eq 0 && grep -qx \'# tests [1-9][0-9]*\' "$$output" && grep -qx \'# fail 0\' "$$output" && grep -qx \'# cancelled 0\' "$$output" && grep -qx \'# skipped 0\' "$$output" && grep -qx \'# todo 0\' "$$output" && for expected in \'isolated PostgreSQL reconciliation\' \'managed reconciliation admits only the pinned target, TLS root and verified peer\' \'connected clients with startup options are refused\' \'owner-approved identity mapping holds both existing principals\' \'encrypted quarantine on disposable PostgreSQL 17\' \'SIGTERM stops a confirmed server before removing its fixture\' \'provider database CA is a valid self-signed root with the pinned DER fingerprint\' \'canonical input, exact project and clean environment are required before connecting\' \'CLI reports or reconciles commit with closed-stdout\' \'commissioning receipt transaction fixture\' \'exact immutable ciphertext is copied once with encrypted durable intent and receipt\' \'synthetic owner rebind reproduces Storage fingerprints while preserving ciphertext identity\' \'actual adapter reads, creates once and verifies synthetic protected bytes\' \'HTTPS client rejects a self-signed loopback server\' \'mutating an approved plan cannot redirect import or lost-ack reconciliation\' \'count-only financial graph inventory on owned PostgreSQL 17\' \'financial consistency is aggregate-only and read-only on owned PostgreSQL 17\' \'selected native source prerequisites are aggregate-only on owned PostgreSQL 17\' \'synthetic posted financial graphs transfer atomically with cloud-primary mapping\' \'synthetic accepted native SMS history and posted financial graph\' \'forward-only retention user ID correction on owned PostgreSQL 17\' \'synthetic full chain refuses divergent originals and runs pinned candidates without writing history\' \'history candidate keeps divergent originals unrecorded and uses distinct ordered versions\' \'all pinned non-WIP predecessors execute in order while both MFA sources remain absent\' \'deferred proposal keeps every non-WIP source action without inventing history\' \'a coherently mapped replay with an existing complete financial link performs no second write\' \'managed candidate on native PostgreSQL 17 without a postgres superuser\' \'a correctly serialized v2-style digest cannot authorize the v3 executor\' \'diagnostics rechecks after history insertion\' \'notification rechecks after history insertion\' \'signed commissioning transport with durable synthetic PostgreSQL receipts\' \'managed stopped-work evidence remains non-authorizing with synthetic PG snapshots\'; do grep -Eq "^[[:space:]]*ok [0-9]+ - $$expected$$" "$$output" || exit 1; done'
 CURRENT_PROFILE_CONDITION = "needs.select-profile.outputs.profile == 'current-managed-cloud'"
 SELECTED_SOURCE = '${{ needs.select-profile.outputs.source_sha }}'
-CURRENT_NATIVE_COMMAND = 'timeout --signal=TERM --kill-after=10s 900s node scripts/supabase/testing/pinned-history-stage.mjs --native'
-CURRENT_DART_COMMAND = 'flutter test --no-pub --concurrency=1 --tags=integration --dart-define-from-file="$RUNNER_TEMP/collect-current-selfhost-history-defines.json" test/self_hosted_member_history_sql_receipts_test.dart'
+CURRENT_NATIVE_JOB = 'current-managed-native'
+CURRENT_NATIVE_MAKE_COMMAND = 'node scripts/supabase/cloud-release/initial-account-bootstrap.test.mjs'
+CURRENT_NATIVE_COMMAND = r'''set -eu
+pg_bin_dir="$(dirname "$(realpath "$(command -v postgres)")")"
+node_bin="$(command -v node)"
+gosu postgres test -x "$node_bin"
+gosu postgres test -r scripts/supabase/cloud-release/initial-account-bootstrap.test.mjs
+timeout --signal=TERM --kill-after=30s 180s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+  COLLECT_SYNTHETIC_PG_BIN="$pg_bin_dir" \
+  "$node_bin" scripts/supabase/cloud-release/initial-account-bootstrap.test.mjs'''
+CURRENT_CLOUD_IDENTITY_COMMAND = (
+    'node --test scripts/supabase/deployment-profile.test.mjs scripts/supabase/cloud-release/retained-source.test.mjs'
+)
 CURRENT_HTTP_NATIVE_COMMAND = '''set -eu
 pg_bin_dir="$(dirname "$(realpath "$(command -v postgres)")")"
 node_bin="$(command -v node)"
@@ -426,6 +437,8 @@ timeout --signal=TERM --kill-after=120s 180s gosu postgres env -i PATH=/usr/bin:
 timeout --signal=TERM --kill-after=120s 180s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \\
   COLLECT_SMS_TEST_PG_BIN="$pg_bin_dir" python3 test/signal-cleanup.test.py'''
 CURRENT_SMS_SOURCE_COMMAND = 'python3 test/verify_source_tests_test.py && python3 test/verify_source_tests.py'
+CURRENT_EMAIL_HANDLER_COMMAND = '"$COLLECT_DENO" test --frozen --lock=deno.lock _shared/tests/email-jobs.test.ts'
+CURRENT_EMAIL_HANDLER_MAKE_COMMAND = 'cd supabase/functions && "$${COLLECT_DENO:-deno}" test --frozen --lock=deno.lock _shared/tests/email-jobs.test.ts'
 CURRENT_COMMISSIONING_DENO_MAKE_COMMAND = 'output="$$(mktemp "$${TMPDIR:-/tmp}/collect-commission-deno.XXXXXXXX")" || exit 1; trap \'rm -f -- "$$output"\' EXIT; "$${COLLECT_DENO:-deno}" --version | grep -Eq \'^deno 2[.]9[.]6 \' || exit 1; "$${COLLECT_DENO:-deno}" test --frozen --lock=supabase/functions/deno.lock --reporter=tap scripts/supabase/device-commissioning/edge-smoke.test.ts > "$$output" 2>&1; result=$$?; cat "$$output"; test "$$result" -eq 0 && grep -Fqx \'ok 1 - synthetic Edge request signs and verifies commissioning receipt and acknowledgement\' "$$output" && grep -Fqx \'1..1\' "$$output"'
 CURRENT_COMMISSIONING_DENO_COMMAND = 'set -eu\n"$COLLECT_DENO" --version | grep -Eq \'^deno 2[.]9[.]6 \'\noutput="$(mktemp /tmp/collect-commission-deno.XXXXXXXX)"\ntrap \'rm -f -- "$output"\' EXIT\nif ! "$COLLECT_DENO" test --frozen --lock=supabase/functions/deno.lock --reporter=tap scripts/supabase/device-commissioning/edge-smoke.test.ts > "$output" 2>&1; then cat "$output"; exit 1; fi\ncat "$output"\ngrep -Fqx \'ok 1 - synthetic Edge request signs and verifies commissioning receipt and acknowledgement\' "$output"\ngrep -Fqx \'1..1\' "$output"'
 CURRENT_SOURCE_COMMANDS = (
@@ -437,18 +450,19 @@ CURRENT_SOURCE_COMMANDS = (
     'python3 -m unittest scripts.supabase.test_catalogue_reconciliation',
     'python3 -m unittest scripts.supabase.test_catalogue_capture',
     'node --test --test-concurrency=1 scripts/supabase/testing/cloud-binder-fixture.test.mjs',
+    'python3 -m unittest scripts.supabase.testing.test_qualification_source_manifest',
     'node --test deploy/managed-native-ingress/worker.test.mjs',
     'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs',
     'node --test --test-concurrency=1 supabase/managed-native-ingress/nonce-ledger.test.mjs',
     'node --test --test-concurrency=1 supabase/managed-deployment-identity/bind-managed.test.mjs',
     'node --test scripts/supabase/testing/buri-isolated-pg/report.test.mjs',
     CURRENT_SMS_SOURCE_COMMAND,
+    CURRENT_EMAIL_HANDLER_COMMAND,
     CURRENT_COMMISSIONING_DENO_COMMAND,
     'node --test scripts/supabase/atomic_cloud_migration.test.mjs',
     'node --test scripts/supabase/managed-storage-archive-v2/*.test.mjs',
     'node --test scripts/supabase/cloud-data-transfer/compile.test.mjs scripts/supabase/cloud-data-transfer/existing-storage.test.mjs',
-    'node scripts/supabase/testing/pinned-history-stage.mjs --verify58\nnode scripts/supabase/testing/pinned-history-stage.mjs --verify65',
-    'node scripts/supabase/testing/pinned-history-stage.mjs --source58',
+    CURRENT_CLOUD_IDENTITY_COMMAND,
     'node scripts/supabase/run_edge_node_tests.mjs',
     'node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs',
     'node --test test/supabase-free-transport.test.mjs test/local-challenge-parent.test.mjs',
@@ -457,7 +471,7 @@ CURRENT_SOURCE_COMMANDS = (
 
 
 def validate_current_supabase_qualification(workflows: dict[str, dict]) -> list[dict[str, str]]:
-    """Require the current full-chain native proof and its actual Dart consumer.
+    """Require current Cloud source contracts and synthetic PostgreSQL qualification.
 
     Historical packets remain available only against an explicitly selected
     immutable historical checkout. A historical pass cannot replace this job.
@@ -499,13 +513,12 @@ def validate_current_supabase_qualification(workflows: dict[str, dict]) -> list[
                 or step.get('env', {}).get('REVIEWED_SHA') != '${{ inputs.reviewed_historical_commit }}'
                 or any(line not in command for line in required)):
             fail('select-profile')
-    current_names = ('current-source-contracts', 'current-self-hosted-native', 'current-self-hosted-history-dart')
+    current_names = ('current-source-contracts', CURRENT_NATIVE_JOB)
     for name in current_names:
         job = jobs.get(name, {})
         needs = job.get('needs', [])
         needs = [needs] if isinstance(needs, str) else needs
-        required_needs = {'select-profile', 'current-self-hosted-native'} if name.endswith('history-dart') else {'select-profile'}
-        if (set(needs) != required_needs or job.get('if') != CURRENT_PROFILE_CONDITION
+        if (set(needs) != {'select-profile'} or job.get('if') != CURRENT_PROFILE_CONDITION
                 or job.get('continue-on-error', False) is not False):
             fail(name)
         checkout = [step for step in job.get('steps', []) if str(step.get('uses', '')).startswith('actions/checkout@')]
@@ -524,69 +537,43 @@ def validate_current_supabase_qualification(workflows: dict[str, dict]) -> list[
             fail('current-source-contracts')
         elif command == CURRENT_COMMISSIONING_DENO_COMMAND and matches[0].get('working-directory', '.') != '.':
             fail('current-source-contracts')
-        elif command == 'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs' and matches[0].get('env', {}).get('COLLECT_HANDLER_CHECKOUT_ROOT') != '${{ github.workspace }}':
+        elif command == CURRENT_EMAIL_HANDLER_COMMAND and matches[0].get('working-directory') != 'supabase/functions':
             fail('current-source-contracts')
-    source_commands = '\n'.join(step.get('run', '') for step in source_steps)
     for required in ('scripts/supabase/testing/current16-integration.test.mjs',
-                     'scripts/supabase/jobs-config-contracts.test.mjs',
-                     'scripts/supabase/email_jobs_operator.test.mjs',
-                     'scripts/supabase/deployment-profile.test.mjs',
-                     'scripts.supabase.testing.test_qualification_source_manifest'):
+                     'scripts/supabase/jobs-config-contracts.test.mjs'):
         matches = [step for step in source_steps if required in step.get('run', '')]
         if (len(matches) != 1 or 'if' in matches[0] or '||' in matches[0].get('run', '')
                 or matches[0].get('continue-on-error', False) is not False):
             fail('current-source-contracts')
-    native = jobs.get('current-self-hosted-native', {})
-    env = native.get('env', {})
+    native = jobs.get(CURRENT_NATIVE_JOB, {})
     expected = {
-        'COLLECT_CI_SYNTHETIC': 'true', 'COLLECT_NATIVE_PROFILE': 'control-concurrency',
-        'COLLECT_TEST_PG_URL': 'postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test',
-        'COLLECT_FENCE_ADMIN_DATABASE_URL': 'postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres',
-        'COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL': 'postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres',
+        'COLLECT_CI_SYNTHETIC': 'true',
+        'COLLECT_DENO': '${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno',
+        'DENO_TLS_CA_STORE': 'system',
     }
-    if any(env.get(key) != value for key, value in expected.items()):
-        fail('current-self-hosted-native')
-    for name, command in (('current-self-hosted-native', CURRENT_NATIVE_COMMAND),
-                          ('current-self-hosted-history-dart', CURRENT_DART_COMMAND)):
-        steps = jobs.get(name, {}).get('steps', [])
-        matches = [step for step in steps if step.get('run', '').strip() == command]
-        if len(matches) != 1 or 'if' in matches[0] or matches[0].get('continue-on-error', False) is not False:
-            fail(name)
+    if native.get('env', {}) != expected:
+        fail(CURRENT_NATIVE_JOB)
     native_steps = native.get('steps', [])
     prerequisites = [step for step in native_steps if step.get('run', '').strip() == CURRENT_NATIVE_CONTAINER_PREREQ]
     transfer_steps = [step for step in native_steps if step.get('run', '').strip() == CURRENT_TRANSFER_NATIVE_COMMAND]
     if (len(prerequisites) != 1 or 'if' in prerequisites[0]
             or prerequisites[0].get('continue-on-error', False) is not False
             or len(transfer_steps) != 1 or native_steps.index(prerequisites[0]) >= native_steps.index(transfer_steps[0])):
-        fail('current-self-hosted-native')
-    for command in (CURRENT_HTTP_NATIVE_COMMAND, CURRENT_BURI_NATIVE_COMMAND, CURRENT_NONCE_NATIVE_COMMAND, CURRENT_PORTABILITY_NATIVE_COMMAND, CURRENT_TRANSFER_NATIVE_COMMAND, CURRENT_SMS_NATIVE_COMMAND):
+        fail(CURRENT_NATIVE_JOB)
+    for command in (
+        CURRENT_HTTP_NATIVE_COMMAND, CURRENT_BURI_NATIVE_COMMAND, CURRENT_NONCE_NATIVE_COMMAND,
+        CURRENT_PORTABILITY_NATIVE_COMMAND, CURRENT_TRANSFER_NATIVE_COMMAND, CURRENT_SMS_NATIVE_COMMAND,
+        CURRENT_NATIVE_COMMAND,
+    ):
         matches = [step for step in native_steps if step.get('run', '').strip() == command]
         if len(matches) != 1 or 'if' in matches[0] or matches[0].get('continue-on-error', False) is not False:
-            fail('current-self-hosted-native')
+            fail(CURRENT_NATIVE_JOB)
         elif command == CURRENT_SMS_NATIVE_COMMAND and matches[0].get('working-directory') != 'deploy/managed-sms':
-            fail('current-self-hosted-native')
-    runs = [step.get('run', '') for step in native_steps]
-    start = 'sh scripts/supabase/testing/ci-native-postgres.sh start'
-    warming = [step for step in native_steps if 'self-hosted-control-concurrency.ts' in step.get('run', '')]
-    if (start not in runs or CURRENT_NATIVE_COMMAND not in runs or runs.index(start) >= runs.index(CURRENT_NATIVE_COMMAND)
-            or len(warming) != 1 or '--frozen' not in warming[0].get('run', '') or '--no-lock' in warming[0].get('run', '')
-            or 'if' in warming[0] or warming[0].get('continue-on-error', False) is not False):
-        fail('current-self-hosted-native')
-    uploads = [step for step in native_steps if str(step.get('uses', '')).startswith('actions/upload-artifact@')]
-    if len(uploads) != 1:
-        fail('current-self-hosted-native')
-    else:
-        upload = uploads[0]
-        paths = upload.get('with', {}).get('path', '').splitlines()
-        if (upload.get('if') != 'always()' or upload.get('with', {}).get('if-no-files-found') != 'error'
-                or any('private' in path.lower() or '**' in path for path in paths if not path.startswith('!'))
-                or not any(path.endswith('/RESULT.json') for path in paths)
-                or not any(path.endswith('/history/ACTUAL-HISTORY-PACKET.json') for path in paths)):
-            fail('current-self-hosted-native')
-    history_steps = jobs.get('current-self-hosted-history-dart', {}).get('steps', [])
-    admits = [step for step in history_steps if 'node scripts/supabase/testing/pinned-history-stage.mjs --history-admit ' in step.get('run', '')]
-    if len(admits) != 1 or 'if' in admits[0] or admits[0].get('continue-on-error', False) is not False:
-        fail('current-self-hosted-history-dart')
+            fail(CURRENT_NATIVE_JOB)
+    # The owned Cloud fixtures report via the job log. Raw fixture files are
+    # never published by this job.
+    if any(str(step.get('uses', '')).startswith('actions/upload-artifact@') for step in native_steps):
+        fail(CURRENT_NATIVE_JOB)
     historical = {'local-qualification': 'historical-standard', 'control-concurrency-native': 'historical-standard',
                   'stopped-admission-lifecycle-native': 'historical-current14', 'current14-member-history-dart': 'historical-current14',
                   'current16-integration-native': 'historical-current16'}
@@ -656,7 +643,7 @@ def validate_platform_makefile(contents: str) -> list[dict[str, str]]:
         findings.append({'workflow': 'Makefile', 'job': 'supabase-test',
                          'code': 'CI_CURRENT_MAKE_QUALIFICATION_REQUIRED'})
     for name, expected in (
-        ('supabase-current-native', ['node scripts/supabase/testing/pinned-history-stage.mjs --native']),
+        ('supabase-current-native', [CURRENT_NATIVE_MAKE_COMMAND]),
         ('supabase-current-transfer-test', ['test "$$(id -u)" -ne 0',
                                            'test -n "$${COLLECT_SYNTHETIC_PG_BIN:-}"',
                                            'test "$$(cd "$$COLLECT_SYNTHETIC_PG_BIN" && pwd -P)" = "$$COLLECT_SYNTHETIC_PG_BIN"',
@@ -673,13 +660,14 @@ def validate_platform_makefile(contents: str) -> list[dict[str, str]]:
         'python3 supabase/schema-src/generate_baseline.py --check',
         'node scripts/supabase/run_edge_node_tests.mjs',
         'node --test scripts/supabase/cloud-data-transfer/compile.test.mjs scripts/supabase/cloud-data-transfer/existing-storage.test.mjs',
-        'node scripts/supabase/testing/pinned-history-stage.mjs --verify58',
-        'node scripts/supabase/testing/pinned-history-stage.mjs --verify65',
-        'node scripts/supabase/testing/pinned-history-stage.mjs --source58',
+        CURRENT_CLOUD_IDENTITY_COMMAND,
         'node --test --test-concurrency=1 scripts/supabase/testing/cloud-binder-fixture.test.mjs',
+    'python3 -m unittest scripts.supabase.testing.test_qualification_source_manifest',
+    'node --test deploy/managed-native-ingress/worker.test.mjs',
         'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs',
         'cd deploy/managed-sms && python3 test/verify_source_tests_test.py && python3 test/verify_source_tests.py',
         CURRENT_COMMISSIONING_DENO_MAKE_COMMAND,
+        CURRENT_EMAIL_HANDLER_MAKE_COMMAND,
         'cd supabase/functions && "$${COLLECT_DENO:-deno}" task check',
     )
     if (count != 1 or any(commands.count(command) != 1 for command in required)

@@ -29,14 +29,6 @@ class CollectCiPolicyTest(unittest.TestCase):
     def codes(self):
         return {f["code"] for f in policy.validate_workflows(self.workflows)}
 
-    def checkout(self):
-        return self.workflows["ci.yml"]["jobs"]["repo-hygiene"]["steps"][0]
-
-    def test_current_declared_boundary_is_valid(self):
-        self.assertEqual(policy.validate_workflows(self.workflows), [])
-
-
-
     def test_retired_browser_admin_sources_are_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -47,6 +39,12 @@ class CollectCiPolicyTest(unittest.TestCase):
                 path.touch()
             found = {item["job"] for item in policy.retired_admin_sources(root)}
             self.assertEqual(found, {"lib/admin/panel.dart", "lib/main_admin.dart", "test/admin/old-fixture.json"})
+
+    def checkout(self):
+        return self.workflows["ci.yml"]["jobs"]["repo-hygiene"]["steps"][0]
+
+    def test_current_declared_boundary_is_valid(self):
+        self.assertEqual(policy.validate_workflows(self.workflows), [])
 
     def test_managed_cloud_is_the_only_current_qualification_profile(self):
         workflow = self.workflows['supabase.yml']
@@ -325,7 +323,7 @@ class CollectCiPolicyTest(unittest.TestCase):
                     changed = before + 'supabase-test:\n' + rest.replace(line, replacement, 1)
                     self.assertIn('CI_CURRENT_MAKE_QUALIFICATION_REQUIRED',
                                   {x['code'] for x in policy.validate_platform_makefile(changed)})
-        command = '\t@node scripts/supabase/testing/pinned-history-stage.mjs --native\n'
+        command = '\t@' + policy.CURRENT_NATIVE_MAKE_COMMAND + '\n'
         for replacement in ('', command + command, command.replace('@node', '-@node'),
                             command.rstrip() + ' || true\n', '\t@node scripts/supabase/testing/current16-integration.mjs\n'):
             with self.subTest(native=replacement):
@@ -333,8 +331,7 @@ class CollectCiPolicyTest(unittest.TestCase):
                               {x['code'] for x in policy.validate_platform_makefile(source.replace(command, replacement, 1))})
         for command in ('python3 supabase/schema-src/generate_baseline.py --check',
                         'node scripts/supabase/run_edge_node_tests.mjs',
-                        'node --test --test-concurrency=1 scripts/supabase/testing/cloud-binder-fixture.test.mjs',
-                        'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs',
+                        policy.CURRENT_CLOUD_IDENTITY_COMMAND,
                         'cd deploy/managed-sms && python3 test/verify_source_tests_test.py && python3 test/verify_source_tests.py',
                         policy.CURRENT_COMMISSIONING_DENO_MAKE_COMMAND,
                         'cd supabase/functions && "$${COLLECT_DENO:-deno}" task check'):
@@ -421,7 +418,7 @@ class CollectCiPolicyTest(unittest.TestCase):
                 for occurrence in range(policy.CURRENT_TRANSFER_NATIVE_COMMAND.count(required_input)):
                     with self.subTest(occurrence=occurrence):
                         self.workflows = copy.deepcopy(original)
-                        job = self.workflows['supabase.yml']['jobs']['current-self-hosted-native']
+                        job = self.workflows['supabase.yml']['jobs'][policy.CURRENT_NATIVE_JOB]
                         step = next(step for step in job['steps'] if step.get('run', '').strip() == policy.CURRENT_TRANSFER_NATIVE_COMMAND)
                         offset = step['run'].find(required_input, offset + 1)
                         self.assertNotEqual(offset, -1)
@@ -433,7 +430,7 @@ class CollectCiPolicyTest(unittest.TestCase):
         original = copy.deepcopy(self.workflows)
         for mutation in ('omit', 'skip', 'ignore', 'remove-package', 'remove-check', 'after-suite'):
             self.workflows = copy.deepcopy(original)
-            job = self.workflows['supabase.yml']['jobs']['current-self-hosted-native']
+            job = self.workflows['supabase.yml']['jobs'][policy.CURRENT_NATIVE_JOB]
             steps = job['steps']
             step = next(step for step in steps if step.get('run', '').strip() == policy.CURRENT_NATIVE_CONTAINER_PREREQ)
             if mutation == 'omit': steps.remove(step)
@@ -633,42 +630,31 @@ class CollectCiPolicyTest(unittest.TestCase):
                 self.assertNotIn('if', matches[0])
                 self.assertIs(matches[0].get('continue-on-error', False), False)
 
-    def test_current_native_retains_validated_momo_and_contribution_receipts(self):
-        job = self.workflows['supabase.yml']['jobs']['current-self-hosted-native']
-        upload = next(s for s in job['steps'] if s.get('uses', '').startswith('actions/upload-artifact@'))
-        paths = set(upload['with']['path'].splitlines())
-        prefix = '${{ runner.temp }}/collect-current-selfhost-native/'
-        self.assertTrue({prefix + 'MOMO.json', prefix + 'CONTRIBUTION_REVIEW.json'}.issubset(paths))
-        self.assertFalse(any('/private/' in path or path.endswith('.private.json') for path in paths))
-        warm = next(s for s in job['steps'] if s.get('name') == 'Warm and check every current native harness with frozen dependencies')
-        self.assertIn('scripts/supabase/testing/self-hosted-contribution-review-runtime.ts', warm['run'])
-
-    def test_current_native_and_actual_dart_cannot_be_omitted_or_masked(self):
+    def test_current_native_cannot_be_omitted_or_masked(self):
         original = copy.deepcopy(self.workflows)
-        for name, command in [('current-self-hosted-native', policy.CURRENT_NATIVE_COMMAND),
-                              ('current-self-hosted-history-dart', policy.CURRENT_DART_COMMAND)]:
-            for mutation in ('omit', 'skip-job', 'ignore-job', 'skip-check', 'ignore-check', 'different-command', 'mutable-checkout'):
-                with self.subTest(job=name, mutation=mutation):
-                    self.workflows = copy.deepcopy(original)
-                    job = self.workflows['supabase.yml']['jobs'][name]
-                    step = next(step for step in job['steps'] if step.get('run') == command)
-                    if mutation == 'omit': job['steps'].remove(step)
-                    elif mutation == 'skip-job': job['if'] = '${{ false }}'
-                    elif mutation == 'ignore-job': job['continue-on-error'] = True
-                    elif mutation == 'skip-check': step['if'] = '${{ false }}'
-                    elif mutation == 'ignore-check': step['continue-on-error'] = True
-                    elif mutation == 'different-command': step['run'] += ' || true'
-                    else:
-                        checkout = next(step for step in job['steps'] if step.get('uses', '').startswith('actions/checkout@'))
-                        checkout['with']['ref'] = 'main'
-                    self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
+        name, command = policy.CURRENT_NATIVE_JOB, policy.CURRENT_NATIVE_COMMAND
+        for mutation in ('omit', 'skip-job', 'ignore-job', 'skip-check', 'ignore-check', 'different-command', 'mutable-checkout'):
+            with self.subTest(job=name, mutation=mutation):
+                self.workflows = copy.deepcopy(original)
+                job = self.workflows['supabase.yml']['jobs'][name]
+                step = next(step for step in job['steps'] if step.get('run', '').strip() == command)
+                if mutation == 'omit': job['steps'].remove(step)
+                elif mutation == 'skip-job': job['if'] = '${{ false }}'
+                elif mutation == 'ignore-job': job['continue-on-error'] = True
+                elif mutation == 'skip-check': step['if'] = '${{ false }}'
+                elif mutation == 'ignore-check': step['continue-on-error'] = True
+                elif mutation == 'different-command': step['run'] += ' || true'
+                else:
+                    checkout = next(step for step in job['steps'] if step.get('uses', '').startswith('actions/checkout@'))
+                    checkout['with']['ref'] = 'main'
+                self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
 
     def test_http_admission_native_qualification_cannot_be_omitted_or_masked(self):
         original = copy.deepcopy(self.workflows)
         for command in (policy.CURRENT_HTTP_NATIVE_COMMAND, policy.CURRENT_BURI_NATIVE_COMMAND, policy.CURRENT_NONCE_NATIVE_COMMAND, policy.CURRENT_PORTABILITY_NATIVE_COMMAND, policy.CURRENT_TRANSFER_NATIVE_COMMAND, policy.CURRENT_SMS_NATIVE_COMMAND):
             for mutation in ('omit', 'skip', 'ignore', 'different-command'):
                 self.workflows = copy.deepcopy(original)
-                job = self.workflows['supabase.yml']['jobs']['current-self-hosted-native']
+                job = self.workflows['supabase.yml']['jobs'][policy.CURRENT_NATIVE_JOB]
                 step = next(step for step in job['steps'] if step.get('run', '').strip() == command)
                 if mutation == 'omit': job['steps'].remove(step)
                 elif mutation == 'skip': step['if'] = '${{ false }}'
@@ -683,21 +669,14 @@ class CollectCiPolicyTest(unittest.TestCase):
             for mutation in ('omit', 'skip', 'ignore'):
                 self.workflows = copy.deepcopy(original)
                 job = self.workflows['supabase.yml']['jobs']['current-source-contracts']
-                step = next(step for step in job['steps'] if step.get('run') == command)
+                step = next(step for step in job['steps'] if step.get('run', '').strip() == command)
                 if mutation == 'omit': job['steps'].remove(step)
                 elif mutation == 'skip': step['if'] = '${{ false }}'
                 else: step['continue-on-error'] = True
                 with self.subTest(command=command, mutation=mutation):
                     self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
         self.workflows = copy.deepcopy(original)
-        self.workflows['supabase.yml']['jobs']['current-self-hosted-native']['env']['COLLECT_FENCE_ADMIN_DATABASE_URL'] = 'postgres://hosted.invalid/production'
-        self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
-
-    def test_integrated_handler_ci_requires_exact_checkout_binding(self):
-        job = self.workflows['supabase.yml']['jobs']['current-source-contracts']
-        command = 'node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs'
-        step = next(step for step in job['steps'] if step.get('run') == command)
-        step['env']['COLLECT_HANDLER_CHECKOUT_ROOT'] = '/different/checkout'
+        self.workflows['supabase.yml']['jobs'][policy.CURRENT_NATIVE_JOB]['env']['COLLECT_FENCE_ADMIN_DATABASE_URL'] = 'postgres://hosted.invalid/production'
         self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
 
     def test_reusable_current_gate_cannot_select_history_or_be_hidden(self):
@@ -736,9 +715,9 @@ class CollectCiPolicyTest(unittest.TestCase):
                 self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
 
     def test_current_evidence_never_uploads_private_runtime_descriptor(self):
-        job = self.workflows['supabase.yml']['jobs']['current-self-hosted-native']
-        upload = next(step for step in job['steps'] if step.get('uses', '').startswith('actions/upload-artifact@'))
-        upload['with']['path'] += '\n${{ runner.temp }}/collect-current-selfhost-native/runtime.private.json'
+        job = self.workflows['supabase.yml']['jobs'][policy.CURRENT_NATIVE_JOB]
+        job['steps'].append({'uses': 'actions/upload-artifact@' + 'a' * 40,
+                             'with': {'path': '/tmp/runtime.private.json'}})
         self.assertIn('CI_SUPABASE_QUALIFICATION_REQUIRED', self.codes())
 
     def test_supabase_candidate_cannot_fall_back_to_another_backend(self):
@@ -770,7 +749,6 @@ class CollectCiPolicyTest(unittest.TestCase):
         step = next(s for s in steps if 'admin-web/tests/browser/smoke.mjs' in s.get('run', ''))
         step['continue-on-error'] = True
         self.assertIn('CI_COMPILED_ADMIN_BROWSER_REQUIRED', self.codes())
-
 
     def test_legacy_preview_compilation_cannot_gate_the_shipping_build(self):
         job = self.workflows['ci.yml']['jobs']['admin-web-build']

@@ -4,9 +4,9 @@
   "runtime_sha256": "18be7b92dd1135a5f3c94d4fb5d8dba6cfd38635724ff863526a1f4e478cd2ab",
   "native_capture_passed": false,
   "scope": "Current Collect Flutter interface previews at seven real routes with synthetic data; browser rendering only, no native or release acceptance.",
-  "capture_report": "docs/implementation/self-hosted-20261101/public-media/capture-report.json",
+  "capture_report": "docs/implementation/public-media-20261101/capture-report.json",
   "capture_report_sha256": "e7eadaaf9f445cbebf6d6d979709418bb50eef1589f23bd3af638beb19915e7b",
-  "visual_review": "docs/implementation/self-hosted-20261101/public-media/visual-review.json",
+  "visual_review": "docs/implementation/public-media-20261101/visual-review.json",
   "visual_review_sha256": "265c28a7c9bebec84bd51b5956a50809a8826af552616ed8fde72fcfa4d191f8",
   "captures": [
     {

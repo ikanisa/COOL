@@ -21,12 +21,9 @@ on:
       - 'lib/core/data/exact_json_values.dart'
       - 'lib/shared/repositories/collect_repository_live_reader.dart'
       - 'test/current14_member_history_sql_receipts_test.dart'
-      - 'test/self_hosted_member_history_sql_receipts_test.dart'
-      - 'deploy/self-hosted/**'
       - 'deploy/collect-sms/**'
       - 'deploy/managed-native-ingress/**'
       - 'deploy/managed-sms/**'
-      - 'scripts/self_hosted/**'
       - 'pubspec.yaml'
       - 'pubspec.lock'
       - '.fvmrc'
@@ -52,12 +49,9 @@ on:
       - 'lib/core/data/exact_json_values.dart'
       - 'lib/shared/repositories/collect_repository_live_reader.dart'
       - 'test/current14_member_history_sql_receipts_test.dart'
-      - 'test/self_hosted_member_history_sql_receipts_test.dart'
-      - 'deploy/self-hosted/**'
       - 'deploy/collect-sms/**'
       - 'deploy/managed-native-ingress/**'
       - 'deploy/managed-sms/**'
-      - 'scripts/self_hosted/**'
       - 'pubspec.yaml'
       - 'pubspec.lock'
       - '.fvmrc'
@@ -118,13 +112,11 @@ jobs:
         env:
           COLLECT_CATALOGUE_SYNTHETIC_PGLITE_MODULE: file://${{ github.workspace }}/scripts/supabase/node_modules/@electric-sql/pglite/dist/index.js
         run: python3 -m unittest scripts.supabase.test_catalogue_capture
-      - name: Verify in-memory managed Cloud identity and fence gates
+      - name: Verify managed Cloud deployment identity and fence gates
         run: node --test --test-concurrency=1 scripts/supabase/testing/cloud-binder-fixture.test.mjs
       - name: Verify managed native ingress candidate
         run: node --test deploy/managed-native-ingress/worker.test.mjs
-      - name: Verify integrated managed native handler
-        env:
-          COLLECT_HANDLER_CHECKOUT_ROOT: ${{ github.workspace }}
+      - name: Verify the active Cloud native ingress integration
         run: node --test deploy/managed-native-ingress/handler-integration/cloud-only-handler-integration.test.mjs
       - name: Verify managed native replay ledger with a synthetic database
         run: node --test --test-concurrency=1 supabase/managed-native-ingress/nonce-ledger.test.mjs
@@ -141,22 +133,19 @@ jobs:
         run: node --test scripts/supabase/managed-storage-archive-v2/*.test.mjs
       - name: Verify managed Cloud import and existing journal boundaries
         run: node --test scripts/supabase/cloud-data-transfer/compile.test.mjs scripts/supabase/cloud-data-transfer/existing-storage.test.mjs
-      - name: Verify pinned historical fixture inventories without changing the Cloud tree
-        run: |-
-          node scripts/supabase/testing/pinned-history-stage.mjs --verify58
-          node scripts/supabase/testing/pinned-history-stage.mjs --verify65
-      - name: Verify Cloud deployment profile and provider separation contracts
-        run: |
-          node --test scripts/supabase/deployment-profile.test.mjs supabase/functions/send-sms-hook/handler.test.mjs
-          python3 -m unittest scripts.supabase.testing.test_qualification_source_manifest
+      - name: Verify the Collect Cloud deployment identity and migration inputs
+        run: node --test scripts/supabase/deployment-profile.test.mjs scripts/supabase/cloud-release/retained-source.test.mjs
+      - name: Verify the synthetic qualification source manifest
+        run: python3 -m unittest scripts.supabase.testing.test_qualification_source_manifest
       - name: Run every shared Node Edge contract through maintained exhaustive discovery
         run: node scripts/supabase/run_edge_node_tests.mjs
       - name: Verify current orchestration and retained historical source-admission guards
         run: node --test scripts/supabase/run_edge_node_tests.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/batch-capacity.test.mjs scripts/supabase/testing/current16-integration.test.mjs
-      - name: Verify pinned historical source-admission and history contracts
-        run: node scripts/supabase/testing/pinned-history-stage.mjs --source58
       - name: Verify scheduler and operator configuration contracts
         run: node --test scripts/supabase/jobs-config-contracts.test.mjs scripts/supabase/email_jobs_operator.test.mjs
+      - name: Verify the Cloud contribution email handler
+        working-directory: supabase/functions
+        run: '"$COLLECT_DENO" test --frozen --lock=deno.lock _shared/tests/email-jobs.test.ts'
       - name: Verify actual web hosting to Supabase transport contracts
         run: node --test deploy/platform-admin/test/backend-selection.test.mjs deploy/platform-admin/test/supabase-transport.test.mjs
       - name: Verify Admin static handoff and recovery
@@ -179,12 +168,12 @@ jobs:
           cat "$output"
           grep -Fqx 'ok 1 - synthetic Edge request signs and verifies commissioning receipt and acknowledgement' "$output"
           grep -Fqx '1..1' "$output"
-      - name: Check all six current Edge entrypoints with the exact frozen lock
+      - name: Check current Cloud Edge entrypoints with the exact frozen lock
         working-directory: supabase/functions
         run: '"$COLLECT_DENO" task check'
 
-  current-self-hosted-native:
-    name: Pinned historical migration-chain native security and delivery fixtures
+  current-managed-native:
+    name: Collect Cloud qualification on synthetic PostgreSQL
     needs: select-profile
     if: needs.select-profile.outputs.profile == 'current-managed-cloud'
     runs-on: ubuntu-latest
@@ -193,10 +182,6 @@ jobs:
       image: postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317
     env:
       COLLECT_CI_SYNTHETIC: 'true'
-      COLLECT_NATIVE_PROFILE: control-concurrency
-      COLLECT_TEST_PG_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/collect_schema_test
-      COLLECT_FENCE_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
-      COLLECT_MEMBER_REALTIME_ADMIN_DATABASE_URL: postgres://collect_test:collect_local_fixture_only@127.0.0.1:55439/postgres
       COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
       DENO_TLS_CA_STORE: system
     steps:
@@ -310,103 +295,16 @@ jobs:
             COLLECT_SMS_TEST_DENO_DIR="$sms_deno_cache" ./test/run-local-postgres.sh
           timeout --signal=TERM --kill-after=120s 180s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
             COLLECT_SMS_TEST_PG_BIN="$pg_bin_dir" python3 test/signal-cleanup.test.py
-      - name: Verify current-only target, source, migration and receipt guards
-        run: node --test scripts/supabase/testing/current-self-hosted-native.test.mjs scripts/supabase/testing/self-hosted-member-history.test.mjs scripts/supabase/testing/curated-platform-fixture.test.mjs scripts/supabase/testing/admit-self-hosted-history.test.mjs
-      - name: Warm and check every current native harness with frozen dependencies
-        env:
-          DENO_DIR: ${{ runner.temp }}/collect-current-selfhost-deno-cache
-        run: |
-          "$COLLECT_DENO" check --frozen --node-modules-dir=none --config=supabase/functions/deno.json --lock=supabase/functions/deno.lock scripts/supabase/testing/self-hosted-control-concurrency.ts scripts/supabase/testing/self-hosted-runtime.ts scripts/supabase/testing/self-hosted-backend-runtime.ts scripts/supabase/testing/self-hosted-auth-runtime.ts scripts/supabase/testing/self-hosted-retention-runtime.ts scripts/supabase/testing/notification-channels.ts scripts/supabase/testing/combined-self-hosted-scheduler.ts scripts/supabase/testing/gateway-fence.ts scripts/supabase/testing/self-hosted-momo-runtime.ts scripts/supabase/testing/self-hosted-contribution-review-runtime.ts deploy/collect-sms/test/gateway.test.ts
-          cd supabase/functions
-          "$COLLECT_DENO" task check
-      - name: Start this job's fresh native PG17 cluster with60/3/0 limits
-        run: sh scripts/supabase/testing/ci-native-postgres.sh start
-      - name: Require all current migration-chain native harnesses and actual history receipts
-        env:
-          DENO_DIR: ${{ runner.temp }}/collect-current-selfhost-deno-cache
-          COLLECT_SELFHOST_OUTPUT_DIR: ${{ runner.temp }}/collect-current-selfhost-native
-        run: timeout --signal=TERM --kill-after=10s 900s node scripts/supabase/testing/pinned-history-stage.mjs --native
-      - name: Always stop only the job-owned native cluster
-        if: always()
+      - name: Qualify the Cloud native account bootstrap on owned PostgreSQL
         run: |
           set -eu
-          if [ -f scripts/supabase/testing/ci-native-postgres.sh ]; then
-            sh scripts/supabase/testing/ci-native-postgres.sh stop
-          elif [ -e "$RUNNER_TEMP/collect-supabase-ci-postgres.state" ]; then
-            echo CI_POSTGRES_CLEANUP_SCRIPT_MISSING >&2
-            exit 1
-          fi
-      - name: Preserve current evidence and failures without private descriptors
-        if: always()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
-        with:
-          name: current-selfhost-native-${{ github.sha }}
-          retention-days: 14
-          if-no-files-found: error
-          path: |
-            ${{ runner.temp }}/collect-current-selfhost-native/INPUTS.json
-            ${{ runner.temp }}/collect-current-selfhost-native/CLUSTER.json
-            ${{ runner.temp }}/collect-current-selfhost-native/INSTALLATION.json
-            ${{ runner.temp }}/collect-current-selfhost-native/RESULT.json
-            ${{ runner.temp }}/collect-current-selfhost-native/*-CHILD.json
-            ${{ runner.temp }}/collect-current-selfhost-native/CONTROL.json
-            ${{ runner.temp }}/collect-current-selfhost-native/RUNTIME.json
-            ${{ runner.temp }}/collect-current-selfhost-native/BACKEND.json
-            ${{ runner.temp }}/collect-current-selfhost-native/AUTH.json
-            ${{ runner.temp }}/collect-current-selfhost-native/RETENTION.json
-            ${{ runner.temp }}/collect-current-selfhost-native/NOTIFICATIONS.json
-            ${{ runner.temp }}/collect-current-selfhost-native/DATA_STAGE.json
-            ${{ runner.temp }}/collect-current-selfhost-native/MOMO.json
-            ${{ runner.temp }}/collect-current-selfhost-native/CONTRIBUTION_REVIEW.json
-            ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY.json
-            ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY.xml
-            ${{ runner.temp }}/collect-current-selfhost-native/GATEWAY-FENCE.json
-            ${{ runner.temp }}/collect-current-selfhost-native/SCHEDULER.json
-            ${{ runner.temp }}/collect-current-selfhost-native/*.log
-            ${{ runner.temp }}/collect-current-selfhost-native/runtime/CASES.json
-            ${{ runner.temp }}/collect-current-selfhost-native/runtime/OBSERVATIONS.json
-            ${{ runner.temp }}/collect-current-selfhost-native/runtime/WORK-CLOSURES.json
-            ${{ runner.temp }}/collect-current-selfhost-native/runtime/NATIVE-RESULT.json
-            ${{ runner.temp }}/collect-current-selfhost-native/history/INPUTS.json
-            ${{ runner.temp }}/collect-current-selfhost-native/history/ACTUAL-HISTORY-PACKET.json
-            ${{ runner.temp }}/collect-current-selfhost-native/history/ACTUAL-SQL-STATEMENTS.json
-            ${{ runner.temp }}/collect-current-selfhost-native/history/DEFINES.json
-            ${{ runner.temp }}/collect-current-selfhost-native/history/RESULT.json
-            ${{ runner.temp }}/collect-current-selfhost-native/data-stage/INPUTS.json
-            ${{ runner.temp }}/collect-current-selfhost-native/data-stage/SOURCE.sqlite
-            ${{ runner.temp }}/collect-current-selfhost-native/data-stage/TYPED.sqlite
-
-  current-self-hosted-history-dart:
-    name: Decode pinned historical migration-chain SQL with the matching Dart source
-    needs: [select-profile, current-self-hosted-native]
-    if: needs.select-profile.outputs.profile == 'current-managed-cloud'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-        with:
-          persist-credentials: false
-          ref: ${{ needs.select-profile.outputs.source_sha }}
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
-        with:
-          node-version: '24.19.0'
-      - name: Read the exact checked-in Flutter version
-        id: flutter-version
-        run: echo "version=$(python3 -c 'import json; print(json.load(open(".fvmrc"))["flutter"])')" >> "$GITHUB_OUTPUT"
-      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
-        with:
-          flutter-version: ${{ steps.flutter-version.outputs.version }}
-          cache: true
-      - name: Restore exact Dart dependency versions
-        run: flutter pub get --enforce-lockfile
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          name: current-selfhost-native-${{ github.sha }}
-          path: ${{ runner.temp }}/collect-current-selfhost-native
-      - name: Verify exact current packet, all source bytes and relative define paths
-        run: node scripts/supabase/testing/pinned-history-stage.mjs --history-admit "$RUNNER_TEMP/collect-current-selfhost-native/history" "$RUNNER_TEMP/collect-current-selfhost-history-defines.json"
-      - name: Decode real pages, exact totals, dates and refusals
-        run: flutter test --no-pub --concurrency=1 --tags=integration --dart-define-from-file="$RUNNER_TEMP/collect-current-selfhost-history-defines.json" test/self_hosted_member_history_sql_receipts_test.dart
+          pg_bin_dir="$(dirname "$(realpath "$(command -v postgres)")")"
+          node_bin="$(command -v node)"
+          gosu postgres test -x "$node_bin"
+          gosu postgres test -r scripts/supabase/cloud-release/initial-account-bootstrap.test.mjs
+          timeout --signal=TERM --kill-after=30s 180s gosu postgres env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin \
+            COLLECT_SYNTHETIC_PG_BIN="$pg_bin_dir" \
+            "$node_bin" scripts/supabase/cloud-release/initial-account-bootstrap.test.mjs
 
   select-profile:
     name: Select the exact current or reviewed historical source

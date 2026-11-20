@@ -1,19 +1,17 @@
 // Derived synthetic-only ordering probe with exactly two unfinished migrations
 // intentionally deferred. It never connects to a managed or active database.
-import {copyFile,mkdir,readFile,readdir,realpath} from 'node:fs/promises';
+import {copyFile,mkdir,readFile,realpath} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
 import {randomBytes,randomUUID,createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {pathToFileURL} from 'node:url';
 import {startOwnedPg17} from '../../current-pg-transfer/test-support/owned-pg17.mjs';
 import {EXACT_CURRENT16,loadReviewedPlatformFixture,renderSyntheticSql} from '../../testing/curated-platform-fixture.mjs';
-import {CURRENT_MIGRATION_NAMES,applyCurrentFixtureMigration} from '../../testing/self-hosted-current-schema.mjs';
-import {canonicalProfile,validateDeploymentProfile} from '../../../../supabase/functions/_shared/deployment-profile.js';
+import {loadRetainedMigrationPrefix,applyRetainedFixtureMigration} from '../../testing/retained-postgres-history.mjs';
 
 const ROOT=resolve(import.meta.dirname,'../../../..'),{Client}=createRequire(import.meta.url)('pg');
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const requireThat=(ok,code)=>{if(!ok)throw Error(code);};
-const LOCK_HASH='17d63e907cc992d62be67224319f5596c150bd1f51d5c05aa54dc250ef50aa64';
 const ICEBERG_FIXTURE_HASH='26a5cac1cae954922f54c58bcad511a3e88ac49f8a3fa9ecf4f661587114a4da';
 const BASELINE='dfc7a4fafb696f73d207251c9f35cb892528eecd1929552fa575996874adc3e3';
 const SYNTHETIC_SOURCE='a'.repeat(64);
@@ -36,50 +34,30 @@ const DEFERRED=new Set(['20261114110100_collect_admin_mfa_authority.sql','202611
 const SUPPORT=Object.freeze([
  'supabase/tests/sql/00_local_auth_fixture.sql',
  'scripts/supabase/testing/curated-platform-fixture.mjs',
- 'scripts/supabase/testing/reviewed-self-hosted-migrations.mjs',
- 'scripts/supabase/testing/self-hosted-current-schema.mjs',
+ 'scripts/supabase/testing/retained-postgres-history.mjs',
  'scripts/supabase/testing/member-realtime-interface.sql',
  'scripts/supabase/testing/member-realtime-metadata.sql',
  'scripts/supabase/testing/member-realtime-fixture-plan.json',
  'scripts/supabase/testing/synthetic-iceberg-storage.sql',
  'scripts/supabase/current-pg-transfer/test-support/owned-pg17.mjs',
- 'supabase/functions/_shared/deployment-profile.js',
- 'deploy/self-hosted/profile.example.json',
 ]);
 const EXPECTED_SUPPORT=Object.freeze({
  'supabase/tests/sql/00_local_auth_fixture.sql':'b935e17f44219f018cf1a864505d1895d71903885ca6c61c039d7ab6596117ea',
- 'scripts/supabase/testing/curated-platform-fixture.mjs':'9ff19f93833b5ebc3021a56da344a50d216fbeb5f1929ce6d7c40da92b849673',
- 'scripts/supabase/testing/reviewed-self-hosted-migrations.mjs':'41aac4992e1bb43a2ebe29b30f1aa673c159f3aa6befc2bcd3d1552347759c10',
- 'scripts/supabase/testing/self-hosted-current-schema.mjs':'5790030c2f079f8fbe282f838b06d5474902110e29e7a398c2aa53e05b6ccdac',
+ 'scripts/supabase/testing/curated-platform-fixture.mjs':'e237998077cb601fa42ad0ee433e9bccc7bfa46c7df8bc64a9ed1ce667b0ff7e',
+ 'scripts/supabase/testing/retained-postgres-history.mjs':'cd9a4c4e38e0daa1a7e089c1ef426d299cf44597abe42db58534694867f3500c',
  'scripts/supabase/testing/member-realtime-interface.sql':'074e380664493eea86a56d3f3042460bbb33352bc4f46483fd19d559446b0e1b',
  'scripts/supabase/testing/member-realtime-metadata.sql':'ed97cdf0838100502344d2d54563992df6170c6a64e95843c037aaec4cd703e3',
  'scripts/supabase/testing/member-realtime-fixture-plan.json':'6156561ea1b893b56afcf54d64934ca042dbb3251426ea3d27e532272bf65d6f',
  'scripts/supabase/testing/synthetic-iceberg-storage.sql':'26a5cac1cae954922f54c58bcad511a3e88ac49f8a3fa9ecf4f661587114a4da',
  'scripts/supabase/current-pg-transfer/test-support/owned-pg17.mjs':'d16afa140b3d2e45c25781bf5f7de1e071762b8cfbef417edb89b2017cc8f9db',
- 'supabase/functions/_shared/deployment-profile.js':'81aa502648712421de8a06dc6eb083c95fb46b063c57b6d1c46cf40d8426ee7d',
- 'deploy/self-hosted/profile.example.json':'adfa7f604b45ed6da91df2dd2f70a60ef5c7b986c89e4487976b5d533802f739',
 });
 async function supportPins(){const result={};for(const name of SUPPORT)result[name]=hash(await readFile(join(ROOT,name)));
  requireThat(JSON.stringify(result)===JSON.stringify(EXPECTED_SUPPORT),'PINNED_FIXTURE_SUPPORT_CHANGED');return result;}
 
 async function inputs(){
  requireThat(await realpath(ROOT)===ROOT,'PHYSICAL_SOURCE_REQUIRED');
- const lockBytes=await readFile(join(ROOT,'supabase/managed-migration-history/source-migrations.lock.json'));
- requireThat(hash(lockBytes)===LOCK_HASH,'PINNED_MIGRATION_LOCK_CHANGED');
- const lock=JSON.parse(lockBytes.toString('utf8'));
- requireThat(lock.format==='collect.selfhost.migrations.v1'&&lock.original_count===16&&lock.migrations.length===58&&
-  JSON.stringify(lock.migrations.map(x=>x.name))===JSON.stringify(CURRENT_MIGRATION_NAMES),
-  'EXACT_REVIEWED_58_REQUIRED');
- const expected=[...lock.migrations,...Object.entries(EXTRA).map(([name,sha256])=>({name,sha256}))].sort((a,b)=>a.name.localeCompare(b.name));
- const disk=(await readdir(join(ROOT,'supabase/migrations'))).filter(x=>/^\d{14}_.*\.sql$/.test(x)).sort();
- requireThat(expected.length===65&&JSON.stringify(disk)===JSON.stringify(expected.map(x=>x.name)),
-  'EXACT_65_FILE_INVENTORY_REQUIRED');
- const migrations=[];
- for(const entry of expected){
-  const path=join(ROOT,'supabase/migrations',entry.name);requireThat(await realpath(path)===path,'MIGRATION_PATH_NOT_PHYSICAL');
-  const bytes=await readFile(path);requireThat(hash(bytes)===entry.sha256,'MIGRATION_BYTES_CHANGED');
-  migrations.push({...entry,sql:bytes.toString('utf8')});
- }
+ const migrations=await loadRetainedMigrationPrefix(ROOT,EXTRA);
+ requireThat(migrations.length===65,'EXACT_65_FILE_INVENTORY_REQUIRED');
  const candidates={};
  for(const item of [...Object.values(VARIANTS),FORWARD]){
   const path=join(ROOT,'scripts/supabase/retention-convergence',item.name),bytes=await readFile(path);
@@ -104,9 +82,12 @@ export async function pinnedBranchInputs(){
 function socketStorageFixture(original){
  const from="current_user<>'collect_test' OR session_user<>'collect_test'\n  OR host(inet_server_addr()) IS DISTINCT FROM '127.0.0.1'";
  const to="current_user<>'collect_test' OR session_user<>'collect_test'\n  OR inet_server_addr() IS NOT NULL OR current_setting('cluster_name')<>'collect_deferred_mfa_fixture'";
- requireThat(original.split(from).length===2,'STORAGE_FIXTURE_GUARD_CHANGED');
- const replacement=original.replace(from,to);
- requireThat(replacement.replace(to,from)===original,'STORAGE_FIXTURE_BODY_CHANGED');return replacement;
+ const originalDatabase='^collect_selfhost_(backend|auth|notifications|recovery|gateway|integration)_[a-f0-9]{24}_test$';
+ const fixtureDatabase='^collect_retention_fixture_[a-f0-9]{24}_test$';
+ requireThat(original.split(from).length===2&&original.split(originalDatabase).length===2,'STORAGE_FIXTURE_GUARD_CHANGED');
+ const replacement=original.replace(from,to).replace(originalDatabase,()=>fixtureDatabase);
+ requireThat(replacement.replace(to,from).replace(fixtureDatabase,()=>originalDatabase)===original,'STORAGE_FIXTURE_BODY_CHANGED');
+ return replacement;
 }
 
 export async function runSyntheticDeferredMfaChain(){
@@ -125,7 +106,7 @@ export async function runSyntheticDeferredMfaChain(){
   custodian=await connect('fixture_custodian','postgres');await bootstrap.end();bootstrap=null;
   await custodian.query('ALTER ROLE fixture_bootstrap RENAME TO collect_test');await custodian.end();custodian=null;
   bootstrap=await connect('collect_test','postgres');await bootstrap.query('DROP ROLE fixture_custodian');
-  const database='collect_selfhost_integration_'+randomBytes(12).toString('hex')+'_test';
+  const database='collect_retention_fixture_'+randomBytes(12).toString('hex')+'_test';
   await bootstrap.query('CREATE DATABASE "'+database+'" OWNER collect_test TEMPLATE template0 ENCODING \'UTF8\'');
   setup=await connect('collect_test',database);
   const prefix=join(fixture.root,'original16');await mkdir(join(prefix,'supabase/migrations'),{recursive:true});await mkdir(join(prefix,'supabase/tests/sql'),{recursive:true});
@@ -160,17 +141,16 @@ export async function runSyntheticDeferredMfaChain(){
    executed_sha256:item.name===base.rawMigrations[9].name?base.binding.synthetic_sql_sha256:item.sha256,
    synthetic_realtime_binding:item.name===base.rawMigrations[9].name,history_recorded:false});
   requireThat((await owner.query("SELECT to_regclass('supabase_migrations.schema_migrations') IS NULL absent")).rows[0].absent,'SYNTHETIC_HISTORY_MUST_BE_ABSENT');
-  const profile=validateDeploymentProfile({...JSON.parse(await readFile(join(ROOT,'deploy/self-hosted/profile.example.json'),'utf8')),environment:'qualification',id:'collect-deferred-mfa-fixture'});
-  const raw=canonicalProfile(profile),profileSha=hash(raw),operation=randomUUID();let initialized=false;
+  let initialized=false;
   const client={unsafe:async(text,params)=>(await owner.query(text,params)).rows};
   for(const item of initial.migrations.slice(16)){
    if(item.name>REVIEWED_58_END)break;
    stage=item.name;
    if(item.name==='20261110193000_burimunsi_canonical_receipt_adoption.sql'){
-    await owner.query('BEGIN');await owner.query('SELECT private.collect_bind_deployment($1,$2,$3)',[operation,raw,profileSha]);
-    await owner.query('SELECT private.collect_fence_initialize($1,$2,$3)',[operation,SYNTHETIC_SOURCE,BASELINE]);await owner.query('COMMIT');initialized=true;
+    await owner.query('SELECT private.collect_fence_initialize($1,$2,$3)',[randomUUID(),SYNTHETIC_SOURCE,BASELINE]);
+    initialized=true;
    }
-   await applyCurrentFixtureMigration(client,item);
+   await applyRetainedFixtureMigration(client,item);
    events.push({stage:item.name,status:'pass',source_sha256:item.sha256,executed_sha256:item.sha256,history_recorded:false});
   }
   requireThat(initialized,'SYNTHETIC_FENCE_NOT_INITIALIZED');

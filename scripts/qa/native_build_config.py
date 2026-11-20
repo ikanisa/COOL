@@ -146,7 +146,7 @@ def configuration(env, platform, pubspec=None):
 
 
 def store_candidate_configuration(env, platform, pubspec=None):
-    """Require the self-hosted SMS-enabled target for new store candidates.
+    """Require the managed Supabase Cloud SMS-enabled target for new store candidates.
 
     Generic native configuration remains available to its existing callers;
     candidate admission must never fall back to the implicit default profile.

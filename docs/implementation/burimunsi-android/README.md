@@ -76,23 +76,20 @@ Other local checks passed: 1,572 namespaced backend tests, 87 pipeline host test
 
 APK/evidence directory on this workstation: `/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-09/burimunsi-native/build-007`. The staff and receiver debug APKs are under `apks/`; optimized qualification artifacts are unsigned and testOnly. Both settled startup screens were visually inspected after correcting inherited dark-theme text/system-icon contrast. They correctly require managed setup while the genuine shared deployment/login configuration is absent.
 
-## Shared local backend: current facts and remaining work
+## Collect Cloud backend
 
-The owner-selected [local Supabase source folder](https://drive.google.com/drive/folders/1PJHsgJ0ozM0LSCLGDXZBXyVPp72-FS7p) contains a generic hosting/client framework. Its newer 1.7 source is not proof that the retained instance was upgraded or contains Collect's business schema.
+BuriMunsi uses the existing Collect Supabase Cloud project
+(`rrlduytparvsjfmegalh`). Authentication, Storage, Edge Functions and the
+database share that deployment identity.
 
-The existing retained `supabase-local` runtime was resumed with its original containers/volumes. Read-only PostgreSQL inspection found only generic account tables and migrations, no Collect business schema/runtime roles or BuriMunsi collection. See `local-supabase-current.md` for exact observations. No schema migration, provider activation, auth change or financial write occurred.
+The Collect dispatcher mounts `collect-route.js` before ordinary member
+authentication. The route uses the application write fence, Supabase token
+verification, the Collect Admin projection and the canonical posting adapters.
+An unconfigured route returns `native_service_unconfigured` before admitting
+financial commands.
 
-The new `collect-route.js` hook is mounted in the existing Collect dispatcher, before ordinary member authentication. It uses the same admitted DB/application fence, genuine Supabase token verification, existing Admin projection and canonical posting adapters. With no trusted server composition it returns the versioned `native_service_unconfigured` response without entering native financial commands.
-
-Live integration still needs:
-
-1. Deploy the reviewed Collect business schema/functions and applicable BuriMunsi extension proposals into the existing retained instance; preserve existing accounts and use one financial writer.
-2. Bind the real collection/receiving custody and remaining source/gateway/custody bridges required by `createCollectNativeRoute` and `createPostgresNativePorts`.
-3. Deploy and qualify the implemented Android managed-login broker and narrow `/api/admin/burimunsi/access` endpoint. `BuriApplication` now supplies `ManagedSessionHost`; the current native Collect email-code form establishes the existing Admin BFF session before the unchanged operator phone/passcode flow. The endpoint also requires the current installation secret and native grant. No refresh token is released and nothing in this broker persists credentials. Actual GoTrue/PG/device-grant commissioning remains required.
-4. Commission the common phone-accessible HTTPS deployment profile. The currently exported loopback HTTP URL is a desktop-local address and is not the configured Android service origin.
-5. Qualify actual device/SIM, encrypted storage, receipt-to-ledger recovery, provider handling and signed distribution against the final shared candidate.
-
-These are unresolved integration/release items, not results inferred from source imports or host tests. Current source does not claim a working live receiving/posting deployment. The original full r4 release suite now passes all 307 tests in the existing case-sensitive managed Linux VM with its system OpenSSL; the four adopted guard libraries are byte-identical to that original delivery. Earlier Mac failures remain historical evidence in `validation-summary.json`. This Linux regression is neither independent production review nor signing/distribution approval.
+Device, carrier, and signed-distribution evidence belongs to the candidate
+that was exercised.
 
 ## Design and evidence
 

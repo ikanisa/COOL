@@ -469,39 +469,6 @@ def supabase_tool_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
                       'installed_or_artifact_membership': 'not verified'}
 
 
-def selfhost_image_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
-    path = 'deploy/self-hosted/images.lock.json'
-    lock = locked_json(path, sources)
-    services = lock.get('services')
-    if lock.get('format') != 'collect.selfhost.images.v1' or not isinstance(services, dict) or not services:
-        raise ValueError('Unsupported self-host image lock')
-    packages, count = [], 0
-    for service, entry in sorted(services.items()):
-        if not isinstance(service, str) or not re.fullmatch(r'[a-z0-9][a-z0-9_-]*', service) or not isinstance(entry, dict):
-            raise ValueError('Invalid image service')
-        tag, reference, manifest, platforms = (entry.get(key) for key in ('tag', 'reference', 'manifest_digest', 'platforms'))
-        if not isinstance(tag, str) or not re.fullmatch(r'[^\s@]+', tag) or not isinstance(manifest, str) or not re.fullmatch(r'sha256:[a-f0-9]{64}', manifest) or reference != tag + '@' + manifest:
-            raise ValueError('Image tag/reference/manifest mismatch')
-        if not isinstance(platforms, list) or not platforms:
-            raise ValueError('Declared image platform descriptors required')
-        seen = set()
-        for descriptor in platforms:
-            if not isinstance(descriptor, dict) or not set(descriptor).issubset({'os', 'architecture', 'digest', 'variant', 'os.version'}) or not all(isinstance(descriptor.get(k), str) and descriptor[k] for k in ('os', 'architecture', 'digest')) or not re.fullmatch(r'sha256:[a-f0-9]{64}', descriptor['digest']):
-                raise ValueError('Invalid image platform descriptor')
-            if any(not isinstance(value, str) or not value for value in descriptor.values()):
-                raise ValueError('Invalid image platform descriptor')
-            key = json.dumps(descriptor, sort_keys=True, separators=(',', ':'))
-            if key in seen:
-                raise ValueError('Duplicate image platform descriptor')
-            seen.add(key)
-        item = row('oci', tag, None, 'self-host image manifest declaration', path, origin=reference,
-                   qualifier='Service ' + service + '; image contents and platform selection unverified')
-        item.update(image_service=service, declared_manifest_digest=manifest, declared_platforms=platforms)
-        packages.append(item);count += len(platforms)
-    return packages, {'services': len(packages), 'platform_descriptors': count,
-                      'pulled_or_deployed_image_contents': 'not verified'}
-
-
 def ruby_packages(sources: dict[str, str]) -> tuple[list[dict], dict]:
     gemfile = source("Gemfile", sources).read_text(encoding="utf-8")
     lock = source("Gemfile.lock", sources).read_text(encoding="utf-8")
@@ -650,7 +617,6 @@ def build() -> dict:
         ("ios", ios_packages),
         ("node", node_packages), ("ruby", ruby_packages), ("decoder", decoder_packages),
         ("supabase_deno", deno_lock_packages), ("supabase_tooling", supabase_tool_packages),
-        ("selfhost_images", selfhost_image_packages),
     ):
         rows, check = collector(sources)
         package_rows.extend(rows)
@@ -669,7 +635,6 @@ def build() -> dict:
                 "Podfile.lock", "two Swift Package.resolved files",
                 "Cloudflare service and public-photography npm locks", "Gemfile.lock", "pubspec declared asset paths and fonts",
                 "Supabase Deno npm/JSR lock declarations and Supabase operator/test tooling npm lock",
-                "self-host service image manifest and platform descriptor declarations",
                 "Rwanda group runtime derivative hash checks",
                 "Linux aarch64/Python3.12 roster decoder wheel hashes and OCI base digest declarations",
                 "Reviewed app production compile/runtime Gradle dependency lock entries when present",
@@ -679,7 +644,7 @@ def build() -> dict:
                 "installed SDK/cache contents", "native artifact contents and signed AAB/IPA SBOM",
                 "registry advisory/current maintenance queries", "full asset reachability and legal license approval",
                 "decoder image platform attestation and installed wheel contents",
-                "Supabase Deno range satisfaction and runtime/test reachability, installed tooling membership and pulled/deployed image contents or platform attestation",
+                "Supabase Deno range satisfaction and runtime/test reachability, installed tooling membership",
             ],
         },
         "source_sha256": dict(sorted(sources.items())),

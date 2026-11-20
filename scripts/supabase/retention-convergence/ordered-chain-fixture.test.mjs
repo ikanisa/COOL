@@ -1,14 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {join} from 'node:path';
-import {pathToFileURL} from 'node:url';
-import {withPinnedHistory} from '../testing/pinned-history-stage.mjs';
+import {runSyntheticOrderedChain} from './ordered-chain-fixture.mjs';
 
 test('synthetic full chain refuses divergent originals and runs pinned candidates without writing history',{timeout:180000},async()=>{
- const result=await withPinnedHistory(65,async root=>{
-  const fixture=await import(pathToFileURL(join(root,'scripts/supabase/retention-convergence/ordered-chain-fixture.mjs')).href);
-  return fixture.runSyntheticOrderedChain();
- });
+ const result=await runSyntheticOrderedChain();
  assert.equal(result.status,'pass',JSON.stringify(result.error));
  assert.equal(result.fixture_removed,true);assert.equal(result.synthetic_only,true);
  assert.equal(result.history_written,false);assert.equal(result.hosted_acceptance,false);assert.equal(result.production_ready,false);

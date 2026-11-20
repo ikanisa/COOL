@@ -560,21 +560,19 @@ void main() {
     }
   });
 
-  test('retired deployment source is preserved as non-executable evidence', () {
-    final archive = File(
-      'docs/retired-evidence/2026-11-17/source-archive.tar.gz',
-    );
-    expect(archive.existsSync(), isTrue);
+  test('deployment source supports the managed Supabase project', () {
+    expect(Directory('deploy/self-hosted').existsSync(), isFalse);
+    expect(Directory('scripts/self_hosted').existsSync(), isFalse);
     expect(
-      sha256.convert(archive.readAsBytesSync()).toString(),
-      'bacc67b8e0ed94eb6f38251e579cefa5b00302efdba22bf475258af221995bc1',
-    );
-    expect(
-      File('deploy/self-hosted/upstream/.env.example').existsSync(),
+      File(
+        'docs/retired-evidence/2026-11-17/source-archive.tar.gz',
+      ).existsSync(),
       isFalse,
     );
     expect(
-      File('deploy/self-hosted/migrations.lock.json').existsSync(),
+      File(
+        'supabase/managed-migration-history/source-migrations.lock.json',
+      ).existsSync(),
       isTrue,
     );
   });

@@ -1,2 +1,0 @@
-One or more uncaught errors occurred shutting down:
-  Bad state: Cannot add event while adding stream.

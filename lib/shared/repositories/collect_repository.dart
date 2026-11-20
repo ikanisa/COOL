@@ -1031,7 +1031,7 @@ class CollectRepository extends StateNotifier<CollectState>
         if (status != 200) {
           throw StateError('Collect could not confirm the profile update.');
         }
-        // The self-hosted 200 contract returns null. The transport also maps a
+        // The deployed member API returns null for an absent receipt. The transport also maps a
         // 200 empty body to null, so readback proves only the current values,
         // not the particular mutation's commit provenance. Never retry a write.
         final isReadback = acknowledgement == null;

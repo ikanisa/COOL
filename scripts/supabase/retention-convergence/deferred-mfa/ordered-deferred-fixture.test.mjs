@@ -1,14 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {join} from 'node:path';
-import {pathToFileURL} from 'node:url';
-import {withPinnedHistory} from '../../testing/pinned-history-stage.mjs';
+import {pinnedBranchInputs,runSyntheticDeferredMfaChain} from './ordered-deferred-fixture.mjs';
 
 test('all pinned non-WIP predecessors execute in order while both MFA sources remain absent',{timeout:180000},async()=>{
- const {source,result}=await withPinnedHistory(65,async root=>{
-  const fixture=await import(pathToFileURL(join(root,'scripts/supabase/retention-convergence/deferred-mfa/ordered-deferred-fixture.mjs')).href);
-  return {source:await fixture.pinnedBranchInputs(),result:await fixture.runSyntheticDeferredMfaChain()};
- });
+ const source=await pinnedBranchInputs();
+ const result=await runSyntheticDeferredMfaChain();
  assert.equal(result.status,'pass',JSON.stringify(result.error));
  assert.equal(result.fixture_removed,true);assert.equal(result.synthetic_only,true);
  assert.equal(result.history_written,false);assert.equal(result.hosted_acceptance,false);assert.equal(result.production_ready,false);

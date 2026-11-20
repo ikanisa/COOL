@@ -135,7 +135,7 @@ if (collectDeploymentRaw != null || collectDeploymentDigest != null) {
     require(canonical == collectDeploymentRaw && digest == collectDeploymentDigest &&
         profile["format"] == "collect.deployment.v1" &&
         (profile["id"] as String).matches(Regex("[a-z][a-z0-9-]{0,62}")) &&
-        profile["mode"] in setOf("managed", "self_hosted") &&
+        profile["mode"] == "managed" &&
         profile["environment"] in setOf("production", "qualification")) { "Invalid Collect deployment identity" }
     fields.filter { it.endsWith("_origin") }.forEach { key ->
         val raw = profile[key] as String
@@ -148,7 +148,7 @@ if (collectDeploymentRaw != null || collectDeploymentDigest != null) {
         }
     }
     require(profile["google_callback_origin"] in setOf(profile["member_api_origin"], profile["admin_origin"]) &&
-        (profile["mode"] != "managed" || profile["supabase_origin"] == "https://rrlduytparvsjfmegalh.supabase.co") &&
+        profile["supabase_origin"] == "https://rrlduytparvsjfmegalh.supabase.co" &&
         profile["supabase_origin"] == collectProjectOrigin &&
         profile["member_api_origin"] == collectSupabaseApi?.let { "https://${it.host.lowercase(Locale.US)}" } &&
         profile["admin_origin"] == collectPublicDefines["SUPABASE_ADMIN_API_URL"] &&

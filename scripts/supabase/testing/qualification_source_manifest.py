@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[3]
 ROOTS = (
     'supabase/functions', 'supabase/migrations', 'supabase/jobs',
     'supabase/retention-inventory.json', 'deploy/collect-sms',
-    'deploy/self-hosted/migrations.lock.json', 'scripts/supabase',
+    'supabase/managed-migration-history/source-migrations.lock.json', 'scripts/supabase',
     'lib/shared/models', 'lib/core/data/exact_json_values.dart',
     'lib/shared/repositories/collect_repository_live_reader.dart',
     '.github/workflows/supabase.yml', '.fvmrc', 'pubspec.yaml', 'pubspec.lock',
@@ -47,7 +47,7 @@ def source_manifest(root=ROOT):
         visit(Path(name))
     files.sort(key=lambda item: item['path'])
     raw = json.dumps(files, sort_keys=True, separators=(',', ':')).encode()
-    return {'format': 'collect.selfhost.source.v1', 'files': files, 'sha256': hashlib.sha256(raw).hexdigest()}
+    return {'format': 'collect.supabase-cloud.qualification-source.v1', 'files': files, 'sha256': hashlib.sha256(raw).hexdigest()}
 
 
 if __name__ == '__main__':
