@@ -16,9 +16,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 const _a = '99770000-0000-4000-8000-000000000001';
 const _b = '99770000-0000-4000-8000-000000000002';
 const _group = '99770000-0000-4000-8000-000000000011';
-const _sidA = '99770000-0000-4000-8000-000000000021';
-const _sidB = '99770000-0000-4000-8000-000000000022';
-const _project = 'https://synthetic.collect.test';
+const _sidA = 'synthetic-http-session-a';
+const _sidB = 'synthetic-http-session-b';
+const _project = 'https://rrlduytparvsjfmegalh.supabase.co';
 
 String _token(String user, String sid, int revision) {
   String part(Object body) =>
@@ -112,7 +112,7 @@ class _Probe {
         authCaptchaSiteKey: '',
         backend: 'supabase',
         supabaseUrl: _project,
-        supabaseApiUrl: 'https://api.synthetic.collect.test',
+        supabaseApiUrl: 'https://collect.ikanisa.com',
         supabasePublishableKey: 'sb_publishable_syntheticPublicKey1234',
       ),
     );
@@ -210,8 +210,8 @@ class _Probe {
     );
     await repo.loadInitial();
     await until(() => polls.isNotEmpty && !repo.state.isLoading);
-    // This synthetic project cannot open the nominated native WS. Actual
-    // Supabase HTTP denial/subscription/repository logic executes unchanged.
+    // Opaque fixture session IDs keep this test on HTTP polling. The native
+    // socket requires a UUID session and has its own transport tests.
     expect(repo.state.currentProfile?.id, _a);
     expect((await cache.read())?.collections.single.id, _group);
   }

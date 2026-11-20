@@ -31,8 +31,10 @@ AppEnv _environment({
   String? digest,
   String? issuer,
   String? api,
+  String? project,
+  bool withProfile = true,
 }) {
-  final raw = encoded ?? jsonEncode(_profile);
+  final raw = withProfile ? (encoded ?? jsonEncode(_profile)) : '';
   return AppEnv(
     environmentName: 'production',
     apiUrl: _profile['member_api_origin']!,
@@ -43,13 +45,14 @@ AppEnv _environment({
     authCaptchaEnabled: false,
     authCaptchaProvider: 'turnstile',
     authCaptchaSiteKey: '',
-    supabaseUrl: _profile['supabase_origin']!,
-    supabaseApiUrl: api ?? _profile['member_api_origin']!,
-    supabaseAdminApiUrl: _profile['admin_origin']!,
+    supabaseUrl: project ?? _profile['supabase_origin']!,
+    supabaseApiUrl: api ?? (withProfile ? _profile['member_api_origin']! : ''),
+    supabaseAdminApiUrl: withProfile ? _profile['admin_origin']! : '',
     supabasePublishableKey: 'sb_publishable_synthetic_key_only',
     deploymentProfile: raw,
-    deploymentProfileSha256:
-        digest ?? sha256.convert(utf8.encode(raw)).toString(),
+    deploymentProfileSha256: withProfile
+        ? (digest ?? sha256.convert(utf8.encode(raw)).toString())
+        : '',
     supabaseAuthIssuer: issuer ?? '${_profile['supabase_origin']}/auth/v1',
     anonymousAuthEnabled: true,
   );
@@ -99,6 +102,23 @@ CollectCloudflareClient _client(
 }
 
 void main() {
+  test('implicit configuration only accepts the Collect Cloud project', () {
+    final managed = CollectSupabaseConfiguration.fromEnvironment(
+      _environment(withProfile: false),
+    );
+    expect(managed.project.origin, CollectDeploymentProfile.managedProject);
+    for (final env in [
+      _environment(withProfile: false, project: 'https://other.supabase.co'),
+      _environment(withProfile: false, project: 'http://127.0.0.1:54321'),
+      _environment(withProfile: false, api: 'https://unregistered.example'),
+    ]) {
+      expect(
+        () => CollectSupabaseConfiguration.fromEnvironment(env),
+        throwsArgumentError,
+      );
+    }
+  });
+
   test(
     'canonical Cloud profile pins public issuer, callback and every application origin',
     () {

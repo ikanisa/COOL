@@ -479,19 +479,16 @@ void main() {
     },
   );
 
-  testWidgets(
-    'an unapproved origin without a validated profile never opens a socket',
-    (tester) async {
-      final h = _Harness(project: 'https://other.collect.example');
-      await h.initialize();
-      h.start();
-      await _flush(tester);
-      expect(h.sockets, isEmpty);
-      expect(h.statuses, isEmpty);
-      expect(h.reads, 0);
-      await _closeHarness(h, tester);
-    },
-  );
+  test('a different project is refused before a member socket can open', () {
+    const otherProject = 'https://other.collect.example';
+    expect(
+      () => CollectSupabaseConfiguration.fromEnvironment(
+        _environment(project: otherProject),
+      ),
+      throwsArgumentError,
+    );
+    expect(collectMemberRealtimeOriginAllowed(otherProject, null), false);
+  });
 
   testWidgets('Cloud Admin session never opens a member socket', (
     tester,

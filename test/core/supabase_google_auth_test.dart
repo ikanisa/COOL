@@ -159,34 +159,14 @@ void main() {
     },
   );
 
-  test(
-    'unapproved member API cannot originate managed Google authorization',
-    () async {
-      var calls = 0;
-      final config = CollectSupabaseConfiguration.fromEnvironment(
+  test('unapproved member API is rejected before Google authorization', () {
+    expect(
+      () => CollectSupabaseConfiguration.fromEnvironment(
         fixtures.environment(api: 'https://unapproved.invalid'),
-      );
-      final client = CollectCloudflareClient(
-        config.api.origin,
-        supabaseConfiguration: config,
-        httpClient: MockClient((_) async {
-          calls++;
-          return http.Response('{}', 500);
-        }),
-      );
-      addTearDown(client.dispose);
-      await client.initialize();
-      await expectLater(
-        client.auth.signInWithGoogle(
-          authorize: (_, _, _) async {
-            fail('Unapproved API must not open authorization.');
-          },
-        ),
-        throwsA(isA<CollectAuthException>()),
-      );
-      expect(calls, 0);
-    },
-  );
+      ),
+      throwsArgumentError,
+    );
+  });
 
   test(
     'managed Google authorize URL accepts only nominated provider and callback controls',

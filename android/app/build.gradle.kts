@@ -119,8 +119,27 @@ require(collectBackend != "supabase" || collectPublishableKey.matches(Regex("sb_
     "Supabase native transport requires a publishable key"
 }
 val collectProjectOrigin = collectSupabaseProject?.let { "https://${it.host.lowercase(Locale.US)}" }
+val collectCloudProject = "https://rrlduytparvsjfmegalh.supabase.co"
+require(collectBackend != "supabase" || collectProjectOrigin == collectCloudProject) {
+    "Supabase native transport requires the Collect Cloud project"
+}
 val collectDeploymentRaw = collectPublicDefines["COLLECT_DEPLOYMENT_PROFILE"]
 val collectDeploymentDigest = collectPublicDefines["COLLECT_DEPLOYMENT_PROFILE_SHA256"]
+if (collectBackend == "supabase" && collectDeploymentRaw == null && collectDeploymentDigest == null) {
+    val cloudApiOrigins = setOf(
+        collectCloudProject,
+        "https://collect.ikanisa.com",
+        "https://admin.collect.ikanisa.com",
+        "https://platform-admin.collect.ikanisa.com",
+        "https://admin-supabase-qa.collect.ikanisa.com",
+    )
+    val apiOrigin = collectSupabaseApi?.let { "https://${it.host.lowercase(Locale.US)}" }
+    val adminOrigin = collectPublicDefines["SUPABASE_ADMIN_API_URL"]?.takeIf { it.isNotEmpty() }
+        ?.let(::collectOrigin)?.let { "https://${it.host.lowercase(Locale.US)}" }
+    require(apiOrigin in cloudApiOrigins && (adminOrigin == null || adminOrigin in cloudApiOrigins)) {
+        "Supabase native transport requires approved Collect API origins"
+    }
+}
 if (collectDeploymentRaw != null || collectDeploymentDigest != null) {
     require(collectDeploymentRaw != null && collectDeploymentRaw.length <= 8192 &&
         collectDeploymentDigest?.matches(Regex("[a-f0-9]{64}")) == true) {
@@ -148,7 +167,6 @@ if (collectDeploymentRaw != null || collectDeploymentDigest != null) {
         }
     }
     require(profile["google_callback_origin"] in setOf(profile["member_api_origin"], profile["admin_origin"]) &&
-        profile["supabase_origin"] == "https://rrlduytparvsjfmegalh.supabase.co" &&
         profile["supabase_origin"] == collectProjectOrigin &&
         profile["member_api_origin"] == collectSupabaseApi?.let { "https://${it.host.lowercase(Locale.US)}" } &&
         profile["admin_origin"] == collectPublicDefines["SUPABASE_ADMIN_API_URL"] &&

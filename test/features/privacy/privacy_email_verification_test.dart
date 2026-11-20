@@ -24,7 +24,7 @@ const oldSid = '10000000-0000-4000-8000-000000000104';
 const newSid = '10000000-0000-4000-8000-000000000105';
 const otherManaged = '10000000-0000-4000-8000-000000000106';
 const otherCanonical = '10000000-0000-4000-8000-000000000107';
-const apiOrigin = 'https://native-fixture.invalid';
+const apiOrigin = 'https://collect.ikanisa.com';
 final context = base64UrlEncode(List<int>.filled(32, 7)).replaceAll('=', '');
 String jwt(Map<String, dynamic> claims) {
   String part(Object value) =>
