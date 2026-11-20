@@ -15,7 +15,7 @@ import { ReceiptReviewPanel } from '../receipt-review';
 import './operations.css';
 
 interface Actor { id: string; role: string; canonical: boolean; canExtract: boolean; canManageGateway: boolean; }
-type ReadState<T> = { key: string; status: 'success'; value: T } | { key: string; status: 'error'; message: string };
+type ReadState<T> = { key: string; status: 'success'; value: T; receivedAt: number } | { key: string; status: 'error'; message: string };
 
 /** Coalesce a single in-flight read across React's development effect replay. */
 function useRead<T>(key: string, enabled: boolean, load: () => Promise<T>) {
@@ -33,7 +33,7 @@ function useRead<T>(key: string, enabled: boolean, load: () => Promise<T>) {
     let active = true;
     const entry = current;
     entry.promise.then((value) => {
-      if (active) setResult({key: attemptKey, status: 'success', value});
+      if (active) setResult({key: attemptKey, status: 'success', value, receivedAt: Date.now() / 1000});
     }, (error: unknown) => {
       if (active) setResult({key: attemptKey, status: 'error', message: error instanceof AdminRequestError ? error.message : 'The workspace response could not be verified.'});
     }).finally(() => { if (flight.current === entry) flight.current = null; });
@@ -74,6 +74,10 @@ function query(offset: number, status: string, search = '', limit = 25) {
   return params.toString();
 }
 
+function maskedReceiptContact(row: SmsReceipt): string | null {
+  return row.payer_masked_phone ?? (row.payer_last3 ? '•••• ' + row.payer_last3 : null);
+}
+
 interface Column<T> { label: string; render: (row: T) => ReactNode; }
 interface RecordsFilter { key: string; label: string; allLabel: string; options: readonly {value: string; label: string}[] }
 interface RecordsProps<T> {
@@ -87,6 +91,7 @@ interface RecordsProps<T> {
 function RecordsPage<T>({title, subtitle, permission, statuses = [], searchable = false, filters = [], smsPagination = false, rowKey, columns, load, extra}: RecordsProps<T>) {
   const {session, actor} = useActor();
   const [params, setParams] = useSearchParams();
+  const searchForm = useRef<HTMLFormElement>(null);
   const limits = params.getAll('limit'), offsets = params.getAll('offset');
   const rawLimit = smsPagination && limits.length === 1 ? limits[0] : '25';
   const validLimit = !smsPagination || limits.length === 0 || limits.length === 1 && /^[1-9]\d{0,2}$/.test(rawLimit) && Number(rawLimit) <= 100;
@@ -117,19 +122,38 @@ function RecordsPage<T>({title, subtitle, permission, statuses = [], searchable 
   const loadPage = useCallback(() => actor ? load(session.request, offset, status, search, actor, JSON.parse(filterKey) as Record<string, string>, limit) : Promise.reject(new Error('Account unavailable.')), [actor, filterKey, limit, load, offset, search, session.request, status]);
   const key = JSON.stringify([session.epoch, actor?.id ?? '', actor?.canonical ?? null, permission, offset, limit, status, search, filterKey]);
   const {result, retry} = useRead(key, canRead, loadPage);
+  const noRecords = result?.status === 'success' && result.value.rows.length === 0;
+  const hasFilters = smsPagination && Boolean(search || status || Object.values(selectedFilters).some(Boolean));
+  const clearFilters = hasFilters ? <Button onClick={() => {
+    searchForm.current?.reset();
+    changeParams({search: '', status: '', offset: 0, ...Object.fromEntries(filters.map(({key}) => [key, '']))});
+  }}>Clear filters</Button> : undefined;
 
   return <><PageHeader eyebrow="Collect Admin / Operations" title={title} subtitle={subtitle} />
     {canRead && (typeof extra === 'function' ? extra(retry) : extra)}
     {!canRead ? <ErrorState title="Access unavailable" message="Your current account cannot open these records." /> : <Card className="operations-records">
       <div className="operations-toolbar"><h2>{title}</h2>
-        {searchable && <form className="operations-search" onSubmit={(event) => { event.preventDefault(); const value = new FormData(event.currentTarget).get('search'); if (typeof value === 'string' && !/[\x00-\x1f\x7f]/.test(value) && value.length <= 200) changeParams({offset: 0, search: value.trim()}); }}>
-          <label className="admin-sr-only" htmlFor="operations-search">Search {title}</label><input key={search} id="operations-search" name="search" className="admin-input" type="search" maxLength={200} defaultValue={search} placeholder="Search records" /><Button type="submit" icon="search">Search</Button>
+        {searchable && <form ref={searchForm} className="operations-search" onSubmit={(event) => { event.preventDefault(); const value = new FormData(event.currentTarget).get('search'); if (typeof value === 'string' && !/[\x00-\x1f\x7f]/.test(value) && value.length <= 200) changeParams({offset: 0, search: value.trim()}); }}>
+          <label className="admin-sr-only" htmlFor="operations-search">Search {title}</label><input key={search} id="operations-search" name="search" className="admin-input" type="search" maxLength={200} defaultValue={search} placeholder={smsPagination ? 'Search all receipts' : 'Search records'} /><Button type="submit" icon="search">Search</Button>
         </form>}
         {statuses.length > 0 && <label className="operations-filter"><span>Status</span><select className="admin-input" value={status} onChange={(event) => changeParams({offset: 0, status: event.target.value})}><option value="">All statuses</option>{statuses.map((value) => <option key={value} value={value}>{formatStatus(value)}</option>)}</select></label>}
         {filters.map(filter => <label className="operations-filter" key={filter.key}><span>{filter.label}</span><select className="admin-input" value={selectedFilters[filter.key]} onChange={(event) => changeParams({offset: 0, [filter.key]: event.target.value})}><option value="">{filter.allLabel}</option>{filter.options.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>)}
+        {!noRecords && clearFilters}
+        {smsPagination && <Button onClick={retry}>Refresh</Button>}
       </div>
-      {!result ? <LoadingState label={`Loading ${title.toLowerCase()}`} /> : result.status === 'error' ? <ErrorState message={result.message} onRetry={retry} /> : result.value.rows.length === 0 ? <><EmptyState title="No records found" description="Change your filters or check again later." />{offset > 0 && <div className="operations-pagination"><Button onClick={() => changeParams({offset: Math.max(0, offset - result.value.limit)})}>Previous</Button></div>}</> : <>
-        <div className="admin-table-wrap" tabIndex={0} role="region" aria-label={`${title} records`}><table className="admin-table"><thead><tr>{columns.map((column) => <th key={column.label} scope="col">{column.label}</th>)}</tr></thead><tbody>{result.value.rows.map((row) => <tr key={rowKey(row)}>{columns.map((column) => <td key={column.label}>{column.render(row)}</td>)}</tr>)}</tbody></table></div>
+      {smsPagination && result?.status === 'success' && <p className="operations-receipt-load">Loaded {formatTime(result.receivedAt)} Kigali</p>}
+      {!result ? <LoadingState label={`Loading ${title.toLowerCase()}`} /> : result.status === 'error' ? <ErrorState message={result.message} onRetry={retry} /> : noRecords ? <><EmptyState title="No records found" description={hasFilters ? undefined : 'Change your filters or check again later.'} action={clearFilters} />{offset > 0 && <div className="operations-pagination"><Button onClick={() => changeParams({offset: Math.max(0, offset - result.value.limit)})}>Previous</Button></div>}</> : <>
+        <div className="admin-table-wrap" tabIndex={0} role="region" aria-label={`${title} records`}>
+          <table className={smsPagination ? 'admin-table operations-receipt-table' : 'admin-table'} role="table">
+            <thead role="rowgroup"><tr role="row">{columns.map(({label}) => <th key={label} role="columnheader" scope="col">{label}</th>)}</tr></thead>
+            <tbody role="rowgroup">{result.value.rows.map(row => <tr key={rowKey(row)} role="row">
+              {columns.map(column => <td key={column.label} role="cell">
+                {smsPagination && <span className="operations-receipt-field" aria-hidden="true">{column.label}</span>}
+                {column.render(row)}
+              </td>)}
+            </tr>)}</tbody>
+          </table>
+        </div>
         <div className="operations-pagination"><span>Showing {offset + 1}–{offset + result.value.rows.length} of {result.value.total}</span><div><Button onClick={() => changeParams({offset: Math.max(0, offset - result.value.limit)})} disabled={offset === 0}>Previous</Button><Button onClick={() => changeParams({offset: offset + result.value.limit})} disabled={offset + result.value.rows.length >= result.value.total || offset + result.value.limit > 2147483647}>Next</Button></div></div>
       </>}
     </Card>}
@@ -169,9 +193,11 @@ const smsColumns: Column<SmsReceipt>[] = [
   {label: 'Source', render: (row) => <RecordLink to={`/admin/sms-receipts/${row.source_kind}/${row.id}`}>{formatStatus(row.source_kind)} · {row.id.slice(0, 8)}</RecordLink>},
   {label: 'Received', render: (row) => formatTime(row.received_at)},
   {label: 'Payer', render: (row) => row.payer_name ?? row.display_name ?? 'Not recorded'},
+  {label: 'Masked contact', render: (row) => maskedReceiptContact(row) ?? 'Not recorded'},
   {label: 'Amount', render: (row) => formatMoney(row.amount_rwf)},
   {label: 'Extraction', render: (row) => <StatusBadge tone={row.source_kind === 'capture' ? 'info' : statusTone(row.extraction_status)}>{row.source_kind === 'capture' ? 'Source metadata' : formatStatus(row.extraction_status)}</StatusBadge>},
   {label: 'Status', render: (row) => <StatusBadge tone={statusTone(row.status)}>{formatStatus(row.status)}</StatusBadge>},
+  {label: 'Conflicts', render: (row) => row.conflicting_reference_count},
 ];
 const gatewayColumns: Column<GatewayDevice>[] = [
   {label: 'Device', render: (row) => <RecordLink to={`/admin/gateway/${row.id}`}>{row.label}</RecordLink>},
@@ -275,10 +301,20 @@ export function SmsReceiptDetailPage({allowActions = false, allowRecovery = true
     <Card className="operations-detail"><h2>Receipt details</h2><Facts items={[
       ['Source', formatStatus(value.resource.source_kind)], ['Receipt ID', value.resource.id], ['Status', formatStatus(value.resource.status)],
       ['Received', formatTime(value.resource.received_at)], ['Payer name', value.resource.payer_name ?? value.resource.display_name],
-      ['Payer number', value.resource.payer_phone ?? value.resource.payer_masked_phone], ['Amount', formatMoney(value.resource.amount_rwf)],
+      ['Masked contact', maskedReceiptContact(value.resource)], ['Amount', formatMoney(value.resource.amount_rwf)],
       ['Network', value.resource.network ? formatStatus(value.resource.network) : null], ['Reference', value.resource.momo_transaction_reference],
-      ['Extraction', formatStatus(value.resource.extraction_status)], ['Source SHA-256', value.resource.source_sha256],
-    ]} /></Card>
+      ['Evidence', formatStatus(value.resource.evidence_level)], ['Extraction', formatStatus(value.resource.extraction_status)],
+      ['Conflicting references', value.resource.conflicting_reference_count],
+    ]} />
+      <details className="operations-receipt-provenance">
+        <summary>Technical provenance</summary>
+        <Facts items={[
+          ['Source SHA-256', value.resource.source_sha256],
+          ['Extraction time', formatTime(value.resource.parsed_at)],
+          ['Parser', value.resource.parser_version],
+        ]} />
+      </details>
+    </Card>
     <Card className="operations-detail"><h2>Related references</h2>{value.duplicates.rows.length > 0 && <ul className="operations-related">{value.duplicates.rows.map((row) => <li key={`${row.source_kind}/${row.id}`}><RecordLink to={`/admin/sms-receipts/${row.source_kind}/${row.id}`} returnTo={returnPath}>{formatStatus(row.source_kind)} · {row.id}</RecordLink><span>{formatStatus(row.status)}</span></li>)}</ul>}<RelatedPagination page={value.duplicates} offset={offset} onChange={setOffset} /></Card>
     {allowRecovery && <SmsActionPanel key={`${epoch}:${kind}:${id}`} source={value.resource} enabled={allowActions} extractionAvailable={value.canExtract} onUpdated={reload} />}
   </>} />;

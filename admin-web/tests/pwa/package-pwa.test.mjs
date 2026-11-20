@@ -41,6 +41,13 @@ test('packages exact versioned assets with a static-only, unqualified worker', a
   const manifest = JSON.parse(await fs.readFile(path.join(output, 'manifest.json'), 'utf8'));
   assert.equal(manifest.name, 'Collect Admin');
   assert.equal(manifest.scope, '.');
+  assert.equal(manifest.start_url, '.');
+  const manifestEntry = 'https://admin.example.test/manifest.json';
+  assert.deepEqual(manifest.shortcuts.map(shortcut => new URL(shortcut.url, manifestEntry).href), [
+    'https://admin.example.test/#/admin',
+    'https://admin.example.test/#/admin/sms-receipts',
+    'https://admin.example.test/#/admin/reconciliations',
+  ]);
   assert.equal(manifest.icons[0].src, `./_build/${result.assetId}/icons/collect-web-512.png`);
   const worker = await fs.readFile(path.join(output, 'custom-sw.js'), 'utf8');
   assert.match(worker, /credentials: 'omit'/);

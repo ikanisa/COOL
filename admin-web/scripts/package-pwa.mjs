@@ -145,6 +145,11 @@ export async function packagePwa(inputDirectory, outputDirectory, { publicBuild 
     name: 'Collect Admin', short_name: 'Collect Admin',
     description: 'Collect platform operations console.', display: 'standalone',
     start_url: '.', scope: '.', background_color: '#ffffff', theme_color: '#171b20',
+    shortcuts: [
+      { name: 'Operations overview', short_name: 'Overview', url: './#/admin' },
+      { name: 'SMS receipts', short_name: 'Receipts', url: './#/admin/sms-receipts' },
+      { name: 'Reconciliations', short_name: 'Reconcile', url: './#/admin/reconciliations' },
+    ],
     icons: [{ src: `./${assetPrefix}icons/collect-web-512.png`, sizes: '512x512',
       type: 'image/png', purpose: 'any maskable' }],
   };

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
@@ -34,6 +34,30 @@ describe('Admin shell', () => {
     expect(within(nav).queryByRole('link', { name: 'Groups' })).not.toBeInTheDocument();
     await user.keyboard('{Escape}');
     expect(within(nav).getByRole('link', { name: 'Groups' })).toBeVisible();
+  });
+
+  it('opens only the selected match when keyboard navigation offers multiple sections', async () => {
+    const original = window.location.href;
+    window.history.replaceState(null, '', '#/admin');
+    try {
+      const user = userEvent.setup();
+      const receipts = [
+        {label: 'SMS receipts', path: '/admin/sms-receipts', section: 'Communications'},
+        {label: 'MoMo receipts', path: '/admin/momo-receipts', section: 'Communications'},
+      ];
+      render(<AdminShell navigation={receipts} currentPath="/admin"><p>Overview</p></AdminShell>);
+      const search = screen.getByRole('searchbox', {name: 'Search admin sections'});
+      await user.type(search, 'receipts{Enter}');
+      expect(window.location.hash).toBe('#/admin');
+      await user.keyboard('{ArrowDown}');
+      expect(screen.getByRole('link', {name: 'SMS receipts'})).toHaveFocus();
+      await user.keyboard('{ArrowDown}');
+      expect(screen.getByRole('link', {name: 'MoMo receipts'})).toHaveFocus();
+      await user.keyboard('{Enter}');
+      await waitFor(() => expect(window.location.hash).toBe('#/admin/momo-receipts'));
+    } finally {
+      window.history.replaceState(null, '', original);
+    }
   });
 
   it('exposes mobile navigation state and closes it with Escape', async () => {

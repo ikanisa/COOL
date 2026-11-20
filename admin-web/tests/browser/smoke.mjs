@@ -90,10 +90,20 @@ try {
   await page.route(receipts, route => route.fulfill({
     status: 503, contentType: 'application/json', body: JSON.stringify({ error: { code: 'service_unavailable' } }),
   }), { times: 1 });
-  await page.getByRole('link', { name: 'SMS receipts', exact: true }).click();
+  const search = page.getByRole('searchbox', {name: 'Search admin sections'});
+  await search.fill('SMS receipts');
+  await search.press('ArrowDown');
+  const receiptDestination = page.getByRole('link', {name: 'SMS receipts', exact: true});
+  assert.equal(await receiptDestination.evaluate(link => link === document.activeElement), true);
+  await page.keyboard.press('Enter');
   await page.getByRole('heading', { name: 'SMS receipts', level: 1, exact: true }).waitFor();
   await page.getByRole('button', { name: /retry|try again/i }).click();
-  await page.getByRole('table').getByRole('row').nth(1).waitFor();
+  const receiptRow = page.getByRole('table').getByRole('row').nth(1);
+  await receiptRow.waitFor();
+  await page.setViewportSize({width: 320, height: 768});
+  assert.equal(await receiptRow.evaluate((row) => getComputedStyle(row).display), 'grid');
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+  await page.setViewportSize({width: 1440, height: 900});
   await page.goBack();
   await overview.waitFor();
 
@@ -144,7 +154,7 @@ try {
   assert.deepEqual(denied, []);
   console.log(JSON.stringify({
     status: 'pass', environment: 'synthetic_loopback',
-    checks: ['otp_sign_in_and_httponly_cookie', 'reload_restores_session', 'sms_read_failure_retry', 'browser_back_restores_overview', 'fresh_mobile_deep_link_requires_sign_in',
+    checks: ['otp_sign_in_and_httponly_cookie', 'reload_restores_session', 'keyboard_receipt_navigation', 'sms_read_failure_retry', 'compact_receipt_cards', 'browser_back_restores_overview', 'fresh_mobile_deep_link_requires_sign_in',
       'sign_out_clears_fixture_cookie', 'installed_worker_caches_static_files_only'],
   }, null, 2));
 } finally {
