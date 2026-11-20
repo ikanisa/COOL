@@ -52,7 +52,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
-  test('join and rejoin reconcile missed events once per connection', () async {
+  testWidgets('join and rejoin reconcile missed events once per connection', (
+    tester,
+  ) async {
     var reads = 0;
     final coordinator = CollectSyncInvalidationCoordinator(
       areas: const {'members'},
@@ -62,40 +64,41 @@ void main() {
     addTearDown(coordinator.dispose);
     coordinator.connectionStatus(CollectSyncStatus.connected);
     coordinator.connectionStatus(CollectSyncStatus.connected);
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await tester.pump(const Duration(milliseconds: 10));
     expect(reads, 1);
 
     coordinator.connectionStatus(CollectSyncStatus.disconnected);
     coordinator.event({'area': 'members', 'id': 'missed-while-offline'});
     coordinator.connectionStatus(CollectSyncStatus.connected);
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await tester.pump(const Duration(milliseconds: 10));
     expect(reads, 2);
   });
 
-  test(
-    'duplicate IDs and irrelevant areas cannot multiply refreshes',
-    () async {
-      var reads = 0;
-      final coordinator = CollectSyncInvalidationCoordinator(
-        areas: const {'members'},
-        debounce: const Duration(milliseconds: 1),
-        onInvalidate: () => reads++,
-      );
-      addTearDown(coordinator.dispose);
-      coordinator.connectionStatus(CollectSyncStatus.connected);
-      await Future<void>.delayed(const Duration(milliseconds: 10));
-      coordinator.event({'area': 'members', 'id': 'event-1'});
-      coordinator.event({'area': 'members', 'id': 'event-1'});
-      coordinator.event({'area': 'payments', 'id': 'event-2'});
-      await Future<void>.delayed(const Duration(milliseconds: 10));
-      expect(reads, 2);
-      coordinator.event({'area': 'members', 'id': 'event-1'});
-      await Future<void>.delayed(const Duration(milliseconds: 10));
-      expect(reads, 2);
-    },
-  );
+  testWidgets('duplicate IDs and irrelevant areas cannot multiply refreshes', (
+    tester,
+  ) async {
+    var reads = 0;
+    final coordinator = CollectSyncInvalidationCoordinator(
+      areas: const {'members'},
+      debounce: const Duration(milliseconds: 1),
+      onInvalidate: () => reads++,
+    );
+    addTearDown(coordinator.dispose);
+    coordinator.connectionStatus(CollectSyncStatus.connected);
+    await tester.pump(const Duration(milliseconds: 10));
+    coordinator.event({'area': 'members', 'id': 'event-1'});
+    coordinator.event({'area': 'members', 'id': 'event-1'});
+    coordinator.event({'area': 'payments', 'id': 'event-2'});
+    await tester.pump(const Duration(milliseconds: 10));
+    expect(reads, 2);
+    coordinator.event({'area': 'members', 'id': 'event-1'});
+    await tester.pump(const Duration(milliseconds: 10));
+    expect(reads, 2);
+  });
 
-  test('event bursts keep one read in flight and one trailing read', () async {
+  testWidgets('event bursts keep one read in flight and one trailing read', (
+    tester,
+  ) async {
     final firstRead = Completer<void>();
     var reads = 0;
     var concurrent = 0;
@@ -113,19 +116,21 @@ void main() {
     );
     addTearDown(coordinator.dispose);
     coordinator.connectionStatus(CollectSyncStatus.connected);
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await tester.pump(const Duration(milliseconds: 10));
     expect(reads, 1);
     for (var i = 0; i < 50; i++) {
       coordinator.event({'area': 'members', 'id': 'event-$i'});
     }
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await tester.pump(const Duration(milliseconds: 10));
     firstRead.complete();
-    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await tester.pump(const Duration(milliseconds: 10));
     expect(reads, 2);
     expect(peakConcurrent, 1);
   });
 
-  test('sustained events pause after two reads before a new window', () async {
+  testWidgets('sustained events pause after two reads before a new window', (
+    tester,
+  ) async {
     final firstRead = Completer<void>();
     final secondRead = Completer<void>();
     var reads = 0;
@@ -141,21 +146,21 @@ void main() {
     addTearDown(coordinator.dispose);
 
     coordinator.connectionStatus(CollectSyncStatus.connected);
-    await Future<void>.delayed(const Duration(milliseconds: 110));
+    await tester.pump(const Duration(milliseconds: 110));
     expect(reads, 1);
     coordinator.event({'area': 'members', 'id': 'during-first'});
-    await Future<void>.delayed(const Duration(milliseconds: 110));
+    await tester.pump(const Duration(milliseconds: 110));
     firstRead.complete();
-    await Future<void>.delayed(Duration.zero);
+    await tester.pump(Duration.zero);
     expect(reads, 2);
 
     coordinator.event({'area': 'members', 'id': 'during-second'});
-    await Future<void>.delayed(const Duration(milliseconds: 110));
+    await tester.pump(const Duration(milliseconds: 110));
     expect(reads, 2);
     secondRead.complete();
-    await Future<void>.delayed(Duration.zero);
+    await tester.pump(Duration.zero);
     expect(reads, 2, reason: 'a third read requires another debounce window');
-    await Future<void>.delayed(const Duration(milliseconds: 110));
+    await tester.pump(const Duration(milliseconds: 110));
     expect(reads, 3);
   });
 

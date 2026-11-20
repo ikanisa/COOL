@@ -4,6 +4,7 @@ mixin _CollectReceiptSmsActions on StateNotifier<CollectState> {
   CollectCloudflareClient? get _backend;
   ReceiptSmsPendingStore get _receiptSmsPendingStore;
   Uuid get _uuid;
+  int get memberScopeGeneration;
   _CollectAuthIdentity? get _signingOutIdentity;
   _CollectSessionFence _captureSession();
   bool _isCurrentSession(_CollectSessionFence session);
@@ -30,7 +31,8 @@ mixin _CollectReceiptSmsActions on StateNotifier<CollectState> {
       session.identity?.userId == state.currentProfile?.id &&
       _signingOutIdentity != session.identity;
   ReceiptSmsConsentView receiptSmsConsentFor(String group) =>
-      _receiptSmsCurrent(_captureSession(), _receiptSmsEpoch)
+      _receiptSmsCurrent(_captureSession(), _receiptSmsEpoch) &&
+          _receiptSmsMember(group)
       ? _receiptSmsViews[group] ?? const ReceiptSmsConsentView()
       : const ReceiptSmsConsentView();
   PendingReceiptSmsRequest? receiptSmsCurrentPending(String group) =>
@@ -60,11 +62,13 @@ mixin _CollectReceiptSmsActions on StateNotifier<CollectState> {
   void _receiptSmsCanRead(
     String group,
     _CollectSessionFence session,
-    String user,
-  ) {
+    String user, {
+    int? expectedScope,
+  }) {
     receiptSmsUuid(group);
     _requireCurrentMemberSession(session, user);
-    if (!_receiptSmsMember(group)) {
+    if (!_receiptSmsMember(group) ||
+        (expectedScope != null && expectedScope != memberScopeGeneration)) {
       throw StateError('Choose one of your current groups.');
     }
   }
@@ -116,7 +120,8 @@ mixin _CollectReceiptSmsActions on StateNotifier<CollectState> {
   Future<void> refreshReceiptSmsConsent(String group) async {
     final profile = _requireProfile(),
         session = _captureSession(),
-        epoch = _receiptSmsEpoch;
+        epoch = _receiptSmsEpoch,
+        scope = memberScopeGeneration;
     _receiptSmsCanRead(group, session, profile.id);
     final backend = _backend;
     if (backend == null) {
@@ -148,6 +153,7 @@ mixin _CollectReceiptSmsActions on StateNotifier<CollectState> {
         storageError =
             'Secure request recovery is unavailable. Changes are disabled; no retained request was discarded.';
       }
+      _receiptSmsCanRead(group, session, profile.id, expectedScope: scope);
       final data = await backend
           .rpc<dynamic>(
             'get_assisted_sms_consent_v1',
@@ -158,6 +164,7 @@ mixin _CollectReceiptSmsActions on StateNotifier<CollectState> {
       if (!current()) {
         throw StateError('Receipt SMS read belongs to an earlier sign-in.');
       }
+      _receiptSmsCanRead(group, session, profile.id, expectedScope: scope);
       final consent = ReceiptSmsConsent.decode(data, group);
       final minConsent = [
         old.recordedRevision ?? 0,
@@ -361,7 +368,8 @@ mixin _CollectReceiptSmsActions on StateNotifier<CollectState> {
     }
     final group = request.collectionId,
         epoch = _receiptSmsEpoch,
-        old = receiptSmsConsentFor(request.collectionId);
+        old = receiptSmsConsentFor(request.collectionId),
+        scope = memberScopeGeneration;
     final read = (_receiptSmsReads[group] ?? 0) + 1;
     _receiptSmsReads[group] = read;
     bool current() =>
@@ -398,7 +406,13 @@ mixin _CollectReceiptSmsActions on StateNotifier<CollectState> {
           'A retained request must be recovered before another change.',
         );
       }
-      _requireCurrentMemberSession(session, request.userId);
+      // The journal can outlive the group access under which the member made this choice.
+      _receiptSmsCanRead(group, session, request.userId, expectedScope: scope);
+      if (state.usingStaleCache) {
+        throw StateError(
+          'Refresh current group access before changing receipt SMS.',
+        );
+      }
       sent = true;
       final (status, response) = await backend.request(
         'POST',
@@ -457,6 +471,8 @@ mixin _CollectReceiptSmsActions on StateNotifier<CollectState> {
               ? 'Decision recorded, but secure recovery could not be updated. Retained identities remain; refresh before continuing.'
               : sent
               ? 'This change was not confirmed. Every original request is retained. Refresh before retrying the same request.'
+              : durable && recovery.retains(request.requestId)
+              ? 'The request is saved. Refresh current group access before retrying it.'
               : 'No HTTP change was sent by this attempt. Secure recovery could not admit this request; refresh before continuing.',
         ),
       );

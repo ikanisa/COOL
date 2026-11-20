@@ -146,7 +146,7 @@ Future<void> _showNotificationRecoverySheet(
 }
 
 Future<void> signInForNotifications(BuildContext context, WidgetRef ref) async {
-  final repository = ref.read(collectRepositoryProvider.notifier);
+  final repository = ref.read(memberAccountRepositoryProvider);
   final service = ref.read(collectNotificationServiceProvider);
   final fence = service.registrationContext;
   try {

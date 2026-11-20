@@ -15,9 +15,9 @@ class ProfileEditScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final repository = ref.watch(collectRepositoryProvider.notifier);
+    final repository = ref.watch(memberAccountRepositoryProvider);
     final scope = ref.watch(
-      collectRepositoryProvider.select(
+      memberAccountStateProvider.select(
         (state) => (
           repository,
           repository.sessionGeneration,
@@ -44,7 +44,7 @@ class _ProfileEditor extends ConsumerStatefulWidget {
 class _ProfileEditorState extends ConsumerState<_ProfileEditor> {
   final _momoNumber = TextEditingController();
   final _momoPayCode = TextEditingController();
-  late final CollectRepository _scopeRepository;
+  late final MemberAccountRepository _scopeRepository;
   late final int _scopeGeneration;
   late final String? _scopeProfileId;
   int _saveRevision = 0;
@@ -59,12 +59,12 @@ class _ProfileEditorState extends ConsumerState<_ProfileEditor> {
   @override
   void initState() {
     super.initState();
-    _scopeRepository = ref.read(collectRepositoryProvider.notifier);
+    _scopeRepository = ref.read(memberAccountRepositoryProvider);
     _scopeGeneration = _scopeRepository.sessionGeneration;
-    _scopeProfileId = ref.read(collectRepositoryProvider).currentProfile?.id;
+    _scopeProfileId = ref.read(memberAccountStateProvider).currentProfile?.id;
     _momoNumber.addListener(_markDirty);
     _momoPayCode.addListener(_markDirty);
-    _hydrate(ref.read(collectRepositoryProvider).currentProfile);
+    _hydrate(ref.read(memberAccountStateProvider).currentProfile);
   }
 
   @override
@@ -80,10 +80,10 @@ class _ProfileEditorState extends ConsumerState<_ProfileEditor> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(collectRepositoryProvider);
+    final state = ref.watch(memberAccountStateProvider);
     final profile = _scopeIsCurrent ? state.currentProfile : null;
     ref.listen<CollectProfile?>(
-      collectRepositoryProvider.select((state) => state.currentProfile),
+      memberAccountStateProvider.select((state) => state.currentProfile),
       (_, next) {
         if (next == null || _saving || _dirty || !_scopeIsCurrent) return;
         setState(() => _hydrate(next));
@@ -292,12 +292,10 @@ class _ProfileEditorState extends ConsumerState<_ProfileEditor> {
 
   bool get _scopeIsCurrent =>
       mounted &&
-      identical(
-        ref.read(collectRepositoryProvider.notifier),
-        _scopeRepository,
-      ) &&
+      identical(ref.read(memberAccountRepositoryProvider), _scopeRepository) &&
       _scopeRepository.sessionGeneration == _scopeGeneration &&
-      ref.read(collectRepositoryProvider).currentProfile?.id == _scopeProfileId;
+      ref.read(memberAccountStateProvider).currentProfile?.id ==
+          _scopeProfileId;
 
   void _hydrate(CollectProfile? profile) {
     if (profile == null || profile.id != _scopeProfileId || !_scopeIsCurrent) {

@@ -34,6 +34,9 @@ part 'collect_repository_state.dart';
 part 'collect_repository_live_reader.dart';
 part 'collect_repository_helpers.dart';
 part 'collect_repository_history.dart';
+part 'member_account_repository.dart';
+part 'member_group_repository.dart';
+part 'member_receipt_sms_repository.dart';
 part 'collect_repository_contribution_actions.dart';
 part 'collect_repository_contribution_commands.dart';
 part 'collect_invitation_protection.dart';
@@ -50,7 +53,11 @@ class CollectRepository extends StateNotifier<CollectState>
         _CollectNotificationActions,
         _CollectReceiptSmsActions,
         _CollectGroupActions,
-        _CollectRecordReads {
+        _CollectRecordReads
+    implements
+        MemberAccountRepository,
+        MemberGroupRepository,
+        MemberReceiptSmsRepository {
   CollectRepository({
     CollectCloudflareClient? backend,
     ReceiptSmsPendingStore? receiptSmsPendingStore,
@@ -193,9 +200,11 @@ class CollectRepository extends StateNotifier<CollectState>
   Uuid get _uuid => _sharedUuid;
   static final _publicIds = PublicIdGenerator(random: Random(491));
 
+  @override
   bool get isLive => _backend?.auth.currentUser != null;
 
   /// A credential-free sticky lifecycle revision for dependent client views.
+  @override
   int get sessionGeneration => _authGeneration;
 
   /// Revision of the current member-history authority view.
@@ -919,6 +928,7 @@ class CollectRepository extends StateNotifier<CollectState>
     return _offlineCache.save(_offlineSnapshotFromState());
   }
 
+  @override
   Future<CollectProfile> signInWithOtp({
     required String phone,
     required String otp,
@@ -1053,6 +1063,7 @@ class CollectRepository extends StateNotifier<CollectState>
     }
   }
 
+  @override
   Future<void> signOut() async {
     // Fence privacy verification before native capture, caches or HTTP can
     // await. A completed SDK sign-out event cannot announce this earlier intent.
@@ -1166,6 +1177,7 @@ class CollectRepository extends StateNotifier<CollectState>
     }
   }
 
+  @override
   Future<CollectProfile> updateCurrentProfile({
     required String countryCode,
     String? momoProvider,
