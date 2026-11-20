@@ -1,8 +1,8 @@
 {
   "flutter_additional_license": {
-    "bytes": 183984,
+    "bytes": 187854,
     "path": "assets/licenses/ios-native-NOTICES.txt",
-    "sha256": "6f696f530bc416f9845177cfbb68da822274728cbbf8fb3c74d980fcc4aba2e6"
+    "sha256": "dc6c974d18aa802f45ea1557c600ccaccc8ff84cadb1b4e96082862d333a7b4e"
   },
   "format": "collect.native-notice-source.v1",
   "purpose": "Exact upstream native dependency attributions included by the existing open-source licenses page. Upstream aggregate names do not establish shipped component membership.",
@@ -10,11 +10,11 @@
     {
       "bytes": 12543,
       "component": "GoogleUtilities",
-      "file": "third_party/native_licenses/googleutilities-8.1.2.LICENSE",
-      "revision": "9f183ae842be978784f2963a343682e0c46d8fb3",
+      "file": "third_party/native_licenses/googleutilities-8.1.3.LICENSE",
+      "revision": "92c8f6dc3ac375d6febdfcb3db68bc3d10633db3",
       "sha256": "ad6d036b9a78f0e1700d68039c06058033fea063172ce2dc68e382a24b4d1928",
       "upstream": "https://github.com/google/GoogleUtilities.git",
-      "version": "8.1.2"
+      "version": "8.1.3"
     },
     {
       "bytes": 898,
@@ -37,12 +37,12 @@
     {
       "bytes": 168782,
       "component": "Firebase iOS SDK upstream CoreOnly notices",
-      "file": "third_party/native_licenses/firebase-ios-sdk-12.17.0.NOTICES",
-      "revision": "33a468adfdb75b53f05a37e7c886ca7c962b5c17",
-      "sha256": "58f4e26863cad96b7879783d031f767298cb2a9e15cfe0c56e06f4a8626bbdf0",
+      "file": "third_party/native_licenses/firebase-ios-sdk-12.19.3.NOTICES",
+      "revision": "42cf1417c51c5e3bfbae5d3ab89b778f8fdc4bb8",
+      "sha256": "c94c2b4fb4bf2cd587568fd21b229afa8a9c7b8b8529a7811447949a4f3e0d89",
       "upstream": "https://github.com/firebase/firebase-ios-sdk",
       "upstream_path": "CoreOnly/NOTICES",
-      "version": "12.17.0"
+      "version": "12.19.3"
     }
   ],
   "update_rule": "Compare the native resolver and artifact membership on every dependency change; retain complete upstream copyright and license text."
