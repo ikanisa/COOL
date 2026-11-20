@@ -1,6 +1,6 @@
 {
   "format": "collect.admin.notices.v1",
-  "lock_sha256": "3abfbc239be9b3b293e9e47fb5085929bbd6be791b549b52bcecbac618e022a4",
+  "lock_sha256": "086e5d839a031a330a339ef61cb3efe332fe0e881bf4605b9b5d94a9b53208c1",
   "packages": [
     {
       "name": "@remix-run/route-pattern",
@@ -16,7 +16,7 @@
     },
     {
       "name": "@types/react",
-      "version": "19.2.7",
+      "version": "19.3.0",
       "license": "MIT",
       "notices": [
         {
@@ -28,7 +28,7 @@
     },
     {
       "name": "@types/react-dom",
-      "version": "19.2.3",
+      "version": "19.3.0",
       "license": "MIT",
       "notices": [
         {
