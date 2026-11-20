@@ -102,6 +102,7 @@ class _Repository extends ContributionFixtureRepository {
 void main() {
   var opened = true;
   var launches = 0;
+  String? dialedCode;
   setUpAll(() async {
     await (FontLoader(
       'Inter',
@@ -114,12 +115,22 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     opened = true;
     launches = 0;
+    dialedCode = null;
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(const MethodChannel('collect/momo_ussd'), (
           call,
         ) async {
-          launches++;
-          return opened;
+          switch (call.method) {
+            case 'ensurePermission':
+              return true;
+            case 'launch':
+              launches++;
+              final arguments = call.arguments as Map<Object?, Object?>;
+              dialedCode = arguments['ussd_code'] as String;
+              return opened;
+            default:
+              throw StateError('Unexpected MoMo method: ${call.method}');
+          }
         });
   });
   tearDown(() {
@@ -224,6 +235,7 @@ void main() {
     await tester.tap(find.text('Open MoMo USSD'));
     await tester.pumpAndSettle();
     expect(launches, 1);
+    expect(dialedCode, '*182**8*1*123456*5000#');
     expect(find.text('MoMo request opened'), findsOneWidget);
     expect(find.text('Credited'), findsNothing);
     await tester.tap(find.text('Check payment'));
@@ -248,7 +260,7 @@ void main() {
     (tester) async {
       // Match the accepted payment_received wire case: a linked payment row,
       // no contribution entry and no evidence object or provider reference.
-      final linkedRecord = PaymentIntentModel.fromJson(const {
+      final linkedRecord = PaymentIntentModel.fromJson({
         'id': contributionFixtureIntent,
         'collection_id': contributionFixtureGroup,
         'amount_minor': 5000,
@@ -256,7 +268,9 @@ void main() {
         'created_at': '2026-10-18T08:00:00Z',
         'expires_at': '2030-01-01T00:00:00Z',
         'receiver_momo_number': '123456',
+        'receiver_momo_number_hash': 'synthetic-receiver',
         'receiver_label': 'Collect synthetic receiver',
+        'sender_phone_hash': HashUtils.phoneHash('0788123456'),
         'confirmation_status': 'payment_received',
         'payment_id': 'synthetic-payment',
         'contribution_entry_id': null,
@@ -412,6 +426,9 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(find.text('Check payment'), findsOneWidget);
+      expect(launches, 1);
+      expect(repository.reviewCalls, 1);
+      expect(repository.handoffCalls, 1);
       expect(find.text('MoMo request opened'), findsNothing);
       expect(
         find.textContaining('Copy the code and amount above'),

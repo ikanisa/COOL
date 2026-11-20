@@ -156,8 +156,15 @@ void main() {
         .setMockMethodCallHandler(const MethodChannel('collect/momo_ussd'), (
           call,
         ) async {
-          launches++;
-          return true;
+          switch (call.method) {
+            case 'ensurePermission':
+              return true;
+            case 'launch':
+              launches++;
+              return true;
+            default:
+              throw StateError('Unexpected MoMo method: ${call.method}');
+          }
         });
   });
   tearDown(() async {

@@ -244,6 +244,9 @@ jobs:
       - name: Run unit + widget tests
         run: flutter test --concurrency=4 --exclude-tags=integration --test-randomize-ordering-seed=random --file-reporter json:test-results.json --coverage
 
+      - name: Run managed member sync in Chrome
+        run: flutter test --no-pub --platform chrome test/core/managed_web_sync_test.dart
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

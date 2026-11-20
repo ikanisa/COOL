@@ -1,3 +1,6 @@
+@TestOn('browser')
+library;
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -71,12 +74,9 @@ http.Response _reply({int status = 200, String cursor = '0'}) => http.Response(
 
 Future<void> _settle(WidgetTester tester) async {
   for (var index = 0; index < 8; index++) {
-    await tester.pump();
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+    await tester.pump(const Duration(milliseconds: 1));
   }
-  await tester.runAsync(
-    () => Future<void>.delayed(const Duration(milliseconds: 20)),
-  );
-  await tester.pump(const Duration(milliseconds: 2));
 }
 
 void main() {

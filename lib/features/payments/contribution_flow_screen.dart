@@ -1446,6 +1446,7 @@ class _RwandaMomoContributionFlowState
         now: DateTime.now(),
       )) {
         setState(() {
+          _working = false;
           _intent = null;
           _preparedProfileId = null;
           _preparedRepository = null;
@@ -1508,6 +1509,7 @@ class _RwandaMomoContributionFlowState
     } on ContributionRecoveryRequired catch (recovery) {
       if (current()) {
         setState(() {
+          _working = false;
           _intent = null;
           _commandRecovery = recovery.checkpoint;
           _error = null;

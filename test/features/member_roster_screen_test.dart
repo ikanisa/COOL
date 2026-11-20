@@ -247,8 +247,6 @@ void main() {
   testWidgets('an empty owner filter remains visible and can be cleared', (
     tester,
   ) async {
-    final semantics = tester.ensureSemantics();
-    addTearDown(semantics.dispose);
     await pumpRoster(
       tester,
       members: [
@@ -360,8 +358,6 @@ void main() {
   testWidgets('empty combined search and filter can be cleared at large text', (
     tester,
   ) async {
-    final semantics = tester.ensureSemantics();
-    addTearDown(semantics.dispose);
     await pumpRoster(tester, width: 320, scale: 2);
     await tester.enterText(find.byType(TextField), '038491');
     await tester.pumpAndSettle();
@@ -389,6 +385,12 @@ void main() {
     await tester.tap(clear);
     await tester.pumpAndSettle();
 
+    await tester.scrollUntilVisible(
+      find.byType(TextField),
+      -180,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
     expect(
       tester.widget<TextField>(find.byType(TextField)).controller!.text,
       '',

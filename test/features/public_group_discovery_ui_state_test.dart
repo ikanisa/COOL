@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:collect_app/app/theme/app_theme.dart';
+import 'package:collect_app/core/widgets/collect_shell.dart';
 import 'package:collect_app/features/collections/collection_detail_screen.dart';
 import 'package:collect_app/features/collections/collections_screen.dart';
 import 'package:collect_app/features/collections/group_empty_state.dart';
@@ -160,22 +161,28 @@ Future<void> _pumpScreen(
           body: Text('Auth next: ${state.uri.queryParameters['next']}'),
         ),
       ),
-      GoRoute(
-        path: '/groups',
-        builder: (_, _) => const CollectionsScreen(),
+      ShellRoute(
+        builder: (_, state, child) =>
+            CollectShell(currentPath: state.uri.path, child: child),
         routes: [
           GoRoute(
-            path: ':collectionId',
-            builder: (_, state) => defaultMissingState
-                ? const MissingGroupStateScreen()
-                : CollectionDetailScreen(
-                    collectionId: state.pathParameters['collectionId']!,
-                  ),
+            path: '/groups',
+            builder: (_, _) => const CollectionsScreen(),
             routes: [
               GoRoute(
-                path: 'contribute',
-                builder: (_, _) =>
-                    const Scaffold(body: Text('Contribution route')),
+                path: ':collectionId',
+                builder: (_, state) => defaultMissingState
+                    ? const MissingGroupStateScreen()
+                    : CollectionDetailScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                      ),
+                routes: [
+                  GoRoute(
+                    path: 'contribute',
+                    builder: (_, _) =>
+                        const Scaffold(body: Text('Contribution route')),
+                  ),
+                ],
               ),
             ],
           ),

@@ -315,47 +315,30 @@ void main() {
     tester,
   ) async {
     final h = await pump(tester);
-    await tester.ensureVisible(find.text('Payment help'));
-    await tester.tap(find.text('Payment help'));
-    await tester.pumpAndSettle();
-    expect(find.textContaining('Synthetic group ·'), findsOneWidget);
-    final before = h.repo.snapshot;
-    h.repo.denyHistory = true;
-    final history = MemberHistoryController(h.repo, const MemberHistoryQuery());
-    addTearDown(history.dispose);
-    await tester.pumpAndSettle();
-    expect(find.textContaining('Synthetic group ·'), findsNothing);
-    expect(find.textContaining('Close this sheet and refresh'), findsOneWidget);
-    expect(find.text('Request check'), findsNothing);
-    expect(h.requests, isEmpty);
-
-    // The real transition requires a complete accepted load; this fixture
-    // only simulates its resulting state and tests that the old sheet cannot
-    // be reused after the authority epoch has changed.
-    h.repo.publishSyntheticSnapshot(before);
-    await tester.pump();
-    expect(find.textContaining('Close this sheet and refresh'), findsOneWidget);
-    expect(find.text('Request check'), findsNothing);
-    expect(h.requests, isEmpty);
-  });
-  testWidgets(
-    'open payment help is invalidated when group membership disappears',
-    (tester) async {
-      final h = await pump(tester);
+    try {
       await tester.ensureVisible(find.text('Payment help'));
       await tester.tap(find.text('Payment help'));
       await tester.pumpAndSettle();
       expect(find.textContaining('Synthetic group ·'), findsOneWidget);
       final before = h.repo.snapshot;
-      h.repo.removeGroup();
-      await tester.pump();
+      h.repo.denyHistory = true;
+      final history = MemberHistoryController(
+        h.repo,
+        const MemberHistoryQuery(),
+      );
+      addTearDown(history.dispose);
+      await tester.pumpAndSettle();
       expect(find.textContaining('Synthetic group ·'), findsNothing);
-      expect(find.text('Request check'), findsNothing);
       expect(
         find.textContaining('Close this sheet and refresh'),
         findsOneWidget,
       );
+      expect(find.text('Request check'), findsNothing);
       expect(h.requests, isEmpty);
+
+      // The real transition requires a complete accepted load; this fixture
+      // only simulates its resulting state and tests that the old sheet cannot
+      // be reused after the authority epoch has changed.
       h.repo.publishSyntheticSnapshot(before);
       await tester.pump();
       expect(
@@ -364,6 +347,44 @@ void main() {
       );
       expect(find.text('Request check'), findsNothing);
       expect(h.requests, isEmpty);
+    } finally {
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+      await h.client.dispose();
+    }
+  });
+  testWidgets(
+    'open payment help is invalidated when group membership disappears',
+    (tester) async {
+      final h = await pump(tester);
+      try {
+        await tester.ensureVisible(find.text('Payment help'));
+        await tester.tap(find.text('Payment help'));
+        await tester.pumpAndSettle();
+        expect(find.textContaining('Synthetic group ·'), findsOneWidget);
+        final before = h.repo.snapshot;
+        h.repo.removeGroup();
+        await tester.pump();
+        expect(find.textContaining('Synthetic group ·'), findsNothing);
+        expect(find.text('Request check'), findsNothing);
+        expect(
+          find.textContaining('Close this sheet and refresh'),
+          findsOneWidget,
+        );
+        expect(h.requests, isEmpty);
+        h.repo.publishSyntheticSnapshot(before);
+        await tester.pump();
+        expect(
+          find.textContaining('Close this sheet and refresh'),
+          findsOneWidget,
+        );
+        expect(find.text('Request check'), findsNothing);
+        expect(h.requests, isEmpty);
+      } finally {
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pump();
+        await h.client.dispose();
+      }
     },
   );
   testWidgets(

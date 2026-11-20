@@ -290,6 +290,7 @@ void main() {
       final release = Completer<void>();
       final requests = <http.Request>[];
       final syncRequests = <http.Request>[];
+      final discoveryRequests = <http.Request>[];
       final client = CollectCloudflareClient(
         'http://127.0.0.1:1',
         httpClient: MockClient((request) async {
@@ -297,6 +298,15 @@ void main() {
             syncRequests.add(request);
             return http.Response(
               jsonEncode({'events': [], 'cursor': '0'}),
+              200,
+              headers: {'content-type': 'application/json'},
+              request: request,
+            );
+          }
+          if (request.url.path == '/v1/query/public-collections') {
+            discoveryRequests.add(request);
+            return http.Response(
+              '[]',
               200,
               headers: {'content-type': 'application/json'},
               request: request,
@@ -347,6 +357,12 @@ void main() {
       expect(requests.map((r) => r.headers['Authorization']).toSet(), {
         'Bearer $originalBearer',
       });
+      expect(discoveryRequests, hasLength(1));
+      expect(
+        discoveryRequests.single.headers['Authorization'],
+        'Bearer ${client.auth.currentSession!.accessToken}',
+      );
+      expect(repo.state.publicDiscoveryUnavailable, isFalse);
       expect(repo.state.currentProfile?.id, actor);
       expect(repo.state.historyPage?.totalCount, 0);
       expect(repo.state.pendingIntentCount, 0);
