@@ -316,7 +316,12 @@ void main() {
       expect(service, contains('isNotificationDeviceRegistered'));
       expect(service, contains('CollectNotificationStatus.ready'));
       expect(androidGradle, contains('isCoreLibraryDesugaringEnabled = true'));
-      expect(androidGradle, contains('desugar_jdk_libs:2.1.4'));
+      expect(
+        androidGradle,
+        contains(
+          'coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")',
+        ),
+      );
       expect(repository, contains('register_notification_device'));
       expect(service, contains('requestRemoteRegistration'));
       expect(service, contains("provider: 'fcm'"));
