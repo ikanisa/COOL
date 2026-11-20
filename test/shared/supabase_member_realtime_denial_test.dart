@@ -107,8 +107,6 @@ class _Probe {
         adminAppUrl: '',
         enableSmsReader: false,
         enableAndroidSmsAccess: false,
-        enableAdminPanel: false,
-        enableAdminDevTools: false,
         authCaptchaEnabled: false,
         authCaptchaProvider: '',
         authCaptchaSiteKey: '',

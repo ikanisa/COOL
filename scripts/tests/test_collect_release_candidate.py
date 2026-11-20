@@ -139,10 +139,10 @@ class CandidateTest(unittest.TestCase):
         self.write("lib/main.dart", "changed")
         self.write("lib/added.dart")
         removable.unlink()
-        (self.root / "lib/main_admin.dart").chmod(0o755)
+        (self.root / "admin-web/src/main.tsx").chmod(0o755)
         changes = candidate.verify_candidate(self.destination, self.root)["changes"]
         for path, reason in [("lib/main.dart", "source_changed"), ("lib/added.dart", "source_added"),
-                             ("lib/remove.dart", "source_removed"), ("lib/main_admin.dart", "source_changed")]:
+                             ("lib/remove.dart", "source_removed"), ("admin-web/src/main.tsx", "source_changed")]:
             self.assertIn({"path": path, "reason": reason}, changes)
 
     def test_external_manifest_hash_detects_metadata_rewrite_and_approval_flags_cannot_be_promoted(self):

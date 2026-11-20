@@ -1,5 +1,7 @@
 # Admin and Supabase data audit — 2026-09-04
 
+This report records the Admin implementation reviewed on its original date. The current browser application is documented in the [React Admin architecture](ADMIN_ARCHITECTURE_PLAN.md).
+
 **Deployment update:** the two Admin corrections and migration
 `20260903201326` are now live; production/local histories match at 122.
 Authenticated Admin readback and asset hashes were verified. See the

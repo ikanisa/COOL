@@ -1,0 +1,446 @@
+{
+  "empty": {
+    "setup": {
+      "scopes": [],
+      "accounts": [],
+      "collections": [],
+      "installations": [],
+      "contractVersion": 1
+    },
+    "operators": {
+      "team": [],
+      "approvals": [],
+      "configured": false,
+      "collectionId": "synthetic-savings",
+      "contractVersion": 1
+    },
+    "provisioning": {
+      "grants": [],
+      "accounts": [],
+      "configured": false,
+      "collectionId": "synthetic-savings",
+      "scopeEnabled": false,
+      "scopeVersion": null,
+      "contractVersion": 1
+    }
+  },
+  "populated": {
+    "setup": {
+      "scopes": [
+        {
+          "paired": false,
+          "enabled": false,
+          "version": 2,
+          "bindingId": null,
+          "collectionId": "long-title",
+          "receiverKeyId": null,
+          "bindingVersion": 0,
+          "pendingReplacement": null,
+          "receivingAccountId": "synthetic-receiver",
+          "receiverInstallationId": null
+        },
+        {
+          "paired": false,
+          "enabled": false,
+          "version": 2,
+          "bindingId": null,
+          "collectionId": "multiline",
+          "receiverKeyId": null,
+          "bindingVersion": 0,
+          "pendingReplacement": null,
+          "receivingAccountId": "synthetic-receiver",
+          "receiverInstallationId": null
+        },
+        {
+          "paired": false,
+          "enabled": false,
+          "version": 7,
+          "bindingId": null,
+          "collectionId": "synthetic-savings",
+          "receiverKeyId": null,
+          "bindingVersion": 0,
+          "pendingReplacement": null,
+          "receivingAccountId": "synthetic-receiver",
+          "receiverInstallationId": null
+        },
+        {
+          "paired": false,
+          "enabled": false,
+          "version": 3,
+          "bindingId": null,
+          "collectionId": "untitled-other",
+          "receiverKeyId": null,
+          "bindingVersion": 0,
+          "pendingReplacement": null,
+          "receivingAccountId": "synthetic-receiver",
+          "receiverInstallationId": null
+        }
+      ],
+      "accounts": [
+        {
+          "id": "synthetic-receiver",
+          "provider": "mtn_momo",
+          "publicCode": "test-code",
+          "profileStatus": "verified",
+          "recipientName": "Synthetic recipient",
+          "profileVersion": 2
+        }
+      ],
+      "collections": [
+        {
+          "id": "untitled-other",
+          "title": "",
+          "version": 4,
+          "receiverNumber": null,
+          "receiverNetwork": "mtn_momo"
+        },
+        {
+          "id": "long-title",
+          "title": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+          "version": 2,
+          "receiverNumber": null,
+          "receiverNetwork": "mtn_momo"
+        },
+        {
+          "id": "multiline",
+          "title": "Synthetic\nline",
+          "version": 1,
+          "receiverNumber": null,
+          "receiverNetwork": "mtn_momo"
+        },
+        {
+          "id": "synthetic-savings",
+          "title": "Synthetic savings",
+          "version": 1,
+          "receiverNumber": null,
+          "receiverNetwork": "mtn_momo"
+        }
+      ],
+      "installations": [],
+      "contractVersion": 1
+    },
+    "operators": {
+      "team": [
+        {
+          "role": "staff",
+          "email": "second@example.test",
+          "adminId": "legacy-second-43",
+          "displayName": "Synthetic second",
+          "principalId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+        },
+        {
+          "role": "staff",
+          "email": "staff@example.test",
+          "adminId": "legacy-staff-42",
+          "displayName": "Synthetic staff",
+          "principalId": "55555555-5555-4555-8555-555555555555"
+        }
+      ],
+      "approvals": [
+        {
+          "role": "staff",
+          "email": "second@example.test",
+          "phone": "+250780000003",
+          "active": false,
+          "adminId": "legacy-second-43",
+          "version": 3,
+          "sharedRole": "staff",
+          "displayName": "Synthetic second",
+          "principalId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+          "capabilities": [
+            "records.read"
+          ],
+          "sharedStatus": "active"
+        },
+        {
+          "role": "staff",
+          "email": "staff@example.test",
+          "phone": "+250780000002",
+          "active": true,
+          "adminId": "legacy-staff-42",
+          "version": 5,
+          "sharedRole": "staff",
+          "displayName": "Synthetic staff",
+          "principalId": "55555555-5555-4555-8555-555555555555",
+          "capabilities": [
+            "records.read",
+            "members.enroll"
+          ],
+          "sharedStatus": "active"
+        }
+      ],
+      "configured": true,
+      "collectionId": "synthetic-savings",
+      "contractVersion": 1
+    },
+    "provisioning": {
+      "grants": [
+        {
+          "id": "88888888-8888-4888-8888-888888888888",
+          "active": true,
+          "profile": "internal_receiver",
+          "version": 9,
+          "accountId": null,
+          "installationId": "77777777-7777-4777-8777-777777777777"
+        }
+      ],
+      "accounts": [
+        {
+          "name": "Synthetic second",
+          "role": "staff",
+          "phone": "+250780000003",
+          "active": false,
+          "removed": false,
+          "version": 0,
+          "approved": false,
+          "accountId": null,
+          "principalId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+          "capabilities": [
+            "records.read"
+          ],
+          "approvalVersion": 3,
+          "credentialVersion": 0
+        },
+        {
+          "name": "Synthetic staff",
+          "role": "staff",
+          "phone": "+250780000002",
+          "active": true,
+          "removed": false,
+          "version": 6,
+          "approved": true,
+          "accountId": "99999999-9999-4999-8999-999999999999",
+          "principalId": "55555555-5555-4555-8555-555555555555",
+          "capabilities": [
+            "records.read",
+            "members.enroll"
+          ],
+          "approvalVersion": 5,
+          "credentialVersion": 2
+        }
+      ],
+      "configured": true,
+      "collectionId": "synthetic-savings",
+      "scopeEnabled": false,
+      "scopeVersion": 7,
+      "contractVersion": 1
+    }
+  },
+  "mismatched": {
+    "team": [
+      {
+        "role": "staff",
+        "email": "legacy@example.test",
+        "adminId": "legacy-admin-47",
+        "displayName": "Legacy principal",
+        "principalId": "Legacy-Principal-47"
+      },
+      {
+        "role": "staff",
+        "email": "second@example.test",
+        "adminId": "legacy-second-43",
+        "displayName": "Synthetic second",
+        "principalId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+      },
+      {
+        "role": "staff",
+        "email": "staff@example.test",
+        "adminId": "legacy-staff-42",
+        "displayName": "Synthetic staff",
+        "principalId": "dddddddd-dddd-4ddd-8ddd-dddddddddddd"
+      }
+    ],
+    "approvals": [
+      {
+        "role": "staff",
+        "email": "legacy@example.test",
+        "phone": "+250780000004",
+        "active": true,
+        "adminId": "legacy-admin-47",
+        "version": 1,
+        "sharedRole": "staff",
+        "displayName": "Legacy principal",
+        "principalId": "Legacy-Principal-47",
+        "capabilities": [
+          "records.read"
+        ],
+        "sharedStatus": "active"
+      },
+      {
+        "role": "staff",
+        "email": "second@example.test",
+        "phone": "+250780000003",
+        "active": false,
+        "adminId": "legacy-second-43",
+        "version": 3,
+        "sharedRole": "staff",
+        "displayName": "Synthetic second",
+        "principalId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "capabilities": [
+          "records.read"
+        ],
+        "sharedStatus": "active"
+      },
+      {
+        "role": "staff",
+        "email": "staff@example.test",
+        "phone": "+250780000002",
+        "active": true,
+        "adminId": "legacy-staff-42",
+        "version": 5,
+        "sharedRole": "staff",
+        "displayName": "Synthetic staff",
+        "principalId": "55555555-5555-4555-8555-555555555555",
+        "capabilities": [
+          "records.read",
+          "members.enroll"
+        ],
+        "sharedStatus": "active"
+      }
+    ],
+    "configured": true,
+    "collectionId": "synthetic-savings",
+    "contractVersion": 1
+  },
+  "opaquePrincipal": {
+    "team": [
+      {
+        "role": "staff",
+        "email": "legacy@example.test",
+        "adminId": "legacy-admin-47",
+        "displayName": "Legacy principal",
+        "principalId": "Legacy-Principal-47"
+      },
+      {
+        "role": "staff",
+        "email": "second@example.test",
+        "adminId": "legacy-second-43",
+        "displayName": "Synthetic second",
+        "principalId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+      },
+      {
+        "role": "staff",
+        "email": "staff@example.test",
+        "adminId": "legacy-staff-42",
+        "displayName": "Synthetic staff",
+        "principalId": "55555555-5555-4555-8555-555555555555"
+      }
+    ],
+    "approvals": [
+      {
+        "role": "staff",
+        "email": "second@example.test",
+        "phone": "+250780000003",
+        "active": false,
+        "adminId": "legacy-second-43",
+        "version": 3,
+        "sharedRole": "staff",
+        "displayName": "Synthetic second",
+        "principalId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "capabilities": [
+          "records.read"
+        ],
+        "sharedStatus": "active"
+      },
+      {
+        "role": "staff",
+        "email": "staff@example.test",
+        "phone": "+250780000002",
+        "active": true,
+        "adminId": "legacy-staff-42",
+        "version": 5,
+        "sharedRole": "staff",
+        "displayName": "Synthetic staff",
+        "principalId": "55555555-5555-4555-8555-555555555555",
+        "capabilities": [
+          "records.read",
+          "members.enroll"
+        ],
+        "sharedStatus": "active"
+      }
+    ],
+    "configured": true,
+    "collectionId": "synthetic-savings",
+    "contractVersion": 1
+  },
+  "legacyApproval": {
+    "team": [
+      {
+        "role": "staff",
+        "email": "legacy@example.test",
+        "adminId": "legacy-admin-47",
+        "displayName": "Legacy principal",
+        "principalId": "Legacy-Principal-47"
+      },
+      {
+        "role": "staff",
+        "email": "second@example.test",
+        "adminId": "legacy-second-43",
+        "displayName": "Synthetic second",
+        "principalId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+      },
+      {
+        "role": "staff",
+        "email": "staff@example.test",
+        "adminId": "legacy-staff-42",
+        "displayName": "Synthetic staff",
+        "principalId": "55555555-5555-4555-8555-555555555555"
+      }
+    ],
+    "approvals": [
+      {
+        "role": "staff",
+        "email": "legacy@example.test",
+        "phone": "+250780000004",
+        "active": true,
+        "adminId": "legacy-admin-47",
+        "version": 1,
+        "sharedRole": "staff",
+        "displayName": "Legacy principal",
+        "principalId": "Legacy-Principal-47",
+        "capabilities": [
+          "records.read"
+        ],
+        "sharedStatus": "active"
+      },
+      {
+        "role": "staff",
+        "email": "second@example.test",
+        "phone": "+250780000003",
+        "active": false,
+        "adminId": "legacy-second-43",
+        "version": 3,
+        "sharedRole": "staff",
+        "displayName": "Synthetic second",
+        "principalId": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "capabilities": [
+          "records.read"
+        ],
+        "sharedStatus": "active"
+      },
+      {
+        "role": "staff",
+        "email": "staff@example.test",
+        "phone": "+250780000002",
+        "active": true,
+        "adminId": "legacy-staff-42",
+        "version": 5,
+        "sharedRole": "staff",
+        "displayName": "Synthetic staff",
+        "principalId": "55555555-5555-4555-8555-555555555555",
+        "capabilities": [
+          "records.read",
+          "members.enroll"
+        ],
+        "sharedStatus": "active"
+      }
+    ],
+    "configured": true,
+    "collectionId": "synthetic-savings",
+    "contractVersion": 1
+  },
+  "legacyProvisioningFailure": {
+    "status": 400,
+    "code": "invalid_parameter"
+  }
+}

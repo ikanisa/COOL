@@ -20,7 +20,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 DIRECTIVE = re.compile(r"(?ms)^\s*(?:import|export|part)\s+(?!of\b)(.*?);")
 URI = re.compile(r"['\"]([^'\"\n]+)['\"]")
-RUNTIME_ROOTS = ["lib/main.dart", "lib/main_admin.dart", "lib/main_public.dart",
+RUNTIME_ROOTS = ["lib/main.dart", "lib/main_public.dart",
                  "lib/main_gateway.dart"]
 
 

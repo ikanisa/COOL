@@ -20,8 +20,8 @@ guard = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(guard)
 
 
-PUBLIC_PROFILE = {"format": "collect.deployment.v1", "id": "synthetic-selfhost", "mode": "self_hosted",
-                  "environment": "production", "supabase_origin": "https://supabase.collect.example",
+PUBLIC_PROFILE = {"format": "collect.deployment.v1", "id": "synthetic-managed", "mode": "managed",
+                  "environment": "production", "supabase_origin": "https://rrlduytparvsjfmegalh.supabase.co",
                   "member_api_origin": guard.TARGET["api_url"], "admin_origin": guard.TARGET["admin_url"],
                   "public_origin": guard.TARGET["public_url"], "google_callback_origin": guard.TARGET["admin_url"]}
 PUBLIC_PROFILE_RAW = json.dumps(PUBLIC_PROFILE, sort_keys=True, separators=(",", ":"))

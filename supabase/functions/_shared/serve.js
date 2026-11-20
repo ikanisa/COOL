@@ -1,4 +1,5 @@
 import {verifyDeploymentProfile,resolveDeploymentProfile} from './deployment-profile.js';
+import {isManagedAdminBrowserOrigin,managedAdminChallengeParent} from './admin-security.js';
 import {normalizeRuntimeEnv,configurePublicRuntimeEnv,isGoogleProviderNavigation,COLLECT_SUPABASE_ORIGIN} from './runtime-env.js';
 import {assertRuntimeDeployment} from './deployment-database.js';
 import {cleanupExpiredGoogleFlows} from './auth-cleanup.js';
@@ -63,10 +64,11 @@ export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{op
  return async request=>{
   const started=performance.now();let env,work,cors={},stage='environment';try {env=configurePublicRuntimeEnv(envReader());await verifyDeploymentProfile(env);env.ALLOWED_ORIGINS=[...new Set([...(env.ALLOWED_ORIGINS??'').split(','),...(env.ADMIN_ORIGINS??env.ADMIN_ORIGIN??'').split(',')].map(v=>v.trim()).filter(Boolean))].join(',');let logical=logicalRequest(request,functionName,env);const path=new URL(logical.url).pathname;
    const admin=functionName==='admin-api',origin=request.headers.get('Origin');
+   const challengeParent=functionName==='collect-api'?managedAdminChallengeParent(logical,env):null;
    if(admin&&!path.startsWith('/api/admin/'))return json({code:'not_found'},404);
    if(!admin&&path.startsWith('/api/admin'))return json({code:'not_found'},404);
-   const allowed=(admin?env.ADMIN_ORIGINS??env.ADMIN_ORIGIN:env.ALLOWED_ORIGINS??'').split(',').map(v=>v.trim()).filter(Boolean);
-   if(origin&&!allowed.includes(origin)&&!isGoogleProviderNavigation(logical,env))return json({code:'origin_denied'},403);
+   const allowed=(env.ALLOWED_ORIGINS??'').split(',').map(v=>v.trim()).filter(Boolean);
+   if(origin&&!allowed.includes(origin)&&origin!==challengeParent&&!(admin&&isManagedAdminBrowserOrigin(env,origin))&&!isGoogleProviderNavigation(logical,env))return json({code:'origin_denied'},403);
    cors=origin?{'Access-Control-Allow-Origin':origin,Vary:'Origin','Access-Control-Allow-Methods':'GET,HEAD,POST,PATCH,DELETE,OPTIONS','Access-Control-Allow-Headers':'Authorization,Content-Type,apikey,Idempotency-Key,X-Request-ID,X-Collect-Admin,X-Collect-CSRF,X-Collect-Requested-With,X-Collect-Review-Reason'+(admin?',X-Collect-Owner-Identity-Version':''),...(admin?{'Access-Control-Allow-Credentials':'true','Access-Control-Expose-Headers':'X-Collect-Evidence-Sensitivity'}:{}),'Access-Control-Max-Age':'600'}:{};
    if(request.method==='OPTIONS')return new Response(null,{status:204,headers:cors});
    if(functionName==='collect-api'&&isGatewayIngest(request.method,path)&&!nativeGatewayUploadsEnabled(env)){
@@ -109,7 +111,7 @@ export function createHandler(functionName,envReader=()=>Deno.env.toObject(),{op
     if(native)env.BURIMUNSI_NATIVE_ROUTE=native;
    }
    const ctx={waitUntil:promise=>{work.waitUntil(promise);if(typeof EdgeRuntime!=='undefined')EdgeRuntime.waitUntil(Promise.resolve(promise).catch(()=>{}));}};
-   stage='dispatch';if(request.signal.aborted)throw new Error('request_cancelled_before_dispatch');const response=await worker.fetch(logical,env,ctx);if(admin&&response.status===403){const failure=await response.clone().json().catch(()=>null);if(failure?.error?.code==='origin_rejected')console.error(JSON.stringify({service:'collect_platform_api',event:'admin_transport_rejected',profile:requestTransportProfile(logical)}));}let content=response.body;if(path.startsWith('/privacy/account-deletion')&&response.ok&&/text\/(?:html|javascript)|application\/javascript/.test(response.headers.get('Content-Type')??'')){const prefix='/functions/v1/'+functionName;content=(await response.text()).replaceAll('/v1/',prefix+'/v1/').replaceAll('/privacy/account-deletion',prefix+'/privacy/account-deletion');}const copy=new Response(content,response);if(response.ok&&/text\/html/i.test(copy.headers.get('Content-Type')??'')){if(path==='/v1/security/challenge')copy.headers.set('X-Collect-Document','collect.turnstile.v1');if(/^\/privacy\/account-deletion\/?$/.test(path))copy.headers.set('X-Collect-Document','collect.privacy.portal.v1');}for(const[k,v]of Object.entries(cors))copy.headers.set(k,v);return copy;
+   stage='dispatch';if(request.signal.aborted)throw new Error('request_cancelled_before_dispatch');const documentEnv=challengeParent?{...env,ALLOWED_ORIGINS:challengeParent}:env;const response=await worker.fetch(logical,documentEnv,ctx);if(admin&&response.status===403){const failure=await response.clone().json().catch(()=>null);if(failure?.error?.code==='origin_rejected')console.error(JSON.stringify({service:'collect_platform_api',event:'admin_transport_rejected',profile:requestTransportProfile(logical)}));}let content=response.body;if(path.startsWith('/privacy/account-deletion')&&response.ok&&/text\/(?:html|javascript)|application\/javascript/.test(response.headers.get('Content-Type')??'')){const prefix='/functions/v1/'+functionName;content=(await response.text()).replaceAll('/v1/',prefix+'/v1/').replaceAll('/privacy/account-deletion',prefix+'/privacy/account-deletion');}const copy=new Response(content,response);if(response.ok&&/text\/html/i.test(copy.headers.get('Content-Type')??'')){if(path==='/v1/security/challenge')copy.headers.set('X-Collect-Document','collect.turnstile.v1');if(/^\/privacy\/account-deletion\/?$/.test(path))copy.headers.set('X-Collect-Document','collect.privacy.portal.v1');}for(const[k,v]of Object.entries(cors))copy.headers.set(k,v);return copy;
   }catch(error){
    if(error?.code==='application_fenced'||error?.code==='application_fence_unavailable'){
     observeFailure(reportHealth,{status:503,component:'platform',requestId:null,sourceId:env?.BUILD_SOURCE_ID,elapsedMs:performance.now()-started});

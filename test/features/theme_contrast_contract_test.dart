@@ -3,7 +3,6 @@ import 'package:collect_app/app/theme/collect_colors.dart';
 import 'package:collect_app/app/theme/collect_component_tokens.dart';
 import 'package:collect_app/app/theme/collect_runtime_tokens.dart';
 import 'package:collect_app/app/theme/collect_universal_tokens.dart';
-import 'package:collect_app/admin/shared/components/admin_status_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -238,53 +237,6 @@ void main() {
         }
       }
     });
-
-    for (final theme in <String, ThemeData>{
-      'light': AppTheme.light(),
-      'dark': AppTheme.dark(),
-    }.entries) {
-      testWidgets('${theme.key} Admin status chips use compliant token pairs', (
-        tester,
-      ) async {
-        for (final label in <String>[
-          'pending',
-          'blocked',
-          'active',
-          'unknown',
-        ]) {
-          await tester.pumpWidget(
-            MaterialApp(
-              theme: theme.value,
-              home: Scaffold(
-                body: Center(child: AdminStatusChip(label: label)),
-              ),
-            ),
-          );
-
-          final chip = find.byType(AdminStatusChip);
-          final decorated = tester.widget<DecoratedBox>(
-            find.descendant(of: chip, matching: find.byType(DecoratedBox)),
-          );
-          final decoration = decorated.decoration as BoxDecoration;
-          final icon = tester.widget<Icon>(
-            find.descendant(of: chip, matching: find.byType(Icon)),
-          );
-          _expectContrast(
-            '${theme.key} Admin $label status chip',
-            icon.color!,
-            decoration.color!,
-            _normalTextMinimum,
-          );
-          expect(find.text(label), findsNothing);
-          expect(
-            tester.getSemantics(chip),
-            matchesSemantics(
-              label: 'Status: ${label[0].toUpperCase()}${label.substring(1)}',
-            ),
-          );
-        }
-      });
-    }
   });
 }
 

@@ -1,21 +1,14 @@
 import json
-import os
-import shutil
-import subprocess
-import sys
 import tempfile
 import unittest
 from pathlib import Path
-from .admin_build_config import (BASELINE, PROJECT_ORIGIN, QUALIFICATION_ORIGIN, configuration,
-                                 read_public_file, verify_public_inputs)
+from .admin_build_config import BASELINE, PROJECT_ORIGIN, QUALIFICATION_ORIGIN, configuration
 from .deployment_profile import canonical_profile, profile_sha256
 
 class AdminBuildConfigurationTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        # The build binder requires physical paths; macOS may expose its default
-        # temporary directory through the /var -> /private/var symlink.
         self.root = Path(self.temp.name).resolve()
         self.migration = self.root / "supabase/migrations" / BASELINE
         self.migration.parent.mkdir(parents=True)
@@ -59,61 +52,6 @@ class AdminBuildConfigurationTests(unittest.TestCase):
             self.assertNotIn(key, defines)
             self.assertNotIn(key, metadata)
 
-    def test_exact_post_diagnostic_public_inputs_bind_managed_and_explicit_managed_profiles(self):
-        for env in (self.env, self.managed_profile_environment()):
-            with self.subTest(profile=env.get('COLLECT_DEPLOYMENT_PROFILE', 'managed')):
-                defines, metadata = configuration(env, self.root)
-                source, version = 'a' * 64, '1.0.8+65'
-                defines.update(COLLECT_BUILD_VERSION=version, COLLECT_BUILD_SOURCE_ID=source)
-                metadata.update(diagnostics_source_revision=source, diagnostics_build_version=version)
-                encode = lambda value: (json.dumps(value, indent=2) + '\n').encode()
-                sealed = verify_public_inputs(encode(defines), encode(metadata), env, self.root, binding=True)
-                verify_public_inputs(encode(defines), encode(sealed), env, self.root)
-                changed = dict(defines, SUPABASE_API_URL='https://attacker.example.test')
-                with self.assertRaises(ValueError):
-                    verify_public_inputs(encode(changed), encode(sealed), env, self.root)
-                with self.assertRaises(ValueError):
-                    verify_public_inputs(encode(defines) + b' ', encode(sealed), env, self.root)
-
-    def test_public_file_reader_refuses_symlinks_and_hardlinks(self):
-        target = self.root.resolve() / 'public.json'
-        target.write_text('{}\n')
-        self.assertEqual(read_public_file(target), b'{}\n')
-        alias = self.root.resolve() / 'alias.json'
-        alias.symlink_to(target)
-        with self.assertRaises(ValueError):
-            read_public_file(alias)
-        alias.unlink()
-        os.link(target, alias)
-        with self.assertRaises(ValueError):
-            read_public_file(target)
-
-    def test_build_wrapper_rejects_changed_compiler_input(self):
-        self.copy_builder()
-        source = Path(__file__).resolve().parents[1] / 'admin_pwa_release_build.sh'
-        wrapper = self.root / 'scripts/admin_pwa_release_build.sh'
-        shutil.copy2(source, wrapper)
-        (self.root / 'scripts/qa').mkdir(parents=True)
-        shutil.copy2(source.parent / 'qa/client_diagnostic_identity.py',
-                     self.root / 'scripts/qa/client_diagnostic_identity.py')
-        (self.root / 'lib').mkdir()
-        (self.root / 'lib/main_admin_cloudflare.dart').write_text('void main() {}\n')
-        (self.root / 'pubspec.yaml').write_text('name: synthetic_admin\nversion: 1.0.8+65\n')
-        (self.root / 'pubspec.lock').write_text('packages: {}\n')
-        compiler = self.root / 'fake-compiler'
-        compiler.write_text('#!' + sys.executable + '\n' + r'''import json,sys
-from pathlib import Path
-config=Path(next(v.split('=',1)[1] for v in sys.argv if v.startswith('--dart-define-from-file=')))
-profile=json.loads(config.read_text()); profile['SUPABASE_API_URL']='https://changed.example.test'
-config.write_text(json.dumps(profile,indent=2)+'\n')
-out=Path('build/web/main.dart.js');out.parent.mkdir(parents=True,exist_ok=True);out.write_text('fixture')
-''')
-        compiler.chmod(0o700)
-        env = {'PATH':os.environ['PATH'], 'TMPDIR':str(self.root.resolve()), 'FLUTTER':str(compiler), **self.env}
-        result = subprocess.run(['/bin/bash',str(wrapper)],cwd=self.root.resolve(),env=env,capture_output=True,text=True)
-        self.assertNotEqual(result.returncode,0)
-        self.assertFalse((self.root/'build/admin-public-defines.json').exists())
-
     def test_managed_disagreement_and_missing_or_changed_identity_fail_closed(self):
         for changes in ({"COLLECT_DEPLOYMENT_PROFILE_SHA256":"0"*64},
                         {"SUPABASE_URL":"https://wrong.example.test"}, {"ADMIN_APP_URL":"https://elsewhere.example.test"},
@@ -123,12 +61,9 @@ out=Path('build/web/main.dart.js');out.parent.mkdir(parents=True,exist_ok=True);
             with self.subTest(changes=changes), self.assertRaises(ValueError):
                 configuration(self.managed_profile_environment() | changes, self.root)
 
-    def test_legacy_configuration_requires_explicit_backend_selection(self):
-        defines, metadata = configuration({"COLLECT_BACKEND": "cloudflare",
-                                          "SUPABASE_SERVICE_ROLE_KEY": "fixture-secret"}, self.root)
-        self.assertEqual(metadata["backend"], "cloudflare")
-        self.assertNotIn("SUPABASE_SERVICE_ROLE_KEY", defines)
-        self.assertNotIn("SUPABASE_URL", defines)
+    def test_cloudflare_profile_cannot_build_the_react_admin(self):
+        with self.assertRaisesRegex(ValueError, "requires the Supabase backend"):
+            configuration({"COLLECT_BACKEND": "cloudflare"}, self.root)
 
     def test_public_turnstile_test_keys_are_qualification_only(self):
         for key in ('1x00000000000000000000AA', '2x00000000000000000000AB',
@@ -216,94 +151,12 @@ out=Path('build/web/main.dart.js');out.parent.mkdir(parents=True,exist_ok=True);
         with self.assertRaises(ValueError):
             configuration(self.env | {"GOOGLE_AUTH_ENABLED":"enabled"}, self.root)
 
-    def test_observation_public_flag_is_explicit_validated_and_default_off(self):
-        name = "BURIMUNSI_ADMIN_OBSERVATIONS_ENABLED"
-        defines, metadata = configuration(self.env, self.root)
-        self.assertEqual(defines[name], "false")
-        self.assertFalse(metadata["burimunsi_admin_observations_enabled"])
-        enabled = self.env | {name: "true", "SUPABASE_SERVICE_ROLE_KEY": "private-fixture"}
-        defines, metadata = configuration(enabled, self.root)
-        self.assertEqual(defines[name], "true")
-        self.assertTrue(metadata["burimunsi_admin_observations_enabled"])
-        self.assertNotIn("SUPABASE_SERVICE_ROLE_KEY", defines)
-        self.assertNotIn("SUPABASE_SERVICE_ROLE_KEY", metadata)
-        for value in ("", "yes", "TRUE", "1"):
-            with self.subTest(value=value), self.assertRaises(ValueError):
-                configuration(self.env | {name: value}, self.root)
-        with self.assertRaises(ValueError):
-            configuration({"COLLECT_BACKEND": "cloudflare", name: "true"}, self.root)
-
-    def test_observation_flag_is_bound_to_public_inputs(self):
-        name = "BURIMUNSI_ADMIN_OBSERVATIONS_ENABLED"
-        env = self.managed_profile_environment() | {name: "true"}
-        defines, metadata = configuration(env, self.root)
-        defines.update(COLLECT_BUILD_VERSION="1.0.8+65", COLLECT_BUILD_SOURCE_ID="a" * 64)
-        metadata.update(diagnostics_source_revision="a" * 64, diagnostics_build_version="1.0.8+65")
-        encode = lambda value: (json.dumps(value, indent=2) + "\n").encode()
-        sealed = verify_public_inputs(encode(defines), encode(metadata), env, self.root, binding=True)
-        verify_public_inputs(encode(defines), encode(sealed), env, self.root)
-        with self.assertRaises(ValueError):
-            verify_public_inputs(encode(dict(defines, **{name: "false"})), encode(sealed), env, self.root)
-
-    def test_protected_owner_flag_is_explicit_and_bound_to_public_inputs(self):
-        name = "COLLECT_ADMIN_PROTECTED_OWNER_ENABLED"
-        defines, metadata = configuration(self.env, self.root)
-        self.assertEqual(defines[name], "false")
-        self.assertFalse(metadata["collect_admin_protected_owner_enabled"])
-        env = self.managed_profile_environment() | {name: "true"}
-        defines, metadata = configuration(env, self.root)
-        self.assertEqual(defines[name], "true")
-        self.assertTrue(metadata["collect_admin_protected_owner_enabled"])
-        defines.update(COLLECT_BUILD_VERSION="1.0.8+65", COLLECT_BUILD_SOURCE_ID="a" * 64)
-        metadata.update(diagnostics_source_revision="a" * 64, diagnostics_build_version="1.0.8+65")
-        encode = lambda value: (json.dumps(value, indent=2) + "\n").encode()
-        sealed = verify_public_inputs(encode(defines), encode(metadata), env, self.root, binding=True)
-        verify_public_inputs(encode(defines), encode(sealed), env, self.root)
-        with self.assertRaises(ValueError):
-            verify_public_inputs(encode(dict(defines, **{name: "false"})), encode(sealed), env, self.root)
-        for value in ("", "yes", "TRUE", "1"):
-            with self.subTest(value=value), self.assertRaises(ValueError):
-                configuration(self.env | {name: value}, self.root)
-        with self.assertRaises(ValueError):
-            configuration({"COLLECT_BACKEND": "cloudflare", name: "true"}, self.root)
-
-    def test_observation_hints_flag_combinations_and_public_binding(self):
-        observations = "BURIMUNSI_ADMIN_OBSERVATIONS_ENABLED"
-        hints = "BURIMUNSI_ADMIN_OBSERVATION_HINTS_ENABLED"
-        for enabled, hint_enabled in (("false", "false"), ("true", "false"), ("true", "true")):
-            with self.subTest(observations=enabled, hints=hint_enabled):
-                env = self.managed_profile_environment() | {observations: enabled, hints: hint_enabled}
-                defines, metadata = configuration(env, self.root)
-                self.assertEqual(defines[hints], hint_enabled)
-                self.assertEqual(metadata["burimunsi_admin_observation_hints_enabled"], hint_enabled == "true")
-                defines.update(COLLECT_BUILD_VERSION="1.0.8+65", COLLECT_BUILD_SOURCE_ID="a" * 64)
-                metadata.update(diagnostics_source_revision="a" * 64, diagnostics_build_version="1.0.8+65")
-                encode = lambda value: (json.dumps(value, indent=2) + "\n").encode()
-                sealed = verify_public_inputs(encode(defines), encode(metadata), env, self.root, binding=True)
-                verify_public_inputs(encode(defines), encode(sealed), env, self.root)
-                tampered = "false" if hint_enabled == "true" else "true"
-                with self.assertRaises(ValueError):
-                    verify_public_inputs(encode(dict(defines, **{hints: tampered})), encode(sealed), env, self.root)
-        with self.assertRaises(ValueError):
-            configuration(self.env | {observations: "false", hints: "true"}, self.root)
-        for value in ("", "yes", "TRUE", "1"):
-            with self.subTest(value=value), self.assertRaises(ValueError):
-                configuration(self.env | {observations: "true", hints: value}, self.root)
-
     def qualification_environment(self):
         return self.env | {"ADMIN_APP_URL": QUALIFICATION_ORIGIN,
                            "SUPABASE_API_URL": QUALIFICATION_ORIGIN,
                            "SUPABASE_ADMIN_API_URL": QUALIFICATION_ORIGIN,
                            "AUTH_CAPTCHA_ENABLED": "true",
                            "AUTH_CAPTCHA_SITE_KEY": "synthetic_qualification_public_site_key"}
-
-    def copy_builder(self):
-        source = Path(__file__).resolve().with_name("admin_build_config.py")
-        target = self.root / "scripts/supabase/admin_build_config.py"
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
-        shutil.copy2(source.with_name("deployment_profile.py"), target.with_name("deployment_profile.py"))
-        return target
 
     def test_qualification_is_explicit_and_does_not_change_ordinary_shipping(self):
         _, shipping = configuration(self.env, self.root)
@@ -346,95 +199,3 @@ out=Path('build/web/main.dart.js');out.parent.mkdir(parents=True,exist_ok=True);
                         {"AUTH_CAPTCHA_SITE_KEY": ""}):
             with self.subTest(changes=changes), self.assertRaises(ValueError):
                 configuration(self.qualification_environment() | changes, self.root, qualification=True)
-
-    def test_actual_cli_requires_qualification_flag_and_retains_false_completion(self):
-        builder = self.copy_builder()
-        defines = self.root / "public-defines.json"
-        metadata = self.root / "public-metadata.json"
-        command = [sys.executable, "-B", str(builder), "--defines-output", str(defines),
-                   "--metadata-output", str(metadata)]
-        # Exercise the common macOS case where the configured temp path is a
-        # symlink; the wrapper must pass physical paths to the source binder.
-        temp_link = self.root / "temp-link"
-        temp_link.symlink_to(self.root, target_is_directory=True)
-        env = {"PATH": os.environ["PATH"], "TMPDIR": str(temp_link), **self.qualification_environment(),
-               "COLLECT_ADMIN_QUALIFICATION": "true"}
-        result = subprocess.run(command, env=env, capture_output=True, text=True)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertFalse(defines.exists())
-        self.assertFalse(metadata.exists())
-        result = subprocess.run(command + ["--qualification"], env=env, capture_output=True, text=True)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(json.loads(defines.read_text())["ADMIN_APP_URL"], QUALIFICATION_ORIGIN)
-        self.assertIs(json.loads(metadata.read_text())["shipping_candidate"], False)
-        self.assertNotIn("source_dirty", json.loads(metadata.read_text()))
-
-    def test_pwa_caller_forwards_only_an_explicit_qualification_flag(self):
-        self.copy_builder()
-        source = Path(__file__).resolve().parents[1] / "admin_pwa_release_build.sh"
-        wrapper = self.root / "scripts/admin_pwa_release_build.sh"
-        shutil.copy2(source, wrapper)
-        (self.root / "scripts/qa").mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source.parent / "qa/client_diagnostic_identity.py",
-                     self.root / "scripts/qa/client_diagnostic_identity.py")
-        (self.root / "lib").mkdir(exist_ok=True)
-        (self.root / "lib/main_admin_cloudflare.dart").write_text("void main() {}\n")
-        (self.root / "pubspec.yaml").write_text("name: synthetic_admin\nversion: 1.0.8+65\n")
-        (self.root / "pubspec.lock").write_text("packages: {}\n")
-        compiler = self.root / "fake-compiler"
-        compiler.write_text("#!" + sys.executable + "\n" + r'''import json,os,sys
-from pathlib import Path
-config=next(value.split("=",1)[1] for value in sys.argv if value.startswith("--dart-define-from-file="))
-Path("compiler-observation.json").write_text(json.dumps({"args":sys.argv[1:],"defines":json.loads(Path(config).read_text()),"metadata":json.loads(Path(os.environ["COLLECT_ADMIN_BUILD_METADATA"]).read_text())}))
-raise SystemExit(61)
-''')
-        compiler.chmod(0o700)
-        env = {"PATH": os.environ["PATH"], **self.qualification_environment(),
-               "FLUTTER": str(compiler), "COLLECT_ADMIN_QUALIFICATION": "true"}
-        observation = self.root / "compiler-observation.json"
-        for arguments in ([], ["--qualification", "--extra"], ["--dart-define=QUALIFICATION=true"]):
-            result = subprocess.run(["bash", str(wrapper), *arguments], cwd=self.root,
-                                    env=env, capture_output=True, text=True)
-            self.assertNotEqual(result.returncode, 0)
-            self.assertFalse(observation.exists())
-        result = subprocess.run(["bash", str(wrapper), "--qualification"], cwd=self.root,
-                                env=env, capture_output=True, text=True)
-        self.assertEqual(result.returncode, 61, result.stderr)
-        record = json.loads(observation.read_text())
-        self.assertEqual(record["defines"]["ADMIN_APP_URL"], QUALIFICATION_ORIGIN)
-        self.assertEqual(record["metadata"]["purpose"], "qualification")
-        self.assertIs(record["metadata"]["shipping_candidate"], False)
-        self.assertNotIn("source_commit", record["metadata"])
-        self.assertEqual(record["defines"]["COLLECT_BUILD_VERSION"], "1.0.8+65")
-        self.assertRegex(record["defines"]["COLLECT_BUILD_SOURCE_ID"], r"^[a-f0-9]{64}$")
-        self.assertEqual(record["metadata"]["diagnostics_source_revision"],
-                         record["defines"]["COLLECT_BUILD_SOURCE_ID"])
-
-        observation.unlink()
-        production = "https://platform-admin.collect.ikanisa.com"
-        result = subprocess.run(["bash", str(wrapper)], cwd=self.root,
-                                env=env | {"ADMIN_APP_URL": production,
-                                           "SUPABASE_API_URL": production,
-                                           "SUPABASE_ADMIN_API_URL": production},
-                                capture_output=True, text=True)
-        self.assertEqual(result.returncode, 61, result.stderr)
-        shipping = json.loads(observation.read_text())
-        self.assertEqual(shipping["defines"]["ADMIN_APP_URL"], production)
-        self.assertEqual(shipping["defines"]["APP_ENVIRONMENT"], "supabase-platform")
-        self.assertNotIn("purpose", shipping["metadata"])
-        self.assertNotIn("shipping_candidate", shipping["metadata"])
-
-        observation.unlink()
-        managed = {"PATH": os.environ["PATH"], "TMPDIR": str(self.root.resolve()),
-                       "FLUTTER": str(compiler), **self.managed_profile_environment()}
-        result = subprocess.run(["bash", str(wrapper)], cwd=self.root.resolve(),
-                                env=managed, capture_output=True, text=True)
-        self.assertEqual(result.returncode, 61, result.stderr)
-        observed = json.loads(observation.read_text())
-        self.assertEqual(observed['defines']['ADMIN_APP_URL'], 'https://admin.example.test')
-        self.assertEqual(observed['defines']['SUPABASE_API_URL'], 'https://api.example.test')
-        self.assertEqual(observed['metadata']['supabase_hosting'], 'managed')
-        self.assertRegex(observed['metadata']['public_build_defines_sha256'], r'^[a-f0-9]{64}$')
-
-if __name__ == "__main__":
-    unittest.main()

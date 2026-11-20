@@ -12,11 +12,7 @@ import json
 import os
 from pathlib import Path
 import re
-import stat
 import tempfile
-
-MAX_JAVASCRIPT_BYTES = 64 * 1024 * 1024
-
 
 def canonical(value):
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
@@ -41,7 +37,7 @@ def public_profile(path: Path):
 
 def identity(root: Path, surface: str, profile: dict):
     root = root.absolute()
-    if root.resolve() != root or surface not in ("member", "admin"):
+    if root.resolve() != root or surface != "member":
         raise ValueError("Expected a physical source root and supported surface")
     paths = [root / "pubspec.yaml", root / "pubspec.lock"]
     lib = root / "lib"
@@ -76,47 +72,6 @@ def identity(root: Path, surface: str, profile: dict):
         **public, "COLLECT_BUILD_SOURCE_ID": source}
 
 
-def javascript_identity(path: Path, source_revision: str, build_version: str):
-    """Observe exact quoted label bytes in the physical compiler output.
-
-    This does not parse or execute JavaScript, prove that a label is reachable,
-    or establish the identity of every artifact in a deployment. The existing
-    candidate manifest separately binds the complete packaged artifact bytes.
-    """
-    if (not isinstance(source_revision, str)
-            or not re.fullmatch(r"[a-f0-9]{64}", source_revision)
-            or not isinstance(build_version, str) or len(build_version) > 32
-            or not re.fullmatch(r"(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\+[1-9][0-9]*", build_version)):
-        raise ValueError("Expected the exact bound diagnostic release labels")
-    path = path.absolute()
-    if path.name != "main.dart.js" or path.is_symlink() or path.resolve() != path:
-        raise ValueError("Expected physical main.dart.js compiler output")
-    before = path.lstat()
-    if not stat.S_ISREG(before.st_mode) or not 0 < before.st_size <= MAX_JAVASCRIPT_BYTES:
-        raise ValueError("Compiled JavaScript exceeds its size/type bounds")
-    descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
-    stamp = lambda value: (value.st_dev, value.st_ino, value.st_size,
-                           value.st_mtime_ns, value.st_ctime_ns)
-    with os.fdopen(descriptor, "rb") as handle:
-        if stamp(os.fstat(handle.fileno())) != stamp(before):
-            raise ValueError("Compiled JavaScript changed before inspection")
-        data = handle.read(MAX_JAVASCRIPT_BYTES + 1)
-        if (len(data) != before.st_size
-                or stamp(os.fstat(handle.fileno())) != stamp(before)):
-            raise ValueError("Compiled JavaScript changed during inspection")
-    if path.resolve() != path or stamp(path.lstat()) != stamp(before):
-        raise ValueError("Compiled JavaScript changed during inspection")
-    for label in (source_revision, build_version):
-        token = label.encode("ascii")
-        if not any(quote + token + quote in data for quote in (b'"', b"'")):
-            raise ValueError("Compiled JavaScript does not contain the bound diagnostic labels")
-    return {"contract_version": 1, "surface": "admin", "artifact": "main.dart.js",
-            "source_revision": source_revision, "build_version": build_version,
-            "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data),
-            "verification_scope": "quoted_label_bytes_present",
-            "signing_or_deployment_acceptance": False}
-
-
 def write_json(path: Path, value):
     path = path.absolute()
     if path.is_symlink() or path.parent.resolve() != path.parent:
@@ -139,16 +94,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("bind", "verify"))
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[2])
-    parser.add_argument("--surface", choices=("member", "admin"), required=True)
+    parser.add_argument("--surface", choices=("member",), required=True)
     parser.add_argument("--defines", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--metadata", type=Path)
-    parser.add_argument("--javascript", type=Path,
-                        help="On Admin verify, check bounded physical main.dart.js label bytes")
     args = parser.parse_args()
     try:
-        if args.javascript and (args.action != "verify" or args.surface != "admin"):
-            raise ValueError("Compiled JavaScript inspection is an Admin verification step")
         profile = public_profile(args.defines.absolute())
         manifest, updated = identity(args.root, args.surface, profile)
         if args.action == "verify":
@@ -170,9 +121,6 @@ def main():
                     raise ValueError("Build metadata and diagnostic source identity differ")
             else:
                 write_json(args.metadata, {**metadata, **fields})
-        if args.javascript:
-            print(json.dumps(javascript_identity(args.javascript, manifest["source_revision"],
-                                                 manifest["build_version"]), sort_keys=True))
     except (OSError, ValueError, UnicodeError):
         parser.exit(1, "Client diagnostic source binding failed; inspect the source and public build profile.\n")
 

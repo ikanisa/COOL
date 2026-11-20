@@ -2,6 +2,7 @@ import {ApiError,json,readJson,uuid} from './core.js';
 import {adminEmailArguments,requireFreshAdminEmail} from './admin_email_policy.js';
 import {applicationWork,applicationWorkTuple} from '../application-fence.js';
 import {verifyDeploymentProfile} from '../deployment-profile.js';
+import {adminSessionOriginMatches} from '../admin-security.js';
 import {AdminScopeSetup} from './burimunsi/admin-scope-setup.js';
 import {requireId} from './burimunsi/values.js';
 import {preliminaryCurrentOwner} from './admin_owner_precheck.js';
@@ -25,7 +26,7 @@ export async function adminBuriMunsiSetup(request,env,account,actor,parts,url){
  requireFreshAdminEmail(account);
  const work=applicationWork(env),profile=await verifyDeploymentProfile(env);
  if(work.kind!=='http_admin'||env.DB?.applicationWork!==work||applicationWorkTuple(work)[2]!==env.BUILD_SOURCE_ID||
-  account.origin!==profile.admin_origin||request.headers.get('Origin')!==profile.admin_origin)
+  !adminSessionOriginMatches(request,env,profile,account))
   fail(503,'burimunsi_setup_unavailable','Receiving setup is unavailable.');
  const service=new AdminScopeSetup({env,actorArgs:adminEmailArguments(account),actorId:actor.userId,sessionId:actor.sessionId});
  const headers={'Cache-Control':'no-store, private','Pragma':'no-cache','Vary':'Cookie, Origin'};

@@ -208,7 +208,7 @@ class GraphScopedBrowserSourceBindingTest(unittest.TestCase):
 
     def test_actual_complete_graph_survives_only_unrelated_admin_native_changes(self):
         self.verify()
-        for name in ("lib/admin/new_control.dart", "android/app/src/new_callback.kt"):
+        for name in ("admin-web/src/new-control.tsx", "android/app/src/new_callback.kt"):
             path = self.root / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("new unrelated source")

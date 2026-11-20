@@ -86,15 +86,15 @@ def read_workflow(path: Path) -> dict:
         raise PolicyInputError("CI_POLICY_YAML_INVALID") from None
 
 
-LEGACY_JOBS = ('cloudflare-backend', 'cloudflare-platform',
-               'admin-legacy-preview-build', 'admin-cloudflare-candidate')
+LEGACY_JOBS = ('cloudflare-backend', 'cloudflare-platform')
+RETIRED_ADMIN_JOBS = {'admin-legacy-preview-build', 'admin-cloudflare-candidate'}
 RETIRED = '${{ false }}'
 CURRENT_CONSUMERS = (
     ('deploy/platform-admin', 'npm ci --ignore-scripts --no-audit --no-fund'),
     ('${{ github.workspace }}', 'node --test deploy/platform-admin/test/human-parent.test.mjs deploy/platform-admin/test/human-parent-bundle.test.mjs'),
     ('tools/notification-operator', 'node --test --test-concurrency=1 test/operator.test.mjs test/mcp.test.mjs test/transport.test.mjs test/auth.test.mjs'),
     ('tools/collect-admin-mcp', 'npm run check\nnpm test'),
-    ('${{ github.workspace }}', 'python3 -m unittest scripts.tests.test_admin_cloudflare_source scripts.tests.test_admin_cloudflare_artifact scripts.tests.test_admin_cloudflare_assets scripts.tests.test_admin_cloudflare_preflight -v\nnode --test scripts/tests/admin_cloudflare_retirement_worker_test.mjs'),
+    ('${{ github.workspace }}', 'python3 -m unittest scripts.tests.test_admin_cloudflare_assets -v\nnode --test scripts/tests/admin_cloudflare_retirement_worker_test.mjs\nnode --test scripts/tests/admin_entry_test.mjs deploy/admin-entry/pages/test.mjs'),
 )
 CURRENT_MAKE_COMMANDS = (
     'cd deploy/platform-admin && npm ci --ignore-scripts --no-audit --no-fund',
@@ -109,7 +109,7 @@ def legacy_execution(command, cwd):
     # paths: current Supabase/admission fixtures live under platform-api/test.
     return (cwd in ('deploy/platform-api', 'deploy/admin-api')
             or re.search(r'(?:cd\s+|--prefix[ =]+)deploy/(?:platform|admin)-api\b', command)
-            or re.search(r'cloudflare-platform-(?:test|dev|migrate-local)\b|admin_cloudflare_build\.sh|recovery17_ci\.mjs|(?:recovery12|recovery13|recovery15|momo_release_candidate)_test\.mjs|atomic_d1_restore_test\.mjs|operation_inventory\.mjs', command))
+            or re.search(r'cloudflare-platform-(?:test|dev|migrate-local)\b|admin_cloudflare_build\.sh|main_admin(?:_cloudflare)?\.dart|recovery17_ci\.mjs|(?:recovery12|recovery13|recovery15|momo_release_candidate)_test\.mjs|atomic_d1_restore_test\.mjs|operation_inventory\.mjs', command))
 
 
 
@@ -232,9 +232,12 @@ def validate_workflows(workflows: dict[str, dict]) -> list[dict[str, str]]:
                 config = events.get(event)
                 paths = config.get("paths", []) if isinstance(config, dict) else []
                 if not isinstance(paths, list) or not {
+                    "admin-web/**",
                     "deploy/platform-api/**/*.js",
                     "deploy/platform-admin/**/*.js",
+                    "deploy/managed-sms/**",
                     "supabase/functions/**/*.js",
+                    "supabase/functions/**/*.mjs",
                     "supabase/functions/**/*.ts",
                     "deploy/platform-supabase-free/**/*.js",
                     "deploy/platform-supabase-free/**/*.mjs",
@@ -245,6 +248,8 @@ def validate_workflows(workflows: dict[str, dict]) -> list[dict[str, str]]:
     for name in LEGACY_JOBS:
         if jobs.get(name, {}).get('if') != RETIRED:
             fail('ci.yml', 'CI_LEGACY_AUTOMATIC_EXECUTION_FORBIDDEN', name)
+    for name in RETIRED_ADMIN_JOBS.intersection(jobs):
+        fail('ci.yml', 'CI_LEGACY_AUTOMATIC_EXECUTION_FORBIDDEN', name)
     for filename, workflow in workflows.items():
         for name, job in workflow.get('jobs', {}).items():
             if job.get('if') == RETIRED:
@@ -277,33 +282,56 @@ def validate_workflows(workflows: dict[str, dict]) -> list[dict[str, str]]:
     if (install not in runs or parent not in runs or runs.index(install) >= runs.index(parent)
             or len(nodes) != 1 or steps.index(nodes[0]) >= runs.index(install)):
         fail('ci.yml', 'CI_CURRENT_CONSUMER_INSTALL_ORDER_REQUIRED', 'supabase-admin-consumers')
-    # These are distinct runtimes. The retained preview email/Core/Gateway
-    # lane cannot establish acceptance of the password-cookie platform PWA.
-    jobs = ci.get('jobs', {})
     shipping = jobs.get('admin-platform-candidate', {})
     if set(shipping.get('needs', [])) != {'repo-hygiene', 'admin-web-build', 'supabase-platform', 'supabase-admin-consumers'}:
         fail('ci.yml', 'CI_SHIPPING_PLATFORM_DEPENDENCY_REQUIRED', 'admin-platform-candidate')
+
+    def required_step(step):
+        return 'if' not in step and step.get('continue-on-error', False) is False
+
+    artifact = 'admin-platform-pwa-candidate'
+    verify = 'node admin-web/scripts/build-admin.mjs verify-ci'
     shipping_steps = shipping.get('steps', [])
-    downloads = [s.get('with', {}).get('name') for s in shipping_steps
-                 if isinstance(s, dict) and str(s.get('uses', '')).startswith('actions/download-artifact@')]
-    commands = '\n'.join(str(s.get('run', '')) for s in shipping_steps if isinstance(s, dict))
-    if downloads != ['admin-platform-pwa-candidate'] or 'python3 scripts/admin_platform_candidate.py ' not in commands:
+    downloads = [step for step in shipping_steps if str(step.get('uses', '')).startswith('actions/download-artifact@')]
+    verifying = [step for step in shipping_steps if step.get('run', '').strip() == verify and required_step(step)]
+    if (len(downloads) != 1 or downloads[0].get('with') != {'name': artifact, 'path': 'build'}
+            or not required_step(downloads[0]) or len(verifying) != 1
+            or shipping_steps.index(downloads[0]) >= shipping_steps.index(verifying[0])):
         fail('ci.yml', 'CI_SHIPPING_PLATFORM_ARTIFACT_REQUIRED', 'admin-platform-candidate')
-    build_steps = jobs.get('admin-web-build', {}).get('steps', [])
-    candidate_uploads = [s.get('with', {}) for s in build_steps
-                         if isinstance(s, dict) and str(s.get('uses', '')).startswith('actions/upload-artifact@')
-                         and s.get('with', {}).get('name') == 'admin-platform-pwa-candidate']
-    if (len(candidate_uploads) != 1
-            or 'build/admin-public-defines.json' not in str(candidate_uploads[0].get('path', '')).splitlines()
-            or not any(s.get('with', {}).get('path') == 'build' for s in shipping_steps
-                       if isinstance(s, dict) and str(s.get('uses', '')).startswith('actions/download-artifact@'))):
+
+    build = jobs.get('admin-web-build', {})
+    build_steps = build.get('steps', [])
+    uploads = [step for step in build_steps if str(step.get('uses', '')).startswith('actions/upload-artifact@')]
+    if (len(uploads) != 1 or not required_step(uploads[0])
+            or uploads[0].get('with', {}).get('name') != artifact
+            or uploads[0].get('with', {}).get('include-hidden-files') is not True
+            or uploads[0].get('with', {}).get('if-no-files-found') != 'error'
+            or set(uploads[0].get('with', {}).get('path', '').splitlines()) != {'build/admin-web/', 'build/admin-web.json'}):
         fail('ci.yml', 'CI_SHIPPING_PLATFORM_INPUT_REQUIRED', 'admin-web-build')
-    builds = '\n'.join(str(s.get('run', '')) for s in build_steps if isinstance(s, dict))
-    if 'bash scripts/admin_pwa_release_build.sh' not in builds or 'scripts/admin_cloudflare_build.sh' in builds:
+    builds = [step for step in build_steps
+              if step.get('run', '').strip().splitlines() == [
+                  'bash scripts/admin_pwa_release_build.sh', verify, 'bash scripts/admin_pwa_hosting_gate.sh --json',
+              ] and required_step(step)]
+    install = [step for step in build_steps
+               if step.get('run', '') == 'npm ci --prefix admin-web --no-audit --no-fund' and required_step(step)]
+    browser = [step for step in build_steps if required_step(step) and step.get('run', '').strip().splitlines() == [
+        'admin-web/node_modules/.bin/playwright-core install --with-deps --no-shell chromium',
+        'node admin-web/scripts/build-admin.mjs fixture',
+        'node admin-web/tests/browser/smoke.mjs build/admin-web-fixture',
+    ]]
+    if len(browser) != 1 or len(install) != 1 or len(builds) != 1 or not (
+            build_steps.index(install[0]) < build_steps.index(browser[0]) < build_steps.index(builds[0])):
+        fail('ci.yml', 'CI_COMPILED_ADMIN_BROWSER_REQUIRED', 'admin-web-build')
+    if (len(builds) != 1 or len(install) != 1 or len(uploads) != 1 or
+            'if' in build or build.get('continue-on-error', False) is not False or
+            not build_steps.index(install[0]) < build_steps.index(builds[0]) < build_steps.index(uploads[0]) or
+            any(legacy_execution(step.get('run', ''), step.get('working-directory', '.')) or
+                'flutter-action@' in step.get('uses', '') or 'flutter build web' in step.get('run', '')
+                for step in build_steps)):
         fail('ci.yml', 'CI_SHIPPING_PLATFORM_BUILD_REQUIRED', 'admin-web-build')
-    backend_steps = [step for step in build_steps if 'bash scripts/admin_pwa_release_build.sh' in str(step.get('run', '')) or 'PY_PLATFORM_IDENTITY' in str(step.get('run', ''))]
-    if (len(backend_steps) != 2 or any(step.get('env', {}).get('COLLECT_BACKEND') != 'supabase' for step in backend_steps)
-            or shipping.get('env', {}).get('COLLECT_BACKEND') != 'supabase' or '--backend "$COLLECT_BACKEND"' not in commands):
+    if (len(builds) != 1 or len(verifying) != 1 or
+            builds[0].get('env', {}).get('COLLECT_BACKEND') != 'supabase' or
+            builds[0].get('env') != verifying[0].get('env')):
         fail('ci.yml', 'CI_SUPABASE_CANDIDATE_SELECTION_REQUIRED', 'admin-web-build')
     findings.extend(validate_current_supabase_qualification(workflows))
     return findings

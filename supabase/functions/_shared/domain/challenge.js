@@ -2,7 +2,7 @@ import {ApiError} from './core.js';
 const TYPE='collect.turnstile.v1';
 export async function challengeRoute(request,env) {
  const url=new URL(request.url);
- if(url.pathname!=='/v1/security/challenge'||request.method!=='GET')return null;
+ if(url.pathname!=='/v1/security/challenge'||!['GET','HEAD'].includes(request.method))return null;
  const siteKey=env.TURNSTILE_SITE_KEY;
  if(typeof siteKey!=='string'||!/^[A-Za-z0-9_-]{10,256}$/.test(siteKey))throw new ApiError(503,'verification_unavailable','Verification is unavailable. Please try again later.');
  const attempt=url.searchParams.get('attempt_id');
@@ -30,6 +30,6 @@ export async function challengeRoute(request,env) {
   'error-callback':function(){failed('unavailable');},'expired-callback':function(){failed('expired');},'timeout-callback':function(){failed('timeout');}});status.textContent='Complete verification to continue.';};
  retry.addEventListener('click',()=>{accepted=false;retry.hidden=true;status.textContent='Loading verification…';if(widget!==null&&window.turnstile)turnstile.reset(widget);else location.reload();});
  </script><script nonce="${nonce}" src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=collectChallengeReady&amp;render=explicit" async defer></script></body></html>`;
- return new Response(html,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',
+ return new Response(request.method==='HEAD'?null:html,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',
   'Content-Security-Policy':`default-src 'none'; script-src 'nonce-${nonce}' https://challenges.cloudflare.com; style-src 'nonce-${nonce}'; frame-src https://challenges.cloudflare.com; connect-src https://challenges.cloudflare.com; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'self' ${(env.ALLOWED_ORIGINS??'').split(',').map(s=>s.trim()).filter(Boolean).join(' ')}`}});
 }

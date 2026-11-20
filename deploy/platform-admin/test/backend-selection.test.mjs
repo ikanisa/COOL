@@ -8,6 +8,7 @@ import {renderedDocument, GATEWAY_CSP} from './fixtures/document-renderers.mjs';
 
 const origin = 'https://platform-admin.collect.ikanisa.com';
 const cookie = '__Host-collect_admin=opaque_fixture; Path=/; Secure; HttpOnly; SameSite=Strict';
+const browserCookie = cookie.replace('__Host-collect_admin=', '__Host-collect_admin_rrlduytparvsjfmegalh=');
 const req = (path, init) => new Request(origin + path, init);
 const forbidden = () => { throw new Error('Unexpected service use'); };
 const supabaseEnv = {ADMIN_ORIGIN: origin, COLLECT_BACKEND: 'supabase', SUPABASE_URL: SUPABASE_ORIGIN};
@@ -45,20 +46,21 @@ test('explicit Supabase selection uses the nominated project once without touchi
     assert.equal(upstream.url, SUPABASE_ORIGIN + '/functions/v1/admin-api/api/admin/team?cursor=a%2Bb&cursor=c');
     assert.equal(upstream.method, 'PATCH');
     assert.deepEqual(new Uint8Array(await upstream.arrayBuffer()), content);
-    for (const [name, value] of [['Origin', origin], ['Cookie', '__Host-collect_admin=old_fixture'],
+    for (const [name, value] of [['Origin', origin], ['Cookie', '__Host-collect_admin=managed_fixture'],
       ['Idempotency-Key', 'fixture-operation'], ['X-Collect-CSRF', 'fixture-csrf'],
       ['X-Collect-Requested-With', 'collect-admin'], ['X-Collect-Admin', '1']]) {
       assert.equal(upstream.headers.get(name), value);
     }
     return Response.json({ok: true}, {headers: {'Set-Cookie': cookie, 'Cache-Control': 'public'}});
   }});
-  const response = await entry.fetch(req('/functions/v1/admin-api/api/admin/team?cursor=a%2Bb&cursor=c', {
-    method: 'PATCH', body: content, headers: {Origin: origin, Cookie: '__Host-collect_admin=old_fixture',
+  const response = await entry.fetch(req('/api/admin/team?cursor=a%2Bb&cursor=c', {
+    method: 'PATCH', body: content, headers: {Origin: origin,
+      Cookie: '__Host-collect_admin=old_fixture; __Host-collect_admin_rrlduytparvsjfmegalh=managed_fixture',
       'Idempotency-Key': 'fixture-operation', 'X-Collect-CSRF': 'fixture-csrf',
       'X-Collect-Requested-With': 'collect-admin', 'X-Collect-Admin': '1'},
   }), environment(supabaseEnv));
   assert.equal(response.status, 200); assert.equal(calls, 1);
-  assert.equal(response.headers.get('Set-Cookie'), cookie);
+  assert.equal(response.headers.get('Set-Cookie'), browserCookie);
   assert.match(response.headers.get('Cache-Control'), /no-store/);
 });
 
@@ -71,10 +73,10 @@ test('Supabase entrypoint binds cold Admin reads to its configured frontend with
       return new Response(null, {status: 204, headers: {'Set-Cookie': cookie}});
     }});
     const response = await entry.fetch(req('/api/admin/auth/session', {method,
-      headers: {'Sec-Fetch-Site': 'same-origin', Cookie: '__Host-collect_admin=fixture'},
+      headers: {'Sec-Fetch-Site': 'same-origin', Cookie: '__Host-collect_admin_rrlduytparvsjfmegalh=fixture'},
     }), environment(supabaseEnv));
     assert.equal(response.status, 204); assert.equal(calls, 1);
-    assert.equal(response.headers.get('Set-Cookie'), cookie); assert.equal(await response.text(), '');
+    assert.equal(response.headers.get('Set-Cookie'), browserCookie); assert.equal(await response.text(), '');
   }
 });
 
@@ -173,19 +175,18 @@ test('post-dispatch mutation uncertainty stays explicit and never falls back to 
   assert.deepEqual(await response.json(), {code: 'proxy_outcome_unknown', reason: 'proxy_cookie_invalid'});
 });
 
-test('shipping configurations keep Cloudflare default and require a separate complete Supabase opt-in', async () => {
-  const read = async file => JSON.parse(await readFile(new URL('../' + file, import.meta.url), 'utf8'));
-  const defaults = await read('wrangler.jsonc'); const selected = await read('wrangler.supabase.jsonc');
-  assert.equal(defaults.vars.COLLECT_BACKEND, 'cloudflare');
-  assert.deepEqual(defaults.assets.run_worker_first, ['/api', '/api/*']);
-  assert.deepEqual(defaults.services, [{binding: 'PLATFORM_API', service: 'collect-platform-api'}]);
-  assert.equal(selected.vars.COLLECT_BACKEND, 'supabase'); assert.equal(selected.vars.SUPABASE_URL, SUPABASE_ORIGIN);
-  assert.equal(selected.services, undefined);
-  for (const path of ['/api', '/api/*', '/v1', '/v1/*', '/functions', '/functions/*', '/privacy/account-deletion', '/privacy/account-deletion/*']) {
-    assert.ok(selected.assets.run_worker_first.includes(path));
+test('production and qualification profiles serve the React package using the Supabase transport', async () => {
+  for (const [file, directory] of [
+    ['wrangler.supabase.jsonc', '../../build/admin-web'],
+    ['wrangler.supabase-qa.jsonc', '../../build/admin-web-qualification'],
+  ]) {
+    const profile = JSON.parse(await readFile(new URL('../' + file, import.meta.url), 'utf8'));
+    assert.equal(profile.vars.COLLECT_BACKEND, 'supabase');
+    assert.equal(profile.vars.SUPABASE_URL, SUPABASE_ORIGIN);
+    assert.equal(profile.services, undefined);
+    assert.equal(profile.assets.directory, directory);
+    assert.equal(profile.routes[0].pattern, new URL(profile.vars.ADMIN_ORIGIN).hostname);
   }
-  for (const field of ['name', 'main', 'compatibility_date', 'account_id', 'routes']) assert.deepEqual(selected[field], defaults[field]);
-  assert.deepEqual(selected.assets.directory, defaults.assets.directory);
 });
 
 test('integrated transport bytes retain the recorded current source identity', async () => {

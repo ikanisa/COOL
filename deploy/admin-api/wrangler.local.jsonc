@@ -13,12 +13,6 @@
     "database_id": "00000000-0000-0000-0000-000000000001",
     "migrations_dir": "migrations"
   }],
-  "assets": {
-    "directory": "../../build/admin-cloudflare",
-    "binding": "ASSETS",
-    "run_worker_first": ["/api/admin/*"],
-    "not_found_handling": "single-page-application"
-  },
   "dev": { "port": 8795, "ip": "localhost" },
   "observability": { "enabled": false }
 }

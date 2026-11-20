@@ -1,0 +1,12 @@
+.ledger-account-detail { padding: 21px 23px; }
+.ledger-account-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+.ledger-account-heading h2 { margin: 0; font-size: 1.1rem; }
+.ledger-account-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 24px; margin: 0 0 18px; }
+.ledger-account-facts div { min-width: 0; }
+.ledger-account-facts dt { margin-bottom: 4px; color: var(--admin-muted); font-size: .75rem; }
+.ledger-account-facts dd { margin: 0; font-weight: 650; overflow-wrap: anywhere; }
+.ledger-account-link { color: var(--admin-accent-ink); font-weight: 650; }
+.ledger-account-link:hover { text-decoration: underline; }
+.ledger-account-form { display: grid; gap: 12px; max-width: 650px; margin: 18px 0; }
+.ledger-account-form .admin-btn { justify-self: start; }
+@media (max-width: 720px) { .ledger-account-detail { padding: 17px; } .ledger-account-facts { grid-template-columns: 1fr; } }

@@ -19,7 +19,7 @@ PACKAGE_VERSION="$(sed -n 's/^version:[[:space:]]*//p' pubspec.yaml | head -n 1)
 }
 BUILD_NAME="${COLLECT_ANDROID_BUILD_NAME:-${PACKAGE_VERSION%%+*}}"
 BUILD_NUMBER="${COLLECT_ANDROID_BUILD_NUMBER:-${PACKAGE_VERSION##*+}}"
-# Require the explicit self-hosted, SMS-enabled candidate profile and check
+# Require the explicit managed, SMS-enabled candidate profile and check
 # public/Admin aliases before invoking either compiler.
 PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER_VALUE="${PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER:-}"
 BUILD_STARTED_EPOCH="$(date +%s)"

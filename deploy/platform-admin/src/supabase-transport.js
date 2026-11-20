@@ -1,5 +1,7 @@
 /** PRIVATE standalone Fetch transport. No credentials are minted or persisted. */
 export const SUPABASE_ORIGIN = 'https://rrlduytparvsjfmegalh.supabase.co';
+const ADMIN_COOKIE = '__Host-collect_admin';
+const MANAGED_ADMIN_COOKIE = '__Host-collect_admin_rrlduytparvsjfmegalh';
 const FRONTENDS = new Set(['https://collect.ikanisa.com', 'https://admin.collect.ikanisa.com', 'https://platform-admin.collect.ikanisa.com', 'https://admin-supabase-qa.collect.ikanisa.com']);
 const METHODS = new Set(['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']);
 const FORWARD_HEADERS = new Set([
@@ -205,7 +207,17 @@ function validateCookie(cookie, route) {
       !attrs.has('httponly') || attrs.get('httponly') !== null || attrs.get('path') !== '/' ||
       !['strict', 'lax'].includes(attrs.get('samesite'))) refuse(502, 'proxy_cookie_invalid');
 }
-function responseHeaders(upstream, route) {
+function managedBrowserCookies(headers, route) {
+  const cookies = (headers.get('Cookie') ?? '').split(';').map(cookie => cookie.trim());
+  headers.delete('Cookie');
+  if (route.functionName !== 'admin-api') return;
+  const managed = cookies.filter(cookie => cookie.startsWith(MANAGED_ADMIN_COOKIE + '='));
+  if (!managed.length) return;
+  const value = managed[0].slice(MANAGED_ADMIN_COOKIE.length + 1);
+  if (managed.length !== 1 || !/^[A-Za-z0-9_-]{1,4096}$/.test(value)) refuse(400, 'proxy_cookie_invalid');
+  headers.set('Cookie', ADMIN_COOKIE + '=' + value);
+}
+function responseHeaders(upstream, route, isolateAdminSession) {
   const headers = new Headers();
   for (const [name, value] of upstream.headers) {
     if (name === 'set-cookie' || DROP_RESPONSE.has(name)) continue;
@@ -213,7 +225,10 @@ function responseHeaders(upstream, route) {
   }
   const cookies = cookiesOf(upstream.headers).filter(cookie => !gatewayCookie(cookie));
   if (cookies.length > 1) refuse(502, 'proxy_cookie_invalid');
-  for (const cookie of cookies) { validateCookie(cookie, route); headers.append('Set-Cookie', cookie); }
+  for (const cookie of cookies) {
+    validateCookie(cookie, route);
+    headers.append('Set-Cookie', isolateAdminSession ? MANAGED_ADMIN_COOKIE + cookie.slice(ADMIN_COOKIE.length) : cookie);
+  }
   return protectedHeaders(headers);
 }
 
@@ -232,7 +247,7 @@ function transportOrigin(value, {internal = false} = {}) {
   return value;
 }
 
-export function createCollectTransport({frontendOrigin, supabaseOrigin = SUPABASE_ORIGIN, upstreamOrigin = supabaseOrigin,
+export function createCollectTransport({frontendOrigin, isolateAdminSession = false, supabaseOrigin = SUPABASE_ORIGIN, upstreamOrigin = supabaseOrigin,
   allowedFrontendOrigins = [...FRONTENDS], fetchImpl = (request, init) => globalThis.fetch(request, init),
   timeoutMs = 30000, maxRequestBytes = 16 * 1024 * 1024, maxResponseBytes = 16 * 1024 * 1024} = {}) {
   const allowedFrontends = new Set(allowedFrontendOrigins.map(origin => transportOrigin(origin)));
@@ -253,6 +268,11 @@ export function createCollectTransport({frontendOrigin, supabaseOrigin = SUPABAS
       const canonical = url.pathname + url.search;
       const route = routeCollectTarget(rawTarget ?? canonical, upstreamOrigin);
       if (!route) return null;
+      // Open Flutter tabs used this route against the retired production issuer.
+      // An old form cannot submit to a newly signed-in managed account.
+      if (isolateAdminSession && route.functionName === 'admin-api' && route.path !== route.logicalPath) {
+        refuse(410, 'admin_realm_retired');
+      }
       // Admin reads can rotate managed credentials or revoke stale custody.
       // A missing response after dispatch cannot prove that no effect occurred.
       if (route.functionName === 'admin-api' && request.method !== 'OPTIONS') effectful = true;
@@ -287,6 +307,7 @@ export function createCollectTransport({frontendOrigin, supabaseOrigin = SUPABAS
       const bytes = await boundedBytes(request.body, maxRequestBytes, controller.signal, 413, 'proxy_request_too_large');
       const headers = new Headers();
       for (const [name, value] of request.headers) if (FORWARD_HEADERS.has(name)) headers.set(name, value);
+      if (isolateAdminSession) managedBrowserCookies(headers, route);
       // The versioned owner metadata opt-in is meaningful only on the exact
       // Admin session read. It is never an authority or a general proxy header.
       if (route.functionName === 'admin-api' && route.logicalPath === '/api/admin/auth/session' && request.method === 'GET' &&
@@ -324,7 +345,7 @@ export function createCollectTransport({frontendOrigin, supabaseOrigin = SUPABAS
         cancelObserved(upstream.body); refuse(502, 'proxy_response_too_large');
       }
       const output = await boundedBytes(upstream.body, maxResponseBytes, controller.signal, 502, 'proxy_response_too_large');
-      const response = responseHeaders(upstream, route);
+      const response = responseHeaders(upstream, route, isolateAdminSession);
       const mime = upstream.headers.get('content-type')?.split(';')[0].trim().toLowerCase();
       const document = DOCUMENTS.get(route.logicalPath);
       if (upstream.ok && document) {

@@ -34,6 +34,8 @@ class _DetachedSocket implements Socket {
   @override
   void destroy() => destroyed = true;
   @override
+  Future<void> close() async => destroy();
+  @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
@@ -53,11 +55,13 @@ class _RedirectResponse implements HttpClientResponse {
 /// A synthetic request models a redirect only when the SDK leaves its default
 /// redirect setting enabled. No HTTP server or network connection is used.
 class _RedirectRequest implements HttpClientRequest {
+  _RedirectRequest(this.socket);
+
   @override
   bool followRedirects = true;
   @override
   final HttpHeaders headers = _Headers();
-  final socket = _DetachedSocket();
+  final _DetachedSocket socket;
   bool? followRedirectsAtClose;
   int redirectTargetRequests = 0;
   int closeCalls = 0;
@@ -74,7 +78,9 @@ class _RedirectRequest implements HttpClientRequest {
 }
 
 class _RedirectClient extends _Client {
-  final request = _RedirectRequest();
+  _RedirectClient(this.request);
+
+  final _RedirectRequest request;
   String? method;
   Uri? uri;
   @override
@@ -124,11 +130,20 @@ void main() {
   test(
     'native default opener refuses redirect before HTTP handshake closes',
     () async {
-      final client = _RedirectClient(), unrelated = _Client();
+      final socket = _DetachedSocket();
+      addTearDown(() => socket.close());
+      final request = _RedirectRequest(socket);
+      addTearDown(() async {
+        if (request.closeCalls == 0) {
+          await request.close();
+        }
+      });
+      final client = _RedirectClient(request), unrelated = _Client();
       final owner = CollectMemberSocketTransport(
         connectTimeout: const Duration(seconds: 20),
         httpClientFactory: () => client,
       );
+      addTearDown(owner.close);
       final channel = owner.connect(_url, {});
       await expectLater(
         channel.ready,
@@ -150,7 +165,6 @@ void main() {
       expect(unrelated.forced, isFalse);
       await Future<void>.delayed(Duration.zero);
       expect(client.request.socket.destroyed, isTrue);
-      owner.close();
     },
   );
 

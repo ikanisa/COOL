@@ -3,6 +3,7 @@ import {adminAccountSession} from './admin_accounts.js';
 import {adminEmailArguments,requireFreshAdminEmail} from './admin_email_policy.js';
 import {applicationWork,applicationWorkTuple} from '../application-fence.js';
 import {verifyDeploymentProfile} from '../deployment-profile.js';
+import {adminSessionOriginMatches} from '../admin-security.js';
 import {AdminNativeProvisioning,provisioningCommand} from './burimunsi/admin-provisioning.js';
 import {selectAdminCollection} from './burimunsi/admin-scope-selection.js';
 import {preliminaryCurrentOwner} from './admin_owner_precheck.js';
@@ -39,7 +40,7 @@ export async function adminBuriMunsiProvisioning(request,env){
   requireFreshAdminEmail(account);
   const work=applicationWork(env),tuple=applicationWorkTuple(work),profile=await verifyDeploymentProfile(env);
   if(work.kind!=='http_admin'||env.DB?.applicationWork!==work||tuple[2]!==env.BUILD_SOURCE_ID||
-    account.origin!==profile.admin_origin||request.headers.get('Origin')!==profile.admin_origin)unavailable();
+    !adminSessionOriginMatches(request,env,profile,account))unavailable();
   const input=request.method==='POST'?await readJson(request,2048):null;
   const group=await selectAdminCollection({env,account,requested:input?.collectionId??url.searchParams.get('collectionId')});
   const service=new AdminNativeProvisioning({env,groupId:group,actorArgs:adminEmailArguments(account),

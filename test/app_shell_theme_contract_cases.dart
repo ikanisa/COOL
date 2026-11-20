@@ -47,21 +47,16 @@ void _registerAppShellThemeContracts() {
     expect(controller.state, ThemeMode.light);
   });
 
-  test('member and admin apps use persisted Collect theme mode', () {
+  test('the member app uses persisted Collect theme mode', () {
     final memberApp = File('lib/app/app.dart').readAsStringSync();
-    final adminApp = File('lib/admin/admin_app.dart').readAsStringSync();
     final controller = File(
       'lib/app/theme/collect_theme_controller.dart',
     ).readAsStringSync();
 
     expect(memberApp, contains('collectThemeModeProvider'));
-    expect(adminApp, contains('collectThemeModeProvider'));
     expect(memberApp, contains('highContrastTheme'));
     expect(memberApp, contains('highContrastDarkTheme'));
-    expect(adminApp, contains('highContrastTheme'));
-    expect(adminApp, contains('highContrastDarkTheme'));
     expect(memberApp, isNot(contains('themeMode: ThemeMode.system')));
-    expect(adminApp, isNot(contains('themeMode: ThemeMode.system')));
     expect(controller, contains("'system' => ThemeMode.system"));
     expect(controller, isNot(contains('_concreteMode')));
   });
@@ -440,8 +435,6 @@ void _registerAppShellThemeContracts() {
     // Eligibility defaults on; device support and explicit consent still gate
     // native capture independently of the retired SMS-reader flag.
     expect(env.enableAndroidSmsAccess, isTrue);
-    expect(env.enableAdminPanel, isFalse);
-    expect(env.enableAdminDevTools, isFalse);
     expect(app, isNot(contains('if (!env.enableAndroidSmsAccess')));
     expect(app, contains('syncPendingSmsAccess()'));
   });

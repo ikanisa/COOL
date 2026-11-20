@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:collect_app/core/cloudflare/collect_cloudflare_client.dart';
@@ -11,7 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
 import 'supabase_backend_test.dart' as fixtures;
-import '../admin/cloudflare_canonical_reconciliation_support.dart';
 
 void main() {
   test(
@@ -73,81 +71,6 @@ void main() {
         expect(store.value, isNot(contains(forbidden)));
       }
       expect(queue.pendingCount, 0);
-    },
-  );
-
-  test(
-    'Admin telemetry uses BFF CSRF and an unauthorized reply does not clear app authentication',
-    () async {
-      final requests = <http.Request>[];
-      var status = 202;
-      final h = await FinancialHarness.create(
-        auth: canonicalSupabaseFinancialSession(),
-        environment: fixtures.environment(),
-        origin: Uri.parse('https://admin.collect.ikanisa.com'),
-        reply: (request) async {
-          requests.add(request);
-          return http.Response(
-            status == 202
-                ? '{"contract_version":1,"accepted":true}'
-                : '{"error":"PRIVATE SYNTHETIC DETAIL"}',
-            status,
-          );
-        },
-      );
-      final before = h.session.authorityFence;
-      final body = <String, Object?>{
-        'contract_version': 1,
-        'reports': <Object?>[],
-      };
-      expect(
-        await h.session.sendDiagnosticBatch(body, current: () => true),
-        CollectDiagnosticDelivery.accepted,
-      );
-      expect(
-        requests.single.url.path,
-        '/functions/v1/admin-api/api/admin/diagnostics',
-      );
-      expect(requests.single.headers['x-collect-csrf'], 'a' * 64);
-      expect(
-        requests.single.headers['x-collect-requested-with'],
-        'collect-admin',
-      );
-      expect(requests.single.headers.containsKey('authorization'), isFalse);
-      status = 401;
-      expect(
-        await h.session.sendDiagnosticBatch(body, current: () => true),
-        CollectDiagnosticDelivery.retry,
-      );
-      expect(h.session.authorityFence, before);
-      expect(h.session.user, isNotNull);
-    },
-  );
-
-  test(
-    'Admin diagnostics rejects late acknowledgements after a session switch',
-    () async {
-      final gate = Completer<http.Response>(), started = Completer<void>();
-      final h = await FinancialHarness.create(
-        auth: canonicalSupabaseFinancialSession(),
-        environment: fixtures.environment(),
-        origin: Uri.parse('https://admin.collect.ikanisa.com'),
-        reply: (request) {
-          started.complete();
-          return gate.future;
-        },
-      );
-      final pending = h.session.sendDiagnosticBatch({
-        'contract_version': 1,
-        'reports': <Object?>[],
-      }, current: () => true);
-      await started.future;
-      h.session.clear();
-      gate.complete(
-        http.Response('{"contract_version":1,"accepted":true}', 202),
-      );
-      expect(await pending, CollectDiagnosticDelivery.retry);
-      expect(h.session.user, isNull);
     },
   );
 }

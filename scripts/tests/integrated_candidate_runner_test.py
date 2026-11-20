@@ -11,6 +11,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 RUNNER = ROOT / 'scripts/qa/run_integrated_candidate_checks.sh'
+COMPACT_RUNNER = ROOT / 'scripts/qa/run_compact_ui_checks.sh'
 
 class IntegratedRunnerTests(unittest.TestCase):
     def setUp(self):
@@ -20,9 +21,12 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.runner = self.root / 'scripts/qa/run_integrated_candidate_checks.sh'
         self.runner.parent.mkdir(parents=True)
         shutil.copyfile(RUNNER, self.runner)
+        self.compact_runner = self.runner.with_name(COMPACT_RUNNER.name)
+        shutil.copyfile(COMPACT_RUNNER, self.compact_runner)
         target_block = RUNNER.read_text().split('TARGETS=(\n', 1)[1].split('\n)', 1)[0]
         self.targets = [line.strip() for line in target_block.splitlines()]
-        for rel in ['pubspec.yaml', 'pubspec.lock', '.dart_tool/package_config.json', *self.targets]:
+        for rel in ['pubspec.yaml', 'pubspec.lock', '.dart_tool/package_config.json',
+                    'admin-web/package.json', 'admin-web/package-lock.json', *self.targets]:
             path = self.root / rel
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text('isolated uncompiled test fixture\n')
@@ -33,6 +37,8 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.env['SDK_LOG'] = str(self.log)
         self.env['FLUTTER_BIN'] = self.fake_sdk('flutter')
         self.env['DART_BIN'] = self.fake_sdk('dart')
+        self.env['NODE_BIN'] = self.fake_sdk('node')
+        self.env['NPM_BIN'] = self.fake_sdk('npm')
 
     def fake_sdk(self, name):
         p = self.root / name
@@ -43,7 +49,10 @@ args = sys.argv[1:]
 name = Path(sys.argv[0]).name
 with open(os.environ['SDK_LOG'], 'a') as stream:
     stream.write(json.dumps([name, *args]) + '\\n')
-if args and args[0] == os.environ.get('FAIL_STAGE'):
+stage = os.environ.get('FAIL_STAGE')
+if (args and args[0] == stage or
+    (name == 'flutter' and '--platform' in args and stage == 'browser') or
+    (name in {'npm', 'node'} and args[-1] == stage)):
     sys.exit(int(os.environ.get('FAIL_CODE', '4')))
 if args == ['--version', '--machine']:
     if os.environ.get('FAKE_MALFORMED'):
@@ -57,8 +66,8 @@ elif name == 'dart' and args == ['--version']:
         p.chmod(0o755)
         return str(p)
 
-    def run_gate(self):
-        return subprocess.run(['bash', str(self.runner)], cwd=self.root, env=self.env,
+    def run_gate(self, runner=None):
+        return subprocess.run(['bash', str(runner or self.runner)], cwd=self.root, env=self.env,
                               text=True, capture_output=True, timeout=15)
 
     def calls(self):
@@ -81,7 +90,8 @@ elif name == 'dart' and args == ['--version']:
         self.assertEqual(self.calls(), [])
 
     def test_missing_full_checkout_inputs(self):
-        for rel in ['pubspec.yaml', 'pubspec.lock', '.fvmrc', '.dart_tool/package_config.json']:
+        for rel in ['pubspec.yaml', 'pubspec.lock', '.fvmrc', '.dart_tool/package_config.json',
+                    'admin-web/package.json', 'admin-web/package-lock.json']:
             with self.subTest(rel=rel):
                 p=self.root/rel; data=p.read_bytes();p.unlink()
                 self.assert_blocked();self.assertEqual(self.calls(), [])
@@ -90,7 +100,10 @@ elif name == 'dart' and args == ['--version']:
     def test_missing_each_branch_regression_suite(self):
         for rel in ['test/connection_recovery_screen_test.dart','test/connection_recovery_screens_test.dart',
                     'test/collect_lazy_group_list_test.dart','test/form_viewport_namespace_test.dart',
-                    'test/collect_disabled_action_regression_test.dart']:
+                    'test/collect_disabled_action_regression_test.dart',
+                    'test/features/member_roster_screen_test.dart',
+                    'test/features/contribution_amount_accessibility_test.dart',
+                    'test/features/contribution_command_recovery_test.dart']:
             with self.subTest(rel=rel):
                 p=self.root/rel;data=p.read_bytes();p.unlink()
                 self.assert_blocked();self.assertEqual(self.calls(), [])
@@ -147,10 +160,45 @@ elif name == 'dart' and args == ['--version']:
     def test_mock_success_checks_whole_checkout_without_pub(self):
         result=self.run_gate()
         self.assertEqual(result.returncode,0,result.stderr)
-        self.assertEqual(self.calls()[-2:], [['flutter','analyze','--no-pub'],['flutter','test','--no-pub']])
+        calls = [['--dart-define-from-file=<original>' if argument.startswith('--dart-define-from-file=') else argument
+                  for argument in call] for call in self.calls()[3:]]
+        self.assertEqual(calls, [
+            ['flutter', 'analyze', '--no-pub', '--fatal-infos'],
+            ['flutter', 'test', '--no-pub', '--concurrency=1', '--exclude-tags=integration', '--reporter=expanded'],
+            ['npm', '--prefix', 'admin-web', 'run', 'typecheck'],
+            ['npm', '--prefix', 'admin-web', 'run', 'lint'],
+            ['npm', '--prefix', 'admin-web', 'test'],
+            ['node', '--test', 'admin-web/tests/pwa/package-pwa.test.mjs'],
+            ['node', 'scripts/tests/admin_pwa_worker_cache_test.mjs'],
+        ])
         self.assertIn('--output=none',self.calls()[2])
         self.assertIn('--set-exit-if-changed',self.calls()[2])
         self.assertIn('PASS:',result.stdout)
+
+    def test_declared_flutter_targets_exist_in_the_checkout(self):
+        for rel in self.targets:
+            with self.subTest(target=rel):
+                self.assertTrue((ROOT / rel).is_file())
+
+    def test_admin_failure_stops_before_the_package_checks(self):
+        self.env.update(FAIL_STAGE='lint', FAIL_CODE='9')
+        result = self.run_gate()
+        self.assertEqual(result.returncode, 9)
+        self.assertNotIn('PASS:', result.stdout)
+        self.assertEqual(self.calls()[-1], ['npm', '--prefix', 'admin-web', 'run', 'lint'])
+
+    def test_compact_checks_use_member_and_react_ui_fixtures(self):
+        result = self.run_gate(self.compact_runner)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        member = ['test/collect_form_viewport_test.dart', 'test/features/member_roster_screen_test.dart',
+                  'test/features/contribution_amount_accessibility_test.dart']
+        admin = ['tests/foundation/shell.test.tsx', 'tests/core/transaction-reverse.test.tsx']
+        self.assertEqual(self.calls()[-2:], [
+            ['flutter', 'test', '--no-pub', '--reporter', 'expanded', *member],
+            ['npm', '--prefix', 'admin-web', 'test', '--', *admin],
+        ])
+        for path in [*(ROOT / item for item in member), *(ROOT / 'admin-web' / item for item in admin)]:
+            self.assertTrue(path.is_file(), str(path))
 
     def test_version_suffix_is_supported(self):
         self.env['FAKE_BUNDLED_DART']='3.12.0 (stable)'

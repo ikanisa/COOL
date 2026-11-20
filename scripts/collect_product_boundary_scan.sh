@@ -36,11 +36,6 @@ allowed_matches = [
     "text" => /package:crypto\/crypto\.dart/
   },
   {
-    "path" => "lib/admin/core/admin_runtime.dart",
-    "check" => "trading_action",
-    "text" => /JsonEncoder|dart:convert/
-  },
-  {
     "path" => "lib/features/status/production_state_screens.dart",
     "check" => "manual_payment_prompt",
     "text" => /does not ask you to paste SMS messages or transaction IDs/

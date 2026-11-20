@@ -160,8 +160,6 @@ class _RouteHarness {
             adminAppUrl: '',
             enableSmsReader: false,
             enableAndroidSmsAccess: false,
-            enableAdminPanel: false,
-            enableAdminDevTools: false,
             authCaptchaEnabled: captcha,
             authCaptchaProvider: '',
             authCaptchaSiteKey: '',

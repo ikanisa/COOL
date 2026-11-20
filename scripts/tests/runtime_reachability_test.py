@@ -19,8 +19,7 @@ class ReachabilityTest(unittest.TestCase):
         for name in ['test', 'tool', 'integration_test']:
             (self.root / name).mkdir()
         self.write('lib/main.dart', "import 'stub.dart'\n if (dart.library.html) 'web.dart';\nimport 'shared/models/collect_group_cover.dart';")
-        self.write('lib/main_admin.dart', "import 'parts.dart';")
-        self.write('lib/main_public.dart', "import 'stub.dart';")
+        self.write('lib/main_public.dart', "import 'stub.dart';\nimport 'parts.dart';")
         self.write('lib/main_gateway.dart', "import 'gateway/gateway_app.dart';")
         self.write('lib/gateway/gateway_app.dart', "import 'gateway_platform.dart';")
         self.write('lib/gateway/gateway_platform.dart', 'class GatewayPlatform {}')

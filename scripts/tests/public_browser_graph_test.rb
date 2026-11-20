@@ -45,7 +45,7 @@ class PublicBrowserGraphTest < Minitest::Test
   def test_actual_unrelated_admin_and_gateway_additions_preserve_browser_fingerprint
     fixture do |root, media|
       before = fingerprint(media)
-      %w[lib/admin/new_control.dart lib/gateway/gateway_app.dart].each do |name|
+      %w[admin-web/src/new-control.tsx lib/gateway/gateway_app.dart].each do |name|
         path = File.join(root, name)
         FileUtils.mkdir_p(File.dirname(path))
         File.write(path, 'new unrelated runtime')

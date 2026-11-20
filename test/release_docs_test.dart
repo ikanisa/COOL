@@ -52,10 +52,7 @@ void main() {
       example,
       contains('SUPABASE_URL=https://rrlduytparvsjfmegalh.supabase.co'),
     );
-    expect(
-      example,
-      contains('COLLECT_API_URL=\n'),
-    );
+    expect(example, contains('COLLECT_API_URL=\n'));
     expect(example, contains('SUPABASE_API_URL=\n'));
     expect(example, contains('SUPABASE_ADMIN_API_URL=\n'));
     expect(example, contains('ADMIN_APP_URL=\n'));

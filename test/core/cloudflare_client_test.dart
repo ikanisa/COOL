@@ -46,8 +46,7 @@ CollectSupabaseConfiguration _guestConfiguration() {
     adminAppUrl: 'https://admin.example.com',
     enableSmsReader: false,
     enableAndroidSmsAccess: false,
-    enableAdminPanel: false,
-    enableAdminDevTools: false,
+
     authCaptchaEnabled: false,
     authCaptchaProvider: '',
     authCaptchaSiteKey: '',
@@ -573,8 +572,9 @@ void main() {
         );
         addTearDown(() async {
           if (!storage.readReply.isCompleted) storage.readReply.complete(null);
-          if (!storage.clearRelease!.isCompleted)
+          if (!storage.clearRelease!.isCompleted) {
             storage.clearRelease!.complete();
+          }
           await client.dispose();
         });
         final initializing = client.initialize();
@@ -916,8 +916,9 @@ void main() {
           if (storage.writeRelease case final release?) {
             if (!release.isCompleted) release.complete();
           }
-          if (!storage.clearRelease!.isCompleted)
+          if (!storage.clearRelease!.isCompleted) {
             storage.clearRelease!.complete();
+          }
           await subscription.cancel();
           await client.dispose();
         });
@@ -984,8 +985,9 @@ void main() {
           ),
         );
         addTearDown(() async {
-          if (!storage.clearRelease!.isCompleted)
+          if (!storage.clearRelease!.isCompleted) {
             storage.clearRelease!.complete();
+          }
           await client.dispose();
         });
         final original = client.auth.recoverSession(jsonEncode(_credentials()));
@@ -1380,8 +1382,9 @@ void main() {
       addTearDown(() async {
         if (!storage.readReply.isCompleted) storage.readReply.complete(null);
         if (!reply.isCompleted) reply.complete(_json({}, 401));
-        if (!storage.writeRelease!.isCompleted)
+        if (!storage.writeRelease!.isCompleted) {
           storage.writeRelease!.complete();
+        }
         await client.dispose();
       });
       final initializing = client.initialize();

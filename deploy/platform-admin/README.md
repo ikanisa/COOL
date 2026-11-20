@@ -1,8 +1,8 @@
 # Collect Admin frontend transport
 
-The selected backend is the Supabase Cloud project at `https://rrlduytparvsjfmegalh.supabase.co`. BuriMunsi also has separate Android Staff and Admin applications; SMS permissions belong to the Admin application. This directory contains the existing web Admin transport and its source checks.
+The selected backend is the Supabase Cloud project at `https://rrlduytparvsjfmegalh.supabase.co`. BuriMunsi also has separate Android Staff and Admin Sync applications. Admin Sync owns SMS capture permissions. This directory contains the existing web Admin transport and its source checks.
 
-This package has no production deployment command. The retained Wrangler files describe older configurations and test profiles; their presence does not establish a qualified Cloud deployment or current hosting state. Unknown backend values and mismatched deployment profiles fail closed without falling back to Cloudflare.
+This package has no production deployment command. The production and qualification Wrangler files serve separate outputs of the same React package. Both require verification against the intended Supabase profile. Unknown backend values and mismatched deployment profiles fail closed without falling back to Cloudflare.
 
 In Supabase mode, `src/supabase-transport.js` forwards only the fixed `collect-api` and `admin-api` protocols. Authentication, authorization, managed sessions, database operations, objects, financial logic and AI remain in the Supabase backend and its configured providers. The frontend Worker has no business database or authentication state. It stores no token, mints no credential and retries no upstream operation. This arrangement uses the existing frontend host without requiring a paid Supabase custom domain. Existing frontend-host quotas and costs still apply.
 
@@ -28,11 +28,11 @@ GET bodies must be valid UTF-8 HTML; HEAD requires the same marker and CSP and r
 
 ## Build and local checks
 
-The existing `scripts/admin_pwa_release_build.sh` builds the cookie entrypoint under its release contract. A Cloud web Admin candidate still needs a consistent managed deployment profile, reviewed build and hosting configuration, and source/artifact verification before deployment. The source in this directory does not establish or change live routing.
+[React Admin](../../admin-web/README.md) is packaged by `make admin-web-build`. The production Worker configuration serves `build/admin-web/`, and the QA configuration serves `build/admin-web-qualification/`. Verify the paired source receipt before preparing an artifact for the host. Hosted sign-in and workflow qualification remain open.
 
 Run the host-entrypoint regressions with `npm test` from this directory. Mocked transport checks do not establish backend, hosted or physical-device acceptance.
 
-The integrated transport is an exact copy of the independently tested APFS draft. Its provenance and SHA256 are recorded in `supabase-transport.provenance.json`. Entrypoint tests exercise backend selection, default forwarding, static-byte preservation, target refusal, cookies/headers/body/query, qualified HTML and uncertain mutation handling. These are local mocked transport checks, not backend, hosted or physical-device acceptance.
+The current adapter digest is recorded in `supabase-transport.provenance.json`. Entrypoint tests exercise backend selection, default forwarding, static-byte preservation, target refusal, cookies/headers/body/query, qualified HTML and uncertain mutation handling. These are local mocked transport checks, not backend, hosted or physical-device acceptance.
 
 ## Remaining integration gates
 

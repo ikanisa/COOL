@@ -13,8 +13,9 @@
     "SUPABASE_URL": "https://rrlduytparvsjfmegalh.supabase.co"
   },
   "assets": {
-    "directory": "./assets",
+    "directory": "../../build/admin-web",
     "binding": "ASSETS",
+    "html_handling": "none",
     "not_found_handling": "single-page-application",
     "run_worker_first": [
       "/api",
@@ -25,6 +26,8 @@
       "/functions/*",
       "/privacy/account-deletion",
       "/privacy/account-deletion/*",
+      "/",
+      "/index.html",
       "/admin/auth/local-challenge*",
       "/_build/*"
     ]

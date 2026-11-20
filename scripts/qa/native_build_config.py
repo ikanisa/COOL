@@ -126,7 +126,7 @@ def configuration(env, platform, pubspec=None):
               "SUPABASE_API_URL": api, "SUPABASE_ADMIN_API_URL": admin,
               "SUPABASE_PUBLISHABLE_KEY": key, "COLLECT_API_URL": api,
               "APP_PUBLIC_URL": public, "ADMIN_APP_URL": admin,
-              "APP_ENVIRONMENT": "production", "ENABLE_ADMIN_PANEL": "false",
+              "APP_ENVIRONMENT": "production",
               "COLLECT_MOBILE_EVIDENCE_MODE": "false",
               "AUTH_CAPTCHA_ENABLED": captcha, "AUTH_CAPTCHA_PROVIDER": provider,
               "AUTH_CAPTCHA_SITE_KEY": site_key, "GOOGLE_AUTH_ENABLED": google,
@@ -149,12 +149,12 @@ def store_candidate_configuration(env, platform, pubspec=None):
     """Require the self-hosted SMS-enabled target for new store candidates.
 
     Generic native configuration remains available to its existing callers;
-    candidate admission must never fall back to the legacy managed profile.
+    candidate admission must never fall back to the implicit default profile.
     """
     profile, profile_defines = deployment_configuration(env)
-    if (not profile_defines or profile.get("mode") != "self_hosted"
-            or profile.get("supabase_origin") == PROJECT):
-        raise ValueError("Store candidate requires an explicit self-hosted production profile")
+    if (not profile_defines or profile.get("mode") != "managed"
+            or profile.get("supabase_origin") != PROJECT):
+        raise ValueError("Store candidate requires an explicit managed production profile")
     if env.get("COLLECT_SMS_AUTH_ENABLED") != "true":
         raise ValueError("Store candidate requires SMS authentication enabled")
     return configuration(env, platform, pubspec)
@@ -164,7 +164,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("platform", choices=("android", "ios"))
     parser.add_argument("--store-candidate", action="store_true",
-                        help="require the explicit self-hosted, SMS-enabled store candidate profile")
+                        help="require the explicit managed, SMS-enabled store candidate profile")
     outputs = parser.add_mutually_exclusive_group(required=True)
     outputs.add_argument("--defines-output", type=Path)
     outputs.add_argument("--validate-defines", type=Path)

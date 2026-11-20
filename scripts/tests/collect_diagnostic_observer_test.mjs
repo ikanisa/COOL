@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 import {EventEmitter} from 'node:events';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {runInNewContext} from 'node:vm';
 import {classifyCollectDiagnostic, observeCollectDiagnostics, collectDiagnosticFailures,
   sanitizeCollectDiagnosticLog, collectDiagnosticSourceSnapshot} from '../qa/collect_diagnostic_observer.mjs';
 
@@ -80,47 +79,18 @@ test('Declared malformed console entries lose raw text and untrusted URL/detail 
   const ordinary={level:'error',text:'Uncaught error'};assert.equal(sanitizeCollectDiagnosticLog(ordinary),ordinary);
 });
 
-const cdpSource=await readFile(new URL('../admin_pwa_runtime_smoke.mjs',import.meta.url),'utf8');
-const CdpClient=runInNewContext(cdpSource.match(/class CdpClient \{[\s\S]*?\n\}/)[0]+'\nCdpClient');
-const body=cdpSource.slice(cdpSource.indexOf('// BEGIN runtime console failure collection'),cdpSource.indexOf('// END runtime console failure collection'));
-const ignore=runInNewContext(cdpSource.match(/function isIgnorableBrowserRequest\(entry\) \{[\s\S]*?\n\}/)[0]+'\nisIgnorableBrowserRequest');
-const errors=runInNewContext(body+'\nruntimeConsoleFailures',{collectDiagnosticFailures,sanitizeCollectDiagnosticLog,isIgnorableBrowserRequest:ignore});
-test('Actual maintained CDP event handling observes log-level handled failures and preserves page exceptions', () => {
-  const cdp=new CdpClient('not-connected');
-  for(const[code,severity]of Object.entries(codes))cdp.handleMessage(JSON.stringify({method:'Runtime.consoleAPICalled',params:{type:'log',args:[{type:'string',value:wire({code,severity})}]}}));
-  cdp.handleMessage(JSON.stringify({method:'Runtime.exceptionThrown',params:{exceptionDetails:{text:'Uncaught runtime exception'}}}));
-  const result=errors(cdp.logs);assert.equal(result.length,6);assert(result.some(e=>e.text==='Uncaught runtime exception'));
-  assert.equal(result.filter(e=>e.diagnostic?.failure).length,5);
-});
-test('Diagnostic declarations cannot exploit existing favicon ignore; raw malformed payload is not reported', () => {
-  const logs=[{level:'error',text:'{"collect_diagnostic":1,"secret":"private-secret favicon.ico",'},
-    {level:'error',text:'favicon.ico failed'},{level:'assert',text:'assertion failed'},
-    {level:'error',text:wire()}];
-  const result=errors(logs);assert.equal(result.length,3);
-  assert(!JSON.stringify(result).includes('private-secret'));
-  assert(result.some(e=>e.text==='assertion failed'));
-  assert(result.some(e=>e.diagnostic?.reason==='observed_info')); // Original error-level rule is retained.
-});
 test('Observer and actual recorder bytes both enter source provenance', async () => {
-  const recorder=new URL('../admin_pwa_runtime_smoke.mjs',import.meta.url);
+  const recorder=new URL('../qa/public_browser_app_media.mjs',import.meta.url);
   const snapshot=await collectDiagnosticSourceSnapshot(recorder);
-  assert.deepEqual(Object.keys(snapshot),['scripts/qa/collect_diagnostic_observer.mjs','scripts/admin_pwa_runtime_smoke.mjs']);
+  assert.deepEqual(Object.keys(snapshot),['scripts/qa/collect_diagnostic_observer.mjs','scripts/qa/public_browser_app_media.mjs']);
   for(const[path,hash]of Object.entries(snapshot))assert.equal(hash,createHash('sha256').update(await readFile(new URL('../../'+path,import.meta.url))).digest('hex'));
   await assert.rejects(collectDiagnosticSourceSnapshot(new URL('../../pubspec.yaml',import.meta.url)),/repository script/);
 });
 
-const callers=['qa/public_browser_app_media.mjs','admin_pwa_browser_qa.mjs','admin_pwa_runtime_smoke.mjs',
-  'qa/admin_design_flow_browser_qa.mjs','qa/admin_pwa_lifecycle_qa.mjs'];
-for(const caller of callers)test('Maintained caller keeps runtime failure checks and observer provenance: '+caller,async()=>{
-  const source=await readFile(new URL('../'+caller,import.meta.url),'utf8');
-  assert.match(source,/from ['"].*collect_diagnostic_observer\.mjs['"]/);
-  if(caller==='admin_pwa_runtime_smoke.mjs'){
-    assert.match(source,/Runtime\.exceptionThrown/);assert.match(source,/runtime\.ok && errors\.length === 0/);
-  }else assert.match(source,/\.on\('pageerror'/);
-  if(['qa/admin_pwa_lifecycle_qa.mjs'].includes(caller)){
-    assert(source.includes("'scripts/qa/collect_diagnostic_observer.mjs'"));
-    assert.match(source,/context\.on\('page',\s*observe(?:Page)?\)/);
-  }else{
-    assert.match(source,/diagnostic_observer_sources_before/);assert.match(source,/diagnostic_observer_sources_after/);
-  }
+test('Public capture keeps runtime failure checks and observer provenance', async () => {
+  const source = await readFile(new URL('../qa/public_browser_app_media.mjs', import.meta.url), 'utf8');
+  assert.match(source, /from ['"].*collect_diagnostic_observer\.mjs['"]/);
+  assert.match(source, /\.on\('pageerror'/);
+  assert.match(source, /diagnostic_observer_sources_before/);
+  assert.match(source, /diagnostic_observer_sources_after/);
 });

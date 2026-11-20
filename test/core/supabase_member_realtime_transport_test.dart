@@ -62,8 +62,6 @@ AppEnv _environment({
     adminAppUrl: profile?['admin_origin'] ?? '',
     enableSmsReader: false,
     enableAndroidSmsAccess: false,
-    enableAdminPanel: false,
-    enableAdminDevTools: false,
     authCaptchaEnabled: false,
     authCaptchaProvider: '',
     authCaptchaSiteKey: '',

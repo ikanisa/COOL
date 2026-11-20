@@ -3,6 +3,7 @@ import {claimsOf} from '../auth-http.js';
 import {adminAccountSession,adminCanonicalActor} from './admin_accounts.js';
 import {applicationWork,applicationWorkTuple} from '../application-fence.js';
 import {verifyDeploymentProfile} from '../deployment-profile.js';
+import {adminSessionOriginMatches} from '../admin-security.js';
 import {PostgresNativeAuthority} from './burimunsi/postgres-authority.js';
 import {resolveNativeCollection} from './burimunsi/postgres-scope-discovery.js';
 
@@ -24,7 +25,7 @@ export async function adminBuriMunsiAccess(request,env){
  // The existing Admin proxy routes to the shared Supabase function. The
  // cookie's verified public Origin, not that internal transport URL, is the
  // Admin identity. logicalRequest deliberately keeps the Supabase URL.
- if(account.origin!==profile.admin_origin||request.headers.get('Origin')!==profile.admin_origin)unavailable();
+ if(!adminSessionOriginMatches(request,env,profile,account))unavailable();
  const tuple=JSON.stringify(applicationWorkTuple(work));
  const owned=async()=>{await work.assert();if(env.DB?.applicationWork!==work||JSON.stringify(applicationWorkTuple(work))!==tuple)unavailable();};
  await owned();

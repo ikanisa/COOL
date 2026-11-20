@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import copy
 import importlib.util
-import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -34,6 +34,8 @@ class CollectCiPolicyTest(unittest.TestCase):
 
     def test_current_declared_boundary_is_valid(self):
         self.assertEqual(policy.validate_workflows(self.workflows), [])
+
+
 
     def test_managed_cloud_is_the_only_current_qualification_profile(self):
         workflow = self.workflows['supabase.yml']
@@ -730,16 +732,13 @@ class CollectCiPolicyTest(unittest.TestCase):
 
     def test_supabase_candidate_cannot_fall_back_to_another_backend(self):
         original = copy.deepcopy(self.workflows)
-        for boundary in ('build', 'receipt', 'consumer'):
+        for boundary in ('build', 'consumer'):
             with self.subTest(boundary=boundary):
                 self.workflows = copy.deepcopy(original)
                 jobs = self.workflows['ci.yml']['jobs']
-                if boundary == 'consumer':
-                    jobs['admin-platform-candidate']['env']['COLLECT_BACKEND'] = 'cloudflare'
-                else:
-                    key = 'bash scripts/admin_pwa_release_build.sh' if boundary == 'build' else 'PY_PLATFORM_IDENTITY'
-                    step = next(s for s in jobs['admin-web-build']['steps'] if key in s.get('run', ''))
-                    step['env']['COLLECT_BACKEND'] = "${{ vars.COLLECT_BACKEND || 'cloudflare' }}"
+                job = jobs['admin-web-build' if boundary == 'build' else 'admin-platform-candidate']
+                step = next(s for s in job['steps'] if 'build-admin.mjs verify-ci' in s.get('run', ''))
+                step['env']['COLLECT_BACKEND'] = 'cloudflare'
                 self.assertIn('CI_SUPABASE_CANDIDATE_SELECTION_REQUIRED', self.codes())
 
     def test_shipping_identity_cannot_download_the_legacy_preview_artifact(self):
@@ -748,12 +747,19 @@ class CollectCiPolicyTest(unittest.TestCase):
         step['with']['name'] = 'admin-cloudflare-candidate'
         self.assertIn('CI_SHIPPING_PLATFORM_ARTIFACT_REQUIRED', self.codes())
 
-    def test_shipping_identity_requires_retained_compiler_input(self):
+    def test_shipping_identity_requires_retained_react_receipt(self):
         job = self.workflows['ci.yml']['jobs']['admin-web-build']
         step = next(s for s in job['steps'] if s.get('with', {}).get('name') == 'admin-platform-pwa-candidate')
         step['with']['path'] = '\n'.join(line for line in step['with']['path'].splitlines()
-                                         if line.strip() != 'build/admin-public-defines.json')
+                                         if line.strip() != 'build/admin-web.json')
         self.assertIn('CI_SHIPPING_PLATFORM_INPUT_REQUIRED', self.codes())
+
+    def test_shipping_build_requires_the_compiled_browser_session_checks(self):
+        steps = self.workflows['ci.yml']['jobs']['admin-web-build']['steps']
+        step = next(s for s in steps if 'admin-web/tests/browser/smoke.mjs' in s.get('run', ''))
+        step['continue-on-error'] = True
+        self.assertIn('CI_COMPILED_ADMIN_BROWSER_REQUIRED', self.codes())
+
 
     def test_legacy_preview_compilation_cannot_gate_the_shipping_build(self):
         job = self.workflows['ci.yml']['jobs']['admin-web-build']
@@ -802,80 +808,17 @@ class CollectCiPolicyTest(unittest.TestCase):
                 policy.read_workflow(root / "._ci.yml")
 
 
-    def test_shipping_pwa_identity_binds_real_clean_commit_and_rejects_invalid_inputs(self):
-        steps = self.workflows["ci.yml"]["jobs"]["admin-web-build"]["steps"]
-        identity = next(s for s in steps if s.get("name") == "Bind shipping PWA artifact to the clean workflow commit")
-        with tempfile.TemporaryDirectory() as folder:
-            root = Path(folder).resolve()
-            # Tiny local artifact files exercise the actual receipt gate. They
-            # are not Flutter, hosted, browser or release acceptance evidence.
-            inputs = [
-                'scripts/admin_pwa_release_build.sh', 'scripts/supabase/admin_build_config.py',
-                'scripts/supabase/deployment_profile.py', 'scripts/admin_pwa_manifest_gate.sh',
-                'scripts/admin_pwa_hosting_gate.sh', 'scripts/admin_cloudflare_assets.py',
-                'scripts/templates/admin_pwa_service_worker.js', 'deploy/platform-admin/src/index.js', 'deploy/platform-admin/src/supabase-transport.js',
-                'deploy/admin.wrangler.jsonc', 'deploy/platform-admin/wrangler.jsonc',
-                '.github/workflows/ci.yml', '.fvmrc', 'pubspec.yaml', 'pubspec.lock',
-                'scripts/admin_platform_candidate.py',
-                'scripts/qa/client_diagnostic_identity.py',
-            ]
-            for name in inputs:
-                path = root / name
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text('isolated receipt gate source fixture\n')
-            # The real producer delegates source selection to the consumer.
-            (root / 'scripts/admin_platform_candidate.py').write_bytes(
-                (ROOT / 'scripts/admin_platform_candidate.py').read_bytes())
-            (root / '.gitignore').write_text('build/\n')
-            for args in [['init', '--quiet'], ['add', '.'],
-                         ['-c', 'user.name=Receipt fixture', '-c', 'user.email=fixture@example.invalid',
-                          '-c', 'commit.gpgsign=false', 'commit', '--quiet', '-m', 'isolated receipt gate fixture']]:
-                subprocess.run(['git', '-C', str(root), *args], check=True, capture_output=True, text=True)
-            commit = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
-            build = root / 'build/web'
-            build.mkdir(parents=True)
-            for name in ['main.dart.js', 'index.html', 'flutter_bootstrap.js', 'manifest.json', '_headers', '.well-known/assetlinks.json', '.well-known/apple-app-site-association']:
-                output = build / name
-                output.parent.mkdir(parents=True,exist_ok=True)
-                output.write_text('isolated output role: ' + name)
-            (build / 'custom-sw.js').write_text(
-                'const CACHE_NAME = "collect-admin-fixture";\n'
-                'const CACHE_URLS = ["./"];\nconst CACHE_HASHES = {"./":"fixture-hash"};\n')
-            version = {'source_commit': commit, 'source_dirty': False,
-                       'backend': 'cloudflare', 'authentication': 'email_otp_cookie_with_totp',
-                       'minimum_core_schema_migration': '0017_admin_email_otp.sql',
-                       'financial_model': 'canonical_evidence_ledger', 'financial_contract_version': 2}
-            version_path = build / 'version.json'
-            def run(changes=None, sha=commit):
-                version_path.write_text(json.dumps({**version, **(changes or {})}))
-                return subprocess.run(['bash', '-e', '-c', identity['run']], cwd=root,
-                                      env={**os.environ, 'GITHUB_SHA': sha, 'COLLECT_BACKEND':'cloudflare'}, capture_output=True, text=True)
-            result = run()
-            self.assertEqual(result.returncode, 0, result.stderr)
-            receipt_path = root / 'build/admin-platform-pwa-artifact.json'
-            receipt = json.loads(receipt_path.read_text())
-            self.assertEqual(receipt['source_commit'], commit)
-            self.assertIs(receipt['source_dirty'], False)
-            self.assertIs(receipt['hosted_deployment_verified'], False)
-            self.assertEqual(receipt['main_dart_js_sha256'], hashlib.sha256((build / 'main.dart.js').read_bytes()).hexdigest())
-            self.assertEqual(receipt['worker_sha256'], hashlib.sha256((build / 'custom-sw.js').read_bytes()).hexdigest())
-            self.assertEqual(set(receipt['input_sha256']), set(inputs))
-            for changes, sha in [({'source_dirty': True}, commit), ({'source_commit': '0' * 40}, commit),
-                                 ({}, '0' * 40), ({'backend': 'unknown'}, commit),
-                                 ({'authentication': 'email'}, commit), ({'financial_model': 'legacy_core'}, commit),
-                                 ({'financial_contract_version': 1}, commit)]:
-                with self.subTest(changes=changes, sha=sha):
-                    receipt_path.unlink(missing_ok=True)
-                    self.assertNotEqual(run(changes, sha).returncode, 0)
-                    self.assertFalse(receipt_path.exists())
-            (build / 'main.dart.js').unlink()
-            receipt_path.unlink(missing_ok=True)
-            self.assertNotEqual(run().returncode, 0)
-            self.assertFalse(receipt_path.exists())
-            (build / 'main.dart.js').write_text('restored isolated output')
-            (root / 'pubspec.yaml').write_text('changed tracked fixture source\n')
-            self.assertNotEqual(run().returncode, 0)
-            self.assertFalse(receipt_path.exists())
+    def test_shipping_identity_cannot_skip_the_clean_commit_and_profile_verifier(self):
+        for job_name in ('admin-web-build', 'admin-platform-candidate'):
+            with self.subTest(job_name=job_name):
+                job = self.workflows['ci.yml']['jobs'][job_name]
+                step = next(s for s in job['steps'] if 'build-admin.mjs verify-ci' in s.get('run', ''))
+                original = step['run']
+                step['run'] = original.replace('verify-ci', 'verify')
+                expected = ('CI_SHIPPING_PLATFORM_BUILD_REQUIRED' if job_name == 'admin-web-build'
+                            else 'CI_SHIPPING_PLATFORM_ARTIFACT_REQUIRED')
+                self.assertIn(expected, self.codes())
+                step['run'] = original
 
     def test_local_pass_cannot_attest_hosted_security_or_mutation(self):
         report = policy.inspect(ROOT)

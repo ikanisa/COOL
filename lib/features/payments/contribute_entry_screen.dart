@@ -127,7 +127,8 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
           : state.memberScopeUncertain
           ? [
               CollectDataLoadFailure(
-                message: 'Refresh to verify which groups you can contribute to.',
+                message:
+                    'Refresh to verify which groups you can contribute to.',
                 onRetry: () =>
                     ref.read(collectRepositoryProvider.notifier).loadInitial(),
               ),

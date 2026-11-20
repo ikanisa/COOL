@@ -4,6 +4,7 @@ import {adminEmailArguments,requireFreshAdminEmail} from './admin_email_policy.j
 import {preliminaryCurrentOwner} from './admin_owner_precheck.js';
 import {applicationWork,applicationWorkTuple} from '../application-fence.js';
 import {verifyDeploymentProfile} from '../deployment-profile.js';
+import {adminSessionOriginMatches} from '../admin-security.js';
 import {PostgresNativeAuthority} from './burimunsi/postgres-authority.js';
 import {PostgresNativeWorkGrants} from './burimunsi/postgres-native-work-grants.js';
 import {selectAdminCollection} from './burimunsi/admin-scope-selection.js';
@@ -38,7 +39,7 @@ export async function adminBuriMunsiNativeWork(request,env){
  requireFreshAdminEmail(account);
  const work=applicationWork(env),tuple=applicationWorkTuple(work),profile=await verifyDeploymentProfile(env);
  if(work.kind!=='http_admin'||env.DB?.applicationWork!==work||tuple[2]!==env.BUILD_SOURCE_ID||
-  account.origin!==profile.admin_origin||request.headers.get('Origin')!==profile.admin_origin)
+  !adminSessionOriginMatches(request,env,profile,account))
   fail(503,'native_work_unavailable','Worker access is unavailable for this deployment.');
  const body=request.method==='POST'?await readJson(request,2048):null;
  const group=await selectAdminCollection({env,account,requested:body?.collectionId??url.searchParams.get('collectionId')});

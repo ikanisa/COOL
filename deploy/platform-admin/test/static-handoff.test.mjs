@@ -1,13 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile, mkdtemp, mkdir, writeFile, rm, realpath} from 'node:fs/promises';
-import {join} from 'node:path';
-import {tmpdir} from 'node:os';
+import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import worker, {createAdminWorker} from '../src/index.js';
 import {STATIC_RECOVERY_SCRIPT, versionedStatic} from '../src/static-recovery.js';
 import {recoveryDom, installedWorker} from './fixtures/static-handoff-harness.mjs';
-import {createWebApplication} from '../../self-hosted/web-server.mjs';
 import {canonicalProfile} from '../../../supabase/functions/_shared/deployment-profile.js';
 
 const origin = 'https://admin-supabase-qa.collect.ikanisa.com';
@@ -46,34 +43,24 @@ test('missing predecessor main becomes explicit noncacheable recovery without pr
   assert.equal(await response.text(), STATIC_RECOVERY_SCRIPT); assert.equal(calls, 1); assert.equal(upstream, 0);
 });
 
-test('self-hosted Admin serves exact existing build and safe recovery for missing predecessor assets', async () => {
-  const directory = await realpath(await mkdtemp(join(tmpdir(), 'collect-admin-static-handoff-')));
-  try {
-    const profile = {format:'collect.deployment.v1', id:'collect-static-test', mode:'self_hosted', environment:'production',
-      supabase_origin:'https://supabase.example.test', member_api_origin:'https://api.example.test',
-      admin_origin:'https://admin.example.test', public_origin:'https://collect.example.test',
-      google_callback_origin:'https://admin.example.test'};
-    const encoded = canonicalProfile(profile);
-    await writeFile(join(directory, 'index.html'), '<main>synthetic Admin shell</main>');
-    await mkdir(join(directory, '_build', '1ea54bebc61ec3e3833ded3175575b770be751cf902961803c3611dd35a7a391'), {recursive:true});
-    await writeFile(join(directory, current.slice(1)), 'synthetic verified main');
-    const app = await createWebApplication({COLLECT_BACKEND:'supabase', ADMIN_ORIGIN:profile.admin_origin,
-      SUPABASE_URL:profile.supabase_origin, APP_ENVIRONMENT:profile.environment,
-      COLLECT_DEPLOYMENT_PROFILE:encoded, COLLECT_DEPLOYMENT_PROFILE_SHA256:sha(encoded),
-      COLLECT_ADMIN_ASSET_DIR:directory, COLLECT_PUBLIC_ASSET_DIR:directory});
-    const get = path => app(new Request(profile.admin_origin + path, {headers:{Accept:'text/html'}}));
-    const missing = await get(prior);
-    assert.equal(missing.status, 200);
-    assert.match(missing.headers.get('Content-Type'), /^text\/javascript/);
-    assert.match(missing.headers.get('Cache-Control'), /no-store/);
-    assert.equal(await missing.text(), STATIC_RECOVERY_SCRIPT);
-    const live = await get(current);
-    assert.equal(live.status, 200); assert.equal(await live.text(), 'synthetic verified main');
-    const nonmain = await get(prior.replace('main.dart.js', 'assets/missing.woff2'));
-    assert.equal(nonmain.status, 404); assert.doesNotMatch(await nonmain.text(), /synthetic Admin shell/);
-  } finally {
-    await rm(directory, {recursive:true, force:true});
-  }
+test('explicit Cloud profile still serves verified and recovery assets', async () => {
+  const profile = {format:'collect.deployment.v1', id:'collect-static-test', mode:'managed', environment:'qualification',
+    supabase_origin:managedSupabaseOrigin, member_api_origin:origin, admin_origin:origin,
+    public_origin:'https://collect.ikanisa.com', google_callback_origin:origin};
+  const encoded = canonicalProfile(profile);
+  const env = {...environment({fetch: async received => new URL(received.url).pathname === current
+    ? new Response('synthetic verified main', {headers:{'Content-Type':'text/javascript'}}) : html()}),
+    APP_ENVIRONMENT:profile.environment, COLLECT_DEPLOYMENT_PROFILE:encoded, COLLECT_DEPLOYMENT_PROFILE_SHA256:sha(encoded)};
+  const missing = await worker.fetch(request(prior), env);
+  assert.equal(missing.status, 200);
+  assert.match(missing.headers.get('Content-Type'), /^text\/javascript/);
+  assert.match(missing.headers.get('Cache-Control'), /no-store/);
+  assert.equal(await missing.text(), STATIC_RECOVERY_SCRIPT);
+  const live = await worker.fetch(request(current), env);
+  assert.equal(live.status, 200);
+  assert.equal(await live.text(), 'synthetic verified main');
+  const nonmain = await worker.fetch(request(prior.replace('main.dart.js', 'assets/missing.woff2')), env);
+  assert.equal(nonmain.status, 404);
 });
 
 test('genuine current main and ranged assets retain their exact bytes/status/immutable headers', async () => {
@@ -89,7 +76,8 @@ test('genuine current main and ranged assets retain their exact bytes/status/imm
 test('missing nonmain asset is404/no-store and never an HTML shell or recovery script', async () => {
   const response = await versionedStatic(request(prior.replace('main.dart.js', 'assets/missing.woff2')), {fetch: async () => html()});
   assert.equal(response.status, 404); assert.match(response.headers.get('Content-Type'), /^text\/plain/);
-  assert.match(response.headers.get('Cache-Control'), /no-store/); assert.doesNotMatch(await response.text(), /<html>|collectStaticRecovery/);
+  assert.match(response.headers.get('Cache-Control'), /no-store/);
+  assert.match(await response.text(), /When all are blank, return to Admin online in the same tabs/);
 });
 
 test('redirects and cookie-bearing asset responses cannot become executable application authority', async () => {
@@ -132,6 +120,7 @@ test('uncontrolled first-visit recovery is named/manual/idempotent and touches n
   const dom = recoveryDom(); dom.run(STATIC_RECOVERY_SCRIPT);
   const panel = dom.panel(); assert.ok(panel); assert.equal(panel.attributes.role, 'alert');
   assert.equal(panel.children[0].textContent, "Collect couldn't load this page");
+  assert.match(panel.children[1].textContent, /When all are blank, return to Admin online in the same tabs/);
   const reopen = panel.children[2]; assert.equal(reopen.textContent, 'Reopen Collect');
   assert.equal(dom.reloads, 0); assert.equal(dom.forbiddenEffects, 0);
   dom.run(STATIC_RECOVERY_SCRIPT); assert.equal(dom.document.body.children.length, 1);
@@ -161,7 +150,7 @@ test('fully installed worker keeps predecessor bytes after server switch; evicte
   await sw.evict(origin + prior); assert.equal(await sw.admitted(), false);
   const evicted = await sw.read(origin + prior); assert.equal(evicted.status, 503);
   assert.match(evicted.headers.get('Cache-Control'), /no-store/); assert.equal(sw.fetches, before);
-  assert.match(await evicted.text(), /Close all Admin tabs and reopen online/);
+  assert.match(await evicted.text(), /When all are blank, return to Admin online in the same tabs/);
 });
 
 test('an explicit recovery script cannot pass the installed bundle hash check', async () => {

@@ -11,14 +11,14 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE_ROOTS = ('lib/', 'deploy/', 'scripts/', '.github/', 'android/', 'ios/', 'web/', 'test/', 'integration_test/', 'fastlane/', 'third_party/', 'supabase/', 'tools/')
+SOURCE_ROOTS = ('admin-web/', 'lib/', 'deploy/', 'scripts/', '.github/', 'android/', 'ios/', 'web/', 'test/', 'integration_test/', 'fastlane/', 'third_party/', 'supabase/', 'tools/')
 SOURCE_FILES = {'pubspec.yaml', 'pubspec.lock', 'Makefile', '.fvmrc', '.env.example', 'Gemfile', 'Gemfile.lock', 'AGENTS.md'}
 GENERATED = {'node_modules', 'Pods', '.cache', '.dart_tool', '.gradle', '.wrangler', 'build', '__pycache__', '.symlinks'}
 # The newly included current roots use the reviewed candidate export's known
 # private/configuration and generated-output boundaries. Existing roots retain
 # their historical identity rules; names such as auth/token/secret source are
 # never inferred to be private from wording alone.
-CURRENT_SOURCE_ROOTS = {'supabase', 'tools'}
+CURRENT_SOURCE_ROOTS = {'admin-web', 'supabase', 'tools'}
 CURRENT_PRIVATE_NAMES = {
     'key.properties', 'local.properties', 'google-services.json', 'GoogleService-Info.plist',
     'Generated.xcconfig', 'MapsKeys.xcconfig', 'flutter_export_environment.sh',
@@ -27,7 +27,7 @@ CURRENT_PRIVATE_NAMES = {
 CURRENT_GENERATED_PARTS = {
     'node_modules', 'Pods', '.symlinks', '.gradle', '.kotlin', '.dart_tool',
     '.pub-cache', '.pub', '.swiftpm', '.build', '.git', '.cache', '.wrangler',
-    'build', 'coverage', 'output', 'failures', '__pycache__', 'DerivedData', '.temp',
+    'build', 'dist', '.vite', 'test-results', 'coverage', 'output', 'failures', '__pycache__', 'DerivedData', '.temp',
 }
 CURRENT_PRIVATE_OR_OUTPUT_SUFFIXES = {
     '.jks', '.keystore', '.p12', '.pfx', '.p8', '.pem', '.key', '.mobileprovision',

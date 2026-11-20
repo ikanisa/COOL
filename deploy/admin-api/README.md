@@ -1,4 +1,4 @@
-# Collect Admin accounts on Cloudflare
+# Historical Cloudflare Admin account API
 
 The account API runs in a Cloudflare Worker using D1 for users, password hashes,
 sessions, invitations, reset challenges, email attempt metadata, audit events and
@@ -8,9 +8,7 @@ The sole main administrator is `info@ikanisa.com`. Account access excludes
 public sign-up, default passwords, public owner-bootstrap endpoints, role
 assignment from login data, and automatic owner elevation.
 
-Accounts, Admin operating services, member services, gateway observation and email dispatch are implemented. The owner confirmed on 2026-10-04 that the
-app is not in production: the operating backend will start fresh on Cloudflare,
-with separate versioned D1 migrations and an empty starting dataset. Existing
+This directory retains the earlier account and gateway API needed by existing Cloudflare backend routes. The active React console uses the managed Supabase Admin API. The original Cloudflare service has its own versioned D1 migrations and independent data. Existing
 product contracts guide the new services. The six core Admin views use explicit
 read APIs over the new tables. Reasoned, versioned and idempotent operating actions
 are implemented in `operations.mjs`; member services, signed gateway/private
@@ -57,21 +55,13 @@ Run the core schema's real local workerd/D1 tests with:
 node --test test/collect-core-schema.test.mjs
 ```
 
-Apply the intended database's pending migrations using the configured name:
+## Historical Cloudflare deployment requirements
 
-```sh
-npx wrangler d1 migrations apply collect-admin-accounts --remote --config ../admin.cloudflare.wrangler.jsonc
-```
-
-## Prerequisites and production binding
-
-Use the repository's `deploy/admin.cloudflare.wrangler.jsonc` candidate integration configuration.
-Its dedicated account database is provisioned and its isolated hosted origin is
-`https://admin-preview.collect.ikanisa.com`. The existing
-`deploy/admin.wrangler.jsonc` is preserved historical deployment configuration.
-Publish the fresh Admin with `deploy/admin.cloudflare.wrangler.jsonc` and the
-member surface with `deploy/member.cloudflare.wrangler.jsonc`.
-It must specify:
+The Cloudflare Admin frontend configurations are preserved in the retirement
+archive. The historical preview used `https://admin-preview.collect.ikanisa.com`
+and a dedicated account database. The active panel is the
+[React Admin package](../../admin-web/README.md). The historical requirements
+below describe the associated backend and its recovery material.
 
 - `main`: `admin-api/src/worker.mjs`.
 - `compatibility_date`: `2026-10-04` or a verified later date.
@@ -132,10 +122,8 @@ Run these only against the intended Cloudflare database. Remote migrations chang
 the hosted development database; confirm its configured identity first.
 The database must already exist and its actual ID must be in the configuration.
 
-```sh
-npx wrangler d1 migrations apply collect-admin-accounts --remote --config ../admin.cloudflare.wrangler.jsonc
-npm run bootstrap -- --remote --config ../admin.cloudflare.wrangler.jsonc
-```
+The historical owner bootstrap used the archived preview binding after
+applying the D1 migrations.
 
 Bootstrap uses authenticated Cloudflare CLI access to insert an **invited** owner
 record. Re-running it preserves an existing account and credentials. It never

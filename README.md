@@ -1,6 +1,6 @@
 # Collect
 
-Collect is a Rwanda group-contribution system with a Flutter member app, Admin PWA, public website and BuriMunsi native Android app for staff and admins. Contributions use whole RWF through MTN MoMo or Airtel Money USSD; payment authorization remains with the network provider.
+Collect is a Rwanda group-contribution system with a Flutter member app, React Admin PWA, public website and BuriMunsi native Android app for staff and admins. Contributions use whole RWF through MTN MoMo or Airtel Money USSD; payment authorization remains with the network provider.
 
 BuriMunsi's Kotlin/Compose project is `native/burimunsi/`. Its production backend is the Collect Supabase Cloud project `rrlduytparvsjfmegalh`, shared with Collect Admin and the canonical ledger. The selected BuriMunsi account and historical business graph have been imported, and Admin and Staff sign-in has been exercised on the connected Android device. Those checks do not establish acceptance of every workflow or a final production release.
 
@@ -14,7 +14,7 @@ The owner selected Supabase Cloud as the production destination for the database
 | PostgreSQL schema and storage | `supabase/migrations/`, generated from the curated inputs documented in `supabase/schema-src/README.md`; Supabase object storage through the current adapters. |
 | Android member app | `lib/main.dart`; the native release configuration in `scripts/qa/native_build_config.py` requires the Supabase profile. |
 | BuriMunsi staff/admin Android | `native/burimunsi/`, with separate Staff and receiving-device variants; its public configuration targets the selected Supabase Cloud project. Sign-in has been exercised on a connected device; release signing, complete workflows and installation acceptance remain separate checks. |
-| Cookie-authenticated Admin PWA | `lib/main_admin_cloudflare.dart`, selected by `scripts/admin_pwa_release_build.sh`. The existing frontend and same-origin transport require a supported Supabase Cloud hosting route before production use. |
+| Cookie-authenticated React Admin | [React entrypoint](admin-web/src/main.tsx) and [build and verification](admin-web/README.md). Production and QA use the managed Supabase transport in [deploy/platform-admin](deploy/platform-admin/README.md). |
 | Prior Cloudflare business backend | `deploy/platform-api/` and its D1/R2 recovery tooling are retained for legacy compatibility and the controlled transition. They are not the selected Supabase release backend. |
 
 `.env.example` contains public configuration only. The API and Admin route values remain blank until the Supabase Cloud routes are qualified; the template is not a production build configuration. A configured origin does not establish that the corresponding route or application is live.

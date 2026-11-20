@@ -98,8 +98,6 @@ void main() {
     final environment = File('docs/ENVIRONMENT.md').readAsStringSync();
     final makefile = File('Makefile').readAsStringSync();
     final governedScripts = <String>[
-      'scripts/admin_pwa_authenticated_render_smoke.sh',
-      'scripts/admin_pwa_release_build.sh',
       'scripts/android_device_uat.sh',
       'scripts/mobile_native_performance_profile.sh',
       'scripts/mobile_route_render_smoke.sh',

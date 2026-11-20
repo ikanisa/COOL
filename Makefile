@@ -4,7 +4,7 @@ DART ?= dart
 # Keep command-line/environment overrides available to the script entry points.
 export FLUTTER DART
 
-.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-render-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan
+.PHONY: help flutter-clean flutter-pub-get format analyze test admin-web-build admin-pwa-gate admin-pwa-hosting-gate admin-pwa-hosting-gate-json admin-pwa-live-gate admin-pwa-live-gate-json admin-pwa-smoke mobile-route-render-smoke mobile-route-artifact-gate mobile-route-artifact-gate-json android-device-uat ios-physical-route-uat ios-physical-lifecycle-uat ios-physical-camera-permission-uat ios-simulator-camera-permission-uat ios-simulator-material-state-uat ios-app-store-readiness-gate ios-app-store-readiness-gate-json flutter-mobile-release-gate flutter-mobile-release-gate-json android-release-signing-preflight android-release-signing-preflight-json android-kotlin-plugin-compat android-kotlin-plugin-compat-json uat-evidence-gate uat-evidence-gate-json record-android-sms-uat-evidence record-uat-evidence-signoff uat-signoff-gate uat-signoff-gate-json release-artifact-manifest release-artifact-manifest-json release-artifact-manifest-all-platforms release-artifact-manifest-all-platforms-json release-evidence-index release-evidence-index-json release-approval-packet release-approval-packet-json release-approval-evidence-gate release-approval-evidence-gate-json record-release-approval release-worktree-review release-worktree-review-json collect-product-boundary-scan collect-product-boundary-scan-json repo-wide-qa-uat repo-wide-qa-uat-json verify release-status release-status-json release-secret-scan
 
 help:
 	@echo "Collect workspace commands"
@@ -20,7 +20,7 @@ help:
 	@echo "  make admin-pwa-gate    Validate generated Admin PWA metadata and secret hygiene"
 	@echo "  make admin-pwa-hosting-gate Validate Admin PWA static hosting headers and robots policy"
 	@echo "  make admin-pwa-live-gate Validate deployed Admin PWA URL headers and PWA files"
-	@echo "  make admin-pwa-render-smoke Capture rendered desktop/mobile Admin PWA evidence"
+	@echo "  make admin-pwa-smoke   Test the compiled React Admin PWA on loopback"
 	@echo "  make mobile-route-render-smoke Capture representative mobile route screenshots"
 	@echo "  make mobile-route-artifact-gate MOBILE_ROUTE_RENDER_EVIDENCE_DIR='...' Validate a completed mobile route capture"
 	@echo "  make android-device-uat Run guarded Pixel 4a integration UAT"
@@ -99,8 +99,8 @@ admin-pwa-live-gate:
 admin-pwa-live-gate-json:
 	@./scripts/admin_pwa_live_gate.sh --json
 
-admin-pwa-render-smoke:
-	@./scripts/admin_pwa_render_smoke.sh
+admin-pwa-smoke:
+	@node admin-web/tests/browser/smoke.mjs
 
 mobile-route-render-smoke:
 	@./scripts/mobile_route_render_smoke.sh
@@ -251,7 +251,6 @@ source-integrity-json:
 qa-tooling-test:
 	@python3 scripts/tests/release_evidence_test.py
 	@python3 scripts/hardening/release_gate_test.py
-	@python3 scripts/hardening/admin_headers_test.py
 	@python3 scripts/hardening/v2_source_test.py
 	@python3 scripts/tests/test_collect_release_candidate.py
 	@python3 scripts/tests/test_collect_ci_policy.py
@@ -267,11 +266,10 @@ qa-tooling-test:
 	@python3 scripts/tests/payment_intent_source_test.py
 	@python3 scripts/tests/android_backup_policy_test.py
 	@python3 scripts/tests/export_public_configuration_test.py
+	@node --test admin-web/tests/pwa/package-pwa.test.mjs
 	@node scripts/tests/admin_pwa_worker_cache_test.mjs
-	@node --test scripts/tests/admin_pwa_fixture_metadata_test.mjs scripts/tests/admin_pwa_fixture_input_test.mjs
 	@ruby scripts/tests/public_configuration_payload_test.rb
 	@ruby scripts/tests/policy_configuration_payload_test.rb
-	@ruby scripts/tests/admin_pwa_bundle_gate_test.rb
 	@ruby scripts/tests/asset_hygiene_integration_test.rb
 	@ruby scripts/tests/public_static_routes_test.rb
 	@ruby scripts/tests/public_website_links_test.rb
@@ -295,16 +293,6 @@ cover-catalog-test:
 .PHONY: public-photography-check
 public-photography-check:
 	@NODE_PATH="$${NODE_PATH:-$(CURDIR)/tools/public-photography/node_modules}" node scripts/assets/build_public_photography.mjs --check
-
-.PHONY: admin-pwa-lifecycle-qa
-ADMIN_PWA_LIFECYCLE_MODE ?= browser
-admin-pwa-lifecycle-qa:
-	@test -n "$(ADMIN_PWA_FIXTURE_REPORT)" -a -n "$(ADMIN_PWA_LIFECYCLE_EVIDENCE)" || (echo 'Set ADMIN_PWA_FIXTURE_REPORT and a new ADMIN_PWA_LIFECYCLE_EVIDENCE directory'; exit 1)
-	@case "$(ADMIN_PWA_LIFECYCLE_MODE)" in \
-	  browser) node scripts/qa/admin_pwa_lifecycle_qa.mjs "$(ADMIN_PWA_FIXTURE_REPORT)" "$(ADMIN_PWA_LIFECYCLE_EVIDENCE)" ;; \
-	  installed) node scripts/qa/admin_pwa_lifecycle_qa.mjs "$(ADMIN_PWA_FIXTURE_REPORT)" "$(ADMIN_PWA_LIFECYCLE_EVIDENCE)" --installed ;; \
-	  *) echo 'ADMIN_PWA_LIFECYCLE_MODE must be browser or installed'; exit 1 ;; \
-	esac
 
 repo-wide-qa-uat:
 	@./scripts/repo_wide_qa_uat.sh

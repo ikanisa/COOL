@@ -3,6 +3,7 @@ import {adminAccountSession} from './admin_accounts.js';
 import {requireFreshAdminEmail,adminEmailArguments} from './admin_email_policy.js';
 import {applicationWork,applicationWorkTuple} from '../application-fence.js';
 import {verifyDeploymentProfile} from '../deployment-profile.js';
+import {adminSessionOriginMatches} from '../admin-security.js';
 import {PostgresNativeAuthority} from './burimunsi/postgres-authority.js';
 import {CAPABILITIES} from './burimunsi/policy.js';
 import {normalizePhone} from './burimunsi/values.js';
@@ -48,7 +49,7 @@ export async function adminBuriMunsiOperators(request,env){
  requireFreshAdminEmail(account);
  const work=applicationWork(env),tuple=applicationWorkTuple(work),profile=await verifyDeploymentProfile(env);
  if(work.kind!=='http_admin'||env.DB?.applicationWork!==work||tuple[2]!==env.BUILD_SOURCE_ID||
-   account.origin!==profile.admin_origin||request.headers.get('Origin')!==profile.admin_origin)
+   !adminSessionOriginMatches(request,env,profile,account))
   fail(503,'burimunsi_unavailable','BuriMunsi is not configured for this deployment.');
  const body=request.method==='POST'?await readJson(request,4096):null;
  const group=await selectAdminCollection({env,account,requested:body?.collectionId??url.searchParams.get('collectionId')});
