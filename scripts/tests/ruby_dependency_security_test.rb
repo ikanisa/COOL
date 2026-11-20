@@ -6,8 +6,8 @@ require 'json'
 require 'tmpdir'
 require 'zip'
 
-expected_version = ENV.fetch('COLLECT_RUBYZIP_EXPECTED_VERSION', '3.4.0')
-raise 'Unsupported test version' unless %w[3.4.0 2.4.1].include?(expected_version)
+expected_version = ENV.fetch('COLLECT_RUBYZIP_EXPECTED_VERSION', '3.7.0')
+raise 'Unsupported test version' unless %w[3.7.0 3.4.0 2.4.1].include?(expected_version)
 raise 'Unexpected rubyzip version' unless Gem.loaded_specs.fetch('rubyzip').version.to_s == expected_version
 
 cases = []

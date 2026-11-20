@@ -50,8 +50,8 @@ CollectSupabaseConfiguration _guestConfiguration() {
     authCaptchaEnabled: false,
     authCaptchaProvider: '',
     authCaptchaSiteKey: '',
-    supabaseUrl: 'https://project.example.com',
-    supabaseApiUrl: 'https://api.example.com',
+    supabaseUrl: 'https://rrlduytparvsjfmegalh.supabase.co',
+    supabaseApiUrl: 'https://collect.ikanisa.com',
     supabasePublishableKey: 'sb_publishable_synthetic_key_only',
   );
   return CollectSupabaseConfiguration.fromEnvironment(env);

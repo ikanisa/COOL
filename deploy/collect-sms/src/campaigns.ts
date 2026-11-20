@@ -1,4 +1,4 @@
-import type { Context } from "npm:hono@4.13.13";
+import type { Context } from "npm:hono@4.13.16";
 import { application } from "./auth.ts";
 import { campaignMessageInsert, makeMessage } from "./messages.ts";
 import type { NewMessage } from "./messages.ts";

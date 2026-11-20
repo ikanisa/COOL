@@ -20,7 +20,7 @@ AppEnv environment({
   String backend = 'supabase',
   String url = project,
   String api = '',
-  String admin = 'https://backend.collect.ikanisa.com',
+  String admin = 'https://platform-admin.collect.ikanisa.com',
   String key = publishable,
   bool captcha = false,
 }) => AppEnv(
@@ -134,39 +134,33 @@ void main() {
     },
   );
 
-  test(
-    'project session namespaces are distinct and paths stay inside Functions',
-    () {
-      final config = CollectSupabaseConfiguration.fromEnvironment(
-        environment(),
-      );
-      final other = CollectSupabaseConfiguration.fromEnvironment(
+  test('Cloud sessions use the project namespace and stay inside Functions', () {
+    final config = CollectSupabaseConfiguration.fromEnvironment(environment());
+    expect(
+      () => CollectSupabaseConfiguration.fromEnvironment(
         environment(url: 'https://other-project.supabase.co'),
-      );
-      expect(config.storageOwner, isNot(other.storageOwner));
-      expect(
-        config.storageOwner,
-        isNot('00000000-0000-4000-8000-000000000001'),
-      );
-      expect(
-        () => config.adminRequest(
-          '../auth/session',
-          browserOrigin: Uri.parse('https://admin.collect.ikanisa.com'),
+      ),
+      throwsArgumentError,
+    );
+    expect(config.storageOwner, isNot('00000000-0000-4000-8000-000000000001'));
+    expect(
+      () => config.adminRequest(
+        '../auth/session',
+        browserOrigin: Uri.parse('https://admin.collect.ikanisa.com'),
+      ),
+      throwsArgumentError,
+    );
+    expect(
+      collectChallengeUri(
+        '00000000-0000-4000-8000-000000000099',
+        'https://collect.ikanisa.com',
+        endpoint: Uri.parse(
+          'https://platform-admin.collect.ikanisa.com/functions/v1/collect-api/v1/security/challenge',
         ),
-        throwsArgumentError,
-      );
-      expect(
-        collectChallengeUri(
-          '00000000-0000-4000-8000-000000000099',
-          'https://collect.ikanisa.com',
-          endpoint: Uri.parse(
-            'https://backend.collect.ikanisa.com/functions/v1/collect-api/v1/security/challenge',
-          ),
-        ).path,
-        '/functions/v1/collect-api/v1/security/challenge',
-      );
-    },
-  );
+      ).path,
+      '/functions/v1/collect-api/v1/security/challenge',
+    );
+  });
 
   test(
     'Supabase OTP and operations keep stable principals with real identity tokens',

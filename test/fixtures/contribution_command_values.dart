@@ -8,7 +8,7 @@ const commandSessionId = '20000000-0000-0000-0000-000000000001';
 const commandGroupId = '30000000-0000-0000-0000-000000000001';
 const commandIntentId = '40000000-0000-0000-0000-000000000001';
 const commandRequestId = '50000000-0000-0000-0000-000000000001';
-const commandProject = 'https://synthetic.supabase.co';
+const commandProject = 'https://rrlduytparvsjfmegalh.supabase.co';
 const commandHash =
     'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 ContributionCommandOwner commandOwner({

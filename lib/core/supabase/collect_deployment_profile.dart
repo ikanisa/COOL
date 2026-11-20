@@ -7,6 +7,8 @@ import 'package:crypto/crypto.dart';
 final class CollectDeploymentProfile {
   CollectDeploymentProfile._(this.values, this.sha256Digest);
 
+  static const managedProject = 'https://rrlduytparvsjfmegalh.supabase.co';
+
   static const fields = <String>{
     'format',
     'id',
@@ -87,8 +89,7 @@ final class CollectDeploymentProfile {
           throw const FormatException();
         }
       }
-      if (ordered['supabase_origin'] !=
-          'https://rrlduytparvsjfmegalh.supabase.co') {
+      if (ordered['supabase_origin'] != managedProject) {
         throw const FormatException();
       }
       if (!{

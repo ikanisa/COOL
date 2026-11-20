@@ -10,7 +10,7 @@
     "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,62}$"},
     "mode": {"const": "managed"},
     "environment": {"enum": ["production", "qualification"]},
-    "supabase_origin": {"type": "string", "format": "uri", "pattern": "^https://[^/]+$"},
+    "supabase_origin": {"const": "https://rrlduytparvsjfmegalh.supabase.co"},
     "member_api_origin": {"type": "string", "format": "uri", "pattern": "^https://[^/]+$"},
     "admin_origin": {"type": "string", "format": "uri", "pattern": "^https://[^/]+$"},
     "public_origin": {"type": "string", "format": "uri", "pattern": "^https://[^/]+$"},

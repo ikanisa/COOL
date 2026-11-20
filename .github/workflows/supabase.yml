@@ -84,7 +84,7 @@ jobs:
       COLLECT_DENO: ${{ github.workspace }}/scripts/supabase/node_modules/@deno/linux-x64-glibc/deno
       DENO_TLS_CA_STORE: system
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ needs.select-profile.outputs.source_sha }}
@@ -197,7 +197,7 @@ jobs:
           command -v pg_ctl >/dev/null
           command -v psql >/dev/null
           command -v openssl >/dev/null
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ needs.select-profile.outputs.source_sha }}
@@ -389,7 +389,7 @@ jobs:
           command -v initdb >/dev/null
           command -v pg_ctl >/dev/null
           command -v psql >/dev/null
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ needs.select-profile.outputs.source_sha }}
@@ -512,7 +512,7 @@ jobs:
           command -v initdb >/dev/null
           command -v pg_ctl >/dev/null
           command -v psql >/dev/null
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ needs.select-profile.outputs.source_sha }}
@@ -575,7 +575,7 @@ jobs:
           command -v gosu >/dev/null
           command -v initdb >/dev/null
           command -v pg_ctl >/dev/null
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ needs.select-profile.outputs.source_sha }}
@@ -651,7 +651,7 @@ jobs:
           command -v initdb >/dev/null
           command -v pg_ctl >/dev/null
           command -v psql >/dev/null
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ needs.select-profile.outputs.source_sha }}
@@ -714,7 +714,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
           ref: ${{ needs.select-profile.outputs.source_sha }}

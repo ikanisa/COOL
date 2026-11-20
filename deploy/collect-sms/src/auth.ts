@@ -1,4 +1,4 @@
-import type { Context, Next } from "npm:hono@4.13.13";
+import type { Context, Next } from "npm:hono@4.13.16";
 import type { AdminPermission, AppEnv, Kind, Scope, StaffRole } from "./types.ts";
 import { ApiError, safeEqual, sha256 } from "./util.ts";
 export async function authenticate(c: Context<AppEnv>, next: Next) {

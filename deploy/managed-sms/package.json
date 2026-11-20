@@ -11,7 +11,7 @@
     "build": "node build.mjs"
   },
   "dependencies": {
-    "hono": "4.13.13",
+    "hono": "4.13.16",
     "postgres": "3.4.7"
   },
   "devDependencies": {
