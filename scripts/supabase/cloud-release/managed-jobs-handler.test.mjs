@@ -60,6 +60,39 @@ Deno.test('native processing requires matching source, approval and model admiss
  assert.deepEqual(data.native_sms_admission,admission);assert.equal(data.native_auto_processing.status,'complete');assert.equal(data.native_sms_ledger.status,'complete');
  assert.equal(counts.auto,1);assert.equal(counts.ledger,1);assert.equal(tickets.get(good.dispatch_id).digest,await digest(reply));
 });
+Deno.test('maintenance completes a signed ticket while payment SMS is held without admission',async()=>{
+ const env={...base,BURIMUNSI_PAYMENT_SMS_ENABLED:'true',BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED:'false'};
+ let calls=0;
+ const h=createScheduledHandler(()=>env,cleanup,paused,{...opts,processPaymentSms:async()=>{calls++;throw Error('unexpected_payment_sms');}});
+ const p=ticket(),response=await h(make(p,await sign(p)));
+ assert.equal(response.status,200);assert.equal(calls,0);
+ assert.deepEqual((await response.clone().json()).payment_receipt_sms,{status:'held',processed:0});
+ assert.equal(tickets.get(p.dispatch_id).digest,await digest(response));
+});
+Deno.test('payer receipt observations are bounded and unconfirmed work cannot complete a dispatch',async()=>{
+ const approval='c'.repeat(64),admission={contract:'collect.native-sms-automation.v1',source_sha256:source,approval_sha256:approval,model_id:'fixture-model',batch_limit:1};
+ const env={...base,BURIMUNSI_PAYMENT_SMS_ENABLED:'true',BURIMUNSI_NATIVE_AUTO_TRANSACTIONS_ENABLED:'true',
+  COLLECT_JOB_NATIVE_SMS_APPROVAL_SHA256:approval,MOMO_AI_ENABLED:'true',MOMO_AI_MODEL:'fixture-model',OPENAI_API_KEY:'fixture'};
+ let calls=0,observed={status:'unconfirmed',processed:1,outcome:'unknown',destination:'synthetic-private-contact'};
+ const handler=createScheduledHandler(()=>env,cleanup,paused,{...opts,processPaymentSms:async()=>{calls++;return observed;}});
+ const missing=ticket();
+ assert.equal((await handler(make(missing,await sign(missing)))).status,503);assert.equal(calls,0);
+ const first=ticket({native_sms_admission:admission}),auth=await sign(first);
+ const unresolved=await handler(make(first,auth));
+ assert.equal(unresolved.status,503);assert.equal(tickets.get(first.dispatch_id).completed,undefined);
+ assert.deepEqual((await unresolved.json()).payment_receipt_sms,{status:'unconfirmed',processed:1,outcome:'unknown'});
+ assert.equal((await handler(make(first,auth))).status,401);assert.equal(calls,1);
+
+ observed={status:'held',processed:1,outcome:'held'};
+ const held=ticket({native_sms_admission:admission}),heldResponse=await handler(make(held,await sign(held)));
+ assert.equal(heldResponse.status,503);assert.equal(tickets.get(held.dispatch_id).completed,undefined);
+ assert.deepEqual((await heldResponse.json()).payment_receipt_sms,{status:'held',processed:1,outcome:'held'});
+ observed={status:'complete',processed:1,outcome:'accepted',gateway_state:'queued',destination:'synthetic-private-contact'};
+ const next=ticket({native_sms_admission:admission}),recorded=await handler(make(next,await sign(next)));
+ assert.equal(recorded.status,200);assert.equal(tickets.get(next.dispatch_id).digest,await digest(recorded));
+ assert.deepEqual((await recorded.json()).payment_receipt_sms,{status:'complete',processed:1,outcome:'accepted',gateway_state:'queued'});
+});
+
 `;
  await writeFile(join(shared,'managed-jobs-handler-candidate.test.ts'),script);
  const cwd=join(dir,'supabase/functions'),deno=process.env.DENO_BIN??'/Users/jeanbosco/.local/bin/deno';
@@ -67,5 +100,5 @@ Deno.test('native processing requires matching source, approval and model admiss
   const result=spawnSync(deno,args,{cwd,encoding:'utf8',timeout:120000,maxBuffer:2*1024*1024});
   if(result.status!==0){process.stderr.write(result.stderr||result.stdout);throw Error('candidate_handler_fixture_failed');}
  }
- console.log(JSON.stringify({suite:'managed-jobs-handler',checks:2,edge_source:'isolated patched copy',provider_calls:0}));
+ console.log(JSON.stringify({suite:'managed-jobs-handler',checks:4,edge_source:'isolated patched copy',provider_calls:0}));
 }finally{await rm(dir,{recursive:true,force:true});}

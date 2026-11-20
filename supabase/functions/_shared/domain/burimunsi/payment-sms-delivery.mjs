@@ -10,7 +10,7 @@ const states = new Set(['accepted', 'assigned', 'phone_accepted', 'queued', 'han
 const sha256 = /^[a-f0-9]{64}$/;
 const keys = {
   claim: 'SELECT private.burimunsi_claim_payment_sms($1::text,$2::timestamptz,$3::text,$4::integer) AS result',
-  prepare: 'SELECT private.burimunsi_prepare_payment_sms($1::text,$2::uuid,$3::uuid,$4::text) AS result',
+  prepare: 'SELECT private.burimunsi_prepare_payment_sms_v2($1::text,$2::uuid,$3::uuid,$4::text) AS result',
   finish: 'SELECT private.burimunsi_finish_payment_sms($1::text,$2::uuid,$3::uuid,$4::text,$5::text,$6::text) AS result',
 };
 
@@ -53,7 +53,7 @@ async function runClaim(job, runtime, command, work, transport) {
   const identity = [group, job.attempt_id, job.claim_token];
   const save = async (status, providerState = null, evidence = null) => {
     check(await command(keys.finish, [...identity, status, providerState, evidence]) === true);
-    return status;
+    return { outcome: status, ...(providerState ? { gateway_state: providerState } : {}) };
   };
   const to = job.destination;
   let text, bodyHash;
@@ -73,8 +73,8 @@ async function runClaim(job, runtime, command, work, transport) {
     // A durable, one-use transition rechecks contact, payment and preferences.
     // No external request follows a refusal or an uncertain database result.
     const prepared = await command(keys.prepare, [...identity, bodyHash]);
-    check(typeof prepared === 'boolean');
-    if (!prepared) return 'suppressed';
+    check(['prepared', 'suppressed', 'held'].includes(prepared));
+    if (prepared !== 'prepared') return { outcome: prepared };
   }
   let result;
   try {
@@ -100,6 +100,24 @@ export async function drainBuriMunsiPaymentSms(env, { makeTransport = createOpen
   const jobs = await query(keys.claim, [runtime.group, runtime.enabledAt, runtime.config.applicationId, 1]);
   check(Array.isArray(jobs) && jobs.length <= 1);
   if (jobs.length === 0) return { status: 'complete', processed: 0 };
-  const outcome = await runClaim(jobs[0], runtime, query, work, makeTransport(runtime.config));
-  return { status: 'complete', processed: 1, outcome };
+  const result = await runClaim(jobs[0], runtime, query, work, makeTransport(runtime.config));
+  const status = result.outcome === 'held' ? 'held' : result.outcome === 'unknown' ? 'unconfirmed' : 'complete';
+  return { status, processed: 1, ...result };
+}
+
+
+export function scheduledPaymentSmsResult(result) {
+  if (result?.status === 'complete' && result.processed === 0 && result.outcome === undefined)
+    return {status: 'complete', processed: 0};
+  if (result?.processed === 1) {
+    if (result.status === 'complete' && result.outcome === 'accepted' && states.has(result.gateway_state))
+      return {status: 'complete', processed: 1, outcome: 'accepted', gateway_state: result.gateway_state};
+    if (result.status === 'complete' && result.outcome === 'suppressed')
+      return {status: 'complete', processed: 1, outcome: 'suppressed'};
+    if (result.status === 'unconfirmed' && result.outcome === 'unknown')
+      return {status: 'unconfirmed', processed: 1, outcome: 'unknown'};
+    if (result.status === 'held' && result.outcome === 'held')
+      return {status: 'held', processed: 1, outcome: 'held'};
+  }
+  return {status: 'unconfirmed', processed: 0};
 }

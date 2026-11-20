@@ -31,7 +31,7 @@ const available = {
   COLLECT_SMS_ENABLED: 'true', COLLECT_SMS_DISPATCH_PAUSED: 'false', COLLECT_SMS_CORE_SOURCE_SHA256: source, BUILD_SOURCE_ID: source,
 };
 
-async function run({ job = row, allow = true, lost = false, config = {} } = {}) {
+async function run({ job = row, prepare = 'prepared', lost = false, config = {} } = {}) {
   let admission;
   const backend = {
     async register(id, sourceSha256, kind) {
@@ -52,7 +52,7 @@ async function run({ job = row, allow = true, lost = false, config = {} } = {}) 
       return f({ async unsafe(sql, args) {
         const op = /private\.burimunsi_(\w+)_payment_sms/.exec(sql)?.[1];
         operations.push([op, args]);
-        return [{ result: op === 'claim' ? (job ? [job] : []) : op === 'prepare' ? allow : true }];
+        return [{ result: op === 'claim' ? (job ? [job] : []) : op === 'prepare' ? prepare : true }];
       } });
     },
   };
@@ -87,22 +87,25 @@ test('reserves and arms the exact receipt before the one POST', async () => {
   assert.equal(operations[1][1][3], sha(text));
   assert.deepEqual(operations[2][1], { messageId: row.message_id, to, notAfter: row.not_after, text });
   assert.deepEqual(operations[3][1].slice(3), ['accepted', 'delivered', 'c'.repeat(64)]);
-  assert.equal(result.processed, 1);
+  assert.deepEqual(result, {status: 'complete', processed: 1, outcome: 'accepted', gateway_state: 'delivered'});
 });
 
 test('changed recipient, a refused prepare or missing eligible work can never POST', async () => {
   const changed = await run({ job: { ...row, destination_sha256: '0'.repeat(64) } });
   assert.deepEqual(changed.operations.map(([op]) => op), ['claim', 'finish']);
   assert.equal(changed.result.outcome, 'suppressed');
-  const declined = await run({ allow: false });
+  const declined = await run({ prepare: 'suppressed' });
   assert.deepEqual(declined.operations.map(([op]) => op), ['claim', 'prepare']);
   assert.equal(declined.result.outcome, 'suppressed');
+  const held = await run({prepare: 'held'});
+  assert.deepEqual(held.operations.map(([op]) => op), ['claim', 'prepare']);
+  assert.deepEqual(held.result, {status: 'held', processed: 1, outcome: 'held'});
   assert.deepEqual((await run({ job: null })).result, { status: 'complete', processed: 0 });
 });
 
 test('lost submission acknowledgement is recorded and the original ID is read with no destination', async () => {
   const missed = await run({ lost: true });
-  assert.equal(missed.result.outcome, 'unknown');
+  assert.deepEqual(missed.result, {status: 'unconfirmed', processed: 1, outcome: 'unknown'});
   const original = await run({ job: { ...row, phase: 'inspect', destination: null, body_sha256: sha(text) } });
   assert.deepEqual(original.operations.map(([op]) => op), ['claim', 'get', 'finish']);
   assert.deepEqual(original.operations[1][1], {

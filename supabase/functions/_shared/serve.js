@@ -21,7 +21,7 @@ import {createCollectNativeRuntime,runCollectNativeScheduledCycle} from './domai
 import {drainNativeAutoTransactions} from './domain/burimunsi/postgres-native-auto-worker.js';
 import {nativeAutoProcessingResult} from './scheduled-native-auto.js';
 import {drainNativeSmsLedger} from './domain/burimunsi/postgres-native-sms-ledger.js';
-import {drainBuriMunsiPaymentSms} from './domain/burimunsi/payment-sms-delivery.mjs';
+import {drainBuriMunsiPaymentSms,scheduledPaymentSmsResult} from './domain/burimunsi/payment-sms-delivery.mjs';
 import {nativeSmsLedgerResult} from './scheduled-native-sms-ledger.js';
 import {scheduledCanonicalDrain} from './scheduled-canonical.js';
 import {scheduledNativeFinancialWork} from './scheduled-native-financial-work.js';
@@ -176,10 +176,12 @@ export function createScheduledHandler(envReader=()=>Deno.env.toObject(),cleanup
     else try{nativeLedger=nativeSmsLedgerResult(await processNativeSmsLedger(nativeEnv,{limit:1}));}
      catch{nativeLedger={status:'unconfirmed',code:'native_sms_ledger_unconfirmed'};}
    }
+   const paymentSmsEnabled=env.BURIMUNSI_PAYMENT_SMS_ENABLED==='true';
+   const paymentSmsAdmitted=paymentSmsEnabled&&nativeGate.enabled&&admission.allowed;
    let paymentSms=null;
-   if(env.BURIMUNSI_PAYMENT_SMS_ENABLED==='true'){
-    if(!nativeGate.enabled||!admission.allowed)paymentSms={status:'held',processed:0};
-    else try{paymentSms=await processPaymentSms(env);}
+   if(paymentSmsEnabled){
+    if(!paymentSmsAdmitted)paymentSms={status:'held',processed:0};
+    else try{paymentSms=scheduledPaymentSmsResult(await processPaymentSms(env));}
      catch{paymentSms={status:'unconfirmed',processed:0};}
    }
    // Canonical scheduling is an independently configured, default-off lane.
@@ -192,7 +194,7 @@ export function createScheduledHandler(envReader=()=>Deno.env.toObject(),cleanup
    let diagnostics;try{diagnostics=await cleanupDiagnostics(env,{limit:1000});
     if(diagnostics?.status!=='complete'||!Number.isSafeInteger(diagnostics.removed)||diagnostics.removed<0||diagnostics.removed>1000)throw new Error('diagnostics_cleanup_unconfirmed');
    }catch{diagnostics={status:'unconfirmed'};try{console.error(JSON.stringify({service:'collect_platform_api',event:'diagnostics_cleanup_unconfirmed'}));}catch{}}
-   const status=maintenance.status==='complete'&&processing.status!=='unconfirmed'&&notifications.status!=='unconfirmed'&&nativeAuto?.status!=='unconfirmed'&&nativeLedger?.status!=='unconfirmed'&&canonical?.status!=='unconfirmed'&&nativeFinancial?.status!=='unconfirmed'?200:503;
+   const status=maintenance.status==='complete'&&processing.status!=='unconfirmed'&&notifications.status!=='unconfirmed'&&nativeAuto?.status!=='unconfirmed'&&nativeLedger?.status!=='unconfirmed'&&(!paymentSmsAdmitted||paymentSms?.status==='complete')&&canonical?.status!=='unconfirmed'&&nativeFinancial?.status!=='unconfirmed'?200:503;
    if(status===503)observeFailure(reportHealth,{status,component:'operations',requestId:null,dispatchId,sourceId:env.BUILD_SOURCE_ID,elapsedMs:performance.now()-started});
    const response=json({...(dispatchId?{dispatch_id:dispatchId}:{}),...(nativeGate.enabled?{native_sms_admission:nativeGate.admission}:{}),...(admission.processing?{processing_admission:admission.processing}:{}),...(admission.notifications?{notification_admission:admission.notifications}:{}),maintenance,processing,notifications,...(nativeAuto?{native_auto_processing:nativeAuto}:{}),...(nativeLedger?{native_sms_ledger:nativeLedger}:{}),...(paymentSms?{payment_receipt_sms:paymentSms}:{}),...(canonical?{canonical_processing:canonical}:{}),...(nativeFinancial?{native_financial_work:nativeFinancial}:{}),realtime,diagnostics},status);if(managed&&status===200&&!(await completeManagedJobDispatch(env.DB,input,dispatchId,response)))return json({code:'job_completion_unconfirmed'},503);return response;
   }catch(error){
