@@ -1,6 +1,6 @@
 /* eslint-disable no-control-regex -- Reject controls in server-supplied identity fields. */
 import type {JsonObject} from '../api/client';
-import type {AdminUser} from './SessionProvider';
+import type {AdminUser} from './sessionResponses';
 
 /** Protected-owner attestation from the versioned authenticated session only. */
 export interface AdminOwnerIdentity {schemaVersion: 1; adminId: string; principalId: string; email: string;}

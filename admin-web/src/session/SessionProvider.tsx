@@ -4,37 +4,17 @@ import {AdminApiClient, AdminRequestError, type AdminBackend, type AdminClientCo
 import {bindPendingIdentity} from '../features/core/pendingAttempt';
 import {googleAvailable, googleAuthorizationUrl, googleChallenge, openGooglePopup, randomUrlValue, type GooglePopup} from './google';
 import {MANAGED_MFA_TRANSITION_QUALIFIED} from './mfaQualification';
-import {isAdminIdentityId, parseOwnerIdentitySession, type AdminOwnerIdentity} from './ownerIdentity';
+import {
+  decodeAdminUser, isVerificationUuid, parseAuthenticatorSession, parseEmailProof, parseLogoutSessionId,
+  parseSensitiveOtpReceipt, parseSessionUser, parseSignInOtpReceipt, type AdminUser, type OtpReceipt,
+} from './sessionResponses';
 import {clearLogoutIntent, LOGOUT_INTENT_PREFIX, logoutFingerprint, readLogoutIntents, retainLogoutIntent} from './logoutIntent';
 import {clearMfaRecoveryIntent, mfaRecoveryDelay, readMfaRecoveryIntent, writeMfaRecoveryIntent, type MfaRecoveryIntent} from './mfaRecovery';
 import {clearMfaTransition, MFA_TRANSITION_PREFIX, mfaTransitionIdentity, readMfaTransitions, retainMfaTransition} from './mfaTransition';
 import {clearMfaAuthorityCheckpoint, createMfaAuthorityCheckpoint, mfaActorDigest, mfaIntentDigest, readMfaAuthorityCheckpoint, writeMfaAuthorityCheckpoint, type MfaAuthorityCheckpoint} from './mfaAuthority';
 export {isVerifiedCurrentOwner, type AdminOwnerIdentity} from './ownerIdentity';
+export type {AdminUser, OtpReceipt} from './sessionResponses';
 
-export interface AdminUser {
-  id: string;
-  email: string;
-  role: 'owner' | 'admin' | 'staff';
-  sessionId: string;
-  expiresAt: string;
-  permissions: readonly string[];
-  assuranceLevel: 1 | 2;
-  mfaAt: string | null;
-  mfaAvailable?: boolean;
-  mfaRequired?: boolean;
-  emailVerifiedAt: string | null;
-  principalId: string | null;
-  financialModel: 'transaction_journals' | 'canonical_evidence_ledger';
-  /** Server-attested protected owner, available only from auth/session. */
-  ownerIdentity?: AdminOwnerIdentity | null;
-}
-
-export interface OtpReceipt {
-  challengeId: string;
-  retryAfterSeconds: number;
-  expiresInSeconds: number;
-  deliveryUnknown: boolean;
-}
 export interface SensitiveEmailRecovery {kind: 'request' | 'verify'; retryAt: number | null; checked: boolean}
 
 export interface SessionSnapshot {
@@ -74,12 +54,7 @@ export interface SessionContextValue extends SessionSnapshot {
   verifyAuthenticator: (factorId: string, challengeId: string, code: string) => Promise<void>;
 }
 
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const OTP = /^[0-9]{6}$/;
-
-function object(value: unknown): value is JsonObject {
-  return value !== null && typeof value === 'object' && !Array.isArray(value);
-}
 
 export function normalizeAdminEmail(input: string): string {
   const email = input.trim().toLowerCase();
@@ -93,22 +68,7 @@ export function normalizeAdminEmail(input: string): string {
 }
 
 export function parseAdminUser(body: JsonObject, now = Date.now()): AdminUser {
-  const user = body.user;
-  if (!object(user) || typeof user.id !== 'string' || !user.id || typeof user.email !== 'string' || typeof user.sessionId !== 'string' || !user.sessionId || !Array.isArray(user.permissions) || !user.permissions.every((p) => typeof p === 'string')) throw new Error('Invalid account response.');
-  if (user.role !== 'owner' && user.role !== 'admin' && user.role !== 'staff') throw new Error('Invalid account role.');
-  if (typeof body.expiresAt !== 'string' || !Number.isFinite(Date.parse(body.expiresAt)) || Date.parse(body.expiresAt) <= now) throw new Error('Expired account response.');
-  const level = user.assuranceLevel ?? 1;
-  const mfaAt = user.mfaAt ?? null;
-  const mfaAvailable = user.mfaAvailable ?? false;
-  const mfaRequired = user.mfaRequired ?? false;
-  const principalId = user.principalId ?? null;
-  const financialModel = user.financialModel ?? 'transaction_journals';
-  // The newer managed contract can require both email and authenticator proof.
-  // This candidate does not yet implement that combined recovery flow, so do
-  // not accept a session that advertises it as required.
-  if (typeof mfaAvailable !== 'boolean' || typeof mfaRequired !== 'boolean' || mfaRequired) throw new Error('The account verification policy is unavailable.');
-  if ((level !== 1 && level !== 2) || (mfaAt !== null && (typeof mfaAt !== 'string' || !Number.isFinite(Date.parse(mfaAt)) || Date.parse(mfaAt) > now + 60_000)) || (level === 2 && mfaAt === null) || (level === 1 && mfaAt !== null) || (principalId !== null && !isAdminIdentityId(principalId)) || (financialModel !== 'transaction_journals' && financialModel !== 'canonical_evidence_ledger')) throw new Error('Invalid account verification.');
-  return {id: user.id, email: user.email, role: user.role, sessionId: user.sessionId, expiresAt: body.expiresAt, permissions: Object.freeze([...user.permissions] as string[]), assuranceLevel: level, mfaAt, mfaAvailable, mfaRequired, emailVerifiedAt: null, principalId, financialModel};
+  return decodeAdminUser(body, now);
 }
 
 function authorityKey(user: AdminUser): string {
@@ -139,19 +99,6 @@ export function sensitiveVerificationDeadline(user: AdminUser, backend: AdminBac
   return Math.min(expires, verified + 300_000);
 }
 
-function emailProof(body: JsonObject, user: AdminUser): string | null {
-  if (Object.keys(body).length !== 3 || body.contractVersion !== 1 || body.sessionId !== user.sessionId || !Object.hasOwn(body, 'emailVerifiedAt')) throw new Error('Invalid email verification response.');
-  const proof = body.emailVerifiedAt;
-  if (proof === null) return null;
-  if (typeof proof !== 'string' || !/(?:Z|\+00:00)$/.test(proof) || !Number.isFinite(Date.parse(proof)) || Date.parse(proof) > Date.now()) throw new Error('Invalid email verification time.');
-  return proof;
-}
-
-function sessionUser(body: JsonObject): AdminUser {
-  const user = parseAdminUser(body), proof = parseOwnerIdentitySession(body);
-  return {...user, ownerIdentity: proof && user.role === 'owner' && proof.adminId === user.id && proof.principalId === user.principalId && proof.email === user.email ? proof : null};
-}
-
 /** Fields that must not change during the same live authenticator operation. */
 function sameMfaActor(left: AdminUser, right: AdminUser): boolean {
   return left.id === right.id && left.sessionId === right.sessionId && left.email === right.email && left.role === right.role &&
@@ -176,12 +123,6 @@ function sameMfaIntent(left: MfaRecoveryIntent | null, right: MfaRecoveryIntent)
 
 function sameMfaCheckpoint(left: MfaAuthorityCheckpoint | null, right: MfaAuthorityCheckpoint | null): boolean {
   return right === null ? left === null : left !== null && left.version === right.version && left.intent === right.intent && left.authority === right.authority;
-}
-
-function parseOtpReceipt(body: JsonObject): OtpReceipt {
-  const id = body.challenge_id, retry = body.retry_after, expires = body.expires_in;
-  if (typeof id !== 'string' || !/^[A-Za-z0-9_-]{1,200}$/.test(id) || !Number.isInteger(retry) || (retry as number) < 60 || (retry as number) > 3600 || !Number.isInteger(expires) || (expires as number) < 60 || (expires as number) > 3600 || (body.emailStatus !== undefined && body.emailStatus !== 'accepted') || (body.delivery_status !== undefined && body.delivery_status !== 'accepted' && body.delivery_status !== 'unknown')) throw new AdminRequestError('The code request could not be confirmed. Check before requesting another code.', {outcomeUnknown: true});
-  return {challengeId: id, retryAfterSeconds: retry as number, expiresInSeconds: expires as number, deliveryUnknown: body.delivery_status === 'unknown'};
 }
 
 /** Protect against redirecting outside the Admin after authentication. */
@@ -424,7 +365,7 @@ export class AdminSessionController {
       const body = await this.api.request('auth/session', {authenticated: false});
       if (epoch !== this.epoch || sequence !== this.sequence) return;
       if (body.user === null) {await this.confirmedAnonymous(); return;}
-      let user = this.config.backend === 'supabase' ? sessionUser(body) : parseAdminUser(body);
+      let user = this.config.backend === 'supabase' ? parseSessionUser(body, Date.now()) : parseAdminUser(body);
       if (this.lastAuthority && this.lastAuthority !== authorityKey(user)) {
         this.epoch++; epoch = this.epoch; this.user = null; this.resetSensitive(); this.stopTimers(); this.emit('loading');
       }
@@ -433,7 +374,7 @@ export class AdminSessionController {
           const proof = await this.api.request('auth/email-verification', {authenticated: false, expectedStatus: 200});
           if (epoch !== this.epoch || sequence !== this.sequence) return;
           if (typeof proof.sessionId === 'string' && proof.sessionId !== user.sessionId) throw new Error('Session mismatch.');
-          const verifiedAt = emailProof(proof, user);
+          const verifiedAt = parseEmailProof(proof, user, Date.now());
           user = {...user, emailVerifiedAt: this.sensitiveUnknown && (verifiedAt === null || this.sensitiveBaseline !== null && Date.parse(verifiedAt) <= this.sensitiveBaseline) ? null : verifiedAt};
         } catch (failure) {
           if (epoch !== this.epoch || sequence !== this.sequence) return;
@@ -516,16 +457,14 @@ export class AdminSessionController {
         // Read the cookie without installing authority; bind it to the original marker.
         const body = await this.api.request('auth/session', {authenticated: false, expectedStatus: 200});
         if (!current()) throw new AdminRequestError('Your sign-in changed. Try again.', {outcomeUnknown: true});
-        if (!['user', 'expiresAt', 'csrfToken', 'ownerEmail'].every((key) => Object.hasOwn(body, key))) throw new Error('Invalid sign-out session response.');
-        if (body.user === null) {
-          if (body.expiresAt !== null || body.csrfToken !== null) throw new Error('Invalid sign-out session response.');
+        const cookieSessionId = parseLogoutSessionId(body, Date.now());
+        if (cookieSessionId === null) {
           for (const value of pending) clearLogoutIntent(value);
           if (readLogoutIntents().size) throw new Error('Another sign-out is unresolved.');
           if (current()) await this.confirmedAnonymous();
           return;
         }
-        if (!object(body.user) || typeof body.user.sessionId !== 'string' || !body.user.sessionId || body.user.sessionId.length > 200 || /[\x00-\x1f\x7f]/.test(body.user.sessionId) || typeof body.csrfToken !== 'string' || !/^[a-f0-9]{64}$/.test(body.csrfToken) || typeof body.expiresAt !== 'string' || !Number.isFinite(Date.parse(body.expiresAt)) || Date.parse(body.expiresAt) <= Date.now()) throw new Error('Invalid sign-out session response.');
-        sessionId = body.user.sessionId; fingerprint = await reserve(sessionId);
+        sessionId = cookieSessionId; fingerprint = await reserve(sessionId);
       }
       const result = recovery
         ? await this.api.request('auth/logout', {body: {factor_id: recovery.factor_id, challenge_id: recovery.challenge_id, verification_id: recovery.verification_id}, authenticated: false, mfaRecovery: true})
@@ -567,7 +506,7 @@ export class AdminSessionController {
       body = failure.otpReceiptBody; deliveryUnknown = true;
     }
     if (this.epoch !== epoch) throw new AdminRequestError('Your sign-in changed. Try again.');
-    const parsed = parseOtpReceipt(body);
+    const parsed = parseSignInOtpReceipt(body);
     const receipt = {...parsed, deliveryUnknown: deliveryUnknown || parsed.deliveryUnknown};
     this.otp = {email: normalized, receipt, epoch};
     return receipt;
@@ -635,11 +574,9 @@ export class AdminSessionController {
     const epoch = this.epoch, key = authorityKey(actor), attempt = ++this.sensitiveAttempt; this.sensitiveBusy = true; this.sensitiveOperation = 'request'; this.sensitiveUnknownUntil = Date.now() + 300_000;
     try {
       const body = await this.request('auth/email/request', {body: {}, authenticated: true, expectedStatus: 202});
-      const id = body.challenge_id, retry = body.retry_after, expires = body.expires_in;
-      if (Object.keys(body).length !== 4 || typeof id !== 'string' || !UUID.test(id) || retry !== 60 || !Number.isInteger(expires) || (expires as number) < 0 || (expires as number) > 300 || (body.delivery_status !== 'accepted' && body.delivery_status !== 'unknown')) throw new AdminRequestError('The code request could not be confirmed. Check verification.', {outcomeUnknown: true});
+      const receipt = parseSensitiveOtpReceipt(body);
       if (attempt !== this.sensitiveAttempt || epoch !== this.epoch || !this.user || authorityKey(this.user) !== key) throw new AdminRequestError('Your sign-in changed. Try again.');
-      const receipt = {challengeId: id, retryAfterSeconds: 60, expiresInSeconds: expires as number, deliveryUnknown: body.delivery_status === 'unknown'};
-      this.sensitive = {receipt, key, epoch, attempt, expires: Date.now() + (expires as number) * 1000};
+      this.sensitive = {receipt, key, epoch, attempt, expires: Date.now() + receipt.expiresInSeconds * 1000};
       return receipt;
     } catch (failure) {if (attempt === this.sensitiveAttempt && epoch === this.epoch && failure instanceof AdminRequestError && failure.outcomeUnknown) {this.sensitiveUnknown = true; this.sensitiveUnknownKind = 'request'; this.sensitiveUnknownChecked = false;} throw failure;}
     finally {if (attempt === this.sensitiveAttempt) {this.sensitiveBusy = false; this.sensitiveOperation = null;}}
@@ -653,7 +590,7 @@ export class AdminSessionController {
     try {
       const body = await this.request('auth/email/verify', {body: {challenge_id: challengeId, code: code.trim()}, authenticated: true, expectedStatus: 200});
       let proof: string | null;
-      try {proof = emailProof(body, actor);} catch {throw new AdminRequestError('Email verification could not be confirmed. Check verification.', {outcomeUnknown: true});}
+      try {proof = parseEmailProof(body, actor, Date.now());} catch {throw new AdminRequestError('Email verification could not be confirmed. Check verification.', {outcomeUnknown: true});}
       if (!proof || (this.sensitiveBaseline !== null && Date.parse(proof) <= this.sensitiveBaseline) || Date.now() - Date.parse(proof) > 300_000) throw new AdminRequestError('Email verification could not be confirmed. Check verification.', {outcomeUnknown: true});
       if (pending.attempt !== this.sensitiveAttempt || pending.epoch !== this.epoch || !this.user || pending.key !== authorityKey(this.user)) throw new AdminRequestError('Your sign-in changed. Try again.', {outcomeUnknown: true});
       this.user = {...this.user, emailVerifiedAt: proof}; this.sensitive = null; this.sensitiveUnknown = false; this.sensitiveUnknownKind = null; this.sensitiveBaseline = null; this.emit('authenticated');
@@ -671,7 +608,7 @@ export class AdminSessionController {
     if (!actor || this.config.backend !== 'supabase' || this.sensitiveBusy) throw new Error('Verification is unavailable.');
     const epoch = this.epoch, key = authorityKey(actor), attempt = this.sensitiveAttempt; this.sensitiveBusy = true; this.sensitiveOperation = 'check';
     try {
-      const proof = emailProof(await this.request('auth/email-verification', {authenticated: true, expectedStatus: 200}), actor);
+      const proof = parseEmailProof(await this.request('auth/email-verification', {authenticated: true, expectedStatus: 200}), actor, Date.now());
       if (attempt !== this.sensitiveAttempt || epoch !== this.epoch || !this.user || authorityKey(this.user) !== key) throw new Error('Your sign-in changed.');
       const admitted = proof !== null && (!this.sensitiveUnknown || this.sensitiveBaseline === null || Date.parse(proof) > this.sensitiveBaseline) ? proof : null;
       this.user = {...this.user, emailVerifiedAt: admitted}; this.emit('authenticated');
@@ -728,10 +665,7 @@ export class AdminSessionController {
     };
     const readCandidate = async (): Promise<AdminUser | null> => {
       const body = await this.api.request('auth/session', {authenticated: false, expectedStatus: 200}); requireCurrent();
-      const allowed = new Set(['user', 'expiresAt', 'csrfToken', 'ownerEmail', 'ownerIdentity']);
-      if (Object.keys(body).some(key => !allowed.has(key)) || !['user', 'expiresAt', 'csrfToken', 'ownerEmail'].every(key => Object.hasOwn(body, key)) || typeof body.csrfToken !== 'string' || !/^[a-f0-9]{64}$/.test(body.csrfToken)) throw new AdminRequestError('The authenticator session could not be verified.', {outcomeUnknown: true});
-      if (body.user === null) throw new AdminRequestError('The authenticator result could not be confirmed.', {outcomeUnknown: true});
-      const candidate = sessionUser(body);
+      const candidate = parseAuthenticatorSession(body, Date.now());
       if (candidate.id !== intent.user_id || candidate.sessionId !== intent.session_id || before && !sameMfaActor(before, candidate)) throw new AdminRequestError('Your sign-in changed. Reopen this page.', {outcomeUnknown: true});
       if (!before && candidate.mfaRequired === true && !checkpoint) throw new AdminRequestError('The original authenticator authority is unavailable.', {outcomeUnknown: true});
       if (checkpoint && checkpoint.authority !== await mfaActorDigest(candidate)) throw new AdminRequestError('Your sign-in changed. Reopen this page.', {outcomeUnknown: true});
@@ -800,7 +734,7 @@ export class AdminSessionController {
       try {
         const proof = await this.api.request('auth/email-verification', {authenticated: false, expectedStatus: 200}); requireCurrent();
         if (typeof proof.sessionId === 'string' && proof.sessionId !== candidate.sessionId) throw new Error('Session mismatch.');
-        candidate = {...candidate, emailVerifiedAt: emailProof(proof, candidate)};
+        candidate = {...candidate, emailVerifiedAt: parseEmailProof(proof, candidate, Date.now())};
       } catch (failure) {
         requireCurrent();
         if (failure instanceof Error && failure.message === 'Session mismatch.' || failure instanceof AdminRequestError && failure.statusCode === 401) throw failure;
@@ -821,7 +755,7 @@ export class AdminSessionController {
   readonly verifyAuthenticator = async (factorId: string, challengeId: string, code: string): Promise<void> => {
     if (this.config.backend === 'supabase' && !MANAGED_MFA_TRANSITION_QUALIFIED) throw new AdminRequestError('Authenticator access is unavailable.');
     const before = this.user;
-    if (!before || !before.principalId || !UUID.test(factorId) || !UUID.test(challengeId) || !OTP.test(code)) throw new Error('Enter the current six-digit authenticator code.');
+    if (!before || !before.principalId || !isVerificationUuid(factorId) || !isVerificationUuid(challengeId) || !OTP.test(code)) throw new Error('Enter the current six-digit authenticator code.');
     if (this.config.backend === 'supabase') {
       if (!before.mfaAvailable || !this.isCurrentAuthority(this.epoch, before.id, before.sessionId) || this.mfaInFlight || this.sensitiveBusy || this.sensitiveUnknown) throw new AdminRequestError('Complete the current email verification before using the authenticator.');
       const random = new Uint8Array(32); globalThis.crypto.getRandomValues(random);
