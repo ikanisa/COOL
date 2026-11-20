@@ -41,6 +41,7 @@ part 'member_financial_repositories.dart';
 part 'member_group_repository.dart';
 part 'member_receipt_sms_repository.dart';
 part 'collect_repository_contribution_actions.dart';
+part 'collect_repository_sms_intake.dart';
 part 'collect_repository_contribution_commands.dart';
 part 'collect_invitation_protection.dart';
 part 'collect_repository_notification_actions.dart';
@@ -52,6 +53,7 @@ part 'collect_repository_session_identity.dart';
 class CollectRepository extends StateNotifier<CollectState>
     with
         _CollectContributionActions,
+        _CollectMemberSmsIntake,
         _CollectContributionCommands,
         _CollectNotificationActions,
         _CollectReceiptSmsActions,
@@ -219,18 +221,7 @@ class CollectRepository extends StateNotifier<CollectState>
     bool readStillCurrent() =>
         _acceptLoad(generation, user?.id) &&
         _isCurrentSession(preferencesSession);
-    final nativeOwnerSynced = await _smsAccessChannel.suspendUnlessOwner(
-      user?.id,
-    );
-    if (!nativeOwnerSynced) {
-      final nativeStatus = await _smsAccessChannel.status();
-      if (mounted &&
-          ((SmsAccessChannel.requiresNativeBridge &&
-                  !nativeStatus.bridgeAvailable) ||
-              nativeStatus.consentEnabled)) {
-        state = state.copyWith(smsSyncNeedsAttention: true);
-      }
-    }
+    await _syncNativeSmsOwner(user?.id, isCurrent: readStillCurrent);
     if (!readStillCurrent()) return;
     if (_realtimeOwnerId != null && _realtimeOwnerId != user?.id) {
       _stopRealtimeSync();
@@ -607,21 +598,8 @@ class CollectRepository extends StateNotifier<CollectState>
         mounted &&
         generation == _authGeneration &&
         identity == _sessionIdentity(_backend?.auth.currentSession);
-    if (!current()) return;
     final userId = identity?.userId;
-    final nativeOwnerSynced = await _smsAccessChannel.suspendUnlessOwner(
-      userId,
-    );
-    if (!current()) return;
-    if (!nativeOwnerSynced) {
-      final nativeStatus = await _smsAccessChannel.status();
-      if (current() &&
-          ((SmsAccessChannel.requiresNativeBridge &&
-                  !nativeStatus.bridgeAvailable) ||
-              nativeStatus.consentEnabled)) {
-        state = state.copyWith(smsSyncNeedsAttention: true);
-      }
-    }
+    await _syncNativeSmsOwner(userId, isCurrent: current);
     if (!current()) return;
     try {
       await _offlineCache.clear();
@@ -638,6 +616,22 @@ class CollectRepository extends StateNotifier<CollectState>
       mounted &&
       generation == _loadGeneration &&
       _backend?.auth.currentUser?.id == userId;
+
+  Future<void> _syncNativeSmsOwner(
+    String? userId, {
+    required bool Function() isCurrent,
+  }) async {
+    if (!isCurrent()) return;
+    final ownerSynced = await _smsAccessChannel.suspendUnlessOwner(userId);
+    if (!isCurrent() || ownerSynced) return;
+    final status = await _smsAccessChannel.status();
+    if (isCurrent() &&
+        (status.consentEnabled ||
+            (SmsAccessChannel.requiresNativeBridge &&
+                !status.bridgeAvailable))) {
+      state = state.copyWith(smsSyncNeedsAttention: true);
+    }
+  }
 
   Future<bool> restoreOfflineSnapshot({required String reason}) async {
     if (_memberAuthorityDenied ||

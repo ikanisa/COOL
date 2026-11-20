@@ -1,5 +1,5 @@
 // Generated from content/product/collect_capabilities.json.
-// Registry SHA-256: 937a966591c7441d06992a7c8b077241bb4aa82249b2885ea024f23f20a7986f
+// Registry SHA-256: 8f479d86f488c24fa4bb518f3bb7e6a1b7798cc8817c18d39741c915857a10e1
 // Source observations only; no publication or provider approval.
 part of 'public_content.dart';
 

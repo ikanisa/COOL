@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../fixtures/collect_repository_fixture.dart';
 import '../support/supabase_sms_fixture.dart';
+import '../support/synthetic_jwt.dart';
 
 const _owner = '11111111-1111-4111-8111-111111111111';
 const _other = '33333333-3333-4333-8333-333333333333';
@@ -73,6 +74,7 @@ class _Sms extends SmsAccessChannel {
   }
 
   bool nativeEnabled = true;
+  bool canDisable = true;
   bool acknowledge = true;
   final pending = <SmsAccessEnvelope>[];
   final readOwners = <String>[];
@@ -84,20 +86,30 @@ class _Sms extends SmsAccessChannel {
   Completer<void>? toggleEntered, toggleRelease;
   Completer<void>? retryEntered;
   Completer<bool>? retryReply;
+  Completer<void>? statusEntered;
+  Completer<SmsAccessStatus>? statusReply;
 
   @override
-  Future<SmsAccessStatus> status() async => SmsAccessStatus(
-    supported: true,
-    declared: true,
-    enabled: nativeEnabled,
-    consentEnabled: nativeEnabled,
-    granted: true,
-    requestedBefore: true,
-    shouldShowRationale: false,
-    permanentlyDenied: false,
-    queueOverflowed: false,
-    queueNeedsReview: pending.any((item) => item.needsReview),
-  );
+  Future<SmsAccessStatus> status({String? ownerUserId}) async {
+    final reply = statusReply;
+    if (reply != null) {
+      statusReply = null;
+      statusEntered!.complete();
+      return reply.future;
+    }
+    return SmsAccessStatus(
+      supported: true,
+      declared: true,
+      enabled: nativeEnabled,
+      consentEnabled: nativeEnabled,
+      granted: true,
+      requestedBefore: true,
+      shouldShowRationale: false,
+      permanentlyDenied: false,
+      queueOverflowed: false,
+      queueNeedsReview: pending.any((item) => item.needsReview),
+    );
+  }
 
   @override
   Future<List<SmsAccessEnvelope>> readPendingSms({
@@ -125,6 +137,7 @@ class _Sms extends SmsAccessChannel {
   @override
   Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async {
     enableCalls.add((enabled: enabled, owner: ownerUserId));
+    if (!enabled && !canDisable) return false;
     nativeEnabled = enabled;
     if (toggleEntered case final entered?) {
       if (!entered.isCompleted) entered.complete();
@@ -241,22 +254,341 @@ class _Harness {
     return _Harness(client, repository, sms, requests);
   }
 
-  static Future<void> login(CollectCloudflareClient client, String owner) =>
-      client.auth
-          .recoverSession(
-            jsonEncode(
-              smsSupabaseSession(
-                principal: owner,
-                authUserId: owner == _owner ? _authOwner : _authOther,
-                sessionId: owner == _owner ? _ownerSession : _otherSession,
-              ),
-            ),
-          )
-          .then((_) {});
+  Future<void> replaceSession(String owner, String sessionId) async {
+    final reloaded = Completer<void>();
+    repository.reloadSignal = reloaded;
+    await login(client, owner, sessionId: sessionId);
+    await reloaded.future.timeout(const Duration(seconds: 3));
+    repository.replaceOwner(owner);
+  }
+
+  static Future<void> login(
+    CollectCloudflareClient client,
+    String owner, {
+    String? sessionId,
+  }) => client.auth
+      .recoverSession(
+        jsonEncode(
+          smsSupabaseSession(
+            principal: owner,
+            authUserId: owner == _owner ? _authOwner : _authOther,
+            sessionId:
+                sessionId ?? (owner == _owner ? _ownerSession : _otherSession),
+          ),
+        ),
+      )
+      .then((_) {});
 }
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  const replacementSession = 'baaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+  test(
+    'a refreshed bearer for the same authority keeps the original upload and receipt',
+    () async {
+      final entered = Completer<void>(), reply = Completer<http.Response>();
+      final h = await _Harness.create(
+        respond: (_) {
+          entered.complete();
+          return reply.future;
+        },
+      );
+      final auth = h.client.auth;
+      final original = auth.currentSession!;
+      final generation = h.repository.sessionGeneration;
+      final run = h.repository.syncPendingSmsAccess();
+      await entered.future;
+      final replacement = smsSupabaseSession(
+        principal: _owner,
+        authUserId: _authOwner,
+        sessionId: _ownerSession,
+      );
+      replacement['access_token'] = syntheticJwt(
+        {'alg': 'ES256', 'typ': 'JWT'},
+        {...original.claims, 'iat': 1},
+      );
+      await auth.recoverSession(jsonEncode(replacement));
+      expect(auth.currentSession!.accessToken, isNot(original.accessToken));
+      expect(h.repository.sessionGeneration, generation);
+      reply.complete(_response(_ack()));
+      expect(await run, 1);
+      expect(
+        h.requests.single.headers['authorization'],
+        'Bearer ${original.accessToken}',
+      );
+      expect(h.sms.acknowledged.single.envelopeId, _envelope);
+      expect(h.sms.pending, isEmpty);
+    },
+  );
+  test(
+    'an event during opt-in waits for the original consent acknowledgement before uploading',
+    () async {
+      final entered = Completer<void>(), reply = Completer<http.Response>();
+      final h = await _Harness.create(
+        respond: (request) async {
+          if (request.url.path == smsSupabaseConsentPath) {
+            entered.complete();
+            return reply.future;
+          }
+          return _response(_ack());
+        },
+      );
+      final allowed = h.repository.setSmsAccess(true);
+      await entered.future;
+      final wake = h.repository.syncPendingSmsAccess();
+      await Future<void>.delayed(Duration.zero);
+      expect(h.requests.map((r) => r.url.path), [smsSupabaseConsentPath]);
+      expect(h.sms.readOwners, isEmpty);
+      expect(h.sms.pending.single.rawBody, _body);
+      reply.complete(_response(null));
+      expect(await allowed, isTrue);
+      expect(await wake, 1);
+      expect(h.requests.map((r) => r.url.path), [
+        smsSupabaseConsentPath,
+        smsSupabaseUploadPath,
+      ]);
+      expect(h.sms.acknowledged.single.envelopeId, _envelope);
+      await Future<void>.delayed(Duration.zero);
+    },
+  );
+
+  test(
+    'failed rollback keeps the observed native capture state and original for review',
+    () async {
+      final h = await _Harness.create(
+        respond: (_) async => _response({'error': 'unavailable'}, status: 503),
+      );
+      h.sms.canDisable = false;
+      await expectLater(h.repository.setSmsAccess(true), throwsA(anything));
+      expect(h.sms.nativeEnabled, isTrue);
+      expect(h.repository.state.smsAccessEnabled, isTrue);
+      expect(h.repository.state.smsSyncNeedsAttention, isTrue);
+      expect(h.sms.pending.single.id, _envelope);
+      expect(h.sms.acknowledged, isEmpty);
+    },
+  );
+
+  test(
+    'scoped channel status refuses old unscoped bridge replies and retains ordinary device queries',
+    () async {
+      const method = MethodChannel('collect/sms_access');
+      final messenger =
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+      final calls = <MethodCall>[];
+      var scopedResponse = false;
+      messenger.setMockMethodCallHandler(method, (call) async {
+        calls.add(call);
+        return <String, Object?>{
+          'supported': true,
+          'declared': true,
+          'granted': true,
+          'enabled': true,
+          'consent_enabled': true,
+          if (scopedResponse) 'owner_scoped': true,
+        };
+      });
+      addTearDown(() => messenger.setMockMethodCallHandler(method, null));
+      const channel = SmsAccessChannel();
+      expect(
+        (await channel.status(ownerUserId: _owner)).bridgeAvailable,
+        isFalse,
+      );
+      expect((await channel.status()).enabled, isTrue);
+      scopedResponse = true;
+      expect((await channel.status(ownerUserId: _owner)).enabled, isTrue);
+      expect(calls.map((c) => c.arguments), [
+        {'owner_user_id': _owner},
+        null,
+        {'owner_user_id': _owner},
+      ]);
+    },
+  );
+
+  test(
+    'a newer status read wins when an earlier device callback arrives late',
+    () async {
+      final h = await _Harness.create();
+      final reply = Completer<SmsAccessStatus>();
+      h.sms.statusEntered = Completer<void>();
+      h.sms.statusReply = reply;
+      final old = h.repository.refreshSmsAccessStatus();
+      await h.sms.statusEntered!.future;
+      h.sms.nativeEnabled = false;
+      expect((await h.repository.refreshSmsAccessStatus()).enabled, isFalse);
+      reply.complete(
+        const SmsAccessStatus(
+          supported: true,
+          declared: true,
+          enabled: true,
+          consentEnabled: true,
+          granted: true,
+          requestedBefore: true,
+          shouldShowRationale: false,
+          permanentlyDenied: false,
+          queueOverflowed: true,
+        ),
+      );
+      expect((await old).enabled, isFalse);
+      expect(h.repository.state.smsAccessEnabled, isFalse);
+      expect(h.repository.state.smsQueueOverflowed, isFalse);
+    },
+  );
+  for (final enabled in [true, false]) {
+    test(
+      'native toggle $enabled cannot send consent through a replacement session for the same member',
+      () async {
+        final h = await _Harness.create();
+        h.sms.toggleEntered = Completer<void>();
+        h.sms.toggleRelease = Completer<void>();
+        final result = h.repository.setSmsAccess(
+          enabled,
+          expectedOwnerUserId: _owner,
+        );
+        final stale = expectLater(result, throwsStateError);
+        await h.sms.toggleEntered!.future;
+        await h.replaceSession(_owner, replacementSession);
+        h.sms.toggleRelease!.complete();
+        await stale;
+        expect(h.requests, isEmpty);
+        expect(h.sms.acknowledged, isEmpty);
+        expect(h.sms.pending.single.id, _envelope);
+        expect(h.sms.pending.single.rawBody, _body);
+      },
+    );
+  }
+
+  test(
+    'old revoked permission status cannot withdraw consent for the new member',
+    () async {
+      final h = await _Harness.create();
+      final reply = Completer<SmsAccessStatus>();
+      h.sms.statusEntered = Completer<void>();
+      h.sms.statusReply = reply;
+      final read = h.repository.refreshSmsAccessStatus();
+      await h.sms.statusEntered!.future;
+      await h.replaceSession(_other, _otherSession);
+      reply.complete(
+        const SmsAccessStatus(
+          supported: true,
+          declared: true,
+          enabled: false,
+          consentEnabled: true,
+          granted: false,
+          requestedBefore: true,
+          shouldShowRationale: false,
+          permanentlyDenied: true,
+          queueOverflowed: false,
+        ),
+      );
+      final readback = await read;
+      expect(readback.enabled, isFalse);
+      expect(h.sms.enableCalls, isEmpty);
+      expect(h.requests, isEmpty);
+      expect(h.repository.state.currentProfile?.id, _other);
+      expect(h.sms.pending.single.ownerUserId, _owner);
+    },
+  );
+
+  test(
+    'previous session status cannot publish its permission or pending review',
+    () async {
+      final h = await _Harness.create();
+      final reply = Completer<SmsAccessStatus>();
+      h.sms.statusEntered = Completer<void>();
+      h.sms.statusReply = reply;
+      final read = h.repository.refreshSmsAccessStatus();
+      await h.sms.statusEntered!.future;
+      await h.replaceSession(_owner, replacementSession);
+      reply.complete(
+        const SmsAccessStatus(
+          supported: true,
+          declared: true,
+          enabled: true,
+          consentEnabled: true,
+          granted: true,
+          requestedBefore: true,
+          shouldShowRationale: false,
+          permanentlyDenied: false,
+          queueOverflowed: true,
+          queueNeedsReview: true,
+        ),
+      );
+      expect((await read).enabled, isFalse);
+      expect(h.repository.state.smsAccessEnabled, isFalse);
+      expect(h.repository.state.smsSyncNeedsAttention, isFalse);
+      expect(h.repository.state.smsQueueOverflowed, isFalse);
+      expect(h.requests, isEmpty);
+    },
+  );
+
+  test(
+    'a rejected old enable cannot turn off a newer explicit opt-in on the same account',
+    () async {
+      final entered = Completer<void>(), reply = Completer<http.Response>();
+      var consentCalls = 0;
+      final h = await _Harness.create(
+        respond: (request) async {
+          if (request.url.path == smsSupabaseUploadPath) {
+            return _response(_ack());
+          }
+          if (consentCalls++ == 0) {
+            entered.complete();
+            return reply.future;
+          }
+          return _response(null);
+        },
+      );
+      final original = h.repository.setSmsAccess(true);
+      final failed = expectLater(original, throwsA(anything));
+      await entered.future;
+      await h.replaceSession(_owner, replacementSession);
+      final replacement = h.repository.setSmsAccess(true);
+      await Future<void>.delayed(Duration.zero);
+      reply.complete(_response({'error': 'unavailable'}, status: 503));
+      await failed;
+      expect(await replacement, isTrue);
+      expect(h.sms.enableCalls.where((action) => !action.enabled), isEmpty);
+      expect(h.sms.nativeEnabled, isTrue);
+      expect(h.repository.state.smsAccessEnabled, isTrue);
+      await Future<void>.delayed(Duration.zero);
+    },
+  );
+
+  test(
+    'new session drains the original envelope after the old response without inheriting its acknowledgement',
+    () async {
+      final entered = Completer<void>(), reply = Completer<http.Response>();
+      var uploads = 0;
+      final h = await _Harness.create(
+        respond: (request) async {
+          if (uploads++ == 0) {
+            entered.complete();
+            return reply.future;
+          }
+          return _response(_ack());
+        },
+      );
+      final firstBearer = h.client.auth.currentSession!.accessToken;
+      final original = h.repository.syncPendingSmsAccess();
+      final stale = expectLater(original, throwsStateError);
+      await entered.future;
+      await h.replaceSession(_owner, replacementSession);
+      final secondBearer = h.client.auth.currentSession!.accessToken;
+      expect(secondBearer, isNot(firstBearer));
+      final fresh = h.repository.syncPendingSmsAccess();
+      reply.complete(_response(_ack()));
+      await stale;
+      expect(await fresh, 1);
+      expect(h.requests.map((r) => r.headers['authorization']), [
+        'Bearer $firstBearer',
+        'Bearer $secondBearer',
+      ]);
+      expect(h.requests.map((r) => r.body).toSet(), hasLength(1));
+      expect(h.sms.acknowledged.map((r) => r.envelopeId), [_envelope]);
+      expect(h.sms.pending, isEmpty);
+    },
+  );
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
   test(

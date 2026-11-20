@@ -165,19 +165,26 @@ class SmsAccessChannel {
     }
   }
 
-  Future<SmsAccessStatus> status() async {
+  Future<SmsAccessStatus> status({String? ownerUserId}) async {
+    SmsAccessStatus decode(Map<dynamic, dynamic>? result) {
+      if (result == null ||
+          (ownerUserId != null && result['owner_scoped'] != true)) {
+        return const SmsAccessStatus.unavailable();
+      }
+      return SmsAccessStatus.fromMap(result);
+    }
+
     try {
-      final result = await _channel.invokeMapMethod<dynamic, dynamic>('status');
-      return result == null
-          ? const SmsAccessStatus.unavailable()
-          : SmsAccessStatus.fromMap(result);
+      final result = await _channel.invokeMapMethod<dynamic, dynamic>(
+        'status',
+        ownerUserId == null ? null : {'owner_user_id': ownerUserId},
+      );
+      return decode(result);
     } on MissingPluginException {
       return const SmsAccessStatus.unavailable();
     } on PlatformException catch (error) {
       final details = error.details;
-      return details is Map
-          ? SmsAccessStatus.fromMap(details)
-          : const SmsAccessStatus.unavailable();
+      return decode(details is Map ? details : null);
     } catch (_) {
       return const SmsAccessStatus.unavailable();
     }

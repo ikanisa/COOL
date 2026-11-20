@@ -101,6 +101,7 @@ class _MomoReceiptSmsReceiverHostState
   ];
   StreamSubscription<void>? _subscription;
   Future<int>? _syncInFlight;
+  MemberSmsIntakeSession? _syncSession;
   Timer? _retryTimer;
   int _retryAttempt = 0;
   bool _syncRequested = false;
@@ -150,35 +151,40 @@ class _MomoReceiptSmsReceiverHostState
       _retryTimer = null;
       _retryAttempt = 0;
     }
-    if (_syncInFlight != null) {
+    final session = ref.read(memberSmsIntakeSessionProvider);
+    if (_syncInFlight != null && _syncSession == session) {
       _syncRequested = true;
       return;
     }
-    final owner = ref.read(collectRepositoryProvider).currentProfile?.id;
-    final sync = ref
-        .read(collectRepositoryProvider.notifier)
-        .syncPendingSmsAccess();
+    _syncRequested = false;
+    final sync = session.intake.syncPendingSmsAccess();
+    _syncSession = session;
     _syncInFlight = sync;
     unawaited(
       sync.then<void>(
-        (_) => _finishSync(sync, owner, failed: false),
+        (_) => _finishSync(sync, session, failed: false),
         onError: (Object _, StackTrace _) =>
-            _finishSync(sync, owner, failed: true),
+            _finishSync(sync, session, failed: true),
       ),
     );
   }
 
-  void _finishSync(Future<int> sync, String? owner, {required bool failed}) {
-    if (!identical(_syncInFlight, sync)) return;
+  void _finishSync(
+    Future<int> sync,
+    MemberSmsIntakeSession session, {
+    required bool failed,
+  }) {
+    if (!identical(_syncInFlight, sync) || _syncSession != session) return;
     _syncInFlight = null;
+    _syncSession = null;
     if (!mounted || !_enabled) return;
-    final currentOwner = ref.read(collectRepositoryProvider).currentProfile?.id;
-    if (currentOwner != owner) {
+    final current = ref.read(memberSmsIntakeSessionProvider);
+    if (current != session) {
       _retryTimer?.cancel();
       _retryTimer = null;
       _retryAttempt = 0;
       _syncRequested = false;
-      if (currentOwner != null) _sync();
+      if (current.ownerId != null) _sync();
       return;
     }
     if (_syncRequested) {
@@ -190,7 +196,7 @@ class _MomoReceiptSmsReceiverHostState
       _retryAttempt = 0;
       return;
     }
-    if (!_foreground || currentOwner == null) return;
+    if (!_foreground || current.ownerId == null) return;
     // A single foreground timer retries without persisting an auth token or
     // continuously waking a background process. Delay is capped at 15 minutes.
     final index = _retryAttempt < _retryDelays.length
@@ -200,26 +206,28 @@ class _MomoReceiptSmsReceiverHostState
     _retryTimer?.cancel();
     _retryTimer = Timer(_retryDelays[index], () {
       _retryTimer = null;
-      _sync(newSignal: false);
+      if (ref.read(memberSmsIntakeSessionProvider) == session) {
+        _sync(newSignal: false);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     if (_enabled) {
-      ref.listen<String?>(
-        collectRepositoryProvider.select((state) => state.currentProfile?.id),
-        (_, current) {
-          if (current == null) {
-            _retryTimer?.cancel();
-            _retryTimer = null;
-            _retryAttempt = 0;
-            _syncRequested = false;
-          } else {
-            _sync();
-          }
-        },
-      );
+      ref.listen<MemberSmsIntakeSession>(memberSmsIntakeSessionProvider, (
+        _,
+        current,
+      ) {
+        if (current.ownerId == null) {
+          _retryTimer?.cancel();
+          _retryTimer = null;
+          _retryAttempt = 0;
+          _syncRequested = false;
+        } else {
+          _sync();
+        }
+      });
     }
     return widget.child;
   }

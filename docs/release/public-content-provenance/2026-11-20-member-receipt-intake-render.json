@@ -1,0 +1,249 @@
+{
+  "status": "pass",
+  "reviewed_at": "2026-11-20T16:52:45.745277+00:00",
+  "scope": "Source and rendered text for the public Collect website.",
+  "previous_commit": "be5e160fc83c048cd30f8f149612b072f1c26ba5",
+  "previous_contract_sha256": "0ea47e70cde61ee2edf19e16ca5cb6f93745bdae8c98584a1f89d7136e10f30a",
+  "previous_current_comparison_file": "docs/release/public-content-provenance/current12-public-web-analytics-disclosure-comparison-20261023.json",
+  "previous_current_comparison_sha256": "a584d25cbab8426ffa6eec20f24d2dc9fe44926fae39224776dff9c7adb074fd",
+  "reviewed_source_sha256": {
+    "scripts/public_static_site_build.rb": "38655e257ff385ac637fcbf374008a8e170341abf2ce3aa94caa53de77bf8c14",
+    "scripts/qa/bounded_git_metadata.rb": "bce5e2cb2e32de4c5dbd0c5aed73cea5c5e726ea82bccb6ce9720d89fc9d0ec3",
+    "docs/PRODUCT.md": "6f065e32578d9ebb33b1e07d848c575a382d7578d033e2eb2e4d8da92641aaa9",
+    "content/legal/collect_legal_pages_bundle.yaml": "951a93eaef12d3e124d5e4ddeb7fe834f669d17e706b194ff0efcc0a62239cf7",
+    "content/legal/collect_privacy_policy.yaml": "97f016378ca280b2afe989c550ffc80c04c92d729815b6c2d4bf8bc4a80dd8ae",
+    "content/legal/collect_terms_of_use.yaml": "438d7c3dd077885f5000ee6fafc1c3cdeea9edf47d016b35122267e56fd5fce5",
+    "content/legal/collect_delete_account.yaml": "0b2bf9354f37cde1e8f91cb4a0a35b98b2a7f3efaad7e2609662acaf113e9841",
+    "content/product/collect_capabilities.json": "8f479d86f488c24fa4bb518f3bb7e6a1b7798cc8817c18d39741c915857a10e1",
+    "scripts/product_capabilities.rb": "67ba6761b0a1572b8c9f34aa40fb7ea9515d63f2d47a41786566df13f1db1ec1",
+    "scripts/generate_product_capability_content.rb": "9afd9857f853de67c3b332a5df72e70e5c5531359c78690dd7ebdae56ee4b20d",
+    "lib/features/landing/public_content.dart": "5b5b4ab791cd40ff6c45501492fdbf4a987b54586683f6118a3dd7acd7b0c8a8",
+    "lib/features/landing/public_marketing_page_content.dart": "a1febd2e311bcef0bd7047dbdd8a0754971d111f780b133a478a8fe108a3bc9e",
+    "lib/features/landing/public_capability_content.dart": "c9d2d4fd1e5b03c0adfe98a634284efae11e77e12ca2bb762910c707c7039d52",
+    "lib/features/landing/collect_landing_page.dart": "b5324733356584d5bd9fdcfd99dae58b004f8111aae569a5606d1ffd9925d822",
+    "fastlane/metadata/en-GB/description.txt": "bd92d3b4bbb727033dcbd28bd68aa3e79586e1c96c1eeff508fb86b2000c3f8e",
+    "fastlane/metadata/en-GB/promotional_text.txt": "3da4aeb139366627db56de695b9f1d702eaa0e4b53900bda1249047791258d93",
+    "fastlane/metadata/en-GB/keywords.txt": "649e6277310e9ac443133c5adb181254688f06355afaf88679d55283d869e0ed",
+    "fastlane/metadata/en-GB/review_notes.txt": "ff7caa4ecf80a8f8219a7291e52879befd55c05d03ee4bc8fffe97fcec316d8e",
+    "fastlane/metadata/en-GB/release_notes.txt": "b99e028630950800e2baeb3307bb61cededf66b4439c90a287cfa9b202d57c7b",
+    "fastlane/metadata/android/en-US/full_description.txt": "e11f7ea0d234fe651b8f67889655015be112abcdf5895a8cd2ffd815a1690d47",
+    "fastlane/metadata/android/en-US/short_description.txt": "5e89c3082fa6abf11bff5d29903bb9e5de7c382861c6a07c381335e87fdf26d4"
+  },
+  "reviewed_source_changes": [
+    {
+      "path": "scripts/public_static_site_build.rb",
+      "previous_sha256": "8c722b01bf51bc14e8d8212b711e53a6d9a84a633527131e3aa86f0ab8c970d2",
+      "current_sha256": "38655e257ff385ac637fcbf374008a8e170341abf2ce3aa94caa53de77bf8c14",
+      "bytes": 90863,
+      "review_context": "Rendered the current route, link and asset generator."
+    },
+    {
+      "path": "content/legal/collect_legal_pages_bundle.yaml",
+      "previous_sha256": "fedb34c50a954e63e6bc88b3267169fc1211b9c7cb6339f1b90b075eea1b466a",
+      "current_sha256": "951a93eaef12d3e124d5e4ddeb7fe834f669d17e706b194ff0efcc0a62239cf7",
+      "bytes": 39359,
+      "review_context": "Reviewed the rendered November privacy disclosure against its source."
+    },
+    {
+      "path": "content/legal/collect_privacy_policy.yaml",
+      "previous_sha256": "300880a908d5aa81715bb3701ab60fc34952cdc827c46d4a90a6e2d62125f153",
+      "current_sha256": "97f016378ca280b2afe989c550ffc80c04c92d729815b6c2d4bf8bc4a80dd8ae",
+      "bytes": 18837,
+      "review_context": "Confirmed the privacy page describes opted-in receipt capture and Android camera scanning."
+    },
+    {
+      "path": "content/product/collect_capabilities.json",
+      "previous_sha256": "3e3831fd74a2c31495b18d3e155fc23febd3a98da0928df9563f893ddd97c89e",
+      "current_sha256": "8f479d86f488c24fa4bb518f3bb7e6a1b7798cc8817c18d39741c915857a10e1",
+      "bytes": 54505,
+      "review_context": "Bound the consented Android receipt implementation to its current Dart and Kotlin source."
+    },
+    {
+      "path": "lib/features/landing/public_marketing_page_content.dart",
+      "previous_sha256": "c55df7657c480aef2243684d4f717105e78e44281fe0650787fc947833ec22f0",
+      "current_sha256": "a1febd2e311bcef0bd7047dbdd8a0754971d111f780b133a478a8fe108a3bc9e",
+      "bytes": 6335,
+      "review_context": "Checked generated member marketing content against the capability registry."
+    },
+    {
+      "path": "lib/features/landing/public_capability_content.dart",
+      "previous_sha256": "a9b65899a3c1bf4608a1a41e440b8db2b82b0ba27101ceb1759d80609828311e",
+      "current_sha256": "c9d2d4fd1e5b03c0adfe98a634284efae11e77e12ca2bb762910c707c7039d52",
+      "bytes": 7434,
+      "review_context": "Checked generated platform availability and capability content against the registry."
+    },
+    {
+      "path": "fastlane/metadata/en-GB/review_notes.txt",
+      "previous_sha256": "6faf1220c39ddd366cf0e30b9e95d1eb3d291d8c2926b60495cfffc52f90e49b",
+      "current_sha256": "ff7caa4ecf80a8f8219a7291e52879befd55c05d03ee4bc8fffe97fcec316d8e",
+      "bytes": 1009,
+      "review_context": "Checked the generated reviewer description against the same product facts."
+    },
+    {
+      "path": "fastlane/metadata/android/en-US/full_description.txt",
+      "previous_sha256": "3f3871d8acae1d0edf2882ecf5d5b3b6d3110adc28dad4d2bc76e4100f072fc7",
+      "current_sha256": "e11f7ea0d234fe651b8f67889655015be112abcdf5895a8cd2ffd815a1690d47",
+      "bytes": 1680,
+      "review_context": "Checked the generated Android store description against the same product facts."
+    }
+  ],
+  "build_files": 53,
+  "html_files": 18,
+  "routes": [
+    {
+      "route": "/",
+      "html_file": "index.html",
+      "html_sha256": "78b4f746d2e0b8fbbe4d3e4ba68c8d24f9b5a5cf355652f22678d1f5ec6016bb",
+      "historical_matches_baseline": true,
+      "historical_sha256": "a0b19e5bd9838068cc6b4dddcc3db7cf169e05702268b77f69a43900c827b56b",
+      "previous_reviewed_sha256": "acb2860d5bdb83ce2bcf612e248f9dd44cf481d0f4d45941a0a8fe5bf8ff2653",
+      "current_sha256": "acb2860d5bdb83ce2bcf612e248f9dd44cf481d0f4d45941a0a8fe5bf8ff2653",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/account-deletion/",
+      "html_file": "account-deletion/index.html",
+      "html_sha256": "f6646ff408d1a25d72a31e77dafa8fc20cdcd5db6c21487677cbb2fbbc127580",
+      "historical_matches_baseline": true,
+      "historical_sha256": "ef6f3bb7302829b8660e08dba1670ef128c2af2139574ef0a0cfa90e6e6fe4fa",
+      "previous_reviewed_sha256": "38de1d8e4cbde4bba1aab93b79476ece69bbb8c44e64a8251fbbea5dedacc212",
+      "current_sha256": "38de1d8e4cbde4bba1aab93b79476ece69bbb8c44e64a8251fbbea5dedacc212",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/community-groups/",
+      "html_file": "community-groups/index.html",
+      "html_sha256": "cf9236f53f19f5fbc008fd5c657da90d3b233ec293e93a30c028ba3b5e11f555",
+      "historical_matches_baseline": true,
+      "historical_sha256": "995ac5664e120c477e6c40df6571b697a46f1f0c1552af2868a5e11f2af2153c",
+      "previous_reviewed_sha256": "046204a7322e3a7cd88f4af9138c5ae3b5ede16f7dba4887d9269ba05773b271",
+      "current_sha256": "046204a7322e3a7cd88f4af9138c5ae3b5ede16f7dba4887d9269ba05773b271",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/craas/",
+      "html_file": "craas/index.html",
+      "html_sha256": "be8258c6d3e82142a54c83241acaa267dc61ab69c01486a17bbd394b56697ecb",
+      "historical_matches_baseline": true,
+      "historical_sha256": "87614fa5aa2d7bbe6aedc2f81b9884cef453fe3b5f04403f5ead6899a1369f3d",
+      "previous_reviewed_sha256": "d435fcbac1e262b7b1c968cc7e2575fb585de6e03a923096576377b0136e14f4",
+      "current_sha256": "d435fcbac1e262b7b1c968cc7e2575fb585de6e03a923096576377b0136e14f4",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/credit-readiness/",
+      "html_file": "credit-readiness/index.html",
+      "html_sha256": "f1c93234c828f943bb88677decb39c6e63d4e5ea2b495ac93157f40312a0ebb1",
+      "historical_matches_baseline": true,
+      "historical_sha256": "4e02a5f56ae1bdfb72d427b223f99d26b208fad33a58d9223ad891cecf22887a",
+      "previous_reviewed_sha256": "7cec9564269808614d7face035c968852ee71198c74ad65ad61df9fdc6c1e0c6",
+      "current_sha256": "7cec9564269808614d7face035c968852ee71198c74ad65ad61df9fdc6c1e0c6",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/data-deletion/",
+      "html_file": "data-deletion/index.html",
+      "html_sha256": "25a6749b38710bfdc8e380cc85a000db69c442cc18b7d5e6f48aa6732b62a0ac",
+      "historical_matches_baseline": true,
+      "historical_sha256": "e6886abc6bdad6758d6e5a186f8a44b0c7fb87a26e7fc73c279f813bc65953cf",
+      "previous_reviewed_sha256": "e0fa71f42b4b29b6a22a40f6d923ea47e96f228c7e7ddd667f66ec933d4ac6ed",
+      "current_sha256": "e0fa71f42b4b29b6a22a40f6d923ea47e96f228c7e7ddd667f66ec933d4ac6ed",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/group-savings/",
+      "html_file": "group-savings/index.html",
+      "html_sha256": "956186ab5cf204e2d19f17efb35b0d25f919e0d49ef82711dc8b002e5499a28c",
+      "historical_matches_baseline": true,
+      "historical_sha256": "72d1d165fd951eeb40a97fc9116b30c6004e03d26d3ae81415c6e12d9e878bce",
+      "previous_reviewed_sha256": "4644913a5f347dc72a5691c1af464fa09a7199f1188aa2316c69eda2cb73071a",
+      "current_sha256": "4644913a5f347dc72a5691c1af464fa09a7199f1188aa2316c69eda2cb73071a",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/insurance/",
+      "html_file": "insurance/index.html",
+      "html_sha256": "5875d2d1c7d534ad929c98ad6ffdfdeccea09d7166693e6639cf0f660383e2a2",
+      "historical_matches_baseline": true,
+      "historical_sha256": "e2f7043c6c6c0781fc8fd1cfa43b0bfd81993430ec13dc0ba6f7bc501c8cc564",
+      "previous_reviewed_sha256": "b03689d819453ae2463c4db7b13adecfe964f64c80055f5823cc43b3c72aec0c",
+      "current_sha256": "b03689d819453ae2463c4db7b13adecfe964f64c80055f5823cc43b3c72aec0c",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/our-partners/",
+      "html_file": "our-partners/index.html",
+      "html_sha256": "1a0eafeb40fa64a9e00a2697c08354e008af6b7726814fc6014f8c9f2aaa002e",
+      "historical_matches_baseline": true,
+      "historical_sha256": "a2a40140ddbf62dd2e3a41c6452be583cc376e02466a3a262c39c9b1dc396ae5",
+      "previous_reviewed_sha256": "3f7c08b6d1a09a56595c3009cf33c074ed7684ef8ce302fddfba9335f0c7609b",
+      "current_sha256": "3f7c08b6d1a09a56595c3009cf33c074ed7684ef8ce302fddfba9335f0c7609b",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/partners/",
+      "html_file": "partners/index.html",
+      "html_sha256": "b6331d12effda9349c831bad1a0442163acc6d932be8474e32e91b29d9262752",
+      "historical_matches_baseline": true,
+      "historical_sha256": "f04cf90a38d0a6f49ddd64dae879bc2dde52ce4d6af411897a8bb415487877cf",
+      "previous_reviewed_sha256": "082d44a8368f1294e209cb4cf0873059c30c1ddd8d3440308463381c01c14a6a",
+      "current_sha256": "082d44a8368f1294e209cb4cf0873059c30c1ddd8d3440308463381c01c14a6a",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/privacy/",
+      "html_file": "privacy/index.html",
+      "html_sha256": "660cfc21cc82d1bd2eb25fcd89515c3b172139652f98997a47a4b96f667d4758",
+      "historical_matches_baseline": true,
+      "historical_sha256": "e2262fd575e34b7605185f508ec54dabdbe5e12db5307ed4fb786f4b9b167a2d",
+      "previous_reviewed_sha256": "ab3340bab89ba5336bd58835c9485c4347d054856cf14c36f5b197a28d33cdce",
+      "current_sha256": "1fb27bc27a767fdc97b7cb40e089be6321b99c13d539a70de7416512b4fdf3c7",
+      "visible_text_changed": true
+    },
+    {
+      "route": "/protection/",
+      "html_file": "protection/index.html",
+      "html_sha256": "1440e7e0ad6a837a6d61c34e2ea66f67a3da3f98694bcb56b14fbfe33cc6748e",
+      "historical_matches_baseline": true,
+      "historical_sha256": "76d64d2361fadee80aac081af5946049195ca789d22e6274b9677fe8469e5457",
+      "previous_reviewed_sha256": "8f2585367871fdb8f1efd40b98640003aeb54bb08031c9e367fcf6d940cf63d5",
+      "current_sha256": "8f2585367871fdb8f1efd40b98640003aeb54bb08031c9e367fcf6d940cf63d5",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/security/",
+      "html_file": "security/index.html",
+      "html_sha256": "8d67cc610e2bf24ffe2dde4b3bf1d6193fc898256ad0c6df0ee89c38484b309f",
+      "historical_matches_baseline": true,
+      "historical_sha256": "1bf5211c20994191a6f14270bd462e2e117c3e8ec60cc5d8e4b2026ebe3a4498",
+      "previous_reviewed_sha256": "2efe6d3f3753f978877c4c4a1584e92c8a0a22816655744eb7ea0a61f03bff01",
+      "current_sha256": "2efe6d3f3753f978877c4c4a1584e92c8a0a22816655744eb7ea0a61f03bff01",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/terms/",
+      "html_file": "terms/index.html",
+      "html_sha256": "e17bc350bef177d8b687f251a6aa6677b8a2d536195b0c3d7410aa1b2bf9d5ab",
+      "historical_matches_baseline": true,
+      "historical_sha256": "5c780ab940cb0cc963232ebfa0b5b0144e6fcc2b58b6060b657f53495f3eff5c",
+      "previous_reviewed_sha256": "92b30c27a0013e76a2c5fb01fcc76d19919a69717ef0def0d457241831f50510",
+      "current_sha256": "92b30c27a0013e76a2c5fb01fcc76d19919a69717ef0def0d457241831f50510",
+      "visible_text_changed": false
+    },
+    {
+      "route": "/trust/",
+      "html_file": "trust/index.html",
+      "html_sha256": "e316263724a6a6adc98ab5972f0d9de456725e9b2bb6950743de4778d578c8b4",
+      "historical_matches_baseline": true,
+      "historical_sha256": "81c31ac0a356dfa8bbc9bd7a157b12be935c3900bd17df409836666d1e75689b",
+      "previous_reviewed_sha256": "8a82c83e1773cdc52ab9353c25e8f8c6d0aaa71ef7aab67bd0624cc95c4e0dfe",
+      "current_sha256": "8a82c83e1773cdc52ab9353c25e8f8c6d0aaa71ef7aab67bd0624cc95c4e0dfe",
+      "visible_text_changed": false
+    }
+  ],
+  "visible_changes": {
+    "/privacy/": "The previous render was dated 20 October. The 4 November disclosure covers newly detected Android receipt SMS, possible capture of unrelated sensitive messages, SMS-code delivery records, and the data processed when Android camera scanning uses Google ML Kit."
+  },
+  "legal_release_approved": false,
+  "publication_approved": false
+}

@@ -541,6 +541,13 @@ def main() -> None:
     kind = report["kind"]
     old = json.loads((MEDIA / "manifest.json").read_text())
     validate_previous_manifest(old)
+    alt = {row["id"]: row["alt"] for row in old["screens"]}
+    for screen in review.get("screens", []):
+        if "alt" in screen:
+            description = screen["alt"]
+            if not isinstance(description, str) or not description.strip() or not description.isprintable():
+                raise ValueError("Reviewed screenshot description must be readable text")
+            alt[screen["id"]] = description.strip()
     packet.mkdir(parents=True)
     old_kinds = {row["capture_kind"] for row in old["screens"]}
     historic = packet / ("previous-native-media" if old_kinds.issubset({"native_ios_fixture", "native_android_fixture"}) else "previous-browser-media")
@@ -558,7 +565,6 @@ def main() -> None:
     shutil.copyfile(approved, packet / "approved-assets-before.sha256")
     shutil.copyfile(report_path, packet / "capture-report.json")
     shutil.copyfile(review_path, packet / "visual-review.json")
-    alt = {row["id"]: row["alt"] for row in old["screens"]}
     screens = []
     staged = packet / "replacement-media"
     staged.mkdir()

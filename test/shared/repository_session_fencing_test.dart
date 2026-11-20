@@ -734,17 +734,18 @@ class _Sms extends SmsAccessChannel {
   }
 
   @override
-  Future<SmsAccessStatus> status() async => SmsAccessStatus(
-    supported: true,
-    declared: true,
-    enabled: enabled,
-    consentEnabled: enabled,
-    granted: true,
-    requestedBefore: true,
-    shouldShowRationale: false,
-    permanentlyDenied: false,
-    queueOverflowed: false,
-  );
+  Future<SmsAccessStatus> status({String? ownerUserId}) async =>
+      SmsAccessStatus(
+        supported: true,
+        declared: true,
+        enabled: enabled,
+        consentEnabled: enabled,
+        granted: true,
+        requestedBefore: true,
+        shouldShowRationale: false,
+        permanentlyDenied: false,
+        queueOverflowed: false,
+      );
 }
 
 class _ProtectedStorageBarrier implements CollectAuthSessionStorage {

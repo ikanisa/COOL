@@ -2,6 +2,9 @@ package app.cool.mobile.receiver_sms
 
 /** Pure owner check shared by native bridge and queue storage. */
 object SmsQueueOwnerPolicy {
+    fun canSeeCaptureStatus(storedOwner: String, requestedOwner: String?): Boolean =
+        requestedOwner == null || (requestedOwner.isNotBlank() && requestedOwner == storedOwner)
+
     fun canDisable(activeOwner: String, requestedOwner: String): Boolean =
         requestedOwner.isNotBlank() &&
             (activeOwner.isBlank() || activeOwner == requestedOwner)

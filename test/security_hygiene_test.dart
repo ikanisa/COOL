@@ -31,15 +31,17 @@ String repositoryCustodyRoot() {
 }
 
 String readCollectRepositoryLibrary() {
+  final library = File('lib/shared/repositories/collect_repository.dart');
+  final source = library.readAsStringSync();
+  final parts = RegExp(
+    r"^part '([^']+)';$",
+    multiLine: true,
+  ).allMatches(source);
   return [
-    'lib/shared/repositories/collect_repository.dart',
-    'lib/shared/repositories/collect_repository_contribution_actions.dart',
-    'lib/shared/repositories/collect_repository_notification_actions.dart',
-    'lib/shared/repositories/collect_repository_group_actions.dart',
-    'lib/shared/repositories/collect_repository_providers.dart',
-    'lib/shared/repositories/collect_repository_state.dart',
-    'lib/shared/repositories/collect_repository_live_reader.dart',
-  ].map((path) => File(path).readAsStringSync()).join('\n');
+    source,
+    for (final part in parts)
+      File.fromUri(library.uri.resolve(part.group(1)!)).readAsStringSync(),
+  ].join('\n');
 }
 
 void main() {
@@ -314,7 +316,12 @@ void main() {
       expect(service, contains('isNotificationDeviceRegistered'));
       expect(service, contains('CollectNotificationStatus.ready'));
       expect(androidGradle, contains('isCoreLibraryDesugaringEnabled = true'));
-      expect(androidGradle, contains('desugar_jdk_libs:2.1.4'));
+      expect(
+        androidGradle,
+        contains(
+          'coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")',
+        ),
+      );
       expect(repository, contains('register_notification_device'));
       expect(service, contains('requestRemoteRegistration'));
       expect(service, contains("provider: 'fcm'"));

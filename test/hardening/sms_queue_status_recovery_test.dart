@@ -21,7 +21,7 @@ class _StatusChannel extends SmsAccessChannel {
   int disableCalls = 0;
 
   @override
-  Future<SmsAccessStatus> status() async => current;
+  Future<SmsAccessStatus> status({String? ownerUserId}) async => current;
 
   @override
   Future<bool> setEnabled(bool enabled, {String? ownerUserId}) async {

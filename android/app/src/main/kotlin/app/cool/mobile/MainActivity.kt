@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import app.cool.mobile.receiver_sms.SmsQueueEventBus
+import app.cool.mobile.receiver_sms.SmsQueueOwnerPolicy
 import app.cool.mobile.receiver_sms.SmsQueueStore
 import app.cool.mobile.receiver_sms.commitReceiptState
 import androidx.core.content.edit
@@ -286,7 +287,7 @@ class MainActivity : FlutterActivity() {
                         }
                     }
                 }
-                "status" -> result.success(smsAccessStatus())
+                "status" -> result.success(smsAccessStatus(call.argument<String>("owner_user_id")))
                 "suspendUnlessOwner" -> {
                     val currentUserId = call.argument<String>("current_user_id")?.trim()
                     val suspended = SmsQueueStore(applicationContext)
@@ -730,23 +731,25 @@ class MainActivity : FlutterActivity() {
             SMS_PERMISSIONS.none(::shouldShowRequestPermissionRationale)
     }
 
-    private fun smsAccessStatus(): Map<String, Boolean> {
+    private fun smsAccessStatus(requestedOwner: String? = null): Map<String, Boolean> {
         val prefs = getSharedPreferences(SMS_ACCESS_PREFS, Context.MODE_PRIVATE)
         val supported = supportsSmsAccess()
         val granted = supported && hasSmsPermissions()
-        val ownerBound = prefs.getString(
+        val storedOwner = prefs.getString(
             SmsQueueStore.SMS_ACCESS_OWNER_USER_ID_KEY,
             null,
-        ).orEmpty().trim().isNotEmpty()
+        ).orEmpty().trim()
+        val ownStatus = SmsQueueOwnerPolicy.canSeeCaptureStatus(storedOwner, requestedOwner)
         return mapOf(
+            "owner_scoped" to (requestedOwner != null),
             "supported" to supported,
             "declared" to packageDeclaresSmsPermissions(),
             "enabled" to (
                 granted &&
-                    ownerBound &&
+                    ownStatus && storedOwner.isNotEmpty() &&
                     prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false)
             ),
-            "consent_enabled" to prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false),
+            "consent_enabled" to (ownStatus && prefs.getBoolean(SMS_ACCESS_ENABLED_KEY, false)),
             "granted" to granted,
             "requested_before" to prefs.getBoolean(
                 SmsQueueStore.SMS_PERMISSION_REQUESTED_KEY,
@@ -754,12 +757,12 @@ class MainActivity : FlutterActivity() {
             ),
             "should_show_rationale" to SMS_PERMISSIONS.any(::shouldShowRequestPermissionRationale),
             "permanently_denied" to isSmsPermissionPermanentlyDenied(),
-            "queue_unavailable" to prefs.getBoolean(SmsQueueStore.SMS_QUEUE_UNAVAILABLE_KEY, false),
-            "queue_needs_review" to SmsQueueStore(applicationContext).hasRejectedSources(),
-            "queue_overflowed" to prefs.getBoolean(
+            "queue_unavailable" to (ownStatus && prefs.getBoolean(SmsQueueStore.SMS_QUEUE_UNAVAILABLE_KEY, false)),
+            "queue_needs_review" to (ownStatus && SmsQueueStore(applicationContext).hasRejectedSources()),
+            "queue_overflowed" to (ownStatus && prefs.getBoolean(
                 SmsQueueStore.SMS_QUEUE_OVERFLOW_KEY,
                 false,
-            ),
+            )),
         )
     }
 
