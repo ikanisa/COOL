@@ -34,6 +34,7 @@ class _AppPermissionsScreenState extends ConsumerState<_DevicePermissions>
     with WidgetsBindingObserver {
   bool _loading = true;
   int _refreshRequest = 0;
+  bool _cameraRequestPermanentlyDenied = false;
   bool _requestingSms = false;
   SmsAccessStatus _momoSmsStatus = const SmsAccessStatus.unavailable();
   permissions.PermissionStatus _cameraStatus =
@@ -63,7 +64,7 @@ class _AppPermissionsScreenState extends ConsumerState<_DevicePermissions>
     return ScreenScaffold(
       title: 'App permissions',
       compact: true,
-      onRefresh: _refresh,
+      onRefresh: () => _refresh(resetCameraRequest: true),
       children: [
         CollectCard(
           emphasis: CollectCardEmphasis.normal,
@@ -181,9 +182,10 @@ class _AppPermissionsScreenState extends ConsumerState<_DevicePermissions>
     );
   }
 
-  Future<void> _refresh() async {
+  Future<void> _refresh({bool resetCameraRequest = false}) async {
     if (!mounted) return;
     final request = ++_refreshRequest;
+    if (resetCameraRequest) _cameraRequestPermanentlyDenied = false;
     setState(() => _loading = true);
     final service = ref.read(collectNotificationServiceProvider);
     final captureAvailable = ref.read(momoReceiptCaptureAvailableProvider);
@@ -197,7 +199,12 @@ class _AppPermissionsScreenState extends ConsumerState<_DevicePermissions>
     ]);
     if (!mounted || request != _refreshRequest) return;
     setState(() {
-      _cameraStatus = results[0] as permissions.PermissionStatus;
+      final cameraStatus = results[0] as permissions.PermissionStatus;
+      if (cameraStatus.isGranted) _cameraRequestPermanentlyDenied = false;
+      // Android reports a permanent denial through the request result.
+      _cameraStatus = cameraStatus.isDenied && _cameraRequestPermanentlyDenied
+          ? permissions.PermissionStatus.permanentlyDenied
+          : cameraStatus;
       _momoSmsStatus = captureAvailable
           ? results[1] as SmsAccessStatus
           : const SmsAccessStatus.unavailable();
@@ -217,7 +224,9 @@ class _AppPermissionsScreenState extends ConsumerState<_DevicePermissions>
   }
 
   Future<void> _requestCamera() async {
-    await permissions.Permission.camera.request();
+    final result = await permissions.Permission.camera.request();
+    if (!mounted) return;
+    _cameraRequestPermanentlyDenied = result.isPermanentlyDenied;
     await _refresh();
   }
 

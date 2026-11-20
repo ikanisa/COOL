@@ -279,7 +279,7 @@ val playIntegrityCloudProjectNumber =
 
 android {
     namespace = "app.cool.mobile"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = maxOf(flutter.compileSdkVersion, 37)
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

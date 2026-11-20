@@ -7,12 +7,14 @@ import 'package:collect_app/core/security/sms_access_channel.dart';
 import 'package:collect_app/shared/models/collect_models.dart';
 import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:collect_app/shared/widgets/screen_scaffold.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:permission_handler/permission_handler.dart' as permissions;
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -89,6 +91,94 @@ void main() {
       );
     }
   }
+
+  testWidgets(
+    'Android camera remembers a permanent request denial until grant or refresh',
+    (tester) async {
+      const channel = MethodChannel('flutter.baseflow.com/permissions/methods');
+      var cameraStatus = permissions.PermissionStatus.denied;
+      var settingsOpened = 0;
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, (call) async {
+            switch (call.method) {
+              case 'checkPermissionStatus':
+                return cameraStatus.index;
+              case 'requestPermissions':
+                expect(call.arguments, [permissions.Permission.camera.value]);
+                return <int, int>{
+                  permissions.Permission.camera.value:
+                      permissions.PermissionStatus.permanentlyDenied.index,
+                };
+              case 'openAppSettings':
+                settingsOpened++;
+                return true;
+              default:
+                return false;
+            }
+          });
+      final repository = FixtureCollectRepository();
+      final router = createAppRouter(initialLocation: '/settings/permissions');
+      addTearDown(router.dispose);
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            collectBackendClientProvider.overrideWithValue(null),
+            appRouterProvider.overrideWithValue(router),
+            collectRepositoryProvider.overrideWith((ref) => repository),
+          ],
+          child: const CollectApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.text('Camera'),
+        150,
+        scrollable: find.byType(Scrollable).first,
+      );
+
+      final cameraCard = find
+          .ancestor(
+            of: find.text('Camera'),
+            matching: find.byType(LayoutBuilder),
+          )
+          .last;
+      Finder cameraAction(String label) => find.descendant(
+        of: cameraCard,
+        matching: find.widgetWithText(TextButton, label),
+      );
+
+      Future<void> resume() async {
+        tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+        tester.binding.handleAppLifecycleStateChanged(
+          AppLifecycleState.resumed,
+        );
+        await tester.pumpAndSettle();
+      }
+
+      await tester.tap(cameraAction('Allow'));
+      await tester.pumpAndSettle();
+      await resume();
+      expect(cameraAction('Phone settings'), findsOneWidget);
+      await tester.tap(cameraAction('Phone settings'));
+      expect(settingsOpened, 1);
+
+      await tester
+          .widget<ScreenScaffold>(find.byType(ScreenScaffold))
+          .onRefresh!();
+      await tester.pumpAndSettle();
+      expect(cameraAction('Allow'), findsOneWidget);
+
+      await tester.tap(cameraAction('Allow'));
+      await tester.pumpAndSettle();
+      cameraStatus = permissions.PermissionStatus.granted;
+      await resume();
+      expect(cameraAction('Phone settings'), findsOneWidget);
+      cameraStatus = permissions.PermissionStatus.denied;
+      await resume();
+      expect(cameraAction('Allow'), findsOneWidget);
+    },
+    variant: TargetPlatformVariant.only(TargetPlatform.android),
+  );
 
   for (final platform in TargetPlatform.values) {
     test('$platform only exposes a supported device SMS-granted flag', () {
