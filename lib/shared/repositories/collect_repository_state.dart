@@ -11,7 +11,7 @@ CollectState _emptyCollectState() {
 
 const _unsetDateTimeField = Object();
 
-class CollectState implements MemberGroupDirectoryState {
+class CollectState implements MemberPaymentState, MemberGroupDirectoryState {
   // Public named parameters are kept while masked backing fields stay private.
   const CollectState({
     required this.currentProfile,
@@ -66,10 +66,12 @@ class CollectState implements MemberGroupDirectoryState {
   @override
   List<CollectCollection> get collections =>
       memberScopeUncertain ? const [] : _collections;
+  @override
   List<PaymentIntentModel> get paymentIntents =>
       memberScopeUncertain ? const [] : _paymentIntents;
   List<Contribution> get contributions =>
       memberScopeUncertain ? const [] : _contributions;
+  @override
   Map<String, CollectionSummary> get collectionSummaries =>
       memberScopeUncertain ? const {} : _collectionSummaries;
   MemberHistoryPage? get historyPage =>

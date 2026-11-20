@@ -1,7 +1,26 @@
 import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/providers/collect_app_state.dart';
 import 'package:collect_app/shared/repositories/collect_offline_cache.dart';
+import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'fixtures/collect_repository_fixture.dart';
+
+class _StatusRepository extends FixtureCollectRepository {
+  void publishIntents(
+    List<PaymentIntentModel> intents, {
+    bool stale = false,
+    bool scopeUncertain = false,
+  }) {
+    state = state.copyWith(
+      paymentIntents: intents,
+      usingStaleCache: stale,
+      memberScopeUncertain: scopeUncertain,
+    );
+  }
+}
 
 const _base = {
   'id': 'synthetic-intent',
@@ -27,6 +46,96 @@ const _committed = {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUp(() => SharedPreferences.setMockInitialValues({}));
+
+  test(
+    'payment status follows the requested group and current intent list',
+    () {
+      final repository = _StatusRepository();
+      final container = ProviderContainer(
+        overrides: [
+          collectRepositoryProvider.overrideWith((ref) => repository),
+        ],
+      );
+      addTearDown(container.dispose);
+      final now = DateTime.now().toUtc();
+      final pending = PaymentIntentModel.fromJson({
+        ..._base,
+        'created_at': now.toIso8601String(),
+        'expires_at': now.add(const Duration(days: 1)).toIso8601String(),
+      });
+      final failed = PaymentIntentModel.fromJson(
+        Map.of(_base)..['status'] = 'failed',
+      );
+      final status = paymentUiStatusProvider(
+        PaymentStatusKey(
+          collectionId: pending.collectionId,
+          intentId: pending.id,
+        ),
+      );
+      final otherGroup = paymentUiStatusProvider(
+        PaymentStatusKey(collectionId: 'other-group', intentId: pending.id),
+      );
+      repository.publishIntents([pending], stale: true);
+      expect(container.read(status), PaymentUiStatus.pending);
+      expect(container.read(otherGroup), PaymentUiStatus.needsReview);
+      repository.publishIntents([failed]);
+      expect(container.read(status), PaymentUiStatus.needsReview);
+      repository.publishIntents([pending], scopeUncertain: true);
+      expect(container.read(status), PaymentUiStatus.needsReview);
+      repository.publishIntents([pending, pending]);
+      expect(container.read(status), PaymentUiStatus.needsReview);
+    },
+  );
+
+  test(
+    'payment status requires committed evidence for credit and reversal',
+    () {
+      final repository = _StatusRepository();
+      final container = ProviderContainer(
+        overrides: [
+          collectRepositoryProvider.overrideWith((ref) => repository),
+        ],
+      );
+      addTearDown(container.dispose);
+      final status = paymentUiStatusProvider(
+        const PaymentStatusKey(
+          collectionId: 'synthetic-group',
+          intentId: 'synthetic-intent',
+        ),
+      );
+      void check(Map<String, dynamic> payload, PaymentUiStatus expected) {
+        repository.publishIntents([PaymentIntentModel.fromJson(payload)]);
+        expect(
+          container.read(status),
+          expected,
+          reason: '${payload['status']} / ${payload['confirmation_status']}',
+        );
+      }
+
+      check(_committed, PaymentUiStatus.confirmed);
+      check(
+        Map.of(_committed)..['confirmation_status'] = 'reversed',
+        PaymentUiStatus.reversed,
+      );
+      check({
+        ..._base,
+        'confirmation_status': 'payment_received',
+        'payment_id': 'synthetic-payment',
+      }, PaymentUiStatus.paymentLinked);
+      for (final raw in [
+        'matched',
+        'confirmed',
+        'paid',
+        'failed',
+        'refused',
+        'cancelled',
+        'unknown',
+      ]) {
+        check(Map.of(_base)..['status'] = raw, PaymentUiStatus.needsReview);
+      }
+      check(Map.of(_base)..['status'] = 'expired', PaymentUiStatus.expired);
+    },
+  );
 
   test('legacy status alone never establishes a credited contribution', () {
     final payload = {..._base}..['status'] = 'matched';

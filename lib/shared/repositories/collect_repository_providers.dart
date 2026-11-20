@@ -33,6 +33,17 @@ final memberReceiptSmsRepositoryProvider = Provider<MemberReceiptSmsRepository>(
   (ref) => ref.watch(collectRepositoryProvider.notifier),
 );
 
+final memberPaymentStateProvider = collectRepositoryProvider
+    .select<MemberPaymentState>((state) => state);
+
+final memberPaymentRepositoryProvider = Provider<MemberPaymentRepository>(
+  (ref) => ref.watch(collectRepositoryProvider.notifier),
+);
+
+final memberHistoryRepositoryProvider = Provider<MemberHistoryRepository>(
+  (ref) => ref.watch(collectRepositoryProvider.notifier),
+);
+
 final collectPublicRuntimeConfigProvider = FutureProvider<CollectRuntimeConfig>(
   (ref) async {
     final backend = ref.watch(collectBackendClientProvider);

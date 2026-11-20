@@ -133,7 +133,7 @@ class _PaymentHelpSheet extends ConsumerStatefulWidget {
   });
   final PaymentIntentModel intent;
   final String groupTitle;
-  final CollectRepository repository;
+  final MemberPaymentRepository repository;
   final bool Function() isCurrent;
   final bool Function() isScopeCurrent;
   @override
@@ -224,7 +224,7 @@ class _PaymentHelpSheetState extends ConsumerState<_PaymentHelpSheet> {
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(collectRepositoryProvider);
+    ref.watch(memberPaymentStateProvider);
     final current = widget.isCurrent();
     return ConstrainedBox(
       constraints: BoxConstraints(

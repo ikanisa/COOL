@@ -96,7 +96,7 @@ class _RwandaMomoContributionFlowState
   bool _restoringRecovery = true;
   bool _recoveryReadFailed = false;
   String? _preparedProfileId;
-  CollectRepository? _preparedRepository;
+  MemberPaymentRepository? _preparedRepository;
   int? _preparedSessionGeneration;
   int? _preparedScopeGeneration;
   int? _pendingScopeOperation;
@@ -160,9 +160,9 @@ class _RwandaMomoContributionFlowState
 
   @override
   Widget build(BuildContext context) {
-    final repository = ref.watch(collectRepositoryProvider.notifier);
-    ref.listen<(CollectRepository, int, String?, int)>(
-      collectRepositoryProvider.select(
+    final repository = ref.watch(memberPaymentRepositoryProvider);
+    ref.listen<(MemberPaymentRepository, int, String?, int)>(
+      memberPaymentStateProvider.select(
         (state) => (
           repository,
           repository.sessionGeneration,
@@ -221,7 +221,7 @@ class _RwandaMomoContributionFlowState
       },
     );
     ref.listen<List<PaymentIntentModel>>(
-      collectRepositoryProvider.select((state) => state.paymentIntents),
+      memberPaymentStateProvider.select((state) => state.paymentIntents),
       (_, intents) {
         ++_paymentHelpContextGeneration;
         final current = _intent;
@@ -229,7 +229,7 @@ class _RwandaMomoContributionFlowState
             !identical(repository, _preparedRepository) ||
             repository.sessionGeneration != _preparedSessionGeneration ||
             repository.memberScopeGeneration != _preparedScopeGeneration ||
-            ref.read(collectRepositoryProvider).memberScopeUncertain) {
+            ref.read(memberPaymentStateProvider).memberScopeUncertain) {
           return;
         }
         final updated = intents
@@ -260,7 +260,7 @@ class _RwandaMomoContributionFlowState
       },
     );
     ref.listen<(List<CollectCollection>, bool, bool, CollectProfile?)>(
-      collectRepositoryProvider.select(
+      memberPaymentStateProvider.select(
         (state) => (
           state.collections,
           state.usingStaleCache,
@@ -274,7 +274,7 @@ class _RwandaMomoContributionFlowState
         if (current != null &&
             !current.hasCommittedContribution &&
             !_groupMatchesIntent(
-              ref.read(collectRepositoryProvider),
+              ref.read(memberPaymentStateProvider),
               current,
             )) {
           _retainUnverifiedRoute(current);
@@ -283,7 +283,7 @@ class _RwandaMomoContributionFlowState
     );
     final l10n = CollectLocalizations.of(context);
     final collection = repository.maybeCollectionById(widget.collectionId);
-    final profile = ref.watch(collectRepositoryProvider).currentProfile;
+    final profile = ref.watch(memberPaymentStateProvider).currentProfile;
     final recoveryOwner = (
       repository,
       repository.sessionGeneration,
@@ -348,7 +348,7 @@ class _RwandaMomoContributionFlowState
         _intent?.receiverMomoNumber ?? collection.receiverMomoNumber ?? '';
     final recent =
         ref
-            .watch(collectRepositoryProvider)
+            .watch(memberPaymentStateProvider)
             .paymentIntents
             .where((item) => item.collectionId == widget.collectionId)
             .toList()
@@ -644,8 +644,8 @@ class _RwandaMomoContributionFlowState
   }
 
   void _resume(PaymentIntentModel intent) {
-    final repository = ref.read(collectRepositoryProvider.notifier);
-    final state = ref.read(collectRepositoryProvider);
+    final repository = ref.read(memberPaymentRepositoryProvider);
+    final state = ref.read(memberPaymentStateProvider);
     final profileId = state.currentProfile?.id;
     if (profileId == null || _working || state.memberScopeUncertain) return;
     if (!intent.hasCommittedContribution &&
@@ -667,16 +667,16 @@ class _RwandaMomoContributionFlowState
   }
 
   Future<void> _restoreCommand({bool preserveError = false}) async {
-    final repository = ref.read(collectRepositoryProvider.notifier);
+    final repository = ref.read(memberPaymentRepositoryProvider);
     final generation = repository.sessionGeneration;
-    final profileId = ref.read(collectRepositoryProvider).currentProfile?.id;
+    final profileId = ref.read(memberPaymentStateProvider).currentProfile?.id;
     final operation = ++_flowGeneration;
     bool current() =>
         mounted &&
         operation == _flowGeneration &&
-        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        identical(ref.read(memberPaymentRepositoryProvider), repository) &&
         repository.sessionGeneration == generation &&
-        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
+        ref.read(memberPaymentStateProvider).currentProfile?.id == profileId;
     if (profileId == null) {
       if (current()) setState(() => _restoringRecovery = false);
       return;
@@ -725,16 +725,16 @@ class _RwandaMomoContributionFlowState
       await _restoreCommand();
       return;
     }
-    final repository = ref.read(collectRepositoryProvider.notifier);
+    final repository = ref.read(memberPaymentRepositoryProvider);
     final generation = repository.sessionGeneration;
-    final profileId = ref.read(collectRepositoryProvider).currentProfile?.id;
+    final profileId = ref.read(memberPaymentStateProvider).currentProfile?.id;
     final operation = ++_flowGeneration;
     bool current() =>
         mounted &&
         operation == _flowGeneration &&
-        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        identical(ref.read(memberPaymentRepositoryProvider), repository) &&
         repository.sessionGeneration == generation &&
-        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
+        ref.read(memberPaymentStateProvider).currentProfile?.id == profileId;
     setState(() {
       _working = true;
       _error = null;
@@ -753,7 +753,7 @@ class _RwandaMomoContributionFlowState
         );
         return;
       }
-      if (ref.read(collectRepositoryProvider).memberScopeUncertain) {
+      if (ref.read(memberPaymentStateProvider).memberScopeUncertain) {
         setState(
           () => _error = 'Refresh your groups before checking payment details.',
         );
@@ -763,7 +763,7 @@ class _RwandaMomoContributionFlowState
       final refreshed = await repository.refreshPaymentIntent(intentId);
       if (!current() ||
           repository.memberScopeGeneration != scopeGeneration ||
-          ref.read(collectRepositoryProvider).memberScopeUncertain) {
+          ref.read(memberPaymentStateProvider).memberScopeUncertain) {
         return;
       }
       if (refreshed.id != intentId ||
@@ -785,7 +785,7 @@ class _RwandaMomoContributionFlowState
       }
       if (!current() ||
           repository.memberScopeGeneration != scopeGeneration ||
-          ref.read(collectRepositoryProvider).memberScopeUncertain) {
+          ref.read(memberPaymentStateProvider).memberScopeUncertain) {
         return;
       }
       setState(() {
@@ -815,12 +815,12 @@ class _RwandaMomoContributionFlowState
   Future<void> _checkUnverifiedIntent() async {
     final intent = _unverifiedIntent;
     if (_working || _restoringRecovery || intent == null) return;
-    final repository = ref.read(collectRepositoryProvider.notifier);
+    final repository = ref.read(memberPaymentRepositoryProvider);
     final session = repository.sessionGeneration;
     final scope = repository.memberScopeGeneration;
-    final profileId = ref.read(collectRepositoryProvider).currentProfile?.id;
+    final profileId = ref.read(memberPaymentStateProvider).currentProfile?.id;
     if (profileId == null ||
-        ref.read(collectRepositoryProvider).memberScopeUncertain) {
+        ref.read(memberPaymentStateProvider).memberScopeUncertain) {
       setState(
         () => _error = 'Refresh your groups before checking payment details.',
       );
@@ -830,11 +830,11 @@ class _RwandaMomoContributionFlowState
     bool current() =>
         mounted &&
         operation == _flowGeneration &&
-        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        identical(ref.read(memberPaymentRepositoryProvider), repository) &&
         repository.sessionGeneration == session &&
         repository.memberScopeGeneration == scope &&
-        !ref.read(collectRepositoryProvider).memberScopeUncertain &&
-        ref.read(collectRepositoryProvider).currentProfile?.id == profileId &&
+        !ref.read(memberPaymentStateProvider).memberScopeUncertain &&
+        ref.read(memberPaymentStateProvider).currentProfile?.id == profileId &&
         _unverifiedIntent?.id == intent.id;
     setState(() {
       _working = true;
@@ -880,7 +880,7 @@ class _RwandaMomoContributionFlowState
   Widget _buildCommandRecovery(String groupTitle) {
     final recovery = _commandRecovery;
     final unverified = _unverifiedIntent;
-    final state = ref.read(collectRepositoryProvider);
+    final state = ref.read(memberPaymentStateProvider);
     final hasCurrentHelpIntent =
         unverified != null &&
         state.paymentIntents.any(
@@ -1028,11 +1028,8 @@ class _RwandaMomoContributionFlowState
   bool _intentScopeCurrent() {
     final repository = _preparedRepository;
     if (!mounted || repository == null) return false;
-    final state = ref.read(collectRepositoryProvider);
-    return identical(
-          ref.read(collectRepositoryProvider.notifier),
-          repository,
-        ) &&
+    final state = ref.read(memberPaymentStateProvider);
+    return identical(ref.read(memberPaymentRepositoryProvider), repository) &&
         repository.sessionGeneration == _preparedSessionGeneration &&
         repository.memberScopeGeneration == _preparedScopeGeneration &&
         state.currentProfile?.id == _preparedProfileId &&
@@ -1042,7 +1039,10 @@ class _RwandaMomoContributionFlowState
             _groupMatchesIntent(state, _intent!));
   }
 
-  bool _groupMatchesIntent(CollectState state, PaymentIntentModel intent) {
+  bool _groupMatchesIntent(
+    MemberPaymentState state,
+    PaymentIntentModel intent,
+  ) {
     final matches = state.collections.where(
       (group) => group.id == intent.collectionId,
     );
@@ -1122,9 +1122,9 @@ class _RwandaMomoContributionFlowState
         mounted &&
         operation == _flowGeneration &&
         _intentScopeCurrent() &&
-        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        identical(ref.read(memberPaymentRepositoryProvider), repository) &&
         repository.sessionGeneration == sessionGeneration &&
-        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
+        ref.read(memberPaymentStateProvider).currentProfile?.id == profileId;
     if (!current()) return;
     setState(() {
       _working = true;
@@ -1173,11 +1173,11 @@ class _RwandaMomoContributionFlowState
   Future<void> _showPaymentHelp() async {
     final intent = _intent ?? _unverifiedIntent;
     if (intent == null) return;
-    final repository = ref.read(collectRepositoryProvider.notifier);
+    final repository = ref.read(memberPaymentRepositoryProvider);
     final generation = repository.sessionGeneration;
     final scopeGeneration = repository.memberScopeGeneration;
     final helpGeneration = _paymentHelpContextGeneration;
-    final initial = ref.read(collectRepositoryProvider);
+    final initial = ref.read(memberPaymentStateProvider);
     final profileId = initial.currentProfile?.id;
     final initialGroups = initial.collections
         .where((group) => group.id == intent.collectionId)
@@ -1196,15 +1196,12 @@ class _RwandaMomoContributionFlowState
     final groupTitle = initialGroups.single.title;
     bool scopeCurrent() {
       if (!mounted ||
-          !identical(
-            ref.read(collectRepositoryProvider.notifier),
-            repository,
-          ) ||
+          !identical(ref.read(memberPaymentRepositoryProvider), repository) ||
           repository.memberScopeGeneration != scopeGeneration ||
           _paymentHelpContextGeneration != helpGeneration) {
         return false;
       }
-      final state = ref.read(collectRepositoryProvider);
+      final state = ref.read(memberPaymentStateProvider);
       final groups = state.collections
           .where((group) => group.id == intent.collectionId)
           .toList(growable: false);
@@ -1226,9 +1223,9 @@ class _RwandaMomoContributionFlowState
     bool current() =>
         scopeCurrent() &&
         (_intent?.id == intent.id || _unverifiedIntent?.id == intent.id) &&
-        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        identical(ref.read(memberPaymentRepositoryProvider), repository) &&
         repository.sessionGeneration == generation &&
-        ref.read(collectRepositoryProvider).currentProfile?.id == profileId;
+        ref.read(memberPaymentStateProvider).currentProfile?.id == profileId;
     if (profileId == null || !current()) return;
     await showModalBottomSheet<void>(
       context: context,
@@ -1300,15 +1297,15 @@ class _RwandaMomoContributionFlowState
 
   Future<void> _prepare() async {
     if (_working || _intent != null) return;
-    final repository = ref.read(collectRepositoryProvider.notifier);
+    final repository = ref.read(memberPaymentRepositoryProvider);
     final sessionGeneration = repository.sessionGeneration;
     final scopeGeneration = repository.memberScopeGeneration;
-    if (ref.read(collectRepositoryProvider).memberScopeUncertain) {
+    if (ref.read(memberPaymentStateProvider).memberScopeUncertain) {
       setState(() => _error = 'Refresh your groups before contributing.');
       return;
     }
     final preparedProfileId = ref
-        .read(collectRepositoryProvider)
+        .read(memberPaymentStateProvider)
         .currentProfile
         ?.id;
     if (preparedProfileId == null) {
@@ -1345,11 +1342,11 @@ class _RwandaMomoContributionFlowState
     bool current() =>
         mounted &&
         operation == _flowGeneration &&
-        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        identical(ref.read(memberPaymentRepositoryProvider), repository) &&
         repository.sessionGeneration == sessionGeneration &&
         repository.memberScopeGeneration == scopeGeneration &&
-        !ref.read(collectRepositoryProvider).memberScopeUncertain &&
-        ref.read(collectRepositoryProvider).currentProfile?.id ==
+        !ref.read(memberPaymentStateProvider).memberScopeUncertain &&
+        ref.read(memberPaymentStateProvider).currentProfile?.id ==
             preparedProfileId;
     try {
       await requireMemberProfileReady(context, ref);
@@ -1361,7 +1358,10 @@ class _RwandaMomoContributionFlowState
         ),
       );
       if (current()) {
-        if (!_groupMatchesIntent(ref.read(collectRepositoryProvider), intent)) {
+        if (!_groupMatchesIntent(
+          ref.read(memberPaymentStateProvider),
+          intent,
+        )) {
           _retainUnverifiedRoute(intent);
           return;
         }
@@ -1408,9 +1408,9 @@ class _RwandaMomoContributionFlowState
         _intentScopeCurrent() &&
         repository != null &&
         preparedProfileId != null &&
-        identical(ref.read(collectRepositoryProvider.notifier), repository) &&
+        identical(ref.read(memberPaymentRepositoryProvider), repository) &&
         repository.sessionGeneration == sessionGeneration &&
-        ref.read(collectRepositoryProvider).currentProfile?.id ==
+        ref.read(memberPaymentStateProvider).currentProfile?.id ==
             preparedProfileId;
     setState(() {
       _working = true;

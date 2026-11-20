@@ -32,7 +32,7 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(collectRepositoryProvider);
+    final state = ref.watch(memberPaymentStateProvider);
     final collections = ref.watch(activeCollectionsProvider);
     // Use the loaded aggregate snapshot only. The legacy summary provider can
     // synthesize totals from a partial activity page, which is not a group total.
@@ -75,8 +75,7 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
         onAvatarTap: () => context.go('/settings'),
         onSearchTap: _beginSearch,
       ),
-      onRefresh: () =>
-          ref.read(collectRepositoryProvider.notifier).loadInitial(),
+      onRefresh: () => ref.read(memberPaymentRepositoryProvider).loadInitial(),
       sliver: isInitialLoading || !hasVisibleGroups
           ? null
           : SliverMainAxisGroup(
@@ -130,7 +129,7 @@ class _ContributeEntryScreenState extends ConsumerState<ContributeEntryScreen> {
                 message:
                     'Refresh to verify which groups you can contribute to.',
                 onRetry: () =>
-                    ref.read(collectRepositoryProvider.notifier).loadInitial(),
+                    ref.read(memberPaymentRepositoryProvider).loadInitial(),
               ),
             ]
           : [

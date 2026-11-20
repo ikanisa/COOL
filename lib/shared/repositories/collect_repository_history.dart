@@ -7,7 +7,7 @@ final memberHistoryProvider = StateNotifierProvider.autoDispose
     ) {
       // Replacing the repository must dispose the old controller even when the
       // new repository happens to publish an equal state-selection tuple.
-      final repository = ref.watch(collectRepositoryProvider.notifier);
+      final repository = ref.watch(memberHistoryRepositoryProvider);
       ref.watch(
         collectRepositoryProvider.select(
           (state) => (
@@ -18,7 +18,7 @@ final memberHistoryProvider = StateNotifierProvider.autoDispose
           ),
         ),
       );
-      return MemberHistoryController(repository, query);
+      return repository.openHistory(query);
     });
 
 class MemberHistoryState {
@@ -39,27 +39,33 @@ class MemberHistoryState {
 }
 
 class MemberHistoryController extends StateNotifier<MemberHistoryState> {
-  MemberHistoryController(this.repository, this.query)
-    : _ownerProfileId = repository.state.currentProfile?.id,
-      _ownerAuthId = repository._backend?.auth.currentUser?.id,
-      _ownerSession = repository._captureSession(),
+  MemberHistoryController(
+    CollectRepository repository,
+    MemberHistoryQuery query,
+  ) : this._(repository, query);
+
+  MemberHistoryController._(_CollectMemberHistory authority, this.query)
+    : _authority = authority,
+      _ownerProfileId = authority.state.currentProfile?.id,
+      _ownerAuthId = authority._backend?.auth.currentUser?.id,
+      _ownerSession = authority._captureSession(),
       super(const MemberHistoryState()) {
     _historyInvalidationListener = _onHistoryInvalidated;
-    repository._historyInvalidationListeners.add(_historyInvalidationListener);
+    authority._historyInvalidationListeners.add(_historyInvalidationListener);
     try {
       if (!_contextCurrent()) return;
-      final initial = repository.state.historyPage;
-      if (repository._allowLocalWrites &&
-          !repository.isLive &&
-          !repository.state.usingStaleCache &&
+      final initial = authority.state.historyPage;
+      if (authority._allowLocalWrites &&
+          !authority.isLive &&
+          !authority.state.usingStaleCache &&
           initial == null) {
-        state = _pageState(repository.localHistoryPage(query));
+        state = _pageState(authority.localHistoryPage(query));
       } else if (query.isDefault &&
           initial != null &&
-          !repository._historySeedInvalidated) {
+          !authority._historySeedInvalidated) {
         state = _pageState(initial);
       } else {
-        if (query.search.isNotEmpty && repository.isLive) {
+        if (query.search.isNotEmpty && authority.isLive) {
           state = const MemberHistoryState(loading: true);
           _debounce = Timer(const Duration(milliseconds: 300), refresh);
         } else {
@@ -67,14 +73,15 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
         }
       }
     } catch (_) {
-      repository._historyInvalidationListeners.remove(
+      authority._historyInvalidationListeners.remove(
         _historyInvalidationListener,
       );
       rethrow;
     }
   }
 
-  final CollectRepository repository;
+  final _CollectMemberHistory _authority;
+  MemberHistoryRepository get repository => _authority;
   final MemberHistoryQuery query;
   final String? _ownerProfileId;
   final String? _ownerAuthId;
@@ -91,7 +98,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
     bool loading = false,
     String? error,
   }) {
-    final epoch = repository._historyScopeEpoch;
+    final epoch = _authority._historyScopeEpoch;
     final pageEpoch = _pageEpoch;
     return MemberHistoryState(
       page: page,
@@ -101,23 +108,23 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
       // synchronous invalidation callbacks, or revive it after a later load.
       pageIsCurrent: () =>
           mounted &&
-          repository.mounted &&
-          repository._historyScopeEpoch == epoch &&
+          _authority.mounted &&
+          _authority._historyScopeEpoch == epoch &&
           _pageEpoch == pageEpoch &&
-          repository._historySignalCurrent(_ownerSession) &&
-          repository.state.currentProfile?.id == _ownerProfileId &&
-          repository._backend?.auth.currentUser?.id == _ownerAuthId &&
-          !repository.state.memberScopeUncertain,
+          _authority._historySignalCurrent(_ownerSession) &&
+          _authority.state.currentProfile?.id == _ownerProfileId &&
+          _authority._backend?.auth.currentUser?.id == _ownerAuthId &&
+          !_authority.state.memberScopeUncertain,
     );
   }
 
   bool _contextCurrent() {
     if (!mounted) return false;
-    if (!repository._isCurrentSession(_ownerSession) ||
-        (repository._signingOutIdentity != null &&
-            repository._signingOutIdentity == _ownerSession.identity) ||
-        repository.state.currentProfile?.id != _ownerProfileId ||
-        repository._backend?.auth.currentUser?.id != _ownerAuthId) {
+    if (!_authority._isCurrentSession(_ownerSession) ||
+        (_authority._signingOutIdentity != null &&
+            _authority._signingOutIdentity == _ownerSession.identity) ||
+        _authority.state.currentProfile?.id != _ownerProfileId ||
+        _authority._backend?.auth.currentUser?.id != _ownerAuthId) {
       ++_generation;
       ++_pageEpoch;
       _debounce?.cancel();
@@ -150,7 +157,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
   void dispose() {
     ++_generation;
     _debounce?.cancel();
-    repository._historyInvalidationListeners.remove(
+    _authority._historyInvalidationListeners.remove(
       _historyInvalidationListener,
     );
     super.dispose();
@@ -182,12 +189,12 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
         Error.throwWithStackTrace(error, stack);
       }
       if (!_canPublish(generation)) return;
-      final requestSession = repository._captureSession();
+      final requestSession = _authority._captureSession();
       late final MemberHistoryPage page;
       try {
         page = await repository.fetchHistoryPage(query);
         if (!_canPublish(generation)) return;
-        if (repository.isLive) page.validateRequest(query: query);
+        if (_authority.isLive) page.validateRequest(query: query);
       } catch (error) {
         _handleFailure(error, generation, requestSession);
         return;
@@ -220,7 +227,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
       Error.throwWithStackTrace(error, stack);
     }
     if (!_canPublish(generation)) return;
-    final requestSession = repository._captureSession();
+    final requestSession = _authority._captureSession();
     late final MemberHistoryPage merged;
     try {
       final next = await repository.fetchHistoryPage(
@@ -248,7 +255,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
         (error is CollectApiException &&
             const {'P0001', 'history_changed'}.contains(error.code));
     final accessChanged =
-        repository._isAccessFailure(error) ||
+        _authority._isAccessFailure(error) ||
         (error is CollectApiException &&
             (error.httpStatusCode == 401 ||
                 error.httpStatusCode == 403 ||
@@ -264,9 +271,9 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
                     error.httpStatusCode == 403)));
     if (!mounted) {
       if ((changed || accessChanged) &&
-          repository._isCurrentSession(requestSession)) {
-        repository._invalidateHistorySeed(
-          scopeChanged ? repository._captureSession() : requestSession,
+          _authority._isCurrentSession(requestSession)) {
+        _authority._invalidateHistorySeed(
+          scopeChanged ? _authority._captureSession() : requestSession,
           surviveBearerChange: scopeChanged,
         );
       }
@@ -278,14 +285,14 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
     if (!_contextCurrent()) return;
     if (accessChanged &&
         !scopeChanged &&
-        (!repository._isCurrentSession(requestSession) ||
-            repository._backend?.auth.currentSession?.accessToken !=
+        (!_authority._isCurrentSession(requestSession) ||
+            _authority._backend?.auth.currentSession?.accessToken !=
                 requestSession.accessToken)) {
       // A denial for a replaced bearer cannot invalidate a newer response.
       // If no newer request exists, require a read with the current bearer.
       if (generation != _generation) return;
       ++_pageEpoch;
-      repository._markHistorySeedInvalidated(repository._captureSession());
+      _authority._markHistorySeedInvalidated(_authority._captureSession());
       _refreshRequired = true;
       state = const MemberHistoryState(
         error: 'History changed. Refresh to continue.',
@@ -298,7 +305,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
     }
     final shouldInvalidate = changed || accessChanged;
     final invalidationSession = scopeChanged
-        ? repository._captureSession()
+        ? _authority._captureSession()
         : requestSession;
     _refreshRequired = shouldInvalidate;
     Object? firstError;
@@ -307,14 +314,14 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
       // Fence in-flight reads and mask the repository before notifying this
       // controller's observers. The setter installs state before it notifies,
       // so the mask remains in place even if a repository listener throws.
-      if (!repository._fenceHistoryScope(
+      if (!_authority._fenceHistoryScope(
         invalidationSession,
         surviveBearerChange: scopeChanged,
       )) {
         return;
       }
       try {
-        repository._maskHistoryScope();
+        _authority._maskHistoryScope();
       } catch (error, stack) {
         firstError = error;
         firstStack = stack;
@@ -345,7 +352,7 @@ class MemberHistoryController extends StateNotifier<MemberHistoryState> {
     } finally {
       if (shouldInvalidate) {
         try {
-          repository._invalidateHistorySeed(
+          _authority._invalidateHistorySeed(
             invalidationSession,
             except: _historyInvalidationListener,
             surviveBearerChange: scopeChanged,
