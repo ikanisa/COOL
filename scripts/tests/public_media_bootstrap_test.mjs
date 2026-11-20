@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-// Execute the maintained recorder's actual substitution on the current source
-// scaffold. Foreign bases, duplicate assignments and incomplete markers fail.
+// Check the local asset policy against the maintained compiler scaffold.
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {runInNewContext} from 'node:vm';
@@ -11,24 +10,18 @@ const end = recorder.indexOf('// END strict loopback media bootstrap configurati
 assert(begin >= 0 && end > begin);
 const configure = runInNewContext(recorder.slice(begin, end) + '\nconfigureLoopbackMediaBootstrap', {Error});
 const original = await readFile(new URL('../../web/flutter_bootstrap.js', import.meta.url), 'utf8');
-const configured = configure(original, '/');
-assert.equal(configured, original.replace('__COLLECT_ADMIN_ASSET_BASE__', '/').replace('__COLLECT_ADMIN_SW_VERSION__', ''));
-assert(!configured.includes('__COLLECT_ADMIN_'));
-assert(configured.includes("var adminAssetBase = '/';"));
-assert(configured.includes("var adminServiceWorkerVersion = '';"));
-assert(configured.includes('adminServiceWorkerVersion &&'));
+assert.equal(configure(original, '/'), original);
 for (const base of ['https://foreign.invalid/', '//foreign.invalid/', '/admin/', '../', '']) {
   assert.throws(() => configure(original, base), /loopback root/);
 }
 for (const malformed of [
-  original.replace('__COLLECT_ADMIN_ASSET_BASE__', 'https://foreign.invalid/'),
-  original.replace('__COLLECT_ADMIN_SW_VERSION__', 'unapproved-worker'),
-  original + "\nadminAssetBase = 'https://foreign.invalid/';",
-  original + "\nadminServiceWorkerVersion = 'unapproved-worker';",
-  original + "\nvar adminAssetBase = '__COLLECT_ADMIN_ASSET_BASE__';",
-  original + "\n// __COLLECT_ADMIN_UNKNOWN__",
-  original.replace('assetBase: adminAssetBase', 'assetBase: foreignBase'),
+  original.replace("entrypointBaseUrl: '/'", "entrypointBaseUrl: 'https://foreign.invalid/'"),
+  original.replace("assetBase: '/'", "assetBase: '/admin/'"),
+  original.replace("canvasKitBaseUrl: '/canvaskit/'", "canvasKitBaseUrl: 'https://foreign.invalid/'"),
+  original.replace('  config:', '  serviceWorkerSettings: {},\n  config:'),
+  original + original,
+  original + "\nnavigator.serviceWorker.register('/custom-sw.js');\n",
 ]) {
-  assert.throws(() => configure(malformed, '/'), /substitution contract/);
+  assert.throws(() => configure(malformed, '/'), /bootstrap contract/);
 }
-console.log(JSON.stringify({status: 'pass', actual_current_scaffold_configured: true, foreign_base_denials: 5, malformed_scaffold_denials: 7}));
+console.log(JSON.stringify({status: 'pass', current_scaffold_verified: true, foreign_base_denials: 5, malformed_scaffold_denials: 6}));
