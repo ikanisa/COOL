@@ -1,0 +1,61 @@
+{
+  "status": "pass",
+  "kind": "current_capture_accuracy_review",
+  "scope": "All seven newly captured Chromium routes matched their previously reviewed PNGs byte for byte. The route markers and served build were verified in this run.",
+  "reviewed_at": "2026-11-20T17:37:59.284602+00:00",
+  "design_reference": "Jean Bosco Revolut Design",
+  "native_acceptance": false,
+  "release_acceptance": false,
+  "design_acceptance": false,
+  "image_edits": false,
+  "capture_report_sha256": "6c7db69e343e42e881afebf0b45966bb9d95247964d4c51d5b45468e63e1bfdc",
+  "runtime_sha256": "27586a4c8136c6cc5e45ed05f9a4fcb7301ca3cce624ed520d7c0a459a1a64d7",
+  "build_manifest_sha256": "99ae98f13d9068e7f1e4dc40ebe7f56aa1906cea06cdd6bfb2fd45b2ffd557d5",
+  "screens": [
+    {
+      "id": "home",
+      "sha256": "1eebdcbc4b490a86eb3e08f677a9300bd8309fbd9dc70672d03db7995c80f30e",
+      "reviewed_for_website": true,
+      "observation": "Collect Home shows the blue gradient, two recorded transactions and their RWF 35,000 total. Activity labels and the bottom navigation are legible.",
+      "alt": "Collect Home showing a recorded total of RWF 35,000 and two example contributions"
+    },
+    {
+      "id": "groups",
+      "sha256": "24167a6a7a85e3b936f159ea64b4d867e5885fa9f99fc811c432ddb4472b76c4",
+      "reviewed_for_website": true,
+      "observation": "The teal Groups screen shows the private example group and a notice that the public directory has not yet been confirmed. Both fit above the navigation.",
+      "alt": "Collect Groups showing a private example group and an unconfirmed public directory"
+    },
+    {
+      "id": "group-detail",
+      "sha256": "1c2ae1b0570ec64cc64c865f9d70e9b31c03b08c0a55bed7c6832a8eeffe1b7c",
+      "reviewed_for_website": true,
+      "observation": "The private group shows its recorded total, four group actions, example transactions and the qualification about provider settlement.",
+      "alt": "Private example group showing its recorded RWF total, Members, Share and Manage actions"
+    },
+    {
+      "id": "security",
+      "sha256": "a271c1834de41c9fd3992dc01d18a39c81d9e5b3f546f7b3b231d8d64f1b8480",
+      "reviewed_for_website": true,
+      "observation": "The MoMo PIN notice is readable above four security settings. Delete data is visible in the list."
+    },
+    {
+      "id": "privacy",
+      "sha256": "41d08d2e2ec5ef4f720f762dd5bf206848778efe3c2335186d7556eceae0afb3",
+      "reviewed_for_website": true,
+      "observation": "The policy heading, data-collection paragraph and sign-in disclosure are legible. The SMS section continues below the captured viewport."
+    },
+    {
+      "id": "terms",
+      "sha256": "c62aaef04827f6e58ec97ba750ed7f6707b2e13b5e5b406241f7a6c3f55e8a66",
+      "reviewed_for_website": true,
+      "observation": "The terms heading and sections for using Collect, contribution rails and group ownership are legible."
+    },
+    {
+      "id": "account-deletion",
+      "sha256": "abd540ec627f5f8e6b5ae6d646d255197e1ec325103746e24eb6e55bd9787f44",
+      "reviewed_for_website": true,
+      "observation": "The offline fixture shows the unavailable request service, an explanation and a Get help action."
+    }
+  ]
+}
