@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import {syncBuiltinESMExports} from 'node:module';
-import {mkdtemp,readdir,readFile,stat} from 'node:fs/promises';
+import {mkdtemp,readdir,readFile,realpath,stat} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -65,7 +65,7 @@ test('fixture SQL cannot dispatch through hosted transport and unreviewed captur
  const s=syntheticSnapshot(),request=compileFixtureCaptureRequest(s.reference,proof(s.reference,true),requestId,s.postgres.database);let calls=0;const transport=createManagementTransport({token:'synthetic-no-provider-credential',environment:{},requestImpl(){calls++;throw Error('must not dispatch');}});await assert.rejects(transport.query(request),e=>e.code==='COMPILED_REQUEST_INVALID');assert.equal(calls,0);await assert.rejects(captureStorageMetadata({transport:{readProject:async()=>{calls++;},query:async()=>{calls++;}},reference:REAL,counts:proof(REAL),expectedCountsSha256:'0'.repeat(64),requestId,archiveDirectory:'/not-used-storage',keyDirectory:'/not-used-key',executeReviewedReadOnly:true}),e=>e.code==='STORAGE_METADATA_CAPTURE_REVIEW_REQUIRED');assert.equal(calls,0);
 });
 test('failed simulated response is wiped while only safe intent is persisted in private temporary custody',async()=>{
- const parent=await mkdtemp(join(tmpdir(),'collect-storage-metadata-synthetic-')),archiveDirectory=join(parent,'archive'),keyDirectory=join(parent,'key'),counts=proof(REAL),body=Buffer.from('SYNTHETIC_METADATA_NEVER_PERSIST');let calls=0;const transport={readProject:async()=>project,query:async()=>{calls++;return {status:201,body};}};await assert.rejects(captureStorageMetadata({transport,reference:REAL,counts,expectedCountsSha256:sha(canonical(counts)),requestId,archiveDirectory,keyDirectory,executeReviewedReadOnly:true}));assert.equal(calls,1);assert.ok(body.every(b=>b===0));assert.deepEqual(await readdir(archiveDirectory),['INTENT.json']);assert.deepEqual(await readdir(keyDirectory),[]);assert.equal((await readFile(join(archiveDirectory,'INTENT.json'),'utf8')).includes('SYNTHETIC_METADATA'),false);assert.equal((await stat(join(archiveDirectory,'INTENT.json'))).mode&0o777,0o600);
+ const parent=await mkdtemp(join(await realpath(tmpdir()),'collect-storage-metadata-synthetic-')),archiveDirectory=join(parent,'archive'),keyDirectory=join(parent,'key'),counts=proof(REAL),body=Buffer.from('SYNTHETIC_METADATA_NEVER_PERSIST');let calls=0;const transport={readProject:async()=>project,query:async()=>{calls++;return {status:201,body};}};await assert.rejects(captureStorageMetadata({transport,reference:REAL,counts,expectedCountsSha256:sha(canonical(counts)),requestId,archiveDirectory,keyDirectory,executeReviewedReadOnly:true}));assert.equal(calls,1);assert.ok(body.every(b=>b===0));assert.deepEqual(await readdir(archiveDirectory),['INTENT.json']);assert.deepEqual(await readdir(keyDirectory),[]);assert.equal((await readFile(join(archiveDirectory,'INTENT.json'),'utf8')).includes('SYNTHETIC_METADATA'),false);assert.equal((await stat(join(archiveDirectory,'INTENT.json'))).mode&0o777,0o600);
 });
 test('remote inert target refuses before constructing any native client or activating Storage',async()=>{
  let calls=0;await assert.rejects(restoreStorageMetadataInert(syntheticSnapshot(),{adminUrl:'postgres://postgres:synthetic@remote.invalid/postgres',makeClient(){calls++;},allowFixture:true}));assert.equal(calls,0);await assert.rejects(restoreStorageMetadataInert(syntheticSnapshot(),{adminUrl:'postgres://postgres:synthetic@127.0.0.1/postgres',allowFixture:true}));
@@ -73,7 +73,7 @@ test('remote inert target refuses before constructing any native client or activ
 
 // Portability guards: every output is checked before any filesystem or transport effect.
 test('metadata capture refuses archive/key checkout descendants and ancestors before any creation or transport',async()=>{
- const parent=await mkdtemp(join(tmpdir(),'collect-storage-checkout-refusal-')),checkout=resolve(dirname(fileURLToPath(import.meta.url)),'../../..'),counts=proof(REAL);let calls=0;
+ const parent=await mkdtemp(join(await realpath(tmpdir()),'collect-storage-checkout-refusal-')),checkout=resolve(dirname(fileURLToPath(import.meta.url)),'../../..'),counts=proof(REAL);let calls=0;
  const transport={readProject:async()=>{calls++;throw Error('must not dispatch');},query:async()=>{calls++;throw Error('must not dispatch');}};
  for(const [i,blocked] of [join(checkout,'supabase','synthetic-storage-output'),dirname(checkout)].entries())for(const role of ['archiveDirectory','keyDirectory']){
   const paths={archiveDirectory:join(parent,'archive-'+i+'-'+role),keyDirectory:join(parent,'key-'+i+'-'+role)};paths[role]=blocked;
@@ -82,7 +82,7 @@ test('metadata capture refuses archive/key checkout descendants and ancestors be
  }
 });
 test('direct metadata bundle writer refuses either checkout output before directory access or key generation',async()=>{
- const parent=await mkdtemp(join(tmpdir(),'collect-storage-writer-refusal-')),checkout=resolve(dirname(fileURLToPath(import.meta.url)),'../../..'),f=responseFixture(),snapshot=assembleCaptureResponse(wire(f),f);
+ const parent=await mkdtemp(join(await realpath(tmpdir()),'collect-storage-writer-refusal-')),checkout=resolve(dirname(fileURLToPath(import.meta.url)),'../../..'),f=responseFixture(),snapshot=assembleCaptureResponse(wire(f),f);
  for(const role of ['archiveDirectory','keyDirectory']){
   const paths={archiveDirectory:join(parent,'archive-'+role),keyDirectory:join(parent,'key-'+role)};paths[role]=join(checkout,'supabase','synthetic-storage-output');
   await assert.rejects(writeStorageMetadataBundle(snapshot,paths),e=>e.code==='STORAGE_METADATA_OUTPUT_PATH_INVALID');assert.deepEqual(await readdir(parent),[]);
