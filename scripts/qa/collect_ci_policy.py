@@ -689,6 +689,20 @@ def validate_platform_makefile(contents: str) -> list[dict[str, str]]:
     return findings
 
 
+def retired_admin_sources(root: Path) -> list[dict[str, str]]:
+    paths = list((root / "lib").glob("main*admin*.dart"))
+    for name in ("lib/admin", "test/admin"):
+        directory = root / name
+        if directory.is_symlink():
+            paths.append(directory)
+        elif directory.is_dir():
+            paths.extend(path for path in directory.rglob("*") if path.is_file() or path.is_symlink())
+    return [
+        {"workflow": "source", "job": path.relative_to(root).as_posix(), "code": "CI_FLUTTER_ADMIN_SOURCE_RETIRED"}
+        for path in sorted(paths)
+    ]
+
+
 def inspect(root: Path) -> dict:
     folder = root / ".github/workflows"
     paths = workflow_paths(folder)
@@ -696,6 +710,7 @@ def inspect(root: Path) -> dict:
         raise PolicyInputError("CI_POLICY_WORKFLOWS_MISSING")
     workflows = {path.name: read_workflow(path) for path in paths}
     findings = validate_workflows(workflows)
+    findings.extend(retired_admin_sources(root))
     makefile = root / "Makefile"
     if makefile.is_symlink() or not makefile.is_file() or makefile.stat().st_size > 262144:
         raise PolicyInputError("CI_POLICY_MAKEFILE_INPUT_INVALID")

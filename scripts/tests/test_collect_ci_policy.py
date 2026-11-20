@@ -37,6 +37,17 @@ class CollectCiPolicyTest(unittest.TestCase):
 
 
 
+    def test_retired_browser_admin_sources_are_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for name in ("admin-web/src/app/App.tsx", "lib/main.dart", "lib/admin/panel.dart",
+                         "lib/main_admin.dart", "test/admin/old-fixture.json"):
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.touch()
+            found = {item["job"] for item in policy.retired_admin_sources(root)}
+            self.assertEqual(found, {"lib/admin/panel.dart", "lib/main_admin.dart", "test/admin/old-fixture.json"})
+
     def test_managed_cloud_is_the_only_current_qualification_profile(self):
         workflow = self.workflows['supabase.yml']
         events = workflow.get('on', workflow.get('true', {}))
