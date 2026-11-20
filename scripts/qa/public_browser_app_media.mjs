@@ -94,19 +94,19 @@ function assertReusableCompilation(previous, sources, bindings, version, expecte
 // BEGIN strict loopback media bootstrap configuration (tested directly).
 function configureLoopbackMediaBootstrap(original, assetBase) {
   if (assetBase !== '/') throw Error('Media fixture asset base must be the loopback root');
-  const asset = "var adminAssetBase = '__COLLECT_ADMIN_ASSET_BASE__';";
-  const worker = "var adminServiceWorkerVersion = '__COLLECT_ADMIN_SW_VERSION__';";
-  const markers = original.match(/__COLLECT_ADMIN_[A-Z_]+__/g) || [];
-  if (markers.length !== 2 || original.split(asset).length !== 2 || original.split(worker).length !== 2 ||
-      (original.match(/\badminAssetBase\s*=/g) || []).length !== 1 ||
-      (original.match(/\badminServiceWorkerVersion\s*=/g) || []).length !== 1 ||
-      !original.includes('entrypointBaseUrl: adminAssetBase') ||
-      !original.includes('assetBase: adminAssetBase') ||
-      !original.includes("canvasKitBaseUrl: adminAssetBase + 'canvaskit/'")) {
-    throw Error('Missing or unexpected Admin bootstrap substitution contract');
+  const settings = `_flutter.loader.load({
+  config: {
+    entrypointBaseUrl: '/',
+    assetBase: '/',
+    canvasKitBaseUrl: '/canvaskit/',
+  },
+});`;
+  if (!original.trimEnd().endsWith(settings) ||
+      original.split('_flutter.loader.load({').length !== 2 ||
+      original.includes('__COLLECT_ADMIN_')) {
+    throw Error('Missing or unexpected Collect loopback bootstrap contract');
   }
-  return original.replace(asset, "var adminAssetBase = '/';")
-    .replace(worker, "var adminServiceWorkerVersion = '';");
+  return original;
 }
 // END strict loopback media bootstrap configuration.
 
@@ -272,16 +272,14 @@ try {
     const previous = JSON.parse(await readFile(join(root, report.reused_compilation.capture_report), 'utf8'));
     if (JSON.stringify(report.build_files) !== JSON.stringify(previous.build_files)) throw Error('Copied reusable build differs');
   }
-  // The source web scaffold is shared with Admin's versioned-asset build. Its
-  // placeholders need the same explicit substitution contract for this local
-  // fixture. Keep production source untouched; disable the Admin worker here.
+  // Record the member build's local asset configuration before serving it.
   const bootstrap = join(build, 'flutter_bootstrap.js');
   let originalBootstrap = await readFile(bootstrap, 'utf8');
   if (report.reused_compilation) {
     const previousPath = join(root, report.reused_compilation.capture_report);
     const previous = JSON.parse(await readFile(previousPath, 'utf8'));
     const configuration = previous.fixture_bootstrap_configuration;
-    if (!configuration || configuration.asset_base !== '/' || configuration.service_worker_enabled !== false) {
+    if (configuration?.contract !== 'collect_member_same_origin_assets' || configuration.asset_base !== '/' || configuration.service_worker_enabled !== false) {
       throw Error('Reusable compilation lacks the exact loopback fixture bootstrap; fresh build required');
     }
     const original = await readFile(join(dirname(previousPath), 'flutter-bootstrap.original.js'), 'utf8');
@@ -296,7 +294,7 @@ try {
   await writeFile(join(out, 'flutter-bootstrap.original.js'), originalBootstrap);
   await writeFile(bootstrap, configuredBootstrap);
   report.fixture_bootstrap_configuration = {
-    contract: 'existing_Admin_asset_base_and_worker_version_placeholders',
+    contract: 'collect_member_same_origin_assets',
     original: relative(root, join(out, 'flutter-bootstrap.original.js')),
     original_sha256: hash(Buffer.from(originalBootstrap)),
     configured_sha256: hash(Buffer.from(configuredBootstrap)),
