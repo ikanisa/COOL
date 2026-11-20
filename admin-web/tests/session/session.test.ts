@@ -282,10 +282,10 @@ describe('Admin session', () => {
     await retainPending(identity, 'test-family', 'item', 'original-key-123', 'overview.read', {operation: 'edit'});
     let release!: () => void, digests = 0;
     const digest = webcrypto.subtle.digest.bind(webcrypto.subtle);
-    Object.defineProperty(globalThis, 'crypto', {value: {subtle: {digest: (algorithm: AlgorithmIdentifier, data: BufferSource) => {
+    Object.defineProperty(globalThis, 'crypto', {value: {subtle: {digest: (...args: Parameters<typeof digest>) => {
       digests++;
-      if (digests !== 1) return digest(algorithm, data);
-      return new Promise<ArrayBuffer>((resolve, reject) => {release = () => {void digest(algorithm, data).then(resolve, reject);};});
+      if (digests !== 1) return digest(...args);
+      return new Promise<ArrayBuffer>((resolve, reject) => {release = () => {void digest(...args).then(resolve, reject);};});
     }}}, configurable: true});
     let switched = false;
     const fetchImpl = vi.fn(async () => reply({user: switched ? {...account, id: 'different-operator', sessionId: 'different-session'} : account, expiresAt}));

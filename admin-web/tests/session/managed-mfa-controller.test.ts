@@ -262,9 +262,9 @@ describe('Managed authenticator session upgrade', () => {
     const client = create(fetchImpl); await client.refresh();
     let release!: () => void, count = 0;
     const gate = new Promise<void>(resolve => {release = resolve;}), digest = webcrypto.subtle.digest.bind(webcrypto.subtle);
-    Object.defineProperty(globalThis, 'crypto', {value: {getRandomValues: webcrypto.getRandomValues.bind(webcrypto), subtle: {digest: async (algorithm: AlgorithmIdentifier, data: BufferSource) => {
+    Object.defineProperty(globalThis, 'crypto', {value: {getRandomValues: webcrypto.getRandomValues.bind(webcrypto), subtle: {digest: async (...args: Parameters<typeof digest>) => {
       if (++count === 1) await gate;
-      return digest(algorithm, data);
+      return digest(...args);
     }}}, configurable: true});
     const verifying = client.verifyAuthenticator(factor, challenge, '123456'), rejected = expect(verifying).rejects.toThrow('challenge expired');
     await vi.waitFor(() => expect(count).toBeGreaterThan(0));
