@@ -11,8 +11,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_riverpod: ^2.6.1
-  go_router: ^16.3.0
+  flutter_riverpod: ^3.5.0
+  go_router: ^18.1.4
   http: ^1.6.0
   realtime_client: 2.13.2
   web_socket_channel: 3.0.3
@@ -26,7 +26,7 @@ dependencies:
   uuid: ^4.5.3
   file_picker: ^12.2.0
   mobile_scanner: ^7.2.0
-  image_picker: ^1.2.2
+  image_picker: ^1.2.4
   share_plus: ^13.1.0
   # Controlled 0.4.0 fork: Android Gradle source is migrated away from
   # unconditional KGP application for Flutter 3.44+ compatibility.

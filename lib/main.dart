@@ -69,6 +69,8 @@ Future<void> main() async {
     CollectStartupHost<CollectCloudflareClient?>(
       controller: startup,
       application: (backend) => ProviderScope(
+        // Keep retries at Collect's explicit recovery boundaries.
+        retry: (_, _) => null,
         overrides: [
           appEnvProvider.overrideWithValue(env),
           collectBackendClientProvider.overrideWithValue(backend),

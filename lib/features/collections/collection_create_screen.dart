@@ -57,7 +57,7 @@ class _CollectionCreateScreenState
   @override
   Widget build(BuildContext context) {
     final catalog =
-        ref.watch(collectCollectionTypeCatalogProvider).valueOrNull ??
+        ref.watch(collectCollectionTypeCatalogProvider).value ??
         CollectionTypeCatalogConfig.defaults;
     final typeOption = catalog.optionFor(_collectionType);
     return ScreenScaffold(
@@ -172,7 +172,7 @@ class _CollectionCreateScreenState
       .color;
 
   CollectionTypeCatalogItem get _selectedTypeOption =>
-      (ref.read(collectCollectionTypeCatalogProvider).valueOrNull ??
+      (ref.read(collectCollectionTypeCatalogProvider).value ??
               CollectionTypeCatalogConfig.defaults)
           .optionFor(_collectionType);
 

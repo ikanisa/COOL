@@ -83,7 +83,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
       );
     }
     final collectionCatalog =
-        ref.watch(collectCollectionTypeCatalogProvider).valueOrNull ??
+        ref.watch(collectCollectionTypeCatalogProvider).value ??
         CollectionTypeCatalogConfig.defaults;
     _loadOnce(collection);
 
@@ -296,7 +296,7 @@ class _GroupProfileScreenState extends ConsumerState<GroupProfileScreen> {
   }
 
   CollectionTypeCatalogItem get _selectedTypeOption {
-    return (ref.read(collectCollectionTypeCatalogProvider).valueOrNull ??
+    return (ref.read(collectCollectionTypeCatalogProvider).value ??
             CollectionTypeCatalogConfig.defaults)
         .optionFor(_collectionType);
   }

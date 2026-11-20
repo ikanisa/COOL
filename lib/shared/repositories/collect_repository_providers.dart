@@ -63,7 +63,7 @@ final collectPublicRuntimeConfigProvider = FutureProvider<CollectRuntimeConfig>(
 );
 
 final collectRuntimeConfigProvider = Provider<CollectRuntimeConfig>((ref) {
-  return ref.watch(collectPublicRuntimeConfigProvider).valueOrNull ??
+  return ref.watch(collectPublicRuntimeConfigProvider).value ??
       CollectRuntimeConfig.defaults;
 });
 

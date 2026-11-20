@@ -288,7 +288,7 @@ class _PrivacyRequestFormState extends ConsumerState<_PrivacyRequestForm> {
     final busy = _running || _checkingInitialStatus;
     final unknown = live != null && _controller.outcomeUnknown;
     final reasons =
-        ref.watch(collectAccountDeletionReasonsProvider).valueOrNull ??
+        ref.watch(collectAccountDeletionReasonsProvider).value ??
         collectDefaultAccountDeletionReasons;
     final canEdit =
         !busy &&
