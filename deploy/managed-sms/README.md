@@ -144,11 +144,10 @@ Sources: [Cloudflare Postgres.js guidance](https://developers.cloudflare.com/hyp
 
 ## Local verification and CI dependencies
 
-`deno.lock` pins the application runtime dependencies Hono 4.13.13 and
+`deno.lock` pins the application runtime dependencies Hono 4.13.16 and
 postgres.js 3.4.7. `package-lock.json` pins those packages and esbuild 0.28.2;
-the lock was checked offline, but a fresh `npm ci` was not performed because
-its package tarballs were not all available locally. CI must install from its
-approved registry/cache and verify the lock. The optional local Workerd smoke
+install from the approved registry/cache with `npm ci` to verify the lock.
+The optional local Workerd smoke
 uses Miniflare `5.20261012.0-beta` from the existing
 `deploy/platform-api/package-lock.json`; it is not a runtime dependency.
 
@@ -181,18 +180,16 @@ directory. An uncatchable kill or machine failure cannot guarantee cleanup;
 CI timeouts should allow at least 25 seconds after TERM for cleanup before any
 forced kill. The HTTP adapter tests use synthetic transactions, not Hyperdrive.
 
-For this machine, the offline bundle and local emulator commands were:
+To build the Worker with the pinned npm packages:
 
 ```sh
-NODE_PATH='../platform-api/node_modules' \
-COLLECT_SMS_BUILD_HONO_ROOT='/Users/jeanbosco/Library/Caches/deno/npm/registry.npmjs.org/hono/4.13.13' \
-COLLECT_SMS_BUILD_POSTGRES_ROOT='/Users/jeanbosco/Library/Caches/deno/npm/registry.npmjs.org/postgres/3.4.7' \
-node build.mjs
-NODE_PATH='../platform-api/node_modules' node test/bundle.test.cjs
+npm ci
+npm run build
 ```
 
-With the locked packages installed locally, `node build.mjs` can resolve its own
-node_modules instead. The build maps Deno `npm:` imports to the pinned packages
+For the optional local emulator smoke, install the pinned dependencies in
+`deploy/platform-api` and run `NODE_PATH=../platform-api/node_modules node test/bundle.test.cjs`
+from this directory. The build maps Deno `npm:` imports to the pinned packages
 and explicitly selects postgres.js's `workerd` implementation. Version checks
 and these tests are not a substitute for freezing and independently verifying
 the transitive source and bundle. The example uses compatibility date

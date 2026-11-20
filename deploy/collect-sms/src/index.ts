@@ -9,7 +9,7 @@ import { history, auditHistory } from "./history.ts";
 import { metrics,alerts,evaluateAlerts } from "./metrics.ts";
 import { configureCallback,disableCallback,listCallbacks,flushCallbacks } from "./callbacks.ts";
 export { flushCallbacks,evaluateAlerts };
-import { Hono } from "npm:hono@4.13.13";
+import { Hono } from "npm:hono@4.13.16";
 import { admin, adminActor, application, authenticate } from "./auth.ts";
 import {
   createApplication,

@@ -1,4 +1,4 @@
-import type {Context} from "npm:hono@4.13.13";
+import type {Context} from "npm:hono@4.13.16";
 import type {AppEnv,Env} from "./types.ts";
 import {application} from "./auth.ts";
 import {getTemplate,locale,renderTemplate} from "./templates.ts";

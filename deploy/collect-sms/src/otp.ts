@@ -1,5 +1,5 @@
 import { reserveOtp } from "./capacity.ts";
-import type { Context } from "npm:hono@4.13.13";
+import type { Context } from "npm:hono@4.13.16";
 import { application } from "./auth.ts";
 import { makeMessage, messageInsert } from "./messages.ts";
 import type { AppEnv } from "./types.ts";

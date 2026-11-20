@@ -1,4 +1,4 @@
-import type {Context} from "npm:hono@4.13.13";import type{AppEnv}from './types.ts';import{admin}from './auth.ts';import{ApiError,integer,isoNow,string}from './util.ts';
+import type {Context} from "npm:hono@4.13.16";import type{AppEnv}from './types.ts';import{admin}from './auth.ts';import{ApiError,integer,isoNow,string}from './util.ts';
 /** Metadata-only, keyset-paginated evidence. Never exposes message bodies,
  * recipients, OTP verifiers, credentials or raw callback details. */
 export async function recoveryExport(c:Context<AppEnv>){

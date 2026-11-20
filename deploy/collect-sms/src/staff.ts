@@ -1,5 +1,5 @@
 import type {D1PreparedStatement} from "./postgres.ts";
-import type { Context } from "npm:hono@4.13.13";
+import type { Context } from "npm:hono@4.13.16";
 import { admin, adminActor } from "./auth.ts";
 import type { AppEnv, StaffRole } from "./types.ts";
 import { STAFF_ROLES } from "./types.ts";
