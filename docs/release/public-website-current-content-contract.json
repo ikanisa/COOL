@@ -9,7 +9,7 @@
   "legal_release_approved": false,
   "publication_approved": false,
   "current_comparison_file": "docs/release/public-content-provenance/2026-11-20-member-receipt-intake-render.json",
-  "current_comparison_sha256": "6006f4f527c1509e4cc97f97af6f766fb0a1cde95bd17d9c947a673a439dbc30",
+  "current_comparison_sha256": "fb0ce60839043c2a09d133532e66d9cbdee765d911b9e4fe9e144cd62e0e0b7e",
   "previous_contract_sha256": "0ea47e70cde61ee2edf19e16ca5cb6f93745bdae8c98584a1f89d7136e10f30a",
   "previous_current_comparison_sha256": "a584d25cbab8426ffa6eec20f24d2dc9fe44926fae39224776dff9c7adb074fd",
   "reviewed_source_changes": [
@@ -37,21 +37,21 @@
     {
       "path": "content/product/collect_capabilities.json",
       "previous_sha256": "3e3831fd74a2c31495b18d3e155fc23febd3a98da0928df9563f893ddd97c89e",
-      "current_sha256": "dbfd2d353de16a04d381a9301097b431cca3020cb7ea74d8d999adcfb6de04a6",
+      "current_sha256": "8f479d86f488c24fa4bb518f3bb7e6a1b7798cc8817c18d39741c915857a10e1",
       "bytes": 54505,
       "review_context": "Bound the consented Android receipt implementation to its current Dart and Kotlin source."
     },
     {
       "path": "lib/features/landing/public_marketing_page_content.dart",
       "previous_sha256": "c55df7657c480aef2243684d4f717105e78e44281fe0650787fc947833ec22f0",
-      "current_sha256": "25ff3b66bbbc71c81273a2e8e8859821f82a162e0cf8936c5d288a4502714db1",
+      "current_sha256": "a1febd2e311bcef0bd7047dbdd8a0754971d111f780b133a478a8fe108a3bc9e",
       "bytes": 6335,
       "review_context": "Checked generated member marketing content against the capability registry."
     },
     {
       "path": "lib/features/landing/public_capability_content.dart",
       "previous_sha256": "a9b65899a3c1bf4608a1a41e440b8db2b82b0ba27101ceb1759d80609828311e",
-      "current_sha256": "fbb824b27e9978190358e0ec896575f505de615ce5158d53954ea900486ea5cc",
+      "current_sha256": "c9d2d4fd1e5b03c0adfe98a634284efae11e77e12ca2bb762910c707c7039d52",
       "bytes": 7434,
       "review_context": "Checked generated platform availability and capability content against the registry."
     },
@@ -78,12 +78,12 @@
     "content/legal/collect_privacy_policy.yaml": "97f016378ca280b2afe989c550ffc80c04c92d729815b6c2d4bf8bc4a80dd8ae",
     "content/legal/collect_terms_of_use.yaml": "438d7c3dd077885f5000ee6fafc1c3cdeea9edf47d016b35122267e56fd5fce5",
     "content/legal/collect_delete_account.yaml": "0b2bf9354f37cde1e8f91cb4a0a35b98b2a7f3efaad7e2609662acaf113e9841",
-    "content/product/collect_capabilities.json": "dbfd2d353de16a04d381a9301097b431cca3020cb7ea74d8d999adcfb6de04a6",
+    "content/product/collect_capabilities.json": "8f479d86f488c24fa4bb518f3bb7e6a1b7798cc8817c18d39741c915857a10e1",
     "scripts/product_capabilities.rb": "67ba6761b0a1572b8c9f34aa40fb7ea9515d63f2d47a41786566df13f1db1ec1",
     "scripts/generate_product_capability_content.rb": "9afd9857f853de67c3b332a5df72e70e5c5531359c78690dd7ebdae56ee4b20d",
     "lib/features/landing/public_content.dart": "5b5b4ab791cd40ff6c45501492fdbf4a987b54586683f6118a3dd7acd7b0c8a8",
-    "lib/features/landing/public_marketing_page_content.dart": "25ff3b66bbbc71c81273a2e8e8859821f82a162e0cf8936c5d288a4502714db1",
-    "lib/features/landing/public_capability_content.dart": "fbb824b27e9978190358e0ec896575f505de615ce5158d53954ea900486ea5cc",
+    "lib/features/landing/public_marketing_page_content.dart": "a1febd2e311bcef0bd7047dbdd8a0754971d111f780b133a478a8fe108a3bc9e",
+    "lib/features/landing/public_capability_content.dart": "c9d2d4fd1e5b03c0adfe98a634284efae11e77e12ca2bb762910c707c7039d52",
     "lib/features/landing/collect_landing_page.dart": "b5324733356584d5bd9fdcfd99dae58b004f8111aae569a5606d1ffd9925d822",
     "fastlane/metadata/en-GB/description.txt": "bd92d3b4bbb727033dcbd28bd68aa3e79586e1c96c1eeff508fb86b2000c3f8e",
     "fastlane/metadata/en-GB/promotional_text.txt": "3da4aeb139366627db56de695b9f1d702eaa0e4b53900bda1249047791258d93",
@@ -113,5 +113,5 @@
   "current_generation_verified": true,
   "approval_scope": "Local engineering verification covers these source inputs and rendered pages. Legal and publication approval remain open.",
   "previous_current_comparison_file": "docs/release/public-content-provenance/current12-public-web-analytics-disclosure-comparison-20261023.json",
-  "reviewed_at": "2026-11-20T16:05:16.116447+00:00"
+  "reviewed_at": "2026-11-20T16:52:45.745277+00:00"
 }

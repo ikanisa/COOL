@@ -18,7 +18,7 @@ class LegalScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fallback = CollectPolicyDocument.defaults(kind);
     final document =
-        ref.watch(collectPolicyDocumentProvider(fallback.kind)).valueOrNull ??
+        ref.watch(collectPolicyDocumentProvider(fallback.kind)).value ??
         fallback;
     final isPrivacy = document.kind == 'privacy';
     return ScreenScaffold(

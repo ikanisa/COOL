@@ -185,8 +185,11 @@ Deno.test('gateway verifies the explicit managed profile, source, approval and r
     assert.equal((await fetch('/health')).status, 503, Object.keys(values).join(', '));
     assert.equal(admissions.size, 0);
   }
-  const direct = 'postgresql://collect_sms_edge_login:synthetic@db.rrlduytparvsjfmegalh.supabase.co:5432/postgres';
-  assert.equal((await gateway({ COLLECT_SMS_DATABASE_URL: direct }).fetch('/health')).status, 200);
+  const direct = new URL(databaseUrl);
+  direct.hostname = `db.${new URL(publicOrigin).hostname}`;
+  direct.username = 'collect_sms_edge_login';
+  direct.search = '';
+  assert.equal((await gateway({ COLLECT_SMS_DATABASE_URL: direct.toString() }).fetch('/health')).status, 200);
   const unbound = gateway({}, admissionDouble({ reject: true }));
   assert.equal((await unbound.fetch('/health')).status, 503);
   assert.equal(unbound.calls.length, 0);

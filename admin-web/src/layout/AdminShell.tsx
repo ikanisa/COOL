@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react';
 import { Icon } from '../ui/Icon';
 import collectLogo from '../ui/assets/collect-logo.png';
 
@@ -36,7 +36,8 @@ export function AdminShell({ navigation, currentPath, identity, onSignOut, toolb
   const searchRef = useRef<HTMLInputElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeMenuRef = useRef<HTMLButtonElement>(null);
-  const sidebarRef = useRef<HTMLElement>(null);
+  const sidebarRef = useRef<HTMLElement>(null), sectionsRef = useRef<HTMLElement>(null);
+  const pendingResult = useRef<'first' | 'last' | null>(null);
   const profileRef = useRef<HTMLDivElement>(null);
   const selected = useMemo(() => navigation.filter((item) => matchesPath(item, currentPath)).sort((a, b) => b.path.length - a.path.length)[0], [navigation, currentPath]);
   const groups = useMemo(() => {
@@ -62,7 +63,11 @@ export function AdminShell({ navigation, currentPath, identity, onSignOut, toolb
 
   useEffect(() => {
     if (!menuOpen) return;
-    closeMenuRef.current?.focus();
+    const edge = pendingResult.current;
+    pendingResult.current = null;
+    const links = sectionsRef.current?.querySelectorAll<HTMLAnchorElement>('a[href]');
+    const result = edge && links?.[edge === 'first' ? 0 : links.length - 1];
+    (result || closeMenuRef.current)?.focus();
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setMenuOpen(false);
@@ -102,6 +107,53 @@ export function AdminShell({ navigation, currentPath, identity, onSignOut, toolb
     setMenuOpen(false);
     menuButtonRef.current?.focus();
   };
+  const handleSearchKeys = (event: ReactKeyboardEvent<HTMLInputElement>) => {
+    const {key} = event;
+    if (key === 'Escape') {
+      setSearch('');
+      return;
+    }
+    if (key !== 'ArrowDown' && key !== 'ArrowUp' && key !== 'Enter') return;
+    const small = window.matchMedia?.('(max-width: 720px)').matches;
+    if (key === 'Enter' && small) {
+      event.preventDefault();
+      setMenuOpen(true);
+      return;
+    }
+    const term = search.trim().toLocaleLowerCase();
+    if (!term) return;
+    const links = [...(sectionsRef.current?.querySelectorAll<HTMLAnchorElement>('a[href]') ?? [])];
+    if (key === 'ArrowDown' || key === 'ArrowUp') {
+      const edge = key === 'ArrowDown' ? 'first' : 'last';
+      if (!links.length) return;
+      event.preventDefault();
+      if (small && !menuOpen) {
+        pendingResult.current = edge;
+        setMenuOpen(true);
+      } else links[edge === 'first' ? 0 : links.length - 1].focus();
+    } else {
+      const exact = links.filter(link => link.textContent?.trim().toLocaleLowerCase() === term);
+      const match = links.length === 1 ? links[0] : exact.length === 1 ? exact[0] : undefined;
+      if (match) {
+        event.preventDefault();
+        match.click();
+      }
+    }
+  };
+  const handleResultKeys = (event: ReactKeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Escape' && !menuOpen) {
+      setSearch('');
+      searchRef.current?.focus();
+      return;
+    }
+    if (!search.trim() || (event.key !== 'ArrowDown' && event.key !== 'ArrowUp')) return;
+    const links = [...event.currentTarget.querySelectorAll<HTMLAnchorElement>('a[href]')];
+    const index = links.findIndex(link => link === event.target);
+    if (index < 0) return;
+    event.preventDefault();
+    const step = event.key === 'ArrowDown' ? 1 : -1;
+    links[(index + step + links.length) % links.length].focus();
+  };
   const activeLabel = selected?.label ?? 'Workspace';
   return <div className={`admin-shell ${menuOpen ? 'admin-shell--menu-open' : ''}`}>
     <a className="admin-skip-link" href="#main-content" onClick={(event) => { event.preventDefault(); document.getElementById('main-content')?.focus(); }}>Skip to main content</a>
@@ -112,7 +164,7 @@ export function AdminShell({ navigation, currentPath, identity, onSignOut, toolb
         <div className="admin-brand-copy"><span className="admin-brand-title">Collect</span><span className="admin-brand-caption">Admin workspace</span></div>
         <button ref={closeMenuRef} type="button" className="admin-icon-button admin-sidebar-close" onClick={closeMenu} aria-label="Close navigation"><Icon name="close" /></button>
       </div>
-      <nav className="admin-sidebar-scroll" aria-label="Admin sections">
+      <nav ref={sectionsRef} className="admin-sidebar-scroll" aria-label="Admin sections" onKeyDown={handleResultKeys}>
         {[...groups].map(([section, items]) => <div className="admin-nav-group" key={section}>
           <div className="admin-nav-heading">{section}</div>
           {items.map((item) => {
@@ -131,11 +183,8 @@ export function AdminShell({ navigation, currentPath, identity, onSignOut, toolb
         <button ref={menuButtonRef} type="button" className="admin-icon-button admin-menu-button" aria-label="Open navigation" aria-controls="admin-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)}><Icon name="menu" /></button>
         <div className="admin-crumb"><span>Workspace</span><span aria-hidden="true">/</span><strong>{activeLabel}</strong></div>
         <div className="admin-top-spacer" />
-        <label className="admin-top-search"><Icon name="search" /><span className="admin-sr-only">Search admin sections</span><input ref={searchRef} value={search} onChange={(event) => setSearch(event.target.value)} onKeyDown={(event) => {
-          if (event.key === 'Escape') setSearch('');
-          if (event.key === 'Enter' && window.matchMedia?.('(max-width: 720px)').matches) {event.preventDefault(); setMenuOpen(true);}
-        }} type="search" placeholder="Search sections..." aria-describedby="admin-search-help" /><kbd aria-hidden="true">⌘ K</kbd></label>
-        <span id="admin-search-help" className="admin-sr-only">On small screens, press Enter to open matching sections.</span>
+        <label className="admin-top-search"><Icon name="search" /><span className="admin-sr-only">Search admin sections</span><input ref={searchRef} value={search} onChange={(event) => setSearch(event.target.value)} onKeyDown={handleSearchKeys} type="search" placeholder="Search sections..." aria-describedby="admin-search-help" /><kbd aria-hidden="true">⌘ K</kbd></label>
+        <span id="admin-search-help" className="admin-sr-only">Use the arrow keys to move through matching sections and Enter to open a focused section.</span>
         {toolbar}
         {identity && <div className="admin-profile" ref={profileRef}><button className="admin-profile-button" type="button" aria-label={`Account: ${identity.name}`} aria-expanded={profileOpen} onClick={() => setProfileOpen((open) => !open)}><span className="admin-operator-role">{identity.role}</span><span className="admin-avatar" aria-hidden="true">{identity.name.slice(0, 1).toLocaleUpperCase()}</span></button>{profileOpen && <div className="admin-profile-menu"><strong>{identity.name}</strong>{identity.role && <span>{identity.role}</span>}{onSignOut && <button type="button" onClick={() => { setProfileOpen(false); onSignOut(); }}><Icon name="logout" />Sign out</button>}</div>}</div>}
       </header>

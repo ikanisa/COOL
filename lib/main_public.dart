@@ -9,7 +9,12 @@ import 'features/landing/collect_landing_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: CollectPublicWebsiteApp()));
+  runApp(
+    ProviderScope(
+      retry: (_, _) => null,
+      child: const CollectPublicWebsiteApp(),
+    ),
+  );
 }
 
 class CollectPublicWebsiteApp extends StatelessWidget {

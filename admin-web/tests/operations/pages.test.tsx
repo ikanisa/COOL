@@ -102,6 +102,50 @@ describe('SMS receipt filters', () => {
     expect(mock.request).not.toHaveBeenCalled();
   });
 
+  it('clears the server search, filters and page and withholds the old response timestamp while loading', async () => {
+    const user = userEvent.setup();
+    mock.session.user.permissions = ['sms.read'];
+    let settlePage!: (value: unknown) => void;
+    const waiting = new Promise<unknown>((resolve) => {settlePage = resolve;});
+    mock.request
+      .mockResolvedValueOnce({rows: [], total: 0, limit: 25, offset: 25, next_offset: null})
+      .mockReturnValueOnce(waiting);
+    render(<MemoryRouter initialEntries={['/admin/sms-receipts?source=capture&status=received&offset=25&search=missing']}><SmsReceiptsPage /></MemoryRouter>);
+    expect(await screen.findByText(/^Loaded .+ Kigali$/)).toBeVisible();
+    await user.click(screen.getByRole('button', {name: 'Clear filters'}));
+    expect(mock.request).toHaveBeenLastCalledWith('sms/receipts?limit=25&offset=0');
+    expect(screen.getByRole('searchbox', {name: 'Search SMS receipts'})).toHaveValue('');
+    expect(screen.queryByText(/^Loaded .+ Kigali$/)).not.toBeInTheDocument();
+    settlePage({rows: [capture(1)], total: 1, limit: 25, offset: 0, next_offset: null});
+    expect(await screen.findByText(/^Loaded .+ Kigali$/)).toBeVisible();
+    expect(screen.getByRole('columnheader', {name: 'Masked contact'})).toBeVisible();
+    expect(screen.getByRole('columnheader', {name: 'Conflicts'})).toBeVisible();
+  });
+
+  it('masks an extracted payer number and expands technical provenance on request', async () => {
+    const user = userEvent.setup();
+    mock.session.user.permissions = ['sms.read'];
+    mock.session.user.financialModel = 'transaction_journals';
+    const receipt = {
+      ...receiver(1), payer_phone: '0788000123', payer_last3: '123', payer_last3_known: true,
+      duplicate_reference_count: 0,
+    };
+    mock.request.mockResolvedValue({
+      resource_type: 'sms_receipts', current_actor_id: mock.session.user.id, resource: receipt, can_extract: false,
+      related: {duplicate_references: {rows: [], total: 0, limit: 25, offset: 0, next_offset: null}},
+    });
+    render(<MemoryRouter initialEntries={['/admin/sms-receipts/receiver/' + receipt.id]}>
+      <Routes><Route path="/admin/sms-receipts/:kind/:id" element={<SmsReceiptDetailPage allowRecovery={false} />} /></Routes>
+    </MemoryRouter>);
+    expect(await screen.findByText('•••• 123')).toBeVisible();
+    expect(screen.queryByText('0788000123')).not.toBeInTheDocument();
+    const summary = screen.getByText('Technical provenance');
+    expect(summary.closest('details')).not.toHaveAttribute('open');
+    await user.click(summary);
+    expect(summary.closest('details')).toHaveAttribute('open');
+    expect(screen.getByText('a'.repeat(64))).toBeVisible();
+  });
+
   it('sends legacy source, extraction and duplicate filters to the server and resets pagination', async () => {
     const user = userEvent.setup();
     mock.session.user.permissions = ['sms.read']; mock.session.user.financialModel = 'transaction_journals';
