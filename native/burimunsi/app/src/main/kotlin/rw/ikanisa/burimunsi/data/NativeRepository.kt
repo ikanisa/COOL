@@ -305,6 +305,14 @@ class NativeRepository(context:Context,private val api:ApiClient,groupId:String?
         val witness=ownedWitness?:return null
         return try{authority.withCurrent(witness){operator}}catch(_:ContractFailure){null}
     }
+    /** Publish a server-returned profile while its exact local authority is current. The callback must not block. */
+    internal fun <T> withCurrentProfile(profile:Operator, publish:(String,Long)->T):T {
+        val witness=ownedWitness?:throw ContractFailure("session_changed")
+        return authority.withCurrent(witness){
+            checkContract(operator===profile,"session_changed")
+            publish(groupId,witness.generation)
+        }
+    }
     /** Join only an already-active same-owner/group replacement. A logout or
      * account switch never opens a fresh process slot through this path. */
     fun reattachSameOwner(owner:String,collection:String):Operator? {

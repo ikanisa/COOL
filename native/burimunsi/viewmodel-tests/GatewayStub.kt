@@ -2,6 +2,12 @@ package rw.ikanisa.burimunsi.gateway
 import android.app.Application
 import rw.ikanisa.burimunsi.core.*
 object GatewayFixture{
+ @Volatile var permissionsEntered:java.util.concurrent.CountDownLatch?=null
+ @Volatile var permissionsRelease:java.util.concurrent.CountDownLatch?=null
+ val permissionReadFinished=java.util.concurrent.CountDownLatch(1)
+ @Volatile var healthEntered:java.util.concurrent.CountDownLatch?=null
+ @Volatile var healthRelease:java.util.concurrent.CountDownLatch?=null
+ val healthReadFinished=java.util.concurrent.CountDownLatch(1)
  var snapshot=GatewayStatus(true,false,1,0,null,null,null,"uploads_on_hold")
  var failStatus=false;var changes=0;var statusReads=0;var retired=false
  @Volatile var uploadStarts=0
@@ -19,7 +25,13 @@ object GatewayFixture{
 class FixtureGateway(private val app:Application,private val pairer:(String,Boolean)->org.json.JSONObject,
  private val pending:()->Boolean,private val recover:()->org.json.JSONObject?):GatewayPort{
  override fun foregroundChanged(resumed:Boolean){}
- override fun continuousHealth()=ContinuousReceiverHealth()
+ override fun continuousHealth():ContinuousReceiverHealth{
+  val release=GatewayFixture.healthRelease?:return ContinuousReceiverHealth()
+  GatewayFixture.healthEntered?.countDown()
+  check(release.await(5,java.util.concurrent.TimeUnit.SECONDS))
+  GatewayFixture.healthReadFinished.countDown()
+  return ContinuousReceiverHealth(true,false,"previous_operator")
+ }
  override fun stopContinuous(){}
  override fun start(){if(!pending()&&!GatewayFixture.retired){GatewayFixture.lastStartThreadId=Thread.currentThread().id;GatewayFixture.uploadStarts++}};override fun bound()=!GatewayFixture.retired&&GatewayFixture.snapshot.authorized
  override fun status():GatewayStatus{
@@ -36,7 +48,14 @@ class FixtureGateway(private val app:Application,private val pairer:(String,Bool
  override fun retirementPending()=pending()&&!GatewayFixture.retired
  override fun recoverRetirement():ReceiverRetirementAck?=recover()?.let(::park)
  override fun sync(){}
- override fun requiredPermissions()=arrayOf(android.Manifest.permission.RECEIVE_SMS,android.Manifest.permission.READ_SMS)
+ override fun requiredPermissions():Array<String>{
+  GatewayFixture.permissionsRelease?.let { release ->
+   GatewayFixture.permissionsEntered?.countDown()
+   check(release.await(5,java.util.concurrent.TimeUnit.SECONDS))
+   GatewayFixture.permissionReadFinished.countDown()
+  }
+  return arrayOf(android.Manifest.permission.RECEIVE_SMS,android.Manifest.permission.READ_SMS)
+ }
  override fun queuedObservations(query:String):QueuedObservationSnapshot?{
   val session=GatewayFixture.queueSession?:return null
   val snapshot=QueuedObservationSnapshot(session,GatewayFixture.queueRevision,GatewayFixture.queueRows.filter{SmsListSearch.matches(it.id,SmsListContent(it.sender,GatewayFixture.queueBodies[it.id].orEmpty()),query)})

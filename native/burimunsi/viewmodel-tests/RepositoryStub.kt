@@ -44,6 +44,7 @@ object Fixture{
  @Volatile var membersSavedAtOverride:Long?=null
  var financialState="posted"
  @Volatile var currentOwnerOverride:String?=null
+ @Volatile var receiverGroupOverride:String?=null
  @Volatile var processSessionInvalidated=false
  @Volatile var reattachAllowed=false
  @Volatile var reattachEntered:java.util.concurrent.CountDownLatch?=null
@@ -109,6 +110,10 @@ class NativeRepository(app:Application,api:ApiClient,group:String?=null){
   check(Fixture.restoreBarrier?.await(5,java.util.concurrent.TimeUnit.SECONDS)!=false)
   Fixture.restoreFailure?.let{throw it};return operator}
  fun current()=operator?.takeUnless{Fixture.processSessionInvalidated}?.let{it.copy(id=Fixture.currentOwnerOverride?:it.id)}
+ internal fun <T> withCurrentProfile(profile:Operator,publish:(String,Long)->T):T {
+  checkContract(operator===profile&&current()==profile,"session_changed")
+  return publish(Fixture.receiverGroupOverride?:collectionId,readScopeRevision + Fixture.processSessionEpoch.get())
+ }
  fun login(phone:String,pin:String):Operator{Fixture.loginCalls++;Fixture.loginEntered?.countDown();check(Fixture.loginBarrier?.await(5,java.util.concurrent.TimeUnit.SECONDS)!=false);val selected=Fixture.managedCollection?:throw ApiFailure("invalid_credentials",401);bound=selected;Fixture.loginCollections.add(selected);readScopeRevision++;operator=Fixture.operator();return operator!!}
  fun pairGateway(code:String,replace:Boolean):JSONObject{
   if(operator==null)throw ApiFailure("session_unavailable",401);Fixture.gatewayPairCalls++

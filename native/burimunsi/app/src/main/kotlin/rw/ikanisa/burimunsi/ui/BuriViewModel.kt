@@ -336,22 +336,14 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     private var lastSessionRenewalAt=0L
     private var lastSignOutRetryAt=0L
     private var lastAutomaticReadAt=0L
-    private var syncHealthJob:Job?=null
     override var notificationAccessGranted:Boolean? by mutableStateOf(null);private set
     override var batteryExemptionGranted:Boolean? by mutableStateOf(null);private set
-    override var continuousSyncRunning:Boolean? by mutableStateOf(null);private set
-    override var continuousSyncProblem:String? by mutableStateOf(null);private set
+    override val continuousSyncRunning get() = receiverStatus.continuousHealth?.takeIf { it.supported }?.running
+    override val continuousSyncProblem get() = receiverStatus.continuousHealth?.problem
     /** Public OS policy state only; no credential or receipt belongs in these values. */
     fun systemPolicyChanged(notifications:Boolean,batteryExempt:Boolean){
         notificationAccessGranted=notifications;batteryExemptionGranted=batteryExempt
-        refreshSyncHealth()
-    }
-    private fun refreshSyncHealth(){
-        if(!foreground||!BuildConfig.IS_GATEWAY||syncHealthJob?.isActive==true)return
-        syncHealthJob=viewModelScope.launch{
-            val health=try{withContext(Dispatchers.IO){gateway.continuousHealth()}}catch(e:CancellationException){throw e}catch(_:Exception){null}
-            if(foreground){continuousSyncRunning=health?.takeIf{it.supported}?.running;continuousSyncProblem=health?.problem}
-        }
+        receiverStatus.refreshHealth()
     }
     private var supportJob:Job?=null
     private var supportClient:SupportContactClient?=null
@@ -402,16 +394,16 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     /** Called by LifecycleResumeEffect. Does not cancel a dispatched operation. */
     fun onBackground(){
         queuedNavigation=null
-        homeGatewayStatusJob?.cancel();homeGatewayStatusJob=null
+        receiverStatus.invalidate()
         checkpointNavigation()
         if(!downloadPickerInFlight)clearDownload(exportFeedback?.phase in setOf(UiExportPhase.PREPARING,UiExportPhase.WRITING))
         clearRawDisclosure()
         queueRefreshJob?.cancel();queueRefreshJob=null
         state=state.copy(queuedObservations=null,queuedUnavailable=false,queuedSearch="")
         if(state.sheet==Sheet.RAW)dismissPanel()
+        state=state.copy(gateway=null)
         lifecycleObserved=true;foreground=false;needsSessionCheck=true;resumeQueued=true
         gateway.foregroundChanged(false)
-        syncHealthJob?.cancel();syncHealthJob=null
         supportJob?.cancel();supportJob=null;supportPhone=null
         exposureJob?.cancel();exposureJob=null
     }
@@ -552,7 +544,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         state=withoutRecords(state)
     }
     private fun key(route:Route=state.route,id:String?=state.routeId)=route.name+":"+(id?:"")
-    private fun clearViews(){queuedNavigation=null;homeGatewayStatusJob?.cancel();homeGatewayStatusJob=null;observationStatusJob?.cancel();observationStatusJob=null;observationRetryRequests.clear();clearDownload(false);queries=emptyMap();filterOrigin=null;filterDraftReset=null;clearRawDisclosure();views.clear();clearPanels();pendingExport=null;pendingMemberDocument=null;forgetCheckpoint()}
+    private fun clearViews(){queuedNavigation=null;receiverStatus.invalidate();observationStatusJob?.cancel();observationStatusJob=null;observationRetryRequests.clear();clearDownload(false);queries=emptyMap();filterOrigin=null;filterDraftReset=null;clearRawDisclosure();views.clear();clearPanels();pendingExport=null;pendingMemberDocument=null;forgetCheckpoint()}
     private fun rememberedContext(value:UiState)=UiState(operator=state.operator,route=value.route,routeId=value.routeId,
         search=value.search,filter=value.filter,listIndex=value.listIndex,listOffset=value.listOffset,
         pending=state.pending,busy=true,readbackRequired=value.readbackRequired)
@@ -573,7 +565,6 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     private var generation=0
     private var workSerial=0L
     private var actionJob:Job?=null
-    private var homeGatewayStatusJob:Job?=null
     private var repository:NativeRepository?=null
     private val collectionPosting by lazy { NativeCollectionPosting(repo()) }
     val gateway=GatewayFactory.create(app,{repository?.boundCollectionId},
@@ -582,53 +573,32 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         recoverRetirement={repository?.recoverReceiverRetirement()},
         // Factory independently checks the actual bound receiving collection.
         authorizeControl={Access.allows(state.operator,Capability.GATEWAY,clock(),BuildConfig.IS_GATEWAY,true)})
+    private val receiverStatus by lazy {
+        NativeReceiverStatus(BuildConfig.IS_GATEWAY, gateway, { repository }, { state }, { foreground }, clock, viewModelScope)
+    }
     private var install:DeviceProvisioning?=null
     override val installationId get()=install?.installationId.orEmpty()
     override val installationProfile get()=if(BuildConfig.IS_GATEWAY)"internal_receiver" else "staff"
     private var permissionRevision by mutableStateOf(0)
-    private var gatewayPermissionRevision=0
-    private var gatewayPermissionFingerprint:List<Pair<String,Int>>?=null
-    private data class PendingGatewayPermissionStatus(val revision:Int,val operatorId:String,val generation:Int)
-    private var pendingGatewayPermissionStatus:PendingGatewayPermissionStatus?=null
-    /** A permission result may arrive while session revalidation or another read is in flight. */
-    private fun drainGatewayPermissionStatus(){
-        val pending=pendingGatewayPermissionStatus?:return
-        if(pending.revision!=gatewayPermissionRevision||pending.generation!=generation||state.operator?.id!=pending.operatorId){
-            pendingGatewayPermissionStatus=null;return
-        }
-        if(!foreground||state.busy||screenGate!=ScreenGate.OPEN)return
-        pendingGatewayPermissionStatus=null
-        if(!allows(Capability.GATEWAY))return
-        val sheet=state.sheet;val route=state.route
-        if(sheet!=Sheet.GATEWAY&&(sheet!=null||route !in setOf(Route.HOME,Route.SETTINGS)))return
-        work(kind=UiOperation.REFRESH){
-            state=state.copy(gateway=null,panelSavedAt=if(sheet==Sheet.GATEWAY)null else state.panelSavedAt)
-            val refreshed=io{gateway.status()}
-            if(foreground&&screenGate==ScreenGate.OPEN&&gatewayPermissionRevision==pending.revision&&generation==pending.generation&&
-                state.operator?.id==pending.operatorId&&state.route==route&&state.sheet==sheet&&allows(Capability.GATEWAY))
-                state=state.copy(gateway=refreshed,panelSavedAt=if(sheet==Sheet.GATEWAY||route==Route.SETTINGS)clock()else state.panelSavedAt)
+    private fun drainGatewayPermissionStatus() {
+        if (!foreground || state.busy || screenGate != ScreenGate.OPEN) return
+        val ticket = receiverStatus.takePermissionRefresh() ?: return
+        work(kind=UiOperation.REFRESH,quietRefresh=true) {
+            state=state.copy(gateway=null,panelSavedAt=if(ticket.sheet==Sheet.GATEWAY)null else state.panelSavedAt)
+            receiverStatus.read(ticket) { refreshed ->
+                state=state.copy(gateway=refreshed,panelSavedAt=if(ticket.sheet==Sheet.GATEWAY||ticket.route==Route.SETTINGS)clock()else state.panelSavedAt)
+            }
         }
     }
     fun permissionsChanged(){
         permissionRevision++
-        val currentPermissions=if(BuildConfig.IS_GATEWAY)runCatching{
-            gateway.requiredPermissions().distinct().sorted().map{it to app.checkSelfPermission(it)}
-        }.getOrNull()else null
-        val permissionsChanged=currentPermissions!=null&&gatewayPermissionFingerprint!=null&&currentPermissions!=gatewayPermissionFingerprint
-        if(currentPermissions!=null)gatewayPermissionFingerprint=currentPermissions
-        if(permissionsChanged){gatewayPermissionRevision++;pendingGatewayPermissionStatus=null}
+        val currentPermissions=if(BuildConfig.IS_GATEWAY)listOf(
+            android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.READ_SMS,
+            android.Manifest.permission.READ_PHONE_STATE,
+        ).map { it to app.checkSelfPermission(it) } else null
         clearRawDisclosure()
         state=state.copy(queuedObservations=null,queuedUnavailable=false,queuedSearch="")
-        val revision=gatewayPermissionRevision;val owner=state.operator?.id;val requestedGeneration=generation
-        if(BuildConfig.IS_GATEWAY)viewModelScope.launch{
-            try{withContext(Dispatchers.IO){gateway.start()}}
-            catch(e:CancellationException){throw e}
-            catch(_:Exception){/* Gateway queue is independent of operator UI. */}
-            if(permissionsChanged&&owner!=null&&gatewayPermissionRevision==revision&&generation==requestedGeneration&&state.operator?.id==owner){
-                pendingGatewayPermissionStatus=PendingGatewayPermissionStatus(revision,owner,requestedGeneration)
-                drainGatewayPermissionStatus()
-            }
-        }
+        receiverStatus.permissionsChanged(currentPermissions, ::drainGatewayPermissionStatus)
     }
     override val smsAccessGranted get():Boolean {
         permissionRevision
@@ -638,9 +608,10 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     }
     override val receivingPermissionsRequired get():Boolean {
         permissionRevision // Compose observes changes after an Android permission result.
-        return BuildConfig.IS_GATEWAY&&gateway.requiredPermissions().any{
-            app.checkSelfPermission(it)!=android.content.pm.PackageManager.PERMISSION_GRANTED
-        }
+        return receiverStatus.permissionsRequired { app.checkSelfPermission(it)==android.content.pm.PackageManager.PERMISSION_GRANTED }
+    }
+    fun requestReceivingPermissions(show: (Array<String>) -> Unit) {
+        if (screenGate == ScreenGate.OPEN) receiverStatus.launchPermissions(show)
     }
     private fun retryableSessionFailure(e:ApiFailure)=e.status==0||e.status in listOf(408,425,429)||e.status>=500
     private suspend fun restoreSavedSession(){
@@ -765,7 +736,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
             }
             checkVisibleFreshness()
             automaticVisibleRefresh()
-            refreshSyncHealth()
+            receiverStatus.refreshHealth()
         }}
     }
 
@@ -1046,13 +1017,13 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         if(state.draftDirty){afterDiscard={navigate(route,id)};state=state.copy(discardRequested=true);return}
         work(kind=UiOperation.INITIAL_READ){
             val old=state.copy(busy=false,error=null)
-            if(route!=state.route||id!=state.routeId)views.push(key(),withoutRaw(old))
+            if(route!=state.route||id!=state.routeId)views.push(key(),withoutRaw(old).copy(gateway=null))
             val remembered=views.remembered(key(route,id))
             val fresh=remembered?.takeIf{views.isCurrent(it)&&reusable(it.value)}?.value
             clearPanels()
             state=(fresh?:remembered?.value?.let{rememberedContext(it)}?:UiState(operator=state.operator,route=route,routeId=id)).copy(operator=state.operator,
                 busy=true,pending=state.pending,failure=DisplayFailure.NONE,sheet=null,sheetId=null,panelDepth=0,error=null,selectedMember=null,draft=emptyMap(),draftDirty=false,discardRequested=false)
-            if(fresh==null)refreshNow()
+            if(fresh==null)refreshNow() else refreshRememberedReceiverStatus()
         }
     }
     override fun back(){
@@ -1069,7 +1040,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         }
         if(!Access.routeAllowed(state.operator,previous.value.route,clock(),BuildConfig.IS_GATEWAY,gateway.bound())){clearViews();navigate(Route.HOME);return}
         work{
-            views.remember(key(),withoutRaw(state.copy(busy=false)))
+            views.remember(key(),withoutRaw(state.copy(busy=false)).copy(gateway=null))
             val fresh=views.isCurrent(previous)&&reusable(previous.value)
             val restoredSheet=previous.value.sheet.takeIf{it!=Sheet.RAW&&panelAllowed(it)}
             val restoredId=previous.value.sheetId
@@ -1078,7 +1049,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
                 sheet=null,sheetId=null,panelDepth=0,raw=null,staff=null,audit=null,history=null,
                 selectedStaff=null,selectedMember=null,draft=emptyMap(),draftDirty=false,discardRequested=false)
             clearPanels()
-            if(!fresh)refreshNow()
+            if(!fresh)refreshNow() else if(restoredSheet==null)refreshRememberedReceiverStatus()
             if(restoredSheet!=null){
                 // Evidence is re-read, never redisplayed from a remembered privileged panel.
                 state=state.copy(sheet=restoredSheet,sheetId=restoredId,panelDepth=0)
@@ -1090,7 +1061,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
         if(state.busy||!Access.routeAllowed(state.operator,Route.PAYMENTS,clock(),BuildConfig.IS_GATEWAY,gateway.bound()))return
         work(kind=UiOperation.INITIAL_READ){
             clearRawDisclosure()
-            views.push(key(),withoutRaw(state.copy(busy=false,error=null)))
+            views.push(key(),withoutRaw(state.copy(busy=false,error=null)).copy(gateway=null))
             state=UiState(operator=state.operator,route=Route.PAYMENTS,busy=true,filter="unallocated",pending=state.pending)
             refreshNow()
         }
@@ -1138,7 +1109,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
             Sheet.ALLOCATE->refreshAllocationMembers(state.allocationQuery)
             Sheet.STAFF->{val v=io{repo().staff(queryFor(ListingTarget.STAFF))};state=state.copy(staff=v,panelSavedAt=clock())}
             Sheet.AUDIT->{val v=io{repo().audit(queryFor(ListingTarget.AUDIT))};state=state.copy(audit=v,panelSavedAt=clock())}
-            Sheet.GATEWAY,Sheet.REPLACE_DEVICE->{state=state.copy(gateway=null,panelSavedAt=null);val v=io{gateway.status()};state=state.copy(gateway=v,panelSavedAt=clock())}
+            Sheet.GATEWAY,Sheet.REPLACE_DEVICE->{state=state.copy(gateway=null,panelSavedAt=null);refreshReceiverPanel()}
             Sheet.RAW->clearRawDisclosure(preserveSmsSearch=state.route==Route.SMS) // A refresh is never an audited disclosure.
             Sheet.HISTORY->{
                 val id=state.sheetId?:state.payment?.id?:throw ApiFailure("record_unavailable")
@@ -1198,25 +1169,20 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
             saved=SnapshotFreshness.oldest(clock(),saved,if(cacheable)repo().lastReadSavedAt else clock())
         }
     }
-    /** Home records do not depend on receiver diagnostics. Keep this separate
-     * read owner-bound, and never publish it into a later route or session. */
-    private fun refreshHomeGatewayStatus(){
-        homeGatewayStatusJob?.cancel();homeGatewayStatusJob=null
-        val owner=state.operator?:return
-        if(!BuildConfig.IS_GATEWAY||owner.role!=Role.ADMIN)return
-        val started=generation;val collection=repository?.boundCollectionId
-        homeGatewayStatusJob=viewModelScope.launch{
-            val status=try{withContext(Dispatchers.IO){gateway.status()}}
-                catch(e:CancellationException){throw e}
-                catch(_:Exception){GatewayStatus(false,false,null,-1,null,null,null,"queue_unavailable")}
-            val live=runCatching{repository?.current()}.getOrNull()
-            if(started==generation&&foreground&&state.route==Route.HOME&&state.sheet==null&&
-                state.operator?.id==owner.id&&state.operator?.role==owner.role&&state.operator?.capabilities==owner.capabilities&&
-                live?.id==owner.id&&live.role==owner.role&&live.capabilities==owner.capabilities&&
-                repository?.boundCollectionId==collection&&clock()<owner.expiresAt&&clock()<live.expiresAt)
-                state=state.copy(gateway=status)
+    private suspend fun refreshRememberedReceiverStatus() {
+        if (state.route == Route.HOME) refreshHomeGatewayStatus()
+        if (state.route == Route.SETTINGS) {
+            refreshReceiverPanel()
+            receiverStatus.refreshHealth()
         }
     }
+
+    private fun refreshHomeGatewayStatus() = receiverStatus.refreshHome { state=state.copy(gateway=it) }
+
+    private suspend fun refreshReceiverPanel(ticket: NativeReceiverStatus.Request? = receiverStatus.request()) {
+        receiverStatus.read(ticket) { state=state.copy(gateway=it,panelSavedAt=clock()) }
+    }
+
     private suspend fun refreshNow(){
         when(state.route){
             Route.HOME->{val h=io{repo().home()};val cached=repo().lastReadFromCache;val saved=repo().lastReadSavedAt
@@ -1278,9 +1244,15 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
                     readbackRequired=state.readbackRequired&&r.offline,
                     listIndex=r.decision.index,listOffset=r.decision.offset,listRestoration=r.decision.stop)}
             Route.SETTINGS->{
+                val ticket=receiverStatus.request()
+                state=state.copy(gateway=null)
                 val staff=if(hasAccess(Capability.STAFF))io{repo().staff()}else null
-                val receiving=if(BuildConfig.IS_GATEWAY&&state.operator?.role==Role.ADMIN)io{gateway.status()}else null
-                state=state.copy(staff=staff,gateway=receiving,panelSavedAt=clock())
+                if(ticket==null){
+                    state=state.copy(staff=staff,panelSavedAt=clock())
+                }else receiverStatus.read(ticket) { receiving ->
+                    state=state.copy(staff=staff,gateway=receiving,panelSavedAt=clock())
+                }
+                receiverStatus.refreshHealth()
             }
             else->Unit
         }
@@ -1479,7 +1451,7 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
             return@work
         }
         val previous=state.copy(busy=false,error=null)
-        views.push(key(),withoutRaw(previous))
+        views.push(key(),withoutRaw(previous).copy(gateway=null))
         state=UiState(operator=previous.operator,route=Route.MEMBER,routeId=memberId,busy=true,
             pending=previous.pending,commandNotice=previous.commandNotice)
         refreshNow()
@@ -1674,7 +1646,11 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     }
     override fun requestRemoveStaff(){if(state.selectedStaff!=null&&allows(Capability.STAFF))openSheet(Sheet.REMOVE_STAFF,state.selectedStaff?.id)}
     override fun setMemberActive(active:Boolean)=work{requireNoUnresolvedCommand();if(state.operator?.role!=Role.ADMIN||!allows(Capability.ENROLL)||state.offline)throw ApiFailure("access_denied",403);val m=state.member?:throw ApiFailure("member_unavailable");command{repo().setMemberActive(m,active)};val v=io{repo().member(m.id)};state=state.copy(sheet=null,sheetId=null,panelDepth=0,member=v,offline=repo().lastReadFromCache,savedAt=repo().lastReadSavedAt)}
-    override fun pair(code:String)=work{if(!BuildConfig.IS_GATEWAY||state.operator?.role!=Role.ADMIN)throw ApiFailure("access_denied",403);io{gateway.pair(code)};val updated=io{gateway.status()};state=state.copy(gateway=updated,panelSavedAt=clock())}
+    override fun pair(code:String)=work{
+        val ticket=receiverStatus.request()?:throw ApiFailure("access_denied",403)
+        if(!receiverStatus.control(ticket){gateway.pair(code)})return@work
+        refreshReceiverPanel(ticket)
+    }
     private fun coverReceiverRetirement(){
         val previous=state
         clearViews()
@@ -1717,18 +1693,21 @@ class BuriViewModel(private val app:Application,private val checkpoints:Navigati
     }
     override fun syncReceiver()=work{
         if(!allows(Capability.GATEWAY))throw ApiFailure("access_denied",403)
-        io{gateway.sync()}
-        val updated=io{gateway.status()};state=state.copy(gateway=updated,panelSavedAt=clock())
+        val ticket=receiverStatus.request()?:throw ApiFailure("access_denied",403)
+        if(!receiverStatus.control(ticket){gateway.sync()})return@work
+        refreshReceiverPanel(ticket)
     }
     override fun setPaused(value:Boolean)=work{
         if(!allows(Capability.GATEWAY))throw ApiFailure("access_denied",403)
         // The administrator-facing sync setting is locked on. Recovery code
         // in the gateway may still stop capture when its authority is unsafe.
         if(value)throw ApiFailure("gateway_action_unavailable",409)
-        val current=io{gateway.status()};val diagnosis=GatewayHealth.describe(current)
-        if(!diagnosis.canResume)throw ApiFailure("gateway_action_unavailable",409)
-        io{gateway.setPaused(value)}
-        val updated=io{gateway.status()};state=state.copy(gateway=updated,panelSavedAt=clock())
+        val ticket=receiverStatus.request()?:throw ApiFailure("access_denied",403)
+        var resumable=false
+        if(!receiverStatus.read(ticket){resumable=GatewayHealth.describe(it).canResume})return@work
+        if(!resumable)throw ApiFailure("gateway_action_unavailable",409)
+        if(!receiverStatus.control(ticket){gateway.setPaused(value)})return@work
+        refreshReceiverPanel(ticket)
     }
     override fun retry()=work{
         val outcome=io{collectionPosting.reconcile()}

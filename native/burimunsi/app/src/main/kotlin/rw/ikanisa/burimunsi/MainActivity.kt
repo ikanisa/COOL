@@ -198,7 +198,7 @@ class MainActivity:ComponentActivity(){
             }
             BuriContent {
                 if(visible)BuriApp(model,onSupport=::support,
-                    onPermissions={permissions.launch(model.gateway.requiredPermissions())},
+                    onPermissions={model.requestReceivingPermissions { names -> permissions.launch(names) }},
                     onExport=model::prepareDownload,
                     onPhoneSettings={startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,Uri.parse("package:$packageName")))},
                     onPickMemberFile={memberImport.launch(arrayOf("text/csv","text/comma-separated-values","application/csv",
