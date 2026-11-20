@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'synthetic_jwt.dart';
 
-const smsSupabaseProject = 'https://sms-fixture.supabase.co';
+const smsSupabaseProject = CollectDeploymentProfile.managedProject;
 const smsSupabasePublishableKey = 'sb_publishable_synthetic_sms_test_key_only';
 const smsSupabaseUploadPath =
     '/functions/v1/collect-api/v1/functions/ingest-client-sms';

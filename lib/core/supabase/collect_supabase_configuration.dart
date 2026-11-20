@@ -30,6 +30,15 @@ final class CollectSupabaseConfiguration {
         'Supabase requires an explicit origin and publishable key.',
       );
     }
+    if (project.origin != CollectDeploymentProfile.managedProject) {
+      throw ArgumentError('Supabase requires the Collect Cloud project.');
+    }
+    if (profile == null &&
+        (!_cloudApiOrigins.contains(api.origin) ||
+            (adminApi != null &&
+                !_cloudApiOrigins.contains(adminApi.origin)))) {
+      throw ArgumentError('Supabase requires an approved Collect API origin.');
+    }
     if (env.authCaptchaEnabled && api.host.endsWith('.supabase.co')) {
       throw ArgumentError(
         'Supabase HTML verification requires a custom API domain.',
@@ -76,9 +85,6 @@ final class CollectSupabaseConfiguration {
     if (deploymentProfile case final profile?) {
       return profile.googleCallbackOrigin;
     }
-    if (project.origin != 'https://rrlduytparvsjfmegalh.supabase.co') {
-      return null;
-    }
     if (api.origin == 'https://admin-supabase-qa.collect.ikanisa.com') {
       return api.origin;
     }
@@ -88,6 +94,14 @@ final class CollectSupabaseConfiguration {
     }
     return null;
   }
+
+  static const _cloudApiOrigins = {
+    CollectDeploymentProfile.managedProject,
+    'https://collect.ikanisa.com',
+    'https://admin.collect.ikanisa.com',
+    'https://platform-admin.collect.ikanisa.com',
+    'https://admin-supabase-qa.collect.ikanisa.com',
+  };
 
   static const memberPrefix = '/functions/v1/collect-api/';
   static const adminPrefix = '/functions/v1/admin-api/api/admin/';
@@ -143,18 +157,15 @@ final class CollectSupabaseConfiguration {
 
   static Uri _origin(String value) {
     final uri = Uri.tryParse(value);
-    final loopback =
-        uri != null &&
-        const {'localhost', '127.0.0.1', '::1'}.contains(uri.host);
     if (uri == null ||
         value != value.trim() ||
         uri.host.isEmpty ||
-        (uri.scheme != 'https' && !(loopback && uri.scheme == 'http')) ||
+        uri.scheme != 'https' ||
         uri.userInfo.isNotEmpty ||
         uri.query.isNotEmpty ||
         uri.fragment.isNotEmpty ||
         (uri.path.isNotEmpty && uri.path != '/') ||
-        (uri.hasPort && !loopback && uri.port != 443)) {
+        (uri.hasPort && uri.port != 443)) {
       throw ArgumentError('Supabase URL must be an HTTPS origin.');
     }
     return uri.replace(path: '/');
