@@ -1,8 +1,10 @@
 # Managed Supabase migration portability inventory
 
-This is a **read-only source inventory**, not a migration runner. It reads the
-active checkout's self-hosted migration lock and SQL files, verifies the exact
-file set, order and SHA-256 values, and reports the chain with the previous file,
+This read-only inventory checks the historical SQL used in the Supabase Cloud
+transition. It reads `supabase/managed-migration-history/source-migrations.lock.json`
+and verifies the exact file set, order and SHA-256 values through the last
+locked migration version. Later Cloud migrations fall outside this inventory.
+The report lists each migration with its predecessor,
 literal catalog lookups, textual definitions, selected function-body preimages
 and markers needing review. It makes no network or database connection, reads no
 credentials, runs no SQL and writes no report file.

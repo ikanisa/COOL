@@ -4,7 +4,7 @@ The current source groups its business and Admin operations under `supabase/func
 
 Older standalone names such as `parse-payment-sms`, `dispatch-notifications`, and `auth-send-whatsapp-otp` describe historical source; they are not an inventory of the current entry points. Current receipt capture retains evidence and queues processing under guarded runtime controls. The shared scheduled receipt processor is disabled pending separate qualification, and the MoMo model is unconfigured by default. Receipt acknowledgement does not itself establish payment finality.
 
-Current notification delivery admission and sender code target Android FCM. Registration of an APNs token does not establish iOS push delivery. The signed OpenSMS hook is SMS-only; the self-hosted phone proxy also supports separately configured native Twilio modes. Historical direct-Meta WhatsApp delivery is not the current signed-hook implementation. Device, provider and hosted delivery require their own evidence.
+Current notification delivery admission and sender code target Android FCM. Registration of an APNs token does not establish iOS push delivery. The signed OpenSMS hook handles SMS in Collect’s Supabase Cloud project. Historical direct-Meta WhatsApp delivery is not the current signed-hook implementation. Device, provider and hosted delivery require their own evidence.
 
 ## Financial and privacy boundaries
 

@@ -7,9 +7,9 @@ or configure a local production deployment. The migration SQL, the recorded
 Cloud migration history, and the separate managed convergence candidates must
 still be compared by the release tooling.
 
-The earlier deployment location remains temporarily available to historical
-synthetic fixture consumers until those consumers are migrated without changing
-their recorded evidence or dropping coverage.
+Historical fixture consumers read the preserved lock from this directory.
+The portability inventory checks the migration files through the lock’s last
+version. Later Cloud migrations are qualified by the release tooling.
 
 The retained lock, original lifecycle migration and its deployed managed
 variant are exact qualification inputs. Both lifecycle bodies live under

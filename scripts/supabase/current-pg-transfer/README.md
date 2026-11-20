@@ -13,7 +13,7 @@ descriptors and a source-set digest. For each database the component opens one
 `REPEATABLE READ READ ONLY` transaction, checks the same backend, PG17, UTF-8,
 database name, session and current role, and the exact fence project, baseline,
 source hash, epoch, mode and operation ID. The source additionally has to match
-the self-hosted deployment profile's recorded and recomputed hash. The managed
+the captured source deployment profile’s recorded and recomputed hash. The managed
 client must use the reviewed Supabase direct endpoint as `postgres`, or the
 `aws-0-eu-north-1` session pooler as the project-qualified `postgres` user,
 on port 5432. TLS must verify the server hostname and the repository's pinned

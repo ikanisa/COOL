@@ -27,8 +27,8 @@ class InventoryTests(unittest.TestCase):
         self.root = Path(self.temp.name).resolve()
         self.directory = self.root / "supabase" / "migrations"
         self.directory.mkdir(parents=True)
-        (self.root / "deploy" / "self-hosted").mkdir(parents=True)
-        self.lock_path = self.root / "deploy" / "self-hosted" / "migrations.lock.json"
+        self.lock_path = self.root / "supabase" / "managed-migration-history" / "source-migrations.lock.json"
+        self.lock_path.parent.mkdir(parents=True)
         self.files = [(f"20261001{index:06d}_fixture.sql", "SELECT 1;\n") for index in range(16)]
         self.files[0] = (self.files[0][0], "CREATE FUNCTION private.example() RETURNS int LANGUAGE sql AS $$ SELECT 1 $$;\n")
         self.files.append((IDENTITY, "SELECT profile->>'mode' IS DISTINCT FROM 'self_hosted';\n"))
@@ -78,14 +78,20 @@ class InventoryTests(unittest.TestCase):
             tool.inspect(self.root)
 
     def test_extra_or_duplicate_migration_refuses(self):
-        (self.directory / "20261114123456_extra.sql").write_text("SELECT 1;")
+        extra = self.directory / "20261110181002_extra.sql"
+        extra.write_text("SELECT 1;")
         with self.assertRaisesRegex(tool.InventoryError, "migration_set"):
             tool.inspect(self.root)
-        (self.directory / "20261114123456_extra.sql").unlink()
+        extra.unlink()
         self.lock["migrations"].append(dict(self.lock["migrations"][-1]))
         self.save_lock()
         with self.assertRaisesRegex(tool.InventoryError, "migration_set"):
             tool.inspect(self.root)
+
+    def test_subsequent_cloud_migrations_are_outside_the_historical_inventory(self):
+        expected = tool.inspect(self.root)
+        (self.directory / "20261114123456_later_cloud_change.sql").write_text("SELECT 1;")
+        self.assertEqual(tool.inspect(self.root), expected)
 
     def test_duplicate_json_key_and_symlink_refuse(self):
         self.lock_path.write_text('{"format":"a","format":"b","original_count":16,"migrations":[]}')

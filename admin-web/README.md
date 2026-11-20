@@ -55,12 +55,11 @@ last tab has left Admin, return online to Admin in those same tabs. Closing a
 tab can discard its pending request references. Keep an installed window open
 if it has pending work and offers no browser address bar.
 
-Production moves from the self-hosted service to managed Supabase. React keeps
-earlier per-tab requests, SMS management references, MFA, logout and privacy
-review records in their original storage. Reconcile those original requests
-against the previous service before submitting the work again. Production
-React uses new managed storage keys even if an account and session appear
-identical. QA continues to use its existing managed service and compatible keys.
+Production and QA both use Collect’s Supabase Cloud project. Production React
+uses a distinct set of browser storage keys. Earlier tabs can retain pending
+requests, SMS management references, MFA, logout and privacy review records.
+Use the original request references to reconcile their outcome before resubmitting
+work. QA retains its compatible managed storage keys.
 
 To check an actual package with synthetic browser data, supply its matching
 captured release index and restored static blobs. Use a new output file for

@@ -80,18 +80,18 @@ def _line(text: str, offset: int) -> int:
     return text.count("\n", 0, offset) + 1
 
 
-def _names(directory: Path) -> list[str]:
+def _names(directory: Path, through_version: str) -> list[str]:
     names = sorted(item.name for item in directory.iterdir()
                    if item.name.endswith(".sql") and not item.name.startswith("._"))
     if len(names) > MAX_FILES or any(not NAME.fullmatch(name) for name in names):
         raise InventoryError("unexpected_migration_filename")
-    return names
+    return [name for name in names if name[:14] <= through_version]
 
 
 def snapshot(root: Path) -> tuple[dict, list[tuple[dict, str]], str]:
     root = root.resolve(strict=True)
     directory = root / "supabase" / "migrations"
-    lock_path = root / "deploy" / "self-hosted" / "migrations.lock.json"
+    lock_path = root / "supabase" / "managed-migration-history" / "source-migrations.lock.json"
     for path in (directory, lock_path.parent):
         if path.resolve(strict=True) != path or not path.is_dir():
             raise InventoryError("nonphysical_input_directory")
@@ -112,8 +112,9 @@ def snapshot(root: Path) -> tuple[dict, list[tuple[dict, str]], str]:
                 or item["transaction"] not in ("outer", "wrap"):
             raise InventoryError("invalid_lock_entry")
     names = [item["name"] for item in items]
+    through_version = names[-1][:14]
     if names != sorted(names) or len(set(names)) != len(names) \
-            or len({name[:14] for name in names}) != len(names) or _names(directory) != names:
+            or len({name[:14] for name in names}) != len(names) or _names(directory, through_version) != names:
         raise InventoryError("migration_set_or_order_mismatch")
     result = []
     total = 0
@@ -124,12 +125,12 @@ def snapshot(root: Path) -> tuple[dict, list[tuple[dict, str]], str]:
             raise InventoryError("migration_hash_or_size_mismatch")
         result.append((item, data.decode("utf-8", errors="strict")))
     # A source owner may be editing while the inventory runs; never mix versions.
-    if _read_regular(lock_path) != lock_bytes or _names(directory) != names:
+    if _read_regular(lock_path) != lock_bytes or _names(directory, through_version) != names:
         raise InventoryError("source_changed_during_inventory")
     for item, _ in result:
         if _digest(_read_regular(directory / item["name"])) != item["sha256"]:
             raise InventoryError("source_changed_during_inventory")
-    if _read_regular(lock_path) != lock_bytes or _names(directory) != names:
+    if _read_regular(lock_path) != lock_bytes or _names(directory, through_version) != names:
         raise InventoryError("source_changed_during_inventory")
     return lock, result, _digest(lock_bytes)
 

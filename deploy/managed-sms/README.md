@@ -113,9 +113,9 @@ Sources: [Cloudflare Postgres.js guidance](https://developers.cloudflare.com/hyp
    `environment=production` and Supabase origin
    `https://rrlduytparvsjfmegalh.supabase.co`. The handler passes its profile
    SHA-256 to `collect_sms.work_register`, which calls the existing immutable
-   deployment assertion. The inspected `private.collect_bind_deployment`
-   installer currently accepts only `self_hosted`; do not mislabel a hosted
-   installation to pass it.
+   deployment assertion. The versioned migration
+   `20261117065536_collect_cloud_runtime_binding.sql` defines the binder for
+   this exact project and production profile.
 3. Provision the dedicated database principal and cache-disabled Hyperdrive
    configuration, then independently verify the actual role graph, grants,
    owner/default privileges, TLS, no-cache setting and transaction-pool

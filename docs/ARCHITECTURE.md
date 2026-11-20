@@ -13,9 +13,9 @@ Collect is a Rwanda-only group-contribution and record-keeping service. Members 
 ## Runtime surfaces
 
 - Flutter member app and public website: Rwanda profiles, private/public groups, MoMo contribution instructions, truthful pending/unknown status, notifications and ledger views.
-- Flutter Admin PWA: Groups and Members plus MoMo Payees, Transactions, Reconciliations and Ledgers, with scoped roles and audited exception handling.
+- The React Admin PWA covers groups, members, MoMo payees, transactions, reconciliations and ledgers, with scoped roles and audited exception handling.
 - Supabase Postgres, Edge Functions and protected storage: curated schema and application handlers for account, session, permission, receipt and financial workflows. Member bearer sessions and Admin cookie sessions have separate admission paths.
-- Frontend hosting and transport: the Admin frontend can route to the selected managed or self-hosted Supabase profile. Repository configuration does not establish which profile is deployed.
+- The Admin host routes application API requests to Collect’s Supabase Cloud project `rrlduytparvsjfmegalh`. Member and Admin clients use the same project for Supabase Auth.
 - Notification delivery is separately governed. Current scheduled push processing is Android/FCM-oriented; registration of another device type does not establish delivery for it.
 
 ## Security and release boundaries

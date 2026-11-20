@@ -98,7 +98,7 @@ async function pin(name){
 for(const name of ['supabase/functions/_shared/domain/momo_pipeline.js','supabase/functions/_shared/domain/core.js',
  'supabase/functions/_shared/domain/encryption.js','supabase/functions/_shared/domain/burimunsi/values.js','supabase/functions/_shared/postgres.js',
  'supabase/migrations/20261110193000_burimunsi_canonical_receipt_adoption.sql',
- 'supabase/tests/burimunsi/compile-canonical-alternate-fixture.mjs','supabase/tests/burimunsi/qualify-canonical-alternate.py',
+ 'supabase/tests/burimunsi/compile-canonical-alternate-fixture.mjs',
  'supabase/tests/burimunsi/canonical-adoption-contract.sql',
  'supabase/tests/burimunsi/run-canonical-allocation-fixture.mjs'])await pin(name);
 process.stdout.write(JSON.stringify({format:'collect.burimunsi.canonical-alternate-sql-fixture.v1',production_acceptance:false,
